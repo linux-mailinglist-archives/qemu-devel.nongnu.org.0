@@ -2,90 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CFC7435AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 13:48:14 +0200 (CEST)
-Received: from localhost ([::1]:38736 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719A5435B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 13:52:52 +0200 (CEST)
+Received: from localhost ([::1]:38784 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbODE-0007YL-Rb
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 07:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50705)
+	id 1hbOHj-0002Hm-LN
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 07:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52394)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hbOBG-0006UL-FJ
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 07:46:11 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hbOFE-0001Sh-30
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 07:50:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hbOBE-0006vw-Ui
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 07:46:10 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:47376)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hbOBD-0006mP-1z; Thu, 13 Jun 2019 07:46:07 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5DBipLk053890;
- Thu, 13 Jun 2019 11:45:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : message-id :
- content-type : mime-version : subject : date : in-reply-to : cc : to :
- references; s=corp-2018-07-02;
- bh=db+34tNJ3CRMcKFSFoehrVjWduhUnKRLqjweyGF8v5M=;
- b=4Ug1hoyI16FNW8tCPL+bD3dopxl3TEe4rfB21ncqp+pNOBFBasfkEgaCQ0htdCb+5JKW
- opb6UAOm4SW1L4en0tvGyVkr+q4wiTXOCxX5ro8UXtLAoQfj+a6dLHw1PJ8m4bABOdVl
- Bbfj6dVlF2l+dhFcR8bI8O2n20S6aNgpFLWJojiN2E7eXdpj3ulLXiMdWD/dEQA31WSc
- yaz+aKqEFDwZfb3b6K4gSH7n2uPJnWyGyjg6L7rZTvK7/ygFbTqtY9qZeCjtIFWeq5xi
- UpOcjT/mFfBsUInCOIIqJfwRytpxRPyFpEmo/8oGLp/SU0wPPkV/2UhPIphoYcOKXPxb JQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 2t04eu112u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Jun 2019 11:45:59 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5DBiSlP047848;
- Thu, 13 Jun 2019 11:45:58 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 2t0p9sbun4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Jun 2019 11:45:58 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5DBjvu8026610;
- Thu, 13 Jun 2019 11:45:57 GMT
-Received: from [10.74.126.124] (/10.74.126.124)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 13 Jun 2019 04:45:57 -0700
-From: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-Id: <730C65DE-A9B4-4553-B6A0-7A3B81A1FA12@oracle.com>
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Date: Thu, 13 Jun 2019 14:45:51 +0300
-In-Reply-To: <20190613093850.5k7prawn6x4qt3fi@sirius.home.kraxel.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
- <20190612130650.xftda65kgnsefyvs@sirius.home.kraxel.org>
- <A3F8BD49-3C35-4A07-8DE2-85F7CC293DC9@oracle.com>
- <20190612191817.5bilt2abif2xvcbv@sirius.home.kraxel.org>
- <02844D7D-ED79-4744-A203-8E713DE7A717@oracle.com>
- <20190613093850.5k7prawn6x4qt3fi@sirius.home.kraxel.org>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9286
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906130092
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9286
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906130092
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [QEMU] [PATCH v2 0/8] Add Qemu to SeaBIOS LCHS
- interface
+ (envelope-from <dgilbert@redhat.com>) id 1hbOFC-0001nS-4y
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 07:50:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59620)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hbOFA-0001kl-9g
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 07:50:12 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 518ADC07014A;
+ Thu, 13 Jun 2019 11:50:05 +0000 (UTC)
+Received: from work-vm (ovpn-117-220.ams2.redhat.com [10.36.117.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9AF5C1001B28;
+ Thu, 13 Jun 2019 11:50:00 +0000 (UTC)
+Date: Thu, 13 Jun 2019 12:49:58 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-ID: <20190613114957.GB2911@work-vm>
+References: <db36d006-3bdc-47fe-9987-519440446c4e@ozlabs.ru>
+ <20190103173753.GJ2316@work-vm>
+ <d4b8695c-3d37-ba92-d62b-e067b77274c8@ozlabs.ru>
+ <20190207114953.GB2773@work-vm>
+ <16486ff4-eb62-b4f2-78f8-a1ec7e3fbb0b@redhat.com>
+ <30a5a208-249f-106e-f885-94caf9b82970@ozlabs.ru>
+ <f346fdcb-1849-3397-7f4c-2d6ee07fcd7c@ozlabs.ru>
+ <aca6d2ae-806f-55b3-d9d5-f5a2cfd760b9@ozlabs.ru>
+ <a66cc0e6-3629-8f07-65d3-aefff9dcd2d5@ozlabs.ru>
+ <467c5374-34e6-c8d4-26c1-246f5cf31ec6@ozlabs.ru>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <467c5374-34e6-c8d4-26c1-246f5cf31ec6@ozlabs.ru>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Thu, 13 Jun 2019 11:50:10 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH qemu v2] hmp: Print if memory section is
+ registered with an accelerator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,141 +66,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, QEMU <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Kevin O'Connor <kevin@koconnor.net>,
- liran.alon@oracle.com, Karl Heubaum <karl.heubaum@oracle.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Alexey Kardashevskiy (aik@ozlabs.ru) wrote:
+> 
+> 
+> On 21/05/2019 16:37, Alexey Kardashevskiy wrote:
+> > Ping, anyone? I still enjoy seeing "kvm" next to MRs in "info mtree -f"
+> > in my local QEMU :)
+> 
+> 
+> "Still feeling it" :)
+> Ping?
 
+Fundamentally you've got to convince Paolo that it's the
+right approach to identifying KVM RAM.
 
-> On 13 Jun 2019, at 12:38, Gerd Hoffmann <kraxel@redhat.com> wrote:
->=20
->  Hi,
->=20
->> Yes they are pretty rare.
->> Windows 2000 and Windows XP guests migrated from VMware to Qemu/KVM
->> would not boot due to incorrect disk geometries (some had 32/56 spt =
-instead of
->> 56. Also number of heads was not entirely correct)
->=20
-> Ok.
->=20
->>> Why?  Asking the user to deal with the mess is pretty lame if there =
-are
->>> better options.  And IMO doing this fully automatic in seabios is
->>> better.
->>=20
->> I=E2=80=99m not against an automatic approach, however I do think =
-that doing this
->> in SeaBIOS might break compatibility for already existing guests that =
-will
->> suddenly see different LCHS values. (Explanation below)
->=20
->>> I can't see how this can break guests.  It should either have no =
-effect
->>> (guests using LBA) or unbreak guests due to LCHS changing from =
-"wrong"
->>> to "correct=E2=80=9D.
->>=20
->> I=E2=80=99m not sure what do you mean by "unbreak guests=E2=80=9D if =
-you change an existing
->> guest that uses LCHS from 56 spt to LBA (63 spt) it will stop =
-booting.
->=20
-> Well, that LCHS change happens because you move the guest from vmware =
-to
-> qemu and seabios uses 63 spt no matter what if the disk is too big for
-> chs addressing.
->=20
-> When seabios is changed to look at the MBR to figure what the lchs of
-> the disk is that will make your guest boot.
+Dave
 
-See below
-
->=20
->> Your guessing algorithm will have to guess 56, if it will fail =
-guessing 56 correctly,
->> the user can not perform any action beside downgrading SeaBIOS in =
-order to run
->> the guest.
->=20
-> Sure, if the guess is wrong then the guest will not boot.  That isn't
-> worse than the situation we have today where seabios will not even try
-> to figure what the lchs of the disk is.
->=20
-> And, no, downgrading seabios will not make your vmware guest with 56 =
-spt
-> boot.
-
-I=E2=80=99m not talking about the vmware case here.
-If you introduce MBR guessing into SeaBIOS and change its default =
-behaviour you
-risk making operating systems such as Windows XP / 2003 / 2000 created =
-on
-QEMU to not work anymore.
-
-Example:
-
-	Consider a Windows XP that works with the following geometries =
-on standard
-	QEMU/SeaBIOS today:
-=09
-	Disk is very large, therefore INT13 AH=3D02:
-
-		255 heads, 63 spt
-
-	Now you change SeaBIOS to guess from the MBR.
-	In some cases the MBR guess can be incorrect so now SeaBIOS will =
-guess:
-
-		255 heads, 62 spt
-
-	The guest no longer boots with these geometries and you broke =
-compatibility.
-=09
-Can there be a guest that will fail the MBR in such a way? Yes.
-Look at the following MBR partition table of a Windows XP guest in our =
-production
-environment:
-
-Disk size in sectors: 16777216
-
-Binary (only one partition 16 bytes): 80 01 01 00 07 fe ff ff 3f 00 00 =
-00 d5 ea ff 00
-Start: (0, 1, 1, 63)
-End: (1023, 254, 63, 16771859)
-
-As can be easily seen, any MBR guessing algorithm should guess:
-
-	255 heads (since a value of 254 appears), 63 spt (since a value =
-of 63 appears)
-
-Turns out that this image does not work with 255, 63 but actually =
-requires
-
-	16 heads, 63 spt
-
-to boot.
-
-So relying on MBR partitions alone is not always enough and sometimes =
-manual intervention
-is required.
-
-(VMware solves this by specifying 16 heads, 63 spt in the descriptor =
-file and overrides its
-default guessing algorithm which also fails here)
-
-(By the way this is not a VMware specific problem, the disk itself was =
-imported to VMware in
-a P2V scenario, so that probably explains why the ddb.geometry.bios* =
-values appear in the
-VMDK in the first place)
-
-
->=20
-> cheers,
->  Gerd
->=20
+> 
+> > 
+> > 
+> > On 24/04/2019 15:32, Alexey Kardashevskiy wrote:
+> >> Paolo, ping?
+> >>
+> >>
+> >> On 19/03/2019 18:05, Alexey Kardashevskiy wrote:
+> >>>
+> >>>
+> >>> On 11/02/2019 15:56, Alexey Kardashevskiy wrote:
+> >>>>
+> >>>>
+> >>>> On 09/02/2019 04:26, Paolo Bonzini wrote:
+> >>>>> On 07/02/19 12:49, Dr. David Alan Gilbert wrote:
+> >>>>>>  //#define DEBUG_UNASSIGNED
+> >>>>>> @@ -2924,6 +2926,8 @@ struct FlatViewInfo {
+> >>>>>>      int counter;
+> >>>>>>      bool dispatch_tree;
+> >>>>>>      bool owner;
+> >>>>>> +    AccelClass *ac;
+> >>>>>> +    const char *ac_name;
+> >>>>>>  };
+> >>>>>>  
+> >>>>>>  static void mtree_print_flatview(gpointer key, gpointer value,
+> >>>>>> @@ -2939,6 +2943,7 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+> >>>>>>      int n = view->nr;
+> >>>>>>      int i;
+> >>>>>>      AddressSpace *as;
+> >>>>>> +    bool system_as = false;
+> >>>>>>  
+> >>>>>>      p(f, "FlatView #%d\n", fvi->counter);
+> >>>>>>      ++fvi->counter;
+> >>>>>> @@ -2950,6 +2955,9 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+> >>>>>>              p(f, ", alias %s", memory_region_name(as->root->alias));
+> >>>>>>          }
+> >>>>>>          p(f, "\n");
+> >>>>>> +        if (as == &address_space_memory) {
+> >>>>>> +            system_as = true;
+> >>>>>> +        }
+> >>>>>>      }
+> >>>>>>  
+> >>>>>>      p(f, " Root memory region: %s\n",
+> >>>>>> @@ -2985,6 +2993,13 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+> >>>>>>          if (fvi->owner) {
+> >>>>>>              mtree_print_mr_owner(p, f, mr);
+> >>>>>>          }
+> >>>>>> +
+> >>>>>> +        if (system_as && fvi->ac &&
+> >>>>>> +            fvi->ac->has_memory(current_machine,
+> >>>>>> +                                int128_get64(range->addr.start),
+> >>>>>> +                                MR_SIZE(range->addr.size) + 1)) {
+> >>>>>> +            p(f, " %s", fvi->ac_name);
+> >>>>>
+> >>>>> I don't understand this.  This doesn't check that the memory range
+> >>>>> actually matches the memory registered with the accelerator, only that
+> >>>>> there is something in that range. 
+> >>>>
+> >>>>
+> >>>> It is checking that a flat range (i.e. what actually works) has a
+> >>>> corresponding KVM slot:
+> >>>> https://git.qemu.org/?p=qemu.git;a=blob;f=accel/kvm/kvm-all.c;h=4e1de942ce554c734ac2673030031c228a752ac9;hb=HEAD#l201
+> >>>>
+> >>>>
+> >>>>> Why isn't it enough to use "info
+> >>>>> mtree" and look at the KVM address space?
+> >>>>
+> >>>>
+> >>>> There is no such thing in my QEMU, did you mean "KVM-SMRAM" (which is
+> >>>> missing on spapr)? I am not sure I understand its purpose for the task -
+> >>>> it prints all same ranges on my x86 laptop, not just ones which we told
+> >>>> KVM about.
+> >>>>
+> >>>> My task is that if let's say "0000:00:1a.0 BAR 0 mmaps[0]" is split into
+> >>>> several sections because MSIX happens to be in a middle of that BAR and
+> >>>> it is not system page size aligned, then it is going to be several
+> >>>> ranges with no clear indication whether or not these were registered as
+> >>>> KVM slots. A memory chunk can be "ram" and not a KVM slot if it is 4K on
+> >>>> PPC with 64K system pages, for example.
+> >>>>
+> >>>>
+> >>>> FlatView #0
+> >>>>  AS "memory", root: system
+> >>>>  AS "cpu-memory-0", root: system
+> >>>>  AS "cpu-memory-1", root: system
+> >>>>  AS "cpu-memory-2", root: system
+> >>>>  AS "cpu-memory-3", root: system
+> >>>>  AS "piix3-ide", root: bus master container
+> >>>>  AS "virtio-net-pci", root: bus master container
+> >>>>  AS "vfio-pci", root: bus master container
+> >>>>  Root memory region: system
+> >>>>   0000000000000000-00000000000bffff (prio 0, ram): pc.ram kvm
+> >>>>   00000000000c0000-00000000000c0fff (prio 0, rom): pc.ram
+> >>>> @00000000000c0000 kvm
+> >>>>   00000000000c1000-00000000000c3fff (prio 0, ram): pc.ram
+> >>>> @00000000000c1000 kvm
+> >>>>   00000000000c4000-00000000000e7fff (prio 0, rom): pc.ram
+> >>>> @00000000000c4000 kvm
+> >>>>   00000000000e8000-00000000000effff (prio 0, ram): pc.ram
+> >>>> @00000000000e8000 kvm
+> >>>>   00000000000f0000-00000000000fffff (prio 0, rom): pc.ram
+> >>>> @00000000000f0000 kvm
+> >>>>   0000000000100000-00000000bfffffff (prio 0, ram): pc.ram
+> >>>> @0000000000100000 kvm
+> >>>>   00000000febc0000-00000000febc0fff (prio 0, ramd): 0000:00:1a.0 BAR 0
+> >>>> mmaps[0] kvm
+> >>>>   00000000febc1000-00000000febc102f (prio 0, i/o): msix-table
+> >>>>   00000000febc1800-00000000febc1807 (prio 0, i/o): msix-pba
+> >>>>   00000000febfc000-00000000febfcfff (prio 0, i/o): virtio-pci-common
+> >>>>   00000000febfd000-00000000febfdfff (prio 0, i/o): virtio-pci-isr
+> >>>>   00000000febfe000-00000000febfefff (prio 0, i/o): virtio-pci-device
+> >>>>   00000000febff000-00000000febfffff (prio 0, i/o): virtio-pci-notify
+> >>>>   00000000fec00000-00000000fec00fff (prio 0, i/o): kvm-ioapic
+> >>>>   00000000fed00000-00000000fed003ff (prio 0, i/o): hpet
+> >>>>   00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
+> >>>>   00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios kvm
+> >>>>   0000000100000000-000000013fffffff (prio 0, ram): pc.ram
+> >>>> @00000000c0000000 kvm
+> >>>>
+> >>>>
+> >>>>
+> >>>> FlatView #3
+> >>>>  AS "KVM-SMRAM", root: mem-container-smram
+> >>>>  Root memory region: mem-container-smram
+> >>>>   0000000000000000-00000000000bffff (prio 0, ram): pc.ram
+> >>>>   00000000000c0000-00000000000c0fff (prio 0, rom): pc.ram @00000000000c0000
+> >>>>   00000000000c1000-00000000000c3fff (prio 0, ram): pc.ram @00000000000c1000
+> >>>>   00000000000c4000-00000000000e7fff (prio 0, rom): pc.ram @00000000000c4000
+> >>>>   00000000000e8000-00000000000effff (prio 0, ram): pc.ram @00000000000e8000
+> >>>>   00000000000f0000-00000000000fffff (prio 0, rom): pc.ram @00000000000f0000
+> >>>>   0000000000100000-00000000bfffffff (prio 0, ram): pc.ram @0000000000100000
+> >>>>   00000000febc0000-00000000febc0fff (prio 0, ramd): 0000:00:1a.0 BAR 0
+> >>>> mmaps[0]
+> >>>>   00000000febc1000-00000000febc102f (prio 0, i/o): msix-table
+> >>>>   00000000febc1800-00000000febc1807 (prio 0, i/o): msix-pba
+> >>>>   00000000febfc000-00000000febfcfff (prio 0, i/o): virtio-pci-common
+> >>>>   00000000febfd000-00000000febfdfff (prio 0, i/o): virtio-pci-isr
+> >>>>   00000000febfe000-00000000febfefff (prio 0, i/o): virtio-pci-device
+> >>>>   00000000febff000-00000000febfffff (prio 0, i/o): virtio-pci-notify
+> >>>>   00000000fec00000-00000000fec00fff (prio 0, i/o): kvm-ioapic
+> >>>>   00000000fed00000-00000000fed003ff (prio 0, i/o): hpet
+> >>>>   00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
+> >>>>   00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios
+> >>>>   0000000100000000-000000013fffffff (prio 0, ram): pc.ram @00000000c0000000
+> >>>>
+> >>>>
+> >>>>
+> >>>>
+> >>>>> Perhaps you could add instead an argument to "info mtree" that prints
+> >>>>> only the AddressSpace with a given name?
+> >>>>
+> >>>> Nah, this is not what it is about.
+> >>>
+> >>>
+> >>>
+> >>> Still a nack? :)
+> >>
+> >>
+> >>
+> > 
+> 
+> -- 
+> Alexey
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
