@@ -2,53 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D65F4375E
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:52:24 +0200 (CEST)
-Received: from localhost ([::1]:40614 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FE6943773
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:59:34 +0200 (CEST)
+Received: from localhost ([::1]:40652 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbR5S-0006Xx-Up
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35490)
+	id 1hbRCF-0002TV-GM
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:59:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35549)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hbQSa-0008DL-8P
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:12:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbQSc-0008FW-5d
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:12:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hbQSY-0000Q1-VO
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:12:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49722)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hbQS8-000084-F2; Thu, 13 Jun 2019 10:11:47 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B63FFCAA74;
- Thu, 13 Jun 2019 14:11:21 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-116-246.ams2.redhat.com [10.36.116.246])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AA0EE5D9C5;
- Thu, 13 Jun 2019 14:11:20 +0000 (UTC)
-Date: Thu, 13 Jun 2019 16:11:19 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190613141119.GA7338@linux.fritz.box>
-References: <20190611134043.9524-1-kwolf@redhat.com>
- <20190611134043.9524-10-kwolf@redhat.com>
- <874l4vymlo.fsf@dusky.pond.sub.org>
- <20190612152536.GE9699@localhost.localdomain>
- <87zhmmqc34.fsf@dusky.pond.sub.org>
+ (envelope-from <peter.maydell@linaro.org>) id 1hbQSZ-0000R0-St
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:12:14 -0400
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:42756)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hbQSZ-0000Jk-MY
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:12:11 -0400
+Received: by mail-ot1-x32b.google.com with SMTP id l15so19066989otn.9
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 07:11:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=C6QiO8uErXZZokJdLNEn15+EHGb1LJ+9RvsMnxntUow=;
+ b=qLnW4V/OKTvyp1fyVzilGx1zfYniRYjvqhAeY2q3j8ENEOptEJA351bpUcEii4zrdi
+ CG13bqq9xcMF9sc/fB65j58t1mbjvQsy319whA9dECnwlpf73Y76fqS/R6rOcMqIHPTB
+ DG1IJXBTzFPYj8T1TJ8NOhHlEQuxPDd0ZO5Eo2gDvGsdv1y5TJc+AKvSmuL1nGOa57TM
+ E/BVxeU496tFPmwSHdSnBMYoxYjUOEFgu4tq6HW0rm67CatyMDaU6s/7VrlxLCqUbFt7
+ 4tQk/fe4vKCOX6xnZsyNvkW5jEp4SOWRlKOxZujGmGvvk6aQVG4pdVvI5pdq4fX4HTRK
+ HGKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=C6QiO8uErXZZokJdLNEn15+EHGb1LJ+9RvsMnxntUow=;
+ b=VVq5IYMLkMXDtWzeh7ToGjU3p2+T8KL1DabAEGMWqgxiI6q9QBhsSumQb9wXHVydk6
+ hwiSpCvAyagkmuAzte0yp2blT2k7N7bxgw/+S4D5MFwcf6EMXRj4TyP10Y3HCoGM2o7D
+ nDlh0t+M06uGJbdmNAo2AOuoWGwILo2TMvWCwK4Z4tbp6QXi1qSwpTAQay426tMB0zCT
+ LhDbu3AkLYlOTKmIMjcL+nc/8+qlz+cNZl6eFnkpgkQWqziCt7+UTEXKYfsnq8zcQNvW
+ 1AFnz3Kp9YCDQLfuPXcln6G/qcAymTHZ5+YD28YhoVCLxBUI8bQ8Vqv7iIWCVWoQZfP0
+ bEZQ==
+X-Gm-Message-State: APjAAAU2gi1vqFgRVU4rxDRUAYkcDOb4kkYdBz3W/GLTMTriWWZkvKLy
+ KpTwNUIYbmELZFUlbaQ3w1VmVFEHU5P/wUnYWXyF1VnCQ1M=
+X-Google-Smtp-Source: APXvYqwdbWBu9pShLbeD7nMZNrl1mnTBA6d7bSzjsvVS6mZL52jWbHARu9VZEyx+SWbfu0iQXtxRc5PcA5aA/k5rRMc=
+X-Received: by 2002:a9d:7245:: with SMTP id a5mr4652217otk.232.1560435114948; 
+ Thu, 13 Jun 2019 07:11:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87zhmmqc34.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 13 Jun 2019 14:11:21 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 09/11] monitor: Split out monitor/qmp.c
+References: <20190613121433.5246-1-peter.maydell@linaro.org>
+ <20190613121433.5246-2-peter.maydell@linaro.org>
+In-Reply-To: <20190613121433.5246-2-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 15:11:43 +0100
+Message-ID: <CAFEAcA-5Fg7vpBvU58s-9MdQB+ZuuPjCq9nUED70fGSfgqYHLQ@mail.gmail.com>
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::32b
+Subject: Re: [Qemu-devel] [PULL 01/48] target/arm: Vectorize USHL and SSHL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,50 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.06.2019 um 07:38 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
-> 
-> > Am 12.06.2019 um 15:11 hat Markus Armbruster geschrieben:
-> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >> > --- a/include/monitor/monitor.h
-> >> > +++ b/include/monitor/monitor.h
-> >> > @@ -21,6 +21,7 @@ bool monitor_cur_is_qmp(void);
-> >> >  
-> >> >  void monitor_init_globals(void);
-> >> >  void monitor_init(Chardev *chr, int flags);
-> >> > +void monitor_init_qmp(Chardev *chr, int flags);
-> >> 
-> >> Why does this one go to the non-internal header?
-> >
-> > Most callers already know whether they want QMP or HMP, so they can just
-> > directly create the right thing instead of going through the
-> > monitor_init() wrapper.
-> >
-> > If you prefer, I can move it to the internal header, though. It's not
-> > called externally yet.
-> 
-> As is, monitor_init_qmp() and monitor_init_hmp() are awkward interfaces:
-> what if you pass MONITOR_USE_CONTROL to monitor_init_hmp()?
-> 
-> I can see just one call passing flags that aren't compile-time
-> constant.  I think a better interface would be
-> 
->     monitor_init_hmp(Chardev *chr);
->     monitor_init_qmp(Chardev *chr, bool pretty);
-> 
-> replacing monitor_init() entirely.  This is my first preference.
-> 
-> My (somewhat distant) second is hiding the awkward interfaces in the
-> internal header for now, and clean them up later.
-> 
-> Your choice.
+On Thu, 13 Jun 2019 at 13:14, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> From: Richard Henderson <richard.henderson@linaro.org>
+>
+> These instructions shift left or right depending on the sign
+> of the input, and 7 bits are significant to the shift.  This
+> requires several masks and selects in addition to the actual
+> shifts to form the complete answer.
+>
+> That said, the operation is still a small improvement even for
+> two 64-bit elements -- 13 vector operations instead of 2 * 7
+> integer operations.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-id: 20190603232209.20704-1-richard.henderson@linaro.org
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-I'm doing both, as in move it to the internal header in the code motion
-patches, but add some patches at the end of the series to clean it up.
+Hi Richard -- I just noticed that this patch seems to
+regress VSHL for AArch32.
 
-Kevin
+     160:       f3026408        vshl.u8 d6, d8, d2
+with
+  d2: 429de8b85a8dee77
+  d8: 279cd30880000000
+
+now gives
+  d6: 00000000008dee77
+when previously both QEMU and real Cortex-A7 hardware
+gave d6: all-zeroes.
+
+(this is testcases/aarch32-all/insn_VSHL__INC.risu.bin
+from Alex's set.)
+
+I'm going to drop this patch from the pullreq.
+
+thanks
+-- PMM
 
