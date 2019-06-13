@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8AC445CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:47:02 +0200 (CEST)
-Received: from localhost ([::1]:41742 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3A2449B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:28:50 +0200 (CEST)
+Received: from localhost ([::1]:42386 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbSsQ-0001LW-1l
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:47:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41103)
+	id 1hbTWr-0005e3-Mn
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:28:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43790)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbS6q-0003J0-48
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:57:55 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbSCe-0008JS-52
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:03:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbS6i-0000GU-KL
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:57:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47496)
+ (envelope-from <mreitz@redhat.com>) id 1hbSCX-0004Fr-9j
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:03:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:18893)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbS6M-0007qE-2G; Thu, 13 Jun 2019 11:57:23 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hbSC9-0002n0-LW; Thu, 13 Jun 2019 12:03:23 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6AC7289C39;
- Thu, 13 Jun 2019 15:57:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9FFD13079B87;
+ Thu, 13 Jun 2019 16:03:07 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8043B19700;
- Thu, 13 Jun 2019 15:57:15 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-5-vsementsov@virtuozzo.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A6C360A9A;
+ Thu, 13 Jun 2019 16:03:05 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+References: <20190612220839.1374-1-mreitz@redhat.com>
+ <20190612220839.1374-2-mreitz@redhat.com>
+ <b110b753-8546-0d34-f6ef-06c5726766ce@virtuozzo.com>
+ <c1fbf12a-77af-d939-4266-67b822e5a923@redhat.com>
+ <57ae7f82-ae02-a382-74f6-cb96672b2058@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -59,22 +61,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c31e0d6e-3754-8b22-ccee-84c772eca404@redhat.com>
-Date: Thu, 13 Jun 2019 17:57:13 +0200
+Message-ID: <00cce102-a1f1-9205-6eb7-1e48d8991b00@redhat.com>
+Date: Thu, 13 Jun 2019 18:03:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190529154654.95870-5-vsementsov@virtuozzo.com>
+In-Reply-To: <57ae7f82-ae02-a382-74f6-cb96672b2058@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="maTl3rTAaec12kDbe6CaqTkNlb1y2M5aZ"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+ boundary="M3wl1NTteJ8gK53oiyYBvZsIyRQjRRD9b"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 13 Jun 2019 15:57:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 13 Jun 2019 16:03:07 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v8 4/7] block: introduce backup-top filter
- driver
+Subject: Re: [Qemu-devel] [PATCH 1/2] vl: Drain before (block) job cancel
+ when quitting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,640 +88,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---maTl3rTAaec12kDbe6CaqTkNlb1y2M5aZ
-Content-Type: multipart/mixed; boundary="E2fevzjs9W4sorPhaxVn24z7GLG8K2FCE";
+--M3wl1NTteJ8gK53oiyYBvZsIyRQjRRD9b
+Content-Type: multipart/mixed; boundary="017Fbqrn0PEJzCqCYB50BGb6u5dJ1R9nv";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: fam@euphon.net, stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com,
- den@openvz.org, eblake@redhat.com
-Message-ID: <c31e0d6e-3754-8b22-ccee-84c772eca404@redhat.com>
-Subject: Re: [PATCH v8 4/7] block: introduce backup-top filter driver
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-5-vsementsov@virtuozzo.com>
-In-Reply-To: <20190529154654.95870-5-vsementsov@virtuozzo.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Cc: Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <00cce102-a1f1-9205-6eb7-1e48d8991b00@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 1/2] vl: Drain before (block) job cancel when
+ quitting
+References: <20190612220839.1374-1-mreitz@redhat.com>
+ <20190612220839.1374-2-mreitz@redhat.com>
+ <b110b753-8546-0d34-f6ef-06c5726766ce@virtuozzo.com>
+ <c1fbf12a-77af-d939-4266-67b822e5a923@redhat.com>
+ <57ae7f82-ae02-a382-74f6-cb96672b2058@virtuozzo.com>
+In-Reply-To: <57ae7f82-ae02-a382-74f6-cb96672b2058@virtuozzo.com>
 
---E2fevzjs9W4sorPhaxVn24z7GLG8K2FCE
+--017Fbqrn0PEJzCqCYB50BGb6u5dJ1R9nv
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 29.05.19 17:46, Vladimir Sementsov-Ogievskiy wrote:
-> Backup-top filter does copy-before-write operation. It should be
-> inserted above active disk and has a target node for CBW, like the
-> following:
+[re-adding the original CCs, why not]
+
+On 13.06.19 16:30, Vladimir Sementsov-Ogievskiy wrote:
+> 13.06.2019 17:21, Max Reitz wrote:
+>> On 13.06.19 16:19, Vladimir Sementsov-Ogievskiy wrote:
+>>> 13.06.2019 1:08, Max Reitz wrote:
+>>>> If the main loop cancels all block jobs while the block layer is not=
+
+>>>> drained, this cancelling may not happen instantaneously.  We can sta=
+rt a
+>>>> drained section before vm_shutdown(), which entails another
+>>>> bdrv_drain_all(); this nested bdrv_drain_all() will thus be a no-op,=
+
+>>>> basically.
+>>>>
+>>>> We do not have to end the drained section, because we actually do no=
+t
+>>>> want any requests to happen from this point on.
+>>>>
+>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>> ---
+>>>> I don't know whether it actually makes sense to never end this drain=
+ed
+>>>> section.  It makes sense to me.  Please correct me if I'm wrong.
+>>>> ---
+>>>>    vl.c | 11 +++++++++++
+>>>>    1 file changed, 11 insertions(+)
+>>>>
+>>>> diff --git a/vl.c b/vl.c
+>>>> index cd1fbc4cdc..3f8b3f74f5 100644
+>>>> --- a/vl.c
+>>>> +++ b/vl.c
+>>>> @@ -4538,6 +4538,17 @@ int main(int argc, char **argv, char **envp)
+>>>>         */
+>>>>        migration_shutdown();
+>>>>   =20
+>>>> +    /*
+>>>> +     * We must cancel all block jobs while the block layer is drain=
+ed,
+>>>> +     * or cancelling will be affected by throttling and thus may bl=
+ock
+>>>> +     * for an extended period of time.
+>>>> +     * vm_shutdown() will bdrv_drain_all(), so we may as well inclu=
+de
+>>>> +     * it in the drained section.
+>>>> +     * We do not need to end this section, because we do not want a=
+ny
+>>>> +     * requests happening from here on anyway.
+>>>> +     */
+>>>> +    bdrv_drain_all_begin();
+>>>> +
+>>>>        /* No more vcpu or device emulation activity beyond this poin=
+t */
+>>>>        vm_shutdown();
+>>>>   =20
+>>>>
+>>>
+>>> So, actually, the problem is that we may wait for job requests twice:=
+
+>>> on drain and then on cancel.
+>>
+>> We don=E2=80=99t wait on drain.  When the throttle node is drained, it=
+ will
+>> ignore throttling (as noted in the cover letter).
+>>
+>> We do wait when cancelling a job while the throttle node isn=E2=80=99t=
+ drained,
+>> though.  That=E2=80=99s the problem.
 >=20
->     +-------+
->     | Guest |
->     +-------+
->         |r,w
->         v
->     +------------+  target   +---------------+
->     | backup_top |---------->| target(qcow2) |
->     +------------+   CBW     +---------------+
->         |
-> backing |r,w
->         v
->     +-------------+
->     | Active disk |
->     +-------------+
+> Ah, understand now.
 >=20
-> The driver will be used in backup instead of write-notifiers.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/backup-top.h  |  64 +++++++++
->  block/backup-top.c  | 322 ++++++++++++++++++++++++++++++++++++++++++++=
+> Is it safe to drain_begin before stopping cpus? We may finish up then w=
+ith some queued
+> somewhere IO requests..
 
->  block/Makefile.objs |   2 +
->  3 files changed, 388 insertions(+)
->  create mode 100644 block/backup-top.h
->  create mode 100644 block/backup-top.c
->=20
-> diff --git a/block/backup-top.h b/block/backup-top.h
-> new file mode 100644
-> index 0000000000..788e18c358
-> --- /dev/null
-> +++ b/block/backup-top.h
-> @@ -0,0 +1,64 @@
-> +/*
-> + * backup-top filter driver
-> + *
-> + * The driver performs Copy-Before-Write (CBW) operation: it is inject=
-ed above
-> + * some node, and before each write it copies _old_ data to the target=
- node.
-> + *
-> + * Copyright (c) 2018 Virtuozzo International GmbH. All rights reserve=
-d.
-> + *
-> + * Author:
-> + *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modif=
-y
-> + * it under the terms of the GNU General Public License as published b=
-y
-> + * the Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program. If not, see <http://www.gnu.org/licenses/>=
-=2E
-> + */
-> +
-> +#ifndef BACKUP_TOP_H
-> +#define BACKUP_TOP_H
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "block/block_int.h"
-> +
-> +typedef void (*BackupTopProgressCallback)(uint64_t done, void *opaque)=
-;
-> +typedef struct BDRVBackupTopState {
-> +    HBitmap *copy_bitmap; /* what should be copied to @target on guest=
- write. */
-> +    BdrvChild *target;
-> +
-> +    BackupTopProgressCallback progress_cb;
-> +    void *progress_opaque;
-> +} BDRVBackupTopState;
-> +
-> +/*
-> + * bdrv_backup_top_append
-> + *
-> + * Append backup_top filter node above @source node. @target node will=
- receive
-> + * the data backed up during CBE operations. New filter together with =
-@target
-> + * node are attached to @source aio context.
-> + *
-> + * The resulting filter node is implicit.
+Hm...  Aren=E2=80=99t guest devices prohibited from issuing requests to t=
+he
+block layer while their respective block device is drained?
 
-Why?  It=E2=80=99s just as easy for the caller to just make it implicit i=
-f it
-should be.  (And usually the caller should decide that.)
-
-> + *
-> + * @copy_bitmap selects regions which needs CBW. Furthermore, backup_t=
-op will
-> + * use exactly this bitmap, so it may be used to control backup_top be=
-havior
-> + * dynamically. Caller should not release @copy_bitmap during life-tim=
-e of
-> + * backup_top. Progress is tracked by calling @progress_cb function.
-> + */
-> +BlockDriverState *bdrv_backup_top_append(
-> +        BlockDriverState *source, BlockDriverState *target,
-> +        HBitmap *copy_bitmap, Error **errp);
-> +void bdrv_backup_top_set_progress_callback(
-> +        BlockDriverState *bs, BackupTopProgressCallback progress_cb,
-> +        void *progress_opaque);
-> +void bdrv_backup_top_drop(BlockDriverState *bs);
-> +
-> +#endif /* BACKUP_TOP_H */
-> diff --git a/block/backup-top.c b/block/backup-top.c
-> new file mode 100644
-> index 0000000000..1daa02f539
-> --- /dev/null
-> +++ b/block/backup-top.c
-> @@ -0,0 +1,322 @@
-> +/*
-> + * backup-top filter driver
-> + *
-> + * The driver performs Copy-Before-Write (CBW) operation: it is inject=
-ed above
-> + * some node, and before each write it copies _old_ data to the target=
- node.
-> + *
-> + * Copyright (c) 2018 Virtuozzo International GmbH. All rights reserve=
-d.
-> + *
-> + * Author:
-> + *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modif=
-y
-> + * it under the terms of the GNU General Public License as published b=
-y
-> + * the Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful,
-> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + * GNU General Public License for more details.
-> + *
-> + * You should have received a copy of the GNU General Public License
-> + * along with this program. If not, see <http://www.gnu.org/licenses/>=
-=2E
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "qemu/cutils.h"
-> +#include "qapi/error.h"
-> +#include "block/block_int.h"
-> +#include "block/qdict.h"
-> +
-> +#include "block/backup-top.h"
-> +
-> +static coroutine_fn int backup_top_co_preadv(
-> +        BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-> +        QEMUIOVector *qiov, int flags)
-> +{
-> +    /*
-> +     * Features to be implemented:
-> +     * F1. COR. save read data to fleecing target for fast access
-> +     *     (to reduce reads). This possibly may be done with use of co=
-py-on-read
-> +     *     filter, but we need an ability to make COR requests optiona=
-l: for
-> +     *     example, if target is a ram-cache, and if it is full now, w=
-e should
-> +     *     skip doing COR request, as it is actually not necessary.
-> +     *
-> +     * F2. Feature for guest: read from fleecing target if data is in =
-ram-cache
-> +     *     and is unchanged
-> +     */
-> +
-> +    return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
-> +}
-> +
-> +static coroutine_fn int backup_top_cbw(BlockDriverState *bs, uint64_t =
-offset,
-> +                                       uint64_t bytes)
-> +{
-> +    int ret =3D 0;
-> +    BDRVBackupTopState *s =3D bs->opaque;
-> +    uint64_t gran =3D 1UL << hbitmap_granularity(s->copy_bitmap);
-> +    uint64_t end =3D QEMU_ALIGN_UP(offset + bytes, gran);
-> +    uint64_t off =3D QEMU_ALIGN_DOWN(offset, gran), len;
-
-The =E2=80=9C, len=E2=80=9D is a bit weirdly placed there, why not define=
- it on a
-separate line as "uint64_t len =3D end - off"?
-
-> +    void *buf =3D qemu_blockalign(bs, end - off);
-> +
-> +    /*
-> +     * Features to be implemented:
-> +     * F3. parallelize copying loop
-> +     * F4. detect zeroes ? or, otherwise, drop detect zeroes from back=
-up code
-> +     *     and just enable zeroes detecting on target
-> +     * F5. use block_status ?
-> +     * F6. don't copy clusters which are already cached by COR [see F1=
-]
-> +     * F7. if target is ram-cache and it is full, there should be a po=
-ssibility
-> +     *     to drop not necessary data (cached by COR [see F1]) to hand=
-le CBW
-> +     *     fast.
-
-Also =E2=80=9Cdrop BDRV_REQ_SERIALISING from writes to s->target unless n=
-ecessary=E2=80=9D?
-
-> +     */
-> +
-> +    len =3D end - off;
-> +    while (hbitmap_next_dirty_area(s->copy_bitmap, &off, &len)) {
-> +        hbitmap_reset(s->copy_bitmap, off, len);
-> +
-> +        ret =3D bdrv_co_pread(bs->backing, off, len, buf,
-> +                            BDRV_REQ_NO_SERIALISING);
-> +        if (ret < 0) {
-> +            hbitmap_set(s->copy_bitmap, off, len);
-> +            goto out;
-> +        }
-> +
-> +        ret =3D bdrv_co_pwrite(s->target, off, len, buf, BDRV_REQ_SERI=
-ALISING);
-> +        if (ret < 0) {
-> +            hbitmap_set(s->copy_bitmap, off, len);
-> +            goto out;
-> +        }
-> +
-> +        if (s->progress_cb) {
-> +            s->progress_cb(len, s->progress_opaque);
-> +        }
-> +        off +=3D len;
-> +        if (off >=3D end) {
-> +            break;
-> +        }
-> +        len =3D end - off;
-> +    }
-> +
-> +out:
-> +    qemu_vfree(buf);
-> +
-> +    /*
-> +     * F8. we fail guest request in case of error. We can alter it by
-> +     * possibility to fail copying process instead, or retry several t=
-imes, or
-> +     * may be guest pause, etc.
-> +     */
-> +    return ret;
-> +}
-> +
-> +static int coroutine_fn backup_top_co_pdiscard(BlockDriverState *bs,
-> +                                               int64_t offset, int byt=
-es)
-> +{
-> +    int ret =3D backup_top_cbw(bs, offset, bytes);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    /*
-> +     * Features to be implemented:
-> +     * F9. possibility of lazy discard: just defer the discard after f=
-leecing
-> +     *     completion. If write (or new discard) occurs to the same ar=
-ea, just
-> +     *     drop deferred discard.
-> +     */
-> +
-> +    return bdrv_co_pdiscard(bs->backing, offset, bytes);
-> +}
-> +
-> +static int coroutine_fn backup_top_co_pwrite_zeroes(BlockDriverState *=
-bs,
-> +        int64_t offset, int bytes, BdrvRequestFlags flags)
-> +{
-> +    int ret =3D backup_top_cbw(bs, offset, bytes);
-> +    if (ret < 0) {
-> +        return ret;
-> +    }
-> +
-> +    return bdrv_co_pwrite_zeroes(bs->backing, offset, bytes, flags);
-> +}
-> +
-> +static coroutine_fn int backup_top_co_pwritev(BlockDriverState *bs,
-> +                                              uint64_t offset,
-> +                                              uint64_t bytes,
-> +                                              QEMUIOVector *qiov, int =
-flags)
-> +{
-> +    if (!(flags & BDRV_REQ_WRITE_UNCHANGED)) {
-> +        int ret =3D backup_top_cbw(bs, offset, bytes);
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    return bdrv_co_pwritev(bs->backing, offset, bytes, qiov, flags);
-> +}
-> +
-> +static int coroutine_fn backup_top_co_flush(BlockDriverState *bs)
-> +{
-> +    if (!bs->backing) {
-> +        return 0;
-> +    }
-> +
-> +    return bdrv_co_flush(bs->backing->bs);
-
-Should we flush the target, too?
-
-> +}
-> +
-> +static void backup_top_refresh_filename(BlockDriverState *bs)
-> +{
-> +    if (bs->backing =3D=3D NULL) {
-> +        /*
-> +         * we can be here after failed bdrv_attach_child in
-> +         * bdrv_set_backing_hd
-> +         */
-> +        return;
-> +    }
-> +    bdrv_refresh_filename(bs->backing->bs);
-
-bdrv_refresh_filename() should have done this already.
-
-> +    pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
-> +            bs->backing->bs->filename);
-> +}
-> +
-> +static void backup_top_child_perm(BlockDriverState *bs, BdrvChild *c,
-> +                                  const BdrvChildRole *role,
-> +                                  BlockReopenQueue *reopen_queue,
-> +                                  uint64_t perm, uint64_t shared,
-> +                                  uint64_t *nperm, uint64_t *nshared)
-> +{
-> +    /*
-> +     * We have HBitmap in the state, its size is fixed, so we never al=
-low
-> +     * resize.
-> +     */
-> +    uint64_t rw =3D BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGE=
-D |
-> +                  BLK_PERM_WRITE;
-> +
-> +    bdrv_filter_default_perms(bs, c, role, reopen_queue, perm, shared,=
-
-> +                              nperm, nshared);
-> +
-> +    *nperm =3D *nperm & rw;
-> +    *nshared =3D *nshared & rw;
-
-Somehow, that bdrv_filter_default_perm() call doesn=E2=80=99t make this f=
-unction
-easier for me.
-
-It seems like this is basically just =E2=80=9C*nperm =3D perm & rw=E2=80=9D=
- and
-=E2=80=9C*nshared =3D shared & rw=E2=80=9D.
-
-> +
-> +    if (role =3D=3D &child_file) {
-> +        /*
-> +         * Target child
-> +         *
-> +         * Share write to target (child_file), to not interfere
-> +         * with guest writes to its disk which may be in target backin=
-g chain.
-> +         */
-> +        if (perm & BLK_PERM_WRITE) {
-> +            *nshared =3D *nshared | BLK_PERM_WRITE;
-
-Why not always share WRITE on the target?
-
-> +        }
-> +    } else {
-> +        /* Source child */
-> +        if (perm & BLK_PERM_WRITE) {
-
-Or WRITE_UNCHANGED, no?
-
-> +            *nperm =3D *nperm | BLK_PERM_CONSISTENT_READ;
-> +        }
-> +        *nshared =3D
-> +            *nshared & (BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCH=
-ANGED);
-
-And here it isn=E2=80=99t =E2=80=9C*nshared =3D shared & rw=E2=80=9D but =
-=E2=80=9Crw & ~WRITE=E2=80=9D.
-
-I feel like this function would be simpler if you just set *nperm and
-*nshared separately in the two branches of this condition, without
-setting a =E2=80=9Cdefault=E2=80=9D first.
-
-> +    }
-> +}
-> +
-> +BlockDriver bdrv_backup_top_filter =3D {
-> +    .format_name =3D "backup-top",
-> +    .instance_size =3D sizeof(BDRVBackupTopState),
-> +
-> +    .bdrv_co_preadv             =3D backup_top_co_preadv,
-> +    .bdrv_co_pwritev            =3D backup_top_co_pwritev,
-> +    .bdrv_co_pwrite_zeroes      =3D backup_top_co_pwrite_zeroes,
-> +    .bdrv_co_pdiscard           =3D backup_top_co_pdiscard,
-> +    .bdrv_co_flush              =3D backup_top_co_flush,
-> +
-> +    .bdrv_co_block_status       =3D bdrv_co_block_status_from_backing,=
-
-> +
-> +    .bdrv_refresh_filename      =3D backup_top_refresh_filename,
-> +
-> +    .bdrv_child_perm            =3D backup_top_child_perm,
-> +
-> +    .is_filter =3D true,
-> +};
-> +
-> +BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
-> +                                         BlockDriverState *target,
-> +                                         HBitmap *copy_bitmap,
-> +                                         Error **errp)
-> +{
-> +    Error *local_err =3D NULL;
-> +    BDRVBackupTopState *state;
-> +    BlockDriverState *top =3D bdrv_new_open_driver(&bdrv_backup_top_fi=
-lter,
-> +                                                 NULL, BDRV_O_RDWR, er=
-rp);
-> +
-> +    if (!top) {
-> +        return NULL;
-> +    }
-> +
-> +    top->implicit =3D true;
-
-As I said above, I think the caller should set this.
-
-> +    top->total_sectors =3D source->total_sectors;
-> +    top->bl.opt_mem_alignment =3D MAX(bdrv_opt_mem_align(source),
-> +                                    bdrv_opt_mem_align(target));
-> +    top->opaque =3D state =3D g_new0(BDRVBackupTopState, 1);
-> +    state->copy_bitmap =3D copy_bitmap;
-> +
-> +    bdrv_ref(target);
-> +    state->target =3D bdrv_attach_child(top, target, "target", &child_=
-file, errp);
-> +    if (!state->target) {
-> +        bdrv_unref(target);
-> +        bdrv_unref(top);
-> +        return NULL;
-> +    }
-> +
-> +    bdrv_set_aio_context(top, bdrv_get_aio_context(source));
-> +    bdrv_set_aio_context(target, bdrv_get_aio_context(source));
-
-I suppose these calls aren=E2=80=99t necessary anymore (compare d0ee0204f=
-4009).
- (I=E2=80=99m not fully sure, though.  In any case, they would need to be=
-
-bdrv_try_set_aio_context() if they were still necessary.)
-
-> +
-> +    bdrv_drained_begin(source);
-> +
-> +    bdrv_ref(top);
-> +    bdrv_append(top, source, &local_err);
-> +    if (local_err) {
-> +        error_prepend(&local_err, "Cannot append backup-top filter: ")=
-;
-> +    }
-> +
-> +    bdrv_drained_end(source);
-> +
-> +    if (local_err) {
-> +        bdrv_unref_child(top, state->target);
-> +        bdrv_unref(top);
-> +        error_propagate(errp, local_err);
-> +        return NULL;
-> +    }
-> +
-> +    return top;
-> +}
-
-I guess it would be nice if it users could blockdev-add a backup-top
-node to basically get a backup with sync=3Dnone.
-
-(The bdrv_open implementation should then create a new bitmap and
-initialize it to be fully set.)
-
-But maybe it wouldn=E2=80=99t be so nice and I just have feverish dreams.=
-
-
-> +void bdrv_backup_top_set_progress_callback(
-> +        BlockDriverState *bs, BackupTopProgressCallback progress_cb,
-> +        void *progress_opaque)
-> +{
-> +    BDRVBackupTopState *s =3D bs->opaque;
-> +
-> +    s->progress_cb =3D progress_cb;
-> +    s->progress_opaque =3D progress_opaque;
-> +}
-> +
-> +void bdrv_backup_top_drop(BlockDriverState *bs)
-> +{
-> +    BDRVBackupTopState *s =3D bs->opaque;
-> +    AioContext *aio_context =3D bdrv_get_aio_context(bs);
-> +
-> +    aio_context_acquire(aio_context);
-> +
-> +    bdrv_drained_begin(bs);
-> +
-> +    bdrv_child_try_set_perm(bs->backing, 0, BLK_PERM_ALL, &error_abort=
-);
-
-Pre-existing in other jobs, but I think calling this function is
-dangerous.  (Which is why I remove it in my =E2=80=9Cblock: Ignore loosen=
-ing
-perm restrictions failures=E2=80=9D series.)
-
-> +    bdrv_replace_node(bs, backing_bs(bs), &error_abort);
-> +    bdrv_set_backing_hd(bs, NULL, &error_abort);
-
-I think some of this function should be in a .bdrv_close()
-implementation, for example this bdrv_set_backing_hd() call.
-
-> +    bdrv_drained_end(bs);
-> +
-> +    if (s->target) {
-> +        bdrv_unref_child(bs, s->target);
-
-And this.  Well, neither needs to be in a .bdrv_close() implementation,
-actually, because bdrv_close() will just do it by itself.
-
-I suppose you=E2=80=99re trying to remove the children so the node is no =
-longer
-usable after this point; but that isn=E2=80=99t quite right, then.  The f=
-ilter
-functions still refer to s->target and bs->backing, so you need to stop
-them from doing anything then.
-
-At this point, you might as well add a variable to BDRVBackupTopState
-that says whether the filter is still supposed to be usable (like the
-=E2=80=9Cstop=E2=80=9D variable I added to mirror in =E2=80=9Cblock/mirro=
-r: Fix child
-permissions=E2=80=9D).  If so, the permission function should signal 0/AL=
-L for
-the permissions on backing (and probably target), and all filter
-functions always immediately return an error.
-
-So I don=E2=80=99t think backing and target need to be removed here.  We =
-can
-wait for that until bdrv_close(), but we should ensure that the filter
-really is unusable after this function has been called.
+Otherwise, I suppose I=E2=80=99ll have to move the bdrv_drain_all_begin()=
+ below
+the vm_shutdown().  That wouldn=E2=80=99t be too big of a problem.
 
 Max
 
-> +    }
-> +    bdrv_unref(bs);
-> +
-> +    aio_context_release(aio_context);
-> +}
-> diff --git a/block/Makefile.objs b/block/Makefile.objs
-> index ae11605c9f..dfbdfe6ab4 100644
-> --- a/block/Makefile.objs
-> +++ b/block/Makefile.objs
-> @@ -40,6 +40,8 @@ block-obj-y +=3D throttle.o copy-on-read.o
-> =20
->  block-obj-y +=3D crypto.o
-> =20
-> +block-obj-y +=3D backup-top.o
-> +
->  common-obj-y +=3D stream.o
-> =20
->  nfs.o-libs         :=3D $(LIBNFS_LIBS)
->=20
 
+--017Fbqrn0PEJzCqCYB50BGb6u5dJ1R9nv--
 
-
---E2fevzjs9W4sorPhaxVn24z7GLG8K2FCE--
-
---maTl3rTAaec12kDbe6CaqTkNlb1y2M5aZ
+--M3wl1NTteJ8gK53oiyYBvZsIyRQjRRD9b
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CclkACgkQ9AfbAGHV
-z0BiwAf/YHh3wPSNY9K5xakWI3/EQS+85VII5quvrZaWJcnEU7hG0cdeGujNsRR9
-4xW07cYp3CYf2SotRV2FpqrJI/6p9ebsMFYh81d6aE/bIuT7KP5UjEpco85Vv0xq
-G5rDLkL5b6yigCYlP+livE+IGU/11AZflT00RqKM5A/sEu0nEPe5zNQeAi38gz4g
-8aKx8VTgfQ+uHnUacpS9emxECZtQUHGhUYnMi2Lsdk8vsr+Icj1Utd6nviqziJav
-j49H/TwI0XG1dLBVZ7jGpNwPD9bswImMlcJsltKkHrkaKMIaeS5Si/jfE8BwS6ZH
-y4HrSEqhkJURsTfypP1vhdUHlqHRYA==
-=5nbY
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0Cc7gACgkQ9AfbAGHV
+z0A5uQf8DX6F12p8sJQ7GftT8/WVVqz0u8csoUw+O7Ralgetd7rFAMMscHGSvWLC
+VHV6jxXAApnOpKsNMY2IVdwQjrXuVe5k/873Dm/a4aW8wxft29AjgKshdc0ro5dT
+QfMyLTd8dGTj9+lWuu4GjfctsEZudpl+rxyhl7ig/5IPq3KbEOtFSWdnoEFr+XCX
+y6RzarcIFckZNjypY6/6S9aUDwKMRQxqI8yyG9V34P4B/BU8z/RCviAgn2FybcHt
+PeFuu2GUOJd0X8l+5VAlLSd913CYaIjPRcJR7bD04Gj6D2P2E49uEqf/YnhIGrxR
+280B6JX9OcOBZF+DQJN2bCBqnIuRlA==
+=0IQZ
 -----END PGP SIGNATURE-----
 
---maTl3rTAaec12kDbe6CaqTkNlb1y2M5aZ--
+--M3wl1NTteJ8gK53oiyYBvZsIyRQjRRD9b--
 
