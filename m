@@ -2,57 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A5343505
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 11:57:04 +0200 (CEST)
-Received: from localhost ([::1]:38094 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23A64350A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 11:59:11 +0200 (CEST)
+Received: from localhost ([::1]:38114 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbMTf-0002t7-Bs
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 05:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54471)
+	id 1hbMVj-00052M-4t
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 05:59:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55053)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hbMPg-0000GX-I0
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:52:57 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbMRX-0002BX-8o
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:54:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hbMPf-0002OU-Iy
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:52:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57274)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hbMPf-0002OI-Cr
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:52:55 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8CCF42F8BFA;
- Thu, 13 Jun 2019 09:52:54 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-33.ams2.redhat.com
- [10.36.116.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17E7760CCD;
- Thu, 13 Jun 2019 09:52:50 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 846B316E05; Thu, 13 Jun 2019 11:52:49 +0200 (CEST)
-Date: Thu, 13 Jun 2019 11:52:49 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Message-ID: <20190613095249.hpwaoyfo6ndqr5ae@sirius.home.kraxel.org>
-References: <20190520124716.30472-1-kraxel@redhat.com>
- <878suo5ls0.fsf@zen.linaroharston>
- <87pnniemgo.fsf@zen.linaroharston>
- <d32b4c47-4f46-474c-3c4d-54250a29960a@gmx.com>
- <87muileshz.fsf@zen.linaroharston>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbMRV-0003AU-5X
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 05:54:51 -0400
+Received: from mail-eopbgr80127.outbound.protection.outlook.com
+ ([40.107.8.127]:22834 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbMRS-00038N-0j; Thu, 13 Jun 2019 05:54:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YPj1RhFEk08d769niBJOCuD6EnnNLxs7AuO1IMl1rQE=;
+ b=BD+XxjSqXm3C0Ru/+HC9s3ffrukVdEVNQQdxPPI1IjiGYSGOd86SNHyV91uvoHN7cSsWxWdC0zl3J3n4TuW2RnX+ViXV0VaP9+HAXuBTJK9BPBEz+Q2O6aFYQHfJPEjE0IFmJA+uVJ8eLFyhdwQK4XIWnMNaz56X7vFxVLWY0PY=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0PR08MB4049.eurprd08.prod.outlook.com (20.178.119.97) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.15; Thu, 13 Jun 2019 09:54:43 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Thu, 13 Jun 2019
+ 09:54:43 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v2 4/7] iotests: extended timeout under Valgrind
+Thread-Index: AQHVIH/VjkuNcf3xl0uqwCuCmfkKCqaZWwqA
+Date: Thu, 13 Jun 2019 09:54:43 +0000
+Message-ID: <4994aac8-d7a9-ce69-c45b-c63daf613685@virtuozzo.com>
+References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560276131-683243-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <1560276131-683243-5-git-send-email-andrey.shinkevich@virtuozzo.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P195CA0002.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::12)
+ To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190613125441370
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a7a99907-bfc3-40e6-c793-08d6efe528f2
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0PR08MB4049; 
+x-ms-traffictypediagnostic: AM0PR08MB4049:
+x-microsoft-antispam-prvs: <AM0PR08MB404904D8E2AE6E6A2A67D575C1EF0@AM0PR08MB4049.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 0067A8BA2A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(366004)(136003)(376002)(39850400004)(396003)(199004)(189003)(110136005)(73956011)(66946007)(64756008)(2906002)(4744005)(68736007)(14454004)(3846002)(478600001)(6116002)(186003)(2501003)(386003)(54906003)(102836004)(52116002)(6506007)(99286004)(476003)(316002)(26005)(66556008)(305945005)(8936002)(66476007)(66446008)(2201001)(7736002)(81156014)(81166006)(31696002)(66066001)(8676002)(71200400001)(486006)(36756003)(53936002)(5660300002)(86362001)(2616005)(6512007)(6246003)(4326008)(11346002)(256004)(71190400001)(107886003)(25786009)(6486002)(31686004)(76176011)(446003)(6436002)(229853002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4049;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 8Dg+FLi2jI/lm6TROjHHf4GOdmuDBPnz8Bwtb//FYjbSNiPIzqlnFjD/ePDpgmPv0ePOpXjOrI1Kx9ADHUIzCHF6mSGWl2h3Mj4cw3TcvLQc7yNGuTWgz+qGbCz5PKOvr2t86ueqeZka24EmXHG/RsqIK/wwDNJq+Rvrbwv9zL+5fQRYG0XIQw56/97CllhoJPKP0sEq6jOMFHV0Ny7G6bX3O35vfwvIAE4z+e78ZX8S2akBV7w+EgBIxNLJuwNtnPHtBlJMjVXCPjUviVzrcrWhdc+WSISm6fYRhPQZQB/PKg9Joh9GYlCSwyT7a05eXt4h6njDXtYNWkzx4F16WafhWqRFE7wKl0A9VSWGKLSyPzW4OibqdUU0busOJyijfNMmiipoHXtXSsXzkSkfJech7DPm8wySwKaEFZKNqNE=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6C1471611CFA8C42AB90B0176A2910AE@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87muileshz.fsf@zen.linaroharston>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 13 Jun 2019 09:52:54 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 00/14] tests/vm: serial console
- autoinstall, misc fixes.
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7a99907-bfc3-40e6-c793-08d6efe528f2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 09:54:43.6380 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4049
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.8.127
+Subject: Re: [Qemu-devel] [PATCH v2 4/7] iotests: extended timeout under
+ Valgrind
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,30 +102,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
- qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
- Kamil Rytarowski <n54@gmx.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Brad Smith <brad@comstyle.com>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, Roman Kagan <rkagan@virtuozzo.com>,
+ "berrange@redhat.com" <berrange@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > What version of NetBSD did you test? There was recently a short lived
-> > regression in curses(3) that affected sysinst(8) (installer) in HEAD,
-> > but it was fixed.
-> 
-> The error for NetBSD was navigating the installer which was dumping a
-> lot of q's in the stream (unicode bar characters?).
-
-Not unicode, but yes these are bars for boxes.
-
-The console trace you get printed to stdout with V=1 or DEBUG=1 has
-terminal sequences and non-printable characters stripped off, so the
-switch to the box drawing charset doesn't happen and you get those
-q's instead.
-
-cheers,
-  Gerd
-
-PS: /me is busy installing ubuntu 18.04 guest to have a look ...
+MTEuMDYuMjAxOSAyMTowMiwgQW5kcmV5IFNoaW5rZXZpY2ggd3JvdGU6DQo+IEFzIHRoZSBpb3Rl
+c3RzIHJ1biBsb25nZXIgdW5kZXIgdGhlIFZhbGdyaW5kLCB0aGUgUUVNVV9DT01NX1RJTUVPVVQg
+aXMNCj4gdG8gYmUgaW5jcmVhc2VkIGluIHRoZSB0ZXN0IGNhc2VzIDAyOCwgMTgzIGFuZCAxOTIg
+d2hlbiBydW5uaW5nIHVuZGVyDQo+IHRoZSBWYWxncmluZC4NCj4gDQo+IFN1Z2dlc3RlZC1ieTog
+Um9tYW4gS2FnYW4gPHJrYWdhbkB2aXJ0dW96em8uY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBBbmRy
+ZXkgU2hpbmtldmljaCA8YW5kcmV5LnNoaW5rZXZpY2hAdmlydHVvenpvLmNvbT4NCg0KDQoNClJl
+dmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1
+b3p6by5jb20+DQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
