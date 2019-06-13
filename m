@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5BA44919
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:14:12 +0200 (CEST)
-Received: from localhost ([::1]:42120 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3F344984
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:19:42 +0200 (CEST)
+Received: from localhost ([::1]:42224 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbTIg-0000y9-MJ
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:14:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35560)
+	id 1hbTO1-0005dm-IG
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:19:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35644)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hbRy4-0002mz-Lv
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:48:49 -0400
+ (envelope-from <eblake@redhat.com>) id 1hbRy7-0002o5-MP
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:48:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hbRy3-0006SV-AR
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:48:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34146)
+ (envelope-from <eblake@redhat.com>) id 1hbRy6-0006VH-2a
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:48:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37638)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hbRy3-0006RL-3m
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:48:47 -0400
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hbRy3-0006RK-02; Thu, 13 Jun 2019 11:48:47 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1C6A130860C0
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 15:48:41 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C7CD781F31;
+ Thu, 13 Jun 2019 15:48:41 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C922C5C6D6
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 15:48:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 540565C6D6;
+ Thu, 13 Jun 2019 15:48:41 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 10:48:28 -0500
-Message-Id: <20190613154837.21734-1-eblake@redhat.com>
+Date: Thu, 13 Jun 2019 10:48:29 -0500
+Message-Id: <20190613154837.21734-2-eblake@redhat.com>
+In-Reply-To: <20190613154837.21734-1-eblake@redhat.com>
+References: <20190613154837.21734-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 13 Jun 2019 15:48:41 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Thu, 13 Jun 2019 15:48:41 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/9] NBD patches through 2019-06-13
+Subject: [Qemu-devel] [PULL 1/9] qemu-nbd: Add --pid-file option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,66 +54,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 785a602eae7ad97076b9794ebaba072ad4a9f7=
-4f:
+From: Max Reitz <mreitz@redhat.com>
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20190613-pull-req=
-uest' into staging (2019-06-13 13:25:25 +0100)
+--fork is a bit boring if there is no way to get the child's PID.  This
+option helps.
 
-are available in the Git repository at:
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20190508211820.17851-2-mreitz@redhat.com>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
+ qemu-nbd.texi |  2 ++
+ qemu-nbd.c    | 11 +++++++++++
+ 2 files changed, 13 insertions(+)
 
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2019-06-13
+diff --git a/qemu-nbd.texi b/qemu-nbd.texi
+index de342c76b873..7f55657722bd 100644
+--- a/qemu-nbd.texi
++++ b/qemu-nbd.texi
+@@ -117,6 +117,8 @@ option; or provide the credentials needed for connect=
+ing as a client
+ in list mode.
+ @item --fork
+ Fork off the server process and exit the parent once the server is runni=
+ng.
++@item --pid-file=3DPATH
++Store the server's process ID in the given file.
+ @item --tls-authz=3DID
+ Specify the ID of a qauthz object previously created with the
+ --object option. This will be used to authorize connecting users
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index e24dd2f76766..99377a3f14e2 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -61,6 +61,7 @@
+ #define QEMU_NBD_OPT_IMAGE_OPTS    262
+ #define QEMU_NBD_OPT_FORK          263
+ #define QEMU_NBD_OPT_TLSAUTHZ      264
++#define QEMU_NBD_OPT_PID_FILE      265
 
-for you to fetch changes up to 611ae1d71647c58b23dc2c116a946884ce30abf8:
+ #define MBR_SIZE 512
 
-  block/nbd: merge NBDClientSession struct back to BDRVNBDState (2019-06-=
-13 10:00:42 -0500)
+@@ -113,6 +114,7 @@ static void usage(const char *name)
+ "                            specify tracing options\n"
+ "  --fork                    fork off the server process and exit the pa=
+rent\n"
+ "                            once the server is running\n"
++"  --pid-file=3DPATH           store the server's process ID in the give=
+n file\n"
+ #if HAVE_NBD_DEVICE
+ "\n"
+ "Kernel NBD client support:\n"
+@@ -641,6 +643,7 @@ int main(int argc, char **argv)
+         { "image-opts", no_argument, NULL, QEMU_NBD_OPT_IMAGE_OPTS },
+         { "trace", required_argument, NULL, 'T' },
+         { "fork", no_argument, NULL, QEMU_NBD_OPT_FORK },
++        { "pid-file", required_argument, NULL, QEMU_NBD_OPT_PID_FILE },
+         { NULL, 0, NULL, 0 }
+     };
+     int ch;
+@@ -667,6 +670,7 @@ int main(int argc, char **argv)
+     bool list =3D false;
+     int old_stderr =3D -1;
+     unsigned socket_activation;
++    const char *pid_file_name =3D NULL;
 
-----------------------------------------------------------------
-nbd patches for 2019-06-13
+     /* The client thread uses SIGTERM to interrupt the server.  A signal
+      * handler ensures that "qemu-nbd -v -c" exits with a nice status co=
+de.
+@@ -866,6 +870,9 @@ int main(int argc, char **argv)
+         case 'L':
+             list =3D true;
+             break;
++        case QEMU_NBD_OPT_PID_FILE:
++            pid_file_name =3D optarg;
++            break;
+         }
+     }
 
-- add 'qemu-nbd --pid-file'
-- NBD-related iotest improvements
-- NBD code refactoring in preparation for reconnect
+@@ -1186,6 +1193,10 @@ int main(int argc, char **argv)
 
-----------------------------------------------------------------
-Eric Blake (1):
-      nbd/server: Nicer spelling of max BLOCK_STATUS reply length
+     nbd_update_server_watch();
 
-Max Reitz (5):
-      qemu-nbd: Add --pid-file option
-      iotests.py: Add qemu_nbd_early_pipe()
-      qemu-nbd: Do not close stderr
-      iotests: Use qemu-nbd's --pid-file
-      iotests: Let 233 run concurrently
-
-Vladimir Sementsov-Ogievskiy (3):
-      block/nbd-client: drop stale logout
-      block/nbd: merge nbd-client.* to nbd.c
-      block/nbd: merge NBDClientSession struct back to BDRVNBDState
-
- qemu-nbd.texi                 |    2 +
- block/nbd-client.h            |   71 ---
- block/nbd-client.c            | 1226 -----------------------------------=
-----
- block/nbd.c                   | 1282 +++++++++++++++++++++++++++++++++++=
-++++--
- nbd/server.c                  |   13 +-
- qemu-nbd.c                    |   14 +-
- tests/qemu-iotests/common.nbd |  100 ++--
- tests/qemu-iotests/common.rc  |    6 +-
- block/Makefile.objs           |    2 +-
- block/trace-events            |    4 +-
- tests/qemu-iotests/147        |    4 +-
- tests/qemu-iotests/233        |    1 -
- tests/qemu-iotests/iotests.py |    9 +-
- 13 files changed, 1329 insertions(+), 1405 deletions(-)
- delete mode 100644 block/nbd-client.h
- delete mode 100644 block/nbd-client.c
-
++    if (pid_file_name) {
++        qemu_write_pidfile(pid_file_name, &error_fatal);
++    }
++
+     /* now when the initialization is (almost) complete, chdir("/")
+      * to free any busy filesystems */
+     if (chdir("/") < 0) {
 --=20
 2.20.1
 
