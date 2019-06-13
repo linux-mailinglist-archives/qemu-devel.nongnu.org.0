@@ -2,73 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969E1436FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 15:54:22 +0200 (CEST)
-Received: from localhost ([::1]:39834 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D5E4364D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 15:12:49 +0200 (CEST)
+Received: from localhost ([::1]:39604 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbQBJ-0001SF-On
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 09:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60652)
+	id 1hbPX6-0005RA-Qj
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 09:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60654)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOfB-0000d9-8V
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:17:15 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbOfB-0000dE-8p
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:17:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOeq-0005xC-2c
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbOeu-00064r-5U
  for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:16:57 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53262)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbOep-0004ok-JI
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:16:43 -0400
-Received: by mail-wm1-x342.google.com with SMTP id x15so9958768wmj.3
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:15:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=gPYLikUR5ZuBlGRaNvlfd3hHYV0xbs6/Y2luBsY5Vwk=;
- b=eE4zt0pjr4qx+BpFhkcAeCPI92isygBNkRHQOVy999Vh5uXYpNFftLMZoQmQ5gpdWQ
- ruSIFkMcyogHbozDht+ZcMyzhZCiDNnhmP51dPEV47m7WfgXtWWJP8UB1/dk3c0JPEhg
- grRM/dGpilLzXbS9x7zv2GvF3MNwHjeO3b39tCxDPCTLRNizFVemAzB3+XPGOvJBcbfB
- nHZcSCQq/noQdayFX5fei3IPJiOkIcmd3XZ84y1fp2Ctoe+69IRs76k72L7hFe01DS/K
- /rw9pg0FbyWHB+ZsXerAkg+0gSE6VJWw+MDwZMPN+b4f+devMO+gJt6BUMHIKoAeL+lo
- uPrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gPYLikUR5ZuBlGRaNvlfd3hHYV0xbs6/Y2luBsY5Vwk=;
- b=q6OUFB555oz6k3axINtOfwnwqYE4MOSizlUxBtH83CyxUqZcRZ+aavC/UC5ckehbDQ
- LDNnWe2T0fSR2qtvAd+V4VFBrjGU1ppX99vd2O8hqn0qRyxr8pqMc62KOF6Njp0Bf8I9
- Gb10KwC5zYsJoMNURZCYV41Wwai1wfykYz9P7rFvI0Xj5wEN9kcV0oqnqtiBEcx/4soh
- c5lafhMvlS6m5klbNW+kk6TwHE+D9gL8v49dFYL4+CVBDGJW1RDQN4Rwpcglju0kChAA
- bSuMUfTA01WJdsUwloImv/IaNQV+bXgxD82s1q2aDNxJGAXpRWPwsTeLuSVfh+tBRzxS
- 7Pcg==
-X-Gm-Message-State: APjAAAWDJj23LGAmoh8r6OJPeZyatM8Lj+0ueelEI9aVIH3G9cg2OITy
- j8aHwjdqBQ/pcFZyt5Jxas04O5USLsA7uA==
-X-Google-Smtp-Source: APXvYqyADXbFI6wtcV1KdMkNyK7YN9y59zR/3cRaeqHGqNEcgIWjB3ag4S96nmu4ncOaZx0zA1fkDQ==
-X-Received: by 2002:a05:600c:c6:: with SMTP id
- u6mr3589411wmm.153.1560428126721; 
- Thu, 13 Jun 2019 05:15:26 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.15.25
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 05:15:25 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 13:14:33 +0100
-Message-Id: <20190613121433.5246-49-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190613121433.5246-1-peter.maydell@linaro.org>
-References: <20190613121433.5246-1-peter.maydell@linaro.org>
+Received: from mail-eopbgr00108.outbound.protection.outlook.com
+ ([40.107.0.108]:43230 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbOer-0005Bh-Pw; Thu, 13 Jun 2019 08:16:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pZtZ6aHY1vSLlYfII9DDgIU5cQLEvb2XPQbTNZP/OMk=;
+ b=C03h/TMuAGaZSxhfKPzQxUvb7mHwpwniBXROoJFhGcjdrmFRESGLdvfUP61gYvnNzodWcGobSPgJEKW57yLsZhlp8bfcmfLm9XEVl5xLOxj9rZquXs9cT7iqLiqkKGa3EMvmu1Gvq5eWkHarl9Q4Dr1rlEfOFpvU3CG2iqpO0Pg=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0PR08MB3603.eurprd08.prod.outlook.com (20.177.110.219) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.15; Thu, 13 Jun 2019 12:15:47 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Thu, 13 Jun 2019
+ 12:15:47 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v5 04/42] block: Add child access functions
+Thread-Index: AQHVIWugG29CXMAlvEKCKo/fgntRwaaZgJyA
+Date: Thu, 13 Jun 2019 12:15:47 +0000
+Message-ID: <9a439527-d651-7638-1b80-c75f5ba69592@virtuozzo.com>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-5-mreitz@redhat.com>
+In-Reply-To: <20190612221004.2317-5-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0306.eurprd05.prod.outlook.com
+ (2603:10a6:7:93::37) To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190613151545634
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0b899b8b-2000-4621-2fc9-08d6eff8dde5
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0PR08MB3603; 
+x-ms-traffictypediagnostic: AM0PR08MB3603:
+x-microsoft-antispam-prvs: <AM0PR08MB360341B7ACBAB89C056DB0C6C1EF0@AM0PR08MB3603.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0067A8BA2A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(136003)(396003)(366004)(376002)(39850400004)(346002)(189003)(199004)(486006)(3846002)(26005)(71200400001)(316002)(6436002)(11346002)(110136005)(36756003)(102836004)(71190400001)(305945005)(99286004)(7736002)(446003)(54906003)(186003)(5660300002)(86362001)(476003)(2616005)(14454004)(6506007)(386003)(2906002)(25786009)(6116002)(4326008)(31696002)(66556008)(73956011)(81156014)(66446008)(76176011)(52116002)(66946007)(64756008)(6512007)(229853002)(66066001)(8676002)(31686004)(66476007)(478600001)(14444005)(53936002)(6486002)(256004)(8936002)(2501003)(81166006)(6246003)(68736007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3603;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: KanvNl3oEsdHzW5baWOn4Ie60vkSDYHSJsm38+9UTvHOyMEQPbqHajqFFg0aUilbIG74c1UX8LF9KQekLsXW4yaecz30OInQib0Ag5b3ErWbrIMCgFnTF/95r9I1G3tzDIS1jhdU9SYdExGUM9IXugB2SZb8mRWZ9EpEIWNAJtCGGpLFXwGlZ91mVvoO+wxsxwYnbfeDqHmMep+nNH6ce4QueQh+QVvoCTBNfmc3Q+y82KoBM+Cjvaiht1t+n665fBlwEANtmKHHfZyvDdt3IdNws8PrrTNvcL2x4idNPJ1xfiooPorI7elcR4ysMzHCQwvuc4zn9obl7jeXd3mNrcFNujcKUuXMTnYrjXczSXdY4pjgtUAGAM6VDjDBplDBvKnw6osFZAXy6QWUuPNzEgyUVBYRq/b4WH1o6KFjlUg=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A977858470C845458187CB4C748AC2EF@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PULL 48/48] target/arm: Fix short-vector increment
- behaviour
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b899b8b-2000-4621-2fc9-08d6eff8dde5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 12:15:47.6134 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3603
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.0.108
+Subject: Re: [Qemu-devel] [PATCH v5 04/42] block: Add child access functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,327 +100,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For VFP short vectors, the VFP registers are divided into a
-series of banks: for single-precision these are s0-s7, s8-s15,
-s16-s23 and s24-s31; for double-precision they are d0-d3,
-d4-d7, ... d28-d31. Some banks are "scalar" meaning that
-use of a register within them triggers a pure-scalar or
-mixed vector-scalar operation rather than a full vector
-operation. The scalar banks are s0-s7, d0-d3 and d16-d19.
-When using a bank as part of a vector operation, we
-iterate through it, increasing the register number by
-the specified stride each time, and wrapping around to
-the beginning of the bank.
-
-Unfortunately our calculation of the "increment" part of this
-was incorrect:
- vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask)
-will only do the intended thing if bank_mask has exactly
-one set high bit. For instance for doubles (bank_mask = 0xc),
-if we start with vd = 6 and delta_d = 2 then vd is updated
-to 12 rather than the intended 4.
-
-This only causes problems in the unlikely case that the
-starting register is not the first in its bank: if the
-register number doesn't have to wrap around then the
-expression happens to give the right answer.
-
-Fix this bug by abstracting out the "check whether register
-is in a scalar bank" and "advance register within bank"
-operations to utility functions which use the right
-bit masking operations.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate-vfp.inc.c | 100 ++++++++++++++++++++-------------
- 1 file changed, 60 insertions(+), 40 deletions(-)
-
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 8216dba796e..709fc65374d 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -1139,6 +1139,42 @@ typedef void VFPGen3OpDPFn(TCGv_i64 vd,
- typedef void VFPGen2OpSPFn(TCGv_i32 vd, TCGv_i32 vm);
- typedef void VFPGen2OpDPFn(TCGv_i64 vd, TCGv_i64 vm);
- 
-+/*
-+ * Return true if the specified S reg is in a scalar bank
-+ * (ie if it is s0..s7)
-+ */
-+static inline bool vfp_sreg_is_scalar(int reg)
-+{
-+    return (reg & 0x18) == 0;
-+}
-+
-+/*
-+ * Return true if the specified D reg is in a scalar bank
-+ * (ie if it is d0..d3 or d16..d19)
-+ */
-+static inline bool vfp_dreg_is_scalar(int reg)
-+{
-+    return (reg & 0xc) == 0;
-+}
-+
-+/*
-+ * Advance the S reg number forwards by delta within its bank
-+ * (ie increment the low 3 bits but leave the rest the same)
-+ */
-+static inline int vfp_advance_sreg(int reg, int delta)
-+{
-+    return ((reg + delta) & 0x7) | (reg & ~0x7);
-+}
-+
-+/*
-+ * Advance the D reg number forwards by delta within its bank
-+ * (ie increment the low 2 bits but leave the rest the same)
-+ */
-+static inline int vfp_advance_dreg(int reg, int delta)
-+{
-+    return ((reg + delta) & 0x3) | (reg & ~0x3);
-+}
-+
- /*
-  * Perform a 3-operand VFP data processing instruction. fn is the
-  * callback to do the actual operation; this function deals with the
-@@ -1149,7 +1185,6 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
- {
-     uint32_t delta_m = 0;
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i32 f0, f1, fd;
-     TCGv_ptr fpst;
-@@ -1164,16 +1199,14 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0x18;
--
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_sreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-             delta_d = s->vec_stride + 1;
- 
--            if ((vm & bank_mask) == 0) {
-+            if (vfp_sreg_is_scalar(vm)) {
-                 /* mixed scalar/vector */
-                 delta_m = 0;
-             } else {
-@@ -1204,11 +1237,11 @@ static bool do_vfp_3op_sp(DisasContext *s, VFPGen3OpSPFn *fn,
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
--        vn = ((vn + delta_d) & (bank_mask - 1)) | (vn & bank_mask);
-+        vd = vfp_advance_sreg(vd, delta_d);
-+        vn = vfp_advance_sreg(vn, delta_d);
-         neon_load_reg32(f0, vn);
-         if (delta_m) {
--            vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
-+            vm = vfp_advance_sreg(vm, delta_m);
-             neon_load_reg32(f1, vm);
-         }
-     }
-@@ -1226,7 +1259,6 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
- {
-     uint32_t delta_m = 0;
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i64 f0, f1, fd;
-     TCGv_ptr fpst;
-@@ -1246,16 +1278,14 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0xc;
--
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_dreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-             delta_d = (s->vec_stride >> 1) + 1;
- 
--            if ((vm & bank_mask) == 0) {
-+            if (vfp_dreg_is_scalar(vm)) {
-                 /* mixed scalar/vector */
-                 delta_m = 0;
-             } else {
-@@ -1285,11 +1315,11 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
-         }
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
--        vn = ((vn + delta_d) & (bank_mask - 1)) | (vn & bank_mask);
-+        vd = vfp_advance_dreg(vd, delta_d);
-+        vn = vfp_advance_dreg(vn, delta_d);
-         neon_load_reg64(f0, vn);
-         if (delta_m) {
--            vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
-+            vm = vfp_advance_dreg(vm, delta_m);
-             neon_load_reg64(f1, vm);
-         }
-     }
-@@ -1306,7 +1336,6 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
- {
-     uint32_t delta_m = 0;
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i32 f0, fd;
- 
-@@ -1320,16 +1349,14 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0x18;
--
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_sreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-             delta_d = s->vec_stride + 1;
- 
--            if ((vm & bank_mask) == 0) {
-+            if (vfp_sreg_is_scalar(vm)) {
-                 /* mixed scalar/vector */
-                 delta_m = 0;
-             } else {
-@@ -1355,7 +1382,7 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
-         if (delta_m == 0) {
-             /* single source one-many */
-             while (veclen--) {
--                vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
-+                vd = vfp_advance_sreg(vd, delta_d);
-                 neon_store_reg32(fd, vd);
-             }
-             break;
-@@ -1363,8 +1390,8 @@ static bool do_vfp_2op_sp(DisasContext *s, VFPGen2OpSPFn *fn, int vd, int vm)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
--        vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
-+        vd = vfp_advance_sreg(vd, delta_d);
-+        vm = vfp_advance_sreg(vm, delta_m);
-         neon_load_reg32(f0, vm);
-     }
- 
-@@ -1378,7 +1405,6 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
- {
-     uint32_t delta_m = 0;
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i64 f0, fd;
- 
-@@ -1397,16 +1423,14 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0xc;
--
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_dreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-             delta_d = (s->vec_stride >> 1) + 1;
- 
--            if ((vm & bank_mask) == 0) {
-+            if (vfp_dreg_is_scalar(vm)) {
-                 /* mixed scalar/vector */
-                 delta_m = 0;
-             } else {
-@@ -1432,7 +1456,7 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
-         if (delta_m == 0) {
-             /* single source one-many */
-             while (veclen--) {
--                vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
-+                vd = vfp_advance_dreg(vd, delta_d);
-                 neon_store_reg64(fd, vd);
-             }
-             break;
-@@ -1440,8 +1464,8 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
--        vm = ((vm + delta_m) & (bank_mask - 1)) | (vm & bank_mask);
-+        vd = vfp_advance_dreg(vd, delta_d);
-+        vd = vfp_advance_dreg(vm, delta_m);
-         neon_load_reg64(f0, vm);
-     }
- 
-@@ -1783,7 +1807,6 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_sp *a)
- static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
- {
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i32 fd;
-     uint32_t n, i, vd;
-@@ -1804,9 +1827,8 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0x18;
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_sreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-@@ -1835,7 +1857,7 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
-+        vd = vfp_advance_sreg(vd, delta_d);
-     }
- 
-     tcg_temp_free_i32(fd);
-@@ -1845,7 +1867,6 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
- static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
- {
-     uint32_t delta_d = 0;
--    uint32_t bank_mask = 0;
-     int veclen = s->vec_len;
-     TCGv_i64 fd;
-     uint32_t n, i, vd;
-@@ -1871,9 +1892,8 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
-     }
- 
-     if (veclen > 0) {
--        bank_mask = 0xc;
-         /* Figure out what type of vector operation this is.  */
--        if ((vd & bank_mask) == 0) {
-+        if (vfp_dreg_is_scalar(vd)) {
-             /* scalar */
-             veclen = 0;
-         } else {
-@@ -1902,7 +1922,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
- 
-         /* Set up the operands for the next iteration */
-         veclen--;
--        vd = ((vd + delta_d) & (bank_mask - 1)) | (vd & bank_mask);
-+        vfp_advance_dreg(vd, delta_d);
-     }
- 
-     tcg_temp_free_i64(fd);
--- 
-2.20.1
-
+MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFRoZXJlIGFyZSBCRFMgY2hpbGRy
+ZW4gdGhhdCB0aGUgZ2VuZXJhbCBibG9jayBsYXllciBjb2RlIGNhbiBhY2Nlc3MsDQo+IG5hbWVs
+eSBicy0+ZmlsZSBhbmQgYnMtPmJhY2tpbmcuICBTaW5jZSB0aGUgaW50cm9kdWN0aW9uIG9mIGZp
+bHRlcnMgYW5kDQo+IGV4dGVybmFsIGRhdGEgZmlsZXMsIHRoZWlyIG1lYW5pbmcgaXMgbm90IHF1
+aXRlIGNsZWFyLiAgYnMtPmJhY2tpbmcgY2FuDQo+IGJlIGEgQ09XIHNvdXJjZSwgb3IgaXQgY2Fu
+IGJlIGFuIFIvVy1maWx0ZXJlZCBjaGlsZDsgYnMtPmZpbGUgY2FuIGJlIGFuDQo+IFIvVy1maWx0
+ZXJlZCBjaGlsZCwgaXQgY2FuIGJlIGRhdGEgYW5kIG1ldGFkYXRhIHN0b3JhZ2UsIG9yIGl0IGNh
+biBiZQ0KPiBqdXN0IG1ldGFkYXRhIHN0b3JhZ2UuDQo+IA0KPiBUaGlzIG92ZXJsb2FkaW5nIHJl
+YWxseSBpcyBub3QgaGVscGZ1bC4gIFRoaXMgcGF0Y2ggYWRkcyBmdW5jdGlvbiB0aGF0DQo+IHJl
+dHJpZXZlIHRoZSBjb3JyZWN0IGNoaWxkIGZvciBlYWNoIGV4YWN0IHB1cnBvc2UuICBMYXRlciBw
+YXRjaGVzIGluDQo+IHRoaXMgc2VyaWVzIHdpbGwgbWFrZSB1c2Ugb2YgdGhlbS4gIERvaW5nIHNv
+IHdpbGwgYWxsb3cgdXMgdG8gaGFuZGxlDQo+IGZpbHRlciBub2RlcyBhbmQgZXh0ZXJuYWwgZGF0
+YSBmaWxlcyBpbiBhIG1lYW5pbmdmdWwgd2F5Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWF4IFJl
+aXR6IDxtcmVpdHpAcmVkaGF0LmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNv
+di1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KPiAtLS0NCj4gICBpbmNs
+dWRlL2Jsb2NrL2Jsb2NrX2ludC5oIHwgNTcgKysrKysrKysrKysrKysrKysrKystLQ0KPiAgIGJs
+b2NrLmMgICAgICAgICAgICAgICAgICAgfCA5OSArKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysNCj4gICAyIGZpbGVzIGNoYW5nZWQsIDE1MyBpbnNlcnRpb25zKCspLCAzIGRl
+bGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvYmxvY2svYmxvY2tfaW50Lmgg
+Yi9pbmNsdWRlL2Jsb2NrL2Jsb2NrX2ludC5oDQo+IGluZGV4IDU4ZmNhMzdiYTMuLjdjZTcxNjIz
+ZjggMTAwNjQ0DQo+IC0tLSBhL2luY2x1ZGUvYmxvY2svYmxvY2tfaW50LmgNCj4gKysrIGIvaW5j
+bHVkZS9ibG9jay9ibG9ja19pbnQuaA0KDQpbLi5dDQoNCj4gICANCj4gICB0eXBlZGVmIHN0cnVj
+dCBCbG9ja0xpbWl0cyB7DQo+IEBAIC0xMjQ5LDQgKzEyNTgsNDYgQEAgaW50IGNvcm91dGluZV9m
+biBiZHJ2X2NvX2NvcHlfcmFuZ2VfdG8oQmRydkNoaWxkICpzcmMsIHVpbnQ2NF90IHNyY19vZmZz
+ZXQsDQo+ICAgDQo+ICAgaW50IHJlZnJlc2hfdG90YWxfc2VjdG9ycyhCbG9ja0RyaXZlclN0YXRl
+ICpicywgaW50NjRfdCBoaW50KTsNCj4gICANCj4gK0JkcnZDaGlsZCAqYmRydl9maWx0ZXJlZF9j
+b3dfY2hpbGQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMpOw0KPiArQmRydkNoaWxkICpiZHJ2X2ZpbHRl
+cmVkX3J3X2NoaWxkKEJsb2NrRHJpdmVyU3RhdGUgKmJzKTsNCj4gK0JkcnZDaGlsZCAqYmRydl9m
+aWx0ZXJlZF9jaGlsZChCbG9ja0RyaXZlclN0YXRlICpicyk7DQo+ICtCZHJ2Q2hpbGQgKmJkcnZf
+bWV0YWRhdGFfY2hpbGQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMpOw0KPiArQmRydkNoaWxkICpiZHJ2
+X3N0b3JhZ2VfY2hpbGQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMpOw0KPiArQmRydkNoaWxkICpiZHJ2
+X3ByaW1hcnlfY2hpbGQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMpOw0KPiArDQoNCldvdyEgU3VjaCBh
+IGJpZyBmYW1pbHkgOikNCg0KSSdkIGxpa2UgdG8gcHV0IHRoZW0gaW50byBhIHRhYmxlLCBqdXN0
+IGZvciBtZSB0byBtYWtlIGl0IGVhc2llciB0byBrZWVwIGl0IGFsbCBpbiBtaW5kLg0KQnV0IGlm
+IHlvdSB3YW50LCB5b3UgbWF5IGluY2x1ZGUgaXQgaGVyZSBhcyBhIGNvbW1lbnQuLiBCdXQgaXQn
+cyBkaWZmaWN1bHQgdG8ga2VlcCBpdCBsZXNzIHRoYW4gODAgY29sdW1ucy4NCkkgdGhpbmssIEkn
+bGwgbW9kaWZ5IGl0IGFmdGVyIHJldmlld2luZyBmb2xsb3dpbmcgcGF0Y2hlcy4NCg0KKy0tLS0t
+LS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0KfCBj
+aGlsZCAgICAgICAgICAgICAgfCBkZXNjcmlwdGlvbiAgICAgICAgICAgICAgICB8IGZpbHRlciBu
+b2RlICAgICAgICAgICAgICAgICAgIHwgZm9ybWF0IG5vZGUgICAgICAgICAgICAgICAgICAgfA0K
+Ky0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+Kw0KfCBmaWx0ZXJlZF9jb3dfY2hpbGQgfCBmb3IgQ09XL0NPUiAgICAgICAgICAgICAgICB8IE5V
+TEwgICAgICAgICAgICAgICAgICAgICAgICAgIHwgYnMtPmJhY2tpbmcgICAgICAgICAgICAgICAg
+ICAgfA0KKy0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0r
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tKw0KfCBmaWx0ZXJlZF9yd19jaGlsZCAgfCBmb3IgSU8gcGFzcy10aHJvdWdoICAgICAg
+ICB8IGJzLT5iYWNraW5nIG9yIGJzLT5maWxlICAgICAgIHwgTlVMTCAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfA0KfCAgICAgICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICB8IChvbmx5IG9uZSBtYXkgZXhpc3QpICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfA0KKy0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tKw0KfCBmaWx0ZXJlZF9jaGlsZCAgICAgfCBvbmUgb2YgdGhlIHByZXZp
+b3VzICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgfA0KfCAgICAgICAgICAgICAgICAgICAgfCBmb3IgZXh0ZW5kZWQg
+YmFja2luZyAgICAgICB8IGZpbHRlcmVkX3J3X2NoaWxkICAgICAgICAgICAgIHwgZmlsdGVyZWRf
+Y293X2NoaWxkICAgICAgICAgICAgfA0KfCAgICAgICAgICAgICAgICAgICAgfCBjaGFpbiAgICAg
+ICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfA0KKy0tLS0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0KfCBtZXRhZGF0YV9jaGlsZCAgICAgfCB3aGVy
+ZSBtZXRhZGF0YSBpcyBzdG9yZWQgICB8IE5VTEwgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
+YnMtPmZpbGUgICAgICAgICAgICAgICAgICAgICAgfA0KKy0tLS0tLS0tLS0tLS0tLS0tLS0tKy0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0KfCBzdG9yYWdlX2NoaWxkICAgICAg
+fCB3aGVyZSBhY3R1YWwgZ3Vlc3QgdmlzaWJsZSB8IGJzLT5kcnYtPmJkcnZfc3RvcmFnZV9jaGls
+ZCgpIHwgYnMtPmRydi0+YmRydl9zdG9yYWdlX2NoaWxkKCkgfA0KfCAgICAgICAgICAgICAgICAg
+ICAgfCBkYXRhIGlzIHN0b3JlZCAgICAgICAgICAgICB8IG9yIGZpbHRlcmVkX3J3X2NoaWxkICAg
+ICAgICAgIHwgb3IgYnMtPmZpbGUgICAgICAgICAgICAgICAgICAgfA0KKy0tLS0tLS0tLS0tLS0t
+LS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0KfCBwcmltYXJ5X2No
+aWxkICAgICAgfCBkb24ndCBrbm93IHlldCAgICAgICAgICAgICB8IGZpbHRlcmVkX3J3X2NoaWxk
+ICAgICAgICAgICAgIHwgYnMtPmZpbGUgICAgICAgICAgICAgICAgICAgICAgfA0KKy0tLS0tLS0t
+LS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0KDQoNCg0K
+DQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWlyDQo=
 
