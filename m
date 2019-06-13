@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C534374F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:44:16 +0200 (CEST)
-Received: from localhost ([::1]:40516 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B032D4375B
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:50:12 +0200 (CEST)
+Received: from localhost ([::1]:40592 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbQxb-0008LC-1o
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:44:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57706)
+	id 1hbR3I-0003pR-Nq
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:50:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60094)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbQ9o-0003Nf-KL
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:52:54 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hbQGZ-0001Wm-Sj
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:59:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbQ9i-0004uU-UU
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:52:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56634)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbQ9H-0004be-2i; Thu, 13 Jun 2019 09:52:16 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2BED63082126;
- Thu, 13 Jun 2019 13:52:04 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EF2119C67;
- Thu, 13 Jun 2019 13:51:56 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-4-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <f98f4baf-941c-120c-5bb3-b857c175003e@redhat.com>
-Date: Thu, 13 Jun 2019 15:51:54 +0200
+ (envelope-from <pbonzini@redhat.com>) id 1hbQGY-0000oV-8A
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:59:47 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38530)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hbQGY-0000nw-1R
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:59:46 -0400
+Received: by mail-wr1-f66.google.com with SMTP id d18so20909140wrs.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 06:59:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7lUUI5Won8liC6h+dDvk2BJXihQj3DfV7SMaANEJvHI=;
+ b=ixE1xHraEXvfE76kCaATP0T0klQnzpi6aw61XZLlusH25gE3nFvcHz754vLCyHbS49
+ iVLrE9xfHTMhFbEwPa4IS4AZLxWvABhgZHfMoSOX555IPxUmA8a48gXrOPdxbsKpvn3f
+ /WlD1YBl9HzJlMovprhu+WZ0ZsDFiC0bCKz00R+L+lvsyJp+LaVZVTNAHX8PQZSGbRnd
+ 1EYa0AyECkKKfl0B+5HFi0uxH4ue8JP1N/GRWjNt40RQEB4SGFeiuieQwQ28M9r6p9IE
+ woLFCupBYuWNV1KeSjFvu93mjDW5+aWgomPWhhmPH480CtNJmsDVlcN160vpDdjXX+C5
+ il5w==
+X-Gm-Message-State: APjAAAUxedgA/CzXoBGCFsVLJrh43mlyl6sVyhjan/JwmTjt52Lsu4J9
+ 5WwseZ+iwlAyuK56/SZ66fMYCQ==
+X-Google-Smtp-Source: APXvYqwSPJUA67tWKmksml8OOnb/VtPwlHg0gCqF9nhCyFZLfgSEw3yeCULa0VBBk2gUYYqHYwqJMA==
+X-Received: by 2002:adf:ef8d:: with SMTP id d13mr44198102wro.60.1560434384702; 
+ Thu, 13 Jun 2019 06:59:44 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:56e1:adff:fed9:caf0?
+ ([2001:b07:6468:f312:56e1:adff:fed9:caf0])
+ by smtp.gmail.com with ESMTPSA id s9sm3513096wmc.11.2019.06.13.06.59.43
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 06:59:43 -0700 (PDT)
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+References: <20181214025849.84274-1-aik@ozlabs.ru>
+ <8727c6e5-006c-20e5-cb6b-be525154e184@redhat.com>
+ <bda42f7c-9068-3c4d-d839-7f6c52561cc9@ozlabs.ru>
+ <69a29694-b777-721a-eafd-4ff38c457f6d@redhat.com>
+ <db36d006-3bdc-47fe-9987-519440446c4e@ozlabs.ru>
+ <20190103173753.GJ2316@work-vm>
+ <d4b8695c-3d37-ba92-d62b-e067b77274c8@ozlabs.ru>
+ <20190207114953.GB2773@work-vm>
+ <16486ff4-eb62-b4f2-78f8-a1ec7e3fbb0b@redhat.com>
+ <30a5a208-249f-106e-f885-94caf9b82970@ozlabs.ru>
+ <f346fdcb-1849-3397-7f4c-2d6ee07fcd7c@ozlabs.ru>
+ <aca6d2ae-806f-55b3-d9d5-f5a2cfd760b9@ozlabs.ru>
+ <a66cc0e6-3629-8f07-65d3-aefff9dcd2d5@ozlabs.ru>
+ <467c5374-34e6-c8d4-26c1-246f5cf31ec6@ozlabs.ru>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c58fe2bd-9fbb-7aea-1ac8-e4f21690493e@redhat.com>
+Date: Thu, 13 Jun 2019 15:59:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190529154654.95870-4-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="QtqnhJuSN7hb5Cqm8jlpcHGHiyPEVrZuf"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 13 Jun 2019 13:52:04 +0000 (UTC)
+In-Reply-To: <467c5374-34e6-c8d4-26c1-246f5cf31ec6@ozlabs.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v8 3/7] block: allow not one child for
- implicit node
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH qemu v2] hmp: Print if memory section is
+ registered with an accelerator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,102 +85,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, stefanha@redhat.com, den@openvz.org,
- jsnow@redhat.com
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---QtqnhJuSN7hb5Cqm8jlpcHGHiyPEVrZuf
-Content-Type: multipart/mixed; boundary="ehVlzWM7BC7ogOPN5zUdn3FqB3qtkspO1";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: fam@euphon.net, stefanha@redhat.com, jsnow@redhat.com, kwolf@redhat.com,
- den@openvz.org, eblake@redhat.com
-Message-ID: <f98f4baf-941c-120c-5bb3-b857c175003e@redhat.com>
-Subject: Re: [PATCH v8 3/7] block: allow not one child for implicit node
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-4-vsementsov@virtuozzo.com>
-In-Reply-To: <20190529154654.95870-4-vsementsov@virtuozzo.com>
+On 13/06/19 07:07, Alexey Kardashevskiy wrote:
+> 
+> 
+> On 21/05/2019 16:37, Alexey Kardashevskiy wrote:
+>> Ping, anyone? I still enjoy seeing "kvm" next to MRs in "info mtree -f"
+>> in my local QEMU :)
+> 
+> 
+> "Still feeling it" :)
+> Ping?
 
---ehVlzWM7BC7ogOPN5zUdn3FqB3qtkspO1
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Queued for persistence. :)
 
-On 29.05.19 17:46, Vladimir Sementsov-Ogievskiy wrote:
-> Upcoming backup-top filter wants to operate like usual implicit filter
-> node with fall-through to backing child. But also needs additional
-> target child, let's support that.
->=20
-> On the other hand, after backup completion (before job dismiss) filter
-> is still attached to job blk, but don't have any children. Support this=
+Paolo
 
-> too.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
->=20
-> diff --git a/block.c b/block.c
-> index 57216f4115..3f4de3ae32 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -6200,9 +6200,20 @@ void bdrv_refresh_filename(BlockDriverState *bs)=
+> 
+>>
+>>
+>> On 24/04/2019 15:32, Alexey Kardashevskiy wrote:
+>>> Paolo, ping?
+>>>
+>>>
+>>> On 19/03/2019 18:05, Alexey Kardashevskiy wrote:
+>>>>
+>>>>
+>>>> On 11/02/2019 15:56, Alexey Kardashevskiy wrote:
+>>>>>
+>>>>>
+>>>>> On 09/02/2019 04:26, Paolo Bonzini wrote:
+>>>>>> On 07/02/19 12:49, Dr. David Alan Gilbert wrote:
+>>>>>>>  //#define DEBUG_UNASSIGNED
+>>>>>>> @@ -2924,6 +2926,8 @@ struct FlatViewInfo {
+>>>>>>>      int counter;
+>>>>>>>      bool dispatch_tree;
+>>>>>>>      bool owner;
+>>>>>>> +    AccelClass *ac;
+>>>>>>> +    const char *ac_name;
+>>>>>>>  };
+>>>>>>>  
+>>>>>>>  static void mtree_print_flatview(gpointer key, gpointer value,
+>>>>>>> @@ -2939,6 +2943,7 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+>>>>>>>      int n = view->nr;
+>>>>>>>      int i;
+>>>>>>>      AddressSpace *as;
+>>>>>>> +    bool system_as = false;
+>>>>>>>  
+>>>>>>>      p(f, "FlatView #%d\n", fvi->counter);
+>>>>>>>      ++fvi->counter;
+>>>>>>> @@ -2950,6 +2955,9 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+>>>>>>>              p(f, ", alias %s", memory_region_name(as->root->alias));
+>>>>>>>          }
+>>>>>>>          p(f, "\n");
+>>>>>>> +        if (as == &address_space_memory) {
+>>>>>>> +            system_as = true;
+>>>>>>> +        }
+>>>>>>>      }
+>>>>>>>  
+>>>>>>>      p(f, " Root memory region: %s\n",
+>>>>>>> @@ -2985,6 +2993,13 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+>>>>>>>          if (fvi->owner) {
+>>>>>>>              mtree_print_mr_owner(p, f, mr);
+>>>>>>>          }
+>>>>>>> +
+>>>>>>> +        if (system_as && fvi->ac &&
+>>>>>>> +            fvi->ac->has_memory(current_machine,
+>>>>>>> +                                int128_get64(range->addr.start),
+>>>>>>> +                                MR_SIZE(range->addr.size) + 1)) {
+>>>>>>> +            p(f, " %s", fvi->ac_name);
+>>>>>>
+>>>>>> I don't understand this.  This doesn't check that the memory range
+>>>>>> actually matches the memory registered with the accelerator, only that
+>>>>>> there is something in that range. 
+>>>>>
+>>>>>
+>>>>> It is checking that a flat range (i.e. what actually works) has a
+>>>>> corresponding KVM slot:
+>>>>> https://git.qemu.org/?p=qemu.git;a=blob;f=accel/kvm/kvm-all.c;h=4e1de942ce554c734ac2673030031c228a752ac9;hb=HEAD#l201
+>>>>>
+>>>>>
+>>>>>> Why isn't it enough to use "info
+>>>>>> mtree" and look at the KVM address space?
+>>>>>
+>>>>>
+>>>>> There is no such thing in my QEMU, did you mean "KVM-SMRAM" (which is
+>>>>> missing on spapr)? I am not sure I understand its purpose for the task -
+>>>>> it prints all same ranges on my x86 laptop, not just ones which we told
+>>>>> KVM about.
+>>>>>
+>>>>> My task is that if let's say "0000:00:1a.0 BAR 0 mmaps[0]" is split into
+>>>>> several sections because MSIX happens to be in a middle of that BAR and
+>>>>> it is not system page size aligned, then it is going to be several
+>>>>> ranges with no clear indication whether or not these were registered as
+>>>>> KVM slots. A memory chunk can be "ram" and not a KVM slot if it is 4K on
+>>>>> PPC with 64K system pages, for example.
+>>>>>
+>>>>>
+>>>>> FlatView #0
+>>>>>  AS "memory", root: system
+>>>>>  AS "cpu-memory-0", root: system
+>>>>>  AS "cpu-memory-1", root: system
+>>>>>  AS "cpu-memory-2", root: system
+>>>>>  AS "cpu-memory-3", root: system
+>>>>>  AS "piix3-ide", root: bus master container
+>>>>>  AS "virtio-net-pci", root: bus master container
+>>>>>  AS "vfio-pci", root: bus master container
+>>>>>  Root memory region: system
+>>>>>   0000000000000000-00000000000bffff (prio 0, ram): pc.ram kvm
+>>>>>   00000000000c0000-00000000000c0fff (prio 0, rom): pc.ram
+>>>>> @00000000000c0000 kvm
+>>>>>   00000000000c1000-00000000000c3fff (prio 0, ram): pc.ram
+>>>>> @00000000000c1000 kvm
+>>>>>   00000000000c4000-00000000000e7fff (prio 0, rom): pc.ram
+>>>>> @00000000000c4000 kvm
+>>>>>   00000000000e8000-00000000000effff (prio 0, ram): pc.ram
+>>>>> @00000000000e8000 kvm
+>>>>>   00000000000f0000-00000000000fffff (prio 0, rom): pc.ram
+>>>>> @00000000000f0000 kvm
+>>>>>   0000000000100000-00000000bfffffff (prio 0, ram): pc.ram
+>>>>> @0000000000100000 kvm
+>>>>>   00000000febc0000-00000000febc0fff (prio 0, ramd): 0000:00:1a.0 BAR 0
+>>>>> mmaps[0] kvm
+>>>>>   00000000febc1000-00000000febc102f (prio 0, i/o): msix-table
+>>>>>   00000000febc1800-00000000febc1807 (prio 0, i/o): msix-pba
+>>>>>   00000000febfc000-00000000febfcfff (prio 0, i/o): virtio-pci-common
+>>>>>   00000000febfd000-00000000febfdfff (prio 0, i/o): virtio-pci-isr
+>>>>>   00000000febfe000-00000000febfefff (prio 0, i/o): virtio-pci-device
+>>>>>   00000000febff000-00000000febfffff (prio 0, i/o): virtio-pci-notify
+>>>>>   00000000fec00000-00000000fec00fff (prio 0, i/o): kvm-ioapic
+>>>>>   00000000fed00000-00000000fed003ff (prio 0, i/o): hpet
+>>>>>   00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
+>>>>>   00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios kvm
+>>>>>   0000000100000000-000000013fffffff (prio 0, ram): pc.ram
+>>>>> @00000000c0000000 kvm
+>>>>>
+>>>>>
+>>>>>
+>>>>> FlatView #3
+>>>>>  AS "KVM-SMRAM", root: mem-container-smram
+>>>>>  Root memory region: mem-container-smram
+>>>>>   0000000000000000-00000000000bffff (prio 0, ram): pc.ram
+>>>>>   00000000000c0000-00000000000c0fff (prio 0, rom): pc.ram @00000000000c0000
+>>>>>   00000000000c1000-00000000000c3fff (prio 0, ram): pc.ram @00000000000c1000
+>>>>>   00000000000c4000-00000000000e7fff (prio 0, rom): pc.ram @00000000000c4000
+>>>>>   00000000000e8000-00000000000effff (prio 0, ram): pc.ram @00000000000e8000
+>>>>>   00000000000f0000-00000000000fffff (prio 0, rom): pc.ram @00000000000f0000
+>>>>>   0000000000100000-00000000bfffffff (prio 0, ram): pc.ram @0000000000100000
+>>>>>   00000000febc0000-00000000febc0fff (prio 0, ramd): 0000:00:1a.0 BAR 0
+>>>>> mmaps[0]
+>>>>>   00000000febc1000-00000000febc102f (prio 0, i/o): msix-table
+>>>>>   00000000febc1800-00000000febc1807 (prio 0, i/o): msix-pba
+>>>>>   00000000febfc000-00000000febfcfff (prio 0, i/o): virtio-pci-common
+>>>>>   00000000febfd000-00000000febfdfff (prio 0, i/o): virtio-pci-isr
+>>>>>   00000000febfe000-00000000febfefff (prio 0, i/o): virtio-pci-device
+>>>>>   00000000febff000-00000000febfffff (prio 0, i/o): virtio-pci-notify
+>>>>>   00000000fec00000-00000000fec00fff (prio 0, i/o): kvm-ioapic
+>>>>>   00000000fed00000-00000000fed003ff (prio 0, i/o): hpet
+>>>>>   00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
+>>>>>   00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios
+>>>>>   0000000100000000-000000013fffffff (prio 0, ram): pc.ram @00000000c0000000
+>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>>> Perhaps you could add instead an argument to "info mtree" that prints
+>>>>>> only the AddressSpace with a given name?
+>>>>>
+>>>>> Nah, this is not what it is about.
+>>>>
+>>>>
+>>>>
+>>>> Still a nack? :)
+>>>
+>>>
+>>>
+>>
+> 
 
->      }
-> =20
->      if (bs->implicit) {
-> -        /* For implicit nodes, just copy everything from the single ch=
-ild */
-> +        /*
-> +         * For implicit nodes, just copy everything from the single ch=
-ild or
-> +         * from backing, if there are several children.
-> +         * If there are no children for some reason (filter is still a=
-ttached
-> +         * to block-job blk, but already removed from backing chain of=
- device)
-> +         * do nothing.
-> +         */
->          child =3D QLIST_FIRST(&bs->children);
-> -        assert(QLIST_NEXT(child, next) =3D=3D NULL);
-> +        if (!child) {
-> +            return;
-> +        } else if (QLIST_NEXT(child, next)) {
-> +            assert(bs->backing);
-> +            child =3D bs->backing;
-> +        }
-> =20
->          pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
->                  child->bs->exact_filename);
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-(To be changed to bdrv_filtered_rw_bs(), of course)
-
-
---ehVlzWM7BC7ogOPN5zUdn3FqB3qtkspO1--
-
---QtqnhJuSN7hb5Cqm8jlpcHGHiyPEVrZuf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CVPoACgkQ9AfbAGHV
-z0C+KQgAhx8URyW+l2AWbk1qaInQw0i7R57ZQlYlZc4RPrnI1a1jCKfAOQDzbiBR
-cel/qaYB+rWjUEjO2kZtjd8j+I9hrNmtMnCkWTMd+E1k1DoyToPDaZhsz6woS4WM
-Mw9uL5T1NHoDBbYE2nI5+Gi6ismA5TqTnganf92DGZsSzGTOCsEUeQ36wPbo3TJa
-wUvGk0VlJyoKiMtWxUm69e77YK0S9yh5gV3L576BAb/8m3BhCUOcrDLwSlmYAwuM
-c5a+ko06NgfU+0A3PoKCogOrEaZMQmhNfpzR929/8VUtpjheigm58fcAf/Mp1Hek
-hB98JltjPU3h3TMmliUoqd2g6zrytw==
-=Z2do
------END PGP SIGNATURE-----
-
---QtqnhJuSN7hb5Cqm8jlpcHGHiyPEVrZuf--
 
