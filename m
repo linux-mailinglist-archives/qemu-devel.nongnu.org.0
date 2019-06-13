@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EB044994
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:23:19 +0200 (CEST)
-Received: from localhost ([::1]:42266 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAFA4499F
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:24:56 +0200 (CEST)
+Received: from localhost ([::1]:42278 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbTRW-0000MM-QO
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35691)
+	id 1hbTT6-0001dw-2Y
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35740)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hbRyN-0002qj-0u
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:49:08 -0400
+ (envelope-from <eblake@redhat.com>) id 1hbRyS-0002uM-EY
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:49:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hbRy9-0006Xn-2o
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:48:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34176)
+ (envelope-from <eblake@redhat.com>) id 1hbRyQ-0006iU-Vf
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:49:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48912)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hbRy5-0006UU-NN; Thu, 13 Jun 2019 11:48:49 -0400
+ id 1hbRy9-0006XN-8C; Thu, 13 Jun 2019 11:48:55 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E1FC830860BD;
- Thu, 13 Jun 2019 15:48:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2567BB2DCE;
+ Thu, 13 Jun 2019 15:48:52 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40AA75C6D6;
- Thu, 13 Jun 2019 15:48:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33F197C581;
+ Thu, 13 Jun 2019 15:48:49 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 10:48:34 -0500
-Message-Id: <20190613154837.21734-7-eblake@redhat.com>
+Date: Thu, 13 Jun 2019 10:48:35 -0500
+Message-Id: <20190613154837.21734-8-eblake@redhat.com>
 In-Reply-To: <20190613154837.21734-1-eblake@redhat.com>
 References: <20190613154837.21734-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 13 Jun 2019 15:48:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Thu, 13 Jun 2019 15:48:52 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 6/9] nbd/server: Nicer spelling of max
- BLOCK_STATUS reply length
+Subject: [Qemu-devel] [PULL 7/9] block/nbd-client: drop stale logout
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,80 +54,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 3d068aff (3.0) introduced NBD_MAX_BITMAP_EXTENTS as a limit on
-how large we would allow a reply to NBD_CMD_BLOCK_STATUS to grow when
-it is visiting a qemu:dirty-bitmap: context.  Later, commit fb7afc79
-(3.1) reused the constant to limit base:allocation context replies,
-although the name is now less appropriate in that situation.
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Rename things, and improve the macro to use units.h for better
-legibility. Then reformat the comment to comply with checkpatch rules
-added in the meantime. No semantic change.
+Drop one on failure path (we have errp) and turn two others into trace
+points.
 
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20190611102720.86114-2-vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20190510151735.29687-1-eblake@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- nbd/server.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ block/nbd-client.h | 9 ---------
+ block/nbd-client.c | 6 +++---
+ block/trace-events | 2 ++
+ 3 files changed, 5 insertions(+), 12 deletions(-)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index aeca3893fe2b..10faedcfc55d 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -21,15 +21,18 @@
- #include "qapi/error.h"
- #include "trace.h"
- #include "nbd-internal.h"
-+#include "qemu/units.h"
+diff --git a/block/nbd-client.h b/block/nbd-client.h
+index 4587053114af..570538f4c884 100644
+--- a/block/nbd-client.h
++++ b/block/nbd-client.h
+@@ -5,15 +5,6 @@
+ #include "block/block_int.h"
+ #include "io/channel-socket.h"
 
- #define NBD_META_ID_BASE_ALLOCATION 0
- #define NBD_META_ID_DIRTY_BITMAP 1
+-/* #define DEBUG_NBD */
+-
+-#if defined(DEBUG_NBD)
+-#define logout(fmt, ...) \
+-    fprintf(stderr, "nbd\t%-24s" fmt, __func__, ##__VA_ARGS__)
+-#else
+-#define logout(fmt, ...) ((void)0)
+-#endif
+-
+ #define MAX_NBD_REQUESTS    16
 
--/* NBD_MAX_BITMAP_EXTENTS: 1 mb of extents data. An empirical
-+/*
-+ * NBD_MAX_BLOCK_STATUS_EXTENTS: 1 MiB of extents data. An empirical
-  * constant. If an increase is needed, note that the NBD protocol
-  * recommends no larger than 32 mb, so that the client won't consider
-- * the reply as a denial of service attack. */
--#define NBD_MAX_BITMAP_EXTENTS (0x100000 / 8)
-+ * the reply as a denial of service attack.
-+ */
-+#define NBD_MAX_BLOCK_STATUS_EXTENTS (1 * MiB / 8)
+ typedef struct {
+diff --git a/block/nbd-client.c b/block/nbd-client.c
+index 790ecc1ee1cb..f89a67c23b64 100644
+--- a/block/nbd-client.c
++++ b/block/nbd-client.c
+@@ -1136,7 +1136,7 @@ static int nbd_client_connect(BlockDriverState *bs,
+     }
 
- static int system_errno_to_nbd_errno(int err)
- {
-@@ -1960,7 +1963,7 @@ static int nbd_co_send_block_status(NBDClient *clie=
-nt, uint64_t handle,
-                                     Error **errp)
- {
-     int ret;
--    unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BITMAP_EXTEN=
-TS;
-+    unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS=
-_EXTENTS;
-     NBDExtent *extents =3D g_new(NBDExtent, nb_extents);
-     uint64_t final_length =3D length;
+     /* NBD handshake */
+-    logout("session init %s\n", export);
++    trace_nbd_client_connect(export);
+     qio_channel_set_blocking(QIO_CHANNEL(sioc), true, NULL);
 
-@@ -2045,7 +2048,7 @@ static int nbd_co_send_bitmap(NBDClient *client, ui=
-nt64_t handle,
-                               uint32_t context_id, Error **errp)
- {
-     int ret;
--    unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BITMAP_EXTEN=
-TS;
-+    unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS=
-_EXTENTS;
-     NBDExtent *extents =3D g_new(NBDExtent, nb_extents);
-     uint64_t final_length =3D length;
+     client->info.request_sizes =3D true;
+@@ -1149,7 +1149,6 @@ static int nbd_client_connect(BlockDriverState *bs,
+     g_free(client->info.x_dirty_bitmap);
+     g_free(client->info.name);
+     if (ret < 0) {
+-        logout("Failed to negotiate with the NBD server\n");
+         object_unref(OBJECT(sioc));
+         return ret;
+     }
+@@ -1187,7 +1186,8 @@ static int nbd_client_connect(BlockDriverState *bs,
+     bdrv_inc_in_flight(bs);
+     nbd_client_attach_aio_context(bs, bdrv_get_aio_context(bs));
 
+-    logout("Established connection with NBD server\n");
++    trace_nbd_client_connect_success(export);
++
+     return 0;
+
+  fail:
+diff --git a/block/trace-events b/block/trace-events
+index eab51497fc0f..01fa5eb081be 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -165,6 +165,8 @@ nbd_parse_blockstatus_compliance(const char *err) "ig=
+noring extra data from non-
+ nbd_structured_read_compliance(const char *type) "server sent non-compli=
+ant unaligned read %s chunk"
+ nbd_read_reply_entry_fail(int ret, const char *err) "ret =3D %d, err: %s=
+"
+ nbd_co_request_fail(uint64_t from, uint32_t len, uint64_t handle, uint16=
+_t flags, uint16_t type, const char *name, int ret, const char *err) "Req=
+uest failed { .from =3D %" PRIu64", .len =3D %" PRIu32 ", .handle =3D %" =
+PRIu64 ", .flags =3D 0x%" PRIx16 ", .type =3D %" PRIu16 " (%s) } ret =3D =
+%d, err: %s"
++nbd_client_connect(const char *export_name) "export '%s'"
++nbd_client_connect_success(const char *export_name) "export '%s'"
+
+ # ssh.c
+ ssh_restart_coroutine(void *co) "co=3D%p"
 --=20
 2.20.1
 
