@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7C644AB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:29:39 +0200 (CEST)
-Received: from localhost ([::1]:43460 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F50449F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:54:32 +0200 (CEST)
+Received: from localhost ([::1]:43024 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbUTi-0001jE-CR
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35747)
+	id 1hbTvj-00020m-L9
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43609)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbTSL-0002Gr-BT
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:24:10 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hbTop-0003om-1b
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:47:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbTKU-0005lU-NS
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:16:03 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55718)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbTKU-0005ik-FV
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:16:02 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a15so11000174wmj.5
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 10:16:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1wwPMaN7qDc/Xn3Ps4ha5ptywxM9Zpl+qUpNjyZcxFw=;
- b=CSv9SgkUd112/KrnQTQ5xTM50chfxbtkfkCFScVFF0UqJOYNGs38Ql/NnvMIl7E2bJ
- JgBXn2tWy2mdIt0+RT6W9jNviSqs+9Lm2wDadRkCO2DvHYRA2rj4ThAFnuc6f4pYSAE2
- M91scZHOB2thosgng8Wf9vsogWvXropYp1pzAXZiOO+h98O8h9275YyaJ9+BzRddLnTq
- QuFUkwtamolqu2fKZ3vKO0S8wPviTNYsy7D2zvUDHXaX8jU3CIfZAi/qjqLdnxue8aU4
- apMDEBMBWO6bzETgBf7HD6H73JqXh/ulS72M0yiKGE7cWWEkxFSFj5PxBiaNOZtQLB/x
- I/+g==
-X-Gm-Message-State: APjAAAXerV/+eiDbEyR52tYE03Fi8FIocZPd4jTKY/xAeCZrbjCX6Qn+
- U+PKJCDU7V0zGJ5yLkuqbbACYQ==
-X-Google-Smtp-Source: APXvYqzaR2m1kDOfEECi6/9t6Ot4jZL9TS9CaYaxg1HcrUn1loO2j0m4QyE1Qhxl9vytLylLg7ow5w==
-X-Received: by 2002:a1c:2e09:: with SMTP id u9mr4630964wmu.137.1560446161047; 
- Thu, 13 Jun 2019 10:16:01 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id x129sm435538wmg.44.2019.06.13.10.16.00
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 10:16:00 -0700 (PDT)
-To: qemu-devel@nongnu.org, ptoscano@redhat.com
-References: <156044303828.5426.699619794825925129@ce79690b2cb9>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <2376306b-9812-f4e2-883c-55bc818c16be@redhat.com>
-Date: Thu, 13 Jun 2019 19:15:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <no-reply@patchew.org>) id 1hbTol-0003ZU-8C
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:47:22 -0400
+Resent-Date: Thu, 13 Jun 2019 13:47:21 -0400
+Resent-Message-Id: <E1hbTol-0003ZU-8C@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21881)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hbToj-0003Sn-BP
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:47:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560447075; cv=none; d=zoho.com; s=zohoarc; 
+ b=l3fFaJVFiEAtZfYrxAT6UjA68gNknD1pVhDdRVL3zBtrlONA7Z53q5ToatDCTwScze+2bUl5nyyfA4ZaIxyRX4csZibIaOGJG0RMnCLggj+pbHmSo3BmcOe9EFZ7MD44cJX1qHDaCo2hjDPuSWWDDFfru+V+UOoPvC2hJNmGyBw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1560447075;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=MnRDVQrlYT800g89jAnsxPPnRdjBYLkyctXMxl2/ndg=; 
+ b=S/m/fW/QoINbb2D3828/jku4AWDjsvRRjTVtYs4Zw30vuuk/4mnfAYEgoka/wVr+Kqt1s6wGfDi2uUtc9s7ygsft13an5r/jYFxPV0mVRw03Airduichi6swfiytn0gfa8cFPX4zmIDV5ffIRRUgYH0Ual/lQyPJvrRPrhtB3TY=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1560447074226208.02823451916083;
+ Thu, 13 Jun 2019 10:31:14 -0700 (PDT)
+In-Reply-To: <20190613153405.24769-1-kwolf@redhat.com>
+Message-ID: <156044707304.5426.14299585465898479758@ce79690b2cb9>
 MIME-Version: 1.0
-In-Reply-To: <156044303828.5426.699619794825925129@ce79690b2cb9>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kwolf@redhat.com
+Date: Thu, 13 Jun 2019 10:31:14 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v9] ssh: switch from libssh2 to libssh
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH v3 00/15] monitor: Split monitor.c in
+ core/HMP/QMP/misc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,48 +62,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, sw@weilnetz.de,
- rjones@redhat.com, mreitz@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- alex.bennee@linaro.org
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ armbru@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxMzE1MzQwNS4yNDc2
+OS0xLWt3b2xmQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNjEzMTUzNDA1LjI0NzY5LTEta3dvbGZAcmVkaGF0
+LmNvbQpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIHYzIDAwLzE1XSBtb25pdG9yOiBTcGxp
+dCBtb25pdG9yLmMgaW4gY29yZS9ITVAvUU1QL21pc2MKVHlwZTogc2VyaWVzCgo9PT0gVEVTVCBT
+Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVs
+bCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxn
+b3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2Uu
+Lgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRk
+MWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjZkNTIy
+ZmIgdmw6IERlcHJlY2F0ZSAtbW9uIHByZXR0eT0uLi4gZm9yIEhNUCBtb25pdG9ycwplMzRhYzU5
+IG1vbml0b3I6IFJlcGxhY2UgbW9uaXRvcl9pbml0KCkgd2l0aCBtb25pdG9yX2luaXRfe2htcCwg
+cW1wfSgpCmU3NWI5NmQgbW9uaXRvcjogU3BsaXQgTW9uaXRvci5mbGFncyBpbnRvIHNlcGFyYXRl
+IGJvb2xzCjI0YTM2ZjkgbW9uaXRvcjogU3BsaXQgb3V0IG1vbml0b3IvbW9uaXRvci5jCjI3YzQx
+MjcgbW9uaXRvcjogU3BsaXQgb3V0IG1vbml0b3IvaG1wLmMKMjZmNzI3YSBtb25pdG9yOiBTcGxp
+dCBvdXQgbW9uaXRvci9xbXAuYwpiMjY4NWFmIG1vbml0b3I6IENyZWF0ZSBtb25pdG9yLWludGVy
+bmFsLmggd2l0aCBjb21tb24gZGVmaW5pdGlvbnMKZTFmNmE2ZSBtb25pdG9yOiBNb3ZlIHtobXAs
+IHFtcH0uYyB0byBtb25pdG9yL3tobXAsIHFtcH0tY21kcy5jCmVhMzc0ZjcgTW92ZSBtb25pdG9y
+LmMgdG8gbW9uaXRvci9taXNjLmMKMjFlMzkwZSBtb25pdG9yOiBSZW5hbWUgSE1QIGNvbW1hbmQg
+dHlwZSBhbmQgdGFibGVzCjMzMzViZmMgbW9uaXRvcjogUmVtb3ZlIE1vbml0b3IuY21kX3RhYmxl
+IGluZGlyZWN0aW9uCmI5MzUyMTQgbW9uaXRvcjogQ3JlYXRlIE1vbml0b3JITVAgd2l0aCByZWFk
+bGluZSBzdGF0ZQowODAwMzgyIG1vbml0b3I6IE1ha2UgTW9uaXRvclFNUCBhIGNoaWxkIGNsYXNz
+IG9mIE1vbml0b3IKN2MzZjRmNyBtb25pdG9yOiBTcGxpdCBtb25pdG9yX2luaXQgaW4gSE1QIGFu
+ZCBRTVAgZnVuY3Rpb24KNmU2ODI1NSBtb25pdG9yOiBSZW1vdmUgdW51c2VkIHBhc3N3b3JkIHBy
+b21wdGluZyBmaWVsZHMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTUgQ2hlY2tpbmcgY29tbWl0
+IDZlNjgyNTVkZjQxZSAobW9uaXRvcjogUmVtb3ZlIHVudXNlZCBwYXNzd29yZCBwcm9tcHRpbmcg
+ZmllbGRzKQoyLzE1IENoZWNraW5nIGNvbW1pdCA3YzNmNGY3OTJjODYgKG1vbml0b3I6IFNwbGl0
+IG1vbml0b3JfaW5pdCBpbiBITVAgYW5kIFFNUCBmdW5jdGlvbikKMy8xNSBDaGVja2luZyBjb21t
+aXQgMDgwMDM4MjMyZGM4IChtb25pdG9yOiBNYWtlIE1vbml0b3JRTVAgYSBjaGlsZCBjbGFzcyBv
+ZiBNb25pdG9yKQo0LzE1IENoZWNraW5nIGNvbW1pdCBiOTM1MjE0YjJjMmMgKG1vbml0b3I6IENy
+ZWF0ZSBNb25pdG9ySE1QIHdpdGggcmVhZGxpbmUgc3RhdGUpCjUvMTUgQ2hlY2tpbmcgY29tbWl0
+IDMzMzViZmM0MDA2MCAobW9uaXRvcjogUmVtb3ZlIE1vbml0b3IuY21kX3RhYmxlIGluZGlyZWN0
+aW9uKQo2LzE1IENoZWNraW5nIGNvbW1pdCAyMWUzOTBlMDEyNjYgKG1vbml0b3I6IFJlbmFtZSBI
+TVAgY29tbWFuZCB0eXBlIGFuZCB0YWJsZXMpCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5k
+IHRoYXQgJy8nIChjdHg6VnhWKQojMjI2OiBGSUxFOiBtb25pdG9yLmM6NDU0MzoKKyAgICBhcnJh
+eV9udW0gPSBzaXplb2YoaG1wX2NtZHMpL2VsZW1fc2l6ZS0xOwogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAo
+Y3R4OlZ4VikKIzIyNjogRklMRTogbW9uaXRvci5jOjQ1NDM6CisgICAgYXJyYXlfbnVtID0gc2l6
+ZW9mKGhtcF9jbWRzKS9lbGVtX3NpemUtMTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIF4KCkVSUk9SOiBzcGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJy8nIChj
+dHg6VnhWKQojMjMxOiBGSUxFOiBtb25pdG9yLmM6NDU0NjoKKyAgICBhcnJheV9udW0gPSBzaXpl
+b2YoaG1wX2luZm9fY21kcykvZWxlbV9zaXplLTE7CiAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnLScgKGN0
+eDpWeFYpCiMyMzE6IEZJTEU6IG1vbml0b3IuYzo0NTQ2OgorICAgIGFycmF5X251bSA9IHNpemVv
+ZihobXBfaW5mb19jbWRzKS9lbGVtX3NpemUtMTsKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDQgZXJyb3JzLCAwIHdhcm5pbmdzLCAxOTQg
+bGluZXMgY2hlY2tlZAoKUGF0Y2ggNi8xNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
+ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
+ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNy8x
+NSBDaGVja2luZyBjb21taXQgZWEzNzRmN2IyYWFkIChNb3ZlIG1vbml0b3IuYyB0byBtb25pdG9y
+L21pc2MuYykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
+QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojODA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90
+YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA3OCBsaW5lcyBjaGVja2VkCgpQYXRjaCA3LzE1IGhh
+cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
+YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
+RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjgvMTUgQ2hlY2tpbmcgY29tbWl0IGUxZjZhNmVmMWMw
+NiAobW9uaXRvcjogTW92ZSB7aG1wLCBxbXB9LmMgdG8gbW9uaXRvci97aG1wLCBxbXB9LWNtZHMu
+YykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
+TkVSUyBuZWVkIHVwZGF0aW5nPwojMTA0OiAKcmVuYW1lIGZyb20gaG1wLmMKCnRvdGFsOiAwIGVy
+cm9ycywgMSB3YXJuaW5ncywgNzMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggOC8xNSBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgo5LzE1IENoZWNraW5nIGNvbW1pdCBiMjY4NWFmM2E0MzcgKG1vbml0
+b3I6IENyZWF0ZSBtb25pdG9yLWludGVybmFsLmggd2l0aCBjb21tb24gZGVmaW5pdGlvbnMpCldB
+Uk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMg
+bmVlZCB1cGRhdGluZz8KIzE3NTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJv
+cnMsIDEgd2FybmluZ3MsIDI5MCBsaW5lcyBjaGVja2VkCgpQYXRjaCA5LzE1IGhhcyBzdHlsZSBw
+cm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNl
+IHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0gg
+aW4gTUFJTlRBSU5FUlMuCjEwLzE1IENoZWNraW5nIGNvbW1pdCAyNmY3MjdhMzgwOTQgKG1vbml0
+b3I6IFNwbGl0IG91dCBtb25pdG9yL3FtcC5jKQpFUlJPUjogcmV0dXJuIGlzIG5vdCBhIGZ1bmN0
+aW9uLCBwYXJlbnRoZXNlcyBhcmUgbm90IHJlcXVpcmVkCiM1NjQ6IEZJTEU6IG1vbml0b3IvbW9u
+aXRvci1pbnRlcm5hbC5oOjE1MzoKKyAgICByZXR1cm4gKG1vbi0+ZmxhZ3MgJiBNT05JVE9SX1VT
+RV9DT05UUk9MKTsKCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
+ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzU5MDogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
+Cgp0b3RhbDogMSBlcnJvcnMsIDEgd2FybmluZ3MsIDk1NCBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
+MC8xNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
+ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
+IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMTEvMTUgQ2hlY2tpbmcgY29tbWl0IDI3
+YzQxMjc0OWZlYyAobW9uaXRvcjogU3BsaXQgb3V0IG1vbml0b3IvaG1wLmMpCldBUk5JTkc6IGFk
+ZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRh
+dGluZz8KIzI4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiBjb25zaWRlciB1c2luZyBx
+ZW11X3N0cnRvdWxsIGluIHByZWZlcmVuY2UgdG8gc3RydG91bGwKIzQzMjogRklMRTogbW9uaXRv
+ci9obXAuYzo0MDA6CisgICAgICAgIG4gPSBzdHJ0b3VsbChwY2gsICZwLCAwKTsKCldBUk5JTkc6
+IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxMzE0
+OiBGSUxFOiBtb25pdG9yL2htcC5jOjEyODI6CisgICAgLyogaWYgdGhlIGxpbmUgZW5kcyB3aXRo
+IGEgc3BhY2UsIGl0IG1lYW5zIHdlIHdhbnQgdG8gY29tcGxldGUgdGhlCgpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgYSB0cmFpbGluZyAqLyBvbiBhIHNlcGFyYXRlIGxpbmUKIzEzMTU6IEZJ
+TEU6IG1vbml0b3IvaG1wLmM6MTI4MzoKKyAgICAgKiBuZXh0IGFyZyAqLwoKdG90YWw6IDEgZXJy
+b3JzLCAzIHdhcm5pbmdzLCAyOTE5IGxpbmVzIGNoZWNrZWQKClBhdGNoIDExLzE1IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCgoxMi8xNSBDaGVja2luZyBjb21taXQgMjRhMzZmOTQ3YmNiICht
+b25pdG9yOiBTcGxpdCBvdXQgbW9uaXRvci9tb25pdG9yLmMpCldBUk5JTkc6IGFkZGVkLCBtb3Zl
+ZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzcy
+NTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBs
+ZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMTM2NDogRklMRTogbW9uaXRvci9tb25pdG9y
+LmM6NjM1OgorICAgICAgICB7IC8qIGVuZCBvZiBsaXN0ICovIH0KCnRvdGFsOiAwIGVycm9ycywg
+MiB3YXJuaW5ncywgMTMxNiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxMi8xNSBoYXMgc3R5bGUgcHJv
+YmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBw
+b3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGlu
+IE1BSU5UQUlORVJTLgoxMy8xNSBDaGVja2luZyBjb21taXQgZTc1Yjk2ZGViMzIwIChtb25pdG9y
+OiBTcGxpdCBNb25pdG9yLmZsYWdzIGludG8gc2VwYXJhdGUgYm9vbHMpCjE0LzE1IENoZWNraW5n
+IGNvbW1pdCBlMzRhYzU5NjNhNTAgKG1vbml0b3I6IFJlcGxhY2UgbW9uaXRvcl9pbml0KCkgd2l0
+aCBtb25pdG9yX2luaXRfe2htcCwgcW1wfSgpKQoxNS8xNSBDaGVja2luZyBjb21taXQgNmQ1MjJm
+YjIzMTYzICh2bDogRGVwcmVjYXRlIC1tb24gcHJldHR5PS4uLiBmb3IgSE1QIG1vbml0b3JzKQo9
+PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhl
+IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDYx
+MzE1MzQwNS4yNDc2OS0xLWt3b2xmQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBl
+PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
+dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
+dy1kZXZlbEByZWRoYXQuY29t
 
-On 6/13/19 6:24 PM, no-reply@patchew.org wrote:
-> === TEST SCRIPT BEGIN ===
-> #!/bin/bash
-> time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
-> === TEST SCRIPT END ===
-
-> The full log is available at
-> http://patchew.org/logs/20190613132000.2146-1-ptoscano@redhat.com/testing.asan/?type=message.
-
-
-=== OUTPUT BEGIN ===
-  BUILD   fedora
-The command '/bin/sh -c dnf install -y $PACKAGES' returned a non-zero
-code: 1
-Traceback (most recent call last):
-  File "./tests/docker/docker.py", line 615, in <module>
-    sys.exit(main())
-  File "./tests/docker/docker.py", line 611, in main
-    return args.cmdobj.run(args, argv)
-  File "./tests/docker/docker.py", line 413, in run
-    extra_files_cksum=cksum)
-  File "./tests/docker/docker.py", line 280, in build_image
-    quiet=quiet)
-  File "./tests/docker/docker.py", line 207, in _do_check
-    return subprocess.check_call(self._command + cmd, **kwargs)
-  File "/usr/lib64/python2.7/subprocess.py", line 542, in check_call
-    raise CalledProcessError(retcode, cmd)
-subprocess.CalledProcessError: Command '['sudo', '-n', 'docker',
-'build', '-t', 'qemu:fedora', '-f',
-'/tmp/docker_buildN2FMKc/tmpz_9Up_.docker', '/tmp/docker_buildN2FMKc']'
-returned non-zero exit status 1
-make: *** [docker-image-fedora] Error 1
-
-real	3m54.376s
-
-Not sure this is a network issue or something else, should we rebuild
-docker images with V=1 on patchew?
 
