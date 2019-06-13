@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BEB4373D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:31:58 +0200 (CEST)
-Received: from localhost ([::1]:40406 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3D743736
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:28:33 +0200 (CEST)
+Received: from localhost ([::1]:40374 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbQlh-0005yb-0y
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:31:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46228)
+	id 1hbQiO-0002Ai-V4
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46190)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hbPSD-0003RK-B5
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:46 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hbPSB-0006CW-5c
+ (envelope-from <crosa@redhat.com>) id 1hbPSA-0003QQ-UZ
  for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41768)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <crosa@redhat.com>) id 1hbPS8-0006AD-N1
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:14285)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hbPSA-0006BH-Rs
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:43 -0400
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hbPS8-00066z-GQ
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:40 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B054B7E42A;
- Thu, 13 Jun 2019 13:07:35 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A19B97EAB0;
+ Thu, 13 Jun 2019 13:07:36 +0000 (UTC)
 Received: from dhcp-17-47.bos.redhat.com (dhcp-17-47.bos.redhat.com
  [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E045F2B442;
- Thu, 13 Jun 2019 13:07:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D2D5145A3;
+ Thu, 13 Jun 2019 13:07:35 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 09:07:17 -0400
-Message-Id: <20190613130718.3763-4-crosa@redhat.com>
+Date: Thu, 13 Jun 2019 09:07:18 -0400
+Message-Id: <20190613130718.3763-5-crosa@redhat.com>
 In-Reply-To: <20190613130718.3763-1-crosa@redhat.com>
 References: <20190613130718.3763-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 13 Jun 2019 13:07:36 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Thu, 13 Jun 2019 13:07:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/4] tests/vm: pin ubuntu.i386 image
+Subject: [Qemu-devel] [PATCH 4/4] tests/vm: add source repos on ubuntu.i386
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,38 +63,33 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's a good practice to always have the same components used in tests.
-According to:
+Possibly because of different behavior on the newly update
+cloud-image, trying to run 'apt-get build-dep' results in:
 
-   https://cloud-images.ubuntu.com/releases/16.04/
+   E: You must put some 'source' URIs in your sources.list
 
-New images are released from time to time, and the "release/"
-directory points to the latest release.  Let's pin to the latest
-available version, and while at it, set a hash for verification.
+This enables all source repos (even though some are not
+needed) for simplicity sake.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/vm/ubuntu.i386 | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/vm/ubuntu.i386 | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 12867b193f..7017e6d388 100755
+index 7017e6d388..3ea459ee20 100755
 --- a/tests/vm/ubuntu.i386
 +++ b/tests/vm/ubuntu.i386
-@@ -61,7 +61,9 @@ class UbuntuX86VM(basevm.BaseVM):
-         return os.path.join(cidir, "cloud-init.iso")
-=20
-     def build_image(self, img):
--        cimg =3D self._download_with_cache("https://cloud-images.ubuntu.=
-com/releases/16.04/release/ubuntu-16.04-server-cloudimg-i386-disk1.img")
-+        cimg =3D self._download_with_cache(
-+            "https://cloud-images.ubuntu.com/releases/16.04/release-2019=
-0605/ubuntu-16.04-server-cloudimg-i386-disk1.img",
-+            sha256sum=3D"e30091144c73483822b7c27193e9d47346dd1064229da57=
-7c3fedcf943f7cfcc")
-         img_tmp =3D img + ".tmp"
-         subprocess.check_call(["cp", "-f", cimg, img_tmp])
-         subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
+@@ -77,6 +77,7 @@ class UbuntuX86VM(basevm.BaseVM):
+         time.sleep(5)
+         self.wait_ssh()
+         # The previous update sometimes doesn't survive a reboot, so do =
+it again
++        self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/so=
+urces.list")
+         self.ssh_root_check("apt-get update")
+         self.ssh_root_check("apt-get build-dep -y qemu")
+         self.ssh_root_check("apt-get install -y libfdt-dev flex bison")
 --=20
 2.21.0
 
