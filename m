@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88F4436CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 15:41:51 +0200 (CEST)
-Received: from localhost ([::1]:39776 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F3A436D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 15:49:18 +0200 (CEST)
+Received: from localhost ([::1]:39824 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbPzC-0002qb-3I
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 09:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37060)
+	id 1hbQ6P-00084h-IK
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 09:49:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37141)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbOve-0002IC-I8
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:34:08 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbOvx-0002Sd-75
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:34:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbOvd-0003SF-0Q
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:34:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39018)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbOvZ-0003NY-L5; Thu, 13 Jun 2019 08:34:01 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8A12B8008C;
- Thu, 13 Jun 2019 12:33:56 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5A27B7AB48;
- Thu, 13 Jun 2019 12:33:55 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbOvw-0003fl-5t
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:34:25 -0400
+Received: from mail-eopbgr130110.outbound.protection.outlook.com
+ ([40.107.13.110]:50759 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbOvt-0003d7-VS; Thu, 13 Jun 2019 08:34:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qFhksAP42AOOMzLyhqQlsvV/zgLRPE9HxD8c4XOvxYc=;
+ b=gY1HiFnoFkWUU8IA3ynPQIjq0QkzcttkVNJzrAGa5wlgWQqD34oNn4W8LV1cVI9eBO83fL01XC55zt0at1sfFteX87pkSSYWfNqrBdSzKjGwFilzickgohR3+cvOse+onLgprvtSgF31S3/slZmFdR+vg4RHRqJJjx/bVCiPxIg=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0PR08MB2993.eurprd08.prod.outlook.com (52.134.93.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.14; Thu, 13 Jun 2019 12:34:18 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Thu, 13 Jun 2019
+ 12:34:18 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v5 07/42] block: *filtered_cow_child() for
+ *has_zero_init()
+Thread-Index: AQHVIWukwmJujP4kzkuWB6iZnHixvKaZhckA
+Date: Thu, 13 Jun 2019 12:34:18 +0000
+Message-ID: <e8485e27-3dfd-7275-11a9-b356b9ca2219@virtuozzo.com>
 References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-6-mreitz@redhat.com>
- <6ef1a5a1-756a-7a48-f386-517c6f46e69b@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <2d0d8641-e404-3f0c-893e-88ac8f59f8ed@redhat.com>
-Date: Thu, 13 Jun 2019 14:33:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ <20190612221004.2317-8-mreitz@redhat.com>
+In-Reply-To: <20190612221004.2317-8-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0402CA0029.eurprd04.prod.outlook.com
+ (2603:10a6:7:7c::18) To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190613153415949
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 74b9bbb0-c01c-4cd6-232c-08d6effb73ea
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0PR08MB2993; 
+x-ms-traffictypediagnostic: AM0PR08MB2993:
+x-microsoft-antispam-prvs: <AM0PR08MB29930AFDEAE97B53759CFEDCC1EF0@AM0PR08MB2993.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1013;
+x-forefront-prvs: 0067A8BA2A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(136003)(376002)(346002)(39850400004)(366004)(189003)(199004)(486006)(6506007)(2501003)(386003)(99286004)(8936002)(31686004)(71200400001)(64756008)(11346002)(478600001)(66946007)(66476007)(76176011)(305945005)(7736002)(68736007)(52116002)(2616005)(229853002)(6246003)(73956011)(66446008)(66556008)(446003)(476003)(31696002)(4326008)(6512007)(36756003)(256004)(3846002)(54906003)(5660300002)(71190400001)(66066001)(86362001)(6486002)(53936002)(6436002)(81156014)(26005)(110136005)(25786009)(6116002)(102836004)(14454004)(316002)(2906002)(8676002)(186003)(81166006);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB2993;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 6pNSURZdzyrezhtntFF2h7Ns0Idy4gUL0AGGJdS+8xxBzLB9+qF4C0mYKfkJcjkHaIHwdu+pAG2+Wx9obZFcbkz6D1X0Yc3mAGGgUbDCNPZi6pXMxCnQVRN4Sj+C0lgk4V3nITsxmql3I2mwG661KKMZNniFBcqmnHCKg+Z4zW2yyueAwiTSyp5TySjQ3MdAAXYsbIrif8lUBUc/xVHn3YEByH/8QhgGZYQoztTWmMxy0tOSBgX7Sw0/BhSHuwq8lgpP2JFOEfFT2L5Uu7I4bETOp9fbtGu5RwyJGzXC6XaMY44tVUdUrSWdm5vCX4mkyhAU27bqVX47Z2+teybZTephYbhLOra6/iMq5XknGdijvyoMgrggC6xqlmaNSR+3+AfPxsmSWJu/4L2tcKRKHVL7Ce7VxUdrQf/aeN7rAUk=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <90CC682A4D7D8C4FB3B6678A6231D692@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <6ef1a5a1-756a-7a48-f386-517c6f46e69b@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="xuCBaZBus1J6ee2QSZCWuDKQy1NMYSft7"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 13 Jun 2019 12:33:56 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 05/42] block: Add chain helper functions
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 74b9bbb0-c01c-4cd6-232c-08d6effb73ea
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 12:34:18.2446 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB2993
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.110
+Subject: Re: [Qemu-devel] [PATCH v5 07/42] block: *filtered_cow_child() for
+ *has_zero_init()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,162 +107,30 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---xuCBaZBus1J6ee2QSZCWuDKQy1NMYSft7
-Content-Type: multipart/mixed; boundary="CU16mCgKjDDQoFtk8WuIkR5p1SZXMa5OG";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <2d0d8641-e404-3f0c-893e-88ac8f59f8ed@redhat.com>
-Subject: Re: [PATCH v5 05/42] block: Add chain helper functions
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-6-mreitz@redhat.com>
- <6ef1a5a1-756a-7a48-f386-517c6f46e69b@virtuozzo.com>
-In-Reply-To: <6ef1a5a1-756a-7a48-f386-517c6f46e69b@virtuozzo.com>
-
---CU16mCgKjDDQoFtk8WuIkR5p1SZXMa5OG
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 13.06.19 14:26, Vladimir Sementsov-Ogievskiy wrote:
-> 13.06.2019 1:09, Max Reitz wrote:
->> Add some helper functions for skipping filters in a chain of block
->> nodes.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   include/block/block_int.h |  3 +++
->>   block.c                   | 55 +++++++++++++++++++++++++++++++++++++=
-++
->>   2 files changed, 58 insertions(+)
->>
->> diff --git a/include/block/block_int.h b/include/block/block_int.h
->> index 7ce71623f8..875a33f255 100644
->> --- a/include/block/block_int.h
->> +++ b/include/block/block_int.h
->> @@ -1264,6 +1264,9 @@ BdrvChild *bdrv_filtered_child(BlockDriverState =
-*bs);
->>   BdrvChild *bdrv_metadata_child(BlockDriverState *bs);
->>   BdrvChild *bdrv_storage_child(BlockDriverState *bs);
->>   BdrvChild *bdrv_primary_child(BlockDriverState *bs);
->> +BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs);
->> +BlockDriverState *bdrv_skip_rw_filters(BlockDriverState *bs);
->> +BlockDriverState *bdrv_backing_chain_next(BlockDriverState *bs);
->>  =20
->>   static inline BlockDriverState *child_bs(BdrvChild *child)
->>   {
->> diff --git a/block.c b/block.c
->> index 724d8889a6..be18130944 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -6494,3 +6494,58 @@ BdrvChild *bdrv_primary_child(BlockDriverState =
-*bs)
->>   {
->>       return bdrv_filtered_rw_child(bs) ?: bs->file;
->>   }
->> +
->> +static BlockDriverState *bdrv_skip_filters(BlockDriverState *bs,
->> +                                           bool stop_on_explicit_filt=
-er)
->> +{
->> +    BdrvChild *filtered;
->> +
->> +    if (!bs) {
->> +        return NULL;
->> +    }
->> +
->> +    while (!(stop_on_explicit_filter && !bs->implicit)) {
->> +        filtered =3D bdrv_filtered_rw_child(bs);
->> +        if (!filtered) {
->> +            break;
->> +        }
->> +        bs =3D filtered->bs;
->> +    }
->> +    /*
->> +     * Note that this treats nodes with bs->drv =3D=3D NULL
->=20
-> as well as filters without filtered_rw child
-
-A filter always must have a filtered_rw child, though.  So I don=E2=80=99=
-t quite
-understand what you mean here...
-
-Max
-
->   as not being
->> +     * R/W filters (bs->drv =3D=3D NULL should be replaced by somethi=
-ng
->> +     * else anyway).
->> +     * The advantage of this behavior is that this function will thus=
-
->> +     * always return a non-NULL value (given a non-NULL @bs).
->=20
-> and this is the advantage of what I've written, not about bs->drv.
->=20
->> +     */
->> +
->> +    return bs;
->> +}
->> +
->> +/*
->> + * Return the first BDS that has not been added implicitly or that
->> + * does not have an RW-filtered child down the chain starting from @b=
-s
->> + * (including @bs itself).
->> + */
->> +BlockDriverState *bdrv_skip_implicit_filters(BlockDriverState *bs)
->> +{
->> +    return bdrv_skip_filters(bs, true);
->> +}
->> +
->> +/*
->> + * Return the first BDS that does not have an RW-filtered child down
->> + * the chain starting from @bs (including @bs itself).
->> + */
->> +BlockDriverState *bdrv_skip_rw_filters(BlockDriverState *bs)
->> +{
->> +    return bdrv_skip_filters(bs, false);
->> +}
->> +
->> +/*
->> + * For a backing chain, return the first non-filter backing image of
->> + * the first non-filter image.
->> + */
->> +BlockDriverState *bdrv_backing_chain_next(BlockDriverState *bs)
->> +{
->> +    return bdrv_skip_rw_filters(bdrv_filtered_cow_bs(bdrv_skip_rw_fil=
-ters(bs)));
->> +}
->>
->=20
->=20
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->=20
-
-
-
---CU16mCgKjDDQoFtk8WuIkR5p1SZXMa5OG--
-
---xuCBaZBus1J6ee2QSZCWuDKQy1NMYSft7
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CQrEACgkQ9AfbAGHV
-z0DeDwgAu4VK62oWO02Bk49ZtMw3+si22I/D5f/ILoROAPGBI4txCdGtiS2Zw5gL
-XL1QzVqIgFR4YpfUrOCeDi5hSGBMxW5+zKxcUhjV5jhJEwJs50Kq+n0nr+Izo/5T
-g7fXW6sMC43iDMnpaYJBUwteqp9h46IDd3sAWsxpqdgSG7ons4Kv35/WsB76WVde
-xBsYq2D0uCZZHk0tztloqnaUJIPEVvmd/Yv9H3EvnPJ2LCFnPCMOA5JJ6vF0acfH
-WnuAWI66qpPZYPWM6oImQ31Jt+TPPEFeOCAc5jyaJ0fbArUKm81Y99fk+iFwBqzn
-2SBBKlUJmP6xOhqmxMrqc4Vk71ZKhQ==
-=cdA7
------END PGP SIGNATURE-----
-
---xuCBaZBus1J6ee2QSZCWuDKQy1NMYSft7--
+MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IGJkcnZfaGFzX3plcm9faW5pdCgp
+IGFuZCB0aGUgcmVsYXRlZCBiZHJ2X3VuYWxsb2NhdGVkX2Jsb2Nrc19hcmVfemVybygpDQo+IHNo
+b3VsZCB1c2UgYmRydl9maWx0ZXJlZF9jb3dfY2hpbGQoKSBpZiB0aGV5IHdhbnQgdG8gY2hlY2sg
+d2hldGhlciB0aGUNCj4gZ2l2ZW4gQkRTIGhhcyBhIENPVyBiYWNraW5nIGZpbGUuDQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBNYXggUmVpdHogPG1yZWl0ekByZWRoYXQuY29tPg0KPiAtLS0NCj4gICBi
+bG9jay5jIHwgNCArKy0tDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBk
+ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9ibG9jay5jIGIvYmxvY2suYw0KPiBpbmRl
+eCBiZTE4MTMwOTQ0Li42NGQ2MTkwOTg0IDEwMDY0NA0KPiAtLS0gYS9ibG9jay5jDQo+ICsrKyBi
+L2Jsb2NrLmMNCj4gQEAgLTQ5MzMsNyArNDkzMyw3IEBAIGludCBiZHJ2X2hhc196ZXJvX2luaXQo
+QmxvY2tEcml2ZXJTdGF0ZSAqYnMpDQo+ICAgDQo+ICAgICAgIC8qIElmIEJTIGlzIGEgY29weSBv
+biB3cml0ZSBpbWFnZSwgaXQgaXMgaW5pdGlhbGl6ZWQgdG8NCj4gICAgICAgICAgdGhlIGNvbnRl
+bnRzIG9mIHRoZSBiYXNlIGltYWdlLCB3aGljaCBtYXkgbm90IGJlIHplcm9lcy4gICovDQo+IC0g
+ICAgaWYgKGJzLT5iYWNraW5nKSB7DQo+ICsgICAgaWYgKGJkcnZfZmlsdGVyZWRfY293X2NoaWxk
+KGJzKSkgew0KPiAgICAgICAgICAgcmV0dXJuIDA7DQo+ICAgICAgIH0NCg0KSG1tLCBpZiB5b3Ug
+YXJlIGZpeGluZyBiZHJ2X2hhc196ZXJvX2luaXQgYXJvdW5kIGZpbHRlcnMsIEknZCBwcmVmZXJl
+IHRvIGZpeCB0aGUgd2hvbGUNCmZ1bmN0aW9uLCBjb252ZXJ0aW5nIHRoZSBmb2xsb3dpbmcgaGVy
+ZSB0b286DQogICAgIGlmIChicy0+ZmlsZSAmJiBicy0+ZHJ2LT5pc19maWx0ZXIpIHsNCiAgICAg
+ICAgIHJldHVybiBiZHJ2X2hhc196ZXJvX2luaXQoYnMtPmZpbGUtPmJzKTsNCiAgICAgfQ0KDQoN
+CkJ1dCBpdCdzIG5vdCBhIHJlYWwgcHJvYmxlbToNCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNl
+bWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KPiAgICAgICBp
+ZiAoYnMtPmRydi0+YmRydl9oYXNfemVyb19pbml0KSB7DQo+IEBAIC00OTUxLDcgKzQ5NTEsNyBA
+QCBib29sIGJkcnZfdW5hbGxvY2F0ZWRfYmxvY2tzX2FyZV96ZXJvKEJsb2NrRHJpdmVyU3RhdGUg
+KmJzKQ0KPiAgIHsNCj4gICAgICAgQmxvY2tEcml2ZXJJbmZvIGJkaTsNCj4gICANCj4gLSAgICBp
+ZiAoYnMtPmJhY2tpbmcpIHsNCj4gKyAgICBpZiAoYmRydl9maWx0ZXJlZF9jb3dfY2hpbGQoYnMp
+KSB7DQo+ICAgICAgICAgICByZXR1cm4gZmFsc2U7DQo+ICAgICAgIH0NCj4gICANCj4gDQoNCg0K
+LS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
