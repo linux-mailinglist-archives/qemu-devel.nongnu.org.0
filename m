@@ -2,50 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EBC4331B
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 09:11:46 +0200 (CEST)
-Received: from localhost ([::1]:37360 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F343433CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 09:40:41 +0200 (CEST)
+Received: from localhost ([::1]:37482 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbJth-0004tk-Fd
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 03:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45481)
+	id 1hbKLe-0005R1-0M
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 03:40:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52841)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hbJqD-0003rw-6I
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 03:08:10 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hbKJm-00044B-VZ
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 03:38:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hbJqC-0001Tn-3H
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 03:08:09 -0400
-Received: from 15.mo6.mail-out.ovh.net ([188.165.39.161]:58133)
+ (envelope-from <kraxel@redhat.com>) id 1hbKJl-00064U-TH
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 03:38:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:12828)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hbJqA-0001EW-MZ
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 03:08:07 -0400
-Received: from player738.ha.ovh.net (unknown [10.109.160.93])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 14C021D0DC7
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 09:07:44 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player738.ha.ovh.net (Postfix) with ESMTPSA id 41E936E632A8;
- Thu, 13 Jun 2019 07:07:39 +0000 (UTC)
-Date: Thu, 13 Jun 2019 09:07:38 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <20190613090738.116b7e1b@bahia.lan>
-In-Reply-To: <20190612235627.GE26378@umbus.fritz.box>
-References: <20190612230202.878-1-philmd@redhat.com>
- <20190612235627.GE26378@umbus.fritz.box>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/6CHsLwRdDyyj3agTjLyET31"; protocol="application/pgp-signature"
-X-Ovh-Tracer-Id: 17744182535315888614
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudehkedgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hbKJl-00063r-N2
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 03:38:41 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 409392F8BC0;
+ Thu, 13 Jun 2019 07:38:40 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-33.ams2.redhat.com
+ [10.36.116.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82C077943D;
+ Thu, 13 Jun 2019 07:38:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 44F4211AB8; Thu, 13 Jun 2019 09:38:34 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 13 Jun 2019 09:38:32 +0200
+Message-Id: <20190613073834.22001-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Thu, 13 Jun 2019 07:38:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 188.165.39.161
-Subject: Re: [Qemu-devel] [Qemu-ppc] [RFC PATCH] spapr_pci: Fix Null pointer
- dereferences in spapr_dt_pci_bus()
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/2] Vga 20190613 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,92 +53,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/6CHsLwRdDyyj3agTjLyET31
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit a050901d4b40092dc356b59912c6df39e389c7b9:
 
-On Thu, 13 Jun 2019 09:56:27 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+  Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190612' into staging (2019-06-12 14:43:47 +0100)
 
-> On Thu, Jun 13, 2019 at 01:02:02AM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > Commit 14e714900f6 refactored the call to spapr_dt_drc(),
-> > but used an incorrect object owner as argument.
-> >=20
-> > This fixes:
-> >=20
-> >   /hw/ppc/spapr_pci.c: 1367 in spapr_dt_pci_bus() =20
-> >   >>>     CID 1401933:  Null pointer dereferences  (FORWARD_NULL)
-> >   >>>     Dereferencing null pointer "bus". =20
-> >   1367         ret =3D spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev=
-),
-> >   1368                            SPAPR_DR_CONNECTOR_TYPE_PCI);
-> >=20
-> > Fixes: 14e714900f6
-> > Reported-by: Coverity (CID 1401933)
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> =20
->=20
-> Nack.  The bus bridge is the correct owner in most cases here.  It
-> *used* to be that all the PCI DRCs were owned by the PHB, but that's
-> intentionally not the case with the changes to allow hotplug under P2P
-> bridges.
->=20
-> AFAICT, the bus parameter does have to be non-NULL from both callers,
-> so I think the correct fix is to remove the test on if (bus) earlier
-> in the function.
->=20
+are available in the Git repository at:
 
-... and maybe make this obvious with an assert(bus) ?
+  git://git.kraxel.org/qemu tags/vga-20190613-pull-request
 
-> > ---
-> >  hw/ppc/spapr_pci.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> > index 957ae88bbd..e0cd3f11f1 100644
-> > --- a/hw/ppc/spapr_pci.c
-> > +++ b/hw/ppc/spapr_pci.c
-> > @@ -1364,8 +1364,7 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, =
-PCIBus *bus,
-> >          }
-> >      }
-> > =20
-> > -    ret =3D spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev),
-> > -                       SPAPR_DR_CONNECTOR_TYPE_PCI);
-> > +    ret =3D spapr_dt_drc(fdt, offset, OBJECT(sphb), SPAPR_DR_CONNECTOR=
-_TYPE_PCI);
-> >      if (ret) {
-> >          return ret;
-> >      } =20
->=20
+for you to fetch changes up to 0a71966253c8b07586ebd6bee094a818e1e163b8:
 
+  edid: flip the default to enabled (2019-06-13 09:34:50 +0200)
 
---Sig_/6CHsLwRdDyyj3agTjLyET31
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+----------------------------------------------------------------
+edid: add xmax + ymax properties, enable by default.
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl0B9joACgkQcdTV5YIv
-c9YBng/9EFPd45eFimA4SsSWJxxFCGo2abBXIM0vGdXReF5icyMQ+KXD2xkmSpvY
-0Bh2HNFFsvgXAS8aPqiUW0lEWx273ycy5wMPN3o8NLjltB8qsGoOchL9gCli1jiO
-7jr8D8fyTIsAaSAF2irzbgJwblcVmFGMJtLrA6oWcrGzUL0v+Itnp/bx4fzB93dp
-4PtMcD3iL0F7gHIi/73YQR4QrkWWwpBEOOwOlbL8KK2y/JpNDPbJ08LNCCz8fZr4
-qNookEYxIjatKPK/gp1BzEkQrHIt5BURG0ElaKktbxhAh5aYnvJQh9pUQ44uENav
-gXHCyxy2UDXcVheD6F9N1/pCU3jxrNVYh1UNzDfa7ao1fnHrfs/VGdWE5tyzYCqX
-yiUCabML+O59bNGT1cSAxXNncmIkdZMqmlFTJPHt57+vknV7Pn6P0eUNohZp+1By
-qYDXfSWOMYLpCL7p9MuTFsjvCk1muRPqiwkGmimy7I6hygYElzUA912Zvb+bCScE
-p2JOidVG6tEenXvXzLbDdS7LK8LTkCKa9aG54+hvCFHw4aCfYXQIUu4arkU4UKhy
-eGsEeafccfvR1YDOFtwk0VGzm/3L1XwAR3Dz1xcMBVdg7mZpJRibr4BFF5SnxvHY
-cD+7s0G5QoZl0pQdZ3YC31TQsN3HZykyjVT8f0nbjFBGQ+m6LqQ=
-=UbK2
------END PGP SIGNATURE-----
+Gerd Hoffmann (2):
+  edid: add xmax + ymax properties
+  edid: flip the default to enabled
 
---Sig_/6CHsLwRdDyyj3agTjLyET31--
+ include/hw/display/edid.h      | 4 +++-
+ include/hw/virtio/virtio-gpu.h | 2 +-
+ hw/core/machine.c              | 8 +++++++-
+ hw/display/bochs-display.c     | 2 +-
+ hw/display/vga-pci.c           | 4 ++--
+ 5 files changed, 14 insertions(+), 6 deletions(-)
+
+-- 
+2.18.1
+
 
