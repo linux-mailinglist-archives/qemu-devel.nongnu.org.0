@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DCA344B8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:04:38 +0200 (CEST)
-Received: from localhost ([::1]:44154 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA68C44A74
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:11:29 +0200 (CEST)
+Received: from localhost ([::1]:43314 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbV1Y-0007EH-Sx
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:04:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55561)
+	id 1hbUC8-0006fZ-VW
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55605)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hbSqS-0001DJ-19
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:01 -0400
+ (envelope-from <groug@kaod.org>) id 1hbSqY-0001Rz-Et
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hbSqQ-0006ll-Ct
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:44:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44524
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <groug@kaod.org>) id 1hbSqX-0007FZ-48
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:06 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57174)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hbSqQ-0006dW-0t
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:44:58 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5DGgVIj074586
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:44:55 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2t3q921e6s-1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hbSqW-0007AX-Ol
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:05 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5DGgcRs101726
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:45:01 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2t3sdujhs3-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:44:54 -0400
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:45:00 -0400
 Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 13 Jun 2019 17:44:53 +0100
+ Thu, 13 Jun 2019 17:44:58 +0100
 Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 13 Jun 2019 17:44:50 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
+ Thu, 13 Jun 2019 17:44:55 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
  by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5DGin1N49938622
+ x5DGisCq59310172
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Jun 2019 16:44:49 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2E040A404D;
- Thu, 13 Jun 2019 16:44:49 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EA8AAA4053;
- Thu, 13 Jun 2019 16:44:48 +0000 (GMT)
+ Thu, 13 Jun 2019 16:44:54 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 99CF64203F;
+ Thu, 13 Jun 2019 16:44:54 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 61ECE42041;
+ Thu, 13 Jun 2019 16:44:54 +0000 (GMT)
 Received: from bahia.lab.toulouse-stg.fr.ibm.com (unknown [9.101.4.41])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 13 Jun 2019 16:44:48 +0000 (GMT)
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 13 Jun 2019 16:44:54 +0000 (GMT)
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 13 Jun 2019 18:44:48 +0200
+Date: Thu, 13 Jun 2019 18:44:54 +0200
+In-Reply-To: <156044428869.125694.13827513253200184549.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
+References: <156044428869.125694.13827513253200184549.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
 User-Agent: StGit/unknown-version
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19061316-0008-0000-0000-000002F38422
+x-cbid: 19061316-4275-0000-0000-00000342132A
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19061316-0009-0000-0000-000022608B47
-Message-Id: <156044428869.125694.13827513253200184549.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
+x-cbparentid: 19061316-4276-0000-0000-000038522E0C
+Message-Id: <156044429419.125694.507569071972451514.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-06-13_11:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=491 adultscore=0 classifier=spam adjust=0 reason=mlx
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1810050000 definitions=main-1906130122
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH 0/3] xics/kvm: Fix issues with older KVMs on
- POWER9 hosts
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 1/3] xics/spapr: Prevent RTAS/hypercalls
+ emulation to be used by in-kernel XICS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,38 +94,148 @@ Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fixes various issues that can happen when running a spapr
-machine on a POWER9 host and KVM doesn't have proper support to destroy
-XICS-on-XIVE devices (ie, without the changes at [1]).
+The XICS-related RTAS calls and hypercalls in QEMU are supposed to be
+called only when the KVM in-kernel XICS is in use.
 
-Patch 1 and 2 fix a QEMU crash that happens with the default settings, ie.
-ic-mode=dual and kernel-irqchip is unspecified (ie, emulated fallback is
-allowed).
+Add some explicit checks to detect that, print an error message and report
+an hardware error to the guest.
 
-Patch 3 allows to detect the same KVM limitation when passing
-kernel-irqchip=on, and to error out early instead of exiting at
-the next guest reboot.
-
---
-Greg
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=5422e95103cf9663bc86cf1056a3ea44c2e2f09e
-
+Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
+ hw/intc/xics_spapr.c |   46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-Greg Kurz (3):
-      xics/spapr: Prevent RTAS/hypercalls emulation to be used by in-kernel XICS
-      xics/spapr: Register RTAS/hypercalls once at machine init
-      xics/spapr: Detect old KVM XICS on POWER9 hosts
-
-
- docs/specs/ppc-spapr-xive.rst |    4 ++-
- hw/intc/xics_kvm.c            |   49 +++++++++++++++++++++++--------------
- hw/intc/xics_spapr.c          |   54 +++++++++++++++++++++++++++++++++++------
- hw/ppc/spapr_irq.c            |   16 +++++++++++-
- include/hw/ppc/spapr.h        |    4 ---
- include/hw/ppc/xics.h         |    1 -
- include/hw/ppc/xics_spapr.h   |    2 ++
- 7 files changed, 95 insertions(+), 35 deletions(-)
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index 5a1835e8b1ed..d470ab5f7a2a 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -41,11 +41,31 @@
+  * Guest interfaces
+  */
+ 
++static bool check_in_kernel_xics(const char *func)
++{
++    if (kvm_irqchip_in_kernel()) {
++        error_report("pseries: %s must never be called for in-kernel XICS",
++                     func);
++        return true;
++    }
++
++    return false;
++}
++
++#define CHECK_IN_KERNEL_XICS_HCALL              \
++    do {                                        \
++        if (check_in_kernel_xics(__func__)) {   \
++            return H_HARDWARE;                  \
++        }                                       \
++    } while (0)
++
+ static target_ulong h_cppr(PowerPCCPU *cpu, SpaprMachineState *spapr,
+                            target_ulong opcode, target_ulong *args)
+ {
+     target_ulong cppr = args[0];
+ 
++    CHECK_IN_KERNEL_XICS_HCALL;
++
+     icp_set_cppr(spapr_cpu_state(cpu)->icp, cppr);
+     return H_SUCCESS;
+ }
+@@ -56,6 +76,8 @@ static target_ulong h_ipi(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     target_ulong mfrr = args[1];
+     ICPState *icp = xics_icp_get(XICS_FABRIC(spapr), args[0]);
+ 
++    CHECK_IN_KERNEL_XICS_HCALL;
++
+     if (!icp) {
+         return H_PARAMETER;
+     }
+@@ -69,6 +91,8 @@ static target_ulong h_xirr(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ {
+     uint32_t xirr = icp_accept(spapr_cpu_state(cpu)->icp);
+ 
++    CHECK_IN_KERNEL_XICS_HCALL;
++
+     args[0] = xirr;
+     return H_SUCCESS;
+ }
+@@ -78,6 +102,8 @@ static target_ulong h_xirr_x(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ {
+     uint32_t xirr = icp_accept(spapr_cpu_state(cpu)->icp);
+ 
++    CHECK_IN_KERNEL_XICS_HCALL;
++
+     args[0] = xirr;
+     args[1] = cpu_get_host_ticks();
+     return H_SUCCESS;
+@@ -88,6 +114,8 @@ static target_ulong h_eoi(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ {
+     target_ulong xirr = args[0];
+ 
++    CHECK_IN_KERNEL_XICS_HCALL;
++
+     icp_eoi(spapr_cpu_state(cpu)->icp, xirr);
+     return H_SUCCESS;
+ }
+@@ -99,6 +127,8 @@ static target_ulong h_ipoll(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     uint32_t mfrr;
+     uint32_t xirr;
+ 
++    CHECK_IN_KERNEL_XICS_HCALL;
++
+     if (!icp) {
+         return H_PARAMETER;
+     }
+@@ -111,6 +141,14 @@ static target_ulong h_ipoll(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     return H_SUCCESS;
+ }
+ 
++#define CHECK_IN_KERNEL_XICS_RTAS(rets)                 \
++    do {                                                \
++        if (check_in_kernel_xics(__func__)) {           \
++            rtas_st((rets), 0, RTAS_OUT_HW_ERROR);      \
++            return;                                     \
++        }                                               \
++    } while (0)
++
+ static void rtas_set_xive(PowerPCCPU *cpu, SpaprMachineState *spapr,
+                           uint32_t token,
+                           uint32_t nargs, target_ulong args,
+@@ -119,6 +157,8 @@ static void rtas_set_xive(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     ICSState *ics = spapr->ics;
+     uint32_t nr, srcno, server, priority;
+ 
++    CHECK_IN_KERNEL_XICS_RTAS(rets);
++
+     if ((nargs != 3) || (nret != 1)) {
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+         return;
+@@ -152,6 +192,8 @@ static void rtas_get_xive(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     ICSState *ics = spapr->ics;
+     uint32_t nr, srcno;
+ 
++    CHECK_IN_KERNEL_XICS_RTAS(rets);
++
+     if ((nargs != 1) || (nret != 3)) {
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+         return;
+@@ -182,6 +224,8 @@ static void rtas_int_off(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     ICSState *ics = spapr->ics;
+     uint32_t nr, srcno;
+ 
++    CHECK_IN_KERNEL_XICS_RTAS(rets);
++
+     if ((nargs != 1) || (nret != 1)) {
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+         return;
+@@ -213,6 +257,8 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     ICSState *ics = spapr->ics;
+     uint32_t nr, srcno;
+ 
++    CHECK_IN_KERNEL_XICS_RTAS(rets);
++
+     if ((nargs != 1) || (nret != 1)) {
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+         return;
 
 
