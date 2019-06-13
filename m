@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD39A44A43
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:06:04 +0200 (CEST)
-Received: from localhost ([::1]:43236 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE2544AAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:28:55 +0200 (CEST)
+Received: from localhost ([::1]:43458 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbU6t-0002pe-UV
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:06:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50415)
+	id 1hbUT0-0000uv-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:28:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50709)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hbSeG-000430-4g
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:32:25 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hbSeC-0004Gp-KU
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:32:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hbSXM-0005TI-PN
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:25:17 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:40875)
+ (envelope-from <laurent@vivier.eu>) id 1hbSYR-00022p-3c
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:26:24 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:56845)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hbSXM-0005NE-G2
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:25:16 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hbSYP-0001om-3o
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:26:22 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MjjGX-1iLTij22iB-00lGaN; Thu, 13 Jun 2019 18:25:14 +0200
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MUGqT-1i1Tsf1xMh-00RFzG; Thu, 13 Jun 2019 18:26:18 +0200
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20190519201953.20161-1-richard.henderson@linaro.org>
- <20190519201953.20161-3-richard.henderson@linaro.org>
+ <20190519201953.20161-4-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
@@ -70,35 +70,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <e16ffcf1-465c-ca67-1bb4-a6da399c7617@vivier.eu>
-Date: Thu, 13 Jun 2019 18:25:13 +0200
+Message-ID: <a70a685f-ba8d-77c9-8e93-25779bca9fa8@vivier.eu>
+Date: Thu, 13 Jun 2019 18:26:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190519201953.20161-3-richard.henderson@linaro.org>
+In-Reply-To: <20190519201953.20161-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:r/rPSMmiBfFv/8RAPhbxpLz9NABEWDm6iWmhT9JnyUiAtQnaDjM
- 0vCTfnC4REfTVF2YPxAw+tkhNyHDpiqyWtcSn+NwTpy0BiuqPKbeThDRK1NAbOJvmhmuevj
- Uj8vlYcdW6HmSeSmf3FXm7LlHX5KhuDOLNgckGIvHSxfkyDX0Py+qyAWAdem6CFugHJOyJ1
- BKXzYjpEip4+qJV8m1xqw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+vxOTRehgZg=:G87J6g7yxaYlwE2ulH/fRM
- fZtOkn4Q/+rLNb9wrBLBkZufese50pSZMyVFY5Q6GnVNyYi1gs6h7njWXxUpXJySfZM0l1q/b
- D5Y+E64clc8gAZX8+7XV33oi1XrtR/KQ2lgL68jd7YznbyBHLVbuj9p62K9LPQ19PDFpDzybL
- dAsOhj0Sokb+3xi/orluYbA+53V3ZA+vuA6bUaPZnhewQKCktD6ewupnENoKZ0RiBmhF6F6o3
- WnxA/Sye6Mtphd0LTXJFeruVjzW2WKu+RWUJ7awaJeqVw/KWZfMoI1pukNoly/1b/Gw8mggJc
- +PLTRJXJHDp45b2bqUlsRDSqwMjgXvgaU8b+exeQ7R13GtWhYmXtrclNYpZD8kOMGqk7g6M9h
- hok0YIrCT/6VgNGWr88uS1niFovLaRw9QrJiXpc6/D7BOHYNtmOQUWmV81MhOmSEJiuv8vzr5
- CTDDSbq7biHnDY2Vy8b9JmhloaCRDaGVmAnvmxwMVa5URbfWYf06Bz0jzgHcCvN1ojdl+5avY
- ge7Ga3zAzMvwPDgbKVTvZsJ4f3fGqUdSPfzenUs60rWqq0D0ePoc064ahigEjhMPMxhPYA2vS
- OoZP20JmCubbqtA0miJZKTxx+7B6ALa6OEP6bSfuz2M0Uq0jIxwsRrSoeq8O1d5aWRBbhKAhQ
- WGFdBqslHTmDwS4msu4/V8f2/CjHae8vrQcO+2lIC88ya5v68bRx+/o7RuNomNkz2gGEX4mkR
- 22rnhvc8o1nrQrcr3i//Ri9Zej95hum2+y6uSVVRsKHNkd+z1xtTXCf4wbs=
+X-Provags-ID: V03:K1:JRcYZ/UGZGaJNMgaIsc7tOZwm5m+pRp6G1dJRGBzd1BB1zbul+l
+ NBnOsEJLmDHQfIsFhk5eSUApXCOvfEKg1Pl9AtfrS5Q0zvHDI41z3jFVrEJN17HH3sJ1b0v
+ KaA82AeCM7B04DLer9T8hzfw9zK3dqFrLxNCmXMDuXTwGCWU7IcceWqaKf5mSHLO1O4skfK
+ q4s2pXTP/bmD/deBAd3+Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0KDYBwClQqs=:H1ZfSeZHZozz2t6p3bpp+E
+ z/Hsxj0BfsGyXAiY7Bii6NNXLm8BNKHAr4uvVCFH2H4PAYlV0gSGlmFv8WgVLhTTI17PUu8Wu
+ Gek1IQpW0cPkdJ0Q0xcAXUh9TrTCBMoUMeyHIq3XJc6ibPUv4K6O9ImbatvoQ9RXWyMEvilFk
+ etxTDQksN75VrioM5jxIgv4Pa0UI7S5WiUdsJb718bUhmLjJmYVlQqB34+QTKcCC4XT3l72Re
+ I002LMwHLK0/g4/IuxxMZNhGYNStNCO/+ZIGRtRJ5QfAeJKUQ+EyrO4mM3XE6Kvm566NybEWg
+ AeOuHqVpEUMJdk2ubhFTtoVh2jJdsfIYumgp0A+KiKKQKXWa8IQyNy7UZ2b5m13NIwpCKCSO6
+ F6qJOw0h++jJbsd+tQOZVpHllrIITt3VW/iA9t4kxYy4ndGyrSL8ZV6F6aADzmoGCBbq3wDPH
+ pCGKaFKf+AnlzrylqRoSCxlMK4h45XjR54f0NrXSJv4kkmmp/XbwAX9xWbNnEv0V2SDkZG6tD
+ JTSqXJCTlJFycoWo8MgjsNXOKgkDF/N/z3LQjaVKDau6JWbZhKRlBbw635gpbQ8iFVwQhJ7D0
+ 6CVS0qBzbkY1ZXBM1froqaKX5tY3bhThST0rxgT/j5UDN1hmDgDiXSHZjKg5Cddet7TMeghmC
+ 5tXlgTVzkcR+qIrIIzhD7QSZfvbR27GabDHx6WVkQtQEPFSpSpqZI0u3YTSDpEq+ePnUXQLS1
+ l2dkgn5uKergbz/RDMdi9n8wglMCzUjs9snbiTqx7YzFafRPSEqprKs/M3I=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: Re: [Qemu-devel] [PATCH 02/13] linux-user: Rename cpu_clone_regs to
- cpu_clone_regs_child
+X-Received-From: 217.72.192.73
+Subject: Re: [Qemu-devel] [PATCH 03/13] linux-user: Introduce
+ cpu_clone_regs_parent
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -114,34 +114,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 19/05/2019 à 22:19, Richard Henderson a écrit :
-> We will need a target-specific hook for adjusting registers
-> in the parent during clone.  To avoid confusion, rename the
-> one we have to make it clear it affects the child.
+> Add an empty inline function for each target, and invoke it
+> from the proper places.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/aarch64/target_cpu.h    | 2 +-
->  linux-user/alpha/target_cpu.h      | 2 +-
->  linux-user/arm/target_cpu.h        | 2 +-
->  linux-user/cris/target_cpu.h       | 2 +-
->  linux-user/hppa/target_cpu.h       | 2 +-
->  linux-user/i386/target_cpu.h       | 2 +-
->  linux-user/m68k/target_cpu.h       | 2 +-
->  linux-user/microblaze/target_cpu.h | 2 +-
->  linux-user/mips/target_cpu.h       | 2 +-
->  linux-user/nios2/target_cpu.h      | 2 +-
->  linux-user/openrisc/target_cpu.h   | 3 ++-
->  linux-user/ppc/target_cpu.h        | 2 +-
->  linux-user/riscv/target_cpu.h      | 2 +-
->  linux-user/s390x/target_cpu.h      | 2 +-
->  linux-user/sh4/target_cpu.h        | 2 +-
->  linux-user/sparc/target_cpu.h      | 2 +-
->  linux-user/tilegx/target_cpu.h     | 2 +-
->  linux-user/xtensa/target_cpu.h     | 3 ++-
->  linux-user/syscall.c               | 4 ++--
->  19 files changed, 22 insertions(+), 20 deletions(-)
+>  linux-user/aarch64/target_cpu.h    | 4 ++++
+>  linux-user/alpha/target_cpu.h      | 4 ++++
+>  linux-user/arm/target_cpu.h        | 4 ++++
+>  linux-user/cris/target_cpu.h       | 4 ++++
+>  linux-user/hppa/target_cpu.h       | 4 ++++
+>  linux-user/i386/target_cpu.h       | 4 ++++
+>  linux-user/m68k/target_cpu.h       | 4 ++++
+>  linux-user/microblaze/target_cpu.h | 4 ++++
+>  linux-user/mips/target_cpu.h       | 4 ++++
+>  linux-user/nios2/target_cpu.h      | 4 ++++
+>  linux-user/openrisc/target_cpu.h   | 4 ++++
+>  linux-user/ppc/target_cpu.h        | 4 ++++
+>  linux-user/riscv/target_cpu.h      | 4 ++++
+>  linux-user/s390x/target_cpu.h      | 4 ++++
+>  linux-user/sh4/target_cpu.h        | 4 ++++
+>  linux-user/sparc/target_cpu.h      | 4 ++++
+>  linux-user/tilegx/target_cpu.h     | 4 ++++
+>  linux-user/xtensa/target_cpu.h     | 4 ++++
+>  linux-user/syscall.c               | 2 ++
+>  19 files changed, 74 insertions(+)
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
 
