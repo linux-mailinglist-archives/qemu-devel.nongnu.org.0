@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6AA344CF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 22:05:53 +0200 (CEST)
-Received: from localhost ([::1]:45412 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192AA44CFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 22:07:35 +0200 (CEST)
+Received: from localhost ([::1]:45424 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbVyq-0001bL-II
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 16:05:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58217)
+	id 1hbW0U-0002kQ-Am
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 16:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hbVx3-00015e-BP
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 16:04:03 -0400
+ (envelope-from <eblake@redhat.com>) id 1hbVzB-0002FF-Iz
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 16:06:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hbVx2-0002qk-BF
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 16:04:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42056)
+ (envelope-from <eblake@redhat.com>) id 1hbVzA-0004JO-3a
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 16:06:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41840)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hbVwu-0002f6-7h; Thu, 13 Jun 2019 16:03:56 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1hbVz7-0004HU-IP; Thu, 13 Jun 2019 16:06:09 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 30DBB3082145;
- Thu, 13 Jun 2019 20:03:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id BB0763091851;
+ Thu, 13 Jun 2019 20:06:08 +0000 (UTC)
 Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E8775C28C;
- Thu, 13 Jun 2019 20:03:25 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20190613183727.28774-1-mreitz@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 46D271001B18;
+ Thu, 13 Jun 2019 20:06:03 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, Pino Toscano <ptoscano@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190613132000.2146-1-ptoscano@redhat.com>
+ <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -57,21 +59,21 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <f9fabc0e-dba6-4034-81d6-925654c98827@redhat.com>
-Date: Thu, 13 Jun 2019 15:03:24 -0500
+Message-ID: <a188e21d-3418-75c8-b99a-47d3c4550568@redhat.com>
+Date: Thu, 13 Jun 2019 15:06:02 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190613183727.28774-1-mreitz@redhat.com>
+In-Reply-To: <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="meBXJpw2No2tDcbDjGCKJE3YPOJGjEZZV"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ boundary="9JtFnE2QcDwb2kKdbCjP9YEi0BAY2aga8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 13 Jun 2019 20:03:35 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 13 Jun 2019 20:06:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] iotests: Hide timestamps for skipped tests
+Subject: Re: [Qemu-devel] [PATCH v9] ssh: switch from libssh2 to libssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,56 +85,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, alex.bennee@linaro.org, philmd@redhat.com,
+ sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---meBXJpw2No2tDcbDjGCKJE3YPOJGjEZZV
-Content-Type: multipart/mixed; boundary="wbiGatZY9Kg22mmLLPJorVxbQZDnTZnKL";
+--9JtFnE2QcDwb2kKdbCjP9YEi0BAY2aga8
+Content-Type: multipart/mixed; boundary="FR46OCSshKHD73tw5N24qzIionzEXPbO2";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-Message-ID: <f9fabc0e-dba6-4034-81d6-925654c98827@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH] iotests: Hide timestamps for skipped tests
-References: <20190613183727.28774-1-mreitz@redhat.com>
-In-Reply-To: <20190613183727.28774-1-mreitz@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, Pino Toscano <ptoscano@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, philmd@redhat.com, sw@weilnetz.de,
+ alex.bennee@linaro.org
+Message-ID: <a188e21d-3418-75c8-b99a-47d3c4550568@redhat.com>
+Subject: Re: [PATCH v9] ssh: switch from libssh2 to libssh
+References: <20190613132000.2146-1-ptoscano@redhat.com>
+ <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
+In-Reply-To: <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
 
---wbiGatZY9Kg22mmLLPJorVxbQZDnTZnKL
+--FR46OCSshKHD73tw5N24qzIionzEXPbO2
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 6/13/19 1:37 PM, Max Reitz wrote:
-> Currently, the "thistime" variable is not reinitialized on every loop
-> iteration.  This leads to tests that do not yield a run time (because
-> they failed or were skipped) printing the run time of the previous test=
+On 6/13/19 2:31 PM, Max Reitz wrote:
 
-> that did.  Fix that by reinitializing "thistime" for every test.
+>> @@ -657,71 +644,147 @@ static int connect_to_ssh(BDRVSSHState *s, Bloc=
+kdevOptionsSsh *opts,
 >=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/check | 1 +
->  1 file changed, 1 insertion(+)
+> [...]
+>=20
+>> +    /*
+>> +     * Try to disable the Nagle algorithm on TCP sockets to reduce la=
+tency,
+>> +     * but do not fail if it cannot be disabled.
+>> +     */
+>> +    r =3D socket_set_nodelay(new_sock);
+>> +    if (r < 0) {
+>> +        warn_report("setting NODELAY for the ssh server %s failed: %m=
+",
+>=20
+> TIL about %m.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
->=20
-> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-> index 44ebf24080..f925606cc5 100755
-> --- a/tests/qemu-iotests/check
-> +++ b/tests/qemu-iotests/check
-> @@ -773,6 +773,7 @@ do
->      printdiff=3Dfalse # show diff to reference output?
->      status=3D""       # test result summary
->      results=3D""      # test result details
-> +    thistime=3D""     # time the test took
-> =20
->      if [ -n "$TESTS_REMAINING_LOG" ] ; then
->          sed -e "s/$seq//" -e 's/  / /' -e 's/^ *//' $TESTS_REMAINING_L=
-OG > $TESTS_REMAINING_LOG.tmp
->=20
+printf("%m") is not portable to non-glibc. Spell it out as
+"%s",strerror(errno).  (It _is_ portable for syslog(), but warn_report()
+is not wired to syslog() semantics).
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -140,24 +139,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---wbiGatZY9Kg22mmLLPJorVxbQZDnTZnKL--
+--FR46OCSshKHD73tw5N24qzIionzEXPbO2--
 
---meBXJpw2No2tDcbDjGCKJE3YPOJGjEZZV
+--9JtFnE2QcDwb2kKdbCjP9YEi0BAY2aga8
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0CrAwACgkQp6FrSiUn
-Q2p0oAf9E6MCBjst1qwWFfZMZ2qmAf+vUmjPyv9Ghxqg6BHRhJbC09Is3qycOkrl
-kLrNtDV6S+jNVQ8dRZOWqXAnPiZws8S0Bo5bUhWFsWd5KyorfQ1sJAb5jgXgKcWF
-Ffag6HKmA0JGUZr+acbsibGgLQcToUo69cqZZ/KWJ7wYcPGvBe17bC9fTxxnv6dF
-NUQr8QppO/hgWj9AkRiyeNAFGTo/7qZ70GkdZnG4HGd3n+VN+Xh6clUylqy8D+qr
-b7HmuFnm08y10OIw18Df0Lzj9FnTctWEcSzzLmSDWVAI0EwLByUTdgBijwPrQY+W
-CLKkqio/UzE4TDNIKrdDcTbtjfpQdQ==
-=QHHE
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0CrKoACgkQp6FrSiUn
+Q2oWNQf/ZqrbujyWUWEx5cLNt19KfecylaRhNx1YLHCD7WA0BwbpO0GFyu7QluXb
+vFj2f0/F7eTUxGobaTaj2Sm+mB4vizBznnjbOi94/fkRpd+/ChKviT4RzD5cO/14
+L6U6ddbzATR1SZ5E7qbpcKeMd3mX8N13ks/h8zmb48c/fcIFyxqi/1G4Lu2JhZ5B
+hhNf4jDu+QzAsTDvmp1A9fn2tIAR6S4THfQjUXhexR2PyHnfNwnWVclJYkYEY20m
+lZLJ/HnWzAYXTyXk2NBoI8yXhJwAY3Gkkwb2ta/olPBEkjO4VlwkOKrymuW9BQs+
+1dzKMCD7olItbH2rAQ/8fXRxrnDuxw==
+=LdXA
 -----END PGP SIGNATURE-----
 
---meBXJpw2No2tDcbDjGCKJE3YPOJGjEZZV--
+--9JtFnE2QcDwb2kKdbCjP9YEi0BAY2aga8--
 
