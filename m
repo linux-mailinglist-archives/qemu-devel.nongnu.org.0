@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7684360A
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:50:06 +0200 (CEST)
-Received: from localhost ([::1]:39486 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B69435FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:43:16 +0200 (CEST)
+Received: from localhost ([::1]:39456 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbPB7-0003l8-Pi
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:50:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
+	id 1hbP4W-0007U4-0e
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:43:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOdN-000828-7Y
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:15 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOdH-0007xz-ID
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOdJ-0004Mb-CS
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:11 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41097)
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOdE-0004Hh-UH
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:07 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:32988)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbOdF-00046j-Cr
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:07 -0400
-Received: by mail-wr1-x441.google.com with SMTP id c2so20520052wrm.8
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:55 -0700 (PDT)
+ id 1hbOdA-00049C-41
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:15:02 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id n9so20573060wru.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=p3d6LVQh8jIBuSkoLGFeMkgwvGAqT2KuhV1VbxTzLfc=;
- b=dF70GZquXtytIOxrzkicyKANNZmo78PdUVvZVmlKr6un7lS3LT+nUVbquoS5Rp0ybX
- Rz4yEPw3ZiCIOWuhjyRwZDH7N0b/hOZg0ECUfTLIHa0oclP4KVJrRf4jAiYR++LnEPix
- DvXYwSd5LZQXvgKBMwiQ722wH8IOcfIEiB26mKGPEX8adrLZrA6hN18w7sXspzL6oBbI
- /+CNYWheCPhhm54JsrGkDHl+YI39NZeUiSVbk/7jAQe0TMBo/p6QH/MfeWXp2bAyuQAB
- N+KmkWmB0zKpFDPAhWQzM0xBrytya8ynRkJ/LhMPiYk4n8j36861O5yP5GujEZShi7RR
- tSXQ==
+ bh=Wun7v8ziEJU7Y16HcNfdAppp3ATFiw3GSpGschvFs5g=;
+ b=n8DqNydjY4dkxEp2lOwg3CURchNCowlqsViLoXYOqYa8yp0nS+CZFNUnw8o4NEAom3
+ /DYQ6xG3Dlx3SeCp2RBWAhBNr5E7oTvL9eEemm9INH+0KlPqniVD4mTe8G/ZQu4MZ0yD
+ o5llUhkhsUFmd+a6e8+lzyr+8oYc0m7kF107EmtKHyeq/sn+M3eiLdSpWULKLrEkpPa/
+ AVXWbNs6N8oROtsOecmsOyn74nX7b8iq8OgEpP0FkjGg9YccEuJIy8xizFRbNv32n1zZ
+ oXDtlZQOlPBIYmkNwwR+HN6741eGWxE3FgXC/7YfQIHBsvRttiO2a8pthsc5R3MnfuPm
+ iA3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p3d6LVQh8jIBuSkoLGFeMkgwvGAqT2KuhV1VbxTzLfc=;
- b=PjqU0ByBN0mo4cazlumFgoYcvs8O1jRXvulSk6GK5GIWO9zC0YBkXLdtkjPFYS1p16
- 7A6Fw7XS2hRVFg1296/VngOmUemJRrKO46c9gNp8oPpZ3TDIeo/W7H9fRbfOQWFYkfEr
- HLxdzuxyz8Lqm6ynqRpMJfW0OA/iHjmCg1YSSwPv5LemZ+CC1+gADCL1QN2OOsKOHkix
- vvKBefDx3NBJfxgAxHgorp6ZK+6O0NgJQ9bI2LuHxZaaFjKKLGEKIIIoNElK0GrqqGay
- mfM36ynQhWH7Ob3zov1jECB/8yhrG7RZnJTHl4WgN5cCnw1wxTq+vovzoTcaEFsqKy/T
- KAuw==
-X-Gm-Message-State: APjAAAV9xIaVEHEGlnfCsQoiJfeU0nvzeF7DSTFPcubkocYBimBU1hAZ
- i8AzRvOFz/8VWP197q6QljMwisi6oMcvrg==
-X-Google-Smtp-Source: APXvYqy5SKUzc9YwzhTPc4LAAXR3Ju08GXpL0USPpFRdNU/AfMwMEHR39t+36xu/mjcliyQFlYH03Q==
-X-Received: by 2002:a5d:4d84:: with SMTP id b4mr6397452wru.242.1560428094042; 
- Thu, 13 Jun 2019 05:14:54 -0700 (PDT)
+ bh=Wun7v8ziEJU7Y16HcNfdAppp3ATFiw3GSpGschvFs5g=;
+ b=P6hS6lDy0sah4sK1SFIhRQRKQMMxqU/5MVJX/D/PSKbE5neo/696x0clXlh0gLym7V
+ NRIEYgfpof9rU8TiAZUr8WzFs0GufY4nvFivd91Tu9PdbxLihERY/hfptqSftw1H//os
+ wLD+rCEIbUqRy3m9O7ROR+0FmcjmHkub8AXpGW2BC+T4IUDTBNMu0IWoxWNhwAWsix7R
+ HxwRRomn9F25AFjkqF9DB3thMpPP8M23BnQHRV3tn3DiKnbAkp+EcetQxGJ6IVGEfXY/
+ aN4my705RqgO44dxH8iNcmDPrTR9+fxRy0QEvHwJi4Pwmt7WBrlOSy3GT0euORo9b2iv
+ yYZw==
+X-Gm-Message-State: APjAAAX+1ufexl3KXM4djy1o+7pkyBJ7gig3Vc7bKRYxeaHYvAtM3oAv
+ aBVF5IdAFWSrLkc5quBa56mMq8P15PZERA==
+X-Google-Smtp-Source: APXvYqyXUzzPSIQCkB1dnLQ83s9uSh3+J8DD+ZpbdkwcOsZRQLrCRJWNA9iKcwuzBkl7EpXPkzwyQQ==
+X-Received: by 2002:a05:6000:104e:: with SMTP id
+ c14mr8698133wrx.71.1560428095153; 
+ Thu, 13 Jun 2019 05:14:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.52
+ by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 05:14:53 -0700 (PDT)
+ Thu, 13 Jun 2019 05:14:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 13:14:02 +0100
-Message-Id: <20190613121433.5246-18-peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 13:14:03 +0100
+Message-Id: <20190613121433.5246-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190613121433.5246-1-peter.maydell@linaro.org>
 References: <20190613121433.5246-1-peter.maydell@linaro.org>
@@ -65,9 +66,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 17/48] target/arm: Add helpers for VFP register
- loads and stores
+X-Received-From: 2a00:1450:4864:20::42e
+Subject: [Qemu-devel] [PULL 18/48] target/arm: Convert "double-precision"
+ register moves to decodetree
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,197 +83,323 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current VFP code has two different idioms for
-loading and storing from the VFP register file:
- 1 using the gen_mov_F0_vreg() and similar functions,
-   which load and store to a fixed set of TCG globals
-   cpu_F0s, CPU_F0d, etc
- 2 by direct calls to tcg_gen_ld_f64() and friends
+Convert the "double-precision" register moves to decodetree:
+this covers VMOV scalar-to-gpreg, VMOV gpreg-to-scalar and VDUP.
 
-We want to phase out idiom 1 (because the use of the
-fixed globals is a relic of a much older version of TCG),
-but idiom 2 is quite longwinded:
- tcg_gen_ld_f64(tmp, cpu_env, vfp_reg_offset(true, reg))
-requires us to specify the 64-bitness twice, once in
-the function name and once by passing 'true' to
-vfp_reg_offset(). There's no guard against accidentally
-passing the wrong flag.
-
-Instead, let's move to a convention of accessing 64-bit
-registers via the existing neon_load_reg64() and
-neon_store_reg64(), and provide new neon_load_reg32()
-and neon_store_reg32() for the 32-bit equivalents.
-
-Implement the new functions and use them in the code in
-translate-vfp.inc.c. We will convert the rest of the VFP
-code as we do the decodetree conversion in subsequent
-commits.
+Note that the conversion process has tightened up a few of the
+UNDEF encoding checks: we now correctly forbid:
+ * VMOV-to-gpr with U:opc1:opc2 == 10x00 or x0x10
+ * VMOV-from-gpr with opc1:opc2 == 0x10
+ * VDUP with B:E == 11
+ * VDUP with Q == 1 and Vn<0> == 1
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+The accesses of elements < 32 bits could be improved by doing
+direct ld/st of the right size rather than 32-bit read-and-shift
+or read-modify-write, but we leave this for later cleanup,
+since this series is generally trying to stick to fixing
+the decode.
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-vfp.inc.c | 40 +++++++++++++++++-----------------
- target/arm/translate.c         | 10 +++++++++
- 2 files changed, 30 insertions(+), 20 deletions(-)
+ target/arm/translate-vfp.inc.c | 147 +++++++++++++++++++++++++++++++++
+ target/arm/translate.c         |  83 +------------------
+ target/arm/vfp.decode          |  36 ++++++++
+ 3 files changed, 185 insertions(+), 81 deletions(-)
 
 diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 2f070a6e0d9..24358f3d3eb 100644
+index 24358f3d3eb..8b0899fa05c 100644
 --- a/target/arm/translate-vfp.inc.c
 +++ b/target/arm/translate-vfp.inc.c
-@@ -179,8 +179,8 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-         tcg_gen_ext_i32_i64(nf, cpu_NF);
-         tcg_gen_ext_i32_i64(vf, cpu_VF);
+@@ -475,3 +475,150 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
  
--        tcg_gen_ld_f64(frn, cpu_env, vfp_reg_offset(dp, rn));
--        tcg_gen_ld_f64(frm, cpu_env, vfp_reg_offset(dp, rm));
-+        neon_load_reg64(frn, rn);
-+        neon_load_reg64(frm, rm);
-         switch (a->cc) {
-         case 0: /* eq: Z */
-             tcg_gen_movcond_i64(TCG_COND_EQ, dest, zf, zero,
-@@ -207,7 +207,7 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-             tcg_temp_free_i64(tmp);
-             break;
-         }
--        tcg_gen_st_f64(dest, cpu_env, vfp_reg_offset(dp, rd));
-+        neon_store_reg64(dest, rd);
-         tcg_temp_free_i64(frn);
-         tcg_temp_free_i64(frm);
-         tcg_temp_free_i64(dest);
-@@ -226,8 +226,8 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-         frn = tcg_temp_new_i32();
-         frm = tcg_temp_new_i32();
-         dest = tcg_temp_new_i32();
--        tcg_gen_ld_f32(frn, cpu_env, vfp_reg_offset(dp, rn));
--        tcg_gen_ld_f32(frm, cpu_env, vfp_reg_offset(dp, rm));
-+        neon_load_reg32(frn, rn);
-+        neon_load_reg32(frm, rm);
-         switch (a->cc) {
-         case 0: /* eq: Z */
-             tcg_gen_movcond_i32(TCG_COND_EQ, dest, cpu_ZF, zero,
-@@ -254,7 +254,7 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-             tcg_temp_free_i32(tmp);
-             break;
-         }
--        tcg_gen_st_f32(dest, cpu_env, vfp_reg_offset(dp, rd));
-+        neon_store_reg32(dest, rd);
-         tcg_temp_free_i32(frn);
-         tcg_temp_free_i32(frm);
-         tcg_temp_free_i32(dest);
-@@ -298,14 +298,14 @@ static bool trans_VMINMAXNM(DisasContext *s, arg_VMINMAXNM *a)
-         frm = tcg_temp_new_i64();
-         dest = tcg_temp_new_i64();
- 
--        tcg_gen_ld_f64(frn, cpu_env, vfp_reg_offset(dp, rn));
--        tcg_gen_ld_f64(frm, cpu_env, vfp_reg_offset(dp, rm));
-+        neon_load_reg64(frn, rn);
-+        neon_load_reg64(frm, rm);
-         if (vmin) {
-             gen_helper_vfp_minnumd(dest, frn, frm, fpst);
-         } else {
-             gen_helper_vfp_maxnumd(dest, frn, frm, fpst);
-         }
--        tcg_gen_st_f64(dest, cpu_env, vfp_reg_offset(dp, rd));
-+        neon_store_reg64(dest, rd);
-         tcg_temp_free_i64(frn);
-         tcg_temp_free_i64(frm);
-         tcg_temp_free_i64(dest);
-@@ -316,14 +316,14 @@ static bool trans_VMINMAXNM(DisasContext *s, arg_VMINMAXNM *a)
-         frm = tcg_temp_new_i32();
-         dest = tcg_temp_new_i32();
- 
--        tcg_gen_ld_f32(frn, cpu_env, vfp_reg_offset(dp, rn));
--        tcg_gen_ld_f32(frm, cpu_env, vfp_reg_offset(dp, rm));
-+        neon_load_reg32(frn, rn);
-+        neon_load_reg32(frm, rm);
-         if (vmin) {
-             gen_helper_vfp_minnums(dest, frn, frm, fpst);
-         } else {
-             gen_helper_vfp_maxnums(dest, frn, frm, fpst);
-         }
--        tcg_gen_st_f32(dest, cpu_env, vfp_reg_offset(dp, rd));
-+        neon_store_reg32(dest, rd);
-         tcg_temp_free_i32(frn);
-         tcg_temp_free_i32(frm);
-         tcg_temp_free_i32(dest);
-@@ -379,9 +379,9 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
-         TCGv_i64 tcg_res;
-         tcg_op = tcg_temp_new_i64();
-         tcg_res = tcg_temp_new_i64();
--        tcg_gen_ld_f64(tcg_op, cpu_env, vfp_reg_offset(dp, rm));
-+        neon_load_reg64(tcg_op, rm);
-         gen_helper_rintd(tcg_res, tcg_op, fpst);
--        tcg_gen_st_f64(tcg_res, cpu_env, vfp_reg_offset(dp, rd));
-+        neon_store_reg64(tcg_res, rd);
-         tcg_temp_free_i64(tcg_op);
-         tcg_temp_free_i64(tcg_res);
-     } else {
-@@ -389,9 +389,9 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
-         TCGv_i32 tcg_res;
-         tcg_op = tcg_temp_new_i32();
-         tcg_res = tcg_temp_new_i32();
--        tcg_gen_ld_f32(tcg_op, cpu_env, vfp_reg_offset(dp, rm));
-+        neon_load_reg32(tcg_op, rm);
-         gen_helper_rints(tcg_res, tcg_op, fpst);
--        tcg_gen_st_f32(tcg_res, cpu_env, vfp_reg_offset(dp, rd));
-+        neon_store_reg32(tcg_res, rd);
-         tcg_temp_free_i32(tcg_op);
-         tcg_temp_free_i32(tcg_res);
-     }
-@@ -440,14 +440,14 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
-         tcg_double = tcg_temp_new_i64();
-         tcg_res = tcg_temp_new_i64();
-         tcg_tmp = tcg_temp_new_i32();
--        tcg_gen_ld_f64(tcg_double, cpu_env, vfp_reg_offset(1, rm));
-+        neon_load_reg64(tcg_double, rm);
-         if (is_signed) {
-             gen_helper_vfp_tosld(tcg_res, tcg_double, tcg_shift, fpst);
-         } else {
-             gen_helper_vfp_tould(tcg_res, tcg_double, tcg_shift, fpst);
-         }
-         tcg_gen_extrl_i64_i32(tcg_tmp, tcg_res);
--        tcg_gen_st_f32(tcg_tmp, cpu_env, vfp_reg_offset(0, rd));
-+        neon_store_reg32(tcg_tmp, rd);
-         tcg_temp_free_i32(tcg_tmp);
-         tcg_temp_free_i64(tcg_res);
-         tcg_temp_free_i64(tcg_double);
-@@ -455,13 +455,13 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
-         TCGv_i32 tcg_single, tcg_res;
-         tcg_single = tcg_temp_new_i32();
-         tcg_res = tcg_temp_new_i32();
--        tcg_gen_ld_f32(tcg_single, cpu_env, vfp_reg_offset(0, rm));
-+        neon_load_reg32(tcg_single, rm);
-         if (is_signed) {
-             gen_helper_vfp_tosls(tcg_res, tcg_single, tcg_shift, fpst);
-         } else {
-             gen_helper_vfp_touls(tcg_res, tcg_single, tcg_shift, fpst);
-         }
--        tcg_gen_st_f32(tcg_res, cpu_env, vfp_reg_offset(0, rd));
-+        neon_store_reg32(tcg_res, rd);
-         tcg_temp_free_i32(tcg_res);
-         tcg_temp_free_i32(tcg_single);
-     }
+     return true;
+ }
++
++static bool trans_VMOV_to_gp(DisasContext *s, arg_VMOV_to_gp *a)
++{
++    /* VMOV scalar to general purpose register */
++    TCGv_i32 tmp;
++    int pass;
++    uint32_t offset;
++
++    /* UNDEF accesses to D16-D31 if they don't exist */
++    if (!dc_isar_feature(aa32_fp_d32, s) && (a->vn & 0x10)) {
++        return false;
++    }
++
++    offset = a->index << a->size;
++    pass = extract32(offset, 2, 1);
++    offset = extract32(offset, 0, 2) * 8;
++
++    if (a->size != 2 && !arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    tmp = neon_load_reg(a->vn, pass);
++    switch (a->size) {
++    case 0:
++        if (offset) {
++            tcg_gen_shri_i32(tmp, tmp, offset);
++        }
++        if (a->u) {
++            gen_uxtb(tmp);
++        } else {
++            gen_sxtb(tmp);
++        }
++        break;
++    case 1:
++        if (a->u) {
++            if (offset) {
++                tcg_gen_shri_i32(tmp, tmp, 16);
++            } else {
++                gen_uxth(tmp);
++            }
++        } else {
++            if (offset) {
++                tcg_gen_sari_i32(tmp, tmp, 16);
++            } else {
++                gen_sxth(tmp);
++            }
++        }
++        break;
++    case 2:
++        break;
++    }
++    store_reg(s, a->rt, tmp);
++
++    return true;
++}
++
++static bool trans_VMOV_from_gp(DisasContext *s, arg_VMOV_from_gp *a)
++{
++    /* VMOV general purpose register to scalar */
++    TCGv_i32 tmp, tmp2;
++    int pass;
++    uint32_t offset;
++
++    /* UNDEF accesses to D16-D31 if they don't exist */
++    if (!dc_isar_feature(aa32_fp_d32, s) && (a->vn & 0x10)) {
++        return false;
++    }
++
++    offset = a->index << a->size;
++    pass = extract32(offset, 2, 1);
++    offset = extract32(offset, 0, 2) * 8;
++
++    if (a->size != 2 && !arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return false;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    tmp = load_reg(s, a->rt);
++    switch (a->size) {
++    case 0:
++        tmp2 = neon_load_reg(a->vn, pass);
++        tcg_gen_deposit_i32(tmp, tmp2, tmp, offset, 8);
++        tcg_temp_free_i32(tmp2);
++        break;
++    case 1:
++        tmp2 = neon_load_reg(a->vn, pass);
++        tcg_gen_deposit_i32(tmp, tmp2, tmp, offset, 16);
++        tcg_temp_free_i32(tmp2);
++        break;
++    case 2:
++        break;
++    }
++    neon_store_reg(a->vn, pass, tmp);
++
++    return true;
++}
++
++static bool trans_VDUP(DisasContext *s, arg_VDUP *a)
++{
++    /* VDUP (general purpose register) */
++    TCGv_i32 tmp;
++    int size, vec_size;
++
++    if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
++        return false;
++    }
++
++    /* UNDEF accesses to D16-D31 if they don't exist */
++    if (!dc_isar_feature(aa32_fp_d32, s) && (a->vn & 0x10)) {
++        return false;
++    }
++
++    if (a->b && a->e) {
++        return false;
++    }
++
++    if (a->q && (a->vn & 1)) {
++        return false;
++    }
++
++    vec_size = a->q ? 16 : 8;
++    if (a->b) {
++        size = 0;
++    } else if (a->e) {
++        size = 1;
++    } else {
++        size = 2;
++    }
++
++    if (!vfp_access_check(s)) {
++        return true;
++    }
++
++    tmp = load_reg(s, a->rt);
++    tcg_gen_gvec_dup_i32(size, neon_reg_offset(a->vn, 0),
++                         vec_size, vec_size, tmp);
++    tcg_temp_free_i32(tmp);
++
++    return true;
++}
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 62a6c860d8a..bebd03f9da8 100644
+index bebd03f9da8..7e0771cd165 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1689,6 +1689,16 @@ static inline void neon_store_reg64(TCGv_i64 var, int reg)
-     tcg_gen_st_i64(var, cpu_env, vfp_reg_offset(1, reg));
- }
+@@ -3151,87 +3151,8 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
+             /* single register transfer */
+             rd = (insn >> 12) & 0xf;
+             if (dp) {
+-                int size;
+-                int pass;
+-
+-                VFP_DREG_N(rn, insn);
+-                if (insn & 0xf)
+-                    return 1;
+-                if (insn & 0x00c00060
+-                    && !arm_dc_feature(s, ARM_FEATURE_NEON)) {
+-                    return 1;
+-                }
+-
+-                pass = (insn >> 21) & 1;
+-                if (insn & (1 << 22)) {
+-                    size = 0;
+-                    offset = ((insn >> 5) & 3) * 8;
+-                } else if (insn & (1 << 5)) {
+-                    size = 1;
+-                    offset = (insn & (1 << 6)) ? 16 : 0;
+-                } else {
+-                    size = 2;
+-                    offset = 0;
+-                }
+-                if (insn & ARM_CP_RW_BIT) {
+-                    /* vfp->arm */
+-                    tmp = neon_load_reg(rn, pass);
+-                    switch (size) {
+-                    case 0:
+-                        if (offset)
+-                            tcg_gen_shri_i32(tmp, tmp, offset);
+-                        if (insn & (1 << 23))
+-                            gen_uxtb(tmp);
+-                        else
+-                            gen_sxtb(tmp);
+-                        break;
+-                    case 1:
+-                        if (insn & (1 << 23)) {
+-                            if (offset) {
+-                                tcg_gen_shri_i32(tmp, tmp, 16);
+-                            } else {
+-                                gen_uxth(tmp);
+-                            }
+-                        } else {
+-                            if (offset) {
+-                                tcg_gen_sari_i32(tmp, tmp, 16);
+-                            } else {
+-                                gen_sxth(tmp);
+-                            }
+-                        }
+-                        break;
+-                    case 2:
+-                        break;
+-                    }
+-                    store_reg(s, rd, tmp);
+-                } else {
+-                    /* arm->vfp */
+-                    tmp = load_reg(s, rd);
+-                    if (insn & (1 << 23)) {
+-                        /* VDUP */
+-                        int vec_size = pass ? 16 : 8;
+-                        tcg_gen_gvec_dup_i32(size, neon_reg_offset(rn, 0),
+-                                             vec_size, vec_size, tmp);
+-                        tcg_temp_free_i32(tmp);
+-                    } else {
+-                        /* VMOV */
+-                        switch (size) {
+-                        case 0:
+-                            tmp2 = neon_load_reg(rn, pass);
+-                            tcg_gen_deposit_i32(tmp, tmp2, tmp, offset, 8);
+-                            tcg_temp_free_i32(tmp2);
+-                            break;
+-                        case 1:
+-                            tmp2 = neon_load_reg(rn, pass);
+-                            tcg_gen_deposit_i32(tmp, tmp2, tmp, offset, 16);
+-                            tcg_temp_free_i32(tmp2);
+-                            break;
+-                        case 2:
+-                            break;
+-                        }
+-                        neon_store_reg(rn, pass, tmp);
+-                    }
+-                }
++                /* already handled by decodetree */
++                return 1;
+             } else { /* !dp */
+                 bool is_sysreg;
  
-+static inline void neon_load_reg32(TCGv_i32 var, int reg)
-+{
-+    tcg_gen_ld_i32(var, cpu_env, vfp_reg_offset(false, reg));
-+}
+diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
+index 28ee664d8c3..8286bdc0729 100644
+--- a/target/arm/vfp.decode
++++ b/target/arm/vfp.decode
+@@ -26,3 +26,39 @@
+ #  1110 1110 .... .... .... 101. .... ....
+ # (but those patterns might also cover some Neon instructions,
+ # which do not live in this file.)
 +
-+static inline void neon_store_reg32(TCGv_i32 var, int reg)
-+{
-+    tcg_gen_st_i32(var, cpu_env, vfp_reg_offset(false, reg));
-+}
++# VFP registers have an odd encoding with a four-bit field
++# and a one-bit field which are assembled in different orders
++# depending on whether the register is double or single precision.
++# Each individual instruction function must do the checks for
++# "double register selected but CPU does not have double support"
++# and "double register number has bit 4 set but CPU does not
++# support D16-D31" (which should UNDEF).
++%vm_dp  5:1 0:4
++%vm_sp  0:4 5:1
++%vn_dp  7:1 16:4
++%vn_sp  16:4 7:1
++%vd_dp  22:1 12:4
++%vd_sp  12:4 22:1
 +
- static TCGv_ptr vfp_reg_ptr(bool dp, int reg)
- {
-     TCGv_ptr ret = tcg_temp_new_ptr();
++%vmov_idx_b     21:1 5:2
++%vmov_idx_h     21:1 6:1
++
++# VMOV scalar to general-purpose register; note that this does
++# include some Neon cases.
++VMOV_to_gp   ---- 1110 u:1 1.        1 .... rt:4 1011 ... 1 0000 \
++             vn=%vn_dp size=0 index=%vmov_idx_b
++VMOV_to_gp   ---- 1110 u:1 0.        1 .... rt:4 1011 ..1 1 0000 \
++             vn=%vn_dp size=1 index=%vmov_idx_h
++VMOV_to_gp   ---- 1110 0   0 index:1 1 .... rt:4 1011 .00 1 0000 \
++             vn=%vn_dp size=2 u=0
++
++VMOV_from_gp ---- 1110 0 1.        0 .... rt:4 1011 ... 1 0000 \
++             vn=%vn_dp size=0 index=%vmov_idx_b
++VMOV_from_gp ---- 1110 0 0.        0 .... rt:4 1011 ..1 1 0000 \
++             vn=%vn_dp size=1 index=%vmov_idx_h
++VMOV_from_gp ---- 1110 0 0 index:1 0 .... rt:4 1011 .00 1 0000 \
++             vn=%vn_dp size=2
++
++VDUP         ---- 1110 1 b:1 q:1 0 .... rt:4 1011 . 0 e:1 1 0000 \
++             vn=%vn_dp
 -- 
 2.20.1
 
