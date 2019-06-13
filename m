@@ -2,47 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301E144EBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 23:50:58 +0200 (CEST)
-Received: from localhost ([::1]:45924 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF7F44EC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 23:55:13 +0200 (CEST)
+Received: from localhost ([::1]:45972 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbXcX-0004sT-DA
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 17:50:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51730)
+	id 1hbXge-0001nm-Au
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 17:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51753)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbXMo-0000RH-7j
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:34:43 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hbXMo-0000SA-Sj
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:34:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbXMl-0003GE-DE
+ (envelope-from <richard.henderson@linaro.org>) id 1hbXMm-0003Gl-0R
  for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:34:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54280)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hbXMl-00036R-3M; Thu, 13 Jun 2019 17:34:39 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 49F8B30A6986;
- Thu, 13 Jun 2019 21:34:18 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-48.brq.redhat.com [10.40.204.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D65AE5D9C5;
- Thu, 13 Jun 2019 21:34:09 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 23:34:06 +0200
-Message-Id: <20190613213406.22053-1-philmd@redhat.com>
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33252)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hbXMl-0003F8-K0
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 17:34:39 -0400
+Received: by mail-pf1-x443.google.com with SMTP id x15so77933pfq.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 14:34:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=p0z7URaZqQCsfktbXRSIL0pThBgVJ1cAPpGi+1vxVDE=;
+ b=rHWQEELoHAUZ4Tl2RIVroKspc3W5nkysrcIEKoO+Rn3q3wlwGfs33s3Dvzx4tAgtPD
+ YUKGtMr5gJWbOTRJSpeZq4ONKWPMp2c1E0rscM0+qpQCEBO6H1BT8bb8tc0JOCFVahTv
+ PMgz0SILzVnfR7yQt9iRoYjAwWmn+f+1CqIPUHyS5Upuq1Ft7J9kIPpXslZLvbtTw2HC
+ ycBTR4IYAgN/CQIgVnxL6u8i65AulQxaBc5gJDPPOIfK3roBYcT0AgYfcZ2lLsfqcO50
+ HGKmYbYEHfvgnk9H8STGPq4txx/45UC0GhL5S5hfgoj3ONsnVpkUZaAWCDs8Gui+0St4
+ 3jWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=p0z7URaZqQCsfktbXRSIL0pThBgVJ1cAPpGi+1vxVDE=;
+ b=WFDUOnrX0FipTtz18xinIixoLa0qHW2KX1YS5UIBHBRZw/zWWYO3z9uuQglv2/vRET
+ Q8RcLgyUK/9Lu+BNUZX/HGdd7eMyItts9Le2+eu0aBbrYSGVOvJmYFzBc8+fKkuIZCA6
+ SqvOMetqja0y1BJCgM9EdpUOhw2Obsv7U+cOjRiKyk9MBIGuYzjR1hIP2lVRlIlVaEsr
+ I3po6A3GjPBX3poG2R0bu5cZoJbugx2YT1o2hv20JIT0GAuMIUkGEmBOZ93ceA3aOP1O
+ KGoiGgdFnC4ayaG44Gw208mkGOL3MOinY7gP8mwK1E0VeaVV668uzdRtNzsth/sviO8e
+ zR+g==
+X-Gm-Message-State: APjAAAUQxU8uhHFPN5S/kZpiEZl9QH7H4A/hwxJ2nZB6jHPsg40GQMNq
+ b2A3wvNY+rr23Ui55HbFxEeHWRmZkHw=
+X-Google-Smtp-Source: APXvYqwlNn7B5L+cXpRiHCxbhCfEd3y8XmOo4nQnGMgoBav6g/FBiva9Ie2VNVewjfGphXFWCNFN2g==
+X-Received: by 2002:a17:90a:dd45:: with SMTP id
+ u5mr7328659pjv.109.1560461677806; 
+ Thu, 13 Jun 2019 14:34:37 -0700 (PDT)
+Received: from [10.10.150.239] ([149.199.65.200])
+ by smtp.gmail.com with ESMTPSA id y12sm699112pgi.10.2019.06.13.14.34.36
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 14:34:37 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190613163917.28589-1-peter.maydell@linaro.org>
+ <20190613163917.28589-12-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <bdcc8e54-7eea-9100-9c7b-b114fb159b1f@linaro.org>
+Date: Thu, 13 Jun 2019 14:34:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Thu, 13 Jun 2019 21:34:18 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2] spapr_pci: Fix potential NULL pointer
- dereference in spapr_dt_pci_bus()
+In-Reply-To: <20190613163917.28589-12-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH 11/12] target/arm: Stop using deprecated
+ functions in NEON_2RM_VCVT_F32_F16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,64 +86,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 14e714900f6 refactored the call to spapr_dt_drc(),
-introducing a potential NULL pointer dereference while
-accessing bus->parent_dev.
-A trivial audit show 'bus' is not null in the two places
-the static function spapr_dt_drc() is called.
+On 6/13/19 9:39 AM, Peter Maydell wrote:
+> Remove some old constructns from NEON_2RM_VCVT_F16_F32 code:
+>  * don't use CPU_F0s
+>  * don't use tcg_gen_st_f32
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/translate.c | 26 +++++++++++---------------
+>  1 file changed, 11 insertions(+), 15 deletions(-)
 
-Since the 'bus' parameter is not NULL in both callers, remove
-remove the test on if (bus), and add an assert() to silent
-static analyzers.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This fixes:
 
-  /hw/ppc/spapr_pci.c: 1367 in spapr_dt_pci_bus()
-  >>>     CID 1401933:  Null pointer dereferences  (FORWARD_NULL)
-  >>>     Dereferencing null pointer "bus".
-  1367         ret =3D spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev),
-  1368                            SPAPR_DR_CONNECTOR_TYPE_PCI);
-
-Fixes: 14e714900f6
-Reported-by: Coverity (CID 1401933)
-Suggested-by: Greg Kurz <groug@kaod.org>
-Suggested-by: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/ppc/spapr_pci.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
-
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 957ae88bbd..fbeb1c90ee 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1356,12 +1356,11 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, =
-PCIBus *bus,
-     _FDT(fdt_setprop_cell(fdt, offset, "#size-cells",
-                           RESOURCE_CELLS_SIZE));
-=20
--    if (bus) {
--        pci_for_each_device_reverse(bus, pci_bus_num(bus),
--                                    spapr_dt_pci_device_cb, &cbinfo);
--        if (cbinfo.err) {
--            return cbinfo.err;
--        }
-+    assert(bus);
-+    pci_for_each_device_reverse(bus, pci_bus_num(bus),
-+                                spapr_dt_pci_device_cb, &cbinfo);
-+    if (cbinfo.err) {
-+        return cbinfo.err;
-     }
-=20
-     ret =3D spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev),
---=20
-2.20.1
+r~
 
 
