@@ -2,76 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2299438EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:10:01 +0200 (CEST)
-Received: from localhost ([::1]:40742 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A44243A35
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:19:36 +0200 (CEST)
+Received: from localhost ([::1]:40814 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbRMW-0001hV-SP
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52886)
+	id 1hbRVn-0001xN-6j
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:19:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53750)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbPrO-0000Gi-Cx
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:33:47 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbPuo-0002QL-T1
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:37:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbPrL-0000uy-JO
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:33:45 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35248)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbPrH-0000ry-Tw
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:33:41 -0400
-Received: by mail-wr1-x441.google.com with SMTP id m3so1838919wrv.2
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 06:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=vDycYkpBBaB/Jl0cqSCwG7VUAJgXuKuroLUoQLhjjZU=;
- b=cm/pRn7+jjCDudLpSezgO1TgY9/v9vEUuPurKAuNvfDv0KA5vwWJDPrtX6s2/1iPgZ
- B1DeECbHYiHX+EOuiMG6KWxbG07Q2rsaKOZi8pX311ciw8pTLpxbJ5LDs4SBcfgRuG+j
- RWglNfTE8BvsCTdr+4AS4WItgw/nO/0BRcCnbgDFNMLa/JuJVUuA+WsWIntTjjZpCzCq
- XNI2Dx53McYLvuCyLJc5h44vxpuqJBtXS8/K/ZtSPahfii/uxoxoUWc/A54UiAaj9Kvy
- lOeOcziKvW+EgB4/OC57DSiBKPBqqZtCPQXdXJ+7EVM1TJulZyYllZ6ZCmbbKz+Dw72L
- ZTng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=vDycYkpBBaB/Jl0cqSCwG7VUAJgXuKuroLUoQLhjjZU=;
- b=AynMsHpDhAjp0kouE2MzkaxKGyJ5ZnH86l7OSTipzldkEBMQxXb+8PpuqkAR1LPcZW
- b3c4yg/wE+qA+k1ng8KwqkUPX4FoizJk/Z3Gj0PhLI6B360Q1MjxV0hV2vrcsMUdmGuF
- CEE/cSP1lbhYO4kz9Gda7ev9ERPB3Wqxpx0J+C9rue+nSQlOFZH/69ZoSrsFWtPckLZ6
- DS5K+m1BRoo1LYWY2L75K1sQv/0k0y/2brC4WETsyn4IKzsImhyvmYtXQeGrWV8t11fk
- 7C2y/mB6h6NP9hFCGkFATCoj5Hl/tSh7/l+CEbG88FS/PfMDysX8hBwHynhaynbyvVNF
- SdkA==
-X-Gm-Message-State: APjAAAUebYPedHM1v0RZLIs/hFWC3/60E11e5iGY+DxbicCL5Hw4M8YK
- eAq5/7mnVkDFJp+84CdGAt4hjw==
-X-Google-Smtp-Source: APXvYqxbukC3wuoYLIcAFUFF7rtznwf5iOeYlSOH8C6ZtTJiTtZylUrTS/tmoa9gzf42d72JZ14PBw==
-X-Received: by 2002:adf:e8cb:: with SMTP id k11mr58471356wrn.244.1560432818296; 
- Thu, 13 Jun 2019 06:33:38 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id c65sm4387239wma.44.2019.06.13.06.33.37
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 13 Jun 2019 06:33:37 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6299D1FF87;
- Thu, 13 Jun 2019 14:33:37 +0100 (BST)
-References: <20190517174046.11146-1-peter.maydell@linaro.org>
- <20190517174046.11146-4-peter.maydell@linaro.org>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-In-reply-to: <20190517174046.11146-4-peter.maydell@linaro.org>
-Date: Thu, 13 Jun 2019 14:33:37 +0100
-Message-ID: <877e9pehji.fsf@zen.linaroharston>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbPun-0003Lr-KJ
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:37:18 -0400
+Received: from mail-db5eur03on0731.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0a::731]:9742
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbPum-0003KI-TS; Thu, 13 Jun 2019 09:37:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n4EX4ARsKA+PNlLmEueDJOddkmP8+SrBKRrlaMtti5o=;
+ b=WgGQQdzIWymDiPwuNvBjZooTbulfRabxQvp628L53ROv/qjvTJfhPJTtXkR0et8yg9UTOS1/xot8hwxF1HEa94Zqfz2Qn5Vz4VI8NO4aEdI+I7TUQO3flF46IwczFY/z8ImQ112AbUWUgiQwraBW42PP+M49L518xOEAJ+7GqO8=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0PR08MB4339.eurprd08.prod.outlook.com (20.179.34.202) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.14; Thu, 13 Jun 2019 13:37:12 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Thu, 13 Jun 2019
+ 13:37:12 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v5 12/42] block: Use bdrv_filtered_rw* where obvious
+Thread-Index: AQHVIWur2sjpcclQiEu4Bh0Vl7h7fqaZl1wA
+Date: Thu, 13 Jun 2019 13:37:12 +0000
+Message-ID: <a803703e-c1de-c3a6-733e-01086e128181@virtuozzo.com>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-13-mreitz@redhat.com>
+In-Reply-To: <20190612221004.2317-13-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1P192CA0021.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::31)
+ To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190613163710470
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2837574c-d3d6-485c-2840-08d6f0043d7d
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:AM0PR08MB4339; 
+x-ms-traffictypediagnostic: AM0PR08MB4339:
+x-microsoft-antispam-prvs: <AM0PR08MB4339BC38CF425510EDDC6AD9C1EF0@AM0PR08MB4339.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3968;
+x-forefront-prvs: 0067A8BA2A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(346002)(376002)(136003)(366004)(396003)(39850400004)(199004)(189003)(478600001)(14454004)(102836004)(2501003)(71200400001)(256004)(26005)(71190400001)(229853002)(110136005)(2906002)(54906003)(53936002)(6486002)(316002)(186003)(6436002)(66066001)(6512007)(36756003)(86362001)(31696002)(2616005)(5660300002)(4744005)(31686004)(73956011)(305945005)(66476007)(66556008)(64756008)(66446008)(52116002)(66946007)(486006)(99286004)(25786009)(6246003)(11346002)(446003)(4326008)(476003)(386003)(68736007)(7736002)(6116002)(3846002)(6506007)(8936002)(76176011)(8676002)(81166006)(81156014);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4339;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 05+tSMxvdWYdOUdFO+wP5W71NwBm2OSXHLsZi/NuArSD3xh9FQ+wLQccm+XeiWwPK3ytKJt/1uakFkSImqqBgYMcARmZmZesCyrZ8BMxaRDO/k+4kFnx1EQanfC6PlUOUmgSUKLUDs8SCQW5yYYVDvtd+5iZHzuh+TXPYKby1lpuN3S6fyQUV4ZsXuQijvnASRBOqeAptjFbEqHwcKblpu7Aj+Bgs6ewYsaazNLfjZbADGrrHwcwQqR2ceMh7yXia6DwGfLrTB673e+LO97wJTPeXKk6FIaBUM+MHxNbGCDXmxDd9J1j4NYNUMXiYqGO7DddmmbMCpOubKC9qsAC5p1tl4LvvSI7sDrt4ItanFnXCYvtOL+pS6ub6xmap+UjwfGNfafNRNH4euNI91m8n+G+RRSxMliDp6zzGdYUKI8=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9403CF75A90FA341A8A733507B4D0EC5@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH 3/4] hw/arm/armv7m: Forward
- "vfp" and "dsp" properties to CPU
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2837574c-d3d6-485c-2840-08d6f0043d7d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 13:37:12.4050 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4339
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe0a::731
+Subject: Re: [Qemu-devel] [PATCH v5 12/42] block: Use bdrv_filtered_rw*
+ where obvious
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,88 +102,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> Create "vfp" and "dsp" properties on the armv7m container object
-> which will be forwarded to its CPU object, so that SoCs can
-> configure whether the CPU has these features.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  include/hw/arm/armv7m.h |  4 ++++
->  hw/arm/armv7m.c         | 18 ++++++++++++++++++
->  2 files changed, 22 insertions(+)
->
-> diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
-> index e96a98f8093..d2c74d3872a 100644
-> --- a/include/hw/arm/armv7m.h
-> +++ b/include/hw/arm/armv7m.h
-> @@ -43,6 +43,8 @@ typedef struct {
->   *   devices will be automatically layered on top of this view.)
->   * + Property "idau": IDAU interface (forwarded to CPU object)
->   * + Property "init-svtor": secure VTOR reset value (forwarded to CPU ob=
-ject)
-> + * + Property "vfp": enable VFP (forwarded to CPU object)
-> + * + Property "dsp": enable DSP (forwarded to CPU object)
->   * + Property "enable-bitband": expose bitbanded IO
->   */
->  typedef struct ARMv7MState {
-> @@ -66,6 +68,8 @@ typedef struct ARMv7MState {
->      uint32_t init_svtor;
->      bool enable_bitband;
->      bool start_powered_off;
-> +    bool vfp;
-> +    bool dsp;
->  } ARMv7MState;
->
->  #endif
-> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-> index c4b2a9a1f5c..7caf9bd3364 100644
-> --- a/hw/arm/armv7m.c
-> +++ b/hw/arm/armv7m.c
-> @@ -190,6 +190,22 @@ static void armv7m_realize(DeviceState *dev, Error *=
-*errp)
->              return;
->          }
->      }
-> +    if (object_property_find(OBJECT(s->cpu), "vfp", NULL)) {
-> +        object_property_set_bool(OBJECT(s->cpu), s->vfp,
-> +                                 "vfp", &err);
-> +        if (err !=3D NULL) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
-> +    }
-> +    if (object_property_find(OBJECT(s->cpu), "dsp", NULL)) {
-> +        object_property_set_bool(OBJECT(s->cpu), s->dsp,
-> +                                 "dsp", &err);
-> +        if (err !=3D NULL) {
-> +            error_propagate(errp, err);
-> +            return;
-> +        }
-> +    }
->
->      /*
->       * Tell the CPU where the NVIC is; it will fail realize if it doesn't
-> @@ -260,6 +276,8 @@ static Property armv7m_properties[] =3D {
->      DEFINE_PROP_BOOL("enable-bitband", ARMv7MState, enable_bitband, fals=
-e),
->      DEFINE_PROP_BOOL("start-powered-off", ARMv7MState, start_powered_off,
->                       false),
-> +    DEFINE_PROP_BOOL("vfp", ARMv7MState, vfp, true),
-> +    DEFINE_PROP_BOOL("dsp", ARMv7MState, dsp, true),
->      DEFINE_PROP_END_OF_LIST(),
->  };
-
-
---
-Alex Benn=C3=A9e
+MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFBsYWNlcyB0aGF0IHVzZSBwYXR0
+ZXJucyBsaWtlDQo+IA0KPiAgICAgIGlmIChicy0+ZHJ2LT5pc19maWx0ZXIgJiYgYnMtPmZpbGUp
+IHsNCj4gICAgICAgICAgLi4uIHNvbWV0aGluZyBhYm91dCBicy0+ZmlsZS0+YnMgLi4uDQo+ICAg
+ICAgfQ0KPiANCj4gc2hvdWxkIGJlDQo+IA0KPiAgICAgIEJsb2NrRHJpdmVyU3RhdGUgKmZpbHRl
+cmVkID0gYmRydl9maWx0ZXJlZF9yd19icyhicyk7DQo+ICAgICAgaWYgKGZpbHRlcmVkKSB7DQo+
+ICAgICAgICAgIC4uLiBzb21ldGhpbmcgYWJvdXQgQGZpbHRlcmVkIC4uLg0KPiAgICAgIH0NCj4g
+DQo+IGluc3RlYWQuDQoNCkhtbSwgaW4gb3RoZXIgd29yZHMsIHN1cHBvcnQgZmlsdGVycyB3aXRo
+IGJhY2tpbmcgY2hpbGQgaW4gYWxsIHBsYWNlcywgd2hlcmUgb25seSBmaWxlLWJhc2VkDQpmaWx0
+ZXJzIGFyZSBzdXBwb3J0ZWQsIGFzIHdlIGRvbid0IHdhbnQgbWFrZSBhbnkgc2VtYW50aWMgZGlm
+ZmVyZW5jZSBiZXR3ZWVuIHRoZXNlIHR3bw0KdHlwZXMgb2YgZmlsdGVycy4NCg0KPiANCj4gU2ln
+bmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVpdHpAcmVkaGF0LmNvbT4NCg0KUmV2aWV3ZWQtYnk6
+IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4N
+Cg0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
