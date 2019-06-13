@@ -2,80 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F903438C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:08:51 +0200 (CEST)
-Received: from localhost ([::1]:40728 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F68643956
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:13:26 +0200 (CEST)
+Received: from localhost ([::1]:40768 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbRLN-00006A-1E
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:08:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37611)
+	id 1hbRPp-0004qc-Pc
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39833)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbQa2-0004kx-MI
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:19:55 -0400
+ (envelope-from <eblake@redhat.com>) id 1hbQiP-0003py-KN
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:28:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbQa1-0005ml-IZ
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:19:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54452)
+ (envelope-from <eblake@redhat.com>) id 1hbQiO-0004Ok-La
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:28:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42506)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbQZy-0005jY-Tx; Thu, 13 Jun 2019 10:19:51 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hbQiM-0004MJ-D9; Thu, 13 Jun 2019 10:28:30 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F05E330BC56C;
- Thu, 13 Jun 2019 14:19:41 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4627600C0;
- Thu, 13 Jun 2019 14:19:40 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 606DC2EF195;
+ Thu, 13 Jun 2019 14:28:13 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 23E8E2B443;
+ Thu, 13 Jun 2019 14:28:08 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-12-mreitz@redhat.com>
- <7a0fe60a-0d16-5420-0c6a-65cfe01bc933@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
+ <20190611102720.86114-2-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <187cae6d-c9f1-7adb-aca9-5d0ba977de43@redhat.com>
-Date: Thu, 13 Jun 2019 16:19:39 +0200
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <ab8a1232-d609-d019-1aff-888eab403ce1@redhat.com>
+Date: Thu, 13 Jun 2019 09:28:07 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <7a0fe60a-0d16-5420-0c6a-65cfe01bc933@virtuozzo.com>
+In-Reply-To: <20190611102720.86114-2-vsementsov@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="6vcGHSR6dj1chBEr0lp1MOYpIYATotnBx"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+ boundary="HQCstxFOiC4kRkakF7PSC6sqLfejyVqsY"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 13 Jun 2019 14:19:42 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 13 Jun 2019 14:28:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 11/42] block: Add
- bdrv_supports_compressed_writes()
+Subject: Re: [Qemu-devel] [PATCH 1/3] block/nbd-client: drop stale logout
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,98 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---6vcGHSR6dj1chBEr0lp1MOYpIYATotnBx
-Content-Type: multipart/mixed; boundary="2qFuF8NjhXuyUUZY4x3xIlgjJzSR7qwzl";
+--HQCstxFOiC4kRkakF7PSC6sqLfejyVqsY
+Content-Type: multipart/mixed; boundary="vJ2avaBwYwCZKOyAPCuiAxuRnY2uMSooq";
  protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <187cae6d-c9f1-7adb-aca9-5d0ba977de43@redhat.com>
-Subject: Re: [PATCH v5 11/42] block: Add bdrv_supports_compressed_writes()
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-12-mreitz@redhat.com>
- <7a0fe60a-0d16-5420-0c6a-65cfe01bc933@virtuozzo.com>
-In-Reply-To: <7a0fe60a-0d16-5420-0c6a-65cfe01bc933@virtuozzo.com>
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: mreitz@redhat.com, kwolf@redhat.com
+Message-ID: <ab8a1232-d609-d019-1aff-888eab403ce1@redhat.com>
+Subject: Re: [PATCH 1/3] block/nbd-client: drop stale logout
+References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
+ <20190611102720.86114-2-vsementsov@virtuozzo.com>
+In-Reply-To: <20190611102720.86114-2-vsementsov@virtuozzo.com>
 
---2qFuF8NjhXuyUUZY4x3xIlgjJzSR7qwzl
+--vJ2avaBwYwCZKOyAPCuiAxuRnY2uMSooq
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 13.06.19 15:29, Vladimir Sementsov-Ogievskiy wrote:
-> 13.06.2019 1:09, Max Reitz wrote:
->> Filters cannot compress data themselves but they have to implement
->> .bdrv_co_pwritev_compressed() still (or they cannot forward compressed=
-
->> writes).  Therefore, checking whether
->> bs->drv->bdrv_co_pwritev_compressed is non-NULL is not sufficient to
->> know whether the node can actually handle compressed writes.  This
->> function looks down the filter chain to see whether there is a
->> non-filter that can actually convert the compressed writes into
->> compressed data (and thus normal writes).
+On 6/11/19 5:27 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Drop one on failure path (we have errp) and turn two others into trace
+> points.
 >=20
-> Why not to use this function in (as I remember only 2-3 cases) when
-> we check for bs->drv->bdrv_co_pwritev_compressed? It would be a complet=
-e fix
-> for described problem.
-
-Well, bdrv_driver_pwritev_compressed() doesn=E2=80=99t really care, it wi=
-ll find
-out sooner or later anyway (while being passed down the chain).  This is
-only really important for the backup job, which will use this function
-as of patch 26.  (It isn=E2=80=99t important before 26, because using fil=
-ters
-with backup generally is a gamble before that patch.)
-
-> (hmm, ok, other new APIs are added separately too, for some reason they=
- don't
-> confuse me and this confuses)
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/nbd-client.h | 9 ---------
+>  block/nbd-client.c | 6 +++---
+>  block/trace-events | 2 ++
+>  3 files changed, 5 insertions(+), 12 deletions(-)
 >=20
-> On the other hand, (the second time I think about it during review), co=
-uld
-> we handle compression through flags completely?
-> We have supported_write_flags feature, which should be used for all the=
-se checks..
-> And may be, we may drop .bdrv_co_pwritev_compressed at all.
 
-We probably could, yes.  I just felt like this wasn=E2=80=99t the time to=
- do it.
-O:-)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-> But if you want to keep it as is, it's OK too:
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-Thanks for reviewing!
-
-Max
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
---2qFuF8NjhXuyUUZY4x3xIlgjJzSR7qwzl--
+--vJ2avaBwYwCZKOyAPCuiAxuRnY2uMSooq--
 
---6vcGHSR6dj1chBEr0lp1MOYpIYATotnBx
+--HQCstxFOiC4kRkakF7PSC6sqLfejyVqsY
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CW3sACgkQ9AfbAGHV
-z0CdAQf/d3CneSCTEjpC2G1vgsc8TCbejhSWKnbjjbEU5KF8wxesDKoj0xDbXA7Z
-d4CruHK4bbiMovDNLnQGJmxvRZhG9aOUJuvR6QmAGb+0b8Yu+OzgaFW0JxOyWerQ
-sgyEWtGCegsbvznNtCP79rvSNQ8TbMRl3F8gMH9Hz4dCd8XjdxzExLPNKZrsG210
-haJw53YGbLAmn+7IAC1s7h38g0Gv5mxN5WVs/3Y1ep9U+ondYJYckGa1JUWkVZUT
-Tm3o0OcUbsY5YE2Ukm07ZtZtfnuqNZd5NF5rfRt8rDauWFt+0O4ykt6OFcAsHQXL
-go/Ofto4wi2IqHRthkkIXi70fef25g==
-=8gWQ
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0CXXcACgkQp6FrSiUn
+Q2oY6Qf9EHevRyLU89ezGuZu0ouFzhdmYY44U60z4VRzR6uj2RD1ycBwFYXCZNqE
+FJ2BFxU+eexYkb2jOnH0UD4Zj2J1xiIIEbNWe1r/eRG+11168uJ1UWizNp/5gs5P
+v7pF5+ovc/ZdvxiGLZfGiIY8V8xa997RMu/Q+k7SqSe3iqVvcP+QQjPejPgQuQzf
+pItk4Fy3rJxHRfCSRyJeaaVPobi/tbvzfUk5EHCc3S/hc973/Z9+ueAiuVC4frwA
+xO0tkT3jzqMh5kPDzi122CfKEKz3z/E+d8tGBUjA+D/dTKx0my1sIkR++B7zWW0I
+sYFeEPQntUsLYKqCW2dMKYeIN/I0kw==
+=2PDh
 -----END PGP SIGNATURE-----
 
---6vcGHSR6dj1chBEr0lp1MOYpIYATotnBx--
+--HQCstxFOiC4kRkakF7PSC6sqLfejyVqsY--
 
