@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C62244CAB
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:57:48 +0200 (CEST)
-Received: from localhost ([::1]:45344 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AA344CF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 22:05:53 +0200 (CEST)
+Received: from localhost ([::1]:45412 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbVr1-0004gJ-Qj
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55191)
+	id 1hbVyq-0001bL-II
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 16:05:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58217)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbVme-00017E-LH
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 15:53:18 -0400
+ (envelope-from <eblake@redhat.com>) id 1hbVx3-00015e-BP
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 16:04:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbVmc-0004SV-LN
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 15:53:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35974)
+ (envelope-from <eblake@redhat.com>) id 1hbVx2-0002qk-BF
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 16:04:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42056)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbVmF-000476-V0; Thu, 13 Jun 2019 15:52:57 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hbVwu-0002f6-7h; Thu, 13 Jun 2019 16:03:56 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C5E1F30832DA;
- Thu, 13 Jun 2019 19:52:40 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AAB560BE2;
- Thu, 13 Jun 2019 19:52:39 +0000 (UTC)
-To: qemu-block@nongnu.org
-References: <20190507203508.18026-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 30DBB3082145;
+ Thu, 13 Jun 2019 20:03:27 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E8775C28C;
+ Thu, 13 Jun 2019 20:03:25 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190613183727.28774-1-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <01c11e01-8ddb-4281-72ad-9e9b30eafdeb@redhat.com>
-Date: Thu, 13 Jun 2019 21:52:37 +0200
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <f9fabc0e-dba6-4034-81d6-925654c98827@redhat.com>
+Date: Thu, 13 Jun 2019 15:03:24 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190507203508.18026-1-mreitz@redhat.com>
+In-Reply-To: <20190613183727.28774-1-mreitz@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="UcIgmlrmV7OnOvj5x9y2Dq3JDjxdGScdQ"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ boundary="meBXJpw2No2tDcbDjGCKJE3YPOJGjEZZV"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 13 Jun 2019 19:52:40 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 13 Jun 2019 20:03:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 0/7] qemu-img: Add salvaging mode to
- convert
+Subject: Re: [Qemu-devel] [PATCH] iotests: Hide timestamps for skipped tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,100 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---UcIgmlrmV7OnOvj5x9y2Dq3JDjxdGScdQ
-Content-Type: multipart/mixed; boundary="YWIQFmOfhYma90UIVJj8aXE41PHfuJbyY";
+--meBXJpw2No2tDcbDjGCKJE3YPOJGjEZZV
+Content-Type: multipart/mixed; boundary="wbiGatZY9Kg22mmLLPJorVxbQZDnTZnKL";
  protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>
-Message-ID: <01c11e01-8ddb-4281-72ad-9e9b30eafdeb@redhat.com>
-Subject: Re: [PATCH v4 0/7] qemu-img: Add salvaging mode to convert
-References: <20190507203508.18026-1-mreitz@redhat.com>
-In-Reply-To: <20190507203508.18026-1-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Message-ID: <f9fabc0e-dba6-4034-81d6-925654c98827@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] iotests: Hide timestamps for skipped tests
+References: <20190613183727.28774-1-mreitz@redhat.com>
+In-Reply-To: <20190613183727.28774-1-mreitz@redhat.com>
 
---YWIQFmOfhYma90UIVJj8aXE41PHfuJbyY
+--wbiGatZY9Kg22mmLLPJorVxbQZDnTZnKL
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 07.05.19 22:35, Max Reitz wrote:
-> Hi,
+On 6/13/19 1:37 PM, Max Reitz wrote:
+> Currently, the "thistime" variable is not reinitialized on every loop
+> iteration.  This leads to tests that do not yield a run time (because
+> they failed or were skipped) printing the run time of the previous test=
+
+> that did.  Fix that by reinitializing "thistime" for every test.
 >=20
-> This series adds a --salvage option to qemu-img convert.  With this,
-> qemu-img will not abort when it encounters an I/O error.  Instead, it
-> tries to narrow it down and will treat the affected sectors as being
-> completely 0 (and print a warning).
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/check | 1 +
+>  1 file changed, 1 insertion(+)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 >=20
-> Testing this is not so easy, because while real I/O errors during read
-> operations should be treated as described above, errors encountered
-> during bdrv_block_status() should just be ignored and the affected
-> sectors should be considered allocated.  But blkdebug does not yet have=
-
-> a way to intercept this, and:
+> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+> index 44ebf24080..f925606cc5 100755
+> --- a/tests/qemu-iotests/check
+> +++ b/tests/qemu-iotests/check
+> @@ -773,6 +773,7 @@ do
+>      printdiff=3Dfalse # show diff to reference output?
+>      status=3D""       # test result summary
+>      results=3D""      # test result details
+> +    thistime=3D""     # time the test took
+> =20
+>      if [ -n "$TESTS_REMAINING_LOG" ] ; then
+>          sed -e "s/$seq//" -e 's/  / /' -e 's/^ *//' $TESTS_REMAINING_L=
+OG > $TESTS_REMAINING_LOG.tmp
 >=20
-> (1) Just adding a new block-status event would be silly, because I don'=
-t
->     want an event, I want it to fail on a certain kind of operation, on=
 
->     a certain sector range, independently of any events, so why can't w=
-e
->     just do that?  See patch 4.
->=20
-> (2) If we just make blkdebug intercept .bdrv_co_block_status() like all=
-
->     other kinds of operations, at least iotest 041 fails, which does
->     exactly that silly thing: It uses the read_aio event to wait for an=
-y
->     read.  But it turns out that there may be a bdrv_*block_status()
->     call in between, so suddenly the wrong operation yields an error.
->     As I said, the real fault here is that it does not really make sens=
-e
->     to pray that the operation you want to fail is the one that is
->     immediately executed after some event that you hope will trigger
->     that operation.
->     See patch 3.
->=20
-> So patch 3 allows blkdebug users to select which kind of I/O operation
-> they actually want to make fail, and patch 4 allows them to not use any=
-
-> event, but to have a rule active all the time.
->=20
-> Together, we can then enable error injection for block-status in patch =
-5
-> and make use of event=3Dnone iotype=3Dblock-status in patch 6.
-
-Applied the series to my block branch, and fixed _filter_offsets in
-patch 6 as suggested by Vladimir.
-
-Max
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
---YWIQFmOfhYma90UIVJj8aXE41PHfuJbyY--
+--wbiGatZY9Kg22mmLLPJorVxbQZDnTZnKL--
 
---UcIgmlrmV7OnOvj5x9y2Dq3JDjxdGScdQ
+--meBXJpw2No2tDcbDjGCKJE3YPOJGjEZZV
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CqYUACgkQ9AfbAGHV
-z0Ci3QgApYEAbwQxtvKcGwTJMm2gJs5duzskatUCv5oRD7ml751ZMQrGxBlYnrrC
-+7U7/O1CesvKkmyyS5urx9EjLGL9mO71dxwaEheuFlQnyYXrTyfypQnhtn7oJjYh
-b+jkpByoAiar59lOJcCCaYGJmR/R01cQ/j96aZRMhYFAiqL+KeyxJiGfbtSZf/Ik
-/fqQkmWjdn2SY2W4i8I+o9x1ffwa8vtJg/DK7Sb0FlQ6UHiwyqieXt4yyX+au0uy
-WiV0CGWncu3f0j2xFmz3+9YBd/rdMBi1aX46+5TQkgl1CUxr8H7BrMO5Bu8KNaja
-XkaH1JEVT8bfDDi9+D1wVgDUDdl7gQ==
-=rDcV
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0CrAwACgkQp6FrSiUn
+Q2p0oAf9E6MCBjst1qwWFfZMZ2qmAf+vUmjPyv9Ghxqg6BHRhJbC09Is3qycOkrl
+kLrNtDV6S+jNVQ8dRZOWqXAnPiZws8S0Bo5bUhWFsWd5KyorfQ1sJAb5jgXgKcWF
+Ffag6HKmA0JGUZr+acbsibGgLQcToUo69cqZZ/KWJ7wYcPGvBe17bC9fTxxnv6dF
+NUQr8QppO/hgWj9AkRiyeNAFGTo/7qZ70GkdZnG4HGd3n+VN+Xh6clUylqy8D+qr
+b7HmuFnm08y10OIw18Df0Lzj9FnTctWEcSzzLmSDWVAI0EwLByUTdgBijwPrQY+W
+CLKkqio/UzE4TDNIKrdDcTbtjfpQdQ==
+=QHHE
 -----END PGP SIGNATURE-----
 
---UcIgmlrmV7OnOvj5x9y2Dq3JDjxdGScdQ--
+--meBXJpw2No2tDcbDjGCKJE3YPOJGjEZZV--
 
