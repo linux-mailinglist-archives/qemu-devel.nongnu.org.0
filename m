@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B41444A04
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:58:07 +0200 (CEST)
-Received: from localhost ([::1]:43146 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40427449EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:51:02 +0200 (CEST)
+Received: from localhost ([::1]:42876 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbTz7-0006Jj-Cb
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:58:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46245)
+	id 1hbTsI-0006Gl-Kh
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46297)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbSLG-00067T-VW
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:12:48 -0400
+ (envelope-from <stefanha@gmail.com>) id 1hbSLR-00068o-D9
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:12:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbSLE-0008Lp-Bp
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:12:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47356)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbSL4-0006cw-4C; Thu, 13 Jun 2019 12:12:35 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 65C1A3091D73;
- Thu, 13 Jun 2019 16:12:09 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 292335C29A;
- Thu, 13 Jun 2019 16:12:07 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <4c6524b7-2feb-2b92-6929-54629ece1e29@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <25f94c28-0f03-f2dc-9a26-314af8d0937f@redhat.com>
-Date: Thu, 13 Jun 2019 18:12:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <stefanha@gmail.com>) id 1hbSLI-0000Id-Ub
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:12:53 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46132)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1hbSLC-0007fw-7E; Thu, 13 Jun 2019 12:12:43 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id n4so21371146wrw.13;
+ Thu, 13 Jun 2019 09:12:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=pozcxlOsEh8tedQlvKwH/BycRWDv3x1eho7USa5oCWA=;
+ b=i3rFxKLg1jCMfIh3+9yiVGyZYpLTYAbPhj/Kz1Oem7b8oj+eKjxx9pAwIyLfqQuB0l
+ 2GHfF3wDMqyhj7/ilf5A14wEoKR27H5N1GpJ/lXD2NHqYrhkCi+TSa9sssX/0lbxnX9q
+ yVZtBwfTQYouZeCqgMMGqlBfhtVvt4BTCQeMIGgdj8AmqJ7neZXGScfwgI57zlqI1FYD
+ Is+YwdoxS7ZEN1Zq/jOU8eaTXK7iFu4kJRfHZ0cTNl2Gdn3giZ+0o5qwMYALaV9da5uN
+ arElDwwVUPnby496JviIi+ficodUxWoyo/BdBbDTCJKGrgADkN5oRQkQZcpOFGSykhwx
+ BcZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=pozcxlOsEh8tedQlvKwH/BycRWDv3x1eho7USa5oCWA=;
+ b=BbOcmMwlUq5HmK1ffuFw9JdmAOyoDUWqoY40rOkxYAM7SCuX4M122kNa1cNWqSzBbq
+ cL+k6LCVlHvwo7091q0NiH7vBLfmrT7lx/9Y5HcpArvsQ1gY5MtjwWAlXJeqMSRPlgl4
+ 3+JiWA3QYWExQBiDfFA57iXe1T76XIw2YXtJceRK3J1DTsV78zasObcxx9XTRz/fEpTn
+ F6anbWKfKqWJE3ocHKV0Z8yGrkZXcPxVRzFiLdFi/OGwUzbjQLisW1rsmFX9SHnTqmNj
+ Z++rorBSf8fgL/1fQ7dUMuHGbyw7r0h5QMnd0J/4MXZkbnJcidpIFe9VIjtyGkWhPcd4
+ VFHw==
+X-Gm-Message-State: APjAAAVj+RlXMBJSygzvD7auLg4n/hxATxjS+6BKFInMmtVdu5MmZb9V
+ vnbdgD8RfLhKDtGvQSmec0Y=
+X-Google-Smtp-Source: APXvYqxNPvk+eeuoXo/JJrLgUaxhTyTQyAirYjBdL6yoAZvArw/msebbDvXSZzzuySVsttP43JAMfw==
+X-Received: by 2002:adf:eb4e:: with SMTP id u14mr13471957wrn.168.1560442351223; 
+ Thu, 13 Jun 2019 09:12:31 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id w67sm462702wma.24.2019.06.13.09.12.30
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 13 Jun 2019 09:12:30 -0700 (PDT)
+Date: Thu, 13 Jun 2019 17:12:25 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190613161225.GB12986@stefanha-x1.localdomain>
+References: <20190524172812.27308-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <4c6524b7-2feb-2b92-6929-54629ece1e29@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="F0sGjpUmDV4JYDZEXBJCt1l6gZmvpwWAi"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Thu, 13 Jun 2019 16:12:09 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 00/42] block: Deal with filters
+ protocol="application/pgp-signature"; boundary="O5XBE6gyVG5Rl6Rj"
+Content-Disposition: inline
+In-Reply-To: <20190524172812.27308-1-mreitz@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42f
+Subject: Re: [Qemu-devel] =?utf-8?q?=5BRFC_0/3=5D_block=3A_Inquire_images?=
+ =?utf-8?q?=E2=80=99_rotational_info?=
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,140 +80,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Anton Nefedov <anton.nefedov@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---F0sGjpUmDV4JYDZEXBJCt1l6gZmvpwWAi
-Content-Type: multipart/mixed; boundary="akisZMwe7H8xHkd8U3UKV2NwnzOfMQWi5";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <25f94c28-0f03-f2dc-9a26-314af8d0937f@redhat.com>
-Subject: Re: [PATCH v5 00/42] block: Deal with filters
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <4c6524b7-2feb-2b92-6929-54629ece1e29@virtuozzo.com>
-In-Reply-To: <4c6524b7-2feb-2b92-6929-54629ece1e29@virtuozzo.com>
 
---akisZMwe7H8xHkd8U3UKV2NwnzOfMQWi5
+--O5XBE6gyVG5Rl6Rj
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 13.06.19 17:28, Vladimir Sementsov-Ogievskiy wrote:
-> 13.06.2019 1:09, Max Reitz wrote:
->> Hi,
->>
->> When we introduced filters, we did it a bit casually.  Sure, we talked=
- a
->> lot about them before, but that was mostly discussion about where
->> implicit filters should be added to the graph (note that we currently
->> only have two implicit filters, those being mirror and commit).  But i=
-n
->> the end, we really just designated some drivers filters (Quorum,
->> blkdebug, etc.) and added some specifically (throttle, COR), without
->> really looking through the block layer to see where issues might occur=
-=2E
->>
->> It turns out vast areas of the block layer just don=E2=80=99t know abo=
-ut filters
->> and cannot really handle them.  Many cases will work in practice, in
->> others, well, too bad, you cannot use some feature because some part
->> deep inside the block layer looks at your filters and thinks they are
->> format nodes.
->>
->> This is one reason why this series is needed.  Over time (since v1), a=
-
->> second reason has made its way in:
->>
->> bs->file is not necessarily the place where a node=E2=80=99s data is s=
-tored.
->> qcow2 now has external data files, and currently there is no way for t=
-he
->> general block layer to know that the data is not stored in bs->file.
->> Right now, I do not think that has any real consequences (all function=
-s
->> that need access to the actual data storage file should only do so as =
-a
->> fallback if the driver does not provide some functionality, but qcow2
->> should provide it all), but it still shows that we need some way to le=
-t
->> the general block layer know about such data files.  (Also, I will nee=
-d
->> this for v1 of my =E2=80=9CInquire images=E2=80=99 rotational info=E2=80=
-=9D series.)
->>
->> I won=E2=80=99t go on and on about this series now, I think the patche=
-s pretty
->> much speak for themselves now.  If the cover letter gets too long,
->> nobody reads it anyway (see previous versions).
->>
->>
->> *** This series depends on some others. ***
->>
->> Dependencies:
->> - [PATCH 0/4] block: Keep track of parent quiescing
->> - [PATCH 0/2] vl: Drain before (block) job cancel when quitting
->> - [PATCH v2 0/2] blockdev: Overlays are not snapshots
->>
->> Based-on: <20190605161118.14544-1-mreitz@redhat.com>
->> Based-on: <20190612220839.1374-1-mreitz@redhat.com>
->> Based-on: <20190603202236.1342-1-mreitz@redhat.com>
+On Fri, May 24, 2019 at 07:28:09PM +0200, Max Reitz wrote:
+> Hi,
 >=20
-> Could you please export a branch?
-
-Sure:
-
-https://git.xanclic.moe/XanClic/qemu child-access-functions-v5
-Or:
-https://github.com/XanClic/qemu child-access-functions-v5
-
-
-(And the base branch is:
-
-https://git.xanclic.moe/XanClic/qemu child-access-functions-base
-https://github.com/XanClic/qemu child-access-functions-base
-)
-
->> v5:
->> - Split the huge patches 2 and 3 from the previous version into many
->>    smaller patches to maintain the potential reviewers=E2=80=99 sanity=
- [Vladimir]
+> http://lists.nongnu.org/archive/html/qemu-block/2019-05/msg00569.html
+> shows that optimizations affect HDDs and SSDs differently.  It would be
+> nice if we could differentiate between the two and then choose to adjust
+> our behavior depending on whether a given image is stored on an HDD or
+> not.
 >=20
-> Thank you! In spite of frightening amount of patches, reviewing became =
-a lot
-> simpler.
+> Or maybe it isn=E2=80=99t so nice.  That=E2=80=99s one reason this is an =
+RFC.
 
-I had hoped making it exactly 42 patches would make it a bit more welcomi=
-ng.
+Seems useful.
 
-Again, thanks a lot for reviewing!
+As long as this isn't exposed to the guest automatically (e.g. via SCSI)
+then it's fine since guest-visible values are not allowed to change
+across live migration or storage migration.
 
-Max
+Stefan
 
-
---akisZMwe7H8xHkd8U3UKV2NwnzOfMQWi5--
-
---F0sGjpUmDV4JYDZEXBJCt1l6gZmvpwWAi
+--O5XBE6gyVG5Rl6Rj
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CddYACgkQ9AfbAGHV
-z0BZ0gf+KIjoyUTV01nLvD5wquA6Jh4OVIuwSkN/XUFghDRt18BwbBCciXKDgTiX
-j4W8B6lL3kPvyouUFoTNRpT7ion96zfARuVWWBN4yBNNIXlTM3/DI1oERJY4zVxF
-Ypl6HJfKxuAFbsxEFueXI82hVUHQTyNk+ftRhDKvUC7fH8rSvjrANOM0FvjJO/jH
-OpNreil7QD48Kp7IxFcJbVfqfe/DBQwmow6jl+BHxyFgRnlVjf7xGqWAHGWf5CNr
-jqx3d3dsx8xGtKCsGKACtY1uGysXqaHbLTULmRbSzb41q4xh1LIn7Z5onXX+aDGT
-N3M2Y2R8ADY4np5ZBd13zELihlFcNQ==
-=2SSg
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0CdekACgkQnKSrs4Gr
+c8grOwgApST2nTn5eGLNFKeozkGF0u3cXti2r3wvp2s7rHP825TPSPShbYYXvbd5
+yS0Uk7DHJgvU3+N6M3YYqNhhmgy4Cirfw8qOR8hiP9AoJJJKqJfWnjsuQ+wlzUb6
+l5ACAFUwtMytKZKA5nnCgQRB2hfh3VaBTCPWupauiXp/MkKLBmpNQCAzFyYyp92N
+J4SIOxtYj03RWNzw3V1XrheLfbqVievrKtLDyibggjhMU70n+NoK+lYhuvrAMxnO
+wOSsZzCQPhizPdf4s1JMlLz/1i2LiTrvxhOQxoPcvlzVGGMTRjrg/qIZNkH1jXUd
+89iYtP+VcVh5UcqUgq39yJbgmVtRJA==
+=cMJd
 -----END PGP SIGNATURE-----
 
---F0sGjpUmDV4JYDZEXBJCt1l6gZmvpwWAi--
+--O5XBE6gyVG5Rl6Rj--
 
