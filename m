@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D1044A7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:15:53 +0200 (CEST)
-Received: from localhost ([::1]:43342 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F6544BE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:14:28 +0200 (CEST)
+Received: from localhost ([::1]:44476 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbUGO-0002Q9-Vw
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:15:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56983)
+	id 1hbVB5-0007Zb-Ui
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58717)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hbSxG-00068j-Fj
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:52:04 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbT49-000587-ST
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:59:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mdroth@linux.vnet.ibm.com>) id 1hbSxE-0001iJ-Jh
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:52:02 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35868)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mdroth@linux.vnet.ibm.com>)
- id 1hbSxC-0001Rw-KW
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:52:00 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5DGgTq2081384
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:51:53 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2t3rn6wa63-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:51:52 -0400
-Received: from localhost
- by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <mdroth@linux.vnet.ibm.com>;
- Thu, 13 Jun 2019 17:51:52 +0100
-Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
- by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 13 Jun 2019 17:51:48 +0100
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5DGplXd30671326
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Jun 2019 16:51:47 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6CF67BE053;
- Thu, 13 Jun 2019 16:51:47 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2872EBE051;
- Thu, 13 Jun 2019 16:51:47 +0000 (GMT)
-Received: from localhost (unknown [9.80.81.20])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 13 Jun 2019 16:51:46 +0000 (GMT)
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <philmd@redhat.com>) id 1hbT48-0002FB-EI
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:59:09 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38212)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbT48-00028a-7R
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:59:08 -0400
+Received: by mail-wr1-f66.google.com with SMTP id d18so21561089wrs.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 09:59:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gFOqdrZd47041/Q02yi0KtBOf5WklkdzwQJQebdxAxc=;
+ b=Q+yEn32dxmvIpWn7TP06Qgj9KJJrY2Q0Qovgm1OreI0FTN6zg38vnY0+d1G4ayunDD
+ zaRw3Cj3OvM02nx1PYq/s0OcpVA/q8A2X+bS2SQIen6CQKn5dJelghVkcbuybz3cq9S3
+ V7nyBoy4K5EdrdjLrLONZtejG9eaNHbdJa7RX5+8ITJX/AhwuGgo9CV3Nzpj0TvicNfI
+ pd7xaSLZqIm+6ai3ZayLrQzA7BJCKcuEPcMpgDFfNvOBu4oVNuSPyR2BJL+Zm1YKCgO/
+ UyWGdHhoCikNAKjW7VIiFgc3+cv2585SFnqBO+wL0hXXUw63slPnQfGXJCZx2hKdUj+i
+ qb0Q==
+X-Gm-Message-State: APjAAAX9QoHTvCfqeANM6haz2Hx7+AZoEsJUP9G6XgqmVYC6eOaswxaV
+ ydlWnjLUlrBd11dQrfwag9RDXA==
+X-Google-Smtp-Source: APXvYqz2ff4EnNb0wlJPh25F6JPC147q7jlWU8GeVZLokygvhYFUbPNlGkXwpeNDrALuYjSuS34b8A==
+X-Received: by 2002:a5d:4310:: with SMTP id h16mr50662799wrq.331.1560445147143; 
+ Thu, 13 Jun 2019 09:59:07 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id t6sm569195wmb.29.2019.06.13.09.59.06
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 09:59:06 -0700 (PDT)
+To: Laszlo Ersek <lersek@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20190311003052.13778-1-philmd@redhat.com>
+ <20190311003052.13778-6-philmd@redhat.com>
+ <ecd8aaf1-f75e-abd0-48b1-e80a227f01c3@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <19958c32-2df9-cccf-3f05-c2fa0fe3dec2@redhat.com>
+Date: Thu, 13 Jun 2019 18:59:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-To: Peter Maydell <peter.maydell@linaro.org>
-From: Michael Roth <mdroth@linux.vnet.ibm.com>
-In-Reply-To: <CAFEAcA97MUveG=si03B7_2WzDugtz7hR9x+YNQmU2xDiCF81eA@mail.gmail.com>
-References: <20190610134545.3743-1-peter.maydell@linaro.org>
- <156043918624.3418.2275764093147880770@sif>
- <CAFEAcA97MUveG=si03B7_2WzDugtz7hR9x+YNQmU2xDiCF81eA@mail.gmail.com>
-User-Agent: alot/0.7
-Date: Thu, 13 Jun 2019 11:51:41 -0500
-X-TM-AS-GCONF: 00
-x-cbid: 19061316-0036-0000-0000-00000ACB79BA
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011255; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01217453; UDB=6.00640208; IPR=6.00998565; 
- MB=3.00027296; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-13 16:51:50
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19061316-0037-0000-0000-00004C36EF5B
-Message-Id: <156044470155.3418.5487761086434554857@sif>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-13_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906130122
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [PATCH] qemu-ga: Convert invocation documentation
- to rST
+In-Reply-To: <ecd8aaf1-f75e-abd0-48b1-e80a227f01c3@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH 5/5] .travis.yml: Build and install EDK2
+ roms
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,172 +77,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Quoting Peter Maydell (2019-06-13 10:29:33)
-> On Thu, 13 Jun 2019 at 16:20, Michael Roth <mdroth@linux.vnet.ibm.com> wr=
-ote:
-> >
-> > Quoting Peter Maydell (2019-06-10 08:45:45)
-> > > The qemu-ga documentation is currently in qemu-ga.texi in
-> > > Texinfo format, which we present to the user as:
-> > >  * a qemu-ga manpage
-> > >  * a section of the main qemu-doc HTML documentation
-> > >
-> > > Convert the documentation to rST format, and present it to
-> > > the user as:
-> > >  * a qemu-ga manpage
-> > >  * part of the interop/ Sphinx manual
-> > >
-> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> =
+Hi Laszlo,
 
-> > > +# Canned command to build manpages from a single manual
-> > > +build-manpages =3D $(call quiet-command,CONFDIR=3D"$(qemu_confdir)" =
-sphinx-build $(if $(V),,-q) -W -n -b man -D version=3D$(VERSION) -D release=
-=3D"$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1
-> $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
-> =
+On 3/12/19 5:29 PM, Laszlo Ersek wrote:
+> On 03/11/19 01:30, Philippe Mathieu-Daudé wrote:
+>> Add a job to build and install the EDK2 platform firmware binaries.
+>>
+>> This job is only triggered if the last commit matches the EDK2
+>> name (case insensitive), or when tag are created (such releases
+>> or release candidates).
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  .travis.yml | 21 +++++++++++++++++++++
+>>  1 file changed, 21 insertions(+)
+>>
+>> diff --git a/.travis.yml b/.travis.yml
+>> index e942175dd3..628cc52c99 100644
+>> --- a/.travis.yml
+>> +++ b/.travis.yml
+>> @@ -258,3 +258,24 @@ matrix:
+>>      - env:
+>>          - CONFIG="--disable-system"
+>>          - TEST_CMD="make -j3 check-tcg V=1"
+>> +
+>> +
+>> +    # EDK2 roms builds
+>> +    - if: tag IS present OR commit_message =~ /(edk2|EDK2)/
+>> +      env:
+>> +        - CONFIG="--disable-system --disable-user --prefix=$PWD/dist"
+>> +        - EDK2_BUILD_OPTIONS="--quiet --silent"
+>> +      script:
+>> +        - git submodule update --init roms/edk2
+>> +        - make -j3
+>> +        - make -C roms efi -j2
+>> +        - make install
+>> +      addons:
+>> +        apt:
+>> +          packages:
+>> +            - dos2unix
+>> +            - gcc-aarch64-linux-gnu
+>> +            - gcc-arm-linux-gnueabihf
+>> +            - iasl
+>> +            - nasm
+>> +            - uuid-dev
+>>
+> 
+> Regardless of what problem we're trying to address with "--quiet
+> --silent", those options are wrong. You certainly want detailed build
+> logs for the case a CI job fails (at build time or at runtime).
 
-> > > --- a/docs/conf.py
-> > > +++ b/docs/conf.py
-> > > @@ -115,6 +115,14 @@ todo_include_todos =3D False
-> > >  # with "option::" in the document being processed. Turn that off.
-> > >  suppress_warnings =3D ["ref.option"]
-> > >
-> > > +# The rst_epilog fragment is effectively included in every rST file.
-> > > +# We use it to define substitutions based on build config that
-> > > +# can then be used in the documentation. The fallback if the
-> > > +# environment variable is not set is for the benefit of readthedocs
-> > > +# style document building; our Makefile always sets the variable.
-> > > +confdir =3D os.getenv('CONFDIR', "/usr/local/etc")
-> > > +rst_epilog =3D ".. |CONFDIR| replace:: ``" + confdir + "``\n"
-> > > +
-> >
-> > When testing this I have the following in my qemu build directory (via
-> > ./configure --prefix=3D/home/mdroth/w/qemu-install2):
-> >
-> >   $ grep -r CONFDIR
-> >   config-host.h-timestamp:#define CONFIG_QEMU_CONFDIR "/home/mdroth/w/q=
-emu-install2/etc/qemu"
-> >   qemu-doc.txt:     user-provided config files on SYSCONFDIR.
-> >   config-host.h:#define CONFIG_QEMU_CONFDIR "/home/mdroth/w/qemu-instal=
-l2/etc/qemu"
-> >   docs/version.texi:@set CONFDIR /home/mdroth/w/qemu-install2/etc/qemu
-> >
-> > but the following input for the qemu-ga man page:
-> >
-> >   qemu-ga will read a system configuration file on startup (located at
-> >   |CONFDIR|\ ``/qemu-ga.conf`` by default),
-> >
-> > ends up as this in the generated man page:
-> >
-> >   qemu-ga will read a system configuration file on startup (located at =
-/usr/local/etc/qemu-ga.conf
-> >   by  default),
-> >
-> > is this expected, or are we unexpectedly falling back to the default
-> > value here?
-> =
+On Travis we get:
 
-> No, if you're invoking Sphinx via the makefile then we should
-> be passing CONFDIR=3D"$(qemu_confdir)" to set the environment
-> variable when we invoke it. Can you try doing a build with V=3D1
-> to check the sphinx command line ?
+The job exceeded the maximum log length, and has been terminated.
+(https://travis-ci.org/philmd/qemu/jobs/545329905)
 
-Here's the relevant output from make. The environment variable seems to
-be defined as expected but I guess sphinx-build isn't picking it up for
-some reason?
+So I moved to GitLab, but we still get:
 
-( echo "@set VERSION 4.0.50" && echo "@set CONFDIR /home/mdroth/w/qemu-inst=
-all2/etc/qemu" )> docs/version.texi
-sh /home/mdroth/w/qemu4.git/scripts/hxtool -t < /home/mdroth/w/qemu4.git/qe=
-mu-options.hx > qemu-options.texi
-sh /home/mdroth/w/qemu4.git/scripts/hxtool -t < /home/mdroth/w/qemu4.git/hm=
-p-commands.hx > qemu-monitor.texi
-sh /home/mdroth/w/qemu4.git/scripts/hxtool -t < /home/mdroth/w/qemu4.git/qe=
-mu-img-cmds.hx > qemu-img-cmds.texi
-sh /home/mdroth/w/qemu4.git/scripts/hxtool -t < /home/mdroth/w/qemu4.git/hm=
-p-commands-info.hx > qemu-monitor-info.texi
-LC_ALL=3DC makeinfo --no-split --number-sections -I docs -I /home/mdroth/w/=
-qemu4.git -I . --no-headers --html /home/mdroth/w/qemu4.git/qemu-doc.texi -=
-o qemu-doc.html
-LC_ALL=3DC makeinfo --no-split --number-sections -I docs -I /home/mdroth/w/=
-qemu4.git -I . --no-headers --plaintext /home/mdroth/w/qemu4.git/qemu-doc.t=
-exi -o qemu-doc.txt
-perl -Ww -- /home/mdroth/w/qemu4.git/scripts/texi2pod.pl -I docs -I /home/m=
-droth/w/qemu4.git -I . -DVERSION=3D"4.0.50" -DCONFDIR=3D"/home/mdroth/w/qem=
-u-install2/etc/qemu" /home/mdroth/w/qemu4.git/qemu-doc.texi qemu.1.pod && p=
-od2man --utf8 --section=3D1 --center=3D" " --release=3D" " qemu.1.pod > qem=
-u.1
-perl -Ww -- /home/mdroth/w/qemu4.git/scripts/texi2pod.pl -I docs -I /home/m=
-droth/w/qemu4.git -I . -DVERSION=3D"4.0.50" -DCONFDIR=3D"/home/mdroth/w/qem=
-u-install2/etc/qemu" /home/mdroth/w/qemu4.git/qemu-img.texi qemu-img.1.pod =
-&& pod2man --utf8 --section=3D1 --center=3D" " --release=3D" " qemu-img.1.p=
-od > qemu-img.1
-perl -Ww -- /home/mdroth/w/qemu4.git/scripts/texi2pod.pl -I docs -I /home/m=
-droth/w/qemu4.git -I . -DVERSION=3D"4.0.50" -DCONFDIR=3D"/home/mdroth/w/qem=
-u-install2/etc/qemu" /home/mdroth/w/qemu4.git/qemu-nbd.texi qemu-nbd.8.pod =
-&& pod2man --utf8 --section=3D8 --center=3D" " --release=3D" " qemu-nbd.8.p=
-od > qemu-nbd.8
-CONFDIR=3D"/home/mdroth/w/qemu-install2/etc/qemu" sphinx-build  -W -n -b ma=
-n -D version=3D4.0.50 -D release=3D"4.0.50 (v4.0.0-1240-g90b8a170d2-dirty)"=
- -d .doctrees/interop /home/mdroth/w/qemu4.git/docs/interop docs/interop
-Running Sphinx v1.6.7
-loading pickled environment... done
-building [mo]: targets for 0 po files that are out of date
-building [man]: all manpages
-updating environment: [config changed] 7 added, 0 changed, 0 removed
-reading sources... [ 14%] bitmaps
-reading sources... [ 28%] index
-reading sources... [ 42%] live-block-operations
-reading sources... [ 57%] pr-helper
-reading sources... [ 71%] qemu-ga
-reading sources... [ 85%] vhost-user
-reading sources... [100%] vhost-user-gpu
+"Job's log exceeded limit of 4194304 bytes."
+(https://gitlab.com/philmd/qemu/-/jobs/230772314)
 
-looking for now-outdated files... none found
-pickling environment... done
-checking consistency... done
-writing... qemu-ga.8 { }
-build succeeded.
+Regarding the options to pass to edk2-build.sh,
 
-> =
+$ build --help
+  -j LOGFILE, --log=LOGFILE
+                   Put log in specified file as well as on console.
+  -s, --silent     Make use of silent mode of (n)make.
+  -q, --quiet      Disable all messages except FATAL ERRORS.
+  -v, --verbose    Turn on verbose output with informational messages
+                   printed, including library instances selected, final
+                   dependency expression, and warning messages, etc.
 
-> I've just realized that I didn't also update the 'build-manual'
-> macro to add the CONFDIR setting. Perhaps Sphinx ran first with
-> the build-manual macro and has cached document contents created
-> with that incorrect invocation and then reused them in the manpage
-> creation? If so, this should be fixable by adding the CONFDIR=3D"$(qemu_c=
-onfdir)"
-> to the build-manual macro in the Makefile, and then deleting the .doctree=
-s/
-> directory from your build tree and rerunning make.
+'--log' duplicate the output, and I don't want to reduce the log
+details, so I understand I should use:
 
-Sorry looks like it was an issue on my end actually...I guess I had a left-=
-over
-.doctrees from an earlier build (with no --prefix). I generally rm -rf * wi=
-thin
-build directory instead of 'make clean', but that was still leaving around a
-stale .doctrees. Once I deleted that I could no longer reproduce (neither
-with/without the additional CONFDIR setting).
+  ./edk2-build.sh [...] --log=build.log >/dev/null || cat build.log
 
-> =
+Is that correct? But then I'd need to modify Makefile.edk2 to redirect
+stdout.
 
-> > Sphinx seems to do a better job of formatting "Key" and "Key type" into
-> > actual table columns in the generated man/html pages (rather than just
-> > separating them with whitespace), so I think we can drop the trailing '=
-=3D's
-> =
+> The reason why I only include DEBUG firmware builds in the edk2 bundling
+> series is similar -- RELEASE builds lack DEBUG messages and ASSERT()s,
+> and as such they are 100% unsupportable in my book. Bugs in software are
+> the norm, not the exception, so we should allow (even force) the user
+> (and remote systems) to provide as much information as they can.
 
-> Sure; I'll change this in v2.
-> =
+Sure, we have the same book here ;)
 
-> thanks
-> -- PMM
->=20
+Regards,
 
+Phil.
 
