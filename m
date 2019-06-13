@@ -2,95 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A44243A35
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:19:36 +0200 (CEST)
-Received: from localhost ([::1]:40814 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEEF4396C
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:13:57 +0200 (CEST)
+Received: from localhost ([::1]:40774 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbRVn-0001xN-6j
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53750)
+	id 1hbRQK-00069Y-GS
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:13:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54226)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbPuo-0002QL-T1
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:37:21 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbPwc-0003AF-IF
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:39:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbPun-0003Lr-KJ
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:37:18 -0400
-Received: from mail-db5eur03on0731.outbound.protection.outlook.com
- ([2a01:111:f400:fe0a::731]:9742
- helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hbPum-0003KI-TS; Thu, 13 Jun 2019 09:37:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n4EX4ARsKA+PNlLmEueDJOddkmP8+SrBKRrlaMtti5o=;
- b=WgGQQdzIWymDiPwuNvBjZooTbulfRabxQvp628L53ROv/qjvTJfhPJTtXkR0et8yg9UTOS1/xot8hwxF1HEa94Zqfz2Qn5Vz4VI8NO4aEdI+I7TUQO3flF46IwczFY/z8ImQ112AbUWUgiQwraBW42PP+M49L518xOEAJ+7GqO8=
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
- AM0PR08MB4339.eurprd08.prod.outlook.com (20.179.34.202) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.14; Thu, 13 Jun 2019 13:37:12 +0000
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Thu, 13 Jun 2019
- 13:37:12 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v5 12/42] block: Use bdrv_filtered_rw* where obvious
-Thread-Index: AQHVIWur2sjpcclQiEu4Bh0Vl7h7fqaZl1wA
-Date: Thu, 13 Jun 2019 13:37:12 +0000
-Message-ID: <a803703e-c1de-c3a6-733e-01086e128181@virtuozzo.com>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-13-mreitz@redhat.com>
-In-Reply-To: <20190612221004.2317-13-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P192CA0021.EURP192.PROD.OUTLOOK.COM (2603:10a6:3:fe::31)
- To AM0PR08MB3572.eurprd08.prod.outlook.com
- (2603:10a6:208:e1::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190613163710470
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2837574c-d3d6-485c-2840-08d6f0043d7d
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:AM0PR08MB4339; 
-x-ms-traffictypediagnostic: AM0PR08MB4339:
-x-microsoft-antispam-prvs: <AM0PR08MB4339BC38CF425510EDDC6AD9C1EF0@AM0PR08MB4339.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 0067A8BA2A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(376002)(136003)(366004)(396003)(39850400004)(199004)(189003)(478600001)(14454004)(102836004)(2501003)(71200400001)(256004)(26005)(71190400001)(229853002)(110136005)(2906002)(54906003)(53936002)(6486002)(316002)(186003)(6436002)(66066001)(6512007)(36756003)(86362001)(31696002)(2616005)(5660300002)(4744005)(31686004)(73956011)(305945005)(66476007)(66556008)(64756008)(66446008)(52116002)(66946007)(486006)(99286004)(25786009)(6246003)(11346002)(446003)(4326008)(476003)(386003)(68736007)(7736002)(6116002)(3846002)(6506007)(8936002)(76176011)(8676002)(81166006)(81156014);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4339;
- H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 05+tSMxvdWYdOUdFO+wP5W71NwBm2OSXHLsZi/NuArSD3xh9FQ+wLQccm+XeiWwPK3ytKJt/1uakFkSImqqBgYMcARmZmZesCyrZ8BMxaRDO/k+4kFnx1EQanfC6PlUOUmgSUKLUDs8SCQW5yYYVDvtd+5iZHzuh+TXPYKby1lpuN3S6fyQUV4ZsXuQijvnASRBOqeAptjFbEqHwcKblpu7Aj+Bgs6ewYsaazNLfjZbADGrrHwcwQqR2ceMh7yXia6DwGfLrTB673e+LO97wJTPeXKk6FIaBUM+MHxNbGCDXmxDd9J1j4NYNUMXiYqGO7DddmmbMCpOubKC9qsAC5p1tl4LvvSI7sDrt4ItanFnXCYvtOL+pS6ub6xmap+UjwfGNfafNRNH4euNI91m8n+G+RRSxMliDp6zzGdYUKI8=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9403CF75A90FA341A8A733507B4D0EC5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <alex.bennee@linaro.org>) id 1hbPwa-0004ij-LO
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:39:10 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36859)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hbPwZ-0004fL-Kr
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:39:08 -0400
+Received: by mail-wm1-x342.google.com with SMTP id u8so10187668wmm.1
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 06:39:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Ia/JSwWFDgm+FggLxLr1qz7HA8mNm3uExaFdEQORjo8=;
+ b=PC1jVLwUArhi4XhkVFcc18fXpjhMkNZ6pcxghSfEJz6LEojTUzHS6ShXkpelwWmPKF
+ BCY9F9LEf2CQF4gHvrhcuvCtzCiDVuzDEwhQBMY3muIwpVBpfwJ0Dfc58RzvVt/2TRsG
+ MMGKL/IccZAVEcYnpwMWMTCLSr48m+C2wAz4eZhDHj5+jPW9pT0jPew5j4nFsqrgrk24
+ 47QMVYf4v3yjBsWJU2y2rSiysLTGkJUB9x4HXe09Cdc0oX2UJEwJ3V1y9H5v8uS/l1IC
+ fup0LVSEu1gfst8fQ5VXoUF031WAvmxWXvzZ8WnDkW8OIp7geofAfTxwLOX/TaF06EO9
+ D76Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Ia/JSwWFDgm+FggLxLr1qz7HA8mNm3uExaFdEQORjo8=;
+ b=J15dBpyv3GrGvDxye6AjrVOuuD6Z76hc3T7YkScGgWUO/ltLe84DFANacS2PLuhKy0
+ gLNE1/fSlbHEIg8ihkK2z9+BuEy+va19MHxAEY0sxtNVy3uCatpavWwB1rYkcXLdvBXy
+ yxU0u5qHxJQUje5uM0ftEQgIl7jkTt4QgE/y0X4PMawBiXN2bNUnW9RBswk3S8FuyV9k
+ SXhpPdq2L3kyC7bZ3kbdR2OfTN/1L0941Eyk+b4+WvP2fUSPnmfrsa4at8IpJP8ziofu
+ r/rK7B/yHy+aFaUdyGmNT/70OerQ8u8x5K10QVJLri3NUvjJZtBU9/DswPzWUrQlCwr0
+ whLQ==
+X-Gm-Message-State: APjAAAWqyq9zFq2rC3nAcdYEy/UC7nM4/fI3nO0EQsiUy1uRxxFWN4mo
+ +g3gsY3megIv1fkjBRFDXqdgiQ==
+X-Google-Smtp-Source: APXvYqxecN5IcBJV7Rfk2M7xD6wCSIV7G3En8mkP6/IqHmny2IQAiYTIYY48EYyfvF/a+QbpvYrnFw==
+X-Received: by 2002:a1c:a541:: with SMTP id o62mr3938468wme.84.1560433143134; 
+ Thu, 13 Jun 2019 06:39:03 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id w14sm3574435wrt.59.2019.06.13.06.39.02
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 13 Jun 2019 06:39:02 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3EBFA1FF87;
+ Thu, 13 Jun 2019 14:39:02 +0100 (BST)
+References: <20190517174046.11146-1-peter.maydell@linaro.org>
+ <20190517174046.11146-5-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-arm@nongnu.org
+In-reply-to: <20190517174046.11146-5-peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 14:39:02 +0100
+Message-ID: <875zp9ehah.fsf@zen.linaroharston>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2837574c-d3d6-485c-2840-08d6f0043d7d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 13:37:12.4050 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4339
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe0a::731
-Subject: Re: [Qemu-devel] [PATCH v5 12/42] block: Use bdrv_filtered_rw*
- where obvious
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH 4/4] hw/arm: Correctly disable
+ FPU/DSP for some ARMSSE-based boards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,22 +83,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFBsYWNlcyB0aGF0IHVzZSBwYXR0
-ZXJucyBsaWtlDQo+IA0KPiAgICAgIGlmIChicy0+ZHJ2LT5pc19maWx0ZXIgJiYgYnMtPmZpbGUp
-IHsNCj4gICAgICAgICAgLi4uIHNvbWV0aGluZyBhYm91dCBicy0+ZmlsZS0+YnMgLi4uDQo+ICAg
-ICAgfQ0KPiANCj4gc2hvdWxkIGJlDQo+IA0KPiAgICAgIEJsb2NrRHJpdmVyU3RhdGUgKmZpbHRl
-cmVkID0gYmRydl9maWx0ZXJlZF9yd19icyhicyk7DQo+ICAgICAgaWYgKGZpbHRlcmVkKSB7DQo+
-ICAgICAgICAgIC4uLiBzb21ldGhpbmcgYWJvdXQgQGZpbHRlcmVkIC4uLg0KPiAgICAgIH0NCj4g
-DQo+IGluc3RlYWQuDQoNCkhtbSwgaW4gb3RoZXIgd29yZHMsIHN1cHBvcnQgZmlsdGVycyB3aXRo
-IGJhY2tpbmcgY2hpbGQgaW4gYWxsIHBsYWNlcywgd2hlcmUgb25seSBmaWxlLWJhc2VkDQpmaWx0
-ZXJzIGFyZSBzdXBwb3J0ZWQsIGFzIHdlIGRvbid0IHdhbnQgbWFrZSBhbnkgc2VtYW50aWMgZGlm
-ZmVyZW5jZSBiZXR3ZWVuIHRoZXNlIHR3bw0KdHlwZXMgb2YgZmlsdGVycy4NCg0KPiANCj4gU2ln
-bmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVpdHpAcmVkaGF0LmNvbT4NCg0KUmV2aWV3ZWQtYnk6
-IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4N
-Cg0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> The SSE-200 hardware has configurable integration settings which
+> determine whether its two CPUs have the FPU and DSP:
+>  * CPU0_FPU (default 0)
+>  * CPU0_DSP (default 0)
+>  * CPU1_FPU (default 1)
+>  * CPU1_DSP (default 1)
+>
+> Similarly, the IoTKit has settings for its single CPU:
+>  * CPU0_FPU (default 1)
+>  * CPU0_DSP (default 1)
+>
+> Of our four boards that use either the IoTKit or the SSE-200:
+>  * mps2-an505, mps2-an521 and musca-a use the default settings
+>  * musca-b1 enables FPU and DSP on both CPUs
+>
+> Currently QEMU models all these boards using CPUs with
+> both FPU and DSP enabled. This means that we are incorrect
+> for mps2-an521 and musca-a, which should not have FPU or DSP
+> on CPU0.
+>
+> Create QOM properties on the ARMSSE devices corresponding to the
+> default h/w integration settings, and make the Musca-B1 board
+> enable FPU and DSP on both CPUs. This fixes the mps2-an521
+> and musca-a behaviour, and leaves the musca-b1 and mps2-an505
+> behaviour unchanged.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Given the ever growing configurable nature of the v7m platform what do we do
+to ensure the various combinations are tested on instantiating qemu? Or is
+this a case of relying on the wider community to shout if users actually
+find a combination that breaks? I guess fuzz testing would be a bit of a
+sledgehammer approach.
+
+Anyway:
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  include/hw/arm/armsse.h |  7 +++++
+>  hw/arm/armsse.c         | 58 ++++++++++++++++++++++++++++++++---------
+>  hw/arm/musca.c          |  8 ++++++
+>  3 files changed, 61 insertions(+), 12 deletions(-)
+>
+> diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+> index 81e082cccf8..84080c22993 100644
+> --- a/include/hw/arm/armsse.h
+> +++ b/include/hw/arm/armsse.h
+> @@ -50,6 +50,11 @@
+>   *    address of each SRAM bank (and thus the total amount of internal S=
+RAM)
+>   *  + QOM property "init-svtor" sets the initial value of the CPU SVTOR =
+register
+>   *    (where it expects to load the PC and SP from the vector table on r=
+eset)
+> + *  + QOM properties "CPU0_FPU", "CPU0_DSP", "CPU1_FPU" and "CPU1_DSP" w=
+hich
+> + *    set whether the CPUs have the FPU and DSP features present. The de=
+fault
+> + *    (matching the hardware) is that for CPU0 in an IoTKit and CPU1 in =
+an
+> + *    SSE-200 both are present; CPU0 in an SSE-200 has neither.
+> + *    Since the IoTKit has only one CPU, it does not have the CPU1_* pro=
+perties.
+>   *  + Named GPIO inputs "EXP_IRQ" 0..n are the expansion interrupts for =
+CPU 0,
+>   *    which are wired to its NVIC lines 32 .. n+32
+>   *  + Named GPIO inputs "EXP_CPU1_IRQ" 0..n are the expansion interrupts=
+ for
+> @@ -208,6 +213,8 @@ typedef struct ARMSSE {
+>      uint32_t mainclk_frq;
+>      uint32_t sram_addr_width;
+>      uint32_t init_svtor;
+> +    bool cpu_fpu[SSE_MAX_CPUS];
+> +    bool cpu_dsp[SSE_MAX_CPUS];
+>  } ARMSSE;
+>
+>  typedef struct ARMSSEInfo ARMSSEInfo;
+> diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+> index 76cc6905798..e138aee673f 100644
+> --- a/hw/arm/armsse.c
+> +++ b/hw/arm/armsse.c
+> @@ -37,6 +37,33 @@ struct ARMSSEInfo {
+>      bool has_cachectrl;
+>      bool has_cpusecctrl;
+>      bool has_cpuid;
+> +    Property *props;
+> +};
+> +
+> +static Property iotkit_properties[] =3D {
+> +    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+> +                     MemoryRegion *),
+> +    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+> +    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
+> +    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+> +    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+> +    DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], true),
+> +    DEFINE_PROP_BOOL("CPU0_DSP", ARMSSE, cpu_dsp[0], true),
+> +    DEFINE_PROP_END_OF_LIST()
+> +};
+> +
+> +static Property armsse_properties[] =3D {
+> +    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+> +                     MemoryRegion *),
+> +    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+> +    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
+> +    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+> +    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+> +    DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], false),
+> +    DEFINE_PROP_BOOL("CPU0_DSP", ARMSSE, cpu_dsp[0], false),
+> +    DEFINE_PROP_BOOL("CPU1_FPU", ARMSSE, cpu_fpu[1], true),
+> +    DEFINE_PROP_BOOL("CPU1_DSP", ARMSSE, cpu_dsp[1], true),
+> +    DEFINE_PROP_END_OF_LIST()
+>  };
+>
+>  static const ARMSSEInfo armsse_variants[] =3D {
+> @@ -52,6 +79,7 @@ static const ARMSSEInfo armsse_variants[] =3D {
+>          .has_cachectrl =3D false,
+>          .has_cpusecctrl =3D false,
+>          .has_cpuid =3D false,
+> +        .props =3D iotkit_properties,
+>      },
+>      {
+>          .name =3D TYPE_SSE200,
+> @@ -65,6 +93,7 @@ static const ARMSSEInfo armsse_variants[] =3D {
+>          .has_cachectrl =3D true,
+>          .has_cpusecctrl =3D true,
+>          .has_cpuid =3D true,
+> +        .props =3D armsse_properties,
+>      },
+>  };
+>
+> @@ -532,6 +561,20 @@ static void armsse_realize(DeviceState *dev, Error *=
+*errp)
+>                  return;
+>              }
+>          }
+> +        if (!s->cpu_fpu[i]) {
+> +            object_property_set_bool(cpuobj, false, "vfp", &err);
+> +            if (err) {
+> +                error_propagate(errp, err);
+> +                return;
+> +            }
+> +        }
+> +        if (!s->cpu_dsp[i]) {
+> +            object_property_set_bool(cpuobj, false, "dsp", &err);
+> +            if (err) {
+> +                error_propagate(errp, err);
+> +                return;
+> +            }
+> +        }
+>
+>          if (i > 0) {
+>              memory_region_add_subregion_overlap(&s->cpu_container[i], 0,
+> @@ -1221,16 +1264,6 @@ static const VMStateDescription armsse_vmstate =3D=
+ {
+>      }
+>  };
+>
+> -static Property armsse_properties[] =3D {
+> -    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+> -                     MemoryRegion *),
+> -    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+> -    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
+> -    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+> -    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+> -    DEFINE_PROP_END_OF_LIST()
+> -};
+> -
+>  static void armsse_reset(DeviceState *dev)
+>  {
+>      ARMSSE *s =3D ARMSSE(dev);
+> @@ -1243,13 +1276,14 @@ static void armsse_class_init(ObjectClass *klass,=
+ void *data)
+>      DeviceClass *dc =3D DEVICE_CLASS(klass);
+>      IDAUInterfaceClass *iic =3D IDAU_INTERFACE_CLASS(klass);
+>      ARMSSEClass *asc =3D ARMSSE_CLASS(klass);
+> +    const ARMSSEInfo *info =3D data;
+>
+>      dc->realize =3D armsse_realize;
+>      dc->vmsd =3D &armsse_vmstate;
+> -    dc->props =3D armsse_properties;
+> +    dc->props =3D info->props;
+>      dc->reset =3D armsse_reset;
+>      iic->check =3D armsse_idau_check;
+> -    asc->info =3D data;
+> +    asc->info =3D info;
+>  }
+>
+>  static const TypeInfo armsse_info =3D {
+> diff --git a/hw/arm/musca.c b/hw/arm/musca.c
+> index 23aff43f4bc..736f37b774c 100644
+> --- a/hw/arm/musca.c
+> +++ b/hw/arm/musca.c
+> @@ -385,6 +385,14 @@ static void musca_init(MachineState *machine)
+>      qdev_prop_set_uint32(ssedev, "init-svtor", mmc->init_svtor);
+>      qdev_prop_set_uint32(ssedev, "SRAM_ADDR_WIDTH", mmc->sram_addr_width=
+);
+>      qdev_prop_set_uint32(ssedev, "MAINCLK", SYSCLK_FRQ);
+> +    /*
+> +     * Musca-A takes the default SSE-200 FPU/DSP settings (ie no for
+> +     * CPU0 and yes for CPU1); Musca-B1 explicitly enables them for CPU0.
+> +     */
+> +    if (mmc->type =3D=3D MUSCA_B1) {
+> +        qdev_prop_set_bit(ssedev, "CPU0_FPU", true);
+> +        qdev_prop_set_bit(ssedev, "CPU0_DSP", true);
+> +    }
+>      object_property_set_bool(OBJECT(&mms->sse), true, "realized",
+>                               &error_fatal);
+
+
+--
+Alex Benn=C3=A9e
 
