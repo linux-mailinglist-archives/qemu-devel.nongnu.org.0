@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73934372F
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:22:22 +0200 (CEST)
-Received: from localhost ([::1]:40302 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460C14378D
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:00:09 +0200 (CEST)
+Received: from localhost ([::1]:40656 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbQcP-0004l9-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:22:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52033)
+	id 1hbRCx-0003Dc-Cw
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:00:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52158)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbPnz-0005lp-Mj
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:30:17 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbPoX-000633-PD
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:30:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbPnu-00079Y-Mk
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:30:15 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:35499)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbPoR-0007W2-L4
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:30:49 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45926)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbPnu-00078C-HV
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:30:10 -0400
-Received: by mail-ot1-x333.google.com with SMTP id j19so18964886otq.2
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 06:30:09 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hbPoR-0007Uq-Ba
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:30:43 -0400
+Received: by mail-wr1-x443.google.com with SMTP id f9so20769621wre.12
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 06:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=72I0M+sAdg5Hz9N2FoCUAjzdNN5xrSrpkHbPvg4Wojw=;
- b=ekvsw4EilV/myGwWcwh2118uvmzJo9+x15SzxwbhHh8Ax6bmSDDKW+Aygjb+JCPqTs
- XADU2OAuQX7kMtkvke8LcwKBjeep4JGLkhd5syuA4v8zMVR223E/JS7QSLziDiQ4e1Uc
- 9rEYE4fP0+t/61AjuiwvzJQns4s4h7gNBf1QcqKz4S/M1mDt64Az+Sl4A/RuW4Xhnrw3
- +vrb5vg2e0K8j8SlHLzg4fyBJJ1vsK67g7F+1IElmgmHkgcTW6lfh0fIzECX2KPiY+mD
- fglEWyugbh8H0AH+PF3XIIdM9wt10f9Iasqhg5f00+WEL9Dy7FXlK4xKh+rr5464ZGsd
- 75HQ==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=CAQkI/KYT7c6DwMNv9emGR+PJjl1WDR1C4uGFY3y73M=;
+ b=v31NJkhZOnZxQNZXRPStLU/t3uyU+1DIJMbH3xQ1I90gfA70o4Ehw/bwX1QY2QmE8r
+ exoWXjeTj0DwdQmENDrps5YpvMmUOJVzKAjHvXty4aeTU17+pnRCEOjajTYA7s/0Uz7r
+ WuhMY2wPbO/jUBeM29FAXnBPAdiBvMQ2QjBYh6A06BXLDVJ1nfTgCwtAt4ERprmqUkFU
+ bpyFdBaLoNSdNFDs/sAxQZTgG6bkM3UgzF3XNZ+kKgvtFuNGW0Q3gwwwI6NPk744iBSe
+ yb67Q+SiUPGecQCQ6W5UhVv/i+fkHw4AI6nxc0oocy4s8NqfQtZI4wWj6HSoLDi1eaBe
+ Kwcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=72I0M+sAdg5Hz9N2FoCUAjzdNN5xrSrpkHbPvg4Wojw=;
- b=I4TWJzMQVLQg8uo7e7nagK/tIDUaH64Tr9nj/5zgieGnlLkhrVBuHw4xts3OYrzhBt
- Cco03b6q1gVSJUjA7VlCGaaTct/GHsEjfcu88SYNnH5aGOLMe1qyquvrPgEmms0I2vRr
- zKnU8BH8jB5nntUaCeeO3H4X8F4S3jwLZPVgRS7MONGQKoqBKqZkNZEE0fvilerqCY3M
- 7R/Y7L2hbU32QgKg1sjGF2Pt6PJxyf9+vYu6T9qHUSBW2d9NaS9UI7afoFPrMD+u41W/
- +XkWsLBdeWjAKLonZ7MqejZPAJE+g/TjQJekw1j0zl2yEewOgQNGvSk/ycbwTwTFrKrT
- sMPQ==
-X-Gm-Message-State: APjAAAUgYEQ5zAbcOW97uxi7pkUD2PSfk0BbG7nQACdav+U87200HV4Z
- BbtksWQmQhsFlnB8cDz/EDTUxh7X3fxyW+hA2mfl8A==
-X-Google-Smtp-Source: APXvYqwUY81b/AUScoNEn7t9h+qQtAfHyz6nlx9HNDBXF946GBQKzj2UiWiWzYvpRyCHmFoZm4vpIy5akQreAXnPh6Q=
-X-Received: by 2002:a9d:711e:: with SMTP id n30mr8566482otj.97.1560432608583; 
- Thu, 13 Jun 2019 06:30:08 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=CAQkI/KYT7c6DwMNv9emGR+PJjl1WDR1C4uGFY3y73M=;
+ b=dx5upkokE3+ujZAAW93aIkCIoahnQUYg6+U0KQJYs5Sg77uOb5LVm6q1LvvSWeuZcc
+ I1xXenMMufx7EQrhZVnX+XD65eqCO5vFiTi5FH7eG/EH37X4hRQ4EvF8k5kgN3Jt74oO
+ 5PRKVUDUyCnNCiA5vuyo/7dJYDKkNgX0a9DDbBL+RjLUR+7n/gpmm0bk3r5D/P4bbszO
+ YFWFFikgy3h60cwqNZ2FcfZ9kcy+LUF197Ks1DHDsRNkvQXC1ngKB1Rs1wdrUM4j4J21
+ YHmdOoNVG+3iEgu6MDJjOiSP6eOiEZR9V0CHUohRoKKLg62U6ti4W3rJSqDT3S3WJsER
+ WfLA==
+X-Gm-Message-State: APjAAAU3VvORIHloXQMa+zwU8gbqrYHMqOaXtjdF0cv+QNT7AEShbzcp
+ QTPkyxn1EKFGUM43nZLO0k7vMqbA6pQ=
+X-Google-Smtp-Source: APXvYqyAxrZGP6wSjJIudKesezgSvuG2kOVAbo2a1F1Kc4T83rg8nozzL2lFY3T1jtPXKTDBXyIRpQ==
+X-Received: by 2002:a5d:6b03:: with SMTP id v3mr39664000wrw.309.1560432641874; 
+ Thu, 13 Jun 2019 06:30:41 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id q21sm4068078wmq.13.2019.06.13.06.30.41
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 13 Jun 2019 06:30:41 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D90C61FF87;
+ Thu, 13 Jun 2019 14:30:40 +0100 (BST)
+References: <20190517174046.11146-1-peter.maydell@linaro.org>
+ <20190517174046.11146-2-peter.maydell@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-arm@nongnu.org
+In-reply-to: <20190517174046.11146-2-peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 14:30:40 +0100
+Message-ID: <87a7elehof.fsf@zen.linaroharston>
 MIME-Version: 1.0
-References: <20190613073834.22001-1-kraxel@redhat.com>
-In-Reply-To: <20190613073834.22001-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jun 2019 14:29:57 +0100
-Message-ID: <CAFEAcA-r4nT+GpgyNHkaFmVov3WzZagp8+uV+brePPZgHtcpzQ@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::333
-Subject: Re: [Qemu-devel] [PULL 0/2] Vga 20190613 patches
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH 1/4] target/arm: Allow VFP and
+ Neon to be disabled via a CPU property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +83,244 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Jun 2019 at 08:40, Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> Allow VFP and neon to be disabled via a CPU property. As with
+> the "pmu" property, we only allow these features to be removed
+> from CPUs which have it by default, not added to CPUs which
+> don't have it.
 >
-> The following changes since commit a050901d4b40092dc356b59912c6df39e389c7b9:
+> The primary motivation here is to be able to optionally
+> create Cortex-M33 CPUs with no FPU, but we provide switches
+> for both VFP and Neon because the two interact:
+>  * AArch64 can't have one without the other
+>  * Some ID register fields only change if both are disabled
 >
->   Merge remote-tracking branch 'remotes/dgibson/tags/ppc-for-4.1-20190612' into staging (2019-06-12 14:43:47 +0100)
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  target/arm/cpu.h |   4 ++
+>  target/arm/cpu.c | 150 +++++++++++++++++++++++++++++++++++++++++++++--
+>  2 files changed, 148 insertions(+), 6 deletions(-)
 >
-> are available in the Git repository at:
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 733b840a712..778fb293e7c 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -797,6 +797,10 @@ struct ARMCPU {
+>      bool has_el3;
+>      /* CPU has PMU (Performance Monitor Unit) */
+>      bool has_pmu;
+> +    /* CPU has VFP */
+> +    bool has_vfp;
+> +    /* CPU has Neon */
+> +    bool has_neon;
 >
->   git://git.kraxel.org/qemu tags/vga-20190613-pull-request
+>      /* CPU has memory protection unit */
+>      bool has_mpu;
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index 8eee1d8c59a..406fd360a2a 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -763,6 +763,12 @@ static Property arm_cpu_cfgend_property =3D
+>  static Property arm_cpu_has_pmu_property =3D
+>              DEFINE_PROP_BOOL("pmu", ARMCPU, has_pmu, true);
 >
-> for you to fetch changes up to 0a71966253c8b07586ebd6bee094a818e1e163b8:
+> +static Property arm_cpu_has_vfp_property =3D
+> +            DEFINE_PROP_BOOL("vfp", ARMCPU, has_vfp, true);
+> +
+> +static Property arm_cpu_has_neon_property =3D
+> +            DEFINE_PROP_BOOL("neon", ARMCPU, has_neon, true);
+> +
+>  static Property arm_cpu_has_mpu_property =3D
+>              DEFINE_PROP_BOOL("has-mpu", ARMCPU, has_mpu, true);
 >
->   edid: flip the default to enabled (2019-06-13 09:34:50 +0200)
+> @@ -803,6 +809,13 @@ void arm_cpu_post_init(Object *obj)
+>      if (arm_feature(&cpu->env, ARM_FEATURE_M)) {
+>          set_feature(&cpu->env, ARM_FEATURE_PMSA);
+>      }
+> +    /* Similarly for the VFP feature bits */
+> +    if (arm_feature(&cpu->env, ARM_FEATURE_VFP4)) {
+> +        set_feature(&cpu->env, ARM_FEATURE_VFP3);
+> +    }
+> +    if (arm_feature(&cpu->env, ARM_FEATURE_VFP3)) {
+> +        set_feature(&cpu->env, ARM_FEATURE_VFP);
+> +    }
 >
-> ----------------------------------------------------------------
-> edid: add xmax + ymax properties, enable by default.
+>      if (arm_feature(&cpu->env, ARM_FEATURE_CBAR) ||
+>          arm_feature(&cpu->env, ARM_FEATURE_CBAR_RO)) {
+> @@ -847,6 +860,27 @@ void arm_cpu_post_init(Object *obj)
+>                                   &error_abort);
+>      }
 >
-> ----------------------------------------------------------------
+> +    /*
+> +     * Allow user to turn off VFP and Neon support, but only for TCG --
+> +     * KVM does not currently allow us to lie to the guest about its
+> +     * ID/feature registers, so the guest always sees what the host has.
+> +     */
+> +    if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
+> +        cpu->has_vfp =3D true;
+> +        if (!kvm_enabled()) {
+> +            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_prope=
+rty,
+> +                                     &error_abort);
+> +        }
+> +    }
+> +
+> +    if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
+> +        cpu->has_neon =3D true;
+> +        if (!kvm_enabled()) {
+> +            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_prop=
+erty,
+> +                                     &error_abort);
+> +        }
+> +    }
+> +
+>      if (arm_feature(&cpu->env, ARM_FEATURE_PMSA)) {
+>          qdev_property_add_static(DEVICE(obj), &arm_cpu_has_mpu_property,
+>                                   &error_abort);
+> @@ -956,6 +990,116 @@ static void arm_cpu_realizefn(DeviceState *dev, Err=
+or **errp)
+>          return;
+>      }
+>
+> +    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
+> +        cpu->has_vfp !=3D cpu->has_neon) {
+> +        /*
+> +         * This is an architectural requirement for AArch64; AArch32 is
+> +         * more flexible and permits VFP-no-Neon and Neon-no-VFP.
+> +         */
+> +        error_setg(errp,
+> +                   "AArch64 CPUs must have both VFP and Neon or neither"=
+);
+> +        return;
+> +    }
+> +
+> +    if (!cpu->has_vfp) {
+> +        uint64_t t;
+> +        uint32_t u;
+> +
+> +        unset_feature(env, ARM_FEATURE_VFP);
+> +        unset_feature(env, ARM_FEATURE_VFP3);
+> +        unset_feature(env, ARM_FEATURE_VFP4);
+> +
+> +        t =3D cpu->isar.id_aa64isar1;
+> +        t =3D FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 0);
+> +        cpu->isar.id_aa64isar1 =3D t;
+> +
+> +        t =3D cpu->isar.id_aa64pfr0;
+> +        t =3D FIELD_DP64(t, ID_AA64PFR0, FP, 0xf);
+> +        cpu->isar.id_aa64pfr0 =3D t;
+> +
+> +        u =3D cpu->isar.id_isar6;
+> +        u =3D FIELD_DP32(u, ID_ISAR6, JSCVT, 0);
+> +        cpu->isar.id_isar6 =3D u;
+> +
+> +        u =3D cpu->isar.mvfr0;
+> +        u =3D FIELD_DP32(u, MVFR0, FPSP, 0);
+> +        u =3D FIELD_DP32(u, MVFR0, FPDP, 0);
+> +        u =3D FIELD_DP32(u, MVFR0, FPTRAP, 0);
+> +        u =3D FIELD_DP32(u, MVFR0, FPDIVIDE, 0);
+> +        u =3D FIELD_DP32(u, MVFR0, FPSQRT, 0);
+> +        u =3D FIELD_DP32(u, MVFR0, FPSHVEC, 0);
+> +        u =3D FIELD_DP32(u, MVFR0, FPROUND, 0);
+> +        cpu->isar.mvfr0 =3D u;
+> +
+> +        u =3D cpu->isar.mvfr1;
+> +        u =3D FIELD_DP32(u, MVFR1, FPFTZ, 0);
+> +        u =3D FIELD_DP32(u, MVFR1, FPDNAN, 0);
+> +        u =3D FIELD_DP32(u, MVFR1, FPHP, 0);
+> +        cpu->isar.mvfr1 =3D u;
+> +
+> +        u =3D cpu->isar.mvfr2;
+> +        u =3D FIELD_DP32(u, MVFR2, FPMISC, 0);
+> +        cpu->isar.mvfr2 =3D u;
+> +    }
+> +
+> +    if (!cpu->has_neon) {
+> +        uint64_t t;
+> +        uint32_t u;
+> +
+> +        unset_feature(env, ARM_FEATURE_NEON);
+> +
+> +        t =3D cpu->isar.id_aa64isar0;
+> +        t =3D FIELD_DP64(t, ID_AA64ISAR0, DP, 0);
+> +        cpu->isar.id_aa64isar0 =3D t;
+> +
+> +        t =3D cpu->isar.id_aa64isar1;
+> +        t =3D FIELD_DP64(t, ID_AA64ISAR1, FCMA, 0);
+> +        cpu->isar.id_aa64isar1 =3D t;
+> +
+> +        t =3D cpu->isar.id_aa64pfr0;
+> +        t =3D FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 0xf);
+> +        cpu->isar.id_aa64pfr0 =3D t;
+> +
+> +        u =3D cpu->isar.id_isar5;
+> +        u =3D FIELD_DP32(u, ID_ISAR5, RDM, 0);
+> +        u =3D FIELD_DP32(u, ID_ISAR5, VCMA, 0);
+> +        cpu->isar.id_isar5 =3D u;
+> +
+> +        u =3D cpu->isar.id_isar6;
+> +        u =3D FIELD_DP32(u, ID_ISAR6, DP, 0);
+> +        u =3D FIELD_DP32(u, ID_ISAR6, FHM, 0);
+> +        cpu->isar.id_isar6 =3D u;
+> +
+> +        u =3D cpu->isar.mvfr1;
+> +        u =3D FIELD_DP32(u, MVFR1, SIMDLS, 0);
+> +        u =3D FIELD_DP32(u, MVFR1, SIMDINT, 0);
+> +        u =3D FIELD_DP32(u, MVFR1, SIMDSP, 0);
+> +        u =3D FIELD_DP32(u, MVFR1, SIMDHP, 0);
+> +        u =3D FIELD_DP32(u, MVFR1, SIMDFMAC, 0);
+> +        cpu->isar.mvfr1 =3D u;
+> +
+> +        u =3D cpu->isar.mvfr2;
+> +        u =3D FIELD_DP32(u, MVFR2, SIMDMISC, 0);
+> +        cpu->isar.mvfr2 =3D u;
+> +    }
+> +
+> +    if (!cpu->has_neon && !cpu->has_vfp) {
+> +        uint64_t t;
+> +        uint32_t u;
+> +
+> +        t =3D cpu->isar.id_aa64isar0;
+> +        t =3D FIELD_DP64(t, ID_AA64ISAR0, FHM, 0);
+> +        cpu->isar.id_aa64isar0 =3D t;
+> +
+> +        t =3D cpu->isar.id_aa64isar1;
+> +        t =3D FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 0);
+> +        cpu->isar.id_aa64isar1 =3D t;
+> +
+> +        u =3D cpu->isar.mvfr0;
+> +        u =3D FIELD_DP32(u, MVFR0, SIMDREG, 0);
+> +        cpu->isar.mvfr0 =3D u;
+> +    }
+> +
+>      /* Some features automatically imply others: */
+>      if (arm_feature(env, ARM_FEATURE_V8)) {
+>          if (arm_feature(env, ARM_FEATURE_M)) {
+> @@ -1016,12 +1160,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Er=
+ror **errp)
+>      if (arm_feature(env, ARM_FEATURE_V5)) {
+>          set_feature(env, ARM_FEATURE_V4T);
+>      }
+> -    if (arm_feature(env, ARM_FEATURE_VFP4)) {
+> -        set_feature(env, ARM_FEATURE_VFP3);
+> -    }
+> -    if (arm_feature(env, ARM_FEATURE_VFP3)) {
+> -        set_feature(env, ARM_FEATURE_VFP);
+> -    }
+>      if (arm_feature(env, ARM_FEATURE_LPAE)) {
+>          set_feature(env, ARM_FEATURE_V7MP);
+>          set_feature(env, ARM_FEATURE_PXN);
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
+--
+Alex Benn=C3=A9e
 
