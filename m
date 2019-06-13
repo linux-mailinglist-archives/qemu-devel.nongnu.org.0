@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FDB435F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:36:52 +0200 (CEST)
-Received: from localhost ([::1]:39430 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78644435EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 14:32:30 +0200 (CEST)
+Received: from localhost ([::1]:39400 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbOyK-0003WO-3z
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:36:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58775)
+	id 1hbOu5-0007Do-La
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 08:32:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58769)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOcx-0007tk-HY
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:49 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOcx-0007tj-BD
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbOcu-0003wy-B0
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:47 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39408)
+ (envelope-from <peter.maydell@linaro.org>) id 1hbOcu-0003wx-B0
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:45 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42885)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbOcr-0003tS-DB
+ id 1hbOcr-0003tu-ED
  for qemu-devel@nongnu.org; Thu, 13 Jun 2019 08:14:41 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x4so17872241wrt.6
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:40 -0700 (PDT)
+Received: by mail-wr1-x42c.google.com with SMTP id x17so5233198wrl.9
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 05:14:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FgrJRA7j7aTJ3DWKdfLXQg9RBsbyTXhKrH5Enhs39X4=;
- b=mo6vMRnX3ZrwUK7W+GWxyPfZUPDHrhoAbLvdB199iH+Xt2Q+QkRNiGo9aZ1ifX/SQW
- 3Nw/Yxb7lVSchyLOW7nI6RIhRE3RWy6rmOtdR3SDS6Uz7xUKOobBg+IhY/2ALLBoMSFy
- 5vScqnSoOf9ndo639W6Yved1gARN5PANXXd73KrcanxIYOWajgS35AVZM6s1tVcKC+jk
- B5nKS5PSBwE1TneM4TBaQwzxORX+3BE8Xl/xKqf0xVxicjbMIpAr8+J2LiLE9WJzVMoi
- WtTe6xfKZKss6icO3EX8Mn2DvAWd0Ze9GFibtr/k4cR/AxCxLMRukO4IVBY5kAw9WDqY
- P6mg==
+ bh=ZUooYRNQgmkNG0e2yEBeTuMYF1MRR7xam1XkALvG320=;
+ b=oYdT9UivNs+OPvJezs7OUA8WLYiud+InyFfN2ZNe525ESXhsF6vWC8/S/qATRDZBMK
+ bmdvZASWVSiNvD44mWNvFtZ8lt4CctQ5cA67KYQvP7m/xHAOVNytBXnk/9bk4t+6dcEg
+ X9Vd1x1Eoz2+mg7MfoCtZfPdqbie+gYZkd3ddvsgZx3HJlCp7S07uVNkXPIWXXNX7+dg
+ fc8PmajTVs9u0E3iKKo4DA6vnbeP1w9x0KNqYwhihK/Hm6hZGu1VmhGTQskko/dgpoXy
+ 4htWSOJ0xArlcuMup7097n5MpUA9Hs2MSpyuQbGDpTEN6YuwfOPVktGMX0XHao0MI++C
+ RnxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FgrJRA7j7aTJ3DWKdfLXQg9RBsbyTXhKrH5Enhs39X4=;
- b=oVy1e6Wmvftw9Ch8QulPJnV31CkehUezGEzydDUa2OUJlK/+kfGUxMbyJT8MBj6QZE
- q82mATgehoFIZvBDb3cnA7XLeXW0KD0C3twbFUXDUErvqULZw0Pb/isRhUd85nF7InBM
- m7el1vAyVbfRPXlioqAXOQVnL/KMYARE3XwcIkIXytnbc1dTR8oIJvL2OaF7x+pV9OmF
- day+7pAF7CLemw9T5DXJ+OrxidRIYc4/8NcLo8lhgeLbFE81FrvIlG4hX//UZ5ctwJEB
- CozsqLV6VNtXE3NUjM3MZ6sqmWmZIgPWvj6+qEBlkKFwzhTFIxj6DTYN/SCF5jBSNwyK
- WUXg==
-X-Gm-Message-State: APjAAAX7TrvxiP10b0Uf6/Ay0RGJ/40WRM3ijCXv890wSoGuzct8Jucf
- PgLaiNe8lW6Ug1j7Ym/s+Jmk+Al0UMlJ5g==
-X-Google-Smtp-Source: APXvYqxRAhKHKi4j9t8SYU/WfhWIHiM1CV1bo2uRQMCU/poPbqnKk/6djKPpl/KdLO2VwjZbX3Q6QQ==
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr46597951wrn.31.1560428079139; 
- Thu, 13 Jun 2019 05:14:39 -0700 (PDT)
+ bh=ZUooYRNQgmkNG0e2yEBeTuMYF1MRR7xam1XkALvG320=;
+ b=JTXTq8UpSEk2z7INEAyZw0JnstnoS1pW5UJNyCLNdq8ju8xPNQqyK9C3DjIPDJb8ru
+ gJNaXPYNLShcs6vmzOKXEAFeIKaEYlh9Xr1GA7Dw1VJ3YrI/BD3mLvf3isgNUQWXiWtb
+ 0kq7lpNuilCl+Ah7zqHoCO0tvzAOmwz4sEoEQO46jhM8vj9E0acX7jFE8qgutJCDsz3Y
+ 3ULWrs4cZ5BQwPsHlxP1Jx3j3hdVNplXWaZkMxN26tOB3Gbgk4HJ3yoXLOAIGFlARtpm
+ mt2icdAf5nr2UYMv89afcB+NLxrA2WAJam6wc40dOv1D/MAu6hepMHWHCpX4JqRoNj6s
+ FdSg==
+X-Gm-Message-State: APjAAAV42yAuh0w9HvMKBV3JHEv3IaXMjLARfWIxRmGXGnXZr9e3/kGE
+ GqgA2/HeIbttLRrs/frSmKS4LuBsMaDOIg==
+X-Google-Smtp-Source: APXvYqzZjqmA9maAN/u+MG/EpB6yaTKpdoChcU5mxKN6vc9kD25id12ilfrfF35IXl3H1nMAZgiDfw==
+X-Received: by 2002:adf:e8c8:: with SMTP id k8mr31275776wrn.285.1560428080053; 
+ Thu, 13 Jun 2019 05:14:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.37
+ by smtp.gmail.com with ESMTPSA id y6sm2010576wrp.12.2019.06.13.05.14.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 05:14:38 -0700 (PDT)
+ Thu, 13 Jun 2019 05:14:39 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 13:13:48 +0100
-Message-Id: <20190613121433.5246-4-peter.maydell@linaro.org>
+Date: Thu, 13 Jun 2019 13:13:49 +0100
+Message-Id: <20190613121433.5246-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190613121433.5246-1-peter.maydell@linaro.org>
 References: <20190613121433.5246-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PULL 03/48] target/arm: Implement NSACR gating of
- floating point
+X-Received-From: 2a00:1450:4864:20::42c
+Subject: [Qemu-devel] [PULL 04/48] hw/arm/smmuv3: Fix decoding of ID
+ register range
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,141 +82,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NSACR register allows secure code to configure the FPU
-to be inaccessible to non-secure code. If the NSACR.CP10
-bit is set then:
- * NS accesses to the FPU trap as UNDEF (ie to NS EL1 or EL2)
- * CPACR.{CP10,CP11} behave as if RAZ/WI
- * HCPTR.{TCP11,TCP10} behave as if RAO/WI
+The SMMUv3 ID registers cover an area 0x30 bytes in size
+(12 registers, 4 bytes each). We were incorrectly decoding
+only the first 0x20 bytes.
 
-Note that we do not implement the NSACR.NSASEDIS bit which
-gates only access to Advanced SIMD, in the same way that
-we don't implement the equivalent CPACR.ASEDIS and HCPTR.TASE.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20190510110357.18825-1-peter.maydell@linaro.org
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20190524124829.2589-1-peter.maydell@linaro.org
 ---
- target/arm/helper.c | 75 +++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 73 insertions(+), 2 deletions(-)
+ hw/arm/smmuv3.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 188fb1950ef..df4276f5f6c 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -930,9 +930,36 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-         }
-         value &= mask;
-     }
-+
-+    /*
-+     * For A-profile AArch32 EL3 (but not M-profile secure mode), if NSACR.CP10
-+     * is 0 then CPACR.{CP11,CP10} ignore writes and read as 0b00.
-+     */
-+    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
-+        value &= ~(0xf << 20);
-+        value |= env->cp15.cpacr_el1 & (0xf << 20);
-+    }
-+
-     env->cp15.cpacr_el1 = value;
- }
- 
-+static uint64_t cpacr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    /*
-+     * For A-profile AArch32 EL3 (but not M-profile secure mode), if NSACR.CP10
-+     * is 0 then CPACR.{CP11,CP10} ignore writes and read as 0b00.
-+     */
-+    uint64_t value = env->cp15.cpacr_el1;
-+
-+    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
-+        value &= ~(0xf << 20);
-+    }
-+    return value;
-+}
-+
-+
- static void cpacr_reset(CPUARMState *env, const ARMCPRegInfo *ri)
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index fd8ec7860ee..e96d5beb9a8 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -1232,7 +1232,7 @@ static MemTxResult smmu_readl(SMMUv3State *s, hwaddr offset,
+                               uint64_t *data, MemTxAttrs attrs)
  {
-     /* Call cpacr_write() so that we reset with the correct RAO bits set
-@@ -998,7 +1025,7 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
-     { .name = "CPACR", .state = ARM_CP_STATE_BOTH, .opc0 = 3,
-       .crn = 1, .crm = 0, .opc1 = 0, .opc2 = 2, .accessfn = cpacr_access,
-       .access = PL1_RW, .fieldoffset = offsetof(CPUARMState, cp15.cpacr_el1),
--      .resetfn = cpacr_reset, .writefn = cpacr_write },
-+      .resetfn = cpacr_reset, .writefn = cpacr_write, .readfn = cpacr_read },
-     REGINFO_SENTINEL
- };
- 
-@@ -4683,6 +4710,36 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
-     return ret;
- }
- 
-+static void cptr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                           uint64_t value)
-+{
-+    /*
-+     * For A-profile AArch32 EL3, if NSACR.CP10
-+     * is 0 then HCPTR.{TCP11,TCP10} ignore writes and read as 1.
-+     */
-+    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
-+        value &= ~(0x3 << 10);
-+        value |= env->cp15.cptr_el[2] & (0x3 << 10);
-+    }
-+    env->cp15.cptr_el[2] = value;
-+}
-+
-+static uint64_t cptr_el2_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    /*
-+     * For A-profile AArch32 EL3, if NSACR.CP10
-+     * is 0 then HCPTR.{TCP11,TCP10} ignore writes and read as 1.
-+     */
-+    uint64_t value = env->cp15.cptr_el[2];
-+
-+    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
-+        value |= 0x3 << 10;
-+    }
-+    return value;
-+}
-+
- static const ARMCPRegInfo el2_cp_reginfo[] = {
-     { .name = "HCR_EL2", .state = ARM_CP_STATE_AA64,
-       .type = ARM_CP_IO,
-@@ -4730,7 +4787,8 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
-     { .name = "CPTR_EL2", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 2,
-       .access = PL2_RW, .accessfn = cptr_access, .resetvalue = 0,
--      .fieldoffset = offsetof(CPUARMState, cp15.cptr_el[2]) },
-+      .fieldoffset = offsetof(CPUARMState, cp15.cptr_el[2]),
-+      .readfn = cptr_el2_read, .writefn = cptr_el2_write },
-     { .name = "MAIR_EL2", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 4, .crn = 10, .crm = 2, .opc2 = 0,
-       .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.mair_el[2]),
-@@ -13587,6 +13645,19 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-         break;
-     }
- 
-+    /*
-+     * The NSACR allows A-profile AArch32 EL3 and M-profile secure mode
-+     * to control non-secure access to the FPU. It doesn't have any
-+     * effect if EL3 is AArch64 or if EL3 doesn't exist at all.
-+     */
-+    if ((arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+         cur_el <= 2 && !arm_is_secure_below_el3(env))) {
-+        if (!extract32(env->cp15.nsacr, 10, 1)) {
-+            /* FP insns act as UNDEF */
-+            return cur_el == 2 ? 2 : 1;
-+        }
-+    }
-+
-     /* For the CPTR registers we don't need to guard with an ARM_FEATURE
-      * check because zero bits in the registers mean "don't trap".
-      */
+     switch (offset) {
+-    case A_IDREGS ... A_IDREGS + 0x1f:
++    case A_IDREGS ... A_IDREGS + 0x2f:
+         *data = smmuv3_idreg(offset - A_IDREGS);
+         return MEMTX_OK;
+     case A_IDR0 ... A_IDR5:
 -- 
 2.20.1
 
