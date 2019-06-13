@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F6544BE7
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:14:28 +0200 (CEST)
-Received: from localhost ([::1]:44476 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7C644AB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 20:29:39 +0200 (CEST)
+Received: from localhost ([::1]:43460 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbVB5-0007Zb-Ui
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:14:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58717)
+	id 1hbUTi-0001jE-CR
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 14:29:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35747)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbT49-000587-ST
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:59:11 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbTSL-0002Gr-BT
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:24:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbT48-0002FB-EI
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:59:09 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:38212)
+ (envelope-from <philmd@redhat.com>) id 1hbTKU-0005lU-NS
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:16:03 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55718)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbT48-00028a-7R
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:59:08 -0400
-Received: by mail-wr1-f66.google.com with SMTP id d18so21561089wrs.5
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 09:59:08 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbTKU-0005ik-FV
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 13:16:02 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a15so11000174wmj.5
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 10:16:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gFOqdrZd47041/Q02yi0KtBOf5WklkdzwQJQebdxAxc=;
- b=Q+yEn32dxmvIpWn7TP06Qgj9KJJrY2Q0Qovgm1OreI0FTN6zg38vnY0+d1G4ayunDD
- zaRw3Cj3OvM02nx1PYq/s0OcpVA/q8A2X+bS2SQIen6CQKn5dJelghVkcbuybz3cq9S3
- V7nyBoy4K5EdrdjLrLONZtejG9eaNHbdJa7RX5+8ITJX/AhwuGgo9CV3Nzpj0TvicNfI
- pd7xaSLZqIm+6ai3ZayLrQzA7BJCKcuEPcMpgDFfNvOBu4oVNuSPyR2BJL+Zm1YKCgO/
- UyWGdHhoCikNAKjW7VIiFgc3+cv2585SFnqBO+wL0hXXUw63slPnQfGXJCZx2hKdUj+i
- qb0Q==
-X-Gm-Message-State: APjAAAX9QoHTvCfqeANM6haz2Hx7+AZoEsJUP9G6XgqmVYC6eOaswxaV
- ydlWnjLUlrBd11dQrfwag9RDXA==
-X-Google-Smtp-Source: APXvYqz2ff4EnNb0wlJPh25F6JPC147q7jlWU8GeVZLokygvhYFUbPNlGkXwpeNDrALuYjSuS34b8A==
-X-Received: by 2002:a5d:4310:: with SMTP id h16mr50662799wrq.331.1560445147143; 
- Thu, 13 Jun 2019 09:59:07 -0700 (PDT)
+ bh=1wwPMaN7qDc/Xn3Ps4ha5ptywxM9Zpl+qUpNjyZcxFw=;
+ b=CSv9SgkUd112/KrnQTQ5xTM50chfxbtkfkCFScVFF0UqJOYNGs38Ql/NnvMIl7E2bJ
+ JgBXn2tWy2mdIt0+RT6W9jNviSqs+9Lm2wDadRkCO2DvHYRA2rj4ThAFnuc6f4pYSAE2
+ M91scZHOB2thosgng8Wf9vsogWvXropYp1pzAXZiOO+h98O8h9275YyaJ9+BzRddLnTq
+ QuFUkwtamolqu2fKZ3vKO0S8wPviTNYsy7D2zvUDHXaX8jU3CIfZAi/qjqLdnxue8aU4
+ apMDEBMBWO6bzETgBf7HD6H73JqXh/ulS72M0yiKGE7cWWEkxFSFj5PxBiaNOZtQLB/x
+ I/+g==
+X-Gm-Message-State: APjAAAXerV/+eiDbEyR52tYE03Fi8FIocZPd4jTKY/xAeCZrbjCX6Qn+
+ U+PKJCDU7V0zGJ5yLkuqbbACYQ==
+X-Google-Smtp-Source: APXvYqzaR2m1kDOfEECi6/9t6Ot4jZL9TS9CaYaxg1HcrUn1loO2j0m4QyE1Qhxl9vytLylLg7ow5w==
+X-Received: by 2002:a1c:2e09:: with SMTP id u9mr4630964wmu.137.1560446161047; 
+ Thu, 13 Jun 2019 10:16:01 -0700 (PDT)
 Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id t6sm569195wmb.29.2019.06.13.09.59.06
+ by smtp.gmail.com with ESMTPSA id x129sm435538wmg.44.2019.06.13.10.16.00
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 13 Jun 2019 09:59:06 -0700 (PDT)
-To: Laszlo Ersek <lersek@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20190311003052.13778-1-philmd@redhat.com>
- <20190311003052.13778-6-philmd@redhat.com>
- <ecd8aaf1-f75e-abd0-48b1-e80a227f01c3@redhat.com>
+ Thu, 13 Jun 2019 10:16:00 -0700 (PDT)
+To: qemu-devel@nongnu.org, ptoscano@redhat.com
+References: <156044303828.5426.699619794825925129@ce79690b2cb9>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <19958c32-2df9-cccf-3f05-c2fa0fe3dec2@redhat.com>
-Date: Thu, 13 Jun 2019 18:59:00 +0200
+Message-ID: <2376306b-9812-f4e2-883c-55bc818c16be@redhat.com>
+Date: Thu, 13 Jun 2019 19:15:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <ecd8aaf1-f75e-abd0-48b1-e80a227f01c3@redhat.com>
+In-Reply-To: <156044303828.5426.699619794825925129@ce79690b2cb9>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH 5/5] .travis.yml: Build and install EDK2
- roms
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v9] ssh: switch from libssh2 to libssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,101 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, sw@weilnetz.de,
+ rjones@redhat.com, mreitz@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Laszlo,
 
-On 3/12/19 5:29 PM, Laszlo Ersek wrote:
-> On 03/11/19 01:30, Philippe Mathieu-Daudé wrote:
->> Add a job to build and install the EDK2 platform firmware binaries.
->>
->> This job is only triggered if the last commit matches the EDK2
->> name (case insensitive), or when tag are created (such releases
->> or release candidates).
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  .travis.yml | 21 +++++++++++++++++++++
->>  1 file changed, 21 insertions(+)
->>
->> diff --git a/.travis.yml b/.travis.yml
->> index e942175dd3..628cc52c99 100644
->> --- a/.travis.yml
->> +++ b/.travis.yml
->> @@ -258,3 +258,24 @@ matrix:
->>      - env:
->>          - CONFIG="--disable-system"
->>          - TEST_CMD="make -j3 check-tcg V=1"
->> +
->> +
->> +    # EDK2 roms builds
->> +    - if: tag IS present OR commit_message =~ /(edk2|EDK2)/
->> +      env:
->> +        - CONFIG="--disable-system --disable-user --prefix=$PWD/dist"
->> +        - EDK2_BUILD_OPTIONS="--quiet --silent"
->> +      script:
->> +        - git submodule update --init roms/edk2
->> +        - make -j3
->> +        - make -C roms efi -j2
->> +        - make install
->> +      addons:
->> +        apt:
->> +          packages:
->> +            - dos2unix
->> +            - gcc-aarch64-linux-gnu
->> +            - gcc-arm-linux-gnueabihf
->> +            - iasl
->> +            - nasm
->> +            - uuid-dev
->>
-> 
-> Regardless of what problem we're trying to address with "--quiet
-> --silent", those options are wrong. You certainly want detailed build
-> logs for the case a CI job fails (at build time or at runtime).
+On 6/13/19 6:24 PM, no-reply@patchew.org wrote:
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
+> === TEST SCRIPT END ===
 
-On Travis we get:
+> The full log is available at
+> http://patchew.org/logs/20190613132000.2146-1-ptoscano@redhat.com/testing.asan/?type=message.
 
-The job exceeded the maximum log length, and has been terminated.
-(https://travis-ci.org/philmd/qemu/jobs/545329905)
 
-So I moved to GitLab, but we still get:
+=== OUTPUT BEGIN ===
+  BUILD   fedora
+The command '/bin/sh -c dnf install -y $PACKAGES' returned a non-zero
+code: 1
+Traceback (most recent call last):
+  File "./tests/docker/docker.py", line 615, in <module>
+    sys.exit(main())
+  File "./tests/docker/docker.py", line 611, in main
+    return args.cmdobj.run(args, argv)
+  File "./tests/docker/docker.py", line 413, in run
+    extra_files_cksum=cksum)
+  File "./tests/docker/docker.py", line 280, in build_image
+    quiet=quiet)
+  File "./tests/docker/docker.py", line 207, in _do_check
+    return subprocess.check_call(self._command + cmd, **kwargs)
+  File "/usr/lib64/python2.7/subprocess.py", line 542, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['sudo', '-n', 'docker',
+'build', '-t', 'qemu:fedora', '-f',
+'/tmp/docker_buildN2FMKc/tmpz_9Up_.docker', '/tmp/docker_buildN2FMKc']'
+returned non-zero exit status 1
+make: *** [docker-image-fedora] Error 1
 
-"Job's log exceeded limit of 4194304 bytes."
-(https://gitlab.com/philmd/qemu/-/jobs/230772314)
+real	3m54.376s
 
-Regarding the options to pass to edk2-build.sh,
-
-$ build --help
-  -j LOGFILE, --log=LOGFILE
-                   Put log in specified file as well as on console.
-  -s, --silent     Make use of silent mode of (n)make.
-  -q, --quiet      Disable all messages except FATAL ERRORS.
-  -v, --verbose    Turn on verbose output with informational messages
-                   printed, including library instances selected, final
-                   dependency expression, and warning messages, etc.
-
-'--log' duplicate the output, and I don't want to reduce the log
-details, so I understand I should use:
-
-  ./edk2-build.sh [...] --log=build.log >/dev/null || cat build.log
-
-Is that correct? But then I'd need to modify Makefile.edk2 to redirect
-stdout.
-
-> The reason why I only include DEBUG firmware builds in the edk2 bundling
-> series is similar -- RELEASE builds lack DEBUG messages and ASSERT()s,
-> and as such they are 100% unsupportable in my book. Bugs in software are
-> the norm, not the exception, so we should allow (even force) the user
-> (and remote systems) to provide as much information as they can.
-
-Sure, we have the same book here ;)
-
-Regards,
-
-Phil.
+Not sure this is a network issue or something else, should we rebuild
+docker images with V=1 on patchew?
 
