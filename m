@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E9A0443DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:34:20 +0200 (CEST)
-Received: from localhost ([::1]:41538 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC54643FAB
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:59:50 +0200 (CEST)
+Received: from localhost ([::1]:41204 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbSg7-0005Kk-Q5
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54155)
+	id 1hbS8f-0003RB-0G
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:59:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54527)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbRSd-0000md-Hw
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:16:21 -0400
+ (envelope-from <eblake@redhat.com>) id 1hbRTc-0001NO-MO
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:17:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbRSb-0000qP-Vk
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:16:19 -0400
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f]:41197)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbRSb-0000pS-Nq
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:16:17 -0400
-Received: by mail-ot1-x32f.google.com with SMTP id 107so19316616otj.8
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 08:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=TBeGGh9PGFD6r2q7Bpd+u+m0as0EBBPfOH7zXEMuwF8=;
- b=LRQMTOYudGuRtXgCACNa7ipd3+C/dJU9HerJwCQFVblCJoJ5HNkRaEbtJ9eAj/76Ly
- OL/XYkUZMGRupeKe7wqx9AglvykiH7y4etyCDg16CY0Iqt4DonHwkATfObD3czlSIpTZ
- ggbJYf4jUK7TSMCXxaSPhaqysnZ5pKeHp2Z7IDoybrijXksxpA9t0DdibOjLZvx1RpTe
- LvtRQiYgZRsM98LZya2B5tLBQFyYeBQBoBEk1NpUDcI8QPpJgfug3oHUBzWyCsl1l9zX
- Z0NUD/3cA2tDxHn8RxE+P2nrfYTQ6I0KGowO1zg9We8SicnEsAKg2rZetE/yAJbuVWKM
- KcTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=TBeGGh9PGFD6r2q7Bpd+u+m0as0EBBPfOH7zXEMuwF8=;
- b=k2OHCj1I+6tyTSkUmzvlAkRSBgrvfbDLBwQJeEcyxsgBQa5n3hqHwMGQ/khExbyi4v
- X79sC5PhyqMdxF1MQ+mS5vCGiHMjxajhCGv3M/XI/hMnMPecB80BVfthI6VgHawb4G7k
- 6TeWM1PjmQpsl9CbUmzoh4OyY1N9LkTH2FUMfCNTDktfTTDU91H+pXTi0pJjfgRc1VDj
- XGmLNejKlW24+83iJlUl9GuwrYQR0ML4mAAOHR9QhkG5j1f73dM+7USODjZ1y3SXB2ml
- Lt19ZNR69LAFyzLeRhrdqO347gXetIUJvRZx/Zf+/+CXE2T6ZYadSEKdHFnVLc6mjxBp
- V/hg==
-X-Gm-Message-State: APjAAAWDJu66GKvcln86e+4+LFpX1pjTgsOmWpGrFIwNxnMAM1OvRTWm
- Y5rvjbTOKxBA24uja/88cCo351pcOqOcqbOJEskfGC7wqsw=
-X-Google-Smtp-Source: APXvYqxnf104vRh2cfJxIFlxdTCs5E9oaLCtBXHZxl9t8sLqZA7qFhOt6iFTKhmfAzFUd/t/PEtS3aDsQvGrx/l5zDY=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr4929587otk.232.1560438976132; 
- Thu, 13 Jun 2019 08:16:16 -0700 (PDT)
+ (envelope-from <eblake@redhat.com>) id 1hbRTb-0001jM-FL
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:17:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42918)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hbRTY-0001W4-Ja; Thu, 13 Jun 2019 11:17:16 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B276430860BF;
+ Thu, 13 Jun 2019 15:16:58 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EA7E7AB53;
+ Thu, 13 Jun 2019 15:16:57 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
+ <20190611102720.86114-4-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <c03ff39b-5e8f-ed0a-d33c-2d2d4919cd33@redhat.com>
+Date: Thu, 13 Jun 2019 10:16:56 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190613141614.20157-1-peter.maydell@linaro.org>
-In-Reply-To: <20190613141614.20157-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jun 2019 16:16:04 +0100
-Message-ID: <CAFEAcA_DkfgiFiKt20oOUm+5VML8_P99LFcZMwf4S4wSuNE7kA@mail.gmail.com>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::32f
-Subject: Re: [Qemu-devel] [PULL v2 00/47] target-arm queue
+In-Reply-To: <20190611102720.86114-4-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="rviFtDX0h6jdMrqVSY8SgDZ2NBl2Fjhjb"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Thu, 13 Jun 2019 15:16:58 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/3] block/nbd: merge NBDClientSession
+ struct back to BDRVNBDState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,40 +86,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Jun 2019 at 15:16, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> v2: dropped USHL/SSHL patch
->
-> The following changes since commit 785a602eae7ad97076b9794ebaba072ad4a9f74f:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/vga-20190613-pull-request' into staging (2019-06-13 13:25:25 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190613-1
->
-> for you to fetch changes up to 18cf951af9a27ae573a6fa17f9d0c103f7b7679b:
->
->   target/arm: Fix short-vector increment behaviour (2019-06-13 15:14:06 +0100)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * convert aarch32 VFP decoder to decodetree
->    (includes tightening up decode in a few places)
->  * fix minor bugs in VFP short-vector handling
->  * hw/core/bus.c: Only the main system bus can have no parent
->  * smmuv3: Fix decoding of ID register range
->  * Implement NSACR gating of floating point
->  * Use tcg_gen_gvec_bitsel
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--rviFtDX0h6jdMrqVSY8SgDZ2NBl2Fjhjb
+Content-Type: multipart/mixed; boundary="ICPHC1fXzH1sZwk1LQ6HE0TN0u34o0T4t";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: mreitz@redhat.com, kwolf@redhat.com
+Message-ID: <c03ff39b-5e8f-ed0a-d33c-2d2d4919cd33@redhat.com>
+Subject: Re: [PATCH 3/3] block/nbd: merge NBDClientSession struct back to
+ BDRVNBDState
+References: <20190611102720.86114-1-vsementsov@virtuozzo.com>
+ <20190611102720.86114-4-vsementsov@virtuozzo.com>
+In-Reply-To: <20190611102720.86114-4-vsementsov@virtuozzo.com>
 
-Applied, thanks.
+--ICPHC1fXzH1sZwk1LQ6HE0TN0u34o0T4t
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+On 6/11/19 5:27 AM, Vladimir Sementsov-Ogievskiy wrote:
+> No reason to keep it separate, it differs from others block driver
+> behavior and therefor confuses. Instead of generic
 
--- PMM
+s/therefor/therefore/ (both spellings are valid, but the former looks
+archaic)
+
+>   'state =3D (State*)bs->opaque' we have to use special helper.
+>=20
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/nbd.c | 197 +++++++++++++++++++++++++---------------------------=
+
+>  1 file changed, 94 insertions(+), 103 deletions(-)
+>=20
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+I'm queuing this series through my NBD tree.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--ICPHC1fXzH1sZwk1LQ6HE0TN0u34o0T4t--
+
+--rviFtDX0h6jdMrqVSY8SgDZ2NBl2Fjhjb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0CaOgACgkQp6FrSiUn
+Q2qLgwgAgr+Dg/ugLJqZfDZH4fD70XFG13SVgsmp07qfyc5KO1GlN7QSWywUUJ3e
+HybWIBW49jljYCHoUR3PEo5Qx5kPWOwCNChrgXO/dxGYBmmPC99RGVSrvpyhx+C4
+qissseGlfPY/F03oOSnUAGAnUd0w3lXq4V+sQqE44SC+Gp0zN7fjwnr6sGh053rk
+1tY964kRVztUyKu9gj3k2JhUs/PvpmoYxwcxM3n1pJRPq0IXiZyPCWE9QG0hvGfx
+6I9KK5mtmOsWh8DmhXDL6zjoVR0YJkigRcjuRZfoTh+VK5pRmW8TaMeATSGvxLxV
+WVTyj+DWLBGZOsmL2RBls5o5wj8hgA==
+=/FtZ
+-----END PGP SIGNATURE-----
+
+--rviFtDX0h6jdMrqVSY8SgDZ2NBl2Fjhjb--
 
