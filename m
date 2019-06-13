@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD2443D6D
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:42:14 +0200 (CEST)
-Received: from localhost ([::1]:41030 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0A043E14
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 17:47:40 +0200 (CEST)
+Received: from localhost ([::1]:41082 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbRrh-0005mI-DY
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:42:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36501)
+	id 1hbRwx-0001Af-Ir
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 11:47:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36719)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbQVv-0002FN-Nk
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:15:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbQWw-0002kS-NG
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:16:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbQVt-0002pk-Bw
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:15:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43568)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbQVn-0002l8-2z; Thu, 13 Jun 2019 10:15:33 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 281AC30C134C;
- Thu, 13 Jun 2019 14:15:29 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F2BB75C3F8;
- Thu, 13 Jun 2019 14:15:27 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-11-mreitz@redhat.com>
- <ff13463f-04a8-d519-d61d-6766960fcddd@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <04d99b34-8258-61ed-f5ad-04ed186e9ab7@redhat.com>
-Date: Thu, 13 Jun 2019 16:15:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <peter.maydell@linaro.org>) id 1hbQWu-0003ST-3N
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:16:42 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33136)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hbQWr-0003EC-VB
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 10:16:38 -0400
+Received: by mail-wr1-x432.google.com with SMTP id n9so21031311wru.0
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 07:16:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xb17Uz1c02HfYhndfX/Q4/m1ExnHU7WnIrWym5GJ2wU=;
+ b=T4cjloOtMATvHDBh3GvKv4mZNeyVjqqoyG+0v/gsAs1pLa2rzAoe4cxELECh2xvUaN
+ cAUusKmvLkuEpP0EaPGOyUtPO4oPQIzmcqOonChSD+AuZOA4T8vBOeiEOGCmwPhm/VI9
+ R9mw6PdtFP5hvi8akd5qgPE5lpnkHkq9YAPkr086iyNMzsNe7VzUYDVPSQRuiUiqZERx
+ /PNCNw9wi+Gidm8E3/m79YY6P/dGegTPqkctSFq+fjUTHjFXoyHU3GhVRWvMNacoIjCB
+ 1CtHuuNyOl42DJEO322aKDYYQ7qE4sxbmsqtKHi8sCJyBENDqbLE4cbvoxnFdiUdx2bk
+ EVyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Xb17Uz1c02HfYhndfX/Q4/m1ExnHU7WnIrWym5GJ2wU=;
+ b=IynhyecyrR1M/ndOgpHx76KZeF6oABsczJ2a1rkKCw+82lVhekNQ0TdJmc9owRdkLp
+ TN8c9c+6osykq2lZ5P7fUzpWmPridUFncCwiiebPCZ8CQBSwbBvwwEJCzfP2OQA0GLs2
+ tIqddaomZypCiHxgqYRNT23u6PhtZsTQFwz1/P6dLbhwZ2xB+WCp9f7edcGGE0nJ8MnY
+ hkdJWws1CwRwTe32oBjF82wv173i9hiSeyWzyAS1PmJ89vla0tyvlhGKQ/2srvKpBueN
+ On3Vrwu/jSvhVCJcNahZrRoTznhcJ4zRzcjwjzuO++esQUp4jSayRZ2/1NZ8uBDK0jgw
+ JD1g==
+X-Gm-Message-State: APjAAAVPGUEXU5etM/cmETjT5LHXTDuO75aZg7DCfcI29yjDxwpe3SbO
+ 9Ibjh3bUQBjgIHGHkoeZoavOxXH4o0wwYg==
+X-Google-Smtp-Source: APXvYqxav9Ue9I4v1NJfREqmW7RykeMHaEG0xjm0fM+G6e4AVR6UyoYI8sXjCI/oLt4cATyHdRFHhQ==
+X-Received: by 2002:a5d:4e4d:: with SMTP id r13mr16826257wrt.295.1560435377004; 
+ Thu, 13 Jun 2019 07:16:17 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id s7sm5953326wmc.2.2019.06.13.07.16.15
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 07:16:16 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Thu, 13 Jun 2019 15:16:14 +0100
+Message-Id: <20190613141614.20157-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <ff13463f-04a8-d519-d61d-6766960fcddd@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Hejgq9E3jTZjhEMpvcAWo46GXAgsjYlse"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 13 Jun 2019 14:15:29 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 10/42] block: Use CAF in
- bdrv_is_encrypted()
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::432
+Subject: [Qemu-devel] [PULL v2 00/47] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,93 +77,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Hejgq9E3jTZjhEMpvcAWo46GXAgsjYlse
-Content-Type: multipart/mixed; boundary="705RkiYeZnZfGdrZnlux6UpTHUbP9OYOD";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <04d99b34-8258-61ed-f5ad-04ed186e9ab7@redhat.com>
-Subject: Re: [PATCH v5 10/42] block: Use CAF in bdrv_is_encrypted()
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-11-mreitz@redhat.com>
- <ff13463f-04a8-d519-d61d-6766960fcddd@virtuozzo.com>
-In-Reply-To: <ff13463f-04a8-d519-d61d-6766960fcddd@virtuozzo.com>
+v2: dropped USHL/SSHL patch
 
---705RkiYeZnZfGdrZnlux6UpTHUbP9OYOD
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 785a602eae7ad97076b9794ebaba072ad4a9f74f:
 
-On 13.06.19 15:16, Vladimir Sementsov-Ogievskiy wrote:
-> 13.06.2019 1:09, Max Reitz wrote:
->> bdrv_is_encrypted() should not only check the BDS's backing child, but=
+  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20190613-pull-request' into staging (2019-06-13 13:25:25 +0100)
 
->> any filtered child: If a filter's child is encrypted, the filter node
->> itself naturally is encrypted, too.  Furthermore, we need to recurse
->> down the chain.
->>
->> (CAF means child access function.)
->=20
-> Hmm, so, if only one node in the backing chain is encrypted, all overla=
-ys,
-> filters or not are considered encrypted too? Even if all the data is in=
- top
-> node and is not encrypted?
->=20
-> Checked that the function is used only for reporting through
-> bdrv_query_image_info, which is called from bdrv_block_device_info() (w=
-hich
-> loops through backings), and from collect_image_info_list(), which loop=
-s through
-> backings if @chain=3Dtrue.
->=20
-> And collect_image_info_list() is used only in img_info(), @chain is a m=
-irrored
-> --backing-chain parameter..
->=20
-> So, isn't it more correct to return exactly bs->encrypted in this funct=
-ion? It will
-> give more correct and informative results for queries for the whole cha=
-in.
+are available in the Git repository at:
 
-Hm.  Maybe? :-)
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190613-1
 
-I personally feel more comfortable to report more devices as being
-reported than less.  The description of @encrypted in @BlockDeviceInfo
-is vague enough that we can just =E2=80=9Cmake it more precise=E2=80=9D.
+for you to fetch changes up to 18cf951af9a27ae573a6fa17f9d0c103f7b7679b:
 
-You=E2=80=99re right, it does sound more useful.
+  target/arm: Fix short-vector increment behaviour (2019-06-13 15:14:06 +0100)
 
-Max
+----------------------------------------------------------------
+target-arm queue:
+ * convert aarch32 VFP decoder to decodetree
+   (includes tightening up decode in a few places)
+ * fix minor bugs in VFP short-vector handling
+ * hw/core/bus.c: Only the main system bus can have no parent
+ * smmuv3: Fix decoding of ID register range
+ * Implement NSACR gating of floating point
+ * Use tcg_gen_gvec_bitsel
 
+----------------------------------------------------------------
+Peter Maydell (44):
+      target/arm: Implement NSACR gating of floating point
+      hw/arm/smmuv3: Fix decoding of ID register range
+      hw/core/bus.c: Only the main system bus can have no parent
+      target/arm: Add stubs for AArch32 VFP decodetree
+      target/arm: Factor out VFP access checking code
+      target/arm: Fix Cortex-R5F MVFR values
+      target/arm: Explicitly enable VFP short-vectors for aarch32 -cpu max
+      target/arm: Convert the VSEL instructions to decodetree
+      target/arm: Convert VMINNM, VMAXNM to decodetree
+      target/arm: Convert VRINTA/VRINTN/VRINTP/VRINTM to decodetree
+      target/arm: Convert VCVTA/VCVTN/VCVTP/VCVTM to decodetree
+      target/arm: Move the VFP trans_* functions to translate-vfp.inc.c
+      target/arm: Add helpers for VFP register loads and stores
+      target/arm: Convert "double-precision" register moves to decodetree
+      target/arm: Convert "single-precision" register moves to decodetree
+      target/arm: Convert VFP two-register transfer insns to decodetree
+      target/arm: Convert VFP VLDR and VSTR to decodetree
+      target/arm: Convert the VFP load/store multiple insns to decodetree
+      target/arm: Remove VLDR/VSTR/VLDM/VSTM use of cpu_F0s and cpu_F0d
+      target/arm: Convert VFP VMLA to decodetree
+      target/arm: Convert VFP VMLS to decodetree
+      target/arm: Convert VFP VNMLS to decodetree
+      target/arm: Convert VFP VNMLA to decodetree
+      target/arm: Convert VMUL to decodetree
+      target/arm: Convert VNMUL to decodetree
+      target/arm: Convert VADD to decodetree
+      target/arm: Convert VSUB to decodetree
+      target/arm: Convert VDIV to decodetree
+      target/arm: Convert VFP fused multiply-add insns to decodetree
+      target/arm: Convert VMOV (imm) to decodetree
+      target/arm: Convert VABS to decodetree
+      target/arm: Convert VNEG to decodetree
+      target/arm: Convert VSQRT to decodetree
+      target/arm: Convert VMOV (register) to decodetree
+      target/arm: Convert VFP comparison insns to decodetree
+      target/arm: Convert the VCVT-from-f16 insns to decodetree
+      target/arm: Convert the VCVT-to-f16 insns to decodetree
+      target/arm: Convert VFP round insns to decodetree
+      target/arm: Convert double-single precision conversion insns to decodetree
+      target/arm: Convert integer-to-float insns to decodetree
+      target/arm: Convert VJCVT to decodetree
+      target/arm: Convert VCVT fp/fixed-point conversion insns to decodetree
+      target/arm: Convert float-to-integer VCVT insns to decodetree
+      target/arm: Fix short-vector increment behaviour
 
---705RkiYeZnZfGdrZnlux6UpTHUbP9OYOD--
+Richard Henderson (3):
+      target/arm: Use tcg_gen_gvec_bitsel
+      target/arm: Fix output of PAuth Auth
+      decodetree: Fix comparison of Field
 
---Hejgq9E3jTZjhEMpvcAWo46GXAgsjYlse
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0CWn4ACgkQ9AfbAGHV
-z0AHBQgAn7p1vbZrc4w29+6DqL3LhwJKHTzd0Olslaid2HsfKDTjOtWKVWd8AJtL
-3CvHha2K32DRXeKv71PtY/Lbreg0xM/BdLt92YGXFIw6jHDkFkeJEE8gYnq7dIcg
-9hGJ0RoV3d0YlhcWYegFVJZQUc1uUlCQ1PI2hUp2ZlCk3+RGHDJ/Zn4wsiswzgpM
-mMrab3LrX4oCNsDR5LbbMCO6Uzf+VaDgQL7sv1UHZCWOdhBVpL79IvVNLxqy6VV5
-AUlSh4FbExUgxLEBWhTn+FO9vJGWwcJeKkwzubDvO+6mQjs9kXMLj6dsB79VUEQV
-4qFeSp/ZdnxDbZV1fy5b+VdbAlUHUw==
-=AmAo
------END PGP SIGNATURE-----
-
---Hejgq9E3jTZjhEMpvcAWo46GXAgsjYlse--
+ target/arm/Makefile.objs          |   13 +
+ tests/tcg/aarch64/Makefile.target |    2 +-
+ target/arm/cpu.h                  |   11 +
+ target/arm/translate-a64.h        |    2 +
+ target/arm/translate.h            |    3 -
+ hw/arm/smmuv3.c                   |    2 +-
+ hw/core/bus.c                     |   21 +-
+ target/arm/cpu.c                  |    6 +
+ target/arm/helper.c               |   75 +-
+ target/arm/pauth_helper.c         |    4 +-
+ target/arm/translate-a64.c        |   15 +-
+ target/arm/translate-vfp.inc.c    | 2672 +++++++++++++++++++++++++++++++++++++
+ target/arm/translate.c            | 1581 +---------------------
+ tests/tcg/aarch64/pauth-2.c       |   61 +
+ scripts/decodetree.py             |    2 +-
+ target/arm/vfp-uncond.decode      |   63 +
+ target/arm/vfp.decode             |  242 ++++
+ 17 files changed, 3203 insertions(+), 1572 deletions(-)
+ create mode 100644 target/arm/translate-vfp.inc.c
+ create mode 100644 tests/tcg/aarch64/pauth-2.c
+ create mode 100644 target/arm/vfp-uncond.decode
+ create mode 100644 target/arm/vfp.decode
 
