@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3DF44BB0
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 21:07:16 +0200 (CEST)
-Received: from localhost ([::1]:44256 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4289C449B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 19:29:34 +0200 (CEST)
+Received: from localhost ([::1]:42390 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbV47-0001IV-8v
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 15:07:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55618)
+	id 1hbTXZ-0006bK-Cv
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 13:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55694)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hbSqc-0001aw-H0
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:12 -0400
+ (envelope-from <groug@kaod.org>) id 1hbSqj-0001sB-NJ
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hbSqa-0007c8-OZ
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:10 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57886)
+ (envelope-from <groug@kaod.org>) id 1hbSqi-000869-0A
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:17 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35990
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hbSqa-0007VO-AI
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:08 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5DGgeTI101833
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:45:06 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2t3sdujhw5-1
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hbSqh-00085j-Hj
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 12:45:15 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5DGi1mh164545
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:45:11 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2t3rv6m0q3-1
  (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:45:06 -0400
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 12:45:10 -0400
 Received: from localhost
- by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
  Violators will be prosecuted
  for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Thu, 13 Jun 2019 17:45:03 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
- by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+ Thu, 13 Jun 2019 17:45:09 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
  Authorized Use Only! Violators will be prosecuted; 
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Thu, 13 Jun 2019 17:45:01 +0100
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5DGj0U052166802
+ Thu, 13 Jun 2019 17:45:06 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x5DGj51339190780
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 13 Jun 2019 16:45:00 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1F3F1A404D;
- Thu, 13 Jun 2019 16:45:00 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE1B1A4040;
- Thu, 13 Jun 2019 16:44:59 +0000 (GMT)
+ Thu, 13 Jun 2019 16:45:05 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 92076A4062;
+ Thu, 13 Jun 2019 16:45:05 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5A698A4054;
+ Thu, 13 Jun 2019 16:45:05 +0000 (GMT)
 Received: from bahia.lab.toulouse-stg.fr.ibm.com (unknown [9.101.4.41])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 13 Jun 2019 16:44:59 +0000 (GMT)
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 13 Jun 2019 16:45:05 +0000 (GMT)
 From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Thu, 13 Jun 2019 18:44:59 +0200
+Date: Thu, 13 Jun 2019 18:45:05 +0200
 In-Reply-To: <156044428869.125694.13827513253200184549.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
 References: <156044428869.125694.13827513253200184549.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
 User-Agent: StGit/unknown-version
@@ -63,22 +64,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19061316-0008-0000-0000-000002F38424
+x-cbid: 19061316-4275-0000-0000-00000342132B
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19061316-0009-0000-0000-000022608B4A
-Message-Id: <156044429963.125694.13710679451927268758.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
+x-cbparentid: 19061316-4276-0000-0000-000038522E0D
+Message-Id: <156044430517.125694.6207865998817342638.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-06-13_11:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
  clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1810050000 definitions=main-1906130122
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH 2/3] xics/spapr: Register RTAS/hypercalls once
- at machine init
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [PATCH 3/3] xics/spapr: Detect old KVM XICS on POWER9
+ hosts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,170 +96,116 @@ Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU may crash when running a spapr machine in 'dual' interrupt controller
-mode on some older (but not that old, eg. ubuntu 18.04.2) KVMs with partial
-XIVE support:
+Older KVMs on POWER9 don't support destroying/recreating a KVM XICS
+device, which is required by 'dual' interrupt controller mode. This
+causes QEMU to emit a warning when the guest is rebooted and to fall
+back on XICS emulation:
 
-qemu-system-ppc64: hw/ppc/spapr_rtas.c:411: spapr_rtas_register:
- Assertion `!name || !rtas_table[token].name' failed.
+qemu-system-ppc64: warning: kernel_irqchip allowed but unavailable:
+ Error on KVM_CREATE_DEVICE for XICS: File exists
 
-XICS is controlled by the guest thanks to a set of RTAS calls. Depending
-on whether KVM XICS is used or not, the RTAS calls are handled by KVM or
-QEMU. In both cases, QEMU needs to expose the RTAS calls to the guest
-through the "rtas" node of the device tree.
+If kernel irqchip is required, QEMU will thus exit when the guest is
+first rebooted. Failing QEMU this late may be a painful experience
+for the user.
 
-The spapr_rtas_register() helper takes care of all of that: it adds the
-RTAS call token to the "rtas" node and registers a QEMU callback to be
-invoked when the guest issues the RTAS call. In the KVM XICS case, QEMU
-registers a dummy callback that just prints an error since it isn't
-supposed to be invoked, ever.
-
-Historically, the XICS controller was setup during machine init and
-released during final teardown. This changed when the 'dual' interrupt
-controller mode was added to the spapr machine: in this case we need
-to tear the XICS down and set it up again during machine reset. The
-crash happens because we indeed have an incompatibility with older
-KVMs that forces QEMU to fallback on emulated XICS, which tries to
-re-registers the same RTAS calls.
-
-This could be fixed by adding proper rollback that would unregister
-RTAS calls on error. But since the emulated RTAS calls in QEMU can
-now detect when they are mistakenly called while KVM XICS is in
-use, it seems simpler to register them once and for all at machine
-init. This fixes the crash and allows to remove some now useless
-lines of code.
+Detect that and exit at machine init instead.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- hw/intc/xics_kvm.c          |   19 -------------------
- hw/intc/xics_spapr.c        |    8 --------
- hw/ppc/spapr_irq.c          |    3 ++-
- include/hw/ppc/spapr.h      |    4 ----
- include/hw/ppc/xics.h       |    1 -
- include/hw/ppc/xics_spapr.h |    1 +
- 6 files changed, 3 insertions(+), 33 deletions(-)
+ docs/specs/ppc-spapr-xive.rst |    4 ++--
+ hw/intc/xics_kvm.c            |   30 ++++++++++++++++++++++++++++++
+ hw/ppc/spapr_irq.c            |   13 +++++++++++++
+ include/hw/ppc/xics_spapr.h   |    1 +
+ 4 files changed, 46 insertions(+), 2 deletions(-)
 
+diff --git a/docs/specs/ppc-spapr-xive.rst b/docs/specs/ppc-spapr-xive.rst
+index 7a64c9d04951..6159bc6eed62 100644
+--- a/docs/specs/ppc-spapr-xive.rst
++++ b/docs/specs/ppc-spapr-xive.rst
+@@ -142,8 +142,8 @@ xics            XICS KVM       XICS emul.     XICS KVM
+ (3) QEMU fails at CAS with ``Guest requested unavailable interrupt
+     mode (XICS), either don't set the ic-mode machine property or try
+     ic-mode=xics or ic-mode=dual``
+-(4) QEMU/KVM incompatibility due to device destruction in reset. This
+-    needs to be addressed more cleanly with an error.
++(4) QEMU/KVM incompatibility due to device destruction in reset. QEMU fails
++    with ``KVM is too old to support ic-mode=dual,kernel-irqchip=on``
+ 
+ 
+ XIVE Device tree properties
 diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 5ba5b775615e..5c4208f43008 100644
+index 5c4208f43008..c7f8f5edd257 100644
 --- a/hw/intc/xics_kvm.c
 +++ b/hw/intc/xics_kvm.c
-@@ -331,15 +331,6 @@ void ics_kvm_set_irq(ICSState *ics, int srcno, int val)
-     }
+@@ -452,3 +452,33 @@ void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp)
+     /* Clear the presenter from the VCPUs */
+     kvm_disable_icps();
  }
- 
--static void rtas_dummy(PowerPCCPU *cpu, SpaprMachineState *spapr,
--                       uint32_t token,
--                       uint32_t nargs, target_ulong args,
--                       uint32_t nret, target_ulong rets)
--{
--    error_report("pseries: %s must never be called for in-kernel XICS",
--                 __func__);
--}
--
- int xics_kvm_init(SpaprMachineState *spapr, Error **errp)
- {
-     int rc;
-@@ -360,11 +351,6 @@ int xics_kvm_init(SpaprMachineState *spapr, Error **errp)
-         goto fail;
-     }
- 
--    spapr_rtas_register(RTAS_IBM_SET_XIVE, "ibm,set-xive", rtas_dummy);
--    spapr_rtas_register(RTAS_IBM_GET_XIVE, "ibm,get-xive", rtas_dummy);
--    spapr_rtas_register(RTAS_IBM_INT_OFF, "ibm,int-off", rtas_dummy);
--    spapr_rtas_register(RTAS_IBM_INT_ON, "ibm,int-on", rtas_dummy);
--
-     rc = kvmppc_define_rtas_kernel_token(RTAS_IBM_SET_XIVE, "ibm,set-xive");
-     if (rc < 0) {
-         error_setg(errp, "kvmppc_define_rtas_kernel_token: ibm,set-xive");
-@@ -454,11 +440,6 @@ void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp)
-     close(kernel_xics_fd);
-     kernel_xics_fd = -1;
- 
--    spapr_rtas_unregister(RTAS_IBM_SET_XIVE);
--    spapr_rtas_unregister(RTAS_IBM_GET_XIVE);
--    spapr_rtas_unregister(RTAS_IBM_INT_OFF);
--    spapr_rtas_unregister(RTAS_IBM_INT_ON);
--
-     kvmppc_define_rtas_kernel_token(0, "ibm,set-xive");
-     kvmppc_define_rtas_kernel_token(0, "ibm,get-xive");
-     kvmppc_define_rtas_kernel_token(0, "ibm,int-on");
-diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index d470ab5f7a2a..8d605b68a7a0 100644
---- a/hw/intc/xics_spapr.c
-+++ b/hw/intc/xics_spapr.c
-@@ -285,14 +285,6 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMachineState *spapr,
- 
- void xics_spapr_init(SpaprMachineState *spapr)
- {
--    /* Emulated mode can only be initialized once. */
--    if (spapr->ics->init) {
--        return;
--    }
--
--    spapr->ics->init = true;
--
--    /* Registration of global state belongs into realize */
-     spapr_rtas_register(RTAS_IBM_SET_XIVE, "ibm,set-xive", rtas_set_xive);
-     spapr_rtas_register(RTAS_IBM_GET_XIVE, "ibm,get-xive", rtas_get_xive);
-     spapr_rtas_register(RTAS_IBM_INT_OFF, "ibm,int-off", rtas_int_off);
++
++/*
++ * This is a heuristic to detect older KVMs on POWER9 hosts that don't
++ * support destruction of a KVM XICS device while the VM is running.
++ * Required to start a spapr machine with ic-mode=dual,kernel-irqchip=on.
++ */
++bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr)
++{
++    int rc;
++
++    rc = kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
++    if (rc < 0) {
++        /*
++         * The error is ignored on purpose. The KVM XICS setup code
++         * will catch it again anyway. The goal here is to see if
++         * close() actually destroys the device or not.
++         */
++        return false;
++    }
++
++    close(rc);
++
++    rc = kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
++    if (rc >= 0) {
++        close(rc);
++        return false;
++    }
++
++    return errno == EEXIST;
++}
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 3156daf09381..dfb99f35ea00 100644
+index dfb99f35ea00..75654fc67aba 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -114,6 +114,8 @@ static void spapr_irq_init_xics(SpaprMachineState *spapr, int nr_irqs,
+@@ -669,6 +669,19 @@ static void spapr_irq_check(SpaprMachineState *spapr, Error **errp)
+             return;
+         }
      }
- 
-     spapr->ics = ICS_BASE(obj);
 +
-+    xics_spapr_init(spapr);
++    /*
++     * On a POWER9 host, some older KVM XICS devices cannot be destroyed and
++     * re-created. Detect that early to avoid QEMU to exit later when the
++     * guest reboots.
++     */
++    if (kvm_enabled() &&
++        spapr->irq == &spapr_irq_dual &&
++        machine_kernel_irqchip_required(machine) &&
++        xics_kvm_has_broken_disconnect(spapr)) {
++        error_setg(errp, "KVM is too old to support ic-mode=dual,kernel-irqchip=on");
++        return;
++    }
  }
  
- #define ICS_IRQ_FREE(ics, srcno)   \
-@@ -236,7 +238,6 @@ static const char *spapr_irq_get_nodename_xics(SpaprMachineState *spapr)
- 
- static void spapr_irq_init_emu_xics(SpaprMachineState *spapr, Error **errp)
- {
--    xics_spapr_init(spapr);
- }
- 
- static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **errp)
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 4f5becf1f3cc..60553d32c4fa 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -676,10 +676,6 @@ typedef void (*spapr_rtas_fn)(PowerPCCPU *cpu, SpaprMachineState *sm,
-                               uint32_t nargs, target_ulong args,
-                               uint32_t nret, target_ulong rets);
- void spapr_rtas_register(int token, const char *name, spapr_rtas_fn fn);
--static inline void spapr_rtas_unregister(int token)
--{
--    spapr_rtas_register(token, NULL, NULL);
--}
- target_ulong spapr_rtas_call(PowerPCCPU *cpu, SpaprMachineState *sm,
-                              uint32_t token, uint32_t nargs, target_ulong args,
-                              uint32_t nret, target_ulong rets);
-diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-index d6f8e4c4c282..eb65ad7e43b7 100644
---- a/include/hw/ppc/xics.h
-+++ b/include/hw/ppc/xics.h
-@@ -119,7 +119,6 @@ struct ICSState {
-     uint32_t offset;
-     ICSIRQState *irqs;
-     XICSFabric *xics;
--    bool init; /* sPAPR ICS device initialized */
- };
- 
- #define ICS_PROP_XICS "xics"
+ /*
 diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 2476b540edfa..6c1d9ee55945 100644
+index 6c1d9ee55945..d968f2499ca7 100644
 --- a/include/hw/ppc/xics_spapr.h
 +++ b/include/hw/ppc/xics_spapr.h
-@@ -36,5 +36,6 @@ void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
+@@ -35,6 +35,7 @@ void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *fdt,
+                    uint32_t phandle);
  int xics_kvm_init(SpaprMachineState *spapr, Error **errp);
  void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
++bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
  void xics_spapr_init(SpaprMachineState *spapr);
-+void xics_spapr_connect(SpaprMachineState *spapr);
+ void xics_spapr_connect(SpaprMachineState *spapr);
  
- #endif /* XICS_SPAPR_H */
 
 
