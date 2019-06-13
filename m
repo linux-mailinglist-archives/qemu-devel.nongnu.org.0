@@ -2,66 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0CE445C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:46:57 +0200 (CEST)
-Received: from localhost ([::1]:41732 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F44443E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 18:34:25 +0200 (CEST)
+Received: from localhost ([::1]:41540 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbSsK-0001Bu-6M
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:46:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58437)
+	id 1hbSgB-0005OS-Mh
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 12:34:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59672)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbRff-0005uh-DK
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:29:49 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hbRkG-00006q-Df
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:34:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbRfe-0007OM-2B
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:29:47 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45394)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbRfd-0007Ni-Iw
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:29:45 -0400
-Received: by mail-ot1-x344.google.com with SMTP id x21so8460640otq.12
- for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 08:29:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KEkgxCKWRabUyBza824z8Hgv2Pzr1xKHtI89+T+0aec=;
- b=JjH0k34yc7VvL8f74qAog778MLjkcY9P5nIbtcu2yVVNTE0NBmlQho9O3DDv/BpqYI
- XzNTaZdItmZ9mgNXe27UNQeUBPI5v5dXUItUH09h/O8zxFSu0aLoDqgXFq/B+slVNBxy
- cUIjHLzkSaWt/aBYoiQ3xOM9xqJ5MTuVqD5ZzdzbJiJf5URH7rPZ7GiLKnBDpy5NYIl9
- RzqGKMDM6K5fTzlzhy0muikcAhF5Tt18f+7b5Rw9vbQrJ1zqXGk/If5T97XRoKOzrA7u
- G1MFV8Sg5kPRt9IVUfxwDRbqMA1bGfQPijYu1MFPzTMx85uIxd0zhcZ0Ofvu+ZJ0P9ld
- kTzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KEkgxCKWRabUyBza824z8Hgv2Pzr1xKHtI89+T+0aec=;
- b=IN860NGoSl5xCBusxajXwUDvLzwErw5XXmt9aqCw1bjJn7yoeSbwmnfGzKT8vy2x1U
- 5WMNQ6F5WZHdBigNExshE6uGOg/H27KvPdt7l1+qPRG7b0OfrPilSk/RnxMH9jeryzBa
- wpbaNLD+IDNAxqeoHf0DgtoXrj/Sk8tivf9K28aXcHyAIOaFh/G9QattbmvU77lDhLXM
- /dC35C32oIO957l3dioisEm5gb5FcXD1hfmzshRqbGmwCatzV+h4OWP0lgdo43xnf3WG
- VU9NYkZKdI241tPq+mV4n2Kmd7IyICuH7OUqD2h8NY6IdIvIdtT0BstgnxvGO1tm503e
- hEUg==
-X-Gm-Message-State: APjAAAVAnyqomqUtbsUQvIqc0QSvHWMSv4Fmqj9i0wHj/N3+JCRhf0aH
- VrKIqr68VRDSOy9h1pEoUh9CFdb++P/4mEkE5XyzFA==
-X-Google-Smtp-Source: APXvYqw1WD4E2NVORujl1LaOYftgBiU0xcr64Xf9Do6AO/5AdiCjTiTtUiV3kpCvcSlpjqHutDUVNJ2w9Ok3hEgHuBk=
-X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr2063255otn.135.1560439784520; 
- Thu, 13 Jun 2019 08:29:44 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1hbRkE-0002vd-NX
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 11:34:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59730)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hbRkA-0002lN-FS; Thu, 13 Jun 2019 11:34:26 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 74AFAD7809;
+ Thu, 13 Jun 2019 15:34:21 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-116-246.ams2.redhat.com
+ [10.36.116.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 787FC60C44;
+ Thu, 13 Jun 2019 15:34:15 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 13 Jun 2019 17:33:50 +0200
+Message-Id: <20190613153405.24769-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20190610134545.3743-1-peter.maydell@linaro.org>
- <156043918624.3418.2275764093147880770@sif>
-In-Reply-To: <156043918624.3418.2275764093147880770@sif>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 13 Jun 2019 16:29:33 +0100
-Message-ID: <CAFEAcA97MUveG=si03B7_2WzDugtz7hR9x+YNQmU2xDiCF81eA@mail.gmail.com>
-To: Michael Roth <mdroth@linux.vnet.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH] qemu-ga: Convert invocation documentation
- to rST
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Thu, 13 Jun 2019 15:34:21 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 00/15] monitor: Split monitor.c in
+ core/HMP/QMP/misc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,86 +54,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
+ armbru@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Jun 2019 at 16:20, Michael Roth <mdroth@linux.vnet.ibm.com> wrote:
->
-> Quoting Peter Maydell (2019-06-10 08:45:45)
-> > The qemu-ga documentation is currently in qemu-ga.texi in
-> > Texinfo format, which we present to the user as:
-> >  * a qemu-ga manpage
-> >  * a section of the main qemu-doc HTML documentation
-> >
-> > Convert the documentation to rST format, and present it to
-> > the user as:
-> >  * a qemu-ga manpage
-> >  * part of the interop/ Sphinx manual
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+monitor.c mixes a lot of different things in a single file: The core
+monitor infrastructure, HMP infrastrcture, QMP infrastructure, and the
+implementation of several HMP and QMP commands. Almost worse, struct
+Monitor mixes state for HMP, for QMP, and state actually shared between
+all monitors. monitor.c must be linked with a system emulator and even
+requires per-target compilation because some of the commands it
+implements access system emulator state.
 
-> > +# Canned command to build manpages from a single manual
-> > +build-manpages = $(call quiet-command,CONFDIR="$(qemu_confdir)" sphinx-build $(if $(V),,-q) -W -n -b man -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1
-$(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+The reason why I care about this is that I'm working on a protoype for a
+storage daemon, which wants to use QMP (but probably not HMP) and
+obviously doesn't have any system emulator state. So I'm interested in
+some core monitor parts that can be linked to non-system-emulator tools.
 
-> > --- a/docs/conf.py
-> > +++ b/docs/conf.py
-> > @@ -115,6 +115,14 @@ todo_include_todos = False
-> >  # with "option::" in the document being processed. Turn that off.
-> >  suppress_warnings = ["ref.option"]
-> >
-> > +# The rst_epilog fragment is effectively included in every rST file.
-> > +# We use it to define substitutions based on build config that
-> > +# can then be used in the documentation. The fallback if the
-> > +# environment variable is not set is for the benefit of readthedocs
-> > +# style document building; our Makefile always sets the variable.
-> > +confdir = os.getenv('CONFDIR', "/usr/local/etc")
-> > +rst_epilog = ".. |CONFDIR| replace:: ``" + confdir + "``\n"
-> > +
->
-> When testing this I have the following in my qemu build directory (via
-> ./configure --prefix=/home/mdroth/w/qemu-install2):
->
->   $ grep -r CONFDIR
->   config-host.h-timestamp:#define CONFIG_QEMU_CONFDIR "/home/mdroth/w/qemu-install2/etc/qemu"
->   qemu-doc.txt:     user-provided config files on SYSCONFDIR.
->   config-host.h:#define CONFIG_QEMU_CONFDIR "/home/mdroth/w/qemu-install2/etc/qemu"
->   docs/version.texi:@set CONFDIR /home/mdroth/w/qemu-install2/etc/qemu
->
-> but the following input for the qemu-ga man page:
->
->   qemu-ga will read a system configuration file on startup (located at
->   |CONFDIR|\ ``/qemu-ga.conf`` by default),
->
-> ends up as this in the generated man page:
->
->   qemu-ga will read a system configuration file on startup (located at /usr/local/etc/qemu-ga.conf
->   by  default),
->
-> is this expected, or are we unexpectedly falling back to the default
-> value here?
+This series first creates separate structs MonitorQMP and MonitorHMP
+which inherit from Monitor, and then moves the associated infrastructure
+code into separate source files.
 
-No, if you're invoking Sphinx via the makefile then we should
-be passing CONFDIR="$(qemu_confdir)" to set the environment
-variable when we invoke it. Can you try doing a build with V=1
-to check the sphinx command line ?
+While the split is probably not perfect, I think it's an improvement of
+the current state even for QEMU proper, and it's good enough so I can
+link my storage daemon against just monitor/core.o and monitor/qmp.o and
+get a useless QMP monitor that parses the JSON input and rejects
+everything as an unknown command.
 
-I've just realized that I didn't also update the 'build-manual'
-macro to add the CONFDIR setting. Perhaps Sphinx ran first with
-the build-manual macro and has cached document contents created
-with that incorrect invocation and then reused them in the manpage
-creation? If so, this should be fixable by adding the CONFDIR="$(qemu_confdir)"
-to the build-manual macro in the Makefile, and then deleting the .doctrees/
-directory from your build tree and rerunning make.
+Next I'll try to teach it a subset of QMP commands that can actually be
+supported in a tool, but while there will be a few follow-up patches to
+achieve this, I don't expect that this work will bring up much that
+needs to be changed in the splitting process done in this series.
 
-> Sphinx seems to do a better job of formatting "Key" and "Key type" into
-> actual table columns in the generated man/html pages (rather than just
-> separating them with whitespace), so I think we can drop the trailing '='s
+v3:
+- Assert monitor_is_qmp() before casting to MonitorQMP in two places
+- Added note that HMP doesn't currently use iothread to the
+  documentation of MonitorHMP
+- Removed unnecessary memset() in monitor_data_init()
+- Removed Monitor.cmd_table instead of moving it to MonitorHMP. Renamed
+  the tables to have an hmp_ prefix.
+- monitor_int.h of v2 becomes monitor-internal.h now
+- Cleaned up #include directives in new files
+- Moved some more functions between files
+- Removed monitor_init() in favour of public monitor_init_hmp/qmp()
+- Deprecate -mon control=3Dreadline,pretty=3Don|off
+- Improved several commit messages
 
-Sure; I'll change this in v2.
+v2:
+- Fix coding style while moving files to make checkpatch happier
+- Updated file name references in docs/devel/writing-qmp-commands.txt
+- Updated MAINTAINERS for moved and newly created files
+- Created monitor/trace-events instead of using the root directory one
+- Move {hmp,qmp}.c to monitor/{hmp,qmp}-cmds.c
 
-thanks
--- PMM
+Kevin Wolf (15):
+  monitor: Remove unused password prompting fields
+  monitor: Split monitor_init in HMP and QMP function
+  monitor: Make MonitorQMP a child class of Monitor
+  monitor: Create MonitorHMP with readline state
+  monitor: Remove Monitor.cmd_table indirection
+  monitor: Rename HMP command type and tables
+  Move monitor.c to monitor/misc.c
+  monitor: Move {hmp,qmp}.c to monitor/{hmp,qmp}-cmds.c
+  monitor: Create monitor-internal.h with common definitions
+  monitor: Split out monitor/qmp.c
+  monitor: Split out monitor/hmp.c
+  monitor: Split out monitor/monitor.c
+  monitor: Split Monitor.flags into separate bools
+  monitor: Replace monitor_init() with monitor_init_{hmp,qmp}()
+  vl: Deprecate -mon pretty=3D... for HMP monitors
+
+ docs/devel/writing-qmp-commands.txt |   11 +-
+ include/monitor/monitor.h           |   15 +-
+ monitor/monitor-internal.h          |  187 ++
+ chardev/char.c                      |    2 +-
+ gdbstub.c                           |    2 +-
+ monitor.c                           | 4729 ---------------------------
+ hmp.c =3D> monitor/hmp-cmds.c         |    6 +-
+ monitor/hmp.c                       | 1415 ++++++++
+ monitor/misc.c                      | 2368 ++++++++++++++
+ monitor/monitor.c                   |  632 ++++
+ qmp.c =3D> monitor/qmp-cmds.c         |    2 +-
+ monitor/qmp.c                       |  403 +++
+ stubs/monitor.c                     |    6 +-
+ tests/test-util-sockets.c           |    3 +-
+ vl.c                                |   28 +-
+ MAINTAINERS                         |   13 +-
+ Makefile.objs                       |    4 +-
+ Makefile.target                     |    3 +-
+ hmp-commands.hx                     |    2 +-
+ monitor/Makefile.objs               |    3 +
+ monitor/trace-events                |   15 +
+ qemu-deprecated.texi                |    6 +
+ trace-events                        |   10 -
+ 23 files changed, 5091 insertions(+), 4774 deletions(-)
+ create mode 100644 monitor/monitor-internal.h
+ delete mode 100644 monitor.c
+ rename hmp.c =3D> monitor/hmp-cmds.c (99%)
+ create mode 100644 monitor/hmp.c
+ create mode 100644 monitor/misc.c
+ create mode 100644 monitor/monitor.c
+ rename qmp.c =3D> monitor/qmp-cmds.c (99%)
+ create mode 100644 monitor/qmp.c
+ create mode 100644 monitor/Makefile.objs
+ create mode 100644 monitor/trace-events
+
+--=20
+2.20.1
+
 
