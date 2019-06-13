@@ -2,48 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3D743736
-	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:28:33 +0200 (CEST)
-Received: from localhost ([::1]:40374 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C444374A
+	for <lists+qemu-devel@lfdr.de>; Thu, 13 Jun 2019 16:41:15 +0200 (CEST)
+Received: from localhost ([::1]:40496 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbQiO-0002Ai-V4
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46190)
+	id 1hbQug-0005t3-6s
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 10:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46593)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hbPSA-0003QQ-UZ
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:45 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbPT8-0004cn-FV
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:08:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hbPS8-0006AD-N1
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:14285)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hbPS8-00066z-GQ
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:07:40 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A19B97EAB0;
- Thu, 13 Jun 2019 13:07:36 +0000 (UTC)
-Received: from dhcp-17-47.bos.redhat.com (dhcp-17-47.bos.redhat.com
- [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D2D5145A3;
- Thu, 13 Jun 2019 13:07:35 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 13 Jun 2019 09:07:18 -0400
-Message-Id: <20190613130718.3763-5-crosa@redhat.com>
-In-Reply-To: <20190613130718.3763-1-crosa@redhat.com>
-References: <20190613130718.3763-1-crosa@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hbPT6-00077E-JU
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:08:42 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41318)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbPT6-00075m-Ct
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 09:08:40 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c2so20715129wrm.8
+ for <qemu-devel@nongnu.org>; Thu, 13 Jun 2019 06:08:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2/xTwiaw6JA4jI1YlowgfLsU7NNgPHQ4nuXr8PeIxUc=;
+ b=VUbrQ4C7od7hUibd3TLFgVgEHtabO7JlxOjpZhlWzB/o744VXm3zOIJsRgW++yAcmi
+ S401e/fuUbZghx4If5W9PMXery9H0td7nNR6ImmcTrRDB6ngiliZGPLH2HDA1JDIAkAX
+ Z3BiAGl7rkhsSF6y/Af15lwCHH7gH1jN5sernjcuNI3IxwiKR7QOD2dNsoM/iNQR4mHN
+ 0LoR5/k3cpCgavpaosk6jRr0xGZQo9Bb8SVCQZXQ+Swy4+h+rCq6wfwe1hv+1sR/Nccm
+ 3fRbIvpleNA9H2KrLhJYd7K54q4C627tfjTvzqEVLBoa3zXHsq1lkQZLScncDVUitiAf
+ Zj3Q==
+X-Gm-Message-State: APjAAAURSJPedOHAuR0zmemccmsOELbHn7KgEux2UznegXeX70qW4LHO
+ N3zcpUyG+WEkMiE8YpGOLdZe+Q==
+X-Google-Smtp-Source: APXvYqy7kL7Wmi95wz5Q4IrPZDsxVNvv5X7kou+7bBNbZxf0pSAB2j73htb2ksJbzEEx/SayXWe8Yg==
+X-Received: by 2002:adf:e9c6:: with SMTP id l6mr869622wrn.216.1560431318826;
+ Thu, 13 Jun 2019 06:08:38 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id m21sm3012177wmc.1.2019.06.13.06.08.38
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 13 Jun 2019 06:08:38 -0700 (PDT)
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
+References: <20190613050937.124903-1-aik@ozlabs.ru>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <35361394-42ba-dcf0-6fe2-5a0a538d1440@redhat.com>
+Date: Thu, 13 Jun 2019 15:08:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 13 Jun 2019 13:07:36 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190613050937.124903-1-aik@ozlabs.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/4] tests/vm: add source repos on ubuntu.i386
+ [fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH qemu] loader: Trace loaded images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,42 +73,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Possibly because of different behavior on the newly update
-cloud-image, trying to run 'apt-get build-dep' results in:
+Hi Alexey,
 
-   E: You must put some 'source' URIs in your sources.list
+On 6/13/19 7:09 AM, Alexey Kardashevskiy wrote:
+> This adds a trace point which prints every loaded image. This includes
+> bios/firmware/kernel/initradmdisk/pcirom.
+> 
+> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> ---
+> 
+> The example for a pseries guest:
+> 
+> loader_write_rom slof.bin: @0x0 size=0xe22e0 ROM=0
+> loader_write_rom phdr #0: /home/aik/t/vml4120le: @0x400000 size=0x13df000 ROM=0
+> loader_write_rom /home/aik/t/le.cpio: @0x1ad0000 size=0x9463a00 ROM=0
 
-This enables all source repos (even though some are not
-needed) for simplicity sake.
+I find the "ROM=0" part confuse, maybe you can change to "ROM:false".
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- tests/vm/ubuntu.i386 | 1 +
- 1 file changed, 1 insertion(+)
+Regardless:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 7017e6d388..3ea459ee20 100755
---- a/tests/vm/ubuntu.i386
-+++ b/tests/vm/ubuntu.i386
-@@ -77,6 +77,7 @@ class UbuntuX86VM(basevm.BaseVM):
-         time.sleep(5)
-         self.wait_ssh()
-         # The previous update sometimes doesn't survive a reboot, so do =
-it again
-+        self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/so=
-urces.list")
-         self.ssh_root_check("apt-get update")
-         self.ssh_root_check("apt-get build-dep -y qemu")
-         self.ssh_root_check("apt-get install -y libfdt-dev flex bison")
---=20
-2.21.0
-
+> 
+> Sadly "spapr-rtas.bin" does not show up because it is loaded from
+> the spapr machine reset handler rather than via rom_reset(), may be needs
+> to be fixed.
+> 
+> ---
+>  Makefile.objs        | 1 +
+>  hw/core/loader.c     | 3 +++
+>  hw/core/trace-events | 2 ++
+>  3 files changed, 6 insertions(+)
+>  create mode 100644 hw/core/trace-events
+> 
+> diff --git a/Makefile.objs b/Makefile.objs
+> index c8337fa34be8..036ca6752908 100644
+> --- a/Makefile.objs
+> +++ b/Makefile.objs
+> @@ -200,6 +200,7 @@ trace-events-subdirs += target/riscv
+>  trace-events-subdirs += target/s390x
+>  trace-events-subdirs += target/sparc
+>  trace-events-subdirs += util
+> +trace-events-subdirs += hw/core
+>  
+>  trace-events-files = $(SRC_PATH)/trace-events $(trace-events-subdirs:%=$(SRC_PATH)/%/trace-events)
+>  
+> diff --git a/hw/core/loader.c b/hw/core/loader.c
+> index a097bbe30a74..7fe083af492f 100644
+> --- a/hw/core/loader.c
+> +++ b/hw/core/loader.c
+> @@ -44,6 +44,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +#include "trace.h"
+>  #include "hw/hw.h"
+>  #include "disas/disas.h"
+>  #include "monitor/monitor.h"
+> @@ -1114,6 +1115,8 @@ static void rom_reset(void *unused)
+>           * CPU definitely fetches its instructions from the just written data.
+>           */
+>          cpu_flush_icache_range(rom->addr, rom->datasize);
+> +
+> +        trace_loader_write_rom(rom->name, rom->addr, rom->datasize, rom->isrom);
+>      }
+>  }
+>  
+> diff --git a/hw/core/trace-events b/hw/core/trace-events
+> new file mode 100644
+> index 000000000000..fe47a9c8cb1f
+> --- /dev/null
+> +++ b/hw/core/trace-events
+> @@ -0,0 +1,2 @@
+> +# loader.c
+> +loader_write_rom(const char *name, uint64_t gpa, uint64_t size, bool isrom) "%s: @0x%"PRIx64" size=0x%"PRIx64" ROM=%d"
+> 
 
