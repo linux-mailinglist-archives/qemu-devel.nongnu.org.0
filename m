@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4171945161
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 03:53:42 +0200 (CEST)
-Received: from localhost ([::1]:46648 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 817A945158
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 03:52:00 +0200 (CEST)
+Received: from localhost ([::1]:46626 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbbPR-00073M-FJ
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 21:53:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56912)
+	id 1hbbNn-0004qA-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 21:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56938)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hbbKz-0003Hj-UX
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:49:07 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hbbL1-0003Hp-5X
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:49:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hbbKy-0003OC-Im
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:49:05 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57351 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hbbKz-0003Pj-QF
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:49:07 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36263 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hbbKx-0003F1-Eu; Thu, 13 Jun 2019 21:49:04 -0400
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hbbKx-0003F3-2z
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:49:05 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45Q3Rt2F0zz9sND; Fri, 14 Jun 2019 11:48:58 +1000 (AEST)
+ id 45Q3Rt3Vlwz9sDB; Fri, 14 Jun 2019 11:48:58 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1560476938;
- bh=LwHnaeIH8uBSmV+oCImOoA2xeM9HHDqHPMim3dUvHAE=;
+ bh=pGNly4E5BqUrZ5zyFscDy9L92k//EyEyxp4jPEehBkg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bNxkA9RTPR539q40P9PoMmpPDQA/z2cAHm9J0E0gdMVOr4myNKONDpuRQSRXWFYO0
- QEXkKQV2ZBCn2fuN3dBKYmSV1AFvWGGyszuHtoMFsN1PnYLzA0I0AnN7SekIYJQ3rm
- dPB3BvrwlXUyxHrCwGc+tw1n9is79MzQxhH9Ofcw=
-Date: Fri, 14 Jun 2019 11:40:00 +1000
+ b=VdApZ/3HUrcnnwm8Mh2ypkEuSdU917WKlzdP4j27gTFcW7FQlSkJC9+uqgs80/KIP
+ ChLo1UXzqwAmsIQWvsi8Z8RpmUpATsg2zQ5qM4OZuRIllufSSnaq0Xm/dyr4WbIg2o
+ a6EcT7xUnOhlFEZUbCWtaC1kPcpuJHuiZbxYT1lk=
+Date: Fri, 14 Jun 2019 11:40:57 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190614014000.GC11158@umbus.fritz.box>
-References: <156044428869.125694.13827513253200184549.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
- <156044430517.125694.6207865998817342638.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190614014056.GD11158@umbus.fritz.box>
+References: <20190613060728.26955-1-david@gibson.dropbear.id.au>
+ <20190613060728.26955-3-david@gibson.dropbear.id.au>
+ <617a8179-7dcc-7c51-1239-6e4893090d43@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sHrvAb52M6C8blB9"
+ protocol="application/pgp-signature"; boundary="rqzD5py0kzyFAOWN"
 Content-Disposition: inline
-In-Reply-To: <156044430517.125694.6207865998817342638.stgit@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <617a8179-7dcc-7c51-1239-6e4893090d43@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH 3/3] xics/spapr: Detect old KVM XICS on
- POWER9 hosts
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH 2/3] tests/acceptance: Handle ppc64le host
+ arch correctly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,139 +58,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: arikalo@wavecomp.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ aurelien@aurel32.net, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---sHrvAb52M6C8blB9
-Content-Type: text/plain; charset=us-ascii
+--rqzD5py0kzyFAOWN
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 13, 2019 at 06:45:05PM +0200, Greg Kurz wrote:
-> Older KVMs on POWER9 don't support destroying/recreating a KVM XICS
-> device, which is required by 'dual' interrupt controller mode. This
-> causes QEMU to emit a warning when the guest is rebooted and to fall
-> back on XICS emulation:
+On Thu, Jun 13, 2019 at 11:01:19AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> On 6/13/19 8:07 AM, David Gibson wrote:
+> > ppc64 and ppc64le are different archs from the host kernel point of view
+> > and are advertised as such in uname.  But these cover the same set of C=
+PUs,
+> > just in different endianness modes.  qemu-system-ppc64 handles both mod=
+es,
+> > so make sure we select the correct binary when running on ppc64le host
+> > architecture.
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > ---
+> >  tests/acceptance/avocado_qemu/__init__.py | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >=20
+> > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
+ce/avocado_qemu/__init__.py
+> > index 2b236a1cf0..0ba9c536f4 100644
+> > --- a/tests/acceptance/avocado_qemu/__init__.py
+> > +++ b/tests/acceptance/avocado_qemu/__init__.py
+> > @@ -39,6 +39,8 @@ def pick_default_qemu_bin(arch=3DNone):
+> >      """
+> >      if arch is None:
+> >          arch =3D os.uname()[4]
+> > +        if arch =3D=3D 'ppc64le':
+> > +            arch =3D 'ppc64'
 >=20
-> qemu-system-ppc64: warning: kernel_irqchip allowed but unavailable:
->  Error on KVM_CREATE_DEVICE for XICS: File exists
->=20
-> If kernel irqchip is required, QEMU will thus exit when the guest is
-> first rebooted. Failing QEMU this late may be a painful experience
-> for the user.
->=20
-> Detect that and exit at machine init instead.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+> I prefer the generic patch from Cleber:
+> https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg03418.html
+> (I guess remember another version with a json file)
 
-Applied, thanks.
+I hadn't seen that, that does indeed look better.
 
-> ---
->  docs/specs/ppc-spapr-xive.rst |    4 ++--
->  hw/intc/xics_kvm.c            |   30 ++++++++++++++++++++++++++++++
->  hw/ppc/spapr_irq.c            |   13 +++++++++++++
->  include/hw/ppc/xics_spapr.h   |    1 +
->  4 files changed, 46 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/docs/specs/ppc-spapr-xive.rst b/docs/specs/ppc-spapr-xive.rst
-> index 7a64c9d04951..6159bc6eed62 100644
-> --- a/docs/specs/ppc-spapr-xive.rst
-> +++ b/docs/specs/ppc-spapr-xive.rst
-> @@ -142,8 +142,8 @@ xics            XICS KVM       XICS emul.     XICS KVM
->  (3) QEMU fails at CAS with ``Guest requested unavailable interrupt
->      mode (XICS), either don't set the ic-mode machine property or try
->      ic-mode=3Dxics or ic-mode=3Ddual``
-> -(4) QEMU/KVM incompatibility due to device destruction in reset. This
-> -    needs to be addressed more cleanly with an error.
-> +(4) QEMU/KVM incompatibility due to device destruction in reset. QEMU fa=
-ils
-> +    with ``KVM is too old to support ic-mode=3Ddual,kernel-irqchip=3Don``
-> =20
-> =20
->  XIVE Device tree properties
-> diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-> index 5c4208f43008..c7f8f5edd257 100644
-> --- a/hw/intc/xics_kvm.c
-> +++ b/hw/intc/xics_kvm.c
-> @@ -452,3 +452,33 @@ void xics_kvm_disconnect(SpaprMachineState *spapr, E=
-rror **errp)
->      /* Clear the presenter from the VCPUs */
->      kvm_disable_icps();
->  }
-> +
-> +/*
-> + * This is a heuristic to detect older KVMs on POWER9 hosts that don't
-> + * support destruction of a KVM XICS device while the VM is running.
-> + * Required to start a spapr machine with ic-mode=3Ddual,kernel-irqchip=
-=3Don.
-> + */
-> +bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr)
-> +{
-> +    int rc;
-> +
-> +    rc =3D kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
-> +    if (rc < 0) {
-> +        /*
-> +         * The error is ignored on purpose. The KVM XICS setup code
-> +         * will catch it again anyway. The goal here is to see if
-> +         * close() actually destroys the device or not.
-> +         */
-> +        return false;
-> +    }
-> +
-> +    close(rc);
-> +
-> +    rc =3D kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
-> +    if (rc >=3D 0) {
-> +        close(rc);
-> +        return false;
-> +    }
-> +
-> +    return errno =3D=3D EEXIST;
-> +}
-> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-> index dfb99f35ea00..75654fc67aba 100644
-> --- a/hw/ppc/spapr_irq.c
-> +++ b/hw/ppc/spapr_irq.c
-> @@ -669,6 +669,19 @@ static void spapr_irq_check(SpaprMachineState *spapr=
-, Error **errp)
->              return;
->          }
->      }
-> +
-> +    /*
-> +     * On a POWER9 host, some older KVM XICS devices cannot be destroyed=
- and
-> +     * re-created. Detect that early to avoid QEMU to exit later when the
-> +     * guest reboots.
-> +     */
-> +    if (kvm_enabled() &&
-> +        spapr->irq =3D=3D &spapr_irq_dual &&
-> +        machine_kernel_irqchip_required(machine) &&
-> +        xics_kvm_has_broken_disconnect(spapr)) {
-> +        error_setg(errp, "KVM is too old to support ic-mode=3Ddual,kerne=
-l-irqchip=3Don");
-> +        return;
-> +    }
->  }
-> =20
->  /*
-> diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-> index 6c1d9ee55945..d968f2499ca7 100644
-> --- a/include/hw/ppc/xics_spapr.h
-> +++ b/include/hw/ppc/xics_spapr.h
-> @@ -35,6 +35,7 @@ void spapr_dt_xics(SpaprMachineState *spapr, uint32_t n=
-r_servers, void *fdt,
->                     uint32_t phandle);
->  int xics_kvm_init(SpaprMachineState *spapr, Error **errp);
->  void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
-> +bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
->  void xics_spapr_init(SpaprMachineState *spapr);
->  void xics_spapr_connect(SpaprMachineState *spapr);
-> =20
+> >      qemu_bin_relative_path =3D os.path.join("%s-softmmu" % arch,
+> >                                            "qemu-system-%s" % arch)
+> >      if is_readable_executable_file(qemu_bin_relative_path):
+> >=20
 >=20
 
 --=20
@@ -197,25 +115,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---sHrvAb52M6C8blB9
+--rqzD5py0kzyFAOWN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIyBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0C+vAACgkQbDjKyiDZ
-s5JxMQ/4/dr3ZM3h3p5AIhnM3lm8YS6/6h+wtDdtmjPnqErzlFi5vJk0OdoIb8pP
-sX7m9qUt9aJ7x+e8RUmKxH03i7wCcQ6WIC4OfAjBYjYcBR1LdqZcTdA7LIoFMauX
-jVMrpBWJFCFjtkLKFdE4vycnfBDQTwSrP437vp937oBOugzpvztAkmlhiUjzmrvq
-uIK3ab7x6l1V5nOzkM7wRy0lpWkn72W1Jieok8aVjvR9VjDqmtbpxNVRkhC9hSGp
-2cG7UbEvysc8Y4EBYQsUyBau2em4XPqT3s7b9oBWQKWjMslIeolFSwmdgYipqJja
-AYt48vijZY8nrNb8Anrkdz9VT6H05vV3B30GByrVeuCcFFZRNdGh8NMoRxDyaftd
-KGRZPXiLkkUmmJPKI2G3XXESAkBbc/lwgBkT+gMDOeV5VAfj5mzvG2uincfiwmux
-TTzjMZ+WDyOWH/KnHmUzgArgV4eL+auTTA0Um9Ww269rObAiCSbN1YEksUN8Nyx2
-K7I+bxHHt+62qh8glAi/fwU+jZ7KUtlbPyStbxL7OyFD1OsSy5imM1+aWa/TgVjk
-2d6sKtqAiaKDJe5/7Kr5D7YEFVTbLuQ26wj/HYLCKHgDZc5uEfU1s3e99cOhWqpu
-EfO4vAR9HXoWRcNOdUnLG3LchlLGVCgR+AhRgffF9f+YbbPi9A==
-=fWAj
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0C+ygACgkQbDjKyiDZ
+s5JOJxAA4PN6GpnyfgDnFo1vjG1LeQZjRESrXMbos8GMw/Ipr6kZDlvoHe402wxz
+DjLh8hqWiRFWbOPvv+n5GD0S9DodmzUHuVl4Y0nfLXZPzKIlcdKc+SA3qIhv4KyQ
+nA6KnrpSV15N5c1gUSfysiG2UJfi1Tjd6aiayJqTbP53AtsB1G6udGt3oRc54O4J
+xFb413y0dPhksQXFa9tKu901qoWIv6gTwHKKVZflGWEJrSjXMJEycHtlZBr2EOeF
+KhbPbZtY2bJuwiYP4Ra5ke8OTkoBoAT3ae5vrC9I+ipNnvHAXCd0lRxf4OFNiVcU
+MVrFpDOfZxhaBOuUmj7MQTI1+pPQ4DsMKy7JxfLY9F+8IFu3v34S5spPsPp5VOBh
+7lKvKmK8zkKVMG3mZBjT4E1mA8+/2IOeESP6zhkdMKKSx7D5n+4mS1ZAmBMdIvWp
+OLx7YCMTXZ3IkQ8SznUGxYZfE5bZxjlcTRG6MOnrwjiRu4m+fQQFwth0m+u6o8dv
+Hi35II98RB8Aj3umkNpaLrMT/joJKSGjIeHF2fpuYHtoMTDP6wjDvKvmYHelwSA8
+BKAOfu7AUv62H0AIJ/Qqlb2Ilq+GsMMpeV/PZP2vT7aZ4kN/FKn24CpbF9JdUgnj
+qkWY95ALw8mrKz6eITrge7ZPzAvax6UBmg6n+j7zsaJy0l+KRXo=
+=6d3a
 -----END PGP SIGNATURE-----
 
---sHrvAb52M6C8blB9--
+--rqzD5py0kzyFAOWN--
 
