@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4788346023
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:10:00 +0200 (CEST)
-Received: from localhost ([::1]:51864 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C975D460C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:31:05 +0200 (CEST)
+Received: from localhost ([::1]:52084 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmtz-0007UQ-Ea
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50888)
+	id 1hbnEO-00038u-RY
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:31:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50912)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vandersonmr2@gmail.com>) id 1hbmey-0003Dh-5X
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:54:29 -0400
+ (envelope-from <vandersonmr2@gmail.com>) id 1hbmf0-0003My-5e
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:54:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vandersonmr2@gmail.com>) id 1hbmew-0007xm-LN
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:54:28 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:37539)
+ (envelope-from <vandersonmr2@gmail.com>) id 1hbmey-0007zb-P8
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:54:30 -0400
+Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:35369)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <vandersonmr2@gmail.com>)
- id 1hbmew-0007xI-HG
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:54:26 -0400
-Received: by mail-qk1-x741.google.com with SMTP id d15so1703457qkl.4
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 06:54:26 -0700 (PDT)
+ id 1hbmey-0007z3-KU
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:54:28 -0400
+Received: by mail-qk1-x742.google.com with SMTP id l128so1707387qke.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 06:54:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IkKggjJFmzSiJ4uZvBdZPk5OGuw0OM24o79Ww5vmA0s=;
- b=Ilfphwh7W0bSCbz3HEE5Ig/H+sPpb7x2Wg2TAKIKuPmF4xtXimH5yuMYHLi4u9cPF3
- ApIm3jpHXDxRUkizDFnpok/EVWoYmVAzpQaAu2zbxnt24KFHxfi9sHb5nC9cdGs3xfpN
- lstxiTcPG9wxI3WxrY5HXm671Sa50zGYySXvFhKQIBjz3YL/XDa5dTvFqUI+MsdGPnUU
- Lx4ithhhSznK/wT+VIOQ7T+45BKZESlWsw6x4/RfegBLA/64jW8A8Vqczhb2iF/fJ3wN
- Px1c1ICSYjSaE8Qgg/FGE+O0foCR6E+wNNG2mYLlj6Pp1r3mS/cSj/wMY/70AmWUSvw8
- GS/Q==
+ bh=PKjJ8WywQMhni5S/aI+GnLf+YqUEj6nxfGowAtVbIiE=;
+ b=GVcdPK/5lQWaW5q7epnrdARJieE/83qoLH8JFEx57x40wbEgxaq68OxUfmA20B3lRM
+ /3I3AG2v611yzWO4afdpWfejoD6PU80U6V0FWh+F0rg4thOKcuZocvdne+sTP13UkDRY
+ sB/hlJewVDr92CZoNDcpqq74HxWwzAayQhCDctqhB+RdRZkrSybA99m9onvk9VntUN8v
+ EeZ14h9ADI09hIeEE1nA7mZNJwjUmsKvy64ZemdC66isGfIXLB+bdICpMVweiCJnKDBe
+ DRYWOCk4uKU2Ea/GYGSyZQcaKF+nYrVKOeIOuDimFEOPbv5olExLYAM1l5JZyvIfYay8
+ /buQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IkKggjJFmzSiJ4uZvBdZPk5OGuw0OM24o79Ww5vmA0s=;
- b=h9/qH8+2RAx55ClsMwZHeJuz/CFLxRgQZwvjBWTh7YTpJHkf7YCtDJF1welwOHO9e2
- pcAl0Gqh9T3U/dzgwoQ/xG2JPRlv8qcPOtD4wpUKM0gKv8FR1fMuRYVoRgyKaJuZaKIx
- ya+6IvJhvV1u6xYTZ8eqLoy1yX6HXr9N7RG2fTzUzl9GUHIv1iya1Hzt+1bR7LRKctSs
- 0JtXNhDdZRdqMErwOoip5giYKjYIB5iv3bjHdoY/0M24QSO70b+l1xx57jlXn0yBu6Ty
- HbElqWyIXk4IQPflxJtO5J9o7KHQUNCIIPYQtYGc7U2vHqNsYnk8VrnKjKFMmkhYSr0K
- yKNw==
-X-Gm-Message-State: APjAAAXkfA2AdWgVSc5mQhuF4H3dX48Zdrm6yXtctMkAhd0DlVngZVJZ
- VzjKYetcHdsOTZos7TbhOZiRreRvmWU=
-X-Google-Smtp-Source: APXvYqyIYknesP7N2pux79oTWlaO0jCG3TpBqLi3gVCa1uVDxHqx/XVmN8zDqjeDFR9whNADYAuOeg==
-X-Received: by 2002:a37:9c50:: with SMTP id f77mr76429450qke.6.1560520465756; 
- Fri, 14 Jun 2019 06:54:25 -0700 (PDT)
+ bh=PKjJ8WywQMhni5S/aI+GnLf+YqUEj6nxfGowAtVbIiE=;
+ b=ShIW1RzXq3GMXY+L21pzsE3MzvLvcbg1PRTaqZ6YoZ+F148OrEzIHZl30cDfenpIEf
+ sI+L38tyTr9xXWlbHXLW8nz/jazeD/pMG9Lz8x1iNWCemftNVXrCHF38fVL4LjFugxAz
+ ZsBKhaGZKYo85oUeC6sbXy654gtWGxCRGG2qh8cBqsaQqrntkxbS4jQKjoqQIJVVvCtA
+ A5PIAJ3F69HMcnxv0aPC878bFJBO4wLH/eBs1rhdFCsl3MylKzYA18vso1mFKL6OED27
+ vGeh0KCP5jayim3g9tijB0jqrUTF+zyIFEzYaJYbwKofkMLoQgIqW7mbcLFNsXkCeLEG
+ ykSw==
+X-Gm-Message-State: APjAAAWw1wK2aJw7Jal3G2x2eAPZKhQqABlueCYW4eryKQPBvhUmA59w
+ GVasFk7KscUn0gzQeLB9//InHcDDjpQ=
+X-Google-Smtp-Source: APXvYqwvOWwlyMP9epKbsJfRS+c13T5SDM2ql2jPRaisl1pRLyV6Lb1erMdNtfx+uKVcxFeT/Zy9Ww==
+X-Received: by 2002:a37:8081:: with SMTP id b123mr6667396qkd.62.1560520467753; 
+ Fri, 14 Jun 2019 06:54:27 -0700 (PDT)
 Received: from localhost.localdomain ([2804:7f4:548c:f96b:4e5b:86ef:e7bc:c1a0])
- by smtp.googlemail.com with ESMTPSA id 77sm1747150qkd.59.2019.06.14.06.54.23
+ by smtp.googlemail.com with ESMTPSA id 77sm1747150qkd.59.2019.06.14.06.54.26
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 06:54:25 -0700 (PDT)
+ Fri, 14 Jun 2019 06:54:27 -0700 (PDT)
 From: vandersonmr <vandersonmr2@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 10:53:29 -0300
-Message-Id: <20190614135332.12777-2-vandersonmr2@gmail.com>
+Date: Fri, 14 Jun 2019 10:53:30 -0300
+Message-Id: <20190614135332.12777-3-vandersonmr2@gmail.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190614135332.12777-1-vandersonmr2@gmail.com>
 References: <20190614135332.12777-1-vandersonmr2@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::741
-Subject: [Qemu-devel] [Qemu-Devel][PATCH 1/3] Adding an optional tb
- execution counter.
+X-Received-From: 2607:f8b0:4864:20::742
+Subject: [Qemu-devel] [Qemu-Devel][PATCH 2/3] Saving counters between
+ tb_flush events.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,111 +78,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
- vandersonmr <vandersonmr2@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An uint64_t counter was added in the TranslationBlock struct and
-it is incremented every time that the TB is executed.
+A new hash map was added to store the accumulated execution
+frequency of the TBs even after tb_flush events. A dump
+function was also added as a way to visualize these frequencies.
 
 Signed-off-by: vandersonmr <vandersonmr2@gmail.com>
 ---
- accel/tcg/tcg-runtime.c   | 6 ++++++
- accel/tcg/tcg-runtime.h   | 2 ++
- include/exec/exec-all.h   | 1 +
- include/exec/gen-icount.h | 7 +++++++
- linux-user/main.c         | 1 +
- vl.c                      | 1 +
- 6 files changed, 18 insertions(+)
+ accel/tcg/translate-all.c | 59 +++++++++++++++++++++++++++++++++++++++
+ accel/tcg/translate-all.h |  2 ++
+ exec.c                    |  7 +++++
+ include/exec/exec-all.h   |  3 ++
+ include/exec/tb-context.h |  9 ++++++
+ include/qom/cpu.h         |  2 ++
+ 6 files changed, 82 insertions(+)
 
-diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
-index 8a1e408e31..d1f4127d31 100644
---- a/accel/tcg/tcg-runtime.c
-+++ b/accel/tcg/tcg-runtime.c
-@@ -167,3 +167,9 @@ void HELPER(exit_atomic)(CPUArchState *env)
- {
-     cpu_loop_exit_atomic(env_cpu(env), GETPC());
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 5d1e08b169..0bc670ffad 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1118,6 +1118,12 @@ static inline void code_gen_alloc(size_t tb_size)
+     }
  }
-+
-+void HELPER(inc_exec_freq)(void *ptr)
-+{
-+    TranslationBlock* tb = (TranslationBlock*) ptr;
-+    atomic_inc(&tb->exec_freq);
+ 
++static bool statistics_cmp(const void* ap, const void *bp) {
++    const TBStatistics *a = ap;
++    const TBStatistics *b = bp;
++    return a->pc == b->pc && a->cs_base == b->cs_base && a->flags == b->flags;
 +}
-diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
-index 4fa61b49b4..bf0b75dbe8 100644
---- a/accel/tcg/tcg-runtime.h
-+++ b/accel/tcg/tcg-runtime.h
-@@ -28,6 +28,8 @@ DEF_HELPER_FLAGS_1(lookup_tb_ptr, TCG_CALL_NO_WG_SE, ptr, env)
- 
- DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
- 
-+DEF_HELPER_FLAGS_1(inc_exec_freq, TCG_CALL_NO_RWG, void, ptr)
 +
- #ifdef CONFIG_SOFTMMU
- 
- DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 16034ee651..a80407622e 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -342,6 +342,7 @@ struct TranslationBlock {
-     uint32_t flags; /* flags defining in which context the code was generated */
-     uint16_t size;      /* size of target code for this block (1 <=
-                            size <= TARGET_PAGE_SIZE) */
-+    uint64_t exec_freq;
-     uint16_t icount;
-     uint32_t cflags;    /* compile flags */
- #define CF_COUNT_MASK  0x00007fff
-diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
-index f7669b6841..a540d12005 100644
---- a/include/exec/gen-icount.h
-+++ b/include/exec/gen-icount.h
-@@ -6,11 +6,18 @@
- /* Helpers for instruction counting code generation.  */
- 
- static TCGOp *icount_start_insn;
-+extern bool enable_freq_count;
- 
- static inline void gen_tb_start(TranslationBlock *tb)
+ static bool tb_cmp(const void *ap, const void *bp)
  {
-     TCGv_i32 count, imm;
+     const TranslationBlock *a = ap;
+@@ -1137,6 +1143,7 @@ static void tb_htable_init(void)
+     unsigned int mode = QHT_MODE_AUTO_RESIZE;
+ 
+     qht_init(&tb_ctx.htable, tb_cmp, CODE_GEN_HTABLE_SIZE, mode);
++    qht_init(&tb_ctx.tb_statistics, statistics_cmp, CODE_GEN_HTABLE_SIZE, QHT_MODE_AUTO_RESIZE);
+ }
+ 
+ /* Must be called before using the QEMU cpus. 'tb_size' is the size
+@@ -1228,6 +1235,53 @@ static gboolean tb_host_size_iter(gpointer key, gpointer value, gpointer data)
+     return false;
+ }
+ 
++static void do_tb_dump_exec_freq(void *p, uint32_t hash, void *userp)
++{
++#if TARGET_LONG_SIZE == 8
++    TBStatistics *tbs = p;
++    printf("%016lx\t%lu\n", tbs->pc, tbs->total_exec_freq);
++#elif TARGET_LONG_SIZE == 4
++    TBStatistics *tbs = p;
++    printf("%016x\t%lu\n", tbs->pc, tbs->total_exec_freq);
++#endif
++}
++
++void tb_dump_all_exec_freq(void)
++{
++    tb_read_exec_freq();
++    qht_iter(&tb_ctx.tb_statistics, do_tb_dump_exec_freq, NULL);
++}
++
++static void do_tb_read_exec_freq(void *p, uint32_t hash, void *userp)
++{
++    TranslationBlock *tb = p;
++    TBStatistics tbscmp;
++    tbscmp.pc = tb->pc;
++    tbscmp.cs_base = tb->cs_base;
++    tbscmp.flags = tb->flags;
++
++    TBStatistics *tbs = qht_lookup(userp, &tbscmp, hash);
++
++    uint64_t exec_freq = tb_get_and_reset_exec_freq((TranslationBlock*) p);
++
++    if (tbs) {
++        tbs->total_exec_freq += exec_freq;
++    } else {
++        void *existing;
++        tbs = malloc(sizeof(TBStatistics));
++        tbs->total_exec_freq = exec_freq;
++        tbs->pc = tb->pc;
++        tbs->cs_base = tb->cs_base;
++        tbs->flags = tb->flags;
++        qht_insert(userp, tbs, hash, &existing);
++    }
++}
++
++void tb_read_exec_freq(void)
++{
++    qht_iter(&tb_ctx.htable, do_tb_read_exec_freq, &tb_ctx.tb_statistics);
++}
++
+ /* flush all the translation blocks */
+ static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
+ {
+@@ -1252,6 +1306,10 @@ static void do_tb_flush(CPUState *cpu, run_on_cpu_data tb_flush_count)
+         cpu_tb_jmp_cache_clear(cpu);
+     }
  
 +    if (enable_freq_count) {
-+        TCGv_ptr tb_ptr = tcg_temp_new_ptr();
-+        tcg_gen_trunc_i64_ptr(tb_ptr, tcg_const_i64((int64_t) tb));
-+        gen_helper_inc_exec_freq(tb_ptr);
++        tb_read_exec_freq();
 +    }
 +
-     tcg_ctx->exitreq_label = gen_new_label();
-     if (tb_cflags(tb) & CF_USE_ICOUNT) {
-         count = tcg_temp_local_new_i32();
-diff --git a/linux-user/main.c b/linux-user/main.c
-index a59ae9439d..1bf7155670 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -58,6 +58,7 @@ static const char *seed_optarg;
- unsigned long mmap_min_addr;
- unsigned long guest_base;
- int have_guest_base;
-+bool enable_freq_count = false;
+     qht_reset_size(&tb_ctx.htable, CODE_GEN_HTABLE_SIZE);
+     page_flush_tb();
  
- /*
-  * When running 32-on-64 we should make sure we can fit all of the possible
-diff --git a/vl.c b/vl.c
-index 005468cbfb..cb6c0ad63d 100644
---- a/vl.c
-+++ b/vl.c
-@@ -190,6 +190,7 @@ bool boot_strict;
- uint8_t *boot_splash_filedata;
- int only_migratable; /* turn it off unless user states otherwise */
- bool wakeup_suspend_enabled;
-+bool enable_freq_count = false;
+@@ -1723,6 +1781,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     tb->flags = flags;
+     tb->cflags = cflags;
+     tb->trace_vcpu_dstate = *cpu->trace_dstate;
++    tb->exec_freq = 0;
+     tcg_ctx->tb_cflags = cflags;
+  tb_overflow:
  
- int icount_align_option;
+diff --git a/accel/tcg/translate-all.h b/accel/tcg/translate-all.h
+index 64f5fd9a05..e13088c36d 100644
+--- a/accel/tcg/translate-all.h
++++ b/accel/tcg/translate-all.h
+@@ -32,6 +32,8 @@ void tb_invalidate_phys_page_range(tb_page_addr_t start, tb_page_addr_t end,
+                                    int is_cpu_write_access);
+ void tb_check_watchpoint(CPUState *cpu);
  
++extern bool enable_freq_count;
++
+ #ifdef CONFIG_USER_ONLY
+ int page_unprotect(target_ulong address, uintptr_t pc);
+ #endif
+diff --git a/exec.c b/exec.c
+index e7622d1956..9b64a012ee 100644
+--- a/exec.c
++++ b/exec.c
+@@ -1013,6 +1013,13 @@ const char *parse_cpu_option(const char *cpu_option)
+     return cpu_type;
+ }
+ 
++uint64_t tb_get_and_reset_exec_freq(TranslationBlock *tb)
++{
++    uint64_t exec_freq = atomic_load_acquire(&tb->exec_freq);
++    atomic_store_release(&tb->exec_freq, 0);
++    return exec_freq;
++}
++
+ #if defined(CONFIG_USER_ONLY)
+ void tb_invalidate_phys_addr(target_ulong addr)
+ {
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index a80407622e..5d3d829d18 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -513,4 +513,7 @@ hwaddr memory_region_section_get_iotlb(CPUState *cpu,
+ /* vl.c */
+ extern int singlestep;
+ 
++void tb_read_exec_freq(void);
++void tb_dump_all_exec_freq(void);
++
+ #endif
+diff --git a/include/exec/tb-context.h b/include/exec/tb-context.h
+index feb585e0a7..ba518d47a0 100644
+--- a/include/exec/tb-context.h
++++ b/include/exec/tb-context.h
+@@ -28,6 +28,14 @@
+ 
+ typedef struct TranslationBlock TranslationBlock;
+ typedef struct TBContext TBContext;
++typedef struct TBStatistics TBStatistics;
++
++struct TBStatistics {
++    target_ulong pc;
++    target_ulong cs_base;
++    uint32_t flags;
++    uint64_t total_exec_freq;
++};
+ 
+ struct TBContext {
+ 
+@@ -35,6 +43,7 @@ struct TBContext {
+ 
+     /* statistics */
+     unsigned tb_flush_count;
++    struct qht tb_statistics;
+ };
+ 
+ extern TBContext tb_ctx;
+diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+index 5ee0046b62..593c1f1137 100644
+--- a/include/qom/cpu.h
++++ b/include/qom/cpu.h
+@@ -474,6 +474,8 @@ static inline void cpu_tb_jmp_cache_clear(CPUState *cpu)
+     }
+ }
+ 
++uint64_t tb_get_and_reset_exec_freq(struct TranslationBlock*);
++
+ /**
+  * qemu_tcg_mttcg_enabled:
+  * Check whether we are running MultiThread TCG or not.
 -- 
 2.22.0
 
