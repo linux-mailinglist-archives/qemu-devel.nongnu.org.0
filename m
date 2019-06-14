@@ -2,69 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76314460F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:37:13 +0200 (CEST)
-Received: from localhost ([::1]:52138 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A72046199
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:51:16 +0200 (CEST)
+Received: from localhost ([::1]:52272 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbnKK-0007Vh-FP
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51296)
+	id 1hbnXv-0007z1-H7
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:51:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51694)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbmgT-0005vz-B9
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:56:03 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hbmhI-0006VE-HN
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:56:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbmgQ-0000pn-Kd
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:56:00 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51888)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbmgM-0000nJ-V1
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:55:56 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 207so2485630wma.1
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 06:55:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GBL3EQzgeyoyBJBMpCdxJd9FPAZnSg7xQYEkYyKYrFQ=;
- b=nOzQDTEKWx6tz26Ub3apllOEA9zbB3TGQbbKVpHHLyGy90kzrv/jTDo4FXyjcYLdJo
- p9AOHr5ZMZY4WbCK1bqHGtN+rZPq19INUzQ6b16wTsRVq6l9biaBn7svUkaxRhozQ75h
- I+kcnjN+SK9GFuKU4/0j/meyI37kruGHuamGZFV1zu4RyZ/WFmUmxE85o5lIhetG5kTN
- R6k7V4Z/LVZSGOQzwtFvEOX4jO3fjWGKnVh5wHY9kO57wy6UnmguhnsxQXcfzrGo/hUi
- 4BwhN3i4/yyksPHkgsM18WJ8V1Ro1F3wlCvO6PZ9MJHZsuB0tMJrOBkng9KgV0HUnioh
- AtSQ==
-X-Gm-Message-State: APjAAAVbE9KJQrVAIb2RYomhNDlWsnVoPZd1nSar2E66yE5sA3COtETr
- t1flrhoPY8TyURoQhSk0ZbuEDQ==
-X-Google-Smtp-Source: APXvYqzANcvXgdnaUyR6NWpoKyTq9UhhIaMi1t1jGj2HzKU9RYEI7GJD8OukXEVO83biqh8ZUh8i8A==
-X-Received: by 2002:a7b:c8d4:: with SMTP id f20mr8597791wml.90.1560520553109; 
- Fri, 14 Jun 2019 06:55:53 -0700 (PDT)
-Received: from [192.168.1.103] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id t15sm2829918wrx.84.2019.06.14.06.55.51
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 14 Jun 2019 06:55:52 -0700 (PDT)
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20190613175435.6575-1-philmd@redhat.com>
- <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
- <c02e3358-f195-51e7-171f-aab2b0314c72@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <62fae3fa-ba9d-6c38-ac8f-0e453ef396f8@redhat.com>
-Date: Fri, 14 Jun 2019 15:55:51 +0200
+ (envelope-from <eric.auger@redhat.com>) id 1hbmhG-0001aJ-FD
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:56:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33790)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hbmh8-0001Po-J3; Fri, 14 Jun 2019 09:56:42 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C64F8C049E23;
+ Fri, 14 Jun 2019 13:56:32 +0000 (UTC)
+Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B98A7AB54;
+ Fri, 14 Jun 2019 13:56:25 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190611142821.3874-1-eric.auger@redhat.com>
+ <20190611142821.3874-2-eric.auger@redhat.com>
+ <CAFEAcA8N_uaq9kbS2MWDtdy1wz-j33OVo4wQbFZxvc-2uyMd0A@mail.gmail.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <b7d5155a-08e2-33c4-8550-4b0821b11585@redhat.com>
+Date: Fri, 14 Jun 2019 15:56:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <c02e3358-f195-51e7-171f-aab2b0314c72@redhat.com>
+In-Reply-To: <CAFEAcA8N_uaq9kbS2MWDtdy1wz-j33OVo4wQbFZxvc-2uyMd0A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Fri, 14 Jun 2019 13:56:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH] roms/edk2-build.sh: Allow to run
- edk2-build.sh from command line
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/2] hw/arm/smmuv3: Remove spurious error
+ messages on IOVA invalidations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,65 +61,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/19 3:29 PM, Eric Blake wrote:
-> On 6/14/19 5:16 AM, Philippe Mathieu-Daudé wrote:
->> Cc'ing Eric :)
+Hi Peter,
+
+On 6/14/19 3:23 PM, Peter Maydell wrote:
+> On Tue, 11 Jun 2019 at 15:29, Eric Auger <eric.auger@redhat.com> wrote:
 >>
+>> An IOVA/ASID invalidation is notified to all IOMMU Memory Regions
+>> through smmuv3_inv_notifiers_iova/smmuv3_notify_iova.
+>>
+>> When the notification occurs it is possible that some of the
+>> PCIe devices associated to the notified regions do not have a
+>> valid stream table entry. In that case we output a LOG_GUEST_ERROR
+>> message.
+>>
+>> invalid sid=<SID> (L1STD span=0)
+>> "smmuv3_notify_iova error decoding the configuration for iommu mr=<MR>
+>>
+>> This is unfortunate as the user gets the impression that there
+>> are some translation decoding errors whereas there are not.
+>>
+>> This patch adds a new field in SMMUEventInfo that tells whether
+>> the detction of an invalid STE msut lead to an error report.
+>> invalid_ste_allowed is set before doing the invalidations and
+>> kept unset on actual translation.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>
+>> ---
+>>
+>> I also experimented to pass Error handles to all the subfunctions
+>> and handle the Error at top level but that's intricate to sort
+>> out the various kinds of errors, whether they need to be logged,
+>> and if so if they match LOG_GUEST_ERRoR mask or unimplemented
+>> mask. So I think just passing this boolean has a lesser impact on
+>> the code base.
+>> ---
+>>  hw/arm/smmuv3-internal.h |  1 +
+>>  hw/arm/smmuv3.c          | 11 +++++------
+>>  2 files changed, 6 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
+>> index b160289cd1..d190181ef1 100644
+>> --- a/hw/arm/smmuv3-internal.h
+>> +++ b/hw/arm/smmuv3-internal.h
+>> @@ -381,6 +381,7 @@ typedef struct SMMUEventInfo {
+>>      uint32_t sid;
+>>      bool recorded;
+>>      bool record_trans_faults;
+>> +    bool inval_ste_allowed;
+>>      union {
+>>          struct {
+>>              uint32_t ssid;
+>> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+>> index fd8ec7860e..e2f07d2864 100644
+>> --- a/hw/arm/smmuv3.c
+>> +++ b/hw/arm/smmuv3.c
+>> @@ -404,7 +404,7 @@ static int smmu_find_ste(SMMUv3State *s, uint32_t sid, STE *ste,
+>>
+>>          span = L1STD_SPAN(&l1std);
+>>
+>> -        if (!span) {
+>> +        if (!span && !event->inval_ste_allowed) {
+>>              /* l2ptr is not valid */
+>>              qemu_log_mask(LOG_GUEST_ERROR,
+>>                            "invalid sid=%d (L1STD span=0)\n", sid);
 > 
->>> When running this script out of 'make', we get:
->>>
->>>   $ cd roms
->>>   $ ./edk2-build.sh aarch64 --arch=AARCH64 --platform=ArmVirtPkg/ArmVirtQemu.dsc > /dev/null
->>>   ./edk2-build.sh: line 46: MAKEFLAGS: unbound variable
->>>
->>> Fix this by checking the variable is defined before using it,
->>> else use a default value.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>>  roms/edk2-build.sh | 8 +++++++-
->>>  1 file changed, 7 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
->>> index 4f46f8a6a2..5390228b4e 100755
->>> --- a/roms/edk2-build.sh
->>> +++ b/roms/edk2-build.sh
-> 
-> This is running under /bin/bash (hmm - not '/bin/env bash' like other
-> scripts in qemu?), so...
-> 
->>> @@ -43,7 +43,13 @@ fi
->>>  # any), for the edk2 "build" utility.
->>>  source ../edk2-funcs.sh
->>>  edk2_toolchain=$(qemu_edk2_get_toolchain "$emulation_target")
->>> -edk2_thread_count=$(qemu_edk2_get_thread_count "$MAKEFLAGS")
->>> +if [ -v MAKEFLAGS ]; then
-> 
-> the non-portable bashism '[ -v' works. However, it's just as easy to
+> Why is this specific qemu_log_mask() the only one we need
+> to suppress ?
 
-Ah, OK.
+I focused on messages related to STE invalidity. This one corresponds to
+the 2-level stream table case where the top-level entry is invalid.
 
-> work around this problem portably for all POSIX shells without needing 'if':
-> 
->>> +  edk2_thread_count=$(qemu_edk2_get_thread_count "$MAKEFLAGS")
->>> +else
->>> +  # We are not running within 'make', let the edk2 "build" utility to fetch
->>> +  # the logical CPU count with Python's multiprocessing.cpu_count() method.
->>> +  edk2_thread_count=0
->>> +fi
-> 
-> edk2_thread_count=$(qemu_edk2_get_thread_count "${MAKEFLAGS:-0}")
+In linear stream table case, the STE is fetched in smmu_get_ste(): this
+shouldn't fail as the STE table was allocated.  Then its validity is
+checked in decode_ste() but up to now there is no tracing if the STE in
+not valid. I should revise this in the future though.
 
-Argh I'm confuse, this is what I wanted to do first but I couldn't get
-it working, maybe I forget the '-'.
+Then obviously the config decoding is not over but I considered that if
+the STE is valid, the rest of the config should be valid as well. If we
+were to detect any error afterwards, those would deserve to be reported.
 
-Thanks a lot for your help, the result is way more elegant :)
+Thanks
+
+Eric
 
 > 
-> at which point the really long comment needs a bit of a tweak.
+> thanks
+> -- PMM
 > 
 
