@@ -2,54 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1910B45C3A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 14:10:47 +0200 (CEST)
-Received: from localhost ([::1]:50754 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5304B45C67
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 14:14:17 +0200 (CEST)
+Received: from localhost ([::1]:50810 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbl2c-0001T9-8R
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 08:10:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49905)
+	id 1hbl60-0005BD-HT
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 08:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51143)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hbkuP-0007Wf-Tb
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:02:19 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbkzY-0001sf-1m
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:07:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hbkuO-0004XT-Mn
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:02:17 -0400
-Received: from 9.mo179.mail-out.ovh.net ([46.105.76.148]:55630)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hbkuM-0004TL-TE
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:02:15 -0400
-Received: from player756.ha.ovh.net (unknown [10.109.146.86])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 18335136678
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 14:02:10 +0200 (CEST)
-Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
- (Authenticated sender: clg@kaod.org)
- by player756.ha.ovh.net (Postfix) with ESMTPSA id E3CD3606A805;
- Fri, 14 Jun 2019 12:02:04 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20190525151241.5017-1-clg@kaod.org>
- <20190525151241.5017-19-clg@kaod.org>
- <f3b3948f-8d24-fb8c-0b65-8fe08019a077@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <b4401eaf-9898-8c3e-3beb-f550edb83228@kaod.org>
-Date: Fri, 14 Jun 2019 14:02:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <f3b3948f-8d24-fb8c-0b65-8fe08019a077@redhat.com>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbkzR-0001Nt-Tz
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:07:32 -0400
+Received: from mail-eopbgr30097.outbound.protection.outlook.com
+ ([40.107.3.97]:13381 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbkzM-0001Fv-Ib; Fri, 14 Jun 2019 08:07:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Kq2T06MZAlF7SvGhswhKFL2qzhUsOZ/JLIvBrwF7cRg=;
+ b=QAQEzsQp/s0hASyd/3EQsEVA1Papp7NGgOEW4jlDZgGoqrgIRlSEH22uiCwRFZaWnsORyzvgFF3sKQNCOzcL8k7TMOehvtOZiMcIsfxC1OMfsc/EkWvKOYYsGDik6qtfO1BvpX8HBbd4bQvTDzx2LOs1k+bu83dRDnB3/W9I22s=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0PR08MB4371.eurprd08.prod.outlook.com (20.179.34.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.13; Fri, 14 Jun 2019 12:07:16 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
+ 12:07:16 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v5 13/42] block: Use CAFs in block status functions
+Thread-Index: AQHVIWutLhYTYoI3/kyFcZDFRaPoLKabEJAA
+Date: Fri, 14 Jun 2019 12:07:16 +0000
+Message-ID: <9313f632-58be-3830-9f47-2a381783bb74@virtuozzo.com>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-14-mreitz@redhat.com>
+In-Reply-To: <20190612221004.2317-14-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-X-Ovh-Tracer-Id: 10142669311310400467
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudeiuddggeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.76.148
-Subject: Re: [Qemu-devel] [PATCH 18/19] aspeed/smc: inject errors in DMA
- checksum
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0502CA0018.eurprd05.prod.outlook.com
+ (2603:10a6:3:e3::28) To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190614150714022
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 31f98ed0-ab32-49d5-3aad-08d6f0c0d765
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0PR08MB4371; 
+x-ms-traffictypediagnostic: AM0PR08MB4371:
+x-microsoft-antispam-prvs: <AM0PR08MB4371B9AE66DA72F34945B1FDC1EE0@AM0PR08MB4371.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:935;
+x-forefront-prvs: 0068C7E410
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39850400004)(346002)(376002)(396003)(136003)(366004)(189003)(199004)(81156014)(81166006)(73956011)(66476007)(66946007)(386003)(6506007)(66446008)(64756008)(52116002)(99286004)(31686004)(66556008)(229853002)(76176011)(6486002)(102836004)(26005)(446003)(2616005)(2906002)(11346002)(6116002)(3846002)(476003)(6436002)(186003)(486006)(36756003)(305945005)(8936002)(25786009)(7736002)(8676002)(558084003)(478600001)(66066001)(14454004)(316002)(4326008)(14444005)(6246003)(54906003)(110136005)(5660300002)(256004)(53936002)(2501003)(68736007)(6512007)(31696002)(86362001)(71200400001)(71190400001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4371;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: KOWuDkexy4lMaz23qS6p8Oc0acYaiq1Wc+3HXywKaJ/4p6Jh/h5EO5q8RHWa4of3E2+McIvNNPR1/HUaZKsH0cwjt3QKMvoud38gWvkjuXByfW4IPJ/5gnffdI05NKBtudWbQihRN3twotCrq1zMC9TBM7SPEZ1fHH1/5f89MnY+bMKQLklxUwtNZWMUz5z/iLmjkx/FMyp2AillkkBJPwiAeKV6QgXc1QA+TCAcjAfQTpdIc5a9g9sR11xryuTPPCDKKqPCvnRslZclfwSidDgsc6s+gp147wEzChFUJ6LV5RAe3egb3fZlk2GDNwSX59/L1tjQw2aP9/Du7s0TwudS+mucpnfg7xXQLN0kPokVgBx5cgAEMxH0SuojbPAKDAdwBtZxpIZwPRzdwH0pHGfsT17Gi+VKvoF+mIyNrGo=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <0814C7E23B1EC24E81FE0E073A187E4F@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31f98ed0-ab32-49d5-3aad-08d6f0c0d765
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 12:07:16.3303 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4371
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.3.97
+Subject: Re: [Qemu-devel] [PATCH v5 13/42] block: Use CAFs in block status
+ functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,101 +101,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/06/2019 16:31, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi C=C3=A9dric,
->=20
-> On 5/25/19 5:12 PM, C=C3=A9dric Le Goater wrote:
->> Emulate read errors in the DMA Checksum Register for high frequencies
->> and optimistic settings of the Read Timing Compensation Register. This
->> will help in tuning the SPI timing calibration algorithm.
->>
->> The values below are those to expect from the first flash device of
->> the FMC controller of a palmetto-bmc machine.
->>
->> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
->> ---
->>  hw/ssi/aspeed_smc.c | 29 +++++++++++++++++++++++++++++
->>  1 file changed, 29 insertions(+)
->>
->> diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
->> index 406c30c60b3f..4c162912cf62 100644
->> --- a/hw/ssi/aspeed_smc.c
->> +++ b/hw/ssi/aspeed_smc.c
->> @@ -866,6 +866,30 @@ static void aspeed_smc_dma_calibration(AspeedSMCS=
-tate *s)
->>      s->regs[s->r_ctrl0 + cs] |=3D CE_CTRL_CLOCK_FREQ(hclk_div);
->>  }
->> =20
->=20
-> Can you add a comment (like the patch description) here?
-
-yes. done.
-=20
->> +static bool aspeed_smc_inject_read_failure(AspeedSMCState *s)
->> +{
->> +    uint8_t delay =3D
->> +        (s->regs[R_DMA_CTRL] >> DMA_CTRL_DELAY_SHIFT) & DMA_CTRL_DELA=
-Y_MASK;
->> +    uint8_t hclk_mask =3D
->> +        (s->regs[R_DMA_CTRL] >> DMA_CTRL_FREQ_SHIFT) & DMA_CTRL_FREQ_=
-MASK;
->> +
->> +    /*
->> +     * Typical values of a palmetto-bmc machine.
->> +     */
->> +    switch (aspeed_smc_hclk_divisor(hclk_mask)) {
->> +    case 4 ... 16:
->> +        return false;
->> +    case 3: /* at least one HCLK cycle delay */
->> +        return (delay & 0x7) < 1;
->> +    case 2: /* at least two HCLK cycle delay */
->> +        return (delay & 0x7) < 2;
->> +    case 1: /* (> 100MHz) is above the max freq of the controller */
->> +        return true;
->> +    default:
->> +        g_assert_not_reached();
->> +    }
->> +}
->> +
->>  /*
->>   * Accumulate the result of the reads to provide a checksum that will
->>   * be used to validate the read timing settings.
->> @@ -903,6 +927,11 @@ static void aspeed_smc_dma_checksum(AspeedSMCStat=
-e *s)
->>          s->regs[R_DMA_FLASH_ADDR] +=3D 4;
->>          s->regs[R_DMA_LEN] -=3D 4;
->>      }
->> +
->> +    if (aspeed_smc_inject_read_failure(s)) {
->=20
-> So this model real world where noise eventually triggers errors. Don't
-> we want this to be enable by the user (or a QMP command)?
-
-I can add a property at the device model level to trigger this behavior.
-Such as :
-
-   -global driver=3Daspeed.smc,property=3Dtiming,value=3Dtrue
-
-timing if defined would provide the maximum clock and delay settings.
-
-Are there any other examples in QEMU ?=20
-
-Thanks,
-
-C.
-
->=20
->> +        s->regs[R_DMA_CHECKSUM] =3D 0xbadc0de;
->> +    }
->> +
->>  }
->> =20
->>  static void aspeed_smc_dma_rw(AspeedSMCState *s)
->>
-
+MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFVzZSB0aGUgY2hpbGQgYWNjZXNz
+IGZ1bmN0aW9ucyBpbiB0aGUgYmxvY2sgc3RhdHVzIGlucXVpcnkgZnVuY3Rpb25zIGFzDQo+IGFw
+cHJvcHJpYXRlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWF4IFJlaXR6PG1yZWl0ekByZWRoYXQu
+Y29tPg0KDQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2Vt
+ZW50c292QHZpcnR1b3p6by5jb20+DQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
