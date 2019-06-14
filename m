@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B1B45ECD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:47:30 +0200 (CEST)
-Received: from localhost ([::1]:51688 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F286D45FA7
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:54:56 +0200 (CEST)
+Received: from localhost ([::1]:51742 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmYE-00050u-2l
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:47:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46476)
+	id 1hbmfQ-0001kA-52
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46514)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbmRr-0001jQ-Sx
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbmRt-0001lH-1g
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbmRp-0005zS-9R
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60532)
+ (envelope-from <mreitz@redhat.com>) id 1hbmRr-00061G-Vr
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34430)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbmRj-0005uT-Qp; Fri, 14 Jun 2019 09:40:48 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hbmRl-0005vu-TC; Fri, 14 Jun 2019 09:40:50 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2557D302454F;
- Fri, 14 Jun 2019 13:40:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7A7142F8BF3;
+ Fri, 14 Jun 2019 13:40:48 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B3AFA19C58;
- Fri, 14 Jun 2019 13:40:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1663D1753B;
+ Fri, 14 Jun 2019 13:40:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 14 Jun 2019 15:40:09 +0200
-Message-Id: <20190614134021.32486-9-mreitz@redhat.com>
+Date: Fri, 14 Jun 2019 15:40:10 +0200
+Message-Id: <20190614134021.32486-10-mreitz@redhat.com>
 In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
 References: <20190614134021.32486-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 14 Jun 2019 13:40:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Fri, 14 Jun 2019 13:40:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/20] iotests: Fix intermittent failure in 219
+Subject: [Qemu-devel] [PULL 09/20] hw/block/fdc: floppy command FIFO memory
+ initialization
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,80 +60,38 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 219, we wait for the job to make progress before we emit its status.
-This makes the output reliable.  We do not wait for any more progress if
-the job's current-progress already matches its total-progress.
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Unfortunately, there is a bug: Right after the job has been started,
-it's possible that total-progress is still 0.  In that case, we may skip
-the first progress-making step and keep ending up 64 kB short.
+The uninitialized memory allocated for the command FIFO of the
+floppy controller during the VM hardware initialization incurs
+many unwanted reports by Valgrind when VM state is being saved.
+That verbosity hardens a search for the real memory issues when
+the iotests run. Particularly, the patch eliminates 20 unnecessary
+reports of the Valgrind tool in the iotest #169.
 
-To fix that bug, we can simply wait for total-progress to reach 4 MB
-(the image size) after starting the job.
-
-Reported-by: Karen Mezick <kmezick@redhat.com>
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1686651
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190516161114.27596-1-mreitz@redhat.com
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-id: 1559154027-282547-1-git-send-email-andrey.shinkevich@virtuozz=
+o.com
 Reviewed-by: John Snow <jsnow@redhat.com>
-[mreitz: Adjusted commit message as per John's proposal]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/219 | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ hw/block/fdc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qemu-iotests/219 b/tests/qemu-iotests/219
-index c03bbdb294..e0c51662c0 100755
---- a/tests/qemu-iotests/219
-+++ b/tests/qemu-iotests/219
-@@ -23,6 +23,8 @@ import iotests
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index a64378f84b..77af9979de 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -2648,6 +2648,7 @@ static void fdctrl_realize_common(DeviceState *dev,=
+ FDCtrl *fdctrl,
 =20
- iotests.verify_image_format(supported_fmts=3D['qcow2'])
-=20
-+img_size =3D 4 * 1024 * 1024
-+
- def pause_wait(vm, job_id):
-     with iotests.Timeout(3, "Timeout waiting for job to pause"):
-         while True:
-@@ -62,6 +64,8 @@ def test_pause_resume(vm):
-                 iotests.log(vm.qmp('query-jobs'))
-=20
- def test_job_lifecycle(vm, job, job_args, has_ready=3DFalse):
-+    global img_size
-+
-     iotests.log('')
-     iotests.log('')
-     iotests.log('Starting block job: %s (auto-finalize: %s; auto-dismiss=
-: %s)' %
-@@ -84,6 +88,10 @@ def test_job_lifecycle(vm, job, job_args, has_ready=3D=
-False):
-     iotests.log(iotests.filter_qmp_event(vm.event_wait('JOB_STATUS_CHANG=
-E')))
-     iotests.log(iotests.filter_qmp_event(vm.event_wait('JOB_STATUS_CHANG=
-E')))
-=20
-+    # Wait for total-progress to stabilize
-+    while vm.qmp('query-jobs')['return'][0]['total-progress'] < img_size=
-:
-+        pass
-+
-     # RUNNING state:
-     # pause/resume should work, complete/finalize/dismiss should error o=
-ut
-     iotests.log('')
-@@ -173,9 +181,8 @@ with iotests.FilePath('disk.img') as disk_path, \
-      iotests.FilePath('copy.img') as copy_path, \
-      iotests.VM() as vm:
-=20
--    img_size =3D '4M'
--    iotests.qemu_img_create('-f', iotests.imgfmt, disk_path, img_size)
--    iotests.qemu_io('-c', 'write 0 %s' % (img_size),
-+    iotests.qemu_img_create('-f', iotests.imgfmt, disk_path, str(img_siz=
-e))
-+    iotests.qemu_io('-c', 'write 0 %i' % (img_size),
-                     '-f', iotests.imgfmt, disk_path)
-=20
-     iotests.log('Launching VM...')
+     FLOPPY_DPRINTF("init controller\n");
+     fdctrl->fifo =3D qemu_memalign(512, FD_SECTOR_LEN);
++    memset(fdctrl->fifo, 0, FD_SECTOR_LEN);
+     fdctrl->fifo_size =3D 512;
+     fdctrl->result_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL,
+                                              fdctrl_result_timer, fdctrl=
+);
 --=20
 2.21.0
 
