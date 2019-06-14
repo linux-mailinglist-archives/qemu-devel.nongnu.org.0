@@ -2,79 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D882945EBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:46:32 +0200 (CEST)
-Received: from localhost ([::1]:51680 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9245F45FA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:54:15 +0200 (CEST)
+Received: from localhost ([::1]:51734 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmXG-000419-SR
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:46:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42908)
+	id 1hbmek-0008KB-Pe
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46226)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hbmGl-000111-0s
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:29:28 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbmRY-0001ZN-Iy
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hbmGj-0006YL-Qv
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:29:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43688)
+ (envelope-from <mreitz@redhat.com>) id 1hbmRV-0005jO-KH
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59548)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hbmGg-0006Ub-WA
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:29:24 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hbmRR-0005bk-49; Fri, 14 Jun 2019 09:40:29 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 68DF93091754
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 13:29:14 +0000 (UTC)
-Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A40241798D;
- Fri, 14 Jun 2019 13:29:11 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190613175435.6575-1-philmd@redhat.com>
- <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <c02e3358-f195-51e7-171f-aab2b0314c72@redhat.com>
-Date: Fri, 14 Jun 2019 08:29:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ by mx1.redhat.com (Postfix) with ESMTPS id 5837D3086202;
+ Fri, 14 Jun 2019 13:40:23 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E43635D9D2;
+ Fri, 14 Jun 2019 13:40:22 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Fri, 14 Jun 2019 15:40:01 +0200
+Message-Id: <20190614134021.32486-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="upJd2Pbei5SAAgRbjEeUvqI0mFimoEZC3"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 14 Jun 2019 13:29:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Fri, 14 Jun 2019 13:40:23 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] roms/edk2-build.sh: Allow to run
- edk2-build.sh from command line
+Subject: [Qemu-devel] [PULL 00/20] Block patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,105 +52,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---upJd2Pbei5SAAgRbjEeUvqI0mFimoEZC3
-Content-Type: multipart/mixed; boundary="CzNBKKf7lEeQzcBPhO2smGeFf6GEsvkvP";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <c02e3358-f195-51e7-171f-aab2b0314c72@redhat.com>
-Subject: Re: [PATCH] roms/edk2-build.sh: Allow to run edk2-build.sh from
- command line
-References: <20190613175435.6575-1-philmd@redhat.com>
- <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
-In-Reply-To: <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
+The following changes since commit 5ec2eca83dc478ddf24077e02a8b34dd26cd3f=
+f9:
 
---CzNBKKf7lEeQzcBPhO2smGeFf6GEsvkvP
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+  Merge remote-tracking branch 'remotes/awilliam/tags/vfio-updates-201906=
+13.0' into staging (2019-06-14 09:33:55 +0100)
 
-On 6/14/19 5:16 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Cc'ing Eric :)
->=20
+are available in the Git repository at:
 
->> When running this script out of 'make', we get:
->>
->>   $ cd roms
->>   $ ./edk2-build.sh aarch64 --arch=3DAARCH64 --platform=3DArmVirtPkg/A=
-rmVirtQemu.dsc > /dev/null
->>   ./edk2-build.sh: line 46: MAKEFLAGS: unbound variable
->>
->> Fix this by checking the variable is defined before using it,
->> else use a default value.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>  roms/edk2-build.sh | 8 +++++++-
->>  1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
->> index 4f46f8a6a2..5390228b4e 100755
->> --- a/roms/edk2-build.sh
->> +++ b/roms/edk2-build.sh
+  https://github.com/XanClic/qemu.git tags/pull-block-2019-06-14
 
-This is running under /bin/bash (hmm - not '/bin/env bash' like other
-scripts in qemu?), so...
+for you to fetch changes up to 21c1ce592a144188dfe59b9e156a97da412a59a2:
 
->> @@ -43,7 +43,13 @@ fi
->>  # any), for the edk2 "build" utility.
->>  source ../edk2-funcs.sh
->>  edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
->> -edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
->> +if [ -v MAKEFLAGS ]; then
+  iotests: Test qemu-img convert -C --salvage (2019-06-14 15:09:42 +0200)
 
-the non-portable bashism '[ -v' works. However, it's just as easy to
-work around this problem portably for all POSIX shells without needing 'i=
-f':
+----------------------------------------------------------------
+Block patches:
+- Allow blockdev-backup from nodes that are not in qemu's main AIO
+  context to newly added nodes
+- Add salvaging mode to qemu-img convert
+- Minor fixes to tests, documentation, and for less Valgrind annoyance
 
->> +  edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
->> +else
->> +  # We are not running within 'make', let the edk2 "build" utility to=
- fetch
->> +  # the logical CPU count with Python's multiprocessing.cpu_count() m=
-ethod.
->> +  edk2_thread_count=3D0
->> +fi
+----------------------------------------------------------------
+Andrey Shinkevich (1):
+  hw/block/fdc: floppy command FIFO memory initialization
 
-edk2_thread_count=3D$(qemu_edk2_get_thread_count "${MAKEFLAGS:-0}")
+John Snow (6):
+  blockdev-backup: don't check aio_context too early
+  iotests.py: do not use infinite waits
+  QEMUMachine: add events_wait method
+  iotests.py: rewrite run_job to be pickier
+  iotests: add iotest 256 for testing blockdev-backup across iothread
+    contexts
+  event_match: always match on None value
 
-at which point the really long comment needs a bit of a tweak.
+Max Reitz (12):
+  iotests: Filter 175's allocation information
+  iotests: Fix intermittent failure in 219
+  qemu-img: Fix options leakage in img_rebase()
+  qapi/block-core: Overlays are not snapshots
+  blockdev: Overlays are not snapshots
+  qemu-img: Move quiet into ImgConvertState
+  qemu-img: Add salvaging mode to convert
+  blkdebug: Add @iotype error option
+  blkdebug: Add "none" event
+  blkdebug: Inject errors on .bdrv_co_block_status()
+  iotests: Test qemu-img convert --salvage
+  iotests: Test qemu-img convert -C --salvage
+
+Vladimir Sementsov-Ogievskiy (1):
+  iotests: restrict 254 to support only qcow2
+
+ qapi/block-core.json          |  53 ++++++++---
+ block/blkdebug.c              |  60 ++++++++++--
+ blockdev.c                    |  14 +--
+ hw/block/fdc.c                |   1 +
+ qemu-img.c                    | 106 +++++++++++++++------
+ python/qemu/__init__.py       |  67 ++++++++++----
+ qemu-img-cmds.hx              |   4 +-
+ qemu-img.texi                 |   4 +
+ tests/qemu-iotests/082        |   1 +
+ tests/qemu-iotests/082.out    |   3 +
+ tests/qemu-iotests/085.out    |  10 +-
+ tests/qemu-iotests/175        |  26 +++++-
+ tests/qemu-iotests/175.out    |   8 +-
+ tests/qemu-iotests/219        |  13 ++-
+ tests/qemu-iotests/251        | 170 ++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/251.out    |  43 +++++++++
+ tests/qemu-iotests/254        |   2 +
+ tests/qemu-iotests/256        | 122 ++++++++++++++++++++++++
+ tests/qemu-iotests/256.out    | 119 ++++++++++++++++++++++++
+ tests/qemu-iotests/group      |   2 +
+ tests/qemu-iotests/iotests.py |  60 +++++++-----
+ 21 files changed, 772 insertions(+), 116 deletions(-)
+ create mode 100755 tests/qemu-iotests/251
+ create mode 100644 tests/qemu-iotests/251.out
+ create mode 100755 tests/qemu-iotests/256
+ create mode 100644 tests/qemu-iotests/256.out
 
 --=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.21.0
 
-
---CzNBKKf7lEeQzcBPhO2smGeFf6GEsvkvP--
-
---upJd2Pbei5SAAgRbjEeUvqI0mFimoEZC3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0DoSYACgkQp6FrSiUn
-Q2rKeQf+NgtRyDOIbTQF6ULJgp7AsGqTV+sQr3bNme3EoBT0gEUsdXbJRFespLy+
-xUjG19g7zqcZ/dPeFk1eNUyvET+sHcNC8gsV3g25viZYUzsQEBx0cfJlTu3ZMySX
-/X80kUY1Gv6bH6DO2Shh4QUTtEG6c04t/SUjwYr/TwjHdL1iEMs0MpR744paNx4A
-xPv454BRbjMBRA+GG0e/5G3fvVNofB2VJGprE7ydivD+XbCPPbOiPja2uZhPU4f1
-LsvS4f3rYbJESZez3WVQALoBeurAq+xC6rht5BSXP7kKzEzkII9stNJDEF2RNFCV
-Jt0tPIZzLXZJavRJ9e5lVjVOP4rwoA==
-=f0r5
------END PGP SIGNATURE-----
-
---upJd2Pbei5SAAgRbjEeUvqI0mFimoEZC3--
 
