@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4A34564E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 09:28:31 +0200 (CEST)
-Received: from localhost ([::1]:48992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A7545653
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 09:28:54 +0200 (CEST)
+Received: from localhost ([::1]:48998 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbgdS-0000jw-Mf
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 03:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39253)
+	id 1hbgdp-00024o-P2
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 03:28:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39323)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbga9-00079f-2o
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 03:25:06 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbgaJ-0007PG-D1
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 03:25:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbga7-0004kY-PG
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 03:25:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35410)
+ (envelope-from <philmd@redhat.com>) id 1hbgaI-0004zN-AL
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 03:25:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49434)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hbga5-0004hZ-Du; Fri, 14 Jun 2019 03:25:01 -0400
+ id 1hbgaD-0004pp-5p; Fri, 14 Jun 2019 03:25:09 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 60513859FE;
- Fri, 14 Jun 2019 07:24:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5332B81DE9;
+ Fri, 14 Jun 2019 07:25:08 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 81227605CD;
- Fri, 14 Jun 2019 07:24:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B9477C557;
+ Fri, 14 Jun 2019 07:24:55 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 09:24:27 +0200
-Message-Id: <20190614072432.820-2-philmd@redhat.com>
+Date: Fri, 14 Jun 2019 09:24:28 +0200
+Message-Id: <20190614072432.820-3-philmd@redhat.com>
 In-Reply-To: <20190614072432.820-1-philmd@redhat.com>
 References: <20190614072432.820-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Fri, 14 Jun 2019 07:25:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 14 Jun 2019 07:25:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/6] configure: Only generate GLUSTERFS
- variables if glusterfs is usable
+Subject: [Qemu-devel] [PATCH 2/6] configure: Link test before auto-enabling
+ glusterfs libraries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,67 +68,65 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is pointless and confusing to have GLUSTERFS variables
-in config-host.mak when glusterfs is not usable.
+Similarly to commit a73e82ef912, test the libraries link correctly
+before considering them as usable.
+
+This fixes using ./configure --static on Ubuntu 18.04:
+
+  $ make subdir-aarch64-softmmu
+  [...]
+    LINK    aarch64-softmmu/qemu-system-aarch64
+  /usr/bin/ld: cannot find -lgfapi
+  /usr/bin/ld: cannot find -lglusterfs
+  /usr/bin/ld: cannot find -lgfrpc
+  /usr/bin/ld: cannot find -lgfxdr
+  collect2: error: ld returned 1 exit status
+  Makefile:204: recipe for target 'qemu-system-aarch64' failed
+  make[1]: *** [qemu-system-aarch64] Error 1
+
+  $ fgrep gf config-host.mak
+  GLUSTERFS_LIBS=3D-lacl -lgfapi -lglusterfs -lgfrpc -lgfxdr -luuid
+
+  $ lsb_release -cri
+  Distributor ID: Ubuntu
+  Release:        18.04
+  Codename:       bionic
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- configure | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ configure | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index b091b82cb3..13fd4a1166 100755
+index 13fd4a1166..3428adb75b 100755
 --- a/configure
 +++ b/configure
-@@ -7118,30 +7118,30 @@ if test "$glusterfs" =3D "yes" ; then
-   echo "CONFIG_GLUSTERFS=3Dm" >> $config_host_mak
-   echo "GLUSTERFS_CFLAGS=3D$glusterfs_cflags" >> $config_host_mak
-   echo "GLUSTERFS_LIBS=3D$glusterfs_libs" >> $config_host_mak
--fi
-=20
--if test "$glusterfs_xlator_opt" =3D "yes" ; then
--  echo "CONFIG_GLUSTERFS_XLATOR_OPT=3Dy" >> $config_host_mak
--fi
-+  if test "$glusterfs_xlator_opt" =3D "yes" ; then
-+    echo "CONFIG_GLUSTERFS_XLATOR_OPT=3Dy" >> $config_host_mak
-+  fi
-=20
--if test "$glusterfs_discard" =3D "yes" ; then
--  echo "CONFIG_GLUSTERFS_DISCARD=3Dy" >> $config_host_mak
--fi
-+  if test "$glusterfs_discard" =3D "yes" ; then
-+    echo "CONFIG_GLUSTERFS_DISCARD=3Dy" >> $config_host_mak
-+  fi
-=20
--if test "$glusterfs_fallocate" =3D "yes" ; then
--  echo "CONFIG_GLUSTERFS_FALLOCATE=3Dy" >> $config_host_mak
--fi
-+  if test "$glusterfs_fallocate" =3D "yes" ; then
-+    echo "CONFIG_GLUSTERFS_FALLOCATE=3Dy" >> $config_host_mak
-+  fi
-=20
--if test "$glusterfs_zerofill" =3D "yes" ; then
--  echo "CONFIG_GLUSTERFS_ZEROFILL=3Dy" >> $config_host_mak
--fi
-+  if test "$glusterfs_zerofill" =3D "yes" ; then
-+    echo "CONFIG_GLUSTERFS_ZEROFILL=3Dy" >> $config_host_mak
-+  fi
-=20
--if test "$glusterfs_ftruncate_has_stat" =3D "yes" ; then
--  echo "CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT=3Dy" >> $config_host_mak
--fi
-+  if test "$glusterfs_ftruncate_has_stat" =3D "yes" ; then
-+    echo "CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT=3Dy" >> $config_host_mak
-+  fi
-=20
--if test "$glusterfs_iocb_has_stat" =3D "yes" ; then
--  echo "CONFIG_GLUSTERFS_IOCB_HAS_STAT=3Dy" >> $config_host_mak
-+  if test "$glusterfs_iocb_has_stat" =3D "yes" ; then
-+    echo "CONFIG_GLUSTERFS_IOCB_HAS_STAT=3Dy" >> $config_host_mak
-+  fi
- fi
-=20
- if test "$libssh2" =3D "yes" ; then
+@@ -4179,9 +4179,23 @@ fi
+ # glusterfs probe
+ if test "$glusterfs" !=3D "no" ; then
+   if $pkg_config --atleast-version=3D3 glusterfs-api; then
+-    glusterfs=3D"yes"
+     glusterfs_cflags=3D$($pkg_config --cflags glusterfs-api)
+-    glusterfs_libs=3D$($pkg_config --libs glusterfs-api)
++    if test "$static" =3D "yes"; then
++        glusterfs_libs=3D$($pkg_config --libs --static glusterfs-api)
++    else
++        glusterfs_libs=3D$($pkg_config --libs glusterfs-api)
++    fi
++    # Packaging for the static libraries is not always correct.
++    # At least ubuntu 18.04 ships only shared libraries.
++    write_c_skeleton
++    if ! compile_prog "$glusterfs_cflags" "$glusterfs_libs" ; then
++        if test "$glusterfs" =3D "yes" ; then
++          error_exit "glusterfs check failed."
++        fi
++        glusterfs=3D"no"
++    else
++        glusterfs=3D"yes"
++    fi
+     if $pkg_config --atleast-version=3D4 glusterfs-api; then
+       glusterfs_xlator_opt=3D"yes"
+     fi
 --=20
 2.20.1
 
