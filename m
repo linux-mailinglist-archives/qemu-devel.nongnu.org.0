@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8FF4681A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 21:17:33 +0200 (CEST)
-Received: from localhost ([::1]:54546 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE6F46814
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 21:14:29 +0200 (CEST)
+Received: from localhost ([::1]:54502 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbrhc-0002Fn-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 15:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55166)
+	id 1hbree-0007qR-9C
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 15:14:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55162)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lersek@redhat.com>) id 1hbr0G-0001hS-Sk
+ (envelope-from <lersek@redhat.com>) id 1hbr0G-0001hH-QE
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:32:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hbr0E-0002CO-HT
+ (envelope-from <lersek@redhat.com>) id 1hbr0E-0002CU-HY
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:32:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50218)
+Received: from mx1.redhat.com ([209.132.183.28]:58886)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hbr0C-00025N-BH
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hbr0C-000260-Dt
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:32:42 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7EAA9368E3;
- Fri, 14 Jun 2019 18:32:26 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B9CC0309B159;
+ Fri, 14 Jun 2019 18:32:31 +0000 (UTC)
 Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-141.ams2.redhat.com
  [10.36.116.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 844405DD7A;
- Fri, 14 Jun 2019 18:31:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E859969A20;
+ Fri, 14 Jun 2019 18:32:28 +0000 (UTC)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 References: <20190311003052.13778-1-philmd@redhat.com>
@@ -37,17 +37,17 @@ References: <20190311003052.13778-1-philmd@redhat.com>
  <ecd8aaf1-f75e-abd0-48b1-e80a227f01c3@redhat.com>
  <19958c32-2df9-cccf-3f05-c2fa0fe3dec2@redhat.com>
 From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <b8aad7bf-1dec-5c1d-1b76-d15b639e4953@redhat.com>
-Date: Fri, 14 Jun 2019 20:31:48 +0200
+Message-ID: <ed5896ab-4bb5-3e60-fb04-e3f535f4caac@redhat.com>
+Date: Fri, 14 Jun 2019 20:32:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.9.1
 MIME-Version: 1.0
 In-Reply-To: <19958c32-2df9-cccf-3f05-c2fa0fe3dec2@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 14 Jun 2019 18:32:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 14 Jun 2019 18:32:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
