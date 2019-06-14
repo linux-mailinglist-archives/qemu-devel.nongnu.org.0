@@ -2,40 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E253E454D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 08:36:34 +0200 (CEST)
-Received: from localhost ([::1]:48780 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0594454FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 08:48:47 +0200 (CEST)
+Received: from localhost ([::1]:48818 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbfpB-0007eG-NA
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 02:36:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55971)
+	id 1hbg0u-00041A-Mu
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 02:48:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57186)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao.peng@linux.alibaba.com>) id 1hbfoa-0007FS-L9
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 02:35:57 -0400
+ (envelope-from <armbru@redhat.com>) id 1hbfvG-0001pk-Eb
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 02:42:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao.peng@linux.alibaba.com>) id 1hbfoZ-00038k-Ex
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 02:35:56 -0400
-Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:52556)
+ (envelope-from <armbru@redhat.com>) id 1hbfv7-0001Ay-F6
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 02:42:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43182)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao.peng@linux.alibaba.com>)
- id 1hbfoZ-00034L-5t
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 02:35:55 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R941e4; CH=green; DM=||false|;
- FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e01422; MF=tao.peng@linux.alibaba.com; NM=1;
- PH=DS; RN=7; SR=0; TI=SMTPD_---0TU87-DM_1560494124; 
-Received: from localhost(mailfrom:tao.peng@linux.alibaba.com
- fp:SMTPD_---0TU87-DM_1560494124) by smtp.aliyun-inc.com(127.0.0.1);
- Fri, 14 Jun 2019 14:35:48 +0800
-From: Peng Tao <tao.peng@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 14:35:13 +0800
-Message-Id: <1560494113-1141-1-git-send-email-tao.peng@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 47.88.44.36
-Subject: [Qemu-devel] [PATCH] migration: allow private destination ram with
- x-ignore-shared
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1hbfqD-0004T5-6Z; Fri, 14 Jun 2019 02:37:37 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 68404308212A;
+ Fri, 14 Jun 2019 06:37:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-148.ams2.redhat.com
+ [10.36.116.148])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 38A5E5C257;
+ Fri, 14 Jun 2019 06:37:31 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C3A9111386A6; Fri, 14 Jun 2019 08:37:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190613153405.24769-1-kwolf@redhat.com>
+ <20190613153405.24769-10-kwolf@redhat.com>
+Date: Fri, 14 Jun 2019 08:37:29 +0200
+In-Reply-To: <20190613153405.24769-10-kwolf@redhat.com> (Kevin Wolf's message
+ of "Thu, 13 Jun 2019 17:33:59 +0200")
+Message-ID: <87h88shdue.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 14 Jun 2019 06:37:31 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 09/15] monitor: Create
+ monitor-internal.h with common definitions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,75 +61,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peng Tao <tao.peng@linux.alibaba.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Yury Kotov <yury-kotov@yandex-team.ru>, Xu Wang <xu@hyper.sh>,
- Jiangshan Lai <laijs@hyper.sh>, kata-dev@lists.katacontainers.io
+Cc: berrange@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By removing the share ram check, qemu is able to migrate
-to private destination ram when x-ignore-shared capability
-is on. Then we can create multiple destination VMs based
-on the same source VM.
+Kevin Wolf <kwolf@redhat.com> writes:
 
-This changes the x-ignore-shared migration capability to
-work similar to Lai's original bypass-shared-memory
-work(https://lists.gnu.org/archive/html/qemu-devel/2018-04/msg00003.html)
-which enables kata containers (https://katacontainers.io)
-to implement the VM templating feature.
+> Before we can split monitor/misc.c, we need to create a header file that
+> contains the common definitions that will be used by multiple source
+> files.
+>
+> For a start, add the type definitions for Monitor, MonitorHMP and
+> MonitorQMP and their dependencies. We'll add functions as needed when
+> splitting monitor/misc.c.
+>
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  monitor/monitor-internal.h | 148 +++++++++++++++++++++++++++++++++++++
+>  monitor/misc.c             | 110 +--------------------------
+>  MAINTAINERS                |   2 +
+>  3 files changed, 151 insertions(+), 109 deletions(-)
+>  create mode 100644 monitor/monitor-internal.h
+>
+> diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+> new file mode 100644
+> index 0000000000..17a632b0ad
+> --- /dev/null
+> +++ b/monitor/monitor-internal.h
+> @@ -0,0 +1,148 @@
+> +/*
+> + * QEMU monitor
+> + *
+> + * Copyright (c) 2003-2004 Fabrice Bellard
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#ifndef MONITOR_INT_H
+> +#define MONITOR_INT_H
 
-An example usage in kata containers(https://katacontainers.io):
-1. Start the source VM:
-   qemu-system-x86 -m 2G \
-     -object memory-backend-file,id=mem0,size=2G,share=on,mem-path=/tmpfs/template-memory \
-     -numa node,memdev=mem0
-2. Stop the template VM, set migration x-ignore-shared capability,
-   migrate "exec:cat>/tmpfs/state", quit it
-3. Start target VM:
-   qemu-system-x86 -m 2G \
-     -object memory-backend-file,id=mem0,size=2G,share=off,mem-path=/tmpfs/template-memory \
-     -numa node,memdev=mem0 \
-     -incoming defer
-4. connect to target VM qmp, set migration x-ignore-shared capability,
-migrate_incoming "exec:cat /tmpfs/state"
-5. create more target VMs repeating 3 and 4
+Rename to MONITOR_INTERNAL_H, so it again matches the file name.  Can
+touch up in my tree.
 
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Yury Kotov <yury-kotov@yandex-team.ru>
-Cc: Jiangshan Lai <laijs@hyper.sh>
-Cc: Xu Wang <xu@hyper.sh>
-Signed-off-by: Peng Tao <tao.peng@linux.alibaba.com>
----
- migration/ram.c | 7 -------
- 1 file changed, 7 deletions(-)
+> +
+> +#include "monitor/monitor.h"
+> +#include "qapi/qmp/qdict.h"
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 1ca9ba7..cdb82a3 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -3373,7 +3373,6 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-         }
-         if (migrate_ignore_shared()) {
-             qemu_put_be64(f, block->mr->addr);
--            qemu_put_byte(f, ramblock_is_ignored(block) ? 1 : 0);
-         }
-     }
- 
-@@ -4340,12 +4339,6 @@ static int ram_load(QEMUFile *f, void *opaque, int version_id)
-                     }
-                     if (migrate_ignore_shared()) {
-                         hwaddr addr = qemu_get_be64(f);
--                        bool ignored = qemu_get_byte(f);
--                        if (ignored != ramblock_is_ignored(block)) {
--                            error_report("RAM block %s should %s be migrated",
--                                         id, ignored ? "" : "not");
--                            ret = -EINVAL;
--                        }
-                         if (ramblock_is_ignored(block) &&
-                             block->mr->addr != addr) {
-                             error_report("Mismatched GPAs for block %s "
--- 
-1.8.3.1
+These too are superfluous.  I'm willing to tolerate monitor.h anyway,
+since anything including monitor-internal.h is almost certainly going to
+need monitor.h, too.
 
+> +#include "qapi/qmp/json-parser.h"
+> +#include "qapi/qmp/dispatch.h"
+> +#include "qapi/qapi-types-misc.h"
+> +
+> +#include "qemu/readline.h"
+> +#include "chardev/char-fe.h"
+> +#include "sysemu/iothread.h"
+
+Another superfluous one.
+
+Happy to drop these two #include in my tree.
+
+[...]
+
+With that:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
