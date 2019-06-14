@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6AA04659B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:22:28 +0200 (CEST)
-Received: from localhost ([::1]:53720 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7454664E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:53:40 +0200 (CEST)
+Received: from localhost ([::1]:53898 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbpuG-0007u1-39
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55952)
+	id 1hbqOR-0006a3-Ou
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55939)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpkG-0000WF-Pl
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:10 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpkG-0000UQ-2Z
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpkF-0002yp-FM
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpkE-0002yH-UZ
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:08 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34935)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40669)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbpkF-0002xt-6i
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:07 -0400
-Received: by mail-wm1-x333.google.com with SMTP id c6so3058468wml.0
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:12:07 -0700 (PDT)
+ id 1hbpkE-0002wt-N4
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:06 -0400
+Received: by mail-wm1-x341.google.com with SMTP id v19so3033807wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LmI/mBSkUBusQla1865jT/J9Nwa1pt6elfDdpjwViYY=;
- b=uquMfLGT0bzb1W7jFdk6JmHnArAfpiR8pgyFKkVjm6Jlt6mZl5MMic2J5EtTl4jQzz
- bXVp6Jx1KQDQWqWwXgKMGOGaxU24ChVXoNWpmEIj70QUp6795aTV/slTUq/LGMQaFD40
- uedjmkmTDOrevmLGcCuDuSLMd1Tw0mL25KG3TMV/m68bb2La1OmW/37MXZ0RZmrgVcIC
- 3ve9X34WEEJrMtekRX2/LfgZv6JVI8MEHLm4vETNPZElE/CjQ+zlboJnjDIQ657RfgXh
- ZA1Xi0GOqMfmyYp1Ua2YGoQhlnqM82MSdcQJWfmS7x9ZJKd+exqdhEjYOS9Mvaj/vhD1
- 21eg==
+ bh=8bC4Ua5+cmFCH7/z3JbOgJMbpPZnAdyKgQfwrXL9vnQ=;
+ b=pTYPNeW88qhJChbZ2vWTHN6ODLLY+6x20uMSvv3RPXIUEJwMDOhLricPeOkm36L80T
+ SGsemwdu8BZLJfvO6wnsKh8XnIeXDI+RK7h1Pk3PxseZFxJyepRr6TQ6aUeG03p7GK85
+ 051t8jdB2JzvdzRwsI67vl54dZMfOItxXHhRolXXDx1yvNfswIL/PbahTTa/jYGoEn1I
+ 7WvkU7hmELWdhX5RiGZBAoWLZAXZ8MQZNn2SkMXiPA6xrfvKkhovYBfUpyHJxWd6bDuR
+ tZccAljadTN/U27FTYH01roEPQHeNA+B3BAas7us6mgFQzX+Wpr4zsuuqnltkYkyQdAN
+ SF1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LmI/mBSkUBusQla1865jT/J9Nwa1pt6elfDdpjwViYY=;
- b=kWaaGPMY7wHsfiReQdlB2qsSUzFKZAk2ZPI+5+RSLjTuS22xPbmbgXjqua0TpWyuhi
- Ej7odFjvQkI0+Oq2pJL0bT3PE69KKWAxeTuOrbbTOPW56wfjkoZyhqMEtiHWkvIHXQe0
- d7H2L6+Ob6x+viFsachq2Bz8yvByakVU0RXLdqhL8w39z80erFdhqmColMgv94HpYaz9
- DQpYknxWXM+6ZiY+ab8TGe0vjELkSKGw5uYWFDenZ7C342EIDZj/1VoU23FyI0HUl+x9
- tgrMM7B8rNw6/BxO1lfHqrYaw5G63dS7hGFGcniR9VOzVIxbhgKcdkwK6X06ngYwpNoo
- km5g==
-X-Gm-Message-State: APjAAAVYv7yav4Vx/q9lFf+Xg+gMiso823cqZpkCX+Nf4wHPbS6sm8sv
- R4EYm88fwed6FMKjq41jOCONNA==
-X-Google-Smtp-Source: APXvYqwUsrcBj0hO3R1n/BFkgctTyDnI4apXTJ83PUPxly6zkbN5uXcm8Hf7cxjA4qN4TYBDT7iaHg==
-X-Received: by 2002:a1c:f713:: with SMTP id v19mr8695931wmh.159.1560532325862; 
+ bh=8bC4Ua5+cmFCH7/z3JbOgJMbpPZnAdyKgQfwrXL9vnQ=;
+ b=s2T6kK7RVCRALoByEAnPRk76QQuVH0nVOlq8IJOXpVMHOqbDq6uOC8f2QBzQ31ZSDn
+ 5298/Na6EuDBxQ2rKgGtX0eIzFEubOWf1a3Pxli55Dpo/Dr3Kzwge721K7yLKQabj9y0
+ lMCcTr9b3tcFRyqQosRivNVPZh5Mze6A0dBkaVrN8SKy04mJk+qcXrzAVnd6JoThouDO
+ O3YG6AodQjClADO3B50Iu8b+FD+8gIosMyNtyOBmxeRrdors0MFEyY7nYPAiq/PQoXfk
+ YPWVcd7tGmNdE8t6djF8k5k8j4htyWAyFEBIjC9LXet6mGKc5wwjTuDtPgvOBVdX/Kml
+ okdQ==
+X-Gm-Message-State: APjAAAUmXDfckktkwrbNmMDpvVois3Kzj1dp0yk7noAAmOmTDQnjHZxk
+ 3adKv5hTP6NxE3D6M1Y5MkH7JOnQeuk=
+X-Google-Smtp-Source: APXvYqxdaEDeW3Y8t0gEuaqlC2MeHYNd7b/kjp6EC2UQmCyiSQYj/MN5olV0B9/GDPxJz2yGuLPxCg==
+X-Received: by 2002:a1c:be12:: with SMTP id o18mr8616695wmf.21.1560532325117; 
  Fri, 14 Jun 2019 10:12:05 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id o4sm2720965wmh.35.2019.06.14.10.12.01
+ by smtp.gmail.com with ESMTPSA id o13sm5231579wra.92.2019.06.14.10.12.01
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Fri, 14 Jun 2019 10:12:02 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D57DA1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id E989E1FF93;
  Fri, 14 Jun 2019 18:12:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:15 +0100
-Message-Id: <20190614171200.21078-6-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:11:16 +0100
+Message-Id: <20190614171200.21078-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::333
-Subject: [Qemu-devel] [PATCH v3 05/50] docs/devel: add plugins.rst design
- document
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH v3 06/50] configure: add --enable-plugins (MOVE
+ TO END)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,130 +86,71 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is mostly extracted from Emilio's more verbose commit comments
-with some additional verbiage from me.
+This adds the basic boilerplate feature enable option for the build.
+We shall expand it later.
 
+XXX: currently this patch is included at the start of development to
+aid with incremental building. It should be moved to the end once the
+plugins are feature complete.
+
+[AJB: split from larger patch]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/devel/index.rst   |  1 +
- docs/devel/plugins.rst | 99 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 100 insertions(+)
- create mode 100644 docs/devel/plugins.rst
+ configure | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 2a4ddf40ad..7e6d20c970 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -21,3 +21,4 @@ Contents:
-    testing
-    decodetree
-    secure-coding-practices
-+   plugins
-diff --git a/docs/devel/plugins.rst b/docs/devel/plugins.rst
-new file mode 100644
-index 0000000000..b0c30375ef
---- /dev/null
-+++ b/docs/devel/plugins.rst
-@@ -0,0 +1,99 @@
-+..
-+   Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
-+   Copyright (c) 2019, Linaro Limited
-+   Written by Emilio Cota and Alex Bennée
+diff --git a/configure b/configure
+index b091b82cb3..48f3263e55 100755
+--- a/configure
++++ b/configure
+@@ -493,6 +493,7 @@ docker="no"
+ debug_mutex="no"
+ libpmem=""
+ default_devices="yes"
++plugins="no"
+ 
+ # cross compilers defaults, can be overridden with --cross-cc-ARCH
+ cross_cc_aarch64="aarch64-linux-gnu-gcc"
+@@ -1537,6 +1538,10 @@ for opt do
+   ;;
+   --disable-libpmem) libpmem=no
+   ;;
++  --enable-plugins) plugins="yes"
++  ;;
++  --disable-plugins) plugins="no"
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1734,6 +1739,8 @@ Advanced options (experts only):
+   --enable-profiler        profiler support
+   --enable-debug-stack-usage
+                            track the maximum stack usage of stacks created by qemu_alloc_stack
++  --enable-plugins
++                           enable plugins via shared library loading
+ 
+ Optional features, enabled with --enable-FEATURE and
+ disabled with --disable-FEATURE, default is enabled if available:
+@@ -6479,6 +6486,7 @@ echo "docker            $docker"
+ echo "libpmem support   $libpmem"
+ echo "libudev           $libudev"
+ echo "default devices   $default_devices"
++echo "plugin support    $plugins"
+ 
+ if test "$supported_cpu" = "no"; then
+     echo
+@@ -7296,6 +7304,11 @@ if test "$sheepdog" = "yes" ; then
+   echo "CONFIG_SHEEPDOG=y" >> $config_host_mak
+ fi
+ 
++if test "$plugins" = "yes" ; then
++    echo "CONFIG_PLUGIN=y" >> $config_host_mak
++    LIBS="-ldl $LIBS"
++fi
 +
-+================
-+QEMU TCG Plugins
-+================
-+
-+QEMU TCG plugins provide a way for users to run experiments taking
-+advantage of the total system control emulation can have over a guest.
-+It provides a mechanism for plugins to subscribe to events during
-+translation and execution and optionally callback into the plugin
-+during these events.
-+
-+API Stability
-+=============
-+
-+This is a new feature for QEMU and it does allow people to develop
-+out-of-tree plugins than can be dynamically linked into a running QEMU
-+process. However the project reserves the right to change or break the
-+API should it need to do so.
-+
-+Exposure of QEMU internals
-+--------------------------
-+
-+The plugin architecture actively avoids leaking implementation details
-+about how QEMU's translation works to the plugins. While there are
-+conceptions such as translation time and translation blocks the
-+details are opaque to plugins. The plugin is able to query select
-+details of instructions and system configuration only through the
-+exported *qemu_plugin* functions. The types used to describe
-+instructions and events are opaque to the plugins themselves.
-+
-+Usage
-+=====
-+
-+The QEMU binary needs to be compiled for plugin support:
-+
-+::
-+    configure --enable-plugins
-+
-+Once built a program can be run with multiple plugins loaded each with
-+their own arguments:
-+
-+::
-+    $QEMU $OTHER_QEMU_ARGS \
-+      -plugin tests/plugin/libhowvec.so,arg=inline,arg=hint \
-+      -plugin tests/plugin/libhotblocks.so
-+
-+Plugin Life cycle
-+=================
-+
-+First the plugin is loaded and the public qemu_plugin_install function
-+is called. The plugin with then register callbacks for various plugin
-+events. Generally at least the atexit_cb is registered so the plugin
-+can dump its information at the end of a run.
-+
-+When a registered event occurs the plugin callback is called. The
-+callbacks may provide additional information. In the case of a
-+translation event the plugin has an option to enumerate the
-+instructions in a block of instructions and optionally register
-+callbacks to some or all instructions when they are executed.
-+
-+There is also a facility to add an inline event where code to
-+increment a counter can be directly inlined with the translation.
-+Currently only a simple increment is supported. This is not atomic so
-+the plugin must either keep it's counters separated and indexed by CPU
-+or use a callback which can ensure atomicity.
-+
-+Finally when QEMU exits all the registered atexit callbacks are called
-+
-+Internals
-+=========
-+
-+Locking
-+-------
-+
-+We have to ensure we cannot deadlock, particularly under MTTCG. For
-+this we acquire a lock when called from plugin code. We also keep the
-+list of callbacks under RCU so that we do not have to hold the lock
-+when calling the callbacks. This is also for performance, since some
-+callbacks (e.g. memory access callbacks) might be called very
-+frequently.
-+
-+  * A consequence of this is that we keep our own list of CPUs, so that
-+    we do not have to worry about locking order wrt cpu_list_lock.
-+  * Use a recursive lock, since we can get registration calls from
-+    callbacks.
-+
-+As a result registering/unregistering callbacks is "slow", since it
-+takes a lock. But this is very infrequent; we want performance when
-+calling (or not calling) callbacks, not when registering them. Using
-+RCU is great for this.
-+
-+We support the uninstallation of a plugin at any time (e.g. from plugin
-+callbacks). This means some callbacks might still be called after the uninstall
-+function returns. The plugin isn't completely uninstalled until the
-+safe work has executed while all vCPUs are quiescent.
+ if test "$tcg_interpreter" = "yes"; then
+   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
+ elif test "$ARCH" = "sparc64" ; then
 -- 
 2.20.1
 
