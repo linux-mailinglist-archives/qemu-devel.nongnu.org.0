@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55986467AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:39:41 +0200 (CEST)
-Received: from localhost ([::1]:54178 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB54F46777
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:23:13 +0200 (CEST)
+Received: from localhost ([::1]:54064 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbr6y-0005IU-HG
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34063)
+	id 1hbqr2-0003RC-8K
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:23:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58661)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbq0J-00076W-Q7
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:45 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpqj-0005b2-2C
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbq0H-0003zf-J4
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:42 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37322)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpqe-000769-0M
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:47 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:32898)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbq0F-0003wu-Li
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:40 -0400
-Received: by mail-wm1-x331.google.com with SMTP id f17so575593wme.2
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:28:39 -0700 (PDT)
+ id 1hbpqd-0006sD-Jq
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:43 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n9so3357124wru.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7LkO/RwU961CsHjb/1835Cx9O+zFCubxVzSPwrwohBY=;
- b=W6EqP8YJ+T9LS2axiftttPSXbxy78ZYzJJ8MKjFCDwGsLUHeGuD00S/IKsLeLBVP69
- zN4lQloUzN0iJ7hr8bKOItDQelJc4aE9XL+ag8Kuki+qQzl3oqilwdnUoaVViskIolnM
- vl4UfQ4UOmLecQSm9ZPwk1Ue2lIq9IzYbzn/mQODII8EENhknYA9Lb71O3ivo0C3wA//
- Z2S0bV+o9cBvCMPgeCEdkKBwKDd5linBPIVdqOWrV19FY5+i+w7vV8hIIX/7EEFlw6dt
- FGzGHrSFR5OM1B1FpU4Ahzt67ZREHcmJZcTf2pem1yMJg+9qN9rUb3dYCMmTMvF5yUz5
- 8vAg==
+ bh=il3aOSQFRSZJ2/99Y43bBqgnwxHoXzOMQ0saAfzkh+I=;
+ b=FtKApfm1D/p6XGZGeDjMfRGy1o4ilmmub4IZ9hnbiP9zgmxz4dP2VZ5w5yo60JS7RZ
+ uYGlXuBVAnlTwoiTV7cNdAOLjvGdoFn9rcnOChLHS6GI7+LWy+1pVLp8Z1ddGzeDxKEA
+ BCkvz6LLIl3RosA0LDz225csT1b/tPlEuteqIYGlus6p3P1lMX7XPvAQz6WjGTFmOGsv
+ YYTBHd+FQ+Df2QW5n/KaGqmWHJwTvSWdzvdmXPok3PcgL1acNWP4e2ZNRNnBnnqmQNhB
+ ittPiVVyhn769RuDw8RkO2kbYezaQPNtYKJ3FG86Pnfci/a2fy7RynfrX3CWI2rCHbA9
+ Ml+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7LkO/RwU961CsHjb/1835Cx9O+zFCubxVzSPwrwohBY=;
- b=eSXQt8SF8Zlaqb1O9LDUPbeXAaTHDHFcCuGDHQ2lVV4CpHGvEdFK68xl3ycKCkqo7M
- 0IMfQO3sGQD1zirGZrG8pNebiMrdXL5WTNN50dcw68Xn4QgKXD6S40TTl3g/W1ek2boZ
- QgXQbEoIYQem0WYHVxRSc5Y/oP4RlDZalk7VY7H2HBS/cOCmkkrHb3cJMR8uuf8Lc/fC
- L1ijOcs5TMExRr0p6sUOYJbr+w6UpnHd9gBi5GTOK/8Zx4AuPRFFl2T4WMabdbhL+h2e
- x3dj0TYF3gq5/C2DDX4B5nBGgdjQSiEz8LVQ/KsI9eq3e+EQJb0oTHO+WoPH+WSkNY/w
- pW5g==
-X-Gm-Message-State: APjAAAWNrG3vxZ0YVl5fXvbXCw/6W6tuxztqtzly3zZNuPAjf+fBPl3S
- Jhaifu1t4wJQyp1TodZ71+KXmg==
-X-Google-Smtp-Source: APXvYqwAjbuiS8A1DyMpf1MGsaDY4dHNCCPSRo1/xfeOfnoq/QYoURplMUi6TxMkTqAi92AsWAMPRg==
-X-Received: by 2002:a7b:c057:: with SMTP id u23mr8968631wmc.29.1560533318513; 
- Fri, 14 Jun 2019 10:28:38 -0700 (PDT)
+ bh=il3aOSQFRSZJ2/99Y43bBqgnwxHoXzOMQ0saAfzkh+I=;
+ b=i+laC9Llr82HTJLV/1KQqkol+sOfhc9nGlUZsfvPLVRgwB1yQQKD99MijSlgP3mnIp
+ J2NCdt3/Vncm0xxii3yxnDJc+2MT8R209YMNkq3AasFSEtAI8fOxRc/axl2N3TdosaB8
+ +WNzKsgiPRHzR2Fwvrah29pHeDOpC9NfxpJoZndi5o+tSVdUdOru+P1btWl2/iqJb92f
+ ZJx0GdYyutCV6qm5CTYr6vgJoxyHTwGScJzNeK8X+Z7MnwYtOJkScDfmmj93I8GpwcCa
+ QlYOgoxPDUD42MzVhKB2VtaTgQVMDXCvCztgYbSFeMiSUFTvzg2+FGj1WszgqIuM8vrF
+ EELw==
+X-Gm-Message-State: APjAAAUUYqa1zGDchFhsW5Ybllwe3ijSHS0lAjibvDNEi788exqFhF6h
+ RShUpr4fh6rALnxmK+aJk5FWAQ==
+X-Google-Smtp-Source: APXvYqwTTWLBDQVCvgr7ufM5l5WLP+qVadJvzLop27KTPAFDvmpkG9btqgtyumm2aIzxjeSC0DD+cw==
+X-Received: by 2002:a05:6000:110:: with SMTP id
+ o16mr62393959wrx.200.1560532718511; 
+ Fri, 14 Jun 2019 10:18:38 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id v204sm5834489wma.20.2019.06.14.10.28.32
+ by smtp.gmail.com with ESMTPSA id s10sm4486428wrt.49.2019.06.14.10.18.30
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 10:28:36 -0700 (PDT)
+ Fri, 14 Jun 2019 10:18:34 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EB19D1FF9F;
- Fri, 14 Jun 2019 18:12:01 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0BFBC1FFA3;
+ Fri, 14 Jun 2019 18:12:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:26 +0100
-Message-Id: <20190614171200.21078-17-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:11:27 +0100
+Message-Id: <20190614171200.21078-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::331
-Subject: [Qemu-devel] [PATCH v3 16/50] atomic_template: fix indentation in
- GEN_ATOMIC_HELPER
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v3 17/50] atomic_template: add inline
+ trace/plugin helpers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,32 +83,286 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+In preparation for plugin support.
+
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 ---
- accel/tcg/atomic_template.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ accel/tcg/atomic_template.h | 110 ++++++++++++++++++++++++------------
+ 1 file changed, 75 insertions(+), 35 deletions(-)
 
 diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
-index 5aaf186253..df9c838817 100644
+index df9c838817..04c4c7b0d2 100644
 --- a/accel/tcg/atomic_template.h
 +++ b/accel/tcg/atomic_template.h
-@@ -284,7 +284,7 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+@@ -59,25 +59,44 @@
+ # define ABI_TYPE  uint32_t
+ #endif
  
- #define GEN_ATOMIC_HELPER(X)                                        \
- ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
--                 ABI_TYPE val EXTRA_ARGS)                           \
-+                        ABI_TYPE val EXTRA_ARGS)                    \
- {                                                                   \
+-#define ATOMIC_TRACE_RMW do {                                           \
+-        uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false); \
+-                                                                        \
+-        trace_guest_mem_before_exec(env_cpu(env), addr, info);      \
+-        trace_guest_mem_before_exec(env_cpu(env), addr,             \
+-                                    info | TRACE_MEM_ST);               \
+-    } while (0)
+-
+-#define ATOMIC_TRACE_LD do {                                            \
+-        uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false); \
+-                                                                        \
+-        trace_guest_mem_before_exec(env_cpu(env), addr, info);      \
+-    } while (0)
+-
+-# define ATOMIC_TRACE_ST do {                                           \
+-        uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, true); \
+-                                                                        \
+-        trace_guest_mem_before_exec(env_cpu(env), addr, info);      \
+-    } while (0)
++#ifndef ATOMIC_TEMPLATE_COMMON
++#define ATOMIC_TEMPLATE_COMMON
++static inline
++void atomic_trace_rmw_pre(CPUArchState *env, target_ulong addr, uint8_t info)
++{
++    CPUState *cpu = env_cpu(env);
++
++    trace_guest_mem_before_exec(cpu, addr, info);
++    trace_guest_mem_before_exec(cpu, addr, info | TRACE_MEM_ST);
++}
++
++static inline void atomic_trace_rmw_post(CPUArchState *env, target_ulong addr,
++                                         void *haddr, uint8_t info)
++{
++}
++
++static inline
++void atomic_trace_ld_pre(CPUArchState *env, target_ulong addr, uint8_t info)
++{
++    trace_guest_mem_before_exec(env_cpu(env), addr, info);
++}
++
++static inline void atomic_trace_ld_post(CPUArchState *env, target_ulong addr,
++                                        void *haddr, uint8_t info)
++{
++}
++
++static inline
++void atomic_trace_st_pre(CPUArchState *env, target_ulong addr, uint8_t info)
++{
++    trace_guest_mem_before_exec(env_cpu(env), addr, info);
++}
++
++static inline void atomic_trace_st_post(CPUArchState *env, target_ulong addr,
++                                        void *haddr, uint8_t info)
++{
++}
++#endif /* ATOMIC_TEMPLATE_COMMON */
+ 
+ /* Define host-endian atomic operations.  Note that END is used within
+    the ATOMIC_NAME macro, and redefined below.  */
+@@ -98,14 +117,16 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+     DATA_TYPE ret;
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false);
+ 
+-    ATOMIC_TRACE_RMW;
++    atomic_trace_rmw_pre(env, addr, info);
+ #if DATA_SIZE == 16
+     ret = atomic16_cmpxchg(haddr, cmpv, newv);
+ #else
+     ret = atomic_cmpxchg__nocheck(haddr, cmpv, newv);
+ #endif
+     ATOMIC_MMU_CLEANUP;
++    atomic_trace_rmw_post(env, addr, haddr, info);
+     return ret;
+ }
+ 
+@@ -115,10 +136,12 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP;
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false);
+ 
+-    ATOMIC_TRACE_LD;
++    atomic_trace_ld_pre(env, addr, info);
+     val = atomic16_read(haddr);
+     ATOMIC_MMU_CLEANUP;
++    atomic_trace_ld_post(env, addr, haddr, info);
+     return val;
+ }
+ 
+@@ -127,10 +150,12 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, true);
+ 
+-    ATOMIC_TRACE_ST;
++    atomic_trace_st_pre(env, addr, info);
+     atomic16_set(haddr, val);
+     ATOMIC_MMU_CLEANUP;
++    atomic_trace_st_post(env, addr, haddr, info);
+ }
+ #endif
+ #else
+@@ -140,10 +165,12 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+     DATA_TYPE ret;
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false);
+ 
+-    ATOMIC_TRACE_RMW;
++    atomic_trace_rmw_pre(env, addr, info);
+     ret = atomic_xchg__nocheck(haddr, val);
+     ATOMIC_MMU_CLEANUP;
++    atomic_trace_rmw_post(env, addr, haddr, info);
+     return ret;
+ }
+ 
+@@ -154,10 +181,12 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
      ATOMIC_MMU_DECLS;                                               \
      DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                           \
+     DATA_TYPE ret;                                                  \
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false); \
+                                                                     \
+-    ATOMIC_TRACE_RMW;                                               \
++    atomic_trace_rmw_pre(env, addr, info);                          \
+     ret = atomic_##X(haddr, val);                                   \
+     ATOMIC_MMU_CLEANUP;                                             \
++    atomic_trace_rmw_post(env, addr, haddr, info);                  \
+     return ret;                                                     \
+ }
+ 
+@@ -186,8 +215,9 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     ATOMIC_MMU_DECLS;                                               \
+     XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                          \
+     XDATA_TYPE cmp, old, new, val = xval;                           \
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false); \
+                                                                     \
+-    ATOMIC_TRACE_RMW;                                               \
++    atomic_trace_rmw_pre(env, addr, info);                          \
+     smp_mb();                                                       \
+     cmp = atomic_read__nocheck(haddr);                              \
+     do {                                                            \
+@@ -195,6 +225,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+         cmp = atomic_cmpxchg__nocheck(haddr, old, new);             \
+     } while (cmp != old);                                           \
+     ATOMIC_MMU_CLEANUP;                                             \
++    atomic_trace_rmw_post(env, addr, haddr, info);                  \
+     return RET;                                                     \
+ }
+ 
+@@ -232,14 +263,16 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+     DATA_TYPE ret;
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false);
+ 
+-    ATOMIC_TRACE_RMW;
++    atomic_trace_rmw_pre(env, addr, info);
+ #if DATA_SIZE == 16
+     ret = atomic16_cmpxchg(haddr, BSWAP(cmpv), BSWAP(newv));
+ #else
+     ret = atomic_cmpxchg__nocheck(haddr, BSWAP(cmpv), BSWAP(newv));
+ #endif
+     ATOMIC_MMU_CLEANUP;
++    atomic_trace_rmw_post(env, addr, haddr, info);
+     return BSWAP(ret);
+ }
+ 
+@@ -249,10 +282,12 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr EXTRA_ARGS)
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE val, *haddr = ATOMIC_MMU_LOOKUP;
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false);
+ 
+-    ATOMIC_TRACE_LD;
++    atomic_trace_ld_pre(env, addr, info);
+     val = atomic16_read(haddr);
+     ATOMIC_MMU_CLEANUP;
++    atomic_trace_ld_post(env, addr, haddr, info);
+     return BSWAP(val);
+ }
+ 
+@@ -261,11 +296,14 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr,
+ {
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, true);
+ 
+-    ATOMIC_TRACE_ST;
++    val = BSWAP(val);
++    atomic_trace_st_pre(env, addr, info);
+     val = BSWAP(val);
+     atomic16_set(haddr, val);
+     ATOMIC_MMU_CLEANUP;
++    atomic_trace_st_post(env, addr, haddr, info);
+ }
+ #endif
+ #else
+@@ -275,10 +313,12 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr,
+     ATOMIC_MMU_DECLS;
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;
+     ABI_TYPE ret;
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false);
+ 
+-    ATOMIC_TRACE_RMW;
++    atomic_trace_rmw_pre(env, addr, info);
+     ret = atomic_xchg__nocheck(haddr, BSWAP(val));
+     ATOMIC_MMU_CLEANUP;
++    atomic_trace_rmw_post(env, addr, haddr, info);
+     return BSWAP(ret);
+ }
+ 
+@@ -289,10 +329,12 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     ATOMIC_MMU_DECLS;                                               \
+     DATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                           \
+     DATA_TYPE ret;                                                  \
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false); \
+                                                                     \
+-    ATOMIC_TRACE_RMW;                                               \
++    atomic_trace_rmw_pre(env, addr, info);                          \
+     ret = atomic_##X(haddr, BSWAP(val));                            \
+     ATOMIC_MMU_CLEANUP;                                             \
++    atomic_trace_rmw_post(env, addr, haddr, info);                  \
+     return BSWAP(ret);                                              \
+ }
+ 
+@@ -319,8 +361,9 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     ATOMIC_MMU_DECLS;                                               \
+     XDATA_TYPE *haddr = ATOMIC_MMU_LOOKUP;                          \
+     XDATA_TYPE ldo, ldn, old, new, val = xval;                      \
++    uint8_t info = glue(trace_mem_build_info_no_se, MEND)(SHIFT, false); \
+                                                                     \
+-    ATOMIC_TRACE_RMW;                                               \
++    atomic_trace_rmw_pre(env, addr, info);                          \
+     smp_mb();                                                       \
+     ldn = atomic_read__nocheck(haddr);                              \
+     do {                                                            \
+@@ -328,6 +371,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+         ldn = atomic_cmpxchg__nocheck(haddr, ldo, BSWAP(new));      \
+     } while (ldo != ldn);                                           \
+     ATOMIC_MMU_CLEANUP;                                             \
++    atomic_trace_rmw_post(env, addr, haddr, info);                  \
+     return RET;                                                     \
+ }
+ 
+@@ -355,10 +399,6 @@ GEN_ATOMIC_HELPER_FN(add_fetch, ADD, DATA_TYPE, new)
+ #undef MEND
+ #endif /* DATA_SIZE > 1 */
+ 
+-#undef ATOMIC_TRACE_ST
+-#undef ATOMIC_TRACE_LD
+-#undef ATOMIC_TRACE_RMW
+-
+ #undef BSWAP
+ #undef ABI_TYPE
+ #undef DATA_TYPE
 -- 
 2.20.1
 
