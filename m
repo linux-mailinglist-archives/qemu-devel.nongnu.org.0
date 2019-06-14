@@ -2,76 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E4D467DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:50:44 +0200 (CEST)
-Received: from localhost ([::1]:54270 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E64946704
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:05:12 +0200 (CEST)
+Received: from localhost ([::1]:53950 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbrHe-0006wL-5Q
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:50:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
+	id 1hbqZb-0005DQ-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbq0T-0007A9-MY
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:56 -0400
+ (envelope-from <bounces@canonical.com>) id 1hbpsW-0007ct-GQ
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:20:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbq0P-0004Ca-Dg
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:51 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33066)
+ (envelope-from <bounces@canonical.com>) id 1hbpsU-00037r-FX
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:20:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35138)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbq0N-0003wR-Bo
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:48 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n9so3386221wru.0
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=l+F+1JN97gKyw7kKNWTOxFjpETDNYB39JWHiUo3QTVA=;
- b=sb6Xu5Kp41Z06TykOvhElWOnU/IGs1hZmd23GE+R+8eET7wGXVqS4I/T6oA76AIkSK
- 0b+dxWBpr7NOJZ79VVLP8ambmypEN8uW6/WSDPdE3KPdvFTc0d5tT/fDQHljertzxPL0
- mRK+wijtp353zjBR18hWt9fd8LGNTMKYl2pcD2/pjAaz2BXaH5NiyzuTIlwFNqw2EMtF
- lbxQtxBSSfmALXKphpaA2mMbhjkv/WzmSc17qAu9J/HeqAqOsikpbRnGjRLcby40I/im
- z61WDhl3HyReuCU2dWkOEgZG0bLlzs57RLA3Nv6GaAPSld32ffb0DwL8W2LjNz3/7i6R
- FryA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=l+F+1JN97gKyw7kKNWTOxFjpETDNYB39JWHiUo3QTVA=;
- b=E88vv6nLS++QKbsNovbk3LncZVEtMJjNzVOIkI/DplHTE3ZbzlwCOyAFtX334xUMOo
- uqoHpiqnEpcs+TchclWX5+Zo/XRG4VC9YcndmB7DE5tZyVGhIXwgDkdsF5uMrTt2uMAj
- 3Bdwd4qLshq3BPwk+Z63+SthJI4nUc7OBfMr3WG+SeRJ+gVoyA78doc7tPhLtYZkdT5p
- 589BeVQiaempM/wsKd/2fBhzGbV3bzuD8+hHYFyIA+soOpmTNmggEauo1cdSb6M+oImy
- k0CYOXMugtZm/AykM28cUPqWclpanzQL/7KP8mABFsUYoJ/+vMa1Letlp138FgxmlvXf
- MVfA==
-X-Gm-Message-State: APjAAAW3nf5LBK3lsZp2yklzsXASlDKVCVhi0DpZXtz/gWS1p2ysPtg6
- yUnt2hrXbzxyN4jQhIuhO1FbYw==
-X-Google-Smtp-Source: APXvYqzMLSK7+SkT+doycWqokAFfRgXvilXEqEabHPNK31DKuQzeai/z248Q1ZETdDcZvs/q+IljJA==
-X-Received: by 2002:a5d:6709:: with SMTP id o9mr52157881wru.301.1560533317777; 
- Fri, 14 Jun 2019 10:28:37 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id s188sm4205143wmf.40.2019.06.14.10.28.30
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 10:28:36 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E50C71FFCB;
- Fri, 14 Jun 2019 18:12:04 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:12:00 +0100
-Message-Id: <20190614171200.21078-51-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
-References: <20190614171200.21078-1-alex.bennee@linaro.org>
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hbpsS-00035L-F6
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:20:36 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hbpsR-0007yj-0h
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 17:20:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DC7702E802E
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 17:20:34 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH  v3 50/50] TODO: API changes to make?
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 Jun 2019 17:13:52 -0000
+From: Michal Suchanek <hramrach@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hramrach
+X-Launchpad-Bug-Reporter: Michal Suchanek (hramrach)
+X-Launchpad-Bug-Modifier: Michal Suchanek (hramrach)
+References: <156053202418.26991.16452462538743379773.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156053243294.27569.11537239172495364383.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18981";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: ed75bb7c6746a1f78c1f58b47c0cac4f4fd38d54
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1832877] Re: qemu-bridge-helper undocumented and
+ broken
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,27 +64,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1832877 <1832877@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----
- include/qemu/qemu-plugin.h | 1 +
- 1 file changed, 1 insertion(+)
+Also this is what bridge.conf contains:
 
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index 21f056d4ab..655640fe54 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -169,6 +169,7 @@ enum qemu_plugin_mem_rw {
-  * callbacks to be triggered when the block or individual instruction
-  * executes.
-  */
-+/* ??? - should we expose vcpu_index here? */
- typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
-                                                unsigned int vcpu_index,
-                                                struct qemu_plugin_tb *tb);
--- 
-2.20.1
+# Access control file for qemu bridge helper
+# Syntax consists of:
+#   # comment (ignored)
+#   allow all
+#   allow <bridge_name>
+#   deny all
+#   deny <bridge_name>
+#   include /path/to/additional/ACL/file
+# Users are blacklisted by default and 'deny' takes precedence over 'allow'.
+# Including additional ACL files allows file access permissions to be used =
+as
+# a component of the policy to allow access or deny access to specific brid=
+ges.
 
+How are users specified? Or is the mention of users bogus?
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832877
+
+Title:
+  qemu-bridge-helper undocumented and broken
+
+Status in QEMU:
+  New
+
+Bug description:
+  qemu output:
+
+  access denied by acl file
+  qemu-system-ppc64: bridge helper failed
+
+  Option description:
+
+        -netdev bridge,id=3Did[,br=3Dbridge][,helper=3Dhelper]
+             Connect a host TAP network interface to a host bridge device.
+
+             Use the network helper helper to configure the TAP interface a=
+nd attach it to the bridge. The default network
+             helper executable is /path/to/qemu-bridge-helper and the defau=
+lt bridge device is br0.
+
+             Examples:
+
+                     #launch a QEMU instance with the default network helpe=
+r to
+                     #connect a TAP device to bridge br0
+                     qemu-system-i386 linux.img -netdev bridge,id=3Dn1 -dev=
+ice virtio-net,netdev=3Dn1
+
+
+                     #launch a QEMU instance with the default network helpe=
+r to
+                     #connect a TAP device to bridge qemubr0
+                     qemu-system-i386 linux.img -netdev bridge,br=3Dqemubr0=
+,id=3Dn1 -device virtio-net,netdev=3Dn1
+
+  =
+
+  What is the acl file? What is the interface to qemu-bridge-helper?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832877/+subscriptions
 
