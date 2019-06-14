@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3476045935
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:49:39 +0200 (CEST)
-Received: from localhost ([::1]:49672 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBF345914
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:44:30 +0200 (CEST)
+Received: from localhost ([::1]:49640 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbiq2-0005sq-C5
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40783)
+	id 1hbil3-0002o3-HJ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40605)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elohimes@gmail.com>) id 1hbieK-0004oG-56
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:37:33 -0400
+ (envelope-from <stefanha@gmail.com>) id 1hbieP-0004gq-24
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:37:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elohimes@gmail.com>) id 1hbiZF-0000q9-RY
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:32:18 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38858)
+ (envelope-from <stefanha@gmail.com>) id 1hbiYZ-0000bH-PM
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:31:37 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38225)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hbiZF-0000pv-Md
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:32:17 -0400
-Received: by mail-pf1-x441.google.com with SMTP id a186so1098737pfa.5
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 02:32:17 -0700 (PDT)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hbiYY-0000a9-By
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:31:35 -0400
+Received: by mail-wm1-x341.google.com with SMTP id s15so1579789wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 02:31:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=XDE2icSbolLOa01WawYlTzTQ3MDApcSEwbj0XrcaTAM=;
- b=hVsud2sK/QSUbdHBBRmIvY5nK5Pam3KE4VfxjiBlZYAALULvpakZksta5eDLByRQA9
- bEvEGs4CgwjIlqb26WM3jgQakL2vKyllH2AlyAAiD3RzH9UaUhiMS9a/HxGqkzg4tcZM
- RjbvvzpHsbhITFpYQPf9uewQB7OYupwjcfS2BVaKh4dnMLcxmrnsfVT5B27CNY0cueTw
- dY7mIBrb6OURmBt//zJoLgtlR2tKicH8Jdi5Wy8XfyIADNMRJPBTZgGIhdZTtlbKUl2n
- QhK9WmENo1GIXCXwwL9dR2WJte/P6Vd3XoxZ7QC8AHRRB9qghKsliisxIRdro37ENKng
- 8tbw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=q1x6DxGQc4adhebLDMSHhcVabBwjpRK3W7gxbhKIxYI=;
+ b=DEHjRC4fp0mjJKiDJSgNNNwlq/WUvaijcPeyjEe5nVYQGgyLfTLgLaNqp4Dbrnta5d
+ qtB64iBES117nqEAtQLcm2PABzrjPT4sDoHcrdRxCdhKJNP/Hv3bnT7GsbaViEN7I0fW
+ hqCagNiC0onGByeHIitQs4E6Jf74m388R+Kh0dVmKHcZjmuQKZmgipyfUwAWnbfFcLk4
+ uueSC0bWfcjIspSYuhGR2yvqJJ4XbSOJLFy1sDIs4TYZaIc7zIR1vmUtmNHQR2HsXuua
+ xTcE2b2uHfDmrKc7G8qJDN87VkUU2Dt+vt6Tz04W0ks3EmqATwNmJIGVG85cluvkg0Qk
+ Tmbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=XDE2icSbolLOa01WawYlTzTQ3MDApcSEwbj0XrcaTAM=;
- b=bTMlZunTYlnV5nsWWAORE0l42csCjdzxrJJJDDYCdQId36q1VChren9Sr1cX3TEOQ9
- lZ9tj8CKoq617+pWqyR3LwUJEu0JUh2qUJGyibn0FBDv3FOZ9rc+hDZYlll6T1Bu4KZk
- +aj4ADJf/MPLh8nfMvkkJ2iVX0kMk9lqGG4SSZvIKgCyCFWE2zGVbXuvMacl0UUATD6R
- TOYBhPgPthPg9tRamylLnFhEp1R8ZCcdlVB9/qUFhhj2ZRiJFGqp/ydwPNOvHfzGDpp6
- Om77Tjp7/1fbf9SiNbo3ba0bdVsUsIxBA3XE4SKxumgYDRBS2F+VUUALUvctgZsfwCXl
- gX/w==
-X-Gm-Message-State: APjAAAU/5Wes8r9zUPGqDk/0K95Uq8Hj5sD6kJ1Jt5X1tHI9tvFbJ7Tc
- L7rsLYuH2mAYlvxMXe5S/qc=
-X-Google-Smtp-Source: APXvYqx3D1bPiHSnIanbuiAHuzs4AsQDW/a5swnZaz8bNEqpaS9eOWEyW9ZnCXeaDTJwS+pwTHnLxw==
-X-Received: by 2002:a63:f959:: with SMTP id q25mr26668682pgk.357.1560504736820; 
- Fri, 14 Jun 2019 02:32:16 -0700 (PDT)
-Received: from localhost ([116.247.112.152])
- by smtp.gmail.com with ESMTPSA id o26sm2300980pgv.47.2019.06.14.02.32.16
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 14 Jun 2019 02:32:16 -0700 (PDT)
-From: elohimes@gmail.com
-X-Google-Original-From: xieyongji@baidu.com
-To: mst@redhat.com,
-	groug@kaod.org
-Date: Fri, 14 Jun 2019 17:31:21 +0800
-Message-Id: <20190614093121.5580-6-xieyongji@baidu.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190614093121.5580-1-xieyongji@baidu.com>
-References: <20190614093121.5580-1-xieyongji@baidu.com>
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=q1x6DxGQc4adhebLDMSHhcVabBwjpRK3W7gxbhKIxYI=;
+ b=MsUA7dmpvQM05J5x5OYuj2FHGeUsdfg6ScOO+Ug+QumJuM3Ynhgvu1Hsc1DG4UW9Or
+ yWEhpwywMV1NrZl85usC2A2smJc24DFSc1H0wI1u9yr4Roy3/B1yv/LcDNGcPZqetyzK
+ pon3CYLFFpmZFIwYqOnk4QUaxpBqj9r23tpq7d6EHTl3CNZikInD2FLQxL0h/dRuDd3B
+ Nt4hWLStqEOwbW6uQyyF0DhRgGR+IRQJFGlVr1BYU21Y5S2MNxQIofK482N0JcoYrxnm
+ WXSj14HijjYKF2QtKMRmeIfMF+mLsEbOcMyjFC2HE47Bhy/yZfcHvK/8tMmg74xU9Z90
+ qfTA==
+X-Gm-Message-State: APjAAAWcCqbYoN2wrYMu8HobkGn5VdGcjxbwwxDeXomJu5HVKnCnOC44
+ 777AGYZdacjuhfQ5eIrVIQk=
+X-Google-Smtp-Source: APXvYqyOuUU6aXPwMmG5VX0tPxkdRqx+8pXxf60gVRqYPeGU6og3cpJyupf3CSoMcyIbXA/P9h5M6A==
+X-Received: by 2002:a1c:7604:: with SMTP id r4mr7266756wmc.89.1560504692095;
+ Fri, 14 Jun 2019 02:31:32 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id h23sm1987604wmb.25.2019.06.14.02.31.30
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 14 Jun 2019 02:31:31 -0700 (PDT)
+Date: Fri, 14 Jun 2019 10:31:24 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Rahul Govind <rgovind3@illinois.edu>
+Message-ID: <20190614093124.GF10957@stefanha-x1.localdomain>
+References: <CALP2uw1A6GiZm_-Pa4Yq2+HUpNbGbp1ioZd9-RK0HR_yTEEAhg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9ADF8FXzFeE7X4jE"
+Content-Disposition: inline
+In-Reply-To: <CALP2uw1A6GiZm_-Pa4Yq2+HUpNbGbp1ioZd9-RK0HR_yTEEAhg@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v3 5/5] virtio: Don't change "started" flag on
- virtio_vmstate_change()
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] Virtual I2C adapter and I2C external simulator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,40 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Xie Yongji <xieyongji@baidu.com>,
- dgilbert@redhat.com, ehabkost@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Ernest Esene <eroken1@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xie Yongji <xieyongji@baidu.com>
 
-We will call virtio_set_status() on virtio_vmstate_change().
-The "started" flag should not be changed in this case. Otherwise,
-we may get an incorrect value when we set "started" flag but
-not set DRIVER_OK in source VM.
+--9ADF8FXzFeE7X4jE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Xie Yongji <xieyongji@baidu.com>
----
- hw/virtio/virtio.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+On Thu, Jun 13, 2019 at 10:53:16AM -0700, Rahul Govind wrote:
+> Hi Everyone,
+>=20
+> I'm working on a project that involves building on top of existing QEMU
+> work, and I'm trying to virtualize I2C devices that are shared between
+> multiple VMs. I've been reading QEMU documentation and source code to get=
+ a
+> better idea of how to add something like this to QEMU (since it doesn't
+> look like something similar is already present) but I'm not sure how to
+> proceed. I do have a few ideas and I would be grateful if anyone could gi=
+ve
+> me feedback on them or suggestions for alternative solutions.
+>=20
+> More specifically, I wish to virtualize a couple of devices that sit on t=
+he
+> I2C bus. However, directly virtualizing the devices doesn't seem feasible
+> since there are many other devices like multiplexers on the way to these
+> devices. Also, what we need is to handle is just reads/write/ioctls on
+> /dev/i2c-N.
+>=20
+> I was wondering if there is a way to create a device that
+> - 1) Emulates an I2C adapter, say /dev/i2c-0.
+> - 2) Handles any reads/writes/ioctls sent to /dev/i2c-0, reformats any
+> ioctls as IO, and then sends this to a simulator on the host.
+>=20
+> This approach is just based on the ipmi interface and ipmi-bmc-extern
+> device already present in QEMU, where ipmi-bmc-extern can communicate
+> through a chardev with a simulator running on the host. Having a simulator
+> on the host would be nice to have since it lets us write the simulator in=
+ a
+> higher level language, and as previously mentioned, we have a few cases
+> where multiple VMs share the same I2C device. However, I'm not sure if th=
+is
+> even makes sense in the case of I2C.
+>=20
+> If this approach doesn't make sense, what method would you recommend to
+> have virtual I2C devices which are shared between multiple VMs?
+>=20
+> Any suggestions or guidance is much appreciated!
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index b4301f9e02..9af2e339af 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -1163,7 +1163,10 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val)
-         }
-     }
- 
--    virtio_set_started(vdev, val & VIRTIO_CONFIG_S_DRIVER_OK);
-+    if ((vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) !=
-+        (val & VIRTIO_CONFIG_S_DRIVER_OK)) {
-+        virtio_set_started(vdev, val & VIRTIO_CONFIG_S_DRIVER_OK);
-+    }
- 
-     if (k->set_status) {
-         k->set_status(vdev, val);
--- 
-2.17.1
+Hi Rahul,
+A good rule of thumb is that if it's possible in real hardware then it
+can be emulated.  So in this case the question is whether an I2C device
+can be accessed by multiple bus masters.  The answer seems to be yes:
+https://www.i2c-bus.org/multimaster/
 
+Ernest recently posted patches to add a chardev to QEMU that
+reads/writes to a host /dev/i2c-0 device.  What you are describing is a
+little different but related.
+
+In theory it is possible to define an I2C-over-socket protocol (for
+example a UNIX Domain Socket) so that an external process can simulate
+an I2C device.  QEMU will emulate the I2C controller and forward bus
+transactions to the external process.
+
+If you want multi-master I2C then the external process needs to accept
+multiple connections so that more than one QEMU can connect at
+simultaneously.
+
+Stefan
+
+--9ADF8FXzFeE7X4jE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0DaWwACgkQnKSrs4Gr
+c8jENgf/d74uzD0Af1b4E39R2D1gBkGG+LMabD/5IcgZ0ofxg7fqP5tgcmUmGHrf
+koSllvjLNS0FFjc4TjI6/ELroUerkugjYKTYERIPtV8Jez0kqbtNCuskVbeSr3Zu
+w3miUXN5Nwyh/We6KK7+6doVrUepodVsoIX2ivQA8f62IBsYWMcWtY4FoThG+vlL
+GYHaIuhoKUrebJ/ryYHm9G6GTu7pjxz6l5C0lhyjz2iAPYLf8PyF5KP9/7NbeUyJ
+wWKRFOg/uPn01V+KXAKYg24eiMl+FKAUuXBZSh43r1cBfvzX/NzaX89ZXJJTJAkc
+3fkYFprxJ/ME6m5pUv5CWFK9cvgZpg==
+=dAJw
+-----END PGP SIGNATURE-----
+
+--9ADF8FXzFeE7X4jE--
 
