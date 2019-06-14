@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9245F45FA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:54:15 +0200 (CEST)
-Received: from localhost ([::1]:51734 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF4D45FA6
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:54:32 +0200 (CEST)
+Received: from localhost ([::1]:51738 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmek-0008KB-Pe
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:54:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46226)
+	id 1hbmf1-0000WV-A3
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46291)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbmRY-0001ZN-Iy
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:38 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbmRd-0001dF-F0
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbmRV-0005jO-KH
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59548)
+ (envelope-from <mreitz@redhat.com>) id 1hbmRc-0005ol-AQ
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44781)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbmRR-0005bk-49; Fri, 14 Jun 2019 09:40:29 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hbmRW-0005jG-Bj; Fri, 14 Jun 2019 09:40:34 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5837D3086202;
- Fri, 14 Jun 2019 13:40:23 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B45D72EED2D;
+ Fri, 14 Jun 2019 13:40:25 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E43635D9D2;
- Fri, 14 Jun 2019 13:40:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 426507F464;
+ Fri, 14 Jun 2019 13:40:25 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 14 Jun 2019 15:40:01 +0200
-Message-Id: <20190614134021.32486-1-mreitz@redhat.com>
+Date: Fri, 14 Jun 2019 15:40:02 +0200
+Message-Id: <20190614134021.32486-2-mreitz@redhat.com>
+In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
+References: <20190614134021.32486-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 14 Jun 2019 13:40:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Fri, 14 Jun 2019 13:40:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 00/20] Block patches
+Subject: [Qemu-devel] [PULL 01/20] blockdev-backup: don't check aio_context
+ too early
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,84 +60,53 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 5ec2eca83dc478ddf24077e02a8b34dd26cd3f=
-f9:
+From: John Snow <jsnow@redhat.com>
 
-  Merge remote-tracking branch 'remotes/awilliam/tags/vfio-updates-201906=
-13.0' into staging (2019-06-14 09:33:55 +0100)
+in blockdev_backup_prepare, we check to make sure that the target is
+associated with a compatible aio context. However, do_blockdev_backup is
+called later and has some logic to move the target to a compatible
+aio_context. The transaction version will fail certain commands
+needlessly early as a result.
 
-are available in the Git repository at:
+Allow blockdev_backup_prepare to simply call do_blockdev_backup, which
+will ultimately decide if the contexts are compatible or not.
 
-  https://github.com/XanClic/qemu.git tags/pull-block-2019-06-14
+Note: the transaction version has always disallowed this operation since
+its initial commit bd8baecd (2014), whereas the version of
+qmp_blockdev_backup at the time, from commit c29c1dd312f, tried to
+enforce the aio_context switch instead. It's not clear, and I can't see
+from the mailing list archives at the time, why the two functions take a
+different approach. It wasn't until later in efd7556708b (2016) that the
+standalone version tried to determine if it could set the context or
+not.
 
-for you to fetch changes up to 21c1ce592a144188dfe59b9e156a97da412a59a2:
+Reported-by: aihua liang <aliang@redhat.com>
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1683498
+Signed-off-by: John Snow <jsnow@redhat.com>
+Message-id: 20190523170643.20794-2-jsnow@redhat.com
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ blockdev.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-  iotests: Test qemu-img convert -C --salvage (2019-06-14 15:09:42 +0200)
-
-----------------------------------------------------------------
-Block patches:
-- Allow blockdev-backup from nodes that are not in qemu's main AIO
-  context to newly added nodes
-- Add salvaging mode to qemu-img convert
-- Minor fixes to tests, documentation, and for less Valgrind annoyance
-
-----------------------------------------------------------------
-Andrey Shinkevich (1):
-  hw/block/fdc: floppy command FIFO memory initialization
-
-John Snow (6):
-  blockdev-backup: don't check aio_context too early
-  iotests.py: do not use infinite waits
-  QEMUMachine: add events_wait method
-  iotests.py: rewrite run_job to be pickier
-  iotests: add iotest 256 for testing blockdev-backup across iothread
-    contexts
-  event_match: always match on None value
-
-Max Reitz (12):
-  iotests: Filter 175's allocation information
-  iotests: Fix intermittent failure in 219
-  qemu-img: Fix options leakage in img_rebase()
-  qapi/block-core: Overlays are not snapshots
-  blockdev: Overlays are not snapshots
-  qemu-img: Move quiet into ImgConvertState
-  qemu-img: Add salvaging mode to convert
-  blkdebug: Add @iotype error option
-  blkdebug: Add "none" event
-  blkdebug: Inject errors on .bdrv_co_block_status()
-  iotests: Test qemu-img convert --salvage
-  iotests: Test qemu-img convert -C --salvage
-
-Vladimir Sementsov-Ogievskiy (1):
-  iotests: restrict 254 to support only qcow2
-
- qapi/block-core.json          |  53 ++++++++---
- block/blkdebug.c              |  60 ++++++++++--
- blockdev.c                    |  14 +--
- hw/block/fdc.c                |   1 +
- qemu-img.c                    | 106 +++++++++++++++------
- python/qemu/__init__.py       |  67 ++++++++++----
- qemu-img-cmds.hx              |   4 +-
- qemu-img.texi                 |   4 +
- tests/qemu-iotests/082        |   1 +
- tests/qemu-iotests/082.out    |   3 +
- tests/qemu-iotests/085.out    |  10 +-
- tests/qemu-iotests/175        |  26 +++++-
- tests/qemu-iotests/175.out    |   8 +-
- tests/qemu-iotests/219        |  13 ++-
- tests/qemu-iotests/251        | 170 ++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/251.out    |  43 +++++++++
- tests/qemu-iotests/254        |   2 +
- tests/qemu-iotests/256        | 122 ++++++++++++++++++++++++
- tests/qemu-iotests/256.out    | 119 ++++++++++++++++++++++++
- tests/qemu-iotests/group      |   2 +
- tests/qemu-iotests/iotests.py |  60 +++++++-----
- 21 files changed, 772 insertions(+), 116 deletions(-)
- create mode 100755 tests/qemu-iotests/251
- create mode 100644 tests/qemu-iotests/251.out
- create mode 100755 tests/qemu-iotests/256
- create mode 100644 tests/qemu-iotests/256.out
-
+diff --git a/blockdev.c b/blockdev.c
+index 3f44b891eb..fdafa173cc 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1876,10 +1876,6 @@ static void blockdev_backup_prepare(BlkActionState=
+ *common, Error **errp)
+     }
+=20
+     aio_context =3D bdrv_get_aio_context(bs);
+-    if (aio_context !=3D bdrv_get_aio_context(target)) {
+-        error_setg(errp, "Backup between two IO threads is not implement=
+ed");
+-        return;
+-    }
+     aio_context_acquire(aio_context);
+     state->bs =3D bs;
+=20
 --=20
 2.21.0
 
