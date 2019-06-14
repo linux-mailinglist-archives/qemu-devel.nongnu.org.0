@@ -2,92 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90741459AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:55:34 +0200 (CEST)
-Received: from localhost ([::1]:49702 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A173E459B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:57:39 +0200 (CEST)
+Received: from localhost ([::1]:49734 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbivl-0001mq-Ku
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:55:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41172)
+	id 1hbixm-0004mn-Is
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42054)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hbif2-0005Fs-2B
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:38:18 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hbihy-00088I-Hs
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:41:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hbiez-0003eF-Vy
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:38:15 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:55046)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hbieo-0003Tq-7c; Fri, 14 Jun 2019 05:38:02 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5E9Y7Tc019604;
- Fri, 14 Jun 2019 09:37:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : message-id :
- content-type : mime-version : subject : date : in-reply-to : cc : to :
- references; s=corp-2018-07-02;
- bh=/HqfolA0l45zKFTf6lfKoXhQAx3ZKwmNgxpRyQxQeSo=;
- b=VIzbvLleq/33IrB2lhgrGJURB+3xrmOzu3gfUI/CAF4I4mvCfEn1qnRDH3zVW15Jawdj
- PbKS8bAZ6w7Y2vqnmcJPAuCsvIuo9ufVah1Tq4v52F+R5yCObchLwxKlUmt8Snks19a3
- 9jAtaKXYTGV4CH6E4md5GGozssxmNYKK9KjHO8teYGOyeC1DKy87+eMI+e8C0PrgYa3h
- bIoa38g8X4urQ1Is2MM7MrAaGJyRDncNxTsUb/mtuZnJ30dxWH1OPcXBgoMQA9jFeo5b
- OuUxwy/sRU7TaInUNY1KpmDwAxoMUlD3981mKBodt2mQhazY3K3fXWbeLuLI3/kXpkoN Aw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2t04ynxd5d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Jun 2019 09:37:57 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5E9bll1008013;
- Fri, 14 Jun 2019 09:37:56 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2t1jpk27nw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 14 Jun 2019 09:37:56 +0000
-Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5E9bsPc024835;
- Fri, 14 Jun 2019 09:37:54 GMT
-Received: from [10.0.0.38] (/79.179.64.139)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 14 Jun 2019 02:37:54 -0700
-From: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-Id: <985C60F2-999C-44C6-B8BC-B5603DD0F716@oracle.com>
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Date: Fri, 14 Jun 2019 12:37:38 +0300
-In-Reply-To: <20190614044310.wxnkwxagr23d5cbt@sirius.home.kraxel.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
- <20190612130650.xftda65kgnsefyvs@sirius.home.kraxel.org>
- <A3F8BD49-3C35-4A07-8DE2-85F7CC293DC9@oracle.com>
- <20190612191817.5bilt2abif2xvcbv@sirius.home.kraxel.org>
- <02844D7D-ED79-4744-A203-8E713DE7A717@oracle.com>
- <20190613093850.5k7prawn6x4qt3fi@sirius.home.kraxel.org>
- <730C65DE-A9B4-4553-B6A0-7A3B81A1FA12@oracle.com>
- <20190614044310.wxnkwxagr23d5cbt@sirius.home.kraxel.org>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9287
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906140080
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9287
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906140079
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [QEMU] [PATCH v2 0/8] Add Qemu to SeaBIOS LCHS
- interface
+ (envelope-from <palmer@dabbelt.com>) id 1hbihx-000616-FS
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:41:18 -0400
+Received: from mail-yw1-f68.google.com ([209.85.161.68]:33068)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hbihx-0005zN-4w
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:41:17 -0400
+Received: by mail-yw1-f68.google.com with SMTP id n21so840782ywh.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 02:41:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=tnoOKx5YEaCxTRjixNQN8WLain0g/428iMlYG1AWqIc=;
+ b=kaeKpxMeFIEojB9lQeyR51BX6EFYJ4sBPU9B+AWshnIrUgRChn3YbeKAbhTF06UjZM
+ W74MrXzhfjiwkjnktENI+AmJycq95ZyXXjWuVmJNweFFs29E5OP2ELDEdyHSR4QBxKpj
+ 1GgB/Urn84uDxURiHPEGBbLFNinHXu0p6hIi6LlpphzVycsrMg3DpkpSOa6ZOoz96EbL
+ ItFDrnGYhTfGwaXpujUropDtCdjawrXMgE40t0QJxsuLUd0wExfjLp26M5SMqHS0mDFF
+ DwHZg1PCUJI2nVoLYXJMu+Th7qagCTCMlKz8A3GZmuUUKEbATKBgv8QM2SGMQktKDMDY
+ 4Kbw==
+X-Gm-Message-State: APjAAAUIaVuMSIhEBUYUVjdJzJZByE5ELPcckCN2Ep2/mmSBakkYv+7H
+ 5qcm2woOf5ExRzFrXB0v5+SpmNk7qtbGqQ==
+X-Google-Smtp-Source: APXvYqyXYTHKSguw7s+WIwzcU7inKgH1NhKOIq7G1TVFv4QUoD4s2kXzhklpPS8YcJQ0XkcciIQ8dw==
+X-Received: by 2002:a0d:e60a:: with SMTP id p10mr22784386ywe.370.1560505274951; 
+ Fri, 14 Jun 2019 02:41:14 -0700 (PDT)
+Received: from localhost ([83.137.6.186])
+ by smtp.gmail.com with ESMTPSA id s5sm690942ywe.92.2019.06.14.02.41.13
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 14 Jun 2019 02:41:14 -0700 (PDT)
+Date: Fri, 14 Jun 2019 02:41:14 -0700 (PDT)
+X-Google-Original-Date: Fri, 14 Jun 2019 02:27:47 PDT (-0700)
+In-Reply-To: <d4664adffe008df43f2a0760dd4e2b9cb834b652.1558131003.git.alistair.francis@wdc.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-bd7fc2fb-94f7-4afa-b03c-4f8674d5ade4@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.161.68
+Subject: Re: [Qemu-devel] [PATCH v1 3/4] disas/riscv: Fix `rdinstreth`
+ constraint
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,85 +67,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, QEMU <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Kevin O'Connor <kevin@koconnor.net>,
- liran.alon@oracle.com, Karl Heubaum <karl.heubaum@oracle.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 17 May 2019 15:11:04 PDT (-0700), Alistair Francis wrote:
+> From: Michael Clark <mjc@sifive.com>
+>
+> The constraint for `rdinstreth` was comparing the csr number to 0xc80,
+> which is `cycleh` instead. Fix this.
+>
+> Author: Wladimir J. van der Laan <laanwj@gmail.com>
 
+I'm not sure what this tag is supposed to mean.  If this is the actual author
+of the patch, then shouldn't it also have a SOB?
 
-> On 14 Jun 2019, at 7:43, Gerd Hoffmann <kraxel@redhat.com> wrote:
->=20
->  Hi,
->=20
->> Can there be a guest that will fail the MBR in such a way? Yes.
->> Look at the following MBR partition table of a Windows XP guest in =
-our production
->> environment:
->>=20
->> Disk size in sectors: 16777216
->>=20
->> Binary (only one partition 16 bytes): 80 01 01 00 07 fe ff ff 3f 00 =
-00 00 d5 ea ff 00
->> Start: (0, 1, 1, 63)
->> End: (1023, 254, 63, 16771859)
->>=20
->> As can be easily seen, any MBR guessing algorithm should guess:
->>=20
->> 	255 heads (since a value of 254 appears), 63 spt (since a value =
-of 63 appears)
->>=20
->> Turns out that this image does not work with 255, 63 but actually =
-requires
->>=20
->> 	16 heads, 63 spt
->>=20
->> to boot.
->>=20
->> So relying on MBR partitions alone is not always enough and sometimes =
-manual intervention
->> is required.
->=20
-> Ok, given that seabios has no setup any manual configuration needs to =
-be done via qemu.
->=20
-> But why do we need a new interface for that?  IDE can pass the =
-geometry
-> to the guest.  virtio-blk has support too (VIRTIO_BLK_F_GEOMETRY).
-> Likewise scsi (MODE_PAGE_HD_GEOMETRY).  So this should be doable =
-without
-> any qemu changes.
-
-This was indeed considered (all 3 methods) but it has the following =
-issues:
-
-Physical geometries of devices must now also be logical geometries with =
-translation=3Dnone.
-When the OS will query these devices - It will now see different =
-physical geometries, adapted to be logical geometries.
-I=E2=80=99m not sure even how to implement this without breaking =
-existing compatibility - since we don=E2=80=99t want to affect logical =
-geometries of currently used guests.
-MODE_PAGE_HD_GEOMETRY does not contain the spts, only cylinders (as 3 =
-byte number) and heads (as 1 byte number) and computes the spts using: =
-number_of_total_sectors / (heads * cylinders), this means that qemu now =
-must report number_of_total_sectors as heads * cylinders * spt for =
-SeaBIOS to correctly receive the number of spts - this is not optimal =
-since number_of_total_sectors can not reflect the real amount of sectors =
-in the disk which should be reported from CDB_CMD_READ_CAPACITY.
-Moving a scsi-hd/virtio-blk with 255 physical heads to ide-hd, we will =
-still need to report 255 heads - this is possible since a whole byte can =
-be used in the =E2=80=9Cide identify=E2=80=9D command, but goes against =
-the spec of a maximum of 16 heads for IDE.
-
-Overall this approach is much more complicated.
-
-Sam
-
->=20
-> cheers,
->  Gerd
->=20
+> Signed-off-by: Michael Clark <mjc@sifive.com>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  disas/riscv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index 3ab4586f0a..c2578a3c4b 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -614,7 +614,7 @@ static const rvc_constraint rvcc_rdtime[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc01, r
+>  static const rvc_constraint rvcc_rdinstret[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc02, rvc_end };
+>  static const rvc_constraint rvcc_rdcycleh[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc80, rvc_end };
+>  static const rvc_constraint rvcc_rdtimeh[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc81, rvc_end };
+> -static const rvc_constraint rvcc_rdinstreth[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc80, rvc_end };
+> +static const rvc_constraint rvcc_rdinstreth[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc82, rvc_end };
+>  static const rvc_constraint rvcc_frcsr[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x003, rvc_end };
+>  static const rvc_constraint rvcc_frrm[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x002, rvc_end };
+>  static const rvc_constraint rvcc_frflags[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x001, rvc_end };
 
