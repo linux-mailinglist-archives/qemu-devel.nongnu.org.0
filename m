@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 464F44656B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:12:21 +0200 (CEST)
-Received: from localhost ([::1]:53640 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906DA46598
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:22:03 +0200 (CEST)
+Received: from localhost ([::1]:53714 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbpkS-0008HY-EA
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53590)
+	id 1hbptq-0006Lm-NP
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:22:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53943)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hbphH-0005gB-EY
+ (envelope-from <clg@kaod.org>) id 1hbphH-0005sJ-7Y
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:09:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hbpYE-0007NW-6R
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:59:44 -0400
-Received: from 5.mo69.mail-out.ovh.net ([46.105.43.105]:60773)
+ (envelope-from <clg@kaod.org>) id 1hbpYK-0007Sd-8J
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:59:49 -0400
+Received: from 1.mo69.mail-out.ovh.net ([178.33.251.173]:38721)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hbpYD-0007LT-UR
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:59:42 -0400
-Received: from player692.ha.ovh.net (unknown [10.109.146.32])
- by mo69.mail-out.ovh.net (Postfix) with ESMTP id DC0775C7FE
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 18:59:38 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hbpYI-0007Qb-W8
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:59:47 -0400
+Received: from player692.ha.ovh.net (unknown [10.108.35.103])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id A3BC15C856
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 18:59:44 +0200 (CEST)
 Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
  (Authenticated sender: clg@kaod.org)
- by player692.ha.ovh.net (Postfix) with ESMTPSA id 568DA6DB37E4;
- Fri, 14 Jun 2019 16:59:33 +0000 (UTC)
+ by player692.ha.ovh.net (Postfix) with ESMTPSA id B6B616DB37F1;
+ Fri, 14 Jun 2019 16:59:38 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Fri, 14 Jun 2019 18:59:19 +0200
-Message-Id: <20190614165920.12670-2-clg@kaod.org>
+Date: Fri, 14 Jun 2019 18:59:20 +0200
+Message-Id: <20190614165920.12670-3-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190614165920.12670-1-clg@kaod.org>
 References: <20190614165920.12670-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 15166434698302622694
+X-Ovh-Tracer-Id: 15168123545457298406
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudeiuddguddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.43.105
-Subject: [Qemu-devel] [PATCH 1/2] spapr/xive: rework the mapping the KVM
- memory regions
+X-Received-From: 178.33.251.173
+Subject: [Qemu-devel] [PATCH 2/2] spapr/xive: simplify
+ spapr_irq_init_device() to remove the emulated init
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,221 +61,130 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Today, the interrupt device is fully initialized at reset when the CAS
-negotiation process has completed. Depending on the KVM capabilities,
-the SpaprXive memory regions (ESB, TIMA) are initialized with a host
-MMIO backend or a QEMU emulated backend. This results in a complex
-initialization sequence partially done at realize and later at reset,
-and some memory region leaks.
-
-To simplify this sequence and to remove of the late initialization of
-the emulated device which is required to be done only once, we
-introduce new memory regions specific for KVM. These regions are
-mapped as overlaps on top of the emulated device to make use of the
-host MMIOs. Also provide proper cleanups of these regions when the
-XIVE KVM device is destroyed to fix the leaks.
+The init_emu() handles are now empty. Remove them and rename
+spapr_irq_init_device() to spapr_irq_init_kvm().
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/spapr_xive.h |  2 +-
- include/hw/ppc/xive.h       |  1 +
- hw/intc/spapr_xive.c        | 38 ++++++++++---------------------------
- hw/intc/spapr_xive_kvm.c    | 21 +++++++++++---------
- hw/ppc/spapr_irq.c          |  1 -
- 5 files changed, 24 insertions(+), 39 deletions(-)
+ include/hw/ppc/spapr_irq.h |  1 -
+ hw/ppc/spapr_irq.c         | 20 +++-----------------
+ 2 files changed, 3 insertions(+), 18 deletions(-)
 
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index b26befcf6b56..719714426524 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -42,6 +42,7 @@ typedef struct SpaprXive {
-     /* KVM support */
-     int           fd;
-     void          *tm_mmap;
-+    MemoryRegion  tm_mmio_kvm;
-     VMChangeStateEntry *change;
- } SpaprXive;
+diff --git a/include/hw/ppc/spapr_irq.h b/include/hw/ppc/spapr_irq.h
+index 14cab73c9c07..f965a58f8954 100644
+--- a/include/hw/ppc/spapr_irq.h
++++ b/include/hw/ppc/spapr_irq.h
+@@ -48,7 +48,6 @@ typedef struct SpaprIrq {
+     void (*reset)(SpaprMachineState *spapr, Error **errp);
+     void (*set_irq)(void *opaque, int srcno, int val);
+     const char *(*get_nodename)(SpaprMachineState *spapr);
+-    void (*init_emu)(SpaprMachineState *spapr, Error **errp);
+     void (*init_kvm)(SpaprMachineState *spapr, Error **errp);
+ } SpaprIrq;
 =20
-@@ -66,7 +67,6 @@ void spapr_xive_map_mmio(SpaprXive *xive);
-=20
- int spapr_xive_end_to_target(uint8_t end_blk, uint32_t end_idx,
-                              uint32_t *out_server, uint8_t *out_prio);
--void spapr_xive_init(SpaprXive *xive, Error **errp);
-=20
- /*
-  * KVM XIVE device helpers
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index a6ee7e831d8b..55c53c741776 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -197,6 +197,7 @@ typedef struct XiveSource {
-=20
-     /* KVM support */
-     void            *esb_mmap;
-+    MemoryRegion    esb_mmio_kvm;
-=20
-     XiveNotifier    *xive;
- } XiveSource;
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 58c2e5d890bd..3ae311d9ff7f 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -194,13 +194,6 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Moni=
-tor *mon)
-     }
- }
-=20
--void spapr_xive_map_mmio(SpaprXive *xive)
--{
--    sysbus_mmio_map(SYS_BUS_DEVICE(xive), 0, xive->vc_base);
--    sysbus_mmio_map(SYS_BUS_DEVICE(xive), 1, xive->end_base);
--    sysbus_mmio_map(SYS_BUS_DEVICE(xive), 2, xive->tm_base);
--}
--
- void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable)
- {
-     memory_region_set_enabled(&xive->source.esb_mmio, enable);
-@@ -305,6 +298,7 @@ static void spapr_xive_realize(DeviceState *dev, Erro=
-r **errp)
-         error_propagate(errp, local_err);
-         return;
-     }
-+    sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xsrc->esb_mmio);
-=20
-     /*
-      * Initialize the END ESB source
-@@ -318,6 +312,7 @@ static void spapr_xive_realize(DeviceState *dev, Erro=
-r **errp)
-         error_propagate(errp, local_err);
-         return;
-     }
-+    sysbus_init_mmio(SYS_BUS_DEVICE(xive), &end_xsrc->esb_mmio);
-=20
-     /* Set the mapping address of the END ESB pages after the source ESB=
-s */
-     xive->end_base =3D xive->vc_base + (1ull << xsrc->esb_shift) * xsrc-=
->nr_irqs;
-@@ -333,31 +328,18 @@ static void spapr_xive_realize(DeviceState *dev, Er=
-ror **errp)
-=20
-     qemu_register_reset(spapr_xive_reset, dev);
-=20
--    /* Define all XIVE MMIO regions on SysBus */
--    sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xsrc->esb_mmio);
--    sysbus_init_mmio(SYS_BUS_DEVICE(xive), &end_xsrc->esb_mmio);
--    sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xive->tm_mmio);
--}
--
--void spapr_xive_init(SpaprXive *xive, Error **errp)
--{
--    XiveSource *xsrc =3D &xive->source;
--
--    /*
--     * The emulated XIVE device can only be initialized once. If the
--     * ESB memory region has been already mapped, it means we have been
--     * through there.
--     */
--    if (memory_region_is_mapped(&xsrc->esb_mmio)) {
--        return;
--    }
--
-     /* TIMA initialization */
-     memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops, xi=
-ve,
-                           "xive.tima", 4ull << TM_SHIFT);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(xive), &xive->tm_mmio);
-=20
--    /* Map all regions */
--    spapr_xive_map_mmio(xive);
-+    /*
-+     * Map all regions. These will be enabled or disabled at reset and
-+     * can also be overridden by KVM memory regions if active
-+     */
-+    sysbus_mmio_map(SYS_BUS_DEVICE(xive), 0, xive->vc_base);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(xive), 1, xive->end_base);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(xive), 2, xive->tm_base);
- }
-=20
- static int spapr_xive_get_eas(XiveRouter *xrtr, uint8_t eas_blk,
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index b48f135838f2..5559f8bce5ef 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -728,8 +728,10 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **er=
-rp)
-         return;
-     }
-=20
--    memory_region_init_ram_device_ptr(&xsrc->esb_mmio, OBJECT(xsrc),
-+    memory_region_init_ram_device_ptr(&xsrc->esb_mmio_kvm, OBJECT(xsrc),
-                                       "xive.esb", esb_len, xsrc->esb_mma=
-p);
-+    memory_region_add_subregion_overlap(&xsrc->esb_mmio, 0,
-+                                        &xsrc->esb_mmio_kvm, 1);
-=20
-     /*
-      * 2. END ESB pages (No KVM support yet)
-@@ -744,8 +746,10 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **er=
-rp)
-         error_propagate(errp, local_err);
-         return;
-     }
--    memory_region_init_ram_device_ptr(&xive->tm_mmio, OBJECT(xive),
-+    memory_region_init_ram_device_ptr(&xive->tm_mmio_kvm, OBJECT(xive),
-                                       "xive.tima", tima_len, xive->tm_mm=
-ap);
-+    memory_region_add_subregion_overlap(&xive->tm_mmio, 0,
-+                                        &xive->tm_mmio_kvm, 1);
-=20
-     xive->change =3D qemu_add_vm_change_state_handler(
-         kvmppc_xive_change_state_handler, xive);
-@@ -771,9 +775,6 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
-p)
-     kvm_kernel_irqchip =3D true;
-     kvm_msi_via_irqfd_allowed =3D true;
-     kvm_gsi_direct_mapping =3D true;
--
--    /* Map all regions */
--    spapr_xive_map_mmio(xive);
- }
-=20
- void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
-@@ -795,13 +796,15 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error =
-**errp)
-     xsrc =3D &xive->source;
-     esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-=20
--    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 0);
-+    memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
-+    object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
-     munmap(xsrc->esb_mmap, esb_len);
-+    xsrc->esb_mmap =3D NULL;
-=20
--    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 1);
--
--    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 2);
-+    memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
-+    object_unparent(OBJECT(&xive->tm_mmio_kvm));
-     munmap(xive->tm_mmap, 4ull << TM_SHIFT);
-+    xive->tm_mmap =3D NULL;
-=20
-     /*
-      * When the KVM device fd is closed, the KVM device is destroyed
 diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 75654fc67aba..73e6f10da165 100644
+index 73e6f10da165..84b9b32fe40f 100644
 --- a/hw/ppc/spapr_irq.c
 +++ b/hw/ppc/spapr_irq.c
-@@ -413,7 +413,6 @@ static const char *spapr_irq_get_nodename_xive(SpaprM=
-achineState *spapr)
-=20
- static void spapr_irq_init_emu_xive(SpaprMachineState *spapr, Error **er=
-rp)
- {
--    spapr_xive_init(spapr->xive, errp);
+@@ -62,7 +62,7 @@ void spapr_irq_msi_reset(SpaprMachineState *spapr)
+     bitmap_clear(spapr->irq_map, 0, spapr->irq_map_nr);
  }
 =20
+-static void spapr_irq_init_device(SpaprMachineState *spapr,
++static void spapr_irq_init_kvm(SpaprMachineState *spapr,
+                                   SpaprIrq *irq, Error **errp)
+ {
+     MachineState *machine =3D MACHINE(spapr);
+@@ -88,8 +88,6 @@ static void spapr_irq_init_device(SpaprMachineState *sp=
+apr,
+         error_prepend(&local_err, "kernel_irqchip allowed but unavailabl=
+e: ");
+         warn_report_err(local_err);
+     }
+-
+-    irq->init_emu(spapr, errp);
+ }
+=20
+ /*
+@@ -224,7 +222,7 @@ static void spapr_irq_reset_xics(SpaprMachineState *s=
+papr, Error **errp)
+ {
+     Error *local_err =3D NULL;
+=20
+-    spapr_irq_init_device(spapr, &spapr_irq_xics, &local_err);
++    spapr_irq_init_kvm(spapr, &spapr_irq_xics, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+@@ -236,10 +234,6 @@ static const char *spapr_irq_get_nodename_xics(Spapr=
+MachineState *spapr)
+     return XICS_NODENAME;
+ }
+=20
+-static void spapr_irq_init_emu_xics(SpaprMachineState *spapr, Error **er=
+rp)
+-{
+-}
+-
+ static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **er=
+rp)
+ {
+     if (kvm_enabled()) {
+@@ -267,7 +261,6 @@ SpaprIrq spapr_irq_xics =3D {
+     .reset       =3D spapr_irq_reset_xics,
+     .set_irq     =3D spapr_irq_set_irq_xics,
+     .get_nodename =3D spapr_irq_get_nodename_xics,
+-    .init_emu    =3D spapr_irq_init_emu_xics,
+     .init_kvm    =3D spapr_irq_init_kvm_xics,
+ };
+=20
+@@ -385,7 +378,7 @@ static void spapr_irq_reset_xive(SpaprMachineState *s=
+papr, Error **errp)
+         spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
+     }
+=20
+-    spapr_irq_init_device(spapr, &spapr_irq_xive, &local_err);
++    spapr_irq_init_kvm(spapr, &spapr_irq_xive, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+@@ -411,10 +404,6 @@ static const char *spapr_irq_get_nodename_xive(Spapr=
+MachineState *spapr)
+     return spapr->xive->nodename;
+ }
+=20
+-static void spapr_irq_init_emu_xive(SpaprMachineState *spapr, Error **er=
+rp)
+-{
+-}
+-
  static void spapr_irq_init_kvm_xive(SpaprMachineState *spapr, Error **er=
 rp)
+ {
+     if (kvm_enabled()) {
+@@ -446,7 +435,6 @@ SpaprIrq spapr_irq_xive =3D {
+     .reset       =3D spapr_irq_reset_xive,
+     .set_irq     =3D spapr_irq_set_irq_xive,
+     .get_nodename =3D spapr_irq_get_nodename_xive,
+-    .init_emu    =3D spapr_irq_init_emu_xive,
+     .init_kvm    =3D spapr_irq_init_kvm_xive,
+ };
+=20
+@@ -624,7 +612,6 @@ SpaprIrq spapr_irq_dual =3D {
+     .reset       =3D spapr_irq_reset_dual,
+     .set_irq     =3D spapr_irq_set_irq_dual,
+     .get_nodename =3D spapr_irq_get_nodename_dual,
+-    .init_emu    =3D NULL, /* should not be used */
+     .init_kvm    =3D NULL, /* should not be used */
+ };
+=20
+@@ -840,6 +827,5 @@ SpaprIrq spapr_irq_xics_legacy =3D {
+     .reset       =3D spapr_irq_reset_xics,
+     .set_irq     =3D spapr_irq_set_irq_xics,
+     .get_nodename =3D spapr_irq_get_nodename_xics,
+-    .init_emu    =3D spapr_irq_init_emu_xics,
+     .init_kvm    =3D spapr_irq_init_kvm_xics,
+ };
 --=20
 2.21.0
 
