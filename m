@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96BE45889
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:24:39 +0200 (CEST)
-Received: from localhost ([::1]:49572 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06814587D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:22:44 +0200 (CEST)
+Received: from localhost ([::1]:49550 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbiRq-0002CH-VB
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:24:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37647)
+	id 1hbiPz-0007t2-0E
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:22:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37747)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1hbiMC-0005Rm-Of
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:18:50 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hbiMP-0005gr-6z
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:19:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hbiMB-0002L8-JW
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:18:48 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41546)
+ (envelope-from <palmer@dabbelt.com>) id 1hbiMN-0002Wq-FM
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:19:01 -0400
+Received: from mail-yb1-f193.google.com ([209.85.219.193]:41978)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hbiMB-0002Iv-CU
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:18:47 -0400
-Received: by mail-wr1-x443.google.com with SMTP id c2so1705691wrm.8
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 02:18:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=iLcYT359pj3wfIaMSCFjPG73QqWy8nKrRZs2WGLbKgM=;
- b=LFG0ferYwvUl1G1vWRnjbsiYBPvXtekGb/r632Gk5e+BRMFBab+b0V0c/efxxAf3em
- s9CtvI7tYMPUPcUfXxkES6Zug42PY7w54HTNKHFYIX6VMARse+CmS/gM1XI2EVjWDvE9
- 3iB7P+I3nigorleQ+nFL3criQt50iN/sUvoXacSNfoUPNWiQL9KygAekREHG+WK6dAw9
- fmqqUtjvhAqNWWfyeaQ1TeYoe+V1pZUFllN/v+kV2Bepf7AsxeizO8QI1nNJsJoEiT3c
- yX3R9k+tkDLmWiwCkH8V2kSZ3i1r2gwuawp+WsVUc6WWkstU+lAvf/HcrTRG6aeYyLLs
- CAvQ==
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hbiMN-0002WL-AE
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:18:59 -0400
+Received: by mail-yb1-f193.google.com with SMTP id d2so795135ybh.8
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 02:18:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=iLcYT359pj3wfIaMSCFjPG73QqWy8nKrRZs2WGLbKgM=;
- b=QfYx0+v+5AnEisezfIYCVTV7oXxAgM5ADFQ/bkxrskg0oqdirdsZUH70lnKm72Lstr
- iUbmU7aBdbBGtlVHmuQTdXQ5lxHPfBFg6cDO/PpP9aB4zaUA5MQ6qvqqQwh4ufs2B9Br
- IODWBoFCSzgjixGjrA3iHHc21bYBvbNhBUcI08Ni6VoPWYqd9+ooY9kYPGK1S4nLn/E2
- wyeJPD+G2iRqZRZWVXa7Xpb7MeNgy3f0oehPSlmV44YApFcoE72miFKhyse/DWMm5x90
- uyp5J6lb5huBWao/qbKdG7TC0moogkD9W51vtpyVXEHUCclZOGG2QAP4rjYylnXLhiKa
- iqFg==
-X-Gm-Message-State: APjAAAVCe+Qn2IkMwjgG7gxGEBzeEzgUCfWNTDYTV9M8X7qN0d6dakYV
- S/9hZYzxFU3S3IsjJXofMck=
-X-Google-Smtp-Source: APXvYqyDi7YnoKTY7CmjpGAAZoIpTxw0c7+YRh2Wh7rGJfbalff1wlRgbvwrHu8g84dsuApTaaBgeg==
-X-Received: by 2002:adf:ba47:: with SMTP id t7mr7708415wrg.175.1560503925967; 
- Fri, 14 Jun 2019 02:18:45 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id c11sm1563431wrs.97.2019.06.14.02.18.45
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=MKSedTkp3zp/P8418U7boPHVAMWNJ3vSIOJ9sfGhz5Y=;
+ b=DRQIVLhx835mIyqGGcZ0CuOhK72JrDbQuRE+uhCy/O0S+FrEn7kH/+EGpE1tXiSCgY
+ twOXvr+2kFYd8vNbGoSM9HJk1thkFgqb+0TRPcK/vgyDEEGclA9xy/2AU25/STkDPVuB
+ 0jg/MJuj9hRHUmDS3pBwWou+bZA/7iCtP5WmSD8GWAXO7ZMwcqXQc3R0HeTDNx3urPSB
+ oafiSHDMpQFBOcYyaSk8kx6g8HGMzJ3FlyoembOfH3WTgQS7WSldzbWhwSmP81zEq5aZ
+ ldGPmhpiTAb0Cw4A79FryZZ0GYebZ/mmy4QuwAH+A2ulHheX6ZpUTO6vMEz8ZeUUn6Iu
+ u7cg==
+X-Gm-Message-State: APjAAAXmXuj1aB7XiplkZciiG4Kf2AC2yU/FWb/CmSbgmRSboXZJvNds
+ 8tdYQEX30kmvzTNfK+PvML0eXCCNUwDeig==
+X-Google-Smtp-Source: APXvYqzKyum+4MrYgB/8cBiGlOeh9rNFVhcF3bdMP/Y4kcdxxVsnPAQb5Pwgapbmt+44TaehdrkfvA==
+X-Received: by 2002:a25:9d84:: with SMTP id v4mr44655139ybp.88.1560503937950; 
+ Fri, 14 Jun 2019 02:18:57 -0700 (PDT)
+Received: from localhost ([83.137.6.186])
+ by smtp.gmail.com with ESMTPSA id 205sm621229yws.46.2019.06.14.02.18.56
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 02:18:45 -0700 (PDT)
-Date: Fri, 14 Jun 2019 10:18:41 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-ID: <20190614091841.GE10957@stefanha-x1.localdomain>
-References: <1560299717-177734-1-git-send-email-raphael.norwitz@nutanix.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZInfyf7laFu/Kiw7"
-Content-Disposition: inline
-In-Reply-To: <1560299717-177734-1-git-send-email-raphael.norwitz@nutanix.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH] vhost-user-scsi: prevent using
- uninitialized vqs
+ Fri, 14 Jun 2019 02:18:57 -0700 (PDT)
+Date: Fri, 14 Jun 2019 02:18:57 -0700 (PDT)
+X-Google-Original-Date: Fri, 14 Jun 2019 02:18:48 PDT (-0700)
+In-Reply-To: <4e552352bb35b1f4b086e260be369464df7c490e.1558131003.git.alistair.francis@wdc.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-96573692-b788-4185-85a6-435e87a7d7eb@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.219.193
+Subject: Re: [Qemu-devel] [PATCH v1 2/4] disas/riscv: Disassemble reserved
+ compressed encodings as illegal
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,51 +67,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---ZInfyf7laFu/Kiw7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 11, 2019 at 05:35:17PM -0700, Raphael Norwitz wrote:
-> Of the 3 virtqueues, seabios only sets cmd, leaving ctrl
-> and event without a physical address. This can cause
-> vhost_verify_ring_part_mapping to return ENOMEM, causing
-> the following logs:
->=20
-> qemu-system-x86_64: Unable to map available ring for ring 0
-> qemu-system-x86_64: Verify ring failure on region 0
->=20
-> The qemu commit e6cc11d64fc998c11a4dfcde8fda3fc33a74d844
-> has already resolved the issue for vhost scsi devices but
-> the fix was never applied to vhost-user scsi devices.
->=20
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+On Fri, 17 May 2019 15:11:01 PDT (-0700), Alistair Francis wrote:
+> From: Michael Clark <mjc@sifive.com>
+>
+> Due to the design of the disassembler, the immediate is not
+> known during decoding of the opcode; so to handle compressed
+> encodings with reserved immediate values (non-zero), we need
+> to add an additional check during decompression to match
+> reserved encodings with zero immediates and translate them
+> into the illegal instruction.
+>
+> The following compressed opcodes have reserved encodings with
+> zero immediates: c.addi4spn, c.addi, c.lui, c.addi16sp, c.srli,
+> c.srai, c.andi and c.slli
+>
+> Signed-off-by: Michael Clark <mjc@sifive.com>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  hw/scsi/vhost-user-scsi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  disas/riscv.c | 51 ++++++++++++++++++++++++++++++++++-----------------
+>  1 file changed, 34 insertions(+), 17 deletions(-)
+>
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index 59a9b0437a..3ab4586f0a 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -504,14 +504,19 @@ typedef struct {
+>      const rvc_constraint *constraints;
+>  } rv_comp_data;
+>
+> +enum {
+> +    rvcd_imm_nz = 0x1
+> +};
+> +
+>  typedef struct {
+>      const char * const name;
+>      const rv_codec codec;
+>      const char * const format;
+>      const rv_comp_data *pseudo;
+> -    const int decomp_rv32;
+> -    const int decomp_rv64;
+> -    const int decomp_rv128;
+> +    const short decomp_rv32;
+> +    const short decomp_rv64;
+> +    const short decomp_rv128;
+> +    const short decomp_data;
+>  } rv_opcode_data;
+>
+>  /* register names */
+> @@ -1011,7 +1016,7 @@ const rv_opcode_data opcode_data[] = {
+>      { "fcvt.q.lu", rv_codec_r_m, rv_fmt_rm_frd_rs1, NULL, 0, 0, 0 },
+>      { "fmv.x.q", rv_codec_r, rv_fmt_rd_frs1, NULL, 0, 0, 0 },
+>      { "fmv.q.x", rv_codec_r, rv_fmt_frd_rs1, NULL, 0, 0, 0 },
+> -    { "c.addi4spn", rv_codec_ciw_4spn, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
+> +    { "c.addi4spn", rv_codec_ciw_4spn, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi, rvcd_imm_nz },
+>      { "c.fld", rv_codec_cl_ld, rv_fmt_frd_offset_rs1, NULL, rv_op_fld, rv_op_fld, 0 },
+>      { "c.lw", rv_codec_cl_lw, rv_fmt_rd_offset_rs1, NULL, rv_op_lw, rv_op_lw, rv_op_lw },
+>      { "c.flw", rv_codec_cl_lw, rv_fmt_frd_offset_rs1, NULL, rv_op_flw, 0, 0 },
+> @@ -1019,14 +1024,14 @@ const rv_opcode_data opcode_data[] = {
+>      { "c.sw", rv_codec_cs_sw, rv_fmt_rs2_offset_rs1, NULL, rv_op_sw, rv_op_sw, rv_op_sw },
+>      { "c.fsw", rv_codec_cs_sw, rv_fmt_frs2_offset_rs1, NULL, rv_op_fsw, 0, 0 },
+>      { "c.nop", rv_codec_ci_none, rv_fmt_none, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
+> -    { "c.addi", rv_codec_ci, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
+> +    { "c.addi", rv_codec_ci, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi, rvcd_imm_nz },
+>      { "c.jal", rv_codec_cj_jal, rv_fmt_rd_offset, NULL, rv_op_jal, 0, 0 },
+>      { "c.li", rv_codec_ci_li, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
+> -    { "c.addi16sp", rv_codec_ci_16sp, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
+> -    { "c.lui", rv_codec_ci_lui, rv_fmt_rd_imm, NULL, rv_op_lui, rv_op_lui, rv_op_lui },
+> -    { "c.srli", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srli, rv_op_srli, rv_op_srli },
+> -    { "c.srai", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srai, rv_op_srai, rv_op_srai },
+> -    { "c.andi", rv_codec_cb_imm, rv_fmt_rd_rs1_imm, NULL, rv_op_andi, rv_op_andi, rv_op_andi },
+> +    { "c.addi16sp", rv_codec_ci_16sp, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi, rvcd_imm_nz },
+> +    { "c.lui", rv_codec_ci_lui, rv_fmt_rd_imm, NULL, rv_op_lui, rv_op_lui, rv_op_lui, rvcd_imm_nz },
+> +    { "c.srli", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srli, rv_op_srli, rv_op_srli, rvcd_imm_nz },
+> +    { "c.srai", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srai, rv_op_srai, rv_op_srai, rvcd_imm_nz },
+> +    { "c.andi", rv_codec_cb_imm, rv_fmt_rd_rs1_imm, NULL, rv_op_andi, rv_op_andi, rv_op_andi, rvcd_imm_nz },
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Unless I'm missing something, c.andi can have a zero immediate.
 
---ZInfyf7laFu/Kiw7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0DZnEACgkQnKSrs4Gr
-c8ifXwgApMA5XJWuY/9/J09zyT/1KXSiWnPqVdtxZlZ00sdSzqXYnDxZHZU/XlGB
-Tj0WJadLrmP1p7eNSLgPHL/bH1Girbz7rBBp0SpkP4rRHqX0gaw5RVxwWXLVZets
-Yaso/7dgufsgvkYDEUksyVbxh0RQlztutFqXIUUQlvdmwFK268Kr9a6TsWd/1LQO
-LmBii15RMOuKEnn+Lqn9noWVtXKcP7PwgOCdkncFiYzGfvOHARy9hTip8dm9TRxv
-dMXMgCx9B+t138z1N77Dc0FhmMq7La4WSvKGt12Dx/2cH4PRQNvRe8BF7eq73DHg
-EWCIIgNZu4wllI134V1mH8x3ofAHUA==
-=jntu
------END PGP SIGNATURE-----
-
---ZInfyf7laFu/Kiw7--
+>      { "c.sub", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_sub, rv_op_sub, rv_op_sub },
+>      { "c.xor", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_xor, rv_op_xor, rv_op_xor },
+>      { "c.or", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_or, rv_op_or, rv_op_or },
+> @@ -1036,7 +1041,7 @@ const rv_opcode_data opcode_data[] = {
+>      { "c.j", rv_codec_cj, rv_fmt_rd_offset, NULL, rv_op_jal, rv_op_jal, rv_op_jal },
+>      { "c.beqz", rv_codec_cb, rv_fmt_rs1_rs2_offset, NULL, rv_op_beq, rv_op_beq, rv_op_beq },
+>      { "c.bnez", rv_codec_cb, rv_fmt_rs1_rs2_offset, NULL, rv_op_bne, rv_op_bne, rv_op_bne },
+> -    { "c.slli", rv_codec_ci_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_slli, rv_op_slli, rv_op_slli },
+> +    { "c.slli", rv_codec_ci_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_slli, rv_op_slli, rv_op_slli, rvcd_imm_nz },
+>      { "c.fldsp", rv_codec_ci_ldsp, rv_fmt_frd_offset_rs1, NULL, rv_op_fld, rv_op_fld, rv_op_fld },
+>      { "c.lwsp", rv_codec_ci_lwsp, rv_fmt_rd_offset_rs1, NULL, rv_op_lw, rv_op_lw, rv_op_lw },
+>      { "c.flwsp", rv_codec_ci_lwsp, rv_fmt_frd_offset_rs1, NULL, rv_op_flw, 0, 0 },
+> @@ -2795,8 +2800,12 @@ static void decode_inst_decompress_rv32(rv_decode *dec)
+>  {
+>      int decomp_op = opcode_data[dec->op].decomp_rv32;
+>      if (decomp_op != rv_op_illegal) {
+> -        dec->op = decomp_op;
+> -        dec->codec = opcode_data[decomp_op].codec;
+> +        if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz) && dec->imm == 0) {
+> +            dec->op = rv_op_illegal;
+> +        } else {
+> +            dec->op = decomp_op;
+> +            dec->codec = opcode_data[decomp_op].codec;
+> +        }
+>      }
+>  }
+>
+> @@ -2804,8 +2813,12 @@ static void decode_inst_decompress_rv64(rv_decode *dec)
+>  {
+>      int decomp_op = opcode_data[dec->op].decomp_rv64;
+>      if (decomp_op != rv_op_illegal) {
+> -        dec->op = decomp_op;
+> -        dec->codec = opcode_data[decomp_op].codec;
+> +        if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz) && dec->imm == 0) {
+> +            dec->op = rv_op_illegal;
+> +        } else {
+> +            dec->op = decomp_op;
+> +            dec->codec = opcode_data[decomp_op].codec;
+> +        }
+>      }
+>  }
+>
+> @@ -2813,8 +2826,12 @@ static void decode_inst_decompress_rv128(rv_decode *dec)
+>  {
+>      int decomp_op = opcode_data[dec->op].decomp_rv128;
+>      if (decomp_op != rv_op_illegal) {
+> -        dec->op = decomp_op;
+> -        dec->codec = opcode_data[decomp_op].codec;
+> +        if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz) && dec->imm == 0) {
+> +            dec->op = rv_op_illegal;
+> +        } else {
+> +            dec->op = decomp_op;
+> +            dec->codec = opcode_data[decomp_op].codec;
+> +        }
+>      }
+>  }
 
