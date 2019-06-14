@@ -2,51 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A68F46368
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:53:30 +0200 (CEST)
-Received: from localhost ([::1]:52910 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A794632A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:44:06 +0200 (CEST)
+Received: from localhost ([::1]:52834 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hboW9-0003Zy-FB
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:53:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56286)
+	id 1hboN3-0006Uh-D4
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:44:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56679)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hboIJ-0003nb-Tp
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:39:14 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hboI4-0003zf-Bl
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:38:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hbo5j-0005qV-Pv
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:26:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41122)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hbo5V-0005NV-SB; Fri, 14 Jun 2019 11:25:58 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4BD1E368E3;
- Fri, 14 Jun 2019 15:25:22 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D4E565C29A;
- Fri, 14 Jun 2019 15:25:17 +0000 (UTC)
-Date: Fri, 14 Jun 2019 17:25:16 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190614152516.GI6042@dhcp-200-226.str.redhat.com>
-References: <20190605161118.14544-1-mreitz@redhat.com>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbo8s-0000Cc-SH
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:29:28 -0400
+Received: from mail-eopbgr10095.outbound.protection.outlook.com
+ ([40.107.1.95]:57568 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbo8h-0008UX-MQ; Fri, 14 Jun 2019 11:29:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BfIrfRsH7QLLk3qSaC/UkVdAG9fuo35n0Z7DLYLMNaE=;
+ b=gYfHwe2W7BAgf9M8HcQSEhgUfWmBl95oUlfjPQHdKR7Inn1/dKgT0pA/LpzUPngWZCQ6KJG36dTW6gv6iNySPQ51052iym4tYIZgoDSLUEqRuY+cDTANBDM1SWo3A+2ipS/tv2dBh1A3j4fQVAuCkOFxfwQ4LA980+NyDkuIOaY=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0PR08MB3107.eurprd08.prod.outlook.com (52.134.95.19) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.12; Fri, 14 Jun 2019 15:29:09 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
+ 15:29:09 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v5 21/42] block: Use CAFs for debug breakpoints
+Thread-Index: AQHVIWu5eGmtL0yGDU6pFl61nMSK4qabSPiA
+Date: Fri, 14 Jun 2019 15:29:09 +0000
+Message-ID: <9ab668f2-1ce2-c9ac-ab8a-325f0d3ea15e@virtuozzo.com>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-22-mreitz@redhat.com>
+In-Reply-To: <20190612221004.2317-22-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR05CA0326.eurprd05.prod.outlook.com
+ (2603:10a6:7:92::21) To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190614182907175
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 00ef1c8b-b47a-44eb-628b-08d6f0dd0b6e
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0PR08MB3107; 
+x-ms-traffictypediagnostic: AM0PR08MB3107:
+x-microsoft-antispam-prvs: <AM0PR08MB3107BD1BF1D01362F38CCF96C1EE0@AM0PR08MB3107.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0068C7E410
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(366004)(136003)(376002)(346002)(39850400004)(199004)(189003)(256004)(66066001)(6506007)(52116002)(73956011)(66476007)(386003)(66946007)(99286004)(6246003)(2501003)(66556008)(64756008)(316002)(102836004)(76176011)(478600001)(14444005)(4326008)(66446008)(5660300002)(68736007)(31686004)(71190400001)(71200400001)(26005)(25786009)(31696002)(446003)(486006)(8676002)(11346002)(2616005)(476003)(229853002)(7736002)(3846002)(6486002)(81166006)(81156014)(6116002)(86362001)(53936002)(36756003)(305945005)(54906003)(6436002)(8936002)(14454004)(110136005)(6512007)(2906002)(186003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3107;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Ysf9eRNC9xfakIMm9a0hD1b2yDgjLchIFUIbb+g1VG0r8rjOE/tOVL1/0PAyZh8GvslEWm3j3cHDG3jw5XP8PIAToXgpdqg2oMSJ/nhTvN4y9KSexFxCXwGJGlUa4tY4ScbmPvbcNpVWLkO5zFIOiugRlevYNhcsyoJUY8iqTl3wuWW8rUerz2aho/OFvc6VrRa/qmuoMQHLOQH0hcARB5HoI6ahrc/wZbmNibWRlXT/IDN7qNlHIxk/4JWxrsgc1HW5BoOSTp8Mfw9THdedc5gsff7rL9Z2mXx0X/9xPs6ZYfzAl8B769VyDc8Hz9X6ZvGiPgZqaYLCtaB1rR7kInku8ljl4VNpNGsIpiVQJIYfTx7+G4ttRcoqkyhkQuAC7iRZ55rAjYzuEwWUQ0arsp0S+ViT9pr468sPhOm5p6s=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <460483267277914A8BE7FD3F811DCC8E@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190605161118.14544-1-mreitz@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 14 Jun 2019 15:25:27 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/4] block: Keep track of parent quiescing
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00ef1c8b-b47a-44eb-628b-08d6f0dd0b6e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 15:29:09.2494 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3107
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.1.95
+Subject: Re: [Qemu-devel] [PATCH v5 21/42] block: Use CAFs for debug
+ breakpoints
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,64 +101,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 05.06.2019 um 18:11 hat Max Reitz geschrieben:
-> We currently do not keep track of how many times a child has quiesced
-> its parent.  We just guess based on the child=E2=80=99s quiesce_counter=
-.  That
-> keeps biting us when we try to leave drained sections or detach childre=
-n
-> (see e.g. commit 5cb2737e925042e).
->=20
-> I think we need an explicit counter to keep track of how many times a
-> parent has been quiesced (patch 1).  That just makes the code more
-> resilient.
->=20
-> Actually, no, we don=E2=80=99t need a counter, we need a boolean.  See =
-patch 2
-> for the explanation.
->=20
-> Yes, it is a bit weird to introduce a counter first (patch 1) and then
-> immediately make it a boolean (patch 2).  But I believe this to be the
-> most logical change set.
->=20
-> (=E2=80=9COur current model relies on counting, so adding an explicit c=
-ounter
-> makes sense.  It then turns out that counting is probably not the best
-> idea, so why not make it a boolean?=E2=80=9D)
-
-Trying to summarise an IRC discussion I just had with Max:
-
-The real root problem isn't that the recursion in bdrv_do_drained_end()
-doesn't correctly deal with graph changes, but that those graph changes
-happen in the first place. The one basic guiding principle in my drain
-rewrite was that during the recursion (both to children and parents), no
-graph changes are allowed, which means that no aio_poll() calls are
-allowed either.
-
-Of course, while I think the principle is right and greatly simplifies
-the code (or actually is the only thing that gives us any hope to get
-things right), I messed up the implementation because
-bdrv_drain_invoke() does use BDRV_POLL_WHILE() for ending a drained
-section. This is wrong, and it could still cause crashes after this
-series because a recursive call could remove a node that is currently
-processed somewhere up the call chain.
-
-The fix for the observed bugs should be to make drained_end completely
-symmetric to drained_begin: Just start the bdrv_drain_invoke_entry()
-coroutine, do the recursion and call all the callbacks (none of which
-may modify the graph) and only after all of this is done, poll once at
-the top level drain. (The poll condition could be simplified to just
-wait for bdrv_drain_invoke() to be completed, we don't care about other
-running requests in drained_end. But this is only an optimisation.)
-
-Despite this being a full fix, we also agreed that patch 1 is a nice
-cleanup and we want to keep it even if it doesn't strictly fix a bug any
-more.
-
-Kevin
+MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFdoZW4gbG9va2luZyBmb3IgYSBi
+bGtkZWJ1ZyBub2RlICh3aGljaCBpbXBsZW1lbnRzIGRlYnVnIGJyZWFrcG9pbnRzKSwNCj4gdXNl
+IGJkcnZfcHJpbWFyeV9icygpIHRvIGl0ZXJhdGUgdGhyb3VnaCB0aGUgZ3JhcGgsIGJlY2F1c2Ug
+dGhhdCBpcw0KPiB3aGVyZSBhIGJsa2RlYnVnIG5vZGUgd291bGQgYmUuDQo+IA0KPiBTaWduZWQt
+b2ZmLWJ5OiBNYXggUmVpdHogPG1yZWl0ekByZWRoYXQuY29tPg0KDQpIb25lc3RseSwgZG9uJ3Qg
+a25vdyB3aHkgYmxrZGVidWcgaXMgYWx3YXlzIHNlYXJjaGVkIGluIC0+ZmlsZSBzZXF1ZW5jZSwg
+YnV0IHRoaXMNCnBhdGNoIG9idmlvdXNseSBzdXBwb3J0cyBiYWNraW5nLWJhc2VkIGZpbHRlcnMg
+Zm9yIGJsa2RlYnVnIHNjZW5hcmlvcywgd2hpY2ggSSBuZWVkDQpmb3IgbXkgYmFja3VwLXRvcCBz
+ZXJpZXMgKGFuZCBoYXZlIGNvcnJlc3BvbmRpbmcgcGF0Y2ggaW4gaXQsIHdoaWNoIGlzIG5vdCBu
+ZWVkZWQNCmlmIHRoaXMgZ29lcyBmaXJzdCkNCg0KDQpSZXZpZXdlZC1ieTogVmxhZGltaXIgU2Vt
+ZW50c292LU9naWV2c2tpeSA8dnNlbWVudHNvdkB2aXJ0dW96em8uY29tPg0KDQoNCj4gLS0tDQo+
+ICAgYmxvY2suYyB8IDggKysrKy0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25z
+KCspLCA0IGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrLmMgYi9ibG9jay5j
+DQo+IGluZGV4IDc5N2JlYzAzMjYuLjExYjdiYThjZjYgMTAwNjQ0DQo+IC0tLSBhL2Jsb2NrLmMN
+Cj4gKysrIGIvYmxvY2suYw0KPiBAQCAtNTA5Nyw3ICs1MDk3LDcgQEAgaW50IGJkcnZfZGVidWdf
+YnJlYWtwb2ludChCbG9ja0RyaXZlclN0YXRlICpicywgY29uc3QgY2hhciAqZXZlbnQsDQo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBjaGFyICp0YWcpDQo+ICAgew0KPiAgICAg
+ICB3aGlsZSAoYnMgJiYgYnMtPmRydiAmJiAhYnMtPmRydi0+YmRydl9kZWJ1Z19icmVha3BvaW50
+KSB7DQo+IC0gICAgICAgIGJzID0gYnMtPmZpbGUgPyBicy0+ZmlsZS0+YnMgOiBOVUxMOw0KPiAr
+ICAgICAgICBicyA9IGJkcnZfcHJpbWFyeV9icyhicyk7DQo+ICAgICAgIH0NCj4gICANCj4gICAg
+ICAgaWYgKGJzICYmIGJzLT5kcnYgJiYgYnMtPmRydi0+YmRydl9kZWJ1Z19icmVha3BvaW50KSB7
+DQo+IEBAIC01MTEwLDcgKzUxMTAsNyBAQCBpbnQgYmRydl9kZWJ1Z19icmVha3BvaW50KEJsb2Nr
+RHJpdmVyU3RhdGUgKmJzLCBjb25zdCBjaGFyICpldmVudCwNCj4gICBpbnQgYmRydl9kZWJ1Z19y
+ZW1vdmVfYnJlYWtwb2ludChCbG9ja0RyaXZlclN0YXRlICpicywgY29uc3QgY2hhciAqdGFnKQ0K
+PiAgIHsNCj4gICAgICAgd2hpbGUgKGJzICYmIGJzLT5kcnYgJiYgIWJzLT5kcnYtPmJkcnZfZGVi
+dWdfcmVtb3ZlX2JyZWFrcG9pbnQpIHsNCj4gLSAgICAgICAgYnMgPSBicy0+ZmlsZSA/IGJzLT5m
+aWxlLT5icyA6IE5VTEw7DQo+ICsgICAgICAgIGJzID0gYmRydl9wcmltYXJ5X2JzKGJzKTsNCj4g
+ICAgICAgfQ0KPiAgIA0KPiAgICAgICBpZiAoYnMgJiYgYnMtPmRydiAmJiBicy0+ZHJ2LT5iZHJ2
+X2RlYnVnX3JlbW92ZV9icmVha3BvaW50KSB7DQo+IEBAIC01MTIzLDcgKzUxMjMsNyBAQCBpbnQg
+YmRydl9kZWJ1Z19yZW1vdmVfYnJlYWtwb2ludChCbG9ja0RyaXZlclN0YXRlICpicywgY29uc3Qg
+Y2hhciAqdGFnKQ0KPiAgIGludCBiZHJ2X2RlYnVnX3Jlc3VtZShCbG9ja0RyaXZlclN0YXRlICpi
+cywgY29uc3QgY2hhciAqdGFnKQ0KPiAgIHsNCj4gICAgICAgd2hpbGUgKGJzICYmICghYnMtPmRy
+diB8fCAhYnMtPmRydi0+YmRydl9kZWJ1Z19yZXN1bWUpKSB7DQo+IC0gICAgICAgIGJzID0gYnMt
+PmZpbGUgPyBicy0+ZmlsZS0+YnMgOiBOVUxMOw0KPiArICAgICAgICBicyA9IGJkcnZfcHJpbWFy
+eV9icyhicyk7DQo+ICAgICAgIH0NCj4gICANCj4gICAgICAgaWYgKGJzICYmIGJzLT5kcnYgJiYg
+YnMtPmRydi0+YmRydl9kZWJ1Z19yZXN1bWUpIHsNCj4gQEAgLTUxMzYsNyArNTEzNiw3IEBAIGlu
+dCBiZHJ2X2RlYnVnX3Jlc3VtZShCbG9ja0RyaXZlclN0YXRlICpicywgY29uc3QgY2hhciAqdGFn
+KQ0KPiAgIGJvb2wgYmRydl9kZWJ1Z19pc19zdXNwZW5kZWQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMs
+IGNvbnN0IGNoYXIgKnRhZykNCj4gICB7DQo+ICAgICAgIHdoaWxlIChicyAmJiBicy0+ZHJ2ICYm
+ICFicy0+ZHJ2LT5iZHJ2X2RlYnVnX2lzX3N1c3BlbmRlZCkgew0KPiAtICAgICAgICBicyA9IGJz
+LT5maWxlID8gYnMtPmZpbGUtPmJzIDogTlVMTDsNCj4gKyAgICAgICAgYnMgPSBiZHJ2X3ByaW1h
+cnlfYnMoYnMpOw0KPiAgICAgICB9DQo+ICAgDQo+ICAgICAgIGlmIChicyAmJiBicy0+ZHJ2ICYm
+IGJzLT5kcnYtPmJkcnZfZGVidWdfaXNfc3VzcGVuZGVkKSB7DQo+IA0KDQoNCi0tIA0KQmVzdCBy
+ZWdhcmRzLA0KVmxhZGltaXINCg==
 
