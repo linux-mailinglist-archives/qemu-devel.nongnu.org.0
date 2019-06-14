@@ -2,59 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C647245C50
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 14:13:22 +0200 (CEST)
-Received: from localhost ([::1]:50806 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BEA45CBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 14:23:57 +0200 (CEST)
+Received: from localhost ([::1]:50872 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbl57-0004Pr-W1
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 08:13:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51828)
+	id 1hblFM-00030L-6B
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 08:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52065)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hbl2L-0002YU-AI
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:31 -0400
+ (envelope-from <clg@kaod.org>) id 1hbl2e-00037B-Kk
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hbl2J-0003tm-Ip
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:29 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:56311)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hbl2J-0003gv-6d
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:27 -0400
-Received: by mail-wm1-f65.google.com with SMTP id a15so2089020wmj.5
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 05:10:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=HHmxPOXC/7BCycsETxDS9BYLXUGEb3sRUYUuk8X8HLk=;
- b=R26yM2oAtyT2bvZVKsIg1mji/iaR5WCaUMS+GxpcJid5/Dwp1LwvJhrN3bS5OJ++CT
- uQP+NAWq8hFXzPuhAetxzNTjRt1FckNjdRSRWmH1Iqhs5UOWrtGEt1yjcc0+iFiY0R2I
- c8oJu60C6RfA5xeyvlIYfH+QSw21IvQLdMo6g6Cp/DrNCq9r4QFaQ16UGFNHka56Mpbf
- QgLl0Xx8MEKVlYyW+6a2BE9pH5MbfI086kZE3p9a3POWB6x/VJDYu9umKdEEqUB2yFX/
- 902jAr8CQBqh1Ujs44spMFvsGsd/McYg4ruJ2jVgw3NiPHBMnb2h5VXjlSyQknSvk7C/
- Sd7w==
-X-Gm-Message-State: APjAAAUGvEe51V2mJaKU7Dhbtoqn4d5BIndCU7/YSI1OTkF4OullVftT
- em0I+/TQftKjsxRdRUK8Ze6B2g==
-X-Google-Smtp-Source: APXvYqzW/Brcm6Lo8qlf2hPmdiAbiy/SJaKDnrPS0BUy97rjS7rGcXAhPBAa5tTwUZiBNMXF9BX1xw==
-X-Received: by 2002:a1c:2d8b:: with SMTP id t133mr7744690wmt.57.1560514212594; 
- Fri, 14 Jun 2019 05:10:12 -0700 (PDT)
-Received: from localhost ([83.137.6.186])
- by smtp.gmail.com with ESMTPSA id p3sm4394672wrd.47.2019.06.14.05.10.09
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 05:10:12 -0700 (PDT)
-Date: Fri, 14 Jun 2019 05:10:12 -0700 (PDT)
-X-Google-Original-Date: Fri, 14 Jun 2019 05:09:48 PDT (-0700)
-In-Reply-To: <CAFEAcA-01sahAvfLRoe3e9RfCcgmk4+Ubceufg9hhmwQAFpbRQ@mail.gmail.com>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <mhng-1958cec5-7d9d-483b-bb14-72e53bbde47f@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (envelope-from <clg@kaod.org>) id 1hbl2c-0004BP-JB
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:48 -0400
+Received: from 10.mo69.mail-out.ovh.net ([46.105.73.241]:54208)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hbl2c-00049f-Cq
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:46 -0400
+Received: from player792.ha.ovh.net (unknown [10.108.57.23])
+ by mo69.mail-out.ovh.net (Postfix) with ESMTP id A4AA55E40F
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 14:10:43 +0200 (CEST)
+Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
+ (Authenticated sender: clg@kaod.org)
+ by player792.ha.ovh.net (Postfix) with ESMTPSA id CB0556ECA2DC;
+ Fri, 14 Jun 2019 12:10:36 +0000 (UTC)
+To: Eddie James <eajames@linux.ibm.com>, qemu-arm@nongnu.org
+References: <1560286476-23494-1-git-send-email-eajames@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <dee5afb8-cc31-8963-6a7c-169c77e23d3c@kaod.org>
+Date: Fri, 14 Jun 2019 14:10:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <1560286476-23494-1-git-send-email-eajames@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 10287065977570954001
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudeiuddggeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PULL 01/29] SiFive RISC-V GPIO Device
+X-Received-From: 46.105.73.241
+Subject: Re: [Qemu-devel] [PATCH v2] hw: misc: Add Aspeed XDMA device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,60 +57,377 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, chouteau@adacore.com
+Cc: andrew@aj.id.au, peter.maydell@linaro.org, qemu-devel@nongnu.org,
+ joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 30 May 2019 03:57:12 PDT (-0700), Peter Maydell wrote:
-> On Sun, 26 May 2019 at 02:10, Palmer Dabbelt <palmer@sifive.com> wrote:
->>
->> From: Fabien Chouteau <chouteau@adacore.com>
->>
->> QEMU model of the GPIO device on the SiFive E300 series SOCs.
->>
->> The pins are not used by a board definition yet, however this
->> implementation can already be used to trigger GPIO interrupts from the
->> software by configuring a pin as both output and input.
->>
->> Signed-off-by: Fabien Chouteau <chouteau@adacore.com>
->> Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
->> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
->
-> Hi; this patch causes Coverity to complain about a memory
-> leak (CID 1401707):
->
->>  static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
->>  {
->>      const struct MemmapEntry *memmap = sifive_e_memmap;
->> +    Error *err = NULL;
->>
->>      SiFiveESoCState *s = RISCV_E_SOC(dev);
->>      MemoryRegion *sys_mem = get_system_memory();
->> @@ -184,8 +188,28 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
->>      sifive_mmio_emulate(sys_mem, "riscv.sifive.e.aon",
->>          memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
->>      sifive_prci_create(memmap[SIFIVE_E_PRCI].base);
->> -    sifive_mmio_emulate(sys_mem, "riscv.sifive.e.gpio0",
->> -        memmap[SIFIVE_E_GPIO0].base, memmap[SIFIVE_E_GPIO0].size);
->> +
->> +    /* GPIO */
->> +
->> +    object_property_set_bool(OBJECT(&s->gpio), true, "realized", &err);
->> +    if (err) {
->> +        error_propagate(errp, err);
->> +        return;
->> +    }
->
-> This function allocated xip_mem and mask_rom via g_new() but
-> then this error-exit doesn't free them.
->
-> The best way to fix this is to stop doing separate memory
-> allocations at all -- instead just have fields in the
-> SiFiveESoCState struct
->    MemoryRegion xip_mem;
->    Memory_Region mask_rom;
->
-> and pass &s->xip_mem etc where currently the code uses xip_mem.
+On 11/06/2019 22:54, Eddie James wrote:
+> The XDMA engine embedded in the Aspeed SOCs performs PCI DMA operations
+> between the SOC (acting as a BMC) and a host processor in a server.
+> 
+> The XDMA engine exists on the AST2400, AST2500, and AST2600 SOCs, so
+> enable it for all of those. Add trace events on the important register
+> writes in the XDMA engine.
+> 
+> Signed-off-by: Eddie James <eajames@linux.ibm.com>
+> ---
+> Changes since v1:
+>  - add trace events
+>  - minor cleanup
+> 
+> This patch is based on Cedric's big Aspeed update:
+>     http://patchwork.ozlabs.org/cover/1105343/
 
-Sorry this took a while to fix, I've just sent a patch to fix the memory leak.
+Eddie, 
+
+I have pushed the patch in my tree and I plan to resend 
+as part of the patchset above.
+
+Thanks,
+
+C. 
+
+>  hw/arm/aspeed_soc.c           |  19 +++++
+>  hw/misc/Makefile.objs         |   1 +
+>  hw/misc/aspeed_xdma.c         | 165 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/misc/trace-events          |   3 +
+>  include/hw/arm/aspeed_soc.h   |   3 +
+>  include/hw/misc/aspeed_xdma.h |  30 ++++++++
+>  6 files changed, 221 insertions(+)
+>  create mode 100644 hw/misc/aspeed_xdma.c
+>  create mode 100644 include/hw/misc/aspeed_xdma.h
+> 
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index 0a0ab87..6901697 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -31,6 +31,7 @@ static const hwaddr aspeed_soc_ast2400_memmap[] = {
+>      [ASPEED_VIC]    = 0x1E6C0000,
+>      [ASPEED_SDMC]   = 0x1E6E0000,
+>      [ASPEED_SCU]    = 0x1E6E2000,
+> +    [ASPEED_XDMA]   = 0x1E6E7000,
+>      [ASPEED_ADC]    = 0x1E6E9000,
+>      [ASPEED_SRAM]   = 0x1E720000,
+>      [ASPEED_GPIO]   = 0x1E780000,
+> @@ -57,6 +58,7 @@ static const hwaddr aspeed_soc_ast2500_memmap[] = {
+>      [ASPEED_VIC]    = 0x1E6C0000,
+>      [ASPEED_SDMC]   = 0x1E6E0000,
+>      [ASPEED_SCU]    = 0x1E6E2000,
+> +    [ASPEED_XDMA]   = 0x1E6E7000,
+>      [ASPEED_ADC]    = 0x1E6E9000,
+>      [ASPEED_SRAM]   = 0x1E720000,
+>      [ASPEED_GPIO]   = 0x1E780000,
+> @@ -90,6 +92,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+>      [ASPEED_VIC]    = 0x1E6C0000,
+>      [ASPEED_SDMC]   = 0x1E6E0000,
+>      [ASPEED_SCU]    = 0x1E6E2000,
+> +    [ASPEED_XDMA]   = 0x1E6E7000,
+>      [ASPEED_ADC]    = 0x1E6E9000,
+>      [ASPEED_SRAM]   = 0x1E720000,
+>      [ASPEED_GPIO]   = 0x1E780000,
+> @@ -137,6 +140,7 @@ static const int aspeed_soc_ast2400_irqmap[] = {
+>      [ASPEED_I2C]    = 12,
+>      [ASPEED_ETH1]   = 2,
+>      [ASPEED_ETH2]   = 3,
+> +    [ASPEED_XDMA]   = 6,
+>  };
+>  
+>  #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
+> @@ -174,6 +178,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
+>      [ASPEED_ETH2]   = 3,
+>      [ASPEED_FSI1]   = 100,
+>      [ASPEED_FSI2]   = 101,
+> +    [ASPEED_XDMA]   = 6,
+>  };
+>  
+>  static const char *aspeed_soc_ast2400_typenames[] = { "aspeed.smc.spi" };
+> @@ -359,6 +364,9 @@ static void aspeed_soc_init(Object *obj)
+>          sysbus_init_child_obj(obj, "fsi[*]", OBJECT(&s->fsi[0]),
+>                                sizeof(s->fsi[0]), TYPE_ASPEED_FSI);
+>      }
+> +
+> +    sysbus_init_child_obj(obj, "xdma", OBJECT(&s->xdma), sizeof(s->xdma),
+> +                          TYPE_ASPEED_XDMA);
+>  }
+>  
+>  static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+> @@ -662,6 +670,17 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->fsi[0]), 0,
+>                             aspeed_soc_get_irq(s, ASPEED_FSI1));
+>      }
+> +
+> +    /* XDMA */
+> +    object_property_set_bool(OBJECT(&s->xdma), true, "realized", &err);
+> +    if (err) {
+> +        error_propagate(errp, err);
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->xdma), 0,
+> +                    sc->info->memmap[ASPEED_XDMA]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->xdma), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_XDMA));
+>  }
+>  
+>  static void aspeed_soc_class_init(ObjectClass *oc, void *data)
+> diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
+> index d33c1c6..dc2b9c3 100644
+> --- a/hw/misc/Makefile.objs
+> +++ b/hw/misc/Makefile.objs
+> @@ -78,6 +78,7 @@ obj-$(CONFIG_PVPANIC) += pvpanic.o
+>  obj-$(CONFIG_AUX) += auxbus.o
+>  obj-$(CONFIG_ASPEED_SOC) += aspeed_scu.o aspeed_sdmc.o aspeed_ibt.o
+>  obj-$(CONFIG_ASPEED_SOC) += aspeed_pwm.o aspeed_lpc.o aspeed_fsi.o
+> +obj-$(CONFIG_ASPEED_SOC) += aspeed_xdma.o
+>  obj-$(CONFIG_MSF2) += msf2-sysreg.o
+>  obj-$(CONFIG_NRF51_SOC) += nrf51_rng.o
+>  
+> diff --git a/hw/misc/aspeed_xdma.c b/hw/misc/aspeed_xdma.c
+> new file mode 100644
+> index 0000000..eebd4ad
+> --- /dev/null
+> +++ b/hw/misc/aspeed_xdma.c
+> @@ -0,0 +1,165 @@
+> +/*
+> + * ASPEED XDMA Controller
+> + * Eddie James <eajames@linux.ibm.com>
+> + *
+> + * Copyright (C) 2019 IBM Corp
+> + * SPDX-License-Identifer: GPL-2.0-or-later
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/misc/aspeed_xdma.h"
+> +#include "qapi/error.h"
+> +
+> +#include "trace.h"
+> +
+> +#define XDMA_BMC_CMDQ_ADDR         0x10
+> +#define XDMA_BMC_CMDQ_ENDP         0x14
+> +#define XDMA_BMC_CMDQ_WRP          0x18
+> +#define  XDMA_BMC_CMDQ_W_MASK      0x0003FFFF
+> +#define XDMA_BMC_CMDQ_RDP          0x1C
+> +#define  XDMA_BMC_CMDQ_RDP_MAGIC   0xEE882266
+> +#define XDMA_IRQ_ENG_CTRL          0x20
+> +#define  XDMA_IRQ_ENG_CTRL_US_COMP BIT(4)
+> +#define  XDMA_IRQ_ENG_CTRL_DS_COMP BIT(5)
+> +#define  XDMA_IRQ_ENG_CTRL_W_MASK  0xBFEFF07F
+> +#define XDMA_IRQ_ENG_STAT          0x24
+> +#define  XDMA_IRQ_ENG_STAT_US_COMP BIT(4)
+> +#define  XDMA_IRQ_ENG_STAT_DS_COMP BIT(5)
+> +#define  XDMA_IRQ_ENG_STAT_RESET   0xF8000000
+> +#define XDMA_MEM_SIZE              0x1000
+> +
+> +#define TO_REG(addr) ((addr) / sizeof(uint32_t))
+> +
+> +static uint64_t aspeed_xdma_read(void *opaque, hwaddr addr, unsigned int size)
+> +{
+> +    uint32_t val = 0;
+> +    AspeedXDMAState *xdma = opaque;
+> +
+> +    if (addr < ASPEED_XDMA_REG_SIZE) {
+> +        val = xdma->regs[TO_REG(addr)];
+> +    }
+> +
+> +    return (uint64_t)val;
+> +}
+> +
+> +static void aspeed_xdma_write(void *opaque, hwaddr addr, uint64_t val,
+> +                              unsigned int size)
+> +{
+> +    unsigned int idx;
+> +    uint32_t val32 = (uint32_t)val;
+> +    AspeedXDMAState *xdma = opaque;
+> +
+> +    if (addr >= ASPEED_XDMA_REG_SIZE) {
+> +        return;
+> +    }
+> +
+> +    switch (addr) {
+> +    case XDMA_BMC_CMDQ_ENDP:
+> +        xdma->regs[TO_REG(addr)] = val32 & XDMA_BMC_CMDQ_W_MASK;
+> +        break;
+> +    case XDMA_BMC_CMDQ_WRP:
+> +        idx = TO_REG(addr);
+> +        xdma->regs[idx] = val32 & XDMA_BMC_CMDQ_W_MASK;
+> +        xdma->regs[TO_REG(XDMA_BMC_CMDQ_RDP)] = xdma->regs[idx];
+> +
+> +        trace_aspeed_xdma_write(addr, val);
+> +
+> +        if (xdma->bmc_cmdq_readp_set) {
+> +            xdma->bmc_cmdq_readp_set = 0;
+> +        } else {
+> +            xdma->regs[TO_REG(XDMA_IRQ_ENG_STAT)] |=
+> +                XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS_COMP;
+> +
+> +            if (xdma->regs[TO_REG(XDMA_IRQ_ENG_CTRL)] &
+> +                (XDMA_IRQ_ENG_CTRL_US_COMP | XDMA_IRQ_ENG_CTRL_DS_COMP))
+> +                qemu_irq_raise(xdma->irq);
+> +        }
+> +        break;
+> +    case XDMA_BMC_CMDQ_RDP:
+> +        trace_aspeed_xdma_write(addr, val);
+> +
+> +        if (val32 == XDMA_BMC_CMDQ_RDP_MAGIC) {
+> +            xdma->bmc_cmdq_readp_set = 1;
+> +        }
+> +        break;
+> +    case XDMA_IRQ_ENG_CTRL:
+> +        xdma->regs[TO_REG(addr)] = val32 & XDMA_IRQ_ENG_CTRL_W_MASK;
+> +        break;
+> +    case XDMA_IRQ_ENG_STAT:
+> +        trace_aspeed_xdma_write(addr, val);
+> +
+> +        idx = TO_REG(addr);
+> +        if (val32 & (XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS_COMP)) {
+> +            xdma->regs[idx] &=
+> +                ~(XDMA_IRQ_ENG_STAT_US_COMP | XDMA_IRQ_ENG_STAT_DS_COMP);
+> +            qemu_irq_lower(xdma->irq);
+> +        }
+> +        break;
+> +    default:
+> +        xdma->regs[TO_REG(addr)] = val32;
+> +        break;
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps aspeed_xdma_ops = {
+> +    .read = aspeed_xdma_read,
+> +    .write = aspeed_xdma_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +    .valid.min_access_size = 4,
+> +    .valid.max_access_size = 4,
+> +};
+> +
+> +static void aspeed_xdma_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +    AspeedXDMAState *xdma = ASPEED_XDMA(dev);
+> +
+> +    sysbus_init_irq(sbd, &xdma->irq);
+> +    memory_region_init_io(&xdma->iomem, OBJECT(xdma), &aspeed_xdma_ops, xdma,
+> +                          TYPE_ASPEED_XDMA, XDMA_MEM_SIZE);
+> +    sysbus_init_mmio(sbd, &xdma->iomem);
+> +}
+> +
+> +static void aspeed_xdma_reset(DeviceState *dev)
+> +{
+> +    AspeedXDMAState *xdma = ASPEED_XDMA(dev);
+> +
+> +    xdma->bmc_cmdq_readp_set = 0;
+> +    memset(xdma->regs, 0, ASPEED_XDMA_REG_SIZE);
+> +    xdma->regs[TO_REG(XDMA_IRQ_ENG_STAT)] = XDMA_IRQ_ENG_STAT_RESET;
+> +
+> +    qemu_irq_lower(xdma->irq);
+> +}
+> +
+> +static const VMStateDescription aspeed_xdma_vmstate = {
+> +    .name = TYPE_ASPEED_XDMA,
+> +    .version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT32_ARRAY(regs, AspeedXDMAState, ASPEED_XDMA_NUM_REGS),
+> +        VMSTATE_END_OF_LIST(),
+> +    },
+> +};
+> +
+> +static void aspeed_xdma_class_init(ObjectClass *classp, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(classp);
+> +
+> +    dc->realize = aspeed_xdma_realize;
+> +    dc->reset = aspeed_xdma_reset;
+> +    dc->vmsd = &aspeed_xdma_vmstate;
+> +}
+> +
+> +static const TypeInfo aspeed_xdma_info = {
+> +    .name          = TYPE_ASPEED_XDMA,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(AspeedXDMAState),
+> +    .class_init    = aspeed_xdma_class_init,
+> +};
+> +
+> +static void aspeed_xdma_register_type(void)
+> +{
+> +    type_register_static(&aspeed_xdma_info);
+> +}
+> +type_init(aspeed_xdma_register_type);
+> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+> index 47e1bcc..c1ea1aa 100644
+> --- a/hw/misc/trace-events
+> +++ b/hw/misc/trace-events
+> @@ -140,3 +140,6 @@ armsse_cpuid_write(uint64_t offset, uint64_t data, unsigned size) "SSE-200 CPU_I
+>  # armsse-mhu.c
+>  armsse_mhu_read(uint64_t offset, uint64_t data, unsigned size) "SSE-200 MHU read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+>  armsse_mhu_write(uint64_t offset, uint64_t data, unsigned size) "SSE-200 MHU write: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+> +
+> +# aspeed_xdma.c
+> +aspeed_xdma_write(uint64_t offset, uint64_t data) "XDMA write: offset 0x%" PRIx64 " data 0x%" PRIx64
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 00ee260..0aaf510 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -28,6 +28,7 @@
+>  #include "hw/misc/aspeed_pwm.h"
+>  #include "hw/misc/aspeed_lpc.h"
+>  #include "hw/misc/aspeed_fsi.h"
+> +#include "hw/misc/aspeed_xdma.h"
+>  
+>  #define ASPEED_SPIS_NUM  2
+>  #define ASPEED_WDTS_NUM  3
+> @@ -59,6 +60,7 @@ typedef struct AspeedSoCState {
+>      AspeedPWMState pwm;
+>      AspeedLPCState lpc;
+>      AspeedFsiState fsi[2];
+> +    AspeedXDMAState xdma;
+>  } AspeedSoCState;
+>  
+>  #define TYPE_ASPEED_SOC "aspeed-soc"
+> @@ -126,6 +128,7 @@ enum {
+>      ASPEED_SDRAM,
+>      ASPEED_FSI1,
+>      ASPEED_FSI2,
+> +    ASPEED_XDMA,
+>  };
+>  
+>  #endif /* ASPEED_SOC_H */
+> diff --git a/include/hw/misc/aspeed_xdma.h b/include/hw/misc/aspeed_xdma.h
+> new file mode 100644
+> index 0000000..00b45d9
+> --- /dev/null
+> +++ b/include/hw/misc/aspeed_xdma.h
+> @@ -0,0 +1,30 @@
+> +/*
+> + * ASPEED XDMA Controller
+> + * Eddie James <eajames@linux.ibm.com>
+> + *
+> + * Copyright (C) 2019 IBM Corp.
+> + * SPDX-License-Identifer: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef ASPEED_XDMA_H
+> +#define ASPEED_XDMA_H
+> +
+> +#include "hw/sysbus.h"
+> +
+> +#define TYPE_ASPEED_XDMA "aspeed.xdma"
+> +#define ASPEED_XDMA(obj) OBJECT_CHECK(AspeedXDMAState, (obj), TYPE_ASPEED_XDMA)
+> +
+> +#define ASPEED_XDMA_NUM_REGS (ASPEED_XDMA_REG_SIZE / sizeof(uint32_t))
+> +#define ASPEED_XDMA_REG_SIZE 0x7C
+> +
+> +typedef struct AspeedXDMAState {
+> +    SysBusDevice parent;
+> +
+> +    MemoryRegion iomem;
+> +    qemu_irq irq;
+> +
+> +    char bmc_cmdq_readp_set;
+> +    uint32_t regs[ASPEED_XDMA_NUM_REGS];
+> +} AspeedXDMAState;
+> +
+> +#endif /* ASPEED_XDMA_H */
+> 
+
 
