@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7454664E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:53:40 +0200 (CEST)
-Received: from localhost ([::1]:53898 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C990D465B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:25:53 +0200 (CEST)
+Received: from localhost ([::1]:53750 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbqOR-0006a3-Ou
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:53:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55939)
+	id 1hbpxY-0003N6-Vk
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:25:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56048)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpkG-0000UQ-2Z
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:09 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpkL-0000fC-1a
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpkE-0002yH-UZ
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:08 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40669)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpkI-00032P-KC
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:12 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:33422)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbpkE-0002wt-N4
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:06 -0400
-Received: by mail-wm1-x341.google.com with SMTP id v19so3033807wmj.5
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:12:06 -0700 (PDT)
+ id 1hbpkI-00031I-Aq
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:10 -0400
+Received: by mail-wm1-x343.google.com with SMTP id h19so9330987wme.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8bC4Ua5+cmFCH7/z3JbOgJMbpPZnAdyKgQfwrXL9vnQ=;
- b=pTYPNeW88qhJChbZ2vWTHN6ODLLY+6x20uMSvv3RPXIUEJwMDOhLricPeOkm36L80T
- SGsemwdu8BZLJfvO6wnsKh8XnIeXDI+RK7h1Pk3PxseZFxJyepRr6TQ6aUeG03p7GK85
- 051t8jdB2JzvdzRwsI67vl54dZMfOItxXHhRolXXDx1yvNfswIL/PbahTTa/jYGoEn1I
- 7WvkU7hmELWdhX5RiGZBAoWLZAXZ8MQZNn2SkMXiPA6xrfvKkhovYBfUpyHJxWd6bDuR
- tZccAljadTN/U27FTYH01roEPQHeNA+B3BAas7us6mgFQzX+Wpr4zsuuqnltkYkyQdAN
- SF1Q==
+ bh=+NsNu/fQ72HqiGPytLgCEAG9ztz6pLZ4BO4isDX3okI=;
+ b=HaE+yRpnAcYcrv/zOu0tsRujZo0VdTZdm0oYvicFr/KucEVxuO+sdL5x5ELipwLDat
+ QB5an6c6CgPzBmA5WgOi5WIBH13e1Pl4TLLbGhPfdw3n6URG9Fm457znyuJ6apqB4Tzn
+ baNH3jukTIbTO8mJATZtteIZn0mmTF1fh4nTiaLsZ/dAeseDipIB9XZCCDdPPmypE2Gz
+ hv7ZNdVmn+h8zDCBcF72r9vOlBqQnEANDbZ3mx5rjhYLJxmxmS7gzEtP+PQqZR7zsysC
+ CCKB78o2pSedK2N/wkWJ0PmEbXDU/VXSRcwEPse/WOMP1JDnf2XWHH7CkYJi75siaF3Q
+ r5lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8bC4Ua5+cmFCH7/z3JbOgJMbpPZnAdyKgQfwrXL9vnQ=;
- b=s2T6kK7RVCRALoByEAnPRk76QQuVH0nVOlq8IJOXpVMHOqbDq6uOC8f2QBzQ31ZSDn
- 5298/Na6EuDBxQ2rKgGtX0eIzFEubOWf1a3Pxli55Dpo/Dr3Kzwge721K7yLKQabj9y0
- lMCcTr9b3tcFRyqQosRivNVPZh5Mze6A0dBkaVrN8SKy04mJk+qcXrzAVnd6JoThouDO
- O3YG6AodQjClADO3B50Iu8b+FD+8gIosMyNtyOBmxeRrdors0MFEyY7nYPAiq/PQoXfk
- YPWVcd7tGmNdE8t6djF8k5k8j4htyWAyFEBIjC9LXet6mGKc5wwjTuDtPgvOBVdX/Kml
- okdQ==
-X-Gm-Message-State: APjAAAUmXDfckktkwrbNmMDpvVois3Kzj1dp0yk7noAAmOmTDQnjHZxk
- 3adKv5hTP6NxE3D6M1Y5MkH7JOnQeuk=
-X-Google-Smtp-Source: APXvYqxdaEDeW3Y8t0gEuaqlC2MeHYNd7b/kjp6EC2UQmCyiSQYj/MN5olV0B9/GDPxJz2yGuLPxCg==
-X-Received: by 2002:a1c:be12:: with SMTP id o18mr8616695wmf.21.1560532325117; 
- Fri, 14 Jun 2019 10:12:05 -0700 (PDT)
+ bh=+NsNu/fQ72HqiGPytLgCEAG9ztz6pLZ4BO4isDX3okI=;
+ b=iw1qgPi9oMe3MVqBoZvy5wl4Fva6O4rprz5AfVk4si4Fti7CXrS9yEAjNN/9AGouU1
+ ex7xnH7jTLsbukJbWTpn0MaDXXwPt/Wk1bacmlqeM/n6TruXuoV2t2F/Ed42QVd40N6x
+ lN5C3B3wfQiBDSc6gHsv1cCIftqUxJWBkS/HrENEgEx5PUIu+sH4z6YNrO8EYJTzr+jh
+ dABEkQZIGvlMUeAIVfUl3yFxPDIY908zoYm+2Y9Pg+lUnHsjECqcNWGaP+fd5qoYUpF9
+ eDj8/7u9O5tqlBOQDQ7gtOUBQwnzVehOZTXeh6YaJzPzO0U5wmJ7oUkMNBn0nlHV97+K
+ 1H2w==
+X-Gm-Message-State: APjAAAUnK1KnvgGWKB+pm444w76b5EbBqIjJtPHTsKTqjNY0uYNY4djY
+ hgtFtUQrxwHW50tkI79zsec2+Q==
+X-Google-Smtp-Source: APXvYqx50s14IHdIB7zQexL3mBSrztav3kuTm2g4ETiJsaUXhQwNTWW7F24RPcivVwrfq0/NNDYJVw==
+X-Received: by 2002:a1c:f21a:: with SMTP id s26mr8512836wmc.163.1560532329097; 
+ Fri, 14 Jun 2019 10:12:09 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id o13sm5231579wra.92.2019.06.14.10.12.01
+ by smtp.gmail.com with ESMTPSA id m9sm4276670wrr.14.2019.06.14.10.12.02
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 10:12:02 -0700 (PDT)
+ Fri, 14 Jun 2019 10:12:05 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E989E1FF93;
- Fri, 14 Jun 2019 18:12:00 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0BC9E1FF96;
+ Fri, 14 Jun 2019 18:12:01 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:16 +0100
-Message-Id: <20190614171200.21078-7-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:11:17 +0100
+Message-Id: <20190614171200.21078-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
@@ -68,9 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH v3 06/50] configure: add --enable-plugins (MOVE
- TO END)
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH  v3 07/50] plugin: add user-facing API
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,75 +81,372 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "Emilio G. Cota" <cota@braap.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds the basic boilerplate feature enable option for the build.
-We shall expand it later.
+From: "Emilio G. Cota" <cota@braap.org>
 
-XXX: currently this patch is included at the start of development to
-aid with incremental building. It should be moved to the end once the
-plugins are feature complete.
+Add the API first to ease review.
 
-[AJB: split from larger patch]
+Signed-off-by: Emilio G. Cota <cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- configure | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
 
-diff --git a/configure b/configure
-index b091b82cb3..48f3263e55 100755
---- a/configure
-+++ b/configure
-@@ -493,6 +493,7 @@ docker="no"
- debug_mutex="no"
- libpmem=""
- default_devices="yes"
-+plugins="no"
- 
- # cross compilers defaults, can be overridden with --cross-cc-ARCH
- cross_cc_aarch64="aarch64-linux-gnu-gcc"
-@@ -1537,6 +1538,10 @@ for opt do
-   ;;
-   --disable-libpmem) libpmem=no
-   ;;
-+  --enable-plugins) plugins="yes"
-+  ;;
-+  --disable-plugins) plugins="no"
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1734,6 +1739,8 @@ Advanced options (experts only):
-   --enable-profiler        profiler support
-   --enable-debug-stack-usage
-                            track the maximum stack usage of stacks created by qemu_alloc_stack
-+  --enable-plugins
-+                           enable plugins via shared library loading
- 
- Optional features, enabled with --enable-FEATURE and
- disabled with --disable-FEATURE, default is enabled if available:
-@@ -6479,6 +6486,7 @@ echo "docker            $docker"
- echo "libpmem support   $libpmem"
- echo "libudev           $libudev"
- echo "default devices   $default_devices"
-+echo "plugin support    $plugins"
- 
- if test "$supported_cpu" = "no"; then
-     echo
-@@ -7296,6 +7304,11 @@ if test "$sheepdog" = "yes" ; then
-   echo "CONFIG_SHEEPDOG=y" >> $config_host_mak
- fi
- 
-+if test "$plugins" = "yes" ; then
-+    echo "CONFIG_PLUGIN=y" >> $config_host_mak
-+    LIBS="-ldl $LIBS"
-+fi
+---
+v3
+  - merge in changes to plugin install/reset/uninstall
+  - split api file
+---
+ include/qemu/qemu-plugin.h | 339 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 339 insertions(+)
+ create mode 100644 include/qemu/qemu-plugin.h
+
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+new file mode 100644
+index 0000000000..0db1ef9714
+--- /dev/null
++++ b/include/qemu/qemu-plugin.h
+@@ -0,0 +1,339 @@
++/*
++ * Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
++ * Copyright (C) 2019, Linaro
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#ifndef QEMU_PLUGIN_API_H
++#define QEMU_PLUGIN_API_H
 +
- if test "$tcg_interpreter" = "yes"; then
-   QEMU_INCLUDES="-iquote \$(SRC_PATH)/tcg/tci $QEMU_INCLUDES"
- elif test "$ARCH" = "sparc64" ; then
++#include <inttypes.h>
++#include <stdbool.h>
++
++/*
++ * For best performance, build the plugin with -fvisibility=hidden so that
++ * QEMU_PLUGIN_LOCAL is implicit. Then, just mark qemu_plugin_install with
++ * QEMU_PLUGIN_EXPORT. For more info, see
++ *   https://gcc.gnu.org/wiki/Visibility
++ */
++#if defined _WIN32 || defined __CYGWIN__
++  #ifdef BUILDING_DLL
++    #define QEMU_PLUGIN_EXPORT __declspec(dllexport)
++  #else
++    #define QEMU_PLUGIN_EXPORT __declspec(dllimport)
++  #endif
++  #define QEMU_PLUGIN_LOCAL
++#else
++  #if __GNUC__ >= 4
++    #define QEMU_PLUGIN_EXPORT __attribute__((visibility("default")))
++    #define QEMU_PLUGIN_LOCAL  __attribute__((visibility("hidden")))
++  #else
++    #define QEMU_PLUGIN_EXPORT
++    #define QEMU_PLUGIN_LOCAL
++  #endif
++#endif
++
++typedef uint64_t qemu_plugin_id_t;
++
++/**
++ * qemu_plugin_install() - Install a plugin
++ * @id: this plugin's opaque ID
++ * @argc: number of arguments
++ * @argv: array of arguments (@argc elements)
++ *
++ * All plugins must export this symbol.
++ *
++ * Note: Calling qemu_plugin_uninstall() from this function is a bug. To raise
++ * an error during install, return !0.
++ *
++ * Note: @argv remains valid throughout the lifetime of the loaded plugin.
++ */
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
++                                           char **argv);
++
++/*
++ * Prototypes for the various callback styles we will be registering
++ * in the following functions.
++ */
++typedef void (*qemu_plugin_simple_cb_t)(qemu_plugin_id_t id);
++
++typedef void (*qemu_plugin_udata_cb_t)(qemu_plugin_id_t id, void *userdata);
++
++typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
++                                             unsigned int vcpu_index);
++
++typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
++                                            void *userdata);
++
++/**
++ * qemu_plugin_uninstall() - Uninstall a plugin
++ * @id: this plugin's opaque ID
++ * @cb: callback to be called once the plugin has been removed
++ *
++ * Do NOT assume that the plugin has been uninstalled once this function
++ * returns. Plugins are uninstalled asynchronously, and therefore the given
++ * plugin receives callbacks until @cb is called.
++ *
++ * Note: Calling this function from qemu_plugin_install() is a bug.
++ */
++void qemu_plugin_uninstall(qemu_plugin_id_t id, qemu_plugin_simple_cb_t cb);
++
++/**
++ * qemu_plugin_reset() - Reset a plugin
++ * @id: this plugin's opaque ID
++ * @cb: callback to be called once the plugin has been reset
++ *
++ * Unregisters all callbacks for the plugin given by @id.
++ *
++ * Do NOT assume that the plugin has been reset once this function returns.
++ * Plugins are reset asynchronously, and therefore the given plugin receives
++ * callbacks until @cb is called.
++ */
++void qemu_plugin_reset(qemu_plugin_id_t id, qemu_plugin_simple_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_init_cb() - register a vCPU initialization callback
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a vCPU is initialized.
++ *
++ * See also: qemu_plugin_register_vcpu_exit_cb()
++ */
++void qemu_plugin_register_vcpu_init_cb(qemu_plugin_id_t id,
++                                       qemu_plugin_vcpu_simple_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_exit_cb() - register a vCPU exit callback
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a vCPU exits.
++ *
++ * See also: qemu_plugin_register_vcpu_init_cb()
++ */
++void qemu_plugin_register_vcpu_exit_cb(qemu_plugin_id_t id,
++                                       qemu_plugin_vcpu_simple_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_idle_cb() - register a vCPU idle callback
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a vCPU idles.
++ */
++void qemu_plugin_register_vcpu_idle_cb(qemu_plugin_id_t id,
++                                       qemu_plugin_vcpu_simple_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_resume_cb() - register a vCPU resume callback
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a vCPU resumes execution.
++ */
++void qemu_plugin_register_vcpu_resume_cb(qemu_plugin_id_t id,
++                                         qemu_plugin_vcpu_simple_cb_t cb);
++
++/*
++ * Opaque types that the plugin is given during the translation and
++ * instrumentation phase.
++ */
++struct qemu_plugin_tb;
++struct qemu_plugin_insn;
++
++enum qemu_plugin_cb_flags {
++    QEMU_PLUGIN_CB_NO_REGS, /* callback does not access the CPU's regs */
++    QEMU_PLUGIN_CB_R_REGS,  /* callback reads the CPU's regs */
++    QEMU_PLUGIN_CB_RW_REGS, /* callback reads and writes the CPU's regs */
++};
++
++enum qemu_plugin_mem_rw {
++    QEMU_PLUGIN_MEM_R = 1,
++    QEMU_PLUGIN_MEM_W,
++    QEMU_PLUGIN_MEM_RW,
++};
++
++/**
++ * qemu_plugin_register_vcpu_tb_trans_cb() - register a translate cb
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called every time a translation occurs. The @cb
++ * function is passed an opaque qemu_plugin_type which is can query
++ * for additional information including the list of translated
++ * instructions. At this point the plugin can register further
++ * callbacks to be triggered when the block or individual instruction
++ * executes.
++ */
++typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
++                                               unsigned int vcpu_index,
++                                               struct qemu_plugin_tb *tb);
++
++void qemu_plugin_register_vcpu_tb_trans_cb(qemu_plugin_id_t id,
++                                           qemu_plugin_vcpu_tb_trans_cb_t cb);
++
++/**
++ * qemu_plugin_register_vcpu_tb_trans_exec_cb() - register execution callback
++ * @tb: the opaque qemu_plugin_tb handle for the translation
++ * @cb: callback function
++ * @flags: does the plugin read or write the CPU's registers?
++ * @userdata: any plugin data to pass to the @cb?
++ *
++ * The @cb function is called every time a translated unit executes.
++ */
++void qemu_plugin_register_vcpu_tb_exec_cb(struct qemu_plugin_tb *tb,
++                                          qemu_plugin_vcpu_udata_cb_t cb,
++                                          enum qemu_plugin_cb_flags flags,
++                                          void *userdata);
++
++enum qemu_plugin_op {
++    QEMU_PLUGIN_INLINE_ADD_U64,
++};
++
++/**
++ * qemu_plugin_register_vcpu_tb_trans_exec_inline() - execution inline op
++ * @tb: the opaque qemu_plugin_tb handle for the translation
++ * @op: the type of qemu_plugin_op (e.g. ADD_U64)
++ * @ptr: the target memory location for the op
++ * @imm: the op data (e.g. 1)
++ *
++ * Insert an inline op to every time a translated unit executes.
++ * Useful if you just want to increment a single counter somewhere in
++ * memory.
++ */
++void qemu_plugin_register_vcpu_tb_exec_inline(struct qemu_plugin_tb *tb,
++                                              enum qemu_plugin_op op,
++                                              void *ptr, uint64_t imm);
++
++/**
++ * qemu_plugin_register_vcpu_insn_exec_cb() - register insn execution cb
++ * @insn: the opaque qemu_plugin_insn handle for an instruction
++ * @cb: callback function
++ * @flags: does the plugin read or write the CPU's registers?
++ * @userdata: any plugin data to pass to the @cb?
++ *
++ * The @cb function is called every time an instruction is executed
++ */
++void qemu_plugin_register_vcpu_insn_exec_cb(struct qemu_plugin_insn *insn,
++                                            qemu_plugin_vcpu_udata_cb_t cb,
++                                            enum qemu_plugin_cb_flags flags,
++                                            void *userdata);
++
++/**
++ * qemu_plugin_register_vcpu_insn_exec_inline() - insn execution inline op
++ * @insn: the opaque qemu_plugin_insn handle for an instruction
++ * @cb: callback function
++ * @op: the type of qemu_plugin_op (e.g. ADD_U64)
++ * @ptr: the target memory location for the op
++ * @imm: the op data (e.g. 1)
++ *
++ * Insert an inline op to every time an instruction executes. Useful
++ * if you just want to increment a single counter somewhere in memory.
++ */
++void qemu_plugin_register_vcpu_insn_exec_inline(struct qemu_plugin_insn *insn,
++                                                enum qemu_plugin_op op,
++                                                void *ptr, uint64_t imm);
++
++/*
++ * Helpers to query information about the instructions in a block
++ */
++size_t qemu_plugin_tb_n_insns(const struct qemu_plugin_tb *tb);
++
++uint64_t qemu_plugin_tb_vaddr(const struct qemu_plugin_tb *tb);
++
++struct qemu_plugin_insn *
++qemu_plugin_tb_get_insn(const struct qemu_plugin_tb *tb, size_t idx);
++
++const void *qemu_plugin_insn_data(const struct qemu_plugin_insn *insn);
++
++size_t qemu_plugin_insn_size(const struct qemu_plugin_insn *insn);
++
++uint64_t qemu_plugin_insn_vaddr(const struct qemu_plugin_insn *insn);
++void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn);
++
++/*
++ * Memory Instrumentation
++ */
++typedef uint32_t qemu_plugin_meminfo_t;
++
++unsigned qemu_plugin_mem_size_shift(qemu_plugin_meminfo_t info);
++bool qemu_plugin_mem_is_sign_extended(qemu_plugin_meminfo_t info);
++bool qemu_plugin_mem_is_big_endian(qemu_plugin_meminfo_t info);
++bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info);
++
++typedef void
++(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
++                             qemu_plugin_meminfo_t info, uint64_t vaddr,
++                             void *userdata);
++
++typedef void
++(*qemu_plugin_vcpu_mem_haddr_cb_t)(unsigned int vcpu_index,
++                                   qemu_plugin_meminfo_t info, uint64_t vaddr,
++                                   void *haddr, void *userdata);
++
++void qemu_plugin_register_vcpu_mem_cb(struct qemu_plugin_insn *insn,
++                                      qemu_plugin_vcpu_mem_cb_t cb,
++                                      enum qemu_plugin_cb_flags flags,
++                                      enum qemu_plugin_mem_rw rw,
++                                      void *userdata);
++
++void qemu_plugin_register_vcpu_mem_haddr_cb(struct qemu_plugin_insn *insn,
++                                            qemu_plugin_vcpu_mem_haddr_cb_t cb,
++                                            enum qemu_plugin_cb_flags flags,
++                                            enum qemu_plugin_mem_rw rw,
++                                            void *userdata);
++
++void qemu_plugin_register_vcpu_mem_inline(struct qemu_plugin_insn *insn,
++                                          enum qemu_plugin_mem_rw rw,
++                                          enum qemu_plugin_op op, void *ptr,
++                                          uint64_t imm);
++
++uint64_t qemu_plugin_ram_addr_from_host(void *haddr);
++
++typedef void
++(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_index,
++                                 int64_t num, uint64_t a1, uint64_t a2,
++                                 uint64_t a3, uint64_t a4, uint64_t a5,
++                                 uint64_t a6, uint64_t a7, uint64_t a8);
++
++void qemu_plugin_register_vcpu_syscall_cb(qemu_plugin_id_t id,
++                                          qemu_plugin_vcpu_syscall_cb_t cb);
++
++typedef void
++(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_idx,
++                                     int64_t num, int64_t ret);
++
++void
++qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
++                                         qemu_plugin_vcpu_syscall_ret_cb_t cb);
++
++
++/**
++ * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
++ * @id: plugin ID
++ * @cb: callback function
++ *
++ * The @cb function is called once for each existing vCPU.
++ *
++ * See also: qemu_plugin_register_vcpu_init_cb()
++ */
++void qemu_plugin_vcpu_for_each(qemu_plugin_id_t id,
++                               qemu_plugin_vcpu_simple_cb_t cb);
++
++void qemu_plugin_register_flush_cb(qemu_plugin_id_t id,
++                                   qemu_plugin_simple_cb_t cb);
++
++void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
++                                    qemu_plugin_udata_cb_t cb, void *userdata);
++
++/* returns -1 in user-mode */
++int qemu_plugin_n_vcpus(void);
++
++/* returns -1 in user-mode */
++int qemu_plugin_n_max_vcpus(void);
++
++#endif /* QEMU_PLUGIN_API_H */
 -- 
 2.20.1
 
