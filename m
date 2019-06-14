@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B033463E6
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:20:21 +0200 (CEST)
-Received: from localhost ([::1]:53128 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74544640C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:28:23 +0200 (CEST)
+Received: from localhost ([::1]:53292 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbow6-0007QL-AN
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:20:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33968)
+	id 1hbp3u-0004wn-NV
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34528)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1hbobq-0001Cw-9t
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:59:24 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hboec-0002Dp-Oc
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:02:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1hbobn-0005vo-58
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:59:22 -0400
-Received: from mga18.intel.com ([134.134.136.126]:2024)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hbobm-0005Pa-Mg
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:59:19 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2019 08:59:17 -0700
-X-ExtLoop1: 1
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
- by orsmga008.jf.intel.com with ESMTP; 14 Jun 2019 08:59:15 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: imammedo@redhat.com,
-	eblake@redhat.com,
-	ehabkost@redhat.com
-Date: Fri, 14 Jun 2019 23:56:26 +0800
-Message-Id: <20190614155626.27932-9-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190614155626.27932-1-tao3.xu@intel.com>
-References: <20190614155626.27932-1-tao3.xu@intel.com>
+ (envelope-from <no-reply@patchew.org>) id 1hboeb-0000nX-2w
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:02:14 -0400
+Resent-Date: Fri, 14 Jun 2019 12:02:14 -0400
+Resent-Message-Id: <E1hboeb-0000nX-2w@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21434)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hboea-0000l5-QN
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:02:13 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560528117; cv=none; d=zoho.com; s=zohoarc; 
+ b=GeBWEH5EBN5AuTso3VTHFgRiz9qNupcvsk34qiC+O8PWdV5HPYizUJeMQTkp2Jb8cbQfeM4WuquWu0xx0loY/pYMcECbrnTRD5emGwrZO6805YKJGcUtfWB7h2g1O4h0dlW0MMm+Dh7grW10jXsO83aX6JYNEYXeo2wJKe1duSg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1560528117;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=EkgdUK0YZ+a72KheBNp24F9xQdtwpNihfwpwhsrIYVo=; 
+ b=dT1cbHfdwRnF6riETBHPo/lRgjsPxBd4YNZ2MuaGfCWxpqNRFFJh+ejJiCWhPxUbxs3R9bUo/VNpOC1Kk85BS6rODK5/2SKA9P2uOOw28lE2FVtW0nWIRXCR7JA/iNCsxSBkAtlRVz4mZfczpdGtWS1vtS/ZgSGHPpWlLevUJBM=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1560528115021709.1258138890714;
+ Fri, 14 Jun 2019 09:01:55 -0700 (PDT)
+In-Reply-To: <20190614135332.12777-1-vandersonmr2@gmail.com>
+Message-ID: <156052811424.13573.5259552275497724156@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.126
-Subject: [Qemu-devel] [PATCH v5 8/8] numa: Extend the command-line to
- provide memory latency and bandwidth information
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vandersonmr2@gmail.com
+Date: Fri, 14 Jun 2019 09:01:55 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH 0/3] Collecting TB Execution Frequency
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,389 +61,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, fan.du@intel.com,
- qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Jingqi <jingqi.liu@intel.com>
-
-Add -numa hmat-lb option to provide System Locality Latency and
-Bandwidth Information. These memory attributes help to build
-System Locality Latency and Bandwidth Information Structure(s)
-in ACPI Heterogeneous Memory Attribute Table (HMAT).
-
-Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
-
-Changes in v5 -> v4:
-    - Add error message when base unit < 10
-    - Add more descriptions about option hmat-lb (Igor)
-    - Fix some spell error
-    - Update the hmat-lb option example by using '-numa cpu'
-    and '-numa memdev' (Igor)
----
- numa.c          | 135 ++++++++++++++++++++++++++++++++++++++++++++++++
- qapi/misc.json  |  94 ++++++++++++++++++++++++++++++++-
- qemu-options.hx |  45 +++++++++++++++-
- 3 files changed, 271 insertions(+), 3 deletions(-)
-
-diff --git a/numa.c b/numa.c
-index 5556d118c3..ca9d99743a 100644
---- a/numa.c
-+++ b/numa.c
-@@ -40,6 +40,7 @@
- #include "qemu/option.h"
- #include "qemu/config-file.h"
- #include "qemu/cutils.h"
-+#include "hw/acpi/hmat.h"
- 
- QemuOptsList qemu_numa_opts = {
-     .name = "numa",
-@@ -179,6 +180,134 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
-     ms->numa_state->have_numa_distance = true;
- }
- 
-+static void parse_numa_hmat_lb(MachineState *ms, NumaHmatLBOptions *node,
-+                               Error **errp)
-+{
-+    int nb_numa_nodes = ms->numa_state->num_nodes;
-+    NodeInfo *numa_info = ms->numa_state->nodes;
-+    HMAT_LB_Info *hmat_lb = NULL;
-+
-+    if (node->data_type <= HMATLB_DATA_TYPE_WRITE_LATENCY) {
-+        if (!node->has_latency) {
-+            error_setg(errp, "Missing 'latency' option.");
-+            return;
-+        }
-+        if (node->has_bandwidth) {
-+            error_setg(errp, "Invalid option 'bandwidth' since "
-+                       "the data type is latency.");
-+            return;
-+        }
-+        if (node->has_base_bw) {
-+            error_setg(errp, "Invalid option 'base_bw' since "
-+                       "the data type is latency.");
-+            return;
-+        }
-+    }
-+
-+    if (node->data_type >= HMATLB_DATA_TYPE_ACCESS_BANDWIDTH) {
-+        if (!node->has_bandwidth) {
-+            error_setg(errp, "Missing 'bandwidth' option.");
-+            return;
-+        }
-+        if (node->has_latency) {
-+            error_setg(errp, "Invalid option 'latency' since "
-+                       "the data type is bandwidth.");
-+            return;
-+        }
-+        if (node->has_base_lat) {
-+            error_setg(errp, "Invalid option 'base_lat' since "
-+                       "the data type is bandwidth.");
-+            return;
-+        }
-+    }
-+
-+    if (node->initiator >= nb_numa_nodes) {
-+        error_setg(errp, "Invalid initiator=%"
-+                   PRIu16 ", it should be less than %d.",
-+                   node->initiator, nb_numa_nodes);
-+        return;
-+    }
-+    if (!numa_info[node->initiator].is_initiator) {
-+        error_setg(errp, "Invalid initiator=%"
-+                   PRIu16 ", it isn't an initiator proximity domain.",
-+                   node->initiator);
-+        return;
-+    }
-+
-+    if (node->target >= nb_numa_nodes) {
-+        error_setg(errp, "Invalid target=%"
-+                   PRIu16 ", it should be less than %d.",
-+                   node->target, nb_numa_nodes);
-+        return;
-+    }
-+    if (!numa_info[node->target].is_target) {
-+        error_setg(errp, "Invalid target=%"
-+                   PRIu16 ", it isn't a target proximity domain.",
-+                   node->target);
-+        return;
-+    }
-+
-+    if (node->has_latency) {
-+        hmat_lb = ms->numa_state->hmat_lb[node->hierarchy][node->data_type];
-+
-+        if (!hmat_lb) {
-+            hmat_lb = g_malloc0(sizeof(*hmat_lb));
-+            ms->numa_state->hmat_lb[node->hierarchy][node->data_type] = hmat_lb;
-+        } else if (hmat_lb->latency[node->initiator][node->target]) {
-+            error_setg(errp, "Duplicate configuration of the latency for "
-+                       "initiator=%" PRIu16 " and target=%" PRIu16 ".",
-+                       node->initiator, node->target);
-+            return;
-+        }
-+
-+        /* Only the first time of setting the base unit is valid. */
-+        if ((hmat_lb->base_lat == 0) && (node->has_base_lat)) {
-+            if (node->base_lat >= 10) {
-+                hmat_lb->base_lat = node->base_lat;
-+            } else {
-+                error_setg(errp, "The minimum latency base unit is 10.");
-+                return;
-+            }
-+        }
-+
-+        hmat_lb->latency[node->initiator][node->target] = node->latency;
-+    }
-+
-+    if (node->has_bandwidth) {
-+        hmat_lb = ms->numa_state->hmat_lb[node->hierarchy][node->data_type];
-+
-+        if (!hmat_lb) {
-+            hmat_lb = g_malloc0(sizeof(*hmat_lb));
-+            ms->numa_state->hmat_lb[node->hierarchy][node->data_type] = hmat_lb;
-+        } else if (hmat_lb->bandwidth[node->initiator][node->target]) {
-+            error_setg(errp, "Duplicate configuration of the bandwidth for "
-+                       "initiator=%" PRIu16 " and target=%" PRIu16 ".",
-+                       node->initiator, node->target);
-+            return;
-+        }
-+
-+        /* Only the first time of setting the base unit is valid. */
-+        if (hmat_lb->base_bw == 0) {
-+            if (!node->has_base_bw) {
-+                error_setg(errp, "Missing 'base-bw' option");
-+                return;
-+            } else if (node->base_bw < 10) {
-+                error_setg(errp, "The minimum bandwidth base unit is 10.");
-+                return;
-+            } else {
-+                hmat_lb->base_bw = node->base_bw;
-+            }
-+        }
-+
-+        hmat_lb->bandwidth[node->initiator][node->target] = node->bandwidth;
-+    }
-+
-+    if (hmat_lb) {
-+        hmat_lb->hierarchy = node->hierarchy;
-+        hmat_lb->data_type = node->data_type;
-+    }
-+}
-+
- static
- void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
- {
-@@ -218,6 +347,12 @@ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
-         machine_set_cpu_numa_node(ms, qapi_NumaCpuOptions_base(&object->u.cpu),
-                                   &err);
-         break;
-+    case NUMA_OPTIONS_TYPE_HMAT_LB:
-+        parse_numa_hmat_lb(ms, &object->u.hmat_lb, &err);
-+        if (err) {
-+            goto end;
-+        }
-+        break;
-     default:
-         abort();
-     }
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 8b3ca4fdd3..a3fe411137 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -2539,10 +2539,12 @@
- #
- # @cpu: property based CPU(s) to node mapping (Since: 2.10)
- #
-+# @hmat-lb: memory latency and bandwidth information (Since: 4.1)
-+#
- # Since: 2.1
- ##
- { 'enum': 'NumaOptionsType',
--  'data': [ 'node', 'dist', 'cpu' ] }
-+  'data': [ 'node', 'dist', 'cpu', 'hmat-lb' ] }
- 
- ##
- # @NumaOptions:
-@@ -2557,7 +2559,8 @@
-   'data': {
-     'node': 'NumaNodeOptions',
-     'dist': 'NumaDistOptions',
--    'cpu': 'NumaCpuOptions' }}
-+    'cpu': 'NumaCpuOptions',
-+    'hmat-lb': 'NumaHmatLBOptions' }}
- 
- ##
- # @NumaNodeOptions:
-@@ -2620,6 +2623,93 @@
-    'base': 'CpuInstanceProperties',
-    'data' : {} }
- 
-+##
-+# @HmatLBMemoryHierarchy:
-+#
-+# The memory hierarchy in the System Locality Latency
-+# and Bandwidth Information Structure of HMAT (Heterogeneous
-+# Memory Attribute Table)
-+#
-+# @memory: the structure represents the memory performance
-+#
-+# @last-level: last level memory of memory side cached memory
-+#
-+# @first-level: first level memory of memory side cached memory
-+#
-+# @second-level: second level memory of memory side cached memory
-+#
-+# @third-level: third level memory of memory side cached memory
-+#
-+# Since: 4.1
-+##
-+{ 'enum': 'HmatLBMemoryHierarchy',
-+  'data': [ 'memory', 'last-level', 'first-level',
-+            'second-level', 'third-level' ] }
-+
-+##
-+# @HmatLBDataType:
-+#
-+# Data type in the System Locality Latency
-+# and Bandwidth Information Structure of HMAT (Heterogeneous
-+# Memory Attribute Table)
-+#
-+# @access-latency: access latency (nanoseconds)
-+#
-+# @read-latency: read latency (nanoseconds)
-+#
-+# @write-latency: write latency (nanoseconds)
-+#
-+# @access-bandwidth: access bandwidth (MB/s)
-+#
-+# @read-bandwidth: read bandwidth (MB/s)
-+#
-+# @write-bandwidth: write bandwidth (MB/s)
-+#
-+# Since: 4.1
-+##
-+{ 'enum': 'HmatLBDataType',
-+  'data': [ 'access-latency', 'read-latency', 'write-latency',
-+            'access-bandwidth', 'read-bandwidth', 'write-bandwidth' ] }
-+
-+##
-+# @NumaHmatLBOptions:
-+#
-+# Set the system locality latency and bandwidth information
-+# between Initiator and Target proximity Domains.
-+#
-+# @initiator: the Initiator Proximity Domain.
-+#
-+# @target: the Target Proximity Domain.
-+#
-+# @hierarchy: the Memory Hierarchy. Indicates the performance
-+#             of memory or side cache.
-+#
-+# @data-type: presents the type of data, access/read/write
-+#             latency or hit latency.
-+#
-+# @base-lat: the base unit for latency in nanoseconds.
-+#
-+# @base-bw: the base unit for bandwidth in megabytes per second(MB/s).
-+#
-+# @latency: the value of latency based on Base Unit from @initiator
-+#           to @target proximity domain.
-+#
-+# @bandwidth: the value of bandwidth based on Base Unit between
-+#             @initiator and @target proximity domain.
-+#
-+# Since: 4.1
-+##
-+{ 'struct': 'NumaHmatLBOptions',
-+    'data': {
-+    'initiator': 'uint16',
-+    'target': 'uint16',
-+    'hierarchy': 'HmatLBMemoryHierarchy',
-+    'data-type': 'HmatLBDataType',
-+    '*base-lat': 'uint64',
-+    '*base-bw': 'uint64',
-+    '*latency': 'uint16',
-+    '*bandwidth': 'uint16' }}
-+
- ##
- # @HostMemPolicy:
- #
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 0d8beb4afd..4179be516f 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -163,16 +163,19 @@ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
-     "-numa node[,mem=size][,cpus=firstcpu[-lastcpu]][,nodeid=node]\n"
-     "-numa node[,memdev=id][,cpus=firstcpu[-lastcpu]][,nodeid=node]\n"
-     "-numa dist,src=source,dst=destination,val=distance\n"
--    "-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]\n",
-+    "-numa cpu,node-id=node[,socket-id=x][,core-id=y][,thread-id=z]\n"
-+    "-numa hmat-lb,initiator=node,target=node,hierarchy=memory|last-level|first-level|second-level|third-level,data-type=access-latency|read-latency|write-latency[,base-lat=blat][,base-bw=bbw][,latency=lat][,bandwidth=bw]\n",
-     QEMU_ARCH_ALL)
- STEXI
- @item -numa node[,mem=@var{size}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}]
- @itemx -numa node[,memdev=@var{id}][,cpus=@var{firstcpu}[-@var{lastcpu}]][,nodeid=@var{node}]
- @itemx -numa dist,src=@var{source},dst=@var{destination},val=@var{distance}
- @itemx -numa cpu,node-id=@var{node}[,socket-id=@var{x}][,core-id=@var{y}][,thread-id=@var{z}]
-+@itemx -numa hmat-lb,initiator=@var{node},target=@var{node},hierarchy=@var{str},data-type=@var{str}[,base-lat=@var{blat}][,base-bw=@var{bbw}][,latency=@var{lat}][,bandwidth=@var{bw}]
- @findex -numa
- Define a NUMA node and assign RAM and VCPUs to it.
- Set the NUMA distance from a source node to a destination node.
-+Set the ACPI Heterogeneous Memory Attributes for the given nodes.
- 
- Legacy VCPU assignment uses @samp{cpus} option where
- @var{firstcpu} and @var{lastcpu} are CPU indexes. Each
-@@ -230,6 +233,46 @@ specified resources, it just assigns existing resources to NUMA
- nodes. This means that one still has to use the @option{-m},
- @option{-smp} options to allocate RAM and VCPUs respectively.
- 
-+Use @samp{hmat-lb} to set System Locality Latency and Bandwidth Information
-+between initiator and target NUMA nodes in ACPI Heterogeneous Attribute Memory Table (HMAT).
-+Initiator NUMA node can create memory requests, usually including one or more processors.
-+Target NUMA node contains addressable memory.
-+[,base-lat=@var{blat}][,base-bw=@var{bbw}][,latency=@var{lat}][,bandwidth=@var{bw}]
-+
-+In @samp{hmat-lb} option, @var{node} are NUMA node IDs. @var{str} of 'hierarchy'
-+is the memory hierarchy of the target NUMA node: if @var{str} is 'memory', the structure
-+represents the memory performance; if @var{str} is 'last-level|first-level|second-level|third-level',
-+this structure represents aggregated performance of memory side caches for each domain.
-+@var{str} of 'data-type' is type of data represented by this structure instance:
-+if 'hierarchy' is 'memory', 'data-type' is 'access|read|write' latency(nanoseconds)
-+or 'access|read|write' bandwidth(MB/s) of the target memory; if 'hierarchy' is
-+'last-level|first-level|second-level|third-level', 'data-type' is 'access|read|write' hit latency(nanoseconds)
-+or 'access|read|write' hit bandwidth of the target memory side cache. @var{blat}
-+or @var{bbw} is Matrix Entry Values(latency or bandwidth) base unit used for normalizing
-+the matrix entry values(which store the latency or bandwidth values). Base unit
-+for latency in nanoseconds. Base unit for bandwidth in megabytes per second(MB/s).
-+Note: Due to the minimum matrix value entry value being 10, the base unit corresponds
-+to a value of 10. And @var{blat} or @var{bbw} should be an integer. @var{lat} or
-+@var{bw} is the latency/bandwidth value.
-+
-+For example, the following option assigns NUMA node 0 and 1. Node 0 has 2 cpus and
-+a ram, node 1 has only a ran. The processors in node 0 access memory in node
-+0 with access-latency 5 nanoseconds(base latency is 10), access-bandwidth 5 MB/s(base latency is 20);
-+The processors in NUMA node 0 access memory in NUMA node 1 with access-latency 10
-+nanoseconds(base latency is 10), access-bandwidth 10 MB/s(base latency is 20):
-+@example
-+-m 2G \
-+-object memory-backend-ram,size=1024M,policy=bind,host-nodes=0,id=ram-node0 -numa node,nodeid=0,memdev=ram-node0 \
-+-object memory-backend-ram,size=1024M,policy=bind,host-nodes=1,id=ram-node1 -numa node,nodeid=1,memdev=ram-node1 \
-+-smp 2 \
-+-numa cpu,node-id=0,socket-id=0 \
-+-numa cpu,node-id=0,socket-id=1 \
-+-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,base-lat=10,latency=5 \
-+-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,base-bw=20,bandwidth=5 \
-+-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,base-lat=10,latency=10 \
-+-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,base-bw=20,bandwidth=10 \
-+@end example
-+
- ETEXI
- 
- DEF("add-fd", HAS_ARG, QEMU_OPTION_add_fd,
--- 
-2.20.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxNDEzNTMzMi4xMjc3
+Ny0xLXZhbmRlcnNvbm1yMkBnbWFpbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggMC8zXSBDb2xsZWN0
+aW5nIFRCIEV4ZWN1dGlvbiBGcmVxdWVuY3kKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkw
+NjE0MTM1MzMyLjEyNzc3LTEtdmFuZGVyc29ubXIyQGdtYWlsLmNvbQoKPT09IFRFU1QgU0NSSVBU
+IEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwg
+ZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRo
+bSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09
+IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3
+ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3Fl
+bXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8xNTU5MTI1NDg0NjMuMjAxOTAwNC4zNTE1
+ODMwMzA1Mjk5ODA5OTAyLnN0Z2l0QGJhaGlhLmxhbiAtPiBwYXRjaGV3LzE1NTkxMjU0ODQ2My4y
+MDE5MDA0LjM1MTU4MzAzMDUyOTk4MDk5MDIuc3RnaXRAYmFoaWEubGFuCiAtIFt0YWcgdXBkYXRl
+XSAgICAgIHBhdGNoZXcvMTU2MDUxNzc0Mjc2LjI0NDg5MC44NjYwMjc3MjgwMTQ1NDY2Mzk2LnN0
+Z2l0QGJhaGlhLmxhbiAtPiBwYXRjaGV3LzE1NjA1MTc3NDI3Ni4yNDQ4OTAuODY2MDI3NzI4MDE0
+NTQ2NjM5Ni5zdGdpdEBiYWhpYS5sYW4KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo2
+NTEyMzg3IEFkZGluZyBjb21tYW5kIGxpbmUgb3B0aW9uIHRvIGxpbnV4LXVzZXIuCmFmNTJlZmQg
+U2F2aW5nIGNvdW50ZXJzIGJldHdlZW4gdGJfZmx1c2ggZXZlbnRzLgo5MDZjOGVmIEFkZGluZyBh
+biBvcHRpb25hbCB0YiBleGVjdXRpb24gY291bnRlci4KCj09PSBPVVRQVVQgQkVHSU4gPT09CjEv
+MyBDaGVja2luZyBjb21taXQgOTA2YzhlZjkyYWFjIChBZGRpbmcgYW4gb3B0aW9uYWwgdGIgZXhl
+Y3V0aW9uIGNvdW50ZXIuKQpFUlJPUjogIihmb28qKSIgc2hvdWxkIGJlICIoZm9vICopIgojMjQ6
+IEZJTEU6IGFjY2VsL3RjZy90Y2ctcnVudGltZS5jOjE3MzoKKyAgICBUcmFuc2xhdGlvbkJsb2Nr
+KiB0YiA9IChUcmFuc2xhdGlvbkJsb2NrKikgcHRyOwoKRVJST1I6IGRvIG5vdCBpbml0aWFsaXNl
+IGdsb2JhbHMgdG8gMCBvciBOVUxMCiM4MzogRklMRTogbGludXgtdXNlci9tYWluLmM6NjE6Citi
+b29sIGVuYWJsZV9mcmVxX2NvdW50ID0gZmFsc2U7CgpFUlJPUjogZG8gbm90IGluaXRpYWxpc2Ug
+Z2xvYmFscyB0byAwIG9yIE5VTEwKIzk1OiBGSUxFOiB2bC5jOjE5MzoKK2Jvb2wgZW5hYmxlX2Zy
+ZXFfY291bnQgPSBmYWxzZTsKCnRvdGFsOiAzIGVycm9ycywgMCB3YXJuaW5ncywgNTYgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggMS8zIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzMgQ2hlY2tp
+bmcgY29tbWl0IGFmNTJlZmQ3ODQyZCAoU2F2aW5nIGNvdW50ZXJzIGJldHdlZW4gdGJfZmx1c2gg
+ZXZlbnRzLikKRVJST1I6ICJmb28qIGJhciIgc2hvdWxkIGJlICJmb28gKmJhciIKIzIyOiBGSUxF
+OiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjExMjE6CitzdGF0aWMgYm9vbCBzdGF0aXN0aWNz
+X2NtcChjb25zdCB2b2lkKiBhcCwgY29uc3Qgdm9pZCAqYnApIHsKCkVSUk9SOiBvcGVuIGJyYWNl
+ICd7JyBmb2xsb3dpbmcgZnVuY3Rpb24gZGVjbGFyYXRpb25zIGdvIG9uIHRoZSBuZXh0IGxpbmUK
+IzIyOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjExMjE6CitzdGF0aWMgYm9vbCBz
+dGF0aXN0aWNzX2NtcChjb25zdCB2b2lkKiBhcCwgY29uc3Qgdm9pZCAqYnApIHsKCkVSUk9SOiBs
+aW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMzU6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxs
+LmM6MTE0NjoKKyAgICBxaHRfaW5pdCgmdGJfY3R4LnRiX3N0YXRpc3RpY3MsIHN0YXRpc3RpY3Nf
+Y21wLCBDT0RFX0dFTl9IVEFCTEVfU0laRSwgUUhUX01PREVfQVVUT19SRVNJWkUpOwoKRVJST1I6
+ICIoZm9vKikiIHNob3VsZCBiZSAiKGZvbyAqKSIKIzcwOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNs
+YXRlLWFsbC5jOjEyNjU6CisgICAgdWludDY0X3QgZXhlY19mcmVxID0gdGJfZ2V0X2FuZF9yZXNl
+dF9leGVjX2ZyZXEoKFRyYW5zbGF0aW9uQmxvY2sqKSBwKTsKCkVSUk9SOiAiKGZvbyopIiBzaG91
+bGQgYmUgIihmb28gKikiCiMxOTA6IEZJTEU6IGluY2x1ZGUvcW9tL2NwdS5oOjQ3NzoKK3VpbnQ2
+NF90IHRiX2dldF9hbmRfcmVzZXRfZXhlY19mcmVxKHN0cnVjdCBUcmFuc2xhdGlvbkJsb2NrKik7
+Cgp0b3RhbDogNSBlcnJvcnMsIDAgd2FybmluZ3MsIDE0NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAy
+LzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvMyBDaGVja2luZyBjb21taXQgNjUxMjM4
+NzkzNDczIChBZGRpbmcgY29tbWFuZCBsaW5lIG9wdGlvbiB0byBsaW51eC11c2VyLikKRVJST1I6
+IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzIyOiBGSUxFOiBsaW51eC11
+c2VyL2V4aXQuYzoyOToKK2V4dGVybiBib29sIGVuYWJsZV9mcmVxX2NvdW50OwoKdG90YWw6IDEg
+ZXJyb3JzLCAwIHdhcm5pbmdzLCAzMiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzMgaGFzIHN0eWxl
+IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
+c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
+SCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRl
+ZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
+aGV3Lm9yZy9sb2dzLzIwMTkwNjE0MTM1MzMyLjEyNzc3LTEtdmFuZGVyc29ubXIyQGdtYWlsLmNv
+bS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
+dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
+bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
 
