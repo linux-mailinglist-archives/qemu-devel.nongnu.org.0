@@ -2,47 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB86346086
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:21:46 +0200 (CEST)
-Received: from localhost ([::1]:51988 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6905245EB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:46:03 +0200 (CEST)
+Received: from localhost ([::1]:51678 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbn5O-0002z4-1q
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:21:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46711)
+	id 1hbmWo-0003yq-JW
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:46:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46193)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbmS3-0001wL-Mo
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:09 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hbmRU-0001Wo-7m
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbmS2-0006AA-8l
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57080)
+ (envelope-from <eric.auger@redhat.com>) id 1hbmRS-0005hA-SP
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50742)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbmRw-00064u-5k; Fri, 14 Jun 2019 09:41:00 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hbmRQ-0005aD-1V; Fri, 14 Jun 2019 09:40:28 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 61E3E81DFE;
- Fri, 14 Jun 2019 13:40:59 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B52217983;
- Fri, 14 Jun 2019 13:40:57 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Fri, 14 Jun 2019 15:40:14 +0200
-Message-Id: <20190614134021.32486-14-mreitz@redhat.com>
-In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
-References: <20190614134021.32486-1-mreitz@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 0DD63316290D;
+ Fri, 14 Jun 2019 13:40:22 +0000 (UTC)
+Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A732F1001B1A;
+ Fri, 14 Jun 2019 13:40:17 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190611142821.3874-1-eric.auger@redhat.com>
+ <20190611142821.3874-3-eric.auger@redhat.com>
+ <CAFEAcA_OYdL1TPN+OTdkZ0J2fx_4vFiXCs0fUVdGjkkMURCfZA@mail.gmail.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <ef87a46b-06fc-a66d-37ca-4499afc76663@redhat.com>
+Date: Fri, 14 Jun 2019 15:40:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAFEAcA_OYdL1TPN+OTdkZ0J2fx_4vFiXCs0fUVdGjkkMURCfZA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 14 Jun 2019 13:40:59 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.41]); Fri, 14 Jun 2019 13:40:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/20] blockdev: Overlays are not snapshots
+Subject: Re: [Qemu-devel] [PATCH 2/2] hw/arm/smmuv3: Implement dummy replay
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,120 +60,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are error messages which refer to an overlay node as the snapshot.
-That is wrong, those are two different things.
+Hi Peter,
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20190603202236.1342-3-mreitz@redhat.com
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- blockdev.c                 | 10 +++++-----
- tests/qemu-iotests/085.out | 10 +++++-----
- 2 files changed, 10 insertions(+), 10 deletions(-)
+On 6/14/19 3:26 PM, Peter Maydell wrote:
+> On Tue, 11 Jun 2019 at 15:29, Eric Auger <eric.auger@redhat.com> wrote:
+>>
+>> On ARM we currently do not support VFIO-PCI devices protected
+>> by the IOMMU. Any attempt to run such use case results in this
+>> kind of warning:
+>>
+>> "-device vfio-pci,host=0004:01:00.0,id=hostdev0,bus=pci.1,addr=0x0:
+>> warning: SMMUv3 does not support notification on MAP: device vfio-pci
+>> will not function properly".
+>>
+>> However this is just a warning and this should not prevent the
+>> guest from booting in a reasonable amount of time. This does not
+>> happen currently.
+>>
+>> This is due to the fact the VFIO vfio_listener_region_add() calls
+>> memory_region_iommu_replay(). As the SMMUv3 IOMMUMemoryRegionClass
+>> currently does not implement the replay() callback, the default
+>> memory_region_iommu_replay() implementation is used. This latter
+>> loops on the whole notifier's range (48b address space), translates
+>> each page and call the notifier on the resulting entry. This totally
+>> freezes the guest.
+>>
+>> The Intel IOMMU implements the replay() function which only
+>> notifies valid page table entries.
+>>
+>> In the looming SMMUv3 nested stage VFIO integration, there will be
+>> no need to replay() anything as there will not be any shadow page
+>> tables: the stage 1 page tables are owned by the guest.
+>>
+>> So let's implement a void replay() which satisfies both cases.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> ---
+>>  hw/arm/smmuv3.c | 6 ++++++
+>>  1 file changed, 6 insertions(+)
+>>
+>> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+>> index e2f07d2864..1f578365ef 100644
+>> --- a/hw/arm/smmuv3.c
+>> +++ b/hw/arm/smmuv3.c
+>> @@ -1489,6 +1489,11 @@ static void smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>>      }
+>>  }
+>>
+>> +static inline void
+>> +smmuv3_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+>> +{
+>> +}
+> 
+> This doesn't seem like a valid implementation of the replay
+> method to me. The API doc comment says
+>      * The default implementation of memory_region_iommu_replay() is to
+>      * call the IOMMU translate method for every page in the address space
+>      * with flag == IOMMU_NONE and then call the notifier if translate
+>      * returns a valid mapping. If this method is implemented then it
+>      * overrides the default behaviour, and must provide the full semantics
+>      * of memory_region_iommu_replay(), by calling @notifier for every
+>      * translation present in the IOMMU.
+> 
+> This empty function is definitely not going to call the notifier
+> for every IOMMU translation...
+The situation is a bit odd. SMMUv3 is not integrated with VFIO so VFIO
+devices will not work anyway (we are not able to notify on MAP). There
+is a warning already reporting the issue. However the default
+implementation of memory_region_iommu_replay() prevents the guest from
+booting. So what would you advise?
 
-diff --git a/blockdev.c b/blockdev.c
-index fdafa173cc..b5c0fd3c49 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1608,13 +1608,13 @@ static void external_snapshot_prepare(BlkActionSt=
-ate *common,
-             s->has_snapshot_node_name ? s->snapshot_node_name : NULL;
-=20
-         if (node_name && !snapshot_node_name) {
--            error_setg(errp, "New snapshot node name missing");
-+            error_setg(errp, "New overlay node name missing");
-             goto out;
-         }
-=20
-         if (snapshot_node_name &&
-             bdrv_lookup_bs(snapshot_node_name, snapshot_node_name, NULL)=
-) {
--            error_setg(errp, "New snapshot node name already in use");
-+            error_setg(errp, "New overlay node name already in use");
-             goto out;
-         }
-=20
-@@ -1656,7 +1656,7 @@ static void external_snapshot_prepare(BlkActionStat=
-e *common,
-     }
-=20
-     if (bdrv_has_blk(state->new_bs)) {
--        error_setg(errp, "The snapshot is already in use");
-+        error_setg(errp, "The overlay is already in use");
-         goto out;
-     }
-=20
-@@ -1666,12 +1666,12 @@ static void external_snapshot_prepare(BlkActionSt=
-ate *common,
-     }
-=20
-     if (state->new_bs->backing !=3D NULL) {
--        error_setg(errp, "The snapshot already has a backing image");
-+        error_setg(errp, "The overlay already has a backing image");
-         goto out;
-     }
-=20
-     if (!state->new_bs->drv->supports_backing) {
--        error_setg(errp, "The snapshot does not support backing images")=
-;
-+        error_setg(errp, "The overlay does not support backing images");
-         goto out;
-     }
-=20
-diff --git a/tests/qemu-iotests/085.out b/tests/qemu-iotests/085.out
-index 6edf107f55..2a5f256cd3 100644
---- a/tests/qemu-iotests/085.out
-+++ b/tests/qemu-iotests/085.out
-@@ -64,13 +64,13 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1=
-34217728 backing_file=3DTEST_DIR/
-=20
- =3D=3D=3D Invalid command - cannot create a snapshot using a file BDS =3D=
-=3D=3D
-=20
--{"error": {"class": "GenericError", "desc": "The snapshot does not suppo=
-rt backing images"}}
-+{"error": {"class": "GenericError", "desc": "The overlay does not suppor=
-t backing images"}}
-=20
- =3D=3D=3D Invalid command - snapshot node used as active layer =3D=3D=3D
-=20
--{"error": {"class": "GenericError", "desc": "The snapshot is already in =
-use"}}
--{"error": {"class": "GenericError", "desc": "The snapshot is already in =
-use"}}
--{"error": {"class": "GenericError", "desc": "The snapshot is already in =
-use"}}
-+{"error": {"class": "GenericError", "desc": "The overlay is already in u=
-se"}}
-+{"error": {"class": "GenericError", "desc": "The overlay is already in u=
-se"}}
-+{"error": {"class": "GenericError", "desc": "The overlay is already in u=
-se"}}
-=20
- =3D=3D=3D Invalid command - snapshot node used as backing hd =3D=3D=3D
-=20
-@@ -81,7 +81,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134=
-217728 backing_file=3DTEST_DIR/
- Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D134217728
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_fi=
-le=3DTEST_DIR/t.IMGFMT.base
- {"return": {}}
--{"error": {"class": "GenericError", "desc": "The snapshot already has a =
-backing image"}}
-+{"error": {"class": "GenericError", "desc": "The overlay already has a b=
-acking image"}}
-=20
- =3D=3D=3D Invalid command - The node does not exist =3D=3D=3D
-=20
---=20
-2.21.0
+Thanks
 
+Eric
+> 
+> thanks
+> -- PMM
+> 
 
