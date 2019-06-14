@@ -2,51 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817A945158
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 03:52:00 +0200 (CEST)
-Received: from localhost ([::1]:46626 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DF145164
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 03:54:29 +0200 (CEST)
+Received: from localhost ([::1]:46650 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbbNn-0004qA-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 21:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56938)
+	id 1hbbQC-0007ip-UQ
+	for lists+qemu-devel@lfdr.de; Thu, 13 Jun 2019 21:54:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57688)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hbbL1-0003Hp-5X
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:49:08 -0400
+ (envelope-from <aik@ozlabs.ru>) id 1hbbOY-0006s8-G3
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:52:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hbbKz-0003Pj-QF
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:49:07 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36263 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hbbKx-0003F3-2z
- for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:49:05 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45Q3Rt3Vlwz9sDB; Fri, 14 Jun 2019 11:48:58 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1560476938;
- bh=pGNly4E5BqUrZ5zyFscDy9L92k//EyEyxp4jPEehBkg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VdApZ/3HUrcnnwm8Mh2ypkEuSdU917WKlzdP4j27gTFcW7FQlSkJC9+uqgs80/KIP
- ChLo1UXzqwAmsIQWvsi8Z8RpmUpATsg2zQ5qM4OZuRIllufSSnaq0Xm/dyr4WbIg2o
- a6EcT7xUnOhlFEZUbCWtaC1kPcpuJHuiZbxYT1lk=
-Date: Fri, 14 Jun 2019 11:40:57 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190614014056.GD11158@umbus.fritz.box>
-References: <20190613060728.26955-1-david@gibson.dropbear.id.au>
- <20190613060728.26955-3-david@gibson.dropbear.id.au>
- <617a8179-7dcc-7c51-1239-6e4893090d43@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="rqzD5py0kzyFAOWN"
-Content-Disposition: inline
-In-Reply-To: <617a8179-7dcc-7c51-1239-6e4893090d43@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 2/3] tests/acceptance: Handle ppc64le host
- arch correctly
+ (envelope-from <aik@ozlabs.ru>) id 1hbbOW-0004xs-SA
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:52:46 -0400
+Received: from ozlabs.ru ([107.173.13.209]:44047)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <aik@ozlabs.ru>) id 1hbbOW-0004wS-KM
+ for qemu-devel@nongnu.org; Thu, 13 Jun 2019 21:52:44 -0400
+Received: from fstn1-p1.ozlabs.ibm.com (localhost [IPv6:::1])
+ by ozlabs.ru (Postfix) with ESMTP id AD6A8AE807F0;
+ Thu, 13 Jun 2019 21:52:40 -0400 (EDT)
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+To: qemu-devel@nongnu.org
+Date: Fri, 14 Jun 2019 11:52:37 +1000
+Message-Id: <20190614015237.82463-1-aik@ozlabs.ru>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 107.173.13.209
+Subject: [Qemu-devel] [PATCH qemu v3] hmp: Print if memory section is
+ registered with an accelerator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,82 +43,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
- aurelien@aurel32.net, crosa@redhat.com
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This adds an accelerator name to the "into mtree -f" to tell the user if
+a particular memory section is registered with the accelerator;
+the primary user for this is KVM and such information is useful
+for debugging purposes.
 
---rqzD5py0kzyFAOWN
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This adds a has_memory() callback to the accelerator class allowing any
+accelerator to have a label in that memory tree dump.
 
-On Thu, Jun 13, 2019 at 11:01:19AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 6/13/19 8:07 AM, David Gibson wrote:
-> > ppc64 and ppc64le are different archs from the host kernel point of view
-> > and are advertised as such in uname.  But these cover the same set of C=
-PUs,
-> > just in different endianness modes.  qemu-system-ppc64 handles both mod=
-es,
-> > so make sure we select the correct binary when running on ppc64le host
-> > architecture.
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  tests/acceptance/avocado_qemu/__init__.py | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >=20
-> > diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptan=
-ce/avocado_qemu/__init__.py
-> > index 2b236a1cf0..0ba9c536f4 100644
-> > --- a/tests/acceptance/avocado_qemu/__init__.py
-> > +++ b/tests/acceptance/avocado_qemu/__init__.py
-> > @@ -39,6 +39,8 @@ def pick_default_qemu_bin(arch=3DNone):
-> >      """
-> >      if arch is None:
-> >          arch =3D os.uname()[4]
-> > +        if arch =3D=3D 'ppc64le':
-> > +            arch =3D 'ppc64'
->=20
-> I prefer the generic patch from Cleber:
-> https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg03418.html
-> (I guess remember another version with a json file)
+Since memory sections are passed to memory listeners and get registered
+in accelerators (rather than memory regions), this only prints new labels
+for flatviews attached to the system address space.
 
-I hadn't seen that, that does indeed look better.
+An example:
+ Root memory region: system
+  0000000000000000-0000002fffffffff (prio 0, ram): /objects/mem0 kvm
+  0000003000000000-0000005fffffffff (prio 0, ram): /objects/mem1 kvm
+  0000200000000020-000020000000003f (prio 1, i/o): virtio-pci
+  0000200080000000-000020008000003f (prio 0, i/o): capabilities
 
->=20
-> >      qemu_bin_relative_path =3D os.path.join("%s-softmmu" % arch,
-> >                                            "qemu-system-%s" % arch)
-> >      if is_readable_executable_file(qemu_bin_relative_path):
-> >=20
->=20
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+---
+Changes:
+v3:
+* added support for multiple ASes per accelerator (KVM can do 2 at least)
+as Paolo suggested
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+v2:
+* added an accelerator callback instead of hardcoding it to kvm only
+---
+ include/sysemu/accel.h |  3 +++
+ accel/kvm/kvm-all.c    | 38 ++++++++++++++++++++++++++++++++++++++
+ memory.c               | 22 ++++++++++++++++++++++
+ 3 files changed, 63 insertions(+)
 
---rqzD5py0kzyFAOWN
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
+index 81293cdb08f9..89ce57e404ca 100644
+--- a/include/sysemu/accel.h
++++ b/include/sysemu/accel.h
+@@ -25,6 +25,7 @@
+ 
+ #include "qom/object.h"
+ #include "hw/qdev-properties.h"
++#include "exec/hwaddr.h"
+ 
+ typedef struct AccelState {
+     /*< private >*/
+@@ -39,6 +40,8 @@ typedef struct AccelClass {
+     const char *name;
+     int (*init_machine)(MachineState *ms);
+     void (*setup_post)(MachineState *ms, AccelState *accel);
++    bool (*has_memory)(MachineState *ms, AddressSpace *as,
++                       hwaddr start_addr, hwaddr size);
+     bool *allowed;
+     /*
+      * Array of global properties that would be applied when specific
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index b0c4bed6e367..948b7e53df47 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -109,6 +109,13 @@ struct KVMState
+     /* memory encryption */
+     void *memcrypt_handle;
+     int (*memcrypt_encrypt_data)(void *handle, uint8_t *ptr, uint64_t len);
++
++    /* For "info mtree -f" to tell if an MR is registered in KVM */
++    int nr_as;
++    struct KVMAs {
++        KVMMemoryListener *ml;
++        AddressSpace *as;
++    } *as;
+ };
+ 
+ KVMState *kvm_state;
+@@ -940,6 +947,14 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+     kml->listener.priority = 10;
+ 
+     memory_listener_register(&kml->listener, as);
++
++    for (i = 0; i < s->nr_as; ++i) {
++        if (!s->as[i].as) {
++            s->as[i].as = as;
++            s->as[i].ml = kml;
++            break;
++        }
++    }
+ }
+ 
+ static MemoryListener kvm_io_listener = {
+@@ -1590,6 +1605,12 @@ static int kvm_init(MachineState *ms)
+         s->nr_slots = 32;
+     }
+ 
++    s->nr_as = kvm_check_extension(s, KVM_CAP_MULTI_ADDRESS_SPACE);
++    if (s->nr_as <= 1) {
++        s->nr_as = 1;
++    }
++    s->as = g_new0(struct KVMAs, s->nr_as);
++
+     kvm_type = qemu_opt_get(qemu_get_machine_opts(), "kvm-type");
+     if (mc->kvm_type) {
+         type = mc->kvm_type(ms, kvm_type);
+@@ -2591,11 +2612,28 @@ int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target)
+     return r;
+ }
+ 
++static bool kvm_accel_has_memory(MachineState *ms, AddressSpace *as,
++                                 hwaddr start_addr, hwaddr size)
++{
++    KVMState *kvm = KVM_STATE(ms->accelerator);
++    int i;
++
++    for (i = 0; i < kvm->nr_as; ++i) {
++        if (kvm->as[i].as == as && kvm->as[i].ml) {
++            return NULL != kvm_lookup_matching_slot(kvm->as[i].ml,
++                                                    start_addr, size);
++        }
++    }
++
++    return false;
++}
++
+ static void kvm_accel_class_init(ObjectClass *oc, void *data)
+ {
+     AccelClass *ac = ACCEL_CLASS(oc);
+     ac->name = "KVM";
+     ac->init_machine = kvm_init;
++    ac->has_memory = kvm_accel_has_memory;
+     ac->allowed = &kvm_allowed;
+ }
+ 
+diff --git a/memory.c b/memory.c
+index 0a089a73ae1a..61524156a1ce 100644
+--- a/memory.c
++++ b/memory.c
+@@ -30,7 +30,9 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/tcg.h"
++#include "sysemu/accel.h"
+ #include "hw/qdev-properties.h"
++#include "hw/boards.h"
+ #include "migration/vmstate.h"
+ 
+ //#define DEBUG_UNASSIGNED
+@@ -2939,6 +2941,8 @@ struct FlatViewInfo {
+     int counter;
+     bool dispatch_tree;
+     bool owner;
++    AccelClass *ac;
++    const char *ac_name;
+ };
+ 
+ static void mtree_print_flatview(gpointer key, gpointer value,
+@@ -3001,6 +3005,17 @@ static void mtree_print_flatview(gpointer key, gpointer value,
+         if (fvi->owner) {
+             mtree_print_mr_owner(mr);
+         }
++
++        if (fvi->ac) {
++            for (i = 0; i < fv_address_spaces->len; ++i) {
++                as = g_array_index(fv_address_spaces, AddressSpace*, i);
++                if (fvi->ac->has_memory(current_machine, as,
++                                        int128_get64(range->addr.start),
++                                        MR_SIZE(range->addr.size) + 1)) {
++                    qemu_printf(" %s", fvi->ac_name);
++                }
++            }
++        }
+         qemu_printf("\n");
+         range++;
+     }
+@@ -3041,6 +3056,13 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner)
+         };
+         GArray *fv_address_spaces;
+         GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
++        AccelClass *ac = ACCEL_GET_CLASS(current_machine->accelerator);
++
++        if (ac->has_memory) {
++            fvi.ac = ac;
++            fvi.ac_name = current_machine->accel ? current_machine->accel :
++                object_class_get_name(OBJECT_CLASS(ac));
++        }
+ 
+         /* Gather all FVs in one table */
+         QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+-- 
+2.17.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0C+ygACgkQbDjKyiDZ
-s5JOJxAA4PN6GpnyfgDnFo1vjG1LeQZjRESrXMbos8GMw/Ipr6kZDlvoHe402wxz
-DjLh8hqWiRFWbOPvv+n5GD0S9DodmzUHuVl4Y0nfLXZPzKIlcdKc+SA3qIhv4KyQ
-nA6KnrpSV15N5c1gUSfysiG2UJfi1Tjd6aiayJqTbP53AtsB1G6udGt3oRc54O4J
-xFb413y0dPhksQXFa9tKu901qoWIv6gTwHKKVZflGWEJrSjXMJEycHtlZBr2EOeF
-KhbPbZtY2bJuwiYP4Ra5ke8OTkoBoAT3ae5vrC9I+ipNnvHAXCd0lRxf4OFNiVcU
-MVrFpDOfZxhaBOuUmj7MQTI1+pPQ4DsMKy7JxfLY9F+8IFu3v34S5spPsPp5VOBh
-7lKvKmK8zkKVMG3mZBjT4E1mA8+/2IOeESP6zhkdMKKSx7D5n+4mS1ZAmBMdIvWp
-OLx7YCMTXZ3IkQ8SznUGxYZfE5bZxjlcTRG6MOnrwjiRu4m+fQQFwth0m+u6o8dv
-Hi35II98RB8Aj3umkNpaLrMT/joJKSGjIeHF2fpuYHtoMTDP6wjDvKvmYHelwSA8
-BKAOfu7AUv62H0AIJ/Qqlb2Ilq+GsMMpeV/PZP2vT7aZ4kN/FKn24CpbF9JdUgnj
-qkWY95ALw8mrKz6eITrge7ZPzAvax6UBmg6n+j7zsaJy0l+KRXo=
-=6d3a
------END PGP SIGNATURE-----
-
---rqzD5py0kzyFAOWN--
 
