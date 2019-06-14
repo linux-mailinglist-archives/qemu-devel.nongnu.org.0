@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A4646073
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:17:26 +0200 (CEST)
-Received: from localhost ([::1]:51936 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8178D4603E
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:12:25 +0200 (CEST)
+Received: from localhost ([::1]:51892 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbn1B-0005zO-MS
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:17:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46669)
+	id 1hbmwK-0001vA-M9
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46637)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbmS1-0001uu-V4
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:07 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbmS0-0001sn-Nl
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbmS0-00068P-RB
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34940)
+ (envelope-from <mreitz@redhat.com>) id 1hbmRv-00064o-GM
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35136)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbmRu-00063T-ST; Fri, 14 Jun 2019 09:40:59 -0400
+ id 1hbmRs-00060j-CF; Fri, 14 Jun 2019 09:40:56 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 24CB0811A9;
- Fri, 14 Jun 2019 13:40:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 850833082E91;
+ Fri, 14 Jun 2019 13:40:55 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AECA539C3;
- Fri, 14 Jun 2019 13:40:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BA315B68A;
+ Fri, 14 Jun 2019 13:40:54 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 14 Jun 2019 15:40:12 +0200
-Message-Id: <20190614134021.32486-12-mreitz@redhat.com>
+Date: Fri, 14 Jun 2019 15:40:13 +0200
+Message-Id: <20190614134021.32486-13-mreitz@redhat.com>
 In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
 References: <20190614134021.32486-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 14 Jun 2019 13:40:53 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Fri, 14 Jun 2019 13:40:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/20] qemu-img: Fix options leakage in
- img_rebase()
+Subject: [Qemu-devel] [PULL 12/20] qapi/block-core: Overlays are not
+ snapshots
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,45 +60,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-img_rebase() can leak a QDict in two occasions.  Fix it.
+A snapshot is something that reflects the state of something at a
+certain point in time.  It does not change.
 
-Coverity: CID 1401416
-Fixes: d16699b64671466b42079c45b89127aeea1ca565
-Fixes: 330c72957196e0ae382abcaa97ebf4eb9bc8574f
+The file our snapshot commands create (or the node they install) is not
+a snapshot, as it does change over time.  It is an overlay.  We cannot
+do anything about the parameter names, but we can at least adjust the
+descriptions to reflect that fact.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190528195338.12376-1-mreitz@redhat.com
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-id: 20190603202236.1342-2-mreitz@redhat.com
 Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qemu-img.c | 3 +++
- 1 file changed, 3 insertions(+)
+ qapi/block-core.json | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index fd62e3ad5d..da14aea46a 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3350,6 +3350,7 @@ static int img_rebase(int argc, char **argv)
-                                                              out_baseimg=
-,
-                                                              &local_err)=
-;
-             if (local_err) {
-+                qobject_unref(options);
-                 error_reportf_err(local_err,
-                                   "Could not resolve backing filename: "=
-);
-                 ret =3D -1;
-@@ -3362,7 +3363,9 @@ static int img_rebase(int argc, char **argv)
-              */
-             prefix_chain_bs =3D bdrv_find_backing_image(bs, out_real_pat=
-h);
-             if (prefix_chain_bs) {
-+                qobject_unref(options);
-                 g_free(out_real_path);
-+
-                 blk_new_backing =3D blk_new(qemu_get_aio_context(),
-                                           BLK_PERM_CONSISTENT_READ,
-                                           BLK_PERM_ALL);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index fcd054fcb1..c0ff3a83ef 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1279,17 +1279,17 @@
+ #
+ # Either @device or @node-name must be set but not both.
+ #
+-# @device: the name of the device to generate the snapshot from.
++# @device: the name of the device to take a snapshot of.
+ #
+ # @node-name: graph node name to generate the snapshot from (Since 2.0)
+ #
+-# @snapshot-file: the target of the new image. If the file exists, or
+-# if it is a device, the snapshot will be created in the existing
+-# file/device. Otherwise, a new file will be created.
++# @snapshot-file: the target of the new overlay image. If the file
++# exists, or if it is a device, the overlay will be created in the
++# existing file/device. Otherwise, a new file will be created.
+ #
+ # @snapshot-node-name: the graph node name of the new image (Since 2.0)
+ #
+-# @format: the format of the snapshot image, default is 'qcow2'.
++# @format: the format of the overlay image, default is 'qcow2'.
+ #
+ # @mode: whether and how QEMU should create a new image, default is
+ #        'absolute-paths'.
+@@ -1302,10 +1302,10 @@
+ ##
+ # @BlockdevSnapshot:
+ #
+-# @node: device or node name that will have a snapshot created.
++# @node: device or node name that will have a snapshot taken.
+ #
+ # @overlay: reference to the existing block device that will become
+-#           the overlay of @node, as part of creating the snapshot.
++#           the overlay of @node, as part of taking the snapshot.
+ #           It must not have a current backing file (this can be
+ #           achieved by passing "backing": null to blockdev-add).
+ #
+@@ -1443,7 +1443,7 @@
+ ##
+ # @blockdev-snapshot-sync:
+ #
+-# Generates a synchronous snapshot of a block device.
++# Takes a synchronous snapshot of a block device.
+ #
+ # For the arguments, see the documentation of BlockdevSnapshotSync.
+ #
+@@ -1469,9 +1469,9 @@
+ ##
+ # @blockdev-snapshot:
+ #
+-# Generates a snapshot of a block device.
++# Takes a snapshot of a block device.
+ #
+-# Create a snapshot, by installing 'node' as the backing image of
++# Take a snapshot, by installing 'node' as the backing image of
+ # 'overlay'. Additionally, if 'node' is associated with a block
+ # device, the block device changes to using 'overlay' as its new active
+ # image.
 --=20
 2.21.0
 
