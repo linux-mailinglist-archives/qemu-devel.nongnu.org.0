@@ -2,65 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7D845E48
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:33:59 +0200 (CEST)
-Received: from localhost ([::1]:51548 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2F345E6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:39:59 +0200 (CEST)
+Received: from localhost ([::1]:51596 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmL8-0003Yz-Ew
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42260)
+	id 1hbmQw-00084r-BW
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42679)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbmEh-0007a7-G3
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:27:21 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hbmG0-0000aC-Py
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:28:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbmEf-0004fx-J7
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:27:19 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:36646)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbmEd-0004df-Mc
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:27:17 -0400
-Received: by mail-ot1-x341.google.com with SMTP id r6so2627935oti.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 06:27:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eD4fQOxTidxCf/Trml/aI+W1F9Z/xmN+T13M5Tu+r+Q=;
- b=qof7EXzq8EJoEYPIHfdfG2CkD1rq8Z+bsoFK1tO56okmj7rTT/mGUeRl42N//194WZ
- i7LCLKvxtDKPxvbN2bf64BIcRdGUbd48QuHNbbKT+jPgOWXq4Q/ES57JbGdiw5gsW+Cm
- EzTHFpXHr/sZclI2pTlb9i5b2lZKRYsJpvKCraebiBqvnIh+HL9XsQu5VYtSqP2Ppl6v
- B/ulF4GjrUVmeYQRfbxrfqq6piD4uAyy8JYo113I50hzvJ7BnBSHxVkJVUhhoSAxgZUE
- qRNfWopQwmIF+odR6dSBY//IfMf1T1GxybyTfK6EzTdizIPJ4eOokhyjDuztRMeZHr+S
- sOAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=eD4fQOxTidxCf/Trml/aI+W1F9Z/xmN+T13M5Tu+r+Q=;
- b=VpZaKXETYajENpkKFzcOl1DiklnoE+zoPLqGWbw9tp9BaOcV8gkbiE+loUqSU1eHIo
- VArWWUcpapwbSoJQKV8BJGs4l1KLevthoN0nMgeqOvyqUkBv9InTZh9GFnPJ84HCVVhC
- YStW/imSBaPOO5Ass6eeOIDkzr+AWhHPdzRv0oZ75lLOHTqI8OM8fr+0zni3Xqor2KIS
- 8W8O2LhjyFCjUvvoBWmlK4EpgEp06RPEaac7ZZ4qJ9Fa2BqlXRCZl0sIaDfpPaId/R26
- l4LfXKwYP1ExvMRrC46u8z7jSqVBjYIwmSJLqWmQJWlNIa8cJHrU1+8bJIBEWQIhoN+P
- s5cQ==
-X-Gm-Message-State: APjAAAUok9STQaorVoniOn//0f3EALz8PykhlePALIWebhgqcc9HWPYd
- nAhL0opKQtcv48zSFDHUOGAD5zzlMlSZRCAwLClkzw==
-X-Google-Smtp-Source: APXvYqyTqfbnswqjv5QSOOQE8dkJq6ZNu70K9lmENaXCSlmSHPr1HIUEwr+hC4aKZk4hrvsuthuryuCLyU4Yy19SqMc=
-X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr6111331otn.135.1560518832803; 
- Fri, 14 Jun 2019 06:27:12 -0700 (PDT)
+ (envelope-from <eric.auger@redhat.com>) id 1hbmFy-0005sA-Jg
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:28:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54774)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hbmFy-0005Lo-7L; Fri, 14 Jun 2019 09:28:38 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4256D7FDEC;
+ Fri, 14 Jun 2019 13:28:14 +0000 (UTC)
+Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 029EC601AC;
+ Fri, 14 Jun 2019 13:28:12 +0000 (UTC)
+To: Cornelia Huck <cohuck@redhat.com>, Eric Farman <farman@linux.ibm.com>,
+ Farhan Ali <alifm@linux.ibm.com>
+References: <20190614092705.11025-1-cohuck@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <8a3cdd5f-680d-d991-5b8e-974ac084ba1c@redhat.com>
+Date: Fri, 14 Jun 2019 15:28:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <20190611142821.3874-1-eric.auger@redhat.com>
- <20190611142821.3874-3-eric.auger@redhat.com>
-In-Reply-To: <20190611142821.3874-3-eric.auger@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Jun 2019 14:26:19 +0100
-Message-ID: <CAFEAcA_OYdL1TPN+OTdkZ0J2fx_4vFiXCs0fUVdGjkkMURCfZA@mail.gmail.com>
-To: Eric Auger <eric.auger@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH 2/2] hw/arm/smmuv3: Implement dummy replay
+In-Reply-To: <20190614092705.11025-1-cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Fri, 14 Jun 2019 13:28:14 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] vfio-ccw: use vfio_set_irq_signaling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,73 +59,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 Jun 2019 at 15:29, Eric Auger <eric.auger@redhat.com> wrote:
->
-> On ARM we currently do not support VFIO-PCI devices protected
-> by the IOMMU. Any attempt to run such use case results in this
-> kind of warning:
->
-> "-device vfio-pci,host=0004:01:00.0,id=hostdev0,bus=pci.1,addr=0x0:
-> warning: SMMUv3 does not support notification on MAP: device vfio-pci
-> will not function properly".
->
-> However this is just a warning and this should not prevent the
-> guest from booting in a reasonable amount of time. This does not
-> happen currently.
->
-> This is due to the fact the VFIO vfio_listener_region_add() calls
-> memory_region_iommu_replay(). As the SMMUv3 IOMMUMemoryRegionClass
-> currently does not implement the replay() callback, the default
-> memory_region_iommu_replay() implementation is used. This latter
-> loops on the whole notifier's range (48b address space), translates
-> each page and call the notifier on the resulting entry. This totally
-> freezes the guest.
->
-> The Intel IOMMU implements the replay() function which only
-> notifies valid page table entries.
->
-> In the looming SMMUv3 nested stage VFIO integration, there will be
-> no need to replay() anything as there will not be any shadow page
-> tables: the stage 1 page tables are owned by the guest.
->
-> So let's implement a void replay() which satisfies both cases.
->
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Hi Connie,
+
+On 6/14/19 11:27 AM, Cornelia Huck wrote:
+> Use the new helper.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
+
+Thanks
+
+Eric
 > ---
->  hw/arm/smmuv3.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index e2f07d2864..1f578365ef 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -1489,6 +1489,11 @@ static void smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>  hw/vfio/ccw.c | 68 +++++++++++----------------------------------------
+>  1 file changed, 14 insertions(+), 54 deletions(-)
+> 
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index 03a2becb3ec9..3dc08721a3db 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -197,10 +197,7 @@ read_err:
+>  static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
+>  {
+>      VFIODevice *vdev = &vcdev->vdev;
+> -    struct vfio_irq_info *irq_info;
+> -    struct vfio_irq_set *irq_set;
+> -    size_t argsz;
+> -    int32_t *pfd;
+> +    int fd;
+>  
+>      if (vdev->num_irqs < VFIO_CCW_IO_IRQ_INDEX + 1) {
+>          error_setg(errp, "vfio: unexpected number of io irqs %u",
+> @@ -208,72 +205,35 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
+>          return;
 >      }
+>  
+> -    argsz = sizeof(*irq_info);
+> -    irq_info = g_malloc0(argsz);
+> -    irq_info->index = VFIO_CCW_IO_IRQ_INDEX;
+> -    irq_info->argsz = argsz;
+> -    if (ioctl(vdev->fd, VFIO_DEVICE_GET_IRQ_INFO,
+> -              irq_info) < 0 || irq_info->count < 1) {
+> -        error_setg_errno(errp, errno, "vfio: Error getting irq info");
+> -        goto out_free_info;
+> -    }
+> -
+>      if (event_notifier_init(&vcdev->io_notifier, 0)) {
+>          error_setg_errno(errp, errno,
+>                           "vfio: Unable to init event notifier for IO");
+> -        goto out_free_info;
+> +        return;
+>      }
+>  
+> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
+> -    irq_set = g_malloc0(argsz);
+> -    irq_set->argsz = argsz;
+> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
+> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
+> -    irq_set->start = 0;
+> -    irq_set->count = 1;
+> -    pfd = (int32_t *) &irq_set->data;
+> -
+> -    *pfd = event_notifier_get_fd(&vcdev->io_notifier);
+> -    qemu_set_fd_handler(*pfd, vfio_ccw_io_notifier_handler, NULL, vcdev);
+> -    if (ioctl(vdev->fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+> -        error_setg(errp, "vfio: Failed to set up io notification");
+> -        qemu_set_fd_handler(*pfd, NULL, NULL, vcdev);
+> +    fd = event_notifier_get_fd(&vcdev->io_notifier);
+> +    qemu_set_fd_handler(fd, vfio_ccw_io_notifier_handler, NULL, vcdev);
+> +
+> +    if (vfio_set_irq_signaling(vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
+> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
+> +        qemu_set_fd_handler(fd, NULL, NULL, vcdev);
+>          event_notifier_cleanup(&vcdev->io_notifier);
+>      }
+> -
+> -    g_free(irq_set);
+> -
+> -out_free_info:
+> -    g_free(irq_info);
 >  }
->
-> +static inline void
-> +smmuv3_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
-> +{
-> +}
-
-This doesn't seem like a valid implementation of the replay
-method to me. The API doc comment says
-     * The default implementation of memory_region_iommu_replay() is to
-     * call the IOMMU translate method for every page in the address space
-     * with flag == IOMMU_NONE and then call the notifier if translate
-     * returns a valid mapping. If this method is implemented then it
-     * overrides the default behaviour, and must provide the full semantics
-     * of memory_region_iommu_replay(), by calling @notifier for every
-     * translation present in the IOMMU.
-
-This empty function is definitely not going to call the notifier
-for every IOMMU translation...
-
-thanks
--- PMM
+>  
+>  static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
+>  {
+> -    struct vfio_irq_set *irq_set;
+> -    size_t argsz;
+> -    int32_t *pfd;
+> -
+> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
+> -    irq_set = g_malloc0(argsz);
+> -    irq_set->argsz = argsz;
+> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
+> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
+> -    irq_set->start = 0;
+> -    irq_set->count = 1;
+> -    pfd = (int32_t *) &irq_set->data;
+> -    *pfd = -1;
+> -
+> -    if (ioctl(vcdev->vdev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+> -        error_report("vfio: Failed to de-assign device io fd: %m");
+> +    Error *err = NULL;
+> +
+> +    vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
+> +                           VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err);
+> +    if (err) {
+> +        error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
+>      }
+>  
+>      qemu_set_fd_handler(event_notifier_get_fd(&vcdev->io_notifier),
+>                          NULL, NULL, vcdev);
+>      event_notifier_cleanup(&vcdev->io_notifier);
+> -
+> -    g_free(irq_set);
+>  }
+>  
+>  static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+> 
 
