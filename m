@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACC245A29
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 12:16:39 +0200 (CEST)
-Received: from localhost ([::1]:49870 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0E1D45A86
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 12:38:20 +0200 (CEST)
+Received: from localhost ([::1]:50066 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbjGA-0001Px-E1
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 06:16:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
+	id 1hbjbA-0005gL-2V
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 06:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52356)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbj8K-0004eR-2a
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:08:33 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbjOE-0005H5-CZ
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:24:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbj8J-0000p4-11
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:08:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48570)
+ (envelope-from <philmd@redhat.com>) id 1hbj8j-00012F-A8
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:09:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48654)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hbj8G-0000no-MF; Fri, 14 Jun 2019 06:08:28 -0400
+ id 1hbj8U-0000un-M2; Fri, 14 Jun 2019 06:08:43 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D2FD081DF1;
- Fri, 14 Jun 2019 10:08:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E9F4785376;
+ Fri, 14 Jun 2019 10:08:39 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ADD41001B0F;
- Fri, 14 Jun 2019 10:08:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EAB01001B0F;
+ Fri, 14 Jun 2019 10:08:28 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 12:07:17 +0200
-Message-Id: <20190614100718.14019-9-philmd@redhat.com>
+Date: Fri, 14 Jun 2019 12:07:18 +0200
+Message-Id: <20190614100718.14019-10-philmd@redhat.com>
 In-Reply-To: <20190614100718.14019-1-philmd@redhat.com>
 References: <20190614100718.14019-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 14 Jun 2019 10:08:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 14 Jun 2019 10:08:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 8/9] tests/docker: Kludge for missing
- libunistring.so symlink on Ubuntu 18.04
+Subject: [Qemu-devel] [PATCH v2 9/9] .travis.yml: Test softmmu static linking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,62 +67,30 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When linking statically on Ubuntu 18.04 we get:
-
-  $ make subdir-x86_64-softmmu
-  [...]
-     LINK    x86_64-softmmu/qemu-system-x86_64
-  c++: error: /usr/lib/x86_64-linux-gnu/libunistring.so: No such file or =
-directory
-
-This library is pulled in by GTK:
-
-  $ pkg-config --libs --static gtk+-3.0
-  -lgtk-3 -latk-bridge-2.0 -latspi -ldbus-1 -lpthread -lsystemd -lgdk-3 -=
-lgio-2.0 -lXinerama -lXi -lXrandr -lXcursor -lXcomposite -lXdamage -lXfix=
-es -lxkbcommon -lwayland-cursor -lwayland-egl -lwayland-client -lepoxy -l=
-dl -lpangocairo-1.0 -lpangoft2-1.0 -lharfbuzz -lm -lgraphite2 -lpango-1.0=
- -lm -latk-1.0 -lcairo-gobject -lcairo -lz -lpixman-1 -lfontconfig -lexpa=
-t -lfreetype -lexpat -lfreetype -lpng16 -lm -lz -lm -lxcb-shm -lxcb-rende=
-r -lXrender -lXext -lX11 -lpthread -lxcb -lXau -lXdmcp -lgdk_pixbuf-2.0 -=
-lm -lpng16 -lm -lz -lm -lz -lgio-2.0 -lz -lresolv -lselinux -lmount -lgmo=
-dule-2.0 -pthread -ldl -lgobject-2.0 -lffi -lglib-2.0 -pthread -lpcre -pt=
-hread
-
-However, while the library is presentm, its symlink is missing:
-
-  $ ls -ld /usr/lib/x86_64-linux-gnu/libunistring.so
-  ls: cannot access '/usr/lib/x86_64-linux-gnu/libunistring.so': No such =
-file or directory
-
-  $ ls -ld /usr/lib/x86_64-linux-gnu/libunistring.so*
-  lrwxrwxrwx. 1 root root      21 Mar  3  2018 /usr/lib/x86_64-linux-gnu/=
-libunistring.so.2 -> libunistring.so.2.1.0
-  -rw-r--r--. 1 root root 1562664 Mar  3  2018 /usr/lib/x86_64-linux-gnu/=
-libunistring.so.2.1.0
-
-Fix the issue by creating the missing symlink manually.
+Add a test to avoid the ./configure script to bitrot.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/docker/dockerfiles/ubuntu1804.docker | 4 ++++
- 1 file changed, 4 insertions(+)
+ .travis.yml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/do=
-ckerfiles/ubuntu1804.docker
-index 2e2900150b..7e45c52166 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -54,4 +54,8 @@ ENV PACKAGES flex bison \
- RUN apt-get update && \
-     apt-get -y install $PACKAGES
- RUN dpkg -l $PACKAGES | sort > /packages.txt
-+# The libunistring2 package does not create a symlink to libunistring.so
-+# Create it manually to fix:
-+# error: /usr/lib/x86_64-linux-gnu/libunistring.so: No such file or dire=
-ctory
-+RUN ln -s libunistring.so.2 /usr/lib/x86_64-linux-gnu/libunistring.so
- ENV FEATURES clang pyyaml sdl2
+diff --git a/.travis.yml b/.travis.yml
+index 08502c0aa2..6962fff826 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -92,6 +92,11 @@ matrix:
+         - CONFIG=3D"--disable-user --target-list-exclude=3D${MAIN_SOFTMM=
+U_TARGETS}"
+=20
+=20
++    # Test static linking
++    - env:
++        - CONFIG=3D"--static --target-list=3Dlm32-softmmu"
++
++
+     # Just build tools and run minimal unit and softfloat checks
+     - env:
+         - BASE_CONFIG=3D"--enable-tools"
 --=20
 2.20.1
 
