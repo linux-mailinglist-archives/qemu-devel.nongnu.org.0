@@ -2,80 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE1146544
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:01:57 +0200 (CEST)
-Received: from localhost ([::1]:53554 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5ECE46482
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:41:07 +0200 (CEST)
+Received: from localhost ([::1]:53374 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbpaO-0001Vi-8T
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:01:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36523)
+	id 1hbpGF-0005l8-2a
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:41:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38655)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbon9-0000mF-Tw
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:11:07 -0400
+ (envelope-from <cosmin@nutanix.com>) id 1hboud-0007n8-JM
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:18:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbon6-0002Qo-LW
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:11:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41482)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hboml-00027V-5v; Fri, 14 Jun 2019 12:10:39 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 305BBC1EB1F7;
- Fri, 14 Jun 2019 16:10:38 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0868A17F51;
- Fri, 14 Jun 2019 16:10:36 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-21-mreitz@redhat.com>
- <ceef507e-16d0-0edf-0e2d-64c5b4d613ef@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <bc1cdeca-2708-e122-c157-d08750e32ed6@redhat.com>
-Date: Fri, 14 Jun 2019 18:10:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <ceef507e-16d0-0edf-0e2d-64c5b4d613ef@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="ctcaaKpKA8YYOxM1TYGpilOAkU9QXaJNW"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Fri, 14 Jun 2019 16:10:38 +0000 (UTC)
+ (envelope-from <cosmin@nutanix.com>) id 1hbouc-0000Y6-0e
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:18:47 -0400
+Received: from [192.146.154.1] (port=32898 helo=mcp01.nutanix.com)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <cosmin@nutanix.com>) id 1hboub-0000TM-N6
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:18:45 -0400
+Received: from cosmin-marin.dev.nutanix.com (unknown [10.41.25.11])
+ by mcp01.nutanix.com (Postfix) with ESMTP id 090661008CAD;
+ Fri, 14 Jun 2019 16:11:13 +0000 (UTC)
+From: Cosmin Marin <cosmin@nutanix.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 14 Jun 2019 09:11:06 -0700
+Message-Id: <20190614161106.218854-1-cosmin@nutanix.com>
+X-Mailer: git-send-email 2.16.5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 20/42] block/snapshot: Fall back to
- storage child
+X-Received-From: 192.146.154.1
+Subject: [Qemu-devel] [PATCH] migration: Improve accuracy of vCPU throttling
+ with per-vCPU timers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,107 +43,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Cosmin Marin <cosmin@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---ctcaaKpKA8YYOxM1TYGpilOAkU9QXaJNW
-Content-Type: multipart/mixed; boundary="kUEaJo29yHoS4aalAe0IC9cmD2UQ8ZUQ6";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <bc1cdeca-2708-e122-c157-d08750e32ed6@redhat.com>
-Subject: Re: [PATCH v5 20/42] block/snapshot: Fall back to storage child
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-21-mreitz@redhat.com>
- <ceef507e-16d0-0edf-0e2d-64c5b4d613ef@virtuozzo.com>
-In-Reply-To: <ceef507e-16d0-0edf-0e2d-64c5b4d613ef@virtuozzo.com>
+During auto-convergence live migration, the configured throttling rate
+is not matched in practice. Experimental measurements of throughput for
+a memory-write intensive workload indicate disparities between expected
+and measured throttle rate - when set to 99%, the actual throttle rate
+was 95%. The workload spawns multiple threads (#threads equals #vCPUs)
+that dirty most of the VM's memory in an infinite loop.
 
---kUEaJo29yHoS4aalAe0IC9cmD2UQ8ZUQ6
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+The root cause is the usage of a VM-wide timer to schedule and execute
+asynchronously cpu_throttle_thread() on the vCPUs. Firstly, there are
+scalability limitations at scheduling time as a VM-wide (global) loop
+must iterate over all vCPUs while running atomic operations (i.e., may
+induce delays between vCPUs); moreover, if a vCPU is already running
+cpu_throttle_thread() (!DONE) it is skipped (i.e., may induce uneven
+aggregate sleep times across vCPUs). Secondly, there is a race condition
+between the vCPU threads and the 'scheduling' (migration) thread as a
+vCPU thread needs to release the iothread lock, sleep, reacquire the
+lock and mark "itself" as completed (DONE). Configuring correct per-vCPU
+sleep intervals using this model is non-trivial.
 
-On 14.06.19 17:22, Vladimir Sementsov-Ogievskiy wrote:
-> 13.06.2019 1:09, Max Reitz wrote:
->> If the top node's driver does not provide snapshot functionality and w=
-e
->> want to go down the chain, we should go towards the child which stores=
+To address the above issues, per-vCPU timers replace the per-VM timer.
+The migration thread globally decides the throttling level while each
+vCPU thread calculates the equivalent sleep times and sleeps
+accordingly. The following table summarizes the results obtained by
+running the workload on a 22vCPUs/45GB VM in both scenarios.
 
->> the data, i.e. the storage child.
->>
->> bdrv_snapshot_goto() becomes a bit weird because we may have to redire=
-ct
->> the actual child pointer, so it only works if the storage child is
->> bs->file or bs->backing (and then we have to find out which it is).
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   block/snapshot.c | 74 ++++++++++++++++++++++++++++++++++------------=
---
->>   1 file changed, 53 insertions(+), 21 deletions(-)
->>
->> diff --git a/block/snapshot.c b/block/snapshot.c
->> index f2f48f926a..58cd667f3a 100644
->> --- a/block/snapshot.c
->> +++ b/block/snapshot.c
->> @@ -154,8 +154,9 @@ int bdrv_can_snapshot(BlockDriverState *bs)
->>       }
->>  =20
->>       if (!drv->bdrv_snapshot_create) {
->> -        if (bs->file !=3D NULL) {
->> -            return bdrv_can_snapshot(bs->file->bs);
->> +        BlockDriverState *storage_bs =3D bdrv_storage_bs(bs);
->> +        if (storage_bs) {
->> +            return bdrv_can_snapshot(storage_bs);
->>           }
->>           return 0;
->>       }
->=20
-> Hmm is it correct at all doing a snapshot, when top format node doesn't=
- support it,
-> metadata child doesn't support it and storage child supports? Doing sna=
-pshots of
-> storage child seems useless, as data file must be in sync with metadata=
-=2E
++----------------------------------------------------------------+
+|          |      per-VM Timer        |   per-vCPU Timer         |
+|  Target  |==========================|==========================|
+| Throttle | Throughput |    Actual   | Throughput |    Actual   |
+|    (%)   |   (GBps)   | Throttle(%) |   (GBps)   | Throttle(%) |
+|----------|------------|-------------|------------|-------------|
+|         0|     ~493.50|            0|     ~493.50|           0 |
+|        20|      395.65|        19.81|      390.35|        20.88|
+|        30|      356.43|        27.76|      342.39|        30.60|
+|        40|      317.26|        35.69|      293.99|        40.41|
+|        50|      268.78|        45.52|      244.95|        50.35|
+|        60|      214.61|        56.50|      195.23|        60.43|
+|        70|      164.72|        66.61|      147.55|        70.09|
+|        80|      112.62|        77.17|       98.52|        80.03|
+|        90|       57.09|        88.43|       47.90|        90.29|
+|        99|       26.87|        94.55|        3.11|        99.36|
++----------------------------------------------------------------+
 
-You=E2=80=99re right.
+The results support a per-vCPU timer model as it produces more accurate
+throttling.
 
-That=E2=80=99s actually a bug already.  VMDK can store data in multiple
-children, but it does not support snapshots.  So if you store such a
-split VMDK disk on an RBD volume, it is possible that just the
-descriptor file is snapshotted, but nothing else.
+Signed-off-by: Cosmin Marin <cosmin@nutanix.com>
+---
+ cpus.c            | 29 +++++++++++++++--------------
+ include/qom/cpu.h |  4 ++--
+ 2 files changed, 17 insertions(+), 16 deletions(-)
 
-Hmmm.  I think the best way is to check whether there is exactly one
-child that is not the bdrv_filtered_cow_child().  If so, we can go down
-to it and snapshot it.  Otherwise, the node does not support snapshots.
+diff --git a/cpus.c b/cpus.c
+index dde3b7b981..c2bd3babf6 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -80,7 +80,6 @@ int64_t max_delay;
+ int64_t max_advance;
+ 
+ /* vcpu throttling controls */
+-static QEMUTimer *throttle_timer;
+ static unsigned int throttle_percentage;
+ 
+ #define CPU_THROTTLE_PCT_MIN 1
+@@ -792,40 +791,42 @@ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
+     qemu_mutex_unlock_iothread();
+     g_usleep(sleeptime_ns / 1000); /* Convert ns to us for usleep call */
+     qemu_mutex_lock_iothread();
+-    atomic_set(&cpu->throttle_thread_scheduled, 0);
+ }
+ 
+ static void cpu_throttle_timer_tick(void *opaque)
+ {
+-    CPUState *cpu;
++    CPUState *cpu = (CPUState *)opaque;
+     double pct;
+ 
+     /* Stop the timer if needed */
+     if (!cpu_throttle_get_percentage()) {
+         return;
+     }
+-    CPU_FOREACH(cpu) {
+-        if (!atomic_xchg(&cpu->throttle_thread_scheduled, 1)) {
+-            async_run_on_cpu(cpu, cpu_throttle_thread,
+-                             RUN_ON_CPU_NULL);
+-        }
+-    }
++    
++    async_run_on_cpu(cpu, cpu_throttle_thread, RUN_ON_CPU_NULL);
+ 
+     pct = (double)cpu_throttle_get_percentage()/100;
+-    timer_mod(throttle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL_RT) +
++    timer_mod(cpu->throttle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL_RT) +
+                                    CPU_THROTTLE_TIMESLICE_NS / (1-pct));
+ }
+ 
+ void cpu_throttle_set(int new_throttle_pct)
+ {
++    CPUState *cpu;
++    double pct;
++
+     /* Ensure throttle percentage is within valid range */
+     new_throttle_pct = MIN(new_throttle_pct, CPU_THROTTLE_PCT_MAX);
+     new_throttle_pct = MAX(new_throttle_pct, CPU_THROTTLE_PCT_MIN);
+ 
+     atomic_set(&throttle_percentage, new_throttle_pct);
+ 
+-    timer_mod(throttle_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL_RT) +
+-                                       CPU_THROTTLE_TIMESLICE_NS);
++    pct = (double)new_throttle_pct/100;
++    CPU_FOREACH(cpu) {
++        timer_mod_anticipate(cpu->throttle_timer,
++                qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL_RT) +
++                CPU_THROTTLE_TIMESLICE_NS / (1-pct));
++    }
+ }
+ 
+ void cpu_throttle_stop(void)
+@@ -848,8 +849,6 @@ void cpu_ticks_init(void)
+     seqlock_init(&timers_state.vm_clock_seqlock);
+     qemu_spin_init(&timers_state.vm_clock_lock);
+     vmstate_register(NULL, 0, &vmstate_timers, &timers_state);
+-    throttle_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL_RT,
+-                                           cpu_throttle_timer_tick, NULL);
+ }
+ 
+ void configure_icount(QemuOpts *opts, Error **errp)
+@@ -1267,6 +1266,8 @@ static void *qemu_kvm_cpu_thread_fn(void *arg)
+     qemu_thread_get_self(cpu->thread);
+     cpu->thread_id = qemu_get_thread_id();
+     cpu->can_do_io = 1;
++    cpu->throttle_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL_RT,
++            cpu_throttle_timer_tick, cpu);
+     current_cpu = cpu;
+ 
+     r = kvm_init_vcpu(cpu);
+diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+index 5ee0046b62..5a11baec69 100644
+--- a/include/qom/cpu.h
++++ b/include/qom/cpu.h
+@@ -439,10 +439,10 @@ struct CPUState {
+     /* shared by kvm, hax and hvf */
+     bool vcpu_dirty;
+ 
+-    /* Used to keep track of an outstanding cpu throttle thread for migration
++    /* Used to cyclically trigger vCPU throttling during VM migration
+      * autoconverge
+      */
+-    bool throttle_thread_scheduled;
++    QEMUTimer *throttle_timer;
+ 
+     bool ignore_memory_transaction_failures;
+ 
+-- 
+2.16.5
 
-Max
-
-
---kUEaJo29yHoS4aalAe0IC9cmD2UQ8ZUQ6--
-
---ctcaaKpKA8YYOxM1TYGpilOAkU9QXaJNW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0DxvsACgkQ9AfbAGHV
-z0CrOAf+OBUyvgVlN40IW1njIOGrPouBI7ulsvvNU1YNGz/0FQDWBgux1dCDSDOz
-Tdr1om+rJiKbzpvKG4iLqj6MThQxvOMv6+/+kBShvY3M9Ae2C1wybW58ugmum8DF
-Ap87m1fTkC/WinpYKC/qz+mPOtw38+SiMSWh9nVMzgl0iu0oGYPY/1X9lhNmolm2
-1cBW7lKYmXevVjy16iPFE+UAlzrJTHb9TFgbgBMvRR2fyrzJtXLGxC0jLvKQ3vio
-s1EAilc27EW30qIOma3JCUoYnk9OHJ75ixOIizgTqJikvB03seIUbZRtFiD0r6xO
-ENz0uos0JKH1haC2HyZkU6/SKXu97A==
-=ViG+
------END PGP SIGNATURE-----
-
---ctcaaKpKA8YYOxM1TYGpilOAkU9QXaJNW--
 
