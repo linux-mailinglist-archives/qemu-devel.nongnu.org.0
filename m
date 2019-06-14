@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21720467AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:41:50 +0200 (CEST)
-Received: from localhost ([::1]:54208 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C814F4673B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:14:44 +0200 (CEST)
+Received: from localhost ([::1]:54012 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbr93-000079-AP
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:41:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34086)
+	id 1hbqip-0005Xc-VL
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:14:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34033)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbq0K-00076g-AJ
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:46 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbq0H-000401-Qr
+ (envelope-from <alex.bennee@linaro.org>) id 1hbq0H-00076I-6R
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:43 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35312)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbq0F-0003x3-3c
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:40 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:54878)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbq0G-0003ms-TE
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:41 -0400
-Received: by mail-wr1-x436.google.com with SMTP id m3so3381117wrv.2
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:28:32 -0700 (PDT)
+ id 1hbq0C-0003sD-ER
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:37 -0400
+Received: by mail-wm1-x342.google.com with SMTP id g135so3141263wme.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:28:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fvj+WUGANmLFqW2EJSINSwwcAn8sLAyNi/cgHqJTnR8=;
- b=LDLRUGuRo1k6ccAgdmq4PXLjpEXU1bA74OtyyoAn2v/rzsoR6vBnHY0p5mwIKlEyw1
- jTvhICmW2dK0obdWwmS0dpI+bPC7apkvpWKg/j2QNq47JejrjvqxM8FO2hFt29J4UOI9
- u2XYHX5v8xxKo0ruXvTEwvhjtGWHFv7ZKmlNEzpCuM074r1VANN6z03PQ+FgDJpnhdQy
- iJowrWJmlYligEcU44Kv400TMHbJdnkZhji1SS74EMGiweLSPmINL3tzDsj2Zl1wzdFw
- b+AD3ST+ePK1lTygQwBdfMAQ5EAQU5zOn/cZu7534sWH8sOyKDecHHEuF6YA1UFtBBsz
- U0Hg==
+ bh=2ielurtjzGKb7Ob3E21QU+qcFZWaTKQ9JelyDfiWc2c=;
+ b=lphYM1/VPBturLVvPuAe4PioAnB50jvTV8shBn2ISbOesQV6pD+lMpq24om+fHsDoa
+ v+duzE5lG7A5F1e10FUPQ3b6v8yHw87v3uViEI6XWth30QeccQQsSNvXJHRaOjdhiZFO
+ LFchlXkYp86Ig0gYDlgcTjN4MblOn6kVDNQ80O6rF9SKnQbqMkMXhcQlNBN7MR6XrMNo
+ EK16GlylIXKVtyQ3cZkwDlHB9XdeyyadAwUr3eS5dJ0j7B5IryX3K5G+ikksX8N7tfAm
+ LQ6brQQ5rxsBeqxyMarG3yG8Tk9vsG/fzPiBFqKNf7a0dcjWGiT/yepaQmX7FvHLVKQo
+ I2lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fvj+WUGANmLFqW2EJSINSwwcAn8sLAyNi/cgHqJTnR8=;
- b=Lr/phDMjf9ewz7FuDrFz7PK8nI7vim/m2h5z5dY9PrdJ8ThNBzdMNzuVmNxr9PL7uV
- JkJk5rhz9Zkqj2cepqroNP9tQMEckw6AQ4/axlF1t390wxshNxj76E1h3r7qB+FulYJ7
- U0U+UVrnranKDXtpmqXbPLkkV1+UHV8yE9GLLuJeg4N0niMaHfFSmW4UKreKepUUsA97
- E6XapmIIkHJUU00L+T6NTacNiARJLBXUH1x8B01Otu8i2MjsGlSFiYDCv+NL06C6bD9W
- ZZgb3/s6nFMRRbqqNSHOHdoABtC1Khz61nhyhpX5BuQFNMsj9A+mutPQ6ff5/80fC3/J
- 0DYA==
-X-Gm-Message-State: APjAAAVXJXUmsurtuQkOqSLLkZvA0JZVtXSQo7bgihdwm+IfTDzRa1hF
- s1ECf15Etlg+1+pCXRuV4yKOLg==
-X-Google-Smtp-Source: APXvYqxuD3a0pD9ZYdthvGwCJzuOkmP1GyY2kDx8kJ8s512Pu3NpRPYp3mZIWNsjszVYbr7M4+uwSA==
-X-Received: by 2002:a5d:548e:: with SMTP id h14mr12198151wrv.76.1560533311917; 
- Fri, 14 Jun 2019 10:28:31 -0700 (PDT)
+ bh=2ielurtjzGKb7Ob3E21QU+qcFZWaTKQ9JelyDfiWc2c=;
+ b=VIA5Dh1o+D7XhgsVO8P3jFbKImDQmM0m3izta8ez0uEssPl0oM6V/0fGs96k6cTXHT
+ yd/tKK2UbCG2Ag2LC+cDs6iNIRlsSM/LEgXN+cHZh1ncZU8i1hTiTfJzUYEYnSw2euak
+ S0EcpqfZmyY38A3MoXKPm06X/UWEru7wsaE/8q2kEvVmon4O8ku/04TNiop5qOrOAjI4
+ AVsYNGl0z5hZWKNTGqu9C2x+EP2DulqwnMqbrH8TMC/Uzl+NFInZEaOGmsaBS/iWwpDr
+ X5iGW/7H7RxT+AQLxq4XUeb10Xs2B+ec8xcGxQ7CQH/sp6stCdyv6K7oHrXKAbNBdTj8
+ 4lig==
+X-Gm-Message-State: APjAAAW/GO6el/ZdPKZQu/J8RhGVDMkIL0cB0tCZBg7fPUbwdKpx4EK+
+ y9R6MiyaC6FiGsxE6yQkjBXleg==
+X-Google-Smtp-Source: APXvYqxpePc3nsmS7MKNkLz24NNxFVOv6SYmzINEFKa2dDrC01r1/W8nZCgxG6p3I9xoOjY3z93Xpw==
+X-Received: by 2002:a1c:9c8a:: with SMTP id f132mr8766940wme.29.1560533314450; 
+ Fri, 14 Jun 2019 10:28:34 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id o2sm5672335wrq.56.2019.06.14.10.28.28
+ by smtp.gmail.com with ESMTPSA id n3sm544040wro.59.2019.06.14.10.28.29
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Fri, 14 Jun 2019 10:28:30 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AAF071FFC6;
+ by zen.linaroharston (Postfix) with ESMTP id BFEC11FFC9;
  Fri, 14 Jun 2019 18:12:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:57 +0100
-Message-Id: <20190614171200.21078-48-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:11:58 +0100
+Message-Id: <20190614171200.21078-49-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::436
-Subject: [Qemu-devel] [PATCH v3 47/50] accel/stubs: reduce headers from
- tcg-stub
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH v3 48/50] include/exec: wrap cpu_ldst.h in
+ CONFIG_TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,29 +88,27 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need much for these. However I do wonder why these aren't
-just null inlines in exec-all.h
+This gets around a build problem with --disable-tcg.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/stubs/tcg-stub.c | 3 ---
- 1 file changed, 3 deletions(-)
+ include/exec/exec-all.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 76ae461749..431ec7d7e6 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -11,10 +11,7 @@
-  */
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 90045e77c1..fa4d5b9533 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -21,7 +21,9 @@
+ #define EXEC_ALL_H
  
- #include "qemu/osdep.h"
--#include "qemu-common.h"
- #include "cpu.h"
--#include "tcg/tcg.h"
--#include "exec/cpu-common.h"
- #include "exec/exec-all.h"
+ #include "exec/tb-context.h"
++#ifdef CONFIG_TCG
+ #include "exec/cpu_ldst.h"
++#endif
+ #include "sysemu/cpus.h"
  
- void tb_flush(CPUState *cpu)
+ /* allow to see translation results - the slowdown should be negligible, so we leave it */
 -- 
 2.20.1
 
