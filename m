@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6698458F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:41:05 +0200 (CEST)
-Received: from localhost ([::1]:49608 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90741459AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:55:34 +0200 (CEST)
+Received: from localhost ([::1]:49702 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbihk-0006ZK-Sw
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40698)
+	id 1hbivl-0001mq-Ku
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:55:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41172)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1hbieF-0004hV-Qx
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:37:28 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hbif2-0005Fs-2B
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:38:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hbiaH-0001GC-Vn
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:33:24 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35638)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hbiaG-0001EV-Gq
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:33:20 -0400
-Received: by mail-wm1-x343.google.com with SMTP id c6so1601052wml.0
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 02:33:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=vaSlLJX1Ny9kajYJJoPkvGITLkH9ZFJaRT9dA2EwCc8=;
- b=WOQGb5Z7oSotlEoJdVFlQF5hkARFwMo+cd9V699AB62C5nK/vXcj/CNO23jsS6W3zD
- RJ9ng1zHnVIVO8cxec7zX8nBRR2BpDr3c51q29cVAEBA3uINBGTkJmLUP84Rw68tYJUr
- y22Y2sdgUZ+w+Y+BZV+R+zVo/hnJXFVklPJtpFVbQR8f5hdOMl/25pmOcFjaxI6tpbMF
- VpSL0Ry5BB+PU4CZV+KXaO8bHJGmAlSnSSoLs74Jebuu6Gq5uEUFPCTm60TaVCne8s0Q
- CTx1O26ys898y2KqXRRk9iaBwHicNHcIYnkWqTZbX1xLttCiy5Vu79HExQy2pY7YCfi3
- Ya1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=vaSlLJX1Ny9kajYJJoPkvGITLkH9ZFJaRT9dA2EwCc8=;
- b=LA8YVoCAnADKHyFK3QClhtK39LoVPmV2hmPaKjFnGRQ0ZwGF1+M4iKiMtT63uVctRD
- 2oQ+Twk0oq/G6oXwXh1ERQPanEOFtRonR8/VArTUZ6Tm8lCwkhAina7olqc2SrVGO2/D
- K94fRVF6CWJN1UGzs1whMqdVq1XM1wG5rcsuufMc16EMDI5QZj6jMNe1J6RojQMRtyfJ
- Kk+Zv3o4p4mgBJ8iaK3vv0FHKyA5AlPzUq8nXpp5PWxHrmLtz3KOkCPg3pJIGitPBFvT
- Srg13gNL0ZW6xR60WinTUn8/FD/tlzJzhfaxajuWEofiTCpk19P51Fd2Ma/93+kV+yJH
- dlOw==
-X-Gm-Message-State: APjAAAW/3zhEQycSuJJkc241316x2lZyeXUD2kDaGiK9aUuiWBct+mwT
- jqUWWNcjg8vtoQBKgpJogEM=
-X-Google-Smtp-Source: APXvYqxB0yRGw+jrJAYzgfobVQKm57uiAm8/3dOjgapk/QZPMd69qlQo4EYbIXVHOU2ToX2Q0agsEA==
-X-Received: by 2002:a1c:1d8d:: with SMTP id d135mr6809566wmd.54.1560504792346; 
- Fri, 14 Jun 2019 02:33:12 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id o6sm2788617wmc.15.2019.06.14.02.33.11
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 02:33:11 -0700 (PDT)
-Date: Fri, 14 Jun 2019 10:33:06 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <20190614093306.GG10957@stefanha-x1.localdomain>
-References: <20190613050937.124903-1-aik@ozlabs.ru>
- <35361394-42ba-dcf0-6fe2-5a0a538d1440@redhat.com>
- <d20e26db-7157-d9bd-c707-d7f4443396c0@ozlabs.ru>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="doKZ0ri6bHmN2Q5y"
-Content-Disposition: inline
-In-Reply-To: <d20e26db-7157-d9bd-c707-d7f4443396c0@ozlabs.ru>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH qemu] loader: Trace loaded images
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hbiez-0003eF-Vy
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:38:15 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:55046)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+ id 1hbieo-0003Tq-7c; Fri, 14 Jun 2019 05:38:02 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5E9Y7Tc019604;
+ Fri, 14 Jun 2019 09:37:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : message-id :
+ content-type : mime-version : subject : date : in-reply-to : cc : to :
+ references; s=corp-2018-07-02;
+ bh=/HqfolA0l45zKFTf6lfKoXhQAx3ZKwmNgxpRyQxQeSo=;
+ b=VIzbvLleq/33IrB2lhgrGJURB+3xrmOzu3gfUI/CAF4I4mvCfEn1qnRDH3zVW15Jawdj
+ PbKS8bAZ6w7Y2vqnmcJPAuCsvIuo9ufVah1Tq4v52F+R5yCObchLwxKlUmt8Snks19a3
+ 9jAtaKXYTGV4CH6E4md5GGozssxmNYKK9KjHO8teYGOyeC1DKy87+eMI+e8C0PrgYa3h
+ bIoa38g8X4urQ1Is2MM7MrAaGJyRDncNxTsUb/mtuZnJ30dxWH1OPcXBgoMQA9jFeo5b
+ OuUxwy/sRU7TaInUNY1KpmDwAxoMUlD3981mKBodt2mQhazY3K3fXWbeLuLI3/kXpkoN Aw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2t04ynxd5d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Jun 2019 09:37:57 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5E9bll1008013;
+ Fri, 14 Jun 2019 09:37:56 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 2t1jpk27nw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Jun 2019 09:37:56 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5E9bsPc024835;
+ Fri, 14 Jun 2019 09:37:54 GMT
+Received: from [10.0.0.38] (/79.179.64.139)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 14 Jun 2019 02:37:54 -0700
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+Message-Id: <985C60F2-999C-44C6-B8BC-B5603DD0F716@oracle.com>
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Date: Fri, 14 Jun 2019 12:37:38 +0300
+In-Reply-To: <20190614044310.wxnkwxagr23d5cbt@sirius.home.kraxel.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20190612115939.23825-1-shmuel.eiderman@oracle.com>
+ <20190612130650.xftda65kgnsefyvs@sirius.home.kraxel.org>
+ <A3F8BD49-3C35-4A07-8DE2-85F7CC293DC9@oracle.com>
+ <20190612191817.5bilt2abif2xvcbv@sirius.home.kraxel.org>
+ <02844D7D-ED79-4744-A203-8E713DE7A717@oracle.com>
+ <20190613093850.5k7prawn6x4qt3fi@sirius.home.kraxel.org>
+ <730C65DE-A9B4-4553-B6A0-7A3B81A1FA12@oracle.com>
+ <20190614044310.wxnkwxagr23d5cbt@sirius.home.kraxel.org>
+X-Mailer: Apple Mail (2.3445.104.11)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9287
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906140080
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9287
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906140079
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [QEMU] [PATCH v2 0/8] Add Qemu to SeaBIOS LCHS
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,64 +99,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ seabios@seabios.org, QEMU <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Kevin O'Connor <kevin@koconnor.net>,
+ liran.alon@oracle.com, Karl Heubaum <karl.heubaum@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---doKZ0ri6bHmN2Q5y
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 14, 2019 at 10:13:04AM +1000, Alexey Kardashevskiy wrote:
+> On 14 Jun 2019, at 7:43, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >=20
+>  Hi,
 >=20
-> On 13/06/2019 23:08, Philippe Mathieu-Daud=E9 wrote:
-> > Hi Alexey,
-> >=20
-> > On 6/13/19 7:09 AM, Alexey Kardashevskiy wrote:
-> >> This adds a trace point which prints every loaded image. This includes
-> >> bios/firmware/kernel/initradmdisk/pcirom.
-> >>
-> >> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> >> ---
-> >>
-> >> The example for a pseries guest:
-> >>
-> >> loader_write_rom slof.bin: @0x0 size=3D0xe22e0 ROM=3D0
-> >> loader_write_rom phdr #0: /home/aik/t/vml4120le: @0x400000 size=3D0x13=
-df000 ROM=3D0
-> >> loader_write_rom /home/aik/t/le.cpio: @0x1ad0000 size=3D0x9463a00 ROM=
-=3D0
-> >=20
-> > I find the "ROM=3D0" part confuse, maybe you can change to "ROM:false".
+>> Can there be a guest that will fail the MBR in such a way? Yes.
+>> Look at the following MBR partition table of a Windows XP guest in =
+our production
+>> environment:
+>>=20
+>> Disk size in sectors: 16777216
+>>=20
+>> Binary (only one partition 16 bytes): 80 01 01 00 07 fe ff ff 3f 00 =
+00 00 d5 ea ff 00
+>> Start: (0, 1, 1, 63)
+>> End: (1023, 254, 63, 16771859)
+>>=20
+>> As can be easily seen, any MBR guessing algorithm should guess:
+>>=20
+>> 	255 heads (since a value of 254 appears), 63 spt (since a value =
+of 63 appears)
+>>=20
+>> Turns out that this image does not work with 255, 63 but actually =
+requires
+>>=20
+>> 	16 heads, 63 spt
+>>=20
+>> to boot.
+>>=20
+>> So relying on MBR partitions alone is not always enough and sometimes =
+manual intervention
+>> is required.
 >=20
-> How? I mean I can do that in the code as rom->isrom?"true":"false" and
-> make trace point accept "%s" but it is quite ugly and others seem to
-> just use %d for bool.
+> Ok, given that seabios has no setup any manual configuration needs to =
+be done via qemu.
+>=20
+> But why do we need a new interface for that?  IDE can pass the =
+geometry
+> to the guest.  virtio-blk has support too (VIRTIO_BLK_F_GEOMETRY).
+> Likewise scsi (MODE_PAGE_HD_GEOMETRY).  So this should be doable =
+without
+> any qemu changes.
 
-Yes, %d is the convention for bool.  Perhaps you can name it "is_rom"
-instead of "ROM".  That way the name communicates that this is a boolean
-value.
+This was indeed considered (all 3 methods) but it has the following =
+issues:
 
-Stefan
+Physical geometries of devices must now also be logical geometries with =
+translation=3Dnone.
+When the OS will query these devices - It will now see different =
+physical geometries, adapted to be logical geometries.
+I=E2=80=99m not sure even how to implement this without breaking =
+existing compatibility - since we don=E2=80=99t want to affect logical =
+geometries of currently used guests.
+MODE_PAGE_HD_GEOMETRY does not contain the spts, only cylinders (as 3 =
+byte number) and heads (as 1 byte number) and computes the spts using: =
+number_of_total_sectors / (heads * cylinders), this means that qemu now =
+must report number_of_total_sectors as heads * cylinders * spt for =
+SeaBIOS to correctly receive the number of spts - this is not optimal =
+since number_of_total_sectors can not reflect the real amount of sectors =
+in the disk which should be reported from CDB_CMD_READ_CAPACITY.
+Moving a scsi-hd/virtio-blk with 255 physical heads to ide-hd, we will =
+still need to report 255 heads - this is possible since a whole byte can =
+be used in the =E2=80=9Cide identify=E2=80=9D command, but goes against =
+the spec of a maximum of 16 heads for IDE.
 
---doKZ0ri6bHmN2Q5y
-Content-Type: application/pgp-signature; name="signature.asc"
+Overall this approach is much more complicated.
 
------BEGIN PGP SIGNATURE-----
+Sam
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0DadIACgkQnKSrs4Gr
-c8hXQwf/SPMRQRJgwRpus8v1yrZ+Myy4oUWTGLzOjia1Cii8fi+bqv03Ui9yVh5j
-cIRKQXid126qEbQIOQvXAYWpRHS6d/tzIwBQ2quGHZ2VERA4WZ3yIw0D4H5HBIf2
-cfco5q3y9Do2x2pewbrfPqMj4yL5SpZWueEb7QzAAdH7ZVbXocK2nrL8FWt1sNTe
-nnp7UHXZNBYksfEnHOJvx5bXP21mSiBaZavlhAvIf/OHoYZEXlUsFK45sH96BaXI
-lVCaOeMW/56BsFEkor6dvpCb++rqZmTA9QoCfvf9wSRjnAfIdUx2ks5PpGBu3imh
-cjWVGmZGg11fqsl4wABNcZlGSoz8rw==
-=EwUy
------END PGP SIGNATURE-----
-
---doKZ0ri6bHmN2Q5y--
+>=20
+> cheers,
+>  Gerd
+>=20
 
