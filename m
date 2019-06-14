@@ -2,54 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74544640C
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:28:23 +0200 (CEST)
-Received: from localhost ([::1]:53292 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A8146444
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:34:02 +0200 (CEST)
+Received: from localhost ([::1]:53326 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbp3u-0004wn-NV
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:28:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34528)
+	id 1hbp9N-0008SV-Ft
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:34:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34665)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hboec-0002Dp-Oc
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:02:16 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbofK-0002QW-Rq
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:03:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hboeb-0000nX-2w
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:02:14 -0400
-Resent-Date: Fri, 14 Jun 2019 12:02:14 -0400
-Resent-Message-Id: <E1hboeb-0000nX-2w@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21434)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hboea-0000l5-QN
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:02:13 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560528117; cv=none; d=zoho.com; s=zohoarc; 
- b=GeBWEH5EBN5AuTso3VTHFgRiz9qNupcvsk34qiC+O8PWdV5HPYizUJeMQTkp2Jb8cbQfeM4WuquWu0xx0loY/pYMcECbrnTRD5emGwrZO6805YKJGcUtfWB7h2g1O4h0dlW0MMm+Dh7grW10jXsO83aX6JYNEYXeo2wJKe1duSg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560528117;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=EkgdUK0YZ+a72KheBNp24F9xQdtwpNihfwpwhsrIYVo=; 
- b=dT1cbHfdwRnF6riETBHPo/lRgjsPxBd4YNZ2MuaGfCWxpqNRFFJh+ejJiCWhPxUbxs3R9bUo/VNpOC1Kk85BS6rODK5/2SKA9P2uOOw28lE2FVtW0nWIRXCR7JA/iNCsxSBkAtlRVz4mZfczpdGtWS1vtS/ZgSGHPpWlLevUJBM=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1560528115021709.1258138890714;
- Fri, 14 Jun 2019 09:01:55 -0700 (PDT)
-In-Reply-To: <20190614135332.12777-1-vandersonmr2@gmail.com>
-Message-ID: <156052811424.13573.5259552275497724156@ce79690b2cb9>
+ (envelope-from <mreitz@redhat.com>) id 1hbofI-0001aH-Fw
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:02:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37474)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hboes-000163-SG; Fri, 14 Jun 2019 12:02:34 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D8C1F307D863;
+ Fri, 14 Jun 2019 16:02:24 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74873605CA;
+ Fri, 14 Jun 2019 16:02:21 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-15-mreitz@redhat.com>
+ <837ee511-af51-3062-8a2e-41adde1023b3@virtuozzo.com>
+ <616b970a-2c06-11d8-8f91-c607fd986e18@redhat.com>
+ <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <bc9cd825-3cd9-239b-0980-950e6489be6a@redhat.com>
+Date: Fri, 14 Jun 2019 18:02:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vandersonmr2@gmail.com
-Date: Fri, 14 Jun 2019 09:01:55 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="m2DOqb10zjGW1N3kHJaLWfIySfUCykX0c"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Fri, 14 Jun 2019 16:02:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH 0/3] Collecting TB Execution Frequency
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 14/42] block: Use CAFs when working with
+ backing chains
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,73 +89,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxNDEzNTMzMi4xMjc3
-Ny0xLXZhbmRlcnNvbm1yMkBnbWFpbC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggMC8zXSBDb2xsZWN0
-aW5nIFRCIEV4ZWN1dGlvbiBGcmVxdWVuY3kKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkw
-NjE0MTM1MzMyLjEyNzc3LTEtdmFuZGVyc29ubXIyQGdtYWlsLmNvbQoKPT09IFRFU1QgU0NSSVBU
-IEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwg
-ZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRo
-bSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09
-IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3
-ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3Fl
-bXUKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8xNTU5MTI1NDg0NjMuMjAxOTAwNC4zNTE1
-ODMwMzA1Mjk5ODA5OTAyLnN0Z2l0QGJhaGlhLmxhbiAtPiBwYXRjaGV3LzE1NTkxMjU0ODQ2My4y
-MDE5MDA0LjM1MTU4MzAzMDUyOTk4MDk5MDIuc3RnaXRAYmFoaWEubGFuCiAtIFt0YWcgdXBkYXRl
-XSAgICAgIHBhdGNoZXcvMTU2MDUxNzc0Mjc2LjI0NDg5MC44NjYwMjc3MjgwMTQ1NDY2Mzk2LnN0
-Z2l0QGJhaGlhLmxhbiAtPiBwYXRjaGV3LzE1NjA1MTc3NDI3Ni4yNDQ4OTAuODY2MDI3NzI4MDE0
-NTQ2NjM5Ni5zdGdpdEBiYWhpYS5sYW4KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo2
-NTEyMzg3IEFkZGluZyBjb21tYW5kIGxpbmUgb3B0aW9uIHRvIGxpbnV4LXVzZXIuCmFmNTJlZmQg
-U2F2aW5nIGNvdW50ZXJzIGJldHdlZW4gdGJfZmx1c2ggZXZlbnRzLgo5MDZjOGVmIEFkZGluZyBh
-biBvcHRpb25hbCB0YiBleGVjdXRpb24gY291bnRlci4KCj09PSBPVVRQVVQgQkVHSU4gPT09CjEv
-MyBDaGVja2luZyBjb21taXQgOTA2YzhlZjkyYWFjIChBZGRpbmcgYW4gb3B0aW9uYWwgdGIgZXhl
-Y3V0aW9uIGNvdW50ZXIuKQpFUlJPUjogIihmb28qKSIgc2hvdWxkIGJlICIoZm9vICopIgojMjQ6
-IEZJTEU6IGFjY2VsL3RjZy90Y2ctcnVudGltZS5jOjE3MzoKKyAgICBUcmFuc2xhdGlvbkJsb2Nr
-KiB0YiA9IChUcmFuc2xhdGlvbkJsb2NrKikgcHRyOwoKRVJST1I6IGRvIG5vdCBpbml0aWFsaXNl
-IGdsb2JhbHMgdG8gMCBvciBOVUxMCiM4MzogRklMRTogbGludXgtdXNlci9tYWluLmM6NjE6Citi
-b29sIGVuYWJsZV9mcmVxX2NvdW50ID0gZmFsc2U7CgpFUlJPUjogZG8gbm90IGluaXRpYWxpc2Ug
-Z2xvYmFscyB0byAwIG9yIE5VTEwKIzk1OiBGSUxFOiB2bC5jOjE5MzoKK2Jvb2wgZW5hYmxlX2Zy
-ZXFfY291bnQgPSBmYWxzZTsKCnRvdGFsOiAzIGVycm9ycywgMCB3YXJuaW5ncywgNTYgbGluZXMg
-Y2hlY2tlZAoKUGF0Y2ggMS8zIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzMgQ2hlY2tp
-bmcgY29tbWl0IGFmNTJlZmQ3ODQyZCAoU2F2aW5nIGNvdW50ZXJzIGJldHdlZW4gdGJfZmx1c2gg
-ZXZlbnRzLikKRVJST1I6ICJmb28qIGJhciIgc2hvdWxkIGJlICJmb28gKmJhciIKIzIyOiBGSUxF
-OiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjExMjE6CitzdGF0aWMgYm9vbCBzdGF0aXN0aWNz
-X2NtcChjb25zdCB2b2lkKiBhcCwgY29uc3Qgdm9pZCAqYnApIHsKCkVSUk9SOiBvcGVuIGJyYWNl
-ICd7JyBmb2xsb3dpbmcgZnVuY3Rpb24gZGVjbGFyYXRpb25zIGdvIG9uIHRoZSBuZXh0IGxpbmUK
-IzIyOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjExMjE6CitzdGF0aWMgYm9vbCBz
-dGF0aXN0aWNzX2NtcChjb25zdCB2b2lkKiBhcCwgY29uc3Qgdm9pZCAqYnApIHsKCkVSUk9SOiBs
-aW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMzU6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxs
-LmM6MTE0NjoKKyAgICBxaHRfaW5pdCgmdGJfY3R4LnRiX3N0YXRpc3RpY3MsIHN0YXRpc3RpY3Nf
-Y21wLCBDT0RFX0dFTl9IVEFCTEVfU0laRSwgUUhUX01PREVfQVVUT19SRVNJWkUpOwoKRVJST1I6
-ICIoZm9vKikiIHNob3VsZCBiZSAiKGZvbyAqKSIKIzcwOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNs
-YXRlLWFsbC5jOjEyNjU6CisgICAgdWludDY0X3QgZXhlY19mcmVxID0gdGJfZ2V0X2FuZF9yZXNl
-dF9leGVjX2ZyZXEoKFRyYW5zbGF0aW9uQmxvY2sqKSBwKTsKCkVSUk9SOiAiKGZvbyopIiBzaG91
-bGQgYmUgIihmb28gKikiCiMxOTA6IEZJTEU6IGluY2x1ZGUvcW9tL2NwdS5oOjQ3NzoKK3VpbnQ2
-NF90IHRiX2dldF9hbmRfcmVzZXRfZXhlY19mcmVxKHN0cnVjdCBUcmFuc2xhdGlvbkJsb2NrKik7
-Cgp0b3RhbDogNSBlcnJvcnMsIDAgd2FybmluZ3MsIDE0NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAy
-LzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvMyBDaGVja2luZyBjb21taXQgNjUxMjM4
-NzkzNDczIChBZGRpbmcgY29tbWFuZCBsaW5lIG9wdGlvbiB0byBsaW51eC11c2VyLikKRVJST1I6
-IGV4dGVybnMgc2hvdWxkIGJlIGF2b2lkZWQgaW4gLmMgZmlsZXMKIzIyOiBGSUxFOiBsaW51eC11
-c2VyL2V4aXQuYzoyOToKK2V4dGVybiBib29sIGVuYWJsZV9mcmVxX2NvdW50OwoKdG90YWw6IDEg
-ZXJyb3JzLCAwIHdhcm5pbmdzLCAzMiBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzMgaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRl
-ZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
-aGV3Lm9yZy9sb2dzLzIwMTkwNjE0MTM1MzMyLjEyNzc3LTEtdmFuZGVyc29ubXIyQGdtYWlsLmNv
-bS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
-dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
-bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--m2DOqb10zjGW1N3kHJaLWfIySfUCykX0c
+Content-Type: multipart/mixed; boundary="kzgfAfa8hrRlGSmW6bnqX4uljFledJH56";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <bc9cd825-3cd9-239b-0980-950e6489be6a@redhat.com>
+Subject: Re: [PATCH v5 14/42] block: Use CAFs when working with backing chains
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-15-mreitz@redhat.com>
+ <837ee511-af51-3062-8a2e-41adde1023b3@virtuozzo.com>
+ <616b970a-2c06-11d8-8f91-c607fd986e18@redhat.com>
+ <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
+In-Reply-To: <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
 
+--kzgfAfa8hrRlGSmW6bnqX4uljFledJH56
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 14.06.19 16:31, Vladimir Sementsov-Ogievskiy wrote:
+> 14.06.2019 16:50, Max Reitz wrote:
+>> On 14.06.19 15:26, Vladimir Sementsov-Ogievskiy wrote:
+>>> 13.06.2019 1:09, Max Reitz wrote:
+>>>> Use child access functions when iterating through backing chains so
+>>>> filters do not break the chain.
+>>>>
+>>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>>> ---
+>>>>    block.c | 40 ++++++++++++++++++++++++++++------------
+>>>>    1 file changed, 28 insertions(+), 12 deletions(-)
+>>>>
+>>>> diff --git a/block.c b/block.c
+>>>> index 11f37983d9..505b3e9a01 100644
+>>>> --- a/block.c
+>>>> +++ b/block.c
+>>
+>> [...]
+>>
+>>>> @@ -4273,11 +4274,18 @@ int bdrv_change_backing_file(BlockDriverStat=
+e *bs,
+>>>>    BlockDriverState *bdrv_find_overlay(BlockDriverState *active,
+>>>>                                        BlockDriverState *bs)
+>>>>    {
+>>>> -    while (active && bs !=3D backing_bs(active)) {
+>>>> -        active =3D backing_bs(active);
+>>>> +    bs =3D bdrv_skip_rw_filters(bs);
+>>>> +    active =3D bdrv_skip_rw_filters(active);
+>>>> +
+>>>> +    while (active) {
+>>>> +        BlockDriverState *next =3D bdrv_backing_chain_next(active);=
+
+>>>> +        if (bs =3D=3D next) {
+>>>> +            return active;
+>>>> +        }
+>>>> +        active =3D next;
+>>>>        }
+>>>>   =20
+>>>> -    return active;
+>>>> +    return NULL;
+>>>>    }
+>>>
+>>> Semantics changed for this function.
+>>> It is used in two places
+>>> 1. from bdrv_find_base wtih @bs=3DNULL, it should be unchanged, as I =
+hope we will never have
+>>>      filter node as a bottom of some valid chain
+>>>
+>>> 2. from qmp_block_commit, only to check op-blocker... hmmm. I really =
+don't understand,
+>>> why do we check BLOCK_OP_TYPE_COMMIT_TARGET on top_bs overlay.. top_b=
+s overlay is out of the job,
+>>> what is this check for?
+>>
+>> There is a loop before this check which checks that the same blocker i=
+s
+>> not set on any nodes between top and base (both inclusive).  I guess
+>> non-active commit checks the node above @top, too, because its backing=
+
+>> file will change.
+>=20
+> So in this case frozen chain works better.
+
+Perhaps.  The op blockers are in this weird state anyway.  I don=E2=80=99=
+t think
+we even need them any more, because the permissions were intended to
+replace them (they were originally called =E2=80=9Cfine-grained op blocke=
+rs=E2=80=9D, I
+seem to remember).
+
+I dare not touch them.
+
+>>>>    /* Given a BDS, searches for the base layer. */
+>>
+>> [...]
+>>
+>>>> @@ -5149,7 +5165,7 @@ BlockDriverState *bdrv_find_backing_image(Bloc=
+kDriverState *bs,
+>>>>                char *backing_file_full_ret;
+>>>>   =20
+>>>>                if (strcmp(backing_file, curr_bs->backing_file) =3D=3D=
+ 0) {
+>>>
+>>> hmm, interesting, what bs->backing_file now means? It's strange enoug=
+h to store such field on
+>>> bds, when we have backing link anyway..
+>>
+>> Patch 37 has you covered. :-)
+>>
+>=20
+> Hmm, if it has removed this field, but it doesn't)
+
+Because it=E2=80=99s needed.  (Just not in the current form, but that=E2=80=
+=99s what 37
+is for.)
+
+> So, we finished with some object, called "overlay", but it is not an ov=
+erlay of bs, it's overlay of
+> first non-implicit filtered node in bs backing chain, it may be found b=
+y bdrv_find_overlay() helper (which is
+> almost unused and my be safely dropped), and filename of this "overlay"=
+ is stored in bs->backing_file string
+> variable, keeping in mind that bs->backing is pointer to backing child =
+of bs which is completely another thing?
+
+I don=E2=80=99t quite see what you mean.  There is no =E2=80=9Coverlay=E2=
+=80=9D in this function.
+
+> Oh, no, everything related to filename-based backing chain logic is not=
+ for me o_O. If something doesn't work
+> with filename-based logic users should use node-names..
+
+In theory yes, but that isn=E2=80=99t an option for qemu-img commit, for =
+example.
+
+> And I'd prefer to deprecate filename based interfaces at all.
+
+Me too.
+
+https://lists.nongnu.org/archive/html/qemu-devel/2014-09/msg04878.html
+
+:-/
+
+Max
+
+
+--kzgfAfa8hrRlGSmW6bnqX4uljFledJH56--
+
+--m2DOqb10zjGW1N3kHJaLWfIySfUCykX0c
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0DxQsACgkQ9AfbAGHV
+z0BrdwgAv9CqLmG/eeDoX/mxJxNK2xMFfOlFS+L7hrtRx79IHZWWB54EGiy7wmS6
+tsuSxQm4yf8VR0Q7KFzC5LvjJnErVWOVVXLloFJ5OBuxHRbMvNF+S6oqp3bR8YDo
+qcffxuBEOQC3x1Lg5QnP7VzERIDTsVPmSnxx+XYqBL4UJZJmeTE5sB96U4EFAp8H
+iqh57cfvid9KRHkdcDiPrvX6MNXpdB317SPQzsn3f9Z70kIGeogy1YMrm/mTtXRq
+rtZqw+s+4pqlSFT1+0gpwmO798lDL9UWAiQDF44lTTo+mFMBsO3vJgtI7uGdAzMe
+Pc/a/8NpDJgWrc+fNpgZTaL0x+tKuQ==
+=BqB8
+-----END PGP SIGNATURE-----
+
+--m2DOqb10zjGW1N3kHJaLWfIySfUCykX0c--
 
