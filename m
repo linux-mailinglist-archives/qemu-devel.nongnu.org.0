@@ -2,94 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5304B45C67
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 14:14:17 +0200 (CEST)
-Received: from localhost ([::1]:50810 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E845945CA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 14:21:20 +0200 (CEST)
+Received: from localhost ([::1]:50862 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbl60-0005BD-HT
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 08:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51143)
+	id 1hblCq-0001Us-31
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 08:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51852)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbkzY-0001sf-1m
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:07:38 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hbl2L-0002Yy-OH
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbkzR-0001Nt-Tz
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:07:32 -0400
-Received: from mail-eopbgr30097.outbound.protection.outlook.com
- ([40.107.3.97]:13381 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hbkzM-0001Fv-Ib; Fri, 14 Jun 2019 08:07:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kq2T06MZAlF7SvGhswhKFL2qzhUsOZ/JLIvBrwF7cRg=;
- b=QAQEzsQp/s0hASyd/3EQsEVA1Papp7NGgOEW4jlDZgGoqrgIRlSEH22uiCwRFZaWnsORyzvgFF3sKQNCOzcL8k7TMOehvtOZiMcIsfxC1OMfsc/EkWvKOYYsGDik6qtfO1BvpX8HBbd4bQvTDzx2LOs1k+bu83dRDnB3/W9I22s=
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
- AM0PR08MB4371.eurprd08.prod.outlook.com (20.179.34.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.13; Fri, 14 Jun 2019 12:07:16 +0000
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
- 12:07:16 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v5 13/42] block: Use CAFs in block status functions
-Thread-Index: AQHVIWutLhYTYoI3/kyFcZDFRaPoLKabEJAA
-Date: Fri, 14 Jun 2019 12:07:16 +0000
-Message-ID: <9313f632-58be-3830-9f47-2a381783bb74@virtuozzo.com>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-14-mreitz@redhat.com>
-In-Reply-To: <20190612221004.2317-14-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0502CA0018.eurprd05.prod.outlook.com
- (2603:10a6:3:e3::28) To AM0PR08MB3572.eurprd08.prod.outlook.com
- (2603:10a6:208:e1::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190614150714022
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 31f98ed0-ab32-49d5-3aad-08d6f0c0d765
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:AM0PR08MB4371; 
-x-ms-traffictypediagnostic: AM0PR08MB4371:
-x-microsoft-antispam-prvs: <AM0PR08MB4371B9AE66DA72F34945B1FDC1EE0@AM0PR08MB4371.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:935;
-x-forefront-prvs: 0068C7E410
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(346002)(376002)(396003)(136003)(366004)(189003)(199004)(81156014)(81166006)(73956011)(66476007)(66946007)(386003)(6506007)(66446008)(64756008)(52116002)(99286004)(31686004)(66556008)(229853002)(76176011)(6486002)(102836004)(26005)(446003)(2616005)(2906002)(11346002)(6116002)(3846002)(476003)(6436002)(186003)(486006)(36756003)(305945005)(8936002)(25786009)(7736002)(8676002)(558084003)(478600001)(66066001)(14454004)(316002)(4326008)(14444005)(6246003)(54906003)(110136005)(5660300002)(256004)(53936002)(2501003)(68736007)(6512007)(31696002)(86362001)(71200400001)(71190400001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4371;
- H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: KOWuDkexy4lMaz23qS6p8Oc0acYaiq1Wc+3HXywKaJ/4p6Jh/h5EO5q8RHWa4of3E2+McIvNNPR1/HUaZKsH0cwjt3QKMvoud38gWvkjuXByfW4IPJ/5gnffdI05NKBtudWbQihRN3twotCrq1zMC9TBM7SPEZ1fHH1/5f89MnY+bMKQLklxUwtNZWMUz5z/iLmjkx/FMyp2AillkkBJPwiAeKV6QgXc1QA+TCAcjAfQTpdIc5a9g9sR11xryuTPPCDKKqPCvnRslZclfwSidDgsc6s+gp147wEzChFUJ6LV5RAe3egb3fZlk2GDNwSX59/L1tjQw2aP9/Du7s0TwudS+mucpnfg7xXQLN0kPokVgBx5cgAEMxH0SuojbPAKDAdwBtZxpIZwPRzdwH0pHGfsT17Gi+VKvoF+mIyNrGo=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0814C7E23B1EC24E81FE0E073A187E4F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <palmer@dabbelt.com>) id 1hbl2J-0003tL-DN
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:29 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39363)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hbl2J-0003VC-1o
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:10:27 -0400
+Received: by mail-wm1-f68.google.com with SMTP id z23so2081756wma.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 05:09:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=1/imMTLThbsIUg9X7x53ZVTveZQJ+RedU+3e0N9kmuw=;
+ b=oc369jip1lktg8t5H1w1UiwDEpoisuohNV0khn9oR3fyd6eLNqM4skv9VT/H9xX+LB
+ ZBrQtwujgFxYj4CX13jR6EMJ+s4SUHX3sRab3gP4hSldKWBCzdhEHSEW0eg63wwIIQDu
+ 2BUVmc/K5mr3/zwB1BLht9kTRwG5FW+/DQXIUStckt9qh0PwlS9+JACVgVV7ctPzmbkL
+ sHkRT0wHzzNSLB8AMtd0+Pcmf2AJrfPyAmxyFo6G5xs7u9OnHGR8UJlzbRaRiYrchWkM
+ gxYk+C/wkLrep9K3KWYD7d9dGY9eoA/eYaBas1QAxdwwqxSTDyQ1LkgxX3FDhhpFxqDy
+ FAcQ==
+X-Gm-Message-State: APjAAAXbrwZDyq1TrIWf+lI3LC1XaD7ulWj24MhGoKlaaq5yshYLzL61
+ imEMON8uqUHKtiaEFnxf/Jxx3L812lGtZA==
+X-Google-Smtp-Source: APXvYqy56TBxLXwEG86ivExecUEC4oXKSbyP8sno4qVcYm/t+du44rBJWBmRtQWWlo+3rf70h91Z6Q==
+X-Received: by 2002:a1c:4d6:: with SMTP id 205mr7166914wme.148.1560514194103; 
+ Fri, 14 Jun 2019 05:09:54 -0700 (PDT)
+Received: from localhost ([83.137.6.186])
+ by smtp.gmail.com with ESMTPSA id f204sm3969987wme.18.2019.06.14.05.09.52
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 14 Jun 2019 05:09:53 -0700 (PDT)
+Date: Fri, 14 Jun 2019 05:08:30 -0700
+Message-Id: <20190614120830.21850-1-palmer@sifive.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31f98ed0-ab32-49d5-3aad-08d6f0c0d765
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 12:07:16.3303 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4371
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.3.97
-Subject: Re: [Qemu-devel] [PATCH v5 13/42] block: Use CAFs in block status
- functions
+Content-Transfer-Encoding: 8bit
+From: Palmer Dabbelt <palmer@sifive.com>
+To: qemu-riscv@nongnu.org
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: [Qemu-devel] [PATCH] RISC-V: Fix a memory leak when realizing a
+ sifive_e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,14 +65,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFVzZSB0aGUgY2hpbGQgYWNjZXNz
-IGZ1bmN0aW9ucyBpbiB0aGUgYmxvY2sgc3RhdHVzIGlucXVpcnkgZnVuY3Rpb25zIGFzDQo+IGFw
-cHJvcHJpYXRlLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWF4IFJlaXR6PG1yZWl0ekByZWRoYXQu
-Y29tPg0KDQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2Vt
-ZW50c292QHZpcnR1b3p6by5jb20+DQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+Coverity pointed out a memory leak in riscv_sifive_e_soc_realize(),
+where a pair of recently added MemoryRegion instances would not be freed
+if there were errors elsewhere in the function.  The fix here is to
+simply not use dynamic allocation for these instances: there's always
+one of each in SiFiveESoCState, so instead we just include them within
+the struct.
+
+Thanks to Peter for pointing out the bug and suggesting the fix!
+
+Fixes: 30efbf330a45 ("SiFive RISC-V GPIO Device")
+Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+---
+ hw/riscv/sifive_e.c         | 12 +++++-------
+ include/hw/riscv/sifive_e.h |  2 ++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 80ac56fa7d5e..83375afcd1d6 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -158,17 +158,15 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
+ 
+     SiFiveESoCState *s = RISCV_E_SOC(dev);
+     MemoryRegion *sys_mem = get_system_memory();
+-    MemoryRegion *xip_mem = g_new(MemoryRegion, 1);
+-    MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+ 
+     object_property_set_bool(OBJECT(&s->cpus), true, "realized",
+                             &error_abort);
+ 
+     /* Mask ROM */
+-    memory_region_init_rom(mask_rom, NULL, "riscv.sifive.e.mrom",
++    memory_region_init_rom(&s->mask_rom, NULL, "riscv.sifive.e.mrom",
+         memmap[SIFIVE_E_MROM].size, &error_fatal);
+     memory_region_add_subregion(sys_mem,
+-        memmap[SIFIVE_E_MROM].base, mask_rom);
++        memmap[SIFIVE_E_MROM].base, &s->mask_rom);
+ 
+     /* MMIO */
+     s->plic = sifive_plic_create(memmap[SIFIVE_E_PLIC].base,
+@@ -228,10 +226,10 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
+         memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
+ 
+     /* Flash memory */
+-    memory_region_init_ram(xip_mem, NULL, "riscv.sifive.e.xip",
++    memory_region_init_ram(&s->xip_mem, NULL, "riscv.sifive.e.xip",
+         memmap[SIFIVE_E_XIP].size, &error_fatal);
+-    memory_region_set_readonly(xip_mem, true);
+-    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base, xip_mem);
++    memory_region_set_readonly(&s->xip_mem, true);
++    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base, &s->xip_mem);
+ }
+ 
+ static void riscv_sifive_e_machine_init(MachineClass *mc)
+diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+index 3b14eb74621f..d175b24cb209 100644
+--- a/include/hw/riscv/sifive_e.h
++++ b/include/hw/riscv/sifive_e.h
+@@ -33,6 +33,8 @@ typedef struct SiFiveESoCState {
+     RISCVHartArrayState cpus;
+     DeviceState *plic;
+     SIFIVEGPIOState gpio;
++    MemoryRegion xip_mem;
++    MemoryRegion mask_rom;
+ } SiFiveESoCState;
+ 
+ typedef struct SiFiveEState {
+-- 
+2.21.0
+
 
