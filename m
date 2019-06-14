@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9922D465C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:29:21 +0200 (CEST)
-Received: from localhost ([::1]:53774 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF7A467FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 21:01:43 +0200 (CEST)
+Received: from localhost ([::1]:54382 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbq0r-0005lB-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:29:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58585)
+	id 1hbrSI-0000Ip-Fv
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 15:01:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39288)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpqh-0005al-1I
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:49 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbqJb-0004XL-Ts
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:48:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpqd-00075y-W2
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:46 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35206)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbqJZ-0003Xt-AQ
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:48:39 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44100)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbpqd-0006nJ-Jc
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:43 -0400
-Received: by mail-wr1-x442.google.com with SMTP id m3so3351531wrv.2
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:18:37 -0700 (PDT)
+ id 1hbqJT-0003S0-Tn
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:48:35 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id r16so3386355wrl.11
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P9bsnv/ggrydM2zdkz7ungy+IkQQkZz8WUvWT7dsGh0=;
- b=Pi3oeKyZ6lkA9rSME++oaRwdyK0KNvzRb9FhCxfeql0ZGOHxlDVmX8GwxY6za3KMz2
- lO8FQV0iQUmHquHPF5qOIMu9/Wx5i6IDqf7qCOWiUWYWlJ0f7EIzjdJ2hydaN7S7myOo
- L28d1LDHJUs1p5YQ9qZsuK+anhccmTu7KHIiEee4i7n8rnx2G44J9MMVHq+5O5UnkMEd
- 4B/bQzWv+BN7dKPeT5xPPigPNltar0EC+TDsLQwh1bVS6dnoZgQflhw0+rVAZx8a+LJr
- ETJ7ogEjbyYp7mxXF59Dk/JSHRfVf0NUolWLRi9kB2b/uDjBrsU07+acYiUFErvwaSTn
- sf0A==
+ bh=VXpK415OMJJqmZ3w36Oxw/kJSG0YBc4gbksES0oJVX8=;
+ b=xQbO9FxeBWXSzUk5RTFwKb4C9mLDDfH+MkxTaAut61ZmxEBhRrP4MCI7MJv/Mc1/Gn
+ qDahXRiKHpL54Vs/w3jxE2qA0+zcBwnDqzI8XG230SO4A0383ULxQEb3d8KRzfgHlKQt
+ jul3QLDY8fldQ0BqBLLcGcfY8dFUNPE3upEPnI04jEw8pNzEsgYJtDmi4NtTNQLgnAu7
+ TjWrZ1OjMnDTyI1xnQyWOyf3iRItfBYgjkyqZw2gDTTLyv47uLSZANHBF+O4uR6xM8kb
+ 1VrENiaA+nEi/OV64t4BO0pjb9TNn8kcHy2/yXzWNp2z0DoOBgE+Mr2kkh6t6xvJFRzD
+ 2bIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P9bsnv/ggrydM2zdkz7ungy+IkQQkZz8WUvWT7dsGh0=;
- b=kuAOXskea8D7TMy0IsJ0FJik6JH7uUE4uckn/I+ShJGcphO58C6/1ztqgqE8cwuc03
- q6vHHFO+sTx/D8+wv3FNkTpVV5opVJjAa4V7UwB0eIbzM+f8zrfUG/msuS979nCRtp9E
- 77byoJs0MDyiknWh0AudBIWEexDLEEDrvkzdpSg3djtmJk4w27RUr+dcUF7VZJltaUGi
- Q+XSTRCP3wdUoytwEkYI5z3JGsdfRFyNkkDeox1wha1Zl48lhnq+YuXIbeteoDE4waGR
- y07Th0gTTuoY0nxcUQ3+OZTBgSP11HEnCCG3zzg2Y6GQtdJast7rQca2Bqt0HiD0Lo2c
- ozkg==
-X-Gm-Message-State: APjAAAWE7QGMRsVdIj/vHPhnIA62XhNcyWnB60A6gI7N6reA3UlzLmnY
- 4llY9HXkUqVwieqQgH8n4DNp3A5UkOc=
-X-Google-Smtp-Source: APXvYqzIn8CV4RvLu2tBmZWNPNVejfhi7H7xUjzkM2OPPybFYx53HxEbuIKhND7dS+IllAWDexX30Q==
-X-Received: by 2002:a5d:4310:: with SMTP id h16mr55726729wrq.331.1560532716118; 
- Fri, 14 Jun 2019 10:18:36 -0700 (PDT)
+ bh=VXpK415OMJJqmZ3w36Oxw/kJSG0YBc4gbksES0oJVX8=;
+ b=aBKQmP3ZqEPXrug/sfvmi/l7kCkraCyIxXq61aVDRWSG2YkXdBO16APip0D4GgOc/D
+ m/XrNOI4u8f9mFTk0fT8INA5jhp/jHqjRe4uBCedE1qQVfg7tY1CNUnxhrgp0xZCUq+f
+ 6U/f/qIuGEa2MlvEdcOuvaiyA498VT/FX0hquD4ZHNfiJ2UKR/PgwLyHGLDx3Y/M0s2v
+ Pco+IqpiHspAow0ZO6lTHqNNR+rC2Y6T67DjWOYl30vYHx60I5DWlsfLif63KH0XRJVe
+ /YMEbI1KPLFFvLGwyIf3xxK+Yt7gY1nRQrOt+yNvum5334mEWKFlOQhsUmU3yGczGrE7
+ Qi7w==
+X-Gm-Message-State: APjAAAUy4RFLK+ViZoRLQ7qDYwefQVzbSj71X33VBJuVNv5Fp2Wf1SyW
+ OVSijJ8t/cZljFCTg3yrpAy+eA==
+X-Google-Smtp-Source: APXvYqwzVELrPux0c6U0ZsBBsmjubvRsPsv4uWGLUMQpraPiD/TfJooSwaP7KGEeNylKrfDOYKwxRQ==
+X-Received: by 2002:a5d:4302:: with SMTP id h2mr36455054wrq.137.1560534509002; 
+ Fri, 14 Jun 2019 10:48:29 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id c2sm4090092wrf.75.2019.06.14.10.18.29
+ by smtp.gmail.com with ESMTPSA id h84sm5730516wmf.43.2019.06.14.10.48.27
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 10:18:34 -0700 (PDT)
+ Fri, 14 Jun 2019 10:48:27 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 08CC01FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 24B3E1FFC0;
  Fri, 14 Jun 2019 18:12:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:50 +0100
-Message-Id: <20190614171200.21078-41-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:11:51 +0100
+Message-Id: <20190614171200.21078-42-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH  v3 40/50] linux-user: support -plugin option
+X-Received-From: 2a00:1450:4864:20::42c
+Subject: [Qemu-devel] [PATCH  v3 41/50] tests/plugin: add sample plugins
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,78 +80,360 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, "Emilio G . Cota" <cota@braap.org>,
- =?UTF-8?q?Llu=C3=ADs=20Vilanova?= <vilanova@ac.upc.edu>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: "Emilio G. Cota" <cota@braap.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lluís Vilanova <vilanova@ac.upc.edu>
+From: "Emilio G. Cota" <cota@braap.org>
 
-Signed-off-by: Lluís Vilanova <vilanova@ac.upc.edu>
-[ cota: s/instrument/plugin ]
+Pass arguments with -plugin=libfoo.so,arg=bar,arg=baz
+
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 ---
- linux-user/main.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ configure             |  4 +-
+ tests/plugin/Makefile | 28 +++++++++++++
+ tests/plugin/bb.c     | 66 ++++++++++++++++++++++++++++++
+ tests/plugin/empty.c  | 30 ++++++++++++++
+ tests/plugin/insn.c   | 63 +++++++++++++++++++++++++++++
+ tests/plugin/mem.c    | 93 +++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 282 insertions(+), 2 deletions(-)
+ create mode 100644 tests/plugin/Makefile
+ create mode 100644 tests/plugin/bb.c
+ create mode 100644 tests/plugin/empty.c
+ create mode 100644 tests/plugin/insn.c
+ create mode 100644 tests/plugin/mem.c
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index a59ae9439d..1009eab92d 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -33,6 +33,7 @@
- #include "qemu/error-report.h"
- #include "qemu/help_option.h"
- #include "qemu/module.h"
-+#include "qemu/plugin.h"
- #include "cpu.h"
- #include "exec/exec-all.h"
- #include "tcg.h"
-@@ -387,6 +388,15 @@ static void handle_arg_trace(const char *arg)
-     trace_file = trace_opt_parse(arg);
- }
- 
-+static QemuPluginList plugins = QTAILQ_HEAD_INITIALIZER(plugins);
+diff --git a/configure b/configure
+index d3bf254191..2af8c436f2 100755
+--- a/configure
++++ b/configure
+@@ -7995,14 +7995,14 @@ fi
+ # tests might fail. Prefer to keep the relevant files in their own
+ # directory and symlink the directory instead.
+ DIRS="tests tests/tcg tests/tcg/cris tests/tcg/lm32 tests/libqos tests/qapi-schema tests/tcg/xtensa tests/qemu-iotests tests/vm"
+-DIRS="$DIRS tests/fp tests/qgraph"
++DIRS="$DIRS tests/fp tests/qgraph tests/plugin"
+ DIRS="$DIRS docs docs/interop fsdev scsi"
+ DIRS="$DIRS pc-bios/optionrom pc-bios/spapr-rtas pc-bios/s390-ccw"
+ DIRS="$DIRS roms/seabios roms/vgabios"
+ LINKS="Makefile tests/tcg/Makefile"
+ LINKS="$LINKS tests/tcg/cris/Makefile tests/tcg/cris/.gdbinit"
+ LINKS="$LINKS tests/tcg/lm32/Makefile tests/tcg/xtensa/Makefile po/Makefile"
+-LINKS="$LINKS tests/fp/Makefile"
++LINKS="$LINKS tests/fp/Makefile tests/plugin/Makefile"
+ LINKS="$LINKS pc-bios/optionrom/Makefile pc-bios/keymaps"
+ LINKS="$LINKS pc-bios/spapr-rtas/Makefile"
+ LINKS="$LINKS pc-bios/s390-ccw/Makefile"
+diff --git a/tests/plugin/Makefile b/tests/plugin/Makefile
+new file mode 100644
+index 0000000000..f9a3546ea3
+--- /dev/null
++++ b/tests/plugin/Makefile
+@@ -0,0 +1,28 @@
++BUILD_DIR := $(CURDIR)/../..
 +
-+#ifdef CONFIG_PLUGIN
-+static void handle_arg_plugin(const char *arg)
++include $(BUILD_DIR)/config-host.mak
++include $(SRC_PATH)/rules.mak
++
++$(call set-vpath, $(SRC_PATH)/tests/plugin)
++
++NAMES :=
++NAMES += bb
++NAMES += empty
++NAMES += insn
++NAMES += mem
++
++SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
++
++QEMU_CFLAGS += -fPIC
++QEMU_CFLAGS += -I$(SRC_PATH)/include/qemu
++
++all: $(SONAMES)
++
++lib%.so: %.o
++	$(CC) -shared -Wl,-soname,$@ -o $@ $^ $(LDLIBS)
++
++clean:
++	rm -f *.o *.so *.d
++	rm -Rf .libs
++
++.PHONY: all clean
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+new file mode 100644
+index 0000000000..bb868599a9
+--- /dev/null
++++ b/tests/plugin/bb.c
+@@ -0,0 +1,66 @@
++/*
++ * Copyright (C) 2018, Emilio G. Cota <cota@braap.org>
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++
++#include <qemu-plugin.h>
++
++static uint64_t bb_count;
++static uint64_t insn_count;
++static int stdout_fd;
++static bool do_inline;
++
++static void plugin_exit(qemu_plugin_id_t id, void *p)
 +{
-+    qemu_plugin_opt_parse(arg, &plugins);
++    dprintf(stdout_fd, "bb's: %" PRIu64", insns: %" PRIu64 "\n",
++            bb_count, insn_count);
 +}
-+#endif
 +
- struct qemu_argument {
-     const char *argv;
-     const char *env;
-@@ -438,6 +448,10 @@ static const struct qemu_argument arg_table[] = {
-      "",           "Seed for pseudo-random number generator"},
-     {"trace",      "QEMU_TRACE",       true,  handle_arg_trace,
-      "",           "[[enable=]<pattern>][,events=<file>][,file=<file>]"},
-+#ifdef CONFIG_PLUGIN
-+    {"plugin",     "QEMU_PLUGIN",      true,  handle_arg_plugin,
-+     "",           "[file=]<file>[,arg=<string>]"},
-+#endif
-     {"version",    "QEMU_VERSION",     false, handle_arg_version,
-      "",           "display version information and exit"},
-     {NULL, NULL, false, NULL, NULL, NULL}
-@@ -628,6 +642,7 @@ int main(int argc, char **argv, char **envp)
-     cpu_model = NULL;
- 
-     qemu_add_opts(&qemu_trace_opts);
-+    qemu_plugin_add_opts();
- 
-     optind = parse_args(argc, argv);
- 
-@@ -635,6 +650,9 @@ int main(int argc, char **argv, char **envp)
-         exit(1);
-     }
-     trace_init_file(trace_file);
-+    if (qemu_plugin_load_list(&plugins)) {
-+        exit(1);
++static void vcpu_tb_exec(unsigned int cpu_index, void *udata)
++{
++    unsigned long n_insns = (unsigned long)udata;
++
++    insn_count += n_insns;
++    bb_count++;
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, unsigned int cpu_index,
++                          struct qemu_plugin_tb *tb)
++{
++    unsigned long n_insns = qemu_plugin_tb_n_insns(tb);
++
++    if (do_inline) {
++        qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
++                                                 &bb_count, 1);
++        qemu_plugin_register_vcpu_tb_exec_inline(tb, QEMU_PLUGIN_INLINE_ADD_U64,
++                                                 &insn_count, n_insns);
++    } else {
++        qemu_plugin_register_vcpu_tb_exec_cb(tb, vcpu_tb_exec,
++                                             QEMU_PLUGIN_CB_NO_REGS,
++                                             (void *)n_insns);
 +    }
- 
-     /* Zero out regs */
-     memset(regs, 0, sizeof(struct target_pt_regs));
++}
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
++                                           char **argv)
++{
++    if (argc && strcmp(argv[0], "inline") == 0) {
++        do_inline = true;
++    }
++
++    /* to be used when in the exit hook */
++    stdout_fd = dup(STDOUT_FILENO);
++    assert(stdout_fd);
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
+diff --git a/tests/plugin/empty.c b/tests/plugin/empty.c
+new file mode 100644
+index 0000000000..b2e30bddb2
+--- /dev/null
++++ b/tests/plugin/empty.c
+@@ -0,0 +1,30 @@
++/*
++ * Copyright (C) 2018, Emilio G. Cota <cota@braap.org>
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++
++#include <qemu-plugin.h>
++
++/*
++ * Empty TB translation callback.
++ * This allows us to measure the overhead of injecting and then
++ * removing empty instrumentation.
++ */
++static void vcpu_tb_trans(qemu_plugin_id_t id, unsigned int cpu_index,
++                          struct qemu_plugin_tb *tb)
++{ }
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
++                                           char **argv)
++{
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    return 0;
++}
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+new file mode 100644
+index 0000000000..11afe0e8f1
+--- /dev/null
++++ b/tests/plugin/insn.c
+@@ -0,0 +1,63 @@
++/*
++ * Copyright (C) 2018, Emilio G. Cota <cota@braap.org>
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++
++#include <qemu-plugin.h>
++
++static int stdout_fd;
++static uint64_t insn_count;
++static bool do_inline;
++
++static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
++{
++    insn_count++;
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, unsigned int cpu_index,
++                          struct qemu_plugin_tb *tb)
++{
++    size_t n = qemu_plugin_tb_n_insns(tb);
++    size_t i;
++
++    for (i = 0; i < n; i++) {
++        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
++
++        if (do_inline) {
++            qemu_plugin_register_vcpu_insn_exec_inline(
++                insn, QEMU_PLUGIN_INLINE_ADD_U64, &insn_count, 1);
++        } else {
++            qemu_plugin_register_vcpu_insn_exec_cb(
++                insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS, NULL);
++        }
++    }
++}
++
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    dprintf(stdout_fd, "insns: %" PRIu64 "\n", insn_count);
++}
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
++                                           char **argv)
++{
++    if (argc && !strcmp(argv[0], "inline")) {
++        do_inline = true;
++    }
++
++    /* to be used when in the exit hook */
++    stdout_fd = dup(STDOUT_FILENO);
++    assert(stdout_fd);
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
+diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
+new file mode 100644
+index 0000000000..c13c672c91
+--- /dev/null
++++ b/tests/plugin/mem.c
+@@ -0,0 +1,93 @@
++/*
++ * Copyright (C) 2018, Emilio G. Cota <cota@braap.org>
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
++#include <inttypes.h>
++#include <assert.h>
++#include <stdlib.h>
++#include <string.h>
++#include <unistd.h>
++#include <stdio.h>
++
++#include <qemu-plugin.h>
++
++static uint64_t mem_count;
++static int stdout_fd;
++static bool do_inline;
++static bool do_haddr;
++static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
++
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    dprintf(stdout_fd, "accesses: %" PRIu64 "\n", mem_count);
++}
++
++static void vcpu_mem(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
++                     uint64_t vaddr, void *udata)
++{
++    mem_count++;
++}
++
++static void vcpu_haddr(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
++                       uint64_t vaddr, void *haddr, void *udata)
++{
++    mem_count++;
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, unsigned int cpu_index,
++                          struct qemu_plugin_tb *tb)
++{
++    size_t n = qemu_plugin_tb_n_insns(tb);
++    size_t i;
++
++    for (i = 0; i < n; i++) {
++        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
++
++        if (do_inline) {
++            qemu_plugin_register_vcpu_mem_inline(insn, rw,
++                                                 QEMU_PLUGIN_INLINE_ADD_U64,
++                                                 &mem_count, 1);
++        } else if (do_haddr) {
++            qemu_plugin_register_vcpu_mem_haddr_cb(insn, vcpu_haddr,
++                                                   QEMU_PLUGIN_CB_NO_REGS,
++                                                   rw, NULL);
++        } else {
++            qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
++                                             QEMU_PLUGIN_CB_NO_REGS,
++                                             rw, NULL);
++        }
++    }
++}
++
++QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc,
++                                           char **argv)
++{
++    if (argc) {
++        if (argc >= 3) {
++            if (!strcmp(argv[2], "haddr")) {
++                do_haddr = true;
++            }
++        }
++        if (argc >= 2) {
++            const char *str = argv[1];
++
++            if (!strcmp(str, "r")) {
++                rw = QEMU_PLUGIN_MEM_R;
++            } else if (!strcmp(str, "w")) {
++                rw = QEMU_PLUGIN_MEM_W;
++            }
++        }
++        if (!strcmp(argv[0], "inline")) {
++            do_inline = true;
++        }
++    }
++    /* plugin_exit might write to stdout after stdout has been closed */
++    stdout_fd = dup(STDOUT_FILENO);
++    assert(stdout_fd);
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++    return 0;
++}
 -- 
 2.20.1
 
