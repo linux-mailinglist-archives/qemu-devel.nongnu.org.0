@@ -2,57 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE6F46814
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 21:14:29 +0200 (CEST)
-Received: from localhost ([::1]:54502 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92958467E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:53:41 +0200 (CEST)
+Received: from localhost ([::1]:54322 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbree-0007qR-9C
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 15:14:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55162)
+	id 1hbrKW-00026F-QA
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57167)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lersek@redhat.com>) id 1hbr0G-0001hH-QE
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:32:46 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbr7A-00077L-6n
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:39:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hbr0E-0002CU-HY
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:32:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58886)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hbr0C-000260-Dt
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:32:42 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B9CC0309B159;
- Fri, 14 Jun 2019 18:32:31 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-141.ams2.redhat.com
- [10.36.116.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E859969A20;
- Fri, 14 Jun 2019 18:32:28 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20190311003052.13778-1-philmd@redhat.com>
- <20190311003052.13778-6-philmd@redhat.com>
- <ecd8aaf1-f75e-abd0-48b1-e80a227f01c3@redhat.com>
- <19958c32-2df9-cccf-3f05-c2fa0fe3dec2@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <ed5896ab-4bb5-3e60-fb04-e3f535f4caac@redhat.com>
-Date: Fri, 14 Jun 2019 20:32:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <alex.bennee@linaro.org>) id 1hbr78-0002jX-H9
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:39:52 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:39950)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hbr78-0002hh-8x
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 14:39:50 -0400
+Received: by mail-wm1-x344.google.com with SMTP id v19so3254154wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 11:39:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=etkJNr9Sar5ZFBcsJjMpHka0UPchN0exlhD3/m/B5vY=;
+ b=XRGXAEWFujITeG+Ra22ybfL8cH1qMsYhf58jj2FK+6nFB5p6GjyNcYPD7NtI1SoE9w
+ T42zli3nQvZglKQVYXyXqVQioDdTmVsQQYeRJ393ADA8iGYC2bAepV8BobVEF08X+uW/
+ PwJJRycJTFZIZPheSf4Z69wsNv+YPoql+VrO/cPnaQRn/DX2W23YzpO62anrMJo/koVP
+ YPHnP3t2MmQp8n4sOp6dB7JfRzGEFpj4vYKNrDrgKASLEXBnHrvZZiaRUzJUX0t+yCe3
+ /0kBx+yqP6ttW3+QDoyBk4pUJzBP81V2fz0EONHKZsYV1SJGtfLMUpYa3rKc7fw9OuT4
+ Dvrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=etkJNr9Sar5ZFBcsJjMpHka0UPchN0exlhD3/m/B5vY=;
+ b=IOF8pJe/lqrZQ9mIgnNIwe51AKzQYB86M2Z77XGF+7tVSlpEu/9tudTlCYGFkuZKqJ
+ AxHpzHJjgaPGTCLh/IrN54xSEaegpukp/uGR6s3k0khDTCy11l/Ak99GPaFRwz8lfWE8
+ Dd7Ws5lWotg0VIg7pyO8dyDGcqVGr5Sm40leaBT8ioffYxB/kTiEVuP8tsD958CH5d6c
+ kOrzvSkX4neXzBVmGYMqMRYOthI0WcfROY5tyDDvCnuAn1cmYXRgOG4QtVIOWRdnkPtx
+ qFTpA6Y8pCSwHfllnK9hXJnzkU2ab60FUCPtElI1ypmDpAhtAZ1VZP0jfTa8BN2slQXd
+ TX3w==
+X-Gm-Message-State: APjAAAWNvzFkVRFzQ8Uagt7gU2JSIsFUg5ohKjr5hnV5VECELIrK/6n+
+ LUUyGKgvEvCwj0sENJFbZC9NYQ==
+X-Google-Smtp-Source: APXvYqw1nPhrFcH/T98u8c9nB0Pavdp0W2ML7ni311lfkLBnvk6OdlSlj3pk0N6IXKdY00CoIci91w==
+X-Received: by 2002:a1c:9a46:: with SMTP id c67mr6782099wme.11.1560537588394; 
+ Fri, 14 Jun 2019 11:39:48 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id l12sm2836375wmj.22.2019.06.14.11.39.47
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 14 Jun 2019 11:39:47 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7650F1FF87;
+ Fri, 14 Jun 2019 19:39:47 +0100 (BST)
+References: <20190614171200.21078-1-alex.bennee@linaro.org>
+ <CAL1e-=g6Yd6+w3P23Y5z68EEXo30VGKhGJMrEaqcS6G01dT2=Q@mail.gmail.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+In-reply-to: <CAL1e-=g6Yd6+w3P23Y5z68EEXo30VGKhGJMrEaqcS6G01dT2=Q@mail.gmail.com>
+Date: Fri, 14 Jun 2019 19:39:47 +0100
+Message-ID: <87v9x8c8p8.fsf@zen.linaroharston>
 MIME-Version: 1.0
-In-Reply-To: <19958c32-2df9-cccf-3f05-c2fa0fe3dec2@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 14 Jun 2019 18:32:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 5/5] .travis.yml: Build and install EDK2
- roms
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v3 00/50] tcg plugin support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,116 +82,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/13/19 18:59, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi Laszlo,
->=20
-> On 3/12/19 5:29 PM, Laszlo Ersek wrote:
->> On 03/11/19 01:30, Philippe Mathieu-Daud=C3=A9 wrote:
->>> Add a job to build and install the EDK2 platform firmware binaries.
->>>
->>> This job is only triggered if the last commit matches the EDK2
->>> name (case insensitive), or when tag are created (such releases
->>> or release candidates).
->>>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>> ---
->>>  .travis.yml | 21 +++++++++++++++++++++
->>>  1 file changed, 21 insertions(+)
->>>
->>> diff --git a/.travis.yml b/.travis.yml
->>> index e942175dd3..628cc52c99 100644
->>> --- a/.travis.yml
->>> +++ b/.travis.yml
->>> @@ -258,3 +258,24 @@ matrix:
->>>      - env:
->>>          - CONFIG=3D"--disable-system"
->>>          - TEST_CMD=3D"make -j3 check-tcg V=3D1"
->>> +
->>> +
->>> +    # EDK2 roms builds
->>> +    - if: tag IS present OR commit_message =3D~ /(edk2|EDK2)/
->>> +      env:
->>> +        - CONFIG=3D"--disable-system --disable-user --prefix=3D$PWD/=
-dist"
->>> +        - EDK2_BUILD_OPTIONS=3D"--quiet --silent"
->>> +      script:
->>> +        - git submodule update --init roms/edk2
->>> +        - make -j3
->>> +        - make -C roms efi -j2
->>> +        - make install
->>> +      addons:
->>> +        apt:
->>> +          packages:
->>> +            - dos2unix
->>> +            - gcc-aarch64-linux-gnu
->>> +            - gcc-arm-linux-gnueabihf
->>> +            - iasl
->>> +            - nasm
->>> +            - uuid-dev
->>>
+
+Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
+
+> On Fri, Jun 14, 2019 at 7:22 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
 >>
->> Regardless of what problem we're trying to address with "--quiet
->> --silent", those options are wrong. You certainly want detailed build
->> logs for the case a CI job fails (at build time or at runtime).
->=20
-> On Travis we get:
->=20
-> The job exceeded the maximum log length, and has been terminated.
-> (https://travis-ci.org/philmd/qemu/jobs/545329905)
->=20
-> So I moved to GitLab, but we still get:
->=20
-> "Job's log exceeded limit of 4194304 bytes."
-> (https://gitlab.com/philmd/qemu/-/jobs/230772314)
->=20
-> Regarding the options to pass to edk2-build.sh,
->=20
-> $ build --help
->   -j LOGFILE, --log=3DLOGFILE
->                    Put log in specified file as well as on console.
->   -s, --silent     Make use of silent mode of (n)make.
->   -q, --quiet      Disable all messages except FATAL ERRORS.
->   -v, --verbose    Turn on verbose output with informational messages
->                    printed, including library instances selected, final
->                    dependency expression, and warning messages, etc.
->=20
-> '--log' duplicate the output, and I don't want to reduce the log
-> details, so I understand I should use:
->=20
->   ./edk2-build.sh [...] --log=3Dbuild.log >/dev/null || cat build.log
->=20
-> Is that correct? But then I'd need to modify Makefile.edk2 to redirect
-> stdout.
+>> Hi,
+>>
+>> This is v3 of the proposed plugins API for QEMU. As Emilio is busy
+>> having finished his time at Columbia I have volunteered to take the
+>> patch series forward. Emilio's RFC v2 was posted last year:
+>>
+>>   Subject: [RFC v2 00/38] Plugin support
+>>   Date: Sun,  9 Dec 2018 14:37:11 -0500
+>>   Message-Id: <20181209193749.12277-1-cota@braap.org>
+>>
+>> The idea is to present a plugin interface that allows for interesting
+>> experiments to be written while not exposing the internal details of
+>> how the TCG works to the wider world.
+>>
+>> Changes from last year
+>>
+>>   - re-basing and fixing up conflicts
+>>   - moved to plugins/ and split files up (core/api/loader)
+>>   - added a design document (docs/devel/plugins.rst)
+>>   - replaced auto-growing structures with glib GArray and friends
+>>   - expanded API to include access to disassembly
+>>   - wrote some more example plugins
+>>   - dropped the RFC tag ;-)
+>>
+>> There are a few things left to sort out. Currently the haddr
+>> calculation relies on the softmmu TLB code for each architecture to
+>> dump it in a cpu_env location. Currently this is only done on x86 and
+>> we would require some tweaking to each backend. I think it would
+>> probably be better to just have a wrapper helper which could do the
+>> lookup of the (hot) TLB in C to calculate the address before calling
+>> the helpers.
+>>
+>
+> Great to see this series!
+>
+> Is there any particular conceptual reason why not all targets are included
+> (i.e. mips, s390, etc.)? Or it was just, let's say, lack of your time res=
+ources
+> to complete everything?
 
-Would it be possible to invoke the outermost make like this?
+There are two things.
 
-  make -C roms -j2 efi >make.roms.efi.log 2>&1 \
-  || ( tail -c 2M make.roms.efi.log; false )
+Firstly this only supports guests that have been converted to the common
+translator_loop code. This is to avoid having hooks in all the various
+guest front-ends. I think we are slowly moving to having the common
+translator_loop as mandatory and once that's done the guest gets plugins
+"for free".
 
-Thanks
-Laszlo
+The only other change needed for each guest is to use the common
+translator_ld function to read instructions. This again avoids us having
+to have too many tendrils into the guests. arm's handling of endian
+switching being the exception in this case.
 
->=20
->> The reason why I only include DEBUG firmware builds in the edk2 bundli=
-ng
->> series is similar -- RELEASE builds lack DEBUG messages and ASSERT()s,
->> and as such they are 100% unsupportable in my book. Bugs in software a=
-re
->> the norm, not the exception, so we should allow (even force) the user
->> (and remote systems) to provide as much information as they can.
->=20
-> Sure, we have the same book here ;)
->=20
-> Regards,
->=20
-> Phil.
->=20
+AFAICT both mips and s390 are using the common loop stuff so it should
+just be a case of adding the relevant translator_ld calls. The only
+minor wrinkle would be if they do anything fancy like SH4's gUSA
+sequence.
 
+>
+> Yours,
+> Aleksandar
+>
+>> I also ended up adding a bunch of miscellaneous fixes at the end while
+>> I was re-spinning. If they get some review I'll try and get the
+>> non-controversial stuff up-streamed first.
+>>
+>> The area that needs the most review is the single pass TCG op
+>> insertion code. When plugins are enabled each instruction gets dummy
+>> ops inserted and then at the end we swap those out for the actual
+>> calls or remove them from the stream. Hopefully this is not too much
+>> of an abuse of TCG mechanisms.
+>>
+>> I'm aiming to get this in for 4.1 but I guess that will depend on how
+>> the review and iteration goes.
+>>
+>> Alex Benn=C3=A9e (12):
+>>   docs/devel: add plugins.rst design document
+>>   configure: add --enable-plugins (MOVE TO END)
+>>   plugin: add implementation of the api
+>>   tests/tcg: enable plugin testing
+>>   tests/plugin: add a hotblocks plugin
+>>   plugin: add qemu_plugin_insn_disas helper
+>>   tests/plugin: add instruction execution breakdown
+>>   tests/plugin: add hotpages plugin to breakdown memory access patterns
+>>   accel/stubs: reduce headers from tcg-stub
+>>   include/exec: wrap cpu_ldst.h in CONFIG_TCG
+>>   include/exec/cpu-defs.h: fix typo
+>>   TODO: API changes to make?
+>>
+>> Emilio G. Cota (36):
+>>   trace: expand mem_info:size_shift to 3 bits
+>>   tcg/README: fix typo s/afterwise/afterwards/
+>>   cpu: introduce cpu_in_exclusive_work_context()
+>>   translate-all: use cpu_in_exclusive_work_context() in tb_flush
+>>   plugin: add user-facing API
+>>   plugin: add core code
+>>   queue: add QTAILQ_REMOVE_SEVERAL
+>>   cputlb: document get_page_addr_code
+>>   cputlb: introduce get_page_addr_code_hostp
+>>   plugin-gen: add module for TCG-related code
+>>   tcg: add tcg_gen_st_ptr
+>>   tcg: add MO_HADDR to TCGMemOp
+>>   atomic_template: fix indentation in GEN_ATOMIC_HELPER
+>>   atomic_template: add inline trace/plugin helpers
+>>   cpu_ldst_useronly_template: remove redundant #ifndef CODE_ACCESS
+>>   tcg: let plugins instrument memory accesses
+>>   translate-all: notify plugin code of tb_flush
+>>   *-user: notify plugin of exit
+>>   *-user: plugin syscalls
+>>   cpu: hook plugin vcpu events
+>>   plugin-gen: add plugin_insn_append
+>>   translator: add translator_ld{ub,sw,uw,l,q}
+>>   target/arm: call qemu_plugin_insn_append
+>>   target/ppc: fetch code with translator_ld
+>>   target/sh4: fetch code with translator_ld
+>>   target/i386: fetch code with translator_ld
+>>   target/hppa: fetch code with translator_ld
+>>   target/m68k: fetch code with translator_ld
+>>   target/alpha: fetch code with translator_ld
+>>   target/riscv: fetch code with translator_ld
+>>   target/sparc: fetch code with translator_ld
+>>   target/xtensa: fetch code with translator_ld
+>>   target/openrisc: fetch code with translator_ld
+>>   translator: inject instrumentation from plugins
+>>   plugin: add API symbols to qemu-plugins.symbols
+>>   tests/plugin: add sample plugins
+>>
+>> Llu=C3=ADs Vilanova (2):
+>>   vl: support -plugin option
+>>   linux-user: support -plugin option
+>>
+>>  Makefile                                  |   11 +-
+>>  Makefile.target                           |    2 +
+>>  accel/stubs/tcg-stub.c                    |    3 -
+>>  accel/tcg/Makefile.objs                   |    1 +
+>>  accel/tcg/atomic_template.h               |  117 ++-
+>>  accel/tcg/cpu-exec.c                      |    3 +
+>>  accel/tcg/cputlb.c                        |   56 +-
+>>  accel/tcg/plugin-gen.c                    | 1079 +++++++++++++++++++++
+>>  accel/tcg/plugin-helpers.h                |    6 +
+>>  accel/tcg/translate-all.c                 |   15 +-
+>>  accel/tcg/translator.c                    |   16 +
+>>  bsd-user/syscall.c                        |   12 +
+>>  configure                                 |   86 +-
+>>  cpus-common.c                             |    2 +
+>>  cpus.c                                    |   10 +
+>>  disas.c                                   |  103 ++
+>>  docs/devel/index.rst                      |    1 +
+>>  docs/devel/plugins.rst                    |   99 ++
+>>  exec.c                                    |    2 +
+>>  include/disas/disas.h                     |    2 +
+>>  include/exec/cpu-defs.h                   |   11 +-
+>>  include/exec/cpu_ldst.h                   |    9 +
+>>  include/exec/cpu_ldst_template.h          |   40 +-
+>>  include/exec/cpu_ldst_useronly_template.h |   36 +-
+>>  include/exec/exec-all.h                   |   64 +-
+>>  include/exec/helper-gen.h                 |    1 +
+>>  include/exec/helper-proto.h               |    1 +
+>>  include/exec/helper-tcg.h                 |    1 +
+>>  include/exec/plugin-gen.h                 |   71 ++
+>>  include/exec/translator.h                 |   30 +-
+>>  include/qemu/plugin.h                     |  261 +++++
+>>  include/qemu/qemu-plugin.h                |  349 +++++++
+>>  include/qemu/queue.h                      |   10 +
+>>  include/qom/cpu.h                         |   19 +
+>>  linux-user/exit.c                         |    1 +
+>>  linux-user/main.c                         |   18 +
+>>  linux-user/syscall.c                      |    3 +
+>>  plugins/.gitignore                        |    2 +
+>>  plugins/Makefile.objs                     |   21 +
+>>  plugins/api.c                             |  274 ++++++
+>>  plugins/core.c                            |  524 ++++++++++
+>>  plugins/loader.c                          |  353 +++++++
+>>  plugins/plugin.h                          |   95 ++
+>>  plugins/qemu-plugins.symbols              |   36 +
+>>  qemu-options.hx                           |   17 +
+>>  qom/cpu.c                                 |    2 +
+>>  target/alpha/translate.c                  |    2 +-
+>>  target/arm/translate-a64.c                |    2 +
+>>  target/arm/translate.c                    |    8 +-
+>>  target/hppa/translate.c                   |    2 +-
+>>  target/i386/translate.c                   |   10 +-
+>>  target/m68k/translate.c                   |    2 +-
+>>  target/openrisc/translate.c               |    2 +-
+>>  target/ppc/translate.c                    |    8 +-
+>>  target/riscv/translate.c                  |    2 +-
+>>  target/sh4/translate.c                    |    4 +-
+>>  target/sparc/translate.c                  |    2 +-
+>>  target/xtensa/translate.c                 |    4 +-
+>>  tcg/README                                |    2 +-
+>>  tcg/i386/tcg-target.inc.c                 |    8 +
+>>  tcg/tcg-op.c                              |   40 +-
+>>  tcg/tcg-op.h                              |   16 +
+>>  tcg/tcg-opc.h                             |    3 +
+>>  tcg/tcg.c                                 |   22 +
+>>  tcg/tcg.h                                 |   28 +
+>>  tests/Makefile.include                    |   10 +-
+>>  tests/plugin/Makefile                     |   31 +
+>>  tests/plugin/bb.c                         |   66 ++
+>>  tests/plugin/empty.c                      |   30 +
+>>  tests/plugin/hotblocks.c                  |  145 +++
+>>  tests/plugin/hotpages.c                   |  152 +++
+>>  tests/plugin/howvec.c                     |  297 ++++++
+>>  tests/plugin/insn.c                       |   63 ++
+>>  tests/plugin/mem.c                        |   93 ++
+>>  tests/tcg/Makefile                        |   34 +
+>>  tests/tcg/arm/Makefile.softmmu-target     |    1 +
+>>  trace-events                              |    2 +-
+>>  vl.c                                      |   11 +
+>>  78 files changed, 4855 insertions(+), 122 deletions(-)
+>>  create mode 100644 accel/tcg/plugin-gen.c
+>>  create mode 100644 accel/tcg/plugin-helpers.h
+>>  create mode 100644 docs/devel/plugins.rst
+>>  create mode 100644 include/exec/plugin-gen.h
+>>  create mode 100644 include/qemu/plugin.h
+>>  create mode 100644 include/qemu/qemu-plugin.h
+>>  create mode 100644 plugins/.gitignore
+>>  create mode 100644 plugins/Makefile.objs
+>>  create mode 100644 plugins/api.c
+>>  create mode 100644 plugins/core.c
+>>  create mode 100644 plugins/loader.c
+>>  create mode 100644 plugins/plugin.h
+>>  create mode 100644 plugins/qemu-plugins.symbols
+>>  create mode 100644 tests/plugin/Makefile
+>>  create mode 100644 tests/plugin/bb.c
+>>  create mode 100644 tests/plugin/empty.c
+>>  create mode 100644 tests/plugin/hotblocks.c
+>>  create mode 100644 tests/plugin/hotpages.c
+>>  create mode 100644 tests/plugin/howvec.c
+>>  create mode 100644 tests/plugin/insn.c
+>>  create mode 100644 tests/plugin/mem.c
+>>
+>> --
+>> 2.20.1
+>>
+>>
+
+
+--
+Alex Benn=C3=A9e
 
