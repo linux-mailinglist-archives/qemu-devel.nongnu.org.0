@@ -2,56 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72E3F46382
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:59:39 +0200 (CEST)
-Received: from localhost ([::1]:52954 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2DC463B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:13:15 +0200 (CEST)
+Received: from localhost ([::1]:53056 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hboc4-0008Hj-R2
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:59:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58619)
+	id 1hbopG-0001PD-Fq
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:13:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59045)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sstabellini@kernel.org>) id 1hboNT-00086Q-Ij
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:44:34 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hboPn-0000U0-HY
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:46:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sstabellini@kernel.org>) id 1hboNS-0004HK-8i
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:44:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59682)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <sstabellini@kernel.org>)
- id 1hboNR-0004Fh-Ph
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:44:30 -0400
-Received: from localhost (c-67-164-102-47.hsd1.ca.comcast.net [67.164.102.47])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 807A22173C;
- Fri, 14 Jun 2019 15:44:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1560527067;
- bh=H5sBhEsnpXpuEm12t4z5a4PsuSj7UCejtvDZISrfJHg=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=rZM2NnfeGInrLmm8edourRfXsFWBmWJ7tveTFbZi37AgGATdh+wkvBLz3Q9qjavAg
- gMQgjKpbnjGj8hXwoZyzusv3RLmcetaqH/wBZ4d1C1rWyArQIqHuUxK5smKJ97T7J7
- uO0M+ZbKLYUEki3X/uqVG7rs5yRIMDVYHGF+m6m8=
-Date: Fri, 14 Jun 2019 08:44:26 -0700 (PDT)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
-To: Paul Durrant <Paul.Durrant@citrix.com>
-In-Reply-To: <c2c63dd46c684b1bb0f2e342a085d93d@AMSPEX02CL03.citrite.net>
-Message-ID: <alpine.DEB.2.21.1906140844150.2072@sstabellini-ThinkPad-T480s>
-References: <155912548463.2019004.3515830305299809902.stgit@bahia.lan>
- <20190529125926.GD2126@perard.uk.xensource.com>
- <20190605121056.0e784daf@bahia.lab.toulouse-stg.fr.ibm.com>
- <c85d973ca2d444678e8fdc86a4cd6f4f@AMSPEX02CL03.citrite.net>
- <20190614101621.098742e2@bahia.lan>
- <c2c63dd46c684b1bb0f2e342a085d93d@AMSPEX02CL03.citrite.net>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hboPl-0005e8-MH
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:46:55 -0400
+Received: from mail-eopbgr00120.outbound.protection.outlook.com
+ ([40.107.0.120]:40459 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hboPk-0005TC-Ak; Fri, 14 Jun 2019 11:46:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=misyyMe+w2cGO0plCZrLgu9+pJZlacMdkmD1Ykmt9PI=;
+ b=NUBluCEJFhneybf0vHWWzUV/I7OnqSJ2LUWVQMS4IzRxet0rm201YkhRe54FAIBDty0Gk5bUQkdRXfC+SFfRVDA3JlkUlwBhgThBXJCSaXcUtAJHQnSPFvpzcagprYjHMEsznG7rn8m9V97xP0y7/qFl1+E0lkbYWUkAu2hSMko=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0PR08MB4498.eurprd08.prod.outlook.com (20.179.33.74) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.14; Fri, 14 Jun 2019 15:46:36 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
+ 15:46:36 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v5 23/42] blockdev: Use CAF in external_snapshot_prepare()
+Thread-Index: AQHVIWu9uMzK/TD2M0yxTGXrEn+VtaabTdeA
+Date: Fri, 14 Jun 2019 15:46:35 +0000
+Message-ID: <112404e2-7172-865c-d888-6a5cddcc40ec@virtuozzo.com>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-24-mreitz@redhat.com>
+In-Reply-To: <20190612221004.2317-24-mreitz@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR09CA0085.eurprd09.prod.outlook.com
+ (2603:10a6:7:3d::29) To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190614184633443
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 56910d3d-9441-4a5e-a007-08d6f0df7b04
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0PR08MB4498; 
+x-ms-traffictypediagnostic: AM0PR08MB4498:
+x-microsoft-antispam-prvs: <AM0PR08MB4498E7954FADE194105185B5C1EE0@AM0PR08MB4498.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0068C7E410
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(136003)(346002)(366004)(396003)(39850400004)(189003)(199004)(476003)(76176011)(2616005)(11346002)(36756003)(81156014)(478600001)(6116002)(6506007)(66476007)(8936002)(386003)(73956011)(66946007)(31686004)(486006)(52116002)(305945005)(3846002)(7736002)(66556008)(2501003)(66446008)(64756008)(229853002)(446003)(99286004)(71200400001)(71190400001)(8676002)(53936002)(6246003)(6436002)(316002)(68736007)(110136005)(6486002)(5660300002)(14444005)(66066001)(14454004)(86362001)(4326008)(256004)(186003)(54906003)(81166006)(25786009)(31696002)(26005)(6512007)(102836004)(2906002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4498;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 4g6TiwT8MV2W2KYfpMKADCvyGo/7cVdoP2J24zDnktqEYQFR92Llu+7yQ0tB0lKRt86LxCI1qi888Y4ESXXxAVJb93EFMH5hG0T48kINALH2VUfuWxPmeWhEpio6cIMaPybWc+T9/L4nbOfE9woteCu/321XYjmOTLchBS23Jq9Pe5DjKYHoTMr5D2jVekZUexcODZ71m+AY77SdjlXM0oT8iVa5vHv9sM7UgDkWltosLjjkuMNZx75mtjY+XF6NuEKnWUFyg3e1Xx3An/y6Kq+XcbGY6EFX09j1HyzN4l6VdMTbLPkvK6tFFcZ+m3wJto+tbA45bVtPhEQzVQyRNuTWPiTXxMgyyvQ2l3Z5u3/YVTx457DpxuNqpm5vmRN0riPLn2R0sOtySoWFkwjcrzEFzbqH++ROuoEYWofuzMw=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <78AD2A579EBDA74F9793526897A4388F@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 198.145.29.99
-Subject: Re: [Qemu-devel] [PATCH] MAINTAINERS: Change maintership of Xen
- code under hw/9pfs
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56910d3d-9441-4a5e-a007-08d6f0df7b04
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 15:46:35.9903 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4498
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.0.120
+Subject: Re: [Qemu-devel] [PATCH v5 23/42] blockdev: Use CAF in
+ external_snapshot_prepare()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,91 +101,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- Stefano Stabellini <sstabellini@kernel.org>, 'Greg Kurz' <groug@kaod.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Jun 2019, Paul Durrant wrote:
-> > -----Original Message-----
-> > From: Greg Kurz [mailto:groug@kaod.org]
-> > Sent: 14 June 2019 09:16
-> > To: Paul Durrant <Paul.Durrant@citrix.com>
-> > Cc: Anthony Perard <anthony.perard@citrix.com>; qemu-devel@nongnu.org; Stefano Stabellini
-> > <sstabellini@kernel.org>
-> > Subject: Re: [PATCH] MAINTAINERS: Change maintership of Xen code under hw/9pfs
-> > 
-> > On Wed, 5 Jun 2019 10:12:05 +0000
-> > Paul Durrant <Paul.Durrant@citrix.com> wrote:
-> > 
-> > > > -----Original Message-----
-> > > > From: Greg Kurz [mailto:groug@kaod.org]
-> > > > Sent: 05 June 2019 11:11
-> > > > To: Anthony Perard <anthony.perard@citrix.com>
-> > > > Cc: qemu-devel@nongnu.org; Stefano Stabellini <sstabellini@kernel.org>; Paul Durrant
-> > > > <Paul.Durrant@citrix.com>
-> > > > Subject: Re: [PATCH] MAINTAINERS: Change maintership of Xen code under hw/9pfs
-> > > >
-> > > > On Wed, 29 May 2019 13:59:26 +0100
-> > > > Anthony PERARD <anthony.perard@citrix.com> wrote:
-> > > >
-> > > > > On Wed, May 29, 2019 at 12:24:44PM +0200, Greg Kurz wrote:
-> > > > > > Xen folks are the actual maintainers for this.
-> > > > > >
-> > > > > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > > > > ---
-> > > > > >  MAINTAINERS |    3 ++-
-> > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > > > index 1f5f8b7a2c37..d00380641796 100644
-> > > > > > --- a/MAINTAINERS
-> > > > > > +++ b/MAINTAINERS
-> > > > > > @@ -411,7 +411,7 @@ M: Paul Durrant <paul.durrant@citrix.com>
-> > > > > >  L: xen-devel@lists.xenproject.org
-> > > > > >  S: Supported
-> > > > > >  F: */xen*
-> > > > > > -F: hw/9pfs/xen-9p-backend.c
-> > > > > > +F: hw/9pfs/xen-9p*
-> > > > > >  F: hw/char/xen_console.c
-> > > > > >  F: hw/display/xenfb.c
-> > > > > >  F: hw/net/xen_nic.c
-> > > > > > @@ -1505,6 +1505,7 @@ virtio-9p
-> > > > > >  M: Greg Kurz <groug@kaod.org>
-> > > > > >  S: Supported
-> > > > > >  F: hw/9pfs/
-> > > > > > +X: hw/9pfs/xen-9p*
-> > > > > >  F: fsdev/
-> > > > > >  F: tests/virtio-9p-test.c
-> > > > > >  T: git https://github.com/gkurz/qemu.git 9p-next
-> > > > > >
-> > > > >
-> > > > > Acked-by: Anthony PERARD <anthony.perard@citrix.com>
-> > > > >
-> > > > > Thanks,
-> > > > >
-> > > >
-> > > > Ping ?
-> > > >
-> > > > I'd rather also get an ack from Stefano and Paul before merging this.
-> > > >
-> > >
-> > > Fine by me...
-> > >
-> > > Acked-by: Paul Durrant <paul.durrant@citrix.com>
-> > >
-> > 
-> > Hi,
-> > 
-> > I'd prefer to also get an ack from Stefano but it seems that he hasn't posted
-> > anything to qemu-devel@ since last January... Any suggestion how I should go
-> > forward with this ?
-> > 
-> 
-> Yes, I think it would be prudent to get an ack from Stefano. I'll ping him on IRC and see if I can get a response.
-
-I am still here!
-
-Acked-by: Stefano Stabellini <sstabellini@kernel.org>
+MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFRoaXMgYWxsb3dzIHVzIHRvIGRp
+ZmZlcmVudGlhdGUgYmV0d2VlbiBmaWx0ZXJzIGFuZCBub2RlcyB3aXRoIENPVw0KPiBiYWNraW5n
+IGZpbGVzOiBGaWx0ZXJzIGNhbm5vdCBiZSB1c2VkIGFzIG92ZXJsYXlzIGF0IGFsbCAoZm9yIHRo
+aXMNCj4gZnVuY3Rpb24pLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVpdHpA
+cmVkaGF0LmNvbT4NCg0KT3ZlcmxheSBjcmVhdGVkIGluIHNuYXBzaG90IG9wZXJhdGlvbiBhc3N1
+bWVkIHRvIGNvbnN1bWUgZm9sbG93aW5nIHdyaXRlcw0KYW5kIGl0J3MgZmlsdGVyZWQgY2hpbGQg
+YmVjb21lcyByZWFkb25seS4uIEFuZCBmaWx0ZXIgd29ya3MgaW4gY29tcGxldGVseSBhbm90aGVy
+DQp3YXkuDQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2Vt
+ZW50c292QHZpcnR1b3p6by5jb20+DQoNCltobW0sIEkgc3RhcnQgdG8gbGlrZSB1c2luZyAiZmls
+dGVyZWQgY2hpbGQiIGNvbGxvY2F0aW9uIHdoZW4gSSBzYXkgYWJvdXQgdGhpcyB0aGluZy4NCiAg
+ZGlkbid0IHlvdSB0aGluayBhYm91dCByZW5hbWluZyBiYWNraW5nIGNoYWluIHRvIGZpbHRlcmVk
+IGNoYWluP10NCg0KPiAtLS0NCj4gICBibG9ja2Rldi5jIHwgNyArKysrKystDQo+ICAgMSBmaWxl
+IGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdp
+dCBhL2Jsb2NrZGV2LmMgYi9ibG9ja2Rldi5jDQo+IGluZGV4IGI1YzBmZDNjNDkuLjBmMGNmMGQ5
+YWUgMTAwNjQ0DQo+IC0tLSBhL2Jsb2NrZGV2LmMNCj4gKysrIGIvYmxvY2tkZXYuYw0KPiBAQCAt
+MTY2NSw3ICsxNjY1LDEyIEBAIHN0YXRpYyB2b2lkIGV4dGVybmFsX3NuYXBzaG90X3ByZXBhcmUo
+QmxrQWN0aW9uU3RhdGUgKmNvbW1vbiwNCj4gICAgICAgICAgIGdvdG8gb3V0Ow0KPiAgICAgICB9
+DQo+ICAgDQo+IC0gICAgaWYgKHN0YXRlLT5uZXdfYnMtPmJhY2tpbmcgIT0gTlVMTCkgew0KPiAr
+ICAgIGlmIChzdGF0ZS0+bmV3X2JzLT5kcnYtPmlzX2ZpbHRlcikgew0KPiArICAgICAgICBlcnJv
+cl9zZXRnKGVycnAsICJGaWx0ZXJzIGNhbm5vdCBiZSB1c2VkIGFzIG92ZXJsYXlzIik7DQo+ICsg
+ICAgICAgIGdvdG8gb3V0Ow0KPiArICAgIH0NCj4gKw0KPiArICAgIGlmIChiZHJ2X2ZpbHRlcmVk
+X2Nvd19jaGlsZChzdGF0ZS0+bmV3X2JzKSkgew0KPiAgICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJw
+LCAiVGhlIG92ZXJsYXkgYWxyZWFkeSBoYXMgYSBiYWNraW5nIGltYWdlIik7DQo+ICAgICAgICAg
+ICBnb3RvIG91dDsNCj4gICAgICAgfQ0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRp
+bWlyDQo=
 
