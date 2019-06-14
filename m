@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462AC46471
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:38:43 +0200 (CEST)
-Received: from localhost ([::1]:53358 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F39246508
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:53:37 +0200 (CEST)
+Received: from localhost ([::1]:53498 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbpDu-0003aJ-G0
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:38:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37868)
+	id 1hbpSJ-000472-Cm
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:53:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39194)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbork-0005fH-Ej
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:15:54 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbowf-0000nr-2C
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:20:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbori-0005uP-CY
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:15:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58356)
+ (envelope-from <mreitz@redhat.com>) id 1hbowe-0001tn-3G
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:20:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42747)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hborb-0005jY-Lv; Fri, 14 Jun 2019 12:15:39 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1hbowa-0001qS-GR; Fri, 14 Jun 2019 12:20:48 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A3F0C30832F4;
- Fri, 14 Jun 2019 16:15:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 534443091753;
+ Fri, 14 Jun 2019 16:20:37 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 672D2605C9;
- Fri, 14 Jun 2019 16:15:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DD375D9D2;
+ Fri, 14 Jun 2019 16:20:35 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-23-mreitz@redhat.com>
- <e748a63f-2ee7-1c43-df21-573d038444b8@virtuozzo.com>
+ <20190612221004.2317-24-mreitz@redhat.com>
+ <112404e2-7172-865c-d888-6a5cddcc40ec@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -60,22 +60,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <a0972294-7049-3e93-ae4d-23238e953615@redhat.com>
-Date: Fri, 14 Jun 2019 18:15:28 +0200
+Message-ID: <b875c83b-c3a8-3a2c-2e92-716f5dc4411a@redhat.com>
+Date: Fri, 14 Jun 2019 18:20:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <e748a63f-2ee7-1c43-df21-573d038444b8@virtuozzo.com>
+In-Reply-To: <112404e2-7172-865c-d888-6a5cddcc40ec@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="rMYfRj4YcI8e7cijsdSulEv76QisnDcmn"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+ boundary="h25BM4vX1gPZdo2nXDB4lUa9nWejHvTVm"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 14 Jun 2019 16:15:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 14 Jun 2019 16:20:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 22/42] block: Use CAFs in
- bdrv_get_allocated_file_size()
+Subject: Re: [Qemu-devel] [PATCH v5 23/42] blockdev: Use CAF in
+ external_snapshot_prepare()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,124 +93,81 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---rMYfRj4YcI8e7cijsdSulEv76QisnDcmn
-Content-Type: multipart/mixed; boundary="uXfYjL18sHKLQLdrEeced1isJAJQ7rFMS";
+--h25BM4vX1gPZdo2nXDB4lUa9nWejHvTVm
+Content-Type: multipart/mixed; boundary="VEvUOPgC60sSQnGcsmicAht7c0zIUlogt";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  Kevin Wolf <kwolf@redhat.com>
-Message-ID: <a0972294-7049-3e93-ae4d-23238e953615@redhat.com>
-Subject: Re: [PATCH v5 22/42] block: Use CAFs in
- bdrv_get_allocated_file_size()
+Message-ID: <b875c83b-c3a8-3a2c-2e92-716f5dc4411a@redhat.com>
+Subject: Re: [PATCH v5 23/42] blockdev: Use CAF in external_snapshot_prepare()
 References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-23-mreitz@redhat.com>
- <e748a63f-2ee7-1c43-df21-573d038444b8@virtuozzo.com>
-In-Reply-To: <e748a63f-2ee7-1c43-df21-573d038444b8@virtuozzo.com>
+ <20190612221004.2317-24-mreitz@redhat.com>
+ <112404e2-7172-865c-d888-6a5cddcc40ec@virtuozzo.com>
+In-Reply-To: <112404e2-7172-865c-d888-6a5cddcc40ec@virtuozzo.com>
 
---uXfYjL18sHKLQLdrEeced1isJAJQ7rFMS
+--VEvUOPgC60sSQnGcsmicAht7c0zIUlogt
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 14.06.19 17:41, Vladimir Sementsov-Ogievskiy wrote:
+On 14.06.19 17:46, Vladimir Sementsov-Ogievskiy wrote:
 > 13.06.2019 1:09, Max Reitz wrote:
+>> This allows us to differentiate between filters and nodes with COW
+>> backing files: Filters cannot be used as overlays at all (for this
+>> function).
+>>
 >> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   block.c | 26 ++++++++++++++++++++++++--
->>   1 file changed, 24 insertions(+), 2 deletions(-)
->>
->> diff --git a/block.c b/block.c
->> index 11b7ba8cf6..856d9b58be 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -4511,15 +4511,37 @@ exit:
->>   int64_t bdrv_get_allocated_file_size(BlockDriverState *bs)
->>   {
->>       BlockDriver *drv =3D bs->drv;
->> +    BlockDriverState *storage_bs, *metadata_bs;
->> +
->>       if (!drv) {
->>           return -ENOMEDIUM;
->>       }
->> +
->>       if (drv->bdrv_get_allocated_file_size) {
->>           return drv->bdrv_get_allocated_file_size(bs);
->>       }
->> -    if (bs->file) {
->> -        return bdrv_get_allocated_file_size(bs->file->bs);
->> +
->> +    storage_bs =3D bdrv_storage_bs(bs);
->> +    metadata_bs =3D bdrv_metadata_bs(bs);
->> +
->> +    if (storage_bs) {
->> +        int64_t data_size, metadata_size =3D 0;
->> +
->> +        data_size =3D bdrv_get_allocated_file_size(storage_bs);
->> +        if (data_size < 0) {
->> +            return data_size;
->> +        }
->> +
->> +        if (storage_bs !=3D metadata_bs) {
->> +            metadata_size =3D bdrv_get_allocated_file_size(metadata_b=
-s);
->> +            if (metadata_size < 0) {
->> +                return metadata_size;
->> +            }
->> +        }
->> +
->> +        return data_size + metadata_size;
->>       }
->> +
->>       return -ENOTSUP;
->>   }
->>  =20
->>
 >=20
-> Again, I dislike nailing down new fresh feature about separate metadata=
- and storage child
-> to the generic block layer, as it's simple to imagine a driver which ne=
-eds three or more
-> children to store all its data and metadata..
-
-Yes, we have that, it=E2=80=99s VMDK.
-
-> Isn't it better by default loop through all children and sum all their =
-allocated sizes?
+> Overlay created in snapshot operation assumed to consume following writ=
+es
+> and it's filtered child becomes readonly.. And filter works in complete=
+ly another
+> way.
 >=20
-> Hmm, but we want exclude backing, yes? Still we may ignore it while ite=
-rating.
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>=20
+> [hmm, I start to like using "filtered child" collocation when I say abo=
+ut this thing.
+>   didn't you think about renaming backing chain to filtered chain?]
 
-I want to object in that there could be drivers that have children that
-should not count towards their allocated size other than COW backing
-files.  But I actually cannot imagine a reasonable scenario.  (The only
-reason why COW backing files should be excluded is because they are
-generally listed separately.)
+Hm.  There are backing chains and there are backing chains.  There are
+qemu-internal backing chains that consist of a healthy mix of filters
+and COW overlays, and then there are the more high-level backing chains
+the user actually manages, where only the overlays are important.
 
-So, yes, that sounds good.
+I think it would make sense to rename the =E2=80=9Cqemu-internal backing =
+chains"
+to =E2=80=9Cfilter chains=E2=80=9D or something.  But that makes it sound=
+ a bit like it
+would only mean R/W filters...  Maybe just =E2=80=9Cchain=E2=80=9D?
+
+Actually, the only functions I find are is_backing_chain_frozen & Co,
+and they could simply become is_chain_frozen.  Is there anything else?
 
 Max
 
 
---uXfYjL18sHKLQLdrEeced1isJAJQ7rFMS--
+--VEvUOPgC60sSQnGcsmicAht7c0zIUlogt--
 
---rMYfRj4YcI8e7cijsdSulEv76QisnDcmn
+--h25BM4vX1gPZdo2nXDB4lUa9nWejHvTVm
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0DyCAACgkQ9AfbAGHV
-z0Ae0Af6Alqp11hKxtWcLk8RIhtD78AfZYPfG3u5UJcP8bEyjiaN3f/sQgGk31CW
-o6BtQd/CAzcWq33OFcaRL9FiiucBv5irOaptFo6R13fuk5k4iJh1k2uWeA86J17c
-x3HiFWMhEWHhOIQgO4oUfBaIeYg9lw6sJP4Zx/oryZgKUYNKlsLiqu/6JQm3XQzC
-i6FRASWGeIoGys0WPhejpmlo0Q3oTBi3E0X5lJDmMVk0KME4JRdkL+1QRAGQ1Bkh
-LjafDR9p2zkmfeP3V7QEnLSQgkVb77dhCOuJeWSVLjcglV+4KvPAUeqa3zhUNr4D
-Yk04OoWYeiIZgHuLWJdpFE5SNXAdIw==
-=23Pw
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0DyVIACgkQ9AfbAGHV
+z0CcOgf/U7VLnHaEaio1ibSs7Ygccs9Mb5AKSVYyeFr+QGvnKapcVyyaVj/v9SvX
+oGKjYMLR1rvcWXGwaEM/gO0CjggqV5eU8RCFzWULvW48iaKFyvhV17LEfPcblGl7
+nh8wAw+ugVYfgDPdCKjD533VvjAPqB8BfT4onFOECJNGELgWO8a/gkrD8rW0SD0f
+mQafgiTUHIN+uHEa/jpdCRhLENHhkSlxY6ZSbpaQILq/m58P2k9zVNNaieqvS0Cz
+5CmuuX5NXGOO+wGS/l/GeNVm1aMdgIcaWhZLsVjJ7UABFKyP4oBc5RjdExk5jEJ2
+qgYM76Z8eunuEuVdH1Y9kz4NldpWiA==
+=7gf+
 -----END PGP SIGNATURE-----
 
---rMYfRj4YcI8e7cijsdSulEv76QisnDcmn--
+--h25BM4vX1gPZdo2nXDB4lUa9nWejHvTVm--
 
