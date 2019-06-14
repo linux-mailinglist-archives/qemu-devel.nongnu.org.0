@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D4F462E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:33:58 +0200 (CEST)
-Received: from localhost ([::1]:52718 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 242864630A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:37:43 +0200 (CEST)
+Received: from localhost ([::1]:52756 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hboDF-0007Yb-KX
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:33:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50804)
+	id 1hboGs-0002GV-A9
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:37:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50781)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1hbnw4-00057u-RO
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:16:15 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hbnw2-0008Gh-S6
+ (envelope-from <philmd@redhat.com>) id 1hbnw2-00056p-B5
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:16:12 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35411)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <philmd@redhat.com>) id 1hbnvz-0008Co-PN
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:16:09 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35827)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hbnvz-00087H-1e; Fri, 14 Jun 2019 11:16:07 -0400
-Received: by mail-pl1-x644.google.com with SMTP id p1so1155838plo.2;
- Fri, 14 Jun 2019 08:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:subject:date:message-id;
- bh=Xt3ybDoCdp/nYixs2Nc2BRUQ4UN50C5Cqd9Txfd5wow=;
- b=UWA2ZblTg4wc7FyO1ElmLoNENseRjkKgZABawrBSMsvYlj3DgWuSendjMJyG+pQUem
- f7bnpM8f9h3nrHKoqXwFM6aU8R8P4Xsbd1UHOIyXEUKM7GV6F9qrAnJW/vF3M+V+aKOM
- JaXwdQVUkFghMEiYweBmCAPvLwSpBhN00mi8KHq+Z03SQDvvgGo+09S1o9eBJFQeTK68
- CLjI7Yywkh0YxGxm+Ab3y47TEZVe4hChbvRKieBExFIjEJ+35o55dTPC2XgtFPqixU2L
- AxZtF6rMlm58S1WAbzgKEphbw7GVBfQoeFtAKyTKMSo7QfiqM7uDzf9J3xRZ5Gm4ZMdi
- Wtrw==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbnvz-00088b-Et
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:16:07 -0400
+Received: by mail-wm1-f66.google.com with SMTP id c6so2717054wml.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 08:16:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id;
- bh=Xt3ybDoCdp/nYixs2Nc2BRUQ4UN50C5Cqd9Txfd5wow=;
- b=QMvinmnmpaJXeXpmcR3HjSgvfnVU7SCieBbqtB8fgoVxuaVH9d/sLCxReOd4aO7/9G
- gFMyFSYpr5KQlYshJlxDUu5TSOH+1sKc+5WirrdDHOfRnEA5Bj7oATJD2ukTVnC7CH9m
- 0qbu34lyA1S1CUxIXZ6dnQwuEdFiRERp9rv7J9gEod6/DUDfMZ+bnNOAjCbfvSAw4AOv
- 8EO9NYTzB5/gxB1vUpCOEVz9pIYzjabnhz4djY4vWSbdFD9eIu2NXCYChAzAEN3XYi+Y
- ztD7125kSKP5RVM+fdclwHRj7rMDNVLxffKfLi9+ByR6NXMKNOOYOSvcB8gxKFZw51fc
- M77w==
-X-Gm-Message-State: APjAAAXeRnvW2BsLZRr7SlAQujEaz0+DSgGcZp7b7rYrRZ3G6i6mxWYe
- Pr3s/Uwa5NfhOHgJG0+rjrXl2HzW
-X-Google-Smtp-Source: APXvYqxyy9zKQUeUyrirBMkcRhnnD7sjT5eavoAlcQsd/9hIpBtAYc/prM9LqYdx0+j7ElouXdEJzg==
-X-Received: by 2002:a17:902:8b88:: with SMTP id
- ay8mr28160061plb.139.1560525357063; 
- Fri, 14 Jun 2019 08:15:57 -0700 (PDT)
-Received: from localhost.localdomain (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id x14sm5009999pfq.158.2019.06.14.08.15.56
- (version=TLS1 cipher=AES128-SHA bits=128/128);
- Fri, 14 Jun 2019 08:15:56 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>
-Date: Fri, 14 Jun 2019 08:15:51 -0700
-Message-Id: <1560525351-590-1-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 1.7.1
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH] riscv: sifive_test: Add reset functionality
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to;
+ bh=3oeWMrG9iyCbJMG1a3hxU6dVR+q2fBnhiMQiE6WqYo4=;
+ b=kOjhhhhl3B+7tAn6rR+8m6XoFEv26KrmsszCR+U/OHmsB/O/nDg3eFIMtz8WfoLCKq
+ ZRk/uwFapyNaeKHddZoV75fjp7rNv6jZCJ8Rxchmc9BYXuzMlUKzFTvZscn0rR9kBqt3
+ DOEmngcjD1dQf78CyMi/hE6pIJ8TQSEUjDV3LGxOmsg9197ZBcmpYKrgznwplVFAvTH3
+ 5+5ABQf+EWefoUHznrtG/ZG0esJ4ZMnm7fOoylML3JopiR0+B6v5NM/Y5zpmUtEXow8P
+ EbF4baJcaZXVFhl5NaPFomq0jPuDLdziaX8XQCIZrsvdrEfnc/eaBoQ+03/OlMwDFCDi
+ 9cFw==
+X-Gm-Message-State: APjAAAW9ahTvyk63qyhxoF9m1O12KmtscBKxCbUGwjwHTg9tkQdr78L8
+ 7L0OxR5tfACyYaLHbdDEP98YsA==
+X-Google-Smtp-Source: APXvYqyI3tar24n0hCC4Il49ljzhJqJQqyqQ6O4mFzWUey8PLi++atg++q6ydc9jc98U5pjv0KTk/A==
+X-Received: by 2002:a1c:39d6:: with SMTP id g205mr7992566wma.85.1560525359635; 
+ Fri, 14 Jun 2019 08:15:59 -0700 (PDT)
+Received: from [192.168.1.103] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id c24sm3136352wmb.21.2019.06.14.08.15.58
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 14 Jun 2019 08:15:58 -0700 (PDT)
+To: Max Reitz <mreitz@redhat.com>, Pino Toscano <ptoscano@redhat.com>
+References: <20190613132000.2146-1-ptoscano@redhat.com>
+ <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
+ <2592166.7WioNeH6bT@lindworm.usersys.redhat.com>
+ <a6ba02da-711d-77c7-6bd1-b9ede5aecd81@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <e4c2f281-e4d4-4ee9-c9ee-73eb32af8174@redhat.com>
+Date: Fri, 14 Jun 2019 17:15:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <a6ba02da-711d-77c7-6bd1-b9ede5aecd81@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="c0aUQ8TvlHBYPnN5q6kEJ8gCb41qbwofr"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v9] ssh: switch from libssh2 to libssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,56 +75,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, sw@weilnetz.de,
+ qemu-devel@nongnu.org, rjones@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a reset opcode for sifive_test device to trigger a system
-reset for testing purpose.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--c0aUQ8TvlHBYPnN5q6kEJ8gCb41qbwofr
+Content-Type: multipart/mixed; boundary="T88KCyBgYU9fmufqeKFt6cuJrPOZSDYkh";
+ protected-headers="v1"
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, Pino Toscano <ptoscano@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, rjones@redhat.com,
+ kwolf@redhat.com, alex.bennee@linaro.org, fam@euphon.net, sw@weilnetz.de
+Message-ID: <e4c2f281-e4d4-4ee9-c9ee-73eb32af8174@redhat.com>
+Subject: Re: [PATCH v9] ssh: switch from libssh2 to libssh
+References: <20190613132000.2146-1-ptoscano@redhat.com>
+ <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
+ <2592166.7WioNeH6bT@lindworm.usersys.redhat.com>
+ <a6ba02da-711d-77c7-6bd1-b9ede5aecd81@redhat.com>
+In-Reply-To: <a6ba02da-711d-77c7-6bd1-b9ede5aecd81@redhat.com>
 
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
+--T88KCyBgYU9fmufqeKFt6cuJrPOZSDYkh
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
- hw/riscv/sifive_test.c         | 4 ++++
- include/hw/riscv/sifive_test.h | 3 ++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+On 6/14/19 4:34 PM, Max Reitz wrote:
+> On 14.06.19 16:29, Pino Toscano wrote:
+>> On Thursday, 13 June 2019 21:31:40 CEST Max Reitz wrote:
+>>> On 13.06.19 15:20, Pino Toscano wrote:
+[...]
+>>>> -    case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND:
+>>>> +    case SSH_KNOWN_HOSTS_OTHER:
+>>>>          ret =3D -EINVAL;
+>>>> -        session_error_setg(errp, s, "no host key was found in known=
+_hosts");
+>>>> +        error_setg(errp,
+>>>> +                   "host key for this server not found, another typ=
+e exists");
+>>>>          goto out;
+>>>> -    case LIBSSH2_KNOWNHOST_CHECK_FAILURE:
+>>>> +    case SSH_KNOWN_HOSTS_UNKNOWN:
+>>>>          ret =3D -EINVAL;
+>>>> -        session_error_setg(errp, s,
+>>>> -                      "failure matching the host key with known_hos=
+ts");
+>>>> +        error_setg(errp, "no host key was found in known_hosts");
+>>>> +        goto out;
+>>>> +    case SSH_KNOWN_HOSTS_NOT_FOUND:
+>>>> +        ret =3D -ENOENT;
+>>>> +        error_setg(errp, "known_hosts file not found");
+>>>> +        goto out;
+>>>> +    case SSH_KNOWN_HOSTS_ERROR:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp, "error while checking the host");
+>>>>          goto out;
+>>>>      default:
+>>>>          ret =3D -EINVAL;
+>>>> -        session_error_setg(errp, s, "unknown error matching the hos=
+t key"
+>>>> -                      " with known_hosts (%d)", r);
+>>>> +        error_setg(errp, "error while checking for known server");
+>>>>          goto out;
+>>>>      }
+>>>> +#else /* !HAVE_LIBSSH_0_8 */
+>>>> +    int state;
+>>>> +
+>>>> +    state =3D ssh_is_server_known(s->session);
+>>>> +    trace_ssh_server_status(state);
+>>>> +
+>>>> +    switch (state) {
+>>>> +    case SSH_SERVER_KNOWN_OK:
+>>>> +        /* OK */
+>>>> +        trace_ssh_check_host_key_knownhosts();
+>>>> +        break;
+>>>> +    case SSH_SERVER_KNOWN_CHANGED:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp, "host key does not match the one in known_=
+hosts");
+>>>> +        goto out;
+>>>> +    case SSH_SERVER_FOUND_OTHER:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp,
+>>>> +                   "host key for this server not found, another typ=
+e exists");
+>>>> +        goto out;
+>>>> +    case SSH_SERVER_FILE_NOT_FOUND:
+>>>> +        ret =3D -ENOENT;
+>>>> +        error_setg(errp, "known_hosts file not found");
+>>>> +        goto out;
+>>>> +    case SSH_SERVER_NOT_KNOWN:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp, "no host key was found in known_hosts");
+>>>> +        goto out;
+>>>> +    case SSH_SERVER_ERROR:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp, "server error");
+>>>> +        goto out;
+>>>
+>>> No default here?
+>>
+>> This switch is for libssh < 0.8.0, so enumerating all the possible
+>> values of the enum of the old API is enough.
+>=20
+> state is an integer.  I feel very uneasy about not having a default
+> clause for a plain integer, especially if it is supplied by an external=
 
-diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-index 24a04d7..cd86831 100644
---- a/hw/riscv/sifive_test.c
-+++ b/hw/riscv/sifive_test.c
-@@ -21,6 +21,7 @@
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "qemu/module.h"
-+#include "sysemu/sysemu.h"
- #include "target/riscv/cpu.h"
- #include "hw/riscv/sifive_test.h"
- 
-@@ -40,6 +41,9 @@ static void sifive_test_write(void *opaque, hwaddr addr,
-             exit(code);
-         case FINISHER_PASS:
-             exit(0);
-+        case FINISHER_RESET:
-+            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-+            return;
-         default:
-             break;
-         }
-diff --git a/include/hw/riscv/sifive_test.h b/include/hw/riscv/sifive_test.h
-index 71d4c9f..c186a31 100644
---- a/include/hw/riscv/sifive_test.h
-+++ b/include/hw/riscv/sifive_test.h
-@@ -34,7 +34,8 @@ typedef struct SiFiveTestState {
- 
- enum {
-     FINISHER_FAIL = 0x3333,
--    FINISHER_PASS = 0x5555
-+    FINISHER_PASS = 0x5555,
-+    FINISHER_RESET = 0x7777
- };
- 
- DeviceState *sifive_test_create(hwaddr addr);
--- 
-2.7.4
+> library.
 
+Agreed. What's odd is I tested it on Ubuntu Xenial which is 0.6.3 and no
+got no cpp warning. I wonder if it is using a backported patch adding
+ssh_session_is_known_server(), like 0.7.1 on Ubuntu Bionic. Anyway,
+better add a default.
+
+
+--T88KCyBgYU9fmufqeKFt6cuJrPOZSDYkh--
+
+--c0aUQ8TvlHBYPnN5q6kEJ8gCb41qbwofr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEicHnj2Ae6GyGdJXLoqP9bt6twN4FAl0Dui0ACgkQoqP9bt6t
+wN6sRg/+OxlJ1N/rqSaJokUGR+3fv8pSshRnB69YZEoFLZRjXpTn2kqwb0CqIOSE
+xAqjBaiPakyGMRiElvB7hhGgQ1L64nv9R9SrLg471aFjiWfUbLp4bPmu8cwWlkKO
+gRy+m3bsZQNotqz5MSQww2nsafXO3zjNYXtF7sblwdpVBHMCoPrsfk1IheU5TczC
+hJ0YY+qF/WPuurjUwVDC1V8BvSzNcVaqnQwbGsp4+GGXIHpAE9aGsBBzSQLHg7Ee
+o7Vha/wS8YLwLjvdMjXUrHlDXUc6Si7Jz1cxePRBxoR2O2ZYIXKuetdCb9sw3MuL
+yvP5Hbzn59PATHhQyagg1urqGiqUGlNTAtX2v2ht5oRCsunRJANvoBaiHOPMxJxO
+eKNmVEFk/4JZiP8pRdOske7uI5PPWVxOAdG45tmXApxbz/4tQleD9wACU/hUxBgs
+vjJMKDnWWH6ElLxhfFg28Xdr3zygHwdPoAFOGRIpIkxbF8G3cYwDrwV5ramvgMGN
+DQbpOLbyHsdI3LKTN3Mhun3Ma9RLZO2LfuIqKG8ORMJVSXtPYMpIZ9kn0Fy+ari7
+Kjbp+uVf4ksw1ZuBPUBf177jZSsP1bOjENNDqkXwtNpvR2r+aPjUdgxjSXZj8OOj
+wSGVRomtMXAVKijJTrDA9f8rILQR3cJ6ms54qov0KakUVMqJi/M=
+=kAaW
+-----END PGP SIGNATURE-----
+
+--c0aUQ8TvlHBYPnN5q6kEJ8gCb41qbwofr--
 
