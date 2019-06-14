@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DDBF45A81
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 12:37:10 +0200 (CEST)
-Received: from localhost ([::1]:50060 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B26645A65
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 12:28:32 +0200 (CEST)
+Received: from localhost ([::1]:49988 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbjZz-0004o7-KD
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 06:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52987)
+	id 1hbjRf-0000UU-NA
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 06:28:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52598)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbjOC-0005ec-Q7
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:24:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbjO8-0005Ln-Vg
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:24:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbjAc-00024W-Pe
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:10:58 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39871)
+ (envelope-from <philmd@redhat.com>) id 1hbjDD-0003HY-9V
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:13:37 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41680)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbjAa-00023R-Sr
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:10:53 -0400
-Received: by mail-wm1-f65.google.com with SMTP id z23so1709063wma.4
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 03:10:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbjDD-0003GI-3c
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:13:35 -0400
+Received: by mail-wr1-f66.google.com with SMTP id c2so1891851wrm.8
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 03:13:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to;
- bh=8OcuYFQn5PtIShuEjxfCb4tr3n4Ndlvfv/f5n+YCVjo=;
- b=JhEhqtbCcEiCDGfo01BhEyd37ZOzdwJS+85mwZOXdDynd/t0q2dRgbt8fnCu9et86T
- iTLO6p5+DSf3BiXgXiGeLIUArsOPmtdOaSY6ee2V5x6gay9xSGFbu3Pub3iLX4u5QjAp
- /05PXCmWZwC8E/e3wZkRWcqnTqW08GIneoR87vyWo4SoMR72dkE2Ttox7/Zgh2tGAVla
- zLh8fq3LYQISIqB7ZiLixf+oJTXCW3SgE75F+ocTKvsL/GBVe+GwrAFF9mFuvbG8jibG
- 8iCQfoD/yZqIWjqTRDljbteqLW7AqoqmmVBqZxZKtMW/GsILunHnrUrIhx0xSYMHFIug
- 3NMQ==
-X-Gm-Message-State: APjAAAV9SbXoRuUuONWWgncCEUDDFNGtc71NjDx8eJPBzqeBHjFCla3Y
- y2HIV33wPJaMka2qaLFJUAtHHA==
-X-Google-Smtp-Source: APXvYqxc6SjhN0pM1uvOOqTc/hrWDkBc+/Zw7TmXyYKAjyPutHRXqGXsUVRObzpBpDElUNcthADLpg==
-X-Received: by 2002:a05:600c:230c:: with SMTP id
- 12mr7207272wmo.166.1560507050575; 
- Fri, 14 Jun 2019 03:10:50 -0700 (PDT)
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Th74BMY9iCIEC/zAgYLLPkUV8RKEDnr830BiO5kXvD8=;
+ b=HeVdiCJqjYvlc/6Kc/GlpGRn2hcor4DXkSZl//XEa33i+iKZSqT4g8AegG38MQ+hZy
+ 7gf8orHnfsgSQHgKjcOireiUNr2fafdl3CzZ/5S9yiPwVrfU8rGcht5hp098oDjqgB16
+ qHqZE6X4nXbCWYz2u1+qHn3k3KCB4w4TfIk4QgkTU7b/YbPN+J9+wQ0L13Nly1DP6wj0
+ e9fPxb6dMf75Pj3ChzKA3UQDRKUcjDT7NwRxhH5+Z/jcGxxZL2peo9vNYFpmJ0jFzlhR
+ 9l8rP4/IvnXMp9x8lpSROZ0C9uzbrtCYDipBH8s34n8u0pwYw+XSfK+VWE343UbOOS7V
+ mvHg==
+X-Gm-Message-State: APjAAAUW0RxGAhg/D6uhBGZXdAjbYqUQM+PfvhvkIHkwBpKxX5bywMcC
+ eE53vImHYW5Zf3LClj1ijLxQPA==
+X-Google-Smtp-Source: APXvYqxYy/1IXbLKQyVA99N9SbducxWM5KucjGQkCC0yuqZaCbrM7Mz13cARNNSulvDXxbVVs7dTgw==
+X-Received: by 2002:adf:efcb:: with SMTP id i11mr13601868wrp.188.1560507212144; 
+ Fri, 14 Jun 2019 03:13:32 -0700 (PDT)
 Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id p13sm2022853wrt.67.2019.06.14.03.10.49
+ by smtp.gmail.com with ESMTPSA id d10sm2672161wrh.91.2019.06.14.03.13.30
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 14 Jun 2019 03:10:49 -0700 (PDT)
-To: Stefan Hajnoczi <stefanha@gmail.com>, Alexey Kardashevskiy <aik@ozlabs.ru>
-References: <20190613050937.124903-1-aik@ozlabs.ru>
- <35361394-42ba-dcf0-6fe2-5a0a538d1440@redhat.com>
- <d20e26db-7157-d9bd-c707-d7f4443396c0@ozlabs.ru>
- <20190614093306.GG10957@stefanha-x1.localdomain>
+ Fri, 14 Jun 2019 03:13:31 -0700 (PDT)
+To: Kevin Wolf <kwolf@redhat.com>, Stefan Weil <sw@weilnetz.de>
+References: <20190605213654.9785-1-ptoscano@redhat.com>
+ <a8797829-a5c6-24a3-647f-14872bc2f951@redhat.com>
+ <c4376dbb-d755-f05f-fb93-ed212bf30bb0@weilnetz.de>
+ <20190614094252.GD6042@dhcp-200-226.str.redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <3f3a9055-429e-5930-ef20-468d27373e8c@redhat.com>
-Date: Fri, 14 Jun 2019 12:10:48 +0200
+Message-ID: <60460e9f-2254-7b76-3418-7c495aec3822@redhat.com>
+Date: Fri, 14 Jun 2019 12:13:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190614093306.GG10957@stefanha-x1.localdomain>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="nA5lo8IEY6bGXkKuhz36nAVF4IJaswywP"
+In-Reply-To: <20190614094252.GD6042@dhcp-200-226.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH qemu] loader: Trace loaded images
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v6] ssh: switch from libssh2 to libssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,102 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, rjones@redhat.com, mreitz@redhat.com,
+ Pino Toscano <ptoscano@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---nA5lo8IEY6bGXkKuhz36nAVF4IJaswywP
-Content-Type: multipart/mixed; boundary="X0S6auHYMkoUwPJWFRO9PEtdlqceL1jz4";
- protected-headers="v1"
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>, Alexey Kardashevskiy <aik@ozlabs.ru>
-Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <3f3a9055-429e-5930-ef20-468d27373e8c@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH qemu] loader: Trace loaded images
-References: <20190613050937.124903-1-aik@ozlabs.ru>
- <35361394-42ba-dcf0-6fe2-5a0a538d1440@redhat.com>
- <d20e26db-7157-d9bd-c707-d7f4443396c0@ozlabs.ru>
- <20190614093306.GG10957@stefanha-x1.localdomain>
-In-Reply-To: <20190614093306.GG10957@stefanha-x1.localdomain>
-
---X0S6auHYMkoUwPJWFRO9PEtdlqceL1jz4
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 6/14/19 11:33 AM, Stefan Hajnoczi wrote:
-> On Fri, Jun 14, 2019 at 10:13:04AM +1000, Alexey Kardashevskiy wrote:
+On 6/14/19 11:42 AM, Kevin Wolf wrote:
+> Am 13.06.2019 um 21:41 hat Stefan Weil geschrieben:
+>> On 12.06.19 15:27, Philippe Mathieu-Daudé wrote:
+>>> Cc'ing Alex (Docker, Travis) and Stefan (MinGW)
+>> [...]
+>>> Note, libssh is not available on MinGW.
 >>
+>> Nor is it available for Mingw64:
+
+Yes, by "MinGW" I mean both 32/64 implementations.
+
 >>
->> On 13/06/2019 23:08, Philippe Mathieu-Daud=E9 wrote:
->>> Hi Alexey,
->>>
->>> On 6/13/19 7:09 AM, Alexey Kardashevskiy wrote:
->>>> This adds a trace point which prints every loaded image. This includ=
-es
->>>> bios/firmware/kernel/initradmdisk/pcirom.
->>>>
->>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->>>> ---
->>>>
->>>> The example for a pseries guest:
->>>>
->>>> loader_write_rom slof.bin: @0x0 size=3D0xe22e0 ROM=3D0
->>>> loader_write_rom phdr #0: /home/aik/t/vml4120le: @0x400000 size=3D0x=
-13df000 ROM=3D0
->>>> loader_write_rom /home/aik/t/le.cpio: @0x1ad0000 size=3D0x9463a00 RO=
-M=3D0
->>>
->>> I find the "ROM=3D0" part confuse, maybe you can change to "ROM:false=
-".
+>> https://cygwin.com/cgi-bin2/package-grep.cgi?grep=mingw64-x86_64-libssh&arch=x86_64
 >>
->> How? I mean I can do that in the code as rom->isrom?"true":"false" and=
+>> That makes building for Windows more difficult because there is an
+>> additional dependency which must be built from source.
+> 
+> How many people do actually use the ssh block driver on Windows, though?
+> Isn't just building QEMU without it a quite reasonable option, too?
+> 
+> I wouldn't consider this a strong argument why we should keep using an
+> obsolete library.
 
->> make trace point accept "%s" but it is quite ugly and others seem to
->> just use %d for bool.
->=20
-> Yes, %d is the convention for bool.  Perhaps you can name it "is_rom"
-> instead of "ROM".  That way the name communicates that this is a boolea=
-n
-> value.
+I agree with Kevin. The only user of the 'ssh' block driver that I am
+aware of is the virt-v2v tool:
 
-I agree a boolean is easier to parse for trace analyzer tools than a
-"true/false" string.
+http://libguestfs.org/virt-v2v.1.html#convert-from-esxi-hypervisor-over-ssh-to-local-libvirt
 
-Stefan, is it possible to add a boolean format string to the backends?
-For example the 'log' backend would log it as "true"/"false".
+Stefan, do you think someone would use it on a Windows host?
 
-Just a thought ;)
-
-Regards,
+Thanks,
 
 Phil.
-
-
---X0S6auHYMkoUwPJWFRO9PEtdlqceL1jz4--
-
---nA5lo8IEY6bGXkKuhz36nAVF4IJaswywP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEicHnj2Ae6GyGdJXLoqP9bt6twN4FAl0DcqgACgkQoqP9bt6t
-wN6y7RAAgxtcnFSDOoKftVBpDmypgwwe2mG0Ov6ZV7qB2FtUmHtPvHs4irUaaP0Z
-lyCDUr2u9Q731NaWUyXM2BNCblx9KAsch/toryTLNX5zr8vaqou5jKYQJ7jeOln0
-/DyZJpPCe1zLYe0gypG8Qwgj99MumzGd0Nwe2+px+smYf/YcDfdDu0AaFyXwscPY
-8ovhZH2aRjbWLJn71WzOCFCC9i8JRHP8qaYDppRTASPtuzAu9QSTQPUrYTaC9g1q
-rxFl5uXWp+sM1jH95oxvLxXrt0f3/V4ItlI0Qjpo68wqyyExOcPKAs7zUcTlZrKd
-dBHxq5N27ENgfNbBHWVkCuGCik+54aVZBkvFQvnK2GLWXybtRG6VzrslfShMbN4Q
-Ss+73nCRqzNEZB2Uj2P89fsir3RkyqGXRvZxBy8WfggXUpK35DYScuf/nGnujbCo
-E1qeXEETNUPEP1Fb9f2NAFros3VNyn3aVupSAS8bWzaq6J9H/dRxNy2rC4cz50pf
-h2Ju2eHEQVhioQZbPkTHWKql1lS9DXR6pj1VT83jyO+pWA+8LcvCQf4tkb69QOlo
-fy4/uzeGB7zSkiOKTUsH3ida4ds+UCiB/8Q/JiLPyNCVnjtT7acBEIRG058Tj1Fm
-x36wo3i5cAEJrsDvCto10G6uyyTBYZMPE3FdtCYQNDIkeFTIaRE=
-=BgS6
------END PGP SIGNATURE-----
-
---nA5lo8IEY6bGXkKuhz36nAVF4IJaswywP--
 
