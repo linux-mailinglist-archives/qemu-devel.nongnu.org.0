@@ -2,96 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC7B45882
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:23:32 +0200 (CEST)
-Received: from localhost ([::1]:49552 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A53B4587B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:22:09 +0200 (CEST)
+Received: from localhost ([::1]:49546 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbiQj-00086R-Fn
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36966)
+	id 1hbiPQ-0007i1-HK
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:22:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37540)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbiIK-0003uQ-0L
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:14:49 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hbiLJ-0005G8-V7
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:18:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbiIH-0008VR-AH
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:14:47 -0400
-Received: from mail-eopbgr40100.outbound.protection.outlook.com
- ([40.107.4.100]:27217 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hbiIB-0008PZ-4P; Fri, 14 Jun 2019 05:14:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DpFQ5DO1BS/bOuJX/NYg5Hv81j0SsPcAdJ1i/WeOpS8=;
- b=amquufG0iMi+61SFkAEK+p4D8ar/mQCaJX0uPu4pkKs5a7VJHmU0+Yebc/jtTqP8hUmR41lPlyIdYzhmq45y/z9tjbOzgFeyQNH7rIiGgDKZ4AScln/gWAxNuLAQwfTaEPJkDr2PfNaB1HWeBLDmW+yMbOS2MDEgz/sIvsNMiZg=
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
- AM0PR08MB4049.eurprd08.prod.outlook.com (20.178.119.97) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.13; Fri, 14 Jun 2019 09:14:32 +0000
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
- 09:14:32 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v8 7/7] block/backup: use backup-top instead of write
- notifiers
-Thread-Index: AQHVFjXGJ12/C50kIk2uer5ZMhA0Z6aZ98YAgAD+8oA=
-Date: Fri, 14 Jun 2019 09:14:32 +0000
-Message-ID: <33119fa5-ed82-2bca-2e2e-5f4a714a5194@virtuozzo.com>
-References: <20190529154654.95870-1-vsementsov@virtuozzo.com>
- <20190529154654.95870-8-vsementsov@virtuozzo.com>
- <92bc9deb-f364-683a-e6ae-046e4ff8561c@redhat.com>
-In-Reply-To: <92bc9deb-f364-683a-e6ae-046e4ff8561c@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P18901CA0014.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:3:8b::24) To AM0PR08MB3572.eurprd08.prod.outlook.com
- (2603:10a6:208:e1::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190614121429906
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 04daa435-97e7-4f08-4f98-08d6f0a8b606
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:AM0PR08MB4049; 
-x-ms-traffictypediagnostic: AM0PR08MB4049:
-x-microsoft-antispam-prvs: <AM0PR08MB4049D05537C4963329C01C87C1EE0@AM0PR08MB4049.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0068C7E410
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(39850400004)(396003)(346002)(376002)(366004)(189003)(199004)(26005)(5660300002)(3846002)(6116002)(478600001)(66066001)(66446008)(64756008)(66556008)(66476007)(14454004)(25786009)(186003)(73956011)(66946007)(305945005)(8936002)(7736002)(6436002)(8676002)(81166006)(81156014)(14444005)(256004)(6486002)(31686004)(76176011)(102836004)(68736007)(229853002)(53546011)(53936002)(316002)(386003)(99286004)(6506007)(52116002)(6512007)(36756003)(4326008)(2201001)(31696002)(6246003)(71200400001)(71190400001)(11346002)(2616005)(110136005)(54906003)(2906002)(86362001)(486006)(2501003)(476003)(446003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4049;
- H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 3MNbLahUVIKMZHESTAN2Yi0pdMtQzzyl/eNyvJ7jJBkZNcArDSW3eeW3QdiCVRiAvXfRI4CSbxPqJxUx/oUpP1oSWvlh9tBU/d1KxEpR+zKRHQ7RM0oarjG5mlmaE7F5TqAR3tuzYsbxihwZslyNSILLB58Tl+q8tZCo2T9hQGN5AW6+SVsWNnTgULoI5d1lZunCus8Jnv6USxEmfiLt88I16NBliQm8CVEHJncP6iUHNILj8uX7VvFPCZXkdxGQJB/DOsIkFPkJBDFk++MeV0oXzgG2ddkE3zdhODDyTsWXMO0TE0qWNK3z+afUCASUjrLiiDRSdogsr1SGtN9C5hdp4HDwDfRUiL///QOHAgTfHhzV6kiH/7o9QTu2dXLBNVyI9NT7xRF6f6o8U7lAqiBb4BCw/6ZNCnFzRjnVmKw=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DE081FBA57B09F41893A0ABEFD373056@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <dgilbert@redhat.com>) id 1hbiLH-0001j2-QN
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:17:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43802)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>)
+ id 1hbiLC-0001fm-S1; Fri, 14 Jun 2019 05:17:47 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C5A643082126;
+ Fri, 14 Jun 2019 09:17:42 +0000 (UTC)
+Received: from work-vm (ovpn-117-220.ams2.redhat.com [10.36.117.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E59D1001938;
+ Fri, 14 Jun 2019 09:17:37 +0000 (UTC)
+Date: Fri, 14 Jun 2019 10:17:35 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190614091733.GA2785@work-vm>
+References: <20190613153405.24769-1-kwolf@redhat.com>
+ <20190613153405.24769-12-kwolf@redhat.com>
+ <87y324fud1.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04daa435-97e7-4f08-4f98-08d6f0a8b606
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 09:14:32.1191 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4049
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.4.100
-Subject: Re: [Qemu-devel] [PATCH v8 7/7] block/backup: use backup-top
- instead of write notifiers
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87y324fud1.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 14 Jun 2019 09:17:42 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 11/15] monitor: Split out monitor/hmp.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,180 +58,433 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, "kwolf@redhat.com" <kwolf@redhat.com>,
- Denis Lunev <den@virtuozzo.com>, "stefanha@redhat.com" <stefanha@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, berrange@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTMuMDYuMjAxOSAyMTowMiwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAyOS4wNS4xOSAxNzo0Niwg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IERyb3Agd3JpdGUgbm90aWZp
-ZXJzIGFuZCB1c2UgZmlsdGVyIG5vZGUgaW5zdGVhZC4gQ2hhbmdlczoNCj4+DQo+PiAxLiBjb3B5
-LWJlZm9yZS13cml0ZXMgbm93IGhhbmRsZWQgYnkgZmlsdGVyIG5vZGUsIHNvLCBkcm9wIGFsbA0K
-Pj4gICAgIGlzX3dyaXRlX25vdGlmaWVyIGFyZ3VtZW50cy4NCj4+DQo+PiAyLiB3ZSBkb24ndCBo
-YXZlIGludGVyc2VjdGluZyByZXF1ZXN0cywgc28gdGhlaXIgaGFuZGxpbmcgaXMgZHJvcHBlZC4N
-Cj4+IEluc3RlYWQsIHN5bmNocm9uaXphdGlvbiB3b3JrcyBhcyBmb2xsb3dzOg0KPj4gd2hlbiBi
-YWNrdXAgb3IgYmFja3VwLXRvcCBzdGFydHMgY29weWluZyBvZiBzb21lIGFyZWEgaXQgZmlyc3Rs
-eQ0KPj4gY2xlYXJzIGNvcHktYml0bWFwIGJpdHMsIGFuZCBub2JvZHkgdG91Y2hlcyBhcmVhcywg
-bm90IG1hcmtlZCB3aXRoDQo+PiBkaXJ0eSBiaXRzIGluIGNvcHktYml0bWFwLCBzbyB0aGVyZSBp
-cyBubyBpbnRlcnNlY3Rpb24uIEFsc28sIGJhY2t1cA0KPj4gam9iIGNvcHkgb3BlcmF0aW9ucyBh
-cmUgc3Vycm91bmRlZCBieSBiZHJ2IHJlZ2lvbiBsb2NrLCB3aGljaCBpcw0KPj4gYWN0dWFsbHkg
-c2VyaWFsaXppbmcgcmVxdWVzdCwgdG8gbm90IGludGVyZmVyZSB3aXRoIGd1ZXN0IHdyaXRlcyBh
-bmQNCj4+IG5vdCByZWFkIGNoYW5nZWQgZGF0YSBmcm9tIHNvdXJjZSAoYmVmb3JlIHJlYWRpbmcg
-d2UgY2xlYXINCj4+IGNvcnJlc3BvbmRpbmcgYml0IGluIGNvcHktYml0bWFwLCBzbywgdGhpcyBh
-cmVhIGlzIG5vdCBtb3JlIGhhbmRsZWQgYnkNCj4+IGJhY2t1cC10b3ApLg0KPj4NCj4+IDMuIFRv
-IHN5bmMgd2l0aCBpbi1mbGlnaHQgcmVxdWVzdHMgYXQgam9iIGZpbmlzaCB3ZSBub3cgaGF2ZSBk
-cmFpbmVkDQo+PiByZW1vdmluZyBvZiB0aGUgZmlsdGVyLCB3ZSBkb24ndCBuZWVkIHJ3LWxvY2su
-DQo+Pg0KPj4gPT0gUkZDIHBhcnQgPT0NCj4+DQo+PiBpb3Rlc3RzIGNoYW5nZWQ6DQo+PiA1Njog
-b3AtYmxvY2tlciBkb2Vzbid0IHNob3Qgbm93LCBhcyB3ZSBzZXQgaXQgb24gc291cmNlLCBidXQg
-dGhlbiBjaGVjaw0KPj4gb24gZmlsdGVyLCB3aGVuIHRyeWluZyB0byBzdGFydCBzZWNvbmQgYmFj
-a3VwLi4uIFNob3VsZCBJIHdvcmthcm91bmQgaXQNCj4+IHNvbWVob3c/DQo+IA0KPiBIbS4gIFdo
-ZXJlIGRvZXMgdGhhdCBlcnJvciBtZXNzYWdlIGV2ZW4gY29tZSBmcm9tPyAgVGhlIGZhY3QgdGhh
-dCB0aGUNCj4gdGFyZ2V0IGltYWdlIGlzIGluIHVzZSBhbHJlYWR5IChEdWUgdG8gZmlsZSBsb2Nr
-cyk/DQo+IA0KPiBJdCBhcHBlYXJzIHRoYXQgd2F5IGluZGVlZC4NCj4gDQo+IEl0IHNlZW1zIHJl
-YXNvbmFibGUgdG8gbWUgdGhhdCB5b3UgY2FuIG5vdyBydW4gYSBiYWNrdXAgb24gdG9wIG9mDQo+
-IGFub3RoZXIgYmFja3VwLiAgV2VsbCwgSSBtZWFuLCBpdCBpcyBhIHN0dXBpZCB0aGluZyB0byBk
-bywgYnV0IEkgZG9u4oCZdA0KPiBzZWUgd2h5IHRoZSBibG9jayBsYXllciB3b3VsZCBmb3JiaWQg
-ZG9pbmcgc28uDQo+IA0KPiBTbyB0aGUgdGVzdCBzZWVtcyBzdXBlcmZsdW91cyB0byBtZS4gIElm
-IHdlIHdhbnQgdG8ga2VlcCBpdCAod2h5IG5vdCksDQo+IGl0IHNob3VsZCB0ZXN0IHRoZSBvcHBv
-c2l0ZSwgbmFtZWx5IHRoYXQgYSBiYWNrdXAgdG8gYSBkaWZmZXJlbnQgaW1hZ2UNCj4gKHdpdGgg
-YSBkaWZmZXJlbnQgam9iIElEKSB3b3Jrcy4gIChJdCBzZWVtcyBzaW1wbGUgZW5vdWdoIHRvIG1v
-ZGlmeSB0aGUNCj4gam9iIHRoYXQgd2F5LCBzbyB3aHkgbm90LikNCj4gDQo+PiAxMjk6IEhtbSwg
-bm93IGl0IGlzIG5vdCBidXN5IGF0IHRoaXMgbW9tZW50Li4gQnV0IGl0J3MgaWxsZWdhbCB0byBj
-aGVjaw0KPj4gYnVzeSwgYXMgam9iIGhhcyBwYXVzZS1wb2ludHMgYW5kIHNldCBidXN5IHRvIGZh
-bHNlIGluIHRoZXNlIHBvaW50cy4NCj4+IFdoeSB3ZSBhc3NlcnQgaXQgaW4gdGhpcyB0ZXN0Pw0K
-PiANCj4gTm9ib2R5IGtub3dzLCBpdOKAmXMgcHJvYmFibHkgd3JvbmcuICBBbGwgSSBrbm93IGlz
-IHRoYXQgMTI5IGlzIGp1c3QNCj4gYnJva2VuIGFueXdheS4NCj4gDQo+PiAxNDE6IE9idmlvdXMs
-IGFzIGRydjAgaXMgbm90IHJvb3Qgbm9kZSBub3csIGJ1dCBiYWNraW5nIG9mIHRoZSBmaWx0ZXIs
-DQo+PiB3aGVuIHdlIHRyeSB0byByZW1vdmUgaXQuDQo+IA0KPiBJIGdldCBhIGZhaWxlZCBhc3Nl
-cnRpb24gaW4gMjU2LiAgVGhhdCBpcyBwcm9iYWJseSBiZWNhdXNlIHRoZQ0KPiBiZHJ2X3NldF9h
-aW9fY29udGV4dCgpIGNhbGxzIHdlcmVu4oCZdCBhcyB1bm5lY2Vzc2FyeSBhcyBJIGRlZW1lZCB0
-aGVtIHRvIGJlLg0KDQpobW0sIHdpbGwgY2hlY2suDQoNCj4gDQo+PiBTaWduZWQtb2ZmLWJ5OiBW
-bGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+DQo+
-PiAtLS0NCj4+ICAgYmxvY2svYmFja3VwLmMgICAgICAgICAgICAgfCAxNzEgKysrKysrKysrKysr
-KystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4gICB0ZXN0cy9xZW11LWlvdGVzdHMvMDU2ICAg
-ICB8ICAgMiArLQ0KPj4gICB0ZXN0cy9xZW11LWlvdGVzdHMvMTI5ICAgICB8ICAgMSAtDQo+PiAg
-IHRlc3RzL3FlbXUtaW90ZXN0cy8xNDEub3V0IHwgICAyICstDQo+PiAgIDQgZmlsZXMgY2hhbmdl
-ZCwgNjggaW5zZXJ0aW9ucygrKSwgMTA4IGRlbGV0aW9ucygtKQ0KPiANCj4gRm9yIHNvbWUgcmVh
-c29uLCBteSBnY2Mgc3RhcnRzIHRvIGNvbXBsYWluIHRoYXQgYmFja3VwX2xvb3AoKSBtYXkgbm90
-DQo+IGluaXRpYWxpemUgZXJyb3JfaXNfcmVhZCBhZnRlciB0aGlzIHBhdGNoLiAgSSBkb27igJl0
-IGtub3cgd2h5IHRoYXQgaXMuDQo+IFBlcmhhcHMgaXQgaW5saW5lcyBiYWNrdXBfZG9fY293KCkg
-bm93PyAgKFNvIGJlZm9yZSBpdCBqdXN0IHNhdyB0aGF0IGENCj4gcG9pbnRlciB0byBlcnJvcl9p
-c19yZWFkIHdhcyBwYXNzZWQgdG8gYmFja3VwX2RvX2NvdygpIGFuZCB0b29rIGl0IGFzIGFuDQo+
-IG9wYXF1ZSBmdW5jdGlvbiwgc28gaXQgc3VyZWx5IHdvdWxkIHNldCB0aGlzIHZhbHVlIHNvbWV3
-aGVyZS4gIE5vdyBpdA0KPiBpbmxpbmVzIGl0IGFuZCBpdCBjYW7igJl0IGZpbmQgd2hldGhlciB0
-aGF0IHdpbGwgZGVmaW5pdGVseSBoYXBwZW4sIHNvIGl0DQo+IGNvbXBsYWlucy4pDQo+IA0KPiBJ
-IGRvbuKAmXQgdGhpbmsgaXQgaXMgc3RyaWN0bHkgbmVjZXNzYXJ5IHRvIGluaXRpYWxpemUgZXJy
-b3JfaXNfcmVhZCwgYnV0LA0KPiB3ZWxsLCBpdCB3b27igJl0IGh1cnQuDQo+IA0KPj4gZGlmZiAt
-LWdpdCBhL2Jsb2NrL2JhY2t1cC5jIGIvYmxvY2svYmFja3VwLmMNCj4+IGluZGV4IDAwZjRmOGFm
-NTMuLmE1YjhlMDRjOWMgMTAwNjQ0DQo+PiAtLS0gYS9ibG9jay9iYWNrdXAuYw0KPj4gKysrIGIv
-YmxvY2svYmFja3VwLmMNCj4gDQo+IFsuLi5dDQo+IA0KPj4gQEAgLTYwLDU2ICs1MywxNyBAQCB0
-eXBlZGVmIHN0cnVjdCBCYWNrdXBCbG9ja0pvYiB7DQo+PiAgIA0KPj4gICBzdGF0aWMgY29uc3Qg
-QmxvY2tKb2JEcml2ZXIgYmFja3VwX2pvYl9kcml2ZXI7DQo+PiAgIA0KPj4gLS8qIFNlZSBpZiBp
-bi1mbGlnaHQgcmVxdWVzdHMgb3ZlcmxhcCBhbmQgd2FpdCBmb3IgdGhlbSB0byBjb21wbGV0ZSAq
-Lw0KPj4gLXN0YXRpYyB2b2lkIGNvcm91dGluZV9mbiB3YWl0X2Zvcl9vdmVybGFwcGluZ19yZXF1
-ZXN0cyhCYWNrdXBCbG9ja0pvYiAqam9iLA0KPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQ2NF90IHN0YXJ0LA0KPj4gLSAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQ2NF90IGVu
-ZCkNCj4+IC17DQo+PiAtICAgIENvd1JlcXVlc3QgKnJlcTsNCj4+IC0gICAgYm9vbCByZXRyeTsN
-Cj4+IC0NCj4+IC0gICAgZG8gew0KPj4gLSAgICAgICAgcmV0cnkgPSBmYWxzZTsNCj4+IC0gICAg
-ICAgIFFMSVNUX0ZPUkVBQ0gocmVxLCAmam9iLT5pbmZsaWdodF9yZXFzLCBsaXN0KSB7DQo+PiAt
-ICAgICAgICAgICAgaWYgKGVuZCA+IHJlcS0+c3RhcnRfYnl0ZSAmJiBzdGFydCA8IHJlcS0+ZW5k
-X2J5dGUpIHsNCj4+IC0gICAgICAgICAgICAgICAgcWVtdV9jb19xdWV1ZV93YWl0KCZyZXEtPndh
-aXRfcXVldWUsIE5VTEwpOw0KPj4gLSAgICAgICAgICAgICAgICByZXRyeSA9IHRydWU7DQo+PiAt
-ICAgICAgICAgICAgICAgIGJyZWFrOw0KPj4gLSAgICAgICAgICAgIH0NCj4+IC0gICAgICAgIH0N
-Cj4+IC0gICAgfSB3aGlsZSAocmV0cnkpOw0KPj4gLX0NCj4+IC0NCj4+IC0vKiBLZWVwIHRyYWNr
-IG9mIGFuIGluLWZsaWdodCByZXF1ZXN0ICovDQo+PiAtc3RhdGljIHZvaWQgY293X3JlcXVlc3Rf
-YmVnaW4oQ293UmVxdWVzdCAqcmVxLCBCYWNrdXBCbG9ja0pvYiAqam9iLA0KPj4gLSAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGludDY0X3Qgc3RhcnQsIGludDY0X3QgZW5kKQ0KPj4gLXsN
-Cj4+IC0gICAgcmVxLT5zdGFydF9ieXRlID0gc3RhcnQ7DQo+PiAtICAgIHJlcS0+ZW5kX2J5dGUg
-PSBlbmQ7DQo+PiAtICAgIHFlbXVfY29fcXVldWVfaW5pdCgmcmVxLT53YWl0X3F1ZXVlKTsNCj4+
-IC0gICAgUUxJU1RfSU5TRVJUX0hFQUQoJmpvYi0+aW5mbGlnaHRfcmVxcywgcmVxLCBsaXN0KTsN
-Cj4+IC19DQo+PiAtDQo+PiAtLyogRm9yZ2V0IGFib3V0IGEgY29tcGxldGVkIHJlcXVlc3QgKi8N
-Cj4+IC1zdGF0aWMgdm9pZCBjb3dfcmVxdWVzdF9lbmQoQ293UmVxdWVzdCAqcmVxKQ0KPj4gLXsN
-Cj4+IC0gICAgUUxJU1RfUkVNT1ZFKHJlcSwgbGlzdCk7DQo+PiAtICAgIHFlbXVfY29fcXVldWVf
-cmVzdGFydF9hbGwoJnJlcS0+d2FpdF9xdWV1ZSk7DQo+PiAtfQ0KPj4gLQ0KPj4gICAvKiBDb3B5
-IHJhbmdlIHRvIHRhcmdldCB3aXRoIGEgYm91bmNlIGJ1ZmZlciBhbmQgcmV0dXJuIHRoZSBieXRl
-cyBjb3BpZWQuIElmDQo+PiAgICAqIGVycm9yIG9jY3VycmVkLCByZXR1cm4gYSBuZWdhdGl2ZSBl
-cnJvciBudW1iZXIgKi8NCj4+ICAgc3RhdGljIGludCBjb3JvdXRpbmVfZm4gYmFja3VwX2Nvd193
-aXRoX2JvdW5jZV9idWZmZXIoQmFja3VwQmxvY2tKb2IgKmpvYiwNCj4+ICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50NjRfdCBzdGFydCwN
-Cj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgaW50NjRfdCBlbmQsDQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgYm9vbCBpc193cml0ZV9ub3RpZmllciwNCj4+ICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYm9vbCAqZXJyb3Jf
-aXNfcmVhZCwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgdm9pZCAqKmJvdW5jZV9idWZmZXIpDQo+IA0KPiBGdXR1cmUgZmVhdHVyZTog
-U29tZWhvdyBnZXQgdGhpcyBmdW5jdGlvbmFsaXR5IGRvbmUgd2l0aCBiYWNrdXAtdG9wLCBJDQo+
-IHN1cHBvc2UuICAoVGhpcyBpcyBlZmZlY3RpdmVseSBqdXN0IGJhY2t1cF90b3BfY2J3KCkgd2l0
-aCBzb21lIGJlbGxzIGFuZA0KPiB3aGlzdGxlcywgaXNu4oCZdCBpdD8pDQoNCm9yIG1heSBiZSBz
-ZXBhcmF0ZSBpdCBhcyBiZHJ2X2NvX3Bjb3B5IG9yIHNvbWV0aGluZyBsaWtlIHRoaXMuDQoNCj4g
-DQo+PiAgIHsNCj4+ICAgICAgIGludCByZXQ7DQo+PiAgICAgICBCbG9ja0JhY2tlbmQgKmJsayA9
-IGpvYi0+Y29tbW9uLmJsazsNCj4+ICAgICAgIGludCBuYnl0ZXM7DQo+PiAtICAgIGludCByZWFk
-X2ZsYWdzID0gaXNfd3JpdGVfbm90aWZpZXIgPyBCRFJWX1JFUV9OT19TRVJJQUxJU0lORyA6IDA7
-DQo+PiAgICAgICBpbnQgd3JpdGVfZmxhZ3MgPSBqb2ItPnNlcmlhbGl6ZV90YXJnZXRfd3JpdGVz
-ID8gQkRSVl9SRVFfU0VSSUFMSVNJTkcgOiAwOw0KPj4gICANCj4+ICAgICAgIGFzc2VydChRRU1V
-X0lTX0FMSUdORUQoc3RhcnQsIGpvYi0+Y2x1c3Rlcl9zaXplKSk7DQo+IA0KPiBbLi4uXQ0KPiAN
-Cj4+IEBAIC0xNTQsMTUgKzEwOCwxMiBAQCBmYWlsOg0KPj4gICAvKiBDb3B5IHJhbmdlIHRvIHRh
-cmdldCBhbmQgcmV0dXJuIHRoZSBieXRlcyBjb3BpZWQuIElmIGVycm9yIG9jY3VycmVkLCByZXR1
-cm4gYQ0KPj4gICAgKiBuZWdhdGl2ZSBlcnJvciBudW1iZXIuICovDQo+PiAgIHN0YXRpYyBpbnQg
-Y29yb3V0aW5lX2ZuIGJhY2t1cF9jb3dfd2l0aF9vZmZsb2FkKEJhY2t1cEJsb2NrSm9iICpqb2Is
-DQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgaW50
-NjRfdCBzdGFydCwNCj4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBpbnQ2NF90IGVuZCwNCj4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBib29sIGlzX3dyaXRlX25vdGlmaWVyKQ0KPj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGludDY0X3Qgc3RhcnQsIGludDY0
-X3QgZW5kKQ0KPiANCj4gQW5kIEkgc3VwcG9zZSB0aGlzIGlzIHNvbWV0aGluZyBiYWNrdXAtdG9w
-IG1heWJlIHNob3VsZCBzdXBwb3J0LCB0b28uDQo+IA0KPj4gICB7DQo+PiAgICAgICBpbnQgcmV0
-Ow0KPj4gICAgICAgaW50IG5yX2NsdXN0ZXJzOw0KPj4gICAgICAgQmxvY2tCYWNrZW5kICpibGsg
-PSBqb2ItPmNvbW1vbi5ibGs7DQo+PiAgICAgICBpbnQgbmJ5dGVzOw0KPj4gLSAgICBpbnQgcmVh
-ZF9mbGFncyA9IGlzX3dyaXRlX25vdGlmaWVyID8gQkRSVl9SRVFfTk9fU0VSSUFMSVNJTkcgOiAw
-Ow0KPj4gICAgICAgaW50IHdyaXRlX2ZsYWdzID0gam9iLT5zZXJpYWxpemVfdGFyZ2V0X3dyaXRl
-cyA/IEJEUlZfUkVRX1NFUklBTElTSU5HIDogMDsNCj4+ICAgDQo+PiAgICAgICBhc3NlcnQoUUVN
-VV9JU19BTElHTkVEKGpvYi0+Y29weV9yYW5nZV9zaXplLCBqb2ItPmNsdXN0ZXJfc2l6ZSkpOw0K
-PiANCj4gWy4uLl0NCj4gDQo+PiBAQCAtMzkxLDI4ICszMzMsNDEgQEAgc3RhdGljIGludCBjb3Jv
-dXRpbmVfZm4gYmFja3VwX2xvb3AoQmFja3VwQmxvY2tKb2IgKmpvYikNCj4+ICAgICAgIGludDY0
-X3Qgb2Zmc2V0Ow0KPj4gICAgICAgSEJpdG1hcEl0ZXIgaGJpOw0KPj4gICAgICAgQmxvY2tEcml2
-ZXJTdGF0ZSAqYnMgPSBibGtfYnMoam9iLT5jb21tb24uYmxrKTsNCj4+ICsgICAgdm9pZCAqbG9j
-azsNCj4+ICAgDQo+PiAgICAgICBoYml0bWFwX2l0ZXJfaW5pdCgmaGJpLCBqb2ItPmNvcHlfYml0
-bWFwLCAwKTsNCj4+ICAgICAgIHdoaWxlICgob2Zmc2V0ID0gaGJpdG1hcF9pdGVyX25leHQoJmhi
-aSkpICE9IC0xKSB7DQo+PiArICAgICAgICBsb2NrID0gYmRydl9jb190cnlfbG9jayhiYWNraW5n
-X2JzKGJsa19icyhqb2ItPmNvbW1vbi5ibGspKSwgb2Zmc2V0LA0KPj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgam9iLT5jbHVzdGVyX3NpemUpOw0KPj4gKyAgICAgICAgLyoNCj4+
-ICsgICAgICAgICAqIERpcnR5IGJpdCBpcyBzZXQsIHdoaWNoIG1lYW5zIHRoYXQgdGhlcmUgYXJl
-IG5vIGluLWZsaWdodA0KPj4gKyAgICAgICAgICogd3JpdGUgcmVxdWVzdHMgb24gdGhpcyBhcmVh
-LiBXZSBtdXN0IHN1Y2NlZWQuDQo+PiArICAgICAgICAgKi8NCj4+ICsgICAgICAgIGFzc2VydChs
-b2NrKTsNCj4+ICsNCj4gDQo+IEhtLiAgSXQgbWFrZXMgbWUgdW5lYXN5IGJ1dCBJIHN1cHBvc2Ug
-eW914oCZcmUgcmlnaHQuDQo+IA0KPj4gICAgICAgICAgIGlmIChqb2ItPnN5bmNfbW9kZSA9PSBN
-SVJST1JfU1lOQ19NT0RFX1RPUCAmJg0KPj4gICAgICAgICAgICAgICBiZHJ2X2lzX3VuYWxsb2Nh
-dGVkX3JhbmdlKGJzLCBvZmZzZXQsIGpvYi0+Y2x1c3Rlcl9zaXplKSkNCj4gDQo+IFRoaXMgY2Fu
-IHlpZWxkLCByaWdodD8gIElmIGl0IGRvZXMsIHRoZSBiaXRtYXAgaXMgc3RpbGwgc2V0LiAgYmFj
-a3VwLXRvcA0KPiB3aWxsIHNlZSB0aGlzLCB1bnNldCB0aGUgYml0bWFwIGFuZCB0cnkgdG8gc3Rh
-cnQgaXRzIENCVyBvcGVyYXRpb24uDQo+IFRoYXQgaXMgaGFsdGVkIGJ5IHRoZSBsb2NrIGp1c3Qg
-dGFrZW4sIGJ1dCB0aGUgcHJvZ3Jlc3Mgd2lsbCBzdGlsbCBiZQ0KPiBwdWJsaXNoZWQgYWZ0ZXIg
-Y29tcGxldGlvbiwgc28gdGhlIGpvYiBjYW4gZ28gYmV5b25kIDEwMCAlLCBJIHRoaW5rLg0KPiAN
-Cj4gRXZlbiBpZiBpdCBkb2VzbuKAmXQsIGNvcHlpbmcgdGhlIGRhdGEgdHdpY2UgaXMgd2VpcmQu
-ICBJdCBtYXkgZXZlbiBnZXQNCj4gd2VpcmRlciBpZiBvbmUgb2YgYm90aCByZXF1ZXN0cyBmYWls
-cy4NCj4gDQo+IENhbiB3ZSBsb2NrIHRoZSBiYWNrdXAtdG9wIG5vZGUgaW5zdGVhZD8gIEkgZG9u
-4oCZdCBrbm93IHdoZXRoZXIgbG9ja2luZw0KPiB3b3VsZCBhbHdheXMgc3VjY2VlZCB0aGVyZSwg
-dGhvdWdoLi4uDQo+IA0KDQpIbW0sIEknbGwgbG9vayBjbG9zZWx5IGF0IHRoZSBjb2RlLCBidXQg
-c2VlbXMgdGhhdCB3ZSdkIGJldHRlciByZXNldCBiaXQgYmVmb3JlDQp5aWVsZC4NCg0KDQo+IA0K
-Pj4gICAgICAgICAgIHsNCj4+ICAgICAgICAgICAgICAgaGJpdG1hcF9yZXNldChqb2ItPmNvcHlf
-Yml0bWFwLCBvZmZzZXQsIGpvYi0+Y2x1c3Rlcl9zaXplKTsNCj4+ICsgICAgICAgICAgICBiZHJ2
-X2NvX3VubG9jayhsb2NrKTsNCj4+ICAgICAgICAgICAgICAgY29udGludWU7DQo+PiAgICAgICAg
-ICAgfQ0KPj4gICANCj4+ICAgICAgICAgICBkbyB7DQo+PiAgICAgICAgICAgICAgIGlmICh5aWVs
-ZF9hbmRfY2hlY2soam9iKSkgew0KPj4gKyAgICAgICAgICAgICAgICBiZHJ2X2NvX3VubG9jayhs
-b2NrKTsNCj4+ICAgICAgICAgICAgICAgICAgIHJldHVybiAwOw0KPj4gICAgICAgICAgICAgICB9
-DQo+PiAtICAgICAgICAgICAgcmV0ID0gYmFja3VwX2RvX2Nvdyhqb2IsIG9mZnNldCwNCj4+IC0g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGpvYi0+Y2x1c3Rlcl9zaXplLCAmZXJyb3Jf
-aXNfcmVhZCwgZmFsc2UpOw0KPj4gKyAgICAgICAgICAgIHJldCA9IGJhY2t1cF9kb19jb3coam9i
-LCBvZmZzZXQsIGpvYi0+Y2x1c3Rlcl9zaXplLCAmZXJyb3JfaXNfcmVhZCk7DQo+PiAgICAgICAg
-ICAgICAgIGlmIChyZXQgPCAwICYmIGJhY2t1cF9lcnJvcl9hY3Rpb24oam9iLCBlcnJvcl9pc19y
-ZWFkLCAtcmV0KSA9PQ0KPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBCTE9DS19FUlJP
-Ul9BQ1RJT05fUkVQT1JUKQ0KPj4gICAgICAgICAgICAgICB7DQo+PiArICAgICAgICAgICAgICAg
-IGJkcnZfY29fdW5sb2NrKGxvY2spOw0KPj4gICAgICAgICAgICAgICAgICAgcmV0dXJuIHJldDsN
-Cj4+ICAgICAgICAgICAgICAgfQ0KPj4gICAgICAgICAgIH0gd2hpbGUgKHJldCA8IDApOw0KPj4g
-Kw0KPj4gKyAgICAgICAgYmRydl9jb191bmxvY2sobG9jayk7DQo+PiAgICAgICB9DQo+PiAgIA0K
-Pj4gICAgICAgcmV0dXJuIDA7DQo+IA0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXIN
-Cg==
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Move HMP infrastructure from monitor/misc.c to monitor/hmp.c. This is
+> > code that can be shared for all targets, so compile it only once.
+> >
+> > The amount of function and particularly extern variables in
+> > monitor_int.h is probably a bit larger than it needs to be, but this way
+> > no non-trivial code modifications are needed. The interfaces between HMP
+> > and the monitor core can be cleaned up later.
+> >
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> [...]
+> > diff --git a/monitor/hmp.c b/monitor/hmp.c
+> > new file mode 100644
+> > index 0000000000..3621b195ed
+> > --- /dev/null
+> > +++ b/monitor/hmp.c
+> > @@ -0,0 +1,1415 @@
+> [...]
+> > +static int64_t expr_unary(Monitor *mon)
+> > +{
+> > +    int64_t n;
+> > +    char *p;
+> > +    int ret;
+> > +
+> > +    switch (*pch) {
+> > +    case '+':
+> > +        next();
+> > +        n = expr_unary(mon);
+> > +        break;
+> > +    case '-':
+> > +        next();
+> > +        n = -expr_unary(mon);
+> > +        break;
+> > +    case '~':
+> > +        next();
+> > +        n = ~expr_unary(mon);
+> > +        break;
+> > +    case '(':
+> > +        next();
+> > +        n = expr_sum(mon);
+> > +        if (*pch != ')') {
+> > +            expr_error(mon, "')' expected");
+> > +        }
+> > +        next();
+> > +        break;
+> > +    case '\'':
+> > +        pch++;
+> > +        if (*pch == '\0') {
+> > +            expr_error(mon, "character constant expected");
+> > +        }
+> > +        n = *pch;
+> > +        pch++;
+> > +        if (*pch != '\'') {
+> > +            expr_error(mon, "missing terminating \' character");
+> > +        }
+> > +        next();
+> > +        break;
+> > +    case '$':
+> > +        {
+> > +            char buf[128], *q;
+> > +            int64_t reg = 0;
+> > +
+> > +            pch++;
+> > +            q = buf;
+> > +            while ((*pch >= 'a' && *pch <= 'z') ||
+> > +                   (*pch >= 'A' && *pch <= 'Z') ||
+> > +                   (*pch >= '0' && *pch <= '9') ||
+> > +                   *pch == '_' || *pch == '.') {
+> > +                if ((q - buf) < sizeof(buf) - 1) {
+> > +                    *q++ = *pch;
+> > +                }
+> > +                pch++;
+> > +            }
+> > +            while (qemu_isspace(*pch)) {
+> > +                pch++;
+> > +            }
+> > +            *q = 0;
+> > +            ret = get_monitor_def(&reg, buf);
+> > +            if (ret < 0) {
+> > +                expr_error(mon, "unknown register");
+> > +            }
+> > +            n = reg;
+> > +        }
+> > +        break;
+> > +    case '\0':
+> > +        expr_error(mon, "unexpected end of expression");
+> > +        n = 0;
+> > +        break;
+> > +    default:
+> > +        errno = 0;
+> > +        n = strtoull(pch, &p, 0);
+> 
+> checkpatch.pl gripes:
+> 
+>     ERROR: consider using qemu_strtoull in preference to strtoull
+> 
+> 
+> Let's add a TODO comment.  
+> 
+> > +        if (errno == ERANGE) {
+> > +            expr_error(mon, "number too large");
+> > +        }
+> > +        if (pch == p) {
+> > +            expr_error(mon, "invalid char '%c' in expression", *p);
+> > +        }
+> > +        pch = p;
+> > +        while (qemu_isspace(*pch)) {
+> > +            pch++;
+> > +        }
+> > +        break;
+> > +    }
+> > +    return n;
+> > +}
+> [...]
+> > +static void monitor_find_completion(void *opaque,
+> > +                                    const char *cmdline)
+> > +{
+> > +    MonitorHMP *mon = opaque;
+> > +    char *args[MAX_ARGS];
+> > +    int nb_args, len;
+> > +
+> > +    /* 1. parse the cmdline */
+> > +    if (parse_cmdline(cmdline, &nb_args, args) < 0) {
+> > +        return;
+> > +    }
+> > +
+> > +    /* if the line ends with a space, it means we want to complete the
+> > +     * next arg */
+> 
+> checkpatch.pl again:
+> 
+>     WARNING: Block comments use a leading /* on a separate line
+>     WARNING: Block comments use a trailing */ on a separate line
+> 
+> Can touch up in my tree.
+
+I wouldn't worry too much about fixing the existing problems here -
+let's get the reorg done through kwolf's patches and then it's easier
+to clean up later.
+
+Dave
+
+> > +    len = strlen(cmdline);
+> > +    if (len > 0 && qemu_isspace(cmdline[len - 1])) {
+> > +        if (nb_args >= MAX_ARGS) {
+> > +            goto cleanup;
+> > +        }
+> > +        args[nb_args++] = g_strdup("");
+> > +    }
+> > +
+> > +    /* 2. auto complete according to args */
+> > +    monitor_find_completion_by_table(mon, hmp_cmds, args, nb_args);
+> > +
+> > +cleanup:
+> > +    free_cmdline_args(args, nb_args);
+> > +}
+> [...]
+> > diff --git a/monitor/misc.c b/monitor/misc.c
+> > index 368b8297d4..c8289959c0 100644
+> > --- a/monitor/misc.c
+> > +++ b/monitor/misc.c
+> [...]
+> > @@ -612,245 +580,27 @@ out:
+> >      return output;
+> >  }
+> >  
+> > -static int compare_cmd(const char *name, const char *list)
+> > +/**
+> > + * Is @name in the '|' separated list of names @list?
+> > + */
+> > +int hmp_compare_cmd(const char *name, const char *list)
+> >  {
+> >      const char *p, *pstart;
+> >      int len;
+> >      len = strlen(name);
+> >      p = list;
+> > -    for(;;) {
+> > +    for (;;) {
+> >          pstart = p;
+> >          p = qemu_strchrnul(p, '|');
+> > -        if ((p - pstart) == len && !memcmp(pstart, name, len))
+> > +        if ((p - pstart) == len && !memcmp(pstart, name, len)) {
+> >              return 1;
+> 
+> The diff gets confusing here.  The function remains unchanged.  Good.
+> 
+> > -        if (*p == '\0')
+> > -            break;
+> > -        p++;
+> > -    }
+> > -    return 0;
+> > -}
+> > -
+> > -static int get_str(char *buf, int buf_size, const char **pp)
+> > -{
+> > -    const char *p;
+> > -    char *q;
+> > -    int c;
+> > -
+> > -    q = buf;
+> > -    p = *pp;
+> > -    while (qemu_isspace(*p)) {
+> > -        p++;
+> > -    }
+> > -    if (*p == '\0') {
+> > -    fail:
+> > -        *q = '\0';
+> > -        *pp = p;
+> > -        return -1;
+> > -    }
+> > -    if (*p == '\"') {
+> > -        p++;
+> > -        while (*p != '\0' && *p != '\"') {
+> > -            if (*p == '\\') {
+> > -                p++;
+> > -                c = *p++;
+> > -                switch (c) {
+> > -                case 'n':
+> > -                    c = '\n';
+> > -                    break;
+> > -                case 'r':
+> > -                    c = '\r';
+> > -                    break;
+> > -                case '\\':
+> > -                case '\'':
+> > -                case '\"':
+> > -                    break;
+> > -                default:
+> > -                    printf("unsupported escape code: '\\%c'\n", c);
+> > -                    goto fail;
+> > -                }
+> > -                if ((q - buf) < buf_size - 1) {
+> > -                    *q++ = c;
+> > -                }
+> > -            } else {
+> > -                if ((q - buf) < buf_size - 1) {
+> > -                    *q++ = *p;
+> > -                }
+> > -                p++;
+> > -            }
+> > -        }
+> > -        if (*p != '\"') {
+> > -            printf("unterminated string\n");
+> > -            goto fail;
+> > -        }
+> > -        p++;
+> > -    } else {
+> > -        while (*p != '\0' && !qemu_isspace(*p)) {
+> > -            if ((q - buf) < buf_size - 1) {
+> > -                *q++ = *p;
+> > -            }
+> > -            p++;
+> > -        }
+> > -    }
+> > -    *q = '\0';
+> > -    *pp = p;
+> > -    return 0;
+> > -}
+> > -
+> > -#define MAX_ARGS 16
+> > -
+> > -static void free_cmdline_args(char **args, int nb_args)
+> > -{
+> > -    int i;
+> > -
+> > -    assert(nb_args <= MAX_ARGS);
+> > -
+> > -    for (i = 0; i < nb_args; i++) {
+> > -        g_free(args[i]);
+> > -    }
+> > -
+> > -}
+> > -
+> > -/*
+> > - * Parse the command line to get valid args.
+> > - * @cmdline: command line to be parsed.
+> > - * @pnb_args: location to store the number of args, must NOT be NULL.
+> > - * @args: location to store the args, which should be freed by caller, must
+> > - *        NOT be NULL.
+> > - *
+> > - * Returns 0 on success, negative on failure.
+> > - *
+> > - * NOTE: this parser is an approximate form of the real command parser. Number
+> > - *       of args have a limit of MAX_ARGS. If cmdline contains more, it will
+> > - *       return with failure.
+> > - */
+> > -static int parse_cmdline(const char *cmdline,
+> > -                         int *pnb_args, char **args)
+> > -{
+> > -    const char *p;
+> > -    int nb_args, ret;
+> > -    char buf[1024];
+> > -
+> > -    p = cmdline;
+> > -    nb_args = 0;
+> > -    for (;;) {
+> > -        while (qemu_isspace(*p)) {
+> > -            p++;
+> >          }
+> >          if (*p == '\0') {
+> >              break;
+> >          }
+> > -        if (nb_args >= MAX_ARGS) {
+> > -            goto fail;
+> > -        }
+> > -        ret = get_str(buf, sizeof(buf), &p);
+> > -        if (ret < 0) {
+> > -            goto fail;
+> > -        }
+> > -        args[nb_args] = g_strdup(buf);
+> > -        nb_args++;
+> > +        p++;
+> >      }
+> > -    *pnb_args = nb_args;
+> >      return 0;
+> > -
+> > - fail:
+> > -    free_cmdline_args(args, nb_args);
+> > -    return -1;
+> > -}
+> > -
+> > -/*
+> > - * Can command @cmd be executed in preconfig state?
+> > - */
+> > -static bool cmd_can_preconfig(const HMPCommand *cmd)
+> > -{
+> > -    if (!cmd->flags) {
+> > -        return false;
+> > -    }
+> > -
+> > -    return strchr(cmd->flags, 'p');
+> > -}
+> > -
+> > -static void help_cmd_dump_one(Monitor *mon,
+> > -                              const HMPCommand *cmd,
+> > -                              char **prefix_args,
+> > -                              int prefix_args_nb)
+> > -{
+> > -    int i;
+> > -
+> > -    if (runstate_check(RUN_STATE_PRECONFIG) && !cmd_can_preconfig(cmd)) {
+> > -        return;
+> > -    }
+> > -
+> > -    for (i = 0; i < prefix_args_nb; i++) {
+> > -        monitor_printf(mon, "%s ", prefix_args[i]);
+> > -    }
+> > -    monitor_printf(mon, "%s %s -- %s\n", cmd->name, cmd->params, cmd->help);
+> > -}
+> > -
+> > -/* @args[@arg_index] is the valid command need to find in @cmds */
+> > -static void help_cmd_dump(Monitor *mon, const HMPCommand *cmds,
+> > -                          char **args, int nb_args, int arg_index)
+> > -{
+> > -    const HMPCommand *cmd;
+> > -    size_t i;
+> > -
+> > -    /* No valid arg need to compare with, dump all in *cmds */
+> > -    if (arg_index >= nb_args) {
+> > -        for (cmd = cmds; cmd->name != NULL; cmd++) {
+> > -            help_cmd_dump_one(mon, cmd, args, arg_index);
+> > -        }
+> > -        return;
+> > -    }
+> > -
+> > -    /* Find one entry to dump */
+> > -    for (cmd = cmds; cmd->name != NULL; cmd++) {
+> > -        if (compare_cmd(args[arg_index], cmd->name) &&
+> > -            ((!runstate_check(RUN_STATE_PRECONFIG) ||
+> > -                cmd_can_preconfig(cmd)))) {
+> > -            if (cmd->sub_table) {
+> > -                /* continue with next arg */
+> > -                help_cmd_dump(mon, cmd->sub_table,
+> > -                              args, nb_args, arg_index + 1);
+> > -            } else {
+> > -                help_cmd_dump_one(mon, cmd, args, arg_index);
+> > -            }
+> > -            return;
+> > -        }
+> > -    }
+> > -
+> > -    /* Command not found */
+> > -    monitor_printf(mon, "unknown command: '");
+> > -    for (i = 0; i <= arg_index; i++) {
+> > -        monitor_printf(mon, "%s%s", args[i], i == arg_index ? "'\n" : " ");
+> > -    }
+> > -}
+> > -
+> > -static void help_cmd(Monitor *mon, const char *name)
+> > -{
+> > -    char *args[MAX_ARGS];
+> > -    int nb_args = 0;
+> > -
+> > -    /* 1. parse user input */
+> > -    if (name) {
+> > -        /* special case for log, directly dump and return */
+> > -        if (!strcmp(name, "log")) {
+> > -            const QEMULogItem *item;
+> > -            monitor_printf(mon, "Log items (comma separated):\n");
+> > -            monitor_printf(mon, "%-10s %s\n", "none", "remove all logs");
+> > -            for (item = qemu_log_items; item->mask != 0; item++) {
+> > -                monitor_printf(mon, "%-10s %s\n", item->name, item->help);
+> > -            }
+> > -            return;
+> > -        }
+> > -
+> > -        if (parse_cmdline(name, &nb_args, args) < 0) {
+> > -            return;
+> > -        }
+> > -    }
+> > -
+> > -    /* 2. dump the contents according to parsed args */
+> > -    help_cmd_dump(mon, hmp_cmds, args, nb_args, 0);
+> > -
+> > -    free_cmdline_args(args, nb_args);
+> >  }
+> [...]
+> 
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
