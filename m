@@ -2,46 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32342467D4
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:47:05 +0200 (CEST)
-Received: from localhost ([::1]:54246 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2AB746803
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 21:06:35 +0200 (CEST)
+Received: from localhost ([::1]:54430 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbrE8-0004N4-CI
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:47:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39557)
+	id 1hbrX0-0003MT-Oi
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 15:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41007)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lvivier@redhat.com>) id 1hbqKJ-0004lf-Dv
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:49:24 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbqNj-0007GG-V9
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:52:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1hbqKI-0004Bo-5k
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:49:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47448)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hbqKH-00044U-Rg
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:49:22 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6061D81E19
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 17:49:05 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-117-111.ams2.redhat.com
- [10.36.117.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 225A85D982;
- Fri, 14 Jun 2019 17:49:01 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 19:49:01 +0200
-Message-Id: <20190614174901.20359-1-lvivier@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hbqNi-0007Gj-QY
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:52:55 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:45229)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hbqNg-00072r-Su
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:52:53 -0400
+Received: by mail-ot1-x344.google.com with SMTP id x21so3405726otq.12
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:52:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aXyj3HlAs6XieE1lzfqUgpGcYF+8UXTk6niz6BWcjJI=;
+ b=NztWyKqEBb/Niuvpsf0BaEySXYaI/YXSSMoGNhhTkJH8kxyzobFZB+l7HgDGtAlyDH
+ WfnP6veRuT/aiRUjPiEL77v0NyUnbddxqO9J6NjK+lajpn9ijUIl8A8ALcbyG37NvAGO
+ yTJaSSqAkiooIZYO5YjtzK7EW/7pCjgiy9xat1KwfACbO4PpRK70ATuAsvTlwvQhoPWw
+ NFjAPfSs2XV94CXgSPKMD716GSKrDlx7PlHOFYI5dHz/REaVny4nUtViSHamyfY5kpFK
+ WPVdrX6pJyvbz4+T/4EQB7FjXS/ZfKcLycnE3SbGNsMc4KnjZ4fmW57VubSxF+UD7wV2
+ eYig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aXyj3HlAs6XieE1lzfqUgpGcYF+8UXTk6niz6BWcjJI=;
+ b=jBbVlP1+Yns+bF8oSyurtYy4U8Z0SFrRMm0NdbjPY8l7mGcCFPp+BFkFzJrV1nH9hK
+ qt/hZmf8teVh+afn+edTZcQ9+dK6wvonUfE4XrXBhRM9nimrcHMwEoFoBe+39zuYRh0c
+ VJepSkHCAQXEcUSQ9oGpmKrVtFXnKb+3zZxT/snvjswyAa47vUWrIp6Nw+Za4CjajY5P
+ 6NqPeaYw+js4vs0HZY3QuNIcU5jM2n9UCigHjAbc0Gp+UMTcC5ihB8DwfNvZsAAvjP/L
+ 4dI9Goki0fns/U7KggvbjSKTiWLq4ZNjnqNn57j/4rp7gc6JX0vMDYyOMNcWSVtQGWKa
+ NCAQ==
+X-Gm-Message-State: APjAAAXemBzmWNVJ6zL8kCT5UyzHVY4i1+wPix6WKViUo4UzbZkJyNqh
+ SECYseVAjnnY5lV6Py7hBA9zpOILZ3IrlRvx5x72nLu3DxM=
+X-Google-Smtp-Source: APXvYqzPwNgMIZYuzUhv66XqzRXQQSdgI4W4YKU0gKHO7fNUVuDnKSu7QF+rqrmniQkEJ514zVWYjY0meeTTxDg6xII=
+X-Received: by 2002:a9d:d17:: with SMTP id 23mr47560156oti.221.1560534755345; 
+ Fri, 14 Jun 2019 10:52:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 14 Jun 2019 17:49:05 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] helpers: build vhost-user-gpu only for softmmu
+References: <20190614104457.24703-1-peter.maydell@linaro.org>
+ <20190614104457.24703-3-peter.maydell@linaro.org>
+ <ab0b9cf8-98d2-1901-a8f7-259d6426f833@linaro.org>
+In-Reply-To: <ab0b9cf8-98d2-1901-a8f7-259d6426f833@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 14 Jun 2019 18:52:24 +0100
+Message-ID: <CAFEAcA8CkvThgBXrSJw=O4BWBBDi0yXcF1T8fgytB53AshExXQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH 2/2] target/arm: Only implement doubles if
+ the FPU supports them
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,54 +74,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, marcandre.lureau@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-with
+On Fri, 14 Jun 2019 at 18:21, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/14/19 3:44 AM, Peter Maydell wrote:
+> > @@ -173,6 +173,11 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
+> >          ((a->vm | a->vn | a->vd) & 0x10)) {
+> >          return false;
+> >      }
+> > +
+> > +    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
+> > +        return false;
+> > +    }
+>
+> Would it be cleaner to define something like
+>
+> static bool vfp_dp_enabled(DisasContext *s, int regmask)
+> {
+>     if (!dc_isar_feature(aa32_fpdp, s)) {
+>         /* All double-precision disabled.  */
+>         return false;
+>     }
+>     if (!dc_isar_feature(aa32_fp_d32, s) && (regmask & 0x10)) {
+>         /* D16-D31 do not exist.  */
+>         return false;
+>     }
+>     return true;
+> }
+>
+> Then use
+>
+>     if (dp && !vfp_dp_enabled(s, a->vm | a->vn | a->vd))
+>
+> ?
 
-  ./configure --enable-user --disable-tools --disable-system
+It would be less code, but I don't think the "are we using
+a register than doesn't exist" and the "do we have dp support"
+checks are really related, and splitting the "OR the register
+numbers together" from the "test the top bit" makes that
+part look rather less clear I think.
 
-it fails with:
-
-  /usr/bin/ld: contrib/vhost-user-gpu/main.o: in function `vg_resource_de=
-stroy':
-  .../contrib/vhost-user-gpu/main.c:382: undefined reference to `pixman_i=
-mage_unref'
-  /usr/bin/ld: contrib/vhost-user-gpu/main.o: in function `vg_resource_fl=
-ush':
-  .../contrib/vhost-user-gpu/main.c:694: undefined reference to `pixman_r=
-egion_init_rect'
-  /usr/bin/ld: .../contrib/vhost-user-gpu/main.c:763: undefined reference=
- to `pixman_region_fini'
-
-Fixes: d52c454aadcd ("contrib: add vhost-user-gpu")
-Cc: marcandre.lureau@redhat.com
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
- Makefile | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/Makefile b/Makefile
-index 8e2fc6624c31..49ddec1dcf35 100644
---- a/Makefile
-+++ b/Makefile
-@@ -322,11 +322,13 @@ HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINU=
-X)) =3D qemu-bridge-helper$(EXE
- ifdef CONFIG_LINUX
- ifdef CONFIG_VIRGL
- ifdef CONFIG_GBM
-+ifdef CONFIG_SOFTMMU
- HELPERS-y +=3D vhost-user-gpu$(EXESUF)
- vhost-user-json-y +=3D contrib/vhost-user-gpu/50-qemu-gpu.json
- endif
- endif
- endif
-+endif
-=20
- ifdef BUILD_DOCS
- DOCS=3Dqemu-doc.html qemu-doc.txt qemu.1 qemu-img.1 qemu-nbd.8 qemu-ga.8
---=20
-2.21.0
-
+thanks
+-- PMM
 
