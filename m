@@ -2,75 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160D8460D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:32:23 +0200 (CEST)
-Received: from localhost ([::1]:52090 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F02461B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:52:50 +0200 (CEST)
+Received: from localhost ([::1]:52286 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbnFe-0003eI-8u
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53761)
+	id 1hbnZR-0001dL-AZ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56067)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbmnT-0003ZQ-7G
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:03:16 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hbmts-0008Tu-IC
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:09:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbmnR-0007Xj-Ue
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:03:15 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35002)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbmnR-0007SM-O2
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:03:13 -0400
-Received: by mail-wr1-x441.google.com with SMTP id m3so2697097wrv.2
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:03:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=qq4VHN8N+SWKk9YIa+opW+lplvmoYBo+YzFJJwj5ISY=;
- b=TzfwC8RkkLHIenL1m4+vljKjDGV7iqwI8HtCUj47Ja6bzLVHiP0Lg86vWbbn/JnpNc
- nhr7YXD0bDKn/FXQQMQbVM/5A8++BRlMr3QWB/Psy10TsQMAo6pfAnTqTSb6RfjB4LoN
- IT5aEqRTFh8ESpcGe4PcQeNvOLNmRaGIB2ARsnvM9EMaclQmwEhxcKJCbQGzIFJpWElW
- CqyUjHGW5z9fernkdtOyzBSOOu0YHtgJBsUp/SYF5aePZEbNcbqMnP5VefNVfXo59juK
- BfCKnursIxiivK//EmmOpplmovT35eeSQb6jM440t2QreNGUvVuQ0lxW11IiMCPJniPj
- utrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=qq4VHN8N+SWKk9YIa+opW+lplvmoYBo+YzFJJwj5ISY=;
- b=JaWH6/Clr73CpFAyomoq2yQ0oQ2+2zP5MMWs0FKEjPs8XEzqZxJWIc7LlGNpxBJhdw
- BOn/d5c3JwHhkrN2ftHCwdPf9n1GeqRdfUUsf7VRpqDHpJ0xjuLoJDcLLXNxhKJWE9ge
- bGqRDgoU4nXgxRCgi2TCbnjNwfTBHJPP3LQH+F6FE94SKdcshanCzcr48GyFaLtiGvkL
- sHjqx0OaDYthjqrMpVW5IInUXcpIKW/8uz7bVVahmIFOwSZ5tEejVC+2LvE4pp4hubjw
- uXoYfDyy0ecAsqbjNLSpeuTcsqP+sfWEQHhY799NzaRQ0gLS1ZrM/UlsbXl2bASR3V33
- +i7w==
-X-Gm-Message-State: APjAAAUJXLPLQaCDIDYUKRft+NIeumEJ4RrdD9t/7/Oe1sZdOAaMKXdT
- XsBN3/lhmxHsFEwX0cdk0HVjlQ==
-X-Google-Smtp-Source: APXvYqziuQ9Ev/Fc9LC41dX0WDXvNzGxaTwHOZmr1FTCNg2pRxnpLH96RNfexheD9LsY/XsTlGO38w==
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr51745429wrn.31.1560520985928; 
- Fri, 14 Jun 2019 07:03:05 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id 67sm3388136wmd.38.2019.06.14.07.03.05
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 07:03:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E818D1FF87;
- Fri, 14 Jun 2019 15:03:04 +0100 (BST)
-References: <20190614072432.820-1-philmd@redhat.com>
- <20190614072432.820-7-philmd@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-In-reply-to: <20190614072432.820-7-philmd@redhat.com>
-Date: Fri, 14 Jun 2019 15:03:04 +0100
-Message-ID: <871rzwe02v.fsf@zen.linaroharston>
+ (envelope-from <eric.auger@redhat.com>) id 1hbmtr-0003yP-Gt
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:09:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:23046)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hbmtn-0003ui-Vs; Fri, 14 Jun 2019 10:09:48 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6BDDD3082A8F;
+ Fri, 14 Jun 2019 14:09:44 +0000 (UTC)
+Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F7D019700;
+ Fri, 14 Jun 2019 14:09:40 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190611142821.3874-1-eric.auger@redhat.com>
+ <20190611142821.3874-3-eric.auger@redhat.com>
+ <CAFEAcA_OYdL1TPN+OTdkZ0J2fx_4vFiXCs0fUVdGjkkMURCfZA@mail.gmail.com>
+ <ef87a46b-06fc-a66d-37ca-4499afc76663@redhat.com>
+ <CAFEAcA-Zo_qSsRfjrr-ewRU5ozc083Lw_vxaR1DufVOmtw5mdA@mail.gmail.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <51a91dd1-1eab-afc5-a5c9-77a3f189f41f@redhat.com>
+Date: Fri, 14 Jun 2019 16:09:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-Zo_qSsRfjrr-ewRU5ozc083Lw_vxaR1DufVOmtw5mdA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH 6/6] .travis.yml: Test static linking
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Fri, 14 Jun 2019 14:09:44 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/2] hw/arm/smmuv3: Implement dummy replay
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,89 +62,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- integration@gluster.org,
- =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, =?utf-8?Q?Lo=C3=AFc?= Minier <loic.minier@linaro.org>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Bharata B Rao <bharata@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Niels de Vos <ndevos@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Peter,
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+On 6/14/19 3:45 PM, Peter Maydell wrote:
+> On Fri, 14 Jun 2019 at 14:40, Auger Eric <eric.auger@redhat.com> wrote:
+>>
+>> Hi Peter,
+>>
+>> On 6/14/19 3:26 PM, Peter Maydell wrote:
+>>> On Tue, 11 Jun 2019 at 15:29, Eric Auger <eric.auger@redhat.com> wrote:
+>>>>
+>>>> On ARM we currently do not support VFIO-PCI devices protected
+>>>> by the IOMMU. Any attempt to run such use case results in this
+>>>> kind of warning:
+>>>>
+>>>> "-device vfio-pci,host=0004:01:00.0,id=hostdev0,bus=pci.1,addr=0x0:
+>>>> warning: SMMUv3 does not support notification on MAP: device vfio-pci
+>>>> will not function properly".
+> 
+>>>> +static inline void
+>>>> +smmuv3_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
+>>>> +{
+>>>> +}
+>>>
+>>> This doesn't seem like a valid implementation of the replay
+>>> method to me. The API doc comment says
+>>>      * The default implementation of memory_region_iommu_replay() is to
+>>>      * call the IOMMU translate method for every page in the address space
+>>>      * with flag == IOMMU_NONE and then call the notifier if translate
+>>>      * returns a valid mapping. If this method is implemented then it
+>>>      * overrides the default behaviour, and must provide the full semantics
+>>>      * of memory_region_iommu_replay(), by calling @notifier for every
+>>>      * translation present in the IOMMU.
+>>>
+>>> This empty function is definitely not going to call the notifier
+>>> for every IOMMU translation...
+>> The situation is a bit odd. SMMUv3 is not integrated with VFIO so VFIO
+>> devices will not work anyway (we are not able to notify on MAP). There
+>> is a warning already reporting the issue. However the default
+>> implementation of memory_region_iommu_replay() prevents the guest from
+>> booting. So what would you advise?
+> 
+> I dunno, but if the API isn't supposed to behave the way we've
+> documented it to, we should fix the documentation...
 
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> This job currently fails:
->
->       LINK    lm32-softmmu/qemu-system-lm32
->     /usr/bin/ld: cannot find -lgtk-3
->     /usr/bin/ld: cannot find -latk-bridge-2.0
->     /usr/bin/ld: cannot find -latspi
->     /usr/bin/ld: cannot find -lsystemd
->     /usr/bin/ld: cannot find -lgdk-3
->     /usr/bin/ld: cannot find -lwayland-egl
->     /usr/bin/ld: cannot find -lmirclient
->     /usr/bin/ld: cannot find -lmircore
->     /usr/bin/ld: cannot find -lmircookie
->     /usr/bin/ld: cannot find -lepoxy
->     /usr/bin/ld: cannot find -latk-1.0
->     /usr/bin/ld: cannot find -lgdk_pixbuf-2.0
->     /usr/bin/ld: cannot find -lselinux
->     /usr/bin/ld: cannot find -lgtk-3
->     /usr/bin/ld: cannot find -latk-bridge-2.0
->     /usr/bin/ld: cannot find -latspi
->     /usr/bin/ld: cannot find -lsystemd
->     /usr/bin/ld: cannot find -lgdk-3
->     /usr/bin/ld: cannot find -lwayland-egl
->     /usr/bin/ld: cannot find -lmirclient
->     /usr/bin/ld: cannot find -lmircore
->     /usr/bin/ld: cannot find -lmircookie
->     /usr/bin/ld: cannot find -lepoxy
->     /usr/bin/ld: cannot find -latk-1.0
->     /usr/bin/ld: cannot find -lgdk_pixbuf-2.0
->     /usr/bin/ld: cannot find -lselinux
->     /usr/bin/ld: attempted static link of dynamic object `/usr/lib/x86_64=
--linux-gnu/libz.so'
->     collect2: error: ld returned 1 exit status
->     Makefile:204: recipe for target 'qemu-system-lm32' failed
->     make[1]: *** [qemu-system-lm32] Error 1
->     Makefile:472: recipe for target 'subdir-lm32-softmmu' failed
->     make: *** [subdir-lm32-softmmu] Error 2
-> ---
->  .travis.yml | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index 08502c0aa2..6962fff826 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -92,6 +92,11 @@ matrix:
->          - CONFIG=3D"--disable-user --target-list-exclude=3D${MAIN_SOFTMM=
-U_TARGETS}"
->
->
-> +    # Test static linking
-> +    - env:
-> +        - CONFIG=3D"--static --target-list=3Dlm32-softmmu"
-> +
-> +
+fair enough
 
-It's probably more useful to have a:
+ Since
+> the only user of memory_region_iommu_replay() is the vfio code
+> I guess we can define it however is most convenient for vfio,
+> but we should document what the method has to do to make things
+> work.
 
-  CONFIG=3D"--disable-system --static"
+OK I need to think about it. Maybe an alternative is to call
+memory_region_iommu_replay() only when it makes sense.
+> 
+> PS: we have a memory_region_iommu_replay_all() which currently
+> appears to be not used by anybody, could we get rid of it?
 
-In fact arguably we could just add it to the first --disable-system
-stanza as there are other linux-user builds scattered about to catch the
-cases where we break dynamically linked linux-user builds.
+I will do that
 
->      # Just build tools and run minimal unit and softfloat checks
->      - env:
->          - BASE_CONFIG=3D"--enable-tools"
+Thanks
 
-
---
-Alex Benn=C3=A9e
+Eric
+> 
+> thanks
+> -- PMM
+> 
 
