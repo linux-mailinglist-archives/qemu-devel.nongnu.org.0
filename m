@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2A8146444
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:34:02 +0200 (CEST)
-Received: from localhost ([::1]:53326 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE1146544
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:01:57 +0200 (CEST)
+Received: from localhost ([::1]:53554 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbp9N-0008SV-Ft
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34665)
+	id 1hbpaO-0001Vi-8T
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:01:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36523)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbofK-0002QW-Rq
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:03:00 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbon9-0000mF-Tw
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:11:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbofI-0001aH-Fw
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:02:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37474)
+ (envelope-from <mreitz@redhat.com>) id 1hbon6-0002Qo-LW
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:11:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41482)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hboes-000163-SG; Fri, 14 Jun 2019 12:02:34 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ id 1hboml-00027V-5v; Fri, 14 Jun 2019 12:10:39 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D8C1F307D863;
- Fri, 14 Jun 2019 16:02:24 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 305BBC1EB1F7;
+ Fri, 14 Jun 2019 16:10:38 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 74873605CA;
- Fri, 14 Jun 2019 16:02:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0868A17F51;
+ Fri, 14 Jun 2019 16:10:36 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-15-mreitz@redhat.com>
- <837ee511-af51-3062-8a2e-41adde1023b3@virtuozzo.com>
- <616b970a-2c06-11d8-8f91-c607fd986e18@redhat.com>
- <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
+ <20190612221004.2317-21-mreitz@redhat.com>
+ <ceef507e-16d0-0edf-0e2d-64c5b4d613ef@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -62,22 +60,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <bc9cd825-3cd9-239b-0980-950e6489be6a@redhat.com>
-Date: Fri, 14 Jun 2019 18:02:19 +0200
+Message-ID: <bc1cdeca-2708-e122-c157-d08750e32ed6@redhat.com>
+Date: Fri, 14 Jun 2019 18:10:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
+In-Reply-To: <ceef507e-16d0-0edf-0e2d-64c5b4d613ef@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="m2DOqb10zjGW1N3kHJaLWfIySfUCykX0c"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+ boundary="ctcaaKpKA8YYOxM1TYGpilOAkU9QXaJNW"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 14 Jun 2019 16:02:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Fri, 14 Jun 2019 16:10:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 14/42] block: Use CAFs when working with
- backing chains
+Subject: Re: [Qemu-devel] [PATCH v5 20/42] block/snapshot: Fall back to
+ storage child
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,172 +93,101 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---m2DOqb10zjGW1N3kHJaLWfIySfUCykX0c
-Content-Type: multipart/mixed; boundary="kzgfAfa8hrRlGSmW6bnqX4uljFledJH56";
+--ctcaaKpKA8YYOxM1TYGpilOAkU9QXaJNW
+Content-Type: multipart/mixed; boundary="kUEaJo29yHoS4aalAe0IC9cmD2UQ8ZUQ6";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  Kevin Wolf <kwolf@redhat.com>
-Message-ID: <bc9cd825-3cd9-239b-0980-950e6489be6a@redhat.com>
-Subject: Re: [PATCH v5 14/42] block: Use CAFs when working with backing chains
+Message-ID: <bc1cdeca-2708-e122-c157-d08750e32ed6@redhat.com>
+Subject: Re: [PATCH v5 20/42] block/snapshot: Fall back to storage child
 References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-15-mreitz@redhat.com>
- <837ee511-af51-3062-8a2e-41adde1023b3@virtuozzo.com>
- <616b970a-2c06-11d8-8f91-c607fd986e18@redhat.com>
- <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
-In-Reply-To: <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
+ <20190612221004.2317-21-mreitz@redhat.com>
+ <ceef507e-16d0-0edf-0e2d-64c5b4d613ef@virtuozzo.com>
+In-Reply-To: <ceef507e-16d0-0edf-0e2d-64c5b4d613ef@virtuozzo.com>
 
---kzgfAfa8hrRlGSmW6bnqX4uljFledJH56
+--kUEaJo29yHoS4aalAe0IC9cmD2UQ8ZUQ6
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 14.06.19 16:31, Vladimir Sementsov-Ogievskiy wrote:
-> 14.06.2019 16:50, Max Reitz wrote:
->> On 14.06.19 15:26, Vladimir Sementsov-Ogievskiy wrote:
->>> 13.06.2019 1:09, Max Reitz wrote:
->>>> Use child access functions when iterating through backing chains so
->>>> filters do not break the chain.
->>>>
->>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>>> ---
->>>>    block.c | 40 ++++++++++++++++++++++++++++------------
->>>>    1 file changed, 28 insertions(+), 12 deletions(-)
->>>>
->>>> diff --git a/block.c b/block.c
->>>> index 11f37983d9..505b3e9a01 100644
->>>> --- a/block.c
->>>> +++ b/block.c
->>
->> [...]
->>
->>>> @@ -4273,11 +4274,18 @@ int bdrv_change_backing_file(BlockDriverStat=
-e *bs,
->>>>    BlockDriverState *bdrv_find_overlay(BlockDriverState *active,
->>>>                                        BlockDriverState *bs)
->>>>    {
->>>> -    while (active && bs !=3D backing_bs(active)) {
->>>> -        active =3D backing_bs(active);
->>>> +    bs =3D bdrv_skip_rw_filters(bs);
->>>> +    active =3D bdrv_skip_rw_filters(active);
->>>> +
->>>> +    while (active) {
->>>> +        BlockDriverState *next =3D bdrv_backing_chain_next(active);=
+On 14.06.19 17:22, Vladimir Sementsov-Ogievskiy wrote:
+> 13.06.2019 1:09, Max Reitz wrote:
+>> If the top node's driver does not provide snapshot functionality and w=
+e
+>> want to go down the chain, we should go towards the child which stores=
 
->>>> +        if (bs =3D=3D next) {
->>>> +            return active;
->>>> +        }
->>>> +        active =3D next;
->>>>        }
->>>>   =20
->>>> -    return active;
->>>> +    return NULL;
->>>>    }
->>>
->>> Semantics changed for this function.
->>> It is used in two places
->>> 1. from bdrv_find_base wtih @bs=3DNULL, it should be unchanged, as I =
-hope we will never have
->>>      filter node as a bottom of some valid chain
->>>
->>> 2. from qmp_block_commit, only to check op-blocker... hmmm. I really =
-don't understand,
->>> why do we check BLOCK_OP_TYPE_COMMIT_TARGET on top_bs overlay.. top_b=
-s overlay is out of the job,
->>> what is this check for?
+>> the data, i.e. the storage child.
 >>
->> There is a loop before this check which checks that the same blocker i=
-s
->> not set on any nodes between top and base (both inclusive).  I guess
->> non-active commit checks the node above @top, too, because its backing=
-
->> file will change.
+>> bdrv_snapshot_goto() becomes a bit weird because we may have to redire=
+ct
+>> the actual child pointer, so it only works if the storage child is
+>> bs->file or bs->backing (and then we have to find out which it is).
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   block/snapshot.c | 74 ++++++++++++++++++++++++++++++++++------------=
+--
+>>   1 file changed, 53 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/block/snapshot.c b/block/snapshot.c
+>> index f2f48f926a..58cd667f3a 100644
+>> --- a/block/snapshot.c
+>> +++ b/block/snapshot.c
+>> @@ -154,8 +154,9 @@ int bdrv_can_snapshot(BlockDriverState *bs)
+>>       }
+>>  =20
+>>       if (!drv->bdrv_snapshot_create) {
+>> -        if (bs->file !=3D NULL) {
+>> -            return bdrv_can_snapshot(bs->file->bs);
+>> +        BlockDriverState *storage_bs =3D bdrv_storage_bs(bs);
+>> +        if (storage_bs) {
+>> +            return bdrv_can_snapshot(storage_bs);
+>>           }
+>>           return 0;
+>>       }
 >=20
-> So in this case frozen chain works better.
+> Hmm is it correct at all doing a snapshot, when top format node doesn't=
+ support it,
+> metadata child doesn't support it and storage child supports? Doing sna=
+pshots of
+> storage child seems useless, as data file must be in sync with metadata=
+=2E
 
-Perhaps.  The op blockers are in this weird state anyway.  I don=E2=80=99=
-t think
-we even need them any more, because the permissions were intended to
-replace them (they were originally called =E2=80=9Cfine-grained op blocke=
-rs=E2=80=9D, I
-seem to remember).
+You=E2=80=99re right.
 
-I dare not touch them.
+That=E2=80=99s actually a bug already.  VMDK can store data in multiple
+children, but it does not support snapshots.  So if you store such a
+split VMDK disk on an RBD volume, it is possible that just the
+descriptor file is snapshotted, but nothing else.
 
->>>>    /* Given a BDS, searches for the base layer. */
->>
->> [...]
->>
->>>> @@ -5149,7 +5165,7 @@ BlockDriverState *bdrv_find_backing_image(Bloc=
-kDriverState *bs,
->>>>                char *backing_file_full_ret;
->>>>   =20
->>>>                if (strcmp(backing_file, curr_bs->backing_file) =3D=3D=
- 0) {
->>>
->>> hmm, interesting, what bs->backing_file now means? It's strange enoug=
-h to store such field on
->>> bds, when we have backing link anyway..
->>
->> Patch 37 has you covered. :-)
->>
->=20
-> Hmm, if it has removed this field, but it doesn't)
-
-Because it=E2=80=99s needed.  (Just not in the current form, but that=E2=80=
-=99s what 37
-is for.)
-
-> So, we finished with some object, called "overlay", but it is not an ov=
-erlay of bs, it's overlay of
-> first non-implicit filtered node in bs backing chain, it may be found b=
-y bdrv_find_overlay() helper (which is
-> almost unused and my be safely dropped), and filename of this "overlay"=
- is stored in bs->backing_file string
-> variable, keeping in mind that bs->backing is pointer to backing child =
-of bs which is completely another thing?
-
-I don=E2=80=99t quite see what you mean.  There is no =E2=80=9Coverlay=E2=
-=80=9D in this function.
-
-> Oh, no, everything related to filename-based backing chain logic is not=
- for me o_O. If something doesn't work
-> with filename-based logic users should use node-names..
-
-In theory yes, but that isn=E2=80=99t an option for qemu-img commit, for =
-example.
-
-> And I'd prefer to deprecate filename based interfaces at all.
-
-Me too.
-
-https://lists.nongnu.org/archive/html/qemu-devel/2014-09/msg04878.html
-
-:-/
+Hmmm.  I think the best way is to check whether there is exactly one
+child that is not the bdrv_filtered_cow_child().  If so, we can go down
+to it and snapshot it.  Otherwise, the node does not support snapshots.
 
 Max
 
 
---kzgfAfa8hrRlGSmW6bnqX4uljFledJH56--
+--kUEaJo29yHoS4aalAe0IC9cmD2UQ8ZUQ6--
 
---m2DOqb10zjGW1N3kHJaLWfIySfUCykX0c
+--ctcaaKpKA8YYOxM1TYGpilOAkU9QXaJNW
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0DxQsACgkQ9AfbAGHV
-z0BrdwgAv9CqLmG/eeDoX/mxJxNK2xMFfOlFS+L7hrtRx79IHZWWB54EGiy7wmS6
-tsuSxQm4yf8VR0Q7KFzC5LvjJnErVWOVVXLloFJ5OBuxHRbMvNF+S6oqp3bR8YDo
-qcffxuBEOQC3x1Lg5QnP7VzERIDTsVPmSnxx+XYqBL4UJZJmeTE5sB96U4EFAp8H
-iqh57cfvid9KRHkdcDiPrvX6MNXpdB317SPQzsn3f9Z70kIGeogy1YMrm/mTtXRq
-rtZqw+s+4pqlSFT1+0gpwmO798lDL9UWAiQDF44lTTo+mFMBsO3vJgtI7uGdAzMe
-Pc/a/8NpDJgWrc+fNpgZTaL0x+tKuQ==
-=BqB8
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0DxvsACgkQ9AfbAGHV
+z0CrOAf+OBUyvgVlN40IW1njIOGrPouBI7ulsvvNU1YNGz/0FQDWBgux1dCDSDOz
+Tdr1om+rJiKbzpvKG4iLqj6MThQxvOMv6+/+kBShvY3M9Ae2C1wybW58ugmum8DF
+Ap87m1fTkC/WinpYKC/qz+mPOtw38+SiMSWh9nVMzgl0iu0oGYPY/1X9lhNmolm2
+1cBW7lKYmXevVjy16iPFE+UAlzrJTHb9TFgbgBMvRR2fyrzJtXLGxC0jLvKQ3vio
+s1EAilc27EW30qIOma3JCUoYnk9OHJ75ixOIizgTqJikvB03seIUbZRtFiD0r6xO
+ENz0uos0JKH1haC2HyZkU6/SKXu97A==
+=ViG+
 -----END PGP SIGNATURE-----
 
---m2DOqb10zjGW1N3kHJaLWfIySfUCykX0c--
+--ctcaaKpKA8YYOxM1TYGpilOAkU9QXaJNW--
 
