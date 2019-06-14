@@ -2,44 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FF62458EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:40:17 +0200 (CEST)
-Received: from localhost ([::1]:49606 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5176F45933
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 11:49:25 +0200 (CEST)
+Received: from localhost ([::1]:49670 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbigv-0006QE-Va
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:40:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40698)
+	id 1hbipm-0005c6-Qr
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 05:49:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40783)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <chen.zhang@intel.com>) id 1hbieD-0004hV-K0
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:37:26 -0400
+ (envelope-from <elohimes@gmail.com>) id 1hbieM-0004oG-Qq
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:37:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1hbiac-0001TN-UW
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:33:44 -0400
-Received: from mga17.intel.com ([192.55.52.151]:19769)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1hbiab-0001MY-2u; Fri, 14 Jun 2019 05:33:41 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 14 Jun 2019 02:33:32 -0700
-X-ExtLoop1: 1
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by fmsmga008.fm.intel.com with ESMTP; 14 Jun 2019 02:33:31 -0700
-From: Zhang Chen <chen.zhang@intel.com >
-To: Xie Changlong <xiechanglong.d@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- qemu-dev <qemu-devel@nongnu.org>
-Date: Fri, 14 Jun 2019 17:28:53 +0800
-Message-Id: <20190614092853.26551-1-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.17.GIT
+ (envelope-from <elohimes@gmail.com>) id 1hbiYr-0000j2-JC
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:31:54 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:46004)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hbiYr-0000iS-DR
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 05:31:53 -0400
+Received: by mail-pg1-x544.google.com with SMTP id s21so1205554pga.12
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 02:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=IA28pcpBdiEvMh8kWXD6ZCj/yjRms4/rSndJ9xOTZr8=;
+ b=acz5XkZFze7EQ/b7r8mvQTmConW6V9FekK8fdM1YYXi0pd0FngGM0d04xElUu5sYmQ
+ MDhMUXtKyPOwPETSdOAC6eOgHVXA7j3egaTXEvE7skL3TzapqGi3ysfZwtVcQaMWoJqj
+ Daly6Jc736jcC/vqBYmWZVfYr//FbTe8j/NAIx4K29Xpr+50dNKeqL+A/X5fU18rWFtU
+ W5luN7MVgetjRF996O11GM3yjFuIkoktME5xL6k382Dw9gxHwHAXp+xT30+9hVjXrQNo
+ YSpKtBahBtK3dN+oNkEpAhL5HyYAeAu7r3NLrkp87SY0dZvEBQMWrl6PazHBpnuJ+kzp
+ 2vbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=IA28pcpBdiEvMh8kWXD6ZCj/yjRms4/rSndJ9xOTZr8=;
+ b=Ih/jNMOpZ2DPb4HgbHvCdvlL+zJI1Mgg/7XvmVyxGTw/84XMkASgr6Nb2rv0oe9Hk4
+ XsbnpQ5xeQsmZ1dg8/BqkmCQk4ONTUhpj6/0JC9JWQDJBM7xXMzbHVsAZJ+TvWS+2a+1
+ qT5BRVFVdsT3znD6QhwxPVuQZrrPbN5TiGTqef6RtbHTJanxsip+37JOXsVyhAE/1DIk
+ JZtpNHvTHp/FxjoOWBiZo9+FKJCfB7qjppz8ROAySKmnz+biT7uJhAJdN6XTXmWKiTBn
+ uoD47g65viMzeg6Y86A+X/P2bWOVSrXIYg2oSX+uDZX0py5Ooc7V2g3FlZ0KfYa7sgI6
+ 2jvw==
+X-Gm-Message-State: APjAAAVoKy7WrviC2z6kPPr8MOQOpocJKYO1EVUujtzN7SVNhCfSRCMS
+ L7hmmpb2jlTEGmJ8GO1jEAY=
+X-Google-Smtp-Source: APXvYqz2rTsGZORv4eP+8ZW7SWE7OKxreSEcfYZ8+DBBhGHmT5qAxcR13JhbVTYsX9CNJHUGZfs2JQ==
+X-Received: by 2002:aa7:9190:: with SMTP id x16mr84966532pfa.86.1560504711913; 
+ Fri, 14 Jun 2019 02:31:51 -0700 (PDT)
+Received: from localhost ([116.247.112.152])
+ by smtp.gmail.com with ESMTPSA id o2sm3735655pgp.74.2019.06.14.02.31.51
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 14 Jun 2019 02:31:51 -0700 (PDT)
+From: elohimes@gmail.com
+X-Google-Original-From: xieyongji@baidu.com
+To: mst@redhat.com,
+	groug@kaod.org
+Date: Fri, 14 Jun 2019 17:31:16 +0800
+Message-Id: <20190614093121.5580-1-xieyongji@baidu.com>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.151
-Subject: [Qemu-devel] [PATCH] block/replication.c: Fix crash issue after
- failover
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v3 0/5] virtio: fix some issues of "started"
+ and "start_on_kick" flag
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,37 +73,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
+Cc: qemu-devel@nongnu.org, Xie Yongji <xieyongji@baidu.com>,
+ dgilbert@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+From: Xie Yongji <xieyongji@baidu.com>
 
-No block job on active disk after failover.
-In the replication_stop() function have canceled the block job,
-we check it again here.
+We introduced two flags "started" and "start_on_kick" to indicate virtio
+device's state before. But there still are some problems with them. So
+we try to fixup them in this patchset.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- block/replication.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+The patch 1 introduces a "use-started" property to avoid a migration
+issue under Greg Kurz's suggestion [1].
 
-diff --git a/block/replication.c b/block/replication.c
-index 3d4dedddfc..bdf2bf4bbc 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -146,7 +146,9 @@ static void replication_close(BlockDriverState *bs)
-         replication_stop(s->rs, false, NULL);
-     }
-     if (s->stage == BLOCK_REPLICATION_FAILOVER) {
--        job_cancel_sync(&s->active_disk->bs->job->job);
-+        if (s->secondary_disk->bs->job) {
-+            job_cancel_sync(&s->secondary_disk->bs->job->job);
-+        }
-     }
- 
-     if (s->mode == REPLICATION_MODE_SECONDARY) {
+The patch 2 set "start_on_kick" flag for legacy devices.
+
+The patch 3 fixes a regression bug that old guest is not able to boot with
+vhost-user-blk device.
+
+The patch 4,5 fix some problems with "started" and "start_on_kick" flag.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg06247.html
+
+v3:
+- change the order of patches
+- Also disable "use-started" property by hw_compat_4_0
+
+v2:
+- Recalculate "start_on_kick" flag after migration instead of migrating
+  it
+- Set "start_on_kick" flag for legacy devices
+- Avoid setting "started" flag when "use_started" property is true
+- Set "use_started" to false by hw_compat_4_0_1 instead of hw_compat_4_0
+
+Xie Yongji (5):
+  virtio: add "use-started" property
+  virtio: Set "start_on_kick" for legacy devices
+  virtio: Set "start_on_kick" on virtio_set_features()
+  virtio: Make sure we get correct state of device on
+    handle_aio_output()
+  virtio: Don't change "started" flag on virtio_vmstate_change()
+
+ hw/block/vhost-user-blk.c  |  4 +--
+ hw/core/machine.c          |  8 ++++--
+ hw/virtio/virtio.c         | 53 ++++++++++++++++++++++----------------
+ include/hw/virtio/virtio.h | 23 ++++++++++++++++-
+ 4 files changed, 61 insertions(+), 27 deletions(-)
+
 -- 
-2.17.GIT
+2.17.1
 
 
