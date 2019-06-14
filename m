@@ -2,50 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FAA946537
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:58:21 +0200 (CEST)
-Received: from localhost ([::1]:53538 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4334656A
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:11:54 +0200 (CEST)
+Received: from localhost ([::1]:53630 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbpWu-0008NE-Ax
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45457)
+	id 1hbpjz-0007FL-Sf
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45516)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hbpEn-00051T-0n
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:39:39 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbpEy-0005IZ-Vy
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:39:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hbpEg-0007Zs-Pa
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:39:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:63753)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hbpEg-0007YZ-Be
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:39:30 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C2025A3B74;
- Fri, 14 Jun 2019 16:39:22 +0000 (UTC)
-Received: from work-vm (ovpn-117-220.ams2.redhat.com [10.36.117.220])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 754176402F;
- Fri, 14 Jun 2019 16:39:20 +0000 (UTC)
-Date: Fri, 14 Jun 2019 17:39:17 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Yury Kotov <yury-kotov@yandex-team.ru>
-Message-ID: <20190614163917.GI2785@work-vm>
-References: <20190422103420.15686-1-yury-kotov@yandex-team.ru>
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbpEx-0007iw-0a
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 12:39:48 -0400
+Received: from mail-eopbgr40107.outbound.protection.outlook.com
+ ([40.107.4.107]:5767 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbpEv-0007bR-Ec; Fri, 14 Jun 2019 12:39:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7TGLnP9J7Myfo7O+zocYWivM/1AZEhLEIk/kaeNIqwo=;
+ b=Ew+Xw8nleSS59hTQCQ1bvD3wBN7i2IiSA3sFh/nVBQD+jqiSwW5SbzTjziGGvYGosQOhfPfNSYLsdBO6yVEdy/vu/b+M9CSUI2TlC9pNnN57IXEPJmDWN3mMfPbUZWvWnz09yQGBjj478Ibz10u2KH7uDPCYsngmQZvvIHvxY6c=
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
+ AM0SPR01MB0059.eurprd08.prod.outlook.com (20.178.117.97) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.11; Fri, 14 Jun 2019 16:39:32 +0000
+Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
+ ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
+ 16:39:32 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
+ <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v5 14/42] block: Use CAFs when working with backing chains
+Thread-Index: AQHVIWuuPVMblAMNYkC6XowcCoyrZaabJqGAgAAGwYCAAD3OAP//5w6AgAAKZAA=
+Date: Fri, 14 Jun 2019 16:39:31 +0000
+Message-ID: <0800b03a-9209-3243-49a5-5102ec4dc36c@virtuozzo.com>
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-15-mreitz@redhat.com>
+ <837ee511-af51-3062-8a2e-41adde1023b3@virtuozzo.com>
+ <616b970a-2c06-11d8-8f91-c607fd986e18@redhat.com>
+ <bfa2b6e6-7b5a-78c5-abb5-51c000fc81be@virtuozzo.com>
+ <bc9cd825-3cd9-239b-0980-950e6489be6a@redhat.com>
+In-Reply-To: <bc9cd825-3cd9-239b-0980-950e6489be6a@redhat.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0502CA0022.eurprd05.prod.outlook.com
+ (2603:10a6:3:e3::32) To AM0PR08MB3572.eurprd08.prod.outlook.com
+ (2603:10a6:208:e1::25)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190614193930372
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 90eb744a-f0f2-46c0-dc9a-08d6f0e6e064
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:AM0SPR01MB0059; 
+x-ms-traffictypediagnostic: AM0SPR01MB0059:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <AM0SPR01MB0059F0621B3DB48B1D697EA0C1EE0@AM0SPR01MB0059.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4303;
+x-forefront-prvs: 0068C7E410
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(979002)(366004)(346002)(39850400004)(376002)(136003)(396003)(189003)(199004)(2501003)(6246003)(54906003)(25786009)(478600001)(110136005)(52116002)(3846002)(966005)(76176011)(8936002)(14454004)(2906002)(99286004)(31686004)(256004)(36756003)(8676002)(14444005)(5660300002)(81156014)(81166006)(316002)(71190400001)(71200400001)(386003)(53936002)(4326008)(6436002)(486006)(6486002)(6116002)(102836004)(66066001)(31696002)(53546011)(6506007)(86362001)(26005)(476003)(68736007)(6512007)(186003)(11346002)(6306002)(446003)(2616005)(64756008)(66446008)(7736002)(66946007)(229853002)(73956011)(305945005)(66556008)(66476007)(969003)(989001)(999001)(1009001)(1019001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:AM0SPR01MB0059;
+ H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: G6meGzeCKPOhd2JYCdq9FUGH+W82F60n9ysVRwVZZZZjEOGCRFcJLN3tyQ54nxkqFblQIvMktXClLzOQDT/uYPr/DFTAXHbdYoATAIajBQTgGmdB0vD+9PvYuTK9TPIjrUkoMFPT+Bg4oyaodnNm5JUZW8faTdBMyiYedxqKt6H3RHTr+HCUJAvmCIzOUji9V7cXjrgaU6v/FK0XTrjRAPiWM8XKMT7T+eBJFf4kD0t5+qOj35XkccTDcWwcYxPprgcr6tt151eOQE4yEZPFR1YsU7FcOVWuiP4JC06s6jDilGbmGQX+RJ0RMxhhUgPACAgyT4+YylWe6VTHtzTMEylFrUg1llDc1Ib/yhc47QbxZnUTtndVjTAKBSydksxqB94MXPB2AMO7sHGZYW/XWKITD5gqeI103O1rRJ0sfj0=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FBBD2A396E9E414689B200A2C4E8B98B@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190422103420.15686-1-yury-kotov@yandex-team.ru>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 14 Jun 2019 16:39:28 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] migration: Add error_desc for file channel
- errors
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90eb744a-f0f2-46c0-dc9a-08d6f0e6e064
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 16:39:31.9503 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0SPR01MB0059
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.4.107
+Subject: Re: [Qemu-devel] [PATCH v5 14/42] block: Use CAFs when working with
+ backing chains
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,444 +106,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
- yc-core@yandex-team.ru, Juan Quintela <quintela@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Yury Kotov (yury-kotov@yandex-team.ru) wrote:
-> Currently, there is no information about error if outgoing migration was failed
-> because of file channel errors.
-> Example (QMP session):
-> -> { "execute": "migrate", "arguments": { "uri": "exec:head -c 1" }}
-> <- { "return": {} }
-> ...
-> -> { "execute": "query-migrate" }
-> <- { "return": { "status": "failed" }} // There is not error's description
-> 
-> And even in the QEMU's output there is nothing.
-> 
-> This patch
-> 1) Adds errp for the most of QEMUFileOps
-> 2) Adds qemu_file_get_error_obj/qemu_file_set_error_obj
-> 3) And finally using of qemu_file_get_error_obj in migration.c
-> 
-> And now, the status for the mentioned fail will be:
-> -> { "execute": "query-migrate" }
-> <- { "return": { "status": "failed",
->                  "error-desc": "Unable to write to command: Broken pipe" }}
-> 
-> Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  migration/migration.c         | 10 ++++--
->  migration/qemu-file-channel.c | 30 +++++++++--------
->  migration/qemu-file.c         | 63 ++++++++++++++++++++++++++++-------
->  migration/qemu-file.h         | 15 ++++++---
->  migration/savevm.c            |  6 ++--
->  5 files changed, 88 insertions(+), 36 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 609e0df5d0..7bcdc4613b 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -2949,6 +2949,7 @@ static MigThrError migration_detect_error(MigrationState *s)
->  {
->      int ret;
->      int state = s->state;
-> +    Error *local_error = NULL;
->  
->      if (state == MIGRATION_STATUS_CANCELLING ||
->          state == MIGRATION_STATUS_CANCELLED) {
-> @@ -2957,13 +2958,18 @@ static MigThrError migration_detect_error(MigrationState *s)
->      }
->  
->      /* Try to detect any file errors */
-> -    ret = qemu_file_get_error(s->to_dst_file);
-> -
-> +    ret = qemu_file_get_error_obj(s->to_dst_file, &local_error);
->      if (!ret) {
->          /* Everything is fine */
-> +        assert(!local_error);
->          return MIG_THR_ERR_NONE;
->      }
->  
-> +    if (local_error) {
-> +        migrate_set_error(s, local_error);
-> +        error_free(local_error);
-> +    }
-> +
->      if (state == MIGRATION_STATUS_POSTCOPY_ACTIVE && ret == -EIO) {
->          /*
->           * For postcopy, we allow the network to be down for a
-> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
-> index 8e639eb496..c382ea2d78 100644
-> --- a/migration/qemu-file-channel.c
-> +++ b/migration/qemu-file-channel.c
-> @@ -33,7 +33,8 @@
->  static ssize_t channel_writev_buffer(void *opaque,
->                                       struct iovec *iov,
->                                       int iovcnt,
-> -                                     int64_t pos)
-> +                                     int64_t pos,
-> +                                     Error **errp)
->  {
->      QIOChannel *ioc = QIO_CHANNEL(opaque);
->      ssize_t done = 0;
-> @@ -47,7 +48,7 @@ static ssize_t channel_writev_buffer(void *opaque,
->  
->      while (nlocal_iov > 0) {
->          ssize_t len;
-> -        len = qio_channel_writev(ioc, local_iov, nlocal_iov, NULL);
-> +        len = qio_channel_writev(ioc, local_iov, nlocal_iov, errp);
->          if (len == QIO_CHANNEL_ERR_BLOCK) {
->              if (qemu_in_coroutine()) {
->                  qio_channel_yield(ioc, G_IO_OUT);
-> @@ -57,7 +58,6 @@ static ssize_t channel_writev_buffer(void *opaque,
->              continue;
->          }
->          if (len < 0) {
-> -            /* XXX handle Error objects */
->              done = -EIO;
->              goto cleanup;
->          }
-> @@ -75,13 +75,14 @@ static ssize_t channel_writev_buffer(void *opaque,
->  static ssize_t channel_get_buffer(void *opaque,
->                                    uint8_t *buf,
->                                    int64_t pos,
-> -                                  size_t size)
-> +                                  size_t size,
-> +                                  Error **errp)
->  {
->      QIOChannel *ioc = QIO_CHANNEL(opaque);
->      ssize_t ret;
->  
->      do {
-> -        ret = qio_channel_read(ioc, (char *)buf, size, NULL);
-> +        ret = qio_channel_read(ioc, (char *)buf, size, errp);
->          if (ret < 0) {
->              if (ret == QIO_CHANNEL_ERR_BLOCK) {
->                  if (qemu_in_coroutine()) {
-> @@ -90,7 +91,6 @@ static ssize_t channel_get_buffer(void *opaque,
->                      qio_channel_wait(ioc, G_IO_IN);
->                  }
->              } else {
-> -                /* XXX handle Error * object */
->                  return -EIO;
->              }
->          }
-> @@ -100,18 +100,20 @@ static ssize_t channel_get_buffer(void *opaque,
->  }
->  
->  
-> -static int channel_close(void *opaque)
-> +static int channel_close(void *opaque, Error **errp)
->  {
-> +    int ret;
->      QIOChannel *ioc = QIO_CHANNEL(opaque);
-> -    qio_channel_close(ioc, NULL);
-> +    ret = qio_channel_close(ioc, errp);
->      object_unref(OBJECT(ioc));
-> -    return 0;
-> +    return ret;
->  }
->  
->  
->  static int channel_shutdown(void *opaque,
->                              bool rd,
-> -                            bool wr)
-> +                            bool wr,
-> +                            Error **errp)
->  {
->      QIOChannel *ioc = QIO_CHANNEL(opaque);
->  
-> @@ -125,8 +127,7 @@ static int channel_shutdown(void *opaque,
->          } else {
->              mode = QIO_CHANNEL_SHUTDOWN_WRITE;
->          }
-> -        if (qio_channel_shutdown(ioc, mode, NULL) < 0) {
-> -            /* XXX handler Error * object */
-> +        if (qio_channel_shutdown(ioc, mode, errp) < 0) {
->              return -EIO;
->          }
->      }
-> @@ -135,11 +136,12 @@ static int channel_shutdown(void *opaque,
->  
->  
->  static int channel_set_blocking(void *opaque,
-> -                                bool enabled)
-> +                                bool enabled,
-> +                                Error **errp)
->  {
->      QIOChannel *ioc = QIO_CHANNEL(opaque);
->  
-> -    if (qio_channel_set_blocking(ioc, enabled, NULL) < 0) {
-> +    if (qio_channel_set_blocking(ioc, enabled, errp) < 0) {
->          return -1;
->      }
->      return 0;
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 977b9ae07c..c52160e08b 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -29,6 +29,7 @@
->  #include "migration.h"
->  #include "qemu-file.h"
->  #include "trace.h"
-> +#include "qapi/error.h"
->  
->  #define IO_BUF_SIZE 32768
->  #define MAX_IOV_SIZE MIN(IOV_MAX, 64)
-> @@ -52,6 +53,7 @@ struct QEMUFile {
->      unsigned int iovcnt;
->  
->      int last_error;
-> +    Error *last_error_obj;
->  };
->  
->  /*
-> @@ -63,7 +65,7 @@ int qemu_file_shutdown(QEMUFile *f)
->      if (!f->ops->shut_down) {
->          return -ENOSYS;
->      }
-> -    return f->ops->shut_down(f->opaque, true, true);
-> +    return f->ops->shut_down(f->opaque, true, true, NULL);
->  }
->  
->  /*
-> @@ -108,24 +110,55 @@ void qemu_file_set_hooks(QEMUFile *f, const QEMUFileHooks *hooks)
->  }
->  
->  /*
-> - * Get last error for stream f
-> + * Get last error for stream f with optional Error*
->   *
->   * Return negative error value if there has been an error on previous
->   * operations, return 0 if no error happened.
-> + * Optional, it returns Error* in errp, but it may be NULL even if return value
-> + * is not 0.
->   *
->   */
-> -int qemu_file_get_error(QEMUFile *f)
-> +int qemu_file_get_error_obj(QEMUFile *f, Error **errp)
->  {
-> +    if (errp) {
-> +        *errp = f->last_error_obj ? error_copy(f->last_error_obj) : NULL;
-> +    }
->      return f->last_error;
->  }
->  
-> -void qemu_file_set_error(QEMUFile *f, int ret)
-> +/*
-> + * Set the last error for stream f with optional Error*
-> + */
-> +void qemu_file_set_error_obj(QEMUFile *f, int ret, Error *err)
->  {
-> -    if (f->last_error == 0) {
-> +    if (f->last_error == 0 && ret) {
->          f->last_error = ret;
-> +        error_propagate(&f->last_error_obj, err);
-> +    } else if (err) {
-> +        error_report_err(err);
->      }
->  }
->  
-> +/*
-> + * Get last error for stream f
-> + *
-> + * Return negative error value if there has been an error on previous
-> + * operations, return 0 if no error happened.
-> + *
-> + */
-> +int qemu_file_get_error(QEMUFile *f)
-> +{
-> +    return qemu_file_get_error_obj(f, NULL);
-> +}
-> +
-> +/*
-> + * Set the last error for stream f
-> + */
-> +void qemu_file_set_error(QEMUFile *f, int ret)
-> +{
-> +    qemu_file_set_error_obj(f, ret, NULL);
-> +}
-> +
->  bool qemu_file_is_writable(QEMUFile *f)
->  {
->      return f->ops->writev_buffer;
-> @@ -177,6 +210,7 @@ void qemu_fflush(QEMUFile *f)
->  {
->      ssize_t ret = 0;
->      ssize_t expect = 0;
-> +    Error *local_error = NULL;
->  
->      if (!qemu_file_is_writable(f)) {
->          return;
-> @@ -184,7 +218,8 @@ void qemu_fflush(QEMUFile *f)
->  
->      if (f->iovcnt > 0) {
->          expect = iov_size(f->iov, f->iovcnt);
-> -        ret = f->ops->writev_buffer(f->opaque, f->iov, f->iovcnt, f->pos);
-> +        ret = f->ops->writev_buffer(f->opaque, f->iov, f->iovcnt, f->pos,
-> +                                    &local_error);
->  
->          qemu_iovec_release_ram(f);
->      }
-> @@ -196,7 +231,7 @@ void qemu_fflush(QEMUFile *f)
->       * data set we requested, so sanity check that.
->       */
->      if (ret != expect) {
-> -        qemu_file_set_error(f, ret < 0 ? ret : -EIO);
-> +        qemu_file_set_error_obj(f, ret < 0 ? ret : -EIO, local_error);
->      }
->      f->buf_index = 0;
->      f->iovcnt = 0;
-> @@ -284,6 +319,7 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
->  {
->      int len;
->      int pending;
-> +    Error *local_error = NULL;
->  
->      assert(!qemu_file_is_writable(f));
->  
-> @@ -295,14 +331,16 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
->      f->buf_size = pending;
->  
->      len = f->ops->get_buffer(f->opaque, f->buf + pending, f->pos,
-> -                        IO_BUF_SIZE - pending);
-> +                             IO_BUF_SIZE - pending, &local_error);
->      if (len > 0) {
->          f->buf_size += len;
->          f->pos += len;
->      } else if (len == 0) {
-> -        qemu_file_set_error(f, -EIO);
-> +        qemu_file_set_error_obj(f, -EIO, local_error);
->      } else if (len != -EAGAIN) {
-> -        qemu_file_set_error(f, len);
-> +        qemu_file_set_error_obj(f, len, local_error);
-> +    } else {
-> +        error_free(local_error);
->      }
->  
->      return len;
-> @@ -328,7 +366,7 @@ int qemu_fclose(QEMUFile *f)
->      ret = qemu_file_get_error(f);
->  
->      if (f->ops->close) {
-> -        int ret2 = f->ops->close(f->opaque);
-> +        int ret2 = f->ops->close(f->opaque, NULL);
->          if (ret >= 0) {
->              ret = ret2;
->          }
-> @@ -339,6 +377,7 @@ int qemu_fclose(QEMUFile *f)
->      if (f->last_error) {
->          ret = f->last_error;
->      }
-> +    error_free(f->last_error_obj);
->      g_free(f);
->      trace_qemu_file_fclose();
->      return ret;
-> @@ -784,6 +823,6 @@ void qemu_put_counted_string(QEMUFile *f, const char *str)
->  void qemu_file_set_blocking(QEMUFile *f, bool block)
->  {
->      if (f->ops->set_blocking) {
-> -        f->ops->set_blocking(f->opaque, block);
-> +        f->ops->set_blocking(f->opaque, block, NULL);
->      }
->  }
-> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
-> index 13baf896bd..eb886db65f 100644
-> --- a/migration/qemu-file.h
-> +++ b/migration/qemu-file.h
-> @@ -32,7 +32,8 @@
->   * bytes actually read should be returned.
->   */
->  typedef ssize_t (QEMUFileGetBufferFunc)(void *opaque, uint8_t *buf,
-> -                                        int64_t pos, size_t size);
-> +                                        int64_t pos, size_t size,
-> +                                        Error **errp);
->  
->  /* Close a file
->   *
-> @@ -41,7 +42,7 @@ typedef ssize_t (QEMUFileGetBufferFunc)(void *opaque, uint8_t *buf,
->   * The meaning of return value on success depends on the specific back-end being
->   * used.
->   */
-> -typedef int (QEMUFileCloseFunc)(void *opaque);
-> +typedef int (QEMUFileCloseFunc)(void *opaque, Error **errp);
->  
->  /* Called to return the OS file descriptor associated to the QEMUFile.
->   */
-> @@ -49,14 +50,15 @@ typedef int (QEMUFileGetFD)(void *opaque);
->  
->  /* Called to change the blocking mode of the file
->   */
-> -typedef int (QEMUFileSetBlocking)(void *opaque, bool enabled);
-> +typedef int (QEMUFileSetBlocking)(void *opaque, bool enabled, Error **errp);
->  
->  /*
->   * This function writes an iovec to file. The handler must write all
->   * of the data or return a negative errno value.
->   */
->  typedef ssize_t (QEMUFileWritevBufferFunc)(void *opaque, struct iovec *iov,
-> -                                           int iovcnt, int64_t pos);
-> +                                           int iovcnt, int64_t pos,
-> +                                           Error **errp);
->  
->  /*
->   * This function provides hooks around different
-> @@ -97,7 +99,8 @@ typedef QEMUFile *(QEMURetPathFunc)(void *opaque);
->   * Existing blocking reads/writes must be woken
->   * Returns 0 on success, -err on error
->   */
-> -typedef int (QEMUFileShutdownFunc)(void *opaque, bool rd, bool wr);
-> +typedef int (QEMUFileShutdownFunc)(void *opaque, bool rd, bool wr,
-> +                                   Error **errp);
->  
->  typedef struct QEMUFileOps {
->      QEMUFileGetBufferFunc *get_buffer;
-> @@ -149,6 +152,8 @@ void qemu_update_position(QEMUFile *f, size_t size);
->  void qemu_file_reset_rate_limit(QEMUFile *f);
->  void qemu_file_set_rate_limit(QEMUFile *f, int64_t new_rate);
->  int64_t qemu_file_get_rate_limit(QEMUFile *f);
-> +int qemu_file_get_error_obj(QEMUFile *f, Error **errp);
-> +void qemu_file_set_error_obj(QEMUFile *f, int ret, Error *err);
->  void qemu_file_set_error(QEMUFile *f, int ret);
->  int qemu_file_shutdown(QEMUFile *f);
->  QEMUFile *qemu_file_get_return_path(QEMUFile *f);
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 34bcad3807..a619af744d 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -124,7 +124,7 @@ static struct mig_cmd_args {
->  /* savevm/loadvm support */
->  
->  static ssize_t block_writev_buffer(void *opaque, struct iovec *iov, int iovcnt,
-> -                                   int64_t pos)
-> +                                   int64_t pos, Error **errp)
->  {
->      int ret;
->      QEMUIOVector qiov;
-> @@ -139,12 +139,12 @@ static ssize_t block_writev_buffer(void *opaque, struct iovec *iov, int iovcnt,
->  }
->  
->  static ssize_t block_get_buffer(void *opaque, uint8_t *buf, int64_t pos,
-> -                                size_t size)
-> +                                size_t size, Error **errp)
->  {
->      return bdrv_load_vmstate(opaque, buf, pos, size);
->  }
->  
-> -static int bdrv_fclose(void *opaque)
-> +static int bdrv_fclose(void *opaque, Error **errp)
->  {
->      return bdrv_flush(opaque);
->  }
-> -- 
-> 2.21.0
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+MTQuMDYuMjAxOSAxOTowMiwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAxNC4wNi4xOSAxNjozMSwg
+VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IDE0LjA2LjIwMTkgMTY6NTAs
+IE1heCBSZWl0eiB3cm90ZToNCj4+PiBPbiAxNC4wNi4xOSAxNToyNiwgVmxhZGltaXIgU2VtZW50
+c292LU9naWV2c2tpeSB3cm90ZToNCj4+Pj4gMTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3Jv
+dGU6DQo+Pj4+PiBVc2UgY2hpbGQgYWNjZXNzIGZ1bmN0aW9ucyB3aGVuIGl0ZXJhdGluZyB0aHJv
+dWdoIGJhY2tpbmcgY2hhaW5zIHNvDQo+Pj4+PiBmaWx0ZXJzIGRvIG5vdCBicmVhayB0aGUgY2hh
+aW4uDQo+Pj4+Pg0KPj4+Pj4gU2lnbmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVpdHpAcmVkaGF0
+LmNvbT4NCj4+Pj4+IC0tLQ0KPj4+Pj4gICAgIGJsb2NrLmMgfCA0MCArKysrKysrKysrKysrKysr
+KysrKysrKysrKysrLS0tLS0tLS0tLS0tDQo+Pj4+PiAgICAgMSBmaWxlIGNoYW5nZWQsIDI4IGlu
+c2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQ0KPj4+Pj4NCj4+Pj4+IGRpZmYgLS1naXQgYS9i
+bG9jay5jIGIvYmxvY2suYw0KPj4+Pj4gaW5kZXggMTFmMzc5ODNkOS4uNTA1YjNlOWEwMSAxMDA2
+NDQNCj4+Pj4+IC0tLSBhL2Jsb2NrLmMNCj4+Pj4+ICsrKyBiL2Jsb2NrLmMNCj4+Pg0KPj4+IFsu
+Li5dDQo+Pj4NCj4+Pj4+IEBAIC00MjczLDExICs0Mjc0LDE4IEBAIGludCBiZHJ2X2NoYW5nZV9i
+YWNraW5nX2ZpbGUoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsDQo+Pj4+PiAgICAgQmxvY2tEcml2ZXJT
+dGF0ZSAqYmRydl9maW5kX292ZXJsYXkoQmxvY2tEcml2ZXJTdGF0ZSAqYWN0aXZlLA0KPj4+Pj4g
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEJsb2NrRHJpdmVyU3RhdGUg
+KmJzKQ0KPj4+Pj4gICAgIHsNCj4+Pj4+IC0gICAgd2hpbGUgKGFjdGl2ZSAmJiBicyAhPSBiYWNr
+aW5nX2JzKGFjdGl2ZSkpIHsNCj4+Pj4+IC0gICAgICAgIGFjdGl2ZSA9IGJhY2tpbmdfYnMoYWN0
+aXZlKTsNCj4+Pj4+ICsgICAgYnMgPSBiZHJ2X3NraXBfcndfZmlsdGVycyhicyk7DQo+Pj4+PiAr
+ICAgIGFjdGl2ZSA9IGJkcnZfc2tpcF9yd19maWx0ZXJzKGFjdGl2ZSk7DQo+Pj4+PiArDQo+Pj4+
+PiArICAgIHdoaWxlIChhY3RpdmUpIHsNCj4+Pj4+ICsgICAgICAgIEJsb2NrRHJpdmVyU3RhdGUg
+Km5leHQgPSBiZHJ2X2JhY2tpbmdfY2hhaW5fbmV4dChhY3RpdmUpOw0KPj4+Pj4gKyAgICAgICAg
+aWYgKGJzID09IG5leHQpIHsNCj4+Pj4+ICsgICAgICAgICAgICByZXR1cm4gYWN0aXZlOw0KPj4+
+Pj4gKyAgICAgICAgfQ0KPj4+Pj4gKyAgICAgICAgYWN0aXZlID0gbmV4dDsNCj4+Pj4+ICAgICAg
+ICAgfQ0KPj4+Pj4gICAgIA0KPj4+Pj4gLSAgICByZXR1cm4gYWN0aXZlOw0KPj4+Pj4gKyAgICBy
+ZXR1cm4gTlVMTDsNCj4+Pj4+ICAgICB9DQo+Pj4+DQo+Pj4+IFNlbWFudGljcyBjaGFuZ2VkIGZv
+ciB0aGlzIGZ1bmN0aW9uLg0KPj4+PiBJdCBpcyB1c2VkIGluIHR3byBwbGFjZXMNCj4+Pj4gMS4g
+ZnJvbSBiZHJ2X2ZpbmRfYmFzZSB3dGloIEBicz1OVUxMLCBpdCBzaG91bGQgYmUgdW5jaGFuZ2Vk
+LCBhcyBJIGhvcGUgd2Ugd2lsbCBuZXZlciBoYXZlDQo+Pj4+ICAgICAgIGZpbHRlciBub2RlIGFz
+IGEgYm90dG9tIG9mIHNvbWUgdmFsaWQgY2hhaW4NCj4+Pj4NCj4+Pj4gMi4gZnJvbSBxbXBfYmxv
+Y2tfY29tbWl0LCBvbmx5IHRvIGNoZWNrIG9wLWJsb2NrZXIuLi4gaG1tbS4gSSByZWFsbHkgZG9u
+J3QgdW5kZXJzdGFuZCwNCj4+Pj4gd2h5IGRvIHdlIGNoZWNrIEJMT0NLX09QX1RZUEVfQ09NTUlU
+X1RBUkdFVCBvbiB0b3BfYnMgb3ZlcmxheS4uIHRvcF9icyBvdmVybGF5IGlzIG91dCBvZiB0aGUg
+am9iLA0KPj4+PiB3aGF0IGlzIHRoaXMgY2hlY2sgZm9yPw0KPj4+DQo+Pj4gVGhlcmUgaXMgYSBs
+b29wIGJlZm9yZSB0aGlzIGNoZWNrIHdoaWNoIGNoZWNrcyB0aGF0IHRoZSBzYW1lIGJsb2NrZXIg
+aXMNCj4+PiBub3Qgc2V0IG9uIGFueSBub2RlcyBiZXR3ZWVuIHRvcCBhbmQgYmFzZSAoYm90aCBp
+bmNsdXNpdmUpLiAgSSBndWVzcw0KPj4+IG5vbi1hY3RpdmUgY29tbWl0IGNoZWNrcyB0aGUgbm9k
+ZSBhYm92ZSBAdG9wLCB0b28sIGJlY2F1c2UgaXRzIGJhY2tpbmcNCj4+PiBmaWxlIHdpbGwgY2hh
+bmdlLg0KPj4NCj4+IFNvIGluIHRoaXMgY2FzZSBmcm96ZW4gY2hhaW4gd29ya3MgYmV0dGVyLg0K
+PiANCj4gUGVyaGFwcy4gIFRoZSBvcCBibG9ja2VycyBhcmUgaW4gdGhpcyB3ZWlyZCBzdGF0ZSBh
+bnl3YXkuICBJIGRvbuKAmXQgdGhpbmsNCj4gd2UgZXZlbiBuZWVkIHRoZW0gYW55IG1vcmUsIGJl
+Y2F1c2UgdGhlIHBlcm1pc3Npb25zIHdlcmUgaW50ZW5kZWQgdG8NCj4gcmVwbGFjZSB0aGVtICh0
+aGV5IHdlcmUgb3JpZ2luYWxseSBjYWxsZWQg4oCcZmluZS1ncmFpbmVkIG9wIGJsb2NrZXJz4oCd
+LCBJDQo+IHNlZW0gdG8gcmVtZW1iZXIpLg0KPiANCj4gSSBkYXJlIG5vdCB0b3VjaCB0aGVtLg0K
+PiANCj4+Pj4+ICAgICAvKiBHaXZlbiBhIEJEUywgc2VhcmNoZXMgZm9yIHRoZSBiYXNlIGxheWVy
+LiAqLw0KPj4+DQo+Pj4gWy4uLl0NCj4+Pg0KPj4+Pj4gQEAgLTUxNDksNyArNTE2NSw3IEBAIEJs
+b2NrRHJpdmVyU3RhdGUgKmJkcnZfZmluZF9iYWNraW5nX2ltYWdlKEJsb2NrRHJpdmVyU3RhdGUg
+KmJzLA0KPj4+Pj4gICAgICAgICAgICAgICAgIGNoYXIgKmJhY2tpbmdfZmlsZV9mdWxsX3JldDsN
+Cj4+Pj4+ICAgICANCj4+Pj4+ICAgICAgICAgICAgICAgICBpZiAoc3RyY21wKGJhY2tpbmdfZmls
+ZSwgY3Vycl9icy0+YmFja2luZ19maWxlKSA9PSAwKSB7DQo+Pj4+DQo+Pj4+IGhtbSwgaW50ZXJl
+c3RpbmcsIHdoYXQgYnMtPmJhY2tpbmdfZmlsZSBub3cgbWVhbnM/IEl0J3Mgc3RyYW5nZSBlbm91
+Z2ggdG8gc3RvcmUgc3VjaCBmaWVsZCBvbg0KPj4+PiBiZHMsIHdoZW4gd2UgaGF2ZSBiYWNraW5n
+IGxpbmsgYW55d2F5Li4NCj4+Pg0KPj4+IFBhdGNoIDM3IGhhcyB5b3UgY292ZXJlZC4gOi0pDQo+
+Pj4NCj4+DQo+PiBIbW0sIGlmIGl0IGhhcyByZW1vdmVkIHRoaXMgZmllbGQsIGJ1dCBpdCBkb2Vz
+bid0KQ0KPiANCj4gQmVjYXVzZSBpdOKAmXMgbmVlZGVkLiAgKEp1c3Qgbm90IGluIHRoZSBjdXJy
+ZW50IGZvcm0sIGJ1dCB0aGF04oCZcyB3aGF0IDM3DQo+IGlzIGZvci4pDQo+IA0KPj4gU28sIHdl
+IGZpbmlzaGVkIHdpdGggc29tZSBvYmplY3QsIGNhbGxlZCAib3ZlcmxheSIsIGJ1dCBpdCBpcyBu
+b3QgYW4gb3ZlcmxheSBvZiBicywgaXQncyBvdmVybGF5IG9mDQo+PiBmaXJzdCBub24taW1wbGlj
+aXQgZmlsdGVyZWQgbm9kZSBpbiBicyBiYWNraW5nIGNoYWluLCBpdCBtYXkgYmUgZm91bmQgYnkg
+YmRydl9maW5kX292ZXJsYXkoKSBoZWxwZXIgKHdoaWNoIGlzDQo+PiBhbG1vc3QgdW51c2VkIGFu
+ZCBteSBiZSBzYWZlbHkgZHJvcHBlZCksIGFuZCBmaWxlbmFtZSBvZiB0aGlzICJvdmVybGF5IiBp
+cyBzdG9yZWQgaW4gYnMtPmJhY2tpbmdfZmlsZSBzdHJpbmcNCj4+IHZhcmlhYmxlLCBrZWVwaW5n
+IGluIG1pbmQgdGhhdCBicy0+YmFja2luZyBpcyBwb2ludGVyIHRvIGJhY2tpbmcgY2hpbGQgb2Yg
+YnMgd2hpY2ggaXMgY29tcGxldGVseSBhbm90aGVyIHRoaW5nPw0KPiANCj4gSSBkb27igJl0IHF1
+aXRlIHNlZSB3aGF0IHlvdSBtZWFuLiAgVGhlcmUgaXMgbm8g4oCcb3ZlcmxheeKAnSBpbiB0aGlz
+IGZ1bmN0aW9uLg0KDQpIbW0sIHNvcnJ5LCBJIGtlcHQgaW4gbWluZCBvdmVybGF5IGZyb20gdGhl
+IG5leHQgcGF0Y2guLg0KDQo+IA0KPj4gT2gsIG5vLCBldmVyeXRoaW5nIHJlbGF0ZWQgdG8gZmls
+ZW5hbWUtYmFzZWQgYmFja2luZyBjaGFpbiBsb2dpYyBpcyBub3QgZm9yIG1lIG9fTy4gSWYgc29t
+ZXRoaW5nIGRvZXNuJ3Qgd29yaw0KPj4gd2l0aCBmaWxlbmFtZS1iYXNlZCBsb2dpYyB1c2VycyBz
+aG91bGQgdXNlIG5vZGUtbmFtZXMuLg0KPiANCj4gSW4gdGhlb3J5IHllcywgYnV0IHRoYXQgaXNu
+4oCZdCBhbiBvcHRpb24gZm9yIHFlbXUtaW1nIGNvbW1pdCwgZm9yIGV4YW1wbGUuDQoNCkFuZCBp
+ZiBzb21ldGhpbmcgZG9lc24ndCB3b3JrIHdpdGggcWVtdS1pbWcsIHVzZXJzIHNob3VsZCB1c2Ug
+cWVtdSBwcm9jZXNzIGluIHN0b3BwZWQgc3RhdGUuIEFuZCBJJ2QgcHJlZmVyIHRvDQpkZXByZWNh
+dGUgbW9zdCBvZiBxZW11LWltZyA6KSBBY3R1YWxseSB3ZSBpbiBWaXJ0dW96em8gYWxyZWFkeSBn
+byB0aGlzIHdheSBmb3Igc29tZSB0aGluZ3MuIFFNUCBpbnRlcmZhY2UgaXMNCmEgbG90IG1vcmUg
+dXNlZnVsIHRoYW4gcWVtdS1pbWcsIGFuZCBpdCdzIGFsd2F5cyBzaW1wbGVyIHRvIG1haW50YWlu
+IGFuZCBkZXZlbG9wIG9uZSB0aGluZyB0aGFuIHR3by4NCg0KPiANCj4+IEFuZCBJJ2QgcHJlZmVy
+IHRvIGRlcHJlY2F0ZSBmaWxlbmFtZSBiYXNlZCBpbnRlcmZhY2VzIGF0IGFsbC4NCj4gDQo+IE1l
+IHRvby4NCj4gDQo+IGh0dHBzOi8vbGlzdHMubm9uZ251Lm9yZy9hcmNoaXZlL2h0bWwvcWVtdS1k
+ZXZlbC8yMDE0LTA5L21zZzA0ODc4Lmh0bWwNCj4gDQo+IDotLw0KPiANCg0KUmVhbGx5IHNhZC4u
+DQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
