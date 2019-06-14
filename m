@@ -2,94 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2DC463B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:13:15 +0200 (CEST)
-Received: from localhost ([::1]:53056 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971E6463F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:23:37 +0200 (CEST)
+Received: from localhost ([::1]:53252 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbopG-0001PD-Fq
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:13:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59045)
+	id 1hbozG-0002qD-DP
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60414)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hboPn-0000U0-HY
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:46:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hboVs-0004eO-5W
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:53:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hboPl-0005e8-MH
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:46:55 -0400
-Received: from mail-eopbgr00120.outbound.protection.outlook.com
- ([40.107.0.120]:40459 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hboPk-0005TC-Ak; Fri, 14 Jun 2019 11:46:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=misyyMe+w2cGO0plCZrLgu9+pJZlacMdkmD1Ykmt9PI=;
- b=NUBluCEJFhneybf0vHWWzUV/I7OnqSJ2LUWVQMS4IzRxet0rm201YkhRe54FAIBDty0Gk5bUQkdRXfC+SFfRVDA3JlkUlwBhgThBXJCSaXcUtAJHQnSPFvpzcagprYjHMEsznG7rn8m9V97xP0y7/qFl1+E0lkbYWUkAu2hSMko=
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
- AM0PR08MB4498.eurprd08.prod.outlook.com (20.179.33.74) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.14; Fri, 14 Jun 2019 15:46:36 +0000
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
- 15:46:36 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v5 23/42] blockdev: Use CAF in external_snapshot_prepare()
-Thread-Index: AQHVIWu9uMzK/TD2M0yxTGXrEn+VtaabTdeA
-Date: Fri, 14 Jun 2019 15:46:35 +0000
-Message-ID: <112404e2-7172-865c-d888-6a5cddcc40ec@virtuozzo.com>
+ (envelope-from <mreitz@redhat.com>) id 1hboVq-00016s-51
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:53:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52994)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hboVm-00013T-QI; Fri, 14 Jun 2019 11:53:07 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 790BB3086202;
+ Fri, 14 Jun 2019 15:53:00 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BEE32D26D;
+ Fri, 14 Jun 2019 15:52:58 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-24-mreitz@redhat.com>
-In-Reply-To: <20190612221004.2317-24-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR09CA0085.eurprd09.prod.outlook.com
- (2603:10a6:7:3d::29) To AM0PR08MB3572.eurprd08.prod.outlook.com
- (2603:10a6:208:e1::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190614184633443
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 56910d3d-9441-4a5e-a007-08d6f0df7b04
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:AM0PR08MB4498; 
-x-ms-traffictypediagnostic: AM0PR08MB4498:
-x-microsoft-antispam-prvs: <AM0PR08MB4498E7954FADE194105185B5C1EE0@AM0PR08MB4498.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 0068C7E410
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(136003)(346002)(366004)(396003)(39850400004)(189003)(199004)(476003)(76176011)(2616005)(11346002)(36756003)(81156014)(478600001)(6116002)(6506007)(66476007)(8936002)(386003)(73956011)(66946007)(31686004)(486006)(52116002)(305945005)(3846002)(7736002)(66556008)(2501003)(66446008)(64756008)(229853002)(446003)(99286004)(71200400001)(71190400001)(8676002)(53936002)(6246003)(6436002)(316002)(68736007)(110136005)(6486002)(5660300002)(14444005)(66066001)(14454004)(86362001)(4326008)(256004)(186003)(54906003)(81166006)(25786009)(31696002)(26005)(6512007)(102836004)(2906002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4498;
- H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 4g6TiwT8MV2W2KYfpMKADCvyGo/7cVdoP2J24zDnktqEYQFR92Llu+7yQ0tB0lKRt86LxCI1qi888Y4ESXXxAVJb93EFMH5hG0T48kINALH2VUfuWxPmeWhEpio6cIMaPybWc+T9/L4nbOfE9woteCu/321XYjmOTLchBS23Jq9Pe5DjKYHoTMr5D2jVekZUexcODZ71m+AY77SdjlXM0oT8iVa5vHv9sM7UgDkWltosLjjkuMNZx75mtjY+XF6NuEKnWUFyg3e1Xx3An/y6Kq+XcbGY6EFX09j1HyzN4l6VdMTbLPkvK6tFFcZ+m3wJto+tbA45bVtPhEQzVQyRNuTWPiTXxMgyyvQ2l3Z5u3/YVTx457DpxuNqpm5vmRN0riPLn2R0sOtySoWFkwjcrzEFzbqH++ROuoEYWofuzMw=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <78AD2A579EBDA74F9793526897A4388F@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ <20190612221004.2317-16-mreitz@redhat.com>
+ <9e448427-1d53-c1a7-c51f-123acf6eccaf@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <3f7ec115-9014-e375-ac7a-4b1ea46873e6@redhat.com>
+Date: Fri, 14 Jun 2019 17:52:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56910d3d-9441-4a5e-a007-08d6f0df7b04
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 15:46:35.9903 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4498
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.0.120
-Subject: Re: [Qemu-devel] [PATCH v5 23/42] blockdev: Use CAF in
- external_snapshot_prepare()
+In-Reply-To: <9e448427-1d53-c1a7-c51f-123acf6eccaf@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="3clvIKI2ps1QoeDEkPoDRDmbcrhCqGfiR"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.42]); Fri, 14 Jun 2019 15:53:00 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 15/42] block: Re-evaluate backing file
+ handling in reopen
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,29 +92,235 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFRoaXMgYWxsb3dzIHVzIHRvIGRp
-ZmZlcmVudGlhdGUgYmV0d2VlbiBmaWx0ZXJzIGFuZCBub2RlcyB3aXRoIENPVw0KPiBiYWNraW5n
-IGZpbGVzOiBGaWx0ZXJzIGNhbm5vdCBiZSB1c2VkIGFzIG92ZXJsYXlzIGF0IGFsbCAoZm9yIHRo
-aXMNCj4gZnVuY3Rpb24pLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogTWF4IFJlaXR6IDxtcmVpdHpA
-cmVkaGF0LmNvbT4NCg0KT3ZlcmxheSBjcmVhdGVkIGluIHNuYXBzaG90IG9wZXJhdGlvbiBhc3N1
-bWVkIHRvIGNvbnN1bWUgZm9sbG93aW5nIHdyaXRlcw0KYW5kIGl0J3MgZmlsdGVyZWQgY2hpbGQg
-YmVjb21lcyByZWFkb25seS4uIEFuZCBmaWx0ZXIgd29ya3MgaW4gY29tcGxldGVseSBhbm90aGVy
-DQp3YXkuDQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2Vt
-ZW50c292QHZpcnR1b3p6by5jb20+DQoNCltobW0sIEkgc3RhcnQgdG8gbGlrZSB1c2luZyAiZmls
-dGVyZWQgY2hpbGQiIGNvbGxvY2F0aW9uIHdoZW4gSSBzYXkgYWJvdXQgdGhpcyB0aGluZy4NCiAg
-ZGlkbid0IHlvdSB0aGluayBhYm91dCByZW5hbWluZyBiYWNraW5nIGNoYWluIHRvIGZpbHRlcmVk
-IGNoYWluP10NCg0KPiAtLS0NCj4gICBibG9ja2Rldi5jIHwgNyArKysrKystDQo+ICAgMSBmaWxl
-IGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdp
-dCBhL2Jsb2NrZGV2LmMgYi9ibG9ja2Rldi5jDQo+IGluZGV4IGI1YzBmZDNjNDkuLjBmMGNmMGQ5
-YWUgMTAwNjQ0DQo+IC0tLSBhL2Jsb2NrZGV2LmMNCj4gKysrIGIvYmxvY2tkZXYuYw0KPiBAQCAt
-MTY2NSw3ICsxNjY1LDEyIEBAIHN0YXRpYyB2b2lkIGV4dGVybmFsX3NuYXBzaG90X3ByZXBhcmUo
-QmxrQWN0aW9uU3RhdGUgKmNvbW1vbiwNCj4gICAgICAgICAgIGdvdG8gb3V0Ow0KPiAgICAgICB9
-DQo+ICAgDQo+IC0gICAgaWYgKHN0YXRlLT5uZXdfYnMtPmJhY2tpbmcgIT0gTlVMTCkgew0KPiAr
-ICAgIGlmIChzdGF0ZS0+bmV3X2JzLT5kcnYtPmlzX2ZpbHRlcikgew0KPiArICAgICAgICBlcnJv
-cl9zZXRnKGVycnAsICJGaWx0ZXJzIGNhbm5vdCBiZSB1c2VkIGFzIG92ZXJsYXlzIik7DQo+ICsg
-ICAgICAgIGdvdG8gb3V0Ow0KPiArICAgIH0NCj4gKw0KPiArICAgIGlmIChiZHJ2X2ZpbHRlcmVk
-X2Nvd19jaGlsZChzdGF0ZS0+bmV3X2JzKSkgew0KPiAgICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJw
-LCAiVGhlIG92ZXJsYXkgYWxyZWFkeSBoYXMgYSBiYWNraW5nIGltYWdlIik7DQo+ICAgICAgICAg
-ICBnb3RvIG91dDsNCj4gICAgICAgfQ0KPiANCg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRp
-bWlyDQo=
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--3clvIKI2ps1QoeDEkPoDRDmbcrhCqGfiR
+Content-Type: multipart/mixed; boundary="wBQLrt8jIJs66FoHkfMQ4cEG1exKMQ6JT";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <3f7ec115-9014-e375-ac7a-4b1ea46873e6@redhat.com>
+Subject: Re: [PATCH v5 15/42] block: Re-evaluate backing file handling in
+ reopen
+References: <20190612221004.2317-1-mreitz@redhat.com>
+ <20190612221004.2317-16-mreitz@redhat.com>
+ <9e448427-1d53-c1a7-c51f-123acf6eccaf@virtuozzo.com>
+In-Reply-To: <9e448427-1d53-c1a7-c51f-123acf6eccaf@virtuozzo.com>
+
+--wBQLrt8jIJs66FoHkfMQ4cEG1exKMQ6JT
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 14.06.19 15:42, Vladimir Sementsov-Ogievskiy wrote:
+> 13.06.2019 1:09, Max Reitz wrote:
+>> Reopening a node's backing child needs a bit of special handling becau=
+se
+>> the "backing" child has different defaults than all other children
+>> (among other things).  Adding filter support here is a bit more
+>> difficult than just using the child access functions.  In fact, we oft=
+en
+>> have to directly use bs->backing because these functions are about the=
+
+>> "backing" child (which may or may not be the COW backing file).
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   block.c | 36 +++++++++++++++++++++++++++++-------
+>>   1 file changed, 29 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/block.c b/block.c
+>> index 505b3e9a01..db2759c10d 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -3542,17 +3542,39 @@ static int bdrv_reopen_parse_backing(BDRVReope=
+nState *reopen_state,
+>>           }
+>>       }
+>>  =20
+>> +    /*
+>> +     * Ensure that @bs can really handle backing files, because we ar=
+e
+>> +     * about to give it one (or swap the existing one)
+>> +     */
+>> +    if (bs->drv->is_filter) {
+>> +        /* Filters always have a file or a backing child */
+>> +        if (!bs->backing) {
+>> +            error_setg(errp, "'%s' is a %s filter node that does not =
+support a "
+>> +                       "backing child", bs->node_name, bs->drv->forma=
+t_name);
+>> +            return -EINVAL;
+>> +        }
+>> +    } else if (!bs->drv->supports_backing) {
+>> +        error_setg(errp, "Driver '%s' of node '%s' does not support b=
+acking "
+>> +                   "files", bs->drv->format_name, bs->node_name);
+>> +        return -EINVAL;
+>> +    }
+>=20
+> hmm, shouldn't we have these checks for overlay_bs?
+
+I think this is correct here because this is the only node the user has
+control over, so this is the only one we can reasonably complain about.
+
+And I do think it is reasonable to complain about.
+
+>> +
+>>       /*
+>>        * Find the "actual" backing file by skipping all links that poi=
+nt
+>>        * to an implicit node, if any (e.g. a commit filter node).
+>> +     * We cannot use any of the bdrv_skip_*() functions here because
+>> +     * those return the first explicit node, while we are looking for=
+
+>> +     * its overlay here.
+>>        */
+>>       overlay_bs =3D bs;
+>> -    while (backing_bs(overlay_bs) && backing_bs(overlay_bs)->implicit=
+) {
+>> -        overlay_bs =3D backing_bs(overlay_bs);
+>> +    while (bdrv_filtered_bs(overlay_bs) &&
+>> +           bdrv_filtered_bs(overlay_bs)->implicit)
+>> +    {
+>> +        overlay_bs =3D bdrv_filtered_bs(overlay_bs);
+>>       }
+>=20
+> here, overlay_bs may be some filter with file child ..
+>=20
+>>  =20
+>>       /* If we want to replace the backing file we need some extra che=
+cks */
+>> -    if (new_backing_bs !=3D backing_bs(overlay_bs)) {
+>> +    if (new_backing_bs !=3D bdrv_filtered_bs(overlay_bs)) {
+>>           /* Check for implicit nodes between bs and its backing file =
+*/
+>>           if (bs !=3D overlay_bs) {
+>>               error_setg(errp, "Cannot change backing link if '%s' has=
+ "
+>> @@ -3560,8 +3582,8 @@ static int bdrv_reopen_parse_backing(BDRVReopenS=
+tate *reopen_state,
+>>               return -EPERM;
+>>           }
+>>           /* Check if the backing link that we want to replace is froz=
+en */
+>> -        if (bdrv_is_backing_chain_frozen(overlay_bs, backing_bs(overl=
+ay_bs),
+>> -                                         errp)) {
+>> +        if (bdrv_is_backing_chain_frozen(overlay_bs,
+>> +                                         child_bs(overlay_bs->backing=
+), errp)) {
+>=20
+> .. and here we are doing wrong thing, as it don't have backing child
+>=20
+> Aha, you use the fact that we now don't have implicit filters with file=
+ child. Then, should
+> we add an assertion for this?
+
+No, that wasn=E2=80=99t my intention.  The real reason is that all of thi=
+s is a
+mess.
+
+Here is the full context:
+
+>     overlay_bs =3D bs;
+>     while (bdrv_filtered_bs(overlay_bs) &&
+>            bdrv_filtered_bs(overlay_bs)->implicit)
+>     {
+>         overlay_bs =3D bdrv_filtered_bs(overlay_bs);
+>     }
+>=20
+>     /* If we want to replace the backing file we need some extra checks=
+ */
+>     if (new_backing_bs !=3D bdrv_filtered_bs(overlay_bs)) {
+>         /* Check for implicit nodes between bs and its backing file */
+>         if (bs !=3D overlay_bs) {
+>             error_setg(errp, "Cannot change backing link if '%s' has " =
+                                                                         =
+                                                                         =
+                   =20
+>                        "an implicit backing file", bs->node_name);
+>             return -EPERM;
+>         }
+>         /* Check if the backing link that we want to replace is frozen =
+*/
+>         if (bdrv_is_backing_chain_frozen(overlay_bs,
+>                                          child_bs(overlay_bs->backing),=
+ errp)) {
+>             return -EPERM;
+>         }
+
+Note the =E2=80=9CCheck for implicit nodes=E2=80=9D thing.  If we get to =
+the frozen
+check, we have already confirmed that overlay_bs =3D=3D bs, so we then kn=
+ow
+that overlay_bs->backing works.
+
+I can add an additional comment to make that more clear.  It took myself
+quite a bit of digging to figure that out again...
+
+(The reason for the loop is that we want to be able to recognize when
+the user tries to not change the backing file.  In that case, we don=E2=80=
+=99t
+have to do anything, but because the user doesn=E2=80=99t know about impl=
+icit
+nodes, we have to skip them in order to check whether the user actually
+doesn=E2=80=99t want to change anything.)
+
+Max
+
+>>               return -EPERM;
+>>           }
+>>           reopen_state->replace_backing_bs =3D true;
+>> @@ -3712,7 +3734,7 @@ int bdrv_reopen_prepare(BDRVReopenState *reopen_=
+state, BlockReopenQueue *queue,
+>>        * its metadata. Otherwise the 'backing' option can be omitted.
+>>        */
+>>       if (drv->supports_backing && reopen_state->backing_missing &&
+>> -        (backing_bs(reopen_state->bs) || reopen_state->bs->backing_fi=
+le[0])) {
+>> +        (reopen_state->bs->backing || reopen_state->bs->backing_file[=
+0])) {
+>>           error_setg(errp, "backing is missing for '%s'",
+>>                      reopen_state->bs->node_name);
+>>           ret =3D -EINVAL;
+>> @@ -3857,7 +3879,7 @@ void bdrv_reopen_commit(BDRVReopenState *reopen_=
+state)
+>>        * from bdrv_set_backing_hd()) has the new values.
+>>        */
+>>       if (reopen_state->replace_backing_bs) {
+>> -        BlockDriverState *old_backing_bs =3D backing_bs(bs);
+>> +        BlockDriverState *old_backing_bs =3D child_bs(bs->backing);
+>>           assert(!old_backing_bs || !old_backing_bs->implicit);
+>>           /* Abort the permission update on the backing bs we're detac=
+hing */
+>>           if (old_backing_bs) {
+>>
+>=20
+>=20
+
+
+
+--wBQLrt8jIJs66FoHkfMQ4cEG1exKMQ6JT--
+
+--3clvIKI2ps1QoeDEkPoDRDmbcrhCqGfiR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0DwtgACgkQ9AfbAGHV
+z0B3OAf8D+nE55Gqc0rXVrl9I/StNIMR9KGCxuAAKAzbgMVymjHdPZzvHpyBzI4+
+sDqKtCfsVP0slB9XuRScuq6d1Ti1j9Lajs6r41gvyYC/HYIETSNLNkt1yBa8hbO0
+bYElkaylfE6DzWZrvR8qBTPmrXejFSVvekRvkjSH3/HyFYSdjLNYoppL1ByxMJYY
+RT9Z8u3AlheB6efjpebPp2i2CY61BD4MX0z47UIcqEvlpmPKAUN9KB4nDiy8VCtv
+fHkbuFCGpm09fV1zsp5L6wcrJryWt3+z0dF9GbHWJcrVA1oNEwl0Ke/J3MY+82rM
+7b3m4LMdN0Ne2q2FG26kinxreFcgBQ==
+=bbHZ
+-----END PGP SIGNATURE-----
+
+--3clvIKI2ps1QoeDEkPoDRDmbcrhCqGfiR--
 
