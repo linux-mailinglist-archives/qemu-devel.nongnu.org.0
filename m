@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE6346017
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:09:18 +0200 (CEST)
-Received: from localhost ([::1]:51858 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B1B45ECD
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:47:30 +0200 (CEST)
+Received: from localhost ([::1]:51688 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmtJ-0006Io-RF
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46529)
+	id 1hbmYE-00050u-2l
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:47:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46476)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbmRt-0001lq-E2
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:58 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbmRs-00061W-2m
+ (envelope-from <mreitz@redhat.com>) id 1hbmRr-0001jQ-Sx
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38472)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <mreitz@redhat.com>) id 1hbmRp-0005zS-9R
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60532)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbmRn-0005wN-QP; Fri, 14 Jun 2019 09:40:52 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hbmRj-0005uT-Qp; Fri, 14 Jun 2019 09:40:48 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CB16A22388B;
- Fri, 14 Jun 2019 13:40:43 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2557D302454F;
+ Fri, 14 Jun 2019 13:40:46 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65D7F17A75;
- Fri, 14 Jun 2019 13:40:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B3AFA19C58;
+ Fri, 14 Jun 2019 13:40:45 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 14 Jun 2019 15:40:08 +0200
-Message-Id: <20190614134021.32486-8-mreitz@redhat.com>
+Date: Fri, 14 Jun 2019 15:40:09 +0200
+Message-Id: <20190614134021.32486-9-mreitz@redhat.com>
 In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
 References: <20190614134021.32486-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 14 Jun 2019 13:40:43 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 14 Jun 2019 13:40:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/20] iotests: Filter 175's allocation
- information
+Subject: [Qemu-devel] [PULL 08/20] iotests: Fix intermittent failure in 219
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,131 +59,80 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is possible for an empty file to take up blocks on a filesystem, for
-example:
+In 219, we wait for the job to make progress before we emit its status.
+This makes the output reliable.  We do not wait for any more progress if
+the job's current-progress already matches its total-progress.
 
-$ qemu-img create -f raw test.img 1G
-Formatting 'test.img', fmt=3Draw size=3D1073741824
-$ mkfs.ext4 -I 128 -q test.img
-$ mkdir test-mount
-$ sudo mount -o loop test.img test-mount
-$ sudo touch test-mount/test-file
-$ stat -c 'blocks=3D%b' test-mount/test-file
-blocks=3D8
+Unfortunately, there is a bug: Right after the job has been started,
+it's possible that total-progress is still 0.  In that case, we may skip
+the first progress-making step and keep ending up 64 kB short.
 
-These extra blocks (one cluster) are apparently used for metadata,
-because they are always there, on top of blocks used for data:
+To fix that bug, we can simply wait for total-progress to reach 4 MB
+(the image size) after starting the job.
 
-$ sudo dd if=3D/dev/zero of=3Dtest-mount/test-file bs=3D1M count=3D1
-1+0 records in
-1+0 records out
-1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.00135339 s, 775 MB/s
-$ stat -c 'blocks=3D%b' test-mount/test-file
-blocks=3D2056
-
-Make iotest 175 take this into account.
-
-Reported-by: Thomas Huth <thuth@redhat.com>
+Reported-by: Karen Mezick <kmezick@redhat.com>
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1686651
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Nir Soffer <nsoffer@redhat.com>
-Message-id: 20190516144319.12570-1-mreitz@redhat.com
+Message-id: 20190516161114.27596-1-mreitz@redhat.com
+Reviewed-by: John Snow <jsnow@redhat.com>
+[mreitz: Adjusted commit message as per John's proposal]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/175     | 26 ++++++++++++++++++++++----
- tests/qemu-iotests/175.out |  8 ++++----
- 2 files changed, 26 insertions(+), 8 deletions(-)
+ tests/qemu-iotests/219 | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
-index d0ffc495c2..51e62c8276 100755
---- a/tests/qemu-iotests/175
-+++ b/tests/qemu-iotests/175
-@@ -28,10 +28,25 @@ status=3D1	# failure is the default!
+diff --git a/tests/qemu-iotests/219 b/tests/qemu-iotests/219
+index c03bbdb294..e0c51662c0 100755
+--- a/tests/qemu-iotests/219
++++ b/tests/qemu-iotests/219
+@@ -23,6 +23,8 @@ import iotests
 =20
- _cleanup()
- {
--	_cleanup_test_img
-+    _cleanup_test_img
-+    rm -f "$TEST_DIR/empty"
- }
- trap "_cleanup; exit \$status" 0 1 2 3 15
+ iotests.verify_image_format(supported_fmts=3D['qcow2'])
 =20
-+# Some file systems sometimes allocate extra blocks independently of
-+# the file size.  This function hides the resulting difference in the
-+# stat -c '%b' output.
-+# Parameter 1: Number of blocks an empty file occupies
-+# Parameter 2: Image size in bytes
-+_filter_blocks()
-+{
-+    extra_blocks=3D$1
-+    img_size=3D$2
++img_size =3D 4 * 1024 * 1024
 +
-+    sed -e "s/blocks=3D$extra_blocks\\(\$\\|[^0-9]\\)/nothing allocated/=
-" \
-+        -e "s/blocks=3D$((extra_blocks + img_size / 512))\\(\$\\|[^0-9]\=
-\)/everything allocated/"
-+}
+ def pause_wait(vm, job_id):
+     with iotests.Timeout(3, "Timeout waiting for job to pause"):
+         while True:
+@@ -62,6 +64,8 @@ def test_pause_resume(vm):
+                 iotests.log(vm.qmp('query-jobs'))
+=20
+ def test_job_lifecycle(vm, job, job_args, has_ready=3DFalse):
++    global img_size
 +
- # get standard environment, filters and checks
- . ./common.rc
- . ./common.filter
-@@ -40,18 +55,21 @@ _supported_fmt raw
- _supported_proto file
- _supported_os Linux
+     iotests.log('')
+     iotests.log('')
+     iotests.log('Starting block job: %s (auto-finalize: %s; auto-dismiss=
+: %s)' %
+@@ -84,6 +88,10 @@ def test_job_lifecycle(vm, job, job_args, has_ready=3D=
+False):
+     iotests.log(iotests.filter_qmp_event(vm.event_wait('JOB_STATUS_CHANG=
+E')))
+     iotests.log(iotests.filter_qmp_event(vm.event_wait('JOB_STATUS_CHANG=
+E')))
 =20
--size=3D1m
-+size=3D$((1 * 1024 * 1024))
++    # Wait for total-progress to stabilize
++    while vm.qmp('query-jobs')['return'][0]['total-progress'] < img_size=
+:
++        pass
 +
-+touch "$TEST_DIR/empty"
-+extra_blocks=3D$(stat -c '%b' "$TEST_DIR/empty")
+     # RUNNING state:
+     # pause/resume should work, complete/finalize/dismiss should error o=
+ut
+     iotests.log('')
+@@ -173,9 +181,8 @@ with iotests.FilePath('disk.img') as disk_path, \
+      iotests.FilePath('copy.img') as copy_path, \
+      iotests.VM() as vm:
 =20
- echo
- echo "=3D=3D creating image with default preallocation =3D=3D"
- _make_test_img $size | _filter_imgfmt
--stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
-+stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_block=
-s $size
+-    img_size =3D '4M'
+-    iotests.qemu_img_create('-f', iotests.imgfmt, disk_path, img_size)
+-    iotests.qemu_io('-c', 'write 0 %s' % (img_size),
++    iotests.qemu_img_create('-f', iotests.imgfmt, disk_path, str(img_siz=
+e))
++    iotests.qemu_io('-c', 'write 0 %i' % (img_size),
+                     '-f', iotests.imgfmt, disk_path)
 =20
- for mode in off full falloc; do
-     echo
-     echo "=3D=3D creating image with preallocation $mode =3D=3D"
-     IMGOPTS=3Dpreallocation=3D$mode _make_test_img $size | _filter_imgfm=
-t
--    stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
-+    stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_b=
-locks $size
- done
-=20
- # success, all done
-diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
-index 76c02c6a57..6d9a5ed84e 100644
---- a/tests/qemu-iotests/175.out
-+++ b/tests/qemu-iotests/175.out
-@@ -2,17 +2,17 @@ QA output created by 175
-=20
- =3D=3D creating image with default preallocation =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
--size=3D1048576, blocks=3D0
-+size=3D1048576, nothing allocated
-=20
- =3D=3D creating image with preallocation off =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
-n=3Doff
--size=3D1048576, blocks=3D0
-+size=3D1048576, nothing allocated
-=20
- =3D=3D creating image with preallocation full =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
-n=3Dfull
--size=3D1048576, blocks=3D2048
-+size=3D1048576, everything allocated
-=20
- =3D=3D creating image with preallocation falloc =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
-n=3Dfalloc
--size=3D1048576, blocks=3D2048
-+size=3D1048576, everything allocated
-  *** done
+     iotests.log('Launching VM...')
 --=20
 2.21.0
 
