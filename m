@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5593745FB2
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:58:06 +0200 (CEST)
-Received: from localhost ([::1]:51776 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECCA45EBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:46:16 +0200 (CEST)
+Received: from localhost ([::1]:51682 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmiT-0006gh-GS
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46336)
+	id 1hbmX1-00042H-Kl
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:46:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46393)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbmRh-0001dy-H9
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:47 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbmRl-0001fH-TF
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbmRg-0005sk-2n
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34338)
+ (envelope-from <mreitz@redhat.com>) id 1hbmRk-0005vW-1U
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49952)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbmRW-0005jF-IK; Fri, 14 Jun 2019 09:40:36 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1hbmRe-0005pq-7q; Fri, 14 Jun 2019 09:40:44 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0E9782F8BD2;
- Fri, 14 Jun 2019 13:40:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5D750C058CBA;
+ Fri, 14 Jun 2019 13:40:31 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B25439C3;
- Fri, 14 Jun 2019 13:40:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6BA6601AC;
+ Fri, 14 Jun 2019 13:40:30 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 14 Jun 2019 15:40:03 +0200
-Message-Id: <20190614134021.32486-3-mreitz@redhat.com>
+Date: Fri, 14 Jun 2019 15:40:04 +0200
+Message-Id: <20190614134021.32486-4-mreitz@redhat.com>
 In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
 References: <20190614134021.32486-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 14 Jun 2019 13:40:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Fri, 14 Jun 2019 13:40:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 02/20] iotests.py: do not use infinite waits
+Subject: [Qemu-devel] [PULL 03/20] QEMUMachine: add events_wait method
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,82 +61,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Cap waits to 60 seconds so that iotests can fail gracefully if something
-goes wrong.
+Instead of event_wait which looks for a single event, add an events_wait
+which can look for any number of events simultaneously. However, it
+will still only return one at a time, whichever happens first.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-id: 20190523170643.20794-3-jsnow@redhat.com
+Message-id: 20190523170643.20794-4-jsnow@redhat.com
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ python/qemu/__init__.py | 69 +++++++++++++++++++++++++++++------------
+ 1 file changed, 49 insertions(+), 20 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index f11482f3dc..6a3703e6ee 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -524,7 +524,7 @@ class VM(qtest.QEMUQtestMachine):
-             output_list +=3D [key + '=3D' + obj[key]]
-         return ','.join(output_list)
+diff --git a/python/qemu/__init__.py b/python/qemu/__init__.py
+index 81d9657ec0..98ed8a2e28 100644
+--- a/python/qemu/__init__.py
++++ b/python/qemu/__init__.py
+@@ -402,42 +402,71 @@ class QEMUMachine(object):
+         self._qmp.clear_events()
+         return events
 =20
--    def get_qmp_events_filtered(self, wait=3DTrue):
-+    def get_qmp_events_filtered(self, wait=3D60.0):
-         result =3D []
-         for ev in self.get_qmp_events(wait=3Dwait):
-             result.append(filter_qmp_event(ev))
-@@ -542,10 +542,10 @@ class VM(qtest.QEMUQtestMachine):
+-    def event_wait(self, name, timeout=3D60.0, match=3DNone):
++    @staticmethod
++    def event_match(event, match=3DNone):
+         """
+-        Wait for specified timeout on named event in QMP; optionally fil=
+ter
+-        results by match.
++        Check if an event matches optional match criteria.
 =20
-     # Returns None on success, and an error string on failure
-     def run_job(self, job, auto_finalize=3DTrue, auto_dismiss=3DFalse,
--                pre_finalize=3DNone):
-+                pre_finalize=3DNone, wait=3D60.0):
-         error =3D None
-         while True:
--            for ev in self.get_qmp_events_filtered(wait=3DTrue):
-+            for ev in self.get_qmp_events_filtered(wait=3Dwait):
-                 if ev['event'] =3D=3D 'JOB_STATUS_CHANGE':
-                     status =3D ev['data']['status']
-                     if status =3D=3D 'aborting':
-@@ -650,7 +650,7 @@ class QMPTestCase(unittest.TestCase):
-         self.assertEqual(self.vm.flatten_qmp_object(json.loads(json_file=
-name[5:])),
-                          self.vm.flatten_qmp_object(reference))
+-        The 'match' is checked to be a recursive subset of the 'event'; =
+skips
+-        branch processing on match's value None
+-           {"foo": {"bar": 1}} matches {"foo": None}
+-           {"foo": {"bar": 1}} does not matches {"foo": {"baz": None}}
++        The match criteria takes the form of a matching subdict. The eve=
+nt is
++        checked to be a superset of the subdict, recursively, with match=
+ing
++        values whenever those values are not None.
++
++        Examples, with the subdict queries on the left:
++         - None matches any object.
++         - {"foo": None} matches {"foo": {"bar": 1}}
++         - {"foo": {"baz": None}} does not match {"foo": {"bar": 1}}
++         - {"foo": {"baz": 2}} matches {"foo": {"bar": 1, "baz": 2}}
+         """
+-        def event_match(event, match=3DNone):
+-            if match is None:
+-                return True
++        if match is None:
++            return True
 =20
--    def cancel_and_wait(self, drive=3D'drive0', force=3DFalse, resume=3D=
-False):
-+    def cancel_and_wait(self, drive=3D'drive0', force=3DFalse, resume=3D=
-False, wait=3D60.0):
-         '''Cancel a block job and wait for it to finish, returning the e=
-vent'''
-         result =3D self.vm.qmp('block-job-cancel', device=3Ddrive, force=
-=3Dforce)
-         self.assert_qmp(result, 'return', {})
-@@ -661,7 +661,7 @@ class QMPTestCase(unittest.TestCase):
-         cancelled =3D False
-         result =3D None
-         while not cancelled:
--            for event in self.vm.get_qmp_events(wait=3DTrue):
-+            for event in self.vm.get_qmp_events(wait=3Dwait):
-                 if event['event'] =3D=3D 'BLOCK_JOB_COMPLETED' or \
-                    event['event'] =3D=3D 'BLOCK_JOB_CANCELLED':
-                     self.assert_qmp(event, 'data/device', drive)
-@@ -674,10 +674,10 @@ class QMPTestCase(unittest.TestCase):
-         self.assert_no_active_block_jobs()
-         return result
+-            for key in match:
+-                if key in event:
+-                    if isinstance(event[key], dict):
+-                        if not event_match(event[key], match[key]):
+-                            return False
+-                    elif event[key] !=3D match[key]:
++        for key in match:
++            if key in event:
++                if isinstance(event[key], dict):
++                    if not QEMUMachine.event_match(event[key], match[key=
+]):
+                         return False
+-                else:
++                elif event[key] !=3D match[key]:
+                     return False
++            else:
++                return False
++        return True
 =20
--    def wait_until_completed(self, drive=3D'drive0', check_offset=3DTrue=
+-            return True
++    def event_wait(self, name, timeout=3D60.0, match=3DNone):
++        """
++        event_wait waits for and returns a named event from QMP with a t=
+imeout.
++
++        name: The event to wait for.
++        timeout: QEMUMonitorProtocol.pull_event timeout parameter.
++        match: Optional match criteria. See event_match for details.
++        """
++        return self.events_wait([(name, match)], timeout)
++
++    def events_wait(self, events, timeout=3D60.0):
++        """
++        events_wait waits for and returns a named event from QMP with a =
+timeout.
++
++        events: a sequence of (name, match_criteria) tuples.
++                The match criteria are optional and may be None.
++                See event_match for details.
++        timeout: QEMUMonitorProtocol.pull_event timeout parameter.
++        """
++        def _match(event):
++            for name, match in events:
++                if (event['event'] =3D=3D name and
++                    self.event_match(event, match)):
++                    return True
++            return False
+=20
+         # Search cached events
+         for event in self._events:
+-            if (event['event'] =3D=3D name) and event_match(event, match=
 ):
-+    def wait_until_completed(self, drive=3D'drive0', check_offset=3DTrue=
-, wait=3D60.0):
-         '''Wait for a block job to finish, returning the event'''
++            if _match(event):
+                 self._events.remove(event)
+                 return event
+=20
+         # Poll for new events
          while True:
--            for event in self.vm.get_qmp_events(wait=3DTrue):
-+            for event in self.vm.get_qmp_events(wait=3Dwait):
-                 if event['event'] =3D=3D 'BLOCK_JOB_COMPLETED':
-                     self.assert_qmp(event, 'data/device', drive)
-                     self.assert_qmp_absent(event, 'data/error')
+             event =3D self._qmp.pull_event(wait=3Dtimeout)
+-            if (event['event'] =3D=3D name) and event_match(event, match=
+):
++            if _match(event):
+                 return event
+             self._events.append(event)
+=20
 --=20
 2.21.0
 
