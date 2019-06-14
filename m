@@ -2,52 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B2F345E6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:39:59 +0200 (CEST)
-Received: from localhost ([::1]:51596 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D882945EBE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:46:32 +0200 (CEST)
+Received: from localhost ([::1]:51680 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmQw-00084r-BW
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42679)
+	id 1hbmXG-000419-SR
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:46:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42908)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hbmG0-0000aC-Py
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:28:42 -0400
+ (envelope-from <eblake@redhat.com>) id 1hbmGl-000111-0s
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:29:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hbmFy-0005sA-Jg
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:28:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54774)
+ (envelope-from <eblake@redhat.com>) id 1hbmGj-0006YL-Qv
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:29:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43688)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hbmFy-0005Lo-7L; Fri, 14 Jun 2019 09:28:38 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hbmGg-0006Ub-WA
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:29:24 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4256D7FDEC;
- Fri, 14 Jun 2019 13:28:14 +0000 (UTC)
-Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 029EC601AC;
- Fri, 14 Jun 2019 13:28:12 +0000 (UTC)
-To: Cornelia Huck <cohuck@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Farhan Ali <alifm@linux.ibm.com>
-References: <20190614092705.11025-1-cohuck@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <8a3cdd5f-680d-d991-5b8e-974ac084ba1c@redhat.com>
-Date: Fri, 14 Jun 2019 15:28:11 +0200
+ by mx1.redhat.com (Postfix) with ESMTPS id 68DF93091754
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 13:29:14 +0000 (UTC)
+Received: from [10.3.116.85] (ovpn-116-85.phx2.redhat.com [10.3.116.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A40241798D;
+ Fri, 14 Jun 2019 13:29:11 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190613175435.6575-1-philmd@redhat.com>
+ <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <c02e3358-f195-51e7-171f-aab2b0314c72@redhat.com>
+Date: Fri, 14 Jun 2019 08:29:10 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190614092705.11025-1-cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="upJd2Pbei5SAAgRbjEeUvqI0mFimoEZC3"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 14 Jun 2019 13:28:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Fri, 14 Jun 2019 13:29:14 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] vfio-ccw: use vfio_set_irq_signaling
+Subject: Re: [Qemu-devel] [PATCH] roms/edk2-build.sh: Allow to run
+ edk2-build.sh from command line
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,126 +86,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Connie,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--upJd2Pbei5SAAgRbjEeUvqI0mFimoEZC3
+Content-Type: multipart/mixed; boundary="CzNBKKf7lEeQzcBPhO2smGeFf6GEsvkvP";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <c02e3358-f195-51e7-171f-aab2b0314c72@redhat.com>
+Subject: Re: [PATCH] roms/edk2-build.sh: Allow to run edk2-build.sh from
+ command line
+References: <20190613175435.6575-1-philmd@redhat.com>
+ <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
+In-Reply-To: <7c44bcb6-1c72-e327-9091-394e6abfb51e@redhat.com>
 
-On 6/14/19 11:27 AM, Cornelia Huck wrote:
-> Use the new helper.
-> 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+--CzNBKKf7lEeQzcBPhO2smGeFf6GEsvkvP
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Thanks
+On 6/14/19 5:16 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> Cc'ing Eric :)
+>=20
 
-Eric
-> ---
->  hw/vfio/ccw.c | 68 +++++++++++----------------------------------------
->  1 file changed, 14 insertions(+), 54 deletions(-)
-> 
-> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> index 03a2becb3ec9..3dc08721a3db 100644
-> --- a/hw/vfio/ccw.c
-> +++ b/hw/vfio/ccw.c
-> @@ -197,10 +197,7 @@ read_err:
->  static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
->  {
->      VFIODevice *vdev = &vcdev->vdev;
-> -    struct vfio_irq_info *irq_info;
-> -    struct vfio_irq_set *irq_set;
-> -    size_t argsz;
-> -    int32_t *pfd;
-> +    int fd;
->  
->      if (vdev->num_irqs < VFIO_CCW_IO_IRQ_INDEX + 1) {
->          error_setg(errp, "vfio: unexpected number of io irqs %u",
-> @@ -208,72 +205,35 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
->          return;
->      }
->  
-> -    argsz = sizeof(*irq_info);
-> -    irq_info = g_malloc0(argsz);
-> -    irq_info->index = VFIO_CCW_IO_IRQ_INDEX;
-> -    irq_info->argsz = argsz;
-> -    if (ioctl(vdev->fd, VFIO_DEVICE_GET_IRQ_INFO,
-> -              irq_info) < 0 || irq_info->count < 1) {
-> -        error_setg_errno(errp, errno, "vfio: Error getting irq info");
-> -        goto out_free_info;
-> -    }
-> -
->      if (event_notifier_init(&vcdev->io_notifier, 0)) {
->          error_setg_errno(errp, errno,
->                           "vfio: Unable to init event notifier for IO");
-> -        goto out_free_info;
-> +        return;
->      }
->  
-> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
-> -    irq_set = g_malloc0(argsz);
-> -    irq_set->argsz = argsz;
-> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
-> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
-> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
-> -    irq_set->start = 0;
-> -    irq_set->count = 1;
-> -    pfd = (int32_t *) &irq_set->data;
-> -
-> -    *pfd = event_notifier_get_fd(&vcdev->io_notifier);
-> -    qemu_set_fd_handler(*pfd, vfio_ccw_io_notifier_handler, NULL, vcdev);
-> -    if (ioctl(vdev->fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
-> -        error_setg(errp, "vfio: Failed to set up io notification");
-> -        qemu_set_fd_handler(*pfd, NULL, NULL, vcdev);
-> +    fd = event_notifier_get_fd(&vcdev->io_notifier);
-> +    qemu_set_fd_handler(fd, vfio_ccw_io_notifier_handler, NULL, vcdev);
-> +
-> +    if (vfio_set_irq_signaling(vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
-> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
-> +        qemu_set_fd_handler(fd, NULL, NULL, vcdev);
->          event_notifier_cleanup(&vcdev->io_notifier);
->      }
-> -
-> -    g_free(irq_set);
-> -
-> -out_free_info:
-> -    g_free(irq_info);
->  }
->  
->  static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
->  {
-> -    struct vfio_irq_set *irq_set;
-> -    size_t argsz;
-> -    int32_t *pfd;
-> -
-> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
-> -    irq_set = g_malloc0(argsz);
-> -    irq_set->argsz = argsz;
-> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
-> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
-> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
-> -    irq_set->start = 0;
-> -    irq_set->count = 1;
-> -    pfd = (int32_t *) &irq_set->data;
-> -    *pfd = -1;
-> -
-> -    if (ioctl(vcdev->vdev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
-> -        error_report("vfio: Failed to de-assign device io fd: %m");
-> +    Error *err = NULL;
-> +
-> +    vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
-> +                           VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err);
-> +    if (err) {
-> +        error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
->      }
->  
->      qemu_set_fd_handler(event_notifier_get_fd(&vcdev->io_notifier),
->                          NULL, NULL, vcdev);
->      event_notifier_cleanup(&vcdev->io_notifier);
-> -
-> -    g_free(irq_set);
->  }
->  
->  static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
-> 
+>> When running this script out of 'make', we get:
+>>
+>>   $ cd roms
+>>   $ ./edk2-build.sh aarch64 --arch=3DAARCH64 --platform=3DArmVirtPkg/A=
+rmVirtQemu.dsc > /dev/null
+>>   ./edk2-build.sh: line 46: MAKEFLAGS: unbound variable
+>>
+>> Fix this by checking the variable is defined before using it,
+>> else use a default value.
+>>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>> ---
+>>  roms/edk2-build.sh | 8 +++++++-
+>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/roms/edk2-build.sh b/roms/edk2-build.sh
+>> index 4f46f8a6a2..5390228b4e 100755
+>> --- a/roms/edk2-build.sh
+>> +++ b/roms/edk2-build.sh
+
+This is running under /bin/bash (hmm - not '/bin/env bash' like other
+scripts in qemu?), so...
+
+>> @@ -43,7 +43,13 @@ fi
+>>  # any), for the edk2 "build" utility.
+>>  source ../edk2-funcs.sh
+>>  edk2_toolchain=3D$(qemu_edk2_get_toolchain "$emulation_target")
+>> -edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
+>> +if [ -v MAKEFLAGS ]; then
+
+the non-portable bashism '[ -v' works. However, it's just as easy to
+work around this problem portably for all POSIX shells without needing 'i=
+f':
+
+>> +  edk2_thread_count=3D$(qemu_edk2_get_thread_count "$MAKEFLAGS")
+>> +else
+>> +  # We are not running within 'make', let the edk2 "build" utility to=
+ fetch
+>> +  # the logical CPU count with Python's multiprocessing.cpu_count() m=
+ethod.
+>> +  edk2_thread_count=3D0
+>> +fi
+
+edk2_thread_count=3D$(qemu_edk2_get_thread_count "${MAKEFLAGS:-0}")
+
+at which point the really long comment needs a bit of a tweak.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--CzNBKKf7lEeQzcBPhO2smGeFf6GEsvkvP--
+
+--upJd2Pbei5SAAgRbjEeUvqI0mFimoEZC3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0DoSYACgkQp6FrSiUn
+Q2rKeQf+NgtRyDOIbTQF6ULJgp7AsGqTV+sQr3bNme3EoBT0gEUsdXbJRFespLy+
+xUjG19g7zqcZ/dPeFk1eNUyvET+sHcNC8gsV3g25viZYUzsQEBx0cfJlTu3ZMySX
+/X80kUY1Gv6bH6DO2Shh4QUTtEG6c04t/SUjwYr/TwjHdL1iEMs0MpR744paNx4A
+xPv454BRbjMBRA+GG0e/5G3fvVNofB2VJGprE7ydivD+XbCPPbOiPja2uZhPU4f1
+LsvS4f3rYbJESZez3WVQALoBeurAq+xC6rht5BSXP7kKzEzkII9stNJDEF2RNFCV
+Jt0tPIZzLXZJavRJ9e5lVjVOP4rwoA==
+=f0r5
+-----END PGP SIGNATURE-----
+
+--upJd2Pbei5SAAgRbjEeUvqI0mFimoEZC3--
 
