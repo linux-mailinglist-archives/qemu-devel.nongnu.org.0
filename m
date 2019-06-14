@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA17946756
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:17:43 +0200 (CEST)
-Received: from localhost ([::1]:54032 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F9F466AC
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:58:45 +0200 (CEST)
+Received: from localhost ([::1]:53912 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbqli-0007R7-Vc
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:17:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58662)
+	id 1hbqTM-0000P2-K5
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpqj-0005b5-26
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpqj-0005bE-5a
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpqf-0007Ax-Fx
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpqe-00078m-TI
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:47 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54186)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39876)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbpqe-0006ck-H4
+ id 1hbpqe-0006hj-7i
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:44 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x15so3130739wmj.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:18:30 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id z23so3055013wma.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:18:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ITzNLkGufKFpiKfmJVh6vzZ3LsNbeBm40jej1S7JzUY=;
- b=Us/s25z0K5nigBSeUH+Yvy1688SNudchk+MgUS+New9ZmBtZ8RSKj8BzrNdDh+Hnp5
- pVpm7RcHgcAF5L9rCDfjCFvb1bWqMRUv4f0ITJIyRa+Zz/plQk9ipYPBJUegk8OuXl3X
- KjMBzMGCuLmjHGKSxavfp7bcfnejBihNrLZLjKklbexep2qA0/qzZjJukTmBFvh3ilzk
- bxE9nNtrExzMZq2oXjAZ5QxEvFjUjbEtBSCgxfJ6OozVVZuB4nHyZXkzMRjT7+oWfs1K
- M63+rYYj3Gish0qnUVzKfcqXB18B0yQDBcX1m/IFXkqMKLChV2RzTJ9+ov+WOE1sWLNU
- 5+pQ==
+ bh=qBxTdhQNZtrN8TCgxYqVNYuvZXvpIW53Hq/nYGE1p+s=;
+ b=M1DmIUjJySM8HeXdTGllOAnCV5BQWwrV1ZQFtLnDqxSe2LLP/N+uoi7AKRg70JDFSJ
+ oaPMDLXPqfdBoiN2qTzSdyo9HkxQbKz3psNqrDLueGza2A5702DY+6pfV2by6zN+ksVP
+ 8LNHPNSNEF2dKg9M71LyVkLbHN/3FGYzfouiDnEcWwWmmRappMgfb3EIC6ryJL8Mr8Nq
+ IBWf+blPzV7TKFV+e6rYxhAnMFfjBv7HzzC5q6HtwDy4TXrkm+vr01IK1ep6vOgr/jkE
+ 9wvXj4Rxd0C0sYh1G8L7uf3iAO1OTW2z96pfBTT+nTbpauxHivoN4HDFKn2df36b+UeI
+ ymgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ITzNLkGufKFpiKfmJVh6vzZ3LsNbeBm40jej1S7JzUY=;
- b=nHF9r/4afqMyuU560D+MgLxYsKFHYMLU5o0O7a/jwikDqQuQkuBcb8XO/jVBn9j0uX
- 7F5Q07Lws7whBW0T1jOCjCihLchHBSPWQwYDu2m3o/Lr9x4TVsQoO87EO3JMYgU0aBfQ
- x41mlanRkSfsLnZVpoFX2J2q6/eDwficPVbIMKPcKUbGu+JJRxeykMF+vd1zEmmpn042
- 5Ou6vTmD4O4D9YGLJeoudCstSfxhqMiz0Dtf+rof5nhtaKH3UB1NoQqgSFdR/1PtS5AX
- 8aec1qnDf5u8UyBxG/FWJbn/elktS+gTTfQJk+OYbgAtW26+UvtMJOpBFASTSz8sCzaO
- bRtQ==
-X-Gm-Message-State: APjAAAUUecKh4qoVJqS4pxcmkPJ7nGmwMMG6fy4r5FmgwBTYPcHjRudh
- RtEj73J3T8bmdyBfmBdp4TXwJA==
-X-Google-Smtp-Source: APXvYqwscFUsmLzmfKBI+1R+Cp/VFQNmAmOY4wureejtvZptyFOqsTfE5uhagkzmItu0+I9n6W06Hw==
-X-Received: by 2002:a1c:b684:: with SMTP id g126mr8632045wmf.176.1560532709061; 
- Fri, 14 Jun 2019 10:18:29 -0700 (PDT)
+ bh=qBxTdhQNZtrN8TCgxYqVNYuvZXvpIW53Hq/nYGE1p+s=;
+ b=VBjlFLY3lHveV1gIWbiIa2xmed/+SfpBPaG416TcsOWZ4KE7Zwm6EbLk/BvLOy6Nni
+ QVJg0z3m/aGpuZykZBNx35l2etGa4BIHtIZECPfr3DYuLXvwjUtFeRSNuF47mNOWFbtb
+ 5pKK6GeH+DFzhXVy9Zgyt4BSu0YZPv0+mxC+zdw587MuEyrbYARXJI1WcVjaJYG1CA4q
+ DpvvWu3uKkYwxJJ9PDB20O6b6FmNzubv/3mUIxJzW2GxRTYv3AYX6A1LH6l8yl+MJSJg
+ QPW74mhpjaxQ9reBF+6e+rR1edvnYavxa8ZpbRh9+a2opDAULBGVAnq1nOetlzMUVb17
+ l3xw==
+X-Gm-Message-State: APjAAAUkkKECLmc5t2OaVKrs4mWOiF65cNDYFeFiorX0pjk5Pf4OBfoV
+ XfepiCz3yaG3elpPRLGTGnTaFw==
+X-Google-Smtp-Source: APXvYqzVzcy/lNHpdyTqDBQUqPXBwnbG4otD543eQwqA42aI8vWZ7Xz/YgCZ6NYSB2WR8ltP7bX9mQ==
+X-Received: by 2002:a1c:c549:: with SMTP id v70mr8517710wmf.135.1560532711546; 
+ Fri, 14 Jun 2019 10:18:31 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id 67sm4075045wmd.38.2019.06.14.10.18.26
+ by smtp.gmail.com with ESMTPSA id s188sm4164408wmf.40.2019.06.14.10.18.28
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 10:18:27 -0700 (PDT)
+ Fri, 14 Jun 2019 10:18:29 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 558911FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 697DA1FFB8;
  Fri, 14 Jun 2019 18:12:03 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:42 +0100
-Message-Id: <20190614171200.21078-33-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:11:43 +0100
+Message-Id: <20190614171200.21078-34-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
@@ -67,8 +67,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH v3 32/50] target/alpha: fetch code with
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH v3 33/50] target/riscv: fetch code with
  translator_ld
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,7 +81,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G. Cota" <cota@braap.org>, Richard Henderson <rth@twiddle.net>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Palmer Dabbelt <palmer@sifive.com>, "Emilio G. Cota" <cota@braap.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -89,22 +93,22 @@ From: "Emilio G. Cota" <cota@braap.org>
 
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 ---
- target/alpha/translate.c | 2 +-
+ target/riscv/translate.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index 2c9cccf6c1..daf1e05cba 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -2989,7 +2989,7 @@ static void alpha_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
- {
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 313c27b700..899abf41fa 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -793,7 +793,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
      DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPUAlphaState *env = cpu->env_ptr;
--    uint32_t insn = cpu_ldl_code(env, ctx->base.pc_next);
-+    uint32_t insn = translator_ldl(env, ctx->base.pc_next);
+     CPURISCVState *env = cpu->env_ptr;
  
-     ctx->base.pc_next += 4;
-     ctx->base.is_jmp = translate_one(ctx, insn);
+-    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
++    ctx->opcode = translator_ldl(env, ctx->base.pc_next);
+     decode_opc(ctx);
+     ctx->base.pc_next = ctx->pc_succ_insn;
+ 
 -- 
 2.20.1
 
