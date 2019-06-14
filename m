@@ -2,53 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6905245EB9
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 15:46:03 +0200 (CEST)
-Received: from localhost ([::1]:51678 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554DA46041
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:12:49 +0200 (CEST)
+Received: from localhost ([::1]:51896 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmWo-0003yq-JW
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 09:46:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46193)
+	id 1hbmwi-0002EU-FM
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46768)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hbmRU-0001Wo-7m
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:33 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbmSG-0001zA-W6
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hbmRS-0005hA-SP
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:40:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50742)
+ (envelope-from <mreitz@redhat.com>) id 1hbmS4-0006Cm-F7
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:14076)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hbmRQ-0005aD-1V; Fri, 14 Jun 2019 09:40:28 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hbmS1-00066d-40; Fri, 14 Jun 2019 09:41:05 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0DD63316290D;
- Fri, 14 Jun 2019 13:40:22 +0000 (UTC)
-Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A732F1001B1A;
- Fri, 14 Jun 2019 13:40:17 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190611142821.3874-1-eric.auger@redhat.com>
- <20190611142821.3874-3-eric.auger@redhat.com>
- <CAFEAcA_OYdL1TPN+OTdkZ0J2fx_4vFiXCs0fUVdGjkkMURCfZA@mail.gmail.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <ef87a46b-06fc-a66d-37ca-4499afc76663@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id B4ECBC0546D3;
+ Fri, 14 Jun 2019 13:41:01 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.125])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E5827C5BB;
+ Fri, 14 Jun 2019 13:41:01 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
 Date: Fri, 14 Jun 2019 15:40:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+Message-Id: <20190614134021.32486-15-mreitz@redhat.com>
+In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
+References: <20190614134021.32486-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_OYdL1TPN+OTdkZ0J2fx_4vFiXCs0fUVdGjkkMURCfZA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 14 Jun 2019 13:40:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.32]); Fri, 14 Jun 2019 13:41:01 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/2] hw/arm/smmuv3: Implement dummy replay
+Subject: [Qemu-devel] [PULL 14/20] qemu-img: Move quiet into ImgConvertState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,86 +54,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Eric Auger <eric.auger.pro@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Move img_convert()'s quiet flag into the ImgConvertState so it is
+accessible by nested functions.  -q dictates that it suppresses anything
+but errors, so if those functions want to emit warnings, they need to
+query this flag first.  (There currently are no such warnings, but there
+will be as of the next patch.)
 
-On 6/14/19 3:26 PM, Peter Maydell wrote:
-> On Tue, 11 Jun 2019 at 15:29, Eric Auger <eric.auger@redhat.com> wrote:
->>
->> On ARM we currently do not support VFIO-PCI devices protected
->> by the IOMMU. Any attempt to run such use case results in this
->> kind of warning:
->>
->> "-device vfio-pci,host=0004:01:00.0,id=hostdev0,bus=pci.1,addr=0x0:
->> warning: SMMUv3 does not support notification on MAP: device vfio-pci
->> will not function properly".
->>
->> However this is just a warning and this should not prevent the
->> guest from booting in a reasonable amount of time. This does not
->> happen currently.
->>
->> This is due to the fact the VFIO vfio_listener_region_add() calls
->> memory_region_iommu_replay(). As the SMMUv3 IOMMUMemoryRegionClass
->> currently does not implement the replay() callback, the default
->> memory_region_iommu_replay() implementation is used. This latter
->> loops on the whole notifier's range (48b address space), translates
->> each page and call the notifier on the resulting entry. This totally
->> freezes the guest.
->>
->> The Intel IOMMU implements the replay() function which only
->> notifies valid page table entries.
->>
->> In the looming SMMUv3 nested stage VFIO integration, there will be
->> no need to replay() anything as there will not be any shadow page
->> tables: the stage 1 page tables are owned by the guest.
->>
->> So let's implement a void replay() which satisfies both cases.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> ---
->>  hw/arm/smmuv3.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
->>
->> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
->> index e2f07d2864..1f578365ef 100644
->> --- a/hw/arm/smmuv3.c
->> +++ b/hw/arm/smmuv3.c
->> @@ -1489,6 +1489,11 @@ static void smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
->>      }
->>  }
->>
->> +static inline void
->> +smmuv3_replay(IOMMUMemoryRegion *iommu_mr, IOMMUNotifier *n)
->> +{
->> +}
-> 
-> This doesn't seem like a valid implementation of the replay
-> method to me. The API doc comment says
->      * The default implementation of memory_region_iommu_replay() is to
->      * call the IOMMU translate method for every page in the address space
->      * with flag == IOMMU_NONE and then call the notifier if translate
->      * returns a valid mapping. If this method is implemented then it
->      * overrides the default behaviour, and must provide the full semantics
->      * of memory_region_iommu_replay(), by calling @notifier for every
->      * translation present in the IOMMU.
-> 
-> This empty function is definitely not going to call the notifier
-> for every IOMMU translation...
-The situation is a bit odd. SMMUv3 is not integrated with VFIO so VFIO
-devices will not work anyway (we are not able to notify on MAP). There
-is a warning already reporting the issue. However the default
-implementation of memory_region_iommu_replay() prevents the guest from
-booting. So what would you advise?
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-id: 20190507203508.18026-2-mreitz@redhat.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ qemu-img.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Thanks
+diff --git a/qemu-img.c b/qemu-img.c
+index da14aea46a..e15e617256 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -1581,6 +1581,7 @@ typedef struct ImgConvertState {
+     int64_t target_backing_sectors; /* negative if unknown */
+     bool wr_in_order;
+     bool copy_range;
++    bool quiet;
+     int min_sparse;
+     int alignment;
+     size_t cluster_sectors;
+@@ -2012,7 +2013,7 @@ static int img_convert(int argc, char **argv)
+     QDict *open_opts =3D NULL;
+     char *options =3D NULL;
+     Error *local_err =3D NULL;
+-    bool writethrough, src_writethrough, quiet =3D false, image_opts =3D=
+ false,
++    bool writethrough, src_writethrough, image_opts =3D false,
+          skip_create =3D false, progress =3D false, tgt_image_opts =3D f=
+alse;
+     int64_t ret =3D -EINVAL;
+     bool force_share =3D false;
+@@ -2120,7 +2121,7 @@ static int img_convert(int argc, char **argv)
+             src_cache =3D optarg;
+             break;
+         case 'q':
+-            quiet =3D true;
++            s.quiet =3D true;
+             break;
+         case 'n':
+             skip_create =3D true;
+@@ -2209,7 +2210,7 @@ static int img_convert(int argc, char **argv)
+     }
+=20
+     /* Initialize before goto out */
+-    if (quiet) {
++    if (s.quiet) {
+         progress =3D false;
+     }
+     qemu_progress_init(progress, 1.0);
+@@ -2220,7 +2221,7 @@ static int img_convert(int argc, char **argv)
+=20
+     for (bs_i =3D 0; bs_i < s.src_num; bs_i++) {
+         s.src[bs_i] =3D img_open(image_opts, argv[optind + bs_i],
+-                               fmt, src_flags, src_writethrough, quiet,
++                               fmt, src_flags, src_writethrough, s.quiet=
+,
+                                force_share);
+         if (!s.src[bs_i]) {
+             ret =3D -1;
+@@ -2383,7 +2384,7 @@ static int img_convert(int argc, char **argv)
+=20
+     if (skip_create) {
+         s.target =3D img_open(tgt_image_opts, out_filename, out_fmt,
+-                            flags, writethrough, quiet, false);
++                            flags, writethrough, s.quiet, false);
+     } else {
+         /* TODO ultimately we should allow --target-image-opts
+          * to be used even when -n is not given.
+@@ -2391,7 +2392,7 @@ static int img_convert(int argc, char **argv)
+          * to allow filenames in option syntax
+          */
+         s.target =3D img_open_file(out_filename, open_opts, out_fmt,
+-                                 flags, writethrough, quiet, false);
++                                 flags, writethrough, s.quiet, false);
+         open_opts =3D NULL; /* blk_new_open will have freed it */
+     }
+     if (!s.target) {
+--=20
+2.21.0
 
-Eric
-> 
-> thanks
-> -- PMM
-> 
 
