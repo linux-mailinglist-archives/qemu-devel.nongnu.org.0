@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EE7461A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:51:44 +0200 (CEST)
-Received: from localhost ([::1]:52282 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B6CA461BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:54:53 +0200 (CEST)
+Received: from localhost ([::1]:52326 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbnYO-0000q7-0l
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58409)
+	id 1hbnbQ-0004Oi-3T
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:54:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58563)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbn1J-000831-D6
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:17:35 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbn1x-00005N-0I
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:18:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbn1H-0008OW-2M
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:17:33 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38507)
+ (envelope-from <philmd@redhat.com>) id 1hbn1v-0000Tm-Ss
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:18:12 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:54153)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbn1G-0008Nw-QX
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:17:30 -0400
-Received: by mail-wm1-f65.google.com with SMTP id s15so2510768wmj.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:17:30 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbn1v-0000Sp-Md
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:18:11 -0400
+Received: by mail-wm1-f65.google.com with SMTP id x15so2557266wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:18:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AHSsfG1MI2exuaXmxSiORiepqBdmQk8eefC0kK5yLx4=;
- b=OzS8aRIfihBXnzTY5MZAYAkD/9201psUiNyf8Hj4d4SQvLQKsMkI1e56U9/wwlO1en
- eZIJRViz25+DANLfk9HVMBkaZ+p5kiuUXF8gLMXSphIO0QNVIaXvJvVQgl5Zl8CCsawW
- PoY1osYWQicLJ/EIrQnPQ1zWgngF2wovgA4t9I2Dxp64TVMIssMncJxkd+cYFL7doY4k
- SN6/GT6YPh+Sf5/oyKVjH0EGNI7CIlrq01y5L2WJ/mNugc/GQ3PKCa1lsgFirvaXQPdh
- c4IJFoHvDO+gnRa3n4J9XcnJwI0ABMxZTW5EjO55XfwkxRyi31eeNp3VWVYepzZXk3o8
- 4kDA==
-X-Gm-Message-State: APjAAAUrh09nThEuj9QU0ZcloAbQshyh258PBpvxXn9ItYVOUjFOy6l2
- K982yqdl1jSXouWp15/OVs0J5A==
-X-Google-Smtp-Source: APXvYqx2izJPsnCTkUx7+vm6658fjTRAt4FLuWrMXyZ2o1wAGAxRwp5RbauYQbv3NT84bJ3IotMakQ==
-X-Received: by 2002:a1c:f018:: with SMTP id a24mr7998755wmb.66.1560521849833; 
- Fri, 14 Jun 2019 07:17:29 -0700 (PDT)
+ bh=wJ2DCYzegHPQ1aR/5tabPSHOjwR4NrVnmi5JtYGHVZI=;
+ b=mcZm7JiaKIT5kuekDDSK3nZDNSYBqceYUd2puFx99vHWsM4nAvalXjsrMpjxo5qOtM
+ zeG5HIooOxBn6oRnqT/Vwn4IQHpx1ytvQIpz2gaeJolMwfBlxzqzvmZoKbiIZ3Gcf7l9
+ n0FXDmXT0kES2vCSo0SLU908UzAseUlosmoB/9wKlP657COO/BDEqDY299/TEzIo4zld
+ Td0CxO/qlq7eqUdQ1nuBQisbq8a6b/630iEUkslc4eRGPhnZ8xfeZDlQz4h8ycQeWb6Z
+ 5SAQ18kU/1/iHxgH/irBEaWsCAG0U6EuaWp3S3rf8nIcaiItQ/5wdzDyF/qrfJKOuBql
+ /i1Q==
+X-Gm-Message-State: APjAAAUjSYlUWhsC3vYuHMT7cUexvX7Df+eqLpT42rqNAtkOQPthRx79
+ bkKNtBCGZJREn4/PuQEfcB3ULw==
+X-Google-Smtp-Source: APXvYqzZNaJZXuJJ4SXCkrZl5P0jVxa3trtf9v3AYw4aB3MpHjOaSgcU9WynzbS11UIzgM55iEwh2A==
+X-Received: by 2002:a7b:c450:: with SMTP id l16mr8639971wmi.0.1560521890830;
+ Fri, 14 Jun 2019 07:18:10 -0700 (PDT)
 Received: from [192.168.1.103] (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id t6sm4688532wmb.29.2019.06.14.07.17.29
+ by smtp.gmail.com with ESMTPSA id l19sm1956024wmj.33.2019.06.14.07.18.10
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 14 Jun 2019 07:17:29 -0700 (PDT)
+ Fri, 14 Jun 2019 07:18:10 -0700 (PDT)
 To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
 References: <20190607152223.9467-1-crosa@redhat.com>
- <20190607152223.9467-4-crosa@redhat.com>
+ <20190607152223.9467-7-crosa@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d8a66c6a-8a98-760b-f538-f919c66c14ea@redhat.com>
-Date: Fri, 14 Jun 2019 16:17:28 +0200
+Message-ID: <26041dfd-0270-d637-22a2-30ce13c82bd4@redhat.com>
+Date: Fri, 14 Jun 2019 16:18:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190607152223.9467-4-crosa@redhat.com>
+In-Reply-To: <20190607152223.9467-7-crosa@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH 3/8] Acceptance tests: drop left over usage
- of ":avocado: enable"
+Subject: Re: [Qemu-devel] [PATCH 6/8] VNC Acceptance test: simplify test
+ names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,30 +83,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/7/19 5:22 PM, Cleber Rosa wrote:
-> Commit 9531d26c10 removed all of ":avocado: enable" tags, but then
-> a new entry was added with the introduction of migration.py.
-> 
-> Let's remove it for consistency.
+> The test name is composed of the class name and method name, so it
+> looks like there's some redundancy here that we can eliminate.
 > 
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/migration.py | 3 ---
->  1 file changed, 3 deletions(-)
+>  tests/acceptance/vnc.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.py
-> index 6115cf6c24..a44c1ae58f 100644
-> --- a/tests/acceptance/migration.py
-> +++ b/tests/acceptance/migration.py
-> @@ -17,9 +17,6 @@ from avocado.utils import wait
+> diff --git a/tests/acceptance/vnc.py b/tests/acceptance/vnc.py
+> index 675fd507ed..d32ae46685 100644
+> --- a/tests/acceptance/vnc.py
+> +++ b/tests/acceptance/vnc.py
+> @@ -45,7 +45,7 @@ class VncUnixSocket(Test):
+>          self.socket_dir = tempfile.mkdtemp()
+>          self.socket_path = os.path.join(self.socket_dir, 'vnc-socket')
 >  
+> -    def test_vnc_change_password_requires_a_password(self):
+> +    def test_change_password_requires_a_password(self):
+>          self.vm.add_args('-nodefaults', '-S',
+>                           '-vnc', 'unix:%s' % self.socket_path)
+>          self.vm.launch()
+> @@ -60,7 +60,7 @@ class VncUnixSocket(Test):
+>          self.assertEqual(set_password_response['error']['desc'],
+>                           'Could not set password')
 >  
->  class Migration(Test):
-> -    """
-> -    :avocado: enable
-> -    """
->  
->      timeout = 10
->  
+> -    def test_vnc_change_password(self):
+> +    def test_change_password(self):
+>          self.vm.add_args('-nodefaults', '-S',
+>                           '-vnc', 'unix:%s,password' % self.socket_path)
+>          self.vm.launch()
 > 
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
