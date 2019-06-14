@@ -2,96 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 374F446367
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:52:35 +0200 (CEST)
-Received: from localhost ([::1]:52906 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FD74637B
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:57:23 +0200 (CEST)
+Received: from localhost ([::1]:52950 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hboVF-0002Sq-T3
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:52:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57646)
+	id 1hboZu-0006sP-Qh
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:57:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57896)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hboKO-0005eP-HX
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:41:22 -0400
+ (envelope-from <farman@linux.ibm.com>) id 1hboKu-0006EM-7T
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:41:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hboKM-000275-Ib
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:41:20 -0400
-Received: from mail-am5eur02on0728.outbound.protection.outlook.com
- ([2a01:111:f400:fe07::728]:24331
- helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ (envelope-from <farman@linux.ibm.com>) id 1hboKr-0002Wh-PU
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:41:51 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40606)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hboKD-0001yL-Hr; Fri, 14 Jun 2019 11:41:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wvyrbLTzP/BpMItnm3+fc5GHCpLqSCPiRQ5A2ZohjZA=;
- b=YLmWTVCuLJT6apbcUgOZ4HtcKnYKKYP/5qMI7lXTGiECnBuGnon0tBuuWE76tQ1S4CHL0U9BLnKRJVqvnlfg1F6xz26ByWFA5hGEwVrn4bsLhDGiTdhlDGHWhSFnVE1lj0J75B62eA6cx5P8TcTypd8F3MfestVLHqhKa6ssb1g=
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
- AM0PR08MB4498.eurprd08.prod.outlook.com (20.179.33.74) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.14; Fri, 14 Jun 2019 15:41:00 +0000
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
- 15:41:00 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v5 22/42] block: Use CAFs in
- bdrv_get_allocated_file_size()
-Thread-Index: AQHVIWu7YTAzme1CY0G2fmSS+RVg2KabTEaA
-Date: Fri, 14 Jun 2019 15:41:00 +0000
-Message-ID: <e748a63f-2ee7-1c43-df21-573d038444b8@virtuozzo.com>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-23-mreitz@redhat.com>
-In-Reply-To: <20190612221004.2317-23-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0501CA0001.eurprd05.prod.outlook.com
- (2603:10a6:3:1a::11) To AM0PR08MB3572.eurprd08.prod.outlook.com
- (2603:10a6:208:e1::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190614184057819
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3d7b3ef0-a03c-4ca5-0f42-08d6f0deb310
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:AM0PR08MB4498; 
-x-ms-traffictypediagnostic: AM0PR08MB4498:
-x-microsoft-antispam-prvs: <AM0PR08MB4498548D1F7E18F67EBAA7E9C1EE0@AM0PR08MB4498.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:843;
-x-forefront-prvs: 0068C7E410
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(136003)(346002)(366004)(396003)(39850400004)(189003)(199004)(476003)(76176011)(2616005)(11346002)(36756003)(81156014)(478600001)(6116002)(6506007)(66476007)(8936002)(386003)(73956011)(66946007)(31686004)(486006)(52116002)(305945005)(3846002)(7736002)(66556008)(2501003)(66446008)(64756008)(229853002)(446003)(99286004)(71200400001)(71190400001)(8676002)(53936002)(6246003)(6436002)(316002)(68736007)(110136005)(6486002)(5660300002)(14444005)(66066001)(14454004)(86362001)(4326008)(256004)(186003)(54906003)(81166006)(25786009)(31696002)(26005)(6512007)(102836004)(2906002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB4498;
- H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: QumjpD3zzYA24ImPgbsW8igFgp5kMyoqGME4zwUEZmSA3jlJYRIZ8o0DXSJ+ZNXNOYz5FwUA8BTmLsn7VZHSF+VV34PdfkeiuWB9pcZPYR7fclOnjhScpcByzPyub76DUOrKDXcD/lqLFVt7A5JjRj90j36ZQUS3ilGWbLRSgmP4ettIAi8Y4uivKGNGmQEeGqlpBlo3Wkhh6fxpTqCb1/j8Ji3TenUdsqGkdh2KX6UJzVZAXpRctDgp7/nR7z8Ydv4nFaAyJJudYuqY3/2NPRk9EwvPOuhbggUqOPzrkUBQ5DKHywoFxH8SehufM4QerJJ4G3pIV2+rNyjtcFhMep92HhhYdmRlLS4Aks/N2/Qd0cl/la1EIThyfvDxku8uTzLtSEysOeDbbvR5goTG336+Y3qousHjZtIKAfz2ju0=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3A17DC3774A3134C95A6F3A732184E8E@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <farman@linux.ibm.com>)
+ id 1hboKr-0002Ve-BI
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:41:49 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5EFcApx025967
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 11:41:46 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2t4cr458pw-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 11:41:46 -0400
+Received: from localhost
+ by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
+ Fri, 14 Jun 2019 16:41:45 +0100
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+ by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 14 Jun 2019 16:41:42 +0100
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x5EFff2m26018108
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Jun 2019 15:41:42 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DFC67AE063;
+ Fri, 14 Jun 2019 15:41:41 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A2872AE05F;
+ Fri, 14 Jun 2019 15:41:41 +0000 (GMT)
+Received: from [9.85.188.22] (unknown [9.85.188.22])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 14 Jun 2019 15:41:41 +0000 (GMT)
+To: Auger Eric <eric.auger@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Farhan Ali <alifm@linux.ibm.com>
+References: <20190614092705.11025-1-cohuck@redhat.com>
+ <790578fe-9d90-bfa1-a540-f7f054d8293f@linux.ibm.com>
+ <5fd0fe9a-9f1e-15f1-b440-e3c505e6f3ea@redhat.com>
+From: Eric Farman <farman@linux.ibm.com>
+Date: Fri, 14 Jun 2019 11:41:41 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d7b3ef0-a03c-4ca5-0f42-08d6f0deb310
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 15:41:00.4479 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4498
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe07::728
-Subject: Re: [Qemu-devel] [PATCH v5 22/42] block: Use CAFs in
- bdrv_get_allocated_file_size()
+In-Reply-To: <5fd0fe9a-9f1e-15f1-b440-e3c505e6f3ea@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19061415-0052-0000-0000-000003D11747
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011261; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01217900; UDB=6.00640482; IPR=6.00999022; 
+ MB=3.00027312; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-14 15:41:44
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19061415-0053-0000-0000-00006153A9F8
+Message-Id: <e09fb36f-af61-f4bc-e525-ccdc0c08dce3@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-14_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906140129
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [PATCH] vfio-ccw: use vfio_set_irq_signaling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -103,43 +99,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFNpZ25lZC1vZmYtYnk6IE1heCBS
-ZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+DQo+IC0tLQ0KPiAgIGJsb2NrLmMgfCAyNiArKysrKysr
-KysrKysrKysrKysrKysrKystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAyNCBpbnNlcnRpb25zKCsp
-LCAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrLmMgYi9ibG9jay5jDQo+
-IGluZGV4IDExYjdiYThjZjYuLjg1NmQ5YjU4YmUgMTAwNjQ0DQo+IC0tLSBhL2Jsb2NrLmMNCj4g
-KysrIGIvYmxvY2suYw0KPiBAQCAtNDUxMSwxNSArNDUxMSwzNyBAQCBleGl0Og0KPiAgIGludDY0
-X3QgYmRydl9nZXRfYWxsb2NhdGVkX2ZpbGVfc2l6ZShCbG9ja0RyaXZlclN0YXRlICpicykNCj4g
-ICB7DQo+ICAgICAgIEJsb2NrRHJpdmVyICpkcnYgPSBicy0+ZHJ2Ow0KPiArICAgIEJsb2NrRHJp
-dmVyU3RhdGUgKnN0b3JhZ2VfYnMsICptZXRhZGF0YV9iczsNCj4gKw0KPiAgICAgICBpZiAoIWRy
-dikgew0KPiAgICAgICAgICAgcmV0dXJuIC1FTk9NRURJVU07DQo+ICAgICAgIH0NCj4gKw0KPiAg
-ICAgICBpZiAoZHJ2LT5iZHJ2X2dldF9hbGxvY2F0ZWRfZmlsZV9zaXplKSB7DQo+ICAgICAgICAg
-ICByZXR1cm4gZHJ2LT5iZHJ2X2dldF9hbGxvY2F0ZWRfZmlsZV9zaXplKGJzKTsNCj4gICAgICAg
-fQ0KPiAtICAgIGlmIChicy0+ZmlsZSkgew0KPiAtICAgICAgICByZXR1cm4gYmRydl9nZXRfYWxs
-b2NhdGVkX2ZpbGVfc2l6ZShicy0+ZmlsZS0+YnMpOw0KPiArDQo+ICsgICAgc3RvcmFnZV9icyA9
-IGJkcnZfc3RvcmFnZV9icyhicyk7DQo+ICsgICAgbWV0YWRhdGFfYnMgPSBiZHJ2X21ldGFkYXRh
-X2JzKGJzKTsNCj4gKw0KPiArICAgIGlmIChzdG9yYWdlX2JzKSB7DQo+ICsgICAgICAgIGludDY0
-X3QgZGF0YV9zaXplLCBtZXRhZGF0YV9zaXplID0gMDsNCj4gKw0KPiArICAgICAgICBkYXRhX3Np
-emUgPSBiZHJ2X2dldF9hbGxvY2F0ZWRfZmlsZV9zaXplKHN0b3JhZ2VfYnMpOw0KPiArICAgICAg
-ICBpZiAoZGF0YV9zaXplIDwgMCkgew0KPiArICAgICAgICAgICAgcmV0dXJuIGRhdGFfc2l6ZTsN
-Cj4gKyAgICAgICAgfQ0KPiArDQo+ICsgICAgICAgIGlmIChzdG9yYWdlX2JzICE9IG1ldGFkYXRh
-X2JzKSB7DQo+ICsgICAgICAgICAgICBtZXRhZGF0YV9zaXplID0gYmRydl9nZXRfYWxsb2NhdGVk
-X2ZpbGVfc2l6ZShtZXRhZGF0YV9icyk7DQo+ICsgICAgICAgICAgICBpZiAobWV0YWRhdGFfc2l6
-ZSA8IDApIHsNCj4gKyAgICAgICAgICAgICAgICByZXR1cm4gbWV0YWRhdGFfc2l6ZTsNCj4gKyAg
-ICAgICAgICAgIH0NCj4gKyAgICAgICAgfQ0KPiArDQo+ICsgICAgICAgIHJldHVybiBkYXRhX3Np
-emUgKyBtZXRhZGF0YV9zaXplOw0KPiAgICAgICB9DQo+ICsNCj4gICAgICAgcmV0dXJuIC1FTk9U
-U1VQOw0KPiAgIH0NCj4gICANCj4gDQoNCkFnYWluLCBJIGRpc2xpa2UgbmFpbGluZyBkb3duIG5l
-dyBmcmVzaCBmZWF0dXJlIGFib3V0IHNlcGFyYXRlIG1ldGFkYXRhIGFuZCBzdG9yYWdlIGNoaWxk
-DQp0byB0aGUgZ2VuZXJpYyBibG9jayBsYXllciwgYXMgaXQncyBzaW1wbGUgdG8gaW1hZ2luZSBh
-IGRyaXZlciB3aGljaCBuZWVkcyB0aHJlZSBvciBtb3JlDQpjaGlsZHJlbiB0byBzdG9yZSBhbGwg
-aXRzIGRhdGEgYW5kIG1ldGFkYXRhLi4NCg0KSXNuJ3QgaXQgYmV0dGVyIGJ5IGRlZmF1bHQgbG9v
-cCB0aHJvdWdoIGFsbCBjaGlsZHJlbiBhbmQgc3VtIGFsbCB0aGVpciBhbGxvY2F0ZWQgc2l6ZXM/
-DQoNCkhtbSwgYnV0IHdlIHdhbnQgZXhjbHVkZSBiYWNraW5nLCB5ZXM/IFN0aWxsIHdlIG1heSBp
-Z25vcmUgaXQgd2hpbGUgaXRlcmF0aW5nLg0KDQotLSANCkJlc3QgcmVnYXJkcywNClZsYWRpbWly
-DQo=
+
+
+On 6/14/19 11:06 AM, Auger Eric wrote:
+> Hi Eric,
+> 
+> On 6/14/19 4:30 PM, Eric Farman wrote:
+>>
+>>
+>> On 6/14/19 5:27 AM, Cornelia Huck wrote:
+>>> Use the new helper.
+>>>
+>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>>> ---
+>>>  hw/vfio/ccw.c | 68 +++++++++++----------------------------------------
+>>>  1 file changed, 14 insertions(+), 54 deletions(-)
+>>>
+>>> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+>>> index 03a2becb3ec9..3dc08721a3db 100644
+>>> --- a/hw/vfio/ccw.c
+>>> +++ b/hw/vfio/ccw.c
+>>> @@ -197,10 +197,7 @@ read_err:
+>>>  static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
+>>>  {
+>>>      VFIODevice *vdev = &vcdev->vdev;
+>>> -    struct vfio_irq_info *irq_info;
+>>> -    struct vfio_irq_set *irq_set;
+>>> -    size_t argsz;
+>>> -    int32_t *pfd;
+>>> +    int fd;
+>>>  
+>>>      if (vdev->num_irqs < VFIO_CCW_IO_IRQ_INDEX + 1) {
+>>>          error_setg(errp, "vfio: unexpected number of io irqs %u",
+>>> @@ -208,72 +205,35 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
+>>>          return;
+>>>      }
+>>>  
+>>> -    argsz = sizeof(*irq_info);
+>>> -    irq_info = g_malloc0(argsz);
+>>> -    irq_info->index = VFIO_CCW_IO_IRQ_INDEX;
+>>> -    irq_info->argsz = argsz;
+>>> -    if (ioctl(vdev->fd, VFIO_DEVICE_GET_IRQ_INFO,
+>>> -              irq_info) < 0 || irq_info->count < 1) {
+>>> -        error_setg_errno(errp, errno, "vfio: Error getting irq info");
+>>> -        goto out_free_info;
+>>> -    }
+>>> -
+>>
+>> Don't we still need this hunk?  (And the out_free_info label stuff that
+>> cleans it up.)  I don't see vfio_set_irq_signaling() covering it.
+> 
+> Looks this IRQ index is always implemented and exposed by the driver,
+> isn't it? In such a case it shouldn't be needed to test its presence?
+
+Right; if we were running on an old kernel, both ioctl's would fail the
+same way since they were added concurrently.  So the check today doesn't
+seem very useful.
+
+But since it's there, and we're taking it out, it got me wondering
+whether there are/were intentions to expand GET_IRQ_INFO in the future.
+I'm not aware of any reason vfio-ccw would need to, but want some
+confirmation that I'm not overlooking anything.
+
+Cheers,
+Other Eric
+
+> 
+> Thanks
+> 
+> Eric
+>>
+>>>      if (event_notifier_init(&vcdev->io_notifier, 0)) {
+>>>          error_setg_errno(errp, errno,
+>>>                           "vfio: Unable to init event notifier for IO");
+>>> -        goto out_free_info;
+>>> +        return;
+>>>      }
+>>>  
+>>> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
+>>> -    irq_set = g_malloc0(argsz);
+>>> -    irq_set->argsz = argsz;
+>>> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
+>>> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+>>> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
+>>> -    irq_set->start = 0;
+>>> -    irq_set->count = 1;
+>>> -    pfd = (int32_t *) &irq_set->data;
+>>> -
+>>> -    *pfd = event_notifier_get_fd(&vcdev->io_notifier);
+>>> -    qemu_set_fd_handler(*pfd, vfio_ccw_io_notifier_handler, NULL, vcdev);
+>>> -    if (ioctl(vdev->fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+>>> -        error_setg(errp, "vfio: Failed to set up io notification");
+>>> -        qemu_set_fd_handler(*pfd, NULL, NULL, vcdev);
+>>> +    fd = event_notifier_get_fd(&vcdev->io_notifier);
+>>> +    qemu_set_fd_handler(fd, vfio_ccw_io_notifier_handler, NULL, vcdev);
+>>> +
+>>> +    if (vfio_set_irq_signaling(vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
+>>> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
+>>> +        qemu_set_fd_handler(fd, NULL, NULL, vcdev);
+>>
+>> This sure looks nice though.  :)
+>>
+>>>          event_notifier_cleanup(&vcdev->io_notifier);
+>>>      }
+>>> -
+>>> -    g_free(irq_set);
+>>> -
+>>> -out_free_info:
+>>> -    g_free(irq_info);
+>>>  }
+>>>  
+>>>  static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
+>>>  {
+>>> -    struct vfio_irq_set *irq_set;
+>>> -    size_t argsz;
+>>> -    int32_t *pfd;
+>>> -
+>>> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
+>>> -    irq_set = g_malloc0(argsz);
+>>> -    irq_set->argsz = argsz;
+>>> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
+>>> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
+>>> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
+>>> -    irq_set->start = 0;
+>>> -    irq_set->count = 1;
+>>> -    pfd = (int32_t *) &irq_set->data;
+>>> -    *pfd = -1;
+>>> -
+>>> -    if (ioctl(vcdev->vdev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
+>>> -        error_report("vfio: Failed to de-assign device io fd: %m");
+>>> +    Error *err = NULL;
+>>> +
+>>> +    vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
+>>> +                           VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err);
+>>> +    if (err) {
+>>> +        error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
+>>>      }
+>>>  
+>>>      qemu_set_fd_handler(event_notifier_get_fd(&vcdev->io_notifier),
+>>>                          NULL, NULL, vcdev);
+>>>      event_notifier_cleanup(&vcdev->io_notifier);
+>>> -
+>>> -    g_free(irq_set);
+>>>  }
+>>>  
+>>>  static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
+>>>
+>>
+> 
+
 
