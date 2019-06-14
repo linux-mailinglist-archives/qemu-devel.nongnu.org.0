@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B065F45A1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 12:13:04 +0200 (CEST)
-Received: from localhost ([::1]:49840 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C7D45A2C
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 12:16:50 +0200 (CEST)
+Received: from localhost ([::1]:49878 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbjCh-0006O7-SO
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 06:13:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48775)
+	id 1hbjGL-00021M-LJ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 06:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48825)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hbj81-0003wl-KA
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:08:14 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbj88-0004EA-Kx
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:08:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hbj80-0000bO-Kd
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:08:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58708)
+ (envelope-from <philmd@redhat.com>) id 1hbj87-0000im-Lw
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:08:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56214)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hbj7w-0000R9-NV; Fri, 14 Jun 2019 06:08:09 -0400
+ id 1hbj85-0000hJ-BT; Fri, 14 Jun 2019 06:08:17 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C953437EE7;
- Fri, 14 Jun 2019 10:08:06 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9520866967;
+ Fri, 14 Jun 2019 10:08:16 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 33B671001B0F;
- Fri, 14 Jun 2019 10:08:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C8E91001B1B;
+ Fri, 14 Jun 2019 10:08:06 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 12:07:14 +0200
-Message-Id: <20190614100718.14019-6-philmd@redhat.com>
+Date: Fri, 14 Jun 2019 12:07:15 +0200
+Message-Id: <20190614100718.14019-7-philmd@redhat.com>
 In-Reply-To: <20190614100718.14019-1-philmd@redhat.com>
 References: <20190614100718.14019-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 14 Jun 2019 10:08:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Fri, 14 Jun 2019 10:08:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 5/9] configure: Link test before
- auto-enabling PulseAudio library
+Subject: [Qemu-devel] [PATCH v2 6/9] configure: Link test before
+ auto-enabling OpenGL libraries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,23 +68,22 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similarly to commit a73e82ef912, test the library links correctly
-before considering it as usable.
+Similarly to commit a73e82ef912, test the libraries link correctly
+before considering them as usable.
 
 This fixes using ./configure --static on Ubuntu 18.04:
 
-  $ make subdir-aarch64-softmmu
+  $ make subdir-lm32-softmmu
   [...]
-    LINK    aarch64-softmmu/qemu-system-aarch64
-  /usr/bin/ld: cannot find -lpulse
-  /usr/bin/ld: cannot find -lpulsecommon-11.1
+  LINK    lm32-softmmu/qemu-system-lm32
+  /usr/bin/ld: cannot find -lepoxy
+  /usr/bin/ld: cannot find -lgbm
   collect2: error: ld returned 1 exit status
-  Makefile:204: recipe for target 'qemu-system-aarch64' failed
-  make[1]: *** [qemu-system-aarch64] Error 1
+  Makefile:204: recipe for target 'qemu-system-lm32' failed
+  make[1]: *** [qemu-system-lm32] Error 1
 
-  $ fgrep pulse config-host.mak
-  PULSE_LIBS=3D-L/usr/lib/aarch64-linux-gnu/pulseaudio -lpulse -lpulsecom=
-mon-11.1
+  $ fgrep epoxy config-host.mak
+  OPENGL_LIBS=3D-lepoxy -ldl -lgbm -ldl
 
   $ lsb_release -cri
   Distributor ID: Ubuntu
@@ -93,42 +92,42 @@ mon-11.1
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- configure | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ configure | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/configure b/configure
-index 0dd6e8bed3..449dbd69ce 100755
+index 449dbd69ce..a3da5adf80 100755
 --- a/configure
 +++ b/configure
-@@ -3408,10 +3408,21 @@ for drv in $audio_drv_list; do
-=20
-     pa | try-pa)
-     if $pkg_config libpulse --exists; then
--        pulse_libs=3D$($pkg_config libpulse --libs)
--        audio_pt_int=3D"yes"
--        if test "$drv" =3D "try-pa"; then
--            audio_drv_list=3D$(echo "$audio_drv_list" | sed -e 's/try-pa=
-/pa/')
-+        pulse_cflags=3D$($pkg_config --cflags libpulse)
-+        pulse_libs=3D$($pkg_config --libs libpulse)
-+        # Packaging for the static libraries is not always correct.
-+        # At least ubuntu 18.04 ships only shared libraries.
-+        write_c_skeleton
-+        if ! compile_prog "$pulse_cflags" "$pulse_libs" ; then
-+            unset pulse_cflags pulse_libs
-+            if test "$drv" =3D "try-pa"; then
-+                audio_drv_list=3D$(echo "$audio_drv_list" | sed -e 's/tr=
-y-pa//')
-+            fi
-+        else
-+            audio_pt_int=3D"yes"
-+            if test "$drv" =3D "try-pa"; then
-+                audio_drv_list=3D$(echo "$audio_drv_list" | sed -e 's/tr=
-y-pa/pa/')
-+            fi
-         fi
-     else
-         if test "$drv" =3D "try-pa"; then
+@@ -4133,11 +4133,21 @@ if test "$opengl" !=3D "no" ; then
+   if $pkg_config $opengl_pkgs; then
+     opengl_cflags=3D"$($pkg_config --cflags $opengl_pkgs)"
+     opengl_libs=3D"$($pkg_config --libs $opengl_pkgs)"
+-    opengl=3Dyes
+-    if test "$gtk" =3D "yes" && $pkg_config --exists "$gtkpackage >=3D 3=
+.16"; then
+-        gtk_gl=3D"yes"
++    # Packaging for the static libraries is not always correct.
++    # At least ubuntu 18.04 ships only shared libraries.
++    write_c_skeleton
++    if ! compile_prog "$opengl_cflags" "$opengl_libs" ; then
++        if test "$opengl" =3D "yes" ; then
++          error_exit "opengl check failed."
++        fi
++        opengl=3Dno
++    else
++        opengl=3Dyes
++        if test "$gtk" =3D "yes" && $pkg_config --exists "$gtkpackage >=3D=
+ 3.16"; then
++            gtk_gl=3D"yes"
++        fi
++        QEMU_CFLAGS=3D"$QEMU_CFLAGS $opengl_cflags"
+     fi
+-    QEMU_CFLAGS=3D"$QEMU_CFLAGS $opengl_cflags"
+   else
+     if test "$opengl" =3D "yes" ; then
+       feature_not_found "opengl" "Please install opengl (mesa) devel pkg=
+s: $opengl_pkgs"
 --=20
 2.20.1
 
