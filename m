@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A05A746219
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:08:24 +0200 (CEST)
-Received: from localhost ([::1]:52432 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34640460EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:36:23 +0200 (CEST)
+Received: from localhost ([::1]:52128 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbnoV-0005E6-Q9
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:08:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33856)
+	id 1hbnJV-0006lB-EI
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:36:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34083)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ptoscano@redhat.com>) id 1hbnDc-0004JK-EU
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:30:21 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hbnEO-0004Vz-8x
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:31:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ptoscano@redhat.com>) id 1hbnDb-00016B-5V
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:30:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41588)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ptoscano@redhat.com>)
- id 1hbnDR-0000kk-CM; Fri, 14 Jun 2019 10:30:05 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 439A0307D90D;
- Fri, 14 Jun 2019 14:30:00 +0000 (UTC)
-Received: from lindworm.usersys.redhat.com (ovpn-200-20.brq.redhat.com
- [10.40.200.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F0084608A4;
- Fri, 14 Jun 2019 14:29:52 +0000 (UTC)
-From: Pino Toscano <ptoscano@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Date: Fri, 14 Jun 2019 16:29:46 +0200
-Message-ID: <2592166.7WioNeH6bT@lindworm.usersys.redhat.com>
-Organization: Red Hat
-In-Reply-To: <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
-References: <20190613132000.2146-1-ptoscano@redhat.com>
- <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hbnEM-00021Q-8t
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:31:04 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37095)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hbnEL-0001sA-TP
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:31:02 -0400
+Received: by mail-ot1-x343.google.com with SMTP id s20so2835037otp.4
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:30:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jzi1WzBywV7Ksk/jL1LGuopLvP6VTSwpRc+Q7NFGC+I=;
+ b=jQxdX7/aYvpuPIyOXjdDnu8zlv0ph0PZeWI1v/V4r98IsApEA1IRvaVWrf5GZeYsac
+ 6bUJzBAGRvIwv4h42eybLdmaoOCHAU3LTzUBU1GqzY9gl5FMx3efk5W9dfjup2YMn957
+ 8Lo5K4yS1VVx0xN3wA0R8eFozG1yLDoGSjxztJD0ET6AZdfgMNlg69BtyhLzFMsD1f++
+ OqzIQ/O2EmDm6Q2ITyWRqxYXtES7Nm5UXHRIK/WOZinH/m2nhVJiaoFUjg8VIhA6ATiZ
+ +EePnQh9ziEXAyI9ZzuqHBYOPj5BvPSizPislP2FdAhjqf3GKIfWpbGWdeKjy3EPU/i9
+ ZgWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jzi1WzBywV7Ksk/jL1LGuopLvP6VTSwpRc+Q7NFGC+I=;
+ b=tKMxYY4JGyCbMrCk0hJDzSh2nc0Myn/D06+BRC+oq0YIH07/XCjJeAqctnHlNkc/QN
+ Y4Ks5CDA8qcyDfIpHhOd6KoBZo1aVuxvtOwclR52Vq4IBWo2NLFG65PdyQQ2zknj117e
+ jJCtSJkXVe62eTuAPg+4eLPdC5f7wO4OK+KTF+hp71X8z7LfHvMslPZ8xo6szsobypQM
+ Bq8YW20ywxGcQewZQjPpckesEiwDiwe6XU1WTMK3yWOT2Z2WI3ILpHFl3wtY8hHiLkFZ
+ 1eMm5Mmsd2k0QsBP55vN7ROD0EAa1kGHRw7X/mDJ1FRwL0TRZvnMQx7IoaqGDpQ1Jj3d
+ t0/A==
+X-Gm-Message-State: APjAAAUFpnL4MAXwFwfC+Muxkk8bVkf7Bd4B/t/hoNABfYJar18O2gmr
+ QjTXs/maspTWhOshSUKYFKgJDyyaqazFmWkim2XSBg==
+X-Google-Smtp-Source: APXvYqzbae1ON33fVGKRoyvh1f4krjDKHYVu44oK6GDktHYfWWnkZIRRm97hyGDM0suFEu5wwE69VgYUPyg51hKdVLc=
+X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr6359254otn.135.1560522647592; 
+ Fri, 14 Jun 2019 07:30:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2635807.eRrssQcAN8";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Fri, 14 Jun 2019 14:30:00 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v9] ssh: switch from libssh2 to libssh
+References: <20190614072432.820-1-philmd@redhat.com>
+ <CAFEAcA9zEKePcOHK6WMqAitf282EWh5LUYRqZ3oAJ_W1wPsohw@mail.gmail.com>
+ <8736kce0b2.fsf@zen.linaroharston>
+In-Reply-To: <8736kce0b2.fsf@zen.linaroharston>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 14 Jun 2019 15:30:36 +0100
+Message-ID: <CAFEAcA8Uw8QNMa8EFzsjNzADdUAmkiYtXi04GN7+M-9w+eLSkA@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 0/6] configure: Try to fix --static linking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,203 +75,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, philmd@redhat.com,
- qemu-devel@nongnu.org, rjones@redhat.com, sw@weilnetz.de,
- alex.bennee@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ integration@gluster.org,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>,
+ =?UTF-8?B?TG/Dr2MgTWluaWVy?= <loic.minier@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Bharata B Rao <bharata@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Niels de Vos <ndevos@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nextPart2635807.eRrssQcAN8
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+On Fri, 14 Jun 2019 at 14:58, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 
-On Thursday, 13 June 2019 21:31:40 CEST Max Reitz wrote:
-> On 13.06.19 15:20, Pino Toscano wrote:
-> > -    switch (r) {
-> > -    case LIBSSH2_KNOWNHOST_CHECK_MATCH:
-> > +    switch (state) {
-> > +    case SSH_KNOWN_HOSTS_OK:
-> >          /* OK */
-> > -        trace_ssh_check_host_key_knownhosts(found->key);
-> > +        trace_ssh_check_host_key_knownhosts();
-> >          break;
-> > -    case LIBSSH2_KNOWNHOST_CHECK_MISMATCH:
-> > +    case SSH_KNOWN_HOSTS_CHANGED:
-> >          ret =3D -EINVAL;
-> > -        session_error_setg(errp, s,
-> > -                      "host key does not match the one in known_hosts"
-> > -                      " (found key %s)", found->key);
-> > +        error_setg(errp, "host key does not match the one in known_hos=
-ts");
->=20
-> So what about the possible attack warning that the specification
-> technically requires us to print? O:-)
+> It would be nice to have a --static-user config flag and deprecate the
+> --static flag. I don't think there is a decent use case for system
+> emulation targets.
 
-There is the API since libssh 0.8.0... which unfortunately is not
-usable, as they forgot to properly export the symbol :-(
+It would be really tricky to build half with static and half
+without: our configure and build system really assumes that
+fundamental stuff like "what libraries" and "what compiler flags"
+are the same across the whole of the build.
 
->=20
-> >          goto out;
-> > -    case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND:
-> > +    case SSH_KNOWN_HOSTS_OTHER:
-> >          ret =3D -EINVAL;
-> > -        session_error_setg(errp, s, "no host key was found in known_ho=
-sts");
-> > +        error_setg(errp,
-> > +                   "host key for this server not found, another type e=
-xists");
-> >          goto out;
-> > -    case LIBSSH2_KNOWNHOST_CHECK_FAILURE:
-> > +    case SSH_KNOWN_HOSTS_UNKNOWN:
-> >          ret =3D -EINVAL;
-> > -        session_error_setg(errp, s,
-> > -                      "failure matching the host key with known_hosts"=
-);
-> > +        error_setg(errp, "no host key was found in known_hosts");
-> > +        goto out;
-> > +    case SSH_KNOWN_HOSTS_NOT_FOUND:
-> > +        ret =3D -ENOENT;
-> > +        error_setg(errp, "known_hosts file not found");
-> > +        goto out;
-> > +    case SSH_KNOWN_HOSTS_ERROR:
-> > +        ret =3D -EINVAL;
-> > +        error_setg(errp, "error while checking the host");
-> >          goto out;
-> >      default:
-> >          ret =3D -EINVAL;
-> > -        session_error_setg(errp, s, "unknown error matching the host k=
-ey"
-> > -                      " with known_hosts (%d)", r);
-> > +        error_setg(errp, "error while checking for known server");
-> >          goto out;
-> >      }
-> > +#else /* !HAVE_LIBSSH_0_8 */
-> > +    int state;
-> > +
-> > +    state =3D ssh_is_server_known(s->session);
-> > +    trace_ssh_server_status(state);
-> > +
-> > +    switch (state) {
-> > +    case SSH_SERVER_KNOWN_OK:
-> > +        /* OK */
-> > +        trace_ssh_check_host_key_knownhosts();
-> > +        break;
-> > +    case SSH_SERVER_KNOWN_CHANGED:
-> > +        ret =3D -EINVAL;
-> > +        error_setg(errp, "host key does not match the one in known_hos=
-ts");
-> > +        goto out;
-> > +    case SSH_SERVER_FOUND_OTHER:
-> > +        ret =3D -EINVAL;
-> > +        error_setg(errp,
-> > +                   "host key for this server not found, another type e=
-xists");
-> > +        goto out;
-> > +    case SSH_SERVER_FILE_NOT_FOUND:
-> > +        ret =3D -ENOENT;
-> > +        error_setg(errp, "known_hosts file not found");
-> > +        goto out;
-> > +    case SSH_SERVER_NOT_KNOWN:
-> > +        ret =3D -EINVAL;
-> > +        error_setg(errp, "no host key was found in known_hosts");
-> > +        goto out;
-> > +    case SSH_SERVER_ERROR:
-> > +        ret =3D -EINVAL;
-> > +        error_setg(errp, "server error");
-> > +        goto out;
->=20
-> No default here?
+Is --static-user really much better than:
+ * allow --static --disable-system --disable-tools
+ * forbid --static without --disable-system --disable-tools
+ * require users to build the static usermode binaries separately
+   from the system/tools build
 
-This switch is for libssh < 0.8.0, so enumerating all the possible
-values of the enum of the old API is enough.
+(which is in practice what we have now) ?
 
-> > @@ -775,16 +845,13 @@ static int ssh_file_open(BlockDriverState *bs, QD=
-ict *options, int bdrv_flags,
-> >      }
-> > =20
-> >      /* Go non-blocking. */
-> > -    libssh2_session_set_blocking(s->session, 0);
-> > +    ssh_set_blocking(s->session, 0);
-> > =20
-> >      qapi_free_BlockdevOptionsSsh(opts);
-> > =20
-> >      return 0;
-> > =20
-> >   err:
-> > -    if (s->sock >=3D 0) {
-> > -        close(s->sock);
-> > -    }
-> >      s->sock =3D -1;
->=20
-> Shouldn=E2=80=99t connect_to_ssh() set this to -1 after closing the sessi=
-on?
+Debian wants both static usermode and non-static usermode
+binaries, so they'd still need to build multiple times anyway.
 
-It should, although it will not make a difference. connect_to_ssh() is
-used in only two places:
-=2D in ssh_file_open, and s->sock is reset to -1 on error
-=2D in ssh_co_create, which uses a local BDRVSSHState
-
-> > diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
-> > index b3816136f7..774eb5f2a9 100755
-> > --- a/tests/qemu-iotests/207
-> > +++ b/tests/qemu-iotests/207
->=20
-> [...]
->=20
-> > @@ -149,7 +149,7 @@ with iotests.FilePath('t.img') as disk_path, \
-> >      iotests.img_info_log(remote_path)
-> > =20
-> >      sha1_key =3D subprocess.check_output(
-> > -        'ssh-keyscan -t rsa 127.0.0.1 2>/dev/null | grep -v "\\^#" | '=
- +
-> > +        'ssh-keyscan -t ssh-ed25519 127.0.0.1 2>/dev/null | grep -v "\=
-\^#" | ' +
-> >          'cut -d" " -f3 | base64 -d | sha1sum -b | cut -d" " -f1',
-> >          shell=3DTrue).rstrip().decode('ascii')
->=20
-> Hm.  This is a pain.
->=20
-> I suppose the best would be to drop the "-t" altogether and then check
-> whether any of the entries ssh-keyscan reports matches.
-
-The problem here is slightly more than this:
-=2D libssh2 supports only rsa and dsa keys, so when connecting rsa keys
-  are usually used, and thus it is easy to pass a fingerprint for that
-  rsa key
-=2D libssh supports more recent (and stronger) types of keys, which of
-  course are preferred by more modern (open)ssh servers.  Thus it is not
-  possible to know which key will be used when connecting, unless forced
-  (which I'd rather not do)
-A possible future improvement could be IMHO to add an extra option to
-set the allowed key types for the connection, so you can set it to a
-specific one and specify the right fingerprint for it.
-
-=2D-=20
-Pino Toscano
---nextPart2635807.eRrssQcAN8
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEbjdOQa52nq0tQalew9FMLZhkN80FAl0Dr1oACgkQw9FMLZhk
-N83x3xAAyVFd6CRmaxprkIIGT2Zc4xA4/Y6XHPxqsnDXlCzb2ujqHgjNkwVf6vVp
-m/PzW0kHUheIJnyhAGAa2uL9MVy3+0VXlDHhWY9Hu5HVYSvw/4+eZRO5vfEKsL4u
-qVjm0ik1TYI2YxNaMnGiYXQf8PVtDFMHZ8qmeoHhIEcSxFmf6S4n9j4M3yYQEp4z
-HDzQwKZNkKfN2MYeNhITuv7U3gGcrrJWn3TO+883y/OMhFjveJxs8SEnR05fDBBT
-oGz3k43kqHmmofwLpCb1Nop1qRTe3Kfkf9cQtyOOmKNcXm3z15Z8tJLOm/tSmtbp
-DnRnA8ne0OApZIbmyJ7dOUOd6bYWp5D52qUPx+sRkLcIvZfKeLtOAsEgRwOECJw2
-z+TNQLWNc/3BOKyhCNop5kHXjcmpvU4zTEWX6eT0kLNY8BTPzpa69ZPpIV9ijl/b
-TbQTHn2qjf3gRPa0cwYjz/bgrZeir2ZwjDcrfF9DG+Uj2pIQAzZKw3m6JS2wGByv
-o0H+N+LDLut76/mtZy1U0WeIOGzWqke9t3e39ubeSSgrFMPz6li2yUl3jKChW7Ax
-Vwd2VCdb50TI9RsH4bi8EE06urYZy62ScMsnuoovFMH/hhr6HsfaBDH0ZxDVavhY
-e9JyRU1pgp0J1M7LSY/sjVyINZByK2gMm3d3XRNK4v6/I9yCs1o=
-=cD8G
------END PGP SIGNATURE-----
-
---nextPart2635807.eRrssQcAN8--
-
-
-
+thanks
+-- PMM
 
