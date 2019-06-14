@@ -2,80 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FED44638A
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:00:04 +0200 (CEST)
-Received: from localhost ([::1]:52956 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28C3463A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 18:09:07 +0200 (CEST)
+Received: from localhost ([::1]:53022 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbocV-0008LG-EG
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:00:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60923)
+	id 1hbolG-0006Me-3R
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 12:09:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32869)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hboYB-0006Ta-PT
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:55:39 -0400
+ (envelope-from <thanos.makatos@nutanix.com>) id 1hboYp-0006w4-Dj
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:56:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hboY1-0002Tf-2g
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:55:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37473)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hboXv-0002Qr-WF; Fri, 14 Jun 2019 11:55:20 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0AE5B3082B5F;
- Fri, 14 Jun 2019 15:55:18 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BCA331001B37;
- Fri, 14 Jun 2019 15:55:16 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-17-mreitz@redhat.com>
- <d3a6b385-6aa5-cec0-268a-5f6c3e2075c2@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <8f86527e-2d2b-81d8-95e3-d458113c70ba@redhat.com>
-Date: Fri, 14 Jun 2019 17:55:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <thanos.makatos@nutanix.com>) id 1hboYo-0002sh-Cp
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:56:15 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:36864)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1hboYn-0002qx-VL
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:56:14 -0400
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5EFt21a006934; Fri, 14 Jun 2019 08:56:09 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=tpRdhNHy3qFb8dD99wtF+en+QYw5VIt86vH83ZYk0LI=;
+ b=JjJUqx92g3EcK98CvigD3assSue70+TohaVLZDnw/UXWPr1xSNYGCSExgKJYBdTSascL
+ LF+7/uRb8x1nCc87EG3s76uNcq7Q/hVFFqUpItktU3u+ogn+uSxrwt9MbMLHxTdkYII3
+ yEe/09gpK06mEfR+uvgDEHZ+qHdtxSxDmU/UmO+JREwT0gN6XWhOd4QWvzNwdjEBaWu1
+ j816m4FkpjrORs3UTrYtj3UvCni1vvxuxE3w6wcHm+wbZDQlUeQgPJD2Gfpi7ehtkee/
+ ZJg8AjwSd9wmdJ+73E+WEQsRrwguLU65k65ne19/l2VcTNGHUxziDHeRbqk1PM7fmN9o pg== 
+Received: from nam04-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam04lp2056.outbound.protection.outlook.com [104.47.45.56])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 2t4ak08cfm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Fri, 14 Jun 2019 08:56:09 -0700
+Received: from MN2PR02MB6205.namprd02.prod.outlook.com (52.132.174.26) by
+ MN2PR02MB6190.namprd02.prod.outlook.com (52.132.173.223) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.11; Fri, 14 Jun 2019 15:56:07 +0000
+Received: from MN2PR02MB6205.namprd02.prod.outlook.com
+ ([fe80::25d5:60b3:a680:7ebd]) by MN2PR02MB6205.namprd02.prod.outlook.com
+ ([fe80::25d5:60b3:a680:7ebd%3]) with mapi id 15.20.1965.017; Fri, 14 Jun 2019
+ 15:56:07 +0000
+From: Thanos Makatos <thanos.makatos@nutanix.com>
+To: Thanos Makatos <thanos.makatos@nutanix.com>, Alex Williamson
+ <alex.williamson@redhat.com>
+Thread-Topic: [Qemu-devel] QEMU tries to register to VFIO memory that is not
+ RAM
+Thread-Index: AdUXtUBrTZM56mQoR86m4RxpHSXlmQACSDQAAAGm+pAAAIfRAADKIYpQAfZ8hsA=
+Date: Fri, 14 Jun 2019 15:56:06 +0000
+Message-ID: <MN2PR02MB6205D122DE896A3CE5775EA58BEE0@MN2PR02MB6205.namprd02.prod.outlook.com>
+References: <MN2PR02MB62053CE40CA6B4A97B32FA048B190@MN2PR02MB6205.namprd02.prod.outlook.com>
+ <20190531083732.37ecbb1e@x1.home>
+ <MN2PR02MB620549D68EB53487C6FCF51F8B190@MN2PR02MB6205.namprd02.prod.outlook.com>
+ <20190531094002.29030716@x1.home>
+ <MN2PR02MB6205917DCA53968D8F50D27E8B150@MN2PR02MB6205.namprd02.prod.outlook.com>
+In-Reply-To: <MN2PR02MB6205917DCA53968D8F50D27E8B150@MN2PR02MB6205.namprd02.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [62.254.189.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0cdce673-d9ee-42d0-5ab6-08d6f0e0cfe5
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:MN2PR02MB6190; 
+x-ms-traffictypediagnostic: MN2PR02MB6190:
+x-proofpoint-crosstenant: true
+x-microsoft-antispam-prvs: <MN2PR02MB619068658DC2C174CCFABABA8BEE0@MN2PR02MB6190.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0068C7E410
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(346002)(39860400002)(376002)(366004)(136003)(199004)(189003)(229853002)(26005)(5660300002)(55016002)(86362001)(4744005)(9686003)(102836004)(3846002)(8676002)(478600001)(6116002)(14454004)(6506007)(68736007)(66066001)(52536014)(81156014)(7696005)(6436002)(76176011)(2906002)(81166006)(305945005)(7736002)(73956011)(71200400001)(64756008)(66446008)(446003)(74316002)(66476007)(6246003)(99286004)(76116006)(8936002)(4326008)(54906003)(44832011)(66556008)(186003)(25786009)(107886003)(476003)(11346002)(486006)(53936002)(256004)(110136005)(316002)(66946007)(33656002)(71190400001)(64030200001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:MN2PR02MB6190;
+ H:MN2PR02MB6205.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 75uoObAH7wHzxAl9UQB/uHKsN3dnlj0hr6jaY4bu1+D9nAXA/3zTnY2mJB6Cs1M2wOvsH7IBqzZyx5jLRkxAYyRLVA9Zf4dWnU50gXEqBe6kFrjz8T8BWtzXYcHo2jlDCrD0kPflFx8FpdfAJLc8wYFWjX5/Tcc3RfZ2xKB2FaxzNJslT0nShrXHoXg4YFBn1otIzdZ6vjV80aNpM1AhNUMiXNcRg8DUGm6eqt0z1ksN7E1WcKzxzwUp1YBG/+dmaKGqux4clvBN4feqNIYoThOCoGDEXMFq5Ez4U9u42p73AmugLRhvxgZSUJbGyWBNd2In94aO1JN7IR+zIbQ/rFzCShvviFQEr1SPgk5nurfjupUYYrnYjhX+Xj2OtkSxeEq9ZFP6tyLirwu3k9Oa4xFDpClC8yQvSfcQpbAK+sc=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <d3a6b385-6aa5-cec0-268a-5f6c3e2075c2@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="tQqEbk6d9Q4F66P4jNivH267S9rnQSE1r"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 14 Jun 2019 15:55:18 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 16/42] block: Use child access functions
- when flushing
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cdce673-d9ee-42d0-5ab6-08d6f0e0cfe5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 15:56:06.8910 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: thanos.makatos@nutanix.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6190
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-14_07:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.151.68
+Subject: Re: [Qemu-devel] QEMU tries to register to VFIO memory that is not
+ RAM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,144 +114,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ Felipe Franciosi <felipe@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---tQqEbk6d9Q4F66P4jNivH267S9rnQSE1r
-Content-Type: multipart/mixed; boundary="w16PUQPZKF0GYbSTk1vlido4UwGpFx9qc";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>
-Message-ID: <8f86527e-2d2b-81d8-95e3-d458113c70ba@redhat.com>
-Subject: Re: [PATCH v5 16/42] block: Use child access functions when flushing
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-17-mreitz@redhat.com>
- <d3a6b385-6aa5-cec0-268a-5f6c3e2075c2@virtuozzo.com>
-In-Reply-To: <d3a6b385-6aa5-cec0-268a-5f6c3e2075c2@virtuozzo.com>
-
---w16PUQPZKF0GYbSTk1vlido4UwGpFx9qc
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 14.06.19 16:01, Vladimir Sementsov-Ogievskiy wrote:
-> 13.06.2019 1:09, Max Reitz wrote:
->> If the driver does not support .bdrv_co_flush() so bdrv_co_flush()
->> itself has to flush the children of the given node, it should not flus=
-h
->> just bs->file->bs, but in fact both the child that stores data, and th=
-e
->> one that stores metadata (if they are separate).
->>
->> In any case, the BLKDBG_EVENT() should be emitted on the primary child=
-,
->> because that is where a blkdebug node would be if there is any.
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   block/io.c | 21 ++++++++++++++++++---
->>   1 file changed, 18 insertions(+), 3 deletions(-)
->>
->> diff --git a/block/io.c b/block/io.c
->> index 53aabf86b5..64408cf19a 100644
->> --- a/block/io.c
->> +++ b/block/io.c
->> @@ -2533,6 +2533,8 @@ static void coroutine_fn bdrv_flush_co_entry(voi=
-d *opaque)
->>  =20
->>   int coroutine_fn bdrv_co_flush(BlockDriverState *bs)
->>   {
->> +    BdrvChild *primary_child =3D bdrv_primary_child(bs);
->> +    BlockDriverState *storage_bs, *metadata_bs;
->>       int current_gen;
->>       int ret =3D 0;
->>  =20
->> @@ -2562,7 +2564,7 @@ int coroutine_fn bdrv_co_flush(BlockDriverState =
-*bs)
->>       }
->>  =20
->>       /* Write back cached data to the OS even with cache=3Dunsafe */
->> -    BLKDBG_EVENT(bs->file, BLKDBG_FLUSH_TO_OS);
->> +    BLKDBG_EVENT(primary_child, BLKDBG_FLUSH_TO_OS);
->>       if (bs->drv->bdrv_co_flush_to_os) {
->>           ret =3D bs->drv->bdrv_co_flush_to_os(bs);
->>           if (ret < 0) {
->> @@ -2580,7 +2582,7 @@ int coroutine_fn bdrv_co_flush(BlockDriverState =
-*bs)
->>           goto flush_parent;
->>       }
->>  =20
->> -    BLKDBG_EVENT(bs->file, BLKDBG_FLUSH_TO_DISK);
->> +    BLKDBG_EVENT(primary_child, BLKDBG_FLUSH_TO_DISK);
->>       if (!bs->drv) {
->>           /* bs->drv->bdrv_co_flush() might have ejected the BDS
->>            * (even in case of apparent success) */
->> @@ -2625,7 +2627,20 @@ int coroutine_fn bdrv_co_flush(BlockDriverState=
- *bs)
->>        * in the case of cache=3Dunsafe, so there are no useless flushe=
-s.
->>        */
->>   flush_parent:
->> -    ret =3D bs->file ? bdrv_co_flush(bs->file->bs) : 0;
->> +    storage_bs =3D bdrv_storage_bs(bs);
->> +    metadata_bs =3D bdrv_metadata_bs(bs);
->> +
->> +    ret =3D 0;
->> +    if (storage_bs) {
->> +        ret =3D bdrv_co_flush(storage_bs);
->> +    }
->> +    if (metadata_bs && metadata_bs !=3D storage_bs) {
->> +        int ret_metadata =3D bdrv_co_flush(metadata_bs);
->> +        if (!ret) {
->> +            ret =3D ret_metadata;
->> +        }
->> +    }
->> +
->>   out:
->>       /* Notify any pending flushes that we have completed */
->>       if (ret =3D=3D 0) {
->>
+> > > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> > > index 4374cc6176..d9d3b1277a 100644
+> > > --- a/hw/vfio/common.c
+> > > +++ b/hw/vfio/common.c
+> > > @@ -430,6 +430,9 @@ static void
+> > vfio_listener_region_add(MemoryListener *listener,
+> > >      VFIOHostDMAWindow *hostwin;
+> > >      bool hostwin_found;
+> > >
+> > > +    if (!section->mr->ram_device)
+> > > +        return;
+> > > +
+> >
+> > Nope, this would prevent IOMMU mapping of assigned device MMIO
+> > regions
+> > which would prevent peer-to-peer DMA between assigned devices.
+> Thanks,
 >=20
-> Hmm, I'm not sure that if in one driver we decided to store data and me=
-tadata separately,
-> we need to support flushing them both generic code.. If at some point q=
-cow2 decides store part
-> of metadata in third child, we will not flush it here too?
+> Understood.
 >=20
-> Should not we instead loop through children and flush all? And I'd s/fl=
-ush_parent/flush_children as
-> it is rather weird.
+> Is there a strong reason why QEMU allocates memory for these address
+> spaces without MAP_SHARED? In our use case it would solve our problem if
+> we could make QEMU use MAP_SHARED. I understand that this isn't strictly
+> correct, so would it be acceptable to enable this behavior with a command=
+-
+> line option or an #ifdef?
 
-That sounds good.  Well, we only need to flush the ones the driver has
-taken a WRITE permission on, but yes.
+Ping!
 
-Max
-
-
---w16PUQPZKF0GYbSTk1vlido4UwGpFx9qc--
-
---tQqEbk6d9Q4F66P4jNivH267S9rnQSE1r
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0Dw2MACgkQ9AfbAGHV
-z0BriQf+I+RqKlyGC7iQ/PJf1ORJ1lgOGRcV10MFuhWrm2lo0FvhuOvr5XbikWQf
-FRXKnJxmShgdZwxPGuVkrrjCcOdeKu0Bb3/C2+zoksHwQfTzUwMWB+Q5R0vDzY10
-vpGA8o8UN/kX72xlFJABrodEP6GSpc3EaUU4QeSzUe2O3LFUV91Dvr+EexITjsJq
-6Yh85UKOO/E7H3jB/Cv2TvkA71VmIow+7G0FqLvGWOQ8n/9qzWZICFnDV46vv9ur
-ywGSDDMc2aN2ts7nmWsSlRMOykCn5vVxT1yXnbzw0R90IwrGPv9LNtxV+1WaUbaL
-cSnISikwo31LRDIihIC51h4tZ//JdA==
-=gbKy
------END PGP SIGNATURE-----
-
---tQqEbk6d9Q4F66P4jNivH267S9rnQSE1r--
 
