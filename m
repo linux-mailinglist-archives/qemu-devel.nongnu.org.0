@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B4446085
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:21:02 +0200 (CEST)
-Received: from localhost ([::1]:51962 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 160D8460D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:32:23 +0200 (CEST)
+Received: from localhost ([::1]:52090 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbn4f-0001dC-SW
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53662)
+	id 1hbnFe-0003eI-8u
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53761)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hbmnA-0003O9-F7
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:02:58 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbmnT-0003ZQ-7G
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:03:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hbmn9-0007FL-AP
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:02:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:4820)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hbmn6-0007Cc-IR; Fri, 14 Jun 2019 10:02:52 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3FCE4308124D;
- Fri, 14 Jun 2019 14:02:51 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BD4A67290;
- Fri, 14 Jun 2019 14:02:50 +0000 (UTC)
-Date: Fri, 14 Jun 2019 16:02:49 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190614140249.GH6042@dhcp-200-226.str.redhat.com>
-References: <20190522170352.12020-1-mreitz@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1hbmnR-0007Xj-Ue
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:03:15 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:35002)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hbmnR-0007SM-O2
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:03:13 -0400
+Received: by mail-wr1-x441.google.com with SMTP id m3so2697097wrv.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:03:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=qq4VHN8N+SWKk9YIa+opW+lplvmoYBo+YzFJJwj5ISY=;
+ b=TzfwC8RkkLHIenL1m4+vljKjDGV7iqwI8HtCUj47Ja6bzLVHiP0Lg86vWbbn/JnpNc
+ nhr7YXD0bDKn/FXQQMQbVM/5A8++BRlMr3QWB/Psy10TsQMAo6pfAnTqTSb6RfjB4LoN
+ IT5aEqRTFh8ESpcGe4PcQeNvOLNmRaGIB2ARsnvM9EMaclQmwEhxcKJCbQGzIFJpWElW
+ CqyUjHGW5z9fernkdtOyzBSOOu0YHtgJBsUp/SYF5aePZEbNcbqMnP5VefNVfXo59juK
+ BfCKnursIxiivK//EmmOpplmovT35eeSQb6jM440t2QreNGUvVuQ0lxW11IiMCPJniPj
+ utrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=qq4VHN8N+SWKk9YIa+opW+lplvmoYBo+YzFJJwj5ISY=;
+ b=JaWH6/Clr73CpFAyomoq2yQ0oQ2+2zP5MMWs0FKEjPs8XEzqZxJWIc7LlGNpxBJhdw
+ BOn/d5c3JwHhkrN2ftHCwdPf9n1GeqRdfUUsf7VRpqDHpJ0xjuLoJDcLLXNxhKJWE9ge
+ bGqRDgoU4nXgxRCgi2TCbnjNwfTBHJPP3LQH+F6FE94SKdcshanCzcr48GyFaLtiGvkL
+ sHjqx0OaDYthjqrMpVW5IInUXcpIKW/8uz7bVVahmIFOwSZ5tEejVC+2LvE4pp4hubjw
+ uXoYfDyy0ecAsqbjNLSpeuTcsqP+sfWEQHhY799NzaRQ0gLS1ZrM/UlsbXl2bASR3V33
+ +i7w==
+X-Gm-Message-State: APjAAAUJXLPLQaCDIDYUKRft+NIeumEJ4RrdD9t/7/Oe1sZdOAaMKXdT
+ XsBN3/lhmxHsFEwX0cdk0HVjlQ==
+X-Google-Smtp-Source: APXvYqziuQ9Ev/Fc9LC41dX0WDXvNzGxaTwHOZmr1FTCNg2pRxnpLH96RNfexheD9LsY/XsTlGO38w==
+X-Received: by 2002:adf:e8d0:: with SMTP id k16mr51745429wrn.31.1560520985928; 
+ Fri, 14 Jun 2019 07:03:05 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id 67sm3388136wmd.38.2019.06.14.07.03.05
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 14 Jun 2019 07:03:05 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E818D1FF87;
+ Fri, 14 Jun 2019 15:03:04 +0100 (BST)
+References: <20190614072432.820-1-philmd@redhat.com>
+ <20190614072432.820-7-philmd@redhat.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+In-reply-to: <20190614072432.820-7-philmd@redhat.com>
+Date: Fri, 14 Jun 2019 15:03:04 +0100
+Message-ID: <871rzwe02v.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190522170352.12020-1-mreitz@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 14 Jun 2019 14:02:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 0/8] block: Ignore loosening perm
- restrictions failures
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH 6/6] .travis.yml: Test static linking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,43 +82,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ integration@gluster.org,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, =?utf-8?Q?Lo=C3=AFc?= Minier <loic.minier@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Bharata B Rao <bharata@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Niels de Vos <ndevos@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.05.2019 um 19:03 hat Max Reitz geschrieben:
-> Hi,
->=20
-> This series is mainly a fix for
-> https://bugzilla.redhat.com/show_bug.cgi?id=3D1703793.  The problem
-> described there is that mirroring to a gluster volume, then switching
-> off the volume makes qemu crash.  There are two problems here:
->=20
-> (1) file-posix reopens the FD all the time because it thinks the FD it
->     has is RDONLY.  It actually isn=E2=80=99t after the first reopen, w=
-e just
->     forgot to change the internal flags.  That=E2=80=99s what patch 1 i=
-s for.
->=20
-> (2) Even then, when mirror completes, it drops its write permission on
->     the FD.  This requires a reopen, which will fail if the volume is
->     down.  Mirror doesn=E2=80=99t expect that.  Nobody ever expects tha=
-t
->     dropping permissions can fail, and rightfully so because that=E2=80=
-=99s what
->     I think we have generally agreed on.
->     Therefore, the block layer should hide this error.  This is what th=
-e
->     last two patches are for.
->=20
-> The penultimate patch adds two assertions: bdrv_replace_child() (for th=
-e
-> old BDS) and bdrv_inactivate_recurse() assume they only ever drop
-> assertions.  This is now substantiated by these new assertions.
-> It turns out that this assumption was just plain wrong.  Patches 3 to 5
-> make it right.
 
-Thanks, applied to the block branch.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Kevin
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> This job currently fails:
+>
+>       LINK    lm32-softmmu/qemu-system-lm32
+>     /usr/bin/ld: cannot find -lgtk-3
+>     /usr/bin/ld: cannot find -latk-bridge-2.0
+>     /usr/bin/ld: cannot find -latspi
+>     /usr/bin/ld: cannot find -lsystemd
+>     /usr/bin/ld: cannot find -lgdk-3
+>     /usr/bin/ld: cannot find -lwayland-egl
+>     /usr/bin/ld: cannot find -lmirclient
+>     /usr/bin/ld: cannot find -lmircore
+>     /usr/bin/ld: cannot find -lmircookie
+>     /usr/bin/ld: cannot find -lepoxy
+>     /usr/bin/ld: cannot find -latk-1.0
+>     /usr/bin/ld: cannot find -lgdk_pixbuf-2.0
+>     /usr/bin/ld: cannot find -lselinux
+>     /usr/bin/ld: cannot find -lgtk-3
+>     /usr/bin/ld: cannot find -latk-bridge-2.0
+>     /usr/bin/ld: cannot find -latspi
+>     /usr/bin/ld: cannot find -lsystemd
+>     /usr/bin/ld: cannot find -lgdk-3
+>     /usr/bin/ld: cannot find -lwayland-egl
+>     /usr/bin/ld: cannot find -lmirclient
+>     /usr/bin/ld: cannot find -lmircore
+>     /usr/bin/ld: cannot find -lmircookie
+>     /usr/bin/ld: cannot find -lepoxy
+>     /usr/bin/ld: cannot find -latk-1.0
+>     /usr/bin/ld: cannot find -lgdk_pixbuf-2.0
+>     /usr/bin/ld: cannot find -lselinux
+>     /usr/bin/ld: attempted static link of dynamic object `/usr/lib/x86_64=
+-linux-gnu/libz.so'
+>     collect2: error: ld returned 1 exit status
+>     Makefile:204: recipe for target 'qemu-system-lm32' failed
+>     make[1]: *** [qemu-system-lm32] Error 1
+>     Makefile:472: recipe for target 'subdir-lm32-softmmu' failed
+>     make: *** [subdir-lm32-softmmu] Error 2
+> ---
+>  .travis.yml | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/.travis.yml b/.travis.yml
+> index 08502c0aa2..6962fff826 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -92,6 +92,11 @@ matrix:
+>          - CONFIG=3D"--disable-user --target-list-exclude=3D${MAIN_SOFTMM=
+U_TARGETS}"
+>
+>
+> +    # Test static linking
+> +    - env:
+> +        - CONFIG=3D"--static --target-list=3Dlm32-softmmu"
+> +
+> +
+
+It's probably more useful to have a:
+
+  CONFIG=3D"--disable-system --static"
+
+In fact arguably we could just add it to the first --disable-system
+stanza as there are other linux-user builds scattered about to catch the
+cases where we break dynamically linked linux-user builds.
+
+>      # Just build tools and run minimal unit and softfloat checks
+>      - env:
+>          - BASE_CONFIG=3D"--enable-tools"
+
+
+--
+Alex Benn=C3=A9e
 
