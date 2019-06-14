@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8178D4603E
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:12:25 +0200 (CEST)
-Received: from localhost ([::1]:51892 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB86346086
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:21:46 +0200 (CEST)
+Received: from localhost ([::1]:51988 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbmwK-0001vA-M9
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:12:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46637)
+	id 1hbn5O-0002z4-1q
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:21:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46711)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hbmS0-0001sn-Nl
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:06 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hbmS3-0001wL-Mo
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hbmRv-00064o-GM
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35136)
+ (envelope-from <mreitz@redhat.com>) id 1hbmS2-0006AA-8l
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 09:41:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57080)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hbmRs-00060j-CF; Fri, 14 Jun 2019 09:40:56 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ id 1hbmRw-00064u-5k; Fri, 14 Jun 2019 09:41:00 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 850833082E91;
- Fri, 14 Jun 2019 13:40:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 61E3E81DFE;
+ Fri, 14 Jun 2019 13:40:59 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.125])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1BA315B68A;
- Fri, 14 Jun 2019 13:40:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B52217983;
+ Fri, 14 Jun 2019 13:40:57 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 14 Jun 2019 15:40:13 +0200
-Message-Id: <20190614134021.32486-13-mreitz@redhat.com>
+Date: Fri, 14 Jun 2019 15:40:14 +0200
+Message-Id: <20190614134021.32486-14-mreitz@redhat.com>
 In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
 References: <20190614134021.32486-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 14 Jun 2019 13:40:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Fri, 14 Jun 2019 13:40:59 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 12/20] qapi/block-core: Overlays are not
- snapshots
+Subject: [Qemu-devel] [PULL 13/20] blockdev: Overlays are not snapshots
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,85 +59,114 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A snapshot is something that reflects the state of something at a
-certain point in time.  It does not change.
-
-The file our snapshot commands create (or the node they install) is not
-a snapshot, as it does change over time.  It is an overlay.  We cannot
-do anything about the parameter names, but we can at least adjust the
-descriptions to reflect that fact.
+There are error messages which refer to an overlay node as the snapshot.
+That is wrong, those are two different things.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20190603202236.1342-2-mreitz@redhat.com
+Message-id: 20190603202236.1342-3-mreitz@redhat.com
 Reviewed-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ blockdev.c                 | 10 +++++-----
+ tests/qemu-iotests/085.out | 10 +++++-----
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index fcd054fcb1..c0ff3a83ef 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1279,17 +1279,17 @@
- #
- # Either @device or @node-name must be set but not both.
- #
--# @device: the name of the device to generate the snapshot from.
-+# @device: the name of the device to take a snapshot of.
- #
- # @node-name: graph node name to generate the snapshot from (Since 2.0)
- #
--# @snapshot-file: the target of the new image. If the file exists, or
--# if it is a device, the snapshot will be created in the existing
--# file/device. Otherwise, a new file will be created.
-+# @snapshot-file: the target of the new overlay image. If the file
-+# exists, or if it is a device, the overlay will be created in the
-+# existing file/device. Otherwise, a new file will be created.
- #
- # @snapshot-node-name: the graph node name of the new image (Since 2.0)
- #
--# @format: the format of the snapshot image, default is 'qcow2'.
-+# @format: the format of the overlay image, default is 'qcow2'.
- #
- # @mode: whether and how QEMU should create a new image, default is
- #        'absolute-paths'.
-@@ -1302,10 +1302,10 @@
- ##
- # @BlockdevSnapshot:
- #
--# @node: device or node name that will have a snapshot created.
-+# @node: device or node name that will have a snapshot taken.
- #
- # @overlay: reference to the existing block device that will become
--#           the overlay of @node, as part of creating the snapshot.
-+#           the overlay of @node, as part of taking the snapshot.
- #           It must not have a current backing file (this can be
- #           achieved by passing "backing": null to blockdev-add).
- #
-@@ -1443,7 +1443,7 @@
- ##
- # @blockdev-snapshot-sync:
- #
--# Generates a synchronous snapshot of a block device.
-+# Takes a synchronous snapshot of a block device.
- #
- # For the arguments, see the documentation of BlockdevSnapshotSync.
- #
-@@ -1469,9 +1469,9 @@
- ##
- # @blockdev-snapshot:
- #
--# Generates a snapshot of a block device.
-+# Takes a snapshot of a block device.
- #
--# Create a snapshot, by installing 'node' as the backing image of
-+# Take a snapshot, by installing 'node' as the backing image of
- # 'overlay'. Additionally, if 'node' is associated with a block
- # device, the block device changes to using 'overlay' as its new active
- # image.
+diff --git a/blockdev.c b/blockdev.c
+index fdafa173cc..b5c0fd3c49 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -1608,13 +1608,13 @@ static void external_snapshot_prepare(BlkActionSt=
+ate *common,
+             s->has_snapshot_node_name ? s->snapshot_node_name : NULL;
+=20
+         if (node_name && !snapshot_node_name) {
+-            error_setg(errp, "New snapshot node name missing");
++            error_setg(errp, "New overlay node name missing");
+             goto out;
+         }
+=20
+         if (snapshot_node_name &&
+             bdrv_lookup_bs(snapshot_node_name, snapshot_node_name, NULL)=
+) {
+-            error_setg(errp, "New snapshot node name already in use");
++            error_setg(errp, "New overlay node name already in use");
+             goto out;
+         }
+=20
+@@ -1656,7 +1656,7 @@ static void external_snapshot_prepare(BlkActionStat=
+e *common,
+     }
+=20
+     if (bdrv_has_blk(state->new_bs)) {
+-        error_setg(errp, "The snapshot is already in use");
++        error_setg(errp, "The overlay is already in use");
+         goto out;
+     }
+=20
+@@ -1666,12 +1666,12 @@ static void external_snapshot_prepare(BlkActionSt=
+ate *common,
+     }
+=20
+     if (state->new_bs->backing !=3D NULL) {
+-        error_setg(errp, "The snapshot already has a backing image");
++        error_setg(errp, "The overlay already has a backing image");
+         goto out;
+     }
+=20
+     if (!state->new_bs->drv->supports_backing) {
+-        error_setg(errp, "The snapshot does not support backing images")=
+;
++        error_setg(errp, "The overlay does not support backing images");
+         goto out;
+     }
+=20
+diff --git a/tests/qemu-iotests/085.out b/tests/qemu-iotests/085.out
+index 6edf107f55..2a5f256cd3 100644
+--- a/tests/qemu-iotests/085.out
++++ b/tests/qemu-iotests/085.out
+@@ -64,13 +64,13 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1=
+34217728 backing_file=3DTEST_DIR/
+=20
+ =3D=3D=3D Invalid command - cannot create a snapshot using a file BDS =3D=
+=3D=3D
+=20
+-{"error": {"class": "GenericError", "desc": "The snapshot does not suppo=
+rt backing images"}}
++{"error": {"class": "GenericError", "desc": "The overlay does not suppor=
+t backing images"}}
+=20
+ =3D=3D=3D Invalid command - snapshot node used as active layer =3D=3D=3D
+=20
+-{"error": {"class": "GenericError", "desc": "The snapshot is already in =
+use"}}
+-{"error": {"class": "GenericError", "desc": "The snapshot is already in =
+use"}}
+-{"error": {"class": "GenericError", "desc": "The snapshot is already in =
+use"}}
++{"error": {"class": "GenericError", "desc": "The overlay is already in u=
+se"}}
++{"error": {"class": "GenericError", "desc": "The overlay is already in u=
+se"}}
++{"error": {"class": "GenericError", "desc": "The overlay is already in u=
+se"}}
+=20
+ =3D=3D=3D Invalid command - snapshot node used as backing hd =3D=3D=3D
+=20
+@@ -81,7 +81,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134=
+217728 backing_file=3DTEST_DIR/
+ Formatting 'TEST_DIR/t.IMGFMT.base', fmt=3DIMGFMT size=3D134217728
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D134217728 backing_fi=
+le=3DTEST_DIR/t.IMGFMT.base
+ {"return": {}}
+-{"error": {"class": "GenericError", "desc": "The snapshot already has a =
+backing image"}}
++{"error": {"class": "GenericError", "desc": "The overlay already has a b=
+acking image"}}
+=20
+ =3D=3D=3D Invalid command - The node does not exist =3D=3D=3D
+=20
 --=20
 2.21.0
 
