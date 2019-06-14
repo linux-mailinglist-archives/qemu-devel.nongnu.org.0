@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5BF46592
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:21:04 +0200 (CEST)
-Received: from localhost ([::1]:53712 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D1D46799
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:34:12 +0200 (CEST)
+Received: from localhost ([::1]:54124 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbpst-0005hU-Eq
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:21:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56054)
+	id 1hbr1f-0000sJ-5l
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34207)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpkL-0000fh-8e
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:14 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbq0T-0007A8-MP
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpkJ-00033x-UJ
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:13 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:32795)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbq0P-0004CT-DQ
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:51 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:33061)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbpkJ-00032n-N7
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:11 -0400
-Received: by mail-wr1-x443.google.com with SMTP id n9so3339344wru.0
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:12:11 -0700 (PDT)
+ id 1hbq0N-0003lJ-C9
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:48 -0400
+Received: by mail-wr1-x441.google.com with SMTP id n9so3385901wru.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:28:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZGytCy7dk/rtAnR0c8LWL1u/jXw6ywf1Xd8f/B0+XIs=;
- b=pxq5ZjpaQRToCSpwt1pPvpFRVNiQ/D2WAC20IMEsDa68lIbIrN10EdCAGtSUHvzw0E
- BrsvDTpj+l3hci0chuojJBL8/g7sVrs2Te8k0EjoDS2jo9AELtK9prZpz9yM1mwAf4SI
- VeijTvFGOH2HXejJGQBEzzn6hO4eleuDXd6X1gQ76auaK0mBDht1wWvlNNB08zKyxCoS
- s8VWmJax8aqMpLmZwj/tGAQAFLO+5AoFkomr5VneX0QCfVwxWXFCfSkNtZhWhBrFG5cn
- hQLpj/2WwACaD18/A0gJU7LI8naSZWC1So1W+s0Wge1B6McQBRbIkewb8PEJVm09J2Xi
- Oj1Q==
+ bh=aDs2dqXGIEF28FBqcTkP/2L64OJ8gLbRaNrMScFtO/w=;
+ b=ZPtRlsp/dKt9phzGVfveJ4SI5hzBAoqTmaMYqWk3nCJ3rRIlHomccMJmVbcQc2N1Mk
+ znKQOikQGwZdRcH50kRT5CVggCPB58o7e+G5veruU+mXkkqazfhjteS3LoLpmPaztuTB
+ rvwyzR9apG09I8prKRts/e7DjwCFEREXcgamlPwqAShujI5jsrW7oSiv7voNyVYCyny/
+ bX0gyzPdAceDYOuTS3jT7pMc1X9unVJXUOZFXmKaYgi/57qq1Or5fVmwYcIF2KdHmRGr
+ VAus7RaRr8BbGLVIc40QNgm08sy9oTRAHrCHpzCaHexzPaTx5gGRqP7NiGwQwlunJ9CK
+ dZow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZGytCy7dk/rtAnR0c8LWL1u/jXw6ywf1Xd8f/B0+XIs=;
- b=gsfSNunZnPZdv+hWACWZZRdOqkj8/7I+yHw2dJFks9hTzsdwD+n+5y5scTqwMIUzRl
- VJE0pitMeZDQyQXz+YnkLcd/mVDS8rWK9w1vZMpQlqreC1XsmViPOhh7SCQReuBHGe71
- GIl/W6N+U9WcjGMZDUhZFe3Q5GT2H7gBWlk1SpLWA5PHtdCKnXHqsQnngw5AtlfGKlW/
- p+WclwZd+xEcvoqhHid4lfmSBLncxgpbPlJ7Aj5zXNmUivSQnbBmFAXflQIOFaJ9Z/Ac
- o/1VRVDxYYHs80KDFImDgdMv+adFT9PbpfGra1yqlD+6aGh9U225SLT4FUai58ZTtXH8
- QSdg==
-X-Gm-Message-State: APjAAAXR2fQSXpiVabV6W2ADEvQcPGJiuyRNwqlD4GbFWPgy2Ynk16aS
- MRJXvUJLL9PQd685YAn9nMUtEw==
-X-Google-Smtp-Source: APXvYqwynb8NZtUK5NtDBM3eDufFX+apCyNMFDI1h4I/cTv5ZVlV8uSDif5HIwmqA2z660sT8kv5tA==
-X-Received: by 2002:a5d:4a8d:: with SMTP id o13mr31265800wrq.350.1560532330517; 
- Fri, 14 Jun 2019 10:12:10 -0700 (PDT)
+ bh=aDs2dqXGIEF28FBqcTkP/2L64OJ8gLbRaNrMScFtO/w=;
+ b=HFIrl5vOIVNTDXB8OT1C24rJFW1XQoC9RboDWjB9hRYhV+thnSBmJW/TAggcQMPeo0
+ KhfQEBgrVSqbjY9o6cuKtFGrJxkDkNljhXmg+ipLs/VmOoQbBsddDQzLqTN/uJRatryP
+ nukeDPr15YR/aOr8pemlEixJJZkdugZFhs1zo/aWsnOcaOMu3EC9Q0VCIa14nGuhqMr/
+ D1Led6zRuiWCn8NxjKK5C0FWlTa7sVO9EHu57NjvXSsL+n+1VBnODaYPaCcGAIJxbVs4
+ FHae8NnmCxfaokI3U+Pwc/N7TCwx4X3c+M3apcxrVESufUCo9oxv9yVTzId3MThKcqur
+ lhlg==
+X-Gm-Message-State: APjAAAVEFmSFqCZv1qHXZbluPrqU10ElQ7MsWTajWYs7OR0Tm9eqSzLQ
+ beSZOQmBMkawWHGaLLsOkW9Rxw==
+X-Google-Smtp-Source: APXvYqzco7nNUfYr1iu+cc4QpsTc4Tr8Rt3RnNz/LIPV0+espOLlKE8A4IPihgBcusMYPLkV30tK1A==
+X-Received: by 2002:adf:e301:: with SMTP id b1mr14118389wrj.304.1560533310627; 
+ Fri, 14 Jun 2019 10:28:30 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id d17sm5047352wrx.9.2019.06.14.10.12.04
+ by smtp.gmail.com with ESMTPSA id l8sm9147281wrg.40.2019.06.14.10.28.27
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 10:12:06 -0700 (PDT)
+ Fri, 14 Jun 2019 10:28:27 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C11701FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id D52821FF9E;
  Fri, 14 Jun 2019 18:12:01 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:24 +0100
-Message-Id: <20190614171200.21078-15-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:11:25 +0100
+Message-Id: <20190614171200.21078-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
@@ -67,8 +67,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH  v3 14/50] tcg: add tcg_gen_st_ptr
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH  v3 15/50] tcg: add MO_HADDR to TCGMemOp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,29 +86,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Will gain a user soon.
+We will use this from plugins to mark mem accesses so that
+we can later obtain their host address.
 
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 ---
- tcg/tcg-op.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ tcg/tcg.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tcg/tcg-op.h b/tcg/tcg-op.h
-index e997346c97..edf12de1f3 100644
---- a/tcg/tcg-op.h
-+++ b/tcg/tcg-op.h
-@@ -1260,6 +1260,11 @@ static inline void tcg_gen_ld_ptr(TCGv_ptr r, TCGv_ptr a, intptr_t o)
-     glue(tcg_gen_ld_,PTR)((NAT)r, a, o);
- }
+diff --git a/tcg/tcg.h b/tcg/tcg.h
+index 2385e758e5..966e89104d 100644
+--- a/tcg/tcg.h
++++ b/tcg/tcg.h
+@@ -367,6 +367,13 @@ typedef enum TCGMemOp {
+     MO_ALIGN_32 = 5 << MO_ASHIFT,
+     MO_ALIGN_64 = 6 << MO_ASHIFT,
  
-+static inline void tcg_gen_st_ptr(TCGv_ptr r, TCGv_ptr a, intptr_t o)
-+{
-+    glue(tcg_gen_st_, PTR)((NAT)r, a, o);
-+}
++    /*
++     * SoftMMU-only: if set, the TCG backend puts the corresponding host address
++     * in CPUArchState.hostaddr.
++     */
++    MO_HSHIFT = MO_ASHIFT + 3,
++    MO_HADDR = 1 << MO_HSHIFT,
 +
- static inline void tcg_gen_discard_ptr(TCGv_ptr a)
- {
-     glue(tcg_gen_discard_,PTR)((NAT)a);
+     /* Combinations of the above, for ease of use.  */
+     MO_UB    = MO_8,
+     MO_UW    = MO_16,
 -- 
 2.20.1
 
