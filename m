@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A26460B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:27:41 +0200 (CEST)
-Received: from localhost ([::1]:52056 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9067E46161
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 16:46:30 +0200 (CEST)
+Received: from localhost ([::1]:52242 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbnB6-0000sC-Hf
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:27:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1hbnTJ-0005cA-Hl
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 10:46:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58341)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbmyT-0005LQ-2A
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:14:39 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbn0s-0007fw-Ib
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:17:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbmyQ-0006oW-Hq
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:14:36 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38249)
+ (envelope-from <philmd@redhat.com>) id 1hbn0q-00088L-Fy
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:17:06 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51492)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbmyQ-0006mb-8X
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:14:34 -0400
-Received: by mail-wr1-x441.google.com with SMTP id d18so2725173wrs.5
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:14:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=V64qY6tESmQvR2uX9MdXVe1+oVF5ood3jaPLYkEVa8g=;
- b=mggxqrBS8xsLZ/aUFSDMUNsPARpM4W0XThB4aOjbRlJnKiGSI7QILe3w5srauvAO/o
- ydgybxMEwJZ9DHdiBoEA9+BrSMBzu5kkHvFe5pFmwiJeqI5rxRVkx6OjM2NvxtHqlZf+
- bNulusnbjQE5tDsHt/ibGwC4gclj+3+GtP1hjf3pbHzIjLmaqTYYqbd/cD06lByPds74
- SGBAxBhz2JT+HII+s6sZZv+Mkiz28IMphh9ogh8Qn48LEH7Wgz7pwULAKECoeAA9JRFT
- 4l70wPh1ygMEsfz3UhrO04YJEnlnqiv14AMYcj3Ek5FaRKF+6zlueStmjNNIVwfyg5uL
- FBlA==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbn0q-00087b-9T
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:17:04 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 207so2563339wma.1
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:17:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=V64qY6tESmQvR2uX9MdXVe1+oVF5ood3jaPLYkEVa8g=;
- b=ZjJjvmK6l4EKfXgeWxw5lYYak7UJh4CFJJr5RjloygF9xD8xBz8utWIjCzEn+nBHHk
- DAVsW90kfrUE5vtEjhfpOE9+jD5DUPYN3V8hlO8j9xX0O0kCHaps3fv6EHUsLdLRA/Wz
- vGt3pC5zpKKlN9XwReCij8VAgRTJRelZjBEq7FX0Xd3chhiNrWMlg6UnTlgJ8RVl5p9o
- xsDtMRZTLGIYMtklNmhOtcwp4eSL1OuGoSRF/DegGiQYX0g6rThbuwFM1K4Lk/y7CHXc
- GMUcxsJ2ySvAlKpJso2SjEsbu8KStaG3CFcGkFRH8EfeKDZGJM4cxxuPS7IOBqMZ7PFh
- a0eg==
-X-Gm-Message-State: APjAAAUlvf6I4iw45QkLGxUQ+EwGmw+9wFsgKYHoQdfw7Kf02ZwS4jQe
- KGf1u0Lj2V9hImXX7gJqGyJNtA==
-X-Google-Smtp-Source: APXvYqx3eGUhjX6tJJejb44VXDqFEj0n99okZXCdtuwn85J7OfFZSIN97hprvmclpGMJrr+lQJzTYw==
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr51799799wrn.31.1560521670740; 
- Fri, 14 Jun 2019 07:14:30 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id h8sm2985143wmf.12.2019.06.14.07.14.30
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 07:14:30 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C4BB21FF87;
- Fri, 14 Jun 2019 15:14:29 +0100 (BST)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9f7dMOl+7Oct5Wiii17pc1u4GTDpX7aHmo1VOVPKsMI=;
+ b=TjBbA9H4lSp6wzm2cIRXoo/GF4SAP4dZVX+2VBVLp47Uqwn4ewXfESijOeX8qfq72v
+ o+q3qUvzjlayHGAzK4EWT5VS34L2b+GOhcvIO8LuHD4aG07knOncsDY8Dbjo6IgZTk8c
+ iYk8Ohc6MfmK+3Y0R8TNtsnOQ4AXYARfYr9m8Rp3+vewOA0qGIvS4+uLTm2k3PRdIf4t
+ 6qvaz5E5uX5Gc94eMNPlqtx/WHzCEx9HVIvn7ofq6IGXluBp2U01VkJg7Uv2ZWtGJK/v
+ SSCX+GUeS6OvsBt/axSy9OB5qUphRxfz1C+W69BsSfvWKIvk3AHoCpOmntnt13+9AWno
+ ruOQ==
+X-Gm-Message-State: APjAAAUEcHgH1gVfiNezUpJz7LwugioZ+1Z0uvSxNBNtqF3CePOLQd2N
+ ZFcK31TXhsqcfPCWbwbEHuR/9g==
+X-Google-Smtp-Source: APXvYqySCbX5hhuvjkqsHe9dw+WvKwwR5oA1j9nsM60XqqXn7it4U3dK67HdKTKy8qauG7DZMTRbqg==
+X-Received: by 2002:a1c:730d:: with SMTP id d13mr7958224wmb.88.1560521822542; 
+ Fri, 14 Jun 2019 07:17:02 -0700 (PDT)
+Received: from [192.168.1.103] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id a2sm4269234wmj.9.2019.06.14.07.17.01
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 14 Jun 2019 07:17:02 -0700 (PDT)
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
 References: <20190607152223.9467-1-crosa@redhat.com>
- <20190607152223.9467-2-crosa@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Cleber Rosa <crosa@redhat.com>
-In-reply-to: <20190607152223.9467-2-crosa@redhat.com>
-Date: Fri, 14 Jun 2019 15:14:29 +0100
-Message-ID: <87zhmkckze.fsf@zen.linaroharston>
+ <20190607152223.9467-3-crosa@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <815afba4-b00d-6186-2119-56035c427cf1@redhat.com>
+Date: Fri, 14 Jun 2019 16:17:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190607152223.9467-3-crosa@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH 1/8] Travis: print acceptance tests logs in
- case of job failure
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH 2/8] tests/requirements.txt: pin paramiko
+ version requirement
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,48 +76,37 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Cleber Rosa <crosa@redhat.com> writes:
-
-> Because Travis doesn't allow us to keep files produced during tests
-> (such as log files), let's print the complete job log to the "console"
-> in case of job failures.
->
-> This is a debugging aid, and given that there's been some timeouts
-> happening on some tests, we absolutely needs the logs to have a proper
-> action.
->
+On 6/7/19 5:22 PM, Cleber Rosa wrote:
+> It's a good practice (I'd really say a must) to pin as much as
+> possible of the software versions used during test, so let's apply
+> that to paramiko.
+> 
+> According to https://pypi.org/project/paramiko/, 2.4.2 is the latest
+> released version.  It's also easily obtainable on systems such as
+> Fedora 30.
+> 
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
 > ---
->  .travis.yml | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/.travis.yml b/.travis.yml
-> index b053a836a3..9f8e73f276 100644
-> --- a/.travis.yml
-> +++ b/.travis.yml
-> @@ -226,6 +226,8 @@ matrix:
->      - env:
->          - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
-oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-soft=
-mmu,alpha-softmmu"
->          - TEST_CMD=3D"make check-acceptance"
-> +      after_failure:
-> +        - cat tests/results/latest/job.log
->        addons:
->          apt:
->            packages:
+>  tests/requirements.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tests/requirements.txt b/tests/requirements.txt
+> index 3ae0e29ad7..bd1f7590ed 100644
+> --- a/tests/requirements.txt
+> +++ b/tests/requirements.txt
+> @@ -2,4 +2,4 @@
+>  # in the tests/venv Python virtual environment. For more info,
+>  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+>  avocado-framework==68.0
+> -paramiko
+> +paramiko==2.4.2
+> 
 
-
---
-Alex Benn=C3=A9e
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
