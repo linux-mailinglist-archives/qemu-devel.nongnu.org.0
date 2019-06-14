@@ -2,64 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1225D462EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:35:02 +0200 (CEST)
-Received: from localhost ([::1]:52720 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4BD46317
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:41:00 +0200 (CEST)
+Received: from localhost ([::1]:52782 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hboEF-00005s-O1
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:35:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40105)
+	id 1hboK3-0003tr-1p
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:40:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45662)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbnYM-00023B-2I
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:51:43 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hbnkp-0005Ee-Hu
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:04:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbnYL-0008Hz-1z
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:51:41 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:33160)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbnYK-0008H5-P5
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 10:51:40 -0400
-Received: by mail-ot1-x329.google.com with SMTP id p4so2925402oti.0
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:51:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S6zqQalfkqCDaGwDOjJXKSBFfxxmr6eRLcatrxA4dUg=;
- b=wfRM2xpVoRwkbX3VJbPYy+uva9F5EkoJb49diVd0he4vOjcYtd2jKGWJAyMoBqX+gm
- wQ+pDZpHTeD6HsKTNa6xqzeyTI2z3fgAYrt1DMzTDGxgsaoU+KxFEmC1BUpd9ljidbta
- UlGevKoG0bqYe9oqszYUjkSyTHvF3rdJ/fjBknxwAtHZZKqM5HoaLTKfKCbJ3RSLYooB
- NfHzxNlUd0simdowkkIjSQYmRIX+iivkNKyQ5Pf+A71O04K4m+9Z5GkZzdxcyWNtatSV
- KUiznI4P0GuJ2laetOGA1uEdcu/AoTdcOOdLHAE6RqiRTfyA5ti0yy4N494KK+371Kxj
- a+Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S6zqQalfkqCDaGwDOjJXKSBFfxxmr6eRLcatrxA4dUg=;
- b=qGtq5E0m+QyyTxbLa/pSHdfw6Rnt5BEigjoUi2UnygCaSPb6Z5/J9/R1ck+hNcOMvd
- vEFVNFPljQvzxuL+nT8+b25lll4yVSLFIc0JKn15LAE75wWeachQnh+tlf0wi7nn6xNO
- HDMlpnWFjq72DNdaLg1wv74cjN671esfWKeGzedZclh8Q5RT8ei7obLP401l4nysuQhY
- kmj73RjUjYEs1gLH1GayYd/ejzCy4v/yScQ3NYj3WAjLPsACsGNtzipLPXfaO8qEwmCY
- oMlu3o/rG0fesJL9ac2w/Q+7cMsW+RoKhkYik3iEFcJt2QZqeVZfL6lwIw+RIR0XAuVU
- dK/A==
-X-Gm-Message-State: APjAAAWT/lmE2PeyrpG56PkK8DdT6f/rDWNGZlztt9nG1zzuQSvnzK1r
- tN12uyYfieWtV8FrFGlCwUtrtkQElK/gjtmwR34Vcw==
-X-Google-Smtp-Source: APXvYqw4Wg5poRVVqCZH9PmUPUq6uFBDdys+GMcUU4Twyv5BbELgn+eAFSWFu9jDOJSYYkwZmXTJ3Bjw7HCQUaFwaGQ=
-X-Received: by 2002:a9d:d17:: with SMTP id 23mr46914402oti.221.1560523899538; 
- Fri, 14 Jun 2019 07:51:39 -0700 (PDT)
+ (envelope-from <dgilbert@redhat.com>) id 1hbnkn-0008Bu-Ei
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:04:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57130)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hbnkl-00089Y-6J
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:04:31 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 14C013E2CB;
+ Fri, 14 Jun 2019 15:04:22 +0000 (UTC)
+Received: from work-vm (ovpn-117-220.ams2.redhat.com [10.36.117.220])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8348E196B1;
+ Fri, 14 Jun 2019 15:04:10 +0000 (UTC)
+Date: Fri, 14 Jun 2019 16:04:08 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190614150407.GH2785@work-vm>
+References: <156051774276.244890.8660277280145466396.stgit@bahia.lan>
 MIME-Version: 1.0
-References: <20190614134021.32486-1-mreitz@redhat.com>
-In-Reply-To: <20190614134021.32486-1-mreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 14 Jun 2019 15:51:28 +0100
-Message-ID: <CAFEAcA_xm5bWZum6O8+P6zCddsK7Y02MftRhn-p9HoF-BkQd9g@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::329
-Subject: Re: [Qemu-devel] [PULL 00/20] Block patches
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <156051774276.244890.8660277280145466396.stgit@bahia.lan>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Fri, 14 Jun 2019 15:04:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] hw: Nuke hw_compat_4_0_1 and
+ pc_compat_4_0_1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,37 +57,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ elohimes@gmail.com, Alex Williamson <alex.williamson@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 14 Jun 2019 at 14:40, Max Reitz <mreitz@redhat.com> wrote:
->
-> The following changes since commit 5ec2eca83dc478ddf24077e02a8b34dd26cd3ff9:
->
->   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-updates-20190613.0' into staging (2019-06-14 09:33:55 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/XanClic/qemu.git tags/pull-block-2019-06-14
->
-> for you to fetch changes up to 21c1ce592a144188dfe59b9e156a97da412a59a2:
->
->   iotests: Test qemu-img convert -C --salvage (2019-06-14 15:09:42 +0200)
->
-> ----------------------------------------------------------------
-> Block patches:
-> - Allow blockdev-backup from nodes that are not in qemu's main AIO
->   context to newly added nodes
-> - Add salvaging mode to qemu-img convert
-> - Minor fixes to tests, documentation, and for less Valgrind annoyance
->
+* Greg Kurz (groug@kaod.org) wrote:
+> Commit c87759ce876a fixed a regression affecting pc-q35 machines by
+> introducing a new pc-q35-4.0.1 machine version to be used instead
+> of pc-q35-4.0. The only purpose was to revert the default behaviour
+> of not using split irqchip, but the change also introduced the usual
+> hw_compat and pc_compat bits, and wired them for pc-q35 only.
+> 
+> This raises questions when it comes to add new compat properties for
+> 4.0* machine versions of any architecture. Where to add them ? In
+> 4.0, 4.0.1 or both ? Error prone. Another possibility would be to teach
+> all other architectures about 4.0.1. This solution isn't satisfying,
+> especially since this is a pc-q35 specific issue.
+> 
+> It turns out that the split irqchip default is handled in the machine
+> option function and doesn't involve compat lists at all.
+> 
+> Drop all the 4.0.1 compat lists and use the 4.0 ones instead in the 4.0.1
+> machine option function.
+> 
+> Move the compat props that were added to the 4.0.1 since c87759ce876a to
+> 4.0.
+> 
+> Even if only hw_compat_4_0_1 had an impact on other architectures,
+> drop pc_compat_4_0_1 as well for consistency.
+> 
+> Fixes: c87759ce876a "q35: Revert to kernel irqchip"
+> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Applied, thanks.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
+> ---
+>  hw/core/machine.c    |    5 +----
+>  hw/i386/pc.c         |    3 ---
+>  hw/i386/pc_q35.c     |   12 ++++++++----
+>  include/hw/boards.h  |    3 ---
+>  include/hw/i386/pc.h |    3 ---
+>  5 files changed, 9 insertions(+), 17 deletions(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 84ebb8d24701..ea5a01aa49bc 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -24,16 +24,13 @@
+>  #include "hw/pci/pci.h"
+>  #include "hw/mem/nvdimm.h"
+>  
+> -GlobalProperty hw_compat_4_0_1[] = {
+> +GlobalProperty hw_compat_4_0[] = {
+>      { "VGA",            "edid", "false" },
+>      { "secondary-vga",  "edid", "false" },
+>      { "bochs-display",  "edid", "false" },
+>      { "virtio-vga",     "edid", "false" },
+>      { "virtio-gpu-pci", "edid", "false" },
+>  };
+> -const size_t hw_compat_4_0_1_len = G_N_ELEMENTS(hw_compat_4_0_1);
+> -
+> -GlobalProperty hw_compat_4_0[] = {};
+>  const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
+>  
+>  GlobalProperty hw_compat_3_1[] = {
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 2c5446b0951e..1a1935825ad2 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -111,9 +111,6 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+>  /* Physical Address of PVH entry point read from kernel ELF NOTE */
+>  static size_t pvh_start_addr;
+>  
+> -GlobalProperty pc_compat_4_0_1[] = {};
+> -const size_t pc_compat_4_0_1_len = G_N_ELEMENTS(pc_compat_4_0_1);
+> -
+>  GlobalProperty pc_compat_4_0[] = {};
+>  const size_t pc_compat_4_0_len = G_N_ELEMENTS(pc_compat_4_0);
+>  
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index dcddc6466200..57232aed6b6c 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -378,8 +378,13 @@ static void pc_q35_4_0_1_machine_options(MachineClass *m)
+>  {
+>      pc_q35_4_1_machine_options(m);
+>      m->alias = NULL;
+> -    compat_props_add(m->compat_props, hw_compat_4_0_1, hw_compat_4_0_1_len);
+> -    compat_props_add(m->compat_props, pc_compat_4_0_1, pc_compat_4_0_1_len);
+> +    /*
+> +     * This is the default machine for the 4.0-stable branch. It is basically
+> +     * a 4.0 that doesn't use split irqchip by default. It MUST hence apply the
+> +     * 4.0 compat props.
+> +     */
+> +    compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
+> +    compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
+>  }
+>  
+>  DEFINE_Q35_MACHINE(v4_0_1, "pc-q35-4.0.1", NULL,
+> @@ -390,8 +395,7 @@ static void pc_q35_4_0_machine_options(MachineClass *m)
+>      pc_q35_4_0_1_machine_options(m);
+>      m->default_kernel_irqchip_split = true;
+>      m->alias = NULL;
+> -    compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
+> -    compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
+> +    /* Compat props are applied by the 4.0.1 machine */
+>  }
+>  
+>  DEFINE_Q35_MACHINE(v4_0, "pc-q35-4.0", NULL,
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index b7362af3f1d2..eaa050a7ab50 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -293,9 +293,6 @@ struct MachineState {
+>      } \
+>      type_init(machine_initfn##_register_types)
+>  
+> -extern GlobalProperty hw_compat_4_0_1[];
+> -extern const size_t hw_compat_4_0_1_len;
+> -
+>  extern GlobalProperty hw_compat_4_0[];
+>  extern const size_t hw_compat_4_0_len;
+>  
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index a7d0b8716604..c54cc54a4799 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -293,9 +293,6 @@ int e820_add_entry(uint64_t, uint64_t, uint32_t);
+>  int e820_get_num_entries(void);
+>  bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
+>  
+> -extern GlobalProperty pc_compat_4_0_1[];
+> -extern const size_t pc_compat_4_0_1_len;
+> -
+>  extern GlobalProperty pc_compat_4_0[];
+>  extern const size_t pc_compat_4_0_len;
+>  
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
