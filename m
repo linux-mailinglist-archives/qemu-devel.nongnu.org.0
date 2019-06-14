@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C3746295
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:23:00 +0200 (CEST)
-Received: from localhost ([::1]:52594 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0164946252
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 17:15:23 +0200 (CEST)
+Received: from localhost ([::1]:52534 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbo2d-00078Q-EL
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46357)
+	id 1hbnvG-0003N3-1d
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 11:15:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48290)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hbnmt-0005ur-JZ
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:06:47 -0400
+ (envelope-from <philmd@redhat.com>) id 1hbnpY-0007gF-QL
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:09:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hbnmq-0000vR-6K
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:06:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60136)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hbnmp-0000m5-PN; Fri, 14 Jun 2019 11:06:40 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E60F73082E63;
- Fri, 14 Jun 2019 15:06:21 +0000 (UTC)
-Received: from [10.36.116.67] (ovpn-116-67.ams2.redhat.com [10.36.116.67])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 763E31948B;
- Fri, 14 Jun 2019 15:06:20 +0000 (UTC)
-To: Eric Farman <farman@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Farhan Ali <alifm@linux.ibm.com>
-References: <20190614092705.11025-1-cohuck@redhat.com>
- <790578fe-9d90-bfa1-a540-f7f054d8293f@linux.ibm.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <5fd0fe9a-9f1e-15f1-b440-e3c505e6f3ea@redhat.com>
-Date: Fri, 14 Jun 2019 17:06:18 +0200
+ (envelope-from <philmd@redhat.com>) id 1hbnpW-000429-EZ
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:09:28 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46619)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hbnpW-00040Z-4P
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 11:09:26 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n4so2876291wrw.13
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 08:09:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to;
+ bh=Dy79Z/jpboZvtSSP6vjiGLmZtl7QxeoIuU0hAv4MCsA=;
+ b=MCmSKUqNeLqyoKY2vwv9lA7aeoOlcOfD8PB6JKEXULnG5fSVkztGA/rZwFJC1Y4bAQ
+ 4677rIxswbAUGpobrPNuQ7mzBVR+mg77H18KCmHpq42chFCLOQDpQLZdGEf69hyqYk3+
+ QCjl2Tko/khz2Jk3LS1VRReuM5g3pCrEfMiTsmNqOpoHr8EmaieP17tVuIo+HSRDLPXX
+ vmnkQDxIOztAQYaHW/nxEWMISLv2D9nkhpeTtHQiKDnjIyCl86MyaAXceD9E2/Gh59ni
+ uW5vSV3reH0gm/I52NNYDnGuB+fXqaQXlZF8md2pDQQfKSYYV9UEZY1x/joZsThSSHYJ
+ O8ZA==
+X-Gm-Message-State: APjAAAWBRlsijCC4S5EstkyKYmj/eDTfH0Un3H8p1WiXIbAS/R0P1PsP
+ wvB5RY5Z3NiA9F1KDzWYxB/E7Q==
+X-Google-Smtp-Source: APXvYqyOgRpzkuNmNwRyabXaLxSiZvutqfrcJC/1KcFtgLcmi5k0Ols2bYnj0C7O4Hm0gt+P+8OaiQ==
+X-Received: by 2002:adf:afd5:: with SMTP id y21mr63470717wrd.12.1560524964706; 
+ Fri, 14 Jun 2019 08:09:24 -0700 (PDT)
+Received: from [192.168.1.103] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id y6sm2569922wrp.12.2019.06.14.08.09.23
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 14 Jun 2019 08:09:23 -0700 (PDT)
+To: Max Reitz <mreitz@redhat.com>, Pino Toscano <ptoscano@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190613132000.2146-1-ptoscano@redhat.com>
+ <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
+ <69064867-56ec-be41-a59e-30cb085247ea@redhat.com>
+ <04ebf0f8-25eb-57ba-4b09-def017726714@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <5d399abc-3ef2-5eeb-9580-36a48d827c30@redhat.com>
+Date: Fri, 14 Jun 2019 17:09:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <790578fe-9d90-bfa1-a540-f7f054d8293f@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 14 Jun 2019 15:06:22 +0000 (UTC)
+In-Reply-To: <04ebf0f8-25eb-57ba-4b09-def017726714@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="HzFCtY7FxM4fXlTFBR5I0FQC1ywuS6imG"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] vfio-ccw: use vfio_set_irq_signaling
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v9] ssh: switch from libssh2 to libssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,139 +76,328 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, alex.bennee@linaro.org, rjones@redhat.com,
+ sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--HzFCtY7FxM4fXlTFBR5I0FQC1ywuS6imG
+Content-Type: multipart/mixed; boundary="EXmzY9xRSLQipx0sEoaHDkWDnhUSBzvt5";
+ protected-headers="v1"
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, Pino Toscano <ptoscano@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: rjones@redhat.com, kwolf@redhat.com, alex.bennee@linaro.org,
+ fam@euphon.net, sw@weilnetz.de
+Message-ID: <5d399abc-3ef2-5eeb-9580-36a48d827c30@redhat.com>
+Subject: Re: [PATCH v9] ssh: switch from libssh2 to libssh
+References: <20190613132000.2146-1-ptoscano@redhat.com>
+ <12e43f31-5fd3-b9eb-37af-e05e6250bd4a@redhat.com>
+ <69064867-56ec-be41-a59e-30cb085247ea@redhat.com>
+ <04ebf0f8-25eb-57ba-4b09-def017726714@redhat.com>
+In-Reply-To: <04ebf0f8-25eb-57ba-4b09-def017726714@redhat.com>
 
-On 6/14/19 4:30 PM, Eric Farman wrote:
-> 
-> 
-> On 6/14/19 5:27 AM, Cornelia Huck wrote:
->> Use the new helper.
+--EXmzY9xRSLQipx0sEoaHDkWDnhUSBzvt5
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 6/14/19 4:30 PM, Max Reitz wrote:
+> On 14.06.19 16:26, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 6/13/19 9:31 PM, Max Reitz wrote:
+>>> On 13.06.19 15:20, Pino Toscano wrote:
+>>>> Rewrite the implementation of the ssh block driver to use libssh ins=
+tead
+>>>> of libssh2.  The libssh library has various advantages over libssh2:=
+
+>>>> - easier API for authentication (for example for using ssh-agent)
+>>>> - easier API for known_hosts handling
+>>>> - supports newer types of keys in known_hosts
+>>>>
+>>>> Use APIs/features available in libssh 0.8 conditionally, to support
+>>>> older versions (which are not recommended though).
+>>>>
+>>>> Adjust the tests according to the different error message, and to th=
+e
+>>>> newer host keys (ed25519) that are used by default with OpenSSH >=3D=
+ 6.7
+>>>> and libssh >=3D 0.7.0.
+>>>>
+>>>> Adjust the various Docker/Travis scripts to use libssh when availabl=
+e
+>>>> instead of libssh2. The mingw/mxe testing is dropped for now, as the=
+re
+>>>> are no packages for it.
+>>>>
+>>>> Signed-off-by: Pino Toscano <ptoscano@redhat.com>
+>>>> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>>> Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>>> ---
+>>>
+>>> Can confirm that this runs much faster than the last version I tested=
+=2E
+>>> 197 and 215 are still whacky (like 100 s instead of 50), but that=E2=80=
+=99s fine
+>>> with me. :-)
+>>>
+>>>> Changes from v8:
+>>>> - use a newer key type in iotest 207
+>>>> - improve the commit message
+>>>>
+>>>> Changes from v7:
+>>>> - #if HAVE_LIBSSH_0_8 -> #ifdef HAVE_LIBSSH_0_8
+>>>> - ptrdiff_t -> size_t
+>>>>
+>>>> Changes from v6:
+>>>> - fixed few checkpatch style issues
+>>>> - detect libssh 0.8 via symbol detection
+>>>> - adjust travis/docker test material
+>>>> - remove dead "default" case in a switch
+>>>> - use variables for storing MIN() results
+>>>> - adapt a documentation bit
+>>>>
+>>>> Changes from v5:
+>>>> - adapt to newer tracing APIs
+>>>> - disable ssh compression (mimic what libssh2 does by default)
+>>>> - use build time checks for libssh 0.8, and use newer APIs directly
+>>>>
+>>>> Changes from v4:
+>>>> - fix wrong usages of error_setg/session_error_setg/sftp_error_setg
+>>>> - fix few return code checks
+>>>> - remove now-unused parameters in few internal functions
+>>>> - allow authentication with "none" method
+>>>> - switch to unsigned int for the port number
+>>>> - enable TCP_NODELAY on the socket
+>>>> - fix one reference error message in iotest 207
+>>>>
+>>>> Changes from v3:
+>>>> - fix socket cleanup in connect_to_ssh()
+>>>> - add comments about the socket cleanup
+>>>> - improve the error reporting (closer to what was with libssh2)
+>>>> - improve EOF detection on sftp_read()
+>>>>
+>>>> Changes from v2:
+>>>> - used again an own fd
+>>>> - fixed co_yield() implementation
+>>>>
+>>>> Changes from v1:
+>>>> - fixed jumbo packets writing
+>>>> - fixed missing 'err' assignment
+>>>> - fixed commit message
+>>>>
+>>>>  .travis.yml                                   |   4 +-
+>>>>  block/Makefile.objs                           |   6 +-
+>>>>  block/ssh.c                                   | 622 +++++++++------=
+---
+>>>>  block/trace-events                            |  14 +-
+>>>>  configure                                     |  65 +-
+>>>>  docs/qemu-block-drivers.texi                  |   2 +-
+>>>>  .../dockerfiles/debian-win32-cross.docker     |   1 -
+>>>>  .../dockerfiles/debian-win64-cross.docker     |   1 -
+>>>>  tests/docker/dockerfiles/fedora.docker        |   4 +-
+>>>>  tests/docker/dockerfiles/ubuntu.docker        |   2 +-
+>>>>  tests/docker/dockerfiles/ubuntu1804.docker    |   2 +-
+>>>>  tests/qemu-iotests/207                        |   4 +-
+>>>>  tests/qemu-iotests/207.out                    |   2 +-
+>>>>  13 files changed, 376 insertions(+), 353 deletions(-)
+>>>
+>>> Surprisingly little has changed since v4.  Good, good, that makes my
+>>> reviewing job much easier because I can thus rely on past me. :-)
+>>>
+>>>> diff --git a/block/ssh.c b/block/ssh.c
+>>>> index 6da7b9cbfe..fb458d4548 100644
+>>>> --- a/block/ssh.c
+>>>> +++ b/block/ssh.c
+>>>
+>>> [...]
+>>>
+>>>> @@ -282,82 +274,85 @@ static void ssh_parse_filename(const char *fil=
+ename, QDict *options,
+>>>>      parse_uri(filename, options, errp);
+>>>>  }
+>>>> =20
+>>>> -static int check_host_key_knownhosts(BDRVSSHState *s,
+>>>> -                                     const char *host, int port, Er=
+ror **errp)
+>>>> +static int check_host_key_knownhosts(BDRVSSHState *s, Error **errp)=
+
+>>>>  {
+>>>
+>>> [...]
+>>>
+>>>> -    switch (r) {
+>>>> -    case LIBSSH2_KNOWNHOST_CHECK_MATCH:
+>>>> +    switch (state) {
+>>>> +    case SSH_KNOWN_HOSTS_OK:
+>>>>          /* OK */
+>>>> -        trace_ssh_check_host_key_knownhosts(found->key);
+>>>> +        trace_ssh_check_host_key_knownhosts();
+>>>>          break;
+>>>> -    case LIBSSH2_KNOWNHOST_CHECK_MISMATCH:
+>>>> +    case SSH_KNOWN_HOSTS_CHANGED:
+>>>>          ret =3D -EINVAL;
+>>>> -        session_error_setg(errp, s,
+>>>> -                      "host key does not match the one in known_hos=
+ts"
+>>>> -                      " (found key %s)", found->key);
+>>>> +        error_setg(errp, "host key does not match the one in known_=
+hosts");
+>>>
+>>> So what about the possible attack warning that the specification
+>>> technically requires us to print? O:-)
+>>>
+>>>>          goto out;
+>>>> -    case LIBSSH2_KNOWNHOST_CHECK_NOTFOUND:
+>>>> +    case SSH_KNOWN_HOSTS_OTHER:
+>>>>          ret =3D -EINVAL;
+>>>> -        session_error_setg(errp, s, "no host key was found in known=
+_hosts");
+>>>> +        error_setg(errp,
+>>>> +                   "host key for this server not found, another typ=
+e exists");
+>>>>          goto out;
+>>>> -    case LIBSSH2_KNOWNHOST_CHECK_FAILURE:
+>>>> +    case SSH_KNOWN_HOSTS_UNKNOWN:
+>>>>          ret =3D -EINVAL;
+>>>> -        session_error_setg(errp, s,
+>>>> -                      "failure matching the host key with known_hos=
+ts");
+>>>> +        error_setg(errp, "no host key was found in known_hosts");
+>>>> +        goto out;
+>>>> +    case SSH_KNOWN_HOSTS_NOT_FOUND:
+>>>> +        ret =3D -ENOENT;
+>>>> +        error_setg(errp, "known_hosts file not found");
+>>>> +        goto out;
+>>>> +    case SSH_KNOWN_HOSTS_ERROR:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp, "error while checking the host");
+>>>>          goto out;
+>>>>      default:
+>>>>          ret =3D -EINVAL;
+>>>> -        session_error_setg(errp, s, "unknown error matching the hos=
+t key"
+>>>> -                      " with known_hosts (%d)", r);
+>>>> +        error_setg(errp, "error while checking for known server");
+>>>>          goto out;
+>>>>      }
+>>>> +#else /* !HAVE_LIBSSH_0_8 */
+>>>> +    int state;
+>>>> +
+>>>> +    state =3D ssh_is_server_known(s->session);
+>>>> +    trace_ssh_server_status(state);
+>>>> +
+>>>> +    switch (state) {
+>>>> +    case SSH_SERVER_KNOWN_OK:
+>>>> +        /* OK */
+>>>> +        trace_ssh_check_host_key_knownhosts();
+>>>> +        break;
+>>>> +    case SSH_SERVER_KNOWN_CHANGED:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp, "host key does not match the one in known_=
+hosts");
+>>>> +        goto out;
+>>>> +    case SSH_SERVER_FOUND_OTHER:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp,
+>>>> +                   "host key for this server not found, another typ=
+e exists");
+>>>> +        goto out;
+>>>> +    case SSH_SERVER_FILE_NOT_FOUND:
+>>>> +        ret =3D -ENOENT;
+>>>> +        error_setg(errp, "known_hosts file not found");
+>>>> +        goto out;
+>>>> +    case SSH_SERVER_NOT_KNOWN:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp, "no host key was found in known_hosts");
+>>>> +        goto out;
+>>>> +    case SSH_SERVER_ERROR:
+>>>> +        ret =3D -EINVAL;
+>>>> +        error_setg(errp, "server error");
+>>>> +        goto out;
+>>>
+>>> No default here?
 >>
->> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
->> ---
->>  hw/vfio/ccw.c | 68 +++++++++++----------------------------------------
->>  1 file changed, 14 insertions(+), 54 deletions(-)
+>> I explicitly suggested Pino to not use default here, since
+>> ssh_server_known_e is a finite enum. If upstream libssh adds more
+>> errors, and a distrib packages a new version, we'll get a build error.=
+
+>> It looks quicker for us to react than adding a abort() here and wait a=
+n
+>> user to complain. But this is a personal preference, I won't object if=
+
+>> you prefer we use a default here.
+>=20
+> Well, OK, but this is the pre-0.8 code path,  "state" is an integer her=
+e.
+
+Aha! Good catch :) On v6 review I asked the opposite, no default for
+0.0.8 enum, and default for pre-0.8:
+
+https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg02466.html
+
+Pino: can you fix this please?
+
+>>>> +    }
+>>>> +#endif /* !HAVE_LIBSSH_0_8 */
+>=20
+> [...]
+>=20
+>>>> diff --git a/tests/qemu-iotests/207 b/tests/qemu-iotests/207
+>>>> index b3816136f7..774eb5f2a9 100755
+>>>> --- a/tests/qemu-iotests/207
+>>>> +++ b/tests/qemu-iotests/207
+>>>
+>>> [...]
+>>>
+>>>> @@ -149,7 +149,7 @@ with iotests.FilePath('t.img') as disk_path, \
+>>>>      iotests.img_info_log(remote_path)
+>>>> =20
+>>>>      sha1_key =3D subprocess.check_output(
+>>>> -        'ssh-keyscan -t rsa 127.0.0.1 2>/dev/null | grep -v "\\^#" =
+| ' +
+>>>> +        'ssh-keyscan -t ssh-ed25519 127.0.0.1 2>/dev/null | grep -v=
+ "\\^#" | ' +
+>>>>          'cut -d" " -f3 | base64 -d | sha1sum -b | cut -d" " -f1',
+>>>>          shell=3DTrue).rstrip().decode('ascii')
+>>>
+>>> Hm.  This is a pain.
+>>>
+>>> I suppose the best would be to drop the "-t" altogether and then chec=
+k
+>>> whether any of the entries ssh-keyscan reports matches.
 >>
->> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
->> index 03a2becb3ec9..3dc08721a3db 100644
->> --- a/hw/vfio/ccw.c
->> +++ b/hw/vfio/ccw.c
->> @@ -197,10 +197,7 @@ read_err:
->>  static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
->>  {
->>      VFIODevice *vdev = &vcdev->vdev;
->> -    struct vfio_irq_info *irq_info;
->> -    struct vfio_irq_set *irq_set;
->> -    size_t argsz;
->> -    int32_t *pfd;
->> +    int fd;
->>  
->>      if (vdev->num_irqs < VFIO_CCW_IO_IRQ_INDEX + 1) {
->>          error_setg(errp, "vfio: unexpected number of io irqs %u",
->> @@ -208,72 +205,35 @@ static void vfio_ccw_register_io_notifier(VFIOCCWDevice *vcdev, Error **errp)
->>          return;
->>      }
->>  
->> -    argsz = sizeof(*irq_info);
->> -    irq_info = g_malloc0(argsz);
->> -    irq_info->index = VFIO_CCW_IO_IRQ_INDEX;
->> -    irq_info->argsz = argsz;
->> -    if (ioctl(vdev->fd, VFIO_DEVICE_GET_IRQ_INFO,
->> -              irq_info) < 0 || irq_info->count < 1) {
->> -        error_setg_errno(errp, errno, "vfio: Error getting irq info");
->> -        goto out_free_info;
->> -    }
->> -
-> 
-> Don't we still need this hunk?  (And the out_free_info label stuff that
-> cleans it up.)  I don't see vfio_set_irq_signaling() covering it.
+>> This was my first approach, but then the 207.out file doesn't match.
+>> I don't know enough of iotests fu to help here :(
+>=20
+> I=E2=80=99ll see what I can do.
 
-Looks this IRQ index is always implemented and exposed by the driver,
-isn't it? In such a case it shouldn't be needed to test its presence?
+Awesome, thanks!
 
-Thanks
 
-Eric
-> 
->>      if (event_notifier_init(&vcdev->io_notifier, 0)) {
->>          error_setg_errno(errp, errno,
->>                           "vfio: Unable to init event notifier for IO");
->> -        goto out_free_info;
->> +        return;
->>      }
->>  
->> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
->> -    irq_set = g_malloc0(argsz);
->> -    irq_set->argsz = argsz;
->> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
->> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
->> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
->> -    irq_set->start = 0;
->> -    irq_set->count = 1;
->> -    pfd = (int32_t *) &irq_set->data;
->> -
->> -    *pfd = event_notifier_get_fd(&vcdev->io_notifier);
->> -    qemu_set_fd_handler(*pfd, vfio_ccw_io_notifier_handler, NULL, vcdev);
->> -    if (ioctl(vdev->fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
->> -        error_setg(errp, "vfio: Failed to set up io notification");
->> -        qemu_set_fd_handler(*pfd, NULL, NULL, vcdev);
->> +    fd = event_notifier_get_fd(&vcdev->io_notifier);
->> +    qemu_set_fd_handler(fd, vfio_ccw_io_notifier_handler, NULL, vcdev);
->> +
->> +    if (vfio_set_irq_signaling(vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
->> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, errp)) {
->> +        qemu_set_fd_handler(fd, NULL, NULL, vcdev);
-> 
-> This sure looks nice though.  :)
-> 
->>          event_notifier_cleanup(&vcdev->io_notifier);
->>      }
->> -
->> -    g_free(irq_set);
->> -
->> -out_free_info:
->> -    g_free(irq_info);
->>  }
->>  
->>  static void vfio_ccw_unregister_io_notifier(VFIOCCWDevice *vcdev)
->>  {
->> -    struct vfio_irq_set *irq_set;
->> -    size_t argsz;
->> -    int32_t *pfd;
->> -
->> -    argsz = sizeof(*irq_set) + sizeof(*pfd);
->> -    irq_set = g_malloc0(argsz);
->> -    irq_set->argsz = argsz;
->> -    irq_set->flags = VFIO_IRQ_SET_DATA_EVENTFD |
->> -                     VFIO_IRQ_SET_ACTION_TRIGGER;
->> -    irq_set->index = VFIO_CCW_IO_IRQ_INDEX;
->> -    irq_set->start = 0;
->> -    irq_set->count = 1;
->> -    pfd = (int32_t *) &irq_set->data;
->> -    *pfd = -1;
->> -
->> -    if (ioctl(vcdev->vdev.fd, VFIO_DEVICE_SET_IRQS, irq_set)) {
->> -        error_report("vfio: Failed to de-assign device io fd: %m");
->> +    Error *err = NULL;
->> +
->> +    vfio_set_irq_signaling(&vcdev->vdev, VFIO_CCW_IO_IRQ_INDEX, 0,
->> +                           VFIO_IRQ_SET_ACTION_TRIGGER, -1, &err);
->> +    if (err) {
->> +        error_reportf_err(err, VFIO_MSG_PREFIX, vcdev->vdev.name);
->>      }
->>  
->>      qemu_set_fd_handler(event_notifier_get_fd(&vcdev->io_notifier),
->>                          NULL, NULL, vcdev);
->>      event_notifier_cleanup(&vcdev->io_notifier);
->> -
->> -    g_free(irq_set);
->>  }
->>  
->>  static void vfio_ccw_get_region(VFIOCCWDevice *vcdev, Error **errp)
->>
-> 
+--EXmzY9xRSLQipx0sEoaHDkWDnhUSBzvt5--
+
+--HzFCtY7FxM4fXlTFBR5I0FQC1ywuS6imG
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEicHnj2Ae6GyGdJXLoqP9bt6twN4FAl0DuKIACgkQoqP9bt6t
+wN6V1w//QoJkyIku81z0omWVLn6+/9yqmQpEH8PfrRAqimz5tFEb3/Hf7AKaQEZI
+DpRBFiGle60sisGPkXAQd4jrsal7LcjhEZZjlbZMQF8cv5McAFVY4/GTyYndRTiJ
+oPsbmKYEwx0qnmQAA8N4ulidA7f/yW1N/afeJJkUiJ2eLVNaTjgggSm4+D+k6su+
+HMGPui+zy4kcQ0Wm4mVAjtai2dj7oUxiytaSYXOj/oU/i68tis4GJbeX6bNx5M46
+/wcLWKLZGYkFKXUvyDV2E/tGNFwoRUNScJzZNq+XmtYl2tYli0+5D/kyumoW+TdS
+oWerjzNZZNlBPM/QTrzh5WPhEw9aBmxVcOvZHKU1mirNIyrWhhv1XC3T+PhXnGn6
+z5Jb9kCSm+icDxA6bpIVc0ObJ571JzaUnAOEl/itKO8c+s3iYkhG0kg3O2FIjL3z
+hjxmeuKrksLUM4w87eL/qEtjb7JMT1lWj/neLdDKIqEG/TeRRTwiiDu23h7adrBz
+paVA6htBvrNs+eLSQIr2M3ERAGNMAhMHS2dTSNV47rLP6yx6vCXXDxgfihro9QNl
+hkOcbd2WxLEPRfhZnVeiAMLpjA3+nH9zMMf/z+gaLWgS9ThDpfaZhJYFWinqHgdK
+amtx1z+Xsc0ByiFO5ib7D0HOpAhSD8mdbg5usx64rE2i/5h10sI=
+=Gxf9
+-----END PGP SIGNATURE-----
+
+--HzFCtY7FxM4fXlTFBR5I0FQC1ywuS6imG--
 
