@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A54A46914
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 22:30:25 +0200 (CEST)
-Received: from localhost ([::1]:55108 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143B646A29
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 22:37:05 +0200 (CEST)
+Received: from localhost ([::1]:55162 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbsq8-0003GG-3a
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 16:30:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56325)
+	id 1hbswa-0000Ng-5s
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 16:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58115)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lersek@redhat.com>) id 1hbsjt-00078e-Mm
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 16:24:00 -0400
+ (envelope-from <bounces@canonical.com>) id 1hbsqa-0004Ub-9I
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 16:30:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hbsjs-000738-HD
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 16:23:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42836)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hbsjs-00072N-B3
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 16:23:56 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EDCAD3D3C
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 20:23:49 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-141.ams2.redhat.com
- [10.36.116.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E8D65C1A1;
- Fri, 14 Jun 2019 20:23:47 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 22:23:33 +0200
-Message-Id: <20190614202333.19355-7-lersek@redhat.com>
-In-Reply-To: <20190614202333.19355-1-lersek@redhat.com>
-References: <20190614202333.19355-1-lersek@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hbsqR-0004D6-9K
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 16:30:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42590)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hbsqQ-0004Br-My
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 16:30:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hbsqO-0003Jz-N6
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 20:30:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id ACA3D2E80C9
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 20:30:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Fri, 14 Jun 2019 20:23:49 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 14 Jun 2019 20:24:42 -0000
+From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=lersek@redhat.com; 
+X-Launchpad-Bug-Tags: feature-request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <155958011528.16346.9132826883162987130.malonedeb@chaenomeles.canonical.com>
+Message-Id: <156054388231.1743.13880492704754519530.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18981";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 34be9d99d2a58328cd82c009919f667c98ae7657
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 6/6] pc-bios: update the README file with
- edk2-stable201905 information
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831477] Re: update edk2 submodule & binaries to
+ edk2-stable201905
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,56 +66,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1831477 <1831477@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Refresh the "pc-bios/README" file with edk2, OpenSSL, and Berkeley
-SoftFloat release info, matching the edk2-stable201905 firmware images
-added in the previous patch.
+[PULL 0/6] update edk2 submodule & binaries to edk2-stable201905
+http://mid.mail-archive.com/20190614202333.19355-1-lersek@redhat.com
 
-Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Ref: https://bugs.launchpad.net/qemu/+bug/1831477
-Signed-off-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- pc-bios/README | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+-- =
 
-diff --git a/pc-bios/README b/pc-bios/README
-index 807d95dd5418..180795a55b8a 100644
---- a/pc-bios/README
-+++ b/pc-bios/README
-@@ -55,9 +55,11 @@
-   variable store templates built from the TianoCore community's EFI Deve=
-lopment
-   Kit II project
-   <https://github.com/tianocore/tianocore.github.io/wiki/EDK-II>. The im=
-ages
--  were built at git tag "edk2-stable201903". The firmware binaries bundl=
-e parts
--  of the OpenSSL project, at git tag "OpenSSL_1_1_0j" (the OpenSSL tag i=
-s a
--  function of the edk2 tag). Licensing information is given in
--  "edk2-licenses.txt". The image files are described by the JSON documen=
-ts in
--  the "pc-bios/descriptors" directory, which conform to the
--  "docs/interop/firmware.json" schema.
-+  were built at git tag "edk2-stable201905". The firmware binaries bundl=
-e parts
-+  of the OpenSSL project, at git tag "OpenSSL_1_1_1b" (the OpenSSL tag i=
-s a
-+  function of the edk2 tag). Parts of the Berkeley SoftFloat library are
-+  bundled as well, at Release 3e plus a subsequent typo fix (commit
-+  b64af41c3276f97f0e181920400ee056b9c88037), as an OpenSSL dependency on=
- 32-bit
-+  ARM. Licensing information is given in "edk2-licenses.txt". The image =
-files
-+  are described by the JSON documents in the "pc-bios/descriptors" direc=
-tory,
-+  which conform to the "docs/interop/firmware.json" schema.
---=20
-2.19.1.3.g30247aa5d201
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831477
 
+Title:
+  update edk2 submodule & binaries to edk2-stable201905
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  The edk2 project will soon release edk2-stable201905. Update the edk2
+  submodule in QEMU, and the bundled edk2 binaries, accordingly.
+
+  https://github.com/tianocore/tianocore.github.io/wiki/EDK-II-Release-Plan=
+ning#edk2-stable201905-tag-planning
+  https://github.com/tianocore/edk2/releases/tag/edk2-stable201905 [upcomin=
+g link]
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831477/+subscriptions
 
