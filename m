@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BF946732
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:12:15 +0200 (CEST)
-Received: from localhost ([::1]:53992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E4D467DB
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:50:44 +0200 (CEST)
+Received: from localhost ([::1]:54270 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbqgR-0003Ta-4N
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58669)
+	id 1hbrHe-0006wL-5Q
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:50:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34208)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpqj-0005bZ-71
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:51 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbq0T-0007A9-MY
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpqf-0007A5-Ac
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:48 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36068)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbq0P-0004Ca-Dg
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:51 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33066)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbpqe-0006o3-AS
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:18:44 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n4so3355612wrs.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:18:37 -0700 (PDT)
+ id 1hbq0N-0003wR-Bo
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:28:48 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n9so3386221wru.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=W2oEJPPTu0XotTJyTG/icubFdccUFHMYcxjFSxZmE7E=;
- b=zV9KljVm7HRXtaa5nQ3r6/hpHMVfa5fDVTakmt+t8rjZR0BRKWZyEbYhLGfmcdhEN9
- xXU1hgnVM2SntB/EYjF74Ai8teDFM5m3VneiW+Dm6CaR+1JZmbiCZQmbF7g53BEulpxK
- /B1UNrQA/eACnE+0TeGJNCpOjijTwgdua/U4aCQzPoM5WNOVLJTvconYfVW1u0tnl/A4
- fc5upEoumWoxstCduCLtwNhbxdJO1VijqOlCDJWda4vdsio9qQd0pgp7dHSP607nNeHw
- VobWLqwpHxdP8aVawH/8U7oGPJVkpQSg5cUzqdzL/BtguJ6bRGfEi7Fu3GxikRR4+F1/
- kklA==
+ bh=l+F+1JN97gKyw7kKNWTOxFjpETDNYB39JWHiUo3QTVA=;
+ b=sb6Xu5Kp41Z06TykOvhElWOnU/IGs1hZmd23GE+R+8eET7wGXVqS4I/T6oA76AIkSK
+ 0b+dxWBpr7NOJZ79VVLP8ambmypEN8uW6/WSDPdE3KPdvFTc0d5tT/fDQHljertzxPL0
+ mRK+wijtp353zjBR18hWt9fd8LGNTMKYl2pcD2/pjAaz2BXaH5NiyzuTIlwFNqw2EMtF
+ lbxQtxBSSfmALXKphpaA2mMbhjkv/WzmSc17qAu9J/HeqAqOsikpbRnGjRLcby40I/im
+ z61WDhl3HyReuCU2dWkOEgZG0bLlzs57RLA3Nv6GaAPSld32ffb0DwL8W2LjNz3/7i6R
+ FryA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W2oEJPPTu0XotTJyTG/icubFdccUFHMYcxjFSxZmE7E=;
- b=Q7uabZkr32tvzF0c5c+JoJu+AKcdc3+CgeBIp52J940XfVOuzpm3aFG+AJUAOT/T/U
- pSkJoIrR/w+yUACe/bemq+rnkVShYvCI2ChRLYVQUky/leLdbvFrmEiyc8nlamb2QIZa
- fVtqsaN0pNPXk9ybeD3MhiXbntpPTRq1+z/UGWPDATQjSF99sruXRWh4zGpor0jl5fv5
- u93So6At83UeQdnvdUmN+WYbZqejJg6CFgozbYEH07V10aHET0aAWgFxcc8FS9QVejZ4
- BhIRrzFUNZzwiymuIJGBK/suN7zwDkPAfP+Z0+fyQad9L0DrsN0aRA7zt5qvngAbW5Ll
- xbiQ==
-X-Gm-Message-State: APjAAAXnc+5EYB2AdcVTftvJxEKYKhKbaBVLDqh0/M4qacJ5f9hd5bex
- Dl7U+blXvf9bwCPnXyRWnW+NSg==
-X-Google-Smtp-Source: APXvYqwJNWKxqA9UsjX/FQ+SgmC03tf1hyTlBPzQju3SBUCxIhlsRWlQQjNy0RNYGEkhgWM13n5qBQ==
-X-Received: by 2002:a5d:4e50:: with SMTP id r16mr13474318wrt.227.1560532716650; 
- Fri, 14 Jun 2019 10:18:36 -0700 (PDT)
+ bh=l+F+1JN97gKyw7kKNWTOxFjpETDNYB39JWHiUo3QTVA=;
+ b=E88vv6nLS++QKbsNovbk3LncZVEtMJjNzVOIkI/DplHTE3ZbzlwCOyAFtX334xUMOo
+ uqoHpiqnEpcs+TchclWX5+Zo/XRG4VC9YcndmB7DE5tZyVGhIXwgDkdsF5uMrTt2uMAj
+ 3Bdwd4qLshq3BPwk+Z63+SthJI4nUc7OBfMr3WG+SeRJ+gVoyA78doc7tPhLtYZkdT5p
+ 589BeVQiaempM/wsKd/2fBhzGbV3bzuD8+hHYFyIA+soOpmTNmggEauo1cdSb6M+oImy
+ k0CYOXMugtZm/AykM28cUPqWclpanzQL/7KP8mABFsUYoJ/+vMa1Letlp138FgxmlvXf
+ MVfA==
+X-Gm-Message-State: APjAAAW3nf5LBK3lsZp2yklzsXASlDKVCVhi0DpZXtz/gWS1p2ysPtg6
+ yUnt2hrXbzxyN4jQhIuhO1FbYw==
+X-Google-Smtp-Source: APXvYqzMLSK7+SkT+doycWqokAFfRgXvilXEqEabHPNK31DKuQzeai/z248Q1ZETdDcZvs/q+IljJA==
+X-Received: by 2002:a5d:6709:: with SMTP id o9mr52157881wru.301.1560533317777; 
+ Fri, 14 Jun 2019 10:28:37 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id i12sm3588188wrs.43.2019.06.14.10.18.30
+ by smtp.gmail.com with ESMTPSA id s188sm4205143wmf.40.2019.06.14.10.28.30
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 10:18:34 -0700 (PDT)
+ Fri, 14 Jun 2019 10:28:36 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D28DC1FFCA;
+ by zen.linaroharston (Postfix) with ESMTP id E50C71FFCB;
  Fri, 14 Jun 2019 18:12:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:59 +0100
-Message-Id: <20190614171200.21078-50-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:12:00 +0100
+Message-Id: <20190614171200.21078-51-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH  v3 49/50] include/exec/cpu-defs.h: fix typo
+Subject: [Qemu-devel] [PATCH  v3 50/50] TODO: API changes to make?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,30 +80,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/exec/cpu-defs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/qemu-plugin.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
-index 354788385b..b529c2013e 100644
---- a/include/exec/cpu-defs.h
-+++ b/include/exec/cpu-defs.h
-@@ -241,7 +241,7 @@ typedef struct CPUTLB { } CPUTLB;
- #endif  /* !CONFIG_USER_ONLY && CONFIG_TCG */
- 
- /*
-- * This structure must be placed in ArchCPU immedately
-+ * This structure must be placed in ArchCPU immediately
-  * before CPUArchState, as a field named "neg".
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index 21f056d4ab..655640fe54 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -169,6 +169,7 @@ enum qemu_plugin_mem_rw {
+  * callbacks to be triggered when the block or individual instruction
+  * executes.
   */
- typedef struct CPUNegativeOffsetState {
++/* ??? - should we expose vcpu_index here? */
+ typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
+                                                unsigned int vcpu_index,
+                                                struct qemu_plugin_tb *tb);
 -- 
 2.20.1
 
