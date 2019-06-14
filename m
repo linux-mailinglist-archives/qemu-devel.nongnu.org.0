@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2CF4658B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:19:55 +0200 (CEST)
-Received: from localhost ([::1]:53708 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FC746576
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 19:16:42 +0200 (CEST)
+Received: from localhost ([::1]:53672 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbprm-0005Fs-K1
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55890)
+	id 1hbpod-0002gb-W0
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 13:16:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55908)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpkD-0000Pk-VJ
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:07 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpkE-0000S1-Ug
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hbpkC-0002vs-Ld
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:05 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52338)
+ (envelope-from <alex.bennee@linaro.org>) id 1hbpkD-0002we-EF
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:06 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38190)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hbpkC-0002uq-B3
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:04 -0400
-Received: by mail-wm1-x342.google.com with SMTP id s3so3119409wms.2
+ id 1hbpkD-0002vU-5a
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:12:05 -0400
+Received: by mail-wr1-x442.google.com with SMTP id d18so3321244wrs.5
  for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:12:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uuSP1+OO4V0J/TIomTItZc3CIXnPAwyQAIRCHYQETno=;
- b=ZkeGprZlGrZGdkPuX0znJNtIeQ6gD1jhae/wwKqrzu5J4M79SkJl6vCA9qxSgkeUAk
- 9Q4a5yM15SdnWxg4ewbuRgS5kCkNSJ8FwDa172pwJMeu0Ree+/V45/VIn9VfNVGeUTCV
- 2GQA+1ohQ9RquAeQImH+fHrQZLebX8fBQC/oRP/hBVdQVULiRMY5oEyghaRcmV8Ho4Fc
- tOgibV9TcThEDpOLCktQibl87+Hj8lcjs2IhXzR+yzBqVlmxbofd2Pkl+cegnd5Y9ngG
- 7roCgzzNnasV1iTgDVe0yB12nWmC7wGl5v2L9PFAmBDX4gKMBpqbRHHwZ0vLZgo3xwwO
- iR+g==
+ bh=bJlRK12NgWRhW3McWfNYPpf/1E3ddcXa2ZT9Jrrle8U=;
+ b=liNlhIYrR8Z2D81wKr24l4CaxT63ZZlnWOLIYKEA1hOU1+VGh8aZeU6f7EXWrBFNft
+ 7vjeWU61sMupXH7ZrVWJ4hrgHbTYvynUf9+D15GulLp1eE1xu5vvsmfLVTVhakEt7AsQ
+ xlRMjzIz15yKUp3wXeUnOvWVGZFiropttAWk8Qh7ud0xC3bWHgSTAN2K9P0gJ9G+5bFp
+ HizKJLAr2DJhPu/G9cMoXOLUEKG9ftCssd6lnXVNwHTJ7rXBB586jixWQWeMt/DbjrLl
+ EE9vFU7V4LGGWXiUqZcOxkmS3G4wtFMovfkFLwuqc41iKcsBLRnNZ35ls5Nbv9qIIWxS
+ lSaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uuSP1+OO4V0J/TIomTItZc3CIXnPAwyQAIRCHYQETno=;
- b=BGPfIJFYZEZC7hBOKK6hYvR6JebQWzgw69vjwo8WzOzo5TUAaVqTNWdJomCRbqbMyK
- /IK2MQWPbasi2yZWA4Kn198OFwa7XES1RgnwTUpoHK3h5J4ZsJeeinUHlb2Vbl/2FJRS
- 8B+ArVU85QZoXLyWZEnGarDHZCeEry+T67fq3ackmgI/hjD1blrdDY1MimwESECnUW7e
- x0wuG4924+bhYt8/XFOW7DUOJmmA4JxxVOc+x99IRaF2dO6/J9hJGcJS8BFgCHSPestr
- U/1ELxg98s1mTBYgY/vWJJob4q8GY8oS+7SYpUsboMI5f7bHwF8NlCAqI9obRGMDr9uM
- JnBg==
-X-Gm-Message-State: APjAAAWkyADBlz+DbX3S92cnBtjjflf/PXCP1JSi4aSVN4ajHtSMTFDt
- ts3xnnj8NBB6y8P6O2mrtKl6Zw==
-X-Google-Smtp-Source: APXvYqxd+CILFS88J+V+wzu9kgZ2fli/jH116BhLIXbrKYyil3503Ot7de3KlD+8MWH5hCPViR8+Aw==
-X-Received: by 2002:a1c:be0a:: with SMTP id o10mr8688679wmf.91.1560532322971; 
- Fri, 14 Jun 2019 10:12:02 -0700 (PDT)
+ bh=bJlRK12NgWRhW3McWfNYPpf/1E3ddcXa2ZT9Jrrle8U=;
+ b=EI6fWtJxNgJGtP9Ha+9XnM3IpYDAnZr3/pJY9CqJih0VoaAKAh+HXpaZt6wIGxp9P9
+ CtYUGSdqL1VXau6aYWee0g2EsZY9Fp2MWQNiMDrdFD/6n6dnzTs9gPpAxn7NEdiwvXTq
+ d6OrariCsllR5lvBJ95dXfDI+50K7VY8W7fjVVuRuvBMO/5oiqiGhQE8KTmkYRMSOb6L
+ 9wKbdHc3xjQc2BL2qQ6dmy5bgv9MLWWBP9UHTH5I7g7Db004AwRFrnd1J0IqKzzHk3cg
+ gRaaP+G56Fkeod3ZbFXa9ADjRtRRlNUAkpWQaN7a8h696RcLPWTXvgaphf6D8dF3OEyt
+ SyBw==
+X-Gm-Message-State: APjAAAWEF6ZiBSPIVLXOl2Hseb9mK+z+wZ7MX+YLUlZArjbWtlo9IPa9
+ ED8DgyMWznNFZLJLWscsKB0DXr5hgis=
+X-Google-Smtp-Source: APXvYqw0OJnrgeBp6CxmVpNi+pYutlL6v8aJUUfQFIWNpItw/0kqj4OHO2LSNrdfWCdeGYvQIM0pcw==
+X-Received: by 2002:adf:f186:: with SMTP id h6mr719115wro.274.1560532323665;
+ Fri, 14 Jun 2019 10:12:03 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id r5sm6196915wrg.10.2019.06.14.10.12.00
+ by smtp.gmail.com with ESMTPSA id 18sm2315024wmg.43.2019.06.14.10.12.00
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Fri, 14 Jun 2019 10:12:02 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 982821FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id AC1651FF90;
  Fri, 14 Jun 2019 18:12:00 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 18:11:12 +0100
-Message-Id: <20190614171200.21078-3-alex.bennee@linaro.org>
+Date: Fri, 14 Jun 2019 18:11:13 +0100
+Message-Id: <20190614171200.21078-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH v3 02/50] tcg/README: fix typo
- s/afterwise/afterwards/
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v3 03/50] cpu: introduce
+ cpu_in_exclusive_work_context()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,35 +83,65 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Emilio G. Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Emilio G. Cota" <cota@braap.org>
 
-Afterwise is "wise after the fact", as in "hindsight".
-Here we meant "afterwards" (as in "subsequently"). Fix it.
-
+Suggested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Emilio G. Cota <cota@braap.org>
 ---
- tcg/README | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ cpus-common.c     |  2 ++
+ include/qom/cpu.h | 13 +++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/tcg/README b/tcg/README
-index 21fcdf737f..ef9be5ba90 100644
---- a/tcg/README
-+++ b/tcg/README
-@@ -101,7 +101,7 @@ This can be overridden using the following function modifiers:
-   canonical locations before calling the helper.
- - TCG_CALL_NO_WRITE_GLOBALS means that the helper does not modify any globals.
-   They will only be saved to their canonical location before calling helpers,
--  but they won't be reloaded afterwise.
-+  but they won't be reloaded afterwards.
- - TCG_CALL_NO_SIDE_EFFECTS means that the call to the function is removed if
-   the return value is not used.
+diff --git a/cpus-common.c b/cpus-common.c
+index 3ca58c64e8..960058457a 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -335,7 +335,9 @@ void process_queued_cpu_work(CPUState *cpu)
+              */
+             qemu_mutex_unlock_iothread();
+             start_exclusive();
++            cpu->in_exclusive_work_context = true;
+             wi->func(cpu, wi->data);
++            cpu->in_exclusive_work_context = false;
+             end_exclusive();
+             qemu_mutex_lock_iothread();
+         } else {
+diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+index 5ee0046b62..08481ad304 100644
+--- a/include/qom/cpu.h
++++ b/include/qom/cpu.h
+@@ -373,6 +373,7 @@ struct CPUState {
+     bool unplug;
+     bool crash_occurred;
+     bool exit_request;
++    bool in_exclusive_work_context;
+     uint32_t cflags_next_tb;
+     /* updates protected by BQL */
+     uint32_t interrupt_request;
+@@ -785,6 +786,18 @@ void async_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data)
+  */
+ void async_safe_run_on_cpu(CPUState *cpu, run_on_cpu_func func, run_on_cpu_data data);
  
++/**
++ * cpu_in_exclusive_work_context()
++ * @cpu: The vCPU to check
++ *
++ * Returns true if @cpu is an exclusive work context, which has
++ * previously been queued via async_safe_run_on_cpu().
++ */
++static inline bool cpu_in_exclusive_work_context(const CPUState *cpu)
++{
++    return cpu->in_exclusive_work_context;
++}
++
+ /**
+  * qemu_get_cpu:
+  * @index: The CPUState@cpu_index value of the CPU to obtain.
 -- 
 2.20.1
 
