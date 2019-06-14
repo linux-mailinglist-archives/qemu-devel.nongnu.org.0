@@ -2,95 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67E64672B
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:10:08 +0200 (CEST)
-Received: from localhost ([::1]:53978 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2292467BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:43:23 +0200 (CEST)
+Received: from localhost ([::1]:54214 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbqeN-0001L5-WB
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:10:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33049)
+	id 1hbrAY-0001Of-RZ
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:43:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34972)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbpxS-0004eI-Hn
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:25:47 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbq3I-0000cK-Hp
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:31:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hbpxR-0001Tr-GH
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:25:46 -0400
-Received: from mail-eopbgr130090.outbound.protection.outlook.com
- ([40.107.13.90]:2465 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hbq3G-0006b8-NW
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:31:48 -0400
+Received: from relay.sw.ru ([185.231.240.75]:56110)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hbpxR-0001KW-8E
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:25:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R8ZWGDt41XYKnwYXEc/g4VCyElhB56/MPFPZFZGUmEs=;
- b=LWWBffPni0dtMATBVsius08hdkQmqe/0GghSUtsFRXyHlfzLzoGPK8jyp86chuNnPEwh8VfifhTbNvqsctRMuSBOsiKqRPCJ/QvMij8Sha/RYLcaHrqKK4PPr4DnuCGu/94ai9kMZMXTBBpna0ydo0b58yQQYc36za2mhPWB+vI=
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com (20.177.110.153) by
- AM0PR08MB5284.eurprd08.prod.outlook.com (20.178.117.96) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.13; Fri, 14 Jun 2019 17:25:40 +0000
-Received: from AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76]) by AM0PR08MB3572.eurprd08.prod.outlook.com
- ([fe80::d064:530:c7:ad76%6]) with mapi id 15.20.1987.012; Fri, 14 Jun 2019
- 17:25:40 +0000
+ id 1hbq3G-0006Y1-Fl
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:31:46 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hbq3C-0007hu-4n; Fri, 14 Jun 2019 20:31:42 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Markus Armbruster <armbru@redhat.com>
-Thread-Topic: [Qemu-devel] [PATCH v2] qapi: InitSocketAddress: add keepalive
- option
-Thread-Index: AQHVH6cAJDibxBmsVEKOfDPINRwS6qaWeWuLgATzpAA=
-Date: Fri, 14 Jun 2019 17:25:39 +0000
-Message-ID: <6b598c2c-7c58-7236-0b3e-172094d6a67a@virtuozzo.com>
-References: <20190610160957.46809-1-vsementsov@virtuozzo.com>
- <8736kg2py5.fsf@dusky.pond.sub.org>
-In-Reply-To: <8736kg2py5.fsf@dusky.pond.sub.org>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR09CA0045.eurprd09.prod.outlook.com
- (2603:10a6:7:3c::13) To AM0PR08MB3572.eurprd08.prod.outlook.com
- (2603:10a6:208:e1::25)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190614202538086
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 493ebf11-6166-4311-83a5-08d6f0ed523a
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:AM0PR08MB5284; 
-x-ms-traffictypediagnostic: AM0PR08MB5284:
-x-microsoft-antispam-prvs: <AM0PR08MB528417AB3E6B1AE2A79CF653C1EE0@AM0PR08MB5284.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:506;
-x-forefront-prvs: 0068C7E410
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(396003)(39850400004)(376002)(366004)(346002)(189003)(199004)(107886003)(81166006)(2906002)(68736007)(6512007)(316002)(478600001)(229853002)(71190400001)(4326008)(8936002)(26005)(53936002)(86362001)(66556008)(66946007)(71200400001)(66476007)(31696002)(5660300002)(64756008)(256004)(73956011)(14444005)(8676002)(476003)(52116002)(186003)(7736002)(6506007)(99286004)(6916009)(305945005)(66446008)(102836004)(446003)(11346002)(81156014)(486006)(2616005)(36756003)(14454004)(6116002)(6246003)(3846002)(25786009)(6486002)(31686004)(54906003)(6436002)(76176011)(66066001)(386003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB5284;
- H:AM0PR08MB3572.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: m14cbJfvB20szov5NndqMOD6URdE1M7YHPYvh0/gBg6Icgmmicn9F5C7ztsh/DphRmUfhvLOAku6wi6MdtqFFFHGgwgaD+Q5YZgdLmRUFCg0BY137zKhMhQmahO9J2X+T2T0ln20qBDj1lnHYmC344Iet+8Qt+c4shEoUtfNXhwS25+tE6tw0RpzVvqPy99iE/KnLacCYrz26hHgL4XhdhfVpYbui9euwMxzblBbLkaFLZCRmb++urCZjNXW0dIrp1j1mfh5MAuZLm1r1ItGqeN0m/q/M4TA+lPXwcad81Psq1/oTX2SzOcwb5sS1CTbEq2aE28RhWba2moTE4WYWlm2VW8kOTQozi4PRn/OWbRNT11tRLT0ojfakY6nL5U0HrRNHC5PUZiVPH2tdbsZECacPYE8DJ7jJW9GX2cywGE=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <61E41A716B08CF439C319B16B57834E5@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 493ebf11-6166-4311-83a5-08d6f0ed523a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2019 17:25:39.9744 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5284
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.13.90
-Subject: Re: [Qemu-devel] [PATCH v2] qapi: InitSocketAddress: add keepalive
- option
+To: qemu-devel@nongnu.org
+Date: Fri, 14 Jun 2019 20:31:40 +0300
+Message-Id: <20190614173140.19159-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v3] qapi: Add InetSocketAddress member
+ keep-alive
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,63 +45,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Denis Lunev <den@virtuozzo.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "kraxel@redhat.com" <kraxel@redhat.com>
+Cc: vsementsov@virtuozzo.com, berrange@redhat.com, armbru@redhat.com,
+ kraxel@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTEuMDYuMjAxOSAxNjo0OCwgTWFya3VzIEFybWJydXN0ZXIgd3JvdGU6DQo+IFlvdSBtaXNzcGVs
-bGVkIEluZXRTb2NrZXRBZGRyZXNzIGFuZCBrZWVwLWFsaXZlIGluIHRoZSBzdWJqZWN0LiAgU3Vn
-Z2VzdA0KPiANCj4gICAgICBxYXBpOiBBZGQgSW5ldFNvY2tldEFkZHJlc3MgbWVtYmVyIGtlZXAt
-YWxpdmUNCg0KT2hoLCBJIGZlZWwgc3R1cGlkDQoNCj4gDQo+IFZsYWRpbWlyIFNlbWVudHNvdi1P
-Z2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4gd3JpdGVzOg0KPiANCj4+IEl0J3Mg
-bmVlZGVkIHRvIHByb3ZpZGUga2VlcGFsaXZlIGZvciBuYmQgY2xpZW50IHRvIHRyYWNrIHNlcnZl
-cg0KPj4gYXZhaWxhYmlsaXR5Lg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IFZsYWRpbWlyIFNlbWVu
-dHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCj4+IC0tLQ0KPj4NCj4+
-IHYyOiBbYnkgTWFya3VzJ3MgY29tbWVudHNdDQo+PiAgIC0gaW1wcm92ZSBjb21taXQgbWVzc2Fn
-ZQ0KPj4gICAtIHMva2VlcGFsaXZlL2tlZXAtYWxpdmUNCj4+ICAgLSB1cGRhdGUgaW5ldF9wYXJz
-ZSgpDQo+Pg0KPj4NCj4+ICAgcWFwaS9zb2NrZXRzLmpzb24gICB8ICA1ICsrKystDQo+PiAgIHV0
-aWwvcWVtdS1zb2NrZXRzLmMgfCAyMiArKysrKysrKysrKysrKysrKysrKysrDQo+PiAgIDIgZmls
-ZXMgY2hhbmdlZCwgMjYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYg
-LS1naXQgYS9xYXBpL3NvY2tldHMuanNvbiBiL3FhcGkvc29ja2V0cy5qc29uDQo+PiBpbmRleCBm
-YzgxZDhkNWU4Li4xM2EyNjI3ZTFkIDEwMDY0NA0KPj4gLS0tIGEvcWFwaS9zb2NrZXRzLmpzb24N
-Cj4+ICsrKyBiL3FhcGkvc29ja2V0cy5qc29uDQo+PiBAQCAtNTMsNiArNTMsOCBAQA0KPj4gICAj
-DQo+PiAgICMgQGlwdjY6IHdoZXRoZXIgdG8gYWNjZXB0IElQdjYgYWRkcmVzc2VzLCBkZWZhdWx0
-IHRyeSBib3RoIElQdjQgYW5kIElQdjYNCj4+ICAgIw0KPj4gKyMgQGtlZXAtYWxpdmU6IGVuYWJs
-ZSBrZWVwLWFsaXZlIHdoZW4gY29ubmVjdGluZyB0byB0aGlzIHNvY2tldCAoU2luY2UgNC4xKQ0K
-Pj4gKyMNCj4+ICAgIyBTaW5jZTogMS4zDQo+PiAgICMjDQo+PiAgIHsgJ3N0cnVjdCc6ICdJbmV0
-U29ja2V0QWRkcmVzcycsDQo+IA0KPiBQbGVhc2UgZG9jdW1lbnQgdGhhdCBAa2VlcC1hbGl2ZSBp
-cyBzaWxlbnRseSBpZ25vcmVkIGZvciBwYXNzaXZlDQo+IHNvY2tldHMuDQo+IA0KPiBFdmVuIGJl
-dHRlciB3b3VsZCBiZSByZWplY3RpbmcgaXQgdGhlbiwgb2YgY291cnNlLg0KDQpPaw0KDQo+IA0K
-Pj4gQEAgLTYxLDcgKzYzLDggQEANCj4+ICAgICAgICcqbnVtZXJpYyc6ICAnYm9vbCcsDQo+PiAg
-ICAgICAnKnRvJzogJ3VpbnQxNicsDQo+PiAgICAgICAnKmlwdjQnOiAnYm9vbCcsDQo+PiAtICAg
-ICcqaXB2Nic6ICdib29sJyB9IH0NCj4+ICsgICAgJyppcHY2JzogJ2Jvb2wnLA0KPj4gKyAgICAn
-KmtlZXAtYWxpdmUnOiAnYm9vbCcgfSB9DQo+PiAgIA0KPj4gICAjIw0KPj4gICAjIEBVbml4U29j
-a2V0QWRkcmVzczoNCj4+IGRpZmYgLS1naXQgYS91dGlsL3FlbXUtc29ja2V0cy5jIGIvdXRpbC9x
-ZW11LXNvY2tldHMuYw0KPj4gaW5kZXggODg1MGEyODBhOC4uOWM4NDJjNGE5MyAxMDA2NDQNCj4+
-IC0tLSBhL3V0aWwvcWVtdS1zb2NrZXRzLmMNCj4+ICsrKyBiL3V0aWwvcWVtdS1zb2NrZXRzLmMN
-Cj4+IEBAIC00NTcsNiArNDU3LDE5IEBAIGludCBpbmV0X2Nvbm5lY3Rfc2FkZHIoSW5ldFNvY2tl
-dEFkZHJlc3MgKnNhZGRyLCBFcnJvciAqKmVycnApDQo+PiAgICAgICB9DQo+PiAgIA0KPj4gICAg
-ICAgZnJlZWFkZHJpbmZvKHJlcyk7DQo+PiArDQo+PiArICAgIGlmIChzYWRkci0+a2VlcF9hbGl2
-ZSkgew0KPj4gKyAgICAgICAgaW50IHZhbCA9IDE7DQo+PiArICAgICAgICBpbnQgcmV0ID0gcWVt
-dV9zZXRzb2Nrb3B0KHNvY2ssIFNPTF9TT0NLRVQsIFNPX0tFRVBBTElWRSwNCj4+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgJnZhbCwgc2l6ZW9mKHZhbCkpOw0KPj4gKw0KPj4g
-KyAgICAgICAgaWYgKHJldCA8IDApIHsNCj4+ICsgICAgICAgICAgICBlcnJvcl9zZXRnX2Vycm5v
-KGVycnAsIGVycm5vLCAiVW5hYmxlIHRvIHNldCBLRUVQQUxJVkUiKTsNCj4+ICsgICAgICAgICAg
-ICBjbG9zZShzb2NrKTsNCj4+ICsgICAgICAgICAgICByZXR1cm4gLTE7DQo+PiArICAgICAgICB9
-DQo+PiArICAgIH0NCj4+ICsNCj4+ICAgICAgIHJldHVybiBzb2NrOw0KPj4gICB9DQo+PiAgIA0K
-Pj4gQEAgLTY1Miw2ICs2NjUsMTUgQEAgaW50IGluZXRfcGFyc2UoSW5ldFNvY2tldEFkZHJlc3Mg
-KmFkZHIsIGNvbnN0IGNoYXIgKnN0ciwgRXJyb3IgKiplcnJwKQ0KPj4gICAgICAgICAgIH0NCj4+
-ICAgICAgICAgICBhZGRyLT5oYXNfaXB2NiA9IHRydWU7DQo+PiAgICAgICB9DQo+PiArICAgIGJl
-Z2luID0gc3Ryc3RyKG9wdHN0ciwgIixrZWVwLWFsaXZlIik7DQo+PiArICAgIGlmIChiZWdpbikg
-ew0KPj4gKyAgICAgICAgaWYgKGluZXRfcGFyc2VfZmxhZygia2VlcC1hbGl2ZSIsIGJlZ2luICsg
-c3RybGVuKCJrZWVwLWFsaXZlPSIpLA0KPiANCj4gU2hvdWxkbid0IHlvdSB1c2Ugc3RybGVuKCIs
-a2VlcC1hbGl2ZSIpPw0KDQpIbW0geWVzLg0KDQo+IA0KPj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAmYWRkci0+a2VlcF9hbGl2ZSwgZXJycCkgPCAwKQ0KPj4gKyAgICAgICAgew0KPj4g
-KyAgICAgICAgICAgIHJldHVybiAtMTsNCj4+ICsgICAgICAgIH0NCj4+ICsgICAgICAgIGFkZHIt
-Pmhhc19rZWVwX2FsaXZlID0gdHJ1ZTsNCj4+ICsgICAgfQ0KPj4gICAgICAgcmV0dXJuIDA7DQo+
-PiAgIH0NCg0KVGhhbmtzIGZvciByZXZpZXdpbmcsIEknbGwgcmVzZW5kIHNvb24uDQoNCi0tIA0K
-QmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+It's needed to provide keepalive for nbd client to track server
+availability.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+
+v3: [by Markus's comments]
+
+- Fix commit subject
+- Add comment to qapi and restrict server-side connections
+- Fix s/"keep-alive="/",keep-alive"/
+
+
+ qapi/sockets.json   |  6 +++++-
+ util/qemu-sockets.c | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+
+diff --git a/qapi/sockets.json b/qapi/sockets.json
+index fc81d8d5e8..c44af481a1 100644
+--- a/qapi/sockets.json
++++ b/qapi/sockets.json
+@@ -53,6 +53,9 @@
+ #
+ # @ipv6: whether to accept IPv6 addresses, default try both IPv4 and IPv6
+ #
++# @keep-alive: enable keep-alive when connecting to this socket. Not supported
++#              for server-side connections. (Since 4.1)
++#
+ # Since: 1.3
+ ##
+ { 'struct': 'InetSocketAddress',
+@@ -61,7 +64,8 @@
+     '*numeric':  'bool',
+     '*to': 'uint16',
+     '*ipv4': 'bool',
+-    '*ipv6': 'bool' } }
++    '*ipv6': 'bool',
++    '*keep-alive': 'bool' } }
+ 
+ ##
+ # @UnixSocketAddress:
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 8850a280a8..813063761b 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -438,6 +438,12 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+     struct addrinfo *res, *e;
+     int sock = -1;
+ 
++    if (saddr->keep_alive) {
++        error_setg(errp, "keep-alive options is not supported for server-side "
++                   "connection");
++        return -1;
++    }
++
+     res = inet_parse_connect_saddr(saddr, errp);
+     if (!res) {
+         return -1;
+@@ -457,6 +463,19 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+     }
+ 
+     freeaddrinfo(res);
++
++    if (saddr->keep_alive) {
++        int val = 1;
++        int ret = qemu_setsockopt(sock, SOL_SOCKET, SO_KEEPALIVE,
++                                  &val, sizeof(val));
++
++        if (ret < 0) {
++            error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
++            close(sock);
++            return -1;
++        }
++    }
++
+     return sock;
+ }
+ 
+@@ -652,6 +671,15 @@ int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
+         }
+         addr->has_ipv6 = true;
+     }
++    begin = strstr(optstr, ",keep-alive");
++    if (begin) {
++        if (inet_parse_flag("keep-alive", begin + strlen(",keep-alive"),
++                            &addr->keep_alive, errp) < 0)
++        {
++            return -1;
++        }
++        addr->has_keep_alive = true;
++    }
+     return 0;
+ }
+ 
+-- 
+2.18.0
+
 
