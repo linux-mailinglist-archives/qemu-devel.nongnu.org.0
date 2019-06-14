@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3A6B45B02
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 12:57:53 +0200 (CEST)
-Received: from localhost ([::1]:50152 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F94145B5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 13:25:29 +0200 (CEST)
+Received: from localhost ([::1]:50274 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbju2-0005AX-Ur
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 06:57:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57659)
+	id 1hbkKm-0000n3-Cz
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 07:25:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35833)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hbjhg-0007xP-Eb
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:45:05 -0400
+ (envelope-from <groug@kaod.org>) id 1hbkCc-0002RE-4v
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 07:17:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hbjhe-00077Y-TU
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:45:04 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36104)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hbjhe-00076H-LX
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 06:45:02 -0400
-Received: by mail-wm1-x342.google.com with SMTP id u8so1835984wmm.1
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 03:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=08Z7f4ISnw8IsjRb+rdkg212YqVM77nn40XmfzlB6eY=;
- b=HBOOEWHYhDoCDaVMxHlMQskSwEIpWvgwGujwDhIOBvMmKXeKs/2nOg9US7rvOE92VJ
- md4O4MyvJyCmfXru1ocEXzs4XTh0I4RGfHxzSKJxUZDluUKFStFNhYi4TEmxj5M0L18F
- y1cA0MksR0JX7wNOYbtCeXLIk15DRAjPA+iUVtrBFyRA7lt5a5gn/+0TyFBb+Q0r9f8f
- KtcW6R53WH4kiHZwMWwF7Cd+lyaMgs1GZF5MTViVpCvENuUiaomeS8Ng9B8oXJ6TUxVa
- 41iMo5ia7225Mv0+C6/1syaaZc8uRwzBB9F9ClUWZvGuR8ZfPVuK4TSOnSzqb0rBo4XB
- wJTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=08Z7f4ISnw8IsjRb+rdkg212YqVM77nn40XmfzlB6eY=;
- b=Ly4VzWPjm7eHyo70X8Rn+QcmJc/gQbZY3BByPLVUlBpO1Uly6KgUIcG61iSgacR5/f
- wGpxpCybHMBdkbrJoFKkgkteKPgpQDSAL8hIbrQt6xqUbpRMr8+nlCEyPCa8L3VneoTU
- 2RKIXyA5e2yDlpafRR1DOMP211Su5Yg/Po3BMwa0ME6oTZnj0lWzbOV8pbdP9Nk4LGPG
- Qc1Ab3z2TIh/Dlg4bCXqKBXjT1OE6EAfl1kkfOsuy4ZH7QEoeS4Q5GR/lkOkfMGfokXx
- HOvm2xsUgwpnYPnWZ1g1X/gqhiDTxnO55R8875OHMYacxPMVjOGeG+YQbYqea+WHowM/
- kRxQ==
-X-Gm-Message-State: APjAAAXngjKMKprABJ5GfhR7THLroYOvsY8JdwCa4N6hQiCOr0VFDCBY
- eWFdpb1NO9lAZb7BjPd1v8GynQbrXh9OQg==
-X-Google-Smtp-Source: APXvYqy0kZkDbtYWpYNivI9UjFC/x1x0oakT3xeI5sGrR9BJFU8cj5Hyt9XTijU5xfLCHo995KTv8w==
-X-Received: by 2002:a1c:7f96:: with SMTP id a144mr7296493wmd.124.1560509101448; 
- Fri, 14 Jun 2019 03:45:01 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id y24sm2091238wmi.10.2019.06.14.03.45.00
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 14 Jun 2019 03:45:00 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Fri, 14 Jun 2019 11:44:57 +0100
-Message-Id: <20190614104457.24703-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190614104457.24703-1-peter.maydell@linaro.org>
-References: <20190614104457.24703-1-peter.maydell@linaro.org>
+ (envelope-from <groug@kaod.org>) id 1hbk4n-0002hy-Q8
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 07:08:59 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49914)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hbk4n-0002fq-Eg
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 07:08:57 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5EB75rM116721
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:08:49 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2t48mamnse-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 07:08:49 -0400
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Fri, 14 Jun 2019 12:08:47 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Fri, 14 Jun 2019 12:08:45 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x5EB8iV650200754
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 14 Jun 2019 11:08:44 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BC1F352051;
+ Fri, 14 Jun 2019 11:08:44 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.152.28])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 94C975204F;
+ Fri, 14 Jun 2019 11:08:44 +0000 (GMT)
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Fri, 14 Jun 2019 13:08:44 +0200
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH 2/2] target/arm: Only implement doubles if the
- FPU supports them
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19061411-4275-0000-0000-000003424A0E
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19061411-4276-0000-0000-000038526738
+Message-Id: <156051052402.224162.13664250996245267046.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-14_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=663 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906140093
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 0/7] ppc: Get rid of some CONFIG_KVM guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,272 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The architecture permits FPUs which have only single-precision
-support, not double-precision; Cortex-M4 and Cortex-M33 are
-both like that. Add the necessary checks on the MVFR0 FPDP
-field so that we UNDEF any double-precision instructions on
-CPUs like this.
+There are several places where CONFIG_KVM is used to guard code that
+should only be built when KVM is supported. It is generally preferable
+to avoid that and leave such guards in header files for improved
+readability.
 
-Note that even if FPDP==0 the insns like VMOV-to/from-gpreg,
-VLDM/VSTM, VLDR/VSTR which take double precision registers
-still exist.
+In many cases, the execution of the code is also conditionned by
+kvm_enabled() which expands to (0) when CONFIG_KVM is not defined.
+This is likely to cause the compiler to optimize the code out,
+and if it doesn't, the right way to address compiling issues is
+to add stubs.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Successfuly compile tested on x86_64 and ppc64le linux. Travis shows
+this builds fine on OSX as well.
+
+--
+Greg
+
 ---
- target/arm/cpu.h               |  6 +++
- target/arm/translate-vfp.inc.c | 84 ++++++++++++++++++++++++++++++++++
- 2 files changed, 90 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 92298624215..29be1f7ea97 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3382,6 +3382,12 @@ static inline bool isar_feature_aa32_fpshvec(const ARMISARegisters *id)
-     return FIELD_EX64(id->mvfr0, MVFR0, FPSHVEC) > 0;
- }
- 
-+static inline bool isar_feature_aa32_fpdp(const ARMISARegisters *id)
-+{
-+    /* Return true if CPU supports double precision floating point */
-+    return FIELD_EX64(id->mvfr0, MVFR0, FPDP) > 0;
-+}
-+
- /*
-  * We always set the FP and SIMD FP16 fields to indicate identical
-  * levels of support (assuming SIMD is implemented at all), so
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 85187bcc9dc..a3df81d3b07 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -173,6 +173,11 @@ static bool trans_VSEL(DisasContext *s, arg_VSEL *a)
-         ((a->vm | a->vn | a->vd) & 0x10)) {
-         return false;
-     }
-+
-+    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     rd = a->vd;
-     rn = a->vn;
-     rm = a->vm;
-@@ -301,6 +306,11 @@ static bool trans_VMINMAXNM(DisasContext *s, arg_VMINMAXNM *a)
-         ((a->vm | a->vn | a->vd) & 0x10)) {
-         return false;
-     }
-+
-+    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     rd = a->vd;
-     rn = a->vn;
-     rm = a->vm;
-@@ -382,6 +392,11 @@ static bool trans_VRINT(DisasContext *s, arg_VRINT *a)
-         ((a->vm | a->vd) & 0x10)) {
-         return false;
-     }
-+
-+    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     rd = a->vd;
-     rm = a->vm;
- 
-@@ -440,6 +455,11 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
-     if (dp && !dc_isar_feature(aa32_fp_d32, s) && (a->vm & 0x10)) {
-         return false;
-     }
-+
-+    if (dp && !dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     rd = a->vd;
-     rm = a->vm;
- 
-@@ -1268,6 +1288,10 @@ static bool do_vfp_3op_dp(DisasContext *s, VFPGen3OpDPFn *fn,
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!dc_isar_feature(aa32_fpshvec, s) &&
-         (veclen != 0 || s->vec_stride != 0)) {
-         return false;
-@@ -1413,6 +1437,10 @@ static bool do_vfp_2op_dp(DisasContext *s, VFPGen2OpDPFn *fn, int vd, int vm)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!dc_isar_feature(aa32_fpshvec, s) &&
-         (veclen != 0 || s->vec_stride != 0)) {
-         return false;
-@@ -1773,6 +1801,10 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -1878,6 +1910,10 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!dc_isar_feature(aa32_fpshvec, s) &&
-         (veclen != 0 || s->vec_stride != 0)) {
-         return false;
-@@ -2028,6 +2064,10 @@ static bool trans_VCMP_dp(DisasContext *s, arg_VCMP_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2097,6 +2137,10 @@ static bool trans_VCVT_f64_f16(DisasContext *s, arg_VCVT_f64_f16 *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2159,6 +2203,10 @@ static bool trans_VCVT_f16_f64(DisasContext *s, arg_VCVT_f16_f64 *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2215,6 +2263,10 @@ static bool trans_VRINTR_dp(DisasContext *s, arg_VRINTR_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2272,6 +2324,10 @@ static bool trans_VRINTZ_dp(DisasContext *s, arg_VRINTZ_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2327,6 +2383,10 @@ static bool trans_VRINTX_dp(DisasContext *s, arg_VRINTX_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2351,6 +2411,10 @@ static bool trans_VCVT_sp(DisasContext *s, arg_VCVT_sp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2375,6 +2439,10 @@ static bool trans_VCVT_dp(DisasContext *s, arg_VCVT_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2425,6 +2493,10 @@ static bool trans_VCVT_int_dp(DisasContext *s, arg_VCVT_int_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2461,6 +2533,10 @@ static bool trans_VJCVT(DisasContext *s, arg_VJCVT *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2550,6 +2626,10 @@ static bool trans_VCVT_fix_dp(DisasContext *s, arg_VCVT_fix_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -2642,6 +2722,10 @@ static bool trans_VCVT_dp_int(DisasContext *s, arg_VCVT_dp_int *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
--- 
-2.20.1
+Greg Kurz (7):
+      spapr_pci: Drop useless CONFIG_KVM ifdefery
+      hw/ppc/mac_oldworld: Drop useless CONFIG_KVM ifdefery
+      hw/ppc/mac_newworld: Drop useless CONFIG_KVM ifdefery
+      hw/ppc/prep: Drop useless CONFIG_KVM ifdefery
+      hw/ppc: Drop useless CONFIG_KVM ifdefery
+      ppc: Introduce kvmppc_set_reg_tb_offset() helper
+      target/ppc/machine: Add kvmppc_pvr_workaround_required() stub
+
+
+ hw/ppc/mac_newworld.c |    4 ----
+ hw/ppc/mac_oldworld.c |    2 --
+ hw/ppc/ppc.c          |    7 +------
+ hw/ppc/prep.c         |    2 --
+ hw/ppc/spapr_pci.c    |    2 --
+ target/ppc/kvm.c      |    9 +++++++++
+ target/ppc/kvm_ppc.h  |   10 ++++++++++
+ target/ppc/machine.c  |    2 --
+ 8 files changed, 20 insertions(+), 18 deletions(-)
 
 
