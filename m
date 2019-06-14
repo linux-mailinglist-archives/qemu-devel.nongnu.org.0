@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5CED467FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 21:02:35 +0200 (CEST)
-Received: from localhost ([::1]:54390 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEAC5467E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 20:53:10 +0200 (CEST)
+Received: from localhost ([::1]:54314 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbrT9-0000lF-1B
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 15:02:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36288)
+	id 1hbrK1-00011k-UN
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 14:53:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37414)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hbq8H-0004I9-Pj
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:36:58 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hbqDA-0007Rv-NL
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:42:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hbq8G-0002IY-Eu
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:36:57 -0400
-Resent-Date: Fri, 14 Jun 2019 13:36:57 -0400
-Resent-Message-Id: <E1hbq8G-0002IY-Eu@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21498)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hbq8E-0002Fs-UW
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:36:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560533781; cv=none; d=zoho.com; s=zohoarc; 
- b=hPrKOOTL99LGjlndpYmIOTqPz4cPuogcHJlWP8AZJ0VgmJEESjSZ03Gzl9prijJQ5AzmRxTrc2Wys8Q5NvCuXK5GJSPBWfEr6i9PK0QUF0mQo0d0lOjrViNHO0/vx7oOuj9P2peizKd18YY1WyKDsLBCAR28BYXW0dxnkvBiCAA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560533781;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=3dUckawlxSAP2i6yGj1QtHCs7RxClqXRaW2o9fW3go8=; 
- b=WMOV+ZYPpDPEkAXZFhsYeqzgvznHgWmhQKWJVT2FlSqt48n/7vmUDvPgHPWLsGGhqUqqOzd9XuJb7cNNfXTehaCVfRs0eU5bXcwSEVgQxjPNq+tVw5vKx5tnCDLuNMyYItrQXcUYPitBRcsM88atBAkBM3BT9QzWZnlEONpx6RI=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 156053378045031.617573639201396;
- Fri, 14 Jun 2019 10:36:20 -0700 (PDT)
-In-Reply-To: <20190614161106.218854-1-cosmin@nutanix.com>
-Message-ID: <156053377936.13573.7399026906297846522@ce79690b2cb9>
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hbqD1-0005iR-3M
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:41:55 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41226)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1hbqD0-0005V0-MK
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 13:41:50 -0400
+Received: by mail-ot1-x343.google.com with SMTP id 107so3399841otj.8
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 10:41:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Ttcj1Gl2EMuiTXx8LS5XqgJD/ipgyuC+lSBbp+vwVTI=;
+ b=g0fw0iKB6fKxUyXL9JiKRZLVk+6fUywD/Vr2Boh3zB54iiPwT/67PLg4gKWscEn/37
+ wSB8tMrNVKue96V+bhyg64dVuWeaX7y0HVpeDJea6YYX5c1odq1yN9S2UCb+IKnPSEPZ
+ pyHEiYDybIZu9ZCwxfaV0iTT5XIfwzkim5tEYltakBdpsXgRkeDyci+d3PHS8oAVYLn3
+ tSIb8WfZpDnCFDwNRrtZRajOZ5iNSD62efPcM4NOvL404WYuGZIBCWeau4BgdIyShk6I
+ n9heFJbORhlr634EoTSKUW2EOliPrnxR457MsdorRVcchqUM44ZI0DysuTWyhniY2tGr
+ uoXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ttcj1Gl2EMuiTXx8LS5XqgJD/ipgyuC+lSBbp+vwVTI=;
+ b=NOwjXqmPfLPXJtKW0jyZtNAqCMd/bK0Ug9L4LT0RjPpEoupqFd/ETs68ES3E9EJuLB
+ UKGf9bsea/qSEL4hb3qoPX13SjD+77EgB9NsGOKo3p/zaPebGSppbZk60iw4mmL+lsXX
+ wBebNJavwbEOE/wVyk7FK2pbbv7mhYB4lMMDDqCMHtbxDfGJIwcTavrk90jYLjISMIMY
+ XMtGqoc0A3eO+Dmb11B9pbH4YDpHtgt3qc0bwSEfHdUfFLguG/pTQIggxTGyWSc//wz4
+ Qf1yemNqQNblDZly63wZ+6WlBje+qFrylodxEcfw/MVXgUIs88Hc681CXYbnNPhnMRey
+ 16Cg==
+X-Gm-Message-State: APjAAAX50Xs8+SleAjy9QefGYpmfXig31GfqtVsxOCOp2tqU3sgCoF87
+ QJjMlZZJkF2qscj+IXFKAaz6tXjxYHFhkNpZ2OU=
+X-Google-Smtp-Source: APXvYqzW2BgcAPBs3oXfXCH9iQFUfqdox63RdincJf0LVjMniSP/69VcLIQRPmhS5sOH/m6a2SbaBNHliS6h2MrnfAQ=
+X-Received: by 2002:a05:6830:c6:: with SMTP id
+ x6mr18497571oto.64.1560534095922; 
+ Fri, 14 Jun 2019 10:41:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: cosmin@nutanix.com
-Date: Fri, 14 Jun 2019 10:36:20 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH] migration: Improve accuracy of vCPU
- throttling with per-vCPU timers
+References: <20190614171200.21078-1-alex.bennee@linaro.org>
+In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Fri, 14 Jun 2019 19:41:24 +0200
+Message-ID: <CAL1e-=g6Yd6+w3P23Y5z68EEXo30VGKhGJMrEaqcS6G01dT2=Q@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v3 00/50] tcg plugin support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,48 +74,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, cosmin@nutanix.com, qemu-devel@nongnu.org,
- rth@twiddle.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxNDE2MTEwNi4yMTg4
-NTQtMS1jb3NtaW5AbnV0YW5peC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNjE0MTYxMTA2LjIxODg1NC0xLWNvc21pbkBu
-dXRhbml4LmNvbQpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIXSBtaWdyYXRpb246IEltcHJv
-dmUgYWNjdXJhY3kgb2YgdkNQVSB0aHJvdHRsaW5nIHdpdGggcGVyLXZDUFUgdGltZXJzClR5cGU6
-IHNlcmllcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBh
-cnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
-bmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gu
-cGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6
-Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBh
-dGNoZXcvMjAxOTA2MTQxNjExMDYuMjE4ODU0LTEtY29zbWluQG51dGFuaXguY29tIC0+IHBhdGNo
-ZXcvMjAxOTA2MTQxNjExMDYuMjE4ODU0LTEtY29zbWluQG51dGFuaXguY29tClN3aXRjaGVkIHRv
-IGEgbmV3IGJyYW5jaCAndGVzdCcKNDQ5NzAzMiBtaWdyYXRpb246IEltcHJvdmUgYWNjdXJhY3kg
-b2YgdkNQVSB0aHJvdHRsaW5nIHdpdGggcGVyLXZDUFUgdGltZXJzCgo9PT0gT1VUUFVUIEJFR0lO
-ID09PQpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojOTE6IEZJTEU6IGNwdXMuYzo4MDU6Cisg
-ICAgJAoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnLycgKGN0eDpWeFYpCiMx
-MTM6IEZJTEU6IGNwdXMuYzo4MjQ6CisgICAgcGN0ID0gKGRvdWJsZSluZXdfdGhyb3R0bGVfcGN0
-LzEwMDsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2Vz
-IHJlcXVpcmVkIGFyb3VuZCB0aGF0ICctJyAoY3R4OlZ4VikKIzExNzogRklMRTogY3B1cy5jOjgy
-ODoKKyAgICAgICAgICAgICAgICBDUFVfVEhST1RUTEVfVElNRVNMSUNFX05TIC8gKDEtcGN0KSk7
-CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKV0FSTklO
-RzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzE0
-OTogRklMRTogaW5jbHVkZS9xb20vY3B1Lmg6NDQyOgorICAgIC8qIFVzZWQgdG8gY3ljbGljYWxs
-eSB0cmlnZ2VyIHZDUFUgdGhyb3R0bGluZyBkdXJpbmcgVk0gbWlncmF0aW9uCgp0b3RhbDogMyBl
-cnJvcnMsIDEgd2FybmluZ3MsIDg4IGxpbmVzIGNoZWNrZWQKCkNvbW1pdCA0NDk3MDMyYTdkNzkg
-KG1pZ3JhdGlvbjogSW1wcm92ZSBhY2N1cmFjeSBvZiB2Q1BVIHRocm90dGxpbmcgd2l0aCBwZXIt
-dkNQVSB0aW1lcnMpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
-ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
-bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09
-PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
-aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNjE0MTYxMTA2LjIxODg1NC0x
-LWNvc21pbkBudXRhbml4LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0t
-CkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hl
-dy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhh
-dC5jb20=
+On Fri, Jun 14, 2019 at 7:22 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+> Hi,
+>
+> This is v3 of the proposed plugins API for QEMU. As Emilio is busy
+> having finished his time at Columbia I have volunteered to take the
+> patch series forward. Emilio's RFC v2 was posted last year:
+>
+>   Subject: [RFC v2 00/38] Plugin support
+>   Date: Sun,  9 Dec 2018 14:37:11 -0500
+>   Message-Id: <20181209193749.12277-1-cota@braap.org>
+>
+> The idea is to present a plugin interface that allows for interesting
+> experiments to be written while not exposing the internal details of
+> how the TCG works to the wider world.
+>
+> Changes from last year
+>
+>   - re-basing and fixing up conflicts
+>   - moved to plugins/ and split files up (core/api/loader)
+>   - added a design document (docs/devel/plugins.rst)
+>   - replaced auto-growing structures with glib GArray and friends
+>   - expanded API to include access to disassembly
+>   - wrote some more example plugins
+>   - dropped the RFC tag ;-)
+>
+> There are a few things left to sort out. Currently the haddr
+> calculation relies on the softmmu TLB code for each architecture to
+> dump it in a cpu_env location. Currently this is only done on x86 and
+> we would require some tweaking to each backend. I think it would
+> probably be better to just have a wrapper helper which could do the
+> lookup of the (hot) TLB in C to calculate the address before calling
+> the helpers.
+>
 
+Great to see this series!
+
+Is there any particular conceptual reason why not all targets are included
+(i.e. mips, s390, etc.)? Or it was just, let's say, lack of your time resou=
+rces
+to complete everything?
+
+Yours,
+Aleksandar
+
+> I also ended up adding a bunch of miscellaneous fixes at the end while
+> I was re-spinning. If they get some review I'll try and get the
+> non-controversial stuff up-streamed first.
+>
+> The area that needs the most review is the single pass TCG op
+> insertion code. When plugins are enabled each instruction gets dummy
+> ops inserted and then at the end we swap those out for the actual
+> calls or remove them from the stream. Hopefully this is not too much
+> of an abuse of TCG mechanisms.
+>
+> I'm aiming to get this in for 4.1 but I guess that will depend on how
+> the review and iteration goes.
+>
+> Alex Benn=C3=A9e (12):
+>   docs/devel: add plugins.rst design document
+>   configure: add --enable-plugins (MOVE TO END)
+>   plugin: add implementation of the api
+>   tests/tcg: enable plugin testing
+>   tests/plugin: add a hotblocks plugin
+>   plugin: add qemu_plugin_insn_disas helper
+>   tests/plugin: add instruction execution breakdown
+>   tests/plugin: add hotpages plugin to breakdown memory access patterns
+>   accel/stubs: reduce headers from tcg-stub
+>   include/exec: wrap cpu_ldst.h in CONFIG_TCG
+>   include/exec/cpu-defs.h: fix typo
+>   TODO: API changes to make?
+>
+> Emilio G. Cota (36):
+>   trace: expand mem_info:size_shift to 3 bits
+>   tcg/README: fix typo s/afterwise/afterwards/
+>   cpu: introduce cpu_in_exclusive_work_context()
+>   translate-all: use cpu_in_exclusive_work_context() in tb_flush
+>   plugin: add user-facing API
+>   plugin: add core code
+>   queue: add QTAILQ_REMOVE_SEVERAL
+>   cputlb: document get_page_addr_code
+>   cputlb: introduce get_page_addr_code_hostp
+>   plugin-gen: add module for TCG-related code
+>   tcg: add tcg_gen_st_ptr
+>   tcg: add MO_HADDR to TCGMemOp
+>   atomic_template: fix indentation in GEN_ATOMIC_HELPER
+>   atomic_template: add inline trace/plugin helpers
+>   cpu_ldst_useronly_template: remove redundant #ifndef CODE_ACCESS
+>   tcg: let plugins instrument memory accesses
+>   translate-all: notify plugin code of tb_flush
+>   *-user: notify plugin of exit
+>   *-user: plugin syscalls
+>   cpu: hook plugin vcpu events
+>   plugin-gen: add plugin_insn_append
+>   translator: add translator_ld{ub,sw,uw,l,q}
+>   target/arm: call qemu_plugin_insn_append
+>   target/ppc: fetch code with translator_ld
+>   target/sh4: fetch code with translator_ld
+>   target/i386: fetch code with translator_ld
+>   target/hppa: fetch code with translator_ld
+>   target/m68k: fetch code with translator_ld
+>   target/alpha: fetch code with translator_ld
+>   target/riscv: fetch code with translator_ld
+>   target/sparc: fetch code with translator_ld
+>   target/xtensa: fetch code with translator_ld
+>   target/openrisc: fetch code with translator_ld
+>   translator: inject instrumentation from plugins
+>   plugin: add API symbols to qemu-plugins.symbols
+>   tests/plugin: add sample plugins
+>
+> Llu=C3=ADs Vilanova (2):
+>   vl: support -plugin option
+>   linux-user: support -plugin option
+>
+>  Makefile                                  |   11 +-
+>  Makefile.target                           |    2 +
+>  accel/stubs/tcg-stub.c                    |    3 -
+>  accel/tcg/Makefile.objs                   |    1 +
+>  accel/tcg/atomic_template.h               |  117 ++-
+>  accel/tcg/cpu-exec.c                      |    3 +
+>  accel/tcg/cputlb.c                        |   56 +-
+>  accel/tcg/plugin-gen.c                    | 1079 +++++++++++++++++++++
+>  accel/tcg/plugin-helpers.h                |    6 +
+>  accel/tcg/translate-all.c                 |   15 +-
+>  accel/tcg/translator.c                    |   16 +
+>  bsd-user/syscall.c                        |   12 +
+>  configure                                 |   86 +-
+>  cpus-common.c                             |    2 +
+>  cpus.c                                    |   10 +
+>  disas.c                                   |  103 ++
+>  docs/devel/index.rst                      |    1 +
+>  docs/devel/plugins.rst                    |   99 ++
+>  exec.c                                    |    2 +
+>  include/disas/disas.h                     |    2 +
+>  include/exec/cpu-defs.h                   |   11 +-
+>  include/exec/cpu_ldst.h                   |    9 +
+>  include/exec/cpu_ldst_template.h          |   40 +-
+>  include/exec/cpu_ldst_useronly_template.h |   36 +-
+>  include/exec/exec-all.h                   |   64 +-
+>  include/exec/helper-gen.h                 |    1 +
+>  include/exec/helper-proto.h               |    1 +
+>  include/exec/helper-tcg.h                 |    1 +
+>  include/exec/plugin-gen.h                 |   71 ++
+>  include/exec/translator.h                 |   30 +-
+>  include/qemu/plugin.h                     |  261 +++++
+>  include/qemu/qemu-plugin.h                |  349 +++++++
+>  include/qemu/queue.h                      |   10 +
+>  include/qom/cpu.h                         |   19 +
+>  linux-user/exit.c                         |    1 +
+>  linux-user/main.c                         |   18 +
+>  linux-user/syscall.c                      |    3 +
+>  plugins/.gitignore                        |    2 +
+>  plugins/Makefile.objs                     |   21 +
+>  plugins/api.c                             |  274 ++++++
+>  plugins/core.c                            |  524 ++++++++++
+>  plugins/loader.c                          |  353 +++++++
+>  plugins/plugin.h                          |   95 ++
+>  plugins/qemu-plugins.symbols              |   36 +
+>  qemu-options.hx                           |   17 +
+>  qom/cpu.c                                 |    2 +
+>  target/alpha/translate.c                  |    2 +-
+>  target/arm/translate-a64.c                |    2 +
+>  target/arm/translate.c                    |    8 +-
+>  target/hppa/translate.c                   |    2 +-
+>  target/i386/translate.c                   |   10 +-
+>  target/m68k/translate.c                   |    2 +-
+>  target/openrisc/translate.c               |    2 +-
+>  target/ppc/translate.c                    |    8 +-
+>  target/riscv/translate.c                  |    2 +-
+>  target/sh4/translate.c                    |    4 +-
+>  target/sparc/translate.c                  |    2 +-
+>  target/xtensa/translate.c                 |    4 +-
+>  tcg/README                                |    2 +-
+>  tcg/i386/tcg-target.inc.c                 |    8 +
+>  tcg/tcg-op.c                              |   40 +-
+>  tcg/tcg-op.h                              |   16 +
+>  tcg/tcg-opc.h                             |    3 +
+>  tcg/tcg.c                                 |   22 +
+>  tcg/tcg.h                                 |   28 +
+>  tests/Makefile.include                    |   10 +-
+>  tests/plugin/Makefile                     |   31 +
+>  tests/plugin/bb.c                         |   66 ++
+>  tests/plugin/empty.c                      |   30 +
+>  tests/plugin/hotblocks.c                  |  145 +++
+>  tests/plugin/hotpages.c                   |  152 +++
+>  tests/plugin/howvec.c                     |  297 ++++++
+>  tests/plugin/insn.c                       |   63 ++
+>  tests/plugin/mem.c                        |   93 ++
+>  tests/tcg/Makefile                        |   34 +
+>  tests/tcg/arm/Makefile.softmmu-target     |    1 +
+>  trace-events                              |    2 +-
+>  vl.c                                      |   11 +
+>  78 files changed, 4855 insertions(+), 122 deletions(-)
+>  create mode 100644 accel/tcg/plugin-gen.c
+>  create mode 100644 accel/tcg/plugin-helpers.h
+>  create mode 100644 docs/devel/plugins.rst
+>  create mode 100644 include/exec/plugin-gen.h
+>  create mode 100644 include/qemu/plugin.h
+>  create mode 100644 include/qemu/qemu-plugin.h
+>  create mode 100644 plugins/.gitignore
+>  create mode 100644 plugins/Makefile.objs
+>  create mode 100644 plugins/api.c
+>  create mode 100644 plugins/core.c
+>  create mode 100644 plugins/loader.c
+>  create mode 100644 plugins/plugin.h
+>  create mode 100644 plugins/qemu-plugins.symbols
+>  create mode 100644 tests/plugin/Makefile
+>  create mode 100644 tests/plugin/bb.c
+>  create mode 100644 tests/plugin/empty.c
+>  create mode 100644 tests/plugin/hotblocks.c
+>  create mode 100644 tests/plugin/hotpages.c
+>  create mode 100644 tests/plugin/howvec.c
+>  create mode 100644 tests/plugin/insn.c
+>  create mode 100644 tests/plugin/mem.c
+>
+> --
+> 2.20.1
+>
+>
 
