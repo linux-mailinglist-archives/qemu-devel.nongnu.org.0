@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E7245D1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 14:45:17 +0200 (CEST)
-Received: from localhost ([::1]:51192 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC2E45D29
+	for <lists+qemu-devel@lfdr.de>; Fri, 14 Jun 2019 14:50:06 +0200 (CEST)
+Received: from localhost ([::1]:51250 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hblZy-0001SM-Hx
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 08:45:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59197)
+	id 1hbleg-0005DP-3p
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 08:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59500)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hblVz-0008R0-UG
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:41:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1hblWu-0000TR-MX
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:42:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hblVv-0000HV-Ty
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:41:05 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:42936)
+ (envelope-from <philmd@redhat.com>) id 1hblWr-0000tF-Uy
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:42:04 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33533)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hblVv-0008Un-LV
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:41:03 -0400
-Received: by mail-wr1-f68.google.com with SMTP id x17so2363836wrl.9
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 05:40:41 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hblWr-0000sf-Mz
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 08:42:01 -0400
+Received: by mail-wr1-f67.google.com with SMTP id n9so2414104wru.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 05:42:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=v32XlUrSkGaRG+KWAql5XIaDQDY5t68oilTV9PkhIMQ=;
- b=s4deBXYsYaSil47YGJl/i/UaM4F3Q6Z9nbYZORF1ZACdwSTk4hJp4haQWNVunDXM1d
- 7iTwR+VgI+H0/6JdjsXYZQuPvx80FMHcsctKiXMxO3x63t6dSftkBpXeboBIRwNdd55k
- /pTR/U9LPvBj6z4DbidakakxX8UDX/kpmY/M9y5tMJwkkDLyreyPDh1luJ5Qzy5nIoVX
- qLheKTGIOqbh5EDEru4xKGFj0fYwWn3k/SbZnLUnBwPsD/AnpOLgXdK8I5eZrH6NfX0P
- 7fWbf7hMVmKNCJqec/qpgGQ1PoZWVVkUJW4i7d6nEPJVsiWyj0HxocabE6hLrzGLCE8p
- MHiQ==
-X-Gm-Message-State: APjAAAUGF6rxXV2Ew1v+DuT5uY3wq5YVhFqJoJYAFMxJjidbkFuroRaA
- pKI4Qaxs8Wd2oTKPbhMTwFA7yg==
-X-Google-Smtp-Source: APXvYqw/RPs9lfslppQadAyqXkQLZg9/bAEQ6Xa4TibO7DqTz+TB6nOCaTLBSnMEpsdfB/KXItGGSQ==
-X-Received: by 2002:a5d:52c7:: with SMTP id r7mr63187811wrv.110.1560516040637; 
- Fri, 14 Jun 2019 05:40:40 -0700 (PDT)
+ bh=AVivPINX2Kzu9XL6OoWJrB2b9xTjP4o+TM2G8HvSIs4=;
+ b=it9M+U/EIuUf8FeKj6MOUr1fdNba1aEqMt8YZUhKf29X83QuG430yNV8pWMvZyi26/
+ hsL2Id8sT11/Od84tX+6JQca985BkE61Ry0hCXjmSrFSgnvxKURC3X62xrCTaKcdKqYa
+ i0PRYX3xxSdxtPb9Rcf+irA+PKtexw7ccMxH3dx6OpkujqL2yTJVk2huNcNBk1xPL6h9
+ NDJ+uTkn2ftlmXfNyFGir1HaGLM766qScMcYC2F+ANdEcuXa0Livf/UcUQ4gCIiD2LGV
+ saJBp67Uqp47/BlAMaMS865XRvkhGPoAwuUQaCHif39A/JJcqma/RPgKCnmNquFLCsW2
+ lMKA==
+X-Gm-Message-State: APjAAAVGRk9CdKviNslX4ldk8+jydGcvjBsNxx67t+Ex+taUUZjoHCwy
+ DtzmT0vTCG6V3rlmgMruzw7fQA==
+X-Google-Smtp-Source: APXvYqx2rRAg3jf6EanQNtzkRFsFeyi6hK1D3nzxtfsa2zb8d+n0lf9wLOaPxWHgfrtXAei38N3w+Q==
+X-Received: by 2002:a5d:4bce:: with SMTP id l14mr4919269wrt.79.1560516120751; 
+ Fri, 14 Jun 2019 05:42:00 -0700 (PDT)
 Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id x4sm4052729wrd.46.2019.06.14.05.40.39
+ by smtp.gmail.com with ESMTPSA id a2sm3884548wmj.9.2019.06.14.05.42.00
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 14 Jun 2019 05:40:40 -0700 (PDT)
-To: Stefan Weil <sw@weilnetz.de>, Kevin Wolf <kwolf@redhat.com>
-References: <20190605213654.9785-1-ptoscano@redhat.com>
- <a8797829-a5c6-24a3-647f-14872bc2f951@redhat.com>
- <c4376dbb-d755-f05f-fb93-ed212bf30bb0@weilnetz.de>
- <20190614094252.GD6042@dhcp-200-226.str.redhat.com>
- <60460e9f-2254-7b76-3418-7c495aec3822@redhat.com>
- <97e6ec51-a9e6-cff8-3c56-9299450aad2f@weilnetz.de>
+ Fri, 14 Jun 2019 05:42:00 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190614104457.24703-1-peter.maydell@linaro.org>
+ <20190614104457.24703-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <5d9ce892-8927-b41f-1a76-fe6f6d0a5af3@redhat.com>
-Date: Fri, 14 Jun 2019 14:40:38 +0200
+Message-ID: <943f65bd-ba2d-7172-a19d-f565ce86410e@redhat.com>
+Date: Fri, 14 Jun 2019 14:41:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <97e6ec51-a9e6-cff8-3c56-9299450aad2f@weilnetz.de>
+In-Reply-To: <20190614104457.24703-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v6] ssh: switch from libssh2 to libssh
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH 1/2] target/arm: Fix typos in trans
+ function prototypes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,43 +76,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, rjones@redhat.com, mreitz@redhat.com,
- Pino Toscano <ptoscano@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/14/19 2:29 PM, Stefan Weil wrote:
-> On 14.06.19 12:13, Philippe Mathieu-Daudé wrote:
->> I agree with Kevin. The only user of the 'ssh' block driver that I am
->> aware of is the virt-v2v tool:
->>
->> http://libguestfs.org/virt-v2v.1.html#convert-from-esxi-hypervisor-over-ssh-to-local-libvirt
->>
->> Stefan, do you think someone would use it on a Windows host?
+On 6/14/19 12:44 PM, Peter Maydell wrote:
+> In several places cut and paste errors meant we were using the wrong
+> type for the 'arg' struct in trans_ functions called by the
+> decodetree decoder, because we were using the _sp version of the
+> struct in the _dp function.  These were harmless, because the two
+> structs were identical and so decodetree made them typedefs of the
+> same underlying structure (and we'd have had a compile error if they
+> were not harmless), but we should clean them up anyway.
 > 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/translate-vfp.inc.c | 28 ++++++++++++++--------------
+>  1 file changed, 14 insertions(+), 14 deletions(-)
 > 
-> I simply don't know. Typically people contact me if something does not
-> work. Rarely they send an e-mail to say what they do and that everything
-> is fine.
+> diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+> index 709fc65374d..85187bcc9dc 100644
+> --- a/target/arm/translate-vfp.inc.c
+> +++ b/target/arm/translate-vfp.inc.c
+> @@ -835,7 +835,7 @@ static bool trans_VMOV_64_sp(DisasContext *s, arg_VMOV_64_sp *a)
+>      return true;
+>  }
+>  
+> -static bool trans_VMOV_64_dp(DisasContext *s, arg_VMOV_64_sp *a)
+> +static bool trans_VMOV_64_dp(DisasContext *s, arg_VMOV_64_dp *a)
+>  {
+>      TCGv_i32 tmp;
+>  
+> @@ -910,7 +910,7 @@ static bool trans_VLDR_VSTR_sp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+>      return true;
+>  }
+>  
+> -static bool trans_VLDR_VSTR_dp(DisasContext *s, arg_VLDR_VSTR_sp *a)
+> +static bool trans_VLDR_VSTR_dp(DisasContext *s, arg_VLDR_VSTR_dp *a)
+>  {
+>      uint32_t offset;
+>      TCGv_i32 addr;
+> @@ -1500,7 +1500,7 @@ static void gen_VMLA_dp(TCGv_i64 vd, TCGv_i64 vn, TCGv_i64 vm, TCGv_ptr fpst)
+>      tcg_temp_free_i64(tmp);
+>  }
+>  
+> -static bool trans_VMLA_dp(DisasContext *s, arg_VMLA_sp *a)
+> +static bool trans_VMLA_dp(DisasContext *s, arg_VMLA_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_VMLA_dp, a->vd, a->vn, a->vm, true);
+>  }
+> @@ -1538,7 +1538,7 @@ static void gen_VMLS_dp(TCGv_i64 vd, TCGv_i64 vn, TCGv_i64 vm, TCGv_ptr fpst)
+>      tcg_temp_free_i64(tmp);
+>  }
+>  
+> -static bool trans_VMLS_dp(DisasContext *s, arg_VMLS_sp *a)
+> +static bool trans_VMLS_dp(DisasContext *s, arg_VMLS_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_VMLS_dp, a->vd, a->vn, a->vm, true);
+>  }
+> @@ -1580,7 +1580,7 @@ static void gen_VNMLS_dp(TCGv_i64 vd, TCGv_i64 vn, TCGv_i64 vm, TCGv_ptr fpst)
+>      tcg_temp_free_i64(tmp);
+>  }
+>  
+> -static bool trans_VNMLS_dp(DisasContext *s, arg_VNMLS_sp *a)
+> +static bool trans_VNMLS_dp(DisasContext *s, arg_VNMLS_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_VNMLS_dp, a->vd, a->vn, a->vm, true);
+>  }
+> @@ -1614,7 +1614,7 @@ static void gen_VNMLA_dp(TCGv_i64 vd, TCGv_i64 vn, TCGv_i64 vm, TCGv_ptr fpst)
+>      tcg_temp_free_i64(tmp);
+>  }
+>  
+> -static bool trans_VNMLA_dp(DisasContext *s, arg_VNMLA_sp *a)
+> +static bool trans_VNMLA_dp(DisasContext *s, arg_VNMLA_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_VNMLA_dp, a->vd, a->vn, a->vm, true);
+>  }
+> @@ -1624,7 +1624,7 @@ static bool trans_VMUL_sp(DisasContext *s, arg_VMUL_sp *a)
+>      return do_vfp_3op_sp(s, gen_helper_vfp_muls, a->vd, a->vn, a->vm, false);
+>  }
+>  
+> -static bool trans_VMUL_dp(DisasContext *s, arg_VMUL_sp *a)
+> +static bool trans_VMUL_dp(DisasContext *s, arg_VMUL_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_helper_vfp_muld, a->vd, a->vn, a->vm, false);
+>  }
+> @@ -1648,7 +1648,7 @@ static void gen_VNMUL_dp(TCGv_i64 vd, TCGv_i64 vn, TCGv_i64 vm, TCGv_ptr fpst)
+>      gen_helper_vfp_negd(vd, vd);
+>  }
+>  
+> -static bool trans_VNMUL_dp(DisasContext *s, arg_VNMUL_sp *a)
+> +static bool trans_VNMUL_dp(DisasContext *s, arg_VNMUL_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_VNMUL_dp, a->vd, a->vn, a->vm, false);
+>  }
+> @@ -1658,7 +1658,7 @@ static bool trans_VADD_sp(DisasContext *s, arg_VADD_sp *a)
+>      return do_vfp_3op_sp(s, gen_helper_vfp_adds, a->vd, a->vn, a->vm, false);
+>  }
+>  
+> -static bool trans_VADD_dp(DisasContext *s, arg_VADD_sp *a)
+> +static bool trans_VADD_dp(DisasContext *s, arg_VADD_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_helper_vfp_addd, a->vd, a->vn, a->vm, false);
+>  }
+> @@ -1668,7 +1668,7 @@ static bool trans_VSUB_sp(DisasContext *s, arg_VSUB_sp *a)
+>      return do_vfp_3op_sp(s, gen_helper_vfp_subs, a->vd, a->vn, a->vm, false);
+>  }
+>  
+> -static bool trans_VSUB_dp(DisasContext *s, arg_VSUB_sp *a)
+> +static bool trans_VSUB_dp(DisasContext *s, arg_VSUB_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_helper_vfp_subd, a->vd, a->vn, a->vm, false);
+>  }
+> @@ -1678,7 +1678,7 @@ static bool trans_VDIV_sp(DisasContext *s, arg_VDIV_sp *a)
+>      return do_vfp_3op_sp(s, gen_helper_vfp_divs, a->vd, a->vn, a->vm, false);
+>  }
+>  
+> -static bool trans_VDIV_dp(DisasContext *s, arg_VDIV_sp *a)
+> +static bool trans_VDIV_dp(DisasContext *s, arg_VDIV_dp *a)
+>  {
+>      return do_vfp_3op_dp(s, gen_helper_vfp_divd, a->vd, a->vn, a->vm, false);
+>  }
+> @@ -1741,7 +1741,7 @@ static bool trans_VFM_sp(DisasContext *s, arg_VFM_sp *a)
+>      return true;
+>  }
+>  
+> -static bool trans_VFM_dp(DisasContext *s, arg_VFM_sp *a)
+> +static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
+>  {
+>      /*
+>       * VFNMA : fd = muladd(-fd,  fn, fm)
+> @@ -2201,7 +2201,7 @@ static bool trans_VRINTR_sp(DisasContext *s, arg_VRINTR_sp *a)
+>      return true;
+>  }
+>  
+> -static bool trans_VRINTR_dp(DisasContext *s, arg_VRINTR_sp *a)
+> +static bool trans_VRINTR_dp(DisasContext *s, arg_VRINTR_dp *a)
+>  {
+>      TCGv_ptr fpst;
+>      TCGv_i64 tmp;
+> @@ -2257,7 +2257,7 @@ static bool trans_VRINTZ_sp(DisasContext *s, arg_VRINTZ_sp *a)
+>      return true;
+>  }
+>  
+> -static bool trans_VRINTZ_dp(DisasContext *s, arg_VRINTZ_sp *a)
+> +static bool trans_VRINTZ_dp(DisasContext *s, arg_VRINTZ_dp *a)
+>  {
+>      TCGv_ptr fpst;
+>      TCGv_i64 tmp;
 > 
-> If QEMU for Windows builds without libssl, I'll build binaries without
 
-"libssh" ;)
-
-> it, add that information to the release notes and wait what happens.
-> 
-> So no objection from my side.
-
-Glad to hear, thanks!
-
-Pino: Can you improve the commit message to explain that QEMU only uses
-libssh for the 'ssh block driver'? Maybe you (or Kevin/Max) can also add
-a 1 line description of what is a 'block driver', so reviewer are not
-worried that a feature might be removed.
-
-Thanks!
-
-Phil.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
