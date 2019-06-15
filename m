@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61334712C
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 18:09:16 +0200 (CEST)
-Received: from localhost ([::1]:33066 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFEFA47139
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 18:18:52 +0200 (CEST)
+Received: from localhost ([::1]:33298 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcBEx-0008Qe-Td
-	for lists+qemu-devel@lfdr.de; Sat, 15 Jun 2019 12:09:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36046)
+	id 1hcBOF-0001Up-HI
+	for lists+qemu-devel@lfdr.de; Sat, 15 Jun 2019 12:18:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36095)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hcArH-0004NH-9z
- for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:49 -0400
+ (envelope-from <philmd@redhat.com>) id 1hcArJ-0004Sy-QP
+ for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hcArE-0001VP-OI
- for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48988)
+ (envelope-from <philmd@redhat.com>) id 1hcArH-0001dy-8O
+ for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59592)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hcAr9-0001Dj-Rr; Sat, 15 Jun 2019 11:44:40 -0400
+ id 1hcArB-0001KN-TN; Sat, 15 Jun 2019 11:44:42 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0BD523082B15;
- Sat, 15 Jun 2019 15:44:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2E5053086246;
+ Sat, 15 Jun 2019 15:44:41 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-41.brq.redhat.com [10.40.204.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E37301001938;
- Sat, 15 Jun 2019 15:44:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EABA1001B05;
+ Sat, 15 Jun 2019 15:44:39 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 15 Jun 2019 17:43:47 +0200
-Message-Id: <20190615154352.26824-19-philmd@redhat.com>
+Date: Sat, 15 Jun 2019 17:43:48 +0200
+Message-Id: <20190615154352.26824-20-philmd@redhat.com>
 In-Reply-To: <20190615154352.26824-1-philmd@redhat.com>
 References: <20190615154352.26824-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Sat, 15 Jun 2019 15:44:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Sat, 15 Jun 2019 15:44:41 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 18/23] target/arm: Move CPU state dumping
- routines to helper.c
+Subject: [Qemu-devel] [PATCH v2 19/23] target/arm: Move watchpoints APIs to
+ helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,542 +65,512 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Samuel Ortiz <sameo@linux.intel.com>
 
-They're not TCG specific and should be living the generic helper file
-instead.
+Here again, those APIs are not TCG dependent and can move to the always
+built helper.c.
 
 Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Reviewed-by: Robert Bradford <robert.bradford@intel.com>
 [PMD: Rebased]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/helper.c        | 214 +++++++++++++++++++++++++++++++++++++
- target/arm/internals.h     |   8 ++
- target/arm/translate-a64.c | 127 ----------------------
- target/arm/translate.c     |  87 ---------------
- target/arm/translate.h     |   5 -
- 5 files changed, 222 insertions(+), 219 deletions(-)
+ target/arm/helper.c    | 213 +++++++++++++++++++++++++++++++++++++++++
+ target/arm/internals.h |   6 ++
+ target/arm/op_helper.c | 213 -----------------------------------------
+ 3 files changed, 219 insertions(+), 213 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a4af02c984..8c32b2bc0d 100644
+index 8c32b2bc0d..8b7ce0561b 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -11293,4 +11293,218 @@ void aarch64_sve_change_el(CPUARMState *env, in=
-t old_el,
-         aarch64_sve_narrow_vq(env, new_len + 1);
+@@ -11508,3 +11508,216 @@ void arm_cpu_dump_state(CPUState *cs, FILE *f, =
+int flags)
+         qemu_fprintf(f, "FPSCR: %08x\n", vfp_get_fpscr(env));
      }
  }
 +
-+void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
++/* Return true if the linked breakpoint entry lbn passes its checks */
++static bool linked_bp_matches(ARMCPU *cpu, int lbn)
 +{
-+    ARMCPU *cpu =3D ARM_CPU(cs);
 +    CPUARMState *env =3D &cpu->env;
-+    uint32_t psr =3D pstate_read(env);
-+    int i;
-+    int el =3D arm_current_el(env);
-+    const char *ns_status;
++    uint64_t bcr =3D env->cp15.dbgbcr[lbn];
++    int brps =3D extract32(cpu->dbgdidr, 24, 4);
++    int ctx_cmps =3D extract32(cpu->dbgdidr, 20, 4);
++    int bt;
++    uint32_t contextidr;
 +
-+    qemu_fprintf(f, " PC=3D%016" PRIx64 " ", env->pc);
-+    for (i =3D 0; i < 32; i++) {
-+        if (i =3D=3D 31) {
-+            qemu_fprintf(f, " SP=3D%016" PRIx64 "\n", env->xregs[i]);
-+        } else {
-+            qemu_fprintf(f, "X%02d=3D%016" PRIx64 "%s", i, env->xregs[i]=
-,
-+                         (i + 2) % 3 ? " " : "\n");
++    /*
++     * Links to unimplemented or non-context aware breakpoints are
++     * CONSTRAINED UNPREDICTABLE: either behave as if disabled, or
++     * as if linked to an UNKNOWN context-aware breakpoint (in which
++     * case DBGWCR<n>_EL1.LBN must indicate that breakpoint).
++     * We choose the former.
++     */
++    if (lbn > brps || lbn < (brps - ctx_cmps)) {
++        return false;
++    }
++
++    bcr =3D env->cp15.dbgbcr[lbn];
++
++    if (extract64(bcr, 0, 1) =3D=3D 0) {
++        /* Linked breakpoint disabled : generate no events */
++        return false;
++    }
++
++    bt =3D extract64(bcr, 20, 4);
++
++    /*
++     * We match the whole register even if this is AArch32 using the
++     * short descriptor format (in which case it holds both PROCID and A=
+SID),
++     * since we don't implement the optional v7 context ID masking.
++     */
++    contextidr =3D extract64(env->cp15.contextidr_el[1], 0, 32);
++
++    switch (bt) {
++    case 3: /* linked context ID match */
++        if (arm_current_el(env) > 1) {
++            /* Context matches never fire in EL2 or (AArch64) EL3 */
++            return false;
 +        }
++        return (contextidr =3D=3D extract64(env->cp15.dbgbvr[lbn], 0, 32=
+));
++    case 5: /* linked address mismatch (reserved in AArch64) */
++    case 9: /* linked VMID match (reserved if no EL2) */
++    case 11: /* linked context ID and VMID match (reserved if no EL2) */
++    default:
++        /*
++         * Links to Unlinked context breakpoints must generate no
++         * events; we choose to do the same for reserved values too.
++         */
++        return false;
 +    }
 +
-+    if (arm_feature(env, ARM_FEATURE_EL3) && el !=3D 3) {
-+        ns_status =3D env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
-+    } else {
-+        ns_status =3D "";
-+    }
-+    qemu_fprintf(f, "PSTATE=3D%08x %c%c%c%c %sEL%d%c",
-+                 psr,
-+                 psr & PSTATE_N ? 'N' : '-',
-+                 psr & PSTATE_Z ? 'Z' : '-',
-+                 psr & PSTATE_C ? 'C' : '-',
-+                 psr & PSTATE_V ? 'V' : '-',
-+                 ns_status,
-+                 el,
-+                 psr & PSTATE_SP ? 'h' : 't');
-+
-+    if (cpu_isar_feature(aa64_bti, cpu)) {
-+        qemu_fprintf(f, "  BTYPE=3D%d", (psr & PSTATE_BTYPE) >> 10);
-+    }
-+    if (!(flags & CPU_DUMP_FPU)) {
-+        qemu_fprintf(f, "\n");
-+        return;
-+    }
-+    if (fp_exception_el(env, el) !=3D 0) {
-+        qemu_fprintf(f, "    FPU disabled\n");
-+        return;
-+    }
-+    qemu_fprintf(f, "     FPCR=3D%08x FPSR=3D%08x\n",
-+                 vfp_get_fpcr(env), vfp_get_fpsr(env));
-+
-+    if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) =3D=
-=3D 0) {
-+        int j, zcr_len =3D sve_zcr_len_for_el(env, el);
-+
-+        for (i =3D 0; i <=3D FFR_PRED_NUM; i++) {
-+            bool eol;
-+            if (i =3D=3D FFR_PRED_NUM) {
-+                qemu_fprintf(f, "FFR=3D");
-+                /* It's last, so end the line.  */
-+                eol =3D true;
-+            } else {
-+                qemu_fprintf(f, "P%02d=3D", i);
-+                switch (zcr_len) {
-+                case 0:
-+                    eol =3D i % 8 =3D=3D 7;
-+                    break;
-+                case 1:
-+                    eol =3D i % 6 =3D=3D 5;
-+                    break;
-+                case 2:
-+                case 3:
-+                    eol =3D i % 3 =3D=3D 2;
-+                    break;
-+                default:
-+                    /* More than one quadword per predicate.  */
-+                    eol =3D true;
-+                    break;
-+                }
-+            }
-+            for (j =3D zcr_len / 4; j >=3D 0; j--) {
-+                int digits;
-+                if (j * 4 + 4 <=3D zcr_len + 1) {
-+                    digits =3D 16;
-+                } else {
-+                    digits =3D (zcr_len % 4 + 1) * 4;
-+                }
-+                qemu_fprintf(f, "%0*" PRIx64 "%s", digits,
-+                             env->vfp.pregs[i].p[j],
-+                             j ? ":" : eol ? "\n" : " ");
-+            }
-+        }
-+
-+        for (i =3D 0; i < 32; i++) {
-+            if (zcr_len =3D=3D 0) {
-+                qemu_fprintf(f, "Z%02d=3D%016" PRIx64 ":%016" PRIx64 "%s=
-",
-+                             i, env->vfp.zregs[i].d[1],
-+                             env->vfp.zregs[i].d[0], i & 1 ? "\n" : " ")=
-;
-+            } else if (zcr_len =3D=3D 1) {
-+                qemu_fprintf(f, "Z%02d=3D%016" PRIx64 ":%016" PRIx64
-+                             ":%016" PRIx64 ":%016" PRIx64 "\n",
-+                             i, env->vfp.zregs[i].d[3], env->vfp.zregs[i=
-].d[2],
-+                             env->vfp.zregs[i].d[1], env->vfp.zregs[i].d=
-[0]);
-+            } else {
-+                for (j =3D zcr_len; j >=3D 0; j--) {
-+                    bool odd =3D (zcr_len - j) % 2 !=3D 0;
-+                    if (j =3D=3D zcr_len) {
-+                        qemu_fprintf(f, "Z%02d[%x-%x]=3D", i, j, j - 1);
-+                    } else if (!odd) {
-+                        if (j > 0) {
-+                            qemu_fprintf(f, "   [%x-%x]=3D", j, j - 1);
-+                        } else {
-+                            qemu_fprintf(f, "     [%x]=3D", j);
-+                        }
-+                    }
-+                    qemu_fprintf(f, "%016" PRIx64 ":%016" PRIx64 "%s",
-+                                 env->vfp.zregs[i].d[j * 2 + 1],
-+                                 env->vfp.zregs[i].d[j * 2],
-+                                 odd || j =3D=3D 0 ? "\n" : ":");
-+                }
-+            }
-+        }
-+    } else {
-+        for (i =3D 0; i < 32; i++) {
-+            uint64_t *q =3D aa64_vfp_qreg(env, i);
-+            qemu_fprintf(f, "Q%02d=3D%016" PRIx64 ":%016" PRIx64 "%s",
-+                         i, q[1], q[0], (i & 1 ? "\n" : " "));
-+        }
-+    }
++    return false;
 +}
- #endif
 +
-+void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
++bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp)
++{
++    CPUARMState *env =3D &cpu->env;
++    uint64_t cr;
++    int pac, hmc, ssc, wt, lbn;
++    /*
++     * Note that for watchpoints the check is against the CPU security
++     * state, not the S/NS attribute on the offending data access.
++     */
++    bool is_secure =3D arm_is_secure(env);
++    int access_el =3D arm_current_el(env);
++
++    if (is_wp) {
++        CPUWatchpoint *wp =3D env->cpu_watchpoint[n];
++
++        if (!wp || !(wp->flags & BP_WATCHPOINT_HIT)) {
++            return false;
++        }
++        cr =3D env->cp15.dbgwcr[n];
++        if (wp->hitattrs.user) {
++            /*
++             * The LDRT/STRT/LDT/STT "unprivileged access" instructions =
+should
++             * match watchpoints as if they were accesses done at EL0, e=
+ven if
++             * the CPU is at EL1 or higher.
++             */
++            access_el =3D 0;
++        }
++    } else {
++        uint64_t pc =3D is_a64(env) ? env->pc : env->regs[15];
++
++        if (!env->cpu_breakpoint[n] || env->cpu_breakpoint[n]->pc !=3D p=
+c) {
++            return false;
++        }
++        cr =3D env->cp15.dbgbcr[n];
++    }
++    /*
++     * The WATCHPOINT_HIT flag guarantees us that the watchpoint is
++     * enabled and that the address and access type match; for breakpoin=
+ts
++     * we know the address matched; check the remaining fields, includin=
+g
++     * linked breakpoints. We rely on WCR and BCR having the same layout
++     * for the LBN, SSC, HMC, PAC/PMC and is-linked fields.
++     * Note that some combinations of {PAC, HMC, SSC} are reserved and
++     * must act either like some valid combination or as if the watchpoi=
+nt
++     * were disabled. We choose the former, and use this together with
++     * the fact that EL3 must always be Secure and EL2 must always be
++     * Non-Secure to simplify the code slightly compared to the full
++     * table in the ARM ARM.
++     */
++    pac =3D extract64(cr, 1, 2);
++    hmc =3D extract64(cr, 13, 1);
++    ssc =3D extract64(cr, 14, 2);
++
++    switch (ssc) {
++    case 0:
++        break;
++    case 1:
++    case 3:
++        if (is_secure) {
++            return false;
++        }
++        break;
++    case 2:
++        if (!is_secure) {
++            return false;
++        }
++        break;
++    }
++
++    switch (access_el) {
++    case 3:
++    case 2:
++        if (!hmc) {
++            return false;
++        }
++        break;
++    case 1:
++        if (extract32(pac, 0, 1) =3D=3D 0) {
++            return false;
++        }
++        break;
++    case 0:
++        if (extract32(pac, 1, 1) =3D=3D 0) {
++            return false;
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    wt =3D extract64(cr, 20, 1);
++    lbn =3D extract64(cr, 16, 4);
++
++    if (wt && !linked_bp_matches(cpu, lbn)) {
++        return false;
++    }
++
++    return true;
++}
++
++static bool check_watchpoints(ARMCPU *cpu)
++{
++    CPUARMState *env =3D &cpu->env;
++    int n;
++
++    /*
++     * If watchpoints are disabled globally or we can't take debug
++     * exceptions here then watchpoint firings are ignored.
++     */
++    if (extract32(env->cp15.mdscr_el1, 15, 1) =3D=3D 0
++        || !arm_generate_debug_exceptions(env)) {
++        return false;
++    }
++
++    for (n =3D 0; n < ARRAY_SIZE(env->cpu_watchpoint); n++) {
++        if (bp_wp_matches(cpu, n, true)) {
++            return true;
++        }
++    }
++    return false;
++}
++
++bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
++{
++    /*
++     * Called by core code when a CPU watchpoint fires; need to check if=
+ this
++     * is also an architectural watchpoint match.
++     */
++    ARMCPU *cpu =3D ARM_CPU(cs);
++
++    return check_watchpoints(cpu);
++}
++
++vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
 +{
 +    ARMCPU *cpu =3D ARM_CPU(cs);
 +    CPUARMState *env =3D &cpu->env;
-+    int i;
 +
-+    if (is_a64(env)) {
-+        aarch64_cpu_dump_state(cs, f, flags);
-+        return;
-+    }
-+
-+    for (i =3D 0; i < 16; i++) {
-+        qemu_fprintf(f, "R%02d=3D%08x", i, env->regs[i]);
-+        if ((i % 4) =3D=3D 3) {
-+            qemu_fprintf(f, "\n");
-+        } else {
-+            qemu_fprintf(f, " ");
++    /*
++     * In BE32 system mode, target memory is stored byteswapped (on a
++     * little-endian host system), and by the time we reach here (via an
++     * opcode helper) the addresses of subword accesses have been adjust=
+ed
++     * to account for that, which means that watchpoints will not match.
++     * Undo the adjustment here.
++     */
++    if (arm_sctlr_b(env)) {
++        if (len =3D=3D 1) {
++            addr ^=3D 3;
++        } else if (len =3D=3D 2) {
++            addr ^=3D 2;
 +        }
 +    }
 +
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        uint32_t xpsr =3D xpsr_read(env);
-+        const char *mode;
-+        const char *ns_status =3D "";
-+
-+        if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-+            ns_status =3D env->v7m.secure ? "S " : "NS ";
-+        }
-+
-+        if (xpsr & XPSR_EXCP) {
-+            mode =3D "handler";
-+        } else {
-+            if (env->v7m.control[env->v7m.secure] & R_V7M_CONTROL_NPRIV_=
-MASK) {
-+                mode =3D "unpriv-thread";
-+            } else {
-+                mode =3D "priv-thread";
-+            }
-+        }
-+
-+        qemu_fprintf(f, "XPSR=3D%08x %c%c%c%c %c %s%s\n",
-+                     xpsr,
-+                     xpsr & XPSR_N ? 'N' : '-',
-+                     xpsr & XPSR_Z ? 'Z' : '-',
-+                     xpsr & XPSR_C ? 'C' : '-',
-+                     xpsr & XPSR_V ? 'V' : '-',
-+                     xpsr & XPSR_T ? 'T' : 'A',
-+                     ns_status,
-+                     mode);
-+    } else {
-+        uint32_t psr =3D cpsr_read(env);
-+        const char *ns_status =3D "";
-+
-+        if (arm_feature(env, ARM_FEATURE_EL3) &&
-+            (psr & CPSR_M) !=3D ARM_CPU_MODE_MON) {
-+            ns_status =3D env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
-+        }
-+
-+        qemu_fprintf(f, "PSR=3D%08x %c%c%c%c %c %s%s%d\n",
-+                     psr,
-+                     psr & CPSR_N ? 'N' : '-',
-+                     psr & CPSR_Z ? 'Z' : '-',
-+                     psr & CPSR_C ? 'C' : '-',
-+                     psr & CPSR_V ? 'V' : '-',
-+                     psr & CPSR_T ? 'T' : 'A',
-+                     ns_status,
-+                     aarch32_mode_name(psr), (psr & 0x10) ? 32 : 26);
-+    }
-+
-+    if (flags & CPU_DUMP_FPU) {
-+        int numvfpregs =3D 0;
-+        if (arm_feature(env, ARM_FEATURE_VFP)) {
-+            numvfpregs +=3D 16;
-+        }
-+        if (arm_feature(env, ARM_FEATURE_VFP3)) {
-+            numvfpregs +=3D 16;
-+        }
-+        for (i =3D 0; i < numvfpregs; i++) {
-+            uint64_t v =3D *aa32_vfp_dreg(env, i);
-+            qemu_fprintf(f, "s%02d=3D%08x s%02d=3D%08x d%02d=3D%016" PRI=
-x64 "\n",
-+                         i * 2, (uint32_t)v,
-+                         i * 2 + 1, (uint32_t)(v >> 32),
-+                         i, v);
-+        }
-+        qemu_fprintf(f, "FPSCR: %08x\n", vfp_get_fpscr(env));
-+    }
++    return addr;
 +}
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 06e676bf62..56281d8ece 100644
+index 56281d8ece..fbbc701bb0 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -1042,4 +1042,12 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t =
+@@ -1042,6 +1042,12 @@ bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t =
 address,
                         int *prot, bool *is_subpage,
                         ARMMMUFaultInfo *fi, uint32_t *mregion);
 =20
-+#ifdef TARGET_AARCH64
-+void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags);
-+#else
-+static inline void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int fla=
-gs)
-+{
-+}
-+#endif
++/*
++ * Returns true when the current CPU execution context matches
++ * the watchpoint or the breakpoint pointed at by n.
++ */
++bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp);
 +
- #endif
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index ae739f6575..8abe1f0e4f 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -152,133 +152,6 @@ static void set_btype(DisasContext *s, int val)
-     s->btype =3D -1;
- }
-=20
--void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
--{
--    ARMCPU *cpu =3D ARM_CPU(cs);
--    CPUARMState *env =3D &cpu->env;
--    uint32_t psr =3D pstate_read(env);
--    int i;
--    int el =3D arm_current_el(env);
--    const char *ns_status;
--
--    qemu_fprintf(f, " PC=3D%016" PRIx64 " ", env->pc);
--    for (i =3D 0; i < 32; i++) {
--        if (i =3D=3D 31) {
--            qemu_fprintf(f, " SP=3D%016" PRIx64 "\n", env->xregs[i]);
--        } else {
--            qemu_fprintf(f, "X%02d=3D%016" PRIx64 "%s", i, env->xregs[i]=
-,
--                         (i + 2) % 3 ? " " : "\n");
--        }
--    }
--
--    if (arm_feature(env, ARM_FEATURE_EL3) && el !=3D 3) {
--        ns_status =3D env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
--    } else {
--        ns_status =3D "";
--    }
--    qemu_fprintf(f, "PSTATE=3D%08x %c%c%c%c %sEL%d%c",
--                 psr,
--                 psr & PSTATE_N ? 'N' : '-',
--                 psr & PSTATE_Z ? 'Z' : '-',
--                 psr & PSTATE_C ? 'C' : '-',
--                 psr & PSTATE_V ? 'V' : '-',
--                 ns_status,
--                 el,
--                 psr & PSTATE_SP ? 'h' : 't');
--
--    if (cpu_isar_feature(aa64_bti, cpu)) {
--        qemu_fprintf(f, "  BTYPE=3D%d", (psr & PSTATE_BTYPE) >> 10);
--    }
--    if (!(flags & CPU_DUMP_FPU)) {
--        qemu_fprintf(f, "\n");
--        return;
--    }
--    if (fp_exception_el(env, el) !=3D 0) {
--        qemu_fprintf(f, "    FPU disabled\n");
--        return;
--    }
--    qemu_fprintf(f, "     FPCR=3D%08x FPSR=3D%08x\n",
--                 vfp_get_fpcr(env), vfp_get_fpsr(env));
--
--    if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) =3D=
-=3D 0) {
--        int j, zcr_len =3D sve_zcr_len_for_el(env, el);
--
--        for (i =3D 0; i <=3D FFR_PRED_NUM; i++) {
--            bool eol;
--            if (i =3D=3D FFR_PRED_NUM) {
--                qemu_fprintf(f, "FFR=3D");
--                /* It's last, so end the line.  */
--                eol =3D true;
--            } else {
--                qemu_fprintf(f, "P%02d=3D", i);
--                switch (zcr_len) {
--                case 0:
--                    eol =3D i % 8 =3D=3D 7;
--                    break;
--                case 1:
--                    eol =3D i % 6 =3D=3D 5;
--                    break;
--                case 2:
--                case 3:
--                    eol =3D i % 3 =3D=3D 2;
--                    break;
--                default:
--                    /* More than one quadword per predicate.  */
--                    eol =3D true;
--                    break;
--                }
--            }
--            for (j =3D zcr_len / 4; j >=3D 0; j--) {
--                int digits;
--                if (j * 4 + 4 <=3D zcr_len + 1) {
--                    digits =3D 16;
--                } else {
--                    digits =3D (zcr_len % 4 + 1) * 4;
--                }
--                qemu_fprintf(f, "%0*" PRIx64 "%s", digits,
--                             env->vfp.pregs[i].p[j],
--                             j ? ":" : eol ? "\n" : " ");
--            }
--        }
--
--        for (i =3D 0; i < 32; i++) {
--            if (zcr_len =3D=3D 0) {
--                qemu_fprintf(f, "Z%02d=3D%016" PRIx64 ":%016" PRIx64 "%s=
-",
--                             i, env->vfp.zregs[i].d[1],
--                             env->vfp.zregs[i].d[0], i & 1 ? "\n" : " ")=
-;
--            } else if (zcr_len =3D=3D 1) {
--                qemu_fprintf(f, "Z%02d=3D%016" PRIx64 ":%016" PRIx64
--                             ":%016" PRIx64 ":%016" PRIx64 "\n",
--                             i, env->vfp.zregs[i].d[3], env->vfp.zregs[i=
-].d[2],
--                             env->vfp.zregs[i].d[1], env->vfp.zregs[i].d=
-[0]);
--            } else {
--                for (j =3D zcr_len; j >=3D 0; j--) {
--                    bool odd =3D (zcr_len - j) % 2 !=3D 0;
--                    if (j =3D=3D zcr_len) {
--                        qemu_fprintf(f, "Z%02d[%x-%x]=3D", i, j, j - 1);
--                    } else if (!odd) {
--                        if (j > 0) {
--                            qemu_fprintf(f, "   [%x-%x]=3D", j, j - 1);
--                        } else {
--                            qemu_fprintf(f, "     [%x]=3D", j);
--                        }
--                    }
--                    qemu_fprintf(f, "%016" PRIx64 ":%016" PRIx64 "%s",
--                                 env->vfp.zregs[i].d[j * 2 + 1],
--                                 env->vfp.zregs[i].d[j * 2],
--                                 odd || j =3D=3D 0 ? "\n" : ":");
--                }
--            }
--        }
--    } else {
--        for (i =3D 0; i < 32; i++) {
--            uint64_t *q =3D aa64_vfp_qreg(env, i);
--            qemu_fprintf(f, "Q%02d=3D%016" PRIx64 ":%016" PRIx64 "%s",
--                         i, q[1], q[0], (i & 1 ? "\n" : " "));
--        }
--    }
--}
--
- void gen_a64_set_pc_im(uint64_t val)
- {
-     tcg_gen_movi_i64(cpu_pc, val);
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index d0ab3e27e6..1e50627690 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -12416,93 +12416,6 @@ void gen_intermediate_code(CPUState *cpu, Transl=
-ationBlock *tb, int max_insns)
-     translator_loop(ops, &dc.base, cpu, tb, max_insns);
- }
-=20
--void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
--{
--    ARMCPU *cpu =3D ARM_CPU(cs);
--    CPUARMState *env =3D &cpu->env;
--    int i;
--
--    if (is_a64(env)) {
--        aarch64_cpu_dump_state(cs, f, flags);
--        return;
--    }
--
--    for (i =3D 0; i < 16; i++) {
--        qemu_fprintf(f, "R%02d=3D%08x", i, env->regs[i]);
--        if ((i % 4) =3D=3D 3) {
--            qemu_fprintf(f, "\n");
--        } else {
--            qemu_fprintf(f, " ");
--        }
--    }
--
--    if (arm_feature(env, ARM_FEATURE_M)) {
--        uint32_t xpsr =3D xpsr_read(env);
--        const char *mode;
--        const char *ns_status =3D "";
--
--        if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
--            ns_status =3D env->v7m.secure ? "S " : "NS ";
--        }
--
--        if (xpsr & XPSR_EXCP) {
--            mode =3D "handler";
--        } else {
--            if (env->v7m.control[env->v7m.secure] & R_V7M_CONTROL_NPRIV_=
-MASK) {
--                mode =3D "unpriv-thread";
--            } else {
--                mode =3D "priv-thread";
--            }
--        }
--
--        qemu_fprintf(f, "XPSR=3D%08x %c%c%c%c %c %s%s\n",
--                     xpsr,
--                     xpsr & XPSR_N ? 'N' : '-',
--                     xpsr & XPSR_Z ? 'Z' : '-',
--                     xpsr & XPSR_C ? 'C' : '-',
--                     xpsr & XPSR_V ? 'V' : '-',
--                     xpsr & XPSR_T ? 'T' : 'A',
--                     ns_status,
--                     mode);
--    } else {
--        uint32_t psr =3D cpsr_read(env);
--        const char *ns_status =3D "";
--
--        if (arm_feature(env, ARM_FEATURE_EL3) &&
--            (psr & CPSR_M) !=3D ARM_CPU_MODE_MON) {
--            ns_status =3D env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
--        }
--
--        qemu_fprintf(f, "PSR=3D%08x %c%c%c%c %c %s%s%d\n",
--                     psr,
--                     psr & CPSR_N ? 'N' : '-',
--                     psr & CPSR_Z ? 'Z' : '-',
--                     psr & CPSR_C ? 'C' : '-',
--                     psr & CPSR_V ? 'V' : '-',
--                     psr & CPSR_T ? 'T' : 'A',
--                     ns_status,
--                     aarch32_mode_name(psr), (psr & 0x10) ? 32 : 26);
--    }
--
--    if (flags & CPU_DUMP_FPU) {
--        int numvfpregs =3D 0;
--        if (arm_feature(env, ARM_FEATURE_VFP)) {
--            numvfpregs +=3D 16;
--        }
--        if (arm_feature(env, ARM_FEATURE_VFP3)) {
--            numvfpregs +=3D 16;
--        }
--        for (i =3D 0; i < numvfpregs; i++) {
--            uint64_t v =3D *aa32_vfp_dreg(env, i);
--            qemu_fprintf(f, "s%02d=3D%08x s%02d=3D%08x d%02d=3D%016" PRI=
-x64 "\n",
--                         i * 2, (uint32_t)v,
--                         i * 2 + 1, (uint32_t)(v >> 32),
--                         i, v);
--        }
--        qemu_fprintf(f, "FPSCR: %08x\n", vfp_get_fpscr(env));
--    }
--}
--
- void restore_state_to_opc(CPUARMState *env, TranslationBlock *tb,
-                           target_ulong *data)
- {
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index dc06dce767..1dd3ac0a41 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -169,7 +169,6 @@ static inline void disas_set_insn_syndrome(DisasConte=
-xt *s, uint32_t syn)
  #ifdef TARGET_AARCH64
- void a64_translate_init(void);
- void gen_a64_set_pc_im(uint64_t val);
--void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags);
- extern const TranslatorOps aarch64_translator_ops;
+ void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags);
  #else
- static inline void a64_translate_init(void)
-@@ -179,10 +178,6 @@ static inline void a64_translate_init(void)
- static inline void gen_a64_set_pc_im(uint64_t val)
- {
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index 63bce32810..68740e1b30 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -1018,185 +1018,6 @@ void HELPER(pre_smc)(CPUARMState *env, uint32_t s=
+yndrome)
+     }
  }
--
--static inline void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int fla=
-gs)
--{
--}
- #endif
 =20
- void arm_test_cc(DisasCompare *cmp, int cc);
+-/* Return true if the linked breakpoint entry lbn passes its checks */
+-static bool linked_bp_matches(ARMCPU *cpu, int lbn)
+-{
+-    CPUARMState *env =3D &cpu->env;
+-    uint64_t bcr =3D env->cp15.dbgbcr[lbn];
+-    int brps =3D extract32(cpu->dbgdidr, 24, 4);
+-    int ctx_cmps =3D extract32(cpu->dbgdidr, 20, 4);
+-    int bt;
+-    uint32_t contextidr;
+-
+-    /*
+-     * Links to unimplemented or non-context aware breakpoints are
+-     * CONSTRAINED UNPREDICTABLE: either behave as if disabled, or
+-     * as if linked to an UNKNOWN context-aware breakpoint (in which
+-     * case DBGWCR<n>_EL1.LBN must indicate that breakpoint).
+-     * We choose the former.
+-     */
+-    if (lbn > brps || lbn < (brps - ctx_cmps)) {
+-        return false;
+-    }
+-
+-    bcr =3D env->cp15.dbgbcr[lbn];
+-
+-    if (extract64(bcr, 0, 1) =3D=3D 0) {
+-        /* Linked breakpoint disabled : generate no events */
+-        return false;
+-    }
+-
+-    bt =3D extract64(bcr, 20, 4);
+-
+-    /*
+-     * We match the whole register even if this is AArch32 using the
+-     * short descriptor format (in which case it holds both PROCID and A=
+SID),
+-     * since we don't implement the optional v7 context ID masking.
+-     */
+-    contextidr =3D extract64(env->cp15.contextidr_el[1], 0, 32);
+-
+-    switch (bt) {
+-    case 3: /* linked context ID match */
+-        if (arm_current_el(env) > 1) {
+-            /* Context matches never fire in EL2 or (AArch64) EL3 */
+-            return false;
+-        }
+-        return (contextidr =3D=3D extract64(env->cp15.dbgbvr[lbn], 0, 32=
+));
+-    case 5: /* linked address mismatch (reserved in AArch64) */
+-    case 9: /* linked VMID match (reserved if no EL2) */
+-    case 11: /* linked context ID and VMID match (reserved if no EL2) */
+-    default:
+-        /*
+-         * Links to Unlinked context breakpoints must generate no
+-         * events; we choose to do the same for reserved values too.
+-         */
+-        return false;
+-    }
+-
+-    return false;
+-}
+-
+-static bool bp_wp_matches(ARMCPU *cpu, int n, bool is_wp)
+-{
+-    CPUARMState *env =3D &cpu->env;
+-    uint64_t cr;
+-    int pac, hmc, ssc, wt, lbn;
+-    /*
+-     * Note that for watchpoints the check is against the CPU security
+-     * state, not the S/NS attribute on the offending data access.
+-     */
+-    bool is_secure =3D arm_is_secure(env);
+-    int access_el =3D arm_current_el(env);
+-
+-    if (is_wp) {
+-        CPUWatchpoint *wp =3D env->cpu_watchpoint[n];
+-
+-        if (!wp || !(wp->flags & BP_WATCHPOINT_HIT)) {
+-            return false;
+-        }
+-        cr =3D env->cp15.dbgwcr[n];
+-        if (wp->hitattrs.user) {
+-            /*
+-             * The LDRT/STRT/LDT/STT "unprivileged access" instructions =
+should
+-             * match watchpoints as if they were accesses done at EL0, e=
+ven if
+-             * the CPU is at EL1 or higher.
+-             */
+-            access_el =3D 0;
+-        }
+-    } else {
+-        uint64_t pc =3D is_a64(env) ? env->pc : env->regs[15];
+-
+-        if (!env->cpu_breakpoint[n] || env->cpu_breakpoint[n]->pc !=3D p=
+c) {
+-            return false;
+-        }
+-        cr =3D env->cp15.dbgbcr[n];
+-    }
+-    /*
+-     * The WATCHPOINT_HIT flag guarantees us that the watchpoint is
+-     * enabled and that the address and access type match; for breakpoin=
+ts
+-     * we know the address matched; check the remaining fields, includin=
+g
+-     * linked breakpoints. We rely on WCR and BCR having the same layout
+-     * for the LBN, SSC, HMC, PAC/PMC and is-linked fields.
+-     * Note that some combinations of {PAC, HMC, SSC} are reserved and
+-     * must act either like some valid combination or as if the watchpoi=
+nt
+-     * were disabled. We choose the former, and use this together with
+-     * the fact that EL3 must always be Secure and EL2 must always be
+-     * Non-Secure to simplify the code slightly compared to the full
+-     * table in the ARM ARM.
+-     */
+-    pac =3D extract64(cr, 1, 2);
+-    hmc =3D extract64(cr, 13, 1);
+-    ssc =3D extract64(cr, 14, 2);
+-
+-    switch (ssc) {
+-    case 0:
+-        break;
+-    case 1:
+-    case 3:
+-        if (is_secure) {
+-            return false;
+-        }
+-        break;
+-    case 2:
+-        if (!is_secure) {
+-            return false;
+-        }
+-        break;
+-    }
+-
+-    switch (access_el) {
+-    case 3:
+-    case 2:
+-        if (!hmc) {
+-            return false;
+-        }
+-        break;
+-    case 1:
+-        if (extract32(pac, 0, 1) =3D=3D 0) {
+-            return false;
+-        }
+-        break;
+-    case 0:
+-        if (extract32(pac, 1, 1) =3D=3D 0) {
+-            return false;
+-        }
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+-    wt =3D extract64(cr, 20, 1);
+-    lbn =3D extract64(cr, 16, 4);
+-
+-    if (wt && !linked_bp_matches(cpu, lbn)) {
+-        return false;
+-    }
+-
+-    return true;
+-}
+-
+-static bool check_watchpoints(ARMCPU *cpu)
+-{
+-    CPUARMState *env =3D &cpu->env;
+-    int n;
+-
+-    /*
+-     * If watchpoints are disabled globally or we can't take debug
+-     * exceptions here then watchpoint firings are ignored.
+-     */
+-    if (extract32(env->cp15.mdscr_el1, 15, 1) =3D=3D 0
+-        || !arm_generate_debug_exceptions(env)) {
+-        return false;
+-    }
+-
+-    for (n =3D 0; n < ARRAY_SIZE(env->cpu_watchpoint); n++) {
+-        if (bp_wp_matches(cpu, n, true)) {
+-            return true;
+-        }
+-    }
+-    return false;
+-}
+-
+ static bool check_breakpoints(ARMCPU *cpu)
+ {
+     CPUARMState *env =3D &cpu->env;
+@@ -1227,40 +1048,6 @@ void HELPER(check_breakpoints)(CPUARMState *env)
+     }
+ }
+=20
+-bool arm_debug_check_watchpoint(CPUState *cs, CPUWatchpoint *wp)
+-{
+-    /*
+-     * Called by core code when a CPU watchpoint fires; need to check if=
+ this
+-     * is also an architectural watchpoint match.
+-     */
+-    ARMCPU *cpu =3D ARM_CPU(cs);
+-
+-    return check_watchpoints(cpu);
+-}
+-
+-vaddr arm_adjust_watchpoint_address(CPUState *cs, vaddr addr, int len)
+-{
+-    ARMCPU *cpu =3D ARM_CPU(cs);
+-    CPUARMState *env =3D &cpu->env;
+-
+-    /*
+-     * In BE32 system mode, target memory is stored byteswapped (on a
+-     * little-endian host system), and by the time we reach here (via an
+-     * opcode helper) the addresses of subword accesses have been adjust=
+ed
+-     * to account for that, which means that watchpoints will not match.
+-     * Undo the adjustment here.
+-     */
+-    if (arm_sctlr_b(env)) {
+-        if (len =3D=3D 1) {
+-            addr ^=3D 3;
+-        } else if (len =3D=3D 2) {
+-            addr ^=3D 2;
+-        }
+-    }
+-
+-    return addr;
+-}
+-
+ void arm_debug_excp_handler(CPUState *cs)
+ {
+     /* Called by core code when a watchpoint or breakpoint fires;
 --=20
 2.20.1
 
