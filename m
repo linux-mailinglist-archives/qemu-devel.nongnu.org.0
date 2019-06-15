@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E414D47112
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 17:56:23 +0200 (CEST)
-Received: from localhost ([::1]:32966 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDFD4711D
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 18:00:19 +0200 (CEST)
+Received: from localhost ([::1]:32994 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcB2V-0005ph-4D
-	for lists+qemu-devel@lfdr.de; Sat, 15 Jun 2019 11:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35728)
+	id 1hcB6I-0001Ad-59
+	for lists+qemu-devel@lfdr.de; Sat, 15 Jun 2019 12:00:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35803)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hcAqs-0003wU-3b
- for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:23 -0400
+ (envelope-from <philmd@redhat.com>) id 1hcAqw-00041t-Qt
+ for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hcAqq-0000K3-K6
- for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35484)
+ (envelope-from <philmd@redhat.com>) id 1hcAqu-0000WW-IM
+ for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35500)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hcAqn-00009n-Nb; Sat, 15 Jun 2019 11:44:17 -0400
+ id 1hcAqp-0000FO-JB; Sat, 15 Jun 2019 11:44:19 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F2C9C3082E55;
- Sat, 15 Jun 2019 15:44:16 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AEEEC3082E20;
+ Sat, 15 Jun 2019 15:44:18 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-41.brq.redhat.com [10.40.204.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AAEB1001B05;
- Sat, 15 Jun 2019 15:44:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DE041001B05;
+ Sat, 15 Jun 2019 15:44:17 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 15 Jun 2019 17:43:38 +0200
-Message-Id: <20190615154352.26824-10-philmd@redhat.com>
+Date: Sat, 15 Jun 2019 17:43:39 +0200
+Message-Id: <20190615154352.26824-11-philmd@redhat.com>
 In-Reply-To: <20190615154352.26824-1-philmd@redhat.com>
 References: <20190615154352.26824-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Sat, 15 Jun 2019 15:44:17 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Sat, 15 Jun 2019 15:44:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 09/23] target/arm: Move code around
+Subject: [Qemu-devel] [PATCH v2 10/23] target/arm: Move the v7-M Security
+ State helpers to v7m_helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,78 +61,185 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To ease the review of the next commit, move the
-write_v7m_exception() function around.
-
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/helper.c | 40 ++++++++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ target/arm/helper.c     | 73 -----------------------------------------
+ target/arm/v7m_helper.c | 73 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+), 73 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a829086c6d..b4fd9b42d7 100644
+index b4fd9b42d7..cf76010ea1 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -7923,26 +7923,6 @@ void write_v7m_control_spsel(CPUARMState *env, boo=
-l new_spsel)
-     write_v7m_control_spsel_for_secstate(env, new_spsel, env->v7m.secure=
-);
+@@ -7885,79 +7885,6 @@ void HELPER(v7m_preserve_fp_state)(CPUARMState *en=
+v)
+      */
  }
 =20
--void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
+-/*
+- * Write to v7M CONTROL.SPSEL bit for the specified security bank.
+- * This may change the current stack pointer between Main and Process
+- * stack pointers if it is done for the CONTROL register for the current
+- * security state.
+- */
+-void write_v7m_control_spsel_for_secstate(CPUARMState *env,
+-                                          bool new_spsel,
+-                                          bool secstate)
 -{
--    /*
--     * Write a new value to v7m.exception, thus transitioning into or ou=
-t
--     * of Handler mode; this may result in a change of active stack poin=
-ter.
--     */
--    bool new_is_psp, old_is_psp =3D v7m_using_psp(env);
--    uint32_t tmp;
+-    bool old_is_psp =3D v7m_using_psp(env);
 -
--    env->v7m.exception =3D new_exc;
+-    env->v7m.control[secstate] =3D
+-        deposit32(env->v7m.control[secstate],
+-                  R_V7M_CONTROL_SPSEL_SHIFT,
+-                  R_V7M_CONTROL_SPSEL_LENGTH, new_spsel);
 -
--    new_is_psp =3D v7m_using_psp(env);
+-    if (secstate =3D=3D env->v7m.secure) {
+-        bool new_is_psp =3D v7m_using_psp(env);
+-        uint32_t tmp;
 -
--    if (old_is_psp !=3D new_is_psp) {
--        tmp =3D env->v7m.other_sp;
--        env->v7m.other_sp =3D env->regs[13];
--        env->regs[13] =3D tmp;
+-        if (old_is_psp !=3D new_is_psp) {
+-            tmp =3D env->v7m.other_sp;
+-            env->v7m.other_sp =3D env->regs[13];
+-            env->regs[13] =3D tmp;
+-        }
 -    }
 -}
 -
- /* Switch M profile security state between NS and S */
- void switch_v7m_security_state(CPUARMState *env, bool new_secstate)
+-/*
+- * Write to v7M CONTROL.SPSEL bit. This may change the current
+- * stack pointer between Main and Process stack pointers.
+- */
+-void write_v7m_control_spsel(CPUARMState *env, bool new_spsel)
+-{
+-    write_v7m_control_spsel_for_secstate(env, new_spsel, env->v7m.secure=
+);
+-}
+-
+-/* Switch M profile security state between NS and S */
+-void switch_v7m_security_state(CPUARMState *env, bool new_secstate)
+-{
+-    uint32_t new_ss_msp, new_ss_psp;
+-
+-    if (env->v7m.secure =3D=3D new_secstate) {
+-        return;
+-    }
+-
+-    /*
+-     * All the banked state is accessed by looking at env->v7m.secure
+-     * except for the stack pointer; rearrange the SP appropriately.
+-     */
+-    new_ss_msp =3D env->v7m.other_ss_msp;
+-    new_ss_psp =3D env->v7m.other_ss_psp;
+-
+-    if (v7m_using_psp(env)) {
+-        env->v7m.other_ss_psp =3D env->regs[13];
+-        env->v7m.other_ss_msp =3D env->v7m.other_sp;
+-    } else {
+-        env->v7m.other_ss_msp =3D env->regs[13];
+-        env->v7m.other_ss_psp =3D env->v7m.other_sp;
+-    }
+-
+-    env->v7m.secure =3D new_secstate;
+-
+-    if (v7m_using_psp(env)) {
+-        env->regs[13] =3D new_ss_psp;
+-        env->v7m.other_sp =3D new_ss_msp;
+-    } else {
+-        env->regs[13] =3D new_ss_msp;
+-        env->v7m.other_sp =3D new_ss_psp;
+-    }
+-}
+-
+ static uint32_t *get_v7m_sp_ptr(CPUARMState *env, bool secure, bool thre=
+admode,
+                                 bool spsel)
  {
-@@ -9247,6 +9227,26 @@ static bool do_v7m_function_return(ARMCPU *cpu)
-     return true;
- }
+diff --git a/target/arm/v7m_helper.c b/target/arm/v7m_helper.c
+index 321154966e..558e143039 100644
+--- a/target/arm/v7m_helper.c
++++ b/target/arm/v7m_helper.c
+@@ -88,6 +88,79 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t add=
+r, uint32_t op)
 =20
-+void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
+ #else
+=20
++/*
++ * Write to v7M CONTROL.SPSEL bit for the specified security bank.
++ * This may change the current stack pointer between Main and Process
++ * stack pointers if it is done for the CONTROL register for the current
++ * security state.
++ */
++void write_v7m_control_spsel_for_secstate(CPUARMState *env,
++                                          bool new_spsel,
++                                          bool secstate)
 +{
-+    /*
-+     * Write a new value to v7m.exception, thus transitioning into or ou=
-t
-+     * of Handler mode; this may result in a change of active stack poin=
-ter.
-+     */
-+    bool new_is_psp, old_is_psp =3D v7m_using_psp(env);
-+    uint32_t tmp;
++    bool old_is_psp =3D v7m_using_psp(env);
 +
-+    env->v7m.exception =3D new_exc;
++    env->v7m.control[secstate] =3D
++        deposit32(env->v7m.control[secstate],
++                  R_V7M_CONTROL_SPSEL_SHIFT,
++                  R_V7M_CONTROL_SPSEL_LENGTH, new_spsel);
 +
-+    new_is_psp =3D v7m_using_psp(env);
++    if (secstate =3D=3D env->v7m.secure) {
++        bool new_is_psp =3D v7m_using_psp(env);
++        uint32_t tmp;
 +
-+    if (old_is_psp !=3D new_is_psp) {
-+        tmp =3D env->v7m.other_sp;
-+        env->v7m.other_sp =3D env->regs[13];
-+        env->regs[13] =3D tmp;
++        if (old_is_psp !=3D new_is_psp) {
++            tmp =3D env->v7m.other_sp;
++            env->v7m.other_sp =3D env->regs[13];
++            env->regs[13] =3D tmp;
++        }
 +    }
 +}
 +
- void arm_log_exception(int idx)
++/*
++ * Write to v7M CONTROL.SPSEL bit. This may change the current
++ * stack pointer between Main and Process stack pointers.
++ */
++void write_v7m_control_spsel(CPUARMState *env, bool new_spsel)
++{
++    write_v7m_control_spsel_for_secstate(env, new_spsel, env->v7m.secure=
+);
++}
++
++/* Switch M profile security state between NS and S */
++void switch_v7m_security_state(CPUARMState *env, bool new_secstate)
++{
++    uint32_t new_ss_msp, new_ss_psp;
++
++    if (env->v7m.secure =3D=3D new_secstate) {
++        return;
++    }
++
++    /*
++     * All the banked state is accessed by looking at env->v7m.secure
++     * except for the stack pointer; rearrange the SP appropriately.
++     */
++    new_ss_msp =3D env->v7m.other_ss_msp;
++    new_ss_psp =3D env->v7m.other_ss_psp;
++
++    if (v7m_using_psp(env)) {
++        env->v7m.other_ss_psp =3D env->regs[13];
++        env->v7m.other_ss_msp =3D env->v7m.other_sp;
++    } else {
++        env->v7m.other_ss_msp =3D env->regs[13];
++        env->v7m.other_ss_psp =3D env->v7m.other_sp;
++    }
++
++    env->v7m.secure =3D new_secstate;
++
++    if (v7m_using_psp(env)) {
++        env->regs[13] =3D new_ss_psp;
++        env->v7m.other_sp =3D new_ss_msp;
++    } else {
++        env->regs[13] =3D new_ss_msp;
++        env->v7m.other_sp =3D new_ss_psp;
++    }
++}
++
+ void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
  {
-     if (qemu_loglevel_mask(CPU_LOG_INT)) {
+     /*
 --=20
 2.20.1
 
