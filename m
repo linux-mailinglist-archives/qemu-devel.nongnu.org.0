@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B0C74712A
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 18:08:40 +0200 (CEST)
-Received: from localhost ([::1]:33062 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC80F47136
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 18:13:26 +0200 (CEST)
+Received: from localhost ([::1]:33194 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcBEN-0007K9-7g
-	for lists+qemu-devel@lfdr.de; Sat, 15 Jun 2019 12:08:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35954)
+	id 1hcBIz-0005bt-VK
+	for lists+qemu-devel@lfdr.de; Sat, 15 Jun 2019 12:13:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35969)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hcAr8-00045p-01
- for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:39 -0400
+ (envelope-from <philmd@redhat.com>) id 1hcAr9-00045t-8e
+ for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hcAr6-00014R-1n
- for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42100)
+ (envelope-from <philmd@redhat.com>) id 1hcAr7-00019l-Te
+ for qemu-devel@nongnu.org; Sat, 15 Jun 2019 11:44:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49044)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hcAr0-0000jz-Cw; Sat, 15 Jun 2019 11:44:30 -0400
+ id 1hcAr2-0000oz-Ax; Sat, 15 Jun 2019 11:44:32 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 06BEF85539;
- Sat, 15 Jun 2019 15:44:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B465F2F8BF4;
+ Sat, 15 Jun 2019 15:44:30 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-41.brq.redhat.com [10.40.204.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A91F1001B05;
- Sat, 15 Jun 2019 15:44:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 753FE1001B05;
+ Sat, 15 Jun 2019 15:44:29 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 15 Jun 2019 17:43:44 +0200
-Message-Id: <20190615154352.26824-16-philmd@redhat.com>
+Date: Sat, 15 Jun 2019 17:43:45 +0200
+Message-Id: <20190615154352.26824-17-philmd@redhat.com>
 In-Reply-To: <20190615154352.26824-1-philmd@redhat.com>
 References: <20190615154352.26824-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Sat, 15 Jun 2019 15:44:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Sat, 15 Jun 2019 15:44:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 15/23] target/arm: Make ARM TLB filling
- routine static
+Subject: [Qemu-devel] [PATCH v2 16/23] target/arm: Make arm_deliver_fault()
+ static
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,180 +57,55 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Samuel Ortiz <sameo@linux.intel.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Samuel Ortiz <sameo@linux.intel.com>
+This function is now only called within op_helper.c.
 
-It's only used in op_helper.c, it does not need to be exported and
-moreover it should only be build when TCG is enabled.
-
-Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
-[PMD: Rebased]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/helper.c    | 53 ---------------------------------------
- target/arm/internals.h |  2 ++
- target/arm/op_helper.c | 56 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 58 insertions(+), 53 deletions(-)
+ target/arm/internals.h | 3 ---
+ target/arm/op_helper.c | 5 +++--
+ 2 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 673ada1e86..a4af02c984 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10621,59 +10621,6 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUStat=
-e *cs, vaddr addr,
-=20
- #endif
-=20
--bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
--                      MMUAccessType access_type, int mmu_idx,
--                      bool probe, uintptr_t retaddr)
--{
--    ARMCPU *cpu =3D ARM_CPU(cs);
--
--#ifdef CONFIG_USER_ONLY
--    cpu->env.exception.vaddress =3D address;
--    if (access_type =3D=3D MMU_INST_FETCH) {
--        cs->exception_index =3D EXCP_PREFETCH_ABORT;
--    } else {
--        cs->exception_index =3D EXCP_DATA_ABORT;
--    }
--    cpu_loop_exit_restore(cs, retaddr);
--#else
--    hwaddr phys_addr;
--    target_ulong page_size;
--    int prot, ret;
--    MemTxAttrs attrs =3D {};
--    ARMMMUFaultInfo fi =3D {};
--
--    /*
--     * Walk the page table and (if the mapping exists) add the page
--     * to the TLB.  On success, return true.  Otherwise, if probing,
--     * return false.  Otherwise populate fsr with ARM DFSR/IFSR fault
--     * register format, and signal the fault.
--     */
--    ret =3D get_phys_addr(&cpu->env, address, access_type,
--                        core_to_arm_mmu_idx(&cpu->env, mmu_idx),
--                        &phys_addr, &attrs, &prot, &page_size, &fi, NULL=
-);
--    if (likely(!ret)) {
--        /*
--         * Map a single [sub]page. Regions smaller than our declared
--         * target page size are handled specially, so for those we
--         * pass in the exact addresses.
--         */
--        if (page_size >=3D TARGET_PAGE_SIZE) {
--            phys_addr &=3D TARGET_PAGE_MASK;
--            address &=3D TARGET_PAGE_MASK;
--        }
--        tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
--                                prot, mmu_idx, page_size);
--        return true;
--    } else if (probe) {
--        return false;
--    } else {
--        /* now we have a real cpu fault */
--        cpu_restore_state(cs, retaddr, true);
--        arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
--    }
--#endif
--}
--
- /* Note that signed overflow is undefined in C.  The following routines =
-are
-    careful to use unsigned types where modulo arithmetic is required.
-    Failure to do so _will_ break on newer gcc.  */
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index fe9e4665e2..37ca493635 100644
+index 37ca493635..06e676bf62 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -761,9 +761,11 @@ static inline bool arm_extabort_type(MemTxResult res=
-ult)
-     return result !=3D MEMTX_DECODE_ERROR;
- }
-=20
-+#ifdef CONFIG_TCG
- bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                       MMUAccessType access_type, int mmu_idx,
+@@ -767,9 +767,6 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, in=
+t size,
                        bool probe, uintptr_t retaddr);
-+#endif
+ #endif
 =20
- void arm_deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_typ=
+-void arm_deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_typ=
 e,
-                        int mmu_idx, ARMMMUFaultInfo *fi) QEMU_NORETURN;
+-                       int mmu_idx, ARMMMUFaultInfo *fi) QEMU_NORETURN;
+-
+ /* Return true if the stage 1 translation regime is using LPAE format pa=
+ge
+  * tables */
+ bool arm_s1_regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx=
+);
 diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 29b56039e5..e43c99ebf0 100644
+index e43c99ebf0..63bce32810 100644
 --- a/target/arm/op_helper.c
 +++ b/target/arm/op_helper.c
-@@ -179,6 +179,62 @@ void arm_deliver_fault(ARMCPU *cpu, vaddr addr, MMUA=
-ccessType access_type,
-     env->exception.fsr =3D fsr;
-     raise_exception(env, exc, syn, target_el);
+@@ -127,8 +127,9 @@ static inline uint32_t merge_syn_data_abort(uint32_t =
+template_syn,
+     return syn;
  }
-+#endif
-+
-+bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                      MMUAccessType access_type, int mmu_idx,
-+                      bool probe, uintptr_t retaddr)
-+{
-+    ARMCPU *cpu =3D ARM_CPU(cs);
-+
-+#ifdef CONFIG_USER_ONLY
-+    cpu->env.exception.vaddress =3D address;
-+    if (access_type =3D=3D MMU_INST_FETCH) {
-+        cs->exception_index =3D EXCP_PREFETCH_ABORT;
-+    } else {
-+        cs->exception_index =3D EXCP_DATA_ABORT;
-+    }
-+    cpu_loop_exit_restore(cs, retaddr);
-+#else
-+    hwaddr phys_addr;
-+    target_ulong page_size;
-+    int prot, ret;
-+    MemTxAttrs attrs =3D {};
-+    ARMMMUFaultInfo fi =3D {};
-+
-+    /*
-+     * Walk the page table and (if the mapping exists) add the page
-+     * to the TLB.  On success, return true.  Otherwise, if probing,
-+     * return false.  Otherwise populate fsr with ARM DFSR/IFSR fault
-+     * register format, and signal the fault.
-+     */
-+    ret =3D get_phys_addr(&cpu->env, address, access_type,
-+                        core_to_arm_mmu_idx(&cpu->env, mmu_idx),
-+                        &phys_addr, &attrs, &prot, &page_size, &fi, NULL=
-);
-+    if (likely(!ret)) {
-+        /*
-+         * Map a single [sub]page. Regions smaller than our declared
-+         * target page size are handled specially, so for those we
-+         * pass in the exact addresses.
-+         */
-+        if (page_size >=3D TARGET_PAGE_SIZE) {
-+            phys_addr &=3D TARGET_PAGE_MASK;
-+            address &=3D TARGET_PAGE_MASK;
-+        }
-+        tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
-+                                prot, mmu_idx, page_size);
-+        return true;
-+    } else if (probe) {
-+        return false;
-+    } else {
-+        /* now we have a real cpu fault */
-+        cpu_restore_state(cs, retaddr, true);
-+        arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
-+    }
-+#endif
-+}
-+
-+#if !defined(CONFIG_USER_ONLY)
 =20
- /* Raise a data fault alignment exception for the specified virtual addr=
-ess */
- void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+-void arm_deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_typ=
+e,
+-                       int mmu_idx, ARMMMUFaultInfo *fi)
++static void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
++                                            MMUAccessType access_type,
++                                            int mmu_idx, ARMMMUFaultInfo=
+ *fi)
+ {
+     CPUARMState *env =3D &cpu->env;
+     int target_el;
 --=20
 2.20.1
 
