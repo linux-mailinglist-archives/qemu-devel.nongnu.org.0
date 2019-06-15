@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 542DB46D50
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 02:53:06 +0200 (CEST)
-Received: from localhost ([::1]:57856 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1932446D52
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 02:54:39 +0200 (CEST)
+Received: from localhost ([::1]:57876 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbwwL-0006UG-HT
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 20:53:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60412)
+	id 1hbwxq-0008Nm-AA
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 20:54:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60432)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmb-0000Vq-Rg
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:03 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmd-0000W2-Or
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hbwma-0004Ao-OL
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:01 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51539)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmb-0004BD-PU
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:03 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37700)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hbwmZ-00047p-Tg
+ id 1hbwmZ-000484-Td
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:00 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 207so3979882wma.1
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 17:42:57 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id f17so1351550wme.2
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 17:42:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UAWiuWfF2SIYKrnneYta9vehkddANMGoObHXOzIF0W4=;
- b=DP5UBI4XcDEJnUPEtG6UQtQeRu9GB2us9oguWb/H9LGYjwK/uKLwu682abT2g5vR/P
- c1M0qxVQft0jz5Mi2KlVJ86bYHpUBfqfNtV09KtE8CTqGK9qtJ4y6bNwu5IMFNBlcL0S
- rLYZAMvgtJlpyOhRUuq6ZGc2y7O+qqT+htUU07l94XtgFI7sBmQD8Gv6PpcUgMPgQVQe
- ndFUMSrPc2xLNcoY+tRCMsPdZ/f31GPzMEDH99nuu5vDrKlojYH0DfV8dsT5ID3Oxi8v
- GibqRvTKi1lTPowcQWGgkFLWonZlEUS6obdO+quq13Kpr/g7HebH2X+SrFCDs6iYs1Di
- ShJQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bYkbASmVjMT2mdNG6FSEH7YudCdKd0aZFiI+nNUNNKM=;
+ b=dxlhyuwG321edrbnaPCe4JWR3RKp1FCJsKWay4G7h9mQPo4SNQ8HauJ21PVW4F9pX/
+ glWmdDW1fJwtYNQ8qMi6YD5ZSePrEhIu6Vya9uINKmbMERXj/J1mOmA0cDxLCwuMDfe1
+ 48Yhsg4ajAQvazqMn5oELHXV7IxlkU92J9o2lBGHAI6joxcK/HkO/W8z4bQM1ERVNcie
+ vvCnepl5eHQ9UY0PCwZkl3bNROCX4IcLn8prtvzpt/Jwt+7nyT6k1zq6WEkIjJmEFUGl
+ QeaI+OuElgeTRsmrWEqcrpQ8lbbg/C83wducJR2qm0P0d5IrhP+TEpWQSqCngEY1fGy2
+ fXhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=UAWiuWfF2SIYKrnneYta9vehkddANMGoObHXOzIF0W4=;
- b=CEKT+eZqOCCC+UrJsFzUPWYafZTQh6E8IZebQmElimY/jOiv+vp7abyvDNwvWaZVfm
- fkmF8zS6kUWaAI0fEGcuHePF3JGOdtJhKdfmoBoCeDdCWA08yX6RziT/qrrCiiNX3Ix0
- yEyQHgy7vI46x4/eFycFMbLVkG7N3T9Esc9wZZkGmxFOml9ffv0gzhayg3CE5k1XTUo1
- ICfzs9/PEQ/pwH16wl1SxHyNKkNXrD5gZDVztDecT3EGqTyFlMJxM4PV9i8rmLHTzlE5
- H9Lz2sCyQzqUY2Ot+wTnRixbEHCLIlIg8WIlbLCEXefXzEJVJBzUjE6J1hOiBoCM/Lqd
- DHyA==
-X-Gm-Message-State: APjAAAX5kNVTA+geHFNa64fmNhv6AcuTUaJorYNJQrfFRlGM2e+RDSQf
- T5EcrMv29KL1uCe8XZOMDe/m22JX
-X-Google-Smtp-Source: APXvYqymxa/AEI+Lt/08nGrGTcLEtlwirdCPNwHp7KkTtcTsWTC4mbBLBi8G8jqLgf1xWiKlWO/utg==
-X-Received: by 2002:a1c:f205:: with SMTP id s5mr10262512wmc.14.1560559375992; 
- Fri, 14 Jun 2019 17:42:55 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=bYkbASmVjMT2mdNG6FSEH7YudCdKd0aZFiI+nNUNNKM=;
+ b=BvaPPfsRxa3a3Vqyg9yYOd3J2FuyDUmlHn1YDf2o1J3j/oWE1s6RXckn2HhaYGLyil
+ EKpCTrGHz6CqCwP3pfT00SXQNard0jVR137PWQxe543Dq3zbKzTt/FXBFo+V7VfXycbX
+ o0LdFdmK1gjLghS/azlL/Yz47WV3GtlOEQyTueGOb8oQLQIUyMetR4bnkz3OBG3oW0dF
+ +rKmaiJFmhst1P0kF1fB+la87eglvERThmS8yfeXdyM7rKKTvfzDqipL7KEJ+/EPoRUO
+ dBafUJvusKUsjdaHAsUvN9Ej1lyggvxyBcFnIVwGNnkHtRHqu+cy5ELCtcD6ninLUZWG
+ SvUA==
+X-Gm-Message-State: APjAAAV2Xa9U4uAQUEiiZPOfEujrv3orPEyaiOpCwnmKiVnYtFSghyF6
+ NfhItgy+CKCTAtSoBO1vJIiolW+7
+X-Google-Smtp-Source: APXvYqxE9rPfuKKQom4W6PusArHAn5zNjq+dn5gs5WwVTRXjo7LwYt0azlWgX7Usht+7OaToOpdAOg==
+X-Received: by 2002:a7b:ca43:: with SMTP id m3mr9957915wml.45.1560559376784;
+ Fri, 14 Jun 2019 17:42:56 -0700 (PDT)
 Received: from donizetti.lan ([2001:b07:6468:f312:1da0:213e:1763:a1a8])
- by smtp.gmail.com with ESMTPSA id m21sm3774234wmc.1.2019.06.14.17.42.54
+ by smtp.gmail.com with ESMTPSA id m21sm3774234wmc.1.2019.06.14.17.42.56
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 17:42:55 -0700 (PDT)
+ Fri, 14 Jun 2019 17:42:56 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 15 Jun 2019 02:42:49 +0200
-Message-Id: <20190615004256.16367-1-pbonzini@redhat.com>
+Date: Sat, 15 Jun 2019 02:42:50 +0200
+Message-Id: <20190615004256.16367-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190615004256.16367-1-pbonzini@redhat.com>
+References: <20190615004256.16367-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH preliminary 0/7] target-i386/kvm: live
- migration support for nested VMX
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH 1/7] KVM: i386: Use symbolic constant for
+ #DB/#BP exception constants
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,38 +82,42 @@ Cc: liran.alon@oracle.com, nikita.leshchenko@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is mostly Liran's work.  It's preliminary because he found some cases
-that break but he hasn't debugged them fully yet (a kernel bug is suspected
-though) and because my version, which only requires a very small and
-backwards-compatible linux-headers change (patch 4), has seen even less testing.
+From: Liran Alon <liran.alon@oracle.com>
 
-Paolo
+Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ target/i386/kvm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Liran Alon (6):
-  KVM: i386: Use symbolic constant for #DB/#BP exception constants
-  KVM: i386: Re-inject #DB to guest with updated DR6
-  KVM: i386: Add support for KVM_CAP_EXCEPTION_PAYLOAD
-  vmstate: Add support for kernel integer types
-  KVM: i386: Add support for save and restore nested state
-  Revert "target/i386: kvm: add VMX migration blocker"
-
-Paolo Bonzini (1):
-  linux-headers: import improved definition of KVM_GET/SET_NESTED_STATE
-    structs
-
- accel/kvm/kvm-all.c         |   8 ++
- include/migration/vmstate.h |  18 +++
- include/sysemu/kvm.h        |   1 +
- linux-headers/asm-x86/kvm.h |  11 ++
- target/i386/cpu.c           |  10 +-
- target/i386/cpu.h           |  16 ++-
- target/i386/hvf/hvf.c       |  10 +-
- target/i386/hvf/x86hvf.c    |   4 +-
- target/i386/kvm.c           | 160 ++++++++++++++++++++----
- target/i386/machine.c       | 243 +++++++++++++++++++++++++++++++++++-
- 10 files changed, 440 insertions(+), 41 deletions(-)
-
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 3b29ce5c0d..c8d8196e71 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -2994,9 +2994,9 @@ static int kvm_guest_debug_workarounds(X86CPU *cpu)
+     unsigned long reinject_trap = 0;
+ 
+     if (!kvm_has_vcpu_events()) {
+-        if (env->exception_injected == 1) {
++        if (env->exception_injected == EXCP01_DB) {
+             reinject_trap = KVM_GUESTDBG_INJECT_DB;
+-        } else if (env->exception_injected == 3) {
++        } else if (env->exception_injected == EXCP03_INT3) {
+             reinject_trap = KVM_GUESTDBG_INJECT_BP;
+         }
+         env->exception_injected = -1;
+@@ -3508,7 +3508,7 @@ static int kvm_handle_debug(X86CPU *cpu,
+     int ret = 0;
+     int n;
+ 
+-    if (arch_info->exception == 1) {
++    if (arch_info->exception == EXCP01_DB) {
+         if (arch_info->dr6 & (1 << 14)) {
+             if (cs->singlestep_enabled) {
+                 ret = EXCP_DEBUG;
 -- 
 2.21.0
+
 
 
