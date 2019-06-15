@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F9B46D51
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 02:53:07 +0200 (CEST)
-Received: from localhost ([::1]:57858 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1EF46D57
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 02:59:17 +0200 (CEST)
+Received: from localhost ([::1]:57910 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbwwM-0006XL-QH
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 20:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60496)
+	id 1hbx2K-00031E-HH
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 20:59:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33243)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmh-0000Wk-L2
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:09 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1hbwq2-00035R-Lz
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:46:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmf-0004IS-QX
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:07 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:36723)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hbwmf-0004Ef-Jg
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:05 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n4so4239106wrs.3
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 17:43:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VSAtqp8UmPIPF0lSVxm2zpXVeEB/VlNEVkegW+jAWto=;
- b=mQTNWfv0MEeJAID9VISf9tlh2krgWNY10ceVQev+Hm/iZO4lQpqgIOchNWLdpmugFr
- qWZvzWhubVIBEG0W855fIxBosd2AxQIBlkBfQjwfdKFNnJZ/g4PY0VfpUu1VsjDw6/wS
- H5Vpo702rKHbk4T0I5LmY1ADdyLpFXiDNkIrlj8OCPDcZmQs9HQMUvzsupDls080bmFa
- Rh55XjONxktyYFNGQqvFkGGAxqjoFJ1Ys3nAKuYo5xzOwwuUeDUiNOqc+TtVcWJEwX2O
- X+YyqyJXZ123m1XRdBw6uHSvqUuYR8W+GosfcA/ZXqWJTKNAUBN9vtygBHWWs2ygIAaO
- jzWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VSAtqp8UmPIPF0lSVxm2zpXVeEB/VlNEVkegW+jAWto=;
- b=VY/mIwyOnCUNCLlZ670fXu8u9xCY0SBE9vlXw846+rxc1tMrpIqkfiXQu2QiMSy9tt
- JKW6oLaiO5JdY6J9KRt1j5OhCGPjC1qNH8sLEixiwjLAxN4fFDTCGt+zR5Jy1ciqd9BE
- cjL2qFzWeBuI/TvbbDcwXfGnm+ebGZnnz4VDlNs4Cpl3KnX2ivEdx3tuFbTRcE5usWB7
- w5oFw+GTAFFjiJ+Qj7YX1qEIf9ee39KApUHnKwlPnrY/ImG7gCRlHpPi/vc9nlluhcmM
- iDnrLMv1JVCWtXMkt8o5FFOyn9GWZBdvVd0Tz0Zl8CzGqVFyF9ZkywH0mWcKOam5RjLL
- fkVA==
-X-Gm-Message-State: APjAAAUFLRmL7s+NHxX/KTB7GKIhu0pD+0qJ38FzFtGBe3Hr6WKAipbu
- 1ygAfisozBYX6STXH/pE5eQHrxfe
-X-Google-Smtp-Source: APXvYqzNc2/szIx/XDP5SmVIdxaeA2yT35FduiOPnQCZXnk7NIIKdTeFgaxstApzGiIP7a6wg9YGeg==
-X-Received: by 2002:adf:9dcc:: with SMTP id q12mr16787543wre.93.1560559383028; 
- Fri, 14 Jun 2019 17:43:03 -0700 (PDT)
-Received: from donizetti.lan ([2001:b07:6468:f312:1da0:213e:1763:a1a8])
- by smtp.gmail.com with ESMTPSA id m21sm3774234wmc.1.2019.06.14.17.43.01
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 14 Jun 2019 17:43:01 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Sat, 15 Jun 2019 02:42:56 +0200
-Message-Id: <20190615004256.16367-8-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190615004256.16367-1-pbonzini@redhat.com>
+ (envelope-from <liran.alon@oracle.com>) id 1hbwq0-0007A3-IM
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:46:33 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:52174)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
+ id 1hbwpv-0006yW-8C
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:46:30 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5F0ic4a183388;
+ Sat, 15 Jun 2019 00:46:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2018-07-02; bh=xqx5AeEH7HTlnSEdm1aYiuaDxJZlTepCeRJIr0PjXro=;
+ b=jMKSNyN9PzkMCmgPyk1hA+qaAFqJ46+JtzPZxFcFMtBFHmDVLh9karYcErvp+BCRfGIx
+ 8Xf7g5Rytn6D8xdm5KUzUGGNVZGFzWa3Oc5FtSSGsSzwT7DFV2R595N2YYCEO9bR+MUQ
+ 2b5TEDacJnNl6HFmrdwYoMhDSLnND/fDflKvzmhDQpryWHXDa7iEp3fhN3LD26oeY0P5
+ UkH81A9I48pGDKDK0+1uJZS3LNbQ7w7ZnvUUB2YsCmaU6K7Xx6oyL6/YHboQpwd4P/OE
+ nGBtcqGtYbZ6QIxJm4VLPK3L0bYmSFxf8SVeiEK79ERAeG+oh4sCX+bVR8MqjFfIs3M0 Pg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2t05nr9rrp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 15 Jun 2019 00:46:15 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5F0jS9q087329;
+ Sat, 15 Jun 2019 00:46:14 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2t4nst0ajn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 15 Jun 2019 00:46:14 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5F0kDx4026162;
+ Sat, 15 Jun 2019 00:46:14 GMT
+Received: from [10.0.0.13] (/109.66.72.187)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 14 Jun 2019 17:46:13 -0700
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
+From: Liran Alon <liran.alon@oracle.com>
+In-Reply-To: <20190615004256.16367-2-pbonzini@redhat.com>
+Date: Sat, 15 Jun 2019 03:46:10 +0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <216F5631-D0EC-4A72-B333-FC51C675DF64@oracle.com>
 References: <20190615004256.16367-1-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH 7/7] Revert "target/i386: kvm: add VMX
- migration blocker"
+ <20190615004256.16367-2-pbonzini@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3445.4.7)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9288
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906150003
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9288
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906150003
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: Re: [Qemu-devel] [PATCH 1/7] KVM: i386: Use symbolic constant for
+ #DB/#BP exception constants
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,53 +93,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liran.alon@oracle.com, nikita.leshchenko@oracle.com
+Cc: qemu-devel@nongnu.org, nikita.leshchenko@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liran Alon <liran.alon@oracle.com>
 
-This reverts commit d98f26073bebddcd3da0ba1b86c3a34e840c0fb8.
-The commit should be reverted because we now support nVMX migration.
 
-Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/kvm.c | 12 ------------
- 1 file changed, 12 deletions(-)
+> On 15 Jun 2019, at 3:42, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> From: Liran Alon <liran.alon@oracle.com>
+>=20
+> Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
+> Signed-off-by: Liran Alon <liran.alon@oracle.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+> target/i386/kvm.c | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index 3b29ce5c0d..c8d8196e71 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -2994,9 +2994,9 @@ static int kvm_guest_debug_workarounds(X86CPU =
+*cpu)
+>     unsigned long reinject_trap =3D 0;
+>=20
+>     if (!kvm_has_vcpu_events()) {
+> -        if (env->exception_injected =3D=3D 1) {
+> +        if (env->exception_injected =3D=3D EXCP01_DB) {
+>             reinject_trap =3D KVM_GUESTDBG_INJECT_DB;
+> -        } else if (env->exception_injected =3D=3D 3) {
+> +        } else if (env->exception_injected =3D=3D EXCP03_INT3) {
+>             reinject_trap =3D KVM_GUESTDBG_INJECT_BP;
+>         }
+>         env->exception_injected =3D -1;
+> @@ -3508,7 +3508,7 @@ static int kvm_handle_debug(X86CPU *cpu,
+>     int ret =3D 0;
+>     int n;
+>=20
+> -    if (arch_info->exception =3D=3D 1) {
+> +    if (arch_info->exception =3D=3D EXCP01_DB) {
+>         if (arch_info->dr6 & (1 << 14)) {
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index d48fafa22b..0a01f40e73 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -943,7 +943,6 @@ static int hyperv_init_vcpu(X86CPU *cpu)
- }
- 
- static Error *invtsc_mig_blocker;
--static Error *vmx_mig_blocker;
- 
- #define KVM_MAX_CPUID_ENTRIES  100
- 
-@@ -1308,17 +1307,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
-                                   !!(c->ecx & CPUID_EXT_SMX);
-     }
- 
--    if ((env->features[FEAT_1_ECX] & CPUID_EXT_VMX) && !vmx_mig_blocker) {
--        error_setg(&vmx_mig_blocker,
--                   "Nested VMX virtualization does not support live migration yet");
--        r = migrate_add_blocker(vmx_mig_blocker, &local_err);
--        if (local_err) {
--            error_report_err(local_err);
--            error_free(vmx_mig_blocker);
--            return r;
--        }
--    }
--
-     if (env->mcg_cap & MCG_LMCE_P) {
-         has_msr_mcg_ext_ctl = has_msr_feature_control = true;
-     }
--- 
-2.21.0
+Note: In the patch-series I will submit, I also replaced this =E2=80=9C1 =
+<< 14=E2=80=9D with DR6_BS.
+
+>             if (cs->singlestep_enabled) {
+>                 ret =3D EXCP_DEBUG;
+> --=20
+> 2.21.0
+>=20
+>=20
 
 
