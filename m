@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9613746D4C
-	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 02:49:46 +0200 (CEST)
-Received: from localhost ([::1]:57826 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2CA46D4A
+	for <lists+qemu-devel@lfdr.de>; Sat, 15 Jun 2019 02:49:43 +0200 (CEST)
+Received: from localhost ([::1]:57822 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hbwt7-0002X7-OF
-	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 20:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60498)
+	id 1hbwt5-0002R4-3y
+	for lists+qemu-devel@lfdr.de; Fri, 14 Jun 2019 20:49:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60481)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmh-0000Wm-L4
- for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:09 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmf-0004ID-Nd
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmg-0000WU-O6
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:07 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40600)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1hbwmf-0004IH-O6
+ for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:06 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:50668)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1hbwmd-0004AS-Oj
+ id 1hbwmd-0004Aw-PO
  for qemu-devel@nongnu.org; Fri, 14 Jun 2019 20:43:05 -0400
-Received: by mail-wr1-x443.google.com with SMTP id p11so4215310wre.7
- for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 17:43:00 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id c66so3986662wmf.0
+ for <qemu-devel@nongnu.org>; Fri, 14 Jun 2019 17:43:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3B/bfXURZHaVjJAIBJ0jUA1Z41SYUF9H91mCqN9VRIY=;
- b=vPtSkI++evlUCPvTkjuIHRSyGK1jxL0NWT/PY3lTrb51hETdV2pNFBErF1J08KZUtV
- Rmet41kRpC+/LEn+gQDDHsh0EudT57EUZFkVsfJPeL+oQwvx6jvKDc7HHFPzgdEVcrCA
- Q7xx9LolLDiH0+4dEaCsoEoVHveP7wd4ZkJhgy/XzdKoLArTCsdaF8Chc3v+rtDVgn4s
- lGuMv9BeKxInqrS2kR7rJiL7Td776lut0+nrbktJaRN/mCpPMOoQ9rnLjFwswgs8F69V
- SgYDproCZfl70RUdS8UBoKTAPhhPEueapLUdZq9ZNgehJ8+H6RLrHvLDJCMzqcKqkxEQ
- 7z/w==
+ bh=bLutnU/dkTXvJoiW5spoJToFM65YGUTnPwiUoNTJhIg=;
+ b=uYAOQmayP9gskY4eyV9vuYglowPT/SLAH2JizBZ5vxTL6QYgXz2fZ6zF1sNKbHMaJQ
+ mDijknCFByVxMl+CwqZEOBGvDU6KRRK4QY7/qg0mWX40O5a8ldx7vrBX4x4TKi05sG6Z
+ SAbwwH5ELq9s4JjK7Gu6t6RykhJbtHArmIiOr4e5WraILdqfiIjd/gMcmuljy9jNP00+
+ R3oTXbmVqWhSDwo14ma7N9jRT5YtAxub1Q0zzXx5uurxg4JYOgkmoMw1101UgnGPx7yI
+ 5T4f+hY4o9SGvdZnTA4ETVjFFzmrF+/33nqCfRkWZRhKBR30fI8YvhoOk9AVwcJLjFKD
+ o3yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3B/bfXURZHaVjJAIBJ0jUA1Z41SYUF9H91mCqN9VRIY=;
- b=OHHt3a9cwTsDvrvr4gl15KEh4iLKyPX+3geqyxE5f8rdvXX19LI7ii3NNQx15RYiDf
- yyW/UF/IwyuKnfFuUgDXImFA1S5Ka+HehmM91sTJ/xVZKDNrcrDjckuOjlVG6EQr4F7g
- 29AInQnsgQgYigq8dHYGk0QdX8mvt0HBAch71Na7Gs5S9lAkYBTG8OYl28ZS+3KuOg7u
- Rf177RFtvcuI1raiQEyqQN6NAuiFrxI2Q2ENRN4tBClm0yBvhTmC8/rN43z6p0jGxROW
- g5/JLDPhSb7jHySGHYyd+n1j/Jp9UDgPzV7i1PdtwE5CzyFbXeV3OkpgKWLb+/TNElhM
- VRuw==
-X-Gm-Message-State: APjAAAUc6dK+JwpE5/BOmUe2xTZ0wYPFgvJJoDnjFhcy8DES8vIsPznv
- I6lWT28gYy/HmsOAyFWyWfLIvlvr
-X-Google-Smtp-Source: APXvYqwW87LgiSWNqqIhdgWANSe8mA/vzRL0BHQ+eI20z1LFZIjKmb8ia+yWS2BxGhTMcMEIaMhXxw==
-X-Received: by 2002:adf:e7ca:: with SMTP id e10mr5032965wrn.281.1560559379627; 
- Fri, 14 Jun 2019 17:42:59 -0700 (PDT)
+ bh=bLutnU/dkTXvJoiW5spoJToFM65YGUTnPwiUoNTJhIg=;
+ b=C9NofMYaj0nJRDdkbfysZC5Ovxi4i6jLrnxaBGFbE/la2DYu+JMkZEfb99r891kJ+a
+ pI0Yk3MTjd5AVrfzzv/U0jjkQFnFcZprHNWJChRkDvU7xpkkUaJTNrAhAzKbF5puB8dg
+ JEL3YGPL/3/+e4R5rotTwR4dDhWhNomrXrFSiHcVwDgIFR5f42oc6CoOyiKR+ibbZd3G
+ L78VNOeRHxOYqwLGHoDdd+ALCXIET0Gp61/F8KWtmAX0sH7uSOikSwR5/yKoSidMFMJf
+ kPlnX6vA+1U/JUL227+1YmetFB1TCSv+9zcFAnClzD76GrvW2/XTpn/Caw5NRYxkSm8v
+ Sixg==
+X-Gm-Message-State: APjAAAX1gMiuw3tt7zMyI4l8+h4cxwwBbjZM7l4Qs1DSwHGs7cHEjIB+
+ na0EghTKDUlk2ALz1mn22kLaG8Sx
+X-Google-Smtp-Source: APXvYqwdaIXDIBheJjiutUHDc7mPJVLxj8xPFIrYQjdURZHxjyKfMFCJkihMNBMcoelekAYc/VBZUg==
+X-Received: by 2002:a1c:4041:: with SMTP id n62mr10071538wma.100.1560559380520; 
+ Fri, 14 Jun 2019 17:43:00 -0700 (PDT)
 Received: from donizetti.lan ([2001:b07:6468:f312:1da0:213e:1763:a1a8])
- by smtp.gmail.com with ESMTPSA id m21sm3774234wmc.1.2019.06.14.17.42.58
+ by smtp.gmail.com with ESMTPSA id m21sm3774234wmc.1.2019.06.14.17.42.59
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Fri, 14 Jun 2019 17:42:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat, 15 Jun 2019 02:42:53 +0200
-Message-Id: <20190615004256.16367-5-pbonzini@redhat.com>
+Date: Sat, 15 Jun 2019 02:42:54 +0200
+Message-Id: <20190615004256.16367-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190615004256.16367-1-pbonzini@redhat.com>
 References: <20190615004256.16367-1-pbonzini@redhat.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH 4/7] linux-headers: import improved definition
- of KVM_GET/SET_NESTED_STATE structs
+X-Received-From: 2a00:1450:4864:20::333
+Subject: [Qemu-devel] [PATCH 5/7] vmstate: Add support for kernel integer
+ types
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,56 +82,51 @@ Cc: liran.alon@oracle.com, nikita.leshchenko@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch improves the KVM_GET/SET_NESTED_STATE structs by detailing
-the format of VMX nested state in a struct.  The VMX nested state is
-accessible through struct kvm_vmx_nested_state though, to avoid
-changing the size of the structs, it has to be accessed as "vmx.data[0]"
-rather than just "vmx.data".
+From: Liran Alon <liran.alon@oracle.com>
 
-Also, the values of the "format" field are defined as macros.  This
-patch should be sent to Linus very shortly.
-
+Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-headers/asm-x86/kvm.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/migration/vmstate.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-index 7a0e64ccd6..06b8727a3b 100644
---- a/linux-headers/asm-x86/kvm.h
-+++ b/linux-headers/asm-x86/kvm.h
-@@ -383,6 +383,9 @@ struct kvm_sync_regs {
- #define KVM_X86_QUIRK_LAPIC_MMIO_HOLE	(1 << 2)
- #define KVM_X86_QUIRK_OUT_7E_INC_RIP	(1 << 3)
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index 9224370ed5..a85424fb04 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -797,6 +797,15 @@ extern const VMStateInfo vmstate_info_qtailq;
+ #define VMSTATE_UINT64_V(_f, _s, _v)                                  \
+     VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint64, uint64_t)
  
-+#define KVM_STATE_NESTED_FORMAT_VMX	0
-+#define KVM_STATE_NESTED_FORMAT_SVM	1
++#define VMSTATE_U8_V(_f, _s, _v)                                   \
++    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint8, __u8)
++#define VMSTATE_U16_V(_f, _s, _v)                                  \
++    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint16, __u16)
++#define VMSTATE_U32_V(_f, _s, _v)                                  \
++    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint32, __u32)
++#define VMSTATE_U64_V(_f, _s, _v)                                  \
++    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint64, __u64)
 +
- #define KVM_STATE_NESTED_GUEST_MODE	0x00000001
- #define KVM_STATE_NESTED_RUN_PENDING	0x00000002
- #define KVM_STATE_NESTED_EVMCS		0x00000004
-@@ -390,6 +393,11 @@ struct kvm_sync_regs {
- #define KVM_STATE_NESTED_SMM_GUEST_MODE	0x00000001
- #define KVM_STATE_NESTED_SMM_VMXON	0x00000002
+ #define VMSTATE_BOOL(_f, _s)                                          \
+     VMSTATE_BOOL_V(_f, _s, 0)
  
-+struct kvm_vmx_nested_state_data {
-+	__u8 vmcs12[0x1000];
-+	__u8 shadow_vmcs12[0x1000];
-+};
-+
- struct kvm_vmx_nested_state {
- 	__u64 vmxon_pa;
- 	__u64 vmcs_pa;
-@@ -397,6 +405,9 @@ struct kvm_vmx_nested_state {
- 	struct {
- 		__u16 flags;
- 	} smm;
-+
-+	__u8 pad[120 - 18];
-+	struct kvm_vmx_nested_state_data data[0];
- };
+@@ -818,6 +827,15 @@ extern const VMStateInfo vmstate_info_qtailq;
+ #define VMSTATE_UINT64(_f, _s)                                        \
+     VMSTATE_UINT64_V(_f, _s, 0)
  
- /* for KVM_CAP_NESTED_STATE */
++#define VMSTATE_U8(_f, _s)                                         \
++    VMSTATE_U8_V(_f, _s, 0)
++#define VMSTATE_U16(_f, _s)                                        \
++    VMSTATE_U16_V(_f, _s, 0)
++#define VMSTATE_U32(_f, _s)                                        \
++    VMSTATE_U32_V(_f, _s, 0)
++#define VMSTATE_U64(_f, _s)                                        \
++    VMSTATE_U64_V(_f, _s, 0)
++
+ #define VMSTATE_UINT8_EQUAL(_f, _s, _err_hint)                        \
+     VMSTATE_SINGLE_FULL(_f, _s, 0, 0,                                 \
+                         vmstate_info_uint8_equal, uint8_t, _err_hint)
 -- 
 2.21.0
 
