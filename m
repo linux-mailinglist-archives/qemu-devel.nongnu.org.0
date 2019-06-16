@@ -2,44 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC40476D5
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 22:49:45 +0200 (CEST)
-Received: from localhost ([::1]:42790 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C53EF4769A
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 21:43:36 +0200 (CEST)
+Received: from localhost ([::1]:42528 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcc5v-00030S-Rw
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 16:49:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
+	id 1hcb3v-0007D7-Ax
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 15:43:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45143)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <joel@sing.id.au>) id 1hcahL-00027f-5J
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 15:20:16 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hcb22-0006KL-SB
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 15:41:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <joel@sing.id.au>) id 1hcahJ-0001uw-Mv
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 15:20:15 -0400
-Received: from stingray.exigere.com.au ([162.217.113.74]:12247)
+ (envelope-from <imammedo@redhat.com>) id 1hcb21-00078q-JE
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 15:41:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54026)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <joel@sing.id.au>)
- id 1hcahG-00013u-IH; Sun, 16 Jun 2019 15:20:10 -0400
-Received: from hippo.sing.id.au (exi2311632.lnk.telstra.net [144.139.233.124])
- by stingray.exigere.com.au (OpenSMTPD) with ESMTPSA id e5bfd7b9
- (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
- Mon, 17 Jun 2019 05:42:25 +1000 (AEST)
-Received: from localhost (hippo.sing.id.au [local])
- by hippo.sing.id.au (OpenSMTPD) with ESMTPA id 7e842b5a;
- Mon, 17 Jun 2019 05:19:01 +1000 (AEST)
-Date: Mon, 17 Jun 2019 05:19:01 +1000
-From: Joel Sing <joel@sing.id.au>
-To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Message-ID: <20190616191900.GH61734@hippo.sing.id.au>
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hcb21-00077f-BF
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 15:41:37 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0523B81129;
+ Sun, 16 Jun 2019 19:41:36 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EFADC19693;
+ Sun, 16 Jun 2019 19:41:31 +0000 (UTC)
+Date: Sun, 16 Jun 2019 21:41:27 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Message-ID: <20190616214127.20d1cd0e@redhat.com>
+In-Reply-To: <9159f119-0a98-bb6b-93c1-de64a3b1580a@intel.com>
+References: <20190508061726.27631-1-tao3.xu@intel.com>
+ <20190508061726.27631-8-tao3.xu@intel.com>
+ <20190604170456.5b3c198e@redhat.com>
+ <729bde4a-bcb9-dac5-3a8a-04cc5f4d2bf9@intel.com>
+ <20190605140841.63e8aa85@redhat.com>
+ <02c9615a-fb59-664f-e878-124c9f43e54a@intel.com>
+ <20190606184507.2c52cd41@redhat.com>
+ <9159f119-0a98-bb6b-93c1-de64a3b1580a@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 162.217.113.74
-X-Mailman-Approved-At: Sun, 16 Jun 2019 16:46:39 -0400
-Subject: [Qemu-devel] [PATCH] atomic failures on qemu-system-riscv64
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Sun, 16 Jun 2019 19:41:36 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 07/11] hmat acpi: Build Memory Side
+ Cache Information Structure(s) in ACPI HMAT
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,117 +63,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: me@carlosedp.com, palmer@sifive.com, Alistair.Francis@wdc.com,
- marco@decred.org
+Cc: "xiaoguangrong.eric@gmail.com" <xiaoguangrong.eric@gmail.com>,
+ "mst@redhat.com" <mst@redhat.com>, "Liu, Jingqi" <jingqi.liu@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "rth@twiddle.net" <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While working on a Go (www.golang.org) port for riscv, I've run
-into issues with atomics (namely LR/SC) on qemu-system-riscv64.
-There are several reproducers for this problem including one
-using gcc builtin atomics:
+On Mon, 10 Jun 2019 21:39:12 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
-  https://gist.github.com/4a6f656c/8433032a3f70893a278259f8108aad90
+> On 6/7/2019 12:45 AM, Igor Mammedov wrote:
+> > On Thu, 6 Jun 2019 11:00:33 +0800
+> > Tao Xu <tao3.xu@intel.com> wrote:
+> >  =20
+> ...
+> >>
+> >> But the kernel HMAT can read othe Memory Side Cache Information except
+> >> SMBIOS entries and the host HMAT tables also haven=E2=80=99t SMBIOS Ha=
+ndles it
+> >> also shows Number of SMBIOS handles (n) as 0. So I am wondering if it =
+is
+> >> better to setting "SMBIOS handles (n)" as 0, remove TODO and comment t=
+he
+> >> reason why set it 0? =20
+> >=20
+> > My understanding is that SMBIOS handles are used to associate side cache
+> > descriptions with RAM pointed by SMBIOS handles, so that OS would be
+> > able to figure out what RAM modules are cached by what cache.
+> > Hence I suspect that side cache table is useless in the best case witho=
+ut
+> > valid references to SMBIOS handles.
+> > (I might be totally mistaken but the matter requires clarification befo=
+re
+> > we commit to it)
+> >  =20
+>=20
+> I am sorry for not providing a detailed description for Memory Side=20
+> Cache use case. I will add more detailed description in next version of=20
+> patch.
+>=20
+> As the commit message and /Documentation/admin-guide/mm/numaperf.rst of=20
+> Kernel HMAT(listed blow), Memory Side Cache Structure is used to provide=
+=20
+> the cache information about System memory for the software to use. Then=20
+> the software can maximize the performance because it can choose the best=
+=20
+> node to use.
+>=20
+> Memory Side Cache Information Structure and System Locality Latency and=20
+> Bandwidth Information Structure can both provide more information than=20
+> numa distance for software to see. So back to the SMBIOS, in spec,=20
+> SMBIOS handles point to the memory side cache physical devices, but they=
+=20
+> are also information and not contribute to the performance of the=20
+> described memory. The field "Proximity Domain for the Memory" can show=20
+> the described memory.
+>=20
+> I am wondering if this explanation is clear? Thank you.
 
-And a version using inline assembly:
+I didn't manage to find a definite answer in spec to what SMBIOS entry
+should describe. Another use of 'Physical Memory Component' is in PMTT
+table and it looks to me that it type 17 should reffer to DIMM device.
 
-  https://gist.github.com/4a6f656c/d883091f5ca811822720213be343a75a
+But well, considering spec isn't clear about subject and that linux
+kernel doesn't seem to use this entries lets use it without SMBIOS
+entries for now. Like you suggested, lets set number of SMBIOS handles to 0
+and drop num_smbios_handles so that user won't be able to provide any.
 
-Depending on the qemu configuration the number of threads may
-need increasing (to force context switching) and/or run in a
-loop. Go's sync/atomic tests also fail regularly.
 
-Having dug into the qemu code, what I believe is happening is
-along the lines of the following while running the typical CAS
-sequence:
+> "System memory may be constructed in a hierarchy of elements with=20
+> various performance characteristics in order to provide large address=20
+> space of slower performing memory cached by a smaller higher performing=20
+> memory."
+>=20
+> "An application does not need to know about caching attributes in order
+> to use the system. Software may optionally query the memory cache
+> attributes in order to maximize the performance out of such a setup.
+> If the system provides a way for the kernel to discover this=20
+> information, for example with ACPI HMAT (Heterogeneous Memory Attribute=20
+> Table), the kernel will append these attributes to the NUMA node memory=20
+> target."
+>=20
+> "Each cache level's directory provides its attributes. For example, the
+> following shows a single cache level and the attributes available for
+> software to query::
+>=20
+> 	# tree sys/devices/system/node/node0/memory_side_cache/
+> 	/sys/devices/system/node/node0/memory_side_cache/
+> 	|-- index1
+> 	|   |-- indexing
+> 	|   |-- line_size
+> 	|   |-- size
+> 	|   `-- write_policy
+> "
+>=20
 
-1. Thread 1 runs and executes an LR - this assigns an address
-   to load_res and a value to load_val (say 1). It performs a
-   comparison, the value matches and decides to continue with
-   its SC.
-
-2. A context switch occurs and thread 2 is now run - it runs
-   an LR and SC on the same address modifying the stored value.
-   Another LR is executed loading load_val with the current
-   value (say 3).
-
-3. A context switch occurs and thread 1 is now run again, it
-   continues on its LR/SC sequence and now runs the SC instruction.
-   This is based on the assumption that it had a reservation
-   and the SC will fail if the memory has changed. The underlying
-   implementation of SC is a cmpxchg with the value in load_val
-   - this no longer has the original value and hence successfully
-   compares (as does the tcg_gen_setcond_tl() between the returned
-   value and load_val) thus the SC succeeds when it should not.
-
-The diff below clears load_res when the mode changes - with this
-applied the reproducers work correctly, as do Go's atomic tests.
-This is inline with v2.2 of the RISCV ISA specification:
-
-"The SC must fail if there is an observable memory access from
-another hart to the address, or if there is an intervening context
-switch on this hart, or if in the meantime the hart executed a
-privileged exception-return instruction."
-
-However, it is worth noting that this language was changed in
-later revisions of the specification and now states that an
-LR/SC must fail if there is an SC to any address in between.
-On its own this does not prevent the above context-switch
-scenario and an additional note says that the kernel "should"
-forcibly break a load reservation by running an SC instruction
-on a preemptive context switch. The riscv linux kernel does not
-currently do this, however a diff exists to change this:
-
-  https://lore.kernel.org/linux-riscv/20190607222222.15300-1-palmer@sifive.com/
-
-As such, the below diff clears the load reservation on both
-mode changes and on execution of an SC instruction. This results
-in correct behaviour on both a patched and unpatched kernel and
-seems to be the safer approach.
-
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index b17f169681..19029429a7 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -113,6 +113,15 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
-     }
-     /* tlb_flush is unnecessary as mode is contained in mmu_idx */
-     env->priv = newpriv;
-+
-+    /* Clear the load reservation - otherwise a reservation placed in one
-+     * context/process can be used by another, resulting in an SC succeeding
-+     * incorrectly. Version 2.2 of the ISA specification explicitly requires
-+     * this behaviour, while later revisions say that the kernel "should" use
-+     * an SC instruction to force the yielding of a load reservation on a
-+     * preemptive context switch. As a result, do both.
-+     */
-+    env->load_res = 0;
- }
- 
- /* get_physical_address - get the physical address for this virtual address
-diff --git a/target/riscv/insn_trans/trans_rva.inc.c b/target/riscv/insn_trans/trans_rva.inc.c
-index f6dbbc065e..bb560a9d05 100644
---- a/target/riscv/insn_trans/trans_rva.inc.c
-+++ b/target/riscv/insn_trans/trans_rva.inc.c
-@@ -61,13 +61,19 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
- 
-     gen_set_label(l1);
-     /*
--     * Address comparion failure.  However, we still need to
-+     * Address comparison failure.  However, we still need to
-      * provide the memory barrier implied by AQ/RL.
-      */
-     tcg_gen_mb(TCG_MO_ALL + a->aq * TCG_BAR_LDAQ + a->rl * TCG_BAR_STRL);
-     tcg_gen_movi_tl(dat, 1);
-     gen_set_gpr(a->rd, dat);
- 
-+    /*
-+     * Clear the load reservation, since an SC must fail if there is
-+     * an SC to any address, in between an LR and SC pair.
-+     */
-+    tcg_gen_movi_tl(load_res, 0);
-+
-     gen_set_label(l2);
-     tcg_temp_free(dat);
-     tcg_temp_free(src1);
 
