@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E808A4752E
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 16:27:59 +0200 (CEST)
-Received: from localhost ([::1]:40276 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B5B47536
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 16:33:56 +0200 (CEST)
+Received: from localhost ([::1]:40336 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcW8V-0003Ft-44
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 10:27:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34804)
+	id 1hcWEG-0007G4-6y
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 10:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34857)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lucienmp.qemu@gmail.com>) id 1hcW3k-0001B1-Au
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 10:23:07 -0400
+ (envelope-from <lucienmp.qemu@gmail.com>) id 1hcW3u-0001Cc-LH
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 10:23:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lucienmp.qemu@gmail.com>) id 1hcW3h-0006Vt-Oc
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 10:23:03 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:44583)
+ (envelope-from <lucienmp.qemu@gmail.com>) id 1hcW3s-0006dH-LY
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 10:23:14 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45055)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <lucienmp.qemu@gmail.com>)
- id 1hcW3f-0006S9-Oi
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 10:23:01 -0400
-Received: by mail-pg1-x544.google.com with SMTP id n2so4278578pgp.11
- for <qemu-devel@nongnu.org>; Sun, 16 Jun 2019 07:22:58 -0700 (PDT)
+ id 1hcW3m-0006V5-T8
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 10:23:08 -0400
+Received: by mail-pf1-x442.google.com with SMTP id t16so4199143pfe.11
+ for <qemu-devel@nongnu.org>; Sun, 16 Jun 2019 07:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:subject:message-id:mime-version:content-disposition
- :user-agent; bh=0MqVozo2FcpsM5UIMBcKfqeELOfw9A1xwN8au1paC1o=;
- b=Qh8slPvAwDndbnzbKXxO+ODFwVN8neMbx/0NSiR02tsHlhuwx4MRbenKMeszdEVRY4
- UKwfwLIBPvHM32gfUJWwT5qtHcwMaISUoWYJQ3UCeyXIPbrRpP91D3nwp/1CbXJoKC2s
- RvFB30QUH9YbWo8NQXaG8To4/aNRMIxUJxvM6S0wpGxvb435fp5EY99Rjf78wYXtws36
- rlWbnnSOb+fEuNDPeHydd3RWs9HY0EUyvGP1preqSSl5876sebgFcF6fz9y/bRjPG+Nc
- uZqCimhF3vo1WU9wTrXCCcRn0yzhUlX+aUnYdLpT1EZZNRvfe4DHxMNbW6WbkAEPb3+3
- VVvw==
+ :user-agent; bh=pTLXzvmTNkJlCECYYNnTKliz1T1gVwsPhad5qzAO5F4=;
+ b=Ormvmd0j8JCD7QYZFhw8HV4M30HoyArsFJDSo8AY7dOdsj+GDqYadb7DHsOfciV5yQ
+ J3n6dshTrzGeIWAM+Wqwv5twbCSj2WGCdl01FKuWfYWe9IrHW4JBUHlVKPEtMcDbcsSJ
+ vg06VS596RqVGqLg7wkm8i0G75V+uLKcDFoi7wtqqXLvQLevB/dgXum+jekknxHglNUi
+ nWOctMr4PbkPezjqipbDsBC5JAaNh/j+py5B0Ja1LTTBiOzVz+MzcOcYwjoNUKMtUaGQ
+ eUMi/G78uUuM6PYDtX5aFlUrN29VX2OcLSRwtRIS5xS7uKttMsNIumvd3UogR5wvnrID
+ keXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:subject:message-id:mime-version
  :content-disposition:user-agent;
- bh=0MqVozo2FcpsM5UIMBcKfqeELOfw9A1xwN8au1paC1o=;
- b=oFWG0VJqzu8Fq/6tJffrxv58/EpzRq3lztgOqcD9EB31s23Au/jwC3lmKBNcbjrJ6W
- RX3wskt3u9gxKRLbvTgifm5zYtexTIC2sakvYzbTVAhm7Ia97wapDYB4lHzzb1q1rARD
- YlM5mRrXO4VQITJkyyjCC2sSX25SrnsRU4At0kqcK/2xnlmB1u8/mJt/PduvKH04DovQ
- VrKG1ARzemBsOC7ygjXzPIGfp3MOQDxZDuvnTSsg3but/iVySs337UZcRn0ch9VK22bY
- Wiol7L2zJg/nKOQiGzIlyY394l8XzpumAISIZ6jX2wqrc3hEfg8X4LHlzYEP+BRVDIzH
- EqHA==
-X-Gm-Message-State: APjAAAVbIMA1DJFYCfFw8hRykmTgitJYFvBmQvzd7Zl06tSnkcJLJXsk
- 4VU5ZdlFGP0SLWvpqgnrquO+/vXY
-X-Google-Smtp-Source: APXvYqyVKgD85cMYVY16zofSLxOtj1ndyGR0zi229udhRKhObTmuJ71F1pO+TYI4JDbfVZK+zcECQw==
-X-Received: by 2002:a17:90a:cb87:: with SMTP id
- a7mr22012804pju.130.1560694977257; 
- Sun, 16 Jun 2019 07:22:57 -0700 (PDT)
+ bh=pTLXzvmTNkJlCECYYNnTKliz1T1gVwsPhad5qzAO5F4=;
+ b=FB9LVhihqboEPdYkoz6n6tiAZECIKACxV9wgLiKucpJ2EippME8POBVXDSBlgrhrvL
+ QiXF0nhy1V9a0U4F4MpCwtvTLckaWNBL40zQWih8jA1g5DcAWblSrTjEXfajZwhquZbx
+ oEIiIm+OEKoGod5OlVNty2m7rLqzPwLD16FBnUjGXc6GsT95MXrzUEV/4vy3IZxYTLC2
+ co4j8Meb6cGCM+t48NFV58ilEtp6QKeP2zrUFEc2sivya+NGV2y2WjNg0ooVBUAzDt+p
+ Bi2mB9D7/zLu5xDKL+4ZraWYgL9pXytFHqVv9QK7+ALIIF9zIED5BNs7RML1jxmt4fXt
+ PGXg==
+X-Gm-Message-State: APjAAAVj6FtRrjwbKnckp0wRaXxxcnceRVKY0SjY2Rl1N59+gbTaKmpQ
+ 8jXEkCfJnuvwDNhrhL+Vxz3sODEE
+X-Google-Smtp-Source: APXvYqxT9IBAaDQdAvCJaS9Bd8MY9mINL6Ujvo+gSYjHf79EZ8rEXkg4sJrSAc1LfdrfVObHxVWjCA==
+X-Received: by 2002:a17:90a:3603:: with SMTP id
+ s3mr4358605pjb.17.1560694980721; 
+ Sun, 16 Jun 2019 07:23:00 -0700 (PDT)
 Received: from localhost.localdomain (i60-43-49-30.s30.a048.ap.plala.or.jp.
  [60.43.49.30])
- by smtp.gmail.com with ESMTPSA id m41sm11779672pje.18.2019.06.16.07.22.55
+ by smtp.gmail.com with ESMTPSA id m19sm5898783pjl.0.2019.06.16.07.22.59
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sun, 16 Jun 2019 07:22:56 -0700 (PDT)
-Date: Sun, 16 Jun 2019 23:22:53 +0900
+ Sun, 16 Jun 2019 07:23:00 -0700 (PDT)
+Date: Sun, 16 Jun 2019 23:22:57 +0900
 From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 To: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
  Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
-Message-ID: <20190616142253.GA71203@localhost.localdomain>
+Message-ID: <20190616142257.GA71205@localhost.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH 2/6] Cascade m68k_features by
- m680xx_cpu_initfn() to improve readability
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH 3/6] Improved comments on m68k_move_to/from
+ helpers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,145 +82,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The m680XX_cpu_initfn functions have been rearranged to cascade starting from
-the base 68000, so that the 68010 then inherits from this, and so on until the
-68060.
-
-This makes it simpler to track features since in most cases the m68k were
-product enhancements on each other, with only a few instructions being retired.
-
-Because each cpu class inherits the previous CPU class, then for example
-the 68020 also has the feature 68010, and 68000 and so on upto the 68060.
-
-- Added 68010 cpu class, and moved correct features into 68000/68010.
-- Added m68k_unset_feature to allow removing a feature in the inheritence
-- Created real m68030_cpu_initfn to replace the macro define
-  for more obvious calling/future expansion
+Added more detailed comments to each case of m68k_move_to/from helpers to list
+the supported CPUs for that CR as they were wrong in some cases, and
+missing some cpu classes in other cases.
 
 Signed-off-by: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 ---
- target/m68k/cpu.c | 58 +++++++++++++++++++++++++++++------------------
- 1 file changed, 36 insertions(+), 22 deletions(-)
+ target/m68k/helper.c | 41 +++++++++++++++++++++++++++++++----------
+ 1 file changed, 31 insertions(+), 10 deletions(-)
 
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index cc770a8042..f3246d6e72 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -42,6 +42,11 @@ static void m68k_set_feature(CPUM68KState *env, int feature)
-     env->features |= (1u << feature);
- }
+diff --git a/target/m68k/helper.c b/target/m68k/helper.c
+index b0bb579403..5483ce9837 100644
+--- a/target/m68k/helper.c
++++ b/target/m68k/helper.c
+@@ -197,40 +197,47 @@ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+     M68kCPU *cpu = m68k_env_get_cpu(env);
  
-+static void m68k_unset_feature(CPUM68KState *env, int feature)
-+{
-+    env->features &= (-1u - (1u << feature));
-+}
-+
- /* CPUClass::reset() */
- static void m68k_cpu_reset(CPUState *s)
- {
-@@ -119,6 +124,21 @@ static void m68000_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_MOVEP);
- }
+     switch (reg) {
+-    /* MC680[1234]0 */
++    /* MC680[12346]0 */
+     case M68K_CR_SFC:
+         env->sfc = val & 7;
+         return;
++    /* MC680[12346]0 */
+     case M68K_CR_DFC:
+         env->dfc = val & 7;
+         return;
++    /* MC680[12346]0 */
+     case M68K_CR_VBR:
+         env->vbr = val;
+         return;
+-    /* MC680[234]0 */
++    /* MC680[2346]0 */
+     case M68K_CR_CACR:
+         env->cacr = val;
+         m68k_switch_sp(env);
+         return;
+-    /* MC680[34]0 */
++    /* MC680[46]0 */
+     case M68K_CR_TC:
+         env->mmu.tcr = val;
+         return;
++    /* MC680[4]0 */
+     case M68K_CR_MMUSR:
+         env->mmu.mmusr = val;
+         return;
++    /* MC680[46]0 */
+     case M68K_CR_SRP:
+         env->mmu.srp = val;
+         return;
+     case M68K_CR_URP:
+         env->mmu.urp = val;
+         return;
++    /* MC680[46]0 */
+     case M68K_CR_USP:
+         env->sp[M68K_USP] = val;
+         return;
++    /* MC680[234]0 */
+     case M68K_CR_MSP:
+         env->sp[M68K_SSP] = val;
+         return;
++    /* MC680[234]0 */
+     case M68K_CR_ISP:
+         env->sp[M68K_ISP] = val;
+         return;
+@@ -238,12 +245,15 @@ void HELPER(m68k_movec_to)(CPUM68KState *env, uint32_t reg, uint32_t val)
+     case M68K_CR_ITT0:
+         env->mmu.ttr[M68K_ITTR0] = val;
+         return;
++    /* MC68040/MC68LC040 */
+     case M68K_CR_ITT1:
+          env->mmu.ttr[M68K_ITTR1] = val;
+         return;
++    /* MC68040/MC68LC040 */
+     case M68K_CR_DTT0:
+         env->mmu.ttr[M68K_DTTR0] = val;
+         return;
++    /* MC68040/MC68LC040 */
+     case M68K_CR_DTT1:
+         env->mmu.ttr[M68K_DTTR1] = val;
+         return;
+@@ -257,39 +267,50 @@ uint32_t HELPER(m68k_movec_from)(CPUM68KState *env, uint32_t reg)
+     M68kCPU *cpu = m68k_env_get_cpu(env);
  
-+
-+/*
-+ * Adds BKPT, MOVE-from-SR *now priv instr, and MOVEC, MOVES, RTD
-+ */
-+static void m68010_cpu_initfn(Object *obj)
-+{
-+    M68kCPU *cpu = M68K_CPU(obj);
-+    CPUM68KState *env = &cpu->env;
-+
-+    m68000_cpu_initfn(obj);
-+    m68k_set_feature(env, M68K_FEATURE_RTD);
-+    m68k_set_feature(env, M68K_FEATURE_BKPT);
-+}
-+
-+
- /*
-  * Adds BFCHG, BFCLR, BFEXTS, BFEXTU, BFFFO, BFINS, BFSET, BFTST, CAS, CAS2,
-  *      CHK2, CMP2, DIVSL, DIVUL, EXTB, PACK, TRAPcc, UNPK.
-@@ -130,9 +150,7 @@ static void m68020_cpu_initfn(Object *obj)
-     M68kCPU *cpu = M68K_CPU(obj);
-     CPUM68KState *env = &cpu->env;
- 
--    m68k_set_feature(env, M68K_FEATURE_M68000);
--    m68k_set_feature(env, M68K_FEATURE_USP);
--    m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
-+    m68010_cpu_initfn(obj);
-     m68k_set_feature(env, M68K_FEATURE_QUAD_MULDIV);
-     m68k_set_feature(env, M68K_FEATURE_BRAL);
-     m68k_set_feature(env, M68K_FEATURE_BCCL);
-@@ -142,10 +160,7 @@ static void m68020_cpu_initfn(Object *obj)
-     m68k_set_feature(env, M68K_FEATURE_LONG_MULDIV);
-     m68k_set_feature(env, M68K_FEATURE_FPU);
-     m68k_set_feature(env, M68K_FEATURE_CAS);
--    m68k_set_feature(env, M68K_FEATURE_BKPT);
--    m68k_set_feature(env, M68K_FEATURE_RTD);
-     m68k_set_feature(env, M68K_FEATURE_CHK2);
--    m68k_set_feature(env, M68K_FEATURE_MOVEP);
- }
- 
- /*
-@@ -156,7 +171,14 @@ static void m68020_cpu_initfn(Object *obj)
-  * NOTES:
-  *  5. Not valid on MC68EC030
-  */
--#define m68030_cpu_initfn m68020_cpu_initfn
-+static void m68030_cpu_initfn(Object *obj)
-+{
-+    M68kCPU *cpu = M68K_CPU(obj);
-+    CPUM68KState *env = &cpu->env;
-+
-+    m68020_cpu_initfn(obj);
-+}
-+
- 
- /*
-  * Adds: CINV, CPUSH
-@@ -180,7 +202,7 @@ static void m68040_cpu_initfn(Object *obj)
-     M68kCPU *cpu = M68K_CPU(obj);
-     CPUM68KState *env = &cpu->env;
- 
--    m68020_cpu_initfn(obj);
-+    m68030_cpu_initfn(obj);
-     m68k_set_feature(env, M68K_FEATURE_M68040);
- }
- 
-@@ -200,20 +222,11 @@ static void m68060_cpu_initfn(Object *obj)
-     M68kCPU *cpu = M68K_CPU(obj);
-     CPUM68KState *env = &cpu->env;
- 
--    m68k_set_feature(env, M68K_FEATURE_M68000);
--    m68k_set_feature(env, M68K_FEATURE_USP);
--    m68k_set_feature(env, M68K_FEATURE_WORD_INDEX);
--    m68k_set_feature(env, M68K_FEATURE_BRAL);
--    m68k_set_feature(env, M68K_FEATURE_BCCL);
--    m68k_set_feature(env, M68K_FEATURE_BITFIELD);
--    m68k_set_feature(env, M68K_FEATURE_EXT_FULL);
--    m68k_set_feature(env, M68K_FEATURE_SCALED_INDEX);
--    m68k_set_feature(env, M68K_FEATURE_LONG_MULDIV);
--    m68k_set_feature(env, M68K_FEATURE_FPU);
--    m68k_set_feature(env, M68K_FEATURE_CAS);
--    m68k_set_feature(env, M68K_FEATURE_BKPT);
--    m68k_set_feature(env, M68K_FEATURE_RTD);
--    m68k_set_feature(env, M68K_FEATURE_CHK2);
-+    m68040_cpu_initfn(obj);
-+    m68k_unset_feature(env, M68K_FEATURE_MOVEP);
-+
-+    /* Implemented as a software feature */
-+    m68k_unset_feature(env, M68K_FEATURE_QUAD_MULDIV);
- }
- 
- static void m5208_cpu_initfn(Object *obj)
-@@ -350,6 +363,7 @@ static const TypeInfo m68k_cpus_type_infos[] = {
-         .class_init = m68k_cpu_class_init,
-     },
-     DEFINE_M68K_CPU_TYPE("m68000", m68000_cpu_initfn),
-+    DEFINE_M68K_CPU_TYPE("m68010", m68010_cpu_initfn),
-     DEFINE_M68K_CPU_TYPE("m68020", m68020_cpu_initfn),
-     DEFINE_M68K_CPU_TYPE("m68030", m68030_cpu_initfn),
-     DEFINE_M68K_CPU_TYPE("m68040", m68040_cpu_initfn),
+     switch (reg) {
+-    /* MC680[1234]0 */
++    /* MC680[12346]0 */
+     case M68K_CR_SFC:
+         return env->sfc;
++    /* MC680[12346]0 */
+     case M68K_CR_DFC:
+         return env->dfc;
++    /* MC680[12346]0 */
+     case M68K_CR_VBR:
+         return env->vbr;
+-    /* MC680[234]0 */
++    /* MC680[2346]0 */
+     case M68K_CR_CACR:
+         return env->cacr;
+-    /* MC680[34]0 */
++    /* MC680[46]0 */
+     case M68K_CR_TC:
+         return env->mmu.tcr;
++    /* MC680[4]0 */
+     case M68K_CR_MMUSR:
+         return env->mmu.mmusr;
++    /* MC680[46]0 */
+     case M68K_CR_SRP:
+         return env->mmu.srp;
++    /* MC680[46]0 */
+     case M68K_CR_USP:
+         return env->sp[M68K_USP];
++    /* MC680[234]0 */
+     case M68K_CR_MSP:
+         return env->sp[M68K_SSP];
++    /* MC680[234]0 */
+     case M68K_CR_ISP:
+         return env->sp[M68K_ISP];
+     /* MC68040/MC68LC040 */
+     case M68K_CR_URP:
+         return env->mmu.urp;
+-    case M68K_CR_ITT0:
++    /* MC68040/MC68LC040 */
++    case M68K_CR_ITT0: /* MC68EC040 only: M68K_CR_IACR0 */
+         return env->mmu.ttr[M68K_ITTR0];
+-    case M68K_CR_ITT1:
++    /* MC68040/MC68LC040 */
++    case M68K_CR_ITT1: /* MC68EC040 only: M68K_CR_IACR1 */
+         return env->mmu.ttr[M68K_ITTR1];
+-    case M68K_CR_DTT0:
++    /* MC68040/MC68LC040 */
++    case M68K_CR_DTT0: /* MC68EC040 only: M68K_CR_DACR0 */
+         return env->mmu.ttr[M68K_DTTR0];
+-    case M68K_CR_DTT1:
++    /* MC68040/MC68LC040 */
++    case M68K_CR_DTT1: /* MC68EC040 only: M68K_CR_DACR1 */
+         return env->mmu.ttr[M68K_DTTR1];
+     }
+     cpu_abort(CPU(cpu), "Unimplemented control register read 0x%x\n",
 -- 
 2.21.0
 
