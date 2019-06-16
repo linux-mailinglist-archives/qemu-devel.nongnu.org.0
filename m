@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F5147702
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 23:42:32 +0200 (CEST)
-Received: from localhost ([::1]:43056 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354DB476FB
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 23:39:28 +0200 (CEST)
+Received: from localhost ([::1]:43032 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hccv1-0003fB-IS
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 17:42:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40878)
+	id 1hccs2-0000G7-Qo
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 17:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40880)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hccox-0006bN-8n
+ (envelope-from <mst@redhat.com>) id 1hccox-0006bP-9o
  for qemu-devel@nongnu.org; Sun, 16 Jun 2019 17:36:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hccov-0006RG-Ct
+ (envelope-from <mst@redhat.com>) id 1hccov-0006RX-Cq
  for qemu-devel@nongnu.org; Sun, 16 Jun 2019 17:36:15 -0400
-Received: from mail-qk1-f175.google.com ([209.85.222.175]:35531)
+Received: from mail-qt1-f176.google.com ([209.85.160.176]:33757)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hccot-0006Cs-Di
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hccot-0006GA-Dm
  for qemu-devel@nongnu.org; Sun, 16 Jun 2019 17:36:12 -0400
-Received: by mail-qk1-f175.google.com with SMTP id l128so5072892qke.2
- for <qemu-devel@nongnu.org>; Sun, 16 Jun 2019 14:36:06 -0700 (PDT)
+Received: by mail-qt1-f176.google.com with SMTP id x2so8616310qtr.0
+ for <qemu-devel@nongnu.org>; Sun, 16 Jun 2019 14:36:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=GjdudgScqcT2JwEznXV6ustGvWLY2fKaQutIdckwO0k=;
- b=QLpZqVvqo8WlOXV4vxD1uCTvRlntgro7/TFrZ1Qw48jztRA/H1LNjVRyzKS2OWrGoO
- djftJ6VSN9MkZEZZQ7prqfCujfLywJeMtkIPJgMXAI5/OkNZ55DdFMjESTFuG8wKpove
- Fxiy6RJhbFSzm8cjHiUojNW96Pp4rRztl81sJeA0OtZdHNYaMluHLPSAGnF3IQQZwaOy
- B1byGnUM7DgdMaDCDWf4VntIjIq9a7KT9ucpDX67ppL+voWGkz4ttKAbkX9NSyl7UZx+
- LvXIm7PZbGOwlcKgLCfE+c4EoXWoc0EUHnpiQnae/wAEpIFVlmKv1gm5k6kFYSm4jcGM
- 8OTw==
-X-Gm-Message-State: APjAAAXYlmy9+nc8cvIEXF88Z3LNKbBirqLKRI8NECO677gA6y6N7+5T
- LaRoqAGJqQRUBbjRuGG6Tb8iERKNeiQ=
-X-Google-Smtp-Source: APXvYqxy6iQQ1aLDIEH2dPXjuTAT9opgx4SlkxDl6CQL1J+xW2Qac1sZO5IkcKYVv9hjFNOo71qM3w==
-X-Received: by 2002:a05:620a:12c4:: with SMTP id
- e4mr35384017qkl.81.1560720965189; 
- Sun, 16 Jun 2019 14:36:05 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=sOzxjaxXZhFIM4T7ykCmJFzLsbhwbAgdv3UhWRHjuOw=;
+ b=l+KjJ2jgxZnKRzEM4S0uMdfHgmC7RpCmIPmPW4dHWfOsf0ZsoPy9jJCOu8qYrIy4To
+ RsDdIHxMU1syiHQbKnXyTd1tDF7+16vL2F6jyit93XV3EisyJAt1R64l4xodqvjjpt6f
+ igy0E2o1EFUBPPgm32vfE9LgH20tJW0d65Qg5UISth0E9sJHkFugMn6QpD8AV866A1+E
+ rMT9wqGBcidTan4JbAxtpHrjPWNFPLgfOzBsA0z4tBGjh/shBCkCr/LqpJdVM7atPsyh
+ 2S6l/pS0CLn5RTVq04sHaV9R4F3rdxptXb6SMusivYcQEN+ihpVIcBto/J+xbpUS6pUr
+ osSg==
+X-Gm-Message-State: APjAAAX6PE5i5uLWERQJCcr1jnVruyPMPvbfeqkReioXQBmWd25TuiIO
+ c+Tp6H/e7XQr4hyllXuH+mqpDXDzyDA=
+X-Google-Smtp-Source: APXvYqwJiyMF0pB/UPwgGzQYWpfDODvogzRm4LgSkzn+KwVNtpWnYhmf6BSHUkTuo6HmihP2vm8hww==
+X-Received: by 2002:a0c:fd64:: with SMTP id k4mr18321611qvs.143.1560720967151; 
+ Sun, 16 Jun 2019 14:36:07 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
  [100.0.197.103])
- by smtp.gmail.com with ESMTPSA id v186sm5535290qkc.36.2019.06.16.14.36.03
+ by smtp.gmail.com with ESMTPSA id 47sm2541350qtw.90.2019.06.16.14.36.06
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sun, 16 Jun 2019 14:36:04 -0700 (PDT)
-Date: Sun, 16 Jun 2019 17:36:02 -0400
+ Sun, 16 Jun 2019 14:36:06 -0700 (PDT)
+Date: Sun, 16 Jun 2019 17:36:05 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190616213540.20430-1-mst@redhat.com>
+Message-ID: <20190605145829.7674-2-marcandre.lureau@redhat.com>
+References: <20190616213540.20430-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190616213540.20430-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.222.175
-Subject: [Qemu-devel] [PULL 00/11] virtio, acpi: fixes, cleanups
+X-Received-From: 209.85.160.176
+Subject: [Qemu-devel] [PULL 01/11] vhost-user-gpu: do not send scanout
+ update if no GPU socket
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,72 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f3d0bec9f80e4ed7796fffa834ba0a53f2094f7f:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-  Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-06-14' into staging (2019-06-14 14:46:13 +0100)
+Should fix coverity CID 1401760.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 5f6b3561bf58395fd6c906d7064a1a5693a2e426:
-
-  tests/rebuild-expected-aml.sh: blow out difflist (2019-06-16 16:44:44 -0400)
-
-----------------------------------------------------------------
-virtio, acpi: fixes, cleanups
-
-A bunch of minor fixes all over the place.
-
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20190605145829.7674-2-marcandre.lureau@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ contrib/vhost-user-gpu/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Gerd Hoffmann (1):
-      q35: fix mmconfig and PCI0._CRS
-
-Li Hangjing (1):
-      vhost: fix vhost_log size overflow during migration
-
-Marc-André Lureau (6):
-      vhost-user-gpu: do not send scanout update if no GPU socket
-      vhost-user: check unix_listen() return value
-      vhost-user: improve error report
-      vhost-user-input: check ioctl(EVIOCGNAME) return value
-      vhost-user-gpu: initialize msghdr & iov at declaration
-      docs/vhost-user.json: some firmware.json copy leftovers
-
-Michael S. Tsirkin (2):
-      q35: update DSDT
-      tests/rebuild-expected-aml.sh: blow out difflist
-
-Wei Yang (1):
-      hw/acpi: extract acpi_add_rom_blob()
-
- docs/interop/vhost-user.json            |   6 ++---
- include/hw/acpi/utils.h                 |   9 +++++++
- contrib/vhost-user-gpu/main.c           |  29 +++++++++++------------
- contrib/vhost-user-input/main.c         |  12 ++++++++--
- hw/acpi/utils.c                         |  35 ++++++++++++++++++++++++++++
- hw/arm/virt-acpi-build.c                |  26 ++++++++-------------
- hw/i386/acpi-build.c                    |  40 +++++++++++++++++++-------------
- hw/pci-host/q35.c                       |  31 +++++++------------------
- hw/virtio/vhost.c                       |  10 ++++++++
- hw/acpi/Makefile.objs                   |   2 +-
- tests/data/acpi/q35/DSDT                | Bin 7815 -> 7841 bytes
- tests/data/acpi/q35/DSDT.bridge         | Bin 7832 -> 7858 bytes
- tests/data/acpi/q35/DSDT.cphp           | Bin 8278 -> 8304 bytes
- tests/data/acpi/q35/DSDT.dimmpxm        | Bin 9468 -> 9494 bytes
- tests/data/acpi/q35/DSDT.ipmibt         | Bin 7890 -> 7916 bytes
- tests/data/acpi/q35/DSDT.memhp          | Bin 9174 -> 9200 bytes
- tests/data/acpi/q35/DSDT.mmio64         | Bin 8945 -> 8971 bytes
- tests/data/acpi/q35/DSDT.numamem        | Bin 7821 -> 7847 bytes
- tests/data/acpi/rebuild-expected-aml.sh |   3 +++
- 19 files changed, 127 insertions(+), 76 deletions(-)
- create mode 100644 include/hw/acpi/utils.h
- create mode 100644 hw/acpi/utils.c
+diff --git a/contrib/vhost-user-gpu/main.c b/contrib/vhost-user-gpu/main.c
+index f9e2146b69..9614c9422c 100644
+--- a/contrib/vhost-user-gpu/main.c
++++ b/contrib/vhost-user-gpu/main.c
+@@ -354,7 +354,7 @@ vg_disable_scanout(VuGpu *g, int scanout_id)
+     scanout->width = 0;
+     scanout->height = 0;
+ 
+-    {
++    if (g->sock_fd >= 0) {
+         VhostUserGpuMsg msg = {
+             .request = VHOST_USER_GPU_SCANOUT,
+             .size = sizeof(VhostUserGpuScanout),
+-- 
+MST
 
 
