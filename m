@@ -2,87 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45B0D47490
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 14:54:50 +0200 (CEST)
-Received: from localhost ([::1]:39556 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CB8474A6
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 15:22:19 +0200 (CEST)
+Received: from localhost ([::1]:39791 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcUgL-000720-GO
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 08:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42540)
+	id 1hcV6w-0005Jv-5m
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 09:22:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51487)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liran.alon@oracle.com>) id 1hcUQy-0004f4-O8
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 08:38:59 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hcV42-00044m-Jf
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 09:19:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1hcUQw-0006Yw-Sk
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 08:38:56 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:57990)
+ (envelope-from <no-reply@patchew.org>) id 1hcV40-00035p-Cm
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 09:19:18 -0400
+Resent-Date: Sun, 16 Jun 2019 09:19:17 -0400
+Resent-Message-Id: <E1hcV40-00035p-Cm@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21483)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1hcUQs-0006RE-K1
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 08:38:51 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5GCYR2B008802;
- Sun, 16 Jun 2019 12:38:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2018-07-02; bh=qzGXbjFn5zI6OSffTTDx2HepLTG/Iyke6og0UqZIuwo=;
- b=RyWTlxDYCEzJlLRZrwbLMEvKC9CNw+EIqh7KSn//vyzw8LlIfel+di7Z3ihHXepJPLvL
- RGMDZYgfj+kWQrEDH1Cyb3VUQHZsb547eDq0SiAeVGEVymgk02SKmmH/XPuSvXKEjlfa
- vQ9Zf2Tibg8MdXPUGLfj9eYUEqVPr8JLEzv3WopgURQT4/ziigQnWI7M1Rj3bonCRVK8
- SRe1XumNOe9KllkfAwlnuNO9SGhMknhZxZ3H+RZfGN8dbtOUb6eQT2l9i+cGPWE4uSBd
- jkw50dFdJvQ+F07Q4Hpk2S+12uLdqW3iMZWUdRQ3hOgqv7/yMyOYLUdc+Ow3akEPSB+z Jg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2t4rmntvkf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 16 Jun 2019 12:38:41 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5GCcLAI194875;
- Sun, 16 Jun 2019 12:38:41 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 2t5mgb0ew2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 16 Jun 2019 12:38:41 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5GCce0E005232;
- Sun, 16 Jun 2019 12:38:40 GMT
-Received: from [10.0.5.57] (/213.57.127.10)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 16 Jun 2019 05:38:40 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
-From: Liran Alon <liran.alon@oracle.com>
-In-Reply-To: <EB7EDEC6-BD44-460E-B7B2-29060631E4FF@oracle.com>
-Date: Sun, 16 Jun 2019 15:38:37 +0300
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <0144E234-98F2-4D05-B2AB-8DA23E418D46@oracle.com>
-References: <20190615004256.16367-1-pbonzini@redhat.com>
- <20190615004256.16367-4-pbonzini@redhat.com>
- <EB7EDEC6-BD44-460E-B7B2-29060631E4FF@oracle.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-X-Mailer: Apple Mail (2.3445.4.7)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9289
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906160123
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9289
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906160122
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: Re: [Qemu-devel] [PATCH 3/7] KVM: i386: Add support for
- KVM_CAP_EXCEPTION_PAYLOAD
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hcV3z-0002xS-SG; Sun, 16 Jun 2019 09:19:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560691101; cv=none; d=zoho.com; s=zohoarc; 
+ b=lP9s6RnMP6Af4np2PAhKEkrOQWgvlYuudGJyo+8bhjSg1xXx/9KlnTADF8wnBCFNjMsvRuB5ZeJCq1WuGMgxbkJMH8dpK3IOnUbzzFWcaICjp3SFcRcqoIrd+IA1h0O2ti20iChqnsJ3dyjWm61yCieh2GgG+tSQFWziUpjGj50=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1560691101;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=/nMvqUOKJhMCs5Lhe0jJWGxUUFbvT4RN6UwSnNZglqE=; 
+ b=HI7L9SiWPM4edpWhrzX5Jx5qh3+TFdTxIelECvWsu4gyqWBIvIZ3BKJ6TyWvWnTl5epAU0MbaLONU8wF6xfajiN5twM3LpMyF8D51GEghyQhZCr+HueT6gQJ4d0+IOr5vVJiUKTgzTP+lYH3WwxmK1BHQP+8OcrwdWL2M2G+wo4=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1560691099564533.8398632567064;
+ Sun, 16 Jun 2019 06:18:19 -0700 (PDT)
+In-Reply-To: <20190616123751.781-1-mark.cave-ayland@ilande.co.uk>
+Message-ID: <156069109845.13573.5344551317449916246@ce79690b2cb9>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: mark.cave-ayland@ilande.co.uk
+Date: Sun, 16 Jun 2019 06:18:19 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH v3 00/15] target/ppc: remove
+ getVSR()/putVSR() and further tidy-up
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,77 +61,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maran Wilson <maran.wilson@oracle.com>, qemu-devel@nongnu.org,
- Nikita Leshenko <nikita.leshchenko@oracle.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: gkurz@kaod.org, rth@twiddle.net, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> On 15 Jun 2019, at 3:57, Liran Alon <liran.alon@oracle.com> wrote:
->=20
->> On 15 Jun 2019, at 3:42, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>=20
->> From: Liran Alon <liran.alon@oracle.com>
->>=20
->> +static bool is_vmx_enabled(CPUX86State *env)
->> +{
->> +    return (IS_INTEL_CPU(env) && (env->cr[4] & CR4_VMXE_MASK));
->> +}
->> +
->> +static bool is_svm_enabled(CPUX86State *env)
->> +{
->> +    return (IS_AMD_CPU(env) && (env->efer & MSR_EFER_SVME));
->> +}
->> +
->> +static bool is_nested_virt_enabled(CPUX86State *env)
->> +{
->> +    return (is_vmx_enabled(env) || is_svm_enabled(env));
->> +}
->=20
-> I have later realised that this nested_virt_enabled() function is not =
-enough to determine if nested_state is required to be sent.
-> This is because it may be that vCPU is running L2 but have momentarily =
-entered SMM due to SMI.
-> In this case, CR4 & MSR_EFER are saved in SMRAM and are set to 0 on =
-entering to SMM.
-> This means that in case (env->hflags & HF_SMM_MASK), we theoretically =
-should have read saved CR4 & MSR_EFER from SMRAM.
-> However, because we cannot reference guest memory at this point (Not =
-valid in case we migrate guest in post-copy), I should change
-> code to assume that in case (env->hflags & HF_SMM_MASK), we need to =
-assume that nested-state is needed.
-> This should break backwards-compatability migration only in very rare =
-cases and therefore I think it should be sufficient.
-> Any objections to this idea?
->=20
-
-Actually, this is even worse than I originally thought.
-Even in case guest is not currently in SMM mode, if it=E2=80=99s in VMX =
-non-root mode, the CR4 read here is L2 CR4. Not L1 CR4.
-Therefore, CR4.VMXE doesn=E2=80=99t necessarily indicate if guest have =
-nested-virtualization enabled. Same is true for MSR_EFER in case of SVM.
-
-Putting this all together, in case kernel doesn=E2=80=99t support =
-extracting nested-state, there is no decent way to know if guest is =
-running nested-virtualization.
-Which means that in theory we always need to fail migration in case =
-kernel doesn=E2=80=99t support KVM_CAP_NESTED_STATE or =
-KVM_CAP_EXCEPTION_PAYLOAD
-and vCPU is exposed with VMX/SVM capability.
-
-I can condition this behaviour with a flag that can be manipulated using =
-QMP to allow user to indicate it wishes to migrate guest anyway in this =
-case.
-This however bring me back to the entire discussion I had with Dr. David =
-Alan Gilbert on migration backwards compatibility in general and the =
-fact that I believe
-we should have a generic QMP command which allows to provide list of =
-VMState subsections that can be ignored in migration=E2=80=A6
-See: https://www.mail-archive.com/qemu-devel@nongnu.org/msg622274.html
-
-Paolo, What are your thoughts on how I would proceed with this?
-
--Liran
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxNjEyMzc1MS43ODEt
+MS1tYXJrLmNhdmUtYXlsYW5kQGlsYW5kZS5jby51ay8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
+cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
+cgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2MyAwMC8x
+NV0gdGFyZ2V0L3BwYzogcmVtb3ZlIGdldFZTUigpL3B1dFZTUigpIGFuZCBmdXJ0aGVyIHRpZHkt
+dXAKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwNjE2MTIzNzUxLjc4MS0xLW1hcmsuY2F2
+ZS1heWxhbmRAaWxhbmRlLmNvLnVrCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
+YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
+IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
+dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0
+YWddICAgICAgICAgICAgICAgcGF0Y2hldy8yMDE5MDYxNjEyMzc1MS43ODEtMS1tYXJrLmNhdmUt
+YXlsYW5kQGlsYW5kZS5jby51ayAtPiBwYXRjaGV3LzIwMTkwNjE2MTIzNzUxLjc4MS0xLW1hcmsu
+Y2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcK
+Y2YyMTVmMDIxMSB0YXJnZXQvcHBjOiBpbXByb3ZlIFZTWF9GTUFERCB3aXRoIG5ldyBHRU5fVlNY
+X0hFTFBFUl9WU1hfTUFERCBtYWNybwo2MTgxYzA3MmMwIHRhcmdldC9wcGM6IGRlY29kZSB0YXJn
+ZXQgcmVnaXN0ZXIgaW4gVlNYX0VYVFJBQ1RfSU5TRVJUIGF0IHRyYW5zbGF0aW9uIHRpbWUKMTcy
+YmRjNGUyOSB0YXJnZXQvcHBjOiBkZWNvZGUgdGFyZ2V0IHJlZ2lzdGVyIGluIFZTWF9WRUNUT1Jf
+TE9BRF9TVE9SRV9MRU5HVEggYXQgdHJhbnNsYXRpb24gdGltZQoxNGNhMmVlZGZmIHRhcmdldC9w
+cGM6IGludHJvZHVjZSBHRU5fVlNYX0hFTFBFUl9SMl9BQiBtYWNybyB0byBmcHVfaGVscGVyLmMK
+ZTJjNDRmMDc5OSB0YXJnZXQvcHBjOiBpbnRyb2R1Y2UgR0VOX1ZTWF9IRUxQRVJfUjIgbWFjcm8g
+dG8gZnB1X2hlbHBlci5jCjJmNzllZDlhOWEgdGFyZ2V0L3BwYzogaW50cm9kdWNlIEdFTl9WU1hf
+SEVMUEVSX1IzIG1hY3JvIHRvIGZwdV9oZWxwZXIuYwoxN2FiZGNiNDg5IHRhcmdldC9wcGM6IGlu
+dHJvZHVjZSBHRU5fVlNYX0hFTFBFUl9YMSBtYWNybyB0byBmcHVfaGVscGVyLmMKMjA5MDI1ODYy
+NCB0YXJnZXQvcHBjOiBpbnRyb2R1Y2UgR0VOX1ZTWF9IRUxQRVJfWDJfQUIgbWFjcm8gdG8gZnB1
+X2hlbHBlci5jCjAxOTU4Njk0NDAgdGFyZ2V0L3BwYzogaW50cm9kdWNlIEdFTl9WU1hfSEVMUEVS
+X1gyIG1hY3JvIHRvIGZwdV9oZWxwZXIuYwpkYWNmNjUwZjYyIHRhcmdldC9wcGM6IGludHJvZHVj
+ZSBzZXBhcmF0ZSBnZW5lcmF0b3IgYW5kIGhlbHBlciBmb3IgeHNjdnFwZHAKODI3NGQxZGRkMyB0
+YXJnZXQvcHBjOiBpbnRyb2R1Y2UgR0VOX1ZTWF9IRUxQRVJfWDMgbWFjcm8gdG8gZnB1X2hlbHBl
+ci5jCjI1NjA1ZjJjYjYgdGFyZ2V0L3BwYzogaW50cm9kdWNlIHNlcGFyYXRlIFZTWF9DTVAgbWFj
+cm8gZm9yIHh2Y21wKiBpbnN0cnVjdGlvbnMKYjg3NzgzYWRlMyB0YXJnZXQvcHBjOiByZW1vdmUg
+Z2V0VlNSKCkvcHV0VlNSKCkgZnJvbSBpbnRfaGVscGVyLmMKMjdmODViYTdmNyB0YXJnZXQvcHBj
+OiByZW1vdmUgZ2V0VlNSKCkvcHV0VlNSKCkgZnJvbSBtZW1faGVscGVyLmMKYzExY2YyNDY3ZCB0
+YXJnZXQvcHBjOiByZW1vdmUgZ2V0VlNSKCkvcHV0VlNSKCkgZnJvbSBmcHVfaGVscGVyLmMKCj09
+PSBPVVRQVVQgQkVHSU4gPT09CjEvMTUgQ2hlY2tpbmcgY29tbWl0IGMxMWNmMjQ2N2QzMyAodGFy
+Z2V0L3BwYzogcmVtb3ZlIGdldFZTUigpL3B1dFZTUigpIGZyb20gZnB1X2hlbHBlci5jKQoyLzE1
+IENoZWNraW5nIGNvbW1pdCAyN2Y4NWJhN2Y3Y2UgKHRhcmdldC9wcGM6IHJlbW92ZSBnZXRWU1Io
+KS9wdXRWU1IoKSBmcm9tIG1lbV9oZWxwZXIuYykKMy8xNSBDaGVja2luZyBjb21taXQgYjg3Nzgz
+YWRlM2Y3ICh0YXJnZXQvcHBjOiByZW1vdmUgZ2V0VlNSKCkvcHV0VlNSKCkgZnJvbSBpbnRfaGVs
+cGVyLmMpCjQvMTUgQ2hlY2tpbmcgY29tbWl0IDI1NjA1ZjJjYjZhZiAodGFyZ2V0L3BwYzogaW50
+cm9kdWNlIHNlcGFyYXRlIFZTWF9DTVAgbWFjcm8gZm9yIHh2Y21wKiBpbnN0cnVjdGlvbnMpCjUv
+MTUgQ2hlY2tpbmcgY29tbWl0IDgyNzRkMWRkZDM3ZiAodGFyZ2V0L3BwYzogaW50cm9kdWNlIEdF
+Tl9WU1hfSEVMUEVSX1gzIG1hY3JvIHRvIGZwdV9oZWxwZXIuYykKNi8xNSBDaGVja2luZyBjb21t
+aXQgZGFjZjY1MGY2MmUyICh0YXJnZXQvcHBjOiBpbnRyb2R1Y2Ugc2VwYXJhdGUgZ2VuZXJhdG9y
+IGFuZCBoZWxwZXIgZm9yIHhzY3ZxcGRwKQo3LzE1IENoZWNraW5nIGNvbW1pdCAwMTk1ODY5NDQw
+ZGIgKHRhcmdldC9wcGM6IGludHJvZHVjZSBHRU5fVlNYX0hFTFBFUl9YMiBtYWNybyB0byBmcHVf
+aGVscGVyLmMpCjgvMTUgQ2hlY2tpbmcgY29tbWl0IDIwOTAyNTg2MjQwMSAodGFyZ2V0L3BwYzog
+aW50cm9kdWNlIEdFTl9WU1hfSEVMUEVSX1gyX0FCIG1hY3JvIHRvIGZwdV9oZWxwZXIuYykKOS8x
+NSBDaGVja2luZyBjb21taXQgMTdhYmRjYjQ4OTM1ICh0YXJnZXQvcHBjOiBpbnRyb2R1Y2UgR0VO
+X1ZTWF9IRUxQRVJfWDEgbWFjcm8gdG8gZnB1X2hlbHBlci5jKQoxMC8xNSBDaGVja2luZyBjb21t
+aXQgMmY3OWVkOWE5YWZmICh0YXJnZXQvcHBjOiBpbnRyb2R1Y2UgR0VOX1ZTWF9IRUxQRVJfUjMg
+bWFjcm8gdG8gZnB1X2hlbHBlci5jKQoxMS8xNSBDaGVja2luZyBjb21taXQgZTJjNDRmMDc5OTI4
+ICh0YXJnZXQvcHBjOiBpbnRyb2R1Y2UgR0VOX1ZTWF9IRUxQRVJfUjIgbWFjcm8gdG8gZnB1X2hl
+bHBlci5jKQoxMi8xNSBDaGVja2luZyBjb21taXQgMTRjYTJlZWRmZjljICh0YXJnZXQvcHBjOiBp
+bnRyb2R1Y2UgR0VOX1ZTWF9IRUxQRVJfUjJfQUIgbWFjcm8gdG8gZnB1X2hlbHBlci5jKQoxMy8x
+NSBDaGVja2luZyBjb21taXQgMTcyYmRjNGUyOTUyICh0YXJnZXQvcHBjOiBkZWNvZGUgdGFyZ2V0
+IHJlZ2lzdGVyIGluIFZTWF9WRUNUT1JfTE9BRF9TVE9SRV9MRU5HVEggYXQgdHJhbnNsYXRpb24g
+dGltZSkKMTQvMTUgQ2hlY2tpbmcgY29tbWl0IDYxODFjMDcyYzAwOSAodGFyZ2V0L3BwYzogZGVj
+b2RlIHRhcmdldCByZWdpc3RlciBpbiBWU1hfRVhUUkFDVF9JTlNFUlQgYXQgdHJhbnNsYXRpb24g
+dGltZSkKMTUvMTUgQ2hlY2tpbmcgY29tbWl0IGNmMjE1ZjAyMTFmMiAodGFyZ2V0L3BwYzogaW1w
+cm92ZSBWU1hfRk1BREQgd2l0aCBuZXcgR0VOX1ZTWF9IRUxQRVJfVlNYX01BREQgbWFjcm8pCldB
+Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5l
+CiMyNzk6IEZJTEU6IHRhcmdldC9wcGMvdHJhbnNsYXRlL3ZzeC1pbXBsLmluYy5jOjEzMTI6Cisg
+ICAgICAgIC8qICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBcCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFk
+aW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojMjg1OiBGSUxFOiB0YXJnZXQvcHBjL3RyYW5zbGF0
+ZS92c3gtaW1wbC5pbmMuYzoxMzE4OgorICAgICAgICAvKiAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXAoKRVJST1I6IE1h
+Y3JvcyB3aXRoIGNvbXBsZXggdmFsdWVzIHNob3VsZCBiZSBlbmNsb3NlZCBpbiBwYXJlbnRoZXNp
+cwojMzI2OiBGSUxFOiB0YXJnZXQvcHBjL3RyYW5zbGF0ZS92c3gtb3BzLmluYy5jOjY2OgorI2Rl
+ZmluZSBHRU5fWFgzRk9STV9OQU1FKG5hbWUsIG9wY25hbWUsIG9wYzIsIG9wYzMsIGZsMikgICAg
+ICAgICAgICAgICBcCitHRU5fSEFORExFUjJfRShuYW1lLCBvcGNuYW1lLCAweDNDLCBvcGMyIHwg
+MCwgb3BjMywgMCwgUFBDX05PTkUsIGZsMiksIFwKK0dFTl9IQU5ETEVSMl9FKG5hbWUsIG9wY25h
+bWUsIDB4M0MsIG9wYzIgfCAxLCBvcGMzLCAwLCBQUENfTk9ORSwgZmwyKSwgXAorR0VOX0hBTkRM
+RVIyX0UobmFtZSwgb3BjbmFtZSwgMHgzQywgb3BjMiB8IDIsIG9wYzMsIDAsIFBQQ19OT05FLCBm
+bDIpLCBcCitHRU5fSEFORExFUjJfRShuYW1lLCBvcGNuYW1lLCAweDNDLCBvcGMyIHwgMywgb3Bj
+MywgMCwgUFBDX05PTkUsIGZsMikKCnRvdGFsOiAxIGVycm9ycywgMiB3YXJuaW5ncywgMzc3IGxp
+bmVzIGNoZWNrZWQKClBhdGNoIDE1LzE1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmll
+dy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhl
+bSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0g
+T1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1
+bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDYxNjEy
+Mzc1MS43ODEtMS1tYXJrLmNhdmUtYXlsYW5kQGlsYW5kZS5jby51ay90ZXN0aW5nLmNoZWNrcGF0
+Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
+dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
+byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
 
