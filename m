@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354DB476FB
-	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 23:39:28 +0200 (CEST)
-Received: from localhost ([::1]:43032 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB255476FE
+	for <lists+qemu-devel@lfdr.de>; Sun, 16 Jun 2019 23:39:43 +0200 (CEST)
+Received: from localhost ([::1]:43038 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hccs2-0000G7-Qo
-	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 17:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40880)
+	id 1hccsJ-0000rT-53
+	for lists+qemu-devel@lfdr.de; Sun, 16 Jun 2019 17:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40882)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hccox-0006bP-9o
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 17:36:16 -0400
+ (envelope-from <mst@redhat.com>) id 1hccox-0006bT-AW
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 17:36:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hccov-0006RX-Cq
+ (envelope-from <mst@redhat.com>) id 1hccov-0006RN-DF
  for qemu-devel@nongnu.org; Sun, 16 Jun 2019 17:36:15 -0400
-Received: from mail-qt1-f176.google.com ([209.85.160.176]:33757)
+Received: from mail-qt1-f177.google.com ([209.85.160.177]:46222)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hccot-0006GA-Dm
- for qemu-devel@nongnu.org; Sun, 16 Jun 2019 17:36:12 -0400
-Received: by mail-qt1-f176.google.com with SMTP id x2so8616310qtr.0
- for <qemu-devel@nongnu.org>; Sun, 16 Jun 2019 14:36:07 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hccou-0006KP-73
+ for qemu-devel@nongnu.org; Sun, 16 Jun 2019 17:36:13 -0400
+Received: by mail-qt1-f177.google.com with SMTP id h21so8524712qtn.13
+ for <qemu-devel@nongnu.org>; Sun, 16 Jun 2019 14:36:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=sOzxjaxXZhFIM4T7ykCmJFzLsbhwbAgdv3UhWRHjuOw=;
- b=l+KjJ2jgxZnKRzEM4S0uMdfHgmC7RpCmIPmPW4dHWfOsf0ZsoPy9jJCOu8qYrIy4To
- RsDdIHxMU1syiHQbKnXyTd1tDF7+16vL2F6jyit93XV3EisyJAt1R64l4xodqvjjpt6f
- igy0E2o1EFUBPPgm32vfE9LgH20tJW0d65Qg5UISth0E9sJHkFugMn6QpD8AV866A1+E
- rMT9wqGBcidTan4JbAxtpHrjPWNFPLgfOzBsA0z4tBGjh/shBCkCr/LqpJdVM7atPsyh
- 2S6l/pS0CLn5RTVq04sHaV9R4F3rdxptXb6SMusivYcQEN+ihpVIcBto/J+xbpUS6pUr
- osSg==
-X-Gm-Message-State: APjAAAX6PE5i5uLWERQJCcr1jnVruyPMPvbfeqkReioXQBmWd25TuiIO
- c+Tp6H/e7XQr4hyllXuH+mqpDXDzyDA=
-X-Google-Smtp-Source: APXvYqwJiyMF0pB/UPwgGzQYWpfDODvogzRm4LgSkzn+KwVNtpWnYhmf6BSHUkTuo6HmihP2vm8hww==
-X-Received: by 2002:a0c:fd64:: with SMTP id k4mr18321611qvs.143.1560720967151; 
- Sun, 16 Jun 2019 14:36:07 -0700 (PDT)
+ bh=00yzs/UwVMBqV92C7ahHjaCs0pzMzmJtSS1nb+Ejwpo=;
+ b=k9P9vIRWWzyKunmyD6YfANKTJh5SW04AsEWOzIEZpH2RSq3+VDCq7FysgO1lwPh1ht
+ 1VB0HjRCAsp+DiI6FvjTAkaULW7NIlw+IrDfHaKEvoqXpGb34QizEL+NKH6Ry/fCaOWa
+ IUlbgFy4dx8ht3et8SHP88VwJ2EqV4szVCBCP6LJ9rmTqyv8s7QwavRpoPlXKXm9uq//
+ xIsCcsSaSCkgraZYk+ZzUTYtT/9LE3Txptji3DAY5COjeJivVyykOgTS4EJNzBbfFKIH
+ xj4ejfciAkrzrbcVcPZwhvKte/k95kTT1DUt/niJ4c8z9OSCDJ9YaL6M0SSLDZX/yeDo
+ vBJw==
+X-Gm-Message-State: APjAAAX7DLG67GqvXosllxrVHgWju+e5tFJ7uJVqm1W/8b18ExWwCNPy
+ 7Au7HgmEN+dpN6FlpnF2l5OaBBnbcDc=
+X-Google-Smtp-Source: APXvYqzsLqFj6gjzOfBCgZmrmeP+ykJ9UyAaSwvvOVXoYl/XIMlSj6BpUwvk0vJDttXkv6wUsnNAkQ==
+X-Received: by 2002:a0c:d0ab:: with SMTP id z40mr18638665qvg.216.1560720968880; 
+ Sun, 16 Jun 2019 14:36:08 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
  [100.0.197.103])
- by smtp.gmail.com with ESMTPSA id 47sm2541350qtw.90.2019.06.16.14.36.06
+ by smtp.gmail.com with ESMTPSA id g53sm5547091qtk.65.2019.06.16.14.36.07
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Sun, 16 Jun 2019 14:36:06 -0700 (PDT)
-Date: Sun, 16 Jun 2019 17:36:05 -0400
+ Sun, 16 Jun 2019 14:36:08 -0700 (PDT)
+Date: Sun, 16 Jun 2019 17:36:07 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190605145829.7674-2-marcandre.lureau@redhat.com>
+Message-ID: <20190605145829.7674-3-marcandre.lureau@redhat.com>
 References: <20190616213540.20430-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -58,9 +58,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.160.176
-Subject: [Qemu-devel] [PULL 01/11] vhost-user-gpu: do not send scanout
- update if no GPU socket
+X-Received-From: 209.85.160.177
+Subject: [Qemu-devel] [PULL 02/11] vhost-user: check unix_listen() return
+ value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,29 +79,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Should fix coverity CID 1401760.
+This check shouldn't be necessary, since &error_fatal is given as
+argument and will exit() on failure. However, this change should
+silence coverity CID 1401761 & 1401705.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20190605145829.7674-2-marcandre.lureau@redhat.com>
+Message-Id: <20190605145829.7674-3-marcandre.lureau@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- contrib/vhost-user-gpu/main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ contrib/vhost-user-gpu/main.c   | 4 ++++
+ contrib/vhost-user-input/main.c | 4 ++++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/contrib/vhost-user-gpu/main.c b/contrib/vhost-user-gpu/main.c
-index f9e2146b69..9614c9422c 100644
+index 9614c9422c..e0b6df5b4d 100644
 --- a/contrib/vhost-user-gpu/main.c
 +++ b/contrib/vhost-user-gpu/main.c
-@@ -354,7 +354,7 @@ vg_disable_scanout(VuGpu *g, int scanout_id)
-     scanout->width = 0;
-     scanout->height = 0;
+@@ -1160,6 +1160,10 @@ main(int argc, char *argv[])
  
--    {
-+    if (g->sock_fd >= 0) {
-         VhostUserGpuMsg msg = {
-             .request = VHOST_USER_GPU_SCANOUT,
-             .size = sizeof(VhostUserGpuScanout),
+     if (opt_socket_path) {
+         int lsock = unix_listen(opt_socket_path, &error_fatal);
++        if (lsock < 0) {
++            g_printerr("Failed to listen on %s.\n", opt_socket_path);
++            exit(EXIT_FAILURE);
++        }
+         fd = accept(lsock, NULL, NULL);
+         close(lsock);
+     } else {
+diff --git a/contrib/vhost-user-input/main.c b/contrib/vhost-user-input/main.c
+index 8d493f598e..8b854117f5 100644
+--- a/contrib/vhost-user-input/main.c
++++ b/contrib/vhost-user-input/main.c
+@@ -367,6 +367,10 @@ main(int argc, char *argv[])
+ 
+     if (opt_socket_path) {
+         int lsock = unix_listen(opt_socket_path, &error_fatal);
++        if (lsock < 0) {
++            g_printerr("Failed to listen on %s.\n", opt_socket_path);
++            exit(EXIT_FAILURE);
++        }
+         fd = accept(lsock, NULL, NULL);
+         close(lsock);
+     } else {
 -- 
 MST
 
