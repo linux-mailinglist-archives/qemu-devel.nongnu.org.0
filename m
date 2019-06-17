@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E065948814
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:58:20 +0200 (CEST)
-Received: from localhost ([::1]:48774 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605F248834
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:04:08 +0200 (CEST)
+Received: from localhost ([::1]:48822 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcu1U-0000TT-4G
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1hcu75-0003ai-7N
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:04:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55503)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hctBs-0006wl-Ir
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:05:01 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hctBu-0006z6-0o
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:05:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hctBq-0005kF-LH
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:05:00 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:60222)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hctBs-0005lW-Fr
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:05:01 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:47826)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hctBl-0005dw-0p; Mon, 17 Jun 2019 11:04:53 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HF3koU194558;
- Mon, 17 Jun 2019 15:04:48 GMT
+ id 1hctBl-0005eC-0p; Mon, 17 Jun 2019 11:04:53 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HF45Fn111760;
+ Mon, 17 Jun 2019 15:04:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2018-07-02;
- bh=GH2ZKFcRrDneF5Em5GHKh2/mNlb3mNtH/TPI26ByoYs=;
- b=gIewMniyJnU2ryoLR7ajmWtMBP1+iFpYBcaMA0oRW/rc+HoWugYSPcvNTy6+9EsspXtf
- IRlhsJE0wQlFw82iIyTciJ0WKfiwFPyTJZfIFgXHeWxKJ4Ll9Ehf/yMf2U3Cjhm46ZcX
- mzbxIi/4+Vae06yeuyoqQ1OybsbU2Ddm3iOnBk1HAttZxClrnzu2lzj7xo3tmMeUr/81
- K4NRkS37NKuEuC6r35i8VI19nLFQxmNBtLXJbyujXz+7vsZmXEnI/8n4ww/csiUnqbvE
- vuKVnevb2+6RjumHWFAcai7uKdGDgVh0kvGL/0uk1iFQc1GXimHpZ/pizk3tQqFSfUVt aw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2t4r3tf5wp-1
+ subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
+ bh=yc3jLPPS6khxTDdaK2Cccm/Exx2cYQyZMLHqmbcxjTU=;
+ b=EVwK40y65rF9wZWMzxz16GkADI6AuiwxGr7j24spDF/kKmzMxGxDemkEPRMILVnMYKv7
+ kZ1A8a+DRugvrowVdAdvxlJrbndL5o9jOJB7HsG4XfjeUEidW5v2xyDxjHBhaAOq2w3F
+ uNnntMkhJzQaHz36tj9f2hh0S5bVZQ9qCO5LxptueS0L186o+q//NCqDsFScnSinlzCY
+ H2w4lC59scP81dQzyQ0dWp+3RwB2dLPPE9vyM08ESoFU+3yHIsCom4dDm7/nrgsG3AOh
+ WLqOb15ifR9bqewfaJM0cr4cFsP7cAD0acJm25qrZGjTp61ymoGdlDBIj8VKnnUmO4t2 vg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2t4rmny3h8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 17 Jun 2019 15:04:48 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HF3Rs5191439;
- Mon, 17 Jun 2019 15:04:47 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2t5cpdgakc-1
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HF3Xso121917;
+ Mon, 17 Jun 2019 15:04:48 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 2t5h5t6aqt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 15:04:47 +0000
+ Mon, 17 Jun 2019 15:04:48 +0000
 Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HF4hV9028563;
- Mon, 17 Jun 2019 15:04:45 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HF4kQi022266;
+ Mon, 17 Jun 2019 15:04:46 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 08:04:43 -0700
+ with ESMTP ; Mon, 17 Jun 2019 08:04:46 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
  kevin@koconnor.net
-Date: Mon, 17 Jun 2019 18:04:14 +0300
-Message-Id: <20190617150419.4953-1-shmuel.eiderman@oracle.com>
+Date: Mon, 17 Jun 2019 18:04:15 +0300
+Message-Id: <20190617150419.4953-2-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
+In-Reply-To: <20190617150419.4953-1-shmuel.eiderman@oracle.com>
+References: <20190617150419.4953-1-shmuel.eiderman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
  malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=703
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1906170136
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=746 adultscore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906170136
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [SeaBIOS] [PATCH v2 0/5] Add Qemu to SeaBIOS LCHS
- interface
+X-Received-From: 141.146.126.78
+Subject: [Qemu-devel] [SeaBIOS] [PATCH v2 1/5] geometry: Read LCHS from
+ fw_cfg
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,55 +93,137 @@ Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1:
+Read bios geometry for boot devices from fw_cfg.
 
-Non-standard logical geometries break under QEMU.
+By receiving LCHS values directly from QEMU through fw_cfg we will be
+able to support logical geometries which can not be inferred by SeaBIOS
+itself.
+(For instance: A 8GB virtio-blk hard drive which was originally created
+as an IDE and must report LCHS of */32/63 for its operating system to
+function will always break under SeaBIOS since a LARGE/LBA translation
+will be used, causing the number of reported logical heads to be > 32.)
 
-A virtual disk which contains an operating system which depends on
-logical geometries (consistent values being reported from BIOS INT13
-AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
-logical geometries - for example 56 SPT (sectors per track).
-No matter what QEMU will guess - SeaBIOS, for large enough disks - will
-use LBA translation, which will report 63 SPT instead.
+The only LCHS paravirtual interface available at the moment is for IDE
+disks (rtc_read() in get_translation()) and it's limited to a maximum
+of 4 disks (this code existed in SeaBIOS's translation function before
+SCSI and VirtIO were even introduced).
+This is why we create a new interface which allows passing LCHS
+information per hdd.
 
-In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
-all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
-report more than 16 physical heads when moved to an IDE controller, the
-ATA spec allows a maximum of 16 heads - this is an artifact of
-virtualization.
+Boot device information is serialized in the following way:
+    * device path (sz string)
+    * device lchs
+    ...
+    * device path (sz string)
+    * device lchs
 
-By supplying the logical geometies directly we are able to support such
-"exotic" disks.
+Device path is a null terminated string in the "Open Firmware" device
+path format, the same path as used in bootorder.
 
-We will use fw_cfg to do just that.
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+---
+ src/boot.c | 79 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
-v2:
-
-Rename bootdevices fw_cfg key to bios-geoemtry
-
-Sam Eiderman (5):
-  geometry: Read LCHS from fw_cfg
-  boot: Reorder functions in boot.c
-  geometry: Add boot_lchs_find_*() utility functions
-  config: Add toggle for bootdevice information
-  geometry: Apply LCHS values for boot devices
-
- src/Kconfig          |   7 ++
- src/block.c          |  21 ++++-
- src/block.h          |   1 +
- src/boot.c           | 244 +++++++++++++++++++++++++++++++++++++++++----------
- src/hw/ahci.c        |   1 +
- src/hw/ata.c         |   8 ++
- src/hw/esp-scsi.c    |   2 +
- src/hw/lsi-scsi.c    |   2 +
- src/hw/megasas.c     |   1 +
- src/hw/mpt-scsi.c    |   2 +
- src/hw/pvscsi.c      |   1 +
- src/hw/virtio-blk.c  |   2 +
- src/hw/virtio-scsi.c |   2 +
- src/util.h           |   6 ++
- 14 files changed, 254 insertions(+), 46 deletions(-)
-
+diff --git a/src/boot.c b/src/boot.c
+index 5acf94fe..b4382041 100644
+--- a/src/boot.c
++++ b/src/boot.c
+@@ -24,6 +24,84 @@
+ 
+ 
+ /****************************************************************
++ * Boot device logical geometry
++ ****************************************************************/
++
++typedef struct BootDeviceLCHSSerialized {
++    u32 lcyls;
++    u32 lheads;
++    u32 lsecs;
++} PACKED BootDeviceLCHSSerialized;
++
++typedef struct BootDeviceLCHS {
++    char *name;
++    u32 lcyls;
++    u32 lheads;
++    u32 lsecs;
++} BootDeviceLCHS;
++
++static BootDeviceLCHS *BiosGeometry VARVERIFY32INIT;
++static int BiosGeometryCount;
++
++static void
++loadBiosGeometry(void)
++{
++    BiosGeometryCount = 0;
++    int fsize;
++    char *f = romfile_loadfile("bios-geometry", &fsize);
++    if (!f)
++        return;
++
++    u32 struct_size = sizeof(BootDeviceLCHSSerialized);
++
++    int i;
++    int str_found = 0;
++
++    for (i = 0; i < fsize; i++) {
++        if (f[i] != '\0')
++            str_found = 1;
++        else if (f[i] == '\0' && str_found) {
++            str_found = 0;
++            i++;
++            if (i + struct_size > fsize)
++                break;
++            i += struct_size - 1;
++            BiosGeometryCount++;
++        } else
++            break;
++    }
++
++    BiosGeometry = malloc_tmphigh(BiosGeometryCount * sizeof(BootDeviceLCHS));
++    if (!BiosGeometry) {
++        warn_noalloc();
++        free(f);
++        BiosGeometryCount = 0;
++        return;
++    }
++
++    dprintf(1, "bios geometry:\n");
++
++    BootDeviceLCHSSerialized *blk;
++    BootDeviceLCHS *d;
++
++    for (i = 0; i < BiosGeometryCount; i++) {
++        d = &BiosGeometry[i];
++        d->name = f;
++        f += strlen(f) + 1;
++
++        blk = (BootDeviceLCHSSerialized *)f;
++        d->lcyls = blk->lcyls;
++        d->lheads = blk->lheads;
++        d->lsecs = blk->lsecs;
++        f += struct_size;
++
++        dprintf(1, "%s: (%u, %u, %u)\n",
++                d->name, d->lcyls, d->lheads, d->lsecs);
++    }
++}
++
++
++/****************************************************************
+  * Boot priority ordering
+  ****************************************************************/
+ 
+@@ -288,6 +366,7 @@ boot_init(void)
+     BootRetryTime = romfile_loadint("etc/boot-fail-wait", 60*1000);
+ 
+     loadBootOrder();
++    loadBiosGeometry();
+ }
+ 
+ 
 -- 
 2.13.3
 
