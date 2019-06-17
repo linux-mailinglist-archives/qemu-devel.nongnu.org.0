@@ -2,76 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC9F4855D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:29:31 +0200 (CEST)
-Received: from localhost ([::1]:47980 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D774858B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:34:30 +0200 (CEST)
+Received: from localhost ([::1]:48016 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcsdW-0006td-Ff
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:29:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40277)
+	id 1hcsiL-0002HT-NK
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsMk-0007Vw-LE
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:12:12 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1hcsN7-0007uD-Nr
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:12:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsMh-0002sg-TS
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:12:10 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34531)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hcsMh-0002rt-Ku
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:12:07 -0400
-Received: by mail-wm1-x342.google.com with SMTP id w9so66406wmd.1
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:12:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=D4UQ+UVDvwNmgQAIxA+yoX3AZOwoEgzTK41dVVTv/sI=;
- b=lkuFee/iLaxA43/PK8iU6iIh8EY1eQHIiU7zreKuuKTcMgRtECA0k25NiU6vWUrMHF
- mzMUNI7kiJnDtby5BjluQj/08Bj9ryTu5QRsrp3ni5wpFoDxbKO/hdu/qS1eqjHE8WHA
- 8NsNQKOldkf5OAkqRbAtJ9ofplINyDkbnXtXayrJr/fTm2J4+/cGuqiF5z5+PuSt+lW0
- uSA3JpcQd2ACnek8yObUJNEATrAzXQ1nZXbhwnnWNL0qF/at/VfCi5O5J4BaIdsS4Hwx
- 2PieVYRd35Xa0m/RBgcMmfhwvm4cCfc3qQNwx8NYEb+uvc64mIr4UFZuQGmNkus/pxtt
- 4v+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=D4UQ+UVDvwNmgQAIxA+yoX3AZOwoEgzTK41dVVTv/sI=;
- b=uSt2rdLv3E+njJlw8UbsD4Q9eNZC9XFkkbrOVhhzoiupoc67qihkB4qJggtob7kuT6
- ime0bNvfEMmaCO1t6uZt+WR+r56IljU8sOg2lgO9lgNdv+goe7D87CVGk8w+d42hIcGh
- OFIl9+jMEZCOXfK3/ha+6hk4E8kknvAMhbV/4Zac6aRcoq9MFFCh2fMvhBRCuh1dtdO5
- /KsPbZxsPED4EDCG40LcQIuSQ2vEUIxIVKpTvihiT0parlZ2LONcH2uqyFSIhAmyyfTk
- J1qPYhB+lbATh0DJTWryJnAnTVRvpOvIZu09sRRBZsbCMwXr7a3d5BE99TAxrWnQpB5K
- fbfA==
-X-Gm-Message-State: APjAAAWZ9FAsOwbBzTMj2piLBhaITU2eXIyOrbHeJRNy0kKrQfQkCbBi
- MMYcJoW+tdz567hO4p74BkLjvQ==
-X-Google-Smtp-Source: APXvYqyE89HaqEFXGi6Ae1m4wrrnWDG4Ii6KX6rk+LCK44VzgfGAyFLelpHHdll+yl9HuJqhgNC2xQ==
-X-Received: by 2002:a1c:e914:: with SMTP id q20mr19988139wmc.55.1560780726247; 
- Mon, 17 Jun 2019 07:12:06 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id s8sm16175150wra.55.2019.06.17.07.12.05
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 17 Jun 2019 07:12:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2A69C1FF87;
- Mon, 17 Jun 2019 15:12:05 +0100 (BST)
-References: <20190615154352.26824-1-philmd@redhat.com>
- <20190615154352.26824-15-philmd@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-In-reply-to: <20190615154352.26824-15-philmd@redhat.com>
-Date: Mon, 17 Jun 2019 15:12:05 +0100
-Message-ID: <87muig9u8a.fsf@zen.linaroharston>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 14/23] target/arm: Move the
- DC ZVA helper into op_helper
+ (envelope-from <mlevitsk@redhat.com>) id 1hcsN6-00036g-7C
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:12:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41644)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1hcsN2-00033q-JV; Mon, 17 Jun 2019 10:12:28 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3E92230832D1;
+ Mon, 17 Jun 2019 14:12:22 +0000 (UTC)
+Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 825175E7C6;
+ Mon, 17 Jun 2019 14:12:14 +0000 (UTC)
+Message-ID: <875c51dadb3f4c65cc0875a76f71c006eefecd7b.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-devel@nongnu.org
+Date: Mon, 17 Jun 2019 17:12:13 +0300
+In-Reply-To: <20190610134905.22294-9-mehta.aaru20@gmail.com>
+References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
+ <20190610134905.22294-9-mehta.aaru20@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Mon, 17 Jun 2019 14:12:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 08/12] block/file-posix.c: extend to use
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,280 +57,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Robert Bradford <robert.bradford@intel.com>,
- Samuel Ortiz <sameo@linux.intel.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> From: Samuel Ortiz <sameo@linux.intel.com>
->
-> Those helpers are a software implementation of the ARM v8 memory zeroing
-> op code. They should be moved to the op helper file, which is going to
-> eventually be built only when TCG is enabled.
->
-> Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Robert Bradford <robert.bradford@intel.com>
-> [PMD: Rebased]
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+On Mon, 2019-06-10 at 19:19 +0530, Aarushi Mehta wrote:
+> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 > ---
->  target/arm/helper.c    | 92 -----------------------------------------
->  target/arm/op_helper.c | 93 ++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 93 insertions(+), 92 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 24d88eef17..673ada1e86 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -10674,98 +10674,6 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr addres=
-s, int size,
->  #endif
->  }
->
-> -void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
-> -{
-> -    /*
-> -     * Implement DC ZVA, which zeroes a fixed-length block of memory.
-> -     * Note that we do not implement the (architecturally mandated)
-> -     * alignment fault for attempts to use this on Device memory
-> -     * (which matches the usual QEMU behaviour of not implementing either
-> -     * alignment faults or any memory attribute handling).
-> -     */
-> -
-> -    ARMCPU *cpu =3D env_archcpu(env);
-> -    uint64_t blocklen =3D 4 << cpu->dcz_blocksize;
-> -    uint64_t vaddr =3D vaddr_in & ~(blocklen - 1);
-> -
-> -#ifndef CONFIG_USER_ONLY
-> -    {
-> -        /*
-> -         * Slightly awkwardly, QEMU's TARGET_PAGE_SIZE may be less than
-> -         * the block size so we might have to do more than one TLB looku=
-p.
-> -         * We know that in fact for any v8 CPU the page size is at least=
- 4K
-> -         * and the block size must be 2K or less, but TARGET_PAGE_SIZE i=
-s only
-> -         * 1K as an artefact of legacy v5 subpage support being present =
-in the
-> -         * same QEMU executable. So in practice the hostaddr[] array has
-> -         * two entries, given the current setting of TARGET_PAGE_BITS_MI=
-N.
-> -         */
-> -        int maxidx =3D DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
-> -        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)];
-> -        int try, i;
-> -        unsigned mmu_idx =3D cpu_mmu_index(env, false);
-> -        TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
-> -
-> -        assert(maxidx <=3D ARRAY_SIZE(hostaddr));
-> -
-> -        for (try =3D 0; try < 2; try++) {
-> -
-> -            for (i =3D 0; i < maxidx; i++) {
-> -                hostaddr[i] =3D tlb_vaddr_to_host(env,
-> -                                                vaddr + TARGET_PAGE_SIZE=
- * i,
-> -                                                1, mmu_idx);
-> -                if (!hostaddr[i]) {
-> -                    break;
-> -                }
-> -            }
-> -            if (i =3D=3D maxidx) {
-> -                /*
-> -                 * If it's all in the TLB it's fair game for just writin=
-g to;
-> -                 * we know we don't need to update dirty status, etc.
-> -                 */
-> -                for (i =3D 0; i < maxidx - 1; i++) {
-> -                    memset(hostaddr[i], 0, TARGET_PAGE_SIZE);
-> -                }
-> -                memset(hostaddr[i], 0, blocklen - (i * TARGET_PAGE_SIZE)=
-);
-> -                return;
-> -            }
-> -            /*
-> -             * OK, try a store and see if we can populate the tlb. This
-> -             * might cause an exception if the memory isn't writable,
-> -             * in which case we will longjmp out of here. We must for
-> -             * this purpose use the actual register value passed to us
-> -             * so that we get the fault address right.
-> -             */
-> -            helper_ret_stb_mmu(env, vaddr_in, 0, oi, GETPC());
-> -            /* Now we can populate the other TLB entries, if any */
-> -            for (i =3D 0; i < maxidx; i++) {
-> -                uint64_t va =3D vaddr + TARGET_PAGE_SIZE * i;
-> -                if (va !=3D (vaddr_in & TARGET_PAGE_MASK)) {
-> -                    helper_ret_stb_mmu(env, va, 0, oi, GETPC());
-> -                }
-> -            }
-> -        }
-> -
-> -        /*
-> -         * Slow path (probably attempt to do this to an I/O device or
-> -         * similar, or clearing of a block of code we have translations
-> -         * cached for). Just do a series of byte writes as the architect=
-ure
-> -         * demands. It's not worth trying to use a cpu_physical_memory_m=
-ap(),
-> -         * memset(), unmap() sequence here because:
-> -         *  + we'd need to account for the blocksize being larger than a=
- page
-> -         *  + the direct-RAM access case is almost always going to be de=
-alt
-> -         *    with in the fastpath code above, so there's no speed benef=
-it
-> -         *  + we would have to deal with the map returning NULL because =
-the
-> -         *    bounce buffer was in use
-> -         */
-> -        for (i =3D 0; i < blocklen; i++) {
-> -            helper_ret_stb_mmu(env, vaddr + i, 0, oi, GETPC());
-> -        }
-> -    }
-> -#else
-> -    memset(g2h(vaddr), 0, blocklen);
-> -#endif
-> -}
-> -
->  /* Note that signed overflow is undefined in C.  The following routines =
-are
->     careful to use unsigned types where modulo arithmetic is required.
->     Failure to do so _will_ break on newer gcc.  */
-> diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-> index db4254a67b..29b56039e5 100644
-> --- a/target/arm/op_helper.c
-> +++ b/target/arm/op_helper.c
-> @@ -17,6 +17,7 @@
->   * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
->   */
->  #include "qemu/osdep.h"
-> +#include "qemu/units.h"
->  #include "qemu/log.h"
->  #include "qemu/main-loop.h"
->  #include "cpu.h"
-> @@ -1316,3 +1317,95 @@ uint32_t HELPER(ror_cc)(CPUARMState *env, uint32_t=
- x, uint32_t i)
->          return ((uint32_t)x >> shift) | (x << (32 - shift));
+>  block/file-posix.c | 85 +++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 69 insertions(+), 16 deletions(-)
+> 
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index d018429672..211dfe5337 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -154,6 +154,7 @@ typedef struct BDRVRawState {
+>      bool has_write_zeroes:1;
+>      bool discard_zeroes:1;
+>      bool use_linux_aio:1;
+> +    bool use_linux_io_uring:1;
+Maybe an enum instead?
+
+
+>      bool page_cache_inconsistent:1;
+>      bool has_fallocate;
+>      bool needs_alignment;
+> @@ -423,7 +424,7 @@ static QemuOptsList raw_runtime_opts = {
+>          {
+>              .name = "aio",
+>              .type = QEMU_OPT_STRING,
+> -            .help = "host AIO implementation (threads, native)",
+> +            .help = "host AIO implementation (threads, native, io_uring)",
+>          },
+>          {
+>              .name = "locking",
+> @@ -482,9 +483,15 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>          goto fail;
 >      }
->  }
+>  
+> -    aio_default = (bdrv_flags & BDRV_O_NATIVE_AIO)
+> -                  ? BLOCKDEV_AIO_OPTIONS_NATIVE
+> -                  : BLOCKDEV_AIO_OPTIONS_THREADS;
+> +    if (bdrv_flags & BDRV_O_NATIVE_AIO) {
+> +        aio_default = BLOCKDEV_AIO_OPTIONS_NATIVE;
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    } else if (bdrv_flags & BDRV_O_IO_URING) {
+> +        aio_default = BLOCKDEV_AIO_OPTIONS_IO_URING;
+> +#endif
+> +    } else {
+> +        aio_default = BLOCKDEV_AIO_OPTIONS_THREADS;
+> +    }
+>      aio = qapi_enum_parse(&BlockdevAioOptions_lookup,
+>                            qemu_opt_get(opts, "aio"),
+>                            aio_default, &local_err);
+> @@ -493,7 +500,11 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>          ret = -EINVAL;
+>          goto fail;
+>      }
 > +
-> +void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
-> +{
-> +    /*
-> +     * Implement DC ZVA, which zeroes a fixed-length block of memory.
-> +     * Note that we do not implement the (architecturally mandated)
-> +     * alignment fault for attempts to use this on Device memory
-> +     * (which matches the usual QEMU behaviour of not implementing either
-> +     * alignment faults or any memory attribute handling).
-> +     */
-> +
-> +    ARMCPU *cpu =3D env_archcpu(env);
-> +    uint64_t blocklen =3D 4 << cpu->dcz_blocksize;
-> +    uint64_t vaddr =3D vaddr_in & ~(blocklen - 1);
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +    {
-> +        /*
-> +         * Slightly awkwardly, QEMU's TARGET_PAGE_SIZE may be less than
-> +         * the block size so we might have to do more than one TLB looku=
-p.
-> +         * We know that in fact for any v8 CPU the page size is at least=
- 4K
-> +         * and the block size must be 2K or less, but TARGET_PAGE_SIZE i=
-s only
-> +         * 1K as an artefact of legacy v5 subpage support being present =
-in the
-> +         * same QEMU executable. So in practice the hostaddr[] array has
-> +         * two entries, given the current setting of TARGET_PAGE_BITS_MI=
-N.
-> +         */
-> +        int maxidx =3D DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
-> +        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)];
-> +        int try, i;
-> +        unsigned mmu_idx =3D cpu_mmu_index(env, false);
-> +        TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
-> +
-> +        assert(maxidx <=3D ARRAY_SIZE(hostaddr));
-> +
-> +        for (try =3D 0; try < 2; try++) {
-> +
-> +            for (i =3D 0; i < maxidx; i++) {
-> +                hostaddr[i] =3D tlb_vaddr_to_host(env,
-> +                                                vaddr + TARGET_PAGE_SIZE=
- * i,
-> +                                                1, mmu_idx);
-> +                if (!hostaddr[i]) {
-> +                    break;
-> +                }
-> +            }
-> +            if (i =3D=3D maxidx) {
-> +                /*
-> +                 * If it's all in the TLB it's fair game for just writin=
-g to;
-> +                 * we know we don't need to update dirty status, etc.
-> +                 */
-> +                for (i =3D 0; i < maxidx - 1; i++) {
-> +                    memset(hostaddr[i], 0, TARGET_PAGE_SIZE);
-> +                }
-> +                memset(hostaddr[i], 0, blocklen - (i * TARGET_PAGE_SIZE)=
-);
-> +                return;
-> +            }
-> +            /*
-> +             * OK, try a store and see if we can populate the tlb. This
-> +             * might cause an exception if the memory isn't writable,
-> +             * in which case we will longjmp out of here. We must for
-> +             * this purpose use the actual register value passed to us
-> +             * so that we get the fault address right.
-> +             */
-> +            helper_ret_stb_mmu(env, vaddr_in, 0, oi, GETPC());
-> +            /* Now we can populate the other TLB entries, if any */
-> +            for (i =3D 0; i < maxidx; i++) {
-> +                uint64_t va =3D vaddr + TARGET_PAGE_SIZE * i;
-> +                if (va !=3D (vaddr_in & TARGET_PAGE_MASK)) {
-> +                    helper_ret_stb_mmu(env, va, 0, oi, GETPC());
-> +                }
-> +            }
-> +        }
-> +
-> +        /*
-> +         * Slow path (probably attempt to do this to an I/O device or
-> +         * similar, or clearing of a block of code we have translations
-> +         * cached for). Just do a series of byte writes as the architect=
-ure
-> +         * demands. It's not worth trying to use a cpu_physical_memory_m=
-ap(),
-> +         * memset(), unmap() sequence here because:
-> +         *  + we'd need to account for the blocksize being larger than a=
- page
-> +         *  + the direct-RAM access case is almost always going to be de=
-alt
-> +         *    with in the fastpath code above, so there's no speed benef=
-it
-> +         *  + we would have to deal with the map returning NULL because =
-the
-> +         *    bounce buffer was in use
-> +         */
-> +        for (i =3D 0; i < blocklen; i++) {
-> +            helper_ret_stb_mmu(env, vaddr + i, 0, oi, GETPC());
+>      s->use_linux_aio = (aio == BLOCKDEV_AIO_OPTIONS_NATIVE);
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    s->use_linux_io_uring = (aio == BLOCKDEV_AIO_OPTIONS_IO_URING);
+> +#endif
+Same as above
+
+>  
+>      locking = qapi_enum_parse(&OnOffAuto_lookup,
+>                                qemu_opt_get(opts, "locking"),
+> @@ -557,7 +568,7 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>      s->shared_perm = BLK_PERM_ALL;
+>  
+>  #ifdef CONFIG_LINUX_AIO
+> -     /* Currently Linux does AIO only for files opened with O_DIRECT */
+> +    /* Currently Linux does AIO only for files opened with O_DIRECT */
+>      if (s->use_linux_aio) {
+>          if (!(s->open_flags & O_DIRECT)) {
+>              error_setg(errp, "aio=native was specified, but it requires "
+> @@ -579,6 +590,22 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+>      }
+>  #endif /* !defined(CONFIG_LINUX_AIO) */
+>  
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    if (s->use_linux_io_uring) {
+> +        if (!aio_setup_linux_io_uring(bdrv_get_aio_context(bs), errp)) {
+> 
+> +            error_prepend(errp, "Unable to use io_uring: ");
+> +            goto fail;
 > +        }
 > +    }
 > +#else
-> +    memset(g2h(vaddr), 0, blocklen);
+> +    if (s->use_linux_io_uring) {
+> +        error_setg(errp, "aio=io_uring was specified, but is not supported "
+> +                         "in this build.");
+> +        ret = -EINVAL;
+> +        goto fail;
+> +    }
+> +#endif /* !defined(CONFIG_LINUX_IO_URING) */
+> +
+>      s->has_discard = true;
+>      s->has_write_zeroes = true;
+>      if ((bs->open_flags & BDRV_O_NOCACHE) != 0) {
+> @@ -1875,16 +1902,20 @@ static int coroutine_fn raw_co_prw(BlockDriverState *bs, uint64_t offset,
+>       * If this is the case tell the low-level driver that it needs
+>       * to copy the buffer.
+>       */
+> -    if (s->needs_alignment) {
+> -        if (!bdrv_qiov_is_aligned(bs, qiov)) {
+> -            type |= QEMU_AIO_MISALIGNED;
+> +    if (s->needs_alignment && !bdrv_qiov_is_aligned(bs, qiov)) {
+> +                type |= QEMU_AIO_MISALIGNED;
+indention is wrong.
+
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    } else if (s->use_linux_io_uring) {
+> +        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
+> +        assert(qiov->size == bytes);
+> +        return luring_co_submit(bs, aio, s->fd, offset, qiov, type);
 > +#endif
-> +}
+>  #ifdef CONFIG_LINUX_AIO
+> -        } else if (s->use_linux_aio) {
+> -            LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
+> -            assert(qiov->size == bytes);
+> -            return laio_co_submit(bs, aio, s->fd, offset, qiov, type);
+> +    } else if (s->use_linux_aio && s->needs_alignment) {
+You can probably drop the s->needs_alignment here as it is set iff the file if opened with O_DIRECT which is a requirement
+for the linux aio.
+
+Maybe while at it, maybe update that comment prior to the 's->needs_alignment && !bdrv_qiov_is_aligned(bs, qiov)'
+since it is somewhat outdated.
+
+I think it should state:
+
+"When using O_DIRECT, the request must be aligned to be able to use either libaio or io_uring interface.
+If not fail back to regular thread pool read/write code which emulates this for us if we set QEMU_AIO_MISALIGNED"
+
+Or something like that.
 
 
---
-Alex Benn=C3=A9e
+
+> +        LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
+> +        assert(qiov->size == bytes);
+> +        return laio_co_submit(bs, aio, s->fd, offset, qiov, type);
+>  #endif
+> -        }
+>      }
+>  
+>      acb = (RawPosixAIOData) {
+> @@ -1920,24 +1951,36 @@ static int coroutine_fn raw_co_pwritev(BlockDriverState *bs, uint64_t offset,
+>  
+>  static void raw_aio_plug(BlockDriverState *bs)
+>  {
+> +    BDRVRawState __attribute__((unused)) *s = bs->opaque;
+>  #ifdef CONFIG_LINUX_AIO
+> -    BDRVRawState *s = bs->opaque;
+>      if (s->use_linux_aio) {
+>          LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
+>          laio_io_plug(bs, aio);
+>      }
+>  #endif
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    if (s->use_linux_io_uring) {
+> +        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
+> +        luring_io_plug(bs, aio);
+> +    }
+> +#endif
+>  }
+>  
+>  static void raw_aio_unplug(BlockDriverState *bs)
+>  {
+> +    BDRVRawState __attribute__((unused)) *s = bs->opaque;
+>  #ifdef CONFIG_LINUX_AIO
+> -    BDRVRawState *s = bs->opaque;
+>      if (s->use_linux_aio) {
+>          LinuxAioState *aio = aio_get_linux_aio(bdrv_get_aio_context(bs));
+>          laio_io_unplug(bs, aio);
+>      }
+>  #endif
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    if (s->use_linux_io_uring) {
+> +        LuringState *aio = aio_get_linux_io_uring(bdrv_get_aio_context(bs));
+> +        luring_io_unplug(bs, aio);
+> +    }
+> +#endif
+>  }
+>  
+>  static int raw_co_flush_to_disk(BlockDriverState *bs)
+> @@ -1963,8 +2006,8 @@ static int raw_co_flush_to_disk(BlockDriverState *bs)
+>  static void raw_aio_attach_aio_context(BlockDriverState *bs,
+>                                         AioContext *new_context)
+>  {
+> +    BDRVRawState __attribute__((unused)) *s = bs->opaque;
+>  #ifdef CONFIG_LINUX_AIO
+> -    BDRVRawState *s = bs->opaque;
+>      if (s->use_linux_aio) {
+>          Error *local_err;
+>          if (!aio_setup_linux_aio(new_context, &local_err)) {
+> @@ -1974,6 +2017,16 @@ static void raw_aio_attach_aio_context(BlockDriverState *bs,
+>          }
+>      }
+>  #endif
+> +#ifdef CONFIG_LINUX_IO_URING
+> +    if (s->use_linux_io_uring) {
+> +        Error *local_err;
+> +        if (!aio_setup_linux_io_uring(new_context, &local_err)) {
+> +            error_reportf_err(local_err, "Unable to use linux io_uring, "
+> +                                         "falling back to thread pool: ");
+> +            s->use_linux_io_uring = false;
+> +        }
+> +    }
+> +#endif
+>  }
+>  
+>  static void raw_close(BlockDriverState *bs)
+
+
+Other that minor notes,
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+
+Best regards,
+	Maxim Levitsky
+
 
