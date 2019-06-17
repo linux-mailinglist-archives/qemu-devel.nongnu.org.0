@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC2A48D26
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:58:15 +0200 (CEST)
-Received: from localhost ([::1]:51168 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53E248BE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:27:23 +0200 (CEST)
+Received: from localhost ([::1]:50936 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwpa-0002SB-Nv
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:58:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60014)
+	id 1hcwLj-0007JV-0c
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:27:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58221)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hcwFR-0001S0-Fu
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:20:55 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwA5-0004z5-C6
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hcwFO-0004Oy-TO
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:20:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42388)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hcwFL-0004LG-IR
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:20:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hcwFG-0000KX-Ba
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:20:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 555982E8076
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:20:42 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 Jun 2019 18:15:03 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwA3-0000uD-57
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:21 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:56476)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
+ id 1hcwA1-0000mf-8N
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:18 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8u10066189;
+ Mon, 17 Jun 2019 18:15:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=afzFpJbnCukv4mnymrxDok4pSggne4cWFNRNQPHI5sk=;
+ b=YgRt6i4o77ncu+SPjnZH+oPbBlIOkOC8SKQQmdqHhPbiYJF++J4PFwFvIkDQWNvb89tW
+ CyloN7tgER76aZZYtImzXXLxkpU1fdW5BmVqYZ2xmuKoFTIxV049nYaGYm7mGZsulCme
+ tEbk9J/UiqdMe8m9tT50BAVxqZoGNLX1TQ/Ud+M4ahN99dzDai/9DZ01olGIXifSTFOq
+ Qai4I2QXr5JGBkVoUHt3mNIH1V6bhhZvon8L+NJvfAXQfYJwPjVJFYwJwBhxGzHKVL0+
+ b22nHYH60fHOLzTp/Mh4jtb/Lzgua5G9dBSJMCShoOjjxE6HQYODo5ze4hBtyEu+LWUJ bQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2t4rmp00gw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 17 Jun 2019 18:15:13 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIEQ1h175589;
+ Mon, 17 Jun 2019 18:15:12 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2t5mgbgab0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 17 Jun 2019 18:15:12 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIFBDH024366;
+ Mon, 17 Jun 2019 18:15:11 GMT
+Received: from heatpipe.hsd1.ca.comcast.net (/73.170.27.202)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 17 Jun 2019 11:15:11 -0700
+From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rth
-X-Launchpad-Bug-Reporter: Richard Henderson (rth)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <156055034616.22882.34472617820287855.malonedeb@soybean.canonical.com>
-Message-Id: <156079530431.22508.3554080548193875900.launchpad@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18981";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 69a6a905956cc9b8c4e9de6e1db70515449287d1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1832916] Re: linux-user does not check PROT_EXEC
+Date: Mon, 17 Jun 2019 11:15:07 -0700
+Message-Id: <20190617181507.29189-1-elena.ufimtseva@oracle.com>
+X-Mailer: git-send-email 2.17.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906170162
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906170162
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Subject: [Qemu-devel] [RFC PATCH v2 02/35] multi-process: util: Add
+ qemu_thread_cancel() to cancel running thread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,32 +85,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1832916 <1832916@bugs.launchpad.net>
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
+ konrad.wilk@oracle.com, ross.lagerwall@citrix.com, liran.alon@oracle.com,
+ stefanha@redhat.com, pbonzini@redhat.com, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: testcase
+From: Jagannathan Raman <jag.raman@oracle.com>
 
--- =
+qemu_thread_cancel() added to destroy a given running thread.
+This will be needed in the following patches.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1832916
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+---
+ include/qemu/thread.h    |  1 +
+ util/qemu-thread-posix.c | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
 
-Title:
-  linux-user does not check PROT_EXEC
+diff --git a/include/qemu/thread.h b/include/qemu/thread.h
+index 55d83a907c..78791beae9 100644
+--- a/include/qemu/thread.h
++++ b/include/qemu/thread.h
+@@ -156,6 +156,7 @@ void qemu_thread_create(QemuThread *thread, const char *name,
+                         void *(*start_routine)(void *),
+                         void *arg, int mode);
+ void *qemu_thread_join(QemuThread *thread);
++void qemu_thread_cancel(QemuThread *thread);
+ void qemu_thread_get_self(QemuThread *thread);
+ bool qemu_thread_is_self(QemuThread *thread);
+ void qemu_thread_exit(void *retval);
+diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
+index 1bf5e65dea..7c89071048 100644
+--- a/util/qemu-thread-posix.c
++++ b/util/qemu-thread-posix.c
+@@ -573,3 +573,13 @@ void *qemu_thread_join(QemuThread *thread)
+     }
+     return ret;
+ }
++
++void qemu_thread_cancel(QemuThread *thread)
++{
++    int err;
++
++    err = pthread_cancel(thread->thread);
++    if (err) {
++        error_exit(err, __func__);
++    }
++}
+-- 
+2.17.1
 
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  At no point do we actually verify that a page is PROT_EXEC before
-  translating.  All we end up verifying is that the page is readable.
-  Not the same thing, obviously.
-
-  The following test case should work for any architecture, though I've
-  only validated it for x86_64 and aarch64.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1832916/+subscriptions
 
