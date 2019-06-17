@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09380487C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:48:15 +0200 (CEST)
-Received: from localhost ([::1]:48694 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5DD48910
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:35:01 +0200 (CEST)
+Received: from localhost ([::1]:49164 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hctrd-0008FO-Gr
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37588)
+	id 1hcuay-0005Lp-U2
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38631)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hctlD-0004A8-U3
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:41:33 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hcto3-00073F-HR
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:44:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hctlC-0008Fg-Js
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:41:31 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:41523)
+ (envelope-from <alex.bennee@linaro.org>) id 1hcto1-0005Jb-J0
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:44:26 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:37690)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hctlC-00087s-Bs
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:41:30 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id 107so9707844otj.8
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 08:41:20 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hcto1-0005HE-9o
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:44:25 -0400
+Received: by mail-wr1-x442.google.com with SMTP id v14so10516076wrr.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 08:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=kJ4AJOsWXogDPyWOdZdu1NfTEK8bEB5HqXL7reTMCfE=;
- b=EICslbd8uqXZH4AelwwrrcvJyOzRHCDydELqiFsqSCiIfsr+HDDFwzrEbErRwxg478
- aUwShNbT8uqZKxTwX2eTbw82D6vNqKM4gyea5KuebJNr5V/q6a1mQTJEZVfqA86T5z/R
- Czd1N/E9QINyyq3KLNeAVkxA+kyC83/N4SkOw2S/w8y916bXesxei5CN1tXX6iKmUof8
- 5pqfPAaO63Hs38036K3xiy9FtX8VDdvdL0sm1tz/zYrhzlbov+JsfyvZ/I9F3BMHASnD
- 21va7qK9vTiB6htgnm1tjrkeCLAfCvnrTvjY+FuAfk3SvxXxrVVvJQc6ikW1LG7TDqgg
- AeMw==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ZuyWPwI9zsRq98f3yZ1hjodiotWK5DdnDD/mWU39P20=;
+ b=nmPnYfh8OoM5hy944hTfzzKFPS7nXo+3MduPr4ey6dku5xS+jeACbwVv8ELaCyLsoQ
+ AM7BNVxJ4tDRGq0xCZj7qwUb3Iy6vcVEKeXhNsYx0Xpo3nUJKscfdygocQuGLqDc3giM
+ n1WShpcaC5eyzjBKoWtQmdgLbqvw28pDZrIBlHinWGjjyO7VfMYIFnDc+FWH8U/uRHTJ
+ yBOKoeQtaZpQFATDL6AUNuAEoo8vrVF33z9qOxGk4kVtm3ksdlJSWvw/x6/fTEX2V1JY
+ Xp01Mqst3NcerXUSTVLHKFIwgjgQHDx9jIzcHZPRuvCEcjXhZmeAGz4DYpl0aieNwNT1
+ qBQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=kJ4AJOsWXogDPyWOdZdu1NfTEK8bEB5HqXL7reTMCfE=;
- b=HXwVR5fzuQfWx6n8v9TpMA6EvhekJs52i339a8AK5ZKrwN/pOflsLp+O5AqIQrAKDy
- jICzINimnQLxa9JxyQEQ0pocaYqAROq+sPp4BDAdZIfCVr/RNsocumdT/GnPmew+PZAH
- gf64b3mAhGsCx4cwka5tgud43zOSCoYQ170DY6SxvDCloL8EXJXpKLuSaIwCLpUv7Ern
- rtZbtcYgJejxhuHSD0/9+7n7dFVmCK9TGmoMQ4aZAMlVlCVJjcISFTLAPxYzMNuClkNG
- 50ujmQ0+O32fhat8lG7+ONsMlL5Qb0A/EqalmB0bXd0Km+E1XHkml4WJe8URyJJvKSJ2
- VYNg==
-X-Gm-Message-State: APjAAAV2mrOBzT2FIBq/mP2McOuf1Cl6i2IuRnHIbA7g1XjjCTYYi8cB
- 1nzPZOl3B711BgQYcRiGflpTphYvDQnfA5MiJQU3Y3hPWJc=
-X-Google-Smtp-Source: APXvYqx6vP5OcOU8321d+WvUjGfY9TbwaWrtQsaeeZYgKDkOO3MrNB4OjuOzdDBDrFM0aYiX2VSmB24c3/1KwOW9JEI=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr20869061otk.232.1560786079767; 
- Mon, 17 Jun 2019 08:41:19 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=ZuyWPwI9zsRq98f3yZ1hjodiotWK5DdnDD/mWU39P20=;
+ b=KPzGDVodVhgmgb5zyE3iEnnkUeCkbqxXaeAuoCcKc2qf8cIusB55TGNafe0FuKDtFz
+ 5Sh3pDI4vWFkrzjux9QzOl6iuYQGQvd1gru+waIs4df+sd5yyHF/c/2T0mF1sLTEJ23y
+ 9C7AmXA5moLwuNjur1LNhSmIc+E0ekUIritN4Zb2CmyrWjnyBgsfhjUEPYxjWvrYaom+
+ iuzPrQIsvIpoMCnbwhB+3bYi1BZpiW613A2FRpzJDRBnu+hb2r0qto6zG+A5OxE119d6
+ WFUq/mUWkEAMfGlDQOZXW2Vw6unrX6fLQLwI39I9KsUxo99Kgc3sh9qY/FaJUvCKQF4w
+ O4ZA==
+X-Gm-Message-State: APjAAAUj06ZY1lIW706nG5eOCG0I/7o7EAI/hgnCopypltcwLxPfsZWD
+ 4QViOqgAhhS5n+4Hi6Ft1abyzA==
+X-Google-Smtp-Source: APXvYqw7FpZ2Yy7vUNiPaEnYnN/RSgeG72DggBxKSVmVXdqYREw5JIz9B5Gt80S6g9/YgjdzyzDvkg==
+X-Received: by 2002:a5d:4752:: with SMTP id o18mr7690856wrs.74.1560786262936; 
+ Mon, 17 Jun 2019 08:44:22 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id g71sm4125872wmg.7.2019.06.17.08.44.22
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 17 Jun 2019 08:44:22 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 00E271FF87;
+ Mon, 17 Jun 2019 16:44:21 +0100 (BST)
+References: <20190617043858.8290-1-kraxel@redhat.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+In-reply-to: <20190617043858.8290-1-kraxel@redhat.com>
+Date: Mon, 17 Jun 2019 16:44:21 +0100
+Message-ID: <877e9k9pyi.fsf@zen.linaroharston>
 MIME-Version: 1.0
-References: <20190617143412.5734-1-peter.maydell@linaro.org>
-In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 17 Jun 2019 16:41:08 +0100
-Message-ID: <CAFEAcA_tsABB1HGA20xmMA_XBdyxaHcSYV3D1-yaRdCAzUw4-w@mail.gmail.com>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::32e
-Subject: Re: [Qemu-devel] [PULL 00/24] target-arm queue
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH v4 00/11] tests/vm: serial console
+ autoinstall, misc fixes.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,45 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
+ qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Jun 2019 at 15:34, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Latest arm queue, half minor code cleanups and half minor
-> bug fixes.
->
-> -- PMM
->
-> The following changes since commit 5d0e5694470d2952b4f257bc985cac8c89b4fd92:
->
->   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2019-06-17 11:55:14 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190617
->
-> for you to fetch changes up to 1120827fa182f0e76226df7ffe7a86598d1df54f:
->
->   target/arm: Only implement doubles if the FPU supports them (2019-06-17 15:15:06 +0100)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * support large kernel images in bootloader (by avoiding
->    putting the initrd over the top of them)
->  * correctly disable FPU/DSP in the CPU for the mps2-an521, musca-a boards
->  * arm_gicv3: Fix decoding of ID register range
->  * arm_gicv3: GICD_TYPER.SecurityExtn is RAZ if GICD_CTLR.DS == 1
->  * some code cleanups following on from the VFP decodetree conversion
->  * Only implement doubles if the FPU supports them
->    (so we now correctly model Cortex-M4, -M33 as single precision only)
->
+
+Gerd Hoffmann <kraxel@redhat.com> writes:
+
+> This patch series changes the way virtual machines for test builds are
+> managed.  They are created locally on the developer machine now.  The
+> installer is booted on the serial console and the scripts walks through
+> the dialogs to install and configure the guest.
+
+I've tested this on the previously failing box and it works fine.
+
+Queued to testing/next, thanks.
 
 
-Applied, thanks.
+>
+> That takes the download.patchew.org server out of the loop and makes it
+> alot easier to tweak the guest images (adding build dependencies for
+> example).
+>
+> The install scripts take care to apply host proxy settings (from *_proxy
+> environment variables) to the guest, so any package downloads will be
+> routed through the proxy and can be cached that way.  This also makes
+> them work behind strict firewalls.
+>
+> There are also a bunch of smaller tweaks for tests/vm to fix issues I
+> was struggling with.  See commit messages of individual patches for
+> details.
+>
+> v4:
+>  - rebase, drop patches merged.
+>  - use in-tree seabios binary, for serial console support.
+>  - some minor tweaks.
+> v3:
+>  - python3 fixes.
+>  - openbsd: configure memory limits.
+>  - freebsd: configure autoboot delay.
+>
+> Gerd Hoffmann (11):
+>   tests/vm: send proxy environment variables over ssh
+>   tests/vm: use ssh with pty unconditionally
+>   tests/vm: run test builds on snapshot
+>   tests/vm: proper guest shutdown
+>   tests/vm: add vm-boot-{ssh,serial}-<guest> targets
+>   tests/vm: serial console support helpers
+>   tests/vm: openbsd autoinstall, using serial console
+>   tests/vm: freebsd autoinstall, using serial console
+>   tests/vm: netbsd autoinstall, using serial console
+>   tests/vm: fedora autoinstall, using serial console
+>   tests/vm: ubuntu.i386: apt proxy setup
+>
+>  tests/vm/basevm.py        | 135 +++++++++++++++++++++++----
+>  tests/vm/Makefile.include |  23 ++++-
+>  tests/vm/fedora           | 189 ++++++++++++++++++++++++++++++++++++++
+>  tests/vm/freebsd          | 180 ++++++++++++++++++++++++++++++++++--
+>  tests/vm/netbsd           | 187 +++++++++++++++++++++++++++++++++++--
+>  tests/vm/openbsd          | 159 +++++++++++++++++++++++++++++---
+>  tests/vm/ubuntu.i386      |   4 +
+>  7 files changed, 825 insertions(+), 52 deletions(-)
+>  create mode 100755 tests/vm/fedora
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
 
--- PMM
+--
+Alex Benn=C3=A9e
 
