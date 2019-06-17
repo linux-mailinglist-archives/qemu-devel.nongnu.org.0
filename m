@@ -2,60 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B2A488C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:23:45 +0200 (CEST)
-Received: from localhost ([::1]:49062 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251A64891F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:38:31 +0200 (CEST)
+Received: from localhost ([::1]:49228 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcuQ5-0004SO-4s
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:23:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37361)
+	id 1hcueM-0000k4-8y
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40279)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hctka-0003dH-Lz
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:40:54 -0400
+ (envelope-from <xiaoyao.li@linux.intel.com>) id 1hcttN-0002Tw-A6
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:49:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hctkY-0007cn-Jj
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:40:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46952)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hctkW-0007ZE-PX
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:40:50 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hctkT-0002g5-MG
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 15:40:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9B3C22E8076
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 15:40:45 +0000 (UTC)
+ (envelope-from <xiaoyao.li@linux.intel.com>) id 1hcttL-0002oD-UK
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:49:57 -0400
+Received: from mga07.intel.com ([134.134.136.100]:39609)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <xiaoyao.li@linux.intel.com>)
+ id 1hcttL-0002md-Ko
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:49:55 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2019 08:49:53 -0700
+X-ExtLoop1: 1
+Received: from lxy-clx-4s.sh.intel.com ([10.239.48.10])
+ by FMSMGA003.fm.intel.com with ESMTP; 17 Jun 2019 08:49:51 -0700
+From: Xiaoyao Li <xiaoyao.li@linux.intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>
+Date: Mon, 17 Jun 2019 23:36:54 +0800
+Message-Id: <20190617153654.916-1-xiaoyao.li@linux.intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 Jun 2019 15:33:56 -0000
-From: David Lindsay <asmqb7@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: pl111 vexpress-a9
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: asmqb7
-X-Launchpad-Bug-Reporter: David Lindsay (asmqb7)
-X-Launchpad-Bug-Modifier: David Lindsay (asmqb7)
-Message-Id: <156078563656.24847.5055295179031840026.malonedeb@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18981";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 53694497b83d88193d67b325b712f597adf0f984
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1833101] [NEW] vexpress-a9 (but not -a15) creates
- two pl111 LCDs due to duplicate sysbus_create_simple("pl111", ...) calls
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.100
+Subject: [Qemu-devel] [PATCH v2] target/i386: define a new MSR based feature
+ word - FEAT_CORE_CAPABILITY
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,131 +54,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1833101 <1833101@bugs.launchpad.net>
+Cc: Paul Lai <paul.c.lai@intel.com>, qemu-devel@nongnu.org,
+ Xiaoyao Li <xiaoyao.li@linux.intel.com>, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+MSR IA32_CORE_CAPABILITY is a feature-enumerating MSR, which only
+enumerates the feature split lock detection (via bit 5) by now.
 
-Hi,
+The existence of MSR IA32_CORE_CAPABILITY is enumerated by CPUID.7_0:EDX[30].
 
-Just a small report that (12ec8bd is current master)
+The latest kernel patches about them can be found here:
+https://lkml.org/lkml/2019/4/24/1909
 
-https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L652:
+Signed-off-by: Xiaoyao Li <xiaoyao.li@linux.intel.com>
+---
+Changelog:
+v2
+    Add definition of MSR_CORE_CAP_SPLIT_LOCK_DETECT for SNR cpu model
+---
+ target/i386/cpu.c | 22 +++++++++++++++++++++-
+ target/i386/cpu.h |  5 +++++
+ target/i386/kvm.c |  9 +++++++++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
 
-  ...
-  vexpress_common_init() {
-    ...
-    sysbus_create_simple("pl111", map[VE_CLCD], pic[14]);
-    ...
-  ...
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index fbed2eb804..fc47c650b8 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1085,7 +1085,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, "spec-ctrl", "stibp",
+-            NULL, "arch-capabilities", NULL, "ssbd",
++            NULL, "arch-capabilities", "core-capability", "ssbd",
+         },
+         .cpuid = {
+             .eax = 7,
+@@ -1203,6 +1203,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             }
+         },
+     },
++    [FEAT_CORE_CAPABILITY] = {
++        .type = MSR_FEATURE_WORD,
++        .feat_names = {
++            NULL, NULL, NULL, NULL,
++            NULL, "split-lock-detect", NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++        },
++        .msr = {
++            .index = MSR_IA32_CORE_CAPABILITY,
++            .cpuid_dep = {
++                FEAT_7_0_EDX,
++                CPUID_7_0_EDX_CORE_CAPABILITY,
++            },
++        },
++    },
+ };
+ 
+ typedef struct X86RegisterInfo32 {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 0732e059ec..192b0db076 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -345,6 +345,7 @@ typedef enum X86Seg {
+ #define MSR_IA32_SPEC_CTRL              0x48
+ #define MSR_VIRT_SSBD                   0xc001011f
+ #define MSR_IA32_PRED_CMD               0x49
++#define MSR_IA32_CORE_CAPABILITY        0xcf
+ #define MSR_IA32_ARCH_CAPABILITIES      0x10a
+ #define MSR_IA32_TSCDEADLINE            0x6e0
+ 
+@@ -496,6 +497,7 @@ typedef enum FeatureWord {
+     FEAT_XSAVE_COMP_LO, /* CPUID[EAX=0xd,ECX=0].EAX */
+     FEAT_XSAVE_COMP_HI, /* CPUID[EAX=0xd,ECX=0].EDX */
+     FEAT_ARCH_CAPABILITIES,
++    FEAT_CORE_CAPABILITY,
+     FEATURE_WORDS,
+ } FeatureWord;
+ 
+@@ -687,6 +689,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_EDX_AVX512_4FMAPS (1U << 3) /* AVX512 Multiply Accumulation Single Precision */
+ #define CPUID_7_0_EDX_SPEC_CTRL     (1U << 26) /* Speculation Control */
+ #define CPUID_7_0_EDX_ARCH_CAPABILITIES (1U << 29)  /*Arch Capabilities*/
++#define CPUID_7_0_EDX_CORE_CAPABILITY   (1U << 30)  /*Core Capability*/
+ #define CPUID_7_0_EDX_SPEC_CTRL_SSBD  (1U << 31) /* Speculative Store Bypass Disable */
+ 
+ #define CPUID_8000_0008_EBX_WBNOINVD  (1U << 9)  /* Write back and
+@@ -734,6 +737,8 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
+ #define MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY (1U << 3)
+ #define MSR_ARCH_CAP_SSB_NO     (1U << 4)
+ 
++#define MSR_CORE_CAP_SPLIT_LOCK_DETECT  (1U << 5)
++
+ #ifndef HYPERV_SPINLOCK_NEVER_RETRY
+ #define HYPERV_SPINLOCK_NEVER_RETRY             0xFFFFFFFF
+ #endif
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index 6899061b4e..da99e91ea9 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -95,6 +95,7 @@ static bool has_msr_spec_ctrl;
+ static bool has_msr_virt_ssbd;
+ static bool has_msr_smi_count;
+ static bool has_msr_arch_capabs;
++static bool has_msr_core_capabs;
+ 
+ static uint32_t has_architectural_pmu_version;
+ static uint32_t num_architectural_pmu_gp_counters;
+@@ -1515,6 +1516,9 @@ static int kvm_get_supported_msrs(KVMState *s)
+                 case MSR_IA32_ARCH_CAPABILITIES:
+                     has_msr_arch_capabs = true;
+                     break;
++                case MSR_IA32_CORE_CAPABILITY:
++                    has_msr_core_capabs = true;
++                    break;
+                 }
+             }
+         }
+@@ -2041,6 +2045,11 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+                           env->features[FEAT_ARCH_CAPABILITIES]);
+     }
+ 
++    if (has_msr_core_capabs) {
++        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
++                          env->features[FEAT_CORE_CAPABILITY]);
++    }
++
+     /*
+      * The following MSRs have side effects on the guest or are too heavy
+      * for normal writeback. Limit them to reset or full state updates.
+-- 
+2.19.1
 
-and
-
-https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L304:
-
-  ...
-  a9_daughterboard_init() {
-    ...
-    sysbus_create_simple("pl111", 0x10020000, pic[44]);
-    ...
-  ...
-
-result in two LCD panels when using vexpress-a9.
-
-vexpress-a15 does not appear to be affected (my -a9 kernel does not work
-with it, but I see only one pl111 created).
-
-Understandably (but still annoyingly), -nodefaults has no effect.
-
-This bug is most evident when using SDL (so I can use ",frame=3Doff"),
-which dumps two top-level windows onto the screen. GTK hides this
-because, coincidentally, the pl111 that ends up being used is the one
-that is selected (possibly the one created last?), relegating this to an
-obscure glitch only noticeable if you scrutinize the menu.
-
-This is a bugreport as opposed to a pull request as I have no idea which
-call to remove - and complete ignorance of the potential housekeeping
-and consideration that may be warranted first.
-
-FWIW, a simple testcase can be made with the vmlinuz from
-https://people.debian.org/~aurel32/qemu/armhf/ and
-
-qemu-system-arm -M vexpress-a9 -kernel vmlinuz-3.2.0-4-vexpress
--nodefaults -sdl
-
-Thanks!
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: pl111 vexpress-a9
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1833101
-
-Title:
-  vexpress-a9 (but not -a15) creates two pl111 LCDs due to duplicate
-  sysbus_create_simple("pl111", ...) calls
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  Just a small report that (12ec8bd is current master)
-
-  https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L652:
-
-    ...
-    vexpress_common_init() {
-      ...
-      sysbus_create_simple("pl111", map[VE_CLCD], pic[14]);
-      ...
-    ...
-
-  and
-
-  https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L304:
-
-    ...
-    a9_daughterboard_init() {
-      ...
-      sysbus_create_simple("pl111", 0x10020000, pic[44]);
-      ...
-    ...
-
-  result in two LCD panels when using vexpress-a9.
-
-  vexpress-a15 does not appear to be affected (my -a9 kernel does not
-  work with it, but I see only one pl111 created).
-
-  Understandably (but still annoyingly), -nodefaults has no effect.
-
-  This bug is most evident when using SDL (so I can use ",frame=3Doff"),
-  which dumps two top-level windows onto the screen. GTK hides this
-  because, coincidentally, the pl111 that ends up being used is the one
-  that is selected (possibly the one created last?), relegating this to
-  an obscure glitch only noticeable if you scrutinize the menu.
-
-  This is a bugreport as opposed to a pull request as I have no idea
-  which call to remove - and complete ignorance of the potential
-  housekeeping and consideration that may be warranted first.
-
-  FWIW, a simple testcase can be made with the vmlinuz from
-  https://people.debian.org/~aurel32/qemu/armhf/ and
-
-  qemu-system-arm -M vexpress-a9 -kernel vmlinuz-3.2.0-4-vexpress
-  -nodefaults -sdl
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1833101/+subscriptions
 
