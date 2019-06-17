@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616F248614
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:52:25 +0200 (CEST)
-Received: from localhost ([::1]:48166 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD180485F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:48:41 +0200 (CEST)
+Received: from localhost ([::1]:48152 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcszg-0001wL-HW
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46593)
+	id 1hcsw4-0007lZ-Jq
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46597)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiG-0003S9-1g
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:26 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiG-0003SR-6O
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiE-00080D-Cw
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:23 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37309)
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiE-000800-Am
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:24 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46863)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsiE-0007yK-4G
+ id 1hcsiE-0007yl-1Y
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:22 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f17so6864258wme.2
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:20 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id n4so10191715wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DxzFr+PxhxGUlwpP3ZW+DROYq2bJOJKyGjaM0kFUnOU=;
- b=aqmm+rB2hNupjoWQ41jh5K3g53Yk+UP4Uifqa6F3MA6r5aWXX98PfSZs337HqQfsJe
- NKOsFpZ6gN5fj93bfHfbvkE6KDKOnq8owxPhqBQOmjoSD/atUUpwEkPd3ZM0mho1/aYl
- 7BEDbRlYEuXr2QrTpr07C9QYMLKnsFlHcrsOIYhAFafqSG7oDoX+HJ8zfue0+puiGIgD
- 8so2i+XEk5NSocR6wnuuW4SsngiBu+Evny+/XvBRJ1Fczb3yALg7fczmN5RwbGBfN73b
- +DNJR4qc+4Q8XtQg4qwecYR93Be9SLQFoPdVM309TjHn0iofp2WzIvmBAkopQJQUALJ8
- xZAQ==
+ bh=5kyplZ9y5jGQlctb0ystayBsPFLBex7wmEn4fkno4/4=;
+ b=x5aGOuOpvI+iuvYvGPX/pSzlQgFpCSCLmv1u+UqQBllf4e5QmNFe7ioVdLoRihJWQZ
+ 8+sfrDHNvobDO2EULQmfLOq44evqnsarcig4Z4zZcaxs4DbeCKHZIKXcp0marlkY9DWu
+ px31tDhA993QdIkRy/r36aJhHxhFMNzQF/HWO8mh3NBUlrTmqZ5E6bDRZrllxGuGNZ6/
+ rXsxNpTSTccLG+yLZwM80oAT0GwjPzyOPxGQaKoUQxG7Voie/Z/652y9rvDXmvB64bdx
+ NYLIWm30wN+BjWi627f69nTmBXAFJEbcfM9TGry/TUln5zJX1np2aemc+XdRTfE7wgtk
+ NICg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DxzFr+PxhxGUlwpP3ZW+DROYq2bJOJKyGjaM0kFUnOU=;
- b=SPWJlUQqSPvFtQhFBD/prRVkAYBXA2SWPiqcpjtkTAJpEoFShkcG4v7ed7pqunXgFM
- VHUmyxvNXDqwDVieGrzGWEyNF8hxVrhnXj8bzCbgq2p8qZZyrraFCIGcL81NC6rb3a1C
- N4bNe16PRZuRKJKcizlbRVKlPkIi5k3it4VHz9FE0Zj0Cay41GR8+I/2I1kXR0E4WGL+
- Tao0l+K8fcmhTqo6/IDlqzgqhwEkIdIgV6PfPlC/gB25VGnzagWoBy2MXaB63brQRAsQ
- c5x91//VqLKOCsLw1gcxMEcxNkaFsv2Pf8exykPUwNwiERbOXy5DB+1kE3qH6fLxZ92f
- R0QA==
-X-Gm-Message-State: APjAAAV3/aBNbJnis6qIfOlcJqwwZJ4A1lFLMJJ/u5qAM9FVgGseutAl
- UFh7FKXJALgoZ3HjK/1be/zI8WQ35SCjYQ==
-X-Google-Smtp-Source: APXvYqyawAWBDguC3SXa8/3eR97g8pe9f0+l5pXzLXUWpqEexmmj/7VO8mm5SAX0M8xoaaNtSIj6eQ==
-X-Received: by 2002:a1c:f515:: with SMTP id t21mr20392549wmh.39.1560782059272; 
- Mon, 17 Jun 2019 07:34:19 -0700 (PDT)
+ bh=5kyplZ9y5jGQlctb0ystayBsPFLBex7wmEn4fkno4/4=;
+ b=rWpoo0qUuQ+34L21KSrRZ0iTt+vRmYTjdCyeNdxM/HkieGsX9XfCK8UcqDXCXUr9Y3
+ VaryPF3qRKNJ4E6MavQVaTHne5OnRmvDOP+1tgf4NazoEAQwHb/pPghMBOmi5yv57ucw
+ rsTGWxNSD/vLFD1J9d6cIo5Xv1ei0eO0Zck0zWunNpGXa/9uOVZHqYbhET0Fe1w+Gf+r
+ Dmn95Yg+VsTZ75H54J2aqCtMbbVrcXvVYbECVI3lPCBK7QolBBFYGYI1N7N8aY1wcg0M
+ JFnidG4gDsznjNlfQBpvGir9a4DZqAAHhAtIAGtNPlPBCEd2kk7QlXeqEHNnk7lILrP9
+ +zEw==
+X-Gm-Message-State: APjAAAVOLgeeIYZXQnF0PeNdI5K3wmJXfjO6m5QTdjkwALOYgRlavGPY
+ okZNc3k/ZzYHlSeTfBnfH2GRJhJhsLI8pg==
+X-Google-Smtp-Source: APXvYqw0X2sJLmNDv9TVaLZmpvYH9DL1Qt9BaonzNYKR6IUlpdqGas5aeRKl2WJVxAalNz1jNVAa1w==
+X-Received: by 2002:adf:de02:: with SMTP id b2mr538941wrm.349.1560782060231;
+ Mon, 17 Jun 2019 07:34:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.18
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:34:18 -0700 (PDT)
+ Mon, 17 Jun 2019 07:34:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:33:52 +0100
-Message-Id: <20190617143412.5734-5-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:33:53 +0100
+Message-Id: <20190617143412.5734-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
 References: <20190617143412.5734-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PULL 04/24] hw/arm/boot: Honour image size field in
- AArch64 Image format kernels
+X-Received-From: 2a00:1450:4864:20::429
+Subject: [Qemu-devel] [PULL 05/24] target/arm: Allow VFP and Neon to be
+ disabled via a CPU property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,75 +83,230 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since Linux v3.17, the kernel's Image header includes a field image_size,
-which gives the total size of the kernel including unpopulated data
-sections such as the BSS). If this is present, then return it from
-load_aarch64_image() as the true size of the kernel rather than
-just using the size of the Image file itself. This allows the code
-which calculates where to put the initrd to avoid putting it in
-the kernel's BSS area.
+Allow VFP and neon to be disabled via a CPU property. As with
+the "pmu" property, we only allow these features to be removed
+from CPUs which have it by default, not added to CPUs which
+don't have it.
 
-This means that we should be able to reliably load kernel images
-which are larger than 128MB without accidentally putting the
-initrd or dtb in locations that clash with the kernel itself.
+The primary motivation here is to be able to optionally
+create Cortex-M33 CPUs with no FPU, but we provide switches
+for both VFP and Neon because the two interact:
+ * AArch64 can't have one without the other
+ * Some ID register fields only change if both are disabled
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1823998
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Mark Rutland <mark.rutland@arm.com>
-Message-id: 20190516144733.32399-5-peter.maydell@linaro.org
+Message-id: 20190517174046.11146-2-peter.maydell@linaro.org
 ---
- hw/arm/boot.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ target/arm/cpu.h |   4 ++
+ target/arm/cpu.c | 150 +++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 148 insertions(+), 6 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index a0e1110719e..b2f93f6beff 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -911,6 +911,7 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
-                                    hwaddr *entry, AddressSpace *as)
- {
-     hwaddr kernel_load_offset = KERNEL64_LOAD_ADDR;
-+    uint64_t kernel_size = 0;
-     uint8_t *buffer;
-     int size;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 92298624215..cf2496aeeec 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -786,6 +786,10 @@ struct ARMCPU {
+     bool has_el3;
+     /* CPU has PMU (Performance Monitor Unit) */
+     bool has_pmu;
++    /* CPU has VFP */
++    bool has_vfp;
++    /* CPU has Neon */
++    bool has_neon;
  
-@@ -938,7 +939,10 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
-          * is only valid if the image_size is non-zero.
-          */
-         memcpy(&hdrvals, buffer + ARM64_TEXT_OFFSET_OFFSET, sizeof(hdrvals));
--        if (hdrvals[1] != 0) {
-+
-+        kernel_size = le64_to_cpu(hdrvals[1]);
-+
-+        if (kernel_size != 0) {
-             kernel_load_offset = le64_to_cpu(hdrvals[0]);
+     /* CPU has memory protection unit */
+     bool has_mpu;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 2335659a852..af879d5311e 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -763,6 +763,12 @@ static Property arm_cpu_cfgend_property =
+ static Property arm_cpu_has_pmu_property =
+             DEFINE_PROP_BOOL("pmu", ARMCPU, has_pmu, true);
  
-             /*
-@@ -956,12 +960,21 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
-         }
++static Property arm_cpu_has_vfp_property =
++            DEFINE_PROP_BOOL("vfp", ARMCPU, has_vfp, true);
++
++static Property arm_cpu_has_neon_property =
++            DEFINE_PROP_BOOL("neon", ARMCPU, has_neon, true);
++
+ static Property arm_cpu_has_mpu_property =
+             DEFINE_PROP_BOOL("has-mpu", ARMCPU, has_mpu, true);
+ 
+@@ -803,6 +809,13 @@ void arm_cpu_post_init(Object *obj)
+     if (arm_feature(&cpu->env, ARM_FEATURE_M)) {
+         set_feature(&cpu->env, ARM_FEATURE_PMSA);
+     }
++    /* Similarly for the VFP feature bits */
++    if (arm_feature(&cpu->env, ARM_FEATURE_VFP4)) {
++        set_feature(&cpu->env, ARM_FEATURE_VFP3);
++    }
++    if (arm_feature(&cpu->env, ARM_FEATURE_VFP3)) {
++        set_feature(&cpu->env, ARM_FEATURE_VFP);
++    }
+ 
+     if (arm_feature(&cpu->env, ARM_FEATURE_CBAR) ||
+         arm_feature(&cpu->env, ARM_FEATURE_CBAR_RO)) {
+@@ -847,6 +860,27 @@ void arm_cpu_post_init(Object *obj)
+                                  &error_abort);
      }
  
 +    /*
-+     * Kernels before v3.17 don't populate the image_size field, and
-+     * raw images have no header. For those our best guess at the size
-+     * is the size of the Image file itself.
++     * Allow user to turn off VFP and Neon support, but only for TCG --
++     * KVM does not currently allow us to lie to the guest about its
++     * ID/feature registers, so the guest always sees what the host has.
 +     */
-+    if (kernel_size == 0) {
-+        kernel_size = size;
++    if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
++        cpu->has_vfp = true;
++        if (!kvm_enabled()) {
++            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property,
++                                     &error_abort);
++        }
 +    }
 +
-     *entry = mem_base + kernel_load_offset;
-     rom_add_blob_fixed_as(filename, buffer, size, *entry, as);
++    if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
++        cpu->has_neon = true;
++        if (!kvm_enabled()) {
++            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_property,
++                                     &error_abort);
++        }
++    }
++
+     if (arm_feature(&cpu->env, ARM_FEATURE_PMSA)) {
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_has_mpu_property,
+                                  &error_abort);
+@@ -956,6 +990,116 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         return;
+     }
  
-     g_free(buffer);
- 
--    return size;
-+    return kernel_size;
- }
- 
- static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
++    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
++        cpu->has_vfp != cpu->has_neon) {
++        /*
++         * This is an architectural requirement for AArch64; AArch32 is
++         * more flexible and permits VFP-no-Neon and Neon-no-VFP.
++         */
++        error_setg(errp,
++                   "AArch64 CPUs must have both VFP and Neon or neither");
++        return;
++    }
++
++    if (!cpu->has_vfp) {
++        uint64_t t;
++        uint32_t u;
++
++        unset_feature(env, ARM_FEATURE_VFP);
++        unset_feature(env, ARM_FEATURE_VFP3);
++        unset_feature(env, ARM_FEATURE_VFP4);
++
++        t = cpu->isar.id_aa64isar1;
++        t = FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 0);
++        cpu->isar.id_aa64isar1 = t;
++
++        t = cpu->isar.id_aa64pfr0;
++        t = FIELD_DP64(t, ID_AA64PFR0, FP, 0xf);
++        cpu->isar.id_aa64pfr0 = t;
++
++        u = cpu->isar.id_isar6;
++        u = FIELD_DP32(u, ID_ISAR6, JSCVT, 0);
++        cpu->isar.id_isar6 = u;
++
++        u = cpu->isar.mvfr0;
++        u = FIELD_DP32(u, MVFR0, FPSP, 0);
++        u = FIELD_DP32(u, MVFR0, FPDP, 0);
++        u = FIELD_DP32(u, MVFR0, FPTRAP, 0);
++        u = FIELD_DP32(u, MVFR0, FPDIVIDE, 0);
++        u = FIELD_DP32(u, MVFR0, FPSQRT, 0);
++        u = FIELD_DP32(u, MVFR0, FPSHVEC, 0);
++        u = FIELD_DP32(u, MVFR0, FPROUND, 0);
++        cpu->isar.mvfr0 = u;
++
++        u = cpu->isar.mvfr1;
++        u = FIELD_DP32(u, MVFR1, FPFTZ, 0);
++        u = FIELD_DP32(u, MVFR1, FPDNAN, 0);
++        u = FIELD_DP32(u, MVFR1, FPHP, 0);
++        cpu->isar.mvfr1 = u;
++
++        u = cpu->isar.mvfr2;
++        u = FIELD_DP32(u, MVFR2, FPMISC, 0);
++        cpu->isar.mvfr2 = u;
++    }
++
++    if (!cpu->has_neon) {
++        uint64_t t;
++        uint32_t u;
++
++        unset_feature(env, ARM_FEATURE_NEON);
++
++        t = cpu->isar.id_aa64isar0;
++        t = FIELD_DP64(t, ID_AA64ISAR0, DP, 0);
++        cpu->isar.id_aa64isar0 = t;
++
++        t = cpu->isar.id_aa64isar1;
++        t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 0);
++        cpu->isar.id_aa64isar1 = t;
++
++        t = cpu->isar.id_aa64pfr0;
++        t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 0xf);
++        cpu->isar.id_aa64pfr0 = t;
++
++        u = cpu->isar.id_isar5;
++        u = FIELD_DP32(u, ID_ISAR5, RDM, 0);
++        u = FIELD_DP32(u, ID_ISAR5, VCMA, 0);
++        cpu->isar.id_isar5 = u;
++
++        u = cpu->isar.id_isar6;
++        u = FIELD_DP32(u, ID_ISAR6, DP, 0);
++        u = FIELD_DP32(u, ID_ISAR6, FHM, 0);
++        cpu->isar.id_isar6 = u;
++
++        u = cpu->isar.mvfr1;
++        u = FIELD_DP32(u, MVFR1, SIMDLS, 0);
++        u = FIELD_DP32(u, MVFR1, SIMDINT, 0);
++        u = FIELD_DP32(u, MVFR1, SIMDSP, 0);
++        u = FIELD_DP32(u, MVFR1, SIMDHP, 0);
++        u = FIELD_DP32(u, MVFR1, SIMDFMAC, 0);
++        cpu->isar.mvfr1 = u;
++
++        u = cpu->isar.mvfr2;
++        u = FIELD_DP32(u, MVFR2, SIMDMISC, 0);
++        cpu->isar.mvfr2 = u;
++    }
++
++    if (!cpu->has_neon && !cpu->has_vfp) {
++        uint64_t t;
++        uint32_t u;
++
++        t = cpu->isar.id_aa64isar0;
++        t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 0);
++        cpu->isar.id_aa64isar0 = t;
++
++        t = cpu->isar.id_aa64isar1;
++        t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 0);
++        cpu->isar.id_aa64isar1 = t;
++
++        u = cpu->isar.mvfr0;
++        u = FIELD_DP32(u, MVFR0, SIMDREG, 0);
++        cpu->isar.mvfr0 = u;
++    }
++
+     /* Some features automatically imply others: */
+     if (arm_feature(env, ARM_FEATURE_V8)) {
+         if (arm_feature(env, ARM_FEATURE_M)) {
+@@ -1016,12 +1160,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+     if (arm_feature(env, ARM_FEATURE_V5)) {
+         set_feature(env, ARM_FEATURE_V4T);
+     }
+-    if (arm_feature(env, ARM_FEATURE_VFP4)) {
+-        set_feature(env, ARM_FEATURE_VFP3);
+-    }
+-    if (arm_feature(env, ARM_FEATURE_VFP3)) {
+-        set_feature(env, ARM_FEATURE_VFP);
+-    }
+     if (arm_feature(env, ARM_FEATURE_LPAE)) {
+         set_feature(env, ARM_FEATURE_V7MP);
+         set_feature(env, ARM_FEATURE_PXN);
 -- 
 2.20.1
 
