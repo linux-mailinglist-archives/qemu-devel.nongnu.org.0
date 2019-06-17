@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59A948DA1
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:11:28 +0200 (CEST)
-Received: from localhost ([::1]:51305 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739C348D85
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:08:14 +0200 (CEST)
+Received: from localhost ([::1]:51266 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcx2O-0005xe-3U
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40423)
+	id 1hcwzF-0002Oj-LF
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:08:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40672)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hcwh1-0001cE-VQ
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:25 -0400
+ (envelope-from <armbru@redhat.com>) id 1hcwhH-00029B-Jp
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hcwh0-0007sF-E6
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56160)
+ (envelope-from <armbru@redhat.com>) id 1hcwhF-000850-DH
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40212)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwh0-0007hi-3Z
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:22 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwhF-0007le-3Y
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:37 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EA76B81DF2
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7B5CA2E95BE
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:49:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-177.ams2.redhat.com
  [10.36.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 90BC21001E93;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99BF37FA2C;
  Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 709F6113300E; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
+ id 73F5A1133010; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 20:48:56 +0200
-Message-Id: <20190617184903.19436-10-armbru@redhat.com>
+Date: Mon, 17 Jun 2019 20:48:57 +0200
+Message-Id: <20190617184903.19436-11-armbru@redhat.com>
 In-Reply-To: <20190617184903.19436-1-armbru@redhat.com>
 References: <20190617184903.19436-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Mon, 17 Jun 2019 18:49:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 09/16] monitor: Move {hmp, qmp}.c to monitor/{hmp,
- qmp}-cmds.c
+Subject: [Qemu-devel] [PULL 10/16] monitor: Create monitor-internal.h with
+ common definitions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,149 +65,412 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kevin Wolf <kwolf@redhat.com>
 
-Now that we have a monitor/ subdirectory, let's move hmp.c and qmp.c
-from the root directory there. As they contain implementations of
-monitor commands, rename them to {hmp,qmp}-cmds.c, so that {hmp,qmp}.c
-are free for the HMP and QMP infrastructure.
+Before we can split monitor/misc.c, we need to create a header file that
+contains the common definitions that will be used by multiple source
+files.
+
+For a start, add the type definitions for Monitor, MonitorHMP and
+MonitorQMP and their dependencies. We'll add functions as needed when
+splitting monitor/misc.c.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20190613153405.24769-10-kwolf@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190613153405.24769-9-kwolf@redhat.com>
+[Header guard symbol tidied up, superfluous #include dropped, FIXME in
+hmp_change() resolved]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- MAINTAINERS                         | 5 +++--
- Makefile.objs                       | 2 +-
- docs/devel/writing-qmp-commands.txt | 9 +++++----
- monitor/Makefile.objs               | 1 +
- hmp.c =3D> monitor/hmp-cmds.c         | 2 +-
- qmp.c =3D> monitor/qmp-cmds.c         | 2 +-
- 6 files changed, 12 insertions(+), 9 deletions(-)
- rename hmp.c =3D> monitor/hmp-cmds.c (99%)
- rename qmp.c =3D> monitor/qmp-cmds.c (99%)
+ MAINTAINERS                |   2 +
+ monitor/hmp-cmds.c         |   5 +-
+ monitor/misc.c             | 114 +----------------------------
+ monitor/monitor-internal.h | 145 +++++++++++++++++++++++++++++++++++++
+ 4 files changed, 150 insertions(+), 116 deletions(-)
+ create mode 100644 monitor/monitor-internal.h
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 575ea6e68d..3c7d366727 100644
+index 3c7d366727..15f21c35e0 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1919,7 +1919,8 @@ Human Monitor (HMP)
+@@ -1918,6 +1918,7 @@ F: qapi/run-state.json
+ Human Monitor (HMP)
  M: Dr. David Alan Gilbert <dgilbert@redhat.com>
  S: Maintained
++F: monitor/monitor-internal.h
  F: monitor/misc.c
--F: hmp.[ch]
-+F: monitor/hmp*
-+F: hmp.h
- F: hmp-commands*.hx
- F: include/monitor/hmp-target.h
- F: tests/test-hmp.c
-@@ -2039,7 +2040,7 @@ F: tests/check-qom-proplist.c
+ F: monitor/hmp*
+ F: hmp.h
+@@ -2040,6 +2041,7 @@ F: tests/check-qom-proplist.c
  QMP
  M: Markus Armbruster <armbru@redhat.com>
  S: Supported
--F: qmp.c
-+F: monitor/qmp*
++F: monitor/monitor-internal.h
+ F: monitor/qmp*
  F: monitor/misc.c
  F: docs/devel/*qmp-*
- F: docs/interop/*qmp-*
-diff --git a/Makefile.objs b/Makefile.objs
-index dd39a70b48..9495fcbc7e 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -83,8 +83,8 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
- ######################################################################
- # qapi
-=20
--common-obj-y +=3D qmp.o hmp.o
- common-obj-y +=3D qapi/
-+common-obj-y +=3D monitor/
- endif
-=20
- #######################################################################
-diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp=
--commands.txt
-index cc6ecd6d5d..46a6c48683 100644
---- a/docs/devel/writing-qmp-commands.txt
-+++ b/docs/devel/writing-qmp-commands.txt
-@@ -20,7 +20,7 @@ new QMP command.
-=20
- 2. Write the QMP command itself, which is a regular C function. Preferab=
-ly,
-    the command should be exported by some QEMU subsystem. But it can als=
-o be
--   added to the qmp.c file
-+   added to the monitor/qmp-cmds.c file
-=20
- 3. At this point the command can be tested under the QMP protocol
-=20
-@@ -101,7 +101,8 @@ protocol data.
-=20
- The next step is to write the "hello-world" implementation. As explained
- earlier, it's preferable for commands to live in QEMU subsystems. But
--"hello-world" doesn't pertain to any, so we put its implementation in qm=
-p.c:
-+"hello-world" doesn't pertain to any, so we put its implementation in
-+monitor/qmp-cmds.c:
-=20
- void qmp_hello_world(Error **errp)
- {
-@@ -146,7 +147,7 @@ for mandatory arguments). Finally, 'str' is the argum=
-ent's type, which
- stands for "string". The QAPI also supports integers, booleans, enumerat=
-ions
- and user defined types.
-=20
--Now, let's update our C implementation in qmp.c:
-+Now, let's update our C implementation in monitor/qmp-cmds.c:
-=20
- void qmp_hello_world(bool has_message, const char *message, Error **errp=
-)
- {
-@@ -267,7 +268,7 @@ monitor (HMP).
-=20
- With the introduction of the QAPI, HMP commands make QMP calls. Most of =
-the
- time HMP commands are simple wrappers. All HMP commands implementation e=
-xist in
--the hmp.c file.
-+the monitor/hmp-cmds.c file.
-=20
- Here's the implementation of the "hello-world" HMP command:
-=20
-diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-index e783b0616b..a7170af6e1 100644
---- a/monitor/Makefile.objs
-+++ b/monitor/Makefile.objs
-@@ -1 +1,2 @@
- obj-y +=3D misc.o
-+common-obj-y +=3D qmp-cmds.o hmp-cmds.o
-diff --git a/hmp.c b/monitor/hmp-cmds.c
-similarity index 99%
-rename from hmp.c
-rename to monitor/hmp-cmds.c
-index e6ea7cb9c2..c917e24d9c 100644
---- a/hmp.c
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index c917e24d9c..c283dde0e9 100644
+--- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -1,5 +1,5 @@
- /*
-- * Human Monitor Interface
-+ * Human Monitor Interface commands
-  *
-  * Copyright IBM, Corp. 2011
-  *
-diff --git a/qmp.c b/monitor/qmp-cmds.c
-similarity index 99%
-rename from qmp.c
-rename to monitor/qmp-cmds.c
-index 6797568444..f1b1e4f08b 100644
---- a/qmp.c
-+++ b/monitor/qmp-cmds.c
-@@ -1,5 +1,5 @@
- /*
-- * QEMU Management Protocol
-+ * QEMU Management Protocol commands
-  *
-  * Copyright IBM, Corp. 2011
-  *
+@@ -24,7 +24,7 @@
+ #include "qemu/option.h"
+ #include "qemu/timer.h"
+ #include "qemu/sockets.h"
+-#include "monitor/monitor.h"
++#include "monitor/monitor-internal.h"
+ #include "monitor/qdev.h"
+ #include "qapi/error.h"
+ #include "qapi/opts-visitor.h"
+@@ -1943,8 +1943,7 @@ static void hmp_change_read_arg(void *opaque, const=
+ char *password,
+=20
+ void hmp_change(Monitor *mon, const QDict *qdict)
+ {
+-    /* FIXME Make MonitorHMP public and use container_of */
+-    MonitorHMP *hmp_mon =3D (MonitorHMP *)mon;
++    MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
+     const char *device =3D qdict_get_str(qdict, "device");
+     const char *target =3D qdict_get_str(qdict, "target");
+     const char *arg =3D qdict_get_try_str(qdict, "arg");
+diff --git a/monitor/misc.c b/monitor/misc.c
+index c5f8483b7e..3cdbb681fb 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -23,6 +23,7 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "monitor-internal.h"
+ #include "qemu/units.h"
+ #include <dirent.h>
+ #include "cpu.h"
+@@ -35,15 +36,12 @@
+ #include "exec/gdbstub.h"
+ #include "net/net.h"
+ #include "net/slirp.h"
+-#include "chardev/char-fe.h"
+ #include "chardev/char-io.h"
+ #include "chardev/char-mux.h"
+ #include "ui/qemu-spice.h"
+ #include "sysemu/numa.h"
+-#include "monitor/monitor.h"
+ #include "qemu/config-file.h"
+ #include "qemu/ctype.h"
+-#include "qemu/readline.h"
+ #include "ui/console.h"
+ #include "ui/input.h"
+ #include "sysemu/block-backend.h"
+@@ -61,7 +59,6 @@
+ #include "qapi/qmp/qnum.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qapi/qmp/qjson.h"
+-#include "qapi/qmp/json-parser.h"
+ #include "qapi/qmp/qlist.h"
+ #include "qom/object_interfaces.h"
+ #include "trace.h"
+@@ -93,55 +90,6 @@
+ #include "hw/s390x/storage-attributes.h"
+ #endif
+=20
+-/*
+- * Supported types:
+- *
+- * 'F'          filename
+- * 'B'          block device name
+- * 's'          string (accept optional quote)
+- * 'S'          it just appends the rest of the string (accept optional =
+quote)
+- * 'O'          option string of the form NAME=3DVALUE,...
+- *              parsed according to QemuOptsList given by its name
+- *              Example: 'device:O' uses qemu_device_opts.
+- *              Restriction: only lists with empty desc are supported
+- *              TODO lift the restriction
+- * 'i'          32 bit integer
+- * 'l'          target long (32 or 64 bit)
+- * 'M'          Non-negative target long (32 or 64 bit), in user mode th=
+e
+- *              value is multiplied by 2^20 (think Mebibyte)
+- * 'o'          octets (aka bytes)
+- *              user mode accepts an optional E, e, P, p, T, t, G, g, M,=
+ m,
+- *              K, k suffix, which multiplies the value by 2^60 for suff=
+ixes E
+- *              and e, 2^50 for suffixes P and p, 2^40 for suffixes T an=
+d t,
+- *              2^30 for suffixes G and g, 2^20 for M and m, 2^10 for K =
+and k
+- * 'T'          double
+- *              user mode accepts an optional ms, us, ns suffix,
+- *              which divides the value by 1e3, 1e6, 1e9, respectively
+- * '/'          optional gdb-like print format (like "/10x")
+- *
+- * '?'          optional type (for all types, except '/')
+- * '.'          other form of optional type (for 'i' and 'l')
+- * 'b'          boolean
+- *              user mode accepts "on" or "off"
+- * '-'          optional parameter (eg. '-f')
+- *
+- */
+-
+-typedef struct HMPCommand {
+-    const char *name;
+-    const char *args_type;
+-    const char *params;
+-    const char *help;
+-    const char *flags; /* p=3Dpreconfig */
+-    void (*cmd)(Monitor *mon, const QDict *qdict);
+-    /* @sub_table is a list of 2nd level of commands. If it does not exi=
+st,
+-     * cmd should be used. If it exists, sub_table[?].cmd should be
+-     * used, and cmd of 1st level plays the role of help function.
+-     */
+-    struct HMPCommand *sub_table;
+-    void (*command_completion)(ReadLineState *rs, int nb_args, const cha=
+r *str);
+-} HMPCommand;
+-
+ /* file descriptors passed via SCM_RIGHTS */
+ typedef struct mon_fd_t mon_fd_t;
+ struct mon_fd_t {
+@@ -184,66 +132,6 @@ typedef struct {
+     int64_t rate;       /* Minimum time (in ns) between two events */
+ } MonitorQAPIEventConf;
+=20
+-struct Monitor {
+-    CharBackend chr;
+-    int reset_seen;
+-    int flags;
+-    int suspend_cnt;            /* Needs to be accessed atomically */
+-    bool skip_flush;
+-    bool use_io_thread;
+-
+-    gchar *mon_cpu_path;
+-    QTAILQ_ENTRY(Monitor) entry;
+-
+-    /*
+-     * The per-monitor lock. We can't access guest memory when holding
+-     * the lock.
+-     */
+-    QemuMutex mon_lock;
+-
+-    /*
+-     * Members that are protected by the per-monitor lock
+-     */
+-    QLIST_HEAD(, mon_fd_t) fds;
+-    QString *outbuf;
+-    guint out_watch;
+-    /* Read under either BQL or mon_lock, written with BQL+mon_lock.  */
+-    int mux_out;
+-};
+-
+-struct MonitorHMP {
+-    Monitor common;
+-    /*
+-     * State used only in the thread "owning" the monitor.
+-     * If @use_io_thread, this is @mon_iothread. (This does not actually=
+ happen
+-     * in the current state of the code.)
+-     * Else, it's the main thread.
+-     * These members can be safely accessed without locks.
+-     */
+-    ReadLineState *rs;
+-};
+-
+-typedef struct {
+-    Monitor common;
+-    JSONMessageParser parser;
+-    /*
+-     * When a client connects, we're in capabilities negotiation mode.
+-     * @commands is &qmp_cap_negotiation_commands then.  When command
+-     * qmp_capabilities succeeds, we go into command mode, and
+-     * @command becomes &qmp_commands.
+-     */
+-    QmpCommandList *commands;
+-    bool capab_offered[QMP_CAPABILITY__MAX]; /* capabilities offered */
+-    bool capab[QMP_CAPABILITY__MAX];         /* offered and accepted */
+-    /*
+-     * Protects qmp request/response queue.
+-     * Take monitor_lock first when you need both.
+-     */
+-    QemuMutex qmp_queue_lock;
+-    /* Input queue that holds all the parsed QMP requests */
+-    GQueue *qmp_requests;
+-} MonitorQMP;
+-
+ /* Shared monitor I/O thread */
+ IOThread *mon_iothread;
+=20
+diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+new file mode 100644
+index 0000000000..ebaf0201c8
+--- /dev/null
++++ b/monitor/monitor-internal.h
+@@ -0,0 +1,145 @@
++/*
++ * QEMU monitor
++ *
++ * Copyright (c) 2003-2004 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining=
+ a copy
++ * of this software and associated documentation files (the "Software"),=
+ to deal
++ * in the Software without restriction, including without limitation the=
+ rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
+sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be includ=
+ed in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
+SS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
+TY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
+LL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
+OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
+NG FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
+S IN
++ * THE SOFTWARE.
++ */
++
++#ifndef MONITOR_INTERNAL_H
++#define MONITOR_INTERNAL_H
++
++#include "chardev/char-fe.h"
++#include "monitor/monitor.h"
++#include "qapi/qapi-types-misc.h"
++#include "qapi/qmp/dispatch.h"
++#include "qapi/qmp/json-parser.h"
++#include "qemu/readline.h"
++
++/*
++ * Supported types:
++ *
++ * 'F'          filename
++ * 'B'          block device name
++ * 's'          string (accept optional quote)
++ * 'S'          it just appends the rest of the string (accept optional =
+quote)
++ * 'O'          option string of the form NAME=3DVALUE,...
++ *              parsed according to QemuOptsList given by its name
++ *              Example: 'device:O' uses qemu_device_opts.
++ *              Restriction: only lists with empty desc are supported
++ *              TODO lift the restriction
++ * 'i'          32 bit integer
++ * 'l'          target long (32 or 64 bit)
++ * 'M'          Non-negative target long (32 or 64 bit), in user mode th=
+e
++ *              value is multiplied by 2^20 (think Mebibyte)
++ * 'o'          octets (aka bytes)
++ *              user mode accepts an optional E, e, P, p, T, t, G, g, M,=
+ m,
++ *              K, k suffix, which multiplies the value by 2^60 for suff=
+ixes E
++ *              and e, 2^50 for suffixes P and p, 2^40 for suffixes T an=
+d t,
++ *              2^30 for suffixes G and g, 2^20 for M and m, 2^10 for K =
+and k
++ * 'T'          double
++ *              user mode accepts an optional ms, us, ns suffix,
++ *              which divides the value by 1e3, 1e6, 1e9, respectively
++ * '/'          optional gdb-like print format (like "/10x")
++ *
++ * '?'          optional type (for all types, except '/')
++ * '.'          other form of optional type (for 'i' and 'l')
++ * 'b'          boolean
++ *              user mode accepts "on" or "off"
++ * '-'          optional parameter (eg. '-f')
++ *
++ */
++
++typedef struct HMPCommand {
++    const char *name;
++    const char *args_type;
++    const char *params;
++    const char *help;
++    const char *flags; /* p=3Dpreconfig */
++    void (*cmd)(Monitor *mon, const QDict *qdict);
++    /*
++     * @sub_table is a list of 2nd level of commands. If it does not exi=
+st,
++     * cmd should be used. If it exists, sub_table[?].cmd should be
++     * used, and cmd of 1st level plays the role of help function.
++     */
++    struct HMPCommand *sub_table;
++    void (*command_completion)(ReadLineState *rs, int nb_args, const cha=
+r *str);
++} HMPCommand;
++
++struct Monitor {
++    CharBackend chr;
++    int reset_seen;
++    int flags;
++    int suspend_cnt;            /* Needs to be accessed atomically */
++    bool skip_flush;
++    bool use_io_thread;
++
++    gchar *mon_cpu_path;
++    QTAILQ_ENTRY(Monitor) entry;
++
++    /*
++     * The per-monitor lock. We can't access guest memory when holding
++     * the lock.
++     */
++    QemuMutex mon_lock;
++
++    /*
++     * Members that are protected by the per-monitor lock
++     */
++    QLIST_HEAD(, mon_fd_t) fds;
++    QString *outbuf;
++    guint out_watch;
++    /* Read under either BQL or mon_lock, written with BQL+mon_lock.  */
++    int mux_out;
++};
++
++struct MonitorHMP {
++    Monitor common;
++    /*
++     * State used only in the thread "owning" the monitor.
++     * If @use_io_thread, this is @mon_iothread. (This does not actually=
+ happen
++     * in the current state of the code.)
++     * Else, it's the main thread.
++     * These members can be safely accessed without locks.
++     */
++    ReadLineState *rs;
++};
++
++typedef struct {
++    Monitor common;
++    JSONMessageParser parser;
++    /*
++     * When a client connects, we're in capabilities negotiation mode.
++     * @commands is &qmp_cap_negotiation_commands then.  When command
++     * qmp_capabilities succeeds, we go into command mode, and
++     * @command becomes &qmp_commands.
++     */
++    QmpCommandList *commands;
++    bool capab_offered[QMP_CAPABILITY__MAX]; /* capabilities offered */
++    bool capab[QMP_CAPABILITY__MAX];         /* offered and accepted */
++    /*
++     * Protects qmp request/response queue.
++     * Take monitor_lock first when you need both.
++     */
++    QemuMutex qmp_queue_lock;
++    /* Input queue that holds all the parsed QMP requests */
++    GQueue *qmp_requests;
++} MonitorQMP;
++
++#endif
 --=20
 2.21.0
 
