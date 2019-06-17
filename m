@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D76848DA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:11:59 +0200 (CEST)
-Received: from localhost ([::1]:51318 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55F448E72
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:25:39 +0200 (CEST)
+Received: from localhost ([::1]:51466 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcx2s-0007Dj-7r
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42923)
+	id 1hcxG7-0003A7-35
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:25:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44303)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcwpl-0003xV-5b
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:58:26 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hcwub-0007zJ-UO
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:03:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcwpi-0006h9-Iv
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:58:25 -0400
-Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:33032)
+ (envelope-from <richard.henderson@linaro.org>) id 1hcwua-0002jd-Ve
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:03:25 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43518)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcwpi-0006em-AI
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:58:22 -0400
-Received: by mail-ot1-x335.google.com with SMTP id p4so729374oti.0
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 11:58:22 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hcwua-0002hN-LL
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:03:24 -0400
+Received: by mail-pf1-x444.google.com with SMTP id i189so6168328pfg.10
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 12:03:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vOC5waeg1fC7+3PNA9ugNh6FosdwOiiGKM2oKNXjJaY=;
- b=X1TTHvtv/xkWFlV/mJ0hui8X8qHOYLhl1W2UWXd7Gy+eHvrhdti3++9cKEP8yMmolT
- +3J0sd7lOri44Zy0XJh7RDP86Wp6Rn214CRAYEQ5uyMgT0L0Cn3sJJOL7IZMnpIvx2+z
- w6RXjh+QQjpan3+d1t32M/hoPObQFV5LTCdQzMxiOXcgHp7PbmyWYK+8nlZIY5sQ7G5p
- Sf72jYhlZAHyAzIWe4Gl9T8WBh4D4MHk/C/3ARhO69iQ0Iih+Sy/9noEaaaM8NRvX4ec
- FduQkj6KJldPKmS9s098xS/qmUMee8SA2dlPAQtYb0ikGCIN4sm4L4/Q3dU94TVlMMov
- iMzA==
+ h=subject:to:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iZHzBIb+2T7t0rnvFVP9Ixb3KVylrfKNn21WvVXuJpw=;
+ b=Kql0QhwS5l8zAR9vPZI7vrtQq1OwB8FP8vycgIHYqabKVPPUGprCKXDCBaDejKMYq+
+ +FAId42zOBwxMYPIV33lY4urr4ox0XYjzi6ZqPB3yAQsC6x0Fmaimnzsi24S+SQrhwOU
+ 3clk7KTmJmgKXKv1cWYHgpURFmy3NMaSwBoRWad6znW/SzNWumOFyENtgR0d7WbaRmlP
+ Ic+UlLH+PeeoSj3+54tIMfgpT+L7NG0gTTzBDgtwTZ75PjVLWrYlPUeeK0X2owhenxGx
+ u9pi79gDW+vdUfbmkh/Wp2hIg6pnyWWvoY46AWoSZC+dFHyOCGDayUwYVvNlsnAl2Hpv
+ 2KSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vOC5waeg1fC7+3PNA9ugNh6FosdwOiiGKM2oKNXjJaY=;
- b=CNAdeH/uHbjlPEgOzE4B9POFwwb4P19BPyMENQ8SWfsreOXlKk+Jg0GhUIWZtj22SD
- PbiD2zgd+H/GBuyiqX2aDuL7TOKbJ4ubL5Ac0qh0Q2keWoPZgD49w3tnvqPyIBbG/jx+
- FW8wP16Ams7qvfYrH36UqEmSoQw1iQDKWXoJPxaXFh6OZW/qoal1nmHgjXM2W1olXqPz
- iehU1668qoP8TXnZ9L1hGmFypPaR0BHtIHZ/VdyG3nHzrXJb6U57qZnTiUJff9Ua65hh
- F+fiDlOJgs7q0S7LOS+g9RtNiHmjgtxc+5H+xlpaYtZ6TCAKfCWbOd1GtM9ErI73QYtt
- Ozaw==
-X-Gm-Message-State: APjAAAU8OQQIJcVa7WtMEItouj7yO0gQ0vnIHQoNtREVxc6au7MsEaqg
- iNj3blv44kNyL58i1+qpWl5DyrG4dvOqwe0DZt9LLQ==
-X-Google-Smtp-Source: APXvYqyuBWecUexA6b5tW2OK5RrfCGVeByjoFKDV6VcHsVvYcQ8ZO3fULABIQdt+gDbeSbPBPYVQh6I7lZbFQZrHqgg=
-X-Received: by 2002:a9d:711e:: with SMTP id n30mr223281otj.97.1560797901111;
- Mon, 17 Jun 2019 11:58:21 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iZHzBIb+2T7t0rnvFVP9Ixb3KVylrfKNn21WvVXuJpw=;
+ b=O+mJXeTtelPgZo8mvQwAoQj0bnOIQbc/a/gb3w4HGKwN9m1lUlO007RxOvQE+YfHCz
+ VO6HcH2cKqk22zJLm6iO+iUOZ4JeDV+kp/tKHEpu3sXislaZqwK4wQktmgpUM1xtwUU+
+ fFtXgklB4cn1yjtvu/0x6K6nUon/rbSkJIn83zjPvZFE/2DNsi82rULFjAMr2j8SJYkf
+ taA6egifBIOeaLv+Lhz5axWSacaG1LytZn0ypSSlaVgaCd1m7EFuMYi1Nuugrl/m8tpH
+ dfB/zeP7VxGMUZ+T5hcWbKc6HyUp6M6tbGh0jJuPMlQScuAjcxGDZSo4dWG66BWKpM0o
+ S1Ew==
+X-Gm-Message-State: APjAAAUgU1Ue8WdLZZMQjXSIX+iqCMxxYW5H41Xi3g95dX4Q4wT4zpiz
+ kW3slAsQAAvT5F9kMxuSt/Qr+GlzEyo=
+X-Google-Smtp-Source: APXvYqyNDgz9JJ/C7T6ZwRR5SPbfhFATm8W2mur1iqN7gba+ZtgPzBxfuqo+dC/9F24XE2PHK7xgJg==
+X-Received: by 2002:aa7:8dd2:: with SMTP id j18mr45558585pfr.88.1560798183183; 
+ Mon, 17 Jun 2019 12:03:03 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-2-33.tukw.qwest.net. [97.113.2.33])
+ by smtp.gmail.com with ESMTPSA id 128sm13061319pff.16.2019.06.17.12.03.02
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jun 2019 12:03:02 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20190617160130.3207-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <ee659698-d2fb-8fd1-dc73-baa7b63a94ba@linaro.org>
+Date: Mon, 17 Jun 2019 12:03:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190617184903.19436-1-armbru@redhat.com>
-In-Reply-To: <20190617184903.19436-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 17 Jun 2019 19:58:09 +0100
-Message-ID: <CAFEAcA9M0kEikXajCWX9BUtLU87P6=KHvbEWoW6xVq0Y7xvueQ@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190617160130.3207-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::335
-Subject: Re: [Qemu-devel] [PULL 00/16] Monitor patches for 2019-06-17
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH] target/arm: Check for dp support for dp
+ VFM, not sp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,107 +84,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Jun 2019 at 19:51, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit 076243ffe6c1b687e9e6d98348c3bf3398df78=
-f3:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-docs-20190617'=
- into staging (2019-06-17 16:41:25 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2019-06-17
->
-> for you to fetch changes up to 092b8737c5e7695c4b9caa3b4eedc66763632755:
->
->   vl: Deprecate -mon pretty=3D... for HMP monitors (2019-06-17 20:36:56 +=
-0200)
->
-> ----------------------------------------------------------------
-> Monitor patches for 2019-06-17
->
+On 6/17/19 9:01 AM, Peter Maydell wrote:
+> In commit 1120827fa182f0e7622 we accidentally put the
+> "UNDEF unless FPU has double-precision support" check in
+> the single-precision VFM function. Put it in the dp
+> function where it belongs.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> I just merged the pullreq with 1120827fa182f0e7622 an hour
+> ago and then I spotted this bug in it...
+> 
+>  target/arm/translate-vfp.inc.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 
-Hi; I'm afraid this doesn't compile:
+Oops.
 
-Most hosts (ppc64, s390, aarch64, aarch32, osx, and possibly
-the others too though they haven't failed immediately) fail
-something like this:
-
-/home/pm215/qemu/monitor/misc.c: In function =E2=80=98netdev_del_completion=
-=E2=80=99:
-/home/pm215/qemu/monitor/misc.c:2165:9: error: implicit declaration of
-function =E2=80=98qemu_find_opts_err=E2=80=99 [-Werror=3Dimplicit-function-=
-declaration]
-         opts =3D qemu_opts_find(qemu_find_opts_err("netdev", NULL), name);
-         ^
-/home/pm215/qemu/monitor/misc.c:2165:9: error: nested extern
-declaration of =E2=80=98qemu_find_opts_err=E2=80=99 [-Werror=3Dnested-exter=
-ns]
-/home/pm215/qemu/monitor/misc.c:2165:9: error: passing argument 1 of
-=E2=80=98qemu_opts_find=E2=80=99 makes pointer from integer without a cast =
-[-Werror]
-In file included from /home/pm215/qemu/monitor/misc.c:64:0:
-/home/pm215/qemu/include/qemu/option.h:105:11: note: expected =E2=80=98stru=
-ct
-QemuOptsList *=E2=80=99 but argument is of type =E2=80=98int=E2=80=99
- QemuOpts *qemu_opts_find(QemuOptsList *list, const char *id);
-           ^
-cc1: all warnings being treated as errors
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-windows is a bit different:
-
-/home/petmay01/qemu-for-merges/monitor/hmp.c: In function 'file_completion'=
-:
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1113:5: error: unknown
-type name 'DIR'
-     DIR *ffs;
-     ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1135:11: error: implicit
-declaration of function 'opendir'
-[-Werror=3Dimplicit-function-declaration]
-     ffs =3D opendir(path);
-           ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1135:5: error: nested
-extern declaration of 'opendir' [-Werror=3Dnested-externs]
-     ffs =3D opendir(path);
-     ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1135:9: error: assignment
-makes pointer from integer without a cast [-Werror=3Dint-conversion]
-     ffs =3D opendir(path);
-         ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1141:13: error: implicit
-declaration of function 'readdir'
-[-Werror=3Dimplicit-function-declaration]
-         d =3D readdir(ffs);
-             ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1141:9: error: nested
-extern declaration of 'readdir' [-Werror=3Dnested-externs]
-         d =3D readdir(ffs);
-         ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1141:11: error:
-assignment makes pointer from integer without a cast
-[-Werror=3Dint-conversion]
-         d =3D readdir(ffs);
-           ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1146:21: error:
-dereferencing pointer to incomplete type 'struct dirent'
-         if (strcmp(d->d_name, ".") =3D=3D 0 || strcmp(d->d_name, "..") =3D=
-=3D 0) {
-                     ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1166:5: error: implicit
-declaration of function 'closedir'
-[-Werror=3Dimplicit-function-declaration]
-     closedir(ffs);
-     ^
-/home/petmay01/qemu-for-merges/monitor/hmp.c:1166:5: error: nested
-extern declaration of 'closedir' [-Werror=3Dnested-externs]
-
-thanks
--- PMM
+r~
 
