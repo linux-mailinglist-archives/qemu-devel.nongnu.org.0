@@ -2,46 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E771048199
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:13:39 +0200 (CEST)
-Received: from localhost ([::1]:46458 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AFE348200
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:27:27 +0200 (CEST)
+Received: from localhost ([::1]:46782 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcqW3-0008Fg-4M
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:13:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32914)
+	id 1hcqjO-0002KV-MP
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33274)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hcqGR-0006sH-Lf
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:57:32 -0400
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hcqHV-0007Pf-Op
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:58:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hcqGQ-000694-Db
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:57:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45902)
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hcqHT-0007WX-2A
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:58:37 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:55831 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hcqGN-0005zN-Fa; Mon, 17 Jun 2019 07:57:27 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A409FF9E6A;
- Mon, 17 Jun 2019 11:57:26 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-117-99.ams2.redhat.com [10.36.117.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75ACF7DF66;
- Mon, 17 Jun 2019 11:57:25 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Date: Mon, 17 Jun 2019 13:57:21 +0200
-Message-Id: <20190617115721.27525-1-kwolf@redhat.com>
+ (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
+ id 1hcqHL-0007MJ-3b
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:58:29 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 0211D1A224F;
+ Mon, 17 Jun 2019 13:58:24 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from [10.10.13.132] (rtrkw870-lin.domain.local [10.10.13.132])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id C04211A1E6F;
+ Mon, 17 Jun 2019 13:58:23 +0200 (CEST)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
+ <1559816130-17113-5-git-send-email-stefan.brankovic@rt-rk.com>
+ <fac722ec-ea35-80c5-5820-2ff9d1296620@linaro.org>
+From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+Message-ID: <668541d9-cc9a-0fce-81f5-887e4b0b4fa6@rt-rk.com>
+Date: Mon, 17 Jun 2019 13:58:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Mon, 17 Jun 2019 11:57:26 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] block/null: Expose read-zeroes option in QAPI
- schema
+In-Reply-To: <fac722ec-ea35-80c5-5820-2ff9d1296620@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: Re: [Qemu-devel] [PATCH 4/8] target/ppc: Optimize emulation of
+ vgbbd instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,46 +57,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, andrey.shinkevich@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit cd219eb1e55 added the read-zeroes option for the null-co and
-null-aio block driver, but forgot to add them to the QAPI schema.
-Therefore, this option wasn't available in -blockdev and blockdev-add
-until now.
 
-Add the missing option in the schema to make it available there, too.
+On 6.6.19. 20:19, Richard Henderson wrote:
+> On 6/6/19 5:15 AM, Stefan Brankovic wrote:
+>> Optimize altivec instruction vgbbd (Vector Gather Bits by Bytes by Doubleword)
+>> All ith bits (i in range 1 to 8) of each byte of doubleword element in
+>> source register are concatenated and placed into ith byte of appropriate
+>> doubleword element in destination register.
+>>
+>> Following solution is done for every doubleword element of source register
+>> (placed in shifted variable):
+>> We gather bits in 2x8 iterations.
+>> In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of byte 8 are
+>> in their final spots so we just and avr with mask. For every next iteration,
+>> we have to shift right both shifted(7 places) and mask(8 places), so we get
+>> bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in right places so we and
+>> shifted with new value of mask... After first 8 iteration(first for loop) we
+>> have all first bits in their final place all second bits but second bit from
+>> eight byte in their place,... only 1 eight bit from eight byte is in it's
+>> place), so we and result1 with mask1 to save those bits that are at right
+>> place and save them in result1. In second loop we do all operations
+>> symetrical, so we get other half of bits on their final spots, and save
+>> result in result2. Or of result1 and result2 is placed in appropriate
+>> doubleword element of vD. We repeat this 2 times.
+>>
+>> Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
+>> ---
+>>   target/ppc/translate/vmx-impl.inc.c | 99 ++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 98 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
+>> index 87f69dc..010f337 100644
+>> --- a/target/ppc/translate/vmx-impl.inc.c
+>> +++ b/target/ppc/translate/vmx-impl.inc.c
+>> @@ -780,6 +780,103 @@ static void trans_vsr(DisasContext *ctx)
+>>       tcg_temp_free_i64(tmp);
+>>   }
+>>   
+>> +/*
+>> + * vgbbd VRT,VRB - Vector Gather Bits by Bytes by Doubleword
+>> + *
+>> + * All ith bits (i in range 1 to 8) of each byte of doubleword element in source
+>> + * register are concatenated and placed into ith byte of appropriate doubleword
+>> + * element in destination register.
+>> + *
+>> + * Following solution is done for every doubleword element of source register
+>> + * (placed in shifted variable):
+>> + * We gather bits in 2x8 iterations.
+>> + * In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of byte 8 are
+>> + * in their final spots so we just and avr with mask. For every next iteration,
+>> + * we have to shift right both shifted(7 places) and mask(8 places), so we get
+>> + * bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in right places so we and
+>> + * shifted with new value of mask... After first 8 iteration(first for loop) we
+>> + * have all first bits in their final place all second bits but second bit from
+>> + * eight byte in their place,... only 1 eight bit from eight byte is in it's
+>> + * place), so we and result1 with mask1 to save those bits that are at right
+>> + * place and save them in result1. In second loop we do all operations
+>> + * symetrical, so we get other half of bits on their final spots, and save
+>> + * result in result2. Or of result1 and result2 is placed in appropriate
+>> + * doubleword element of vD. We repeat this 2 times.
+>> + */
+>> +static void trans_vgbbd(DisasContext *ctx)
+>> +{
+>> +    int VT = rD(ctx->opcode);
+>> +    int VB = rB(ctx->opcode);
+>> +    TCGv_i64 tmp = tcg_temp_new_i64();
+>> +    TCGv_i64 avr = tcg_temp_new_i64();
+>> +    TCGv_i64 shifted = tcg_temp_new_i64();
+>> +    TCGv_i64 result1 = tcg_temp_new_i64();
+>> +    TCGv_i64 result2 = tcg_temp_new_i64();
+>> +    uint64_t mask = 0x8040201008040201ULL;
+>> +    uint64_t mask1 = 0x80c0e0f0f8fcfeffULL;
+>> +    uint64_t mask2 = 0x7f3f1f0f07030100ULL;
+>> +    int i;
+>> +
+>> +    get_avr64(avr, VB, true);
+>> +    tcg_gen_movi_i64(result1, 0x0ULL);
+>> +    tcg_gen_mov_i64(shifted, avr);
+>> +    for (i = 0; i < 8; i++) {
+>> +        tcg_gen_andi_i64(tmp, shifted, mask);
+>> +        tcg_gen_or_i64(result1, result1, tmp);
+>> +
+>> +        tcg_gen_shri_i64(shifted, shifted, 7);
+>> +        mask = mask >> 8;
+>> +    }
+>> +    tcg_gen_andi_i64(result1, result1, mask1);
+> This masking appears to be redundant with the masking within the loop.
+>
+>> +
+>> +    mask = 0x8040201008040201ULL;
+>> +    tcg_gen_movi_i64(result2, 0x0ULL);
+>> +    for (i = 0; i < 8; i++) {
+>> +        tcg_gen_andi_i64(tmp, avr, mask);
+>> +        tcg_gen_or_i64(result2, result2, tmp);
+>> +
+>> +        tcg_gen_shli_i64(avr, avr, 7);
+>> +        mask = mask << 8;
+>> +    }
+>> +    tcg_gen_andi_i64(result2, result2, mask2);
+> Similarly.
+>
+> Also, the first iteration of the second loop is redundant with the first
+> iteration of the first loop.
+>
+> I will also note that these are large constants, not easily constructable.
+> Therefore it would be best to avoid needing to construct them twice.  You can
+> do this by processing the two doublewords simultaneously.  e.g.
+>
+> 	TCGv_i64 avr[2], out[2], tmp, tcg_mask;
+>
+> 	identity_mask = 0x8040201008040201ull;
+> 	tcg_gen_movi_i64(tcg_mask, identity_mask);
+> 	for (j = 0; j < 2; j++) {
+> 	    get_avr(avr[j], VB, j);
+> 	    tcg_gen_and_i64(out[j], avr[j], tcg_mask);
+> 	}
+> 	for (i = 1; i < 8; i++) {
+> 	    tcg_gen_movi_i64(tcg_mask, identity_mask >> (i * 8);
+> 	    for (j = 0; j < 2; j++) {
+> 	        tcg_gen_shri_i64(tmp, avr[j], i * 7);
+> 	        tcg_gen_and_i64(tmp, tmp, tcg_mask);
+> 	        tcg_gen_or_i64(out[j], out[j], tmp);
+> 	    }
+> 	}
+> 	for (i = 1; i < 8; i++) {
+> 	    tcg_gen_movi_i64(tcg_mask, identity_mask << (i * 8));
+> 	    for (j = 0; j < 2; j++) {
+> 	        tcg_gen_shli_i64(tmp, avr[j], i * 7);
+> 	        tcg_gen_and_i64(tmp, tmp, tcg_mask);
+> 	        tcg_gen_or_i64(out[j], out[j], tmp);
+> 	    }
+> 	}
+> 	for (j = 0; j < 2; j++) {
+> 	    set_avr(VT, out[j], j);
+> 	}
+>
+> This should produce the same results with fewer operations.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- qapi/block-core.json | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I agree with you, this should produce the same result with less 
+instructions. I will implement this in v2.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 61124431d8..0d43d4f37c 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2890,11 +2890,13 @@
- # @latency-ns: emulated latency (in nanoseconds) in processing
- #              requests. Default to zero which completes requests immedi=
-ately.
- #              (Since 2.4)
-+# @read-zeroes: if true, reads from the device produce zeroes; if false,=
- the
-+#               buffer is left unchanged. (default: false; since: 4.1)
- #
- # Since: 2.9
- ##
- { 'struct': 'BlockdevOptionsNull',
--  'data': { '*size': 'int', '*latency-ns': 'uint64' } }
-+  'data': { '*size': 'int', '*latency-ns': 'uint64', '*read-zeroes': 'bo=
-ol' } }
-=20
- ##
- # @BlockdevOptionsNVMe:
---=20
-2.20.1
+Kind Regards,
 
+Stefan
+
+>
+> r~
 
