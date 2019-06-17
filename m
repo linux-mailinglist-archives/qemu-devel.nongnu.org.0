@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35B6B486F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:25:27 +0200 (CEST)
-Received: from localhost ([::1]:48444 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7773F48721
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:29:33 +0200 (CEST)
+Received: from localhost ([::1]:48480 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hctVe-0002W9-Be
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:25:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46675)
+	id 1hctZc-0006YV-Le
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:29:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46710)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiK-0003Zw-Fl
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiM-0003d9-5A
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiI-000851-Sj
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:28 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46168)
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiK-000865-Du
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:30 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38669)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsiI-00084S-Jz
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:26 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n4so10192048wrw.13
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:26 -0700 (PDT)
+ id 1hcsiK-00085b-4S
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:28 -0400
+Received: by mail-wr1-x442.google.com with SMTP id d18so10238944wrs.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ayi0GkBgLKY3AdrRPsXWIx7VD1COuTHMv3O+HeMPbB0=;
- b=WfhuD0PzKdy+iiteBQFDe2da6G+5lxjDaa9BE4Mz8P6fZBfIum8Px3CFAS83lyP8u/
- msLLlrVIqJkqN+gbHtcszpBGuwx/0qzYMS9phVHJA4UKZs9Zw7rZCUSNDfYXppYLo0TM
- TwGA2PkMVJ8ugMibl9JMjwjVke9xjrj/VutHeRDZ5KHwK3O4OKO5JxqyA7YrmmiE6lGI
- xukuH19e2vb1dZ1YqdRJ9w9citZaniyh0yvVQHimJnibiWdUPMjBKphAELkuBPLSRYFO
- eQ7NZ6iOeQKamw7EhT+KjLLfGRynjMq4J5+6blS8c72P+Ce51pl3WacNE3h9B6PSsKCM
- xCJQ==
+ bh=fkduvo7H+Mb+0yWACJmN2aG39JYYGYZGB+AH2iBoI9s=;
+ b=gqfnA1wXEwHvrRazD9KQ+9to4Wm6zrRNiXhrC/Jz2WMevG04QlXivMnJAkGRtjfMte
+ s8VkQWs4Ufc6zMD7fp5YkVWsEwHIklNlf/3NZR+05EtAVqagcrFC6SypfbnL4JZu6VVj
+ QOLAWdXCWDNWEirTd71JjHDEI3D/DG0UdUT2SliiJLNaLPEB+vdOZoBZMmyVnj4ktS25
+ t/TH2JvJFekO229GmE9ecFF7eHavF+EIjTKvTyI8P1v9BPoj/hSuunE1I6aOBULZ3XO8
+ oLBb6dIZOuiiUHvk37Ty+JyLW2KMWd1p+QLYkLvbWLoaA/1gvaKn0a8V6uaD1sTZ5mOF
+ zrcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ayi0GkBgLKY3AdrRPsXWIx7VD1COuTHMv3O+HeMPbB0=;
- b=NWrQmth9IfZhCo6snDtMA3/G+58N/7n2ateuBz5qMufbLOjTKqujxm81VHtDd29M8g
- 1H0nEqOw9LsOUmZ4IYqAQOVwV7q9gpXSYU7f7Eag5YLCxwSgowHnJvgCYm9B93RBz15b
- 0NBI4nlTvI5/sJJZZ4prS6UMjXH7a3nr4m20d4mgwch0+jgGtzc1LJpcWlrLWVXtIsSf
- W1XGx/5fnQU6Jz2N73l+QGwVMTnxS15jo6H+sA2X+48y3t6WlnLnzOTzFbWwtWYlOofs
- 0/iQw8V+TWr/+/SxrSnbcDj0nm2ECTuxPvXQvv5ZBZQJEMdh4K+z2Xh0Z41uQNPX+DS/
- S37g==
-X-Gm-Message-State: APjAAAWyVVNMHf36wWrIe7uRO+mJGRr7JaE7WpGewj+gH8fZiUIFuHcx
- zdu3VvuG5MKKWa3pn3CstFqlVWR3OgFs7w==
-X-Google-Smtp-Source: APXvYqyX5cK0m8KxamQYgJcBlGWQI49b9fOYO3fbsPrXiJGLJ4cIBKUH0HwVsnWjcYFT7V5V7RgtTw==
-X-Received: by 2002:a5d:4ac1:: with SMTP id y1mr1996411wrs.183.1560782065136; 
- Mon, 17 Jun 2019 07:34:25 -0700 (PDT)
+ bh=fkduvo7H+Mb+0yWACJmN2aG39JYYGYZGB+AH2iBoI9s=;
+ b=NfAEP8J9m0WmPGW0OjpLkLvEheiwFRQDJoy7HYSpSom1onOgH2Liu3qD1ph69qD4Qf
+ 50HaUCfaPwTJfr0z61AZnsn5G+bm2RY03F3hKPX/J5cpWHlt8d/D+B32Xnn3jGtHKnKT
+ nJ8Ag+tPJ0BVr2UpUBL+bDfJqRz0JaGoEy0FYZQC/MaA/bwGh4b71Z6ue5M7qxQnTcam
+ 2Ad0XbAtAp8QaMaDLqdM5mRgt/GYHw5JQcxJDtBvD56v3i92P5qe/3sl7lncBWrD9UCa
+ gCuFHhgIQfpa3BU8Zsrwf6hrO4S/oyWudVYqshKFol0CgLccekqpfH9mChoHrjues5Cb
+ 4Ldw==
+X-Gm-Message-State: APjAAAUDpxFV8wNyrskHbATjXPwUzahh8fhYmYTMiTEzIasKUxziu5Y8
+ 85pT/0pcGCOYAUD1x5nxIfrn22ReSuFQqQ==
+X-Google-Smtp-Source: APXvYqwMOpvEDHH6NLptifP9lffWHQw1boz2qI1ut98LBa+/mZ1bkRo83Zh0YFKAh48qXfmiVLAyUw==
+X-Received: by 2002:a5d:694a:: with SMTP id r10mr55508121wrw.345.1560782067009; 
+ Mon, 17 Jun 2019 07:34:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.24
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.25
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:34:24 -0700 (PDT)
+ Mon, 17 Jun 2019 07:34:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:33:58 +0100
-Message-Id: <20190617143412.5734-11-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:33:59 +0100
+Message-Id: <20190617143412.5734-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
 References: <20190617143412.5734-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 10/24] hw/intc/arm_gicv3:
- GICD_TYPER.SecurityExtn is RAZ if GICD_CTLR.DS == 1
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PULL 11/24] target/arm: Move vfp_expand_imm() to
+ translate.[ch]
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,39 +83,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GICv3 specification says that the GICD_TYPER.SecurityExtn bit
-is RAZ if GICD_CTLR.DS is 1. We were incorrectly making it RAZ
-if the security extension is unsupported. "Security extension
-unsupported" always implies GICD_CTLR.DS == 1, but the guest can
-also set DS on a GIC which does support the security extension.
-Fix the condition to correctly check the GICD_CTLR.DS bit.
+We want to use vfp_expand_imm() in the AArch32 VFP decode;
+move it from the a64-only header/source file to the
+AArch32 one (which is always compiled even for AArch64).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20190524124248.28394-3-peter.maydell@linaro.org
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190613163917.28589-2-peter.maydell@linaro.org
 ---
- hw/intc/arm_gicv3_dist.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ target/arm/translate-a64.h     |  1 -
+ target/arm/translate.h         |  7 +++++++
+ target/arm/translate-a64.c     | 32 --------------------------------
+ target/arm/translate-vfp.inc.c | 33 +++++++++++++++++++++++++++++++++
+ 4 files changed, 40 insertions(+), 33 deletions(-)
 
-diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
-index e6fe4905fd3..b65f56f9035 100644
---- a/hw/intc/arm_gicv3_dist.c
-+++ b/hw/intc/arm_gicv3_dist.c
-@@ -378,8 +378,14 @@ static MemTxResult gicd_readl(GICv3State *s, hwaddr offset,
-          * ITLinesNumber == (num external irqs / 32) - 1
-          */
-         int itlinesnumber = ((s->num_irq - GIC_INTERNAL) / 32) - 1;
-+        /*
-+         * SecurityExtn must be RAZ if GICD_CTLR.DS == 1, and
-+         * "security extensions not supported" always implies DS == 1,
-+         * so we only need to check the DS bit.
-+         */
-+        bool sec_extn = !(s->gicd_ctlr & GICD_CTLR_DS);
+diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
+index 9569bc5963d..9ab40872d85 100644
+--- a/target/arm/translate-a64.h
++++ b/target/arm/translate-a64.h
+@@ -39,7 +39,6 @@ void write_fp_dreg(DisasContext *s, int reg, TCGv_i64 v);
+ TCGv_ptr get_fpstatus_ptr(bool);
+ bool logic_imm_decode_wmask(uint64_t *result, unsigned int immn,
+                             unsigned int imms, unsigned int immr);
+-uint64_t vfp_expand_imm(int size, uint8_t imm8);
+ bool sve_access_check(DisasContext *s);
  
--        *data = (1 << 25) | (1 << 24) | (s->security_extn << 10) |
-+        *data = (1 << 25) | (1 << 24) | (sec_extn << 10) |
-             (0xf << 19) | itlinesnumber;
-         return MEMTX_OK;
+ /* We should have at some point before trying to access an FP register
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index dc06dce7675..bc1617809da 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -237,6 +237,13 @@ static inline void gen_ss_advance(DisasContext *s)
      }
+ }
+ 
++/*
++ * Given a VFP floating point constant encoded into an 8 bit immediate in an
++ * instruction, expand it to the actual constant value of the specified
++ * size, as per the VFPExpandImm() pseudocode in the Arm ARM.
++ */
++uint64_t vfp_expand_imm(int size, uint8_t imm8);
++
+ /* Vector operations shared between ARM and AArch64.  */
+ extern const GVecGen3 mla_op[4];
+ extern const GVecGen3 mls_op[4];
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index ae739f65756..97f4164fbbc 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -6380,38 +6380,6 @@ static void disas_fp_3src(DisasContext *s, uint32_t insn)
+     }
+ }
+ 
+-/* The imm8 encodes the sign bit, enough bits to represent an exponent in
+- * the range 01....1xx to 10....0xx, and the most significant 4 bits of
+- * the mantissa; see VFPExpandImm() in the v8 ARM ARM.
+- */
+-uint64_t vfp_expand_imm(int size, uint8_t imm8)
+-{
+-    uint64_t imm;
+-
+-    switch (size) {
+-    case MO_64:
+-        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
+-            (extract32(imm8, 6, 1) ? 0x3fc0 : 0x4000) |
+-            extract32(imm8, 0, 6);
+-        imm <<= 48;
+-        break;
+-    case MO_32:
+-        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
+-            (extract32(imm8, 6, 1) ? 0x3e00 : 0x4000) |
+-            (extract32(imm8, 0, 6) << 3);
+-        imm <<= 16;
+-        break;
+-    case MO_16:
+-        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
+-            (extract32(imm8, 6, 1) ? 0x3000 : 0x4000) |
+-            (extract32(imm8, 0, 6) << 6);
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-    return imm;
+-}
+-
+ /* Floating point immediate
+  *   31  30  29 28       24 23  22  21 20        13 12   10 9    5 4    0
+  * +---+---+---+-----------+------+---+------------+-------+------+------+
+diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
+index 709fc65374d..a66084f6e36 100644
+--- a/target/arm/translate-vfp.inc.c
++++ b/target/arm/translate-vfp.inc.c
+@@ -30,6 +30,39 @@
+ #include "decode-vfp.inc.c"
+ #include "decode-vfp-uncond.inc.c"
+ 
++/*
++ * The imm8 encodes the sign bit, enough bits to represent an exponent in
++ * the range 01....1xx to 10....0xx, and the most significant 4 bits of
++ * the mantissa; see VFPExpandImm() in the v8 ARM ARM.
++ */
++uint64_t vfp_expand_imm(int size, uint8_t imm8)
++{
++    uint64_t imm;
++
++    switch (size) {
++    case MO_64:
++        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
++            (extract32(imm8, 6, 1) ? 0x3fc0 : 0x4000) |
++            extract32(imm8, 0, 6);
++        imm <<= 48;
++        break;
++    case MO_32:
++        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
++            (extract32(imm8, 6, 1) ? 0x3e00 : 0x4000) |
++            (extract32(imm8, 0, 6) << 3);
++        imm <<= 16;
++        break;
++    case MO_16:
++        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
++            (extract32(imm8, 6, 1) ? 0x3000 : 0x4000) |
++            (extract32(imm8, 0, 6) << 6);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++    return imm;
++}
++
+ /*
+  * Return the offset of a 16-bit half of the specified VFP single-precision
+  * register. If top is true, returns the top 16 bits; otherwise the bottom
 -- 
 2.20.1
 
