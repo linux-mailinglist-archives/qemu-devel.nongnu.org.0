@@ -2,70 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0229E488B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:17:38 +0200 (CEST)
-Received: from localhost ([::1]:49012 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED66488CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:24:09 +0200 (CEST)
+Received: from localhost ([::1]:49064 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcuK9-00011W-5A
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:17:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44047)
+	id 1hcuQT-0004yT-6X
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:24:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44285)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcu4d-0004Ss-75
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:01:37 -0400
+ (envelope-from <philmd@redhat.com>) id 1hcu56-0004Ys-MN
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:02:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcu4c-0005xM-6Z
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:01:35 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38424)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcu4b-0005vV-Uk
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:01:34 -0400
-Received: by mail-wm1-x342.google.com with SMTP id s15so9712757wmj.3
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GBKRxJrHCawiQUYyR7sgJjC2fNXOZCCtdwiyy0fAiko=;
- b=bVN4s7HRjge84dc4IGG81AnrfbHosBSh5+BGZvbLhXtnNkUUqpeSXEz/nCFCpUym8w
- x6QQqHGIwE8bMA0LDwhK89Hzleac0QNTwN/aUx4hT+DB0LjlGJdOrPppvT1rOyuhvRRc
- tNmv5gmtAtLApxER4Wwr/4CPJWKd6dssPK9g0TBj97Uwk7Da4FXTfxhKidqlQlUrVEfZ
- 8z8eE0gI1IAyyQHZYCEBwjwXOvLJm17ByOpo7MWrmm72bI/n8BjuzZR2pEU6kW7PQCkG
- 1jlO2K9IcZ4HyYrkOUTTiBwK5fv3RHFzGhexhC/0pADG1iU7kHNlDZDVy67jPpR8vTF8
- J1rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GBKRxJrHCawiQUYyR7sgJjC2fNXOZCCtdwiyy0fAiko=;
- b=iQAoH5bkGG9ZNdqFglMstm1qwIPdsaiUOxjmLkZ0nDuQf6HjFNkUQofYoLoELHGD2j
- eYerVdlEoePMntYBo6/aShHWQW+qd3Xw09IztCnA50tN8hGhsVoAAWyFPxXNY0Cea5Sg
- vRi1U2Ga8LuJoK8agOzbH4KrrvKM1xtRwQm1Ww2ebD0HdbMcxHkVdS6W6HwvachJFwvo
- pMVvafPmWkyOg9gLqm0KMkTZNcuCpi6M79qKxcLnsfxRc9tRGJoMCylhZEZG5ImleInF
- xpp3/ePvW9B4/OPHhw3rY77KiLSODFmEDojy9k4XAvxCcmzvwC6hdAaG5zeQ45VKHN91
- 5T7A==
-X-Gm-Message-State: APjAAAWZHWhQNDlGP5D+RW0bbrl2ShIKJg4nj8gnJA3LjMcWWrK/fXKj
- iPz1aiudYjyEQRaTVthePvNoFQ==
-X-Google-Smtp-Source: APXvYqyWduhiLSzdoeKrsLvUXnl58Uj47uxjPNVuMJoOG6gJojLxKpXBlFFBeexVLYfIgIgdvfJV0g==
-X-Received: by 2002:a1c:cc0d:: with SMTP id h13mr18971384wmb.119.1560787292656; 
- Mon, 17 Jun 2019 09:01:32 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x11sm15545416wmg.23.2019.06.17.09.01.31
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 09:01:32 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 17:01:30 +0100
-Message-Id: <20190617160130.3207-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <philmd@redhat.com>) id 1hcu54-0006lD-KK
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:02:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:63750)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hcu4x-0006QS-4l; Mon, 17 Jun 2019 12:01:55 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D98AEF9E85;
+ Mon, 17 Jun 2019 16:01:44 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-19.brq.redhat.com [10.40.204.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C03F6A480;
+ Mon, 17 Jun 2019 16:01:38 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 17 Jun 2019 18:01:36 +0200
+Message-Id: <20190617160136.29930-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH] target/arm: Check for dp support for dp VFM,
- not sp
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Mon, 17 Jun 2019 16:01:48 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] hw/arm/msf2-som: Exit when the cpu is not the
+ expected one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,50 +54,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 1120827fa182f0e7622 we accidentally put the
-"UNDEF unless FPU has double-precision support" check in
-the single-precision VFM function. Put it in the dp
-function where it belongs.
+This machine correctly defines its default_cpu_type to cortex-m3
+and report an error if the user requested another cpu_type,
+however it does not exit, and this can confuse users trying
+to use another core:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+  $ qemu-system-arm -M emcraft-sf2 -cpu cortex-m4 -kernel test-m4.elf
+  qemu-system-arm: This board can only be used with CPU cortex-m3-arm-cpu
+  [output related to M3 core ...]
+
+The CPU is indeed a M3 core:
+
+  (qemu) info qom-tree
+  /machine (emcraft-sf2-machine)
+    /unattached (container)
+      /device[0] (msf2-soc)
+        /armv7m (armv7m)
+          /cpu (cortex-m3-arm-cpu)
+
+Add the missing exit() call to return to the shell.
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-I just merged the pullreq with 1120827fa182f0e7622 an hour
-ago and then I spotted this bug in it...
+ hw/arm/msf2-som.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- target/arm/translate-vfp.inc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 348173d6026..deaddb04421 100644
---- a/target/arm/translate-vfp.inc.c
-+++ b/target/arm/translate-vfp.inc.c
-@@ -1771,10 +1771,6 @@ static bool trans_VFM_sp(DisasContext *s, arg_VFM_sp *a)
-         return false;
+diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
+index 8c550a8bdd..2c9984bb3b 100644
+--- a/hw/arm/msf2-som.c
++++ b/hw/arm/msf2-som.c
+@@ -53,6 +53,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machi=
+ne)
+     if (strcmp(machine->cpu_type, mc->default_cpu_type) !=3D 0) {
+         error_report("This board can only be used with CPU %s",
+                      mc->default_cpu_type);
++        exit(1);
      }
- 
--    if (!dc_isar_feature(aa32_fpdp, s)) {
--        return false;
--    }
--
-     if (!vfp_access_check(s)) {
-         return true;
-     }
-@@ -1838,6 +1834,10 @@ static bool trans_VFM_dp(DisasContext *s, arg_VFM_dp *a)
-         return false;
-     }
- 
-+    if (!dc_isar_feature(aa32_fpdp, s)) {
-+        return false;
-+    }
-+
-     if (!vfp_access_check(s)) {
-         return true;
-     }
--- 
+=20
+     memory_region_init_ram(ddr, NULL, "ddr-ram", DDR_SIZE,
+--=20
 2.20.1
 
 
