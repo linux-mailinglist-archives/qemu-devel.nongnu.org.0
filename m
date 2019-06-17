@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB57D48040
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 13:10:26 +0200 (CEST)
-Received: from localhost ([::1]:46104 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF2A48121
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 13:44:46 +0200 (CEST)
+Received: from localhost ([::1]:46270 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcpWr-0007Fz-RU
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 07:10:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48916)
+	id 1hcq45-0004mO-Hw
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 07:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53644)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hcpV9-0006hg-If
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:08:41 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hcpso-0008AL-9s
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:33:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hcpV7-0001Bp-KS
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:08:39 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:38611)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hcpV6-00016E-48
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:08:37 -0400
-Received: by mail-wr1-f68.google.com with SMTP id d18so9486064wrs.5
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 04:08:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to;
- bh=8aC46cyhFQ785ox2mpl2YTsyO7Jry51sIGIX6a2zlMQ=;
- b=k6TdJOtN6GG6DFY9XctMkEB1+LTZoKDt4EIaBoluPSs9uHhiTLkCp3gLFMlitSmkNr
- x/STqd7DkKXB+B1wj19K0UiaPQdx5lF3GXEdlm9VVZiBGWy55PX2RlPBXRxbi77z1GFh
- K9RuOhu2jO3PyvhErOvaEJdYmviUu/6szJk5hacAR1qGslMfqq0+iSXtOjUi6/rIL+ga
- Gs8Wc4dzhy3V8NhZ5Kn630NQAtFOQ7VoOnNptTbwDNnGcZdHCderh1oRbpwjSCi0jUEi
- yluQDwS/b/d7xMyq5massCxR0tTwakBO8lnsRy+K2J0mDiCeLX7PqYyFD7+cy/FLVtsS
- XpmA==
-X-Gm-Message-State: APjAAAVccoA2q+p71b0pJM8+h7Eiz1BW5RAGhEI4DxKL/TrBZbeyhoUI
- gobAmDZi6n8eaqLDDsVoZEy3Ww==
-X-Google-Smtp-Source: APXvYqxWRPEGR2Op3sVtopH0O3javUpkjAY5XSOfN18lIJ8hBMN6RxagpVecveCvl6ms2ZZ612Pk1Q==
-X-Received: by 2002:adf:dc4b:: with SMTP id m11mr13901077wrj.51.1560769713401; 
- Mon, 17 Jun 2019 04:08:33 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id l12sm31950320wrb.81.2019.06.17.04.08.32
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 04:08:32 -0700 (PDT)
-To: Hongbo Zhang <hongbo.zhang@linaro.org>
-References: <1555560291-3415-1-git-send-email-hongbo.zhang@linaro.org>
- <1555560291-3415-3-git-send-email-hongbo.zhang@linaro.org>
- <ed731639-5ed1-5473-f078-e62f8fa98678@redhat.com>
- <CAHmQWvAuQ9mwXA5uO3ShYyvP5ywOrck5kU4gPD_kGh5S39Va2w@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <cb17ecf4-d321-2f71-7528-2fd5aec2cccd@redhat.com>
-Date: Mon, 17 Jun 2019 13:08:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <dgibson@ozlabs.org>) id 1hcpsm-0003ss-OW
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:33:06 -0400
+Received: from ozlabs.org ([203.11.71.1]:57101)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hcpsl-0003KS-VK; Mon, 17 Jun 2019 07:33:04 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45S8G4117vz9sND; Mon, 17 Jun 2019 21:32:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1560771164;
+ bh=ntY+xd8E9iMLHdA8TSZ+Ie+RQU+E04gL8Pokm2x0+Ao=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=XpAMYv5IFvsV3L1YvM9oxwop+lidBqPMckmC9nmyiuvWAm0/IjiW4LwWLeJnzYv1a
+ A9pk8ibCL38PXUSYTDU+UhIsD1Df+XmVTWbTqOFsTC4j75xRAk6gEckm/R5ORYTxjs
+ jAzAnQmmydQ77g7EOwrIN11T9cLNvzApukm/6p3E=
+Date: Mon, 17 Jun 2019 21:12:05 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190617111205.GA5929@umbus>
+References: <20190612020723.96802-1-aik@ozlabs.ru>
+ <20190617102510.341d71a5@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <CAHmQWvAuQ9mwXA5uO3ShYyvP5ywOrck5kU4gPD_kGh5S39Va2w@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="EDq9rOkvOFd8EAoX2g4c2SDBGNXWjgbcG"
+ protocol="application/pgp-signature"; boundary="opJtzjQTFsWo+cga"
+Content-Disposition: inline
+In-Reply-To: <20190617102510.341d71a5@bahia.lan>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v7 2/2] hw/arm: Add arm SBSA reference
- machine, devices part
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH qemu REPOST] spapr/rtas: Force
+ big endian compile for rtas
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,270 +56,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Leif Lindholm <leif.lindholm@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---EDq9rOkvOFd8EAoX2g4c2SDBGNXWjgbcG
-Content-Type: multipart/mixed; boundary="YnHE07YsvbE1QDnKfpcfe2ray0FttL2Qv";
- protected-headers="v1"
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Hongbo Zhang <hongbo.zhang@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>, Laszlo Ersek <lersek@redhat.com>
-Message-ID: <cb17ecf4-d321-2f71-7528-2fd5aec2cccd@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v7 2/2] hw/arm: Add arm SBSA reference
- machine, devices part
-References: <1555560291-3415-1-git-send-email-hongbo.zhang@linaro.org>
- <1555560291-3415-3-git-send-email-hongbo.zhang@linaro.org>
- <ed731639-5ed1-5473-f078-e62f8fa98678@redhat.com>
- <CAHmQWvAuQ9mwXA5uO3ShYyvP5ywOrck5kU4gPD_kGh5S39Va2w@mail.gmail.com>
-In-Reply-To: <CAHmQWvAuQ9mwXA5uO3ShYyvP5ywOrck5kU4gPD_kGh5S39Va2w@mail.gmail.com>
 
---YnHE07YsvbE1QDnKfpcfe2ray0FttL2Qv
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+--opJtzjQTFsWo+cga
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 6/16/19 1:41 PM, Hongbo Zhang wrote:
-> On Mon, 3 Jun 2019 at 18:54, Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-=2Ecom> wrote:
->>
->> Hi Hongbo, Ard.
->>
->> On 4/18/19 6:04 AM, Hongbo Zhang wrote:
->>> Following the previous patch, this patch adds peripheral devices to t=
-he
->>> newly introduced SBSA-ref machine.
->>>
->>> Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
->>> ---
->>>  hw/arm/sbsa-ref.c | 451 ++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++
->>>  1 file changed, 451 insertions(+)
->>>
->>> diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-[...]
->>> +static void create_one_flash(const char *name, hwaddr flashbase,
->>> +                             hwaddr flashsize, const char *file,
->>> +                             MemoryRegion *sysmem)
->>> +{
->>> +    /*
->>> +     * Create and map a single flash device. We use the same
->>> +     * parameters as the flash devices on the Versatile Express boar=
-d.
->>> +     */
->>> +    DriveInfo *dinfo =3D drive_get_next(IF_PFLASH);
->>> +    DeviceState *dev =3D qdev_create(NULL, "cfi.pflash01");
->>
->> Please use TYPE_PFLASH_CFI01 instead of "cfi.pflash01".
->>
->> I wanted to ask "does it has to be CFI01?" because this device model i=
-s
->> in bad shape, but I guess I answered myself looking at the EDK2 platfo=
-rm
->> code:
->>
->> - P30_CFI_ADDR_VENDOR_ID is not used
->> - NorFlashDxe::NorFlashReadCfiData() is not implemented
->> - All commands in NorFlashDxe uses:
->>     SEND_NOR_COMMAND(..., P30_CMD_...)
->>   which are specific to the Intel P30 Nor flash family (CFI01).
->>
->>> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
->>> +    const uint64_t sectorlength =3D 256 * 1024;
->>> +
->>> +    if (dinfo) {
->>> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo)=
-,
->>> +                            &error_abort);
->>> +    }
->>> +
->>> +    qdev_prop_set_uint32(dev, "num-blocks", flashsize / sectorlength=
-);
->>> +    qdev_prop_set_uint64(dev, "sector-length", sectorlength);
->>> +    qdev_prop_set_uint8(dev, "width", 4);
->>> +    qdev_prop_set_uint8(dev, "device-width", 2);
->>> +    qdev_prop_set_bit(dev, "big-endian", false);
->>> +    qdev_prop_set_uint16(dev, "id0", 0x89);
->>> +    qdev_prop_set_uint16(dev, "id1", 0x18);
->>> +    qdev_prop_set_uint16(dev, "id2", 0x00);
->>> +    qdev_prop_set_uint16(dev, "id3", 0x00);
->>> +    qdev_prop_set_string(dev, "name", name);
->>> +    qdev_init_nofail(dev);
->>> +
->>> +    memory_region_add_subregion(sysmem, flashbase,
->>> +                                sysbus_mmio_get_region(SYS_BUS_DEVIC=
-E(dev), 0));
->>> +
->>> +    if (file) {
->>> +        char *fn;
->>> +        int image_size;
->>> +
->>> +        if (drive_get(IF_PFLASH, 0, 0)) {
->>> +            error_report("The contents of the first flash device may=
- be "
->>> +                         "specified with -bios or with -drive if=3Dp=
-flash... "
->>> +                         "but you cannot use both options at once");=
-
->>> +            exit(1);
->>> +        }
->>> +        fn =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, file);
->>> +        if (!fn) {
->>> +            error_report("Could not find ROM image '%s'", file);
->>> +            exit(1);
->>> +        }
->>> +        image_size =3D load_image_mr(fn, sysbus_mmio_get_region(sbd,=
- 0));
->>> +        g_free(fn);
->>> +        if (image_size < 0) {
->>> +            error_report("Could not load ROM image '%s'", file);
->>> +            exit(1);
->>> +        }
->>> +    }
->>> +}
->>> +
->>> +static void create_flash(const SBSAMachineState *vms,
->>> +                         MemoryRegion *sysmem,
->>> +                         MemoryRegion *secure_sysmem)
->>> +{
->>> +    /*
->>> +     * Create one secure and nonsecure flash devices to fill SBSA_FL=
-ASH
->>> +     * space in the memmap, file passed via -bios goes in the first =
-one.
->>> +     */
->>> +    hwaddr flashsize =3D vms->memmap[SBSA_FLASH].size / 2;
->>> +    hwaddr flashbase =3D vms->memmap[SBSA_FLASH].base;
->>> +
->>> +    create_one_flash("sbsa-ref.flash0", flashbase, flashsize,
->>> +                     bios_name, secure_sysmem);
->>> +    create_one_flash("sbsa-ref.flash1", flashbase + flashsize, flash=
-size,
->>> +                     NULL, sysmem);
->>
->> static const MemMapEntry base_memmap[] =3D {
->>     /* Space up to 0x8000000 is reserved for a boot ROM */
->>     [VIRT_FLASH] =3D              {          0, 0x08000000 },
->>
-> Hi Philippe,
-> Thank you for the long comments.
-> Some parts of this machine are based on the 'virt' machine, but I use
-> this flash memory map:
-> [SBSA_FLASH] =3D              {          0, 0x20000000 },
-> that are 256M *2 flashes.
-> Franky I didn't consider the product part number etc, just use the
-> original design in 'virt' and change the size large enough as I think.
-
-I guess we are very lucky... The Micron PC28F00BP33EF is a 2Gib
-symmetrical blocks NOR flash, and the only CFI01 one I could find a
-datasheet :)
-
-"The 2Gb device employs a virtual chip enable feature, which combines
-two 1Gb die with a common chip enable".
-
-> Peter, Ard, do we need more considerations here?
+On Mon, Jun 17, 2019 at 10:25:10AM +0200, Greg Kurz wrote:
+65;5603;1c> On Wed, 12 Jun 2019 12:07:23 +1000
+> Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
 >=20
->> So you are creating 2 identical flashes of 128MiB/2 =3D 64 MiB each wh=
-ich
->> are the biggest flash you can have:
->>
->> "The P30 family provides density upgrades from 64-Mbit through
->> 512-Mbit." On Intel, the 512-Mib case is particular in that it is buil=
-t
->> of 2x 256-Mib on the same die, with a virtual chip enable. It is simpl=
-er
->> to use a Micron or Numonyx model.
->>
->> I plan to use a whitelist of supported (and tested...) models, the one=
+> > At the moment the rtas's Makefile uses generic QEMU rules which means
+> > that when QEMU is compiled on a little endian system, the spapr-rtas.bin
+> > is compiled as little endian too which is incorrect as it is always
+> > executed in big endian mode.
+>=20
+> I'm naively thinking that executing code compiled as little endian
+> in big endian mode would result in an exception... Can you explain
+> how/why this ever worked ?
 
->> you use seems the Micron JS28F512P30EF ('E' for 'Symetrically Blocked'=
-,
->> since the current model doesn't support bottom/top blocks layout), or =
-in
->> short: 28F512P30E.
->> Ard, is that OK?
->>
->> Checking EDK2 git history, the driver is part of ArmPlatformPkg,
->> imported in commit 1d5d0ae92d9541, based on 'Versatile Express'.
->>
->> On the Versatile Express and the RealView Emulation Baseboard user
->> guides, I only find reference of "64MB of NOR flash" with no specific =
-model.
->>
->> Peter, do you have physical access to tell me what flashes are used on=
+Because basically nobody actually built the rtas blob from the
+sources, they just used the pre-compiled blob, which is correctly
+built BE.
 
->> real hardware? I googled for Linux console boot log but the kernel
->> doesn't seem to care about detecting/mapping the flash.
->>
->> QEMU added the flash to the Versatile board in commit 964c695a54ceda3a=
-,
->> with the following description:
->>
->>     - add support for the 64MB NOR CFI01 flash available at
->>     0x34000000 on the versatilepb board
->>
->> http://infocenter.arm.com/help/index.jsp?topic=3D/com.arm.doc.dui0225d=
-/BBAJIHEC.html
->>
->> However on this link I only see "SSMC Chip Select 1, normally NOR flas=
-h
->> (During boot remapping, this can be NOR flash, Disk-on-Chip, or static=
+That said executing LE code in BE mode won't necessarily result in an
+exception - it'll just execute whatever the instructions are you get
+when you byte reverse the ones you inteded, which may or may not be
+valid.  It's *likely* to cause an exception fairly soon, but the
+opcode space is densely populated enough that there's a good chance it
+won't cause an immediate illegal instruction.
 
->> expansion memory)". Again, nothing specific (which makes sense, why
->> restrict the users to a particuliar family, as long as the pinout matc=
-hes).
->>
->> The Manufacturer/Device ID used in QEMU (0x0089, 0x0018) correspond to=
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
->> the Micron 28F128J3D (128-Mbit, 128 symmetrical blocks of 128-KiB).
->> Neither the flash size (64 vs 16) nor the block size (256 vs 128) matc=
-h.
->>
->> The safer fix here is to find a CFI01 flash of 256 sectors of 256-KiB
->> and update the Manufacturer/Device IDs in QEMU. Luckily this matches t=
-he
->> 28F512P30E cited previously :)
->>
->> Regards,
->>
->> Phil.
-[...]
-
-
---YnHE07YsvbE1QDnKfpcfe2ray0FttL2Qv--
-
---EDq9rOkvOFd8EAoX2g4c2SDBGNXWjgbcG
+--opJtzjQTFsWo+cga
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEicHnj2Ae6GyGdJXLoqP9bt6twN4FAl0HdK8ACgkQoqP9bt6t
-wN6pORAAvyFYZ0T9Wa5iR7CJdabdpg3g+TVkRhX2GVnPcdn/jCUmEhK46QDG/dDj
-48OIBGih/VnRtpvpWRg4UN0rsaVB9r9cOz6RacdNIRZCK5Y8I4o8Joh5qsBleAx7
-K8QY+it/VX/bpTERqy9HM5h5jdL2cepxLclDjB1HESBVtm3QjksM8pNgi/1av826
-L/nfBu9AFteZBWDyzqkKnPD7Li7BCjT3ItTzoXbjbfZFONxkA3H4kgl98nGKBkjo
-+HX6ZDytDSG7h2J7CIZBQ91x7jo/pZP8BO3GGRswz12b5Ne91fG4chOPgH96XpjX
-sMvqrZJy63qufT9QcI4dTkuTs6e5v76DkZWcKadbN2eIYyeLrAdzkWTqOIpsYFmR
-vJPi1eMhUs/O6K7MASzbn0ALydXSTfwI4nY2sgMUy96PGZ842cqCaHmhQD1ZBhH/
-Dfs7ojYdMC5DpNqdLJiUfFyImB4vzMjLp3NGBzQss1/I61u7dyNKdClcEbfwXvZT
-ObfYroEV+DT7cpWRUrmE0W+0+sKL5gbRuKaxCZteIxFw8h209cyErYAywhX93AIq
-BHq89NT42KAOkKGsbTnYUX3ggLdIHZeJ1MhCvDwkhD2DVa9rBYS429bxd+c6ocGb
-554fzkzCygJl27qR/Czz/RhTmvC9OJBlLxAAWL+C/58E9Mvqtq8=
-=ULjZ
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0HdYMACgkQbDjKyiDZ
+s5Jv6RAAn1gG1giPOP55o7E3bRbgaUytpIpuOmqgxgOvEqoNpeKMdkJ0OzplkV2g
+9oabRLFclljhm3NUDB1hYuIQ94cwnmkno1o7grrlL2B6K+dJzb5OfkIfKXkeYZKe
+i1Q+eq1pKhjF7uudSmJlxc8aTvFqb6LVPd93sIFdO2SmZ1Q1vqkvCmZHIMsQAoQI
+G7xxasv7Ljq5RFlwikj1sjDhyzIOk/Kaqm4o9KJjkLPXX0sl/QWVvJ4UQBaEOC2G
+6b2PZrM0/rv+6Z1ScEztNf2uFb5bQIdJ3me06cmPgKO9Hu0O/MwxINaZgS8e5+Ky
+hC0WUusPS6tLvVwlpdXWzmCAXXnn7kTcB5YS7JQKikLiyQi54aKQwX4FbSwJkRDw
+gcqSqmCnOuj0/HIP2U7A685BMULuj68E2wZAdi8CKYV+LsX/nM1Xm2RsRkeGSsP/
+hJF7V5Zvoitr3GCyOl13YxzHAJ9Uki2KYltEY/mBsDytGzR+z6q4loVJC9yHcYtA
+jTFzL8ipdccR4FUT3+mvwe9voftTILuiI70tVunaxTb5pwckfY9aXjTeDQ/hwYOQ
+XR62NXAFNz2SAl1u4GnFeYIfcIINHg9DCxhxYvtE4PTHvEwb4Y5EwVcAXfKWEbBJ
+h7EwaOO17ShS+j0OjfhKyhjXOQYGJcuBI0SAfFZiUVriOMYQlxg=
+=MHwV
 -----END PGP SIGNATURE-----
 
---EDq9rOkvOFd8EAoX2g4c2SDBGNXWjgbcG--
+--opJtzjQTFsWo+cga--
 
