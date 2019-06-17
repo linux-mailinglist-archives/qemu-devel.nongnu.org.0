@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6851C489FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:24:09 +0200 (CEST)
-Received: from localhost ([::1]:50202 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAB36489F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:21:18 +0200 (CEST)
+Received: from localhost ([::1]:50136 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvMW-00034G-J7
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
+	id 1hcvJl-0007v2-Vn
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57551)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hculo-00020j-IU
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:46:13 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hculL-0001an-18
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:45:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hculn-0003Y7-9P
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:46:12 -0400
-Resent-Date: Mon, 17 Jun 2019 12:46:12 -0400
-Resent-Message-Id: <E1hculn-0003Y7-9P@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21594)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hculk-0003NH-EO; Mon, 17 Jun 2019 12:46:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560789925; cv=none; d=zoho.com; s=zohoarc; 
- b=BHgaBlKmHRzIeSZeIagHCXEdG8xAcZ8Dc1qMJXa19sJWZlEEfs3beq+gKsZGLpRtEJd9g+jupvk5xy73eW4oPSCJlLE7EofSeAfqK8H1iGdNbaQ+xl2//p+6QF+Yp950IWQYY1tLvJETXHRfMcigJVo1l5uge4ZFh3irFYGNJbQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560789925;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=k2T1QyuC1Pp+HHCVRxYTb8cfLIDM3g9/yyq1kW6tPc0=; 
- b=SyRp/bO0F4N602ClWRZub76bC8Scc1VzW/sBwCbNc3Setw87Ix05FfYWSxO6HZU3cAol1D+sCFtEn0pRplzCDFwC8z6XAQWg7i3Vsa2pN4x5za4KgLrqLVakgjYDPVnW9UpO1Qxlp/FWFySrSb/43eyyTJTRJN3RPetH/8zhN+M=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1560789923529457.1588512216298;
- Mon, 17 Jun 2019 09:45:23 -0700 (PDT)
-In-Reply-To: <20190617150950.5264-1-shmuel.eiderman@oracle.com>
-Message-ID: <156078992210.13573.8051164878994897371@ce79690b2cb9>
+ (envelope-from <richard.henderson@linaro.org>) id 1hculJ-0002RW-Rq
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:45:42 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33685)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hculJ-0002LC-I6
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:45:41 -0400
+Received: by mail-pf1-x441.google.com with SMTP id x15so6007390pfq.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:45:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CzPEPYwv84ZFSF/W1LNEo+dAqIwIoLu41/sS6ZRas0I=;
+ b=r2/i9RmxV10+Jr5r3Insrz2vsE/vzxxajCLPbVLt7UyxI5CzpIxuub/CWbn1GW60wz
+ QlMvxzKZBEuyzP/WECCC0tlzDUqYTynjROqOuUNcMgQDz5MdK4OaJSw8DBJXfBQ3ypkZ
+ 7sso4fWGz6ZExxzNbR5EsMHXuF26FYKxnc4oXIOW5gVHJVKYHT1yXyUBsh290TZSfCF3
+ vIeKN+hzW9q1CB4hEE5xn+lGMHFvFXKSImRkXZlNPoE8g+pzC5y1aIOeWLmqmtSteSB4
+ MqGwhV5A4td1ofAZZu9QH7Gg/BJTFQdz/EDoS/ZQ/l1A9Oc+fms2RBc/TBbxpYDBD2/Z
+ PbBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CzPEPYwv84ZFSF/W1LNEo+dAqIwIoLu41/sS6ZRas0I=;
+ b=iYuxVHRbunCsNZgsvErYpl4+F9HxccZ0Gao3hQWWEJvXjkAhJOHWMDRRkD3JO1my0Z
+ TxEvIFtzv9iXyGj8xHBaXsax6wH36HB4BRlGxJAEfy0gqPzNQVKHcOYO/etFZkTAFKE0
+ igAzJAHrRj6t8bQOryHAMmKweB16u7vmFvx6cZOh5JDyOBvJ4W3qVBfwpF6Dw2f4ppZo
+ ETvQc0trLJzcdnT5yE94JFjAOV/0iEXl2xOjtM4P22iK3MjcEg/RBiyhO1PoCFT34O3i
+ LoVy3I64pNmP0fIh82AiKe8tPDfyBhCxu4qJYa037d4i3BK8RWIpNgo3bX4q178a4Kt5
+ xwgg==
+X-Gm-Message-State: APjAAAUmhrJw6zTBsFm65yTsVHyjI50V+B1P71eBfBY0Oa0c2fXofg9w
+ thli/qRr96HCeyK+vfglMyS8oQ==
+X-Google-Smtp-Source: APXvYqxVXUZhXHWsSmQKcOFQwIJ86GuFIazu2BZwsarqnigWzXt0Dxmy9ssVyMDcKIbiu4LmvJyyVg==
+X-Received: by 2002:aa7:8d50:: with SMTP id s16mr113359786pfe.96.1560789938872; 
+ Mon, 17 Jun 2019 09:45:38 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-2-33.tukw.qwest.net. [97.113.2.33])
+ by smtp.gmail.com with ESMTPSA id c11sm11938552pgg.2.2019.06.17.09.45.37
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jun 2019 09:45:37 -0700 (PDT)
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org
+References: <20190617143533.15013-1-kbastian@mail.uni-paderborn.de>
+ <20190617143533.15013-4-kbastian@mail.uni-paderborn.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <b2f6e776-90e4-3809-350f-ce2bf6d69017@linaro.org>
+Date: Mon, 17 Jun 2019 09:45:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: shmuel.eiderman@oracle.com
-Date: Mon, 17 Jun 2019 09:45:23 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [SeaBIOS] [QEMU] [PATCH v3 0/8] Add Qemu to
- SeaBIOS LCHS interface
+In-Reply-To: <20190617143533.15013-4-kbastian@mail.uni-paderborn.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH 3/3] target/tricore: Use translate_loop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,69 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kevin@koconnor.net, kraxel@redhat.com, karl.heubaum@oracle.com
+Cc: david.brenken@efs-auto.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxNzE1MDk1MC41MjY0
-LTEtc2htdWVsLmVpZGVybWFuQG9yYWNsZS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
-dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
-bW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNjE3MTUwOTUwLjUyNjQtMS1zaG11
-ZWwuZWlkZXJtYW5Ab3JhY2xlLmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1NlYUJJT1NdIFtR
-RU1VXSBbUEFUQ0ggdjMgMC84XSBBZGQgUWVtdSB0byBTZWFCSU9TIExDSFMgaW50ZXJmYWNlCgo9
-PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+
-IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQg
-MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxi
-YWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5j
-b20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICAgNWQwZTU2OS4uMDc2MjQzZiAgbWFzdGVyICAgICAt
-PiBtYXN0ZXIKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICog
-W25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDE5MDYxNzE1MDk1MC41MjY0LTEtc2htdWVsLmVp
-ZGVybWFuQG9yYWNsZS5jb20gLT4gcGF0Y2hldy8yMDE5MDYxNzE1MDk1MC41MjY0LTEtc2htdWVs
-LmVpZGVybWFuQG9yYWNsZS5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpmZDEw
-OGNkIGhkLWdlby10ZXN0OiBBZGQgdGVzdHMgZm9yIGxjaHMgb3ZlcnJpZGUKNDg5MjRiNCBib290
-ZGV2aWNlOiBGV19DRkcgaW50ZXJmYWNlIGZvciBMQ0hTIHZhbHVlcwphNWQ5YzA1IGJvb3RkZXZp
-Y2U6IFJlZmFjdG9yIGdldF9ib290X2RldmljZXNfbGlzdAo0YmJkOGIzIGJvb3RkZXZpY2U6IEdh
-dGhlciBMQ0hTIGZyb20gYWxsIHJlbGV2YW50IGRldmljZXMKMGMxYTExNiBzY3NpOiBQcm9wYWdh
-dGUgdW5yZWFsaXplKCkgY2FsbGJhY2sgdG8gc2NzaS1oZAplNjdjYzY1IGJvb3RkZXZpY2U6IEFk
-ZCBpbnRlcmZhY2UgdG8gZ2F0aGVyIExDSFMKNGVlNDVlMSBibG9jazogU3VwcG9ydCBwcm92aWRp
-bmcgTENIUyBmcm9tIHVzZXIKMjBjOTU3MCBibG9jazogUmVmYWN0b3IgbWFjcm9zIC0gZml4IHRh
-YmJpbmcKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvOCBDaGVja2luZyBjb21taXQgMjBjOTU3MGM1
-MzNkIChibG9jazogUmVmYWN0b3IgbWFjcm9zIC0gZml4IHRhYmJpbmcpCkVSUk9SOiBNYWNyb3Mg
-d2l0aCBjb21wbGV4IHZhbHVlcyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gcGFyZW50aGVzaXMKIzU1
-OiBGSUxFOiBpbmNsdWRlL2h3L2Jsb2NrL2Jsb2NrLmg6NjU6CisjZGVmaW5lIERFRklORV9CTE9D
-S19DSFNfUFJPUEVSVElFUyhfc3RhdGUsIF9jb25mKSAgICAgICAgICAgICAgICAgICAgICBcCisg
-ICAgREVGSU5FX1BST1BfVUlOVDMyKCJjeWxzIiwgX3N0YXRlLCBfY29uZi5jeWxzLCAwKSwgICAg
-ICAgICAgICAgICAgICBcCisgICAgREVGSU5FX1BST1BfVUlOVDMyKCJoZWFkcyIsIF9zdGF0ZSwg
-X2NvbmYuaGVhZHMsIDApLCAgICAgICAgICAgICAgICBcCiAgICAgREVGSU5FX1BST1BfVUlOVDMy
-KCJzZWNzIiwgX3N0YXRlLCBfY29uZi5zZWNzLCAwKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5p
-bmdzLCAzNyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KCjIvOCBDaGVja2luZyBjb21taXQgNGVlNDVlMWFiYTIzIChibG9jazogU3VwcG9ydCBwcm92
-aWRpbmcgTENIUyBmcm9tIHVzZXIpCjMvOCBDaGVja2luZyBjb21taXQgZTY3Y2M2NWU1ZTQyIChi
-b290ZGV2aWNlOiBBZGQgaW50ZXJmYWNlIHRvIGdhdGhlciBMQ0hTKQo0LzggQ2hlY2tpbmcgY29t
-bWl0IDBjMWExMTZjMTJiOCAoc2NzaTogUHJvcGFnYXRlIHVucmVhbGl6ZSgpIGNhbGxiYWNrIHRv
-IHNjc2ktaGQpCjUvOCBDaGVja2luZyBjb21taXQgNGJiZDhiM2Y5OWM3IChib290ZGV2aWNlOiBH
-YXRoZXIgTENIUyBmcm9tIGFsbCByZWxldmFudCBkZXZpY2VzKQo2LzggQ2hlY2tpbmcgY29tbWl0
-IGE1ZDljMDVkZmE3OCAoYm9vdGRldmljZTogUmVmYWN0b3IgZ2V0X2Jvb3RfZGV2aWNlc19saXN0
-KQo3LzggQ2hlY2tpbmcgY29tbWl0IDQ4OTI0YjQyZmM3OSAoYm9vdGRldmljZTogRldfQ0ZHIGlu
-dGVyZmFjZSBmb3IgTENIUyB2YWx1ZXMpCjgvOCBDaGVja2luZyBjb21taXQgZmQxMDhjZGE0OTgx
-IChoZC1nZW8tdGVzdDogQWRkIHRlc3RzIGZvciBsY2hzIG92ZXJyaWRlKQpXQVJOSU5HOiBCbG9j
-ayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNjI1OiBGSUxF
-OiB0ZXN0cy9oZC1nZW8tdGVzdC5jOjk4MDoKKyAgICAgICAgICAgICAgICAgICAgICAgInNraXBw
-aW5nIGhkLWdlby9vdmVycmlkZS8qIHRlc3RzIik7Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fybmlu
-Z3MsIDU5MyBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
-OTA2MTcxNTA5NTAuNTI2NC0xLXNobXVlbC5laWRlcm1hbkBvcmFjbGUuY29tL3Rlc3RpbmcuY2hl
-Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
-YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
-YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 6/17/19 7:35 AM, Bastian Koppelmann wrote:
+> +static void tricore_tr_init_disas_context(DisasContextBase *dcbase,
+> +                                          CPUState *cs)
+>  {
+> +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+>      CPUTriCoreState *env = cs->env_ptr;
+> +    ctx->base.pc_next = ctx->base.pc_first;
 
+This is already done in generic code.
+
+I don't see an initialization of hflags & saved_hflags?
+Although I don't see that either before or afterward...
+
+> +static bool tricore_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+> +                                      const CPUBreakpoint *bp)
+> +{
+> +    return true;
+> +}
+
+Not supporting breakpoints, I think it's better to return false here.
+
+Although it's not difficult -- just raise EXCP_DEBUG as an exception.
+It'd be nice to follow up and fix this afterward.
+
+> +static void tricore_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+> +{
+> +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +    CPUTriCoreState *env = cpu->env_ptr;
+> +
+> +    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
+> +    decode_opc(ctx);
+> +    ctx->base.pc_next = ctx->pc_succ_insn;
+> +
+> +    if (ctx->base.is_jmp == DISAS_NEXT) {
+> +        target_ulong page_start;
+> +
+> +        page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+> +        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE) {
+> +            ctx->base.is_jmp = DISAS_TOO_MANY;
+>          }
+
+This isn't perfect as an ending, but you didn't seem to have one at all before,
+so I guess improvements can come incrementally afterward.
+
+Have a look at the end of thumb_tr_translate_insn & insn_crosses_page to see
+how to handle this properly.
+
+
+r~
 
