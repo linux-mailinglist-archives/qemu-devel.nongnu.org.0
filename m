@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD180485F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:48:41 +0200 (CEST)
-Received: from localhost ([::1]:48152 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 487E9485D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:43:50 +0200 (CEST)
+Received: from localhost ([::1]:48102 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcsw4-0007lZ-Jq
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46597)
+	id 1hcsrN-0003pp-Gf
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:43:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46589)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiG-0003SR-6O
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:27 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiF-0003Ru-UJ
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiE-000800-Am
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:24 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46863)
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiE-00080N-Jq
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:23 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38767)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsiE-0007yl-1Y
+ id 1hcsiE-0007zH-DK
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:22 -0400
-Received: by mail-wr1-x429.google.com with SMTP id n4so10191715wrw.13
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:21 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id d18so10238557wrs.5
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5kyplZ9y5jGQlctb0ystayBsPFLBex7wmEn4fkno4/4=;
- b=x5aGOuOpvI+iuvYvGPX/pSzlQgFpCSCLmv1u+UqQBllf4e5QmNFe7ioVdLoRihJWQZ
- 8+sfrDHNvobDO2EULQmfLOq44evqnsarcig4Z4zZcaxs4DbeCKHZIKXcp0marlkY9DWu
- px31tDhA993QdIkRy/r36aJhHxhFMNzQF/HWO8mh3NBUlrTmqZ5E6bDRZrllxGuGNZ6/
- rXsxNpTSTccLG+yLZwM80oAT0GwjPzyOPxGQaKoUQxG7Voie/Z/652y9rvDXmvB64bdx
- NYLIWm30wN+BjWi627f69nTmBXAFJEbcfM9TGry/TUln5zJX1np2aemc+XdRTfE7wgtk
- NICg==
+ bh=5wceQkO0iVo/ukmBGSUYh+JsgVf/jAUmegmqeoCkDUQ=;
+ b=qjjvZMbCUvX0ACGwrzXIW/TdsqHYBSxy8lZS04IYFPmjVjzdSZCDnee+83klPPiewe
+ w9OtczNdveR1qnEYi7kOrBK1cZTvt3bZpWT8ycPhqyYrklPTmGedUnjdVv1OS3Wbkyc+
+ WTrWzD+GA2r1+NVt2QDf7bxeJtVp6AIavk4ZTrafVeaWKm3qYsQHaTxd3JdRiVgZbr35
+ UZnWj3WLv1aRQmiRPl11iiFHdz2yWB6iywkco4auUrxG7j3uc8cTXnIaIHlcZbB/imUd
+ LZhaYzioFooJj02OsQqPxQA2K4taMjvixX3wUCFB1LbD3WVS3DyBLlk9jgUBGlNR25Dt
+ NwAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5kyplZ9y5jGQlctb0ystayBsPFLBex7wmEn4fkno4/4=;
- b=rWpoo0qUuQ+34L21KSrRZ0iTt+vRmYTjdCyeNdxM/HkieGsX9XfCK8UcqDXCXUr9Y3
- VaryPF3qRKNJ4E6MavQVaTHne5OnRmvDOP+1tgf4NazoEAQwHb/pPghMBOmi5yv57ucw
- rsTGWxNSD/vLFD1J9d6cIo5Xv1ei0eO0Zck0zWunNpGXa/9uOVZHqYbhET0Fe1w+Gf+r
- Dmn95Yg+VsTZ75H54J2aqCtMbbVrcXvVYbECVI3lPCBK7QolBBFYGYI1N7N8aY1wcg0M
- JFnidG4gDsznjNlfQBpvGir9a4DZqAAHhAtIAGtNPlPBCEd2kk7QlXeqEHNnk7lILrP9
- +zEw==
-X-Gm-Message-State: APjAAAVOLgeeIYZXQnF0PeNdI5K3wmJXfjO6m5QTdjkwALOYgRlavGPY
- okZNc3k/ZzYHlSeTfBnfH2GRJhJhsLI8pg==
-X-Google-Smtp-Source: APXvYqw0X2sJLmNDv9TVaLZmpvYH9DL1Qt9BaonzNYKR6IUlpdqGas5aeRKl2WJVxAalNz1jNVAa1w==
-X-Received: by 2002:adf:de02:: with SMTP id b2mr538941wrm.349.1560782060231;
- Mon, 17 Jun 2019 07:34:20 -0700 (PDT)
+ bh=5wceQkO0iVo/ukmBGSUYh+JsgVf/jAUmegmqeoCkDUQ=;
+ b=apZB0mpNOrjsS3jl6cgPEek+oFAswkIqDLrfn67lS5iUtCEHh8gLuhwL40litwbQUP
+ keO6kwFjcg22REsXk3YPrfXT0jPxySO4UdAF6xHgjca0NFqALm3YYs4JMpBsKAUH8kM2
+ Vys9uaRLtg1ccLikUF8fMYX7cVuG5QQf9tnoCNzdDiSq4XazQJcOVnry5c8Qpn5JgaVF
+ Y2HMfsuo6PW6O+IC4IBn3jE739QWIUXLXLvFcLnctb3be+lDIxE44vyV3JoX/S+CkLGY
+ gtI5emfqPHz/cVSUNH/2LzNhn8KlU8yJM7EjYtsok7V551YXhAAp74ALtqZLywaDMOIM
+ 1eIA==
+X-Gm-Message-State: APjAAAXcBjyb4Xz7S2ab+YfT/CG9UYIXY5kXcqZkLLOmBlQLvpRGmt5R
+ k9Xoba+LM0b95esWwqdALNO/xI0/htvzYg==
+X-Google-Smtp-Source: APXvYqy3Tmq1Owjd255HjyCZFHhmOW1yqFyhyoPo2SF8/uZUsB1gCOnTaU6stnDHuMs2znlgHywIzw==
+X-Received: by 2002:a5d:6212:: with SMTP id y18mr29950554wru.178.1560782061180; 
+ Mon, 17 Jun 2019 07:34:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.19
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:34:19 -0700 (PDT)
+ Mon, 17 Jun 2019 07:34:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:33:53 +0100
-Message-Id: <20190617143412.5734-6-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:33:54 +0100
+Message-Id: <20190617143412.5734-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
 References: <20190617143412.5734-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::429
-Subject: [Qemu-devel] [PULL 05/24] target/arm: Allow VFP and Neon to be
- disabled via a CPU property
+X-Received-From: 2a00:1450:4864:20::42f
+Subject: [Qemu-devel] [PULL 06/24] target/arm: Allow M-profile CPUs to
+ disable the DSP extension via CPU property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,230 +83,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow VFP and neon to be disabled via a CPU property. As with
-the "pmu" property, we only allow these features to be removed
-from CPUs which have it by default, not added to CPUs which
-don't have it.
-
-The primary motivation here is to be able to optionally
-create Cortex-M33 CPUs with no FPU, but we provide switches
-for both VFP and Neon because the two interact:
- * AArch64 can't have one without the other
- * Some ID register fields only change if both are disabled
+Allow the DSP extension to be disabled via a CPU property for
+M-profile CPUs. (A and R-profile CPUs don't have this extension
+as a defined separate optional architecture extension, so
+they don't need the property.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20190517174046.11146-2-peter.maydell@linaro.org
+Message-id: 20190517174046.11146-3-peter.maydell@linaro.org
 ---
- target/arm/cpu.h |   4 ++
- target/arm/cpu.c | 150 +++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 148 insertions(+), 6 deletions(-)
+ target/arm/cpu.h |  2 ++
+ target/arm/cpu.c | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 92298624215..cf2496aeeec 100644
+index cf2496aeeec..a98c45b1ff0 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -786,6 +786,10 @@ struct ARMCPU {
-     bool has_el3;
-     /* CPU has PMU (Performance Monitor Unit) */
-     bool has_pmu;
-+    /* CPU has VFP */
-+    bool has_vfp;
-+    /* CPU has Neon */
-+    bool has_neon;
+@@ -790,6 +790,8 @@ struct ARMCPU {
+     bool has_vfp;
+     /* CPU has Neon */
+     bool has_neon;
++    /* CPU has M-profile DSP extension */
++    bool has_dsp;
  
      /* CPU has memory protection unit */
      bool has_mpu;
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 2335659a852..af879d5311e 100644
+index af879d5311e..376db154f00 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -763,6 +763,12 @@ static Property arm_cpu_cfgend_property =
- static Property arm_cpu_has_pmu_property =
-             DEFINE_PROP_BOOL("pmu", ARMCPU, has_pmu, true);
+@@ -769,6 +769,9 @@ static Property arm_cpu_has_vfp_property =
+ static Property arm_cpu_has_neon_property =
+             DEFINE_PROP_BOOL("neon", ARMCPU, has_neon, true);
  
-+static Property arm_cpu_has_vfp_property =
-+            DEFINE_PROP_BOOL("vfp", ARMCPU, has_vfp, true);
-+
-+static Property arm_cpu_has_neon_property =
-+            DEFINE_PROP_BOOL("neon", ARMCPU, has_neon, true);
++static Property arm_cpu_has_dsp_property =
++            DEFINE_PROP_BOOL("dsp", ARMCPU, has_dsp, true);
 +
  static Property arm_cpu_has_mpu_property =
              DEFINE_PROP_BOOL("has-mpu", ARMCPU, has_mpu, true);
  
-@@ -803,6 +809,13 @@ void arm_cpu_post_init(Object *obj)
-     if (arm_feature(&cpu->env, ARM_FEATURE_M)) {
-         set_feature(&cpu->env, ARM_FEATURE_PMSA);
-     }
-+    /* Similarly for the VFP feature bits */
-+    if (arm_feature(&cpu->env, ARM_FEATURE_VFP4)) {
-+        set_feature(&cpu->env, ARM_FEATURE_VFP3);
-+    }
-+    if (arm_feature(&cpu->env, ARM_FEATURE_VFP3)) {
-+        set_feature(&cpu->env, ARM_FEATURE_VFP);
-+    }
- 
-     if (arm_feature(&cpu->env, ARM_FEATURE_CBAR) ||
-         arm_feature(&cpu->env, ARM_FEATURE_CBAR_RO)) {
-@@ -847,6 +860,27 @@ void arm_cpu_post_init(Object *obj)
-                                  &error_abort);
+@@ -881,6 +884,12 @@ void arm_cpu_post_init(Object *obj)
+         }
      }
  
-+    /*
-+     * Allow user to turn off VFP and Neon support, but only for TCG --
-+     * KVM does not currently allow us to lie to the guest about its
-+     * ID/feature registers, so the guest always sees what the host has.
-+     */
-+    if (arm_feature(&cpu->env, ARM_FEATURE_VFP)) {
-+        cpu->has_vfp = true;
-+        if (!kvm_enabled()) {
-+            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_vfp_property,
-+                                     &error_abort);
-+        }
-+    }
-+
-+    if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
-+        cpu->has_neon = true;
-+        if (!kvm_enabled()) {
-+            qdev_property_add_static(DEVICE(obj), &arm_cpu_has_neon_property,
-+                                     &error_abort);
-+        }
++    if (arm_feature(&cpu->env, ARM_FEATURE_M) &&
++        arm_feature(&cpu->env, ARM_FEATURE_THUMB_DSP)) {
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_has_dsp_property,
++                                 &error_abort);
 +    }
 +
      if (arm_feature(&cpu->env, ARM_FEATURE_PMSA)) {
          qdev_property_add_static(DEVICE(obj), &arm_cpu_has_mpu_property,
                                   &error_abort);
-@@ -956,6 +990,116 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
+@@ -1100,6 +1109,26 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+         cpu->isar.mvfr0 = u;
      }
  
-+    if (arm_feature(env, ARM_FEATURE_AARCH64) &&
-+        cpu->has_vfp != cpu->has_neon) {
-+        /*
-+         * This is an architectural requirement for AArch64; AArch32 is
-+         * more flexible and permits VFP-no-Neon and Neon-no-VFP.
-+         */
-+        error_setg(errp,
-+                   "AArch64 CPUs must have both VFP and Neon or neither");
-+        return;
-+    }
-+
-+    if (!cpu->has_vfp) {
-+        uint64_t t;
++    if (arm_feature(env, ARM_FEATURE_M) && !cpu->has_dsp) {
 +        uint32_t u;
 +
-+        unset_feature(env, ARM_FEATURE_VFP);
-+        unset_feature(env, ARM_FEATURE_VFP3);
-+        unset_feature(env, ARM_FEATURE_VFP4);
++        unset_feature(env, ARM_FEATURE_THUMB_DSP);
 +
-+        t = cpu->isar.id_aa64isar1;
-+        t = FIELD_DP64(t, ID_AA64ISAR1, JSCVT, 0);
-+        cpu->isar.id_aa64isar1 = t;
++        u = cpu->isar.id_isar1;
++        u = FIELD_DP32(u, ID_ISAR1, EXTEND, 1);
++        cpu->isar.id_isar1 = u;
 +
-+        t = cpu->isar.id_aa64pfr0;
-+        t = FIELD_DP64(t, ID_AA64PFR0, FP, 0xf);
-+        cpu->isar.id_aa64pfr0 = t;
++        u = cpu->isar.id_isar2;
++        u = FIELD_DP32(u, ID_ISAR2, MULTU, 1);
++        u = FIELD_DP32(u, ID_ISAR2, MULTS, 1);
++        cpu->isar.id_isar2 = u;
 +
-+        u = cpu->isar.id_isar6;
-+        u = FIELD_DP32(u, ID_ISAR6, JSCVT, 0);
-+        cpu->isar.id_isar6 = u;
-+
-+        u = cpu->isar.mvfr0;
-+        u = FIELD_DP32(u, MVFR0, FPSP, 0);
-+        u = FIELD_DP32(u, MVFR0, FPDP, 0);
-+        u = FIELD_DP32(u, MVFR0, FPTRAP, 0);
-+        u = FIELD_DP32(u, MVFR0, FPDIVIDE, 0);
-+        u = FIELD_DP32(u, MVFR0, FPSQRT, 0);
-+        u = FIELD_DP32(u, MVFR0, FPSHVEC, 0);
-+        u = FIELD_DP32(u, MVFR0, FPROUND, 0);
-+        cpu->isar.mvfr0 = u;
-+
-+        u = cpu->isar.mvfr1;
-+        u = FIELD_DP32(u, MVFR1, FPFTZ, 0);
-+        u = FIELD_DP32(u, MVFR1, FPDNAN, 0);
-+        u = FIELD_DP32(u, MVFR1, FPHP, 0);
-+        cpu->isar.mvfr1 = u;
-+
-+        u = cpu->isar.mvfr2;
-+        u = FIELD_DP32(u, MVFR2, FPMISC, 0);
-+        cpu->isar.mvfr2 = u;
-+    }
-+
-+    if (!cpu->has_neon) {
-+        uint64_t t;
-+        uint32_t u;
-+
-+        unset_feature(env, ARM_FEATURE_NEON);
-+
-+        t = cpu->isar.id_aa64isar0;
-+        t = FIELD_DP64(t, ID_AA64ISAR0, DP, 0);
-+        cpu->isar.id_aa64isar0 = t;
-+
-+        t = cpu->isar.id_aa64isar1;
-+        t = FIELD_DP64(t, ID_AA64ISAR1, FCMA, 0);
-+        cpu->isar.id_aa64isar1 = t;
-+
-+        t = cpu->isar.id_aa64pfr0;
-+        t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 0xf);
-+        cpu->isar.id_aa64pfr0 = t;
-+
-+        u = cpu->isar.id_isar5;
-+        u = FIELD_DP32(u, ID_ISAR5, RDM, 0);
-+        u = FIELD_DP32(u, ID_ISAR5, VCMA, 0);
-+        cpu->isar.id_isar5 = u;
-+
-+        u = cpu->isar.id_isar6;
-+        u = FIELD_DP32(u, ID_ISAR6, DP, 0);
-+        u = FIELD_DP32(u, ID_ISAR6, FHM, 0);
-+        cpu->isar.id_isar6 = u;
-+
-+        u = cpu->isar.mvfr1;
-+        u = FIELD_DP32(u, MVFR1, SIMDLS, 0);
-+        u = FIELD_DP32(u, MVFR1, SIMDINT, 0);
-+        u = FIELD_DP32(u, MVFR1, SIMDSP, 0);
-+        u = FIELD_DP32(u, MVFR1, SIMDHP, 0);
-+        u = FIELD_DP32(u, MVFR1, SIMDFMAC, 0);
-+        cpu->isar.mvfr1 = u;
-+
-+        u = cpu->isar.mvfr2;
-+        u = FIELD_DP32(u, MVFR2, SIMDMISC, 0);
-+        cpu->isar.mvfr2 = u;
-+    }
-+
-+    if (!cpu->has_neon && !cpu->has_vfp) {
-+        uint64_t t;
-+        uint32_t u;
-+
-+        t = cpu->isar.id_aa64isar0;
-+        t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 0);
-+        cpu->isar.id_aa64isar0 = t;
-+
-+        t = cpu->isar.id_aa64isar1;
-+        t = FIELD_DP64(t, ID_AA64ISAR1, FRINTTS, 0);
-+        cpu->isar.id_aa64isar1 = t;
-+
-+        u = cpu->isar.mvfr0;
-+        u = FIELD_DP32(u, MVFR0, SIMDREG, 0);
-+        cpu->isar.mvfr0 = u;
++        u = cpu->isar.id_isar3;
++        u = FIELD_DP32(u, ID_ISAR3, SIMD, 1);
++        u = FIELD_DP32(u, ID_ISAR3, SATURATE, 0);
++        cpu->isar.id_isar3 = u;
 +    }
 +
      /* Some features automatically imply others: */
      if (arm_feature(env, ARM_FEATURE_V8)) {
          if (arm_feature(env, ARM_FEATURE_M)) {
-@@ -1016,12 +1160,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-     if (arm_feature(env, ARM_FEATURE_V5)) {
-         set_feature(env, ARM_FEATURE_V4T);
-     }
--    if (arm_feature(env, ARM_FEATURE_VFP4)) {
--        set_feature(env, ARM_FEATURE_VFP3);
--    }
--    if (arm_feature(env, ARM_FEATURE_VFP3)) {
--        set_feature(env, ARM_FEATURE_VFP);
--    }
-     if (arm_feature(env, ARM_FEATURE_LPAE)) {
-         set_feature(env, ARM_FEATURE_V7MP);
-         set_feature(env, ARM_FEATURE_PXN);
 -- 
 2.20.1
 
