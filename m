@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07F548BEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:28:18 +0200 (CEST)
-Received: from localhost ([::1]:50940 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E4A48BF3
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:32:29 +0200 (CEST)
+Received: from localhost ([::1]:50972 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwMb-000835-U9
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:28:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58755)
+	id 1hcwQe-0003Tw-PE
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:32:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58752)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwB5-0005Yx-By
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:25 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwB5-0005Yt-Br
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwB1-0001pe-5E
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwB1-0001po-5q
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:22 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:55686)
+Received: from userp2130.oracle.com ([156.151.31.86]:43108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1hcwAz-0001j6-1K
+ id 1hcwAz-0001mN-1D
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:19 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI9Ofj159576;
- Mon, 17 Jun 2019 18:16:07 GMT
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8uWv149284;
+ Mon, 17 Jun 2019 18:16:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id; s=corp-2018-07-02;
- bh=wAbYWjTDPTNdGXz4juao/Kn/TenPE6WdVD5YQrfPQwc=;
- b=cNuYhgM88UND9sEqbVSNa/REfrBAiZsy4z77idHqVaPTfLNozuLzX9Q+m/YXJ28BX1fE
- CnfyjkrXJjqKF7aNsDv05HFx9zis9fr1NxKVw8QWg43Dp1R8zZvCMN2nQ3c5g5ERn5h3
- em7bH2ndV6DBp0ptCaz3Hl/7zvxG2x2QqBYeF4832WcYni2SxZZPvaJUVZF+9gFhHze9
- g8d3NFuxy/JhHL9O0ZV8nEZvMywkYqUu8YTK65Q6EbOgkHaYBwcVU4zXU6vn/HWzD/sc
- 34HoJ+QUjsgQ7lDXqxLWUG4CmQBqyzJpHpQ4ftiduITep58JjzANmyhUEjJ+XKKfOt7y jQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2120.oracle.com with ESMTP id 2t4saq7yew-1
+ bh=u0KD8hGcmwoPPEuwNGAsbOvcFDGhZdCGGwz4LvnSoPE=;
+ b=rytlw6tWvqXPdPxpL1wH46+dxvh3Iqc+Ndl1vn6afpgH1zLGKBtxqlu9Ta7rrSzjG9XS
+ bJjsZF94j6oAilSRmHnPMrzp2uGAy3czynWEj068mF2Arn37AvF8JlBDd+Fc5Y17qvOT
+ bbr/ouzLHWgkoQvChaTLwDeKfOThhtmhS7tL3k1qUkbZ28nypFDWIwFOOinncTHsaYvL
+ qCNa8A57tZJ/TMLPmOE8+ShZ8OKYYASlZIfcrvniugPZz2qXUj+6VNFOu89yx5a7bnMw
+ O6D32DaFuIyL4qYBS040cA/9D5eSnc0xrl5TJaI4ygd4vouPApjHR5yOuUbVBNcNtA0p zQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 2t4r3tg2wh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:16:07 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIEN2w175334;
- Mon, 17 Jun 2019 18:16:06 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2t5mgbgasa-1
+ Mon, 17 Jun 2019 18:16:12 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIF9OB117990;
+ Mon, 17 Jun 2019 18:16:11 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 2t5cpdkew5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:16:06 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIG5PR024976;
- Mon, 17 Jun 2019 18:16:05 GMT
+ Mon, 17 Jun 2019 18:16:11 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5HIGB55028136;
+ Mon, 17 Jun 2019 18:16:11 GMT
 Received: from heatpipe.hsd1.ca.comcast.net (/73.170.27.202)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 11:16:05 -0700
+ with ESMTP ; Mon, 17 Jun 2019 11:16:11 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 11:16:02 -0700
-Message-Id: <20190617181602.29817-1-elena.ufimtseva@oracle.com>
+Date: Mon, 17 Jun 2019 11:16:05 -0700
+Message-Id: <20190617181605.29863-1-elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.17.1
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
@@ -71,9 +71,9 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906170162
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [RFC PATCH v2 15/35] multi-process: PCI BAR read
- handling for proxy & remote endpoints
+X-Received-From: 156.151.31.86
+Subject: [Qemu-devel] [RFC PATCH v2 16/35] multi-process: Add LSI device
+ proxy object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,173 +86,251 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
- konrad.wilk@oracle.com, berrange@redhat.com, ross.lagerwall@citrix.com,
- liran.alon@oracle.com, stefanha@redhat.com, kanth.ghatraju@oracle.com
+ konrad.wilk@oracle.com, ross.lagerwall@citrix.com, liran.alon@oracle.com,
+ stefanha@redhat.com, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-Proxy device object implements the read handler for PCI BAR accesses.
-The handler sends BAR_READ message to the remote process.
-The remote process implements handler for BAR_READ message.
+Adds proxy-lsi53c895a object, as a derivative of the pci-proxy-dev
+object. This object is the proxy for the lsi53c895a object
+instantiated by the remote process.
 
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- hw/proxy/qemu-proxy.c         | 22 ++++++++++++++++
- include/hw/proxy/qemu-proxy.h |  3 +++
- include/io/proxy-link.h       |  2 ++
- remote/remote-main.c          | 49 +++++++++++++++++++++++++++++++++++
- 4 files changed, 76 insertions(+)
+ hw/proxy/Makefile.objs              |   1 +
+ hw/proxy/proxy-lsi53c895a.c         | 162 ++++++++++++++++++++++++++++
+ include/hw/proxy/proxy-lsi53c895a.h |  42 ++++++++
+ 3 files changed, 205 insertions(+)
+ create mode 100644 hw/proxy/proxy-lsi53c895a.c
+ create mode 100644 include/hw/proxy/proxy-lsi53c895a.h
 
-diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index 7f796a8e67..3ee3854f40 100644
---- a/hw/proxy/qemu-proxy.c
-+++ b/hw/proxy/qemu-proxy.c
-@@ -254,6 +254,7 @@ static void send_bar_access_msg(ProxyLinkState *proxy_link, MemoryRegion *mr,
-                                 unsigned size, bool memory)
- {
-     ProcMsg msg;
-+    int wait;
- 
-     memset(&msg, 0, sizeof(ProcMsg));
- 
-@@ -266,9 +267,20 @@ static void send_bar_access_msg(ProxyLinkState *proxy_link, MemoryRegion *mr,
-     if (write) {
-         msg.cmd = BAR_WRITE;
-         msg.data1.bar_access.val = *val;
-+    } else {
-+        wait = GET_REMOTE_WAIT;
+diff --git a/hw/proxy/Makefile.objs b/hw/proxy/Makefile.objs
+index eb81624cf8..f562f5a0e9 100644
+--- a/hw/proxy/Makefile.objs
++++ b/hw/proxy/Makefile.objs
+@@ -1 +1,2 @@
+ common-obj-$(CONFIG_MPQEMU) += qemu-proxy.o
++common-obj-$(CONFIG_MPQEMU) += proxy-lsi53c895a.o
+diff --git a/hw/proxy/proxy-lsi53c895a.c b/hw/proxy/proxy-lsi53c895a.c
+new file mode 100644
+index 0000000000..e8a8d36f6e
+--- /dev/null
++++ b/hw/proxy/proxy-lsi53c895a.c
+@@ -0,0 +1,162 @@
++/*
++ * Copyright 2019, Oracle and/or its affiliates.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
-+        msg.cmd = BAR_READ;
-+        msg.num_fds = 1;
-+        msg.fds[0] = wait;
-     }
- 
-     proxy_proc_send(proxy_link, &msg);
++#include <sys/types.h>
 +
-+    if (!write) {
-+        *val = wait_for_remote(wait);
-+        PUT_REMOTE_WAIT(wait);
-+    }
- }
- 
- void proxy_default_bar_write(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-@@ -276,3 +288,13 @@ void proxy_default_bar_write(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
- {
-     send_bar_access_msg(dev->proxy_link, mr, true, addr, &val, size, memory);
- }
++#include "qemu/osdep.h"
++#include "hw/qdev-core.h"
++#include "qemu/bitops.h"
++#include "hw/pci/pci.h"
++#include "hw/proxy/qemu-proxy.h"
++#include "hw/proxy/proxy-lsi53c895a.h"
++#include "exec/memory.h"
 +
-+uint64_t proxy_default_bar_read(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-+                                unsigned size, bool memory)
++static uint64_t proxy_lsi_io_read(void *opaque, hwaddr addr, unsigned size)
 +{
-+    uint64_t val;
++    ProxyLSIState *s = opaque;
 +
-+    send_bar_access_msg(dev->proxy_link, mr, false, addr, &val, size, memory);
-+
-+    return val;
-+}
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index b717c8d767..a0db811de4 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -78,4 +78,7 @@ int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp);
- void proxy_default_bar_write(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-                              uint64_t val, unsigned size, bool memory);
- 
-+uint64_t proxy_default_bar_read(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-+                                unsigned size, bool memory);
-+
- #endif /* QEMU_PROXY_H */
-diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
-index 20bc217212..69074a3519 100644
---- a/include/io/proxy-link.h
-+++ b/include/io/proxy-link.h
-@@ -57,6 +57,7 @@ typedef struct ProxyLinkState ProxyLinkState;
-  * CONF_WRITE       PCI config. space write
-  * SYNC_SYSMEM      Shares QEMU's RAM with remote device's RAM
-  * BAR_WRITE        Writes to PCI BAR region
-+ * BAR_READ         Reads from PCI BAR region
-  *
-  */
- typedef enum {
-@@ -65,6 +66,7 @@ typedef enum {
-     CONF_WRITE,
-     SYNC_SYSMEM,
-     BAR_WRITE,
-+    BAR_READ,
-     MAX,
- } proc_cmd_t;
- 
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 90e979289c..4372b71e89 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -93,6 +93,49 @@ static void process_bar_write(ProcMsg *msg, Error **errp)
-     }
- }
- 
-+static void process_bar_read(ProcMsg *msg, Error **errp)
-+{
-+    bar_access_msg_t *bar_access = &msg->data1.bar_access;
-+    AddressSpace *as;
-+    int wait = msg->fds[0];
-+    MemTxResult res;
-+    uint64_t val = 0;
-+
-+    as = bar_access->memory ? &address_space_memory : &address_space_io;
-+
-+    assert(bar_access->size <= sizeof(uint64_t));
-+
-+    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
-+                           (uint8_t *)&val, bar_access->size, false);
-+
-+    if (res != MEMTX_OK) {
-+        error_setg(errp, "Could not perform address space read operation,"
-+                   " inaccessible address: %lx.", bar_access->addr);
-+        val = (uint64_t)-1;
-+        goto fail;
-+    }
-+
-+    switch (bar_access->size) {
-+    case 4:
-+        val = *((uint32_t *)&val);
-+        break;
-+    case 2:
-+        val = *((uint16_t *)&val);
-+        break;
-+    case 1:
-+        val = *((uint8_t *)&val);
-+        break;
-+    default:
-+        error_setg(errp, "Invalid PCI BAR read size");
-+        return;
-+    }
-+
-+fail:
-+    notify_proxy(wait, val);
-+
-+    PUT_REMOTE_WAIT(wait);
++    return proxy_default_bar_read(PCI_PROXY_DEV(s), &s->io_io, addr, size,
++                                  false);
 +}
 +
- static void process_msg(GIOCondition cond)
- {
-     ProcMsg *msg = NULL;
-@@ -125,6 +168,12 @@ static void process_msg(GIOCondition cond)
-             goto finalize_loop;
-         }
-         break;
-+    case BAR_READ:
-+        process_bar_read(msg, &err);
-+        if (err) {
-+            goto finalize_loop;
-+        }
-+        break;
-     default:
-         error_setg(&err, "Unknown command");
-         goto finalize_loop;
++static void proxy_lsi_io_write(void *opaque, hwaddr addr, uint64_t val,
++                               unsigned size)
++{
++    ProxyLSIState *s = opaque;
++
++    proxy_default_bar_write(PCI_PROXY_DEV(s), &s->io_io, addr, val, size,
++                            false);
++}
++
++static const MemoryRegionOps proxy_lsi_io_ops = {
++    .read = proxy_lsi_io_read,
++    .write = proxy_lsi_io_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
++static uint64_t proxy_lsi_ram_read(void *opaque, hwaddr addr, unsigned size)
++{
++    ProxyLSIState *s = opaque;
++
++    return proxy_default_bar_read(PCI_PROXY_DEV(s), &s->ram_io, addr, size,
++                                  true);
++}
++
++static void proxy_lsi_ram_write(void *opaque, hwaddr addr, uint64_t val,
++                                unsigned size)
++{
++    ProxyLSIState *s = opaque;
++
++    proxy_default_bar_write(PCI_PROXY_DEV(s), &s->ram_io, addr, val, size,
++                            true);
++}
++
++static const MemoryRegionOps proxy_lsi_ram_ops = {
++    .read = proxy_lsi_ram_read,
++    .write = proxy_lsi_ram_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static uint64_t proxy_lsi_mmio_read(void *opaque, hwaddr addr, unsigned size)
++{
++    ProxyLSIState *s = opaque;
++
++    return proxy_default_bar_read(PCI_PROXY_DEV(s), &s->mmio_io, addr, size,
++                                  true);
++}
++
++static void proxy_lsi_mmio_write(void *opaque, hwaddr addr, uint64_t val,
++                                 unsigned size)
++{
++    ProxyLSIState *s = opaque;
++
++    proxy_default_bar_write(PCI_PROXY_DEV(s), &s->mmio_io, addr, val, size,
++                            true);
++}
++
++static const MemoryRegionOps proxy_lsi_mmio_ops = {
++    .read = proxy_lsi_mmio_read,
++    .write = proxy_lsi_mmio_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
++static void proxy_lsi_realize(PCIProxyDev *dev, Error **errp)
++{
++    ProxyLSIState *s = LSI_PROXY_DEV(dev);
++    PCIDevice *pci_dev = PCI_DEVICE(dev);
++    uint8_t *pci_conf = pci_dev->config;
++
++    pci_conf[PCI_LATENCY_TIMER] = 0xff;
++    pci_conf[PCI_INTERRUPT_PIN] = 0x01;
++
++    memory_region_init_io(&s->mmio_io, OBJECT(s), &proxy_lsi_mmio_ops, s,
++                          "proxy-lsi-mmio", 0x400);
++    memory_region_init_io(&s->ram_io, OBJECT(s), &proxy_lsi_ram_ops, s,
++                          "proxy-lsi-ram", 0x2000);
++    memory_region_init_io(&s->io_io, OBJECT(s), &proxy_lsi_io_ops, s,
++                          "proxy-lsi-io", 256);
++
++    pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_IO, &s->io_io);
++    pci_register_bar(pci_dev, 1, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->mmio_io);
++    pci_register_bar(pci_dev, 2, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->ram_io);
++}
++
++static void proxy_lsi_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *pci_class = PCI_DEVICE_CLASS(klass);
++    PCIProxyDevClass *proxy_class = PCI_PROXY_DEV_CLASS(klass);
++
++    proxy_class->realize = proxy_lsi_realize;
++    proxy_class->command = g_strdup("qemu-scsi-dev");
++
++    pci_class->vendor_id = PCI_VENDOR_ID_LSI_LOGIC;
++    pci_class->device_id = PCI_DEVICE_ID_LSI_53C895A;
++    pci_class->class_id = PCI_CLASS_STORAGE_SCSI;
++    pci_class->subsystem_id = 0x1000;
++
++    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
++
++    dc->desc = "LSI Proxy Device";
++}
++
++static const TypeInfo lsi_proxy_dev_type_info = {
++    .name          = TYPE_PROXY_LSI53C895A,
++    .parent        = TYPE_PCI_PROXY_DEV,
++    .instance_size = sizeof(ProxyLSIState),
++    .class_init    = proxy_lsi_class_init,
++};
++
++static void lsi_proxy_dev_register_types(void)
++{
++    type_register_static(&lsi_proxy_dev_type_info);
++}
++
++type_init(lsi_proxy_dev_register_types)
+diff --git a/include/hw/proxy/proxy-lsi53c895a.h b/include/hw/proxy/proxy-lsi53c895a.h
+new file mode 100644
+index 0000000000..8afb8f3fec
+--- /dev/null
++++ b/include/hw/proxy/proxy-lsi53c895a.h
+@@ -0,0 +1,42 @@
++/*
++ * Copyright 2019, Oracle and/or its affiliates.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#ifndef LSI_PROXY_H
++#define LSI_PROXY_H
++
++#include "hw/proxy/qemu-proxy.h"
++
++#define TYPE_PROXY_LSI53C895A "proxy-lsi53c895a"
++
++#define LSI_PROXY_DEV(obj) \
++            OBJECT_CHECK(ProxyLSIState, (obj), TYPE_PROXY_LSI53C895A)
++
++typedef struct ProxyLSIState {
++    PCIProxyDev parent_dev;
++
++    MemoryRegion mmio_io;
++    MemoryRegion ram_io;
++    MemoryRegion io_io;
++
++} ProxyLSIState;
++
++#endif
 -- 
 2.17.1
 
