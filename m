@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7EFE489BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:11:18 +0200 (CEST)
-Received: from localhost ([::1]:49972 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B428948986
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:01:12 +0200 (CEST)
+Received: from localhost ([::1]:49796 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvA5-0007dI-VB
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47261)
+	id 1hcv0J-0006hX-UA
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:01:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47399)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hcuFb-0005oT-9D
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:12:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1hcuFy-0005xc-HC
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:13:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hcuFR-0006Np-CB
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:12:48 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:34067)
+ (envelope-from <philmd@redhat.com>) id 1hcuFx-0006p6-HS
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:13:18 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:52928)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hcuFP-0006Kf-E9
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:12:45 -0400
-Received: by mail-wm1-f68.google.com with SMTP id w9so312618wmd.1
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:12:41 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hcuFx-0006nE-9x
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:13:17 -0400
+Received: by mail-wm1-f66.google.com with SMTP id s3so4997wms.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:13:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0V1Qrt8LxrAbQQ43nPV9FyjxZsd5A5vX9bmHl3kOz4o=;
- b=TJLlQiNU7it1R7q0+Txf9D7PQSxPVPStE8wMnbt5QuZ66qcy9YARx1wOWCXmSgFaiq
- JKPvePgQuv7LSFlqLZtYTDpzzgUW0sXZ1PBCa5lRwcPlnTO3BMBTAbw7SVI3WXAC7RJ2
- mGpnlkBV8nxrtysP5h444k867FroriqJ7ySwrEWbbVitKWXFP62KAd5DZe18yYQnNekA
- 1it84nwcJhDA04JNkVJ1aQ31oqQ+CCvsGinLFpbDvGoRBAm8m4CH2XUU+AZC97eEZBOH
- 8McAwKaxSlFJ5+d+gYbUTBSx3Ap2mAYoAyOfdzHZzJGAYcQRbXz9yCFAW8NbpmsZK0AC
- a4Iw==
-X-Gm-Message-State: APjAAAVehECbnX7U1y7c0kfytV3Rr8HFJrtxfL8M2M8Ik+PVZ7iWmH8S
- Aflle/wr/qXuSIb0Rzn3JrZoJw==
-X-Google-Smtp-Source: APXvYqy5mIXydWA6eHt1qnLuqxWO/l3gpgQ7RGej7Z16UATt8Q4kvmEG77BD8nZPst0wRXUJ7CNX/Q==
-X-Received: by 2002:a1c:2907:: with SMTP id p7mr19437175wmp.100.1560787960609; 
- Mon, 17 Jun 2019 09:12:40 -0700 (PDT)
+ bh=ev3gbEYXmUm7TfRZHap9k0OqcBJEGAVvJHzuOaeRzvo=;
+ b=hT6Q5tmD7eqyZaaU4an2AxLUxExapVhwTHH8nDc9dY3PH+Mt+MEzHkXJZy8vFTVaMW
+ G54YrajIoEmnxSQ6ebWTRCkHnX1msnUzWYDCymLx2s+w2JSGOSli9NzLP81S3Pxp7O6y
+ rEn9ZnOx8t9VXjJoOgafonz4Mq9F1yji1uDAgnV5HpAqKI5QHVdrZaZuHjTVgXc55LxK
+ 50MZP2+n2xzKMQ7frucCqmTyfmTvzvZ7ZbFC/R1l7x4jXV/sZSpE+bFyDLlzJ0EdhkZY
+ N1hy3+bjcWj7Xr0iVyHAnqMrC/DTWqLB5JQsLMVfedwNqTTnzwvAsc7ntSFYLj1Pf1ac
+ O7Ig==
+X-Gm-Message-State: APjAAAW7twFPYP+OlgAIbFbFlt1XFOF3zkyZ6XAks2a/fGb1gLIVXeOB
+ leZXt/5k0pQcKv3pYuihJ8aypg==
+X-Google-Smtp-Source: APXvYqxsssgOnxqIVft0SgK7M5qGvttvRLWWu+kwTOtKfjSkPKBa57AgGN0RtMKwfKY8u44Au3WyaQ==
+X-Received: by 2002:a1c:238e:: with SMTP id j136mr18175282wmj.4.1560787995066; 
+ Mon, 17 Jun 2019 09:13:15 -0700 (PDT)
 Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id r4sm27034856wra.96.2019.06.17.09.12.39
+ by smtp.gmail.com with ESMTPSA id n10sm12901074wrw.83.2019.06.17.09.13.14
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 09:12:40 -0700 (PDT)
+ Mon, 17 Jun 2019 09:13:14 -0700 (PDT)
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20190617043858.8290-1-kraxel@redhat.com>
- <20190617043858.8290-8-kraxel@redhat.com>
+ <20190617043858.8290-10-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <6169c2d4-876c-9311-8b00-b847a3de047c@redhat.com>
-Date: Mon, 17 Jun 2019 18:12:39 +0200
+Message-ID: <4b592cb6-6da5-0eba-4b86-2656529eff51@redhat.com>
+Date: Mon, 17 Jun 2019 18:13:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190617043858.8290-8-kraxel@redhat.com>
+In-Reply-To: <20190617043858.8290-10-kraxel@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v4 07/11] tests/vm: openbsd autoinstall,
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v4 09/11] tests/vm: netbsd autoinstall,
  using serial console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,6 +89,8 @@ On 6/17/19 6:38 AM, Gerd Hoffmann wrote:
 > needed for qemu builds.
 > 
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Reviewed-by: Kamil Rytarowski <n54@gmx.com>
+> Tested-by: Thomas Huth <thuth@redhat.com>
 
 From v3:
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
