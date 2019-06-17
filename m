@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6695E489A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:07:11 +0200 (CEST)
-Received: from localhost ([::1]:49896 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F93489CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:13:51 +0200 (CEST)
+Received: from localhost ([::1]:50004 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcv66-0003Fl-Kc
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46313)
+	id 1hcvCY-00026m-Sv
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:13:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52908)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hcuCJ-0002Ju-8i
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:09:32 -0400
+ (envelope-from <Paul.Durrant@citrix.com>) id 1hcuY8-0004st-Ur
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:32:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hcuCI-0003zj-8t
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:09:31 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40406)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hcuCI-0003z4-35
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:09:30 -0400
-Received: by mail-wm1-f67.google.com with SMTP id v19so9734493wmj.5
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:09:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Usp2DZtQd4O5xHqmPVmrFAaMrxG2FglYPRdUeJc2Hpo=;
- b=l6BNe7XJzf3KVokGqIhbYa+QFuw+fNLog9HkQLUE2K+GjX4hBEjS5GZ21Adi1gX91P
- LQTHW3dGYM5X6f41MQsDrlaKqRepw9QC8S6CbbZTMf6A0Di+p+vdIBoJ5dpuS6KBiKEz
- sNvH5ECX62rijIk6VgSf5qQ2rtsHsWwW80l5FNCSl3fjqhPXNChmZSk1QerBHXpomjG7
- vioBoa/pfqxXnhoiF9uBrjNm7DzMMn3n9UHZ+8HG9HUhL6wwyIdQF2Q44trLZehtODCo
- SP5DrUWtYVrn7SX8tcRpCul9NxTQdq7wtQ5NO46lfYD4wh8ZXf5Owgxz4aXcmIb41CCg
- vEZw==
-X-Gm-Message-State: APjAAAX1jNcXjdzA27v13SD9F+miHy2aP8A4SIzqdHpMm0dspWo+VunO
- F5ZuEk+aVq7YSWATLEuM9i8Flw==
-X-Google-Smtp-Source: APXvYqyANZFPgtq0W+jGo+OmdGX9BSBHEuI1eQeS0MYGLNmNEmVM6H0r1obPkzp7I9jrO+kEQIRq6g==
-X-Received: by 2002:a1c:a783:: with SMTP id q125mr20439066wme.94.1560787769125; 
- Mon, 17 Jun 2019 09:09:29 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id y44sm12250622wrd.13.2019.06.17.09.09.28
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 09:09:28 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20190617043858.8290-1-kraxel@redhat.com>
- <20190617043858.8290-5-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <50ccf205-1be7-5d0e-c4b4-7fb94459330c@redhat.com>
-Date: Mon, 17 Jun 2019 18:09:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190617043858.8290-5-kraxel@redhat.com>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <Paul.Durrant@citrix.com>) id 1hcuY5-0003IP-8R
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:32:02 -0400
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:4027)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
+ id 1hcuY3-0003Bz-P0
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:32:00 -0400
+Authentication-Results: esa1.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=Paul.Durrant@citrix.com;
+ spf=Pass smtp.mailfrom=Paul.Durrant@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ Paul.Durrant@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="Paul.Durrant@citrix.com"; x-conformance=sidf_compatible
+Received-SPF: Pass (esa1.hc3370-68.iphmx.com: domain of
+ Paul.Durrant@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="Paul.Durrant@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: QQ/rfxEcGjGzBgptmwE8OyQbiZrSWu7ph6VvoUqOunZfDswzVO5LyNf9RQ2sEZ7iNgl3jOcotX
+ EwbWCY0ooNgwoWkR9jPWqlsunt8MwoQK4FVemR6MY0dU3l2FlIrer8UNFyaWv+AiabeKIq5Kzv
+ yKgwhbvexJXENWGEZXsrQe7pVWa0JBUU0rTPELduEMmKEY67pLtRh7DKIldfRtQZFwuYEmYPFq
+ GDyqUicDIuToFMKWOmhkkZjDqM23kpJhOavNq5OA/MhLFE+L8U5rB3AcXBZQy8uPV+yifoZ8wb
+ iGI=
+X-SBRS: 2.7
+X-MesageID: 1850360
+X-Ironport-Server: esa1.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.63,385,1557201600"; 
+   d="scan'208";a="1850360"
+From: Paul Durrant <Paul.Durrant@citrix.com>
+To: Anthony Perard <anthony.perard@citrix.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH 2/4] xen: Import other xen/io/*.h
+Thread-Index: AQHVJSMYBHo7zZ9H6ESjDdTrHmXuOqagA5zg
+Date: Mon, 17 Jun 2019 16:09:39 +0000
+Message-ID: <f9d21559066445a3afc0f6ee32d01ac9@AMSPEX02CL03.citrite.net>
+References: <20190617154105.32323-1-anthony.perard@citrix.com>
+ <20190617154105.32323-3-anthony.perard@citrix.com>
+In-Reply-To: <20190617154105.32323-3-anthony.perard@citrix.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH v4 04/11] tests/vm: proper guest shutdown
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.145.142
+Subject: Re: [Qemu-devel] [PATCH 2/4] xen: Import other xen/io/*.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,22 +94,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
- Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: Anthony Perard <anthony.perard@citrix.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Stefano Stabellini <sstabellini@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/19 6:38 AM, Gerd Hoffmann wrote:
-> When not running in snapshot mode ask the guest to poweroff and wait for
-> this to finish instead of simply quitting qemu, so the guest can flush
-> pending updates to disk.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Tested-by: Thomas Huth <thuth@redhat.com>
+> -----Original Message-----
+> From: Anthony PERARD [mailto:anthony.perard@citrix.com]
+> Sent: 17 June 2019 16:41
+> To: qemu-devel@nongnu.org
+> Cc: xen-devel@lists.xenproject.org; Anthony Perard <anthony.perard@citrix=
+.com>; Stefano Stabellini
+> <sstabellini@kernel.org>; Paul Durrant <Paul.Durrant@citrix.com>
+> Subject: [PATCH 2/4] xen: Import other xen/io/*.h
+>=20
+> Following "xen: Fix build with public headers", import other Xen
+> public headers that are describing interfaces.
+>=20
+> Import fbif.h, kbdif.h, netif.h, console.h, xenbus.h, protocols.h.
+>=20
+> While editing xenfb.c, remove the include of event_channel.h as it
+> isn't needed.
+>=20
+> The headers are cleaned up a bit while importing them. The header
+> guard symbols are changed to match QEMU's coding style, some other
+> part of the file that QEMU doesn't use are removed.
+>=20
+> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 
-Tags from v3:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Paul Durrant <paul.durrant@citrix.com>
+
 
