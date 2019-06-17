@@ -2,98 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309CE481E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:24:41 +0200 (CEST)
-Received: from localhost ([::1]:46716 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F002C482B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:40:56 +0200 (CEST)
+Received: from localhost ([::1]:46988 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcqgi-0007ot-Dh
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:24:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38584)
+	id 1hcqwS-0001b8-5q
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39127)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <rkagan@virtuozzo.com>) id 1hcqbm-0005fq-TD
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:19:39 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hcqdo-0006dF-AL
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:21:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rkagan@virtuozzo.com>) id 1hcqbV-00062C-PF
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:19:25 -0400
-Received: from mail-bgr052101129080.outbound.protection.outlook.com
- ([52.101.129.80]:55622 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rkagan@virtuozzo.com>)
- id 1hcqbV-0005u4-FE; Mon, 17 Jun 2019 08:19:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kHXnv2ezghILu8+IAPvC+sSO/1G0VrEsyviIi92WAaw=;
- b=ZM9KCQhI1yIlNG5TTjTFkG28Pfj8twCJXp4hB2JCnYbY3kb6yFhQYz1LzawsOMZqHR9kBUqvWmDjenSBwy84MMN98DNEzOI9r6b1eDrA0Bo7DNWTjl53QcID1T5BZq1UKfZOZvW46r4lUZCfCNBEODWbpoDfVPfiCakMLtMTkkM=
-Received: from DB8PR08MB3977.eurprd08.prod.outlook.com (20.179.11.95) by
- DB8PR08MB4010.eurprd08.prod.outlook.com (20.179.10.207) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.13; Mon, 17 Jun 2019 12:18:58 +0000
-Received: from DB8PR08MB3977.eurprd08.prod.outlook.com
- ([fe80::3530:3b13:be7f:2944]) by DB8PR08MB3977.eurprd08.prod.outlook.com
- ([fe80::3530:3b13:be7f:2944%4]) with mapi id 15.20.1987.014; Mon, 17 Jun 2019
- 12:18:58 +0000
-From: Roman Kagan <rkagan@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Thread-Topic: [PATCH v2 2/7] iotests: exclude killed processes from running
- under Valgrind
-Thread-Index: AQHVIH/Wi8p8J0/z1kCgZMBwauxb2KafutMAgAAR14A=
-Date: Mon, 17 Jun 2019 12:18:58 +0000
-Message-ID: <20190617121855.GB32624@rkaganb.sw.ru>
-References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1560276131-683243-3-git-send-email-andrey.shinkevich@virtuozzo.com>
- <20190617111504.GC7397@linux.fritz.box>
-In-Reply-To: <20190617111504.GC7397@linux.fritz.box>
-Accept-Language: en-US, ru-RU
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.11.4 (2019-03-13)
-mail-followup-to: Roman Kagan <rkagan@virtuozzo.com>,	Kevin Wolf
- <kwolf@redhat.com>,	Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com,
- berrange@redhat.com, den@openvz.org, vsementsov@virtuozzo.com
-x-originating-ip: [185.231.240.5]
-x-clientproxiedby: HE1PR0802CA0015.eurprd08.prod.outlook.com
- (2603:10a6:3:bd::25) To DB8PR08MB3977.eurprd08.prod.outlook.com
- (2603:10a6:10:ad::31)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=rkagan@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a782df65-f6bc-43f4-c454-08d6f31df96f
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB4010; 
-x-ms-traffictypediagnostic: DB8PR08MB4010:|DB8PR08MB4010:
-x-microsoft-antispam-prvs: <DB8PR08MB401018EC3FF28C6F1525252DC9EB0@DB8PR08MB4010.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1417;
-x-forefront-prvs: 0071BFA85B
-x-forefront-antispam-report: SFV:SPM;
- SFS:(10019020)(376002)(39840400004)(396003)(366004)(136003)(346002)(189003)(199004)(6512007)(26005)(6506007)(386003)(2906002)(66946007)(66446008)(64756008)(66556008)(66476007)(53936002)(73956011)(66066001)(6436002)(6246003)(6486002)(86362001)(71200400001)(71190400001)(1076003)(99286004)(476003)(58126008)(478600001)(8936002)(316002)(11346002)(52116002)(446003)(33656002)(76176011)(68736007)(6916009)(102836004)(229853002)(107886003)(3846002)(6116002)(8676002)(486006)(14444005)(256004)(186003)(54906003)(305945005)(36756003)(9686003)(4326008)(14454004)(7736002)(5660300002)(81166006)(81156014)(25786009)(30126002);
- DIR:OUT; SFP:1501; SCL:5; SRVR:DB8PR08MB4010;
- H:DB8PR08MB3977.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 76Tqw6diV/T+MxKSvt0vjahs2W6hxQnBximqoOAYH/+QI4pVfMcpVVKIjWGbdjnKeP/a6L0Ks6OcxITJ+UI0g38E3fC/YcQQ3UPafjnTrSCC0n+VhXYm0Xx/i1+fXKlP7+9zd5XPB+JjmSIdLiqjuz9jmDEdP+sjvihuHX3ZcyJGnRlZviNuKHEwmBoiKkTBzA9+vRC8/ja/rGjfvzZkC8i5O8m/BhhUyXupBpxusjtQVRYN7hcfsZPT2K2NW3orIwGPCk8utIeUG6edl4pEOt3eSMcJifhevzCQ378AOxIvYmNXSHGzX1j3tFEO3FGTUMee7xv8q2X6vy24pvU2tKAmnaGUBqRlFdMWcucy57Xpw3DhqiI4iLOwLKBL/Ynao0oAoAbJytBjDRZDCXgDR5BvUEheriSwU0afR6MU6jSUq385UnEm/ElbBXCh6g2GP3kye+4OJL3JQyl3Z7qUYt6tQshVzhyR5IzdUJNruaUwo5fE0oaidX74UdbFj0kP
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <897687AB4D68B1479CC47C761630D2D8@eurprd08.prod.outlook.com>
+ (envelope-from <laurent@vivier.eu>) id 1hcqdm-0008LP-3b
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:21:40 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:50389)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>)
+ id 1hcqdY-00089b-MB; Mon, 17 Jun 2019 08:21:24 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N0WPK-1iWt7s0AVg-00wRMD; Mon, 17 Jun 2019 14:21:04 +0200
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190617114114.24897-1-berrange@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <4e55f7ef-f449-8647-cab6-78511edcdeb6@vivier.eu>
+Date: Mon, 17 Jun 2019 14:21:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a782df65-f6bc-43f4-c454-08d6f31df96f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2019 12:18:58.6075 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rkagan@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4010
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 52.101.129.80
-Subject: Re: [Qemu-devel] [PATCH v2 2/7] iotests: exclude killed processes
- from running under Valgrind
+In-Reply-To: <20190617114114.24897-1-berrange@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:AOkYGxZjg5eAayyiDlEJcwAQyuS9gEIl0W6vz0dRPPHGle8JnGA
+ /bPKEWClreQ1W2Rt+DbANRBJKy/lJRZv0TuvsYkTr1B4dp061sCivOOTSA7kScdztm9pRFs
+ vERFD48SJ8lFC1E45w0sSxAHlx+ec1qShvhF+mHrKTgytFm4QS/uVxGtz0+jf+UTl7Yg0d1
+ vh9G/yYjWnB2f8pKVAilQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aC4bP9qjfVM=:NynAfiiQiVOuAZsf68NE7r
+ 8qzXen/43glyFZye/IAOcxR2C6P63fmbxzctjzeiaXXB0THniA1x2qHuHqCUsDeAy91HcGt63
+ AA66oxQg3zuJxjwvYEP8bKjpA3YKLSFFJBEpBtQIY+lLo6UumjsYiu+p1rUJJGxW7jQRc+Rhx
+ qyL0XuD5aneAR0YbMbYHSzREbvV7rOQE/PViYEwSL0v0SLxgFjG/I5DhcgniQ59f/oNzk7wcR
+ u2MwJOqiA6jAAbEj3zFboVrxz3ZUYdSV2VVuKSi0yv+9Dqjb/2AIqSBwepgBM8G02/gkGGe3J
+ 4axTLKvBzYhQYOEM5GrPj2pQ/wQA1CGs3ja+IAzmsvG/bhBdFFnacaw2gTok7+djRkt+Autsa
+ VK8LRv8vtu7lXMAhbpGkaNmLkFDzg0YRmqAMlIoeg/gGt3ve4zbQkmSU4zszxIzGRBXJMp1et
+ P20ewZQzUTpEW6XOEjH7VQ6PsS/QN7qmllXF4dmB4tBd4rSu2NQgUwa/nrJHbm0jdgV/IwZzc
+ jpFGA9XlyEmuYvrWlmE2e/VtHpwJdP7bpQKV4HA1mxL55KOcU/B5AN7beu/yHZ7J7XykF5cwY
+ RF1/4ewFM5hxbzb/zV5n7OOGO40qRgthiczeXnUX4wuVIMW2z2ytjqR7ImCxoE8w9Hvxf9GGz
+ HN7Mon7DJpIgiplRI0ybwsM7YNCHuaAjLDMXJUh1v/ccRLrRNhndZEOBcnDQ/Sa+ThvHog1xd
+ ehmLze5axYvP3OBEUThPVwZ2a4gEV7lgUXwWVoJ1qLOh6Qqi8m7u1W9oBOE=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.10
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] configure: use valid args
+ testing sem_timedwait
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,61 +110,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "berrange@redhat.com" <berrange@redhat.com>, Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 17, 2019 at 01:15:04PM +0200, Kevin Wolf wrote:
-> Am 11.06.2019 um 20:02 hat Andrey Shinkevich geschrieben:
-> > The Valgrind tool fails to manage its termination when QEMU raises the
-> > signal SIGKILL. Lets exclude such test cases from running under the
-> > Valgrind because there is no sense to check memory issues that way.
-> > 
-> > Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Le 17/06/2019 à 13:41, Daniel P. Berrangé a écrit :
+> The sem_timedwait function has been annotated as requiring
+> non-null args in latest header files from GCC snapshot
+> representing the future 2.30 release.
 > 
-> I don't fully understand the reasoning here. Most interesting memory
-> access errors happen before a process terminates. (I'm not talking about
-> leaks here, but use-after-free, buffer overflows, uninitialised memory
-> etc.)
-
-Nothing of the above, and nothing in general, happens in the usermode
-process upon SIGKILL delivery.  
-
-> However, I do see that running these test cases with -valgrind ends in a
-> hang because the valgrind process keeps hanging around as a zombie
-> process and the test case doesn't reap it. I'm not exactly sure why that
-> is, but it looks more like a problem with the parent process (i.e. the
-> bash script).
-
-It rather looks like valgrind getting confused about what to do with
-raise(SIGKILL) in the multithreaded case.
-
-> If we can't figure out how to fix this, we can disable valgrind in these
-> cases, but I think the explanation needs to be different.
+> This causes configure to fail when -Werror is used:
 > 
-> > diff --git a/tests/qemu-iotests/039 b/tests/qemu-iotests/039
-> > index 0d4e963..95115e2 100755
-> > --- a/tests/qemu-iotests/039
-> > +++ b/tests/qemu-iotests/039
-> > @@ -65,6 +65,7 @@ echo "== Creating a dirty image file =="
-> >  IMGOPTS="compat=1.1,lazy_refcounts=on"
-> >  _make_test_img $size
-> >  
-> > +VALGRIND_QEMU="" \
-> >  $QEMU_IO -c "write -P 0x5a 0 512" \
-> >           -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 \
-> >      | _filter_qemu_io
+> config-temp/qemu-conf.c: In function ‘main’:
+> config-temp/qemu-conf.c:2:25: error: null argument where non-null required (argument 1) [-Werror=nonnull]
+>     2 | int main(void) { return sem_timedwait(0, 0); }
+>       |                         ^~~~~~~~~~~~~
+> config-temp/qemu-conf.c:2:25: error: null argument where non-null required (argument 2) [-Werror=nonnull]
 > 
-> I agree with Vladimir that setting VALGRIND_QEMU only once at the top of
-> the script is probably the better option.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index b091b82cb3..6632d05fc7 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5139,7 +5139,7 @@ fi
+>  sem_timedwait=no
+>  cat > $TMPC << EOF
+>  #include <semaphore.h>
+> -int main(void) { return sem_timedwait(0, 0); }
+> +int main(void) { sem_t s; struct timespec t = {0}; return sem_timedwait(&s, &t); }
+>  EOF
+>  if compile_prog "" "" ; then
+>      sem_timedwait=yes
+> 
 
-It is not, because there's no reason for qemu-io invocations that don't
-perform raise(SIGKILL) to escape valgrinding.
-
-Roman.
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
