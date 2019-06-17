@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8AB48D22
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:57:59 +0200 (CEST)
-Received: from localhost ([::1]:51164 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B95FF48D5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:03:09 +0200 (CEST)
+Received: from localhost ([::1]:51216 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwpK-0001Po-TB
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34839)
+	id 1hcwuK-0006IR-UD
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hcwOz-0003aj-8G
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:30:47 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hcwNY-0001uX-Ai
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:29:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hcwOx-00030R-R5
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:30:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43454)
+ (envelope-from <pbonzini@redhat.com>) id 1hcwNW-0001GA-Js
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:29:16 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33139)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hcwOx-0002zv-LS
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:30:43 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hcwOw-000154-5z
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:30:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2B6DE2E8078
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:30:42 +0000 (UTC)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hcwNW-0001FN-DX
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:29:14 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n9so11114060wru.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 11:29:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JipREjB8Xp2KShvWTIcJG/AGcNKLF8lVkPuv1Hf5WHk=;
+ b=UXGBiABji6PDIjRUodA9k6HtXubpr877KH2c5J+zFZb/R55YPj9aSx+ROOqrWqQJtg
+ bCCVLmV1qc8uZqba+0angBE1eJIwUkLhjpfsKUOCYdf30Sdwrrr0T5IQuxo6x0c5TEOV
+ Cp4o4xvYmvcS/kudMKOfpqGIWCJiBtKRTUxEPpFL3F+9dChVsev8tjDtGW/ALZvvziVH
+ unnIvP3/I6kfUms6rQ/b7JWMvUkVysRtOHrllKwk+KNLBLHU7QYBB/J1ti9fY0A0ueKp
+ g3SqAQlpnjLJgHkocOm6kRCuu4gImi7yZ0RdK29qzfECxguAVD577o7OzRZbNuoisgWG
+ OpaQ==
+X-Gm-Message-State: APjAAAW93DhXxOwgWgKZc/CrKeEt2cC4m8QuP52zhQIcJ+mLLcWhtTvv
+ ZsKV/qxkUfwuAP1IpyVPDjRHNw==
+X-Google-Smtp-Source: APXvYqzJ90dZ39SZtSxfoLiRqclYId1UB0Of8dqrtWvCxDHlDZfaOB0kt5KKnoCWV0d1Ffg/2T7KNw==
+X-Received: by 2002:a5d:484e:: with SMTP id n14mr13113382wrs.348.1560796153248; 
+ Mon, 17 Jun 2019 11:29:13 -0700 (PDT)
+Received: from [192.168.10.150] ([93.56.166.5])
+ by smtp.gmail.com with ESMTPSA id y44sm12808815wrd.13.2019.06.17.11.29.12
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jun 2019 11:29:12 -0700 (PDT)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190612120421.20336-1-stefanha@redhat.com>
+ <20190617122922.GG7397@linux.fritz.box>
+ <25ad60d8-8860-b535-a42b-03d4d63d0802@redhat.com>
+ <20190617175840.GO7397@linux.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6080d608-fd8d-1f09-6f40-735e212fbf9e@redhat.com>
+Date: Mon, 17 Jun 2019 20:27:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 Jun 2019 18:21:01 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee andrew-randrianasulu imammedo lersek
-X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <155912118291.12579.8926874795813611531.malonedeb@soybean.canonical.com>
-Message-Id: <156079566334.23073.17850070230966469680.launchpad@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18981";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 3209094cf45e74d4e5c6477f75066b8f23ef5fcd
+In-Reply-To: <20190617175840.GO7397@linux.fritz.box>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1830872] Re: AARCH64 to ARMv7 mistranslation in
- TCG
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v4] virtio-scsi: restart DMA after iothread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,106 +73,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1830872 <1830872@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+On 17/06/19 19:58, Kevin Wolf wrote:
+> Of course, this makes me think that maybe for the actual proper
+> solution, VM state change handlers should really be a feature that qdev
+> provides for devices. Then if a HBA doesn't have anything else to do,
+> the qdev core would just recurse into the children right away; if it has
+> something to do, it would disable the device after its children, and
+> re-enable it before the children.
 
--- =
+This was more or less my reply to this version of the patch. :)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1830872
-
-Title:
-  AARCH64 to ARMv7 mistranslation in TCG
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  The following guest code:
-
-  https://github.com/tianocore/edk2/blob/3604174718e2afc950c3cc64c64ba5165c=
-8692bd/MdePkg/Library/BaseMemoryLibOptDxe/AArch64/CopyMem.S
-
-  implements, in hand-optimized aarch64 assembly, the CopyMem() edk2 (EFI
-  Development Kit II) library function. (CopyMem() basically has memmove()
-  semantics, to provide a standard C analog here.) The relevant functions
-  are InternalMemCopyMem() and __memcpy().
-
-  When TCG translates this aarch64 code to x86_64, everything works
-  fine.
-
-  When TCG translates this aarch64 code to ARMv7, the destination area of
-  the translated CopyMem() function becomes corrupted -- it differs from
-  the intended source contents. Namely, in every 4096 byte block, the
-  8-byte word at offset 4032 (0xFC0) is zeroed out in the destination,
-  instead of receiving the intended source value.
-
-  I'm attaching two hexdumps of the same destination area:
-
-  - "good.txt" is a hexdump of the destination area when CopyMem() was
-    translated to x86_64,
-
-  - "bad.txt" is a hexdump of the destination area when CopyMem() was
-    translated to ARMv7.
-
-  In order to assist with the analysis of this issue, I disassembled the
-  aarch64 binary with "objdump". Please find the listing in
-  "DxeCore.objdump", attached. The InternalMemCopyMem() function starts at
-  hex offset 2b2ec. The __memcpy() function starts at hex offset 2b180.
-
-  And, I ran the guest on the ARMv7 host with "-d
-  in_asm,op,op_opt,op_ind,out_asm". Please find the log in
-  "tcg.in_asm.op.op_opt.op_ind.out_asm.log", attached.
-
-  The TBs that correspond to (parts of) the InternalMemCopyMem() and
-  __memcpy() functions are scattered over the TCG log file, but the offset
-  between the "nice" disassembly from "DxeCore.objdump", and the in-RAM
-  TBs in the TCG log, can be determined from the fact that there is a
-  single prfm instruction in the entire binary. The instruction's offset
-  is 0x2b180 in "DxeCore.objdump" -- at the beginning of the __memcpy()
-  function --, and its RAM address is 0x472d2180 in the TCG log. Thus the
-  difference (=3D the load address of DxeCore.efi) is 0x472a7000.
-
-  QEMU was built at commit a4f667b67149 ("Merge remote-tracking branch
-  'remotes/cohuck/tags/s390x-20190521-3' into staging", 2019-05-21).
-
-  The reproducer command line is (on an ARMv7 host):
-
-    qemu-system-aarch64 \
-      -display none \
-      -machine virt,accel=3Dtcg \
-      -nodefaults \
-      -nographic \
-      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-aarch6=
-4-code.fd,readonly \
-      -drive if=3Dpflash,format=3Draw,file=3D$prefix/share/qemu/edk2-arm-va=
-rs.fd,snapshot=3Don \
-      -cpu cortex-a57 \
-      -chardev stdio,signal=3Doff,mux=3Don,id=3Dchar0 \
-      -mon chardev=3Dchar0,mode=3Dreadline \
-      -serial chardev:char0
-
-  The apparent symptom is an assertion failure *in the guest*, such as
-
-  > ASSERT [DxeCore]
-  > /home/lacos/src/upstream/qemu/roms/edk2/MdePkg/Library/BaseLib/String.c=
-(1090):
-  > Length < _gPcd_FixedAtBuild_PcdMaximumAsciiStringLength
-
-  but that is only a (distant) consequence of the CopyMem()
-  mistranslation, and resultant destination area corruption.
-
-  Originally reported in the following two mailing list messages:
-  - http://mid.mail-archive.com/9d2e260c-c491-03d2-9b8b-b57b72083f77@redhat=
-.com
-  - http://mid.mail-archive.com/f1cec8c0-1a9b-f5bb-f951-ea0ba9d276ee@redhat=
-.com
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1830872/+subscriptions
+Paolo
 
