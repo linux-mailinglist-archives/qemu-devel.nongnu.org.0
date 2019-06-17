@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715A148DA7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:12:53 +0200 (CEST)
-Received: from localhost ([::1]:51326 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59A948DA1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:11:28 +0200 (CEST)
+Received: from localhost ([::1]:51305 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcx3k-0000VA-LI
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:12:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40429)
+	id 1hcx2O-0005xe-3U
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40423)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hcwh2-0001cR-11
+ (envelope-from <armbru@redhat.com>) id 1hcwh1-0001cE-VQ
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hcwh0-0007sL-Er
+ (envelope-from <armbru@redhat.com>) id 1hcwh0-0007sF-E6
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42380)
+Received: from mx1.redhat.com ([209.132.183.28]:56160)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwh0-0007hc-48
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwh0-0007hi-3Z
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:22 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BD32F7FDF6
+ by mx1.redhat.com (Postfix) with ESMTPS id EA76B81DF2
  for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-177.ams2.redhat.com
  [10.36.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 63EA180EB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90BC21001E93;
  Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6CC491133007; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
+ id 709F6113300E; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 20:48:55 +0200
-Message-Id: <20190617184903.19436-9-armbru@redhat.com>
+Date: Mon, 17 Jun 2019 20:48:56 +0200
+Message-Id: <20190617184903.19436-10-armbru@redhat.com>
 In-Reply-To: <20190617184903.19436-1-armbru@redhat.com>
 References: <20190617184903.19436-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/16] Move monitor.c to monitor/misc.c
+Subject: [Qemu-devel] [PULL 09/16] monitor: Move {hmp, qmp}.c to monitor/{hmp,
+ qmp}-cmds.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,163 +65,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kevin Wolf <kwolf@redhat.com>
 
-Create a new monitor/ subdirectory and move monitor.c there. As the plan
-is to move the monitor core into separate files, use the chance to
-rename it to misc.c.
+Now that we have a monitor/ subdirectory, let's move hmp.c and qmp.c
+from the root directory there. As they contain implementations of
+monitor commands, rename them to {hmp,qmp}-cmds.c, so that {hmp,qmp}.c
+are free for the HMP and QMP infrastructure.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190613153405.24769-8-kwolf@redhat.com>
+Message-Id: <20190613153405.24769-9-kwolf@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- MAINTAINERS                         |  4 ++--
- Makefile.objs                       |  1 +
- Makefile.target                     |  3 ++-
- docs/devel/writing-qmp-commands.txt |  2 +-
- monitor/Makefile.objs               |  1 +
- monitor.c =3D> monitor/misc.c         |  2 +-
- monitor/trace-events                | 11 +++++++++++
- trace-events                        | 10 ----------
- 8 files changed, 19 insertions(+), 15 deletions(-)
- create mode 100644 monitor/Makefile.objs
- rename monitor.c =3D> monitor/misc.c (99%)
- create mode 100644 monitor/trace-events
+ MAINTAINERS                         | 5 +++--
+ Makefile.objs                       | 2 +-
+ docs/devel/writing-qmp-commands.txt | 9 +++++----
+ monitor/Makefile.objs               | 1 +
+ hmp.c =3D> monitor/hmp-cmds.c         | 2 +-
+ qmp.c =3D> monitor/qmp-cmds.c         | 2 +-
+ 6 files changed, 12 insertions(+), 9 deletions(-)
+ rename hmp.c =3D> monitor/hmp-cmds.c (99%)
+ rename qmp.c =3D> monitor/qmp-cmds.c (99%)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index acbad134ec..575ea6e68d 100644
+index 575ea6e68d..3c7d366727 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1918,7 +1918,7 @@ F: qapi/run-state.json
- Human Monitor (HMP)
+@@ -1919,7 +1919,8 @@ Human Monitor (HMP)
  M: Dr. David Alan Gilbert <dgilbert@redhat.com>
  S: Maintained
--F: monitor.c
-+F: monitor/misc.c
- F: hmp.[ch]
+ F: monitor/misc.c
+-F: hmp.[ch]
++F: monitor/hmp*
++F: hmp.h
  F: hmp-commands*.hx
  F: include/monitor/hmp-target.h
-@@ -2040,7 +2040,7 @@ QMP
+ F: tests/test-hmp.c
+@@ -2039,7 +2040,7 @@ F: tests/check-qom-proplist.c
+ QMP
  M: Markus Armbruster <armbru@redhat.com>
  S: Supported
- F: qmp.c
--F: monitor.c
-+F: monitor/misc.c
+-F: qmp.c
++F: monitor/qmp*
+ F: monitor/misc.c
  F: docs/devel/*qmp-*
  F: docs/interop/*qmp-*
- F: scripts/qmp/
 diff --git a/Makefile.objs b/Makefile.objs
-index c8337fa34b..dd39a70b48 100644
+index dd39a70b48..9495fcbc7e 100644
 --- a/Makefile.objs
 +++ b/Makefile.objs
-@@ -130,6 +130,7 @@ trace-events-subdirs =3D
- trace-events-subdirs +=3D accel/kvm
- trace-events-subdirs +=3D accel/tcg
- trace-events-subdirs +=3D crypto
-+trace-events-subdirs +=3D monitor
- ifeq ($(CONFIG_USER_ONLY),y)
- trace-events-subdirs +=3D linux-user
+@@ -83,8 +83,8 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
+ ######################################################################
+ # qapi
+=20
+-common-obj-y +=3D qmp.o hmp.o
+ common-obj-y +=3D qapi/
++common-obj-y +=3D monitor/
  endif
-diff --git a/Makefile.target b/Makefile.target
-index ecd856e3a3..72c267f7dc 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -148,9 +148,10 @@ endif #CONFIG_BSD_USER
- #########################################################
- # System emulator target
- ifdef CONFIG_SOFTMMU
--obj-y +=3D arch_init.o cpus.o monitor.o gdbstub.o balloon.o ioport.o num=
-a.o
-+obj-y +=3D arch_init.o cpus.o gdbstub.o balloon.o ioport.o numa.o
- obj-y +=3D qtest.o
- obj-y +=3D hw/
-+obj-y +=3D monitor/
- obj-y +=3D qapi/
- obj-y +=3D memory.o
- obj-y +=3D memory_mapping.o
+=20
+ #######################################################################
 diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp=
 -commands.txt
-index 9dfc62bf5a..cc6ecd6d5d 100644
+index cc6ecd6d5d..46a6c48683 100644
 --- a/docs/devel/writing-qmp-commands.txt
 +++ b/docs/devel/writing-qmp-commands.txt
-@@ -470,7 +470,7 @@ it's good practice to always check for errors.
+@@ -20,7 +20,7 @@ new QMP command.
 =20
- Another important detail is that HMP's "info" commands don't go into the
- hmp-commands.hx. Instead, they go into the info_cmds[] table, which is d=
-efined
--in the monitor.c file. The entry for the "info alarmclock" follows:
-+in the monitor/misc.c file. The entry for the "info alarmclock" follows:
+ 2. Write the QMP command itself, which is a regular C function. Preferab=
+ly,
+    the command should be exported by some QEMU subsystem. But it can als=
+o be
+-   added to the qmp.c file
++   added to the monitor/qmp-cmds.c file
 =20
-     {
-         .name       =3D "alarmclock",
+ 3. At this point the command can be tested under the QMP protocol
+=20
+@@ -101,7 +101,8 @@ protocol data.
+=20
+ The next step is to write the "hello-world" implementation. As explained
+ earlier, it's preferable for commands to live in QEMU subsystems. But
+-"hello-world" doesn't pertain to any, so we put its implementation in qm=
+p.c:
++"hello-world" doesn't pertain to any, so we put its implementation in
++monitor/qmp-cmds.c:
+=20
+ void qmp_hello_world(Error **errp)
+ {
+@@ -146,7 +147,7 @@ for mandatory arguments). Finally, 'str' is the argum=
+ent's type, which
+ stands for "string". The QAPI also supports integers, booleans, enumerat=
+ions
+ and user defined types.
+=20
+-Now, let's update our C implementation in qmp.c:
++Now, let's update our C implementation in monitor/qmp-cmds.c:
+=20
+ void qmp_hello_world(bool has_message, const char *message, Error **errp=
+)
+ {
+@@ -267,7 +268,7 @@ monitor (HMP).
+=20
+ With the introduction of the QAPI, HMP commands make QMP calls. Most of =
+the
+ time HMP commands are simple wrappers. All HMP commands implementation e=
+xist in
+-the hmp.c file.
++the monitor/hmp-cmds.c file.
+=20
+ Here's the implementation of the "hello-world" HMP command:
+=20
 diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-new file mode 100644
-index 0000000000..e783b0616b
---- /dev/null
+index e783b0616b..a7170af6e1 100644
+--- a/monitor/Makefile.objs
 +++ b/monitor/Makefile.objs
-@@ -0,0 +1 @@
-+obj-y +=3D misc.o
-diff --git a/monitor.c b/monitor/misc.c
+@@ -1 +1,2 @@
+ obj-y +=3D misc.o
++common-obj-y +=3D qmp-cmds.o hmp-cmds.o
+diff --git a/hmp.c b/monitor/hmp-cmds.c
 similarity index 99%
-rename from monitor.c
-rename to monitor/misc.c
-index 3015b6e9c7..c5f8483b7e 100644
---- a/monitor.c
-+++ b/monitor/misc.c
-@@ -64,7 +64,7 @@
- #include "qapi/qmp/json-parser.h"
- #include "qapi/qmp/qlist.h"
- #include "qom/object_interfaces.h"
--#include "trace-root.h"
-+#include "trace.h"
- #include "trace/control.h"
- #include "monitor/hmp-target.h"
- #ifdef CONFIG_TRACE_SIMPLE
-diff --git a/monitor/trace-events b/monitor/trace-events
-new file mode 100644
-index 0000000000..abfdf20b14
---- /dev/null
-+++ b/monitor/trace-events
-@@ -0,0 +1,11 @@
-+# See docs/devel/tracing.txt for syntax documentation.
-+
-+# misc.c
-+monitor_protocol_event_handler(uint32_t event, void *qdict) "event=3D%d =
-data=3D%p"
-+monitor_protocol_event_emit(uint32_t event, void *data) "event=3D%d data=
-=3D%p"
-+monitor_protocol_event_queue(uint32_t event, void *qdict, uint64_t rate)=
- "event=3D%d data=3D%p rate=3D%" PRId64
-+handle_hmp_command(void *mon, const char *cmdline) "mon %p cmdline: %s"
-+handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
-+monitor_suspend(void *ptr, int cnt) "mon %p: %d"
-+monitor_qmp_cmd_in_band(const char *id) "%s"
-+monitor_qmp_cmd_out_of_band(const char *id) "%s"
-diff --git a/trace-events b/trace-events
-index 844ee58dd9..aeea3c2bdb 100644
---- a/trace-events
-+++ b/trace-events
-@@ -41,16 +41,6 @@ system_wakeup_request(int reason) "reason=3D%d"
- qemu_system_shutdown_request(int reason) "reason=3D%d"
- qemu_system_powerdown_request(void) ""
-=20
--# monitor.c
--monitor_protocol_event_handler(uint32_t event, void *qdict) "event=3D%d =
-data=3D%p"
--monitor_protocol_event_emit(uint32_t event, void *data) "event=3D%d data=
-=3D%p"
--monitor_protocol_event_queue(uint32_t event, void *qdict, uint64_t rate)=
- "event=3D%d data=3D%p rate=3D%" PRId64
--handle_hmp_command(void *mon, const char *cmdline) "mon %p cmdline: %s"
--handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
--monitor_suspend(void *ptr, int cnt) "mon %p: %d"
--monitor_qmp_cmd_in_band(const char *id) "%s"
--monitor_qmp_cmd_out_of_band(const char *id) "%s"
--
- # dma-helpers.c
- dma_blk_io(void *dbs, void *bs, int64_t offset, bool to_dev) "dbs=3D%p b=
-s=3D%p offset=3D%" PRId64 " to_dev=3D%d"
- dma_aio_cancel(void *dbs) "dbs=3D%p"
+rename from hmp.c
+rename to monitor/hmp-cmds.c
+index e6ea7cb9c2..c917e24d9c 100644
+--- a/hmp.c
++++ b/monitor/hmp-cmds.c
+@@ -1,5 +1,5 @@
+ /*
+- * Human Monitor Interface
++ * Human Monitor Interface commands
+  *
+  * Copyright IBM, Corp. 2011
+  *
+diff --git a/qmp.c b/monitor/qmp-cmds.c
+similarity index 99%
+rename from qmp.c
+rename to monitor/qmp-cmds.c
+index 6797568444..f1b1e4f08b 100644
+--- a/qmp.c
++++ b/monitor/qmp-cmds.c
+@@ -1,5 +1,5 @@
+ /*
+- * QEMU Management Protocol
++ * QEMU Management Protocol commands
+  *
+  * Copyright IBM, Corp. 2011
+  *
 --=20
 2.21.0
 
