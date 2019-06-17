@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE51D48CE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:48:32 +0200 (CEST)
-Received: from localhost ([::1]:51060 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D8948C6C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:42:38 +0200 (CEST)
+Received: from localhost ([::1]:51028 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwgC-0007vS-09
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:48:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58841)
+	id 1hcwaT-00032M-Uq
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58947)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBR-0005bg-Hs
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:48 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBW-0005em-Ni
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBM-00021d-Eq
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:45 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:43236)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBR-000249-Vn
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:48 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:57272)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1hcwBI-0001qx-IT
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:39 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8k5m149224;
- Mon, 17 Jun 2019 18:16:19 GMT
+ id 1hcwBR-0001tY-Kr
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:45 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8u8Y066180;
+ Mon, 17 Jun 2019 18:16:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2018-07-02;
- bh=5kOb/03J4hwquD/DIpJPUY4JHvr+hzQ0JyKZLrfLMKk=;
- b=RzRbV8/Ar/CSmzkYwCM91JjLiKt8ivFcL90Zd4XR/KsJzhnJzcRw42dGkYMqlpV2HxGj
- WrUMHOlzOGoG3tTHZ8n72vMd6/x9+hyTQyjcHMIK0bJm9LDnZVP9nZ3wrvJLHlIuDyHG
- Wnv/IUjIYVrrgABJVgHrqYgYRpu8zI42eANlfgRyN/Mml1Ger/9zFADOuPc8lP2bgESf
- Rxg3HLujWieor5jQVpTXEz043r70aNgvm/mNq0HtNcD7DQNvAH0u/+R8nLTswgAP5kGm
- CB/2Q2DYX/j0gt/6C967uet/MH0jBGXjKUL/5iNOFO7tQk4O04FECXhg4V+pcwnVbIwp 8g== 
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2018-07-02;
+ bh=NigSNlV5R/RXaRrwwYi+FqS0o/n/JBNM0AEzbryJCMU=;
+ b=ZAyB0HTRlvRv1wwlshHm4Dajzs1jkWEhTGViIFk//4sxCm3fbAktO8UyXOf22QlAZAWO
+ 5Y+lp70wG2rzkVXBtQ/nX+9z0niD+EFqI/19j1TStNUWkGDL5Tcp82dMmbMD4fw9atOo
+ 01mqfcwVaLGRkGDFo3IGb1kseNz9cEXKAUxqTHCHmdsofES7HhFC/vVViWaFFqXc5x5F
+ 0IUSmAi5ex8HZ21LgBECtEoUiYGQW/iv9R8eTB+XH74IQacsmK+MlKxOfUUejCV7vY3K
+ gtboBsjwIKzSQBtUjUKJ5JCwlAnLjvMUGW1XAHVr5SXAwWUmjcOz8qlZrLMwsEbHTVBu sg== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2t4r3tg2wu-1
+ by aserp2120.oracle.com with ESMTP id 2t4rmp00mx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:16:18 +0000
+ Mon, 17 Jun 2019 18:16:21 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIF5cv050106;
- Mon, 17 Jun 2019 18:16:18 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 2t5h5t9fp4-1
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIF5CL050176;
+ Mon, 17 Jun 2019 18:16:21 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 2t5h5t9fps-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:16:18 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5HIGHxh032170;
- Mon, 17 Jun 2019 18:16:17 GMT
+ Mon, 17 Jun 2019 18:16:21 +0000
+Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIGK2I014940;
+ Mon, 17 Jun 2019 18:16:20 GMT
 Received: from heatpipe.hsd1.ca.comcast.net (/73.170.27.202)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 11:16:16 -0700
+ with ESMTP ; Mon, 17 Jun 2019 11:16:19 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 11:16:15 -0700
-Message-Id: <20190617181615.29957-1-elena.ufimtseva@oracle.com>
+Date: Mon, 17 Jun 2019 11:16:17 -0700
+Message-Id: <20190617181617.30002-1-elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -66,14 +69,17 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906170162
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by aserp2120.oracle.com id
+ x5HI8u8Y066180
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [RFC PATCH v2 18/35] multi-process: create IOHUB
- object to handle irq
+X-Received-From: 141.146.126.78
+Subject: [Qemu-devel] [RFC PATCH v2 19/35] multi-process: store info about
+ the remote process
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,534 +92,112 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
- konrad.wilk@oracle.com, mst@redhat.com, berrange@redhat.com,
- ross.lagerwall@citrix.com, liran.alon@oracle.com, stefanha@redhat.com,
- kanth.ghatraju@oracle.com
+ ehabkost@redhat.com, konrad.wilk@oracle.com, ross.lagerwall@citrix.com,
+ liran.alon@oracle.com, stefanha@redhat.com, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-IOHUB object is added to manage PCI IRQs. It uses KVM_IRQFD
-ioctl to create irqfd to injecting PCI interrupts to the guest.
-IOHUB object forwards the irqfd to the remote process. Remote process
-uses this fd to directly send interrupts to the guest, bypassing QEMU.
+Store info about the remote process in a hash table, so that
+it could be used later for QMP/HMP commands.
 
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/proxy/qemu-proxy.c         |  62 ++++++++++++-
- include/hw/pci/pci_ids.h      |   3 +
- include/hw/proxy/qemu-proxy.h |   5 ++
- include/io/proxy-link.h       |   8 ++
- include/remote/iohub.h        |  63 ++++++++++++++
- include/remote/machine.h      |   2 +
- remote/Makefile.objs          |   1 +
- remote/iohub.c                | 159 ++++++++++++++++++++++++++++++++++
- remote/machine.c              |  15 ++++
- remote/remote-main.c          |   4 +
- 10 files changed, 321 insertions(+), 1 deletion(-)
- create mode 100644 include/remote/iohub.h
- create mode 100644 remote/iohub.c
+ Changes in v2:
+ - moved the =E2=80=9Cremote_devs=E2=80=9D object from =E2=80=9Cpcms=E2=80=
+=9D (PCMachineState)
+ to =E2=80=9Cms=E2=80=9D (MachineState).
+---
+ hw/core/machine.c     | 12 ++++++++++++
+ hw/proxy/qemu-proxy.c |  7 +++++++
+ include/hw/boards.h   |  4 ++++
+ 3 files changed, 23 insertions(+)
 
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 743fef2898..0e6e6c0829 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -821,6 +821,14 @@ static void machine_class_base_init(ObjectClass *oc,=
+ void *data)
+     }
+ }
+=20
++#ifdef CONFIG_MPQEMU
++static void rem_list_destroy_key(gpointer data)
++{
++    void *key =3D data;
++    g_free(key);
++}
++#endif
++
+ static void machine_initfn(Object *obj)
+ {
+     MachineState *ms =3D MACHINE(obj);
+@@ -854,6 +862,10 @@ static void machine_initfn(Object *obj)
+                                         NULL);
+     }
+=20
++#ifdef CONFIG_MPQEMU
++    ms->remote_devs =3D g_hash_table_new_full(g_str_hash, g_str_equal,
++                                            rem_list_destroy_key, NULL);
++#endif
+=20
+     /* Register notifier when init is done for sysbus sanity checks */
+     ms->sysbus_notifier.notify =3D machine_init_notify;
 diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
-index 76e29dc873..6e65600c45 100644
+index 6e65600c45..c691a05dac 100644
 --- a/hw/proxy/qemu-proxy.c
 +++ b/hw/proxy/qemu-proxy.c
-@@ -27,6 +27,9 @@
- #include <unistd.h>
- #include <assert.h>
- #include <string.h>
-+#include <linux/kvm.h>
-+#include <errno.h>
-+
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "io/proxy-link.h"
-@@ -44,6 +47,16 @@
- #include "hw/proxy/qemu-proxy.h"
- #include "hw/proxy/memory-sync.h"
- #include "qom/object.h"
-+#include "qemu/event_notifier.h"
-+#include "sysemu/kvm.h"
-+#include "util/event_notifier-posix.c"
-+
-+/*
-+ * TODO: kvm_vm_ioctl is only available for per-target objects (NEED_CPU_H).
-+ * The invocation of kvm_vm_ioctl should be moved to a per-target object. Until
-+ * the the following definition is necessary
-+ */
-+int kvm_vm_ioctl(KVMState *s, int type, ...);
- 
- static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
- 
-@@ -204,6 +217,52 @@ static void pci_proxy_dev_register_types(void)
- 
- type_init(pci_proxy_dev_register_types)
- 
-+static void proxy_intx_update(PCIDevice *pci_dev)
-+{
-+    PCIProxyDev *dev = PCI_PROXY_DEV(pci_dev);
-+    PCIINTxRoute route;
-+    int pin = pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
-+
-+    if (dev->irqfd.fd) {
-+        dev->irqfd.flags = KVM_IRQFD_FLAG_DEASSIGN;
-+        (void) kvm_vm_ioctl(kvm_state, KVM_IRQFD, &dev->irqfd);
-+        memset(&dev->irqfd, 0, sizeof(struct kvm_irqfd));
-+    }
-+
-+    route = pci_device_route_intx_to_irq(pci_dev, pin);
-+
-+    dev->irqfd.fd = event_notifier_get_fd(&dev->intr);
-+    dev->irqfd.resamplefd = event_notifier_get_fd(&dev->resample);
-+    dev->irqfd.gsi = route.irq;
-+    dev->irqfd.flags |= KVM_IRQFD_FLAG_RESAMPLE;
-+    (void) kvm_vm_ioctl(kvm_state, KVM_IRQFD, &dev->irqfd);
-+}
-+
-+static void setup_irqfd(PCIProxyDev *dev)
-+{
-+    PCIDevice *pci_dev = PCI_DEVICE(dev);
-+    ProcMsg msg;
-+
-+    event_notifier_init(&dev->intr, 0);
-+    event_notifier_init(&dev->resample, 0);
-+
-+    memset(&msg, 0, sizeof(ProcMsg));
-+    msg.cmd = SET_IRQFD;
-+    msg.num_fds = 2;
-+    msg.fds[0] = event_notifier_get_fd(&dev->intr);
-+    msg.fds[1] = event_notifier_get_fd(&dev->resample);
-+    msg.data1.set_irqfd.intx =
-+        pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
-+
-+    proxy_proc_send(dev->proxy_link, &msg);
-+
-+    memset(&dev->irqfd, 0, sizeof(struct kvm_irqfd));
-+
-+    proxy_intx_update(pci_dev);
-+
-+    pci_device_set_intx_routing_notifier(pci_dev, proxy_intx_update);
-+}
-+
- static void init_proxy(PCIDevice *dev, char *command, Error **errp)
- {
-     PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
-@@ -231,7 +290,8 @@ static void init_proxy(PCIDevice *dev, char *command, Error **errp)
-     }
- 
-     proxy_link_set_sock(pdev->proxy_link, pdev->rsocket);
--    configure_memory_sync(dev->sync, dev->proxy_link);
-+    configure_memory_sync(pdev->sync, pdev->proxy_link);
-+    setup_irqfd(pdev);
- }
- 
- static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-index 0abe27a53a..9cc5e28052 100644
---- a/include/hw/pci/pci_ids.h
-+++ b/include/hw/pci/pci_ids.h
-@@ -191,6 +191,9 @@
- #define PCI_DEVICE_ID_SUN_SIMBA          0x5000
- #define PCI_DEVICE_ID_SUN_SABRE          0xa000
- 
-+#define PCI_VENDOR_ID_ORACLE             0x108e
-+#define PCI_DEVICE_ID_REMOTE_IOHUB       0xb000
-+
- #define PCI_VENDOR_ID_CMD                0x1095
- #define PCI_DEVICE_ID_CMD_646            0x0646
- 
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index eb9491eca4..c27817f780 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -23,8 +23,11 @@
- #ifndef QEMU_PROXY_H
- #define QEMU_PROXY_H
- 
-+#include <linux/kvm.h>
-+
- #include "io/proxy-link.h"
- #include "hw/proxy/memory-sync.h"
-+#include "qemu/event_notifier.h"
- 
- #define TYPE_PCI_PROXY_DEV "pci-proxy-dev"
- 
-@@ -46,6 +49,8 @@ typedef struct PCIProxyDev {
-     ProxyLinkState *proxy_link;
- 
-     RemoteMemSync *sync;
-+    struct kvm_irqfd irqfd;
-+
-     EventNotifier intr;
-     EventNotifier resample;
- 
-diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
-index 69074a3519..843ac30e87 100644
---- a/include/io/proxy-link.h
-+++ b/include/io/proxy-link.h
-@@ -58,6 +58,8 @@ typedef struct ProxyLinkState ProxyLinkState;
-  * SYNC_SYSMEM      Shares QEMU's RAM with remote device's RAM
-  * BAR_WRITE        Writes to PCI BAR region
-  * BAR_READ         Reads from PCI BAR region
-+ * SET_IRQFD        Sets the IRQFD to be used to raise interrupts directly
-+ *                  from remote device
-  *
-  */
- typedef enum {
-@@ -67,6 +69,7 @@ typedef enum {
-     SYNC_SYSMEM,
-     BAR_WRITE,
-     BAR_READ,
-+    SET_IRQFD,
-     MAX,
- } proc_cmd_t;
- 
-@@ -95,6 +98,10 @@ typedef struct {
-     bool memory;
- } bar_access_msg_t;
- 
-+typedef struct {
-+    int intx;
-+} set_irqfd_msg_t;
-+
- typedef struct {
-     proc_cmd_t cmd;
-     int bytestream;
-@@ -104,6 +111,7 @@ typedef struct {
-         uint64_t u64;
-         sync_sysmem_msg_t sync_sysmem;
-         bar_access_msg_t bar_access;
-+        set_irqfd_msg_t set_irqfd;
-     } data1;
- 
-     int fds[REMOTE_MAX_FDS];
-diff --git a/include/remote/iohub.h b/include/remote/iohub.h
-new file mode 100644
-index 0000000000..0a799d6fb0
---- /dev/null
-+++ b/include/remote/iohub.h
-@@ -0,0 +1,63 @@
-+/*
-+ * IO Hub for remote device
-+ *
-+ * Copyright 2019, Oracle and/or its affiliates. All rights reserved.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef REMOTE_IOHUB_H
-+#define REMOTE_IOHUB_H
-+
-+#include <sys/types.h>
-+
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+#include "qemu/event_notifier.h"
-+#include "qemu/thread-posix.h"
-+#include "io/proxy-link.h"
-+
-+#define REMOTE_IOHUB_NB_PIRQS    8
-+
-+#define REMOTE_IOHUB_DEV         31
-+#define REMOTE_IOHUB_FUNC        0
-+
-+#define TYPE_REMOTE_IOHUB_DEVICE "remote-iohub"
-+#define REMOTE_IOHUB_DEVICE(obj) \
-+    OBJECT_CHECK(RemoteIOHubState, (obj), TYPE_REMOTE_IOHUB_DEVICE)
-+
-+typedef struct RemoteIOHubState {
-+    PCIDevice d;
-+    uint8_t irq_num[PCI_SLOT_MAX][PCI_NUM_PINS];
-+    EventNotifier irqfds[REMOTE_IOHUB_NB_PIRQS];
-+    EventNotifier resamplefds[REMOTE_IOHUB_NB_PIRQS];
-+    unsigned int irq_level[REMOTE_IOHUB_NB_PIRQS];
-+    QemuMutex irq_level_lock[REMOTE_IOHUB_NB_PIRQS];
-+} RemoteIOHubState;
-+
-+typedef struct ResampleToken {
-+    RemoteIOHubState *iohub;
-+    int pirq;
-+} ResampleToken;
-+
-+int remote_iohub_map_irq(PCIDevice *pci_dev, int intx);
-+void remote_iohub_set_irq(void *opaque, int pirq, int level);
-+void process_set_irqfd_msg(PCIDevice *pci_dev, ProcMsg *msg);
-+
-+#endif
-diff --git a/include/remote/machine.h b/include/remote/machine.h
-index a00732d045..0a16cc6009 100644
---- a/include/remote/machine.h
-+++ b/include/remote/machine.h
-@@ -30,11 +30,13 @@
- #include "hw/boards.h"
- #include "remote/pcihost.h"
- #include "qemu/notify.h"
-+#include "remote/iohub.h"
- 
- typedef struct RemMachineState {
-     MachineState parent_obj;
- 
-     RemPCIHost *host;
-+    RemoteIOHubState *iohub;
- } RemMachineState;
- 
- #define TYPE_REMOTE_MACHINE "remote-machine"
-diff --git a/remote/Makefile.objs b/remote/Makefile.objs
-index 13d4c48988..cbb3065b69 100644
---- a/remote/Makefile.objs
-+++ b/remote/Makefile.objs
-@@ -1,3 +1,4 @@
- remote-pci-obj-$(CONFIG_MPQEMU) += remote-main.o
- remote-pci-obj-$(CONFIG_MPQEMU) += pcihost.o
- remote-pci-obj-$(CONFIG_MPQEMU) += machine.o
-+remote-pci-obj-$(CONFIG_MPQEMU) += iohub.o
-diff --git a/remote/iohub.c b/remote/iohub.c
-new file mode 100644
-index 0000000000..3ae062085c
---- /dev/null
-+++ b/remote/iohub.c
-@@ -0,0 +1,159 @@
-+/*
-+ * Remote IO Hub
-+ *
-+ * Copyright 2019, Oracle and/or its affiliates. All rights reserved.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include <sys/types.h>
-+
-+#include "qemu/osdep.h"
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pci_ids.h"
-+#include "hw/pci/pci_bus.h"
-+#include "remote/iohub.h"
-+#include "qemu/thread.h"
+@@ -50,6 +50,7 @@
+ #include "qemu/event_notifier.h"
+ #include "sysemu/kvm.h"
+ #include "util/event_notifier-posix.c"
 +#include "hw/boards.h"
-+#include "remote/machine.h"
-+#include "qemu/main-loop.h"
+=20
+ /*
+  * TODO: kvm_vm_ioctl is only available for per-target objects (NEED_CPU=
+_H).
+@@ -299,6 +300,12 @@ static void pci_proxy_dev_realize(PCIDevice *device,=
+ Error **errp)
+     PCIProxyDev *dev =3D PCI_PROXY_DEV(device);
+     PCIProxyDevClass *k =3D PCI_PROXY_DEV_GET_CLASS(dev);
+     Error *local_err =3D NULL;
++    MachineState *ms =3D MACHINE(current_machine);
++    DeviceState *d =3D DEVICE(dev);
 +
-+static void remote_iohub_initfn(Object *obj)
-+{
-+    RemoteIOHubState *iohub = REMOTE_IOHUB_DEVICE(obj);
-+    int slot, intx, pirq;
 +
-+    memset(&iohub->irqfds, 0, sizeof(iohub->irqfds));
-+    memset(&iohub->resamplefds, 0, sizeof(iohub->resamplefds));
++    (void)g_hash_table_insert(ms->remote_devs, (gpointer)g_strdup(d->id)=
+,
++                              (gpointer)dev);
+=20
+     if (k->realize) {
+         k->realize(dev, &local_err);
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index e231860666..bdc519aba9 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -3,6 +3,8 @@
+ #ifndef HW_BOARDS_H
+ #define HW_BOARDS_H
+=20
++#include <gmodule.h>
 +
-+    for (slot = 0; slot < PCI_SLOT_MAX; slot++ ) {
-+        for (intx = 0; intx < PCI_NUM_PINS; intx++) {
-+            iohub->irq_num[slot][intx] = (slot + intx) % 4 + 4;
-+        }
-+    }
+ #include "sysemu/blockdev.h"
+ #include "sysemu/accel.h"
+ #include "hw/qdev.h"
+@@ -274,6 +276,8 @@ struct MachineState {
+     AccelState *accelerator;
+     CPUArchIdList *possible_cpus;
+     struct NVDIMMState *nvdimms_state;
 +
-+    for (pirq = 0; pirq < REMOTE_IOHUB_NB_PIRQS; pirq++) {
-+        qemu_mutex_init(&iohub->irq_level_lock[pirq]);
-+        iohub->irq_level[pirq] = 0;
-+    }
-+}
-+
-+static void remote_iohub_class_init(ObjectClass *klass, void *data)
-+{
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+    k->vendor_id = PCI_VENDOR_ID_ORACLE;
-+    k->device_id = PCI_DEVICE_ID_REMOTE_IOHUB;
-+}
-+
-+static const TypeInfo remote_iohub_info = {
-+    .name       = TYPE_REMOTE_IOHUB_DEVICE,
-+    .parent     = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(RemoteIOHubState),
-+    .instance_init = remote_iohub_initfn,
-+    .class_init  = remote_iohub_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { }
-+    }
-+};
-+
-+static void remote_iohub_register(void)
-+{
-+    type_register_static(&remote_iohub_info);
-+}
-+
-+type_init(remote_iohub_register);
-+
-+int remote_iohub_map_irq(PCIDevice *pci_dev, int intx)
-+{
-+    BusState *bus = qdev_get_parent_bus(&pci_dev->qdev);
-+    PCIBus *pci_bus = PCI_BUS(bus);
-+    PCIDevice *pci_iohub =
-+        pci_bus->devices[PCI_DEVFN(REMOTE_IOHUB_DEV, REMOTE_IOHUB_FUNC)];
-+    RemoteIOHubState *iohub = REMOTE_IOHUB_DEVICE(pci_iohub);
-+
-+    return iohub->irq_num[PCI_SLOT(pci_dev->devfn)][intx];
-+}
-+
-+/*
-+ * TODO: Using lock to set the interrupt level could become a
-+ *       performance bottleneck. Check if atomic arithmetic
-+ *       is possible.
-+ */
-+void remote_iohub_set_irq(void *opaque, int pirq, int level)
-+{
-+    RemoteIOHubState *iohub = opaque;
-+
-+    assert(pirq >= 0);
-+    assert(pirq < REMOTE_IOHUB_NB_PIRQS);
-+
-+    qemu_mutex_lock(&iohub->irq_level_lock[pirq]);
-+
-+    if (level) {
-+        if (++iohub->irq_level[pirq] == 1) {
-+            event_notifier_set(&iohub->irqfds[pirq]);
-+        }
-+    } else if (iohub->irq_level[pirq] > 0) {
-+        iohub->irq_level[pirq]--;
-+    }
-+
-+    qemu_mutex_unlock(&iohub->irq_level_lock[pirq]);
-+}
-+
-+static void intr_resample_handler(void *opaque)
-+{
-+    ResampleToken *token = opaque;
-+    RemoteIOHubState *iohub = token->iohub;
-+    uint64_t val;
-+    int pirq, s;
-+
-+    pirq = token->pirq;
-+
-+    s = read(event_notifier_get_fd(&iohub->resamplefds[pirq]), &val,
-+             sizeof(uint64_t));
-+
-+    assert(s >= 0);
-+
-+    qemu_mutex_lock(&iohub->irq_level_lock[pirq]);
-+
-+    if (iohub->irq_level[pirq]) {
-+        event_notifier_set(&iohub->irqfds[pirq]);
-+    }
-+
-+    qemu_mutex_unlock(&iohub->irq_level_lock[pirq]);
-+}
-+
-+void process_set_irqfd_msg(PCIDevice *pci_dev, ProcMsg *msg)
-+{
-+    RemMachineState *machine = REMOTE_MACHINE(current_machine);
-+    RemoteIOHubState *iohub = machine->iohub;
-+    ResampleToken *token;
-+    int pirq = remote_iohub_map_irq(pci_dev, msg->data1.set_irqfd.intx);
-+
-+    assert(msg->num_fds == 2);
-+
-+    event_notifier_init_fd(&iohub->irqfds[pirq], msg->fds[0]);
-+    event_notifier_init_fd(&iohub->resamplefds[pirq], msg->fds[1]);
-+
-+    token = g_malloc0(sizeof(ResampleToken));
-+    token->iohub = iohub;
-+    token->pirq = pirq;
-+
-+    qemu_set_fd_handler(msg->fds[1], intr_resample_handler, NULL, token);
-+}
-diff --git a/remote/machine.c b/remote/machine.c
-index 4ce197d300..5b03167dd5 100644
---- a/remote/machine.c
-+++ b/remote/machine.c
-@@ -40,6 +40,8 @@
- #include "qemu-common.h"
- #include "sysemu/sysemu.h"
- #include "qemu/notify.h"
-+#include "hw/pci/pci_host.h"
-+#include "remote/iohub.h"
- 
- static NotifierList machine_init_done_notifiers =
-     NOTIFIER_LIST_INITIALIZER(machine_init_done_notifiers);
-@@ -70,6 +72,8 @@ static void remote_machine_init(Object *obj)
-     RemMachineState *s = REMOTE_MACHINE(obj);
-     RemPCIHost *rem_host;
-     MemoryRegion *system_memory, *system_io, *pci_memory;
-+    PCIHostState *pci_host;
-+    PCIDevice *pci_dev;
- 
-     Error *error_abort = NULL;
- 
-@@ -101,6 +105,17 @@ static void remote_machine_init(Object *obj)
-     qemu_mutex_unlock_iothread();
- 
-     qdev_init_nofail(DEVICE(rem_host));
-+
-+    pci_host = PCI_HOST_BRIDGE(rem_host);
-+    pci_dev = pci_create_simple_multifunction(pci_host->bus,
-+                                              PCI_DEVFN(REMOTE_IOHUB_DEV,
-+                                                        REMOTE_IOHUB_FUNC),
-+                                              true, TYPE_REMOTE_IOHUB_DEVICE);
-+
-+    s->iohub = REMOTE_IOHUB_DEVICE(pci_dev);
-+
-+    pci_bus_irqs(pci_host->bus, remote_iohub_set_irq, remote_iohub_map_irq,
-+                 s->iohub, REMOTE_IOHUB_NB_PIRQS);
- }
- 
- static const TypeInfo remote_machine = {
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 95908e16fd..f4ded7afb4 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -47,6 +47,7 @@
- #include "block/block.h"
- #include "exec/memattrs.h"
- #include "exec/address-spaces.h"
-+#include "remote/iohub.h"
- 
- static ProxyLinkState *proxy_link;
- PCIDevice *remote_pci_dev;
-@@ -185,6 +186,9 @@ static void process_msg(GIOCondition cond)
-             goto finalize_loop;
-         }
-         break;
-+    case SET_IRQFD:
-+        process_set_irqfd_msg(remote_pci_dev, msg);
-+        break;
-     default:
-         error_setg(&err, "Unknown command");
-         goto finalize_loop;
--- 
++    GHashTable *remote_devs;
+ };
+=20
+ #define DEFINE_MACHINE(namestr, machine_initfn) \
+--=20
 2.17.1
 
 
