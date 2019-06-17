@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01A5848CAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:43:44 +0200 (CEST)
-Received: from localhost ([::1]:51034 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B4348D02
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:53:33 +0200 (CEST)
+Received: from localhost ([::1]:51132 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwbY-0004l6-6O
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:43:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59266)
+	id 1hcwl2-0006Ni-73
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59675)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwC0-00061z-Vc
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:17:22 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwDo-0007YG-5b
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:19:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBz-0002RF-B7
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:17:20 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:57840)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwDm-0003Np-7y
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:19:12 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:58190)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1hcwBx-0002Ly-76
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:17:19 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8kF5065852;
- Mon, 17 Jun 2019 18:17:06 GMT
+ id 1hcwDk-0003Ld-5T
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:19:10 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI9xG6159764;
+ Mon, 17 Jun 2019 18:19:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id; s=corp-2018-07-02;
- bh=c/oRzO5GwQrsLOuRCTKoMevsHyRTNOaXCBnIeWLFI0M=;
- b=3cdDLhHRm/e/EtTmHSPcwpHbZoUKFGM0KFbpGm6bpTaagxhdehNe2onYGk3tY8P+IMK8
- 2NvorOuP4GEWmixb0VWB73aCE6FFCpYQryAs75O+21O0JHh8qxA/foA6GWmh+vIYXV2Y
- /ga8VygTLnBv/M7ACAsn5ltY5+cJfClo87SHkAjCBlyE4dEOY6MPXtOgx7hv51Jftgzq
- qnhOSZQY4uDI4X3W805ZWLn8+YNoc/vxg68TOsHAW5RNNkhzn8y+2Zw6HCCBjtsGWDm4
- ROTG4+hXAkZn55qaC2cfUoF2MnL2sIlgVZVAYfrcklva/bq7r2mMT0NVjuanQStx7kv6 xw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2t4rmp00rs-1
+ bh=GVfZaEumk+tL1PxhWsdZuCbVi1wtcAWJo1xAyAk8fG8=;
+ b=AF6MvbdkDxmj7pznfwLxoBmAiw1kY25w1qfOemn3oBqPEHxY/eDdtwL3qQVFl62jgpp/
+ 2Ek5c0hbSqGwpnj3aMnNatWfn14LMrWWPqLJf+cyNNKL0YLloVPGOSionGUUyCVWd8YK
+ kQpR0vPak7A+7rp0zZSN/HY/2kQ6T3VlGVrET9zO9Eblh3DoN3Soow4FK0uXR+WMciux
+ 5Z26eo1i9m7jtVfcwA45eGFWku6XYWv9i2ia9nVlrI4mf17de2jvOOiILxrVFGKwid5E
+ OENEnP7oiVkd/0aBWtJopNT6KlaaMU/JD473wn0ctmlcQWEYd97xRpa+rCIGidmo9pdm Wg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 2t4saq7yuq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:17:06 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIH5NU055935;
- Mon, 17 Jun 2019 18:17:05 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3020.oracle.com with ESMTP id 2t5h5t9g4e-1
+ Mon, 17 Jun 2019 18:19:04 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIGPAE181089;
+ Mon, 17 Jun 2019 18:17:04 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 2t5mgbgbd3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:17:05 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIH0iq025530;
- Mon, 17 Jun 2019 18:17:00 GMT
+ Mon, 17 Jun 2019 18:17:04 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIH3fC015304;
+ Mon, 17 Jun 2019 18:17:03 GMT
 Received: from heatpipe.hsd1.ca.comcast.net (/73.170.27.202)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 11:17:00 -0700
+ with ESMTP ; Mon, 17 Jun 2019 11:17:03 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 11:16:57 -0700
-Message-Id: <20190617181657.30598-1-elena.ufimtseva@oracle.com>
+Date: Mon, 17 Jun 2019 11:17:00 -0700
+Message-Id: <20190617181700.30700-1-elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.17.1
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=3
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -66,14 +66,14 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=3 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906170162
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [RFC PATCH v2 32/35] multi-process: Extend drive_del
- command to delete drive from remote process
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [RFC PATCH v2 33/35] multi-process: Extend
+ block_resize command to support remote block device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,147 +89,222 @@ Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
  konrad.wilk@oracle.com, armbru@redhat.com, mreitz@redhat.com,
  ross.lagerwall@citrix.com, liran.alon@oracle.com, berrange@redhat.com,
  stefanha@redhat.com, pbonzini@redhat.com, kanth.ghatraju@oracle.com,
- kwolf@redhat.com
+ kwolf@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-Extend drive_del HMP command to hot-unplug drive from a remote process.
+Extend block_resize QMP/HMP commands to resize block devices on a remote
+process.
 
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 ---
- blockdev.c                |  9 +++++++++
- hw/proxy/monitor.c        | 26 ++++++++++++++++++++++++++
+ Changes in v2:
+  - removed separate QMP/HMP command.
+  - extended existing QMP command
+  - refactor code to send messages to remote
+---
+ blockdev.c                | 15 +++++++++++++++
+ hmp.c                     |  8 ++++++++
+ hmp.h                     |  1 +
+ hw/proxy/monitor.c        | 39 +++++++++++++++++++++++++++++++++++++++
  include/io/proxy-link.h   |  2 ++
- include/sysemu/blockdev.h |  1 +
- remote/remote-main.c      | 18 ++++++++++++++++++
+ include/sysemu/blockdev.h |  4 ++++
+ remote/remote-main.c      | 36 ++++++++++++++++++++++++++++++++++++
  stubs/monitor.c           |  5 +++++
- 6 files changed, 61 insertions(+)
+ 8 files changed, 110 insertions(+)
 
 diff --git a/blockdev.c b/blockdev.c
-index 79fbac8450..d554b1802f 100644
+index d554b1802f..6e1ad12a95 100644
 --- a/blockdev.c
 +++ b/blockdev.c
-@@ -61,6 +61,7 @@
- #include "qemu/cutils.h"
- #include "qemu/help_option.h"
- #include "qemu/throttle-options.h"
-+#include "hw/boards.h"
- 
- static QTAILQ_HEAD(, BlockDriverState) monitor_bdrv_states =
-     QTAILQ_HEAD_INITIALIZER(monitor_bdrv_states);
-@@ -3044,12 +3045,20 @@ BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
- 
- void hmp_drive_del(Monitor *mon, const QDict *qdict)
+@@ -3115,12 +3115,27 @@ void qmp_block_resize(bool has_device, const char *device,
+                       bool has_node_name, const char *node_name,
+                       int64_t size, Error **errp)
  {
 +    MachineState *ms = MACHINE(current_machine);
-     const char *id = qdict_get_str(qdict, "id");
-     BlockBackend *blk;
+     Error *local_err = NULL;
+     BlockBackend *blk = NULL;
      BlockDriverState *bs;
      AioContext *aio_context;
-     Error *local_err = NULL;
+     int ret;
  
 +#ifdef CONFIG_MPQEMU
-+    if (g_hash_table_lookup(ms->remote_devs, id)) {
-+        hmp_rdrive_del(mon, qdict);
++    /*
++     * TODO: Assumes "device" for remote drive. Add support for
++     * "nodename" as well
++     */
++    if (has_device && g_hash_table_lookup(ms->remote_devs, device)) {
++        qmp_rblock_resize(device, device, size, errp);
++        if (local_err) {
++            error_propagate(errp, local_err);
++        }
 +        return;
 +    }
 +#endif
 +
-     bs = bdrv_find_node(id);
-     if (bs) {
-         qmp_blockdev_del(id, &local_err);
+     bs = bdrv_lookup_bs(has_device ? device : NULL,
+                         has_node_name ? node_name : NULL,
+                         &local_err);
+diff --git a/hmp.c b/hmp.c
+index 89cdaebfde..e56b3b1f96 100644
+--- a/hmp.c
++++ b/hmp.c
+@@ -1339,10 +1339,18 @@ void hmp_balloon(Monitor *mon, const QDict *qdict)
+ 
+ void hmp_block_resize(Monitor *mon, const QDict *qdict)
+ {
++    MachineState *ms = MACHINE(current_machine);
+     const char *device = qdict_get_str(qdict, "device");
+     int64_t size = qdict_get_int(qdict, "size");
+     Error *err = NULL;
+ 
++#ifdef CONFIG_MPQEMU
++    if (g_hash_table_lookup(ms->remote_devs, device)) {
++        hmp_rblock_resize(mon, qdict, &err);
++        return;
++    }
++#endif
++
+     qmp_block_resize(true, device, false, NULL, size, &err);
+     hmp_handle_error(mon, &err);
+ }
+diff --git a/hmp.h b/hmp.h
+index 6919f99218..5f46783d25 100644
+--- a/hmp.h
++++ b/hmp.h
+@@ -151,5 +151,6 @@ void hmp_info_vm_generation_id(Monitor *mon, const QDict *qdict);
+ void hmp_info_memory_size_summary(Monitor *mon, const QDict *qdict);
+ void hmp_info_sev(Monitor *mon, const QDict *qdict);
+ void hmp_info_remote(Monitor *mon, const QDict *qdict);
++void hmp_rblock_resize(Monitor *mon, const QDict *qdict, Error **errp);
+ 
+ #endif
 diff --git a/hw/proxy/monitor.c b/hw/proxy/monitor.c
-index e3f368aa94..e48b7f05d7 100644
+index e48b7f05d7..90f66aec6a 100644
 --- a/hw/proxy/monitor.c
 +++ b/hw/proxy/monitor.c
-@@ -41,6 +41,7 @@
- #include "qapi/error.h"
- #include "io/proxy-link.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/blockdev.h"
- 
- /*
-  * TODO: Is there a callback where the allocated memory for QMP could be free'd
-@@ -229,3 +230,28 @@ void hmp_rdrive_add(Monitor *mon, const QDict *qdict)
- 
-     g_free(data);
+@@ -255,3 +255,42 @@ void hmp_rdrive_del(Monitor *mon, const QDict *qdict)
+         (void)g_hash_table_remove(ms->remote_devs, (gpointer)id);
+     }
  }
 +
-+void hmp_rdrive_del(Monitor *mon, const QDict *qdict)
++void qmp_rblock_resize(const char *id, const char *device, int64_t size,
++                       Error **errp)
 +{
 +    MachineState *ms = MACHINE(current_machine);
-+    Error *local_err = NULL;
 +    PCIProxyDev *pdev = NULL;
-+    const char *id;
-+    int ret;
++    QString *json;
++    QDict *qdict;
 +
-+    pdev = get_proxy_device((QDict *)qdict, "id", &local_err);
-+    if (local_err) {
-+        monitor_printf(mon, "rdrive_del error: %s\n",
-+                       error_get_pretty(local_err));
-+        error_free(local_err);
++    pdev = (PCIProxyDev *)g_hash_table_lookup(ms->remote_devs, id);
++    if (!pdev) {
++        error_setg(errp, "No remote device named %s", device);
 +        return;
 +    }
 +
-+    id = qdict_get_str(qdict, "id");
++    qdict = qdict_new();
++    qdict_put_str(qdict, "device", device);
++    qdict_put_int(qdict, "size", size);
 +
-+    ret = send_monitor_msg(pdev, DRIVE_DEL, strlen(id), (uint8_t *)id);
++    json = qobject_to_json(QOBJECT(qdict));
 +
-+    if (!ret) {
-+        (void)g_hash_table_remove(ms->remote_devs, (gpointer)id);
++    (void)send_monitor_msg(pdev, BLOCK_RESIZE, strlen(qstring_get_str(json)),
++                           (uint8_t *)qstring_get_str(json));
++}
++
++void hmp_rblock_resize(Monitor *mon, const QDict *qdict, Error **errp)
++{
++    Error *local_err = NULL;
++    const char *device;
++    int64_t size;
++
++    device = qdict_get_str(qdict, "device");
++    size = qdict_get_int(qdict, "size");
++
++    qmp_rblock_resize(device, device, size, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
 +    }
 +}
 diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
-index e102bcc8f5..bcec97d615 100644
+index bcec97d615..fea9fe5ae1 100644
 --- a/include/io/proxy-link.h
 +++ b/include/io/proxy-link.h
-@@ -63,6 +63,7 @@ typedef struct ProxyLinkState ProxyLinkState;
-  * DEVICE_ADD       QMP/HMP command to hotplug device
+@@ -64,6 +64,7 @@ typedef struct ProxyLinkState ProxyLinkState;
   * DEVICE_DEL       QMP/HMP command to hot-unplug device
   * DRIVE_ADD        HMP command to hotplug drive
-+ * DRIVE_DEL        HMP command to hot-unplug drive
+  * DRIVE_DEL        HMP command to hot-unplug drive
++ * BLOCK_RESIZE     QMP/HMP command to resize block backend
   *
   */
  typedef enum {
-@@ -78,6 +79,7 @@ typedef enum {
-     DEVICE_ADD,
-     DEVICE_DEL,
+@@ -81,6 +82,7 @@ typedef enum {
      DRIVE_ADD,
-+    DRIVE_DEL,
+     DRIVE_DEL,
      PROXY_PING,
++    BLOCK_RESIZE,
      MAX,
  } proc_cmd_t;
+ 
 diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
-index d34c4920dc..e6a9780025 100644
+index e6a9780025..975ecae54f 100644
 --- a/include/sysemu/blockdev.h
 +++ b/include/sysemu/blockdev.h
-@@ -61,4 +61,5 @@ DriveInfo *drive_new(QemuOpts *arg, BlockInterfaceType block_default_type,
- 
+@@ -62,4 +62,8 @@ DriveInfo *drive_new(QemuOpts *arg, BlockInterfaceType block_default_type,
  void hmp_commit(Monitor *mon, const QDict *qdict);
  void hmp_drive_del(Monitor *mon, const QDict *qdict);
-+void hmp_rdrive_del(Monitor *mon, const QDict *qdict);
+ void hmp_rdrive_del(Monitor *mon, const QDict *qdict);
++
++void qmp_rblock_resize(const char *id, const char *device, int64_t size,
++                       Error **errp);
++
  #endif
 diff --git a/remote/remote-main.c b/remote/remote-main.c
-index 860b5e30f9..4866322b7e 100644
+index 4866322b7e..fbaae8bf3a 100644
 --- a/remote/remote-main.c
 +++ b/remote/remote-main.c
-@@ -257,6 +257,21 @@ static void process_drive_add_msg(ProcMsg *msg)
+@@ -64,6 +64,7 @@
+ #include "qapi/qmp/qlist.h"
+ #include "qemu/log.h"
+ #include "qemu/cutils.h"
++#include "qapi/qapi-commands-block-core.h"
+ 
+ static ProxyLinkState *proxy_link;
+ PCIDevice *remote_pci_dev;
+@@ -272,6 +273,38 @@ static void process_drive_del_msg(ProcMsg *msg)
      PUT_REMOTE_WAIT(wait);
  }
  
-+static void process_drive_del_msg(ProcMsg *msg)
++static void process_block_resize_msg(ProcMsg *msg)
 +{
-+    const char *idstr = (const char *)msg->data2;
++    const char *json = (const char *)msg->data2;
++    Error *local_err = NULL;
 +    int wait = msg->fds[0];
-+    QDict *qdict = qdict_new();
++    const char *device;
++    int64_t size;
++    QObject *qobj = NULL;
++    QDict *qdict = NULL;
 +
-+    qdict_put_str(qdict, "id", idstr);
++    qobj = qobject_from_json(json, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++        return;
++    }
 +
-+    hmp_drive_del(NULL, qdict);
++    qdict = qobject_to(QDict, qobj);
++    assert(qdict);
++
++    device = qdict_get_str(qdict, "device");
++    size = qdict_get_int(qdict, "size");
++
++    qmp_block_resize(true, device, false, NULL, size, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++    }
 +
 +    notify_proxy(wait, 1);
 +
@@ -239,34 +314,27 @@ index 860b5e30f9..4866322b7e 100644
  static int init_drive(QDict *rqdict, Error **errp)
  {
      QemuOpts *opts;
-@@ -459,6 +474,9 @@ static void process_msg(GIOCondition cond)
-     case DRIVE_ADD:
-         process_drive_add_msg(msg);
-         break;
-+    case DRIVE_DEL:
-+        process_drive_del_msg(msg);
-+        break;
-     case PROXY_PING:
-         wait = msg->fds[0];
+@@ -482,6 +515,9 @@ static void process_msg(GIOCondition cond)
          notify_proxy(wait, (uint32_t)getpid());
+         PUT_REMOTE_WAIT(wait);
+         break;
++    case BLOCK_RESIZE:
++        process_block_resize_msg(msg);
++        break;
+     default:
+         error_setg(&err, "Unknown command");
+         goto finalize_loop;
 diff --git a/stubs/monitor.c b/stubs/monitor.c
-index ac24eeb5d4..653c308934 100644
+index 653c308934..79e008df41 100644
 --- a/stubs/monitor.c
 +++ b/stubs/monitor.c
-@@ -6,6 +6,7 @@
- #include "qapi/qapi-types-misc.h"
- #include "qapi/qapi-commands-misc.h"
- #include "monitor/qdev.h"
-+#include "sysemu/blockdev.h"
- 
- __thread Monitor *cur_mon;
- 
-@@ -55,3 +56,7 @@ void qmp_rdevice_add(QDict *qdict, QObject **ret_data, Error **errp)
- void qmp_rdevice_del(const char *id, Error **errp)
+@@ -60,3 +60,8 @@ void qmp_rdevice_del(const char *id, Error **errp)
+ void hmp_rdrive_del(Monitor *mon, const QDict *qdict)
  {
  }
 +
-+void hmp_rdrive_del(Monitor *mon, const QDict *qdict)
++void qmp_rblock_resize(const char *id, const char *device, int64_t size,
++                       Error **errp)
 +{
 +}
 -- 
