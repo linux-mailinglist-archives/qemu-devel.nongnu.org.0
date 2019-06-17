@@ -2,61 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921B9489F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:21:59 +0200 (CEST)
-Received: from localhost ([::1]:50140 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E8248982
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:58:53 +0200 (CEST)
+Received: from localhost ([::1]:49751 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvKQ-0000An-QD
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55867)
+	id 1hcuy4-0004nr-H2
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55498)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hcugc-0005MC-VI
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:40:52 -0400
+ (envelope-from <Paul.Durrant@citrix.com>) id 1hcuf9-0003AI-3D
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:39:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hcugb-0007r9-Nd
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:40:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58526)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hcugb-0007on-I0
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:40:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hcuga-0001Po-5u
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 16:40:48 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2B5BF2E8076
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 16:40:48 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (envelope-from <Paul.Durrant@citrix.com>) id 1hcuf8-0004gA-0u
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:39:18 -0400
+Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:49736)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
+ id 1hcuf6-0004Uz-F5
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:39:17 -0400
+Authentication-Results: esa2.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=Paul.Durrant@citrix.com;
+ spf=Pass smtp.mailfrom=Paul.Durrant@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ Paul.Durrant@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="Paul.Durrant@citrix.com"; x-conformance=sidf_compatible
+Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
+ Paul.Durrant@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="Paul.Durrant@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
+ envelope-from="Paul.Durrant@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: 1gwkY5Lv97S4TgN9d1H12WB/0Op1OfIsg4AYQGofvlu8QPJIJy5VWyF2VFyveuyirdnCI/wFoX
+ CTqJ/b57X/OEh7J/QParU2M2HB+wCjlLNX1mhZwOJub0wVbOWaro+bHF7ZsSnoKGy0HsalZicJ
+ YAJzvZc7EpBYag+8V5hRiZwKUtk1IAmOlLgdl6NczV7MtAAH9Xu0noilRSFMiZF5nSc+wQyIYU
+ D3ZYhXRL7LUG3vEyW4A9gNzTrBzBum7iS94eFZYwXJ8BPd++3If/bRLsMsoQofa1qZXlvvTnbG
+ 6Js=
+X-SBRS: 2.7
+X-MesageID: 1835173
+X-Ironport-Server: esa2.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.63,385,1557201600"; 
+   d="scan'208";a="1835173"
+From: Paul Durrant <Paul.Durrant@citrix.com>
+To: Anthony Perard <anthony.perard@citrix.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH 4/4] xen: Avoid VLA
+Thread-Index: AQHVJSMYaL9Ko3kp1kKDxJjcc8OjZKagC0EQ
+Date: Mon, 17 Jun 2019 16:39:09 +0000
+Message-ID: <a3843cb971bc4fa8886170d0b2461a44@AMSPEX02CL03.citrite.net>
+References: <20190617154105.32323-1-anthony.perard@citrix.com>
+ <20190617154105.32323-5-anthony.perard@citrix.com>
+In-Reply-To: <20190617154105.32323-5-anthony.perard@citrix.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 17 Jun 2019 16:31:36 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: pl111 vexpress-a9
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: asmqb7 pmaydell
-X-Launchpad-Bug-Reporter: David Lindsay (asmqb7)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156078563656.24847.5055295179031840026.malonedeb@gac.canonical.com>
-Message-Id: <156078909689.23035.11672669993780799562.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18981";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 604db0185fd4aa8b4fe2f5c4a8cdbf663a6ab1bf
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1833101] Re: vexpress-a9 (but not -a15) creates
- two pl111 LCDs due to duplicate sysbus_create_simple("pl111", ...) calls
+MIME-Version: 1.0
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.145.153
+Subject: Re: [Qemu-devel] [PATCH 4/4] xen: Avoid VLA
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,88 +94,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1833101 <1833101@bugs.launchpad.net>
+Cc: Anthony Perard <anthony.perard@citrix.com>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Stefano Stabellini <sstabellini@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our vexpress-a9 model instantiates two PL111s because the hardware has
-two PL111s. One is on the daughterboard, at address 0x10020000, and the
-other is on the motherboard, at address 0x40001F000.
+> -----Original Message-----
+> From: Anthony PERARD [mailto:anthony.perard@citrix.com]
+> Sent: 17 June 2019 16:41
+> To: qemu-devel@nongnu.org
+> Cc: xen-devel@lists.xenproject.org; Anthony Perard <anthony.perard@citrix=
+.com>; Stefano Stabellini
+> <sstabellini@kernel.org>; Paul Durrant <Paul.Durrant@citrix.com>
+> Subject: [PATCH 4/4] xen: Avoid VLA
+>=20
+> Avoid using a variable length array.
+>=20
+> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+> ---
+>=20
+> Notes:
+>     Was suggested by Peter here:
+>     <CAFEAcA88+A2oCkQnxKDEdpmfCZSmPzWMBg01wDDV68bMZoY5Jg@mail.gmail.com>
+>     "should we try to stop using variable length arrays?"
+>=20
+>  hw/i386/xen/xen-hvm.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+> index 725f9c2278..10d73b55b4 100644
+> --- a/hw/i386/xen/xen-hvm.c
+> +++ b/hw/i386/xen/xen-hvm.c
+> @@ -615,7 +615,8 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
+>  {
+>      hwaddr npages =3D size >> TARGET_PAGE_BITS;
+>      const int width =3D sizeof(unsigned long) * 8;
+> -    unsigned long bitmap[DIV_ROUND_UP(npages, width)];
+> +    unsigned long *bitmap =3D NULL;
+> +    size_t bitmap_size =3D DIV_ROUND_UP(npages, width);
+>      int rc, i, j;
+>      const XenPhysmap *physmap =3D NULL;
+>=20
+> @@ -632,6 +633,8 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
+>          return;
+>      }
+>=20
+> +    bitmap =3D g_new0(unsigned long, bitmap_size);
+> +
 
-The vexpress-a15 hardware has only one PL111, which is why you only see
-one being created for that hardware. (Instead it has one PL111 and one
-HDLCD controller, but QEMU has no model of the HDLCD controller at the
-moment. We might add one one day.)
+How hot is this function? It looks (unsurprisingly) like the section size d=
+etermines the map size so I wonder whether it can instead be allocated once=
+ when the section is added?
 
-In an ideal world we would implement the video multiplexing that the
-hardware does to allow the guest to select which of the two display
-devices gets to send output (this is controlled by the SYS_CFG_MUXFPGA
-system configuration register), at which point we'd be able to only show
-a single screen window.
+  Paul
 
--- =
+>      rc =3D xen_track_dirty_vram(xen_domid, start_addr >> TARGET_PAGE_BIT=
+S,
+>                                npages, bitmap);
+>      if (rc < 0) {
+> @@ -644,10 +647,10 @@ static void xen_sync_dirty_bitmap(XenIOState *state=
+,
+>                      ", 0x" TARGET_FMT_plx "): %s\n",
+>                      start_addr, start_addr + size, strerror(errno));
+>          }
+> -        return;
+> +        goto out;
+>      }
+>=20
+> -    for (i =3D 0; i < ARRAY_SIZE(bitmap); i++) {
+> +    for (i =3D 0; i < bitmap_size; i++) {
+>          unsigned long map =3D bitmap[i];
+>          while (map !=3D 0) {
+>              j =3D ctzl(map);
+> @@ -657,6 +660,8 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
+>                                      TARGET_PAGE_SIZE);
+>          };
+>      }
+> +out:
+> +    g_free(bitmap);
+>  }
+>=20
+>  static void xen_log_start(MemoryListener *listener,
+> --
+> Anthony PERARD
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1833101
-
-Title:
-  vexpress-a9 (but not -a15) creates two pl111 LCDs due to duplicate
-  sysbus_create_simple("pl111", ...) calls
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  Just a small report that (12ec8bd is current master)
-
-  https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L652:
-
-    ...
-    vexpress_common_init() {
-      ...
-      sysbus_create_simple("pl111", map[VE_CLCD], pic[14]);
-      ...
-    ...
-
-  and
-
-  https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L304:
-
-    ...
-    a9_daughterboard_init() {
-      ...
-      sysbus_create_simple("pl111", 0x10020000, pic[44]);
-      ...
-    ...
-
-  result in two LCD panels when using vexpress-a9.
-
-  vexpress-a15 does not appear to be affected (my -a9 kernel does not
-  work with it, but I see only one pl111 created).
-
-  Understandably (but still annoyingly), -nodefaults has no effect.
-
-  This bug is most evident when using SDL (so I can use ",frame=3Doff"),
-  which dumps two top-level windows onto the screen. GTK hides this
-  because, coincidentally, the pl111 that ends up being used is the one
-  that is selected (possibly the one created last?), relegating this to
-  an obscure glitch only noticeable if you scrutinize the menu.
-
-  This is a bugreport as opposed to a pull request as I have no idea
-  which call to remove - and complete ignorance of the potential
-  housekeeping and consideration that may be warranted first.
-
-  FWIW, a simple testcase can be made with the vmlinuz from
-  https://people.debian.org/~aurel32/qemu/armhf/ and
-
-  qemu-system-arm -M vexpress-a9 -kernel vmlinuz-3.2.0-4-vexpress
-  -nodefaults -sdl
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1833101/+subscriptions
 
