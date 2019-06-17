@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B18A48759
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:34:23 +0200 (CEST)
-Received: from localhost ([::1]:48538 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC1948768
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:38:02 +0200 (CEST)
+Received: from localhost ([::1]:48582 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcteI-0003tL-HZ
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:34:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46747)
+	id 1hcthq-00085u-0V
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:38:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46762)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiN-0003hE-Sz
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:33 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiP-0003jO-0y
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiM-00087i-AY
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:31 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46867)
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiN-0008A4-ST
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:32 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53422)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsiM-00086z-3y
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:30 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id n4so10192276wrw.13
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:30 -0700 (PDT)
+ id 1hcsiN-00088n-DG
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:31 -0400
+Received: by mail-wm1-x341.google.com with SMTP id x15so9550666wmj.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Ul7s+t7hXiN2ylOfOOWOvIZY61Jzqwc15l5S4ChbjBk=;
- b=CvFMte1edGk9eG8aLfxqr1dB7a84QSvtFjjuq7lkeTzTmBVgwE83VlUWCqVTNuVytC
- Sz0MOwq0w9oLGDbjx2SudKGXC0gAwuR5r0wdmnTiiLzEonSYmWsu9cFSvUiswtzzqY18
- HGvMqeXeVTvjbKTxEIDdzLYCrrgOwHZS5Y+fS0xb7itG3ItmRtuvtq6sjb3M3Rwr4l0V
- SJ13cOYCGeI8DQ2GFY2tDZUwwhkVGUGBD5HsKKfiV8K4bv2gFwHvUhZ7cJVHBcy03hdV
- 9P/oP6xdHr7cBFsXkYwuqg81qRzLWmaLseu5D2qkRgjZ1KvPfyc+WWnB4y+d55urNIeO
- /eYQ==
+ bh=L1QAxhdOtIdBK1xtHMazBBt8aewsGSxHd8eF0bvtE2w=;
+ b=gLi27PxJkBunaTCfeqNp/HV3cboHFgmT6UlJo4uqXGs+5Hy5MfbaPe9KsxnL2Xn3CE
+ lcdymT8iZwsOMiGigOYC4y7hkhEQMPnrzfztc9qVMTFF2yV20sWJw/u1jyOm1xNg/57D
+ GDxtEX8yhyGLYtYuHLkXg2IF/CxkyCbPq4sLOK6Knbzyi6SXL55WOHlHbgdeyY0LrVJ7
+ TcXlURXqCooiqhVClQZW/EA8YVUT5KUr/8URPlPPwJLRy1x8UxXS2ExUOantpqjclGzQ
+ cnI4Nc8p4hzxBlFZGDJTnchrRdUMXlWIUyXTO7r7BdzdGEyzy7aA0LAdjyFUBrTM5bXj
+ yYSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ul7s+t7hXiN2ylOfOOWOvIZY61Jzqwc15l5S4ChbjBk=;
- b=aHVPsbuJ2/V/3h+60eoSVRAjKhOkJyuOQscf+hdRnaE2RQSWOPuf5t+2eI+lVm5Mh+
- WYGtxTM/jaWjxupQnII1JwyXJo4a4r4vtOKpRtvelStTc3uImseEs3lA12aH/BJcNYmR
- 7hkmYIfoJyY6rBtFctVnQZ5wHaGYD3V8+Y4umS61i5rIsq0Vixt5KSV6f5yZVVslAPpn
- GEzXRBlittyEprr+O9nLTA7xTnQwtnrRUVBmPa9Kkeb/VkFIRQagvViK8TEb1B4sRzly
- FHkWtEo9z5rJgjb/PeiBj3Yrhp19cFnkO7MVvni5Fnu+qXHurvWw3uNbocVJtdiV7Rgh
- EEnQ==
-X-Gm-Message-State: APjAAAUVES4jqe9qRGBmVthaURQGcjrPzjXWGBnwy8awHeO12bgcdLhP
- ui9pnUYNCxJImb2thkCnR5APVXpOuhfiLQ==
-X-Google-Smtp-Source: APXvYqwGjbkH3UXRA7nFlilUNpcQMPxSsa78E0ubDZOtdiHrdrB5vNI2cjZn7AgnGCPJBAz08RzgCQ==
-X-Received: by 2002:a5d:6212:: with SMTP id y18mr29951084wru.178.1560782068873; 
- Mon, 17 Jun 2019 07:34:28 -0700 (PDT)
+ bh=L1QAxhdOtIdBK1xtHMazBBt8aewsGSxHd8eF0bvtE2w=;
+ b=N+E0s+3LA8HPWk+M+BcoycLFAsx0B1z6Z2Qgzg3T4zfAmE98mhPMuKlCBjxzBTCfpj
+ ORG59uwB9hKu435jsg/meakubdWwPmkj7cLR9ZDFRYhaVnhMjh/m5tz6F0MF7OnovtAz
+ dr4ccotTx5z3BQX4s2QwBLTUCO/x5uvGXp9kYYLmmYeJZxOR7tg2zirR7tJ0FuN7jIUV
+ waY2zyHxkq2boDvln+JEPQMDC+yX9UqaMsKNEPyFdtkKMbF46RMDh4E+akzFFxnn2zsy
+ mgYd/IMkx42kOo9gNTlV1PLwbtOdzfhyOozVSVOAQcg4IGCWoHqVABWnZPbtJj9UywE0
+ voVg==
+X-Gm-Message-State: APjAAAXeuFUhj17zsrF7Iebmmyl6vj2gc8IG9rc4ZZ7dZ8mqe2pYOBY5
+ SJXXX40C5op1xU3zFjZ6yzqAnaKaOspTTg==
+X-Google-Smtp-Source: APXvYqxLsz9tLXyOwnSaCSsvorfZJbSAhafu9PiZ7b5PZ/xz5LKHik3Z0/kWUy+iq8+BZzOgdLxPdA==
+X-Received: by 2002:a7b:cc16:: with SMTP id f22mr20892673wmh.115.1560782070131; 
+ Mon, 17 Jun 2019 07:34:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.27
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:34:28 -0700 (PDT)
+ Mon, 17 Jun 2019 07:34:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:34:01 +0100
-Message-Id: <20190617143412.5734-14-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:34:02 +0100
+Message-Id: <20190617143412.5734-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
 References: <20190617143412.5734-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42c
-Subject: [Qemu-devel] [PULL 13/24] target/arm: Stop using cpu_F0s for
- NEON_2RM_VABS_F
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 14/24] target/arm: Stop using cpu_F0s for
+ NEON_2RM_VNEG_F
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,69 +83,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Where Neon instructions are floating point operations, we
-mostly use the old VFP utility functions like gen_vfp_abs()
-which work on the TCG globals cpu_F0s and cpu_F1s. The
-Neon for-each-element loop conditionally loads the inputs
-into either a plain old TCG temporary for most operations
-or into cpu_F0s for float operations, and similarly stores
-back either cpu_F0s or the temporary.
-
-Switch NEON_2RM_VABS_F away from using cpu_F0s, and
-update neon_2rm_is_float_op() accordingly.
+Switch NEON_2RM_VABS_F away from using cpu_F0s.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190613163917.28589-4-peter.maydell@linaro.org
+Message-id: 20190613163917.28589-5-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ target/arm/translate.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index c274c8b4602..a10fded1f39 100644
+index a10fded1f39..a006ab498e7 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
 @@ -1374,14 +1374,6 @@ static TCGv_ptr get_fpstatus_ptr(int neon)
      return statusptr;
  }
  
--static inline void gen_vfp_abs(int dp)
+-static inline void gen_vfp_neg(int dp)
 -{
 -    if (dp)
--        gen_helper_vfp_absd(cpu_F0d, cpu_F0d);
+-        gen_helper_vfp_negd(cpu_F0d, cpu_F0d);
 -    else
--        gen_helper_vfp_abss(cpu_F0s, cpu_F0s);
+-        gen_helper_vfp_negs(cpu_F0s, cpu_F0s);
 -}
 -
- static inline void gen_vfp_neg(int dp)
- {
-     if (dp)
-@@ -4191,8 +4183,13 @@ static const uint8_t neon_3r_sizes[] = {
- 
- static int neon_2rm_is_float_op(int op)
- {
--    /* Return true if this neon 2reg-misc op is float-to-float */
--    return (op == NEON_2RM_VABS_F || op == NEON_2RM_VNEG_F ||
-+    /*
-+     * Return true if this neon 2reg-misc op is float-to-float.
-+     * This is not a property of the operation but of our code --
-+     * what we are asking here is "does the code for this case in
-+     * the Neon for-each-pass loop use cpu_F0s?".
-+     */
-+    return (op == NEON_2RM_VNEG_F ||
-             (op >= NEON_2RM_VRINTN && op <= NEON_2RM_VRINTZ) ||
+ #define VFP_GEN_ITOF(name) \
+ static inline void gen_vfp_##name(int dp, int neon) \
+ { \
+@@ -4189,8 +4181,7 @@ static int neon_2rm_is_float_op(int op)
+      * what we are asking here is "does the code for this case in
+      * the Neon for-each-pass loop use cpu_F0s?".
+      */
+-    return (op == NEON_2RM_VNEG_F ||
+-            (op >= NEON_2RM_VRINTN && op <= NEON_2RM_VRINTZ) ||
++    return ((op >= NEON_2RM_VRINTN && op <= NEON_2RM_VRINTZ) ||
              op == NEON_2RM_VRINTM ||
              (op >= NEON_2RM_VRINTP && op <= NEON_2RM_VCVTMS) ||
-@@ -6761,7 +6758,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                             break;
-                         }
-                         case NEON_2RM_VABS_F:
--                            gen_vfp_abs(0);
-+                            gen_helper_vfp_abss(tmp, tmp);
+             op >= NEON_2RM_VRECPE_F);
+@@ -6761,7 +6752,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                             gen_helper_vfp_abss(tmp, tmp);
                              break;
                          case NEON_2RM_VNEG_F:
-                             gen_vfp_neg(0);
+-                            gen_vfp_neg(0);
++                            gen_helper_vfp_negs(tmp, tmp);
+                             break;
+                         case NEON_2RM_VSWP:
+                             tmp2 = neon_load_reg(rd, pass);
 -- 
 2.20.1
 
