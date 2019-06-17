@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E142E48930
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:44:04 +0200 (CEST)
-Received: from localhost ([::1]:49360 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A42048871
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:13:24 +0200 (CEST)
+Received: from localhost ([::1]:48962 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcujj-0006mp-8V
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:44:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58516)
+	id 1hcuG3-0004Y2-KF
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59509)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hctME-0007FP-Np
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:15:46 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hctRF-0008I6-0B
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:20:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hctMB-0005RA-DD
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:15:42 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46197)
+ (envelope-from <alex.bennee@linaro.org>) id 1hctRA-0001DS-7i
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:20:50 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43487)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hctMB-0005AS-56
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:15:39 -0400
-Received: by mail-wr1-f67.google.com with SMTP id n4so10359186wrw.13
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 08:15:23 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hctR9-0000Zx-Ir
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:20:47 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p13so10383191wru.10
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 08:19:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=J3zDDuCsQV21k3G8y+iBAAZT8+0LQktIOuTtHzn2g1s=;
+ b=H8FxLO88RmHe9zbf4i6zVNcVyVZ5ywyz1sT5hrvU0ykFE3ly+9aeYqy8kxvT+hdKSW
+ q4ErWOwk18+zG8UdQDDbSoP2FlofvXkUemOEO+dQz552M/P2k36iBjHMUMuGNPu0Cbke
+ 0NxZqmW3hJwzzMj6f/DMkXJCJfl2CjsHMcwAqdzV3vdFGDliDTPPs7g3wiliP8lXzkf+
+ OakvAWq1gaEsvwylpBgrI/JJYqH0gdRwXEcBXbUiYOcA6p7eRBL1Evc8lyYdBC+DjCQ1
+ oC1WKZdRWY2bAblLHtzZSlWUjv+d7p1dDukuoaPeVIM5N/Tef4tuaXveUievE0lXfKqj
+ TSxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IUG05o5G9Nt8c60YurpAvAgTrPq2rAeREeIjLbzEtHM=;
- b=juu5EbQitCbFy/5wGNSkFmJWsTP7D3sqcyUnW8xJy2z8IRHfSq37UQcqI6UTwvAWNB
- Sjqb+xFCADPtrx0zaNijboAzUnbPIH5elSZpl1bIifJmQ6gpO2zf3QAJlshmAI0RoPM6
- By/0/g9mKBtNYWrWU6mRatxRa4F0NngZCQt6jCbKS+LxKPvCNLv01PYukNtgqtb5zE0U
- 9Y2ZTAUTdhYyRsFzZ7qgTdzAHvfzfxUrBMv35ZV+/URS1DGyKQnZ44lIXpLhyWEoOU3I
- 3nHagEg0D7DhOaPKOXS4vigWTmA7LkuskVb5eBvHrrlu0hFtXcZFiUghBiQRcdZT9bFc
- bXeQ==
-X-Gm-Message-State: APjAAAWB0aWDDfPKq1XSmoxfVTXi7qjfVomRrFpQRRjK9ups++Z67oUJ
- 4zc+/+SRC7yRDpKRnjNv9zV7RLsIiOw=
-X-Google-Smtp-Source: APXvYqw66SlgRWFqoAeVye92oYxexDZS9kZ4ikSpnc9AMyTtD5opuT3Si8/T4ZEbgwNqycr1PYDBtA==
-X-Received: by 2002:adf:fb47:: with SMTP id c7mr40513409wrs.116.1560784522780; 
- Mon, 17 Jun 2019 08:15:22 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id f197sm16902587wme.39.2019.06.17.08.15.21
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 08:15:22 -0700 (PDT)
-To: Igor Mammedov <imammedo@redhat.com>
-References: <cover.1517532021.git.alistair.francis@xilinx.com>
- <56ba11cee61d769a9a2816fa990d472ab1480906.1517532021.git.alistair.francis@xilinx.com>
- <20180202182326.GB22556@localhost.localdomain>
- <20180205122235.03fdeaad@redhat.com>
- <20180205135401.GA3300@localhost.localdomain>
- <20180205154202.7d1269a9@redhat.com>
- <20180205224205.GA3291@localhost.localdomain>
- <20180206154320.288acdc2@redhat.com>
- <62d7649e-e85d-43a2-2df8-85e2a0953e89@redhat.com>
- <20190617170106.48d776ca@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <0a31228d-4d32-2c54-649b-6aef9953fffc@redhat.com>
-Date: Mon, 17 Jun 2019 17:15:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=J3zDDuCsQV21k3G8y+iBAAZT8+0LQktIOuTtHzn2g1s=;
+ b=jEiwuvxETmmKsO/Y3btIlshrGCCzvgBmA01+516kqLhLY/OKMBgBknbwq8NGEblTQZ
+ Ii7+NYtTr1TehhLSDNvOTfClRXfDxqccbo4ARevSJsridi/iUH6XafiM+IMwUBi18FUm
+ OWTM5ceeyfGuhev4SK2g3s7j/kHAikEgvu5EAzBYWoV+VMjnu+NbknUMekpSKeFWWXie
+ +nQkamFelTPZw6SzbsEFfXQRyw//WYvorVnLewgy1YVFbrpGHW0FS67PcGcyiJ1hK3gU
+ 5GoynZjWhrfTWy70iVTS1PZG36B0U9pjXyXq/Jz5D4kUeJVNS/EeHnxDeAtKm+i+cEns
+ k2Kw==
+X-Gm-Message-State: APjAAAV6xn7yQHz0cmkuoQKRR2CCV/OjJYqtNBLpt0nduSktR+xF8Jij
+ ROqerr/3ZBWyTxyzRZh60y+m3Q==
+X-Google-Smtp-Source: APXvYqyRTH7Q3zhhs1rc6/j1TvrfxLfaMqs0CTMbNzSumaIkwPh9mOjIc1VcmUv7FKALEXHinXk5DA==
+X-Received: by 2002:a5d:6b12:: with SMTP id v18mr78408078wrw.306.1560784797014; 
+ Mon, 17 Jun 2019 08:19:57 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id a7sm10381899wrs.94.2019.06.17.08.19.56
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 17 Jun 2019 08:19:56 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C7C501FF87;
+ Mon, 17 Jun 2019 16:19:55 +0100 (BST)
+References: <20190531154735.20809-1-philmd@redhat.com>
+ <20190531154735.20809-2-philmd@redhat.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+In-reply-to: <20190531154735.20809-2-philmd@redhat.com>
+Date: Mon, 17 Jun 2019 16:19:55 +0100
+Message-ID: <878su09r38.fsf@zen.linaroharston>
 MIME-Version: 1.0
-In-Reply-To: <20190617170106.48d776ca@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH v5 1/6] machine: Convert the valid cpu
- types to use cpu_model
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [RFC PATCH 1/2] target/arm: Add stubs to build
+ with CONFIG_SEMIHOSTING disabled
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,336 +83,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcel@redhat.com, peter.maydell@linaro.org,
- Eduardo Habkost <ehabkost@redhat.com>, alistair23@gmail.com,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/19 5:01 PM, Igor Mammedov wrote:
-> On Mon, 17 Jun 2019 07:09:59 +0200
-> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> 
->> Hi Igor, Eduardo,
->>
->> On 2/6/18 3:43 PM, Igor Mammedov wrote:
->>> On Mon, 5 Feb 2018 20:42:05 -0200
->>> Eduardo Habkost <ehabkost@redhat.com> wrote:
->>>   
->>>> On Mon, Feb 05, 2018 at 03:42:02PM +0100, Igor Mammedov wrote:  
->>>>> On Mon, 5 Feb 2018 11:54:01 -0200
->>>>> Eduardo Habkost <ehabkost@redhat.com> wrote:
->>>>>     
->>>>>> On Mon, Feb 05, 2018 at 12:22:35PM +0100, Igor Mammedov wrote:    
->>>>>>> On Fri, 2 Feb 2018 16:23:26 -0200
->>>>>>> Eduardo Habkost <ehabkost@redhat.com> wrote:
->>>>>>>       
->>>>>>>> On Thu, Feb 01, 2018 at 04:42:05PM -0800, Alistair Francis wrote:      
->>>>>>>>> As cpu_type is not a user visible string let's convert the
->>>>>>>>> valid_cpu_types to compare against cpu_model instead. This way we have a
->>>>>>>>> user friendly string to report back.
->>>>>>>>>
->>>>>>>>> Once we have a cpu_type to cpu_model conversion this patch should be
->>>>>>>>> reverted and we should use cpu_type instead.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
->>>>>>>>> ---
->>>>>>>>>
->>>>>>>>>  hw/core/machine.c | 11 +++++------
->>>>>>>>>  1 file changed, 5 insertions(+), 6 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/hw/core/machine.c b/hw/core/machine.c
->>>>>>>>> index cdc1163dc6..de5bac1c84 100644
->>>>>>>>> --- a/hw/core/machine.c
->>>>>>>>> +++ b/hw/core/machine.c
->>>>>>>>> @@ -776,13 +776,12 @@ void machine_run_board_init(MachineState *machine)
->>>>>>>>>      /* If the machine supports the valid_cpu_types check and the user
->>>>>>>>>       * specified a CPU with -cpu check here that the user CPU is supported.
->>>>>>>>>       */
->>>>>>>>> -    if (machine_class->valid_cpu_types && machine->cpu_type) {
->>>>>>>>> -        ObjectClass *class = object_class_by_name(machine->cpu_type);
->>>>>>>>> +    if (machine_class->valid_cpu_types && machine->cpu_model) {
->>>>>>>>>          int i;
->>>>>>>>>  
->>>>>>>>>          for (i = 0; machine_class->valid_cpu_types[i]; i++) {
->>>>>>>>> -            if (object_class_dynamic_cast(class,
->>>>>>>>> -                                          machine_class->valid_cpu_types[i])) {
->>>>>>>>> +            if (!strcmp(machine->cpu_model,
->>>>>>>>> +                        machine_class->valid_cpu_types[i])) {        
->>>>>>>>
->>>>>>>> I would rename valid_cpu_types to valid_cpu_models to make the
->>>>>>>> new semantics clearer.
->>>>>>>>
->>>>>>>> Anyway, I have bad and good news:
->>>>>>>>
->>>>>>>> The bad news is Igor already sent patches last week that remove
->>>>>>>> MachineState::cpu_model, so this conflicts with his series.  Now
->>>>>>>> parse_cpu_model() will be the only place where the original CPU model name is
->>>>>>>> available, but the function needs to work on *-user too.  See:
->>>>>>>> "[PATCH v3 23/25] Use cpu_create(type) instead of cpu_init(cpu_model)".
->>>>>>>>
->>>>>>>> The good news is that I think we can fix this very easily if
->>>>>>>> validation is done at the same place where parse_cpu_model() is
->>>>>>>> called.  e.g.:
->>>>>>>>
->>>>>>>>     current_machine->cpu_type = machine_class->default_cpu_type;
->>>>>>>>     if (cpu_model) {
->>>>>>>>         current_machine->cpu_type = parse_cpu_model(cpu_model);
->>>>>>>>
->>>>>>>>         if (machine_class->valid_cpu_models) {
->>>>>>>>             ObjectClass *class = object_class_by_name(machine->cpu_type);
->>>>>>>>             int i;
->>>>>>>>
->>>>>>>>             for (i = 0; machine_class->valid_cpu_models[i]; i++) {
->>>>>>>>                 const char *valid_model = machine_class->valid_cpu_models[i];
->>>>>>>>                 ObjectClass *valid_class = cpu_class_by_name(machine->cpu_type, valid_model);
->>>>>>>>                 if (object_class_dynamic_cast(class,
->>>>>>>>                                               object_class_get_name(valid_class))) {
->>>>>>>>                      /* Valid CPU type, we're good to go */
->>>>>>>>                      break;
->>>>>>>>                 }
->>>>>>>>             }
->>>>>>>>             if (!machine_class->valid_cpu_models[i]) {
->>>>>>>>                 error_report("Invalid CPU model: %s", cpu_model);
->>>>>>>>                 error_printf("The valid CPU models are: %s",
->>>>>>>>                              machine_class->valid_cpu_models[0]);
->>>>>>>>                 for (i = 1; machine_class->valid_cpu_models[i]; i++) {
->>>>>>>>                     error_printf(", %s", machine_class->valid_cpu_models[i]);
->>>>>>>>                 }
->>>>>>>>                 error_printf("\n");
->>>>>>>>                 exit(1);
->>>>>>>>             }
->>>>>>>>         }
->>>>>>>>     }
->>>>>>>>
->>>>>>>> This can be done inside main(), or moved inside
->>>>>>>> machine_run_board_init() if main() pass cpu_model as argument to
->>>>>>>> the function.
->>>>>>>>
->>>>>>>> On either case, I think it's a good idea to do validation and
->>>>>>>> printing of error messages closer to the code that parses the
->>>>>>>> command-line options.  This way we separate parsing/validation
->>>>>>>> from initialization.      
->>>>>>> I agree it's better like you suggest as at least it prevents
->>>>>>> ms->cpu_model creeping back into boards code.
->>>>>>>
->>>>>>> But I still dislike (hate) an idea of new code adding non
->>>>>>> canonized cpu_model strings back in the boards code.
->>>>>>> It's just a matter of time when someone would use them
->>>>>>> and cpu_model parsing will creep back into boards.
->>>>>>>
->>>>>>> It would be much better to if we add 
->>>>>>>    char *MachineClass::cpu_name_by_type_name(char *cpu_type)
->>>>>>> callback and let machines in this patchset to set it,
->>>>>>> something along following lines which is not much of
->>>>>>> refactoring and allows for gradual conversion:
->>>>>>>
->>>>>>> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
->>>>>>> index 9631670..85cca84 100644
->>>>>>> --- a/target/arm/cpu.h
->>>>>>> +++ b/target/arm/cpu.h
->>>>>>> @@ -2885,4 +2885,6 @@ static inline void *arm_get_el_change_hook_opaque(ARMCPU *cpu)
->>>>>>>      return cpu->el_change_hook_opaque;
->>>>>>>  }
->>>>>>>  
->>>>>>> +char *arm_cpu_name_by_type_name(const char *typename);
->>>>>>> +
->>>>>>>  #endif
->>>>>>> diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
->>>>>>> index f936017..ae6adb7 100644
->>>>>>> --- a/hw/arm/netduino2.c
->>>>>>> +++ b/hw/arm/netduino2.c
->>>>>>> @@ -46,6 +46,7 @@ static void netduino2_machine_init(MachineClass *mc)
->>>>>>>      mc->desc = "Netduino 2 Machine";
->>>>>>>      mc->init = netduino2_init;
->>>>>>>      mc->ignore_memory_transaction_failures = true;
->>>>>>> +    mc->cpu_name_by_type_name = arm_cpu_name_by_type_name:      
->>>>>>
->>>>>> I really don't want to introduce a new arch-specific hook just
->>>>>> for that.  We should move CPU type lookup logic to common code
->>>>>> and make it unnecessary to write new hooks.    
->>>>> unfortunately cpu_model (cpu name part) is target specific
->>>>> and it's translation to type and back is target specific mayhem.    
->>>>
->>>> Why can't the model<->type translation be represented as data?
->>>> We could have simple cpu_type_name_suffix + an alias table.
->>>>
->>>> We have at least 4 arches that return a constant at
->>>> class_by_name.  We have at least 10 arches that simply add a
->>>> suffix to the CPU model name.  We must make them use common code
->>>> instead of requiring them to implement yet another hook[1].  
->>> True, some of them could use generic hook and reduce
->>> code duplication greatly, we should do it regardless of whether
->>> table or target specific func approach is used.
->>>   
->>>> In addition to the ones above, we have 3 that seem to just need
->>>> an alias table (cris, superh, alpha).  ppc can probably also use
->>>> an alias table for the ppc_cpu_class_by_pvr() stuff.  sparc just
->>>> needs whitespaces translated to '-' (sparc), which can be done
->>>> using an alias table.
->>>>
->>>> In the end I couldn't find any example that can't be represented
->>>> by a suffix + alias table.  
->>>
->>> Table based approach is possible but it won't be as simple
->>> as you've just pictured it.
->>>
->>> From what I recall from cpu_class_by_name cleanups table should be able
->>> to describe cases like (sometimes combination of them):
->>>    * 1:1 mapping - where cpu_model == cpu_type
->>>    * cpu_model <==> cpu_model + suffix  - most common usecase
->>>    * cpu_model <==> prefix cpu_model  - riscv patches on list are trying to add such cpu types
->>>    * NULL => some_fixed type
->>>    * case (in) sensitive flag
->>>    * garbage => some_fixed type
->>>    * substitutions
->>>    * aliases (sometimes dynamic depending on --enable-kvm (PPC))
->>> Maybe something else.
->>>
->>> We can think about it at leisure but I can't say if new approach
->>> complexity it's worth of the effort.
->>>  
->>> It would be nice see impl, but it's a lot of refactoring that's
->>> clearly out of scope of this series.
->>> I'd prefer small incremental refactoring (if possible) that
->>> won't scare people of and easy to review vs a huge one.
->>>   
->>>>> So I'd prefer having both back and forth functions together in
->>>>> one place. And common code to call them when necessary.
->>>>>
->>>>> We could do global cpu_name_by_type_name() instead of hook,
->>>>> which I'd prefer even more but then conversion can't be done
->>>>> only for one target but rather for all targets at once.    
->>>>
->>>> I don't mind letting a few targets override default behavior with
->>>> a hook if really necessary, but I have a problem with requiring
->>>> all targets to implement what's basically the same boilerplate
->>>> code to add/remove a string suffix and translating aliases.  
->>> it could be generic helper if target does the same plus
->>> not mandatory at that (in case target/board doesn't care
->>> about valid cpus).
->>>   
->>>>>> I agree it would be better if we had a cpu_name_by_type_name()
->>>>>> function, but I would like to have it implemented cleanly.    
->>>>> In some cases(targets) it can be common helper, but in other
->>>>> cases it's not so.
->>>>> My suggestion though allows to do gradual conversion and
->>>>> avoid putting cpu_model names back in board's code (which I just manged to remove).
->>>>> Once all targets converted and relevant code is isolated
->>>>> we can attempt to generalize it if it's possible or at least
->>>>> make of it global per target helper to get rid of
->>>>> temporary machine hook.
->>>>>
->>>>> (seeing this series reposted with cpu_model names in boards code,
->>>>> it doesn't looks like author would like to implement tree-wide
->>>>> generalization first)    
->>>>
->>>> Well, if nobody is willing to generalize all target-specific code
->>>> right now, I don't see the harm in having cpu_model-based tables
->>>> in a few boards in the meantime (as this patch series does).  But
->>>> I do see harm in requiring all our 20 targets to implement yet
->>>> another hook and increasing the costs of cleaning up the mess
->>>> later.  
->>> If we use MachineClass hook then it might be done per target
->>> on demand, so no one would require that every target should
->>> implement it.
->>> Also there could be a generic helper for targets that do the same.
->>> Machine which needs to enable valid_cpus, will have to use generic
->>> hook impl or provide target specific if it's special case.
->>>
->>> Though I do see harm in adding cpu_model tables in boards code
->>> vs target specific hooks on demand as that will be copy-pasted
->>> in other boards afterwards (number of which is bigger compared
->>> to targets count) and ultimately it would duplicate cpu_name
->>> strings in every board vs hook approach where cpu_model could
->>> be calculated from cpu_type by a function (generic or
->>> target specific).
->>>
->>> Good thing about hook is that it's non intrusive and
->>> isolates(consolidates) existing cpu_type -> cpu_model
->>> conversion in multiple places into one place.
->>> Then later it would be easier to generalize if someone
->>> decides to do it.  
->>
->> I wonder how you want to proceed with this series, the first patch got
->> merged (c9cf636d48f) but after your "CPU model name" rework, this commit
->> seems now not very complete/usable.
->>
->> Rebasing this series, i.e. with this snippet:
->>
->> -- >8 --  
->> diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
->> index f57fc38f92..cca4ec6648 100644
->> --- a/hw/arm/netduino2.c
->> +++ b/hw/arm/netduino2.c
->> @@ -34,7 +34,7 @@ static void netduino2_init(MachineState *machine)
->>      DeviceState *dev;
->>
->>      dev = qdev_create(NULL, TYPE_STM32F205_SOC);
->> -    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m3"));
->> +    qdev_prop_set_string(dev, "cpu-type", machine->cpu_type);
->>      object_property_set_bool(OBJECT(dev), true, "realized", &error_fatal);
->>
->>      armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
->> @@ -43,8 +43,14 @@ static void netduino2_init(MachineState *machine)
->>
->>  static void netduino2_machine_init(MachineClass *mc)
->>  {
->> +    static const char *valid_cpus[] = {
->> +        ARM_CPU_TYPE_NAME("cortex-m3"),
->> +        ARM_CPU_TYPE_NAME("cortex-m4"),
->> +        NULL
->> +    };
->>      mc->desc = "Netduino 2 Machine";
->>      mc->init = netduino2_init;
->> +    mc->valid_cpu_types = valid_cpus;
->>      mc->ignore_memory_transaction_failures = true;
->>  }
->> ---
->>
->> We get cpu names with suffix:
->>
->>   $ arm-softmmu/qemu-system-arm -M netduino2 -cpu arm926
->>   qemu-system-arm: Invalid CPU type: arm926-arm-cpu
->>   The valid types are: cortex-m3-arm-cpu, cortex-m4-arm-cpu
->>
->> I understand you won't want a global cpu_name_by_type_name, how do you
->> want to do then?
->>
->> Should we define an automatically expanded TARGET_CPU_TYPE_SUFFIX?
->> Then we could have generic machine code to parse the names.
-> It would work only for some cases,
-> problem is that we have a zoo of naming schemes.
-> Considering that cpus models are used widely we probably can't
-> deprecate it outright (for versioned machine types).  
-> 
-> Instead of wasting resources on translating cpu-type => 'cpu-name',
-> (hook or lookup tables) how about simplifying code and making all
-> boards accept full typenames?
-> 
-> It could be handled in generic way and then printing error with
-> full type names would be acceptable since user would be able to feed it
-> to -cpu.
-> 
-> '-cpu help' - would need some work to display types as well (also could be generic)
-> 
-> Perhaps with it we could deprecate cpu_models for non versioned
-> machines/targets, which in most cases would allow us to drop special
-> suffix/prefix/nonsense/case-sensitive/substitutions and whatever else
-> is already existing and keep exiting translation routines (hooks) only
-> for versioned machine types as necessary evil.
 
-Yes. Eduardo and you should write some lines to explain this, and then
-we will follow :)
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-I feel concerned because:
-1/ Alistair series is very helpful to new users, and
-2/ As the RX architecture series showed, today it is not very clear how
-to correctly use cpu_models.
+> If a distribution wants to build QEMU without semihosting support,
+> it currently gets this build failure:
+>
+>   $ ./configure --target-list=3Daarch64-softmmu --without-default-devices
+>   $ sed -i s/CONFIG_SEMIHOSTING=3Dy/CONFIG_SEMIHOSTING=3Dn/default-config=
+s/arm-softmmu.mak
 
-Eduardo is working on a series, I'll wait for his work.
+I'm still not convinced we should be adding support for stuff being done
+outside the normal build process... that said...
 
-Regards,
+>   $ make subdir-aarch64-softmmu
+>   [...]
+>     LINK    aarch64-softmmu/qemu-system-aarch64
+>   /usr/bin/ld: target/arm/arm-semi.o: in function `do_arm_semihosting':
+>   ./target/arm/arm-semi.c:321: undefined reference to `qemu_semihosting_c=
+onsole_out'
+>   /usr/bin/ld: ./target/arm/arm-semi.c:318: undefined reference to `qemu_=
+semihosting_console_out'
+>   collect2: error: ld returned 1 exit status
+>   make[1]: *** [Makefile:204: qemu-system-aarch64] Error 1
+>   make: *** [Makefile:472: subdir-aarch64-softmmu] Error 2
+>
+> Fix it by providing a stub when semihosting is disabled.
+>
+> Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  target/arm/Makefile.objs    |  3 ++-
+>  target/arm/arm-semi-stubs.c | 21 +++++++++++++++++++++
+>  2 files changed, 23 insertions(+), 1 deletion(-)
+>  create mode 100644 target/arm/arm-semi-stubs.c
+>
+> diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
+> index 6bdcc65c2c..39b02b1fa4 100644
+> --- a/target/arm/Makefile.objs
+> +++ b/target/arm/Makefile.objs
+> @@ -1,4 +1,5 @@
+> -obj-y +=3D arm-semi.o
+> +obj-$(CONFIG_SEMIHOSTING) +=3D arm-semi.o
+> +obj-$(call lnot,$(CONFIG_SEMIHOSTING)) +=3D arm-semi-stubs.o
+>  obj-$(CONFIG_SOFTMMU) +=3D machine.o psci.o arch_dump.o monitor.o
+>  obj-$(CONFIG_KVM) +=3D kvm.o
+>  obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) +=3D kvm32=
+.o
+> diff --git a/target/arm/arm-semi-stubs.c b/target/arm/arm-semi-stubs.c
+> new file mode 100644
+> index 0000000000..a91ecbd9d5
+> --- /dev/null
+> +++ b/target/arm/arm-semi-stubs.c
+> @@ -0,0 +1,21 @@
+> +/*
+> + *  Arm "Angel" semihosting stubs
+> + *
+> + * Copyright (c) 2019 Red Hat, Inc.
+> + *
+> + * Author:
+> + *   Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +
+> +target_ulong do_arm_semihosting(CPUARMState *env)
+> +{
+> +    g_assert_not_reached();
+> +}
 
-Phil.
+Could this not just be added to arm-semi.c in an
+
+  #ifndef CONFIG_SEMIHOSTING
+  target_ulong do_arm_semihosting(CPUARMState *env)
+  {
+      g_assert_not_reached();
+  }
+  #else
+  ... rest of arm-semi.c....
+  #endif
+
+
+--
+Alex Benn=C3=A9e
 
