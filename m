@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78EEF48955
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:53:09 +0200 (CEST)
-Received: from localhost ([::1]:49520 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C42489BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:11:29 +0200 (CEST)
+Received: from localhost ([::1]:49974 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcusW-0005z4-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51124)
+	id 1hcvAG-0007nM-8A
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51478)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hcuS9-0007a7-7p
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:25:54 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hcuTW-0008Hw-Dk
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:27:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hcuS5-0007ud-Ii
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:25:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43526)
+ (envelope-from <ehabkost@redhat.com>) id 1hcuTV-0000H7-6T
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:27:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39986)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hcuS0-0007oP-2J; Mon, 17 Jun 2019 12:25:44 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hcuTV-0000Fv-0V
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:27:17 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3AD4181DEC;
- Mon, 17 Jun 2019 16:25:40 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-99.ams2.redhat.com [10.36.117.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 664745C2F5;
- Mon, 17 Jun 2019 16:25:33 +0000 (UTC)
-Date: Mon, 17 Jun 2019 18:25:31 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190617162531.GM7397@linux.fritz.box>
-References: <20190529154654.95870-5-vsementsov@virtuozzo.com>
- <c31e0d6e-3754-8b22-ccee-84c772eca404@redhat.com>
- <7b401fba-36dd-d80e-966a-15fdd72ac335@virtuozzo.com>
- <825995ac-488e-b25c-c551-526812046caf@redhat.com>
- <46ad242a-3aa5-bfa1-1d64-5f2e98f4ed32@virtuozzo.com>
- <46f18bb5-f123-b20a-7cb9-97caedae8290@redhat.com>
- <13b8c3d7-dd95-d42f-e7bc-86907444b78a@virtuozzo.com>
- <9a6a5790-c9ff-e8a4-3a41-4aebe554ae1c@redhat.com>
- <20190617155315.GK7397@linux.fritz.box>
- <b86c6a8f-7a89-58ca-6966-b2f00aff0f2b@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2B162C18B2C8;
+ Mon, 17 Jun 2019 16:27:10 +0000 (UTC)
+Received: from localhost (ovpn-116-100.phx2.redhat.com [10.3.116.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A561A69616;
+ Mon, 17 Jun 2019 16:27:02 +0000 (UTC)
+Date: Mon, 17 Jun 2019 13:27:00 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20190617162700.GC19178@habkost.net>
+References: <20180202182326.GB22556@localhost.localdomain>
+ <20180205122235.03fdeaad@redhat.com>
+ <20180205135401.GA3300@localhost.localdomain>
+ <20180205154202.7d1269a9@redhat.com>
+ <20180205224205.GA3291@localhost.localdomain>
+ <20180206154320.288acdc2@redhat.com>
+ <62d7649e-e85d-43a2-2df8-85e2a0953e89@redhat.com>
+ <20190617170106.48d776ca@redhat.com>
+ <0a31228d-4d32-2c54-649b-6aef9953fffc@redhat.com>
+ <20190617173343.68e3c9ec@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="gr/z0/N6AeWAPJVB"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <b86c6a8f-7a89-58ca-6966-b2f00aff0f2b@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20190617173343.68e3c9ec@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Mon, 17 Jun 2019 16:25:40 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Mon, 17 Jun 2019 16:27:10 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v8 4/7] block: introduce backup-top filter
- driver
+Subject: Re: [Qemu-devel] [PATCH v5 1/6] machine: Convert the valid cpu
+ types to use cpu_model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,136 +66,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "jsnow@redhat.com" <jsnow@redhat.com>
+Cc: marcel@redhat.com, peter.maydell@linaro.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jun 17, 2019 at 05:33:43PM +0200, Igor Mammedov wrote:
+> On Mon, 17 Jun 2019 17:15:21 +0200
+> Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
+[...]
+> > Yes. Eduardo and you should write some lines to explain this, and the=
+n
+> > we will follow :)
+> Unfortunately I don't recall details anymore. One could check out all
+> implementations of class_by_name callbacks to find out current state.
 
---gr/z0/N6AeWAPJVB
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+See this message for a summary of existing class_by_name quirks:
 
-Am 17.06.2019 um 18:01 hat Max Reitz geschrieben:
-> >>> Should new implicit/explicit
-> >>> filters be created above or under them?
-> >>
-> >> That was always the most difficult question we had when we introduced
-> >> filters.
-> >>
-> >> The problem is that we never answered it in our code base.
-> >>
-> >> One day, we just added filters (=E2=80=9Clet=E2=80=99s see what happen=
-s=E2=80=9D), and in the
-> >> beginning, they were all explicit, so we still didn=E2=80=99t have to =
-answer
-> >> this question (in code).  Then job filters were added, and we still
-> >> didn=E2=80=99t have to, because they set blockers so the graph couldn=
-=E2=80=99t be
-> >> reorganized with them in place anyway.
-> >>
-> >> If we converted copy-on-read=3Don to a COR node, we would have to answ=
-er
-> >> that question.
-> >=20
-> > That's why we shouldn't do that, but just remove copy-on-read=3Don. :-)
->=20
-> And BB-level throttling, fair enough.
->=20
-> (Although the first step would be probably to make throttle groups
-> non-experimental?  Like, drop the x- prefix for all their parameters.)
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg615503.html
+  Date: Wed, 08 May 2019 10:34:44 +0200
+  Message-ID: <877eb173a3.fsf@dusky.pond.sub.org>
+  Subject: Re: [Qemu-devel] [PATCH 0/7] Delete 16 *_cpu_class_by_name() f=
+unctions
 
-The first step would be making the block drivers full replacements of
-the old things, which unfortunately isn't true today.
+I'm unsure about Igor's suggestion to get rid of CPU model names
+and use only QOM type names in external interfaces.  In either
+case, we can still simplify the rules rules and reduce the amount
+of arch-specific code.
 
-After your "deal with filters" series, we should be a lot closer for the
-core infrastructure at least.
-
-Not sure about copy-on-read, but I know that throttle still doesn't have
-feature parity with -drive throttling. At least I'm pretty sure that
-something about changing the group or group options at runtime (and not
-just dropping the x-) was missing.
-
-> >>>>> But should really filter do that job, or it is here only to do CBW?=
- Maybe target
-> >>>>> must have another parent which will care about flushing.
-> >>>>>
-> >>>>> Ok, I think I'll flush target here too for safety, and leave a comm=
-ent, that something
-> >>>>> smarter would be better.
-> >>>>> (or, if we decide to flush all children by default in generic code,=
- I'll drop this handler)
-> >>>>
-> >>>> [1] Thinking more about this, for normal backups the target file does
-> >>>> not reflect a valid disk state until the backup is done; just like f=
-or
-> >>>> qemu-img convert.  Just like qemu-img convert, there is therefore no
-> >>>> reason to flush the target until the job is done.
-> >=20
-> > Depends, the target could have the source as its backing file (like
-> > fleecing, but without exporting it right now), and then you could always
-> > have a consistent view on the target. Well, almost.
-> >=20
-> > Almost because to guarantee this, we'd have to flush between each CBW
-> > and the corresponding write to the same block, to make sure that the old
-> > data is backed up before it is overwritten.
->=20
-> Yes, that=E2=80=99s what I meant by =E2=80=9Cenforce on the host that the=
- target is
-> always flushed before the source=E2=80=9D.  Well, I meant to say there is=
- no
-> good way of doing that, and I kind of don=E2=80=99t consider this a good =
-way.
->=20
-> > Of course, this would perform about as badly as internal COW in qcow2...
-> > So probably not a guarantee we should be making by default. But it might
-> > make sense as an option.
->=20
-> I don=E2=80=99t know.  =E2=80=9CUse this option so your data isn=E2=80=99=
-t lost in case of a
-> power failure, but it makes everything pretty slow=E2=80=9D?  Who is goin=
-g to do
-> explicitly enable that (before their first data loss)?
-
-Maybe the backup job wasn't that clever after all. At least if you care
-about keeping the point-in-time snapshot at the start of the backup job
-instead of just retrying and getting a snapshot of a different point in
-time that is just as good.
-
-If you do care about the specific point in time, the safe way to do it
-is to take a snapshot and copy that away, and then delete the snapshot
-again.
-
-The only problem is that merging external snapshots is slow and you end
-up writing the new data twice. If only we had a COW image format... :-)
-
-Kevin
-
---gr/z0/N6AeWAPJVB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIcBAEBAgAGBQJdB777AAoJEH8JsnLIjy/WOLAQAKM2sRkVdF2zFttSbwGWpGcO
-roVW3451+kLJjTiIhS6e6IaC1z7UGhq/NCAWdiMR3Nbi20i++MXiY2sQEH1+6PBM
-JP10I3bS1i+sLs+ZN0UjcUHkjDvebT5fAa2EO6FNUsmUYnpfbSFYQXSpEgM21uUU
-2Laf20NiLuj+kPSMEZJKFU6okcSeWseAOnKz9Q4hcWpDnJc5hfL2Kr9Bkn7ly+hF
-11TjTMaJq/TSmzWrNnmmhMz1BrqOhA0itVNd/sfq9sLL7YQfuO2VzDIM+WyATEmU
-eaLt8ymUicOWzIis1j0+MEF45OLlBvlt44AC/gT0/wAnWgVRe0NENULQL3II4Rdy
-ftWYqgqPsTgSGdXmCU+5Yo1Pp7m8896vXQD3eYAboP3pKOQq2JB2+AYewLqbfnWI
-KTQ5TymGfbRYXTkK77fUXmLUWrVDTk1I4gKFns5pKjEuf+LEI/9bP3CfXymw4JkB
-GANVncZ1fZgl1RdYnm+Ix01gBAIDcNfBRDYVC+FT9leuvOPH97jybWEG/UVXBmyx
-ljI2jksppeK0tWReroTR5nrrJePxaJ7nzfZaE8go/PZppluxFaQt1YmoR53XZLFe
-SzflJm4+SHy2giOn14dKcDz3yeTiqnIXVuV6saH7HIF4SYnVt0f0g45fOuvVu8nR
-Ru7dzT3IgCMrX4oVFdjQ
-=n0g3
------END PGP SIGNATURE-----
-
---gr/z0/N6AeWAPJVB--
+--=20
+Eduardo
 
