@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3230148D9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:10:20 +0200 (CEST)
-Received: from localhost ([::1]:51290 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0745648D07
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:54:09 +0200 (CEST)
+Received: from localhost ([::1]:51136 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcx1H-00053Z-C6
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:10:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40413)
+	id 1hcwlc-00075i-6N
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40480)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hcwh1-0001bI-J7
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:24 -0400
+ (envelope-from <armbru@redhat.com>) id 1hcwh4-0001j3-Di
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hcwh0-0007s8-Dv
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:25982)
+ (envelope-from <armbru@redhat.com>) id 1hcwh3-0007us-IG
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59482)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwh0-0007jq-3x
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:22 -0400
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwh3-0007k1-DG
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:25 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 27554285B4;
- Mon, 17 Jun 2019 18:49:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 98B87307D96F
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:49:05 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-177.ams2.redhat.com
  [10.36.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C32E880EB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6C9E989C;
  Mon, 17 Jun 2019 18:49:04 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5358911386A7; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
+ id 55CA91136445; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 20:48:48 +0200
-Message-Id: <20190617184903.19436-2-armbru@redhat.com>
+Date: Mon, 17 Jun 2019 20:48:49 +0200
+Message-Id: <20190617184903.19436-3-armbru@redhat.com>
 In-Reply-To: <20190617184903.19436-1-armbru@redhat.com>
 References: <20190617184903.19436-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 17 Jun 2019 18:49:05 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Mon, 17 Jun 2019 18:49:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 01/16] monitor: Fix return type of
- monitor_fdset_dup_fd_find
+Subject: [Qemu-devel] [PULL 02/16] monitor: Remove unused password prompting
+ fields
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,76 +58,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yury Kotov <yury-kotov@yandex-team.ru>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yury Kotov <yury-kotov@yandex-team.ru>
+From: Kevin Wolf <kwolf@redhat.com>
 
-monitor_fdset_dup_fd_find_remove() and monitor_fdset_dup_fd_find()
-return mon_fdset->id which is int64_t. Downcasting from int64_t to int
-leads to a bug with removing fd from fdset with id >=3D 2^32.
-So, fix return types for these function.
+Commit 788cf9f8c removed the code for password prompting from the
+monitor. Since then, the Monitor fields password_completion_cb and
+password_opaque have been unused. Remove them.
 
-Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190523094433.30297-1-yury-kotov@yandex-team.ru>
+Message-Id: <20190613153405.24769-2-kwolf@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/monitor/monitor.h | 2 +-
- monitor.c                 | 4 ++--
- stubs/fdset.c             | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ monitor.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-index 06cfcd8f36..1e1d6d2269 100644
---- a/include/monitor/monitor.h
-+++ b/include/monitor/monitor.h
-@@ -44,6 +44,6 @@ AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_=
-id, int64_t fdset_id,
- int monitor_fdset_get_fd(int64_t fdset_id, int flags);
- int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd);
- void monitor_fdset_dup_fd_remove(int dup_fd);
--int monitor_fdset_dup_fd_find(int dup_fd);
-+int64_t monitor_fdset_dup_fd_find(int dup_fd);
-=20
- #endif /* MONITOR_H */
 diff --git a/monitor.c b/monitor.c
-index 5c5cbe254a..dce3496920 100644
+index dce3496920..8e9851ae15 100644
 --- a/monitor.c
 +++ b/monitor.c
-@@ -2604,7 +2604,7 @@ err:
-     return -1;
- }
+@@ -222,8 +222,6 @@ struct Monitor {
 =20
--static int monitor_fdset_dup_fd_find_remove(int dup_fd, bool remove)
-+static int64_t monitor_fdset_dup_fd_find_remove(int dup_fd, bool remove)
- {
-     MonFdset *mon_fdset;
-     MonFdsetFd *mon_fdset_fd_dup;
-@@ -2632,7 +2632,7 @@ err:
-     return -1;
- }
+     MonitorQMP qmp;
+     gchar *mon_cpu_path;
+-    BlockCompletionFunc *password_completion_cb;
+-    void *password_opaque;
+     mon_cmd_t *cmd_table;
+     QTAILQ_ENTRY(Monitor) entry;
 =20
--int monitor_fdset_dup_fd_find(int dup_fd)
-+int64_t monitor_fdset_dup_fd_find(int dup_fd)
- {
-     return monitor_fdset_dup_fd_find_remove(dup_fd, false);
- }
-diff --git a/stubs/fdset.c b/stubs/fdset.c
-index f3d9980b7e..67dd5e1d34 100644
---- a/stubs/fdset.c
-+++ b/stubs/fdset.c
-@@ -6,7 +6,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd=
-)
-     return -1;
- }
-=20
--int monitor_fdset_dup_fd_find(int dup_fd)
-+int64_t monitor_fdset_dup_fd_find(int dup_fd)
- {
-     return -1;
- }
 --=20
 2.21.0
 
