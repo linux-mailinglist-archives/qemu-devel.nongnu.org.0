@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3AC489EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:20:50 +0200 (CEST)
-Received: from localhost ([::1]:50130 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E409B48AAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:41:41 +0200 (CEST)
+Received: from localhost ([::1]:50506 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvJI-0007Nk-1w
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:20:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40805)
+	id 1hcvdU-0007cC-Pw
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:41:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41976)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hcvGr-0005k0-7s
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:18:18 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hcvKD-0000wC-4X
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:21:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hcvGq-0007Od-4v
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:18:17 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:47073)
+ (envelope-from <alistair23@gmail.com>) id 1hcvKB-0003Yh-NB
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:21:45 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:36761)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hcvGp-00075I-TC; Mon, 17 Jun 2019 13:18:16 -0400
-Received: by mail-lf1-x144.google.com with SMTP id z15so7057688lfh.13;
- Mon, 17 Jun 2019 10:18:02 -0700 (PDT)
+ id 1hcvK6-0003P9-K4; Mon, 17 Jun 2019 13:21:39 -0400
+Received: by mail-lf1-x141.google.com with SMTP id q26so7117563lfc.3;
+ Mon, 17 Jun 2019 10:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=p4qnA9oL0BPxkrOSqqsQYJaOB8IB08w7HDDnpsjfjTA=;
- b=e0VcNqXN9I3TQJRvm+HJUA6JLogFMS+eeQKnk7uwnmJ2ejpHMBuO7TiZPjc/TZHojF
- XHpGk1IjZfsFuDYJB/GPMxtpQc0PFgDEGVDNCiHLKWnUDMYUMI4MTiCPr961CWkmu9oz
- pnYIT2k47WZbs2i1zlFXI9OU2L9LhM4Y7uU2FETV/yYGTLOcCseoW2xoCQ0CRn8AdPkl
- wJYaSM7/XZ+8N7yVaUb9UauJaDaFWeNVUaFGKCfll75V7WhI1xzHw1YCWUyBU4849idh
- Myigavlp0KJsZleLm0pbHZs2zbmS22LEWR+GVOm9k4ZvcHkZ2Ez1wbDPrLeJx8f08gHM
- atyg==
+ bh=UvEXy6R2Oa0rw1CPw6Eg9Azivk9jG3zrLJWOzgsj+sI=;
+ b=q7Cm14UcndjBBBGQs1VXcwRC8FOqZfvLoKvafiy+9Istjldw3CdnWgzwRiLLcMDfA8
+ k8WUdnUIMEsPR2rzBKY0yc5fFokRib8UpISVqE77ise2Omj9bf3NWtJnSxAop3vgxUlz
+ wTWOg/neRdw0uhxTI2SgqvvHL8A/KQfvPFoCGTe7mJQ2kynMmOmEz6ZIO+PEgCTfNUOG
+ Kz7/l56cS1tgHSHXg+bLNFBLIBb1khW/YwR74e8SlxVjC1MMLJMG6eNwjSgEhbtDSEuh
+ P3VxC+yG3fiUR3vOSXAJk4f4OcMIgfrVCLx8FoAsmI4h5ZOTi5XXfPXkJeiIDSqPgtiu
+ 6TVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=p4qnA9oL0BPxkrOSqqsQYJaOB8IB08w7HDDnpsjfjTA=;
- b=XR9cxfVRSz6XwgmVcKcXJ3xMEHu6xNBNG4gCNAQwRg49Tneqqea+HzCOwv0nOUI4T/
- B8BvAgCyHChihUeWQJzZ12sFLlPOAsevkB9I3jkdLiHB3Ug852W6rggRBbLoUiMoH5Gx
- NEW8CKm7L/c6sfobCpE9kDSsBcE8TmdSQpPLn7iWfQcnSRhCJdGgDqdvmqHCq5eJVbC0
- 1h1TbsPea+WDjVUSYVEi6c43vh7l+1QPAw+/zO+BTt095ebS2or2O85Z+5ZUU0+amxR+
- q9C9aLjLqp/HSw2Ry3exA3q92eC3se63N+DGDxFwAmB8A0cjvA2WpF81KxgZvRWM0uF0
- dYhQ==
-X-Gm-Message-State: APjAAAUAmL9On42sVPKtA3mgKCQwbyk2tUASphyXAbGWIb7PKmYxMx2U
- qMy/YhEBpOnLrank/uA7dpyyX4MYH8qvXV0PDDk=
-X-Google-Smtp-Source: APXvYqx84IGvzvYHoQ5QfK+b0Z/UEb6gtRtKILRCDTbE0b1kqw3wu/jwy5vwE05gPyTc3IA31ubC9sdKTlwm7pDkEoQ=
-X-Received: by 2002:ac2:5324:: with SMTP id f4mr15421710lfh.156.1560791881225; 
- Mon, 17 Jun 2019 10:18:01 -0700 (PDT)
+ bh=UvEXy6R2Oa0rw1CPw6Eg9Azivk9jG3zrLJWOzgsj+sI=;
+ b=U3UPb7Loz81y7inNPsw/g4RVtzjXrSTtpaLcZExxeCcwsLsB/WhQxR4hydmkaKoU8N
+ y9KFhdj0b93jydPOdO2kFHb1cEV70bOJWe7efAXYnvSygt/ZrVM0iA6+au2XxXtiCIn6
+ bjrAXApQq5ctzX/2Rfu+n+3eBp9DSMcYTS/8eCALrYJryA+i05POllADrXFdsENybqI5
+ GSMJWsi3Djs4DGgNTQuI7xDcbjQ/er095sHs3EQhaW9fwTPhg+cau39mkjiLywfgtdO5
+ IN473E+2IpiS9n248qbZ1DZ7yE98oH8SlVxcXUtrMkjWRUKaacycXE7PpWFPzzr4NbSl
+ pKyw==
+X-Gm-Message-State: APjAAAVRwkba3Scb+dOxeOYw74urNQiT589cZyO2WDkYXapOP+mazzKG
+ cZ6DDAo3hy1ggDBMyNULW30PPQHYbkKkMdBimFE=
+X-Google-Smtp-Source: APXvYqxzBbqiKphbJeBOyYKPL0V+OWiDjyEQraqhUILNDPVMtsIu9zFAriFzm9tMU7ZeEwX6hShWA0M0pOxZiy8xgfw=
+X-Received: by 2002:a19:4c05:: with SMTP id z5mr46726034lfa.5.1560792096478;
+ Mon, 17 Jun 2019 10:21:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190617160136.29930-1-philmd@redhat.com>
-In-Reply-To: <20190617160136.29930-1-philmd@redhat.com>
+References: <13fe08a2-c89c-b015-3799-067e0f04bfd3@redhat.com>
+ <mhng-fb0f4eaf-5e38-4e66-958a-9942273b48c3@palmer-si-x1e>
+In-Reply-To: <mhng-fb0f4eaf-5e38-4e66-958a-9942273b48c3@palmer-si-x1e>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 17 Jun 2019 10:15:14 -0700
-Message-ID: <CAKmqyKOc-ZnGhUgsBzHx2oGoBCoKStTHVWySUqP5kF88LvuqTQ@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 17 Jun 2019 10:18:49 -0700
+Message-ID: <CAKmqyKPCXy3_YMuXmhYpoGvay4m5BpsOrs4VtFF9cU9gL-bedg@mail.gmail.com>
+To: Palmer Dabbelt <palmer@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: Re: [Qemu-devel] [PATCH] hw/arm/msf2-som: Exit when the cpu is not
- the expected one
+X-Received-From: 2a00:1450:4864:20::141
+Subject: Re: [Qemu-devel] [PATCH] RISC-V: Fix a memory leak when realizing a
+ sifive_e
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,63 +74,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 17, 2019 at 9:19 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Sun, Jun 16, 2019 at 1:15 AM Palmer Dabbelt <palmer@sifive.com> wrote:
 >
-> This machine correctly defines its default_cpu_type to cortex-m3
-> and report an error if the user requested another cpu_type,
-> however it does not exit, and this can confuse users trying
-> to use another core:
+> On Fri, 14 Jun 2019 05:25:50 PDT (-0700), philmd@redhat.com wrote:
+> > On 6/14/19 2:08 PM, Palmer Dabbelt wrote:
+> >> Coverity pointed out a memory leak in riscv_sifive_e_soc_realize(),
+> >> where a pair of recently added MemoryRegion instances would not be fre=
+ed
+> >> if there were errors elsewhere in the function.  The fix here is to
+> >> simply not use dynamic allocation for these instances: there's always
+> >> one of each in SiFiveESoCState, so instead we just include them within
+> >> the struct.
+> >>
+> >> Thanks to Peter for pointing out the bug and suggesting the fix!
+> >
+> > a.k.a. Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> >
+> > Maybe the thanks can go below the '---' tag, so it doesn't stay in the
+> > git history.
 >
->   $ qemu-system-arm -M emcraft-sf2 -cpu cortex-m4 -kernel test-m4.elf
->   qemu-system-arm: This board can only be used with CPU cortex-m3-arm-cpu
->   [output related to M3 core ...]
->
-> The CPU is indeed a M3 core:
->
->   (qemu) info qom-tree
->   /machine (emcraft-sf2-machine)
->     /unattached (container)
->       /device[0] (msf2-soc)
->         /armv7m (armv7m)
->           /cpu (cortex-m3-arm-cpu)
->
-> Add the missing exit() call to return to the shell.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Works for me.
+
+With the updated Suggested-by line:
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
-> ---
->  hw/arm/msf2-som.c | 1 +
->  1 file changed, 1 insertion(+)
 >
-> diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
-> index 8c550a8bdd..2c9984bb3b 100644
-> --- a/hw/arm/msf2-som.c
-> +++ b/hw/arm/msf2-som.c
-> @@ -53,6 +53,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machi=
-ne)
->      if (strcmp(machine->cpu_type, mc->default_cpu_type) !=3D 0) {
->          error_report("This board can only be used with CPU %s",
->                       mc->default_cpu_type);
-> +        exit(1);
->      }
+> >
+> >>
+> >> Fixes: 30efbf330a45 ("SiFive RISC-V GPIO Device")
+> >> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> >
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >
->      memory_region_init_ram(ddr, NULL, "ddr-ram", DDR_SIZE,
-> --
-> 2.20.1
+> Thanks!
 >
+> >
+> >> ---
+> >>  hw/riscv/sifive_e.c         | 12 +++++-------
+> >>  include/hw/riscv/sifive_e.h |  2 ++
+> >>  2 files changed, 7 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> >> index 80ac56fa7d5e..83375afcd1d6 100644
+> >> --- a/hw/riscv/sifive_e.c
+> >> +++ b/hw/riscv/sifive_e.c
+> >> @@ -158,17 +158,15 @@ static void riscv_sifive_e_soc_realize(DeviceSta=
+te *dev, Error **errp)
+> >>
+> >>      SiFiveESoCState *s =3D RISCV_E_SOC(dev);
+> >>      MemoryRegion *sys_mem =3D get_system_memory();
+> >> -    MemoryRegion *xip_mem =3D g_new(MemoryRegion, 1);
+> >> -    MemoryRegion *mask_rom =3D g_new(MemoryRegion, 1);
+> >>
+> >>      object_property_set_bool(OBJECT(&s->cpus), true, "realized",
+> >>                              &error_abort);
+> >>
+> >>      /* Mask ROM */
+> >> -    memory_region_init_rom(mask_rom, NULL, "riscv.sifive.e.mrom",
+> >> +    memory_region_init_rom(&s->mask_rom, NULL, "riscv.sifive.e.mrom",
+> >>          memmap[SIFIVE_E_MROM].size, &error_fatal);
+> >>      memory_region_add_subregion(sys_mem,
+> >> -        memmap[SIFIVE_E_MROM].base, mask_rom);
+> >> +        memmap[SIFIVE_E_MROM].base, &s->mask_rom);
+> >>
+> >>      /* MMIO */
+> >>      s->plic =3D sifive_plic_create(memmap[SIFIVE_E_PLIC].base,
+> >> @@ -228,10 +226,10 @@ static void riscv_sifive_e_soc_realize(DeviceSta=
+te *dev, Error **errp)
+> >>          memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
+> >>
+> >>      /* Flash memory */
+> >> -    memory_region_init_ram(xip_mem, NULL, "riscv.sifive.e.xip",
+> >> +    memory_region_init_ram(&s->xip_mem, NULL, "riscv.sifive.e.xip",
+> >>          memmap[SIFIVE_E_XIP].size, &error_fatal);
+> >> -    memory_region_set_readonly(xip_mem, true);
+> >> -    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base, x=
+ip_mem);
+> >> +    memory_region_set_readonly(&s->xip_mem, true);
+> >> +    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base, &=
+s->xip_mem);
+> >>  }
+> >>
+> >>  static void riscv_sifive_e_machine_init(MachineClass *mc)
+> >> diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+> >> index 3b14eb74621f..d175b24cb209 100644
+> >> --- a/include/hw/riscv/sifive_e.h
+> >> +++ b/include/hw/riscv/sifive_e.h
+> >> @@ -33,6 +33,8 @@ typedef struct SiFiveESoCState {
+> >>      RISCVHartArrayState cpus;
+> >>      DeviceState *plic;
+> >>      SIFIVEGPIOState gpio;
+> >> +    MemoryRegion xip_mem;
+> >> +    MemoryRegion mask_rom;
+> >>  } SiFiveESoCState;
+> >>
+> >>  typedef struct SiFiveEState {
+> >>
 >
 
