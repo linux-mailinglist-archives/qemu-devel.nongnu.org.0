@@ -2,50 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3EC48A0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:26:29 +0200 (CEST)
-Received: from localhost ([::1]:50220 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFA948AB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:43:20 +0200 (CEST)
+Received: from localhost ([::1]:50530 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvOm-0004TR-Ea
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41715)
+	id 1hcvf5-0001Kn-Bb
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:43:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42803)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hcvJ1-00089c-0m
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:20:32 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hcvMR-0003sU-VP
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:24:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hcvJ0-0002Hj-39
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:20:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39892)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
- id 1hcvIv-0002AN-1i; Mon, 17 Jun 2019 13:20:26 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9D1C930872E5;
- Mon, 17 Jun 2019 17:20:22 +0000 (UTC)
-Received: from localhost (ovpn-116-100.phx2.redhat.com [10.3.116.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 256F11001B3D;
- Mon, 17 Jun 2019 17:20:19 +0000 (UTC)
-Date: Mon, 17 Jun 2019 14:20:13 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190617172013.GD19178@habkost.net>
-References: <20190617160136.29930-1-philmd@redhat.com>
+ (envelope-from <pbonzini@redhat.com>) id 1hcvMR-0006AT-42
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:24:03 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50924)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hcvMQ-0005jY-Tk
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:24:03 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c66so245833wmf.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 10:23:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=j7ij41qhCb57PeFP7V+o0W9lUzYDWPY0gJipOdBAIw8=;
+ b=jVG6iWjyi/R9QNQscjLK/mTksKXeg+TH3omrJuU79vIemj4bOsPB8M4PZ3o7bPMHX/
+ eOiRdfUXi3n6zNilZalhSS7XibbtKtGBVOsBh2n3881GcWUeOpq5m+ZqA+fh1m49rY8g
+ 8RaPdW2JqXRrV3Ft2gq7gbuZOxGVAtpPdb06Ma9C+HPcz6DOS+kaEihOqlRHke4q5tia
+ gBZkE993svzMpNMX+3iNcRtRVQkAKe0ZUJETt5m0aKCCbtHpmVYPG7UVjyJPaMRE8sTQ
+ pcndXiYsj84dlnfqrW+rT/aZ3JmBlQGXzl/o06Hd47DtOStUv/12hnFlUmDK7CJB2boO
+ vJJw==
+X-Gm-Message-State: APjAAAUfB8WdnZGia/N0pBK42H2w64fYgbXcgExq/kK9ybxbsboF4ORE
+ qhBSDkB0RBM9hssmQpY0Fm0RhQ==
+X-Google-Smtp-Source: APXvYqyE1prK7VPhTWxbmy1ULTDuQYz0QrXULlSEiIAnj4v9GS01dEe86NnsGzHQJyfLLX67QyA9sQ==
+X-Received: by 2002:a7b:c215:: with SMTP id x21mr19777646wmi.38.1560792220965; 
+ Mon, 17 Jun 2019 10:23:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:51c0:d03f:68e:1f6d?
+ ([2001:b07:6468:f312:51c0:d03f:68e:1f6d])
+ by smtp.gmail.com with ESMTPSA id w185sm14465407wma.39.2019.06.17.10.23.35
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jun 2019 10:23:39 -0700 (PDT)
+To: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20190612120421.20336-1-stefanha@redhat.com>
+ <20190617122922.GG7397@linux.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <25ad60d8-8860-b535-a42b-03d4d63d0802@redhat.com>
+Date: Mon, 17 Jun 2019 19:23:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190617160136.29930-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 17 Jun 2019 17:20:22 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190617122922.GG7397@linux.fritz.box>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] hw/arm/msf2-som: Exit when the cpu is not
- the expected one
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v4] virtio-scsi: restart DMA after iothread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,39 +72,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 17, 2019 at 06:01:36PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> This machine correctly defines its default_cpu_type to cortex-m3
-> and report an error if the user requested another cpu_type,
-> however it does not exit, and this can confuse users trying
-> to use another core:
->=20
->   $ qemu-system-arm -M emcraft-sf2 -cpu cortex-m4 -kernel test-m4.elf
->   qemu-system-arm: This board can only be used with CPU cortex-m3-arm-c=
-pu
->   [output related to M3 core ...]
->=20
-> The CPU is indeed a M3 core:
->=20
->   (qemu) info qom-tree
->   /machine (emcraft-sf2-machine)
->     /unattached (container)
->       /device[0] (msf2-soc)
->         /armv7m (armv7m)
->           /cpu (cortex-m3-arm-cpu)
->=20
-> Add the missing exit() call to return to the shell.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+On 17/06/19 14:29, Kevin Wolf wrote:
+> But in the end, if Paolo feels strongly that for whatever reason
+> propagating events through the real device tree isn't good, let's get
+> the bug fixed with whatever hack it takes.
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+It is actually good, but the implementation in hw/scsi is ugly because
+it singles out virtio-scsi - whereas the rule should simply be that the
+HBA is stopped after the disks and started before.  Having the HBA do
+something special if it cares about the order is the part that I didn't
+like.
 
---=20
-Eduardo
+Paolo
 
