@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BFB148990
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:03:50 +0200 (CEST)
-Received: from localhost ([::1]:49826 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD774897A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:58:19 +0200 (CEST)
+Received: from localhost ([::1]:49746 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcv2r-0000N8-JK
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:03:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57601)
+	id 1hcuxT-0004Ct-2z
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:58:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58874)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <anthony.perard@citrix.com>) id 1hculV-0001kX-Nk
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:45:55 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hcuqd-0005c7-J3
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:51:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1hculU-0002om-0Q
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:45:53 -0400
-Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:4781)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1hculT-0002ft-KN
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:45:51 -0400
-Authentication-Results: esa1.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa1.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa1.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa1.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: nbsi8hxYU8uehLQNpHdOUnkTBbXHr8DkPGtF7GnrdJYIoAaRLJDHZ+PeAprz9udzI+HGOxXSg3
- MUcxFzyUKdHL3qSXYruhlV1niOT6Gc6u75w4QLxGWr5ZqNZiNiAf6Gz/cTC+mkB500+MpHhbrn
- zh+rrrv4WbnN3Gi1AJB5gVUf+n59CTb3C0k32Vg++HQ55HLvrP1cwQICIYUX850HPt585yZbLy
- Dn3MTtKYY9k/UEe4kwrl4I5OHdFuMqG+Pu3Eo0G3Wg2I1eukcNbwyc6gOrVIqASHMJObrLjyfp
- +so=
-X-SBRS: 2.7
-X-MesageID: 1852595
-X-Ironport-Server: esa1.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.63,385,1557201600"; 
-   d="scan'208";a="1852595"
-Date: Mon, 17 Jun 2019 17:45:44 +0100
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: Paul Durrant <Paul.Durrant@citrix.com>
-Message-ID: <20190617164544.GA13449@perard.uk.xensource.com>
-References: <20190617154105.32323-1-anthony.perard@citrix.com>
- <20190617154105.32323-4-anthony.perard@citrix.com>
- <21258fd1788f418bb1a0007a43bf0250@AMSPEX02CL03.citrite.net>
+ (envelope-from <richard.henderson@linaro.org>) id 1hcuqc-0005Dj-Ho
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:51:11 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:44038)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hcuqc-0005B3-6y
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:51:10 -0400
+Received: by mail-pg1-x544.google.com with SMTP id n2so6127194pgp.11
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6/HsInHIQ/Gxj1pg16SAz9Ev7OYfVZs1+akPoxG1yOI=;
+ b=hcxD+5MrGPh3LZJq6Lyxr/sUDtt2li9IcfZZUR+C4IwbpMYH8N6d8yy8+zjn1DmBZc
+ UJhwywZKG4ddcsrE1ffAiNDrDT7164iHnu20sXFJ31ix9m8AaV/14gszPvwFYr6hDrt2
+ cnSVgRV4FOoBskqZ+mcCuBCpqf+0WNvHmsKiqO31zyIx6xfEfl014Lm8ocR0A3MuAUfX
+ yDc8nwE0ltT+7rDBLLRFOErQDzZK77G0IjzcEHxtI1DcaCNj4FYyli0uSqmxWUV0tnYb
+ aUUxTdX90V440097kCmvXonAqbgoS4TYD9PP5XZvOg0X3nAOIabk70MrBdwgSJ/xHbFJ
+ 8qiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6/HsInHIQ/Gxj1pg16SAz9Ev7OYfVZs1+akPoxG1yOI=;
+ b=B72uYRT9EQBNNi72XRo/mZJc9xdZpOlUjkN5vjBteKIFnQ8FVOhEKeFCio3f9KXCMB
+ gvVVp9vWJwUBSz/Hqa1snPLJiFd/hCnoiDtYW97HshJH3hyfOhz9syd3UwV+pRiPNCen
+ R9LacaJRecxnBLW/d8jCmLbBEKvDIo57RpZTAEkNH8N1y7Y9f84m1f7PJs/UL3az2LWR
+ QkyDZbvtElhshoyObSty+/TqiZwwEbiU9IF44J7k6cHkMnTcDCm9LikzpmwoRopLe94B
+ C5hovOUgQolDWUOF7TXSJ00a8hb7OVuH1qqdWM9s9bW5e4GdDouWRYDtG3IVcPS8k+Bs
+ NX5Q==
+X-Gm-Message-State: APjAAAXpwC4qEX6BNPEHmHHwx+xuGA9eJ+ElaLQ1fE3UD1rLGAn0zROA
+ wRlKGweedd1brB9ygLIj7ECt8w==
+X-Google-Smtp-Source: APXvYqzarw64KGgrWBALcdo1a0FkXzR3yOWnZ1B8ZdTwNN1QklCB9OuiWdAoxU58JNRmrw8W4g0spw==
+X-Received: by 2002:a17:90a:7107:: with SMTP id
+ h7mr26613540pjk.38.1560790268783; 
+ Mon, 17 Jun 2019 09:51:08 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-2-33.tukw.qwest.net. [97.113.2.33])
+ by smtp.gmail.com with ESMTPSA id e127sm12807955pfe.98.2019.06.17.09.51.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jun 2019 09:51:08 -0700 (PDT)
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org
+References: <20190617143533.15013-1-kbastian@mail.uni-paderborn.de>
+ <20190617143533.15013-4-kbastian@mail.uni-paderborn.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <f20e8434-f716-85df-faa0-5447fec6fdf0@linaro.org>
+Date: Mon, 17 Jun 2019 09:51:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <21258fd1788f418bb1a0007a43bf0250@AMSPEX02CL03.citrite.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.145.142
-Subject: Re: [Qemu-devel] [PATCH 3/4] xen: Import Xen public headers used by
- xen-hvm.c
+In-Reply-To: <20190617143533.15013-4-kbastian@mail.uni-paderborn.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: Re: [Qemu-devel] [PATCH 3/3] target/tricore: Use translate_loop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,75 +84,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>, Stefano
- Stabellini <sstabellini@kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: david.brenken@efs-auto.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 17, 2019 at 05:15:51PM +0100, Paul Durrant wrote:
-> > -----Original Message-----
-> > From: Anthony PERARD [mailto:anthony.perard@citrix.com]
-> > Sent: 17 June 2019 16:41
-> > To: qemu-devel@nongnu.org
-> > Cc: xen-devel@lists.xenproject.org; Anthony Perard <anthony.perard@citrix.com>; Stefano Stabellini
-> > <sstabellini@kernel.org>; Paul Durrant <Paul.Durrant@citrix.com>
-> > Subject: [PATCH 3/4] xen: Import Xen public headers used by xen-hvm.c
-> > 
-> > Following "xen: Fix build with public headers", import other Xen
-> > public headers that are describing interfaces.
-> > 
-> > The headers are cleaned up a bit while importing them. The header
-> > guard symbols are changed to match QEMU's coding style, some other
-> > part of the files that QEMU doesn't use are removed.
-> > 
-> > xen-mapcache.c doesn't needs params.h, so remove the include.
-> > 
-> > Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> > ---
-> >  hw/i386/xen/xen-hvm.c                 |   6 +-
-> >  hw/i386/xen/xen-mapcache.c            |   2 -
-> >  include/hw/xen/interface/hvm/e820.h   |  28 +++++++
-> >  include/hw/xen/interface/hvm/ioreq.h  | 101 ++++++++++++++++++++++++++
-> >  include/hw/xen/interface/hvm/params.h |  33 +++++++++
-> >  5 files changed, 165 insertions(+), 5 deletions(-)
-> >  create mode 100644 include/hw/xen/interface/hvm/e820.h
-> >  create mode 100644 include/hw/xen/interface/hvm/ioreq.h
-> >  create mode 100644 include/hw/xen/interface/hvm/params.h
-> > 
-> > diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-> > index 2939122e7c..725f9c2278 100644
-> > --- a/hw/i386/xen/xen-hvm.c
-> > +++ b/hw/i386/xen/xen-hvm.c
-> > @@ -26,9 +26,9 @@
-> >  #include "trace.h"
-> >  #include "exec/address-spaces.h"
-> > 
-> > -#include <xen/hvm/ioreq.h>
-> > -#include <xen/hvm/params.h>
-> > -#include <xen/hvm/e820.h>
-> > +#include "hw/xen/interface/hvm/ioreq.h"
-> > +#include "hw/xen/interface/hvm/params.h"
-> 
-> AFAICT the only place (apart from legacy code in xen_common.h) that
-> params.h is necessary is in xen_suspend_notifier(). I wonder whether
-> that would be better moved into xen_common.h too (since it's just a
-> wrapper round xc_set_hvm_param() and then the inclusion of params.h
-> can be moved there as well.
+On 6/17/19 7:35 AM, Bastian Koppelmann wrote:
+> +static void tricore_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+> +{
+> +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +    CPUTriCoreState *env = cpu->env_ptr;
+> +
+> +    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
+> +    decode_opc(ctx);
 
-:(, I didn't realised that xen_common.h needed params.h too. That patch
-series might not build on older version of Xen. I'll move the inclusion
-of params.h to xen_common.h, and fix params.h to have all the needed
-#defines.
+I'll note that there's an existing bug here, always reading 4 bytes with ldl.
+You need to load 2 bytes, look at the low bit as in decode_opc.  If 16-bit,
+read nothing more; if 32-bit, read 2 more bytes.
 
-About xen_suspend_notifier(), it's actually more than a wrapper, it's
-also a function. A pointer to the function is given to a notifier.
-So I don't think using "inline" will work, and I don't think it makes
-sense to have a function without "inline" in xen_common.h. So I think
-xen_{suspend,wakeup}_notifier are fine where there are, do you agree?
 
-Thanks,
-
--- 
-Anthony PERARD
+r~
 
