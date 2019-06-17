@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442FD48BCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:21:04 +0200 (CEST)
-Received: from localhost ([::1]:50888 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A09948BDE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:24:06 +0200 (CEST)
+Received: from localhost ([::1]:50916 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwFb-0007ZN-Eh
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:21:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58386)
+	id 1hcwIX-000414-LR
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:24:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58573)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwAJ-000593-9L
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:37 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwAd-0005Mj-M6
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwAG-00018M-5X
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:35 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:42524)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwAb-0001U6-Jp
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:55 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:42700)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1hcwAF-000178-OJ
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:32 -0400
+ id 1hcwAZ-0001IL-F7
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:51 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8kX5149217;
- Mon, 17 Jun 2019 18:15:30 GMT
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8r4P149269;
+ Mon, 17 Jun 2019 18:15:41 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id; s=corp-2018-07-02;
- bh=UyK3zkxmP+RF5OK1eFM3wHGEgIEkAjDWj4q/n2YLGOM=;
- b=BmP2BWpqvYpv9kgX/LBsH6bpk+f1//GPh953PRS2IWQ6nbWhmMUsS9lusjFvqYUL+5hB
- ujNJJ0HiYOIvUERjEt6koT9Jz8Q5l9TKYV1svXyadCWJOsNABfhE8XSg35NSrtTrPeI1
- PuslrLlXvLTOC1w+1xlLbvKnv2mLQKHeWovNEHsCUR6BPx1M6NeDH0EaPI9qpHPma9c9
- JA8XCYpIt0gL8jmAlLWf5o1AiCy9DifaB/3EHKZ0O+jkYTUbOyOa2ryEqtT10UsqngvX
- 80O6gHeMuSLTqlAv52GUKcPp4UhR/4gRGSDy9kqk0ubvvnHLJeUU7k5Cbosvk4AtZGv7 Fw== 
+ bh=KEujIo1vEx2wWhB0PXsc+4rd8jpemrHqR8jjUc1zmd0=;
+ b=KpsstjzSXfsbojkpYLmBgcsK1TNUyYNbU56v9mrjEdcsivdyO8NPxC2bVLZ5HZ3b3WW+
+ W9pBCunQO2qMsvYMZhQdyDok95O/Z2iaDzaZ8z0pZThFHXfI4AyhUAYP9mjTBEVnWUqY
+ 9QwY9XxftDSooDDfYo7Q4q/MV748j/9k1VBYE8mtEv6CaVXWVhom9JusmtZpQijB1eJ/
+ hR/0jCAPEovoTUvhwazvH8AGzqM5qO0PzgFEeb9nrCrdsotwrhNDod4SKUZYWiwbq5xx
+ YnT7gR1nO/umYl0/wOjZ9UM0uodvlAeilfMxsXhW9RIhRNfyVK7dxe5ZgASzo3WFyv7f sg== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2t4r3tg2u4-1
+ by userp2130.oracle.com with ESMTP id 2t4r3tg2uu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:15:30 +0000
+ Mon, 17 Jun 2019 18:15:41 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIF9Tn117968;
- Mon, 17 Jun 2019 18:15:29 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 2t5cpdkejj-1
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIF9Y9117981;
+ Mon, 17 Jun 2019 18:15:40 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 2t5cpdkend-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:15:29 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5HIFSTK027776;
- Mon, 17 Jun 2019 18:15:28 GMT
+ Mon, 17 Jun 2019 18:15:40 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIFdhx024697;
+ Mon, 17 Jun 2019 18:15:39 GMT
 Received: from heatpipe.hsd1.ca.comcast.net (/73.170.27.202)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 11:15:28 -0700
+ with ESMTP ; Mon, 17 Jun 2019 11:15:38 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 11:15:25 -0700
-Message-Id: <20190617181525.29419-1-elena.ufimtseva@oracle.com>
+Date: Mon, 17 Jun 2019 11:15:29 -0700
+Message-Id: <20190617181529.29468-1-elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.17.1
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
@@ -72,8 +72,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  definitions=main-1906170162
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [RFC PATCH v2 07/35] multi-process: define proxy-link
- object
+Subject: [Qemu-devel] [RFC PATCH v2 08/35] multi-process: add functions to
+ synchronize proxy and remote endpoints
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,482 +93,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-Defines proxy-link object which forms the communication link between
-QEMU & emulation program.
-Adds functions to configure members of proxy-link object instance.
-Adds functions to send and receive messages over the communication
-channel.
-Adds GMainLoop to handle events received on the communication channel.
+In some cases, for example MMIO read, QEMU has to wait for the remote to
+complete a command before proceeding. An eventfd based mechanism is
+added to synchronize QEMU & remote process.
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
  Changes in v2:
- - Use default context for main loop instead of a new context;
+ - Added timeout to communication channel.
 ---
- include/glib-compat.h   |   4 +
- include/io/proxy-link.h | 136 ++++++++++++++++++++
- io/Makefile.objs        |   2 +
- io/proxy-link.c         | 275 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 417 insertions(+)
- create mode 100644 include/io/proxy-link.h
- create mode 100644 io/proxy-link.c
+ include/io/proxy-link.h |  9 +++++++++
+ io/proxy-link.c         | 42 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 51 insertions(+)
 
-diff --git a/include/glib-compat.h b/include/glib-compat.h
-index 1291628e09..6189b9a41d 100644
---- a/include/glib-compat.h
-+++ b/include/glib-compat.h
-@@ -19,12 +19,16 @@
- /* Ask for warnings for anything that was marked deprecated in
-  * the defined version, or before. It is a candidate for rewrite.
-  */
-+#ifndef GLIB_VERSION_MIN_REQUIRED
- #define GLIB_VERSION_MIN_REQUIRED GLIB_VERSION_2_40
-+#endif
- 
- /* Ask for warnings if code tries to use function that did not
-  * exist in the defined version. These risk breaking builds
-  */
-+#ifndef GLIB_VERSION_MAX_ALLOWED
- #define GLIB_VERSION_MAX_ALLOWED GLIB_VERSION_2_40
-+#endif
- 
- #pragma GCC diagnostic push
- #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
-new file mode 100644
-index 0000000000..fb266ca2a8
---- /dev/null
+index fb266ca2a8..2f1584e87d 100644
+--- a/include/io/proxy-link.h
 +++ b/include/io/proxy-link.h
-@@ -0,0 +1,136 @@
-+/*
-+ * Communication channel between QEMU and remote device process
-+ *
-+ * Copyright 2019, Oracle and/or its affiliates.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#ifndef PROXY_LINK_H
-+#define PROXY_LINK_H
-+
-+#include <stddef.h>
-+#include <stdint.h>
-+#include <glib.h>
-+#include <pthread.h>
-+
-+#include "qemu/osdep.h"
-+#include "qom/object.h"
-+#include "qemu/thread.h"
-+
-+typedef struct ProxyLinkState ProxyLinkState;
-+
-+#define TYPE_PROXY_LINK "proxy-link"
-+#define PROXY_LINK(obj) \
-+    OBJECT_CHECK(ProxyLinkState, (obj), TYPE_PROXY_LINK)
-+
-+#define REMOTE_MAX_FDS 8
-+
-+#define PROC_HDR_SIZE offsetof(ProcMsg, data1.u64)
-+
-+/*
-+ * proc_cmd_t enum type to specify the command to be executed on the remote
-+ * device
-+ *
-+ * Following commands are supported:
-+ * CONF_READ        PCI config. space read
-+ * CONF_WRITE       PCI config. space write
-+ *
-+ */
-+typedef enum {
-+    INIT = 0,
-+    CONF_READ,
-+    CONF_WRITE,
-+    MAX,
-+} proc_cmd_t;
-+
-+/*
-+ * ProcMsg Format of the message sent to the remote device from QEMU
-+ *
-+ * cmd         The remote command
-+ * bytestream  Indicates if the data to be shared is structured (data1)
-+ *             or unstructured (data2)
-+ * size        Size of the data to be shared
-+ * data1       Structured data
-+ * fds         File descriptors to be shared with remote device
-+ * data2       Unstructured data
-+ *
-+ */
-+typedef struct {
-+    proc_cmd_t cmd;
-+    int bytestream;
-+    size_t size;
-+
-+    union {
-+        uint64_t u64;
-+    } data1;
-+
-+    int fds[REMOTE_MAX_FDS];
-+    int num_fds;
-+
-+    uint8_t *data2;
-+} ProcMsg;
-+
-+struct conf_data_msg {
-+    uint32_t addr;
-+    uint32_t val;
-+    int l;
-+};
-+
-+typedef void (*proxy_link_callback)(GIOCondition cond);
-+
-+typedef struct ProxySrc {
-+    GSource gsrc;
-+    GPollFD gpfd;
-+} ProxySrc;
-+
-+/*
-+ * ProxyLinkState Instance info. of the communication
-+ * link between QEMU and remote process
-+ *
-+ * ctx        GMainContext to be used for communication
-+ * loop       Main loop that would be used to poll for incoming data
-+ * src        Source fds to poll on, and which events to poll on
-+ * sock       Unix socket used for the link
-+ * lock       Lock to synchronize access to the link
-+ *
-+ */
-+struct ProxyLinkState {
-+    Object obj;
-+
-+    GMainContext *ctx;
-+    GMainLoop *loop;
-+    ProxySrc *src;
-+
-+    int sock;
-+    QemuMutex lock;
-+
-+    proxy_link_callback callback;
-+};
-+
-+ProxyLinkState *proxy_link_create(void);
-+void proxy_link_finalize(ProxyLinkState *s);
-+
-+void proxy_proc_send(ProxyLinkState *s, ProcMsg *msg);
-+int proxy_proc_recv(ProxyLinkState *s, ProcMsg *msg);
-+void proxy_link_set_sock(ProxyLinkState *s, int fd);
-+void proxy_link_set_callback(ProxyLinkState *s, proxy_link_callback callback);
-+void start_handler(ProxyLinkState *s);
-+
-+#endif
-diff --git a/io/Makefile.objs b/io/Makefile.objs
-index 9a20fce4ed..ff88b46c90 100644
---- a/io/Makefile.objs
-+++ b/io/Makefile.objs
-@@ -10,3 +10,5 @@ io-obj-y += channel-util.o
- io-obj-y += dns-resolver.o
- io-obj-y += net-listener.o
- io-obj-y += task.o
-+
-+io-obj-$(CONFIG_MPQEMU) += proxy-link.o
-diff --git a/io/proxy-link.c b/io/proxy-link.c
-new file mode 100644
-index 0000000000..75e0bb5e27
---- /dev/null
-+++ b/io/proxy-link.c
-@@ -0,0 +1,275 @@
-+/*
-+ * Communication channel between QEMU and remote device process
-+ *
-+ * Copyright 2019, Oracle and/or its affiliates.
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include <assert.h>
-+#include <errno.h>
-+#include <pthread.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <sys/types.h>
-+#include <sys/socket.h>
-+#include <sys/un.h>
+@@ -28,7 +28,9 @@
+ #include <stddef.h>
+ #include <stdint.h>
+ #include <glib.h>
 +#include <unistd.h>
+ #include <pthread.h>
++#include <sys/eventfd.h>
+ 
+ #include "qemu/osdep.h"
+ #include "qom/object.h"
+@@ -124,11 +126,18 @@ struct ProxyLinkState {
+     proxy_link_callback callback;
+ };
+ 
++#define GET_REMOTE_WAIT eventfd(0, 0)
++#define PUT_REMOTE_WAIT(wait) close(wait)
++#define PROXY_LINK_WAIT_DONE 1
 +
-+#include "qemu/module.h"
-+#include "io/proxy-link.h"
-+#include "qemu/log.h"
+ ProxyLinkState *proxy_link_create(void);
+ void proxy_link_finalize(ProxyLinkState *s);
+ 
+ void proxy_proc_send(ProxyLinkState *s, ProcMsg *msg);
+ int proxy_proc_recv(ProxyLinkState *s, ProcMsg *msg);
++uint64_t wait_for_remote(int efd);
++void notify_proxy(int fd, uint64_t val);
 +
-+static void proxy_link_inst_init(Object *obj)
+ void proxy_link_set_sock(ProxyLinkState *s, int fd);
+ void proxy_link_set_callback(ProxyLinkState *s, proxy_link_callback callback);
+ void start_handler(ProxyLinkState *s);
+diff --git a/io/proxy-link.c b/io/proxy-link.c
+index 75e0bb5e27..9bda646f39 100644
+--- a/io/proxy-link.c
++++ b/io/proxy-link.c
+@@ -31,6 +31,8 @@
+ #include <sys/socket.h>
+ #include <sys/un.h>
+ #include <unistd.h>
++#include <limits.h>
++#include <poll.h>
+ 
+ #include "qemu/module.h"
+ #include "io/proxy-link.h"
+@@ -210,6 +212,46 @@ int proxy_proc_recv(ProxyLinkState *s, ProcMsg *msg)
+     return rc;
+ }
+ 
++uint64_t wait_for_remote(int efd)
 +{
-+    ProxyLinkState *s = PROXY_LINK(obj);
++    struct pollfd pfd = { .fd = efd, .events = POLLIN };
++    uint64_t val;
++    int ret;
 +
-+    qemu_mutex_init(&s->lock);
++    ret = poll(&pfd, 1, 1000);
 +
-+    s->sock = STDIN_FILENO;
-+    s->ctx = g_main_context_default();
-+    s->loop = g_main_loop_new(s->ctx, FALSE);
-+}
-+
-+static const TypeInfo proxy_link_info = {
-+    .name = TYPE_PROXY_LINK,
-+    .parent = TYPE_OBJECT,
-+    .instance_size = sizeof(ProxyLinkState),
-+    .instance_init = proxy_link_inst_init,
-+};
-+
-+static void proxy_link_register_types(void)
-+{
-+    type_register_static(&proxy_link_info);
-+}
-+
-+type_init(proxy_link_register_types)
-+
-+ProxyLinkState *proxy_link_create(void)
-+{
-+    return PROXY_LINK(object_new(TYPE_PROXY_LINK));
-+}
-+
-+void proxy_link_finalize(ProxyLinkState *s)
-+{
-+    g_source_unref(&s->src->gsrc);
-+    g_main_loop_unref(s->loop);
-+    g_main_context_unref(s->ctx);
-+    g_main_loop_quit(s->loop);
-+
-+    close(s->sock);
-+
-+    qemu_mutex_destroy(&s->lock);
-+
-+    object_unref(OBJECT(s));
-+}
-+
-+void proxy_proc_send(ProxyLinkState *s, ProcMsg *msg)
-+{
-+    int rc;
-+    uint8_t *data;
-+    char control[CMSG_SPACE(REMOTE_MAX_FDS * sizeof(int))] = { };
-+    struct msghdr hdr;
-+    struct cmsghdr *chdr;
-+
-+    struct iovec iov = {
-+        .iov_base = (char *) msg,
-+        .iov_len = PROC_HDR_SIZE,
-+    };
-+
-+    memset(&hdr, 0, sizeof(hdr));
-+    memset(control, 0, sizeof(control));
-+
-+    hdr.msg_iov = &iov;
-+    hdr.msg_iovlen = 1;
-+
-+    if (msg->num_fds > REMOTE_MAX_FDS) {
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "%s: Max FDs exceeded\n", __func__);
-+        return;
-+    }
-+
-+    if (msg->num_fds > 0) {
-+        size_t fdsize = msg->num_fds * sizeof(int);
-+
-+        hdr.msg_control = control;
-+        hdr.msg_controllen = sizeof(control);
-+
-+        chdr = CMSG_FIRSTHDR(&hdr);
-+        chdr->cmsg_len = CMSG_LEN(fdsize);
-+        chdr->cmsg_level = SOL_SOCKET;
-+        chdr->cmsg_type = SCM_RIGHTS;
-+        memcpy(CMSG_DATA(chdr), msg->fds, fdsize);
-+        hdr.msg_controllen = chdr->cmsg_len;
-+    }
-+
-+    qemu_mutex_lock(&s->lock);
-+
-+    do {
-+        rc = sendmsg(s->sock, &hdr, 0);
-+    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
-+
-+    if (rc < 0) {
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "%s - sendmsg rc is %d, errno is %d,"
-+                      " sock %d\n", __func__, rc, errno, s->sock);
-+        qemu_mutex_unlock(&s->lock);
-+        return;
-+    }
-+
-+    if (msg->bytestream) {
-+        data = msg->data2;
-+    } else {
-+        data = (uint8_t *)msg + PROC_HDR_SIZE;
-+    }
-+
-+    do {
-+        rc = write(s->sock, data, msg->size);
-+    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
-+
-+    qemu_mutex_unlock(&s->lock);
-+}
-+
-+
-+int proxy_proc_recv(ProxyLinkState *s, ProcMsg *msg)
-+{
-+    int rc;
-+    uint8_t *data;
-+    char control[CMSG_SPACE(REMOTE_MAX_FDS * sizeof(int))] = { };
-+    struct msghdr hdr;
-+    struct cmsghdr *chdr;
-+    size_t fdsize;
-+
-+    struct iovec iov = {
-+        .iov_base = (char *) msg,
-+        .iov_len = PROC_HDR_SIZE,
-+    };
-+
-+    memset(&hdr, 0, sizeof(hdr));
-+    memset(control, 0, sizeof(control));
-+
-+    hdr.msg_iov = &iov;
-+    hdr.msg_iovlen = 1;
-+    hdr.msg_control = control;
-+    hdr.msg_controllen = sizeof(control);
-+
-+    qemu_mutex_lock(&s->lock);
-+
-+    do {
-+        rc = recvmsg(s->sock, &hdr, 0);
-+    } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
-+
-+    if (rc < 0) {
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "%s - recvmsg rc is %d, errno is %d,"
-+                      " sock %d\n", __func__, rc, errno, s->sock);
-+        qemu_mutex_unlock(&s->lock);
-+        return rc;
-+    }
-+
-+    msg->num_fds = 0;
-+    for (chdr = CMSG_FIRSTHDR(&hdr); chdr != NULL;
-+         chdr = CMSG_NXTHDR(&hdr, chdr)) {
-+        if ((chdr->cmsg_level == SOL_SOCKET) &&
-+            (chdr->cmsg_type == SCM_RIGHTS)) {
-+            fdsize = chdr->cmsg_len - CMSG_LEN(0);
-+            msg->num_fds = fdsize / sizeof(int);
-+            memcpy(msg->fds, CMSG_DATA(chdr), fdsize);
-+            break;
++    switch (ret) {
++    case 0:
++        qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: Timed out\n");
++        /* TODO: Kick-off error recovery */
++        return ULLONG_MAX;
++    case -1:
++        qemu_log_mask(LOG_REMOTE_DEBUG, "Poll error wait_for_remote: %s\n",
++                      strerror(errno));
++        return ULLONG_MAX;
++    default:
++        if (read(efd, &val, sizeof(val)) == -1) {
++            qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: %s\n",
++                          strerror(errno));
++            return ULLONG_MAX;
 +        }
 +    }
 +
-+    if (msg->size && msg->bytestream) {
-+        msg->data2 = calloc(1, msg->size);
-+        data = msg->data2;
-+    } else {
-+        data = (uint8_t *)&msg->data1;
++    val = (val == ULLONG_MAX) ? val : (val - 1);
++
++    return val;
++}
++
++void notify_proxy(int efd, uint64_t val)
++{
++    val = (val == ULLONG_MAX) ? val : (val + 1);
++
++    if (write(efd, &val, sizeof(val)) == -1) {
++        qemu_log_mask(LOG_REMOTE_DEBUG, "Error notify_proxy: %s\n",
++                      strerror(errno));
 +    }
-+
-+    if (msg->size) {
-+        do {
-+            rc = read(s->sock, data, msg->size);
-+        } while (rc < 0 && (errno == EINTR || errno == EAGAIN));
-+    }
-+
-+    qemu_mutex_unlock(&s->lock);
-+
-+    return rc;
 +}
 +
-+static gboolean proxy_link_handler_prepare(GSource *gsrc, gint *timeout)
-+{
-+    g_assert(timeout);
-+
-+    *timeout = -1;
-+
-+    return FALSE;
-+}
-+
-+static gboolean proxy_link_handler_check(GSource *gsrc)
-+{
-+    ProxySrc *src = (ProxySrc *)gsrc;
-+
-+    return src->gpfd.events & src->gpfd.revents;
-+}
-+
-+static gboolean proxy_link_handler_dispatch(GSource *gsrc, GSourceFunc func,
-+                                            gpointer data)
-+{
-+    ProxySrc *src = (ProxySrc *)gsrc;
-+    ProxyLinkState *s = (ProxyLinkState *)data;
-+
-+    s->callback(src->gpfd.revents);
-+
-+    if ((src->gpfd.revents & G_IO_HUP) || (src->gpfd.revents & G_IO_ERR)) {
-+        return G_SOURCE_REMOVE;
-+    }
-+
-+    return G_SOURCE_CONTINUE;
-+}
-+
-+void proxy_link_set_sock(ProxyLinkState *s, int fd)
-+{
-+    s->sock = fd;
-+}
-+
-+void proxy_link_set_callback(ProxyLinkState *s, proxy_link_callback callback)
-+{
-+    s->callback = callback;
-+}
-+
-+void start_handler(ProxyLinkState *s)
-+{
-+    GSourceFuncs gsrc_funcs = (GSourceFuncs){
-+        .prepare = proxy_link_handler_prepare,
-+        .check = proxy_link_handler_check,
-+        .dispatch = proxy_link_handler_dispatch,
-+        .finalize = NULL,
-+    };
-+    ProxySrc *src = (ProxySrc *)g_source_new(&gsrc_funcs, sizeof(ProxySrc));
-+    guint id;
-+
-+    g_source_set_callback(&src->gsrc, NULL, (gpointer)s, NULL);
-+
-+    src->gpfd.fd = s->sock;
-+    src->gpfd.events = G_IO_IN | G_IO_HUP | G_IO_ERR;
-+    g_source_add_poll(&src->gsrc, &src->gpfd);
-+    id = g_source_attach(&src->gsrc, s->ctx);
-+    g_assert(id);
-+    s->src = src;
-+
-+    g_main_loop_run(s->loop);
-+}
+ static gboolean proxy_link_handler_prepare(GSource *gsrc, gint *timeout)
+ {
+     g_assert(timeout);
 -- 
 2.17.1
 
