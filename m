@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E409B48AAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:41:41 +0200 (CEST)
-Received: from localhost ([::1]:50506 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4270489F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:23:27 +0200 (CEST)
+Received: from localhost ([::1]:50174 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvdU-0007cC-Pw
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:41:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41976)
+	id 1hcvLr-0001mW-0e
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41261)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hcvKD-0000wC-4X
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:21:47 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1hcvI2-0006he-Rq
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:19:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hcvKB-0003Yh-NB
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:21:45 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:36761)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hcvK6-0003P9-K4; Mon, 17 Jun 2019 13:21:39 -0400
-Received: by mail-lf1-x141.google.com with SMTP id q26so7117563lfc.3;
- Mon, 17 Jun 2019 10:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=UvEXy6R2Oa0rw1CPw6Eg9Azivk9jG3zrLJWOzgsj+sI=;
- b=q7Cm14UcndjBBBGQs1VXcwRC8FOqZfvLoKvafiy+9Istjldw3CdnWgzwRiLLcMDfA8
- k8WUdnUIMEsPR2rzBKY0yc5fFokRib8UpISVqE77ise2Omj9bf3NWtJnSxAop3vgxUlz
- wTWOg/neRdw0uhxTI2SgqvvHL8A/KQfvPFoCGTe7mJQ2kynMmOmEz6ZIO+PEgCTfNUOG
- Kz7/l56cS1tgHSHXg+bLNFBLIBb1khW/YwR74e8SlxVjC1MMLJMG6eNwjSgEhbtDSEuh
- P3VxC+yG3fiUR3vOSXAJk4f4OcMIgfrVCLx8FoAsmI4h5ZOTi5XXfPXkJeiIDSqPgtiu
- 6TVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UvEXy6R2Oa0rw1CPw6Eg9Azivk9jG3zrLJWOzgsj+sI=;
- b=U3UPb7Loz81y7inNPsw/g4RVtzjXrSTtpaLcZExxeCcwsLsB/WhQxR4hydmkaKoU8N
- y9KFhdj0b93jydPOdO2kFHb1cEV70bOJWe7efAXYnvSygt/ZrVM0iA6+au2XxXtiCIn6
- bjrAXApQq5ctzX/2Rfu+n+3eBp9DSMcYTS/8eCALrYJryA+i05POllADrXFdsENybqI5
- GSMJWsi3Djs4DGgNTQuI7xDcbjQ/er095sHs3EQhaW9fwTPhg+cau39mkjiLywfgtdO5
- IN473E+2IpiS9n248qbZ1DZ7yE98oH8SlVxcXUtrMkjWRUKaacycXE7PpWFPzzr4NbSl
- pKyw==
-X-Gm-Message-State: APjAAAVRwkba3Scb+dOxeOYw74urNQiT589cZyO2WDkYXapOP+mazzKG
- cZ6DDAo3hy1ggDBMyNULW30PPQHYbkKkMdBimFE=
-X-Google-Smtp-Source: APXvYqxzBbqiKphbJeBOyYKPL0V+OWiDjyEQraqhUILNDPVMtsIu9zFAriFzm9tMU7ZeEwX6hShWA0M0pOxZiy8xgfw=
-X-Received: by 2002:a19:4c05:: with SMTP id z5mr46726034lfa.5.1560792096478;
- Mon, 17 Jun 2019 10:21:36 -0700 (PDT)
+ (envelope-from <anthony.perard@citrix.com>) id 1hcvI1-00015o-Ti
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:19:30 -0400
+Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:2973)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1hcvHv-0000qu-SP
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:19:26 -0400
+Authentication-Results: esa4.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: pdHl06SAmh40e4I4kyBj3BraFvL7Tdl2QadbR3LDgbxR9gMZ6HHuKt7YBEHje8h76QnhRzVIch
+ jqB5vZ+CHHra0ZZFh/o55KaEyn0v/ZDzWbcXCvjpkFR2wUfRZ1qTCJkTDhd0NzsCNpcSWJvc5Q
+ OZ3inPbSoX5gEKVoUXLMLnWSVl+9hTRUsPP5PgQSCl22azgPAF7liH0EdD7Xl45aTJCHgAYat3
+ 4tbWBQ5CcoqEdLa8d/w5slsn+no973lp8JFvc3HoAYoOkJgxfVqT5HXd6i5524x9aGKv/MvCku
+ LVM=
+X-SBRS: 2.7
+X-MesageID: 1852643
+X-Ironport-Server: esa4.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.63,386,1557201600"; 
+   d="scan'208";a="1852643"
+Date: Mon, 17 Jun 2019 18:19:13 +0100
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: Paul Durrant <Paul.Durrant@citrix.com>
+Message-ID: <20190617171913.GA15926@perard.uk.xensource.com>
+References: <20190617154105.32323-1-anthony.perard@citrix.com>
+ <20190617154105.32323-4-anthony.perard@citrix.com>
+ <21258fd1788f418bb1a0007a43bf0250@AMSPEX02CL03.citrite.net>
+ <20190617164544.GA13449@perard.uk.xensource.com>
 MIME-Version: 1.0
-References: <13fe08a2-c89c-b015-3799-067e0f04bfd3@redhat.com>
- <mhng-fb0f4eaf-5e38-4e66-958a-9942273b48c3@palmer-si-x1e>
-In-Reply-To: <mhng-fb0f4eaf-5e38-4e66-958a-9942273b48c3@palmer-si-x1e>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 17 Jun 2019 10:18:49 -0700
-Message-ID: <CAKmqyKPCXy3_YMuXmhYpoGvay4m5BpsOrs4VtFF9cU9gL-bedg@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::141
-Subject: Re: [Qemu-devel] [PATCH] RISC-V: Fix a memory leak when realizing a
- sifive_e
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190617164544.GA13449@perard.uk.xensource.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.155.144
+Subject: Re: [Qemu-devel] [Xen-devel] [PATCH 3/4] xen: Import Xen public
+ headers used by xen-hvm.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,110 +91,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 16, 2019 at 1:15 AM Palmer Dabbelt <palmer@sifive.com> wrote:
->
-> On Fri, 14 Jun 2019 05:25:50 PDT (-0700), philmd@redhat.com wrote:
-> > On 6/14/19 2:08 PM, Palmer Dabbelt wrote:
-> >> Coverity pointed out a memory leak in riscv_sifive_e_soc_realize(),
-> >> where a pair of recently added MemoryRegion instances would not be fre=
-ed
-> >> if there were errors elsewhere in the function.  The fix here is to
-> >> simply not use dynamic allocation for these instances: there's always
-> >> one of each in SiFiveESoCState, so instead we just include them within
-> >> the struct.
-> >>
-> >> Thanks to Peter for pointing out the bug and suggesting the fix!
-> >
-> > a.k.a. Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> >
-> > Maybe the thanks can go below the '---' tag, so it doesn't stay in the
-> > git history.
->
-> Works for me.
+On Mon, Jun 17, 2019 at 05:45:44PM +0100, Anthony PERARD wrote:
+> On Mon, Jun 17, 2019 at 05:15:51PM +0100, Paul Durrant wrote:
+> > AFAICT the only place (apart from legacy code in xen_common.h) that
+> > params.h is necessary is in xen_suspend_notifier(). I wonder whether
+> > that would be better moved into xen_common.h too (since it's just a
+> > wrapper round xc_set_hvm_param() and then the inclusion of params.h
+> > can be moved there as well.
+> 
+> :(, I didn't realised that xen_common.h needed params.h too. That patch
+> series might not build on older version of Xen. I'll move the inclusion
+> of params.h to xen_common.h, and fix params.h to have all the needed
+> #defines.
 
-With the updated Suggested-by line:
+Actually, it works fine without including hvm/params.h in xen_common.h
+because xen_common.h includes xenctrl.h which includes hvm/params.h.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+So I think instead I'll remove all includes of params.h, because
+HVM_PARAM_* are parameters for xc_hvm_param_{get,set}, which is in a
+library and not an interface with a guest. Including xenctrl.h should be
+enough.
 
-Alistair
-
->
-> >
-> >>
-> >> Fixes: 30efbf330a45 ("SiFive RISC-V GPIO Device")
-> >> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-> >
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->
-> Thanks!
->
-> >
-> >> ---
-> >>  hw/riscv/sifive_e.c         | 12 +++++-------
-> >>  include/hw/riscv/sifive_e.h |  2 ++
-> >>  2 files changed, 7 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> >> index 80ac56fa7d5e..83375afcd1d6 100644
-> >> --- a/hw/riscv/sifive_e.c
-> >> +++ b/hw/riscv/sifive_e.c
-> >> @@ -158,17 +158,15 @@ static void riscv_sifive_e_soc_realize(DeviceSta=
-te *dev, Error **errp)
-> >>
-> >>      SiFiveESoCState *s =3D RISCV_E_SOC(dev);
-> >>      MemoryRegion *sys_mem =3D get_system_memory();
-> >> -    MemoryRegion *xip_mem =3D g_new(MemoryRegion, 1);
-> >> -    MemoryRegion *mask_rom =3D g_new(MemoryRegion, 1);
-> >>
-> >>      object_property_set_bool(OBJECT(&s->cpus), true, "realized",
-> >>                              &error_abort);
-> >>
-> >>      /* Mask ROM */
-> >> -    memory_region_init_rom(mask_rom, NULL, "riscv.sifive.e.mrom",
-> >> +    memory_region_init_rom(&s->mask_rom, NULL, "riscv.sifive.e.mrom",
-> >>          memmap[SIFIVE_E_MROM].size, &error_fatal);
-> >>      memory_region_add_subregion(sys_mem,
-> >> -        memmap[SIFIVE_E_MROM].base, mask_rom);
-> >> +        memmap[SIFIVE_E_MROM].base, &s->mask_rom);
-> >>
-> >>      /* MMIO */
-> >>      s->plic =3D sifive_plic_create(memmap[SIFIVE_E_PLIC].base,
-> >> @@ -228,10 +226,10 @@ static void riscv_sifive_e_soc_realize(DeviceSta=
-te *dev, Error **errp)
-> >>          memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
-> >>
-> >>      /* Flash memory */
-> >> -    memory_region_init_ram(xip_mem, NULL, "riscv.sifive.e.xip",
-> >> +    memory_region_init_ram(&s->xip_mem, NULL, "riscv.sifive.e.xip",
-> >>          memmap[SIFIVE_E_XIP].size, &error_fatal);
-> >> -    memory_region_set_readonly(xip_mem, true);
-> >> -    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base, x=
-ip_mem);
-> >> +    memory_region_set_readonly(&s->xip_mem, true);
-> >> +    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base, &=
-s->xip_mem);
-> >>  }
-> >>
-> >>  static void riscv_sifive_e_machine_init(MachineClass *mc)
-> >> diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-> >> index 3b14eb74621f..d175b24cb209 100644
-> >> --- a/include/hw/riscv/sifive_e.h
-> >> +++ b/include/hw/riscv/sifive_e.h
-> >> @@ -33,6 +33,8 @@ typedef struct SiFiveESoCState {
-> >>      RISCVHartArrayState cpus;
-> >>      DeviceState *plic;
-> >>      SIFIVEGPIOState gpio;
-> >> +    MemoryRegion xip_mem;
-> >> +    MemoryRegion mask_rom;
-> >>  } SiFiveESoCState;
-> >>
-> >>  typedef struct SiFiveEState {
-> >>
->
+-- 
+Anthony PERARD
 
