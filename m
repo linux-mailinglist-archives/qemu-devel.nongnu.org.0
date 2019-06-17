@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7052E47986
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 06:50:39 +0200 (CEST)
-Received: from localhost ([::1]:44270 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8728C47983
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 06:48:20 +0200 (CEST)
+Received: from localhost ([::1]:44252 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcjbK-0003s4-My
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 00:50:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60401)
+	id 1hcjZ5-000156-Nr
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 00:48:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60424)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hcjQL-0001WQ-LA
+ (envelope-from <kraxel@redhat.com>) id 1hcjQM-0001XR-Di
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hcjQH-0005xw-9d
+ (envelope-from <kraxel@redhat.com>) id 1hcjQH-0005yF-Ey
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34140)
+Received: from mx1.redhat.com ([209.132.183.28]:56458)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hcjQG-0005wK-Mj
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hcjQG-0005wB-GJ
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:12 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 266B9820E9;
- Mon, 17 Jun 2019 04:39:11 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id E94473082AF2;
+ Mon, 17 Jun 2019 04:39:10 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-33.ams2.redhat.com
  [10.36.116.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9AA4101E69C;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDA71101E841;
  Mon, 17 Jun 2019 04:39:05 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1E40117473; Mon, 17 Jun 2019 06:38:59 +0200 (CEST)
+ id 26A2817474; Mon, 17 Jun 2019 06:38:59 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 06:38:54 +0200
-Message-Id: <20190617043858.8290-8-kraxel@redhat.com>
+Date: Mon, 17 Jun 2019 06:38:55 +0200
+Message-Id: <20190617043858.8290-9-kraxel@redhat.com>
 In-Reply-To: <20190617043858.8290-1-kraxel@redhat.com>
 References: <20190617043858.8290-1-kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Mon, 17 Jun 2019 04:39:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Mon, 17 Jun 2019 04:39:11 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 07/11] tests/vm: openbsd autoinstall,
+Subject: [Qemu-devel] [PATCH v4 08/11] tests/vm: freebsd autoinstall,
  using serial console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,18 +72,26 @@ iso and prepare the image locally.  Install to disk, using the serial
 console.  Create qemu user, configure ssh login.  Install packages
 needed for qemu builds.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- tests/vm/openbsd | 159 +++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 146 insertions(+), 13 deletions(-)
+Note that freebsd package downloads are delivered as non-cachable
+content, so I had to configure squid with "ignore-no-store
+ignore-private ignore-reload" for pkgmir.geo.freebsd.org to make the
+caching actually work.
 
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 2105c01a267a..b92c39f89a6f 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -2,10 +2,11 @@
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/vm/freebsd | 180 ++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 170 insertions(+), 10 deletions(-)
+
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index b0066017a617..2a19461a9098 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -2,43 +2,203 @@
  #
- # OpenBSD VM image
+ # FreeBSD VM image
  #
 -# Copyright 2017 Red Hat Inc.
 +# Copyright 2017-2019 Red Hat Inc.
@@ -91,164 +102,194 @@ index 2105c01a267a..b92c39f89a6f 100755
  #
  # This code is licensed under the GPL version 2 or later.  See
  # the COPYING file in the top-level directory.
-@@ -13,34 +14,166 @@
- 
+ #
+=20
  import os
++import re
  import sys
++import time
 +import socket
  import subprocess
  import basevm
- 
- class OpenBSDVM(basevm.BaseVM):
-     name = "openbsd"
-     arch = "x86_64"
+=20
+ class FreeBSDVM(basevm.BaseVM):
+     name =3D "freebsd"
+     arch =3D "x86_64"
 +
-+    link = "https://cdn.openbsd.org/pub/OpenBSD/6.5/amd64/install65.iso"
-+    csum = "38d1f8cadd502f1c27bf05c5abde6cc505dd28f3f34f8a941048ff9a54f9f608"
-+    size = "20G"
-+    pkgs = [
-+        # tools
++    link =3D "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.0/=
+FreeBSD-12.0-RELEASE-amd64-disc1.iso.xz"
++    csum =3D "1d40015bea89d05b8bd13e2ed80c40b522a9ec1abd8e7c8b80954fb485=
+fb99db"
++    size =3D "20G"
++    pkgs =3D [
++        # build tools
 +        "git",
 +        "pkgconf",
-+        "bzip2", "xz",
++        "bzip2",
 +
 +        # gnu tools
 +        "bash",
 +        "gmake",
 +        "gsed",
-+        "bison",
-+
-+        # libs: usb
-+        "libusb1",
++        "flex", "bison",
 +
 +        # libs: crypto
 +        "gnutls",
 +
 +        # libs: images
-+        "jpeg",
++        "jpeg-turbo",
 +        "png",
 +
-+	# libs: ui
++        # libs: ui
 +        "sdl2",
-+        "gtk+3",
++        "gtk3",
 +        "libxkbcommon",
++
++        # libs: opengl
++        "libepoxy",
++        "mesa-libs",
 +    ]
 +
-     BUILD_SCRIPT = """
+     BUILD_SCRIPT =3D """
          set -e;
 -        rm -rf /var/tmp/qemu-test.*
 -        cd $(mktemp -d /var/tmp/qemu-test.XXXXXX);
 +        rm -rf /home/qemu/qemu-test.*
 +        cd $(mktemp -d /home/qemu/qemu-test.XXXXXX);
 +        mkdir src build; cd src;
-         tar -xf /dev/rsd1c;
--        ./configure --cc=x86_64-unknown-openbsd6.1-gcc-4.9.4 --python=python2.7 {configure_opts};
--        gmake --output-sync -j{jobs} {verbose};
--        # XXX: "gmake check" seems to always hang or fail
--        #gmake --output-sync -j{jobs} check {verbose};
+         tar -xf /dev/vtbd1;
+-        ./configure {configure_opts};
 +        cd ../build
-+        ../src/configure --cc=cc --python=python3 {configure_opts};
-+        gmake --output-sync -j{jobs} {target} {verbose};
++        ../src/configure --python=3Dpython3.6 {configure_opts};
+         gmake --output-sync -j{jobs} {target} {verbose};
      """
-+    poweroff = "halt -p"
- 
+=20
++    def console_boot_serial(self):
++        self.console_wait_send("Autoboot", "3")
++        self.console_wait_send("OK", "set console=3Dcomconsole\n")
++        self.console_wait_send("OK", "boot\n")
++
      def build_image(self, img):
--        cimg = self._download_with_cache("http://download.patchew.org/openbsd-6.1-amd64.img.xz",
--                sha256sum='8c6cedc483e602cfee5e04f0406c64eb99138495e8ca580bc0293bcf0640c1bf')
--        img_tmp_xz = img + ".tmp.xz"
+-        cimg =3D self._download_with_cache("http://download.patchew.org/=
+freebsd-11.1-amd64.img.xz",
+-                sha256sum=3D'adcb771549b37bc63826c501f05121a206ed3d9f55f=
+49145908f7e1432d65891')
+-        img_tmp_xz =3D img + ".tmp.xz"
 +        self.print_step("Downloading install iso")
-+        cimg = self._download_with_cache(self.link, sha256sum=self.csum)
-         img_tmp = img + ".tmp"
++        cimg =3D self._download_with_cache(self.link, sha256sum=3Dself.c=
+sum)
+         img_tmp =3D img + ".tmp"
 -        sys.stderr.write("Extracting the image...\n")
 -        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
 -        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
-+        iso = img + ".install.iso"
++        iso =3D img + ".install.iso"
++        iso_xz =3D iso + ".xz"
 +
 +        self.print_step("Preparing iso and disk image")
-+        subprocess.check_call(["cp", "-f", cimg, iso])
++        subprocess.check_call(["cp", "-f", cimg, iso_xz])
++        subprocess.check_call(["xz", "-dvf", iso_xz])
 +        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
 +                               img_tmp, self.size])
 +
 +        self.print_step("Booting installer")
-+        self.boot(img_tmp, extra_args = [
++        self.boot(img_tmp, extra_args =3D [
 +            "-bios", "pc-bios/bios-256k.bin",
-+            "-machine", "graphics=off",
++            "-machine", "graphics=3Doff",
 +            "-cdrom", iso
 +        ])
 +        self.console_init()
-+        self.console_wait_send("boot>", "set tty com0\n")
-+        self.console_wait_send("boot>", "\n")
++        self.console_boot_serial()
++        self.console_wait_send("Console type",          "xterm\n")
 +
 +        # pre-install configuration
-+        self.console_wait_send("(I)nstall",               "i\n")
-+        self.console_wait_send("Terminal type",           "xterm\n")
-+        self.console_wait_send("System hostname",         "openbsd\n")
-+        self.console_wait_send("Which network interface", "vio0\n")
-+        self.console_wait_send("IPv4 address",            "dhcp\n")
-+        self.console_wait_send("IPv6 address",            "none\n")
-+        self.console_wait_send("Which network interface", "done\n")
-+        self.console_wait_send("DNS domain name",         "localnet\n")
-+        self.console_wait("Password for root account")
-+        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_wait("Password for root account")
-+        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_wait_send("Start sshd(8)",           "yes\n")
-+        self.console_wait_send("X Window System",         "\n")
-+        self.console_wait_send("xenodm",                  "\n")
-+        self.console_wait_send("console to com0",         "\n")
-+        self.console_wait_send("Which speed",             "\n")
++        self.console_wait_send("Welcome",               "\n")
++        self.console_wait_send("Keymap Selection",      "\n")
++        self.console_wait_send("Set Hostname",          "freebsd\n")
++        self.console_wait_send("Distribution Select",   "\n")
++        self.console_wait_send("Partitioning",          "\n")
++        self.console_wait_send("Partition",             "\n")
++        self.console_wait_send("Scheme",                "\n")
++        self.console_wait_send("Editor",                "f")
++        self.console_wait_send("Confirmation",          "c")
 +
-+        self.console_wait("Setup a user")
++        self.print_step("Installation started now, this will take a whil=
+e")
++
++        # post-install configuration
++        self.console_wait("New Password:")
++        self.console_send("%s\n" % self.ROOT_PASS)
++        self.console_wait("Retype New Password:")
++        self.console_send("%s\n" % self.ROOT_PASS)
++
++        self.console_wait_send("Network Configuration", "\n")
++        self.console_wait_send("IPv4",                  "y")
++        self.console_wait_send("DHCP",                  "y")
++        self.console_wait_send("IPv6",                  "n")
++        self.console_wait_send("Resolver",              "\n")
++
++        self.console_wait_send("Time Zone Selector",    "a\n")
++        self.console_wait_send("Confirmation",          "y")
++        self.console_wait_send("Time & Date",           "\n")
++        self.console_wait_send("Time & Date",           "\n")
++
++        self.console_wait_send("System Configuration",  "\n")
++        self.console_wait_send("System Hardening",      "\n")
++
++        # qemu user
++        self.console_wait_send("Add User Accounts", "y")
++        self.console_wait("Username")
 +        self.console_send("%s\n" % self.GUEST_USER)
 +        self.console_wait("Full name")
 +        self.console_send("%s\n" % self.GUEST_USER)
-+        self.console_wait("Password")
++        self.console_wait_send("Uid",                   "\n")
++        self.console_wait_send("Login group",           "\n")
++        self.console_wait_send("Login group",           "\n")
++        self.console_wait_send("Login class",           "\n")
++        self.console_wait_send("Shell",                 "\n")
++        self.console_wait_send("Home directory",        "\n")
++        self.console_wait_send("Home directory perm",   "\n")
++        self.console_wait_send("Use password",          "\n")
++        self.console_wait_send("Use an empty password", "\n")
++        self.console_wait_send("Use a random password", "\n")
++        self.console_wait("Enter password:")
 +        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_wait("Password")
++        self.console_wait("Enter password again:")
 +        self.console_send("%s\n" % self.GUEST_PASS)
++        self.console_wait_send("Lock out",              "\n")
++        self.console_wait_send("OK",                    "yes\n")
++        self.console_wait_send("Add another user",      "no\n")
 +
-+        self.console_wait_send("Allow root ssh login",    "yes\n")
-+        self.console_wait_send("timezone",                "UTC\n")
-+        self.console_wait_send("root disk",               "\n")
-+        self.console_wait_send("(W)hole disk",            "\n")
-+        self.console_wait_send("(A)uto layout",           "\n")
-+        self.console_wait_send("Location of sets",        "cd0\n")
-+        self.console_wait_send("Pathname to the sets",    "\n")
-+        self.console_wait_send("Set name(s)",             "\n")
-+        self.console_wait_send("without verification",    "yes\n")
++        self.console_wait_send("Final Configuration",   "\n")
++        self.console_wait_send("Manual Configuration",  "\n")
++        self.console_wait_send("Complete",              "\n")
 +
-+        self.print_step("Installation started now, this will take a while")
-+        self.console_wait_send("Location of sets",        "done\n")
-+
-+        self.console_wait("successfully completed")
 +        self.print_step("Installation finished, rebooting")
-+        self.console_wait_send("(R)eboot",                "reboot\n")
++        self.console_boot_serial()
 +
 +        # setup qemu user
-+        prompt = "$"
++        prompt =3D "$"
 +        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
 +        self.console_wait_send(prompt, "exit\n")
 +
 +        # setup root user
-+        prompt = "openbsd#"
++        prompt =3D "root@freebsd:~ #"
 +        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
 +        self.console_sshd_config(prompt)
 +
++        # setup serial console
++        self.console_wait(prompt)
++        self.console_send("echo 'console=3Dcomconsole' >> /boot/loader.c=
+onf\n")
++
++        # setup boot delay
++        self.console_wait(prompt)
++        self.console_send("echo 'autoboot_delay=3D1' >> /boot/loader.con=
+f\n")
++
 +        # setup virtio-blk #1 (tarfile)
 +        self.console_wait(prompt)
-+        self.console_send("echo 'chmod 666 /dev/rsd1c' >> /etc/rc.local\n")
-+
-+        # enable w+x for /home
-+        self.console_wait(prompt)
-+        self.console_send("sed -i -e '/home/s/rw,/rw,wxallowed,/' /etc/fstab\n")
-+
-+        # tweak datasize limit
-+        self.console_wait(prompt)
-+        self.console_send("sed -i -e 's/\\(datasize[^=]*\\)=[^:]*/\\1=infinity/' /etc/login.conf\n")
-+
-+        # use http (be proxy cache friendly)
-+        self.console_wait(prompt)
-+        self.console_send("sed -i -e 's/https/http/' /etc/installurl\n")
++        self.console_send("echo 'chmod 666 /dev/vtbd1' >> /etc/rc.local\=
+n")
 +
 +        self.print_step("Configuration finished, rebooting")
 +        self.console_wait_send(prompt, "reboot\n")
@@ -256,10 +297,11 @@ index 2105c01a267a..b92c39f89a6f 100755
 +        self.wait_ssh()
 +
 +        self.print_step("Installing packages")
-+        self.ssh_root_check("pkg_add %s\n" % " ".join(self.pkgs))
++        self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
 +
 +        # shutdown
 +        self.ssh_root(self.poweroff)
++        self.console_wait("Uptime:")
 +        self.wait()
 +
          if os.path.exists(img):
@@ -267,10 +309,10 @@ index 2105c01a267a..b92c39f89a6f 100755
          os.rename(img_tmp, img)
 +        os.remove(iso)
 +        self.print_step("All done")
- 
- if __name__ == "__main__":
-     sys.exit(basevm.main(OpenBSDVM))
--- 
+=20
+ if __name__ =3D=3D "__main__":
+     sys.exit(basevm.main(FreeBSDVM))
+--=20
 2.18.1
 
 
