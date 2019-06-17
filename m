@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDFB34896E
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:57:16 +0200 (CEST)
-Received: from localhost ([::1]:49738 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7039C48952
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:50:05 +0200 (CEST)
+Received: from localhost ([::1]:49504 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcuwV-000386-Ju
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45527)
+	id 1hcupX-0003a3-SK
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46233)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hcu9n-0007pJ-C1
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:06:56 -0400
+ (envelope-from <philmd@redhat.com>) id 1hcuC4-000201-QK
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:09:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hcu9f-0001jt-Mi
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:06:50 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46265)
+ (envelope-from <philmd@redhat.com>) id 1hcuC2-0003nN-Oq
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:09:16 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37445)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hcu9X-0001dS-Cp
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:06:41 -0400
-Received: by mail-pg1-x543.google.com with SMTP id v9so6052806pgr.13
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HZc0ugJ4In0YcPCol7qHxJ1iBTe+z3wZFv5qxvYmNAk=;
- b=poOxT+SGMQQQT/oZL0Wok0tdkcGyW+LrhAJbrcjHc68Dn0KCNHjLggLHFqVnZboA8A
- RNLaEbRbNaFkc74sfU152VI58B2O/Lfi3Prz3CjsmeseMZNv7gWwTuKcAEzq/E6nrbUu
- bI12pIMtAoRRXOQ8MVyrhsFuHHr2SVVJfsXgzSscvQP8f+K5pM8B/RHY03cJSYyEiJO/
- 7JGLgpWPBeKCE9MPMRZ+SVTjm6/87+4Exu3vdbv4bSnT6OWLGRZLxfGsHC3BUJcsZuCh
- NPdgGqX3nT+mD5khppQc3Lbo90bHNsFvpEK//qitI8isECcwLGVkGAr+WI2zaN5rpPlx
- AKyA==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hcuBw-0003hi-UN
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:09:11 -0400
+Received: by mail-wr1-f66.google.com with SMTP id v14so10612718wrr.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:09:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HZc0ugJ4In0YcPCol7qHxJ1iBTe+z3wZFv5qxvYmNAk=;
- b=i5mLZdRJs0bbE6FOJ1FH06CF0hCdHWFuyP9DHMlabcEIJqS6M15yYwcV36i52n+FvX
- JABNCSAWpswiwerjONXZk3D5bwLUa51HDDzEUihPCgEX6O6Tw5qxpp89LtPxW53VMZEX
- /tWC5dNlkkhu3Mv5PgTUXJgXfHGKGpRlr3Iwx/+s7c1WkUgqZO6MiAQDXzLzKU/5rfGZ
- nptOspsdujZvpl9Qz1IWKWdBKPF5Z39/iq1Gwe0yWBHyzwkcLgjpsQVgTXIaX4lpYiQr
- MUpBfh01Xjc10sY8E0YK6DREC9axOXXjvBo8/CwBKj2jtGHeCgBPXu+sy1kIzymrFi/N
- RYPw==
-X-Gm-Message-State: APjAAAVyh1DxhAqDAjykZK+EDjcz1ollhC5sbicw3o8rp9v6cF5H+dds
- +1ttWL4Tbxw/phvjBoBJ75jrNg75Tm4=
-X-Google-Smtp-Source: APXvYqzR5bv5StuhnO/4YX/MYcXUfecV6BtJiBwV5gSQ8yM7ar1aBsmq39HV+i9grbqxBTXWoWtvZw==
-X-Received: by 2002:a62:7552:: with SMTP id q79mr95246515pfc.71.1560787596649; 
- Mon, 17 Jun 2019 09:06:36 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-2-33.tukw.qwest.net. [97.113.2.33])
- by smtp.gmail.com with ESMTPSA id e26sm12410136pfn.94.2019.06.17.09.06.35
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 09:06:35 -0700 (PDT)
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org
-References: <20190617143533.15013-1-kbastian@mail.uni-paderborn.de>
- <20190617143533.15013-2-kbastian@mail.uni-paderborn.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <c073a437-ebe3-41ac-096d-4b20b7f9dc36@linaro.org>
-Date: Mon, 17 Jun 2019 09:06:33 -0700
+ bh=eX2LMw32zdOYCO340HHqDX4Uqxot+hgujeybt5kItSo=;
+ b=SD9OzMb1J/wHo4/CX+Ylqf1PGMAEJMB+uG4UMhufKFWAaOIjPAM8wxzi5pdCF+HYd6
+ 5KoV4uf2pTV3TiQM50AB+aPrLA9f4w7bqkR8gDMkKOSHBgWYiK6Nnb49/rWNwHqbm4Pq
+ ySAyUfAj9Tr0RJVlZbx/2+TIIfYsVDLBOu+7ufilEmjaROEOjV6sQOkVkKImzjN14rhB
+ J5dfyC+TQmerHJou7Xpk6InWB9dahHbEYi8rdZCqmkfw82zjUjb8fI2MUiTKdD/pXj2O
+ VObLaB71kGIxqbL86lPzEQQntDy1MD+gMjsVsJRGf7kktEzUzoPKjA0cFRGH7/Si8KHH
+ eCBw==
+X-Gm-Message-State: APjAAAW1j7ri3kQ8/YE3Go32mdaaPGyKmHjamdbAxzk8m8yYIFPrN8ys
+ ZvbOrVqaSGj9vVKtHZZqM2+yXQ==
+X-Google-Smtp-Source: APXvYqz+Ms3oY9Zs7rLAp3HHBId3hSOwuE1D0DxOAvrOd0I7ZBJyOr8smkDsBhayqQNsnBhr8Opt0Q==
+X-Received: by 2002:a5d:4a8d:: with SMTP id o13mr2123814wrq.350.1560787746522; 
+ Mon, 17 Jun 2019 09:09:06 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id n10sm12886690wrw.83.2019.06.17.09.09.05
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jun 2019 09:09:05 -0700 (PDT)
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20190617043858.8290-1-kraxel@redhat.com>
+ <20190617043858.8290-3-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <98658c41-4387-9cfa-92ef-522eaa0becf7@redhat.com>
+Date: Mon, 17 Jun 2019 18:09:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190617143533.15013-2-kbastian@mail.uni-paderborn.de>
+In-Reply-To: <20190617043858.8290-3-kraxel@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH 1/3] target/tricore: Use DisasContextBase
- API
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v4 02/11] tests/vm: use ssh with pty
+ unconditionally
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,22 +75,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david.brenken@efs-auto.de
+Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/19 7:35 AM, Bastian Koppelmann wrote:
-> this gets rid of the copied fields of TriCore's DisasContext and now
-> uses the shared DisasContextBase, which is necessary for the conversion
-> to translate_loop.
+On 6/17/19 6:38 AM, Gerd Hoffmann wrote:
+> Allways ask ssh to run with a pseudo terminal.
+> Not having a terminal causes problems now and then.
 > 
-> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> ---
->  target/tricore/translate.c | 98 +++++++++++++++++---------------------
->  1 file changed, 44 insertions(+), 54 deletions(-)
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> Tested-by: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+Tags from v3:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
