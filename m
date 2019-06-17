@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96FC748729
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:31:31 +0200 (CEST)
-Received: from localhost ([::1]:48498 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1747A4885C
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:08:21 +0200 (CEST)
+Received: from localhost ([::1]:48882 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hctbW-0001Hs-MY
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:31:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51689)
+	id 1hcuBA-0008Bd-8d
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:08:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51880)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hcsz9-0002bH-Tg
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:51:53 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcszc-0003Oi-Dc
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:52:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hcsz8-0003XZ-Ln
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:51:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56774)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hcsyo-0003N2-OS; Mon, 17 Jun 2019 10:51:30 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1935B356DA;
- Mon, 17 Jun 2019 14:51:28 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-99.ams2.redhat.com [10.36.117.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 263BA39BE;
- Mon, 17 Jun 2019 14:51:25 +0000 (UTC)
-Date: Mon, 17 Jun 2019 16:51:24 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Roman Kagan <rkagan@virtuozzo.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com,
- berrange@redhat.com, den@openvz.org, vsementsov@virtuozzo.com
-Message-ID: <20190617145124.GJ7397@linux.fritz.box>
-References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1560276131-683243-3-git-send-email-andrey.shinkevich@virtuozzo.com>
- <20190617111504.GC7397@linux.fritz.box>
- <20190617121855.GB32624@rkaganb.sw.ru>
- <20190617125355.GH7397@linux.fritz.box>
- <20190617132043.GE32624@rkaganb.sw.ru>
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsza-0003rM-3h
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:52:20 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:40756)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hcszZ-0003qh-Vb
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:52:18 -0400
+Received: by mail-oi1-x243.google.com with SMTP id w196so7195249oie.7
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=QJZR1Az/4V69kQygQp+9DMhkA03qEndikj3JJAFD+6U=;
+ b=lH50E6tWEvW7O1JnG0iKdOE4POA9mQil+6E4ZeO8VEzo28yuPihqSZaCblVoFNxBq4
+ 4aWpeLEAY4sqJzinvLAuyyRlpKutcArQca6TNn2EXFhTyBvK0JCwrOU3eu5j4ElXKCfM
+ LfCBrEP4zI9VBvUMMPtCTI/kZpRNnWIGu5YsYAiRLjYr00l3wY2P6ZrVhPBvnLcfDpRG
+ kpsGdjZuY81a8srfHszh2x78e479+OpWoBukJTlw03JqJ5vrMQjSoLbx/SGFLDKrgPiJ
+ JvuR4XXr0x2CztuUEbq1F0hq1kPPH29dcfEWRJLfY5rKGX71ohWn0vqNe0IqDMyZNhL3
+ TOiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QJZR1Az/4V69kQygQp+9DMhkA03qEndikj3JJAFD+6U=;
+ b=Fe21zlxZtT8lzUR0qdT3XkUEabxUKtdNXl6QmwTG/Vp9T+m4Vj+R1jCCMUza5RW+B5
+ h39Imm/k0mPcOJm1SEcDXPf6TJ2dgGlYjjbcyrLe160lKFXy3OjP0MyWVGxFj4qI6Cg2
+ Z+j46KGecuF0wJO+9zisVtWsa6a/RT3jRJzMQbxgTAN/DaGALvVn89NFF8AT2bNVuHWC
+ WaBptk220eTAklUKqX1XwKPBGYU6yWDNeO67KEDDHFbRlVzJjTBI4klw1ElZYhhQD2Vb
+ BygkDS4AEcmU3hgWSD2dNnZ1SI9jTs2Gv++If5BGyWGc8YhO/9VhqOEnSPAOVsWDpcJo
+ zILg==
+X-Gm-Message-State: APjAAAWj5a3LcfCjteweBjtJRVkd+Rp6lpwjQwgBSa+SfanAwkibWzRR
+ faMR1m5bib2BHDqeZY3aQbs22lBeLf540OnIoW31dg==
+X-Google-Smtp-Source: APXvYqyh4oqRnWa1TDP75Wpicn3TAEw4pvR4VUGNApwJUO6lZGb9WdDek4PWJFuCym4FnH1eLh6/u/6CEoqSlbRnSCY=
+X-Received: by 2002:aca:ac48:: with SMTP id v69mr10102300oie.48.1560783136786; 
+ Mon, 17 Jun 2019 07:52:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190617132043.GE32624@rkaganb.sw.ru>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 17 Jun 2019 14:51:30 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 2/7] iotests: exclude killed processes
- from running under Valgrind
+References: <20190615154352.26824-1-philmd@redhat.com>
+ <20190615154352.26824-19-philmd@redhat.com>
+ <87h88o9svq.fsf@zen.linaroharston>
+In-Reply-To: <87h88o9svq.fsf@zen.linaroharston>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:52:05 +0100
+Message-ID: <CAFEAcA8t7EYC6PK24oHcsGsD7PazuqCzGcLuwiMmh2C4dKJF2A@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 18/23] target/arm: Move CPU
+ state dumping routines to helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,78 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Robert Bradford <robert.bradford@intel.com>,
+ Samuel Ortiz <sameo@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.06.2019 um 15:20 hat Roman Kagan geschrieben:
-> On Mon, Jun 17, 2019 at 02:53:55PM +0200, Kevin Wolf wrote:
-> > Am 17.06.2019 um 14:18 hat Roman Kagan geschrieben:
-> > > On Mon, Jun 17, 2019 at 01:15:04PM +0200, Kevin Wolf wrote:
-> > > > Am 11.06.2019 um 20:02 hat Andrey Shinkevich geschrieben:
-> > > > > The Valgrind tool fails to manage its termination when QEMU raises the
-> > > > > signal SIGKILL. Lets exclude such test cases from running under the
-> > > > > Valgrind because there is no sense to check memory issues that way.
-> > > > > 
-> > > > > Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-> > > > 
-> > > > I don't fully understand the reasoning here. Most interesting memory
-> > > > access errors happen before a process terminates. (I'm not talking about
-> > > > leaks here, but use-after-free, buffer overflows, uninitialised memory
-> > > > etc.)
-> > > 
-> > > Nothing of the above, and nothing in general, happens in the usermode
-> > > process upon SIGKILL delivery.
-> > 
-> > My point is, the interesting part is what the program does before
-> > SIGKILL happens. There is value in reporting memory errors as long as we
-> > can, even if the final check doesn't happen because of SIGKILL.
-> 
-> Agreed in general, but here the testcases that include 'sigraise 9' only
-> do simple operations before that which are covered elsewhere too.  So
-> the extra effort on making valgrind work with these testcases arguably
-> isn't worth the extra value to be gained.
+On Mon, 17 Jun 2019 at 15:41, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> Hmm so helper is a mix of non-TCG and TCG bits whereas helper-a64.c is
+> basically just TCG helpers. It makes me wonder if we are breaking a
+> convention here as helper.c is traditionally only TCG helpers.
 
-Ok, fair enough.
+The original convention was:
+ * op_helper.c has functions which need access to things which
+   TCG puts in specific registers and which are accessed from
+   C via gcc "register variables" (most notably the CPU env pointer)
+ * helper.c has functions which don't need access to the register
+   variables (a mishmash of stuff, usually including interrupt/exception
+   handling)
+ * some targets further split out some parts of the C code into other
+   foo-helper.c files
+This distinction became entirely moot when we reworked the TCG code
+to no longer use register variables (but instead pass in the env
+pointer and so on directly as a function argument). You can still
+see the comments at the top of target/i386/{op_helper,helper}.c that
+claim this is what the files are for, though :-)
 
-> > > > However, I do see that running these test cases with -valgrind ends in a
-> > > > hang because the valgrind process keeps hanging around as a zombie
-> > > > process and the test case doesn't reap it. I'm not exactly sure why that
-> > > > is, but it looks more like a problem with the parent process (i.e. the
-> > > > bash script).
-> > > 
-> > > It rather looks like valgrind getting confused about what to do with
-> > > raise(SIGKILL) in the multithreaded case.
-> > 
-> > Well, valgrind can't do anything with SIGKILL, obviously, because it's
-> > killed immediately.
-> 
-> Right, but it can do whatever it wants with raise(SIGKILL).  I haven't
-> looked at valgrind sources, but
-> 
->   # strace -ff valgind qemu-io -c 'sigraise 9'
-> 
-> shows SIGKILL neither sent nor received by any thread; it just shows the
-> main thread exit and the second thread getting stuck waiting on a futex.
+So these days there is really no fixed convention, except that
+when we've added new things we've sometimes put them in their
+own .c file. helper-a64.c in particular is on its own because it's
+code that's only compiled into aarch64-softmmu, not arm-softmmu.
 
-Oh, I didn't see this! So there isn't even a real SIGKILL signal.
+> It feels like there should be different file that is unambiguously used
+> for both TCG and KVM based workloads where things like the cpu dump code
+> can live.
 
-> > But maybe the kernel does get confused for some
-> > reason. I get the main threads as a zombie, but a second is still
-> > running. Sending SIGKILL to the second thread, too, makes the test case
-> > complete successfully.
-> > 
-> > So I guess the main question is why the second thread isn't
-> > automatically killed when the main thread receives SIGKILL.
-> 
-> I don't see any thread receive SIGKILL.  So I tend to think this is
-> valgrind's bug/feature.
-> 
-> Anyway the problem is outside of QEMU, so I think we need to weigh the
-> costs of investigating it and implementing a workaround with the
-> potential benefit.
+Some sort of split like this seems like a good idea. I don't
+know if any of the other target archs have already got a
+good convention/naming scheme we could copy?
 
-I'd suggest to file a bug against valgrind at least. And indeed just
-disable valgrind here like this patch does.
-
-Kevin
+thanks
+-- PMM
 
