@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9C147974
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 06:45:26 +0200 (CEST)
-Received: from localhost ([::1]:44226 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E709B4798F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 06:57:40 +0200 (CEST)
+Received: from localhost ([::1]:44280 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcjWH-0006mA-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 00:45:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60164)
+	id 1hcji8-0005o7-68
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 00:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58553)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hcjQE-0001P1-H1
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:12 -0400
+ (envelope-from <philmd@redhat.com>) id 1hcjhK-0005HP-4O
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:56:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hcjQC-0005sP-Kd
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58892)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hcjQB-0005q8-Mp
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:07 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4DC4A31628FB;
- Mon, 17 Jun 2019 04:39:06 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-33.ams2.redhat.com
- [10.36.116.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 05D242CFD6;
- Mon, 17 Jun 2019 04:39:06 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 42D7B1753A; Mon, 17 Jun 2019 06:38:59 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 06:38:58 +0200
-Message-Id: <20190617043858.8290-12-kraxel@redhat.com>
-In-Reply-To: <20190617043858.8290-1-kraxel@redhat.com>
-References: <20190617043858.8290-1-kraxel@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hcjhI-0000AH-DA
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:56:50 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:34726)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hcjhI-00008m-51
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:56:48 -0400
+Received: by mail-wm1-f68.google.com with SMTP id w9so3583838wmd.1
+ for <qemu-devel@nongnu.org>; Sun, 16 Jun 2019 21:56:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XEuSVIiKp5ZDIQnYr1zZzvPLWP0SR6EhhPmoQrCO1nk=;
+ b=OhlesWro4fBk2ipB3oeVieGtV4ufjyQy8vE4qMazQezKlXqTncySozr/T6Jd8fQldp
+ +XxxCyCNcS6G93HGejmYdFbuoQ1dA71MXtgrWFTdvWWzoYf+qLmJO2BvivBBwac5fhAq
+ ixEDnY9Z+d73paKZvfsuMjJj8ixJqJ4PtkxsDtUWm8CVzyiToljN5r1z7j+//tsYv6Ma
+ 1MfpRA2g5O9T0aiRoojdnRHPfc7Z9IFps9Dh7aAcKMvsogErD50gAJ+1qGvnq0Qi3JVc
+ xQWCp8OSX87wa6b1F6tl0oRjzG0ehxpEa9m98Xa/Wus3zxbIxBpIQfWmIP22nJvzr+Z5
+ PCQQ==
+X-Gm-Message-State: APjAAAX02f0h0/fmW3XCPox98tuNeU97nZULNRGePqeEQ3hERCPDHGEP
+ g0ZiNZks1ghmU4LBybqV0xFH2w==
+X-Google-Smtp-Source: APXvYqxFOnj/+p5MjuLydrk0NkKZVArxvz6839v+1OtF9GKoaqTPk9FjgASkdwJS+X6JKMcrYzFnng==
+X-Received: by 2002:a7b:c776:: with SMTP id x22mr16525347wmk.55.1560747405109; 
+ Sun, 16 Jun 2019 21:56:45 -0700 (PDT)
+Received: from [192.168.1.103] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id q15sm7614884wrr.19.2019.06.16.21.56.44
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Sun, 16 Jun 2019 21:56:44 -0700 (PDT)
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, Stefan Hajnoczi <stefanha@gmail.com>
+References: <20190613050937.124903-1-aik@ozlabs.ru>
+ <35361394-42ba-dcf0-6fe2-5a0a538d1440@redhat.com>
+ <d20e26db-7157-d9bd-c707-d7f4443396c0@ozlabs.ru>
+ <20190614093306.GG10957@stefanha-x1.localdomain>
+ <33c70ea6-08d7-d4ba-210b-328ea275cfe5@ozlabs.ru>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <fa361ec0-c734-567a-d617-6613b6e89f78@redhat.com>
+Date: Mon, 17 Jun 2019 06:56:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Mon, 17 Jun 2019 04:39:06 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <33c70ea6-08d7-d4ba-210b-328ea275cfe5@ozlabs.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 11/11] tests/vm: ubuntu.i386: apt proxy setup
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH qemu] loader: Trace loaded images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,40 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Configure apt proxy so package downloads
-can be cached and can pass firewalls.
+On 6/17/19 3:25 AM, Alexey Kardashevskiy wrote:
+> On 14/06/2019 19:33, Stefan Hajnoczi wrote:
+>> On Fri, Jun 14, 2019 at 10:13:04AM +1000, Alexey Kardashevskiy wrote:
+>>>
+>>>
+>>> On 13/06/2019 23:08, Philippe Mathieu-Daudé wrote:
+>>>> Hi Alexey,
+>>>>
+>>>> On 6/13/19 7:09 AM, Alexey Kardashevskiy wrote:
+>>>>> This adds a trace point which prints every loaded image. This includes
+>>>>> bios/firmware/kernel/initradmdisk/pcirom.
+>>>>>
+>>>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+>>>>> ---
+>>>>>
+>>>>> The example for a pseries guest:
+>>>>>
+>>>>> loader_write_rom slof.bin: @0x0 size=0xe22e0 ROM=0
+>>>>> loader_write_rom phdr #0: /home/aik/t/vml4120le: @0x400000 size=0x13df000 ROM=0
+>>>>> loader_write_rom /home/aik/t/le.cpio: @0x1ad0000 size=0x9463a00 ROM=0
+>>>>
+>>>> I find the "ROM=0" part confuse, maybe you can change to "ROM:false".
+>>>
+>>> How? I mean I can do that in the code as rom->isrom?"true":"false" and
+>>> make trace point accept "%s" but it is quite ugly and others seem to
+>>> just use %d for bool.
+>>
+>> Yes, %d is the convention for bool.  Perhaps you can name it "is_rom"
+>> instead of "ROM".  That way the name communicates that this is a boolean
+>> value.
+> 
+> It is quite obvious though that it is boolean even as "ROM" (what else
+> can that be realistically?) and there does not seem to be a convention
+> about xxx:N vs is_xxx:N. And personally I find longer lines worse for
+> limited width screens (I run multiple qemus in tiled tmux). Whose tree
+> is this going to? Let's ask that person :)
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/vm/ubuntu.i386 | 4 ++++
- 1 file changed, 4 insertions(+)
+Personally I find 'is_rom' clearer. I read 2 addresses, then my first
+reaction was to parse it as another address. But it is also true we now
+enforce traced hex values with '0x' prefix, so your 'ROM' is unlikely an
+address. Tiled tmux is an acceptable argument. Anyway you already got my
+R-b.
 
-diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index a22d137e76df..b869afd212fa 100755
---- a/tests/vm/ubuntu.i386
-+++ b/tests/vm/ubuntu.i386
-@@ -51,6 +51,10 @@ class UbuntuX86VM(basevm.BaseVM):
-                           "    ssh-authorized-keys:\n",
-                           "    - %s\n" % basevm.SSH_PUB_KEY,
-                           "locale: en_US.UTF-8\n"])
-+        proxy =3D os.environ.get("http_proxy")
-+        if not proxy is None:
-+            udata.writelines(["apt:\n",
-+                              "  proxy: %s" % proxy])
-         udata.close()
-         subprocess.check_call(["genisoimage", "-output", "cloud-init.iso=
-",
-                                "-volid", "cidata", "-joliet", "-rock",
---=20
-2.18.1
+Tree: the PPC tree is likely to get it merged quicker than the MISC tree.
 
+Regards,
+
+Phil.
 
