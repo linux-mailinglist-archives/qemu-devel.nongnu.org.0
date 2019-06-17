@@ -2,50 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E3C482C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:43:09 +0200 (CEST)
-Received: from localhost ([::1]:47020 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF5E482E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:47:38 +0200 (CEST)
+Received: from localhost ([::1]:47108 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcqyZ-0004oA-CB
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:43:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42132)
+	id 1hcr2v-0000x9-TT
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:47:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43479)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlevitsk@redhat.com>) id 1hcqp4-000754-6m
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:33:19 -0400
+ (envelope-from <rkagan@virtuozzo.com>) id 1hcquP-0002Nz-9R
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:38:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlevitsk@redhat.com>) id 1hcqp2-0001D3-Si
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:33:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40462)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
- id 1hcqp0-00019f-B8; Mon, 17 Jun 2019 08:33:14 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5A56D30BBE97;
- Mon, 17 Jun 2019 12:33:10 +0000 (UTC)
-Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D8B21017E2E;
- Mon, 17 Jun 2019 12:33:02 +0000 (UTC)
-Message-ID: <86a8e88792be3df0b16277ac762865abb411f490.camel@redhat.com>
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:33:01 +0300
-In-Reply-To: <20190610134905.22294-6-mehta.aaru20@gmail.com>
-References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
- <20190610134905.22294-6-mehta.aaru20@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 17 Jun 2019 12:33:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 05/12] stubs: add stubs for io_uring
- interface
+ (envelope-from <rkagan@virtuozzo.com>) id 1hcquO-0005LE-9T
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:38:49 -0400
+Received: from mail-he1eur04hn2040.outbound.protection.outlook.com
+ ([52.101.137.40]:63553 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <rkagan@virtuozzo.com>)
+ id 1hcquO-0005JW-0y; Mon, 17 Jun 2019 08:38:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OiK/uDe9lPyJubSFsJYSNEuGvO69KZRMW5g2KzI9saU=;
+ b=W1b3y+QuRhIeNrHjj+b7RBoVNZTaJD36E+AoeTGXHp6HdLFVJBJF59CqBlbKMlI8d/8VWzG8ub/qTLbNaQgm2dkZMOWRA1ZTqnMt2r9ibBWeoFZrlIGUz7U+SOGcvhLdrwXCGSIXBdA8i7vAo7eHoCjSHCOQ/QuWsZJ6F2AD5ME=
+Received: from DB8PR08MB3977.eurprd08.prod.outlook.com (20.179.11.95) by
+ DB8PR08MB5498.eurprd08.prod.outlook.com (52.133.242.216) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.12; Mon, 17 Jun 2019 12:38:34 +0000
+Received: from DB8PR08MB3977.eurprd08.prod.outlook.com
+ ([fe80::3530:3b13:be7f:2944]) by DB8PR08MB3977.eurprd08.prod.outlook.com
+ ([fe80::3530:3b13:be7f:2944%4]) with mapi id 15.20.1987.014; Mon, 17 Jun 2019
+ 12:38:34 +0000
+From: Roman Kagan <rkagan@virtuozzo.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Thread-Topic: [PATCH v2 6/7] iotests: amend QEMU NBD process synchronization
+Thread-Index: AQHVIH/W+4fzIICfOUahb05s1OWCZ6af0iSA
+Date: Mon, 17 Jun 2019 12:38:34 +0000
+Message-ID: <20190617123831.GC32624@rkaganb.sw.ru>
+References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560276131-683243-7-git-send-email-andrey.shinkevich@virtuozzo.com>
+In-Reply-To: <1560276131-683243-7-git-send-email-andrey.shinkevich@virtuozzo.com>
+Accept-Language: en-US, ru-RU
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mutt/1.11.4 (2019-03-13)
+mail-followup-to: Roman Kagan <rkagan@virtuozzo.com>,	Andrey Shinkevich
+ <andrey.shinkevich@virtuozzo.com>,	qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, kwolf@redhat.com,	mreitz@redhat.com,
+ berrange@redhat.com, den@openvz.org,	vsementsov@virtuozzo.com
+x-originating-ip: [185.231.240.5]
+x-clientproxiedby: HE1PR0501CA0009.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::19) To DB8PR08MB3977.eurprd08.prod.outlook.com
+ (2603:10a6:10:ad::31)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=rkagan@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 82402d46-8768-4d1c-f8fb-08d6f320b664
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DB8PR08MB5498; 
+x-ms-traffictypediagnostic: DB8PR08MB5498:|DB8PR08MB5498:
+x-microsoft-antispam-prvs: <DB8PR08MB5498460663F102B75F357E61C9EB0@DB8PR08MB5498.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0071BFA85B
+x-forefront-antispam-report: SFV:SPM;
+ SFS:(10019020)(396003)(376002)(366004)(39840400004)(136003)(346002)(189003)(199004)(76176011)(446003)(4326008)(54906003)(476003)(52116002)(8676002)(6486002)(81166006)(81156014)(6436002)(316002)(36756003)(11346002)(25786009)(102836004)(6636002)(486006)(14444005)(7736002)(6506007)(386003)(3846002)(71190400001)(8936002)(2906002)(66946007)(66446008)(64756008)(73956011)(66476007)(99286004)(6246003)(6862004)(68736007)(53936002)(6116002)(229853002)(14454004)(86362001)(71200400001)(107886003)(58126008)(186003)(26005)(5660300002)(478600001)(33656002)(66556008)(256004)(305945005)(1076003)(6512007)(66066001)(9686003)(30126002);
+ DIR:OUT; SFP:1501; SCL:5; SRVR:DB8PR08MB5498;
+ H:DB8PR08MB3977.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: pFE9sA9Blr0bbh3ZHH5tjoEGqEc5ZRJ8cNwpdBBNHwdK6gOQ1IalwRA4PwXKENC/3Mb1oH7/Uh/seXduHehpIq2r8jRFQdX3yCM/WupOQSQjaHwgAxTi9+Cno3zv67MRI2IWT6M+2ks5Bb6J/bRW75CXpTShLRwMtS1clscWesdVCbAu3FBeRBokIN4MZOhq9BYhOc94RiRXLLAzrSlVyLKYEJgp9qBHx4JruF6a1smy4tcQmll5Zd8oF5jwtEb9CoS5uxQ5X66AhCMzXjOoLawGPnu3tkNFFg81IvBbMgKu+7hwTTW38J4c4WQLmTjOvn+vFV03EpxR/hVv6QGZ2plBP/8w6OFAYqylO0MxrGKnaGtbbcWJybnR5dVMLt7d/pOz+jcyLhFcJ/m2uedcKs7NLousZQi9s+I9rqdJnM9pohO2idoHznnQZqs7KQyRr28fwSz/bwJpoZc9GPUUkR1KVMiGRvpH3YDiR6s6PJimqwUa6SnQUGDjBcK3vc2w
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <823C91F4F69B5648BDF8D2DA7C91A41A@eurprd08.prod.outlook.com>
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82402d46-8768-4d1c-f8fb-08d6f320b664
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2019 12:38:34.5966 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rkagan@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5498
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 52.101.137.40
+Subject: Re: [Qemu-devel] [PATCH v2 6/7] iotests: amend QEMU NBD process
+ synchronization
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,93 +103,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@mail.ru>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "berrange@redhat.com" <berrange@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2019-06-10 at 19:18 +0530, Aarushi Mehta wrote:
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Tue, Jun 11, 2019 at 09:02:10PM +0300, Andrey Shinkevich wrote:
+> Processes are dying harder under the Valgring. It results in counting
+> the dying process as a newborn one. Make it sure that old NBD job get
+> finished before starting a new one.
+
+I think this log message is confusing.
+
+The problem this patch addresses is that nbd_server_stop only sends a
+signal to the nbd process and immediately returns, without waiting for
+it to actually terminate.  The next operation is often starting a new
+instance of nbd; this races with the termination of the old one, and may
+result in various failures (like nbd_server_start_* taking the
+terminating nbd as the one just started, or the starting nbd
+encountering a busy listening socket).
+
+Without valgrind the race window is very small and the problem didn't
+surface for long.  However, under valgrind process termination takes
+much longer so the race bites every test run.
+
+Since nbd is run in a background job of the test, record the nbd pid at
+the daemon start in a shell variable and perform a wait for it when
+terminating it.
+
+Roman.
+
+> Suggested-by: Roman Kagan <rkagan@virtuozzo.com>
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 > ---
->  MAINTAINERS         |  1 +
->  stubs/Makefile.objs |  1 +
->  stubs/io_uring.c    | 32 ++++++++++++++++++++++++++++++++
->  3 files changed, 34 insertions(+)
->  create mode 100644 stubs/io_uring.c
+>  tests/qemu-iotests/common.nbd | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 49f896796e..bc38175124 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2522,6 +2522,7 @@ R: Stefan Hajnoczi <stefan@redhat.com>
->  L: qemu-block@nongnu.org
->  S: Maintained
->  F: block/io_uring.c
-> +F: stubs/io_uring.c
+> diff --git a/tests/qemu-iotests/common.nbd b/tests/qemu-iotests/common.nbd
+> index 25fc9ff..e3dcc60 100644
+> --- a/tests/qemu-iotests/common.nbd
+> +++ b/tests/qemu-iotests/common.nbd
+> @@ -22,6 +22,7 @@
+>  nbd_unix_socket="${TEST_DIR}/qemu-nbd.sock"
+>  nbd_tcp_addr="127.0.0.1"
+>  nbd_pid_file="${TEST_DIR}/qemu-nbd.pid"
+> +nbd_job_pid=""
 >  
->  qcow2
->  M: Kevin Wolf <kwolf@redhat.com>
-> diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-> index 9c7393b08c..5cf160a9c8 100644
-> --- a/stubs/Makefile.objs
-> +++ b/stubs/Makefile.objs
-> @@ -13,6 +13,7 @@ stub-obj-y += iothread.o
->  stub-obj-y += iothread-lock.o
->  stub-obj-y += is-daemonized.o
->  stub-obj-$(CONFIG_LINUX_AIO) += linux-aio.o
-> +stub-obj-$(CONFIG_LINUX_IO_URING) += io_uring.o
->  stub-obj-y += machine-init-done.o
->  stub-obj-y += migr-blocker.o
->  stub-obj-y += change-state-handler.o
-> diff --git a/stubs/io_uring.c b/stubs/io_uring.c
-> new file mode 100644
-> index 0000000000..622d1e4648
-> --- /dev/null
-> +++ b/stubs/io_uring.c
-> @@ -0,0 +1,32 @@
-> +/*
-> + * Linux io_uring support.
-> + *
-> + * Copyright (C) 2009 IBM, Corp.
-> + * Copyright (C) 2009 Red Hat, Inc.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +#include "qemu/osdep.h"
-> +#include "block/aio.h"
-> +#include "block/raw-aio.h"
-> +
-> +void luring_detach_aio_context(LuringState *s, AioContext *old_context)
-> +{
-> +    abort();
-> +}
-> +
-> +void luring_attach_aio_context(LuringState *s, AioContext *new_context)
-> +{
-> +    abort();
-> +}
-> +
-> +LuringState *luring_init(Error **errp)
-> +{
-> +    abort();
-> +}
-> +
-> +void luring_cleanup(LuringState *s)
-> +{
-> +    abort();
-> +}
-
-I do wonder if there is any value in these stubs (and linux aio stubs as well) since any attempt to use this
-will abort the test, even basic aio initialization.
-
-I am not yet familiar with qemu unit tests, so I won't yet put ack on this patch.
-
-Best regards,
-	Maxim Levitsky
-
+>  nbd_server_stop()
+>  {
+> @@ -33,6 +34,9 @@ nbd_server_stop()
+>              kill "$NBD_PID"
+>          fi
+>      fi
+> +    if [ -n "$nbd_job_pid" ] && kill -s 0 "$nbd_job_pid" 2>/dev/null; then
+> +        wait "$nbd_job_pid"
+> +    fi
+>      rm -f "$nbd_unix_socket"
+>  }
+>  
+> @@ -61,6 +65,7 @@ nbd_server_start_unix_socket()
+>  {
+>      nbd_server_stop
+>      $QEMU_NBD -v -t -k "$nbd_unix_socket" "$@" &
+> +    nbd_job_pid=$!
+>      nbd_server_wait_for_unix_socket $!
+>  }
+>  
+> @@ -105,5 +110,6 @@ nbd_server_start_tcp_socket()
+>  {
+>      nbd_server_stop
+>      $QEMU_NBD -v -t -b $nbd_tcp_addr -p $nbd_tcp_port "$@" &
+> +    nbd_job_pid=$!
+>      nbd_server_wait_for_tcp_socket $!
+>  }
+> -- 
+> 1.8.3.1
+> 
 
