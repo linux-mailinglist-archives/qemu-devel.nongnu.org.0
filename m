@@ -2,84 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4270489F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:23:27 +0200 (CEST)
-Received: from localhost ([::1]:50174 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3EC48A0D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:26:29 +0200 (CEST)
+Received: from localhost ([::1]:50220 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvLr-0001mW-0e
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41261)
+	id 1hcvOm-0004TR-Ea
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41715)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <anthony.perard@citrix.com>) id 1hcvI2-0006he-Rq
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:19:31 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hcvJ1-00089c-0m
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:20:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1hcvI1-00015o-Ti
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:19:30 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:2973)
+ (envelope-from <ehabkost@redhat.com>) id 1hcvJ0-0002Hj-39
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:20:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39892)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1hcvHv-0000qu-SP
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:19:26 -0400
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: pdHl06SAmh40e4I4kyBj3BraFvL7Tdl2QadbR3LDgbxR9gMZ6HHuKt7YBEHje8h76QnhRzVIch
- jqB5vZ+CHHra0ZZFh/o55KaEyn0v/ZDzWbcXCvjpkFR2wUfRZ1qTCJkTDhd0NzsCNpcSWJvc5Q
- OZ3inPbSoX5gEKVoUXLMLnWSVl+9hTRUsPP5PgQSCl22azgPAF7liH0EdD7Xl45aTJCHgAYat3
- 4tbWBQ5CcoqEdLa8d/w5slsn+no973lp8JFvc3HoAYoOkJgxfVqT5HXd6i5524x9aGKv/MvCku
- LVM=
-X-SBRS: 2.7
-X-MesageID: 1852643
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.63,386,1557201600"; 
-   d="scan'208";a="1852643"
-Date: Mon, 17 Jun 2019 18:19:13 +0100
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: Paul Durrant <Paul.Durrant@citrix.com>
-Message-ID: <20190617171913.GA15926@perard.uk.xensource.com>
-References: <20190617154105.32323-1-anthony.perard@citrix.com>
- <20190617154105.32323-4-anthony.perard@citrix.com>
- <21258fd1788f418bb1a0007a43bf0250@AMSPEX02CL03.citrite.net>
- <20190617164544.GA13449@perard.uk.xensource.com>
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
+ id 1hcvIv-0002AN-1i; Mon, 17 Jun 2019 13:20:26 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9D1C930872E5;
+ Mon, 17 Jun 2019 17:20:22 +0000 (UTC)
+Received: from localhost (ovpn-116-100.phx2.redhat.com [10.3.116.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 256F11001B3D;
+ Mon, 17 Jun 2019 17:20:19 +0000 (UTC)
+Date: Mon, 17 Jun 2019 14:20:13 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190617172013.GD19178@habkost.net>
+References: <20190617160136.29930-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190617164544.GA13449@perard.uk.xensource.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.155.144
-Subject: Re: [Qemu-devel] [Xen-devel] [PATCH 3/4] xen: Import Xen public
- headers used by xen-hvm.c
+In-Reply-To: <20190617160136.29930-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Mon, 17 Jun 2019 17:20:22 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] hw/arm/msf2-som: Exit when the cpu is not
+ the expected one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,33 +57,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 17, 2019 at 05:45:44PM +0100, Anthony PERARD wrote:
-> On Mon, Jun 17, 2019 at 05:15:51PM +0100, Paul Durrant wrote:
-> > AFAICT the only place (apart from legacy code in xen_common.h) that
-> > params.h is necessary is in xen_suspend_notifier(). I wonder whether
-> > that would be better moved into xen_common.h too (since it's just a
-> > wrapper round xc_set_hvm_param() and then the inclusion of params.h
-> > can be moved there as well.
-> 
-> :(, I didn't realised that xen_common.h needed params.h too. That patch
-> series might not build on older version of Xen. I'll move the inclusion
-> of params.h to xen_common.h, and fix params.h to have all the needed
-> #defines.
+On Mon, Jun 17, 2019 at 06:01:36PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> This machine correctly defines its default_cpu_type to cortex-m3
+> and report an error if the user requested another cpu_type,
+> however it does not exit, and this can confuse users trying
+> to use another core:
+>=20
+>   $ qemu-system-arm -M emcraft-sf2 -cpu cortex-m4 -kernel test-m4.elf
+>   qemu-system-arm: This board can only be used with CPU cortex-m3-arm-c=
+pu
+>   [output related to M3 core ...]
+>=20
+> The CPU is indeed a M3 core:
+>=20
+>   (qemu) info qom-tree
+>   /machine (emcraft-sf2-machine)
+>     /unattached (container)
+>       /device[0] (msf2-soc)
+>         /armv7m (armv7m)
+>           /cpu (cortex-m3-arm-cpu)
+>=20
+> Add the missing exit() call to return to the shell.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Actually, it works fine without including hvm/params.h in xen_common.h
-because xen_common.h includes xenctrl.h which includes hvm/params.h.
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
-So I think instead I'll remove all includes of params.h, because
-HVM_PARAM_* are parameters for xc_hvm_param_{get,set}, which is in a
-library and not an interface with a guest. Including xenctrl.h should be
-enough.
-
--- 
-Anthony PERARD
+--=20
+Eduardo
 
