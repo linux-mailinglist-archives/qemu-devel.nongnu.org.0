@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C741484E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:08:15 +0200 (CEST)
-Received: from localhost ([::1]:47838 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8B8484F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:11:47 +0200 (CEST)
+Received: from localhost ([::1]:47868 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcsIv-0001kX-Vm
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38092)
+	id 1hcsMM-0005ab-Lr
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38828)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsFg-0000cb-Jx
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:04:57 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hcsI7-0002HB-7X
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:07:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsFe-00051S-MS
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:04:52 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39447)
+ (envelope-from <alex.bennee@linaro.org>) id 1hcsI5-00075c-TT
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:07:22 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36950)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hcsFe-0004tf-C2
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:04:50 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x4so10101416wrt.6
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:04:48 -0700 (PDT)
+ id 1hcsI5-00073j-EB
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:07:21 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f17so6759340wme.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=hrdEodOEdUkO3HOIUN3wsMAtVxKGYbDhibykAZ0dN3k=;
- b=YP7rJT42PnecfK2emDSm8l4mJWjRD0y3bnCJQ4bcDvTGpE4Q4cuLN5UOMbw1TjBNr3
- PEXGAwhLPOKkiv+9bYUqGP8e9UGEDsQMqV786KbGASwSKiZ8yTm6OKO5TrAr5ShIxudx
- HtYcjM48M6pWXF9auYlPFYpPJI5/eUarez9O3sL/nlFCDcaKD+vIe7BP6oPtX0hiJ1f5
- aeJJ7POEzYGrqmKAsMXG4/+ESlCB9Ah5GboVMzw23aMPhExxIKjc1r6tiPjvDSlYXKh+
- PkSZL3aXDtfSfjaxMYgrz+2F6061cLnQbBk190afyNP2mu1Yjki1Jyfp8NFPylQveKVS
- kkFQ==
+ bh=13AWnY4Y5z0b6FtuhcGOf9GwQM6FKI05sHlXE+6dqrs=;
+ b=mKNFSbJpLK+hAiCwXNQqJbL9REURTfFc1ecAXqNamSndLX/uUxRExLH089LbN8ccSG
+ jEW+84Ltf9Aemyqt6uIX8/N+6ZoklcyDjiUbhW3NH3GwmlzxX6gGQcNi38MvEeoa+CJt
+ O42HIv2v9O0yDuKldgfpyznevyFUKF7OeE2pb0ZwSVT/tTnWwR/5oHtGqktY8aHViVvM
+ 8Gc4YTzI2yXuL2WzZgc+OaP/yyWrYZvQhi1SEQOSmhyFBd5l7U+6D/WxTbMcKKdP53q0
+ x9ErJI5vQauQjIIAY7YxcQJwry2pAzBRfiHu/UZXIqXbIjX12wMCN+9o31yU/rhc6q9N
+ rtwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=hrdEodOEdUkO3HOIUN3wsMAtVxKGYbDhibykAZ0dN3k=;
- b=MFMy6E6bL2tcHyljf4Q8QnjcLlP4XqfrpzXCsc+zZZfTYRVqQG5LxlChK0/xw3/FjJ
- ibmQPnlbS7E/mjPP1NgBuZ4JpbiftBxN1RIjQ8EqJM8LZ15yj6LcxUkj8mn/1TX1Zg3t
- cTr5MtBNU0nEUHxivVTQTFLtYMqAkLNBsT8L4cts7ZiApbHLbAhrIBI3vHqpT5tuvIb9
- AOcH8BONpKT6pRJ3Ksqy/YyIsqtzApGNbTY8qbAvRJEnGRZfS9KDYQSBP/ITiQcrO9pP
- 9u6e/eWflnhuTNM6tvuCPH/1c5a04UUuVCTjd9ZlwS03IoTx+0G1IsOCOLjgumxnbz09
- 0BcA==
-X-Gm-Message-State: APjAAAX8j5yIVioPeYKYHLCR6PIp2CjRXqd7HiTm1d1uLJ/hjl+zaK0w
- VDkDdqhctC9RxQtnSHBo/W6Xtg==
-X-Google-Smtp-Source: APXvYqxXT+J+CAZ8K0gDItZu9Xm7L5/wiiJQL3ycJS7zKRFsGy1HwWttCuN+9LYxJj6TxsbPI5Nt0g==
-X-Received: by 2002:a05:6000:1c9:: with SMTP id
- t9mr53311947wrx.187.1560780286933; 
- Mon, 17 Jun 2019 07:04:46 -0700 (PDT)
+ bh=13AWnY4Y5z0b6FtuhcGOf9GwQM6FKI05sHlXE+6dqrs=;
+ b=uU/mHmakJQNbyxnJ71lQ1Xt/5hnGAi4zfcozY7icyXOsKVI0fY9ioHgpRm/oMzBL0F
+ z+EQzKKT7jnVrfNqbNjXsvi5bPtbATatRHD7DkjCxcDEHvS7VNMqUzeQWGeqA9+GL7N8
+ fAHN/ogCeRwHjtVTYfAk7DcOXnf+L+pY39QdEtzo0YPXrXfkscGwgvxMPOPMJkvZ/nun
+ HpdEOuNPJrdiR1c05szwsCOpdn3ePg/Mam2SgwvnJuHPUv1NOkZlxhRxguNtnZLtfjEL
+ 84P0SMK792PDL4i5eOf1GDJ5tRlEVYERexpmKBI6PQkN7zL7DxW4/AJ0lKNQRcfewstk
+ eDtQ==
+X-Gm-Message-State: APjAAAU1ZDFTwJH6zinfZrawCf+GBKXzi5OiZD+mPUGw/AeHYT6rjB/R
+ YYHN2iz1sMw8Zfw6+QLHzYkanA==
+X-Google-Smtp-Source: APXvYqzuqYy6aJRNxET1zJdeYKd62yla/WSrN6qJefIgswbPVMm7pyecYhh127fMdTzEOy8Z6/GYFQ==
+X-Received: by 2002:a1c:e718:: with SMTP id e24mr19975344wmh.104.1560780439634; 
+ Mon, 17 Jun 2019 07:07:19 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id t140sm9461121wmt.0.2019.06.17.07.04.46
+ by smtp.gmail.com with ESMTPSA id s188sm12550457wmf.40.2019.06.17.07.07.18
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 17 Jun 2019 07:04:46 -0700 (PDT)
+ Mon, 17 Jun 2019 07:07:19 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E9F3F1FF87;
- Mon, 17 Jun 2019 15:04:45 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 9EE0C1FF87;
+ Mon, 17 Jun 2019 15:07:18 +0100 (BST)
 References: <20190615154352.26824-1-philmd@redhat.com>
- <20190615154352.26824-24-philmd@redhat.com>
+ <20190615154352.26824-23-philmd@redhat.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-arm@nongnu.org
-In-reply-to: <20190615154352.26824-24-philmd@redhat.com>
-Date: Mon, 17 Jun 2019 15:04:45 +0100
-Message-ID: <87y3209uki.fsf@zen.linaroharston>
+To: qemu-devel@nongnu.org
+In-reply-to: <20190615154352.26824-23-philmd@redhat.com>
+Date: Mon, 17 Jun 2019 15:07:18 +0100
+Message-ID: <87wohk9ug9.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [Qemu-arm] [NOTFORMERGE PATCH v2 23/23] Missing
- symbols when building with --disable-tcg
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [RFC PATCH v2 22/23] target/arm: Restrict
+ semi-hosting to TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,141 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> While it might be normal to disable PSCI on KVM, I doubt the
-> VFP helpers are correct ;)
+> Per Peter Maydell:
 >
-> Anyway this allow to link the binary and run a KVM guest.
-
-But also:
-
-/home/alex/lsrc/qemu.git/target/arm/helper.c: In function =E2=80=98S1_ptw_t=
-ranslate=E2=80=99:
-/home/alex/lsrc/qemu.git/target/arm/helper.c:8794:15: note: parameter passi=
-ng for argument of type =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct M=
-emTxAttrs=E2=80=99} changed in GCC 9.1
- 8794 | static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-      |               ^~~~~~~~~~~~~~~~
-  LINK    x86_64-linux-user/qemu-x86_64
-  LINK    xtensa-linux-user/qemu-xtensa
-/home/alex/lsrc/qemu.git/target/arm/helper.c: In function =E2=80=98S1_ptw_t=
-ranslate=E2=80=99:
-/home/alex/lsrc/qemu.git/target/arm/helper.c:8794:15: note: parameter passi=
-ng for argument of type =E2=80=98MemTxAttrs=E2=80=99 {aka =E2=80=98struct M=
-emTxAttrs=E2=80=99} changed in GCC 9.1
- 8794 | static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-      |               ^~~~~~~~~~~~~~~~
-  LINK    xtensaeb-linux-user/qemu-xtensaeb
-  LINK    arm-linux-user/qemu-arm
-  LINK    aarch64-linux-user/qemu-aarch64
-  LINK    armeb-linux-user/qemu-armeb
-  LINK    aarch64_be-linux-user/qemu-aarch64_be
-  LINK    arm-softmmu/qemu-system-arm
-  LINK    aarch64-softmmu/qemu-system-aarch64
-/usr/lib/gcc/aarch64-unknown-linux-gnu/9.1.0/../../../../aarch64-unknown-li=
-nux-gnu/bin/ld: target/arm/kvm-missing.o: in function `arm_is_psci_call':
-/home/alex/lsrc/qemu.git/target/arm/kvm-missing.c:17: multiple definition o=
-f `arm_is_psci_call'; target/arm/psci.o:/home/alex/lsrc/qemu.git/target/arm=
-/psci.c:36: first defined here
-/usr/lib/gcc/aarch64-unknown-linux-gnu/9.1.0/../../../../aarch64-unknown-li=
-nux-gnu/bin/ld: target/arm/kvm-missing.o: in function `arm_handle_psci_call=
-':
-/home/alex/lsrc/qemu.git/target/arm/kvm-missing.c:20: multiple definition o=
-f `arm_handle_psci_call'; target/arm/psci.o:/home/alex/lsrc/qemu.git/target=
-/arm/psci.c:77: first defined here
-/usr/lib/gcc/aarch64-unknown-linux-gnu/9.1.0/../../../../aarch64-unknown-li=
-nux-gnu/bin/ld: target/arm/vfp_helper.o: in function `vfp_get_fpscr':
-/home/alex/lsrc/qemu.git/target/arm/vfp_helper.c:75: multiple definition of=
- `vfp_get_fpscr'; target/arm/kvm-missing.o:/home/alex/lsrc/qemu.git/target/=
-arm/kvm-missing.c:8: first defined here
-/usr/lib/gcc/aarch64-unknown-linux-gnu/9.1.0/../../../../aarch64-unknown-li=
-nux-gnu/bin/ld: target/arm/vfp_helper.o: in function `vfp_set_fpscr':
-/home/alex/lsrc/qemu.git/target/arm/vfp_helper.c:185: multiple definition o=
-f `vfp_set_fpscr'; target/arm/kvm-missing.o:/home/alex/lsrc/qemu.git/target=
-/arm/kvm-missing.c:12:
-first defined here
-collect2: error: ld returned 1 exit status
-make[1]: *** [Makefile:204: qemu-system-aarch64] Error 1
-make: *** [Makefile:472: subdir-aarch64-softmmu] Error 2
-
-On AArch64 host with TCG enabled....
-
+>   semihosting hooks either SVC or HLT instructions, and inside KVM
+>   both of those go to EL1, ie to the guest, and can't be trapped to
+>   KVM.
 >
-> Tested using:
->
->   $ make pc-bios/edk2-aarch64-code.fd
->   $ dd if=3D/dev/zero of=3Dflash1.img bs=3D1M count=3D64
->   $ aarch64-softmmu/qemu-system-aarch64 \
->     -nographic \
->     -enable-kvm \
->     -M virt,gic-version=3D3 \
->     -cpu host \
->     \
->     -pflash pc-bios/edk2-aarch64-code.fd \
->     -pflash flash1.img \
->     -drive if=3Dnone,file=3Dbionic-server-cloudimg-arm64.img,id=3Dhd0 \
->     -device virtio-blk-device,drive=3Dhd0 \
->     \
->     -netdev type=3Duser,id=3Dnet0 \
->     -device virtio-net-device,netdev=3Dnet0
+> Let check_for_semihosting() return False when not running on TCG.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->  target/arm/Makefile.objs |  1 +
->  target/arm/kvm-missing.c | 22 ++++++++++++++++++++++
->  2 files changed, 23 insertions(+)
->  create mode 100644 target/arm/kvm-missing.c
+>  target/arm/helper.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
-> diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-> index b8aa9c032a..bf1cad2909 100644
-> --- a/target/arm/Makefile.objs
-> +++ b/target/arm/Makefile.objs
-> @@ -6,6 +6,7 @@ obj-$(CONFIG_SOFTMMU) +=3D machine.o arch_dump.o monitor.=
-o arm-powerctl.o
->  obj-$(call land,$(CONFIG_TCG),$(CONFIG_SOFTMMU)) +=3D psci.o
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 8b7ce0561b..a3843a5508 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -20,7 +20,6 @@
+>  #include "qemu/crc32c.h"
+>  #include "qemu/qemu-print.h"
+>  #include "exec/exec-all.h"
+> -#include "arm_ldst.h"
+>  #include <zlib.h> /* For crc32 */
+>  #include "hw/semihosting/semihost.h"
+>  #include "sysemu/cpus.h"
+> @@ -30,6 +29,9 @@
+>  #include "qapi/qapi-commands-target.h"
+>  #include "qapi/error.h"
+>  #include "qemu/guest-random.h"
+> +#ifdef CONFIG_TCG
+> +#include "arm_ldst.h"
+> +#endif
 >
->  obj-$(CONFIG_KVM) +=3D kvm.o
-> +obj-$(CONFIG_KVM) +=3D kvm-missing.o
->  obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) +=3D kvm32=
-.o
->  obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) +=3D kvm64.o
->  obj-$(call lnot,$(CONFIG_KVM)) +=3D kvm-stub.o
-> diff --git a/target/arm/kvm-missing.c b/target/arm/kvm-missing.c
-> new file mode 100644
-> index 0000000000..0b32cd4e9c
-> --- /dev/null
-> +++ b/target/arm/kvm-missing.c
-> @@ -0,0 +1,22 @@
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "internals.h"
-> +
-> +uint32_t vfp_get_fpscr(CPUARMState *env)
-> +{
-> +    return 0;
-> +}
-> +
-> +void vfp_set_fpscr(CPUARMState *env, uint32_t val)
-> +{
-> +}
-> +
-> +bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
-> +{
+>  #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable =
+*/
+>
+> @@ -8270,6 +8272,7 @@ static void arm_cpu_do_interrupt_aarch64(CPUState *=
+cs)
+>
+>  static inline bool check_for_semihosting(CPUState *cs)
+>  {
+> +#ifdef CONFIG_TCG
+>      /* Check whether this exception is a semihosting call; if so
+>       * then handle it and return true; otherwise return false.
+>       */
+> @@ -8345,6 +8348,9 @@ static inline bool check_for_semihosting(CPUState *=
+cs)
+>          env->regs[0] =3D do_arm_semihosting(env);
+>          return true;
+>      }
+> +#else
 > +    return false;
-> +}
-> +
-> +void arm_handle_psci_call(ARMCPU *cpu)
-> +{
-> +    abort();
-> +}
+> +#endif
+>  }
+>
+>  /* Handle a CPU exception for A and R profile CPUs.
 
 
 --
