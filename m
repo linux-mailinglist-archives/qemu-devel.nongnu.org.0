@@ -2,47 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251A64891F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:38:31 +0200 (CEST)
-Received: from localhost ([::1]:49228 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0AB488DE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:28:29 +0200 (CEST)
+Received: from localhost ([::1]:49106 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcueM-0000k4-8y
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:38:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40279)
+	id 1hcuUc-0008TT-9O
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37584)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <xiaoyao.li@linux.intel.com>) id 1hcttN-0002Tw-A6
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:49:59 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1hctlD-0004A2-Sj
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:41:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <xiaoyao.li@linux.intel.com>) id 1hcttL-0002oD-UK
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:49:57 -0400
-Received: from mga07.intel.com ([134.134.136.100]:39609)
+ (envelope-from <anthony.perard@citrix.com>) id 1hctlC-0008F1-Dd
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:41:31 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:43075)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <xiaoyao.li@linux.intel.com>)
- id 1hcttL-0002md-Ko
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:49:55 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2019 08:49:53 -0700
-X-ExtLoop1: 1
-Received: from lxy-clx-4s.sh.intel.com ([10.239.48.10])
- by FMSMGA003.fm.intel.com with ESMTP; 17 Jun 2019 08:49:51 -0700
-From: Xiaoyao Li <xiaoyao.li@linux.intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>
-Date: Mon, 17 Jun 2019 23:36:54 +0800
-Message-Id: <20190617153654.916-1-xiaoyao.li@linux.intel.com>
-X-Mailer: git-send-email 2.19.1
+ (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
+ id 1hctlA-00082T-AM
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 11:41:29 -0400
+Authentication-Results: esa3.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none;
+ spf=None smtp.pra=anthony.perard@citrix.com;
+ spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
+ spf=None smtp.helo=postmaster@mail.citrix.com
+Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ anthony.perard@citrix.com) identity=pra;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible
+Received-SPF: Pass (esa3.hc3370-68.iphmx.com: domain of
+ anthony.perard@citrix.com designates 162.221.158.21 as
+ permitted sender) identity=mailfrom;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="anthony.perard@citrix.com";
+ x-conformance=sidf_compatible; x-record-type="v=spf1";
+ x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
+ ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
+ ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
+ ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
+Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
+ authenticity information available from domain of
+ postmaster@mail.citrix.com) identity=helo;
+ client-ip=162.221.158.21; receiver=esa3.hc3370-68.iphmx.com;
+ envelope-from="anthony.perard@citrix.com";
+ x-sender="postmaster@mail.citrix.com";
+ x-conformance=sidf_compatible
+IronPort-SDR: wHzjo5RqYzLKZgmX1VIM9WWTH4C7NDFYDFwET3zmDSBfbUJrelHOdOjapYyhMLI+gijdDJCuqB
+ dDZHgI7y9qV8b/uxpQ/zfxlISfJStj2t7rcR5U9AANVoikrNhtnHHjFeMySI1DjLHkSf1GPTix
+ xA4WZiVvF/njwHXi2io9azkPD8YceIytBmhnC4hfaEGFThbQrW/Fe6jJlf0+BmVTpj1f+dGZUL
+ /Gb7dsBHhBMb5kwW+snKEdrybT8WpXmskMLS8xT0ZRQ9bRlUeBOOlhiDAkgvw3MhuXR05qpPV6
+ 9vg=
+X-SBRS: 2.7
+X-MesageID: 1838524
+X-Ironport-Server: esa3.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.158.21
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.63,385,1557201600"; 
+   d="scan'208";a="1838524"
+From: Anthony PERARD <anthony.perard@citrix.com>
+To: <qemu-devel@nongnu.org>
+Date: Mon, 17 Jun 2019 16:41:01 +0100
+Message-ID: <20190617154105.32323-1-anthony.perard@citrix.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.100
-Subject: [Qemu-devel] [PATCH v2] target/i386: define a new MSR based feature
- word - FEAT_CORE_CAPABILITY
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 216.71.145.155
+Subject: [Qemu-devel] [PATCH 0/4] Fix build of Xen support + cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,142 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Lai <paul.c.lai@intel.com>, qemu-devel@nongnu.org,
- Xiaoyao Li <xiaoyao.li@linux.intel.com>, kvm@vger.kernel.org
+Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Paul Durrant <paul.durrant@citrix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MSR IA32_CORE_CAPABILITY is a feature-enumerating MSR, which only
-enumerates the feature split lock detection (via bit 5) by now.
+Hi,
 
-The existence of MSR IA32_CORE_CAPABILITY is enumerated by CPUID.7_0:EDX[30].
+Fix the build in osstest and some cleanup
 
-The latest kernel patches about them can be found here:
-https://lkml.org/lkml/2019/4/24/1909
+For reference:
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@linux.intel.com>
----
-Changelog:
-v2
-    Add definition of MSR_CORE_CAP_SPLIT_LOCK_DETECT for SNR cpu model
----
- target/i386/cpu.c | 22 +++++++++++++++++++++-
- target/i386/cpu.h |  5 +++++
- target/i386/kvm.c |  9 +++++++++
- 3 files changed, 35 insertions(+), 1 deletion(-)
+Recent flight failure:
+https://lists.xenproject.org/archives/html/xen-devel/2019-06/msg01022.html
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index fbed2eb804..fc47c650b8 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1085,7 +1085,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, "spec-ctrl", "stibp",
--            NULL, "arch-capabilities", NULL, "ssbd",
-+            NULL, "arch-capabilities", "core-capability", "ssbd",
-         },
-         .cpuid = {
-             .eax = 7,
-@@ -1203,6 +1203,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             }
-         },
-     },
-+    [FEAT_CORE_CAPABILITY] = {
-+        .type = MSR_FEATURE_WORD,
-+        .feat_names = {
-+            NULL, NULL, NULL, NULL,
-+            NULL, "split-lock-detect", NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+            NULL, NULL, NULL, NULL,
-+        },
-+        .msr = {
-+            .index = MSR_IA32_CORE_CAPABILITY,
-+            .cpuid_dep = {
-+                FEAT_7_0_EDX,
-+                CPUID_7_0_EDX_CORE_CAPABILITY,
-+            },
-+        },
-+    },
- };
- 
- typedef struct X86RegisterInfo32 {
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 0732e059ec..192b0db076 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -345,6 +345,7 @@ typedef enum X86Seg {
- #define MSR_IA32_SPEC_CTRL              0x48
- #define MSR_VIRT_SSBD                   0xc001011f
- #define MSR_IA32_PRED_CMD               0x49
-+#define MSR_IA32_CORE_CAPABILITY        0xcf
- #define MSR_IA32_ARCH_CAPABILITIES      0x10a
- #define MSR_IA32_TSCDEADLINE            0x6e0
- 
-@@ -496,6 +497,7 @@ typedef enum FeatureWord {
-     FEAT_XSAVE_COMP_LO, /* CPUID[EAX=0xd,ECX=0].EAX */
-     FEAT_XSAVE_COMP_HI, /* CPUID[EAX=0xd,ECX=0].EDX */
-     FEAT_ARCH_CAPABILITIES,
-+    FEAT_CORE_CAPABILITY,
-     FEATURE_WORDS,
- } FeatureWord;
- 
-@@ -687,6 +689,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_EDX_AVX512_4FMAPS (1U << 3) /* AVX512 Multiply Accumulation Single Precision */
- #define CPUID_7_0_EDX_SPEC_CTRL     (1U << 26) /* Speculation Control */
- #define CPUID_7_0_EDX_ARCH_CAPABILITIES (1U << 29)  /*Arch Capabilities*/
-+#define CPUID_7_0_EDX_CORE_CAPABILITY   (1U << 30)  /*Core Capability*/
- #define CPUID_7_0_EDX_SPEC_CTRL_SSBD  (1U << 31) /* Speculative Store Bypass Disable */
- 
- #define CPUID_8000_0008_EBX_WBNOINVD  (1U << 9)  /* Write back and
-@@ -734,6 +737,8 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
- #define MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY (1U << 3)
- #define MSR_ARCH_CAP_SSB_NO     (1U << 4)
- 
-+#define MSR_CORE_CAP_SPLIT_LOCK_DETECT  (1U << 5)
-+
- #ifndef HYPERV_SPINLOCK_NEVER_RETRY
- #define HYPERV_SPINLOCK_NEVER_RETRY             0xFFFFFFFF
- #endif
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 6899061b4e..da99e91ea9 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -95,6 +95,7 @@ static bool has_msr_spec_ctrl;
- static bool has_msr_virt_ssbd;
- static bool has_msr_smi_count;
- static bool has_msr_arch_capabs;
-+static bool has_msr_core_capabs;
- 
- static uint32_t has_architectural_pmu_version;
- static uint32_t num_architectural_pmu_gp_counters;
-@@ -1515,6 +1516,9 @@ static int kvm_get_supported_msrs(KVMState *s)
-                 case MSR_IA32_ARCH_CAPABILITIES:
-                     has_msr_arch_capabs = true;
-                     break;
-+                case MSR_IA32_CORE_CAPABILITY:
-+                    has_msr_core_capabs = true;
-+                    break;
-                 }
-             }
-         }
-@@ -2041,6 +2045,11 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-                           env->features[FEAT_ARCH_CAPABILITIES]);
-     }
- 
-+    if (has_msr_core_capabs) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
-+                          env->features[FEAT_CORE_CAPABILITY]);
-+    }
-+
-     /*
-      * The following MSRs have side effects on the guest or are too heavy
-      * for normal writeback. Limit them to reset or full state updates.
+Bisect result:
+https://lists.xenproject.org/archives/html/xen-devel/2019-06/msg01029.html
+
+Thanks.
+
+Anthony PERARD (4):
+  xen: Fix build with public headers
+  xen: Import other xen/io/*.h
+  xen: Import Xen public headers used by xen-hvm.c
+  xen: Avoid VLA
+
+ hw/9pfs/xen-9pfs.h                       |    4 +-
+ hw/block/xen_blkif.h                     |    5 +-
+ hw/char/xen_console.c                    |    2 +-
+ hw/display/xenfb.c                       |    7 +-
+ hw/i386/xen/xen-hvm.c                    |   17 +-
+ hw/i386/xen/xen-mapcache.c               |    2 -
+ hw/net/xen_nic.c                         |    2 +-
+ hw/usb/xen-usb.c                         |    3 +-
+ hw/xen/xen-legacy-backend.c              |    2 -
+ include/hw/xen/interface/grant_table.h   |   36 +
+ include/hw/xen/interface/hvm/e820.h      |   28 +
+ include/hw/xen/interface/hvm/ioreq.h     |  101 +++
+ include/hw/xen/interface/hvm/params.h    |   33 +
+ include/hw/xen/interface/io/blkif.h      |  712 +++++++++++++++
+ include/hw/xen/interface/io/console.h    |   46 +
+ include/hw/xen/interface/io/fbif.h       |  156 ++++
+ include/hw/xen/interface/io/kbdif.h      |  566 ++++++++++++
+ include/hw/xen/interface/io/netif.h      | 1010 ++++++++++++++++++++++
+ include/hw/xen/interface/io/protocols.h  |   42 +
+ include/hw/xen/{ => interface}/io/ring.h |    0
+ include/hw/xen/interface/io/usbif.h      |  254 ++++++
+ include/hw/xen/interface/io/xenbus.h     |   70 ++
+ include/hw/xen/xen_common.h              |    2 +-
+ 23 files changed, 3076 insertions(+), 24 deletions(-)
+ create mode 100644 include/hw/xen/interface/grant_table.h
+ create mode 100644 include/hw/xen/interface/hvm/e820.h
+ create mode 100644 include/hw/xen/interface/hvm/ioreq.h
+ create mode 100644 include/hw/xen/interface/hvm/params.h
+ create mode 100644 include/hw/xen/interface/io/blkif.h
+ create mode 100644 include/hw/xen/interface/io/console.h
+ create mode 100644 include/hw/xen/interface/io/fbif.h
+ create mode 100644 include/hw/xen/interface/io/kbdif.h
+ create mode 100644 include/hw/xen/interface/io/netif.h
+ create mode 100644 include/hw/xen/interface/io/protocols.h
+ rename include/hw/xen/{ => interface}/io/ring.h (100%)
+ create mode 100644 include/hw/xen/interface/io/usbif.h
+ create mode 100644 include/hw/xen/interface/io/xenbus.h
+
 -- 
-2.19.1
+Anthony PERARD
 
 
