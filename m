@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D9A48A3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:35:42 +0200 (CEST)
-Received: from localhost ([::1]:50416 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48184898D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:03:11 +0200 (CEST)
+Received: from localhost ([::1]:49818 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvXh-0002ke-S2
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:35:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33067)
+	id 1hcv2F-0008DW-3N
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:03:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33184)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hcuy2-0005xH-Lc
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:58:51 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hcuyD-00066O-1T
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:59:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hcuy1-0001eB-K4
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:58:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:22971)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hcuxz-0001XH-7Q; Mon, 17 Jun 2019 12:58:47 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F2DF63088DB5;
- Mon, 17 Jun 2019 16:58:45 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-99.ams2.redhat.com [10.36.117.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 249087DDA0;
- Mon, 17 Jun 2019 16:58:39 +0000 (UTC)
-Date: Mon, 17 Jun 2019 18:58:38 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <20190617165838.GN7397@linux.fritz.box>
-References: <20190606154132.153330-1-vsementsov@virtuozzo.com>
- <20190606154132.153330-5-vsementsov@virtuozzo.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hcuyB-0001yi-0Z
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:59:00 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39324)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hcuy8-0001s0-Tn
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:58:58 -0400
+Received: by mail-pg1-x541.google.com with SMTP id 196so6153956pgc.6
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9hHmXjsmIgSXX6IxdG6kiYxinftCn7rjEAcGgSGhsgI=;
+ b=xFMorwB/o2lItiYuW8gUWPfkL8KNoryWfEYSOuAjXuKq2qTqsgyioMs+opYfyVng7f
+ HzELHqYLW7kdoaKLmZxT+iVSvdOW1/BuOBNdlO0oYP/x8sIlj3hgdEcaMKsv0du7jnfW
+ gg+RdDj3FHmI5fShtl3M+pOhVKnZ9EfjYN/omQG9FqCF7nujU/oCxsUjDacnIkvjY5Hv
+ LX8oHPOvlFpx510z+IMr7AqXgjCzpwfqUR4szWkUFb08M8wg8lgsvafNSB0BdRHprUUc
+ lObs4Cwl8+4ugOsyDcneunIEy5nMG+oJ6A8bQNtvKw76bDc0Vx6vcXToyTcL5RsdPIMM
+ lkHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9hHmXjsmIgSXX6IxdG6kiYxinftCn7rjEAcGgSGhsgI=;
+ b=DUBmDSaGTVMOPkVni+TvBdX+XqDSM7MbrZwZvDPHpYLRO3nbMKhIyLJ/dwrEXOUQGT
+ TQf2HwmjfC4Tp9lMwz1Ksnxbj10MiTGzEnqVrf2AQak1J6Wr8vso30cr4FW9F59KjaXp
+ sckaVuvJ/fMErloye9ABkQgeHjH9vaCY1g9P0YNVYkWTRkWktrLTY2wcBywwk7mtuSZR
+ UhhIrz1YXUgNuF80DZB25YLpGi7VjvgsgbYyNY6VSx1svk+nvSZqEd6iQdfyqWOuvkrZ
+ acxNzwKCa218YK5bp+n3/ekcRZf6blx73qPg4e+C1xkYS+X/PRj+PpE7I/xpBXGd63YT
+ Xc6w==
+X-Gm-Message-State: APjAAAU0A3Cnq7r3RDIrhxUx3ah1+37k+j+ago0XRap6zMcORwYbCPSt
+ FiInNCYgItx0gp7JHpsjfrZtZA==
+X-Google-Smtp-Source: APXvYqxLe0KtH9V1VNtds3QOto2JN6THbo8IjrdGu+Ds5bfwm0msuFtvKo1G9wpHuTumD8l5q/YziQ==
+X-Received: by 2002:a63:4d05:: with SMTP id a5mr46645366pgb.19.1560790735115; 
+ Mon, 17 Jun 2019 09:58:55 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-2-33.tukw.qwest.net. [97.113.2.33])
+ by smtp.gmail.com with ESMTPSA id y23sm15162676pfm.117.2019.06.17.09.58.54
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jun 2019 09:58:54 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20190616210546.17221-1-richard.henderson@linaro.org>
+ <875zp49ocs.fsf@zen.linaroharston>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <f8e98c93-394f-835a-4ec0-d21746bd9c2f@linaro.org>
+Date: Mon, 17 Jun 2019 09:58:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190606154132.153330-5-vsementsov@virtuozzo.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Mon, 17 Jun 2019 16:58:46 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 4/4] block: drop bs->job
+In-Reply-To: <875zp49ocs.fsf@zen.linaroharston>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: Re: [Qemu-devel] [PATCH] tcg: Fix mmap lock assert on translation
+ failure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,47 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, mreitz@redhat.com,
- jsnow@redhat.com
+Cc: christophe.lyon@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 06.06.2019 um 17:41 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Drop remaining users of bs->job:
-> 1. assertions actually duplicated by assert(!bs->refcnt)
-> 2. trace-point seems not enough reason to change stream_start to return
->    BlockJob pointer
-> 3. Restricting creation of two jobs based on same bs is bad idea, as
->    3.1 Some jobs creates filters to be their main node, so, this check
->    don't actually prevent creating second job on same real node (which
->    will create another filter node) (but I hope it is restricted by
->    other mechanisms)
->    3.2 Even without bs->job we have two systems of permissions:
->    op-blockers and BLK_PERM
->    3.3 We may want to run several jobs on one node one day
+On 6/17/19 9:18 AM, Alex Bennée wrote:
+> 
+> Richard Henderson <richard.henderson@linaro.org> writes:
+> 
+>> Check page flags before letting an invalid pc cause a SIGSEGV.
+>>
+>> Prepare for eventially validating PROT_EXEC.  The current wrinkle being
+>> that we have a problem with our implementation of signals.  We should
+>> be using a vdso like the kernel, but we instead put the trampoline on
+>> the stack.  In the meantime, let PROT_READ match PROT_EXEC.
+> 
+> We can come up with a test case for this right? Would it be triggered by
+> having:
+> 
+> __attribute__((aligned(PAGE_SIZE)))
+> void some_func(void) {
+>      /* does something */
+> }
+> 
+> __attribute__((aligned(PAGE_SIZE)))
+> ... rest of code ...
+> 
+> main () {
+>      mmap(&some_func, PAGE_SIZE, PROT_READ, MAP_ANONYMOUS, 0, 0);
+>      some_func()
+>      /* causes SEGV */
+>      mmap(&some_func, PAGE_SIZE, PROT_READ|PROT_EXEC, MAP_ANONYMOUS, 0, 0);
+>      some_func()
+>      /* works */
+> }
+> 
+> Or is it trickier to mess with your own mapped memory?
 
-This made make check break (test-blockjob tests that you can't create
-two block jobs on the same node). So I need to squash in the following,
-if you agree.
+It's trickier than that, but I do have a simple test case.
 
-Kevin
+  https://bugs.launchpad.net/qemu/+bug/1832916
+
+But fixing that, as I mention above, makes signal trampolines fail.
+
+Or did you mean for Christophe's failure?  That's easier -- just make a NULL
+function call.
 
 
-diff --git a/tests/test-blockjob.c b/tests/test-blockjob.c
-index 8c91980c70..b33f899873 100644
---- a/tests/test-blockjob.c
-+++ b/tests/test-blockjob.c
-@@ -122,8 +122,9 @@ static void test_job_ids(void)
-     /* This one is valid */
-     job[0] = do_test_id(blk[0], "id0", true);
-
--    /* We cannot have two jobs in the same BDS */
--    do_test_id(blk[0], "id1", false);
-+    /* We can have two jobs in the same BDS */
-+    job[1] = do_test_id(blk[0], "id1", true);
-+    job_early_fail(&job[1]->job);
-
-     /* Duplicate job IDs are not allowed */
-     job[1] = do_test_id(blk[1], "id0", false);
+r~
 
