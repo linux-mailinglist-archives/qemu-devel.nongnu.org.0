@@ -2,76 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B7F486E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:23:14 +0200 (CEST)
-Received: from localhost ([::1]:48412 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FC748729
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:31:31 +0200 (CEST)
+Received: from localhost ([::1]:48498 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hctTV-0007z0-LC
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:23:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51420)
+	id 1hctbW-0001Hs-MY
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51689)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsxd-00021O-KA
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:50:25 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hcsz9-0002bH-Tg
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:51:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsxc-0002hQ-GL
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:50:17 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34923)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hcsxc-0002gn-5y
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:50:16 -0400
-Received: by mail-wm1-x342.google.com with SMTP id c6so9449060wml.0
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:50:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=g8hI03drj9LBB6MPiVcpYjLLW+652AYjuNfh+Ht7kZg=;
- b=xNKMuaO43x4GqpMSL6d4jP5JjrhttR4BnVNgexqkTgj4FzKinqMUJRO9FUruC3eWza
- WSMVTvpuriWtnPu8lRqlsxcXGexKf0sSCT4HjA2auMQByVSvK7ndkEaexsKKTxel+KQq
- KN8+szo5om3aUYmEZ19S/XhP//1jixDiDj0APtFVtOHClpZDheWEACKdTpOlCkzOjsNA
- c5JNZlc8XBabUQTEjz2QSKIOdFyu7ZTn6wLapOq9laz+Lx0D0gQLadxv5wmPhTqUuh4L
- 6pkQc8f4m25+vnulRB4/kgu4AXU1TU35F6mtnwv8D6CFYB8uN6cRMuVdC3cI/f//11bW
- rF8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=g8hI03drj9LBB6MPiVcpYjLLW+652AYjuNfh+Ht7kZg=;
- b=W4YUl+2g76533xsp/OjWCDhs/SspOp79EhkhUeDcsc94n/M8OVJkiHlvNP8WVSyMRB
- O6Bdz14hJJLTo1/3tTPnzNUXil7MCYQuCicjkz0ZHhikXKuVEmqKQLcNDEc1BVFYY6yP
- +O0HfFoCPAbpHOQ9moDvMrrFFgr7yXzdE5T07pHCGpRHsPKdDS6jUw+psXoOJ2tloVpp
- De9BInEUe9G6pdaPauphxqm4sfyrWqj3YN1II93LWAK0Pa3JhnoU6SZVCQlQcHX2SiyM
- klyOGtUbYQt0QmhiYFkNt9H7OCkrorV0yumemcnFnnQelYJ1TZoOvIxvlgcWYU8AcD3A
- ugRg==
-X-Gm-Message-State: APjAAAVTa63TsLSk7GRiVkBhB1gtp/SCb1E3H8g9e5hhyolbTSQ9BEoH
- 14WcB8P3V5JjyVgcwhZxvkeK+A==
-X-Google-Smtp-Source: APXvYqz9nJpc2K7MO3NAtpivuvzsvEXmhCwKWf00tON3zT/SPwebH0zSDsowsXacq5noERW6miZlfA==
-X-Received: by 2002:a1c:9813:: with SMTP id a19mr18721364wme.11.1560783015132; 
- Mon, 17 Jun 2019 07:50:15 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id s10sm14667254wmf.8.2019.06.17.07.50.14
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 17 Jun 2019 07:50:14 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4903B1FF87;
- Mon, 17 Jun 2019 15:50:14 +0100 (BST)
-References: <20190615154352.26824-1-philmd@redhat.com>
- <20190615154352.26824-21-philmd@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190615154352.26824-21-philmd@redhat.com>
-Date: Mon, 17 Jun 2019 15:50:14 +0100
-Message-ID: <87d0jc9sgp.fsf@zen.linaroharston>
+ (envelope-from <kwolf@redhat.com>) id 1hcsz8-0003XZ-Ln
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:51:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56774)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hcsyo-0003N2-OS; Mon, 17 Jun 2019 10:51:30 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1935B356DA;
+ Mon, 17 Jun 2019 14:51:28 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-99.ams2.redhat.com [10.36.117.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 263BA39BE;
+ Mon, 17 Jun 2019 14:51:25 +0000 (UTC)
+Date: Mon, 17 Jun 2019 16:51:24 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Roman Kagan <rkagan@virtuozzo.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, mreitz@redhat.com,
+ berrange@redhat.com, den@openvz.org, vsementsov@virtuozzo.com
+Message-ID: <20190617145124.GJ7397@linux.fritz.box>
+References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560276131-683243-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <20190617111504.GC7397@linux.fritz.box>
+ <20190617121855.GB32624@rkaganb.sw.ru>
+ <20190617125355.GH7397@linux.fritz.box>
+ <20190617132043.GE32624@rkaganb.sw.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v2 20/23] target/arm: Define TCG dependent
- functions when TCG is enabled
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190617132043.GE32624@rkaganb.sw.ru>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Mon, 17 Jun 2019 14:51:30 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 2/7] iotests: exclude killed processes
+ from running under Valgrind
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,78 +65,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Samuel Ortiz <sameo@linux.intel.com>,
- Robert Bradford <robert.bradford@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 17.06.2019 um 15:20 hat Roman Kagan geschrieben:
+> On Mon, Jun 17, 2019 at 02:53:55PM +0200, Kevin Wolf wrote:
+> > Am 17.06.2019 um 14:18 hat Roman Kagan geschrieben:
+> > > On Mon, Jun 17, 2019 at 01:15:04PM +0200, Kevin Wolf wrote:
+> > > > Am 11.06.2019 um 20:02 hat Andrey Shinkevich geschrieben:
+> > > > > The Valgrind tool fails to manage its termination when QEMU raises the
+> > > > > signal SIGKILL. Lets exclude such test cases from running under the
+> > > > > Valgrind because there is no sense to check memory issues that way.
+> > > > > 
+> > > > > Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> > > > 
+> > > > I don't fully understand the reasoning here. Most interesting memory
+> > > > access errors happen before a process terminates. (I'm not talking about
+> > > > leaks here, but use-after-free, buffer overflows, uninitialised memory
+> > > > etc.)
+> > > 
+> > > Nothing of the above, and nothing in general, happens in the usermode
+> > > process upon SIGKILL delivery.
+> > 
+> > My point is, the interesting part is what the program does before
+> > SIGKILL happens. There is value in reporting memory errors as long as we
+> > can, even if the final check doesn't happen because of SIGKILL.
+> 
+> Agreed in general, but here the testcases that include 'sigraise 9' only
+> do simple operations before that which are covered elsewhere too.  So
+> the extra effort on making valgrind work with these testcases arguably
+> isn't worth the extra value to be gained.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Ok, fair enough.
 
-> From: Samuel Ortiz <sameo@linux.intel.com>
->
-> do_interrupt, do_unaligned_access, do_transaction_failed and debug_excp
-> are only relevant in the TCG context, so we should not define them
-> when TCG is disabled.
->
-> Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Robert Bradford <robert.bradford@intel.com>
-> [PMD: Rebased]
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > > > However, I do see that running these test cases with -valgrind ends in a
+> > > > hang because the valgrind process keeps hanging around as a zombie
+> > > > process and the test case doesn't reap it. I'm not exactly sure why that
+> > > > is, but it looks more like a problem with the parent process (i.e. the
+> > > > bash script).
+> > > 
+> > > It rather looks like valgrind getting confused about what to do with
+> > > raise(SIGKILL) in the multithreaded case.
+> > 
+> > Well, valgrind can't do anything with SIGKILL, obviously, because it's
+> > killed immediately.
+> 
+> Right, but it can do whatever it wants with raise(SIGKILL).  I haven't
+> looked at valgrind sources, but
+> 
+>   # strace -ff valgind qemu-io -c 'sigraise 9'
+> 
+> shows SIGKILL neither sent nor received by any thread; it just shows the
+> main thread exit and the second thread getting stuck waiting on a futex.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Oh, I didn't see this! So there isn't even a real SIGKILL signal.
 
-> ---
->  target/arm/cpu.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 2335659a85..3ffea857c4 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1557,7 +1557,7 @@ static void arm_v7m_class_init(ObjectClass *oc, voi=
-d *data)
->      CPUClass *cc =3D CPU_CLASS(oc);
->
->      acc->info =3D data;
-> -#ifndef CONFIG_USER_ONLY
-> +#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
->      cc->do_interrupt =3D arm_v7m_cpu_do_interrupt;
->  #endif
->
-> @@ -2172,22 +2172,24 @@ static void arm_cpu_class_init(ObjectClass *oc, v=
-oid *data)
->      cc->gdb_read_register =3D arm_cpu_gdb_read_register;
->      cc->gdb_write_register =3D arm_cpu_gdb_write_register;
->  #ifndef CONFIG_USER_ONLY
-> +#ifdef CONFIG_TCG
->      cc->do_interrupt =3D arm_cpu_do_interrupt;
->      cc->do_unaligned_access =3D arm_cpu_do_unaligned_access;
->      cc->do_transaction_failed =3D arm_cpu_do_transaction_failed;
-> +    cc->debug_excp_handler =3D arm_debug_excp_handler;
-> +#endif /* CONFIG_TCG */
->      cc->get_phys_page_attrs_debug =3D arm_cpu_get_phys_page_attrs_debug;
->      cc->asidx_from_attrs =3D arm_asidx_from_attrs;
->      cc->vmsd =3D &vmstate_arm_cpu;
->      cc->virtio_is_big_endian =3D arm_cpu_virtio_is_big_endian;
->      cc->write_elf64_note =3D arm_cpu_write_elf64_note;
->      cc->write_elf32_note =3D arm_cpu_write_elf32_note;
-> -#endif
-> +#endif /* CONFIG_USER_ONLY */
->      cc->gdb_num_core_regs =3D 26;
->      cc->gdb_core_xml_file =3D "arm-core.xml";
->      cc->gdb_arch_name =3D arm_gdb_arch_name;
->      cc->gdb_get_dynamic_xml =3D arm_gdb_get_dynamic_xml;
->      cc->gdb_stop_before_watchpoint =3D true;
-> -    cc->debug_excp_handler =3D arm_debug_excp_handler;
->      cc->debug_check_watchpoint =3D arm_debug_check_watchpoint;
->  #if !defined(CONFIG_USER_ONLY)
->      cc->adjust_watchpoint_address =3D arm_adjust_watchpoint_address;
+> > But maybe the kernel does get confused for some
+> > reason. I get the main threads as a zombie, but a second is still
+> > running. Sending SIGKILL to the second thread, too, makes the test case
+> > complete successfully.
+> > 
+> > So I guess the main question is why the second thread isn't
+> > automatically killed when the main thread receives SIGKILL.
+> 
+> I don't see any thread receive SIGKILL.  So I tend to think this is
+> valgrind's bug/feature.
+> 
+> Anyway the problem is outside of QEMU, so I think we need to weigh the
+> costs of investigating it and implementing a workaround with the
+> potential benefit.
 
+I'd suggest to file a bug against valgrind at least. And indeed just
+disable valgrind here like this patch does.
 
---
-Alex Benn=C3=A9e
+Kevin
 
