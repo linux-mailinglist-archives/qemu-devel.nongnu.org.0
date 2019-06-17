@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF257485DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:45:39 +0200 (CEST)
-Received: from localhost ([::1]:48118 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 786BB486DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:22:33 +0200 (CEST)
+Received: from localhost ([::1]:48400 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcst9-0005TF-2y
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:45:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46655)
+	id 1hctSq-0006GL-LM
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:22:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46656)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiJ-0003YJ-HH
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiJ-0003YN-IK
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiH-00083v-5o
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiH-00084O-TR
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41756)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:33228)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsiG-00082k-Sq
+ id 1hcsiH-00083e-K0
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:25 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c2so10220246wrm.8
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:24 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id h19so118092wme.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4WOGglriexE6CQruKaZRN4iBHD/0/F+uA+DSiVuMmqg=;
- b=JM4xLuSPo6UIAnqHtv/qHpAvhqi7lBdsH7h5LMbfw35iHLuLPXKFrh/uCQfPuMPbHW
- WA6JN7xFrYDiVnRSxGBjJA9M8TA53OIZ5E5K5TnDvYejy2r9XYORgKfF1IeveQQSlBJJ
- EAiZOLWQgpIwUQkiBZ5HhnoH5DD8f2ixJ0XKIfXG5YBneOgKTcIGtMziA4+x/xT94sSA
- DckYdGnU/Bwn040Zqx65Qe1Iy+ctOa8mKlXmAfYWxGf1FWoB99krpFy+ewFEUBKeCGAM
- tf/UBb7Llwb1uHEV5NFf+kb8VlrKHzdisvBsbzrajV32S9P0zK7dwtfhUDrTZXY3jfc1
- rjvw==
+ bh=DirqTV/zCPX2KcEnjTOe/sMakcabEsqAkkHQvfbYZ04=;
+ b=Ai/YtYnsHVQtY/wpR51uTKfFLM7ybf/YPj3D7LXStVlzxUOGCcoCaVJ2Q3bq2ecAbX
+ /rn0Z0AogCO606htw3UR6WA9v6AN2fAKhkee0Ng5CLEhm3z6/D2NmUfMG6gOMkFg+K0U
+ 5e54JL9y6Qtpcu51Q6hJ3cYxromdmd3B6XKvssxxGkf8lMvFhJuUvIv8yjYTVgfW24ss
+ sAGp4nsAwjPg8g4kvMvennnygwwg/t4hwhXnKU8+FCBlQaQT7Zc07yzDI+DPgSqy5iaL
+ cX2LUPnJODgD2gIHl5bULEdNADHRHu9TKUIf3GyWXwXex1YXU48NfROgLoThslH3eVXb
+ ndyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4WOGglriexE6CQruKaZRN4iBHD/0/F+uA+DSiVuMmqg=;
- b=NbH2B6NhK+Z9h7hILIjVneE8TkHfPAY5Flx1Ixq11Xok651QY3vzARTzfJ+QZlrtg+
- DpAO3yw4mARTQcMGFeb+Mvqu5xJvTyCIfySxlzyWZuwE5KrqcZ+V1bFV7Wo3w+lt39q3
- 2Ie5tyLRYDivwBOHlLZ3pqwjXnNeMegZRBXpi3fzsYXtm5Z6ify4B0Weto5hQi+3OW14
- rRBAfMoqNNFPM0ipRdflgEjABBJX/DoebsUBBTvfeJ/Ey1I/5c4/loCiZxrAUMPdgwNc
- /5LF7MvUfE+5g2+nvomfYum6Yr3jnpZYKBEEGYTIj9uBLN8YSFTFe09i+oT/IO9cypMI
- aW1g==
-X-Gm-Message-State: APjAAAUzr67pfDodIET6oScpFvwoDFrX7JmXbfm+uIOY23AqywWP2nvl
- mn33PaxTMDv5qYhgQ4Nlouu/iPR5OYY5Nw==
-X-Google-Smtp-Source: APXvYqyk/GZk5u2xNZiveV40mCX83QIiL1xD4D0a08JKW/vkoMAIw7vvhs4axZBkPrlOGlfFJB3+/A==
-X-Received: by 2002:a5d:5542:: with SMTP id g2mr1590568wrw.232.1560782063298; 
- Mon, 17 Jun 2019 07:34:23 -0700 (PDT)
+ bh=DirqTV/zCPX2KcEnjTOe/sMakcabEsqAkkHQvfbYZ04=;
+ b=RaRNi7SopJX6JU6TGBiBUgcQIvcbJ6ZFo7DeZDAlg3KL7QCSHe62PDeNgdxGMLA+sS
+ MnHXB6dmiSIrfIgHbTFPDXyNAVzgYwOgqAS1ovv3Dtg5QikX9cjQV3O5RPqZFdVPylsI
+ b8VWBTuNi3pDo53t5GOzvs3BW6DMsKQ8GJ24DgW3sletGuvwuSx4c2TbAK/+V+fude4i
+ iddk9odQx0od/zxGptWvs301qmp0PXNM0WuFZg/vFE4HApbmfDjzucfdiRKHFDbexoFB
+ 8TGnAHUA5UKKhyrwOfsez9LGft/mS+sYL5A5RsAzS3UU7xuMUxXwJXyKxmh10vVDCa7E
+ 4qFA==
+X-Gm-Message-State: APjAAAUW9xwflIa/qlLt0+I9b2pwMo749QHX8eJrXsN2HWDHzTtmC7At
+ C8l14wt4HL9ze1o4S76MKqoSdYEwbY2Efw==
+X-Google-Smtp-Source: APXvYqwFsXchUc8xv1WSZUYjwXatyp9q/DuucrIAcLMfysUf/i8HvgeYwYNAoIYI2iwsPfLbq5HMWA==
+X-Received: by 2002:a1c:63d7:: with SMTP id x206mr19679453wmb.19.1560782064289; 
+ Mon, 17 Jun 2019 07:34:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.22
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:34:22 -0700 (PDT)
+ Mon, 17 Jun 2019 07:34:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:33:56 +0100
-Message-Id: <20190617143412.5734-9-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:33:57 +0100
+Message-Id: <20190617143412.5734-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
 References: <20190617143412.5734-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PULL 08/24] hw/arm: Correctly disable FPU/DSP for
- some ARMSSE-based boards
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PULL 09/24] hw/intc/arm_gicv3: Fix decoding of ID
+ register range
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,194 +83,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SSE-200 hardware has configurable integration settings which
-determine whether its two CPUs have the FPU and DSP:
- * CPU0_FPU (default 0)
- * CPU0_DSP (default 0)
- * CPU1_FPU (default 1)
- * CPU1_DSP (default 1)
-
-Similarly, the IoTKit has settings for its single CPU:
- * CPU0_FPU (default 1)
- * CPU0_DSP (default 1)
-
-Of our four boards that use either the IoTKit or the SSE-200:
- * mps2-an505, mps2-an521 and musca-a use the default settings
- * musca-b1 enables FPU and DSP on both CPUs
-
-Currently QEMU models all these boards using CPUs with
-both FPU and DSP enabled. This means that we are incorrect
-for mps2-an521 and musca-a, which should not have FPU or DSP
-on CPU0.
-
-Create QOM properties on the ARMSSE devices corresponding to the
-default h/w integration settings, and make the Musca-B1 board
-enable FPU and DSP on both CPUs. This fixes the mps2-an521
-and musca-a behaviour, and leaves the musca-b1 and mps2-an505
-behaviour unchanged.
+The GIC ID registers cover an area 0x30 bytes in size
+(12 registers, 4 bytes each). We were incorrectly decoding
+only the first 0x20 bytes.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20190517174046.11146-5-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190524124248.28394-2-peter.maydell@linaro.org
 ---
- include/hw/arm/armsse.h |  7 +++++
- hw/arm/armsse.c         | 58 ++++++++++++++++++++++++++++++++---------
- hw/arm/musca.c          |  8 ++++++
- 3 files changed, 61 insertions(+), 12 deletions(-)
+ hw/intc/arm_gicv3_dist.c   | 4 ++--
+ hw/intc/arm_gicv3_redist.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index 81e082cccf8..84080c22993 100644
---- a/include/hw/arm/armsse.h
-+++ b/include/hw/arm/armsse.h
-@@ -50,6 +50,11 @@
-  *    address of each SRAM bank (and thus the total amount of internal SRAM)
-  *  + QOM property "init-svtor" sets the initial value of the CPU SVTOR register
-  *    (where it expects to load the PC and SP from the vector table on reset)
-+ *  + QOM properties "CPU0_FPU", "CPU0_DSP", "CPU1_FPU" and "CPU1_DSP" which
-+ *    set whether the CPUs have the FPU and DSP features present. The default
-+ *    (matching the hardware) is that for CPU0 in an IoTKit and CPU1 in an
-+ *    SSE-200 both are present; CPU0 in an SSE-200 has neither.
-+ *    Since the IoTKit has only one CPU, it does not have the CPU1_* properties.
-  *  + Named GPIO inputs "EXP_IRQ" 0..n are the expansion interrupts for CPU 0,
-  *    which are wired to its NVIC lines 32 .. n+32
-  *  + Named GPIO inputs "EXP_CPU1_IRQ" 0..n are the expansion interrupts for
-@@ -208,6 +213,8 @@ typedef struct ARMSSE {
-     uint32_t mainclk_frq;
-     uint32_t sram_addr_width;
-     uint32_t init_svtor;
-+    bool cpu_fpu[SSE_MAX_CPUS];
-+    bool cpu_dsp[SSE_MAX_CPUS];
- } ARMSSE;
- 
- typedef struct ARMSSEInfo ARMSSEInfo;
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 47d13312dc1..b5c614cc3a1 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -38,6 +38,33 @@ struct ARMSSEInfo {
-     bool has_cachectrl;
-     bool has_cpusecctrl;
-     bool has_cpuid;
-+    Property *props;
-+};
-+
-+static Property iotkit_properties[] = {
-+    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
-+                     MemoryRegion *),
-+    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
-+    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
-+    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
-+    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
-+    DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], true),
-+    DEFINE_PROP_BOOL("CPU0_DSP", ARMSSE, cpu_dsp[0], true),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
-+static Property armsse_properties[] = {
-+    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
-+                     MemoryRegion *),
-+    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
-+    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
-+    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
-+    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
-+    DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], false),
-+    DEFINE_PROP_BOOL("CPU0_DSP", ARMSSE, cpu_dsp[0], false),
-+    DEFINE_PROP_BOOL("CPU1_FPU", ARMSSE, cpu_fpu[1], true),
-+    DEFINE_PROP_BOOL("CPU1_DSP", ARMSSE, cpu_dsp[1], true),
-+    DEFINE_PROP_END_OF_LIST()
- };
- 
- static const ARMSSEInfo armsse_variants[] = {
-@@ -53,6 +80,7 @@ static const ARMSSEInfo armsse_variants[] = {
-         .has_cachectrl = false,
-         .has_cpusecctrl = false,
-         .has_cpuid = false,
-+        .props = iotkit_properties,
-     },
-     {
-         .name = TYPE_SSE200,
-@@ -66,6 +94,7 @@ static const ARMSSEInfo armsse_variants[] = {
-         .has_cachectrl = true,
-         .has_cpusecctrl = true,
-         .has_cpuid = true,
-+        .props = armsse_properties,
-     },
- };
- 
-@@ -533,6 +562,20 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-                 return;
-             }
+diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
+index 53c55c57291..e6fe4905fd3 100644
+--- a/hw/intc/arm_gicv3_dist.c
++++ b/hw/intc/arm_gicv3_dist.c
+@@ -533,7 +533,7 @@ static MemTxResult gicd_readl(GICv3State *s, hwaddr offset,
          }
-+        if (!s->cpu_fpu[i]) {
-+            object_property_set_bool(cpuobj, false, "vfp", &err);
-+            if (err) {
-+                error_propagate(errp, err);
-+                return;
-+            }
-+        }
-+        if (!s->cpu_dsp[i]) {
-+            object_property_set_bool(cpuobj, false, "dsp", &err);
-+            if (err) {
-+                error_propagate(errp, err);
-+                return;
-+            }
-+        }
- 
-         if (i > 0) {
-             memory_region_add_subregion_overlap(&s->cpu_container[i], 0,
-@@ -1222,16 +1265,6 @@ static const VMStateDescription armsse_vmstate = {
+         return MEMTX_OK;
      }
- };
- 
--static Property armsse_properties[] = {
--    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
--                     MemoryRegion *),
--    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
--    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
--    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
--    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
--    DEFINE_PROP_END_OF_LIST()
--};
--
- static void armsse_reset(DeviceState *dev)
- {
-     ARMSSE *s = ARMSSE(dev);
-@@ -1244,13 +1277,14 @@ static void armsse_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     IDAUInterfaceClass *iic = IDAU_INTERFACE_CLASS(klass);
-     ARMSSEClass *asc = ARMSSE_CLASS(klass);
-+    const ARMSSEInfo *info = data;
- 
-     dc->realize = armsse_realize;
-     dc->vmsd = &armsse_vmstate;
--    dc->props = armsse_properties;
-+    dc->props = info->props;
-     dc->reset = armsse_reset;
-     iic->check = armsse_idau_check;
--    asc->info = data;
-+    asc->info = info;
- }
- 
- static const TypeInfo armsse_info = {
-diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-index 825d80e75a4..ddd8842732c 100644
---- a/hw/arm/musca.c
-+++ b/hw/arm/musca.c
-@@ -385,6 +385,14 @@ static void musca_init(MachineState *machine)
-     qdev_prop_set_uint32(ssedev, "init-svtor", mmc->init_svtor);
-     qdev_prop_set_uint32(ssedev, "SRAM_ADDR_WIDTH", mmc->sram_addr_width);
-     qdev_prop_set_uint32(ssedev, "MAINCLK", SYSCLK_FRQ);
-+    /*
-+     * Musca-A takes the default SSE-200 FPU/DSP settings (ie no for
-+     * CPU0 and yes for CPU1); Musca-B1 explicitly enables them for CPU0.
-+     */
-+    if (mmc->type == MUSCA_B1) {
-+        qdev_prop_set_bit(ssedev, "CPU0_FPU", true);
-+        qdev_prop_set_bit(ssedev, "CPU0_DSP", true);
-+    }
-     object_property_set_bool(OBJECT(&mms->sse), true, "realized",
-                              &error_fatal);
- 
+-    case GICD_IDREGS ... GICD_IDREGS + 0x1f:
++    case GICD_IDREGS ... GICD_IDREGS + 0x2f:
+         /* ID registers */
+         *data = gicv3_idreg(offset - GICD_IDREGS);
+         return MEMTX_OK;
+@@ -744,7 +744,7 @@ static MemTxResult gicd_writel(GICv3State *s, hwaddr offset,
+         gicd_write_irouter(s, attrs, irq, r);
+         return MEMTX_OK;
+     }
+-    case GICD_IDREGS ... GICD_IDREGS + 0x1f:
++    case GICD_IDREGS ... GICD_IDREGS + 0x2f:
+     case GICD_TYPER:
+     case GICD_IIDR:
+         /* RO registers, ignore the write */
+diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+index 3b0ba6de1ab..8645220d618 100644
+--- a/hw/intc/arm_gicv3_redist.c
++++ b/hw/intc/arm_gicv3_redist.c
+@@ -233,7 +233,7 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
+         }
+         *data = cs->gicr_nsacr;
+         return MEMTX_OK;
+-    case GICR_IDREGS ... GICR_IDREGS + 0x1f:
++    case GICR_IDREGS ... GICR_IDREGS + 0x2f:
+         *data = gicv3_idreg(offset - GICR_IDREGS);
+         return MEMTX_OK;
+     default:
+@@ -363,7 +363,7 @@ static MemTxResult gicr_writel(GICv3CPUState *cs, hwaddr offset,
+         return MEMTX_OK;
+     case GICR_IIDR:
+     case GICR_TYPER:
+-    case GICR_IDREGS ... GICR_IDREGS + 0x1f:
++    case GICR_IDREGS ... GICR_IDREGS + 0x2f:
+         /* RO registers, ignore the write */
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid guest write to RO register at offset "
 -- 
 2.20.1
 
