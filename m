@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C43486A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:10:03 +0200 (CEST)
-Received: from localhost ([::1]:48324 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 616F248614
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:52:25 +0200 (CEST)
+Received: from localhost ([::1]:48166 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hctGk-0000zN-03
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:10:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46579)
+	id 1hcszg-0001wL-HW
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46593)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiF-0003RW-Ms
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:25 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiG-0003S9-1g
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiE-0007zt-9R
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiE-00080D-Cw
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:23 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33072)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37309)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsiD-0007xa-UH
+ id 1hcsiE-0007yK-4G
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:22 -0400
-Received: by mail-wm1-x344.google.com with SMTP id h19so117900wme.0
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:19 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id f17so6864258wme.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OwEVsvj6AmcZtJrR0oDBzLmj1hc9aGGjVH7CWfs5T2E=;
- b=wegP1t44P2f0nUSY72d/uE57QLjqjC37ewmdo3sooKaNpoK8SLdF3qf6xqGtYIHie8
- SpRfUgYlqvQ5pJC/5K0Up6Dy0UaOSSr/JLYwjoagiNC7m+sdTVnHJC3dyD2PIUpM2J4V
- vYTRs974RysUekh/crvCRYKuf1phnSqYQ959ZXXUEj9RHYAs1yOEL6BWkyqjX3e+KNUv
- 8Ccwrqe3tPfeKPuBM7YsYhTMEKtPS36/ZJBjrP1kfj2sLn4wJd3UB5OOqXqqVqHnwiHB
- AjT6T4AArSH99Gf3ltwRNBPYMicBqlIenD21KdKINhmGrHwn1/44CBy1WJp1aNhEMSY8
- 6OzA==
+ bh=DxzFr+PxhxGUlwpP3ZW+DROYq2bJOJKyGjaM0kFUnOU=;
+ b=aqmm+rB2hNupjoWQ41jh5K3g53Yk+UP4Uifqa6F3MA6r5aWXX98PfSZs337HqQfsJe
+ NKOsFpZ6gN5fj93bfHfbvkE6KDKOnq8owxPhqBQOmjoSD/atUUpwEkPd3ZM0mho1/aYl
+ 7BEDbRlYEuXr2QrTpr07C9QYMLKnsFlHcrsOIYhAFafqSG7oDoX+HJ8zfue0+puiGIgD
+ 8so2i+XEk5NSocR6wnuuW4SsngiBu+Evny+/XvBRJ1Fczb3yALg7fczmN5RwbGBfN73b
+ +DNJR4qc+4Q8XtQg4qwecYR93Be9SLQFoPdVM309TjHn0iofp2WzIvmBAkopQJQUALJ8
+ xZAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OwEVsvj6AmcZtJrR0oDBzLmj1hc9aGGjVH7CWfs5T2E=;
- b=eucoFsnKLqUugIn/uNS4hkqOqpAc+exzo/eBvoGyisP9Eb/Sk7glbS62yqNgwuwJXf
- S/Y6ZnIGFb+uhfRnT/ea01PPi0lEVYcIvcjQfDzKCYPPRpUUL3rlLjwDtVc+haWdEdoo
- L4jVTAZ5G7UX9FzKzQC1f0AtrN0yzNRNX6N/gOUNIOOetSJTmq0tkDqpOfdZZWQDZiGV
- JkNYZ/CmDBiORe/ySgTluY8K1T+CBmo2NH6jyB3b5n2/47YvGn3S4pTni6F87JAvvueK
- YD0rg/U5w7dsddECrQwJNjYHXOLok4d/tkQkP96xUK9r+Fy8UKz824WaV/B324q7eD3w
- aG9w==
-X-Gm-Message-State: APjAAAVthE94w9V91eZGvb/iBOYQ4lw2spMgz64i6T/UkEW/d2JQuq+a
- /VbsdAPoT7jLXzoguudZQnCU1hHQN8NeCg==
-X-Google-Smtp-Source: APXvYqyBHeK3y+ZffJoIj3AQmnFI9/femIaDF7I7SArTLOMJCQcGZIEhi8L8CLPWFNmEpiff0x+m8w==
-X-Received: by 2002:a1c:9d86:: with SMTP id g128mr20844483wme.51.1560782058298; 
- Mon, 17 Jun 2019 07:34:18 -0700 (PDT)
+ bh=DxzFr+PxhxGUlwpP3ZW+DROYq2bJOJKyGjaM0kFUnOU=;
+ b=SPWJlUQqSPvFtQhFBD/prRVkAYBXA2SWPiqcpjtkTAJpEoFShkcG4v7ed7pqunXgFM
+ VHUmyxvNXDqwDVieGrzGWEyNF8hxVrhnXj8bzCbgq2p8qZZyrraFCIGcL81NC6rb3a1C
+ N4bNe16PRZuRKJKcizlbRVKlPkIi5k3it4VHz9FE0Zj0Cay41GR8+I/2I1kXR0E4WGL+
+ Tao0l+K8fcmhTqo6/IDlqzgqhwEkIdIgV6PfPlC/gB25VGnzagWoBy2MXaB63brQRAsQ
+ c5x91//VqLKOCsLw1gcxMEcxNkaFsv2Pf8exykPUwNwiERbOXy5DB+1kE3qH6fLxZ92f
+ R0QA==
+X-Gm-Message-State: APjAAAV3/aBNbJnis6qIfOlcJqwwZJ4A1lFLMJJ/u5qAM9FVgGseutAl
+ UFh7FKXJALgoZ3HjK/1be/zI8WQ35SCjYQ==
+X-Google-Smtp-Source: APXvYqyawAWBDguC3SXa8/3eR97g8pe9f0+l5pXzLXUWpqEexmmj/7VO8mm5SAX0M8xoaaNtSIj6eQ==
+X-Received: by 2002:a1c:f515:: with SMTP id t21mr20392549wmh.39.1560782059272; 
+ Mon, 17 Jun 2019 07:34:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.17
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:34:17 -0700 (PDT)
+ Mon, 17 Jun 2019 07:34:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:33:51 +0100
-Message-Id: <20190617143412.5734-4-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:33:52 +0100
+Message-Id: <20190617143412.5734-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
 References: <20190617143412.5734-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PULL 03/24] hw/arm/boot: Avoid placing the initrd on
- top of the kernel
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PULL 04/24] hw/arm/boot: Honour image size field in
+ AArch64 Image format kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,79 +83,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We currently put the initrd at the smaller of:
- * 128MB into RAM
- * halfway into the RAM
-(with the dtb following it).
+Since Linux v3.17, the kernel's Image header includes a field image_size,
+which gives the total size of the kernel including unpopulated data
+sections such as the BSS). If this is present, then return it from
+load_aarch64_image() as the true size of the kernel rather than
+just using the size of the Image file itself. This allows the code
+which calculates where to put the initrd to avoid putting it in
+the kernel's BSS area.
 
-However for large kernels this might mean that the kernel
-overlaps the initrd. For some kinds of kernel (self-decompressing
-32-bit kernels, and ELF images with a BSS section at the end)
-we don't know the exact size, but even there we have a
-minimum size. Put the initrd at least further into RAM than
-that. For image formats that can give us an exact kernel size, this
-will mean that we definitely avoid overlaying kernel and initrd.
+This means that we should be able to reliably load kernel images
+which are larger than 128MB without accidentally putting the
+initrd or dtb in locations that clash with the kernel itself.
 
+Fixes: https://bugs.launchpad.net/qemu/+bug/1823998
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Tested-by: Mark Rutland <mark.rutland@arm.com>
-Message-id: 20190516144733.32399-4-peter.maydell@linaro.org
+Message-id: 20190516144733.32399-5-peter.maydell@linaro.org
 ---
- hw/arm/boot.c | 34 ++++++++++++++++++++--------------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+ hw/arm/boot.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 5ddba727d45..a0e1110719e 100644
+index a0e1110719e..b2f93f6beff 100644
 --- a/hw/arm/boot.c
 +++ b/hw/arm/boot.c
-@@ -1000,20 +1000,6 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
-     if (info->nb_cpus == 0)
-         info->nb_cpus = 1;
+@@ -911,6 +911,7 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
+                                    hwaddr *entry, AddressSpace *as)
+ {
+     hwaddr kernel_load_offset = KERNEL64_LOAD_ADDR;
++    uint64_t kernel_size = 0;
+     uint8_t *buffer;
+     int size;
  
--    /*
--     * We want to put the initrd far enough into RAM that when the
--     * kernel is uncompressed it will not clobber the initrd. However
--     * on boards without much RAM we must ensure that we still leave
--     * enough room for a decent sized initrd, and on boards with large
--     * amounts of RAM we must avoid the initrd being so far up in RAM
--     * that it is outside lowmem and inaccessible to the kernel.
--     * So for boards with less  than 256MB of RAM we put the initrd
--     * halfway into RAM, and for boards with 256MB of RAM or more we put
--     * the initrd at 128MB.
--     */
--    info->initrd_start = info->loader_start +
--        MIN(info->ram_size / 2, 128 * 1024 * 1024);
--
-     /* Assume that raw images are linux kernels, and ELF images are not.  */
-     kernel_size = arm_load_elf(info, &elf_entry, &elf_low_addr,
-                                &elf_high_addr, elf_machine, as);
-@@ -1065,6 +1051,26 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+@@ -938,7 +939,10 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
+          * is only valid if the image_size is non-zero.
+          */
+         memcpy(&hdrvals, buffer + ARM64_TEXT_OFFSET_OFFSET, sizeof(hdrvals));
+-        if (hdrvals[1] != 0) {
++
++        kernel_size = le64_to_cpu(hdrvals[1]);
++
++        if (kernel_size != 0) {
+             kernel_load_offset = le64_to_cpu(hdrvals[0]);
+ 
+             /*
+@@ -956,12 +960,21 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
+         }
      }
  
-     info->entry = entry;
-+
 +    /*
-+     * We want to put the initrd far enough into RAM that when the
-+     * kernel is uncompressed it will not clobber the initrd. However
-+     * on boards without much RAM we must ensure that we still leave
-+     * enough room for a decent sized initrd, and on boards with large
-+     * amounts of RAM we must avoid the initrd being so far up in RAM
-+     * that it is outside lowmem and inaccessible to the kernel.
-+     * So for boards with less  than 256MB of RAM we put the initrd
-+     * halfway into RAM, and for boards with 256MB of RAM or more we put
-+     * the initrd at 128MB.
-+     * We also refuse to put the initrd somewhere that will definitely
-+     * overlay the kernel we just loaded, though for kernel formats which
-+     * don't tell us their exact size (eg self-decompressing 32-bit kernels)
-+     * we might still make a bad choice here.
++     * Kernels before v3.17 don't populate the image_size field, and
++     * raw images have no header. For those our best guess at the size
++     * is the size of the Image file itself.
 +     */
-+    info->initrd_start = info->loader_start +
-+        MAX(MIN(info->ram_size / 2, 128 * 1024 * 1024), kernel_size);
-+    info->initrd_start = TARGET_PAGE_ALIGN(info->initrd_start);
++    if (kernel_size == 0) {
++        kernel_size = size;
++    }
 +
-     if (is_linux) {
-         uint32_t fixupcontext[FIXUP_MAX];
+     *entry = mem_base + kernel_load_offset;
+     rom_add_blob_fixed_as(filename, buffer, size, *entry, as);
  
+     g_free(buffer);
+ 
+-    return size;
++    return kernel_size;
+ }
+ 
+ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
 -- 
 2.20.1
 
