@@ -2,65 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D074862B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:54:54 +0200 (CEST)
-Received: from localhost ([::1]:48184 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A70AC48646
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:58:23 +0200 (CEST)
+Received: from localhost ([::1]:48216 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hct25-0004MP-Sh
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43725)
+	id 1hct5S-00089h-Qq
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:58:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45085)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsYb-0004U2-NY
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:24:26 -0400
+ (envelope-from <arndbergmann@gmail.com>) id 1hcsdU-00087i-Qj
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:29:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsYZ-00023c-Tc
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:24:25 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39581)
+ (envelope-from <arndbergmann@gmail.com>) id 1hcsdS-0004ww-VD
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:29:28 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:32888)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsYZ-00022S-AL
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:24:23 -0400
-Received: by mail-ot1-x343.google.com with SMTP id r21so6542688otq.6
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:24:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kYY3Tw0knPndtwsiDs1GZv4xECoZtAkY0sOXh9IHHK4=;
- b=k2zdRneNP0ekAEEFBu9nnSX++rzyKcpbt14h44/F9MhnYIHnOjJagMnRe95s41Hcwm
- edUFHiGUZ4Tr2QNXX/8T2PWMflv0ENbj6HXWzJKfaB8hFagIkr12IA3h9RWFiYFrTlO2
- OUZ3sNOrtfCOl3xEzR7GPTjov4yL7JS0b2q3r3yAH+m2Z7YlIwKb5XzmjpYVSNnb82xr
- HflN7kI2NIJBmpuHIOPm4k12+C/iuhP2BFL/aFlVtAmvf6E5Tlcqp/ixaY2H71Q4JLEo
- DqAe7nPTZphG6O/g/xygAQHa+VjfaKdoBhfT/5mZH3qYenJmmQXE1qGwVtmr0Wa3IPXZ
- jKPQ==
+ (Exim 4.71) (envelope-from <arndbergmann@gmail.com>)
+ id 1hcsdS-0004vC-Np
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:29:26 -0400
+Received: by mail-qk1-f193.google.com with SMTP id r6so6303988qkc.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:29:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kYY3Tw0knPndtwsiDs1GZv4xECoZtAkY0sOXh9IHHK4=;
- b=kIoRWP86OJQSFsYLtBN6fNSsc/AwGt9f12c+EYBJv+nCMMFBYP1sYJTe/BCqnjcI3/
- mOIXEdm+9FP55YsNDnrWvtiGSfee87qz9374HqT3C5xxnYdGwwwLHAFEgia8Og0ef+tf
- 7eRKti5MhNq9RuTOdhYuQMOvHJCOdEEZ0XIPpsVviIUMsXi7U8XHEbom0GOiloni3N9J
- Fr8VWVfXvt43zfvCgjNIqe0MD2fVZrj+hrJQGLDWsI49aMVBR+amolkT5/SFbz0mI7WU
- kZae2eueWkf0lxCySGwnaYU+okpaclYKa7iXA0FgAydsh7j0S5j1T1EnwsiEeErmRX8s
- H0RQ==
-X-Gm-Message-State: APjAAAW7JB8JL9j+heTJlQ795AYhZA4KR09hj1iKUECRsvBfC1iqf3sB
- fIWMpPGAOspuSffA/dBL1w/0xR0TCwy6HPi2n7sr5g==
-X-Google-Smtp-Source: APXvYqz7MitrTuYEj2jv9GbEXdWCc9OwvUkb19zHfPFq5PsjBHOLVapwbzNSCTln5o6ndNeSGGgwrc/e3wuDwjbqhRY=
-X-Received: by 2002:a9d:d17:: with SMTP id 23mr57708179oti.221.1560781462050; 
- Mon, 17 Jun 2019 07:24:22 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+lE6PJY96jkgqBzd8cZhUb5M0BshV+I6TfB7s0gn0zU=;
+ b=jt3UmoTjuxiXTQr42Bl/Btz35CL/PeDv4RPfWuHZ4slDVndjUSQfVbsGl5uMHn5GTD
+ 45u+kn9QUz95JViHL3KoCzXmdiPWC4TAnTLg6JluY9yAvjzycWDPwHxe+GSGI+cqj4/g
+ W9zat6u9o2HnUSTN7WyjxAVBBDfQhob5HZlJyBNr1cfeTWB5ywO94xulGqkxUNZUnnrK
+ UJCQZZaJQnfMffL4X8rCgwEN113OxPMQt6UqQWHAuaBupAxGfKLYtWIFIa2/2NQwySBy
+ bakd9Wn9A3qRvsSJtPOMONC/vK11InTfhPTVQ1sEbkaF/heES86GvIBwtxGvHXd6Og2s
+ 5qwA==
+X-Gm-Message-State: APjAAAV8GkVa5gkLtbaX2RETqV7FGFwjLKod3JNw1fd4r6KoYjc+QwYR
+ odwZJTXYcXRJaI+psNdqEzUL8iQINj3zdDztbqU=
+X-Google-Smtp-Source: APXvYqzMvFSE8waZZH9d8wQuBOdUF0upWZCJq/qvZ6OTMgOlJyvFNTtC+ASmHyePIZCFejkKFs7duxRItCIQIkXXesE=
+X-Received: by 2002:ae9:e608:: with SMTP id z8mr80412952qkf.182.1560781764609; 
+ Mon, 17 Jun 2019 07:29:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190613143741.15128-1-peter.maydell@linaro.org>
- <724331ba-44ee-c37c-e22b-452b6f25ee7b@linaro.org>
-In-Reply-To: <724331ba-44ee-c37c-e22b-452b6f25ee7b@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 17 Jun 2019 15:24:10 +0100
-Message-ID: <CAFEAcA_D_Eyg2fjhcfWYwMhHSVCY5-gr1hJDn+kWBTK=gz-LTA@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+References: <20190617131103.1413-1-berrange@redhat.com>
+In-Reply-To: <20190617131103.1413-1-berrange@redhat.com>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Mon, 17 Jun 2019 16:29:06 +0200
+Message-ID: <CAK8P3a3puU=oLJFyv99gZ2tjmejWqkE96o_OtmUynHd=gBxY0Q@mail.gmail.com>
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [RISU PATCH] arm.risu: Avoid VTRN with Vd == Vm
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.222.193
+Subject: Re: [Qemu-devel] [PATCH v2] linux-user: fix to handle variably
+ sized SIOCGSTAMP with new kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,32 +64,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerhard Stenzel <gerhard.stenzel@de.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 13 Jun 2019 at 22:17, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, Jun 17, 2019 at 3:11 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
 >
-> On 6/13/19 7:37 AM, Peter Maydell wrote:
-> > The AArch32 VTRN instruction is specified to give an UNKNOWN
-> > result if Vd and Vm are the same register; avoid generating
-> > this in risu output, as we already do for VUZP and VZIP.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > Alex: this pattern error is why we don't pass your
-> > testcases/aarch32-all/insn_VTRN__INC.risu.bin when compared
-> > with a real Cortex-A7. You probably want to update that.
-> >
-> >  arm.risu | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> The SIOCGSTAMP symbol was previously defined in the
+> asm-generic/sockios.h header file. QEMU sees that header
+> indirectly via sys/socket.h
 >
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> In linux kernel commit 0768e17073dc527ccd18ed5f96ce85f9985e9115
+> the asm-generic/sockios.h header no longer defines SIOCGSTAMP.
+> Instead it provides only SIOCGSTAMP_OLD, which only uses a
+> 32-bit time_t on 32-bit architectures.
 
-Applied to risu master, thanks.
+This is a bit misleading, as we still define SIOCGSTAMP in the
+right place. asm-generic/sockios.h should not be used by normal
+user space.
 
--- PMM
+> The linux/sockios.h header then defines SIOCGSTAMP using
+> either SIOCGSTAMP_OLD or SIOCGSTAMP_NEW as appropriate. If
+> SIOCGSTAMP_NEW is used, then the tv_sec field is 64-bit even
+> on 32-bit architectures
+>
+> To cope with this we must now define two separate syscalls,
+> with corresponding old and new sizes, as well as including
+> the new linux/sockios.h header.
+
+The overall concept seems right. A few more comments on
+details that may have gone wrong here. I'm not familiar with
+the qemu-user implementation, so it's mostly guesswork
+on my end.
+
+>    IOCTL(SIOCGIWNAME, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_char_ifreq))=
+)
+>    IOCTL(SIOCSPGRP, IOC_W, MK_PTR(TYPE_INT)) /* pid_t */
+>    IOCTL(SIOCGPGRP, IOC_R, MK_PTR(TYPE_INT)) /* pid_t */
+> +
+> +#ifdef SIOCGSTAMP_OLD
+> +  IOCTL(SIOCGSTAMP_OLD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
+> +#else
+>    IOCTL(SIOCGSTAMP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
+> +#endif
+> +#ifdef SIOCGSTAMPNS_OLD
+> +  IOCTL(SIOCGSTAMPNS_OLD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
+> +#else
+>    IOCTL(SIOCGSTAMPNS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
+> +#endif
+> +#ifdef SIOCGSTAMP_NEW
+> +  IOCTL(SIOCGSTAMP_NEW, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval64)))
+> +#endif
+> +#ifdef SIOCGSTAMPNS_NEW
+> +  IOCTL(SIOCGSTAMPNS_NEW, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec64)))
+> +#endif
+
+Is timespec64 a qemu type? How is it defined?
+
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 7f141f699c..7830b600e7 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -750,6 +750,11 @@ struct target_pollfd {
+>
+>  #define TARGET_SIOCGSTAMP      0x8906          /* Get stamp (timeval) */
+>  #define TARGET_SIOCGSTAMPNS    0x8907          /* Get stamp (timespec) *=
+/
+> +#define TARGET_SIOCGSTAMP_OLD   0x8906          /* Get stamp (timeval) *=
+/
+> +#define TARGET_SIOCGSTAMPNS_OLD 0x8907          /* Get stamp (timespec) =
+*/
+
+Note that these types are architecture specific. It seems that only
+one architecture is left that has its own definitions though, so this
+is only broken on arch/sh for current linux (and remains broken).
+
+Future architectures, including 32-bit risc-v should only have the _NEW
+version and not support SIOCGSTAMP_OLD at all.
+
+When emulating risc-v user space on old kernels (pre-5.1), you may need to
+translate the ioctl command and all system calls that take a 64-bit time_t =
+into
+the variants with a 32-bit time_t on the way into the kernel, and then back=
+.
+
+Similarly, running an old user binary on a riscv32 machine, you may
+need to do the reverse translation.
+
+> +#define TARGET_SIOCGSTAMP_NEW   TARGET_IOC(TARGET_IOC_READ, 's', 6, size=
+of(long long) + sizeof(long)) /* Get stamp (timeval64) */
+> +#define TARGET_SIOCGSTAMPNS_NEW TARGET_IOC(TARGET_IOC_READ, 's', 7, size=
+of(long long) + sizeof(long)) /* Get stamp (timespec64) */
+
+"sizeof(long long) + sizeof(long)" is not always the size of the argument t=
+o
+TARGET_SIOCGSTAMP{NS}_NEW. On 32-bit architectures, the size is
+two 64-bit values. sparc64 is potentially another special case, as 'struct
+timeval is 'long + int' there (12 bytes).
+
+On big-endian architectures, the nanoseconds are returned in the last
+four bytes of the 16-byte structure.
+
+>  /* Networking ioctls */
+>  #define TARGET_SIOCADDRT       0x890B          /* add routing table entr=
+y */
+> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
+> index b98a23b0f1..de4c5a5b6f 100644
+> --- a/linux-user/syscall_types.h
+> +++ b/linux-user/syscall_types.h
+> @@ -20,6 +20,10 @@ STRUCT(timeval,
+>  STRUCT(timespec,
+>         MK_ARRAY(TYPE_LONG, 2))
+>
+> +STRUCT(timeval64, TYPE_LONGLONG, TYPE_LONG)
+> +
+> +STRUCT(timespec64, TYPE_LONGLONG, TYPE_LONG)
+
+Same here.
+
+        Arnd
 
