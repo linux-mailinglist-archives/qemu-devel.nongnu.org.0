@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676C748B1F
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:01:19 +0200 (CEST)
-Received: from localhost ([::1]:50710 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDAF448B4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:06:52 +0200 (CEST)
+Received: from localhost ([::1]:50740 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvwT-0000cz-OW
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:01:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52033)
+	id 1hcw1s-0004ZV-5w
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52072)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liran.alon@oracle.com>) id 1hcvst-0005dq-W8
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:57:37 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1hcvsw-0005fv-Ok
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:57:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1hcvst-0003SA-2O
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:57:35 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:44016)
+ (envelope-from <liran.alon@oracle.com>) id 1hcvss-0003S4-Vn
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:57:38 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:40362)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1hcvss-0003Rf-P7
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:57:35 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HHrrVe054554;
+ id 1hcvss-0003RZ-M9
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:57:34 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HHs6kO148245;
  Mon, 17 Jun 2019 17:57:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=corp-2018-07-02;
- bh=PUudmWsO4oM3kj7HanyTpVYm25ckjUYuN03qqDaTqkA=;
- b=kFjhk5JP/Vc8LXAl38ckoSgczXRAvvucm5IeSb5xT8uEa0tuF3HrHT3Do6SsDUNll5mx
- SEbVS67Wto3MB2Sfg2Yzodze+fe85gjyJ7gd3PmhxmHTIpsdf4Gkzb7qstOp1dCcmG0R
- RNYDCjvxmRoQVsOazS4KANvpcZSufn5hZRhcl2FbLmZrK0C3bKw7d632BkYfonaC9lM2
- wvC1DKL1XpdarNExIsKFrx5naeAna7d9az5j1QbYp3qL4arRuI/DLoTGDIdZahmipbAZ
- 5hGRPhcYcMDmv6yHMvr7BtGh0Fw54m5zFc9pgY1dPvc9ZR8LO7l/9mQ4iv2yoD++Z3UU SQ== 
+ bh=49HRpG9G1+QXdfmmlaxcFNw0+wgkBMXI7yMkggaZdA8=;
+ b=A2okq+D9xdwl+t0WEfkcPWvWMBc7wD0saM5Z/6+jHSbeTBlaw+IR7/o49p03iLVPqElm
+ 2v8B69hzCZ08Ts7Ab+kU86o4GRMi65SWQHWnagBIr3D/mnBmcvp8Sn+sIAmmX6jPcwbw
+ k5wkLx4w7P5V94/Cz2NWG2OIfT7RcIChx09w4ZmlzaaAiNT7gToYFm0qTwMo74mOzMxL
+ DownXIdc9oTM8bN9er+pmvQw5AA9HBkfc9C/TJuAlOGRJRwQzSjVFzH+s1MuDMOcov4F
+ Wn6fE3mcDDt96jNOLxrULRkhPuU1mwpq1Va7raiyMJjo29Zou5/NuDZXK8axfLomvqLb 6Q== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2t4rmnyx8b-1
+ by userp2120.oracle.com with ESMTP id 2t4saq7w43-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 17 Jun 2019 17:57:32 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HHvWQp130477;
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HHvWaX130537;
  Mon, 17 Jun 2019 17:57:32 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2t59gdc0gr-1
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 2t59gdc0hq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 17:57:31 +0000
+ Mon, 17 Jun 2019 17:57:32 +0000
 Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HHvQWE002589;
- Mon, 17 Jun 2019 17:57:26 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HHvUZF029068;
+ Mon, 17 Jun 2019 17:57:30 GMT
 Received: from spark.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 10:57:26 -0700
+ with ESMTP ; Mon, 17 Jun 2019 10:57:29 -0700
 From: Liran Alon <liran.alon@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 20:56:51 +0300
-Message-Id: <20190617175658.135869-3-liran.alon@oracle.com>
+Date: Mon, 17 Jun 2019 20:56:52 +0300
+Message-Id: <20190617175658.135869-4-liran.alon@oracle.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617175658.135869-1-liran.alon@oracle.com>
 References: <20190617175658.135869-1-liran.alon@oracle.com>
@@ -64,7 +64,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=914
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1906170160
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
@@ -72,13 +72,13 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
  suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=953 adultscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906170160
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [QEMU PATCH v3 2/9] KVM: i386: Use symbolic constant
- for #DB/#BP exception constants
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [QEMU PATCH v3 3/9] KVM: i386: Re-inject #DB to guest
+ with updated DR6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,40 +98,48 @@ Cc: ehabkost@redhat.com, kvm@vger.kernel.org, maran.wilson@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+If userspace (QEMU) debug guest, when #DB is raised in guest and
+intercepted by KVM, KVM forwards information on #DB to userspace
+instead of injecting #DB to guest.
+While doing so, KVM don't update vCPU DR6 but instead report the #DB DR6
+value to userspace for further handling.
+See KVM's handle_exception() DB_VECTOR handler.
+
+QEMU handler for this case is kvm_handle_debug(). This handler basically
+checks if #DB is related to one of user set hardware breakpoints and if
+not, it re-inject #DB into guest.
+The re-injection is done by setting env->exception_injected to #DB which
+will later be passed as events.exception.nr to KVM_SET_VCPU_EVENTS ioctl
+by kvm_put_vcpu_events().
+
+However, in case userspace re-injects #DB, KVM expects userspace to set
+vCPU DR6 as reported to userspace when #DB was intercepted! Otherwise,
+KVM_REQ_EVENT handler will inject #DB with wrong DR6 to guest.
+
+Fix this issue by updating vCPU DR6 appropriately when re-inject #DB to
+guest.
+
 Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Reviewed-by: Krish Sadhukhan <krish.sadhukhan@oracle.com>
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
 ---
- target/i386/kvm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/i386/kvm.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 29889aa6b001..738dd91ff3cc 100644
+index 738dd91ff3cc..c8fd53055d37 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -3006,9 +3006,9 @@ static int kvm_guest_debug_workarounds(X86CPU *cpu)
-     unsigned long reinject_trap = 0;
+@@ -3558,6 +3558,9 @@ static int kvm_handle_debug(X86CPU *cpu,
+         /* pass to guest */
+         env->exception_injected = arch_info->exception;
+         env->has_error_code = 0;
++        if (arch_info->exception == EXCP01_DB) {
++            env->dr[6] = arch_info->dr6;
++        }
+     }
  
-     if (!kvm_has_vcpu_events()) {
--        if (env->exception_injected == 1) {
-+        if (env->exception_injected == EXCP01_DB) {
-             reinject_trap = KVM_GUESTDBG_INJECT_DB;
--        } else if (env->exception_injected == 3) {
-+        } else if (env->exception_injected == EXCP03_INT3) {
-             reinject_trap = KVM_GUESTDBG_INJECT_BP;
-         }
-         env->exception_injected = -1;
-@@ -3520,8 +3520,8 @@ static int kvm_handle_debug(X86CPU *cpu,
-     int ret = 0;
-     int n;
- 
--    if (arch_info->exception == 1) {
--        if (arch_info->dr6 & (1 << 14)) {
-+    if (arch_info->exception == EXCP01_DB) {
-+        if (arch_info->dr6 & DR6_BS) {
-             if (cs->singlestep_enabled) {
-                 ret = EXCP_DEBUG;
-             }
+     return ret;
 -- 
 2.20.1
 
