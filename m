@@ -2,50 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C297481B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:20:20 +0200 (CEST)
-Received: from localhost ([::1]:46638 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305A74818A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:09:05 +0200 (CEST)
+Received: from localhost ([::1]:46422 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcqcV-0004mi-DL
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:20:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58686)
+	id 1hcqRc-0004FC-9L
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60545)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hcq9b-0001IB-3t
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:50:37 -0400
+ (envelope-from <groug@kaod.org>) id 1hcqEo-0005Od-2x
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:55:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hcq9X-0007AZ-DP
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:50:27 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60761 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1hcq9V-00077S-IX
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:50:23 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id E488F1A202B;
- Mon, 17 Jun 2019 13:50:18 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from [10.10.13.132] (rtrkw870-lin.domain.local [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id C6E221A1F9F;
- Mon, 17 Jun 2019 13:50:18 +0200 (CEST)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
- <1559816130-17113-7-git-send-email-stefan.brankovic@rt-rk.com>
- <18871125-cb2c-57e7-864d-c5c7a8846093@linaro.org>
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-Message-ID: <15835022-ed00-40e7-ed93-767b794e32d7@rt-rk.com>
-Date: Mon, 17 Jun 2019 13:50:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <groug@kaod.org>) id 1hcqEl-0004GM-SQ
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:55:49 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53326)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hcqEl-0004Cm-DH
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:55:47 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5HBrRMF084612
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:55:43 -0400
+Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2t67eqy366-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:55:42 -0400
+Received: from localhost
+ by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Mon, 17 Jun 2019 12:55:40 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 17 Jun 2019 12:55:38 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x5HBtbxG56950990
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 17 Jun 2019 11:55:37 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 347884C059;
+ Mon, 17 Jun 2019 11:55:37 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 056C64C046;
+ Mon, 17 Jun 2019 11:55:37 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.14.35])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 17 Jun 2019 11:55:36 +0000 (GMT)
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Mon, 17 Jun 2019 13:55:36 +0200
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-In-Reply-To: <18871125-cb2c-57e7-864d-c5c7a8846093@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: Re: [Qemu-devel] [PATCH 6/8] target/ppc: Optimize emulation of
- vclzw instruction
+X-TM-AS-GCONF: 00
+x-cbid: 19061711-0020-0000-0000-0000034ACF0D
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19061711-0021-0000-0000-0000219E140D
+Message-Id: <156077253666.424706.6104557911104491047.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-17_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906170111
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH] xics/spapr: Only emulated XICS should use
+ RTAS/hypercalls emulation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,53 +88,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Checking that we're not using the in-kernel XICS is ok with the "xics"
+interrupt controller mode, but it is definitely not enough with the
+other modes since the guest could be using XIVE.
 
-On 6.6.19. 20:34, Richard Henderson wrote:
-> On 6/6/19 5:15 AM, Stefan Brankovic wrote:
->> +    for (i = 0; i < 2; i++) {
->> +        if (i == 0) {
->> +            /* Get high doubleword element of vB in avr. */
->> +            get_avr64(avr, VB, true);
->> +        } else {
->> +            /* Get low doubleword element of vB in avr. */
->> +            get_avr64(avr, VB, false);
->> +        }
-> Better as simply get_avr64(avr, VB, i);
-Definitely shorter way to do this.
->
->> +        /*
->> +         * Perform count for every word element using tcg_gen_clzi_i64.
->> +         * Since it counts leading zeros on 64 bit lenght, we have to move
->> +         * ith word element to highest 32 bits of tmp, or it with mask(so we get
->> +         * all ones in lowest 32 bits), then perform tcg_gen_clzi_i64 and move
->> +         * it's result in appropriate word element of result.
->> +         */
->> +        tcg_gen_shli_i64(tmp, avr, 32);
->> +        tcg_gen_or_i64(tmp, tmp, mask);
->> +        tcg_gen_clzi_i64(result, tmp, 64);
->> +
->> +        tcg_gen_or_i64(tmp, avr, mask);
->> +        tcg_gen_clzi_i64(tmp, tmp, 64);
-> s/64/32.
->
->> +        tcg_gen_deposit_i64(result, result, tmp, 32, 32);
-> That said, it's probably better to treat this as 4 words, not 2 doublewords.
->
-> 	for (i = 0; i < 4; i++) {
-> 	    tcg_gen_ld_i32(tmp, cpu_env, avr_full_offset(VB) + i * 4);
-> 	    tcg_gen_clzi_i32(tmp, tmp, 32);
-> 	    tcg_gen_st_i32(tmp, cpu_env, avr_full_offset(VT) + i * 4);
-> 	}
->
-I will use this way in v2.
+Ensure XIVE is not in use when emulated XICS RTAS/hypercalls are
+called.
 
-Kind Regards,
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ hw/intc/xics_spapr.c |   53 +++++++++++++++++++++++++-------------------------
+ 1 file changed, 27 insertions(+), 26 deletions(-)
 
-Stefan
+diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+index 8d605b68a7a0..7cd3c93d719f 100644
+--- a/hw/intc/xics_spapr.c
++++ b/hw/intc/xics_spapr.c
+@@ -41,22 +41,23 @@
+  * Guest interfaces
+  */
+ 
+-static bool check_in_kernel_xics(const char *func)
++static bool check_emulated_xics(SpaprMachineState *spapr, const char *func)
+ {
+-    if (kvm_irqchip_in_kernel()) {
+-        error_report("pseries: %s must never be called for in-kernel XICS",
++    if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT) ||
++        kvm_irqchip_in_kernel()) {
++        error_report("pseries: %s must only be called for emulated XICS",
+                      func);
+-        return true;
++        return false;
+     }
+ 
+-    return false;
++    return true;
+ }
+ 
+-#define CHECK_IN_KERNEL_XICS_HCALL              \
+-    do {                                        \
+-        if (check_in_kernel_xics(__func__)) {   \
+-            return H_HARDWARE;                  \
+-        }                                       \
++#define CHECK_EMULATED_XICS_HCALL(spapr)               \
++    do {                                               \
++        if (!check_emulated_xics((spapr), __func__)) { \
++            return H_HARDWARE;                         \
++        }                                              \
+     } while (0)
+ 
+ static target_ulong h_cppr(PowerPCCPU *cpu, SpaprMachineState *spapr,
+@@ -64,7 +65,7 @@ static target_ulong h_cppr(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ {
+     target_ulong cppr = args[0];
+ 
+-    CHECK_IN_KERNEL_XICS_HCALL;
++    CHECK_EMULATED_XICS_HCALL(spapr);
+ 
+     icp_set_cppr(spapr_cpu_state(cpu)->icp, cppr);
+     return H_SUCCESS;
+@@ -76,7 +77,7 @@ static target_ulong h_ipi(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     target_ulong mfrr = args[1];
+     ICPState *icp = xics_icp_get(XICS_FABRIC(spapr), args[0]);
+ 
+-    CHECK_IN_KERNEL_XICS_HCALL;
++    CHECK_EMULATED_XICS_HCALL(spapr);
+ 
+     if (!icp) {
+         return H_PARAMETER;
+@@ -91,7 +92,7 @@ static target_ulong h_xirr(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ {
+     uint32_t xirr = icp_accept(spapr_cpu_state(cpu)->icp);
+ 
+-    CHECK_IN_KERNEL_XICS_HCALL;
++    CHECK_EMULATED_XICS_HCALL(spapr);
+ 
+     args[0] = xirr;
+     return H_SUCCESS;
+@@ -102,7 +103,7 @@ static target_ulong h_xirr_x(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ {
+     uint32_t xirr = icp_accept(spapr_cpu_state(cpu)->icp);
+ 
+-    CHECK_IN_KERNEL_XICS_HCALL;
++    CHECK_EMULATED_XICS_HCALL(spapr);
+ 
+     args[0] = xirr;
+     args[1] = cpu_get_host_ticks();
+@@ -114,7 +115,7 @@ static target_ulong h_eoi(PowerPCCPU *cpu, SpaprMachineState *spapr,
+ {
+     target_ulong xirr = args[0];
+ 
+-    CHECK_IN_KERNEL_XICS_HCALL;
++    CHECK_EMULATED_XICS_HCALL(spapr);
+ 
+     icp_eoi(spapr_cpu_state(cpu)->icp, xirr);
+     return H_SUCCESS;
+@@ -127,7 +128,7 @@ static target_ulong h_ipoll(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     uint32_t mfrr;
+     uint32_t xirr;
+ 
+-    CHECK_IN_KERNEL_XICS_HCALL;
++    CHECK_EMULATED_XICS_HCALL(spapr);
+ 
+     if (!icp) {
+         return H_PARAMETER;
+@@ -141,12 +142,12 @@ static target_ulong h_ipoll(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     return H_SUCCESS;
+ }
+ 
+-#define CHECK_IN_KERNEL_XICS_RTAS(rets)                 \
+-    do {                                                \
+-        if (check_in_kernel_xics(__func__)) {           \
+-            rtas_st((rets), 0, RTAS_OUT_HW_ERROR);      \
+-            return;                                     \
+-        }                                               \
++#define CHECK_EMULATED_XICS_RTAS(spapr, rets)          \
++    do {                                               \
++        if (!check_emulated_xics((spapr), __func__)) { \
++            rtas_st((rets), 0, RTAS_OUT_HW_ERROR);     \
++            return;                                    \
++        }                                              \
+     } while (0)
+ 
+ static void rtas_set_xive(PowerPCCPU *cpu, SpaprMachineState *spapr,
+@@ -157,7 +158,7 @@ static void rtas_set_xive(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     ICSState *ics = spapr->ics;
+     uint32_t nr, srcno, server, priority;
+ 
+-    CHECK_IN_KERNEL_XICS_RTAS(rets);
++    CHECK_EMULATED_XICS_RTAS(spapr, rets);
+ 
+     if ((nargs != 3) || (nret != 1)) {
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+@@ -192,7 +193,7 @@ static void rtas_get_xive(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     ICSState *ics = spapr->ics;
+     uint32_t nr, srcno;
+ 
+-    CHECK_IN_KERNEL_XICS_RTAS(rets);
++    CHECK_EMULATED_XICS_RTAS(spapr, rets);
+ 
+     if ((nargs != 1) || (nret != 3)) {
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+@@ -224,7 +225,7 @@ static void rtas_int_off(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     ICSState *ics = spapr->ics;
+     uint32_t nr, srcno;
+ 
+-    CHECK_IN_KERNEL_XICS_RTAS(rets);
++    CHECK_EMULATED_XICS_RTAS(spapr, rets);
+ 
+     if ((nargs != 1) || (nret != 1)) {
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+@@ -257,7 +258,7 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     ICSState *ics = spapr->ics;
+     uint32_t nr, srcno;
+ 
+-    CHECK_IN_KERNEL_XICS_RTAS(rets);
++    CHECK_EMULATED_XICS_RTAS(spapr, rets);
+ 
+     if ((nargs != 1) || (nret != 1)) {
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
 
-> r~
 
