@@ -2,87 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E8248982
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:58:53 +0200 (CEST)
-Received: from localhost ([::1]:49751 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6851C489FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:24:09 +0200 (CEST)
+Received: from localhost ([::1]:50202 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcuy4-0004nr-H2
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55498)
+	id 1hcvMW-00034G-J7
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Paul.Durrant@citrix.com>) id 1hcuf9-0003AI-3D
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:39:20 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hculo-00020j-IU
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:46:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Paul.Durrant@citrix.com>) id 1hcuf8-0004gA-0u
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:39:18 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:49736)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
- id 1hcuf6-0004Uz-F5
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:39:17 -0400
-Authentication-Results: esa2.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=Paul.Durrant@citrix.com;
- spf=Pass smtp.mailfrom=Paul.Durrant@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- Paul.Durrant@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="Paul.Durrant@citrix.com"; x-conformance=sidf_compatible
-Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
- Paul.Durrant@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="Paul.Durrant@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: 1gwkY5Lv97S4TgN9d1H12WB/0Op1OfIsg4AYQGofvlu8QPJIJy5VWyF2VFyveuyirdnCI/wFoX
- CTqJ/b57X/OEh7J/QParU2M2HB+wCjlLNX1mhZwOJub0wVbOWaro+bHF7ZsSnoKGy0HsalZicJ
- YAJzvZc7EpBYag+8V5hRiZwKUtk1IAmOlLgdl6NczV7MtAAH9Xu0noilRSFMiZF5nSc+wQyIYU
- D3ZYhXRL7LUG3vEyW4A9gNzTrBzBum7iS94eFZYwXJ8BPd++3If/bRLsMsoQofa1qZXlvvTnbG
- 6Js=
-X-SBRS: 2.7
-X-MesageID: 1835173
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.63,385,1557201600"; 
-   d="scan'208";a="1835173"
-From: Paul Durrant <Paul.Durrant@citrix.com>
-To: Anthony Perard <anthony.perard@citrix.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH 4/4] xen: Avoid VLA
-Thread-Index: AQHVJSMYaL9Ko3kp1kKDxJjcc8OjZKagC0EQ
-Date: Mon, 17 Jun 2019 16:39:09 +0000
-Message-ID: <a3843cb971bc4fa8886170d0b2461a44@AMSPEX02CL03.citrite.net>
-References: <20190617154105.32323-1-anthony.perard@citrix.com>
- <20190617154105.32323-5-anthony.perard@citrix.com>
-In-Reply-To: <20190617154105.32323-5-anthony.perard@citrix.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <no-reply@patchew.org>) id 1hculn-0003Y7-9P
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:46:12 -0400
+Resent-Date: Mon, 17 Jun 2019 12:46:12 -0400
+Resent-Message-Id: <E1hculn-0003Y7-9P@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21594)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hculk-0003NH-EO; Mon, 17 Jun 2019 12:46:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560789925; cv=none; d=zoho.com; s=zohoarc; 
+ b=BHgaBlKmHRzIeSZeIagHCXEdG8xAcZ8Dc1qMJXa19sJWZlEEfs3beq+gKsZGLpRtEJd9g+jupvk5xy73eW4oPSCJlLE7EofSeAfqK8H1iGdNbaQ+xl2//p+6QF+Yp950IWQYY1tLvJETXHRfMcigJVo1l5uge4ZFh3irFYGNJbQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1560789925;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=k2T1QyuC1Pp+HHCVRxYTb8cfLIDM3g9/yyq1kW6tPc0=; 
+ b=SyRp/bO0F4N602ClWRZub76bC8Scc1VzW/sBwCbNc3Setw87Ix05FfYWSxO6HZU3cAol1D+sCFtEn0pRplzCDFwC8z6XAQWg7i3Vsa2pN4x5za4KgLrqLVakgjYDPVnW9UpO1Qxlp/FWFySrSb/43eyyTJTRJN3RPetH/8zhN+M=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1560789923529457.1588512216298;
+ Mon, 17 Jun 2019 09:45:23 -0700 (PDT)
+In-Reply-To: <20190617150950.5264-1-shmuel.eiderman@oracle.com>
+Message-ID: <156078992210.13573.8051164878994897371@ce79690b2cb9>
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.145.153
-Subject: Re: [Qemu-devel] [PATCH 4/4] xen: Avoid VLA
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: shmuel.eiderman@oracle.com
+Date: Mon, 17 Jun 2019 09:45:23 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [SeaBIOS] [QEMU] [PATCH v3 0/8] Add Qemu to
+ SeaBIOS LCHS interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,89 +61,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Stefano Stabellini <sstabellini@kernel.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ kevin@koconnor.net, kraxel@redhat.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Anthony PERARD [mailto:anthony.perard@citrix.com]
-> Sent: 17 June 2019 16:41
-> To: qemu-devel@nongnu.org
-> Cc: xen-devel@lists.xenproject.org; Anthony Perard <anthony.perard@citrix=
-.com>; Stefano Stabellini
-> <sstabellini@kernel.org>; Paul Durrant <Paul.Durrant@citrix.com>
-> Subject: [PATCH 4/4] xen: Avoid VLA
->=20
-> Avoid using a variable length array.
->=20
-> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> ---
->=20
-> Notes:
->     Was suggested by Peter here:
->     <CAFEAcA88+A2oCkQnxKDEdpmfCZSmPzWMBg01wDDV68bMZoY5Jg@mail.gmail.com>
->     "should we try to stop using variable length arrays?"
->=20
->  hw/i386/xen/xen-hvm.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-> index 725f9c2278..10d73b55b4 100644
-> --- a/hw/i386/xen/xen-hvm.c
-> +++ b/hw/i386/xen/xen-hvm.c
-> @@ -615,7 +615,8 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
->  {
->      hwaddr npages =3D size >> TARGET_PAGE_BITS;
->      const int width =3D sizeof(unsigned long) * 8;
-> -    unsigned long bitmap[DIV_ROUND_UP(npages, width)];
-> +    unsigned long *bitmap =3D NULL;
-> +    size_t bitmap_size =3D DIV_ROUND_UP(npages, width);
->      int rc, i, j;
->      const XenPhysmap *physmap =3D NULL;
->=20
-> @@ -632,6 +633,8 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
->          return;
->      }
->=20
-> +    bitmap =3D g_new0(unsigned long, bitmap_size);
-> +
-
-How hot is this function? It looks (unsurprisingly) like the section size d=
-etermines the map size so I wonder whether it can instead be allocated once=
- when the section is added?
-
-  Paul
-
->      rc =3D xen_track_dirty_vram(xen_domid, start_addr >> TARGET_PAGE_BIT=
-S,
->                                npages, bitmap);
->      if (rc < 0) {
-> @@ -644,10 +647,10 @@ static void xen_sync_dirty_bitmap(XenIOState *state=
-,
->                      ", 0x" TARGET_FMT_plx "): %s\n",
->                      start_addr, start_addr + size, strerror(errno));
->          }
-> -        return;
-> +        goto out;
->      }
->=20
-> -    for (i =3D 0; i < ARRAY_SIZE(bitmap); i++) {
-> +    for (i =3D 0; i < bitmap_size; i++) {
->          unsigned long map =3D bitmap[i];
->          while (map !=3D 0) {
->              j =3D ctzl(map);
-> @@ -657,6 +660,8 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
->                                      TARGET_PAGE_SIZE);
->          };
->      }
-> +out:
-> +    g_free(bitmap);
->  }
->=20
->  static void xen_log_start(MemoryListener *listener,
-> --
-> Anthony PERARD
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxNzE1MDk1MC41MjY0
+LTEtc2htdWVsLmVpZGVybWFuQG9yYWNsZS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
+dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
+bW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDIwMTkwNjE3MTUwOTUwLjUyNjQtMS1zaG11
+ZWwuZWlkZXJtYW5Ab3JhY2xlLmNvbQpUeXBlOiBzZXJpZXMKU3ViamVjdDogW1NlYUJJT1NdIFtR
+RU1VXSBbUEFUQ0ggdjMgMC84XSBBZGQgUWVtdSB0byBTZWFCSU9TIExDSFMgaW50ZXJmYWNlCgo9
+PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+
+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQg
+MApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxi
+YWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5j
+b20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICAgNWQwZTU2OS4uMDc2MjQzZiAgbWFzdGVyICAgICAt
+PiBtYXN0ZXIKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICog
+W25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDE5MDYxNzE1MDk1MC41MjY0LTEtc2htdWVsLmVp
+ZGVybWFuQG9yYWNsZS5jb20gLT4gcGF0Y2hldy8yMDE5MDYxNzE1MDk1MC41MjY0LTEtc2htdWVs
+LmVpZGVybWFuQG9yYWNsZS5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpmZDEw
+OGNkIGhkLWdlby10ZXN0OiBBZGQgdGVzdHMgZm9yIGxjaHMgb3ZlcnJpZGUKNDg5MjRiNCBib290
+ZGV2aWNlOiBGV19DRkcgaW50ZXJmYWNlIGZvciBMQ0hTIHZhbHVlcwphNWQ5YzA1IGJvb3RkZXZp
+Y2U6IFJlZmFjdG9yIGdldF9ib290X2RldmljZXNfbGlzdAo0YmJkOGIzIGJvb3RkZXZpY2U6IEdh
+dGhlciBMQ0hTIGZyb20gYWxsIHJlbGV2YW50IGRldmljZXMKMGMxYTExNiBzY3NpOiBQcm9wYWdh
+dGUgdW5yZWFsaXplKCkgY2FsbGJhY2sgdG8gc2NzaS1oZAplNjdjYzY1IGJvb3RkZXZpY2U6IEFk
+ZCBpbnRlcmZhY2UgdG8gZ2F0aGVyIExDSFMKNGVlNDVlMSBibG9jazogU3VwcG9ydCBwcm92aWRp
+bmcgTENIUyBmcm9tIHVzZXIKMjBjOTU3MCBibG9jazogUmVmYWN0b3IgbWFjcm9zIC0gZml4IHRh
+YmJpbmcKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvOCBDaGVja2luZyBjb21taXQgMjBjOTU3MGM1
+MzNkIChibG9jazogUmVmYWN0b3IgbWFjcm9zIC0gZml4IHRhYmJpbmcpCkVSUk9SOiBNYWNyb3Mg
+d2l0aCBjb21wbGV4IHZhbHVlcyBzaG91bGQgYmUgZW5jbG9zZWQgaW4gcGFyZW50aGVzaXMKIzU1
+OiBGSUxFOiBpbmNsdWRlL2h3L2Jsb2NrL2Jsb2NrLmg6NjU6CisjZGVmaW5lIERFRklORV9CTE9D
+S19DSFNfUFJPUEVSVElFUyhfc3RhdGUsIF9jb25mKSAgICAgICAgICAgICAgICAgICAgICBcCisg
+ICAgREVGSU5FX1BST1BfVUlOVDMyKCJjeWxzIiwgX3N0YXRlLCBfY29uZi5jeWxzLCAwKSwgICAg
+ICAgICAgICAgICAgICBcCisgICAgREVGSU5FX1BST1BfVUlOVDMyKCJoZWFkcyIsIF9zdGF0ZSwg
+X2NvbmYuaGVhZHMsIDApLCAgICAgICAgICAgICAgICBcCiAgICAgREVGSU5FX1BST1BfVUlOVDMy
+KCJzZWNzIiwgX3N0YXRlLCBfY29uZi5zZWNzLCAwKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5p
+bmdzLCAzNyBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KCjIvOCBDaGVja2luZyBjb21taXQgNGVlNDVlMWFiYTIzIChibG9jazogU3VwcG9ydCBwcm92
+aWRpbmcgTENIUyBmcm9tIHVzZXIpCjMvOCBDaGVja2luZyBjb21taXQgZTY3Y2M2NWU1ZTQyIChi
+b290ZGV2aWNlOiBBZGQgaW50ZXJmYWNlIHRvIGdhdGhlciBMQ0hTKQo0LzggQ2hlY2tpbmcgY29t
+bWl0IDBjMWExMTZjMTJiOCAoc2NzaTogUHJvcGFnYXRlIHVucmVhbGl6ZSgpIGNhbGxiYWNrIHRv
+IHNjc2ktaGQpCjUvOCBDaGVja2luZyBjb21taXQgNGJiZDhiM2Y5OWM3IChib290ZGV2aWNlOiBH
+YXRoZXIgTENIUyBmcm9tIGFsbCByZWxldmFudCBkZXZpY2VzKQo2LzggQ2hlY2tpbmcgY29tbWl0
+IGE1ZDljMDVkZmE3OCAoYm9vdGRldmljZTogUmVmYWN0b3IgZ2V0X2Jvb3RfZGV2aWNlc19saXN0
+KQo3LzggQ2hlY2tpbmcgY29tbWl0IDQ4OTI0YjQyZmM3OSAoYm9vdGRldmljZTogRldfQ0ZHIGlu
+dGVyZmFjZSBmb3IgTENIUyB2YWx1ZXMpCjgvOCBDaGVja2luZyBjb21taXQgZmQxMDhjZGE0OTgx
+IChoZC1nZW8tdGVzdDogQWRkIHRlc3RzIGZvciBsY2hzIG92ZXJyaWRlKQpXQVJOSU5HOiBCbG9j
+ayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNjI1OiBGSUxF
+OiB0ZXN0cy9oZC1nZW8tdGVzdC5jOjk4MDoKKyAgICAgICAgICAgICAgICAgICAgICAgInNraXBw
+aW5nIGhkLWdlby9vdmVycmlkZS8qIHRlc3RzIik7Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2Fybmlu
+Z3MsIDU5MyBsaW5lcyBjaGVja2VkCgpQYXRjaCA4LzggaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
+ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
+OTA2MTcxNTA5NTAuNTI2NC0xLXNobXVlbC5laWRlcm1hbkBvcmFjbGUuY29tL3Rlc3RpbmcuY2hl
+Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
+YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
+YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
