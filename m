@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735E84818D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:10:24 +0200 (CEST)
-Received: from localhost ([::1]:46430 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7CB048180
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:03:48 +0200 (CEST)
+Received: from localhost ([::1]:46384 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcqSt-0005Qi-LK
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:10:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56342)
+	id 1hcqMU-0008Tg-2I
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:03:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57574)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hcq3N-0005Fi-DZ
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:44:02 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hcq5Z-00077T-Ae
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:46:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hcq3L-00008v-5x
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:44:01 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:44761 helo=mail.rt-rk.com)
+ (envelope-from <kwolf@redhat.com>) id 1hcq5X-0002rV-Dq
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:46:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:18046)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1hcq3K-0008UX-VQ
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:43:59 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id EFE021A1E5F;
- Mon, 17 Jun 2019 13:43:51 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from [10.10.13.132] (rtrkw870-lin.domain.local [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id D4E1E1A1DFA;
- Mon, 17 Jun 2019 13:43:51 +0200 (CEST)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <1559816130-17113-1-git-send-email-stefan.brankovic@rt-rk.com>
- <1559816130-17113-9-git-send-email-stefan.brankovic@rt-rk.com>
- <7879c550-f333-7703-e47f-ca734ad47bf7@linaro.org>
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-Message-ID: <5eb76d01-ecf6-b915-5c8b-92de38b64cc0@rt-rk.com>
-Date: Mon, 17 Jun 2019 13:43:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hcq5N-0002PS-1s; Mon, 17 Jun 2019 07:46:06 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 02C6C30BB54B;
+ Mon, 17 Jun 2019 11:45:49 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-99.ams2.redhat.com [10.36.117.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 495627D65D;
+ Mon, 17 Jun 2019 11:45:46 +0000 (UTC)
+Date: Mon, 17 Jun 2019 13:45:44 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <20190617114544.GE7397@linux.fritz.box>
+References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560276131-683243-8-git-send-email-andrey.shinkevich@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <7879c550-f333-7703-e47f-ca734ad47bf7@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: Re: [Qemu-devel] [PATCH 8/8] target/ppc: Refactor emulation of
- vmrgew and vmrgow instructions
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1560276131-683243-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Mon, 17 Jun 2019 11:45:54 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 7/7] iotests: new file to suppress
+ Valgrind errors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,55 +58,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, rkagan@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 11.06.2019 um 20:02 hat Andrey Shinkevich geschrieben:
+> The Valgrind tool reports about an uninitialised memory usage when the
+> initialization is actually not needed. For example, the buffer 'buf'
+> instantiated on a stack of the function guess_disk_lchs().
 
-On 6.6.19. 22:43, Richard Henderson wrote:
-> On 6/6/19 5:15 AM, Stefan Brankovic wrote:
->> +/*
->> + * We use this macro if one instruction is realized with direct
->> + * translation, and second one with helper.
->> + */
->> +#define GEN_VXFORM_TRANS_DUAL(name0, flg0, flg2_0, name1, flg1, flg2_1)\
->> +static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
->> +{                                                                      \
->> +    if ((Rc(ctx->opcode) == 0) &&                                      \
->> +        ((ctx->insns_flags & flg0) || (ctx->insns_flags2 & flg2_0))) { \
->> +        trans_##name0(ctx);                                            \
->> +    } else if ((Rc(ctx->opcode) == 1) &&                               \
->> +        ((ctx->insns_flags & flg1) || (ctx->insns_flags2 & flg2_1))) { \
->> +        gen_##name1(ctx);                                              \
->> +    } else {                                                           \
->> +        gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);            \
->> +    }                                                                  \
->> +}
->> +
->>   /* Adds support to provide invalid mask */
->>   #define GEN_VXFORM_DUAL_EXT(name0, flg0, flg2_0, inval0,                \
->>                               name1, flg1, flg2_1, inval1)                \
->> @@ -431,20 +449,13 @@ GEN_VXFORM(vmrglb, 6, 4);
->>   GEN_VXFORM(vmrglh, 6, 5);
->>   GEN_VXFORM(vmrglw, 6, 6);
->>   
->> -static void gen_vmrgew(DisasContext *ctx)
->> +static void trans_vmrgew(DisasContext *ctx)
->>   {
->> -    TCGv_i64 tmp;
->> -    TCGv_i64 avr;
->> -    int VT, VA, VB;
->> -    if (unlikely(!ctx->altivec_enabled)) {
->> -        gen_exception(ctx, POWERPC_EXCP_VPU);
->> -        return;
->> -    }
-> This appears to drop the check for altivec_enabled.
->
-Thank you for spotting this, I will fix this bug in v2.
+I would be careful with calling initialisation "not needed". It means
+that the test case may not behave entirely determinstic because the
+uninitialised memory can vary between runs.
 
-Kind Regards,
+In this specific case, I assume that guess_disk_lchs() is called for a
+null block node, for which .bdrv_co_preadv by default returns without
+actually writing to the buffer. Instead of ignoring the valgrind error,
+we could instead pass read-zeroes=on to the null block driver to make
+the test deterministic.
 
-Stefan
+(Unfortunately, while adding the read-zeroes option, we didn't add it to
+the QAPI schema, so it's not available yet in -blockdev. I'm going to
+send a fix for that, but most of the problematic test cases probably
+don't even use -blockdev.)
 
-> r~
+Kevin
 
