@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8769B48593
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:36:02 +0200 (CEST)
-Received: from localhost ([::1]:48026 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4D78485A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:39:39 +0200 (CEST)
+Received: from localhost ([::1]:48058 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcsjp-0003Wn-Mq
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:36:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1hcsnK-0007gq-Sz
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:39:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42637)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsUN-0002gv-4c
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:20:06 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hcsUY-0002rd-5W
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:20:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsUL-0007Pj-78
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:20:02 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51450)
+ (envelope-from <alex.bennee@linaro.org>) id 1hcsUW-0007d2-1U
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:20:13 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39033)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hcsUK-0007KF-U2
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:20:01 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 207so9494484wma.1
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:19:55 -0700 (PDT)
+ id 1hcsUV-0007bN-8h
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:20:11 -0400
+Received: by mail-wm1-x341.google.com with SMTP id z23so9319707wma.4
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:20:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=T66yQ6m/u+i0sjA+UMK2rLqwipYfS8HuG6jfn9XXg4g=;
- b=MBhY8doORaSmFNRc36o5PjFExgON5q7ef9VvUd1AM95+hgsaP0ElITbBq5NDmbYtlA
- uDiLxT4VU5N5h2pbvclrkKMnYBTlJE46JcSzNT3fSdXebqgeo32eQYgqO7/jsOzyGpvU
- SZXsywkBEQM0ciJ0zY/8kSKD9xp6cXb8IS2RKUVUfBkmXTFulGkTaYl5woOPFvGfxFdD
- 0XrlX5z7wYCnZ4Hsby3iwYM4LEemrLIIEsuZiAzwSfr37qNq9aFeRRgg5tzBLnTKJhGt
- X9Q399NqLIUV8u0MBAZjpfXOIjF1IE2dwInh9OqG7BWHu2uMxCILDvZCnYhpL3MFBdzl
- HVwQ==
+ bh=AxMhM0UPlNJ4cs59aRdxUsoioA0KaaAmCXRzB5Pd7dY=;
+ b=RDtgkOuHhFaYd7H+r8j9cPWyM26NOoi2VJxwHlqjutzaXBLeLiHECWs8eWOAzQRvYY
+ udJUVPwRKWJtzW4rXYPEUvCdAL0IHnNzP2W+8lutApwm3PBdf28YA8PjQRX1DykLHBd/
+ QHXSgTtZPePp3M6DsRsUbCeH9/aHt+MsfFuFngXZDFbAMkimdO6SkF20o9NsXIBN05HD
+ iE5BcawU2T7gvZcUUnJ+ow4sHqh60B5pp0yFFJL6XNRuIFdyJR5zSueDvDG45SzZvLlQ
+ b7SboebFq0mmQLTCDTOPGnNN0Aty1Nwvy4rxsQ/SbvFNaGD+gHTPKwEyjXjWzNoQAJ1Y
+ U4Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=T66yQ6m/u+i0sjA+UMK2rLqwipYfS8HuG6jfn9XXg4g=;
- b=aHTgxQmcwUitshoTpSGVmCA0yPAVou1TFVRm/WlHSUqVffTWwuM+rWsBAGQbSD/Mw6
- UcGA6NtOzCD9xjxhcBJZN47Uub0mo/nf0hMgRoFOey8Pj4rW44EPpfnFWVTU7xT6BDo8
- V1Z60coZJ5ZSjp4tebWp5foFI64ZGJ7RmXu1aq3tVr66HcgexDfPedltm02TnDV+qB/q
- o7oRSIYY99gt0E9/6B34RoMaBrO9EaI3Tz2XZ2BMo+fZsxjo5rvPyUapPPa1WQ8tPUR9
- oqP1HjaAbW4SZ/NFxtWda60s7+T6nbGPIZApOlo78TggKV+lkPW6nji6qfaZSGiwwyLa
- K+2w==
-X-Gm-Message-State: APjAAAXyELF87YYX5c5WoZT2y2ZxdIxVoAHiapHK+b92M1KhyBEZqWLz
- U/F1kFiyfqrMbH8ANtNLelxrEg==
-X-Google-Smtp-Source: APXvYqzhZt8tOPpvgEncrhEi32cLUxNZpk/sk9baaFRb2jfuBqkYpNd9Tx2hJNR2FLE/ebyjHi5YaA==
-X-Received: by 2002:a1c:a5c1:: with SMTP id
- o184mr18447978wme.145.1560781193853; 
- Mon, 17 Jun 2019 07:19:53 -0700 (PDT)
+ bh=AxMhM0UPlNJ4cs59aRdxUsoioA0KaaAmCXRzB5Pd7dY=;
+ b=LFXdv70sKnqc5o5QlpubNKNJOO3iO2coVaOj5FJpIKmQpqcsP7unQV4VEb1bDAkomV
+ JndXr+3vevS6WOvPHYoV0wDzNEEJ8fovDAW7zdi8UgvxA8MCiVN/yM+biIHFBUyDEifT
+ UK06tOengBibOEW7Sx6tmwpRYZYpzizLVwQnqWhduPb+uWXXAs+8I9DGY+7gVD/ZjTv8
+ 3lQt71SPp70oPkOFxpmyskO+fpfmEdHAd9gRyFrOiDebd25uNM90kaKx5q/CaqJ1sWpb
+ CtD6PHZwMoScvX5U4bARcci/sqW7fZDS1PkbD5xnfkFu6rhvqWjOGlR432ypGMNjXN7g
+ fdGw==
+X-Gm-Message-State: APjAAAW/EJyaUjT29isxDod6hzaD4u17/51MS0j2P5W9/7QAdz1uyyi+
+ XC7Hbp4g2iRAYJ76a9lDulM0v/P3x2M=
+X-Google-Smtp-Source: APXvYqz4d5ci3v6ksx8K4fvuOyqTmGr3pDaZE04GAQQvKEWnXr+V3tD/Em65pYuAMNfi5JxZLa+ogQ==
+X-Received: by 2002:a1c:ef10:: with SMTP id n16mr17565806wmh.134.1560781210107; 
+ Mon, 17 Jun 2019 07:20:10 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id o13sm23781164wra.92.2019.06.17.07.19.53
+ by smtp.gmail.com with ESMTPSA id z5sm10928694wrh.16.2019.06.17.07.20.09
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 17 Jun 2019 07:19:53 -0700 (PDT)
+ Mon, 17 Jun 2019 07:20:09 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E557E1FF87;
- Mon, 17 Jun 2019 15:19:52 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id F0ADD1FF87;
+ Mon, 17 Jun 2019 15:20:08 +0100 (BST)
 References: <20190615154352.26824-1-philmd@redhat.com>
- <20190615154352.26824-17-philmd@redhat.com>
+ <20190615154352.26824-18-philmd@redhat.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-arm@nongnu.org
-In-reply-to: <20190615154352.26824-17-philmd@redhat.com>
-Date: Mon, 17 Jun 2019 15:19:52 +0100
-Message-ID: <87k1dk9tvb.fsf@zen.linaroharston>
+In-reply-to: <20190615154352.26824-18-philmd@redhat.com>
+Date: Mon, 17 Jun 2019 15:20:08 +0100
+Message-ID: <87imt49tuv.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 16/23] target/arm: Make
- arm_deliver_fault() static
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 17/23] target/arm: Fix coding
+ style issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,56 +92,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> This function is now only called within op_helper.c.
+> Since we'll move this code around, fix its style first.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-(although if we move the tlb related bits that might be different)
-
 > ---
->  target/arm/internals.h | 3 ---
->  target/arm/op_helper.c | 5 +++--
->  2 files changed, 3 insertions(+), 5 deletions(-)
+>  target/arm/translate.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 >
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index 37ca493635..06e676bf62 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -767,9 +767,6 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, in=
-t size,
->                        bool probe, uintptr_t retaddr);
->  #endif
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index c274c8b460..d0ab3e27e6 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -9179,7 +9179,7 @@ static void disas_arm_insn(DisasContext *s, unsigne=
+d int insn)
+>                  loaded_base =3D 0;
+>                  loaded_var =3D NULL;
+>                  n =3D 0;
+> -                for(i=3D0;i<16;i++) {
+> +                for (i =3D 0; i < 16; i++) {
+>                      if (insn & (1 << i))
+>                          n++;
+>                  }
+> @@ -9202,7 +9202,7 @@ static void disas_arm_insn(DisasContext *s, unsigne=
+d int insn)
+>                      }
+>                  }
+>                  j =3D 0;
+> -                for(i=3D0;i<16;i++) {
+> +                for (i =3D 0; i < 16; i++) {
+>                      if (insn & (1 << i)) {
+>                          if (is_load) {
+>                              /* load */
+> @@ -12427,12 +12427,13 @@ void arm_cpu_dump_state(CPUState *cs, FILE *f, =
+int flags)
+>          return;
+>      }
 >
-> -void arm_deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_typ=
-e,
-> -                       int mmu_idx, ARMMMUFaultInfo *fi) QEMU_NORETURN;
-> -
->  /* Return true if the stage 1 translation regime is using LPAE format pa=
-ge
->   * tables */
->  bool arm_s1_regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx=
-);
-> diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-> index e43c99ebf0..63bce32810 100644
-> --- a/target/arm/op_helper.c
-> +++ b/target/arm/op_helper.c
-> @@ -127,8 +127,9 @@ static inline uint32_t merge_syn_data_abort(uint32_t =
-template_syn,
->      return syn;
->  }
+> -    for(i=3D0;i<16;i++) {
+> +    for (i =3D 0; i < 16; i++) {
+>          qemu_fprintf(f, "R%02d=3D%08x", i, env->regs[i]);
+> -        if ((i % 4) =3D=3D 3)
+> +        if ((i % 4) =3D=3D 3) {
+>              qemu_fprintf(f, "\n");
+> -        else
+> +        } else {
+>              qemu_fprintf(f, " ");
+> +        }
+>      }
 >
-> -void arm_deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_typ=
-e,
-> -                       int mmu_idx, ARMMMUFaultInfo *fi)
-> +static void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
-> +                                            MMUAccessType access_type,
-> +                                            int mmu_idx, ARMMMUFaultInfo=
- *fi)
->  {
->      CPUARMState *env =3D &cpu->env;
->      int target_el;
+>      if (arm_feature(env, ARM_FEATURE_M)) {
 
 
 --
