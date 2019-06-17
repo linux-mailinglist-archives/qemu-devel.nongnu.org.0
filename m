@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7773F48721
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:29:33 +0200 (CEST)
-Received: from localhost ([::1]:48480 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A8E48621
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:54:03 +0200 (CEST)
+Received: from localhost ([::1]:48178 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hctZc-0006YV-Le
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46710)
+	id 1hct1E-0003TZ-PH
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:54:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46724)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiM-0003d9-5A
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:31 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiM-0003eZ-QO
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiK-000865-Du
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiL-000875-En
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:30 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38669)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33656)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsiK-00085b-4S
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:28 -0400
-Received: by mail-wr1-x442.google.com with SMTP id d18so10238944wrs.5
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:28 -0700 (PDT)
+ id 1hcsiL-00086L-4z
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:29 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n9so10258586wru.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=fkduvo7H+Mb+0yWACJmN2aG39JYYGYZGB+AH2iBoI9s=;
- b=gqfnA1wXEwHvrRazD9KQ+9to4Wm6zrRNiXhrC/Jz2WMevG04QlXivMnJAkGRtjfMte
- s8VkQWs4Ufc6zMD7fp5YkVWsEwHIklNlf/3NZR+05EtAVqagcrFC6SypfbnL4JZu6VVj
- QOLAWdXCWDNWEirTd71JjHDEI3D/DG0UdUT2SliiJLNaLPEB+vdOZoBZMmyVnj4ktS25
- t/TH2JvJFekO229GmE9ecFF7eHavF+EIjTKvTyI8P1v9BPoj/hSuunE1I6aOBULZ3XO8
- oLBb6dIZOuiiUHvk37Ty+JyLW2KMWd1p+QLYkLvbWLoaA/1gvaKn0a8V6uaD1sTZ5mOF
- zrcQ==
+ bh=/O59M+oyu5/R7Sber67X9/QD01sBNxWM7GHNOMmzU2g=;
+ b=EDTfAyrDu+ehs7fu2+Rvy+vmjye5s47o4SY9YMs+s5vlamkYuwrt4TUuPTI22jsuIi
+ LsNzD4u05EPLfCXzsb9kfIV6S0xXfGJW5s/gxKNQTeMJjVyZJK87bwkp8RdBBQAnV1V7
+ nocV++BbC53UxlCsTmHuE/11cSNG10j2s0oTK0Uc5PPVQBBXPIHtM9uhb6S4Fj+1dnIF
+ 7sGLUAu8KrJH2d3sgfXlpN9puUtbPtvpm5OuL6tAPuB60M58t0ouk8HChVTCYpWbhmb4
+ cWfaR3oL4B4ZMsM5CoZR7x8vUFPEdn+Lzwz0bvlxYR8u35E2ZtHDy7XBjuiAoyyVGrVJ
+ 08cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fkduvo7H+Mb+0yWACJmN2aG39JYYGYZGB+AH2iBoI9s=;
- b=NfAEP8J9m0WmPGW0OjpLkLvEheiwFRQDJoy7HYSpSom1onOgH2Liu3qD1ph69qD4Qf
- 50HaUCfaPwTJfr0z61AZnsn5G+bm2RY03F3hKPX/J5cpWHlt8d/D+B32Xnn3jGtHKnKT
- nJ8Ag+tPJ0BVr2UpUBL+bDfJqRz0JaGoEy0FYZQC/MaA/bwGh4b71Z6ue5M7qxQnTcam
- 2Ad0XbAtAp8QaMaDLqdM5mRgt/GYHw5JQcxJDtBvD56v3i92P5qe/3sl7lncBWrD9UCa
- gCuFHhgIQfpa3BU8Zsrwf6hrO4S/oyWudVYqshKFol0CgLccekqpfH9mChoHrjues5Cb
- 4Ldw==
-X-Gm-Message-State: APjAAAUDpxFV8wNyrskHbATjXPwUzahh8fhYmYTMiTEzIasKUxziu5Y8
- 85pT/0pcGCOYAUD1x5nxIfrn22ReSuFQqQ==
-X-Google-Smtp-Source: APXvYqwMOpvEDHH6NLptifP9lffWHQw1boz2qI1ut98LBa+/mZ1bkRo83Zh0YFKAh48qXfmiVLAyUw==
-X-Received: by 2002:a5d:694a:: with SMTP id r10mr55508121wrw.345.1560782067009; 
+ bh=/O59M+oyu5/R7Sber67X9/QD01sBNxWM7GHNOMmzU2g=;
+ b=VvuPo4qtFSUBoMzfYWsHIOlmfcTNHJ36BGvSYmK+WTdqLyPzJgbtXAH4AhJ0Z9zsn9
+ m5MnMVDbUde2RTMOMvzYqEec0KWX5GlMXp6NSoc5aJR8kNU/alNAkK5ig5nWd2yBgHae
+ OuI4W+XPxJB9lhqLEYfW9r865C3Zb+SfOcgP3vPsd0EmIP5/zxK0+7CematDqVF4jdqT
+ E0U4Phi7trRg6B4RfcVxp4a/Z84Zq9kiQhn9Kch6kcXlqnszrKegRVBfs5t95FBFO5Ep
+ GyRA+nne6/MLyl1fmYOpKB8wxiWuQ0saD1cC+T/R8c/o+i4PEidBMqlYnlCLCgMm7AZt
+ 4cyg==
+X-Gm-Message-State: APjAAAXWVzj4K4Z0ZTjhqPA6BMTCA59VPgmXm/FabtiZIv8ba/WZCDpy
+ dwX/fMTMbQJrQ2ybmx01BDd5pdBO3WBcKA==
+X-Google-Smtp-Source: APXvYqyHIN8JBDxHeMHa2VILdrHomKVccPdAPLjbkHhs+rG4kXyOS5pbaXfusr9DX4VE2cOdhpUBsg==
+X-Received: by 2002:a05:6000:1c9:: with SMTP id
+ t9mr53462883wrx.187.1560782067908; 
  Mon, 17 Jun 2019 07:34:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.25
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:34:26 -0700 (PDT)
+ Mon, 17 Jun 2019 07:34:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:33:59 +0100
-Message-Id: <20190617143412.5734-12-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:34:00 +0100
+Message-Id: <20190617143412.5734-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
 References: <20190617143412.5734-1-peter.maydell@linaro.org>
@@ -67,8 +68,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PULL 11/24] target/arm: Move vfp_expand_imm() to
- translate.[ch]
+Subject: [Qemu-devel] [PULL 12/24] target/arm: Use vfp_expand_imm() for
+ AArch32 VFP VMOV_imm
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,138 +84,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to use vfp_expand_imm() in the AArch32 VFP decode;
-move it from the a64-only header/source file to the
-AArch32 one (which is always compiled even for AArch64).
+The AArch32 VMOV (immediate) instruction uses the same VFP encoded
+immediate format we already handle in vfp_expand_imm().  Use that
+function rather than hand-decoding it.
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190613163917.28589-2-peter.maydell@linaro.org
+Message-id: 20190613163917.28589-3-peter.maydell@linaro.org
 ---
- target/arm/translate-a64.h     |  1 -
- target/arm/translate.h         |  7 +++++++
- target/arm/translate-a64.c     | 32 --------------------------------
- target/arm/translate-vfp.inc.c | 33 +++++++++++++++++++++++++++++++++
- 4 files changed, 40 insertions(+), 33 deletions(-)
+ target/arm/translate-vfp.inc.c | 28 ++++------------------------
+ target/arm/vfp.decode          | 10 ++++++----
+ 2 files changed, 10 insertions(+), 28 deletions(-)
 
-diff --git a/target/arm/translate-a64.h b/target/arm/translate-a64.h
-index 9569bc5963d..9ab40872d85 100644
---- a/target/arm/translate-a64.h
-+++ b/target/arm/translate-a64.h
-@@ -39,7 +39,6 @@ void write_fp_dreg(DisasContext *s, int reg, TCGv_i64 v);
- TCGv_ptr get_fpstatus_ptr(bool);
- bool logic_imm_decode_wmask(uint64_t *result, unsigned int immn,
-                             unsigned int imms, unsigned int immr);
--uint64_t vfp_expand_imm(int size, uint8_t imm8);
- bool sve_access_check(DisasContext *s);
- 
- /* We should have at some point before trying to access an FP register
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index dc06dce7675..bc1617809da 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -237,6 +237,13 @@ static inline void gen_ss_advance(DisasContext *s)
-     }
- }
- 
-+/*
-+ * Given a VFP floating point constant encoded into an 8 bit immediate in an
-+ * instruction, expand it to the actual constant value of the specified
-+ * size, as per the VFPExpandImm() pseudocode in the Arm ARM.
-+ */
-+uint64_t vfp_expand_imm(int size, uint8_t imm8);
-+
- /* Vector operations shared between ARM and AArch64.  */
- extern const GVecGen3 mla_op[4];
- extern const GVecGen3 mls_op[4];
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index ae739f65756..97f4164fbbc 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -6380,38 +6380,6 @@ static void disas_fp_3src(DisasContext *s, uint32_t insn)
-     }
- }
- 
--/* The imm8 encodes the sign bit, enough bits to represent an exponent in
-- * the range 01....1xx to 10....0xx, and the most significant 4 bits of
-- * the mantissa; see VFPExpandImm() in the v8 ARM ARM.
-- */
--uint64_t vfp_expand_imm(int size, uint8_t imm8)
--{
--    uint64_t imm;
--
--    switch (size) {
--    case MO_64:
--        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
--            (extract32(imm8, 6, 1) ? 0x3fc0 : 0x4000) |
--            extract32(imm8, 0, 6);
--        imm <<= 48;
--        break;
--    case MO_32:
--        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
--            (extract32(imm8, 6, 1) ? 0x3e00 : 0x4000) |
--            (extract32(imm8, 0, 6) << 3);
--        imm <<= 16;
--        break;
--    case MO_16:
--        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
--            (extract32(imm8, 6, 1) ? 0x3000 : 0x4000) |
--            (extract32(imm8, 0, 6) << 6);
--        break;
--    default:
--        g_assert_not_reached();
--    }
--    return imm;
--}
--
- /* Floating point immediate
-  *   31  30  29 28       24 23  22  21 20        13 12   10 9    5 4    0
-  * +---+---+---+-----------+------+---+------------+-------+------+------+
 diff --git a/target/arm/translate-vfp.inc.c b/target/arm/translate-vfp.inc.c
-index 709fc65374d..a66084f6e36 100644
+index a66084f6e36..8b732761f26 100644
 --- a/target/arm/translate-vfp.inc.c
 +++ b/target/arm/translate-vfp.inc.c
-@@ -30,6 +30,39 @@
- #include "decode-vfp.inc.c"
- #include "decode-vfp-uncond.inc.c"
+@@ -1842,7 +1842,7 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
+     uint32_t delta_d = 0;
+     int veclen = s->vec_len;
+     TCGv_i32 fd;
+-    uint32_t n, i, vd;
++    uint32_t vd;
  
-+/*
-+ * The imm8 encodes the sign bit, enough bits to represent an exponent in
-+ * the range 01....1xx to 10....0xx, and the most significant 4 bits of
-+ * the mantissa; see VFPExpandImm() in the v8 ARM ARM.
-+ */
-+uint64_t vfp_expand_imm(int size, uint8_t imm8)
-+{
-+    uint64_t imm;
+     vd = a->vd;
+ 
+@@ -1869,17 +1869,7 @@ static bool trans_VMOV_imm_sp(DisasContext *s, arg_VMOV_imm_sp *a)
+         }
+     }
+ 
+-    n = (a->imm4h << 28) & 0x80000000;
+-    i = ((a->imm4h << 4) & 0x70) | a->imm4l;
+-    if (i & 0x40) {
+-        i |= 0x780;
+-    } else {
+-        i |= 0x800;
+-    }
+-    n |= i << 19;
+-
+-    fd = tcg_temp_new_i32();
+-    tcg_gen_movi_i32(fd, n);
++    fd = tcg_const_i32(vfp_expand_imm(MO_32, a->imm));
+ 
+     for (;;) {
+         neon_store_reg32(fd, vd);
+@@ -1902,7 +1892,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
+     uint32_t delta_d = 0;
+     int veclen = s->vec_len;
+     TCGv_i64 fd;
+-    uint32_t n, i, vd;
++    uint32_t vd;
+ 
+     vd = a->vd;
+ 
+@@ -1934,17 +1924,7 @@ static bool trans_VMOV_imm_dp(DisasContext *s, arg_VMOV_imm_dp *a)
+         }
+     }
+ 
+-    n = (a->imm4h << 28) & 0x80000000;
+-    i = ((a->imm4h << 4) & 0x70) | a->imm4l;
+-    if (i & 0x40) {
+-        i |= 0x3f80;
+-    } else {
+-        i |= 0x4000;
+-    }
+-    n |= i << 16;
+-
+-    fd = tcg_temp_new_i64();
+-    tcg_gen_movi_i64(fd, ((uint64_t)n) << 32);
++    fd = tcg_const_i64(vfp_expand_imm(MO_64, a->imm));
+ 
+     for (;;) {
+         neon_store_reg64(fd, vd);
+diff --git a/target/arm/vfp.decode b/target/arm/vfp.decode
+index ea24365bb4c..a67b3f29ee5 100644
+--- a/target/arm/vfp.decode
++++ b/target/arm/vfp.decode
+@@ -44,6 +44,8 @@
+ %vmov_idx_b     21:1 5:2
+ %vmov_idx_h     21:1 6:1
+ 
++%vmov_imm 16:4 0:4
 +
-+    switch (size) {
-+    case MO_64:
-+        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
-+            (extract32(imm8, 6, 1) ? 0x3fc0 : 0x4000) |
-+            extract32(imm8, 0, 6);
-+        imm <<= 48;
-+        break;
-+    case MO_32:
-+        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
-+            (extract32(imm8, 6, 1) ? 0x3e00 : 0x4000) |
-+            (extract32(imm8, 0, 6) << 3);
-+        imm <<= 16;
-+        break;
-+    case MO_16:
-+        imm = (extract32(imm8, 7, 1) ? 0x8000 : 0) |
-+            (extract32(imm8, 6, 1) ? 0x3000 : 0x4000) |
-+            (extract32(imm8, 0, 6) << 6);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+    return imm;
-+}
-+
- /*
-  * Return the offset of a 16-bit half of the specified VFP single-precision
-  * register. If top is true, returns the top 16 bits; otherwise the bottom
+ # VMOV scalar to general-purpose register; note that this does
+ # include some Neon cases.
+ VMOV_to_gp   ---- 1110 u:1 1.        1 .... rt:4 1011 ... 1 0000 \
+@@ -152,10 +154,10 @@ VFM_sp       ---- 1110 1.10 .... .... 1010 . o2:1 . 0 .... \
+ VFM_dp       ---- 1110 1.10 .... .... 1011 . o2:1 . 0 .... \
+              vm=%vm_dp vn=%vn_dp vd=%vd_dp o1=2
+ 
+-VMOV_imm_sp  ---- 1110 1.11 imm4h:4 .... 1010 0000 imm4l:4 \
+-             vd=%vd_sp
+-VMOV_imm_dp  ---- 1110 1.11 imm4h:4 .... 1011 0000 imm4l:4 \
+-             vd=%vd_dp
++VMOV_imm_sp  ---- 1110 1.11 .... .... 1010 0000 .... \
++             vd=%vd_sp imm=%vmov_imm
++VMOV_imm_dp  ---- 1110 1.11 .... .... 1011 0000 .... \
++             vd=%vd_dp imm=%vmov_imm
+ 
+ VMOV_reg_sp  ---- 1110 1.11 0000 .... 1010 01.0 .... \
+              vd=%vd_sp vm=%vm_sp
 -- 
 2.20.1
 
