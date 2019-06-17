@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2A448A18
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:30:05 +0200 (CEST)
-Received: from localhost ([::1]:50294 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3AC489EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:20:50 +0200 (CEST)
+Received: from localhost ([::1]:50130 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvSD-00078d-AO
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40152)
+	id 1hcvJI-0007Nk-1w
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:20:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40805)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hcvE9-0004Hg-C3
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:15:31 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hcvGr-0005k0-7s
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:18:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hcvE6-0003op-Lb
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:15:29 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:38009)
+ (envelope-from <alistair23@gmail.com>) id 1hcvGq-0007Od-4v
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:18:17 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:47073)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hcvDy-0003aB-QO; Mon, 17 Jun 2019 13:15:20 -0400
-Received: by mail-lf1-x143.google.com with SMTP id b11so7091278lfa.5;
- Mon, 17 Jun 2019 10:15:18 -0700 (PDT)
+ id 1hcvGp-00075I-TC; Mon, 17 Jun 2019 13:18:16 -0400
+Received: by mail-lf1-x144.google.com with SMTP id z15so7057688lfh.13;
+ Mon, 17 Jun 2019 10:18:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K+x7AQu53uygU1oaBt5GPKty0iv5sR5jknseIKEMUgo=;
- b=lfaSkP9lF0xySR+QRe6Cy4HF3eBmqfEWYcmscpBLsuQUh/oGvb/8f9nyhwh8OmL8TT
- CUpTGwdh3xctcUEhNRSumMACJyByacE3gVhf3/rZ7OffkjXVMcJtBQMzdQ+6/n1A1ADZ
- YMlPwxWIqF8RsTRXoxpTK8w3YS58VGBpZJEjSCQx6Bw/TFqahBcbzgPlB2YDRPIlktgC
- 2SAYljEdMx2tJ8eqGqV1VKQ8Ael5Rq2myypB92eAgxP/n6FjzXmh/Fvs/w7wLUHf5hDZ
- Gz5rwv8jJ8u+HeSvIs0PUhLrPGOB2UDCevCYXVqLWYID0wYmPBuSQVKdeqAOo9xx952+
- 2SPQ==
+ :cc:content-transfer-encoding;
+ bh=p4qnA9oL0BPxkrOSqqsQYJaOB8IB08w7HDDnpsjfjTA=;
+ b=e0VcNqXN9I3TQJRvm+HJUA6JLogFMS+eeQKnk7uwnmJ2ejpHMBuO7TiZPjc/TZHojF
+ XHpGk1IjZfsFuDYJB/GPMxtpQc0PFgDEGVDNCiHLKWnUDMYUMI4MTiCPr961CWkmu9oz
+ pnYIT2k47WZbs2i1zlFXI9OU2L9LhM4Y7uU2FETV/yYGTLOcCseoW2xoCQ0CRn8AdPkl
+ wJYaSM7/XZ+8N7yVaUb9UauJaDaFWeNVUaFGKCfll75V7WhI1xzHw1YCWUyBU4849idh
+ Myigavlp0KJsZleLm0pbHZs2zbmS22LEWR+GVOm9k4ZvcHkZ2Ez1wbDPrLeJx8f08gHM
+ atyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=K+x7AQu53uygU1oaBt5GPKty0iv5sR5jknseIKEMUgo=;
- b=PaGXLTt6PnByOfMoccE91Xdzqpf/f0EHJr2hnx/7t0g53wE8k0YcbC+C4w3PuDYEoJ
- ZcilBoZbnGwsETXBQM5/VZIYAlD23AHRwPOklG6S3hEg25/iqzSRpMRwxEvaFSMumELx
- lz1bdyhZlG48BI26VUzDqhmE9eqOE4REbKw1XMyaphcxjucaj1NHf/9OFwM4OJ+fNgBz
- BFGdJpB8CGIzfZEzInppv2XVhJCrrJINmbqmDbZdJE1UjI6hN02p8wrxdxLSPlLKchNY
- lO3pzzV+E1ZxPCwmda+HoE7h9R6ieS5QluBYgfwdQccE72qTNCF/lF9Az0ERYV5bnCEd
- 9zXQ==
-X-Gm-Message-State: APjAAAUpm0I1lELi0oy7d8y+mB+VAux4CQsP//rpMVBVqQZED/Cxjncd
- 1mGYYeEeYzam4NydiuohKlw83pFWCiXn72fMKT4=
-X-Google-Smtp-Source: APXvYqwY5Ttazos/3DeMn1o9pS//LL00uOECszMPL+61NaE3JDRZHfGxXROPowXbnhklPU+flsNpQxAUM39Ft3LYRmc=
-X-Received: by 2002:a19:bec1:: with SMTP id o184mr26124571lff.86.1560791717179; 
- Mon, 17 Jun 2019 10:15:17 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=p4qnA9oL0BPxkrOSqqsQYJaOB8IB08w7HDDnpsjfjTA=;
+ b=XR9cxfVRSz6XwgmVcKcXJ3xMEHu6xNBNG4gCNAQwRg49Tneqqea+HzCOwv0nOUI4T/
+ B8BvAgCyHChihUeWQJzZ12sFLlPOAsevkB9I3jkdLiHB3Ug852W6rggRBbLoUiMoH5Gx
+ NEW8CKm7L/c6sfobCpE9kDSsBcE8TmdSQpPLn7iWfQcnSRhCJdGgDqdvmqHCq5eJVbC0
+ 1h1TbsPea+WDjVUSYVEi6c43vh7l+1QPAw+/zO+BTt095ebS2or2O85Z+5ZUU0+amxR+
+ q9C9aLjLqp/HSw2Ry3exA3q92eC3se63N+DGDxFwAmB8A0cjvA2WpF81KxgZvRWM0uF0
+ dYhQ==
+X-Gm-Message-State: APjAAAUAmL9On42sVPKtA3mgKCQwbyk2tUASphyXAbGWIb7PKmYxMx2U
+ qMy/YhEBpOnLrank/uA7dpyyX4MYH8qvXV0PDDk=
+X-Google-Smtp-Source: APXvYqx84IGvzvYHoQ5QfK+b0Z/UEb6gtRtKILRCDTbE0b1kqw3wu/jwy5vwE05gPyTc3IA31ubC9sdKTlwm7pDkEoQ=
+X-Received: by 2002:ac2:5324:: with SMTP id f4mr15421710lfh.156.1560791881225; 
+ Mon, 17 Jun 2019 10:18:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1560525351-590-1-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1560525351-590-1-git-send-email-bmeng.cn@gmail.com>
+References: <20190617160136.29930-1-philmd@redhat.com>
+In-Reply-To: <20190617160136.29930-1-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 17 Jun 2019 10:12:30 -0700
-Message-ID: <CAKmqyKMVH9MCPRD3DYm9-O59H2=DVXA8L9Sa3pNsYs=wbZRiug@mail.gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 17 Jun 2019 10:15:14 -0700
+Message-ID: <CAKmqyKOc-ZnGhUgsBzHx2oGoBCoKStTHVWySUqP5kF88LvuqTQ@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::143
-Subject: Re: [Qemu-devel] [PATCH] riscv: sifive_test: Add reset functionality
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] [PATCH] hw/arm/msf2-som: Exit when the cpu is not
+ the expected one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,68 +73,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 14, 2019 at 8:30 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Mon, Jun 17, 2019 at 9:19 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> This adds a reset opcode for sifive_test device to trigger a system
-> reset for testing purpose.
+> This machine correctly defines its default_cpu_type to cortex-m3
+> and report an error if the user requested another cpu_type,
+> however it does not exit, and this can confuse users trying
+> to use another core:
 >
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> ---
+>   $ qemu-system-arm -M emcraft-sf2 -cpu cortex-m4 -kernel test-m4.elf
+>   qemu-system-arm: This board can only be used with CPU cortex-m3-arm-cpu
+>   [output related to M3 core ...]
 >
->  hw/riscv/sifive_test.c         | 4 ++++
->  include/hw/riscv/sifive_test.h | 3 ++-
->  2 files changed, 6 insertions(+), 1 deletion(-)
+> The CPU is indeed a M3 core:
 >
-> diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-> index 24a04d7..cd86831 100644
-> --- a/hw/riscv/sifive_test.c
-> +++ b/hw/riscv/sifive_test.c
-> @@ -21,6 +21,7 @@
->  #include "qemu/osdep.h"
->  #include "hw/sysbus.h"
->  #include "qemu/module.h"
-> +#include "sysemu/sysemu.h"
->  #include "target/riscv/cpu.h"
->  #include "hw/riscv/sifive_test.h"
+>   (qemu) info qom-tree
+>   /machine (emcraft-sf2-machine)
+>     /unattached (container)
+>       /device[0] (msf2-soc)
+>         /armv7m (armv7m)
+>           /cpu (cortex-m3-arm-cpu)
 >
-> @@ -40,6 +41,9 @@ static void sifive_test_write(void *opaque, hwaddr addr,
->              exit(code);
->          case FINISHER_PASS:
->              exit(0);
-> +        case FINISHER_RESET:
-> +            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> +            return;
->          default:
->              break;
->          }
-> diff --git a/include/hw/riscv/sifive_test.h b/include/hw/riscv/sifive_test.h
-> index 71d4c9f..c186a31 100644
-> --- a/include/hw/riscv/sifive_test.h
-> +++ b/include/hw/riscv/sifive_test.h
-> @@ -34,7 +34,8 @@ typedef struct SiFiveTestState {
+> Add the missing exit() call to return to the shell.
 >
->  enum {
->      FINISHER_FAIL = 0x3333,
-> -    FINISHER_PASS = 0x5555
-> +    FINISHER_PASS = 0x5555,
-> +    FINISHER_RESET = 0x7777
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Do you mind sharing where you got this value from? I can't find
-details on this device in the SiFive manuals.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
->  };
+> ---
+>  hw/arm/msf2-som.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
->  DeviceState *sifive_test_create(hwaddr addr);
+> diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
+> index 8c550a8bdd..2c9984bb3b 100644
+> --- a/hw/arm/msf2-som.c
+> +++ b/hw/arm/msf2-som.c
+> @@ -53,6 +53,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machi=
+ne)
+>      if (strcmp(machine->cpu_type, mc->default_cpu_type) !=3D 0) {
+>          error_report("This board can only be used with CPU %s",
+>                       mc->default_cpu_type);
+> +        exit(1);
+>      }
+>
+>      memory_region_init_ram(ddr, NULL, "ddr-ram", DDR_SIZE,
 > --
-> 2.7.4
+> 2.20.1
 >
 >
 
