@@ -2,75 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9512B489D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:16:34 +0200 (CEST)
-Received: from localhost ([::1]:50020 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78EEF48955
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:53:09 +0200 (CEST)
+Received: from localhost ([::1]:49520 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcvFB-0003j5-Qi
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:16:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49149)
+	id 1hcusW-0005z4-Mh
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:53:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51124)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hcuLb-0002mp-6R
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:19:09 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hcuS9-0007a7-7p
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:25:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hcuLZ-0002wM-B3
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:19:07 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34572)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hcuLX-0002uS-95
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:19:05 -0400
-Received: by mail-wr1-x441.google.com with SMTP id k11so10662700wrl.1
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:19:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ED/pJk9ZrzdGSHDp/fUhxmm/2qaScIkmgxBfKJAxdWc=;
- b=uWPdnY3fVBW5++NdDf0Rx1wi5A+bKUeCGPHN0Old81hUKU3/Ycbia7R2g2VxmnzxjR
- KdOAsFaGhwMlu0a9yIHmGXAlOsUYBdHjzwXhA1bF78YTCcE38CweM5wlDHwaYrlmxvaN
- hOY5uR45JZYkzgd/TE4Da8Q0lopPKNG2kOkf8nG55+9mYApP76j081iGd0B1zpTvKaW8
- feaMDHDQlxSEyJg4aJk02v7ypjDuEA+Edja0JaSoSanjrwjq6iB2qSGb4BQ/7zkc5X0G
- 4NeWd7eRtgNZYNOmrSlFqJ6BwKpoE+ACRu135hXQrTfYZxkjWhbJ2B9Aazv6IgUY1uX4
- tjyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=ED/pJk9ZrzdGSHDp/fUhxmm/2qaScIkmgxBfKJAxdWc=;
- b=qV2VoHDtSrSMfw4M3EBYdFXg/vUoLvtuFc2awKWuzBCkW4h37UY/Y79HIjYjblAZOm
- JpxYqYRJSCWztNYEJsrbOUXtOvK0EZyM9CvM3etcGaVODg6MiojcpIZetxr+zTcPtvOB
- ABQ2h8HLo59t+HiUAB7ZTLp90qV3V7KX06bnuMnW1RBNZgsUi4y+YDqs/8/yiF5K4zio
- eDgUGQj5zWnJQXEyiC0dDJn03/keohUWkDs4RD9QATXlc19gl5fIoguCm8+UCLgPplHb
- PnbuaQ3NllhL0AfLmEnpkYcJDeIhj1AyVQQSZm7e3AbHPjY4UqMiE7p0XkZ/Fi5Se2ln
- gXIA==
-X-Gm-Message-State: APjAAAWhLcWAod9FCw6IZcs5CDnsmM+PH/fUgAxLJIfidj+G9KnepzlI
- ycX4xwC5AZfLqjBt6/locCwuug==
-X-Google-Smtp-Source: APXvYqwy0zJx9cWUEPTkZ+O/fIYZBgyzxhApBuas4O9olj2OxD9Lq5jE9rsSOkBBo4ARCc08j/3iyg==
-X-Received: by 2002:a5d:5552:: with SMTP id g18mr16870592wrw.254.1560788340844; 
- Mon, 17 Jun 2019 09:19:00 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id x8sm9004104wre.73.2019.06.17.09.19.00
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 17 Jun 2019 09:19:00 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D060F1FF87;
- Mon, 17 Jun 2019 17:18:59 +0100 (BST)
-References: <20190616210546.17221-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-In-reply-to: <20190616210546.17221-1-richard.henderson@linaro.org>
-Date: Mon, 17 Jun 2019 17:18:59 +0100
-Message-ID: <875zp49ocs.fsf@zen.linaroharston>
+ (envelope-from <kwolf@redhat.com>) id 1hcuS5-0007ud-Ii
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:25:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43526)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hcuS0-0007oP-2J; Mon, 17 Jun 2019 12:25:44 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3AD4181DEC;
+ Mon, 17 Jun 2019 16:25:40 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-99.ams2.redhat.com [10.36.117.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 664745C2F5;
+ Mon, 17 Jun 2019 16:25:33 +0000 (UTC)
+Date: Mon, 17 Jun 2019 18:25:31 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190617162531.GM7397@linux.fritz.box>
+References: <20190529154654.95870-5-vsementsov@virtuozzo.com>
+ <c31e0d6e-3754-8b22-ccee-84c772eca404@redhat.com>
+ <7b401fba-36dd-d80e-966a-15fdd72ac335@virtuozzo.com>
+ <825995ac-488e-b25c-c551-526812046caf@redhat.com>
+ <46ad242a-3aa5-bfa1-1d64-5f2e98f4ed32@virtuozzo.com>
+ <46f18bb5-f123-b20a-7cb9-97caedae8290@redhat.com>
+ <13b8c3d7-dd95-d42f-e7bc-86907444b78a@virtuozzo.com>
+ <9a6a5790-c9ff-e8a4-3a41-4aebe554ae1c@redhat.com>
+ <20190617155315.GK7397@linux.fritz.box>
+ <b86c6a8f-7a89-58ca-6966-b2f00aff0f2b@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH] tcg: Fix mmap lock assert on translation
- failure
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature"; boundary="gr/z0/N6AeWAPJVB"
+Content-Disposition: inline
+In-Reply-To: <b86c6a8f-7a89-58ca-6966-b2f00aff0f2b@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Mon, 17 Jun 2019 16:25:40 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v8 4/7] block: introduce backup-top filter
+ driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,142 +67,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: christophe.lyon@linaro.org, qemu-devel@nongnu.org
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+--gr/z0/N6AeWAPJVB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Check page flags before letting an invalid pc cause a SIGSEGV.
->
-> Prepare for eventially validating PROT_EXEC.  The current wrinkle being
-> that we have a problem with our implementation of signals.  We should
-> be using a vdso like the kernel, but we instead put the trampoline on
-> the stack.  In the meantime, let PROT_READ match PROT_EXEC.
+Am 17.06.2019 um 18:01 hat Max Reitz geschrieben:
+> >>> Should new implicit/explicit
+> >>> filters be created above or under them?
+> >>
+> >> That was always the most difficult question we had when we introduced
+> >> filters.
+> >>
+> >> The problem is that we never answered it in our code base.
+> >>
+> >> One day, we just added filters (=E2=80=9Clet=E2=80=99s see what happen=
+s=E2=80=9D), and in the
+> >> beginning, they were all explicit, so we still didn=E2=80=99t have to =
+answer
+> >> this question (in code).  Then job filters were added, and we still
+> >> didn=E2=80=99t have to, because they set blockers so the graph couldn=
+=E2=80=99t be
+> >> reorganized with them in place anyway.
+> >>
+> >> If we converted copy-on-read=3Don to a COR node, we would have to answ=
+er
+> >> that question.
+> >=20
+> > That's why we shouldn't do that, but just remove copy-on-read=3Don. :-)
+>=20
+> And BB-level throttling, fair enough.
+>=20
+> (Although the first step would be probably to make throttle groups
+> non-experimental?  Like, drop the x- prefix for all their parameters.)
 
-We can come up with a test case for this right? Would it be triggered by
-having:
+The first step would be making the block drivers full replacements of
+the old things, which unfortunately isn't true today.
 
-__attribute__((aligned(PAGE_SIZE)))
-void some_func(void) {
-     /* does something */
-}
+After your "deal with filters" series, we should be a lot closer for the
+core infrastructure at least.
 
-__attribute__((aligned(PAGE_SIZE)))
-... rest of code ...
+Not sure about copy-on-read, but I know that throttle still doesn't have
+feature parity with -drive throttling. At least I'm pretty sure that
+something about changing the group or group options at runtime (and not
+just dropping the x-) was missing.
 
-main () {
-     mmap(&some_func, PAGE_SIZE, PROT_READ, MAP_ANONYMOUS, 0, 0);
-     some_func()
-     /* causes SEGV */
-     mmap(&some_func, PAGE_SIZE, PROT_READ|PROT_EXEC, MAP_ANONYMOUS, 0, 0);
-     some_func()
-     /* works */
-}
+> >>>>> But should really filter do that job, or it is here only to do CBW?=
+ Maybe target
+> >>>>> must have another parent which will care about flushing.
+> >>>>>
+> >>>>> Ok, I think I'll flush target here too for safety, and leave a comm=
+ent, that something
+> >>>>> smarter would be better.
+> >>>>> (or, if we decide to flush all children by default in generic code,=
+ I'll drop this handler)
+> >>>>
+> >>>> [1] Thinking more about this, for normal backups the target file does
+> >>>> not reflect a valid disk state until the backup is done; just like f=
+or
+> >>>> qemu-img convert.  Just like qemu-img convert, there is therefore no
+> >>>> reason to flush the target until the job is done.
+> >=20
+> > Depends, the target could have the source as its backing file (like
+> > fleecing, but without exporting it right now), and then you could always
+> > have a consistent view on the target. Well, almost.
+> >=20
+> > Almost because to guarantee this, we'd have to flush between each CBW
+> > and the corresponding write to the same block, to make sure that the old
+> > data is backed up before it is overwritten.
+>=20
+> Yes, that=E2=80=99s what I meant by =E2=80=9Cenforce on the host that the=
+ target is
+> always flushed before the source=E2=80=9D.  Well, I meant to say there is=
+ no
+> good way of doing that, and I kind of don=E2=80=99t consider this a good =
+way.
+>=20
+> > Of course, this would perform about as badly as internal COW in qcow2...
+> > So probably not a guarantee we should be making by default. But it might
+> > make sense as an option.
+>=20
+> I don=E2=80=99t know.  =E2=80=9CUse this option so your data isn=E2=80=99=
+t lost in case of a
+> power failure, but it makes everything pretty slow=E2=80=9D?  Who is goin=
+g to do
+> explicitly enable that (before their first data loss)?
 
-Or is it trickier to mess with your own mapped memory?
+Maybe the backup job wasn't that clever after all. At least if you care
+about keeping the point-in-time snapshot at the start of the backup job
+instead of just retrying and getting a snapshot of a different point in
+time that is just as good.
 
->
-> Fixes: https://bugs.launchpad.net/qemu/+bug/1832353
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/cpu-all.h                    |  1 +
->  include/exec/cpu_ldst_useronly_template.h |  8 +++++--
->  accel/tcg/translate-all.c                 | 29 +++++++++++++++++++++++
->  3 files changed, 36 insertions(+), 2 deletions(-)
->
-> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index 536ea58f81..58b8915617 100644
-> --- a/include/exec/cpu-all.h
-> +++ b/include/exec/cpu-all.h
-> @@ -259,6 +259,7 @@ int walk_memory_regions(void *, walk_memory_regions_f=
-n);
->  int page_get_flags(target_ulong address);
->  void page_set_flags(target_ulong start, target_ulong end, int flags);
->  int page_check_range(target_ulong start, target_ulong len, int flags);
-> +void validate_exec_access(CPUArchState *env, target_ulong s, target_ulon=
-g l);
->  #endif
->
->  CPUArchState *cpu_copy(CPUArchState *env);
-> diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu=
-_ldst_useronly_template.h
-> index bc45e2b8d4..f095415149 100644
-> --- a/include/exec/cpu_ldst_useronly_template.h
-> +++ b/include/exec/cpu_ldst_useronly_template.h
-> @@ -64,7 +64,9 @@
->  static inline RES_TYPE
->  glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
->  {
-> -#if !defined(CODE_ACCESS)
-> +#ifdef CODE_ACCESS
-> +    validate_exec_access(env, ptr, DATA_SIZE);
-> +#else
->      trace_guest_mem_before_exec(
->          env_cpu(env), ptr,
->          trace_mem_build_info(SHIFT, false, MO_TE, false));
-> @@ -88,7 +90,9 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUAr=
-chState *env,
->  static inline int
->  glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
->  {
-> -#if !defined(CODE_ACCESS)
-> +#ifdef CODE_ACCESS
-> +    validate_exec_access(env, ptr, DATA_SIZE);
-> +#else
->      trace_guest_mem_before_exec(
->          env_cpu(env), ptr,
->          trace_mem_build_info(SHIFT, true, MO_TE, false));
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index 5d1e08b169..1d4a8a260f 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -2600,10 +2600,39 @@ int page_check_range(target_ulong start, target_u=
-long len, int flags)
->                  }
->              }
->          }
-> +        /*
-> +         * FIXME: We place the signal trampoline on the stack,
-> +         * even when the guest expects that to be in the vdso.
-> +         * Until we fix that, allow execute on any readable page.
-> +         */
-> +        if ((flags & PAGE_EXEC) && !(p->flags & (PAGE_EXEC | PAGE_READ))=
-) {
-> +            return -1;
-> +        }
->      }
->      return 0;
->  }
->
-> +/*
-> + * Called for each code read, longjmp out to issue SIGSEGV if the page(s)
-> + * do not have execute access.
-> + */
-> +void validate_exec_access(CPUArchState *env,
-> +                          target_ulong ptr, target_ulong len)
-> +{
-> +    if (page_check_range(ptr, len, PAGE_EXEC) < 0) {
-> +        CPUState *cs =3D env_cpu(env);
-> +        CPUClass *cc =3D CPU_GET_CLASS(cs);
-> +
-> +        /* Like tb_gen_code, release the memory lock before cpu_loop_exi=
-t.  */
-> +        assert_memory_lock();
-> +        mmap_unlock();
-> +
-> +        /* This is user-only.  The target must raise an exception.  */
-> +        cc->tlb_fill(cs, ptr, 0, MMU_INST_FETCH, MMU_USER_IDX, false, 0);
-> +        g_assert_not_reached();
-> +    }
-> +}
-> +
->  /* called from signal handler: invalidate the code and unprotect the
->   * page. Return 0 if the fault was not handled, 1 if it was handled,
->   * and 2 if it was handled but the caller must cause the TB to be
+If you do care about the specific point in time, the safe way to do it
+is to take a snapshot and copy that away, and then delete the snapshot
+again.
 
+The only problem is that merging external snapshots is slow and you end
+up writing the new data twice. If only we had a COW image format... :-)
 
---
-Alex Benn=C3=A9e
+Kevin
+
+--gr/z0/N6AeWAPJVB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBAgAGBQJdB777AAoJEH8JsnLIjy/WOLAQAKM2sRkVdF2zFttSbwGWpGcO
+roVW3451+kLJjTiIhS6e6IaC1z7UGhq/NCAWdiMR3Nbi20i++MXiY2sQEH1+6PBM
+JP10I3bS1i+sLs+ZN0UjcUHkjDvebT5fAa2EO6FNUsmUYnpfbSFYQXSpEgM21uUU
+2Laf20NiLuj+kPSMEZJKFU6okcSeWseAOnKz9Q4hcWpDnJc5hfL2Kr9Bkn7ly+hF
+11TjTMaJq/TSmzWrNnmmhMz1BrqOhA0itVNd/sfq9sLL7YQfuO2VzDIM+WyATEmU
+eaLt8ymUicOWzIis1j0+MEF45OLlBvlt44AC/gT0/wAnWgVRe0NENULQL3II4Rdy
+ftWYqgqPsTgSGdXmCU+5Yo1Pp7m8896vXQD3eYAboP3pKOQq2JB2+AYewLqbfnWI
+KTQ5TymGfbRYXTkK77fUXmLUWrVDTk1I4gKFns5pKjEuf+LEI/9bP3CfXymw4JkB
+GANVncZ1fZgl1RdYnm+Ix01gBAIDcNfBRDYVC+FT9leuvOPH97jybWEG/UVXBmyx
+ljI2jksppeK0tWReroTR5nrrJePxaJ7nzfZaE8go/PZppluxFaQt1YmoR53XZLFe
+SzflJm4+SHy2giOn14dKcDz3yeTiqnIXVuV6saH7HIF4SYnVt0f0g45fOuvVu8nR
+Ru7dzT3IgCMrX4oVFdjQ
+=n0g3
+-----END PGP SIGNATURE-----
+
+--gr/z0/N6AeWAPJVB--
 
