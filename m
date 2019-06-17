@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC1948768
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 17:38:02 +0200 (CEST)
-Received: from localhost ([::1]:48582 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E2748602
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:51:34 +0200 (CEST)
+Received: from localhost ([::1]:48160 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcthq-00085u-0V
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 11:38:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46762)
+	id 1hcsyp-00010U-Md
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46773)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiP-0003jO-0y
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiQ-0003k4-DM
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hcsiN-0008A4-ST
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:32 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53422)
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiO-0008AS-H2
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:33 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44111)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hcsiN-00088n-DG
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:31 -0400
-Received: by mail-wm1-x341.google.com with SMTP id x15so9550666wmj.3
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:31 -0700 (PDT)
+ id 1hcsiO-00089c-AA
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:32 -0400
+Received: by mail-wr1-x435.google.com with SMTP id r16so10200990wrl.11
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=L1QAxhdOtIdBK1xtHMazBBt8aewsGSxHd8eF0bvtE2w=;
- b=gLi27PxJkBunaTCfeqNp/HV3cboHFgmT6UlJo4uqXGs+5Hy5MfbaPe9KsxnL2Xn3CE
- lcdymT8iZwsOMiGigOYC4y7hkhEQMPnrzfztc9qVMTFF2yV20sWJw/u1jyOm1xNg/57D
- GDxtEX8yhyGLYtYuHLkXg2IF/CxkyCbPq4sLOK6Knbzyi6SXL55WOHlHbgdeyY0LrVJ7
- TcXlURXqCooiqhVClQZW/EA8YVUT5KUr/8URPlPPwJLRy1x8UxXS2ExUOantpqjclGzQ
- cnI4Nc8p4hzxBlFZGDJTnchrRdUMXlWIUyXTO7r7BdzdGEyzy7aA0LAdjyFUBrTM5bXj
- yYSQ==
+ bh=YQocH3JzOwJkJhKLmOCIia7aopw+9WsCQO9KTDk9Jlk=;
+ b=aI4xjgkOuZC9bMQ25yFaC0ciIkLPzaxcvyi3Ggx1oKsLwJYWDPm3oOECpE+JGIO0Bw
+ Q9qnghYHO99AJ644EnzUZFtS5Orkkv7BZu4OupfEISYrQ5YpSiC8L3tjaO3Wy0br1vE0
+ hx1N7ROr2oJSb2gI3sP/QteYbb8+5x/BG4ZCINwXd5cFui4gpvbaLVNmDuj1dk8OUfDV
+ Z/BMPnP10VlHVOLPHZhgoJRnH9AaH/vghxZ8TLArprKr6GWmt3CHCJJMCgdoqYpWPZI3
+ X7Ka23xytSEt494bjXKDbKvsFBeCi5Rv8sk98zommlvcM9VeRX8C7Jvx9DRVCUK6n751
+ Hczg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L1QAxhdOtIdBK1xtHMazBBt8aewsGSxHd8eF0bvtE2w=;
- b=N+E0s+3LA8HPWk+M+BcoycLFAsx0B1z6Z2Qgzg3T4zfAmE98mhPMuKlCBjxzBTCfpj
- ORG59uwB9hKu435jsg/meakubdWwPmkj7cLR9ZDFRYhaVnhMjh/m5tz6F0MF7OnovtAz
- dr4ccotTx5z3BQX4s2QwBLTUCO/x5uvGXp9kYYLmmYeJZxOR7tg2zirR7tJ0FuN7jIUV
- waY2zyHxkq2boDvln+JEPQMDC+yX9UqaMsKNEPyFdtkKMbF46RMDh4E+akzFFxnn2zsy
- mgYd/IMkx42kOo9gNTlV1PLwbtOdzfhyOozVSVOAQcg4IGCWoHqVABWnZPbtJj9UywE0
- voVg==
-X-Gm-Message-State: APjAAAXeuFUhj17zsrF7Iebmmyl6vj2gc8IG9rc4ZZ7dZ8mqe2pYOBY5
- SJXXX40C5op1xU3zFjZ6yzqAnaKaOspTTg==
-X-Google-Smtp-Source: APXvYqxLsz9tLXyOwnSaCSsvorfZJbSAhafu9PiZ7b5PZ/xz5LKHik3Z0/kWUy+iq8+BZzOgdLxPdA==
-X-Received: by 2002:a7b:cc16:: with SMTP id f22mr20892673wmh.115.1560782070131; 
- Mon, 17 Jun 2019 07:34:30 -0700 (PDT)
+ bh=YQocH3JzOwJkJhKLmOCIia7aopw+9WsCQO9KTDk9Jlk=;
+ b=bk3ICgI6ACvpxMiLLrAQ4oQpt8LMnDQQkjZ9jb8Fn4f7KrhsxWcnLnkyndk0RLlcbp
+ +ObzpB5sreBQpH73Q0e13KEblhQaoghQ7v2MFZLZdS6rdVVSLaPMZ3mxeunZbw2HsV13
+ lA7E2UUryN9g/kKpVNet1LUjooeQHjSuBFb3H89CspljGPR74kUntpOt3fgNQ8UeDTi3
+ 7PtUtDd+LqpyiOLJ1iz13NJaONZq7HmqcHjce456StZWfHKB+KpJ757oBATKb3QdH1z/
+ WcpCiH/Zlx9SvRrC/Cddu1mdSt7ZxtScfkyHiOpJSV10N9ZrXysdp4xdiYL1BTBX2lHp
+ WvaQ==
+X-Gm-Message-State: APjAAAU4jZd7IQNLdWHC6vWRrWbGOrru8ABAz91JH/MaPfIoHhf/TtHQ
+ cLwyiY8O+Y7E51XUvYMnO9qMDJpQ6/xtJA==
+X-Google-Smtp-Source: APXvYqzASZSSxHgByzPrWEpo2Opm8uby5TtwH+rqeiGwfa2hCqYBp/pVjN1MOqvBdArdGZky/c/7xA==
+X-Received: by 2002:a5d:56c1:: with SMTP id m1mr62859940wrw.26.1560782071009; 
+ Mon, 17 Jun 2019 07:34:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.28
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:34:29 -0700 (PDT)
+ Mon, 17 Jun 2019 07:34:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:34:02 +0100
-Message-Id: <20190617143412.5734-15-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:34:03 +0100
+Message-Id: <20190617143412.5734-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617143412.5734-1-peter.maydell@linaro.org>
 References: <20190617143412.5734-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 14/24] target/arm: Stop using cpu_F0s for
- NEON_2RM_VNEG_F
+X-Received-From: 2a00:1450:4864:20::435
+Subject: [Qemu-devel] [PULL 15/24] target/arm: Stop using cpu_F0s for
+ NEON_2RM_VRINT*
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,54 +83,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch NEON_2RM_VABS_F away from using cpu_F0s.
+Switch NEON_2RM_VRINT* away from using cpu_F0s.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190613163917.28589-5-peter.maydell@linaro.org
+Message-id: 20190613163917.28589-6-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+ target/arm/translate.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index a10fded1f39..a006ab498e7 100644
+index a006ab498e7..243dbee8357 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1374,14 +1374,6 @@ static TCGv_ptr get_fpstatus_ptr(int neon)
-     return statusptr;
- }
- 
--static inline void gen_vfp_neg(int dp)
--{
--    if (dp)
--        gen_helper_vfp_negd(cpu_F0d, cpu_F0d);
--    else
--        gen_helper_vfp_negs(cpu_F0s, cpu_F0s);
--}
--
- #define VFP_GEN_ITOF(name) \
- static inline void gen_vfp_##name(int dp, int neon) \
- { \
-@@ -4189,8 +4181,7 @@ static int neon_2rm_is_float_op(int op)
+@@ -4181,9 +4181,7 @@ static int neon_2rm_is_float_op(int op)
       * what we are asking here is "does the code for this case in
       * the Neon for-each-pass loop use cpu_F0s?".
       */
--    return (op == NEON_2RM_VNEG_F ||
--            (op >= NEON_2RM_VRINTN && op <= NEON_2RM_VRINTZ) ||
-+    return ((op >= NEON_2RM_VRINTN && op <= NEON_2RM_VRINTZ) ||
-             op == NEON_2RM_VRINTM ||
-             (op >= NEON_2RM_VRINTP && op <= NEON_2RM_VCVTMS) ||
+-    return ((op >= NEON_2RM_VRINTN && op <= NEON_2RM_VRINTZ) ||
+-            op == NEON_2RM_VRINTM ||
+-            (op >= NEON_2RM_VRINTP && op <= NEON_2RM_VCVTMS) ||
++    return ((op >= NEON_2RM_VCVTAU && op <= NEON_2RM_VCVTMS) ||
              op >= NEON_2RM_VRECPE_F);
-@@ -6761,7 +6752,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
-                             gen_helper_vfp_abss(tmp, tmp);
+ }
+ 
+@@ -6786,7 +6784,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                             tcg_rmode = tcg_const_i32(arm_rmode_to_sf(rmode));
+                             gen_helper_set_neon_rmode(tcg_rmode, tcg_rmode,
+                                                       cpu_env);
+-                            gen_helper_rints(cpu_F0s, cpu_F0s, fpstatus);
++                            gen_helper_rints(tmp, tmp, fpstatus);
+                             gen_helper_set_neon_rmode(tcg_rmode, tcg_rmode,
+                                                       cpu_env);
+                             tcg_temp_free_ptr(fpstatus);
+@@ -6796,7 +6794,7 @@ static int disas_neon_data_insn(DisasContext *s, uint32_t insn)
+                         case NEON_2RM_VRINTX:
+                         {
+                             TCGv_ptr fpstatus = get_fpstatus_ptr(1);
+-                            gen_helper_rints_exact(cpu_F0s, cpu_F0s, fpstatus);
++                            gen_helper_rints_exact(tmp, tmp, fpstatus);
+                             tcg_temp_free_ptr(fpstatus);
                              break;
-                         case NEON_2RM_VNEG_F:
--                            gen_vfp_neg(0);
-+                            gen_helper_vfp_negs(tmp, tmp);
-                             break;
-                         case NEON_2RM_VSWP:
-                             tmp2 = neon_load_reg(rd, pass);
+                         }
 -- 
 2.20.1
 
