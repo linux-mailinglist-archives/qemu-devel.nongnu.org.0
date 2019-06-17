@@ -2,77 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48184898D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:03:11 +0200 (CEST)
-Received: from localhost ([::1]:49818 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A73F48A45
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 19:37:21 +0200 (CEST)
+Received: from localhost ([::1]:50460 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcv2F-0008DW-3N
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:03:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33184)
+	id 1hcvZI-0005Ns-7a
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 13:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37433)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hcuyD-00066O-1T
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:59:02 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hcv7O-0005aY-AJ
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:08:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hcuyB-0001yi-0Z
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:59:00 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39324)
+ (envelope-from <alistair23@gmail.com>) id 1hcv7N-0000Bp-6f
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 13:08:30 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:39700)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hcuy8-0001s0-Tn
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 12:58:58 -0400
-Received: by mail-pg1-x541.google.com with SMTP id 196so6153956pgc.6
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 09:58:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9hHmXjsmIgSXX6IxdG6kiYxinftCn7rjEAcGgSGhsgI=;
- b=xFMorwB/o2lItiYuW8gUWPfkL8KNoryWfEYSOuAjXuKq2qTqsgyioMs+opYfyVng7f
- HzELHqYLW7kdoaKLmZxT+iVSvdOW1/BuOBNdlO0oYP/x8sIlj3hgdEcaMKsv0du7jnfW
- gg+RdDj3FHmI5fShtl3M+pOhVKnZ9EfjYN/omQG9FqCF7nujU/oCxsUjDacnIkvjY5Hv
- LX8oHPOvlFpx510z+IMr7AqXgjCzpwfqUR4szWkUFb08M8wg8lgsvafNSB0BdRHprUUc
- lObs4Cwl8+4ugOsyDcneunIEy5nMG+oJ6A8bQNtvKw76bDc0Vx6vcXToyTcL5RsdPIMM
- lkHg==
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hcv7M-00008D-Sv; Mon, 17 Jun 2019 13:08:29 -0400
+Received: by mail-lj1-x243.google.com with SMTP id v18so10042100ljh.6;
+ Mon, 17 Jun 2019 10:08:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0hrRRgMO2XtUkfzFyfRARDAR6X0+SctDDT9Im4dP8Vs=;
+ b=O61tMpNTiqCuqJvEfhU0RpY5m+EgOAhk1sdhUpYhNkZWbCfbazN5cCPxNcQRVaWMF6
+ P2s8VrNhj3+nQRgugfpFrdpATxsj4ZcPHRVN4vjxvrl3BVVkv6wfoLg81zY4bPtxADsw
+ G/rUCzf/ryMKdKxVb4v9FNCPMnU8bk0yUw0nV3MT32pRLNUxu1hYHH4z+grPYnhmij0p
+ nYnay7EVd003vmY0wnM0CnC4SWYffsToW1AtFJCcM3y8dMyOtXPvxpUHYmbVrIHtnNDM
+ 1qoVa63wInP4H+gXAnxGFvKSowCDG1K5OZN0uvOP1I9BWhDestgk05XWg/+HUT0FHrJ7
+ Vgeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9hHmXjsmIgSXX6IxdG6kiYxinftCn7rjEAcGgSGhsgI=;
- b=DUBmDSaGTVMOPkVni+TvBdX+XqDSM7MbrZwZvDPHpYLRO3nbMKhIyLJ/dwrEXOUQGT
- TQf2HwmjfC4Tp9lMwz1Ksnxbj10MiTGzEnqVrf2AQak1J6Wr8vso30cr4FW9F59KjaXp
- sckaVuvJ/fMErloye9ABkQgeHjH9vaCY1g9P0YNVYkWTRkWktrLTY2wcBywwk7mtuSZR
- UhhIrz1YXUgNuF80DZB25YLpGi7VjvgsgbYyNY6VSx1svk+nvSZqEd6iQdfyqWOuvkrZ
- acxNzwKCa218YK5bp+n3/ekcRZf6blx73qPg4e+C1xkYS+X/PRj+PpE7I/xpBXGd63YT
- Xc6w==
-X-Gm-Message-State: APjAAAU0A3Cnq7r3RDIrhxUx3ah1+37k+j+ago0XRap6zMcORwYbCPSt
- FiInNCYgItx0gp7JHpsjfrZtZA==
-X-Google-Smtp-Source: APXvYqxLe0KtH9V1VNtds3QOto2JN6THbo8IjrdGu+Ds5bfwm0msuFtvKo1G9wpHuTumD8l5q/YziQ==
-X-Received: by 2002:a63:4d05:: with SMTP id a5mr46645366pgb.19.1560790735115; 
- Mon, 17 Jun 2019 09:58:55 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-2-33.tukw.qwest.net. [97.113.2.33])
- by smtp.gmail.com with ESMTPSA id y23sm15162676pfm.117.2019.06.17.09.58.54
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 09:58:54 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20190616210546.17221-1-richard.henderson@linaro.org>
- <875zp49ocs.fsf@zen.linaroharston>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <f8e98c93-394f-835a-4ec0-d21746bd9c2f@linaro.org>
-Date: Mon, 17 Jun 2019 09:58:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0hrRRgMO2XtUkfzFyfRARDAR6X0+SctDDT9Im4dP8Vs=;
+ b=L2HuH0elz20aT6HHFkcQxl/ffSPgW+X7EpF4D6hJAc5DZlEBorCl2rsSnMuH9LGrGd
+ WhRTkfh2Iz7C6NZnnbFTP+qSN121ewF9zSIfpqDxygP4gK/tnOR1GICQnitoNWskPhNT
+ VevsRyVMQt776CCgxKGMFMUXzqjG8xndj9aebLJ0RGeixfo4Za5JKe0AcntcAlQgRnCE
+ okEb2i7hSDuTPQZanHdfnXXcBDG0zsP6X0YyL978oUz7U4NPzMoghhRYKYJSiTJja4Wn
+ dO/TSskl1cv4xR/vF6n6trxh3ZoMzefWy6mswByTDRxWkILgOMD0ZkewDxkLsykjs4VT
+ J9OQ==
+X-Gm-Message-State: APjAAAU4+LPFcOHAVUgMnlAaZBG/3w1RUjNrUm10iy3mAbNwEngdeQeo
+ xg+lqaRA/a4ARsVVlZ8cX3ukotDTWFEckrb6cB4=
+X-Google-Smtp-Source: APXvYqyP7APFa0lOxtv7oP+QeA+1h/YjUDHpPlP4U3tcUB3+Hbu0VL2lIx9mJXbhvz5bdHq7X4yJDc8jC0rvC1nRsLg=
+X-Received: by 2002:a2e:9188:: with SMTP id f8mr323422ljg.33.1560791306223;
+ Mon, 17 Jun 2019 10:08:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <875zp49ocs.fsf@zen.linaroharston>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <d4664adffe008df43f2a0760dd4e2b9cb834b652.1558131003.git.alistair.francis@wdc.com>
+ <mhng-bd7fc2fb-94f7-4afa-b03c-4f8674d5ade4@palmer-si-x1e>
+In-Reply-To: <mhng-bd7fc2fb-94f7-4afa-b03c-4f8674d5ade4@palmer-si-x1e>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 17 Jun 2019 10:05:39 -0700
+Message-ID: <CAKmqyKNV8PY1hgXq7QO9SxwdXCWxCBGw5pvgSgBpPy4pVvB7Dw@mail.gmail.com>
+To: Palmer Dabbelt <palmer@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH] tcg: Fix mmap lock assert on translation
- failure
+X-Received-From: 2a00:1450:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH v1 3/4] disas/riscv: Fix `rdinstreth`
+ constraint
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,52 +72,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: christophe.lyon@linaro.org, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/19 9:18 AM, Alex Bennée wrote:
-> 
-> Richard Henderson <richard.henderson@linaro.org> writes:
-> 
->> Check page flags before letting an invalid pc cause a SIGSEGV.
->>
->> Prepare for eventially validating PROT_EXEC.  The current wrinkle being
->> that we have a problem with our implementation of signals.  We should
->> be using a vdso like the kernel, but we instead put the trampoline on
->> the stack.  In the meantime, let PROT_READ match PROT_EXEC.
-> 
-> We can come up with a test case for this right? Would it be triggered by
-> having:
-> 
-> __attribute__((aligned(PAGE_SIZE)))
-> void some_func(void) {
->      /* does something */
-> }
-> 
-> __attribute__((aligned(PAGE_SIZE)))
-> ... rest of code ...
-> 
-> main () {
->      mmap(&some_func, PAGE_SIZE, PROT_READ, MAP_ANONYMOUS, 0, 0);
->      some_func()
->      /* causes SEGV */
->      mmap(&some_func, PAGE_SIZE, PROT_READ|PROT_EXEC, MAP_ANONYMOUS, 0, 0);
->      some_func()
->      /* works */
-> }
-> 
-> Or is it trickier to mess with your own mapped memory?
+On Fri, Jun 14, 2019 at 2:41 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+>
+> On Fri, 17 May 2019 15:11:04 PDT (-0700), Alistair Francis wrote:
+> > From: Michael Clark <mjc@sifive.com>
+> >
+> > The constraint for `rdinstreth` was comparing the csr number to 0xc80,
+> > which is `cycleh` instead. Fix this.
+> >
+> > Author: Wladimir J. van der Laan <laanwj@gmail.com>
+>
+> I'm not sure what this tag is supposed to mean.  If this is the actual author
+> of the patch, then shouldn't it also have a SOB?
 
-It's trickier than that, but I do have a simple test case.
+I'm not sure either, that is the line that the patch had and I didn't
+want to change it. I'm not sure what usually happens in cases like
+this.
 
-  https://bugs.launchpad.net/qemu/+bug/1832916
+Alistair
 
-But fixing that, as I mention above, makes signal trampolines fail.
-
-Or did you mean for Christophe's failure?  That's easier -- just make a NULL
-function call.
-
-
-r~
+>
+> > Signed-off-by: Michael Clark <mjc@sifive.com>
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  disas/riscv.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/disas/riscv.c b/disas/riscv.c
+> > index 3ab4586f0a..c2578a3c4b 100644
+> > --- a/disas/riscv.c
+> > +++ b/disas/riscv.c
+> > @@ -614,7 +614,7 @@ static const rvc_constraint rvcc_rdtime[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc01, r
+> >  static const rvc_constraint rvcc_rdinstret[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc02, rvc_end };
+> >  static const rvc_constraint rvcc_rdcycleh[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc80, rvc_end };
+> >  static const rvc_constraint rvcc_rdtimeh[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc81, rvc_end };
+> > -static const rvc_constraint rvcc_rdinstreth[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc80, rvc_end };
+> > +static const rvc_constraint rvcc_rdinstreth[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc82, rvc_end };
+> >  static const rvc_constraint rvcc_frcsr[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x003, rvc_end };
+> >  static const rvc_constraint rvcc_frrm[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x002, rvc_end };
+> >  static const rvc_constraint rvcc_frflags[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x001, rvc_end };
 
