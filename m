@@ -2,55 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B87F4859B
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:37:37 +0200 (CEST)
-Received: from localhost ([::1]:48034 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D074862B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:54:54 +0200 (CEST)
+Received: from localhost ([::1]:48184 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcslM-0004wE-7s
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:37:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43914)
+	id 1hct25-0004MP-Sh
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:54:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43725)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hcsZL-0004gn-29
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:25:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsYb-0004U2-NY
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:24:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hcsZJ-0002S4-3X
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:25:10 -0400
-Resent-Date: Mon, 17 Jun 2019 10:25:10 -0400
-Resent-Message-Id: <E1hcsZJ-0002S4-3X@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21545)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hcsZH-0002I8-3h
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:25:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560781444; cv=none; d=zoho.com; s=zohoarc; 
- b=mE5N5cu8zav1FMio3EchwWfMILPQlMl4hk8wgOG/TaonMNB09tS/uaU+v+6Kv2JnKn9czUMnvDNSkURvdnpnotZm50dY9qBSCJzBnVv9j9svnpi9EGtTVEiZ0ZM443hc89qyNrs/w8/CBjkgNtv+GtEu2KHx+c4Y+xWSawEFKAY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560781444;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=3hHXPkvcZvo3Z6JOLD5VFHJDvIyFZ+NxTvUkraKEUMI=; 
- b=MZiaegZXOtv06XjwKbq+S6A0amTrhJW+Ucpt8s3buGj6+1G0FnBu039g6Ko8GWAOV8NYT3ksQe8xV/SFVAavMLBjiMPQn0K6LvKbWixxJOZjjPz9Su3ZtsUr4bA45ctytfknu5vCiKJezylRCSa7zgk5wnyM0kzi+guCujvNlN4=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1560781442872904.5329668189513;
- Mon, 17 Jun 2019 07:24:02 -0700 (PDT)
-In-Reply-To: <20190617131103.1413-1-berrange@redhat.com>
-Message-ID: <156078144156.13573.14809923576191207765@ce79690b2cb9>
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsYZ-00023c-Tc
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:24:25 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:39581)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hcsYZ-00022S-AL
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:24:23 -0400
+Received: by mail-ot1-x343.google.com with SMTP id r21so6542688otq.6
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:24:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kYY3Tw0knPndtwsiDs1GZv4xECoZtAkY0sOXh9IHHK4=;
+ b=k2zdRneNP0ekAEEFBu9nnSX++rzyKcpbt14h44/F9MhnYIHnOjJagMnRe95s41Hcwm
+ edUFHiGUZ4Tr2QNXX/8T2PWMflv0ENbj6HXWzJKfaB8hFagIkr12IA3h9RWFiYFrTlO2
+ OUZ3sNOrtfCOl3xEzR7GPTjov4yL7JS0b2q3r3yAH+m2Z7YlIwKb5XzmjpYVSNnb82xr
+ HflN7kI2NIJBmpuHIOPm4k12+C/iuhP2BFL/aFlVtAmvf6E5Tlcqp/ixaY2H71Q4JLEo
+ DqAe7nPTZphG6O/g/xygAQHa+VjfaKdoBhfT/5mZH3qYenJmmQXE1qGwVtmr0Wa3IPXZ
+ jKPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kYY3Tw0knPndtwsiDs1GZv4xECoZtAkY0sOXh9IHHK4=;
+ b=kIoRWP86OJQSFsYLtBN6fNSsc/AwGt9f12c+EYBJv+nCMMFBYP1sYJTe/BCqnjcI3/
+ mOIXEdm+9FP55YsNDnrWvtiGSfee87qz9374HqT3C5xxnYdGwwwLHAFEgia8Og0ef+tf
+ 7eRKti5MhNq9RuTOdhYuQMOvHJCOdEEZ0XIPpsVviIUMsXi7U8XHEbom0GOiloni3N9J
+ Fr8VWVfXvt43zfvCgjNIqe0MD2fVZrj+hrJQGLDWsI49aMVBR+amolkT5/SFbz0mI7WU
+ kZae2eueWkf0lxCySGwnaYU+okpaclYKa7iXA0FgAydsh7j0S5j1T1EnwsiEeErmRX8s
+ H0RQ==
+X-Gm-Message-State: APjAAAW7JB8JL9j+heTJlQ795AYhZA4KR09hj1iKUECRsvBfC1iqf3sB
+ fIWMpPGAOspuSffA/dBL1w/0xR0TCwy6HPi2n7sr5g==
+X-Google-Smtp-Source: APXvYqz7MitrTuYEj2jv9GbEXdWCc9OwvUkb19zHfPFq5PsjBHOLVapwbzNSCTln5o6ndNeSGGgwrc/e3wuDwjbqhRY=
+X-Received: by 2002:a9d:d17:: with SMTP id 23mr57708179oti.221.1560781462050; 
+ Mon, 17 Jun 2019 07:24:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berrange@redhat.com
-Date: Mon, 17 Jun 2019 07:24:02 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [PATCH v2] linux-user: fix to handle variably
- sized SIOCGSTAMP with new kernels
+References: <20190613143741.15128-1-peter.maydell@linaro.org>
+ <724331ba-44ee-c37c-e22b-452b6f25ee7b@linaro.org>
+In-Reply-To: <724331ba-44ee-c37c-e22b-452b6f25ee7b@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:24:10 +0100
+Message-ID: <CAFEAcA_D_Eyg2fjhcfWYwMhHSVCY5-gr1hJDn+kWBTK=gz-LTA@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [RISU PATCH] arm.risu: Avoid VTRN with Vd == Vm
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,47 +72,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, arnd@arndb.de, gerhard.stenzel@de.ibm.com,
- riku.voipio@iki.fi, qemu-devel@nongnu.org, laurent@vivier.eu,
- borntraeger@de.ibm.com
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxNzEzMTEwMy4xNDEz
-LTEtYmVycmFuZ2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
-IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
-Zm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2Ml0gbGludXgtdXNlcjog
-Zml4IHRvIGhhbmRsZSB2YXJpYWJseSBzaXplZCBTSU9DR1NUQU1QIHdpdGggbmV3IGtlcm5lbHMK
-VHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwNjE3MTMxMTAzLjE0MTMtMS1iZXJyYW5nZUBy
-ZWRoYXQuY29tCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
-cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
-aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
-M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
-aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3
-LzIwMTkwNjE1MTU0MzUyLjI2ODI0LTEtcGhpbG1kQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDE5
-MDYxNTE1NDM1Mi4yNjgyNC0xLXBoaWxtZEByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJy
-YW5jaCAndGVzdCcKYWViMTRiNSBsaW51eC11c2VyOiBmaXggdG8gaGFuZGxlIHZhcmlhYmx5IHNp
-emVkIFNJT0NHU1RBTVAgd2l0aCBuZXcga2VybmVscwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJS
-T1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM3ODogRklMRTogbGludXgtdXNlci9zeXNjYWxs
-X2RlZnMuaDo3NTU6CisjZGVmaW5lIFRBUkdFVF9TSU9DR1NUQU1QX05FVyAgIFRBUkdFVF9JT0Mo
-VEFSR0VUX0lPQ19SRUFELCAncycsIDYsIHNpemVvZihsb25nIGxvbmcpICsgc2l6ZW9mKGxvbmcp
-KSAvKiBHZXQgc3RhbXAgKHRpbWV2YWw2NCkgKi8KCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFj
-dGVycwojNzk6IEZJTEU6IGxpbnV4LXVzZXIvc3lzY2FsbF9kZWZzLmg6NzU2OgorI2RlZmluZSBU
-QVJHRVRfU0lPQ0dTVEFNUE5TX05FVyBUQVJHRVRfSU9DKFRBUkdFVF9JT0NfUkVBRCwgJ3MnLCA3
-LCBzaXplb2YobG9uZyBsb25nKSArIHNpemVvZihsb25nKSkgLyogR2V0IHN0YW1wICh0aW1lc3Bl
-YzY0KSAqLwoKdG90YWw6IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCA1MSBsaW5lcyBjaGVja2VkCgpD
-b21taXQgYWViMTRiNTk5ZDhiIChsaW51eC11c2VyOiBmaXggdG8gaGFuZGxlIHZhcmlhYmx5IHNp
-emVkIFNJT0NHU1RBTVAgd2l0aCBuZXcga2VybmVscykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
-c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
-cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
-Uy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
-OTA2MTcxMzExMDMuMTQxMy0xLWJlcnJhbmdlQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNo
-Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
-aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
-cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Thu, 13 Jun 2019 at 22:17, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 6/13/19 7:37 AM, Peter Maydell wrote:
+> > The AArch32 VTRN instruction is specified to give an UNKNOWN
+> > result if Vd and Vm are the same register; avoid generating
+> > this in risu output, as we already do for VUZP and VZIP.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > Alex: this pattern error is why we don't pass your
+> > testcases/aarch32-all/insn_VTRN__INC.risu.bin when compared
+> > with a real Cortex-A7. You probably want to update that.
+> >
+> >  arm.risu | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+Applied to risu master, thanks.
+
+-- PMM
 
