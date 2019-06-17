@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1819048152
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 13:55:49 +0200 (CEST)
-Received: from localhost ([::1]:46336 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF9C4817F
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:03:38 +0200 (CEST)
+Received: from localhost ([::1]:46382 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcqEm-0003qq-86
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 07:55:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54939)
+	id 1hcqML-0008It-JE
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55107)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hcpxC-0002r5-Ge
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:37:40 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hcpxh-0003K4-LN
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:38:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hcpxA-0001QP-7f
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:37:38 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34608)
+ (envelope-from <alex.bennee@linaro.org>) id 1hcpxg-00025K-L3
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:38:09 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40192)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hcpxA-0001Ov-1y
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:37:36 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k11so9585840wrl.1
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 04:37:35 -0700 (PDT)
+ id 1hcpxg-00024a-F4
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:38:08 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p11so9573487wre.7
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 04:38:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=yOa9kZzMjmqLZ5LA+8Wo/OBvg98YhZLaWoG4ldtZzRg=;
- b=AABVz4bUPlc/0VDZ8Ebfj1rDiOGgQkdVyb/JFlHaswHNzTSzv/+v4acEHsdcwCSL18
- R8A2Pfe3H90qS/Fb+syPt/uL1vMaL6xsMIlm9h1v9HsnIgbRyK39YjQjSZsPd2ETWq8w
- gxvg3GBtjPPM3VzK0kEpifxYNisli/7mi9XPbQb5LSx9Tg85/9asEKC7M50CkqoAAj+G
- rZ5KhMifiO1FjwBi/3S1ln8uRRIa0/2lnEa6HmKnmGbrXBDOSMA1BULXv/Wawz3OkOMb
- FrOutP5q7oFQvkfI3b+3MKZ/Pckb74cJido4lNgjELqHziON7BAmw4hJ/r2X4GPJ7Bsz
- 2xfg==
+ bh=Nd4e2DQy6cSq6hflaPyBwzVRFv1VdqLwU3MaaSMiCZg=;
+ b=fv9R+kJwDrJ8G3iT8taeTToJJzOUAuxfVmq1+m9gc31bG3C+pH1vRKe9SDZCxVUMsf
+ L5LFy3/1X5Us+YpQ25Qh7bHm6ZNmcdLvCxysootwkrdCkrD710uSAi1KjMcZVocWuNp5
+ GSAOnMYdUccET84QDGbPNCvoWyDvAsV8c6/s1SjM2gbSLhwqoB4iXPjxBAgTzBKdiyZn
+ 3iHsKFzfCwTL4c1CsFGKelvGcwmpqV/NHJR2o7OqnStcHR6O5KSJIzTVjVoq9oaJRt5h
+ 8yN4xmnUCt/Taa7UkslcNu4bFN2s3VoNOm7iWuPNZWuev2ty1y5FEgl+RXZmL6PrsFoD
+ jQ0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=yOa9kZzMjmqLZ5LA+8Wo/OBvg98YhZLaWoG4ldtZzRg=;
- b=KAYRz8HrlydH2RJuqeHj1o4icaWDHgAGVBFK7pwhYCSO2Ccob0H8/DaPd8YWCa9LmF
- uvNzxd9z/TTY+mgdVkY2i8O7DTrKtE4SeeB5gF4qhiDPLWgyC4EO23vbNo8wVeq6HuDd
- yI/qGJwDTuPwzfGEssjSZJLUKuCcjGrj4nny1fdQgpHg01XiueVnsWdePq5/J8coSqbX
- +x9n+5oBwsGGtJZptZpTIEEkXTLcDkvj4i0RH/Dy+JrRcK87epPR/9lAHcon0TAuRhvl
- BzCrSqLgF+kRq9bongmH8e91RDQws1VrJQSHDcHDi0SamtibK4qov+PyW+fKijrzKObz
- JXVA==
-X-Gm-Message-State: APjAAAU+SdgcwL/14V2Tb7NvVn1Pt9dMp2h7OCbyFb7UYbiNsoG+Nlhe
- wBG5llE9T7k9wRGiioCoWpAEqw==
-X-Google-Smtp-Source: APXvYqyR7Ekm8bK0VNVI8K1+ItxXdkd3YcUsrNz/QwrrvJDdBYnbz0hAoId1hCpehkgBl0/bzxghBw==
-X-Received: by 2002:adf:de8e:: with SMTP id w14mr23758045wrl.130.1560771454795; 
- Mon, 17 Jun 2019 04:37:34 -0700 (PDT)
+ bh=Nd4e2DQy6cSq6hflaPyBwzVRFv1VdqLwU3MaaSMiCZg=;
+ b=rLRQOxUbdWvLj2chzzs2zpRVNF7qJqbM32+hz2SwCOXf1IMOkj6wcIr7G7Zw5L2WOV
+ LxtiKYz/x4nWrhlzoaGYcDQQ0A8LJFLo7QcPk/bm8IU+Qor5rbChpdPM83kRyf66ye6e
+ HkB5Oqm+9e0z1NIZNBgKJKUKcDBDBwguhnbNiW5+mWlKExjdLIZcL+9lXdAdacaLPWkZ
+ y2iNBbQayKNYsALLr0jlWWN1LEg0nBDzXapazeeO7qrs2U01ZJpISj3y9dhHJG6C03Ru
+ N7e4o6kEQstC3Cv/hTsGh3r21aHrY7W7HOgl85/rMrLQRS5p8Bt2uRQ4oKeM4LC4m4mk
+ 84aA==
+X-Gm-Message-State: APjAAAUmzW+vEKJaTi6mvjC0Oohk7tFbI4XtX16nCNvGM3GWQ5Uxukwd
+ GZ+Eb7SsQVFHxXgfxpir5wXVSg==
+X-Google-Smtp-Source: APXvYqztT95FXRMvZ+SyPbP7h1DpvUpoobUTSmjCT+Ryq1Lr2NUOH8QwNlqBSu44+CLd0L6ghZVgkQ==
+X-Received: by 2002:adf:e311:: with SMTP id b17mr76454026wrj.11.1560771487330; 
+ Mon, 17 Jun 2019 04:38:07 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id y44sm11200461wrd.13.2019.06.17.04.37.34
+ by smtp.gmail.com with ESMTPSA id a84sm2374559wmf.29.2019.06.17.04.38.06
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 17 Jun 2019 04:37:34 -0700 (PDT)
+ Mon, 17 Jun 2019 04:38:06 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DB9761FF87;
- Mon, 17 Jun 2019 12:37:33 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 602091FF87;
+ Mon, 17 Jun 2019 12:38:06 +0100 (BST)
 References: <20190615154352.26824-1-philmd@redhat.com>
- <20190615154352.26824-4-philmd@redhat.com>
+ <20190615154352.26824-5-philmd@redhat.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-arm@nongnu.org
-In-reply-to: <20190615154352.26824-4-philmd@redhat.com>
-Date: Mon, 17 Jun 2019 12:37:33 +0100
-Message-ID: <878su0bfya.fsf@zen.linaroharston>
+In-reply-to: <20190615154352.26824-5-philmd@redhat.com>
+Date: Mon, 17 Jun 2019 12:38:06 +0100
+Message-ID: <877e9kbfxd.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 03/23] target/arm: Makefile
- cleanup (KVM)
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 04/23] target/arm: Makefile
+ cleanup (softmmu)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,43 +92,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> Group KVM objects together.
+> Group SOFTMMU objects together.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  target/arm/Makefile.objs | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+>  target/arm/Makefile.objs | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
 > diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-> index 3269dda613..626e340f55 100644
+> index 626e340f55..72b42f825f 100644
 > --- a/target/arm/Makefile.objs
 > +++ b/target/arm/Makefile.objs
-> @@ -1,14 +1,15 @@
+> @@ -1,9 +1,9 @@
 >  obj-y +=3D arm-semi.o
->  obj-$(CONFIG_SOFTMMU) +=3D machine.o psci.o arch_dump.o monitor.o
-> -obj-$(CONFIG_KVM) +=3D kvm.o
-> -obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) +=3D kvm32=
-.o
-> -obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) +=3D kvm64.o
-> -obj-$(call lnot,$(CONFIG_KVM)) +=3D kvm-stub.o
->  obj-y +=3D helper.o cpu.o
->  obj-y +=3D gdbstub.o
+> -obj-$(CONFIG_SOFTMMU) +=3D machine.o psci.o arch_dump.o monitor.o
+> -obj-y +=3D helper.o cpu.o
+> -obj-y +=3D gdbstub.o
+> +obj-y +=3D cpu.o helper.o gdbstub.o
 >  obj-$(TARGET_AARCH64) +=3D cpu64.o gdbstub64.o
->  obj-$(CONFIG_SOFTMMU) +=3D arm-powerctl.o
->
-> +obj-$(CONFIG_KVM) +=3D kvm.o
-> +obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) +=3D kvm32=
-.o
-> +obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) +=3D kvm64.o
-> +obj-$(call lnot,$(CONFIG_KVM)) +=3D kvm-stub.o
+> -obj-$(CONFIG_SOFTMMU) +=3D arm-powerctl.o
 > +
->  DECODETREE =3D $(SRC_PATH)/scripts/decodetree.py
+> +obj-$(CONFIG_SOFTMMU) +=3D machine.o arch_dump.o monitor.o arm-powerctl.o
+> +obj-$(CONFIG_SOFTMMU) +=3D psci.o
 >
->  target/arm/decode-sve.inc.c: $(SRC_PATH)/target/arm/sve.decode $(DECODET=
-REE)
+>  obj-$(CONFIG_KVM) +=3D kvm.o
+>  obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) +=3D kvm32=
+.o
 
 
 --
