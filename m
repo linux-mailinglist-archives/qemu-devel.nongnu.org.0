@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9851248DBA
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:15:19 +0200 (CEST)
-Received: from localhost ([::1]:51360 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9BF48E3D
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:21:39 +0200 (CEST)
+Received: from localhost ([::1]:51430 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcx66-0003AU-P3
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
+	id 1hcxCE-0008NQ-BN
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:21:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40511)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hcwh1-0001cF-VO
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:25 -0400
+ (envelope-from <armbru@redhat.com>) id 1hcwh7-0001pV-Ci
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hcwh0-0007ry-9D
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57292)
+ (envelope-from <armbru@redhat.com>) id 1hcwh5-0007wa-Co
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:27358)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwh0-0007ik-0A
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:22 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwh5-0007ii-3q
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:27 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 54FFB307ACE6
+ by mx1.redhat.com (Postfix) with ESMTPS id 52730B2DFB
  for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:49:08 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-177.ams2.redhat.com
  [10.36.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2D2F52FE;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF85F7D8C3;
  Mon, 17 Jun 2019 18:49:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 836161133020; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
+ id 86B831133023; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 20:49:01 +0200
-Message-Id: <20190617184903.19436-15-armbru@redhat.com>
+Date: Mon, 17 Jun 2019 20:49:02 +0200
+Message-Id: <20190617184903.19436-16-armbru@redhat.com>
 In-Reply-To: <20190617184903.19436-1-armbru@redhat.com>
 References: <20190617184903.19436-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Mon, 17 Jun 2019 18:49:08 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Mon, 17 Jun 2019 18:49:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 14/16] monitor: Split Monitor.flags into
- separate bools
+Subject: [Qemu-devel] [PULL 15/16] monitor: Replace monitor_init() with
+ monitor_init_{hmp, qmp}()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,185 +64,248 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kevin Wolf <kwolf@redhat.com>
 
-Monitor.flags contains three different flags: One to distinguish HMP
-from QMP; one specific to HMP (MONITOR_USE_READLINE) that is ignored
-with QMP; and another one specific to QMP (MONITOR_USE_PRETTY) that is
-ignored with HMP.
-
-Split the flags field into three bools and move them to the right
-subclass. Flags are still in use for the monitor_init() interface.
+Most callers know which monitor type they want to have. Instead of
+calling monitor_init() with flags that can describe both types of
+monitors, make monitor_init_{hmp,qmp}() public interfaces that take
+specific bools instead of flags and call these functions directly.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20190613153405.24769-14-kwolf@redhat.com>
+Message-Id: <20190613153405.24769-15-kwolf@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- monitor/hmp.c              |  6 +++---
- monitor/misc.c             |  2 +-
- monitor/monitor-internal.h |  8 +++++---
- monitor/monitor.c          | 14 +++++++++-----
- monitor/qmp.c              |  7 ++++---
- 5 files changed, 22 insertions(+), 15 deletions(-)
+ chardev/char.c             |  2 +-
+ gdbstub.c                  |  2 +-
+ include/monitor/monitor.h  |  9 ++-------
+ monitor/hmp.c              |  4 ++--
+ monitor/monitor-internal.h |  3 ---
+ monitor/monitor.c          |  9 ---------
+ monitor/qmp.c              |  7 ++-----
+ stubs/monitor.c            |  6 +++++-
+ tests/test-util-sockets.c  |  3 ++-
+ vl.c                       | 18 ++++++++++++------
+ 10 files changed, 27 insertions(+), 36 deletions(-)
 
+diff --git a/chardev/char.c b/chardev/char.c
+index e4887bcc82..7b6b2cb123 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -731,7 +731,7 @@ Chardev *qemu_chr_new_noreplay(const char *label, con=
+st char *filename,
+=20
+     if (qemu_opt_get_bool(opts, "mux", 0)) {
+         assert(permit_mux_mon);
+-        monitor_init(chr, MONITOR_USE_READLINE);
++        monitor_init_hmp(chr, true);
+     }
+=20
+ out:
+diff --git a/gdbstub.c b/gdbstub.c
+index d614a1f3c0..8618e34311 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3344,7 +3344,7 @@ int gdbserver_start(const char *device)
+         /* Initialize a monitor terminal for gdb */
+         mon_chr =3D qemu_chardev_new(NULL, TYPE_CHARDEV_GDB,
+                                    NULL, NULL, &error_abort);
+-        monitor_init(mon_chr, 0);
++        monitor_init_hmp(mon_chr, false);
+     } else {
+         qemu_chr_fe_deinit(&s->chr, true);
+         mon_chr =3D s->mon_chr;
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index 44ac43df34..a81eeff5f8 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -8,19 +8,14 @@
+ extern __thread Monitor *cur_mon;
+ typedef struct MonitorHMP MonitorHMP;
+=20
+-/* flags for monitor_init */
+-/* 0x01 unused */
+-#define MONITOR_USE_READLINE  0x02
+-#define MONITOR_USE_CONTROL   0x04
+-#define MONITOR_USE_PRETTY    0x08
+-
+ #define QMP_REQ_QUEUE_LEN_MAX 8
+=20
+ bool monitor_cur_is_qmp(void);
+=20
+ void monitor_init_globals(void);
+ void monitor_init_globals_core(void);
+-void monitor_init(Chardev *chr, int flags);
++void monitor_init_qmp(Chardev *chr, bool pretty);
++void monitor_init_hmp(Chardev *chr, bool use_readline);
+ void monitor_cleanup(void);
+=20
+ int monitor_suspend(Monitor *mon);
 diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 86e86c1cf1..07f827c90c 100644
+index 07f827c90c..5349a81307 100644
 --- a/monitor/hmp.c
 +++ b/monitor/hmp.c
-@@ -1397,12 +1397,12 @@ static void monitor_readline_flush(void *opaque)
- void monitor_init_hmp(Chardev *chr, int flags)
+@@ -1394,14 +1394,14 @@ static void monitor_readline_flush(void *opaque)
+     monitor_flush(&mon->common);
+ }
+=20
+-void monitor_init_hmp(Chardev *chr, int flags)
++void monitor_init_hmp(Chardev *chr, bool use_readline)
  {
      MonitorHMP *mon =3D g_new0(MonitorHMP, 1);
--    bool use_readline =3D flags & MONITOR_USE_READLINE;
 =20
--    monitor_data_init(&mon->common, flags, false, false);
-+    monitor_data_init(&mon->common, false, false, false);
+     monitor_data_init(&mon->common, false, false, false);
      qemu_chr_fe_init(&mon->common.chr, chr, &error_abort);
 =20
--    if (use_readline) {
-+    mon->use_readline =3D flags & MONITOR_USE_READLINE;
-+    if (mon->use_readline) {
+-    mon->use_readline =3D flags & MONITOR_USE_READLINE;
++    mon->use_readline =3D use_readline;
+     if (mon->use_readline) {
          mon->rs =3D readline_init(monitor_readline_printf,
                                  monitor_readline_flush,
-                                 mon,
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 002aba1030..10f24673f8 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -121,7 +121,7 @@ char *qmp_human_monitor_command(const char *command_l=
-ine, bool has_cpu_index,
-     Monitor *old_mon;
-     MonitorHMP hmp =3D {};
-=20
--    monitor_data_init(&hmp.common, 0, true, false);
-+    monitor_data_init(&hmp.common, false, true, false);
-=20
-     old_mon =3D cur_mon;
-     cur_mon =3D &hmp.common;
 diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index b4996c14ac..03ea0239ef 100644
+index 03ea0239ef..7760b22ba3 100644
 --- a/monitor/monitor-internal.h
 +++ b/monitor/monitor-internal.h
-@@ -86,8 +86,8 @@ typedef struct HMPCommand {
- struct Monitor {
-     CharBackend chr;
-     int reset_seen;
--    int flags;
-     int suspend_cnt;            /* Needs to be accessed atomically */
-+    bool is_qmp;
-     bool skip_flush;
-     bool use_io_thread;
+@@ -163,9 +163,6 @@ extern int mon_refcount;
 =20
-@@ -112,6 +112,7 @@ struct Monitor {
+ extern HMPCommand hmp_cmds[];
 =20
- struct MonitorHMP {
-     Monitor common;
-+    bool use_readline;
-     /*
-      * State used only in the thread "owning" the monitor.
-      * If @use_io_thread, this is @mon_iothread. (This does not actually=
- happen
-@@ -125,6 +126,7 @@ struct MonitorHMP {
- typedef struct {
-     Monitor common;
-     JSONMessageParser parser;
-+    bool pretty;
-     /*
-      * When a client connects, we're in capabilities negotiation mode.
-      * @commands is &qmp_cap_negotiation_commands then.  When command
-@@ -148,7 +150,7 @@ typedef struct {
-  */
- static inline bool monitor_is_qmp(const Monitor *mon)
- {
--    return mon->flags & MONITOR_USE_CONTROL;
-+    return mon->is_qmp;
- }
-=20
- typedef QTAILQ_HEAD(MonitorList, Monitor) MonitorList;
-@@ -165,7 +167,7 @@ void monitor_init_qmp(Chardev *chr, int flags);
- void monitor_init_hmp(Chardev *chr, int flags);
-=20
+-void monitor_init_qmp(Chardev *chr, int flags);
+-void monitor_init_hmp(Chardev *chr, int flags);
+-
  int monitor_puts(Monitor *mon, const char *str);
--void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
-+void monitor_data_init(Monitor *mon, bool is_qmp, bool skip_flush,
+ void monitor_data_init(Monitor *mon, bool is_qmp, bool skip_flush,
                         bool use_io_thread);
- void monitor_data_destroy(Monitor *mon);
- int monitor_can_read(void *opaque);
 diff --git a/monitor/monitor.c b/monitor/monitor.c
-index db3d5ece99..3f4808240a 100644
+index 3f4808240a..3ef28171c0 100644
 --- a/monitor/monitor.c
 +++ b/monitor/monitor.c
-@@ -78,14 +78,18 @@ bool monitor_cur_is_qmp(void)
-  * Note: not all HMP monitors use readline, e.g., gdbserver has a
-  * non-interactive HMP monitor, so readline is not used there.
-  */
--static inline bool monitor_uses_readline(const Monitor *mon)
-+static inline bool monitor_uses_readline(const MonitorHMP *mon)
+@@ -551,15 +551,6 @@ void monitor_data_destroy(Monitor *mon)
+     qemu_mutex_destroy(&mon->mon_lock);
+ }
+=20
+-void monitor_init(Chardev *chr, int flags)
+-{
+-    if (flags & MONITOR_USE_CONTROL) {
+-        monitor_init_qmp(chr, flags);
+-    } else {
+-        monitor_init_hmp(chr, flags);
+-    }
+-}
+-
+ void monitor_cleanup(void)
  {
--    return mon->flags & MONITOR_USE_READLINE;
-+    return mon->use_readline;
- }
-=20
- static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
- {
--    return !monitor_is_qmp(mon) && !monitor_uses_readline(mon);
-+    if (monitor_is_qmp(mon)) {
-+        return false;
-+    }
-+
-+    return !monitor_uses_readline(container_of(mon, MonitorHMP, common))=
-;
- }
-=20
- static void monitor_flush_locked(Monitor *mon);
-@@ -521,17 +525,17 @@ static void monitor_iothread_init(void)
-     mon_iothread =3D iothread_create("mon_iothread", &error_abort);
- }
-=20
--void monitor_data_init(Monitor *mon, int flags, bool skip_flush,
-+void monitor_data_init(Monitor *mon, bool is_qmp, bool skip_flush,
-                        bool use_io_thread)
- {
-     if (use_io_thread && !mon_iothread) {
-         monitor_iothread_init();
-     }
-     qemu_mutex_init(&mon->mon_lock);
-+    mon->is_qmp =3D is_qmp;
-     mon->outbuf =3D qstring_new();
-     mon->skip_flush =3D skip_flush;
-     mon->use_io_thread =3D use_io_thread;
--    mon->flags =3D flags;
- }
-=20
- void monitor_data_destroy(Monitor *mon)
+     /*
 diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 7c3d081a72..940649f688 100644
+index 940649f688..e1b196217d 100644
 --- a/monitor/qmp.c
 +++ b/monitor/qmp.c
-@@ -87,8 +87,7 @@ void qmp_send_response(MonitorQMP *mon, const QDict *rs=
-p)
-     const QObject *data =3D QOBJECT(rsp);
-     QString *json;
+@@ -364,18 +364,15 @@ static void monitor_qmp_setup_handlers_bh(void *opa=
+que)
+     monitor_list_append(&mon->common);
+ }
 =20
--    json =3D mon->common.flags & MONITOR_USE_PRETTY ?
--           qobject_to_json_pretty(data) : qobject_to_json(data);
-+    json =3D mon->pretty ? qobject_to_json_pretty(data) : qobject_to_jso=
-n(data);
-     assert(json !=3D NULL);
+-void monitor_init_qmp(Chardev *chr, int flags)
++void monitor_init_qmp(Chardev *chr, bool pretty)
+ {
+     MonitorQMP *mon =3D g_new0(MonitorQMP, 1);
 =20
-     qstring_append_chr(json, '\n');
-@@ -373,9 +372,11 @@ void monitor_init_qmp(Chardev *chr, int flags)
-     assert(!(flags & MONITOR_USE_READLINE));
-=20
+-    /* Only HMP supports readline */
+-    assert(!(flags & MONITOR_USE_READLINE));
+-
      /* Note: we run QMP monitor in I/O thread when @chr supports that */
--    monitor_data_init(&mon->common, flags, false,
-+    monitor_data_init(&mon->common, true, false,
+     monitor_data_init(&mon->common, true, false,
                        qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTE=
 XT));
 =20
-+    mon->pretty =3D flags & MONITOR_USE_PRETTY;
-+
+-    mon->pretty =3D flags & MONITOR_USE_PRETTY;
++    mon->pretty =3D pretty;
+=20
      qemu_mutex_init(&mon->qmp_queue_lock);
      mon->qmp_requests =3D g_queue_new();
+diff --git a/stubs/monitor.c b/stubs/monitor.c
+index cdbf5c5f9a..c3e9a2e4dc 100644
+--- a/stubs/monitor.c
++++ b/stubs/monitor.c
+@@ -16,7 +16,11 @@ int monitor_get_fd(Monitor *mon, const char *name, Err=
+or **errp)
+     return -1;
+ }
+=20
+-void monitor_init(Chardev *chr, int flags)
++void monitor_init_qmp(Chardev *chr, bool pretty)
++{
++}
++
++void monitor_init_hmp(Chardev *chr, bool use_readline)
+ {
+ }
+=20
+diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
+index fd1ced058c..f1ebffee5a 100644
+--- a/tests/test-util-sockets.c
++++ b/tests/test-util-sockets.c
+@@ -71,7 +71,8 @@ int monitor_get_fd(Monitor *mon, const char *fdname, Er=
+ror **errp)
+  */
+ __thread Monitor *cur_mon;
+ int monitor_vprintf(Monitor *mon, const char *fmt, va_list ap) { abort()=
+; }
+-void monitor_init(Chardev *chr, int flags) {}
++void monitor_init_qmp(Chardev *chr, bool pretty) {}
++void monitor_init_hmp(Chardev *chr, bool use_readline) {}
+=20
+=20
+ static void test_socket_fd_pass_name_good(void)
+diff --git a/vl.c b/vl.c
+index 005468cbfb..32daa434eb 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2299,25 +2299,27 @@ static int fsdev_init_func(void *opaque, QemuOpts=
+ *opts, Error **errp)
+ static int mon_init_func(void *opaque, QemuOpts *opts, Error **errp)
+ {
+     Chardev *chr;
++    bool qmp;
++    bool pretty =3D false;
+     const char *chardev;
+     const char *mode;
+-    int flags;
+=20
+     mode =3D qemu_opt_get(opts, "mode");
+     if (mode =3D=3D NULL) {
+         mode =3D "readline";
+     }
+     if (strcmp(mode, "readline") =3D=3D 0) {
+-        flags =3D MONITOR_USE_READLINE;
++        qmp =3D false;
+     } else if (strcmp(mode, "control") =3D=3D 0) {
+-        flags =3D MONITOR_USE_CONTROL;
++        qmp =3D true;
+     } else {
+         error_setg(errp, "unknown monitor mode \"%s\"", mode);
+         return -1;
+     }
+=20
+-    if (qemu_opt_get_bool(opts, "pretty", 0))
+-        flags |=3D MONITOR_USE_PRETTY;
++    if (qemu_opt_get_bool(opts, "pretty", 0)) {
++        pretty =3D true;
++    }
+=20
+     chardev =3D qemu_opt_get(opts, "chardev");
+     if (!chardev) {
+@@ -2330,7 +2332,11 @@ static int mon_init_func(void *opaque, QemuOpts *o=
+pts, Error **errp)
+         return -1;
+     }
+=20
+-    monitor_init(chr, flags);
++    if (qmp) {
++        monitor_init_qmp(chr, pretty);
++    } else {
++        monitor_init_hmp(chr, true);
++    }
+     return 0;
+ }
 =20
 --=20
 2.21.0
