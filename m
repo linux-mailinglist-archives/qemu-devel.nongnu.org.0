@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1399547970
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 06:41:55 +0200 (CEST)
-Received: from localhost ([::1]:44208 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DF047975
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 06:45:26 +0200 (CEST)
+Received: from localhost ([::1]:44228 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcjSs-0003T4-86
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 00:41:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60159)
+	id 1hcjWH-0006mp-Sw
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 00:45:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60322)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hcjQE-0001Oy-E1
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:13 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hcjQJ-0001Sh-CY
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hcjQC-0005rg-6R
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58342)
+ (envelope-from <kraxel@redhat.com>) id 1hcjQH-0005xr-1v
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34122)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hcjQB-0005oc-Dc
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:07 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hcjQG-0005w2-EZ
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 00:39:12 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 06E87330265;
- Mon, 17 Jun 2019 04:39:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id D24DC86658;
+ Mon, 17 Jun 2019 04:39:10 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-33.ams2.redhat.com
  [10.36.116.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C06389F2E8;
- Mon, 17 Jun 2019 04:38:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B55C57DDA0;
+ Mon, 17 Jun 2019 04:39:05 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 059F316E36; Mon, 17 Jun 2019 06:38:59 +0200 (CEST)
+ id 0D95317446; Mon, 17 Jun 2019 06:38:59 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 06:38:51 +0200
-Message-Id: <20190617043858.8290-5-kraxel@redhat.com>
+Date: Mon, 17 Jun 2019 06:38:52 +0200
+Message-Id: <20190617043858.8290-6-kraxel@redhat.com>
 In-Reply-To: <20190617043858.8290-1-kraxel@redhat.com>
 References: <20190617043858.8290-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Mon, 17 Jun 2019 04:39:05 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Mon, 17 Jun 2019 04:39:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 04/11] tests/vm: proper guest shutdown
+Subject: [Qemu-devel] [PATCH v4 05/11] tests/vm: add vm-boot-{ssh,
+ serial}-<guest> targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,61 +64,54 @@ Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When not running in snapshot mode ask the guest to poweroff and wait for
-this to finish instead of simply quitting qemu, so the guest can flush
-pending updates to disk.
+For testing/troubleshooting convinience.
+
+make vm-boot-serial-<guest>
+  Boot guest, with the serial console on stdio.
+
+make vm-boot-ssh-<guest>
+  Boot guest, login via ssh.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Tested-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/vm/basevm.py | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ tests/vm/Makefile.include | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 395eefaec948..f27178f3c7c2 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -51,6 +51,8 @@ class BaseVM(object):
-     name = "#base"
-     # The guest architecture, to be overridden by subclasses
-     arch = "#arch"
-+    # command to halt the guest, can be overridden by subclasses
-+    poweroff = "poweroff"
-     def __init__(self, debug=False, vcpus=None):
-         self._guest = None
-         self._tmpdir = os.path.realpath(tempfile.mkdtemp(prefix="vm-test-",
-@@ -202,6 +204,10 @@ class BaseVM(object):
-     def wait(self):
-         self._guest.wait()
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 276b870216c4..e329129bd658 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -20,6 +20,10 @@ vm-test:
+ 	@echo "  vm-build-all                    - Build QEMU in all VMs"
+ 	@echo "  vm-clean-all                    - Clean up VM images"
+ 	@echo
++	@echo "For trouble-shooting:"
++	@echo "  vm-boot-serial-<guest>          - Boot guest, serial console on stdio"
++	@echo "  vm-boot-ssh-<guest>             - Boot guest and login via ssh"
++	@echo
+ 	@echo "Special variables:"
+ 	@echo "    BUILD_TARGET=foo		 - Override the build target"
+ 	@echo "    TARGET_LIST=a,b,c    	 - Override target list in builds"
+@@ -63,3 +67,18 @@ vm-build-%: $(IMAGES_DIR)/%.img
+ 		$(if $(EXTRA_CONFIGURE_OPTS),$(EXTRA_CONFIGURE_OPTS)), \
+ 		"  VM-BUILD $*")
  
-+    def graceful_shutdown(self):
-+        self.ssh_root(self.poweroff)
-+        self._guest.wait()
++vm-boot-serial-%: $(IMAGES_DIR)/%.img
++	qemu-system-x86_64 -enable-kvm -m 4G -smp 2 -nographic \
++		-drive if=none,id=vblk,cache=writeback,file="$<" \
++		-netdev user,id=vnet \
++		-device virtio-blk-pci,drive=vblk \
++		-device virtio-net-pci,netdev=vnet \
++	|| true
 +
-     def qmp(self, *args, **kwargs):
-         return self._guest.qmp(*args, **kwargs)
- 
-@@ -278,11 +284,13 @@ def main(vmcls):
-         traceback.print_exc()
-         return 2
- 
--    if args.interactive:
--        if vm.ssh(*cmd) == 0:
--            return 0
-+    exitcode = 0
-+    if vm.ssh(*cmd) != 0:
-+        exitcode = 3
-+    if exitcode != 0 and args.interactive:
-         vm.ssh()
--        return 3
--    else:
--        if vm.ssh(*cmd) != 0:
--            return 3
-+
-+    if not args.snapshot:
-+        vm.graceful_shutdown()
-+
-+    return exitcode
++vm-boot-ssh-%: $(IMAGES_DIR)/%.img
++	$(call quiet-command, \
++		$(SRC_PATH)/tests/vm/$* \
++		--image "$<" \
++		--interactive \
++		false, \
++		"  VM-BOOT-SSH $*")
 -- 
 2.18.1
 
