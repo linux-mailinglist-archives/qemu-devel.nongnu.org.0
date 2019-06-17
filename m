@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613FC484F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:11:23 +0200 (CEST)
-Received: from localhost ([::1]:47862 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676B048504
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:15:05 +0200 (CEST)
+Received: from localhost ([::1]:47898 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcsLy-0004UA-HH
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39165)
+	id 1hcsPY-0008FR-Jw
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39331)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsJC-0002kn-U8
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:08:32 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hcsJv-0003qP-PG
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:09:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hcsJA-0008Aq-WE
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:08:30 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:38283)
+ (envelope-from <alex.bennee@linaro.org>) id 1hcsJt-0000SC-VK
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:09:15 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35467)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hcsJ8-00086L-Vj
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:08:28 -0400
-Received: by mail-wr1-x441.google.com with SMTP id d18so10133057wrs.5
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:08:25 -0700 (PDT)
+ id 1hcsJt-0000RU-N7
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:09:13 -0400
+Received: by mail-wr1-x443.google.com with SMTP id m3so10145504wrv.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:09:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=7jKN2spktfMVgvgMRdSdZLjUPL156nZVxHWF9nsQkiI=;
- b=GB0tSsF6r3FD1PccgAqWVg/+ggNkytoA/ha7igZNkmIT4Gewg/SpQC7OXYL1fafG+i
- 7laRuHMal2eqc4JqH4gW2UK0pN7lVUt2RLpmRO/XGB5ZXdV7wN0ey/gJn68QfW91pDYE
- 0FH4mQeYlYiJtNFxjEI8qQIJz7gxXwDt9V0h2vDhVqqhMxPN6DnzESZ/pf/Kw2oJwHIL
- RzqhxUkaqz9T/i10Yih3sC8mJ9vqbyLCiMQo7JRoZtem1YpJWCG/wF3p8vsJ89fYFTCS
- W8B6rLfA47LDdJZcfkTnstTRLcUC5NbJ598AETBTWG6a0GfSf3hDBXND5OV/dy6nmS4l
- Vb6A==
+ bh=mSEV5ypfh1DQV6YGsw46Sg1iqlVNWxjQ2jmjXWBCBGk=;
+ b=gm2fBR8zXeyWAkDmV6exjuOO7J0yesZp2rRYZw8XlSu/ZedWCmq2Lb2S95KfVb0UxR
+ ufZm5GORil7RO1lydKSNPwHLt1Do3cMXZ6PC0ANsJmgIvrxpYzAMIK78aBy8c1APQrq5
+ K81+l46yUsyLzYdVzY+2ucdOHlXkCuda3QlFSSqTS0tLKVv5qvnES4zushXQln6Rxsjp
+ P2q0qaAWzPzJ9rYmYngpoIZc4qgK7pBekqTEBlxG/4WA2C0y5KAZWftm7Vk1Ser2zjJg
+ L7SoEnqPyaXthbnM86RIQPlbbAgedz8lOedqGjZGTBqFBL4k1P33We5yN+TevzpF5h37
+ gEwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=7jKN2spktfMVgvgMRdSdZLjUPL156nZVxHWF9nsQkiI=;
- b=cSsjMItrtkagt8lLSz/QyliVHC8wmFZ/Qi4tm+Qp5GX7s9mvfQailYTy0MnrXTgPPP
- 3LEUwSxe7m0WWcTxadJb03mf9A0YGHGl4t8gQHbRlwOaW6JdwXVOjgIyAUfgAzJt4KID
- Ur94rvo4NtPUnACRAwthiFevyUW1qfi1wpCzZpjwxrl5mXwhKFQAOTHgR/3/hgfLIRUd
- CQtj6PWPjVAEPPhxIxBfYFoCX3ff9lPpRWz9AFV6YhNX1FgaXPOHv+fBi1WpIjHB9Nt/
- ULwr50Hehu7X8wCmzWZJ4AYbWfo7IRrln/lJKklE3HEEesy5zLZhvi3BnCdCLFDTYcK1
- xCxA==
-X-Gm-Message-State: APjAAAVZcXB+OJO9taBq5BtEfkSouahAdTW0L8h53FvZhpP5oxVpz0Oc
- sBMgJ0CpM1Epy2rWIpAzoZ94Ug==
-X-Google-Smtp-Source: APXvYqz5KAsT3MXD2GRHDVhaP+WpEzjzNRY/aY44ISh2H4jJRDp1JB5uCGBXw5Q01QCk61C8Fp/0AA==
-X-Received: by 2002:a05:6000:114b:: with SMTP id
- d11mr10550384wrx.167.1560780504466; 
- Mon, 17 Jun 2019 07:08:24 -0700 (PDT)
+ bh=mSEV5ypfh1DQV6YGsw46Sg1iqlVNWxjQ2jmjXWBCBGk=;
+ b=jTEyALU4uH/g/1Z+S20Oc779aVeG/fTcbhgNx7gAnq2qhDBi3C2j/10efPi/WngCbT
+ 3Dh9pi++6NW0g6Htltd/avVJ6dLiZUHordQ7V526ff1e3/ZGhjpgaQZsmbqnJy2pDul3
+ Pq2o7u2wPogj+a6AqBnUJ4Lyv3nBwMZE/rra3aDyTbwQeT83DKMG1U+bZVKdOQzallR8
+ 6++7LG2JLBN9V0/B6kwdaLhedompGri8cwROunAhsLIh82jJp8BNP6Hsx7pSJhRtn2qP
+ kF7DfE1cdQZqGK3XurgR8o/Ylkq79GzRxKUoA/JAvpSWJ7RjOw9KM7fF5lzEUAKAyaaa
+ 6Eqw==
+X-Gm-Message-State: APjAAAUxlBLV7fsuXWadreDDmhEAVexYpcPJjSiJXdh4jqBs+qUqt09R
+ FUkdjiYB8rct/GPR4VyNIsTu2ZOn+PE=
+X-Google-Smtp-Source: APXvYqyZ5dY9a8gj5B54IQjIc5umgdbkx1iLgvNB2tseVoJz3jMaKqqTiC5xchXXQNR52Uv+0STjvQ==
+X-Received: by 2002:adf:f812:: with SMTP id s18mr10533537wrp.32.1560780552668; 
+ Mon, 17 Jun 2019 07:09:12 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id t14sm8473241wrr.33.2019.06.17.07.08.23
+ by smtp.gmail.com with ESMTPSA id r2sm11671761wme.30.2019.06.17.07.09.11
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 17 Jun 2019 07:08:23 -0700 (PDT)
+ Mon, 17 Jun 2019 07:09:12 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5EDD91FF87;
- Mon, 17 Jun 2019 15:08:23 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id AEA121FF87;
+ Mon, 17 Jun 2019 15:09:11 +0100 (BST)
 References: <20190615154352.26824-1-philmd@redhat.com>
- <20190615154352.26824-11-philmd@redhat.com>
+ <20190615154352.26824-12-philmd@redhat.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-arm@nongnu.org
-In-reply-to: <20190615154352.26824-11-philmd@redhat.com>
-Date: Mon, 17 Jun 2019 15:08:23 +0100
-Message-ID: <87sgs89ueg.fsf@zen.linaroharston>
+In-reply-to: <20190615154352.26824-12-philmd@redhat.com>
+Date: Mon, 17 Jun 2019 15:09:11 +0100
+Message-ID: <87r27s9ud4.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 10/23] target/arm: Move the
- v7-M Security State helpers to v7m_helper
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 11/23] target/arm: Declare
+ v7m_cpacr_pass() publicly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,188 +92,85 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
+> In the next commit we will move exception handling routines to
+> v7m_helper, so this function will be called from 2 different
+> files. Declare it inlined in the "internals.h" header.
+>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 > ---
->  target/arm/helper.c     | 73 -----------------------------------------
->  target/arm/v7m_helper.c | 73 +++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 73 insertions(+), 73 deletions(-)
+>  target/arm/helper.c    | 19 -------------------
+>  target/arm/internals.h | 21 +++++++++++++++++++++
+>  2 files changed, 21 insertions(+), 19 deletions(-)
 >
 > diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index b4fd9b42d7..cf76010ea1 100644
+> index cf76010ea1..5d05db84d3 100644
 > --- a/target/arm/helper.c
 > +++ b/target/arm/helper.c
-> @@ -7885,79 +7885,6 @@ void HELPER(v7m_preserve_fp_state)(CPUARMState *en=
-v)
->       */
+> @@ -7611,25 +7611,6 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uin=
+t32_t excp_idx,
+>      return target_el;
 >  }
 >
 > -/*
-> - * Write to v7M CONTROL.SPSEL bit for the specified security bank.
-> - * This may change the current stack pointer between Main and Process
-> - * stack pointers if it is done for the CONTROL register for the current
-> - * security state.
+> - * Return true if the v7M CPACR permits access to the FPU for the specif=
+ied
+> - * security state and privilege level.
 > - */
-> -void write_v7m_control_spsel_for_secstate(CPUARMState *env,
-> -                                          bool new_spsel,
-> -                                          bool secstate)
+> -static bool v7m_cpacr_pass(CPUARMState *env, bool is_secure, bool is_pri=
+v)
 > -{
-> -    bool old_is_psp =3D v7m_using_psp(env);
-> -
-> -    env->v7m.control[secstate] =3D
-> -        deposit32(env->v7m.control[secstate],
-> -                  R_V7M_CONTROL_SPSEL_SHIFT,
-> -                  R_V7M_CONTROL_SPSEL_LENGTH, new_spsel);
-> -
-> -    if (secstate =3D=3D env->v7m.secure) {
-> -        bool new_is_psp =3D v7m_using_psp(env);
-> -        uint32_t tmp;
-> -
-> -        if (old_is_psp !=3D new_is_psp) {
-> -            tmp =3D env->v7m.other_sp;
-> -            env->v7m.other_sp =3D env->regs[13];
-> -            env->regs[13] =3D tmp;
-> -        }
+> -    switch (extract32(env->v7m.cpacr[is_secure], 20, 2)) {
+> -    case 0:
+> -    case 2: /* UNPREDICTABLE: we treat like 0 */
+> -        return false;
+> -    case 1:
+> -        return is_priv;
+> -    case 3:
+> -        return true;
+> -    default:
+> -        g_assert_not_reached();
 > -    }
 > -}
 > -
-> -/*
-> - * Write to v7M CONTROL.SPSEL bit. This may change the current
-> - * stack pointer between Main and Process stack pointers.
-> - */
-> -void write_v7m_control_spsel(CPUARMState *env, bool new_spsel)
-> -{
-> -    write_v7m_control_spsel_for_secstate(env, new_spsel, env->v7m.secure=
-);
-> -}
-> -
-> -/* Switch M profile security state between NS and S */
-> -void switch_v7m_security_state(CPUARMState *env, bool new_secstate)
-> -{
-> -    uint32_t new_ss_msp, new_ss_psp;
-> -
-> -    if (env->v7m.secure =3D=3D new_secstate) {
-> -        return;
-> -    }
-> -
-> -    /*
-> -     * All the banked state is accessed by looking at env->v7m.secure
-> -     * except for the stack pointer; rearrange the SP appropriately.
-> -     */
-> -    new_ss_msp =3D env->v7m.other_ss_msp;
-> -    new_ss_psp =3D env->v7m.other_ss_psp;
-> -
-> -    if (v7m_using_psp(env)) {
-> -        env->v7m.other_ss_psp =3D env->regs[13];
-> -        env->v7m.other_ss_msp =3D env->v7m.other_sp;
-> -    } else {
-> -        env->v7m.other_ss_msp =3D env->regs[13];
-> -        env->v7m.other_ss_psp =3D env->v7m.other_sp;
-> -    }
-> -
-> -    env->v7m.secure =3D new_secstate;
-> -
-> -    if (v7m_using_psp(env)) {
-> -        env->regs[13] =3D new_ss_psp;
-> -        env->v7m.other_sp =3D new_ss_msp;
-> -    } else {
-> -        env->regs[13] =3D new_ss_msp;
-> -        env->v7m.other_sp =3D new_ss_psp;
-> -    }
-> -}
-> -
->  static uint32_t *get_v7m_sp_ptr(CPUARMState *env, bool secure, bool thre=
-admode,
->                                  bool spsel)
->  {
-> diff --git a/target/arm/v7m_helper.c b/target/arm/v7m_helper.c
-> index 321154966e..558e143039 100644
-> --- a/target/arm/v7m_helper.c
-> +++ b/target/arm/v7m_helper.c
-> @@ -88,6 +88,79 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t add=
-r, uint32_t op)
+>  /*
+>   * What kind of stack write are we doing? This affects how exceptions
+>   * generated during the stacking are treated.
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index 04711b317a..1d15af3f8b 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -891,6 +891,27 @@ static inline uint32_t v7m_sp_limit(CPUARMState *env)
+>      }
+>  }
 >
->  #else
->
-> +/*
-> + * Write to v7M CONTROL.SPSEL bit for the specified security bank.
-> + * This may change the current stack pointer between Main and Process
-> + * stack pointers if it is done for the CONTROL register for the current
-> + * security state.
+> +/**
+> + * v7m_cpacr_pass:
+> + * Return true if the v7M CPACR permits access to the FPU for the specif=
+ied
+> + * security state and privilege level.
 > + */
-> +void write_v7m_control_spsel_for_secstate(CPUARMState *env,
-> +                                          bool new_spsel,
-> +                                          bool secstate)
+> +static inline bool v7m_cpacr_pass(CPUARMState *env,
+> +                                  bool is_secure, bool is_priv)
 > +{
-> +    bool old_is_psp =3D v7m_using_psp(env);
-> +
-> +    env->v7m.control[secstate] =3D
-> +        deposit32(env->v7m.control[secstate],
-> +                  R_V7M_CONTROL_SPSEL_SHIFT,
-> +                  R_V7M_CONTROL_SPSEL_LENGTH, new_spsel);
-> +
-> +    if (secstate =3D=3D env->v7m.secure) {
-> +        bool new_is_psp =3D v7m_using_psp(env);
-> +        uint32_t tmp;
-> +
-> +        if (old_is_psp !=3D new_is_psp) {
-> +            tmp =3D env->v7m.other_sp;
-> +            env->v7m.other_sp =3D env->regs[13];
-> +            env->regs[13] =3D tmp;
-> +        }
+> +    switch (extract32(env->v7m.cpacr[is_secure], 20, 2)) {
+> +    case 0:
+> +    case 2: /* UNPREDICTABLE: we treat like 0 */
+> +        return false;
+> +    case 1:
+> +        return is_priv;
+> +    case 3:
+> +        return true;
+> +    default:
+> +        g_assert_not_reached();
 > +    }
 > +}
 > +
-> +/*
-> + * Write to v7M CONTROL.SPSEL bit. This may change the current
-> + * stack pointer between Main and Process stack pointers.
-> + */
-> +void write_v7m_control_spsel(CPUARMState *env, bool new_spsel)
-> +{
-> +    write_v7m_control_spsel_for_secstate(env, new_spsel, env->v7m.secure=
-);
-> +}
-> +
-> +/* Switch M profile security state between NS and S */
-> +void switch_v7m_security_state(CPUARMState *env, bool new_secstate)
-> +{
-> +    uint32_t new_ss_msp, new_ss_psp;
-> +
-> +    if (env->v7m.secure =3D=3D new_secstate) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * All the banked state is accessed by looking at env->v7m.secure
-> +     * except for the stack pointer; rearrange the SP appropriately.
-> +     */
-> +    new_ss_msp =3D env->v7m.other_ss_msp;
-> +    new_ss_psp =3D env->v7m.other_ss_psp;
-> +
-> +    if (v7m_using_psp(env)) {
-> +        env->v7m.other_ss_psp =3D env->regs[13];
-> +        env->v7m.other_ss_msp =3D env->v7m.other_sp;
-> +    } else {
-> +        env->v7m.other_ss_msp =3D env->regs[13];
-> +        env->v7m.other_ss_psp =3D env->v7m.other_sp;
-> +    }
-> +
-> +    env->v7m.secure =3D new_secstate;
-> +
-> +    if (v7m_using_psp(env)) {
-> +        env->regs[13] =3D new_ss_psp;
-> +        env->v7m.other_sp =3D new_ss_msp;
-> +    } else {
-> +        env->regs[13] =3D new_ss_msp;
-> +        env->v7m.other_sp =3D new_ss_psp;
-> +    }
-> +}
-> +
->  void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
->  {
->      /*
+>  /**
+>   * aarch32_mode_name(): Return name of the AArch32 CPU mode
+>   * @psr: Program Status Register indicating CPU mode
 
 
 --
