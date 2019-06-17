@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A8E48283
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:33:28 +0200 (CEST)
-Received: from localhost ([::1]:46910 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC62482B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 14:40:57 +0200 (CEST)
+Received: from localhost ([::1]:46990 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcqpE-0006Ap-2P
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:33:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41059)
+	id 1hcqwS-0001eB-T2
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 08:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41141)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hcqlE-0004OR-2I
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:29:23 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hcqlU-0004Th-Jy
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:29:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hcqlC-0006wa-Er
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:29:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42186)
+ (envelope-from <kwolf@redhat.com>) id 1hcqlS-00075w-JD
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:29:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43100)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hcql7-0006lu-6h; Mon, 17 Jun 2019 08:29:14 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1hcqlQ-00072z-Jf
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 08:29:32 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5AAA6307D945;
- Mon, 17 Jun 2019 12:29:01 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D3687E5B4;
- Mon, 17 Jun 2019 12:29:00 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20190617115721.27525-1-kwolf@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <2edb7f61-e1b2-3161-15b7-1c328bf7b947@redhat.com>
-Date: Mon, 17 Jun 2019 14:28:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 2C1A73066800;
+ Mon, 17 Jun 2019 12:29:29 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-99.ams2.redhat.com [10.36.117.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5E3E1001E61;
+ Mon, 17 Jun 2019 12:29:23 +0000 (UTC)
+Date: Mon, 17 Jun 2019 14:29:22 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <20190617122922.GG7397@linux.fritz.box>
+References: <20190612120421.20336-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190617115721.27525-1-kwolf@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="Ordc4zTnEwFM1XxFnimvXfIyJf7kIqn8L"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190612120421.20336-1-stefanha@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Mon, 17 Jun 2019 12:29:01 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Mon, 17 Jun 2019 12:29:29 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] block/null: Expose read-zeroes option in
- QAPI schema
+Subject: Re: [Qemu-devel] [PATCH v4] virtio-scsi: restart DMA after iothread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,61 +56,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andrey.shinkevich@virtuozzo.com, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Ordc4zTnEwFM1XxFnimvXfIyJf7kIqn8L
-Content-Type: multipart/mixed; boundary="ct1lXDTt9HmW6WuFaGgjdiQ88UBHVxxKp";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: andrey.shinkevich@virtuozzo.com, qemu-devel@nongnu.org
-Message-ID: <2edb7f61-e1b2-3161-15b7-1c328bf7b947@redhat.com>
-Subject: Re: [PATCH] block/null: Expose read-zeroes option in QAPI schema
-References: <20190617115721.27525-1-kwolf@redhat.com>
-In-Reply-To: <20190617115721.27525-1-kwolf@redhat.com>
-
---ct1lXDTt9HmW6WuFaGgjdiQ88UBHVxxKp
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 17.06.19 13:57, Kevin Wolf wrote:
-> Commit cd219eb1e55 added the read-zeroes option for the null-co and
-> null-aio block driver, but forgot to add them to the QAPI schema.
-> Therefore, this option wasn't available in -blockdev and blockdev-add
-> until now.
->=20
-> Add the missing option in the schema to make it available there, too.
->=20
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Am 12.06.2019 um 14:04 hat Stefan Hajnoczi geschrieben:
+> When the 'cont' command resumes guest execution the vm change state
+> handlers are invoked.  Unfortunately there is no explicit ordering
+> between vm change state handlers.  When two layers of code both use vm
+> change state handlers, we don't control which handler runs first.
+> 
+> virtio-scsi with iothreads hits a deadlock when a failed SCSI command is
+> restarted and completes before the iothread is re-initialized.
+> 
+> This patch introduces priorities for VM change state handlers so the
+> IOThread is guaranteed to be initialized before DMA requests are
+> restarted.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  qapi/block-core.json | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> v4:
+> Paolo and Michael were interested in a priorities system.  Kevin wasn't
+> convinced.  Here is a patch implementing the priorities approach so you
+> can decide whether you prefer this or not.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+I still prefer the v3 approach that reflects the actual dependencies in
+the code. With the priorities approach, we try to represent a tree of
+devices (a structure we already have) with an additional flat list of
+numbers. While these numbers can actually provide all the information
+that we need in practice in this specific case, it still feels a bit
+hacky and might not be extensible to future cases.
 
+But in the end, if Paolo feels strongly that for whatever reason
+propagating events through the real device tree isn't good, let's get
+the bug fixed with whatever hack it takes.
 
---ct1lXDTt9HmW6WuFaGgjdiQ88UBHVxxKp--
-
---Ordc4zTnEwFM1XxFnimvXfIyJf7kIqn8L
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0Hh4oACgkQ9AfbAGHV
-z0AghAf+MMfv18hntpdRQuEuONQlL57rWVkTVMRJsnYTh6ff6b4BtiauCwJ06bI9
-yl8dXg6M7nSzfvCUgdMpo4x3NF051G7CP1Rue0IXJy15d3M9gx0kdenMlz/ShrO+
-xVPgsWeqOfhCD5T0e917sQaopiWP/cjK1hNi8Hkxb1pPN8cruPAA2maKrSBt0fPA
-mWmSgEXG5xV+mxcLH9THXQmZjxXFZaSzXsTEPmJmRh/EgMHGA3klgcntRI/pBEPY
-gU+ovqpiy1bKow/Wz+wNoQ19OPAGiBAP1siNquzjfjs/TeoLU8Vd65ih3NURHoyJ
-ea4VhzWF4ee8O1xebMYCX8MFGKPZKw==
-=ITRP
------END PGP SIGNATURE-----
-
---Ordc4zTnEwFM1XxFnimvXfIyJf7kIqn8L--
+Kevin
 
