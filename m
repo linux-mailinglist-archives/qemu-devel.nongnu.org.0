@@ -2,97 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92BF548493
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 15:54:47 +0200 (CEST)
-Received: from localhost ([::1]:47678 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A16A6484D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:03:33 +0200 (CEST)
+Received: from localhost ([::1]:47798 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcs5u-0002BY-Q0
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 09:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33812)
+	id 1hcsEM-0008Bz-PN
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:03:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36893)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <rkagan@virtuozzo.com>) id 1hcs0d-0006Fn-Ej
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 09:49:24 -0400
+ (envelope-from <groug@kaod.org>) id 1hcsB2-00079d-9S
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:00:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rkagan@virtuozzo.com>) id 1hcs0a-0002nq-8X
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 09:49:17 -0400
-Received: from mail-ve1eur01hn0312.outbound.protection.outlook.com
- ([2a01:111:f400:fe1f::312]:14074
- helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rkagan@virtuozzo.com>)
- id 1hcs0X-0002kK-Ee
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 09:49:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KTVR4co0XMyNq13KQZEs1MARWzPK0+KQ1TSuAy4B0eQ=;
- b=ZxuB217EmWA+vgRZHYp8714HhdEYof79fAQr6l3snP6RSgPzdWkN6+3aDgJhACHspUyv1Rvd7VvJlU3ifJj3yKIsmk+UNqIhCADK2s+SHvoHuL8kEh1NZNCjqb+3twStCDBInwG2CAekbau9ekc+Ni64nlZDpM7+RxwaWw7Cj68=
-Received: from DB8PR08MB3977.eurprd08.prod.outlook.com (20.179.11.95) by
- DB8PR08MB4090.eurprd08.prod.outlook.com (20.179.10.208) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.11; Mon, 17 Jun 2019 13:49:00 +0000
-Received: from DB8PR08MB3977.eurprd08.prod.outlook.com
- ([fe80::3530:3b13:be7f:2944]) by DB8PR08MB3977.eurprd08.prod.outlook.com
- ([fe80::3530:3b13:be7f:2944%4]) with mapi id 15.20.1987.014; Mon, 17 Jun 2019
- 13:49:00 +0000
-From: Roman Kagan <rkagan@virtuozzo.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Thread-Topic: [PATCH] i386: Fix signedness of hyperv_spinlock_attempts
-Thread-Index: AQHVI7WqVFjrvk1Rm0af2n9zJo17vaaf32UA
-Date: Mon, 17 Jun 2019 13:48:59 +0000
-Message-ID: <20190617134856.GF32624@rkaganb.sw.ru>
-References: <20190615200505.31348-1-ehabkost@redhat.com>
-In-Reply-To: <20190615200505.31348-1-ehabkost@redhat.com>
-Accept-Language: en-US, ru-RU
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.11.4 (2019-03-13)
-mail-followup-to: Roman Kagan <rkagan@virtuozzo.com>,	Eduardo Habkost
- <ehabkost@redhat.com>,	Vitaly Kuznetsov <vkuznets@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson
- <rth@twiddle.net>
-x-originating-ip: [185.231.240.5]
-x-clientproxiedby: HE1PR05CA0350.eurprd05.prod.outlook.com
- (2603:10a6:7:92::45) To DB8PR08MB3977.eurprd08.prod.outlook.com
- (2603:10a6:10:ad::31)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=rkagan@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1998b48b-f424-4c0f-9b03-08d6f32a8cdb
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB4090; 
-x-ms-traffictypediagnostic: DB8PR08MB4090:|DB8PR08MB4090:
-x-microsoft-antispam-prvs: <DB8PR08MB4090851A558CAB7A3930266DC9EB0@DB8PR08MB4090.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0071BFA85B
-x-forefront-antispam-report: SFV:SPM;
- SFS:(10019020)(346002)(376002)(396003)(39850400004)(366004)(136003)(189003)(199004)(66066001)(8676002)(476003)(2906002)(102836004)(14454004)(256004)(6506007)(386003)(81166006)(73956011)(53936002)(14444005)(66946007)(305945005)(4326008)(11346002)(54906003)(86362001)(58126008)(316002)(186003)(229853002)(3846002)(52116002)(486006)(6916009)(66556008)(1076003)(66476007)(26005)(71200400001)(71190400001)(9686003)(6512007)(6116002)(446003)(7736002)(66446008)(68736007)(81156014)(25786009)(6486002)(33656002)(8936002)(36756003)(5660300002)(6436002)(478600001)(6246003)(99286004)(64756008)(76176011)(30126002);
- DIR:OUT; SFP:1501; SCL:5; SRVR:DB8PR08MB4090;
- H:DB8PR08MB3977.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: DbKZ5ROc0Gm6kxKyYad7yWf9vDeUtD7zsfwbGHGtRFfOwKB9XYjOu588YoiegTkmjqgHNC0d5D4i1XQKNdJxGsPFPCnWDybJ3HyZ8Q4DTNrxR4fOZFrKVPWStBACNLOt/QZ1NrfYjDUEHG74v4nWcerjjBR7aUgQbxQCCaxzels0UtRt16q2l6lTbcebtcAYVzyCsF478PJN1MDumSR/NyqVqzLEz2O2Frgt7Q+wF46TTyO1+MC9LRUq8IdnEKZtYFBIeGxDjVbrxbAEJGj2IoMmrbotm93qOoieOeCpNT7SVc6+2oWUSpINoIEzmcjc+OXUzLr0gRJIYZVOQoZlEc1ceKMRgQaANKm+JKJl5NhmZLHwajdOubWFMIZYHcawKlG3518Lm7IZPyi8ZIQJqNK8UFrkOedZDjWqNctS4DOBw9aSgZOBm/gcpiXKS4woqew9K+tG4Dp3mgMaIF8ufK8rRO+z5pBdzpjw+YZxmNk=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4C693173E31E804E98BE2A52760FDF2C@eurprd08.prod.outlook.com>
+ (envelope-from <groug@kaod.org>) id 1hcsB0-0001SR-Bp
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:00:04 -0400
+Received: from 13.mo3.mail-out.ovh.net ([188.165.33.202]:57223)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hcsAy-0001N1-Bl
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:00:00 -0400
+Received: from player799.ha.ovh.net (unknown [10.109.143.223])
+ by mo3.mail-out.ovh.net (Postfix) with ESMTP id 4A48B21953C
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 15:59:55 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player799.ha.ovh.net (Postfix) with ESMTPSA id EBD656E869AA;
+ Mon, 17 Jun 2019 13:59:50 +0000 (UTC)
+Date: Mon, 17 Jun 2019 15:59:49 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Message-ID: <20190617155949.3ad75f15@bahia.lan>
+In-Reply-To: <97e49445-5d99-f37d-24a1-595123fa00f1@kaod.org>
+References: <156077793153.431407.3975189408068375970.stgit@bahia.lan>
+ <97e49445-5d99-f37d-24a1-595123fa00f1@kaod.org>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1998b48b-f424-4c0f-9b03-08d6f32a8cdb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2019 13:48:59.9320 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rkagan@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB4090
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe1f::312
-Subject: Re: [Qemu-devel] [PATCH] i386: Fix signedness of
- hyperv_spinlock_attempts
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 11302627692048062859
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudeijedgjedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 188.165.33.202
+Subject: Re: [Qemu-devel] [PATCH] xics: Don't call icp_kvm_realize() from
+ icp_realize()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,47 +57,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jun 15, 2019 at 05:05:05PM -0300, Eduardo Habkost wrote:
-> The current default value for hv-spinlocks is 0xFFFFFFFF (meaning
-> "never retry").  However, the value is stored as a signed
-> integer, making the getter of the hv-spinlocks QOM property
-> return -1 instead of 0xFFFFFFFF.
-> 
-> Fix this by changing the type of X86CPU::hyperv_spinlock_attempts
-> to uint32_t.  This has no visible effect to guest operating
-> systems, affecting just the behavior of the QOM getter.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
->  target/i386/cpu.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, 17 Jun 2019 15:46:14 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Reviewed-by: Roman Kagan <rkagan@virtuozzo.com>
+> On 17/06/2019 15:25, Greg Kurz wrote:
+> > kvm_kernel_irqchip is set by xics_kvm_init() which is always called aft=
+er
+> > icp_realize() since commit 3f777abc7107 "spapr/irq: add KVM support to =
+the
+> > 'dual' machine". =20
+>=20
+> I think we still need it for CPU hotplug.
+>=20
 
-That said, it's tempting to just nuke qdev_prop_spinlocks and make
-hv-spinlocks a regular DEFINE_PROP_UINT32...
+Yes you're right of course... a comment would probably help
 
-> 
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 0732e059ec..8158d0de73 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1372,7 +1372,7 @@ struct X86CPU {
->  
->      bool hyperv_vapic;
->      bool hyperv_relaxed_timing;
-> -    int hyperv_spinlock_attempts;
-> +    uint32_t hyperv_spinlock_attempts;
->      char *hyperv_vendor_id;
->      bool hyperv_time;
->      bool hyperv_crash;
-> -- 
-> 2.18.0.rc1.1.g3f1ff2140
-> 
+> C.
+>=20
+>=20
+> > This is thus dead code. Drop it.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  hw/intc/xics.c |    8 --------
+> >  1 file changed, 8 deletions(-)
+> >=20
+> > diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+> > index 29f7d397813e..1dc3a0f12280 100644
+> > --- a/hw/intc/xics.c
+> > +++ b/hw/intc/xics.c
+> > @@ -351,14 +351,6 @@ static void icp_realize(DeviceState *dev, Error **=
+errp)
+> >          return;
+> >      }
+> > =20
+> > -    if (kvm_irqchip_in_kernel()) {
+> > -        icp_kvm_realize(dev, &err);
+> > -        if (err) {
+> > -            error_propagate(errp, err);
+> > -            return;
+> > -        }
+> > -    }
+> > -
+> >      qemu_register_reset(icp_reset_handler, dev);
+> >      vmstate_register(NULL, icp->cs->cpu_index, &vmstate_icp_server, ic=
+p);
+> >  }
+> >  =20
+>=20
+
 
