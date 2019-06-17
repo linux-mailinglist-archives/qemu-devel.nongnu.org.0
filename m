@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70AC48646
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:58:23 +0200 (CEST)
-Received: from localhost ([::1]:48216 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10358485ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:46:59 +0200 (CEST)
+Received: from localhost ([::1]:48140 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hct5S-00089h-Qq
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45085)
+	id 1hcsuQ-0006NV-7Z
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:46:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46586)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <arndbergmann@gmail.com>) id 1hcsdU-00087i-Qj
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:29:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiF-0003Rk-Tc
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arndbergmann@gmail.com>) id 1hcsdS-0004ww-VD
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:29:28 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:32888)
+ (envelope-from <peter.maydell@linaro.org>) id 1hcsiE-0007zn-8l
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:23 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36934)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <arndbergmann@gmail.com>)
- id 1hcsdS-0004vC-Np
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:29:26 -0400
-Received: by mail-qk1-f193.google.com with SMTP id r6so6303988qkc.0
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:29:25 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hcsiE-0007vV-02
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:34:22 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id f17so6863964wme.2
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dm/P19Ro04eg/uCkKl02ziWtle1UzjZ0dZGp6K+sSK8=;
+ b=OmMLXmPvqVov92owYtQg8o1k6HaqxWqBZ27CHunn865KOLqtbDz0F13dpliX+jRsiu
+ w2NeiuBGuJJCNSOFCa9bN0N1k9sHCEIQGHCpPzyoVNBcQIfWVUvnDsUdixU4iJDTUwmi
+ cdk0rNSsuP1UhLwVO6YV+SOYIwEX8b2+5JP/pbyyQr/6FGZi3UKco/jlHXUSqsqRIPgW
+ /HwYgZ4L5/5YIZggYCF875+ryR/A7y23oKLKZnMXXy205nQLkCT3RA36/9OI5j8yczzL
+ xT1caZqyUgCJ5BgytE5/Ib0WQs0PMIOAxtY/OAxV3vRZwJPr13alpzPBKcZOhMFPcrar
+ UF+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+lE6PJY96jkgqBzd8cZhUb5M0BshV+I6TfB7s0gn0zU=;
- b=jt3UmoTjuxiXTQr42Bl/Btz35CL/PeDv4RPfWuHZ4slDVndjUSQfVbsGl5uMHn5GTD
- 45u+kn9QUz95JViHL3KoCzXmdiPWC4TAnTLg6JluY9yAvjzycWDPwHxe+GSGI+cqj4/g
- W9zat6u9o2HnUSTN7WyjxAVBBDfQhob5HZlJyBNr1cfeTWB5ywO94xulGqkxUNZUnnrK
- UJCQZZaJQnfMffL4X8rCgwEN113OxPMQt6UqQWHAuaBupAxGfKLYtWIFIa2/2NQwySBy
- bakd9Wn9A3qRvsSJtPOMONC/vK11InTfhPTVQ1sEbkaF/heES86GvIBwtxGvHXd6Og2s
- 5qwA==
-X-Gm-Message-State: APjAAAV8GkVa5gkLtbaX2RETqV7FGFwjLKod3JNw1fd4r6KoYjc+QwYR
- odwZJTXYcXRJaI+psNdqEzUL8iQINj3zdDztbqU=
-X-Google-Smtp-Source: APXvYqzMvFSE8waZZH9d8wQuBOdUF0upWZCJq/qvZ6OTMgOlJyvFNTtC+ASmHyePIZCFejkKFs7duxRItCIQIkXXesE=
-X-Received: by 2002:ae9:e608:: with SMTP id z8mr80412952qkf.182.1560781764609; 
- Mon, 17 Jun 2019 07:29:24 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dm/P19Ro04eg/uCkKl02ziWtle1UzjZ0dZGp6K+sSK8=;
+ b=e+8NOt5Ov7v+pKsFFBQ5NR1d3neZZxi9LjdIK0MgP0MaIgDWFMn0GYKtG4v+3wnVZJ
+ tEk8VfUPcKjnMSEVB+2joKfojzFQzV2tm/7z30PikauisVv4+Ea3a02vHORmsMkkKwio
+ gxSlfpZs/WMHTUsPLa1zSwX7+0ctOA0qpcwBZvyULjZ0YseZ0R5MVco/qyp2zEhzc4Wo
+ VN9XA1Tc9Edsi46TXdjBY6+7Xu6Bekc7x15gVO0DN4rmXc3S+fqF7JgvnTr7P3/7dWtp
+ m2d8arygds0NxEdiGagARQpYmFPockx8Kc9Xbzr0RmhGNv5AAik0dG274064DeHsz6i7
+ 5ESw==
+X-Gm-Message-State: APjAAAW1GxcLOER/Qn9jdXcQZ5TWuEA8sX58LlJT1R1Mf1IeuqH9NhXb
+ AVhu3YMo34BCzSBYfK6JVFyQ5u58JYKocg==
+X-Google-Smtp-Source: APXvYqzCd8uWSQRIXpUMr+u/YfrvPK2jMWuhjMsh97qxhZ0UfCaoqvV1FYMQ0J/92o4sx75IXtYzog==
+X-Received: by 2002:a7b:c94a:: with SMTP id i10mr18578060wml.97.1560782054577; 
+ Mon, 17 Jun 2019 07:34:14 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id a67sm13819985wmh.40.2019.06.17.07.34.13
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 17 Jun 2019 07:34:14 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Mon, 17 Jun 2019 15:33:48 +0100
+Message-Id: <20190617143412.5734-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190617131103.1413-1-berrange@redhat.com>
-In-Reply-To: <20190617131103.1413-1-berrange@redhat.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 17 Jun 2019 16:29:06 +0200
-Message-ID: <CAK8P3a3puU=oLJFyv99gZ2tjmejWqkE96o_OtmUynHd=gBxY0Q@mail.gmail.com>
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.222.193
-Subject: Re: [Qemu-devel] [PATCH v2] linux-user: fix to handle variably
- sized SIOCGSTAMP with new kernels
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::32c
+Subject: [Qemu-devel] [PULL 00/24] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,127 +77,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerhard Stenzel <gerhard.stenzel@de.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Riku Voipio <riku.voipio@iki.fi>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 17, 2019 at 3:11 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->
-> The SIOCGSTAMP symbol was previously defined in the
-> asm-generic/sockios.h header file. QEMU sees that header
-> indirectly via sys/socket.h
->
-> In linux kernel commit 0768e17073dc527ccd18ed5f96ce85f9985e9115
-> the asm-generic/sockios.h header no longer defines SIOCGSTAMP.
-> Instead it provides only SIOCGSTAMP_OLD, which only uses a
-> 32-bit time_t on 32-bit architectures.
+Latest arm queue, half minor code cleanups and half minor
+bug fixes.
 
-This is a bit misleading, as we still define SIOCGSTAMP in the
-right place. asm-generic/sockios.h should not be used by normal
-user space.
+-- PMM
 
-> The linux/sockios.h header then defines SIOCGSTAMP using
-> either SIOCGSTAMP_OLD or SIOCGSTAMP_NEW as appropriate. If
-> SIOCGSTAMP_NEW is used, then the tv_sec field is 64-bit even
-> on 32-bit architectures
->
-> To cope with this we must now define two separate syscalls,
-> with corresponding old and new sizes, as well as including
-> the new linux/sockios.h header.
+The following changes since commit 5d0e5694470d2952b4f257bc985cac8c89b4fd92:
 
-The overall concept seems right. A few more comments on
-details that may have gone wrong here. I'm not familiar with
-the qemu-user implementation, so it's mostly guesswork
-on my end.
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2019-06-17 11:55:14 +0100)
 
->    IOCTL(SIOCGIWNAME, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_char_ifreq))=
-)
->    IOCTL(SIOCSPGRP, IOC_W, MK_PTR(TYPE_INT)) /* pid_t */
->    IOCTL(SIOCGPGRP, IOC_R, MK_PTR(TYPE_INT)) /* pid_t */
-> +
-> +#ifdef SIOCGSTAMP_OLD
-> +  IOCTL(SIOCGSTAMP_OLD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
-> +#else
->    IOCTL(SIOCGSTAMP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
-> +#endif
-> +#ifdef SIOCGSTAMPNS_OLD
-> +  IOCTL(SIOCGSTAMPNS_OLD, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
-> +#else
->    IOCTL(SIOCGSTAMPNS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
-> +#endif
-> +#ifdef SIOCGSTAMP_NEW
-> +  IOCTL(SIOCGSTAMP_NEW, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval64)))
-> +#endif
-> +#ifdef SIOCGSTAMPNS_NEW
-> +  IOCTL(SIOCGSTAMPNS_NEW, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec64)))
-> +#endif
+are available in the Git repository at:
 
-Is timespec64 a qemu type? How is it defined?
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190617
 
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 7f141f699c..7830b600e7 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -750,6 +750,11 @@ struct target_pollfd {
->
->  #define TARGET_SIOCGSTAMP      0x8906          /* Get stamp (timeval) */
->  #define TARGET_SIOCGSTAMPNS    0x8907          /* Get stamp (timespec) *=
-/
-> +#define TARGET_SIOCGSTAMP_OLD   0x8906          /* Get stamp (timeval) *=
-/
-> +#define TARGET_SIOCGSTAMPNS_OLD 0x8907          /* Get stamp (timespec) =
-*/
+for you to fetch changes up to 1120827fa182f0e76226df7ffe7a86598d1df54f:
 
-Note that these types are architecture specific. It seems that only
-one architecture is left that has its own definitions though, so this
-is only broken on arch/sh for current linux (and remains broken).
+  target/arm: Only implement doubles if the FPU supports them (2019-06-17 15:15:06 +0100)
 
-Future architectures, including 32-bit risc-v should only have the _NEW
-version and not support SIOCGSTAMP_OLD at all.
+----------------------------------------------------------------
+target-arm queue:
+ * support large kernel images in bootloader (by avoiding
+   putting the initrd over the top of them)
+ * correctly disable FPU/DSP in the CPU for the mps2-an521, musca-a boards
+ * arm_gicv3: Fix decoding of ID register range
+ * arm_gicv3: GICD_TYPER.SecurityExtn is RAZ if GICD_CTLR.DS == 1
+ * some code cleanups following on from the VFP decodetree conversion
+ * Only implement doubles if the FPU supports them
+   (so we now correctly model Cortex-M4, -M33 as single precision only)
 
-When emulating risc-v user space on old kernels (pre-5.1), you may need to
-translate the ioctl command and all system calls that take a 64-bit time_t =
-into
-the variants with a 32-bit time_t on the way into the kernel, and then back=
-.
+----------------------------------------------------------------
+Peter Maydell (24):
+      hw/arm/boot: Don't assume RAM starts at address zero
+      hw/arm/boot: Diagnose layouts that put initrd or DTB off the end of RAM
+      hw/arm/boot: Avoid placing the initrd on top of the kernel
+      hw/arm/boot: Honour image size field in AArch64 Image format kernels
+      target/arm: Allow VFP and Neon to be disabled via a CPU property
+      target/arm: Allow M-profile CPUs to disable the DSP extension via CPU property
+      hw/arm/armv7m: Forward "vfp" and "dsp" properties to CPU
+      hw/arm: Correctly disable FPU/DSP for some ARMSSE-based boards
+      hw/intc/arm_gicv3: Fix decoding of ID register range
+      hw/intc/arm_gicv3: GICD_TYPER.SecurityExtn is RAZ if GICD_CTLR.DS == 1
+      target/arm: Move vfp_expand_imm() to translate.[ch]
+      target/arm: Use vfp_expand_imm() for AArch32 VFP VMOV_imm
+      target/arm: Stop using cpu_F0s for NEON_2RM_VABS_F
+      target/arm: Stop using cpu_F0s for NEON_2RM_VNEG_F
+      target/arm: Stop using cpu_F0s for NEON_2RM_VRINT*
+      target/arm: Stop using cpu_F0s for NEON_2RM_VCVT[ANPM][US]
+      target/arm: Stop using cpu_F0s for NEON_2RM_VRECPE_F and NEON_2RM_VRSQRTE_F
+      target/arm: Stop using cpu_F0s for Neon f32/s32 VCVT
+      target/arm: Stop using cpu_F0s in Neon VCVT fixed-point ops
+      target/arm: stop using deprecated functions in NEON_2RM_VCVT_F16_F32
+      target/arm: Stop using deprecated functions in NEON_2RM_VCVT_F32_F16
+      target/arm: Remove unused cpu_F0s, cpu_F0d, cpu_F1s, cpu_F1d
+      target/arm: Fix typos in trans function prototypes
+      target/arm: Only implement doubles if the FPU supports them
 
-Similarly, running an old user binary on a riscv32 machine, you may
-need to do the reverse translation.
-
-> +#define TARGET_SIOCGSTAMP_NEW   TARGET_IOC(TARGET_IOC_READ, 's', 6, size=
-of(long long) + sizeof(long)) /* Get stamp (timeval64) */
-> +#define TARGET_SIOCGSTAMPNS_NEW TARGET_IOC(TARGET_IOC_READ, 's', 7, size=
-of(long long) + sizeof(long)) /* Get stamp (timespec64) */
-
-"sizeof(long long) + sizeof(long)" is not always the size of the argument t=
-o
-TARGET_SIOCGSTAMP{NS}_NEW. On 32-bit architectures, the size is
-two 64-bit values. sparc64 is potentially another special case, as 'struct
-timeval is 'long + int' there (12 bytes).
-
-On big-endian architectures, the nanoseconds are returned in the last
-four bytes of the 16-byte structure.
-
->  /* Networking ioctls */
->  #define TARGET_SIOCADDRT       0x890B          /* add routing table entr=
-y */
-> diff --git a/linux-user/syscall_types.h b/linux-user/syscall_types.h
-> index b98a23b0f1..de4c5a5b6f 100644
-> --- a/linux-user/syscall_types.h
-> +++ b/linux-user/syscall_types.h
-> @@ -20,6 +20,10 @@ STRUCT(timeval,
->  STRUCT(timespec,
->         MK_ARRAY(TYPE_LONG, 2))
->
-> +STRUCT(timeval64, TYPE_LONGLONG, TYPE_LONG)
-> +
-> +STRUCT(timespec64, TYPE_LONGLONG, TYPE_LONG)
-
-Same here.
-
-        Arnd
+ include/hw/arm/armsse.h        |   7 ++
+ include/hw/arm/armv7m.h        |   4 +
+ target/arm/cpu.h               |  12 +++
+ target/arm/translate-a64.h     |   1 -
+ target/arm/translate.h         |   7 ++
+ hw/arm/armsse.c                |  58 +++++++---
+ hw/arm/armv7m.c                |  18 ++++
+ hw/arm/boot.c                  |  83 ++++++++++----
+ hw/arm/musca.c                 |   8 ++
+ hw/intc/arm_gicv3_dist.c       |  12 ++-
+ hw/intc/arm_gicv3_redist.c     |   4 +-
+ target/arm/cpu.c               | 179 ++++++++++++++++++++++++++++--
+ target/arm/translate-a64.c     |  32 ------
+ target/arm/translate-vfp.inc.c | 173 ++++++++++++++++++++++-------
+ target/arm/translate.c         | 240 ++++++++++++++---------------------------
+ target/arm/vfp.decode          |  10 +-
+ 16 files changed, 572 insertions(+), 276 deletions(-)
 
