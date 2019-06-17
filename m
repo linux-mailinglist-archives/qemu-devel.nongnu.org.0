@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EC448120
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 13:44:41 +0200 (CEST)
-Received: from localhost ([::1]:46266 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997D54814E
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 13:55:06 +0200 (CEST)
+Received: from localhost ([::1]:46330 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcq40-0004It-NA
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 07:44:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54704)
+	id 1hcqE5-0002f8-Ov
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 07:55:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54842)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hcpwD-0002Oa-Au
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:36:38 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hcpx4-0002gF-RS
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:37:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hcpwB-0008V3-CD
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:36:37 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:38841)
+ (envelope-from <alex.bennee@linaro.org>) id 1hcpx3-0001H6-PB
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:37:30 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53904)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hcpw9-0008LX-8t
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:36:35 -0400
-Received: by mail-wm1-x342.google.com with SMTP id s15so8728208wmj.3
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 04:36:29 -0700 (PDT)
+ id 1hcpx0-0000mt-Tv
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 07:37:28 -0400
+Received: by mail-wm1-x344.google.com with SMTP id x15so8883920wmj.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 04:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
  bh=LE/vgjgV3L2QM0IhA5UFBw8V9LoyfknCUTpbu7QPvNI=;
- b=T1o/A/VOJC+ADtmStZ6BxoB+a2eOyYxImY5l2dot5Em280oM8pnpc5MP1NpzlUCJA3
- Hbqi0DgxuMzXcLh2In4sUNFzv0Kgc44hSyFExNH9rzp8N6jZJOkKrRypt4NgPGWpyVG3
- nqOAvicSAN01SAl4qcXjCTflk8gIkhGpE3SGOK5EeGBCzvTM4rjREUAJuMrvwMhecTo4
- vATOZ/JumNX7MeTAC+Q6XTJqAawZPo8cAAc0gefW7wrm+nkEPLeFkYk3YCuHNZSP2e/X
- fjtzD+a523FXn5vU6mdzulbaYq6s+AL8mbsSxXdiRDUwc8muk/7Kj1p6Z+bW6dm+9x0D
- kl7w==
+ b=bNfaSatTu5/oEUz1MJnL/d53E0lqWTgm3zx2lBMHMxbUW26D5IDBqjWZp74cKnOYZD
+ rwskse9AG8fQ6y0K3+/q+23J508aGpj4EAjCvZoHMvsW+QJIzQiZxo3po/1qSYEMx2qG
+ R7M5MKeBy8RzpRj1T0VroXfSiZ86aHjKLHAYc1oAR8YgiX8Q+q57b85ylFMvHhAWVY4E
+ ErSCaOxhmX4Ift2Efnj5BsIzd17cjEsFdeCy+4R0zlstF5w9miMvFs4GFY9zYKbbeGHS
+ 3u0lQ4/YzHC7TkAmzx0DnPF1sRlfgbdpBYfRCwr8klIklhHcSGJVsk5qq8FQQRedfs0W
+ hGTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
  bh=LE/vgjgV3L2QM0IhA5UFBw8V9LoyfknCUTpbu7QPvNI=;
- b=qEA/sQiT/vlevjp7IPosbR0Q5AUXZ6kdlgc03jayl6E1UCNPG/8t0ApuS1AHOSFDYe
- O2hVy0Cy7A/kk3MVqBMRpZoVpXAj0/LS7eiLzFPNkzzn32+FEhVK1ZHu7ZmYI4/LYsZ0
- gqdBderxouCCSeennvFiCPG+cWbFtkEYctkkjeWbxHb2hZ2H+MmJh/NLpUre/d+o50FZ
- bZpZgI/uMQCaIovUzdS60o6VFOmb++G8NhB1yUmMyQFOX768woVfUlEUt9+D4lvRfl4H
- MeTALiUWNBu+LsoU1mEIgGev8sAaigdxOGnD1nJTjelVQf0c817bsIaTQ0yBrvArzcHD
- zM3g==
-X-Gm-Message-State: APjAAAVXUl9TctMTnvX1tRdaHPbu01n2AtsfszaWniCp10xDeKtFqZIw
- FpaE0GneriRE9YQbNjD2MRydZw==
-X-Google-Smtp-Source: APXvYqzqOZsB2Q2VizsHHRFqz7cmxncUWkl9gF2QkZ+5izyCfO3IhEQPQMen6RKH8sRvJV8vx0+lMw==
-X-Received: by 2002:a1c:c583:: with SMTP id
- v125mr17667477wmf.158.1560771388844; 
- Mon, 17 Jun 2019 04:36:28 -0700 (PDT)
+ b=glyLM5HkKurC+Xuh0WxIfXJg/EGjC5BK4A8k3fic4rvY8N+FL1FeviT0N9zaeOcO4H
+ zvzVGEGAyxsqmBdU0PEea/OtxiyU7jRPw4Xn5ONQvsjd3HE8mCGPEFtkq19T1MJBlIot
+ 3vVnh1YEnvu/VJuI0HZMytpnUAKcgwvpTD5GhfVHtlaYM/Rq2YvT/fsx9YmKPN/VBNkp
+ Jcweu1VkyjMTPic+PB0DBw/jbWBrpSkpKInXJRA+o4F32qgjlu84EKVFAU7qlMtJktUy
+ /Z9PoAqUhs/57uVJEs4HxGF7QK6RHJUcD8A++1eluPdl6tVzTMm2VicsREJWZal6/eWR
+ gm/w==
+X-Gm-Message-State: APjAAAVfTUZ3KXBiTaRvcU4OzVcPDJUVwExsklPVCV77LCW+CI7M2HOn
+ dPIIlLb+ZjuWu3B0usBrG2iZ3Q==
+X-Google-Smtp-Source: APXvYqwrU3ctzBmwoYgKzhLRzaRExEBUCv+jiCcLWCH2kPjEZZTEpmk/eEAm21rpXzrt2s90kRvy/g==
+X-Received: by 2002:a1c:8049:: with SMTP id b70mr17842412wmd.33.1560771426413; 
+ Mon, 17 Jun 2019 04:37:06 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id v67sm15036224wme.24.2019.06.17.04.36.28
+ by smtp.gmail.com with ESMTPSA id t14sm8322680wrr.33.2019.06.17.04.37.05
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 17 Jun 2019 04:36:28 -0700 (PDT)
+ Mon, 17 Jun 2019 04:37:05 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E931B1FF87;
- Mon, 17 Jun 2019 12:36:27 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 34D221FF87;
+ Mon, 17 Jun 2019 12:37:05 +0100 (BST)
 References: <20190615154352.26824-1-philmd@redhat.com>
  <20190615154352.26824-3-philmd@redhat.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-arm@nongnu.org
 In-reply-to: <20190615154352.26824-3-philmd@redhat.com>
-Date: Mon, 17 Jun 2019 12:36:27 +0100
-Message-ID: <87blywbg04.fsf@zen.linaroharston>
+Date: Mon, 17 Jun 2019 12:37:05 +0100
+Message-ID: <87a7egbfz2.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
+X-Received-From: 2a00:1450:4864:20::344
 Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v2 02/23] target/arm: Makefile
  cleanup (ARM)
 X-BeenThere: qemu-devel@nongnu.org
