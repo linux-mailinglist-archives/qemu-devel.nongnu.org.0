@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29912490D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 22:08:01 +0200 (CEST)
-Received: from localhost ([::1]:51686 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B87449135
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 22:20:46 +0200 (CEST)
+Received: from localhost ([::1]:51738 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcxv6-0007ck-CF
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 16:08:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
+	id 1hcy7Q-0003Af-4i
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 16:20:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34174)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hcxsS-0005rf-Dr
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 16:05:17 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hcy6b-0002SR-IC
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 16:19:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hcxsQ-0004SZ-Iw
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 16:05:16 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33716)
+ (envelope-from <richard.henderson@linaro.org>) id 1hcy6a-0001vA-A0
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 16:19:53 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36743)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hcxsQ-0004JB-75
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 16:05:14 -0400
-Received: by mail-pl1-x644.google.com with SMTP id c14so4594834plo.0
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 13:05:02 -0700 (PDT)
+ id 1hcy6a-0001td-2Y
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 16:19:52 -0400
+Received: by mail-pg1-x544.google.com with SMTP id f21so6410143pgi.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 13:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:openpgp:message-id:date:user-agent
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bb0b5b5JuBcsrlcLhxC7EfAEH5f5CLzmFNTVbFtfcYs=;
- b=D3pxrOkeqD+RZMvXg2k/sB6qCEpi6fLDSQ0W36u7eCAJNvQv/WaVNnyTbSLG5UufyN
- T0lFl4yXbmQZvytAbNOGJgVal30JRrk6DKzsL0kJuMBl9pU3LQeKPZQpXZzTWuCFoIK8
- Yw4tcsQ/29vDT+yH9N2JZCLLwsfnI8gnwVezqh/rxg19XwOTyo5PropNaB32Q0+MmkdM
- /mW3zibi9VesJUR9CVPkUzSzPwtoGdcUMH0ueSsyGsp+fxhaWivyYsqou/N1uKnl0ri9
- 62dgXSxAaO9i9XswmiN1G6XTwtEpUFDhhvgzbUXF3qPT1VLdZkxysbSpm/dHT8LuO/LH
- VbQw==
+ bh=xDpUoqigv2bkFBBEjFylS/0TRDj24AHWnb7NRhB/AQU=;
+ b=DvjeqCdBXFnYHmPWkZjd37URbura6kg/uTF3YQ3pTEWRkqBfyK1UfFNF6R1hWkc0zC
+ L1IkyBvXvve2PIXmHtHzUHtXR5gYo7bmtROu3B74Cu7LiGazaFUqs+ThtMagAZaGE4rA
+ R0uVU8O31eNPyDI5bgXor8+jmzzvUZMU1itbrlreQek/FN0tA89pOEX2PvrdjhOxdO/r
+ aah8ztEYG02/kI9wy3q8M78Ob4B3U1qO0uPMkKm2b85et6MYhOHXKF/cVKDM2JxWY7Sm
+ dqOxSAyJKW7/wi6Gci+K6Z43LP5it9Zhevq91akThtqoyvuWvEXFzaih58p4Sd/AyOSp
+ 5FVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=bb0b5b5JuBcsrlcLhxC7EfAEH5f5CLzmFNTVbFtfcYs=;
- b=bZndWnl0UycvucjyRZe8TPa3jn6bLArpy/JdChwggAjSuRMrZGivi4Dxx7ubxvpp3N
- 3mhZrjoLc0J809bOh8tYzkE6KmT1mYF/wpPFQMFMuQq2UfnLDJK+PK98f7544vpX/YFG
- udBczq50RnLH7IfoozIfjJtT01ErfKX9liyWHyqZUy4FWg6rcKitlL9YlkNrU/Sf+D+G
- kGsaql25BuVN4vhhc1d37L2bvLCPRKrE8bYeO1t3Bf4npHXQOnDeOLTge5wzLagjQG/O
- o/TSTS5Iyqvd56Q111+BcR7lZAc14cMvbrMKV92sWc+RKPfShp1Ao5PJ5Hmk4jvbV/OQ
- izUQ==
-X-Gm-Message-State: APjAAAUgBiKNjcilI5PyLxxwH8IuOQXaP2Q0oFj74xzyXKviUd4oH4NO
- PbImr0VvSuilDZtQIz/gHqxJLY5bzjI=
-X-Google-Smtp-Source: APXvYqxAbZMuAezYBPFepbfrI1KmODX+9W1SGubC7LPCPEUpp23rY7+PJ7hwxP4Xal0Apnhmy8AWHQ==
-X-Received: by 2002:a17:902:2ae8:: with SMTP id
- j95mr69679979plb.276.1560801901035; 
- Mon, 17 Jun 2019 13:05:01 -0700 (PDT)
+ bh=xDpUoqigv2bkFBBEjFylS/0TRDj24AHWnb7NRhB/AQU=;
+ b=YQwayknE/a3fOKywleCUSLeuM8vhCBI4bXix1Rc8HX+vJ8xQru0Sey3ximquYrUUwM
+ VSM5Yr/J3a5bSDvfLA80yQYvahqs+V4mCdx/Y47fDrAFM5dgcWsUdZHs+aAJPA26uKct
+ 1NHKerURWBydxcVCvB3lLQvz1JoJEohTCf/Db6MdMxOyc1v13fv3CcC+dOae3zpp5yEn
+ 0xF0FFycF8ZSIkCn6I0PDezSRm8v6ndZSBaav1WjpNkevvSs/6PQ3lF88BqH5XfH78Q7
+ rFey+cfI52FHMhqsk68t2A2NDmxI5sXMGlx9hTjLC4fIkikyhYtwRlexgX4xsDY6MLa/
+ hNOA==
+X-Gm-Message-State: APjAAAVkcDyetTrEBEQOWKXiyahkKFwOAu5XXd1eAkRaHeqL3OtF8pTd
+ wMKvNe/PM5W7jntyGLGJtHR1sw==
+X-Google-Smtp-Source: APXvYqxg/1FkSA4n52Ggkqil7tnmRAKsofFnFl5GPmjyWHXJ8E/2JTmHKRNV2RA1rs6b5sGQX10t+g==
+X-Received: by 2002:a17:90b:d8b:: with SMTP id
+ bg11mr832516pjb.30.1560802790788; 
+ Mon, 17 Jun 2019 13:19:50 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-2-33.tukw.qwest.net. [97.113.2.33])
- by smtp.gmail.com with ESMTPSA id l1sm11896451pgi.91.2019.06.17.13.04.59
+ by smtp.gmail.com with ESMTPSA id y23sm15448927pfm.117.2019.06.17.13.19.49
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 13:05:00 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Mon, 17 Jun 2019 13:19:49 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-References: <20190617175317.27557-1-peter.maydell@linaro.org>
- <20190617175317.27557-7-peter.maydell@linaro.org>
+References: <20190614171200.21078-1-alex.bennee@linaro.org>
+ <20190614171200.21078-15-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <0e1ea74f-a99e-eef6-aa12-2248ce056eb1@linaro.org>
-Date: Mon, 17 Jun 2019 13:04:58 -0700
+Message-ID: <0d494e87-553e-7003-a4ae-4c3ac21c2730@linaro.org>
+Date: Mon, 17 Jun 2019 13:19:47 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190617175317.27557-7-peter.maydell@linaro.org>
+In-Reply-To: <20190614171200.21078-15-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: Re: [Qemu-devel] [PATCH 6/6] target/arm: Execute Thumb instructions
- when their condbits are 0xf
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: Re: [Qemu-devel] [PATCH v3 14/50] tcg: add tcg_gen_st_ptr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,30 +85,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Emilio G. Cota" <cota@braap.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/19 10:53 AM, Peter Maydell wrote:
-> Thumb instructions in an IT block are set up to be conditionally
-> executed depending on a set of condition bits encoded into the IT
-> bits of the CPSR/XPSR.  The architecture specifies that if the
-> condition bits are 0b1111 this means "always execute" (like 0b1110),
-> not "never execute"; we were treating it as "never execute".  (See
-> the ConditionHolds() pseudocode in both the A-profile and M-profile
-> Arm ARM.)
+On 6/14/19 10:11 AM, Alex Bennée wrote:
+> From: "Emilio G. Cota" <cota@braap.org>
 > 
-> This is a bit of an obscure corner case, because the only legal
-> way to get to an 0b1111 set of condbits is to do an exception
-> return which sets the XPSR/CPSR up that way. An IT instruction
-> which encodes a condition sequence that would include an 0b1111 is
-> UNPREDICTABLE, and for v8A the CONSTRAINED UNPREDICTABLE choices
-> for such an IT insn are to NOP, UNDEF, or treat 0b1111 like 0b1110.
-> Add a comment noting that we take the latter option.
+> Will gain a user soon.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Emilio G. Cota <cota@braap.org>
 > ---
->  target/arm/translate.c | 15 +++++++++++++--
->  1 file changed, 13 insertions(+), 2 deletions(-)
+>  tcg/tcg-op.h | 5 +++++
+>  1 file changed, 5 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
