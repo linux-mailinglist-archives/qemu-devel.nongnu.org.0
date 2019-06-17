@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB5E48E41
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:23:09 +0200 (CEST)
-Received: from localhost ([::1]:51440 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D76848DA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:11:59 +0200 (CEST)
+Received: from localhost ([::1]:51318 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcxDh-0000sL-1y
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
+	id 1hcx2s-0007Dj-7r
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42923)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hcwhB-0001yI-DZ
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:34 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hcwpl-0003xV-5b
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:58:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hcwhA-00081C-90
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60918)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwhA-0007lR-3C
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:32 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 30B48223890
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:49:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-177.ams2.redhat.com
- [10.36.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F3629795B1;
- Mon, 17 Jun 2019 18:49:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 89EB41133025; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 20:49:03 +0200
-Message-Id: <20190617184903.19436-17-armbru@redhat.com>
-In-Reply-To: <20190617184903.19436-1-armbru@redhat.com>
-References: <20190617184903.19436-1-armbru@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hcwpi-0006h9-Iv
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:58:25 -0400
+Received: from mail-ot1-x335.google.com ([2607:f8b0:4864:20::335]:33032)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hcwpi-0006em-AI
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:58:22 -0400
+Received: by mail-ot1-x335.google.com with SMTP id p4so729374oti.0
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 11:58:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vOC5waeg1fC7+3PNA9ugNh6FosdwOiiGKM2oKNXjJaY=;
+ b=X1TTHvtv/xkWFlV/mJ0hui8X8qHOYLhl1W2UWXd7Gy+eHvrhdti3++9cKEP8yMmolT
+ +3J0sd7lOri44Zy0XJh7RDP86Wp6Rn214CRAYEQ5uyMgT0L0Cn3sJJOL7IZMnpIvx2+z
+ w6RXjh+QQjpan3+d1t32M/hoPObQFV5LTCdQzMxiOXcgHp7PbmyWYK+8nlZIY5sQ7G5p
+ Sf72jYhlZAHyAzIWe4Gl9T8WBh4D4MHk/C/3ARhO69iQ0Iih+Sy/9noEaaaM8NRvX4ec
+ FduQkj6KJldPKmS9s098xS/qmUMee8SA2dlPAQtYb0ikGCIN4sm4L4/Q3dU94TVlMMov
+ iMzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vOC5waeg1fC7+3PNA9ugNh6FosdwOiiGKM2oKNXjJaY=;
+ b=CNAdeH/uHbjlPEgOzE4B9POFwwb4P19BPyMENQ8SWfsreOXlKk+Jg0GhUIWZtj22SD
+ PbiD2zgd+H/GBuyiqX2aDuL7TOKbJ4ubL5Ac0qh0Q2keWoPZgD49w3tnvqPyIBbG/jx+
+ FW8wP16Ams7qvfYrH36UqEmSoQw1iQDKWXoJPxaXFh6OZW/qoal1nmHgjXM2W1olXqPz
+ iehU1668qoP8TXnZ9L1hGmFypPaR0BHtIHZ/VdyG3nHzrXJb6U57qZnTiUJff9Ua65hh
+ F+fiDlOJgs7q0S7LOS+g9RtNiHmjgtxc+5H+xlpaYtZ6TCAKfCWbOd1GtM9ErI73QYtt
+ Ozaw==
+X-Gm-Message-State: APjAAAU8OQQIJcVa7WtMEItouj7yO0gQ0vnIHQoNtREVxc6au7MsEaqg
+ iNj3blv44kNyL58i1+qpWl5DyrG4dvOqwe0DZt9LLQ==
+X-Google-Smtp-Source: APXvYqyuBWecUexA6b5tW2OK5RrfCGVeByjoFKDV6VcHsVvYcQ8ZO3fULABIQdt+gDbeSbPBPYVQh6I7lZbFQZrHqgg=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr223281otj.97.1560797901111;
+ Mon, 17 Jun 2019 11:58:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Mon, 17 Jun 2019 18:49:08 +0000 (UTC)
+References: <20190617184903.19436-1-armbru@redhat.com>
+In-Reply-To: <20190617184903.19436-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 19:58:09 +0100
+Message-ID: <CAFEAcA9M0kEikXajCWX9BUtLU87P6=KHvbEWoW6xVq0Y7xvueQ@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 16/16] vl: Deprecate -mon pretty=... for HMP
- monitors
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::335
+Subject: Re: [Qemu-devel] [PULL 00/16] Monitor patches for 2019-06-17
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,78 +73,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+On Mon, 17 Jun 2019 at 19:51, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit 076243ffe6c1b687e9e6d98348c3bf3398df78=
+f3:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-docs-20190617'=
+ into staging (2019-06-17 16:41:25 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-monitor-2019-06-17
+>
+> for you to fetch changes up to 092b8737c5e7695c4b9caa3b4eedc66763632755:
+>
+>   vl: Deprecate -mon pretty=3D... for HMP monitors (2019-06-17 20:36:56 +=
+0200)
+>
+> ----------------------------------------------------------------
+> Monitor patches for 2019-06-17
+>
 
-The -mon pretty=3Don|off switch of the -mon option applies only to QMP
-monitors. It's silently ignored for HMP. Deprecate this combination so
-that we can make it an error in future versions.
+Hi; I'm afraid this doesn't compile:
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20190613153405.24769-16-kwolf@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Commit message tweaked]
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- qemu-deprecated.texi |  6 ++++++
- vl.c                 | 10 +++++++++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+Most hosts (ppc64, s390, aarch64, aarch32, osx, and possibly
+the others too though they haven't failed immediately) fail
+something like this:
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 50292d820b..df04f2840b 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -72,6 +72,12 @@ backend settings instead of environment variables.  To=
- ease migration to
- the new format, the ``-audiodev-help'' option can be used to convert
- the current values of the environment variables to ``-audiodev'' options=
-.
-=20
-+@subsection -mon ...,control=3Dreadline,pretty=3Don|off (since 4.1)
-+
-+The @code{pretty=3Don|off} switch has no effect for HMP monitors, but is
-+silently ignored. Using the switch with HMP monitors will become an
-+error in the future.
-+
- @subsection -realtime (since 4.1)
-=20
- The @code{-realtime mlock=3Don|off} argument has been replaced by the
-diff --git a/vl.c b/vl.c
-index 32daa434eb..99a56b5556 100644
---- a/vl.c
-+++ b/vl.c
-@@ -2317,6 +2317,10 @@ static int mon_init_func(void *opaque, QemuOpts *o=
-pts, Error **errp)
-         return -1;
-     }
-=20
-+    if (!qmp && qemu_opt_get(opts, "pretty")) {
-+        warn_report("'pretty' is deprecated for HMP monitors, it has no =
-effect "
-+                    "and will be removed in future versions");
-+    }
-     if (qemu_opt_get_bool(opts, "pretty", 0)) {
-         pretty =3D true;
-     }
-@@ -2362,7 +2366,11 @@ static void monitor_parse(const char *optarg, cons=
-t char *mode, bool pretty)
-     opts =3D qemu_opts_create(qemu_find_opts("mon"), label, 1, &error_fa=
-tal);
-     qemu_opt_set(opts, "mode", mode, &error_abort);
-     qemu_opt_set(opts, "chardev", label, &error_abort);
--    qemu_opt_set_bool(opts, "pretty", pretty, &error_abort);
-+    if (!strcmp(mode, "control")) {
-+        qemu_opt_set_bool(opts, "pretty", pretty, &error_abort);
-+    } else {
-+        assert(pretty =3D=3D false);
-+    }
-     monitor_device_index++;
- }
-=20
---=20
-2.21.0
+/home/pm215/qemu/monitor/misc.c: In function =E2=80=98netdev_del_completion=
+=E2=80=99:
+/home/pm215/qemu/monitor/misc.c:2165:9: error: implicit declaration of
+function =E2=80=98qemu_find_opts_err=E2=80=99 [-Werror=3Dimplicit-function-=
+declaration]
+         opts =3D qemu_opts_find(qemu_find_opts_err("netdev", NULL), name);
+         ^
+/home/pm215/qemu/monitor/misc.c:2165:9: error: nested extern
+declaration of =E2=80=98qemu_find_opts_err=E2=80=99 [-Werror=3Dnested-exter=
+ns]
+/home/pm215/qemu/monitor/misc.c:2165:9: error: passing argument 1 of
+=E2=80=98qemu_opts_find=E2=80=99 makes pointer from integer without a cast =
+[-Werror]
+In file included from /home/pm215/qemu/monitor/misc.c:64:0:
+/home/pm215/qemu/include/qemu/option.h:105:11: note: expected =E2=80=98stru=
+ct
+QemuOptsList *=E2=80=99 but argument is of type =E2=80=98int=E2=80=99
+ QemuOpts *qemu_opts_find(QemuOptsList *list, const char *id);
+           ^
+cc1: all warnings being treated as errors
 
+
+windows is a bit different:
+
+/home/petmay01/qemu-for-merges/monitor/hmp.c: In function 'file_completion'=
+:
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1113:5: error: unknown
+type name 'DIR'
+     DIR *ffs;
+     ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1135:11: error: implicit
+declaration of function 'opendir'
+[-Werror=3Dimplicit-function-declaration]
+     ffs =3D opendir(path);
+           ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1135:5: error: nested
+extern declaration of 'opendir' [-Werror=3Dnested-externs]
+     ffs =3D opendir(path);
+     ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1135:9: error: assignment
+makes pointer from integer without a cast [-Werror=3Dint-conversion]
+     ffs =3D opendir(path);
+         ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1141:13: error: implicit
+declaration of function 'readdir'
+[-Werror=3Dimplicit-function-declaration]
+         d =3D readdir(ffs);
+             ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1141:9: error: nested
+extern declaration of 'readdir' [-Werror=3Dnested-externs]
+         d =3D readdir(ffs);
+         ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1141:11: error:
+assignment makes pointer from integer without a cast
+[-Werror=3Dint-conversion]
+         d =3D readdir(ffs);
+           ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1146:21: error:
+dereferencing pointer to incomplete type 'struct dirent'
+         if (strcmp(d->d_name, ".") =3D=3D 0 || strcmp(d->d_name, "..") =3D=
+=3D 0) {
+                     ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1166:5: error: implicit
+declaration of function 'closedir'
+[-Werror=3Dimplicit-function-declaration]
+     closedir(ffs);
+     ^
+/home/petmay01/qemu-for-merges/monitor/hmp.c:1166:5: error: nested
+extern declaration of 'closedir' [-Werror=3Dnested-externs]
+
+thanks
+-- PMM
 
