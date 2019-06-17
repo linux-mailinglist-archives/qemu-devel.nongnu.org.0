@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4869748864
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:11:36 +0200 (CEST)
-Received: from localhost ([::1]:48956 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5C4488BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 18:20:38 +0200 (CEST)
+Received: from localhost ([::1]:49038 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcuEJ-0003Vm-23
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:11:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53400)
+	id 1hcuN3-000345-60
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 12:20:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53405)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hct4w-0000R3-25
+ (envelope-from <peter.maydell@linaro.org>) id 1hct4w-0000RW-9k
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:57:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hct4u-0007N9-D6
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:57:49 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52695)
+ (envelope-from <peter.maydell@linaro.org>) id 1hct4u-0007Ne-Kk
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:57:50 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38841)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hct4t-0007KK-Vf
+ id 1hct4u-0007Ld-B7
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:57:48 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id s3so9637420wms.2
- for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:57:46 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id s15so9469161wmj.3
+ for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 07:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=R3EMjxTAgk7x/2CJ0lHu+WPGswGOg17/TQG/Vi7Uo/I=;
- b=mZ8sZVrIQ6jLrxw8vx1eb85f+JVXRVn1TMADsp5FxMID9wBtMwTpJUIqR1c2y1Vh/J
- opUr8+AaKYy6XspMA9LvWIVz5fonAaKmkMmyirYnuyCWauKDE3W/Nd0byw9DrTBN1l4/
- grdIGYtdH3o4CDTXGlP54J67w/8FJlpYjRWALfNhhpU3F4uauRSsBql9T9SzZrgG0iMs
- XWY74F09mSZngPjdwBbDEwFz8QpTIchmF/l5a8EeiPyYnzdlo/kTsOpdHTbAS71iAnnr
- 0ZD1yMx7wMmDRTvSfNmUxPiLYjPYCArtQvo5xcCFcFznGHM179yayJeq31V1U3T+CS+b
- Ra9Q==
+ bh=aoRd/IN7MHr76s2KiDTvTo7JU64fLK5LtzUk1fqaZJY=;
+ b=bYvfy6vweBD6NJMzpBC6zQIoZJT8BwDm7As6LeqCtnO6y7Pe4UDJLL+ZPy96rawztW
+ 54y67AeYhoR0bJuENnVXk8IkUSARx8erUnaRD9gHV4uh8HvUP8+g44xLx/t5+0Id7jNb
+ ux4UzwkuFSJmiFaHelCWPiPNFsZI8ATJIgCOdrb/X3Yss+YkGVQvICKB9y+ev4ZP5YRr
+ 49aN7ghrvDMPZBDrdVMLgSsFFh1LVl/QWU3/uTiGRMu6PW/p5Ja1NwOiRnl5iKsSwChG
+ efKOiuaddMM3xv1SDdgN0rpXjg3dUmiweNFUdoMeKPhRVWd90VMgE6OfWWS243iRax0o
+ 3YXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R3EMjxTAgk7x/2CJ0lHu+WPGswGOg17/TQG/Vi7Uo/I=;
- b=Qsl21S7IFByLllTgfLOfMxk8ycpVw8c+VCOyuV5Qw6yVUrXuCLdIbJx3MByS6ZRPQO
- 9gdPVImZsLncPd7xNwxoT/IE4uF1J32NChQTQnM4Fg4Y2rzAT7sppBSA98YnnMdcKWhQ
- /Pqq7CNtcNsARNrPW+mqSpz5hRFLE3FB8ab2ALN/w0K+c4mIFD67F+69XhXaxVpaqjBP
- /Q0m5dTzwms5hoeZ5IyzP0uSl7vGMBLrr4uYVAxYgl9Q4ERdjzZj4KshnKV50NRAc6A4
- s13kpjHaGvggzXrvfJTt6+YzkCqhpzXqPHBlyRL/0btwZilDKgfnMzEe2gWggSMSTBYa
- Ptww==
-X-Gm-Message-State: APjAAAUeLK3xdz/vBQjaBNDrXG5HD31KcpYs+zm/d79PS5JW226++HPP
- 5whbnOruoNtlu46jYJP6AnwdFfGCuOwhlw==
-X-Google-Smtp-Source: APXvYqwd4hMVxE8H1UvtMWkg1I7wTEWF19EeYE5dZ+eFoPpMt3j6Tj4t+wr9x3U6MqWCEC9uSI+XOQ==
-X-Received: by 2002:a1c:740f:: with SMTP id p15mr14191354wmc.103.1560783465542; 
- Mon, 17 Jun 2019 07:57:45 -0700 (PDT)
+ bh=aoRd/IN7MHr76s2KiDTvTo7JU64fLK5LtzUk1fqaZJY=;
+ b=bCryXq39yf9ikFdvueEsUNZD/ghCrPq2SRkxLqLUdBvhuES6e6BfI5aIxuFW2mx7/b
+ Z+kriJ2nPw9gss1+ox6WXUP6KltBimJNmeJLGfS78Td7rFVRt8f5cJNyqsiYNRuKWboy
+ mv8MtxC6MNJ4YrmvczE2Y0vnFrQ2MnnVl7CyoAXqxmrHOFCBwrimDl3oDnZmfnslDKgx
+ egCGDSH7D0ur4O0wnQmu/Yo7zFh1lQY0AvKtdd9dBP0v9gAXiXyXfSaudkMfuIgb3BCs
+ Wo+VJRUi6IeKnUSHpy4LejAqAXbt8fRn5xD7uch0+KBdkVgSF5x6wFO9km0LUSKIkZBD
+ 7AKA==
+X-Gm-Message-State: APjAAAWl9R6LfCfz80LQBT3TPQUGrvXGxsyYxqdGJ/lMEUizKxBaOxs9
+ G4NWAiPT5Ep5XBobf38soJGMDp4o+Cl0iw==
+X-Google-Smtp-Source: APXvYqxaUc48hhZfTuJQJG4NoShPRMDJn7ZHuqs3HCLmyrV8tMIZmwFOobG4ELy1vWhnx9/JXKyLvQ==
+X-Received: by 2002:a1c:1947:: with SMTP id 68mr18621532wmz.165.1560783466917; 
+ Mon, 17 Jun 2019 07:57:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s10sm14690750wmf.8.2019.06.17.07.57.44
+ by smtp.gmail.com with ESMTPSA id s10sm14690750wmf.8.2019.06.17.07.57.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 17 Jun 2019 07:57:44 -0700 (PDT)
+ Mon, 17 Jun 2019 07:57:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 15:57:39 +0100
-Message-Id: <20190617145740.9881-4-peter.maydell@linaro.org>
+Date: Mon, 17 Jun 2019 15:57:40 +0100
+Message-Id: <20190617145740.9881-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190617145740.9881-1-peter.maydell@linaro.org>
 References: <20190617145740.9881-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
-Subject: [Qemu-devel] [PULL 3/4] docs/specs/index.rst: Fix minor syntax
- issues
+X-Received-From: 2a00:1450:4864:20::329
+Subject: [Qemu-devel] [PULL 4/4] docs: Build and install specs manual
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,50 +81,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The docs/specs/index.rst has a couple of minor issues which
-we didn't notice because we weren't building the manual:
- * the ToC entry for the new PPC XIVE docs points to
-   a nonexistent file
- * the initial comment needs to be marked by '..', not '.',
-   or it will appear in the output
- * the title doesn't match the capitialization used by
-   the existing interop or devel manuals, and uses
-   'full-system emulation' rather than the 'system emulation'
-   that the interop manual title uses
-
-Fix these minor issues before we start trying to build the manual.
+Now we have some rST format docs in the docs/specs/ manual, we should
+actually build and install it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Acked-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-id: 20190610152444.20859-2-peter.maydell@linaro.org
+Message-id: 20190610152444.20859-3-peter.maydell@linaro.org
 ---
- docs/specs/index.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ Makefile           |  7 ++++++-
+ docs/specs/conf.py | 16 ++++++++++++++++
+ 2 files changed, 22 insertions(+), 1 deletion(-)
+ create mode 100644 docs/specs/conf.py
 
-diff --git a/docs/specs/index.rst b/docs/specs/index.rst
-index 2e927519c2e..40adb97c5eb 100644
---- a/docs/specs/index.rst
-+++ b/docs/specs/index.rst
-@@ -1,8 +1,8 @@
--. This is the top level page for the 'specs' manual
-+.. This is the top level page for the 'specs' manual
+diff --git a/Makefile b/Makefile
+index 8e2fc6624c3..cfb18f15254 100644
+--- a/Makefile
++++ b/Makefile
+@@ -731,6 +731,7 @@ distclean: clean
+ 	rm -rf .doctrees
+ 	$(call clean-manual,devel)
+ 	$(call clean-manual,interop)
++	$(call clean-manual,specs)
+ 	for d in $(TARGET_DIRS); do \
+ 	rm -rf $$d || exit 1 ; \
+         done
+@@ -781,6 +782,7 @@ endef
+ .PHONY: install-sphinxdocs
+ install-sphinxdocs: sphinxdocs
+ 	$(call install-manual,interop)
++	$(call install-manual,specs)
  
+ install-doc: $(DOCS) install-sphinxdocs
+ 	$(INSTALL_DIR) "$(DESTDIR)$(qemu_docdir)"
+@@ -962,7 +964,7 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
+ # and handles "don't rebuild things unless necessary" itself.
+ # The '.doctrees' files are cached information to speed this up.
+ .PHONY: sphinxdocs
+-sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index.html
++sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index.html $(MANUAL_BUILDDIR)/specs/index.html
  
--QEMU full-system emulation guest hardware specifications
--========================================================
-+QEMU System Emulation Guest Hardware Specifications
-+===================================================
+ # Canned command to build a single manual
+ build-manual = $(call quiet-command,sphinx-build $(if $(V),,-q) -W -n -b html -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+@@ -975,6 +977,9 @@ $(MANUAL_BUILDDIR)/devel/index.html: $(call manual-deps,devel)
+ $(MANUAL_BUILDDIR)/interop/index.html: $(call manual-deps,interop)
+ 	$(call build-manual,interop)
  
++$(MANUAL_BUILDDIR)/specs/index.html: $(call manual-deps,specs)
++	$(call build-manual,specs)
++
+ qemu-options.texi: $(SRC_PATH)/qemu-options.hx $(SRC_PATH)/scripts/hxtool
+ 	$(call quiet-command,sh $(SRC_PATH)/scripts/hxtool -t < $< > $@,"GEN","$@")
  
- Contents:
-@@ -10,4 +10,5 @@ Contents:
- .. toctree::
-    :maxdepth: 2
- 
--   xive
-+   ppc-xive
-+   ppc-spapr-xive
+diff --git a/docs/specs/conf.py b/docs/specs/conf.py
+new file mode 100644
+index 00000000000..4d56f3ae13c
+--- /dev/null
++++ b/docs/specs/conf.py
+@@ -0,0 +1,16 @@
++# -*- coding: utf-8 -*-
++#
++# QEMU documentation build configuration file for the 'specs' manual.
++#
++# This includes the top level conf file and then makes any necessary tweaks.
++import sys
++import os
++
++qemu_docdir = os.path.abspath("..")
++parent_config = os.path.join(qemu_docdir, "conf.py")
++exec(compile(open(parent_config, "rb").read(), parent_config, 'exec'))
++
++# This slightly misuses the 'description', but is the best way to get
++# the manual title to appear in the sidebar.
++html_theme_options['description'] = \
++    u'System Emulation Guest Hardware Specifications'
 -- 
 2.20.1
 
