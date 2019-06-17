@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AE5485BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:42:54 +0200 (CEST)
-Received: from localhost ([::1]:48092 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B87F4859B
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 16:37:37 +0200 (CEST)
+Received: from localhost ([::1]:48034 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcsqT-0002Mm-30
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43549)
+	id 1hcslM-0004wE-7s
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 10:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43914)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hcsYB-0004Ou-A8
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:24:01 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hcsZL-0004gn-29
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:25:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hcsY9-0001a9-Rz
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:23:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56654)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hcsY2-00017N-0J
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:23:51 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2F81D81E10;
- Mon, 17 Jun 2019 14:23:11 +0000 (UTC)
-Received: from localhost (ovpn-116-100.phx2.redhat.com [10.3.116.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF9D85884C;
- Mon, 17 Jun 2019 14:23:09 +0000 (UTC)
-Date: Mon, 17 Jun 2019 11:23:01 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Roman Kagan <rkagan@virtuozzo.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
-Message-ID: <20190617142301.GA19178@habkost.net>
-References: <20190615200505.31348-1-ehabkost@redhat.com>
- <20190617134856.GF32624@rkaganb.sw.ru>
+ (envelope-from <no-reply@patchew.org>) id 1hcsZJ-0002S4-3X
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:25:10 -0400
+Resent-Date: Mon, 17 Jun 2019 10:25:10 -0400
+Resent-Message-Id: <E1hcsZJ-0002S4-3X@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21545)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hcsZH-0002I8-3h
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 10:25:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1560781444; cv=none; d=zoho.com; s=zohoarc; 
+ b=mE5N5cu8zav1FMio3EchwWfMILPQlMl4hk8wgOG/TaonMNB09tS/uaU+v+6Kv2JnKn9czUMnvDNSkURvdnpnotZm50dY9qBSCJzBnVv9j9svnpi9EGtTVEiZ0ZM443hc89qyNrs/w8/CBjkgNtv+GtEu2KHx+c4Y+xWSawEFKAY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1560781444;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=3hHXPkvcZvo3Z6JOLD5VFHJDvIyFZ+NxTvUkraKEUMI=; 
+ b=MZiaegZXOtv06XjwKbq+S6A0amTrhJW+Ucpt8s3buGj6+1G0FnBu039g6Ko8GWAOV8NYT3ksQe8xV/SFVAavMLBjiMPQn0K6LvKbWixxJOZjjPz9Su3ZtsUr4bA45ctytfknu5vCiKJezylRCSa7zgk5wnyM0kzi+guCujvNlN4=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1560781442872904.5329668189513;
+ Mon, 17 Jun 2019 07:24:02 -0700 (PDT)
+In-Reply-To: <20190617131103.1413-1-berrange@redhat.com>
+Message-ID: <156078144156.13573.14809923576191207765@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190617134856.GF32624@rkaganb.sw.ru>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Mon, 17 Jun 2019 14:23:21 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: berrange@redhat.com
+Date: Mon, 17 Jun 2019 07:24:02 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] i386: Fix signedness of
- hyperv_spinlock_attempts
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v2] linux-user: fix to handle variably
+ sized SIOCGSTAMP with new kernels
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,33 +62,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, arnd@arndb.de, gerhard.stenzel@de.ibm.com,
+ riku.voipio@iki.fi, qemu-devel@nongnu.org, laurent@vivier.eu,
+ borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 17, 2019 at 01:48:59PM +0000, Roman Kagan wrote:
-> On Sat, Jun 15, 2019 at 05:05:05PM -0300, Eduardo Habkost wrote:
-> > The current default value for hv-spinlocks is 0xFFFFFFFF (meaning
-> > "never retry").  However, the value is stored as a signed
-> > integer, making the getter of the hv-spinlocks QOM property
-> > return -1 instead of 0xFFFFFFFF.
-> > 
-> > Fix this by changing the type of X86CPU::hyperv_spinlock_attempts
-> > to uint32_t.  This has no visible effect to guest operating
-> > systems, affecting just the behavior of the QOM getter.
-> > 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> >  target/i386/cpu.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> Reviewed-by: Roman Kagan <rkagan@virtuozzo.com>
-> 
-> That said, it's tempting to just nuke qdev_prop_spinlocks and make
-> hv-spinlocks a regular DEFINE_PROP_UINT32...
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxNzEzMTEwMy4xNDEz
+LTEtYmVycmFuZ2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
+IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
+Zm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2Ml0gbGludXgtdXNlcjog
+Zml4IHRvIGhhbmRsZSB2YXJpYWJseSBzaXplZCBTSU9DR1NUQU1QIHdpdGggbmV3IGtlcm5lbHMK
+VHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMTkwNjE3MTMxMTAzLjE0MTMtMS1iZXJyYW5nZUBy
+ZWRoYXQuY29tCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
+cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
+aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
+M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3
+LzIwMTkwNjE1MTU0MzUyLjI2ODI0LTEtcGhpbG1kQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDE5
+MDYxNTE1NDM1Mi4yNjgyNC0xLXBoaWxtZEByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJy
+YW5jaCAndGVzdCcKYWViMTRiNSBsaW51eC11c2VyOiBmaXggdG8gaGFuZGxlIHZhcmlhYmx5IHNp
+emVkIFNJT0NHU1RBTVAgd2l0aCBuZXcga2VybmVscwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJS
+T1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM3ODogRklMRTogbGludXgtdXNlci9zeXNjYWxs
+X2RlZnMuaDo3NTU6CisjZGVmaW5lIFRBUkdFVF9TSU9DR1NUQU1QX05FVyAgIFRBUkdFVF9JT0Mo
+VEFSR0VUX0lPQ19SRUFELCAncycsIDYsIHNpemVvZihsb25nIGxvbmcpICsgc2l6ZW9mKGxvbmcp
+KSAvKiBHZXQgc3RhbXAgKHRpbWV2YWw2NCkgKi8KCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFj
+dGVycwojNzk6IEZJTEU6IGxpbnV4LXVzZXIvc3lzY2FsbF9kZWZzLmg6NzU2OgorI2RlZmluZSBU
+QVJHRVRfU0lPQ0dTVEFNUE5TX05FVyBUQVJHRVRfSU9DKFRBUkdFVF9JT0NfUkVBRCwgJ3MnLCA3
+LCBzaXplb2YobG9uZyBsb25nKSArIHNpemVvZihsb25nKSkgLyogR2V0IHN0YW1wICh0aW1lc3Bl
+YzY0KSAqLwoKdG90YWw6IDIgZXJyb3JzLCAwIHdhcm5pbmdzLCA1MSBsaW5lcyBjaGVja2VkCgpD
+b21taXQgYWViMTRiNTk5ZDhiIChsaW51eC11c2VyOiBmaXggdG8gaGFuZGxlIHZhcmlhYmx5IHNp
+emVkIFNJT0NHU1RBTVAgd2l0aCBuZXcga2VybmVscykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoK
+ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
+OTA2MTcxMzExMDMuMTQxMy0xLWJlcnJhbmdlQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNo
+Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRj
+aGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8g
+cGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-Agreed.  The only difference is that we would validate the
-property at realize time instead of object_property_set().
-
--- 
-Eduardo
 
