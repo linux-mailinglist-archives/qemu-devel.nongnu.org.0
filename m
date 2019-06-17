@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A09948BDE
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:24:06 +0200 (CEST)
-Received: from localhost ([::1]:50916 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3D4848D4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:01:28 +0200 (CEST)
+Received: from localhost ([::1]:51206 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwIX-000414-LR
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58573)
+	id 1hcwsi-0004nC-67
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:01:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59474)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwAd-0005Mj-M6
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:56 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwD1-0006f4-Bj
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:18:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwAb-0001U6-Jp
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:55 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:42700)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwCz-0002wX-Ti
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:18:23 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:44662)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1hcwAZ-0001IL-F7
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:15:51 -0400
+ id 1hcwCz-0002si-LH
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:18:21 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8r4P149269;
- Mon, 17 Jun 2019 18:15:41 GMT
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8vRZ149290;
+ Mon, 17 Jun 2019 18:18:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id; s=corp-2018-07-02;
- bh=KEujIo1vEx2wWhB0PXsc+4rd8jpemrHqR8jjUc1zmd0=;
- b=KpsstjzSXfsbojkpYLmBgcsK1TNUyYNbU56v9mrjEdcsivdyO8NPxC2bVLZ5HZ3b3WW+
- W9pBCunQO2qMsvYMZhQdyDok95O/Z2iaDzaZ8z0pZThFHXfI4AyhUAYP9mjTBEVnWUqY
- 9QwY9XxftDSooDDfYo7Q4q/MV748j/9k1VBYE8mtEv6CaVXWVhom9JusmtZpQijB1eJ/
- hR/0jCAPEovoTUvhwazvH8AGzqM5qO0PzgFEeb9nrCrdsotwrhNDod4SKUZYWiwbq5xx
- YnT7gR1nO/umYl0/wOjZ9UM0uodvlAeilfMxsXhW9RIhRNfyVK7dxe5ZgASzo3WFyv7f sg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 2t4r3tg2uu-1
+ bh=W5uSpSwoAv5+n4+ooPEXKB4UZo+/RcB4M0VkMIT++Lk=;
+ b=FmJi9ELkwTCg7OoEfaWIFiHXkSf4/uhoFXkyZB9xBOQMZ6L5lbbqomKhUO+DLunLlAVh
+ B4H3ZcTIs47E1ttYvqpqz7H1yVhqbcI6iguHOJ1sF0Nabw1tqacpXphqcccWHuSfrd0C
+ F/YwG0yW+wPPJ94RZMstoiwwkz5f+ra6EeQ/dvUPWOMsO3uVfH6gub5jYts+RX51V1YT
+ FA3+whL3bBcCHQFy0fB21FR9fhLJKgnIMIfZdsfte2dREU9sYHKzZxH34Y0vvfFVqQXZ
+ Jh7I3ZsK8+Gd3+bg0KiQX9fKxCsbqELHdf87SKKWjOEoFi6TV1UQCgH1DhxzZfLaDy89 0Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 2t4r3tg34n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:15:41 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIF9Y9117981;
- Mon, 17 Jun 2019 18:15:40 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2t5cpdkend-1
+ Mon, 17 Jun 2019 18:18:10 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIEOPt175475;
+ Mon, 17 Jun 2019 18:16:09 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 2t5mgbgat3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:15:40 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIFdhx024697;
- Mon, 17 Jun 2019 18:15:39 GMT
+ Mon, 17 Jun 2019 18:16:09 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5HIFjES031901;
+ Mon, 17 Jun 2019 18:15:45 GMT
 Received: from heatpipe.hsd1.ca.comcast.net (/73.170.27.202)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 11:15:38 -0700
+ with ESMTP ; Mon, 17 Jun 2019 11:15:44 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 11:15:29 -0700
-Message-Id: <20190617181529.29468-1-elena.ufimtseva@oracle.com>
+Date: Mon, 17 Jun 2019 11:15:39 -0700
+Message-Id: <20190617181539.29532-1-elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.17.1
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
@@ -72,8 +72,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  definitions=main-1906170162
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [RFC PATCH v2 08/35] multi-process: add functions to
- synchronize proxy and remote endpoints
+Subject: [Qemu-devel] [RFC PATCH v2 09/35] multi-process: setup PCI host
+ bridge for remote device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,121 +86,204 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
- konrad.wilk@oracle.com, berrange@redhat.com, ross.lagerwall@citrix.com,
+ konrad.wilk@oracle.com, mst@redhat.com, ross.lagerwall@citrix.com,
  liran.alon@oracle.com, stefanha@redhat.com, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jagannathan Raman <jag.raman@oracle.com>
 
-In some cases, for example MMIO read, QEMU has to wait for the remote to
-complete a command before proceeding. An eventfd based mechanism is
-added to synchronize QEMU & remote process.
+PCI host bridge is setup for the remote device process. It is
+implemented using remote-pcihost object. It is an extension of the PCI
+host bridge setup by QEMU.
+Remote-pcihost configures a PCI bus which could be used by the remote
+ PCI device to latch on to.
 
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- Changes in v2:
- - Added timeout to communication channel.
----
- include/io/proxy-link.h |  9 +++++++++
- io/proxy-link.c         | 42 +++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 51 insertions(+)
+ hw/pci/Makefile.objs     |  2 +-
+ include/remote/pcihost.h | 58 +++++++++++++++++++++++++++
+ remote/Makefile.objs     |  1 +
+ remote/pcihost.c         | 84 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 144 insertions(+), 1 deletion(-)
+ create mode 100644 include/remote/pcihost.h
+ create mode 100644 remote/pcihost.c
 
-diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
-index fb266ca2a8..2f1584e87d 100644
---- a/include/io/proxy-link.h
-+++ b/include/io/proxy-link.h
-@@ -28,7 +28,9 @@
- #include <stddef.h>
- #include <stdint.h>
- #include <glib.h>
-+#include <unistd.h>
- #include <pthread.h>
-+#include <sys/eventfd.h>
+diff --git a/hw/pci/Makefile.objs b/hw/pci/Makefile.objs
+index 955be54472..90693a7695 100644
+--- a/hw/pci/Makefile.objs
++++ b/hw/pci/Makefile.objs
+@@ -13,6 +13,6 @@ common-obj-$(CONFIG_PCI_EXPRESS) += pcie_port.o pcie_host.o
+ common-obj-$(call lnot,$(CONFIG_PCI)) += pci-stub.o
+ common-obj-$(CONFIG_ALL) += pci-stub.o
  
- #include "qemu/osdep.h"
- #include "qom/object.h"
-@@ -124,11 +126,18 @@ struct ProxyLinkState {
-     proxy_link_callback callback;
- };
- 
-+#define GET_REMOTE_WAIT eventfd(0, 0)
-+#define PUT_REMOTE_WAIT(wait) close(wait)
-+#define PROXY_LINK_WAIT_DONE 1
+-remote-pci-obj-$(CONFIG_MPQEMU) += pci.o pci_bridge.o
++remote-pci-obj-$(CONFIG_MPQEMU) += pci.o pci_bridge.o pci_host.o pcie_host.o
+ remote-pci-obj-$(CONFIG_MPQEMU) += msi.o msix.o
+ remote-pci-obj-$(CONFIG_MPQEMU) += pcie.o
+diff --git a/include/remote/pcihost.h b/include/remote/pcihost.h
+new file mode 100644
+index 0000000000..daf39c1291
+--- /dev/null
++++ b/include/remote/pcihost.h
+@@ -0,0 +1,58 @@
++/*
++ * PCI Host for remote device
++ *
++ * Copyright 2019, Oracle and/or its affiliates.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
 +
- ProxyLinkState *proxy_link_create(void);
- void proxy_link_finalize(ProxyLinkState *s);
- 
- void proxy_proc_send(ProxyLinkState *s, ProcMsg *msg);
- int proxy_proc_recv(ProxyLinkState *s, ProcMsg *msg);
-+uint64_t wait_for_remote(int efd);
-+void notify_proxy(int fd, uint64_t val);
++#ifndef REMOTE_PCIHOST_H
++#define REMOTE_PCIHOST_H
 +
- void proxy_link_set_sock(ProxyLinkState *s, int fd);
- void proxy_link_set_callback(ProxyLinkState *s, proxy_link_callback callback);
- void start_handler(ProxyLinkState *s);
-diff --git a/io/proxy-link.c b/io/proxy-link.c
-index 75e0bb5e27..9bda646f39 100644
---- a/io/proxy-link.c
-+++ b/io/proxy-link.c
-@@ -31,6 +31,8 @@
- #include <sys/socket.h>
- #include <sys/un.h>
- #include <unistd.h>
-+#include <limits.h>
-+#include <poll.h>
- 
- #include "qemu/module.h"
- #include "io/proxy-link.h"
-@@ -210,6 +212,46 @@ int proxy_proc_recv(ProxyLinkState *s, ProcMsg *msg)
-     return rc;
- }
- 
-+uint64_t wait_for_remote(int efd)
++#include <stddef.h>
++#include <stdint.h>
++
++#include "exec/memory.h"
++#include "hw/pci/pcie_host.h"
++
++#define TYPE_REMOTE_HOST_DEVICE "remote-pcihost"
++#define REMOTE_HOST_DEVICE(obj) \
++    OBJECT_CHECK(RemPCIHost, (obj), TYPE_REMOTE_HOST_DEVICE)
++
++typedef struct RemPCIHost {
++    /*< private >*/
++    PCIExpressHost parent_obj;
++    /*< public >*/
++
++    /* Memory Controller Hub (MCH) may not be necessary for the emulation
++     * program. The two important reasons for implementing a PCI host in the
++     * emulation program are:
++     * - Provide a PCI bus for IO devices
++     * - Enable translation of guest PA to the PCI bar regions
++     *
++     * For both the above mentioned purposes, it doesn't look like we would
++     * need the MCH
++     */
++
++    MemoryRegion *mr_pci_mem;
++    MemoryRegion *mr_sys_mem;
++    MemoryRegion *mr_sys_io;
++} RemPCIHost;
++
++#endif
+diff --git a/remote/Makefile.objs b/remote/Makefile.objs
+index a9b2256b2a..2757f5a265 100644
+--- a/remote/Makefile.objs
++++ b/remote/Makefile.objs
+@@ -1 +1,2 @@
+ remote-pci-obj-$(CONFIG_MPQEMU) += remote-main.o
++remote-pci-obj-$(CONFIG_MPQEMU) += pcihost.o
+diff --git a/remote/pcihost.c b/remote/pcihost.c
+new file mode 100644
+index 0000000000..bcdd214950
+--- /dev/null
++++ b/remote/pcihost.c
+@@ -0,0 +1,84 @@
++/*
++ * Remote PCI host device
++ *
++ * Copyright 2019, Oracle and/or its affiliates.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include <sys/types.h>
++
++#include "qemu/osdep.h"
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_host.h"
++#include "hw/pci/pcie_host.h"
++#include "remote/pcihost.h"
++#include "exec/memory.h"
++
++static const char *remote_host_root_bus_path(PCIHostState *host_bridge,
++                                             PCIBus *rootbus)
 +{
-+    struct pollfd pfd = { .fd = efd, .events = POLLIN };
-+    uint64_t val;
-+    int ret;
-+
-+    ret = poll(&pfd, 1, 1000);
-+
-+    switch (ret) {
-+    case 0:
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: Timed out\n");
-+        /* TODO: Kick-off error recovery */
-+        return ULLONG_MAX;
-+    case -1:
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "Poll error wait_for_remote: %s\n",
-+                      strerror(errno));
-+        return ULLONG_MAX;
-+    default:
-+        if (read(efd, &val, sizeof(val)) == -1) {
-+            qemu_log_mask(LOG_REMOTE_DEBUG, "Error wait_for_remote: %s\n",
-+                          strerror(errno));
-+            return ULLONG_MAX;
-+        }
-+    }
-+
-+    val = (val == ULLONG_MAX) ? val : (val - 1);
-+
-+    return val;
++    return "0000:00";
 +}
 +
-+void notify_proxy(int efd, uint64_t val)
++static void remote_host_realize(DeviceState *dev, Error **errp)
 +{
-+    val = (val == ULLONG_MAX) ? val : (val + 1);
++    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
++    RemPCIHost *s = REMOTE_HOST_DEVICE(dev);
 +
-+    if (write(efd, &val, sizeof(val)) == -1) {
-+        qemu_log_mask(LOG_REMOTE_DEBUG, "Error notify_proxy: %s\n",
-+                      strerror(errno));
-+    }
++    /*
++     * TODO: the name of the bus would be provided by QEMU. Use
++     * "pcie.0" for now.
++     */
++    pci->bus = pci_root_bus_new(DEVICE(s), "pcie.0",
++                                s->mr_pci_mem, s->mr_sys_io,
++                                0, TYPE_PCIE_BUS);
 +}
 +
- static gboolean proxy_link_handler_prepare(GSource *gsrc, gint *timeout)
- {
-     g_assert(timeout);
++static Property remote_host_props[] = {
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void remote_host_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
++
++    hc->root_bus_path = remote_host_root_bus_path;
++    dc->realize = remote_host_realize;
++    dc->props = remote_host_props;
++
++    dc->user_creatable = false;
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->fw_name = "pci";
++}
++
++static const TypeInfo remote_host_info = {
++    .name = TYPE_REMOTE_HOST_DEVICE,
++    .parent = TYPE_PCIE_HOST_BRIDGE,
++    .instance_size = sizeof(RemPCIHost),
++    .class_init = remote_host_class_init,
++};
++
++static void remote_machine_register(void)
++{
++    type_register_static(&remote_host_info);
++}
++
++type_init(remote_machine_register)
 -- 
 2.17.1
 
