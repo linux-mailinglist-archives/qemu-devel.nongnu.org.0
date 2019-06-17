@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2018A48CD5
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:45:27 +0200 (CEST)
-Received: from localhost ([::1]:51048 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74EE48BF2
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:32:27 +0200 (CEST)
+Received: from localhost ([::1]:50970 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwdC-0006cA-9X
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:45:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58963)
+	id 1hcwQd-0003TF-3w
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58949)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBW-0005ew-Qe
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:54 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBW-0005en-OC
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBS-00025r-VB
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:50 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:57416)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBS-00025S-Mg
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:48 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:57448)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1hcwBS-0001xo-FL
+ id 1hcwBS-0001ym-AX
  for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:46 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8l7F065868;
- Mon, 17 Jun 2019 18:16:30 GMT
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8kVc065846;
+ Mon, 17 Jun 2019 18:16:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id; s=corp-2018-07-02;
- bh=phtcguYrmxHbOtradT+KkWmWpDrxCK7VlmMbgNif274=;
- b=OiDUomOPm440S86UJZcWxiDTTpyojKWdXrdugWlvXRdE4eeno6jDFsVRToT3k5El82kg
- FdR/iWOe9xMshz8XeIOaigMAkmzNGkEpA8o55BJ8vTLDhl+PPyBpWWSRklZSYXphHGSk
- qJHtiGPX7S7pCE7y62fodM2lg+ojdFQD4/w6tbVVHZ+L5y+13cmmjJjJF4m74W+Bm4JJ
- 7tYKG0o+jROcRa1zht0lUS0uVYssKaZ3GBl4riRlrYyOrEDxpfFsTqBTRxeN0KBArtwI
- vsdbnHek1v52sn/GRqLMDWLCMikKAns3O/rdEUgireIh3sBqrenSJYnsFKTLS2un5cEb /g== 
+ bh=qHA0XPWNpBUQCEDqLyXVYTH83m+elOu8Ro8OwumTiLs=;
+ b=o6EJ/39CTVnff8SG+xpuzF1gavK09pDx69afZ7YGGL5zNXcEuLJKuMKI8NENCaIj6Gpf
+ r6OBfgc8CzFkDF3KOJ0LzvQ5Mm1VlFCjDiAcutCRK/hSACR18i0k/gub2/Bn6zdxsFeD
+ lj6DZYw68UEU60Nxu8TjSG3H6tKOJXBtYnh1DfkmRhC52en13sSAL3v3ATpdqlWm7QIz
+ D7F7nXawiEjMwtlW/QQLmtRqC5cJMlORYW7Br7pmlHasxsRP3/tW7E6hjINnz+dumEZk
+ O+NPqDQlDkNOpnmR0RBV2kCEeAfshw0gQlAqPvFmWyqHfCmgYGSR5JG5dqyKta2WOt++ kg== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2t4rmp00p1-1
+ by aserp2120.oracle.com with ESMTP id 2t4rmp00pd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:16:30 +0000
+ Mon, 17 Jun 2019 18:16:33 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIF6Z2050383;
- Mon, 17 Jun 2019 18:16:29 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 2t5h5t9fsd-1
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIF5X8050183;
+ Mon, 17 Jun 2019 18:16:32 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 2t5h5t9ftb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:16:29 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIGSCw014992;
- Mon, 17 Jun 2019 18:16:28 GMT
+ Mon, 17 Jun 2019 18:16:32 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIGVAf025270;
+ Mon, 17 Jun 2019 18:16:31 GMT
 Received: from heatpipe.hsd1.ca.comcast.net (/73.170.27.202)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 11:16:28 -0700
+ with ESMTP ; Mon, 17 Jun 2019 18:16:31 +0000
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 11:16:26 -0700
-Message-Id: <20190617181626.30141-1-elena.ufimtseva@oracle.com>
+Date: Mon, 17 Jun 2019 11:16:29 -0700
+Message-Id: <20190617181629.30187-1-elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.17.1
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
@@ -72,8 +72,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  definitions=main-1906170162
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [RFC PATCH v2 22/35] multi-process: Extend monitor
- commands to remove device from remote process
+Subject: [Qemu-devel] [RFC PATCH v2 23/35] multi-process: configure remote
+ side devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,257 +86,120 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, ross.lagerwall@citrix.com,
- liran.alon@oracle.com, berrange@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, kanth.ghatraju@oracle.com
+ konrad.wilk@oracle.com, berrange@redhat.com, ross.lagerwall@citrix.com,
+ liran.alon@oracle.com, stefanha@redhat.com, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jagannathan Raman <jag.raman@oracle.com>
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Extend device_del QMP & HMP commands to hot-unplug device from remote
-process.
+Add functions to configure remote devices.
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hmp.c                   |  9 +++++++++
- hw/proxy/monitor.c      | 15 ++++++++++++++
- include/hw/qdev-core.h  |  1 +
- include/io/proxy-link.h |  2 ++
- include/monitor/qdev.h  |  1 +
- qdev-monitor.c          | 15 ++++++++++++--
- remote/remote-main.c    | 45 +++++++++++++++++++++++++++++++++++++++++
- stubs/monitor.c         |  4 ++++
- 8 files changed, 90 insertions(+), 2 deletions(-)
+ hw/proxy/qemu-proxy.c         | 38 ++++++++++++++++++++++++++++++++++-
+ include/hw/proxy/qemu-proxy.h |  2 ++
+ include/io/proxy-link.h       |  2 ++
+ 3 files changed, 41 insertions(+), 1 deletion(-)
 
-diff --git a/hmp.c b/hmp.c
-index ccc95d3feb..89cdaebfde 100644
---- a/hmp.c
-+++ b/hmp.c
-@@ -54,6 +54,7 @@
- #include "hw/rdma/rdma.h"
- #include "migration/snapshot.h"
- #include "migration/misc.h"
-+#include "hw/boards.h"
- 
- #ifdef CONFIG_SPICE
- #include <spice/enums.h>
-@@ -2178,9 +2179,17 @@ void hmp_device_add(Monitor *mon, const QDict *qdict)
- 
- void hmp_device_del(Monitor *mon, const QDict *qdict)
- {
-+    MachineState *ms = MACHINE(current_machine);
-     const char *id = qdict_get_str(qdict, "id");
-     Error *err = NULL;
- 
-+#ifdef CONFIG_MPQEMU
-+    if (g_hash_table_lookup(ms->remote_devs, id)) {
-+        qmp_rdevice_del(id, &err);
-+        return;
-+    }
-+#endif
-+
-     qmp_device_del(id, &err);
-     hmp_handle_error(mon, &err);
- }
-diff --git a/hw/proxy/monitor.c b/hw/proxy/monitor.c
-index 400c83c0d5..c4d0ff1213 100644
---- a/hw/proxy/monitor.c
-+++ b/hw/proxy/monitor.c
-@@ -172,6 +172,8 @@ static void rdevice_add_del(QDict *qdict, proc_cmd_t cmd, Error **errp)
-     if (cmd == DEVICE_ADD) {
-         (void)g_hash_table_insert(ms->remote_devs, (gpointer)g_strdup(id),
-                                   (gpointer)pdev);
-+    } else {
-+        (void)g_hash_table_remove(ms->remote_devs, (gpointer)id);
-     }
- }
- 
-@@ -179,3 +181,16 @@ void qmp_rdevice_add(QDict *qdict, QObject **ret_data, Error **errp)
- {
-     rdevice_add_del(qdict, DEVICE_ADD, errp);
- }
-+
-+void qmp_rdevice_del(const char *id, Error **errp)
-+{
-+    QDict *qdict = qdict_new();
-+
-+    qdict_put_str(qdict, "id", id);
-+
-+    qdict_put_str(qdict, "rid", id);
-+
-+    rdevice_add_del(qdict, DEVICE_DEL, errp);
-+
-+    qobject_unref(qdict);
-+}
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 33ed3b8dde..cea42a92ab 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -358,6 +358,7 @@ BusState *qdev_get_parent_bus(DeviceState *dev);
- /*** BUS API. ***/
- 
- DeviceState *qdev_find_recursive(BusState *bus, const char *id);
-+DeviceState *find_device_state(const char *id, Error **errp);
- 
- /* Returns 0 to walk children, > 0 to skip walk, < 0 to terminate walk. */
- typedef int (qbus_walkerfn)(BusState *bus, void *opaque);
-diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
-index 07a08a9175..bf2555c97e 100644
---- a/include/io/proxy-link.h
-+++ b/include/io/proxy-link.h
-@@ -61,6 +61,7 @@ typedef struct ProxyLinkState ProxyLinkState;
-  * SET_IRQFD        Sets the IRQFD to be used to raise interrupts directly
-  *                  from remote device
-  * DEVICE_ADD       QMP/HMP command to hotplug device
-+ * DEVICE_DEL       QMP/HMP command to hot-unplug device
-  *
-  */
- typedef enum {
-@@ -72,6 +73,7 @@ typedef enum {
-     BAR_READ,
-     SET_IRQFD,
-     DEVICE_ADD,
-+    DEVICE_DEL,
-     MAX,
- } proc_cmd_t;
- 
-diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
-index e21692677e..c7642f7c2d 100644
---- a/include/monitor/qdev.h
-+++ b/include/monitor/qdev.h
-@@ -11,6 +11,7 @@ void hmp_info_qom_tree(Monitor *mon, const QDict *dict);
- void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
- 
- void qmp_rdevice_add(QDict *qdict, QObject **ret_data, Error **errp);
-+void qmp_rdevice_del(const char *id, Error **errp);
- 
- int qdev_device_help(QemuOpts *opts);
- DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 80d570263f..744c807b0f 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -34,6 +34,7 @@
- #include "qemu/qemu-print.h"
- #include "sysemu/block-backend.h"
- #include "migration/misc.h"
-+#include "hw/boards.h"
+diff --git a/hw/proxy/qemu-proxy.c b/hw/proxy/qemu-proxy.c
+index c691a05dac..1666cc546e 100644
+--- a/hw/proxy/qemu-proxy.c
++++ b/hw/proxy/qemu-proxy.c
+@@ -51,6 +51,7 @@
+ #include "sysemu/kvm.h"
+ #include "util/event_notifier-posix.c"
+ #include "hw/boards.h"
++#include "include/qemu/log.h"
  
  /*
-  * Aliases were a bad idea from the start.  Let's keep them
-@@ -827,7 +828,7 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp)
-     object_unref(OBJECT(dev));
- }
+  * TODO: kvm_vm_ioctl is only available for per-target objects (NEED_CPU_H).
+@@ -60,6 +61,39 @@
+ int kvm_vm_ioctl(KVMState *s, int type, ...);
  
--static DeviceState *find_device_state(const char *id, Error **errp)
-+DeviceState *find_device_state(const char *id, Error **errp)
- {
-     Object *obj;
- 
-@@ -902,7 +903,17 @@ void qdev_unplug(DeviceState *dev, Error **errp)
- 
- void qmp_device_del(const char *id, Error **errp)
- {
--    DeviceState *dev = find_device_state(id, errp);
-+    MachineState *ms = MACHINE(current_machine);
-+    DeviceState *dev;
+ static void pci_proxy_dev_realize(PCIDevice *dev, Error **errp);
++static void setup_irqfd(PCIProxyDev *dev);
 +
-+#ifdef CONFIG_MPQEMU
-+    if (g_hash_table_lookup(ms->remote_devs, id)) {
-+        qmp_rdevice_del(id, errp);
-+        return;
-+    }
-+#endif
-+
-+    dev = find_device_state(id, errp);
-     if (dev != NULL) {
-         qdev_unplug(dev, errp);
-     }
-diff --git a/remote/remote-main.c b/remote/remote-main.c
-index ba39ab6a46..c5dc7c0009 100644
---- a/remote/remote-main.c
-+++ b/remote/remote-main.c
-@@ -53,6 +53,7 @@
- #include "qemu/option.h"
- #include "qemu/config-file.h"
- #include "monitor/qdev.h"
-+#include "qapi/qmp/qdict.h"
- 
- static ProxyLinkState *proxy_link;
- PCIDevice *remote_pci_dev;
-@@ -181,6 +182,47 @@ fail:
-     PUT_REMOTE_WAIT(wait);
- }
- 
-+static void process_device_del_msg(ProcMsg *msg)
++static void proxy_ready(PCIDevice *dev)
 +{
-+    Error *local_err = NULL;
-+    DeviceState *dev = NULL;
-+    const char *json = (const char *)msg->data2;
-+    int wait = msg->fds[0];
-+    QObject *qobj = NULL;
-+    QDict *qdict = NULL;
-+    const char *id;
++    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
 +
-+    qobj = qobject_from_json(json, &local_err);
-+    if (local_err) {
-+        goto fail;
-+    }
-+
-+    qdict = qobject_to(QDict, qobj);
-+    assert(qdict);
-+
-+    id = qdict_get_try_str(qdict, "id");
-+    assert(id);
-+
-+    dev = find_device_state(id, &local_err);
-+    if (local_err) {
-+        goto fail;
-+    }
-+
-+    if (dev) {
-+        qdev_unplug(dev, &local_err);
-+    }
-+
-+fail:
-+    if (local_err) {
-+        error_report_err(local_err);
-+        /* TODO: communicate the exact error message to proxy */
-+    }
-+
-+    notify_proxy(wait, 1);
-+
-+    PUT_REMOTE_WAIT(wait);
++    setup_irqfd(pdev);
 +}
 +
- static void process_msg(GIOCondition cond)
- {
-     ProcMsg *msg = NULL;
-@@ -235,6 +277,9 @@ static void process_msg(GIOCondition cond)
-     case DEVICE_ADD:
-         process_device_add_msg(msg);
-         break;
-+    case DEVICE_DEL:
-+        process_device_del_msg(msg);
-+        break;
-     default:
-         error_setg(&err, "Unknown command");
-         goto finalize_loop;
-diff --git a/stubs/monitor.c b/stubs/monitor.c
-index a55b674777..ac24eeb5d4 100644
---- a/stubs/monitor.c
-+++ b/stubs/monitor.c
-@@ -51,3 +51,7 @@ ObjectPropertyInfoList *qmp_device_list_properties(const char *typename,
- void qmp_rdevice_add(QDict *qdict, QObject **ret_data, Error **errp)
- {
- }
-+
-+void qmp_rdevice_del(const char *id, Error **errp)
++static void set_remote_opts(PCIDevice *dev, QDict *qdict, unsigned int cmd)
 +{
++    QString *qstr;
++    ProcMsg msg;
++    const char *str;
++    PCIProxyDev *pdev;
++
++    pdev = PCI_PROXY_DEV(dev);
++
++    qstr = qobject_to_json(QOBJECT(qdict));
++    str = qstring_get_str(qstr);
++
++    memset(&msg, 0, sizeof(ProcMsg));
++
++    msg.data2 = (uint8_t *)str;
++    msg.cmd = cmd;
++    msg.bytestream = 1;
++    msg.size = qstring_get_length(qstr) + 1;
++    msg.num_fds = 0;
++
++    proxy_proc_send(pdev->proxy_link, &msg);
++
++    return;
 +}
+ 
+ int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp)
+ {
+@@ -292,7 +326,6 @@ static void init_proxy(PCIDevice *dev, char *command, Error **errp)
+ 
+     proxy_link_set_sock(pdev->proxy_link, pdev->rsocket);
+     configure_memory_sync(pdev->sync, pdev->proxy_link);
+-    setup_irqfd(pdev);
+ }
+ 
+ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+@@ -319,6 +352,9 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+     dev->init_proxy = init_proxy;
+     dev->sync = REMOTE_MEM_SYNC(object_new(TYPE_MEMORY_LISTENER));
+ 
++    dev->set_remote_opts = set_remote_opts;
++    dev->proxy_ready = proxy_ready;
++
+ }
+ 
+ static void send_bar_access_msg(ProxyLinkState *proxy_link, MemoryRegion *mr,
+diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
+index b73077940c..4e949f778b 100644
+--- a/include/hw/proxy/qemu-proxy.h
++++ b/include/hw/proxy/qemu-proxy.h
+@@ -29,6 +29,8 @@
+ #include "hw/proxy/memory-sync.h"
+ #include "hw/pci/pci.h"
+ #include "qemu/event_notifier.h"
++#include "hw/pci/pci.h"
++#include "block/qdict.h"
+ 
+ #define TYPE_PCI_PROXY_DEV "pci-proxy-dev"
+ 
+diff --git a/include/io/proxy-link.h b/include/io/proxy-link.h
+index bf2555c97e..38bd80535a 100644
+--- a/include/io/proxy-link.h
++++ b/include/io/proxy-link.h
+@@ -72,6 +72,8 @@ typedef enum {
+     BAR_WRITE,
+     BAR_READ,
+     SET_IRQFD,
++    DEV_OPTS,
++    DRIVE_OPTS,
+     DEVICE_ADD,
+     DEVICE_DEL,
+     MAX,
 -- 
 2.17.1
 
