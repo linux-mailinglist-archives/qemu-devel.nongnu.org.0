@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF8EC48ECD
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:28:04 +0200 (CEST)
-Received: from localhost ([::1]:51498 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747C248E39
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:20:25 +0200 (CEST)
+Received: from localhost ([::1]:51420 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcxIS-000624-03
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47544)
+	id 1hcxB2-0006iH-MC
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:20:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48490)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hcx5r-0003ah-34
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:15:03 -0400
+ (envelope-from <eblake@redhat.com>) id 1hcx9D-0005lG-09
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:18:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hcx5q-0006Fx-2Y
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:15:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38566)
+ (envelope-from <eblake@redhat.com>) id 1hcx9B-0000lK-QG
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:18:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50638)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hcx5p-0006ER-PG
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:15:02 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hcx9B-0000iv-CS
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 15:18:29 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4F2A6301989A;
- Mon, 17 Jun 2019 19:14:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3A14322386E;
+ Mon, 17 Jun 2019 19:18:21 +0000 (UTC)
 Received: from [10.3.118.50] (ovpn-118-50.phx2.redhat.com [10.3.118.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 19C3552FA;
- Mon, 17 Jun 2019 19:14:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BB8210021B4;
+ Mon, 17 Jun 2019 19:18:17 +0000 (UTC)
 To: elena.ufimtseva@oracle.com, qemu-devel@nongnu.org
-References: <20190617181459.29139-1-elena.ufimtseva@oracle.com>
+References: <20190617181620.30047-1-elena.ufimtseva@oracle.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -57,22 +57,22 @@ Autocrypt: addr=eblake@redhat.com; keydata=
  Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
  2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <ae695f50-fa36-e6b8-9c8f-6e344da40fae@redhat.com>
-Date: Mon, 17 Jun 2019 14:14:49 -0500
+Message-ID: <9c747527-67c2-2e5c-4724-e0bf5c2a8822@redhat.com>
+Date: Mon, 17 Jun 2019 14:18:16 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190617181459.29139-1-elena.ufimtseva@oracle.com>
+In-Reply-To: <20190617181620.30047-1-elena.ufimtseva@oracle.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="OSlLmDREVLF1yNk7tiQnAO9RZDoOZEHlk"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+ boundary="O1P3WWNDoMFqrbHVgUlmQkUNpYjADRCI9"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 17 Jun 2019 19:15:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Mon, 17 Jun 2019 19:18:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH v2 01/35] multi-process: memory: alloc
- RAM from file at offset
+Subject: Re: [Qemu-devel] [RFC PATCH v2 20/35] multi-process: Add QMP &
+ extend HMP commands to list remote info
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,50 +85,106 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, konrad.wilk@oracle.com,
- ross.lagerwall@citrix.com, liran.alon@oracle.com, stefanha@redhat.com,
- pbonzini@redhat.com, kanth.ghatraju@oracle.com, rth@twiddle.net
+ dgilbert@redhat.com, armbru@redhat.com, ross.lagerwall@citrix.com,
+ liran.alon@oracle.com, stefanha@redhat.com, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---OSlLmDREVLF1yNk7tiQnAO9RZDoOZEHlk
-Content-Type: multipart/mixed; boundary="UVtdD2kVZR0rsp4fadEDqw2h2bnCdHZ9m";
+--O1P3WWNDoMFqrbHVgUlmQkUNpYjADRCI9
+Content-Type: multipart/mixed; boundary="JUkilLTin4kjhdG2ynICvamvlQJM7Sk6v";
  protected-headers="v1"
 From: Eric Blake <eblake@redhat.com>
 To: elena.ufimtseva@oracle.com, qemu-devel@nongnu.org
-Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, konrad.wilk@oracle.com,
- ross.lagerwall@citrix.com, liran.alon@oracle.com, stefanha@redhat.com,
- pbonzini@redhat.com, kanth.ghatraju@oracle.com, rth@twiddle.net
-Message-ID: <ae695f50-fa36-e6b8-9c8f-6e344da40fae@redhat.com>
-Subject: Re: [Qemu-devel] [RFC PATCH v2 01/35] multi-process: memory: alloc
- RAM from file at offset
-References: <20190617181459.29139-1-elena.ufimtseva@oracle.com>
-In-Reply-To: <20190617181459.29139-1-elena.ufimtseva@oracle.com>
+Cc: ross.lagerwall@citrix.com, stefanha@redhat.com, liran.alon@oracle.com,
+ kanth.ghatraju@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
+ konrad.wilk@oracle.com, dgilbert@redhat.com, armbru@redhat.com
+Message-ID: <9c747527-67c2-2e5c-4724-e0bf5c2a8822@redhat.com>
+Subject: Re: [RFC PATCH v2 20/35] multi-process: Add QMP & extend HMP commands
+ to list remote info
+References: <20190617181620.30047-1-elena.ufimtseva@oracle.com>
+In-Reply-To: <20190617181620.30047-1-elena.ufimtseva@oracle.com>
 
---UVtdD2kVZR0rsp4fadEDqw2h2bnCdHZ9m
+--JUkilLTin4kjhdG2ynICvamvlQJM7Sk6v
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 6/17/19 1:14 PM, elena.ufimtseva@oracle.com wrote:
+On 6/17/19 1:16 PM, elena.ufimtseva@oracle.com wrote:
 > From: Jagannathan Raman <jag.raman@oracle.com>
 >=20
-> Allow RAM MemoryRegion to be created from an offset in a file, instead
-> of allocating at offset of 0 by default. This is needed to synchronize
-> RAM between QEMU & remote process.
-> This will be needed for the following patches.
-
-This message and the rest of the series was sent unthreaded (no
-References: or In-Reply-To: headers), which makes it very difficult to
-track. You'll want to fix your sending environment to ensure that
-threading is preserved correctly.
-
+> Add query-remote QMP command and extend "info" HMP command, to list
+> the remote objects used by QEMU.
 >=20
 > Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 > ---
 
+> +++ b/qapi/block-core.json
+> @@ -673,6 +673,23 @@
+>             '*tray_open': 'bool', '*io-status': 'BlockDeviceIoStatus',
+>             '*dirty-bitmaps': ['BlockDirtyInfo'] } }
+> =20
+> +##
+> +# @RemoteProc:
+
+Unless there's a compelling reason to abbreviate, naming this
+'RemoteProcess' is just fine.
+
+> +#
+> +# Remote process information.
+> +#
+> +# @id: Device ID
+> +#
+> +# @pid: Linux Process ID
+
+Is this information only available for Linux, or is it a generic pid
+appropriate to any operating system?  I'm wondering if you can just
+s/Linux//.
+
+> +#
+> +# @proc: Process name
+
+Again, no need to abbreviate, if @process or @name would be easier to
+document.
+
+> +#
+> +# Since:  3.0.93
+
+No such release. The next release will be 4.1.
+
+> +##
+> +{ 'struct': 'RemoteProc',
+> +  'data': {'id': 'str', 'pid': 'int32', 'proc': 'str' },
+> +  'if': 'defined(CONFIG_MPQEMU)' }
+> +
+>  ##
+>  # @BlockMeasureInfo:
+>  #
+> @@ -795,6 +812,18 @@
+>  ##
+>  { 'command': 'query-block', 'returns': ['BlockInfo'] }
+> =20
+> +##
+> +# @query-remote:
+> +#
+> +# Get a list of all the remote processes spawned by QEMU.
+> +#
+> +# Returns: a list of @RemoteProc describing each remote process.
+> +#
+> +# Since: 3.0.93
+
+4.1
+
+> +#
+> +##
+> +{ 'command': 'query-remote', 'returns': ['RemoteProc'],
+> +  'if': 'defined(CONFIG_MPQEMU)' }
+> =20
+>  ##
+>  # @BlockDeviceTimedStats:
+>=20
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -136,24 +192,24 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---UVtdD2kVZR0rsp4fadEDqw2h2bnCdHZ9m--
+--JUkilLTin4kjhdG2ynICvamvlQJM7Sk6v--
 
---OSlLmDREVLF1yNk7tiQnAO9RZDoOZEHlk
+--O1P3WWNDoMFqrbHVgUlmQkUNpYjADRCI9
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0H5qoACgkQp6FrSiUn
-Q2pRKQf/eDDn+c207udmPzexyDj0m1S8/wOJD060Vsv6lrDvc3G/nCT8dirfWon1
-zxmeLF38hg+Eo1mc+BHoqgws3APG633MBiKVOz/weOaNmYWbdi9o6zFCVM9fnJhV
-JWtIcMJ2n2AveHWJSEqAWml627fOknt2O9InWAMZ9zHPYl+IuU4npBbLKjUIv3U/
-oSsE+WFXX/of8JjVuJMLWfyjeqrI7JRVcQn35PmACmNotcvXz6RH+YZDWiEZZ9GD
-x88cZKe5jxA51hFoVgoFASAnlPOalOp65yxSV3LFDoXwBR3Fgyn8k8M1nFEle2pc
-LUIAIX8e8vt284kMT8fcZKjUwxYC4w==
-=KPJ9
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0H53gACgkQp6FrSiUn
+Q2pPEgf9Gt1KpGFwx//A3URBRsF14vNrcKZ5PoUrp0FIw0eaKttZW/wzabqWDdxw
+pBlvyzsORSH0z7bUlg9YttISBFI980SbN1eGXvxioUoOnaw2ZBzhKGa8/6E3wiTE
+BmEv/EqhCsA7G68tJZxFe/IfTfzdIsxPpQAt1HFhRIhjaCWjPcSF+sByMfKhneyI
+0+rwycV75PzgSnHZhxuZZPVVV1JLgtNy8JW1AxijooDRPl7SRnV2uIoizmcGvjS8
+Pml0Jhs0GwlKdFXZ9NP7HWFcy6dtyXbu6o856100gVFM7UrgSTQmCyyODcTf3zIg
+NgfkmCFmfGKnzRY6zVwXgTIV7U59og==
+=uXSQ
 -----END PGP SIGNATURE-----
 
---OSlLmDREVLF1yNk7tiQnAO9RZDoOZEHlk--
+--O1P3WWNDoMFqrbHVgUlmQkUNpYjADRCI9--
 
