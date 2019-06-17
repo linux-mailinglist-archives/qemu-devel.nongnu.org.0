@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE8AE48DB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:14:11 +0200 (CEST)
-Received: from localhost ([::1]:51332 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715A148DA7
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 21:12:53 +0200 (CEST)
+Received: from localhost ([::1]:51326 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcx51-0001W7-1j
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:14:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40605)
+	id 1hcx3k-0000VA-LI
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 15:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40429)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hcwhC-0001zB-2Q
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:35 -0400
+ (envelope-from <armbru@redhat.com>) id 1hcwh2-0001cR-11
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hcwhA-00081M-D2
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59498)
+ (envelope-from <armbru@redhat.com>) id 1hcwh0-0007sL-Er
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42380)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwhA-0007kj-3q
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:32 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hcwh0-0007hc-48
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:49:22 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B5DDA307D925
+ by mx1.redhat.com (Postfix) with ESMTPS id BD32F7FDF6
  for <qemu-devel@nongnu.org>; Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-117-177.ams2.redhat.com
  [10.36.117.177])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FA018CB93;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 63EA180EB;
  Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 68F341133004; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
+ id 6CC491133007; Mon, 17 Jun 2019 20:49:03 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 20:48:54 +0200
-Message-Id: <20190617184903.19436-8-armbru@redhat.com>
+Date: Mon, 17 Jun 2019 20:48:55 +0200
+Message-Id: <20190617184903.19436-9-armbru@redhat.com>
 In-Reply-To: <20190617184903.19436-1-armbru@redhat.com>
 References: <20190617184903.19436-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Mon, 17 Jun 2019 18:49:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/16] monitor: Rename HMP command type and
- tables
+Subject: [Qemu-devel] [PULL 08/16] Move monitor.c to monitor/misc.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,261 +57,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kevin Wolf <kwolf@redhat.com>
 
-This renames the type for HMP monitor commands and the tables holding
-the commands to make clear that they are related to HMP and to allow
-making them public later:
-
-* mon_cmd_t -> HMPCommand (fixing use of a reserved name, too)
-* mon_cmds -> hmp_cmds
-* info_cmds -> hmp_info_cmds
+Create a new monitor/ subdirectory and move monitor.c there. As the plan
+is to move the monitor core into separate files, use the chance to
+rename it to misc.c.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20190613153405.24769-7-kwolf@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[sortcmdlist() cleaned up to make checkpatch.pl happy]
+Message-Id: <20190613153405.24769-8-kwolf@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hmp-commands.hx |  2 +-
- monitor.c       | 72 ++++++++++++++++++++++++-------------------------
- 2 files changed, 36 insertions(+), 38 deletions(-)
+ MAINTAINERS                         |  4 ++--
+ Makefile.objs                       |  1 +
+ Makefile.target                     |  3 ++-
+ docs/devel/writing-qmp-commands.txt |  2 +-
+ monitor/Makefile.objs               |  1 +
+ monitor.c =3D> monitor/misc.c         |  2 +-
+ monitor/trace-events                | 11 +++++++++++
+ trace-events                        | 10 ----------
+ 8 files changed, 19 insertions(+), 15 deletions(-)
+ create mode 100644 monitor/Makefile.objs
+ rename monitor.c =3D> monitor/misc.c (99%)
+ create mode 100644 monitor/trace-events
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index a2c3ffc218..8b7aec3e8d 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1934,7 +1934,7 @@ ETEXI
-         .params     =3D "[subcommand]",
-         .help       =3D "show various information about the system state=
-",
-         .cmd        =3D hmp_info_help,
--        .sub_table  =3D info_cmds,
-+        .sub_table  =3D hmp_info_cmds,
-         .flags      =3D "p",
-     },
+diff --git a/MAINTAINERS b/MAINTAINERS
+index acbad134ec..575ea6e68d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1918,7 +1918,7 @@ F: qapi/run-state.json
+ Human Monitor (HMP)
+ M: Dr. David Alan Gilbert <dgilbert@redhat.com>
+ S: Maintained
+-F: monitor.c
++F: monitor/misc.c
+ F: hmp.[ch]
+ F: hmp-commands*.hx
+ F: include/monitor/hmp-target.h
+@@ -2040,7 +2040,7 @@ QMP
+ M: Markus Armbruster <armbru@redhat.com>
+ S: Supported
+ F: qmp.c
+-F: monitor.c
++F: monitor/misc.c
+ F: docs/devel/*qmp-*
+ F: docs/interop/*qmp-*
+ F: scripts/qmp/
+diff --git a/Makefile.objs b/Makefile.objs
+index c8337fa34b..dd39a70b48 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -130,6 +130,7 @@ trace-events-subdirs =3D
+ trace-events-subdirs +=3D accel/kvm
+ trace-events-subdirs +=3D accel/tcg
+ trace-events-subdirs +=3D crypto
++trace-events-subdirs +=3D monitor
+ ifeq ($(CONFIG_USER_ONLY),y)
+ trace-events-subdirs +=3D linux-user
+ endif
+diff --git a/Makefile.target b/Makefile.target
+index ecd856e3a3..72c267f7dc 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -148,9 +148,10 @@ endif #CONFIG_BSD_USER
+ #########################################################
+ # System emulator target
+ ifdef CONFIG_SOFTMMU
+-obj-y +=3D arch_init.o cpus.o monitor.o gdbstub.o balloon.o ioport.o num=
+a.o
++obj-y +=3D arch_init.o cpus.o gdbstub.o balloon.o ioport.o numa.o
+ obj-y +=3D qtest.o
+ obj-y +=3D hw/
++obj-y +=3D monitor/
+ obj-y +=3D qapi/
+ obj-y +=3D memory.o
+ obj-y +=3D memory_mapping.o
+diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp=
+-commands.txt
+index 9dfc62bf5a..cc6ecd6d5d 100644
+--- a/docs/devel/writing-qmp-commands.txt
++++ b/docs/devel/writing-qmp-commands.txt
+@@ -470,7 +470,7 @@ it's good practice to always check for errors.
 =20
-diff --git a/monitor.c b/monitor.c
-index 6fb9fa285c..3015b6e9c7 100644
+ Another important detail is that HMP's "info" commands don't go into the
+ hmp-commands.hx. Instead, they go into the info_cmds[] table, which is d=
+efined
+-in the monitor.c file. The entry for the "info alarmclock" follows:
++in the monitor/misc.c file. The entry for the "info alarmclock" follows:
+=20
+     {
+         .name       =3D "alarmclock",
+diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
+new file mode 100644
+index 0000000000..e783b0616b
+--- /dev/null
++++ b/monitor/Makefile.objs
+@@ -0,0 +1 @@
++obj-y +=3D misc.o
+diff --git a/monitor.c b/monitor/misc.c
+similarity index 99%
+rename from monitor.c
+rename to monitor/misc.c
+index 3015b6e9c7..c5f8483b7e 100644
 --- a/monitor.c
-+++ b/monitor.c
-@@ -127,7 +127,7 @@
-  *
-  */
++++ b/monitor/misc.c
+@@ -64,7 +64,7 @@
+ #include "qapi/qmp/json-parser.h"
+ #include "qapi/qmp/qlist.h"
+ #include "qom/object_interfaces.h"
+-#include "trace-root.h"
++#include "trace.h"
+ #include "trace/control.h"
+ #include "monitor/hmp-target.h"
+ #ifdef CONFIG_TRACE_SIMPLE
+diff --git a/monitor/trace-events b/monitor/trace-events
+new file mode 100644
+index 0000000000..abfdf20b14
+--- /dev/null
++++ b/monitor/trace-events
+@@ -0,0 +1,11 @@
++# See docs/devel/tracing.txt for syntax documentation.
++
++# misc.c
++monitor_protocol_event_handler(uint32_t event, void *qdict) "event=3D%d =
+data=3D%p"
++monitor_protocol_event_emit(uint32_t event, void *data) "event=3D%d data=
+=3D%p"
++monitor_protocol_event_queue(uint32_t event, void *qdict, uint64_t rate)=
+ "event=3D%d data=3D%p rate=3D%" PRId64
++handle_hmp_command(void *mon, const char *cmdline) "mon %p cmdline: %s"
++handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
++monitor_suspend(void *ptr, int cnt) "mon %p: %d"
++monitor_qmp_cmd_in_band(const char *id) "%s"
++monitor_qmp_cmd_out_of_band(const char *id) "%s"
+diff --git a/trace-events b/trace-events
+index 844ee58dd9..aeea3c2bdb 100644
+--- a/trace-events
++++ b/trace-events
+@@ -41,16 +41,6 @@ system_wakeup_request(int reason) "reason=3D%d"
+ qemu_system_shutdown_request(int reason) "reason=3D%d"
+ qemu_system_powerdown_request(void) ""
 =20
--typedef struct mon_cmd_t {
-+typedef struct HMPCommand {
-     const char *name;
-     const char *args_type;
-     const char *params;
-@@ -138,9 +138,9 @@ typedef struct mon_cmd_t {
-      * cmd should be used. If it exists, sub_table[?].cmd should be
-      * used, and cmd of 1st level plays the role of help function.
-      */
--    struct mon_cmd_t *sub_table;
-+    struct HMPCommand *sub_table;
-     void (*command_completion)(ReadLineState *rs, int nb_args, const cha=
-r *str);
--} mon_cmd_t;
-+} HMPCommand;
-=20
- /* file descriptors passed via SCM_RIGHTS */
- typedef struct mon_fd_t mon_fd_t;
-@@ -277,8 +277,8 @@ static QLIST_HEAD(, MonFdset) mon_fdsets;
-=20
- static int mon_refcount;
-=20
--static mon_cmd_t mon_cmds[];
--static mon_cmd_t info_cmds[];
-+static HMPCommand hmp_cmds[];
-+static HMPCommand hmp_info_cmds[];
-=20
- QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
-=20
-@@ -933,7 +933,7 @@ static int parse_cmdline(const char *cmdline,
- /*
-  * Can command @cmd be executed in preconfig state?
-  */
--static bool cmd_can_preconfig(const mon_cmd_t *cmd)
-+static bool cmd_can_preconfig(const HMPCommand *cmd)
- {
-     if (!cmd->flags) {
-         return false;
-@@ -943,7 +943,7 @@ static bool cmd_can_preconfig(const mon_cmd_t *cmd)
- }
-=20
- static void help_cmd_dump_one(Monitor *mon,
--                              const mon_cmd_t *cmd,
-+                              const HMPCommand *cmd,
-                               char **prefix_args,
-                               int prefix_args_nb)
- {
-@@ -960,10 +960,10 @@ static void help_cmd_dump_one(Monitor *mon,
- }
-=20
- /* @args[@arg_index] is the valid command need to find in @cmds */
--static void help_cmd_dump(Monitor *mon, const mon_cmd_t *cmds,
-+static void help_cmd_dump(Monitor *mon, const HMPCommand *cmds,
-                           char **args, int nb_args, int arg_index)
- {
--    const mon_cmd_t *cmd;
-+    const HMPCommand *cmd;
-     size_t i;
-=20
-     /* No valid arg need to compare with, dump all in *cmds */
-@@ -1021,7 +1021,7 @@ static void help_cmd(Monitor *mon, const char *name=
-)
-     }
-=20
-     /* 2. dump the contents according to parsed args */
--    help_cmd_dump(mon, mon_cmds, args, nb_args, 0);
-+    help_cmd_dump(mon, hmp_cmds, args, nb_args, 0);
-=20
-     free_cmdline_args(args, nb_args);
- }
-@@ -2689,13 +2689,13 @@ int monitor_fd_param(Monitor *mon, const char *fd=
-name, Error **errp)
- }
-=20
- /* Please update hmp-commands.hx when adding or changing commands */
--static mon_cmd_t info_cmds[] =3D {
-+static HMPCommand hmp_info_cmds[] =3D {
- #include "hmp-commands-info.h"
-     { NULL, NULL, },
- };
-=20
--/* mon_cmds and info_cmds would be sorted at runtime */
--static mon_cmd_t mon_cmds[] =3D {
-+/* hmp_cmds and hmp_info_cmds would be sorted at runtime */
-+static HMPCommand hmp_cmds[] =3D {
- #include "hmp-commands.h"
-     { NULL, NULL, },
- };
-@@ -3037,10 +3037,10 @@ static int is_valid_option(const char *c, const c=
-har *typestr)
-     return (typestr !=3D NULL);
- }
-=20
--static const mon_cmd_t *search_dispatch_table(const mon_cmd_t *disp_tabl=
-e,
--                                              const char *cmdname)
-+static const HMPCommand *search_dispatch_table(const HMPCommand *disp_ta=
-ble,
-+                                               const char *cmdname)
- {
--    const mon_cmd_t *cmd;
-+    const HMPCommand *cmd;
-=20
-     for (cmd =3D disp_table; cmd->name !=3D NULL; cmd++) {
-         if (compare_cmd(cmdname, cmd->name)) {
-@@ -3061,14 +3061,14 @@ static const mon_cmd_t *search_dispatch_table(con=
-st mon_cmd_t *disp_table,
-  * Do not assume the return value points into @table!  It doesn't when
-  * the command is found in a sub-command table.
-  */
--static const mon_cmd_t *monitor_parse_command(MonitorHMP *hmp_mon,
--                                              const char *cmdp_start,
--                                              const char **cmdp,
--                                              mon_cmd_t *table)
-+static const HMPCommand *monitor_parse_command(MonitorHMP *hmp_mon,
-+                                               const char *cmdp_start,
-+                                               const char **cmdp,
-+                                               HMPCommand *table)
- {
-     Monitor *mon =3D &hmp_mon->common;
-     const char *p;
--    const mon_cmd_t *cmd;
-+    const HMPCommand *cmd;
-     char cmdname[256];
-=20
-     /* extract the command name */
-@@ -3112,7 +3112,7 @@ static const mon_cmd_t *monitor_parse_command(Monit=
-orHMP *hmp_mon,
-=20
- static QDict *monitor_parse_arguments(Monitor *mon,
-                                       const char **endp,
--                                      const mon_cmd_t *cmd)
-+                                      const HMPCommand *cmd)
- {
-     const char *typestr;
-     char *key;
-@@ -3477,12 +3477,12 @@ fail:
- static void handle_hmp_command(MonitorHMP *mon, const char *cmdline)
- {
-     QDict *qdict;
--    const mon_cmd_t *cmd;
-+    const HMPCommand *cmd;
-     const char *cmd_start =3D cmdline;
-=20
-     trace_handle_hmp_command(mon, cmdline);
-=20
--    cmd =3D monitor_parse_command(mon, cmdline, &cmdline, mon_cmds);
-+    cmd =3D monitor_parse_command(mon, cmdline, &cmdline, hmp_cmds);
-     if (!cmd) {
-         return;
-     }
-@@ -4015,14 +4015,14 @@ void loadvm_completion(ReadLineState *rs, int nb_=
-args, const char *str)
- }
-=20
- static void monitor_find_completion_by_table(MonitorHMP *mon,
--                                             const mon_cmd_t *cmd_table,
-+                                             const HMPCommand *cmd_table=
-,
-                                              char **args,
-                                              int nb_args)
- {
-     const char *cmdname;
-     int i;
-     const char *ptype, *old_ptype, *str, *name;
--    const mon_cmd_t *cmd;
-+    const HMPCommand *cmd;
-     BlockBackend *blk =3D NULL;
-=20
-     if (nb_args <=3D 1) {
-@@ -4129,7 +4129,7 @@ static void monitor_find_completion(void *opaque,
-     }
-=20
-     /* 2. auto complete according to args */
--    monitor_find_completion_by_table(mon, mon_cmds, args, nb_args);
-+    monitor_find_completion_by_table(mon, hmp_cmds, args, nb_args);
-=20
- cleanup:
-     free_cmdline_args(args, nb_args);
-@@ -4529,20 +4529,18 @@ static void monitor_event(void *opaque, int event=
-)
- static int
- compare_mon_cmd(const void *a, const void *b)
- {
--    return strcmp(((const mon_cmd_t *)a)->name,
--            ((const mon_cmd_t *)b)->name);
-+    return strcmp(((const HMPCommand *)a)->name,
-+            ((const HMPCommand *)b)->name);
- }
-=20
- static void sortcmdlist(void)
- {
--    int array_num;
--    int elem_size =3D sizeof(mon_cmd_t);
+-# monitor.c
+-monitor_protocol_event_handler(uint32_t event, void *qdict) "event=3D%d =
+data=3D%p"
+-monitor_protocol_event_emit(uint32_t event, void *data) "event=3D%d data=
+=3D%p"
+-monitor_protocol_event_queue(uint32_t event, void *qdict, uint64_t rate)=
+ "event=3D%d data=3D%p rate=3D%" PRId64
+-handle_hmp_command(void *mon, const char *cmdline) "mon %p cmdline: %s"
+-handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
+-monitor_suspend(void *ptr, int cnt) "mon %p: %d"
+-monitor_qmp_cmd_in_band(const char *id) "%s"
+-monitor_qmp_cmd_out_of_band(const char *id) "%s"
 -
--    array_num =3D sizeof(mon_cmds)/elem_size-1;
--    qsort((void *)mon_cmds, array_num, elem_size, compare_mon_cmd);
--
--    array_num =3D sizeof(info_cmds)/elem_size-1;
--    qsort((void *)info_cmds, array_num, elem_size, compare_mon_cmd);
-+    qsort(hmp_cmds, ARRAY_SIZE(hmp_cmds) - 1,
-+          sizeof(*hmp_cmds),
-+          compare_mon_cmd);
-+    qsort(hmp_info_cmds, ARRAY_SIZE(hmp_info_cmds) - 1,
-+          sizeof(*hmp_info_cmds),
-+          compare_mon_cmd);
- }
-=20
- static void monitor_iothread_init(void)
+ # dma-helpers.c
+ dma_blk_io(void *dbs, void *bs, int64_t offset, bool to_dev) "dbs=3D%p b=
+s=3D%p offset=3D%" PRId64 " to_dev=3D%d"
+ dma_aio_cancel(void *dbs) "dbs=3D%p"
 --=20
 2.21.0
 
