@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6544C48C0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:37:25 +0200 (CEST)
-Received: from localhost ([::1]:50996 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D0048CF3
+	for <lists+qemu-devel@lfdr.de>; Mon, 17 Jun 2019 20:50:42 +0200 (CEST)
+Received: from localhost ([::1]:51106 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hcwVQ-0006uE-IC
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58954)
+	id 1hcwiH-0001t5-Nj
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 14:50:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59117)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBW-0005eu-P4
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:52 -0400
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBc-0005kZ-SV
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBS-00025A-Jm
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:50 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:57574)
+ (envelope-from <elena.ufimtseva@oracle.com>) id 1hcwBb-0002CI-2P
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:56 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:43586)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <elena.ufimtseva@oracle.com>)
- id 1hcwBS-00022d-08
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:46 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8ku8065840;
- Mon, 17 Jun 2019 18:16:42 GMT
+ id 1hcwBa-00024R-L2
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 14:16:54 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HI8v4E149300;
+ Mon, 17 Jun 2019 18:16:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id; s=corp-2018-07-02;
- bh=scmLrVP4xYg0Tw9BE11vcEOCdPW9WepFgHJ0GpUVuMU=;
- b=rgkFdnnwvYbteX7UK6QxopcUysjNIZHBkg1sq3Y/HL7pNSQXHPJst+zmwRn58PuTgsFd
- qur8mTFdZh6M7QV6TBByKrB7u4bRRz5AuRZT/O11bGPDeAESz3bZH0xXDYFA1VfttiIR
- 36JikwrCOXonR6j7wdhph6sVwolAcxnn/5rbY3WmTeXWlucqNpQugKicqzKpl554lwV5
- 0IVLpe6oEjKKgYAJlrKHCA9UC09NA/JRC8v1YCryz31W2G8W0153B4pTExcWWhHPmBGZ
- Bgv3x4JmHKuN3oA//iGnldU3/japw4kPju0nCol8rwMukP+auU9cI7qewV5nGJDdhvFA yQ== 
+ bh=3uLBtALvohcNLxi6toagSE1sKXSECqfCo0r/AsNw64g=;
+ b=Q04EoOR5uOrcTqbaYJQdhaik68lMKyvD+wRIYPh1qrG3JbVH6/rQF1hAqS1tapqVcx31
+ Lu2lvLB07cRBsm/jD0RJ6O+JrBrvYERBxiLmNpt1xKHrUL2/PX0a3AiH5d3GC2tr4tJl
+ ov2L4X7jfw8SbJPF+batRwB/Z8qY7D1lSDOsxJGeNaOWWYtaUUQ8sYJMIPwp7DLEcOho
+ PYZxAIBuVRADZlxNWv/jB2GVcB/syk1qOczHbuXc58cAMSJgHVt2w7wuRkiv5D/YH0u3
+ fYzhwYzbPCAT6XCMj0pgPYcoZTCh3k1ZTbZ/WQ4CeY/Fc/mPVfEVj2euxIgSS8xhAZJh ag== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2t4rmp00pw-1
+ by userp2130.oracle.com with ESMTP id 2t4r3tg308-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:16:41 +0000
+ Mon, 17 Jun 2019 18:16:45 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIGPUk181160;
- Mon, 17 Jun 2019 18:16:41 GMT
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5HIGP9W181124;
+ Mon, 17 Jun 2019 18:16:44 GMT
 Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2t5mgbgb5h-1
+ by aserp3020.oracle.com with ESMTP id 2t5mgbgb6f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 17 Jun 2019 18:16:41 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIGeYL025311;
- Mon, 17 Jun 2019 18:16:40 GMT
+ Mon, 17 Jun 2019 18:16:44 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5HIGhwr025332;
+ Mon, 17 Jun 2019 18:16:43 GMT
 Received: from heatpipe.hsd1.ca.comcast.net (/73.170.27.202)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 17 Jun 2019 11:16:39 -0700
+ with ESMTP ; Mon, 17 Jun 2019 11:16:42 -0700
 From: elena.ufimtseva@oracle.com
 To: qemu-devel@nongnu.org
-Date: Mon, 17 Jun 2019 11:16:31 -0700
-Message-Id: <20190617181631.30233-1-elena.ufimtseva@oracle.com>
+Date: Mon, 17 Jun 2019 11:16:40 -0700
+Message-Id: <20190617181640.30279-1-elena.ufimtseva@oracle.com>
 X-Mailer: git-send-email 2.17.1
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
@@ -66,14 +66,14 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906170162
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [RFC PATCH v2 24/35] multi-process: add qdev_proxy_add
- to create proxy devices
+X-Received-From: 156.151.31.86
+Subject: [Qemu-devel] [RFC PATCH v2 25/35] multi-process: remote: add
+ setup_devices and setup_drive msg processing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,264 +86,198 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, jag.raman@oracle.com,
- konrad.wilk@oracle.com, ross.lagerwall@citrix.com, imammedo@redhat.com,
- liran.alon@oracle.com, stefanha@redhat.com, marcandre.lureau@redhat.com,
- kanth.ghatraju@oracle.com
+ konrad.wilk@oracle.com, ross.lagerwall@citrix.com, liran.alon@oracle.com,
+ stefanha@redhat.com, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-This is handled while parsing the command line options.
-The parsed options are being sent to remote process
-as the messgaes containing JSON strings.
+Receive by remote side the configuration messages and build the device
+object from JSON device descriptions.
 
-Changes in v2:
- - parse socket and command suboptions of drive/device commands;
-
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 ---
- include/hw/proxy/qemu-proxy.h |   7 ++
- include/monitor/qdev.h        |   5 +
- qdev-monitor.c                | 166 ++++++++++++++++++++++++++++++++++
- 3 files changed, 178 insertions(+)
+ Changes in v2:
+  - for new command line suboptions with libvirtd support, clean
+ the options before creating drives/devices.
+ - use default pci bus/address for now.
+---
+ remote/remote-main.c | 140 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 140 insertions(+)
 
-diff --git a/include/hw/proxy/qemu-proxy.h b/include/hw/proxy/qemu-proxy.h
-index 4e949f778b..a4c6989248 100644
---- a/include/hw/proxy/qemu-proxy.h
-+++ b/include/hw/proxy/qemu-proxy.h
-@@ -85,6 +85,13 @@ typedef struct PCIProxyDevClass {
- 
- int remote_spawn(PCIProxyDev *pdev, const char *command, Error **errp);
- 
-+typedef struct PCIProxyDevList {
-+    QLIST_HEAD(, PCIProxyDev) devices;
-+} proxy_dev_list_t;
-+
-+extern QemuMutex proxy_list_lock;
-+extern proxy_dev_list_t proxy_dev_list;
-+
- void proxy_default_bar_write(PCIProxyDev *dev, MemoryRegion *mr, hwaddr addr,
-                              uint64_t val, unsigned size, bool memory);
- 
-diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
-index c7642f7c2d..965c58d127 100644
---- a/include/monitor/qdev.h
-+++ b/include/monitor/qdev.h
-@@ -2,6 +2,7 @@
- #define MONITOR_QDEV_H
- 
- #include "hw/qdev-core.h"
-+#include "hw/proxy/qemu-proxy.h"
- 
- /*** monitor commands ***/
- 
-@@ -12,8 +13,12 @@ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
- 
- void qmp_rdevice_add(QDict *qdict, QObject **ret_data, Error **errp);
- void qmp_rdevice_del(const char *id, Error **errp);
-+DeviceState *qdev_remote_add(QemuOpts *opts, bool device, Error **errp);
-+void qdev_proxy_fire(void);
- 
- int qdev_device_help(QemuOpts *opts);
-+DeviceState *qdev_proxy_add(const char *rid, const char *id, char *command,
-+                            int rsocket, bool managed, Error **errp);
- DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
- void qdev_set_id(DeviceState *dev, const char *id);
- 
-diff --git a/qdev-monitor.c b/qdev-monitor.c
-index 744c807b0f..596d01f49a 100644
---- a/qdev-monitor.c
-+++ b/qdev-monitor.c
-@@ -35,6 +35,16 @@
- #include "sysemu/block-backend.h"
- #include "migration/misc.h"
- #include "hw/boards.h"
-+#include "hw/proxy/qemu-proxy.h"
-+#include "qapi/qmp/qjson.h"
-+#include "qapi/qmp/qstring.h"
+diff --git a/remote/remote-main.c b/remote/remote-main.c
+index c5dc7c0009..8db2f36b90 100644
+--- a/remote/remote-main.c
++++ b/remote/remote-main.c
+@@ -54,6 +54,15 @@
+ #include "qemu/config-file.h"
+ #include "monitor/qdev.h"
+ #include "qapi/qmp/qdict.h"
 +#include "sysemu/sysemu.h"
-+#include "hw/proxy/proxy-lsi53c895a.h"
-+#include "include/qemu/cutils.h"
-+#include "include/qemu/log.h"
++#include "sysemu/blockdev.h"
++#include "block/block.h"
++#include "qapi/qmp/qstring.h"
++#include "hw/qdev-properties.h"
++#include "hw/scsi/scsi.h"
++#include "block/qdict.h"
 +#include "qapi/qmp/qlist.h"
-+#include "hw/proxy/qemu-proxy.h"
-+#include "io/proxy-link.h"
++#include "qemu/log.h"
  
- /*
-  * Aliases were a bad idea from the start.  Let's keep them
-@@ -47,6 +57,8 @@ typedef struct QDevAlias
-     uint32_t arch_mask;
- } QDevAlias;
- 
-+proxy_dev_list_t proxy_dev_list;
-+QemuMutex proxy_list_lock;
- /* Please keep this table sorted by typename. */
- static const QDevAlias qdev_alias_table[] = {
-     { "e1000", "e1000-82540em" },
-@@ -562,6 +574,160 @@ void qdev_set_id(DeviceState *dev, const char *id)
-     }
+ static ProxyLinkState *proxy_link;
+ PCIDevice *remote_pci_dev;
+@@ -223,6 +232,121 @@ fail:
+     PUT_REMOTE_WAIT(wait);
  }
  
-+#if defined(CONFIG_MPQEMU)
-+PCIProxyDev *get_proxy_object(const char *rid);
-+PCIProxyDev *get_proxy_object(const char *rid)
++static int init_drive(QDict *rqdict, Error **errp)
 +{
-+    PCIProxyDev *entry;
++    QemuOpts *opts;
++    Error *local_error = NULL;
 +
-+    qemu_mutex_lock(&proxy_list_lock);
-+    QLIST_FOREACH(entry, &proxy_dev_list.devices, next) {
-+        if (strncmp(entry->rid, rid, strlen(entry->rid)) == 0) {
-+            qemu_mutex_unlock(&proxy_list_lock);
-+            return entry;
++    if (rqdict != NULL && qdict_size(rqdict) > 0) {
++        opts = qemu_opts_from_qdict(&qemu_drive_opts,
++                                    rqdict, &local_error);
++        if (!opts) {
++            error_propagate(errp, local_error);
++            return -EINVAL;
 +        }
-+    }
-+    qemu_mutex_unlock(&proxy_list_lock);
-+    return NULL;
-+
-+}
-+
-+#define MAX_RID_LENGTH 10
-+void qdev_proxy_fire(void)
-+{
-+    PCIProxyDev *entry;
-+
-+    QLIST_FOREACH(entry, &proxy_dev_list.devices, next) {
-+        if (entry->proxy_ready) {
-+            entry->proxy_ready(PCI_DEVICE(entry));
-+        }
-+    }
-+}
-+
-+DeviceState *qdev_proxy_add(const char *rid, const char *id, char *command,
-+                            int rsocket, bool managed, Error **errp)
-+{
-+    DeviceState *ds;
-+    PCIProxyDev *pdev;
-+    QemuOpts *proxy_opts;
-+    const char *proxy_type;
-+    Error *local_err = NULL;
-+    QDict *qdict;
-+    const char *str;
-+
-+    pdev = get_proxy_object(rid);
-+    if (pdev) {
-+        return DEVICE(pdev);
-+    }
-+
-+    if (strlen(rid) > MAX_RID_LENGTH) {
-+        error_setg(errp, "rid %s is too long.", rid);
-+        return NULL;
-+    }
-+
-+    proxy_opts = qemu_opts_create(&qemu_device_opts, NULL, 0,
-+                                  errp);
-+
-+    /* TODO: remove hardcoded type and add approptiate type identification. */
-+    proxy_type = TYPE_PROXY_LSI53C895A;
-+
-+    qemu_opts_set_id(proxy_opts, (char *)rid);
-+    qemu_opt_set(proxy_opts, "driver", proxy_type, &local_err);
-+
-+    qdict = qemu_opts_to_qdict(proxy_opts, NULL);
-+    str = qstring_get_str(qobject_to_json(QOBJECT(qdict)));
-+
-+    ds = qdev_device_add(proxy_opts, &local_err);
-+    if (!ds) {
-+        error_setg(errp, "Could not create proxy device"
-+                      " with opts %s.", str);
-+        qemu_opts_del(proxy_opts);
-+        return NULL;
-+    }
-+    qdev_set_id(ds, qemu_opts_id(proxy_opts));
-+
-+    pdev = PCI_PROXY_DEV(ds);
-+    if (!pdev) {
-+        error_setg(errp, "qdev_device_add failed.");
-+        qemu_opts_del(proxy_opts);
-+        return NULL;
-+    }
-+    pdev->rid = g_strdup(rid);
-+    pdev->rsocket = managed ? rsocket : -1;
-+    pdev->managed = managed;
-+    pdev->init_proxy(PCI_DEVICE(ds), command, errp);
-+
-+    qemu_mutex_lock(&proxy_list_lock);
-+    QLIST_INSERT_HEAD(&proxy_dev_list.devices, pdev, next);
-+    qemu_mutex_unlock(&proxy_list_lock);
-+
-+    qemu_opts_del(proxy_opts);
-+    return ds;
-+}
-+
-+DeviceState *qdev_remote_add(QemuOpts *opts, bool device, Error **errp)
-+{
-+    PCIProxyDev *pdev = NULL;
-+    DeviceState *dev;
-+    const char *rid, *rsocket = NULL, *command = NULL;
-+    QDict *qdict_new;
-+
-+    if (!proxy_list_lock.initialized) {
-+        QLIST_INIT(&proxy_dev_list.devices);
-+        qemu_mutex_init(&proxy_list_lock);
-+    }
-+
-+    rid = qemu_opt_get(opts, "rid");
-+    if (!rid) {
-+        error_setg(errp, "rdevice option needs rid specified.");
-+        return NULL;
-+    }
-+
-+    rsocket = qemu_opt_get(opts, "socket");
-+    if (rsocket) {
-+        if (strlen(rsocket) > MAX_RID_LENGTH) {
-+            error_setg(errp, "Socket number is incorrect.");
-+            return NULL;
-+        }
-+    }
-+
-+    /*
-+     * TODO: verify command with known commands and on remote end.
-+     * How else can we verify the binary we launch without libvirtd support?
-+     */
-+    command = qemu_opt_get(opts, "command");
-+    if (!rsocket && !command) {
-+        error_setg(errp, "rdevice option needs socket or command specified.");
-+        return NULL;
-+    }
-+    dev = qdev_proxy_add(rid, qemu_opt_get(opts, "id"), (char *)command,
-+                         rsocket ? atoi(rsocket) : -1, rsocket ? true : false, errp);
-+    if (!dev) {
-+        error_setg(errp, "qdev_proxy_add error.");
-+        return NULL;
-+    }
-+
-+    qdict_new = qemu_opts_to_qdict(opts, NULL);
-+
-+    if (!qdict_new) {
-+        error_setg(errp, "Could not parse rdevice options.");
-+        return NULL;
-+    }
-+
-+    pdev = PCI_PROXY_DEV(dev);
-+    if (!pdev->set_remote_opts) {
-+        /* TODO: destroy proxy? */
-+        error_setg(errp, "set_remote_opts not set.");
-+        return NULL;
 +    } else {
-+        pdev->set_remote_opts(PCI_DEVICE(pdev), qdict_new,
-+                              device ? DEV_OPTS : DRIVE_OPTS);
++        return -EINVAL;
 +    }
 +
-+    return dev;
-+}
-+#endif /*defined(CONFIG_MPQEMU)*/
++    qemu_opt_unset(opts, "rid");
++    qemu_opt_unset(opts, "socket");
++    qemu_opt_unset(opts, "remote");
++    qemu_opt_unset(opts, "command");
 +
- DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
++    if (drive_new(opts, IF_IDE, &local_error) == NULL) {
++        error_propagate(errp, local_error);
++        return -EINVAL;
++    }
++
++    return 0;
++}
++
++static int setup_drive(ProcMsg *msg, Error **errp)
++{
++    QObject *obj;
++    QDict *qdict;
++    QString *qstr;
++    Error *local_error = NULL;
++    int rc = -EINVAL;
++
++    if (!msg->data2) {
++        return rc;
++    }
++
++    qstr = qstring_from_str((char *)msg->data2);
++    obj = qobject_from_json(qstring_get_str(qstr), &local_error);
++    if (!obj) {
++        error_propagate(errp, local_error);
++        return rc;
++    }
++
++    qdict = qobject_to(QDict, obj);
++    if (!qdict) {
++        return rc;
++    }
++
++    if (init_drive(qdict, &local_error)) {
++        error_setg(errp, "init_drive failed in setup_drive.");
++        return rc;
++    }
++
++    return 0;
++}
++
++static int setup_device(ProcMsg *msg, Error **errp)
++{
++    QObject *obj;
++    QDict *qdict;
++    QString *qstr;
++    QemuOpts *opts;
++    DeviceState *dev = NULL;
++    int rc = -EINVAL;
++    Error *local_error = NULL;
++
++    if (!msg->data2) {
++        return rc;
++    }
++
++    qstr = qstring_from_str((char *)msg->data2);
++    obj = qobject_from_json(qstring_get_str(qstr), &local_error);
++    if (!obj) {
++        error_setg(errp, "Could not get object!");
++        return rc;
++    }
++
++    qdict = qobject_to(QDict, obj);
++    if (!qdict) {
++        return rc;
++    }
++
++    g_assert(qdict_size(qdict) > 1);
++
++    opts = qemu_opts_from_qdict(&qemu_device_opts, qdict, &local_error);
++    qemu_opt_unset(opts, "rid");
++    qemu_opt_unset(opts, "socket");
++    qemu_opt_unset(opts, "remote");
++    qemu_opt_unset(opts, "command");
++    /*
++     * TODO: use the bus and addr from the device options. For now
++     * we use default value.
++     */
++    qemu_opt_unset(opts, "bus");
++    qemu_opt_unset(opts, "addr");
++
++    dev = qdev_device_add(opts, &local_error);
++    if (!dev) {
++        error_setg(errp, "Could not add device %s.",
++                   qstring_get_str(qobject_to_json(QOBJECT(qdict))));
++        return rc;
++    }
++    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
++        remote_pci_dev = PCI_DEVICE(dev);
++    }
++    qemu_opts_del(opts);
++
++    return 0;
++}
++
+ static void process_msg(GIOCondition cond)
  {
-     DeviceClass *dc;
+     ProcMsg *msg = NULL;
+@@ -268,11 +392,27 @@ static void process_msg(GIOCondition cond)
+          */
+         remote_sysmem_reconfig(msg, &err);
+         if (err) {
++            error_report_err(err);
+             goto finalize_loop;
+         }
+         break;
+     case SET_IRQFD:
+         process_set_irqfd_msg(remote_pci_dev, msg);
++        qdev_machine_creation_done();
++        qemu_mutex_lock_iothread();
++        qemu_run_machine_init_done_notifiers();
++        qemu_mutex_unlock_iothread();
++
++        break;
++    case DRIVE_OPTS:
++        if (setup_drive(msg, &err)) {
++            error_report_err(err);
++        }
++        break;
++    case DEV_OPTS:
++        if (setup_device(msg, &err)) {
++            error_report_err(err);
++        }
+         break;
+     case DEVICE_ADD:
+         process_device_add_msg(msg);
 -- 
 2.17.1
 
