@@ -2,87 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61B9C49FE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 13:55:45 +0200 (CEST)
-Received: from localhost ([::1]:55936 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 749E249FEC
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 13:58:27 +0200 (CEST)
+Received: from localhost ([::1]:55964 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdCiG-0006yX-KG
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 07:55:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50909)
+	id 1hdCks-0000ka-NM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 07:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51979)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Paul.Durrant@citrix.com>) id 1hdCfU-0003jP-TS
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:52:53 -0400
+ (envelope-from <drjones@redhat.com>) id 1hdCil-0008NB-GU
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:56:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Paul.Durrant@citrix.com>) id 1hdCfT-0006Va-Ms
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:52:52 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:23237)
+ (envelope-from <drjones@redhat.com>) id 1hdCic-0000Ln-2X
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:56:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:29387)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
- id 1hdCfT-0006UR-E6
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:52:51 -0400
-Authentication-Results: esa6.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=Paul.Durrant@citrix.com;
- spf=Pass smtp.mailfrom=Paul.Durrant@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- Paul.Durrant@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="Paul.Durrant@citrix.com"; x-conformance=sidf_compatible
-Received-SPF: Pass (esa6.hc3370-68.iphmx.com: domain of
- Paul.Durrant@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="Paul.Durrant@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa6.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: zLY1YsY6pE43I81XtXl93HiV1GVsQGAuFZVXyJc7+kUAsTAqh9GGCdrYWSCOT1Jiwhm2/wzj3A
- bDWmdrLWKTvyoDoJTlhu3gbA3ZLdxELhLPL/+6oprC9QmNCC2T0Eyb1NuVn/o1jq/wtZq6gbf+
- sjNHtPKyHigkbpQQhDWBmnLjhSsyELY4vUvY7SIhSG84fcnM040uso8tMUlj/vZWjcekylhkgF
- +slb19Tx/t7srME0WLTbjtRyuSMvzJ5FYSS5Ket4J0u18G+VPuqLVyWiGoe0OdQSypGeDElGuM
- +00=
-X-SBRS: 2.7
-X-MesageID: 1866285
-X-Ironport-Server: esa6.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.63,389,1557201600"; 
-   d="scan'208";a="1866285"
-From: Paul Durrant <Paul.Durrant@citrix.com>
-To: Anthony Perard <anthony.perard@citrix.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v2 4/4] xen: Avoid VLA
-Thread-Index: AQHVJchKT6z1AbWFfUC6DqRqpG72VqahTQUQ
-Date: Tue, 18 Jun 2019 11:52:46 +0000
-Message-ID: <3c5959420c754d208954f6da7730d87b@AMSPEX02CL03.citrite.net>
-References: <20190618112341.513-1-anthony.perard@citrix.com>
- <20190618112341.513-5-anthony.perard@citrix.com>
-In-Reply-To: <20190618112341.513-5-anthony.perard@citrix.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <drjones@redhat.com>)
+ id 1hdCiY-0000FU-TL; Tue, 18 Jun 2019 07:56:03 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5617531628EF;
+ Tue, 18 Jun 2019 11:56:01 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FD3B1001E61;
+ Tue, 18 Jun 2019 11:56:00 +0000 (UTC)
+Date: Tue, 18 Jun 2019 13:55:58 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190618115558.uhygiqryxo4lbb5u@kamzik.brq.redhat.com>
+References: <20190618083442.10407-1-drjones@redhat.com>
+ <CAFEAcA9bwbev3efZ=LJPGgObBCbW-WX19fySMusLyMNC5ZExvA@mail.gmail.com>
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.155.175
-Subject: Re: [Qemu-devel] [PATCH v2 4/4] xen: Avoid VLA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9bwbev3efZ=LJPGgObBCbW-WX19fySMusLyMNC5ZExvA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 18 Jun 2019 11:56:01 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] hw/arm/boot: fix direct kernel boot setup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,27 +57,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Stefano Stabellini <sstabellini@kernel.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Anthony PERARD [mailto:anthony.perard@citrix.com]
-> Sent: 18 June 2019 12:24
-> To: qemu-devel@nongnu.org
-> Cc: Anthony Perard <anthony.perard@citrix.com>; Paul Durrant <Paul.Durran=
-t@citrix.com>; Stefano
-> Stabellini <sstabellini@kernel.org>; xen-devel@lists.xenproject.org
-> Subject: [PATCH v2 4/4] xen: Avoid VLA
->=20
-> Avoid using a variable length array.
->=20
-> We allocate the `dirty_bitmap' buffer only once when we start tracking
-> for dirty bits.
->=20
-> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+On Tue, Jun 18, 2019 at 12:02:37PM +0100, Peter Maydell wrote:
+> On Tue, 18 Jun 2019 at 09:34, Andrew Jones <drjones@redhat.com> wrote:
+> >
+> > We need to check ram_end, not ram_size.
+> >
+> > Fixes: 852dc64d665f ("hw/arm/boot: Diagnose layouts that put initrd or
+> > DTB off the end of RAM")
+> > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > ---
+> >  hw/arm/boot.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> > index b2f93f6beff6..8a280ab3ed49 100644
+> > --- a/hw/arm/boot.c
+> > +++ b/hw/arm/boot.c
+> > @@ -1109,7 +1109,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+> >                               info->initrd_filename);
+> >                  exit(1);
+> >              }
+> > -            if (info->initrd_start + initrd_size > info->ram_size) {
+> > +            if (info->initrd_start + initrd_size > ram_end) {
+> >                  error_report("could not load initrd '%s': "
+> >                               "too big to fit into RAM after the kernel",
+> >                               info->initrd_filename);
+> > --
+> > 2.20.1
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> I think I missed this because my test case doesn't have an
+> initrd -- direct kernel boot works fine if all you're
+> passing to QEMU is the kernel... I think we could clarify
+> the commit message a little:
 
-Reviewed-by: Paul Durrant <paul.durrant@citrix.com>
+I found it using kvm-unit-tests which uses a small initrd to
+pass environment variables to the guest. All the tests started
+to report FAIL.
+
+> 
+> hw/arm/boot: fix direct kernel boot with initrd
+> 
+> Fix the condition used to check whether the initrd fits
+> into RAM; this meant we were spuriously refusing to do
+> a direct boot of a kernel in some cases if an initrd
+> was also passed on the command line.
+
+Actually I think we need another fix for this error too. We
+weren't actually refusing do direct boot the kernel, but we
+should have been. We're missing the 'exit(1)' after the error
+message.
+
+> 
+> ?
+> 
+> (if you agree I can just fix up the commit message when I apply it.)
+
+I agree with the improved commit message if we also add the
+'exit(1)', otherwise "refusing to boot" isn't the right thing
+to say.
+
+Thanks,
+drew
+
+> 
+> thanks
+> -- PMM
+> 
 
