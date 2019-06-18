@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DFB49649
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 02:29:05 +0200 (CEST)
-Received: from localhost ([::1]:52772 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0904496A8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 03:27:11 +0200 (CEST)
+Received: from localhost ([::1]:52878 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd1zj-000196-SN
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 20:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57604)
+	id 1hd2tx-0002V9-QK
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 21:27:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39259)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrew.smirnov@gmail.com>) id 1hd1yF-0000P5-98
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 20:27:32 -0400
+ (envelope-from <vrozenfe@redhat.com>) id 1hd2sN-00025x-9y
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:25:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrew.smirnov@gmail.com>) id 1hd1yE-0007Ck-C8
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 20:27:31 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:34747)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <andrew.smirnov@gmail.com>)
- id 1hd1yE-0007C6-4i; Mon, 17 Jun 2019 20:27:30 -0400
-Received: by mail-io1-xd44.google.com with SMTP id k8so25741485iot.1;
- Mon, 17 Jun 2019 17:27:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=t9WIkMCJzUsCK/kU6QU/SflM6UsK/eYNYbFEXibPnKg=;
- b=nm/46+e+FHzsWTPIIAhMwNsrhLG5uaMDMwhJgyn4AsmvpNYFHi6A4STUSLGJrk1bIO
- 9NwUk2X+xmnUVfkdXhnk3gRX/G64CL6iaZMh4qXWzus1tYctrb5wDDG0GvJGLDi9MPr2
- eGAxxsJZc5XU8w+m23nBC/0LAiuvXL/FRXPu8nfHxT8XaeKWA3OX99RKD9ZPCLdkZZoo
- x5SumdkvOHiAZECqyayoYy5TZHXplRZqHbmCdpyxPbHklHQm7xeZa3lACA5lFLDxeL9j
- +E8WyqAj4IAmCSRIfwd9MnJyS+b6FSY5CxggPBczj2r+ddo3rpzOxpdmN+B3skFYkRFH
- qIlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=t9WIkMCJzUsCK/kU6QU/SflM6UsK/eYNYbFEXibPnKg=;
- b=mKpagwIC1r2QhhAULdH7pG/wU1Y6ZFMWSXiUUY32Udq0K6+YUFQjFK1KvIdyeeh5ze
- ZW1TQhdo4MCAXXNQHSCJHoFwlYFdmaqR1t05WIOBPWlidU+JqXivGFPfXnXX8zpgOoMb
- 0Oijr6/Nr0LQRc0Rk7eNIYuI6lNOZFfizGM6+olECs18kpp5aP96nPJGGyEXrvHbK4n5
- kDd0v7Aln46z8GHhRSsymMwkLykikC2dS+vZq/RYUM62fiAS7BWee/eHMqK5f6sdqd+e
- TZ8A8gklu22itfYe95fj/BEnY6XRiNyyw8q9oyqDlWDXxL0+GM6ZjmGIZPHGnhXwXrba
- MN4w==
-X-Gm-Message-State: APjAAAX7nlzlndg+Mz3BDjbFgVuv/VZJA4JsRngGXShUfQc+Kp6OGOm8
- 9Olz65PXQ8QOLGmX6D4ncFFtjt/0rO3+a9xhvhE=
-X-Google-Smtp-Source: APXvYqypZE2oksrrhg9ZO89awHo0Xi05+eK0SJz/hUAbw7PO9AZzboqoFdGwGCtmzH1oqHWzz+4QtjdJ+yDV5BR0YBU=
-X-Received: by 2002:a6b:f00c:: with SMTP id w12mr1556777ioc.280.1560817648660; 
- Mon, 17 Jun 2019 17:27:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190416013902.4941-1-andrew.smirnov@gmail.com>
-In-Reply-To: <20190416013902.4941-1-andrew.smirnov@gmail.com>
-From: Andrey Smirnov <andrew.smirnov@gmail.com>
-Date: Mon, 17 Jun 2019 17:27:17 -0700
-Message-ID: <CAHQ1cqE5RZVYB1N2+CxGKNDb5NrtBOiQANhruZ6_6EbOThNwiw@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>
+ (envelope-from <vrozenfe@redhat.com>) id 1hd2sE-0008Vi-Nx
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:25:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52268)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vrozenfe@redhat.com>) id 1hd2sE-0008DM-4S
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:25:22 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2CFDC30917A6;
+ Tue, 18 Jun 2019 01:25:03 +0000 (UTC)
+Received: from ovpn-116-47.sin2.redhat.com (ovpn-116-47.sin2.redhat.com
+ [10.67.116.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C2108095E;
+ Tue, 18 Jun 2019 01:24:58 +0000 (UTC)
+Message-ID: <1560821097.5084.179.camel@redhat.com>
+From: Vadim Rozenfeld <vrozenfe@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, Roman Kagan
+ <rkagan@virtuozzo.com>,  Vitaly Kuznetsov <vkuznets@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Richard
+ Henderson <rth@twiddle.net>
+Date: Tue, 18 Jun 2019 11:24:57 +1000
+In-Reply-To: <20190617174917.GE19178@habkost.net>
+References: <20190615200505.31348-1-ehabkost@redhat.com>
+ <20190617134856.GF32624@rkaganb.sw.ru> <20190617142301.GA19178@habkost.net>
+ <20190617173210.GG32624@rkaganb.sw.ru> <20190617174917.GE19178@habkost.net>
 Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d44
-Subject: Re: [Qemu-devel] [PATCH 0/5] Various i.MX7 fixes
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Tue, 18 Jun 2019 01:25:03 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] i386: Fix signedness of
+ hyperv_spinlock_attempts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,26 +62,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:ARM" <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 15, 2019 at 6:39 PM Andrey Smirnov <andrew.smirnov@gmail.com> wrote:
->
-> Everyone:
->
-> I recently revisited my i.MX7 work and this series contains all of the
-> fixes I had to make to get it to work with latest (5.1-rc1) Linux
-> kernel again as well as fixes for genuine bugs that I somehow missed
-> during original submission ("pci: designware" patches). Hopefully each
-> patch is self-explanatory.
->
-> Feedback is welcome!
->
+On Mon, 2019-06-17 at 14:49 -0300, Eduardo Habkost wrote:
+> On Mon, Jun 17, 2019 at 05:32:13PM +0000, Roman Kagan wrote:
+> > On Mon, Jun 17, 2019 at 11:23:01AM -0300, Eduardo Habkost wrote:
+> > > On Mon, Jun 17, 2019 at 01:48:59PM +0000, Roman Kagan wrote:
+> > > > On Sat, Jun 15, 2019 at 05:05:05PM -0300, Eduardo Habkost
+> > > > wrote:
+> > > > > The current default value for hv-spinlocks is 0xFFFFFFFF
+> > > > > (meaning
+> > > > > "never retry").  However, the value is stored as a signed
+> > > > > integer, making the getter of the hv-spinlocks QOM property
+> > > > > return -1 instead of 0xFFFFFFFF.
+> > > > > 
+> > > > > Fix this by changing the type of
+> > > > > X86CPU::hyperv_spinlock_attempts
+> > > > > to uint32_t.  This has no visible effect to guest operating
+> > > > > systems, affecting just the behavior of the QOM getter.
+> > > > > 
+> > > > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > > > ---
+> > > > >  target/i386/cpu.h | 2 +-
+> > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > Reviewed-by: Roman Kagan <rkagan@virtuozzo.com>
+> > > > 
+> > > > That said, it's tempting to just nuke qdev_prop_spinlocks and
+> > > > make
+> > > > hv-spinlocks a regular DEFINE_PROP_UINT32...
+> > > 
+> > > Agreed.  The only difference is that we would validate the
+> > > property at realize time instead of object_property_set().
+> > 
+> > Right.  But currently it's validated to be no less than 0xfff and
+> > no
+> > bigger than 0xffffffff.  The latter check would become unnecessary,
+> > and
+> > I'm unable to find any reason to do the former (neither spec
+> > references
+> > nor the log messages of the commits that introduced it).
+> 
+> The 0xFFF lower limit was originally introduced by commit
+> 28f52cc04d34 ("hyper-v: introduce Hyper-V support infrastructure").
+> 
+> Vadim, do you know where the 0xFFF limit comes from?
 
-Is there any changes necessary for this to go in?
+I simply took this value from Windows Server 2008 R2 that 
+I used as a reference while working on Hyper-V support for KVM.
+I also remember some paper (probably published by AMD ???) mentioned
+that 0x2fff seemed to have the best balance for PLE logic.
 
-Thanks,
-Andrey Smirnov
+
+Best,
+Vadim.
 
