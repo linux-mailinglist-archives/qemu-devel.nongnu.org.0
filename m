@@ -2,49 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5EE49E12
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 12:09:26 +0200 (CEST)
-Received: from localhost ([::1]:55378 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DD449C6A
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:54:04 +0200 (CEST)
+Received: from localhost ([::1]:54898 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdB3N-0003dj-6N
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 06:09:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58573)
+	id 1hd9sR-00083s-EM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45028)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hdB2R-00037N-3u
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 06:08:28 -0400
+ (envelope-from <rashmica.g@gmail.com>) id 1hd9qi-000718-5P
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:52:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hdB2P-00054v-QK
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 06:08:27 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:60521)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hdB2N-0004t0-4C; Tue, 18 Jun 2019 06:08:25 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45SkL81x98z9s4V; Tue, 18 Jun 2019 20:08:16 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1560852496;
- bh=YrBD7ULe6WGZEMhHFRhxf/8KKQ0lH7P15Do1TcHIWvI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Hw4xeqbDWwX3y7TTAcfKQqATAMVKGOrsrgtyz2N+ehIQzZwqpqSS8H8PPHgn5YiGx
- ZAynTFzKt3qctQCFQwSLSQl2NnXHhK/dqj5mjMcl703JCifbQFlODJ9DhktZFi+dqK
- e3GtpA1NasOranVrR0DmWpU4pnhxEU8jJczQkM30=
-Date: Tue, 18 Jun 2019 18:46:07 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190618084607.GD3673@umbus.BigPond>
-References: <156084737348.512412.3552825999605902691.stgit@bahia.lan>
+ (envelope-from <rashmica.g@gmail.com>) id 1hd9qg-0000fs-82
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:52:16 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:39058)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <rashmica.g@gmail.com>)
+ id 1hd9qc-0000cc-H6; Tue, 18 Jun 2019 04:52:10 -0400
+Received: by mail-pf1-x443.google.com with SMTP id j2so7256500pfe.6;
+ Tue, 18 Jun 2019 01:52:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=snit/yseUcrZq6RkNSA3lCMWYlX3mSDb0XLYFyqTCkU=;
+ b=azRhhvmiI3kd7xWqp88u3iKomPup5W0cBu+g6bXixr1i/8VNCGMuW4+/PQs2GamLpz
+ ShOHn67ujUtQe3oIwonoBHLTJV8yBzNm41soVAxuakZdP1OhPIjf/lioQVVL8kHRvR7P
+ yv5IapvnbDKVVhT3LMU6D+00QUqRy4lcASxiGR52+L/sWtctZkUC337lt4OTZ1mIliDF
+ 78GTs+jF8r11XPGbWmYjikt8FrNdlP+sAkOVlbpuB2/xHTzsExRxuTJtiJid5Y27BQJi
+ l/yi1jRTABiy2y5eLbl1o4sWMzR76wCrSvHlfwwOyhnIabhNUDoFGGMiRwFepn0k052v
+ f4sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=snit/yseUcrZq6RkNSA3lCMWYlX3mSDb0XLYFyqTCkU=;
+ b=VNqb4L/2CeUuOJ42xlmX6zvhGZF7J/RHVSJ8IkH510vdwHJTY7MlMXjXxwatD0/Ifu
+ a6+yYvA1xqqanTPDB3U6a5EHALXs+RzlCQk9QhoTUk8pgsX6So1d5i1LkaAxW33m8veK
+ tDj8L407CzSoRE2ORFwA6yLs/vYM0miJaQG8lj5L37yx/UBC/lsB3Wj8GNENMlRFbd4V
+ BGD5gQgkfxY8iMH8kNInk2TLNxHZKDsTNjnyMpYdHhEMAR9oMv44u6Okwn5kMW7azrpd
+ 7uWRB0GoIOdmtvgbHuq3JsA1np/fYcdjqvpLG/jOJ8Dllb45q3sR4CUNzP5VrlI5sdda
+ uKZQ==
+X-Gm-Message-State: APjAAAV13IE1Tab6/tG4U9mdPPKacVaiUoVXD1E9/JLKKczjAHxRChpw
+ Y4VkkrSEunvZai3M5G18WkzV6q9K
+X-Google-Smtp-Source: APXvYqzl/DKuIbm1iziCJtjFQWrgqy4sEqylu9Lsiz0hTbUbL2l3hGswV7VrbVd+L0Di91dRHaMZYw==
+X-Received: by 2002:a63:1450:: with SMTP id 16mr1695033pgu.52.1560847928392;
+ Tue, 18 Jun 2019 01:52:08 -0700 (PDT)
+Received: from rashmica.home.majoof.com ([43.245.162.131])
+ by smtp.gmail.com with ESMTPSA id p7sm27032616pfp.131.2019.06.18.01.52.05
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 18 Jun 2019 01:52:07 -0700 (PDT)
+From: Rashmica Gupta <rashmica.g@gmail.com>
+To: qemu-arm@nongnu.org
+Date: Tue, 18 Jun 2019 18:51:52 +1000
+Message-Id: <20190618085154.21498-1-rashmica.g@gmail.com>
+X-Mailer: git-send-email 2.17.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="d9ADC0YsG2v16Js0"
-Content-Disposition: inline
-In-Reply-To: <156084737348.512412.3552825999605902691.stgit@bahia.lan>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH] spapr_pci: Fix DRC owner in
- spapr_dt_pci_bus()
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH 0/2] Add Aspeed GPIO controller model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,96 +75,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Cc: andrew@aj.id.au, clg@kaod.org, qemu-devel@nongnu.org,
+ Rashmica Gupta <rashmica.g@gmail.com>, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---d9ADC0YsG2v16Js0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+These two patches add a bunch of the functionality of the ast2400 and
+ast2500 gpio controllers. 
 
-On Tue, Jun 18, 2019 at 10:42:53AM +0200, Greg Kurz wrote:
-> spapr_dt_drc() scans the aliases of all DRConnector objects and filters
-> the ones that it will use to generate OF properties according to their
-> owner and type.
->=20
-> Passing bus->parent_dev _works_ if bus belongs to a PCI bridge, but it is
-> NULL if it is the PHB's root bus. This causes all allocated PCI DRCs to
-> be associated to all PHBs (visible in their "ibm,drc-types" properties).
-> As a consequence, hot unplugging a PHB results in PCI devices from the
-> other PHBs to be unplugged as well, and likely confuses the guest.
->=20
-> Use the same logic as in add_drcs() to ensure the correct owner is passed
-> to spapr_dt_drc().
->=20
-> Fixes: 14e714900f6b "spapr: Allow hot plug/unplug of PCI bridges and devi=
-ces under PCI bridges"
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+This is based off upstream/master with two of Cédric's patches:
+- aspeed: add a per SoC mapping for the interrupt space
+- aspeed: add a per SoC mapping for the memory space
 
-Applied, thanks.
-> ---
->  hw/ppc/spapr_pci.c |    9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index fbeb1c90ee6c..2dca1e57f36c 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1343,6 +1343,7 @@ static void spapr_dt_pci_device_cb(PCIBus *bus, PCI=
-Device *pdev,
->  static int spapr_dt_pci_bus(SpaprPhbState *sphb, PCIBus *bus,
->                                 void *fdt, int offset)
->  {
-> +    Object *owner;
->      PciWalkFdt cbinfo =3D {
->          .fdt =3D fdt,
->          .offset =3D offset,
-> @@ -1363,7 +1364,13 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, P=
-CIBus *bus,
->          return cbinfo.err;
->      }
-> =20
-> -    ret =3D spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev),
-> +    if (pci_bus_is_root(bus)) {
-> +        owner =3D OBJECT(sphb);
-> +    } else {
-> +        owner =3D OBJECT(pci_bridge_get_device(bus));
-> +    }
-> +
-> +    ret =3D spapr_dt_drc(fdt, offset, owner,
->                         SPAPR_DR_CONNECTOR_TYPE_PCI);
->      if (ret) {
->          return ret;
->=20
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Any feedback would be great!
 
---d9ADC0YsG2v16Js0
-Content-Type: application/pgp-signature; name="signature.asc"
+Rashmica Gupta (2):
+  hw/gpio: Add basic Aspeed GPIO model
+  aspeed: add a GPIO controller to the SoC
 
------BEGIN PGP SIGNATURE-----
+ hw/arm/aspeed_soc.c           |  17 +
+ hw/gpio/Makefile.objs         |   1 +
+ hw/gpio/aspeed_gpio.c         | 869 ++++++++++++++++++++++++++++++++++
+ include/hw/arm/aspeed_soc.h   |   3 +
+ include/hw/gpio/aspeed_gpio.h |  76 +++
+ 5 files changed, 966 insertions(+)
+ create mode 100644 hw/gpio/aspeed_gpio.c
+ create mode 100644 include/hw/gpio/aspeed_gpio.h
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0IpM8ACgkQbDjKyiDZ
-s5KC9w//Sg9YZixEezj6YluTRt9z3cwb+Vad4xMzJiDkwhCFp5ajM+FQSYbz3pHt
-vdD8p6eGb0wFaTOmNxvs1RQUvlx7kw3RV54j7ZYRljC9IZbTRweubC686m46Nlpk
-p0e/4gu3oJ6F5MBpLs8WThjz5j2BindQVuAhngyO604HceeeKM63d5oIvMQQ9HSD
-eaWcwr2kkW9OCWwSzRbJOFahJNaP8hI5Ne97MWFQA+W7Pd05E7TPKN3OeDMIXZkS
-D1kQOWsBnGeZr8vvjmwDppQrMAXcES5nOFacFFXEiv2taPknfSWBQfEoFXZ9byK7
-eoZJ8pTAc9s2ZTrV5R75cWK/GoQziO5u6fLkgGgQFOrQWPeMEATmJMmBOD9dhOXG
-5WK1z8432fYNri2A4zO1sqaPRdmJbhCFQ9G+Vo3GMboX9E+LAv+rTRQI4bb9LJbQ
-Y5/FUW3AltsSLo0WXADGj0vJn+2tuETx332NBXa0pLSXVt2pJt0At09M+1nVTif3
-3pYYvO7qJbgMMp9jeahw4eM1i9jBWErkPMPiDvVUACTPNrvy5hfgbmKk5MNg2Tml
-cvXfDRWbdEpSyumfuaNZKhmz0B+8n73CjDPWe/LA9ZWj4lRUfq3AMomKjwTpOgK+
-7XM4ZjOnaJdGejDzDFNgHTGjNjBPPbFw8CHxcmMeN7/i0KAT4cU=
-=I030
------END PGP SIGNATURE-----
+-- 
+2.17.2
 
---d9ADC0YsG2v16Js0--
 
