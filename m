@@ -2,37 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CC649FC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 13:54:30 +0200 (CEST)
-Received: from localhost ([::1]:55916 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A1CA49F7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 13:45:41 +0200 (CEST)
+Received: from localhost ([::1]:55844 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdCh3-0004ol-MG
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 07:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48446)
+	id 1hdCYW-0005sW-2W
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 07:45:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48334)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hdCWb-00042a-Au
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:43:43 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hdCWX-00041s-AF
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:43:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hdCWV-0000Mo-5w
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:43:40 -0400
-Received: from relay.sw.ru ([185.231.240.75]:58016)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hdCWV-0000N3-6G
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:43:37 -0400
+Received: from relay.sw.ru ([185.231.240.75]:58034)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hdCWU-0000Jh-Rk; Tue, 18 Jun 2019 07:43:35 -0400
+ id 1hdCWU-0000Jn-Rc; Tue, 18 Jun 2019 07:43:35 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hdCWO-00016b-LF; Tue, 18 Jun 2019 14:43:28 +0300
+ id 1hdCWO-00016b-Tv; Tue, 18 Jun 2019 14:43:29 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Tue, 18 Jun 2019 14:43:19 +0300
-Message-Id: <20190618114328.55249-1-vsementsov@virtuozzo.com>
+Date: Tue, 18 Jun 2019 14:43:20 +0300
+Message-Id: <20190618114328.55249-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190618114328.55249-1-vsementsov@virtuozzo.com>
+References: <20190618114328.55249-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v7 0/9] NBD reconnect
+Subject: [Qemu-devel] [PATCH v7 1/9] block/nbd: split connection_co start
+ out of nbd_client_connect
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -49,60 +52,63 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
-Here is NBD reconnect. Previously, if connection failed all current
-and future requests will fail. After the series, nbd-client driver
-will try to reconnect unlimited times. During first @reconnect-delay
-seconds of reconnecting all requests will wait for the connection,
-and if it is established requests will be resent. After
-@reconnect-delay period all requests will be failed (until successful
-reconnect).
+nbd_client_connect is going to be used from connection_co, so, let's
+refactor nbd_client_connect in advance, leaving io channel
+configuration all in nbd_client_connect.
 
-v7:
-almost all: rebased on merged nbd.c and nbd-client.c (including patch subject)
-01-04: add Eric's r-b
-04: wording
-05: new
-06: rewrite to remove timer earlier
-07: new
-08:
- - rebase on 05 and 07
- - drop "All rights reserved"
- - handle drain
- - improve handling aio context attach
-09: move 249 -> 257
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+ block/nbd.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-Vladimir Sementsov-Ogievskiy (9):
-  block/nbd: split connection_co start out of nbd_client_connect
-  block/nbd: use non-blocking io channel for nbd negotiation
-  block/nbd: move from quit to state
-  block/nbd: add cmdline and qapi parameter reconnect-delay
-  block/nbd: refactor nbd connection parameters
-  qemu-coroutine-sleep: introduce qemu_co_sleep_wake
-  qemu/units: add SI decimal units
-  block/nbd: nbd reconnect
-  iotests: test nbd reconnect
-
- qapi/block-core.json          |  11 +-
- include/block/nbd.h           |   3 +-
- include/qemu/coroutine.h      |  17 +-
- include/qemu/units.h          |   7 +
- block/nbd.c                   | 531 +++++++++++++++++++++++++---------
- block/null.c                  |   2 +-
- block/sheepdog.c              |   2 +-
- nbd/client.c                  |  16 +-
- qemu-nbd.c                    |   2 +-
- tests/test-bdrv-drain.c       |   6 +-
- tests/test-block-iothread.c   |   2 +-
- util/qemu-coroutine-sleep.c   |  47 ++-
- tests/qemu-iotests/257        |  63 ++++
- tests/qemu-iotests/257.out    |  10 +
- tests/qemu-iotests/group      |   1 +
- tests/qemu-iotests/iotests.py |   4 +
- 16 files changed, 551 insertions(+), 173 deletions(-)
- create mode 100755 tests/qemu-iotests/257
- create mode 100644 tests/qemu-iotests/257.out
-
+diff --git a/block/nbd.c b/block/nbd.c
+index 81edabbf35..46a1de7220 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -1232,14 +1232,8 @@ static int nbd_client_connect(BlockDriverState *bs,
+         object_ref(OBJECT(s->ioc));
+     }
+ 
+-    /*
+-     * Now that we're connected, set the socket to be non-blocking and
+-     * kick the reply mechanism.
+-     */
+     qio_channel_set_blocking(QIO_CHANNEL(sioc), false, NULL);
+-    s->connection_co = qemu_coroutine_create(nbd_connection_entry, s);
+-    bdrv_inc_in_flight(bs);
+-    nbd_client_attach_aio_context(bs, bdrv_get_aio_context(bs));
++    qio_channel_attach_aio_context(s->ioc, bdrv_get_aio_context(bs));
+ 
+     trace_nbd_client_connect_success(export);
+ 
+@@ -1270,14 +1264,24 @@ static int nbd_client_init(BlockDriverState *bs,
+                            const char *x_dirty_bitmap,
+                            Error **errp)
+ {
++    int ret;
+     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+ 
+     s->bs = bs;
+     qemu_co_mutex_init(&s->send_mutex);
+     qemu_co_queue_init(&s->free_sema);
+ 
+-    return nbd_client_connect(bs, saddr, export, tlscreds, hostname,
+-                              x_dirty_bitmap, errp);
++    ret = nbd_client_connect(bs, saddr, export, tlscreds, hostname,
++                             x_dirty_bitmap, errp);
++    if (ret < 0) {
++        return ret;
++    }
++
++    s->connection_co = qemu_coroutine_create(nbd_connection_entry, s);
++    bdrv_inc_in_flight(bs);
++    aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
++
++    return 0;
+ }
+ 
+ static int nbd_parse_uri(const char *filename, QDict *options)
 -- 
 2.18.0
 
