@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E884A58D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 17:36:44 +0200 (CEST)
-Received: from localhost ([::1]:59062 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CA44A53F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 17:24:22 +0200 (CEST)
+Received: from localhost ([::1]:58960 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdGA4-0001bF-94
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 11:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39567)
+	id 1hdFy9-0007CS-93
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 11:24:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39569)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hdFGq-0002mJ-9d
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:39:40 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hdFGq-0002mO-AM
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:39:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hdFGn-0000eV-Tn
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hdFGn-0000eF-Qf
  for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:39:36 -0400
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:36556)
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:58567)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hdFGn-0000b8-J2
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hdFGn-0000bB-Hi
  for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:39:33 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 1399043CA6;
+ by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 479FA4A283;
  Tue, 18 Jun 2019 23:39:30 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id A758D240086;
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id F1293240087;
  Tue, 18 Jun 2019 23:39:29 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Tue, 18 Jun 2019 23:39:03 +0900
-Message-Id: <20190618143923.53838-2-ysato@users.sourceforge.jp>
+Date: Tue, 18 Jun 2019 23:39:04 +0900
+Message-Id: <20190618143923.53838-3-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190618143923.53838-1-ysato@users.sourceforge.jp>
 References: <20190618143923.53838-1-ysato@users.sourceforge.jp>
@@ -40,8 +40,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 202.224.55.14
-Subject: [Qemu-devel] [PATCH RESEND v21 01/21] MAINTAINERS: Add RX
+X-Received-From: 202.224.55.15
+Subject: [Qemu-devel] [PATCH RESEND v21 02/21] qemu/bitops.h: Add extract8
+ and extract16
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,49 +62,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190607091116.49044-18-ysato@users.sourceforge.jp>
+Message-Id: <20190607091116.49044-10-ysato@users.sourceforge.jp>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- MAINTAINERS | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d32c5c2313..cfe57ef11e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -273,6 +273,13 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 3f0926cf40..764f9d1ea0 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -301,6 +301,44 @@ static inline uint32_t extract32(uint32_t value, int=
+ start, int length)
+ }
 =20
-+RENESAS RX CPUs
-+M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Maintained
-+F: target/rx/
-+F: hw/rx/
-+F: include/hw/rx/
+ /**
++ * extract8:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 8 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 8 bit word. It is valid to request that
++ * all 8 bits are returned (ie @length 8 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint8_t extract8(uint8_t value, int start, int length)
++{
++    assert(start >=3D 0 && length > 0 && length <=3D 8 - start);
++    return extract32(value, start, length);
++}
 +
- S390 TCG CPUs
- M: Richard Henderson <rth@twiddle.net>
- M: David Hildenbrand <david@redhat.com>
-@@ -1102,6 +1109,18 @@ F: pc-bios/canyonlands.dt[sb]
- F: pc-bios/u-boot-sam460ex-20100605.bin
- F: roms/u-boot-sam460ex
-=20
-+RX Machines
-+-----------
-+rx-virt
-+M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Maintained
-+F: hw/rx/rxqemu.c
-+F: hw/intc/rx_icu.c
-+F: hw/timer/renesas_*.c
-+F: hw/char/renesas_sci.c
-+F: include/hw/timer/renesas_*.h
-+F: include/hw/char/renesas_sci.h
++/**
++ * extract16:
++ * @value: the value to extract the bit field from
++ * @start: the lowest bit in the bit field (numbered from 0)
++ * @length: the length of the bit field
++ *
++ * Extract from the 16 bit input @value the bit field specified by the
++ * @start and @length parameters, and return it. The bit field must
++ * lie entirely within the 16 bit word. It is valid to request that
++ * all 16 bits are returned (ie @length 16 and @start 0).
++ *
++ * Returns: the value of the bit field extracted from the input value.
++ */
++static inline uint16_t extract16(uint16_t value, int start, int length)
++{
++    assert(start >=3D 0 && length > 0 && length <=3D 16 - start);
++    return extract32(value, start, length);
++}
 +
- SH4 Machines
- ------------
- R2D
++/**
+  * extract64:
+  * @value: the value to extract the bit field from
+  * @start: the lowest bit in the bit field (numbered from 0)
 --=20
 2.11.0
 
