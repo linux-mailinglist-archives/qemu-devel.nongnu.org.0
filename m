@@ -2,62 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180254A1C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 15:11:51 +0200 (CEST)
-Received: from localhost ([::1]:57798 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A34C14A141
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 14:58:49 +0200 (CEST)
+Received: from localhost ([::1]:57508 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdDtt-0000Ek-OT
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 09:11:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45015)
+	id 1hdDhI-0003Df-LX
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 08:58:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40970)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hdDt3-0008Es-7i
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 09:10:58 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hdDge-0002jN-C5
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:58:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hdDt1-0000Pb-Rx
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 09:10:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:48996)
+ (envelope-from <peter.maydell@linaro.org>) id 1hdDgd-00058O-Iz
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:58:08 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46960)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hdDt1-0000O7-MW
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 09:10:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hdDsz-0003T0-ES
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 13:10:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5A6282E80CC
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 13:10:53 +0000 (UTC)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hdDgd-00056g-AQ
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:58:07 -0400
+Received: by mail-ot1-x343.google.com with SMTP id z23so14348580ote.13
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 05:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2AVbzcOczRMrVgHkbxqpowgYHCdbPmqOBLqODOt+rms=;
+ b=FhlQYGWFqVigp63ePytQf7yuIVA7fqvVLy6WQrohPVzSqXUbb7+V4/82/CTb7MxDIv
+ j351FtyVbWooZGAw2w6wV0VTQAX+TyYJegJDKAcu6q7A6ZB0I6S/GRpY3if7xMSu14zi
+ LYGlod2senzJU4JDEIufovjy2SePOBsNAJyP44es6C33grppTyEB1xpdQBpIuC31wmUm
+ ADlZ73zdAkLM4j8Qk2jA8nHIwEsKBwHnR1gmY8vrsiE6Vq3UH9r4NfXyvBfMH94rwU0a
+ FvPmeJykUwFC1sdaO16Hldr2EpaSwLq5M5Kk5hMMKPXxd9rwWYOz9R4On4Cjm0qEyKIa
+ 1wFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2AVbzcOczRMrVgHkbxqpowgYHCdbPmqOBLqODOt+rms=;
+ b=p1J3RK36TIR8lsTDGHw6iqW7KK4YYS195S07d1hFZYOECWb4PoUAGWIhGVx9IiTRvf
+ h4IC40mAksuMvglOGTaEwLeGMyxYkBjPkuvM5bk+3TfdC7yQa6q3OjMvI2inRPP8g18S
+ N5TFTLV67d1U5KuqxBurWJNC1XVOxG/XklOD5qH+fnif/YwcLMIVG/zMrPy74UF1zHhI
+ QzURfJBOVXdIDjzv1SIsnlUim1t4vuaxw981MDqbIi307e3dyFpv+9RXmcx6nCWXbh8G
+ RR2rHljF+IRmMgoFQvNFnLkY5gCnReqxfbL2owyda3PLsqpjxtUuAga0ztGTLooemqIP
+ Ds7g==
+X-Gm-Message-State: APjAAAWOEHmCRSdhrLvib2q8VQyBgXoZksw6w5qFIxILkSWxt3Mg4zdE
+ Ufs+oXkgVjdqmf2NsgOM5jSaRNVcqOEVmW+gsFk/Jg==
+X-Google-Smtp-Source: APXvYqz1vsd9NPHHL7gLNMfKVVAIx2unrW+wkJ2HAQLutsFfE9NzYbO8BE1J+kP8BNXAAoEGsybDTBLprsZcXWG9AtM=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr4554988otj.97.1560862686500; 
+ Tue, 18 Jun 2019 05:58:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 18 Jun 2019 12:56:09 -0000
+References: <20190522162252.28568-1-shameerali.kolothum.thodi@huawei.com>
+ <653a6b3c-ac1a-f197-1240-a28f59890fa8@redhat.com>
+In-Reply-To: <653a6b3c-ac1a-f197-1240-a28f59890fa8@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: pl111 vexpress-a9
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: asmqb7 pmaydell
-X-Launchpad-Bug-Reporter: David Lindsay (asmqb7)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156078563656.24847.5055295179031840026.malonedeb@gac.canonical.com>
-Message-Id: <156086256942.24530.5770898525674471283.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18981";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 0f0828ccd16110b6f7673ac8a1b467ceb4905f13
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1833101] Re: vexpress-a9 (but not -a15) creates
- two pl111 LCDs due to duplicate sysbus_create_simple("pl111", ...) calls
+Date: Tue, 18 Jun 2019 13:57:55 +0100
+Message-ID: <CAFEAcA9g=9u1Cj+1gqWqXWfg1phmZPw4=y7Ks_EzbYOEBW-WOA@mail.gmail.com>
+To: Auger Eric <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v5 0/8] ARM virt: ACPI memory hotplug
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,82 +73,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1833101 <1833101@bugs.launchpad.net>
+Cc: Samuel Ortiz <sameo@linux.intel.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Xu Wei <xuwei5@hisilicon.com>,
+ Igor Mammedov <imammedo@redhat.com>, sebastien.boeuf@intel.com,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You might want to check our advice on how to pick a machine type for Arm: h=
-ttps://wiki.qemu.org/Documentation/Platforms/ARM#Guidelines_for_choosing_a_=
-QEMU_machine
-Basically we suggest 'virt' unless you have a strong reason for wanting to =
-emulate something else.
+On Tue, 18 Jun 2019 at 13:52, Auger Eric <eric.auger@redhat.com> wrote:
+> Feel free to add my T-b on next version:
+> Tested-by: Eric Auger <eric.auger@redhat.com>
 
-NB that we don't support PCI in our vexpress model (this is one reason
-we don't recommend it, it makes it a bit inflexible).
+I'm not sure we should carry across Tested-by tags like that: any
+respin might accidentally introduce bugs that make it stop working...
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1833101
-
-Title:
-  vexpress-a9 (but not -a15) creates two pl111 LCDs due to duplicate
-  sysbus_create_simple("pl111", ...) calls
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  Hi,
-
-  Just a small report that (12ec8bd is current master)
-
-  https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L652:
-
-    ...
-    vexpress_common_init() {
-      ...
-      sysbus_create_simple("pl111", map[VE_CLCD], pic[14]);
-      ...
-    ...
-
-  and
-
-  https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L304:
-
-    ...
-    a9_daughterboard_init() {
-      ...
-      sysbus_create_simple("pl111", 0x10020000, pic[44]);
-      ...
-    ...
-
-  result in two LCD panels when using vexpress-a9.
-
-  vexpress-a15 does not appear to be affected (my -a9 kernel does not
-  work with it, but I see only one pl111 created).
-
-  Understandably (but still annoyingly), -nodefaults has no effect.
-
-  This bug is most evident when using SDL (so I can use ",frame=3Doff"),
-  which dumps two top-level windows onto the screen. GTK hides this
-  because, coincidentally, the pl111 that ends up being used is the one
-  that is selected (possibly the one created last?), relegating this to
-  an obscure glitch only noticeable if you scrutinize the menu.
-
-  This is a bugreport as opposed to a pull request as I have no idea
-  which call to remove - and complete ignorance of the potential
-  housekeeping and consideration that may be warranted first.
-
-  FWIW, a simple testcase can be made with the vmlinuz from
-  https://people.debian.org/~aurel32/qemu/armhf/ and
-
-  qemu-system-arm -M vexpress-a9 -kernel vmlinuz-3.2.0-4-vexpress
-  -nodefaults -sdl
-
-  Thanks!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1833101/+subscriptions
+thanks
+-- PMM
 
