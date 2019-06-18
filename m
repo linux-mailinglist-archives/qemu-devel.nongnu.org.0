@@ -2,108 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2E54A279
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 15:39:42 +0200 (CEST)
-Received: from localhost ([::1]:58082 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E414A12D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 14:53:13 +0200 (CEST)
+Received: from localhost ([::1]:57004 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdEKq-0000Ak-GV
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 09:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59367)
+	id 1hdDbs-0005jh-I8
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 08:53:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37763)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cosmin.marin@nutanix.com>) id 1hdDBY-0006pa-GM
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:26:02 -0400
+ (envelope-from <bounces@canonical.com>) id 1hdDZl-00041v-DK
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:51:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cosmin.marin@nutanix.com>) id 1hdDBW-0005gd-HE
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:26:00 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:33230)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cosmin.marin@nutanix.com>)
- id 1hdDBU-0005cw-FQ
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:25:58 -0400
-Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5ICKT0T025247; Tue, 18 Jun 2019 05:25:46 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=z2d3K366qMohtM6xm2z9v17O38HWrbGFYHJinW5v77s=;
- b=i24iw/POFFjD6uH9RkcUcXSx4x5WItXx6a1Msj0nIqD+nPlCzc/seHYdumxCzB4rZuYf
- oQ3bBU/CbM9LuZ2f13wIxoXKy3G3tAj/DxjJoAwl7CDqUdiDsuhUkJYu+nEa5JGO1OQv
- FzfkvNKtB7em34pJs7AZ4hlm50gHSY/uL3LnSWgIClhMUzack6dUTiLgmyQXjwejw0lh
- kC3lNljd7ARTyykRj+b+Ht4z/b6GVRdoTAX1JY6wGrUQbl+6Do9Oo53dEoajBDMfV8T8
- EhSO3S5jky/ZeM4oQfnkfKt5+lZCaeVS5HPkVG5/br2J+U1m2x9Kg6FpLUm4pG4xwVpK aA== 
-Received: from nam04-co1-obe.outbound.protection.outlook.com
- (mail-co1nam04lp2055.outbound.protection.outlook.com [104.47.45.55])
- by mx0b-002c1b01.pphosted.com with ESMTP id 2t6qr5rspy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 18 Jun 2019 05:25:46 -0700
-Received: from BL0PR02MB4450.namprd02.prod.outlook.com (10.167.179.27) by
- BL0PR02MB5505.namprd02.prod.outlook.com (20.177.240.224) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.13; Tue, 18 Jun 2019 12:25:43 +0000
-Received: from BL0PR02MB4450.namprd02.prod.outlook.com
- ([fe80::e5c5:13c4:aa5e:32b6]) by BL0PR02MB4450.namprd02.prod.outlook.com
- ([fe80::e5c5:13c4:aa5e:32b6%7]) with mapi id 15.20.1987.014; Tue, 18 Jun 2019
- 12:25:43 +0000
-From: Cosmin Marin <cosmin.marin@nutanix.com>
-To: Peter Xu <peterx@redhat.com>
-Thread-Topic: [Qemu-devel] [PATCH] migration: Improve accuracy of vCPU
- throttling with per-vCPU timers
-Thread-Index: AQHVIsvLxMtqZNDTbEaTy7clKx/n56afOOUAgAI0KgA=
-Date: Tue, 18 Jun 2019 12:25:43 +0000
-Message-ID: <ACBDA5C2-CC9B-416F-AB54-D4A98CAF2F8A@nutanix.com>
-References: <20190614161106.218854-1-cosmin@nutanix.com>
- <20190617034628.GA12456@xz-x1>
-In-Reply-To: <20190617034628.GA12456@xz-x1>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [37.235.116.68]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8fa4099b-8b77-458c-edce-08d6f3e8158a
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:BL0PR02MB5505; 
-x-ms-traffictypediagnostic: BL0PR02MB5505:
-x-proofpoint-crosstenant: true
-x-microsoft-antispam-prvs: <BL0PR02MB550593FA58F692049BD7A33C86EA0@BL0PR02MB5505.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 007271867D
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(346002)(366004)(396003)(39860400002)(376002)(136003)(199004)(189003)(6246003)(14444005)(186003)(2616005)(8936002)(446003)(86362001)(8676002)(11346002)(476003)(81166006)(76176011)(6486002)(102836004)(76116006)(54906003)(36756003)(68736007)(91956017)(6436002)(71200400001)(99286004)(6506007)(66066001)(71190400001)(229853002)(305945005)(2906002)(73956011)(5660300002)(66946007)(33656002)(81156014)(316002)(4326008)(6116002)(14454004)(3846002)(6512007)(478600001)(486006)(25786009)(44832011)(6916009)(64756008)(66446008)(66556008)(53936002)(66476007)(256004)(7736002)(26005)(64030200001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BL0PR02MB5505;
- H:BL0PR02MB4450.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: nutanix.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: aqw7rzBnGSmhhG/TimQOQMFEMmQc3uZIPKi7gbd2TWm9NRtwf9ypqwYkLdllOCMw82VRbVP7QTbAjIK4BGt85DPFWW2r/hf/vvJaMnhv1GYdxwmFXnj3tBbPGDfMMdoeSFGvMbPrUl73U/e03w5G5nMSrjTmDlQpoQu+ZH2q2W+vBv1jT9aOhxAx9+Gsw/Uy6bON7OcxSDlI8trZUf6QxIEJbndvXPqWd/kuj+AFmWuAgHoCo13jQSvU95rMW69xWvvx5UVxJn9+4nxYi+AJBX8xfzVMH9AF2HagGFX6cremMhauBXZ866+RU6CHx/YfBVc9wE895J4/WmdMENVq63EBjB/8GJnPa6F6nB528USGlbYTOeN61xHIEkzd66zheMobX87rxm85H8Ny/9efPD+hnTHsRzeE0xRaWmufAkQ=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2D10E1747489DE4BA225D47795E04FBB@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1hdDZj-00085U-7q
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:51:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44746)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hdDZh-0007p2-DR
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:50:59 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hdDZV-00019Q-OT
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 12:50:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B57022E80D3
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 12:50:45 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fa4099b-8b77-458c-edce-08d6f3e8158a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2019 12:25:43.6273 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: cosmin.marin@nutanix.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB5505
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-18_06:, , signatures=0
-X-Proofpoint-Spam-Reason: safe
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.155.12
-X-Mailman-Approved-At: Tue, 18 Jun 2019 09:32:05 -0400
-Subject: Re: [Qemu-devel] [PATCH] migration: Improve accuracy of vCPU
- throttling with per-vCPU timers
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 18 Jun 2019 12:40:04 -0000
+From: David Lindsay <asmqb7@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: pl111 vexpress-a9
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: asmqb7 pmaydell
+X-Launchpad-Bug-Reporter: David Lindsay (asmqb7)
+X-Launchpad-Bug-Modifier: David Lindsay (asmqb7)
+References: <156078563656.24847.5055295179031840026.malonedeb@gac.canonical.com>
+Message-Id: <156086160457.22508.2412712603874412180.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18981";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: e86dc612800fc61687ec47339bf2a367897af09a
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1833101] Re: vexpress-a9 (but not -a15) creates
+ two pl111 LCDs due to duplicate sysbus_create_simple("pl111", ...) calls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -112,165 +66,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1833101 <1833101@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQrvu79PbiAxNy8wNi8yMDE5LCAwNDo0NiwgIlBldGVyIFh1IiA8cGV0ZXJ4QHJlZGhhdC5jb20+
-IHdyb3RlOg0KDQogICAgT24gRnJpLCBKdW4gMTQsIDIwMTkgYXQgMDk6MTE6MDZBTSAtMDcwMCwg
-Q29zbWluIE1hcmluIHdyb3RlOg0KICAgID4gRHVyaW5nIGF1dG8tY29udmVyZ2VuY2UgbGl2ZSBt
-aWdyYXRpb24sIHRoZSBjb25maWd1cmVkIHRocm90dGxpbmcgcmF0ZQ0KICAgID4gaXMgbm90IG1h
-dGNoZWQgaW4gcHJhY3RpY2UuIEV4cGVyaW1lbnRhbCBtZWFzdXJlbWVudHMgb2YgdGhyb3VnaHB1
-dCBmb3INCiAgICA+IGEgbWVtb3J5LXdyaXRlIGludGVuc2l2ZSB3b3JrbG9hZCBpbmRpY2F0ZSBk
-aXNwYXJpdGllcyBiZXR3ZWVuIGV4cGVjdGVkDQogICAgPiBhbmQgbWVhc3VyZWQgdGhyb3R0bGUg
-cmF0ZSAtIHdoZW4gc2V0IHRvIDk5JSwgdGhlIGFjdHVhbCB0aHJvdHRsZSByYXRlDQogICAgPiB3
-YXMgOTUlLiBUaGUgd29ya2xvYWQgc3Bhd25zIG11bHRpcGxlIHRocmVhZHMgKCN0aHJlYWRzIGVx
-dWFscyAjdkNQVXMpDQogICAgPiB0aGF0IGRpcnR5IG1vc3Qgb2YgdGhlIFZNJ3MgbWVtb3J5IGlu
-IGFuIGluZmluaXRlIGxvb3AuDQogICAgPiANCiAgICA+IFRoZSByb290IGNhdXNlIGlzIHRoZSB1
-c2FnZSBvZiBhIFZNLXdpZGUgdGltZXIgdG8gc2NoZWR1bGUgYW5kIGV4ZWN1dGUNCiAgICA+IGFz
-eW5jaHJvbm91c2x5IGNwdV90aHJvdHRsZV90aHJlYWQoKSBvbiB0aGUgdkNQVXMuIEZpcnN0bHks
-IHRoZXJlIGFyZQ0KICAgID4gc2NhbGFiaWxpdHkgbGltaXRhdGlvbnMgYXQgc2NoZWR1bGluZyB0
-aW1lIGFzIGEgVk0td2lkZSAoZ2xvYmFsKSBsb29wDQogICAgPiBtdXN0IGl0ZXJhdGUgb3ZlciBh
-bGwgdkNQVXMgd2hpbGUgcnVubmluZyBhdG9taWMgb3BlcmF0aW9ucyAoaS5lLiwgbWF5DQogICAg
-PiBpbmR1Y2UgZGVsYXlzIGJldHdlZW4gdkNQVXMpOyBtb3Jlb3ZlciwgaWYgYSB2Q1BVIGlzIGFs
-cmVhZHkgcnVubmluZw0KICAgID4gY3B1X3Rocm90dGxlX3RocmVhZCgpICghRE9ORSkgaXQgaXMg
-c2tpcHBlZCAoaS5lLiwgbWF5IGluZHVjZSB1bmV2ZW4NCiAgICA+IGFnZ3JlZ2F0ZSBzbGVlcCB0
-aW1lcyBhY3Jvc3MgdkNQVXMpLiBTZWNvbmRseSwgdGhlcmUgaXMgYSByYWNlIGNvbmRpdGlvbg0K
-ICAgID4gYmV0d2VlbiB0aGUgdkNQVSB0aHJlYWRzIGFuZCB0aGUgJ3NjaGVkdWxpbmcnIChtaWdy
-YXRpb24pIHRocmVhZCBhcyBhDQogICAgPiB2Q1BVIHRocmVhZCBuZWVkcyB0byByZWxlYXNlIHRo
-ZSBpb3RocmVhZCBsb2NrLCBzbGVlcCwgcmVhY3F1aXJlIHRoZQ0KICAgID4gbG9jayBhbmQgbWFy
-ayAiaXRzZWxmIiBhcyBjb21wbGV0ZWQgKERPTkUpLiBDb25maWd1cmluZyBjb3JyZWN0IHBlci12
-Q1BVDQogICAgPiBzbGVlcCBpbnRlcnZhbHMgdXNpbmcgdGhpcyBtb2RlbCBpcyBub24tdHJpdmlh
-bC4NCiAgICA+IA0KICAgID4gVG8gYWRkcmVzcyB0aGUgYWJvdmUgaXNzdWVzLCBwZXItdkNQVSB0
-aW1lcnMgcmVwbGFjZSB0aGUgcGVyLVZNIHRpbWVyLg0KICAgID4gVGhlIG1pZ3JhdGlvbiB0aHJl
-YWQgZ2xvYmFsbHkgZGVjaWRlcyB0aGUgdGhyb3R0bGluZyBsZXZlbCB3aGlsZSBlYWNoDQogICAg
-PiB2Q1BVIHRocmVhZCBjYWxjdWxhdGVzIHRoZSBlcXVpdmFsZW50IHNsZWVwIHRpbWVzIGFuZCBz
-bGVlcHMNCiAgICA+IGFjY29yZGluZ2x5LiBUaGUgZm9sbG93aW5nIHRhYmxlIHN1bW1hcml6ZXMg
-dGhlIHJlc3VsdHMgb2J0YWluZWQgYnkNCiAgICA+IHJ1bm5pbmcgdGhlIHdvcmtsb2FkIG9uIGEg
-MjJ2Q1BVcy80NUdCIFZNIGluIGJvdGggc2NlbmFyaW9zLg0KICAgID4gDQogICAgPiArLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LSsNCiAgICA+IHwgICAgICAgICAgfCAgICAgIHBlci1WTSBUaW1lciAgICAgICAgfCAgIHBlci12
-Q1BVIFRpbWVyICAgICAgICAgfA0KICAgID4gfCAgVGFyZ2V0ICB8PT09PT09PT09PT09PT09PT09
-PT09PT09PT18PT09PT09PT09PT09PT09PT09PT09PT09PT18DQogICAgPiB8IFRocm90dGxlIHwg
-VGhyb3VnaHB1dCB8ICAgIEFjdHVhbCAgIHwgVGhyb3VnaHB1dCB8ICAgIEFjdHVhbCAgIHwNCiAg
-ICA+IHwgICAgKCUpICAgfCAgIChHQnBzKSAgIHwgVGhyb3R0bGUoJSkgfCAgIChHQnBzKSAgIHwg
-VGhyb3R0bGUoJSkgfA0KICAgID4gfC0tLS0tLS0tLS18LS0tLS0tLS0tLS0tfC0tLS0tLS0tLS0t
-LS18LS0tLS0tLS0tLS0tfC0tLS0tLS0tLS0tLS18DQogICAgPiB8ICAgICAgICAgMHwgICAgIH40
-OTMuNTB8ICAgICAgICAgICAgMHwgICAgIH40OTMuNTB8ICAgICAgICAgICAwIHwNCiAgICA+IHwg
-ICAgICAgIDIwfCAgICAgIDM5NS42NXwgICAgICAgIDE5LjgxfCAgICAgIDM5MC4zNXwgICAgICAg
-IDIwLjg4fA0KICAgID4gfCAgICAgICAgMzB8ICAgICAgMzU2LjQzfCAgICAgICAgMjcuNzZ8ICAg
-ICAgMzQyLjM5fCAgICAgICAgMzAuNjB8DQogICAgPiB8ICAgICAgICA0MHwgICAgICAzMTcuMjZ8
-ICAgICAgICAzNS42OXwgICAgICAyOTMuOTl8ICAgICAgICA0MC40MXwNCiAgICA+IHwgICAgICAg
-IDUwfCAgICAgIDI2OC43OHwgICAgICAgIDQ1LjUyfCAgICAgIDI0NC45NXwgICAgICAgIDUwLjM1
-fA0KICAgID4gfCAgICAgICAgNjB8ICAgICAgMjE0LjYxfCAgICAgICAgNTYuNTB8ICAgICAgMTk1
-LjIzfCAgICAgICAgNjAuNDN8DQogICAgPiB8ICAgICAgICA3MHwgICAgICAxNjQuNzJ8ICAgICAg
-ICA2Ni42MXwgICAgICAxNDcuNTV8ICAgICAgICA3MC4wOXwNCiAgICA+IHwgICAgICAgIDgwfCAg
-ICAgIDExMi42MnwgICAgICAgIDc3LjE3fCAgICAgICA5OC41MnwgICAgICAgIDgwLjAzfA0KICAg
-ID4gfCAgICAgICAgOTB8ICAgICAgIDU3LjA5fCAgICAgICAgODguNDN8ICAgICAgIDQ3LjkwfCAg
-ICAgICAgOTAuMjl8DQogICAgPiB8ICAgICAgICA5OXwgICAgICAgMjYuODd8ICAgICAgICA5NC41
-NXwgICAgICAgIDMuMTF8ICAgICAgICA5OS4zNnwNCiAgICA+ICstLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKw0KICAgIA0KICAg
-IEhpLCBDb3NtaW4sDQogICAgDQogICAgVGhlIG51bWJlcnMgYXJlIHJlYWxseSBuaWNlLi4uIHRo
-b3VnaCBJIGFtIHVuc3VyZSBhYm91dCB3aGV0aGVyIHRoaXMNCiAgICBwYXRjaCB3aWxsIGhlbHAg
-aW4gc2NhbGFiaWxpdHkgb3IgZXZlbiBtYWtlIGl0IHdvcnRoPyAgQWZ0ZXIgYWxsIGl0J2xsDQog
-ICAgY3JlYXRlIE4gdGltZXJzIGluc3RlYWQgb2Ygb25lIHdoZW4gd2UgaGF2ZSBOIHZjcHVzLg0K
-ICAgIA0KCUhpIFBldGVyLA0KDQoJdGhhbmtzIGZvciByZXZpZXdpbmcgdGhlIHBhdGNoLiBJbmRl
-ZWQsIEkgYWdyZWUgdGhhdCBpdCdzIGFsbW9zdCBpbXBvc3NpYmxlIHRvIGRldGVybWluZSB3aGlj
-aCBzb2x1dGlvbiBpdCdzIGJldHRlciBmcm9tIHRoZSBzY2FsYWJpbGl0eSBwZXJzcGVjdGl2ZS4g
-SG93ZXZlciwgSSBmZWVsIHRoYXQgdXNpbmcgcGVyLXZDUFUgdGltZXJzIGlzIHRoZSBvbmx5IHdh
-eSBmb3IgZW5zdXJpbmcgY29ycmVjdG5lc3Mgb2YgdGhlIHRocm90dGxpbmcgcmF0aW8uDQoNCglJ
-dCdzIGEgYml0IHVuY2xlYXIgdG8gbWUgaG93IHRoZSB0aHJvdHRsaW5nIHJhdGlvIGluY29uc2lz
-dGVuY3kgY2FuIGJlIGZpeGVkIGJ5IHVzaW5nIGEgc2luZ2xlIHRpbWVyIGV2ZW4gYXZvaWRpbmcg
-dGhlIGNvbmRpdGlvbmFsIHRpbWVyIHJlLWFybWluZy4gIENvdWxkIHlvdSBwcm92aWRlIG1vcmUg
-ZGV0YWlscyBhYm91dCB0aGUgdXNlIG9mIGEgc2luZ2xlIHRpbWVyID8NCg0KICAgIFdoYXQgSSBm
-ZWVsIGxpa2UgaXMgdGhhdCBhc3luY19ydW5fb25fY3B1KCkgc2hvdWxkIGJlIGZhaXJseSBmYXN0
-DQogICAgZXhjZXB0IHRoZSBmYWN0IHlvdSBtZW50aW9uZWQgdGhhdCB3ZSdsbCBza2lwIHRoZSB0
-aHJvdHRsaW5nDQogICAgY29uZGl0aW9uYWxseSBpZiBpdCdzIHN0aWxsIG9uZ29pbmcsIGFzIGlm
-IHdlIHNlZSB0aGUgbnVtYmVycyB0aGUgb2xkDQogICAgY29kZSB0aHJvdHRsaW5nIGlzIGFsd2F5
-cyBsZXNzIHRoYW4gdGhlIHRhcmdldC4NCiAgICANCiAgICBIYXZlIHlvdSB0cmllZCB0byBzaW1w
-bHkgcmVtb3ZlIHRoZSB0aHJvdHRsZV90aHJlYWRfc2NoZWR1bGVkDQogICAgdmFyaWFibGUsIGFu
-ZCB0cmlnZ2VyIHRoZSB0aHJvdHRsZSB1bmNvbmRpdGlvbmFsbHkgKGJ1dCBzdGlsbCB3aXRoIG9u
-ZQ0KICAgIHRpbWVyKT8NCiAgICANCiAgICA+IA0KICAgID4gVGhlIHJlc3VsdHMgc3VwcG9ydCBh
-IHBlci12Q1BVIHRpbWVyIG1vZGVsIGFzIGl0IHByb2R1Y2VzIG1vcmUgYWNjdXJhdGUNCiAgICA+
-IHRocm90dGxpbmcuDQogICAgPiANCiAgICA+IFNpZ25lZC1vZmYtYnk6IENvc21pbiBNYXJpbiA8
-Y29zbWluQG51dGFuaXguY29tPg0KICAgID4gLS0tDQogICAgPiAgY3B1cy5jICAgICAgICAgICAg
-fCAyOSArKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLQ0KICAgID4gIGluY2x1ZGUvcW9tL2Nw
-dS5oIHwgIDQgKystLQ0KICAgID4gIDIgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygrKSwg
-MTYgZGVsZXRpb25zKC0pDQogICAgPiANCiAgICA+IGRpZmYgLS1naXQgYS9jcHVzLmMgYi9jcHVz
-LmMNCiAgICA+IGluZGV4IGRkZTNiN2I5ODEuLmMyYmQzYmFiZjYgMTAwNjQ0DQogICAgPiAtLS0g
-YS9jcHVzLmMNCiAgICA+ICsrKyBiL2NwdXMuYw0KICAgID4gQEAgLTgwLDcgKzgwLDYgQEAgaW50
-NjRfdCBtYXhfZGVsYXk7DQogICAgPiAgaW50NjRfdCBtYXhfYWR2YW5jZTsNCiAgICA+ICANCiAg
-ICA+ICAvKiB2Y3B1IHRocm90dGxpbmcgY29udHJvbHMgKi8NCiAgICA+IC1zdGF0aWMgUUVNVVRp
-bWVyICp0aHJvdHRsZV90aW1lcjsNCiAgICA+ICBzdGF0aWMgdW5zaWduZWQgaW50IHRocm90dGxl
-X3BlcmNlbnRhZ2U7DQogICAgPiAgDQogICAgPiAgI2RlZmluZSBDUFVfVEhST1RUTEVfUENUX01J
-TiAxDQogICAgPiBAQCAtNzkyLDQwICs3OTEsNDIgQEAgc3RhdGljIHZvaWQgY3B1X3Rocm90dGxl
-X3RocmVhZChDUFVTdGF0ZSAqY3B1LCBydW5fb25fY3B1X2RhdGEgb3BhcXVlKQ0KICAgID4gICAg
-ICBxZW11X211dGV4X3VubG9ja19pb3RocmVhZCgpOw0KICAgID4gICAgICBnX3VzbGVlcChzbGVl
-cHRpbWVfbnMgLyAxMDAwKTsgLyogQ29udmVydCBucyB0byB1cyBmb3IgdXNsZWVwIGNhbGwgKi8N
-CiAgICA+ICAgICAgcWVtdV9tdXRleF9sb2NrX2lvdGhyZWFkKCk7DQogICAgPiAtICAgIGF0b21p
-Y19zZXQoJmNwdS0+dGhyb3R0bGVfdGhyZWFkX3NjaGVkdWxlZCwgMCk7DQogICAgPiAgfQ0KICAg
-ID4gIA0KICAgID4gIHN0YXRpYyB2b2lkIGNwdV90aHJvdHRsZV90aW1lcl90aWNrKHZvaWQgKm9w
-YXF1ZSkNCiAgICA+ICB7DQogICAgPiAtICAgIENQVVN0YXRlICpjcHU7DQogICAgPiArICAgIENQ
-VVN0YXRlICpjcHUgPSAoQ1BVU3RhdGUgKilvcGFxdWU7DQogICAgPiAgICAgIGRvdWJsZSBwY3Q7
-DQogICAgPiAgDQogICAgPiAgICAgIC8qIFN0b3AgdGhlIHRpbWVyIGlmIG5lZWRlZCAqLw0KICAg
-ID4gICAgICBpZiAoIWNwdV90aHJvdHRsZV9nZXRfcGVyY2VudGFnZSgpKSB7DQogICAgPiAgICAg
-ICAgICByZXR1cm47DQogICAgPiAgICAgIH0NCiAgICA+IC0gICAgQ1BVX0ZPUkVBQ0goY3B1KSB7
-DQogICAgPiAtICAgICAgICBpZiAoIWF0b21pY194Y2hnKCZjcHUtPnRocm90dGxlX3RocmVhZF9z
-Y2hlZHVsZWQsIDEpKSB7DQogICAgPiAtICAgICAgICAgICAgYXN5bmNfcnVuX29uX2NwdShjcHUs
-IGNwdV90aHJvdHRsZV90aHJlYWQsDQogICAgPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBSVU5fT05fQ1BVX05VTEwpOw0KICAgID4gLSAgICAgICAgfQ0KICAgID4gLSAgICB9DQogICAg
-PiArICAgIA0KICAgID4gKyAgICBhc3luY19ydW5fb25fY3B1KGNwdSwgY3B1X3Rocm90dGxlX3Ro
-cmVhZCwgUlVOX09OX0NQVV9OVUxMKTsNCiAgICA+ICANCiAgICA+ICAgICAgcGN0ID0gKGRvdWJs
-ZSljcHVfdGhyb3R0bGVfZ2V0X3BlcmNlbnRhZ2UoKS8xMDA7DQogICAgPiAtICAgIHRpbWVyX21v
-ZCh0aHJvdHRsZV90aW1lciwgcWVtdV9jbG9ja19nZXRfbnMoUUVNVV9DTE9DS19WSVJUVUFMX1JU
-KSArDQogICAgPiArICAgIHRpbWVyX21vZChjcHUtPnRocm90dGxlX3RpbWVyLCBxZW11X2Nsb2Nr
-X2dldF9ucyhRRU1VX0NMT0NLX1ZJUlRVQUxfUlQpICsNCiAgICA+ICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIENQVV9USFJPVFRMRV9USU1FU0xJQ0VfTlMgLyAoMS1wY3QpKTsN
-CiAgICA+ICB9DQogICAgPiAgDQogICAgPiAgdm9pZCBjcHVfdGhyb3R0bGVfc2V0KGludCBuZXdf
-dGhyb3R0bGVfcGN0KQ0KICAgID4gIHsNCiAgICA+ICsgICAgQ1BVU3RhdGUgKmNwdTsNCiAgICA+
-ICsgICAgZG91YmxlIHBjdDsNCiAgICA+ICsNCiAgICA+ICAgICAgLyogRW5zdXJlIHRocm90dGxl
-IHBlcmNlbnRhZ2UgaXMgd2l0aGluIHZhbGlkIHJhbmdlICovDQogICAgPiAgICAgIG5ld190aHJv
-dHRsZV9wY3QgPSBNSU4obmV3X3Rocm90dGxlX3BjdCwgQ1BVX1RIUk9UVExFX1BDVF9NQVgpOw0K
-ICAgID4gICAgICBuZXdfdGhyb3R0bGVfcGN0ID0gTUFYKG5ld190aHJvdHRsZV9wY3QsIENQVV9U
-SFJPVFRMRV9QQ1RfTUlOKTsNCiAgICA+ICANCiAgICA+ICAgICAgYXRvbWljX3NldCgmdGhyb3R0
-bGVfcGVyY2VudGFnZSwgbmV3X3Rocm90dGxlX3BjdCk7DQogICAgPiAgDQogICAgPiAtICAgIHRp
-bWVyX21vZCh0aHJvdHRsZV90aW1lciwgcWVtdV9jbG9ja19nZXRfbnMoUUVNVV9DTE9DS19WSVJU
-VUFMX1JUKSArDQogICAgPiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-Q1BVX1RIUk9UVExFX1RJTUVTTElDRV9OUyk7DQogICAgPiArICAgIHBjdCA9IChkb3VibGUpbmV3
-X3Rocm90dGxlX3BjdC8xMDA7DQogICAgPiArICAgIENQVV9GT1JFQUNIKGNwdSkgew0KICAgID4g
-KyAgICAgICAgdGltZXJfbW9kX2FudGljaXBhdGUoY3B1LT50aHJvdHRsZV90aW1lciwNCiAgICA+
-ICsgICAgICAgICAgICAgICAgcWVtdV9jbG9ja19nZXRfbnMoUUVNVV9DTE9DS19WSVJUVUFMX1JU
-KSArDQogICAgPiArICAgICAgICAgICAgICAgIENQVV9USFJPVFRMRV9USU1FU0xJQ0VfTlMgLyAo
-MS1wY3QpKTsNCiAgICA+ICsgICAgfQ0KICAgID4gIH0NCiAgICA+ICANCiAgICA+ICB2b2lkIGNw
-dV90aHJvdHRsZV9zdG9wKHZvaWQpDQogICAgPiBAQCAtODQ4LDggKzg0OSw2IEBAIHZvaWQgY3B1
-X3RpY2tzX2luaXQodm9pZCkNCiAgICA+ICAgICAgc2VxbG9ja19pbml0KCZ0aW1lcnNfc3RhdGUu
-dm1fY2xvY2tfc2VxbG9jayk7DQogICAgPiAgICAgIHFlbXVfc3Bpbl9pbml0KCZ0aW1lcnNfc3Rh
-dGUudm1fY2xvY2tfbG9jayk7DQogICAgPiAgICAgIHZtc3RhdGVfcmVnaXN0ZXIoTlVMTCwgMCwg
-JnZtc3RhdGVfdGltZXJzLCAmdGltZXJzX3N0YXRlKTsNCiAgICA+IC0gICAgdGhyb3R0bGVfdGlt
-ZXIgPSB0aW1lcl9uZXdfbnMoUUVNVV9DTE9DS19WSVJUVUFMX1JULA0KICAgID4gLSAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjcHVfdGhyb3R0bGVfdGltZXJfdGlj
-aywgTlVMTCk7DQogICAgPiAgfQ0KICAgID4gIA0KICAgID4gIHZvaWQgY29uZmlndXJlX2ljb3Vu
-dChRZW11T3B0cyAqb3B0cywgRXJyb3IgKiplcnJwKQ0KICAgID4gQEAgLTEyNjcsNiArMTI2Niw4
-IEBAIHN0YXRpYyB2b2lkICpxZW11X2t2bV9jcHVfdGhyZWFkX2ZuKHZvaWQgKmFyZykNCiAgICA+
-ICAgICAgcWVtdV90aHJlYWRfZ2V0X3NlbGYoY3B1LT50aHJlYWQpOw0KICAgID4gICAgICBjcHUt
-PnRocmVhZF9pZCA9IHFlbXVfZ2V0X3RocmVhZF9pZCgpOw0KICAgID4gICAgICBjcHUtPmNhbl9k
-b19pbyA9IDE7DQogICAgPiArICAgIGNwdS0+dGhyb3R0bGVfdGltZXIgPSB0aW1lcl9uZXdfbnMo
-UUVNVV9DTE9DS19WSVJUVUFMX1JULA0KICAgID4gKyAgICAgICAgICAgIGNwdV90aHJvdHRsZV90
-aW1lcl90aWNrLCBjcHUpOw0KICAgID4gICAgICBjdXJyZW50X2NwdSA9IGNwdTsNCiAgICA+ICAN
-CiAgICA+ICAgICAgciA9IGt2bV9pbml0X3ZjcHUoY3B1KTsNCiAgICA+IGRpZmYgLS1naXQgYS9p
-bmNsdWRlL3FvbS9jcHUuaCBiL2luY2x1ZGUvcW9tL2NwdS5oDQogICAgPiBpbmRleCA1ZWUwMDQ2
-YjYyLi41YTExYmFlYzY5IDEwMDY0NA0KICAgID4gLS0tIGEvaW5jbHVkZS9xb20vY3B1LmgNCiAg
-ICA+ICsrKyBiL2luY2x1ZGUvcW9tL2NwdS5oDQogICAgPiBAQCAtNDM5LDEwICs0MzksMTAgQEAg
-c3RydWN0IENQVVN0YXRlIHsNCiAgICA+ICAgICAgLyogc2hhcmVkIGJ5IGt2bSwgaGF4IGFuZCBo
-dmYgKi8NCiAgICA+ICAgICAgYm9vbCB2Y3B1X2RpcnR5Ow0KICAgID4gIA0KICAgID4gLSAgICAv
-KiBVc2VkIHRvIGtlZXAgdHJhY2sgb2YgYW4gb3V0c3RhbmRpbmcgY3B1IHRocm90dGxlIHRocmVh
-ZCBmb3IgbWlncmF0aW9uDQogICAgPiArICAgIC8qIFVzZWQgdG8gY3ljbGljYWxseSB0cmlnZ2Vy
-IHZDUFUgdGhyb3R0bGluZyBkdXJpbmcgVk0gbWlncmF0aW9uDQogICAgPiAgICAgICAqIGF1dG9j
-b252ZXJnZQ0KICAgID4gICAgICAgKi8NCiAgICA+IC0gICAgYm9vbCB0aHJvdHRsZV90aHJlYWRf
-c2NoZWR1bGVkOw0KICAgID4gKyAgICBRRU1VVGltZXIgKnRocm90dGxlX3RpbWVyOw0KICAgID4g
-IA0KICAgID4gICAgICBib29sIGlnbm9yZV9tZW1vcnlfdHJhbnNhY3Rpb25fZmFpbHVyZXM7DQog
-ICAgPiAgDQogICAgPiAtLSANCiAgICA+IDIuMTYuNQ0KICAgID4gDQogICAgPiANCiAgICANCiAg
-ICBSZWdhcmRzLA0KICAgIA0KICAgIC0tIA0KICAgIFBldGVyIFh1DQogICAgDQoNCg==
+Ah.
+
+:)
+
+As is probably somewhat evident at this point, I'm using vexpress-a9
+because it's such a convenient QEMU target, rather than because I have
+real hardware anywhere.
+
+Hm, I didn't once stop and think that maybe there actually were two LCD
+controllers. (And this is where software is great; I got to learn my
+assumptions were invalid without blowing anything up. :D)
+
+I tried to find the actual Versatile Express board I'm "using"; the
+closest I was able to come was https://community.arm.com/developer
+/tools-software/tools/b/tools-software-ides-blog/posts/50-off-arm-
+versatile-express-development-boards. It looks like it has two
+(...three?) processors and four PCIe slots. Very nice.
+
+Thanks again.
+
+** Changed in: qemu
+       Status: New =3D> Invalid
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1833101
+
+Title:
+  vexpress-a9 (but not -a15) creates two pl111 LCDs due to duplicate
+  sysbus_create_simple("pl111", ...) calls
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Hi,
+
+  Just a small report that (12ec8bd is current master)
+
+  https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L652:
+
+    ...
+    vexpress_common_init() {
+      ...
+      sysbus_create_simple("pl111", map[VE_CLCD], pic[14]);
+      ...
+    ...
+
+  and
+
+  https://github.com/qemu/qemu/blob/12ec8bd/hw/arm/vexpress.c#L304:
+
+    ...
+    a9_daughterboard_init() {
+      ...
+      sysbus_create_simple("pl111", 0x10020000, pic[44]);
+      ...
+    ...
+
+  result in two LCD panels when using vexpress-a9.
+
+  vexpress-a15 does not appear to be affected (my -a9 kernel does not
+  work with it, but I see only one pl111 created).
+
+  Understandably (but still annoyingly), -nodefaults has no effect.
+
+  This bug is most evident when using SDL (so I can use ",frame=3Doff"),
+  which dumps two top-level windows onto the screen. GTK hides this
+  because, coincidentally, the pl111 that ends up being used is the one
+  that is selected (possibly the one created last?), relegating this to
+  an obscure glitch only noticeable if you scrutinize the menu.
+
+  This is a bugreport as opposed to a pull request as I have no idea
+  which call to remove - and complete ignorance of the potential
+  housekeeping and consideration that may be warranted first.
+
+  FWIW, a simple testcase can be made with the vmlinuz from
+  https://people.debian.org/~aurel32/qemu/armhf/ and
+
+  qemu-system-arm -M vexpress-a9 -kernel vmlinuz-3.2.0-4-vexpress
+  -nodefaults -sdl
+
+  Thanks!
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1833101/+subscriptions
 
