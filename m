@@ -2,91 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859A449B91
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 09:57:18 +0200 (CEST)
-Received: from localhost ([::1]:54550 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8B0649C34
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:41:56 +0200 (CEST)
+Received: from localhost ([::1]:54806 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd8zV-0002N0-Gh
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 03:57:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60756)
+	id 1hd9gi-0001He-05
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42511)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Paul.Durrant@citrix.com>) id 1hd8yK-0001pj-T5
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 03:56:06 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hd9ex-0000Vm-IX
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:40:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Paul.Durrant@citrix.com>) id 1hd8yI-0004mn-J4
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 03:56:04 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:39414)
+ (envelope-from <dgibson@ozlabs.org>) id 1hd9ew-0006IP-B7
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:40:07 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:51579)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
- id 1hd8yI-0004fD-5E
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 03:56:02 -0400
-Authentication-Results: esa2.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=Paul.Durrant@citrix.com;
- spf=Pass smtp.mailfrom=Paul.Durrant@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- Paul.Durrant@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="Paul.Durrant@citrix.com"; x-conformance=sidf_compatible
-Received-SPF: Pass (esa2.hc3370-68.iphmx.com: domain of
- Paul.Durrant@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="Paul.Durrant@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa2.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa2.hc3370-68.iphmx.com;
- envelope-from="Paul.Durrant@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: g4xjIFtYDzVxljSqTv+EBv8/0unWDY7zahXCDuQvH6lAnfu0ouwIPaClIsGSx0GrhMoF5s2Qhc
- Q7cmH22F7STIpcqgJayZ8m0UGExgVD/HddT7tcMhK3f33uEcZjZ9kfyTb51xEoZqHCaqMoQmUL
- +7VsN3ZELke0hAdbE1O5ikfOKkVzo6eoxVq1+mkH/Afw2DIximZmbRIFcgooTzfcKXcJl8K0An
- 4HKoBe8X/zifb9P6PEnXJQVs+nSa+CoDTTQ8jeX4z3jgh2sRvGqQ94bR6xqhBz2sV81qr9QfRO
- 9XY=
-X-SBRS: 2.7
-X-MesageID: 1863943
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.63,388,1557201600"; 
-   d="scan'208";a="1863943"
-From: Paul Durrant <Paul.Durrant@citrix.com>
-To: Anthony Perard <anthony.perard@citrix.com>
-Thread-Topic: [Xen-devel] [PATCH 3/4] xen: Import Xen public headers used by
- xen-hvm.c
-Thread-Index: AQHVJSMVksnbyKoRC0SnNZiHFchLQ6agBEVg///oIwCAAAlbgIABFQIw
-Date: Tue, 18 Jun 2019 07:55:53 +0000
-Message-ID: <17fc272d31cc4e95baa3ec68a90557d1@AMSPEX02CL03.citrite.net>
-References: <20190617154105.32323-1-anthony.perard@citrix.com>
- <20190617154105.32323-4-anthony.perard@citrix.com>
- <21258fd1788f418bb1a0007a43bf0250@AMSPEX02CL03.citrite.net>
- <20190617164544.GA13449@perard.uk.xensource.com>
- <20190617171913.GA15926@perard.uk.xensource.com>
-In-Reply-To: <20190617171913.GA15926@perard.uk.xensource.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hd9es-0005tj-GM; Tue, 18 Jun 2019 04:40:04 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45ShNB72nCz9s4V; Tue, 18 Jun 2019 18:39:54 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1560847195;
+ bh=n0Kl5qdVJyaTJ/S87xL96aTsb5NnFtHSDx/7R325WfI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EcMn52karq6ER4SWlHrGhlMXtb9BUtqzK4UdIfzgm4kLzPz32Z2eYfhte0XbZVCFQ
+ xJKC9WnhINlipN1RogUysC0gZdDc/tVlbZ90q0lta7VeE8xmN2yhYqu4UTQyNiao1G
+ ccV5ZlguCzVA/MMLgWeu28fCu8sa5BYaGDHHLFSI=
+Date: Tue, 18 Jun 2019 18:08:12 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Message-ID: <20190618080812.GA3673@umbus.BigPond>
+References: <20190615081252.28602-1-clg@kaod.org>
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.145.153
-Subject: Re: [Qemu-devel] [Xen-devel] [PATCH 3/4] xen: Import Xen public
- headers used by xen-hvm.c
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wac7ysb48OaltWcw"
+Content-Disposition: inline
+In-Reply-To: <20190615081252.28602-1-clg@kaod.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH] target/ppc: fix compile error in
+ kvmppc_define_rtas_kernel_token()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,50 +56,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Anthony PERARD [mailto:anthony.perard@citrix.com]
-> Sent: 17 June 2019 18:19
-> To: Paul Durrant <Paul.Durrant@citrix.com>
-> Cc: xen-devel@lists.xenproject.org; Stefano Stabellini <sstabellini@kerne=
-l.org>; qemu-devel@nongnu.org
-> Subject: Re: [Xen-devel] [PATCH 3/4] xen: Import Xen public headers used =
-by xen-hvm.c
->=20
-> On Mon, Jun 17, 2019 at 05:45:44PM +0100, Anthony PERARD wrote:
-> > On Mon, Jun 17, 2019 at 05:15:51PM +0100, Paul Durrant wrote:
-> > > AFAICT the only place (apart from legacy code in xen_common.h) that
-> > > params.h is necessary is in xen_suspend_notifier(). I wonder whether
-> > > that would be better moved into xen_common.h too (since it's just a
-> > > wrapper round xc_set_hvm_param() and then the inclusion of params.h
-> > > can be moved there as well.
-> >
-> > :(, I didn't realised that xen_common.h needed params.h too. That patch
-> > series might not build on older version of Xen. I'll move the inclusion
-> > of params.h to xen_common.h, and fix params.h to have all the needed
-> > #defines.
->=20
-> Actually, it works fine without including hvm/params.h in xen_common.h
-> because xen_common.h includes xenctrl.h which includes hvm/params.h.
->=20
-> So I think instead I'll remove all includes of params.h, because
-> HVM_PARAM_* are parameters for xc_hvm_param_{get,set}, which is in a
-> library and not an interface with a guest. Including xenctrl.h should be
-> enough.
 
-The guest/tools separation is messy. ioreq.h is also an interface with Xen =
-and not with a guest, so really I think it should be treated the same way a=
-s params.h. e820.h is referring to guest memory layout, which IMO shouldn't=
- really be hardcoded at all.
+--wac7ysb48OaltWcw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Paul
-
+On Sat, Jun 15, 2019 at 10:12:52AM +0200, C=C3=A9dric Le Goater wrote:
+> gcc9 reports :
 >=20
-> --
-> Anthony PERARD
+> In file included from /usr/include/string.h:494,
+>                  from ./include/qemu/osdep.h:101,
+>                  from ./target/ppc/kvm.c:17:
+> In function =E2=80=98strncpy=E2=80=99,
+>     inlined from =E2=80=98kvmppc_define_rtas_kernel_token=E2=80=99 at ./t=
+arget/ppc/kvm.c:2648:5:
+> /usr/include/bits/string_fortified.h:106:10: error: =E2=80=98__builtin_st=
+rncpy=E2=80=99 specified bound 120 equals destination size [-Werror=3Dstrin=
+gop-truncation]
+>   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__=
+dest));
+>       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Applied to ppc-for-4.1, thanks.
+
+> ---
+>  target/ppc/kvm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index d4107dd70d21..9edf4abeaae7 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2645,7 +2645,7 @@ int kvmppc_define_rtas_kernel_token(uint32_t token,=
+ const char *function)
+>          return -ENOENT;
+>      }
+> =20
+> -    strncpy(args.name, function, sizeof(args.name));
+> +    strncpy(args.name, function, sizeof(args.name) - 1);
+> =20
+>      return kvm_vm_ioctl(kvm_state, KVM_PPC_RTAS_DEFINE_TOKEN, &args);
+>  }
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--wac7ysb48OaltWcw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0Im+oACgkQbDjKyiDZ
+s5K29RAAxbtmUSs8FMZm3mg5ezN+n9iRMvFe5nZEdWL9dsHXYwiT6pFHs7tfopsr
+DwLRU789E6YDiFl7V+Bv2iJmXM13eeDzhBnoW5oLSUy3u0IAh8IosER8nW8vSOf8
+PlhH3X/wYXssXX88IBZVuinsTI455Pi9QnuvcBVHnWDgcIAOODlEC3uMKA4EzlhO
+3/2K5sWuW2yuo5LYJmA02UlEWu0uxBKj9tc4uJdWxu8+8JyeSljx+JrbUfUJYgA1
+8v023HSzSR6V8e8QRjjMisntwjdFpjH9I24oyScXvBb7QvdgTZz6mIS1l8dwyk/A
+zsFmkI7QJ8Gl0uOZTKH/UyyEN+ZpWMajoFkHZMlSnzW//Ja3DuZGPNBVSXnO6UA1
+u+4le7UxktPBY9nfA2EMr1+mzvuzdflxsfwvE/Z4f2xdFfa6A5T1pJa0kLOEojiT
+dSYSWOjs1k9DktOPDtbZvcS3MbCk3O6mnOwcpB+7zn6MVgte/EaiLUvR/6Vz2kIK
+hY3rschkalePlJX24yUv7U8N7z5Wyo5BKo5Unk3rjFpsW2Ks74nTQ1WPoDmCmxC8
+H9oDLuy6jzwY99V3EIiblJx99T6rGYM5FzB0YRyQ0xMXJrSMtkRl3stqiU8n3wz9
+P+Ocj41XkYgMjyzDN4DH0CyiUm1ru227Et4z4YIac9VfJ52vSWQ=
+=7P6P
+-----END PGP SIGNATURE-----
+
+--wac7ysb48OaltWcw--
 
