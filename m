@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5F7C4A7D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:06:35 +0200 (CEST)
-Received: from localhost ([::1]:60202 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E7C4A7E3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:08:05 +0200 (CEST)
+Received: from localhost ([::1]:60217 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdHZ4-0008UV-Al
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:06:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58038)
+	id 1hdHaW-0001hm-K0
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:08:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hdHDE-000644-Mf
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:44:01 -0400
+ (envelope-from <ryanpboyce12@gmail.com>) id 1hdHG5-0000Y1-8A
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:46:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hdHDD-0005jE-Rg
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:44:00 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:55113)
+ (envelope-from <ryanpboyce12@gmail.com>) id 1hdHG2-00012a-EI
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:46:57 -0400
+Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:42343)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdHDD-0005hx-KT
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:43:59 -0400
-Received: by mail-wm1-f68.google.com with SMTP id g135so4054155wme.4
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 09:43:59 -0700 (PDT)
+ (Exim 4.71) (envelope-from <ryanpboyce12@gmail.com>)
+ id 1hdHFx-0000nc-FL
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:46:52 -0400
+Received: by mail-qt1-x82e.google.com with SMTP id s15so16132733qtk.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 09:46:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ozhGyiX5GGyANNqdzEPXuP/b6YXYV5RnVLKgP0S/yWg=;
+ b=aHGt9QbrUjng0GxdCm8vY+mOp216t8xXO491NTkL66B6n+jIWZWs61bbIzLt1+bu/d
+ 5aYfi0TEvzwebsWQizAiArYIIZ2UZMFx+h92kFS4J2UszdO73it+m2habHa/arD6l9qn
+ Kcx+62WUtBnaHx7MtrY8dz8O399A1V+tJ9dTyzxVgPqNFBr/VDiqfTaugXX9jHn7FwVf
+ 1DhLZgG7i7ARqbW+xsMyNKPCAa0tqpImdpSHsz/a6ePDIOhTjfIjTNVNIycjCKkZ9QQS
+ JFLULErBqI3AGjZd1vqKA/MluOAANtP4gbn7NjoBc3clzAR0xR/CoWDbIx1g9/HyQ1Tb
+ eKMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=U9zxtkoZwhnJFFCX0A2D5Wx51sna0MNIsF7wCnvQr8Y=;
- b=UO+8T42RkS3prAOwvkbVaXV+J0+/h5wZfHgLXqTgTKgahXKWR7btKQUbIbNtKpsffJ
- uFt5n1sL3aGHMRVPZJIi9dtSfaUZD5bSb6rfz49dMkAHRNpwsSOuOKmr6M8z89LfSWl0
- 6TzMRFce7y3sleP/4JvQHj5rJ3Te0+6F8OsyhwdtUkvOONB0gOcAFVtqD3uwP5tshyt3
- KEOdH4qqBKgiZ55qeHNUH8KAhax+WUou7H0FSycLvbYYu94wamEAQlcaE0BNK89X+a3p
- FDmGlL6mKUVGAhGA70H1Hcw+RI7HsM3pt1B/42BQfAp8x7if9HT1IHrA5QG+FWIo8kX6
- sAKA==
-X-Gm-Message-State: APjAAAUusAeZIxoi35CQaH14ZxRbYtQJgf9DCecDTiQWNXdHp5Mc/uqM
- 3nVLoNYkAkGJzqZ5NknFVxx5Uw==
-X-Google-Smtp-Source: APXvYqxqaxwx9AsD8KRHoKJayou8ibFDWOOap67b06dvF+r+xR0glc/5phevjwrXe35EFPEpcGPm3g==
-X-Received: by 2002:a7b:cc16:: with SMTP id f22mr4769563wmh.115.1560876238594; 
- Tue, 18 Jun 2019 09:43:58 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:51c0:d03f:68e:1f6d?
- ([2001:b07:6468:f312:51c0:d03f:68e:1f6d])
- by smtp.gmail.com with ESMTPSA id e7sm1944266wmd.0.2019.06.18.09.43.57
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 18 Jun 2019 09:43:58 -0700 (PDT)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Liran Alon <liran.alon@oracle.com>
-References: <20190617175658.135869-1-liran.alon@oracle.com>
- <20190617175658.135869-7-liran.alon@oracle.com>
- <20190618085539.GB2850@work-vm>
- <AB34E76F-231C-4E66-B5CB-113AFCE7A20F@oracle.com>
- <20190618154218.GH2850@work-vm>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <5816685f-32f7-68dd-596c-7dcfaf7e3d4f@redhat.com>
-Date: Tue, 18 Jun 2019 18:44:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ozhGyiX5GGyANNqdzEPXuP/b6YXYV5RnVLKgP0S/yWg=;
+ b=VuaewbLc4c+uE0BS0IERZzfnfzqAPGXC06S/MDPW6o9iPNo49l3B/7UoMC2d2jQqWE
+ c2KoBpf9p5ySqOwWAUoYChnwts+IwhcH8moerEcdgyuth5bVl1Uqa3QtCcOQNOibeoyB
+ M3A7K6NOri+j+XsRYyM97Fjgsg9kn4YrZNX7Vhfjk48hTp9+X9lBxbjY+aANZiCaPZI/
+ nu0Pq+lGRnNOetTnNfAn2JLQtB1DkCLe5sTJp56k8dE2Nu70OVtvrXuMXNsxBqcNqeYo
+ ccE17dSw/xJ2440bwf6LDtWmrtq9gHjDr29qTgBIRWIPWt2nagFy96kyzBd3k0H8DVeT
+ z4WQ==
+X-Gm-Message-State: APjAAAVMB+MHNzZK6hho5CpxyfIUU1sufyBCy4V3NDdpmsNDa8fwJRfb
+ Ysi/6+FI1nTzzPdzO7EtBpCsMads+0WbPmUbk/A=
+X-Google-Smtp-Source: APXvYqyO4lIz7JXC8g/qmOSp6OH/Rj2Jlq4uWlvqHiiwm+3EHKzFpKWvw9regHCvyYWztWhdWkuuqgqfjfAQ50iMwBc=
+X-Received: by 2002:a0c:9e5b:: with SMTP id z27mr27211026qve.67.1560876398417; 
+ Tue, 18 Jun 2019 09:46:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190618154218.GH2850@work-vm>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [QEMU PATCH v3 6/9] vmstate: Add support for
- kernel integer types
+References: <CAOJt3afDmLtb1328ZWRvbO=SYgqtGZYX-aApTMoDPffiErygGg@mail.gmail.com>
+ <CAHDbmO2cxxAv2Fqotfw8S8DBh7J+9oa67N8K_Ps_25vRbtpe3Q@mail.gmail.com>
+ <CAOJt3ad2HbohoBRv8Ey9fknBRGeiN1SJ7wAk9gX+Vpf4pig_KA@mail.gmail.com>
+In-Reply-To: <CAOJt3ad2HbohoBRv8Ey9fknBRGeiN1SJ7wAk9gX+Vpf4pig_KA@mail.gmail.com>
+From: Ryan Boyce <ryanpboyce12@gmail.com>
+Date: Tue, 18 Jun 2019 12:46:27 -0400
+Message-ID: <CAOJt3acuu-eLwnKFUpEQ9V0JqqQs8=dyRUKJVRHKSDzbdGVGpA@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::82e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] qemu processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,20 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, maran.wilson@oracle.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org,
- Nikita Leshenko <nikita.leshchenko@oracle.com>, rth@twiddle.net,
- jmattson@google.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/06/19 17:42, Dr. David Alan Gilbert wrote:
->>> Have you checked that builds OK on a non-Linux system?
->> Hmm that’s a good point. No. :P
-> Worth a check if you can find one lying around :-)
+Alex,
 
-It does not, but it's a macro so it's enough to enclose the uses in
-#ifdef CONFIG_LINUX or CONFIG_KVM.
+I have another KVM/qemu related CPU question. I am hoping you will be so
+kind as to answer again. I have a Dell Poweredge T430 server running a
+single Intel Xeon E5-2603 v3 CPU with 6 cores. I have 6 VMs running CentOS
+7 via KVM. I am noticing some terrible host CPU performance when a VM runs
+a simple process such as a recursive search on its file system. I see VM
+CPU acting normally but the host CPU skyrockets to well over 100%. I have a
+few ideas as to why this is but am hoping you might be able to point me in
+the right direction. Thank you so much for your help!
 
-Paolo
+Ryan
 
+On Wed, Jun 12, 2019 at 12:50 PM Ryan Boyce <ryanpboyce12@gmail.com> wrote:
+
+> Thank you my friend!
+>
+> On Wed, Jun 12, 2019 at 12:48 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
+>
+> wrote:
+>
+>> You've actually contacted the development list but I can answer the
+>> question.
+>>
+>> QEMU is multi-threaded so there will be a thread per KVM based vCPU
+>> (and also for TCG based vCPUs where MTTCG is enabled). There will also
+>> be a number of additional threads created including at least one for
+>> the main monitor thread and potentially additional threads for
+>> servicing IO requests. So expect to see $SMP + 1 + n threads for each
+>> QEMU instance.
+>>
+>> On Wed, 12 Jun 2019 at 16:32, Ryan Boyce <ryanpboyce12@gmail.com> wrote:
+>> >
+>> > Hi Stefan,
+>> >
+>> > I am a big fan of your blog! In relation to your blog post,
+>> >
+>> http://blog.vmsplice.net/2011/03/qemu-internals-big-picture-overview.htm=
+l
+>> ,
+>> > I have a question I am really hoping you can answer:
+>> >
+>> > When I start a VM, I see that the qemu-kvm processes start and run as
+>> > "qemu-kvm..... -name "something1"...."
+>> > My issue, though, is I see multiple processes running as "qemu-kvm....=
+.
+>> > -name "something1"...." and each of these processes has memory/cpu/dis=
+k
+>> > mapped to it.
+>> > Does qemu-kvm run VMs on a one-to-one VM-to-host process basis? Or doe=
+s
+>> > each virtual cpu on the guest get its own process on the host?
+>> > For example, If I have a VM that has 4 virtual cpus, will I see 4
+>> processes
+>> > (PIDs) on the host or should I see just see one for the VM itself.
+>> >
+>> > Any help you can give would be GREATLY appreciated. Thank you!
+>> >
+>> > Ryan
+>>
+>>
+>>
+>> --
+>> Alex Benn=C3=A9e
+>> KVM/QEMU Hacker for Linaro
+>>
+>
