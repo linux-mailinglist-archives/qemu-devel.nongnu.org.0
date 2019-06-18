@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2221249FBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 13:54:20 +0200 (CEST)
-Received: from localhost ([::1]:55912 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B9C49FE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 13:55:45 +0200 (CEST)
+Received: from localhost ([::1]:55936 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdCgt-0004No-Ax
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 07:54:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50686)
+	id 1hdCiG-0006yX-KG
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 07:55:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50909)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Paul.Durrant@citrix.com>) id 1hdCea-0002Wf-Rb
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:51:57 -0400
+ (envelope-from <Paul.Durrant@citrix.com>) id 1hdCfU-0003jP-TS
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:52:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Paul.Durrant@citrix.com>) id 1hdCeZ-0005y8-Vy
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:51:56 -0400
-Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:23204)
+ (envelope-from <Paul.Durrant@citrix.com>) id 1hdCfT-0006Va-Ms
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:52:52 -0400
+Received: from esa6.hc3370-68.iphmx.com ([216.71.155.175]:23237)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <Paul.Durrant@citrix.com>)
- id 1hdCeZ-0005v7-Oo
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:51:55 -0400
+ id 1hdCfT-0006UR-E6
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:52:51 -0400
 Authentication-Results: esa6.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=Paul.Durrant@citrix.com;
@@ -50,28 +50,28 @@ Received-SPF: None (esa6.hc3370-68.iphmx.com: no sender
  envelope-from="Paul.Durrant@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: cBgWoWbFktZMXEGX7iMTEOXfOkNzuc4eqhOtFAFPrIqbhQCH0dVe+w2axLEq9nx3dhQmB25/zg
- SlwXCuZdKvdyEg2ZqmddI7/Titysa2wJYdrr1MMZkDcUgXTeAQrSC+GbckBG4jzS9VGrclx0IZ
- O1wulcGQPzzZ8ZGHPB02U2t2d97rPeYkv3c8N3uNKtWT4jaF+PDIUdU1moG8Iq7alvZxpImIVo
- oocrOk597S2uZeuSte60rP5IolOuAF7A0QXjBrhOtWYoMTDrLCdD6iC7mw7hITHSFAt0eEqEOT
- Mb8=
+IronPort-SDR: zLY1YsY6pE43I81XtXl93HiV1GVsQGAuFZVXyJc7+kUAsTAqh9GGCdrYWSCOT1Jiwhm2/wzj3A
+ bDWmdrLWKTvyoDoJTlhu3gbA3ZLdxELhLPL/+6oprC9QmNCC2T0Eyb1NuVn/o1jq/wtZq6gbf+
+ sjNHtPKyHigkbpQQhDWBmnLjhSsyELY4vUvY7SIhSG84fcnM040uso8tMUlj/vZWjcekylhkgF
+ +slb19Tx/t7srME0WLTbjtRyuSMvzJ5FYSS5Ket4J0u18G+VPuqLVyWiGoe0OdQSypGeDElGuM
+ +00=
 X-SBRS: 2.7
-X-MesageID: 1866243
+X-MesageID: 1866285
 X-Ironport-Server: esa6.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.63,389,1557201600"; 
-   d="scan'208";a="1866243"
+   d="scan'208";a="1866285"
 From: Paul Durrant <Paul.Durrant@citrix.com>
 To: Anthony Perard <anthony.perard@citrix.com>, "qemu-devel@nongnu.org"
  <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v2 3/4] xen: Drop includes of xen/hvm/params.h
-Thread-Index: AQHVJchNDl2we0AoKEKy0mWoK7a/+aahTL6Q
-Date: Tue, 18 Jun 2019 11:51:48 +0000
-Message-ID: <2d5c7b6b814048d38dd60dfb8607f6a1@AMSPEX02CL03.citrite.net>
+Thread-Topic: [PATCH v2 4/4] xen: Avoid VLA
+Thread-Index: AQHVJchKT6z1AbWFfUC6DqRqpG72VqahTQUQ
+Date: Tue, 18 Jun 2019 11:52:46 +0000
+Message-ID: <3c5959420c754d208954f6da7730d87b@AMSPEX02CL03.citrite.net>
 References: <20190618112341.513-1-anthony.perard@citrix.com>
- <20190618112341.513-4-anthony.perard@citrix.com>
-In-Reply-To: <20190618112341.513-4-anthony.perard@citrix.com>
+ <20190618112341.513-5-anthony.perard@citrix.com>
+In-Reply-To: <20190618112341.513-5-anthony.perard@citrix.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -82,8 +82,7 @@ Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.155.175
-Subject: Re: [Qemu-devel] [PATCH v2 3/4] xen: Drop includes of
- xen/hvm/params.h
+Subject: Re: [Qemu-devel] [PATCH v2 4/4] xen: Avoid VLA
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,15 +107,12 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > Cc: Anthony Perard <anthony.perard@citrix.com>; Paul Durrant <Paul.Durran=
 t@citrix.com>; Stefano
 > Stabellini <sstabellini@kernel.org>; xen-devel@lists.xenproject.org
-> Subject: [PATCH v2 3/4] xen: Drop includes of xen/hvm/params.h
+> Subject: [PATCH v2 4/4] xen: Avoid VLA
 >=20
-> xen-mapcache.c doesn't needs params.h.
+> Avoid using a variable length array.
 >=20
-> xen-hvm.c uses defines available in params.h but so is xen_common.h
-> which is included before. HVM_PARAM_* flags are only needed to make
-> xc_hvm_param_{get,set} calls so including only xenctrl.h, which is
-> where the definition the function is, should be enough.
-> (xenctrl.h does include params.h)
+> We allocate the `dirty_bitmap' buffer only once when we start tracking
+> for dirty bits.
 >=20
 > Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 
