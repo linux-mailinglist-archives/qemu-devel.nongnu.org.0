@@ -2,51 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B837D49C5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:48:39 +0200 (CEST)
-Received: from localhost ([::1]:54862 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5EE49E12
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 12:09:26 +0200 (CEST)
+Received: from localhost ([::1]:55378 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd9nC-00061B-Ve
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:48:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43622)
+	id 1hdB3N-0003dj-6N
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 06:09:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58573)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hd9jJ-0003dL-Si
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:44:39 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hdB2R-00037N-3u
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 06:08:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hd9jI-0003Fi-6P
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:44:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60320)
+ (envelope-from <dgibson@ozlabs.org>) id 1hdB2P-00054v-QK
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 06:08:27 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:60521)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hd9jH-0003ED-Up
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:44:36 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 38BA8308FC4B;
- Tue, 18 Jun 2019 08:44:26 +0000 (UTC)
-Received: from work-vm (ovpn-117-76.ams2.redhat.com [10.36.117.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B7F662926;
- Tue, 18 Jun 2019 08:44:23 +0000 (UTC)
-Date: Tue, 18 Jun 2019 09:44:20 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Liran Alon <liran.alon@oracle.com>
-Message-ID: <20190618084420.GA2850@work-vm>
-References: <20190617175658.135869-1-liran.alon@oracle.com>
- <20190617175658.135869-5-liran.alon@oracle.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hdB2N-0004t0-4C; Tue, 18 Jun 2019 06:08:25 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45SkL81x98z9s4V; Tue, 18 Jun 2019 20:08:16 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1560852496;
+ bh=YrBD7ULe6WGZEMhHFRhxf/8KKQ0lH7P15Do1TcHIWvI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Hw4xeqbDWwX3y7TTAcfKQqATAMVKGOrsrgtyz2N+ehIQzZwqpqSS8H8PPHgn5YiGx
+ ZAynTFzKt3qctQCFQwSLSQl2NnXHhK/dqj5mjMcl703JCifbQFlODJ9DhktZFi+dqK
+ e3GtpA1NasOranVrR0DmWpU4pnhxEU8jJczQkM30=
+Date: Tue, 18 Jun 2019 18:46:07 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190618084607.GD3673@umbus.BigPond>
+References: <156084737348.512412.3552825999605902691.stgit@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="d9ADC0YsG2v16Js0"
 Content-Disposition: inline
-In-Reply-To: <20190617175658.135869-5-liran.alon@oracle.com>
+In-Reply-To: <156084737348.512412.3552825999605902691.stgit@bahia.lan>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 18 Jun 2019 08:44:34 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [QEMU PATCH v3 4/9] KVM: i386: Block migration for
- vCPUs exposed with nested virtualization
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH] spapr_pci: Fix DRC owner in
+ spapr_dt_pci_bus()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,134 +56,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, maran.wilson@oracle.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org, pbonzini@redhat.com,
- jmattson@google.com, rth@twiddle.net
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Liran Alon (liran.alon@oracle.com) wrote:
-> Commit d98f26073beb ("target/i386: kvm: add VMX migration blocker")
-> added a migration blocker for vCPU exposed with Intel VMX.
-> However, migration should also be blocked for vCPU exposed with
-> AMD SVM.
-> 
-> Both cases should be blocked because QEMU should extract additional
-> vCPU state from KVM that should be migrated as part of vCPU VMState.
-> E.g. Whether vCPU is running in guest-mode or host-mode.
-> 
-> Fixes: d98f26073beb ("target/i386: kvm: add VMX migration blocker")
-> Signed-off-by: Liran Alon <liran.alon@oracle.com>
+
+--d9ADC0YsG2v16Js0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jun 18, 2019 at 10:42:53AM +0200, Greg Kurz wrote:
+> spapr_dt_drc() scans the aliases of all DRConnector objects and filters
+> the ones that it will use to generate OF properties according to their
+> owner and type.
+>=20
+> Passing bus->parent_dev _works_ if bus belongs to a PCI bridge, but it is
+> NULL if it is the PHB's root bus. This causes all allocated PCI DRCs to
+> be associated to all PHBs (visible in their "ibm,drc-types" properties).
+> As a consequence, hot unplugging a PHB results in PCI devices from the
+> other PHBs to be unplugged as well, and likely confuses the guest.
+>=20
+> Use the same logic as in add_drcs() to ensure the correct owner is passed
+> to spapr_dt_drc().
+>=20
+> Fixes: 14e714900f6b "spapr: Allow hot plug/unplug of PCI bridges and devi=
+ces under PCI bridges"
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Applied, thanks.
 > ---
->  target/i386/cpu.c |  6 ------
->  target/i386/cpu.h | 24 ++++++++++++++++++++++++
->  target/i386/kvm.c | 12 ++++++------
->  3 files changed, 30 insertions(+), 12 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 536d7d152044..197201087e65 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5170,12 +5170,6 @@ static int x86_cpu_filter_features(X86CPU *cpu)
->      return rv;
->  }
->  
-> -#define IS_INTEL_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_INTEL_1 && \
-> -                           (env)->cpuid_vendor2 == CPUID_VENDOR_INTEL_2 && \
-> -                           (env)->cpuid_vendor3 == CPUID_VENDOR_INTEL_3)
-> -#define IS_AMD_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_AMD_1 && \
-> -                         (env)->cpuid_vendor2 == CPUID_VENDOR_AMD_2 && \
-> -                         (env)->cpuid_vendor3 == CPUID_VENDOR_AMD_3)
->  static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+>  hw/ppc/spapr_pci.c |    9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index fbeb1c90ee6c..2dca1e57f36c 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1343,6 +1343,7 @@ static void spapr_dt_pci_device_cb(PCIBus *bus, PCI=
+Device *pdev,
+>  static int spapr_dt_pci_bus(SpaprPhbState *sphb, PCIBus *bus,
+>                                 void *fdt, int offset)
 >  {
->      CPUState *cs = CPU(dev);
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index fce6660bac00..79d9495ceb0c 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -728,6 +728,13 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
->  
->  #define CPUID_VENDOR_HYGON    "HygonGenuine"
->  
-> +#define IS_INTEL_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_INTEL_1 && \
-> +                           (env)->cpuid_vendor2 == CPUID_VENDOR_INTEL_2 && \
-> +                           (env)->cpuid_vendor3 == CPUID_VENDOR_INTEL_3)
-> +#define IS_AMD_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_AMD_1 && \
-> +                         (env)->cpuid_vendor2 == CPUID_VENDOR_AMD_2 && \
-> +                         (env)->cpuid_vendor3 == CPUID_VENDOR_AMD_3)
-> +
->  #define CPUID_MWAIT_IBE     (1U << 1) /* Interrupts can exit capability */
->  #define CPUID_MWAIT_EMX     (1U << 0) /* enumeration supported */
->  
-> @@ -1866,6 +1873,23 @@ static inline int32_t x86_get_a20_mask(CPUX86State *env)
+> +    Object *owner;
+>      PciWalkFdt cbinfo =3D {
+>          .fdt =3D fdt,
+>          .offset =3D offset,
+> @@ -1363,7 +1364,13 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, P=
+CIBus *bus,
+>          return cbinfo.err;
 >      }
->  }
->  
-> +static inline bool cpu_has_vmx(CPUX86State *env)
-> +{
-> +    return (IS_INTEL_CPU(env) &&
-> +            (env->features[FEAT_1_ECX] & CPUID_EXT_VMX));
-> +}
+> =20
+> -    ret =3D spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev),
+> +    if (pci_bus_is_root(bus)) {
+> +        owner =3D OBJECT(sphb);
+> +    } else {
+> +        owner =3D OBJECT(pci_bridge_get_device(bus));
+> +    }
 > +
-> +static inline bool cpu_has_svm(CPUX86State *env)
-> +{
-> +    return (IS_AMD_CPU(env) &&
-> +            (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM));
+> +    ret =3D spapr_dt_drc(fdt, offset, owner,
+>                         SPAPR_DR_CONNECTOR_TYPE_PCI);
+>      if (ret) {
+>          return ret;
+>=20
 
-Note that the Hygon Dhyana seems to have SVM set as well, see
-target/i386/cpu.c and search for "Dhyana"
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-(Note the AMD users are going to be a bit more surprised by this
-restriction than Intel users, since Nested has been enabled on AMD for a
-long time).
+--d9ADC0YsG2v16Js0
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Dave
+-----BEGIN PGP SIGNATURE-----
 
-> +}
-> +
-> +static inline bool cpu_has_nested_virt(CPUX86State *env)
-> +{
-> +    return (cpu_has_vmx(env) || cpu_has_svm(env));
-> +}
-> +
->  /* fpu_helper.c */
->  void update_fp_status(CPUX86State *env);
->  void update_mxcsr_status(CPUX86State *env);
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index c8fd53055d37..f43e2d69859e 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -906,7 +906,7 @@ static int hyperv_init_vcpu(X86CPU *cpu)
->  }
->  
->  static Error *invtsc_mig_blocker;
-> -static Error *vmx_mig_blocker;
-> +static Error *nested_virt_mig_blocker;
->  
->  #define KVM_MAX_CPUID_ENTRIES  100
->  
-> @@ -1270,13 +1270,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
->                                    !!(c->ecx & CPUID_EXT_SMX);
->      }
->  
-> -    if ((env->features[FEAT_1_ECX] & CPUID_EXT_VMX) && !vmx_mig_blocker) {
-> -        error_setg(&vmx_mig_blocker,
-> -                   "Nested VMX virtualization does not support live migration yet");
-> -        r = migrate_add_blocker(vmx_mig_blocker, &local_err);
-> +    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker) {
-> +        error_setg(&nested_virt_mig_blocker,
-> +                   "Nested virtualization does not support live migration yet");
-> +        r = migrate_add_blocker(nested_virt_mig_blocker, &local_err);
->          if (local_err) {
->              error_report_err(local_err);
-> -            error_free(vmx_mig_blocker);
-> +            error_free(nested_virt_mig_blocker);
->              return r;
->          }
->      }
-> -- 
-> 2.20.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0IpM8ACgkQbDjKyiDZ
+s5KC9w//Sg9YZixEezj6YluTRt9z3cwb+Vad4xMzJiDkwhCFp5ajM+FQSYbz3pHt
+vdD8p6eGb0wFaTOmNxvs1RQUvlx7kw3RV54j7ZYRljC9IZbTRweubC686m46Nlpk
+p0e/4gu3oJ6F5MBpLs8WThjz5j2BindQVuAhngyO604HceeeKM63d5oIvMQQ9HSD
+eaWcwr2kkW9OCWwSzRbJOFahJNaP8hI5Ne97MWFQA+W7Pd05E7TPKN3OeDMIXZkS
+D1kQOWsBnGeZr8vvjmwDppQrMAXcES5nOFacFFXEiv2taPknfSWBQfEoFXZ9byK7
+eoZJ8pTAc9s2ZTrV5R75cWK/GoQziO5u6fLkgGgQFOrQWPeMEATmJMmBOD9dhOXG
+5WK1z8432fYNri2A4zO1sqaPRdmJbhCFQ9G+Vo3GMboX9E+LAv+rTRQI4bb9LJbQ
+Y5/FUW3AltsSLo0WXADGj0vJn+2tuETx332NBXa0pLSXVt2pJt0At09M+1nVTif3
+3pYYvO7qJbgMMp9jeahw4eM1i9jBWErkPMPiDvVUACTPNrvy5hfgbmKk5MNg2Tml
+cvXfDRWbdEpSyumfuaNZKhmz0B+8n73CjDPWe/LA9ZWj4lRUfq3AMomKjwTpOgK+
+7XM4ZjOnaJdGejDzDFNgHTGjNjBPPbFw8CHxcmMeN7/i0KAT4cU=
+=I030
+-----END PGP SIGNATURE-----
+
+--d9ADC0YsG2v16Js0--
 
