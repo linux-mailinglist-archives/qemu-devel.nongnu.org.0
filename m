@@ -2,68 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E7C4A7E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:08:05 +0200 (CEST)
-Received: from localhost ([::1]:60217 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2528E4A7F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:14:02 +0200 (CEST)
+Received: from localhost ([::1]:60334 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdHaW-0001hm-K0
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:08:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
+	id 1hdHgH-0002ij-Bc
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59855)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ryanpboyce12@gmail.com>) id 1hdHG5-0000Y1-8A
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:46:58 -0400
+ (envelope-from <cosmin.marin@nutanix.com>) id 1hdHLG-0005iu-Ac
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:52:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ryanpboyce12@gmail.com>) id 1hdHG2-00012a-EI
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:46:57 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:42343)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <ryanpboyce12@gmail.com>)
- id 1hdHFx-0000nc-FL
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:46:52 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id s15so16132733qtk.9
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 09:46:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ozhGyiX5GGyANNqdzEPXuP/b6YXYV5RnVLKgP0S/yWg=;
- b=aHGt9QbrUjng0GxdCm8vY+mOp216t8xXO491NTkL66B6n+jIWZWs61bbIzLt1+bu/d
- 5aYfi0TEvzwebsWQizAiArYIIZ2UZMFx+h92kFS4J2UszdO73it+m2habHa/arD6l9qn
- Kcx+62WUtBnaHx7MtrY8dz8O399A1V+tJ9dTyzxVgPqNFBr/VDiqfTaugXX9jHn7FwVf
- 1DhLZgG7i7ARqbW+xsMyNKPCAa0tqpImdpSHsz/a6ePDIOhTjfIjTNVNIycjCKkZ9QQS
- JFLULErBqI3AGjZd1vqKA/MluOAANtP4gbn7NjoBc3clzAR0xR/CoWDbIx1g9/HyQ1Tb
- eKMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ozhGyiX5GGyANNqdzEPXuP/b6YXYV5RnVLKgP0S/yWg=;
- b=VuaewbLc4c+uE0BS0IERZzfnfzqAPGXC06S/MDPW6o9iPNo49l3B/7UoMC2d2jQqWE
- c2KoBpf9p5ySqOwWAUoYChnwts+IwhcH8moerEcdgyuth5bVl1Uqa3QtCcOQNOibeoyB
- M3A7K6NOri+j+XsRYyM97Fjgsg9kn4YrZNX7Vhfjk48hTp9+X9lBxbjY+aANZiCaPZI/
- nu0Pq+lGRnNOetTnNfAn2JLQtB1DkCLe5sTJp56k8dE2Nu70OVtvrXuMXNsxBqcNqeYo
- ccE17dSw/xJ2440bwf6LDtWmrtq9gHjDr29qTgBIRWIPWt2nagFy96kyzBd3k0H8DVeT
- z4WQ==
-X-Gm-Message-State: APjAAAVMB+MHNzZK6hho5CpxyfIUU1sufyBCy4V3NDdpmsNDa8fwJRfb
- Ysi/6+FI1nTzzPdzO7EtBpCsMads+0WbPmUbk/A=
-X-Google-Smtp-Source: APXvYqyO4lIz7JXC8g/qmOSp6OH/Rj2Jlq4uWlvqHiiwm+3EHKzFpKWvw9regHCvyYWztWhdWkuuqgqfjfAQ50iMwBc=
-X-Received: by 2002:a0c:9e5b:: with SMTP id z27mr27211026qve.67.1560876398417; 
- Tue, 18 Jun 2019 09:46:38 -0700 (PDT)
+ (envelope-from <cosmin.marin@nutanix.com>) id 1hdHLF-0000cZ-3S
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:52:18 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:49588)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cosmin.marin@nutanix.com>)
+ id 1hdHLE-0000VE-St
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:52:17 -0400
+Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5IGo0HU027631; Tue, 18 Jun 2019 09:52:10 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version;
+ s=proofpoint20171006; bh=cFixLCmECX+5uwcOeZ1nCyX/Tv2/tKMkF41ypOXOA6s=;
+ b=VNY4kIlvkaIl6caWn4RmE1N1Ew0XpdTdWZPokxs62v1GkTTmwDWPoSkrGSn4WhF1LzYs
+ 3rSe3Vas+CFOyzIxmK+j6PRfait9B6uT0ULyNSjvedqSMuOrgQ9T2tDIB9jDIGesEgk6
+ GEi5R77aApeJ2wGUfvWFBUeEAkGKeqgwCh1V/k5hSOXyQy6Fycc3t5FxzqMnHmj1/RaX
+ O1HTKa2v9JURI9rFyUiC6LtBMH73fCfApIGCQeeTTatba51ftNSN60NgCggy4ShuQYCg
+ gG936f906iuZj8cNp3tW66mGscULwSzCfF71HyjiF6xkKViZvPhx8F8G9cD4vUY/zlq6 1A== 
+Received: from nam01-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1nam01lp2057.outbound.protection.outlook.com [104.47.32.57])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 2t729qg5v0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+ Tue, 18 Jun 2019 09:52:10 -0700
+Received: from BL0PR02MB4450.namprd02.prod.outlook.com (10.167.179.27) by
+ BL0PR02MB4852.namprd02.prod.outlook.com (52.132.14.33) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.11; Tue, 18 Jun 2019 16:52:09 +0000
+Received: from BL0PR02MB4450.namprd02.prod.outlook.com
+ ([fe80::e5c5:13c4:aa5e:32b6]) by BL0PR02MB4450.namprd02.prod.outlook.com
+ ([fe80::e5c5:13c4:aa5e:32b6%7]) with mapi id 15.20.1987.014; Tue, 18 Jun 2019
+ 16:52:09 +0000
+From: Cosmin Marin <cosmin.marin@nutanix.com>
+To: Peter Xu <peterx@redhat.com>
+Thread-Topic: [Qemu-devel] [PATCH] migration: Improve accuracy of vCPU
+ throttling with per-vCPU timers
+Thread-Index: AQHVIsvLxMtqZNDTbEaTy7clKx/n56afOOUAgAI0KgCAABfqgIAAMocA
+Date: Tue, 18 Jun 2019 16:52:09 +0000
+Message-ID: <903D206C-0B8E-4113-A8B4-B8AC571F840A@nutanix.com>
+References: <20190614161106.218854-1-cosmin@nutanix.com>
+ <20190617034628.GA12456@xz-x1>
+ <ACBDA5C2-CC9B-416F-AB54-D4A98CAF2F8A@nutanix.com>
+ <20190618145116.GA3793@xz-x1>
+In-Reply-To: <20190618145116.GA3793@xz-x1>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [37.235.116.68]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 96be460f-68c1-420a-09d5-08d6f40d4d96
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:BL0PR02MB4852; 
+x-ms-traffictypediagnostic: BL0PR02MB4852:
+x-proofpoint-crosstenant: true
+x-microsoft-antispam-prvs: <BL0PR02MB4852CBB3751C18AD5712E2B686EA0@BL0PR02MB4852.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 007271867D
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39860400002)(376002)(366004)(136003)(346002)(396003)(189003)(199004)(71200400001)(14444005)(8936002)(486006)(256004)(476003)(316002)(68736007)(102836004)(7736002)(305945005)(6506007)(6512007)(76176011)(186003)(2616005)(26005)(478600001)(2906002)(54906003)(44832011)(5660300002)(86362001)(14454004)(99286004)(91956017)(446003)(71190400001)(6246003)(25786009)(36756003)(66066001)(6916009)(53936002)(66446008)(11346002)(66476007)(73956011)(229853002)(6116002)(3846002)(76116006)(6436002)(66556008)(64756008)(81156014)(8676002)(6486002)(33656002)(81166006)(66946007)(4326008)(64030200001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BL0PR02MB4852;
+ H:BL0PR02MB4450.namprd02.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nutanix.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 8Gn3O251XCpGp0l3tYwYubAXtZsYG6uK2heSudqtrkdzI2gHkXGxVj3j7Jug3yEs48gF06+J4wFpH9zLFMsZ7VZNEsQF9/YCG5ovSfnjGUOenAwG6E3MMtIULYwd9arglVUDAcoogTcDRl0lHknc4+GYKWsguz9JMdUKGSoaiCcQ11Gr80Z/nHd3+670pji4h01hRXh9pUQonMbnGGBsSi51FcmS/syWrbZTqc1LhvIFrZ9OGYqUfby5EwXFnaLUmfERxiDMtXGufYwzVdUcFM/NQQ/J/HqweChuvozZIAFEoFJojzPbTe6YbkubDTl4JOcVv9OBq+Br5F0iSgR7MRqnLWVETrsdhJEEca89iolFM4OsH83sB3AL6aUUsbNvEcFKY4PlQHUErcOYJBiBTXPNd9qx36SUqCoZw6WJ57A=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AF6809F7F9BC45449377F929A23B318B@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <CAOJt3afDmLtb1328ZWRvbO=SYgqtGZYX-aApTMoDPffiErygGg@mail.gmail.com>
- <CAHDbmO2cxxAv2Fqotfw8S8DBh7J+9oa67N8K_Ps_25vRbtpe3Q@mail.gmail.com>
- <CAOJt3ad2HbohoBRv8Ey9fknBRGeiN1SJ7wAk9gX+Vpf4pig_KA@mail.gmail.com>
-In-Reply-To: <CAOJt3ad2HbohoBRv8Ey9fknBRGeiN1SJ7wAk9gX+Vpf4pig_KA@mail.gmail.com>
-From: Ryan Boyce <ryanpboyce12@gmail.com>
-Date: Tue, 18 Jun 2019 12:46:27 -0400
-Message-ID: <CAOJt3acuu-eLwnKFUpEQ9V0JqqQs8=dyRUKJVRHKSDzbdGVGpA@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::82e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] qemu processes
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96be460f-68c1-420a-09d5-08d6f40d4d96
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2019 16:52:09.2055 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: cosmin.marin@nutanix.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4852
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-18_08:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.155.12
+Subject: Re: [Qemu-devel] [PATCH] migration: Improve accuracy of vCPU
+ throttling with per-vCPU timers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,74 +113,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex,
+DQoNCu+7v09uIDE4LzA2LzIwMTksIDE1OjUxLCAiUGV0ZXIgWHUiIDxwZXRlcnhAcmVkaGF0LmNv
+bT4gd3JvdGU6DQoNCiAgICBPbiBUdWUsIEp1biAxOCwgMjAxOSBhdCAxMjoyNTo0M1BNICswMDAw
+LCBDb3NtaW4gTWFyaW4gd3JvdGU6DQogICAgPiAJSGkgUGV0ZXIsDQogICAgPiANCiAgICA+IAl0
+aGFua3MgZm9yIHJldmlld2luZyB0aGUgcGF0Y2guIEluZGVlZCwgSSBhZ3JlZSB0aGF0IGl0J3Mg
+YWxtb3N0IGltcG9zc2libGUgdG8gZGV0ZXJtaW5lIHdoaWNoIHNvbHV0aW9uIGl0J3MgYmV0dGVy
+IGZyb20gdGhlIHNjYWxhYmlsaXR5IHBlcnNwZWN0aXZlLiBIb3dldmVyLCBJIGZlZWwgdGhhdCB1
+c2luZyBwZXItdkNQVSB0aW1lcnMgaXMgdGhlIG9ubHkgd2F5IGZvciBlbnN1cmluZyBjb3JyZWN0
+bmVzcyBvZiB0aGUgdGhyb3R0bGluZyByYXRpby4NCiAgICANCiAgICBUaGUgdGhpbmcgaXMgdGhh
+dCB5b3VyIHBhdGNoIGFjdHVhbGx5IGNvbnRhaW5zIHR3byBjaGFuZ2VzOg0KICAgIA0KICAgIDEu
+IHVzZSBOIHRpbWVycyBpbnN0ZWFkIG9mIG9uZS4NCiAgICANCiAgICAyLiByZW1vdmUgdGhyb3R0
+bGVfdGhyZWFkX3NjaGVkdWxlZCBjaGVjaywgc28gd2UgZG8gdGhlIHRocm90dGxlDQogICAgICAg
+YWx3YXlzDQogICAgDQogICAgSGVyZSB3aGF0IEknbSB3b3JyaWVkIGlzIHRoYXQgX21heWJlXyB0
+aGUgMm5kIGl0ZW0gaXMgdGhlIG9uZSB0aGF0DQogICAgcmVhbGx5IGhlbHBlZC4NCiAgICANCglD
+OiBUaGUgcmVtb3ZhbCBvZiAqdGhyb3R0bGVfdGhyZWFkX3NjaGVkdWxlZCogaXMgYSBjb25zZXF1
+ZW5jZSBvZiB0aGUgcGVyLXZDUFUgbW9kZWwgb25seS4gSW4gdGhpcyBtb2RlbCwgZWFjaCBvZiB0
+aGUgdkNQVXMgc2NoZWR1bGVzIHdvcmsganVzdCBmb3IgaXRzZWxmIChhcyBwYXJ0IG9mIHRoZSB0
+aW1lcidzIGZpcmluZyBjYWxsYmFjaykgLSB0aGVyZSdzIG5vIGdsb2JhbCBwb2ludCBvZiBjb250
+cm9sIC0gdGhlcmVmb3JlLCB0aGUgdmFyaWFibGUgaXNuJ3QgaGVscGZ1bCBmb3Igc2NoZWR1bGlu
+ZyBhbnltb3JlLg0KDQogICAgTm90ZSB0aGF0IHRoZXJlIGlzIGEgc2lkZSBlZmZlY3QgdGhhdCB3
+ZSBtaWdodCBxdWV1ZSBtb3JlIHRoYW4gb25lDQogICAgd29yayBvbiBvbmUgc3BlY2lmaWMgY3B1
+IGlmIHdlIHF1ZXVlIGl0IHRvbyBmYXN0LCBidXQgaXQgZG9lcyBub3QNCiAgICBibG9jayB1cyBm
+cm9tIHRyeWluZyBpdCBvdXQgdG8gaWRlbnRpZnkgd2hpY2ggaXRlbSAoMSBvciAyIG9yIGJvdGgp
+DQogICAgcmVhbGx5IGhlbHBlZCBoZXJlLiAgVGhlbiBpZiB3ZSB0aGluayB0aGF0IChxdWV1aW5n
+IHRvbyBtdWNoKSBpcyBhbg0KICAgIGlzc3VlIHRoZW4gd2UgY2FuIGRpc2N1c3Mgb24gaG93IHRv
+IGZpeCBpdCBzaW5jZSBjdXJyZW50IHBhdGNoIHdpbGwNCiAgICBoYXZlIHRoaXMgcHJvYmxlbSBh
+cyB3ZWxsLg0KICAgIA0KCUM6IEkgYmVsaWV2ZSB0aGF0IGluIHRoZSBwZXItdkNQVSB0aW1lciBp
+bXBsZW1lbnRhdGlvbiB3ZSBjYW5ub3QgcXVldWUgbW9yZSB0aGFuIG9uZSBwaWVjZSBvZiB3b3Jr
+IGJlY2F1c2UsIGhlcmUsIHRoZSB2Q1BVIHF1ZXVlcyB3b3JrIGZvciBpdHNlbGYgYW5kIHRoYXQg
+aGFwcGVucyBvbmx5IHdoZW4gdGhlIHRpbWVyIGZpcmVzIC0gc28sIHRoZSB0d28gInN0YXRlcyIg
+LSBzY2hlZHVsaW5nIGFuZCBzbGVlcGluZyAtIGFyZSBtdXR1YWxseSBleGNsdXNpdmUgcnVubmlu
+ZyBmcm9tIHRoZSBzYW1lIHRocmVhZCBjb250ZXh0LiANCiAgICA+IA0KICAgID4gCUl0J3MgYSBi
+aXQgdW5jbGVhciB0byBtZSBob3cgdGhlIHRocm90dGxpbmcgcmF0aW8gaW5jb25zaXN0ZW5jeSBj
+YW4gYmUgZml4ZWQgYnkgdXNpbmcgYSBzaW5nbGUgdGltZXIgZXZlbiBhdm9pZGluZyB0aGUgY29u
+ZGl0aW9uYWwgdGltZXIgcmUtYXJtaW5nLiAgQ291bGQgeW91IHByb3ZpZGUgbW9yZSBkZXRhaWxz
+IGFib3V0IHRoZSB1c2Ugb2YgYSBzaW5nbGUgdGltZXIgPw0KDQoJQzogSSBmZWVsIGxpa2UgaW4g
+dGhpcyBjYXNlIGl0IHdpbGwgc2xlZXAgdG9vIG11Y2ggcnVubmluZyBpbnRvIGEgcHJvYmxlbSBz
+aW1pbGFyIHRvIHRoZSBvbmUgc29sdmVkIGJ5IDkwYmIwYzA7IHVuZGVyIGhlYXZ5IHRocm90dGxp
+bmcgbW9yZSB0aGFuIG9uZSB3b3JrIGl0ZW0gbWF5IGJlIHNjaGVkdWxlZC4NCiAgICAgIA0KDQog
+ICAgSXQnbGwgYmUgc2ltcGx5IGEgcGF0Y2ggb25seSBjb250YWlucyB0aGUgY2hhbmdlcyBmb3Ig
+aXRlbSAoMikgYWJvdmUuDQogICAgVG8gYmUgZXhwbGljaXQsIGl0IGlzOg0KICAgIA0KICAgIC0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0NCiAgICBkaWZmIC0tZ2l0IGEvY3B1cy5jIGIvY3B1cy5jDQogICAgaW5kZXggZGRl
+M2I3Yjk4MS4uYmI1OTY3NWI5OCAxMDA2NDQNCiAgICAtLS0gYS9jcHVzLmMNCiAgICArKysgYi9j
+cHVzLmMNCiAgICBAQCAtNzkyLDcgKzc5Miw2IEBAIHN0YXRpYyB2b2lkIGNwdV90aHJvdHRsZV90
+aHJlYWQoQ1BVU3RhdGUgKmNwdSwgcnVuX29uX2NwdV9kYXRhIG9wYXF1ZSkNCiAgICAgICAgIHFl
+bXVfbXV0ZXhfdW5sb2NrX2lvdGhyZWFkKCk7DQogICAgICAgICBnX3VzbGVlcChzbGVlcHRpbWVf
+bnMgLyAxMDAwKTsgLyogQ29udmVydCBucyB0byB1cyBmb3IgdXNsZWVwIGNhbGwgKi8NCiAgICAg
+ICAgIHFlbXVfbXV0ZXhfbG9ja19pb3RocmVhZCgpOw0KICAgIC0gICAgYXRvbWljX3NldCgmY3B1
+LT50aHJvdHRsZV90aHJlYWRfc2NoZWR1bGVkLCAwKTsNCiAgICAgfQ0KICAgIA0KICAgICBzdGF0
+aWMgdm9pZCBjcHVfdGhyb3R0bGVfdGltZXJfdGljayh2b2lkICpvcGFxdWUpDQogICAgQEAgLTgw
+NSwxMCArODA0LDcgQEAgc3RhdGljIHZvaWQgY3B1X3Rocm90dGxlX3RpbWVyX3RpY2sodm9pZCAq
+b3BhcXVlKQ0KICAgICAgICAgICAgIHJldHVybjsNCiAgICAgICAgIH0NCiAgICAgICAgIENQVV9G
+T1JFQUNIKGNwdSkgew0KICAgIC0gICAgICAgIGlmICghYXRvbWljX3hjaGcoJmNwdS0+dGhyb3R0
+bGVfdGhyZWFkX3NjaGVkdWxlZCwgMSkpIHsNCiAgICAtICAgICAgICAgICAgYXN5bmNfcnVuX29u
+X2NwdShjcHUsIGNwdV90aHJvdHRsZV90aHJlYWQsDQogICAgLSAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgUlVOX09OX0NQVV9OVUxMKTsNCiAgICAtICAgICAgICB9DQogICAgKyAgICAgICAg
+YXN5bmNfcnVuX29uX2NwdShjcHUsIGNwdV90aHJvdHRsZV90aHJlYWQsIFJVTl9PTl9DUFVfTlVM
+TCk7DQogICAgICAgICB9DQogICAgDQogICAgICAgICBwY3QgPSAoZG91YmxlKWNwdV90aHJvdHRs
+ZV9nZXRfcGVyY2VudGFnZSgpLzEwMDsNCiAgICBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9xb20vY3B1
+LmggYi9pbmNsdWRlL3FvbS9jcHUuaA0KICAgIGluZGV4IDVlZTAwNDZiNjIuLjBiZDM0ZmJiNzAg
+MTAwNjQ0DQogICAgLS0tIGEvaW5jbHVkZS9xb20vY3B1LmgNCiAgICArKysgYi9pbmNsdWRlL3Fv
+bS9jcHUuaA0KICAgIEBAIC00MzksMTEgKzQzOSw2IEBAIHN0cnVjdCBDUFVTdGF0ZSB7DQogICAg
+ICAgICAvKiBzaGFyZWQgYnkga3ZtLCBoYXggYW5kIGh2ZiAqLw0KICAgICAgICAgYm9vbCB2Y3B1
+X2RpcnR5Ow0KICAgIA0KICAgIC0gICAgLyogVXNlZCB0byBrZWVwIHRyYWNrIG9mIGFuIG91dHN0
+YW5kaW5nIGNwdSB0aHJvdHRsZSB0aHJlYWQgZm9yIG1pZ3JhdGlvbg0KICAgIC0gICAgICogYXV0
+b2NvbnZlcmdlDQogICAgLSAgICAgKi8NCiAgICAtICAgIGJvb2wgdGhyb3R0bGVfdGhyZWFkX3Nj
+aGVkdWxlZDsNCiAgICAtDQogICAgICAgICBib29sIGlnbm9yZV9tZW1vcnlfdHJhbnNhY3Rpb25f
+ZmFpbHVyZXM7DQogICAgDQogICAgICAgICBzdHJ1Y3QgaGF4X3ZjcHVfc3RhdGUgKmhheF92Y3B1
+Ow0KICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0NCiAgICANCiAgICBSZWdhcmRzLA0KICAgIA0KICAgIC0tIA0KICAg
+IFBldGVyIFh1DQogICAgDQoNCg==
 
-I have another KVM/qemu related CPU question. I am hoping you will be so
-kind as to answer again. I have a Dell Poweredge T430 server running a
-single Intel Xeon E5-2603 v3 CPU with 6 cores. I have 6 VMs running CentOS
-7 via KVM. I am noticing some terrible host CPU performance when a VM runs
-a simple process such as a recursive search on its file system. I see VM
-CPU acting normally but the host CPU skyrockets to well over 100%. I have a
-few ideas as to why this is but am hoping you might be able to point me in
-the right direction. Thank you so much for your help!
-
-Ryan
-
-On Wed, Jun 12, 2019 at 12:50 PM Ryan Boyce <ryanpboyce12@gmail.com> wrote:
-
-> Thank you my friend!
->
-> On Wed, Jun 12, 2019 at 12:48 PM Alex Benn=C3=A9e <alex.bennee@linaro.org=
->
-> wrote:
->
->> You've actually contacted the development list but I can answer the
->> question.
->>
->> QEMU is multi-threaded so there will be a thread per KVM based vCPU
->> (and also for TCG based vCPUs where MTTCG is enabled). There will also
->> be a number of additional threads created including at least one for
->> the main monitor thread and potentially additional threads for
->> servicing IO requests. So expect to see $SMP + 1 + n threads for each
->> QEMU instance.
->>
->> On Wed, 12 Jun 2019 at 16:32, Ryan Boyce <ryanpboyce12@gmail.com> wrote:
->> >
->> > Hi Stefan,
->> >
->> > I am a big fan of your blog! In relation to your blog post,
->> >
->> http://blog.vmsplice.net/2011/03/qemu-internals-big-picture-overview.htm=
-l
->> ,
->> > I have a question I am really hoping you can answer:
->> >
->> > When I start a VM, I see that the qemu-kvm processes start and run as
->> > "qemu-kvm..... -name "something1"...."
->> > My issue, though, is I see multiple processes running as "qemu-kvm....=
-.
->> > -name "something1"...." and each of these processes has memory/cpu/dis=
-k
->> > mapped to it.
->> > Does qemu-kvm run VMs on a one-to-one VM-to-host process basis? Or doe=
-s
->> > each virtual cpu on the guest get its own process on the host?
->> > For example, If I have a VM that has 4 virtual cpus, will I see 4
->> processes
->> > (PIDs) on the host or should I see just see one for the VM itself.
->> >
->> > Any help you can give would be GREATLY appreciated. Thank you!
->> >
->> > Ryan
->>
->>
->>
->> --
->> Alex Benn=C3=A9e
->> KVM/QEMU Hacker for Linaro
->>
->
