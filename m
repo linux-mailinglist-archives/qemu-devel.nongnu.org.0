@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3599049704
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 03:40:46 +0200 (CEST)
-Received: from localhost ([::1]:52974 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71B1496D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 03:38:41 +0200 (CEST)
+Received: from localhost ([::1]:52942 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd376-0003lw-Lu
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 21:40:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40880)
+	id 1hd357-0000KU-0e
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 21:38:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40926)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <prvs=0651fb9a1=alistair.francis@wdc.com>)
- id 1hd307-0006cG-Py
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:33:32 -0400
+ id 1hd309-0006cs-PK
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:33:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <prvs=0651fb9a1=alistair.francis@wdc.com>)
- id 1hd306-0008SK-OU
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:33:31 -0400
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:60680)
+ id 1hd308-0008Ue-NY
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:33:33 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:54812)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <prvs=0651fb9a1=alistair.francis@wdc.com>)
- id 1hd306-0008QF-Bs; Mon, 17 Jun 2019 21:33:30 -0400
+ id 1hd308-0008Ta-Ec; Mon, 17 Jun 2019 21:33:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1560821610; x=1592357610;
+ t=1560821612; x=1592357612;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=M1eC63nLbKo5deTZERedixlrYYiXU7yvY+1DteOQC7U=;
- b=ASPNVYy6lMfsDq8k6wCpWFo0QGPoOvbr1Bsu3mjzWk/DcjubxvoH5RXR
- bZrYr+yip2vn8aR2xtXiSxXd/i/wmVQRo+hpjL7NfcCTYrNkH3wpxPIkR
- j+LhCeHK531arcyVayM8Z6J120E16HMNQyLaDHZwbuEvm/4pAmO31a2+a
- clKBfEUI2xeNnkuD2qPYlcwM/T1E351qVH8DO9KsTW/SngI0NdZbsEIla
- 3uokkyjmn716ML9RwPjtE6y6d19WhSAxnRLMCml36PRQntyz1TsgNGIax
- ivfJwo31R0Yb3ZQ1sm2mwnLgg9QnEBccuJrawTgHTGFtWAOksKWPryHuq Q==;
-X-IronPort-AV: E=Sophos;i="5.63,386,1557158400"; d="scan'208";a="115717022"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2019 09:33:29 +0800
-IronPort-SDR: Ofxj6kIPdmhmNMpf2yZrgoiWwwj/W/JIsJVdv/jUEbHIB573cWbIztjHB2sZbFk660MkSmFvem
- 2W0w0YI51ZPyxbor8QPjJ9bysAEpea0pzTU+imcJKV50XNpTxPXTMsK/8KyQDUw6tNF7ny2BOK
- jfy4pI3LfCHsTHHROQqRexGUpB8t8sM+JnB5l4BqJgI9OsWf6D+iaKlzcXoOzjPl3yuejv9wKl
- p0Jb4ZyAEz0yMWNZPR9olslRPaWw85xC9HMK/z3e1qczqXdM7Eo83DmSIzvH1ndAx/kFQwNIfQ
- ltlQ9EgKAWh1ZVXYWRSskN1n
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP; 17 Jun 2019 18:33:01 -0700
-IronPort-SDR: 6uJu5WczK5Mj6IXKS8b+FVfSFKlHedeA+FruTcYD+I1m3OiY6xBoM2gwJYp0NrGqSSzkc6ICjc
- 17/iDvAEdIBCf01S6Z41iJArsRsshnYFh0f6iHQGktjSYqJuicR1DhcvzUCtG36iEU0tq1hYP9
- XuXfbwJeHLjnOEiAl2xticJwQZhB+oYK5b6Tk1YPTrxIBQ3jiLUP4mU/rb4/+tty0eqPpSyV8W
- IBfcU1QrbwHj2mnuklsxcbXR0APcCPdR30InCa0MJGa/wqDweUoyjh1QUEKbTpQO+j86/GgnAD
- A+Q=
+ bh=fQX+cG1dHeaRtULmRePJFSd6JTXSO12ulMWO1V2QRmM=;
+ b=MYOC1BCozjgb87Rjk92azcqd8ptHW8nb3+HyhWg+hJ3/kAtQERQxcbZ/
+ cy0SjsPsoJ+v2pw4ut/p3Q+zuxFOiBNWC0nnl2SmM29xK4QksXwcc8N+I
+ /zX5tF3Y6AqVGZmpyABkmNLA1Ze8m5M3P5ff4OFRpqltUcdRspQZ3ALcU
+ sdUM+SYs0tDL1uZOODYcSH/vF38z7vCXiBMDZ2STQkT6X9pdkCPn2lHL9
+ dqcVQPJUzUtnNylPrgz8g+w1KqKh0OJ0kD1EqKSO5xBGzJw+ooie8r/Dg
+ k9V9YfROJPRsmmJhlc8UGZPKHGwUII6DesseBNqTC/zFtKPGRYLk0RvT0 Q==;
+X-IronPort-AV: E=Sophos;i="5.63,386,1557158400"; d="scan'208";a="112457248"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2019 09:33:31 +0800
+IronPort-SDR: NQSOEOZiLa4568M+FVKFKvvyq2EameQZqdrkof07Ax8bpixmr4BNMU4Au6RMMOFjOQcII2a+nN
+ fshcX80/9Mbdpd/vdQGAibyNO9BXGtdE8kNudiM0jf6Qj12s6j5Lt+16equn5eHtL7YdWs88aM
+ q7o4iqkmGasMRrPgRVPgEc2lloOYTaGNnI2kf9efOtKwhutVC/6GMB88IIZm7D6N6dM9rkBHZ8
+ qNrHFQl/LcY0BgG79EgypVIO7t3XbjcYkCyuSMxx06F1fHz80f5hG7j0LtgkjTxADegIszM4Zg
+ pqtx8VQBnDEIg+PD2KwZ0jS3
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP; 17 Jun 2019 18:33:01 -0700
+IronPort-SDR: PnhoWeBSZG2DKf0SQU9P6AF2lge+IA7BxVUUis0mxYjgcpYY8FoPcsNal+MiWkIgfcgizQ7vYX
+ TH55qx0pFtg8RnJtRcRjXtujxJKFMFNe0gtNFMR+MNi4NgZt30XbNHxmgCeWvQrpsmJQ8wvFmM
+ 9hWvqnysb5v/ubdnxKD371Zca2r6Ms+epFZwlfIbSF9JwjTveqL3kEP78txqntxL/3q6myZy8w
+ bzB7dc5PAi3fOstwggdD+j8iB1JC9SsAAtboqlj5HWigh8upDi8EMclrqmKy0EyS3Vnksg0sm4
+ Qh8=
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Jun 2019 18:33:29 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 17 Jun 2019 18:33:31 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Date: Mon, 17 Jun 2019 18:31:08 -0700
-Message-Id: <b9cb270c4356301ca15d6fec3f651da64beb57d3.1560821342.git.alistair.francis@wdc.com>
+Date: Mon, 17 Jun 2019 18:31:11 -0700
+Message-Id: <313968903b6233d286c32bb0f52ac1620033a761.1560821342.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <cover.1560821342.git.alistair.francis@wdc.com>
 References: <cover.1560821342.git.alistair.francis@wdc.com>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 216.71.153.141
-Subject: [Qemu-devel] [PATCH v1 3/9] target/riscv: Comment in the
- mcountinhibit CSR
+X-Received-From: 216.71.154.45
+Subject: [Qemu-devel] [PATCH v1 4/9] target/riscv: Set privledge spec 1.11.0
+ as default
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,55 +83,47 @@ Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a comment for the new mcountinhibit which conflicts with the
-CSR_MUCOUNTEREN from version 1.09.1. This can be updated when we remove
-1.09.1.
+Set the priv spec version 1.11.0 as the default and allow selecting it
+via the command line.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_bits.h | 1 +
- target/riscv/csr.c      | 6 ++++--
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ target/riscv/cpu.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 47450a3cdb..11f971ad5d 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -136,6 +136,7 @@
- #define CSR_MCOUNTEREN      0x306
- 
- /* Legacy Counter Setup (priv v1.9.1) */
-+/* Update to #define CSR_MCOUNTINHIBIT 0x320 for 1.11.0 */
- #define CSR_MUCOUNTEREN     0x320
- #define CSR_MSCOUNTEREN     0x321
- #define CSR_MHCOUNTEREN     0x322
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index c67d29e206..437387fd28 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -461,18 +461,20 @@ static int write_mcounteren(CPURISCVState *env, int csrno, target_ulong val)
-     return 0;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index a4dd7ae6fc..a23d83921a 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -111,7 +111,7 @@ static void riscv_any_cpu_init(Object *obj)
+ {
+     CPURISCVState *env = &RISCV_CPU(obj)->env;
+     set_misa(env, RVXLEN | RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+-    set_versions(env, USER_VERSION_2_02_0, PRIV_VERSION_1_10_0);
++    set_versions(env, USER_VERSION_2_02_0, PRIV_VERSION_1_11_0);
+     set_resetvec(env, DEFAULT_RSTVEC);
  }
  
-+/* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
- static int read_mscounteren(CPURISCVState *env, int csrno, target_ulong *val)
- {
--    if (env->priv_ver > PRIV_VERSION_1_09_1) {
-+    if (env->priv_ver > PRIV_VERSION_1_09_1 && env->priv_ver < PRIV_VERSION_1_11_0) {
-         return -1;
+@@ -316,7 +316,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     RISCVCPU *cpu = RISCV_CPU(dev);
+     CPURISCVState *env = &cpu->env;
+     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
+-    int priv_version = PRIV_VERSION_1_10_0;
++    int priv_version = PRIV_VERSION_1_11_0;
+     int user_version = USER_VERSION_2_02_0;
+     target_ulong target_misa = 0;
+     Error *local_err = NULL;
+@@ -328,7 +328,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
      }
-     *val = env->mcounteren;
-     return 0;
- }
  
-+/* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
- static int write_mscounteren(CPURISCVState *env, int csrno, target_ulong val)
- {
--    if (env->priv_ver > PRIV_VERSION_1_09_1) {
-+    if (env->priv_ver > PRIV_VERSION_1_09_1 && env->priv_ver < PRIV_VERSION_1_11_0) {
-         return -1;
-     }
-     env->mcounteren = val;
+     if (cpu->cfg.priv_spec) {
+-        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
++        if (!g_strcmp0(cpu->cfg.priv_spec, "v1.11.0")) {
++            priv_version = PRIV_VERSION_1_11_0;
++        } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.10.0")) {
+             priv_version = PRIV_VERSION_1_10_0;
+         } else if (!g_strcmp0(cpu->cfg.priv_spec, "v1.9.1")) {
+             priv_version = PRIV_VERSION_1_09_1;
 -- 
 2.22.0
 
