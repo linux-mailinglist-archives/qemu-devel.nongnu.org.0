@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E2F4A05D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 14:09:28 +0200 (CEST)
-Received: from localhost ([::1]:56438 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11644A092
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 14:16:28 +0200 (CEST)
+Received: from localhost ([::1]:56484 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdCvX-0007Jm-Oq
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 08:09:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55395)
+	id 1hdD2J-0002it-SJ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 08:16:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56882)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hdCuP-0006E6-6r
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:08:18 -0400
+ (envelope-from <berrange@redhat.com>) id 1hdD0a-0002H2-OL
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:14:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hdCuN-0002AL-Up
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:08:17 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36983)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hdCuN-00029c-P5
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:08:15 -0400
-Received: by mail-wm1-f66.google.com with SMTP id f17so2985246wme.2
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 05:08:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4+N3SSk6PnSzYs/q3j1/lZtFbLDr9U6uRQqRH7reJyw=;
- b=aUEehNycTaV9XXGx978HHeikZMcw6jPURqCRb1AND2YC1PUatfwQl1azYdQUYsC04A
- f0PaiS9LxMo4rZ9zTldhL99+zYF6ioUuDYYC3ZHP+Ovx5oBo29JrYFj+IiYkU8lfxFfJ
- 28EDEjTGOAJxFVRUMdLu9jmdvv4DH6wereKqtYDQoTrY5cK3oWrEeabeKrwtLCspULKA
- tOFVsz1ZsEA3YVm9G6bPs/SqGFKmWzGLreQO1azqPWNsRl5GF+A/zKWkjXygbo/b84Oc
- bHZ6n21tfSCELIbW6KJdZZ17jRfcBxbXXcZmAil/cYDVUhcD24eCmREHwCWg8Rcxj89e
- vbZQ==
-X-Gm-Message-State: APjAAAWIE6wvrTBQzYzg/cz/lSDOcjiAjduZLuJbTyBnna2GyBptAD/B
- rrBfcgXSxYhXQkyorWhgHvvbs3DAprU=
-X-Google-Smtp-Source: APXvYqwV4O1biVtNg43e/hCKlSlRNxFhHjoKWSs4YIH2zytG2Cc7vKAzlm3YY3aRWm8W362KF8lS5A==
-X-Received: by 2002:a1c:6156:: with SMTP id v83mr3535410wmb.81.1560859694431; 
- Tue, 18 Jun 2019 05:08:14 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id t198sm2723335wmt.2.2019.06.18.05.08.13
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 18 Jun 2019 05:08:13 -0700 (PDT)
-To: Andrew Jones <drjones@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20190618083442.10407-1-drjones@redhat.com>
- <CAFEAcA9bwbev3efZ=LJPGgObBCbW-WX19fySMusLyMNC5ZExvA@mail.gmail.com>
- <20190618115558.uhygiqryxo4lbb5u@kamzik.brq.redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <307999bd-f1ee-9681-b770-e85587e1c5f1@redhat.com>
-Date: Tue, 18 Jun 2019 14:08:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <berrange@redhat.com>) id 1hdD0Z-0006wT-J5
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:14:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54104)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdD0Z-0006db-DC
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:14:39 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AF2C620264;
+ Tue, 18 Jun 2019 12:14:13 +0000 (UTC)
+Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EDFD81001DCB;
+ Tue, 18 Jun 2019 12:14:11 +0000 (UTC)
+Date: Tue, 18 Jun 2019 13:14:08 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Message-ID: <20190618121408.GM28525@redhat.com>
+References: <20190618112341.513-1-anthony.perard@citrix.com>
+ <20190618112341.513-2-anthony.perard@citrix.com>
 MIME-Version: 1.0
-In-Reply-To: <20190618115558.uhygiqryxo4lbb5u@kamzik.brq.redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20190618112341.513-2-anthony.perard@citrix.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Tue, 18 Jun 2019 12:14:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH] hw/arm/boot: fix direct kernel boot setup
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/4] xen: Fix build with public headers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,74 +57,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: xen-devel@lists.xenproject.org, Paul Durrant <paul.durrant@citrix.com>,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/18/19 1:55 PM, Andrew Jones wrote:
-> On Tue, Jun 18, 2019 at 12:02:37PM +0100, Peter Maydell wrote:
->> On Tue, 18 Jun 2019 at 09:34, Andrew Jones <drjones@redhat.com> wrote:
->>>
->>> We need to check ram_end, not ram_size.
->>>
->>> Fixes: 852dc64d665f ("hw/arm/boot: Diagnose layouts that put initrd or
->>> DTB off the end of RAM")
->>> Signed-off-by: Andrew Jones <drjones@redhat.com>
->>> ---
->>>  hw/arm/boot.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
->>> index b2f93f6beff6..8a280ab3ed49 100644
->>> --- a/hw/arm/boot.c
->>> +++ b/hw/arm/boot.c
->>> @@ -1109,7 +1109,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
->>>                               info->initrd_filename);
->>>                  exit(1);
->>>              }
->>> -            if (info->initrd_start + initrd_size > info->ram_size) {
->>> +            if (info->initrd_start + initrd_size > ram_end) {
->>>                  error_report("could not load initrd '%s': "
->>>                               "too big to fit into RAM after the kernel",
->>>                               info->initrd_filename);
->>> --
->>> 2.20.1
->>
->> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>
->> I think I missed this because my test case doesn't have an
->> initrd -- direct kernel boot works fine if all you're
->> passing to QEMU is the kernel... I think we could clarify
->> the commit message a little:
+On Tue, Jun 18, 2019 at 12:23:38PM +0100, Anthony PERARD wrote:
+> Following 37677d7db3 "Clean up a few header guard symbols", QEMU start
+> to fail to build:
 > 
-> I found it using kvm-unit-tests which uses a small initrd to
-> pass environment variables to the guest. All the tests started
-> to report FAIL.
+> In file included from ~/xen/tools/../tools/include/xen/io/blkif.h:31:0,
+>                  from ~/xen/tools/qemu-xen-dir/hw/block/xen_blkif.h:5,
+>                  from ~/xen/tools/qemu-xen-dir/hw/block/xen-block.c:22:
+> ~/xen/tools/../tools/include/xen/io/ring.h:68:0: error: "__CONST_RING_SIZE" redefined [-Werror]
+>  #define __CONST_RING_SIZE(_s, _sz) \
 > 
->>
->> hw/arm/boot: fix direct kernel boot with initrd
->>
->> Fix the condition used to check whether the initrd fits
->> into RAM; this meant we were spuriously refusing to do
->> a direct boot of a kernel in some cases if an initrd
->> was also passed on the command line.
+> In file included from ~/xen/tools/qemu-xen-dir/hw/block/xen_blkif.h:4:0,
+>                  from ~/xen/tools/qemu-xen-dir/hw/block/xen-block.c:22:
+> ~/xen/tools/qemu-xen-dir/include/hw/xen/io/ring.h:66:0: note: this is the location of the previous definition
+>  #define __CONST_RING_SIZE(_s, _sz) \
 > 
-> Actually I think we need another fix for this error too. We
-> weren't actually refusing do direct boot the kernel, but we
-> should have been. We're missing the 'exit(1)' after the error
-> message.
-> 
->>
->> ?
->>
->> (if you agree I can just fix up the commit message when I apply it.)
-> 
-> I agree with the improved commit message if we also add the
-> 'exit(1)', otherwise "refusing to boot" isn't the right thing
-> to say.
+> The issue is that some public xen headers have been imported (by
+> f65eadb639 "xen: import ring.h from xen") but not all. With the change
+> in the guards symbole, the ring.h header start to be imported twice.
 
-Indeed. So for this patch + Peter comment + exit():
+Ah, so the include/hw/xen/io/ring.h file in tree is a copy of
+/usr/include/xen/io/ring.h from xen-devel.  Previously both
+these used "#ifndef __XEN_PUBLIC_IO_RING_H__". After
+the header guard cleanup in 37677d7db3, our local copy used a
+different header guard from the installed copy & thus we're
+not protected from dual inclusion.
 
-Fixes: 852dc64d665
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+IMHO the right solutions here are either
+
+ - Don't copy public Xen headers into our tree
+ - Keep our Xen header copies identical to the originals
+
+Importing public headers and then changing them locally is the worst
+thing to do. With that in mind I think we should revert the part of
+commit 37677d7db3 that touched the imported Xen headers.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
