@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9949F4A64A
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:10:30 +0200 (CEST)
-Received: from localhost ([::1]:59360 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1A34A6AB
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:20:40 +0200 (CEST)
+Received: from localhost ([::1]:59454 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdGgn-0005m3-QH
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:10:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56038)
+	id 1hdGqd-0005Z9-BZ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:20:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56153)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hdFxa-000843-0w
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:23:49 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hdFxe-0008BN-8V
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:23:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hdFxX-0000oF-4x
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:23:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40158)
+ (envelope-from <kwolf@redhat.com>) id 1hdFxa-0000rh-Tk
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:23:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38696)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hdFxQ-0000Vq-RZ; Tue, 18 Jun 2019 11:23:37 -0400
+ id 1hdFxR-0000f6-0o; Tue, 18 Jun 2019 11:23:37 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 40216307D921;
- Tue, 18 Jun 2019 15:23:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6D281883D7;
+ Tue, 18 Jun 2019 15:23:32 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-185.ams2.redhat.com
  [10.36.116.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 61D9919492;
- Tue, 18 Jun 2019 15:23:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C83419492;
+ Tue, 18 Jun 2019 15:23:31 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 18 Jun 2019 17:23:10 +0200
-Message-Id: <20190618152318.24953-7-kwolf@redhat.com>
+Date: Tue, 18 Jun 2019 17:23:11 +0200
+Message-Id: <20190618152318.24953-8-kwolf@redhat.com>
 In-Reply-To: <20190618152318.24953-1-kwolf@redhat.com>
 References: <20190618152318.24953-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 18 Jun 2019 15:23:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Tue, 18 Jun 2019 15:23:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 06/14] file-posix: Update open_flags in
- raw_set_perm()
+Subject: [Qemu-devel] [PULL 07/14] block: Add bdrv_child_refresh_perms()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,58 +61,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-raw_check_perm() + raw_set_perm() can change the flags associated with
-the current FD.  If so, we have to update BDRVRawState.open_flags
-accordingly.  Otherwise, we may keep reopening the FD even though the
-current one already has the correct flags.
+If a block node uses bdrv_child_try_set_perm() to change the permission
+it takes on its child, the result may be very short-lived.  If anything
+makes the block layer recalculate the permissions internally, it will
+invoke the node driver's .bdrv_child_perm() implementation.  The
+permission/shared permissions masks that returns will then override the
+values previously passed to bdrv_child_try_set_perm().
+
+If drivers want a child edge to have specific values for the
+permissions/shared permissions mask, it must return them in
+.bdrv_child_perm().  Consequentially, there is no need for them to pass
+the same values to bdrv_child_try_set_perm() then: It is better to have
+a function that invokes .bdrv_child_perm() and calls
+bdrv_child_try_set_perm() with the result.  This patch adds such a
+function under the name of bdrv_child_refresh_perms().
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/file-posix.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/block/block_int.h | 15 +++++++++++++++
+ block.c                   | 12 ++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 83ab1b78ef..ab05b51a66 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -146,6 +146,7 @@ typedef struct BDRVRawState {
-     uint64_t locked_shared_perm;
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index a498c2670b..d6415b53c1 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1165,9 +1165,24 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState=
+ *child_bs,
+                                   void *opaque, Error **errp);
+ void bdrv_root_unref_child(BdrvChild *child);
 =20
-     int perm_change_fd;
-+    int perm_change_flags;
-     BDRVReopenState *reopen_state;
++/**
++ * Sets a BdrvChild's permissions.  Avoid if the parent is a BDS; use
++ * bdrv_child_refresh_perms() instead and make the parent's
++ * .bdrv_child_perm() implementation return the correct values.
++ */
+ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared=
+,
+                             Error **errp);
 =20
- #ifdef CONFIG_XFS
-@@ -2788,6 +2789,7 @@ static int raw_check_perm(BlockDriverState *bs, uin=
-t64_t perm, uint64_t shared,
-         assert(s->reopen_state->shared_perm =3D=3D shared);
-         rs =3D s->reopen_state->opaque;
-         s->perm_change_fd =3D rs->fd;
-+        s->perm_change_flags =3D rs->open_flags;
-     } else {
-         /* We may need a new fd if auto-read-only switches the mode */
-         ret =3D raw_reconfigure_getfd(bs, bs->open_flags, &open_flags, p=
-erm,
-@@ -2796,6 +2798,7 @@ static int raw_check_perm(BlockDriverState *bs, uin=
-t64_t perm, uint64_t shared,
-             return ret;
-         } else if (ret !=3D s->fd) {
-             s->perm_change_fd =3D ret;
-+            s->perm_change_flags =3D open_flags;
-         }
-     }
++/**
++ * Calls bs->drv->bdrv_child_perm() and updates the child's permission
++ * masks with the result.
++ * Drivers should invoke this function whenever an event occurs that
++ * makes their .bdrv_child_perm() implementation return different
++ * values than before, but which will not result in the block layer
++ * automatically refreshing the permissions.
++ */
++int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error *=
+*errp);
++
+ /* Default implementation for BlockDriver.bdrv_child_perm() that can be =
+used by
+  * block filters: Forward CONSISTENT_READ, WRITE, WRITE_UNCHANGED and RE=
+SIZE to
+  * all children */
+diff --git a/block.c b/block.c
+index ceb2ea23c5..013369851b 100644
+--- a/block.c
++++ b/block.c
+@@ -2083,6 +2083,18 @@ int bdrv_child_try_set_perm(BdrvChild *c, uint64_t=
+ perm, uint64_t shared,
+     return 0;
+ }
 =20
-@@ -2834,6 +2837,7 @@ static void raw_set_perm(BlockDriverState *bs, uint=
-64_t perm, uint64_t shared)
-     if (s->perm_change_fd && s->fd !=3D s->perm_change_fd) {
-         qemu_close(s->fd);
-         s->fd =3D s->perm_change_fd;
-+        s->open_flags =3D s->perm_change_flags;
-     }
-     s->perm_change_fd =3D 0;
-=20
++int bdrv_child_refresh_perms(BlockDriverState *bs, BdrvChild *c, Error *=
+*errp)
++{
++    uint64_t parent_perms, parent_shared;
++    uint64_t perms, shared;
++
++    bdrv_get_cumulative_perm(bs, &parent_perms, &parent_shared);
++    bdrv_child_perm(bs, c->bs, c, c->role, NULL, parent_perms, parent_sh=
+ared,
++                    &perms, &shared);
++
++    return bdrv_child_try_set_perm(c, perms, shared, errp);
++}
++
+ void bdrv_filter_default_perms(BlockDriverState *bs, BdrvChild *c,
+                                const BdrvChildRole *role,
+                                BlockReopenQueue *reopen_queue,
 --=20
 2.20.1
 
