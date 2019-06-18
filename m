@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C48A4A652
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:11:56 +0200 (CEST)
-Received: from localhost ([::1]:59362 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F21B4A703
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:34:51 +0200 (CEST)
+Received: from localhost ([::1]:59632 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdGiB-00070A-HM
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:11:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56082)
+	id 1hdH4M-0004PA-4i
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:34:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56054)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hdFxb-00086F-P2
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:23:53 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hdFxa-00084k-SV
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:23:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hdFxZ-0000pv-3g
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:23:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40172)
+ (envelope-from <kwolf@redhat.com>) id 1hdFxY-0000pO-VH
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:23:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49688)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hdFxO-0000dD-W4; Tue, 18 Jun 2019 11:23:36 -0400
+ id 1hdFxR-0000f7-N0; Tue, 18 Jun 2019 11:23:37 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9B058307D935;
- Tue, 18 Jun 2019 15:23:33 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C4435C049598;
+ Tue, 18 Jun 2019 15:23:34 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-185.ams2.redhat.com
  [10.36.116.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7E8E19492;
- Tue, 18 Jun 2019 15:23:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E535F19492;
+ Tue, 18 Jun 2019 15:23:33 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 18 Jun 2019 17:23:12 +0200
-Message-Id: <20190618152318.24953-9-kwolf@redhat.com>
+Date: Tue, 18 Jun 2019 17:23:13 +0200
+Message-Id: <20190618152318.24953-10-kwolf@redhat.com>
 In-Reply-To: <20190618152318.24953-1-kwolf@redhat.com>
 References: <20190618152318.24953-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 18 Jun 2019 15:23:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Tue, 18 Jun 2019 15:23:34 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/14] block/mirror: Fix child permissions
+Subject: [Qemu-devel] [PULL 09/14] block/commit: Drop
+ bdrv_child_try_set_perm()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,105 +62,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-We cannot use bdrv_child_try_set_perm() to give up all restrictions on
-the child edge, and still have bdrv_mirror_top_child_perm() request
-BLK_PERM_WRITE.  Fix this by making bdrv_mirror_top_child_perm() return
-0/BLK_PERM_ALL when we want to give up all permissions, and replacing
-bdrv_child_try_set_perm() by bdrv_child_refresh_perms().
-
-The bdrv_child_try_set_perm() before removing the node with
-bdrv_replace_node() is then unnecessary.  No permissions have changed
-since the previous invocation of bdrv_child_try_set_perm().
+commit_top_bs never requests or unshares any permissions.  There is no
+reason to make this so explicit here.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/mirror.c | 32 +++++++++++++++++++++++---------
- 1 file changed, 23 insertions(+), 9 deletions(-)
+ block/commit.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/block/mirror.c b/block/mirror.c
-index b5878ba574..d17be4cdbc 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -85,6 +85,7 @@ typedef struct MirrorBlockJob {
-=20
- typedef struct MirrorBDSOpaque {
-     MirrorBlockJob *job;
-+    bool stop;
- } MirrorBDSOpaque;
-=20
- struct MirrorOp {
-@@ -656,8 +657,9 @@ static int mirror_exit_common(Job *job)
-=20
-     /* We don't access the source any more. Dropping any WRITE/RESIZE is
-      * required before it could become a backing file of target_bs. */
--    bdrv_child_try_set_perm(mirror_top_bs->backing, 0, BLK_PERM_ALL,
+diff --git a/block/commit.c b/block/commit.c
+index c815def89a..212c6f639e 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -110,8 +110,6 @@ static void commit_abort(Job *job)
+      * XXX Can (or should) we somehow keep 'consistent read' blocked eve=
+n
+      * after the failed/cancelled commit job is gone? If we already wrot=
+e
+      * something to base, the intermediate images aren't valid any more.=
+ */
+-    bdrv_child_try_set_perm(s->commit_top_bs->backing, 0, BLK_PERM_ALL,
 -                            &error_abort);
-+    bs_opaque->stop =3D true;
-+    bdrv_child_refresh_perms(mirror_top_bs, mirror_top_bs->backing,
-+                             &error_abort);
-     if (!abort && s->backing_mode =3D=3D MIRROR_SOURCE_BACKING_CHAIN) {
-         BlockDriverState *backing =3D s->is_none_mode ? src : s->base;
-         if (backing_bs(target_bs) !=3D backing) {
-@@ -704,13 +706,12 @@ static int mirror_exit_common(Job *job)
-     g_free(s->replaces);
-     bdrv_unref(target_bs);
+     bdrv_replace_node(s->commit_top_bs, backing_bs(s->commit_top_bs),
+                       &error_abort);
 =20
--    /* Remove the mirror filter driver from the graph. Before this, get =
-rid of
-+    /*
-+     * Remove the mirror filter driver from the graph. Before this, get =
-rid of
-      * the blockers on the intermediate nodes so that the resulting stat=
-e is
--     * valid. Also give up permissions on mirror_top_bs->backing, which =
-might
--     * block the removal. */
-+     * valid.
-+     */
-     block_job_remove_all_bdrv(bjob);
--    bdrv_child_try_set_perm(mirror_top_bs->backing, 0, BLK_PERM_ALL,
--                            &error_abort);
-     bdrv_replace_node(mirror_top_bs, backing_bs(mirror_top_bs), &error_a=
-bort);
-=20
-     /* We just changed the BDS the job BB refers to (with either or both=
- of the
-@@ -1459,6 +1460,18 @@ static void bdrv_mirror_top_child_perm(BlockDriver=
-State *bs, BdrvChild *c,
-                                        uint64_t perm, uint64_t shared,
-                                        uint64_t *nperm, uint64_t *nshare=
-d)
- {
-+    MirrorBDSOpaque *s =3D bs->opaque;
-+
-+    if (s->stop) {
-+        /*
-+         * If the job is to be stopped, we do not need to forward
-+         * anything to the real image.
-+         */
-+        *nperm =3D 0;
-+        *nshared =3D BLK_PERM_ALL;
-+        return;
-+    }
-+
-     /* Must be able to forward guest writes to the real image */
-     *nperm =3D 0;
-     if (perm & BLK_PERM_WRITE) {
-@@ -1681,8 +1694,9 @@ fail:
-         job_early_fail(&s->common.job);
-     }
-=20
--    bdrv_child_try_set_perm(mirror_top_bs->backing, 0, BLK_PERM_ALL,
--                            &error_abort);
-+    bs_opaque->stop =3D true;
-+    bdrv_child_refresh_perms(mirror_top_bs, mirror_top_bs->backing,
-+                             &error_abort);
-     bdrv_replace_node(mirror_top_bs, backing_bs(mirror_top_bs), &error_a=
-bort);
-=20
-     bdrv_unref(mirror_top_bs);
 --=20
 2.20.1
 
