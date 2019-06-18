@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8272A4A876
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:32:42 +0200 (CEST)
-Received: from localhost ([::1]:60546 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2454A83F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:26:01 +0200 (CEST)
+Received: from localhost ([::1]:60486 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdHyL-00069h-On
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:32:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32875)
+	id 1hdHrs-0000Bx-Lh
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:26:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32865)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hdHOV-0001UX-V4
+ (envelope-from <clg@kaod.org>) id 1hdHOV-0001UV-TR
  for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:55:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hdHOR-00062y-9c
+ (envelope-from <clg@kaod.org>) id 1hdHOQ-00061i-Oc
  for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:55:37 -0400
-Received: from 5.mo7.mail-out.ovh.net ([178.32.120.239]:35860)
+Received: from 20.mo6.mail-out.ovh.net ([178.32.124.17]:51013)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hdHOR-0005f3-0J
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:55:35 -0400
-Received: from player157.ha.ovh.net (unknown [10.109.159.68])
- by mo7.mail-out.ovh.net (Postfix) with ESMTP id 1CD9712210F
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 18:55:15 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hdHOK-0005ne-1O
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:55:30 -0400
+Received: from player157.ha.ovh.net (unknown [10.108.57.72])
+ by mo6.mail-out.ovh.net (Postfix) with ESMTP id 6EFCF1D0C52
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 18:55:22 +0200 (CEST)
 Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
  (Authenticated sender: clg@kaod.org)
- by player157.ha.ovh.net (Postfix) with ESMTPSA id AD4816EB549D;
- Tue, 18 Jun 2019 16:55:08 +0000 (UTC)
+ by player157.ha.ovh.net (Postfix) with ESMTPSA id 204BA6EB54BC;
+ Tue, 18 Jun 2019 16:55:15 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Jun 2019 18:53:06 +0200
-Message-Id: <20190618165311.27066-17-clg@kaod.org>
+Date: Tue, 18 Jun 2019 18:53:07 +0200
+Message-Id: <20190618165311.27066-18-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190618165311.27066-1-clg@kaod.org>
 References: <20190618165311.27066-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 1689694286381288209
+X-Ovh-Tracer-Id: 1691664611958819601
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrtddtgdejkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.120.239
-Subject: [Qemu-devel] [PATCH v2 16/21] aspeed/smc: add DMA calibration
- settings
+X-Received-From: 178.32.124.17
+Subject: [Qemu-devel] [PATCH v2 17/21] aspeed/smc: inject errors in DMA
+ checksum
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,70 +62,53 @@ Cc: Andrew Jeffery <andrew@aj.id.au>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When doing calibration, the SPI clock rate in the CE0 Control Register
-and the read delay cycles in the Read Timing Compensation Register are
-set using bit[11:4] of the DMA Control Register.
+Emulate read errors in the DMA Checksum Register for high frequencies
+and optimistic settings of the Read Timing Compensation Register. This
+will help in tuning the SPI timing calibration algorithm.
+
+The values below are those to expect from the first flash device of
+the FMC controller of a palmetto-bmc machine.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Acked-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
 ---
- hw/ssi/aspeed_smc.c | 64 ++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 63 insertions(+), 1 deletion(-)
 
+ Changes since v1:
+
+ - introduced a "inject-failure" property as suggested by Philippe
+
+ include/hw/ssi/aspeed_smc.h |  1 +
+ hw/ssi/aspeed_smc.c         | 36 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+
+diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
+index 453357cc09bf..ba496956cd5e 100644
+--- a/include/hw/ssi/aspeed_smc.h
++++ b/include/hw/ssi/aspeed_smc.h
+@@ -87,6 +87,7 @@ typedef struct AspeedSMCState {
+=20
+     uint32_t num_cs;
+     qemu_irq *cs_lines;
++    bool inject_failure;
+=20
+     SSIBus *spi;
+=20
 diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index e00cdebae232..4a2e3a9135b6 100644
+index 4a2e3a9135b6..5c017f631ffd 100644
 --- a/hw/ssi/aspeed_smc.c
 +++ b/hw/ssi/aspeed_smc.c
-@@ -75,6 +75,10 @@
- #define   CTRL_CMD_MASK            0xff
- #define   CTRL_DUMMY_HIGH_SHIFT    14
- #define   CTRL_AST2400_SPI_4BYTE   (1 << 13)
-+#define CE_CTRL_CLOCK_FREQ_SHIFT   8
-+#define CE_CTRL_CLOCK_FREQ_MASK    0xf
-+#define CE_CTRL_CLOCK_FREQ(div)                                         =
-\
-+    (((div) & CE_CTRL_CLOCK_FREQ_MASK) << CE_CTRL_CLOCK_FREQ_SHIFT)
- #define   CTRL_DUMMY_LOW_SHIFT     6 /* 2 bits [7:6] */
- #define   CTRL_CE_STOP_ACTIVE      (1 << 2)
- #define   CTRL_CMD_MODE_MASK       0x3
-@@ -110,7 +114,7 @@
- #define   DMA_CTRL_DELAY_SHIFT  8
- #define   DMA_CTRL_FREQ_MASK    0xf
- #define   DMA_CTRL_FREQ_SHIFT   4
--#define   DMA_CTRL_MODE         (1 << 3)
-+#define   DMA_CTRL_CALIB        (1 << 3)
- #define   DMA_CTRL_CKSUM        (1 << 2)
- #define   DMA_CTRL_WRITE        (1 << 1)
- #define   DMA_CTRL_ENABLE       (1 << 0)
-@@ -809,6 +813,60 @@ static uint64_t aspeed_smc_read(void *opaque, hwaddr=
- addr, unsigned int size)
-     }
+@@ -867,6 +867,36 @@ static void aspeed_smc_dma_calibration(AspeedSMCStat=
+e *s)
+     s->regs[s->r_ctrl0 + cs] |=3D CE_CTRL_CLOCK_FREQ(hclk_div);
  }
 =20
-+static uint8_t aspeed_smc_hclk_divisor(uint8_t hclk_mask)
-+{
-+    /* HCLK/1 .. HCLK/16 */
-+    const uint8_t hclk_divisors[] =3D {
-+        15, 7, 14, 6, 13, 5, 12, 4, 11, 3, 10, 2, 9, 1, 8, 0
-+    };
-+    int i;
-+
-+    for (i =3D 0; i < ARRAY_SIZE(hclk_divisors); i++) {
-+        if (hclk_mask =3D=3D hclk_divisors[i]) {
-+            return i + 1;
-+        }
-+    }
-+
-+    qemu_log_mask(LOG_GUEST_ERROR, "invalid HCLK mask %x", hclk_mask);
-+    return 0;
-+}
-+
 +/*
-+ * When doing calibration, the SPI clock rate in the CE0 Control
-+ * Register and the read delay cycles in the Read Timing Compensation
-+ * Register are set using bit[11:4] of the DMA Control Register.
++ * Emulate read errors in the DMA Checksum Register for high
++ * frequencies and optimistic settings of the Read Timing Compensation
++ * Register. This will help in tuning the SPI timing calibration
++ * algorithm.
 + */
-+static void aspeed_smc_dma_calibration(AspeedSMCState *s)
++static bool aspeed_smc_inject_read_failure(AspeedSMCState *s)
 +{
 +    uint8_t delay =3D
 +        (s->regs[R_DMA_CTRL] >> DMA_CTRL_DELAY_SHIFT) & DMA_CTRL_DELAY_M=
@@ -133,47 +116,50 @@ ASK;
 +    uint8_t hclk_mask =3D
 +        (s->regs[R_DMA_CTRL] >> DMA_CTRL_FREQ_SHIFT) & DMA_CTRL_FREQ_MAS=
 K;
-+    uint8_t hclk_div =3D aspeed_smc_hclk_divisor(hclk_mask);
-+    uint32_t hclk_shift =3D (hclk_div - 1) << 2;
-+    uint8_t cs;
 +
 +    /*
-+     * The Read Timing Compensation Register values apply to all CS on
-+     * the SPI bus and only HCLK/1 - HCLK/5 can have tunable delays
++     * Typical values of a palmetto-bmc machine.
 +     */
-+    if (hclk_div && hclk_div < 6) {
-+        s->regs[s->r_timings] &=3D ~(0xf << hclk_shift);
-+        s->regs[s->r_timings] |=3D delay << hclk_shift;
++    switch (aspeed_smc_hclk_divisor(hclk_mask)) {
++    case 4 ... 16:
++        return false;
++    case 3: /* at least one HCLK cycle delay */
++        return (delay & 0x7) < 1;
++    case 2: /* at least two HCLK cycle delay */
++        return (delay & 0x7) < 2;
++    case 1: /* (> 100MHz) is above the max freq of the controller */
++        return true;
++    default:
++        g_assert_not_reached();
 +    }
-+
-+    /*
-+     * TODO: compute the CS from the DMA address and the segment
-+     * registers. This is not really a problem for now because the
-+     * Timing Register values apply to all CS and software uses CS0 to
-+     * do calibration.
-+     */
-+    cs =3D 0;
-+    s->regs[s->r_ctrl0 + cs] &=3D
-+        ~(CE_CTRL_CLOCK_FREQ_MASK << CE_CTRL_CLOCK_FREQ_SHIFT);
-+    s->regs[s->r_ctrl0 + cs] |=3D CE_CTRL_CLOCK_FREQ(hclk_div);
 +}
 +
  /*
   * Accumulate the result of the reads to provide a checksum that will
   * be used to validate the read timing settings.
-@@ -824,6 +882,10 @@ static void aspeed_smc_dma_checksum(AspeedSMCState *=
+@@ -904,6 +934,11 @@ static void aspeed_smc_dma_checksum(AspeedSMCState *=
 s)
-         return;
+         s->regs[R_DMA_FLASH_ADDR] +=3D 4;
+         s->regs[R_DMA_LEN] -=3D 4;
      }
-=20
-+    if (s->regs[R_DMA_CTRL] & DMA_CTRL_CALIB) {
-+        aspeed_smc_dma_calibration(s);
++
++    if (s->inject_failure && aspeed_smc_inject_read_failure(s)) {
++        s->regs[R_DMA_CHECKSUM] =3D 0xbadc0de;
 +    }
 +
-     while (s->regs[R_DMA_LEN]) {
-         result =3D address_space_read(&s->flash_as, s->regs[R_DMA_FLASH_=
-ADDR],
-                                     MEMTXATTRS_UNSPECIFIED,
+ }
+=20
+ static void aspeed_smc_dma_rw(AspeedSMCState *s)
+@@ -1189,6 +1224,7 @@ static const VMStateDescription vmstate_aspeed_smc =
+=3D {
+=20
+ static Property aspeed_smc_properties[] =3D {
+     DEFINE_PROP_UINT32("num-cs", AspeedSMCState, num_cs, 1),
++    DEFINE_PROP_BOOL("inject-failure", AspeedSMCState, inject_failure, f=
+alse),
+     DEFINE_PROP_UINT64("sdram-base", AspeedSMCState, sdram_base, 0),
+     DEFINE_PROP_LINK("dram", AspeedSMCState, dram_mr,
+                      TYPE_MEMORY_REGION, MemoryRegion *),
 --=20
 2.21.0
 
