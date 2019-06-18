@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8FF64A741
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:43:49 +0200 (CEST)
-Received: from localhost ([::1]:59740 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369664A7A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:52:17 +0200 (CEST)
+Received: from localhost ([::1]:59878 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdHD2-0004Me-SG
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38489)
+	id 1hdHLC-0004Si-TM
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:52:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38566)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hdGNl-0005GY-CB
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:50:50 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1hdGO6-0005MQ-AV
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:51:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hdGNj-0006BE-DB
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:50:49 -0400
-Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:33207)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hdGNi-00062u-U2
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:50:47 -0400
-Received: by mail-ot1-x329.google.com with SMTP id p4so5665949oti.0
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 08:50:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QxQtM8Fhg0po3knQrY5ef5nPTR2bX/f1vmKCZYFXjJQ=;
- b=IaKhBIzQ+vPkxOsn1nvk6OyHwKULii0ETiWaYFdH2njzavf7A4hZdnBUGJwbsjmaaQ
- euAVv96ZHE8C6Dwd5zv9Btor4BXQHbWYBIofTx3mqdtwk9D7S1RYmOAkR1GMTqYq7jq7
- J4yuQ/6CaupDT+vw+u9cB6viUeFbR1Qj4bAlLXAqpUfg5EkXtfkIBE/jb23hR3LAeueF
- IRIV/PH946/fM5YWnbaV1rPI1fyyURKiHPT55EVW4+UiCjDJEj89u8hyT2BqzYtLI2nQ
- Efzs5dTpbkfLNkYrqV6P6S1Aj7Qo/M4tsZlvKTh0+zkA1if7/y1KYqsVHPqILPNA+Upc
- yMkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QxQtM8Fhg0po3knQrY5ef5nPTR2bX/f1vmKCZYFXjJQ=;
- b=ZmtxQMXDmp9PtWLGxkfjmylAYwPIJQPLoUVBJOEsNTOifEBwDCqlmqeff0NM0hXb+0
- mgZ9mrRap47vTlRk3ecsMzelUmUA13ca1H5m+PmoiAOSEF0VWtL/RYl78+td1fLNUjkp
- Pum/8uOfx0gMBUQlMNGA4nQG4QranMYEuLbqHo+kS+P4SBCDif2Rm5aWqhf3hBScVmxV
- dA7fcTcxHCPr4KXQWd4HLqzu8KQ8LqPmzW57mk4TqI5rn6b9nF/QyQrsIw/Zw2PskWD8
- QoKkAfY4TaMDJy7qro/cFSg+cY6BCIVLemFrIVIUr1+OmWvYrHrXXDYplpZI3U1aqsEB
- 4ahg==
-X-Gm-Message-State: APjAAAXneLCBHl8P/YXdVFa7GjvnFRmMrXJbzLGwTK2rSAS9/edjBD/l
- edOc5kVjwnQ7XeW3eQjUeOf0q0cCGpXiWqF4YmMYrg==
-X-Google-Smtp-Source: APXvYqwOc5FAq7j+NsDwEJ6AVji4MtVSXGfudClA7LPEQAKoZKl0pZ8DNRmXMuPeE8gl/ffzolz6QSGIrszwxq3LWyU=
-X-Received: by 2002:a9d:6e8d:: with SMTP id a13mr5847302otr.303.1560873042800; 
- Tue, 18 Jun 2019 08:50:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190618144013.6537-1-ehabkost@redhat.com>
-In-Reply-To: <20190618144013.6537-1-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Jun 2019 16:50:31 +0100
-Message-ID: <CAFEAcA-V86udi-kS6sg6W2y7z09+GdCQmWPS3stKbokOJ3kwUw@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::329
-Subject: Re: [Qemu-devel] [PULL 0/2] Python queue, 2019-06-18
+ (envelope-from <liran.alon@oracle.com>) id 1hdGO4-0006r0-Rc
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:51:10 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:52972)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
+ id 1hdGO4-0006bK-IJ
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:51:08 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5IFmbOe087115;
+ Tue, 18 Jun 2019 15:50:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2018-07-02; bh=0dQkZ5OV/BT2r87AQQsugZlj1F6vKRtcJ9ht0h0pUTQ=;
+ b=QvL6hFJTidKvB2pFmtvpTMQAGn3YFv1kOUwrc4aOacIIvvvk4ImHUIHJ8RG35l9FWHyy
+ NCArCN+k75zzadSZe+Dt9dVq5jQcGP2Ppx3QCy6h0RkBe9ORCk0+FUqpdHmVBnlGquPF
+ qNn7pCEX4AxL/f1++/OkHXcUm59aUJ8AI2FNFzSXf3fYk1uYcpCuKcbDL5A0k7KwELXU
+ I4hSVDchWqtIoI20tSfmMeAY6cVeyPyFwTI3flB/pUZ+z+1Udt1F+dJ9vM9EPduPmB4m
+ erBnGQ2l5nqP329+TxcZZ6XlNqGgt+73bfmhT8Zax4KxcP+/WApsOImfItZ1oBaUl0he AQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 2t4rmp5cjp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Jun 2019 15:50:59 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5IFnEdu133627;
+ Tue, 18 Jun 2019 15:50:58 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 2t5cpe4k60-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Jun 2019 15:50:58 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5IFovZb030627;
+ Tue, 18 Jun 2019 15:50:57 GMT
+Received: from [192.168.14.112] (/109.67.217.108)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 18 Jun 2019 08:50:57 -0700
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
+From: Liran Alon <liran.alon@oracle.com>
+In-Reply-To: <20190618154817.GI2850@work-vm>
+Date: Tue, 18 Jun 2019 18:50:50 +0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <31104F26-B541-44CB-82D5-CABB033308E3@oracle.com>
+References: <20190617175658.135869-1-liran.alon@oracle.com>
+ <20190617175658.135869-8-liran.alon@oracle.com>
+ <20190618090316.GC2850@work-vm>
+ <32C4B530-A135-475B-B6AF-9288D372920D@oracle.com>
+ <20190618154817.GI2850@work-vm>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+X-Mailer: Apple Mail (2.3445.4.7)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=895
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906180125
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=934 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906180125
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Subject: Re: [Qemu-devel] [QEMU PATCH v3 7/9] KVM: i386: Add support for
+ save and restore nested state
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,42 +96,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: ehabkost@redhat.com, kvm@vger.kernel.org, maran.wilson@oracle.com,
+ mtosatti@redhat.com, qemu-devel@nongnu.org,
+ Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
+ jmattson@google.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Jun 2019 at 15:40, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> The following changes since commit cdfaa2720f4a09e5254868bd1f6e33f3e9eae76f:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2019-06-17-v2' into staging (2019-06-18 10:47:00 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/ehabkost/qemu.git tags/python-next-pull-request
->
-> for you to fetch changes up to c21f30ebc779cd4210b488dd702b3f8653aee82b:
->
->   Travis: print acceptance tests logs in case of job failure (2019-06-18 11:15:08 -0300)
->
-> ----------------------------------------------------------------
-> Python queue, 2019-06-18
->
-> Use a different method to dump avocado job log, to work around
-> timing-dependent issues in the arm test cases.
->
-> ----------------------------------------------------------------
 
 
-Applied, thanks.
+> On 18 Jun 2019, at 18:48, Dr. David Alan Gilbert <dgilbert@redhat.com> =
+wrote:
+>=20
+> * Liran Alon (liran.alon@oracle.com) wrote:
+>>=20
+>>> On 18 Jun 2019, at 12:03, Dr. David Alan Gilbert =
+<dgilbert@redhat.com> wrote:
+>>>=20
+>>> * Liran Alon (liran.alon@oracle.com) wrote:
+>>>>=20
+>>>> +static const VMStateDescription vmstate_vmx_vmcs12 =3D {
+>>>> +	.name =3D "cpu/kvm_nested_state/vmx/vmcs12",
+>>>> +	.version_id =3D 1,
+>>>> +	.minimum_version_id =3D 1,
+>>>> +	.needed =3D vmx_vmcs12_needed,
+>>>> +	.fields =3D (VMStateField[]) {
+>>>> +	    VMSTATE_UINT8_ARRAY(data.vmx[0].vmcs12,
+>>>> +	                        struct kvm_nested_state, 0x1000),
+>>>=20
+>>> Where did that magic 0x1000 come from?
+>>=20
+>> Currently, KVM folks (including myself), haven=E2=80=99t decided yet =
+to expose vmcs12 struct layout to userspace but instead to still leave =
+it opaque.
+>> The formal size of this size is VMCS12_SIZE (defined in kernel as =
+0x1000). I was wondering if we wish to expose VMCS12_SIZE constant to =
+userspace or not.
+>> So currently I defined these __u8 arrays as 0x1000. But in case Paolo =
+agrees to expose VMCS12_SIZE, we can use that instead.
+>=20
+> Well if it's not defined it's bound to change at some state!
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+I agree it=E2=80=99s better to expose VMCS12_SIZE to userspace but I =
+didn=E2=80=99t want to be the one that decides this.
+Let=E2=80=99s let Paolo decide and modify this patch accordingly if he =
+decides to expose it.
 
--- PMM
+> Also, do we need to clear it before we get it from the kernel - e.g.
+> is the kernel guaranteed to give us 0x1000 ?
+
+Userspace don=E2=80=99t need to clear it before getting it from kernel.
+It does guarantee to give you 0x1000. See vmx_get_nested_state() =
+implementation in kernel.
+
+-Liran
+
+>=20
+> Dave
+>=20
+>> -Liran
+>>=20
+>>> --
+>>> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>>=20
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
