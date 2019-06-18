@@ -2,54 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1181A4A6F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:31:53 +0200 (CEST)
-Received: from localhost ([::1]:59600 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FF64A741
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:43:49 +0200 (CEST)
+Received: from localhost ([::1]:59740 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdH1U-0000kp-7d
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:31:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37100)
+	id 1hdHD2-0004Me-SG
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:43:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38489)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hdGLT-0003YO-HG
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:48:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hdGNl-0005GY-CB
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:50:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hdGLR-0001lD-Ns
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:48:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45132)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hdGLR-0001cv-FM
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:48:25 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3AC04309703F;
- Tue, 18 Jun 2019 15:48:22 +0000 (UTC)
-Received: from work-vm (ovpn-117-76.ams2.redhat.com [10.36.117.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A8307D925;
- Tue, 18 Jun 2019 15:48:20 +0000 (UTC)
-Date: Tue, 18 Jun 2019 16:48:17 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Liran Alon <liran.alon@oracle.com>
-Message-ID: <20190618154817.GI2850@work-vm>
-References: <20190617175658.135869-1-liran.alon@oracle.com>
- <20190617175658.135869-8-liran.alon@oracle.com>
- <20190618090316.GC2850@work-vm>
- <32C4B530-A135-475B-B6AF-9288D372920D@oracle.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hdGNj-0006BE-DB
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:50:49 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:33207)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hdGNi-00062u-U2
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:50:47 -0400
+Received: by mail-ot1-x329.google.com with SMTP id p4so5665949oti.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 08:50:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QxQtM8Fhg0po3knQrY5ef5nPTR2bX/f1vmKCZYFXjJQ=;
+ b=IaKhBIzQ+vPkxOsn1nvk6OyHwKULii0ETiWaYFdH2njzavf7A4hZdnBUGJwbsjmaaQ
+ euAVv96ZHE8C6Dwd5zv9Btor4BXQHbWYBIofTx3mqdtwk9D7S1RYmOAkR1GMTqYq7jq7
+ J4yuQ/6CaupDT+vw+u9cB6viUeFbR1Qj4bAlLXAqpUfg5EkXtfkIBE/jb23hR3LAeueF
+ IRIV/PH946/fM5YWnbaV1rPI1fyyURKiHPT55EVW4+UiCjDJEj89u8hyT2BqzYtLI2nQ
+ Efzs5dTpbkfLNkYrqV6P6S1Aj7Qo/M4tsZlvKTh0+zkA1if7/y1KYqsVHPqILPNA+Upc
+ yMkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QxQtM8Fhg0po3knQrY5ef5nPTR2bX/f1vmKCZYFXjJQ=;
+ b=ZmtxQMXDmp9PtWLGxkfjmylAYwPIJQPLoUVBJOEsNTOifEBwDCqlmqeff0NM0hXb+0
+ mgZ9mrRap47vTlRk3ecsMzelUmUA13ca1H5m+PmoiAOSEF0VWtL/RYl78+td1fLNUjkp
+ Pum/8uOfx0gMBUQlMNGA4nQG4QranMYEuLbqHo+kS+P4SBCDif2Rm5aWqhf3hBScVmxV
+ dA7fcTcxHCPr4KXQWd4HLqzu8KQ8LqPmzW57mk4TqI5rn6b9nF/QyQrsIw/Zw2PskWD8
+ QoKkAfY4TaMDJy7qro/cFSg+cY6BCIVLemFrIVIUr1+OmWvYrHrXXDYplpZI3U1aqsEB
+ 4ahg==
+X-Gm-Message-State: APjAAAXneLCBHl8P/YXdVFa7GjvnFRmMrXJbzLGwTK2rSAS9/edjBD/l
+ edOc5kVjwnQ7XeW3eQjUeOf0q0cCGpXiWqF4YmMYrg==
+X-Google-Smtp-Source: APXvYqwOc5FAq7j+NsDwEJ6AVji4MtVSXGfudClA7LPEQAKoZKl0pZ8DNRmXMuPeE8gl/ffzolz6QSGIrszwxq3LWyU=
+X-Received: by 2002:a9d:6e8d:: with SMTP id a13mr5847302otr.303.1560873042800; 
+ Tue, 18 Jun 2019 08:50:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <32C4B530-A135-475B-B6AF-9288D372920D@oracle.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 18 Jun 2019 15:48:22 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [QEMU PATCH v3 7/9] KVM: i386: Add support for
- save and restore nested state
+References: <20190618144013.6537-1-ehabkost@redhat.com>
+In-Reply-To: <20190618144013.6537-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 Jun 2019 16:50:31 +0100
+Message-ID: <CAFEAcA-V86udi-kS6sg6W2y7z09+GdCQmWPS3stKbokOJ3kwUw@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::329
+Subject: Re: [Qemu-devel] [PULL 0/2] Python queue, 2019-06-18
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,51 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, maran.wilson@oracle.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org,
- Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
- jmattson@google.com, rth@twiddle.net
+Cc: Fam Zheng <fam@euphon.net>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Liran Alon (liran.alon@oracle.com) wrote:
->=20
-> > On 18 Jun 2019, at 12:03, Dr. David Alan Gilbert <dgilbert@redhat.com=
-> wrote:
-> >=20
-> > * Liran Alon (liran.alon@oracle.com) wrote:
-> >>=20
-> >> +static const VMStateDescription vmstate_vmx_vmcs12 =3D {
-> >> +	.name =3D "cpu/kvm_nested_state/vmx/vmcs12",
-> >> +	.version_id =3D 1,
-> >> +	.minimum_version_id =3D 1,
-> >> +	.needed =3D vmx_vmcs12_needed,
-> >> +	.fields =3D (VMStateField[]) {
-> >> +	    VMSTATE_UINT8_ARRAY(data.vmx[0].vmcs12,
-> >> +	                        struct kvm_nested_state, 0x1000),
-> >=20
-> > Where did that magic 0x1000 come from?
->=20
-> Currently, KVM folks (including myself), haven=E2=80=99t decided yet to=
- expose vmcs12 struct layout to userspace but instead to still leave it o=
-paque.
-> The formal size of this size is VMCS12_SIZE (defined in kernel as 0x100=
-0). I was wondering if we wish to expose VMCS12_SIZE constant to userspac=
-e or not.
-> So currently I defined these __u8 arrays as 0x1000. But in case Paolo a=
-grees to expose VMCS12_SIZE, we can use that instead.
+On Tue, 18 Jun 2019 at 15:40, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> The following changes since commit cdfaa2720f4a09e5254868bd1f6e33f3e9eae76f:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2019-06-17-v2' into staging (2019-06-18 10:47:00 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/ehabkost/qemu.git tags/python-next-pull-request
+>
+> for you to fetch changes up to c21f30ebc779cd4210b488dd702b3f8653aee82b:
+>
+>   Travis: print acceptance tests logs in case of job failure (2019-06-18 11:15:08 -0300)
+>
+> ----------------------------------------------------------------
+> Python queue, 2019-06-18
+>
+> Use a different method to dump avocado job log, to work around
+> timing-dependent issues in the arm test cases.
+>
+> ----------------------------------------------------------------
 
-Well if it's not defined it's bound to change at some state!
-Also, do we need to clear it before we get it from the kernel - e.g.
-is the kernel guaranteed to give us 0x1000 ?
 
-Dave
+Applied, thanks.
 
-> -Liran
->=20
-> > --
-> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
