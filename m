@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894D649C18
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:36:15 +0200 (CEST)
-Received: from localhost ([::1]:54786 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2332649C3D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:43:11 +0200 (CEST)
+Received: from localhost ([::1]:54820 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd9bC-0007vZ-PU
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:36:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41258)
+	id 1hd9hu-0002Jh-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:43:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <drjones@redhat.com>) id 1hd9a0-0007Ef-Hl
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:35:02 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hd9gl-0001fD-MK
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:42:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1hd9Zz-0000lp-E3
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:35:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48712)
+ (envelope-from <dgibson@ozlabs.org>) id 1hd9gk-00005n-MY
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:41:59 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45365 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1hd9Zx-0000cP-Ax; Tue, 18 Jun 2019 04:34:57 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 54863307FBCB;
- Tue, 18 Jun 2019 08:34:45 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C6A882749;
- Tue, 18 Jun 2019 08:34:44 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Date: Tue, 18 Jun 2019 10:34:42 +0200
-Message-Id: <20190618083442.10407-1-drjones@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hd9gk-0008Ts-6C; Tue, 18 Jun 2019 04:41:58 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45ShQV2GL8z9s9y; Tue, 18 Jun 2019 18:41:53 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1560847314;
+ bh=Hnc8vXDv3vxk4WvZDauksAGm3UjW4X8h8PTtPFXjVNA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZrwXbbX0etBuWxg5mjCHeqGGmVhqHGrkUrp4zrrgZgatJ2Ydcg59KyWJ9rDmkoa9L
+ 1cF9iWHJKZbQLbILC7MyLTNsRNviVnBpHR1aBDGSHsWaDjBCnmBJqoqpbn2vx77utu
+ hZTOFJcI7JCQ5YHY3KmXJberkIRSCpt2dGpkj1hA=
+Date: Tue, 18 Jun 2019 18:41:48 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190618084148.GB3673@umbus.BigPond>
+References: <156078063349.435533.12283208810037409702.stgit@bahia.lan>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 18 Jun 2019 08:34:45 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Fba/0zbH8Xs+Fj9o"
+Content-Disposition: inline
+In-Reply-To: <156078063349.435533.12283208810037409702.stgit@bahia.lan>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] hw/arm/boot: fix direct kernel boot setup
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH] xics: Add comment about CPU hotplug
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,34 +54,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to check ram_end, not ram_size.
 
-Fixes: 852dc64d665f ("hw/arm/boot: Diagnose layouts that put initrd or
-DTB off the end of RAM")
-Signed-off-by: Andrew Jones <drjones@redhat.com>
----
- hw/arm/boot.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--Fba/0zbH8Xs+Fj9o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index b2f93f6beff6..8a280ab3ed49 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -1109,7 +1109,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cp=
-u,
-                              info->initrd_filename);
-                 exit(1);
-             }
--            if (info->initrd_start + initrd_size > info->ram_size) {
-+            if (info->initrd_start + initrd_size > ram_end) {
-                 error_report("could not load initrd '%s': "
-                              "too big to fit into RAM after the kernel",
-                              info->initrd_filename);
+On Mon, Jun 17, 2019 at 04:10:33PM +0200, Greg Kurz wrote:
+> So that no one is tempted to drop that code, which is never called
+> for cold plugged CPUs.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Applied, thanks.
+
+> ---
+>  hw/intc/xics.c |    1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+> index 8535e583dd41..faa976e2f8a8 100644
+> --- a/hw/intc/xics.c
+> +++ b/hw/intc/xics.c
+> @@ -363,6 +363,7 @@ static void icp_realize(DeviceState *dev, Error **err=
+p)
+>          return;
+>      }
+> =20
+> +    /* Connect the presenter to the VCPU (required for CPU hotplug) */
+>      if (kvm_irqchip_in_kernel()) {
+>          icp_kvm_realize(dev, &err);
+>          if (err) {
+>=20
+
 --=20
-2.20.1
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--Fba/0zbH8Xs+Fj9o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0Io8kACgkQbDjKyiDZ
+s5KXTxAAv/RwxWV2+bYPvWeiRqJ3QuQfKiA8ALV1tmsj5bRvt66bH22Ly4a3d1KL
+GnFSnXjOq/FtKYezb0gb98qobqwfallGuMm0jwXi87P8h5qOolthBFBbx79l3X4s
+wirHABoXe7MIs6Zz9QB0hITXJ2dVahtC/JLEsyKr8dsIPrxiOr0FmA9bmcfcrzoZ
+Yjf+SCDUr17JhQ3aWruJohoINm7ET3MM5J474oBoV17Oalzrc1+JVrOZAWFDtHJ4
+I1z7Zywq8/bymVK0qMPUowHIVbZ7oWfZoeDnCYyk+0967bh2WADr5cAFvE4nz8Fr
+QOCkXcldLccSeAFRtTbkxgNV+RAga1wyqWhCWypUjE6oB1rfSA/ap/Wfogn0z+VE
+gz20B0qN643sOupqxkUiRymbrkgtjb+rZzXiDRUvHap7DeB+62WiOzH3zzZHBmgc
+bv7ZEamxInq2sKq8cVbmziZNX3I1bUWRNYo2DVHACLEVJJdLShbtTZmeXFajiaT/
+s4c7sFv/cOjwHlJaT2cVbTmIDvWTADnAEwN4CNdga01N+ZNnx7fBfqcehx4+XejR
+D8lCKO7SDqegNwrU44bk5nyWo75jZWCIVP14Av9SsnJask/AvMsgOoEI5etwzmsj
+IWYqx0YvCsUxMIr+xc77APxHn0YC8tdaIlWL4Ki2/FoOGJVGI7Y=
+=FPy0
+-----END PGP SIGNATURE-----
+
+--Fba/0zbH8Xs+Fj9o--
 
