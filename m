@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DA344A7AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:53:08 +0200 (CEST)
-Received: from localhost ([::1]:59976 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C01B74A7DA
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:06:42 +0200 (CEST)
+Received: from localhost ([::1]:60204 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdHM3-0006Fc-7D
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49672)
+	id 1hdHZB-0000JO-Ry
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54799)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hdGnE-0005B5-0P
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:17:10 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hdH2T-0002xR-BH
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:32:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hdGnA-0005kV-4G
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:17:06 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:36586)
+ (envelope-from <pbonzini@redhat.com>) id 1hdH2R-0005XL-Qo
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:32:53 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:35252)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdGn9-0005F5-Of
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:17:03 -0400
-Received: by mail-wm1-f65.google.com with SMTP id u8so3904337wmm.1
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 09:16:41 -0700 (PDT)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdH2R-0005UM-Ih
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:32:51 -0400
+Received: by mail-wr1-f68.google.com with SMTP id m3so244119wrv.2
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 09:32:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5e9uLp89Gt+m5g88zVJ9D5G0JHLLMLu3Kl8Zr8OgjC8=;
- b=lcGoACooWqolyfbDuPBLtWRjvPSTpXfZwWLHg0sOrgsJRXk9y+PJUknFP0vZV9UJ6i
- rmxDtF2RP+ngLt/IMZNvBFqkYMmC23B3l9phUQGkPtjDtK1QrTF2jgRiDmy/GQazwl4l
- a/J6IKuiPouCEZS5xLfMTigbIqVwfY/DWiMqSVxJ9vy+6iNxSeTCfRBrWw1CF2+uAr55
- kKUfricfa6xzyfbERcZMbUCRJOdsrc0/af+pTPWSOYn5yLi02zNm29DI+rIQcMoB4cFw
- /296IpS5K3kyi/++1v6eRxHEzgKmCpn+Tec+632eR5aJUZTcAfNXCOvLrWoJIKozLmeq
- xw6A==
-X-Gm-Message-State: APjAAAVFZq98rnEgIipr4nDq22UTH4MQrEJeG2Zc26ycPFSiEc+wI+Uc
- F2YDGfGCK9sZiZp9nC1c/aZ/IA==
-X-Google-Smtp-Source: APXvYqw1J9CwL+z6Y1GnoG219YYSsmAGstLgCwPixXpJKUR7s+TMMAsy7qhDiA6bWSLkIly4qjc0Ww==
-X-Received: by 2002:a7b:c057:: with SMTP id u23mr4411268wmc.29.1560874600084; 
- Tue, 18 Jun 2019 09:16:40 -0700 (PDT)
+ bh=FtcEXFK7NlBTMcGOYcg47ugmC8KoonYwN3BxvE7Oqy0=;
+ b=jfttMO8jK2AA8ZpwT8ZNxagRr3uvnSKxigi/iKXYyQAcksqXoIBjCFZIiXPNdxWEcI
+ 6A3R4j3EENlfKPkAyg0lYoDsjInI3Rso8kvE1qRQeIFuRXabOEs54MMqf6yVSHhNOo0L
+ gwOSrURdNS+/p9pplTsuu3P/+8rG/dq0qPg9I6R/j94kh5XIH1n8rwvh0+jaMN/dibOZ
+ 5PDwjHg5kUy5rz8ClncmA9V5c1il1MDbGYOETb98sINb62/yQ5ca+SU9nM7R+KELe4Rx
+ sEu5d2EHIrsuMXD1iM0Frj0WF+3ylcEtW3Sn8Of5wSbaW7dSpoHXmyXlOZVGZB2RzYi9
+ oBvg==
+X-Gm-Message-State: APjAAAXt9xvoyqJd3K0GY/48Fpi1Z2OF6OidUzAOo+TsHR9i6inWn0zn
+ CJCm2CYDPs9LlIC5QuPIN7L8LA==
+X-Google-Smtp-Source: APXvYqwgt2hfL2TJvfr61m8X37Gn70MdhTh+pKILU4xTFz0PJfKwsKptrxFU50qzKrPDZRaiaHRXFQ==
+X-Received: by 2002:adf:d4c1:: with SMTP id w1mr17369002wrk.229.1560875569728; 
+ Tue, 18 Jun 2019 09:32:49 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:51c0:d03f:68e:1f6d?
  ([2001:b07:6468:f312:51c0:d03f:68e:1f6d])
- by smtp.gmail.com with ESMTPSA id v27sm30359654wrv.45.2019.06.18.09.16.38
+ by smtp.gmail.com with ESMTPSA id l124sm4711746wmf.36.2019.06.18.09.32.48
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 18 Jun 2019 09:16:39 -0700 (PDT)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Liran Alon <liran.alon@oracle.com>
-References: <20190617175658.135869-1-liran.alon@oracle.com>
- <20190617175658.135869-8-liran.alon@oracle.com>
- <20190618090316.GC2850@work-vm>
- <32C4B530-A135-475B-B6AF-9288D372920D@oracle.com>
- <20190618154817.GI2850@work-vm>
+ Tue, 18 Jun 2019 09:32:49 -0700 (PDT)
+To: Xiaoyao Li <xiaoyao.li@linux.intel.com>,
+ Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>
+References: <20190617153654.916-1-xiaoyao.li@linux.intel.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <476e9ff5-133a-4ee0-6eec-6c55c5e98dfc@redhat.com>
-Date: Tue, 18 Jun 2019 18:16:44 +0200
+Message-ID: <78e052c3-5f85-5343-baac-a0c3d351c3d7@redhat.com>
+Date: Tue, 18 Jun 2019 18:32:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190618154817.GI2850@work-vm>
+In-Reply-To: <20190617153654.916-1-xiaoyao.li@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [QEMU PATCH v3 7/9] KVM: i386: Add support for
- save and restore nested state
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v2] target/i386: define a new MSR based
+ feature word - FEAT_CORE_CAPABILITY
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,22 +74,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, maran.wilson@oracle.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org,
- Nikita Leshenko <nikita.leshchenko@oracle.com>, rth@twiddle.net,
- jmattson@google.com
+Cc: Paul Lai <paul.c.lai@intel.com>, qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/06/19 17:48, Dr. David Alan Gilbert wrote:
->> Currently, KVM folks (including myself), haven’t decided yet to expose vmcs12 struct layout to userspace but instead to still leave it opaque.
->> The formal size of this size is VMCS12_SIZE (defined in kernel as 0x1000). I was wondering if we wish to expose VMCS12_SIZE constant to userspace or not.
->> So currently I defined these __u8 arrays as 0x1000. But in case Paolo agrees to expose VMCS12_SIZE, we can use that instead.
-> Well if it's not defined it's bound to change at some state!
-> Also, do we need to clear it before we get it from the kernel - e.g.
-> is the kernel guaranteed to give us 0x1000 ?
+On 17/06/19 17:36, Xiaoyao Li wrote:
+> MSR IA32_CORE_CAPABILITY is a feature-enumerating MSR, which only
+> enumerates the feature split lock detection (via bit 5) by now.
+> 
+> The existence of MSR IA32_CORE_CAPABILITY is enumerated by CPUID.7_0:EDX[30].
+> 
+> The latest kernel patches about them can be found here:
+> https://lkml.org/lkml/2019/4/24/1909
+> 
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@linux.intel.com>
+> ---
+> Changelog:
+> v2
+>     Add definition of MSR_CORE_CAP_SPLIT_LOCK_DETECT for SNR cpu model
+> ---
+>  target/i386/cpu.c | 22 +++++++++++++++++++++-
+>  target/i386/cpu.h |  5 +++++
+>  target/i386/kvm.c |  9 +++++++++
+>  3 files changed, 35 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index fbed2eb804..fc47c650b8 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -1085,7 +1085,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>              NULL, NULL, NULL, NULL,
+>              NULL, NULL, NULL, NULL,
+>              NULL, NULL, "spec-ctrl", "stibp",
+> -            NULL, "arch-capabilities", NULL, "ssbd",
+> +            NULL, "arch-capabilities", "core-capability", "ssbd",
+>          },
+>          .cpuid = {
+>              .eax = 7,
+> @@ -1203,6 +1203,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+>              }
+>          },
+>      },
+> +    [FEAT_CORE_CAPABILITY] = {
+> +        .type = MSR_FEATURE_WORD,
+> +        .feat_names = {
+> +            NULL, NULL, NULL, NULL,
+> +            NULL, "split-lock-detect", NULL, NULL,
+> +            NULL, NULL, NULL, NULL,
+> +            NULL, NULL, NULL, NULL,
+> +            NULL, NULL, NULL, NULL,
+> +            NULL, NULL, NULL, NULL,
+> +            NULL, NULL, NULL, NULL,
+> +            NULL, NULL, NULL, NULL,
+> +        },
+> +        .msr = {
+> +            .index = MSR_IA32_CORE_CAPABILITY,
+> +            .cpuid_dep = {
+> +                FEAT_7_0_EDX,
+> +                CPUID_7_0_EDX_CORE_CAPABILITY,
+> +            },
+> +        },
+> +    },
+>  };
+>  
+>  typedef struct X86RegisterInfo32 {
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 0732e059ec..192b0db076 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -345,6 +345,7 @@ typedef enum X86Seg {
+>  #define MSR_IA32_SPEC_CTRL              0x48
+>  #define MSR_VIRT_SSBD                   0xc001011f
+>  #define MSR_IA32_PRED_CMD               0x49
+> +#define MSR_IA32_CORE_CAPABILITY        0xcf
+>  #define MSR_IA32_ARCH_CAPABILITIES      0x10a
+>  #define MSR_IA32_TSCDEADLINE            0x6e0
+>  
+> @@ -496,6 +497,7 @@ typedef enum FeatureWord {
+>      FEAT_XSAVE_COMP_LO, /* CPUID[EAX=0xd,ECX=0].EAX */
+>      FEAT_XSAVE_COMP_HI, /* CPUID[EAX=0xd,ECX=0].EDX */
+>      FEAT_ARCH_CAPABILITIES,
+> +    FEAT_CORE_CAPABILITY,
+>      FEATURE_WORDS,
+>  } FeatureWord;
+>  
+> @@ -687,6 +689,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
+>  #define CPUID_7_0_EDX_AVX512_4FMAPS (1U << 3) /* AVX512 Multiply Accumulation Single Precision */
+>  #define CPUID_7_0_EDX_SPEC_CTRL     (1U << 26) /* Speculation Control */
+>  #define CPUID_7_0_EDX_ARCH_CAPABILITIES (1U << 29)  /*Arch Capabilities*/
+> +#define CPUID_7_0_EDX_CORE_CAPABILITY   (1U << 30)  /*Core Capability*/
+>  #define CPUID_7_0_EDX_SPEC_CTRL_SSBD  (1U << 31) /* Speculative Store Bypass Disable */
+>  
+>  #define CPUID_8000_0008_EBX_WBNOINVD  (1U << 9)  /* Write back and
+> @@ -734,6 +737,8 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
+>  #define MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY (1U << 3)
+>  #define MSR_ARCH_CAP_SSB_NO     (1U << 4)
+>  
+> +#define MSR_CORE_CAP_SPLIT_LOCK_DETECT  (1U << 5)
+> +
+>  #ifndef HYPERV_SPINLOCK_NEVER_RETRY
+>  #define HYPERV_SPINLOCK_NEVER_RETRY             0xFFFFFFFF
+>  #endif
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index 6899061b4e..da99e91ea9 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -95,6 +95,7 @@ static bool has_msr_spec_ctrl;
+>  static bool has_msr_virt_ssbd;
+>  static bool has_msr_smi_count;
+>  static bool has_msr_arch_capabs;
+> +static bool has_msr_core_capabs;
+>  
+>  static uint32_t has_architectural_pmu_version;
+>  static uint32_t num_architectural_pmu_gp_counters;
+> @@ -1515,6 +1516,9 @@ static int kvm_get_supported_msrs(KVMState *s)
+>                  case MSR_IA32_ARCH_CAPABILITIES:
+>                      has_msr_arch_capabs = true;
+>                      break;
+> +                case MSR_IA32_CORE_CAPABILITY:
+> +                    has_msr_core_capabs = true;
+> +                    break;
+>                  }
+>              }
+>          }
+> @@ -2041,6 +2045,11 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+>                            env->features[FEAT_ARCH_CAPABILITIES]);
+>      }
+>  
+> +    if (has_msr_core_capabs) {
+> +        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
+> +                          env->features[FEAT_CORE_CAPABILITY]);
+> +    }
+> +
+>      /*
+>       * The following MSRs have side effects on the guest or are too heavy
+>       * for normal writeback. Limit them to reset or full state updates.
+> 
 
-It is defined, it is the size of data.vmx[0].vmx12.  We can define it.
+Queued, thanks.
 
 Paolo
 
