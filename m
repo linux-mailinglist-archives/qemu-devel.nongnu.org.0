@@ -2,87 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B78414A6FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:33:25 +0200 (CEST)
-Received: from localhost ([::1]:59608 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2890E4A71D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:37:37 +0200 (CEST)
+Received: from localhost ([::1]:59662 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdH2y-0002NI-Tz
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:33:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60621)
+	id 1hdH72-0006Zx-9W
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:37:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33044)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liran.alon@oracle.com>) id 1hdGAc-0003Pv-Fx
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:37:15 -0400
+ (envelope-from <crosa@redhat.com>) id 1hdGCp-00053T-CV
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:39:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1hdGAW-0004N7-NW
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:37:10 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:55380)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1hdGAU-00047e-O3
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:37:06 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5IFOVY1151641;
- Tue, 18 Jun 2019 15:36:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2018-07-02; bh=AApMw5TsMqN6YhoPm41GCwqHYefC7ikF/FburAdTeBc=;
- b=JmmaQtHHEeTv8Q0MOzglhPEAuCKzTdKcD9OEfqLch2TLS0edOmkak2q3QEKb/gThXqbz
- 7t10mOg1GlkPj2AosylouLRTA9qlwwPep/ubMKlqAs8mZiSTXXy1h9uvlLhujVt569mU
- eqkuFbxhWZvg92iJnFFEgxqIFQ93EsahbDdRWD0gsfjsWssCOKQzQc7Ti4sPhygj9Arg
- 1PBy9+ma15TZTU0mxQimAlXvaXubWWNZ9KUH/+X3OTOnY7K5p7BVBbgWbmWL/BP79gh9
- D0a9nZI8wNrBTHNin0t+gxsNHCTwsHFHORKqKZXdQeRm+WS0tp4a5qaO14PcwTKqT1Gg kg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2t4r3tnbs6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Jun 2019 15:36:58 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5IFZ7bu030672;
- Tue, 18 Jun 2019 15:36:58 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 2t5h5ttcxw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 18 Jun 2019 15:36:57 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5IFauo6013961;
- Tue, 18 Jun 2019 15:36:56 GMT
-Received: from [192.168.14.112] (/109.67.217.108)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 18 Jun 2019 08:36:56 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
-From: Liran Alon <liran.alon@oracle.com>
-In-Reply-To: <20190618085539.GB2850@work-vm>
-Date: Tue, 18 Jun 2019 18:36:51 +0300
+ (envelope-from <crosa@redhat.com>) id 1hdGCm-0000ER-3P
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:39:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39770)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hdGCi-0007GE-Qd
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 11:39:25 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 72EF43092676;
+ Tue, 18 Jun 2019 15:38:36 +0000 (UTC)
+Received: from unused (unknown [10.16.197.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E861F7D65A;
+ Tue, 18 Jun 2019 15:38:29 +0000 (UTC)
+Date: Tue, 18 Jun 2019 11:38:28 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190618153828.GA13454@unused>
+References: <20190611171456.23444-1-ehabkost@redhat.com>
+ <CAFEAcA8MO=g2_ce9JGuUafYJRxpsTjQetYXRannYGbhTv_dYHw@mail.gmail.com>
+ <20190618140153.GA26629@unused>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20190618140153.GA26629@unused>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Tue, 18 Jun 2019 15:38:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <AB34E76F-231C-4E66-B5CB-113AFCE7A20F@oracle.com>
-References: <20190617175658.135869-1-liran.alon@oracle.com>
- <20190617175658.135869-7-liran.alon@oracle.com>
- <20190618085539.GB2850@work-vm>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-X-Mailer: Apple Mail (2.3445.4.7)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906180123
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9291
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906180123
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: Re: [Qemu-devel] [QEMU PATCH v3 6/9] vmstate: Add support for
- kernel integer types
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 0/6] Python queue, 2019-06-11
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,92 +59,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, maran.wilson@oracle.com,
- mtosatti@redhat.com, qemu-devel@nongnu.org,
- Nikita Leshenko <nikita.leshchenko@oracle.com>, pbonzini@redhat.com,
- jmattson@google.com, rth@twiddle.net
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> On 18 Jun 2019, at 11:55, Dr. David Alan Gilbert <dgilbert@redhat.com> =
-wrote:
+On Tue, Jun 18, 2019 at 10:01:53AM -0400, Cleber Rosa wrote:
+> On Tue, Jun 18, 2019 at 02:27:29PM +0100, Peter Maydell wrote:
+> > On Tue, 11 Jun 2019 at 18:15, Eduardo Habkost <ehabkost@redhat.com> w=
+rote:
+> > >
+> > > Changes from 2019-06-07: Python 2 deprecation and Python 3 check
+> > > for 3.5+ were removed.
+> > >
+> > > The following changes since commit 219dca61ebf41625831d4f96a720852b=
+af44b762:
+> > >
+> > >   Merge remote-tracking branch 'remotes/ehabkost/tags/x86-next-pull=
+-request' into staging (2019-06-11 16:02:07 +0100)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://github.com/ehabkost/qemu.git tags/python-next-pull-request
+> > >
+> > > for you to fetch changes up to 6d7a134da4afebe8551a69329478415cfb4c=
+be91:
+> > >
+> > >   travis: Make check-acceptance job more verbose (2019-06-11 14:13:=
+09 -0300)
+> > >
+> > > ----------------------------------------------------------------
+> > > Python queue, 2019-06-11
+> > >
+> > > * New boot_linux_console test cases (Philippe Mathieu-Daud=E9)
+> > > * Make check-acceptance Travis job more verbose (Eduardo Habkost)
+> > >
+> > > ----------------------------------------------------------------
+> > >
+> > > Eduardo Habkost (1):
+> > >   travis: Make check-acceptance job more verbose
+> > >
+> > > Philippe Mathieu-Daud=E9 (5):
+> > >   tests/boot_linux_console: Let extract_from_deb handle various
+> > >     compressions
+> > >   BootLinuxConsoleTest: Do not log empty lines
+> > >   BootLinuxConsoleTest: Test the SmartFusion2 board
+> > >   BootLinuxConsoleTest: Test nanoMIPS kernels on the I7200 CPU
+> > >   BootLinuxConsoleTest: Run kerneltests BusyBox on Malta
+> >=20
+> > Hi -- it looks like the Travis check-acceptance run started
+> > failing when this pull was merged. Could somebody have a look
+> > at it, please?
+> >=20
+> > https://travis-ci.org/qemu/qemu/jobs/544724911
+> >
+> > thanks
+> > -- PMM
 >=20
-> * Liran Alon (liran.alon@oracle.com) wrote:
->> Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
->> Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
->> Signed-off-by: Liran Alon <liran.alon@oracle.com>
->> ---
->> include/migration/vmstate.h | 18 ++++++++++++++++++
->> 1 file changed, 18 insertions(+)
->>=20
->> diff --git a/include/migration/vmstate.h =
-b/include/migration/vmstate.h
->> index 9224370ed59a..a85424fb0483 100644
->> --- a/include/migration/vmstate.h
->> +++ b/include/migration/vmstate.h
->> @@ -797,6 +797,15 @@ extern const VMStateInfo vmstate_info_qtailq;
->> #define VMSTATE_UINT64_V(_f, _s, _v)                                  =
-\
->>     VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint64, uint64_t)
+> Hi Peter,
 >=20
-> A comment here stating they're for Linux kernel types would be nice.
-
-I didn=E2=80=99t want to state this because in theory these types can be =
-used not in kernel context=E2=80=A6
-I thought commit message is sufficient. I think comments in code should =
-be made to clarify
-things. But to justify existence I think commit message should be used.
-But if you insist, I have no strong objection of adding such comment.
-
+> I'm looking at it.  Strangely enough, I don't see any error or
+> failures, but only a couple of skips (besides passes):
 >=20
->> +#define VMSTATE_U8_V(_f, _s, _v)                                   \
->> +    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint8, __u8)
->> +#define VMSTATE_U16_V(_f, _s, _v)                                  \
->> +    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint16, __u16)
->> +#define VMSTATE_U32_V(_f, _s, _v)                                  \
->> +    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint32, __u32)
->> +#define VMSTATE_U64_V(_f, _s, _v)                                  \
->> +    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint64, __u64)
->> +
+>  PASS 01-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_x86_64_pc
+>  PASS 02-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_mips_malta
+>  PASS 03-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_mips64el_malta
+>  PASS 04-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_mips_malta_cpio
+>  PASS 05-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_aarch64_virt
+>  PASS 06-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_arm_virt
+>  PASS 07-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_arm_emcraft_sf2
+>  PASS 08-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_s390x_s390_ccw_virtio
+>  PASS 09-/home/travis/build/qemu/qemu/tests/acceptance/boot_linux_conso=
+le.py:BootLinuxConsole.test_alpha_clipper
+>  PASS 10-/home/travis/build/qemu/qemu/tests/acceptance/cpu_queries.py:Q=
+ueryCPUModelExpansion.test
+>  PASS 11-/home/travis/build/qemu/qemu/tests/acceptance/empty_cpu_model.=
+py:EmptyCPUModel.test
+>  PASS 12-/home/travis/build/qemu/qemu/tests/acceptance/linux_initrd.py:=
+LinuxInitrd.test_with_2gib_file_should_exit_error_msg_with_linux_v3_6
+>  PASS 13-/home/travis/build/qemu/qemu/tests/acceptance/linux_initrd.py:=
+LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_16
+>  SKIP 14-/home/travis/build/qemu/qemu/tests/acceptance/linux_ssh_mips_m=
+alta.py:LinuxSSH.test_mips_malta32eb_kernel3_2_0 -> TestSkipError: Runnin=
+g on Travis-CI
+>  SKIP 15-/home/travis/build/qemu/qemu/tests/acceptance/linux_ssh_mips_m=
+alta.py:LinuxSSH.test_mips_malta64el_kernel3_2_0 -> TestSkipError: Runnin=
+g on Travis-CI
+>  PASS 16-/home/travis/build/qemu/qemu/tests/acceptance/migration.py:Mig=
+ration.test_migration_with_tcp_localhost
+>  PASS 17-/home/travis/build/qemu/qemu/tests/acceptance/version.py:Versi=
+on.test_qmp_human_info_version
+>  PASS 18-/home/travis/build/qemu/qemu/tests/acceptance/virtio_version.p=
+y:VirtioVersionCheck.test_conventional_devs
+>  PASS 19-/home/travis/build/qemu/qemu/tests/acceptance/virtio_version.p=
+y:VirtioVersionCheck.test_modern_only_devs
+>  PASS 20-/home/travis/build/qemu/qemu/tests/acceptance/vnc.py:Vnc.test_=
+no_vnc
+>  PASS 21-/home/travis/build/qemu/qemu/tests/acceptance/vnc.py:Vnc.test_=
+no_vnc_change_password
+>  PASS 22-/home/travis/build/qemu/qemu/tests/acceptance/vnc.py:Vnc.test_=
+vnc_change_password_requires_a_password
+>  PASS 23-/home/travis/build/qemu/qemu/tests/acceptance/vnc.py:Vnc.test_=
+vnc_change_password
 >=20
-> Have you checked that builds OK on a non-Linux system?
+> And Avocado *should* return 0 for those results (I tried it on my
+> system and this is indeed what I get).  I'm investigating other
+> possibilities and will let you know.
+>
+> Regards,
+> - Cleber.
 
-Hmm that=E2=80=99s a good point. No. :P
+I take that back. The simple "egrep" I didn't show the interruption
+during test tearDown() that ocurred here for aarch64:
 
--Liran
+ - https://travis-ci.org/qemu/qemu/jobs/544724911#L3909
 
->=20
-> Dave
->=20
->> #define VMSTATE_BOOL(_f, _s)                                          =
-\
->>     VMSTATE_BOOL_V(_f, _s, 0)
->>=20
->> @@ -818,6 +827,15 @@ extern const VMStateInfo vmstate_info_qtailq;
->> #define VMSTATE_UINT64(_f, _s)                                        =
-\
->>     VMSTATE_UINT64_V(_f, _s, 0)
->>=20
->> +#define VMSTATE_U8(_f, _s)                                         \
->> +    VMSTATE_U8_V(_f, _s, 0)
->> +#define VMSTATE_U16(_f, _s)                                        \
->> +    VMSTATE_U16_V(_f, _s, 0)
->> +#define VMSTATE_U32(_f, _s)                                        \
->> +    VMSTATE_U32_V(_f, _s, 0)
->> +#define VMSTATE_U64(_f, _s)                                        \
->> +    VMSTATE_U64_V(_f, _s, 0)
->> +
->> #define VMSTATE_UINT8_EQUAL(_f, _s, _err_hint)                        =
-\
->>     VMSTATE_SINGLE_FULL(_f, _s, 0, 0,                                 =
-\
->>                         vmstate_info_uint8_equal, uint8_t, _err_hint)
->> --=20
->> 2.20.1
->>=20
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+And here for arm:
 
+ - https://travis-ci.org/qemu/qemu/jobs/544724911#L3959
+
+With the revert that Eduardo just proposed, it should be eaiser to see
+that those tests actually finished with status INTERRUPTED.
+
+Now, the core issue Which is this related to this:
+
+ - https://bugs.launchpad.net/qemu/+bug/1829779
+
+Some people contributed to discussions around this, and the general
+outcome is that we need to workaround the current sitation in the
+test code.  So, I'm working on a patch and will send ASAP.
+
+- Cleber.
 
