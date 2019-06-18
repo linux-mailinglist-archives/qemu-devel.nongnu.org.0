@@ -2,49 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1485D4A7EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:11:53 +0200 (CEST)
-Received: from localhost ([::1]:60314 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8041D4A791
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:50:29 +0200 (CEST)
+Received: from localhost ([::1]:59852 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdHeC-00018j-8N
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48095)
+	id 1hdHJT-00022g-G4
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:50:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48714)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hdGhq-0007nu-OS
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:11:38 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hdGk2-0002dl-GM
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:13:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hdGhm-0006xa-Lz
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:11:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36750)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hdGhi-0006p1-VV
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:11:28 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D78D430872F5;
- Tue, 18 Jun 2019 16:11:19 +0000 (UTC)
-Received: from localhost (ovpn-204-73.brq.redhat.com [10.40.204.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 63EDF60922;
- Tue, 18 Jun 2019 16:11:16 +0000 (UTC)
-Date: Tue, 18 Jun 2019 18:11:12 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Yoshinori Sato <ysato@users.sourceforge.jp>
-Message-ID: <20190618181112.58107605@redhat.com>
-In-Reply-To: <20190618143923.53838-7-ysato@users.sourceforge.jp>
-References: <20190618143923.53838-1-ysato@users.sourceforge.jp>
- <20190618143923.53838-7-ysato@users.sourceforge.jp>
+ (envelope-from <peter.maydell@linaro.org>) id 1hdGjz-0001my-G7
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:13:50 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41129)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hdGjv-0001fc-Ax
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:13:45 -0400
+Received: by mail-ot1-x344.google.com with SMTP id 107so15612569otj.8
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 09:13:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aWtydLlbh+4SVoON9ri1UIJDkqJw3P7a2zT1eN10LN0=;
+ b=Z9uVoH/NxRtDCm4qQOHnT7D+tc8WBknhDWSjXokhT6auK5baIQvJvTISOmy9Kk0yjb
+ p6z2NHy/Uc9Vx0huKuvs26/FKQmJlLsLgnbRxrA3ga1bv3BkDZCMnwp+rxELTufFY+cC
+ +Thm4Sw9pRg2bwFCwHsX5pF5xEc2GRM09QboRukBhR8TQzTIwNIHr/g9MAcbdbEBnyTX
+ mAfzmnR3rTL6P8s3G821Vu4drCiAREQYO0gVBIYaIISD34qdG0ySO0j505o8xiymc90+
+ dePnneij+tkbeYpzyKMooHJK/aVX33JBO4x8e6CQfAdlYcSfJHHdptqBwTJu1HXGUIyf
+ 13YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aWtydLlbh+4SVoON9ri1UIJDkqJw3P7a2zT1eN10LN0=;
+ b=eoTtO9/5gS3hWKIZqt3CwGB07gUDPci3Lh6KRdCDVHzz7CdRtGqPpOB/REiSjnbdb7
+ XJBJja+7c2HdmMu1oWBYFcPuDgBaYX6IjNOIBaUfMdoiKfGsYz9LCg8a4rOn+Z1kGR/1
+ QzKgDjbxtCl5RW6mvTcjtkP0uUqvxEBtLDFgpewEowiMWCcbBwZPaM0dyorPDyD2IqI8
+ Ri6uaSg0l/7gIGQCsRwrUcuq4uhrfLeOSAWD5A8YrbzLp0TieRaa9xTVX/BO30JVH2vN
+ cLJy2aghRZmvLqWGwpk6h0DC5RPj+/qMJQbBV0F3Zte93MfCEMoGjYg7S8ewt+Trk0bO
+ DlQQ==
+X-Gm-Message-State: APjAAAU+jDsHUZcBc6Fp6TBLQQPt61YHcfuJBJN2RZhoA/MO7CUE0mMP
+ tUU2yBNLrbacCP1al12nKqA8cCBEGmo9AnFWyesbAg==
+X-Google-Smtp-Source: APXvYqw6pVP0FzgshWhlMB0F+L0QnHmC/KD9Xt2Odnms1n+NyRACEqjPDyjwzAvCWDlg2Y/UkqIu217n42jjsDfMMJY=
+X-Received: by 2002:a9d:d17:: with SMTP id 23mr64154680oti.221.1560874420705; 
+ Tue, 18 Jun 2019 09:13:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Tue, 18 Jun 2019 16:11:19 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH RESEND v21 06/21] target/rx: CPU definition
+References: <20190604162526.10655-1-damien.hedde@greensocs.com>
+In-Reply-To: <20190604162526.10655-1-damien.hedde@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 18 Jun 2019 17:13:29 +0100
+Message-ID: <CAFEAcA-BJehtxkMLkfrmDvMWMY137=L3i_7vGHNS5ozSPNSgGA@mail.gmail.com>
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [RFC PATCH v2 00/12] Multi-phase reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,738 +71,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, philmd@redhat.com
+Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>, marc.burton@greensocs.com,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Jun 2019 23:39:08 +0900
-Yoshinori Sato <ysato@users.sourceforge.jp> wrote:
+On Tue, 4 Jun 2019 at 17:25, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>
+> Hi all,
+>
+> Here's the second version of the multi-phase reset proposal patches.
 
-> v21 changes
-> Add cpu-param.h
-> Remove CPU_COMMON
-> rx_load_image move to rx-virt.
->=20
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
->=20
-> Message-Id: <20190616142836.10614-4-ysato@users.sourceforge.jp>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <20190607091116.49044-4-ysato@users.sourceforge.jp>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> [PMD: Use newer QOM style, split cpu-qom.h, restrict access to
->  extable array, use rx_cpu_tlb_fill() extracted from patch of
->  Yoshinori Sato 'Convert to CPUClass::tlb_fill']
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->=20
-> cpu.c: remove rx_load_image
->=20
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Sorry for leaving this one hanging again. Some initial general
+comments...
 
-Looks good to me
+> # DESCRIPTION
+>
+> Basically the reset procedure is split in 3 parts:
+> INIT PHASE: Reset the object internal state, put a resetting flag and do the
+>     same for the reset subtree. No side effect on other devices to guarantee
+>     that, in a reset domain, everything get initialized first. This corresponds
+>     mostly to what is currently done in the device/bus reset method.
+>
+> HOLD PHASE: This phase allows to control a reset with a IO. When a IO control
+>     reset procedure based on the IO level (not edge), we may need to assert
+>     the reset, wait some time, and finally de-assert the reset. The consequence
+>     is that such a device can stay in a "resetting state" and may need to show
+>     this state to other devices through its outputs. For example, a clock
+>     controller will typically shutdown its clocks when it is in resetting state.
+>
+> EXIT PHASE: This phase sets outputs to state after reset. For a clock controller
+>      it starts the clocks. It also clears the "resetting" flag. A device should
+>      not react to inputs until this flag has been cleared. During this phase,
+>      outputs are propagated.
+>
+> The Resettable interface is detailed in the added doc in patch 7.
+>
+> # CHANGE SINCE V1
+>
+> The series now focus only on the Resettable interface (no more ResetDomain).
+> Proposed changed have been applied:
+>  - reset_count getter/modifier methods
+>  - a foreach_child method
+>
+> This last method allows some flexibility on what is the hierarchy of reset.
+> There is some discussion ongoing about this point. Althought the series does
+> not aim to modify the qdev/qbus-centric reset behavior, it is not fixed. An
+> object specialization can override it.
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  target/rx/cpu-param.h |  31 ++++++++
->  target/rx/cpu-qom.h   |  42 ++++++++++
->  target/rx/cpu.h       | 182 ++++++++++++++++++++++++++++++++++++++++++
->  target/rx/cpu.c       | 217 ++++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  target/rx/gdbstub.c   | 112 ++++++++++++++++++++++++++
->  target/rx/monitor.c   |  38 +++++++++
->  6 files changed, 622 insertions(+)
->  create mode 100644 target/rx/cpu-param.h
->  create mode 100644 target/rx/cpu-qom.h
->  create mode 100644 target/rx/cpu.h
->  create mode 100644 target/rx/cpu.c
->  create mode 100644 target/rx/gdbstub.c
->  create mode 100644 target/rx/monitor.c
->=20
-> diff --git a/target/rx/cpu-param.h b/target/rx/cpu-param.h
-> new file mode 100644
-> index 0000000000..5da87fbebe
-> --- /dev/null
-> +++ b/target/rx/cpu-param.h
-> @@ -0,0 +1,31 @@
-> +/*
-> + *  RX cpu parameters
-> + *
-> + *  Copyright (c) 2019 Yoshinori Sato
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License alo=
-ng with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef RX_CPU_PARAM_H
-> +#define RX_CPU_PARAM_H
-> +
-> +#define TARGET_LONG_BITS 32
-> +#define TARGET_PAGE_BITS 12
-> +
-> +#define TARGET_PHYS_ADDR_SPACE_BITS 32
-> +#define TARGET_VIRT_ADDR_SPACE_BITS 32
-> +
-> +#define NB_MMU_MODES 1
-> +#define MMU_MODE0_SUFFIX _all
-> +
-> +#endif
-> diff --git a/target/rx/cpu-qom.h b/target/rx/cpu-qom.h
-> new file mode 100644
-> index 0000000000..4ae3b38b3e
-> --- /dev/null
-> +++ b/target/rx/cpu-qom.h
-> @@ -0,0 +1,42 @@
-> +#ifndef QEMU_SUPERH_CPU_QOM_H
-> +#define QEMU_SUPERH_CPU_QOM_H
-> +
-> +#include "qom/cpu.h"
-> +/*
-> + * RX CPU
-> + *
-> + * Copyright (c) 2019 Yoshinori Sato
-> + * SPDX-License-Identifier: LGPL-2.0+
-> + */
-> +
-> +#define TYPE_RX_CPU "rx-cpu"
-> +
-> +#define TYPE_RX62N_CPU RX_CPU_TYPE_NAME("rx62n")
-> +
-> +#define RXCPU_CLASS(klass) \
-> +    OBJECT_CLASS_CHECK(RXCPUClass, (klass), TYPE_RX_CPU)
-> +#define RXCPU(obj) \
-> +    OBJECT_CHECK(RXCPU, (obj), TYPE_RX_CPU)
-> +#define RXCPU_GET_CLASS(obj) \
-> +    OBJECT_GET_CLASS(RXCPUClass, (obj), TYPE_RX_CPU)
-> +
-> +/*
-> + * RXCPUClass:
-> + * @parent_realize: The parent class' realize handler.
-> + * @parent_reset: The parent class' reset handler.
-> + *
-> + * A RX CPU model.
-> + */
-> +typedef struct RXCPUClass {
-> +    /*< private >*/
-> +    CPUClass parent_class;
-> +    /*< public >*/
-> +
-> +    DeviceRealize parent_realize;
-> +    void (*parent_reset)(CPUState *cpu);
-> +
-> +} RXCPUClass;
-> +
-> +#define CPUArchState struct CPURXState
-> +
-> +#endif
-> diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-> new file mode 100644
-> index 0000000000..3f9c4fdd25
-> --- /dev/null
-> +++ b/target/rx/cpu.h
-> @@ -0,0 +1,182 @@
-> +/*
-> + *  RX emulation definition
-> + *
-> + *  Copyright (c) 2019 Yoshinori Sato
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License alo=
-ng with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef RX_CPU_H
-> +#define RX_CPU_H
-> +
-> +#include "qemu/bitops.h"
-> +#include "qemu-common.h"
-> +#include "hw/registerfields.h"
-> +#include "cpu-qom.h"
-> +#include "qom/cpu.h"
-> +
-> +#include "exec/cpu-defs.h"
-> +
-> +/* PSW define */
-> +REG32(PSW, 0)
-> +FIELD(PSW, C, 0, 1)
-> +FIELD(PSW, Z, 1, 1)
-> +FIELD(PSW, S, 2, 1)
-> +FIELD(PSW, O, 3, 1)
-> +FIELD(PSW, I, 16, 1)
-> +FIELD(PSW, U, 17, 1)
-> +FIELD(PSW, PM, 20, 1)
-> +FIELD(PSW, IPL, 24, 4)
-> +
-> +/* FPSW define */
-> +REG32(FPSW, 0)
-> +FIELD(FPSW, RM, 0, 2)
-> +FIELD(FPSW, CV, 2, 1)
-> +FIELD(FPSW, CO, 3, 1)
-> +FIELD(FPSW, CZ, 4, 1)
-> +FIELD(FPSW, CU, 5, 1)
-> +FIELD(FPSW, CX, 6, 1)
-> +FIELD(FPSW, CE, 7, 1)
-> +FIELD(FPSW, CAUSE, 2, 6)
-> +FIELD(FPSW, DN, 8, 1)
-> +FIELD(FPSW, EV, 10, 1)
-> +FIELD(FPSW, EO, 11, 1)
-> +FIELD(FPSW, EZ, 12, 1)
-> +FIELD(FPSW, EU, 13, 1)
-> +FIELD(FPSW, EX, 14, 1)
-> +FIELD(FPSW, ENABLE, 10, 5)
-> +FIELD(FPSW, FV, 26, 1)
-> +FIELD(FPSW, FO, 27, 1)
-> +FIELD(FPSW, FZ, 28, 1)
-> +FIELD(FPSW, FU, 29, 1)
-> +FIELD(FPSW, FX, 30, 1)
-> +FIELD(FPSW, FLAGS, 26, 4)
-> +FIELD(FPSW, FS, 31, 1)
-> +
-> +enum {
-> +    NUM_REGS =3D 16,
-> +};
-> +
-> +typedef struct CPURXState {
-> +    /* CPU registers */
-> +    uint32_t regs[NUM_REGS];    /* general registers */
-> +    uint32_t psw_o;             /* O bit of status register */
-> +    uint32_t psw_s;             /* S bit of status register */
-> +    uint32_t psw_z;             /* Z bit of status register */
-> +    uint32_t psw_c;             /* C bit of status register */
-> +    uint32_t psw_u;
-> +    uint32_t psw_i;
-> +    uint32_t psw_pm;
-> +    uint32_t psw_ipl;
-> +    uint32_t bpsw;              /* backup status */
-> +    uint32_t bpc;               /* backup pc */
-> +    uint32_t isp;               /* global base register */
-> +    uint32_t usp;               /* vector base register */
-> +    uint32_t pc;                /* program counter */
-> +    uint32_t intb;              /* interrupt vector */
-> +    uint32_t fintv;
-> +    uint32_t fpsw;
-> +    uint64_t acc;
-> +
-> +    /* Fields up to this point are cleared by a CPU reset */
-> +    struct {} end_reset_fields;
-> +
-> +    /* Internal use */
-> +    uint32_t in_sleep;
-> +    uint32_t req_irq;           /* Requested interrupt no (hard) */
-> +    uint32_t req_ipl;           /* Requested interrupt level */
-> +    uint32_t ack_irq;           /* execute irq */
-> +    uint32_t ack_ipl;           /* execute ipl */
-> +    float_status fp_status;
-> +    qemu_irq ack;               /* Interrupt acknowledge */
-> +} CPURXState;
-> +
-> +/*
-> + * RXCPU:
-> + * @env: #CPURXState
-> + *
-> + * A RX CPU
-> + */
-> +struct RXCPU {
-> +    /*< private >*/
-> +    CPUState parent_obj;
-> +    /*< public >*/
-> +
-> +    CPUNegativeOffsetState neg;
-> +    CPURXState env;
-> +};
-> +
-> +typedef struct RXCPU RXCPU;
-> +typedef RXCPU ArchCPU;
-> +
-> +#define ENV_OFFSET offsetof(RXCPU, env)
-> +
-> +#define RX_CPU_TYPE_SUFFIX "-" TYPE_RX_CPU
-> +#define RX_CPU_TYPE_NAME(model) model RX_CPU_TYPE_SUFFIX
-> +#define CPU_RESOLVING_TYPE TYPE_RX_CPU
-> +
-> +extern const char rx_crname[][6];
-> +
-> +void rx_cpu_do_interrupt(CPUState *cpu);
-> +bool rx_cpu_exec_interrupt(CPUState *cpu, int int_req);
-> +void rx_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
-> +int rx_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
-> +int rx_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-> +hwaddr rx_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
-> +
-> +void rx_translate_init(void);
-> +int cpu_rx_signal_handler(int host_signum, void *pinfo,
-> +                           void *puc);
-> +
-> +void rx_cpu_list(void);
-> +void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw, int rte);
-> +
-> +#define cpu_signal_handler cpu_rx_signal_handler
-> +#define cpu_list rx_cpu_list
-> +
-> +#include "exec/cpu-all.h"
-> +
-> +#define CPU_INTERRUPT_SOFT CPU_INTERRUPT_TGT_INT_0
-> +#define CPU_INTERRUPT_FIR  CPU_INTERRUPT_TGT_INT_1
-> +
-> +#define RX_CPU_IRQ 0
-> +#define RX_CPU_FIR 1
-> +
-> +static inline void cpu_get_tb_cpu_state(CPURXState *env, target_ulong *p=
-c,
-> +                                        target_ulong *cs_base, uint32_t =
-*flags)
-> +{
-> +    *pc =3D env->pc;
-> +    *cs_base =3D 0;
-> +    *flags =3D FIELD_DP32(0, PSW, PM, env->psw_pm);
-> +}
-> +
-> +static inline int cpu_mmu_index(CPURXState *env, bool ifetch)
-> +{
-> +    return 0;
-> +}
-> +
-> +static inline uint32_t rx_cpu_pack_psw(CPURXState *env)
-> +{
-> +    uint32_t psw =3D 0;
-> +    psw =3D FIELD_DP32(psw, PSW, IPL, env->psw_ipl);
-> +    psw =3D FIELD_DP32(psw, PSW, PM,  env->psw_pm);
-> +    psw =3D FIELD_DP32(psw, PSW, U,   env->psw_u);
-> +    psw =3D FIELD_DP32(psw, PSW, I,   env->psw_i);
-> +    psw =3D FIELD_DP32(psw, PSW, O,   env->psw_o >> 31);
-> +    psw =3D FIELD_DP32(psw, PSW, S,   env->psw_s >> 31);
-> +    psw =3D FIELD_DP32(psw, PSW, Z,   env->psw_z =3D=3D 0);
-> +    psw =3D FIELD_DP32(psw, PSW, C,   env->psw_c);
-> +    return psw;
-> +}
-> +
-> +#endif /* RX_CPU_H */
-> diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-> new file mode 100644
-> index 0000000000..ea38639f47
-> --- /dev/null
-> +++ b/target/rx/cpu.c
-> @@ -0,0 +1,217 @@
-> +/*
-> + * QEMU RX CPU
-> + *
-> + * Copyright (c) 2019 Yoshinori Sato
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License alo=
-ng with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/qemu-print.h"
-> +#include "qapi/error.h"
-> +#include "cpu.h"
-> +#include "qemu-common.h"
-> +#include "migration/vmstate.h"
-> +#include "exec/exec-all.h"
-> +#include "hw/loader.h"
-> +#include "fpu/softfloat.h"
-> +
-> +static void rx_cpu_set_pc(CPUState *cs, vaddr value)
-> +{
-> +    RXCPU *cpu =3D RXCPU(cs);
-> +
-> +    cpu->env.pc =3D value;
-> +}
-> +
-> +static void rx_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *t=
-b)
-> +{
-> +    RXCPU *cpu =3D RXCPU(cs);
-> +
-> +    cpu->env.pc =3D tb->pc;
-> +}
-> +
-> +static bool rx_cpu_has_work(CPUState *cs)
-> +{
-> +    return cs->interrupt_request &
-> +        (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR);
-> +}
-> +
-> +static void rx_cpu_reset(CPUState *s)
-> +{
-> +    RXCPU *cpu =3D RXCPU(s);
-> +    RXCPUClass *rcc =3D RXCPU_GET_CLASS(cpu);
-> +    CPURXState *env =3D &cpu->env;
-> +    uint32_t *resetvec;
-> +
-> +    rcc->parent_reset(s);
-> +
-> +    memset(env, 0, offsetof(CPURXState, end_reset_fields));
-> +
-> +    resetvec =3D rom_ptr(0xfffffffc, 4);
-> +    if (resetvec) {
-> +        /* In the case of kernel, it is ignored because it is not set. */
-> +        env->pc =3D ldl_p(resetvec);
-> +    }
-> +    rx_cpu_unpack_psw(env, 0, 1);
-> +    env->regs[0] =3D env->isp =3D env->usp =3D 0;
-> +    env->fpsw =3D 0;
-> +    set_flush_to_zero(1, &env->fp_status);
-> +    set_flush_inputs_to_zero(1, &env->fp_status);
-> +}
-> +
-> +static void rx_cpu_list_entry(gpointer data, gpointer user_data)
-> +{
-> +    const char *typename =3D object_class_get_name(OBJECT_CLASS(data));
-> +
-> +    qemu_printf("%s\n", typename);
-> +}
-> +
-> +void rx_cpu_list(void)
-> +{
-> +    GSList *list;
-> +    list =3D object_class_get_list_sorted(TYPE_RX_CPU, false);
-> +    g_slist_foreach(list, rx_cpu_list_entry, NULL);
-> +    g_slist_free(list);
-> +}
-> +
-> +static ObjectClass *rx_cpu_class_by_name(const char *cpu_model)
-> +{
-> +    ObjectClass *oc;
-> +
-> +    oc =3D object_class_by_name(cpu_model);
-> +    if (object_class_dynamic_cast(oc, TYPE_RX_CPU) =3D=3D NULL ||
-> +        object_class_is_abstract(oc)) {
-> +        oc =3D NULL;
-> +    }
-> +
-> +    return oc;
-> +}
-> +
-> +static void rx_cpu_realize(DeviceState *dev, Error **errp)
-> +{
-> +    CPUState *cs =3D CPU(dev);
-> +    RXCPUClass *rcc =3D RXCPU_GET_CLASS(dev);
-> +    Error *local_err =3D NULL;
-> +
-> +    cpu_exec_realizefn(cs, &local_err);
-> +    if (local_err !=3D NULL) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +
-> +    cpu_reset(cs);
-> +    qemu_init_vcpu(cs);
-> +
-> +    rcc->parent_realize(dev, errp);
-> +}
-> +
-> +static void rx_cpu_set_irq(void *opaque, int no, int request)
-> +{
-> +    RXCPU *cpu =3D opaque;
-> +    CPUState *cs =3D CPU(cpu);
-> +    int irq =3D request & 0xff;
-> +
-> +    static const int mask[] =3D {
-> +        [RX_CPU_IRQ] =3D CPU_INTERRUPT_HARD,
-> +        [RX_CPU_FIR] =3D CPU_INTERRUPT_FIR,
-> +    };
-> +    if (irq) {
-> +        cpu->env.req_irq =3D irq;
-> +        cpu->env.req_ipl =3D (request >> 8) & 0x0f;
-> +        cpu_interrupt(cs, mask[no]);
-> +    } else {
-> +        cpu_reset_interrupt(cs, mask[no]);
-> +    }
-> +}
-> +
-> +static void rx_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
-> +{
-> +    info->mach =3D bfd_mach_rx;
-> +    info->print_insn =3D print_insn_rx;
-> +}
-> +
-> +static bool rx_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-> +                            MMUAccessType access_type, int mmu_idx,
-> +                            bool probe, uintptr_t retaddr)
-> +{
-> +    uint32_t address, physical, prot;
-> +
-> +    /* Linear mapping */
-> +    address =3D physical =3D addr & TARGET_PAGE_MASK;
-> +    prot =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-> +    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
-> +    return true;
-> +}
-> +
-> +static void rx_cpu_init(Object *obj)
-> +{
-> +    CPUState *cs =3D CPU(obj);
-> +    RXCPU *cpu =3D RXCPU(obj);
-> +    CPURXState *env =3D &cpu->env;
-> +
-> +    cpu_set_cpustate_pointers(cpu);
-> +    cs->env_ptr =3D env;
-> +    qdev_init_gpio_in(DEVICE(cpu), rx_cpu_set_irq, 2);
-> +}
-> +
-> +static void rx_cpu_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +    CPUClass *cc =3D CPU_CLASS(klass);
-> +    RXCPUClass *rcc =3D RXCPU_CLASS(klass);
-> +
-> +    device_class_set_parent_realize(dc, rx_cpu_realize,
-> +                                    &rcc->parent_realize);
-> +
-> +    rcc->parent_reset =3D cc->reset;
-> +    cc->reset =3D rx_cpu_reset;
-> +
-> +    cc->class_by_name =3D rx_cpu_class_by_name;
-> +    cc->has_work =3D rx_cpu_has_work;
-> +    cc->do_interrupt =3D rx_cpu_do_interrupt;
-> +    cc->cpu_exec_interrupt =3D rx_cpu_exec_interrupt;
-> +    cc->dump_state =3D rx_cpu_dump_state;
-> +    cc->set_pc =3D rx_cpu_set_pc;
-> +    cc->synchronize_from_tb =3D rx_cpu_synchronize_from_tb;
-> +    cc->gdb_read_register =3D rx_cpu_gdb_read_register;
-> +    cc->gdb_write_register =3D rx_cpu_gdb_write_register;
-> +    cc->get_phys_page_debug =3D rx_cpu_get_phys_page_debug;
-> +    cc->disas_set_info =3D rx_cpu_disas_set_info;
-> +    cc->tcg_initialize =3D rx_translate_init;
-> +    cc->tlb_fill =3D rx_cpu_tlb_fill;
-> +
-> +    cc->gdb_num_core_regs =3D 26;
-> +}
-> +
-> +static const TypeInfo rx_cpu_info =3D {
-> +    .name =3D TYPE_RX_CPU,
-> +    .parent =3D TYPE_CPU,
-> +    .instance_size =3D sizeof(RXCPU),
-> +    .instance_init =3D rx_cpu_init,
-> +    .abstract =3D true,
-> +    .class_size =3D sizeof(RXCPUClass),
-> +    .class_init =3D rx_cpu_class_init,
-> +};
-> +
-> +static const TypeInfo rx62n_rx_cpu_info =3D {
-> +    .name =3D TYPE_RX62N_CPU,
-> +    .parent =3D TYPE_RX_CPU,
-> +};
-> +
-> +static void rx_cpu_register_types(void)
-> +{
-> +    type_register_static(&rx_cpu_info);
-> +    type_register_static(&rx62n_rx_cpu_info);
-> +}
-> +
-> +type_init(rx_cpu_register_types)
-> diff --git a/target/rx/gdbstub.c b/target/rx/gdbstub.c
-> new file mode 100644
-> index 0000000000..d76ca52e82
-> --- /dev/null
-> +++ b/target/rx/gdbstub.c
-> @@ -0,0 +1,112 @@
-> +/*
-> + * RX gdb server stub
-> + *
-> + * Copyright (c) 2019 Yoshinori Sato
-> + *
-> + * This program is free software; you can redistribute it and/or modify =
-it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License alo=
-ng with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "cpu.h"
-> +#include "exec/gdbstub.h"
-> +
-> +int rx_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
-> +{
-> +    RXCPU *cpu =3D RXCPU(cs);
-> +    CPURXState *env =3D &cpu->env;
-> +
-> +    switch (n) {
-> +    case 0 ... 15:
-> +        return gdb_get_regl(mem_buf, env->regs[n]);
-> +    case 16:
-> +        return gdb_get_regl(mem_buf, (env->psw_u) ? env->regs[0] : env->=
-usp);
-> +    case 17:
-> +        return gdb_get_regl(mem_buf, (!env->psw_u) ? env->regs[0] : env-=
->isp);
-> +    case 18:
-> +        return gdb_get_regl(mem_buf, rx_cpu_pack_psw(env));
-> +    case 19:
-> +        return gdb_get_regl(mem_buf, env->pc);
-> +    case 20:
-> +        return gdb_get_regl(mem_buf, env->intb);
-> +    case 21:
-> +        return gdb_get_regl(mem_buf, env->bpsw);
-> +    case 22:
-> +        return gdb_get_regl(mem_buf, env->bpc);
-> +    case 23:
-> +        return gdb_get_regl(mem_buf, env->fintv);
-> +    case 24:
-> +        return gdb_get_regl(mem_buf, env->fpsw);
-> +    case 25:
-> +        return 0;
-> +    }
-> +    return 0;
-> +}
-> +
-> +int rx_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-> +{
-> +    RXCPU *cpu =3D RXCPU(cs);
-> +    CPURXState *env =3D &cpu->env;
-> +    uint32_t psw;
-> +    switch (n) {
-> +    case 0 ... 15:
-> +        env->regs[n] =3D ldl_p(mem_buf);
-> +        if (n =3D=3D 0) {
-> +            if (env->psw_u) {
-> +                env->usp =3D env->regs[0];
-> +            } else {
-> +                env->isp =3D env->regs[0];
-> +            }
-> +        }
-> +        break;
-> +    case 16:
-> +        env->usp =3D ldl_p(mem_buf);
-> +        if (env->psw_u) {
-> +            env->regs[0] =3D ldl_p(mem_buf);
-> +        }
-> +        break;
-> +    case 17:
-> +        env->isp =3D ldl_p(mem_buf);
-> +        if (!env->psw_u) {
-> +            env->regs[0] =3D ldl_p(mem_buf);
-> +        }
-> +        break;
-> +    case 18:
-> +        psw =3D ldl_p(mem_buf);
-> +        rx_cpu_unpack_psw(env, psw, 1);
-> +        break;
-> +    case 19:
-> +        env->pc =3D ldl_p(mem_buf);
-> +        break;
-> +    case 20:
-> +        env->intb =3D ldl_p(mem_buf);
-> +        break;
-> +    case 21:
-> +        env->bpsw =3D ldl_p(mem_buf);
-> +        break;
-> +    case 22:
-> +        env->bpc =3D ldl_p(mem_buf);
-> +        break;
-> +    case 23:
-> +        env->fintv =3D ldl_p(mem_buf);
-> +        break;
-> +    case 24:
-> +        env->fpsw =3D ldl_p(mem_buf);
-> +        break;
-> +    case 25:
-> +        return 8;
-> +    default:
-> +        return 0;
-> +    }
-> +
-> +    return 4;
-> +}
-> diff --git a/target/rx/monitor.c b/target/rx/monitor.c
-> new file mode 100644
-> index 0000000000..5d7a1e58b5
-> --- /dev/null
-> +++ b/target/rx/monitor.c
-> @@ -0,0 +1,38 @@
-> +/*
-> + * QEMU monitor
-> + *
-> + * Copyright (c) 2003-2004 Fabrice Bellard
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining=
- a copy
-> + * of this software and associated documentation files (the "Software"),=
- to deal
-> + * in the Software without restriction, including without limitation the=
- rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or =
-sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be includ=
-ed in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHA=
-LL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN
-> + * THE SOFTWARE.
-> + */
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "monitor/monitor.h"
-> +#include "monitor/hmp-target.h"
-> +#include "hmp.h"
-> +
-> +void hmp_info_tlb(Monitor *mon, const QDict *qdict)
-> +{
-> +    CPUArchState *env =3D mon_get_cpu_env();
-> +
-> +    if (!env) {
-> +        monitor_printf(mon, "No CPU available\n");
-> +        return;
-> +    }
-> +}
+I've looked through the patches, and I think my current concerns
+(stated briefly) are:
+ * I don't think we have the "don't call device implementations of
+   reset phase functions multiple times" semantics that I wanted;
+   OTOH I think the logic I suggested for those in comments on the
+   v1 of this series wouldn't work either.
+ * handling of "call the parent class's reset" is not very clean
+   (but this is a general QOM design issue)
+ * migration (see below)
 
+> # RESET DEPRECATION
+>
+> There is 3 changes in the current way of handling reset (for users or
+> developers of Devices)
+>
+> 1. qdev/qbus_reset_all
+>
+> Theses functions are deprecated by this series and should be replaced by
+> direct call to device_reset or bus_reset. There is only a few existing calls
+> so I can probably replace them all and delete the original functions.
+
+Sounds good.
+
+> 2. old's device_reset
+>
+> There is a few call to this function, I renamed it *device_legacy_reset* to
+> handle the transition. This function allowed to reset only a given device
+> (and not its eventual qbus subtree). This behavior is not possible with
+> the Resettable interface. At first glance it seemed that it is used only on
+> device having no sub-buses so we could just use the new device_reset.
+> But I need to look at them more closely to be sure. If this behavior is really
+> needed (but why would we not reset children ?), it's possible to do a specific
+> function for Device to to 3-phases reset without the children.
+
+Users of this function:
+ hw/audio/intel-hda.c
+  -- used by the HDA device to reset the HDACodecDevice, which has
+     no child buses
+ hw/hyperv/hyperv.c
+  -- resets the SynICState, which I think has no child buses
+ hw/i386/pc.c
+  -- resets the APIC, which has no child buses. (This reset is only
+     done as a workaround for lack of reset phases: the whole machine
+     is reset and then the APIC is re-reset last to undo any changes
+     that other devices might have made to it. Probably making the APIC
+     support phased reset would allow us to drop this hack.)
+ hw/ide/microdrive.c
+  -- called here to reset the MicroDriveState object. This does have
+     a child bus, but md_reset() explicitly calls ide_bus_reset(),
+     so it should be possible to clean this up.
+ hw/intc/spapr_xive.c
+  -- resets the SpaprXive device, which I think has no child buses
+ hw/ppc/pnv_psi.c
+  -- resets a XiveSource, which I think has no child buses
+ hw/ppc/spapr_pci.c
+  -- resets every QOM child of the SpaprPhbState. This one will
+     require closer checking, but my guess is that if there's a child
+     with a child bus then failure to reset the bus would be a bug.
+ hw/ppc/spapr_vio.c
+  -- resets an SpaprTceTable. This needs attention from an Spapr
+     expert but is probably ok.
+ hw/s390x/s390-pci-inst.c
+  -- resets the S390PCIBusDevice. Needs S390 expertise, but probably
+     either no child buses or failure to reset them is a bug.
+ hw/scsi/vmw_pvscsi.c
+  -- resets an individual SCSIDevice. I don't think those have child buses.
+ hw/sd/omap_mmc.c
+  -- resetting an SDState, which has no child bus
+ hw/sd/pl181.c
+  -- ditto.
+
+So there are one or two not-totally-trivial cases but we should
+be able to deal with these.
+
+> 3. DeviceClass's reset and BusClass's methods
+>
+> This is the major change. The method is deprecated because reset methods are
+> now located in the interface class. In the series, I make the init phase
+> redirect to the original reset method of DeviceClass (or BusClass). There a
+> lot of use of the method and transitioning to 3-phases only reset will need
+> some work.
+
+I think it should be possible to do the conversion mechanically
+(eg with coccinelle). We can look at doing that later.
+
+> # MIGRATION
+>
+> Bus reset state migration is right now not handled.
+>
+> Regarding "migration-during-reset should Just Work, without necessarily
+> needing any specific changes for a device". The included patch define a vmsd
+> subsection which must to be added to every device main vmsd structure for
+> migration-during-reset of theses devices to work. I tried to find a way to
+> avoid that but really don't see how to achieve that.
+>
+> So in the current state of this series, migration can only be supported for
+> leaf device (in term of qdev/qbus) where we add the subsection.
+>
+> I'm not sure the migration is the problem here. I doubt a device will
+> support staying in reset state (which is a new feature) without manual
+> intervention. So migration of this unsupported state without any specific
+> change may not be a real asset.
+
+The approach I thought would be good turns out not to actually work,
+so I need to think a bit more about this.
+
+I think what I would like to achieve is "default to doing the right
+thing" -- ideally devices that add support for being held in reset
+should not need to manually do something to make the bus/device reset
+state be migrated properly. Otherwise we have an easy mistake to
+make (forgetting to do the necessary handling of migration) when
+adding a new device or making a device support being held in reset.
+
+Regarding "devices not supporting staying in reset state without
+manual intervention" do you mean that they might not correctly
+deal with incoming signals or guest register write attempts
+in the held-in-reset state? That's true, but I don't think it's
+too terrible. (In particular it's a bug that can be fixed without
+breaking migration compatibility; and it seems unlikely that guest
+software would be trying to read or write a device that it's put
+into reset.)
+
+thanks
+-- PMM
 
