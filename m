@@ -2,46 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7144D4A64B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 18:10:32 +0200 (CEST)
-Received: from localhost ([::1]:59358 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FEF94A5B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 17:45:31 +0200 (CEST)
+Received: from localhost ([::1]:59118 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdGgp-0005lm-Ll
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 12:10:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42962)
+	id 1hdGIc-0008OR-6b
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 11:45:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43540)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <quintela@redhat.com>) id 1hdFQq-0002kr-F3
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:49:59 -0400
+ (envelope-from <peterx@redhat.com>) id 1hdFSg-0003qV-Ar
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:51:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <quintela@redhat.com>) id 1hdFQm-0003RX-LK
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:49:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57730)
+ (envelope-from <peterx@redhat.com>) id 1hdFSd-0005SF-DW
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:51:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47872)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hdFQm-0002eD-CR
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:49:52 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hdFSc-00053S-By
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:51:47 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1CB33308338E;
- Tue, 18 Jun 2019 14:49:14 +0000 (UTC)
-Received: from redhat.com (ovpn-116-120.ams2.redhat.com [10.36.116.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C0B81001DF3;
- Tue, 18 Jun 2019 14:49:12 +0000 (UTC)
-From: Juan Quintela <quintela@redhat.com>
-To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-Date: Tue, 18 Jun 2019 16:49:10 +0200
-Message-ID: <87d0jb9cex.fsf@trasno.org>
+ by mx1.redhat.com (Postfix) with ESMTPS id 6FD983087931;
+ Tue, 18 Jun 2019 14:51:22 +0000 (UTC)
+Received: from xz-x1 (ovpn-12-21.pek2.redhat.com [10.72.12.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99E4382F40;
+ Tue, 18 Jun 2019 14:51:20 +0000 (UTC)
+Date: Tue, 18 Jun 2019 22:51:17 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Cosmin Marin <cosmin.marin@nutanix.com>
+Message-ID: <20190618145116.GA3793@xz-x1>
+References: <20190614161106.218854-1-cosmin@nutanix.com>
+ <20190617034628.GA12456@xz-x1>
+ <ACBDA5C2-CC9B-416F-AB54-D4A98CAF2F8A@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ACBDA5C2-CC9B-416F-AB54-D4A98CAF2F8A@nutanix.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 18 Jun 2019 14:49:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Tue, 18 Jun 2019 14:51:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] KVM call minutes for 2019-06-18
+Subject: Re: [Qemu-devel] [PATCH] migration: Improve accuracy of vCPU
+ throttling with per-vCPU timers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,73 +59,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jun 18, 2019 at 12:25:43PM +0000, Cosmin Marin wrote:
+> 	Hi Peter,
+> 
+> 	thanks for reviewing the patch. Indeed, I agree that it's almost impossible to determine which solution it's better from the scalability perspective. However, I feel that using per-vCPU timers is the only way for ensuring correctness of the throttling ratio.
 
-Hi
+The thing is that your patch actually contains two changes:
 
-This are the random notes that I took about today community call.
-Please review and add anything that you consider relevant.
+1. use N timers instead of one.
 
+2. remove throttle_thread_scheduled check, so we do the throttle
+   always
 
+Here what I'm worried is that _maybe_ the 2nd item is the one that
+really helped.
 
-Multiprocess qemu
+Note that there is a side effect that we might queue more than one
+work on one specific cpu if we queue it too fast, but it does not
+block us from trying it out to identify which item (1 or 2 or both)
+really helped here.  Then if we think that (queuing too much) is an
+issue then we can discuss on how to fix it since current patch will
+have this problem as well.
 
-Overview
-- qemu (basically) runs as a single process
-- emulates several devices
-- the idea is to run the device emulations in a different process
-- QMP/HMP/... still on main process
-- rest of devices are going to be in external process
-- idea is to reduce priviledge for each process
-- questions?
-  * how much work is going to be to integrate changes after this
-  * most of the changes are new code with proxy objects
-  * will not be changes to existing models
-  * don't require all emulation run in remote process
-  * device backends are run fully on the emulation process
-  * leveraging virtio user model
-  * expect DMA and IRQ like virtio user
-* QEMU assumes that several things have global state
-* migration/notifiers/...
-* QEMU is able to DMA from one device to other device directly, with multiprocess is difficult
-* How to get that global assumptions
-* patches already quite big and only do one device so far
-* Kevin is experimenthing with an external qemu-storage daemon
-* qemu-storage daemon vs process for each image
-  * compromise: less isolation but easier to do
-* i.e. just doing the full subsystem instead of each device
-* multiprocess:
-  * devices shouldn't have to be changed, it is the same code that inside qemu
-* TCG never claim any security
-* qemu: command line and device interface and QMP
-  good solotion for QMP, but for the rest
-* libvirt/management app will launch the remote devices and just handle fd's to qemu
-* When we launch qemu
-  qemu needs to know the "proxied" devices through the command line
-  move everything to QMP and don't even pass the command line
-  spcially don't pass the commandline from qemu to processes
-* Any quesntion about how the bus/device are presented?
-* why don't use only nemu + virtio?
-  nemu and virtio don't handle legacy devices
-* cpu usage from multiprocess?
-  how much cpu fro the same amount of IOPs:  current implementation use around 9-10% more cpu cycles
-  but there are optimizations that could reduce it further
-* multiprocess mmio
-  create a kernel fd for each multiprocess and decide at device creation time if that range is
-  going to be handled by the main qemu or another process.  Something like vhost-user.
-  This is an optimizaton, not implemented yet.
-* Why do they need legacy?
-  Because they are not anly bringing new VM's, also legacy VM's (specially windows).
-* Is worth this for legacy?
-  Or just enable it for new/modern guests.
-* How invasive is this?
-  it is important to decide how much security/isolation it brings vs the amount of invasive things
-  How much do we gain from using seccomp + unpriviledged qemu + ....
-* Discussion about if it makes sense the change
-  Does it bring enough new isolation to qemu
+> 
+> 	It's a bit unclear to me how the throttling ratio inconsistency can be fixed by using a single timer even avoiding the conditional timer re-arming.  Could you provide more details about the use of a single timer ?
+  
+It'll be simply a patch only contains the changes for item (2) above.
+To be explicit, it is:
 
-Thanks, Juan.
+-------------------------------------------------------------------
+diff --git a/cpus.c b/cpus.c
+index dde3b7b981..bb59675b98 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -792,7 +792,6 @@ static void cpu_throttle_thread(CPUState *cpu, run_on_cpu_data opaque)
+     qemu_mutex_unlock_iothread();
+     g_usleep(sleeptime_ns / 1000); /* Convert ns to us for usleep call */
+     qemu_mutex_lock_iothread();
+-    atomic_set(&cpu->throttle_thread_scheduled, 0);
+ }
+
+ static void cpu_throttle_timer_tick(void *opaque)
+@@ -805,10 +804,7 @@ static void cpu_throttle_timer_tick(void *opaque)
+         return;
+     }
+     CPU_FOREACH(cpu) {
+-        if (!atomic_xchg(&cpu->throttle_thread_scheduled, 1)) {
+-            async_run_on_cpu(cpu, cpu_throttle_thread,
+-                             RUN_ON_CPU_NULL);
+-        }
++        async_run_on_cpu(cpu, cpu_throttle_thread, RUN_ON_CPU_NULL);
+     }
+
+     pct = (double)cpu_throttle_get_percentage()/100;
+diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+index 5ee0046b62..0bd34fbb70 100644
+--- a/include/qom/cpu.h
++++ b/include/qom/cpu.h
+@@ -439,11 +439,6 @@ struct CPUState {
+     /* shared by kvm, hax and hvf */
+     bool vcpu_dirty;
+
+-    /* Used to keep track of an outstanding cpu throttle thread for migration
+-     * autoconverge
+-     */
+-    bool throttle_thread_scheduled;
+-
+     bool ignore_memory_transaction_failures;
+
+     struct hax_vcpu_state *hax_vcpu;
+-------------------------------------------------------------------
+
+Regards,
+
+-- 
+Peter Xu
 
