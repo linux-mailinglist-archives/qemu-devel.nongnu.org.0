@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426CB49709
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 03:41:15 +0200 (CEST)
-Received: from localhost ([::1]:52976 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B999497B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 05:12:58 +0200 (CEST)
+Received: from localhost ([::1]:53366 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd37a-0004iY-Fz
-	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 21:41:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41073)
+	id 1hd4YK-0008NJ-Pd
+	for lists+qemu-devel@lfdr.de; Mon, 17 Jun 2019 23:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58823)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=0651fb9a1=alistair.francis@wdc.com>)
- id 1hd30Z-0006zC-Pt
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:34:01 -0400
+ (envelope-from <jasowang@redhat.com>) id 1hd4XB-0007xt-87
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 23:11:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=0651fb9a1=alistair.francis@wdc.com>)
- id 1hd30W-0000Ri-2A
- for qemu-devel@nongnu.org; Mon, 17 Jun 2019 21:33:58 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:24430)
+ (envelope-from <jasowang@redhat.com>) id 1hd4XA-0001Wy-At
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 23:11:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44064)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=0651fb9a1=alistair.francis@wdc.com>)
- id 1hd30P-0000A1-B2; Mon, 17 Jun 2019 21:33:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1560821630; x=1592357630;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=uH8d/1+DYmxt/Xfe8gKKkT1GvkSK1xuKXxkSixU4Pc0=;
- b=pd1UHrMvpKCOIzmVrfA9KMzYBSNEkVMHt0xraEKC50MMN0RzFEYRNiJQ
- G13fhd/AduBmBeugmEs7oiKU/GejMbukju/hc6TT38HTI4bau7z5gip9s
- klNvq2MCPlyfr/F0L9Z/Z3L6s6BWWpwTonW3OdjZfFQQ+H2WRAoeRhYQx
- erUYKMlCjSdvTInHuVDIiyXJ8U4z2HuS5gY1Xs6S0wB2SZV5zkdP9N3Ld
- pA7v+7NAj2GhjJF91sdZXLB818pvE1i3jZLyG9rWWHgT7/DMRFqHjCmNd
- pAHdNFF32OtDYeRYniIMWj2whqXk+Y4wKMSVniLp4qyLtyVpUUE+o0Bje g==;
-X-IronPort-AV: E=Sophos;i="5.63,386,1557158400"; d="scan'208";a="112055111"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2019 09:33:46 +0800
-IronPort-SDR: mH6/vsWpBn+SZNGPzspR0dN5sgjpMWvW2sDL7iT5jD3h4qtw0+mglclnlka63oncxYDcDO0AAz
- xb0K+c+4/wZOMEZIGSx80fgYQLUiAdgi+oW0OxTPgggiA4AVbIjL+vpnLyOxphg4waXL4WGQMT
- HAIDfKherUyiVKFq6h8t8OHT/5DfahFHUyf7uNtjDc7K7KS6nqnMJyCFk5vAJDw6IFWyzpmB9D
- eKz1pXoXBv4iyCnL9sFWN8Hypta6ZduGQRUXtXB19eE8H/Ze6o1sLm6ukmIfHKryhqsdfiBEne
- Azxwde8w9zZgsap6sSkcNrf4
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP; 17 Jun 2019 18:33:15 -0700
-IronPort-SDR: lNFw6ircjrCK71GcwOT2l+NmTHmvbYfifZJ4pmli0yXcGnYb9INWjrbEYNG5hWu32wMpi+Xx1J
- UaNWvvWQiRWcgczt3t3yT5idls7zSuG4gy9reLHxkZ1YNtEBK/s4w2+lhI9XKGbwuEiwlLywlJ
- 33pC2dZG6LV+1r4oLb2/NICe4kVJc0+KPzg45wPUsfHZk2PIqbigx2hT2o9C28PaDznY4wib8M
- lUKv/EolHNC0k6QGIl3r1H/pyOAdYUnSOmo3YJZOOpUZzcVPFw8G4TKGWOYpt/RYSJy7TMZtvl
- 37k=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Jun 2019 18:33:46 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Date: Mon, 17 Jun 2019 18:31:25 -0700
-Message-Id: <b1a3188a4d5538d4d0ed0a77114926a2fdae1258.1560821342.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <cover.1560821342.git.alistair.francis@wdc.com>
-References: <cover.1560821342.git.alistair.francis@wdc.com>
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hd4XA-0001TT-4N
+ for qemu-devel@nongnu.org; Mon, 17 Jun 2019 23:11:44 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4DB12308219F
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 03:11:41 +0000 (UTC)
+Received: from [10.72.12.155] (ovpn-12-155.pek2.redhat.com [10.72.12.155])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E13051017E31;
+ Tue, 18 Jun 2019 03:11:32 +0000 (UTC)
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com, laine@redhat.com
+References: <20190613095924.21908-1-dgilbert@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <7768e0c1-0e85-5cb7-7fe1-e27429762c16@redhat.com>
+Date: Tue, 18 Jun 2019 11:11:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 216.71.153.144
-Subject: [Qemu-devel] [PATCH v1 9/9] target/riscv: Add Zifencei and Zicsr as
- command line options
+In-Reply-To: <20190613095924.21908-1-dgilbert@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Tue, 18 Jun 2019 03:11:41 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 0/5] network announce;
+ interface selection & IDs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,60 +60,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For completeness let's add Zifencei and Zicsr as command line options,
-even though they can't be disabled at the moment.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 9 +++++++++
- target/riscv/cpu.h | 2 ++
- 2 files changed, 11 insertions(+)
+On 2019/6/13 =E4=B8=8B=E5=8D=885:59, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> Laine asked for some extra features on the network announce support;
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 5af1c9b38c..53cf8607f7 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -409,6 +409,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         set_misa(env, RVXLEN | target_misa);
-     }
- 
-+    if (!cpu->cfg.ext_ifencei) {
-+        warn_report("QEMU does not support disabling Zifencei");
-+    }
-+    if (!cpu->cfg.ext_icsr) {
-+        warn_report("QEMU does not support disabling Zicsr");
-+    }
-+
-     riscv_cpu_register_gdb_regs_for_features(cs);
- 
-     qemu_init_vcpu(cs);
-@@ -441,6 +448,8 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-+    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-+    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 786f620564..b4c212dfcf 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -222,6 +222,8 @@ typedef struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_counters;
-+        bool ext_ifencei;
-+        bool ext_icsr;
- 
-         char *priv_spec;
-         char *user_spec;
--- 
-2.22.0
 
+It's better to explain why this feature is needed.=C2=A0 Is this because=20
+libvirt can change the host network topology on the fly?
+
+Thanks
+
+
+>
+> The first allows the announce timer to announce on a subset of the
+> interfaces.
+>
+> The second allows there to be multiple timers, each with their own
+> parameters (including the interface list).
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
+> v4
+>    Minor typo fixes
+>    Expanded the test to check we can stop a running announce
+>
+> Dr. David Alan Gilbert (5):
+>    net/announce: Allow optional list of interfaces
+>    net/announce: Add HMP optional interface list
+>    net/announce: Add optional ID
+>    net/announce: Add HMP optional ID
+>    net/announce: Expand test for stopping self announce
+>
+>   hmp-commands.hx         |  7 +++-
+>   hmp.c                   | 41 +++++++++++++++++++-
+>   hw/net/virtio-net.c     |  4 +-
+>   include/net/announce.h  |  8 +++-
+>   net/announce.c          | 83 ++++++++++++++++++++++++++++++++++------=
+-
+>   net/trace-events        |  3 +-
+>   qapi/net.json           | 16 ++++++--
+>   tests/virtio-net-test.c | 57 ++++++++++++++++++++++++++--
+>   8 files changed, 192 insertions(+), 27 deletions(-)
+>
 
