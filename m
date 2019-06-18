@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9050349F26
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 13:27:18 +0200 (CEST)
-Received: from localhost ([::1]:55690 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1173449F3F
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 13:32:45 +0200 (CEST)
+Received: from localhost ([::1]:55754 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdCGj-0003HA-5A
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 07:27:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44020)
+	id 1hdCM0-00088e-AV
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 07:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45721)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <anthony.perard@citrix.com>) id 1hdCDN-0001ld-UJ
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:23:51 -0400
+ (envelope-from <philmd@redhat.com>) id 1hdCKq-0007S4-V7
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:31:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1hdCDM-00070t-BA
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:23:49 -0400
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:60646)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1hdCDM-0006zD-2N
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:23:48 -0400
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none;
- spf=None smtp.pra=anthony.perard@citrix.com;
- spf=Pass smtp.mailfrom=anthony.perard@citrix.com;
- spf=None smtp.helo=postmaster@mail.citrix.com
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- anthony.perard@citrix.com) identity=pra;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible
-Received-SPF: Pass (esa4.hc3370-68.iphmx.com: domain of
- anthony.perard@citrix.com designates 162.221.158.21 as
- permitted sender) identity=mailfrom;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="anthony.perard@citrix.com";
- x-conformance=sidf_compatible; x-record-type="v=spf1";
- x-record-text="v=spf1 ip4:209.167.231.154 ip4:178.63.86.133
- ip4:195.66.111.40/30 ip4:85.115.9.32/28 ip4:199.102.83.4
- ip4:192.28.146.160 ip4:192.28.146.107 ip4:216.52.6.88
- ip4:216.52.6.188 ip4:162.221.158.21 ip4:162.221.156.83 ~all"
-Received-SPF: None (esa4.hc3370-68.iphmx.com: no sender
- authenticity information available from domain of
- postmaster@mail.citrix.com) identity=helo;
- client-ip=162.221.158.21; receiver=esa4.hc3370-68.iphmx.com;
- envelope-from="anthony.perard@citrix.com";
- x-sender="postmaster@mail.citrix.com";
- x-conformance=sidf_compatible
-IronPort-SDR: 0YgI770VsdhoIsphZWcQsKcBuzjS8UWsFf1zYfmmFTerRJBZpdH3Nf+9s4UWKHZShSF14ImmcB
- /ywwj7hsJ6tXiTtcUPx0/rK19zftTQnCI4eWjBFGTn3jyI0Q6XAPgBo6BfWETnS8xXlz6GqSfQ
- q/lh0RoR6DAoNC1jhXHn9BCAD3JL24Yo0Rq4euZ+H7gweGm4dctu76L4ECTuURCOp0eTNUed+6
- 79K0L+sOuXsp6q04UVCEcdOLd0SC9+llZydC1lxgM3wHNtgX7B22OEh3dKtXCDytK0bdEsEyib
- h9Y=
-X-SBRS: 2.7
-X-MesageID: 1889399
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.63,389,1557201600"; 
-   d="scan'208";a="1889399"
-From: Anthony PERARD <anthony.perard@citrix.com>
-To: <qemu-devel@nongnu.org>
-Date: Tue, 18 Jun 2019 12:23:41 +0100
-Message-ID: <20190618112341.513-5-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190618112341.513-1-anthony.perard@citrix.com>
-References: <20190618112341.513-1-anthony.perard@citrix.com>
+ (envelope-from <philmd@redhat.com>) id 1hdCKq-0006OA-0M
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:31:32 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50832)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hdCKp-0006N5-Qj
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 07:31:31 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c66so2854712wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 04:31:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sWAUzTVZTd1N0vgARBpJ2iBRKFKmWFK8xlcTWblFbF4=;
+ b=mrJyXcwITvmMAsS42zNF4PQcyyD2YpiSl1QeNOTBFnxFCld3TCehx2EUGoDc/DcrUl
+ I/muWWC6FrIq8MeYMe7YEB8WSNOV+kvW69QKV/YxgSah2w4N3+xcpzAJB7Kn9PWdd/0S
+ 7a/EAOYPG2HSsScfFgqGa16ztn6L3KCIalM+b6KUC9VbnlmsBym0HLNYj3Tsp82w98au
+ DgzOGYdULeh8VSc0jTiAL3uMjtXkfPMHLg3rt2xCpWBW+/u7B5KCZVprEjDHTp6H3RCB
+ QBXWsqdO1b/YIVaSSR/B/oRa+LCCkXGacRdLgpdnx8cEiTNAolb6bVTeDuzuNgliF9fQ
+ umMg==
+X-Gm-Message-State: APjAAAWAwcPm6BulyjM6q4wMJK2zUAZX0ANtFYmik6o4M8EbvGsSV7dN
+ srbROlvvrL57c6vyQWjbphhi77CFVdk=
+X-Google-Smtp-Source: APXvYqxCkxr+jo9Ms+5ximXz6ukYxWJCwje2l+VFilB0wntLLi2mYwm7pBrTeixqwcm1POkzL4OxrA==
+X-Received: by 2002:a1c:ef0c:: with SMTP id n12mr3039033wmh.132.1560857490353; 
+ Tue, 18 Jun 2019 04:31:30 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id n3sm9987742wro.59.2019.06.18.04.31.29
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 18 Jun 2019 04:31:29 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>
+References: <20190618083442.10407-1-drjones@redhat.com>
+ <CAFEAcA9bwbev3efZ=LJPGgObBCbW-WX19fySMusLyMNC5ZExvA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <61cad4d2-61bc-00f1-d86a-d88b9e926ad2@redhat.com>
+Date: Tue, 18 Jun 2019 13:31:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9bwbev3efZ=LJPGgObBCbW-WX19fySMusLyMNC5ZExvA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
-X-Received-From: 216.71.155.144
-Subject: [Qemu-devel] [PATCH v2 4/4] xen: Avoid VLA
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH] hw/arm/boot: fix direct kernel boot setup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,100 +74,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Paul Durrant <paul.durrant@citrix.com>,
- Stefano Stabellini <sstabellini@kernel.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid using a variable length array.
+On 6/18/19 1:02 PM, Peter Maydell wrote:
+> On Tue, 18 Jun 2019 at 09:34, Andrew Jones <drjones@redhat.com> wrote:
+>>
+>> We need to check ram_end, not ram_size.
+>>
+>> Fixes: 852dc64d665f ("hw/arm/boot: Diagnose layouts that put initrd or
+>> DTB off the end of RAM")
+>> Signed-off-by: Andrew Jones <drjones@redhat.com>
 
-We allocate the `dirty_bitmap' buffer only once when we start tracking
-for dirty bits.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
-
-Notes:
-    v2:
-    - Allocate the bitmap buffer only once when we start tracking dirty bits.
-      (instead of at every function call)
-    
-    Was suggested by Peter here:
-    <CAFEAcA88+A2oCkQnxKDEdpmfCZSmPzWMBg01wDDV68bMZoY5Jg@mail.gmail.com>
-    "should we try to stop using variable length arrays?"
-
- hw/i386/xen/xen-hvm.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index ae3deb4ef3..469f1260a4 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -119,6 +119,8 @@ typedef struct XenIOState {
-     DeviceListener device_listener;
-     hwaddr free_phys_offset;
-     const XenPhysmap *log_for_dirtybit;
-+    /* Buffer used by xen_sync_dirty_bitmap */
-+    unsigned long *dirty_bitmap;
- 
-     Notifier exit;
-     Notifier suspend;
-@@ -464,6 +466,8 @@ static int xen_remove_from_physmap(XenIOState *state,
-     QLIST_REMOVE(physmap, list);
-     if (state->log_for_dirtybit == physmap) {
-         state->log_for_dirtybit = NULL;
-+        g_free(state->dirty_bitmap);
-+        state->dirty_bitmap = NULL;
-     }
-     g_free(physmap);
- 
-@@ -614,7 +618,7 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
- {
-     hwaddr npages = size >> TARGET_PAGE_BITS;
-     const int width = sizeof(unsigned long) * 8;
--    unsigned long bitmap[DIV_ROUND_UP(npages, width)];
-+    size_t bitmap_size = DIV_ROUND_UP(npages, width);
-     int rc, i, j;
-     const XenPhysmap *physmap = NULL;
- 
-@@ -626,13 +630,14 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
- 
-     if (state->log_for_dirtybit == NULL) {
-         state->log_for_dirtybit = physmap;
-+        state->dirty_bitmap = g_new(unsigned long, bitmap_size);
-     } else if (state->log_for_dirtybit != physmap) {
-         /* Only one range for dirty bitmap can be tracked. */
-         return;
-     }
- 
-     rc = xen_track_dirty_vram(xen_domid, start_addr >> TARGET_PAGE_BITS,
--                              npages, bitmap);
-+                              npages, state->dirty_bitmap);
-     if (rc < 0) {
- #ifndef ENODATA
- #define ENODATA  ENOENT
-@@ -646,8 +651,8 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
-         return;
-     }
- 
--    for (i = 0; i < ARRAY_SIZE(bitmap); i++) {
--        unsigned long map = bitmap[i];
-+    for (i = 0; i < bitmap_size; i++) {
-+        unsigned long map = state->dirty_bitmap[i];
-         while (map != 0) {
-             j = ctzl(map);
-             map &= ~(1ul << j);
-@@ -677,6 +682,8 @@ static void xen_log_stop(MemoryListener *listener, MemoryRegionSection *section,
- 
-     if (old & ~new & (1 << DIRTY_MEMORY_VGA)) {
-         state->log_for_dirtybit = NULL;
-+        g_free(state->dirty_bitmap);
-+        state->dirty_bitmap = NULL;
-         /* Disable dirty bit tracking */
-         xen_track_dirty_vram(xen_domid, 0, 0, NULL);
-     }
--- 
-Anthony PERARD
-
+>> ---
+>>  hw/arm/boot.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+>> index b2f93f6beff6..8a280ab3ed49 100644
+>> --- a/hw/arm/boot.c
+>> +++ b/hw/arm/boot.c
+>> @@ -1109,7 +1109,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+>>                               info->initrd_filename);
+>>                  exit(1);
+>>              }
+>> -            if (info->initrd_start + initrd_size > info->ram_size) {
+>> +            if (info->initrd_start + initrd_size > ram_end) {
+>>                  error_report("could not load initrd '%s': "
+>>                               "too big to fit into RAM after the kernel",
+>>                               info->initrd_filename);
+>> --
+>> 2.20.1
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> 
+> I think I missed this because my test case doesn't have an
+> initrd -- direct kernel boot works fine if all you're
+> passing to QEMU is the kernel... I think we could clarify
+> the commit message a little:
+> 
+> hw/arm/boot: fix direct kernel boot with initrd
+> 
+> Fix the condition used to check whether the initrd fits
+> into RAM; this meant we were spuriously refusing to do
+> a direct boot of a kernel in some cases if an initrd
+> was also passed on the command line.
+> 
+> ?
+> 
+> (if you agree I can just fix up the commit message when I apply it.)
+> 
+> thanks
+> -- PMM
+> 
 
