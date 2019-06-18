@@ -2,47 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2332649C3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:43:11 +0200 (CEST)
-Received: from localhost ([::1]:54820 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 000B949C52
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:45:51 +0200 (CEST)
+Received: from localhost ([::1]:54846 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd9hu-0002Jh-Ba
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:43:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
+	id 1hd9kV-0004I7-54
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:45:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43502)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hd9gl-0001fD-MK
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:42:00 -0400
+ (envelope-from <groug@kaod.org>) id 1hd9ig-0002yM-Vm
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:44:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hd9gk-00005n-MY
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:41:59 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:45365 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hd9gk-0008Ts-6C; Tue, 18 Jun 2019 04:41:58 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45ShQV2GL8z9s9y; Tue, 18 Jun 2019 18:41:53 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1560847314;
- bh=Hnc8vXDv3vxk4WvZDauksAGm3UjW4X8h8PTtPFXjVNA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZrwXbbX0etBuWxg5mjCHeqGGmVhqHGrkUrp4zrrgZgatJ2Ydcg59KyWJ9rDmkoa9L
- 1cF9iWHJKZbQLbILC7MyLTNsRNviVnBpHR1aBDGSHsWaDjBCnmBJqoqpbn2vx77utu
- hZTOFJcI7JCQ5YHY3KmXJberkIRSCpt2dGpkj1hA=
-Date: Tue, 18 Jun 2019 18:41:48 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190618084148.GB3673@umbus.BigPond>
-References: <156078063349.435533.12283208810037409702.stgit@bahia.lan>
+ (envelope-from <groug@kaod.org>) id 1hd9if-0002ni-TA
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:43:58 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5208)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hd9if-0002mr-Hf
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:43:57 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5I8hh0l118767
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 04:43:55 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2t6u8n3ed1-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 04:43:51 -0400
+Received: from localhost
+ by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Tue, 18 Jun 2019 09:42:57 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 18 Jun 2019 09:42:55 +0100
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x5I8gsOX30277710
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 18 Jun 2019 08:42:54 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F27FE529E9;
+ Tue, 18 Jun 2019 08:42:53 +0000 (GMT)
+Received: from bahia.lan (unknown [9.145.14.35])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id C4702529E6;
+ Tue, 18 Jun 2019 08:42:53 +0000 (GMT)
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Tue, 18 Jun 2019 10:42:53 +0200
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Fba/0zbH8Xs+Fj9o"
-Content-Disposition: inline
-In-Reply-To: <156078063349.435533.12283208810037409702.stgit@bahia.lan>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] xics: Add comment about CPU hotplug
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19061808-0012-0000-0000-0000032A13E0
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19061808-0013-0000-0000-000021632F9C
+Message-Id: <156084737348.512412.3552825999605902691.stgit@bahia.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-18_05:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=848 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906180073
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH] spapr_pci: Fix DRC owner in spapr_dt_pci_bus()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,69 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+Cc: qemu-ppc@nongnu.org, =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+spapr_dt_drc() scans the aliases of all DRConnector objects and filters
+the ones that it will use to generate OF properties according to their
+owner and type.
 
---Fba/0zbH8Xs+Fj9o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Passing bus->parent_dev _works_ if bus belongs to a PCI bridge, but it is
+NULL if it is the PHB's root bus. This causes all allocated PCI DRCs to
+be associated to all PHBs (visible in their "ibm,drc-types" properties).
+As a consequence, hot unplugging a PHB results in PCI devices from the
+other PHBs to be unplugged as well, and likely confuses the guest.
 
-On Mon, Jun 17, 2019 at 04:10:33PM +0200, Greg Kurz wrote:
-> So that no one is tempted to drop that code, which is never called
-> for cold plugged CPUs.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+Use the same logic as in add_drcs() to ensure the correct owner is passed
+to spapr_dt_drc().
 
-Applied, thanks.
+Fixes: 14e714900f6b "spapr: Allow hot plug/unplug of PCI bridges and devices under PCI bridges"
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ hw/ppc/spapr_pci.c |    9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-> ---
->  hw/intc/xics.c |    1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> index 8535e583dd41..faa976e2f8a8 100644
-> --- a/hw/intc/xics.c
-> +++ b/hw/intc/xics.c
-> @@ -363,6 +363,7 @@ static void icp_realize(DeviceState *dev, Error **err=
-p)
->          return;
->      }
-> =20
-> +    /* Connect the presenter to the VCPU (required for CPU hotplug) */
->      if (kvm_irqchip_in_kernel()) {
->          icp_kvm_realize(dev, &err);
->          if (err) {
->=20
+diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+index fbeb1c90ee6c..2dca1e57f36c 100644
+--- a/hw/ppc/spapr_pci.c
++++ b/hw/ppc/spapr_pci.c
+@@ -1343,6 +1343,7 @@ static void spapr_dt_pci_device_cb(PCIBus *bus, PCIDevice *pdev,
+ static int spapr_dt_pci_bus(SpaprPhbState *sphb, PCIBus *bus,
+                                void *fdt, int offset)
+ {
++    Object *owner;
+     PciWalkFdt cbinfo = {
+         .fdt = fdt,
+         .offset = offset,
+@@ -1363,7 +1364,13 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, PCIBus *bus,
+         return cbinfo.err;
+     }
+ 
+-    ret = spapr_dt_drc(fdt, offset, OBJECT(bus->parent_dev),
++    if (pci_bus_is_root(bus)) {
++        owner = OBJECT(sphb);
++    } else {
++        owner = OBJECT(pci_bridge_get_device(bus));
++    }
++
++    ret = spapr_dt_drc(fdt, offset, owner,
+                        SPAPR_DR_CONNECTOR_TYPE_PCI);
+     if (ret) {
+         return ret;
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Fba/0zbH8Xs+Fj9o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0Io8kACgkQbDjKyiDZ
-s5KXTxAAv/RwxWV2+bYPvWeiRqJ3QuQfKiA8ALV1tmsj5bRvt66bH22Ly4a3d1KL
-GnFSnXjOq/FtKYezb0gb98qobqwfallGuMm0jwXi87P8h5qOolthBFBbx79l3X4s
-wirHABoXe7MIs6Zz9QB0hITXJ2dVahtC/JLEsyKr8dsIPrxiOr0FmA9bmcfcrzoZ
-Yjf+SCDUr17JhQ3aWruJohoINm7ET3MM5J474oBoV17Oalzrc1+JVrOZAWFDtHJ4
-I1z7Zywq8/bymVK0qMPUowHIVbZ7oWfZoeDnCYyk+0967bh2WADr5cAFvE4nz8Fr
-QOCkXcldLccSeAFRtTbkxgNV+RAga1wyqWhCWypUjE6oB1rfSA/ap/Wfogn0z+VE
-gz20B0qN643sOupqxkUiRymbrkgtjb+rZzXiDRUvHap7DeB+62WiOzH3zzZHBmgc
-bv7ZEamxInq2sKq8cVbmziZNX3I1bUWRNYo2DVHACLEVJJdLShbtTZmeXFajiaT/
-s4c7sFv/cOjwHlJaT2cVbTmIDvWTADnAEwN4CNdga01N+ZNnx7fBfqcehx4+XejR
-D8lCKO7SDqegNwrU44bk5nyWo75jZWCIVP14Av9SsnJask/AvMsgOoEI5etwzmsj
-IWYqx0YvCsUxMIr+xc77APxHn0YC8tdaIlWL4Ki2/FoOGJVGI7Y=
-=FPy0
------END PGP SIGNATURE-----
-
---Fba/0zbH8Xs+Fj9o--
 
