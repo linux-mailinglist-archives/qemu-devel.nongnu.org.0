@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2454A83F
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:26:01 +0200 (CEST)
-Received: from localhost ([::1]:60486 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B044A4A87E
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 19:34:42 +0200 (CEST)
+Received: from localhost ([::1]:60580 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdHrs-0000Bx-Lh
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:26:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32865)
+	id 1hdI0H-0000Hw-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 13:34:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32864)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hdHOV-0001UV-TR
+ (envelope-from <clg@kaod.org>) id 1hdHOV-0001UU-TY
  for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:55:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hdHOQ-00061i-Oc
+ (envelope-from <clg@kaod.org>) id 1hdHOR-000629-1P
  for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:55:37 -0400
-Received: from 20.mo6.mail-out.ovh.net ([178.32.124.17]:51013)
+Received: from 3.mo177.mail-out.ovh.net ([46.105.36.172]:42011)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hdHOK-0005ne-1O
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:55:30 -0400
-Received: from player157.ha.ovh.net (unknown [10.108.57.72])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 6EFCF1D0C52
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 18:55:22 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hdHOQ-0005ws-PF
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 12:55:34 -0400
+Received: from player157.ha.ovh.net (unknown [10.108.42.102])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 2F04BFF658
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 18:55:30 +0200 (CEST)
 Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
  (Authenticated sender: clg@kaod.org)
- by player157.ha.ovh.net (Postfix) with ESMTPSA id 204BA6EB54BC;
- Tue, 18 Jun 2019 16:55:15 +0000 (UTC)
+ by player157.ha.ovh.net (Postfix) with ESMTPSA id 652116EB5504;
+ Tue, 18 Jun 2019 16:55:22 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 18 Jun 2019 18:53:07 +0200
-Message-Id: <20190618165311.27066-18-clg@kaod.org>
+Date: Tue, 18 Jun 2019 18:53:08 +0200
+Message-Id: <20190618165311.27066-19-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190618165311.27066-1-clg@kaod.org>
 References: <20190618165311.27066-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 1691664611958819601
+X-Ovh-Tracer-Id: 1693916413399173905
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrtddtgdejkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.32.124.17
-Subject: [Qemu-devel] [PATCH v2 17/21] aspeed/smc: inject errors in DMA
- checksum
+X-Received-From: 46.105.36.172
+Subject: [Qemu-devel] [PATCH v2 18/21] aspeed/smc: Calculate checksum on
+ normal DMA
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,110 +56,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Christian Svensson <bluecmd@google.com>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Emulate read errors in the DMA Checksum Register for high frequencies
-and optimistic settings of the Read Timing Compensation Register. This
-will help in tuning the SPI timing calibration algorithm.
+From: Christian Svensson <bluecmd@google.com>
 
-The values below are those to expect from the first flash device of
-the FMC controller of a palmetto-bmc machine.
+This patch adds the missing checksum calculation on normal DMA transfer.
+According to the datasheet this is how the SMC should behave.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Verified on AST1250 that the hardware matches the behaviour.
+
+Signed-off-by: Christian Svensson <bluecmd@google.com>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
+ hw/ssi/aspeed_smc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- Changes since v1:
-
- - introduced a "inject-failure" property as suggested by Philippe
-
- include/hw/ssi/aspeed_smc.h |  1 +
- hw/ssi/aspeed_smc.c         | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+)
-
-diff --git a/include/hw/ssi/aspeed_smc.h b/include/hw/ssi/aspeed_smc.h
-index 453357cc09bf..ba496956cd5e 100644
---- a/include/hw/ssi/aspeed_smc.h
-+++ b/include/hw/ssi/aspeed_smc.h
-@@ -87,6 +87,7 @@ typedef struct AspeedSMCState {
-=20
-     uint32_t num_cs;
-     qemu_irq *cs_lines;
-+    bool inject_failure;
-=20
-     SSIBus *spi;
-=20
 diff --git a/hw/ssi/aspeed_smc.c b/hw/ssi/aspeed_smc.c
-index 4a2e3a9135b6..5c017f631ffd 100644
+index 5c017f631ffd..9d0f17ce84ae 100644
 --- a/hw/ssi/aspeed_smc.c
 +++ b/hw/ssi/aspeed_smc.c
-@@ -867,6 +867,36 @@ static void aspeed_smc_dma_calibration(AspeedSMCStat=
-e *s)
-     s->regs[s->r_ctrl0 + cs] |=3D CE_CTRL_CLOCK_FREQ(hclk_div);
- }
-=20
-+/*
-+ * Emulate read errors in the DMA Checksum Register for high
-+ * frequencies and optimistic settings of the Read Timing Compensation
-+ * Register. This will help in tuning the SPI timing calibration
-+ * algorithm.
-+ */
-+static bool aspeed_smc_inject_read_failure(AspeedSMCState *s)
-+{
-+    uint8_t delay =3D
-+        (s->regs[R_DMA_CTRL] >> DMA_CTRL_DELAY_SHIFT) & DMA_CTRL_DELAY_M=
-ASK;
-+    uint8_t hclk_mask =3D
-+        (s->regs[R_DMA_CTRL] >> DMA_CTRL_FREQ_SHIFT) & DMA_CTRL_FREQ_MAS=
-K;
-+
-+    /*
-+     * Typical values of a palmetto-bmc machine.
-+     */
-+    switch (aspeed_smc_hclk_divisor(hclk_mask)) {
-+    case 4 ... 16:
-+        return false;
-+    case 3: /* at least one HCLK cycle delay */
-+        return (delay & 0x7) < 1;
-+    case 2: /* at least two HCLK cycle delay */
-+        return (delay & 0x7) < 2;
-+    case 1: /* (> 100MHz) is above the max freq of the controller */
-+        return true;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- /*
-  * Accumulate the result of the reads to provide a checksum that will
-  * be used to validate the read timing settings.
-@@ -904,6 +934,11 @@ static void aspeed_smc_dma_checksum(AspeedSMCState *=
-s)
+@@ -993,6 +993,7 @@ static void aspeed_smc_dma_rw(AspeedSMCState *s)
          s->regs[R_DMA_FLASH_ADDR] +=3D 4;
+         s->regs[R_DMA_DRAM_ADDR] +=3D 4;
          s->regs[R_DMA_LEN] -=3D 4;
++        s->regs[R_DMA_CHECKSUM] +=3D data;
      }
-+
-+    if (s->inject_failure && aspeed_smc_inject_read_failure(s)) {
-+        s->regs[R_DMA_CHECKSUM] =3D 0xbadc0de;
-+    }
-+
  }
 =20
- static void aspeed_smc_dma_rw(AspeedSMCState *s)
-@@ -1189,6 +1224,7 @@ static const VMStateDescription vmstate_aspeed_smc =
-=3D {
-=20
- static Property aspeed_smc_properties[] =3D {
-     DEFINE_PROP_UINT32("num-cs", AspeedSMCState, num_cs, 1),
-+    DEFINE_PROP_BOOL("inject-failure", AspeedSMCState, inject_failure, f=
-alse),
-     DEFINE_PROP_UINT64("sdram-base", AspeedSMCState, sdram_base, 0),
-     DEFINE_PROP_LINK("dram", AspeedSMCState, dram_mr,
-                      TYPE_MEMORY_REGION, MemoryRegion *),
 --=20
 2.21.0
 
