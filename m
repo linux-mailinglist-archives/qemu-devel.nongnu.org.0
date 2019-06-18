@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A25A49C6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:54:29 +0200 (CEST)
-Received: from localhost ([::1]:54900 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D492649C7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 10:58:24 +0200 (CEST)
+Received: from localhost ([::1]:54930 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd9sq-0008N6-L1
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45097)
+	id 1hd9we-00038g-3L
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 04:58:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45821)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <rashmica.g@gmail.com>) id 1hd9qs-0007AA-14
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:52:27 -0400
+ (envelope-from <berrange@redhat.com>) id 1hd9to-00021R-Fb
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:55:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rashmica.g@gmail.com>) id 1hd9qq-0000na-2K
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:52:25 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:46295)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <rashmica.g@gmail.com>)
- id 1hd9qk-0000i6-1n; Tue, 18 Jun 2019 04:52:18 -0400
-Received: by mail-pl1-x641.google.com with SMTP id e5so5402511pls.13;
- Tue, 18 Jun 2019 01:52:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=E7RZnL+vY/V37+EcuN6Eh+i0O5QdDnRjk1ExQ99addY=;
- b=RBGzZ3GdDUpBtU0cP3Re8FcE19uFVuCcxCCSjkmTpqFVPvIG2c44I8hr1CiZK7Z+t4
- rlJqVdIng79LzSfk/FLaqHCqVWtqhBVdZpHEE8PhKuPb2sOAQ5pe5PBc5VFwJS2BwVg0
- Hr8hHsUKxDsgKhTCDd3teNMTr2CgVSKvDm6cZqXdhisVkXnkpM3Bq3PWyE+OlqoBZWUJ
- 2lbwEoHjGkv1osFI+MFcUG2/mHYu8B7px0VfEHJQu9ffhC1DUKHGHP8xDiOhHhz7YjBm
- fLenypUbKslqXP/PLZ5jp6DHUO5OKjYdp06m284DP2RrQrtSAtRr7gvz/kjggpZgnPgb
- EnpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=E7RZnL+vY/V37+EcuN6Eh+i0O5QdDnRjk1ExQ99addY=;
- b=Oo6T3bM9UGTqH3Fo22acVdDgd1hOgQSmybU/4MBfM11XzBqmSd1nPZhymQ3lpu7jeY
- /33Zoc0/z4XEAa4LUHrLJ0so8p0MQEd/E1hrNYaPMNU0rSMSp3PGUCIlFeLZ4mu5nd6z
- 5tUxLVz89BZ/pSbp7V8IYatsTOSpLeeVMB8ABe8JhJxzvXt41OcwZIoF2A0RwEpDOBIi
- kYz0N+nj+DzKcbW4vFjjj5Gg4pIuucCLSWhvNza0d31tnhHBEFxkgTWOp0jpsyLHl+vx
- 0dmmmXGJFfwZmjCG7XoPfX7x1VVKAg8zwGJdNnOjx9GN7HNMdLfSzTCKz6f+QCh9INfZ
- sA2w==
-X-Gm-Message-State: APjAAAWYAbq606BM3jQkkxv56ZRvani77Ph79031wE5nJifr6dKFpNdG
- bn/daKYQAlebyi4gCIvzOIph9zI0
-X-Google-Smtp-Source: APXvYqw4AQNRM5U29WZAuL7vBWpIdWDzvv16a8wPsx/Mfr+cd+CU2cxHATmIoOPne8xELVoxUC70Pw==
-X-Received: by 2002:a17:902:7d8d:: with SMTP id
- a13mr222978plm.98.1560847935802; 
- Tue, 18 Jun 2019 01:52:15 -0700 (PDT)
-Received: from rashmica.home.majoof.com ([43.245.162.131])
- by smtp.gmail.com with ESMTPSA id p7sm27032616pfp.131.2019.06.18.01.52.12
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 18 Jun 2019 01:52:15 -0700 (PDT)
-From: Rashmica Gupta <rashmica.g@gmail.com>
-To: qemu-arm@nongnu.org
-Date: Tue, 18 Jun 2019 18:51:54 +1000
-Message-Id: <20190618085154.21498-3-rashmica.g@gmail.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20190618085154.21498-1-rashmica.g@gmail.com>
-References: <20190618085154.21498-1-rashmica.g@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH 2/2] aspeed: add a GPIO controller to the SoC
+ (envelope-from <berrange@redhat.com>) id 1hd9tg-0002qJ-8U
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:55:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54436)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hd9te-0002oY-Bc
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 04:55:20 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C5E593098576;
+ Tue, 18 Jun 2019 08:55:09 +0000 (UTC)
+Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE10782081;
+ Tue, 18 Jun 2019 08:54:59 +0000 (UTC)
+Date: Tue, 18 Jun 2019 09:54:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: elena.ufimtseva@oracle.com
+Message-ID: <20190618085456.GD28525@redhat.com>
+References: <20190617181450.29092-1-elena.ufimtseva@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190617181450.29092-1-elena.ufimtseva@oracle.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 18 Jun 2019 08:55:11 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH v2 00/35] Initial support of
+ multi-process qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,116 +57,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: andrew@aj.id.au, clg@kaod.org, qemu-devel@nongnu.org,
- Rashmica Gupta <rashmica.g@gmail.com>, joel@jms.id.au
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, ross.lagerwall@citrix.com, liran.alon@oracle.com,
+ stefanha@redhat.com, kanth.ghatraju@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Rashmica Gupta <rashmica.g@gmail.com>
----
- hw/arm/aspeed_soc.c         | 17 +++++++++++++++++
- include/hw/arm/aspeed_soc.h |  3 +++
- 2 files changed, 20 insertions(+)
+On Mon, Jun 17, 2019 at 11:14:50AM -0700, elena.ufimtseva@oracle.com wrote:
+> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> 
+> Initial support of multi-process qemu
+> 
+> Started with the presentation in October 2017 made by
+> Marc-Andre (Red Hat) and Konrad Wilk (Oracle)
+> (http://events17.linuxfoundation.org/sites/events/files/slides/KVM%20FORUM%20multi-process.pdf,
+> https://www.youtube.com/watch?v=Kq1-coHh7lg) and
+> continued in the BoF session at the KVM forum in 2018 with Jag leading
+> the discussion, the multi-process project is now in the prototype version
+> and presented by this patchset.
+> 
+> The proof of the concept patches were posted on the qemu-devel mailing
+> list before the BoF session at the KVM forum and can be found here:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+> 
+> This series presents the initial support for QEMU that can
+> launch some of the devices in the remote processes.
+> 
+> Thanks to a v1 review and some of the question Stefan and Daniel asked, we
+> were able to incorporate your ideas into our goals.
+> 
+> We would like to present version 2 of the patchset.
+> This version has addressed comments made during the review of v1 and includes:
+> 
+> - support for libvirt fork/exec of remote processes;
+>   QEMU is still capable of fork/execing the remote processes unless its disabled
+>   by seccomp.
+>   When using libvirt, the daemon will spawn remote processes and pass the communication
+>   file descriptors to main QEMU process and the remote processes.
+>   The libvirt patches are in the making and will be sent out shortly;
+> - using existing -device/-drive command line options to specify remote devices with
+>   additional suboptons;
+> - refractor message sending code;
+> - remove specific HMP/QMP commands and use the one that exist now;
+> - extend existing QMP commands;
+> - added timeout to communication channel;
+> 
+> Following people contributed to this patchset:
+> 
+> John G Johnson <john.g.johnson@oracle.com>
+> Jagannathan Raman <jag.raman@oracle.com>
+> Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Kanth Ghatraju <kanth.ghatraju@oracle.com>
+> 
+> For full concept writeup about QEMU disaggregation refer to
+> docs/devel/qemu-multiprocess.txt.
+> 
+> This series has a limited scope and allows QEMU to launch
+> LSI SCSI controller emulation in the separate process and
+> execute HMP commands to manipulate the devices.
+> This series with appropriate libvirt patches allows to
+> launch a guest with remote processes using libvirt.
+> (libvirt patches will be posted and will be reflected in the reply to
+> this patch).
+> 
+> Please refer to the docs/qemu-multiprocess.txt for usage
+> information.
+> 
+> his series is based on qemu upstream commit
+> 3284aa128153750f14a61e8a96fd085e6f2999b6.
+> 
+> TODO items:
+>   - bus support for remote process (non-default);
+>   - live migration;
+>   - performance improvements;
+>   - support for more devices;
+>   - support for seccomp for remote processes;
+>   - support for CPU disaggregated emulation;
+> 
+> We would like to welcome all your ideas, concerns and questions
+> for this patchset.
 
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 1cc98b9f40..8583869acf 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -23,6 +23,7 @@
- #include "net/net.h"
- 
- #define ASPEED_SOC_IOMEM_SIZE       0x00200000
-+#define ASPEED_SOC_GPIO_BASE        0x1E780000
- 
- static const hwaddr aspeed_soc_ast2400_memmap[] = {
-     [ASPEED_IOMEM]  = 0x1E600000,
-@@ -120,6 +121,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .spis_num     = 1,
-         .fmc_typename = "aspeed.smc.fmc",
-         .spi_typename = aspeed_soc_ast2400_typenames,
-+        .gpio_typename = "aspeed.gpio-ast2400",
-         .wdts_num     = 2,
-         .irqmap       = aspeed_soc_ast2400_irqmap,
-         .memmap       = aspeed_soc_ast2400_memmap,
-@@ -131,6 +133,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .spis_num     = 1,
-         .fmc_typename = "aspeed.smc.fmc",
-         .spi_typename = aspeed_soc_ast2400_typenames,
-+        .gpio_typename = "aspeed.gpio-ast2400",
-         .wdts_num     = 2,
-         .irqmap       = aspeed_soc_ast2400_irqmap,
-         .memmap       = aspeed_soc_ast2400_memmap,
-@@ -142,6 +145,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .spis_num     = 1,
-         .fmc_typename = "aspeed.smc.fmc",
-         .spi_typename = aspeed_soc_ast2400_typenames,
-+        .gpio_typename = "aspeed.gpio-ast2400",
-         .wdts_num     = 2,
-         .irqmap       = aspeed_soc_ast2400_irqmap,
-         .memmap       = aspeed_soc_ast2400_memmap,
-@@ -153,6 +157,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .spis_num     = 2,
-         .fmc_typename = "aspeed.smc.ast2500-fmc",
-         .spi_typename = aspeed_soc_ast2500_typenames,
-+        .gpio_typename = "aspeed.gpio-ast2500",
-         .wdts_num     = 3,
-         .irqmap       = aspeed_soc_ast2500_irqmap,
-         .memmap       = aspeed_soc_ast2500_memmap,
-@@ -225,6 +230,8 @@ static void aspeed_soc_init(Object *obj)
- 
-     sysbus_init_child_obj(obj, "ftgmac100", OBJECT(&s->ftgmac100),
-                           sizeof(s->ftgmac100), TYPE_FTGMAC100);
-+    sysbus_init_child_obj(obj, "gpio", OBJECT(&s->gpio), sizeof(s->gpio),
-+                          sc->info->gpio_typename);
- }
- 
- static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-@@ -366,6 +373,16 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-                     sc->info->memmap[ASPEED_ETH1]);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100), 0,
-                        aspeed_soc_get_irq(s, ASPEED_ETH1));
-+
-+    /* GPIO */
-+    object_property_set_bool(OBJECT(&s->gpio), true, "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, ASPEED_SOC_GPIO_BASE);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio), 0,
-+            qdev_get_gpio_in(DEVICE(&s->vic), 20));
- }
- 
- static void aspeed_soc_class_init(ObjectClass *oc, void *data)
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 88b901d5df..28ff2bedb4 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -20,6 +20,7 @@
- #include "hw/ssi/aspeed_smc.h"
- #include "hw/watchdog/wdt_aspeed.h"
- #include "hw/net/ftgmac100.h"
-+#include "hw/gpio/aspeed_gpio.h"
- 
- #define ASPEED_SPIS_NUM  2
- #define ASPEED_WDTS_NUM  3
-@@ -40,6 +41,7 @@ typedef struct AspeedSoCState {
-     AspeedSDMCState sdmc;
-     AspeedWDTState wdt[ASPEED_WDTS_NUM];
-     FTGMAC100State ftgmac100;
-+    AspeedGPIOState gpio;
- } AspeedSoCState;
- 
- #define TYPE_ASPEED_SOC "aspeed-soc"
-@@ -53,6 +55,7 @@ typedef struct AspeedSoCInfo {
-     int spis_num;
-     const char *fmc_typename;
-     const char **spi_typename;
-+    const char *gpio_typename;
-     int wdts_num;
-     const int *irqmap;
-     const hwaddr *memmap;
+For future versions please make sure the mails sent a fully
+threaded, so that all the patches are in-reply-to the cover
+letter mail, rather than each scattered as a standalone mail.
+
+The best way todo this is to use the excellent "git-publish"
+tool. The added benefit of git-publish is that it will CC
+all the subsystem maintainers whose code is touched
+
+  https://github.com/stefanha/git-publish
+
+It is packaged in Debian, Ubuntu, Fedora & EPEL
+
+Regards,
+Daniel
 -- 
-2.17.2
-
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
