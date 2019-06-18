@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABE04A483
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 16:54:26 +0200 (CEST)
-Received: from localhost ([::1]:58664 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796934A4A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 16:59:11 +0200 (CEST)
+Received: from localhost ([::1]:58698 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdFVC-0004is-2D
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 10:54:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60497)
+	id 1hdFZm-0002Dl-M2
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 10:59:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60501)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hdEqL-00035F-Fq
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hdEqL-00035H-Gt
  for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:12:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hdEqI-0000Ac-Tb
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hdEqJ-0000Bh-8S
  for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:12:13 -0400
-Received: from mail03.asahi-net.or.jp ([202.224.55.15]:57065)
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:60268)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <ysato@users.sourceforge.jp>) id 1hdEqH-0007uf-JD
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:12:10 -0400
+ (envelope-from <ysato@users.sourceforge.jp>) id 1hdEqJ-0007yu-0B
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 10:12:11 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
  [61.195.96.97]) (Authenticated sender: PQ4Y-STU)
- by mail03.asahi-net.or.jp (Postfix) with ESMTPA id E60F74A2F2;
- Tue, 18 Jun 2019 23:11:38 +0900 (JST)
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 386CB126D99;
+ Tue, 18 Jun 2019 23:11:39 +0900 (JST)
 Received: from yo-satoh-debian.localdomain (ZM005235.ppp.dion.ne.jp
  [222.8.5.235])
- by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 9F044240085;
+ by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id E1979240086;
  Tue, 18 Jun 2019 23:11:38 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Tue, 18 Jun 2019 23:11:15 +0900
-Message-Id: <20190618141118.52955-37-ysato@users.sourceforge.jp>
+Date: Tue, 18 Jun 2019 23:11:16 +0900
+Message-Id: <20190618141118.52955-38-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190618141118.52955-1-ysato@users.sourceforge.jp>
 References: <20190618141118.52955-1-ysato@users.sourceforge.jp>
@@ -40,9 +40,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 202.224.55.15
-Subject: [Qemu-devel] [PATCH v21 19/21] hw/registerfields.h: Add 8bit and
- 16bit register macros
+X-Received-From: 202.224.55.13
+Subject: [Qemu-devel] [PATCH v21 19/21] hw/rx: Restrict the RX62N
+ microcontroller to the RX62N CPU core
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,121 +62,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Some RX peripheral using 8bit and 16bit registers.
-Added 8bit and 16bit APIs.
+While the VIRT machine can use different microcontrollers,
+the RX62N microcontroller is tied to the RX62N CPU core.
 
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190607091116.49044-11-ysato@users.sourceforge.jp>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/registerfields.h | 32 +++++++++++++++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+ hw/rx/rx-virt.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-index 2659a58737..a0bb0654d6 100644
---- a/include/hw/registerfields.h
-+++ b/include/hw/registerfields.h
-@@ -22,6 +22,14 @@
-     enum { A_ ## reg =3D (addr) };                                      =
-    \
-     enum { R_ ## reg =3D (addr) / 4 };
-=20
-+#define REG8(reg, addr)                                                 =
- \
-+    enum { A_ ## reg =3D (addr) };                                      =
-    \
-+    enum { R_ ## reg =3D (addr) };
-+
-+#define REG16(reg, addr)                                                =
-  \
-+    enum { A_ ## reg =3D (addr) };                                      =
-    \
-+    enum { R_ ## reg =3D (addr) / 2 };
-+
- /* Define SHIFT, LENGTH and MASK constants for a field within a register=
- */
-=20
- /* This macro will define R_FOO_BAR_MASK, R_FOO_BAR_SHIFT and R_FOO_BAR_=
-LENGTH
-@@ -34,6 +42,12 @@
-                                         MAKE_64BIT_MASK(shift, length)};
-=20
- /* Extract a field from a register */
-+#define FIELD_EX8(storage, reg, field)                                  =
-  \
-+    extract8((storage), R_ ## reg ## _ ## field ## _SHIFT,              =
-  \
-+              R_ ## reg ## _ ## field ## _LENGTH)
-+#define FIELD_EX16(storage, reg, field)                                 =
-  \
-+    extract16((storage), R_ ## reg ## _ ## field ## _SHIFT,             =
-  \
-+              R_ ## reg ## _ ## field ## _LENGTH)
- #define FIELD_EX32(storage, reg, field)                                 =
-  \
-     extract32((storage), R_ ## reg ## _ ## field ## _SHIFT,             =
-  \
-               R_ ## reg ## _ ## field ## _LENGTH)
-@@ -49,6 +63,22 @@
-  * Assigning values larger then the target field will result in
-  * compilation warnings.
+diff --git a/hw/rx/rx-virt.c b/hw/rx/rx-virt.c
+index 4cfe2e3123..9676a5e7bf 100644
+--- a/hw/rx/rx-virt.c
++++ b/hw/rx/rx-virt.c
+@@ -17,6 +17,7 @@
   */
-+#define FIELD_DP8(storage, reg, field, val) ({                          =
-  \
-+    struct {                                                            =
-  \
-+        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
-  \
-+    } v =3D { .v =3D val };                                             =
-      \
-+    uint8_t d;                                                          =
-  \
-+    d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
-    \
-+                  R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
-  \
-+    d; })
-+#define FIELD_DP16(storage, reg, field, val) ({                         =
-  \
-+    struct {                                                            =
-  \
-+        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
-  \
-+    } v =3D { .v =3D val };                                             =
-      \
-+    uint16_t d;                                                         =
-  \
-+    d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
-    \
-+                  R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
-  \
-+    d; })
- #define FIELD_DP32(storage, reg, field, val) ({                         =
-  \
-     struct {                                                            =
-  \
-         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
-  \
-@@ -57,7 +87,7 @@
-     d =3D deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,       =
-    \
-                   R_ ## reg ## _ ## field ## _LENGTH, v.v);             =
-  \
-     d; })
--#define FIELD_DP64(storage, reg, field, val) ({                         =
-  \
-+#define FIELD_DP64(storage, reg, field, val) ({                         =
-\
-     struct {                                                            =
-  \
-         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;              =
-  \
-     } v =3D { .v =3D val };                                             =
-      \
+=20
+ #include "qemu/osdep.h"
++#include "qemu/error-report.h"
+ #include "qapi/error.h"
+ #include "qemu-common.h"
+ #include "cpu.h"
+@@ -56,6 +57,7 @@ static void rx_load_image(RXCPU *cpu, const char *filen=
+ame,
+=20
+ static void rxvirt_init(MachineState *machine)
+ {
++    MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+     RX62NState *s =3D g_new(RX62NState, 1);
+     MemoryRegion *sysmem =3D get_system_memory();
+     MemoryRegion *sdram =3D g_new(MemoryRegion, 1);
+@@ -64,6 +66,12 @@ static void rxvirt_init(MachineState *machine)
+     void *dtb =3D NULL;
+     int dtb_size;
+=20
++    if (strcmp(machine->cpu_type, mc->default_cpu_type) !=3D 0) {
++        error_report("This board can only be used with CPU %s",
++                     mc->default_cpu_type);
++        exit(1);
++    }
++
+     /* Allocate memory space */
+     memory_region_init_ram(sdram, NULL, "sdram", 16 * MiB,
+                            &error_fatal);
 --=20
 2.11.0
 
