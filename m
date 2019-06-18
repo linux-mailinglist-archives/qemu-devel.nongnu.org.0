@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11644A092
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 14:16:28 +0200 (CEST)
-Received: from localhost ([::1]:56484 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5243E4B00C
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 04:32:04 +0200 (CEST)
+Received: from localhost ([::1]:34746 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdD2J-0002it-SJ
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 08:16:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56882)
+	id 1hdQOJ-0000rT-IP
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 22:32:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37453)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hdD0a-0002H2-OL
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:14:41 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hdQMx-0000K8-3F
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 22:30:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hdD0Z-0006wT-J5
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:14:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54104)
+ (envelope-from <dgibson@ozlabs.org>) id 1hdQMv-0001vR-NW
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 22:30:39 -0400
+Received: from ozlabs.org ([203.11.71.1]:53877)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdD0Z-0006db-DC
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 08:14:39 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AF2C620264;
- Tue, 18 Jun 2019 12:14:13 +0000 (UTC)
-Received: from redhat.com (ovpn-112-51.ams2.redhat.com [10.36.112.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EDFD81001DCB;
- Tue, 18 Jun 2019 12:14:11 +0000 (UTC)
-Date: Tue, 18 Jun 2019 13:14:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Anthony PERARD <anthony.perard@citrix.com>
-Message-ID: <20190618121408.GM28525@redhat.com>
-References: <20190618112341.513-1-anthony.perard@citrix.com>
- <20190618112341.513-2-anthony.perard@citrix.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hdQMr-0001ez-5F; Tue, 18 Jun 2019 22:30:37 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45T87C557yz9sN6; Wed, 19 Jun 2019 12:30:15 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1560911415;
+ bh=genMs38bLvjxVrGJEFYJpMBpB6ORD12A4TVdU/vrPbI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SMqgoX8pz0zGzvNVT6jHZHmQhXG0iLv5TIqQrDAkz2QWtFvOqM9TY42xV9wgiEYXN
+ tDQWQLbbpacz0WLvXDQIQGAUhQaLbslXb1EkDq6TfH7jJTOEPr9PEsmuKZKm92r8hQ
+ b+p9Crx+QmwxkcV6jBJaeKZ2+rrjnhsoYyDT5HD4=
+Date: Tue, 18 Jun 2019 22:18:39 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190618121839.GE3673@umbus.BigPond>
+References: <156077253666.424706.6104557911104491047.stgit@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MIdTMoZhcV1D07fI"
 Content-Disposition: inline
-In-Reply-To: <20190618112341.513-2-anthony.perard@citrix.com>
+In-Reply-To: <156077253666.424706.6104557911104491047.stgit@bahia.lan>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 18 Jun 2019 12:14:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/4] xen: Fix build with public headers
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH] xics/spapr: Only emulated XICS should use
+ RTAS/hypercalls emulation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,52 +55,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: xen-devel@lists.xenproject.org, Paul Durrant <paul.durrant@citrix.com>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 18, 2019 at 12:23:38PM +0100, Anthony PERARD wrote:
-> Following 37677d7db3 "Clean up a few header guard symbols", QEMU start
-> to fail to build:
-> 
-> In file included from ~/xen/tools/../tools/include/xen/io/blkif.h:31:0,
->                  from ~/xen/tools/qemu-xen-dir/hw/block/xen_blkif.h:5,
->                  from ~/xen/tools/qemu-xen-dir/hw/block/xen-block.c:22:
-> ~/xen/tools/../tools/include/xen/io/ring.h:68:0: error: "__CONST_RING_SIZE" redefined [-Werror]
->  #define __CONST_RING_SIZE(_s, _sz) \
-> 
-> In file included from ~/xen/tools/qemu-xen-dir/hw/block/xen_blkif.h:4:0,
->                  from ~/xen/tools/qemu-xen-dir/hw/block/xen-block.c:22:
-> ~/xen/tools/qemu-xen-dir/include/hw/xen/io/ring.h:66:0: note: this is the location of the previous definition
->  #define __CONST_RING_SIZE(_s, _sz) \
-> 
-> The issue is that some public xen headers have been imported (by
-> f65eadb639 "xen: import ring.h from xen") but not all. With the change
-> in the guards symbole, the ring.h header start to be imported twice.
 
-Ah, so the include/hw/xen/io/ring.h file in tree is a copy of
-/usr/include/xen/io/ring.h from xen-devel.  Previously both
-these used "#ifndef __XEN_PUBLIC_IO_RING_H__". After
-the header guard cleanup in 37677d7db3, our local copy used a
-different header guard from the installed copy & thus we're
-not protected from dual inclusion.
+--MIdTMoZhcV1D07fI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-IMHO the right solutions here are either
+On Mon, Jun 17, 2019 at 01:55:36PM +0200, Greg Kurz wrote:
+> Checking that we're not using the in-kernel XICS is ok with the "xics"
+> interrupt controller mode, but it is definitely not enough with the
+> other modes since the guest could be using XIVE.
+>=20
+> Ensure XIVE is not in use when emulated XICS RTAS/hypercalls are
+> called.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
- - Don't copy public Xen headers into our tree
- - Keep our Xen header copies identical to the originals
+Applied, thanks.
 
-Importing public headers and then changing them locally is the worst
-thing to do. With that in mind I think we should revert the part of
-commit 37677d7db3 that touched the imported Xen headers.
+> ---
+>  hw/intc/xics_spapr.c |   53 +++++++++++++++++++++++++-------------------=
+------
+>  1 file changed, 27 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
+> index 8d605b68a7a0..7cd3c93d719f 100644
+> --- a/hw/intc/xics_spapr.c
+> +++ b/hw/intc/xics_spapr.c
+> @@ -41,22 +41,23 @@
+>   * Guest interfaces
+>   */
+> =20
+> -static bool check_in_kernel_xics(const char *func)
+> +static bool check_emulated_xics(SpaprMachineState *spapr, const char *fu=
+nc)
+>  {
+> -    if (kvm_irqchip_in_kernel()) {
+> -        error_report("pseries: %s must never be called for in-kernel XIC=
+S",
+> +    if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT) ||
+> +        kvm_irqchip_in_kernel()) {
+> +        error_report("pseries: %s must only be called for emulated XICS",
+>                       func);
+> -        return true;
+> +        return false;
+>      }
+> =20
+> -    return false;
+> +    return true;
+>  }
+> =20
+> -#define CHECK_IN_KERNEL_XICS_HCALL              \
+> -    do {                                        \
+> -        if (check_in_kernel_xics(__func__)) {   \
+> -            return H_HARDWARE;                  \
+> -        }                                       \
+> +#define CHECK_EMULATED_XICS_HCALL(spapr)               \
+> +    do {                                               \
+> +        if (!check_emulated_xics((spapr), __func__)) { \
+> +            return H_HARDWARE;                         \
+> +        }                                              \
+>      } while (0)
+> =20
+>  static target_ulong h_cppr(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> @@ -64,7 +65,7 @@ static target_ulong h_cppr(PowerPCCPU *cpu, SpaprMachin=
+eState *spapr,
+>  {
+>      target_ulong cppr =3D args[0];
+> =20
+> -    CHECK_IN_KERNEL_XICS_HCALL;
+> +    CHECK_EMULATED_XICS_HCALL(spapr);
+> =20
+>      icp_set_cppr(spapr_cpu_state(cpu)->icp, cppr);
+>      return H_SUCCESS;
+> @@ -76,7 +77,7 @@ static target_ulong h_ipi(PowerPCCPU *cpu, SpaprMachine=
+State *spapr,
+>      target_ulong mfrr =3D args[1];
+>      ICPState *icp =3D xics_icp_get(XICS_FABRIC(spapr), args[0]);
+> =20
+> -    CHECK_IN_KERNEL_XICS_HCALL;
+> +    CHECK_EMULATED_XICS_HCALL(spapr);
+> =20
+>      if (!icp) {
+>          return H_PARAMETER;
+> @@ -91,7 +92,7 @@ static target_ulong h_xirr(PowerPCCPU *cpu, SpaprMachin=
+eState *spapr,
+>  {
+>      uint32_t xirr =3D icp_accept(spapr_cpu_state(cpu)->icp);
+> =20
+> -    CHECK_IN_KERNEL_XICS_HCALL;
+> +    CHECK_EMULATED_XICS_HCALL(spapr);
+> =20
+>      args[0] =3D xirr;
+>      return H_SUCCESS;
+> @@ -102,7 +103,7 @@ static target_ulong h_xirr_x(PowerPCCPU *cpu, SpaprMa=
+chineState *spapr,
+>  {
+>      uint32_t xirr =3D icp_accept(spapr_cpu_state(cpu)->icp);
+> =20
+> -    CHECK_IN_KERNEL_XICS_HCALL;
+> +    CHECK_EMULATED_XICS_HCALL(spapr);
+> =20
+>      args[0] =3D xirr;
+>      args[1] =3D cpu_get_host_ticks();
+> @@ -114,7 +115,7 @@ static target_ulong h_eoi(PowerPCCPU *cpu, SpaprMachi=
+neState *spapr,
+>  {
+>      target_ulong xirr =3D args[0];
+> =20
+> -    CHECK_IN_KERNEL_XICS_HCALL;
+> +    CHECK_EMULATED_XICS_HCALL(spapr);
+> =20
+>      icp_eoi(spapr_cpu_state(cpu)->icp, xirr);
+>      return H_SUCCESS;
+> @@ -127,7 +128,7 @@ static target_ulong h_ipoll(PowerPCCPU *cpu, SpaprMac=
+hineState *spapr,
+>      uint32_t mfrr;
+>      uint32_t xirr;
+> =20
+> -    CHECK_IN_KERNEL_XICS_HCALL;
+> +    CHECK_EMULATED_XICS_HCALL(spapr);
+> =20
+>      if (!icp) {
+>          return H_PARAMETER;
+> @@ -141,12 +142,12 @@ static target_ulong h_ipoll(PowerPCCPU *cpu, SpaprM=
+achineState *spapr,
+>      return H_SUCCESS;
+>  }
+> =20
+> -#define CHECK_IN_KERNEL_XICS_RTAS(rets)                 \
+> -    do {                                                \
+> -        if (check_in_kernel_xics(__func__)) {           \
+> -            rtas_st((rets), 0, RTAS_OUT_HW_ERROR);      \
+> -            return;                                     \
+> -        }                                               \
+> +#define CHECK_EMULATED_XICS_RTAS(spapr, rets)          \
+> +    do {                                               \
+> +        if (!check_emulated_xics((spapr), __func__)) { \
+> +            rtas_st((rets), 0, RTAS_OUT_HW_ERROR);     \
+> +            return;                                    \
+> +        }                                              \
+>      } while (0)
+> =20
+>  static void rtas_set_xive(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> @@ -157,7 +158,7 @@ static void rtas_set_xive(PowerPCCPU *cpu, SpaprMachi=
+neState *spapr,
+>      ICSState *ics =3D spapr->ics;
+>      uint32_t nr, srcno, server, priority;
+> =20
+> -    CHECK_IN_KERNEL_XICS_RTAS(rets);
+> +    CHECK_EMULATED_XICS_RTAS(spapr, rets);
+> =20
+>      if ((nargs !=3D 3) || (nret !=3D 1)) {
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> @@ -192,7 +193,7 @@ static void rtas_get_xive(PowerPCCPU *cpu, SpaprMachi=
+neState *spapr,
+>      ICSState *ics =3D spapr->ics;
+>      uint32_t nr, srcno;
+> =20
+> -    CHECK_IN_KERNEL_XICS_RTAS(rets);
+> +    CHECK_EMULATED_XICS_RTAS(spapr, rets);
+> =20
+>      if ((nargs !=3D 1) || (nret !=3D 3)) {
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> @@ -224,7 +225,7 @@ static void rtas_int_off(PowerPCCPU *cpu, SpaprMachin=
+eState *spapr,
+>      ICSState *ics =3D spapr->ics;
+>      uint32_t nr, srcno;
+> =20
+> -    CHECK_IN_KERNEL_XICS_RTAS(rets);
+> +    CHECK_EMULATED_XICS_RTAS(spapr, rets);
+> =20
+>      if ((nargs !=3D 1) || (nret !=3D 1)) {
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> @@ -257,7 +258,7 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMachine=
+State *spapr,
+>      ICSState *ics =3D spapr->ics;
+>      uint32_t nr, srcno;
+> =20
+> -    CHECK_IN_KERNEL_XICS_RTAS(rets);
+> +    CHECK_EMULATED_XICS_RTAS(spapr, rets);
+> =20
+>      if ((nargs !=3D 1) || (nret !=3D 1)) {
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>=20
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--MIdTMoZhcV1D07fI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0I1p0ACgkQbDjKyiDZ
+s5Ji+RAAjlK7zUBTWMXbyzi7qY4IPPAc4C0Z66yuD2ks0M+BpSLFPQG4SKnCo3Vh
+FI/OdzsBiIA0eVoVZTTqRluOY1ocIBqHkaWSdTqGYUhEzFNqWsiktmj/EEr4BVCD
+X/ZJmlayuuMFsgO8F9pMw1N7XTuPBIAktnZ3CvmH8caAE8fi6hxpGRm/1ofeeAcU
+Z3X+ZkyBjQmgy1TviNbuScO2F64bTA9Vg8CN36Mys3BsKNUGX0kraqzVzdDWJXcd
+Av3bK3EKye/ndjkSAiHy+vYsIA09H5ujOeyCpw3QLnUDhZ5Xoqvwe3kO8TvVXeAy
+PBVoNQ21618rUd0I9WD/q7Q7isyaAbXctSfbVfthIdU3ulf+3Jn9S6Vihns3ZvQy
+6hgGJS2xfWxNgst0EuSOeBPd3rj1SV3szJY//rlUSv67WsZnJ8YGHU2MK9WeoxmE
+oKBP6Xa9shWHBtHBlAdbncq8l5bEkqL9vkZbOOg/FyGsiajt5MxdzdwsOMDrrKcS
+OiQVzSy4jLFrxAvMyQldSbIPcq8XTaQI9RpAhrtLG5e4Akbz5tIScCqDhYBP68bG
+VEzyuPeRDPxgJyhlDoPJHOsARS0qmKedoY0c3NrQ6/H8qtTBcl3qdFhhlsvPd103
+C0RYE8UyeOuirsGMuvM5UNF8A6x4TpHatiOaBOc8tExKEFQRrFo=
+=m4u0
+-----END PGP SIGNATURE-----
+
+--MIdTMoZhcV1D07fI--
 
