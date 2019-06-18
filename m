@@ -2,53 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7274D49894
-	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 07:13:21 +0200 (CEST)
-Received: from localhost ([::1]:53712 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C294B4989B
+	for <lists+qemu-devel@lfdr.de>; Tue, 18 Jun 2019 07:19:50 +0200 (CEST)
+Received: from localhost ([::1]:53734 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hd6Qq-0002Gs-Lg
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 01:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50091)
+	id 1hd6X8-0004vm-1N
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 01:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51151)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hd6QF-0001s9-2z
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 01:12:43 -0400
+ (envelope-from <tiwei.bie@intel.com>) id 1hd6W1-0004N3-1C
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 01:18:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hd6QE-0001GY-81
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 01:12:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43812)
+ (envelope-from <tiwei.bie@intel.com>) id 1hd6W0-0006OM-0L
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 01:18:40 -0400
+Received: from mga03.intel.com ([134.134.136.65]:44962)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hd6QE-0001Bx-2X
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 01:12:42 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8542E3162903;
- Tue, 18 Jun 2019 05:12:36 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-33.ams2.redhat.com
- [10.36.116.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA0EA1A8EC;
- Tue, 18 Jun 2019 05:12:28 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7CD3411AAF; Tue, 18 Jun 2019 07:12:27 +0200 (CEST)
-Date: Tue, 18 Jun 2019 07:12:27 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: elena.ufimtseva@oracle.com
-Message-ID: <20190618051227.fic3k5ihwwj4zji7@sirius.home.kraxel.org>
-References: <20190617181459.29139-1-elena.ufimtseva@oracle.com>
+ (Exim 4.71) (envelope-from <tiwei.bie@intel.com>)
+ id 1hd6Vw-0006EU-01; Tue, 18 Jun 2019 01:18:37 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2019 22:18:26 -0700
+X-ExtLoop1: 1
+Received: from npg-dpdk-virtio-tbie-2.sh.intel.com ([10.67.104.151])
+ by fmsmga005.fm.intel.com with ESMTP; 17 Jun 2019 22:18:25 -0700
+From: Tiwei Bie <tiwei.bie@intel.com>
+To: mst@redhat.com, marcandre.lureau@gmail.com, jasowang@redhat.com,
+ qemu-devel@nongnu.org
+Date: Tue, 18 Jun 2019 13:14:58 +0800
+Message-Id: <20190618051458.7855-1-tiwei.bie@intel.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190617181459.29139-1-elena.ufimtseva@oracle.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 18 Jun 2019 05:12:36 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH v2 01/35] multi-process: memory: alloc
- RAM from file at offset
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.65
+Subject: [Qemu-devel] [PATCH v2] vhost-user: fix reconnection support for
+ host notifier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,24 +53,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, ross.lagerwall@citrix.com, liran.alon@oracle.com,
- stefanha@redhat.com, pbonzini@redhat.com, kanth.ghatraju@oracle.com,
- rth@twiddle.net
+Cc: cunming.liang@intel.com, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 17, 2019 at 11:14:59AM -0700, elena.ufimtseva@oracle.com wrote:
-> From: Jagannathan Raman <jag.raman@oracle.com>
-> 
-> Allow RAM MemoryRegion to be created from an offset in a file, instead
-> of allocating at offset of 0 by default. This is needed to synchronize
-> RAM between QEMU & remote process.
-> This will be needed for the following patches.
+We need to destroy the host notifiers when cleaning up
+the backend. Otherwise, some resources are not released
+after the connection is closed, and it may prevent the
+external backend from reopening them (e.g. VFIO files)
+during restart.
 
-Details please.   vhost-user works fine without this ...
+Fixes: 44866521bd6e ("vhost-user: support registering external host notifiers")
+Cc: qemu-stable@nongnu.org
 
-cheers,
-  Gerd
+Signed-off-by: Tiwei Bie <tiwei.bie@intel.com>
+---
+v2:
+- Drop superfluous memset() (Marc-André);
+- Factor the notifier code in a separate function (Marc-André);
+
+ hw/virtio/vhost-user.c | 28 ++++++++++++++++++----------
+ 1 file changed, 18 insertions(+), 10 deletions(-)
+
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 4ca5b2551e..e27a2a4647 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -226,6 +226,20 @@ static bool ioeventfd_enabled(void)
+     return !kvm_enabled() || kvm_eventfds_enabled();
+ }
+ 
++static void
++vhost_user_host_notifiers_cleanup(VhostUserState *user)
++{
++    int i;
++
++    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
++        if (user->notifier[i].addr) {
++            object_unparent(OBJECT(&user->notifier[i].mr));
++            munmap(user->notifier[i].addr, qemu_real_host_page_size);
++            user->notifier[i].addr = NULL;
++        }
++    }
++}
++
+ static int vhost_user_read_header(struct vhost_dev *dev, VhostUserMsg *msg)
+ {
+     struct vhost_user *u = dev->opaque;
+@@ -1469,6 +1483,9 @@ static int vhost_user_backend_cleanup(struct vhost_dev *dev)
+     assert(dev->vhost_ops->backend_type == VHOST_BACKEND_TYPE_USER);
+ 
+     u = dev->opaque;
++    if (dev->vq_index == 0) {
++        vhost_user_host_notifiers_cleanup(u->user);
++    }
+     if (u->postcopy_notifier.notify) {
+         postcopy_remove_notifier(&u->postcopy_notifier);
+         u->postcopy_notifier.notify = NULL;
+@@ -1898,19 +1915,10 @@ bool vhost_user_init(VhostUserState *user, CharBackend *chr, Error **errp)
+ 
+ void vhost_user_cleanup(VhostUserState *user)
+ {
+-    int i;
+-
+     if (!user->chr) {
+         return;
+     }
+-
+-    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+-        if (user->notifier[i].addr) {
+-            object_unparent(OBJECT(&user->notifier[i].mr));
+-            munmap(user->notifier[i].addr, qemu_real_host_page_size);
+-            user->notifier[i].addr = NULL;
+-        }
+-    }
++    vhost_user_host_notifiers_cleanup(user);
+     user->chr = NULL;
+ }
+ 
+-- 
+2.17.1
 
 
