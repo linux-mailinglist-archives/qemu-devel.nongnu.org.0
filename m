@@ -2,44 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD1B4C0BE
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 20:23:33 +0200 (CEST)
-Received: from localhost ([::1]:40992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E5C4C0E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 20:37:11 +0200 (CEST)
+Received: from localhost ([::1]:41048 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdfF7-0002HK-1Z
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 14:23:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59985)
+	id 1hdfSI-0007Gn-8T
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 14:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33495)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdfCL-0000Ne-0k
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:41 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hdfI9-0005BO-Sx
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:26:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdfCJ-000051-T4
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:40 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:50525 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hdfCJ-0008VI-Ma
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:39 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id F30741A4541;
- Wed, 19 Jun 2019 20:20:36 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id D15461A2079;
- Wed, 19 Jun 2019 20:20:36 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 20:20:18 +0200
-Message-Id: <1560968418-21301-3-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560968418-21301-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1560968418-21301-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 2/2] MAINTAINERS: Consolidate MIPS
- disassembler-related items
+ (envelope-from <alistair23@gmail.com>) id 1hdfI2-0003y3-VX
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:26:37 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45489)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hdfHz-0003uE-Du; Wed, 19 Jun 2019 14:26:32 -0400
+Received: by mail-lj1-x244.google.com with SMTP id m23so125904lje.12;
+ Wed, 19 Jun 2019 11:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jbTLfhqFuBYmR+7B5rL/+DxTdb0jONhMb1XonifqEPQ=;
+ b=K40F6/yYRetvAf8zkOHpgd9iYxfrA/8mvPcNRw09+qLptCFiKt9geGakIGzrtfoJw3
+ WRSo3Bc/ZLO9WoF/jxwX0GS1LQo2KuzIgrE8n7oCANNrIkNiofmc+6jQImhN+6XiS9dI
+ ilXNdq4OQVH1XkVAyjBB2Ox4RJsRrJjrSsSLpBv1SvHDpiJx2JwUXMQM+3FTVU/h5Pz8
+ IEXtEkl8DqRn18m9/DE354lcqL6EkhkfmqMoyDNe556mhhr35dj9Bia+STDqcTPKFSiS
+ mi6jBEdBpYBArcBmNTE9H/QUsYOM1BAB+mO+yKZ8qP4rn5ue5YiRUOQG3IA25GoHercv
+ m1Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jbTLfhqFuBYmR+7B5rL/+DxTdb0jONhMb1XonifqEPQ=;
+ b=SHtC9oqNSt+SjmdZNqg5el+vjUl8IO54561DS6dv8uaUIQYB1if4OHADuijCPw5Msd
+ kjQd8sAY0LBH+q9dV2jgY+0UsNPtl0OY5/rjwtI4FCe7IG1cF2aBEJalLLJt/TV6W+KK
+ GfixE2FB5Fw+rpoOMQ1o82c+ySnBdckMDDCvhFQs0FOLD3+SpjpqA1wlIokspqOaNrRp
+ SnNY44V3sDHBPBdAsDwYeQP8Y+y4hW3IU7XlqHsEAoqoynmpxXMykhWv7pjVLkEZPjoA
+ sd5qp2h7YJHQi8wO2LAglRPiMBLji0mrAxBBFtUoe+/8YgP8uyoHTd8hyFGNPkLrwXOq
+ BtMw==
+X-Gm-Message-State: APjAAAWs4pA5TAsqoawfPb1WsLud9R2gE94YXoHPLfuuwWg4US5BCIjG
+ 89BLZ8DdN3loNgYuJLsZNysJM85toKeiSHW4GCo=
+X-Google-Smtp-Source: APXvYqzfXpcfjMAIr3/CNouOel0W7NWr0rsVsiMItxLgx2hEgHo4afj/BkN8oVAnJ5PA6c7bBIH/i3qG9vQSvYYHoD4=
+X-Received: by 2002:a2e:9758:: with SMTP id f24mr15412089ljj.58.1560968786788; 
+ Wed, 19 Jun 2019 11:26:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1560904640.git.alistair.francis@wdc.com>
+ <CAEUhbmViJpKtiNXm7CYdF7SPRkOPkvpXJ5+We2m9tZSK_BWi-g@mail.gmail.com>
+ <CAKmqyKM4UU+CPKu07AK65bNofbbxxaRkSACqoV_vfFEaH-195A@mail.gmail.com>
+ <CAEUhbmUwAVLXY9SSoryWBDeNL8gUfBCE+xweSSmuE9KwzWeX=w@mail.gmail.com>
+In-Reply-To: <CAEUhbmUwAVLXY9SSoryWBDeNL8gUfBCE+xweSSmuE9KwzWeX=w@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 19 Jun 2019 11:23:37 -0700
+Message-ID: <CAKmqyKMmm-38DijX_wL=pAbvxzLQ+KSOtd1xg_GrT4Az70GKsw@mail.gmail.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::244
+Subject: Re: [Qemu-devel] [RFC v1 0/5] RISC-V: Add firmware loading support
+ and default
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,45 +74,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On Wed, Jun 19, 2019 at 7:42 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Wed, Jun 19, 2019 at 10:30 PM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Wed, Jun 19, 2019 at 7:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > On Wed, Jun 19, 2019 at 8:56 AM Alistair Francis
+> > > <alistair.francis@wdc.com> wrote:
+> > > >
+> > > > This is an RFC as it will break ALL current users! See below for details.
+> > > >
+> > > > This series consolidates the current RISC-V kernel loading
+> > > > impelementation while also adding support for the -bios option and more
+> > > > advanced kernel image types.
+> > > >
+> > > > After consolidating the kernel loading we can extend the boot loader to
+> > > > support a -bios option. We can also extend the kernel loading options to
+> > > > support not just ELF files but other standard formats.
+> > > >
+> > > > Finally we can include the OpenSBI firmware by default for QEMU users.
+> > > >
+> > > > At the end of this series we are in the good place of no longer
+> > > > requiring users to build firmware to boot a kernel. Instead users can
+> > > > just run QEMu with the -kernel option and everything will work. They can
+> > >
+> > > This is great. I like booting kernel directly for testing without
+> > > bothering the firmware stuff.
+> >
+> > That's the goal! Now we just need to not break everything.
+> >
+> > >
+> > > > also override the firmware with their own using the -bios option. Using
+> > > > "-bios none" will result in no firmware being loaded (as it is today).
+> > > >
+> > > > !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+> > > >
+> > > > Unfortunately this series (patch 5 specifically) results in all current
+> > > > Linux boots being broken as users are already loading in their own
+> > > > firmware, which overlaps with the now included default. They will
+> > > > see this error:
+> > > >
+> > > >   rom: requested regions overlap (rom phdr #0: ./images/qemuriscv64/fw_jump.elf. free=0x0000000080008090, addr=0x0000000080000000)
+> > > >   qemu-system-riscv64: rom check and register reset failed
+> > > >
+> > > > If a current user specieifies "-bios none" their flow will continue
+> > > > working. A user can instead no longer load their firmware and
+> > > > use the default or they can load their firmware with the -bios option.
+> > > >
+> > > > At the moment the best idea I have to not break all users is to only
+> > > > include the default firmware if the user specifies "-bios opensbi".
+> > > > That is change the default to not loading the firmware. Then we can work
+> > > > on updating documentation and maybe in future change the default to
+> > > > include a firmware and anyone who doesn't want a default firmware can
+> > > > specify "-bios none".
+> > > >
+> > > > Any other ideas on how to not break everything?
+> > > >
+> > > >
+> > > >
+> > > > Alistair Francis (5):
+> > > >   hw/riscv: Split out the boot functions
+> > > >   hw/riscv: Add support for loading a firmware
+> > > >   hw/riscv: Extend the kernel loading support
+> > > >   roms: Add OpenSBI version 0.3
+> > > >   hw/riscv: Load OpenSBI as the default firmware
+> > > >
+> > > >  .gitmodules                         |   3 +
+> > > >  Makefile                            |   3 +-
+> > > >  configure                           |   1 +
+> > > >  hw/riscv/Makefile.objs              |   1 +
+> > > >  hw/riscv/boot.c                     | 143 ++++++++++++++++++++++++++++
+> > > >  hw/riscv/sifive_e.c                 |  17 +---
+> > > >  hw/riscv/sifive_u.c                 |  19 +---
+> > > >  hw/riscv/spike.c                    |  21 +---
+> > > >  hw/riscv/virt.c                     |  54 ++---------
+> > > >  include/hw/riscv/boot.h             |  30 ++++++
+> > > >  pc-bios/opensbi-riscv32-fw_jump.elf | Bin 0 -> 197988 bytes
+> > > >  pc-bios/opensbi-riscv64-fw_jump.elf | Bin 0 -> 200192 bytes
+> > >
+> > > Since we are considering adding "bios" images, I prefer to add the
+> > > pure binary images instead of ELF images here.
+> >
+> > I didn't think about that. Can we just boot them in QEMU like we do
+> > with the ELFs?
+>
+> Yes, use load_image_targphys() instead of load_elf().
 
-Eliminate duplicate MIPS disassembler-related items in the
-MAINTAINERS file, and use wildcards to shorten the list of
-involved files.
+Ah, that is obvious. I'll update it to use the bin files then.
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- MAINTAINERS | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Alistair
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 869e87b..f9f66e5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -212,9 +212,7 @@ R: Aleksandar Rikalo <arikalo@wavecomp.com>
- S: Maintained
- F: target/mips/
- F: default-configs/*mips*
--F: disas/mips.c
--F: disas/nanomips.cpp
--F: disas/nanomips.h
-+F: disas/*mips*
- F: hw/intc/mips_gic.c
- F: hw/mips/
- F: hw/misc/mips_*
-@@ -2321,7 +2319,6 @@ M: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <arikalo@wavecomp.com>
- S: Maintained
- F: tcg/mips/
--F: disas/mips.c
- 
- PPC TCG target
- M: Richard Henderson <rth@twiddle.net>
--- 
-2.7.4
-
+>
+> Regards,
+> Bin
 
