@@ -2,41 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676CB4BB62
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 16:24:58 +0200 (CEST)
-Received: from localhost ([::1]:38836 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053214BB54
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 16:22:23 +0200 (CEST)
+Received: from localhost ([::1]:38814 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdbWD-000276-KW
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 10:24:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54845)
+	id 1hdbTh-0006mM-Uq
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 10:22:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54879)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdbP4-0004cU-Bt
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:17:35 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdbPD-0004n7-5E
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:17:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdbP3-0000d4-9W
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:17:34 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:49413 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdbPB-0000jQ-7w
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:17:43 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:50036 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hdbP2-0000at-FU
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:17:32 -0400
+ id 1hdbPB-0000iO-1f
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:17:41 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 1B5EA1A416E;
- Wed, 19 Jun 2019 16:17:29 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTP id F3CCE1A2274;
+ Wed, 19 Jun 2019 16:17:38 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 005A91A2274;
- Wed, 19 Jun 2019 16:17:28 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id DAE0B1A1E12;
+ Wed, 19 Jun 2019 16:17:38 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 16:17:09 +0200
-Message-Id: <1560953834-29584-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 19 Jun 2019 16:17:10 +0200
+Message-Id: <1560953834-29584-2-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1560953834-29584-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1560953834-29584-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v12 0/5]
+Subject: [Qemu-devel] [PATCH v12 1/5] linux-user: Add support for
+ setsockopt() options IPV6_<ADD|DROP>_MEMBERSHIP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,104 +51,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Cc: Neng Chen <nchen@wavecomp.com>, laurent@vivier.eu, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+From: Neng Chen <nchen@wavecomp.com>
 
-This is a collection of misc patches for Linux user that I recently
-accumulated from variuous sources. All of them originate from problems
-observed on mips target. However, most of these changes actually
-affect and fix linux-user problems on multiple targets.
+Add support for the option IPV6_<ADD|DROP>_MEMBERSHIP of the syscall
+setsockopt(). This option controls membership in multicast groups.
+Argument is a pointer to a struct ipv6_mreq.
 
-There are three checkpatch warninhs and two checkpatch errors that
-sould be ignored in the given circumstances.
+The glibc <netinet/in.h> header defines the ipv6_mreq structure,
+which includes the following members:
 
-v11->v12:
+  struct in6_addr  ipv6mr_multiaddr;
+  unsigned int     ipv6mr_interface;
 
-  - used the preffered Laurent's email address for linux-user
-  - added a note on checkpetch warnings and errors in the commit letter
- 
+Whereas the kernel in its <linux/in6.h> header defines following
+members of the same structure:
 
-v10->v11:
+  struct in6_addr  ipv6mr_multiaddr;
+  int              ipv6mr_ifindex;
 
-  - patch on <ADD|DROP>_MEMEBERSHIP basically reverted to its first
-    version
-  - corrected patch on statx()
-  - added patch on strace support for statx()
-  - added patch on fixing flock structure for MIPS O64 ABI
+POSIX defines ipv6mr_interface [1].
 
-v9->v10:
+__UAPI_DEF_IVP6_MREQ appears in kernel headers with v3.12:
 
-  - improved commit messages for patches 2 and 3
+  cfd280c91253 net: sync some IP headers with glibc
 
-v8->v9:
+Without __UAPI_DEF_IVP6_MREQ, kernel defines ipv6mr_ifindex, and
+this is explained in cfd280c91253:
 
-  - fixed build error on some systems related to SOL_ALG
+  "If you include the kernel headers first you get those,
+  and if you include the glibc headers first you get those,
+  and the following patch arranges a coordination and
+  synchronization between the two."
 
-v7->v8:
+So before 3.12, a program can't include both <netinet/in.h> and
+<linux/in6.h>.
 
-  - added a patch on setsockopt() option SOL_ALG
+In linux-user/syscall.c, we only include <netinet/in.h> (glibc) and
+not <linux/in6.h> (kernel headers), so ipv6mr_interface is the one
+to use.
 
-v6->v7:
+[1] http://pubs.opengroup.org/onlinepubs/009695399/basedefs/netinet/in.h.html
 
-  - fixed a build error for older kernels related to the patch on
-    setsockopt() options
-  - removed four patches that on the meantime got accepted into the
-    main source tree
+Signed-off-by: Neng Chen <nchen@wavecomp.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ linux-user/syscall.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-v5->v6:
-
-  - fixed a mistake in patch #4
-  - improved commit messages in patches #4 and #6
-
-v4->v5:
-
-  - added the patch on statx() support
-  - improved the patch on IPV6_<ADD|DROP>_MEMBERSHIP to take into
-    account the possibility of different names for a field
-  - minor corrections in commit messages
-
-v3->v4:
-
-  - improved commit messages (fixed some typos, improved relevance)
-
-v2->v3:
-
-  - updated and improved commit messages
-  - added IPV6_DROP_MEMBERSHIP support to the patch on setsockopt()'s
-    option
-
-v1->v2:
-
-  - added the patch on setsockopt()'s option IPV6_ADD_MEMBERSHIP
-  - improved the commit messages
-
-Aleksandar Markovic (1):
-  linux-user: Fix flock structure for MIPS O64 ABI
-
-Aleksandar Rikalo (1):
-  linux-user: Add support for translation of statx() syscall
-
-Jim Wilson (1):
-  linux-user: Add support for strace for statx() syscall
-
-Neng Chen (1):
-  linux-user: Add support for setsockopt() options
-    IPV6_<ADD|DROP>_MEMBERSHIP
-
-Yunqiang Su (1):
-  linux-user: Add support for setsockopt() option SOL_ALG
-
- linux-user/generic/fcntl.h     |   2 +-
- linux-user/mips/target_fcntl.h |   4 +
- linux-user/strace.c            |  86 +++++++++++++++++++
- linux-user/strace.list         |   3 +
- linux-user/syscall.c           | 186 ++++++++++++++++++++++++++++++++++++++++-
- linux-user/syscall_defs.h      |  37 ++++++++
- 6 files changed, 316 insertions(+), 2 deletions(-)
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index b187c12..f267ad0 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1920,6 +1920,25 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+                                        &pki, sizeof(pki)));
+             break;
+         }
++        case IPV6_ADD_MEMBERSHIP:
++        case IPV6_DROP_MEMBERSHIP:
++        {
++            struct ipv6_mreq ipv6mreq;
++
++            if (optlen < sizeof(ipv6mreq)) {
++                return -TARGET_EINVAL;
++            }
++
++            if (copy_from_user(&ipv6mreq, optval_addr, sizeof(ipv6mreq))) {
++                return -TARGET_EFAULT;
++            }
++
++            ipv6mreq.ipv6mr_interface = tswap32(ipv6mreq.ipv6mr_interface);
++
++            ret = get_errno(setsockopt(sockfd, level, optname,
++                                       &ipv6mreq, sizeof(ipv6mreq)));
++            break;
++        }
+         default:
+             goto unimplemented;
+         }
 -- 
 2.7.4
 
