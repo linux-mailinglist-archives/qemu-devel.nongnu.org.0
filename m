@@ -2,77 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5814BC95
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 17:11:46 +0200 (CEST)
-Received: from localhost ([::1]:39172 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DD34BCA8
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 17:19:15 +0200 (CEST)
+Received: from localhost ([::1]:39320 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdcFV-0000Zg-1q
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 11:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37807)
+	id 1hdcMk-0005Oh-79
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 11:19:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39951)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hdcDY-0007yk-EY
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:09:46 -0400
+ (envelope-from <bmeng.cn@gmail.com>) id 1hdcJs-00044T-QP
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:16:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hdcDW-0007Yn-SH
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:09:44 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53969)
+ (envelope-from <bmeng.cn@gmail.com>) id 1hdcJr-00053G-HT
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:16:16 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:45837)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hdcDV-0007GG-F5
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:09:41 -0400
-Received: by mail-wm1-x341.google.com with SMTP id x15so2216956wmj.3
- for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 08:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=a79gXW68UvQGxTSUA12ggCauoaRecv6mDAemyR6B7TE=;
- b=pcdOpnPo89rkt8eHSNF0ybLafIuEXKvhEBadbqmAvlxyq/wwKRR9ccVIr/GSOr7Ojv
- rHUmbjshcIvJMm6P9s0/XdlESQFKBfq9iaMADacGuUDYR5hs7pM73zLnh4uxADoQJQnb
- r6ep6SAjZME8wdvO+lQcpTaeIeAF9N4VKIZljLMrS/4VY02SlP47Ecm4qznzmxsPglq5
- u81xBvE7y9dr3o9SPgll0OsQtW29uDKXoBj6NSLalpsqf9IZWJBz1dEVTL37LbochLP7
- qS+l3aWj7gLX58hu32XgfujOzS7a5WK1648UOzRhx1HIiWQM2p1aW4di0Fc9CPMLRgMr
- ejCA==
+ (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
+ id 1hdcJr-00051K-B2; Wed, 19 Jun 2019 11:16:15 -0400
+Received: by mail-ed1-x542.google.com with SMTP id a14so27704706edv.12;
+ Wed, 19 Jun 2019 08:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CUcAH5CsXUAkg9VQuHl1C6HetctEYF20Kq7+gMk+jKw=;
+ b=uLa3oqbP81fGKr8ZnPIekXNo+YEBTvLe/fe0p3288y/zjHNfVlPQwJOXrABDKv4uTe
+ gqVG76RWZRliwof70STHOnm9B9CGw1HSrb9hlwOQ8Gt8kKAQi43w6iDDW8/QBwuQUiOd
+ kO7cm4G28gqSr4R+MmRJdAYPJSwxG9iudX82gi1gUkfRHO21WmaJFBeKxh5euopyAMc9
+ MvcfDbVRO3KU4F6abmA+0wECV6iVfuXup1UVOf6m74WSSzr3B9Dg6dtkoz1gqt2GZfvb
+ VdL9QFR3WlB38u8P06wYFoOtxZRRe4YpTzQzIKifVf5qGwKZngz5GtwaGDxguKPyicyD
+ rggw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=a79gXW68UvQGxTSUA12ggCauoaRecv6mDAemyR6B7TE=;
- b=LFeDTlp+ZCOqqFJR26hp9opk3hwcY94M5tTXp0GbIAYcxshw4DGJh1KlIwDTKFfR28
- Jv5g2nEGBIa9GS0J7EGRtizyo6mgQx7nCCpKufu87EH8lBLLHb1vN7jA8uHrIln/l2Kp
- zOxJKNrKoxoVmATs8tJfGLHSzfSFKauEezuYO27gOnUUNtvaM6rjDFuBMah9keSzR9RA
- h/8GusDjm8tvTfjX+eZQU76jQt7vXiPAvU4YXUglAOV54W69TW92+paGPyFgzke6rfNX
- ujRYL0WKcMe8xeIejE1QF/pRWYRIwykLptPczBpugzXY67GMMqP8KtOXjucc+PJdsbTU
- hK4w==
-X-Gm-Message-State: APjAAAU4veZOpEowoOUfHQfQaInML/E6rjUJxwdVBtRAWkrHaPgGIzJP
- i/3QB6KTYxzFNYWsxAotGieinbCvKF8=
-X-Google-Smtp-Source: APXvYqy0YBZLhWz452pdon3T7NDVXbL0s30OIAn5NU8vBzvPZF/TH+V8kt5jWoc0cZYMcAum2o97Rg==
-X-Received: by 2002:a1c:f319:: with SMTP id q25mr8553483wmq.129.1560956954968; 
- Wed, 19 Jun 2019 08:09:14 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id d4sm12877834wra.38.2019.06.19.08.09.13
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 19 Jun 2019 08:09:13 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0BC271FF87;
- Wed, 19 Jun 2019 16:09:13 +0100 (BST)
-References: <CAOJt3afDmLtb1328ZWRvbO=SYgqtGZYX-aApTMoDPffiErygGg@mail.gmail.com>
- <CAHDbmO2cxxAv2Fqotfw8S8DBh7J+9oa67N8K_Ps_25vRbtpe3Q@mail.gmail.com>
- <CAOJt3ad2HbohoBRv8Ey9fknBRGeiN1SJ7wAk9gX+Vpf4pig_KA@mail.gmail.com>
- <CAOJt3acuu-eLwnKFUpEQ9V0JqqQs8=dyRUKJVRHKSDzbdGVGpA@mail.gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ryan Boyce <ryanpboyce12@gmail.com>
-In-reply-to: <CAOJt3acuu-eLwnKFUpEQ9V0JqqQs8=dyRUKJVRHKSDzbdGVGpA@mail.gmail.com>
-Date: Wed, 19 Jun 2019 16:09:13 +0100
-Message-ID: <87zhmd8vdy.fsf@zen.linaroharston>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CUcAH5CsXUAkg9VQuHl1C6HetctEYF20Kq7+gMk+jKw=;
+ b=UHQ/ZON2XvCSaeDmzWAbsnRM05ivpp/SHAuGvUHkNb+bIo7xSlhhLFPzw77G4AbWKM
+ V/utBFTDDn00cr6EQkoG5tDGbRyzWLb4qvtM1b5XIu/UIhLLzesp0hGPSqo74VKP2zrJ
+ fJCq60j1U8G0BPCjxZhkjqp9fxJGHI8+EURqbIqgUFEM8xucvLEyrrSMkihWRz0W+gT0
+ 64DuEu4Md0gzJzUrjKH5oEPrmFF2StLTqvwEljggcku5RRTKPeYocBgpecxx9e1phD99
+ b4RwUw4vC/Z1XkvNCq+ySOPBMKyCwx+Trl56JWEeHRDSjc2eEf5Q9vzrSGD+5D1uHERs
+ S0nA==
+X-Gm-Message-State: APjAAAWKsPgumm1t4x37ztb9qjYjHmg1606THk5KkHl60dId30tKrOoX
+ JO0N83c0w/28Q37O0GBWPnJfDrH6r+DENuDJcqY=
+X-Google-Smtp-Source: APXvYqyIqd1LLLUSaUwp7hVuG4OX+WrjlwIV1EdWgSTfTWNB21e1iOCtgU7Nul1GMVfGlzaNPBonEMgZsqhzmt+1GNg=
+X-Received: by 2002:a50:c28a:: with SMTP id o10mr64395139edf.182.1560957374091; 
+ Wed, 19 Jun 2019 08:16:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <cover.1560904640.git.alistair.francis@wdc.com>
+ <b511243b947debd710ea225699a4d7e312568da8.1560904640.git.alistair.francis@wdc.com>
+In-Reply-To: <b511243b947debd710ea225699a4d7e312568da8.1560904640.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 19 Jun 2019 23:16:02 +0800
+Message-ID: <CAEUhbmWpxLHu3Tf9k+UT9K-6dqLGtDkybTb4S8beCQ0nv9Ghqw@mail.gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] qemu processes
+X-Received-From: 2a00:1450:4864:20::542
+Subject: Re: [Qemu-devel] [RFC v1 1/5] hw/riscv: Split out the boot functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,95 +71,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Ryan Boyce <ryanpboyce12@gmail.com> writes:
-
-> Alex,
+On Wed, Jun 19, 2019 at 8:51 AM Alistair Francis
+<alistair.francis@wdc.com> wrote:
 >
-> I have another KVM/qemu related CPU question. I am hoping you will be so
-> kind as to answer again. I have a Dell Poweredge T430 server running a
-> single Intel Xeon E5-2603 v3 CPU with 6 cores. I have 6 VMs running CentOS
-> 7 via KVM. I am noticing some terrible host CPU performance when a VM runs
-> a simple process such as a recursive search on its file system. I see VM
-> CPU acting normally but the host CPU skyrockets to well over 100%. I have=
- a
-> few ideas as to why this is but am hoping you might be able to point me in
-> the right direction. Thank you so much for your help!
-
-A lot will depend on caching and how much of your guest file-system is
-already in the host page cache. Otherwise you have a round-trip to make
-to load the blocks into RAM.
-
-However usually my first step is to run something like:
-
-  perf top
-
-And see where the host is spending its time and go from there.
-
+> Split the common RISC-V boot functions into a seperate file. This allows
+> us to share the common code.
 >
-> Ryan
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/riscv/Makefile.objs  |  1 +
+>  hw/riscv/boot.c         | 69 +++++++++++++++++++++++++++++++++++++++++
+>  hw/riscv/sifive_e.c     | 17 ++--------
+>  hw/riscv/sifive_u.c     | 17 ++--------
+>  hw/riscv/spike.c        | 21 +++----------
+>  hw/riscv/virt.c         | 51 +++---------------------------
+>  include/hw/riscv/boot.h | 27 ++++++++++++++++
+>  7 files changed, 110 insertions(+), 93 deletions(-)
+>  create mode 100644 hw/riscv/boot.c
+>  create mode 100644 include/hw/riscv/boot.h
 >
-> On Wed, Jun 12, 2019 at 12:50 PM Ryan Boyce <ryanpboyce12@gmail.com> wrot=
-e:
->
->> Thank you my friend!
->>
->> On Wed, Jun 12, 2019 at 12:48 PM Alex Benn=C3=A9e <alex.bennee@linaro.or=
-g>
->> wrote:
->>
->>> You've actually contacted the development list but I can answer the
->>> question.
->>>
->>> QEMU is multi-threaded so there will be a thread per KVM based vCPU
->>> (and also for TCG based vCPUs where MTTCG is enabled). There will also
->>> be a number of additional threads created including at least one for
->>> the main monitor thread and potentially additional threads for
->>> servicing IO requests. So expect to see $SMP + 1 + n threads for each
->>> QEMU instance.
->>>
->>> On Wed, 12 Jun 2019 at 16:32, Ryan Boyce <ryanpboyce12@gmail.com> wrote:
->>> >
->>> > Hi Stefan,
->>> >
->>> > I am a big fan of your blog! In relation to your blog post,
->>> >
->>> http://blog.vmsplice.net/2011/03/qemu-internals-big-picture-overview.ht=
-ml
->>> ,
->>> > I have a question I am really hoping you can answer:
->>> >
->>> > When I start a VM, I see that the qemu-kvm processes start and run as
->>> > "qemu-kvm..... -name "something1"...."
->>> > My issue, though, is I see multiple processes running as "qemu-kvm...=
-..
->>> > -name "something1"...." and each of these processes has memory/cpu/di=
-sk
->>> > mapped to it.
->>> > Does qemu-kvm run VMs on a one-to-one VM-to-host process basis? Or do=
-es
->>> > each virtual cpu on the guest get its own process on the host?
->>> > For example, If I have a VM that has 4 virtual cpus, will I see 4
->>> processes
->>> > (PIDs) on the host or should I see just see one for the VM itself.
->>> >
->>> > Any help you can give would be GREATLY appreciated. Thank you!
->>> >
->>> > Ryan
->>>
->>>
->>>
->>> --
->>> Alex Benn=C3=A9e
->>> KVM/QEMU Hacker for Linaro
->>>
->>
+> diff --git a/hw/riscv/Makefile.objs b/hw/riscv/Makefile.objs
+> index a65027304a..eb9d4f9ffc 100644
+> --- a/hw/riscv/Makefile.objs
+> +++ b/hw/riscv/Makefile.objs
+> @@ -1,3 +1,4 @@
+> +obj-y += boot.o
+>  obj-$(CONFIG_SPIKE) += riscv_htif.o
+>  obj-$(CONFIG_HART) += riscv_hart.o
+>  obj-$(CONFIG_SIFIVE_E) += sifive_e.o
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> new file mode 100644
+> index 0000000000..62f94aaf8a
+> --- /dev/null
+> +++ b/hw/riscv/boot.c
+> @@ -0,0 +1,69 @@
+> +/*
+> + * QEMU RISC-V Boot Helper
+> + *
+> + * Copyright (c) 2017 SiFive, Inc.
+> + * Copyright (c) 2019 Alistair Francis <alistair.francis@wdc.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/units.h"
+> +#include "qemu/error-report.h"
+> +#include "exec/cpu-defs.h"
+> +#include "hw/loader.h"
+> +#include "hw/riscv/boot.h"
+> +#include "elf.h"
+> +
+> +target_ulong riscv_load_kernel(const char *kernel_filename)
+> +{
+> +    uint64_t kernel_entry, kernel_high;
+> +
+> +    if (load_elf(kernel_filename, NULL, NULL, NULL,
+> +                 &kernel_entry, NULL, &kernel_high,
+> +                 0, EM_RISCV, 1, 0) < 0) {
+> +        error_report("could not load kernel '%s'", kernel_filename);
+> +        exit(1);
+> +    }
+> +
+> +    return kernel_entry;
+> +}
+> +
+> +hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
+> +                         uint64_t kernel_entry, hwaddr *start)
+> +{
+> +    int size;
+> +
+> +    /* We want to put the initrd far enough into RAM that when the
 
+nits: /* should be on a separate line
 
---
-Alex Benn=C3=A9e
+> +     * kernel is uncompressed it will not clobber the initrd. However
+> +     * on boards without much RAM we must ensure that we still leave
+> +     * enough room for a decent sized initrd, and on boards with large
+> +     * amounts of RAM we must avoid the initrd being so far up in RAM
+> +     * that it is outside lowmem and inaccessible to the kernel.
+> +     * So for boards with less  than 256MB of RAM we put the initrd
+> +     * halfway into RAM, and for boards with 256MB of RAM or more we put
+> +     * the initrd at 128MB.
+> +     */
+
+[snip]
+
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
 
