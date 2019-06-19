@@ -2,57 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4954C42B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 01:50:49 +0200 (CEST)
-Received: from localhost ([::1]:42580 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005EB4C42A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 01:50:39 +0200 (CEST)
+Received: from localhost ([::1]:42578 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdkLo-0006hO-P9
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 19:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54166)
+	id 1hdkLe-0006M1-B2
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 19:50:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54049)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlureau@redhat.com>) id 1hdkJC-000546-JU
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:48:07 -0400
+ (envelope-from <lersek@redhat.com>) id 1hdkJ5-00052u-2R
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:48:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1hdk9e-0007Ga-IR
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:38:15 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39507)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1hdk9c-0007DV-Kn
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:38:14 -0400
-Received: by mail-ot1-f67.google.com with SMTP id r21so848419otq.6
- for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 16:38:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=U+XhKb1ZIzjtzXl8t+1xfp/NAdgXCCEaKm0yhnZ7G0k=;
- b=LgmvQ82dl5iXgGbMwcwaa/xxY5TtexhIgxj+d18OqfWiu5Y2C0F66G1ruPanlxn032
- i0LELqYXEiESA0bddP5nRECYcaSfSX/eRDDXIV6vETs+8cCFBpbAFhtATCplDpDOZdir
- Fvzg6wGxwqwtCQgf3Zkkdd+goGSNEjNzUVK/JPD9GkkoK5U+Hbbs0iaFN8npwjNd0J0O
- /bsBaG6jwNxhsaOibstP31tc1SVY8X+B8WiCsauo6k64eKPH+Llt2px+uitJfuWzNPRL
- oHJERE+slH51Yew85/VlDBaFB0QnMJuwX4Z0bkQfxsawWZ0YdJi/BjuXE5gpgtIaQC8d
- doYA==
-X-Gm-Message-State: APjAAAXkSKcHAnLbt2n+dBRuD2h5O2xvcu4/eOS5g+XtKbhOE0kdMlQP
- UdiOLKRjbPnxgEGt8DHnJKzk30v5a/hnyyQ+EE77MA==
-X-Google-Smtp-Source: APXvYqytez7ANGqsg17QYw1YK2MQNRq698Tui1g+DJlaspFGsWlWtqenTLHQeRSEUtH5us5JLzZuPAGiwHO+SyCvaK4=
-X-Received: by 2002:a9d:460d:: with SMTP id y13mr8153404ote.368.1560987491809; 
- Wed, 19 Jun 2019 16:38:11 -0700 (PDT)
+ (envelope-from <lersek@redhat.com>) id 1hdkBd-0001DA-7e
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:40:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54190)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hdkBZ-00015A-9x
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:40:14 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 14647307D910;
+ Wed, 19 Jun 2019 23:40:10 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-91.ams2.redhat.com
+ [10.36.116.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74D6019C5B;
+ Wed, 19 Jun 2019 23:40:09 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190614202333.19355-1-lersek@redhat.com>
+ <CAFEAcA9PcTTagxUcxba-_qFsC97T6uEe927akjj-G4na22rf6g@mail.gmail.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <eecc2b21-c860-9071-4322-a9fbb40a40e1@redhat.com>
+Date: Thu, 20 Jun 2019 01:40:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-References: <20190619201050.19040-1-armbru@redhat.com>
- <20190619201050.19040-17-armbru@redhat.com>
-In-Reply-To: <20190619201050.19040-17-armbru@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 20 Jun 2019 01:38:00 +0200
-Message-ID: <CAMxuvawuFeQAjCJY6fBrYqYu-mfvsCTWznpDMDA8dJd86EDrvw@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAFEAcA9PcTTagxUcxba-_qFsC97T6uEe927akjj-G4na22rf6g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Wed, 19 Jun 2019 23:40:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.67
-Subject: Re: [Qemu-devel] [PATCH 16/17] MAINTAINERS: Add Windows dump to
- section "Dump"
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 0/6] update edk2 submodule & binaries to
+ edk2-stable201905
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,45 +61,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wolf, Kevin" <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 19, 2019 at 10:10 PM Markus Armbruster <armbru@redhat.com> wrot=
-e:
->
-> Commit 2da91b54fe9 "dump: add Windows dump format to
-> dump-guest-memory" neglected to update MAINTAINERS.  Do it now.
->
-> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 06/17/19 12:54, Peter Maydell wrote:
+> On Fri, 14 Jun 2019 at 21:25, Laszlo Ersek <lersek@redhat.com> wrote:
+>>
+>> The following changes since commit f3d0bec9f80e4ed7796fffa834ba0a53f2094f7f:
+>>
+>>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-06-14' into staging (2019-06-14 14:46:13 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/lersek/qemu.git tags/edk2-pull-2019-06-14
+>>
+>> for you to fetch changes up to 541617cad3445fdc6735e9e5752e1f698e337737:
+>>
+>>   pc-bios: update the README file with edk2-stable201905 information (2019-06-14 21:48:00 +0200)
+>>
+>> ----------------------------------------------------------------
+>> edk2-stable201905 was released on 2019-06-06:
+>>
+>>   https://github.com/tianocore/edk2/releases/tag/edk2-stable201905
+>>
+>> Advance QEMU's edk2 submodule to edk2-stable201905, and rebuild the
+>> firmware binaries. This should be the edk2 release that goes into QEMU
+>> 4.1.
+>>
+>> Launchpad: https://bugs.launchpad.net/qemu/+bug/1831477
+> 
+> 
+> Applied, thanks.
 
-argh, I guess I will CC relevant people ;)
+Thanks!
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> 
+> Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+> for any user-visible changes.
 
+Done.
 
-> ---
->  MAINTAINERS | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a3fdda015f..327ad80ae4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1850,9 +1850,10 @@ F: include/sysemu/device_tree.h
->  Dump
->  S: Supported
->  M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> -F: dump/dump.c
-> +F: dump/
->  F: hw/misc/vmcoreinfo.c
->  F: include/hw/misc/vmcoreinfo.h
-> +F: include/qemu/win_dump_defs
->  F: include/sysemu/dump-arch.h
->  F: include/sysemu/dump.h
->  F: qapi/dump.json
-> --
-> 2.21.0
->
+Laszlo
 
