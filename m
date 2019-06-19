@@ -2,93 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA2E4B4D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 11:21:45 +0200 (CEST)
-Received: from localhost ([::1]:36047 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AE84B4DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 11:22:34 +0200 (CEST)
+Received: from localhost ([::1]:36064 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdWmm-0004jp-WC
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 05:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33767)
+	id 1hdWnZ-0006Nw-AQ
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 05:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33871)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hdWk0-0003YL-QQ
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:18:53 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hdWkD-0003n2-Dg
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:19:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hdWjy-0005yP-UM
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:18:52 -0400
-Received: from mail-eopbgr70090.outbound.protection.outlook.com
- ([40.107.7.90]:28869 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hdWjw-0005tI-4V; Wed, 19 Jun 2019 05:18:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EmREFwsg/1BweN6tXL0zs7GAb+Q2a0cYY3m5XynxxiY=;
- b=D8IDM2hyoqv0ei7yoWIt6ZqlaAe7whaqAcyRjsO9zbYnZSs7vfIecmtOGtnFxRx1qH22od3yXJDbQDpFqRveJt3UPIeBdfDH+Emk92/thMQX14JlrX9cxoIMBvVSX95WNTV1I0p0nDykOmvK+NYAlxCAoN3aSzZ4W6Q3HcIeCOg=
-Received: from DBBPR08MB4838.eurprd08.prod.outlook.com (20.179.46.151) by
- DBBPR08MB4886.eurprd08.prod.outlook.com (20.179.47.15) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.11; Wed, 19 Jun 2019 09:18:43 +0000
-Received: from DBBPR08MB4838.eurprd08.prod.outlook.com
- ([fe80::9c49:321c:cc13:35d3]) by DBBPR08MB4838.eurprd08.prod.outlook.com
- ([fe80::9c49:321c:cc13:35d3%3]) with mapi id 15.20.1987.014; Wed, 19 Jun 2019
- 09:18:43 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v5 31/42] block: Drop backing_bs()
-Thread-Index: AQHVIWvKp4MTEifYA02GA4VGaQjj3aaivSCA
-Date: Wed, 19 Jun 2019 09:18:43 +0000
-Message-ID: <63ccec3a-861e-9a48-4964-f0e889fe9b4e@virtuozzo.com>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-32-mreitz@redhat.com>
-In-Reply-To: <20190612221004.2317-32-mreitz@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0196.eurprd05.prod.outlook.com
- (2603:10a6:3:f9::20) To DBBPR08MB4838.eurprd08.prod.outlook.com
- (2603:10a6:10:d9::23)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190619121841406
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a3725337-3a75-4618-f06c-08d6f4971ff5
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:DBBPR08MB4886; 
-x-ms-traffictypediagnostic: DBBPR08MB4886:
-x-microsoft-antispam-prvs: <DBBPR08MB48865BF6A1BE7BABFD9D5513C1E50@DBBPR08MB4886.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:989;
-x-forefront-prvs: 0073BFEF03
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(376002)(366004)(346002)(39850400004)(136003)(199004)(189003)(229853002)(2906002)(110136005)(316002)(71190400001)(53936002)(68736007)(26005)(186003)(76176011)(81166006)(71200400001)(54906003)(52116002)(5660300002)(102836004)(66556008)(66446008)(386003)(6436002)(31686004)(256004)(64756008)(66476007)(66946007)(31696002)(36756003)(73956011)(6512007)(478600001)(4744005)(446003)(4326008)(11346002)(14454004)(81156014)(8676002)(6486002)(8936002)(6506007)(86362001)(6246003)(6116002)(3846002)(476003)(305945005)(486006)(7736002)(2616005)(99286004)(25786009)(2501003)(66066001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4886;
- H:DBBPR08MB4838.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: LDspw0RKoLoUzB6GVlPvymJEquXFTRuMin1AuwkAOF6Ht/X65Z3YWAmyh0I+sKGiOtQAMFli5GHpZabvvGsatV5OrpsFpKMQH/XKjydZ3Q3mtcyaPlO0hBfSjV9uI+rWLdaioTFEBB+HS/77MqHb2x8pAdDPEj1gFzwVAw9k3+YH8VW0cxdPZOCIA9TPah3CLc1upz+ndKR456aTSc3vZ6r8TLKWOj0L2cMe89oUkKcixlEcihKZp+lwJzsAr0OsYmJlntzjSpGaBEcHlmIc461In99vqphmJE+Al99fgdoaLhUznZw8lJAN6CWCpPnBPYSoAP6Db9ob0skDhXSsAZNEzZVUVS2UlW7Sbic1/ZzIEqzxVXMRF0uR7W+/Ei5HGCcVhUvr9gp+RsDwUQcHdhbieNsvtZXFPB7/PNzkDSo=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E855355972587C43900B8C71DA5D5766@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <kwolf@redhat.com>) id 1hdWkC-0006Cd-6X
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:19:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50816)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1hdWkB-0006A7-Ou
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:19:04 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AD3AD309703F
+ for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 09:18:54 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-134.ams2.redhat.com [10.36.117.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CB4675D9D6;
+ Wed, 19 Jun 2019 09:18:53 +0000 (UTC)
+Date: Wed, 19 Jun 2019 11:18:52 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190619091852.GA15551@linux.fritz.box>
+References: <20190617184903.19436-1-armbru@redhat.com>
+ <20190617184903.19436-17-armbru@redhat.com>
+ <20190618090153.GE28525@redhat.com>
+ <20190618103449.GE4296@localhost.localdomain>
+ <87lfxy5b4p.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a3725337-3a75-4618-f06c-08d6f4971ff5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2019 09:18:43.6562 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4886
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.7.90
-Subject: Re: [Qemu-devel] [PATCH v5 31/42] block: Drop backing_bs()
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <87lfxy5b4p.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Wed, 19 Jun 2019 09:18:54 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 16/16] vl: Deprecate -mon pretty=... for HMP
+ monitors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,28 +62,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTMuMDYuMjAxOSAxOjA5LCBNYXggUmVpdHogd3JvdGU6DQo+IFdlIHdhbnQgdG8gbWFrZSBpdCBl
-eHBsaWNpdCB3aGVyZSBicy0+YmFja2luZyBpcyB1c2VkLCBhbmQgd2UgaGF2ZSBkb25lDQo+IHNv
-LiAgVGhlIG9sZCByb2xlIG9mIGJhY2tpbmdfYnMoKSBpcyBub3cgZWZmZWN0aXZlbHkgdGFrZW4g
-YnkNCj4gYmRydl9maWx0ZXJlZF9jb3dfYnMoKS4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1heCBS
-ZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+DQoNCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVu
-dHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KDQo+IC0tLQ0KPiAg
-IGluY2x1ZGUvYmxvY2svYmxvY2tfaW50LmggfCA1IC0tLS0tDQo+ICAgMSBmaWxlIGNoYW5nZWQs
-IDUgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9ibG9jay9ibG9ja19p
-bnQuaCBiL2luY2x1ZGUvYmxvY2svYmxvY2tfaW50LmgNCj4gaW5kZXggODc1YTMzZjI1NS4uYzBh
-MDViZWVjMyAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9ibG9jay9ibG9ja19pbnQuaA0KPiArKysg
-Yi9pbmNsdWRlL2Jsb2NrL2Jsb2NrX2ludC5oDQo+IEBAIC05MjUsMTEgKzkyNSw2IEBAIHR5cGVk
-ZWYgZW51bSBCbG9ja01pcnJvckJhY2tpbmdNb2RlIHsNCj4gICAgICAgTUlSUk9SX0xFQVZFX0JB
-Q0tJTkdfQ0hBSU4sDQo+ICAgfSBCbG9ja01pcnJvckJhY2tpbmdNb2RlOw0KPiAgIA0KPiAtc3Rh
-dGljIGlubGluZSBCbG9ja0RyaXZlclN0YXRlICpiYWNraW5nX2JzKEJsb2NrRHJpdmVyU3RhdGUg
-KmJzKQ0KPiAtew0KPiAtICAgIHJldHVybiBicy0+YmFja2luZyA/IGJzLT5iYWNraW5nLT5icyA6
-IE5VTEw7DQo+IC19DQo+IC0NCj4gICANCj4gICAvKiBFc3NlbnRpYWwgYmxvY2sgZHJpdmVycyB3
-aGljaCBtdXN0IGFsd2F5cyBiZSBzdGF0aWNhbGx5IGxpbmtlZCBpbnRvIHFlbXUsIGFuZA0KPiAg
-ICAqIHdoaWNoIHRoZXJlZm9yZSBjYW4gYmUgYWNjZXNzZWQgd2l0aG91dCB1c2luZyBiZHJ2X2Zp
-bmRfZm9ybWF0KCkgKi8NCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+Am 19.06.2019 um 08:42 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+>=20
+> > Am 18.06.2019 um 11:01 hat Daniel P. Berrang=E9 geschrieben:
+> >> On Mon, Jun 17, 2019 at 08:49:03PM +0200, Markus Armbruster wrote:
+> >> > From: Kevin Wolf <kwolf@redhat.com>
+> >> >=20
+> >> > The -mon pretty=3Don|off switch of the -mon option applies only to=
+ QMP
+> >> > monitors. It's silently ignored for HMP. Deprecate this combinatio=
+n so
+> >> > that we can make it an error in future versions.
+> >>=20
+> >> No objection to merging this PR as is, but how about we extend the
+> >> deprecation to QMP too ?
+> >>=20
+> >> I was responsible for adding this option back in 2010 and I don't
+> >> think I've used it since 2012 when I added pretty printing support
+> >> to scripts/qmp/qmp-shell. I struggle to imagine good reasons for
+> >> using QMP directly with pretty printing, as opposed to doing it
+> >> via qmp-shell or another wrapper tool.
+> >
+> > qemu-iotests uses it. It doesn't only make the output (and espeically
+> > diffs on failure) much more readable, but in fact also avoids very lo=
+ng
+> > lines in the refernce output that used to break patch emails when we
+> > didn't use pretty printing yet.
+> >
+> > So let's keep it for QMP, please.
+>=20
+> Perhaps we can get rid of it if we find a suitable filter.
+>=20
+> Hmm, Python comes with one: "python -m json.tool".  It expects just one
+> expression, and fails if anything follows:
+>=20
+>     $ printf '{"execute": "qmp_capabilities"}\n{"execute": "query-versi=
+on"}\n' | socat UNIX:/work/armbru/images/test-qmp STDIO | python3 -m json=
+.tool
+>     Extra data: line 2 column 1 (char 134)
+>=20
+> To pretty print a sequence of expressions, you have to wrap a loop
+> around it:
+>=20
+>     $ printf '{"execute": "qmp_capabilities"}\n{"execute": "query-versi=
+on"}\n' | socat UNIX:/work/armbru/images/test-qmp STDIO | { while read li=
+ne; do echo "$line" | python3 -m json.tool; done; }
+
+Yes, it's doable. It's not a very nice command line, but it does its
+job.
+
+What do we win by removing pretty printing from qemu? We invest some
+work doing the patches, reviewing them, etc. and save the whole
+complexity of adding a few newlines and spaces to an already existing
+string buffer in a single place (qjson.c).
+
+In exchange, we have to add the above overlong command line to every
+qemu-iotests case for which pretty printed QMP is useful, and lose the
+ability to just do -qmp-pretty stdio manually (which I do every now and
+then) instead of having to dig up the above line in some script to copy
+it.
+
+It doesn't look like a net win to me.
+
+> I figure we'd want to loop in Python instead of shell.
+>=20
+> My point is: pretty-printing is trivial in Python.  The case for
+> maintaining C code to do it seems weak.
+
+The pretty printing is fairly trivial in C, too, when you already
+generate JSON. The code seems to have been last touched in 2014, and
+before that in 2010 when it was introduced. The maintenance burden
+doesn't seem to be that bad.
+
+Removing features that have users can be justified sometimes, but it
+does need a justification, in my opinion.
+
+Kevin
 
