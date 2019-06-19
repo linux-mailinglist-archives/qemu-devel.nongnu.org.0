@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8E04B9AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 15:19:56 +0200 (CEST)
-Received: from localhost ([::1]:38236 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CE14B9F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 15:31:22 +0200 (CEST)
+Received: from localhost ([::1]:38350 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdaVG-0001wZ-Us
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 09:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39334)
+	id 1hdagK-0000CL-Kr
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 09:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42109)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hdaU0-0001NZ-Ob
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 09:18:37 -0400
+ (envelope-from <crosa@redhat.com>) id 1hdaeh-000819-DO
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 09:29:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hdaTz-0003gM-IP
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 09:18:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59400)
+ (envelope-from <crosa@redhat.com>) id 1hdaeg-00044x-HU
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 09:29:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34486)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hdaTz-0003Eu-BY
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 09:18:35 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hdaeg-00044E-C0
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 09:29:38 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5195E330272;
- Wed, 19 Jun 2019 13:17:47 +0000 (UTC)
-Received: from [10.36.116.89] (ovpn-116-89.ams2.redhat.com [10.36.116.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 337A161090;
- Wed, 19 Jun 2019 13:17:42 +0000 (UTC)
-To: Yan Zhao <yan.y.zhao@intel.com>, pbonzini@redhat.com
-References: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <39c4c32b-e34a-8d8f-abbc-ab346ec5bed7@redhat.com>
-Date: Wed, 19 Jun 2019 15:17:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mx1.redhat.com (Postfix) with ESMTPS id E2AAD307D866
+ for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 13:29:36 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-120-204.rdu2.redhat.com
+ [10.10.120.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFDE01001E71;
+ Wed, 19 Jun 2019 13:29:33 +0000 (UTC)
+Date: Wed, 19 Jun 2019 09:29:24 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20190619132924.GA32240@localhost.localdomain>
+References: <20190618142931.1694-1-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190618142931.1694-1-imammedo@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Wed, 19 Jun 2019 13:17:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Wed, 19 Jun 2019 13:29:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] memory: do not do out of bound notification
+Subject: Re: [Qemu-devel] [PATCH] qmp: make qmp-shell work with python3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,80 +57,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>
+Cc: armbru@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yan,
-
-[+ Peter]
-
-On 6/19/19 10:49 AM, Yan Zhao wrote:
-> even if an entry overlaps with notifier's range, should not map/unmap
-> out of bound part in the entry.
-
-I don't think the patch was based on the master as the trace at the very
-end if not part of the upstream code.
+On Tue, Jun 18, 2019 at 10:29:31AM -0400, Igor Mammedov wrote:
+> python3 doesn't have raw_input(), so qmp-shell breaks.
+> Use input() instead and override it with raw_input()
+> if running on python2.
 > 
-> This would cause problem in below case:
-> 1. initially there are two notifiers with ranges
-> 0-0xfedfffff, 0xfef00000-0xffffffffffffffff,
-> IOVAs from 0x3c000000 - 0x3c1fffff is in shadow page table.
-> 
-> 2. in vfio, memory_region_register_iommu_notifier() is followed by
-> memory_region_iommu_replay(), which will first call address space unmap,
-> and walk and add back all entries in vtd shadow page table. e.g.
-> (1) for notifier 0-0xfedfffff,
->     IOVAs from 0 - 0xffffffff get unmapped,
->     and IOVAs from 0x3c000000 - 0x3c1fffff get mapped
-
-While the patch looks sensible, the issue is the notifier scope used in
-vtd_address_space_unmap is not a valid mask (ctpop64(size) != 1). Then
-the size is recomputed (either using n = 64 - clz64(size) for the 1st
-notifier or n = s->aw_bits for the 2d) and also the entry (especially
-for the 2d notifier where it becomes 0) to get a proper alignment.
-
-vtd_page_walk sends notifications per block or page (with valid
-addr_mask) so stays within the notifier.
-
-Modifying the entry->iova/addr_mask again in memory_region_notify_one
-leads to unaligned start address / addr_mask. I don't think we want that.
-
-Can't we modity the vtd_address_space_unmap() implementation to split
-the invalidation in smaller chunks instead?
-
-
-Thanks
-
-Eric
-
-
-> (2) for notifier 0xfef00000-0xffffffffffffffff
->     IOVAs from 0 - 0x7fffffffff get unmapped,>     but IOVAs from 0x3c000000 - 0x3c1fffff cannot get mapped back.
-> 
-> Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->  memory.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  scripts/qmp/qmp-shell | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/memory.c b/memory.c
-> index 07c8315..a6b9da6 100644
-> --- a/memory.c
-> +++ b/memory.c
-> @@ -1948,6 +1948,14 @@ void memory_region_notify_one(IOMMUNotifier *notifier,
->          return;
->      }
->  
-> +    if (entry->iova < notifier->start) {
-> +        entry->iova = notifier->start;
-> +    }
-> +
-> +    if (entry->iova + entry->addr_mask > notifier->end) {
-> +        entry->addr_mask = notifier->end - entry->iova;> +    }
-> +
->      if (entry->perm & IOMMU_RW) {
->          printf("map %lx %lx\n", entry->iova, entry->iova + entry->addr_mask);
->          request_flags = IOMMU_NOTIFIER_MAP;
+> diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+> index 7776c7b141..8c49b39afa 100755
+> --- a/scripts/qmp/qmp-shell
+> +++ b/scripts/qmp/qmp-shell
+> @@ -308,7 +308,11 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+>          @return True if execution was ok, return False if disconnected.
+>          """
+>          try:
+> -            cmdline = raw_input(prompt)
+> +            try: # attempt to set Python2 override
+> +               import __builtin__;
+> +               getattr(__builtin__, 'raw_input', input)
+> +            except ModuleNotFoundError: pass
 
+Something like:
+
+   if sys.version_info[0] == 2:
+       input = raw_input
+
+Also does the job, and may be considered simpler and easier to read.
+
+- Cleber.
+
+> +            cmdline = input(prompt)
+>          except EOFError:
+>              print()
+>              return False
+> -- 
+> 2.18.1
 > 
 
