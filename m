@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9444D4C174
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 21:24:23 +0200 (CEST)
-Received: from localhost ([::1]:41282 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 853ED4C166
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 21:21:28 +0200 (CEST)
+Received: from localhost ([::1]:41258 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdgBy-00026l-P8
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 15:24:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47387)
+	id 1hdg98-0007Fj-Ji
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 15:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47366)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lidong.chen@oracle.com>) id 1hdg4j-0005eg-97
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:56 -0400
+ (envelope-from <lidong.chen@oracle.com>) id 1hdg4g-0005e2-8h
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lidong.chen@oracle.com>) id 1hdg4e-0007sk-Sn
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:50 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:47064)
+ (envelope-from <lidong.chen@oracle.com>) id 1hdg4d-0007pl-B7
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:48 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:56590)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <lidong.chen@oracle.com>)
- id 1hdg4b-0007Yc-NE
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:47 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJ8ZxT074719;
+ id 1hdg4Y-0007Yb-Bq
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:44 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJ8Zgl065645;
  Wed, 19 Jun 2019 19:16:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references : mime-version : content-type : content-transfer-encoding;
- s=corp-2018-07-02; bh=NkXgzSdPzOVUZDNJyEcRjrNqZpjA81OtuuhO4YYVHbc=;
- b=J03w48Zkdx31N+VWxi3Ik1ek7fpOXznc946KeabxUzjy97jkH6MtNJKa60uJUS7YgcMz
- QtOVlg4MEfY/YcU++S3I0rA6pUjafAy2EXy1ijpqM0sbX80burpFehtxjXLsX1oieMtd
- cSn7rKbxDPkgHKM9Yuq0eJj+2uUt7QiEBF5LI9jqpzQg26r5ZLdeVBkLCZYSlOTHuTje
- HcLkGMaIKEngrfWM7YuhjH6oeHb48wYw6dy3n0bqtb85ZvlBaBobCdEmw1Jg4CILNOBy
- uJAZnB8E1LlFaA2PnRlO6cMnUgRyjdVGSVi8rJ9Mf1J1xWNxWe2MXlA8hyDuNyhGRn29 nA== 
+ s=corp-2018-07-02; bh=+hIm15QIKJ+xsbaM2NNF5KWvBzjkV3dP0Rtjy3b/758=;
+ b=uwm9ikb3U2o9TQQUajKxk8CoIOHlOCRYlHUDokJ7o6+mV1cMnn5+ah1KKd+ACcV2Sg4r
+ 4Xn0Jr/KBE8gMaEHspT8+XKOij7qdYry52nYAKYXMT1JFSOdyllCF3OPn7W4qPAyPJmj
+ fDVUyCVTiF8auUlH62msZQbzjxYTVOm5HjdCTYtHwI/bvFwSgDZxQGCmB5LcoYfo6ZFl
+ 6rhm5LrzNgg85pz7g9QXM9Ua3RcxklwcWLIQasmdSmaSW3eIeWPkjI7VdkVs7RIJOxzh
+ QSucyVCBaTmKQHt20iTvqUMKS3F4C2+i57rlArK3EEjc82o7eoKNWU068fdRa3bLYgVl oQ== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 2t7809d8rn-1
+ by userp2130.oracle.com with ESMTP id 2t7809d9f1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 19 Jun 2019 19:16:30 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJFEoa094497;
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJFEpf094589;
  Wed, 19 Jun 2019 19:16:29 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 2t7rdwtkvn-1
+ by aserp3030.oracle.com with ESMTP id 2t7rdwtkvr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 19 Jun 2019 19:16:29 +0000
 Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5JJGSkQ008841;
- Wed, 19 Jun 2019 19:16:28 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5JJGTbT008847;
+ Wed, 19 Jun 2019 19:16:29 GMT
 Received: from ca-virt2-2.us.oracle.com (/10.211.11.112)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 19 Jun 2019 12:16:27 -0700
+ with ESMTP ; Wed, 19 Jun 2019 12:16:28 -0700
 From: Lidong Chen <lidong.chen@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 15:14:46 -0400
-Message-Id: <6b19cb7359a10a6bedc3ea0fce22fed3ef93c102.1560806687.git.lidong.chen@oracle.com>
+Date: Wed, 19 Jun 2019 15:14:47 -0400
+Message-Id: <ded30967982811617ce7f0222d11228130c198b7.1560806687.git.lidong.chen@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1560806687.git.lidong.chen@oracle.com>
 References: <cover.1560806687.git.lidong.chen@oracle.com>
@@ -78,12 +78,12 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906190157
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by userp2120.oracle.com id
- x5JJ8ZxT074719
+X-MIME-Autoconverted: from 8bit to quoted-printable by userp2130.oracle.com id
+ x5JJ8Zgl065645
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [Qemu-devel PATCH v3 1/2] sd: Fix out-of-bounds
- assertions
+X-Received-From: 156.151.31.86
+Subject: [Qemu-devel] [Qemu-devel PATCH v3 2/2] util/main-loop: Fix
+ incorrect assertion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,43 +102,36 @@ Cc: peter.maydell@linaro.org, berrange@redhat.com, liq3ea@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to an off-by-one error, the assert statements allow an
-out-of-bound array access.
+The check for poll_fds in g_assert() was incorrect. The correct assertion
+should check "n_poll_fds + w->num <=3D ARRAY_SIZE(poll_fds)" because the
+subsequent for-loop is doing access to poll_fds[n_poll_fds + i] where i
+is in [0, w->num).
 
 Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Suggested-by: Liam Merwick <liam.merwick@oracle.com>
+Reviewed-by: Liran Alon <liran.alon@oracle.com>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/sd/sd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ util/main-loop.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index aaab15f..818f86c 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -144,7 +144,7 @@ static const char *sd_state_name(enum SDCardStates st=
-ate)
-     if (state =3D=3D sd_inactive_state) {
-         return "inactive";
-     }
--    assert(state <=3D ARRAY_SIZE(state_name));
-+    assert(state < ARRAY_SIZE(state_name));
-     return state_name[state];
- }
+diff --git a/util/main-loop.c b/util/main-loop.c
+index e1e349c..a9f4e8d 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -422,7 +422,7 @@ static int os_host_main_loop_wait(int64_t timeout)
+     g_main_context_prepare(context, &max_priority);
+     n_poll_fds =3D g_main_context_query(context, max_priority, &poll_tim=
+eout,
+                                       poll_fds, ARRAY_SIZE(poll_fds));
+-    g_assert(n_poll_fds <=3D ARRAY_SIZE(poll_fds));
++    g_assert(n_poll_fds + w->num <=3D ARRAY_SIZE(poll_fds));
 =20
-@@ -165,7 +165,7 @@ static const char *sd_response_name(sd_rsp_type_t rsp=
-)
-     if (rsp =3D=3D sd_r1b) {
-         rsp =3D sd_r1;
-     }
--    assert(rsp <=3D ARRAY_SIZE(response_name));
-+    assert(rsp < ARRAY_SIZE(response_name));
-     return response_name[rsp];
- }
-=20
+     for (i =3D 0; i < w->num; i++) {
+         poll_fds[n_poll_fds + i].fd =3D (DWORD_PTR)w->events[i];
 --=20
 1.8.3.1
 
