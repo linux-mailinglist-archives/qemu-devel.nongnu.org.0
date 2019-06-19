@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACC84C1F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 22:00:55 +0200 (CEST)
-Received: from localhost ([::1]:41556 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1064C241
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 22:19:31 +0200 (CEST)
+Received: from localhost ([::1]:41700 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdglK-0006NO-Ez
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 16:00:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55980)
+	id 1hdh3K-0001m7-FH
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 16:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35347)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hdgYp-0003v7-7P
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:48:01 -0400
+ (envelope-from <armbru@redhat.com>) id 1hdgv9-0004K6-Rd
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hdgYk-00066T-TB
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:47:56 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:54961)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hdgYj-0005aH-RU
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:47:54 -0400
-Received: by mail-wm1-x344.google.com with SMTP id g135so687321wme.4
- for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 12:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tCyaA/37lVkaqonlS+tvjCwQYalKW2S3rd3JDUZadC8=;
- b=BNSXM843/luvjaSm/D1+syXE24C/jWC2fPMxHBn9sYEedIJWsvmFBJKD8WMek9QjRC
- 3DxU0dOHRI2/23vFwpHRb+mSVN6Nzo21ONg/s7GjvcSOjnBvWs9m773qTGBxmSJAGU/i
- R+76orE0tGdUlPKn8vpR5TywQYnqR37fT5YBvPF9O0IJpeTVUu/EdWyTd7HZKWsWpzZA
- /0bv6Bc2AAYTjRp6q6JDQGJD/MgUMJa2AJ6cGFpF/gQcquTZD8tR6YaDjSfplQbzrfoe
- TqANVBYhRXIINu7cokFklOViFnI4ESzQHFshBjjxe4ljekXKbjsO5//Lr2SUbENOKirI
- M8Cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tCyaA/37lVkaqonlS+tvjCwQYalKW2S3rd3JDUZadC8=;
- b=i+4qMdefog8uLG6tR3QO+0UN5+JkiMse36KKDch/op21frJr7CXOZY79Jp/EkWjYLZ
- z53nME2WTlduJ5xGVok1piQbo4gR7IFF5VNYOriY4oJVAa4qp7LqccS6wScLNliHm5Pr
- e/F206BJ07RH8N+acqSPAD2axNN9/6JFt9Ol/c52q9iHMYCDBQg95wzmzZdA2YphUDFJ
- 4plDF8Ok/JkJnRpk36ulcdpQIKUVcIz4IQczoWgTORRqUG2WBhgErRv9aI3F9wS3fypP
- c3IvzFD3jaKAlOJ9UM8N0VPcGSOGdasWUj/c+69wPV4gWRBA9+ZWGruq0BlIceulpC0B
- 8LJg==
-X-Gm-Message-State: APjAAAWJ8DLBV1NEenveZ6nSY2ejlt8DU3VJuDRmPUgwAURqNTmyO1lQ
- JY28Qz1avMsymjP64W2O5XHx3A==
-X-Google-Smtp-Source: APXvYqzWSqWq3szr/ylBQ/p9EMY+KRcvy6QAlQRAEFTSqYqj9pSTkQCSohDKbqboocJkFGUfohBC/g==
-X-Received: by 2002:a1c:9c8a:: with SMTP id f132mr9606393wme.29.1560973638685; 
- Wed, 19 Jun 2019 12:47:18 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id n3sm14517578wro.59.2019.06.19.12.47.18
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 19 Jun 2019 12:47:18 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D39391FFA3;
- Wed, 19 Jun 2019 20:40:22 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ (envelope-from <armbru@redhat.com>) id 1hdgv7-00019C-58
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56484)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hdgv5-000112-KN
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:10:59 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8168A89ACB
+ for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 20:10:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-85.ams2.redhat.com
+ [10.36.116.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AF841001B3D;
+ Wed, 19 Jun 2019 20:10:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 82E8611386A0; Wed, 19 Jun 2019 22:10:50 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 20:40:21 +0100
-Message-Id: <20190619194021.8240-18-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190619194021.8240-1-alex.bennee@linaro.org>
-References: <20190619194021.8240-1-alex.bennee@linaro.org>
+Date: Wed, 19 Jun 2019 22:10:33 +0200
+Message-Id: <20190619201050.19040-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v1 17/17] .travis.yml: force a brew update for
- MacOS builds
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Wed, 19 Jun 2019 20:10:52 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 00/17] Move QOM, qdev,
+ machine core and dump code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,36 +57,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It looks like the Travis image package databases are out of date
-causing the build to error with:
+Split qom.json, qdev.json, machine.json, machine-target.json and
+dump.json off misc.json, so MAINTAINERS can cover them properly.
 
-  Error: Your Homebrew is outdated. Please run `brew update`.
-  Error: Kernel.exit
+Move their QMP and HMP code similarly.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .travis.yml | 1 +
- 1 file changed, 1 insertion(+)
+Move some code out of the the tree's root directory to better places.
 
-diff --git a/.travis.yml b/.travis.yml
-index 9750dc905c..a891ce2485 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -43,6 +43,7 @@ addons:
-       - glib
-       - pixman
-       - gnu-sed
-+    update: true
- 
- 
- # The channel name "irc.oftc.net#qemu" is encrypted against qemu/qemu
--- 
-2.20.1
+Markus Armbruster (16):
+  Makefile: Don't add monitor/ twice to common-obj-y
+  hmp: Move hmp.h to include/monitor/
+  qapi: Split qom.json and qdev.json off misc.json
+  qom: Move QMP command handlers to qom/
+  qom: Move HMP command handlers to qom/
+  MAINTAINERS: Merge sections CPU, NUMA into Machine core
+  qapi: Split machine.json off misc.json
+  hw/core: Move numa.c to hw/core/
+  hw/core: Collect QMP command handlers in hw/core/
+  hw/core: Collect HMP command handlers in hw/core/
+  qapi: Split machine-target.json off target.json and misc.json
+  qapi: Rename target.json to misc-target.json
+  qapi: Split dump.json off misc.json
+  dump: Move the code to dump/
+  MAINTAINERS: Add Windows dump to section "Dump"
+  dump: Move HMP command handlers to dump/
+
+Paolo Bonzini (1):
+  MAINTAINERS: new maintainers for QOM
+
+ MAINTAINERS                               |   29 +-
+ Makefile.objs                             |    2 +-
+ Makefile.target                           |    5 +-
+ cpus.c                                    |  187 ---
+ dump/Makefile.objs                        |    3 +
+ dump/dump-hmp-cmds.c                      |   88 ++
+ dump.c =3D> dump/dump.c                     |    4 +-
+ win_dump.c =3D> dump/win_dump.c             |    0
+ win_dump.h =3D> dump/win_dump.h             |    0
+ hw/block/xen-block.c                      |    2 +-
+ hw/core/Makefile.objs                     |    4 +
+ hw/core/machine-hmp-cmds.c                |  164 +++
+ hw/core/machine-qmp-cmds.c                |  328 ++++++
+ numa.c =3D> hw/core/numa.c                  |   64 +-
+ hw/core/qdev.c                            |    2 +-
+ hw/ppc/spapr_rtc.c                        |    2 +-
+ hw/s390x/s390-skeys.c                     |    2 +-
+ hw/timer/mc146818rtc.c                    |    4 +-
+ include/hw/boards.h                       |    1 +
+ hmp.h =3D> include/monitor/hmp.h            |    3 +
+ include/sysemu/dump.h                     |    2 +-
+ include/sysemu/hostmem.h                  |    2 +-
+ include/sysemu/numa.h                     |    2 +
+ monitor/hmp-cmds.c                        |  238 +---
+ monitor/misc.c                            |   47 +-
+ monitor/qmp-cmds.c                        |  315 +----
+ qapi/Makefile.objs                        |    7 +-
+ qapi/dump.json                            |  200 ++++
+ qapi/{target.json =3D> machine-target.json} |  304 +----
+ qapi/machine.json                         |  697 +++++++++++
+ qapi/misc-target.json                     |  268 +++++
+ qapi/misc.json                            | 1304 ---------------------
+ qapi/qapi-schema.json                     |    7 +-
+ qapi/qdev.json                            |  125 ++
+ qapi/qom.json                             |  244 ++++
+ qdev-monitor.c                            |    2 +-
+ qom/Makefile.objs                         |    1 +
+ qom/qom-hmp-cmds.c                        |   62 +
+ qom/qom-qmp-cmds.c                        |  323 +++++
+ target/arm/helper.c                       |    2 +-
+ target/arm/monitor.c                      |    2 +-
+ target/i386/cpu.c                         |    4 +-
+ target/i386/monitor.c                     |    2 +-
+ target/i386/sev_i386.h                    |    2 +-
+ target/mips/helper.c                      |    2 +-
+ target/nios2/monitor.c                    |    2 +-
+ target/ppc/monitor.c                      |    2 +-
+ target/ppc/translate_init.inc.c           |    2 +-
+ target/s390x/cpu.c                        |    2 +-
+ target/s390x/cpu_models.c                 |    2 +-
+ target/s390x/sigp.c                       |    2 +-
+ target/sh4/monitor.c                      |    2 +-
+ target/sparc/monitor.c                    |    2 +-
+ target/xtensa/monitor.c                   |    2 +-
+ vl.c                                      |   45 -
+ 55 files changed, 2629 insertions(+), 2492 deletions(-)
+ create mode 100644 dump/Makefile.objs
+ create mode 100644 dump/dump-hmp-cmds.c
+ rename dump.c =3D> dump/dump.c (99%)
+ rename win_dump.c =3D> dump/win_dump.c (100%)
+ rename win_dump.h =3D> dump/win_dump.h (100%)
+ create mode 100644 hw/core/machine-hmp-cmds.c
+ create mode 100644 hw/core/machine-qmp-cmds.c
+ rename numa.c =3D> hw/core/numa.c (90%)
+ rename hmp.h =3D> include/monitor/hmp.h (98%)
+ create mode 100644 qapi/dump.json
+ rename qapi/{target.json =3D> machine-target.json} (61%)
+ create mode 100644 qapi/machine.json
+ create mode 100644 qapi/misc-target.json
+ create mode 100644 qapi/qdev.json
+ create mode 100644 qapi/qom.json
+ create mode 100644 qom/qom-hmp-cmds.c
+ create mode 100644 qom/qom-qmp-cmds.c
+
+--=20
+2.21.0
 
 
