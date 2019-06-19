@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B5E4B604
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 12:15:59 +0200 (CEST)
-Received: from localhost ([::1]:36546 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879CD4B643
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 12:35:13 +0200 (CEST)
+Received: from localhost ([::1]:36678 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdXdG-000093-CA
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 06:15:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52659)
+	id 1hdXvs-0007Y5-NY
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 06:35:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56562)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hdXcO-0007v9-Ue
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:15:07 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hdXsa-0003f2-07
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:31:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hdXcL-0001Vk-4X
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:15:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36388)
+ (envelope-from <stefanha@redhat.com>) id 1hdXjV-0001kL-Bj
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:22:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34048)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hdXc8-0001D8-8F; Wed, 19 Jun 2019 06:14:48 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1hdXjT-0001hn-T4; Wed, 19 Jun 2019 06:22:24 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 68BC03087929;
- Wed, 19 Jun 2019 10:14:30 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1F59C30811C7;
+ Wed, 19 Jun 2019 10:22:13 +0000 (UTC)
 Received: from localhost (unknown [10.36.118.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4432E1001E81;
- Wed, 19 Jun 2019 10:14:23 +0000 (UTC)
-Date: Wed, 19 Jun 2019 11:14:14 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A44895C220;
+ Wed, 19 Jun 2019 10:22:05 +0000 (UTC)
+Date: Wed, 19 Jun 2019 11:21:58 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Maxim Levitsky <mlevitsk@redhat.com>
-Message-ID: <20190619101414.GA13569@stefanha-x1.localdomain>
+Message-ID: <20190619102158.GB13569@stefanha-x1.localdomain>
 References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
- <20190610134905.22294-5-mehta.aaru20@gmail.com>
- <81e4ab9b07d5678a3a28e1314c07ee0224e4d9ed.camel@redhat.com>
+ <20190610134905.22294-6-mehta.aaru20@gmail.com>
+ <86a8e88792be3df0b16277ac762865abb411f490.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
+ protocol="application/pgp-signature"; boundary="/WwmFnJnmDyWGHa4"
 Content-Disposition: inline
-In-Reply-To: <81e4ab9b07d5678a3a28e1314c07ee0224e4d9ed.camel@redhat.com>
+In-Reply-To: <86a8e88792be3df0b16277ac762865abb411f490.camel@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Wed, 19 Jun 2019 10:14:33 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Wed, 19 Jun 2019 10:22:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 04/12] block/io_uring: implements
- interfaces for io_uring
+Subject: Re: [Qemu-devel] [PATCH v5 05/12] stubs: add stubs for io_uring
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,166 +69,93 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---J2SCkAp4GZ/dPZZf
+--/WwmFnJnmDyWGHa4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 17, 2019 at 03:26:50PM +0300, Maxim Levitsky wrote:
+On Mon, Jun 17, 2019 at 03:33:01PM +0300, Maxim Levitsky wrote:
 > On Mon, 2019-06-10 at 19:18 +0530, Aarushi Mehta wrote:
-> > +        if (!cqes) {
-> > +            break;
-> > +        }
-> > +        LuringAIOCB *luringcb =3D io_uring_cqe_get_data(cqes);
-> > +        ret =3D cqes->res;
+> > diff --git a/stubs/io_uring.c b/stubs/io_uring.c
+> > new file mode 100644
+> > index 0000000000..622d1e4648
+> > --- /dev/null
+> > +++ b/stubs/io_uring.c
+> > @@ -0,0 +1,32 @@
+> > +/*
+> > + * Linux io_uring support.
+> > + *
+> > + * Copyright (C) 2009 IBM, Corp.
+> > + * Copyright (C) 2009 Red Hat, Inc.
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or =
+later.
+> > + * See the COPYING file in the top-level directory.
+> > + */
+> > +#include "qemu/osdep.h"
+> > +#include "block/aio.h"
+> > +#include "block/raw-aio.h"
 > > +
-> > +        if (ret =3D=3D luringcb->qiov->size) {
-> > +            ret =3D 0;
-> > +        } else if (ret >=3D 0) {
->=20
->=20
-> You should very carefully check the allowed return values here.
->=20
-> It looks like you can get '-EINTR' here, which would ask you to rerun the=
- read operation, and otherwise
-> you will get the number of bytes read, which might be less that what was =
-asked for, which implies that you
-> need to retry the read operation with the remainder of the buffer rather =
-that zero the end of the buffer IMHO=20
->=20
-> (0 is returned on EOF according to 'read' semantics, which I think are us=
-ed here, thus a short read might not be an EOF)
->=20
->=20
-> Looking at linux-aio.c though I do see that it just passes through the re=
-turned value with no special treatments.=20
-> including lack of check for -EINTR.
->=20
-> I assume that since aio is linux specific, and it only supports direct IO=
-, it happens
-> to have assumption of no short reads/-EINTR (but since libaio has very sp=
-arse documentation I can't verify this)
->=20
-> On the other hand the aio=3Dthreads implementation actually does everythi=
-ng as specified on the 'write' manpage,
-> retrying the reads on -EINTR, and doing additional reads if less that req=
-uired number of bytes were read.
->=20
-> Looking at io_uring implementation in the kernel I see that it does suppo=
-rt synchronous (non O_DIRECT mode),=20
-> and in this case, it goes through the same ->read_iter which is pretty mu=
-ch the same path that=20
-> regular read() takes and so it might return short reads and or -EINTR.
-
-Interesting point.  Investigating EINTR should at least be a TODO
-comment and needs to be resolved before io_uring lands in a QEMU
-release.
-
-> > +static int ioq_submit(LuringState *s)
+> > +void luring_detach_aio_context(LuringState *s, AioContext *old_context)
 > > +{
-> > +    int ret =3D 0;
-> > +    LuringAIOCB *luringcb, *luringcb_next;
+> > +    abort();
+> > +}
 > > +
-> > +    while (s->io_q.in_queue > 0) {
-> > +        QSIMPLEQ_FOREACH_SAFE(luringcb, &s->io_q.sq_overflow, next,
-> > +                              luringcb_next) {
->=20
-> I am torn about the 'sq_overflow' name. it seems to me that its not immed=
-iately clear that these
-> are the requests that are waiting because the io uring got full, but I ca=
-n't now think of a better name.
->=20
-> Maybe add a comment here to explain what is going on here?
-
-Hmm...I suggested this name because I thought it was clear.  But the
-fact that it puzzled you proves it wasn't clear :-).
-
-Can anyone think of a better name?  It's the queue we keep in QEMU to
-hold requests while the io_uring sq ring is full.
-
-> Also maybe we could somehow utilize the plug/unplug facility to avoid rea=
-ching that state in first place?
-> Maybe the block layer has some kind of 'max outstanding requests' limit t=
-hat could be used?
->=20
-> In my nvme-mdev I opted to not process the input queues when such a condi=
-tion is detected, but here you can't as the block layer
-> pretty much calls you to process the requests.
-
-Block layer callers are allowed to submit as many I/O requests as they
-like and there is no feedback mechanism.  It's up to linux-aio.c and
-io_uring.c to handle the case where host kernel I/O submission resources
-are exhausted.
-
-Plug/unplug is a batching performance optimization to reduce the number
-of io_uring_enter() calls but it does not stop the callers from
-submitting more I/O requests.  So plug/unplug isn't directly applicable
-here.
-
-> > +static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState=
- *s,
-> > +                            uint64_t offset, int type)
+> > +void luring_attach_aio_context(LuringState *s, AioContext *new_context)
 > > +{
-> > +    struct io_uring_sqe *sqes =3D io_uring_get_sqe(&s->ring);
-> > +    if (!sqes) {
-> > +        sqes =3D &luringcb->sqeq;
-> > +        QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
-> > +    }
+> > +    abort();
+> > +}
 > > +
-> > +    switch (type) {
-> > +    case QEMU_AIO_WRITE:
-> > +        io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
-> > +                             luringcb->qiov->niov, offset);
-> > +        break;
-> > +    case QEMU_AIO_READ:
-> > +        io_uring_prep_readv(sqes, fd, luringcb->qiov->iov,
-> > +                            luringcb->qiov->niov, offset);
-> > +        break;
-> > +    case QEMU_AIO_FLUSH:
-> > +        io_uring_prep_fsync(sqes, fd, 0);
-> > +        break;
-> > +    default:
-> > +        fprintf(stderr, "%s: invalid AIO request type, aborting 0x%x.\=
-n",
-> > +                        __func__, type);
+> > +LuringState *luring_init(Error **errp)
+> > +{
+> > +    abort();
+> > +}
+> > +
+> > +void luring_cleanup(LuringState *s)
+> > +{
+> > +    abort();
+> > +}
 >=20
-> Nitpick: Don't we use some king of error printing functions like 'error_s=
-etg' rather that fprintf?
+> I do wonder if there is any value in these stubs (and linux aio stubs as =
+well) since any attempt to use this
+> will abort the test, even basic aio initialization.
+>=20
+> I am not yet familiar with qemu unit tests, so I won't yet put ack on thi=
+s patch.
 
-Here we're not in a context where an Error object can be returned (e.g.
-printed by the QMP monitor).  We only have an errno return value that
-the emulated storage controller may squash down further to a single
-EIO-type error code.
+=46rom docs/devel/build-system.txt:
 
-'type' is a QEMU-internal value so the default case is basically
-assert(false); /* we should never get here */
+  The utility code that is used by all binaries is built into a
+  static archive called libqemuutil.a, which is then linked to all the
+  binaries. In order to provide hooks that are only needed by some of the
+  binaries, code in libqemuutil.a may depend on other functions that are
+  not fully implemented by all QEMU binaries.  Dummy stubs for all these
+  functions are also provided by this library, and will only be linked
+  into the binary if the real implementation is not present.  In a way,
+  the stubs can be thought of as a portable implementation of the weak
+  symbols concept.
 
-For these reasons the fprintf() seems okay here.
-
-> I plan on this or next week to do some benchmarks of the code and I will =
-share the results as soon
-> as I do them.
-
-Excellent, Aarushi has been benchmarking too.  Perhaps you can share the
-QEMU command-line and fio configuration so that the results can be
-compared.
+Take util/async.c as an example.  It calls laio_init(), which lives in
+block/.  But our binary using libqemuutil.a (which contains async.o)
+never actually calls into it.  We need to a stub just to make the linker
+happy but don't worry, it will never be called by the program.
 
 Stefan
 
---J2SCkAp4GZ/dPZZf
+--/WwmFnJnmDyWGHa4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0KCvYACgkQnKSrs4Gr
-c8gdrggAvtksFXDYkb9KIbSgcMi7SYNTBy5rqoH2jkp8yC5abL1LyURRGl/6rzWL
-Q/OOS5Jy9o+g931pb3wmC99qnHc2XcqGlR4NUSThpG8pkKVUo9dvxJjKuT4MKdqx
-KEDavuSDZiRwaTHcoKafmAeUA6jpP0knTrmC2AQoD7AsDMWoVbLj3bgkZinnCVim
-dmSM7UCyhKsNiJZzXuHrFqiooC/GZuDgGqW812EpxC/yKrDqmF54RiQ5uRwBk/Cp
-rCmWKAG4RoomMp7MJU2gjS9LHzR5EK3mYuoRdafqitkSLkymmsRs9W4QKlfDG+HJ
-z+J5JLotlDaD48H6mbYqNuND9vkEdg==
-=cGpn
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0KDMYACgkQnKSrs4Gr
+c8jaTAf/TlmmZn1TZvv7F7CXE1I1pkAaI1unqU97Ta71a7wnVjdL9cuoevRHW0tu
+2FsBsiOe3pnzXIaF0qiWdi6mSEnnuwqNArO2EuuFh1HhJESGJksJ4tQEIN5F52/+
+2LywmuGQWwu9s+gwNCpdGOi4DnPvisDCZwjO9Uo01DREkIJ/mi9gFMF+mcXqbRQH
+ujtL1AbgzAOazCKKJf+cEhDfbqAz3WfBwFp/v3G1CZndIGcaNkImD2aIkNgjR55B
+UodDdoLWZO6ChFvT4vgDe+HVZoV+EvjSGy6x6yMN3hH8juJ1DQsp/rom9D69yV7P
+hsPfH4GBf3KndsL1KfM8SqG34A2HXQ==
+=r6X2
 -----END PGP SIGNATURE-----
 
---J2SCkAp4GZ/dPZZf--
+--/WwmFnJnmDyWGHa4--
 
