@@ -2,54 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005EB4C42A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 01:50:39 +0200 (CEST)
-Received: from localhost ([::1]:42578 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE034C43A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 01:55:27 +0200 (CEST)
+Received: from localhost ([::1]:42614 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdkLe-0006M1-B2
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 19:50:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54049)
+	id 1hdkQI-0002mE-VL
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 19:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lersek@redhat.com>) id 1hdkJ5-00052u-2R
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:48:00 -0400
+ (envelope-from <maran.wilson@oracle.com>) id 1hdkOC-0001hV-1G
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:53:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lersek@redhat.com>) id 1hdkBd-0001DA-7e
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:40:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54190)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hdkBZ-00015A-9x
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:40:14 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 14647307D910;
- Wed, 19 Jun 2019 23:40:10 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-116-91.ams2.redhat.com
- [10.36.116.91])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74D6019C5B;
- Wed, 19 Jun 2019 23:40:09 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190614202333.19355-1-lersek@redhat.com>
- <CAFEAcA9PcTTagxUcxba-_qFsC97T6uEe927akjj-G4na22rf6g@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <eecc2b21-c860-9071-4322-a9fbb40a40e1@redhat.com>
-Date: Thu, 20 Jun 2019 01:40:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.9.1
+ (envelope-from <maran.wilson@oracle.com>) id 1hdkO9-00023q-U5
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:53:15 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:32780)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <maran.wilson@oracle.com>)
+ id 1hdkO9-00021J-K2
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:53:13 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JNnZXI076903;
+ Wed, 19 Jun 2019 23:53:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2018-07-02;
+ bh=juZE9Qg2p6QoV0FADmXwZn45FspqngSNBEE+z0aiHAE=;
+ b=n6+72eiI8B1UIGb08xvUPZz2XxuTbdrLFsVEu7FHkUN/7gz6NlvcDkqo8gKT8Ja5iZQR
+ v4vxA8R2a0LmBkgn2H2+59zQ42SMhThbEmKzT45l4XXh7Xl+d2amHUF4TSe8dwCHjdHP
+ oqAHvAYFeP3QwKiUAMIGs1JccBwH93PtCIL4k6+1FEuZ4Gt6K0i5e8CZMVK2tH2oiGVj
+ SHHhF4ZmIfn3l0+n9umXuclcKMZaeIhgZIVP20Y3y5Jmu8PJfgh0orwz2ai6hZbN5Pwh
+ C+1Xvr8N+1SY46SvJa4EGvAQgJFs8AJkKssrWg0FJ+P2PF3vltz49/PXbrFvzCnsL90X Iw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2t7809e4bj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Jun 2019 23:53:04 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JNpdDg106385;
+ Wed, 19 Jun 2019 23:53:03 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 2t77ync13w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Jun 2019 23:53:03 +0000
+Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5JNr1KK008938;
+ Wed, 19 Jun 2019 23:53:01 GMT
+Received: from [10.159.140.81] (/10.159.140.81)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 19 Jun 2019 16:53:01 -0700
+To: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
+References: <20190619162140.133674-1-liran.alon@oracle.com>
+ <20190619162140.133674-11-liran.alon@oracle.com>
+From: Maran Wilson <maran.wilson@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <5ae979fd-39e0-50e2-df53-c6f70f939dd2@oracle.com>
+Date: Wed, 19 Jun 2019 16:52:59 -0700
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9PcTTagxUcxba-_qFsC97T6uEe927akjj-G4na22rf6g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20190619162140.133674-11-liran.alon@oracle.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 19 Jun 2019 23:40:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 0/6] update edk2 submodule & binaries to
- edk2-stable201905
+Content-Language: en-US
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906190193
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906190193
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: Re: [Qemu-devel] [QEMU PATCH v4 10/10] target/i386: kvm: Add nested
+ migration blocker only when kernel lacks required capabilities
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,46 +95,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mtosatti@redhat.com,
+ dgilbert@redhat.com, pbonzini@redhat.com, jmattson@google.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/17/19 12:54, Peter Maydell wrote:
-> On Fri, 14 Jun 2019 at 21:25, Laszlo Ersek <lersek@redhat.com> wrote:
->>
->> The following changes since commit f3d0bec9f80e4ed7796fffa834ba0a53f2094f7f:
->>
->>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-06-14' into staging (2019-06-14 14:46:13 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/lersek/qemu.git tags/edk2-pull-2019-06-14
->>
->> for you to fetch changes up to 541617cad3445fdc6735e9e5752e1f698e337737:
->>
->>   pc-bios: update the README file with edk2-stable201905 information (2019-06-14 21:48:00 +0200)
->>
->> ----------------------------------------------------------------
->> edk2-stable201905 was released on 2019-06-06:
->>
->>   https://github.com/tianocore/edk2/releases/tag/edk2-stable201905
->>
->> Advance QEMU's edk2 submodule to edk2-stable201905, and rebuild the
->> firmware binaries. This should be the edk2 release that goes into QEMU
->> 4.1.
->>
->> Launchpad: https://bugs.launchpad.net/qemu/+bug/1831477
-> 
-> 
-> Applied, thanks.
+On 6/19/2019 9:21 AM, Liran Alon wrote:
+> Previous commits have added support for migration of nested virtualization
+> workloads. This was done by utilising two new KVM capabilities:
+> KVM_CAP_NESTED_STATE and KVM_CAP_EXCEPTION_PAYLOAD. Both which are
+> required in order to correctly migrate such workloads.
+>
+> Therefore, change code to add a migration blocker for vCPUs exposed with
+> Intel VMX or AMD SVM in case one of these kernel capabilities is
+> missing.
+>
+> Signed-off-by: Liran Alon <liran.alon@oracle.com>
+> ---
+>   target/i386/kvm.c | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index 99480a52ad33..a3d0fbed3b35 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -1313,9 +1313,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
+>                                     !!(c->ecx & CPUID_EXT_SMX);
+>       }
+>   
+> -    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker) {
+> +    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker &&
+> +        ((kvm_max_nested_state_length() <= 0) || !has_exception_payload)) {
+>           error_setg(&nested_virt_mig_blocker,
+> -                   "Nested virtualization does not support live migration yet");
+> +                   "Kernel do not provide required capabilities for "
 
-Thanks!
+s/do/does/
 
-> 
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-> for any user-visible changes.
+And with that change:
 
-Done.
+Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
 
-Laszlo
+Thanks,
+-Maran
+
+
+> +                   "nested virtualization migration. "
+> +                   "(CAP_NESTED_STATE=%d, CAP_EXCEPTION_PAYLOAD=%d)",
+> +                   kvm_max_nested_state_length() > 0,
+> +                   has_exception_payload);
+>           r = migrate_add_blocker(nested_virt_mig_blocker, &local_err);
+>           if (local_err) {
+>               error_report_err(local_err);
+
 
