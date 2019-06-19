@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF574B396
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 10:06:46 +0200 (CEST)
-Received: from localhost ([::1]:35740 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E384B37A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 09:58:43 +0200 (CEST)
+Received: from localhost ([::1]:35668 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdVcD-0002Dh-8V
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 04:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38444)
+	id 1hdVUQ-0006Ih-75
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 03:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36887)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david.brenken@efs-auto.org>) id 1hdVXu-0000eh-ME
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:02:24 -0400
+ (envelope-from <david.brenken@efs-auto.org>) id 1hdVSv-0005U1-L8
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 03:57:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.brenken@efs-auto.org>) id 1hdVXs-0003fg-I9
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:02:18 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:47333)
+ (envelope-from <david.brenken@efs-auto.org>) id 1hdVSu-0008PP-OX
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 03:57:09 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:37495)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <david.brenken@efs-auto.org>)
- id 1hdVXr-0003dj-B5
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:02:16 -0400
+ id 1hdVSu-0008NI-FM
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 03:57:08 -0400
 Received: from localhost.localdomain ([178.239.76.114]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MEC8L-1hn6Ns3Tz3-00AF8V; Wed, 19 Jun 2019 09:57:01 +0200
+ id 1MWR6x-1i6HfJ03h5-00Xr3V; Wed, 19 Jun 2019 09:57:02 +0200
 From: David Brenken <david.brenken@efs-auto.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 09:56:42 +0200
-Message-Id: <20190619075643.10048-5-david.brenken@efs-auto.org>
+Date: Wed, 19 Jun 2019 09:56:43 +0200
+Message-Id: <20190619075643.10048-6-david.brenken@efs-auto.org>
 X-Mailer: git-send-email 2.16.1.windows.4
 In-Reply-To: <20190619075643.10048-1-david.brenken@efs-auto.org>
 References: <20190619075643.10048-1-david.brenken@efs-auto.org>
-X-Provags-ID: V03:K1:RBp7AlXiKVnBwJVc9JIlr+5H2M879qwb8M5GWY/goKg0AJN3Cih
- m2iH6B2JhwbmaUYrjXr+6Z6OpHPLjGKVXwdalwBdyP6pN4XJvZ4udIiYX8Q7Rva4Dr/1QWE
- bhu0WWudsQJhZ8usPgs6Otb+ej/k6CkWJU6q8T3ZGUbXJbuGdLy/Z8uVhBGNFkcK81GitDe
- KKGA5SgTkGyGJjf9yCStA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0j/myy9gUSQ=:byLOeOq/O2R/nWB8+GQU++
- UVMSXggal/+8XZvD6ijbP+csBXYAJo+fU/JyUNsPOysO5GNWO4C5XD3TQ6Nw4YTew8cemw7Dk
- GnEapWeh0ebZIXnx3OlirzkCQva0x67Ig5JLm5nQchglRAwt903zl7G3qEUCdJBCk9XwObSWU
- n25sKh6t72Z0daGviMb1GlFoVjul7NhtT3KTxDPibXKL0fi1eHKyYoqztFQRY46AVav8xEGja
- tMREj7NART0N7uQNiZbh6TUsXuG87rir6+IWk9ewKt6lSyY6wi4yZYC9EKPCRMdoswCaKhGtM
- dMQzYRJqV2+lmxokT0f5oPkhJQEm5JRpPU3QAj9rzOCJAqnfuTDw+RZTBxfzdvNcYZbjnBLRC
- X7K+paE5mfca/+G1BdRYHG/1/fsSzIP0jyrkWepORjsPvLvc2Jd2Lr0vZKgdxe1zg6rPL6DOY
- pEg5CAoWE9fzZzdKpzCz1TseS8LPEbmohgD1Tt59alOiuyA0Ing2lBuio62cEbpZnvHwAQLSZ
- sCq8gQ6+EsEocU7onQ5pcShJJ/CQbwwmpxceObKEiYxQLcC3duSD80+YAKj+DuPDUrbqPwwoS
- tEXtwgo3ICkRfNWCgAhWw9WHKpFUkZ2LuYdcTED2H3pQNRHJPoWssPlN64Xiaf4c+ScKdcaf3
- MicoFxFfAHHEwrmWXSFEtj0gHV931zsqLE+FDL7s0PzIL+q27iubxWbvl/lWuxJQIExDssNUi
- sB7rnoAreTuIwkA03hEN4OWFEfMXR8d/r5Aw4vgdFH1ToQ4UtgVQEzjtPVk=
+X-Provags-ID: V03:K1:PMFTec9NeBKgCgCz6Vc23UuJa7y917vhJp6wGTFXYhxV8r3djs3
+ Avo/xf0kJzMmClJq0rouVraCucfUFb3kr1uvmFZkMH/RNayMU2qzw9leQDv/HDO331BDO5L
+ 63dv+B93Kz4myUMJtTt78XtyG8HjUJwAL0HEKJGX0vfOEfrrLStkjReAerme40O57VChitm
+ rxYhwCJp6XOcF8lnY5jPA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:94Rzijg9NAY=:pLskoi0Wcj3+KRw3fV6pmo
+ gzB3N8F4VOzxIj+2Ymx1cBC5BdQF4Bw4GGAaWgMFCc2boZQsVHhNlKozGxd/X1J6VN3rDRW4S
+ unEWPQ80vcm4CGajTcO8eUa8SGNxjGO2gAcUZuyOqCYMZ7C7MFWyLHwecJvQmgFZ8qrIojYos
+ dTbLjebff2Ss1rsoIwMuUXKCQskyzOcW3r7D8wppn5A7W6v706+MwpN/+U4nBKQYRl6q7JD7b
+ FfbjUIV5/olHL5wqYJshJ9TebmbaHTp/7OZ43c6k4FXFRnrgaVyRc+IXtxDrqfQWHfwNKV2zQ
+ mFXWDS+u7aNX1rkkVQNvzzTxFQEAy5gWE8AaVPcq5mi+ZXv41+2XylIGufnCj4djuYKzqVVTd
+ ctFn+G0qZf/YBOp7Tx1l0gHzEmLmEVVZflvXrMFGyRgFLm+BkmT2/SjjhY89F8gW87THrvS9L
+ z/9Fn7x1UOOyJ962o2L00CHxbK0d3FyzlzgQHrdmWPpY2T8yuRim5Ypz3LXChgl2/muvoB2N0
+ A38n0ha4UWQhO4C//v6JCJ5GNCKfYIGG5F8XP9etQk4TnnHZC4WkUtWxg8sA5+f6D08AQR6B1
+ P9cSKlKieh6hBQEm4qM+92GmBwjbB8iMmp4YkI3nU+U8poddnSb0r6ut0XSqByAt5q854drLa
+ m2XyFDujPnIrbSQFQTTVzKy50WeMF5R9Yclql4quV0GAx1ri7y8PLbFx4Icw7Q0rUplfAtguw
+ fiFreiqVe32XkUPWh2SeJpCoB9bgD8mB4j6SW/LRlk+FlRJrm4R57XHvwU8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.134
-Subject: [Qemu-devel] [PATCH v2 4/5] tricore: add QSEED instruction
+Subject: [Qemu-devel] [PATCH v2 5/5] tricore: reset DisasContext before
+ generating code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,7 +71,7 @@ Cc: kbastian@mail.uni-paderborn.de,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andreas Konopik <andreas.konopik@efs-auto.de>
+From: Georg Hofstetter <georg.hofstetter@efs-auto.de>
 
 Signed-off-by: Andreas Konopik <andreas.konopik@efs-auto.de>
 Signed-off-by: David Brenken <david.brenken@efs-auto.de>
@@ -78,147 +79,21 @@ Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
 Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
 Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
 ---
- target/tricore/fpu_helper.c | 85 +++++++++++++++++++++++++++++++++++++
- target/tricore/helper.h     |  1 +
- target/tricore/translate.c  |  3 ++
- 3 files changed, 89 insertions(+)
+ target/tricore/translate.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/tricore/fpu_helper.c b/target/tricore/fpu_helper.c
-index 432079c8e2..a0bbc6a95b 100644
---- a/target/tricore/fpu_helper.c
-+++ b/target/tricore/fpu_helper.c
-@@ -24,6 +24,7 @@
- 
- #define QUIET_NAN 0x7fc00000
- #define ADD_NAN   0x7fc00001
-+#define SQRT_NAN  0x7fc00004
- #define DIV_NAN   0x7fc00008
- #define MUL_NAN   0x7fc00002
- #define FPU_FS PSW_USB_C
-@@ -32,6 +33,9 @@
- #define FPU_FZ PSW_USB_AV
- #define FPU_FU PSW_USB_SAV
- 
-+#define float32_sqrt_nan make_float32(SQRT_NAN)
-+#define float32_quiet_nan make_float32(QUIET_NAN)
-+
- /* we don't care about input_denormal */
- static inline uint8_t f_get_excp_flags(CPUTriCoreState *env)
- {
-@@ -166,6 +170,87 @@ uint32_t helper_fmul(CPUTriCoreState *env, uint32_t r1, uint32_t r2)
- 
- }
- 
-+/*
-+ * Target TriCore QSEED.F significand Lookup Table
-+ *
-+ * The QSEED.F output significand depends on the least-significant
-+ * exponent bit and the 6 most-significant significand bits.
-+ *
-+ * IEEE 754 float datatype
-+ * partitioned into Sign (S), Exponent (E) and Significand (M):
-+ *
-+ * S   E E E E E E E E   M M M M M M ...
-+ *    |             |               |
-+ *    +------+------+-------+-------+
-+ *           |              |
-+ *          for        lookup table
-+ *      calculating     index for
-+ *        output E       output M
-+ *
-+ * This lookup table was extracted by analyzing QSEED output
-+ * from the real hardware
-+ */
-+
-+static const uint8_t target_qseed_significand_table[128] = {
-+    253, 252, 245, 244, 239, 238, 231, 230, 225, 224, 217, 216,
-+    211, 210, 205, 204, 201, 200, 195, 194, 189, 188, 185, 184,
-+    179, 178, 175, 174, 169, 168, 165, 164, 161, 160, 157, 156,
-+    153, 152, 149, 148, 145, 144, 141, 140, 137, 136, 133, 132,
-+    131, 130, 127, 126, 123, 122, 121, 120, 117, 116, 115, 114,
-+    111, 110, 109, 108, 103, 102, 99, 98, 93, 92, 89, 88, 83,
-+    82, 79, 78, 75, 74, 71, 70, 67, 66, 63, 62, 59, 58, 55,
-+    54, 53, 52, 49, 48, 45, 44, 43, 42, 39, 38, 37, 36, 33,
-+    32, 31, 30, 27, 26, 25, 24, 23, 22, 19, 18, 17, 16, 15,
-+    14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2
-+};
-+
-+uint32_t helper_qseed(CPUTriCoreState *env, uint32_t r1)
-+{
-+    uint32_t arg1, S, E, M, E_minus_one, m_idx;
-+    uint32_t new_E, new_M, new_S, result;
-+
-+    arg1 = make_float32(r1);
-+
-+    /* fetch IEEE-754 fields S, E and the uppermost 6-bit of M */
-+    S = extract32(arg1, 31, 1);
-+    E = extract32(arg1, 23, 8);
-+    M = extract32(arg1, 17, 6);
-+
-+    if (float32_is_any_nan(arg1)) {
-+        result = float32_quiet_nan;
-+    } else if (float32_is_zero_or_denormal(arg1)) {
-+        if (float32_is_neg(arg1)) {
-+            result = float32_infinity | (1 << 31);
-+        } else {
-+            result = float32_infinity;
-+        }
-+    } else if (float32_is_neg(arg1)) {
-+        result = float32_sqrt_nan;
-+    } else if (float32_is_infinity(arg1)) {
-+        result = float32_zero;
-+    } else {
-+        E_minus_one = E - 1;
-+        m_idx = ((E_minus_one & 1) << 6) | M;
-+        new_S = S;
-+        new_E = 0xBD - E_minus_one / 2;
-+        new_M = target_qseed_significand_table[m_idx];
-+
-+        result = 0;
-+        result = deposit32(result, 31, 1, new_S);
-+        result = deposit32(result, 23, 8, new_E);
-+        result = deposit32(result, 15, 8, new_M);
-+    }
-+
-+    if (float32_is_any_nan(arg1) || result == float32_sqrt_nan) {
-+        env->FPU_FI = 1;
-+        env->FPU_FS = 1;
-+    } else {
-+        env->FPU_FS = 0;
-+    }
-+
-+    return (uint32_t) result;
-+}
-+
- uint32_t helper_fdiv(CPUTriCoreState *env, uint32_t r1, uint32_t r2)
- {
-     uint32_t flags;
-diff --git a/target/tricore/helper.h b/target/tricore/helper.h
-index f1a5cb367e..b64780c37d 100644
---- a/target/tricore/helper.h
-+++ b/target/tricore/helper.h
-@@ -109,6 +109,7 @@ DEF_HELPER_3(fdiv, i32, env, i32, i32)
- DEF_HELPER_4(fmadd, i32, env, i32, i32, i32)
- DEF_HELPER_4(fmsub, i32, env, i32, i32, i32)
- DEF_HELPER_3(fcmp, i32, env, i32, i32)
-+DEF_HELPER_2(qseed, i32, env, i32)
- DEF_HELPER_2(ftoi, i32, env, i32)
- DEF_HELPER_2(itof, i32, env, i32)
- DEF_HELPER_2(utof, i32, env, i32)
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 5d4febf1c0..b3bfb3ca51 100644
+index b3bfb3ca51..8f90c76d35 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -6750,6 +6750,9 @@ static void decode_rr_divide(CPUTriCoreState *env, DisasContext *ctx)
-     case OPC2_32_RR_UTOF:
-         gen_helper_utof(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
-         break;
-+    case OPC2_32_RR_QSEED_F:
-+        gen_helper_qseed(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
-+        break;				
-     case OPC2_32_RR_FTOIZ:
-         gen_helper_ftoiz(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
-         break;
+@@ -8806,6 +8806,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+     target_ulong pc_start;
+     int num_insns = 0;
+ 
++    memset(&ctx, 0x00, sizeof(DisasContext));
+     pc_start = tb->pc;
+     ctx.pc = pc_start;
+     ctx.saved_pc = -1;
 -- 
 2.22.0.windows.1
 
