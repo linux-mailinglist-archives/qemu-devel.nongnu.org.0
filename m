@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9364B683
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 12:52:24 +0200 (CEST)
-Received: from localhost ([::1]:36802 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63184B694
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 12:59:26 +0200 (CEST)
+Received: from localhost ([::1]:36868 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdYCW-0005Nh-1T
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 06:52:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60878)
+	id 1hdYJJ-0000Rz-Vj
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 06:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34962)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hdYA5-00044t-TL
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:49:56 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hdYIJ-0008QF-Hc
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:58:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hdYA3-0003B2-7C
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:49:53 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:41370)
+ (envelope-from <palmer@dabbelt.com>) id 1hdYII-0003CZ-D2
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:58:23 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:35622)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hdYA1-00033Q-0b
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:49:50 -0400
-Received: by mail-pl1-f194.google.com with SMTP id m7so3464241pls.8
- for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 03:49:42 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hdYII-0003BQ-5Q
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:58:22 -0400
+Received: by mail-pg1-f193.google.com with SMTP id s27so9472263pgl.2
+ for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 03:58:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
  :mime-version:content-transfer-encoding;
- bh=cO+uD4tBxnTjM9TJE7p2YYiyVobc6x86e1frLVztAEw=;
- b=StWU6GK/7S8SxcnSl50XaFIQn/TABybmW2keyxPX/hahUPFI6WUZ0j66HYVXAFKVZe
- 7YZsTRcCGa1qaMVXQ4VUcnRKeD01RTK5kNOB0wOIiz3c0VLKBTNnGEQ6FGxDQUlB/H79
- FBJ7V1d3TWVxwP/ExBSbz+No+Cccc8msvRZ24OlobqKYp1nF2kMnQzYX4NrKq/iPtHWw
- T21jAUmwS4KDqGNOhIvyPECm9ChmBo0uyR1scpcJykDplDhYZwMvF4BxxD15cMtJ1DNQ
- GIwXngQXW0BmKrtXk25eUyVZNXMfpYU/a8KOWbwstmTEmpBI3C40kG8EdJ538ku9GdLe
- U57A==
-X-Gm-Message-State: APjAAAVqgilgFGtl5RJPHiVoiJnip/PhIOkg053SH5ThjQtaIkmdba3G
- u1k7YSqDEnZTY5YoeYEKmaSdCA==
-X-Google-Smtp-Source: APXvYqxBVJ3OwPKMzyVrpF4E+z2snQn5sGC5CMn8g80rMe/hYYJrLUP5b5L6/xTh0XsGOx7HT7gZaw==
-X-Received: by 2002:a17:902:f301:: with SMTP id
- gb1mr62608977plb.292.1560941381295; 
- Wed, 19 Jun 2019 03:49:41 -0700 (PDT)
+ bh=ug1+sTIOcguDXuV47ig3Ir+RrALqTw3KtFfEeZbCNWI=;
+ b=aYlQ9YJiyPJhrbs8L0ISiAJ6K9vQsjigniNX8RKuN27fxS4v/sZpFW+aLAxqwp3f7j
+ iYMROra4YZ+CaEYdAiR3ZQuoyBSmaGYcYqqkS6L8T+CiOIQytoONFfgvAaxDqwTETtHz
+ /3JsaTOykOkem6sLAi0EhZLeWsdxHveRTSczfmICEweawYcpN4/U9lX4B3GMugYYxRfa
+ FqJ9qlVk4X0JsFtBdVhGr3uCCxXofWkIJui6sUGQmilNGcsYj2Vxd6ibUbbrhb7dcrJT
+ acf2ZIwqdynh/v3FOp63zPJ2sCH4xvE/DqFtW1GZZD93xwieu2U4CFFW5qKZsRlOJKQy
+ kfdw==
+X-Gm-Message-State: APjAAAUx1C9FnuHyxI05dS3e47fsn8bixXTyxWd7oQ2OfdI8sk5YGrGw
+ 9MmXXcroYakjf+CrjMp/gKb7k2aM6U+jLw==
+X-Google-Smtp-Source: APXvYqyldb2X3lyR5+N43hUBL2cV+iEpZP0QBg50+htLuFimO0KvW7ROFDQJuwJiTKvA2ZHDB17hfg==
+X-Received: by 2002:a62:78c2:: with SMTP id
+ t185mr56756419pfc.142.1560941900737; 
+ Wed, 19 Jun 2019 03:58:20 -0700 (PDT)
 Received: from localhost (amx-tls3.starhub.net.sg. [203.116.164.13])
- by smtp.gmail.com with ESMTPSA id p1sm19836410pff.74.2019.06.19.03.49.40
+ by smtp.gmail.com with ESMTPSA id a22sm21898713pfn.173.2019.06.19.03.58.19
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 19 Jun 2019 03:49:40 -0700 (PDT)
-Date: Wed, 19 Jun 2019 03:49:40 -0700 (PDT)
-X-Google-Original-Date: Wed, 19 Jun 2019 03:48:46 PDT (-0700)
-In-Reply-To: <98e88256-7a88-b505-9bde-0836cf21c654@linaro.org>
+ Wed, 19 Jun 2019 03:58:20 -0700 (PDT)
+Date: Wed, 19 Jun 2019 03:58:20 -0700 (PDT)
+X-Google-Original-Date: Wed, 19 Jun 2019 03:54:09 PDT (-0700)
+In-Reply-To: <cover.1560821342.git.alistair.francis@wdc.com>
 From: Palmer Dabbelt <palmer@sifive.com>
-To: richard.henderson@linaro.org
-Message-ID: <mhng-a709557f-be85-4a1e-9f95-d708e95c540e@palmer-si-x1e>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-966cacce-c410-473d-b043-996f3cff9a36@palmer-si-x1e>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.214.194
-Subject: Re: [Qemu-devel] [PATCH v3 33/50] target/riscv: fetch code with
- translator_ld
+X-Received-From: 209.85.215.193
+Subject: Re: [Qemu-devel] [PATCH v1 0/9] Update the RISC-V specification
+ versions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,30 +68,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
- cota@braap.org, Alistair Francis <Alistair.Francis@wdc.com>,
- alex.bennee@linaro.org
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Jun 2019 15:38:45 PDT (-0700), richard.henderson@linaro.org wrote:
-> On 6/14/19 10:11 AM, Alex Bennée wrote:
->> +++ b/target/riscv/translate.c
->> @@ -793,7 +793,7 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
->>      DisasContext *ctx = container_of(dcbase, DisasContext, base);
->>      CPURISCVState *env = cpu->env_ptr;
->>
->> -    ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
->> +    ctx->opcode = translator_ldl(env, ctx->base.pc_next);
+On Mon, 17 Jun 2019 18:31:00 PDT (-0700), Alistair Francis wrote:
+> Based-on: <cover.1555726824.git.alistair.francis@wdc.com>
 >
-> I'll note for the riscv folks that this is an existing bug, reading too much in
-> the case of an RVC instruction.  This could well matter for the last 2-byte
-> instruction at the end of a page.
->
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Now that the RISC-V spec has started to be ratified let's update our
+> QEMU implementation. There are a few things going on here:
+>  - Add priv version 1.11.0 to QEMU
+>     - This is the ratified version of the Privledge spec
+>     - There are almost no changes to 1.10
+>  - Mark the 1.09.1 privledge spec as depreated
+>      - Let's aim to remove it in two releases
+>  - Set priv version 1.11.0 as the default
+>  - Remove the user_spec version
+>      - This doesn't really mean anything so let's remove it
+>  - Add support for the "Counters" extension
+>  - Add command line options for Zifencei and Zicsr
 
-Thanks for pointing this out.  I'm checking the ISA semantics with Andrew to
-make sure I've got it right, as there's some implicit wording in the document
-that doesn't quite do what I'd expect it to.
+Thanks!  I'll look at the code, but I've currently got this queued up behind
+your hypervisor patches so it might take a bit.  LMK if you want me to invert
+the priority on these.  I'll probably be buried until the start of July.
+
+> We can remove the spec version as it's unused and has never been exposed
+> to users. The idea is to match the specs in specifying the version. To
+> handle versions in the future we can extend the extension props to
+> handle version information.
+>
+> For example something like this: -cpu rv64,i=2.2,c=2.0,h=0.4,priv_spec=1.11
+>
+> NOTE: This isn't supported today as we only have one of each version.
+>
+> This will be a future change if we decide to support multiple versions
+> of extensions.
+>
+> The "priv_spec" string doesn't really match, but I don't have a better
+> way to say "Machine ISA" and "Supervisor ISA" which is what is included
+> in "priv_spec".
+>
+> For completeness I have also added the Counters, Zifencei and Zicsr
+> extensions.
+>
+> Everything else seems to match the spec names/style.
+>
+> Please let me know if I'm missing something. QEMU 4.1 is the first
+> release to support the extensions from the command line, so we can
+> easily change it until then. After that it'll take more work to change
+> the command line interface.
+>
+> Alistair Francis (9):
+>   target/riscv: Restructure deprecatd CPUs
+>   target/riscv: Add the privledge spec version 1.11.0
+>   target/riscv: Comment in the mcountinhibit CSR
+>   target/riscv: Set privledge spec 1.11.0 as default
+>   qemu-deprecated.texi: Deprecate the RISC-V privledge spec 1.09.1
+>   target/riscv: Require either I or E base extension
+>   target/riscv: Remove user version information
+>   target/riscv: Add support for disabling/enabling Counters
+>   target/riscv: Add Zifencei and Zicsr as command line options
+>
+>  qemu-deprecated.texi                          |  8 +++
+>  target/riscv/cpu.c                            | 72 ++++++++++---------
+>  target/riscv/cpu.h                            | 19 ++---
+>  target/riscv/cpu_bits.h                       |  1 +
+>  target/riscv/csr.c                            | 13 +++-
+>  .../riscv/insn_trans/trans_privileged.inc.c   |  2 +-
+>  6 files changed, 71 insertions(+), 44 deletions(-)
 
