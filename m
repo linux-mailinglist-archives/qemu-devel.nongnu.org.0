@@ -2,57 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAD64B3F3
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 10:20:50 +0200 (CEST)
-Received: from localhost ([::1]:35808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5656B4B407
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 10:28:10 +0200 (CEST)
+Received: from localhost ([::1]:35842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdVpp-0000XM-Hf
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 04:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42378)
+	id 1hdVwv-0003Z9-Jm
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 04:28:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44178)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hdVnk-0007um-Q1
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:18:41 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hdVvl-00036R-Lx
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:26:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hdVni-0007jb-V6
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:18:40 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:45415 helo=huawei.com)
+ (envelope-from <cohuck@redhat.com>) id 1hdVvk-0004uk-Ox
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:26:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52400)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1hdVna-00075Y-9d; Wed, 19 Jun 2019 04:18:30 -0400
-Received: from lhreml708-cah.china.huawei.com (unknown [172.18.7.106])
- by Forcepoint Email with ESMTP id 7611219928A051FA66D4;
- Wed, 19 Jun 2019 09:18:07 +0100 (IST)
-Received: from LHREML524-MBS.china.huawei.com ([169.254.2.112]) by
- lhreml708-cah.china.huawei.com ([10.201.108.49]) with mapi id 14.03.0415.000; 
- Wed, 19 Jun 2019 09:18:01 +0100
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: Auger Eric <eric.auger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>
-Thread-Topic: [PATCH v5 0/8] ARM virt: ACPI memory hotplug support
-Thread-Index: AQHVELrXjlt3iCVXlkWsFxU/nLHFv6ahdyaAgAABhYCAAA0HgIABR4Eg
-Date: Wed, 19 Jun 2019 08:18:00 +0000
-Message-ID: <5FC3163CFD30C246ABAA99954A238FA83F2AA96B@lhreml524-mbs.china.huawei.com>
-References: <20190522162252.28568-1-shameerali.kolothum.thodi@huawei.com>
- <653a6b3c-ac1a-f197-1240-a28f59890fa8@redhat.com>
- <CAFEAcA9g=9u1Cj+1gqWqXWfg1phmZPw4=y7Ks_EzbYOEBW-WOA@mail.gmail.com>
- <2c08ff88-7e94-6f24-33f1-173957cee2ba@redhat.com>
-In-Reply-To: <2c08ff88-7e94-6f24-33f1-173957cee2ba@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.202.227.237]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hdVvk-0004lw-II; Wed, 19 Jun 2019 04:26:56 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F17D437F43;
+ Wed, 19 Jun 2019 08:26:37 +0000 (UTC)
+Received: from gondolin (dhcp-192-192.str.redhat.com [10.33.192.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1423600C7;
+ Wed, 19 Jun 2019 08:26:35 +0000 (UTC)
+Date: Wed, 19 Jun 2019 10:26:33 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Farman <farman@linux.ibm.com>, Farhan Ali <alifm@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>
+Message-ID: <20190619102633.7da2c85a.cohuck@redhat.com>
+In-Reply-To: <20190613092542.2834-1-cohuck@redhat.com>
+References: <20190613092542.2834-1-cohuck@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Wed, 19 Jun 2019 08:26:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 185.176.76.210
-Subject: Re: [Qemu-devel] [PATCH v5 0/8] ARM virt: ACPI memory hotplug
- support
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6] vfio-ccw: support async command
+ subregion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,33 +58,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Ortiz <sameo@linux.intel.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- "xuwei \(O\)" <xuwei5@huawei.com>, Igor Mammedov <imammedo@redhat.com>,
- "sebastien.boeuf@intel.com" <sebastien.boeuf@intel.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgRXJpYywNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBdWdlciBF
-cmljIFttYWlsdG86ZXJpYy5hdWdlckByZWRoYXQuY29tXQ0KPiBTZW50OiAxOCBKdW5lIDIwMTkg
-MTQ6NDUNCj4gVG86IFBldGVyIE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4NCj4g
-Q2M6IFNoYW1lZXJhbGkgS29sb3RodW0gVGhvZGkgPHNoYW1lZXJhbGkua29sb3RodW0udGhvZGlA
-aHVhd2VpLmNvbT47DQo+IFFFTVUgRGV2ZWxvcGVycyA8cWVtdS1kZXZlbEBub25nbnUub3JnPjsg
-cWVtdS1hcm0NCj4gPHFlbXUtYXJtQG5vbmdudS5vcmc+OyBJZ29yIE1hbW1lZG92IDxpbWFtbWVk
-b0ByZWRoYXQuY29tPjsNCj4gU2hhbm5vbiBaaGFvIDxzaGFubm9uLnpoYW9zbEBnbWFpbC5jb20+
-OyBTYW11ZWwgT3J0aXoNCj4gPHNhbWVvQGxpbnV4LmludGVsLmNvbT47IHNlYmFzdGllbi5ib2V1
-ZkBpbnRlbC5jb207IHh1d2VpIChPKQ0KPiA8eHV3ZWk1QGh1YXdlaS5jb20+OyBMYXN6bG8gRXJz
-ZWsgPGxlcnNla0ByZWRoYXQuY29tPjsgQXJkIEJpZXNoZXV2ZWwNCj4gPGFyZC5iaWVzaGV1dmVs
-QGxpbmFyby5vcmc+OyBMaW51eGFybSA8bGludXhhcm1AaHVhd2VpLmNvbT4NCj4gU3ViamVjdDog
-UmU6IFtQQVRDSCB2NSAwLzhdIEFSTSB2aXJ0OiBBQ1BJIG1lbW9yeSBob3RwbHVnIHN1cHBvcnQN
-Cj4gDQo+IEhpIFBldGVyLA0KPiBPbiA2LzE4LzE5IDI6NTcgUE0sIFBldGVyIE1heWRlbGwgd3Jv
-dGU6DQo+ID4gSSdtIG5vdCBzdXJlIHdlIHNob3VsZCBjYXJyeSBhY3Jvc3MgVGVzdGVkLWJ5IHRh
-Z3MgbGlrZSB0aGF0OiBhbnkNCj4gPiByZXNwaW4gbWlnaHQgYWNjaWRlbnRhbGx5IGludHJvZHVj
-ZSBidWdzIHRoYXQgbWFrZSBpdCBzdG9wIHdvcmtpbmcuLi4NCj4gDQo+IE9LLiBObyBwcm9ibGVt
-LiBJIHdpbGwgdGVzdCB0aGUgbmV4dCB2ZXJzaW9uIHRoZW4uDQoNClRoYW5rcyBmb3IgdGVzdGlu
-ZyBhbmQgdmVyaWZ5aW5nLiBJIHdpbGwgcmVzcGluIHRoaXMgc29vbi4NCg0KQ2hlZXJzLA0KU2hh
-bWVlcg0KIA0K
+On Thu, 13 Jun 2019 11:25:42 +0200
+Cornelia Huck <cohuck@redhat.com> wrote:
+
+> A vfio-ccw device may provide an async command subregion for
+> issuing halt/clear subchannel requests. If it is present, use
+> it for sending halt/clear request to the device; if not, fall
+> back to emulation (as done today).
+> 
+> Reviewed-by: Farhan Ali <alifm@linux.ibm.com>
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> 
+> v5->v6:
+> - plug a memory leak [Farhan]
+> 
+> v4->v5:
+> - It seems we need to take the indirection via the class for the
+>   callbacks after all :(
+> - Dropped Eric's R-b: for that reason
+> 
+> ---
+>  hw/s390x/css.c              |  27 +++++++--
+>  hw/s390x/s390-ccw.c         |  20 +++++++
+>  hw/vfio/ccw.c               | 113 +++++++++++++++++++++++++++++++++++-
+>  include/hw/s390x/css.h      |   3 +
+>  include/hw/s390x/s390-ccw.h |   2 +
+>  5 files changed, 159 insertions(+), 6 deletions(-)
+
+Anyone else? I'd like to queue this.
 
