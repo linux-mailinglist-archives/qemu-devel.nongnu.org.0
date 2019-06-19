@@ -2,101 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 742A24B638
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 12:33:24 +0200 (CEST)
-Received: from localhost ([::1]:36640 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB154B688
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 12:55:18 +0200 (CEST)
+Received: from localhost ([::1]:36836 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdXu6-0004vK-Tv
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 06:33:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56069)
+	id 1hdYFJ-000762-Bl
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 06:55:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33500)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hdXs4-0003C7-O9
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:31:18 -0400
+ (envelope-from <mlevitsk@redhat.com>) id 1hdYCY-0006LN-1o
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:52:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hdXoI-0006eM-6r
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:27:24 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:51815)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hdXoH-0006cE-Ta
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:27:22 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MkprN-1iKKGe3EZL-00mOQi; Wed, 19 Jun 2019 12:27:03 +0200
-To: Jim Wilson <jimw@sifive.com>, qemu-devel@nongnu.org
-References: <20190618235313.13223-1-jimw@sifive.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <4917074c-26d4-6ba0-0506-24824ebe97fb@vivier.eu>
-Date: Wed, 19 Jun 2019 12:27:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190618235313.13223-1-jimw@sifive.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:xNA1/gd5DJ8QFnXJkgQ9toovVhVXi2XEf+YliI39aiJH6rOxuIB
- QM9CksU4fYqjg6izB9xq8d27wKk9E//eUcC7pRb3kb8xaCNj0Qf7fJLei3mHheP9KG6SsCa
- z5M+m/MR1JVQq7iWGOZoZY/l7TAEZxr3lpKCKZ9b6l6k4Ox6pXTIsikb3eoRVsYJ4Y8sc94
- d5QHw7hS30NGkJ+XJMXJw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FHdQbWW3s4k=:UkwlomsCUoqsY+rpI9crRF
- hkOwN9Ojyg21WpoAnTDFiHVTRS1K8WhjeP0aZpqr+e+0mvgNWbRaYityP6zhEm07UPH3uZgSs
- mqqJ5LU48vMYvSsN0PXVUudJ5Dt821AVh2ZmalnPG3/6Oqwpcn5lC0S6K2enknKTzRm43DNAs
- yYmtslvie/TpBu5Ldi9G0+8G9nACbTJUjSe8F2K+brM7VDXlRUHLxcZWt/xbgwFENeEoJDSXC
- jJ8Fna+MJJvkdJBzli7wQrFMbN872N0bcA8FXZFJaV/sH8l4a/IGMv1jmWUW4H57KRgII/HrM
- /epE6YRITBfVjxM07WaYcN6i+l5kgBaSUloreOaEU9aFFkAYgIPFOhF0KRjnSqMohmIJwe5L9
- VRZfKE7jACu1qSsjNI/YASBx1AdBQ039cF1KKE1TC1BQitEYnQd+MqX6zfaRZWEmqCtfiSTgT
- fBxSvBLYeuOP3xpJaYlayI01m76mwi8/wFEIj0n/W4zPHhrOpaLsePgH6Q1jQ2Tb2ytbdo8oE
- vhSGdTG76evRjbtnqGsZ3/jij2bmRQpgSEn8d1QNSymjCyMCiydm4PUD/kHuSVZ6tQZwloZze
- /bfhKveu0m5tAR3nmJvpZ/pQdDHPKvJEZ9e3Mn5XVBiEmzhaArcIzbCHuNkub9Zhk9mHUQyA2
- FIcysAewAcfmbrYEbDdgNaiRZiFA6pv4xQfH/BHFktCsPbgTXtY0EBFsw5WHJ11xzFGlvaD6z
- T2FHILcQmRYw0Plo63JgjNljwTZ8QPA4GrpPIO1HrB1rp7WZIuWG/ZDGsRc=
+ (envelope-from <mlevitsk@redhat.com>) id 1hdYCV-0005zl-SW
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 06:52:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46722)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mlevitsk@redhat.com>)
+ id 1hdY7b-0000gV-Ex; Wed, 19 Jun 2019 06:47:19 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 72A5D30860A9;
+ Wed, 19 Jun 2019 10:47:12 +0000 (UTC)
+Received: from dhcp-4-67.tlv.redhat.com (dhcp-4-67.tlv.redhat.com [10.35.4.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B9B0060A9A;
+ Wed, 19 Jun 2019 10:47:03 +0000 (UTC)
+Message-ID: <f24926a73f00be2f1d7de2c8b09680a98c595fd5.camel@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Wed, 19 Jun 2019 13:47:01 +0300
+In-Reply-To: <20190619101414.GA13569@stefanha-x1.localdomain>
+References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
+ <20190610134905.22294-5-mehta.aaru20@gmail.com>
+ <81e4ab9b07d5678a3a28e1314c07ee0224e4d9ed.camel@redhat.com>
+ <20190619101414.GA13569@stefanha-x1.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Wed, 19 Jun 2019 10:47:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: Re: [Qemu-devel] [PATCH] linux-user: Add strace support for statx.
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 04/12] block/io_uring: implements
+ interfaces for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,140 +59,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, saket.sinha89@gmail.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Julia Suvorova <jusual@mail.ru>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/06/2019 à 01:53, Jim Wilson a écrit :
-> All of the flags need to be conditional as old systems don't have statx
-> support.  Otherwise it works the same as other stat family syscalls.
-> This requires the pending patch to add statx support.
+On Wed, 2019-06-19 at 11:14 +0100, Stefan Hajnoczi wrote:
+> On Mon, Jun 17, 2019 at 03:26:50PM +0300, Maxim Levitsky wrote:
+> > On Mon, 2019-06-10 at 19:18 +0530, Aarushi Mehta wrote:
+> > > +        if (!cqes) {
+> > > +            break;
+> > > +        }
+> > > +        LuringAIOCB *luringcb = io_uring_cqe_get_data(cqes);
+> > > +        ret = cqes->res;
+> > > +
+> > > +        if (ret == luringcb->qiov->size) {
+> > > +            ret = 0;
+> > > +        } else if (ret >= 0) {
+> > 
+> > 
+> > You should very carefully check the allowed return values here.
+> > 
+> > It looks like you can get '-EINTR' here, which would ask you to rerun the read operation, and otherwise
+> > you will get the number of bytes read, which might be less that what was asked for, which implies that you
+> > need to retry the read operation with the remainder of the buffer rather that zero the end of the buffer IMHO 
+> > 
+> > (0 is returned on EOF according to 'read' semantics, which I think are used here, thus a short read might not be an EOF)
+> > 
+> > 
+> > Looking at linux-aio.c though I do see that it just passes through the returned value with no special treatments. 
+> > including lack of check for -EINTR.
+> > 
+> > I assume that since aio is linux specific, and it only supports direct IO, it happens
+> > to have assumption of no short reads/-EINTR (but since libaio has very sparse documentation I can't verify this)
+> > 
+> > On the other hand the aio=threads implementation actually does everything as specified on the 'write' manpage,
+> > retrying the reads on -EINTR, and doing additional reads if less that required number of bytes were read.
+> > 
+> > Looking at io_uring implementation in the kernel I see that it does support synchronous (non O_DIRECT mode), 
+> > and in this case, it goes through the same ->read_iter which is pretty much the same path that 
+> > regular read() takes and so it might return short reads and or -EINTR.
 > 
-> Tested on Ubuntu 16.04 (no host statx) and Ubuntu 19.04 (with host statx)
-> using a riscv32-linux toolchain.
+> Interesting point.  Investigating EINTR should at least be a TODO
+> comment and needs to be resolved before io_uring lands in a QEMU
+> release.
 > 
-> Signed-off-by: Jim Wilson <jimw@sifive.com>
-> ---
->  linux-user/strace.c    | 86 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  linux-user/strace.list |  3 ++
->  2 files changed, 89 insertions(+)
+> > > +static int ioq_submit(LuringState *s)
+> > > +{
+> > > +    int ret = 0;
+> > > +    LuringAIOCB *luringcb, *luringcb_next;
+> > > +
+> > > +    while (s->io_q.in_queue > 0) {
+> > > +        QSIMPLEQ_FOREACH_SAFE(luringcb, &s->io_q.sq_overflow, next,
+> > > +                              luringcb_next) {
+> > 
+> > I am torn about the 'sq_overflow' name. it seems to me that its not immediately clear that these
+> > are the requests that are waiting because the io uring got full, but I can't now think of a better name.
+> > 
+> > Maybe add a comment here to explain what is going on here?
 > 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 6f72a74..c80e93b 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -976,6 +976,76 @@ UNUSED static struct flags msg_flags[] = {
->      FLAG_END,
->  };
->  
-> +UNUSED static struct flags statx_flags[] = {
-> +#ifdef AT_EMPTY_PATH
-> +    FLAG_GENERIC(AT_EMPTY_PATH),
-> +#endif
-> +#ifdef AT_NO_AUTOMOUNT
-> +    FLAG_GENERIC(AT_NO_AUTOMOUNT),
-> +#endif
-> +#ifdef AT_SYMLINK_NOFOLLOW
-> +    FLAG_GENERIC(AT_SYMLINK_NOFOLLOW),
-> +#endif
-> +#ifdef AT_STATX_SYNC_AS_STAT
-> +    FLAG_GENERIC(AT_STATX_SYNC_AS_STAT),
-> +#endif
-> +#ifdef AT_STATX_FORCE_SYNC
-> +    FLAG_GENERIC(AT_STATX_FORCE_SYNC),
-> +#endif
-> +#ifdef AT_STATX_DONT_SYNC
-> +    FLAG_GENERIC(AT_STATX_DONT_SYNC),
-> +#endif
-> +    FLAG_END,
-> +};
-> +
-> +UNUSED static struct flags statx_mask[] = {
-> +/* This must come first, because it includes everything.  */
-> +#ifdef STATX_ALL
-> +    FLAG_GENERIC(STATX_ALL),
-> +#endif
-> +/* This must come second; it includes everything except STATX_BTIME.  */
-> +#ifdef STATX_BASIC_STATS
-> +    FLAG_GENERIC(STATX_BASIC_STATS),
-> +#endif
-> +#ifdef STATX_TYPE
-> +    FLAG_GENERIC(STATX_TYPE),
-> +#endif
-> +#ifdef STATX_MODE
-> +    FLAG_GENERIC(STATX_MODE),
-> +#endif
-> +#ifdef STATX_NLINK
-> +    FLAG_GENERIC(STATX_NLINK),
-> +#endif
-> +#ifdef STATX_UID
-> +    FLAG_GENERIC(STATX_UID),
-> +#endif
-> +#ifdef STATX_GID
-> +    FLAG_GENERIC(STATX_GID),
-> +#endif
-> +#ifdef STATX_ATIME
-> +    FLAG_GENERIC(STATX_ATIME),
-> +#endif
-> +#ifdef STATX_MTIME
-> +    FLAG_GENERIC(STATX_MTIME),
-> +#endif
-> +#ifdef STATX_CTIME
-> +    FLAG_GENERIC(STATX_CTIME),
-> +#endif
-> +#ifdef STATX_INO
-> +    FLAG_GENERIC(STATX_INO),
-> +#endif
-> +#ifdef STATX_SIZE
-> +    FLAG_GENERIC(STATX_SIZE),
-> +#endif
-> +#ifdef STATX_BLOCKS
-> +    FLAG_GENERIC(STATX_BLOCKS),
-> +#endif
-> +#ifdef STATX_BTIME
-> +    FLAG_GENERIC(STATX_BTIME),
-> +#endif
-> +    FLAG_END,
-> +};
-> +
->  /*
->   * print_xxx utility functions.  These are used to print syscall
->   * parameters in certain format.  All of these have parameter
-> @@ -2611,6 +2681,22 @@ print_tgkill(const struct syscallname *name,
->  }
->  #endif
->  
-> +#ifdef TARGET_NR_statx
-> +static void
-> +print_statx(const struct syscallname *name,
-> +            abi_long arg0, abi_long arg1, abi_long arg2,
-> +            abi_long arg3, abi_long arg4, abi_long arg5)
-> +{
-> +    print_syscall_prologue(name);
-> +    print_at_dirfd(arg0, 0);
-> +    print_string(arg1, 0);
-> +    print_flags(statx_flags, arg2, 0);
-> +    print_flags(statx_mask, arg3, 0);
-> +    print_pointer(arg4, 1);
-> +    print_syscall_epilogue(name);
-> +}
-> +#endif
-> +
->  /*
->   * An array of all of the syscalls we know about
->   */
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index db21ce4..63a9466 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -1650,3 +1650,6 @@
->  #ifdef TARGET_NR_atomic_barrier
->  { TARGET_NR_atomic_barrier, "atomic_barrier", NULL, NULL, NULL },
->  #endif
-> +#ifdef TARGET_NR_statx
-> +{ TARGET_NR_statx, "statx", NULL, print_statx, NULL },
-> +#endif
+> Hmm...I suggested this name because I thought it was clear.  But the
+> fact that it puzzled you proves it wasn't clear :-).
 > 
+> Can anyone think of a better name?  It's the queue we keep in QEMU to
+> hold requests while the io_uring sq ring is full.
+> 
+> > Also maybe we could somehow utilize the plug/unplug facility to avoid reaching that state in first place?
+> > Maybe the block layer has some kind of 'max outstanding requests' limit that could be used?
+> > 
+> > In my nvme-mdev I opted to not process the input queues when such a condition is detected, but here you can't as the block layer
+> > pretty much calls you to process the requests.
+> 
+> Block layer callers are allowed to submit as many I/O requests as they
+> like and there is no feedback mechanism.  It's up to linux-aio.c and
+> io_uring.c to handle the case where host kernel I/O submission resources
+> are exhausted.
+> 
+> Plug/unplug is a batching performance optimization to reduce the number
+> of io_uring_enter() calls but it does not stop the callers from
+> submitting more I/O requests.  So plug/unplug isn't directly applicable
+> here.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Thanks for the explanation! I guess we can leave that name as is, but add some comment or so
+in the place where the queue is accessed.
+
+
+
+> 
+> > > +static int luring_do_submit(int fd, LuringAIOCB *luringcb, LuringState *s,
+> > > +                            uint64_t offset, int type)
+> > > +{
+> > > +    struct io_uring_sqe *sqes = io_uring_get_sqe(&s->ring);
+> > > +    if (!sqes) {
+> > > +        sqes = &luringcb->sqeq;
+> > > +        QSIMPLEQ_INSERT_TAIL(&s->io_q.sq_overflow, luringcb, next);
+> > > +    }
+> > > +
+> > > +    switch (type) {
+> > > +    case QEMU_AIO_WRITE:
+> > > +        io_uring_prep_writev(sqes, fd, luringcb->qiov->iov,
+> > > +                             luringcb->qiov->niov, offset);
+> > > +        break;
+> > > +    case QEMU_AIO_READ:
+> > > +        io_uring_prep_readv(sqes, fd, luringcb->qiov->iov,
+> > > +                            luringcb->qiov->niov, offset);
+> > > +        break;
+> > > +    case QEMU_AIO_FLUSH:
+> > > +        io_uring_prep_fsync(sqes, fd, 0);
+> > > +        break;
+> > > +    default:
+> > > +        fprintf(stderr, "%s: invalid AIO request type, aborting 0x%x.\n",
+> > > +                        __func__, type);
+> > 
+> > Nitpick: Don't we use some king of error printing functions like 'error_setg' rather that fprintf?
+> 
+> Here we're not in a context where an Error object can be returned (e.g.
+> printed by the QMP monitor).  We only have an errno return value that
+> the emulated storage controller may squash down further to a single
+> EIO-type error code.
+> 
+> 'type' is a QEMU-internal value so the default case is basically
+> assert(false); /* we should never get here */
+> 
+> For these reasons the fprintf() seems okay here.
+All right then.
+
+> 
+> > I plan on this or next week to do some benchmarks of the code and I will share the results as soon
+> > as I do them.
+> 
+> Excellent, Aarushi has been benchmarking too.  Perhaps you can share the
+> QEMU command-line and fio configuration so that the results can be
+> compared.
+
+I'll do that soon. I already did some initial benchmarks (didn't save the results yet), and in the current state the io_uring is a bit, tiny bit slower
+that libaio, which is nothing wrong because io_uring has lot of benefits in addition to performance, plus the current code can be optimized futher.
+
+I'll post all the benchmarks I am doing once again now, as soon as I have them.
+
+Best regards,
+	Maxim Levitsky
+
 
