@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E808E4B6B4
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 13:07:42 +0200 (CEST)
-Received: from localhost ([::1]:36910 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB0744B785
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 13:57:58 +0200 (CEST)
+Received: from localhost ([::1]:37146 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdYRK-0003rq-5A
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 07:07:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
+	id 1hdZDx-0005Kg-3q
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 07:57:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47278)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hdYOl-0002D1-EH
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 07:05:05 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hdZCq-0004vk-Qo
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 07:56:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hdYOj-0006S7-Oi
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 07:05:03 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:59480 helo=mail.rt-rk.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1hdZCp-0000BZ-Ln
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 07:56:48 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46535 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1hdYOj-0006Lu-Bx
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 07:05:01 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 9F8FB1A47A7;
- Wed, 19 Jun 2019 13:03:55 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
- [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 82A4F1A4579;
- Wed, 19 Jun 2019 13:03:55 +0200 (CEST)
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 13:03:45 +0200
-Message-Id: <1560942225-24728-9-git-send-email-stefan.brankovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560942225-24728-1-git-send-email-stefan.brankovic@rt-rk.com>
-References: <1560942225-24728-1-git-send-email-stefan.brankovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 8/8] target/ppc: Refactor emulation of vmrgew
- and vmrgow instructions
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hdZCn-00007z-9J; Wed, 19 Jun 2019 07:56:47 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45TNhk6JTxz9sN6; Wed, 19 Jun 2019 21:56:38 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1560945398;
+ bh=v/GtsvSdmwRg41OkslfVPSiDPLYnM7AB+nC1XtQOlso=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MQYB3tTf3F68LpLAEWNUGFuewFHbvZVxQ1Q/oZ5d9neNTq3CfO4K8bFxKh1VmORYB
+ kjf0Us43UtoK8/o8YJHVZaANfdRomuOmjdRpGpHHJsAx1KI9mg7X6T3MdcB9PJWELA
+ 8fK+MDz4NvMzS5+s3ntnhsUFq+0yKpx1LvHmtU0g=
+Date: Wed, 19 Jun 2019 21:13:51 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190619111350.GE22560@umbus.BigPond>
+References: <156051052402.224162.13664250996245267046.stgit@bahia.lan>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZInfyf7laFu/Kiw7"
+Content-Disposition: inline
+In-Reply-To: <156051052402.224162.13664250996245267046.stgit@bahia.lan>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH 0/7] ppc: Get rid of some CONFIG_KVM guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,130 +54,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since I found this two instructions implemented with tcg, I refactored
-them so they are consistent with other similar implementations that
-I introduced in this patch.
 
-Also, a new dual macro GEN_VXFORM_TRANS_DUAL is added. This macro is
-used if one instruction is realized with direct translation, and second
-one with a helper.
+--ZInfyf7laFu/Kiw7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
----
- target/ppc/translate/vmx-impl.inc.c | 66 +++++++++++++++++++++----------------
- 1 file changed, 37 insertions(+), 29 deletions(-)
+On Fri, Jun 14, 2019 at 01:08:44PM +0200, Greg Kurz wrote:
+> There are several places where CONFIG_KVM is used to guard code that
+> should only be built when KVM is supported. It is generally preferable
+> to avoid that and leave such guards in header files for improved
+> readability.
+>=20
+> In many cases, the execution of the code is also conditionned by
+> kvm_enabled() which expands to (0) when CONFIG_KVM is not defined.
+> This is likely to cause the compiler to optimize the code out,
+> and if it doesn't, the right way to address compiling issues is
+> to add stubs.
+>=20
+> Successfuly compile tested on x86_64 and ppc64le linux. Travis shows
+> this builds fine on OSX as well.
 
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index 81569a8..f052dcb 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -350,6 +350,28 @@ static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-     }                                                                  \
- }
- 
-+/*
-+ * We use this macro if one instruction is realized with direct
-+ * translation, and second one with helper.
-+ */
-+#define GEN_VXFORM_TRANS_DUAL(name0, flg0, flg2_0, name1, flg1, flg2_1)\
-+static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-+{                                                                      \
-+    if ((Rc(ctx->opcode) == 0) &&                                      \
-+        ((ctx->insns_flags & flg0) || (ctx->insns_flags2 & flg2_0))) { \
-+        if (unlikely(!ctx->altivec_enabled)) {                         \
-+            gen_exception(ctx, POWERPC_EXCP_VPU);                      \
-+            return;                                                    \
-+        }                                                              \
-+        trans_##name0(ctx);                                            \
-+    } else if ((Rc(ctx->opcode) == 1) &&                               \
-+        ((ctx->insns_flags & flg1) || (ctx->insns_flags2 & flg2_1))) { \
-+        gen_##name1(ctx);                                              \
-+    } else {                                                           \
-+        gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);            \
-+    }                                                                  \
-+}
-+
- /* Adds support to provide invalid mask */
- #define GEN_VXFORM_DUAL_EXT(name0, flg0, flg2_0, inval0,                \
-                             name1, flg1, flg2_1, inval1)                \
-@@ -431,20 +453,13 @@ GEN_VXFORM(vmrglb, 6, 4);
- GEN_VXFORM(vmrglh, 6, 5);
- GEN_VXFORM(vmrglw, 6, 6);
- 
--static void gen_vmrgew(DisasContext *ctx)
-+static void trans_vmrgew(DisasContext *ctx)
- {
--    TCGv_i64 tmp;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    tmp = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 tmp = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
- 
-     get_avr64(avr, VB, true);
-     tcg_gen_shri_i64(tmp, avr, 32);
-@@ -462,21 +477,14 @@ static void gen_vmrgew(DisasContext *ctx)
-     tcg_temp_free_i64(avr);
- }
- 
--static void gen_vmrgow(DisasContext *ctx)
-+static void trans_vmrgow(DisasContext *ctx)
- {
--    TCGv_i64 t0, t1;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    t0 = tcg_temp_new_i64();
--    t1 = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
- 
-     get_avr64(t0, VB, true);
-     get_avr64(t1, VA, true);
-@@ -1142,14 +1150,14 @@ GEN_VXFORM_ENV(vminfp, 5, 17);
- GEN_VXFORM_HETRO(vextublx, 6, 24)
- GEN_VXFORM_HETRO(vextuhlx, 6, 25)
- GEN_VXFORM_HETRO(vextuwlx, 6, 26)
--GEN_VXFORM_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-+GEN_VXFORM_TRANS_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwlx, PPC_NONE, PPC2_ISA300)
- GEN_VXFORM_HETRO(vextubrx, 6, 28)
- GEN_VXFORM_HETRO(vextuhrx, 6, 29)
- GEN_VXFORM_HETRO(vextuwrx, 6, 30)
- GEN_VXFORM_TRANS(lvsl, 6, 31)
- GEN_VXFORM_TRANS(lvsr, 6, 32)
--GEN_VXFORM_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207, \
-+GEN_VXFORM_TRANS_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwrx, PPC_NONE, PPC2_ISA300)
- 
- #define GEN_VXRFORM1(opname, name, str, opc2, opc3)                     \
--- 
-2.7.4
+1..5 applied.  Still need to look at 6..7 more closely.
 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--ZInfyf7laFu/Kiw7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0KGO4ACgkQbDjKyiDZ
+s5JWeRAAhzZp8WOoDL4JXoY6B6VP7nLsrz5CFXUDE/nRQZ6GpRmkGA+jieSgQlzD
+G71Fx4Lg08nD9rXhxE01X5dMGzVLeypbOhKUBc7abBwoanfA+et9G8ysBrbqhOFa
+KwryNA3PJnYLy204mTmSHs/gUPF8Sdu5WMuYQ1cJJ7/AuF1qpNZRkgHa+qgfC58H
+eyxOPOuzMMGSVADRSFyaNu1ZZi7IeFc6+USiXgaNb9xTwo8Iz5GZx5AAYvVphNLb
+oIrsdXiazEY123qkPqwh9xlTXIuvQ4i49jRCm8c358hXqg4lIwpJpQfIRuiqmle1
+oJzExuytzo03ocx3uyOnuc2UbO2qQxHoBp+n8hef6ju9s6YQwTtVPKzoZBarGKeo
+N0T2UBfcoEvbl+NHsbMFyef98ijOZv3ruTZSFGRaojaWZJF2BD1RjOikgOfj7JDB
+8bU9s5x378tS0qyzbVs51g2/UfBMJUcyM1YlqU3tQ37wfU660rxkFi5tXISYPoK8
+CBxxRj4eki3EQMnvc1RPybG0lz/67tDYELOt+F4njYwkyPWPXw5eEppMW5+0N/bR
+cyM1Yg8P4CSQTOtUJKCBoAJA2L/O4Z/BawT3+cekjnlsYwVxTwyme5SMeO7+h4e9
++WCWW9wiK811O9t/94Ew0Bn0VeNBeGBy0U5fSqZOydDYDJM1XQI=
+=2MSr
+-----END PGP SIGNATURE-----
+
+--ZInfyf7laFu/Kiw7--
 
