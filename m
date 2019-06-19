@@ -2,57 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888A44B24C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 08:44:03 +0200 (CEST)
-Received: from localhost ([::1]:35424 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2F74B3F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 10:22:53 +0200 (CEST)
+Received: from localhost ([::1]:35820 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdUKA-0007ZY-0d
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 02:44:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51841)
+	id 1hdVro-0001m0-GC
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 04:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43044)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hdUJH-00073G-Uk
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 02:43:08 -0400
+ (envelope-from <david.brenken@efs-auto.org>) id 1hdVqJ-0000z9-Ve
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:21:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hdUJG-0002ET-SW
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 02:43:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45786)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hdUJG-0001xD-Js
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 02:43:06 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F07DD30820EA
- for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 06:42:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-85.ams2.redhat.com
- [10.36.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE4E55D9D6;
- Wed, 19 Jun 2019 06:42:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 329B611386A6; Wed, 19 Jun 2019 08:42:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20190617184903.19436-1-armbru@redhat.com>
- <20190617184903.19436-17-armbru@redhat.com>
- <20190618090153.GE28525@redhat.com>
- <20190618103449.GE4296@localhost.localdomain>
-Date: Wed, 19 Jun 2019 08:42:46 +0200
-In-Reply-To: <20190618103449.GE4296@localhost.localdomain> (Kevin Wolf's
- message of "Tue, 18 Jun 2019 12:34:49 +0200")
-Message-ID: <87lfxy5b4p.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 19 Jun 2019 06:42:48 +0000 (UTC)
+ (envelope-from <david.brenken@efs-auto.org>) id 1hdVqJ-0001E4-3j
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:21:19 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:35439)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <david.brenken@efs-auto.org>)
+ id 1hdVqI-0001DB-RB
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:21:19 -0400
+Received: from localhost.localdomain ([178.239.76.114]) by
+ mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1MdwRi-1iEDal0oiM-00b5h2; Wed, 19 Jun 2019 09:57:01 +0200
+From: David Brenken <david.brenken@efs-auto.org>
+To: qemu-devel@nongnu.org
+Date: Wed, 19 Jun 2019 09:56:38 +0200
+Message-Id: <20190619075643.10048-1-david.brenken@efs-auto.org>
+X-Mailer: git-send-email 2.16.1.windows.4
+X-Provags-ID: V03:K1:GN0OTgSUdnHIlnKJaszyuOSvsINsBnNPmfT/qyV2poJ/QbIXv4T
+ ZnEBmPt6SNoALJMiX0DJCs/LZHzH8fvR+27J/W9ATV2BnAu9HbnAdg6vR6TRfGY3iPU5yxx
+ +iRQhDy96L/GZoTX1pO0+2vjm5Ixfb6XbxNfuD0XeNupU5LJNaA7ajtBsgkJuuLT28fccFa
+ DMF7ym0rOCyovEx8bkZGw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XBOnKy6k+9U=:aYotFfrXxSjuGP6V1Co5Aw
+ M+rEj+e38WWTJIoSV6jy98VAWf4lceNsKtUAniYxrkNcLoOa+ozjzwaH6eoF0/RvY191Y8Mzc
+ SfGSGtCxtCkNL77I98/2LmkzllKbtVt2WxpmT7hW2I4YEGGguzSGdclw1rrbNvHbdOs3bpy/p
+ WZRocSSBvOGIrbHZVp4zrn/3M9iJvGEs3CHJFAbE9HGinlH4Mbyq6UdmHxzak/B/Pq1acEPzZ
+ 9hwpGXrBO0r1ltTtZ6Ig68jtgJ1FpBhmoQS7+ScOcPN8mRzPJ++sFObe2PTlCLbdU3jBhDvMd
+ A19cBXgmC3aO4AJMs38cDE9byeDJknJA3oxGqaHo0tP28gsAv5IYEgzCptvw2ZxlBogGCZWsc
+ fd7D4w+rNPEv2eAJoMIg12L4tuoKzSs6WTeV4EdKdL/FZ8LE5ayn/cs3CkitVylyDvFvGDKv1
+ oj079AKkRw4xKI3O1QZddtm8J4kQtRT16lfStULAqpYK9BqZClzKbXgBJOOKA0XFMqGBVAFmw
+ RVtxiJp4+9YgyCgtmIpIKPOx70D5K/eiVBnjofKZtlwKyNSeGGHVl4EWDe7BWX+2aO6qb9apS
+ cZ1FodIrt6xG1/ucWa4113o877tXTCxHf2WUqn2CvKXbjNnW8koFkavjUCxhmbV1B0eUWRVwt
+ jSw2rthoViib9n8ZHpfBjj97X/7H2+MaMxnj1iloCwLSCn3LVF7tYWtI+l73TL/4E/Z5nK0/D
+ hf+V6fyv1nopVwBWr9zr3VBkqm2h9CdEip3ecWP+59UpHGFelteP+Pql9QM=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 16/16] vl: Deprecate -mon pretty=... for HMP
- monitors
+X-Received-From: 212.227.126.135
+Subject: [Qemu-devel] [PATCH v2 0/5] tricore: adding new instructions and
+ fixing issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,83 +60,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: kbastian@mail.uni-paderborn.de, David Brenken <david.brenken@efs-auto.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+From: David Brenken <david.brenken@efs-auto.de>
 
-> Am 18.06.2019 um 11:01 hat Daniel P. Berrang=C3=A9 geschrieben:
->> On Mon, Jun 17, 2019 at 08:49:03PM +0200, Markus Armbruster wrote:
->> > From: Kevin Wolf <kwolf@redhat.com>
->> >=20
->> > The -mon pretty=3Don|off switch of the -mon option applies only to QMP
->> > monitors. It's silently ignored for HMP. Deprecate this combination so
->> > that we can make it an error in future versions.
->>=20
->> No objection to merging this PR as is, but how about we extend the
->> deprecation to QMP too ?
->>=20
->> I was responsible for adding this option back in 2010 and I don't
->> think I've used it since 2012 when I added pretty printing support
->> to scripts/qmp/qmp-shell. I struggle to imagine good reasons for
->> using QMP directly with pretty printing, as opposed to doing it
->> via qmp-shell or another wrapper tool.
->
-> qemu-iotests uses it. It doesn't only make the output (and espeically
-> diffs on failure) much more readable, but in fact also avoids very long
-> lines in the refernce output that used to break patch emails when we
-> didn't use pretty printing yet.
->
-> So let's keep it for QMP, please.
+Hello everyone,
 
-Perhaps we can get rid of it if we find a suitable filter.
+as discussed here is the second version of the patchset.
+- We changed the implementation of the RRPW_INSERT to make use of 
+tcg_gen_deposit_tl.
+- We added more information of the implementation of QSEED in the code
+and changed parts of the implementation.
+- We do only sync ctx.hflags with tb->flags.
 
-Hmm, Python comes with one: "python -m json.tool".  It expects just one
-expression, and fails if anything follows:
+Best regards
 
-    $ printf '{"execute": "qmp_capabilities"}\n{"execute": "query-version"}=
-\n' | socat UNIX:/work/armbru/images/test-qmp STDIO | python3 -m json.tool
-    Extra data: line 2 column 1 (char 134)
+David
 
-To pretty print a sequence of expressions, you have to wrap a loop
-around it:
+Andreas Konopik (1):
+  tricore: add QSEED instruction
 
-    $ printf '{"execute": "qmp_capabilities"}\n{"execute": "query-version"}=
-\n' | socat UNIX:/work/armbru/images/test-qmp STDIO | { while read line; do=
- echo "$line" | python3 -m json.tool; done; }
-    {
-        "QMP": {
-            "version": {
-                "qemu": {
-                    "micro": 50,
-                    "minor": 0,
-                    "major": 4
-                },
-                "package": "v4.0.0-1467-g6385dd6613"
-            },
-            "capabilities": [
-                "oob"
-            ]
-        }
-    }
-    {
-        "return": {}
-    }
-    {
-        "return": {
-            "qemu": {
-                "micro": 50,
-                "minor": 0,
-                "major": 4
-            },
-            "package": "v4.0.0-1467-g6385dd6613"
-        }
-    }
+David Brenken (3):
+  tricore: add FTOIZ instruction
+  tricore: add UTOF instruction
+  tricore: fix RRPW_INSERT instruction
 
-I figure we'd want to loop in Python instead of shell.
+Georg Hofstetter (1):
+  tricore: reset DisasContext before generating code
 
-My point is: pretty-printing is trivial in Python.  The case for
-maintaining C code to do it seems weak.
+ target/tricore/fpu_helper.c | 126 ++++++++++++++++++++++++++++++++++++
+ target/tricore/helper.h     |   3 +
+ target/tricore/translate.c  |  14 +++-
+ 3 files changed, 141 insertions(+), 2 deletions(-)
+
+-- 
+2.22.0.windows.1
 
