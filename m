@@ -2,34 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B9C4BC29
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 16:58:44 +0200 (CEST)
-Received: from localhost ([::1]:39026 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E914E4BC4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 17:05:00 +0200 (CEST)
+Received: from localhost ([::1]:39092 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdc2t-0007Vw-Tz
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 10:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34446)
+	id 1hdc8y-0004mz-2W
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 11:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hdc0g-0005fl-Al
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hdc0g-0005cr-6H
  for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:56:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1hdbpX-0006U8-CY
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hdbpX-0006UE-DH
  for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:44:57 -0400
-Received: from relay.sw.ru ([185.231.240.75]:55956)
+Received: from relay.sw.ru ([185.231.240.75]:55958)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1hdbpV-0006RS-TB; Wed, 19 Jun 2019 10:44:54 -0400
+ id 1hdbpV-0006RT-TC; Wed, 19 Jun 2019 10:44:55 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1hdbpQ-0000Eu-1T; Wed, 19 Jun 2019 17:44:48 +0300
+ id 1hdbpQ-0000Eu-8M; Wed, 19 Jun 2019 17:44:48 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Wed, 19 Jun 2019 17:44:46 +0300
-Message-Id: <20190619144447.215894-1-vsementsov@virtuozzo.com>
+Date: Wed, 19 Jun 2019 17:44:47 +0300
+Message-Id: <20190619144447.215894-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190619144447.215894-1-vsementsov@virtuozzo.com>
+References: <20190619144447.215894-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
 Subject: [Qemu-devel] [PATCH] blockjob: drain all job nodes in
