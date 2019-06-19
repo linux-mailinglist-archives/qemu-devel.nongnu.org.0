@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65B5F4C0C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 20:31:17 +0200 (CEST)
-Received: from localhost ([::1]:41004 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDD1B4C0BE
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 20:23:33 +0200 (CEST)
+Received: from localhost ([::1]:40992 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdfMZ-0004K2-Uk
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 14:31:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59963)
+	id 1hdfF7-0002HK-1Z
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 14:23:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59985)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdfCI-0000Le-M2
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:39 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdfCL-0000Ne-0k
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdfCH-0008Us-Mw
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:38 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:50019 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdfCJ-000051-T4
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:40 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:50525 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hdfCH-0008TM-G2
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:37 -0400
+ id 1hdfCJ-0008VI-Ma
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 14:20:39 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id BFD2D1A45DA;
- Wed, 19 Jun 2019 20:20:34 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTP id F30741A4541;
+ Wed, 19 Jun 2019 20:20:36 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id A631B1A2079;
- Wed, 19 Jun 2019 20:20:34 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id D15461A2079;
+ Wed, 19 Jun 2019 20:20:36 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 20:20:17 +0200
-Message-Id: <1560968418-21301-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 19 Jun 2019 20:20:18 +0200
+Message-Id: <1560968418-21301-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1560968418-21301-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1560968418-21301-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 1/2] MAINTAINERS: Update file items for MIPS
- Malta board
+Subject: [Qemu-devel] [PATCH 2/2] MAINTAINERS: Consolidate MIPS
+ disassembler-related items
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,26 +57,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-hw/mips/gt64xxx_pci.c is used for Malta only, so it is logical to
-place this file in Malta board section of the MAINTAINERS file.
+Eliminate duplicate MIPS disassembler-related items in the
+MAINTAINERS file, and use wildcards to shorten the list of
+involved files.
 
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ MAINTAINERS | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index acbad13..869e87b 100644
+index 869e87b..f9f66e5 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -930,6 +930,7 @@ M: Aurelien Jarno <aurelien@aurel32.net>
+@@ -212,9 +212,7 @@ R: Aleksandar Rikalo <arikalo@wavecomp.com>
+ S: Maintained
+ F: target/mips/
+ F: default-configs/*mips*
+-F: disas/mips.c
+-F: disas/nanomips.cpp
+-F: disas/nanomips.h
++F: disas/*mips*
+ F: hw/intc/mips_gic.c
+ F: hw/mips/
+ F: hw/misc/mips_*
+@@ -2321,7 +2319,6 @@ M: Aurelien Jarno <aurelien@aurel32.net>
  R: Aleksandar Rikalo <arikalo@wavecomp.com>
  S: Maintained
- F: hw/mips/mips_malta.c
-+F: hw/mips/gt64xxx_pci.c
- F: tests/acceptance/linux_ssh_mips_malta.py
+ F: tcg/mips/
+-F: disas/mips.c
  
- Mipssim
+ PPC TCG target
+ M: Richard Henderson <rth@twiddle.net>
 -- 
 2.7.4
 
