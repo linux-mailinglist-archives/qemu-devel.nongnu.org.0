@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA11B4B101
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 07:03:02 +0200 (CEST)
-Received: from localhost ([::1]:35134 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C764B113
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 07:10:19 +0200 (CEST)
+Received: from localhost ([::1]:35186 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdSkQ-0002so-0U
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 01:03:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60410)
+	id 1hdSrS-0000ee-Bv
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 01:10:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair@alistair23.me>) id 1hdSch-00060X-36
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 00:55:04 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hdSmT-0003u6-90
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 01:05:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair@alistair23.me>) id 1hdScf-0001z7-0w
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 00:55:02 -0400
-Received: from mail-oln040092253108.outbound.protection.outlook.com
- ([40.92.253.108]:35122 helo=APC01-SG2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <alistair@alistair23.me>)
- id 1hdScb-0001ui-GT
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 00:54:59 -0400
-Received: from HK2APC01FT024.eop-APC01.prod.protection.outlook.com
- (10.152.248.51) by HK2APC01HT079.eop-APC01.prod.protection.outlook.com
- (10.152.249.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1987.11; Wed, 19 Jun
- 2019 04:54:41 +0000
-Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM (10.152.248.60) by
- HK2APC01FT024.mail.protection.outlook.com (10.152.248.147) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.11 via Frontend Transport; Wed, 19 Jun 2019 04:54:41 +0000
-Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
- ([fe80::61e4:d213:4652:f57]) by PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
- ([fe80::61e4:d213:4652:f57%2]) with mapi id 15.20.1987.014; Wed, 19 Jun 2019
- 04:54:41 +0000
-From: Alistair Francis <alistair@alistair23.me>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>
-Thread-Topic: [PATCH v3 6/6] hw/arm: Add the Netduino Plus 2
-Thread-Index: AQHVJlsaNojc9HZd7UqLeuvmaZswug==
-Date: Wed, 19 Jun 2019 04:54:41 +0000
-Message-ID: <PSXP216MB0277B0AF890AFD7BDCBF5A02DDE50@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
-References: <cover.1560919807.git.alistair@alistair23.me>
-In-Reply-To: <cover.1560919807.git.alistair@alistair23.me>
-Accept-Language: en-AU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR02CA0023.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::36) To PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
- (2603:1096:300:a::18)
-x-incomingtopheadermarker: OriginalChecksum:CFB213B78EFD88A062E82844717AE84197EBCE48F7349B217C4573FBA16205C9;
- UpperCasedChecksum:7190650757A7504C3B11E5152565F6A52BB4C903CF9B52A256732348081EF42F;
- SizeAsReceived:7555; Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.11.0
-x-tmn: [GgKH5S64tIcXUTktiI8Es1ku+HRCrgNucPmCAXriZSaAnZ34iTUNThLSXKMC6YKl]
-x-microsoft-original-message-id: <6c992fa86f5be8746fa614230bd1410ed4d1762c.1560919807.git.alistair@alistair23.me>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031323274)(2017031324274)(2017031322404)(1601125500)(1603101475)(1701031045);
- SRVR:HK2APC01HT079; 
-x-ms-traffictypediagnostic: HK2APC01HT079:
-x-microsoft-antispam-message-info: kWJMUMXLTMjhqZjcM1/qTDEbh4Nth21SQOEQNJQzd20dlQ6+jl0Kp5OOLaQv8n8R+PDx3feIYesoSsOu+LzyX7nwuO2ROhbOxGCcnd2LnsWudgSoDnTXP5Ofx3zU88u6wtTmI98pt4yE/DVrXl77+3dVis0gj+xzA91P7BuggVLmHU7Thtye4Xf9EibSP43W
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <jan.bobek@gmail.com>) id 1hdSmP-0001dT-Ho
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 01:05:07 -0400
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:42669)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hdSmO-0001ab-Oe
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 01:05:04 -0400
+Received: by mail-yb1-xb44.google.com with SMTP id c7so7068806ybs.9
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 22:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oHgBFtSwsKdkaL7+CpH5HEOf8Bsgg2J9D/ISE/dA+Bg=;
+ b=WcVcoVFf+XZ9XSibh5o3QrKMieACPBKFlOolNAnSpvSXiMoMilz5RSoYhfbj2QxXGu
+ 5L8RJmoZb7wo3CSfEPYjEUsDIk2myYJZ7qqOAZ9xMcEr+YPMAWv9mbVQFdOj8dgk4yNh
+ NYgcdwvwgFb12Hv1IYNu4w6n/4LG6dvzWlOA06KvCYq0OI8jJZmc+FKCwc7vD5XAV2tW
+ 1kU/DsHOnEYsIHzcwtrayAP3y8VcWB3iLVkNA3N9KwA0AdKz5kDgKwNUgHcJVDLoXa3T
+ lMsxKYGwl/71kAyWmSkrruGDTq265SrpSoMk0wStbFhZa81omQEP4wuyecpLU1qESNpF
+ OZAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oHgBFtSwsKdkaL7+CpH5HEOf8Bsgg2J9D/ISE/dA+Bg=;
+ b=X97MDeUz9QbdQxYkSjFNIPeloFwPB53bg/U8jEexIPLxgLHO8zL/vkyg3gKQL/82t/
+ /JF9X+px6uYdLuz5w10RJDCc1pN6bfvTnbaCU7W8kRCSxMae6SCWo6lPewTuz7dfu7VP
+ kv63QybxX4XgRAk+qKk+PZ5J8zvXmeo+8PX3JypEnkcLWoxcOT/IsniG4k4/0ConrsJl
+ BcB0cB4Wp6IeI+CKHlYXSPSeMUCcs79PukxLwixdFurwpP5UxEN7bF0u5TFQj7CbL/lY
+ iI08XffQLl6tCycObdOZecelq4s2UIHsJgQ+LiYltxWgvPxDodQggz6LwLfq9/Y/4JCK
+ qp4w==
+X-Gm-Message-State: APjAAAVjRGYu+/EmfOOJWiBDcdMd/HnivnrBIwh/vcvvQtE8sF400G9c
+ u86nW+qcPcvvPHa4c+l9U8jXa/PE
+X-Google-Smtp-Source: APXvYqxayVu+gJO8MYxh7zDKIfBs6vxbW85K7Qg51QKu0hYwNNd0PiSNvu9FDaespUjzJ+U84y1crA==
+X-Received: by 2002:a5b:2c1:: with SMTP id h1mr20659935ybp.453.1560920702545; 
+ Tue, 18 Jun 2019 22:05:02 -0700 (PDT)
+Received: from localhost.localdomain (67-9-99-67.biz.bhn.net. [67.9.99.67])
+ by smtp.gmail.com with ESMTPSA id e12sm1714426ywe.85.2019.06.18.22.05.01
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 18 Jun 2019 22:05:02 -0700 (PDT)
+From: Jan Bobek <jan.bobek@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 19 Jun 2019 01:04:40 -0400
+Message-Id: <20190619050447.22201-1-jan.bobek@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09596558-0b99-4db5-d4f4-08d6f4723d0d
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2019 04:54:41.3194 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT079
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.92.253.108
-Subject: [Qemu-devel] [PATCH v3 6/6] hw/arm: Add the Netduino Plus 2
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::b44
+Subject: [Qemu-devel] [RISU RFC PATCH v1 0/7] Support for generating x86
+ SSE/SSE2 test images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,82 +75,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alistair23@gmail.com" <alistair23@gmail.com>
+Cc: Jan Bobek <jan.bobek@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U2lnbmVkLW9mZi1ieTogQWxpc3RhaXIgRnJhbmNpcyA8YWxpc3RhaXJAYWxpc3RhaXIyMy5tZT4N
-Ci0tLQ0KIE1BSU5UQUlORVJTICAgICAgICAgICAgfCAgNiArKysrKysNCiBody9hcm0vS2NvbmZp
-ZyAgICAgICAgIHwgIDMgKysrDQogaHcvYXJtL01ha2VmaWxlLm9ianMgICB8ICAxICsNCiBody9h
-cm0vbmV0ZHVpbm9wbHVzMi5jIHwgNTggKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysNCiA0IGZpbGVzIGNoYW5nZWQsIDY4IGluc2VydGlvbnMoKykNCiBj
-cmVhdGUgbW9kZSAxMDA2NDQgaHcvYXJtL25ldGR1aW5vcGx1czIuYw0KDQpkaWZmIC0tZ2l0IGEv
-TUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUw0KaW5kZXggZjkxN2YzZTY5My4uMjQzYjZiMTQ2MCAx
-MDA2NDQNCi0tLSBhL01BSU5UQUlORVJTDQorKysgYi9NQUlOVEFJTkVSUw0KQEAgLTgyMCw2ICs4
-MjAsMTIgQEAgTTogUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPg0KIFM6
-IE1haW50YWluZWQNCiBGOiBody9hcm0vbmV0ZHVpbm8yLmMNCiANCitOZXRkdWlubyBQbHVzIDIN
-CitNOiBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpckBhbGlzdGFpcjIzLm1lPg0KK006IFBldGVy
-IE1heWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz4NCitTOiBNYWludGFpbmVkDQorRjog
-aHcvYXJtL25ldGR1aW5vcGx1czIuYw0KKw0KIFNtYXJ0RnVzaW9uMg0KIE06IFN1YmJhcmF5YSBT
-dW5kZWVwIDxzdW5kZWVwLmxrbWxAZ21haWwuY29tPg0KIE06IFBldGVyIE1heWRlbGwgPHBldGVy
-Lm1heWRlbGxAbGluYXJvLm9yZz4NCmRpZmYgLS1naXQgYS9ody9hcm0vS2NvbmZpZyBiL2h3L2Fy
-bS9LY29uZmlnDQppbmRleCA2NWEwOTIzYWZlLi40M2U2ZTBjNTg3IDEwMDY0NA0KLS0tIGEvaHcv
-YXJtL0tjb25maWcNCisrKyBiL2h3L2FybS9LY29uZmlnDQpAQCAtOTksNiArOTksOSBAQCBjb25m
-aWcgTkVURFVJTk9QTFVTMg0KICAgICBib29sDQogICAgIHNlbGVjdCBTVE0zMkY0MDVfU09DDQog
-DQorY29uZmlnIE5FVERVSU5PUExVUzINCisgICAgYm9vbA0KKw0KIGNvbmZpZyBOU0VSSUVTDQog
-ICAgIGJvb2wNCiAgICAgc2VsZWN0IE9NQVANCmRpZmYgLS1naXQgYS9ody9hcm0vTWFrZWZpbGUu
-b2JqcyBiL2h3L2FybS9NYWtlZmlsZS5vYmpzDQppbmRleCA0NDM2YzJlOTNlLi43NTcyNjU0MGJj
-IDEwMDY0NA0KLS0tIGEvaHcvYXJtL01ha2VmaWxlLm9ianMNCisrKyBiL2h3L2FybS9NYWtlZmls
-ZS5vYmpzDQpAQCAtMTEsNiArMTEsNyBAQCBvYmotJChDT05GSUdfTUFJTlNUT05FKSArPSBtYWlu
-c3RvbmUubw0KIG9iai0kKENPTkZJR19NSUNST0JJVCkgKz0gbWljcm9iaXQubw0KIG9iai0kKENP
-TkZJR19NVVNJQ1BBTCkgKz0gbXVzaWNwYWwubw0KIG9iai0kKENPTkZJR19ORVREVUlOTzIpICs9
-IG5ldGR1aW5vMi5vDQorb2JqLSQoQ09ORklHX05FVERVSU5PUExVUzIpICs9IG5ldGR1aW5vcGx1
-czIubw0KIG9iai0kKENPTkZJR19OU0VSSUVTKSArPSBuc2VyaWVzLm8NCiBvYmotJChDT05GSUdf
-U1gxKSArPSBvbWFwX3N4MS5vDQogb2JqLSQoQ09ORklHX0NIRUVUQUgpICs9IHBhbG0ubw0KZGlm
-ZiAtLWdpdCBhL2h3L2FybS9uZXRkdWlub3BsdXMyLmMgYi9ody9hcm0vbmV0ZHVpbm9wbHVzMi5j
-DQpuZXcgZmlsZSBtb2RlIDEwMDY0NA0KaW5kZXggMDAwMDAwMDAwMC4uNGE3NWRhODU0Mw0KLS0t
-IC9kZXYvbnVsbA0KKysrIGIvaHcvYXJtL25ldGR1aW5vcGx1czIuYw0KQEAgLTAsMCArMSw1OCBA
-QA0KKy8qDQorICogTmV0ZHVpbm8gUGx1cyAyIE1hY2hpbmUgTW9kZWwNCisgKg0KKyAqIENvcHly
-aWdodCAoYykgMjAxNCBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpckBhbGlzdGFpcjIzLm1lPg0K
-KyAqDQorICogUGVybWlzc2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRv
-IGFueSBwZXJzb24gb2J0YWluaW5nIGEgY29weQ0KKyAqIG9mIHRoaXMgc29mdHdhcmUgYW5kIGFz
-c29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0d2FyZSIpLCB0byBkZWFsDQor
-ICogaW4gdGhlIFNvZnR3YXJlIHdpdGhvdXQgcmVzdHJpY3Rpb24sIGluY2x1ZGluZyB3aXRob3V0
-IGxpbWl0YXRpb24gdGhlIHJpZ2h0cw0KKyAqIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwg
-cHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29yIHNlbGwNCisgKiBjb3BpZXMg
-b2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8gd2hvbSB0aGUgU29mdHdh
-cmUgaXMNCisgKiBmdXJuaXNoZWQgdG8gZG8gc28sIHN1YmplY3QgdG8gdGhlIGZvbGxvd2luZyBj
-b25kaXRpb25zOg0KKyAqDQorICogVGhlIGFib3ZlIGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMg
-cGVybWlzc2lvbiBub3RpY2Ugc2hhbGwgYmUgaW5jbHVkZWQgaW4NCisgKiBhbGwgY29waWVzIG9y
-IHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZSBTb2Z0d2FyZS4NCisgKg0KKyAqIFRIRSBTT0ZU
-V0FSRSBJUyBQUk9WSURFRCAiQVMgSVMiLCBXSVRIT1VUIFdBUlJBTlRZIE9GIEFOWSBLSU5ELCBF
-WFBSRVNTIE9SDQorICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUg
-V0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksDQorICogRklUTkVTUyBGT1IgQSBQQVJUSUNV
-TEFSIFBVUlBPU0UgQU5EIE5PTklORlJJTkdFTUVOVC4gSU4gTk8gRVZFTlQgU0hBTEwNCisgKiBU
-SEUgQVVUSE9SUyBPUiBDT1BZUklHSFQgSE9MREVSUyBCRSBMSUFCTEUgRk9SIEFOWSBDTEFJTSwg
-REFNQUdFUyBPUiBPVEhFUg0KKyAqIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0Yg
-Q09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sDQorICogT1VUIE9GIE9S
-IElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhFUiBERUFM
-SU5HUyBJTg0KKyAqIFRIRSBTT0ZUV0FSRS4NCisgKi8NCisNCisjaW5jbHVkZSAicWVtdS9vc2Rl
-cC5oIg0KKyNpbmNsdWRlICJxYXBpL2Vycm9yLmgiDQorI2luY2x1ZGUgImh3L2JvYXJkcy5oIg0K
-KyNpbmNsdWRlICJxZW11L2Vycm9yLXJlcG9ydC5oIg0KKyNpbmNsdWRlICJody9hcm0vc3RtMzJm
-NDA1X3NvYy5oIg0KKyNpbmNsdWRlICJody9hcm0vYm9vdC5oIg0KKw0KK3N0YXRpYyB2b2lkIG5l
-dGR1aW5vcGx1czJfaW5pdChNYWNoaW5lU3RhdGUgKm1hY2hpbmUpDQorew0KKyAgICBEZXZpY2VT
-dGF0ZSAqZGV2Ow0KKyAgICB1aW50MzJfdCBrZXJuZWxfZW50cnk7DQorDQorICAgIGRldiA9IHFk
-ZXZfY3JlYXRlKE5VTEwsIFRZUEVfU1RNMzJGNDA1X1NPQyk7DQorICAgIHFkZXZfcHJvcF9zZXRf
-c3RyaW5nKGRldiwgImNwdS10eXBlIiwgQVJNX0NQVV9UWVBFX05BTUUoImNvcnRleC1tNCIpKTsN
-CisgICAgb2JqZWN0X3Byb3BlcnR5X3NldF9ib29sKE9CSkVDVChkZXYpLCB0cnVlLCAicmVhbGl6
-ZWQiLCAmZXJyb3JfZmF0YWwpOw0KKw0KKyAgICBrZXJuZWxfZW50cnkgPSBhcm12N21fbG9hZF9r
-ZXJuZWwoQVJNX0NQVShmaXJzdF9jcHUpLA0KKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgbWFjaGluZS0+a2VybmVsX2ZpbGVuYW1lLA0KKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgRkxBU0hfU0laRSk7DQorDQorICAgIG9iamVjdF9wcm9wZXJ0eV9z
-ZXRfaW50KE9CSkVDVChmaXJzdF9jcHUpLCBrZXJuZWxfZW50cnksDQorICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICJpbml0LWVudHJ5IiwgJmVycm9yX2ZhdGFsKTsNCisgICAgb2JqZWN0X3By
-b3BlcnR5X3NldF9pbnQoT0JKRUNUKGZpcnN0X2NwdSksDQorICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIFNSQU1fQkFTRV9BRERSRVNTICsgKFNSQU1fU0laRSAqIDIpIC8gMywNCisgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgImluaXQtc3AiLCAmZXJyb3JfZmF0YWwpOw0KK30NCisNCitz
-dGF0aWMgdm9pZCBuZXRkdWlub3BsdXMyX21hY2hpbmVfaW5pdChNYWNoaW5lQ2xhc3MgKm1jKQ0K
-K3sNCisgICAgbWMtPmRlc2MgPSAiTmV0ZHVpbm8gUGx1cyAyIE1hY2hpbmUiOw0KKyAgICBtYy0+
-aW5pdCA9IG5ldGR1aW5vcGx1czJfaW5pdDsNCit9DQorDQorREVGSU5FX01BQ0hJTkUoIm5ldGR1
-aW5vcGx1czIiLCBuZXRkdWlub3BsdXMyX21hY2hpbmVfaW5pdCkNCi0tIA0KMi4xMS4wDQoNCg==
+Hi all,
+
+this is v1 of my changes to risugen in order to support generating x86
+test images. It's still work-in-progress (thus marked RFC; notably,
+there is no support for AVX yet), but I would like to get this out
+there to get some early feedback on my approach.
+
+Initially, I thought adding support for arbitrarily-long instructions
+would be more or less enough for x86, but unfortunately this turned
+out not to be the case; the length variation introduced by ModR/M, SIB
+and displacement fields would force us to have to have at least 6
+config file entries per almost every instruction, which is pretty much
+unmaintainable. Instead, I drew inspiration from the "memory" blocks
+in arm.risu for specifying memory constraints, and introduced "emit"
+blocks for x86. Example x86 config file with SSE and SSE2 instructions
+can be found in the last two commits, let me know what you think.
+
+There are still some limitations -- besides missing (E)VEX support,
+some forms of ModR/M are also not supported (mostly because it's hard
+or impossible to figure out and use the correct memory address), and
+the LDMXCSR instruction is currently commented out because there's no
+way to specify constraints on memory contents. However, this patch
+series should have enough code to demonstrate my intended general
+approach, and that's what I am looking for feedback for.
+
+Best,
+ -Jan
+
+Jan Bobek (7):
+  risugen_common: add insnv, randint_constr, rand_fill
+  risugen_x86_asm: add module
+  risugen_x86_emit: add module
+  risugen_x86: add module
+  risugen: allow all byte-aligned instructions
+  x86.risu: add SSE instructions
+  x86.risu: add SSE2 instructions
+
+ risugen             |  15 +-
+ risugen_common.pm   | 101 +++++++++-
+ risugen_x86.pm      | 455 ++++++++++++++++++++++++++++++++++++++++++++
+ risugen_x86_asm.pm  | 186 ++++++++++++++++++
+ risugen_x86_emit.pm |  85 +++++++++
+ x86.risu            | 245 ++++++++++++++++++++++++
+ 6 files changed, 1075 insertions(+), 12 deletions(-)
+ create mode 100644 risugen_x86.pm
+ create mode 100644 risugen_x86_asm.pm
+ create mode 100644 risugen_x86_emit.pm
+ create mode 100644 x86.risu
+
+-- 
+2.20.1
+
 
