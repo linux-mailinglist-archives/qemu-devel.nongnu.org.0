@@ -2,44 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024104BB5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 16:24:08 +0200 (CEST)
-Received: from localhost ([::1]:38824 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542324BB66
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 16:25:31 +0200 (CEST)
+Received: from localhost ([::1]:38842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdbVP-0000BC-5r
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 10:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54968)
+	id 1hdbWk-0002qW-Hg
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 10:25:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55343)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdbPY-0004rr-Sl
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:18:05 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hdbRa-00068Z-Er
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:20:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdbPX-000195-P1
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:18:04 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:50672 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hdbPX-0000rn-IA
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:18:03 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 96D541A2255;
- Wed, 19 Jun 2019 16:17:50 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 7D2F51A1FB1;
- Wed, 19 Jun 2019 16:17:50 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 16:17:14 +0200
-Message-Id: <1560953834-29584-6-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560953834-29584-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1560953834-29584-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v12 5/5] linux-user: Fix flock structure for
- MIPS O64 ABI
+ (envelope-from <alistair23@gmail.com>) id 1hdbRZ-000334-7N
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:20:10 -0400
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:36207)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hdbRX-0002yw-SL; Wed, 19 Jun 2019 10:20:08 -0400
+Received: by mail-lf1-x143.google.com with SMTP id q26so12293874lfc.3;
+ Wed, 19 Jun 2019 07:20:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xFlM4YqK6Ynh+xOXuEnAoR5f/r3sxH1cbUi/rehTRh8=;
+ b=eZNpqDi8B8iXv1WtOJgSWlY430tRosxIX632Pdcs+19qgp7bnLfm4yYyAWdboyINka
+ MXX+IyMnFMXiVjzABvgQdIYFuwvgv8TMYERnISwAns8cE1Z3BhiotwoPuBdEGKMPWNtY
+ C4O4s+MOtUBS29r3MUAhI03fl0yzeq11b4VOHyBi1Mh/URgO5YYQVtMUbRR++J2MGdxa
+ z7m/AnKsrm3HD+vUcTdyqXzTejFOOeBkpcddznASyeCVXhwwjcsU95T3H7siMczEgaDG
+ ljTn/0FDydeWF/O7HpP82uqi3dtAtIMODp//uQlDzoqXYea5j25HLGTZ7wjUTMEcdoYF
+ VnVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xFlM4YqK6Ynh+xOXuEnAoR5f/r3sxH1cbUi/rehTRh8=;
+ b=IuoThk4iIrRwH4BHBq26QyK5YXo/6c9LD6uMCwMLG80D9ALch0veVqD9w4omROKlHv
+ kS8M/7DmaReoPxaGt5P+MOzmYKTbs7JGNUuov0C8RozbdKM1H99rGdgw8e/vClwmy8XU
+ N0hWfH0xKeSMhdsJD10T2XJPYSKE6XN9pG9AOYl7YM3mUp/iBOXqgduOkevUBeLDPaMR
+ RvhIlGwfSc7yZugoP0Fvy5RgstAP862HlHRAyQ5XYYCFWb0AY+wFrgfE4xnkdgIvWe/u
+ yIAo514+Ku4ZsiYUeJzzqpvb6lHUKuwwovJDC9ksaxXsNMZV4fHIspV4uqYQ0yDaDzOF
+ 3Nag==
+X-Gm-Message-State: APjAAAV6VedbRvwuH6oaTU9NzWHSEOazdgg+vmhZpSyPKr2ipLzJhIro
+ V4YRGyvhaR23E9BXDDkXuXyJYiYua/I6h9NYa0E=
+X-Google-Smtp-Source: APXvYqwc7mmlrYFEGy16UuTI2cxCJ9XaE/G0kCsn3E2W6Skl8OWUbBbfQtOORDH4hJbgcbYspUUElkxhEApScMeoM3o=
+X-Received: by 2002:a19:710b:: with SMTP id m11mr56672087lfc.135.1560954004088; 
+ Wed, 19 Jun 2019 07:20:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1560821342.git.alistair.francis@wdc.com>
+ <mhng-966cacce-c410-473d-b043-996f3cff9a36@palmer-si-x1e>
+In-Reply-To: <mhng-966cacce-c410-473d-b043-996f3cff9a36@palmer-si-x1e>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 19 Jun 2019 07:19:38 -0700
+Message-ID: <CAKmqyKPRWASwUPQUROPWyrNC8gXTnizXTaXYdpbEAmkfjOZo1g@mail.gmail.com>
+To: Palmer Dabbelt <palmer@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::143
+Subject: Re: [Qemu-devel] [PATCH v1 0/9] Update the RISC-V specification
+ versions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,54 +72,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, amarkovic@wavecomp.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On Wed, Jun 19, 2019 at 3:58 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+>
+> On Mon, 17 Jun 2019 18:31:00 PDT (-0700), Alistair Francis wrote:
+> > Based-on: <cover.1555726824.git.alistair.francis@wdc.com>
+> >
+> > Now that the RISC-V spec has started to be ratified let's update our
+> > QEMU implementation. There are a few things going on here:
+> >  - Add priv version 1.11.0 to QEMU
+> >     - This is the ratified version of the Privledge spec
+> >     - There are almost no changes to 1.10
+> >  - Mark the 1.09.1 privledge spec as depreated
+> >      - Let's aim to remove it in two releases
+> >  - Set priv version 1.11.0 as the default
+> >  - Remove the user_spec version
+> >      - This doesn't really mean anything so let's remove it
+> >  - Add support for the "Counters" extension
+> >  - Add command line options for Zifencei and Zicsr
+>
+> Thanks!  I'll look at the code, but I've currently got this queued up behind
+> your hypervisor patches so it might take a bit.  LMK if you want me to invert
+> the priority on these.  I'll probably be buried until the start of July.
 
-Only MIPS O32 and N32 have special (different than other
-architectures) definition of structure flock in kernel.
+Let's move the Hypervisor patches to the back then. There is a new
+spec version now anyway so I'll have to update them for that.
 
-Bring flock definition for MIPS O64 ABI to the correct state.
+Alistair
 
-Reported-by: Dragan Mladjenovic <dmladjenovic@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/generic/fcntl.h     | 2 +-
- linux-user/mips/target_fcntl.h | 4 ++++
- 2 files changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index a775a49..1b48dde 100644
---- a/linux-user/generic/fcntl.h
-+++ b/linux-user/generic/fcntl.h
-@@ -129,7 +129,7 @@ struct target_flock {
-     short l_whence;
-     abi_long l_start;
-     abi_long l_len;
--#if defined(TARGET_MIPS)
-+#if defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
-     abi_long l_sysid;
- #endif
-     int l_pid;
-diff --git a/linux-user/mips/target_fcntl.h b/linux-user/mips/target_fcntl.h
-index 000527c..795bba7 100644
---- a/linux-user/mips/target_fcntl.h
-+++ b/linux-user/mips/target_fcntl.h
-@@ -27,7 +27,11 @@
- #define TARGET_F_SETOWN        24       /*  for sockets. */
- #define TARGET_F_GETOWN        23       /*  for sockets. */
- 
-+#if (TARGET_ABI_BITS == 32)
- #define TARGET_ARCH_FLOCK_PAD abi_long pad[4];
-+#else
-+#define TARGET_ARCH_FLOCK_PAD
-+#endif
- #define TARGET_ARCH_FLOCK64_PAD
- 
- #define TARGET_F_GETLK64       33      /*  using 'struct flock64' */
--- 
-2.7.4
-
+>
+> > We can remove the spec version as it's unused and has never been exposed
+> > to users. The idea is to match the specs in specifying the version. To
+> > handle versions in the future we can extend the extension props to
+> > handle version information.
+> >
+> > For example something like this: -cpu rv64,i=2.2,c=2.0,h=0.4,priv_spec=1.11
+> >
+> > NOTE: This isn't supported today as we only have one of each version.
+> >
+> > This will be a future change if we decide to support multiple versions
+> > of extensions.
+> >
+> > The "priv_spec" string doesn't really match, but I don't have a better
+> > way to say "Machine ISA" and "Supervisor ISA" which is what is included
+> > in "priv_spec".
+> >
+> > For completeness I have also added the Counters, Zifencei and Zicsr
+> > extensions.
+> >
+> > Everything else seems to match the spec names/style.
+> >
+> > Please let me know if I'm missing something. QEMU 4.1 is the first
+> > release to support the extensions from the command line, so we can
+> > easily change it until then. After that it'll take more work to change
+> > the command line interface.
+> >
+> > Alistair Francis (9):
+> >   target/riscv: Restructure deprecatd CPUs
+> >   target/riscv: Add the privledge spec version 1.11.0
+> >   target/riscv: Comment in the mcountinhibit CSR
+> >   target/riscv: Set privledge spec 1.11.0 as default
+> >   qemu-deprecated.texi: Deprecate the RISC-V privledge spec 1.09.1
+> >   target/riscv: Require either I or E base extension
+> >   target/riscv: Remove user version information
+> >   target/riscv: Add support for disabling/enabling Counters
+> >   target/riscv: Add Zifencei and Zicsr as command line options
+> >
+> >  qemu-deprecated.texi                          |  8 +++
+> >  target/riscv/cpu.c                            | 72 ++++++++++---------
+> >  target/riscv/cpu.h                            | 19 ++---
+> >  target/riscv/cpu_bits.h                       |  1 +
+> >  target/riscv/csr.c                            | 13 +++-
+> >  .../riscv/insn_trans/trans_privileged.inc.c   |  2 +-
+> >  6 files changed, 71 insertions(+), 44 deletions(-)
 
