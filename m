@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CAFE4B37B
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 09:58:45 +0200 (CEST)
-Received: from localhost ([::1]:35670 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 420594B395
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 10:06:45 +0200 (CEST)
+Received: from localhost ([::1]:35738 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdVUS-0006MR-AF
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 03:58:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36912)
+	id 1hdVcC-0002DH-F1
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 04:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38443)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david.brenken@efs-auto.org>) id 1hdVSx-0005U8-3V
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 03:57:12 -0400
+ (envelope-from <david.brenken@efs-auto.org>) id 1hdVXu-0000eg-ME
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:02:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.brenken@efs-auto.org>) id 1hdVSv-0008Pq-87
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 03:57:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:41791)
+ (envelope-from <david.brenken@efs-auto.org>) id 1hdVXr-0003f9-Fr
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:02:16 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:44127)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <david.brenken@efs-auto.org>)
- id 1hdVSu-0008NL-V0
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 03:57:09 -0400
+ id 1hdVXq-0003di-9C
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 04:02:14 -0400
 Received: from localhost.localdomain ([178.239.76.114]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MEC8L-1hn6Ns28fd-00AF8V; Wed, 19 Jun 2019 09:57:01 +0200
+ id 1MIyiY-1htNLz2opu-00KOmq; Wed, 19 Jun 2019 09:57:01 +0200
 From: David Brenken <david.brenken@efs-auto.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 09:56:40 +0200
-Message-Id: <20190619075643.10048-3-david.brenken@efs-auto.org>
+Date: Wed, 19 Jun 2019 09:56:41 +0200
+Message-Id: <20190619075643.10048-4-david.brenken@efs-auto.org>
 X-Mailer: git-send-email 2.16.1.windows.4
 In-Reply-To: <20190619075643.10048-1-david.brenken@efs-auto.org>
 References: <20190619075643.10048-1-david.brenken@efs-auto.org>
-X-Provags-ID: V03:K1:MI3C7ZPRJVziEjzpwhBTf/pWa8OFdEB1HmbA1cgnUBH5HaazFB8
- ZC+eWk8WJQp5CaavcZwVRIbuvBloy0SWJDn0sE0xRKOV/sWnRpXg0zu1QhD9qBHm2sS+XMG
- oB7t97jmSiTg43oY7cpORwzo96IXf3ZLdrooOShUiKMNnP8aSbLzhtoEky7vMqXzBTC87h6
- lwdghLuM2/2DplYJQ850g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:roPcsERWV1o=:5QiYMZwHQGjGMjdMhFp5JJ
- MVt9O5V5xpoitRq2ncAw1gRy+6j9rVBjZ/b9Z3hmBP9ASlosESl8u08xR0+CI51m/V7K8uilX
- IHaDfKv+m6L3LcDXIRIM7uM52VGTJRBQabv302i2nn9yRY5wzgOrg8pfP7G3zndtlSeb8TX6z
- UwPV/tCE3Z20LlmW6Gk+VgP2Lh7xAJA+9q5f/oLZl2OQnsV6iUxKabZUxAKIKV2w51p5rrmuL
- Dp/MKy6L7GuOh4X3RJNn/hGQYZgv7w7U+rd1iA+NAi/gGLvqz7brFAoa/oBxKpcqozCe3WTR/
- e/qwneeaAmBmbtTg/RGV16QHHq9s2oYfHBydeyKd5dUfMpEms0lTllD/asDfCdlVg/+QP79uv
- Q3898ZdvGl6vrY/vY1vMdvay80seJVChfJdKSiIytF3tg0ip1uDrJkKbMCZ59pkR0T54NxU3I
- pSH2/G8pQhDN4mc3oW22EFhT9QO4jzKuVI5K3vjxZ65qNFHsvJbOIWfx8C9copULi15/jjnlM
- 4SDb+vddRQ+6UEU+TScDsdidG7AWZ1Jlern+yxpo4sblQ60DyGet8Aq33owdss/cMuIM679Py
- SM8fwGKFr+6BbvWxLN2mducJxra32nt7KLA/zKa0gbehzpZfO27JQt80Mzyrbhtktfy1eqbI9
- ASbSD+Y3FZA1YXQScnoOG4B72zQ7BxvLpzN6srusFzlIKDrJDmcEr6UxJ64QISDxXqdOIWt80
- ii+eYLK3KRoULPe1r8UAlBjLIjnvnqAjR/r5Tu4aWvQ3Sa61WCOjwV7WH80=
+X-Provags-ID: V03:K1:TJTQuwrD7GSOQ+/bpbW0bBl5s4PpQBZTLrTop8z0RHYH6+k30u4
+ Zi+cNrkJINttxjsWrMOLA5OanQICgR3nn8YLsRDgB4ZLyxB93S8Ocz/fyRNrqCxHe9XO4HT
+ r3zpXYFSOvTUvJDdXCgaQpp2+HM04ywmoygQIdL0V0f1uGIK4xGjcgqDmmrS/FScPegOQdy
+ 2Ijezxs/gFzF2nIx19IJA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:inbGUyd3CqI=:QRjoutGvegZP41MhIeXHEv
+ PNQlFoUMpk71T6RwyqJzdsE5ze57bAZfQv7G+JZZdBJ2PCUGTBQypIrXkBMVhqotl2ow+PtVe
+ AV/ZSXnpdDKln6zDDMIqm0/+/7k/39ePmwtpT+0n+jJbR0PeB1Y74HPZpV+cQSDAy4HRPX+AD
+ Mhd18268LnR7hS1sMG/wYXr6jstfoWoWqU8e+Mewjig1xwQGQw3eaCdhSan89gXsJeSoejipR
+ /1lKSJYGQwXB0dYboOgG8HHJQak+vnJQebgUrvYMDxE+xg9NSyNjiGH7ujUc/bF4fF5oFK1or
+ cRWfF1XgWFLCGz+d1LI4fQMEuPmIoz71cyM3AQflkIQ0xywwO1jhxSkZRURiuqxakWDd8E4yI
+ HPmuluYHyHKCIMajbGNMkxhbTd+MQmsRwbMm+mCjVJl4IAaYJj6U2Kw+N3YguYy8kqfxMfVwQ
+ CjX3uaY//G7MZcqAcrXext4g6NT+A4QPbULOzVRK8u3z0NTkw+6DgWMEQoB8+5vGTbROsrysG
+ D9hg4GO2aAJ4WMT9zW/e1Mfu/U23bGwGRoOQosiAGqZT0iWrh+TYXPSOJV30jD1uMWhlqvMVg
+ dkRURbYMiOmTNEIwByzS2DrEeItpPgCCErHtLtaEQG1sIfr+p2V18fUcChHNVNFTpxvfw3STB
+ c25y2fBOkPlkNsSUVm9jHuOU/S6VMU+HajDuqxC/AgLwaZCOTxeG82pIjGg/pv1KRQGUz4nK2
+ oG71wtKZIvNP9Tq6AypfPJBfIC3XVc2sohUhhv8hIS/L4mf0ncYnCkivbcI=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.134
-Subject: [Qemu-devel] [PATCH v2 2/5] tricore: add UTOF instruction
+Subject: [Qemu-devel] [PATCH v2 3/5] tricore: fix RRPW_INSERT instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,66 +77,26 @@ Signed-off-by: David Brenken <david.brenken@efs-auto.de>
 Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
 Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
 Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
-Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- target/tricore/fpu_helper.c | 16 ++++++++++++++++
- target/tricore/helper.h     |  1 +
- target/tricore/translate.c  |  3 +++
- 3 files changed, 20 insertions(+)
+ target/tricore/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/tricore/fpu_helper.c b/target/tricore/fpu_helper.c
-index f079d9e939..432079c8e2 100644
---- a/target/tricore/fpu_helper.c
-+++ b/target/tricore/fpu_helper.c
-@@ -303,6 +303,22 @@ uint32_t helper_itof(CPUTriCoreState *env, uint32_t arg)
-     return (uint32_t)f_result;
- }
- 
-+uint32_t helper_utof(CPUTriCoreState *env, uint32_t arg)
-+{
-+    float32 f_result;
-+    uint32_t flags;
-+
-+    f_result = uint32_to_float32(arg, &env->fp_status);
-+
-+    flags = f_get_excp_flags(env);
-+    if (flags) {
-+        f_update_psw_flags(env, flags);
-+    } else {
-+        env->FPU_FS = 0;
-+    }
-+    return (uint32_t)f_result;
-+}
-+
- uint32_t helper_ftoiz(CPUTriCoreState *env, uint32_t arg)
- {
-     float32 f_arg = make_float32(arg);
-diff --git a/target/tricore/helper.h b/target/tricore/helper.h
-index 16b62edf7f..f1a5cb367e 100644
---- a/target/tricore/helper.h
-+++ b/target/tricore/helper.h
-@@ -111,6 +111,7 @@ DEF_HELPER_4(fmsub, i32, env, i32, i32, i32)
- DEF_HELPER_3(fcmp, i32, env, i32, i32)
- DEF_HELPER_2(ftoi, i32, env, i32)
- DEF_HELPER_2(itof, i32, env, i32)
-+DEF_HELPER_2(utof, i32, env, i32)
- DEF_HELPER_2(ftoiz, i32, env, i32)
- DEF_HELPER_2(ftouz, i32, env, i32)
- DEF_HELPER_2(updfl, void, env, i32)
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 5e1c4f54b9..bd913d71a1 100644
+index bd913d71a1..5d4febf1c0 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -6747,6 +6747,9 @@ static void decode_rr_divide(CPUTriCoreState *env, DisasContext *ctx)
-     case OPC2_32_RR_UPDFL:
-         gen_helper_updfl(cpu_env, cpu_gpr_d[r1]);
+@@ -7025,9 +7025,9 @@ static void decode_rrpw_extract_insert(CPUTriCoreState *env, DisasContext *ctx)
+         }
          break;
-+    case OPC2_32_RR_UTOF:
-+        gen_helper_utof(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
-+        break;
-     case OPC2_32_RR_FTOIZ:
-         gen_helper_ftoiz(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
+     case OPC2_32_RRPW_INSERT:
+-        if (pos + width <= 31) {
++        if (pos + width <= 32) {
+             tcg_gen_deposit_tl(cpu_gpr_d[r3], cpu_gpr_d[r1], cpu_gpr_d[r2],
+-                               width, pos);
++                               pos, width);
+         }
          break;
+     default:
 -- 
 2.22.0.windows.1
 
