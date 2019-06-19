@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872294B82A
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 14:26:26 +0200 (CEST)
-Received: from localhost ([::1]:37854 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11E134B83A
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 14:28:26 +0200 (CEST)
+Received: from localhost ([::1]:37894 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdZfV-00061f-BS
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 08:26:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54239)
+	id 1hdZhR-0007Ab-AU
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 08:28:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54487)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hdZeU-0005Vj-ST
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 08:25:23 -0400
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hdZf2-00065g-Vs
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 08:25:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hdZeT-0007FT-Kb
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 08:25:22 -0400
-Received: from spheron.uni-paderborn.de ([131.234.189.16]:42200)
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hdZf1-0007eu-Tk
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 08:25:56 -0400
+Received: from spheron.uni-paderborn.de ([131.234.189.16]:42240)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1hdZeR-0007BR-R5
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 08:25:21 -0400
+ id 1hdZf1-0007eA-Mh
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 08:25:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
  :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
  Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fLJQhaA3jUc11luD6AGlyutoSsHvtFNFB/INNC4au9E=; b=G8kLZIAAs8UxbEHnFF86/W2WXY
- H6+Z5e4C4cHrNOdnzbP3u2UXakg57X4v1B2uzH1ZwZ8ggphS+Cp+vm1nO0kjQ57PnE00FlZi+CyU0
- npZXJH6vtju1z9qgiKPgjgH/73C9WekvBvevthVS4gO0KAewcSSbjzl6xiPLDmAKaVfA=;
+ bh=SWMF5fqNxxMR2KFQPDy3qzjGuOOzpPoU3eOUExXz56I=; b=sysX6ZGAISfllFjDO1IPJZMlxP
+ q1azms9NWNe3flNEKP/LnVmCKRa/tHertm4o4E6hf5fRXzmvjqWjDZVmhLZyqfANzCpkHSEnlaRuD
+ Qp3bz+BStHevaaEtQ9ARa0NuSFnp7AacXKZrGNwnxZjGyd+fgN265PnNaDxchLzzMBUw=;
 To: David Brenken <david.brenken@efs-auto.org>, qemu-devel@nongnu.org
 References: <20190619075643.10048-1-david.brenken@efs-auto.org>
- <20190619075643.10048-5-david.brenken@efs-auto.org>
+ <20190619075643.10048-6-david.brenken@efs-auto.org>
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-ID: <cd1adeb4-6006-fcc8-4301-0604623f3991@mail.uni-paderborn.de>
-Date: Wed, 19 Jun 2019 14:25:14 +0200
+Message-ID: <caa5aca5-a41e-4d58-33f8-acba5062a46e@mail.uni-paderborn.de>
+Date: Wed, 19 Jun 2019 14:25:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <20190619075643.10048-5-david.brenken@efs-auto.org>
+In-Reply-To: <20190619075643.10048-6-david.brenken@efs-auto.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US-large
 X-IMT-Spam-Score: 0.0 ()
 X-PMX-Version: 6.4.6.2792898, Antispam-Engine: 2.7.2.2107409,
@@ -50,7 +50,8 @@ X-PMX-Version: 6.4.6.2792898, Antispam-Engine: 2.7.2.2107409,
 X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 131.234.189.16
-Subject: Re: [Qemu-devel] [PATCH v2 4/5] tricore: add QSEED instruction
+Subject: Re: [Qemu-devel] [PATCH v2 5/5] tricore: reset DisasContext before
+ generating code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,26 +73,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 6/19/19 9:56 AM, David Brenken wrote:
-> +
-> +        result = 0;
-> +        result = deposit32(result, 31, 1, new_S);
-> +        result = deposit32(result, 23, 8, new_E);
-> +        result = deposit32(result, 15, 8, new_M);
-> +    }
-> +
-> +    if (float32_is_any_nan(arg1) || result == float32_sqrt_nan) {
+> From: Georg Hofstetter <georg.hofstetter@efs-auto.de>
+>
+> Signed-off-by: Andreas Konopik <andreas.konopik@efs-auto.de>
+> Signed-off-by: David Brenken <david.brenken@efs-auto.de>
+> Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
+> Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
+> Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
+> ---
+>   target/tricore/translate.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/target/tricore/translate.c b/target/tricore/translate.c
+> index b3bfb3ca51..8f90c76d35 100644
+> --- a/target/tricore/translate.c
+> +++ b/target/tricore/translate.c
+> @@ -8806,6 +8806,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+>       target_ulong pc_start;
+>       int num_insns = 0;
+>   
+> +    memset(&ctx, 0x00, sizeof(DisasContext));
+>       pc_start = tb->pc;
+>       ctx.pc = pc_start;
+>       ctx.saved_pc = -1;
 
-
-You need float32_is_signaling_nan, since only signaling nan raises the 
-invalid flag.
-
-
-> +        env->FPU_FI = 1;
-
-env->FPU_FI = 1 << 31;
-
-See f_update_psw_flags(). FPU_FI  and PSW_V are the same and we defined 
-bit 31 as the V bit for optimization purposes.
+Still the old patch. Did you make a rebase mistake? :)
 
 Cheers,
 
