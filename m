@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80004AF2F
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 02:53:35 +0200 (CEST)
-Received: from localhost ([::1]:34348 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EBAC4AF4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 03:04:57 +0200 (CEST)
+Received: from localhost ([::1]:34452 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdOr0-00012W-7l
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 20:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48430)
+	id 1hdP20-0007K5-IK
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 21:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50736)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=066539cd8=alistair.francis@wdc.com>)
- id 1hdOou-0007iJ-NE
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 20:51:25 -0400
+ (envelope-from <bounces@canonical.com>) id 1hdOyR-0006jQ-Jd
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 21:01:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=066539cd8=alistair.francis@wdc.com>)
- id 1hdOfB-0003h2-Ez
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 20:41:25 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:29347)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=066539cd8=alistair.francis@wdc.com>)
- id 1hdOfB-0003bv-7I; Tue, 18 Jun 2019 20:41:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1560904882; x=1592440882;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=g+DlYUF0KXQmOfcWFncWarLKZPO22IikCZf0/MBOpR8=;
- b=Xq8nULFYlGtalKu92iOn3ts7iLfbwq36cq1z/pTH+in/xySwiUu4/HwG
- aCG0eUxHVXioDyGgp01/Kt72Ay+wb5B8KU2Gfcuf9RzY7+fcyjYI/sjih
- bnLExxaJJgfzFvA/TUb8OqteN3T7QfppJNB92b8u+p3Isl9kUsNd8q1Ux
- X8fj1ynPdMM2cd4HtDFtTaXmVmD1/S2eszrsja1swpPF6PileSil9RE5K
- Ju8IAYRYOidgNaxqSQq1GWucdcFbYrQh4lGLKCuFRj6EnoNz1DWkRYDrC
- VwyC6rusBZmr8jarNOndH9AkuHodXHN6TnOe/yBg5nykapDcvpBP0Fobg Q==;
-X-IronPort-AV: E=Sophos;i="5.63,390,1557158400"; d="scan'208";a="110901050"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2019 08:41:21 +0800
-IronPort-SDR: XGOi74afuiC99Kt4HJOmDP+3XxTzETrdAgC0GtgzgGHLBDXX5K+AVhIEQpTbEXGHtguMUoJyXD
- N+JOu0yBSdtmuSb0gholp+Eue8YBLj3ixoXptVLkR9I4i1fCSa38/Y0iJ1bvzIZCr9lM+fwmBV
- ksMUF1ISSZ75QglSD1fY1pK8YLalppLDsP3Z/0TKgcsZ4su++slFKmtzztm2QCMm2W4HI+VWMo
- dI20YJxq0n7mytKLLfzCy26OS2eM/VWQ8kqTqVYIiAFSRBD4rxSU4ieXP8dUs5aOWNFzXxEthv
- KrXHMtf5QDn2gjmnber9HCKW
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP; 18 Jun 2019 17:40:48 -0700
-IronPort-SDR: Yl4uYO6KobM0PvSMbhx+JP+dRA20CLvDsu3pSUZyX1tsyc50odeXspd790VXFNpx7FcoJMQvVI
- a5ns4UpcJw8LpsB3YnGsGaQw+i+aE9JrK+kdvQE6F5p7w9eWx/RFMU+UrI9V6BaNVw1PVMqSC/
- 2OwRmM2IxV1J45ACxIhCc+xkFPFhMwP9w1fGJx9hyMHIr1yzGEyJlD8Kv5HNbbY2MkAuedONI8
- ZcmjN+DUF+0TDgK87OIOFaH+xwOLHmuGdg7wIP/IJmL83p4gHTOFs/pGMGwY2gGGlGhkQWg37O
- jD4=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip02.wdc.com with ESMTP; 18 Jun 2019 17:41:20 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Date: Tue, 18 Jun 2019 17:38:58 -0700
-Message-Id: <3d7dd8bc94dbfddf0c01cfc7f3bebc937d1e6894.1560904640.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <cover.1560904640.git.alistair.francis@wdc.com>
-References: <cover.1560904640.git.alistair.francis@wdc.com>
+ (envelope-from <bounces@canonical.com>) id 1hdOyP-0003LS-KD
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 21:01:15 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55848)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hdOyN-0002oU-Kt
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 21:01:11 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hdOy2-00015w-3j
+ for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 01:00:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1945A2E806F
+ for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 01:00:50 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 216.71.154.42
-Subject: [Qemu-devel] [RFC v1 5/5] hw/riscv: Load OpenSBI as the default
- firmware
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 19 Jun 2019 00:52:54 -0000
+From: Alistair Francis <alistair@alistair23.me>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=alistair@alistair23.me; 
+X-Launchpad-Bug-Tags: riscv
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 qemu-bug
+X-Launchpad-Bug-Reporter: QEMU (qemu-bug)
+X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
+References: <156034277180.16851.16263953909128956213.malonedeb@soybean.canonical.com>
+Message-Id: <156090557500.21587.14659841562107909557.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18986";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 8843d989c2b82e01c60733c3b326f046f7eb4cfa
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1832535] Re: [riscv/regression] Missing tlb flush
+ introduced in refactoring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,118 +66,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
+Reply-To: Bug 1832535 <1832535@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the user hasn't specified a firmware to load (with -bios) or
-specified no bios (with -bios none) then load OpenSBI by default. This
-allows users to boot a RISC-V kernel with just -kernel.
+Hello,
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/boot.c         | 28 ++++++++++++++++++++++++++++
- hw/riscv/sifive_u.c     |  4 +---
- hw/riscv/virt.c         |  4 +---
- include/hw/riscv/boot.h |  1 +
- 4 files changed, 31 insertions(+), 6 deletions(-)
+Thanks for reporting a bug.
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 7f68035a3f..5f021591ed 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -18,6 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "qemu/units.h"
- #include "qemu/error-report.h"
- #include "exec/cpu-defs.h"
-@@ -32,6 +33,12 @@
- # define KERNEL_BOOT_ADDRESS 0x80200000
- #endif
- 
-+#if defined(TARGET_RISCV32)
-+# define BIOS_FILENAME "opensbi-riscv32-fw_jump.elf"
-+#else
-+# define BIOS_FILENAME "opensbi-riscv64-fw_jump.elf"
-+#endif
-+
- static uint64_t kernel_translate(void *opaque, uint64_t addr)
- {
-     MachineState *machine = opaque;
-@@ -47,6 +54,27 @@ static uint64_t kernel_translate(void *opaque, uint64_t addr)
-     }
- }
- 
-+void riscv_find_and_load_firmware(MachineState *machine)
-+{
-+    char *firmware_filename;
-+
-+    if (!machine->firmware) {
-+        /* The user didn't specify a firmware, default to OpenSBI */
-+        firmware_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, BIOS_FILENAME);
-+    } else {
-+        firmware_filename = machine->firmware;
-+    }
-+
-+    if (strcmp(firmware_filename, "none")) {
-+        /* If not "none" load the firmware */
-+        riscv_load_firmware(firmware_filename);
-+    }
-+
-+    if (!machine->firmware) {
-+        g_free(firmware_filename);
-+    }
-+}
-+
- target_ulong riscv_load_firmware(const char *firmware_filename)
- {
-     uint64_t firmware_entry, firmware_start, firmware_end;
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 03a6c64d04..77666d0f4d 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -266,9 +266,7 @@ static void riscv_sifive_u_init(MachineState *machine)
-     /* create device tree */
-     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
- 
--    if (machine->firmware) {
--        riscv_load_firmware(machine->firmware);
--    }
-+    riscv_find_and_load_firmware(machine);
- 
-     if (machine->kernel_filename) {
-         riscv_load_kernel(machine, machine->kernel_filename);
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index d3670b5a7c..2a7e850666 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -380,9 +380,7 @@ static void riscv_virt_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
-                                 mask_rom);
- 
--    if (machine->firmware) {
--        riscv_load_firmware(machine->firmware);
--    }
-+    riscv_find_and_load_firmware(machine);
- 
-     if (machine->kernel_filename) {
-         uint64_t kernel_entry = riscv_load_kernel(machine,
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 6f586939c7..df2e2480e6 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -20,6 +20,7 @@
- #ifndef RISCV_BOOT_H
- #define RISCV_BOOT_H
- 
-+void riscv_find_and_load_firmware(MachineState *machine);
- target_ulong riscv_load_firmware(const char *firmware_filename);
- target_ulong riscv_load_kernel(MachineState *machine,
-                                const char *kernel_filename);
--- 
-2.22.0
+Can you please include details to reproduce the problems that you are
+seeing? This includes images and command line arguments.
 
+Do you also mind including the diff of what fixes the problem for you?
+
+Alistair
+
+** Changed in: qemu
+       Status: New =3D> Incomplete
+
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Alistair Francis (alistair2323)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832535
+
+Title:
+  [riscv/regression] Missing tlb flush introduced in refactoring
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Hello,
+
+  In qemu-system-riscv64, following a QEMU update, I get all sort of
+  weird and not easily reproducible crashes in my risc-v guest.
+
+  I have bissected this issue to commit c7b951718815694284501ed01fec7acb865=
+4db7b.
+  Some TLB flushes were removed in the following places:
+  target/riscv/cpu_helper.c: `csr_write_helper(env, s, CSR_MSTATUS);` -> `e=
+nv->mstatus =3D s;` (twice)
+  target/riscv/op_helper.c: `csr_write_helper(env, s, CSR_MSTATUS);` -> `en=
+v->mstatus =3D s;` (twice)
+
+  Adding TLB flushes in all 4 places fixes the issues for me.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832535/+subscriptions
 
