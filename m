@@ -2,54 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AF14B579
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 11:51:44 +0200 (CEST)
-Received: from localhost ([::1]:36302 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 873124B5B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 11:59:37 +0200 (CEST)
+Received: from localhost ([::1]:36406 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdXFn-0006Jg-PL
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 05:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39976)
+	id 1hdXNQ-0007xk-Nl
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 05:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43345)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hdX1h-0003Dj-WD
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:37:12 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hdXDt-0006Dj-TR
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:49:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hdX1g-00075R-8Q
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:37:09 -0400
-Resent-Date: Wed, 19 Jun 2019 05:37:09 -0400
-Resent-Message-Id: <E1hdX1g-00075R-8Q@eggs.gnu.org>
-Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21520)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hdX1b-0006zn-CB; Wed, 19 Jun 2019 05:37:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1560936978; cv=none; d=zoho.com; s=zohoarc; 
- b=Zqu+iNoOi5xtRTGXt3c0PZAS6Js6oWsLDh8KcpvQAmhVYsHha/fhWyNtUVNjIsMWP9fd7DnC0kABrSU0fcnmJDZ+DiEL6EmtyDC+MZ9pW+Vo72V/xxKpL6UeNKFKHLBs9PgSiXFSlUv0wqMeViHpNVKMJOd/pD3NK1m/+Tnx7rg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1560936978;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=QcEk07X2SqSORn6abBEj3LefduT4BAk2jpg4mrC6fcM=; 
- b=VWZsLexw3iN4xYeosx2w5xx3B8RTMJpdMSodwiKDgS/Ij8Ck77Evj/nnzw+4RCAEJ8KOHDtt5ZLRiAirh+342uSuH5sEdZUR60JOb6+5IWodtpRqg4jSof0xViLZt/UKQgOoB3SO4YPw5hbd4WttwHcC+HhH2Mj9fgUbdWiiLwk=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1560936976946158.19076413779794;
- Wed, 19 Jun 2019 02:36:16 -0700 (PDT)
-In-Reply-To: <20190619092905.24029-1-shmuel.eiderman@oracle.com>
-Message-ID: <156093697557.22612.8821990862661724517@ce79690b2cb9>
+ (envelope-from <dgibson@ozlabs.org>) id 1hdXDs-0000ic-0i
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:49:45 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:42041)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hdXDr-0000XV-6r; Wed, 19 Jun 2019 05:49:43 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45TKt04tzYz9sN6; Wed, 19 Jun 2019 19:49:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1560937768;
+ bh=nK/PBjuD9WusF/TZurkj1Si+KZxJlR4UdJ87a8XgLlE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=GfuO00Dg1SZa9SO5KPO6f+aQru54o3YntxhSJ9XLGlBD470kIGHwcf2oVe/f0b8sZ
+ x7MHUr+S3d2v1Qg26UiFN0iAEu3fADZkh/wiLW7hHCSHKdnF+OWId0i67DyRdpsE0v
+ kz0DqKZ1GSdfyfOPl5/fYLRTPDzEC+XKGfjf6Qww=
+Date: Wed, 19 Jun 2019 19:36:17 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190619093617.GC22560@umbus.BigPond>
+References: <156070574343.343123.16772707632470400458.stgit@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: shmuel.eiderman@oracle.com
-Date: Wed, 19 Jun 2019 02:36:16 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 136.143.188.55
-Subject: Re: [Qemu-devel] [SeaBIOS] [QEMU] [PATCH v4 0/8] Add Qemu to
- SeaBIOS LCHS interface
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="L6iaP+gRLNZHKoI4"
+Content-Disposition: inline
+In-Reply-To: <156070574343.343123.16772707632470400458.stgit@bahia.lan>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH] spapr/xive: Add proper rollback to
+ kvmppc_xive_connect()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,71 +56,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kevin@koconnor.net, kraxel@redhat.com, karl.heubaum@oracle.com
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYxOTA5MjkwNS4yNDAy
-OS0xLXNobXVlbC5laWRlcm1hbkBvcmFjbGUuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1z
-IHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9y
-Cm1vcmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbU2VhQklPU10gW1FFTVVdIFtQQVRDSCB2NCAw
-LzhdIEFkZCBRZW11IHRvIFNlYUJJT1MgTENIUyBpbnRlcmZhY2UKVHlwZTogc2VyaWVzCk1lc3Nh
-Z2UtaWQ6IDIwMTkwNjE5MDkyOTA1LjI0MDI5LTEtc2htdWVsLmVpZGVybWFuQG9yYWNsZS5jb20K
-Cj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNl
-ID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1p
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9j
-YWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFp
-bGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHVi
-LmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAgICBwYXRj
-aGV3LzIwMTkwNjE5MDkyOTA1LjI0MDI5LTEtc2htdWVsLmVpZGVybWFuQG9yYWNsZS5jb20gLT4g
-cGF0Y2hldy8yMDE5MDYxOTA5MjkwNS4yNDAyOS0xLXNobXVlbC5laWRlcm1hbkBvcmFjbGUuY29t
-ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNjY2NGQ3ZDg5OCBoZC1nZW8tdGVzdDog
-QWRkIHRlc3RzIGZvciBsY2hzIG92ZXJyaWRlCjI5YmFlZDNkYWMgYm9vdGRldmljZTogRldfQ0ZH
-IGludGVyZmFjZSBmb3IgTENIUyB2YWx1ZXMKMmZmY2RhNTNlMyBib290ZGV2aWNlOiBSZWZhY3Rv
-ciBnZXRfYm9vdF9kZXZpY2VzX2xpc3QKNGJiODQ2MTA2NiBib290ZGV2aWNlOiBHYXRoZXIgTENI
-UyBmcm9tIGFsbCByZWxldmFudCBkZXZpY2VzCmE3YWU2ZjQ5ODUgc2NzaTogUHJvcGFnYXRlIHVu
-cmVhbGl6ZSgpIGNhbGxiYWNrIHRvIHNjc2ktaGQKMWZjMTYwNDFjMCBib290ZGV2aWNlOiBBZGQg
-aW50ZXJmYWNlIHRvIGdhdGhlciBMQ0hTCmQ5ZWJiZTgzMDkgYmxvY2s6IFN1cHBvcnQgcHJvdmlk
-aW5nIExDSFMgZnJvbSB1c2VyCmNmMjE2OGE2NmQgYmxvY2s6IFJlZmFjdG9yIG1hY3JvcyAtIGZp
-eCB0YWJiaW5nCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzggQ2hlY2tpbmcgY29tbWl0IGNmMjE2
-OGE2NmRiZCAoYmxvY2s6IFJlZmFjdG9yIG1hY3JvcyAtIGZpeCB0YWJiaW5nKQpFUlJPUjogTWFj
-cm9zIHdpdGggY29tcGxleCB2YWx1ZXMgc2hvdWxkIGJlIGVuY2xvc2VkIGluIHBhcmVudGhlc2lz
-CiM1NTogRklMRTogaW5jbHVkZS9ody9ibG9jay9ibG9jay5oOjY1OgorI2RlZmluZSBERUZJTkVf
-QkxPQ0tfQ0hTX1BST1BFUlRJRVMoX3N0YXRlLCBfY29uZikgICAgICAgICAgICAgICAgICAgICAg
-XAorICAgIERFRklORV9QUk9QX1VJTlQzMigiY3lscyIsIF9zdGF0ZSwgX2NvbmYuY3lscywgMCks
-ICAgICAgICAgICAgICAgICAgXAorICAgIERFRklORV9QUk9QX1VJTlQzMigiaGVhZHMiLCBfc3Rh
-dGUsIF9jb25mLmhlYWRzLCAwKSwgICAgICAgICAgICAgICAgXAogICAgIERFRklORV9QUk9QX1VJ
-TlQzMigic2VjcyIsIF9zdGF0ZSwgX2NvbmYuc2VjcywgMCkKCnRvdGFsOiAxIGVycm9ycywgMCB3
-YXJuaW5ncywgMzcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS84IGhhcyBzdHlsZSBwcm9ibGVtcywg
-cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
-cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
-SU5FUlMuCgoyLzggQ2hlY2tpbmcgY29tbWl0IGQ5ZWJiZTgzMDk2ZiAoYmxvY2s6IFN1cHBvcnQg
-cHJvdmlkaW5nIExDSFMgZnJvbSB1c2VyKQozLzggQ2hlY2tpbmcgY29tbWl0IDFmYzE2MDQxYzAy
-OSAoYm9vdGRldmljZTogQWRkIGludGVyZmFjZSB0byBnYXRoZXIgTENIUykKNC84IENoZWNraW5n
-IGNvbW1pdCBhN2FlNmY0OTg1ZTIgKHNjc2k6IFByb3BhZ2F0ZSB1bnJlYWxpemUoKSBjYWxsYmFj
-ayB0byBzY3NpLWhkKQo1LzggQ2hlY2tpbmcgY29tbWl0IDRiYjg0NjEwNjY5NyAoYm9vdGRldmlj
-ZTogR2F0aGVyIExDSFMgZnJvbSBhbGwgcmVsZXZhbnQgZGV2aWNlcykKNi84IENoZWNraW5nIGNv
-bW1pdCAyZmZjZGE1M2UzNjIgKGJvb3RkZXZpY2U6IFJlZmFjdG9yIGdldF9ib290X2RldmljZXNf
-bGlzdCkKNy84IENoZWNraW5nIGNvbW1pdCAyOWJhZWQzZGFjMDUgKGJvb3RkZXZpY2U6IEZXX0NG
-RyBpbnRlcmZhY2UgZm9yIExDSFMgdmFsdWVzKQo4LzggQ2hlY2tpbmcgY29tbWl0IDY2NjRkN2Q4
-OThkNSAoaGQtZ2VvLXRlc3Q6IEFkZCB0ZXN0cyBmb3IgbGNocyBvdmVycmlkZSkKV0FSTklORzog
-bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI0MjogRklMRTogdGVzdHMvaGQtZ2VvLXRlc3QuYzo1
-Nzk6CisgICAgICAgICAgICAgICAgICAgICAoY2hhciAqKXItPmRldl9wYXRoLCAmKHItPmNocy5j
-KSwgJihyLT5jaHMuaCksICYoci0+Y2hzLnMpKTsKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVz
-ZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM2NDA6IEZJTEU6IHRlc3RzL2hkLWdl
-by10ZXN0LmM6OTk1OgorICAgICAgICAgICAgICAgICAgICAgICAic2tpcHBpbmcgaGQtZ2VvL292
-ZXJyaWRlLyogdGVzdHMiKTsKCnRvdGFsOiAwIGVycm9ycywgMiB3YXJuaW5ncywgNjA4IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDgvOCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVU
-IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
-IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDYxOTA5MjkwNS4y
-NDAyOS0xLXNobXVlbC5laWRlcm1hbkBvcmFjbGUuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlw
-ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
-aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
-ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
+--L6iaP+gRLNZHKoI4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Jun 16, 2019 at 07:22:23PM +0200, Greg Kurz wrote:
+> Make kvmppc_xive_disconnect() able to undo the changes of a partial
+> execution of kvmppc_xive_connect() and use it to perform rollback.
+>=20
+> Based-on: <20190614165920.12670-2-clg@kaod.org>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+I'm afraid this doesn't apply clean on my current ppc-for-4.1.
+
+> ---
+>  hw/intc/spapr_xive_kvm.c |   48 ++++++++++++++++++++++++++++------------=
+------
+>  1 file changed, 29 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index 5559f8bce5ef..3bf8e7a20e14 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -724,8 +724,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
+p)
+>      xsrc->esb_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, =
+esb_len,
+>                                        &local_err);
+>      if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> +        goto fail;
+>      }
+> =20
+>      memory_region_init_ram_device_ptr(&xsrc->esb_mmio_kvm, OBJECT(xsrc),
+> @@ -743,8 +742,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
+p)
+>      xive->tm_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, =
+tima_len,
+>                                       &local_err);
+>      if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> +        goto fail;
+>      }
+>      memory_region_init_ram_device_ptr(&xive->tm_mmio_kvm, OBJECT(xive),
+>                                        "xive.tima", tima_len, xive->tm_mm=
+ap);
+> @@ -760,21 +758,24 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **e=
+rrp)
+> =20
+>          kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
+>          if (local_err) {
+> -            error_propagate(errp, local_err);
+> -            return;
+> +            goto fail;
+>          }
+>      }
+> =20
+>      /* Update the KVM sources */
+>      kvmppc_xive_source_reset(xsrc, &local_err);
+>      if (local_err) {
+> -            error_propagate(errp, local_err);
+> -            return;
+> +        goto fail;
+>      }
+> =20
+>      kvm_kernel_irqchip =3D true;
+>      kvm_msi_via_irqfd_allowed =3D true;
+>      kvm_gsi_direct_mapping =3D true;
+> +    return;
+> +
+> +fail:
+> +    error_propagate(errp, local_err);
+> +    kvmppc_xive_disconnect(xive, NULL);
+>  }
+> =20
+>  void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
+> @@ -796,23 +797,29 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error =
+**errp)
+>      xsrc =3D &xive->source;
+>      esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
+> =20
+> -    memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
+> -    object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
+> -    munmap(xsrc->esb_mmap, esb_len);
+> -    xsrc->esb_mmap =3D NULL;
+> +    if (xsrc->esb_mmap) {
+> +        memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm=
+);
+> +        object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
+> +        munmap(xsrc->esb_mmap, esb_len);
+> +        xsrc->esb_mmap =3D NULL;
+> +    }
+> =20
+> -    memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
+> -    object_unparent(OBJECT(&xive->tm_mmio_kvm));
+> -    munmap(xive->tm_mmap, 4ull << TM_SHIFT);
+> -    xive->tm_mmap =3D NULL;
+> +    if (xive->tm_mmap) {
+> +        memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
+> +        object_unparent(OBJECT(&xive->tm_mmio_kvm));
+> +        munmap(xive->tm_mmap, 4ull << TM_SHIFT);
+> +        xive->tm_mmap =3D NULL;
+> +    }
+> =20
+>      /*
+>       * When the KVM device fd is closed, the KVM device is destroyed
+>       * and removed from the list of devices of the VM. The VCPU
+>       * presenters are also detached from the device.
+>       */
+> -    close(xive->fd);
+> -    xive->fd =3D -1;
+> +    if (xive->fd !=3D -1) {
+> +        close(xive->fd);
+> +        xive->fd =3D -1;
+> +    }
+> =20
+>      kvm_kernel_irqchip =3D false;
+>      kvm_msi_via_irqfd_allowed =3D false;
+> @@ -822,5 +829,8 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error **=
+errp)
+>      kvm_cpu_disable_all();
+> =20
+>      /* VM Change state handler is not needed anymore */
+> -    qemu_del_vm_change_state_handler(xive->change);
+> +    if (xive->change) {
+> +        qemu_del_vm_change_state_handler(xive->change);
+> +        xive->change =3D NULL;
+> +    }
+>  }
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--L6iaP+gRLNZHKoI4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0KAggACgkQbDjKyiDZ
+s5L9+g//YT+V08tuMdLS7OF+A2xO7WVvvR8SeOw/b5FhkDz8Q+uLN2ZBlU8c7tJd
+qvMJoxRDpwdJX7rOPpyZ6AzXSbiUnZEDjRgC2O85HgTxleE413HbsvIYlnGbLnMe
+CU/7vY+TSyRYeHzo7aEULoR95gCg6lenQuyNMH12krIWnHv+ebDH3oRs5OXhIkrj
+3BBaUqfl/4thLn9rsg2a2cR5HV2L8sA7rlEWcuRuzD8zhUclA3O6gbZ9lT5U7J1j
+4RdYOyxIYHQyq58E7ocZyunCgzHGVofVvO3ViN3Z2G/FCG9pCTGjP5EU8Jdnu1/h
+sX/dSmGY0QXc4i62WeWb9+VLZnUle8mOJBM4WM6kZVaLJgXFP5aUUJznPipuEaYu
+SQY99BivMjkSC0NpLN3sE3K3hsnWfS3Nt2GUEW079mJ1gG3OxOxUnoccP2xyQAfu
+UZ6FdWHlV0EhP+/aJARPTTNW+caR6d26gNbWZJF11U02gZkA9f/F0Gaod7u/xeSz
+773JAlMXslvZRxJiB/QeCiz1ZDdJDrt9Ok1KeLg4F2oox+JFL6SPFCky2dJA8Q9M
+BgtBIql8TlMyag89k2O54mpxZaBaB0sPgbrF5FIqoAffB7cohsj1x8PLUDQZyH1/
+gD2UTlrEFngmlJHeonIsgY3ti546KijwcvpruRbhbmqiH5Lb/J8=
+=ijaC
+-----END PGP SIGNATURE-----
+
+--L6iaP+gRLNZHKoI4--
 
