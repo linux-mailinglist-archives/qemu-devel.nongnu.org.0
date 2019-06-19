@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F464C37D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 00:23:49 +0200 (CEST)
-Received: from localhost ([::1]:42302 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6BBE4C37B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 00:23:28 +0200 (CEST)
+Received: from localhost ([::1]:42298 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdizc-0003RA-Tx
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 18:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35953)
+	id 1hdizH-0003En-9p
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 18:23:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35949)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hdiwp-0001el-B1
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 18:20:57 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hdiwp-0001ek-2b
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 18:20:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hdiwn-0007i2-IA
+ (envelope-from <laurent@vivier.eu>) id 1hdiwn-0007iE-LH
  for qemu-devel@nongnu.org; Wed, 19 Jun 2019 18:20:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:38281)
+Received: from mout.kundenserver.de ([212.227.126.131]:35475)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hdiwn-0007fQ-8u
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hdiwn-0007fN-CR
  for qemu-devel@nongnu.org; Wed, 19 Jun 2019 18:20:53 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MGzDv-1hqb70028x-00E5N1; Thu, 20 Jun 2019 00:19:49 +0200
+ id 1MzR0i-1iYppW0ujA-00vQg8; Thu, 20 Jun 2019 00:19:50 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 00:19:23 +0200
-Message-Id: <20190619221933.1981-1-laurent@vivier.eu>
+Date: Thu, 20 Jun 2019 00:19:24 +0200
+Message-Id: <20190619221933.1981-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190619221933.1981-1-laurent@vivier.eu>
+References: <20190619221933.1981-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vcYchMn9fz37w888UBEJTdXOS4+aGhdCX0vdwVaTpL1liPOijn5
- 2goTU+K90Ph3kHC75kOtwxDYBnFPYM4jA5V+v0XQ48xVmApTSmN65iIIRFFEOFFyVL/60K2
- c8q1kNtxl+zniy7R7BsfMja2fNOI7YpZHSDLfL/7chwGJzpSqdwWtDqAD2i+L3tZG3gYlpu
- T3QK3x/haQS0+YrQ0keVg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cze62zB93fU=:/vmysIFdoJBwTHF6s1c/TR
- bHtQZ9cNDIfAsHWah8YLlQyVUsJQWpk4j0br7Ty+24DMBQk4OOMjVb7OYHM1fqL33UT1gocyt
- mvuj7J5/Fp4eK6abtcwo2dJUJiEslHUkwUk6XFonh0VBafV35B8anGSt2d0I7xW5lYJROlSqm
- wCXutoxna/SZN6rjIqQddHvqmroUUNTXsYHpmNfgM/TUN8usz4gnqcE7Brv3+Jq9vBLu0Ssut
- H6Yqkz8yvlFk6463XVLa+huoj8NP14NTUXjL98GZGtNhFaAchvgNEuFQzpk4GXXvMvkXMRNA+
- hCKvdci7q9TqN7iaT0ak3r8ReMwhqfmp/8ni5F1HcPc+A9gQRhmUKzeXmDjyRseRwn12EF7Ak
- ZaQK6kUMkJdE6LJO8IU+P4cmwR6GtnoSa/uU0FQqQqch2oNoTzLxujcNbJaPMoeAoTBN+fp22
- B6rf8CUW63ALpnup454NDtr1/F9MPNgnfMooA/ESpwqd2iW0JTftqgIhsH+XVe9s/ugRpzoh6
- HnbTme9F+K5tFQ6gpDD+hrLfW8zRIEvzfDmVBVnOITPKYTL7SZdhpROD/uCxuvtIFpvAc8WuR
- a7QUHN5qtJWGBnKjluQhToKNDvkG40FQ73PDsKM4MxJjpFcaKDn3dL/xMBRJctzZ3VX5C3rzQ
- F8124f33of+JWa44ItaYceJg0EkF+CcVWR6aEmrJAKshIbTrWgV7Tcgzh1wKO3KYjnI9NE8GK
- 3ALXAP5bSrvb0SJwAuVQVF4g5oFS5TpVfobHHGMQgTrDy8v6HWdDu0eIAwg=
+X-Provags-ID: V03:K1:NhQqWsTeW+0bMiwGym5bYPXwjtBviGB7fMaeSNfiDskP9v+uBIR
+ zXBNyy84abGm/ReAdsHskhlu5vFGVJ5RvdqUY2HASBTJJPtF//3euJizJ6uCMkkjpgCIUNY
+ 2HNAzRTnVKvRY2KTgCVohNSnma4Wm90Uz3+s25k5i87gW6iR4vcKs8eEG0M7Wb0+OLwQMlm
+ sY3h6WDtAC9NsH7MkKg2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Nbd5B4q3H70=:QHw8bso+Zx9yb4HmNY+v7Y
+ mX1wEVPcYz1GEtr3WPJ76hVF5Q+mj3LnExYyY715u5HYJ7BgP+/NShu/SXlhb0wBj7sNvB+Fe
+ nSV9ZsWPpBf9CnpwLGoxukba3plA0JbiZGG3W3zK0GlgqnwOdGI0tJCikkQxy4LLpKh2pM3/G
+ PJPJZ9sytZzQrD7U7cDqh3lfvirzRnUJ5Eth0XoAEOd38XQ3+MVsauaYgkR8N3Wp7709chzy6
+ CrLevY0htOsyL2d17Cehg06A+GQGeob97LAoocaAFEkNWrYyvgrNng97yEIwQFrj7C0ejrXXK
+ fF0C0Bpa067pKJ7Oo6JJ5K7vNJx9/1KhcfqwFg3JbxJCxAdFqYy/VAIC1K86Sr6NZ1j+ekPlM
+ qcX/2k3Ln3HwHQrvkJl/cKArAOJhLUaUTUsGcF1Uc/KrHIJlVoQQHToQ5VYaMjdIqMJUrO5Lg
+ 0bZBN6LJE8WhVTOk/Gif9/D51VEH86E+fiIhqsCv3ZEfoiUQEG5j2tDToHF0QvpmN4SXztQrV
+ I9VbiXgFd/95ip2iEFvzBADY6qi/yMj5pc7m3anL/y7ZpmPiZZTHfanBs4amX3ryyBMtqCvIS
+ G9WZjifLTIFfDqQ30Q61GjsWY2MygVKhQMO0syyoTIG21JiCEK7Cv13WjUtBSVjY54KBo9Sxb
+ Ru5N3e3BCMHbMtokBX9ok0+XYQxl/9lwMU2zBeMY1OO+xQkw8gaW6KFeVgKmM14WIRrUs0m+Q
+ 8sjR3s/oVwpiJxyyVfAGK6VSPeuy+rr91/mn99Ca/3S1ggZvoUqEbvdFt3Q=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.131
-Subject: [Qemu-devel] [PATCH v8 00/10] hw/m68k: add Apple Machintosh Quadra
- 800 machine
+Subject: [Qemu-devel] [PATCH v8 01/10] escc: introduce a selector for the
+ register bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,207 +77,115 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm rebasing some of these patches for seven years now,
-too many years...
+On Sparc and PowerMac, the bit 0 of the address
+selects the register type (control or data) and
+bit 1 selects the channel (B or A).
 
-if you want to test the machine, I'm sorry, it doesn't boot
-a MacROM, but you can boot a linux kernel from the command line.
+On m68k Macintosh, the bit 0 selects the channel and
+bit 1 the register type.
 
-You can install your own disk using debian-installer, with:
+This patch introduces a new parameter (bit_swap) to
+the device interface to indicate bits usage must
+be swapped between registers and channels.
 
-    ...
-    -M q800 \
-    -serial none -serial mon:stdio \
-    -m 1000M \
-    -net nic,model=dp83932,addr=09:00:07:12:34:57 \
-    -append "console=ttyS0 vga=off" \
-    -kernel vmlinux-4.16.0-1-m68k \
-    -initrd initrd.gz \
-    -drive file=debian-10.0-m68k-NETINST-1.iso,media=cdrom \
-    -drive file=m68k.qcow2,format=qcow2 \
-    -nographic
+For the moment all the machines use the bit 0,
+but this change will be needed to emulate Quadra 800.
 
-If you use a graphic adapter instead of "-nographic", you can use "-g" to set the
-size of the display (I use "-g 1600x800x24").
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+---
+ hw/char/escc.c         | 30 ++++++++++++++++++++++++------
+ include/hw/char/escc.h |  1 +
+ 2 files changed, 25 insertions(+), 6 deletions(-)
 
-You can get the ISO from:
-
-https://cdimage.debian.org/cdimage/ports/10.0/m68k/iso-cd/debian-10.0-m68k-NETINST-1.iso
-
-and extract the kernel and initrd.gz:
-
-guestfish --add debian-10.0-m68k-NETINST-1.iso --ro \
-          --mount /dev/sda:/ <<_EOF_
-copy-out /install/cdrom/initrd.gz .
-copy-out /install/kernels/vmlinux-4.16.0-1-m68k .
-_EOF_
-
-The mirror to use is: http://ftp.ports.debian.org/debian-ports/
-when it fails, continue without boot loader.
-
-In the same way, you can extract the kernel and the initramfs from the qcow2
-image to use it with "-kernel" and "-initrd":
-
-guestfish --add m68k.qcow2 --mount /dev/sda2:/ <<_EOF_
-copy-out /boot/vmlinux-4.16.0-1-m68k .
-copy-out /boot/initrd.img-4.16.0-1-m68k .
-_EOF_
-
-and boot with:
-
-   ...
-   -append "root=/dev/sda2 rw console=ttyS0 console=tty \
-   -kernel vmlinux-4.16.0-1-m68k \
-   -initrd initrd.img-4.16.0-1-m68k
-
-NOTE: DHCP doesn't work but you can assign a static IP address.
-      We need some patches for dp8393x that are not ready to be merged.
-      See http://patchwork.ozlabs.org/patch/927020/
-          http://patchwork.ozlabs.org/patch/927030/
-          http://patchwork.ozlabs.org/patch/927026/
-
-v8: rebase (new blk_new(), add "qemu-common.h")
-    update bootinfo information and license
-    add some braces
-    Rename Q800IRQState to GLUEState:
-    it's more like a Logic Unit than an IRQ controller,
-    and Apple calls it "GLUE" (Mark: I prefer to keep it
-    like this for the moment, in the future this part
-    need to be reworked, we have to review the IRQ levels
-    and to wire NUBUS IRQ. The implementation is really trivial
-    for the moment and we will move it to QOM in the future)
-
-v7: rebase and port to Kconfig
-    move IRQ controller back to q800.c (we don't need an object for this)
-    update log message for ESP changes and add some g_assert()
-    re-order patches: put esp, escc and dp8393x first
-
-v6: Rebase onto git master (this now includes the m68k EXCP_ILLEGAL fix required
-      for this patchset to boot)
-    Add Hervé's R-B tags
-    Drop ASC (Apple Sound Chip) device since the Linux driver is broken and
-      it is not required for a successful boot
-    Remove extra esp_raise_irq() from ESP pseudo-DMA patch (Hervé)
-    Remove "return" from unimplemented write functions and instead add a
-      "read only" comment (Hervé)
-    Rename MAX_FD to SWIM_MAX_FD in SWIM floppy controller patch to prevent
-      potential conflicts with other files (Hervé)
-
-v5: Rebase onto git master
-    Add Philippe's R-B to patch 10
-    Include the command line to boot a Linux kernel under the q800 machine in the
-    commit message for patch 11 (Philippe)
-    Fix up comments in hw/misc/mac_via.c (Thomas)
-    Add asserts to VIA ADB support to prevent potential buffer overflows (Thomas)
-    Move macfb surface/resolution checks to realise and remove hw_error (Thomas)
-    Move macfb draw_line functions inline and remove macfb-template.h (Mark)
-    Use guest address rather than source pointer in draw_line functions - this brings
-      macfb in line with the VGA device and can prevent a potential buffer overflow
-    Use g_strdup_printf() for memory region names in NuBus devices instead of
-      hardcoded length char arrays (Thomas)
-    Move NuBus QOM types from patch 7 to patch 8 (spotted by Thomas)
-    Move CONFIG_COLDFIRE sections together in hw/m68k/Makefile.objs (Thomas)
-    Remove obsolete comment from q800.c in patch 11 (Thomas)
-
-v4: Drop RFC from subject prefix as this is getting close to final
-    Rebased onto master (fixing ESP, rom_ptr() conflicts)
-    Reworked q800.c based upon Thomas' comments about cpu_init() and
-      qemu_check_nic_model()
-    Address Thomas' comments on using error_report() instead of hw_error()
-    Change the NuBus memory regions from DEVICE_NATIVE_ENDIAN to
-      DEVICE_BIG_ENDIAN
-    Split macfb Nubus support into separate commit
-    Change VMSTATE_BUFFER_UNSAFE() to VMSTATE_UINT8_ARRAY() in macfb.c as
-      suggested by David
-    Remove dummy Apple Sound Chip migration state as pointed out by David
-    Keep VIA ADB state and buffers in the mac_via device rather than adding
-      to existing ADBState (this matches the pattern used in the PPC CUDA/PMU
-      VIAs)
-    Remove blacklisting for q800 machine from "make check" as requested by
-      Thomas with the following fixes:
-        - Fix incorrect MemoryRegion owner in ASC device
-        - Add qtest_enabled() check in q800_init() to allow testing when no
-          kernel is specified
-        - Move some Mac VIA initialisation from init to realize
-    Remove legacy drive properties from SWIM floppy controller and instead
-      expose separate floppy bus and drive devices as requested by Kevin
-
-v3: fix subject prefix "C" -> "RFC"
-
-v2: remove the dp8393x fixes, because one of the patch breaks something
-    Update "dp8393x: manage big endian bus" with idea from Thomas
-    Mark has reworked most of the patches:
-    - use mos6522
-    - some code move, renamings and cleanup
-
-Laurent Vivier (9):
-  escc: introduce a selector for the register bit
-  esp: add pseudo-DMA as used by Macintosh
-  dp8393x: manage big endian bus
-  hw/m68k: add via support
-  hw/m68k: implement ADB bus support for via
-  hw/m68k: add macfb video card
-  hw/m68k: add Nubus support
-  hw/m68k: add a dummy SWIM floppy controller
-  hw/m68k: define Macintosh Quadra 800
-
-Mark Cave-Ayland (1):
-  hw/m68k: add Nubus support for macfb video card
-
- MAINTAINERS                         |  14 +
- arch_init.c                         |   4 +
- default-configs/m68k-softmmu.mak    |   1 +
- hw/Kconfig                          |   1 +
- hw/Makefile.objs                    |   1 +
- hw/block/Kconfig                    |   3 +
- hw/block/Makefile.objs              |   1 +
- hw/block/swim.c                     | 415 ++++++++++++++
- hw/char/escc.c                      |  30 +-
- hw/display/Kconfig                  |   4 +
- hw/display/Makefile.objs            |   1 +
- hw/display/macfb.c                  | 475 +++++++++++++++
- hw/m68k/Kconfig                     |  12 +
- hw/m68k/Makefile.objs               |   1 +
- hw/m68k/bootinfo.h                  | 114 ++++
- hw/m68k/q800.c                      | 377 ++++++++++++
- hw/misc/Kconfig                     |   4 +
- hw/misc/Makefile.objs               |   1 +
- hw/misc/mac_via.c                   | 857 ++++++++++++++++++++++++++++
- hw/net/dp8393x.c                    |  88 ++-
- hw/nubus/Kconfig                    |   2 +
- hw/nubus/Makefile.objs              |   4 +
- hw/nubus/mac-nubus-bridge.c         |  45 ++
- hw/nubus/nubus-bridge.c             |  34 ++
- hw/nubus/nubus-bus.c                | 111 ++++
- hw/nubus/nubus-device.c             | 215 +++++++
- hw/scsi/esp.c                       | 296 +++++++++-
- include/hw/block/swim.h             |  76 +++
- include/hw/char/escc.h              |   1 +
- include/hw/display/macfb.h          |  64 +++
- include/hw/misc/mac_via.h           | 114 ++++
- include/hw/nubus/mac-nubus-bridge.h |  24 +
- include/hw/nubus/nubus.h            |  69 +++
- include/hw/scsi/esp.h               |   7 +
- qemu-options.hx                     |   2 +-
- vl.c                                |   3 +-
- 36 files changed, 3403 insertions(+), 68 deletions(-)
- create mode 100644 hw/block/swim.c
- create mode 100644 hw/display/macfb.c
- create mode 100644 hw/m68k/bootinfo.h
- create mode 100644 hw/m68k/q800.c
- create mode 100644 hw/misc/mac_via.c
- create mode 100644 hw/nubus/Kconfig
- create mode 100644 hw/nubus/Makefile.objs
- create mode 100644 hw/nubus/mac-nubus-bridge.c
- create mode 100644 hw/nubus/nubus-bridge.c
- create mode 100644 hw/nubus/nubus-bus.c
- create mode 100644 hw/nubus/nubus-device.c
- create mode 100644 include/hw/block/swim.h
- create mode 100644 include/hw/display/macfb.h
- create mode 100644 include/hw/misc/mac_via.h
- create mode 100644 include/hw/nubus/mac-nubus-bridge.h
- create mode 100644 include/hw/nubus/nubus.h
-
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index 8ddbb4be4f..2748bd62c3 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -43,14 +43,21 @@
+  * mouse and keyboard ports don't implement all functions and they are
+  * only asynchronous. There is no DMA.
+  *
+- * Z85C30 is also used on PowerMacs. There are some small differences
+- * between Sparc version (sunzilog) and PowerMac (pmac):
++ * Z85C30 is also used on PowerMacs and m68k Macs.
++ *
++ * There are some small differences between Sparc version (sunzilog)
++ * and PowerMac (pmac):
+  *  Offset between control and data registers
+  *  There is some kind of lockup bug, but we can ignore it
+  *  CTS is inverted
+  *  DMA on pmac using DBDMA chip
+  *  pmac can do IRDA and faster rates, sunzilog can only do 38400
+  *  pmac baud rate generator clock is 3.6864 MHz, sunzilog 4.9152 MHz
++ *
++ * Linux driver for m68k Macs is the same as for PowerMac (pmac_zilog),
++ * but registers are grouped by type and not by channel:
++ * channel is selected by bit 0 of the address (instead of bit 1)
++ * and register is selected by bit 1 of the address (instead of bit 0).
+  */
+ 
+ /*
+@@ -170,6 +177,16 @@ static void handle_kbd_command(ESCCChannelState *s, int val);
+ static int serial_can_receive(void *opaque);
+ static void serial_receive_byte(ESCCChannelState *s, int ch);
+ 
++static int reg_shift(ESCCState *s)
++{
++    return s->bit_swap ? s->it_shift + 1 : s->it_shift;
++}
++
++static int chn_shift(ESCCState *s)
++{
++    return s->bit_swap ? s->it_shift : s->it_shift + 1;
++}
++
+ static void clear_queue(void *opaque)
+ {
+     ESCCChannelState *s = opaque;
+@@ -434,8 +451,8 @@ static void escc_mem_write(void *opaque, hwaddr addr,
+     int newreg, channel;
+ 
+     val &= 0xff;
+-    saddr = (addr >> serial->it_shift) & 1;
+-    channel = (addr >> (serial->it_shift + 1)) & 1;
++    saddr = (addr >> reg_shift(serial)) & 1;
++    channel = (addr >> chn_shift(serial)) & 1;
+     s = &serial->chn[channel];
+     switch (saddr) {
+     case SERIAL_CTRL:
+@@ -545,8 +562,8 @@ static uint64_t escc_mem_read(void *opaque, hwaddr addr,
+     uint32_t ret;
+     int channel;
+ 
+-    saddr = (addr >> serial->it_shift) & 1;
+-    channel = (addr >> (serial->it_shift + 1)) & 1;
++    saddr = (addr >> reg_shift(serial)) & 1;
++    channel = (addr >> chn_shift(serial)) & 1;
+     s = &serial->chn[channel];
+     switch (saddr) {
+     case SERIAL_CTRL:
+@@ -830,6 +847,7 @@ static void escc_realize(DeviceState *dev, Error **errp)
+ static Property escc_properties[] = {
+     DEFINE_PROP_UINT32("frequency", ESCCState, frequency,   0),
+     DEFINE_PROP_UINT32("it_shift",  ESCCState, it_shift,    0),
++    DEFINE_PROP_BOOL("bit_swap",    ESCCState, bit_swap,    false),
+     DEFINE_PROP_UINT32("disabled",  ESCCState, disabled,    0),
+     DEFINE_PROP_UINT32("chnBtype",  ESCCState, chn[0].type, 0),
+     DEFINE_PROP_UINT32("chnAtype",  ESCCState, chn[1].type, 0),
+diff --git a/include/hw/char/escc.h b/include/hw/char/escc.h
+index 42aca83611..8762f61c14 100644
+--- a/include/hw/char/escc.h
++++ b/include/hw/char/escc.h
+@@ -50,6 +50,7 @@ typedef struct ESCCState {
+ 
+     struct ESCCChannelState chn[2];
+     uint32_t it_shift;
++    bool bit_swap;
+     MemoryRegion mmio;
+     uint32_t disabled;
+     uint32_t frequency;
 -- 
 2.21.0
 
