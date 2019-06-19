@@ -2,64 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B3C4BA5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 15:44:23 +0200 (CEST)
-Received: from localhost ([::1]:38520 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09E074BAEF
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 16:14:35 +0200 (CEST)
+Received: from localhost ([::1]:38758 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdasw-0005zu-HY
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 09:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45425)
+	id 1hdbM9-0000Aa-K6
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 10:14:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52994)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1hdarM-0004xN-JA
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 09:42:45 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdbJY-00078T-K3
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:11:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hdarK-0006ml-JY
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 09:42:44 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:45889)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hdarG-0006gq-H2; Wed, 19 Jun 2019 09:42:38 -0400
-Received: by mail-ed1-x544.google.com with SMTP id a14so27251413edv.12;
- Wed, 19 Jun 2019 06:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Cz/1tMxK/u38eUP4Z5C29NBuegDdX7uFFCtexupzeEg=;
- b=jH9tEc4XPW78JsgmAtoScMw7V0sJS3e5Q3p0UdxJH6EkY9rQJFfSWeMrLY48jxTfva
- fjjurnyVXc5/mAqzi6Q/XdcEOy2Da9tfaZhXbJQjzS9G+JkGTOlnbi7k6Dmp2pCNTxaP
- U+oyYLo2ZizvbGgcMNVKjQQpwbQZCnuWSAL0GY5xP4CyGTFLPD2K9O3KC+dUEvMd66U7
- 4uajEyMRR/8pr00km1HKFiWpp8SssuuknB7pz68vhuMIvQkpuJURc/pA1yq/QlgE/+WC
- vbbBGzbQyIbW2hUTn8cl23fxdG+9l5RQJ3lAG+sl7FBPLEkHURccYrMEY2k0BosMaIJR
- dA5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Cz/1tMxK/u38eUP4Z5C29NBuegDdX7uFFCtexupzeEg=;
- b=eEFfWLADiINegPieVuMjFE9oxdljjn8xoz7PasiNChrO+Y/f3Hd1f9zwiphWy1bI98
- KDpHjazcdJUuT2oXo8mimdKsONQ+qhdfZLU7D/InZhx5zxE53KBUDsYWmkjYGkmJpGw4
- WqJGcwryqNesdww2ZJQXMlswCxtkHKZp7zENIHcDj1nMYv19T4nzoMEX/TxC7VLgx64v
- 5gmL7MMsYWhpVPcRr1iaHhDYJehcFZxKhZL5C9kcAHq0PrTxjkQ6QaVoCgtzP5bA8Fl3
- WmnH17IRgWbuCbeU7aGG/iTYu41qRYtnoXsr41cNRsPA46UQmfNKm1zv7GxyySUkk3XE
- sVtQ==
-X-Gm-Message-State: APjAAAWdgarntQGKALVkQytNAh39ieZFvBiQfFR+uNSB9fbQkRN/x3hi
- DTbk53wtebENpPNZMLNbXNvlNAXbEOTSlnw7PIE=
-X-Google-Smtp-Source: APXvYqzYAB9KTqVCk9YT/B0pEEdvAHx96m6vBtu9P1cCzhUUI9OWcOVIqDhYtSWzP3j+9UOo+kPclz40FpLzGw8eKhM=
-X-Received: by 2002:a50:94e6:: with SMTP id t35mr93612105eda.137.1560951754875; 
- Wed, 19 Jun 2019 06:42:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <1560525351-590-1-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKMVH9MCPRD3DYm9-O59H2=DVXA8L9Sa3pNsYs=wbZRiug@mail.gmail.com>
-In-Reply-To: <CAKmqyKMVH9MCPRD3DYm9-O59H2=DVXA8L9Sa3pNsYs=wbZRiug@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 19 Jun 2019 21:42:21 +0800
-Message-ID: <CAEUhbmVf8jTtsZD-+2jcGah-kS+bPM6xdkSML2Qq_NTmeoU3zA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::544
-Subject: Re: [Qemu-devel] [PATCH] riscv: sifive_test: Add reset functionality
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdbJX-00044U-Jn
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:11:52 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:56957 helo=mail.rt-rk.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hdbJX-0003LK-CO
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:11:51 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 000261A1FC3;
+ Wed, 19 Jun 2019 16:10:45 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id DCA881A1E7D;
+ Wed, 19 Jun 2019 16:10:45 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 19 Jun 2019 16:10:24 +0200
+Message-Id: <1560953429-29203-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v11 0/5] linux-user: A set of miscellaneous
+ patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,69 +49,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alistair,
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-On Tue, Jun 18, 2019 at 1:15 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Fri, Jun 14, 2019 at 8:30 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > This adds a reset opcode for sifive_test device to trigger a system
-> > reset for testing purpose.
-> >
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
-> >
-> >  hw/riscv/sifive_test.c         | 4 ++++
-> >  include/hw/riscv/sifive_test.h | 3 ++-
-> >  2 files changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/riscv/sifive_test.c b/hw/riscv/sifive_test.c
-> > index 24a04d7..cd86831 100644
-> > --- a/hw/riscv/sifive_test.c
-> > +++ b/hw/riscv/sifive_test.c
-> > @@ -21,6 +21,7 @@
-> >  #include "qemu/osdep.h"
-> >  #include "hw/sysbus.h"
-> >  #include "qemu/module.h"
-> > +#include "sysemu/sysemu.h"
-> >  #include "target/riscv/cpu.h"
-> >  #include "hw/riscv/sifive_test.h"
-> >
-> > @@ -40,6 +41,9 @@ static void sifive_test_write(void *opaque, hwaddr addr,
-> >              exit(code);
-> >          case FINISHER_PASS:
-> >              exit(0);
-> > +        case FINISHER_RESET:
-> > +            qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> > +            return;
-> >          default:
-> >              break;
-> >          }
-> > diff --git a/include/hw/riscv/sifive_test.h b/include/hw/riscv/sifive_test.h
-> > index 71d4c9f..c186a31 100644
-> > --- a/include/hw/riscv/sifive_test.h
-> > +++ b/include/hw/riscv/sifive_test.h
-> > @@ -34,7 +34,8 @@ typedef struct SiFiveTestState {
-> >
-> >  enum {
-> >      FINISHER_FAIL = 0x3333,
-> > -    FINISHER_PASS = 0x5555
-> > +    FINISHER_PASS = 0x5555,
-> > +    FINISHER_RESET = 0x7777
->
-> Do you mind sharing where you got this value from? I can't find
-> details on this device in the SiFive manuals.
->
+This is a collection of misc patches for Linux user that I recently
+accumulated from variuous sources. All of them originate from problems
+observed on mips target. However, most of these changes actually
+affect and fix linux-user problems on multiple targets.
 
-I don't think this is a device that actually exists on SiFive's
-chipset. It's hypothetical.
+v10->v11:
 
-Regards,
-Bin
+  - patch on <ADD|DROP>_MEMEBERSHIP basically reverted to its first
+    version
+  - corrected patch on statx()
+  - added patch on strace support for statx()
+  - added patch on fixing flock structure for MIPS O64 ABI
+
+v9->v10:
+
+  - improved commit messages for patches 2 and 3
+
+v8->v9:
+
+  - fixed build error on some systems related to SOL_ALG
+
+v7->v8:
+
+  - added a patch on setsockopt() option SOL_ALG
+
+v6->v7:
+
+  - fixed a build error for older kernels related to the patch on
+    setsockopt() options
+  - removed four patches that on the meantime got accepted into the
+    main source tree
+
+v5->v6:
+
+  - fixed a mistake in patch #4
+  - improved commit messages in patches #4 and #6
+
+v4->v5:
+
+  - added the patch on statx() support
+  - improved the patch on IPV6_<ADD|DROP>_MEMBERSHIP to take into
+    account the possibility of different names for a field
+  - minor corrections in commit messages
+
+v3->v4:
+
+  - improved commit messages (fixed some typos, improved relevance)
+
+v2->v3:
+
+  - updated and improved commit messages
+  - added IPV6_DROP_MEMBERSHIP support to the patch on setsockopt()'s
+    option
+
+v1->v2:
+
+  - added the patch on setsockopt()'s option IPV6_ADD_MEMBERSHIP
+  - improved the commit messages
+
+Aleksandar Markovic (1):
+  linux-user: Fix flock structure for MIPS O64 ABI
+
+Aleksandar Rikalo (1):
+  linux-user: Add support for translation of statx() syscall
+
+Jim Wilson (1):
+  linux-user: Add support for strace for statx() syscall
+
+Neng Chen (1):
+  linux-user: Add support for setsockopt() options
+    IPV6_<ADD|DROP>_MEMBERSHIP
+
+Yunqiang Su (1):
+  linux-user: Add support for setsockopt() option SOL_ALG
+
+ linux-user/generic/fcntl.h     |   2 +-
+ linux-user/mips/target_fcntl.h |   4 +
+ linux-user/strace.c            |  86 +++++++++++++++++++
+ linux-user/strace.list         |   3 +
+ linux-user/syscall.c           | 186 ++++++++++++++++++++++++++++++++++++++++-
+ linux-user/syscall_defs.h      |  37 ++++++++
+ 6 files changed, 316 insertions(+), 2 deletions(-)
+
+-- 
+2.7.4
+
 
