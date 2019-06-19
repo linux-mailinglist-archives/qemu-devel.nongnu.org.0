@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFFC4C1CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 21:54:39 +0200 (CEST)
-Received: from localhost ([::1]:41484 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5111D4C200
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 22:02:36 +0200 (CEST)
+Received: from localhost ([::1]:41564 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdgfG-00081P-Mj
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 15:54:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53989)
+	id 1hdgmx-0006sW-Ft
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 16:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55966)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hdgRg-0006BE-Gv
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:40:38 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hdgYo-0003v4-4w
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:48:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hdgRc-0000BM-Sf
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:40:36 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:39577)
+ (envelope-from <alex.bennee@linaro.org>) id 1hdgYk-00065D-BO
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:47:55 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35640)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hdgRc-00009C-K2
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:40:32 -0400
-Received: by mail-wm1-x343.google.com with SMTP id z23so697948wma.4
- for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 12:40:31 -0700 (PDT)
+ id 1hdgYi-0005bC-C7
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:47:52 -0400
+Received: by mail-wr1-x435.google.com with SMTP id m3so534237wrv.2
+ for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 12:47:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oDQCgUljExCFYtLLEJJpwccg9/K7BchyPzoArUB8z3c=;
- b=cKsvZfdCdGbDgxILtJOdXnLM8qVBC/JxJINBFxUByZRvsCBiFiuL5oKdUGcH0SyNUD
- nfFty59Xl+QfF1+Ih/9nIc0yCwk1JufbypLVNtmLJ7rcUzJbxeVLjYyro3+5Ity8bO/Y
- SoT9rnJZ/O/Lf3Ofeja1f+7iMFYY+u1ARPj3c58iszx3O8JqjE27LdznGYFFR1L6F4gm
- z6axjLq6N8Z7Nn0VGCuqYePKWnqXDWzX7A64+IGX2kNcFzV+i2NPE/uDC0Q5s4KjSQDP
- kwu6Vliq5ZlwU1mNjSaijn9Pjf7ubwLPBgUf/cvszpHQsfR/fG8sEe5f+Pkhh/RlILx9
- dRkw==
+ bh=onoeKhH8i7/jHDfnhI6V24OKwHYPamArShy5EWC2B6w=;
+ b=bPLYOztDZhjrRxVwKgFe5togLrKirPuJkAAU9VtDd3RNium9uKaD3Exmu1IZXJZgd8
+ AXqvng71GAQh1hD6LLMEJgNL2dLMY3NrKkwmzyflPzsE33FM8tyrhRX/L4qi82+YI9UN
+ TkPCuzftqXfoCLPXler9X0GGLGWADYeWGiHN5Lr4DD8JxSXC64v0iCXI3ILgUgqLbpcB
+ LfBUhKX+P70E3eTASlWga+g1KVnpT8jXbh+E86GSDfO24SgrZh7gG59VXTyqQi0grKc+
+ Cami+ocTN32GmC/8r908V/5LB7+kF1hNR9MlCMzDvUhORdHJOj5I9d9XZSuRLOV+HyUD
+ qVBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oDQCgUljExCFYtLLEJJpwccg9/K7BchyPzoArUB8z3c=;
- b=SjErezmqtLc7Bd5sgVcWQvJ3BBSrbATRgUEf7s0lm/5TJxNAoi0YbIOznTo0FGjJ7s
- baIaYCW2K25LE9V9UuJWa23yrGOfVFxL1VYonxyb7AWFcr/BjQ+22HPdfUp72QevPGj1
- sm6a6GZKRv4091FBylD0+gpEEGNdXSTq014/6+Tl3Xg9V6ZfMfjDFCEu1ovhI3FkeByc
- /pFpc07F4YNsoIv2kKLGGex2KOp2GqCgYPV60+tLzrqVDGvxFMhcA9JC5Pb738NtmGTF
- zp0ETQ3DTfMDkBFQ5/aQknwpw1o3WYHGAaBybC1qWyV+qCMBnV6XPnHPIy5UNHs2zJDn
- Xkgg==
-X-Gm-Message-State: APjAAAUnqI+/1viUdh5jWiK5L1H6mYIHmiznITOD7NPkRpAq3vM5O4lL
- 5jW6fkpuHMG/T/X1jwpl3ect3w==
-X-Google-Smtp-Source: APXvYqz/5v65wwXArGB+upmifIXUdDgbAQBmYkRo80UpR1ZWJE2Cd1vMl6fiR1iIHYiH2Toxpld1tg==
-X-Received: by 2002:a1c:35c2:: with SMTP id c185mr9505604wma.58.1560973230281; 
- Wed, 19 Jun 2019 12:40:30 -0700 (PDT)
+ bh=onoeKhH8i7/jHDfnhI6V24OKwHYPamArShy5EWC2B6w=;
+ b=jUzx4MpOIgDwG00NYiYbLY4EYxd02nEVQROOwmfOwsFYW66/LDPJ+7IMaHMhbWQQXa
+ Al9kCuxdYeicgoQgeiq2/F0Mpp15eP+597gtLHgmfqTdcpxfxcOCFyTjevzbjgIsRgf8
+ D/xdeAYJx7cemqm/QkJYM26/H7QuQvLUlFP1HQ9Dlh6GdpVFR7/530uCzuDm9Xm/204o
+ 231qD9WJGmPMWY4/VhO9U6N59i95N2PeHV9TTXWPDEtzyhe/bkOM2V2L8am0ujMi9FPf
+ UfeAw3L81pdqz5cIbiwMrQVY2fEm9IkzPrPyPuNVdeGfD5bd8SDf1fiR/o1lF+ALFDUJ
+ tCUQ==
+X-Gm-Message-State: APjAAAU8OdY/dSJlEVGRY+4xdf6fqXtsVfzcoQAn5Jt9d1a/8f4t1nqB
+ sr/8vNDLtTJuD681gO5gSkea4A==
+X-Google-Smtp-Source: APXvYqy1KrB5hQO+mR9wPB/Ic6QtSsz9KNRxaP966bWFOWM/JhvJfogsvb/8adkmG4xDmwcge3Hqng==
+X-Received: by 2002:adf:da47:: with SMTP id r7mr44177wrl.56.1560973639809;
+ Wed, 19 Jun 2019 12:47:19 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id c6sm3754300wma.25.2019.06.19.12.40.25
+ by smtp.gmail.com with ESMTPSA id n14sm16674768wra.75.2019.06.19.12.47.18
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 19 Jun 2019 12:40:27 -0700 (PDT)
+ Wed, 19 Jun 2019 12:47:18 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 98ABA1FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id AEB0A1FF9E;
  Wed, 19 Jun 2019 20:40:22 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 20:40:18 +0100
-Message-Id: <20190619194021.8240-15-alex.bennee@linaro.org>
+Date: Wed, 19 Jun 2019 20:40:19 +0100
+Message-Id: <20190619194021.8240-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190619194021.8240-1-alex.bennee@linaro.org>
 References: <20190619194021.8240-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH  v1 14/17] tests/vm: fedora autoinstall,
- using serial console
+X-Received-From: 2a00:1450:4864:20::435
+Subject: [Qemu-devel] [PATCH v1 15/17] tests/vm: ubuntu.i386: apt proxy setup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,290 +82,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Download the install iso and prepare the image locally.  Install to
-disk, using the serial console.  Create qemu user, configure ssh login.
-Install packages needed for qemu builds.
-
-Yes, we have docker images for fedora.  But for trouble-shooting it
-might be helpful to have a vm too.  When vm builds fail you can use
-it to figure whenever the vm setup or the guest os is the problem.
+Configure apt proxy so package downloads
+can be cached and can pass firewalls.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190617043858.8290-11-kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190617043858.8290-12-kraxel@redhat.com>
 ---
- tests/vm/Makefile.include |   3 +-
- tests/vm/basevm.py        |   9 +-
- tests/vm/fedora           | 189 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 199 insertions(+), 2 deletions(-)
- create mode 100755 tests/vm/fedora
+ tests/vm/ubuntu.i386 | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
-index a61c236b8e..809b80e2e5 100644
---- a/tests/vm/Makefile.include
-+++ b/tests/vm/Makefile.include
-@@ -2,7 +2,7 @@
- 
- .PHONY: vm-build-all vm-clean-all
- 
--IMAGES := ubuntu.i386 freebsd netbsd openbsd centos
-+IMAGES := ubuntu.i386 freebsd netbsd openbsd centos fedora
- IMAGES_DIR := $(HOME)/.cache/qemu-vm/images
- IMAGE_FILES := $(patsubst %, $(IMAGES_DIR)/%.img, $(IMAGES))
- 
-@@ -16,6 +16,7 @@ vm-test:
- 	@echo "  vm-build-netbsd                 - Build QEMU in NetBSD VM"
- 	@echo "  vm-build-openbsd                - Build QEMU in OpenBSD VM"
- 	@echo "  vm-build-centos                 - Build QEMU in CentOS VM, with Docker"
-+	@echo "  vm-build-fedora                 - Build QEMU in Fedora VM"
- 	@echo ""
- 	@echo "  vm-build-all                    - Build QEMU in all VMs"
- 	@echo "  vm-clean-all                    - Clean up VM images"
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 592a344773..3d717da498 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -206,7 +206,7 @@ class BaseVM(object):
-             # log console line
-             sys.stderr.write("con recv: %s\n" % line)
- 
--    def console_wait(self, expect):
-+    def console_wait(self, expect, expectalt = None):
-         vm = self._guest
-         output = ""
-         while True:
-@@ -215,6 +215,8 @@ class BaseVM(object):
-             except socket.timeout:
-                 sys.stderr.write("console: *** read timeout ***\n")
-                 sys.stderr.write("console: waiting for: '%s'\n" % expect)
-+                if not expectalt is None:
-+                    sys.stderr.write("console: waiting for: '%s' (alt)\n" % expectalt)
-                 sys.stderr.write("console: line buffer:\n")
-                 sys.stderr.write("\n")
-                 self.console_log(output.rstrip())
-@@ -223,6 +225,8 @@ class BaseVM(object):
-             output += chars.decode("latin1")
-             if expect in output:
-                 break
-+            if not expectalt is None and expectalt in output:
-+                break
-             if "\r" in output or "\n" in output:
-                 lines = re.split("[\r\n]", output)
-                 output = lines.pop()
-@@ -230,6 +234,9 @@ class BaseVM(object):
-                     self.console_log("\n".join(lines))
-         if self.debug:
-             self.console_log(output)
-+        if not expectalt is None and expectalt in output:
-+            return False
-+        return True
- 
-     def console_send(self, command):
-         vm = self._guest
-diff --git a/tests/vm/fedora b/tests/vm/fedora
-new file mode 100755
-index 0000000000..e8fa5bf0d2
---- /dev/null
-+++ b/tests/vm/fedora
-@@ -0,0 +1,189 @@
-+#!/usr/bin/env python
-+#
-+# Fedora VM image
-+#
-+# Copyright 2019 Red Hat Inc.
-+#
-+# Authors:
-+#  Gerd Hoffmann <kraxel@redhat.com>
-+#
-+# This code is licensed under the GPL version 2 or later.  See
-+# the COPYING file in the top-level directory.
-+#
-+
-+import os
-+import re
-+import sys
-+import time
-+import socket
-+import subprocess
-+import basevm
-+
-+class FedoraVM(basevm.BaseVM):
-+    name = "fedora"
-+    arch = "x86_64"
-+
-+    base = "http://dl.fedoraproject.org/pub/fedora/linux/releases/30/"
-+    link = base + "Server/x86_64/iso/Fedora-Server-netinst-x86_64-30-1.2.iso"
-+    repo = base + "Server/x86_64/os/"
-+    full = base + "Everything/x86_64/os/"
-+    csum = "5e4eac4566d8c572bfb3bcf54b7d6c82006ec3c6c882a2c9235c6d3494d7b100"
-+    size = "20G"
-+    pkgs = [
-+        # tools
-+        'git-core',
-+        'flex', 'bison',
-+        'gcc', 'binutils', 'make',
-+
-+        # perl
-+        'perl-Test-Harness',
-+
-+        # libs: usb
-+        '"pkgconfig(libusb-1.0)"',
-+        '"pkgconfig(libusbredirparser-0.5)"',
-+
-+        # libs: crypto
-+        '"pkgconfig(gnutls)"',
-+
-+        # libs: ui
-+        '"pkgconfig(sdl2)"',
-+        '"pkgconfig(gtk+-3.0)"',
-+        '"pkgconfig(ncursesw)"',
-+
-+        # libs: audio
-+        '"pkgconfig(libpulse)"',
-+        '"pkgconfig(alsa)"',
-+    ]
-+
-+    BUILD_SCRIPT = """
-+        set -e;
-+        rm -rf /home/qemu/qemu-test.*
-+        cd $(mktemp -d /home/qemu/qemu-test.XXXXXX);
-+        mkdir src build; cd src;
-+        tar -xf /dev/vdb;
-+        cd ../build
-+        ../src/configure --python=python3 {configure_opts};
-+        gmake --output-sync -j{jobs} {target} {verbose};
-+    """
-+
-+    def build_image(self, img):
-+        self.print_step("Downloading install iso")
-+        cimg = self._download_with_cache(self.link, sha256sum=self.csum)
-+        img_tmp = img + ".tmp"
-+        iso = img + ".install.iso"
-+
-+        self.print_step("Preparing iso and disk image")
-+        subprocess.check_call(["cp", "-f", cimg, iso])
-+        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
-+                               img_tmp, self.size])
-+
-+        self.print_step("Booting installer")
-+        self.boot(img_tmp, extra_args = [
-+            "-bios", "pc-bios/bios-256k.bin",
-+            "-machine", "graphics=off",
-+            "-cdrom", iso
-+        ])
-+        self.console_init(300)
-+        self.console_wait("installation process.")
-+        time.sleep(0.3)
-+        self.console_send("\t")
-+        time.sleep(0.3)
-+        self.console_send(" console=ttyS0")
+diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
+index 3ea459ee20..38f740eabf 100755
+--- a/tests/vm/ubuntu.i386
++++ b/tests/vm/ubuntu.i386
+@@ -51,6 +51,10 @@ class UbuntuX86VM(basevm.BaseVM):
+                           "    ssh-authorized-keys:\n",
+                           "    - %s\n" % basevm.SSH_PUB_KEY,
+                           "locale: en_US.UTF-8\n"])
 +        proxy = os.environ.get("http_proxy")
 +        if not proxy is None:
-+            self.console_send(" proxy=%s" % proxy)
-+            self.console_send(" inst.proxy=%s" % proxy)
-+        self.console_send(" inst.repo=%s" % self.repo)
-+        self.console_send("\n")
-+
-+        self.console_wait_send("2) Use text mode",         "2\n")
-+
-+        self.console_wait_send("5) [!] Installation Dest", "5\n")
-+        self.console_wait_send("1) [x]",                   "c\n")
-+        self.console_wait_send("2) [ ] Use All Space",     "2\n")
-+        self.console_wait_send("2) [x] Use All Space",     "c\n")
-+        self.console_wait_send("1) [ ] Standard Part",     "1\n")
-+        self.console_wait_send("1) [x] Standard Part",     "c\n")
-+
-+        self.console_wait_send("7) [!] Root password",     "7\n")
-+        self.console_wait("Password:")
-+        self.console_send("%s\n" % self.ROOT_PASS)
-+        self.console_wait("Password (confirm):")
-+        self.console_send("%s\n" % self.ROOT_PASS)
-+
-+        self.console_wait_send("8) [ ] User creation",     "8\n")
-+        self.console_wait_send("1) [ ] Create user",       "1\n")
-+        self.console_wait_send("3) User name",             "3\n")
-+        self.console_wait_send("ENTER:", "%s\n" % self.GUEST_USER)
-+        self.console_wait_send("4) [ ] Use password",      "4\n")
-+        self.console_wait_send("5) Password",              "5\n")
-+        self.console_wait("Password:")
-+        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_wait("Password (confirm):")
-+        self.console_send("%s\n" % self.GUEST_PASS)
-+        self.console_wait_send("7) Groups",                "c\n")
-+
-+        while True:
-+            good = self.console_wait("3) [x] Installation",
-+                                     "3) [!] Installation")
-+            self.console_send("r\n")
-+            if good:
-+                break
-+            time.sleep(10)
-+
-+        while True:
-+            good = self.console_wait("4) [x] Software",
-+                                     "4) [!] Software")
-+            self.console_send("r\n")
-+            if good:
-+                break
-+            time.sleep(10)
-+            self.console_send("r\n" % self.GUEST_PASS)
-+
-+        self.console_wait_send("'b' to begin install",     "b\n")
-+
-+        self.print_step("Installation started now, this will take a while")
-+
-+        self.console_wait_send("Installation complete",    "\n")
-+        self.print_step("Installation finished, rebooting")
-+
-+        # setup qemu user
-+        prompt = " ~]$"
-+        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
-+        self.console_wait_send(prompt, "exit\n")
-+
-+        # setup root user
-+        prompt = " ~]#"
-+        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
-+        self.console_sshd_config(prompt)
-+
-+        # setup virtio-blk #1 (tarfile)
-+        self.console_wait(prompt)
-+        self.console_send("echo 'KERNEL==\"vdb\" MODE=\"666\"' >> %s\n" %
-+                          "/etc/udev/rules.d/99-qemu.rules")
-+
-+        self.print_step("Configuration finished, rebooting")
-+        self.console_wait_send(prompt, "reboot\n")
-+        self.console_wait("login:")
-+        self.wait_ssh()
-+
-+        self.print_step("Installing packages")
-+        self.ssh_root_check("rm -vf /etc/yum.repos.d/fedora*.repo\n")
-+        self.ssh_root_check("echo '[fedora]' >> /etc/yum.repos.d/qemu.repo\n")
-+        self.ssh_root_check("echo 'baseurl=%s' >> /etc/yum.repos.d/qemu.repo\n" % self.full)
-+        self.ssh_root_check("echo 'gpgcheck=0' >> /etc/yum.repos.d/qemu.repo\n")
-+        self.ssh_root_check("dnf install -y %s\n" % " ".join(self.pkgs))
-+
-+        # shutdown
-+        self.ssh_root(self.poweroff)
-+        self.console_wait("sleep state S5")
-+        self.wait()
-+
-+        if os.path.exists(img):
-+            os.remove(img)
-+        os.rename(img_tmp, img)
-+        os.remove(iso)
-+        self.print_step("All done")
-+
-+if __name__ == "__main__":
-+    sys.exit(basevm.main(FedoraVM))
++            udata.writelines(["apt:\n",
++                              "  proxy: %s" % proxy])
+         udata.close()
+         subprocess.check_call(["genisoimage", "-output", "cloud-init.iso",
+                                "-volid", "cidata", "-joliet", "-rock",
 -- 
 2.20.1
 
