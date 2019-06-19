@@ -2,67 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595164BCC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 17:28:39 +0200 (CEST)
-Received: from localhost ([::1]:39402 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 636C24BCD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 17:32:01 +0200 (CEST)
+Received: from localhost ([::1]:39468 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdcVq-0004Vt-5C
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 11:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42253)
+	id 1hdcZ6-0000Nn-Gz
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 11:32:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42385)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <fintelia@gmail.com>) id 1hdcTb-0002kR-3i
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:26:20 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hdcTs-000372-2I
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:26:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fintelia@gmail.com>) id 1hdcTZ-0001z2-5r
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:26:19 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:45034)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <fintelia@gmail.com>)
- id 1hdcTO-0001qT-Mx; Wed, 19 Jun 2019 11:26:06 -0400
-Received: by mail-lj1-x244.google.com with SMTP id k18so3645260ljc.11;
- Wed, 19 Jun 2019 08:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+tJxGWSA2yNdf2ZcVYUY7snQkd1JLOOATxOxxF1lNXs=;
- b=a5TZ8NqJgKW6NFjFrUw20hLh43cxX3TqR8rMDafTaCuHQ3mTYvQlI0amc/LaZ9csgG
- c45AU8YlKMsHWoMpSIFVSeKM3Uf/4yH8ZwSm0IKPKo4lJACw54jBNgsrIGRuIYOR5JEV
- iVdr5aA6WldDcjT27Wa4CSxipvb4hmOxvC2XPR7bPBCtN+3hvC41+kMMGMZ5zcx+f5bm
- NyTZqNwtsDkkGQp9vYLAbFGtRVqeGEB7DW0lLcutwiGJyZzFnmCIlkHFZ16pi60ls/dp
- BIZt/DUk7sg7DBo2BRn27Vme352h16l1vZzPON++GllP7nLc1oVAj1P6oLK80esEN6k4
- epag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+tJxGWSA2yNdf2ZcVYUY7snQkd1JLOOATxOxxF1lNXs=;
- b=DHy6fPCzffcishQTqcB/G/sE1FW6MBh8doGjGKTLoeHlTCg6JCxbbwLHHFxuPaEUL5
- H0tYoeHmNOTGXgaHs3rmTghj8UNdSFkh/w/o50V+xrV++X9lujTU2aMjQ/5OWykMw7dA
- b58MRLo3G8vo1NFdeOJvd+zgYHdhujTfo373yb3zmITvPYfsaXkecU3fXWjMUFvJafvr
- xy4D4Rm6RY+/8KbxElOtLKUhL2yW42PQeLsqWX7CXC+78RolFJxtW+ghcsELomat5c6E
- p2p8L1F5oDwf3rfAIw/j8m4QNQn0VlYV2XmbYOrn9mEb9wdqNpxgfKxl9hXCnlYozqPn
- K18w==
-X-Gm-Message-State: APjAAAVA39+YLuek/maGI0VD2zIyCMnuCyOorm+0BrtBT8HCwMAmC58L
- Vwrltj+a/tTxvODxnSG4rbvLRYdPbzkf1vj1p9c=
-X-Google-Smtp-Source: APXvYqzdFf3c3/WbxZtKcddapJmbYmVoQK/a/adme6ZqVzfv/Djdh5h9dYO4i6o7kZYAHhqKU3/GpeSDkx2lZTQwrrs=
-X-Received: by 2002:a2e:6348:: with SMTP id x69mr56899839ljb.186.1560957961111; 
- Wed, 19 Jun 2019 08:26:01 -0700 (PDT)
+ (envelope-from <mreitz@redhat.com>) id 1hdcTq-000299-ON
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 11:26:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56482)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hdcTn-0001wH-NZ; Wed, 19 Jun 2019 11:26:31 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0E5F730C1AE7;
+ Wed, 19 Jun 2019 15:26:10 +0000 (UTC)
+Received: from localhost (ovpn-116-121.ams2.redhat.com [10.36.116.121])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 54B36601B6;
+ Wed, 19 Jun 2019 15:26:05 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Wed, 19 Jun 2019 17:25:54 +0200
+Message-Id: <20190619152603.5937-1-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <cover.1560904640.git.alistair.francis@wdc.com>
- <e718da8df07915765217dece609255b6ad196955.1560904640.git.alistair.francis@wdc.com>
- <CAEUhbmUz5xHqhuEvDWHBTpKN+k3uuNPQxNCGFWOfR21hMhWtPw@mail.gmail.com>
-In-Reply-To: <CAEUhbmUz5xHqhuEvDWHBTpKN+k3uuNPQxNCGFWOfR21hMhWtPw@mail.gmail.com>
-From: Jonathan Behrens <fintelia@gmail.com>
-Date: Wed, 19 Jun 2019 11:25:32 -0400
-Message-ID: <CANnJOVH34B0efKNSjNHD5ZmuWqAsybsmiwFXEQYvTye+oJBV=A@mail.gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [Qemu-riscv] [RFC v1 2/5] hw/riscv: Add support
- for loading a firmware
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Wed, 19 Jun 2019 15:26:10 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/9] block: Delay poll when ending drained
+ sections
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,88 +54,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I was actually just writing up the same thing.  Shifting all the addresses
-in the ELF file by 2 or 4MB is somewhat surprising behavior, especially
-because this will apply to segments that are mapped even at much higher
-addresses. If you want a segment aligned to a 1GB superpage boundary you
-now need to place it slightly below so that it will be bumped up to the
-right place. Further, ANDing all addresses with 0x7fffffff makes it
-impossible to map anything beyond the first 2GB of RAM.
+Hi,
 
-Jonathan
+This is v2 to =E2=80=9Cblock: Keep track of parent quiescing=E2=80=9D.
 
-On Wed, Jun 19, 2019 at 11:16 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+Please read this cover letter, because I=E2=80=99m very unsure about the =
+design
+in this series and I=E2=80=99d appreciate some comments.
 
-> On Wed, Jun 19, 2019 at 8:53 AM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > Add support for loading a firmware file for the virt machine and the
-> > SiFive U. This can be run with the following command:
-> >
-> >     qemu-system-riscv64 -machine virt -bios fw_jump.elf -kernel vmlinux
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/riscv/boot.c         | 41 +++++++++++++++++++++++++++++++++++++++--
-> >  hw/riscv/sifive_e.c     |  2 +-
-> >  hw/riscv/sifive_u.c     |  6 +++++-
-> >  hw/riscv/spike.c        |  6 +++---
-> >  hw/riscv/virt.c         |  7 ++++++-
-> >  include/hw/riscv/boot.h |  4 +++-
-> >  6 files changed, 57 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> > index 62f94aaf8a..392ca0cb2e 100644
-> > --- a/hw/riscv/boot.c
-> > +++ b/hw/riscv/boot.c
-> > @@ -23,13 +23,50 @@
-> >  #include "exec/cpu-defs.h"
-> >  #include "hw/loader.h"
-> >  #include "hw/riscv/boot.h"
-> > +#include "hw/boards.h"
-> >  #include "elf.h"
-> >
-> > -target_ulong riscv_load_kernel(const char *kernel_filename)
-> > +#if defined(TARGET_RISCV32)
-> > +# define KERNEL_BOOT_ADDRESS 0x80400000
-> > +#else
-> > +# define KERNEL_BOOT_ADDRESS 0x80200000
-> > +#endif
-> > +
-> > +static uint64_t kernel_translate(void *opaque, uint64_t addr)
-> > +{
-> > +    MachineState *machine = opaque;
-> > +
-> > +    /*
-> > +     * If the user specified a firmware move the kernel to the offset
-> > +     * start address.
-> > +     */
->
-> Why?
->
-> > +    if (machine->firmware) {
-> > +        return (addr & 0x7fffffff) + KERNEL_BOOT_ADDRESS;
->
-> So with both "-bios" and "-kernel", the kernel address will be moved
-> to another address other than 0x80200000 (for 64-bit). This does not
-> look good to me.
->
-> > +    } else {
-> > +        return addr;
-> > +    }
-> > +}
-> > +
->
-> [snip]
->
-> Regards,
-> Bin
->
->
+As Kevin wrote in his reply to that series, the actual problem is that
+bdrv_drain_invoke() polls on every node whenever ending a drain.  This
+may cause graph changes, which is actually forbidden.
+
+To solve that problem, this series makes the drain code construct a list
+of undrain operations that have been initiated, and then polls all of
+them on the root level once graph changes are acceptable.
+
+Note that I don=E2=80=99t like this list concept very much, so I=E2=80=99=
+m open to
+alternatives.
+
+Furthermore, all BdrvChildRoles with BDS parents have a broken
+.drained_end() implementation.  The documentation clearly states that
+this function is not allowed to poll, but it does.  So this series
+changes it to a variant (using the new code) that does not poll.
+
+There is a catch, which may actually be a problem, I don=E2=80=99t know: =
+The new
+variant of that .drained_end() does not poll at all, never.  As
+described above, now every bdrv_drain_invoke() returns an object that
+describes when it will be done and which can thus be polled for.  These
+objects are just discarded when using BdrvChildRole.drained_end().  That
+does not feel quite right.  It would probably be more correct to let
+BdrvChildRole.drained_end() return these objects so the top level
+bdrv_drained_end() can poll for their completion.
+
+I decided not to do this, for two reasons:
+(1) Doing so would spill the =E2=80=9Clist of objects to poll for=E2=80=9D=
+ design to
+    places outside of block/io.c.  I don=E2=80=99t like the design very m=
+uch as
+    it is, but I can live with it as long as it=E2=80=99s constrained to =
+the
+    core drain code in block/io.c.
+    This is made worse by the fact that currently, those objects are of
+    type BdrvCoDrainData.  But it shouldn=E2=80=99t be a problem to add a=
+ new
+    type that is externally visible (we only need the AioContext and
+    whether bdrv_drain_invoke_entry() is done).
+
+(2) It seems to work as it is.
+
+The alternative would be to add the same GSList ** parameter to
+BdrvChildRole.drained_end() that I added in the core drain code in patch
+2, and then let the .drained_end() implementation fill that with objects
+to poll for.  (Which would be accomplished by adding a frontend to
+bdrv_do_drained_end() that lets bdrv_child_cb_drained_poll() pass the
+parameter through.)
+
+Opinions?
+
+
+And then we have bdrv_replace_child_noperm(), which actually wants a
+polling BdrvChildRole.drained_end().  So this series adds
+BdrvChildRole.drained_end_unquiesce(), which takes that role (if there
+is any polling to do).
+
+Note that if I implemented the alternative described above
+(.drained_end() gets said GSList ** parameter), a
+.drained_end_unquiesce() wouldn=E2=80=99t be necessary.
+bdrv_parent_drained_end_single() could just poll the list returned by
+.drained_end() by itself.
+
+
+Finally, patches 1, 8, and 9 are unmodified from v1.
+
+
+git backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/9:[----] [--] 'block: Introduce BdrvChild.parent_quiesce_counter'
+002/9:[down] 'block: Add @data_objs to bdrv_drain_invoke()'
+003/9:[down] 'block: Add bdrv_poll_drain_data_objs()'
+004/9:[down] 'block: Move polling out of bdrv_drain_invoke()'
+005/9:[down] 'block: Add @poll to bdrv_parent_drained_end_single()'
+006/9:[down] 'block: Add bdrv_drained_end_no_poll()'
+007/9:[down] 'block: Fix BDS children's .drained_end()'
+008/9:[----] [--] 'iotests: Add @has_quit to vm.shutdown()'
+009/9:[----] [--] 'iotests: Test commit with a filter on the chain'
+
+
+Max Reitz (9):
+  block: Introduce BdrvChild.parent_quiesce_counter
+  block: Add @data_objs to bdrv_drain_invoke()
+  block: Add bdrv_poll_drain_data_objs()
+  block: Move polling out of bdrv_drain_invoke()
+  block: Add @poll to bdrv_parent_drained_end_single()
+  block: Add bdrv_drained_end_no_poll()
+  block: Fix BDS children's .drained_end()
+  iotests: Add @has_quit to vm.shutdown()
+  iotests: Test commit with a filter on the chain
+
+ include/block/block.h      |  22 +++++-
+ include/block/block_int.h  |  23 ++++++
+ block.c                    |  24 +++---
+ block/io.c                 | 155 ++++++++++++++++++++++++++++++-------
+ python/qemu/__init__.py    |   5 +-
+ tests/qemu-iotests/040     |  40 +++++++++-
+ tests/qemu-iotests/040.out |   4 +-
+ tests/qemu-iotests/255     |   2 +-
+ 8 files changed, 231 insertions(+), 44 deletions(-)
+
+--=20
+2.21.0
+
+
