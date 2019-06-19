@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23C764B113
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 07:10:19 +0200 (CEST)
-Received: from localhost ([::1]:35186 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8274B107
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 07:08:12 +0200 (CEST)
+Received: from localhost ([::1]:35162 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdSrS-0000ee-Bv
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 01:10:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34412)
+	id 1hdSpQ-0005wX-1f
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 01:08:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34415)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hdSmT-0003u6-90
+ (envelope-from <jan.bobek@gmail.com>) id 1hdSmT-0003u8-9A
  for qemu-devel@nongnu.org; Wed, 19 Jun 2019 01:05:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hdSmP-0001dT-Ho
+ (envelope-from <jan.bobek@gmail.com>) id 1hdSmP-0001dY-IW
  for qemu-devel@nongnu.org; Wed, 19 Jun 2019 01:05:07 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:42669)
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:41244)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hdSmO-0001ab-Oe
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hdSmO-0001c0-RN
  for qemu-devel@nongnu.org; Wed, 19 Jun 2019 01:05:04 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id c7so7068806ybs.9
+Received: by mail-yb1-xb44.google.com with SMTP id d2so7077574ybh.8
  for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 22:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oHgBFtSwsKdkaL7+CpH5HEOf8Bsgg2J9D/ISE/dA+Bg=;
- b=WcVcoVFf+XZ9XSibh5o3QrKMieACPBKFlOolNAnSpvSXiMoMilz5RSoYhfbj2QxXGu
- 5L8RJmoZb7wo3CSfEPYjEUsDIk2myYJZ7qqOAZ9xMcEr+YPMAWv9mbVQFdOj8dgk4yNh
- NYgcdwvwgFb12Hv1IYNu4w6n/4LG6dvzWlOA06KvCYq0OI8jJZmc+FKCwc7vD5XAV2tW
- 1kU/DsHOnEYsIHzcwtrayAP3y8VcWB3iLVkNA3N9KwA0AdKz5kDgKwNUgHcJVDLoXa3T
- lMsxKYGwl/71kAyWmSkrruGDTq265SrpSoMk0wStbFhZa81omQEP4wuyecpLU1qESNpF
- OZAg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=E+nG+A7eIMJ+oEMZ98jk8lnEytaL2DnbYAnCvuy+ey8=;
+ b=tRlOOJu/44ZdoANgiGx9LaHAYE+sQ6IlK4nos+/S+iriipl1VVZAxp69FMe8N7Xsn4
+ skvNznWNlKeBFNjgmZFP6g+i/XWjDhm0wkHHs4HFqxcnVinR2Cme9NVt8XksfACINudD
+ r0HNmTw+wUPeeahIjl7Jlga/mowljVStdbMjKsV0D8oRlDkLRjwgqy1fE5hCr2DZGYja
+ 7VPMVciQ75wND2JneK95srUXFL3PsrMl3+uhsm4FYoOaFvDfQnDa3py59fuUuJhfILYc
+ HroesAq6x61Dvej0sdMGtxAXAzJldq9D1vLhUwD9Pd+qYztGzIAcod2DsGvpYCJq3poM
+ 2Nrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=oHgBFtSwsKdkaL7+CpH5HEOf8Bsgg2J9D/ISE/dA+Bg=;
- b=X97MDeUz9QbdQxYkSjFNIPeloFwPB53bg/U8jEexIPLxgLHO8zL/vkyg3gKQL/82t/
- /JF9X+px6uYdLuz5w10RJDCc1pN6bfvTnbaCU7W8kRCSxMae6SCWo6lPewTuz7dfu7VP
- kv63QybxX4XgRAk+qKk+PZ5J8zvXmeo+8PX3JypEnkcLWoxcOT/IsniG4k4/0ConrsJl
- BcB0cB4Wp6IeI+CKHlYXSPSeMUCcs79PukxLwixdFurwpP5UxEN7bF0u5TFQj7CbL/lY
- iI08XffQLl6tCycObdOZecelq4s2UIHsJgQ+LiYltxWgvPxDodQggz6LwLfq9/Y/4JCK
- qp4w==
-X-Gm-Message-State: APjAAAVjRGYu+/EmfOOJWiBDcdMd/HnivnrBIwh/vcvvQtE8sF400G9c
- u86nW+qcPcvvPHa4c+l9U8jXa/PE
-X-Google-Smtp-Source: APXvYqxayVu+gJO8MYxh7zDKIfBs6vxbW85K7Qg51QKu0hYwNNd0PiSNvu9FDaespUjzJ+U84y1crA==
-X-Received: by 2002:a5b:2c1:: with SMTP id h1mr20659935ybp.453.1560920702545; 
- Tue, 18 Jun 2019 22:05:02 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=E+nG+A7eIMJ+oEMZ98jk8lnEytaL2DnbYAnCvuy+ey8=;
+ b=hbz0Sn9B4012Pe3rCWglQ61HO9Mf5Wgu8CSVYUUWdS08YM2LUWyjy4V+htRzQaz2Iu
+ lJmBS9Vkbj33LsXvMYmpdhE2djiSMDA0scekAo9l0dcWP30rIymuu3JS5fRgGYQeTyaj
+ I44EZfed3v8dsS5AinqpxYE0IYpeNrEDCRSntVIiE+DyMVWgI+GZImn9np15gOGi3JgF
+ WNsN/aylFaB0KnalEv5r1cQae0Idd6qLGmY2Ypl3UGAHNQPT5qKLVDeB0MfuQS6QH4Ql
+ 7DajY2l7Wb3Y+UWwOqnlP0FwbwNrxfC71So6GNXhSOsro1WMwigI9e2H1LzA7X0uxn45
+ 7ZsQ==
+X-Gm-Message-State: APjAAAWrS90tdIT11qY0kJWcUotVrIgUx7S+4Xx8jThrZEsVp0xTEVKo
+ HdYW3JRxVOwvPXg5JzMh/Wy/8/Io
+X-Google-Smtp-Source: APXvYqxM9T5OCojbabYUp4yv5z8fLTBG83tyvLnCZ8JO27X11qtMLWxRMVStWUqA10Gyi1eIz+hBIg==
+X-Received: by 2002:a25:4d5:: with SMTP id 204mr21735719ybe.112.1560920703342; 
+ Tue, 18 Jun 2019 22:05:03 -0700 (PDT)
 Received: from localhost.localdomain (67-9-99-67.biz.bhn.net. [67.9.99.67])
- by smtp.gmail.com with ESMTPSA id e12sm1714426ywe.85.2019.06.18.22.05.01
+ by smtp.gmail.com with ESMTPSA id e12sm1714426ywe.85.2019.06.18.22.05.02
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Tue, 18 Jun 2019 22:05:02 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 01:04:40 -0400
-Message-Id: <20190619050447.22201-1-jan.bobek@gmail.com>
+Date: Wed, 19 Jun 2019 01:04:41 -0400
+Message-Id: <20190619050447.22201-2-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190619050447.22201-1-jan.bobek@gmail.com>
+References: <20190619050447.22201-1-jan.bobek@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::b44
-Subject: [Qemu-devel] [RISU RFC PATCH v1 0/7] Support for generating x86
- SSE/SSE2 test images
+Subject: [Qemu-devel] [RISU RFC PATCH v1 1/7] risugen_common: add insnv,
+ randint_constr, rand_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,55 +83,157 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+Add three common utility functions:
 
-this is v1 of my changes to risugen in order to support generating x86
-test images. It's still work-in-progress (thus marked RFC; notably,
-there is no support for AVX yet), but I would like to get this out
-there to get some early feedback on my approach.
+- insnv allows emitting variable-length instructions in little-endian
+  or big-endian byte order; it subsumes functionality of former
+  insn16() and insn32() functions.
 
-Initially, I thought adding support for arbitrarily-long instructions
-would be more or less enough for x86, but unfortunately this turned
-out not to be the case; the length variation introduced by ModR/M, SIB
-and displacement fields would force us to have to have at least 6
-config file entries per almost every instruction, which is pretty much
-unmaintainable. Instead, I drew inspiration from the "memory" blocks
-in arm.risu for specifying memory constraints, and introduced "emit"
-blocks for x86. Example x86 config file with SSE and SSE2 instructions
-can be found in the last two commits, let me know what you think.
+- randint_constr allows generating random integers according to
+  several constraints passed as arguments.
 
-There are still some limitations -- besides missing (E)VEX support,
-some forms of ModR/M are also not supported (mostly because it's hard
-or impossible to figure out and use the correct memory address), and
-the LDMXCSR instruction is currently commented out because there's no
-way to specify constraints on memory contents. However, this patch
-series should have enough code to demonstrate my intended general
-approach, and that's what I am looking for feedback for.
+- rand_fill uses randint_constr to fill a given hash with
+  (optionally constrained) random values.
 
-Best,
- -Jan
+Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
+---
+ risugen_common.pm | 101 +++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 95 insertions(+), 6 deletions(-)
 
-Jan Bobek (7):
-  risugen_common: add insnv, randint_constr, rand_fill
-  risugen_x86_asm: add module
-  risugen_x86_emit: add module
-  risugen_x86: add module
-  risugen: allow all byte-aligned instructions
-  x86.risu: add SSE instructions
-  x86.risu: add SSE2 instructions
-
- risugen             |  15 +-
- risugen_common.pm   | 101 +++++++++-
- risugen_x86.pm      | 455 ++++++++++++++++++++++++++++++++++++++++++++
- risugen_x86_asm.pm  | 186 ++++++++++++++++++
- risugen_x86_emit.pm |  85 +++++++++
- x86.risu            | 245 ++++++++++++++++++++++++
- 6 files changed, 1075 insertions(+), 12 deletions(-)
- create mode 100644 risugen_x86.pm
- create mode 100644 risugen_x86_asm.pm
- create mode 100644 risugen_x86_emit.pm
- create mode 100644 x86.risu
-
+diff --git a/risugen_common.pm b/risugen_common.pm
+index 71ee996..98b9170 100644
+--- a/risugen_common.pm
++++ b/risugen_common.pm
+@@ -23,7 +23,8 @@ BEGIN {
+     require Exporter;
+ 
+     our @ISA = qw(Exporter);
+-    our @EXPORT = qw(open_bin close_bin set_endian insn32 insn16 $bytecount
++    our @EXPORT = qw(open_bin close_bin set_endian insn32 insn16
++                   $bytecount insnv randint_constr rand_fill
+                    progress_start progress_update progress_end
+                    eval_with_fields is_pow_of_2 sextract ctz
+                    dump_insn_details);
+@@ -37,7 +38,7 @@ my $bigendian = 0;
+ # (default is little endian, 0).
+ sub set_endian
+ {
+-    $bigendian = @_;
++    ($bigendian) = @_;
+ }
+ 
+ sub open_bin
+@@ -52,18 +53,106 @@ sub close_bin
+     close(BIN) or die "can't close output file: $!";
+ }
+ 
++sub insnv(%)
++{
++    my (%args) = @_;
++
++    # Default to big-endian order, so that the instruction bytes are
++    # emitted in the same order as they are written in the
++    # configuration file.
++    $args{bigendian} = 1 unless defined $args{bigendian};
++
++    while (0 < $args{len}) {
++        my $format;
++        my $len;
++
++        if ($args{len} >= 8) {
++            $format = "Q";
++            $len = 8;
++        } elsif ($args{len} >= 4) {
++            $format = "L";
++            $len = 4;
++        } elsif ($args{len} >= 2) {
++            $format = "S";
++            $len = 2;
++        } else {
++            $format = "C";
++            $len = 1;
++        }
++
++        $format .= ($args{bigendian} ? ">" : "<") if $len > 1;
++
++        my $bitlen = 8 * $len;
++        my $bitmask = (1 << $bitlen) - 1;
++        my $value = ($args{bigendian}
++                     ? ($args{value} >> (8 * $args{len} - $bitlen))
++                     : $args{value});
++
++        print BIN pack($format, $value & $bitmask);
++        $bytecount += $len;
++
++        $args{len} -= $len;
++        $args{value} >>= $bitlen unless $args{bigendian};
++    }
++}
++
+ sub insn32($)
+ {
+     my ($insn) = @_;
+-    print BIN pack($bigendian ? "N" : "V", $insn);
+-    $bytecount += 4;
++    insnv(value => $insn, len => 4, bigendian => $bigendian);
+ }
+ 
+ sub insn16($)
+ {
+     my ($insn) = @_;
+-    print BIN pack($bigendian ? "n" : "v", $insn);
+-    $bytecount += 2;
++    insnv(value => $insn, len => 2, bigendian => $bigendian);
++}
++
++sub randint_constr(%)
++{
++    my (%args) = @_;
++    my $bitlen = $args{bitlen};
++    my $halfrange = 1 << ($bitlen - 1);
++
++    while (1) {
++        my $value = int(rand(2 * $halfrange));
++        $value -= $halfrange if defined $args{signed} && $args{signed};
++        $value &= ~$args{fixedbitmask} if defined $args{fixedbitmask};
++        $value |= $args{fixedbits} if defined $args{fixedbits};
++
++        if (defined $args{constraint}) {
++            if (!($args{constraint} >> 63)) {
++                $value = $args{constraint};
++            } elsif ($value == ~$args{constraint}) {
++                next;
++            }
++        }
++
++        return $value;
++    }
++}
++
++sub rand_fill($$)
++{
++    my ($target, $constraints) = @_;
++
++    for (keys %{$target}) {
++        my %args = (bitlen => $target->{$_}{bitlen});
++
++        $args{fixedbits} = $target->{$_}{fixedbits}
++            if defined $target->{$_}{fixedbits};
++        $args{fixedbitmask} = $target->{$_}{fixedbitmask}
++            if defined $target->{$_}{fixedbitmask};
++        $args{signed} = $target->{$_}{signed}
++            if defined $target->{$_}{signed};
++
++        $args{constraint} = $constraints->{$_}
++            if defined $constraints->{$_};
++
++        $target->{$_} = randint_constr(%args);
++    }
++
++    return $target;
+ }
+ 
+ # Progress bar implementation
 -- 
 2.20.1
 
