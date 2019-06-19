@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F714C167
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 21:21:28 +0200 (CEST)
-Received: from localhost ([::1]:41260 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9444D4C174
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 21:24:23 +0200 (CEST)
+Received: from localhost ([::1]:41282 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdg98-0007ID-Qj
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 15:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47365)
+	id 1hdgBy-00026l-P8
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 15:24:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47387)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lidong.chen@oracle.com>) id 1hdg4g-0005e1-8h
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:52 -0400
+ (envelope-from <lidong.chen@oracle.com>) id 1hdg4j-0005eg-97
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lidong.chen@oracle.com>) id 1hdg4d-0007ph-Ap
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:48 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:47062)
+ (envelope-from <lidong.chen@oracle.com>) id 1hdg4e-0007sk-Sn
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:50 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:47064)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <lidong.chen@oracle.com>)
- id 1hdg4Y-0007Ya-Bs
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:44 -0400
+ id 1hdg4b-0007Yc-NE
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:47 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJ8bnl074726;
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJ8ZxT074719;
  Wed, 19 Jun 2019 19:16:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=corp-2018-07-02;
- bh=w4zQwFBs6OSGWyN6TLexthqpHY6F+pJcdy03AuqSzx0=;
- b=SRoCeBT9lMhQm+lG6u3e65jDRC49VIql81xKBN5G9deh6e4+dMnIXVaHvng2tpA5eu3e
- KI8TTs8yY1o++lENm/ShRHGgclMBQE3TsZc8rMHaVgO/hPQ1Yp0/2TN9QRcc+ZP1RLKT
- HvdvmHqRRFCby6vWCemoefLBal8IkcOq0qneh6oUPMjD8TmGkWCDu1uqaHotsuBV4snq
- 6SpLwKADCCYoNWjz/I41LJe/Ul+/ove0AtMUDNnxoz0cV9jhO5+dv0xFYFZzHDPCYMbR
- dP8GOHt+V/X+uu1BlZoqRmQHX8dkdseoUBmRUC1PBLTYsWaM88d7C04sEojgEaNFM3LN DA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2t7809d8rp-1
+ subject : date : message-id : in-reply-to : references : in-reply-to :
+ references : mime-version : content-type : content-transfer-encoding;
+ s=corp-2018-07-02; bh=NkXgzSdPzOVUZDNJyEcRjrNqZpjA81OtuuhO4YYVHbc=;
+ b=J03w48Zkdx31N+VWxi3Ik1ek7fpOXznc946KeabxUzjy97jkH6MtNJKa60uJUS7YgcMz
+ QtOVlg4MEfY/YcU++S3I0rA6pUjafAy2EXy1ijpqM0sbX80burpFehtxjXLsX1oieMtd
+ cSn7rKbxDPkgHKM9Yuq0eJj+2uUt7QiEBF5LI9jqpzQg26r5ZLdeVBkLCZYSlOTHuTje
+ HcLkGMaIKEngrfWM7YuhjH6oeHb48wYw6dy3n0bqtb85ZvlBaBobCdEmw1Jg4CILNOBy
+ uJAZnB8E1LlFaA2PnRlO6cMnUgRyjdVGSVi8rJ9Mf1J1xWNxWe2MXlA8hyDuNyhGRn29 nA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 2t7809d8rn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jun 2019 19:16:29 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJFrik168835;
+ Wed, 19 Jun 2019 19:16:30 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJFEoa094497;
  Wed, 19 Jun 2019 19:16:29 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3030.oracle.com with ESMTP id 2t77yn98aa-1
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 2t7rdwtkvn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 19 Jun 2019 19:16:29 +0000
 Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5JJGRxQ024019;
- Wed, 19 Jun 2019 19:16:27 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5JJGSkQ008841;
+ Wed, 19 Jun 2019 19:16:28 GMT
 Received: from ca-virt2-2.us.oracle.com (/10.211.11.112)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Wed, 19 Jun 2019 12:16:27 -0700
 From: Lidong Chen <lidong.chen@oracle.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 15:14:45 -0400
-Message-Id: <cover.1560806687.git.lidong.chen@oracle.com>
+Date: Wed, 19 Jun 2019 15:14:46 -0400
+Message-Id: <6b19cb7359a10a6bedc3ea0fce22fed3ef93c102.1560806687.git.lidong.chen@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1560806687.git.lidong.chen@oracle.com>
+References: <cover.1560806687.git.lidong.chen@oracle.com>
+In-Reply-To: <cover.1560806687.git.lidong.chen@oracle.com>
+References: <cover.1560806687.git.lidong.chen@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
  signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
  malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
@@ -70,14 +73,17 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906190157
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by userp2120.oracle.com id
+ x5JJ8ZxT074719
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 156.151.31.85
-Subject: [Qemu-devel] [Qemu-devel PATCH v3 0/2] fix incorrect assertions in
- sd and main-loop
+Subject: [Qemu-devel] [Qemu-devel PATCH v3 1/2] sd: Fix out-of-bounds
+ assertions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,33 +102,44 @@ Cc: peter.maydell@linaro.org, berrange@redhat.com, liq3ea@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This v3 added Philippe's Reviewed-by in patch2 (main-loop.c) 
-I also included Philippe's previous comment about patch1 (sd.c)
-in this cover: 
+Due to an off-by-one error, the assert statements allow an
+out-of-bound array access.
 
---------
-Not sure via which tree this patch is going (trivial?).
-To the maintainer, please consider adding when applying:
+Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+---
+ hw/sd/sd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-"This access can not happen. Fix to silent static analyzer warnings."
-
-As confirmed by Lidong in v1 here:
-https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg01337.html
-
-Thanks,
-
-Phil.
--------
-
-Lidong Chen (2):
-  sd: Fix out-of-bounds assertions
-  util/main-loop: Fix incorrect assertion
-
- hw/sd/sd.c       | 4 ++--
- util/main-loop.c | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
--- 
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index aaab15f..818f86c 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -144,7 +144,7 @@ static const char *sd_state_name(enum SDCardStates st=
+ate)
+     if (state =3D=3D sd_inactive_state) {
+         return "inactive";
+     }
+-    assert(state <=3D ARRAY_SIZE(state_name));
++    assert(state < ARRAY_SIZE(state_name));
+     return state_name[state];
+ }
+=20
+@@ -165,7 +165,7 @@ static const char *sd_response_name(sd_rsp_type_t rsp=
+)
+     if (rsp =3D=3D sd_r1b) {
+         rsp =3D sd_r1;
+     }
+-    assert(rsp <=3D ARRAY_SIZE(response_name));
++    assert(rsp < ARRAY_SIZE(response_name));
+     return response_name[rsp];
+ }
+=20
+--=20
 1.8.3.1
 
 
