@@ -2,67 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC13A4B073
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 05:37:24 +0200 (CEST)
-Received: from localhost ([::1]:34890 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EFFD4B0DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 06:28:14 +0200 (CEST)
+Received: from localhost ([::1]:35030 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdRPY-0006LT-4r
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 23:37:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47297)
+	id 1hdSCj-0007ae-1U
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 00:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55865)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pranith.foss@gmail.com>) id 1hdRO7-0005Pb-Gi
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:35:58 -0400
+ (envelope-from <brogers@suse.com>) id 1hdSBM-00076Q-PU
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 00:26:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pranith.foss@gmail.com>) id 1hdRNy-0006WU-TH
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:35:50 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:35200)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pranith.foss@gmail.com>)
- id 1hdRNq-0006LX-18
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:35:39 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id v17so7016502ybm.2
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 20:35:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=edpi2M77S5cYBbSfGZX7OwQJkg5JWEjrdd3gLwsw5iE=;
- b=ie4OeuinHbH/MJJIn0flGtpldtsvgiOyQrHReYoIKh/+Dnbiw1XhW2+G5TCWc/Ep99
- ib3wfHjkZ4rpBxGFj5lPu4M9E2w8z6Sj5PBjUjHTvB0xj/bonGiABVIHpaWW8E+R57Kk
- ESShaS+GcTYdFsQpNlr6G3cblwEVRSb5PYw592ossBNMCwjrW/ncC2k0MKjCMbi4OdxG
- S3itMXCyMHVFObYLzAJPhIwAorPwhW/rBHOevY6hrT0poVb0cLxbhB8V+SyFSFpz/UMQ
- GdwESc//Y52ZIF/1HsKSoa3fmRmGIW0OhcNSfr379guG6z0CZ8u5zc5gG6sYvhNQ2Di3
- /cwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=edpi2M77S5cYBbSfGZX7OwQJkg5JWEjrdd3gLwsw5iE=;
- b=aY6nIDP9/D+W6TrjmPF+ys2KQbAMmSXkSwSTe4lHzfxE8wsfIGZ48oMbNKUQ8YSaJP
- tWIhV6KBxbfvTTWvZCoGXhAGaYbLZ/YLnuLjHpQLqLRouSVYoGSQI+xJyQXPbeO7qmqw
- DKC2O+Ld5FuIlU+JLefbfPFtGBXfoDX4R23d8r2wNeRjnVDYBWPleqH+R7gs6nkwfSac
- yTG4IKo//+tOtF8B8IBXYYD882SG/nQhIXDeO4yT4QBLTv/JdHh0tbaOxLLk0mukFhp+
- UE+UUOay1x1V/lE+iA4bPyI1LnYsrqcq0yNXUP/89LTh1nrieW6Z6psQRt/FIxSDlSyg
- M1Kw==
-X-Gm-Message-State: APjAAAUL+zDXwPqbKVxfkLeOdON8nbteQYyPXW+pR2TTzQlEykpNuINh
- gXWXxtEHNpnnXPzJbJZDl3PdhMZKVMeqNLxLKlM=
-X-Google-Smtp-Source: APXvYqzh8Y3CytoXH2+VskbWJWJ1Vo7VCJjxqZNNVXiX18oSRC/ip6bXhq1zWcXamwKEbVyQjx5O7ZFZkM0oa+H/BEQ=
-X-Received: by 2002:a25:9704:: with SMTP id d4mr58702974ybo.312.1560915333838; 
- Tue, 18 Jun 2019 20:35:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190614171200.21078-1-alex.bennee@linaro.org>
- <20190614171200.21078-23-alex.bennee@linaro.org>
-In-Reply-To: <20190614171200.21078-23-alex.bennee@linaro.org>
-From: Pranith Kumar <bobby.prani@gmail.com>
-Date: Tue, 18 Jun 2019 20:35:23 -0700
-Message-ID: <CADYwmhFz6jjhK0_D1WGMqLcV5XvWaT5mRgtfbbhrU8vchuoAZA@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ (envelope-from <brogers@suse.com>) id 1hdSBJ-0004iT-32
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 00:26:46 -0400
+Received: from prv-mh.provo.novell.com ([137.65.248.74]:51251)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <brogers@suse.com>) id 1hdSBH-0004gI-Iq
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 00:26:44 -0400
+Received: from INET-PRV-MTA by prv-mh.provo.novell.com
+ with Novell_GroupWise; Tue, 18 Jun 2019 22:26:40 -0600
+Message-Id: <5D09B9F402000048000A1DB3@prv-mh.provo.novell.com>
+X-Mailer: Novell GroupWise Internet Agent 18.1.1 
+Date: Tue, 18 Jun 2019 22:28:36 -0600
+From: "Bruce Rogers" <brogers@suse.com>
+To: <peter.maydell@linaro.org>,<qemu-devel@nongnu.org>,
+ <jsnow@redhat.com>
+References: <5D096A9302000048000A1D8C@prv-mh.provo.novell.com>
+ <5D0975BE02000048000A1D94@prv-mh.provo.novell.com>
+ <15622953-3be9-c639-b50c-56ed8d3310b9@redhat.com>
+In-Reply-To: <15622953-3be9-c639-b50c-56ed8d3310b9@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b44
-Subject: Re: [Qemu-devel] [PATCH v3 22/50] *-user: plugin syscalls
+Content-Disposition: inline
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 137.65.248.74
+Subject: Re: [Qemu-devel] Recent python-sphinx errors out building doc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,130 +50,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, "Emilio G. Cota" <cota@braap.org>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Minor nits.
+>>> On 6/18/2019 at 6:11 PM, John Snow <jsnow@redhat.com> wrote:
 
-On Fri, Jun 14, 2019 at 11:41 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->
-> From: "Emilio G. Cota" <cota@braap.org>
->
-> Signed-off-by: Emilio G. Cota <cota@braap.org>
-> ---
->  bsd-user/syscall.c   | 9 +++++++++
->  linux-user/syscall.c | 3 +++
->  2 files changed, 12 insertions(+)
->
-> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-> index 84a983a9a1..50e47d217c 100644
-> --- a/bsd-user/syscall.c
-> +++ b/bsd-user/syscall.c
-> @@ -323,6 +323,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, a=
-bi_long arg1,
->      gemu_log("freebsd syscall %d\n", num);
->  #endif
->      trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg=
-6, arg7, arg8);
-> +    qemu_plugin_vcpu_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg=
-6, arg7,
-> +                             arg8);
+>=20
+> On 6/18/19 7:37 PM, Bruce Rogers wrote:
+>> Hi,
+>>=20
+>> (Resent with correct address for John)
+>> I build recent upstream qemu in the openSUSE Build Service, and for
+>> the Factory repository there, python-sphinx was recently updated to
+>> version 2.1.1. This caused the build to fail as follows:
+>> /home/abuild/rpmbuild/BUILD/qemu-4.0.50/docs/interop/bitmaps.rst:202:Cou=
+ld
+>> not lex literal_block as "json". Highlighting skipped.
+>>=20
+>> The python-sphinx tools is called with warnings are treated as errors
+>> it looks like. I don't know much at all about this tool, and hopefully
+>> someone knows what to fix here. If you want to give me a pointer
+>> on what needs to change, I could give a go at doing a fix however.
+>>=20
+>> Thanks,
+>>=20
+>> Bruce
+>=20
+> Hi, there's a series designed to fix this:
+>=20
+> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg00348.html=20
+>=20
+> I think it's up to Peter to merge it as the maintainer of the Sphinx
+> machinery.
 
-Looking at the previous line, seems like you can avoid splitting this
-line into 2. Keeps it more consistent that way.
+Yup, this series fixes it for me. Thanks!
 
->      if(do_strace)
->          print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
->
-> @@ -404,6 +406,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, a=
-bi_long arg1,
->      if (do_strace)
->          print_freebsd_syscall_ret(num, ret);
->      trace_guest_user_syscall_ret(cpu, num, ret);
-> +    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
->      return ret;
->   efault:
->      ret =3D -TARGET_EFAULT;
-> @@ -422,6 +425,8 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, ab=
-i_long arg1,
->      gemu_log("netbsd syscall %d\n", num);
->  #endif
->      trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg=
-6, 0, 0);
-> +    qemu_plugin_vcpu_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg=
-6, 0,
-> +                             0);
+Bruce
 
-ditto.
-
->      if(do_strace)
->          print_netbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
->
-> @@ -480,6 +485,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, ab=
-i_long arg1,
->      if (do_strace)
->          print_netbsd_syscall_ret(num, ret);
->      trace_guest_user_syscall_ret(cpu, num, ret);
-> +    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
->      return ret;
->   efault:
->      ret =3D -TARGET_EFAULT;
-> @@ -498,6 +504,8 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, a=
-bi_long arg1,
->      gemu_log("openbsd syscall %d\n", num);
->  #endif
->      trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg=
-6, 0, 0);
-> +    qemu_plugin_vcpu_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg=
-6, 0,
-> +                             0);
-
-ditto.
-
->      if(do_strace)
->          print_openbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
->
-> @@ -556,6 +564,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, a=
-bi_long arg1,
->      if (do_strace)
->          print_openbsd_syscall_ret(num, ret);
->      trace_guest_user_syscall_ret(cpu, num, ret);
-> +    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
->      return ret;
->   efault:
->      ret =3D -TARGET_EFAULT;
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index b187c1281d..7f3cfdee84 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -11724,6 +11724,8 @@ abi_long do_syscall(void *cpu_env, int num, abi_l=
-ong arg1,
->
->      trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4,
->                               arg5, arg6, arg7, arg8);
-> +    qemu_plugin_vcpu_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, arg=
-6, arg7,
-> +                             arg8);
-
-This I am not sure.
-
-
->
->      if (unlikely(do_strace)) {
->          print_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
-> @@ -11736,5 +11738,6 @@ abi_long do_syscall(void *cpu_env, int num, abi_l=
-ong arg1,
->      }
->
->      trace_guest_user_syscall_ret(cpu, num, ret);
-> +    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
->      return ret;
->  }
-> --
-> 2.20.1
->
->
 
