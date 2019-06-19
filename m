@@ -2,56 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7185D4B4DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 11:23:15 +0200 (CEST)
-Received: from localhost ([::1]:36068 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16264B4E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 11:28:12 +0200 (CEST)
+Received: from localhost ([::1]:36112 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdWoE-0007TK-MP
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 05:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34124)
+	id 1hdWt1-0002eF-UZ
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 05:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35258)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hdWlV-0004XE-9v
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:20:27 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hdWpE-0000Eh-4g
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:24:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hdWlS-0007kY-Aa
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:20:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47922)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdWlN-0007ao-8n
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:20:17 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C47D0772EE
- for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 09:20:13 +0000 (UTC)
-Received: from redhat.com (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47C225C221;
- Wed, 19 Jun 2019 09:20:12 +0000 (UTC)
-Date: Wed, 19 Jun 2019 10:20:09 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190619092009.GD24236@redhat.com>
-References: <20190617184903.19436-1-armbru@redhat.com>
- <20190617184903.19436-17-armbru@redhat.com>
- <20190618090153.GE28525@redhat.com>
- <20190618103449.GE4296@localhost.localdomain>
- <87lfxy5b4p.fsf@dusky.pond.sub.org>
- <20190619091852.GA15551@linux.fritz.box>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190619091852.GA15551@linux.fritz.box>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Wed, 19 Jun 2019 09:20:13 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 16/16] vl: Deprecate -mon pretty=... for HMP
- monitors
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hdWpD-0002XH-3B
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:24:16 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:33160)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+ id 1hdWpA-0002RS-PW; Wed, 19 Jun 2019 05:24:13 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J9O9U0177650;
+ Wed, 19 Jun 2019 09:24:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=RVQglF43et8L3MERNypDALHm2S3um9kd3Ll5KvmS1v0=;
+ b=R3nIKE8JQz9QDqh/+S/FDdxffj3UAVH9I3jlaa3M8PtMFiXK4Kycs1BIUtwoV2EBSTrs
+ Jt/CjeRbGIMqoksJo9Ais7k8rrKH4dIizzqvfE4S4XwLI4+87lT+7wirem2sKwKbSuST
+ oQi3gvilSO4sOrZEbfzIaOcKL5gKlMB5KUZkoqs35N7Ha3XGM/TUJDt1HC09jyb9hE3V
+ MUw6IRafFN3BC//S5GdtmDb2clTwl6dKNdPfiszwrHBfnrl4jMFaHLl6xNkfjmxn2CKX
+ aq9YeZicGf6bwCXNivA5Dg5wHlq4mnnR4Ef9yzgx9lKjmD5osjMnuzxPszmUrQr0Kx6b vg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2120.oracle.com with ESMTP id 2t7809a8wy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Jun 2019 09:24:09 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J9NDfm114792;
+ Wed, 19 Jun 2019 09:24:06 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 2t77yn7rs8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Jun 2019 09:24:06 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5J9O5IN001940;
+ Wed, 19 Jun 2019 09:24:06 GMT
+Received: from nexus.ravello.local (/213.57.127.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 19 Jun 2019 02:24:05 -0700
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
+ kevin@koconnor.net
+Date: Wed, 19 Jun 2019 12:23:48 +0300
+Message-Id: <20190619092352.23583-1-shmuel.eiderman@oracle.com>
+X-Mailer: git-send-email 2.13.3
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=734
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906190077
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=777 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906190077
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [SeaBIOS] [PATCH v3 0/4] Add Qemu to SeaBIOS LCHS
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,103 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
+ arbel.moshe@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 19, 2019 at 11:18:52AM +0200, Kevin Wolf wrote:
-> Am 19.06.2019 um 08:42 hat Markus Armbruster geschrieben:
-> > Kevin Wolf <kwolf@redhat.com> writes:
-> >=20
-> > > Am 18.06.2019 um 11:01 hat Daniel P. Berrang=C3=A9 geschrieben:
-> > >> On Mon, Jun 17, 2019 at 08:49:03PM +0200, Markus Armbruster wrote:
-> > >> > From: Kevin Wolf <kwolf@redhat.com>
-> > >> >=20
-> > >> > The -mon pretty=3Don|off switch of the -mon option applies only =
-to QMP
-> > >> > monitors. It's silently ignored for HMP. Deprecate this combinat=
-ion so
-> > >> > that we can make it an error in future versions.
-> > >>=20
-> > >> No objection to merging this PR as is, but how about we extend the
-> > >> deprecation to QMP too ?
-> > >>=20
-> > >> I was responsible for adding this option back in 2010 and I don't
-> > >> think I've used it since 2012 when I added pretty printing support
-> > >> to scripts/qmp/qmp-shell. I struggle to imagine good reasons for
-> > >> using QMP directly with pretty printing, as opposed to doing it
-> > >> via qmp-shell or another wrapper tool.
-> > >
-> > > qemu-iotests uses it. It doesn't only make the output (and espeical=
-ly
-> > > diffs on failure) much more readable, but in fact also avoids very =
-long
-> > > lines in the refernce output that used to break patch emails when w=
-e
-> > > didn't use pretty printing yet.
-> > >
-> > > So let's keep it for QMP, please.
-> >=20
-> > Perhaps we can get rid of it if we find a suitable filter.
-> >=20
-> > Hmm, Python comes with one: "python -m json.tool".  It expects just o=
-ne
-> > expression, and fails if anything follows:
-> >=20
-> >     $ printf '{"execute": "qmp_capabilities"}\n{"execute": "query-ver=
-sion"}\n' | socat UNIX:/work/armbru/images/test-qmp STDIO | python3 -m js=
-on.tool
-> >     Extra data: line 2 column 1 (char 134)
-> >=20
-> > To pretty print a sequence of expressions, you have to wrap a loop
-> > around it:
-> >=20
-> >     $ printf '{"execute": "qmp_capabilities"}\n{"execute": "query-ver=
-sion"}\n' | socat UNIX:/work/armbru/images/test-qmp STDIO | { while read =
-line; do echo "$line" | python3 -m json.tool; done; }
->=20
-> Yes, it's doable. It's not a very nice command line, but it does its
-> job.
->=20
-> What do we win by removing pretty printing from qemu? We invest some
-> work doing the patches, reviewing them, etc. and save the whole
-> complexity of adding a few newlines and spaces to an already existing
-> string buffer in a single place (qjson.c).
->=20
-> In exchange, we have to add the above overlong command line to every
-> qemu-iotests case for which pretty printed QMP is useful, and lose the
-> ability to just do -qmp-pretty stdio manually (which I do every now and
-> then) instead of having to dig up the above line in some script to copy
-> it.
->=20
-> It doesn't look like a net win to me.
->=20
-> > I figure we'd want to loop in Python instead of shell.
-> >=20
-> > My point is: pretty-printing is trivial in Python.  The case for
-> > maintaining C code to do it seems weak.
->=20
-> The pretty printing is fairly trivial in C, too, when you already
-> generate JSON. The code seems to have been last touched in 2014, and
-> before that in 2010 when it was introduced. The maintenance burden
-> doesn't seem to be that bad.
->=20
-> Removing features that have users can be justified sometimes, but it
-> does need a justification, in my opinion.
+v1:
 
-I'm fine with keeping the print-printing in QEMU given that you illustrat=
-ed
-an existing usage of it I wasn't aware of & its not difficult code to
-maintain.
+Non-standard logical geometries break under QEMU.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+A virtual disk which contains an operating system which depends on
+logical geometries (consistent values being reported from BIOS INT13
+AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
+logical geometries - for example 56 SPT (sectors per track).
+No matter what QEMU will guess - SeaBIOS, for large enough disks - will
+use LBA translation, which will report 63 SPT instead.
+
+In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
+all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
+report more than 16 physical heads when moved to an IDE controller, the
+ATA spec allows a maximum of 16 heads - this is an artifact of
+virtualization.
+
+By supplying the logical geometies directly we are able to support such
+"exotic" disks.
+
+We will use fw_cfg to do just that.
+
+v2:
+
+Rename bootdevices fw_cfg key to bios-geoemtry
+
+v3:
+
+Change fw_cfg interface from mixed binary/textual to textual only
+Squash commit "config: Add toggle for bootdevice information"
+
+Sam Eiderman (4):
+  geometry: Read LCHS from fw_cfg
+  boot: Reorder functions in boot.c
+  geometry: Add boot_lchs_find_*() utility functions
+  geometry: Apply LCHS values for boot devices
+
+ src/Kconfig          |   7 ++
+ src/block.c          |  21 ++++-
+ src/block.h          |   1 +
+ src/boot.c           | 239 +++++++++++++++++++++++++++++++++++++++++----------
+ src/hw/ahci.c        |   1 +
+ src/hw/ata.c         |   8 ++
+ src/hw/esp-scsi.c    |   2 +
+ src/hw/lsi-scsi.c    |   2 +
+ src/hw/megasas.c     |   1 +
+ src/hw/mpt-scsi.c    |   2 +
+ src/hw/pvscsi.c      |   1 +
+ src/hw/virtio-blk.c  |   2 +
+ src/hw/virtio-scsi.c |   2 +
+ src/util.h           |   6 ++
+ 14 files changed, 249 insertions(+), 46 deletions(-)
+
+-- 
+2.13.3
+
 
