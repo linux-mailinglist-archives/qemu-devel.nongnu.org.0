@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A874C256
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 22:25:37 +0200 (CEST)
-Received: from localhost ([::1]:41754 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A37704C225
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 22:13:44 +0200 (CEST)
+Received: from localhost ([::1]:41670 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdh9E-0001Hl-Mp
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 16:25:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35422)
+	id 1hdgxj-0006Qk-Qz
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 16:13:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hdgvD-0004LP-JL
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:10 -0400
+ (envelope-from <armbru@redhat.com>) id 1hdgv7-0004JI-6Z
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hdgv7-0001Ab-Uq
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33926)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hdgv7-00014Y-3E
+ (envelope-from <armbru@redhat.com>) id 1hdgv5-00017X-Mt
  for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33922)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hdgv4-00014M-2u
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:10:59 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C61578112E
+ by mx1.redhat.com (Postfix) with ESMTPS id 7B0B18112C
  for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 20:10:56 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-85.ams2.redhat.com
  [10.36.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F38DF604CC;
- Wed, 19 Jun 2019 20:10:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 195C060142;
+ Wed, 19 Jun 2019 20:10:55 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 014AF1136435; Wed, 19 Jun 2019 22:10:50 +0200 (CEST)
+ id 082CC1136436; Wed, 19 Jun 2019 22:10:51 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 22:10:47 +0200
-Message-Id: <20190619201050.19040-15-armbru@redhat.com>
+Date: Wed, 19 Jun 2019 22:10:48 +0200
+Message-Id: <20190619201050.19040-16-armbru@redhat.com>
 In-Reply-To: <20190619201050.19040-1-armbru@redhat.com>
 References: <20190619201050.19040-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -46,7 +46,7 @@ X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 14/17] qapi: Split dump.json off misc.json
+Subject: [Qemu-devel] [PATCH 15/17] dump: Move the code to dump/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,538 +63,73 @@ Cc: kwolf@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move commands dump-guest-memory, query-dump,
-query-dump-guest-memory-capability with their types from misc.json to
-new dump.json.  Add dump.json to MAINTAINERS section "Dump".
-
 Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- MAINTAINERS           |   1 +
- dump.c                |   4 +-
- include/sysemu/dump.h |   2 +-
- monitor/hmp-cmds.c    |   1 +
- qapi/Makefile.objs    |   2 +-
- qapi/dump.json        | 200 ++++++++++++++++++++++++++++++++++++++++++
- qapi/misc.json        | 192 ----------------------------------------
- qapi/qapi-schema.json |   1 +
- 8 files changed, 207 insertions(+), 196 deletions(-)
- create mode 100644 qapi/dump.json
+ MAINTAINERS                   | 2 +-
+ Makefile.target               | 3 +--
+ dump/Makefile.objs            | 2 ++
+ dump.c =3D> dump/dump.c         | 0
+ win_dump.c =3D> dump/win_dump.c | 0
+ win_dump.h =3D> dump/win_dump.h | 0
+ 6 files changed, 4 insertions(+), 3 deletions(-)
+ create mode 100644 dump/Makefile.objs
+ rename dump.c =3D> dump/dump.c (100%)
+ rename win_dump.c =3D> dump/win_dump.c (100%)
+ rename win_dump.h =3D> dump/win_dump.h (100%)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 89e8c01cf3..ea110e99ca 100644
+index ea110e99ca..a3fdda015f 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1855,6 +1855,7 @@ F: hw/misc/vmcoreinfo.c
+@@ -1850,7 +1850,7 @@ F: include/sysemu/device_tree.h
+ Dump
+ S: Supported
+ M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+-F: dump.c
++F: dump/dump.c
+ F: hw/misc/vmcoreinfo.c
  F: include/hw/misc/vmcoreinfo.h
  F: include/sysemu/dump-arch.h
- F: include/sysemu/dump.h
-+F: qapi/dump.json
- F: scripts/dump-guest-memory.py
- F: stubs/dump.c
+diff --git a/Makefile.target b/Makefile.target
+index 167ae2174e..a6919e0caf 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -150,13 +150,12 @@ endif #CONFIG_BSD_USER
+ ifdef CONFIG_SOFTMMU
+ obj-y +=3D arch_init.o cpus.o gdbstub.o balloon.o ioport.o
+ obj-y +=3D qtest.o
++obj-y +=3D dump/
+ obj-y +=3D hw/
+ obj-y +=3D monitor/
+ obj-y +=3D qapi/
+ obj-y +=3D memory.o
+ obj-y +=3D memory_mapping.o
+-obj-y +=3D dump.o
+-obj-$(TARGET_X86_64) +=3D win_dump.o
+ obj-y +=3D migration/ram.o
+ LIBS :=3D $(libs_softmmu) $(LIBS)
 =20
-diff --git a/dump.c b/dump.c
-index e99554628c..c7b2301652 100644
---- a/dump.c
-+++ b/dump.c
-@@ -24,8 +24,8 @@
- #include "sysemu/memory_mapping.h"
- #include "sysemu/cpus.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-misc.h"
--#include "qapi/qapi-events-misc.h"
-+#include "qapi/qapi-commands-dump.h"
-+#include "qapi/qapi-events-dump.h"
- #include "qapi/qmp/qerror.h"
- #include "qemu/error-report.h"
- #include "hw/misc/vmcoreinfo.h"
-diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index d824bc0941..250143cb5a 100644
---- a/include/sysemu/dump.h
-+++ b/include/sysemu/dump.h
-@@ -14,7 +14,7 @@
- #ifndef DUMP_H
- #define DUMP_H
-=20
--#include "qapi/qapi-types-misc.h"
-+#include "qapi/qapi-types-dump.h"
-=20
- #define MAKEDUMPFILE_SIGNATURE      "makedumpfile"
- #define MAX_SIZE_MDF_HEADER         (4096) /* max size of makedumpfile_h=
-eader */
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index ea8ae2966e..18ffeb7017 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -31,6 +31,7 @@
- #include "qapi/qapi-builtin-visit.h"
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
-+#include "qapi/qapi-commands-dump.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
-diff --git a/qapi/Makefile.objs b/qapi/Makefile.objs
-index c0be6fcd3e..c5a29e86e2 100644
---- a/qapi/Makefile.objs
-+++ b/qapi/Makefile.objs
-@@ -6,7 +6,7 @@ util-obj-y +=3D qmp-event.o
- util-obj-y +=3D qapi-util.o
-=20
- QAPI_COMMON_MODULES =3D audio authz block-core block char common crypto
--QAPI_COMMON_MODULES +=3D introspect job machine migration misc net
-+QAPI_COMMON_MODULES +=3D dump introspect job machine migration misc net
- QAPI_COMMON_MODULES +=3D qdev qom rdma rocker run-state sockets tpm
- QAPI_COMMON_MODULES +=3D trace transaction ui
- QAPI_TARGET_MODULES =3D machine-target misc-target
-diff --git a/qapi/dump.json b/qapi/dump.json
+diff --git a/dump/Makefile.objs b/dump/Makefile.objs
 new file mode 100644
-index 0000000000..2b35409a7b
+index 0000000000..ea6b074967
 --- /dev/null
-+++ b/qapi/dump.json
-@@ -0,0 +1,200 @@
-+# -*- Mode: Python -*-
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
-+# See the COPYING file in the top-level directory.
-+
-+##
-+# =3D Dump guest memory
-+##
-+
-+##
-+# @DumpGuestMemoryFormat:
-+#
-+# An enumeration of guest-memory-dump's format.
-+#
-+# @elf: elf format
-+#
-+# @kdump-zlib: kdump-compressed format with zlib-compressed
-+#
-+# @kdump-lzo: kdump-compressed format with lzo-compressed
-+#
-+# @kdump-snappy: kdump-compressed format with snappy-compressed
-+#
-+# @win-dmp: Windows full crashdump format,
-+#           can be used instead of ELF converting (since 2.13)
-+#
-+# Since: 2.0
-+##
-+{ 'enum': 'DumpGuestMemoryFormat',
-+  'data': [ 'elf', 'kdump-zlib', 'kdump-lzo', 'kdump-snappy', 'win-dmp' =
-] }
-+
-+##
-+# @dump-guest-memory:
-+#
-+# Dump guest's memory to vmcore. It is a synchronous operation that can =
-take
-+# very long depending on the amount of guest memory.
-+#
-+# @paging: if true, do paging to get guest's memory mapping. This allows
-+#          using gdb to process the core file.
-+#
-+#          IMPORTANT: this option can make QEMU allocate several gigabyt=
-es
-+#                     of RAM. This can happen for a large guest, or a
-+#                     malicious guest pretending to be large.
-+#
-+#          Also, paging=3Dtrue has the following limitations:
-+#
-+#             1. The guest may be in a catastrophic state or can have co=
-rrupted
-+#                memory, which cannot be trusted
-+#             2. The guest can be in real-mode even if paging is enabled=
-. For
-+#                example, the guest uses ACPI to sleep, and ACPI sleep s=
-tate
-+#                goes in real-mode
-+#             3. Currently only supported on i386 and x86_64.
-+#
-+# @protocol: the filename or file descriptor of the vmcore. The supporte=
-d
-+#            protocols are:
-+#
-+#            1. file: the protocol starts with "file:", and the followin=
-g
-+#               string is the file's path.
-+#            2. fd: the protocol starts with "fd:", and the following st=
-ring
-+#               is the fd's name.
-+#
-+# @detach: if true, QMP will return immediately rather than
-+#          waiting for the dump to finish. The user can track progress
-+#          using "query-dump". (since 2.6).
-+#
-+# @begin: if specified, the starting physical address.
-+#
-+# @length: if specified, the memory size, in bytes. If you don't
-+#          want to dump all guest's memory, please specify the start @be=
-gin
-+#          and @length
-+#
-+# @format: if specified, the format of guest memory dump. But non-elf
-+#          format is conflict with paging and filter, ie. @paging, @begi=
-n and
-+#          @length is not allowed to be specified with non-elf @format a=
-t the
-+#          same time (since 2.0)
-+#
-+# Note: All boolean arguments default to false
-+#
-+# Returns: nothing on success
-+#
-+# Since: 1.2
-+#
-+# Example:
-+#
-+# -> { "execute": "dump-guest-memory",
-+#      "arguments": { "protocol": "fd:dump" } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'dump-guest-memory',
-+  'data': { 'paging': 'bool', 'protocol': 'str', '*detach': 'bool',
-+            '*begin': 'int', '*length': 'int',
-+            '*format': 'DumpGuestMemoryFormat'} }
-+
-+##
-+# @DumpStatus:
-+#
-+# Describe the status of a long-running background guest memory dump.
-+#
-+# @none: no dump-guest-memory has started yet.
-+#
-+# @active: there is one dump running in background.
-+#
-+# @completed: the last dump has finished successfully.
-+#
-+# @failed: the last dump has failed.
-+#
-+# Since: 2.6
-+##
-+{ 'enum': 'DumpStatus',
-+  'data': [ 'none', 'active', 'completed', 'failed' ] }
-+
-+##
-+# @DumpQueryResult:
-+#
-+# The result format for 'query-dump'.
-+#
-+# @status: enum of @DumpStatus, which shows current dump status
-+#
-+# @completed: bytes written in latest dump (uncompressed)
-+#
-+# @total: total bytes to be written in latest dump (uncompressed)
-+#
-+# Since: 2.6
-+##
-+{ 'struct': 'DumpQueryResult',
-+  'data': { 'status': 'DumpStatus',
-+            'completed': 'int',
-+            'total': 'int' } }
-+
-+##
-+# @query-dump:
-+#
-+# Query latest dump status.
-+#
-+# Returns: A @DumpStatus object showing the dump status.
-+#
-+# Since: 2.6
-+#
-+# Example:
-+#
-+# -> { "execute": "query-dump" }
-+# <- { "return": { "status": "active", "completed": 1024000,
-+#                  "total": 2048000 } }
-+#
-+##
-+{ 'command': 'query-dump', 'returns': 'DumpQueryResult' }
-+
-+##
-+# @DUMP_COMPLETED:
-+#
-+# Emitted when background dump has completed
-+#
-+# @result: final dump status
-+#
-+# @error: human-readable error string that provides
-+#         hint on why dump failed. Only presents on failure. The
-+#         user should not try to interpret the error string.
-+#
-+# Since: 2.6
-+#
-+# Example:
-+#
-+# { "event": "DUMP_COMPLETED",
-+#   "data": {"result": {"total": 1090650112, "status": "completed",
-+#                       "completed": 1090650112} } }
-+#
-+##
-+{ 'event': 'DUMP_COMPLETED' ,
-+  'data': { 'result': 'DumpQueryResult', '*error': 'str' } }
-+
-+##
-+# @DumpGuestMemoryCapability:
-+#
-+# A list of the available formats for dump-guest-memory
-+#
-+# Since: 2.0
-+##
-+{ 'struct': 'DumpGuestMemoryCapability',
-+  'data': {
-+      'formats': ['DumpGuestMemoryFormat'] } }
-+
-+##
-+# @query-dump-guest-memory-capability:
-+#
-+# Returns the available formats for dump-guest-memory
-+#
-+# Returns:  A @DumpGuestMemoryCapability object listing available format=
-s for
-+#           dump-guest-memory
-+#
-+# Since: 2.0
-+#
-+# Example:
-+#
-+# -> { "execute": "query-dump-guest-memory-capability" }
-+# <- { "return": { "formats":
-+#                  ["elf", "kdump-zlib", "kdump-lzo", "kdump-snappy"] }
-+#
-+##
-+{ 'command': 'query-dump-guest-memory-capability',
-+  'returns': 'DumpGuestMemoryCapability' }
-diff --git a/qapi/misc.json b/qapi/misc.json
-index d7db863c81..31427d45a6 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -1117,198 +1117,6 @@
- ##
- { 'command': 'xen-set-global-dirty-log', 'data': { 'enable': 'bool' } }
-=20
--##
--# @DumpGuestMemoryFormat:
--#
--# An enumeration of guest-memory-dump's format.
--#
--# @elf: elf format
--#
--# @kdump-zlib: kdump-compressed format with zlib-compressed
--#
--# @kdump-lzo: kdump-compressed format with lzo-compressed
--#
--# @kdump-snappy: kdump-compressed format with snappy-compressed
--#
--# @win-dmp: Windows full crashdump format,
--#           can be used instead of ELF converting (since 2.13)
--#
--# Since: 2.0
--##
--{ 'enum': 'DumpGuestMemoryFormat',
--  'data': [ 'elf', 'kdump-zlib', 'kdump-lzo', 'kdump-snappy', 'win-dmp' =
-] }
--
--##
--# @dump-guest-memory:
--#
--# Dump guest's memory to vmcore. It is a synchronous operation that can =
-take
--# very long depending on the amount of guest memory.
--#
--# @paging: if true, do paging to get guest's memory mapping. This allows
--#          using gdb to process the core file.
--#
--#          IMPORTANT: this option can make QEMU allocate several gigabyt=
-es
--#                     of RAM. This can happen for a large guest, or a
--#                     malicious guest pretending to be large.
--#
--#          Also, paging=3Dtrue has the following limitations:
--#
--#             1. The guest may be in a catastrophic state or can have co=
-rrupted
--#                memory, which cannot be trusted
--#             2. The guest can be in real-mode even if paging is enabled=
-. For
--#                example, the guest uses ACPI to sleep, and ACPI sleep s=
-tate
--#                goes in real-mode
--#             3. Currently only supported on i386 and x86_64.
--#
--# @protocol: the filename or file descriptor of the vmcore. The supporte=
-d
--#            protocols are:
--#
--#            1. file: the protocol starts with "file:", and the followin=
-g
--#               string is the file's path.
--#            2. fd: the protocol starts with "fd:", and the following st=
-ring
--#               is the fd's name.
--#
--# @detach: if true, QMP will return immediately rather than
--#          waiting for the dump to finish. The user can track progress
--#          using "query-dump". (since 2.6).
--#
--# @begin: if specified, the starting physical address.
--#
--# @length: if specified, the memory size, in bytes. If you don't
--#          want to dump all guest's memory, please specify the start @be=
-gin
--#          and @length
--#
--# @format: if specified, the format of guest memory dump. But non-elf
--#          format is conflict with paging and filter, ie. @paging, @begi=
-n and
--#          @length is not allowed to be specified with non-elf @format a=
-t the
--#          same time (since 2.0)
--#
--# Note: All boolean arguments default to false
--#
--# Returns: nothing on success
--#
--# Since: 1.2
--#
--# Example:
--#
--# -> { "execute": "dump-guest-memory",
--#      "arguments": { "protocol": "fd:dump" } }
--# <- { "return": {} }
--#
--##
--{ 'command': 'dump-guest-memory',
--  'data': { 'paging': 'bool', 'protocol': 'str', '*detach': 'bool',
--            '*begin': 'int', '*length': 'int',
--            '*format': 'DumpGuestMemoryFormat'} }
--
--##
--# @DumpStatus:
--#
--# Describe the status of a long-running background guest memory dump.
--#
--# @none: no dump-guest-memory has started yet.
--#
--# @active: there is one dump running in background.
--#
--# @completed: the last dump has finished successfully.
--#
--# @failed: the last dump has failed.
--#
--# Since: 2.6
--##
--{ 'enum': 'DumpStatus',
--  'data': [ 'none', 'active', 'completed', 'failed' ] }
--
--##
--# @DumpQueryResult:
--#
--# The result format for 'query-dump'.
--#
--# @status: enum of @DumpStatus, which shows current dump status
--#
--# @completed: bytes written in latest dump (uncompressed)
--#
--# @total: total bytes to be written in latest dump (uncompressed)
--#
--# Since: 2.6
--##
--{ 'struct': 'DumpQueryResult',
--  'data': { 'status': 'DumpStatus',
--            'completed': 'int',
--            'total': 'int' } }
--
--##
--# @query-dump:
--#
--# Query latest dump status.
--#
--# Returns: A @DumpStatus object showing the dump status.
--#
--# Since: 2.6
--#
--# Example:
--#
--# -> { "execute": "query-dump" }
--# <- { "return": { "status": "active", "completed": 1024000,
--#                  "total": 2048000 } }
--#
--##
--{ 'command': 'query-dump', 'returns': 'DumpQueryResult' }
--
--##
--# @DUMP_COMPLETED:
--#
--# Emitted when background dump has completed
--#
--# @result: final dump status
--#
--# @error: human-readable error string that provides
--#         hint on why dump failed. Only presents on failure. The
--#         user should not try to interpret the error string.
--#
--# Since: 2.6
--#
--# Example:
--#
--# { "event": "DUMP_COMPLETED",
--#   "data": {"result": {"total": 1090650112, "status": "completed",
--#                       "completed": 1090650112} } }
--#
--##
--{ 'event': 'DUMP_COMPLETED' ,
--  'data': { 'result': 'DumpQueryResult', '*error': 'str' } }
--
--##
--# @DumpGuestMemoryCapability:
--#
--# A list of the available formats for dump-guest-memory
--#
--# Since: 2.0
--##
--{ 'struct': 'DumpGuestMemoryCapability',
--  'data': {
--      'formats': ['DumpGuestMemoryFormat'] } }
--
--##
--# @query-dump-guest-memory-capability:
--#
--# Returns the available formats for dump-guest-memory
--#
--# Returns:  A @DumpGuestMemoryCapability object listing available format=
-s for
--#           dump-guest-memory
--#
--# Since: 2.0
--#
--# Example:
--#
--# -> { "execute": "query-dump-guest-memory-capability" }
--# <- { "return": { "formats":
--#                  ["elf", "kdump-zlib", "kdump-lzo", "kdump-snappy"] }
--#
--##
--{ 'command': 'query-dump-guest-memory-capability',
--  'returns': 'DumpGuestMemoryCapability' }
--
- ##
- # @getfd:
- #
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index bcfac85074..38af54d6b3 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -86,6 +86,7 @@
- { 'include': 'crypto.json' }
- { 'include': 'block.json' }
- { 'include': 'char.json' }
-+{ 'include': 'dump.json' }
- { 'include': 'job.json' }
- { 'include': 'net.json' }
- { 'include': 'rdma.json' }
++++ b/dump/Makefile.objs
+@@ -0,0 +1,2 @@
++obj-y +=3D dump.o
++obj-$(TARGET_X86_64) +=3D win_dump.o
+diff --git a/dump.c b/dump/dump.c
+similarity index 100%
+rename from dump.c
+rename to dump/dump.c
+diff --git a/win_dump.c b/dump/win_dump.c
+similarity index 100%
+rename from win_dump.c
+rename to dump/win_dump.c
+diff --git a/win_dump.h b/dump/win_dump.h
+similarity index 100%
+rename from win_dump.h
+rename to dump/win_dump.h
 --=20
 2.21.0
 
