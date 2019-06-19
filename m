@@ -2,51 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393A94C254
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 22:25:29 +0200 (CEST)
-Received: from localhost ([::1]:41750 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582FC4C26B
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 22:29:34 +0200 (CEST)
+Received: from localhost ([::1]:41782 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdh96-0001DL-3C
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 16:25:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35404)
+	id 1hdhD3-0005sE-IV
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 16:29:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37417)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hdgvC-0004Ku-Iu
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:08 -0400
+ (envelope-from <eblake@redhat.com>) id 1hdh2b-00036u-KU
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:18:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hdgv7-00019R-5R
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33818)
+ (envelope-from <eblake@redhat.com>) id 1hdh2Z-0002C0-Kv
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:18:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43254)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hdgv5-00015d-NN
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:11:00 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hdh2V-0001uk-NJ
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 16:18:41 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B12AE30C132E
- for <qemu-devel@nongnu.org>; Wed, 19 Jun 2019 20:10:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-85.ams2.redhat.com
- [10.36.116.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 340961001B3D;
- Wed, 19 Jun 2019 20:10:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 15E5E1136444; Wed, 19 Jun 2019 22:10:51 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 19 Jun 2019 22:10:50 +0200
-Message-Id: <20190619201050.19040-18-armbru@redhat.com>
-In-Reply-To: <20190619201050.19040-1-armbru@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 077B87F746;
+ Wed, 19 Jun 2019 20:18:15 +0000 (UTC)
+Received: from [10.3.116.44] (ovpn-116-44.phx2.redhat.com [10.3.116.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 788905C207;
+ Wed, 19 Jun 2019 20:18:14 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190619201050.19040-1-armbru@redhat.com>
+ <20190619201050.19040-13-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <6b9e65f7-8525-6725-4387-f770e275df03@redhat.com>
+Date: Wed, 19 Jun 2019 15:18:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20190619201050.19040-13-armbru@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="csjPhYhGVCYpkVBVusEz8Uc9ozJbztCy7"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Wed, 19 Jun 2019 20:10:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.27]); Wed, 19 Jun 2019 20:18:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 17/17] dump: Move HMP command handlers to dump/
+Subject: Re: [Qemu-devel] [PATCH 12/17] qapi: Split machine-target.json off
+ target.json and misc.json
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,248 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: kwolf@redhat.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the HMP handlers related to qapi/dump.json to
-dimp/dump-hmp-cmds.c, where they are covered by MAINTAINERS section
-"Dump", just like qapi/dump.json.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--csjPhYhGVCYpkVBVusEz8Uc9ozJbztCy7
+Content-Type: multipart/mixed; boundary="q9hFclaQgBeUQsmpLqTfaFrMvuP9uMTod";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <6b9e65f7-8525-6725-4387-f770e275df03@redhat.com>
+Subject: Re: [PATCH 12/17] qapi: Split machine-target.json off target.json and
+ misc.json
+References: <20190619201050.19040-1-armbru@redhat.com>
+ <20190619201050.19040-13-armbru@redhat.com>
+In-Reply-To: <20190619201050.19040-13-armbru@redhat.com>
 
-Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- Makefile.objs        |  1 +
- dump/Makefile.objs   |  1 +
- dump/dump-hmp-cmds.c | 88 ++++++++++++++++++++++++++++++++++++++++++++
- monitor/hmp-cmds.c   | 76 --------------------------------------
- 4 files changed, 90 insertions(+), 76 deletions(-)
- create mode 100644 dump/dump-hmp-cmds.c
+--q9hFclaQgBeUQsmpLqTfaFrMvuP9uMTod
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 7494d6143b..c93d731047 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -45,6 +45,7 @@ io-obj-y =3D io/
- ifeq ($(CONFIG_SOFTMMU),y)
- common-obj-y =3D blockdev.o blockdev-nbd.o block/
- common-obj-y +=3D bootdevice.o iothread.o
-+common-obj-y +=3D dump/
- common-obj-y +=3D job-qmp.o
- common-obj-y +=3D monitor/
- common-obj-y +=3D net/
-diff --git a/dump/Makefile.objs b/dump/Makefile.objs
-index ea6b074967..d2a5db3b81 100644
---- a/dump/Makefile.objs
-+++ b/dump/Makefile.objs
-@@ -1,2 +1,3 @@
- obj-y +=3D dump.o
-+common-obj-y +=3D dump-hmp-cmds.o
- obj-$(TARGET_X86_64) +=3D win_dump.o
-diff --git a/dump/dump-hmp-cmds.c b/dump/dump-hmp-cmds.c
-new file mode 100644
-index 0000000000..3dbf44372c
---- /dev/null
-+++ b/dump/dump-hmp-cmds.c
-@@ -0,0 +1,88 @@
-+/*
-+ * Human Monitor Interface commands
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-dump.h"
-+#include "qapi/qmp/qdict.h"
-+
-+void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
-+{
-+    Error *err =3D NULL;
-+    bool win_dmp =3D qdict_get_try_bool(qdict, "windmp", false);
-+    bool paging =3D qdict_get_try_bool(qdict, "paging", false);
-+    bool zlib =3D qdict_get_try_bool(qdict, "zlib", false);
-+    bool lzo =3D qdict_get_try_bool(qdict, "lzo", false);
-+    bool snappy =3D qdict_get_try_bool(qdict, "snappy", false);
-+    const char *file =3D qdict_get_str(qdict, "filename");
-+    bool has_begin =3D qdict_haskey(qdict, "begin");
-+    bool has_length =3D qdict_haskey(qdict, "length");
-+    bool has_detach =3D qdict_haskey(qdict, "detach");
-+    int64_t begin =3D 0;
-+    int64_t length =3D 0;
-+    bool detach =3D false;
-+    enum DumpGuestMemoryFormat dump_format =3D DUMP_GUEST_MEMORY_FORMAT_=
-ELF;
-+    char *prot;
-+
-+    if (zlib + lzo + snappy + win_dmp > 1) {
-+        error_setg(&err, "only one of '-z|-l|-s|-w' can be set");
-+        hmp_handle_error(mon, &err);
-+        return;
-+    }
-+
-+    if (win_dmp) {
-+        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_WIN_DMP;
-+    }
-+
-+    if (zlib) {
-+        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_ZLIB;
-+    }
-+
-+    if (lzo) {
-+        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_LZO;
-+    }
-+
-+    if (snappy) {
-+        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_SNAPPY;
-+    }
-+
-+    if (has_begin) {
-+        begin =3D qdict_get_int(qdict, "begin");
-+    }
-+    if (has_length) {
-+        length =3D qdict_get_int(qdict, "length");
-+    }
-+    if (has_detach) {
-+        detach =3D qdict_get_bool(qdict, "detach");
-+    }
-+
-+    prot =3D g_strconcat("file:", file, NULL);
-+
-+    qmp_dump_guest_memory(paging, prot, true, detach, has_begin, begin,
-+                          has_length, length, true, dump_format, &err);
-+    hmp_handle_error(mon, &err);
-+    g_free(prot);
-+}
-+
-+void hmp_info_dump(Monitor *mon, const QDict *qdict)
-+{
-+    DumpQueryResult *result =3D qmp_query_dump(NULL);
-+
-+    assert(result && result->status < DUMP_STATUS__MAX);
-+    monitor_printf(mon, "Status: %s\n", DumpStatus_str(result->status));
-+
-+    if (result->status =3D=3D DUMP_STATUS_ACTIVE) {
-+        float percent =3D 0;
-+        assert(result->total !=3D 0);
-+        percent =3D 100.0 * result->completed / result->total;
-+        monitor_printf(mon, "Finished: %.2f %%\n", percent);
-+    }
-+
-+    qapi_free_DumpQueryResult(result);
-+}
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 18ffeb7017..dc12ae6129 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -31,7 +31,6 @@
- #include "qapi/qapi-builtin-visit.h"
- #include "qapi/qapi-commands-block.h"
- #include "qapi/qapi-commands-char.h"
--#include "qapi/qapi-commands-dump.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-net.h"
-@@ -2160,64 +2159,6 @@ void hmp_device_del(Monitor *mon, const QDict *qdi=
-ct)
-     hmp_handle_error(mon, &err);
- }
-=20
--void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
--{
--    Error *err =3D NULL;
--    bool win_dmp =3D qdict_get_try_bool(qdict, "windmp", false);
--    bool paging =3D qdict_get_try_bool(qdict, "paging", false);
--    bool zlib =3D qdict_get_try_bool(qdict, "zlib", false);
--    bool lzo =3D qdict_get_try_bool(qdict, "lzo", false);
--    bool snappy =3D qdict_get_try_bool(qdict, "snappy", false);
--    const char *file =3D qdict_get_str(qdict, "filename");
--    bool has_begin =3D qdict_haskey(qdict, "begin");
--    bool has_length =3D qdict_haskey(qdict, "length");
--    bool has_detach =3D qdict_haskey(qdict, "detach");
--    int64_t begin =3D 0;
--    int64_t length =3D 0;
--    bool detach =3D false;
--    enum DumpGuestMemoryFormat dump_format =3D DUMP_GUEST_MEMORY_FORMAT_=
-ELF;
--    char *prot;
--
--    if (zlib + lzo + snappy + win_dmp > 1) {
--        error_setg(&err, "only one of '-z|-l|-s|-w' can be set");
--        hmp_handle_error(mon, &err);
--        return;
--    }
--
--    if (win_dmp) {
--        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_WIN_DMP;
--    }
--
--    if (zlib) {
--        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_ZLIB;
--    }
--
--    if (lzo) {
--        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_LZO;
--    }
--
--    if (snappy) {
--        dump_format =3D DUMP_GUEST_MEMORY_FORMAT_KDUMP_SNAPPY;
--    }
--
--    if (has_begin) {
--        begin =3D qdict_get_int(qdict, "begin");
--    }
--    if (has_length) {
--        length =3D qdict_get_int(qdict, "length");
--    }
--    if (has_detach) {
--        detach =3D qdict_get_bool(qdict, "detach");
--    }
--
--    prot =3D g_strconcat("file:", file, NULL);
--
--    qmp_dump_guest_memory(paging, prot, true, detach, has_begin, begin,
--                          has_length, length, true, dump_format, &err);
--    hmp_handle_error(mon, &err);
--    g_free(prot);
--}
--
- void hmp_netdev_add(Monitor *mon, const QDict *qdict)
- {
-     Error *err =3D NULL;
-@@ -2949,23 +2890,6 @@ void hmp_rocker_of_dpa_groups(Monitor *mon, const =
-QDict *qdict)
-     qapi_free_RockerOfDpaGroupList(list);
- }
-=20
--void hmp_info_dump(Monitor *mon, const QDict *qdict)
--{
--    DumpQueryResult *result =3D qmp_query_dump(NULL);
--
--    assert(result && result->status < DUMP_STATUS__MAX);
--    monitor_printf(mon, "Status: %s\n", DumpStatus_str(result->status));
--
--    if (result->status =3D=3D DUMP_STATUS_ACTIVE) {
--        float percent =3D 0;
--        assert(result->total !=3D 0);
--        percent =3D 100.0 * result->completed / result->total;
--        monitor_printf(mon, "Finished: %.2f %%\n", percent);
--    }
--
--    qapi_free_DumpQueryResult(result);
--}
--
- void hmp_info_ramblock(Monitor *mon, const QDict *qdict)
- {
-     ram_block_dump(mon);
+On 6/19/19 3:10 PM, Markus Armbruster wrote:
+> Move commands query-cpu-definitions, query-cpu-model-baseline,
+> query-cpu-model-comparison, and query-cpu-model-expansion with their
+> types from target.json to machine-target.json.  Also move typee
+
+s/typee/types/
+
+> CpuModelInfo, CpuModelExpansionType, and CpuModelCompareResult from
+> misc.json there.  Add machine-target.json to MAINTAINERS section
+> "Machine core".
+>=20
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+
 --=20
-2.21.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
+
+--q9hFclaQgBeUQsmpLqTfaFrMvuP9uMTod--
+
+--csjPhYhGVCYpkVBVusEz8Uc9ozJbztCy7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0KmIUACgkQp6FrSiUn
+Q2qd4wgAnjPvvQVMF0K4B9jzhtsNhq8p+0lENV00tadJLCqnNeNDuWd4t79y5OmJ
+gsovR69K5ltTir2QfxV+W02qSGljy1p/6IsuazmnDj6TynO/wxSixG2wCbDuvtts
+FYZJOh+Vz+viqqokmDViDJ/J3u1VBiLBPNh1t3LafjX/7PCSSFitbprtyXmdBl9y
++B2NTS4d5Lvpndlc4hQlK5j0Jh6PczCI3PkDXYJKGVS9pBUeCqL+C6xDrpFWaEj2
+naPXYapaBwCVzQMwsqYsbvDocad4JRLWH0+Fqu3isA/sWu0+ZFZl/r8+H+G6RCjT
+jOpspdTZnuISCSZTa7lUKBY7V83HiA==
+=qeyz
+-----END PGP SIGNATURE-----
+
+--csjPhYhGVCYpkVBVusEz8Uc9ozJbztCy7--
 
