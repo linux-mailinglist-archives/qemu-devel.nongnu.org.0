@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A62164B599
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 11:53:20 +0200 (CEST)
-Received: from localhost ([::1]:36334 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2424B50E
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 11:38:37 +0200 (CEST)
+Received: from localhost ([::1]:36212 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdXHL-0001ES-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 05:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38044)
+	id 1hdX37-0002gk-3H
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 05:38:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37105)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hdWwL-00061C-GT
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:31:39 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hdWuc-00055l-Aq
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:29:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hdWwJ-0001UY-DX
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:31:36 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:42696)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hdWuX-0007xy-Gl
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 05:29:47 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:41036)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hdWwC-0001Mj-2b; Wed, 19 Jun 2019 05:31:28 -0400
+ id 1hdWuK-0007fR-13; Wed, 19 Jun 2019 05:29:32 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J9SVFk081460;
- Wed, 19 Jun 2019 09:31:26 GMT
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J9SUkK081440;
+ Wed, 19 Jun 2019 09:29:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2018-07-02;
- bh=EKEEChlrTWbSYze6N7Ygh+pkL6Ik3AJoN67+crLEBxc=;
- b=4Axl5n/dPeoxOZoSPkRRoOax9H57pF6SpltOOJtxg4HnZNzMBiEd87ZYVsMa0yOr7fna
- tl16f07jGg5/MG1in962D6NWlg/EL1I9xpn2HczMSdGH9HjsSSLuAv9K9uyen3UChiko
- DRuGDzmKMfEw3epNd5k5YidiBD1+1Ep28ZoA1gnuB3hqUsBvWWW5+lQpU+QpHQu9Q1Z+
- lp0D9ZLXLqLHmHgRt6YrOhnDg1gKuRjHeV7z5P4V43zUJOTjOtSrjvWBgaEChUVjAEVK
- RVMeVr9hH2tX90bl4MNepKj9i5t4tXhXSevuPjfRuGA8gAMYs4CHisvywUQyAVrOEzXt Iw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2t7809a95u-1
+ subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
+ bh=IF99orgPl5PZbXP/iOJCxdKOiazKw347UHLBH9LWKbA=;
+ b=uOOG9m3Wcs1GMc23jSl9o+z6JhFZ/BCI6SzW3/eWpabUL54/OeVBOGbi3xaU3RGdl4Bo
+ omvnUwxun6ibQkOYkewWaRr1b6+M0w+UvAZHbSWnRO6TG2Its9yMCVppONoMgSQHwvhC
+ 4xFPbYBI8IPpz1U/FNVgduot7+KuJMugJ0KiYqZsgX5/+4+sK/ThC9zBvVIiIjcsNIWf
+ KIIMNVB38jn1PlYf15F5hcKQfQPUUATZz5awQUehM1DOeih8t6VnQXk7ArfU5NnlIafa
+ XN056zNMfSEXSNiejAGknkEbd1cWv3ouVBr73FgrFEdN2gv7FFIYAxJzKNK87cbrNQza jg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2t7809a8v2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jun 2019 09:31:26 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J9TDVl130124;
- Wed, 19 Jun 2019 09:29:26 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2t77yn7uh4-1
+ Wed, 19 Jun 2019 09:29:28 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5J9Rb3A192416;
+ Wed, 19 Jun 2019 09:29:27 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 2t77ymytuc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jun 2019 09:29:26 +0000
+ Wed, 19 Jun 2019 09:29:27 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5J9TNpI026685;
- Wed, 19 Jun 2019 09:29:24 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5J9TPPq011583;
+ Wed, 19 Jun 2019 09:29:26 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 19 Jun 2019 02:29:23 -0700
+ with ESMTP ; Wed, 19 Jun 2019 02:29:25 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
  kevin@koconnor.net
-Date: Wed, 19 Jun 2019 12:28:57 +0300
-Message-Id: <20190619092905.24029-1-shmuel.eiderman@oracle.com>
+Date: Wed, 19 Jun 2019 12:28:58 +0300
+Message-Id: <20190619092905.24029-2-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
+In-Reply-To: <20190619092905.24029-1-shmuel.eiderman@oracle.com>
+References: <20190619092905.24029-1-shmuel.eiderman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=791
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1906190077
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292
@@ -68,13 +70,13 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9292
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
  suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=833 adultscore=0
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906190078
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [QEMU] [PATCH v4 0/8] Add Qemu to SeaBIOS LCHS
- interface
+Subject: [Qemu-devel] [QEMU] [PATCH v4 1/8] block: Refactor macros - fix
+ tabbing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,67 +93,63 @@ Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1:
+Fixing tabbing in block related macros.
 
-Non-standard logical geometries break under QEMU.
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+---
+ hw/ide/qdev.c            |  2 +-
+ include/hw/block/block.h | 16 ++++++++--------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-A virtual disk which contains an operating system which depends on
-logical geometries (consistent values being reported from BIOS INT13
-AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
-logical geometries - for example 56 SPT (sectors per track).
-No matter what QEMU will guess - SeaBIOS, for large enough disks - will
-use LBA translation, which will report 63 SPT instead.
-
-In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
-all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
-report more than 16 physical heads when moved to an IDE controller, the
-ATA spec allows a maximum of 16 heads - this is an artifact of
-virtualization.
-
-By supplying the logical geometies directly we are able to support such
-"exotic" disks.
-
-We will use fw_cfg to do just that.
-
-v2:
-
-Fix missing parenthesis check in
-    "hd-geo-test: Add tests for lchs override"
-
-v3:
-
-* Rename fw_cfg key to "bios-geometry".
-* Remove "extendible" interface.
-* Add cpu_to_le32 fix as Laszlo suggested or big endian hosts
-* Fix last qtest commit - automatic docker tester for some reason does not have qemu-img set
-
-v4:
-
-* Change fw_cfg interface from mixed textual/binary to textual only
-
-Sam Eiderman (8):
-  block: Refactor macros - fix tabbing
-  block: Support providing LCHS from user
-  bootdevice: Add interface to gather LCHS
-  scsi: Propagate unrealize() callback to scsi-hd
-  bootdevice: Gather LCHS from all relevant devices
-  bootdevice: Refactor get_boot_devices_list
-  bootdevice: FW_CFG interface for LCHS values
-  hd-geo-test: Add tests for lchs override
-
- bootdevice.c             | 148 +++++++++---
- hw/block/virtio-blk.c    |   6 +
- hw/ide/qdev.c            |   7 +-
- hw/nvram/fw_cfg.c        |  14 +-
- hw/scsi/scsi-bus.c       |  15 ++
- hw/scsi/scsi-disk.c      |  14 ++
- include/hw/block/block.h |  22 +-
- include/hw/scsi/scsi.h   |   1 +
- include/sysemu/sysemu.h  |   4 +
- tests/Makefile.include   |   2 +-
- tests/hd-geo-test.c      | 581 +++++++++++++++++++++++++++++++++++++++++++++++
- 11 files changed, 773 insertions(+), 41 deletions(-)
-
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 360cd20bd8..9cae3205df 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -285,7 +285,7 @@ static void ide_drive_realize(IDEDevice *dev, Error **errp)
+     DEFINE_BLOCK_PROPERTIES(IDEDrive, dev.conf),        \
+     DEFINE_BLOCK_ERROR_PROPERTIES(IDEDrive, dev.conf),  \
+     DEFINE_PROP_STRING("ver",  IDEDrive, dev.version),  \
+-    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),    \
++    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),   \
+     DEFINE_PROP_STRING("serial",  IDEDrive, dev.serial),\
+     DEFINE_PROP_STRING("model", IDEDrive, dev.model)
+ 
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index 607539057a..fd55a30bca 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -50,21 +50,21 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
+                           _conf.logical_block_size),                    \
+     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                \
+                           _conf.physical_block_size),                   \
+-    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),  \
++    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    \
+     DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    \
+-    DEFINE_PROP_UINT32("discard_granularity", _state, \
+-                       _conf.discard_granularity, -1), \
+-    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce, \
+-                            ON_OFF_AUTO_AUTO), \
++    DEFINE_PROP_UINT32("discard_granularity", _state,                   \
++                       _conf.discard_granularity, -1),                  \
++    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           \
++                            ON_OFF_AUTO_AUTO),                          \
+     DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
+ 
+ #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          \
+     DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      \
+     DEFINE_BLOCK_PROPERTIES_BASE(_state, _conf)
+ 
+-#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)      \
+-    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),  \
+-    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0), \
++#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      \
++    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  \
++    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                \
+     DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
+ 
+ #define DEFINE_BLOCK_ERROR_PROPERTIES(_state, _conf)                    \
 -- 
 2.13.3
 
