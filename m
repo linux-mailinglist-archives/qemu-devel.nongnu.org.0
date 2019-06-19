@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9094B072
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 05:37:05 +0200 (CEST)
-Received: from localhost ([::1]:34888 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCAC4B074
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 05:38:07 +0200 (CEST)
+Received: from localhost ([::1]:34898 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdRPD-00062q-DP
-	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 23:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47063)
+	id 1hdRQE-0007Wq-IG
+	for lists+qemu-devel@lfdr.de; Tue, 18 Jun 2019 23:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47125)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pranith.foss@gmail.com>) id 1hdRMu-00053M-Pu
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:34:42 -0400
+ (envelope-from <pranith.foss@gmail.com>) id 1hdRNF-00058A-Mn
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:35:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pranith.foss@gmail.com>) id 1hdRMr-0005um-IH
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:34:39 -0400
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:43000)
+ (envelope-from <pranith.foss@gmail.com>) id 1hdRNB-00061e-LM
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:34:59 -0400
+Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:46826)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <pranith.foss@gmail.com>)
- id 1hdRMp-0005sf-7Y
- for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:34:35 -0400
-Received: by mail-yw1-xc43.google.com with SMTP id s5so7690812ywd.9
- for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 20:34:32 -0700 (PDT)
+ id 1hdRN5-0005yF-Bb
+ for qemu-devel@nongnu.org; Tue, 18 Jun 2019 23:34:54 -0400
+Received: by mail-yw1-xc44.google.com with SMTP id z197so7318791ywd.13
+ for <qemu-devel@nongnu.org>; Tue, 18 Jun 2019 20:34:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=w1jrST3D2wsYWnNM7GCd1R+zZuiIK/PUj4yXwJJavjk=;
- b=q2Dxdj375XMEmgzXCzzX0ZFXj7AshOvSE1jAAZzR0vaI1qzEvik45jd2WUdJw09CHW
- kduzuPswUOOoM9y7lB2VNR5qINmDb6RBPyxXEfeWYPj4mSdNz2FM5J2apwWE+cU3mfzn
- y2i2EVBWGdPuPuGEREyFK9CmFSnsEGm3C55EJ3+bjJuIi8FD1zg0IVTH88TFZV9Uor0T
- 2NoP8wZnOM+t90xD6lYKb7k+QcI7vZiNMKBmQkeZT1EL/NFu6TuiDXoe1iYIIkA1AV7V
- Ly+LluMLo0huYsv+r8gtNCDGZVeQjn6DCmTI0LlokHLFi0VcfnQ2zGmSZnJZs9jY7Ows
- kHOA==
+ bh=g/RuPybrj0RuEI2jgSPQU7guGyIK4MjWITu5sMDR34U=;
+ b=ZLZCN13hGZZiOVdU1JNMmoL477u6xV/Td/ywlM8Z5cGTWwgWSclJf1AncQNDpg31+s
+ AjXJ6Mbc45QojHJngyd1IYhZC/aS+7RhAUa157rGNRdRYQye7mbd2QnwOBEu2one4aWJ
+ fZacZj/RrkhODwpHE8m5/YMQaEVEjDTC2zKrnNPpA3l44u68XDiKO4pbT6eSHfaaCLXu
+ BdiXmMOIYYERggeKH+f5njbmbUTbPv/ZTsSmME92mbeYqzhQ6+v+WYM140ofvX/udXGI
+ az66qU2AkQ6aN+I7XDjKk/wYtUfiM/6uOd2/Iz9k7Ptx1o0o/RSuflsOcihegs9vvz3O
+ XYtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=w1jrST3D2wsYWnNM7GCd1R+zZuiIK/PUj4yXwJJavjk=;
- b=gX5DOtpiLurjkwgTs6pyM84j5gbU07jtmlRvwPC8GIsn2d7biA1yNmuy194olYS0df
- KqN8p7WhdV5cjnSPBGiQyciRoPyt9NSJUbv4Hrlw82SAO6+PiQ1wv3tVvhvuFkJRbv+d
- 4Zj1zHdLSSUxVcJa+22mLrWwALW5ncyNbfPJ3ldjqmBI4obpJ2rXNrb8yesUr36rTPKz
- FjH/kazO6fKYLfnQupHgHnkF8OSBPQNDsVws1AIOZ+FOlEVTSd+c2YV7ou+IOzLJnLHD
- 0Xbaz0ZY+X0u6wpjNnViwtXp20Xb/jXcYYhkB53oHhM+LBe6RS1K+cDttxeGdVRIYc8E
- D9zA==
-X-Gm-Message-State: APjAAAV/ce/ddD/wGIbtKE4ry8qJInUk41IOItA4dEws4tYY+iJMkzB/
- gB3AZcyk0XUvJf4LMdEIqkDDonCFR8L5DNp1XIg=
-X-Google-Smtp-Source: APXvYqypG3j3ewQnmaCsBGuAWLx/6yRG+UxeuddTWaQ8frnskdNsXPU+L/DNWJNp1nWYrRruMKuLO3ueJMkcv+AZ4jg=
-X-Received: by 2002:a81:2702:: with SMTP id n2mr57162935ywn.464.1560915271894; 
- Tue, 18 Jun 2019 20:34:31 -0700 (PDT)
+ bh=g/RuPybrj0RuEI2jgSPQU7guGyIK4MjWITu5sMDR34U=;
+ b=pqa/wlbLKrq9QoIS6Y7ybif05VDSWDHTI2dB3ciMcODG7dFdmud0w3H9Ns7RH8s2h5
+ Rx7reMf2PmdfRtZ/r5qkGhf3HrXHlLT4vzjZEdKJUt7segjeK8hglR47Z1O/6vrgkwl2
+ U0zbo+9Qc7/gdHrtIA9ew0TknozIRVGNBb7gtkMkhynKaLyNi2VLQmx4B7Xb3TZwixWq
+ 5C/0ftT7DggQnIKwOhX5vHzeJD5tLr6B6UJzwGu8kgOU9aPvbHh4HxO6D3bBvz4F8ePn
+ hkBjQMQgffpC8S6Jwe00YYtslXSi3yRe4dciGYyO2GAZPOau5N0hTiNS5WWG+3sqtVfg
+ i3lg==
+X-Gm-Message-State: APjAAAVhb6KqTZMpx6xPylUjZy5gh8RLvkO/qbYp1wpOes2jsiMg7wIy
+ +XtlcO+OChlfNlQbDZ7qgXj/rhQcXaW+eHcZKko=
+X-Google-Smtp-Source: APXvYqwEVoryd6Z1oJ2nOiu94adHrIxMYnWYxznjrIcAcsi7IwEAl7dtFvIdKOISxmG1lY3uugyty+1qMnFpdo0oXaY=
+X-Received: by 2002:a81:9444:: with SMTP id l65mr44007824ywg.32.1560915285935; 
+ Tue, 18 Jun 2019 20:34:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190614171200.21078-1-alex.bennee@linaro.org>
- <20190614171200.21078-6-alex.bennee@linaro.org>
-In-Reply-To: <20190614171200.21078-6-alex.bennee@linaro.org>
-From: Pranith Kumar <bobby.prani@gmail.com>
-Date: Tue, 18 Jun 2019 20:34:20 -0700
-Message-ID: <CADYwmhHjfqDi_vXWnp_z9UUr2Lxvw6F8op3KJQqvU3Wog43f_Q@mail.gmail.com>
+ <20190614171200.21078-8-alex.bennee@linaro.org>
+In-Reply-To: <20190614171200.21078-8-alex.bennee@linaro.org>
+From: Pranith Kumar <pranith.foss@gmail.com>
+Date: Tue, 18 Jun 2019 20:34:35 -0700
+Message-ID: <CADYwmhHZWBmPHJ=HGDmDD9jrSwD_ufrmRVpLzTz9FYOY9E6nEA@mail.gmail.com>
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
-Subject: Re: [Qemu-devel] [PATCH v3 05/50] docs/devel: add plugins.rst
- design document
+X-Received-From: 2607:f8b0:4864:20::c44
+Subject: Re: [Qemu-devel] [PATCH v3 07/50] plugin: add user-facing API
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,159 +74,426 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Emilio G. Cota" <cota@braap.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On Fri, Jun 14, 2019 at 10:21 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+On Fri, Jun 14, 2019 at 10:24 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
 wrote:
 >
-> This is mostly extracted from Emilio's more verbose commit comments
-> with some additional verbiage from me.
+> From: "Emilio G. Cota" <cota@braap.org>
 >
+> Add the API first to ease review.
+>
+> Signed-off-by: Emilio G. Cota <cota@braap.org>
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  docs/devel/index.rst   |  1 +
->  docs/devel/plugins.rst | 99 ++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 100 insertions(+)
->  create mode 100644 docs/devel/plugins.rst
 >
-> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-> index 2a4ddf40ad..7e6d20c970 100644
-> --- a/docs/devel/index.rst
-> +++ b/docs/devel/index.rst
-> @@ -21,3 +21,4 @@ Contents:
->     testing
->     decodetree
->     secure-coding-practices
-> +   plugins
-> diff --git a/docs/devel/plugins.rst b/docs/devel/plugins.rst
+> ---
+> v3
+>   - merge in changes to plugin install/reset/uninstall
+>   - split api file
+> ---
+>  include/qemu/qemu-plugin.h | 339 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 339 insertions(+)
+>  create mode 100644 include/qemu/qemu-plugin.h
+>
+> diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
 > new file mode 100644
-> index 0000000000..b0c30375ef
+> index 0000000000..0db1ef9714
 > --- /dev/null
-> +++ b/docs/devel/plugins.rst
-> @@ -0,0 +1,99 @@
-> +..
-> +   Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
-> +   Copyright (c) 2019, Linaro Limited
-> +   Written by Emilio Cota and Alex Benn=C3=A9e
+> +++ b/include/qemu/qemu-plugin.h
+> @@ -0,0 +1,339 @@
+> +/*
+> + * Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
+> + * Copyright (C) 2019, Linaro
+> + *
+> + * License: GNU GPL, version 2 or later.
+> + *   See the COPYING file in the top-level directory.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +#ifndef QEMU_PLUGIN_API_H
+> +#define QEMU_PLUGIN_API_H
 > +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +QEMU TCG Plugins
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +#include <inttypes.h>
+> +#include <stdbool.h>
 > +
-> +QEMU TCG plugins provide a way for users to run experiments taking
-> +advantage of the total system control emulation can have over a guest.
-> +It provides a mechanism for plugins to subscribe to events during
-> +translation and execution and optionally callback into the plugin
-> +during these events.
+> +/*
+> + * For best performance, build the plugin with -fvisibility=3Dhidden so =
+that
+> + * QEMU_PLUGIN_LOCAL is implicit. Then, just mark qemu_plugin_install wi=
+th
+> + * QEMU_PLUGIN_EXPORT. For more info, see
+> + *   https://gcc.gnu.org/wiki/Visibility
+> + */
+> +#if defined _WIN32 || defined __CYGWIN__
+> +  #ifdef BUILDING_DLL
+> +    #define QEMU_PLUGIN_EXPORT __declspec(dllexport)
+> +  #else
+> +    #define QEMU_PLUGIN_EXPORT __declspec(dllimport)
+> +  #endif
+> +  #define QEMU_PLUGIN_LOCAL
+> +#else
+> +  #if __GNUC__ >=3D 4
+> +    #define QEMU_PLUGIN_EXPORT __attribute__((visibility("default")))
+> +    #define QEMU_PLUGIN_LOCAL  __attribute__((visibility("hidden")))
+> +  #else
+> +    #define QEMU_PLUGIN_EXPORT
+> +    #define QEMU_PLUGIN_LOCAL
+> +  #endif
+> +#endif
 > +
-> +API Stability
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +typedef uint64_t qemu_plugin_id_t;
 > +
-> +This is a new feature for QEMU and it does allow people to develop
-> +out-of-tree plugins than can be dynamically linked into a running QEMU
+> +/**
+> + * qemu_plugin_install() - Install a plugin
+> + * @id: this plugin's opaque ID
+> + * @argc: number of arguments
+> + * @argv: array of arguments (@argc elements)
+> + *
+> + * All plugins must export this symbol.
+> + *
+> + * Note: Calling qemu_plugin_uninstall() from this function is a bug. To=
+ raise
+> + * an error during install, return !0.
+> + *
+> + * Note: @argv remains valid throughout the lifetime of the loaded plugi=
+n.
+> + */
+> +QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id, int argc=
+,
+> +                                           char **argv);
+> +
+> +/*
+> + * Prototypes for the various callback styles we will be registering
+> + * in the following functions.
+> + */
+> +typedef void (*qemu_plugin_simple_cb_t)(qemu_plugin_id_t id);
+> +
+> +typedef void (*qemu_plugin_udata_cb_t)(qemu_plugin_id_t id, void *userda=
+ta);
+> +
+> +typedef void (*qemu_plugin_vcpu_simple_cb_t)(qemu_plugin_id_t id,
+> +                                             unsigned int vcpu_index);
+> +
+> +typedef void (*qemu_plugin_vcpu_udata_cb_t)(unsigned int vcpu_index,
+> +                                            void *userdata);
+> +
+> +/**
+> + * qemu_plugin_uninstall() - Uninstall a plugin
+> + * @id: this plugin's opaque ID
+> + * @cb: callback to be called once the plugin has been removed
+> + *
+> + * Do NOT assume that the plugin has been uninstalled once this function
+> + * returns. Plugins are uninstalled asynchronously, and therefore the gi=
+ven
+> + * plugin receives callbacks until @cb is called.
+> + *
+> + * Note: Calling this function from qemu_plugin_install() is a bug.
+> + */
+> +void qemu_plugin_uninstall(qemu_plugin_id_t id, qemu_plugin_simple_cb_t =
+cb);
+> +
+> +/**
+> + * qemu_plugin_reset() - Reset a plugin
+> + * @id: this plugin's opaque ID
+> + * @cb: callback to be called once the plugin has been reset
+> + *
+> + * Unregisters all callbacks for the plugin given by @id.
+> + *
+> + * Do NOT assume that the plugin has been reset once this function retur=
+ns.
+> + * Plugins are reset asynchronously, and therefore the given plugin rece=
+ives
+> + * callbacks until @cb is called.
+> + */
+> +void qemu_plugin_reset(qemu_plugin_id_t id, qemu_plugin_simple_cb_t cb);
+> +
+> +/**
+> + * qemu_plugin_register_vcpu_init_cb() - register a vCPU initialization =
+callback
+> + * @id: plugin ID
+> + * @cb: callback function
+> + *
+> + * The @cb function is called every time a vCPU is initialized.
+> + *
+> + * See also: qemu_plugin_register_vcpu_exit_cb()
+> + */
+> +void qemu_plugin_register_vcpu_init_cb(qemu_plugin_id_t id,
+> +                                       qemu_plugin_vcpu_simple_cb_t cb);
+> +
+> +/**
+> + * qemu_plugin_register_vcpu_exit_cb() - register a vCPU exit callback
+> + * @id: plugin ID
+> + * @cb: callback function
+> + *
+> + * The @cb function is called every time a vCPU exits.
+> + *
+> + * See also: qemu_plugin_register_vcpu_init_cb()
+> + */
+> +void qemu_plugin_register_vcpu_exit_cb(qemu_plugin_id_t id,
+> +                                       qemu_plugin_vcpu_simple_cb_t cb);
+> +
+> +/**
+> + * qemu_plugin_register_vcpu_idle_cb() - register a vCPU idle callback
+> + * @id: plugin ID
+> + * @cb: callback function
+> + *
+> + * The @cb function is called every time a vCPU idles.
+> + */
+> +void qemu_plugin_register_vcpu_idle_cb(qemu_plugin_id_t id,
+> +                                       qemu_plugin_vcpu_simple_cb_t cb);
+> +
+> +/**
+> + * qemu_plugin_register_vcpu_resume_cb() - register a vCPU resume callba=
+ck
+> + * @id: plugin ID
+> + * @cb: callback function
+> + *
+> + * The @cb function is called every time a vCPU resumes execution.
+> + */
+> +void qemu_plugin_register_vcpu_resume_cb(qemu_plugin_id_t id,
+> +                                         qemu_plugin_vcpu_simple_cb_t cb=
+);
+> +
+> +/*
+> + * Opaque types that the plugin is given during the translation and
+> + * instrumentation phase.
+> + */
+> +struct qemu_plugin_tb;
+> +struct qemu_plugin_insn;
+> +
+> +enum qemu_plugin_cb_flags {
+> +    QEMU_PLUGIN_CB_NO_REGS, /* callback does not access the CPU's regs *=
+/
+> +    QEMU_PLUGIN_CB_R_REGS,  /* callback reads the CPU's regs */
+> +    QEMU_PLUGIN_CB_RW_REGS, /* callback reads and writes the CPU's regs =
+*/
+> +};
+> +
+> +enum qemu_plugin_mem_rw {
+> +    QEMU_PLUGIN_MEM_R =3D 1,
+> +    QEMU_PLUGIN_MEM_W,
+> +    QEMU_PLUGIN_MEM_RW,
+> +};
 
-s/than/that/
-
-> +process. However the project reserves the right to change or break the
-> +API should it need to do so.
-> +
-> +Exposure of QEMU internals
-> +--------------------------
-> +
-> +The plugin architecture actively avoids leaking implementation details
-> +about how QEMU's translation works to the plugins. While there are
-> +conceptions such as translation time and translation blocks the
-> +details are opaque to plugins. The plugin is able to query select
-> +details of instructions and system configuration only through the
-> +exported *qemu_plugin* functions. The types used to describe
-> +instructions and events are opaque to the plugins themselves.
-> +
-> +Usage
-> +=3D=3D=3D=3D=3D
-> +
-> +The QEMU binary needs to be compiled for plugin support:
-> +
-> +::
-> +    configure --enable-plugins
-> +
-> +Once built a program can be run with multiple plugins loaded each with
-> +their own arguments:
-> +
-> +::
-> +    $QEMU $OTHER_QEMU_ARGS \
-> +      -plugin tests/plugin/libhowvec.so,arg=3Dinline,arg=3Dhint \
-> +      -plugin tests/plugin/libhotblocks.so
-
-I think this might be a good place to describe what these arguments are.
+Why is this structure different from qemu_plugin_cb_flags? I think
+both of them could use a similar structure. Both of them can have
+(_NO, _R, _W, _RW) I think.
 
 > +
-> +Plugin Life cycle
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +First the plugin is loaded and the public qemu_plugin_install function
-> +is called. The plugin with then register callbacks for various plugin
+> +/**
+> + * qemu_plugin_register_vcpu_tb_trans_cb() - register a translate cb
+> + * @id: plugin ID
+> + * @cb: callback function
+> + *
+> + * The @cb function is called every time a translation occurs. The @cb
+> + * function is passed an opaque qemu_plugin_type which is can query
 
-s/with/will/
+s/is/it/
 
-> +events. Generally at least the atexit_cb is registered so the plugin
-> +can dump its information at the end of a run.
 
-Is that a hard requirement?
+> + * for additional information including the list of translated
+> + * instructions. At this point the plugin can register further
+> + * callbacks to be triggered when the block or individual instruction
+> + * executes.
+> + */
+> +typedef void (*qemu_plugin_vcpu_tb_trans_cb_t)(qemu_plugin_id_t id,
+> +                                               unsigned int vcpu_index,
+> +                                               struct qemu_plugin_tb *tb=
+);
+> +
+> +void qemu_plugin_register_vcpu_tb_trans_cb(qemu_plugin_id_t id,
+> +                                           qemu_plugin_vcpu_tb_trans_cb_=
+t cb);
+> +
+> +/**
+> + * qemu_plugin_register_vcpu_tb_trans_exec_cb() - register execution cal=
+lback
+> + * @tb: the opaque qemu_plugin_tb handle for the translation
+> + * @cb: callback function
+> + * @flags: does the plugin read or write the CPU's registers?
+> + * @userdata: any plugin data to pass to the @cb?
+> + *
+> + * The @cb function is called every time a translated unit executes.
+> + */
+> +void qemu_plugin_register_vcpu_tb_exec_cb(struct qemu_plugin_tb *tb,
+> +                                          qemu_plugin_vcpu_udata_cb_t cb=
+,
+> +                                          enum qemu_plugin_cb_flags flag=
+s,
+> +                                          void *userdata);
+> +
+> +enum qemu_plugin_op {
+> +    QEMU_PLUGIN_INLINE_ADD_U64,
+> +};
+> +
+> +/**
+> + * qemu_plugin_register_vcpu_tb_trans_exec_inline() - execution inline o=
+p
+> + * @tb: the opaque qemu_plugin_tb handle for the translation
+> + * @op: the type of qemu_plugin_op (e.g. ADD_U64)
+> + * @ptr: the target memory location for the op
+> + * @imm: the op data (e.g. 1)
+> + *
+> + * Insert an inline op to every time a translated unit executes.
+> + * Useful if you just want to increment a single counter somewhere in
+> + * memory.
+> + */
+> +void qemu_plugin_register_vcpu_tb_exec_inline(struct qemu_plugin_tb *tb,
+> +                                              enum qemu_plugin_op op,
+> +                                              void *ptr, uint64_t imm);
+> +
+> +/**
+> + * qemu_plugin_register_vcpu_insn_exec_cb() - register insn execution cb
+> + * @insn: the opaque qemu_plugin_insn handle for an instruction
+> + * @cb: callback function
+> + * @flags: does the plugin read or write the CPU's registers?
+> + * @userdata: any plugin data to pass to the @cb?
+> + *
+> + * The @cb function is called every time an instruction is executed
+> + */
+> +void qemu_plugin_register_vcpu_insn_exec_cb(struct qemu_plugin_insn *ins=
+n,
+> +                                            qemu_plugin_vcpu_udata_cb_t =
+cb,
+> +                                            enum qemu_plugin_cb_flags fl=
+ags,
+> +                                            void *userdata);
+> +
+> +/**
+> + * qemu_plugin_register_vcpu_insn_exec_inline() - insn execution inline =
+op
+> + * @insn: the opaque qemu_plugin_insn handle for an instruction
+> + * @cb: callback function
+> + * @op: the type of qemu_plugin_op (e.g. ADD_U64)
+> + * @ptr: the target memory location for the op
+> + * @imm: the op data (e.g. 1)
+> + *
+> + * Insert an inline op to every time an instruction executes. Useful
+> + * if you just want to increment a single counter somewhere in memory.
+> + */
+> +void qemu_plugin_register_vcpu_insn_exec_inline(struct qemu_plugin_insn =
+*insn,
+> +                                                enum qemu_plugin_op op,
+> +                                                void *ptr, uint64_t imm)=
+;
+> +
+> +/*
+> + * Helpers to query information about the instructions in a block
+> + */
+> +size_t qemu_plugin_tb_n_insns(const struct qemu_plugin_tb *tb);
+> +
+> +uint64_t qemu_plugin_tb_vaddr(const struct qemu_plugin_tb *tb);
+> +
+> +struct qemu_plugin_insn *
+> +qemu_plugin_tb_get_insn(const struct qemu_plugin_tb *tb, size_t idx);
+> +
+> +const void *qemu_plugin_insn_data(const struct qemu_plugin_insn *insn);
+> +
+> +size_t qemu_plugin_insn_size(const struct qemu_plugin_insn *insn);
+> +
+> +uint64_t qemu_plugin_insn_vaddr(const struct qemu_plugin_insn *insn);
+> +void *qemu_plugin_insn_haddr(const struct qemu_plugin_insn *insn);
+> +
+> +/*
+> + * Memory Instrumentation
+> + */
+> +typedef uint32_t qemu_plugin_meminfo_t;
+> +
+> +unsigned qemu_plugin_mem_size_shift(qemu_plugin_meminfo_t info);
+> +bool qemu_plugin_mem_is_sign_extended(qemu_plugin_meminfo_t info);
+> +bool qemu_plugin_mem_is_big_endian(qemu_plugin_meminfo_t info);
+> +bool qemu_plugin_mem_is_store(qemu_plugin_meminfo_t info);
+> +
+> +typedef void
+> +(*qemu_plugin_vcpu_mem_cb_t)(unsigned int vcpu_index,
+> +                             qemu_plugin_meminfo_t info, uint64_t vaddr,
+> +                             void *userdata);
+> +
+> +typedef void
+> +(*qemu_plugin_vcpu_mem_haddr_cb_t)(unsigned int vcpu_index,
+> +                                   qemu_plugin_meminfo_t info, uint64_t =
+vaddr,
+> +                                   void *haddr, void *userdata);
+> +
+> +void qemu_plugin_register_vcpu_mem_cb(struct qemu_plugin_insn *insn,
+> +                                      qemu_plugin_vcpu_mem_cb_t cb,
+> +                                      enum qemu_plugin_cb_flags flags,
+> +                                      enum qemu_plugin_mem_rw rw,
+> +                                      void *userdata);
+> +
+> +void qemu_plugin_register_vcpu_mem_haddr_cb(struct qemu_plugin_insn *ins=
+n,
+> +                                            qemu_plugin_vcpu_mem_haddr_c=
+b_t cb,
+> +                                            enum qemu_plugin_cb_flags fl=
+ags,
+> +                                            enum qemu_plugin_mem_rw rw,
+> +                                            void *userdata);
+> +
+> +void qemu_plugin_register_vcpu_mem_inline(struct qemu_plugin_insn *insn,
+> +                                          enum qemu_plugin_mem_rw rw,
+> +                                          enum qemu_plugin_op op, void *=
+ptr,
+> +                                          uint64_t imm);
+> +
+> +uint64_t qemu_plugin_ram_addr_from_host(void *haddr);
+> +
+> +typedef void
+> +(*qemu_plugin_vcpu_syscall_cb_t)(qemu_plugin_id_t id, unsigned int vcpu_=
+index,
+> +                                 int64_t num, uint64_t a1, uint64_t a2,
+> +                                 uint64_t a3, uint64_t a4, uint64_t a5,
+> +                                 uint64_t a6, uint64_t a7, uint64_t a8);
+> +
+> +void qemu_plugin_register_vcpu_syscall_cb(qemu_plugin_id_t id,
+> +                                          qemu_plugin_vcpu_syscall_cb_t =
+cb);
+> +
+> +typedef void
+> +(*qemu_plugin_vcpu_syscall_ret_cb_t)(qemu_plugin_id_t id, unsigned int v=
+cpu_idx,
+> +                                     int64_t num, int64_t ret);
+> +
+> +void
+> +qemu_plugin_register_vcpu_syscall_ret_cb(qemu_plugin_id_t id,
+> +                                         qemu_plugin_vcpu_syscall_ret_cb=
+_t cb);
+> +
+> +
+> +/**
+> + * qemu_plugin_vcpu_for_each() - iterate over the existing vCPU
+> + * @id: plugin ID
+> + * @cb: callback function
+> + *
+> + * The @cb function is called once for each existing vCPU.
+> + *
+> + * See also: qemu_plugin_register_vcpu_init_cb()
+> + */
+> +void qemu_plugin_vcpu_for_each(qemu_plugin_id_t id,
+> +                               qemu_plugin_vcpu_simple_cb_t cb);
+> +
+> +void qemu_plugin_register_flush_cb(qemu_plugin_id_t id,
+> +                                   qemu_plugin_simple_cb_t cb);
+> +
+> +void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
+> +                                    qemu_plugin_udata_cb_t cb, void *use=
+rdata);
+> +
+> +/* returns -1 in user-mode */
+> +int qemu_plugin_n_vcpus(void);
+> +
+> +/* returns -1 in user-mode */
+> +int qemu_plugin_n_max_vcpus(void);
+> +
+> +#endif /* QEMU_PLUGIN_API_H */
+> --
+> 2.20.1
+>
+>
 
-> +
-> +When a registered event occurs the plugin callback is called. The
 
-I would prefer 'callback is invoked'.
-
-> +callbacks may provide additional information. In the case of a
-> +translation event the plugin has an option to enumerate the
-> +instructions in a block of instructions and optionally register
-> +callbacks to some or all instructions when they are executed.
-> +
-> +There is also a facility to add an inline event where code to
-> +increment a counter can be directly inlined with the translation.
-> +Currently only a simple increment is supported. This is not atomic so
-> +the plugin must either keep it's counters separated and indexed by CPU
-> +or use a callback which can ensure atomicity.
-> +
-> +Finally when QEMU exits all the registered atexit callbacks are called
-
-Add period at end of sentence and preferably "s/called/invoked/"
-
-> +
-> +Internals
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Locking
-> +-------
-> +
-> +We have to ensure we cannot deadlock, particularly under MTTCG. For
-> +this we acquire a lock when called from plugin code. We also keep the
-> +list of callbacks under RCU so that we do not have to hold the lock
-> +when calling the callbacks. This is also for performance, since some
-> +callbacks (e.g. memory access callbacks) might be called very
-> +frequently.
-> +
-> +  * A consequence of this is that we keep our own list of CPUs, so that
-> +    we do not have to worry about locking order wrt cpu_list_lock.
-> +  * Use a recursive lock, since we can get registration calls from
-> +    callbacks.
-> +
-> +As a result registering/unregistering callbacks is "slow", since it
-> +takes a lock. But this is very infrequent; we want performance when
-> +calling (or not calling) callbacks, not when registering them. Using
-> +RCU is great for this.
-> +
-> +We support the uninstallation of a plugin at any time (e.g. from plugin
-> +callbacks). This means some callbacks might still be called after the un=
-install
-> +function returns. The plugin isn't completely uninstalled until the
-> +safe work has executed while all vCPUs are quiescent.
-
-Isn't this when the atexit callback is invoked? Might add that to make
-it clearer.
+--
+Pranith
 
