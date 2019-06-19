@@ -2,67 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FA84BC91
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 17:10:23 +0200 (CEST)
-Received: from localhost ([::1]:39132 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5B9C4BC29
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 16:58:44 +0200 (CEST)
+Received: from localhost ([::1]:39026 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdcEA-0007FE-N4
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 11:10:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34448)
+	id 1hdc2t-0007Vw-Tz
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 10:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34446)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1hdc0i-0005fm-60
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:56:29 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hdc0g-0005fl-Al
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:56:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hdbnR-00049H-R7
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:42:47 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37918)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hdbnR-00046j-KX; Wed, 19 Jun 2019 10:42:45 -0400
-Received: by mail-ed1-x544.google.com with SMTP id r12so25401296edo.5;
- Wed, 19 Jun 2019 07:42:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=h2vkCkvykHaLWXR5z6CCLD3PMw69h+AfbOyy25hOpi8=;
- b=i+abylgV4RehHNW7tGrRRlgf023r+/JwrKuzfvLtSBgVAe1KiXlgLLSUp5pWgGwpoI
- I7ph3ErXjXEOPfbR5GLb3BycDpR6IvsCIhUJEDGuxbgJDN3nsqLHaY1qC4YlxcpPiaXa
- CGvfOtLjBEXMfpM02ypHP4a85hFLgfSvkadBJtb4D2KKYZ1TDXERhVX6LfGg4kx6ZRuV
- FNs415ADbmWp6raTcOqz8UZCC+Wma4iXvX6oduiFw38dmbxh3E0VTDJiyGMLCzyNAeL9
- aIHpwrbGn46Ygtsh9YDFCQaPCnmnUryyAwoEezeMj9CwXd4jLkwu8Zk1hNVxRL78XIcO
- uEZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=h2vkCkvykHaLWXR5z6CCLD3PMw69h+AfbOyy25hOpi8=;
- b=LiGlNKFIScWnyXblian2IFvKhRjmFllMcgYxgJA5PpW0PJDC6e6TtW9uEK9dyC6AM0
- Ia9+RUbww4qwSpfpiekWc2jbcx9NuKaNp4mTRcWTr7rmQlpKUld1xae0qqOqLLzNs1lh
- era1D8mX+aHRsZZOFXEqcAI3OxNmy/vM8L6HBeXrncjZrvTUZx5CFhHcc57BV31r1pSo
- 0RVIqXz5LNVitQVYDDuJtIjb8ypvq/VLSVwS5aYiizFuySVJRTYgd0ZiK31zO7Mte/Rw
- O2mCXp/R739Kxhl/fnqpZN5SnUl2tDp/0eangOLOA3pAje58QiW42WaQY+JbUE87nM3u
- 81Gw==
-X-Gm-Message-State: APjAAAUMHgdfgaQDCw2sUj4Qu6dwpTE2ViWc5ZQCIP7y41ZUx2WL5bW7
- cGjSsKcNGXDwaXtSpeUfQ1zcLYA2ZbIgf+c5jBc=
-X-Google-Smtp-Source: APXvYqxDt4hmegmzZY/GnCoMEZAKFuIpoRXnxW4cVoeA23DfrFoWJW99TJ0Im4f/2yVkYrLwBukDLhe+4WkTMltYEhg=
-X-Received: by 2002:a17:906:4f8f:: with SMTP id
- o15mr6478965eju.129.1560955363577; 
- Wed, 19 Jun 2019 07:42:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1560904640.git.alistair.francis@wdc.com>
- <CAEUhbmViJpKtiNXm7CYdF7SPRkOPkvpXJ5+We2m9tZSK_BWi-g@mail.gmail.com>
- <CAKmqyKM4UU+CPKu07AK65bNofbbxxaRkSACqoV_vfFEaH-195A@mail.gmail.com>
-In-Reply-To: <CAKmqyKM4UU+CPKu07AK65bNofbbxxaRkSACqoV_vfFEaH-195A@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 19 Jun 2019 22:42:30 +0800
-Message-ID: <CAEUhbmUwAVLXY9SSoryWBDeNL8gUfBCE+xweSSmuE9KwzWeX=w@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::544
-Subject: Re: [Qemu-devel] [RFC v1 0/5] RISC-V: Add firmware loading support
- and default
+ (envelope-from <vsementsov@virtuozzo.com>) id 1hdbpX-0006U8-CY
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 10:44:57 -0400
+Received: from relay.sw.ru ([185.231.240.75]:55956)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hdbpV-0006RS-TB; Wed, 19 Jun 2019 10:44:54 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <vsementsov@virtuozzo.com>)
+ id 1hdbpQ-0000Eu-1T; Wed, 19 Jun 2019 17:44:48 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Wed, 19 Jun 2019 17:44:46 +0300
+Message-Id: <20190619144447.215894-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH] blockjob: drain all job nodes in
+ block_job_drain
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,98 +45,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 19, 2019 at 10:30 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Wed, Jun 19, 2019 at 7:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Wed, Jun 19, 2019 at 8:56 AM Alistair Francis
-> > <alistair.francis@wdc.com> wrote:
-> > >
-> > > This is an RFC as it will break ALL current users! See below for details.
-> > >
-> > > This series consolidates the current RISC-V kernel loading
-> > > impelementation while also adding support for the -bios option and more
-> > > advanced kernel image types.
-> > >
-> > > After consolidating the kernel loading we can extend the boot loader to
-> > > support a -bios option. We can also extend the kernel loading options to
-> > > support not just ELF files but other standard formats.
-> > >
-> > > Finally we can include the OpenSBI firmware by default for QEMU users.
-> > >
-> > > At the end of this series we are in the good place of no longer
-> > > requiring users to build firmware to boot a kernel. Instead users can
-> > > just run QEMu with the -kernel option and everything will work. They can
-> >
-> > This is great. I like booting kernel directly for testing without
-> > bothering the firmware stuff.
->
-> That's the goal! Now we just need to not break everything.
->
-> >
-> > > also override the firmware with their own using the -bios option. Using
-> > > "-bios none" will result in no firmware being loaded (as it is today).
-> > >
-> > > !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-> > >
-> > > Unfortunately this series (patch 5 specifically) results in all current
-> > > Linux boots being broken as users are already loading in their own
-> > > firmware, which overlaps with the now included default. They will
-> > > see this error:
-> > >
-> > >   rom: requested regions overlap (rom phdr #0: ./images/qemuriscv64/fw_jump.elf. free=0x0000000080008090, addr=0x0000000080000000)
-> > >   qemu-system-riscv64: rom check and register reset failed
-> > >
-> > > If a current user specieifies "-bios none" their flow will continue
-> > > working. A user can instead no longer load their firmware and
-> > > use the default or they can load their firmware with the -bios option.
-> > >
-> > > At the moment the best idea I have to not break all users is to only
-> > > include the default firmware if the user specifies "-bios opensbi".
-> > > That is change the default to not loading the firmware. Then we can work
-> > > on updating documentation and maybe in future change the default to
-> > > include a firmware and anyone who doesn't want a default firmware can
-> > > specify "-bios none".
-> > >
-> > > Any other ideas on how to not break everything?
-> > >
-> > >
-> > >
-> > > Alistair Francis (5):
-> > >   hw/riscv: Split out the boot functions
-> > >   hw/riscv: Add support for loading a firmware
-> > >   hw/riscv: Extend the kernel loading support
-> > >   roms: Add OpenSBI version 0.3
-> > >   hw/riscv: Load OpenSBI as the default firmware
-> > >
-> > >  .gitmodules                         |   3 +
-> > >  Makefile                            |   3 +-
-> > >  configure                           |   1 +
-> > >  hw/riscv/Makefile.objs              |   1 +
-> > >  hw/riscv/boot.c                     | 143 ++++++++++++++++++++++++++++
-> > >  hw/riscv/sifive_e.c                 |  17 +---
-> > >  hw/riscv/sifive_u.c                 |  19 +---
-> > >  hw/riscv/spike.c                    |  21 +---
-> > >  hw/riscv/virt.c                     |  54 ++---------
-> > >  include/hw/riscv/boot.h             |  30 ++++++
-> > >  pc-bios/opensbi-riscv32-fw_jump.elf | Bin 0 -> 197988 bytes
-> > >  pc-bios/opensbi-riscv64-fw_jump.elf | Bin 0 -> 200192 bytes
-> >
-> > Since we are considering adding "bios" images, I prefer to add the
-> > pure binary images instead of ELF images here.
->
-> I didn't think about that. Can we just boot them in QEMU like we do
-> with the ELFs?
+Instead of draining additional nodes in each job code, let's do it in
+common block_job_drain, draining just all job's children.
 
-Yes, use load_image_targphys() instead of load_elf().
+It's also a first step to finally get rid of blockjob->blk.
 
-Regards,
-Bin
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+
+Hi all!
+
+As a follow-up for "block: drop bs->job" recently merged, I'm now trying
+to drop BlockJob.blk pointer, jobs really works with several nodes and
+now reason to keep special blk for one of the children, and no reason to
+handle nodes differently in, for example, backup code..
+
+And as a first step I need to sort out block_job_drain, and here is my
+suggestion on it.
+
+ block/backup.c | 18 +-----------------
+ block/mirror.c | 26 +++-----------------------
+ blockjob.c     |  7 ++++++-
+ 3 files changed, 10 insertions(+), 41 deletions(-)
+
+diff --git a/block/backup.c b/block/backup.c
+index 715e1d3be8..7930004bbd 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -320,21 +320,6 @@ void backup_do_checkpoint(BlockJob *job, Error **errp)
+     hbitmap_set(backup_job->copy_bitmap, 0, backup_job->len);
+ }
+ 
+-static void backup_drain(BlockJob *job)
+-{
+-    BackupBlockJob *s = container_of(job, BackupBlockJob, common);
+-
+-    /* Need to keep a reference in case blk_drain triggers execution
+-     * of backup_complete...
+-     */
+-    if (s->target) {
+-        BlockBackend *target = s->target;
+-        blk_ref(target);
+-        blk_drain(target);
+-        blk_unref(target);
+-    }
+-}
+-
+ static BlockErrorAction backup_error_action(BackupBlockJob *job,
+                                             bool read, int error)
+ {
+@@ -493,8 +478,7 @@ static const BlockJobDriver backup_job_driver = {
+         .commit                 = backup_commit,
+         .abort                  = backup_abort,
+         .clean                  = backup_clean,
+-    },
+-    .drain                  = backup_drain,
++    }
+ };
+ 
+ static int64_t backup_calculate_cluster_size(BlockDriverState *target,
+diff --git a/block/mirror.c b/block/mirror.c
+index d17be4cdbc..6bea99558f 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -644,14 +644,11 @@ static int mirror_exit_common(Job *job)
+     bdrv_ref(mirror_top_bs);
+     bdrv_ref(target_bs);
+ 
+-    /* Remove target parent that still uses BLK_PERM_WRITE/RESIZE before
++    /*
++     * Remove target parent that still uses BLK_PERM_WRITE/RESIZE before
+      * inserting target_bs at s->to_replace, where we might not be able to get
+      * these permissions.
+-     *
+-     * Note that blk_unref() alone doesn't necessarily drop permissions because
+-     * we might be running nested inside mirror_drain(), which takes an extra
+-     * reference, so use an explicit blk_set_perm() first. */
+-    blk_set_perm(s->target, 0, BLK_PERM_ALL, &error_abort);
++     */
+     blk_unref(s->target);
+     s->target = NULL;
+ 
+@@ -1143,21 +1140,6 @@ static bool mirror_drained_poll(BlockJob *job)
+     return !!s->in_flight;
+ }
+ 
+-static void mirror_drain(BlockJob *job)
+-{
+-    MirrorBlockJob *s = container_of(job, MirrorBlockJob, common);
+-
+-    /* Need to keep a reference in case blk_drain triggers execution
+-     * of mirror_complete...
+-     */
+-    if (s->target) {
+-        BlockBackend *target = s->target;
+-        blk_ref(target);
+-        blk_drain(target);
+-        blk_unref(target);
+-    }
+-}
+-
+ static const BlockJobDriver mirror_job_driver = {
+     .job_driver = {
+         .instance_size          = sizeof(MirrorBlockJob),
+@@ -1172,7 +1154,6 @@ static const BlockJobDriver mirror_job_driver = {
+         .complete               = mirror_complete,
+     },
+     .drained_poll           = mirror_drained_poll,
+-    .drain                  = mirror_drain,
+ };
+ 
+ static const BlockJobDriver commit_active_job_driver = {
+@@ -1189,7 +1170,6 @@ static const BlockJobDriver commit_active_job_driver = {
+         .complete               = mirror_complete,
+     },
+     .drained_poll           = mirror_drained_poll,
+-    .drain                  = mirror_drain,
+ };
+ 
+ static void coroutine_fn
+diff --git a/blockjob.c b/blockjob.c
+index 458ae76f51..0cabdc867d 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -94,8 +94,13 @@ void block_job_drain(Job *job)
+     BlockJob *bjob = container_of(job, BlockJob, job);
+     const JobDriver *drv = job->driver;
+     BlockJobDriver *bjdrv = container_of(drv, BlockJobDriver, job_driver);
++    GSList *l;
++
++    for (l = bjob->nodes; l; l = l->next) {
++        BdrvChild *c = l->data;
++        bdrv_drain(c->bs);
++    }
+ 
+-    blk_drain(bjob->blk);
+     if (bjdrv->drain) {
+         bjdrv->drain(bjob);
+     }
+-- 
+2.18.0
+
 
