@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A390E4C15C
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 21:17:23 +0200 (CEST)
-Received: from localhost ([::1]:41244 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F714C167
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 21:21:28 +0200 (CEST)
+Received: from localhost ([::1]:41260 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdg5C-000532-Rt
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 15:17:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46374)
+	id 1hdg98-0007ID-Qj
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 15:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47365)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hdg15-00035g-Ft
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:13:09 -0400
+ (envelope-from <lidong.chen@oracle.com>) id 1hdg4g-0005e1-8h
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hdg13-0003Ez-Cs
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:13:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48916)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hdg0x-00039y-Hp; Wed, 19 Jun 2019 15:13:00 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B6C83C18B2F1;
- Wed, 19 Jun 2019 19:12:57 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-116-121.ams2.redhat.com
- [10.36.116.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A6A760BE0;
- Wed, 19 Jun 2019 19:12:49 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190618140804.59214-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <c23aadb2-6da6-6a21-5524-bf32c122303e@redhat.com>
-Date: Wed, 19 Jun 2019 21:12:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <lidong.chen@oracle.com>) id 1hdg4d-0007ph-Ap
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:48 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:47062)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lidong.chen@oracle.com>)
+ id 1hdg4Y-0007Ya-Bs
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 15:16:44 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJ8bnl074726;
+ Wed, 19 Jun 2019 19:16:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2018-07-02;
+ bh=w4zQwFBs6OSGWyN6TLexthqpHY6F+pJcdy03AuqSzx0=;
+ b=SRoCeBT9lMhQm+lG6u3e65jDRC49VIql81xKBN5G9deh6e4+dMnIXVaHvng2tpA5eu3e
+ KI8TTs8yY1o++lENm/ShRHGgclMBQE3TsZc8rMHaVgO/hPQ1Yp0/2TN9QRcc+ZP1RLKT
+ HvdvmHqRRFCby6vWCemoefLBal8IkcOq0qneh6oUPMjD8TmGkWCDu1uqaHotsuBV4snq
+ 6SpLwKADCCYoNWjz/I41LJe/Ul+/ove0AtMUDNnxoz0cV9jhO5+dv0xFYFZzHDPCYMbR
+ dP8GOHt+V/X+uu1BlZoqRmQHX8dkdseoUBmRUC1PBLTYsWaM88d7C04sEojgEaNFM3LN DA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2t7809d8rp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Jun 2019 19:16:29 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JJFrik168835;
+ Wed, 19 Jun 2019 19:16:29 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2t77yn98aa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 19 Jun 2019 19:16:29 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5JJGRxQ024019;
+ Wed, 19 Jun 2019 19:16:27 GMT
+Received: from ca-virt2-2.us.oracle.com (/10.211.11.112)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 19 Jun 2019 12:16:27 -0700
+From: Lidong Chen <lidong.chen@oracle.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 19 Jun 2019 15:14:45 -0400
+Message-Id: <cover.1560806687.git.lidong.chen@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20190618140804.59214-1-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="v95wpinBaCbdBRaTzom47fNzYA7wZYq41"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Wed, 19 Jun 2019 19:12:57 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] blockdev: enable non-root nodes for
- transaction drive-backup source
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906190157
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906190157
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [Qemu-devel PATCH v3 0/2] fix incorrect assertions in
+ sd and main-loop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,69 +89,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, armbru@redhat.com
+Cc: peter.maydell@linaro.org, berrange@redhat.com, liq3ea@gmail.com,
+ f4bug@amsat.org, armbru@redhat.com, lidong.chen@oracle.com,
+ darren.kenny@oracle.com, liran.alon@oracle.com, marcandre.lureau@gmail.com,
+ amarkovic@wavecomp.com, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---v95wpinBaCbdBRaTzom47fNzYA7wZYq41
-Content-Type: multipart/mixed; boundary="6S8QlXipwfjNHkTZPi8NBu0MiK3MjywFz";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: armbru@redhat.com, kwolf@redhat.com, jsnow@redhat.com
-Message-ID: <c23aadb2-6da6-6a21-5524-bf32c122303e@redhat.com>
-Subject: Re: [PATCH] blockdev: enable non-root nodes for transaction
- drive-backup source
-References: <20190618140804.59214-1-vsementsov@virtuozzo.com>
-In-Reply-To: <20190618140804.59214-1-vsementsov@virtuozzo.com>
+This v3 added Philippe's Reviewed-by in patch2 (main-loop.c) 
+I also included Philippe's previous comment about patch1 (sd.c)
+in this cover: 
 
---6S8QlXipwfjNHkTZPi8NBu0MiK3MjywFz
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+--------
+Not sure via which tree this patch is going (trivial?).
+To the maintainer, please consider adding when applying:
 
-On 18.06.19 16:08, Vladimir Sementsov-Ogievskiy wrote:
-> We forget to enable it for transaction .prepare, while it is already
-> enabled in do_drive_backup since commit a2d665c1bc362
->     "blockdev: loosen restrictions on drive-backup source node"
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->=20
-> Hmm, I've to add John by hand, get_maintainer.pl don't report him.
-> Shouldn't we include blockdev.c into Block Jobs in MAINTAINERS?
-> It definitely related to block jobs.
->=20
->  blockdev.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+"This access can not happen. Fix to silent static analyzer warnings."
 
-Thanks, applied to my block branch:
+As confirmed by Lidong in v1 here:
+https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg01337.html
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+Thanks,
 
-Max
+Phil.
+-------
 
+Lidong Chen (2):
+  sd: Fix out-of-bounds assertions
+  util/main-loop: Fix incorrect assertion
 
---6S8QlXipwfjNHkTZPi8NBu0MiK3MjywFz--
+ hw/sd/sd.c       | 4 ++--
+ util/main-loop.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
---v95wpinBaCbdBRaTzom47fNzYA7wZYq41
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+-- 
+1.8.3.1
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0KiTAACgkQ9AfbAGHV
-z0AB7Qf+IiDZRJom9b7luPekybaUlLb/d+p5B852Ic8bIGSCK9ir+n7ulabf38R0
-YLa0U/TeOGttOwrGIrg3i56e12K6SM9WnzZRq4WrS7ejYJH50lWIC1puQ84S6/CT
-ASWACkMKBdNVDGnM6T1+VZgxNmqYNhwTFQkHUW6/IapDtP3NxaWWLM7TsX71KNkI
-ARsIvYe0jKmU3J0hOTKQHhPeeeXB95zz0uMRejlB2vKAxsTV/Uzo1gUvjcR/ycdD
-F2fmwrvkEVmTsqdQVb9XuAlEEEzgJeqj2YxY4Y+V7klcXvl0WWEL3xDGDNDZCPc5
-avKBpvcDgqUQE7fmqyGLCrF6uwdbyA==
-=OqPu
------END PGP SIGNATURE-----
-
---v95wpinBaCbdBRaTzom47fNzYA7wZYq41--
 
