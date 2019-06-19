@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA34D4BDE0
-	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 18:18:48 +0200 (CEST)
-Received: from localhost ([::1]:40160 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830644BE18
+	for <lists+qemu-devel@lfdr.de>; Wed, 19 Jun 2019 18:28:56 +0200 (CEST)
+Received: from localhost ([::1]:40270 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hddIN-0007No-VK
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 12:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52101)
+	id 1hddSB-00060e-OO
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 12:28:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54186)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hdd1n-0004qG-1F
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 12:01:40 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hdd7a-0000rB-Hl
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 12:07:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hdd1i-0007WZ-M9
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 12:01:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47268)
+ (envelope-from <mreitz@redhat.com>) id 1hdd7Y-0004sj-Jv
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 12:07:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45386)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hdd1Y-0007OH-Fo; Wed, 19 Jun 2019 12:01:24 -0400
+ id 1hdd7U-0004nD-FD; Wed, 19 Jun 2019 12:07:32 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 927DB300181C;
- Wed, 19 Jun 2019 16:01:22 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9D1BA30BDE5F;
+ Wed, 19 Jun 2019 16:07:25 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-116-121.ams2.redhat.com
  [10.36.116.121])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 86E0819722;
- Wed, 19 Jun 2019 16:01:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95E4319C71;
+ Wed, 19 Jun 2019 16:07:23 +0000 (UTC)
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 References: <20190612221004.2317-1-mreitz@redhat.com>
@@ -61,18 +61,18 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <4f1f8404-f60d-2a33-0f5b-09de14643198@redhat.com>
-Date: Wed, 19 Jun 2019 18:01:20 +0200
+Message-ID: <a4e11813-cebd-85d9-4a66-06a401bfb76b@redhat.com>
+Date: Wed, 19 Jun 2019 18:07:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
 In-Reply-To: <a1c7bbb0-a04c-821a-e46b-bb67e837a272@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="pQnqYQdLxsdutni20R69jbOZ3OtKxAV85"
+ boundary="XpGnijExrjW5YWvWrVDKY7wswFPwgoLaF"
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Wed, 19 Jun 2019 16:01:22 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Wed, 19 Jun 2019 16:07:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH v5 34/42] block: Inline
@@ -94,22 +94,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---pQnqYQdLxsdutni20R69jbOZ3OtKxAV85
-Content-Type: multipart/mixed; boundary="dtVn9fEEp3j0B8qODSYM2KEDEsm0zqVgp";
+--XpGnijExrjW5YWvWrVDKY7wswFPwgoLaF
+Content-Type: multipart/mixed; boundary="cce6vYbGpbYiB3WzAgvMXl4p25xH5lVTn";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  Kevin Wolf <kwolf@redhat.com>
-Message-ID: <4f1f8404-f60d-2a33-0f5b-09de14643198@redhat.com>
+Message-ID: <a4e11813-cebd-85d9-4a66-06a401bfb76b@redhat.com>
 Subject: Re: [PATCH v5 34/42] block: Inline bdrv_co_block_status_from_*()
 References: <20190612221004.2317-1-mreitz@redhat.com>
  <20190612221004.2317-35-mreitz@redhat.com>
  <a1c7bbb0-a04c-821a-e46b-bb67e837a272@virtuozzo.com>
 In-Reply-To: <a1c7bbb0-a04c-821a-e46b-bb67e837a272@virtuozzo.com>
 
---dtVn9fEEp3j0B8qODSYM2KEDEsm0zqVgp
+--cce6vYbGpbYiB3WzAgvMXl4p25xH5lVTn
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
@@ -181,29 +181,29 @@ w2 (when we
 
 Maybe none, but I don=E2=80=99t think diving down that rabbit hole is goi=
 ng to
-make this seres shorter.
+make this series shorter.
 
 Max
 
 
---dtVn9fEEp3j0B8qODSYM2KEDEsm0zqVgp--
+--cce6vYbGpbYiB3WzAgvMXl4p25xH5lVTn--
 
---pQnqYQdLxsdutni20R69jbOZ3OtKxAV85
+--XpGnijExrjW5YWvWrVDKY7wswFPwgoLaF
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0KXFAACgkQ9AfbAGHV
-z0B7IQf9GcWSZlB7BrJYxGChEcCFZmVsvJn/2ixNOC3FGro/nx5hyisQjgMb8v+z
-3LQ66bf+ZGSj/9J+5Z0J4XYrHn8x33sMk4Rujl/NB4v8VxkEGhOZxdv0i//GUgmR
-n21ELZZQnkiC7EcNrzrAvhu/MflSaeDgqc6Odi4EWYLrqWgYyU9QJa4I40rA94S6
-dt19OVlE2/9A0pkzkcJf1l1M9nYZsummkRumVKM/wVrBEzWo2nIwuOyl0KE12t3K
-23LFHWvQsC9iEQT8Cc3auHDZrMD3FQyuWk7JyK71SgIB9zhc13qco1+MPUy66zNw
-O4aGsqErS8JPxMqBOY/j/agCuL+9/A==
-=Gqku
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0KXboACgkQ9AfbAGHV
+z0DwvAf/RcgqrjmeEzWEamVopFQVmDiX4kc4MTq6EZ04aJHRV6L2kNhgHQ5BPiR0
+1VuGMG0S2P5T+CGYNxJBRwC0i6+sGkmZ4Xkk9x0XEZGOcNRCyiYXaPPpinQKzwRS
+eiuk2uuXbxx1Xnk4HfAfLkT0fGYwwngQ40UqGr8G4VGZ4k+dhJ0/p2/k6kahiqfE
+lrH63pOUuFIeelaJpedP+siry5NpJUteZTwojgR47vGw21Dq1LBhzo9KXcQXKF3b
+BWu1ssuQF0uHtkWPqSTr3vSDf/ENrAMAsyT0AXeiJGN4Sh0vrpY9ZvOerOfKt+T6
+w3InCLXAHi2G11ePGQsRBG076yFE2g==
+=udBt
 -----END PGP SIGNATURE-----
 
---pQnqYQdLxsdutni20R69jbOZ3OtKxAV85--
+--XpGnijExrjW5YWvWrVDKY7wswFPwgoLaF--
 
