@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0A3C4D553
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 19:34:43 +0200 (CEST)
-Received: from localhost ([::1]:51760 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 629384D60A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 20:03:48 +0200 (CEST)
+Received: from localhost ([::1]:51974 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he0xO-0003Su-G8
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 13:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53432)
+	id 1he1PX-0000Wq-Jq
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 14:03:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34839)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1he0qS-0000x5-50
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:27:35 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1he19b-0007Gv-CO
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:47:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1he0qO-0004fN-RN
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:27:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:28299)
+ (envelope-from <dgilbert@redhat.com>) id 1he0yM-00036c-9i
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:35:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51018)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1he0qO-0004cZ-IB
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:27:28 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1he0yJ-0002XK-H7
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:35:42 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B6691356E8
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 17:27:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9F892308FC5F
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 17:35:06 +0000 (UTC)
 Received: from work-vm (ovpn-117-203.ams2.redhat.com [10.36.117.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B4FE60BE0;
- Thu, 20 Jun 2019 17:27:24 +0000 (UTC)
-Date: Thu, 20 Jun 2019 18:27:21 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F47219C5B;
+ Thu, 20 Jun 2019 17:35:01 +0000 (UTC)
+Date: Thu, 20 Jun 2019 18:34:59 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Jason Wang <jasowang@redhat.com>
-Message-ID: <20190620172721.GM2907@work-vm>
+Message-ID: <20190620173458.GN2907@work-vm>
 References: <20190613095924.21908-1-dgilbert@redhat.com>
- <20190613095924.21908-6-dgilbert@redhat.com>
- <46411fb1-62d8-30ee-e558-557ad6ceb323@redhat.com>
+ <7768e0c1-0e85-5cb7-7fe1-e27429762c16@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <46411fb1-62d8-30ee-e558-557ad6ceb323@redhat.com>
+In-Reply-To: <7768e0c1-0e85-5cb7-7fe1-e27429762c16@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Thu, 20 Jun 2019 17:27:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Thu, 20 Jun 2019 17:35:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 5/5] net/announce: Expand test for
- stopping self announce
+Subject: Re: [Qemu-devel] [PATCH v4 0/5] network announce;
+ interface selection & IDs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,127 +69,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 :
 > > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > >=20
-> > Expand self-announce test to check we can stop an announce timer.
-> > We set it up to send 300 packets, but after we receive
-> > the first one we tell it to stop.
-> >=20
-> > We error if:
-> >     a) We receive more than 30 of the packets
-> >     b) We're still receiving packets after a lot longer than the
-> >        30 seconds should have arrived
-> >=20
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >   tests/virtio-net-test.c | 57 ++++++++++++++++++++++++++++++++++++++=
----
-> >   1 file changed, 54 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/tests/virtio-net-test.c b/tests/virtio-net-test.c
-> > index 663cf7ea7e..3b49b431dc 100644
-> > --- a/tests/virtio-net-test.c
-> > +++ b/tests/virtio-net-test.c
-> > @@ -184,21 +184,72 @@ static void announce_self(void *obj, void *data=
-, QGuestAllocator *t_alloc)
-> >       QDict *rsp;
-> >       int ret;
-> >       uint16_t *proto =3D (uint16_t *)&buffer[12];
-> > +    size_t total_received =3D 0;
-> > +    uint64_t start, now, last_rxt, deadline;
-> > +    /* Send a set of packets over a few second period */
-> >       rsp =3D qmp("{ 'execute' : 'announce-self', "
-> >                     " 'arguments': {"
-> > -                      " 'initial': 50, 'max': 550,"
-> > -                      " 'rounds': 10, 'step': 50 } }");
-> > +                      " 'initial': 20, 'max': 100,"
-> > +                      " 'rounds': 300, 'step': 10, 'id': 'bob' } }")=
-;
-> >       assert(!qdict_haskey(rsp, "error"));
-> >       qobject_unref(rsp);
-> > -    /* Catch the packet and make sure it's a RARP */
-> > +    /* Catch the first packet and make sure it's a RARP */
-> >       ret =3D qemu_recv(sv[0], &len, sizeof(len), 0);
-> >       g_assert_cmpint(ret, =3D=3D,  sizeof(len));
-> >       len =3D ntohl(len);
-> >       ret =3D qemu_recv(sv[0], buffer, len, 0);
-> >       g_assert_cmpint(*proto, =3D=3D, htons(ETH_P_RARP));
-> > +
-> > +    /*
-> > +     * Stop the announcment by settings rounds to 0 on the
-> > +     * existing timer.
-> > +     */
-> > +    rsp =3D qmp("{ 'execute' : 'announce-self', "
-> > +                  " 'arguments': {"
-> > +                      " 'initial': 20, 'max': 100,"
-> > +                      " 'rounds': 0, 'step': 10, 'id': 'bob' } }");
-> > +    assert(!qdict_haskey(rsp, "error"));
-> > +    qobject_unref(rsp);
-> > +
-> > +    /* Now make sure the packets stop */
-> > +
-> > +    /* Times are in us */
-> > +    start =3D g_get_monotonic_time();
-> > +    /* 30 packets, max gap 100ms, * 2 for wiggle */
-> > +    deadline =3D start + 1000 * (100 * 30 * 2);
-> > +    last_rxt =3D start;
-> > +
-> > +    do {
+> > Laine asked for some extra features on the network announce support;
 >=20
 >=20
-> while (ture) looks better here.
+> It's better to explain why this feature is needed.
 
-OK, changed.
+Yes, I'll reword.
 
->=20
-> > +        int saved_err;
-> > +        ret =3D qemu_recv(sv[0], buffer, 60, MSG_DONTWAIT);
-> > +        saved_err =3D errno;
-> > +        now =3D g_get_monotonic_time();
-> > +        g_assert_cmpint(now, <, deadline);
->=20
-> The maximum gap allowed is 1000 * 100 * 4, and we allow at most 30 pack=
-ets
-> that's 30 * 1000 * 100 * 4 which is 1200000.
->=20
-> But the deadline is 1000 * 100 * 30 * 2 which is 6000000.
->=20
-> Does this mean deadline is conflict with the assumption above?
+> Is this because libvirt
+> can change the host network topology on the fly?
 
-I've changed deadline to match (i.e. * 4) - but it's only a worst-case
-that we shouldn't hit anyway; I'm expecting it to actually stop after
-1 or 2 packets worst case, the *4 in the maximum gap is there just to
-deal with a busy system that takes a bit longer.
-
+It's because something can change the network topology on the fly - not
+necessarily just libvirt.  Where as previously we were using the
+announce mechanism for mainly migration reasons, now we also want
+to use it to announce topology changes; those include potentially things
+that libvirt gets told by a higher management layer - such as the
+failure or one network path.
 
 Dave
 
+>=20
 > Thanks
 >=20
 >=20
-> > +
-> > +        if (ret >=3D 0) {
-> > +            if (ret) {
-> > +                last_rxt =3D now;
-> > +            }
-> > +            total_received +=3D ret;
-> > +
-> > +            /* Check it's not spewing loads */
-> > +            g_assert_cmpint(total_received, <, 60 * 30 * 2);
-> > +        } else {
-> > +            g_assert_cmpint(saved_err, =3D=3D, EAGAIN);
-> > +
-> > +            /* 400ms, i.e. 4 worst case gaps */
-> > +            if ((now - last_rxt) > (1000 * 100 * 4)) {
-> > +                /* Nothings arrived for a while - must have stopped =
-*/
-> > +                break;
-> > +            };
-> > +
-> > +            /* 100ms */
-> > +            g_usleep(1000 * 100);
-> > +        }
-> > +    } while (true);
-> >   }
-> >   static void virtio_net_test_cleanup(void *sockets)
+> >=20
+> > The first allows the announce timer to announce on a subset of the
+> > interfaces.
+> >=20
+> > The second allows there to be multiple timers, each with their own
+> > parameters (including the interface list).
+> >=20
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> >=20
+> > v4
+> >    Minor typo fixes
+> >    Expanded the test to check we can stop a running announce
+> >=20
+> > Dr. David Alan Gilbert (5):
+> >    net/announce: Allow optional list of interfaces
+> >    net/announce: Add HMP optional interface list
+> >    net/announce: Add optional ID
+> >    net/announce: Add HMP optional ID
+> >    net/announce: Expand test for stopping self announce
+> >=20
+> >   hmp-commands.hx         |  7 +++-
+> >   hmp.c                   | 41 +++++++++++++++++++-
+> >   hw/net/virtio-net.c     |  4 +-
+> >   include/net/announce.h  |  8 +++-
+> >   net/announce.c          | 83 ++++++++++++++++++++++++++++++++++----=
+---
+> >   net/trace-events        |  3 +-
+> >   qapi/net.json           | 16 ++++++--
+> >   tests/virtio-net-test.c | 57 ++++++++++++++++++++++++++--
+> >   8 files changed, 192 insertions(+), 27 deletions(-)
+> >=20
 --
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
