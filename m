@@ -2,44 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8FE4D292
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:56:57 +0200 (CEST)
-Received: from localhost ([::1]:49790 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B554D287
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:55:12 +0200 (CEST)
+Received: from localhost ([::1]:49762 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdzQm-0007Kn-Qh
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:56:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52740)
+	id 1hdzP5-0005P2-Vh
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:55:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52731)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hdzIo-0008Mo-Lz
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:48:44 -0400
+ (envelope-from <philmd@redhat.com>) id 1hdzI6-0008MA-3Z
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:47:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hdzB4-0007HS-9L
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:40:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55134)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hdzB4-0007Ge-3R
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:40:42 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6EFD0307D922
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 15:40:41 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7543819C5B;
- Thu, 20 Jun 2019 15:40:40 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 11:40:35 -0400
-Message-Id: <20190620154035.30989-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 20 Jun 2019 15:40:41 +0000 (UTC)
+ (envelope-from <philmd@redhat.com>) id 1hdzGq-0006BW-0X
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:46:41 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36683)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hdzGp-00069Y-QU
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:46:39 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n4so2342801wrs.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:46:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9H2PzkJn2cqFORBRZy7+j0WNXqsM/n6+yvmL/Jka6PA=;
+ b=b9fX7sDLa18fUr3suGjouYQZ+vpYnEuJdaBps9wfL2FPER33jX10D8yGetgQ2Uk/iH
+ KyDT652UlbzrDgl4a9mwKikwhohI15YAL1KPXuBVd78Eg8t3GhqzgrUQ3qBpk5ylH2LM
+ tDYynPWse4Rw/8FUfSryULCKdcnBbmSOW9HjyD+/SBQ0siIM1Ur7OUrKaOXTb+Ut4U/9
+ IARzqnqJSoSG+IbXxnxy6wdHxPOBxKePL9/O/mVi2Y4v+eFHLiVPR3Iupkdk+8OSRWao
+ FaJyK9TKXKHdBsRM8hV6dYAAY6+nFP0JGC3ft8znQs/00WWas7A1DzwaYDllbblmknWb
+ Fo5w==
+X-Gm-Message-State: APjAAAUoAVjlxw3ZxFlm82+znpPmcdygnJmvDPvSxG8XUJ3EtAarGLUD
+ 8NwRAhY3PyvA60P5Xjow+5rHzQ==
+X-Google-Smtp-Source: APXvYqwEWXhE9ES/Ot+DbDXmZi3aD4OdN6m92SqM4KAy+HO8BHd7DLUm3XZGN2wWJgnJ7Dna3NVJ1Q==
+X-Received: by 2002:adf:f30b:: with SMTP id i11mr30328155wro.299.1561045598177; 
+ Thu, 20 Jun 2019 08:46:38 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id t7sm15638457wrn.52.2019.06.20.08.46.37
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Jun 2019 08:46:37 -0700 (PDT)
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1561028123.git.balaton@eik.bme.hu>
+ <5d1fe4db846ab9be4b77ddb0d43cc74cd200a003.1561028123.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <c67e48df-925b-a3be-8760-4de0080d8aad@redhat.com>
+Date: Thu, 20 Jun 2019 17:46:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <5d1fe4db846ab9be4b77ddb0d43cc74cd200a003.1561028123.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2] qmp: make qmp-shell work with python3
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v5 1/2] i2c: Move bitbang_i2c.h to
+ include/hw/i2c/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,47 +75,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: crosa@redhat.com, armbru@redhat.com, ehabkost@redhat.com
+Cc: Corey Minyard <cminyard@mvista.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-python3 doesn't have raw_input(), so qmp-shell breaks.
-Use input() instead and override it with raw_input()
-if running on python2.
+On 6/20/19 12:55 PM, BALATON Zoltan wrote:
+> The bitbang i2c implementation is also useful for other device models
+> such as DDC in display controllers. Move the header to include/hw/i2c/
+> to allow it to be used from other device models and adjust users of
+> this include. This also reverts commit 2b4c1125ac which is no longer
+> needed.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v2:
- use sys.version_info[0] instead try/except 
-    (Cleber Rosa <crosa@redhat.com>)
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
- scripts/qmp/qmp-shell | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 7776c7b141..f1cddeafbc 100755
---- a/scripts/qmp/qmp-shell
-+++ b/scripts/qmp/qmp-shell
-@@ -78,6 +78,9 @@ import re
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qmp
- 
-+if sys.version_info[0] == 2:
-+    input = raw_input
-+
- class QMPCompleter(list):
-     def complete(self, text, state):
-         for cmd in self:
-@@ -308,7 +311,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         @return True if execution was ok, return False if disconnected.
-         """
-         try:
--            cmdline = raw_input(prompt)
-+            cmdline = input(prompt)
-         except EOFError:
-             print()
-             return False
--- 
-2.18.1
-
+> ---
+>  hw/i2c/bitbang_i2c.c                 | 2 +-
+>  hw/i2c/ppc4xx_i2c.c                  | 1 -
+>  hw/i2c/versatile_i2c.c               | 2 +-
+>  {hw => include/hw}/i2c/bitbang_i2c.h | 2 ++
+>  include/hw/i2c/i2c.h                 | 2 --
+>  include/hw/i2c/ppc4xx_i2c.h          | 2 +-
+>  6 files changed, 5 insertions(+), 6 deletions(-)
+>  rename {hw => include/hw}/i2c/bitbang_i2c.h (80%)
+> 
+> diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
+> index 5dfc72d9d7..3cb0509b02 100644
+> --- a/hw/i2c/bitbang_i2c.c
+> +++ b/hw/i2c/bitbang_i2c.c
+> @@ -12,7 +12,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "hw/hw.h"
+> -#include "bitbang_i2c.h"
+> +#include "hw/i2c/bitbang_i2c.h"
+>  #include "hw/sysbus.h"
+>  #include "qemu/module.h"
+>  
+> diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
+> index d606d3dbeb..5fb4f86c38 100644
+> --- a/hw/i2c/ppc4xx_i2c.c
+> +++ b/hw/i2c/ppc4xx_i2c.c
+> @@ -30,7 +30,6 @@
+>  #include "cpu.h"
+>  #include "hw/hw.h"
+>  #include "hw/i2c/ppc4xx_i2c.h"
+> -#include "bitbang_i2c.h"
+>  
+>  #define PPC4xx_I2C_MEM_SIZE 18
+>  
+> diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
+> index e07be9890c..24b6e36b6d 100644
+> --- a/hw/i2c/versatile_i2c.c
+> +++ b/hw/i2c/versatile_i2c.c
+> @@ -23,7 +23,7 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "hw/sysbus.h"
+> -#include "bitbang_i2c.h"
+> +#include "hw/i2c/bitbang_i2c.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+>  
+> diff --git a/hw/i2c/bitbang_i2c.h b/include/hw/i2c/bitbang_i2c.h
+> similarity index 80%
+> rename from hw/i2c/bitbang_i2c.h
+> rename to include/hw/i2c/bitbang_i2c.h
+> index 9443021710..3a7126d5de 100644
+> --- a/hw/i2c/bitbang_i2c.h
+> +++ b/include/hw/i2c/bitbang_i2c.h
+> @@ -3,6 +3,8 @@
+>  
+>  #include "hw/i2c/i2c.h"
+>  
+> +typedef struct bitbang_i2c_interface bitbang_i2c_interface;
+> +
+>  #define BITBANG_I2C_SDA 0
+>  #define BITBANG_I2C_SCL 1
+>  
+> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+> index 8e236f7bb4..75c5bd638b 100644
+> --- a/include/hw/i2c/i2c.h
+> +++ b/include/hw/i2c/i2c.h
+> @@ -81,8 +81,6 @@ uint8_t i2c_recv(I2CBus *bus);
+>  
+>  DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr);
+>  
+> -typedef struct bitbang_i2c_interface bitbang_i2c_interface;
+> -
+>  /* lm832x.c */
+>  void lm832x_key_event(DeviceState *dev, int key, int state);
+>  
+> diff --git a/include/hw/i2c/ppc4xx_i2c.h b/include/hw/i2c/ppc4xx_i2c.h
+> index aa2a2bf9de..8437bf070b 100644
+> --- a/include/hw/i2c/ppc4xx_i2c.h
+> +++ b/include/hw/i2c/ppc4xx_i2c.h
+> @@ -28,7 +28,7 @@
+>  #define PPC4XX_I2C_H
+>  
+>  #include "hw/sysbus.h"
+> -#include "hw/i2c/i2c.h"
+> +#include "hw/i2c/bitbang_i2c.h"
+>  
+>  #define TYPE_PPC4xx_I2C "ppc4xx-i2c"
+>  #define PPC4xx_I2C(obj) OBJECT_CHECK(PPC4xxI2CState, (obj), TYPE_PPC4xx_I2C)
+> 
 
