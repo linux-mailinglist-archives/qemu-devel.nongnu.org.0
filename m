@@ -2,46 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874DE4D1F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:19:23 +0200 (CEST)
-Received: from localhost ([::1]:49078 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE5C24D1C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:14:22 +0200 (CEST)
+Received: from localhost ([::1]:49016 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdyqQ-0005ib-LM
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37934)
+	id 1hdylZ-00032i-Ma
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:14:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37949)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwankhede@nvidia.com>) id 1hdyKF-00061c-GQ
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:46:09 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1hdyKI-000635-59
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:46:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1hdyKD-0005mK-5C
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:46:07 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:13252)
+ (envelope-from <kwankhede@nvidia.com>) id 1hdyKF-0005p4-OT
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:46:09 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:1966)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1hdyKC-0005kJ-S4
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:46:05 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d0b9afa0000>; Thu, 20 Jun 2019 07:40:58 -0700
+ id 1hdyKF-0005ng-G6
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:46:07 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d0b9b010000>; Thu, 20 Jun 2019 07:41:05 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate102.nvidia.com (PGP Universal service);
- Thu, 20 Jun 2019 07:40:58 -0700
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 20 Jun 2019 07:41:05 -0700
 X-PGP-Universal: processed;
- by hqpgpgate102.nvidia.com on Thu, 20 Jun 2019 07:40:58 -0700
-Received: from HQMAIL112.nvidia.com (172.18.146.18) by HQMAIL107.nvidia.com
+ by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 07:41:05 -0700
+Received: from HQMAIL106.nvidia.com (172.18.146.12) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
- 2019 14:40:58 +0000
-Received: from HQMAIL106.nvidia.com (172.18.146.12) by HQMAIL112.nvidia.com
- (172.18.146.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
- 2019 14:40:58 +0000
+ 2019 14:41:05 +0000
 Received: from kwankhede-dev.nvidia.com (172.20.13.39) by HQMAIL.nvidia.com
  (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 20 Jun 2019 14:40:51 +0000
+ Transport; Thu, 20 Jun 2019 14:40:58 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Date: Thu, 20 Jun 2019 20:07:37 +0530
-Message-ID: <1561041461-22326-10-git-send-email-kwankhede@nvidia.com>
+Date: Thu, 20 Jun 2019 20:07:38 +0530
+Message-ID: <1561041461-22326-11-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
 References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
@@ -49,20 +46,20 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1561041658; bh=8hz/KBF+f4hKDwTOMIRwStk2ND+CbU1c/DAfrF19Fl8=;
+ t=1561041665; bh=zwCotcuQgQ/QY2vqSK3NjO/F2occ1fuAnSjeBVHdgh0=;
  h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
  In-Reply-To:References:X-NVConfidentiality:MIME-Version:
  Content-Type;
- b=GbAk5a3UrJmRWROOARo2hYK1i+DawdbEQUX/IGs4veiavd7k9qvkUWTb/3HzlMV5F
- 4zgqcCptbqOW8vBh/gIt27eCcllwQuv0ExiDW//qrQgtSJ87Sp5iF2eZksFwam00Mp
- jHxWKAu/G8AeZTt4FYy+yVFGsA/vQHIDHDEPekT1LWJY9+C3VkOwI8j5bLj6NFfPwG
- 27qN60TV+bBfhV/SqcfRMCHrXKaYnqNUnhzth/fmiYkISjdm7qaC6FJnEUVZbR2FrK
- clqpYHnLQHtERfhTC5Yglrb4ytjbb1Q31Nb1xQblDP0TfH7I4xWmOQY4RO620hrXp0
- 1/5QrzhoeuHGQ==
+ b=gX4/ipn+7skEaxCM2cfAoHylULu5+SmwkI8AM1dWf+yozVhi85VM1FR5RdMJ20JM9
+ h4eLr+8Sxg3K1c3WjuIp7kF1XsKSkZkp2IoxWiU8AEmr/YRFNkuz9rohr8JExu/vWJ
+ 65T0E1rnFLqk/57Eb4rfsxEni2V6535QD5kP7EoPUpNTRVcwEfMGStCr7aX82ZFjxG
+ xBeww31nSE7dYgx2EnAByLltUXOta8lxLDFz6gl8Ey+z5N8fDvcQuUMXSAvolVcLDd
+ 2z+NeWqtf8Gwr3ITMTgq0Z6hvvrdL17BYXbGkvjxh5x63dlkfTEvZL5YsQWvQ9AJKL
+ HTmkA/txpXOvQ==
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
-X-Received-From: 216.228.121.143
-Subject: [Qemu-devel] [PATCH v4 09/13] vfio: Add load state functions to
- SaveVMHandlers
+X-Received-From: 216.228.121.65
+Subject: [Qemu-devel] [PATCH v4 10/13] vfio: Add function to get dirty page
+ list
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,203 +81,170 @@ Cc: Kirti Wankhede <kwankhede@nvidia.com>, Zhengxiao.zx@Alibaba-inc.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During _RESUMING device state:
-- If Vendor driver defines mappable region, mmap migration region.
-- Load config state.
-- For data packet, till VFIO_MIG_FLAG_END_OF_STATE is not reached
-    - read data_size from packet, read buffer of data_size
-    - read data_offset from where QEMU should write data.
-        if region is mmaped, write data of data_size to mmaped region.
-    - write data_size.
-        In case of mmapped region, write to data_size indicates kernel
-        driver that data is written in staging buffer.
-    - if region is trapped, pwrite() data of data_size from data_offset.
-- Repeat above until VFIO_MIG_FLAG_END_OF_STATE.
-- Unmap migration region.
+Dirty page tracking (.log_sync) is part of RAM copying state, where
+vendor driver provides the bitmap of pages which are dirtied by vendor
+driver through migration region and as part of RAM copy, those pages
+gets copied to file stream.
+
+To get dirty page bitmap:
+- write start address, page_size and pfn count.
+- read count of pfns copied.
+    - Vendor driver should return 0 if driver doesn't have any page to
+      report dirty in given range.
+    - Vendor driver should return -1 to mark all pages dirty for given range.
+- read data_offset, where vendor driver has written bitmap.
+- read bitmap from the region or mmaped part of the region. This copy is
+  iterated till page bitmap for all requested pfns are copied.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
 ---
- hw/vfio/migration.c | 153 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 153 insertions(+)
+ hw/vfio/migration.c           | 119 ++++++++++++++++++++++++++++++++++++++++++
+ include/hw/vfio/vfio-common.h |   2 +
+ 2 files changed, 121 insertions(+)
 
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 0a2f30872316..e4895f91761d 100644
+index e4895f91761d..68775b5dec11 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -212,6 +212,22 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+@@ -228,6 +228,125 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
      return qemu_file_get_error(f);
  }
  
-+static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
++void vfio_get_dirty_page_list(VFIODevice *vbasedev,
++                              uint64_t start_pfn,
++                              uint64_t pfn_count,
++                              uint64_t page_size)
 +{
-+    VFIODevice *vbasedev = opaque;
++    VFIOMigration *migration = vbasedev->migration;
++    VFIORegion *region = &migration->region.buffer;
++    uint64_t count = 0;
++    int64_t copied_pfns = 0;
++    int ret;
 +
-+    if (vbasedev->type == VFIO_DEVICE_TYPE_PCI) {
-+        vfio_pci_load_config(vbasedev, f);
++    qemu_mutex_lock(&migration->lock);
++    ret = pwrite(vbasedev->fd, &start_pfn, sizeof(start_pfn),
++                 region->fd_offset + offsetof(struct vfio_device_migration_info,
++                                              start_pfn));
++    if (ret < 0) {
++        error_report("Failed to set dirty pages start address %d %s",
++                ret, strerror(errno));
++        goto dpl_unlock;
 +    }
 +
-+    if (qemu_get_be64(f) != VFIO_MIG_FLAG_END_OF_STATE) {
-+        error_report("Wrong end of block while loading device config space");
-+        return -EINVAL;
++    ret = pwrite(vbasedev->fd, &page_size, sizeof(page_size),
++                 region->fd_offset + offsetof(struct vfio_device_migration_info,
++                                              page_size));
++    if (ret < 0) {
++        error_report("Failed to set dirty page size %d %s",
++                ret, strerror(errno));
++        goto dpl_unlock;
 +    }
 +
-+    return qemu_file_get_error(f);
++    ret = pwrite(vbasedev->fd, &pfn_count, sizeof(pfn_count),
++                 region->fd_offset + offsetof(struct vfio_device_migration_info,
++                                              total_pfns));
++    if (ret < 0) {
++        error_report("Failed to set dirty page total pfns %d %s",
++                ret, strerror(errno));
++        goto dpl_unlock;
++    }
++
++    do {
++        uint64_t bitmap_size, data_offset = 0;
++        void *buf = NULL;
++        bool buffer_mmaped = false;
++
++        /* Read copied dirty pfns */
++        ret = pread(vbasedev->fd, &copied_pfns, sizeof(copied_pfns),
++                region->fd_offset + offsetof(struct vfio_device_migration_info,
++                                             copied_pfns));
++        if (ret < 0) {
++            error_report("Failed to get dirty pages bitmap count %d %s",
++                    ret, strerror(errno));
++            goto dpl_unlock;
++        }
++
++        if (copied_pfns == 0) {
++            /*
++             * copied_pfns could be 0 if driver doesn't have any page to
++             * report dirty in given range
++             */
++            break;
++        } else if (copied_pfns == -1) {
++            /* Mark all pages dirty for this range */
++            cpu_physical_memory_set_dirty_range(start_pfn * page_size,
++                                                pfn_count * page_size,
++                                                DIRTY_MEMORY_MIGRATION);
++            break;
++        }
++
++        bitmap_size = (BITS_TO_LONGS(copied_pfns) + 1) * sizeof(unsigned long);
++
++        ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
++                region->fd_offset + offsetof(struct vfio_device_migration_info,
++                                             data_offset));
++        if (ret != sizeof(data_offset)) {
++            error_report("Failed to get migration buffer data offset %d",
++                         ret);
++            goto dpl_unlock;
++        }
++
++        if (region->mmaps) {
++            int i;
++            for (i = 0; i < region->nr_mmaps; i++) {
++                if ((region->mmaps[i].offset >= data_offset) &&
++                    (data_offset < region->mmaps[i].offset +
++                                   region->mmaps[i].size)) {
++                    buf = region->mmaps[i].mmap + (data_offset -
++                                                   region->mmaps[i].offset);
++                    buffer_mmaped = true;
++                    break;
++                }
++            }
++        }
++
++        if (!buffer_mmaped) {
++            buf = g_malloc0(bitmap_size);
++
++            ret = pread(vbasedev->fd, buf, bitmap_size,
++                        region->fd_offset + data_offset);
++            if (ret != bitmap_size) {
++                error_report("Failed to get dirty pages bitmap %d", ret);
++                g_free(buf);
++                goto dpl_unlock;
++            }
++        }
++
++        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)buf,
++                                               (start_pfn + count) * page_size,
++                                                copied_pfns);
++        count +=  copied_pfns;
++
++        if (!buffer_mmaped) {
++            g_free(buf);
++        }
++    } while (count < pfn_count);
++
++dpl_unlock:
++    qemu_mutex_unlock(&migration->lock);
 +}
 +
  /* ---------------------------------------------------------------------- */
  
  static int vfio_save_setup(QEMUFile *f, void *opaque)
-@@ -372,12 +388,149 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
-     return ret;
- }
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 1d26e6be8d48..423d6dbccace 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -224,5 +224,7 @@ int vfio_spapr_remove_window(VFIOContainer *container,
  
-+static int vfio_load_setup(QEMUFile *f, void *opaque)
-+{
-+    VFIODevice *vbasedev = opaque;
-+    VFIOMigration *migration = vbasedev->migration;
-+    int ret = 0;
-+
-+    if (migration->region.buffer.mmaps) {
-+        ret = vfio_region_mmap(&migration->region.buffer);
-+        if (ret) {
-+            error_report("Failed to mmap VFIO migration region %d: %s",
-+                         migration->region.index, strerror(-ret));
-+            return ret;
-+        }
-+    }
-+
-+    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RESUMING);
-+    if (ret) {
-+        error_report("Failed to set state RESUMING");
-+    }
-+    return ret;
-+}
-+
-+static int vfio_load_cleanup(void *opaque)
-+{
-+    vfio_save_cleanup(opaque);
-+    return 0;
-+}
-+
-+static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
-+{
-+    VFIODevice *vbasedev = opaque;
-+    VFIOMigration *migration = vbasedev->migration;
-+    int ret = 0;
-+    uint64_t data, data_size;
-+
-+    data = qemu_get_be64(f);
-+    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
-+        switch (data) {
-+        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
-+        {
-+            ret = vfio_load_device_config_state(f, opaque);
-+            if (ret) {
-+                return ret;
-+            }
-+            break;
-+        }
-+        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
-+        {
-+            data = qemu_get_be64(f);
-+            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
-+                return ret;
-+            } else {
-+                error_report("SETUP STATE: EOS not found 0x%lx", data);
-+                return -EINVAL;
-+            }
-+            break;
-+        }
-+        case VFIO_MIG_FLAG_DEV_DATA_STATE:
-+        {
-+            VFIORegion *region = &migration->region.buffer;
-+            void *buf = NULL;
-+            bool buffer_mmaped = false;
-+            uint64_t data_offset = 0;
-+
-+            data_size = qemu_get_be64(f);
-+            if (data_size == 0) {
-+                break;
-+            }
-+
-+            ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-+                        region->fd_offset +
-+                        offsetof(struct vfio_device_migration_info,
-+                        data_offset));
-+            if (ret != sizeof(data_offset)) {
-+                error_report("Failed to get migration buffer data offset %d",
-+                              ret);
-+                return -EINVAL;
-+            }
-+
-+            if (region->mmaps) {
-+                int i;
-+
-+                for (i = 0; i < region->nr_mmaps; i++) {
-+                    if (region->mmaps[i].mmap &&
-+                        (data_offset >= region->mmaps[i].offset) &&
-+                        (data_offset < region->mmaps[i].offset +
-+                                       region->mmaps[i].size)) {
-+                        buf = region->mmaps[i].mmap + (data_offset -
-+                                                      region->mmaps[i].offset);
-+                        buffer_mmaped = true;
-+                        break;
-+                    }
-+                }
-+            }
-+
-+            if (!buffer_mmaped) {
-+                buf = g_malloc0(data_size);
-+            }
-+
-+            qemu_get_buffer(f, buf, data_size);
-+
-+            ret = pwrite(vbasedev->fd, &data_size, sizeof(data_size),
-+                         region->fd_offset +
-+                       offsetof(struct vfio_device_migration_info, data_size));
-+            if (ret != sizeof(data_size)) {
-+                error_report("Failed to set migration buffer data size %d",
-+                             ret);
-+                return -EINVAL;
-+            }
-+
-+            if (!buffer_mmaped) {
-+                ret = pwrite(vbasedev->fd, buf, data_size,
-+                             region->fd_offset + data_offset);
-+                g_free(buf);
-+
-+                if (ret != data_size) {
-+                    error_report("Failed to set migration buffer %d", ret);
-+                    return -EINVAL;
-+                }
-+            }
-+            break;
-+        }
-+        }
-+
-+        ret = qemu_file_get_error(f);
-+        if (ret) {
-+            return ret;
-+        }
-+        data = qemu_get_be64(f);
-+    }
-+
-+    return ret;
-+}
-+
- static SaveVMHandlers savevm_vfio_handlers = {
-     .save_setup = vfio_save_setup,
-     .save_cleanup = vfio_save_cleanup,
-     .save_live_pending = vfio_save_pending,
-     .save_live_iterate = vfio_save_iterate,
-     .save_live_complete_precopy = vfio_save_complete_precopy,
-+    .load_setup = vfio_load_setup,
-+    .load_cleanup = vfio_load_cleanup,
-+    .load_state = vfio_load_state,
- };
+ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
+ void vfio_migration_finalize(VFIODevice *vbasedev);
++void vfio_get_dirty_page_list(VFIODevice *vbasedev, uint64_t start_pfn,
++                               uint64_t pfn_count, uint64_t page_size);
  
- /* ---------------------------------------------------------------------- */
+ #endif /* HW_VFIO_VFIO_COMMON_H */
 -- 
 2.7.0
 
