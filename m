@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AFC4CBD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 12:27:15 +0200 (CEST)
-Received: from localhost ([::1]:45962 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17CE4CBD6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 12:26:44 +0200 (CEST)
+Received: from localhost ([::1]:45960 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hduHi-00062W-F8
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 06:27:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37075)
+	id 1hduHE-0005TM-71
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 06:26:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37007)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdu9O-0006ka-7k
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:18:39 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdu9Q-0006ft-Bc
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:18:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdtv7-0000D8-Ud
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:04:18 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:52459 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdtuW-0008MI-F8
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:03:49 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:52453 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hdtu8-00088v-8b
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:02:54 -0400
+ id 1hdtuU-00088t-HQ
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:03:15 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 3C8931A477F;
+ by mail.rt-rk.com (Postfix) with ESMTP id 433771A4787;
  Thu, 20 Jun 2019 12:02:16 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 1FC891A47A6;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 28FC91A4775;
  Thu, 20 Jun 2019 12:02:16 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 12:02:05 +0200
-Message-Id: <1561024929-26004-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 20 Jun 2019 12:02:06 +0200
+Message-Id: <1561024929-26004-2-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1561024929-26004-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1561024929-26004-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v3 0/4] target/mips: Misc fixes and maintenance
- for 4.1
+Subject: [Qemu-devel] [PATCH v3 1/4] MAINTAINERS: Update file items for MIPS
+ Malta board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,29 +57,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-This series contains miscelaneous fixes, improvements, and
-maintainance items intended to be integrated into QEMU 4.1.
-I will gradually add patches by the end of June 2019.
+hw/mips/gt64xxx_pci.c is used for Malta only, so it is logical to
+place this file in Malta board section of the MAINTAINERS file.
 
-v2->v3:
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-  - amendeded two patches on cleaning checkpatch warnings
-
-v1->v2:
-
-  - added two patches on cleaning checkpatch warnings
-
-Aleksandar Markovic (4):
-  MAINTAINERS: Update file items for MIPS Malta board
-  MAINTAINERS: Consolidate MIPS disassembler-related items
-  target/mips: Fix some space checkpatch errors in translate.c
-  target/mips: Fix if-else-switch-case arms checkpatch errors in
-    translate.c
-
- MAINTAINERS             |   6 +-
- target/mips/translate.c | 445 +++++++++++++++++++++++++++---------------------
- 2 files changed, 257 insertions(+), 194 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index acbad13..869e87b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -930,6 +930,7 @@ M: Aurelien Jarno <aurelien@aurel32.net>
+ R: Aleksandar Rikalo <arikalo@wavecomp.com>
+ S: Maintained
+ F: hw/mips/mips_malta.c
++F: hw/mips/gt64xxx_pci.c
+ F: tests/acceptance/linux_ssh_mips_malta.py
+ 
+ Mipssim
 -- 
 2.7.4
 
