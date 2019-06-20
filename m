@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9794CDD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 14:41:15 +0200 (CEST)
-Received: from localhost ([::1]:47374 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC9E4CDBC
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 14:29:03 +0200 (CEST)
+Received: from localhost ([::1]:47302 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdwNO-0000ZD-MT
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 08:41:14 -0400
+	id 1hdwBb-0008At-07
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 08:29:03 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:33214)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hdw37-00017h-MB
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:20:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1hdw2s-00017h-E5
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:20:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hdvoH-0002QI-Pn
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:06:44 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:38562)
+ (envelope-from <philmd@redhat.com>) id 1hdvqu-00049c-Od
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:09:27 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42558)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdvoH-0002J8-A7
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:04:57 -0400
-Received: by mail-wm1-f68.google.com with SMTP id s15so2890862wmj.3
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 05:04:27 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hdvqu-00048p-Ik
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:07:40 -0400
+Received: by mail-wr1-f66.google.com with SMTP id x17so2742348wrl.9
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 05:07:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5YCFq2iZepQnwJu68Ng1i3/CLbPGHwAuLVLer4Poq1A=;
- b=bpA953Po2U/gC0VqzLTRZHYMRO4krGEkTDn17X2o5sN3bMI0lptnI/YZph1e0oxVIj
- iXTnQuqiM5PUPqq/IVAHI1+RDk5YSP5lxQIAXvatK/qsWlSswwpdUauacE4yNAhcxpie
- UGbc+++kxBavKxGFbPNie+TVhawfQiZYpZ/frKA2d/F/9fvQLQtf/FUz/yTzirnAseMY
- hY2FY2jeyx4Z3u3a8/r3TNvyKQ2E0h9pCYfz+mmK0GUwPq9+OM3whvDzd+EJjuWicTOd
- g2Y/mHdDJv/D+UnoKyrX8KR5KZvprxXMInj5NrFHTC+ENGlVwVysnA2m2RS3bBI8DPMC
- SDwg==
-X-Gm-Message-State: APjAAAWQSL/TLGRb41Kf+D+Cqhg/raE4Wv7DHawMhKECkmvVHuXrVC03
- dPycU6d6rfGbDC9S68jvpLcy7dXwyWY=
-X-Google-Smtp-Source: APXvYqzLXI/jz1OGb0EsfWkERuoBMddoo2Zwykx/55tTh7YF4MAMTqMfXBzlfIktUVz3MLNNsDs/LA==
-X-Received: by 2002:a1c:f415:: with SMTP id z21mr2790514wma.34.1561032264117; 
- Thu, 20 Jun 2019 05:04:24 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
- ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
- by smtp.gmail.com with ESMTPSA id t140sm9965266wmt.0.2019.06.20.05.04.23
+ bh=54om2P5mtO8ywAEztbJjeUJW56nk4ieGCbpzao0kQ70=;
+ b=aLgj4G16Z6ysLk2WR6LNGXkj/VFTGA9d8iVzF7P2zTgmSVzYAEL0L76qN9uHdHaDw4
+ y+/AzzowkDjpKr9yK9Rce/9R4z7lZFBxtd1TGgQVban4mInRykgNlR1m9lbU1q4CJwzc
+ wxtyy8ytrtrY+pFARoH4Naha4XI/iEh0tsrK097vTswkDMxmFmASsoFEWDvEZy2HqnPt
+ Rn7I+G0OJF2ofPQEis4EBAbusVca6bA9yvONwY+4aRko3zny766y2BwmwnBmUtWEYphw
+ LwmPKSgKXRlOLkkaTRKFBVejz4lGykrx3492CCbOHynjt1hzgPyLfOg+gAD6UD+AOCHB
+ 80hg==
+X-Gm-Message-State: APjAAAUuldI2O+SYHzb9c2GxIDZSSpFQEhJrfGqEdmTOgQrvAya2w5Db
+ sV19lj6kKlrmkZvu3UumrRGcsA==
+X-Google-Smtp-Source: APXvYqyzpHIxQ6wcxokP762DdtQQQBhiqhmsLR9TEHldmt+C+1nkmMNYxX5fj8q5tsWUw/EXY64u6Q==
+X-Received: by 2002:a5d:4489:: with SMTP id j9mr47619501wrq.15.1561032459285; 
+ Thu, 20 Jun 2019 05:07:39 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id r3sm24570166wrr.61.2019.06.20.05.07.38
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 05:04:23 -0700 (PDT)
-To: Yan Zhao <yan.y.zhao@intel.com>
-References: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
- <39c4c32b-e34a-8d8f-abbc-ab346ec5bed7@redhat.com>
- <20190620040230.GB9073@xz-x1>
- <6829b139-3eab-449e-04d6-07f1e381316d@redhat.com>
- <20190620105752.GD9303@joy-OptiPlex-7040>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <532624f7-f1f9-98ce-9dcd-4f363d7870b7@redhat.com>
-Date: Thu, 20 Jun 2019 14:04:22 +0200
+ Thu, 20 Jun 2019 05:07:38 -0700 (PDT)
+To: Laszlo Ersek <lersek@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20190310004749.27029-1-philmd@redhat.com>
+ <20190310004749.27029-3-philmd@redhat.com>
+ <5e2f3651-5f00-0c93-353e-e58f079998e9@redhat.com>
+ <124e54f9-c7e1-0157-61f1-673154872749@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <88b7370c-1b6f-11e0-9fbe-d532e5726aa6@redhat.com>
+Date: Thu, 20 Jun 2019 14:07:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190620105752.GD9303@joy-OptiPlex-7040>
+In-Reply-To: <124e54f9-c7e1-0157-61f1-673154872749@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH] memory: do not do out of bound notification
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v3 2/4] hw/firmware: Add Edk2Crypto and
+ edk2_add_host_crypto_policy()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,142 +78,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Auger Eric <eric.auger@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/06/19 12:57, Yan Zhao wrote:
-> On Thu, Jun 20, 2019 at 04:35:29PM +0800, Paolo Bonzini wrote:
->> On 20/06/19 06:02, Peter Xu wrote:
->>> Seems workable, to be explicit - we can even cut it into chunks with
->>> different size to be efficient.
->>
->> Yes, this is not hard (completely untested):
->>
->> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
->> index 44b1231157..541538bc6c 100644
->> --- a/hw/i386/intel_iommu.c
->> +++ b/hw/i386/intel_iommu.c
->> @@ -3388,39 +3388,34 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
->>      }
->>  
->>      assert(start <= end);
->> -    size = end - start;
->> +    while (end > start) {
->> +        size = end - start;
->> +        /* Only keep the lowest bit of either size or start.  */
->> +        size = MIN(size & -size, start & -start);
->> +        /* Should not happen, but limit to address width too just in case */
->> +        size = MIN(size, 1ULL << s->aw_bits);
->>  
->> -    if (ctpop64(size) != 1) {
->> -        /*
->> -         * This size cannot format a correct mask. Let's enlarge it to
->> -         * suite the minimum available mask.
->> -         */
->> -        int n = 64 - clz64(size);
->> -        if (n > s->aw_bits) {
->> -            /* should not happen, but in case it happens, limit it */
->> -            n = s->aw_bits;
->> -        }
->> -        size = 1ULL << n;
->> -    }
->> +        assert((start & (size - 1)) == 0);
->>  
->> -    entry.target_as = &address_space_memory;
->> -    /* Adjust iova for the size */
->> -    entry.iova = n->start & ~(size - 1);
->> -    /* This field is meaningless for unmap */
->> -    entry.translated_addr = 0;
->> -    entry.perm = IOMMU_NONE;
->> -    entry.addr_mask = size - 1;
->> +        entry.target_as = &address_space_memory;
->> +        entry.iova = start;
->> +        /* This field is meaningless for unmap */
->> +        entry.translated_addr = 0;
->> +        entry.perm = IOMMU_NONE;
->> +        entry.addr_mask = size - 1;
->>  
->> -    trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
->> -                             VTD_PCI_SLOT(as->devfn),
->> -                             VTD_PCI_FUNC(as->devfn),
->> -                             entry.iova, size);
->> +        trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
->> +                                 VTD_PCI_SLOT(as->devfn),
->> +                                 VTD_PCI_FUNC(as->devfn),
->> +                                 entry.iova, size);
->>  
->> -    map.iova = entry.iova;
->> -    map.size = entry.addr_mask;
->> -    iova_tree_remove(as->iova_tree, &map);
->> +        map.iova = entry.iova;
->> +        map.size = entry.addr_mask;
->> +        iova_tree_remove(as->iova_tree, &map);
->>  
->> -    memory_region_notify_one(n, &entry);
->> +        memory_region_notify_one(n, &entry);
->> +        start += size;
->> +    }
->>  }
->>  
->>  static void vtd_address_space_unmap_all(IntelIOMMUState *s)
->>
->>
->> Yan,
->>
->> if something like this works for you, let me know and I will submit it
->> as a proper patch.
-> 
-> Thanks and I'll try it tomorrow and let you know the result.
-> But may I know why it cannot simply be like below?
+Hi Laszlo,
 
-Because the API is that addr_mask is a power of two minus 1.
+On 3/13/19 11:11 AM, Laszlo Ersek wrote:
+> On 03/13/19 10:43, Laszlo Ersek wrote:
+>> On 03/10/19 01:47, Philippe Mathieu-Daudé wrote:
+>>> The Edk2Crypto object is used to hold configuration values specific
+>>> to EDK2.
+>>>
+>>> The edk2_add_host_crypto_policy() function loads crypto policies
+>>> from the host, and register them as fw_cfg named file items.
+>>> So far only the 'https' policy is supported.
+>>>
+>>> A usercase example is the 'HTTPS Boof' feature of OVMF [*].
+>>>
+>>> Usage example:
+>>>
+>>>   $ qemu-system-x86_64 \
+>>>       --object edk2_crypto,id=https,\
+>>>               ciphers=/etc/crypto-policies/back-ends/openssl.config,\
+>>>               cacerts=/etc/pki/ca-trust/extracted/edk2/cacerts.bin
+>>>
+>>> (On Fedora these files are provided by the ca-certificates and
+>>> crypto-policies packages).
+>>>
+>>> [*]: https://github.com/tianocore/edk2/blob/master/OvmfPkg/README
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>> v3:
+>>> - '-object' -> '--object' in commit description (Eric)
+>>> - reworded the 'TODO: g_free' comment
+>>> ---
+>>>  MAINTAINERS                             |   8 ++
+>>>  hw/Makefile.objs                        |   1 +
+>>>  hw/firmware/Makefile.objs               |   1 +
+>>>  hw/firmware/uefi_edk2_crypto_policies.c | 177 ++++++++++++++++++++++++
+>>>  include/hw/firmware/uefi_edk2.h         |  28 ++++
+>>>  5 files changed, 215 insertions(+)
+>>>  create mode 100644 hw/firmware/Makefile.objs
+>>>  create mode 100644 hw/firmware/uefi_edk2_crypto_policies.c
+>>>  create mode 100644 include/hw/firmware/uefi_edk2.h
+>>>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index cf09a4c127..70122b3d0d 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -2206,6 +2206,14 @@ F: include/hw/i2c/smbus_master.h
+>>>  F: include/hw/i2c/smbus_slave.h
+>>>  F: include/hw/i2c/smbus_eeprom.h
+>>>  
+>>> +EDK2 Firmware
+>>> +M: Laszlo Ersek <lersek@redhat.com>
+>>> +M: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> +S: Maintained
+>>> +F: docs/interop/firmware.json
+>>> +F: hw/firmware/uefi_edk2_crypto_policies.c
+>>> +F: include/hw/firmware/uefi_edk2.h
+>>> +
+>>
+>> I'm not happy with this.
+>>
+>> First, "docs/interop/firmware.json" is meant for more than just EDK2. We
+>> shouldn't list it in a section called "EDK2 Firmware". I can't suggest
+>> an alternative (MAINTAINERS is *huge* -- 2500+ lines), but this one
+>> would be misleading.
+>>
+>> Second, we expose fw_cfg files to edk2 platform firmware from a bunch of
+>> other places. For example -- and in this case I do mean to provide a
+>> complex example! --, see "etc/smi/supported-features",
+>> "etc/smi/requested-features", and "etc/smi/features-ok", in file
+>> "hw/isa/lpc_ich9.c". I'm unconvinced that the present feature merits new
+>> directories and new files.
+>>
+>> Then again, I also don't know where to put the logic. I guess I'll have
+>> to defer to more experienced reviewers.
+>>
+>> [snipping lots of QOM boilerplate]
+>>
+>>> +void edk2_add_host_crypto_policy(FWCfgState *fw_cfg)
+>>> +{
+>>> +    Edk2Crypto *s;
+>>> +
+>>> +    s = edk2_crypto_by_id("https", NULL);
+>>> +    if (!s) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    if (s->ciphers_path) {
+>>> +        /*
+>>> +         * Note:
+>>> +         * Unlike with fw_cfg_add_file() where the allocated data has
+>>> +         * to be valid for the lifetime of the FwCfg object, there is
+>>> +         * no such contract interface with fw_cfg_add_file_from_host().
+>>> +         * It would be easier that the FwCfg object keeps reference of
+>>> +         * its allocated memory and releases it when destroy, but it
+>>> +         * currently doesn't. Meanwhile we simply add this TODO comment.
+>>> +         */
+>>> +        fw_cfg_add_file_from_host(fw_cfg, "etc/edk2/https/ciphers",
+>>> +                                  s->ciphers_path, NULL);
+>>> +    }
+>>> +
+>>> +    if (s->cacerts_path) {
+>>> +        /*
+>>> +         * TODO: g_free the returned pointer
+>>> +         * (see previous comment for ciphers_path in this function).
+>>> +         */
+>>> +        fw_cfg_add_file_from_host(fw_cfg, "etc/edk2/https/cacerts",
+>>> +                                  s->cacerts_path, NULL);
+>>> +    }
+>>> +}
+>>
+>> Shouldn't we do some error checking here?
+>>
+>> I mean, printing an error message in fw_cfg_add_file_from_host(), and
+>> then continuing without exposing the named files in question to the
+>> firmware, could be OK if this was a "default on" feature. But (IIUC)
+>> here the user provided an explicit "-object" option, and we've just
+>> failed to construct the object. Doesn't such a situation usually prevent
+>> QEMU startup?
+> 
+> Wait, I could be totally confused here. (Returning to this patch after
+> seeing the rest of the series.)
+> 
+> Is it actually the case that the Edk2Crypto object holds nothing more
+> than two pathnames -- and so its construction can virtually never fail?
+> While the actual fw_cfg population occurs separately, in a machine_done
+> notifier?
+> 
+> If that's the case, I don't think it's the right approach. Reading the
+> host files, and populating fw_cfg with them, should be part of the
+> object construction. And if those steps fail, the object should not be
+> possible to construct.
+> 
+> We did something similar with the vmgenid device [hw/acpi/vmgenid.c], if
+> I remember correctly. It also has a dependency on fw_cfg...
+> 
+> Ahh, no, I'm absolutely wrong about that. vmgenid_realize() doesn't do
+> anything with fw_cfg. Instead, we have acpi_setup() in
+> "hw/i386/acpi-build.c", which calls find_vmgenid_dev() and
+> vmgenid_add_fw_cfg(). And acpi_setup() is certainly called from
+> pc_machine_done().
+> 
+> In other words, the pattern that you use here matches existing practice.
+> Realize the device (or object) first, then add the fw_cfg thingies in
+> the "machine done" callback. OK.
+> 
+> *Still*, I would like to see better error handling/reporting (or an
+> explanation why I'm wrong). How about reworking the edk2crypto class
+> itself -- it shouldn't just hold the pathnames of the files, but also
+> their contents. That is:
+> 
+> - g_file_get_contents() should be called in the realize method
+> - the object would own the file contents
+> - the realize method would ensure that there wouldn't be any other
+> instance of the class (i.e. that it would be a singleton -- see the same
+> idea in vmgenid)
+> - there would be no need for the fw_cfg_add_file_from_host() API
+> - the machine done notifier would be extended to locate the object
+> (there could be zero or one instances), and if the one instance were
+> found, the machine done callback would hook the file contents into
+> fw_cfg. fw_cfg_add_file() cannot fail, so no errors to report at this stage.
+> 
+> Again I think this would follow the pattern from vmgenid.
 
-Paolo
+I want to say I am impressed by your deep review. Your design is
+obviously way cleaner/safer. I think I was missing some part of the big
+picture here, thank you for your detailed comments!
 
-> Thanks
-> Yan
-> 
-> 
-> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> index b0d8a1c..2956db6 100644
-> --- a/hw/i386/intel_iommu.c
-> +++ b/hw/i386/intel_iommu.c
-> @@ -3374,7 +3374,6 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
->      IntelIOMMUState *s = as->iommu_state;
->      DMAMap map;
-> 
->      /*
->       * Note: all the codes in this function has a assumption that IOVA
->       * bits are no more than VTD_MGAW bits (which is restricted by
-> @@ -3392,23 +3391,8 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
->      assert(start <= end);
->      size = end - start;
-> 
-> -    if (ctpop64(size) != 1) {
-> -        /*
-> -         * This size cannot format a correct mask. Let's enlarge it to
-> -         * suite the minimum available mask.
-> -         */
-> -        int n = 64 - clz64(size);
-> -        if (n > s->aw_bits) {
-> -            /* should not happen, but in case it happens, limit it */
-> -            n = s->aw_bits;
-> -        }
-> -        size = 1ULL << n;
-> -    }
-> -
-> -
->      entry.target_as = &address_space_memory;
-> -    /* Adjust iova for the size */
-> -    entry.iova = n->start & ~(size - 1);
-> +    entry.iova = n->start;
->      /* This field is meaningless for unmap */
->      entry.translated_addr = 0;
->      entry.perm = IOMMU_NONE;
-> 
-> 
-> 
+I did not know how vmgenid is processed. The only difference is I don't
+want the edk2crypto class to be a device, but rather a simple user
+object, and we already have an interface that does that:
+TYPE_USER_CREATABLE. Its UserCreatableClass::complete() method is
+similar to DeviceClass::realize() in managing errors at object
+instantiation, so the machine done notifier never fails.
+I'll respin.
 
+Regards,
+
+Phil.
 
