@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B554D287
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:55:12 +0200 (CEST)
-Received: from localhost ([::1]:49762 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 859894D2AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 18:05:19 +0200 (CEST)
+Received: from localhost ([::1]:49922 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdzP5-0005P2-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:55:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52731)
+	id 1hdzYr-0003DP-Ua
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 12:05:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53747)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hdzI6-0008MA-3Z
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:47:59 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hdzJg-0000xb-JB
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:49:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hdzGq-0006BW-0X
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:46:41 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:36683)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hdzGp-00069Y-QU
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:46:39 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n4so2342801wrs.3
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:46:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9H2PzkJn2cqFORBRZy7+j0WNXqsM/n6+yvmL/Jka6PA=;
- b=b9fX7sDLa18fUr3suGjouYQZ+vpYnEuJdaBps9wfL2FPER33jX10D8yGetgQ2Uk/iH
- KyDT652UlbzrDgl4a9mwKikwhohI15YAL1KPXuBVd78Eg8t3GhqzgrUQ3qBpk5ylH2LM
- tDYynPWse4Rw/8FUfSryULCKdcnBbmSOW9HjyD+/SBQ0siIM1Ur7OUrKaOXTb+Ut4U/9
- IARzqnqJSoSG+IbXxnxy6wdHxPOBxKePL9/O/mVi2Y4v+eFHLiVPR3Iupkdk+8OSRWao
- FaJyK9TKXKHdBsRM8hV6dYAAY6+nFP0JGC3ft8znQs/00WWas7A1DzwaYDllbblmknWb
- Fo5w==
-X-Gm-Message-State: APjAAAUoAVjlxw3ZxFlm82+znpPmcdygnJmvDPvSxG8XUJ3EtAarGLUD
- 8NwRAhY3PyvA60P5Xjow+5rHzQ==
-X-Google-Smtp-Source: APXvYqwEWXhE9ES/Ot+DbDXmZi3aD4OdN6m92SqM4KAy+HO8BHd7DLUm3XZGN2wWJgnJ7Dna3NVJ1Q==
-X-Received: by 2002:adf:f30b:: with SMTP id i11mr30328155wro.299.1561045598177; 
- Thu, 20 Jun 2019 08:46:38 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id t7sm15638457wrn.52.2019.06.20.08.46.37
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 08:46:37 -0700 (PDT)
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1561028123.git.balaton@eik.bme.hu>
- <5d1fe4db846ab9be4b77ddb0d43cc74cd200a003.1561028123.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c67e48df-925b-a3be-8760-4de0080d8aad@redhat.com>
-Date: Thu, 20 Jun 2019 17:46:36 +0200
+ (envelope-from <mreitz@redhat.com>) id 1hdzJZ-0000sI-Pk
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:49:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56040)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hdzHr-00075F-My; Thu, 20 Jun 2019 11:47:43 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 02725C057E7D;
+ Thu, 20 Jun 2019 15:47:25 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E5041001E73;
+ Thu, 20 Jun 2019 15:47:18 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190620010356.19164-1-jsnow@redhat.com>
+ <20190620010356.19164-6-jsnow@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <8f3822dc-b3a5-994a-6fd7-d7291954789c@redhat.com>
+Date: Thu, 20 Jun 2019 17:47:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <5d1fe4db846ab9be4b77ddb0d43cc74cd200a003.1561028123.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190620010356.19164-6-jsnow@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="GLOlMofvbWhPsq1LRl4CgfSEijtdsAaru"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Thu, 20 Jun 2019 15:47:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v5 1/2] i2c: Move bitbang_i2c.h to
- include/hw/i2c/
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 05/12] hbitmap: enable merging across
+ granularities
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,111 +85,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/19 12:55 PM, BALATON Zoltan wrote:
-> The bitbang i2c implementation is also useful for other device models
-> such as DDC in display controllers. Move the header to include/hw/i2c/
-> to allow it to be used from other device models and adjust users of
-> this include. This also reverts commit 2b4c1125ac which is no longer
-> needed.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--GLOlMofvbWhPsq1LRl4CgfSEijtdsAaru
+Content-Type: multipart/mixed; boundary="JU6rGCyG6MRiFjCwSIIPGMztDgEbPiNDb";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ eblake@redhat.com, vsementsov@virtuozzo.com,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Xie Changlong <xiechanglong.d@gmail.com>
+Message-ID: <8f3822dc-b3a5-994a-6fd7-d7291954789c@redhat.com>
+Subject: Re: [PATCH 05/12] hbitmap: enable merging across granularities
+References: <20190620010356.19164-1-jsnow@redhat.com>
+ <20190620010356.19164-6-jsnow@redhat.com>
+In-Reply-To: <20190620010356.19164-6-jsnow@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+--JU6rGCyG6MRiFjCwSIIPGMztDgEbPiNDb
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
+On 20.06.19 03:03, John Snow wrote:
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  hw/i2c/bitbang_i2c.c                 | 2 +-
->  hw/i2c/ppc4xx_i2c.c                  | 1 -
->  hw/i2c/versatile_i2c.c               | 2 +-
->  {hw => include/hw}/i2c/bitbang_i2c.h | 2 ++
->  include/hw/i2c/i2c.h                 | 2 --
->  include/hw/i2c/ppc4xx_i2c.h          | 2 +-
->  6 files changed, 5 insertions(+), 6 deletions(-)
->  rename {hw => include/hw}/i2c/bitbang_i2c.h (80%)
-> 
-> diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
-> index 5dfc72d9d7..3cb0509b02 100644
-> --- a/hw/i2c/bitbang_i2c.c
-> +++ b/hw/i2c/bitbang_i2c.c
-> @@ -12,7 +12,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "hw/hw.h"
-> -#include "bitbang_i2c.h"
-> +#include "hw/i2c/bitbang_i2c.h"
->  #include "hw/sysbus.h"
->  #include "qemu/module.h"
->  
-> diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
-> index d606d3dbeb..5fb4f86c38 100644
-> --- a/hw/i2c/ppc4xx_i2c.c
-> +++ b/hw/i2c/ppc4xx_i2c.c
-> @@ -30,7 +30,6 @@
->  #include "cpu.h"
->  #include "hw/hw.h"
->  #include "hw/i2c/ppc4xx_i2c.h"
-> -#include "bitbang_i2c.h"
->  
->  #define PPC4xx_I2C_MEM_SIZE 18
->  
-> diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
-> index e07be9890c..24b6e36b6d 100644
-> --- a/hw/i2c/versatile_i2c.c
-> +++ b/hw/i2c/versatile_i2c.c
-> @@ -23,7 +23,7 @@
->  
->  #include "qemu/osdep.h"
->  #include "hw/sysbus.h"
-> -#include "bitbang_i2c.h"
-> +#include "hw/i2c/bitbang_i2c.h"
->  #include "qemu/log.h"
->  #include "qemu/module.h"
->  
-> diff --git a/hw/i2c/bitbang_i2c.h b/include/hw/i2c/bitbang_i2c.h
-> similarity index 80%
-> rename from hw/i2c/bitbang_i2c.h
-> rename to include/hw/i2c/bitbang_i2c.h
-> index 9443021710..3a7126d5de 100644
-> --- a/hw/i2c/bitbang_i2c.h
-> +++ b/include/hw/i2c/bitbang_i2c.h
-> @@ -3,6 +3,8 @@
->  
->  #include "hw/i2c/i2c.h"
->  
-> +typedef struct bitbang_i2c_interface bitbang_i2c_interface;
+>  util/hbitmap.c | 22 +++++++++++++++++++++-
+>  1 file changed, 21 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/util/hbitmap.c b/util/hbitmap.c
+> index 45d1725daf..0d6724b7bc 100644
+> --- a/util/hbitmap.c
+> +++ b/util/hbitmap.c
+> @@ -777,7 +777,17 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
+> =20
+>  bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b)
+>  {
+> -    return (a->size =3D=3D b->size) && (a->granularity =3D=3D b->granu=
+larity);
+> +    return (a->size =3D=3D b->size);
+> +}
 > +
->  #define BITBANG_I2C_SDA 0
->  #define BITBANG_I2C_SCL 1
->  
-> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
-> index 8e236f7bb4..75c5bd638b 100644
-> --- a/include/hw/i2c/i2c.h
-> +++ b/include/hw/i2c/i2c.h
-> @@ -81,8 +81,6 @@ uint8_t i2c_recv(I2CBus *bus);
->  
->  DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t addr);
->  
-> -typedef struct bitbang_i2c_interface bitbang_i2c_interface;
-> -
->  /* lm832x.c */
->  void lm832x_key_event(DeviceState *dev, int key, int state);
->  
-> diff --git a/include/hw/i2c/ppc4xx_i2c.h b/include/hw/i2c/ppc4xx_i2c.h
-> index aa2a2bf9de..8437bf070b 100644
-> --- a/include/hw/i2c/ppc4xx_i2c.h
-> +++ b/include/hw/i2c/ppc4xx_i2c.h
-> @@ -28,7 +28,7 @@
->  #define PPC4XX_I2C_H
->  
->  #include "hw/sysbus.h"
-> -#include "hw/i2c/i2c.h"
-> +#include "hw/i2c/bitbang_i2c.h"
->  
->  #define TYPE_PPC4xx_I2C "ppc4xx-i2c"
->  #define PPC4xx_I2C(obj) OBJECT_CHECK(PPC4xxI2CState, (obj), TYPE_PPC4xx_I2C)
-> 
+> +static void hbitmap_sparse_merge(HBitmap *dst, const HBitmap *src)
+> +{
+> +    uint64_t offset =3D 0;
+> +    uint64_t count =3D src->orig_size;
+> +
+> +    while (hbitmap_next_dirty_area(src, &offset, &count)) {
+> +        hbitmap_set(dst, offset, count);
+> +    }
+>  }
+> =20
+>  /**
+> @@ -804,6 +814,16 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap=
+ *b, HBitmap *result)
+>          return true;
+>      }
+> =20
+> +    if (a->size !=3D b->size) {
+
+Don=E2=80=99t you mean s/size/granularity/?
+
+Right now, this is dead code, which leads me to asking for a test.
+(Well, no, I would=E2=80=99ve asked anyway.)
+
+Max
+
+> +        if (a !=3D result) {
+> +            hbitmap_sparse_merge(result, a);
+> +        }
+> +        if (b !=3D result) {
+> +            hbitmap_sparse_merge(result, b);
+> +        }
+> +        return true;
+> +    }
+> +
+>      /* This merge is O(size), as BITS_PER_LONG and HBITMAP_LEVELS are =
+constant.
+>       * It may be possible to improve running times for sparsely popula=
+ted maps
+>       * by using hbitmap_iter_next, but this is suboptimal for dense ma=
+ps.
+>=20
+
+
+
+--JU6rGCyG6MRiFjCwSIIPGMztDgEbPiNDb--
+
+--GLOlMofvbWhPsq1LRl4CgfSEijtdsAaru
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0LqoQACgkQ9AfbAGHV
+z0DarQgAwypaDBPCk67E+UqL67Y/vbLSuAJuXK4CmWqjl1mgD4ZDmUDHt8sXSbyz
+FHr22OH+CacDsd0h3j85s+D9elPC4nzToVlZEt/QwnNzmwPDBWC7MV6xESbMMdTa
+rzF4M39Y0kgL2YrmYQWroemD1S1lum/7vCQSsTHoAarDz6cCKWJYa6swOFqDjLye
+900YK2H7cude6eqGxAMJ+ThM81GLDOTiLuRxNbsphqNaBGndifimDoH4H3YAi0/q
+Fs7f9im3Me2ClXkebmFnufiFj2P6UTxP2N5J/eJviemFD5Vv7tmfuo7yHSskwgPq
+sMG1O5MbuN0dGakjJZdGvp/JvnscUg==
+=0i23
+-----END PGP SIGNATURE-----
+
+--GLOlMofvbWhPsq1LRl4CgfSEijtdsAaru--
 
