@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 767464D9C9
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 20:52:01 +0200 (CEST)
-Received: from localhost ([::1]:52154 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7B34D839
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 20:25:47 +0200 (CEST)
+Received: from localhost ([::1]:52070 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he2AB-0003uU-03
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 14:52:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43151)
+	id 1he1ko-0008W6-CW
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 14:25:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43128)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <brijesh.singh@amd.com>) id 1he1cW-0005Dx-O7
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:17:15 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1he1cD-0005BR-FM
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:16:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <brijesh.singh@amd.com>) id 1he1PD-0003wz-P7
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:03:47 -0400
-Received: from mail-eopbgr720059.outbound.protection.outlook.com
- ([40.107.72.59]:35920 helo=NAM05-CO1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
- id 1he1PD-0003qK-Fu
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:03:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2yaW5b4zxJ8SbYaNWmSsPSjOVNESijemaqL82b30758=;
- b=eIM4l3FCIDRAIo6GdlIxu88tzRoLuW18G3A2J375wXQwf/JdJY95xqoMK2Eyk0HZYOdIQOyyIMQZjgNxElqm1GoU9MN4ej8yPjlguYVCwheMMU8RniqpTToMmH6PSWEj98Yc/qwgbCvmSfZqhIsc6L83EAIoJ+p+azo6XjT+xZI=
-Received: from DM6PR12MB2682.namprd12.prod.outlook.com (20.176.116.31) by
- DM6PR12MB3260.namprd12.prod.outlook.com (20.179.105.216) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.15; Thu, 20 Jun 2019 18:03:24 +0000
-Received: from DM6PR12MB2682.namprd12.prod.outlook.com
- ([fe80::b9c1:b235:fff3:dba2]) by DM6PR12MB2682.namprd12.prod.outlook.com
- ([fe80::b9c1:b235:fff3:dba2%6]) with mapi id 15.20.1987.014; Thu, 20 Jun 2019
- 18:03:24 +0000
-From: "Singh, Brijesh" <brijesh.singh@amd.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [RFC PATCH v1 12/12] target/i386: sev: remove migration blocker
-Thread-Index: AQHVJ5Jzb+1ffDZU30OB/jyG/TiftA==
-Date: Thu, 20 Jun 2019 18:03:23 +0000
-Message-ID: <20190620180247.8825-13-brijesh.singh@amd.com>
-References: <20190620180247.8825-1-brijesh.singh@amd.com>
-In-Reply-To: <20190620180247.8825-1-brijesh.singh@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: DM5PR16CA0025.namprd16.prod.outlook.com
- (2603:10b6:4:15::11) To DM6PR12MB2682.namprd12.prod.outlook.com
- (2603:10b6:5:4a::31)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=brijesh.singh@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.17.1
-x-originating-ip: [165.204.77.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9a6f0ba3-44a4-49b0-98bf-08d6f5a99591
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:DM6PR12MB3260; 
-x-ms-traffictypediagnostic: DM6PR12MB3260:
-x-microsoft-antispam-prvs: <DM6PR12MB326075431AC57E6E2C9DB3F8E5E40@DM6PR12MB3260.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:124;
-x-forefront-prvs: 0074BBE012
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10009020)(366004)(396003)(376002)(136003)(39860400002)(346002)(199004)(189003)(2351001)(53936002)(486006)(2616005)(11346002)(81156014)(8676002)(6436002)(446003)(5640700003)(50226002)(6512007)(476003)(102836004)(6916009)(99286004)(2501003)(6486002)(76176011)(8936002)(52116002)(81166006)(316002)(186003)(6506007)(26005)(478600001)(256004)(3846002)(2906002)(386003)(66066001)(14454004)(54906003)(6116002)(305945005)(25786009)(1076003)(66946007)(66556008)(73956011)(64756008)(66446008)(71190400001)(71200400001)(4744005)(68736007)(36756003)(66476007)(5660300002)(7736002)(86362001)(4326008);
- DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3260;
- H:DM6PR12MB2682.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: +oOETgPc7nqEwSYa2vNeVUTCNrQ8TpILwGI0Qz9ibuZjG43VPZzwLOqmc+MKnIxcumgDaoGy6a5sLaOthxCkytTVbHzcKA7ymLKZsfejdYroiAuVwV+YqlRqmaPSX2F7M2n69iPIeV05To5ex6vw/e2rrKh6DOuYqNek0jS/YARObLoM2GJ2lYSnsYAJCxJcACZTapK8u3iaNQUmv/6iUiMfPjwg55vhgtU6q8u4ufsiyBwh3ejKP4p/qF514JwAhjNqtp4ItpFVjbrpvMJy20Pyadr2UdYSUuitHCIT6qmoxhW+1Zha39h29tLiKqwZOE25d+y6y7tsrcAR5265vaes1DsRQwtVKw1CXrm6mCzqkFMh12/sahjc4e0jQnI3v9Z+C2XEm5nURppw1R2i8J9mAWenqiWt/mmglPvwZ3g=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (envelope-from <pbonzini@redhat.com>) id 1he1TK-0006Y4-SR
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:07:43 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:33205)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1he1TK-0006XU-N6
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:07:42 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n9so4017673wru.0
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 11:07:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=k/kPHIwqfXNuKr2zWlt6gicBnsTyjHVtxH6YkiH1Z+s=;
+ b=kSncgUVXpb2M8tzR8E08E1Uk7GDu40BG8qPaUw9igmJG2ARfr1IWzXQVzaM+8SQoyw
+ IpuKkrCGX0rTCvgyb2eUFXWRM0r9pJDMgCyyjmoBiG+NGPZRjbXkgmy+eIEGXF3HIsR1
+ /J6lnnpsIcTHyjE0rvqXbIWTS6GXeyq5TFIcn8j8Urk9wvQWBPtm54EdpNWVTOAAe4+b
+ YdmmjoZmMRfcefm5qHeJDN3V8bKkLdVmgCmbC7XGOCTC43c19eq9wgcnCQQwLsDvYKWD
+ XUz592CDaB9m285dPpZy+by4ulR3jMG90dw1kSaNuX/hHoErQau3OVJpYMaOE8FQ1O71
+ Bw/w==
+X-Gm-Message-State: APjAAAWfTfsyMPJqQJpBS0rP2jYLLCjjIBZ5hkgQdwOUb2BsaoafV/eY
+ ZVge0Js9Aze5nJajuZR33k+sdg==
+X-Google-Smtp-Source: APXvYqwSF8vJbPS+nkazVKj4H+WICp28bfxoOc8a3DKoZCft86JoYknptEvJ2/cJby57MDmn/Kl0lg==
+X-Received: by 2002:a5d:6a05:: with SMTP id m5mr38682872wru.161.1561054060635; 
+ Thu, 20 Jun 2019 11:07:40 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
+ ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
+ by smtp.gmail.com with ESMTPSA id d18sm610813wrb.90.2019.06.20.11.07.39
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Jun 2019 11:07:40 -0700 (PDT)
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20190620173709.14753-1-stefanha@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <06488da0-bac1-25e1-d238-f42284aa2cc0@redhat.com>
+Date: Thu, 20 Jun 2019 20:07:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a6f0ba3-44a4-49b0-98bf-08d6f5a99591
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2019 18:03:23.1196 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: sbrijesh@amd.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3260
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.72.59
-Subject: [Qemu-devel] [RFC PATCH v1 12/12] target/i386: sev: remove
- migration blocker
+In-Reply-To: <20190620173709.14753-1-stefanha@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v5 0/3] virtio-scsi: restart DMA after
+ iothread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,30 +72,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Singh,
- Brijesh" <brijesh.singh@amd.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-U2lnbmVkLW9mZi1ieTogQnJpamVzaCBTaW5naCA8YnJpamVzaC5zaW5naEBhbWQuY29tPg0KLS0t
-DQogdGFyZ2V0L2kzODYvc2V2LmMgfCAxMiAtLS0tLS0tLS0tLS0NCiAxIGZpbGUgY2hhbmdlZCwg
-MTIgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS90YXJnZXQvaTM4Ni9zZXYuYyBiL3Rhcmdl
-dC9pMzg2L3Nldi5jDQppbmRleCBkYzFlOTc0ZDkzLi4wOTVlZjRjNzI5IDEwMDY0NA0KLS0tIGEv
-dGFyZ2V0L2kzODYvc2V2LmMNCisrKyBiL3RhcmdldC9pMzg2L3Nldi5jDQpAQCAtMzQsNyArMzQs
-NiBAQA0KICNkZWZpbmUgREVGQVVMVF9TRVZfREVWSUNFICAgICAgIi9kZXYvc2V2Ig0KIA0KIHN0
-YXRpYyBTRVZTdGF0ZSAqc2V2X3N0YXRlOw0KLXN0YXRpYyBFcnJvciAqc2V2X21pZ19ibG9ja2Vy
-Ow0KIA0KIHN0YXRpYyBjb25zdCBjaGFyICpjb25zdCBzZXZfZndfZXJybGlzdFtdID0gew0KICAg
-ICAiIiwNCkBAIC02ODUsNyArNjg0LDYgQEAgc3RhdGljIHZvaWQNCiBzZXZfbGF1bmNoX2Zpbmlz
-aChTRVZTdGF0ZSAqcykNCiB7DQogICAgIGludCByZXQsIGVycm9yOw0KLSAgICBFcnJvciAqbG9j
-YWxfZXJyID0gTlVMTDsNCiANCiAgICAgdHJhY2Vfa3ZtX3Nldl9sYXVuY2hfZmluaXNoKCk7DQog
-ICAgIHJldCA9IHNldl9pb2N0bChzZXZfc3RhdGUtPnNldl9mZCwgS1ZNX1NFVl9MQVVOQ0hfRklO
-SVNILCAwLCAmZXJyb3IpOw0KQEAgLTY5NiwxNiArNjk0LDYgQEAgc2V2X2xhdW5jaF9maW5pc2go
-U0VWU3RhdGUgKnMpDQogICAgIH0NCiANCiAgICAgc2V2X3NldF9ndWVzdF9zdGF0ZShTRVZfU1RB
-VEVfUlVOTklORyk7DQotDQotICAgIC8qIGFkZCBtaWdyYXRpb24gYmxvY2tlciAqLw0KLSAgICBl
-cnJvcl9zZXRnKCZzZXZfbWlnX2Jsb2NrZXIsDQotICAgICAgICAgICAgICAgIlNFVjogTWlncmF0
-aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCIpOw0KLSAgICByZXQgPSBtaWdyYXRlX2FkZF9ibG9ja2Vy
-KHNldl9taWdfYmxvY2tlciwgJmxvY2FsX2Vycik7DQotICAgIGlmIChsb2NhbF9lcnIpIHsNCi0g
-ICAgICAgIGVycm9yX3JlcG9ydF9lcnIobG9jYWxfZXJyKTsNCi0gICAgICAgIGVycm9yX2ZyZWUo
-c2V2X21pZ19ibG9ja2VyKTsNCi0gICAgICAgIGV4aXQoMSk7DQotICAgIH0NCiB9DQogDQogc3Rh
-dGljIGludA0KLS0gDQoyLjE3LjENCg0K
+On 20/06/19 19:37, Stefan Hajnoczi wrote:
+> v5:
+>  * Plumbing vm change state handlers into DeviceClass/BusClass is a rather
+>    large bug fix.  Instead I've combined the previous priorities approach with
+>    the observation from Kevin and Paolo that we really want to order by qdev
+>    tree depth.
+> 
+>    The new qdev_add_vm_change_state_handler() API lets DeviceStates register
+>    callbacks that execute in qdev tree depth order.  This solves the
+>    virtio-scsi bug since the virtio-scsi device's callback must complete before
+>    its child scsi-disk's callback runs.
+> 
+>    Is this a good compromise for everyone?
+
+Yes!  Perhaps a bit of a hack, but it works and both the API and the
+implementation are very sane.  Converting other devices to use
+qdev_add_vm_change_state_handler() is left as an exercise for the
+reviewer, I guess? :)
+
+Paolo
 
