@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334E24DAC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:55:20 +0200 (CEST)
-Received: from localhost ([::1]:52588 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F8C4DADD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 22:03:32 +0200 (CEST)
+Received: from localhost ([::1]:52624 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he39S-0007Nj-5X
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:55:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51452)
+	id 1he3HP-0001lc-3s
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 16:03:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41143)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1he2W4-0003f9-QR
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 15:14:40 -0400
+ (envelope-from <eblake@redhat.com>) id 1he31T-0004Nq-VI
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 15:47:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1he2W0-00060i-Md
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 15:14:36 -0400
+ (envelope-from <eblake@redhat.com>) id 1he2uF-0002d8-Gk
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 15:39:36 -0400
 Received: from mx1.redhat.com ([209.132.183.28]:43584)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eblake@redhat.com>) id 1he2W0-0005Uq-Fd
