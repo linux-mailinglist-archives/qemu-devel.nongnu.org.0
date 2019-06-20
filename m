@@ -2,69 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606E94D800
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 20:24:32 +0200 (CEST)
-Received: from localhost ([::1]:52068 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B550F4D9C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 20:51:59 +0200 (CEST)
+Received: from localhost ([::1]:52156 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he1jb-0008A9-9p
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 14:24:31 -0400
+	id 1he2AA-0003yH-Pe
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 14:51:58 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:43355)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1he1cV-0005MN-Jb
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:17:12 -0400
+ (envelope-from <brijesh.singh@amd.com>) id 1he1cb-0005MN-Mu
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:17:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1he1Pa-0004BR-1X
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:03:53 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42110)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1he1OP-0003b0-0h; Thu, 20 Jun 2019 14:02:38 -0400
-Received: by mail-io1-xd43.google.com with SMTP id u19so134381ior.9;
- Thu, 20 Jun 2019 11:02:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xiAL8Dxd5KKhwRlNQNGWU4L7hroSCK2EcEjlwDL61N4=;
- b=nAtWZaZA+2zAJWhyY+3kZbjuLSPj4T4rW2ipk2G+CEhrTVZjwDMUjiDqpQ+J1Vp3sJ
- ysgoUsf87zmap8jBti7TkO8kaLBfWjNpvMDJDenfu4et3TiY/kB1Ethp1GOkwhZxG/Aa
- U3JnkGkZoq6xGKfPGGXuiDfJxVv6qfpWnw6jsnNYUIJCYsKJKYv2zBL6Z8+IxYFxADLQ
- 69AHNWqLi7NznwOT94OcXViGAKiRodqF+1KsCWcwZ3bcLq9EwcJPK/7/HhaEpu3WHZm9
- wVsmmGhGSZMikRP25q3JYpBEZQOLjA6/sZmVfDO+u4ltIg23rUOEkEjvy32dkLC5i+ot
- WXqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xiAL8Dxd5KKhwRlNQNGWU4L7hroSCK2EcEjlwDL61N4=;
- b=TOkseE5F3kdr42BDDouGVy8XN3cHf/fgze4g7UeKE7JAOJiyK5Cxh0PBxCbxrbxTAd
- O0NPE+S1Juk2oNzLZqyqtURh//7JVNBtJEMQVfgronUVGZZuAFdUwDu3x4sgmdCbxiF6
- j7/micxIwdMultgibwU6l0DnQkh7jY3ISOAEIONHaWQXWyzq11mYUHib7FlzUT3kjbfP
- 35SaUTkD+tIz8hdxWhN6xEoC4IeETTOU8LM2PYu/wbTAbQpKPoJf6jZRIuR9OfuJoKvB
- 7bspRHqOPB3g+lVVLulXx8VCVtePHBPwP0fyqNEGC2cT+IcT9z2uEsy3+IJ7+25ISKda
- uHMA==
-X-Gm-Message-State: APjAAAWlAoMfgG+TsI8dAsl6TtSm1t0dcUxnTWhxE4G6259IIpwwk9fy
- RoZMdEnzW6gIS5QHE9cwfZBoadZEdSh6tGj8W1A=
-X-Google-Smtp-Source: APXvYqzEv97+JGJmkjfEWflVP0LRCdOQQn1qfqB0t5t+kx20rca4EC7WwpmshMonUmtP6XaKHDHjm5iDJTRH94pDvCQ=
-X-Received: by 2002:a02:6597:: with SMTP id u145mr6327558jab.26.1561053754290; 
- Thu, 20 Jun 2019 11:02:34 -0700 (PDT)
+ (envelope-from <brijesh.singh@amd.com>) id 1he1P8-0003tw-UZ
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:03:47 -0400
+Received: from mail-eopbgr790073.outbound.protection.outlook.com
+ ([40.107.79.73]:37285 helo=NAM03-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
+ id 1he1P6-0003mO-TY
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:03:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector1-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qVCBWcxuCdP4tzGZUnso/keG4BIXpWd9tzQZiSdM98g=;
+ b=nq6Kc6JIj+bn+oUqoiKibjWNe5uTLVTI86GqfG7mpZCnL3e/teBnR8BfbQtqFP8yf3nxXtTD2EchH+h6Vu1Mfwa90i6hR4x9MzixbtVQgQN0nXzodf4ScIzQGi0ulup6hZ4TL9BQsPbP6CS5h4WepIaXl4lCDKa68aRNAsDUiJs=
+Received: from DM6PR12MB2682.namprd12.prod.outlook.com (20.176.116.31) by
+ DM6PR12MB2842.namprd12.prod.outlook.com (20.176.116.80) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.13; Thu, 20 Jun 2019 18:03:05 +0000
+Received: from DM6PR12MB2682.namprd12.prod.outlook.com
+ ([fe80::b9c1:b235:fff3:dba2]) by DM6PR12MB2682.namprd12.prod.outlook.com
+ ([fe80::b9c1:b235:fff3:dba2%6]) with mapi id 15.20.1987.014; Thu, 20 Jun 2019
+ 18:03:05 +0000
+From: "Singh, Brijesh" <brijesh.singh@amd.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Thread-Topic: [RFC PATCH v1 00/12] Add SEV guest live migration support
+Thread-Index: AQHVJ5JohKMZUl6sx0qZdgLCEug/WA==
+Date: Thu, 20 Jun 2019 18:03:04 +0000
+Message-ID: <20190620180247.8825-1-brijesh.singh@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: DM5PR16CA0025.namprd16.prod.outlook.com
+ (2603:10b6:4:15::11) To DM6PR12MB2682.namprd12.prod.outlook.com
+ (2603:10b6:5:4a::31)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=brijesh.singh@amd.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.17.1
+x-originating-ip: [165.204.77.1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c6beb0f3-4b5e-4a07-d331-08d6f5a9895e
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:DM6PR12MB2842; 
+x-ms-traffictypediagnostic: DM6PR12MB2842:
+x-ms-exchange-purlcount: 2
+x-microsoft-antispam-prvs: <DM6PR12MB2842E04FC8A5A03298323B67E5E40@DM6PR12MB2842.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0074BBE012
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10009020)(136003)(376002)(396003)(366004)(346002)(39860400002)(189003)(199004)(81166006)(81156014)(386003)(86362001)(256004)(486006)(476003)(50226002)(186003)(2616005)(4326008)(8936002)(25786009)(68736007)(14454004)(5660300002)(26005)(66066001)(64756008)(5640700003)(6306002)(73956011)(3846002)(66556008)(6512007)(66476007)(53936002)(66946007)(966005)(2351001)(6486002)(66446008)(478600001)(99286004)(71200400001)(305945005)(14444005)(7736002)(6506007)(102836004)(71190400001)(52116002)(6436002)(8676002)(36756003)(54906003)(316002)(2501003)(6916009)(2906002)(1076003)(6116002)(6606295002);
+ DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB2842;
+ H:DM6PR12MB2682.namprd12.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 9epW2PqMgLSh2OdSE35nmxmelFJTPR2v3yW8/Fp18n8cEGKulW6xHZMUn+HY6WSm/BL5Ge6KjYhXAEAcXBhW+1kkiouXcJbMEOw+c0QUXnppyjOri58htgXToMZMfqbxD/7GMqw4RPlCjMIRtxnbGqRo359tsSd/Zyg6Z2O0urRvC8ouFxmlRNoDg3thl/DobCWCw0gcVsYqAsw3Sx0FtERLqM8DRW18GCz9ydPoY8MTu7DPUPJ9iJRhTx6qxROm89WOcUJ51L5xiCwNuBDsI2YsauZ4jo/vbD6VcZPxTCmZWCnCcMuYakyIaPqBS8REgyEjiDFofF9QQO6VL/wQ1bbLHnZiRr5rErKfx+CTP9RqJTppwCYSsG70MZ42+tWLNPQoGQChyA8wtapDiK/yJYOELga2Aketisw3mDzyTS4=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <cover.1560904640.git.alistair.francis@wdc.com>
- <CAEUhbmViJpKtiNXm7CYdF7SPRkOPkvpXJ5+We2m9tZSK_BWi-g@mail.gmail.com>
- <CAKmqyKM4UU+CPKu07AK65bNofbbxxaRkSACqoV_vfFEaH-195A@mail.gmail.com>
- <CAEUhbmUwAVLXY9SSoryWBDeNL8gUfBCE+xweSSmuE9KwzWeX=w@mail.gmail.com>
- <CAKmqyKMmm-38DijX_wL=pAbvxzLQ+KSOtd1xg_GrT4Az70GKsw@mail.gmail.com>
- <11f4e4ff6037427f52824ba586f8a330c12d8dfd.camel@redhat.com>
-In-Reply-To: <11f4e4ff6037427f52824ba586f8a330c12d8dfd.camel@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 20 Jun 2019 10:59:43 -0700
-Message-ID: <CAKmqyKOh3J07yg3dbaNcOaSzfbDZJJ-kjN3pBh+KqAKq05hzTA@mail.gmail.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
-Subject: Re: [Qemu-devel] [Qemu-riscv] [RFC v1 0/5] RISC-V: Add firmware
- loading support and default
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c6beb0f3-4b5e-4a07-d331-08d6f5a9895e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2019 18:03:04.9999 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sbrijesh@amd.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2842
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.79.73
+Subject: [Qemu-devel] [RFC PATCH v1 00/12] Add SEV guest live migration
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,55 +99,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@sifive.com>
+Cc: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "Singh,
+ Brijesh" <brijesh.singh@amd.com>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 20, 2019 at 1:16 AM Andrea Bolognani <abologna@redhat.com> wrote:
->
-> On Wed, 2019-06-19 at 11:23 -0700, Alistair Francis wrote:
-> > On Wed, Jun 19, 2019 at 7:42 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > On Wed, Jun 19, 2019 at 10:30 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > On Wed, Jun 19, 2019 at 7:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > > >  pc-bios/opensbi-riscv32-fw_jump.elf | Bin 0 -> 197988 bytes
-> > > > > >  pc-bios/opensbi-riscv64-fw_jump.elf | Bin 0 -> 200192 bytes
-> > > > >
-> > > > > Since we are considering adding "bios" images, I prefer to add the
-> > > > > pure binary images instead of ELF images here.
-> > > >
-> > > > I didn't think about that. Can we just boot them in QEMU like we do
-> > > > with the ELFs?
-> > >
-> > > Yes, use load_image_targphys() instead of load_elf().
-> >
-> > Ah, that is obvious. I'll update it to use the bin files then.
->
-> I'm unclear on the advantages of using one format over the other,
-
-The main one that I see is that everyone else is already using .bin
-and no one else is using .elf.
-
-> but one question comes to mind: once this is in, we will probably
-> want to have OpenSBI packaged separately in distributions, the same
-> way it already happens for SeaBIOS, SLOF and edk2-based firmwares.
->
-> Will using either of the formats prevent that from happening?
-
-Both options allow this.
-
-OE-Core already packages OpenSBI by default, Fedora and Debian are
-moving to OpenSBI for RISC-V targets as well.
-
-Any distro that supports the RISC-V toolchain (which is all
-upstreamed) can build OpenSBI.
-
-Alistair
-
->
-> --
-> Andrea Bolognani / Red Hat / Virtualization
->
+QU1EIFNFViBlbmNyeXB0cyB0aGUgbWVtb3J5IG9mIFZNcyBhbmQgYmVjYXVzZSB0aGlzIGVuY3J5
+cHRpb24gaXMgZG9uZSB1c2luZw0KYW4gYWRkcmVzcyB0d2VhaywgdGhlIGh5cGVydmlzb3Igd2ls
+bCBub3QgYmUgYWJsZSB0byBzaW1wbHkgY29weSBjaXBoZXJ0ZXh0DQpiZXR3ZWVuIG1hY2hpbmVz
+IHRvIG1pZ3JhdGUgYSBWTS4gSW5zdGVhZCB0aGUgQU1EIFNFViBLZXkgTWFuYWdlbWVudCBBUEkN
+CnByb3ZpZGVzIGEgc2V0IG9mIGZ1bmN0aW9ucyB3aGljaCB0aGUgaHlwZXJ2aXNvciBjYW4gdXNl
+IHRvIHBhY2thZ2UgYQ0KZ3Vlc3QgZW5jcnlwdGVkIHBhZ2VzIGZvciBtaWdyYXRpb24sIHdoaWxl
+IG1haW50YWluaW5nIHRoZSBjb25maWRlbnRpYWxpdHkNCnByb3ZpZGVkIGJ5IEFNRCBTRVYuDQoN
+ClRoZSBwYXRjaCBzZXJpZXMgYWRkIHRoZSBzdXBwb3J0IHJlcXVpcmVkIGluIFFlbXUgdG8gcGVy
+Zm9ybSB0aGUgU0VWDQpndWVzdCBsaXZlIG1pZ3JhdGlvbi4gQmVmb3JlIGluaXRpYXRpbmcgdGhl
+IGxpdmUgbWlncmF0aW9uIGEgdXNlcg0Kc2hvdWxkIHVzZSBuZXdseSBhZGRlZCAnbWlncmF0ZS1z
+ZXQtc2V2LWluZm8nIGNvbW1hbmQgdG8gcGFzcyB0aGUNCnRhcmdldCBtYWNoaW5lcyBjZXJ0aWZp
+Y2F0ZSBjaGFpbi4gU2VlIHRoZSBkb2NzL2FtZC1tZW1vcnktZW5jcnlwdGlvbi50eHQNCmZvciBm
+dXJ0aGVyIGRldGFpbHMuDQoNClRoZSBwYXRjaCBzZXJpZXMgZGVwZW5kcyBvbiBrZXJuZWwgcGF0
+Y2hlcyBhdmFpbGFibGUgaGVyZToNCmh0dHBzOi8vbWFyYy5pbmZvLz9sPWt2bSZtPTE1NjEwNDg3
+MzQwOTg3NiZ3PTINCg0KVGhlIGNvbXBsZXRlIHRyZWUgd2l0aCBwYXRjaCBpcyBhdmFpbGFibGUg
+YXQ6DQpodHRwczovL2dpdGh1Yi5jb20vY29kb21hbmlhL3FlbXUvdHJlZS9zZXYtbWlncmF0aW9u
+LXJmYy12MQ0KDQpCcmlqZXNoIFNpbmdoICgxMik6DQogIGxpbnV4LWhlYWRlcnM6IHVwZGF0ZSBr
+ZXJuZWwgaGVhZGVyIHRvIGluY2x1ZGUgU0VWIG1pZ3JhdGlvbiBjb21tYW5kcw0KICBrdm06IGlu
+dHJvZHVjZSBoaWdoLWxldmVsIEFQSSB0byBzdXBwb3J0IGVuY3J5cHRlZCBndWVzdCBtaWdyYXRp
+b24NCiAgbWlncmF0aW9uL3JhbTogYWRkIHN1cHBvcnQgdG8gc2VuZCBlbmNyeXB0ZWQgcGFnZXMN
+CiAga3ZtOiBhZGQgc3VwcG9ydCB0byBzeW5jIHRoZSBwYWdlIGVuY3J5cHRpb24gc3RhdGUgYml0
+bWFwDQogIGRvYzogdXBkYXRlIEFNRCBTRVYgQVBJIHNwZWMgd2ViIGxpbmsNCiAgZG9jOiB1cGRh
+dGUgQU1EIFNFViB0byBpbmNsdWRlIExpdmUgbWlncmF0aW9uIGZsb3cNCiAgdGFyZ2V0L2kzODY6
+IHNldjogZG8gbm90IGNyZWF0ZSBsYXVuY2ggY29udGV4dCBmb3IgYW4gaW5jb21pbmcgZ3Vlc3QN
+CiAgdGFyZ2V0Lmpzb246IGFkZCBtaWdyYXRlLXNldC1zZXYtaW5mbyBjb21tYW5kDQogIHRhcmdl
+dC9pMzg2OiBzZXY6IGFkZCBzdXBwb3J0IHRvIGVuY3J5cHQgdGhlIG91dGdvaW5nIHBhZ2UNCiAg
+dGFyZ2V0L2kzODY6IHNldjogYWRkIHN1cHBvcnQgdG8gbG9hZCBpbmNvbWluZyBlbmNyeXB0ZWQg
+cGFnZQ0KICBtaWdyYXRpb246IGFkZCBzdXBwb3J0IHRvIG1pZ3JhdGUgcGFnZSBlbmNyeXB0aW9u
+IGJpdG1hcA0KICB0YXJnZXQvaTM4Njogc2V2OiByZW1vdmUgbWlncmF0aW9uIGJsb2NrZXINCg0K
+IGFjY2VsL2t2bS9rdm0tYWxsLmMgICAgICAgICAgICB8ICA3NSArKysrKysNCiBhY2NlbC9rdm0v
+c2V2LXN0dWIuYyAgICAgICAgICAgfCAgMjggKysNCiBhY2NlbC9zdHVicy9rdm0tc3R1Yi5jICAg
+ICAgICAgfCAgMzAgKysrDQogZG9jcy9hbWQtbWVtb3J5LWVuY3J5cHRpb24udHh0IHwgIDQ2ICsr
+Ky0NCiBpbmNsdWRlL2V4ZWMvcmFtX2FkZHIuaCAgICAgICAgfCAgIDIgKw0KIGluY2x1ZGUvc3lz
+ZW11L2t2bS5oICAgICAgICAgICB8ICAzMyArKysNCiBpbmNsdWRlL3N5c2VtdS9zZXYuaCAgICAg
+ICAgICAgfCAgIDkgKw0KIGxpbnV4LWhlYWRlcnMvbGludXgva3ZtLmggICAgICB8ICA1MyArKysr
+DQogbWlncmF0aW9uL3JhbS5jICAgICAgICAgICAgICAgIHwgMTIxICsrKysrKysrLQ0KIHFhcGkv
+dGFyZ2V0Lmpzb24gICAgICAgICAgICAgICB8ICAxOCArKw0KIHRhcmdldC9pMzg2L21vbml0b3Iu
+YyAgICAgICAgICB8ICAxMCArDQogdGFyZ2V0L2kzODYvc2V2LXN0dWIuYyAgICAgICAgIHwgICA1
+ICsNCiB0YXJnZXQvaTM4Ni9zZXYuYyAgICAgICAgICAgICAgfCA0NzEgKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKy0tDQogdGFyZ2V0L2kzODYvc2V2X2kzODYuaCAgICAgICAgIHwgIDEx
+ICstDQogdGFyZ2V0L2kzODYvdHJhY2UtZXZlbnRzICAgICAgIHwgICA5ICsNCiAxNSBmaWxlcyBj
+aGFuZ2VkLCA5MDIgaW5zZXJ0aW9ucygrKSwgMTkgZGVsZXRpb25zKC0pDQoNCi0tIA0KMi4xNy4x
+DQoNCg==
 
