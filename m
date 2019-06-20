@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690EE4DA6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:40:51 +0200 (CEST)
-Received: from localhost ([::1]:52480 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C5A4DA2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:32:20 +0200 (CEST)
+Received: from localhost ([::1]:52422 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he2vR-0007uU-NM
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:40:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49925)
+	id 1he2nD-0002Tq-6N
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:32:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49926)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1he26x-0003qq-Mz
+ (envelope-from <dgilbert@redhat.com>) id 1he26x-0003qr-NA
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:48:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1he26v-0001QY-3F
+ (envelope-from <dgilbert@redhat.com>) id 1he26v-0001TO-Ge
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:48:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45372)
+Received: from mx1.redhat.com ([209.132.183.28]:57626)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1he26t-0008Js-3G
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:48:35 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1he26v-0008Kd-8X
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:48:37 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1F97060CC
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:47:18 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 95978C18B2C8
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:47:19 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-203.ams2.redhat.com
  [10.36.117.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5E645D71C;
- Thu, 20 Jun 2019 18:47:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66CCC5B683;
+ Thu, 20 Jun 2019 18:47:18 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, jasowang@redhat.com, eblake@redhat.com,
  armbru@redhat.com, laine@redhat.com
-Date: Thu, 20 Jun 2019 19:47:05 +0100
-Message-Id: <20190620184706.19988-5-dgilbert@redhat.com>
+Date: Thu, 20 Jun 2019 19:47:06 +0100
+Message-Id: <20190620184706.19988-6-dgilbert@redhat.com>
 In-Reply-To: <20190620184706.19988-1-dgilbert@redhat.com>
 References: <20190620184706.19988-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Thu, 20 Jun 2019 18:47:18 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Thu, 20 Jun 2019 18:47:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 4/5] net/announce: Add HMP optional ID
+Subject: [Qemu-devel] [PATCH v5 5/5] net/announce: Expand test for stopping
+ self announce
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,80 +62,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Add the optional ID to the HMP command.
+Expand self-announce test to check we can stop an announce timer.
+We set it up to send 300 packets, but after we receive
+the first one we tell it to stop.
 
-e.g.
-   # start an announce for a long time on eth1
-   migrate_set_parameter announce-rounds 1000
-   announce_self "eth1" e1
-
-   # start an announce on eth2
-   announce_self "eth2" e2
-
-   # Change e1 to be announcing on eth1 and eth3
-   announce_self "eth1,eth3" e1
-
-   # Cancel e1
-   migrate_set_parameter announce-rounds 0
-   announce_self "" e1
+We error if:
+   a) We receive more than 30 of the packets
+   b) We're still receiving packets after a lot longer than the
+      30 seconds should have arrived
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hmp-commands.hx    | 7 ++++---
- monitor/hmp-cmds.c | 3 +++
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ tests/virtio-net-test.c | 57 ++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 54 insertions(+), 3 deletions(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index c2a2df9708..61d0be29d8 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -955,8 +955,8 @@ ETEXI
+diff --git a/tests/virtio-net-test.c b/tests/virtio-net-test.c
+index 663cf7ea7e..7aa9622f30 100644
+--- a/tests/virtio-net-test.c
++++ b/tests/virtio-net-test.c
+@@ -184,21 +184,72 @@ static void announce_self(void *obj, void *data, QG=
+uestAllocator *t_alloc)
+     QDict *rsp;
+     int ret;
+     uint16_t *proto =3D (uint16_t *)&buffer[12];
++    size_t total_received =3D 0;
++    uint64_t start, now, last_rxt, deadline;
 =20
-     {
-         .name       =3D "announce_self",
--        .args_type  =3D "interfaces:s?",
--        .params     =3D "[interfaces]",
-+        .args_type  =3D "interfaces:s?,id:s?",
-+        .params     =3D "[interfaces] [id]",
-         .help       =3D "Trigger GARP/RARP announcements",
-         .cmd        =3D hmp_announce_self,
-     },
-@@ -968,7 +968,8 @@ Trigger a round of GARP/RARP broadcasts; this is usef=
-ul for explicitly updating
- network infrastructure after a reconfiguration or some forms of migratio=
-n.
- The timings of the round are set by the migration announce parameters.
- An optional comma separated @var{interfaces} list restricts the announce=
- to the
--named set of interfaces.
-+named set of interfaces. An optional @var{id} can be used to start a sep=
-arate announce
-+timer and to change the parameters of it later.
- ETEXI
++    /* Send a set of packets over a few second period */
+     rsp =3D qmp("{ 'execute' : 'announce-self', "
+                   " 'arguments': {"
+-                      " 'initial': 50, 'max': 550,"
+-                      " 'rounds': 10, 'step': 50 } }");
++                      " 'initial': 20, 'max': 100,"
++                      " 'rounds': 300, 'step': 10, 'id': 'bob' } }");
+     assert(!qdict_haskey(rsp, "error"));
+     qobject_unref(rsp);
 =20
-     {
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index a3d34b12fe..96715c7103 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1669,12 +1669,15 @@ void hmp_info_snapshots(Monitor *mon, const QDict=
- *qdict)
- void hmp_announce_self(Monitor *mon, const QDict *qdict)
- {
-     const char *interfaces_str =3D qdict_get_try_str(qdict, "interfaces"=
-);
-+    const char *id =3D qdict_get_try_str(qdict, "id");
-     AnnounceParameters *params =3D QAPI_CLONE(AnnounceParameters,
-                                             migrate_announce_params());
+-    /* Catch the packet and make sure it's a RARP */
++    /* Catch the first packet and make sure it's a RARP */
+     ret =3D qemu_recv(sv[0], &len, sizeof(len), 0);
+     g_assert_cmpint(ret, =3D=3D,  sizeof(len));
+     len =3D ntohl(len);
 =20
-     qapi_free_strList(params->interfaces);
-     params->interfaces =3D strList_from_comma_list(interfaces_str);
-     params->has_interfaces =3D params->interfaces !=3D NULL;
-+    params->id =3D g_strdup(id);
-+    params->has_id =3D !!params->id;
-     qmp_announce_self(params, NULL);
-     qapi_free_AnnounceParameters(params);
+     ret =3D qemu_recv(sv[0], buffer, len, 0);
+     g_assert_cmpint(*proto, =3D=3D, htons(ETH_P_RARP));
++
++    /*
++     * Stop the announcment by settings rounds to 0 on the
++     * existing timer.
++     */
++    rsp =3D qmp("{ 'execute' : 'announce-self', "
++                  " 'arguments': {"
++                      " 'initial': 20, 'max': 100,"
++                      " 'rounds': 0, 'step': 10, 'id': 'bob' } }");
++    assert(!qdict_haskey(rsp, "error"));
++    qobject_unref(rsp);
++
++    /* Now make sure the packets stop */
++
++    /* Times are in us */
++    start =3D g_get_monotonic_time();
++    /* 30 packets, max gap 100ms, * 4 for wiggle */
++    deadline =3D start + 1000 * (100 * 30 * 4);
++    last_rxt =3D start;
++
++    while (true) {
++        int saved_err;
++        ret =3D qemu_recv(sv[0], buffer, 60, MSG_DONTWAIT);
++        saved_err =3D errno;
++        now =3D g_get_monotonic_time();
++        g_assert_cmpint(now, <, deadline);
++
++        if (ret >=3D 0) {
++            if (ret) {
++                last_rxt =3D now;
++            }
++            total_received +=3D ret;
++
++            /* Check it's not spewing loads */
++            g_assert_cmpint(total_received, <, 60 * 30 * 2);
++        } else {
++            g_assert_cmpint(saved_err, =3D=3D, EAGAIN);
++
++            /* 400ms, i.e. 4 worst case gaps */
++            if ((now - last_rxt) > (1000 * 100 * 4)) {
++                /* Nothings arrived for a while - must have stopped */
++                break;
++            };
++
++            /* 100ms */
++            g_usleep(1000 * 100);
++        }
++    };
  }
+=20
+ static void virtio_net_test_cleanup(void *sockets)
 --=20
 2.21.0
 
