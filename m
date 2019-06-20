@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5CAE4C4E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 03:21:35 +0200 (CEST)
-Received: from localhost ([::1]:42942 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DEAC4C4E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 03:18:13 +0200 (CEST)
+Received: from localhost ([::1]:42888 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdllf-0008KG-2J
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 21:21:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40615)
+	id 1hdliO-0004UI-66
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 21:18:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40379)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hdle4-0002CF-UO
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 21:13:46 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hdle4-0001zb-9m
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 21:13:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hdlUu-0004uj-Kt
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 21:04:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58608)
+ (envelope-from <jsnow@redhat.com>) id 1hdlV1-00050V-8K
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 21:04:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53408)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hdlUt-0004tD-Bh; Wed, 19 Jun 2019 21:04:15 -0400
+ id 1hdlUu-0004uB-Jv; Wed, 19 Jun 2019 21:04:16 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8CCB9C059B9F;
- Thu, 20 Jun 2019 01:04:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id CB57F81F1B;
+ Thu, 20 Jun 2019 01:04:15 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-164.bos.redhat.com [10.18.17.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 735451001E67;
- Thu, 20 Jun 2019 01:04:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF4FF1001E67;
+ Thu, 20 Jun 2019 01:04:14 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Wed, 19 Jun 2019 21:03:53 -0400
-Message-Id: <20190620010356.19164-10-jsnow@redhat.com>
+Date: Wed, 19 Jun 2019 21:03:54 -0400
+Message-Id: <20190620010356.19164-11-jsnow@redhat.com>
 In-Reply-To: <20190620010356.19164-1-jsnow@redhat.com>
 References: <20190620010356.19164-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Thu, 20 Jun 2019 01:04:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.25]); Thu, 20 Jun 2019 01:04:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 09/12] iotests: teach run_job to cancel pending
- jobs
+Subject: [Qemu-devel] [PATCH 10/12] iotests: teach FilePath to produce
+ multiple paths
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,60 +64,66 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-run_job can cancel pending jobs to simulate failure. This lets us use
-the pending callback to issue test commands while the job is open, but
-then still have the job fail in the end.
+Use "FilePaths" instead of "FilePath" to request multiple files be
+cleaned up after we leave that object's scope.
+
+This is not crucial; but it saves a little typing.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/iotests.py | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
 y
-index fcad957d63..c544659ecb 100644
+index c544659ecb..b938fa9719 100644
 --- a/tests/qemu-iotests/iotests.py
 +++ b/tests/qemu-iotests/iotests.py
-@@ -541,7 +541,22 @@ class VM(qtest.QEMUQtestMachine):
+@@ -359,7 +359,7 @@ class Timeout:
+         raise Exception(self.errmsg)
 =20
-     # Returns None on success, and an error string on failure
-     def run_job(self, job, auto_finalize=3DTrue, auto_dismiss=3DFalse,
--                pre_finalize=3DNone, wait=3D60.0):
-+                pre_finalize=3DNone, cancel=3DFalse, wait=3D60.0):
-+        """
-+        run_job moves a job from creation through to dismissal.
+=20
+-class FilePath(object):
++class FilePaths(object):
+     '''An auto-generated filename that cleans itself up.
+=20
+     Use this context manager to generate filenames and ensure that the f=
+ile
+@@ -369,20 +369,29 @@ class FilePath(object):
+             qemu_img('create', img_path, '1G')
+         # migration_sock_path is automatically deleted
+     '''
+-    def __init__(self, name):
+-        filename =3D '{0}-{1}'.format(os.getpid(), name)
+-        self.path =3D os.path.join(test_dir, filename)
++    def __init__(self, names):
++        self.paths =3D []
++        for name in names:
++            filename =3D '{0}-{1}'.format(os.getpid(), name)
++            self.paths.append(os.path.join(test_dir, filename))
+=20
+     def __enter__(self):
+-        return self.path
++        return self.paths
+=20
+     def __exit__(self, exc_type, exc_val, exc_tb):
+         try:
+-            os.remove(self.path)
++            for path in self.paths:
++                os.remove(path)
+         except OSError:
+             pass
+         return False
+=20
++class FilePath(FilePaths):
++    def __init__(self, name):
++        super(FilePath, self).__init__([name])
 +
-+        :param job: String. ID of recently-launched job
-+        :param auto_finalize: Bool. True if the job was launched with
-+                              auto_finalize. Defaults to True.
-+        :param auto_dismiss: Bool. True if the job was launched with
-+                             auto_dismiss=3DTrue. Defaults to False.
-+        :param pre_finalize: Callback. A callable that takes no argument=
-s to be
-+                             invoked prior to issuing job-finalize, if a=
-ny.
-+        :param cancel: Bool. When true, cancels the job after the pre_fi=
-nalize
-+                       callback.
-+        :param wait: Float. Timeout value specifying how long to wait fo=
-r any
-+                     event, in seconds. Defaults to 60.0.
-+        """
-         match_device =3D {'data': {'device': job}}
-         match_id =3D {'data': {'id': job}}
-         events =3D [
-@@ -568,7 +583,10 @@ class VM(qtest.QEMUQtestMachine):
-             elif status =3D=3D 'pending' and not auto_finalize:
-                 if pre_finalize:
-                     pre_finalize()
--                self.qmp_log('job-finalize', id=3Djob)
-+                if cancel:
-+                    self.qmp_log('job-cancel', id=3Djob)
-+                else:
-+                    self.qmp_log('job-finalize', id=3Djob)
-             elif status =3D=3D 'concluded' and not auto_dismiss:
-                 self.qmp_log('job-dismiss', id=3Djob)
-             elif status =3D=3D 'null':
++    def __enter__(self):
++        return self.paths[0]
+=20
+ def file_path_remover():
+     for path in reversed(file_path_remover.paths):
 --=20
 2.21.0
 
