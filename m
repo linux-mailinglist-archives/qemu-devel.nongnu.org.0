@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61124CA5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:10:56 +0200 (CEST)
-Received: from localhost ([::1]:45060 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4DBD4CA28
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:01:07 +0200 (CEST)
+Received: from localhost ([::1]:44998 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdt5q-0000ZK-Aj
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:10:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
+	id 1hdswM-0000qh-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:01:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hdsjE-0007SI-JG
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:47:33 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hdsjB-0006s8-Kw
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:47:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hdsZX-00009J-9p
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:37:33 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42541)
+ (envelope-from <pbonzini@redhat.com>) id 1hdsac-0000gP-E4
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:38:39 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53310)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdsZX-00008m-35
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:37:31 -0400
-Received: by mail-wr1-f67.google.com with SMTP id x17so2058900wrl.9
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 01:37:30 -0700 (PDT)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdsac-0000fy-95
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:38:38 -0400
+Received: by mail-wm1-f67.google.com with SMTP id x15so2143612wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 01:38:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=icMDHJml4YzNC2+uMQPTyHMHzAQGuNXRDvXQiyxryo4=;
- b=gaYF1vmT6vHvxLgZw3Aa2OfOFmMEWMSbqDkrj/EM6vRv6MXAY5V8Lglgb6AZGDzvZk
- SmSUjPSYkKujh4PsWjZiv8QWtpjGEb6QSx2RVH7pfWbpbASJ0X3VJD/cJ8d/x6eKcKVT
- s0tXaOD2Y5nyVMXOQS2SgzgMrpdz3PkocfaEzW64wqiNewJHxw6xuZay5raoEfqayHGT
- GwVRao10RAGPYrWFQvTiFZCVB4eNdA0Sze6PjMbjLirovLZdWqZYWGIdfDvZv9P3Yu8N
- aIO47IGtzjvFn28uThTJNJ/C5pFjWbmj2EZU1+HiN/SzcdjFyCBh33HRYaA6QJY3RK8d
- YOgQ==
-X-Gm-Message-State: APjAAAUu+Y/r7Cnsh5e88qNgFJm+e299BmGgIOY9aNeD1z8vmPe+Indp
- 5bGGsk6ElxGfQHBYRXgJYf/YGg==
-X-Google-Smtp-Source: APXvYqwdFvmhkOrT2UksJKAm8rN3pkMsvsfh368tDHeYshk1gk8WpjRmdZK8c82iJRJmPia2Asc/Fg==
-X-Received: by 2002:adf:dc4b:: with SMTP id m11mr30107683wrj.51.1561019849912; 
- Thu, 20 Jun 2019 01:37:29 -0700 (PDT)
+ bh=AVzMDdYzRYDa/9qlp6STaY1kE5yotYb5iPRUD7XaJqc=;
+ b=rqR8sh/P4KdSmTUwGUfnXaqky1Mfc8tz+G03zvw7guybTGdKISgPWgphhIdgiIkCJ8
+ FWwfyZc1WEfysh66OmfLFOsHYwzsipxulgVEu8zMb4V8Tk92p53cp2e8U85P5da0sJy8
+ c88IIumAZV77izpngBe3JWhFLsR/zecoEUMTwoq6Ik1+q5mjPmhylytdzKcHCC+7liGz
+ OECCZfPEPy+C35c/gVW8BmXWZ+fRhg9j1TlJOCvYGBEQKiz+YqB1X2ZoIQv/N2xa4V3C
+ wuacKzJr6L6w4wjxAZIakHthUvS+ZStVwAO0opqJ1otXqTrIciBEzcED/F/GJU6kbiWx
+ zyLA==
+X-Gm-Message-State: APjAAAUxLYQ8E7xvAy4N45TFHxW8tE8zEon2lQJRZrvnMY97Y1jwNdB0
+ KZo83t9Ozn1r+KhzdxQ5bPtbyA==
+X-Google-Smtp-Source: APXvYqyMzbpHQGAhbxDdf/r8UXU8ncUbxEAoebSiExPcVkdjAf6fAFk56HcqBDfPItjwqRIMSbuO0Q==
+X-Received: by 2002:a7b:cd84:: with SMTP id y4mr1840462wmj.41.1561019917157;
+ Thu, 20 Jun 2019 01:38:37 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
  ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
- by smtp.gmail.com with ESMTPSA id d4sm17877488wra.38.2019.06.20.01.37.29
+ by smtp.gmail.com with ESMTPSA id 90sm1769622wrn.97.2019.06.20.01.38.36
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 01:37:29 -0700 (PDT)
-To: =?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+ Thu, 20 Jun 2019 01:38:36 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20190619201050.19040-1-armbru@redhat.com>
- <20190619201050.19040-2-armbru@redhat.com>
- <e0595422-c115-ca7f-9e3c-cfb69602d5e2@suse.de>
+ <20190619201050.19040-5-armbru@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <faad4d88-cd53-cd77-390d-088fc51d0f9c@redhat.com>
-Date: Thu, 20 Jun 2019 10:37:29 +0200
+Message-ID: <6cca5383-fdd4-ab9b-d227-d2de1083d398@redhat.com>
+Date: Thu, 20 Jun 2019 10:38:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <e0595422-c115-ca7f-9e3c-cfb69602d5e2@suse.de>
+In-Reply-To: <20190619201050.19040-5-armbru@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH 01/17] MAINTAINERS: new maintainers for QOM
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH 04/17] qapi: Split qom.json and qdev.json
+ off misc.json
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,42 +73,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Daniel P . Berrange" <berrange@redhat.com>,
+Cc: kwolf@redhat.com, "Daniel P. Berrange" <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/06/19 22:31, Andreas Färber wrote:
-> Am 19.06.19 um 22:10 schrieb Markus Armbruster:
->> From: Paolo Bonzini <pbonzini@redhat.com>
->>
->> QOM is not a particularly active subsystem now: 51 commits in two years.
->> But, we need active maintainers to review and merge patches, and Git
->> shows the following top committers taking on QOM:
->>
->>     Markus Armbruster <armbru@redhat.com>
->>     Eduardo Habkost <ehabkost@redhat.com>
->>     Paolo Bonzini <pbonzini@redhat.com>
->>     Marc-André Lureau <marcandre.lureau@redhat.com>
->>     Eric Blake <eblake@redhat.com>
->>
->> I volunteer myself, and also volunteer Eduardo and Daniel as reviewers
->> since they understand the code well.
->>
->> Cc: Andreas Färber <afaerber@suse.de>
->> Cc: Daniel P. Berrange <berrange@redhat.com>
->> Cc: Eduardo Habkost <ehabkost@redhat.com>
->> Suggested-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> Message-Id: <20190607113737.13473-1-pbonzini@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> 
-> I'm pretty sure I gave an Acked-by that's missing above?
+On 19/06/19 22:10, Markus Armbruster wrote:
+> Move commands device-list-properties, device_add, device-del, and
+> event DEVICE_DELETED from misc.json to new qdev.json.  qdev.json
+> remains uncovered by MAINTAINERS, like the rest of qdev.
 
-Yes, and Markus even replied to it:
-
-https://patchew.org/QEMU/20190607113737.13473-1-pbonzini@redhat.com/
+qdev should be added to either QOM or machine core.  QOM would be fine
+for me as the (newly,self)-appointed maintainer.
 
 Paolo
-
 
