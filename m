@@ -2,52 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110514CA35
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:03:20 +0200 (CEST)
-Received: from localhost ([::1]:45008 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3B54CAD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:27:54 +0200 (CEST)
+Received: from localhost ([::1]:45222 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdsyV-00023F-6p
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37644)
+	id 1hdtMH-00026K-6K
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44825)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hdsnb-0003Ai-1u
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:52:04 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hdtEK-0003jP-RD
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:19:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hdsnX-0003lO-1h
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:52:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56292)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdsnU-0003iW-Vw
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:51:58 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EC73AF9E91
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:51:54 +0000 (UTC)
-Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0404D19C5B;
- Thu, 20 Jun 2019 08:51:52 +0000 (UTC)
-Date: Thu, 20 Jun 2019 09:51:49 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190620085149.GM25448@redhat.com>
-References: <20190619201050.19040-1-armbru@redhat.com>
- <20190619201050.19040-12-armbru@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190619201050.19040-12-armbru@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 20 Jun 2019 08:51:54 +0000 (UTC)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hdt1I-0008Qh-SQ
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:06:13 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:45098)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+ id 1hdswS-0003xB-J2; Thu, 20 Jun 2019 05:01:12 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5K8x7M5171103;
+ Thu, 20 Jun 2019 09:01:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2018-07-02; bh=LaeeNML1WYL+wk4WBx6sCx7PDbr7BSO2H5ieMfek64w=;
+ b=C//DTaIKA0Cw/yyyBTUcUtw6ZrXqibYRngYBPk2j9BhUrcI8Pu1RDrQD/uoUHhEgIJsn
+ NadlqvTSvU9fNOzScio1AdauBq0h6JHF6RxB3IGoERE6APcedJ+w0bwiLOcYjO2oxyCV
+ iyW+czSpPedG4YnJd6Fe6Hggab/t5p0WoAJsHBBIUAssegZTDvfqXl66AnVgNZ2futAP
+ LImNScTGaj97ofRVCZ0+bPday+vywDFsOOoQmsR39lOUtSp3nQkMfTo85eqkguSP/r7C
+ FH31ZoqgfFPMnTdLiHX/BAXxSKwCouIPC2m8pBxSYF+cumTzS8jRSUMgPRr0UB6MH/VV HA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2t7809fw65-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 20 Jun 2019 09:01:10 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5K90VBL119295;
+ Thu, 20 Jun 2019 09:01:10 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 2t77yp979e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 20 Jun 2019 09:01:10 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5K9183q015647;
+ Thu, 20 Jun 2019 09:01:09 GMT
+Received: from [10.0.0.38] (/79.180.42.160)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 20 Jun 2019 01:52:15 -0700
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+In-Reply-To: <20190620054224.hfspxgorpd6mjxca@sirius.home.kraxel.org>
+Date: Thu, 20 Jun 2019 11:52:01 +0300
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 11/17] hw/core: Collect HMP command
- handlers in hw/core/
+Message-Id: <ECC27FB9-1975-4C78-9584-BC82BB7FA34B@oracle.com>
+References: <20190619092352.23583-1-shmuel.eiderman@oracle.com>
+ <20190619092352.23583-5-shmuel.eiderman@oracle.com>
+ <20190620054224.hfspxgorpd6mjxca@sirius.home.kraxel.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-Mailer: Apple Mail (2.3445.104.11)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906200067
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906200067
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Subject: Re: [Qemu-devel] [SeaBIOS] [PATCH v3 4/4] geometry: Apply LCHS
+ values for boot devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,40 +93,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ kevin@koconnor.net, liran.alon@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 19, 2019 at 10:10:44PM +0200, Markus Armbruster wrote:
-> Move the HMP handlers related to qapi/machine.json to
-> hw/core/machine-hmp-cmds.c, where they are covered by MAINTAINERS
-> section "Machine core", just like qapi/machine.json.
+
+
+> On 20 Jun 2019, at 8:42, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >=20
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  hw/core/Makefile.objs      |   1 +
->  hw/core/machine-hmp-cmds.c | 164 +++++++++++++++++++++++++++++++++++++
->  include/monitor/hmp.h      |   1 +
->  monitor/hmp-cmds.c         | 111 -------------------------
->  monitor/misc.c             |  32 +-------
->  5 files changed, 168 insertions(+), 141 deletions(-)
->  create mode 100644 hw/core/machine-hmp-cmds.c
+>> +static int
+>> +overriden_lchs_supplied(struct drive_s *drive)
+>> +{
+>> +    return drive->lchs.cylinder || drive->lchs.head || =
+drive->lchs.sector;
+>> +}
+>=20
+>> +    case TRANSLATION_MACHINE:
+>=20
+> Hmm, why this name?  Doesn't look intuitive to me.
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+TRANSLATION_HOST?
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+>=20
+>> +        desc =3D "overriden";
+>=20
+> I'd name that "host-supplied" or "fw-cfg=E2=80=9D.
+
+=E2=80=9Chost-supplied=E2=80=9D?
+
+>=20
+>> +        cylinders =3D drive->lchs.cylinder;
+>> +        heads =3D drive->lchs.head;
+>> +        if (heads > 255)
+>> +            heads =3D 255;
+>=20
+> I suggest to move these sanity checks to overriden_lchs_supplied(), =
+then
+> ignore the override altogether when heads or sectors is out of range
+> instead of trying to fixup things.
+
+Sounds reasonable.
+I=E2=80=99ll rename to host_lchs_supplied()?
+
+WDYT?
+
+>=20
+> The other patches look all sane to me.
+>=20
+> cheers,
+>  Gerd
+>=20
+
 
