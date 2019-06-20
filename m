@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488B14C956
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:21:02 +0200 (CEST)
-Received: from localhost ([::1]:44760 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ACEC4C95A
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:23:30 +0200 (CEST)
+Received: from localhost ([::1]:44766 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdsJY-0003TY-No
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:21:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57563)
+	id 1hdsLx-00055b-Gq
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:23:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57715)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hdsFp-0001oZ-Sz
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:17:10 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hdsGc-0001z2-0V
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:17:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hds63-0004Nd-Bw
+ (envelope-from <dgibson@ozlabs.org>) id 1hds63-0004Ng-Bi
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:07:05 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57267 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:46955 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hds61-0004Bk-8V; Thu, 20 Jun 2019 04:07:02 -0400
+ id 1hds61-0004BI-8W; Thu, 20 Jun 2019 04:07:03 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45TvY31Tjcz9s9y; Thu, 20 Jun 2019 18:06:47 +1000 (AEST)
+ id 45TvY338lQz9s3l; Thu, 20 Jun 2019 18:06:47 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1561018007;
- bh=WJgzY+vfV4JWBtQ43FdVwqiK28gRU1gvbDQUOO60lgk=;
+ bh=VwaLLJEuYJ8wa40TVT4s9MjpP6xhvTobIWpv8qUFH4g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VNA0VODTUK6c3sr+OB5/VjORYwBeioTPBdaxXjNRdoqL4WbFROKnuMp6PfIlRkkvE
- bK1dWNnJWGthzbyHD1AETxAkJqJZtiEzr6RB5/doKC9mZk82Wtfn9a1+0JAUTW4yVN
- 51roxQIpOZ8OYDocQW2QTLgP+Q3FcKumKcSrmE8U=
-Date: Thu, 20 Jun 2019 18:00:48 +1000
+ b=errPK9aK91m7xVWOiZb28HbbkkyTijdO6ZOX33h9il9yBbxA/qO9m3LwPw5dTe3xr
+ 54ow86StdoXW46SCiU9+yURdnoDxh16yHaCz1xpdJXDwvGDTa7FIugqrg4IlXjcpH6
+ 69pu4oYLh6SSEC7lQ6/q66n9t68Kp2I4LD8wEvn4=
+Date: Thu, 20 Jun 2019 18:02:31 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190620080048.GD2066@umbus.BigPond>
+Message-ID: <20190620080231.GE2066@umbus.BigPond>
 References: <156077918969.433243.1416211899441569578.stgit@bahia.lan>
- <156077919546.433243.8748677531446035746.stgit@bahia.lan>
+ <156077920102.433243.6605099291134598170.stgit@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0eh6TmSyL6TZE2Uz"
+ protocol="application/pgp-signature"; boundary="s9fJI615cBHmzTOP"
 Content-Disposition: inline
-In-Reply-To: <156077919546.433243.8748677531446035746.stgit@bahia.lan>
+In-Reply-To: <156077920102.433243.6605099291134598170.stgit@bahia.lan>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH 1/6] xics/spapr: Drop unused function
- declaration
+Subject: Re: [Qemu-devel] [PATCH 2/6] xics/spapr: Rename xics_kvm_init()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,37 +62,68 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0eh6TmSyL6TZE2Uz
+--s9fJI615cBHmzTOP
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 17, 2019 at 03:46:35PM +0200, Greg Kurz wrote:
-> Commit 9fb6eb7ca50c added the declaration of xics_spapr_connect(), which
-> has no implementation and no users.
->=20
-> This is a leftover from a previous iteration of this patch. Drop it.
+On Mon, Jun 17, 2019 at 03:46:41PM +0200, Greg Kurz wrote:
+> Switch to using the connect/disconnect terminology like we already do for
+> XIVE.
 >=20
 > Signed-off-by: Greg Kurz <groug@kaod.org>
 
 Applied, thanks.
 
 > ---
->  include/hw/ppc/xics_spapr.h |    1 -
->  1 file changed, 1 deletion(-)
+>  hw/intc/xics_kvm.c          |    2 +-
+>  hw/ppc/spapr_irq.c          |    2 +-
+>  include/hw/ppc/xics_spapr.h |    2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
 >=20
+> diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+> index c7f8f5edd257..534515143ea8 100644
+> --- a/hw/intc/xics_kvm.c
+> +++ b/hw/intc/xics_kvm.c
+> @@ -331,7 +331,7 @@ void ics_kvm_set_irq(ICSState *ics, int srcno, int va=
+l)
+>      }
+>  }
+> =20
+> -int xics_kvm_init(SpaprMachineState *spapr, Error **errp)
+> +int xics_kvm_connect(SpaprMachineState *spapr, Error **errp)
+>  {
+>      int rc;
+>      CPUState *cs;
+> diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
+> index 84b9b32fe40f..ff3df0bbd8cf 100644
+> --- a/hw/ppc/spapr_irq.c
+> +++ b/hw/ppc/spapr_irq.c
+> @@ -237,7 +237,7 @@ static const char *spapr_irq_get_nodename_xics(SpaprM=
+achineState *spapr)
+>  static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **er=
+rp)
+>  {
+>      if (kvm_enabled()) {
+> -        xics_kvm_init(spapr, errp);
+> +        xics_kvm_connect(spapr, errp);
+>      }
+>  }
+> =20
 > diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-> index d968f2499ca7..330448126223 100644
+> index 330448126223..5dabc9a1388f 100644
 > --- a/include/hw/ppc/xics_spapr.h
 > +++ b/include/hw/ppc/xics_spapr.h
-> @@ -37,6 +37,5 @@ int xics_kvm_init(SpaprMachineState *spapr, Error **err=
-p);
+> @@ -33,7 +33,7 @@
+> =20
+>  void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
+fdt,
+>                     uint32_t phandle);
+> -int xics_kvm_init(SpaprMachineState *spapr, Error **errp);
+> +int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
 >  void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
 >  bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
 >  void xics_spapr_init(SpaprMachineState *spapr);
-> -void xics_spapr_connect(SpaprMachineState *spapr);
-> =20
->  #endif /* XICS_SPAPR_H */
 >=20
 
 --=20
@@ -102,25 +132,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---0eh6TmSyL6TZE2Uz
+--s9fJI615cBHmzTOP
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0LPS0ACgkQbDjKyiDZ
-s5K0zRAAvGvTpbq1J1lgdy3ooX2oVXMqyO40e1OhF16K8VB7HnHE17dehXC0/GcU
-d/UKebnzZrHUPeja9jDm9cP3jS/e+TlvWDDj0Lnv0raiOx9mzcZVpv4aRgK3I/3/
-AFZdQQzUyIvbO6Qr4kWarQ0mZJa3b84053I9p0N472buHfT0CTgIF07Cj72Abx0Q
-plyv3BySTEKO3SpnTLnTgoYLnrftUttPcfTNkl/cUH0OinAY1MAOr1iaA1kAGNej
-xO3Ts326xSaWUD5J+euQ8dGtLI/8RgFAfSWRTcIPHAplLUWAFCL6L/4seTvCAuE1
-FPoHCiR9zsFFHvQjgP0TYPvzVf9nb4LZoept6BXahr0ZKEKO8EwqgkVQ1jdYqCvP
-Tm3hs6mMaXXE18op36ol+bX1OryNAfObdT9QoknsT5IFUWqewYSaOxD5+wBgKCW9
-94AHq2z5g3wRqNcvPLIDa3hsMnSKcwyRIAIhiAmLG4vIViL6iDdfyB/pLxzG3fV3
-CuuAyV7pW2jqD8pISKATdR2CZmqBEHw4Skk10C6Itd49tANVNfp7vR3b2IsHl5Dv
-oGujmq7qVjztC4IJjr6180LsQtgVUnPq1s4l/a2epF1yP86uFvH04w4iu4MNp5ls
-sr5ZiYBDgnObpuuTjp7C+WzqfeZN1AdfJiUtIU3gjyscwDzUQgI=
-=8Lta
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0LPZcACgkQbDjKyiDZ
+s5K3OBAAotxqmL9VSCTij4i1Lt8uf4GwDNgg2bnu81nGKR62B804eMY2VQoesvIb
+/qWbbmnnuXhN4C77+rZLzMu0XG4cbhGN2v9UysLqqtiw7Korus67DiY3Ek0gNrzO
+ReGdao0KGRyqEPrvraVFXbM4uuy7ghiToSbd19+5W2D6OnWLKBG+fgYEyXnGFW1D
+ZPuQHHOqa99iMsCEE89JAMV+OgEEG43t5P9V2VS9kSx0hpUAg4QDUVga7RkN8LJj
+oYSEmXGJbsznXmzncWl1OAfP0YHznIWPqkAOBiidTfuM+DsXwsUsrYeeoLDo7G8b
+Esgm6x11US5f2vdWTnWrK4SIZ15taoTMqMqfLH4/KqcsyjQwYeoMOpihdV8xE+Fv
+52Fb0tEB2N5EqSqqm0TsQhid8xW7ort8Nla5WZuHqEncwzBcO8FIqMUHuFVDqsPG
+jHJF57u7Xq+Y5o8rxBIJb2/4MAvNAYz6cufS2kKbu1HI7Qg3uMDfTbRAGW9KnWAK
+aoj0fH6+pLyXZpdojQgF3R80XmkkAYPMwhpQ6pqOrDIRDtacCcAo7OUdDbAn4B8+
+MS4TEyD/bgVe3SCkFYib1rujnNdKyIi9Lq9s5xtiKGT6YlGusUACt8iukCWSIR+s
+LKcfavDtNrCgx2soB9Bj0POFgk435xbPcBZlFCmCuyK+wt4KMDo=
+=sPQp
 -----END PGP SIGNATURE-----
 
---0eh6TmSyL6TZE2Uz--
+--s9fJI615cBHmzTOP--
 
