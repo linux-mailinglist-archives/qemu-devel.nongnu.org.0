@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26BC84C6E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 07:47:53 +0200 (CEST)
-Received: from localhost ([::1]:43812 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F2E4C6ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 07:53:57 +0200 (CEST)
+Received: from localhost ([::1]:43846 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdpvL-0004H6-6T
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 01:47:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55478)
+	id 1hdq1E-00012u-In
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 01:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56405)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hdpqQ-0003lt-Gy
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:42:47 -0400
+ (envelope-from <like.xu@linux.intel.com>) id 1hdpwW-0006Vv-Oj
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:49:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hdpqP-00057C-9r
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:42:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45742)
+ (envelope-from <like.xu@linux.intel.com>) id 1hdpwU-0002hg-PK
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:49:04 -0400
+Received: from mga05.intel.com ([192.55.52.43]:20325)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>)
- id 1hdpqH-0004nu-Ha; Thu, 20 Jun 2019 01:42:39 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0BD873001A66;
- Thu, 20 Jun 2019 05:42:28 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-212.ams2.redhat.com
- [10.36.116.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A97B45DA5B;
- Thu, 20 Jun 2019 05:42:25 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7557B16E19; Thu, 20 Jun 2019 07:42:24 +0200 (CEST)
-Date: Thu, 20 Jun 2019 07:42:24 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-ID: <20190620054224.hfspxgorpd6mjxca@sirius.home.kraxel.org>
-References: <20190619092352.23583-1-shmuel.eiderman@oracle.com>
- <20190619092352.23583-5-shmuel.eiderman@oracle.com>
+ (Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
+ id 1hdpwT-0001ds-2U
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:49:02 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2019 22:47:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,395,1557212400"; d="scan'208";a="162243081"
+Received: from unknown (HELO likexu-E5-2699-v4.sh.intel.com) ([10.239.48.178])
+ by fmsmga007.fm.intel.com with ESMTP; 19 Jun 2019 22:47:57 -0700
+From: Like Xu <like.xu@linux.intel.com>
+To: qemu-devel@nongnu.org,
+	Eduardo Habkost <ehabkost@redhat.com>
+Date: Thu, 20 Jun 2019 13:45:22 +0800
+Message-Id: <20190620054525.37188-1-like.xu@linux.intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190619092352.23583-5-shmuel.eiderman@oracle.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 20 Jun 2019 05:42:28 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [SeaBIOS] [PATCH v3 4/4] geometry: Apply LCHS
- values for boot devices
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.43
+Subject: [Qemu-devel] [PATCH v4 0/3] Introduce cpu die topology and enable
+ CPUID.1F for i386
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,38 +54,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kevin@koconnor.net, liran.alon@oracle.com, karl.heubaum@oracle.com
+Cc: like.xu@intel.com, Marcelo Tosatti <mtosatti@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> +static int
-> +overriden_lchs_supplied(struct drive_s *drive)
-> +{
-> +    return drive->lchs.cylinder || drive->lchs.head || drive->lchs.sector;
-> +}
+This patch series introduces a new cpu topolgy 'die' for PCMachine,
+which extends virtual cpu topology to the socket/die/core/thread model,
+allowing the setting of dies number per one socket via -smp qemu command.
 
-> +    case TRANSLATION_MACHINE:
+For i386, it upgrades APIC-IDs generation and reversion functions with a
+new exposed leaf called CPUID.1F, which is a preferred superset to leaf 0BH.
+The CPUID.1F spec is on the latest Inetl SDM, 3-190 Vol 2A.
 
-Hmm, why this name?  Doesn't look intuitive to me.
+Guest system could discover multi-die/package topology through CPUID.1F.
+and its benefit is primarily for _reporting_ of the guest CPU topology.
+The guest kernel with multi-die/package support have no impact on its
+cache topology, NUMA topology, Linux scheduler, or system performance.
 
-> +        desc = "overriden";
+==changelog==
 
-I'd name that "host-supplied" or "fw-cfg".
+v4:
 
-> +        cylinders = drive->lchs.cylinder;
-> +        heads = drive->lchs.head;
-> +        if (heads > 255)
-> +            heads = 255;
+- base commit: 22fa84da on github.com/ehabkost/qemu.git:machine-next
+- refine comments for pc_smp_parse()
+- remove the use of cpu->enable_cpuid_0x1f
+- apply new logic for cpuid_min_level adjustment and drop the legacy one
+- refine the way of MachineState casting in pc_smp_parse()
+- [QUEUED] move test_topo_bits to the previous patch for bisectability
 
-I suggest to move these sanity checks to overriden_lchs_supplied(), then
-ignore the override altogether when heads or sectors is out of range
-instead of trying to fixup things.
+v3: https://patchwork.kernel.org/cover/10989013/
 
-The other patches look all sane to me.
+- add a MachineClass::smp_parse function pointer
+- place the PC-specific function inside hw/i386/pc.c
+- introduce die_id in a separate patch with default value 0
+- set env->nr_dies in pc_new_cpu() and pc_cpu_pre_plug()
+- fix a circular dependency between target/i386/cpu.c and hw/i386/pc.c
+- fix cpu->die_id check in pc_cpu_pre_plug()
+- Based on "[PATCH v3 00/10] Refactor cpu topo into machine properties"
+- Rebase to commit 219dca61ebf41625831d4f96a720852baf44b762
 
-cheers,
-  Gerd
+v2: https://patchwork.kernel.org/cover/10953191/
+
+- Enable cpu die-level topolgy only for PCMachine and X86CPU
+- Minimize cpuid.0.eax to the setting value actually used by guest
+- Update cmd line -smps docs for die-level configurations
+- Refactoring topo-bit tests for x86_apicid_from_cpu_idx() with nr_dies
+- Based on "[PATCH v3 00/10] Refactor cpu topo into machine properties"
+- Rebase to commit 2259637b95bef3116cc262459271de08e038cc66
+
+v1: https://patchwork.kernel.org/cover/10876667/
+
+Like Xu (3):
+  target/i386: Add CPUID.1F generation support for multi-dies PCMachine
+  machine: Refactor smp_parse() in vl.c as MachineClass::smp_parse()
+  vl.c: Add -smp, dies=* command line support and update doc
+
+ hw/core/machine.c    | 76 ++++++++++++++++++++++++++++++++++++++++
+ hw/i386/pc.c         | 83 ++++++++++++++++++++++++++++++++++++++++++++
+ include/hw/boards.h  |  5 +++
+ include/hw/i386/pc.h |  1 +
+ qemu-options.hx      | 17 ++++-----
+ target/i386/cpu.c    | 41 ++++++++++++++++++++++
+ target/i386/cpu.h    |  1 +
+ target/i386/kvm.c    | 12 +++++++
+ vl.c                 | 78 +++--------------------------------------
+ 9 files changed, 233 insertions(+), 81 deletions(-)
+
+-- 
+2.21.0
 
 
