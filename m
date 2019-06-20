@@ -2,78 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6794D276
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:52:26 +0200 (CEST)
-Received: from localhost ([::1]:49688 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD364D29B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:58:27 +0200 (CEST)
+Received: from localhost ([::1]:49808 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdzMP-0002TD-W8
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53039)
+	id 1hdzSE-0000Wl-QS
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hdzIq-0000By-Ce
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:48:46 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1hdzIq-00009R-3J
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:48:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hdzAF-0006Mf-4e
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:39:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34075)
+ (envelope-from <balaton@eik.bme.hu>) id 1hdzAf-0006kl-0c
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:40:18 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:63720)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hdzAD-0005xz-PJ; Thu, 20 Jun 2019 11:39:49 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 11EA130C0DDD;
- Thu, 20 Jun 2019 15:39:23 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 012955D9C6;
- Thu, 20 Jun 2019 15:39:13 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-5-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <5a326b6e-eb17-60a5-a656-286a087cd939@redhat.com>
-Date: Thu, 20 Jun 2019 17:39:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hdzAe-0006he-L4
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:40:16 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id BBF587462D7;
+ Thu, 20 Jun 2019 17:40:12 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 9354C7462D6; Thu, 20 Jun 2019 17:40:12 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 922017462BB;
+ Thu, 20 Jun 2019 17:40:12 +0200 (CEST)
+Date: Thu, 20 Jun 2019 17:40:12 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <20190620150923.gpe4rqn3qc54gcsn@sirius.home.kraxel.org>
+Message-ID: <alpine.BSF.2.21.9999.1906201729320.50442@zero.eik.bme.hu>
+References: <cover.1561028123.git.balaton@eik.bme.hu>
+ <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
+ <20190620150923.gpe4rqn3qc54gcsn@sirius.home.kraxel.org>
+User-Agent: Alpine 2.21.9999 (BSF 287 2018-06-16)
 MIME-Version: 1.0
-In-Reply-To: <20190620010356.19164-5-jsnow@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="iFNHZ7xf7aAOBKyTeQlUzhKIvNOnDgadz"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 20 Jun 2019 15:39:23 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 04/12] hbitmap: Fix merge when b is empty,
- and result is not an alias of a
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
+X-Received-From: 152.66.115.2
+Subject: Re: [Qemu-devel] [PATCH v5 2/2] ati-vga: Implement DDC and EDID
+ info from monitor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,102 +54,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- vsementsov@virtuozzo.com, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Corey Minyard <cminyard@mvista.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iFNHZ7xf7aAOBKyTeQlUzhKIvNOnDgadz
-Content-Type: multipart/mixed; boundary="d7qWqHntNzl7zSkGk484CLSh515HoM3TA";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- eblake@redhat.com, vsementsov@virtuozzo.com,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- Xie Changlong <xiechanglong.d@gmail.com>
-Message-ID: <5a326b6e-eb17-60a5-a656-286a087cd939@redhat.com>
-Subject: Re: [PATCH 04/12] hbitmap: Fix merge when b is empty, and result is
- not an alias of a
-References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-5-jsnow@redhat.com>
-In-Reply-To: <20190620010356.19164-5-jsnow@redhat.com>
+On Thu, 20 Jun 2019, Gerd Hoffmann wrote:
+> On Thu, Jun 20, 2019 at 12:55:23PM +0200, BALATON Zoltan wrote:
+>> This adds DDC support to ati-vga and connects i2c-ddc to it. This
+>> allows at least MacOS with an ATI ndrv, Linux radeonfb and MorphOS to
+>
+> linux radeonfb is rv100 only, and aty128fb has no i2c support.
+> Do MacOS and MorphOS have working edid with both card variants?
 
---d7qWqHntNzl7zSkGk484CLSh515HoM3TA
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I've only tested EDID with MacOS with an NDRV from an ATI card ROM and 
+MorphOS on mac99. These could read EDID with this patch. Haven't tried 
+RV100 as that's known to be very incomplete to work yet (probably needs at 
+least command FIFO to do something). The rage128 Xorg driver might load 
+but that wants to use VESA BIOS function mentioned in the commit message 
+to read EDID so it does not work yet. If you can add that function to 
+vesabios it might get further.
 
-On 20.06.19 03:03, John Snow wrote:
-> Nobody calls the function like this currently, but we neither prohibit
-> or cope with this behavior. I decided to make the function cope with it=
-=2E
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  util/hbitmap.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->=20
-> diff --git a/util/hbitmap.c b/util/hbitmap.c
-> index 7905212a8b..45d1725daf 100644
-> --- a/util/hbitmap.c
-> +++ b/util/hbitmap.c
-> @@ -781,8 +781,9 @@ bool hbitmap_can_merge(const HBitmap *a, const HBit=
-map *b)
->  }
-> =20
->  /**
-> - * Given HBitmaps A and B, let A :=3D A (BITOR) B.
-> - * Bitmap B will not be modified.
-> + * Given HBitmaps A and B, let R :=3D A (BITOR) B.
-> + * Bitmaps A and B will not be modified,
-> + *     except when bitmap R is an alias of A or B.
->   *
->   * @return true if the merge was successful,
->   *         false if it was not attempted.
-> @@ -797,7 +798,9 @@ bool hbitmap_merge(const HBitmap *a, const HBitmap =
-*b, HBitmap *result)
->      }
->      assert(hbitmap_can_merge(b, result));
-> =20
-> -    if (hbitmap_count(b) =3D=3D 0) {
-> +    if ((!hbitmap_count(a) && result =3D=3D b) ||
-> +        (!hbitmap_count(b) && result =3D=3D a) ||
-> +        (!hbitmap_count(a) && !hbitmap_count(b))) {
->          return true;
->      }
+>> +    case GPIO_MONID ... GPIO_MONID + 3:
+>> +        /* FIXME What does Radeon have here? */
+>> +        if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
+>> +            /* Rage128p accesses DDC used to get EDID on these pins */
+>> +            ati_reg_write_offs(&s->regs.gpio_monid,
+>> +                               addr - GPIO_MONID, data, size);
+>> +            if ((s->regs.gpio_monid & BIT(25)) &&
+>
+> Extra enable bit, ok.
 
-The rest of this function completely overwrites the @result bitmap.
-Therefor, @result does not need to be cleared when calling this function.=
+This bit is listed as mask bit in docs and clients set this to enable 
+other bits. It could probably safely be ignored (does not seem to be 
+present on RV100 only on older card) but checking it does not hurt either.
 
+>> +                addr <= GPIO_MONID + 2 && addr + size > GPIO_MONID + 2) {
+>
+> Hmm, isn't this just "addr == GPIO_MONID + 2" ?
 
-Therfore, hbitmap_merge(hbitmap_alloc(), hbitmap_alloc(), output) should
-actually clear @output, I think.
+No because there could be all kinds of unalligned or multibyte access and 
+we only want to trigger this when the byte with the enable bits are 
+touched. (The MacOS NDRV accesses this 1 byte at a time so this is needed 
+to avoid spurious i2c bit banging but other drivers write 4 bytes so then 
+addr is not equal but covering above byte which is what this test allows.
 
-Max
+>> +                s->regs.gpio_monid = ati_i2c(s->bbi2c, s->regs.gpio_monid, 1);
+>
+> So all i2c bits are shifted by one compared to rv100, correct?
 
+They are in a different register and drivers I've tried poke bits shifted 
+by one on R128P.
 
---d7qWqHntNzl7zSkGk484CLSh515HoM3TA--
-
---iFNHZ7xf7aAOBKyTeQlUzhKIvNOnDgadz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0LqKAACgkQ9AfbAGHV
-z0AiNAf9ENXhpJTHfUsbHnc9/SrkRzd9SYOYXjgn3rMQpXOBA3auqfGE3/zpTx24
-vfhy1qknBJPKvyyWDnFm/d+YwB+HVTQP9NTGs5qdz2VHLXRhPIcEbDqUiAifSMN3
-uTzL05I05EZFfolPq0FCxpw8l8cNBJ+DYzPCaxUorXFtae5C1JiRUz57h0FoNZsz
-D2pVX+lm4ljR/GO+GrAzvy2+7GjvfNVm6QvADLF3StC7f7GiQgwTuorpwQjAsM4y
-UOGy+r+0Y8KpCxHeAOfqPhZYqReDc+Rh2Sz20RF8qPtOEyZ4XDcqTJakxLVcz/UM
-35iWfTPcBlf+VgEOXGcsul5CSgYd3A==
-=Y6By
------END PGP SIGNATURE-----
-
---iFNHZ7xf7aAOBKyTeQlUzhKIvNOnDgadz--
+Regards,
+BALATON Zoltan
 
