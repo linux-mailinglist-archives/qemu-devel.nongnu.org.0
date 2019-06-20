@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C95F4CA3A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:05:09 +0200 (CEST)
-Received: from localhost ([::1]:45018 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECDF4CA6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:14:25 +0200 (CEST)
+Received: from localhost ([::1]:45102 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdt0G-0002xJ-8C
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:05:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36161)
+	id 1hdt9E-0004MC-OK
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:14:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35916)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hdsjG-0007Qa-EX
+ (envelope-from <pbonzini@redhat.com>) id 1hdsjG-0006s7-26
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:47:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hdsX8-000753-TE
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:35:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54478)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdsX8-00074d-Og
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:35:02 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 17B3930C3183
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:35:02 +0000 (UTC)
-Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 26BC119C5B;
- Thu, 20 Jun 2019 08:34:59 +0000 (UTC)
-Date: Thu, 20 Jun 2019 09:34:57 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190620083457.GF25448@redhat.com>
-References: <20190619201050.19040-1-armbru@redhat.com>
- <20190619201050.19040-5-armbru@redhat.com>
+ (envelope-from <pbonzini@redhat.com>) id 1hdsXa-0007Sh-VI
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:35:31 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45117)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdsXa-0007Qh-Mc
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:35:30 -0400
+Received: by mail-wr1-f66.google.com with SMTP id f9so2042349wre.12
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 01:35:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y3Lz0C1nlETW71iyVwPlRcMb8BSYrpmr3Q/8SBuE/z8=;
+ b=GJbFx2esNahxxw8nwbeUOoul0o42if6ojsEMLEAC+x5wR4SmwoOp2PH/wx06AXliMZ
+ tzahJzSlRh4hUiYI9n/i885YA9BUA7qNLXyiG5b9QguQpoba8Bp2Ukt4JsdXyxZYXjoC
+ vyp0i2QVJD24esza3ZcfvWF9dTgjR6v04fJhWPxetV5Z7gWPqRk3ocyfpSnJhvjQ8j89
+ mk9HdvtZPi4nGf1OJb3XMMzCPdO4G0f9UJkqAni9GrzoQaQ0dfZJiXKxfIxo9UJT3QvV
+ n9Mx/VAgg8sIwatwOy6kRGFNwwUJHktbzmMjiAVMZhtSOtc8x+/eQ9nfzA6UXRyPNkl6
+ m46Q==
+X-Gm-Message-State: APjAAAWoxsM7PeSc3SbrfKxoSp0ku+l6mTSJse3GQNwzxWrvprvRpX9h
+ o6hvhYGFa7TjaXP/UFnj5GNf63esZnw=
+X-Google-Smtp-Source: APXvYqwkCZPIb3ymMf4up+V2Zbi4694aUOJW6w1tzlHaVJdEfpEWKaW4V+IhpZkvwCvLm7s0T6Tlqg==
+X-Received: by 2002:a5d:5186:: with SMTP id k6mr79061324wrv.30.1561019729356; 
+ Thu, 20 Jun 2019 01:35:29 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
+ ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
+ by smtp.gmail.com with ESMTPSA id t198sm4983601wmt.2.2019.06.20.01.35.28
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Jun 2019 01:35:28 -0700 (PDT)
+To: Peter Xu <peterx@redhat.com>, Auger Eric <eric.auger@redhat.com>
+References: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
+ <39c4c32b-e34a-8d8f-abbc-ab346ec5bed7@redhat.com>
+ <20190620040230.GB9073@xz-x1>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6829b139-3eab-449e-04d6-07f1e381316d@redhat.com>
+Date: Thu, 20 Jun 2019 10:35:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <20190620040230.GB9073@xz-x1>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190619201050.19040-5-armbru@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 20 Jun 2019 08:35:02 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 04/17] qapi: Split qom.json and qdev.json
- off misc.json
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH] memory: do not do out of bound notification
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,67 +73,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Yan Zhao <yan.y.zhao@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 19, 2019 at 10:10:37PM +0200, Markus Armbruster wrote:
-> Move commands object-add, object-del, qom-get, qom-list,
-> qom-list-properties, qom-list-types, and qom-set with their types from
-> misc.json to new qom.json.  Add qom.json to MAINTAINERS section QOM.
->=20
-> Move commands device-list-properties, device_add, device-del, and
-> event DEVICE_DELETED from misc.json to new qdev.json.  qdev.json
-> remains uncovered by MAINTAINERS, like the rest of qdev.
->=20
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: "Daniel P. Berrange" <berrange@redhat.com>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  MAINTAINERS           |   1 +
->  hw/block/xen-block.c  |   2 +-
->  hw/core/qdev.c        |   2 +-
->  monitor/hmp-cmds.c    |   1 +
->  monitor/qmp-cmds.c    |   1 +
->  qapi/Makefile.objs    |   5 +-
->  qapi/misc.json        | 351 ------------------------------------------
->  qapi/qapi-schema.json |   2 +
->  qapi/qdev.json        | 125 +++++++++++++++
->  qapi/qom.json         | 244 +++++++++++++++++++++++++++++
->  qdev-monitor.c        |   2 +-
->  11 files changed, 380 insertions(+), 356 deletions(-)
->  create mode 100644 qapi/qdev.json
->  create mode 100644 qapi/qom.json
+On 20/06/19 06:02, Peter Xu wrote:
+> Seems workable, to be explicit - we can even cut it into chunks with
+> different size to be efficient.
 
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Yes, this is not hard (completely untested):
 
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 63390eadb5..1aef0afaf7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2035,6 +2035,7 @@ R: Eduardo Habkost <ehabkost@redhat.com>
->  S: Supported
->  F: include/qom/
->  X: include/qom/cpu.h
-> +F: qapi/qom.json
->  F: qom/
->  X: qom/cpu.c
->  F: tests/check-qom-interface.c
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 44b1231157..541538bc6c 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -3388,39 +3388,34 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+     }
+ 
+     assert(start <= end);
+-    size = end - start;
++    while (end > start) {
++        size = end - start;
++        /* Only keep the lowest bit of either size or start.  */
++        size = MIN(size & -size, start & -start);
++        /* Should not happen, but limit to address width too just in case */
++        size = MIN(size, 1ULL << s->aw_bits);
+ 
+-    if (ctpop64(size) != 1) {
+-        /*
+-         * This size cannot format a correct mask. Let's enlarge it to
+-         * suite the minimum available mask.
+-         */
+-        int n = 64 - clz64(size);
+-        if (n > s->aw_bits) {
+-            /* should not happen, but in case it happens, limit it */
+-            n = s->aw_bits;
+-        }
+-        size = 1ULL << n;
+-    }
++        assert((start & (size - 1)) == 0);
+ 
+-    entry.target_as = &address_space_memory;
+-    /* Adjust iova for the size */
+-    entry.iova = n->start & ~(size - 1);
+-    /* This field is meaningless for unmap */
+-    entry.translated_addr = 0;
+-    entry.perm = IOMMU_NONE;
+-    entry.addr_mask = size - 1;
++        entry.target_as = &address_space_memory;
++        entry.iova = start;
++        /* This field is meaningless for unmap */
++        entry.translated_addr = 0;
++        entry.perm = IOMMU_NONE;
++        entry.addr_mask = size - 1;
+ 
+-    trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
+-                             VTD_PCI_SLOT(as->devfn),
+-                             VTD_PCI_FUNC(as->devfn),
+-                             entry.iova, size);
++        trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
++                                 VTD_PCI_SLOT(as->devfn),
++                                 VTD_PCI_FUNC(as->devfn),
++                                 entry.iova, size);
+ 
+-    map.iova = entry.iova;
+-    map.size = entry.addr_mask;
+-    iova_tree_remove(as->iova_tree, &map);
++        map.iova = entry.iova;
++        map.size = entry.addr_mask;
++        iova_tree_remove(as->iova_tree, &map);
+ 
+-    memory_region_notify_one(n, &entry);
++        memory_region_notify_one(n, &entry);
++        start += size;
++    }
+ }
+ 
+ static void vtd_address_space_unmap_all(IntelIOMMUState *s)
 
-So we don't have any designated "qdev" maintainers i see.
 
+Yan,
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+if something like this works for you, let me know and I will submit it
+as a proper patch.
+
+Paolo
 
