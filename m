@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCDF4D24F
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:39:58 +0200 (CEST)
-Received: from localhost ([::1]:49430 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2614D24E
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:39:26 +0200 (CEST)
+Received: from localhost ([::1]:49368 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdzAL-0000IL-Pq
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45260)
+	id 1hdz9p-0007ch-6D
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44927)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hdypq-00061K-9g
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:18:47 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hdypd-0005oR-Ig
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:18:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hdycz-0003Ry-M8
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:05:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41742)
+ (envelope-from <kraxel@redhat.com>) id 1hdygt-0001U8-MV
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:09:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32804)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hdycx-0002KN-36
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:05:28 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hdygs-0001Pn-Gd
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:09:30 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0E8F481F0C;
- Thu, 20 Jun 2019 15:04:39 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4244F5D9C6;
- Thu, 20 Jun 2019 15:04:34 +0000 (UTC)
-Date: Thu, 20 Jun 2019 17:04:29 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Wei Yang <richard.weiyang@gmail.com>
-Message-ID: <20190620170429.7237cfa1@redhat.com>
-In-Reply-To: <20190620141842.ijqwozpjrkccy7qx@master>
-References: <20190513061913.9284-1-richardw.yang@linux.intel.com>
- <20190618175956.4373ac7e@redhat.com>
- <20190619062050.GA15665@richard>
- <20190619110440.13a54848@redhat.com>
- <20190620141842.ijqwozpjrkccy7qx@master>
+ by mx1.redhat.com (Postfix) with ESMTPS id CAE4A307C942;
+ Thu, 20 Jun 2019 15:09:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-212.ams2.redhat.com
+ [10.36.116.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1AE9160A9D;
+ Thu, 20 Jun 2019 15:09:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9A01216E08; Thu, 20 Jun 2019 17:09:23 +0200 (CEST)
+Date: Thu, 20 Jun 2019 17:09:23 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Message-ID: <20190620150923.gpe4rqn3qc54gcsn@sirius.home.kraxel.org>
+References: <cover.1561028123.git.balaton@eik.bme.hu>
+ <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 20 Jun 2019 15:04:47 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Thu, 20 Jun 2019 15:09:28 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH 0/9] hw/acpi: make build_madt arch
- agnostic
+Subject: Re: [Qemu-devel] [PATCH v5 2/2] ati-vga: Implement DDC and EDID
+ info from monitor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,120 +61,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, ehabkost@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: Corey Minyard <cminyard@mvista.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 Jun 2019 14:18:42 +0000
-Wei Yang <richard.weiyang@gmail.com> wrote:
+On Thu, Jun 20, 2019 at 12:55:23PM +0200, BALATON Zoltan wrote:
+> This adds DDC support to ati-vga and connects i2c-ddc to it. This
+> allows at least MacOS with an ATI ndrv, Linux radeonfb and MorphOS to
 
-> On Wed, Jun 19, 2019 at 11:04:40AM +0200, Igor Mammedov wrote:
-> >On Wed, 19 Jun 2019 14:20:50 +0800
-> >Wei Yang <richardw.yang@linux.intel.com> wrote:
-> >  
-> >> On Tue, Jun 18, 2019 at 05:59:56PM +0200, Igor Mammedov wrote:  
-> >> >
-> >> >On Mon, 13 May 2019 14:19:04 +0800
-> >> >Wei Yang <richardw.yang@linux.intel.com> wrote:
-> >> >    
-> >> >> Now MADT is highly depend in architecture and machine type and leaves
-> >> >> duplicated code in different architecture. The series here tries to generalize
-> >> >> it.
-> >> >> 
-> >> >> MADT contains one main table and several sub tables. These sub tables are
-> >> >> highly related to architecture. Here we introduce one method to make it
-> >> >> architecture agnostic.
-> >> >> 
-> >> >>   * each architecture define its sub-table implementation function in madt_sub
-> >> >>   * introduces struct madt_input to collect sub table information and pass to
-> >> >>     build_madt
-> >> >> 
-> >> >> By doing so, each architecture could prepare its own sub-table implementation
-> >> >> and madt_input. And keep build_madt architecture agnostic.    
-> >> >
-> >> >I've skimmed over patches, and to me it looks mostly as code movement
-> >> >without apparent benefits and probably a bit more complex than what we have now
-> >> >(it might be ok cost if it simplifies MADT support for other boards).
-> >> >
-> >> >Before I do line by line review could you demonstrate what effect new way
-> >> >to build MADT would have on arm/virt and i386/virt (from NEMU). So it would be
-> >> >possible to estimate net benefits from new approach?
-> >> >(PS: it doesn't have to be patches ready for merging, just a dirty hack
-> >> >that would demonstrate adding MADT for new board using mad_sub[])
-> >> >    
-> >> 
-> >> Per APIC spec 5.2.12, MADT contains a *main* table and several *sub* tables
-> >> (Interrupt Controllere), so the idea is give a callback hook in
-> >> AcpiDeviceIfClass for each table, including *main* and *sub* table.
-> >> 
-> >> Current AcpiDeviceIfClass has one callback pc_madt_cpu_entry for some *sub*
-> >> tables, after replacing the AcpiDeviceIfClass will look like this:
-> >> 
-> >> typedef struct AcpiDeviceIfClass {
-> >>     /* <private> */
-> >>     InterfaceClass parent_class;
-> >> 
-> >>     /* <public> */
-> >>     void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
-> >>     void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
-> >> -   void (*madt_cpu)(AcpiDeviceIf *adev, int uid,
-> >> -                    const CPUArchIdList *apic_ids, GArray *entry);
-> >> +   madt_operation madt_main;
-> >> +   madt_operation *madt_sub;
-> >> } AcpiDeviceIfClass;
-> >> 
-> >> By doing so, each arch could have its own implementation for MADT.
-> >> 
-> >> After this refactoring, build_madt could be simplified to:
-> >> 
-> >> build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms,
-> >>            struct madt_input *input)
-> >> {
-> >>     ...
-> >> 
-> >>     if (adevc->madt_main) {
-> >>         adevc->madt_main(table_data, madt);
-> >>     }
-> >> 
-> >>     for (i = 0; ; i++) {
-> >>         sub_id = input[i].sub_id;
-> >>         if (sub_id == ACPI_APIC_RESERVED) {
-> >>             break;
-> >>         }
-> >>         opaque = input[i].opaque;
-> >>         adevc->madt_sub[sub_id](table_data, opaque);
-> >>     }
-> >> 
-> >>     ...
-> >> }
-> >> 
-> >> input is a list of data necessary to build *sub* table. Its details is also
-> >> arch dependent.  
-> >I've got general idea reading patches in this series.
-> >As I've mentioned before it's hard to generalize MADT since it
-> >mostly contains entries unique for target/board.
-> >Goal here isn't generalizing at any cost, but rather find out
-> >if there is enough common code to justify generalization
-> >and if it allows us to reduce code duplication and simplify.
-> >  
-> >> For following new arch, what it need to do is prepare the input array and
-> >> implement necessary *main*/*sub* table callbacks.  
-> >What I'd like to see is the actual patch that does this,
-> >to see if it has any merit and to compare to the current
-> >approach.  
-> 
-> I didn't get some idea about your approach. Would you mind sharing more light?
-With current approach, 'each board' has its own MADT build routine.
-Considering that there is very little to share between different
-implementations it might be ok.
+linux radeonfb is rv100 only, and aty128fb has no i2c support.
+Do MacOS and MorphOS have working edid with both card variants?
 
-This series just add extra data structure for board to populate
-and a bunch of callbacks for every record type. Essentially all
-the code we have now is still there. It was just moved elsewhere
-and made available via callbacks.
-This series touches only pc/q35 machines and it's not apparent
-to me why it's any better than what we have now.
+> +    case GPIO_MONID ... GPIO_MONID + 3:
+> +        /* FIXME What does Radeon have here? */
+> +        if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
+> +            /* Rage128p accesses DDC used to get EDID on these pins */
+> +            ati_reg_write_offs(&s->regs.gpio_monid,
+> +                               addr - GPIO_MONID, data, size);
+> +            if ((s->regs.gpio_monid & BIT(25)) &&
+
+Extra enable bit, ok.
+
+> +                addr <= GPIO_MONID + 2 && addr + size > GPIO_MONID + 2) {
+
+Hmm, isn't this just "addr == GPIO_MONID + 2" ?
+
+> +                s->regs.gpio_monid = ati_i2c(s->bbi2c, s->regs.gpio_monid, 1);
+
+So all i2c bits are shifted by one compared to rv100, correct?
+
+cheers,
+  Gerd
 
 
