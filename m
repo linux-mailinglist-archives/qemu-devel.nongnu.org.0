@@ -2,32 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2DC4CD2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:52:34 +0200 (CEST)
-Received: from localhost ([::1]:46574 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 181EF4CD51
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 14:00:33 +0200 (CEST)
+Received: from localhost ([::1]:46668 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdvcG-0001uG-2j
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55149)
+	id 1hdvjz-0000wz-U6
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 08:00:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55387)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <balaton@eik.bme.hu>) id 1hdvYa-000846-Kb
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:48:45 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1hdvYa-0008DQ-L7
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:48:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1hdvT4-00009z-Dg
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:43:03 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:12599)
+ (envelope-from <balaton@eik.bme.hu>) id 1hdvT2-00007y-Kr
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:43:02 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:12613)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hduqT-0008OG-Lf
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hduqT-0008RC-Lf
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:03:09 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 760017462E0;
- Thu, 20 Jun 2019 13:02:49 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 14261746395;
+ Thu, 20 Jun 2019 13:02:50 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 569D37456B8; Thu, 20 Jun 2019 13:02:49 +0200 (CEST)
-Message-Id: <cover.1561028123.git.balaton@eik.bme.hu>
+ id 6352E7462BB; Thu, 20 Jun 2019 13:02:49 +0200 (CEST)
+Message-Id: <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1561028123.git.balaton@eik.bme.hu>
+References: <cover.1561028123.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Thu, 20 Jun 2019 12:55:23 +0200
 Date: Thu, 20 Jun 2019 12:55:23 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -36,7 +37,7 @@ Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2001:738:2001:2001::2001
-Subject: [Qemu-devel] [PATCH v5 0/2] ati-vga: Implement DDC and EDID info
+Subject: [Qemu-devel] [PATCH v5 2/2] ati-vga: Implement DDC and EDID info
  from monitor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,31 +54,192 @@ Cc: Corey Minyard <cminyard@mvista.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 5 Works with ATI MacOS NDRV, MorphOS and Linux radeonfb so
-          hopefully this is good enough for now (each of these access
-          DDC bits slightly differently).
-Version 4 try to fix an ASan warning about leaking bitbang_i2c.
-Version 3 keeps bitbang_i2c.h and moves it to include/hw/i2c/
-otherwise same as version 2.
+This adds DDC support to ati-vga and connects i2c-ddc to it. This
+allows at least MacOS with an ATI ndrv, Linux radeonfb and MorphOS to
+get monitor EDID info (although MorphOS splash screen is not displayed
+and radeonfb needs additional tables from vgabios-rv100). Xorg needs
+additional support from VESA vgabios, it's missing INT10 0x4F15
+function (see
+https://gitlab.freedesktop.org/xorg/xserver/blob/master/hw/xfree86/vbe/vb=
+e.c)
+without which no DDC is available that also prevents loading the
+accelerated X driver.
 
-BALATON Zoltan (2):
-  i2c: Move bitbang_i2c.h to include/hw/i2c/
-  ati-vga: Implement DDC and EDID info from monitor
-
- hw/display/Kconfig                   |  2 ++
- hw/display/ati.c                     | 60 ++++++++++++++++++++++++++++++=
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/display/Kconfig    |  2 ++
+ hw/display/ati.c      | 60 +++++++++++++++++++++++++++++++++++++++++++++=
 ++++--
- hw/display/ati_int.h                 |  5 +++
- hw/display/ati_regs.h                |  2 ++
- hw/i2c/bitbang_i2c.c                 |  2 +-
- hw/i2c/ppc4xx_i2c.c                  |  1 -
- hw/i2c/versatile_i2c.c               |  2 +-
- {hw =3D> include/hw}/i2c/bitbang_i2c.h |  2 ++
- include/hw/i2c/i2c.h                 |  2 --
- include/hw/i2c/ppc4xx_i2c.h          |  2 +-
- 10 files changed, 72 insertions(+), 8 deletions(-)
- rename {hw =3D> include/hw}/i2c/bitbang_i2c.h (80%)
+ hw/display/ati_int.h  |  5 +++++
+ hw/display/ati_regs.h |  2 ++
+ 4 files changed, 67 insertions(+), 2 deletions(-)
 
+diff --git a/hw/display/Kconfig b/hw/display/Kconfig
+index 910dccb2f7..cbdf7b1a67 100644
+--- a/hw/display/Kconfig
++++ b/hw/display/Kconfig
+@@ -130,3 +130,5 @@ config ATI_VGA
+     default y if PCI_DEVICES
+     depends on PCI
+     select VGA
++    select BITBANG_I2C
++    select DDC
+diff --git a/hw/display/ati.c b/hw/display/ati.c
+index 76595d9511..61e351a024 100644
+--- a/hw/display/ati.c
++++ b/hw/display/ati.c
+@@ -26,6 +26,7 @@
+ #include "qapi/error.h"
+ #include "hw/hw.h"
+ #include "ui/console.h"
++#include "hw/display/i2c-ddc.h"
+ #include "trace.h"
+=20
+ #define ATI_DEBUG_HW_CURSOR 0
+@@ -215,6 +216,24 @@ static void ati_cursor_draw_line(VGACommonState *vga=
+, uint8_t *d, int scr_y)
+     }
+ }
+=20
++static uint64_t ati_i2c(bitbang_i2c_interface *i2c, uint64_t data, int b=
+ase)
++{
++    bool c =3D (data & BIT(base + 17) ? !!(data & BIT(base + 1)) : 1);
++    bool d =3D (data & BIT(base + 16) ? !!(data & BIT(base)) : 1);
++
++    bitbang_i2c_set(i2c, BITBANG_I2C_SCL, c);
++    d =3D bitbang_i2c_set(i2c, BITBANG_I2C_SDA, d);
++
++    data &=3D ~0xf00ULL;
++    if (c) {
++        data |=3D BIT(base + 9);
++    }
++    if (d) {
++        data |=3D BIT(base + 8);
++    }
++    return data;
++}
++
+ static inline uint64_t ati_reg_read_offs(uint32_t reg, int offs,
+                                          unsigned int size)
+ {
+@@ -266,7 +285,16 @@ static uint64_t ati_mm_read(void *opaque, hwaddr add=
+r, unsigned int size)
+     case DAC_CNTL:
+         val =3D s->regs.dac_cntl;
+         break;
+-/*    case GPIO_MONID: FIXME hook up DDC I2C here */
++    case GPIO_VGA_DDC:
++        val =3D s->regs.gpio_vga_ddc;
++        break;
++    case GPIO_DVI_DDC:
++        val =3D s->regs.gpio_dvi_ddc;
++        break;
++    case GPIO_MONID ... GPIO_MONID + 3:
++        val =3D ati_reg_read_offs(s->regs.gpio_monid,
++                                addr - GPIO_MONID, size);
++        break;
+     case PALETTE_INDEX:
+         /* FIXME unaligned access */
+         val =3D vga_ioport_read(&s->vga, VGA_PEL_IR) << 16;
+@@ -497,7 +525,28 @@ static void ati_mm_write(void *opaque, hwaddr addr,
+         s->regs.dac_cntl =3D data & 0xffffe3ff;
+         s->vga.dac_8bit =3D !!(data & DAC_8BIT_EN);
+         break;
+-/*    case GPIO_MONID: FIXME hook up DDC I2C here */
++    case GPIO_VGA_DDC:
++        if (s->dev_id !=3D PCI_DEVICE_ID_ATI_RAGE128_PF) {
++            /* FIXME: Maybe add a property to select VGA or DVI port? */
++        }
++        break;
++    case GPIO_DVI_DDC:
++        if (s->dev_id !=3D PCI_DEVICE_ID_ATI_RAGE128_PF) {
++            s->regs.gpio_dvi_ddc =3D ati_i2c(s->bbi2c, data, 0);
++        }
++        break;
++    case GPIO_MONID ... GPIO_MONID + 3:
++        /* FIXME What does Radeon have here? */
++        if (s->dev_id =3D=3D PCI_DEVICE_ID_ATI_RAGE128_PF) {
++            /* Rage128p accesses DDC used to get EDID on these pins */
++            ati_reg_write_offs(&s->regs.gpio_monid,
++                               addr - GPIO_MONID, data, size);
++            if ((s->regs.gpio_monid & BIT(25)) &&
++                addr <=3D GPIO_MONID + 2 && addr + size > GPIO_MONID + 2=
+) {
++                s->regs.gpio_monid =3D ati_i2c(s->bbi2c, s->regs.gpio_mo=
+nid, 1);
++            }
++        }
++        break;
+     case PALETTE_INDEX ... PALETTE_INDEX + 3:
+         if (size =3D=3D 4) {
+             vga_ioport_write(&s->vga, VGA_PEL_IR, (data >> 16) & 0xff);
+@@ -788,6 +837,12 @@ static void ati_vga_realize(PCIDevice *dev, Error **=
+errp)
+         vga->cursor_draw_line =3D ati_cursor_draw_line;
+     }
+=20
++    /* ddc, edid */
++    I2CBus *i2cbus =3D i2c_init_bus(DEVICE(s), "ati-vga.ddc");
++    s->bbi2c =3D bitbang_i2c_init(i2cbus);
++    I2CSlave *i2cddc =3D I2C_SLAVE(qdev_create(BUS(i2cbus), TYPE_I2CDDC)=
+);
++    i2c_set_slave_address(i2cddc, 0x50);
++
+     /* mmio register space */
+     memory_region_init_io(&s->mm, OBJECT(s), &ati_mm_ops, s,
+                           "ati.mmregs", 0x4000);
+@@ -813,6 +868,7 @@ static void ati_vga_exit(PCIDevice *dev)
+     ATIVGAState *s =3D ATI_VGA(dev);
+=20
+     graphic_console_close(s->vga.con);
++    g_free(s->bbi2c);
+ }
+=20
+ static Property ati_vga_properties[] =3D {
+diff --git a/hw/display/ati_int.h b/hw/display/ati_int.h
+index 2f426064cf..51465f5630 100644
+--- a/hw/display/ati_int.h
++++ b/hw/display/ati_int.h
+@@ -10,6 +10,7 @@
+ #define ATI_INT_H
+=20
+ #include "hw/pci/pci.h"
++#include "hw/i2c/bitbang_i2c.h"
+ #include "vga_int.h"
+=20
+ /*#define DEBUG_ATI*/
+@@ -35,6 +36,9 @@ typedef struct ATIVGARegs {
+     uint32_t crtc_gen_cntl;
+     uint32_t crtc_ext_cntl;
+     uint32_t dac_cntl;
++    uint32_t gpio_vga_ddc;
++    uint32_t gpio_dvi_ddc;
++    uint32_t gpio_monid;
+     uint32_t crtc_h_total_disp;
+     uint32_t crtc_h_sync_strt_wid;
+     uint32_t crtc_v_total_disp;
+@@ -83,6 +87,7 @@ typedef struct ATIVGAState {
+     uint16_t cursor_size;
+     uint32_t cursor_offset;
+     QEMUCursor *cursor;
++    bitbang_i2c_interface *bbi2c;
+     MemoryRegion io;
+     MemoryRegion mm;
+     ATIVGARegs regs;
+diff --git a/hw/display/ati_regs.h b/hw/display/ati_regs.h
+index 923bfd33ce..1ec3498b73 100644
+--- a/hw/display/ati_regs.h
++++ b/hw/display/ati_regs.h
+@@ -37,6 +37,8 @@
+ #define CRTC_GEN_CNTL                           0x0050
+ #define CRTC_EXT_CNTL                           0x0054
+ #define DAC_CNTL                                0x0058
++#define GPIO_VGA_DDC                            0x0060
++#define GPIO_DVI_DDC                            0x0064
+ #define GPIO_MONID                              0x0068
+ #define I2C_CNTL_1                              0x0094
+ #define PALETTE_INDEX                           0x00b0
 --=20
 2.13.7
 
