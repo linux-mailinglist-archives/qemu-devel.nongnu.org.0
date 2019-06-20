@@ -2,51 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A66E94CBAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 12:21:24 +0200 (CEST)
-Received: from localhost ([::1]:45904 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F994CC9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:06:47 +0200 (CEST)
+Received: from localhost ([::1]:46136 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hduC3-00006L-8K
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 06:21:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37065)
+	id 1hduty-0003hz-UK
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:06:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hdu98-0006ju-AM
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:18:23 -0400
+ (envelope-from <arikalo@wavecomp.com>) id 1hduff-0003JU-SN
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:52:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hdu2Q-0005lK-7v
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:11:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48276)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>)
- id 1hdu2O-0005kW-GQ; Thu, 20 Jun 2019 06:11:24 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B2BC688E56;
- Thu, 20 Jun 2019 10:11:23 +0000 (UTC)
-Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A69560156;
- Thu, 20 Jun 2019 10:11:16 +0000 (UTC)
-Date: Thu, 20 Jun 2019 11:11:13 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190620101113.GV25448@redhat.com>
-References: <20190618092403.30006-1-ptoscano@redhat.com>
- <ca41c9ef-aa6d-2e17-42a0-3a1beb42e208@redhat.com>
+ (envelope-from <arikalo@wavecomp.com>) id 1hduF9-0006np-Ch
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:24:52 -0400
+Received: from mail-eopbgr680091.outbound.protection.outlook.com
+ ([40.107.68.91]:56964 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <arikalo@wavecomp.com>)
+ id 1hduF8-0006lh-VC
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:24:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=wavesemi.onmicrosoft.com; s=selector1-wavesemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nEfTt9UZVCY5POd87p70mSVHcqXgPSlsh6h4VviLAD4=;
+ b=MnnNzdQ47F9hyQyw5sBo3+fRtbCfVZ0CeqsMhF8Q6rTU+GH+4Qdkt63kIXAJTHPVlXGb3wPScjneyh8Wq0Y3SCclQCcb1oP6Ks5wwKTgq4H/x6tWLFdoA0pnPjvYGsa0ecfeIQlzy8letkxyjmaoROr8loFS6xiATYEfpZq0QZY=
+Received: from DM5PR22MB1658.namprd22.prod.outlook.com (10.164.152.163) by
+ DM5PR22MB0795.namprd22.prod.outlook.com (10.171.158.148) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.12; Thu, 20 Jun 2019 10:24:30 +0000
+Received: from DM5PR22MB1658.namprd22.prod.outlook.com
+ ([fe80::3579:1b6c:1f31:c6b9]) by DM5PR22MB1658.namprd22.prod.outlook.com
+ ([fe80::3579:1b6c:1f31:c6b9%7]) with mapi id 15.20.1987.014; Thu, 20 Jun 2019
+ 10:24:30 +0000
+From: Aleksandar Rikalo <arikalo@wavecomp.com>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH v3 0/4] target/mips: Misc fixes and maintenance for 4.1
+Thread-Index: AQHVJ09CpTQdAwILcUmqxV0XMbM+JaakVYiI
+Date: Thu, 20 Jun 2019 10:24:30 +0000
+Message-ID: <DM5PR22MB1658FD6148E93CFAA6676F02D2E40@DM5PR22MB1658.namprd22.prod.outlook.com>
+References: <1561024929-26004-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1561024929-26004-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=arikalo@wavecomp.com; 
+x-originating-ip: [82.117.201.26]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 09259aa6-e53a-488b-7c88-08d6f5697af3
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DM5PR22MB0795; 
+x-ms-traffictypediagnostic: DM5PR22MB0795:
+x-microsoft-antispam-prvs: <DM5PR22MB07953F54A08829E0ABC196A9D2E40@DM5PR22MB0795.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0074BBE012
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(366004)(136003)(346002)(376002)(39840400004)(396003)(189003)(199004)(6246003)(52536014)(71190400001)(71200400001)(107886003)(4326008)(66066001)(53546011)(53936002)(2906002)(6506007)(5660300002)(229853002)(478600001)(66446008)(64756008)(66556008)(66476007)(8936002)(91956017)(76116006)(66946007)(73956011)(2501003)(68736007)(256004)(14444005)(316002)(110136005)(14454004)(86362001)(6606003)(99286004)(74316002)(486006)(76176011)(7696005)(476003)(19627405001)(55016002)(7736002)(54896002)(26005)(3846002)(6116002)(102836004)(446003)(55236004)(186003)(25786009)(33656002)(81156014)(81166006)(11346002)(8676002)(9686003)(6436002);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR22MB0795;
+ H:DM5PR22MB1658.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: wavecomp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: MGHOt1m5SLZRDPQKVyDNU+dJ9Fodc+0POIEB/5Nxk0TUXA1pFbbjyQ90QqN5p2FMvFj4GdnICMp17P6EmVRD67TPg3/7CA/GBKX8YVuoVJg+/0BBQ0dqIdmGWN01IWARh0sv2Z+qZw0KQhhQVKXf5a/QyWWfLD9ZU/wolq/feke44Pd4xhUeL62dkMzM3GkGCuRAGbJD6OT2mQ5dYvkvaeIClgM0iI774zLwRkK27ah2u2yvws0SIBw0v5p8XSb3gNnNQvuXeKvoGF0zGIJUZDOE9Bbbclj2W/vNPRXb/JOpmZuVVEBrf4H/VaD6wJ6B4gZc4zanWdLt2lbCDmTY8KjpC2WxP8eIufR90tNFgvFS6QuBYU0bLDrtsuwAATXwDmX9W+ibmSk5TW7PWlh+Kvzuj1rH5Oasv2R0LZXqIqQ=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ca41c9ef-aa6d-2e17-42a0-3a1beb42e208@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 20 Jun 2019 10:11:23 +0000 (UTC)
+X-OriginatorOrg: wavecomp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09259aa6-e53a-488b-7c88-08d6f5697af3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2019 10:24:30.0423 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: arikalo@wavecomp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR22MB0795
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.68.91
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v10] ssh: switch from libssh2 to libssh
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] target/mips: Misc fixes and
+ maintenance for 4.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,198 +96,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, rjones@redhat.com,
- sw@weilnetz.de, qemu-devel@nongnu.org, Pino Toscano <ptoscano@redhat.com>,
- alex.bennee@linaro.org, philmd@redhat.com
+Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 18, 2019 at 03:14:30PM +0200, Max Reitz wrote:
-> On 18.06.19 11:24, Pino Toscano wrote:
-> > Rewrite the implementation of the ssh block driver to use libssh inst=
-ead
-> > of libssh2.  The libssh library has various advantages over libssh2:
-> > - easier API for authentication (for example for using ssh-agent)
-> > - easier API for known_hosts handling
-> > - supports newer types of keys in known_hosts
-> >=20
-> > Use APIs/features available in libssh 0.8 conditionally, to support
-> > older versions (which are not recommended though).
-> >=20
-> > Adjust the tests according to the different error message, and to the
-> > newer host keys (ed25519) that are used by default with OpenSSH >=3D =
-6.7
-> > and libssh >=3D 0.7.0.
-> >=20
-> > Adjust the various Docker/Travis scripts to use libssh when available
-> > instead of libssh2. The mingw/mxe testing is dropped for now, as ther=
-e
-> > are no packages for it.
-> >=20
-> > Signed-off-by: Pino Toscano <ptoscano@redhat.com>
-> > Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > ---
-> >=20
-> > Changes from v9:
-> > - restored "default" case in the server status switch for libssh < 0.=
-8.0
-> > - print the host key type & fingerprint on mismatch with known_hosts
-> > - improve/fix message for failed socket_set_nodelay()
-> > - reset s->sock properly
-> >=20
-> > Changes from v8:
-> > - use a newer key type in iotest 207
-> > - improve the commit message
-> >=20
-> > Changes from v7:
-> > - #if HAVE_LIBSSH_0_8 -> #ifdef HAVE_LIBSSH_0_8
-> > - ptrdiff_t -> size_t
-> >=20
-> > Changes from v6:
-> > - fixed few checkpatch style issues
-> > - detect libssh 0.8 via symbol detection
-> > - adjust travis/docker test material
-> > - remove dead "default" case in a switch
-> > - use variables for storing MIN() results
-> > - adapt a documentation bit
-> >=20
-> > Changes from v5:
-> > - adapt to newer tracing APIs
-> > - disable ssh compression (mimic what libssh2 does by default)
-> > - use build time checks for libssh 0.8, and use newer APIs directly
-> >=20
-> > Changes from v4:
-> > - fix wrong usages of error_setg/session_error_setg/sftp_error_setg
-> > - fix few return code checks
-> > - remove now-unused parameters in few internal functions
-> > - allow authentication with "none" method
-> > - switch to unsigned int for the port number
-> > - enable TCP_NODELAY on the socket
-> > - fix one reference error message in iotest 207
-> >=20
-> > Changes from v3:
-> > - fix socket cleanup in connect_to_ssh()
-> > - add comments about the socket cleanup
-> > - improve the error reporting (closer to what was with libssh2)
-> > - improve EOF detection on sftp_read()
-> >=20
-> > Changes from v2:
-> > - used again an own fd
-> > - fixed co_yield() implementation
-> >=20
-> > Changes from v1:
-> > - fixed jumbo packets writing
-> > - fixed missing 'err' assignment
-> > - fixed commit message
-> >=20
-> >  .travis.yml                                   |   4 +-
-> >  block/Makefile.objs                           |   6 +-
-> >  block/ssh.c                                   | 665 ++++++++++------=
---
-> >  block/trace-events                            |  14 +-
-> >  configure                                     |  65 +-
-> >  docs/qemu-block-drivers.texi                  |   2 +-
-> >  .../dockerfiles/debian-win32-cross.docker     |   1 -
-> >  .../dockerfiles/debian-win64-cross.docker     |   1 -
-> >  tests/docker/dockerfiles/fedora.docker        |   4 +-
-> >  tests/docker/dockerfiles/ubuntu.docker        |   2 +-
-> >  tests/docker/dockerfiles/ubuntu1804.docker    |   2 +-
-> >  tests/qemu-iotests/207                        |   4 +-
-> >  tests/qemu-iotests/207.out                    |   2 +-
-> >  13 files changed, 423 insertions(+), 349 deletions(-)
->=20
-> [...]
->=20
-> > diff --git a/block/ssh.c b/block/ssh.c
-> > index 6da7b9cbfe..644ae8b82c 100644
-> > --- a/block/ssh.c
-> > +++ b/block/ssh.c
->=20
-> [...]
->=20
-> > +    case SSH_SERVER_KNOWN_CHANGED:
-> > +        ret =3D -EINVAL;
-> > +        r =3D ssh_get_publickey(s->session, &pubkey);
-> > +        if (r =3D=3D 0) {
-> > +            r =3D ssh_get_publickey_hash(pubkey, SSH_PUBLICKEY_HASH_=
-SHA1,
-> > +                                       &server_hash, &server_hash_le=
-n);
-> > +            pubkey_type =3D ssh_key_type(pubkey);
-> > +            ssh_key_free(pubkey);
-> > +        }
-> > +        if (r =3D=3D 0) {
-> > +            fingerprint =3D ssh_get_fingerprint_hash(SSH_PUBLICKEY_H=
-ASH_SHA1,
-> > +                                                   server_hash,
-> > +                                                   server_hash_len);
-> > +            ssh_clean_pubkey_hash(&server_hash);
-> > +        }
-> > +        if (fingerprint) {
-> > +            error_setg(errp,
-> > +                       "host key (%s key with fingerprint %s) does n=
-ot match "
-> > +                       "the one in known_hosts",
-> > +                       ssh_key_type_to_char(pubkey_type), fingerprin=
-t);
-> > +            ssh_string_free_char(fingerprint);
-> > +        } else  {
-> > +            error_setg(errp, "host key does not match the one in kno=
-wn_hosts");
-> > +        }
->=20
-> Usually I=E2=80=99d say that more information can=E2=80=99t be bad.  Bu=
-t here I don=E2=80=99t
-> see how this additional information is useful.  known_hosts contains
-> base64-encoded full public keys.  This only prints the SHA-1 digest.
-> The user cannot add that to known_hosts, or easily scan known_hosts to
-> see whether it perhaps belongs to some other hosts (maybe because DHCP
-> scrambled something).
->=20
-> Actually, even if this printed the base64 representation of the full
-> key, the user probably wouldn=E2=80=99t just add that to known_hosts or=
- do
-> anything with it.  They=E2=80=99ll debug the problem with other tools.
->=20
-> So I don=E2=80=99t think this new information is really useful...?
->=20
->=20
-> (Hmm, I don=E2=80=99t know if this is a response to my =E2=80=9CBut the=
- specification
-> requires a warning!!1!=E2=80=9D, but if so, I was actually not referrin=
-g to more
-> information but to this:
->=20
-> $ ssh 192.168.0.12
-> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-> @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
-> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-> IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
-> Someone could be eavesdropping on you right now (man-in-the-middle atta=
-ck)!
-> It is also possible that a host key has just been changed.
->=20
->=20
-> I mean, I was also only half-serious.  I should be serious because the
-> libssh specification requires us to print some warning like that, but,
-> well.  Yes, I=E2=80=99ll stop mumbling about this stuff now.)
+> From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+> Sent: Thursday, June 20, 2019 12:02 PM
+> To: qemu-devel@nongnu.org
+> Cc: Aleksandar Markovic; Aleksandar Rikalo
+> Subject: [PATCH v3 0/4] target/mips: Misc fixes and maintenance for 4.1
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> This series contains miscelaneous fixes, improvements, and
+> maintainance items intended to be integrated into QEMU 4.1.
+> I will gradually add patches by the end of June 2019.
+>
+> v2->v3:
+>
+>   - amendeded two patches on cleaning checkpatch warnings
+>
+> v1->v2:
+>
+>   - added two patches on cleaning checkpatch warnings
+>
+> Aleksandar Markovic (4):
+>   MAINTAINERS: Update file items for MIPS Malta board
+>   MAINTAINERS: Consolidate MIPS disassembler-related items
+>   target/mips: Fix some space checkpatch errors in translate.c
+>   target/mips: Fix if-else-switch-case arms checkpatch errors in
+>     translate.c
+>
+>  MAINTAINERS             |   6 +-
+>  target/mips/translate.c | 445 +++++++++++++++++++++++++++---------------=
+------
+>  2 files changed, 257 insertions(+), 194 deletions(-)
+>
+> --
+> 2.7.4
 
-Those giant messages are targetted at humans though so I'm not so
-convinced it is useful for apps managing QEMU. IMHO it is sufficient
-to just report a simple error that the host ident check failed as
-the patch does now. It gives enough info to then investigate further
-to identify the root cause problems.
+For the whole series.
+Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
 
-
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
 
