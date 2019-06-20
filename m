@@ -2,78 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251FA4D9EA
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:01:46 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720A14D9E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:00:26 +0200 (CEST)
+Received: from localhost ([::1]:52228 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he2Jd-00043v-9b
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:01:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41615)
+	id 1he2IL-0002vO-AS
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:00:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48758)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1he1zQ-0000tP-H5
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:40:54 -0400
+ (envelope-from <david.abdurachmanov@gmail.com>) id 1he22Y-0002Wa-0n
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:44:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1he1zK-0003Tw-Oa
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:40:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46268)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1he1wD-0001Qf-IC; Thu, 20 Jun 2019 14:37:33 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C04C37EBB1;
- Thu, 20 Jun 2019 18:37:27 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E3346090E;
- Thu, 20 Jun 2019 18:37:21 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-13-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <528d27d9-3694-3eb9-9632-2d657f44c4d9@redhat.com>
-Date: Thu, 20 Jun 2019 20:37:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <david.abdurachmanov@gmail.com>) id 1he22W-0006ju-B7
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:44:05 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37897)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <david.abdurachmanov@gmail.com>)
+ id 1he22R-0006Ya-12; Thu, 20 Jun 2019 14:44:00 -0400
+Received: by mail-wm1-x342.google.com with SMTP id s15so4132351wmj.3;
+ Thu, 20 Jun 2019 11:43:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4LHMsPVDcn9PlAIhAnE2zQdJYzMjOMz4tYmhiXFGkXU=;
+ b=DIEa/OcKePFVd0woY+rfgOf+DVEAU02v/1ofyB8ArOPL2tuoI7qBoWvDFGW/T7uR5C
+ qf/GiPopO+HFpxduf2zY0O1wofg2/Hlr1GnGwE7iJRNOfJcvLP9mmbSyg9lxGeRkeSkw
+ qAiLipIBAnX6nE/UlMg+zPjy5X92l8hKfVbN2YDeycADI4o3xPeiRQAssBvC3ip6hgff
+ amYh7LYAGwct5ZSYKtTvuUtZWUFutSRwkQhEZjMS320rvIMzfGxg04waE6wmvuZAUTnr
+ YCiNJZNG3rxMxCfqUBZCyKakA5fvjbhqp741gKmz1V8695fbMSr5qzc1ezHaBdPc4OsJ
+ Ntnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4LHMsPVDcn9PlAIhAnE2zQdJYzMjOMz4tYmhiXFGkXU=;
+ b=M8Fyik/Qc3kERXfXRwAEYrD1kyUw/McnxJMM6DnTwbI4jMQzI18YEuo+FQaAV5dHTD
+ 1OfuzOEbbnxNGLCVNPJgnkZ62hRrCKb7UXq3Xx4bWiDLvQC+DBAMuM14dML7mQS//uuW
+ QS1gorFX/1KQzfKQcs0Bu7QeIxRhG8BBon6MIZqnUVj3xgKl8ok7xqLhdJZrUcUfYFse
+ LKG2Ibge0dCKHTR3WEokk8R/FndYRv3BFgqz7XsigVjgxJOWDl8eoxlMMdHhsxcpqFZh
+ aPeEGRyQfP3qvRpHarmGV8KK7lP4NfT9+WmRUaOnwrIywOGX8VkoS6rdaZlcQkCVFND9
+ fxbg==
+X-Gm-Message-State: APjAAAW2ruWbRQ/HYxfESkW08R/gAUqw5KFuqXN72oR/2klCPCgYxuUn
+ oSHT0j605f7HaKLWCXScQTMzf/ZTjzeGssFzb4o=
+X-Google-Smtp-Source: APXvYqz5RaK0zsv/ikbd+49AyZojYpd17FQZ7/cyo6rHKai9DlU1fLYhT64Uf2moixj9RkBTSRhJvCIvvTlN7w7s/QI=
+X-Received: by 2002:a7b:c8d4:: with SMTP id f20mr682472wml.90.1561056227519;
+ Thu, 20 Jun 2019 11:43:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190620010356.19164-13-jsnow@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="dpAJXZsqnWGraCwk5GIHigt5QKjcuPuVc"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Thu, 20 Jun 2019 18:37:32 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 12/12] block/backup: loosen restriction on
- readonly bitmaps
+References: <cover.1560904640.git.alistair.francis@wdc.com>
+ <CAEUhbmViJpKtiNXm7CYdF7SPRkOPkvpXJ5+We2m9tZSK_BWi-g@mail.gmail.com>
+ <CAKmqyKM4UU+CPKu07AK65bNofbbxxaRkSACqoV_vfFEaH-195A@mail.gmail.com>
+ <CAEUhbmUwAVLXY9SSoryWBDeNL8gUfBCE+xweSSmuE9KwzWeX=w@mail.gmail.com>
+ <CAKmqyKMmm-38DijX_wL=pAbvxzLQ+KSOtd1xg_GrT4Az70GKsw@mail.gmail.com>
+ <11f4e4ff6037427f52824ba586f8a330c12d8dfd.camel@redhat.com>
+ <CAKmqyKOh3J07yg3dbaNcOaSzfbDZJJ-kjN3pBh+KqAKq05hzTA@mail.gmail.com>
+In-Reply-To: <CAKmqyKOh3J07yg3dbaNcOaSzfbDZJJ-kjN3pBh+KqAKq05hzTA@mail.gmail.com>
+From: David Abdurachmanov <david.abdurachmanov@gmail.com>
+Date: Thu, 20 Jun 2019 21:43:36 +0300
+Message-ID: <CAEn-LTo_e-Owk3hKGGsfSDkWLVEK2reO3ZU=y_hNDOtYVKgusw@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [Qemu-riscv] [RFC v1 0/5] RISC-V: Add firmware
+ loading support and default
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,67 +77,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- vsementsov@virtuozzo.com, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>, Andrea Bolognani <abologna@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dpAJXZsqnWGraCwk5GIHigt5QKjcuPuVc
-Content-Type: multipart/mixed; boundary="jUd34K9YbIIsP8kaq1N5D5DQfmTAODhLw";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- eblake@redhat.com, vsementsov@virtuozzo.com,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- Xie Changlong <xiechanglong.d@gmail.com>
-Message-ID: <528d27d9-3694-3eb9-9632-2d657f44c4d9@redhat.com>
-Subject: Re: [PATCH 12/12] block/backup: loosen restriction on readonly
- bitmaps
-References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-13-jsnow@redhat.com>
-In-Reply-To: <20190620010356.19164-13-jsnow@redhat.com>
+On Thu, Jun 20, 2019 at 9:18 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Thu, Jun 20, 2019 at 1:16 AM Andrea Bolognani <abologna@redhat.com> wrote:
+> >
+> > On Wed, 2019-06-19 at 11:23 -0700, Alistair Francis wrote:
+> > > On Wed, Jun 19, 2019 at 7:42 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > On Wed, Jun 19, 2019 at 10:30 PM Alistair Francis <alistair23@gmail.com> wrote:
+> > > > > On Wed, Jun 19, 2019 at 7:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > > > >  pc-bios/opensbi-riscv32-fw_jump.elf | Bin 0 -> 197988 bytes
+> > > > > > >  pc-bios/opensbi-riscv64-fw_jump.elf | Bin 0 -> 200192 bytes
+> > > > > >
+> > > > > > Since we are considering adding "bios" images, I prefer to add the
+> > > > > > pure binary images instead of ELF images here.
+> > > > >
+> > > > > I didn't think about that. Can we just boot them in QEMU like we do
+> > > > > with the ELFs?
+> > > >
+> > > > Yes, use load_image_targphys() instead of load_elf().
+> > >
+> > > Ah, that is obvious. I'll update it to use the bin files then.
+> >
+> > I'm unclear on the advantages of using one format over the other,
+>
+> The main one that I see is that everyone else is already using .bin
+> and no one else is using .elf.
+>
+> > but one question comes to mind: once this is in, we will probably
+> > want to have OpenSBI packaged separately in distributions, the same
+> > way it already happens for SeaBIOS, SLOF and edk2-based firmwares.
+> >
+> > Will using either of the formats prevent that from happening?
+>
+> Both options allow this.
+>
+> OE-Core already packages OpenSBI by default, Fedora and Debian are
+> moving to OpenSBI for RISC-V targets as well.
 
---jUd34K9YbIIsP8kaq1N5D5DQfmTAODhLw
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 20.06.19 03:03, John Snow wrote:
-> With the "never" sync policy, we actually can utilize readonly bitmaps
-> now. Loosen the check at the QMP level, and tighten it based on
-> provided arguments down at the job creation level instead.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  block/backup.c | 6 ++++++
->  blockdev.c     | 4 ++--
->  2 files changed, 8 insertions(+), 2 deletions(-)
-
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-
-
---jUd34K9YbIIsP8kaq1N5D5DQfmTAODhLw--
-
---dpAJXZsqnWGraCwk5GIHigt5QKjcuPuVc
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0L0mAACgkQ9AfbAGHV
-z0Abvgf/aYAMwa9EfYw31SIFbXUOvnXq0mqkOV4301g5enS6CQYeUqlPrFsTW+v/
-UKoiQE3yk/sLLdSNtMrXdyfjUCY4qUxNckf7YVnkWOIWJovWoSDvIr1fi9WQth9O
-jSrLSwHm3Jr0e5wUqJgXa0CVzNciQt4OlpdEl52aQlz7wzKkQdenS+zyFJcpiBS9
-CiSKXiq/RUhHgu+LV1OzT8kdUwl+olwyFc+3oBABVK+VOY2jX9y0nkWpVqoczjXC
-pMtuMV9vvlYEPzoDBjKMpXMxVueGW4ol4eHnYTyzL2GpMwS54YQwOAV//jH5Cedr
-r8iLQ3z8HR7LBbDXUxC4kPSBQ1QZGw==
-=u0Z3
------END PGP SIGNATURE-----
-
---dpAJXZsqnWGraCwk5GIHigt5QKjcuPuVc--
+Fedora uses OpenSBI for the last 2 or 3 months now. I don't plan to update
+BBL builds. OpenSBI packages in Fedora/RISCV isn't finalized, but it does
+ship *.elf and *.bin files.
+>
+> Any distro that supports the RISC-V toolchain (which is all
+> upstreamed) can build OpenSBI.
+>
+> Alistair
+>
+> >
+> > --
+> > Andrea Bolognani / Red Hat / Virtualization
+> >
+>
 
