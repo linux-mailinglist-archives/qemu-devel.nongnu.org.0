@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03124C975
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:28:23 +0200 (CEST)
-Received: from localhost ([::1]:44808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5970A4C980
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:31:53 +0200 (CEST)
+Received: from localhost ([::1]:44864 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdsQh-0000U7-52
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:28:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57563)
+	id 1hdsU4-0004DI-G8
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:31:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58809)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hdsGd-0001oZ-Tc
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:18:01 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hdsIN-0003mf-C7
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:19:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hds5m-00049h-Nf
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:06:47 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51404)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hds5g-0003zI-L3
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:06:43 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 207so2055272wma.1
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 01:06:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jCzA0nC6mmp8cPZAQXRevYLZy6uzv5Hh3scRQ58zViw=;
- b=JTXwOmTLGe4ZfE19FSuhLxLZWyaHZQgxUd10LuVP3CTdfpKxpZEAE4wppbILgof+0o
- OTes3GJw3yqOLjUpT/4CzqbZ8+a5+TKSavxMNiEJoY70O4v21qNez/Ui9UDm71+N1VWt
- 73kKn+vsCEYkbqVVYuAy1w3AWBQclKEdL2vLLI7nqsa71g23NhiHPPLB4FWG6JNLqMDV
- HSGRdV0AelVAxPXCclapWXxnSoX+xh2M9jaIOl1WFTwJ8rDRLJ1iS1RQVM8R8DX1y3Ai
- X9FSGH7WjwiNkA+JCaL8hBi10CIiCG8CPZvOmC9rD4JmGLis5yDDzqSM8ED9kZreS573
- RPxA==
-X-Gm-Message-State: APjAAAVYC9wpBP3JucKJFN7Oh6ZESxdj5IX31dz8+rZNR6UuyP+RU7no
- UgTkmZJSvbBM2pXnkLmt6ii2kQ==
-X-Google-Smtp-Source: APXvYqxpTvHEZnTx0H3RqawRRzHye7oZqPqECXeLC0l5HfzENIA5vF5U9Sb6bjNkWZ1PNR+iB2I5ZQ==
-X-Received: by 2002:a7b:c206:: with SMTP id x6mr1648140wmi.156.1561017989422; 
- Thu, 20 Jun 2019 01:06:29 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id h90sm38598020wrh.15.2019.06.20.01.06.28
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 01:06:28 -0700 (PDT)
-To: Lidong Chen <lidong.chen@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1560806687.git.lidong.chen@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <2c9caa60-61c0-3611-8a37-c3168bd8d1a6@redhat.com>
-Date: Thu, 20 Jun 2019 10:06:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <yan.y.zhao@intel.com>) id 1hdsIL-0004fh-DT
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:19:47 -0400
+Received: from mga04.intel.com ([192.55.52.120]:57182)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hdsIK-0004c9-Am
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:19:45 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2019 01:19:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,396,1557212400"; d="scan'208";a="150860441"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by orsmga007.jf.intel.com with ESMTP; 20 Jun 2019 01:19:38 -0700
+Date: Thu, 20 Jun 2019 04:13:46 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Message-ID: <20190620081345.GC9303@joy-OptiPlex-7040>
+References: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
+ <39c4c32b-e34a-8d8f-abbc-ab346ec5bed7@redhat.com>
+ <20190620040230.GB9073@xz-x1>
+ <20190620041400.GB9303@joy-OptiPlex-7040>
+ <20190620081437.GA11135@xz-x1>
 MIME-Version: 1.0
-In-Reply-To: <cover.1560806687.git.lidong.chen@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [Qemu-devel PATCH v3 0/2] fix incorrect assertions
- in sd and main-loop
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190620081437.GA11135@xz-x1>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.120
+Subject: Re: [Qemu-devel] [PATCH] memory: do not do out of bound notification
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,46 +61,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, berrange@redhat.com, liq3ea@gmail.com,
- f4bug@amsat.org, armbru@redhat.com, darren.kenny@oracle.com,
- liran.alon@oracle.com, marcandre.lureau@gmail.com, amarkovic@wavecomp.com,
- pbonzini@redhat.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Auger Eric <eric.auger@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/19/19 9:14 PM, Lidong Chen wrote:
-> This v3 added Philippe's Reviewed-by in patch2 (main-loop.c) 
+On Thu, Jun 20, 2019 at 04:14:37PM +0800, Peter Xu wrote:
+> On Thu, Jun 20, 2019 at 12:14:00AM -0400, Yan Zhao wrote:
+> > On Thu, Jun 20, 2019 at 12:02:30PM +0800, Peter Xu wrote:
+> > > On Wed, Jun 19, 2019 at 03:17:41PM +0200, Auger Eric wrote:
+> > > > Hi Yan,
+> > > > 
+> > > > [+ Peter]
+> > > > 
+> > > > On 6/19/19 10:49 AM, Yan Zhao wrote:
+> > > > > even if an entry overlaps with notifier's range, should not map/unmap
+> > > > > out of bound part in the entry.
+> > > > 
+> > > > I don't think the patch was based on the master as the trace at the very
+> > > > end if not part of the upstream code.
+> > > > > 
+> > > > > This would cause problem in below case:
+> > > > > 1. initially there are two notifiers with ranges
+> > > > > 0-0xfedfffff, 0xfef00000-0xffffffffffffffff,
+> > > > > IOVAs from 0x3c000000 - 0x3c1fffff is in shadow page table.
+> > > > > 
+> > > > > 2. in vfio, memory_region_register_iommu_notifier() is followed by
+> > > > > memory_region_iommu_replay(), which will first call address space unmap,
+> > > > > and walk and add back all entries in vtd shadow page table. e.g.
+> > > > > (1) for notifier 0-0xfedfffff,
+> > > > >     IOVAs from 0 - 0xffffffff get unmapped,
+> > > > >     and IOVAs from 0x3c000000 - 0x3c1fffff get mapped
+> > > > 
+> > > > While the patch looks sensible, the issue is the notifier scope used in
+> > > > vtd_address_space_unmap is not a valid mask (ctpop64(size) != 1). Then
+> > > > the size is recomputed (either using n = 64 - clz64(size) for the 1st
+> > > > notifier or n = s->aw_bits for the 2d) and also the entry (especially
+> > > > for the 2d notifier where it becomes 0) to get a proper alignment.
+> > > > 
+> > > > vtd_page_walk sends notifications per block or page (with valid
+> > > > addr_mask) so stays within the notifier.
+> > > > 
+> > > > Modifying the entry->iova/addr_mask again in memory_region_notify_one
+> > > > leads to unaligned start address / addr_mask. I don't think we want that.
+> > > > 
+> > > > Can't we modity the vtd_address_space_unmap() implementation to split
+> > > > the invalidation in smaller chunks instead?
+> > > 
+> > > Seems workable, to be explicit - we can even cut it into chunks with
+> > > different size to be efficient.  Like, this range:
+> > > 
+> > >   0x0e00_0000 - 0x1_0000_0000 (size 0xf200_0000)
+> > > 
+> > > can be one of this:
+> > > 
+> > >   0x0e000000 - 0x1000_0000 (size 0x0200_0000)
+> > > 
+> > > plus one of this:
+> > > 
+> > >   0x1000_0000 - 0x1_0000_0000 (size 0xf000_0000)
+> > > 
+> > > Yan, could you help explain the issue better on how to reproduce and
+> > > what's the error when the problem occurs?  For example, is that
+> > > happened when a device hot-plugged into an existing VFIO container
+> > > (with some mapped IOVAs)?  Did you get host DMA errors later on?
+> > > 
+> > > Thanks,
+> > > 
+> > > -- 
+> > > Peter Xu
+> > 
+> > Hi Peter
+> > it happens when there's an RMRR region in my guest iommu driver.
+> 
+> Do you mean a RMRR region in the ACPI table?  AFAIK current QEMU VT-d
+> does not have RMRR at all, so that's a customized QEMU?
 
-Thanks.
-
-> I also included Philippe's previous comment about patch1 (sd.c)
-> in this cover: 
-> 
-> --------
-> Not sure via which tree this patch is going (trivial?).
-> To the maintainer, please consider adding when applying:
-> 
-> "This access can not happen. Fix to silent static analyzer warnings."
-
-What I asked you is to add this in the patch1 description.
-If you were not to respin, then I'd ask the maintainer who takes this
-series to amend this comment to the patch.
+it can be a customized QEMU with RMRR region in ACPI table. or simply
+hardcode in guest kernel.
 
 > 
-> As confirmed by Lidong in v1 here:
-> https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg01337.html
+> > if not adding this range check, IOVAs in this region would be unmapped and DMA
+> > faults are met in host.
 > 
-> Thanks,
+> I see, thanks.
 > 
-> Phil.
-> -------
-> 
-> Lidong Chen (2):
->   sd: Fix out-of-bounds assertions
->   util/main-loop: Fix incorrect assertion
-> 
->  hw/sd/sd.c       | 4 ++--
->  util/main-loop.c | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
-> 
+> -- 
+> Peter Xu
 
