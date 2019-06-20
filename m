@@ -2,49 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D19E4CB42
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:45:04 +0200 (CEST)
-Received: from localhost ([::1]:45446 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67264CB49
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:47:06 +0200 (CEST)
+Received: from localhost ([::1]:45476 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdtct-0006sH-Hg
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:45:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44569)
+	id 1hdter-0000i8-Rk
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:47:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45693)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hdtE8-0003Wi-DY
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:19:29 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdtEn-0004P7-UM
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:20:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hdt6A-0005dU-Fa
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:11:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57718)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdtEl-0000kZ-Fk
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:20:08 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:35317 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hdt6A-0005cK-9W
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:11:14 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 41239316290E
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 09:11:08 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6EB1618966;
- Thu, 20 Jun 2019 09:11:07 +0000 (UTC)
-Date: Thu, 20 Jun 2019 11:11:03 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>
-Message-ID: <20190620111103.297277bc@redhat.com>
-In-Reply-To: <20190619132924.GA32240@localhost.localdomain>
-References: <20190618142931.1694-1-imammedo@redhat.com>
- <20190619132924.GA32240@localhost.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 20 Jun 2019 09:11:08 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] qmp: make qmp-shell work with python3
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hdtEl-0000iF-4W
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:20:07 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 7BAD91A4167;
+ Thu, 20 Jun 2019 11:20:03 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 4B4291A23C4;
+ Thu, 20 Jun 2019 11:20:03 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 20 Jun 2019 11:19:52 +0200
+Message-Id: <1561022396-20649-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH 0/4] target/mips: Misc fixes and maintenance
+ for 4.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,56 +49,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org
+Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 19 Jun 2019 09:29:24 -0400
-Cleber Rosa <crosa@redhat.com> wrote:
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-> On Tue, Jun 18, 2019 at 10:29:31AM -0400, Igor Mammedov wrote:
-> > python3 doesn't have raw_input(), so qmp-shell breaks.
-> > Use input() instead and override it with raw_input()
-> > if running on python2.
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >  scripts/qmp/qmp-shell | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-> > index 7776c7b141..8c49b39afa 100755
-> > --- a/scripts/qmp/qmp-shell
-> > +++ b/scripts/qmp/qmp-shell
-> > @@ -308,7 +308,11 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-> >          @return True if execution was ok, return False if disconnected.
-> >          """
-> >          try:
-> > -            cmdline = raw_input(prompt)
-> > +            try: # attempt to set Python2 override
-> > +               import __builtin__;
-> > +               getattr(__builtin__, 'raw_input', input)
-> > +            except ModuleNotFoundError: pass  
-> 
-> Something like:
-> 
->    if sys.version_info[0] == 2:
->        input = raw_input
-> 
-> Also does the job, and may be considered simpler and easier to read.
+This series contains miscelaneous fixes, improvements, and
+maintainance items intended to be integrated into QEMU 4.1.
+I will gradually add patches by the end of June 2019.
 
-that causes scope issues on python3
+v1->v2:
 
-> 
-> - Cleber.
-> 
-> > +            cmdline = input(prompt)
-> >          except EOFError:
-> >              print()
-> >              return False
-> > -- 
-> > 2.18.1
-> >   
-> 
+  - added two patches on cleaning checkpatch warnings
+
+Aleksandar Markovic (4):
+  MAINTAINERS: Update file items for MIPS Malta board
+  MAINTAINERS: Consolidate MIPS disassembler-related items
+  target/mips: Fix some space checkpatch errors in translate.c
+  target/mips: Fix if-else arms checkpatch errors in translate.c
+
+ MAINTAINERS             |   6 +-
+ target/mips/translate.c | 232 +++++++++++++++++++++++++++---------------------
+ 2 files changed, 133 insertions(+), 105 deletions(-)
+
+-- 
+2.7.4
 
 
