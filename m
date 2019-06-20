@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D535B4D024
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 16:16:00 +0200 (CEST)
-Received: from localhost ([::1]:48090 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C9E4D010
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 16:11:08 +0200 (CEST)
+Received: from localhost ([::1]:48020 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdxr6-0002yj-3a
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 10:16:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33127)
+	id 1hdxmN-0006Kq-PB
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 10:11:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33167)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pranith.foss@gmail.com>) id 1hdxgn-0003Nv-DG
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:05:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1hdxgP-0003O0-0A
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:05:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pranith.foss@gmail.com>) id 1hdxVe-0007bY-GB
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:55:39 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:40327)
+ (envelope-from <philmd@redhat.com>) id 1hdxXI-0008UH-R1
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:57:21 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39909)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pranith.foss@gmail.com>)
- id 1hdxVb-0007X5-Fs
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:53:48 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id i14so1258130ybp.7
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 06:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Flb6jxOPCU7jr8xaxPeezkHCJjR+kusDgoDhgZjK42E=;
- b=lauvP1x7SmH31WEt+RXIeCW5W01btedli5EZ57QT02agvP53cPpHzED3+iQOyNVNMG
- 5rkDX5yICcCHAw0d/FvzvVl8N28c27BLnlWgCAf6lSU/p1/es5G2C0pDRd+0OSTx9qTW
- Xd7O/q+FIj9mchkBPlVjtYbeuWGs30gnPLU8yZt++9BzljKf2waTz626GitHlaihIcb5
- MWH2D8SZ/sRaqiRYMSdyU3bIrzC2FVuLBKzHvtivImdPYoFTH7uWOqYwL0J/VBnWIau6
- yZaSnAQ1MV4yLGYKbtDCEaRRZ3ot5zv/H3UAV9h5pxlG2fnj5hUlcfOxasmcXAmjKmBk
- vRCA==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hdxXI-0008Tj-Id
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:55:32 -0400
+Received: by mail-wm1-f68.google.com with SMTP id z23so3279879wma.4
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 06:55:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Flb6jxOPCU7jr8xaxPeezkHCJjR+kusDgoDhgZjK42E=;
- b=l6N/Q+37814nrJqTVe+ALgQRcq0nB76q4BA4bF483YoS+MpDjGbmdYZCb9O2eB8muR
- DTt0pM6W+t5iUPJFMmhhiYa2iBbhTEvRawzY+eyOj1fS+/d+7Xoi6CW/MOOa53Y29ZXf
- oMB2YmHCKCvfqX8H1zA04ANPTfOfQfo5cIuzqND6NrQz0DGvYmnCxT1d0+5ghKW66Hpo
- ylpP58QLu9fQrPeVpY4ET4fMO4eQ2FTuLEkCXAugk6IZR11qhUZQUZMIHOkjwKrGr02Y
- ktIpygBe8KcG7lh4U2CRGEbsxNrs+K+7PnyRVmM220dDXRGQznVKKyHhAYwpNf05mGSR
- 1e/A==
-X-Gm-Message-State: APjAAAWAl58P0XkrDw0I7TlsqQh2QmyLEOhpex3Z02XXs8Drds+QlINI
- 2DHEWIO4WAc3xmSlRjspiYWZZLZ7I2k2s1tMgiI=
-X-Google-Smtp-Source: APXvYqzaA0jrzZQ6vrGX2doUraWSBwdpRL2Nl/YcdzypInJ0nsMfNvN/WBHm84ZmkPi7IGY3O05FZNH9Ga/WFOxKZvE=
-X-Received: by 2002:a5b:706:: with SMTP id g6mr64101213ybq.316.1561038822420; 
- Thu, 20 Jun 2019 06:53:42 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nhVe87aMDdw5myT9bafXi1N4z3PHZ8boKUSs+9mzcLo=;
+ b=AS01VXRKs7h15dI0/HnGoeQ2+ifRTZp/17steAcBrEiPrfn5O6k3wKekSM6iZbmewJ
+ shCxj9angcMFD8UBAaodxeLgOYwnsDnTuqcyBT10VlUV3BGNwOLGrQeTGgHO6ocXD4k8
+ lj/v/R9I2S1s4cJQb7oT47t1/ehVSNWZf6qbn7Edsdn4sF6MY2NKnWRWpOQtqu5b5EWl
+ u9J1NzhOlgrc4eXiVFdKuZWZlWfuImiaNwNWuSbcJQij9xlEzwkMlY5DOwVMyTpsUlTN
+ y2jhykOTF3FJLGNvEe36eWn1Dn1W1U1znKHVv1blY4ZSP6nwuJ3aqMBV4ygZj7f1sTxZ
+ dAUg==
+X-Gm-Message-State: APjAAAUiyc4OeXv/nIzd32RkyEdVG7BEo1UAUVywUM0k8RiwYBz8Zk1k
+ xQw8EcqeVSC9Aw9+/1xNescRWA==
+X-Google-Smtp-Source: APXvYqzHMJdYtjcm7+vIq4oo3sHB9Eci4xnuAVlEdTxs3FHHMnm+xGdS+eHtkXfPHJTf35mOjgvUSg==
+X-Received: by 2002:a1c:2284:: with SMTP id i126mr2883027wmi.145.1561038931530; 
+ Thu, 20 Jun 2019 06:55:31 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id y6sm5597652wmd.16.2019.06.20.06.55.30
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Jun 2019 06:55:30 -0700 (PDT)
+To: qemu-devel@nongnu.org, Laszlo Ersek <lersek@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
+References: <20190620122132.10075-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <af0ee25d-50fb-5985-d0fe-a2b7e9a7d8ba@redhat.com>
+Date: Thu, 20 Jun 2019 15:55:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190614171200.21078-1-alex.bennee@linaro.org>
-In-Reply-To: <20190614171200.21078-1-alex.bennee@linaro.org>
-From: Pranith Kumar <bobby.prani@gmail.com>
-Date: Thu, 20 Jun 2019 06:53:30 -0700
-Message-ID: <CADYwmhFw8ujwz+NN9prKc+Za6=dD1aN==JnKmC0gnr4V7LPU4w@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b43
-Subject: Re: [Qemu-devel] [PATCH v3 00/50] tcg plugin support
+In-Reply-To: <20190620122132.10075-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH RESEND v5 0/3] fw_cfg: Add
+ edk2_add_host_crypto_policy()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,98 +75,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G. Cota" <cota@braap.org>, qemu-devel@nongnu.org, rth@twiddle.net
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex/Emilio,
+Cc'ing Igor (suggested by Laszlo, for his QOM experience on
+UserCreatableClass).
 
-I am really happy to see the progress you made on the plugin feature. Looki=
-ng
-forward to seeing it merged soon! Please CC me on future versions of the
-patchset. I am happy to help review and contribute to this effort.
-
-I have a few general comments from experience writing a very similar system
-(qsim) below.
-
-On Fri, Jun 14, 2019 at 10:23 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->
+On 6/20/19 2:21 PM, Philippe Mathieu-Daudé wrote:
 > Hi,
->
-> This is v3 of the proposed plugins API for QEMU. As Emilio is busy
-> having finished his time at Columbia I have volunteered to take the
-> patch series forward. Emilio's RFC v2 was posted last year:
->
->   Subject: [RFC v2 00/38] Plugin support
->   Date: Sun,  9 Dec 2018 14:37:11 -0500
->   Message-Id: <20181209193749.12277-1-cota@braap.org>
->
-
-* Register and memory read/write API
-
-  It would be great to have register and memory read/write API i.e., abilit=
-y
-  to read/write to registers/memory from within the callback. This gives th=
-e
-  plugin ability to do system introspection. (Not sure if the current patch=
-set
-  implements this already).
-
-* Register callbacks
-
-  A callback needs to be invoked whenever a specified registers is read or
-  written to.
-
-* Where do new plugins live in the tree?
-
-  The current source files in plugins (api, core etc.,) I think are better =
-if
-  moved to tcg/plugins/.  The various plugins we write would then live in t=
-he
-  plugins/ folder instead of the current tests/plugin/ folder.
-
-* Timer interrupts
-
-  What I observed is that the system execution is affected by what you do i=
-n
-  the callbacks because of timer interrupts. For example, if you spend time=
- in
-  the memory callback doing a bit of processing and writing to a file, you
-  will see more timer interrupt instructions. One solution to this would be=
- to
-  use 'icount', but it does not work that well. I think we need to do
-  something similar to what gdb does in debug mode. How would you handle MT=
-TCG
-  guests in that case?
-
-  Another approach would be to offload callback generation to a separate
-  plugin thread. The main thread will copy data required by a callback and
-  invoke the callback asynchronously (std::async in C++ if you are familiar=
-).
-
-* Starting and stopping callback generation
-
-  It would be great if we have a mechanism to dynamically start/stop callba=
-cks
-  when a sequence of code (magic instruction) is executed. This would be
-  useful to annotate region-of-interest (ROI) in benchmarks to
-generate callbacks.
-
-  Also, the return value from a callback can be used to decide further cour=
-se
-  of action. For example, if our plugin needs 10000 callbacks, it can indic=
-ate
-  to stop generating further callbacks in the return value of the callback
-  once it got the necessary callbacks.
-
-* State saving API
-
-  An API to save the state of the VM from the plugin code.
-
-Let me know your thoughts and any other ideas you might have.
-
-Thanks,
---
-Pranith
+> 
+> This series add edk2_add_host_crypto_policy() and the Edk2Crypto object.
+> 
+> The Edk2Crypto object is used to hold configuration values specific
+> to EDK2.
+> 
+> So far only the 'https' policy is supported.
+> 
+> A usercase example is the 'HTTPS Boof' feature of OVMF [*].
+> 
+> Usage example:
+> 
+> $ qemu-system-x86_64 \
+>     --object edk2_crypto,id=https,\
+>         ciphers=/etc/crypto-policies/back-ends/openssl.config,\
+>         cacerts=/etc/pki/ca-trust/extracted/edk2/cacerts.bin
+> 
+> (On Fedora these files are provided by the ca-certificates and
+> crypto-policies packages).
+> 
+> [*]: https://github.com/tianocore/edk2/blob/master/OvmfPkg/README
+> 
+> Since v4:
+> - Addressed Laszlo comments (see patch#1 description)
+> Since v3:
+> - Addressed Markus' comments (do not care about heap)
+> Since v2:
+> - Split of
+> Since v1:
+> - Addressed Michael and Laszlo comments.
+> 
+> Please review,
+> 
+> Phil.
+> 
+> $ git backport-diff -u fw_cfg_edk2_crypto_policies-v3
+> Key:
+> [####] : number of functional differences between upstream/downstream patch
+> The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
+> 
+> 001/3:[0164] [FC] 'hw/firmware: Add Edk2Crypto and edk2_add_host_crypto_policy()'
+> 002/3:[----] [--] 'hw/i386: Use edk2_add_host_crypto_policy()'
+> 003/3:[----] [--] 'hw/arm/virt: Use edk2_add_host_crypto_policy()'
+> 
+> v4: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04300.html
+> v3: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg02965.html
+> v2: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg02522.html
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01598.html
+> 
+> Philippe Mathieu-Daudé (3):
+>   hw/firmware: Add Edk2Crypto and edk2_add_host_crypto_policy()
+>   hw/i386: Use edk2_add_host_crypto_policy()
+>   hw/arm/virt: Use edk2_add_host_crypto_policy()
+> 
+>  MAINTAINERS                             |   2 +
+>  hw/Makefile.objs                        |   1 +
+>  hw/arm/virt.c                           |   7 +
+>  hw/firmware/Makefile.objs               |   1 +
+>  hw/firmware/uefi_edk2_crypto_policies.c | 209 ++++++++++++++++++++++++
+>  hw/i386/pc.c                            |   7 +
+>  include/hw/firmware/uefi_edk2.h         |  30 ++++
+>  7 files changed, 257 insertions(+)
+>  create mode 100644 hw/firmware/Makefile.objs
+>  create mode 100644 hw/firmware/uefi_edk2_crypto_policies.c
+>  create mode 100644 include/hw/firmware/uefi_edk2.h
+> 
 
