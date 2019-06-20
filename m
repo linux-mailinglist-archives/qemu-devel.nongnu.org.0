@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC98E4D273
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:52:12 +0200 (CEST)
-Received: from localhost ([::1]:49686 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26984D25B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:42:59 +0200 (CEST)
+Received: from localhost ([::1]:49512 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdzMB-0002Ec-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48891)
+	id 1hdzDH-0003Ed-4V
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49055)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hdyzN-0000ij-LY
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:28:38 -0400
+ (envelope-from <mst@redhat.com>) id 1hdz02-0001GV-LH
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:29:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hdyzM-0002Bp-I8
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:28:37 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:41468)
+ (envelope-from <mst@redhat.com>) id 1hdyzz-0003F3-Ml
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:29:17 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:43858)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hdyzM-0002BJ-CV
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:28:36 -0400
-Received: by mail-qt1-f194.google.com with SMTP id d17so3557946qtj.8
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:28:36 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hdyzz-000354-Ft
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:29:15 -0400
+Received: by mail-qt1-f195.google.com with SMTP id w17so3560902qto.10
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:29:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=OXpyqTPfcCFAyup/Rem/hnqL4o2lUHl+0SS7S+RDPtQ=;
- b=joc3lXTG+TNXpLO0RnXLzXGMUdT5jHVMra2tgaIHPfC8slpGzYJAHR45Nd+6STpvl2
- IWyze5QoWE8pLE83RmyD28OVZ7Z+sspeoP7gEr4JEGwAck+bWVqW9kF8AR6MIsz9wy2C
- CFXG19ptByDyUR+KSYzl2y7MITWUe3AwEi24ereNhaPFRFzcXxm6jJFuzQJv4r/wQQV4
- 3BSFKYbUkeEM1+fdkH9PNsxQB1yqTOXgOBOQDCQB0FfSKEnXW9dprffHhLoNHEdXlPVF
- 8IQRCXC6WPa3MsZn7HDC3NAcfqzJnAdGTBdyb5l12WhiFqWbwC6WndR+l+E5Tn22XgRI
- dlHw==
-X-Gm-Message-State: APjAAAUDc4Ce3mqu75IVM5HR3VFSCWs6xXt+yxdHAdCeioMynl6nKEZX
- dpDR7oftb5Vh5IHpKgRWBLL9GA==
-X-Google-Smtp-Source: APXvYqw6U+ujCDYl8JDjyAvOha99GgNxtK3nTZ98iWonOXXm4upHK15s2RBeRUfwLEN01Xt787R1xQ==
-X-Received: by 2002:ac8:323a:: with SMTP id x55mr21388069qta.211.1561044515947; 
- Thu, 20 Jun 2019 08:28:35 -0700 (PDT)
-Received: from redhat.com ([64.63.146.106])
- by smtp.gmail.com with ESMTPSA id j66sm12441042qkf.86.2019.06.20.08.28.34
+ bh=66vLEJcM7c6Ep0GWTtMY1vHR3Uhe7+FRj6/BTTNykpU=;
+ b=ssXn28PcMDoinbo7QpC+I9ota9H0ZZPX7sj/WI7c+4azVw7kYCF5GdVhNGehRY6Bmq
+ 3SCJzxQD4JxooTcgHeAQMPMa8bBlxeLfkdIMia6DNpM99PH1FweBHp33jI6Bo8r6Fhgl
+ AuncMQen/+OU7LOV75vMwCBOZupBOnMeNFfJS7XfK2FsoJo609AM7FZwBpomIFOQ4Sgn
+ b2w5J8+QlGmkHMlvARYqV7LxZpgQomdTlKCO8w6Qxs3vm7VrgvKyNEJDOpU7WyfXC52G
+ xNtW5ktGKcm7q08cwilHUvewdH9BFhbCi45ML0ze4quI2D7oRTWTY7C5vVVUxqXbe7vD
+ wvlQ==
+X-Gm-Message-State: APjAAAVzQkPAgAJTM2t5pPNo4y8NS92iuaoKdwi5XlGQ6sZld1KO4//0
+ JpJ7gCGvJKQf5jPWH2IpMNoTxw==
+X-Google-Smtp-Source: APXvYqxugr5bD/uY7lQvjgwQjgESKc22Rg9fEIHfFOndZ8gi3MhgZvAJPFXwICtfeMN624qAMoTrXw==
+X-Received: by 2002:ac8:444c:: with SMTP id m12mr16690819qtn.306.1561044549837; 
+ Thu, 20 Jun 2019 08:29:09 -0700 (PDT)
+Received: from redhat.com (173-166-0-186-newengland.hfc.comcastbusiness.net.
+ [173.166.0.186])
+ by smtp.gmail.com with ESMTPSA id j22sm7730qtp.0.2019.06.20.08.29.08
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 20 Jun 2019 08:28:35 -0700 (PDT)
-Date: Thu, 20 Jun 2019 11:28:32 -0400
+ Thu, 20 Jun 2019 08:29:08 -0700 (PDT)
+Date: Thu, 20 Jun 2019 11:29:06 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190620112805-mutt-send-email-mst@kernel.org>
+Message-ID: <20190620112844-mutt-send-email-mst@kernel.org>
 References: <20190613143446.23937-1-philmd@redhat.com>
- <20190613143446.23937-3-philmd@redhat.com>
+ <20190613143446.23937-4-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190613143446.23937-3-philmd@redhat.com>
+In-Reply-To: <20190613143446.23937-4-philmd@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.160.194
-Subject: Re: [Qemu-devel] [PATCH v2 02/20] hw/i386/pc: Use size_t type to
- hold/return a size of array
+X-Received-From: 209.85.160.195
+Subject: Re: [Qemu-devel] [PATCH v2 03/20] hw/i386/pc: Let e820_add_entry()
+ return a ssize_t type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,52 +79,46 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 13, 2019 at 04:34:28PM +0200, Philippe Mathieu-Daudé wrote:
+On Thu, Jun 13, 2019 at 04:34:29PM +0200, Philippe Mathieu-Daudé wrote:
+> e820_add_entry() returns an array size on success, or a negative
+> value on error.
+
+So what's wrong with int? Does it overflow somehow?
+
+> 
 > Reviewed-by: Li Qiang <liq3ea@gmail.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Motivation? do you expect more than 2^31 entries?
-
 > ---
->  hw/i386/pc.c         | 4 ++--
+>  hw/i386/pc.c         | 2 +-
 >  include/hw/i386/pc.h | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index bb3c74f4ca..ff0f6bbbb3 100644
+> index ff0f6bbbb3..5a7cffbb1a 100644
 > --- a/hw/i386/pc.c
 > +++ b/hw/i386/pc.c
-> @@ -105,7 +105,7 @@ struct e820_table {
->  
->  static struct e820_table e820_reserve;
->  static struct e820_entry *e820_table;
-> -static unsigned e820_entries;
-> +static size_t e820_entries;
->  struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
->  
->  /* Physical Address of PVH entry point read from kernel ELF NOTE */
-> @@ -901,7 +901,7 @@ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
->      return e820_entries;
+> @@ -872,7 +872,7 @@ static void handle_a20_line_change(void *opaque, int irq, int level)
+>      x86_cpu_set_a20(cpu, level);
 >  }
 >  
-> -int e820_get_num_entries(void)
-> +size_t e820_get_num_entries(void)
+> -int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+> +ssize_t e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
 >  {
->      return e820_entries;
->  }
+>      unsigned int index = le32_to_cpu(e820_reserve.count);
+>      struct e820_entry *entry;
 > diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index 3b3a0d6e59..fc29893624 100644
+> index fc29893624..c56116e6f6 100644
 > --- a/include/hw/i386/pc.h
 > +++ b/include/hw/i386/pc.h
-> @@ -290,7 +290,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+> @@ -289,7 +289,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>  #define E820_NVS        4
 >  #define E820_UNUSABLE   5
 >  
->  int e820_add_entry(uint64_t, uint64_t, uint32_t);
-> -int e820_get_num_entries(void);
-> +size_t e820_get_num_entries(void);
+> -int e820_add_entry(uint64_t, uint64_t, uint32_t);
+> +ssize_t e820_add_entry(uint64_t, uint64_t, uint32_t);
+>  size_t e820_get_num_entries(void);
 >  bool e820_get_entry(unsigned int, uint32_t, uint64_t *, uint64_t *);
 >  
->  extern GlobalProperty pc_compat_4_0_1[];
 > -- 
 > 2.20.1
 
