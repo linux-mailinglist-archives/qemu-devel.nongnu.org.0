@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3B54CAD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:27:54 +0200 (CEST)
-Received: from localhost ([::1]:45222 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BB34CAEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:33:21 +0200 (CEST)
+Received: from localhost ([::1]:45276 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdtMH-00026K-6K
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44825)
+	id 1hdtRY-0006ES-Ku
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:33:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49812)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hdtEK-0003jP-RD
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:19:43 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hdtEP-0003Ff-BU
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:19:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hdt1I-0008Qh-SQ
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:06:13 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:45098)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hdszj-0007E7-Sy
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:05:33 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:43598)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hdswS-0003xB-J2; Thu, 20 Jun 2019 05:01:12 -0400
+ id 1hdsur-0002GV-Q8; Thu, 20 Jun 2019 04:59:33 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5K8x7M5171103;
- Thu, 20 Jun 2019 09:01:10 GMT
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5K8wt8K170615;
+ Thu, 20 Jun 2019 08:59:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=content-type :
  mime-version : subject : from : in-reply-to : date : cc :
  content-transfer-encoding : message-id : references : to;
- s=corp-2018-07-02; bh=LaeeNML1WYL+wk4WBx6sCx7PDbr7BSO2H5ieMfek64w=;
- b=C//DTaIKA0Cw/yyyBTUcUtw6ZrXqibYRngYBPk2j9BhUrcI8Pu1RDrQD/uoUHhEgIJsn
- NadlqvTSvU9fNOzScio1AdauBq0h6JHF6RxB3IGoERE6APcedJ+w0bwiLOcYjO2oxyCV
- iyW+czSpPedG4YnJd6Fe6Hggab/t5p0WoAJsHBBIUAssegZTDvfqXl66AnVgNZ2futAP
- LImNScTGaj97ofRVCZ0+bPday+vywDFsOOoQmsR39lOUtSp3nQkMfTo85eqkguSP/r7C
- FH31ZoqgfFPMnTdLiHX/BAXxSKwCouIPC2m8pBxSYF+cumTzS8jRSUMgPRr0UB6MH/VV HA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2t7809fw65-1
+ s=corp-2018-07-02; bh=sNsSDf8hgxnENr5bve0ufzPqBfT3rSp1SMEFcctj3N4=;
+ b=Raf2cp3ZU0kPKc4nciwCNpEEwik1vD8UJWFl5Hi/GMDyttGXpJFrAv5lZzZ6gFrhk0fk
+ jfoMIaHlc9qB+J50/fgWBM6rziyUNE/jVH2LgGYiEqRGf6px8uLpB8bhkl6M2Xol2PAa
+ ooUHJedDRWfRo/JcMp9yo1EWQgxlkdLUtObCJUpXlFQOC9OSxPUcoG4SaN+fyUqe3BRu
+ WXBuZbVkpAD0ajakAJH1SiXugXyQvV2Dqmndo9C8cBZ2vWBdiU7TSdVeYdkwAyWi6t5e
+ avSqb3lzOHQVx8S5qmHRHLvyJ4Z1/ThQQ6L7Jtx2E8OH+nlDfUUnO38CqPeONw2smqIK yw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 2t7809fvuf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Jun 2019 09:01:10 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5K90VBL119295;
- Thu, 20 Jun 2019 09:01:10 GMT
+ Thu, 20 Jun 2019 08:59:32 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5K8xHV7046503;
+ Thu, 20 Jun 2019 08:59:31 GMT
 Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 2t77yp979e-1
+ by aserp3030.oracle.com with ESMTP id 2t7rdx2g47-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Jun 2019 09:01:10 +0000
+ Thu, 20 Jun 2019 08:59:31 +0000
 Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5K9183q015647;
- Thu, 20 Jun 2019 09:01:09 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5K8xT8H014500;
+ Thu, 20 Jun 2019 08:59:30 GMT
 Received: from [10.0.0.38] (/79.180.42.160)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 20 Jun 2019 01:52:15 -0700
+ with ESMTP ; Thu, 20 Jun 2019 01:52:47 -0700
 Content-Type: text/plain;
 	charset=utf-8
 Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
-In-Reply-To: <20190620054224.hfspxgorpd6mjxca@sirius.home.kraxel.org>
-Date: Thu, 20 Jun 2019 11:52:01 +0300
+In-Reply-To: <20190620055038.w7zwwxviqfp4vxvr@sirius.home.kraxel.org>
+Date: Thu, 20 Jun 2019 11:52:43 +0300
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <ECC27FB9-1975-4C78-9584-BC82BB7FA34B@oracle.com>
-References: <20190619092352.23583-1-shmuel.eiderman@oracle.com>
- <20190619092352.23583-5-shmuel.eiderman@oracle.com>
- <20190620054224.hfspxgorpd6mjxca@sirius.home.kraxel.org>
+Message-Id: <56B86010-3F22-4CCF-BBFA-2F40F419828B@oracle.com>
+References: <20190619092905.24029-1-shmuel.eiderman@oracle.com>
+ <156093697557.22612.8821990862661724517@ce79690b2cb9>
+ <20190620055038.w7zwwxviqfp4vxvr@sirius.home.kraxel.org>
 To: Gerd Hoffmann <kraxel@redhat.com>
 X-Mailer: Apple Mail (2.3445.104.11)
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
@@ -80,8 +80,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  definitions=main-1906200067
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 141.146.126.78
-Subject: Re: [Qemu-devel] [SeaBIOS] [PATCH v3 4/4] geometry: Apply LCHS
- values for boot devices
+Subject: Re: [Qemu-devel] [SeaBIOS] [QEMU] [PATCH v4 0/8] Add Qemu to
+ SeaBIOS LCHS interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,53 +94,49 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kevin@koconnor.net, liran.alon@oracle.com, karl.heubaum@oracle.com
+ seabios@seabios.org, QEMU <qemu-devel@nongnu.org>, mreitz@redhat.com,
+ kevin@koconnor.net, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-> On 20 Jun 2019, at 8:42, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> On 20 Jun 2019, at 8:50, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >=20
->> +static int
->> +overriden_lchs_supplied(struct drive_s *drive)
->> +{
->> +    return drive->lchs.cylinder || drive->lchs.head || =
-drive->lchs.sector;
->> +}
+>> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
+>> 1/8 Checking commit cf2168a66dbd (block: Refactor macros - fix =
+tabbing)
+>> ERROR: Macros with complex values should be enclosed in parenthesis
+>> #55: FILE: include/hw/block/block.h:65:
+>> +#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                   =
+   \
+>> +    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),               =
+   \
+>> +    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),             =
+   \
+>>     DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
 >=20
->> +    case TRANSLATION_MACHINE:
+> False positive.
 >=20
-> Hmm, why this name?  Doesn't look intuitive to me.
+>> 8/8 Checking commit 6664d7d898d5 (hd-geo-test: Add tests for lchs =
+override)
+>> WARNING: line over 80 characters
+>> #242: FILE: tests/hd-geo-test.c:579:
+>> +                     (char *)r->dev_path, &(r->chs.c), &(r->chs.h), =
+&(r->chs.s));
+>=20
+> Should be fixed.
 
-TRANSLATION_HOST?
+I=E2=80=99ll resubmit.
 
->=20
->> +        desc =3D "overriden";
->=20
-> I'd name that "host-supplied" or "fw-cfg=E2=80=9D.
-
-=E2=80=9Chost-supplied=E2=80=9D?
-
->=20
->> +        cylinders =3D drive->lchs.cylinder;
->> +        heads =3D drive->lchs.head;
->> +        if (heads > 255)
->> +            heads =3D 255;
->=20
-> I suggest to move these sanity checks to overriden_lchs_supplied(), =
-then
-> ignore the override altogether when heads or sectors is out of range
-> instead of trying to fixup things.
-
-Sounds reasonable.
-I=E2=80=99ll rename to host_lchs_supplied()?
-
-WDYT?
+Sam
 
 >=20
-> The other patches look all sane to me.
+>> WARNING: Block comments use a leading /* on a separate line
+>> #640: FILE: tests/hd-geo-test.c:995:
+>> +                       "skipping hd-geo/override/* tests");
+>=20
+> False positive too.
 >=20
 > cheers,
 >  Gerd
