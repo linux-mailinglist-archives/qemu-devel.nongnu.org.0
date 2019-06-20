@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE454CD29
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:52:27 +0200 (CEST)
-Received: from localhost ([::1]:46570 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F454CDEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 14:45:57 +0200 (CEST)
+Received: from localhost ([::1]:47406 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdvcA-0001jk-1I
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55036)
+	id 1hdwRw-0004bC-8E
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 08:45:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33657)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hdvY8-00082C-AK
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:48:18 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hdw37-0001Vc-QU
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:20:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hdvXx-0004J9-1f
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:48:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41784)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>)
- id 1hdvXv-00046K-P7; Thu, 20 Jun 2019 07:48:03 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8528230BB559;
- Thu, 20 Jun 2019 11:47:28 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-212.ams2.redhat.com
- [10.36.116.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F7351001F54;
- Thu, 20 Jun 2019 11:47:23 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3E67717446; Thu, 20 Jun 2019 13:47:22 +0200 (CEST)
-Date: Thu, 20 Jun 2019 13:47:22 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-ID: <20190620114722.uaw33cmfsysmf6xh@sirius.home.kraxel.org>
-References: <20190619092352.23583-1-shmuel.eiderman@oracle.com>
- <20190619092352.23583-5-shmuel.eiderman@oracle.com>
- <20190620054224.hfspxgorpd6mjxca@sirius.home.kraxel.org>
- <ECC27FB9-1975-4C78-9584-BC82BB7FA34B@oracle.com>
+ (envelope-from <no-reply@patchew.org>) id 1hdvn1-00021l-Su
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:05:31 -0400
+Resent-Date: Thu, 20 Jun 2019 08:05:26 -0400
+Resent-Message-Id: <E1hdvn1-00021l-Su@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21540)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hdvn1-00020g-9v
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:03:39 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561031291; cv=none; d=zoho.com; s=zohoarc; 
+ b=l9UuArZBcbpqwTK1yeBM5SHNCPMe6xtuaTNo4ZpM/l1zAIdieHa1rAJYophWK0ymycT25DHsPsgpwAdDSjJ58xsAHWv90lrxBCjRU6Q7YH4IWrOWliMID0rPDHgAF5Yyxx7BzKFRNOn/1YlYTBp6KjYgG+f9tqk4VsPihFUtgq8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561031291;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=9dJCUKucPIlgIjLoRxlvJZp0QYuPYFhD4IrJU2TvAcU=; 
+ b=PeIitu7F/vrk29e1R1D693bETH2IO90zeSftZ9T4Jz3Jnodj084ctOzfyC51r+m64NVOdygohmj+/xftR7cUtbNg4RgfLReBVQLAnjv1Rg1ESIJqWXpH66c9r89azz0yGWWQMTgHm9PfotUPRwcJABePKMGw7AEQwshsrsLfDew=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561031290082234.56799315419744;
+ Thu, 20 Jun 2019 04:48:10 -0700 (PDT)
+In-Reply-To: <1561024929-26004-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-ID: <156103128907.29212.16492157818835353028@ce79690b2cb9>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ECC27FB9-1975-4C78-9584-BC82BB7FA34B@oracle.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 20 Jun 2019 11:47:52 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: aleksandar.markovic@rt-rk.com
+Date: Thu, 20 Jun 2019 04:48:10 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [SeaBIOS] [PATCH v3 4/4] geometry: Apply LCHS
- values for boot devices
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v3 0/4] target/mips: Misc fixes and
+ maintenance for 4.1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,56 +62,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- kevin@koconnor.net, liran.alon@oracle.com, karl.heubaum@oracle.com
+Reply-To: qemu-devel@nongnu.org
+Cc: arikalo@wavecomp.com, qemu-devel@nongnu.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 20, 2019 at 11:52:01AM +0300, Sam Eiderman wrote:
->=20
->=20
-> > On 20 Jun 2019, at 8:42, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >=20
-> >> +static int
-> >> +overriden_lchs_supplied(struct drive_s *drive)
-> >> +{
-> >> +    return drive->lchs.cylinder || drive->lchs.head || drive->lchs.=
-sector;
-> >> +}
-> >=20
-> >> +    case TRANSLATION_MACHINE:
-> >=20
-> > Hmm, why this name?  Doesn't look intuitive to me.
->=20
-> TRANSLATION_HOST?
->=20
-> >=20
-> >> +        desc =3D "overriden";
-> >=20
-> > I'd name that "host-supplied" or "fw-cfg=E2=80=9D.
->=20
-> =E2=80=9Chost-supplied=E2=80=9D?
->=20
-> >=20
-> >> +        cylinders =3D drive->lchs.cylinder;
-> >> +        heads =3D drive->lchs.head;
-> >> +        if (heads > 255)
-> >> +            heads =3D 255;
-> >=20
-> > I suggest to move these sanity checks to overriden_lchs_supplied(), t=
-hen
-> > ignore the override altogether when heads or sectors is out of range
-> > instead of trying to fixup things.
->=20
-> Sounds reasonable.
-> I=E2=80=99ll rename to host_lchs_supplied()?
->=20
-> WDYT?
-
-looks all good to me.
-
-cheers,
-  Gerd
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxMDI0OTI5LTI2MDA0LTEt
+Z2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20vCgoKCkhpLAoKVGhp
+cyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91
+dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBb
+UEFUQ0ggdjMgMC80XSB0YXJnZXQvbWlwczogTWlzYyBmaXhlcyBhbmQgbWFpbnRlbmFuY2UgZm9y
+IDQuMQpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMTU2MTAyNDkyOS0yNjAwNC0xLWdpdC1zZW5k
+LWVtYWlsLWFsZWtzYW5kYXIubWFya292aWNAcnQtcmsuY29tCgo9PT0gVEVTVCBTQ1JJUFQgQkVH
+SU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0
+IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9j
+YWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhp
+c3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVT
+VCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0
+L3FlbXUKICogW25ldyB0YWddICAgICAgICAgICAgICAgcGF0Y2hldy8xNTYxMDI0OTI5LTI2MDA0
+LTEtZ2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20gLT4gcGF0Y2hl
+dy8xNTYxMDI0OTI5LTI2MDA0LTEtZ2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0By
+dC1yay5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwozMTdmNDQ5MTZjIHRhcmdl
+dC9taXBzOiBGaXggaWYtZWxzZS1zd2l0Y2gtY2FzZSBhcm1zIGNoZWNrcGF0Y2ggZXJyb3JzIGlu
+IHRyYW5zbGF0ZS5jCjYyZDg0ZGU2MDMgdGFyZ2V0L21pcHM6IEZpeCBzb21lIHNwYWNlIGNoZWNr
+cGF0Y2ggZXJyb3JzIGluIHRyYW5zbGF0ZS5jCjVmOTBlYTA2ZDUgTUFJTlRBSU5FUlM6IENvbnNv
+bGlkYXRlIE1JUFMgZGlzYXNzZW1ibGVyLXJlbGF0ZWQgaXRlbXMKZmIyYTcyZDRjZiBNQUlOVEFJ
+TkVSUzogVXBkYXRlIGZpbGUgaXRlbXMgZm9yIE1JUFMgTWFsdGEgYm9hcmQKCj09PSBPVVRQVVQg
+QkVHSU4gPT09CjEvNCBDaGVja2luZyBjb21taXQgZmIyYTcyZDRjZmZkIChNQUlOVEFJTkVSUzog
+VXBkYXRlIGZpbGUgaXRlbXMgZm9yIE1JUFMgTWFsdGEgYm9hcmQpCjIvNCBDaGVja2luZyBjb21t
+aXQgNWY5MGVhMDZkNWRhIChNQUlOVEFJTkVSUzogQ29uc29saWRhdGUgTUlQUyBkaXNhc3NlbWJs
+ZXItcmVsYXRlZCBpdGVtcykKMy80IENoZWNraW5nIGNvbW1pdCA2MmQ4NGRlNjAzZGQgKHRhcmdl
+dC9taXBzOiBGaXggc29tZSBzcGFjZSBjaGVja3BhdGNoIGVycm9ycyBpbiB0cmFuc2xhdGUuYykK
+NC80IENoZWNraW5nIGNvbW1pdCAzMTdmNDQ5MTZjNDcgKHRhcmdldC9taXBzOiBGaXggaWYtZWxz
+ZS1zd2l0Y2gtY2FzZSBhcm1zIGNoZWNrcGF0Y2ggZXJyb3JzIGluIHRyYW5zbGF0ZS5jKQpFUlJP
+Ujogc3BhY2UgcHJvaGliaXRlZCBhZnRlciB0aGF0IG9wZW4gcGFyZW50aGVzaXMgJygnCiMxMzk6
+IEZJTEU6IHRhcmdldC9taXBzL3RyYW5zbGF0ZS5jOjMxMzg6CisgICAgaWYgKHVubGlrZWx5KCAo
+Y3R4LT5DUDBfQ29uZmlnNSAmICgxIDw8IENQMEM1X05NUykpICYmCgpFUlJPUjogc3BhY2UgcHJv
+aGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJlbnRoZXNpcyAnKScKIzE0MDogRklMRTogdGFy
+Z2V0L21pcHMvdHJhbnNsYXRlLmM6MzEzOToKKyAgICAgICAgICAgICAgICAgIShjdHgtPkNQMF9D
+b25maWcxICYgKDEgPDwgQ1AwQzFfREwgKSkgJiYKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJl
+Zm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcpJwojMTQxOiBGSUxFOiB0YXJnZXQvbWlwcy90
+cmFuc2xhdGUuYzozMTQwOgorICAgICAgICAgICAgICAgICAhKGN0eC0+Q1AwX0NvbmZpZzEgJiAo
+MSA8PCBDUDBDMV9JTCApKSAmJgoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYmVmb3JlIHRoYXQg
+Y2xvc2UgcGFyZW50aGVzaXMgJyknCiMxNDI6IEZJTEU6IHRhcmdldC9taXBzL3RyYW5zbGF0ZS5j
+OjMxNDE6CisgICAgICAgICAgICAgICAgICEoY3R4LT5DUDBfQ29uZmlnMiAmICgxIDw8IENQMEMy
+X1NMICkpICYmCgpFUlJPUjogc3BhY2UgcHJvaGliaXRlZCBiZWZvcmUgdGhhdCBjbG9zZSBwYXJl
+bnRoZXNpcyAnKScKIzE0MzogRklMRTogdGFyZ2V0L21pcHMvdHJhbnNsYXRlLmM6MzE0MjoKKyAg
+ICAgICAgICAgICAgICAgIShjdHgtPkNQMF9Db25maWcyICYgKDEgPDwgQ1AwQzJfVEwgKSkgJiYK
+CkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVudGhlc2lzICcp
+JwojMTQ0OiBGSUxFOiB0YXJnZXQvbWlwcy90cmFuc2xhdGUuYzozMTQzOgorICAgICAgICAgICAg
+ICAgICAhKGN0eC0+Q1AwX0NvbmZpZzUgJiAoMSA8PCBDUDBDNV9MMkMpKSAgICAgKSApIHsKCnRv
+dGFsOiA2IGVycm9ycywgMCB3YXJuaW5ncywgNDMyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvNCBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
+bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
+cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU2MTAyNDkyOS0yNjAwNC0xLWdpdC1zZW5kLWVtYWlsLWFs
+ZWtzYW5kYXIubWFya292aWNAcnQtcmsuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNz
+YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
+Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
+ZWxAcmVkaGF0LmNvbQ==
 
 
