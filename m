@@ -2,129 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAE2E4DA1C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:23:28 +0200 (CEST)
-Received: from localhost ([::1]:52374 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BBE4D9FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:10:58 +0200 (CEST)
+Received: from localhost ([::1]:52284 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he2ee-0005jd-0B
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:23:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49169)
+	id 1he2SX-0000RM-16
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:10:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49478)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1he24J-0003Ee-UF
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:45:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1he25x-0003U1-Mz
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:47:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1he24F-0007cM-F2
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:45:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47880)
+ (envelope-from <mreitz@redhat.com>) id 1he25p-0008U7-9f
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:47:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44796)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1he23k-0006yM-8k; Thu, 20 Jun 2019 14:45:22 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1he25Y-00081m-Qs; Thu, 20 Jun 2019 14:47:15 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 87F35CCFE6;
- Thu, 20 Jun 2019 18:44:35 +0000 (UTC)
-Received: from [10.10.123.29] (ovpn-123-29.rdu2.redhat.com [10.10.123.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C801C5D71C;
- Thu, 20 Jun 2019 18:44:31 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+ by mx1.redhat.com (Postfix) with ESMTPS id 9A66588304;
+ Thu, 20 Jun 2019 18:46:31 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3731B60477;
+ Thu, 20 Jun 2019 18:46:25 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-8-jsnow@redhat.com>
- <9f5578c5-e513-d848-6f64-2e1c494e12e1@redhat.com>
-From: John Snow <jsnow@redhat.com>
+ <20190620010356.19164-3-jsnow@redhat.com>
+ <e7143bb8-afb6-8326-6e93-49a7470b9b98@redhat.com>
+ <5a873055-72c2-ac4c-074d-2c31c8b4c863@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <688964da-a1d4-c9cd-ba5e-078edb59a032@redhat.com>
-Date: Thu, 20 Jun 2019 14:44:30 -0400
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <070fe637-f10f-0e3b-7fc3-e0ea1ecb6ae2@redhat.com>
+Date: Thu, 20 Jun 2019 20:46:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <9f5578c5-e513-d848-6f64-2e1c494e12e1@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <5a873055-72c2-ac4c-074d-2c31c8b4c863@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="ttXvptYEExBvOeKWOJV27ICUiQW0KDkUU"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 20 Jun 2019 18:44:35 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.28]); Thu, 20 Jun 2019 18:46:39 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 07/12] block/backup: add 'always' bitmap
- sync policy
+Subject: Re: [Qemu-devel] [PATCH 02/12] block/backup: Add mirror sync mode
+ 'bitmap'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -143,227 +94,177 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--ttXvptYEExBvOeKWOJV27ICUiQW0KDkUU
+Content-Type: multipart/mixed; boundary="vgwFx0mYKSYUk9DlnyMB5IfQRvE4qpT6d";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>
+Message-ID: <070fe637-f10f-0e3b-7fc3-e0ea1ecb6ae2@redhat.com>
+Subject: Re: [PATCH 02/12] block/backup: Add mirror sync mode 'bitmap'
+References: <20190620010356.19164-1-jsnow@redhat.com>
+ <20190620010356.19164-3-jsnow@redhat.com>
+ <e7143bb8-afb6-8326-6e93-49a7470b9b98@redhat.com>
+ <5a873055-72c2-ac4c-074d-2c31c8b4c863@redhat.com>
+In-Reply-To: <5a873055-72c2-ac4c-074d-2c31c8b4c863@redhat.com>
 
+--vgwFx0mYKSYUk9DlnyMB5IfQRvE4qpT6d
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On 6/20/19 1:00 PM, Max Reitz wrote:
-> On 20.06.19 03:03, John Snow wrote:
->> This adds an "always" policy for bitmap synchronization. Regardless of=
- if
->> the job succeeds or fails, the bitmap is *always* synchronized. This m=
-eans
->> that for backups that fail part-way through, the bitmap retains a reco=
-rd of
->> which sectors need to be copied out to accomplish a new backup using t=
-he
->> old, partial result.
+On 20.06.19 18:01, John Snow wrote:
+>=20
+>=20
+> On 6/20/19 11:00 AM, Max Reitz wrote:
+>> On 20.06.19 03:03, John Snow wrote:
+>>> We don't need or want a new sync mode for simple differences in
+>>> semantics.  Create a new mode simply named "BITMAP" that is designed =
+to
+>>> make use of the new Bitmap Sync Mode field.
+>>>
+>>> Because the only bitmap mode is 'conditional', this adds no new
+>>> functionality to the backup job (yet). The old incremental backup mod=
+e
+>>> is maintained as a syntactic sugar for sync=3Dbitmap, mode=3Dconditio=
+nal.
+>>>
+>>> Add all of the plumbing necessary to support this new instruction.
+>>>
+>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>> ---
+>>>  qapi/block-core.json      | 30 ++++++++++++++++++++++--------
+>>>  include/block/block_int.h |  6 +++++-
+>>>  block/backup.c            | 35 ++++++++++++++++++++++++++++-------
+>>>  block/mirror.c            |  6 ++++--
+>>>  block/replication.c       |  2 +-
+>>>  blockdev.c                |  8 ++++++--
+>>>  6 files changed, 66 insertions(+), 21 deletions(-)
+>>>
+>>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>>> index caf28a71a0..6d05ad8f47 100644
+>>> --- a/qapi/block-core.json
+>>> +++ b/qapi/block-core.json
+>>> @@ -1127,12 +1127,15 @@
+>>>  #
+>>>  # @none: only copy data written from now on
+>>>  #
+>>> -# @incremental: only copy data described by the dirty bitmap. Since:=
+ 2.4
+>>> +# @incremental: only copy data described by the dirty bitmap. (since=
+: 2.4)
 >>
->> In effect, this allows us to "resume" a failed backup; however the new=
- backup
->> will be from the new point in time, so it isn't a "resume" as much as =
-it is
->> an "incremental retry." This can be useful in the case of extremely la=
-rge
->> backups that fail considerably through the operation and we'd like to =
-not waste
->> the work that was already performed.
+>> Why not deprecate this in the process and note that this is equal to
+>> sync=3Dbitmap, bitmap-mode=3Dconditional?
 >>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>  qapi/block-core.json |  5 ++++-
->>  block/backup.c       | 10 ++++++----
->>  2 files changed, 10 insertions(+), 5 deletions(-)
->>
->> diff --git a/qapi/block-core.json b/qapi/block-core.json
->> index 0332dcaabc..58d267f1f5 100644
->> --- a/qapi/block-core.json
->> +++ b/qapi/block-core.json
->> @@ -1143,6 +1143,9 @@
->>  # An enumeration of possible behaviors for the synchronization of a b=
-itmap
->>  # when used for data copy operations.
->>  #
->> +# @always: The bitmap is always synchronized with remaining blocks to=
- copy,
->> +#          whether or not the operation has completed successfully or=
- not.
->> +#
->>  # @conditional: The bitmap is only synchronized when the operation is=
- successul.
->>  #               This is useful for Incremental semantics.
->>  #
->> @@ -1153,7 +1156,7 @@
->>  # Since: 4.1
->>  ##
->>  { 'enum': 'BitmapSyncMode',
->> -  'data': ['conditional', 'never'] }
->> +  'data': ['always', 'conditional', 'never'] }
->> =20
->>  ##
->>  # @MirrorCopyMode:
->> diff --git a/block/backup.c b/block/backup.c
->> index 627f724b68..beb2078696 100644
->> --- a/block/backup.c
->> +++ b/block/backup.c
->> @@ -266,15 +266,17 @@ static void backup_cleanup_sync_bitmap(BackupBlo=
-ckJob *job, int ret)
->>      BlockDriverState *bs =3D blk_bs(job->common.blk);
->> =20
->>      if (ret < 0 || job->bitmap_mode =3D=3D BITMAP_SYNC_MODE_NEVER) {
->> -        /* Failure, or we don't want to synchronize the bitmap.
->> -         * Merge the successor back into the parent, delete nothing. =
-*/
->> +        /* Failure, or we don't want to synchronize the bitmap. */
->> +        if (job->bitmap_mode =3D=3D BITMAP_SYNC_MODE_ALWAYS) {
->> +            bdrv_dirty_bitmap_claim(job->sync_bitmap, &job->copy_bitm=
-ap);
->=20
-> Hmm...  OK, bitmaps in backup always confuse me, so bear with me, pleas=
-e.
->=20
-
-I realize this is an extremely dense section that actually covers a
-*lot* of pathways.
-
-> (Hi, I=E2=80=99m a time traveler from the end of this section and I can=
- tell you
-> that everything is fine.  I was just confused.  I=E2=80=99ll still keep=
- this
-> here, because it was so much work.)
->=20
-> The copy_bitmap is copied from the sync_bitmap at the beginning, so the
-> sync_bitmap can continue to be dirtied, but that won=E2=80=99t affect t=
-he job.
-> In normal incremental mode, this means that the sync point is always at
-> the beginning of the job.  (Well, naturally, because that=E2=80=99s how=
- backup
-> is supposed to go.)
->=20
-
-sync_bitmap: This is used as an initial manifest for which sectors to
-copy out. It is the user-provided bitmap. We actually *never* edit this
-bitmap in the body of the job.
-
-copy_bitmap: This is the manifest for which blocks remain to be copied
-out. We clear bits in this as we go, because we use it as our loop
-condition.
-
-So what you say is actually only half-true: the sync_bitmap actually
-remains static during the duration of the job, and it has an anonymous
-child that accrues new writes. This is a holdover from before we had a
-copy_bitmap, and we used to use a sync_bitmap directly as our loop
-condition.
-
-(This could be simplified upstream at present; but after this patch it
-cannot be for reasons explained below. We do wish to maintain three
-distinct sets of bits:
-1. The bits at the start of the operation,
-2. The bits accrued during the operation, and
-3. The bits that remain to be, or were not, copied during the operation.)
-
-So there's actually three bitmaps:
-
-- sync_bitmap: actually just static and read-only
-- sync_bitmap's anonymous child: accrues new writes.
-- copy_bitmap: loop conditional.
-
-> But then replacing the sync_bitmap with the copy_bitmap here means that
-> all of these dirtyings that happened during the job are lost.  Hmm, but
-> that doesn=E2=80=99t matter, does it?  Because whenever something was d=
-irtied in
-> sync_bitmap, the corresponding area must have been copied to the backup
-> due to the job.
->=20
-
-The new dirty bits were accrued very secretly in the anonymous child.
-The new dirty bits are merged in via the reclaim() function.
-
-So, what happens is:
-
-- Sync_bitmap gets the bit pattern of copy_bitmap (one way or another)
-- Sync_bitmap reclaims (merges with) its anonymous child.
-
-> Ah, yes, it would actually be wrong to keep the new dirty bits, because
-> in this mode, sync_bitmap should (on failure) reflect what is left to
-> copy to make the backup complete.  Copying these newly dirtied sectors
-> would be wrong.  (Yes, I know you wrote that in the documentation of
-> @always.  I just tried to get a different perspective.)
->=20
-> Yes, yes, and copy_bitmap is always set whenever a CBW to the target
-> fails before the source can be updated.  Good, good.
->=20
-
-You might have slightly the wrong idea; it's important to keep track of
-what was dirtied during the operation because that data is important for
-the next bitmap backup.
-
-The merging of "sectors left to copy" (in the case of a failed backup)
-and "sectors dirtied since we started the operation" forms the actual
-minimal set needed to re-write to this target to achieve a new
-functioning point in time. This is what you get with the "always" mode
-in a failure case.
-
-In a success case, it just so happens that "sectors left to copy" is the
-empty set.
-
-It's like an incremental on top of the incremental.
-
-Consider this:
-
-We have a 4TB drive and we have dirtied 3TB of it since our full backup.
-We copy out 2TB as part of a new incremental backup before suffering
-some kind of failure.
-
-Today, you'd need to start a new incremental backup that copies that
-entire 3TB *plus* whatever was dirtied since the job failed.
-
-With this mode, you'd only need to copy the remaining 1TB + whatever was
-dirtied since.
-
-So, what this logic is really doing is:
-
-If we failed, OR if we want the "never" sync policy:
-
-Merge the anonymous child (bits written during op) back into sync_bitmap
-(bits we were instructed to copy), leaving us as if we have never
-started this operation.
-
-If, however, we failed and we have the "always" sync policy, we destroy
-the sync_bitmap (bits we were instructed to copy) and replace it with
-the copy_bitmap (bits remaining to copy). Then, we merge that with the
-anonymous child (bits written during op).
-
-Or, in success cases (when sync policy is not never), we simply delete
-the sync_bitmap (bits we were instructed to copy) and replace it with
-its anonymous child (bits written during op).
-
->=20
-> Hi, I=E2=80=99m the time traveler from above.  I also left the section =
-here so I
-> can give one of my trademark =E2=80=9CRamble, ramble,
->=20
-> Reviewed-by: Max Reitz <mreitz@redhat.com>
->=20
-> =E2=80=9D
->=20
->> +        }
->> +        /* Merge the successor back into the parent. */
->>          bm =3D bdrv_reclaim_dirty_bitmap(bs, job->sync_bitmap, NULL);
->> -        assert(bm);
->>      } else {
->>          /* Everything is fine, delete this bitmap and install the bac=
-kup. */
->>          bm =3D bdrv_dirty_bitmap_abdicate(bs, job->sync_bitmap, NULL)=
-;
->> -        assert(bm);
->>      }
->> +    assert(bm);
->>  }
->> =20
->>  static void backup_commit(Job *job)
+>> (I don=E2=80=99t think there is a rule that forces us to actually remo=
+ve
+>> deprecated stuff after two releases if it doesn=E2=80=99t hurt to keep=
+ it.)
 >>
 >=20
+> Mostly I thought it would be fine to keep as sugar. In your replies so
+> far I gather that "incremental" and "differential" don't mean specific
+> backup paradigms to you, so maybe these seem like worthless words.
 >=20
+> It was my general understanding that in terms of backup
+> paradigms/methodologies that "incremental" and "differential" mean very=
 
---=20
-=E2=80=94js
+> specific things.
+>=20
+> Incremental: Each backup contains only the delta from the last
+> incremental backup.
+> Differential: Each backup contains the delta from the last FULL backup.=
+
+>=20
+> You can search "incremental vs differential backup" on your search
+> engine of choice and find many relevant results. I took a Networking/IT=
+
+> vocational degree in 2007 and these terms were taught in textbooks then=
+=2E
+>=20
+> So I will resist quite strongly changing them, and for this reason, fel=
+t
+> that it was strictly a good thing to keep incremental as sugar, because=
+
+> I thought that people would know what it meant.
+
+:C
+
+OK.  I=E2=80=99m happy as long as it=E2=80=99s all explained somewhere (i=
+=2Ee.
+bitmaps.rst).  Personally, I=E2=80=99d also like a pointer to that docume=
+ntation
+here.  (Sure, people should just look there if they don=E2=80=99t underst=
+and
+something about bitmaps anyway, but I can=E2=80=99t see it hurting to jus=
+t put a
+pointer here anyway.)
+
+> (More than "conditional", anyway, which is jargon I made up.)
+
+But you make it up in this series, which is great for me, because that
+means I get the definition (from the cover letter) without having to
+look it up. O:-)
+
+[...]
+
+>>>  #
+>>> +# @bitmap-mode: Specifies the type of data the bitmap should contain=
+ after
+>>> +#               the operation concludes. Must be present if sync is =
+"bitmap".
+>>> +#               Must NOT be present otherwise. (Since 4.1)
+>>
+>> Do we have any rule that qemu must enforce =E2=80=9Cmust not=E2=80=9Ds=
+? :-)
+>>
+>> (No, I don=E2=80=99t think so.  I think it=E2=80=99s very reasonable t=
+hat you accept
+>> bitmap-mode=3Dconditional for sync=3Dincremental.)
+>>
+>=20
+> Right, I left this a secret wiggle room. If you specify the correct
+> bitmap sync mode for the incremental sugar, it will actually let it
+> slide. If you specify the wrong one, it will error out.
+>=20
+> However, I think this is perfectly correct advice from the API: Please
+> use this mode with sync=3Dbitmap and do not use it otherwise.
+>=20
+> Would you like me to change it to be more technically correct and
+> document the little affordance I made?
+
+It=E2=80=99s probably better not to.  Better forbid as much as we can so =
+that we
+can break compatibility to users that happened to use it still =E2=80=9Cb=
+ecause
+it works=E2=80=9D.
+
+Max
+
+
+--vgwFx0mYKSYUk9DlnyMB5IfQRvE4qpT6d--
+
+--ttXvptYEExBvOeKWOJV27ICUiQW0KDkUU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0L1H8ACgkQ9AfbAGHV
+z0AYSAf/RsqrKuU0YlD9e2KI1Z8Eq3tQY3T09E4rJZGnuVr2Pb2NIdDsfDRt/Jk3
+Dii8VJe9n9GsrJsTKM9g4xpI4E9fQ5ymCZtKOtPI7Ma+XYHox6BqMSKVvScwIEri
+5m42r1vdTal0hDPOap07rH7GrWLdSxEFQZ3DxuBy6asO1pxZJH9wYK7CN6HI6ZOI
+gz6QvdbRLdn9enrZ6xUDtticDOlUDCbDO9qw0SHsPC+fzblpWVUHlO8GwNTfXvwp
+4hNVTgEZygC3yqDh2sXDdNA3Ga8wHSrcsiDAVFdyYWTCkMub/+PmaMYvzKznNSJM
+uycR1f4IGHsIL+ylC/0q0xIj/0euLQ==
+=orx7
+-----END PGP SIGNATURE-----
+
+--ttXvptYEExBvOeKWOJV27ICUiQW0KDkUU--
 
