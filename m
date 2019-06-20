@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4258F4CCE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:27:59 +0200 (CEST)
-Received: from localhost ([::1]:46432 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF7D4CCDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:25:16 +0200 (CEST)
+Received: from localhost ([::1]:46402 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdvEU-0001LC-Fe
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:27:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53212)
+	id 1hdvBs-0006zt-2R
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:25:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53516)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hdv4p-0004Vi-EX
+ (envelope-from <philmd@redhat.com>) id 1hdv4p-0004kc-49
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:18:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hduuF-0000hw-UB
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:07:33 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53329)
+ (envelope-from <philmd@redhat.com>) id 1hduud-0000pT-3b
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:07:53 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:34273)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hduuF-0000he-M9
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:07:03 -0400
-Received: by mail-wm1-f65.google.com with SMTP id x15so2625677wmj.3
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 04:07:03 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hduuc-0000oy-TJ
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:07:27 -0400
+Received: by mail-wm1-f66.google.com with SMTP id w9so6673831wmd.1
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 04:07:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YABrXEXZO3C9cB7/mqalXZp2qaaiB3Poqy028OZIz9g=;
- b=IYUPOwrDpxFgYHYWhcrGNJfDS88Q1iR6LNYGXCz/ugMbJJDXjEVcQZ03Qwt1F7z8pO
- SrqIT5KSpbu51MQCnUzzuFSmBhZsdF3iAeqSZKnfi5Dqg8LTNd7BOlETOgNgmAlTKTwt
- eHagmZHkO1KCM+b2WAmGzC5XZH6hu+DKsaASLr7ZyzkSKUabXbeDN+JNjNXiFZ6fVcrs
- 7i8OWYmuGNKT+cLX3B1ua6XLe/6ajvzbZ1NLGPuDswnLhgL5JtU5IGayxckGOlVxlSkA
- mLe1O4XjrcnG5Ct+R7MyMBqDBd/FeEshf/7TsCOiJ2ZFewrp48lmQsh66OVUuwVIVuzi
- fUkg==
-X-Gm-Message-State: APjAAAUiH7nITPyJzJMftrjdohQ4xsRz0iV428gehQU8OOYu+6vQlowx
- ljdXsK5pZXDBNSIsH/gHqE1NuQ==
-X-Google-Smtp-Source: APXvYqxNoYCM5921XwmtMb5uYYhzqnFvi1SSzqdpqHHYtY8mOQ+iuUvKV5L/lozBHnoQYBF6IRAQag==
-X-Received: by 2002:a1c:c145:: with SMTP id r66mr2424679wmf.139.1561028822603; 
- Thu, 20 Jun 2019 04:07:02 -0700 (PDT)
+ bh=WJQMIvkjsEv5JDHqFvaBkqpatPZZcRwmjALfdshCWJ0=;
+ b=ZG60bwnnSDeNOeN1zG111EnPZETrxHlx8ldu6GbUj/LEczsbCFMk+hBqMIgfSpXHT8
+ OsyG0C0N3mfdQK76lL9p8VoqC2deHhtc+o/hwjcJBZZ+iKJWnEI2VixUt7vriZ3O5dU+
+ YKYEVoCw1XjjOhDxrQDx9Rapy+aTe2F1e5Mjhjfycl3jDHo9kq3yNZI3V7gxO021X5Es
+ D9KFrmfzxssUgk26LYAT95GVrzPWAv3vM2sH+B4QDYr6sy4Faov6fHH/Y4ZaP+DtAd0c
+ Wsy098bYTrMJ9P0DN8lHIS0nsHLyHDgE+lJ/S97X2DRgwnKyokYXy247OsCBiy3NZAD8
+ RmHg==
+X-Gm-Message-State: APjAAAXDdXXfYK4/pzOiIaI3syrMvGtAWsUibThY5I9Yyq6r1uw5m1gF
+ 7N8kLju72FexaqpEHfCf5ktw8w==
+X-Google-Smtp-Source: APXvYqxQVMKL4kXOozPJwENai7B6YTPkezu28ywlU64KIG8In4MJ1WgtTWip7tc6LSh+z957HZC6Hw==
+X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr2251441wmj.87.1561028845807; 
+ Thu, 20 Jun 2019 04:07:25 -0700 (PDT)
 Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id t7sm14762270wrn.52.2019.06.20.04.07.01
+ by smtp.gmail.com with ESMTPSA id q12sm18238626wrp.50.2019.06.20.04.07.25
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 04:07:02 -0700 (PDT)
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+ Thu, 20 Jun 2019 04:07:25 -0700 (PDT)
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20190619194021.8240-1-alex.bennee@linaro.org>
- <20190619194021.8240-3-alex.bennee@linaro.org>
- <f07129f7-2813-e7e9-79ae-94a026495ab9@redhat.com>
+ <20190619194021.8240-2-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
  url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <a88bb77f-717d-fb90-989f-3f4d760c6251@redhat.com>
-Date: Thu, 20 Jun 2019 13:07:01 +0200
+Message-ID: <5ae85562-3a47-378b-29eb-2421f3332624@redhat.com>
+Date: Thu, 20 Jun 2019 13:07:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <f07129f7-2813-e7e9-79ae-94a026495ab9@redhat.com>
+In-Reply-To: <20190619194021.8240-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH v1 02/17] tests/vm: avoid image presence
- check and removal
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v1 01/17] tests/vm: avoid extra compressed
+ image copy
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,23 +80,86 @@ Cc: Fam Zheng <fam@euphon.net>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/19 12:29 PM, Philippe Mathieu-Daudé wrote:
-> On 6/19/19 9:40 PM, Alex Bennée wrote:
->> From: Cleber Rosa <crosa@redhat.com>
->>
->> Python's os.rename() will silently replace an existing file,
->> so there's no need for the extra check and removal.
->>
->> Reference: https://docs.python.org/3/library/os.html#os.rename
->> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+On 6/19/19 9:40 PM, Alex Bennée wrote:
+> From: Cleber Rosa <crosa@redhat.com>
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> The image copy is only really needed because xz doesn't know to
+> properly decompress a file not named properly.  Instead of
+> decompressing to stdout, and having to rely on a shell, let's just
+> create a link instead of copying the file.
+> 
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
-And now:
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+> Message-Id: <20190613130718.3763-2-crosa@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  tests/vm/centos  | 4 ++--
+>  tests/vm/freebsd | 4 ++--
+>  tests/vm/netbsd  | 4 ++--
+>  tests/vm/openbsd | 4 ++--
+>  4 files changed, 8 insertions(+), 8 deletions(-)
 > 
->> Message-Id: <20190613130718.3763-3-crosa@redhat.com>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
+> diff --git a/tests/vm/centos b/tests/vm/centos
+> index 7417b50af4..b00b46a8dc 100755
+> --- a/tests/vm/centos
+> +++ b/tests/vm/centos
+> @@ -66,8 +66,8 @@ class CentosVM(basevm.BaseVM):
+>          cimg = self._download_with_cache("https://cloud.centos.org/centos/7/images/CentOS-7-x86_64-GenericCloud-1802.qcow2.xz")
+>          img_tmp = img + ".tmp"
+>          sys.stderr.write("Extracting the image...\n")
+> -        subprocess.check_call(["cp", "-f", cimg, img_tmp + ".xz"])
+> -        subprocess.check_call(["xz", "-dvf", img_tmp + ".xz"])
+> +        subprocess.check_call(["ln", "-f", cimg, img_tmp + ".xz"])
+> +        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp + ".xz"])
+>          subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
+>          self.boot(img_tmp, extra_args = ["-cdrom", self._gen_cloud_init_iso()])
+>          self.wait_ssh()
+> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+> index b0066017a6..5575c23a6f 100755
+> --- a/tests/vm/freebsd
+> +++ b/tests/vm/freebsd
+> @@ -34,8 +34,8 @@ class FreeBSDVM(basevm.BaseVM):
+>          img_tmp_xz = img + ".tmp.xz"
+>          img_tmp = img + ".tmp"
+>          sys.stderr.write("Extracting the image...\n")
+> -        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
+> -        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
+> +        subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
+> +        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
+>          if os.path.exists(img):
+>              os.remove(img)
+>          os.rename(img_tmp, img)
+> diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+> index 4c6624ea5e..d0508f4465 100755
+> --- a/tests/vm/netbsd
+> +++ b/tests/vm/netbsd
+> @@ -34,8 +34,8 @@ class NetBSDVM(basevm.BaseVM):
+>          img_tmp_xz = img + ".tmp.xz"
+>          img_tmp = img + ".tmp"
+>          sys.stderr.write("Extracting the image...\n")
+> -        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
+> -        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
+> +        subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
+> +        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
+>          if os.path.exists(img):
+>              os.remove(img)
+>          os.rename(img_tmp, img)
+> diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+> index 2105c01a26..87ec982489 100755
+> --- a/tests/vm/openbsd
+> +++ b/tests/vm/openbsd
+> @@ -36,8 +36,8 @@ class OpenBSDVM(basevm.BaseVM):
+>          img_tmp_xz = img + ".tmp.xz"
+>          img_tmp = img + ".tmp"
+>          sys.stderr.write("Extracting the image...\n")
+> -        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
+> -        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
+> +        subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
+> +        subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
+>          if os.path.exists(img):
+>              os.remove(img)
+>          os.rename(img_tmp, img)
+> 
 
