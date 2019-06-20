@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935E74CDC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 14:33:08 +0200 (CEST)
-Received: from localhost ([::1]:47312 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB6C4CDDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 14:42:37 +0200 (CEST)
+Received: from localhost ([::1]:47382 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdwFX-0001jT-OA
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 08:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34975)
+	id 1hdwOi-0002Dd-CT
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 08:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35542)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hdw4z-0004Hp-QS
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:22:17 -0400
+ (envelope-from <philmd@redhat.com>) id 1hdw70-0006KH-FM
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:24:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hdw4v-0007YJ-UW
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:22:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60890)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hdw4o-0007Dk-LK; Thu, 20 Jun 2019 08:22:02 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4C18B7CB87;
- Thu, 20 Jun 2019 12:21:51 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-106.brq.redhat.com [10.40.204.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C09E85D9D2;
- Thu, 20 Jun 2019 12:21:48 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org,
-	Laszlo Ersek <lersek@redhat.com>
-Date: Thu, 20 Jun 2019 14:21:32 +0200
-Message-Id: <20190620122132.10075-4-philmd@redhat.com>
-In-Reply-To: <20190620122132.10075-1-philmd@redhat.com>
-References: <20190620122132.10075-1-philmd@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hdw6x-0001QE-IS
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:24:17 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:42727)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hdw6x-0001Lg-Aa
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:24:15 -0400
+Received: by mail-wr1-f68.google.com with SMTP id x17so2796213wrl.9
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 05:24:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mgGsWZ7RpLieNPl1OdcvTd7XUUPmgnrTmm2SW/IfNVU=;
+ b=hmHyuXFdxAEZl6Pr7ZT00vfm13kvtzcl6YzZzcWbdsaJjA2K2ExC1biGr9TJWEsnBZ
+ UrI2HRDJ0CegaLFsiNyE6GoC6sHjM/TLQ/v7FOMMt9Jgd0NxfFu+LAiLZ1vEehH0J5qM
+ Qi1f69N9RRt80rGbuFfY+3ysPmgmWJ2ynNihKs5v3PvN97YAdQR6ORGp3YdoYb+2CkGY
+ IHdTgB2/qomv5GyaD/L7ghuJhHiNoKyAzEIU/0odarTbSMcK265IsM/NGky/1eGj3RMh
+ vsj09BgIlXTbtECqBSKR8o0G6s05VVSDPJ6+iAM0ft1uJNYUZi5GA8Wpmnh2RP9x6gKu
+ DVQg==
+X-Gm-Message-State: APjAAAV9wMaGGgi8NcL8yQFQel/MNGNzhSmM2fzFtQi49yD7heKcATjP
+ Zw+sASb5alM+kl4A7XrICSDVTQ==
+X-Google-Smtp-Source: APXvYqwn8HW4kFVRmIwiHxri6rLo5IkT9bS7Yig0kbCpTs4iGIS/nu/Ay1QcDTwp0qY8q6RFrTbAFg==
+X-Received: by 2002:a05:6000:112:: with SMTP id
+ o18mr4521498wrx.153.1561033450967; 
+ Thu, 20 Jun 2019 05:24:10 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id z5sm21126219wrh.16.2019.06.20.05.24.10
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Jun 2019 05:24:10 -0700 (PDT)
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
+References: <20190620121930.9729-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <fcffb9f5-3723-2f4f-3898-9f5584d3696a@redhat.com>
+Date: Thu, 20 Jun 2019 14:24:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 20 Jun 2019 12:21:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190620121930.9729-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 3/3] hw/arm/virt: Use
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v5 0/3] fw_cfg: Add
  edk2_add_host_crypto_policy()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,55 +77,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable the EDK2 Crypto Policy features on the Virt machine.
+On 6/20/19 2:19 PM, Philippe Mathieu-Daudé wrote:
+> Hi,
+> 
+> This series add edk2_add_host_crypto_policy() and the Edk2Crypto object.
+> 
+> The Edk2Crypto object is used to hold configuration values specific
+> to EDK2.
+> 
+> So far only the 'https' policy is supported.
+> 
+> A usercase example is the 'HTTPS Boof' feature of OVMF [*].
+> 
+> Usage example:
+> 
+> $ qemu-system-x86_64 \
+>     --object edk2_crypto,id=https,\
+>         ciphers=/etc/crypto-policies/back-ends/openssl.config,\
+>         cacerts=/etc/pki/ca-trust/extracted/edk2/cacerts.bin
+> 
+> (On Fedora these files are provided by the ca-certificates and
+> crypto-policies packages).
+> 
+> [*]: https://github.com/tianocore/edk2/blob/master/OvmfPkg/README
+> 
+> Since v4:
+> - Addressed Laszlo comments (see patch#1 description)
+> Since v3:
+> - Addressed Markus' comments (do not care about heap)
+> Since v2:
+> - Split of
+> Since v1:
+> - Addressed Michael and Laszlo comments.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/arm/virt.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 431e2900fd..15727b3d59 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -59,6 +59,7 @@
- #include "hw/intc/arm_gicv3_common.h"
- #include "kvm_arm.h"
- #include "hw/firmware/smbios.h"
-+#include "hw/firmware/uefi_edk2.h"
- #include "qapi/visitor.h"
- #include "standard-headers/linux/input.h"
- #include "hw/arm/smmuv3.h"
-@@ -1355,6 +1356,11 @@ static void virt_build_smbios(VirtMachineState *vm=
-s)
-     }
- }
-=20
-+static void virt_uefi_setup(VirtMachineState *vms)
-+{
-+    edk2_add_host_crypto_policy(vms->fw_cfg);
-+}
-+
- static
- void virt_machine_done(Notifier *notifier, void *data)
- {
-@@ -1383,6 +1389,7 @@ void virt_machine_done(Notifier *notifier, void *da=
-ta)
-=20
-     virt_acpi_setup(vms);
-     virt_build_smbios(vms);
-+    virt_uefi_setup(vms);
- }
-=20
- static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
---=20
-2.20.1
-
+Please discard this cover, series sent again with patches properly attached.
 
