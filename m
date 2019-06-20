@@ -2,51 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAD54D20E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:24:02 +0200 (CEST)
-Received: from localhost ([::1]:49166 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360644D257
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:42:51 +0200 (CEST)
+Received: from localhost ([::1]:49510 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdyuv-0001fl-KW
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
+	id 1hdzD8-0002wn-Cu
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:42:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47969)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hdyoR-0005nx-AY
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:17:21 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hdyw4-0005lu-OK
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:25:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hdyoN-0003TP-1o
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:17:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48930)
+ (envelope-from <mreitz@redhat.com>) id 1hdyw3-0006O2-Ko
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:25:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35026)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hdyoE-0003Ag-UZ
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:17:10 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hdyw0-0006IT-N7; Thu, 20 Jun 2019 11:25:09 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7F4CA2F8BFC
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 15:16:55 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85B7560579;
- Thu, 20 Jun 2019 15:16:54 +0000 (UTC)
-Date: Thu, 20 Jun 2019 17:16:49 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190620171649.3b85c78e@redhat.com>
-In-Reply-To: <20190620134524.GH3300@habkost.net>
-References: <20190618142931.1694-1-imammedo@redhat.com>
- <20190619132924.GA32240@localhost.localdomain>
- <20190620111103.297277bc@redhat.com>
- <20190620134524.GH3300@habkost.net>
+ by mx1.redhat.com (Postfix) with ESMTPS id 8CC1E308621B;
+ Thu, 20 Jun 2019 15:25:07 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0685E60BE0;
+ Thu, 20 Jun 2019 15:25:02 +0000 (UTC)
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190620010356.19164-1-jsnow@redhat.com>
+ <20190620010356.19164-4-jsnow@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <f3afc686-a37e-3c58-571c-96ae17c16414@redhat.com>
+Date: Thu, 20 Jun 2019 17:25:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20190620010356.19164-4-jsnow@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="BsFCE9uDTTd3EszbRCONjWk5HAQHSYbqF"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 20 Jun 2019 15:16:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 20 Jun 2019 15:25:07 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] qmp: make qmp-shell work with python3
+Subject: Re: [Qemu-devel] [PATCH 03/12] block/backup: add 'never' policy to
+ bitmap sync mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,64 +85,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, Cleber Rosa <crosa@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 Jun 2019 10:45:24 -0300
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--BsFCE9uDTTd3EszbRCONjWk5HAQHSYbqF
+Content-Type: multipart/mixed; boundary="g2RNTy14zQclwpZkQ73H49fnymtxgOSXG";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
+ eblake@redhat.com, vsementsov@virtuozzo.com,
+ Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Xie Changlong <xiechanglong.d@gmail.com>
+Message-ID: <f3afc686-a37e-3c58-571c-96ae17c16414@redhat.com>
+Subject: Re: [PATCH 03/12] block/backup: add 'never' policy to bitmap sync
+ mode
+References: <20190620010356.19164-1-jsnow@redhat.com>
+ <20190620010356.19164-4-jsnow@redhat.com>
+In-Reply-To: <20190620010356.19164-4-jsnow@redhat.com>
 
-> On Thu, Jun 20, 2019 at 11:11:03AM +0200, Igor Mammedov wrote:
-> > On Wed, 19 Jun 2019 09:29:24 -0400
-> > Cleber Rosa <crosa@redhat.com> wrote:
-> >   
-> > > On Tue, Jun 18, 2019 at 10:29:31AM -0400, Igor Mammedov wrote:  
-> > > > python3 doesn't have raw_input(), so qmp-shell breaks.
-> > > > Use input() instead and override it with raw_input()
-> > > > if running on python2.
-> > > > 
-> > > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > > ---
-> > > >  scripts/qmp/qmp-shell | 6 +++++-
-> > > >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-> > > > index 7776c7b141..8c49b39afa 100755
-> > > > --- a/scripts/qmp/qmp-shell
-> > > > +++ b/scripts/qmp/qmp-shell
-> > > > @@ -308,7 +308,11 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-> > > >          @return True if execution was ok, return False if disconnected.
-> > > >          """
-> > > >          try:
-> > > > -            cmdline = raw_input(prompt)
-> > > > +            try: # attempt to set Python2 override
-> > > > +               import __builtin__;
-> > > > +               getattr(__builtin__, 'raw_input', input)
-> > > > +            except ModuleNotFoundError: pass    
-> > > 
-> > > Something like:
-> > > 
-> > >    if sys.version_info[0] == 2:
-> > >        input = raw_input
-> > > 
-> > > Also does the job, and may be considered simpler and easier to read.  
-> > 
-> > that causes scope issues on python3  
-> 
-> Which issues?  It should work if you set it at the module top
-> level.  We had done this before in other scripts.  e.g.:
+--g2RNTy14zQclwpZkQ73H49fnymtxgOSXG
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-it works if it is moved to the top, I'll post v2
+On 20.06.19 03:03, John Snow wrote:
+> This adds a "never" policy for bitmap synchronization. Regardless of if=
 
-> $ git grep -1 'range = xrange'
-> tests/qemu-iotests/044-if sys.version_info.major == 2:
-> tests/qemu-iotests/044:    range = xrange
-> tests/qemu-iotests/044-
-> --
-> tests/qemu-iotests/163-if sys.version_info.major == 2:
-> tests/qemu-iotests/163:    range = xrange
-> tests/qemu-iotests/163-
-> 
-> 
+> the job succeeds or fails, we never update the bitmap. This can be used=
 
+> to perform differential backups, or simply to avoid the job modifying a=
+
+> bitmap.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  qapi/block-core.json | 6 +++++-
+>  block/backup.c       | 5 +++--
+>  2 files changed, 8 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 6d05ad8f47..0332dcaabc 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -1146,10 +1146,14 @@
+>  # @conditional: The bitmap is only synchronized when the operation is =
+successul.
+>  #               This is useful for Incremental semantics.
+>  #
+> +# @never: The bitmap is never synchronized with the operation, and is
+> +#         treated solely as a manifest of blocks to copy.
+> +#         This is useful for Differential semantics.
+> +#
+
+Again, this is too buzzword-y for my taste.  I don=E2=80=99t find it as b=
+ad
+because there is not much to explain about this mode, and you do explain
+it above, but still.
+
+Like, I (me myself) read this and after the first sentence I think I=E2=80=
+=99ve
+understood what this is.  Then I read =E2=80=9Cfor Differential semantics=
+=E2=80=9D and
+I=E2=80=99m confused.  After a couple of seconds, I realize what you mean=
+
+because I=E2=80=99ve described in my response to patch 1.
+
+One reason it leaves the buzzword-y taste is because =E2=80=9Cdifferentia=
+l=E2=80=9D is
+never explained anywhere.  bitmaps.rst makes two mentions of it, but it
+too just assumes I know what you mean.  Also, incremental backups are
+just a certain kind of differential backups.
+
+So you need to explain =E2=80=9Cdifferential=E2=80=9D somewhere and how i=
+t differs from
+=E2=80=9Cincremental=E2=80=9D in this regard.  Why not here?
+
+=E2=80=9CThis is useful when you wish to repeatedly perform operations in=
+
+reference to a constant synchronization point (when the bitmap was
+created).=E2=80=9D
+
+Or something.
+
+Max
+
+>  # Since: 4.1
+>  ##
+>  { 'enum': 'BitmapSyncMode',
+> -  'data': ['conditional'] }
+> +  'data': ['conditional', 'never'] }
+> =20
+>  ##
+>  # @MirrorCopyMode:
+
+
+--g2RNTy14zQclwpZkQ73H49fnymtxgOSXG--
+
+--BsFCE9uDTTd3EszbRCONjWk5HAQHSYbqF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0LpU0ACgkQ9AfbAGHV
+z0BKxwf8DixyOX4AbowOWamDs0MTCIJv4QtNHPndH1iiOj8aiPx+lSKfG92jWgXY
+SCTg9zOm7b3Xxtcbs/UOnVGZet/SWJUtBQoItk4aXrsJYxjLfsRzmzbk01+HEJ9f
+zLBIa7IGPXpfJmXqbAMxNsSr0K+TgyHJSGA+wMLNbDXUtITjX8tM2hgYhtFc3hEZ
+jUlLdD/lK2uzLXtp0LQDaDo+njrjWJCjJ85K1fVRLtfeGq/MNYXWQTDssMu2UqHP
+28gPMVCFvW1GyhiSeEVulXMqmAmK63co8XGmypNU7dnmVqt5YMSjWv97C36IlomW
+H/Sg428AoGsOWG37Og+0OZW/DP+YXw==
+=mC4w
+-----END PGP SIGNATURE-----
+
+--BsFCE9uDTTd3EszbRCONjWk5HAQHSYbqF--
 
