@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD5E4D576
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 19:54:41 +0200 (CEST)
-Received: from localhost ([::1]:51932 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556174D57B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 19:55:56 +0200 (CEST)
+Received: from localhost ([::1]:51936 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he1Gi-0004bF-B0
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 13:54:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35287)
+	id 1he1Ht-0005CD-Ev
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 13:55:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34757)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1he19b-0007V5-CN
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:47:20 -0400
+ (envelope-from <stefanha@redhat.com>) id 1he19S-00078z-Tr
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:47:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1he0yX-0003Eg-LO
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:35:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51192)
+ (envelope-from <stefanha@redhat.com>) id 1he0zy-0004Us-Ts
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:37:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42606)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1he0yV-000351-2F
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:35:51 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1he0zy-0004RF-N4
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:37:22 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EA0C2308FC4A;
- Thu, 20 Jun 2019 17:35:39 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 39E2C3098576;
+ Thu, 20 Jun 2019 17:37:17 +0000 (UTC)
 Received: from localhost (ovpn-116-108.ams2.redhat.com [10.36.116.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8A0B608D0;
- Thu, 20 Jun 2019 17:35:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A2D5C5D71C;
+ Thu, 20 Jun 2019 17:37:11 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 18:35:29 +0100
-Message-Id: <20190620173532.14468-1-stefanha@redhat.com>
+Date: Thu, 20 Jun 2019 18:35:30 +0100
+Message-Id: <20190620173532.14468-2-stefanha@redhat.com>
+In-Reply-To: <20190620173532.14468-1-stefanha@redhat.com>
+References: <20190620173532.14468-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 20 Jun 2019 17:35:39 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Thu, 20 Jun 2019 17:37:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 0/3] virtio-scsi: restart DMA after iothread
+Subject: [Qemu-devel] [PATCH v5 1/3] vl: add
+ qemu_add_vm_change_state_handler_prio()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,39 +61,136 @@ Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v5:
- * Plumbing vm change state handlers into DeviceClass/BusClass is a rathe=
-r
-   large bug fix.  Instead I've combined the previous priorities approach=
- with
-   the observation from Kevin and Paolo that we really want to order by q=
-dev
-   tree depth.
+Add an API for registering vm change state handlers with a well-defined
+ordering.  This is necessary when handlers depend on each other.
 
-   The new qdev_add_vm_change_state_handler() API lets DeviceStates regis=
-ter
-   callbacks that execute in qdev tree depth order.  This solves the
-   virtio-scsi bug since the virtio-scsi device's callback must complete =
-before
-   its child scsi-disk's callback runs.
+Small coding style fixes are included to make checkpatch.pl happy.
 
-   Is this a good compromise for everyone?
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ include/sysemu/sysemu.h |  2 ++
+ vl.c                    | 59 ++++++++++++++++++++++++++++++++---------
+ 2 files changed, 49 insertions(+), 12 deletions(-)
 
-Stefan Hajnoczi (3):
-  vl: add qemu_add_vm_change_state_handler_prio()
-  qdev: add qdev_add_vm_change_state_handler()
-  virtio-scsi: restart DMA after iothread
-
- hw/core/Makefile.objs             |  1 +
- include/hw/qdev-core.h            |  5 +++
- include/sysemu/sysemu.h           |  2 +
- hw/core/vm-change-state-handler.c | 61 +++++++++++++++++++++++++++++++
- hw/scsi/scsi-bus.c                |  4 +-
- hw/virtio/virtio.c                |  4 +-
- vl.c                              | 59 ++++++++++++++++++++++++------
- 7 files changed, 120 insertions(+), 16 deletions(-)
- create mode 100644 hw/core/vm-change-state-handler.c
-
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 61579ae71e..984c439ac9 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -29,6 +29,8 @@ typedef void VMChangeStateHandler(void *opaque, int run=
+ning, RunState state);
+=20
+ VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandle=
+r *cb,
+                                                      void *opaque);
++VMChangeStateEntry *qemu_add_vm_change_state_handler_prio(
++        VMChangeStateHandler *cb, void *opaque, int priority);
+ void qemu_del_vm_change_state_handler(VMChangeStateEntry *e);
+ void vm_state_notify(int running, RunState state);
+=20
+diff --git a/vl.c b/vl.c
+index 99a56b5556..7fac2ae7ca 100644
+--- a/vl.c
++++ b/vl.c
+@@ -1471,28 +1471,57 @@ static int machine_help_func(QemuOpts *opts, Mach=
+ineState *machine)
+ struct vm_change_state_entry {
+     VMChangeStateHandler *cb;
+     void *opaque;
+-    QLIST_ENTRY (vm_change_state_entry) entries;
++    QTAILQ_ENTRY(vm_change_state_entry) entries;
++    int priority;
+ };
+=20
+-static QLIST_HEAD(, vm_change_state_entry) vm_change_state_head;
++static QTAILQ_HEAD(, vm_change_state_entry) vm_change_state_head;
+=20
+-VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandle=
+r *cb,
+-                                                     void *opaque)
++/**
++ * qemu_add_vm_change_state_handler_prio:
++ * @cb: the callback to invoke
++ * @opaque: user data passed to the callback
++ * @priority: low priorities execute first when the vm runs and the reve=
+rse is
++ *            true when the vm stops
++ *
++ * Register a callback function that is invoked when the vm starts or st=
+ops
++ * running.
++ *
++ * Returns: an entry to be freed using qemu_del_vm_change_state_handler(=
+)
++ */
++VMChangeStateEntry *qemu_add_vm_change_state_handler_prio(
++        VMChangeStateHandler *cb, void *opaque, int priority)
+ {
+     VMChangeStateEntry *e;
++    VMChangeStateEntry *other;
+=20
+-    e =3D g_malloc0(sizeof (*e));
+-
++    e =3D g_malloc0(sizeof(*e));
+     e->cb =3D cb;
+     e->opaque =3D opaque;
+-    QLIST_INSERT_HEAD(&vm_change_state_head, e, entries);
++    e->priority =3D priority;
++
++    /* Keep list sorted in ascending priority order */
++    QTAILQ_FOREACH(other, &vm_change_state_head, entries) {
++        if (priority < other->priority) {
++            QTAILQ_INSERT_BEFORE(other, e, entries);
++            return e;
++        }
++    }
++
++    QTAILQ_INSERT_TAIL(&vm_change_state_head, e, entries);
+     return e;
+ }
+=20
++VMChangeStateEntry *qemu_add_vm_change_state_handler(VMChangeStateHandle=
+r *cb,
++                                                     void *opaque)
++{
++    return qemu_add_vm_change_state_handler_prio(cb, opaque, 0);
++}
++
+ void qemu_del_vm_change_state_handler(VMChangeStateEntry *e)
+ {
+-    QLIST_REMOVE (e, entries);
+-    g_free (e);
++    QTAILQ_REMOVE(&vm_change_state_head, e, entries);
++    g_free(e);
+ }
+=20
+ void vm_state_notify(int running, RunState state)
+@@ -1501,8 +1530,14 @@ void vm_state_notify(int running, RunState state)
+=20
+     trace_vm_state_notify(running, state, RunState_str(state));
+=20
+-    QLIST_FOREACH_SAFE(e, &vm_change_state_head, entries, next) {
+-        e->cb(e->opaque, running, state);
++    if (running) {
++        QTAILQ_FOREACH_SAFE(e, &vm_change_state_head, entries, next) {
++            e->cb(e->opaque, running, state);
++        }
++    } else {
++        QTAILQ_FOREACH_REVERSE_SAFE(e, &vm_change_state_head, entries, n=
+ext) {
++            e->cb(e->opaque, running, state);
++        }
+     }
+ }
+=20
+@@ -3025,7 +3060,7 @@ int main(int argc, char **argv, char **envp)
+         exit(1);
+     }
+=20
+-    QLIST_INIT (&vm_change_state_head);
++    QTAILQ_INIT(&vm_change_state_head);
+     os_setup_early_signal_handling();
+=20
+     cpu_option =3D NULL;
 --=20
 2.21.0
 
