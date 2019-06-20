@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7D484D0C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 16:50:07 +0200 (CEST)
-Received: from localhost ([::1]:48626 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3A64D094
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 16:41:09 +0200 (CEST)
+Received: from localhost ([::1]:48386 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdyNx-0006XA-8O
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 10:49:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
+	id 1hdyFP-0007s9-Bz
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 10:41:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37988)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=067b53019=alistair.francis@wdc.com>)
- id 1hdyBs-0006bP-7z
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:37:31 -0400
+ (envelope-from <richard.weiyang@gmail.com>) id 1hdy8H-00022u-5c
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:33:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=067b53019=alistair.francis@wdc.com>)
- id 1hdyBp-0000QC-4W
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:37:28 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:49364)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=067b53019=alistair.francis@wdc.com>)
- id 1hdxiC-0001sn-AO; Thu, 20 Jun 2019 10:06:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1561039608; x=1592575608;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=aDFs969XL5AXSdtpm8ovgxOKxL/V+B6FYyv+c9Aerso=;
- b=a1zS//7CRw+PgL/ujH/+w1A5QEt4hJ5ANgNBgGKkpjiy/BavV+Wn2r1P
- eAbRSlt7T4czcODbyxqd1/785PD5rnFrbFFwnV3Rv/Sl1ids2H94YIU+3
- f+2kGNlMwgkVH+xE0BhVNHmF+hM+Xn2hUd+KbzXfkSMcF+qolsT5kM+0D
- Zeg8ivkAGO9rMkRILgPECLadFjrMIfYqyABt9HPuugKqV6UA+erOujwmh
- hJrHMjDQ5zSrOCKr0GoBYb3b7y+sX1XZwg6p2Qjrq7vdnRkFwlqd+SJhb
- apSwHIf0H2oTZhergG5sdqym4qwTbcVcK2EOf7SDG79q6NwuNd3CT1K28 w==;
-X-IronPort-AV: E=Sophos;i="5.63,397,1557158400"; d="scan'208";a="111048658"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2019 22:06:43 +0800
-IronPort-SDR: /UV2l8Za4dTh9E3IktCR8GW8U7xrg2P6bDcskDFOZHnFZt2XsS145QcCdD+aCozZ3IreDJW6Qa
- HhlD49A5esgjg1Rwz/+8K6aQZI3mW9x/Ne/XjNMMqIZU10Pg6NwzhAvzIzx7QZAax58rjgZ2Dc
- REi75zO0NYvuE098izU2mFqBX7JBGhMZEbg2+/Fj8faqCXq+q8eK7nga2lop5JynLU0Qb7Zh6V
- OLHAyI+NyJtIXUzJ+oGeouRbjeY7IUfkdDyMr1KlAUNIgiGbtrOWFM/kDAioZlqif1lK4wmSf3
- i3o/iV8nttnc/UIFoNTzSxbh
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP; 20 Jun 2019 07:06:09 -0700
-IronPort-SDR: 8z8EiX0ctjKBWp4roZLmnd8DfV8yk9j7ySFRwJX0J4JhAacYrYzA9UaJwkIexAO48r6YaR+jUV
- 6IvlUEjjdPFlpFjWb/UGOd9n2WtjVlA7WfMcaf9elrKeOsLfhyNaPqMrsAfxF8SGBo0+LTH/Q1
- F7JSwevYgQbkulAxfu/tOzvmDN50KEON0o+PCvkiS/1ilZyYHtvvRqZpyNxOTI+Sv0FNxhFxCr
- GAp+AMl3572sAMsyKnCxfHTCdnSJyT3eQWmZQ5VC3sfTnClyv/2mqeVwokNDvSDpj0K/kxzRg/
- AMo=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip01.wdc.com with ESMTP; 20 Jun 2019 07:06:44 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Date: Thu, 20 Jun 2019 07:04:18 -0700
-Message-Id: <79729cc88ca509e08b5c4aa0aa8a52847af70c0f.1561039316.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
+ (envelope-from <richard.weiyang@gmail.com>) id 1hdxtm-0002YP-Gh
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:20:35 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:35917)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.weiyang@gmail.com>)
+ id 1hdxtm-0002Xv-Av
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:18:46 -0400
+Received: by mail-ed1-x542.google.com with SMTP id k21so4996720edq.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 07:18:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=qdVDpTURAiB1SW/IAbXTaS4d4qTb3suKU1xREmXg18U=;
+ b=EdkmQuwXaVALYatY5/mocNlBXGRgL+PARVVZZVy4CWNm7zABXKY18rmqVuSQeQxLVt
+ R4oZ4wxGfJCdZcu8+wcljjtSpPtQUhQvmTA10eFmNCKX99ukBGH6bfdqmX7jAdd6DaWj
+ HsZGi1IdNlwg7svJ+VUXy24JtlguxC7H6fP4YhGMRkop/LJMdLCOTQfkax+vsQvESn3C
+ Ruz6Y+wochoahp1eaXssuz2Wv3+k66yiZiyLPg43Ra9dgxX67DpAqJ5LjSZ44f3a7etI
+ XE/XdrDiG1aPd187qeEP+eoaliEGkAra2A3jyea65vSQFIgPrjnbI3cehsU4bHKDSk1u
+ 2s1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+ :references:mime-version:content-disposition:in-reply-to:user-agent;
+ bh=qdVDpTURAiB1SW/IAbXTaS4d4qTb3suKU1xREmXg18U=;
+ b=op5AfpgEogNZuwkR3fvELuyWKcN/Zj4Rpr+tRPitqFABX6rCdD9FpoW54Uk9ahXpH7
+ xjzwXcUvJ4mQfxpxAdk8lP8wK5wFswexM+GVtNvMEbD0Vkb5n6wBirgyZCzjx7vGYZ85
+ mxeRxIQVDrrUJP8evk5qiO3TbNBJmfzZJT55FhUGOEgUvD8S2r8s50aTxOIsMNqcYAIz
+ VfGzkkS5ZZQzEfKwGy2oaiwwt60ydZBg+CfTRkHL4fd+g1zBGzG0Mlg8ywaBUhEu7/HL
+ zW0Tcup1MMh5o9Ys5h8aZE9veIdCEcieIxBlqY93kTzrlNfVRPkLL4+PKzMCpFPl2bp1
+ UTEA==
+X-Gm-Message-State: APjAAAVm9fi5yq1Gg+S/frFTQ8vo/g7M6O8Azfya9MakR3tBUQv41BqQ
+ AsaRgkxovNX0hCqD0uFEBTM=
+X-Google-Smtp-Source: APXvYqzxCAohb/V1gPxW1e1x3KXn/fLgrKSsdZpCdzIgNjMruArul8JUNNmzeZOvcvtIXd60AtZysg==
+X-Received: by 2002:a50:94a2:: with SMTP id
+ s31mr100273775eda.290.1561040324419; 
+ Thu, 20 Jun 2019 07:18:44 -0700 (PDT)
+Received: from localhost ([185.92.221.13])
+ by smtp.gmail.com with ESMTPSA id g2sm2744135edg.81.2019.06.20.07.18.42
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 20 Jun 2019 07:18:43 -0700 (PDT)
+Date: Thu, 20 Jun 2019 14:18:42 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20190620141842.ijqwozpjrkccy7qx@master>
+References: <20190513061913.9284-1-richardw.yang@linux.intel.com>
+ <20190618175956.4373ac7e@redhat.com>
+ <20190619062050.GA15665@richard>
+ <20190619110440.13a54848@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190619110440.13a54848@redhat.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 216.71.154.42
-Subject: [Qemu-devel] [PATCH v1 1/1] tcg/riscv: Fix RISC-VH host build
- failure
+X-Received-From: 2a00:1450:4864:20::542
+Subject: Re: [Qemu-devel] [RFC PATCH 0/9] hw/acpi: make build_madt arch
+ agnostic
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,39 +83,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, richard.henderson@linaro.org, palmer@sifive.com,
- alistair.francis@wdc.com
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+Cc: yang.zhong@intel.com, ehabkost@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 269bd5d8 "cpu: Move the softmmu tlb to CPUNegativeOffsetState'
-broke the RISC-V host build as there are two variables that are used but
-not defined.
+On Wed, Jun 19, 2019 at 11:04:40AM +0200, Igor Mammedov wrote:
+>On Wed, 19 Jun 2019 14:20:50 +0800
+>Wei Yang <richardw.yang@linux.intel.com> wrote:
+>
+>> On Tue, Jun 18, 2019 at 05:59:56PM +0200, Igor Mammedov wrote:
+>> >
+>> >On Mon, 13 May 2019 14:19:04 +0800
+>> >Wei Yang <richardw.yang@linux.intel.com> wrote:
+>> >  
+>> >> Now MADT is highly depend in architecture and machine type and leaves
+>> >> duplicated code in different architecture. The series here tries to generalize
+>> >> it.
+>> >> 
+>> >> MADT contains one main table and several sub tables. These sub tables are
+>> >> highly related to architecture. Here we introduce one method to make it
+>> >> architecture agnostic.
+>> >> 
+>> >>   * each architecture define its sub-table implementation function in madt_sub
+>> >>   * introduces struct madt_input to collect sub table information and pass to
+>> >>     build_madt
+>> >> 
+>> >> By doing so, each architecture could prepare its own sub-table implementation
+>> >> and madt_input. And keep build_madt architecture agnostic.  
+>> >
+>> >I've skimmed over patches, and to me it looks mostly as code movement
+>> >without apparent benefits and probably a bit more complex than what we have now
+>> >(it might be ok cost if it simplifies MADT support for other boards).
+>> >
+>> >Before I do line by line review could you demonstrate what effect new way
+>> >to build MADT would have on arm/virt and i386/virt (from NEMU). So it would be
+>> >possible to estimate net benefits from new approach?
+>> >(PS: it doesn't have to be patches ready for merging, just a dirty hack
+>> >that would demonstrate adding MADT for new board using mad_sub[])
+>> >  
+>> 
+>> Per APIC spec 5.2.12, MADT contains a *main* table and several *sub* tables
+>> (Interrupt Controllere), so the idea is give a callback hook in
+>> AcpiDeviceIfClass for each table, including *main* and *sub* table.
+>> 
+>> Current AcpiDeviceIfClass has one callback pc_madt_cpu_entry for some *sub*
+>> tables, after replacing the AcpiDeviceIfClass will look like this:
+>> 
+>> typedef struct AcpiDeviceIfClass {
+>>     /* <private> */
+>>     InterfaceClass parent_class;
+>> 
+>>     /* <public> */
+>>     void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
+>>     void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
+>> -   void (*madt_cpu)(AcpiDeviceIf *adev, int uid,
+>> -                    const CPUArchIdList *apic_ids, GArray *entry);
+>> +   madt_operation madt_main;
+>> +   madt_operation *madt_sub;
+>> } AcpiDeviceIfClass;
+>> 
+>> By doing so, each arch could have its own implementation for MADT.
+>> 
+>> After this refactoring, build_madt could be simplified to:
+>> 
+>> build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms,
+>>            struct madt_input *input)
+>> {
+>>     ...
+>> 
+>>     if (adevc->madt_main) {
+>>         adevc->madt_main(table_data, madt);
+>>     }
+>> 
+>>     for (i = 0; ; i++) {
+>>         sub_id = input[i].sub_id;
+>>         if (sub_id == ACPI_APIC_RESERVED) {
+>>             break;
+>>         }
+>>         opaque = input[i].opaque;
+>>         adevc->madt_sub[sub_id](table_data, opaque);
+>>     }
+>> 
+>>     ...
+>> }
+>> 
+>> input is a list of data necessary to build *sub* table. Its details is also
+>> arch dependent.
+>I've got general idea reading patches in this series.
+>As I've mentioned before it's hard to generalize MADT since it
+>mostly contains entries unique for target/board.
+>Goal here isn't generalizing at any cost, but rather find out
+>if there is enough common code to justify generalization
+>and if it allows us to reduce code duplication and simplify.
+>
+>> For following new arch, what it need to do is prepare the input array and
+>> implement necessary *main*/*sub* table callbacks.
+>What I'd like to see is the actual patch that does this,
+>to see if it has any merit and to compare to the current
+>approach.
 
-This patch renames the undefined variables mask_off and table_off to the
-existing (but unused) mask_ofs and table_ofs variables.
+I didn't get some idea about your approach. Would you mind sharing more light?
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- tcg/riscv/tcg-target.inc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
-index 1f0ae64aae..3e76bf5738 100644
---- a/tcg/riscv/tcg-target.inc.c
-+++ b/tcg/riscv/tcg-target.inc.c
-@@ -980,8 +980,8 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
-     int table_ofs = fast_ofs + offsetof(CPUTLBDescFast, table);
-     TCGReg mask_base = TCG_AREG0, table_base = TCG_AREG0;
- 
--    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, mask_base, mask_off);
--    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, table_base, table_off);
-+    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, mask_base, mask_ofs);
-+    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP1, table_base, table_ofs);
- 
-     tcg_out_opc_imm(s, OPC_SRLI, TCG_REG_TMP2, addrl,
-                     TARGET_PAGE_BITS - CPU_TLB_ENTRY_BITS);
 -- 
-2.22.0
-
+Wei Yang
+Help you, Help me
 
