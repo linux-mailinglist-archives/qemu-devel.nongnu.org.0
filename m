@@ -2,87 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D8D4CF75
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 15:48:49 +0200 (CEST)
-Received: from localhost ([::1]:47862 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF8A4D196
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:06:51 +0200 (CEST)
+Received: from localhost ([::1]:48860 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdxQl-0004wf-Kg
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 09:48:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57206)
+	id 1hdyeI-0003VO-Ji
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:06:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liran.alon@oracle.com>) id 1hdxL6-0002eg-3J
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:42:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hdyBs-0006bN-6q
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:37:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1hdxL4-0001i9-Dl
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:42:56 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:40588)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1hdxL4-0001hh-3m
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:42:54 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5KDdcgd010527;
- Thu, 20 Jun 2019 13:42:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2018-07-02; bh=9HdU2U+stuqNpmsAAx7ml3U2tP+4IG26hVrZ9/sPtWo=;
- b=P1iLvrOaBJEqAu9JdjXXyInm51Dlz4E00eAd8Z8qltDetyhWxGTI2YjCGD+DE4JPsYGJ
- B+MeJZf6/LsUXGs8e1VImGiKQtqScJr9XSh6QuWdORA0nxLTGo1TIzqIdQZee36btGem
- krCYMxbAD3AZcKPbQma82sGq+cjx2EGgYYVQbs7w4gNt89QKV9/rtaukldXvUGQsCQfd
- jt1W6RcrluerZ8T7Zet81Sr24/ygxL49ki2ipnb+2G2A/dBTd3ihnlKkLygT2SEUFCoV
- nwpmuEpysTiqxduDGN3fuiz1XlLqP95Y+8DoqYCfKDeSu6JI2twVv43FVVZTijYnJP7G wg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2t7809h6jt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Jun 2019 13:42:51 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5KDdHss071465;
- Thu, 20 Jun 2019 13:40:51 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 2t7rdx601n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Jun 2019 13:40:50 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5KDen9l023209;
- Thu, 20 Jun 2019 13:40:49 GMT
-Received: from [192.168.14.112] (/109.64.216.174)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 20 Jun 2019 06:40:34 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
-From: Liran Alon <liran.alon@oracle.com>
-In-Reply-To: <D804B7FE-EB38-4D3E-A251-C69CC979D383@oracle.com>
-Date: Thu, 20 Jun 2019 16:40:30 +0300
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <04A2B953-177F-4EA3-98E0-0D141C97FCF4@oracle.com>
-References: <20190619162140.133674-1-liran.alon@oracle.com>
- <bcb617b1-7d20-d2ff-81c5-9f165eae5683@redhat.com>
- <D804B7FE-EB38-4D3E-A251-C69CC979D383@oracle.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-X-Mailer: Apple Mail (2.3445.4.7)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906200103
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906200103
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: Re: [Qemu-devel] [QEMU PATCH v4 0/10]: target/i386: kvm: Add
- support for save and restore of nested state
+ (envelope-from <mreitz@redhat.com>) id 1hdyBp-0000Q3-3E
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:37:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51184)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hdxMM-0002Hm-2Z; Thu, 20 Jun 2019 09:44:15 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E214C5277E;
+ Thu, 20 Jun 2019 13:44:12 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2DB726090E;
+ Thu, 20 Jun 2019 13:44:10 +0000 (UTC)
+To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190620091057.47441-1-shmuel.eiderman@oracle.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <4fd4cb44-9e96-4873-b271-4d293838676f@redhat.com>
+Date: Thu, 20 Jun 2019 15:44:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190620091057.47441-1-shmuel.eiderman@oracle.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="qVwyhQhZiaZGLvFdjpK5D4D7Ro35aAYIB"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Thu, 20 Jun 2019 13:44:12 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 0/3] vmdk: Add read-only support for the
+ new seSparse format
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,116 +85,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, maran.wilson@oracle.com,
- mtosatti@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
- jmattson@google.com, rth@twiddle.net
+Cc: liran.alon@oracle.com, karl.heubaum@oracle.com, arbel.moshe@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--qVwyhQhZiaZGLvFdjpK5D4D7Ro35aAYIB
+Content-Type: multipart/mixed; boundary="UMW2yEuXdCoGovox0MnZZ6aAwnim1m46C";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Sam Eiderman <shmuel.eiderman@oracle.com>, kwolf@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: karl.heubaum@oracle.com, liran.alon@oracle.com, arbel.moshe@oracle.com
+Message-ID: <4fd4cb44-9e96-4873-b271-4d293838676f@redhat.com>
+Subject: Re: [PATCH v3 0/3] vmdk: Add read-only support for the new seSparse
+ format
+References: <20190620091057.47441-1-shmuel.eiderman@oracle.com>
+In-Reply-To: <20190620091057.47441-1-shmuel.eiderman@oracle.com>
+
+--UMW2yEuXdCoGovox0MnZZ6aAwnim1m46C
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 20.06.19 11:10, Sam Eiderman wrote:
+> v1:
+>=20
+> VMware introduced a new snapshot format in VMFS6 - seSparse (Space
+> Efficient Sparse) which is the default format available in ESXi 6.7.
+> Add read-only support for the new snapshot format.
+>=20
+> v2:
+>=20
+> Fixed after Max's review:
+>=20
+> * Removed strict sesparse checks
+> * Reduced maximal L1 table size
+> * Added non-write mode check in vmdk_open() on sesparse
+>=20
+> v3:
+>=20
+> Change non-write mode check in vmdk_open() to bdrv_apply_auto_read_only=
+().
+>=20
+> Sam Eiderman (3):
+>   vmdk: Fix comment regarding max l1_size coverage
+>   vmdk: Reduce the max bound for L1 table size
+>   vmdk: Add read-only support for seSparse snapshots
+>=20
+>  block/vmdk.c               | 372 +++++++++++++++++++++++++++++++++++++=
++++++---
+>  tests/qemu-iotests/059.out |   2 +-
+>  2 files changed, 353 insertions(+), 21 deletions(-)
+
+Thanks, applied to my block branch:
+
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+
+Max
 
 
-> On 20 Jun 2019, at 16:28, Liran Alon <liran.alon@oracle.com> wrote:
->=20
->=20
->=20
->> On 20 Jun 2019, at 15:38, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>=20
->> On 19/06/19 18:21, Liran Alon wrote:
->>> Hi,
->>>=20
->>> This series aims to add support for QEMU to be able to migrate VMs =
-that
->>> are running nested hypervisors. In order to do so, it utilizes the =
-new
->>> IOCTLs introduced in KVM commit 8fcc4b5923af ("kvm: nVMX: Introduce
->>> KVM_CAP_NESTED_STATE") which was created for this purpose.
->>=20
->> Applied with just three minor changes that should be uncontroversial:
->=20
-> ACK. Where can I see the applied patches for review?
->=20
->>=20
->>> 6rd patch updates linux-headers to have updated struct =
-kvm_nested_state.
->>> The updated struct now have explicit fields for the data portion.
->>=20
->> Changed patch title to "linux-headers: sync with latest KVM headers =
-from
->> Linux 5.2=E2=80=9D
->=20
-> ACK.
->=20
->>=20
->>> 7rd patch add vmstate support for saving/restoring kernel integer =
-types (e.g. __u16).
->>>=20
->>> 8th patch adds support for saving and restoring nested state in =
-order to migrate
->>> guests which run a nested hypervisor.
->>=20
->> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
->> index e924663f32..f3cf6e1b27 100644
->> --- a/target/i386/kvm.c
->> +++ b/target/i386/kvm.c
->> @@ -1671,10 +1671,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
->>            struct kvm_vmx_nested_state_hdr *vmx_hdr =3D
->>                &env->nested_state->hdr.vmx;
->>=20
->> +            env->nested_state->format =3D =
-KVM_STATE_NESTED_FORMAT_VMX;
->>            vmx_hdr->vmxon_pa =3D -1ull;
->>            vmx_hdr->vmcs12_pa =3D -1ull;
->>        }
->> -
->>    }
->>=20
->>    cpu->kvm_msr_buf =3D g_malloc0(MSR_BUF_SIZE);
->>=20
->> which is a no-op since KVM_STATE_NESTED_FORMAT_VMX is zero, but it's =
-tidy.
->=20
-> I agree. My bad. Thanks for adding this :)
+--UMW2yEuXdCoGovox0MnZZ6aAwnim1m46C--
 
-Actually, I think it makes more sense to condition here on =
-cpu_has_vmx(env) instead of IS_INTEL_CPU(env).
-And also add an =E2=80=9Celse if (cpu_has_svm(env))=E2=80=9D that sets =
-env->nested_state->format to KVM_STATE_NESTED_FORMAT_SVM.
-If you can change that when applying. :)
+--qVwyhQhZiaZGLvFdjpK5D4D7Ro35aAYIB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
--Liran
+-----BEGIN PGP SIGNATURE-----
 
->=20
->>=20
->>> 9th patch add support for KVM_CAP_EXCEPTION_PAYLOAD. This new KVM =
-capability
->>> allows userspace to properly distingiush between pending and =
-injecting exceptions.
->>>=20
->>> 10th patch changes the nested virtualization migration blocker to =
-only
->>> be added when kernel lack support for one of the capabilities =
-required
->>> for correct nested migration. i.e. Either KVM_CAP_NESTED_STATE or
->>> KVM_CAP_EXCEPTION_PAYLOAD.
->>=20
->> Had to disable this for SVM unfortunately.
->=20
-> For backwards compatibility I assume=E2=80=A6 Sounds reasonable to me =
-so ACK.
->=20
-> Even though I must say I would really like to hear your opinion about =
-the thread I had with David Gilbert regarding QEMU=E2=80=99s migration =
-backwards compatibility:
-> =
-https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__www.mail-2Darchive.=
-com_qemu-2Ddevel-40nongnu.org_msg622274.html&d=3DDwIFaQ&c=3DRoP1YumCXCgaWH=
-vlZYR8PZh8Bv7qIrMUB65eapI_JnE&r=3DJk6Q8nNzkQ6LJ6g42qARkg6ryIDGQr-yKXPNGZbp=
-Tx0&m=3DaPCucPqkbmosKyDNeWq6rNNJ4Ry4GCh4HlxnZcQvAS8&s=3DZnEgQlntxSZ2cZf9nn=
-qJa74vM3cq_yPUlTEL1pwVpUs&e=3D
->=20
-> Thanks for the assistance pushing this forward,
-> -Liran
->=20
->=20
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0LjakACgkQ9AfbAGHV
+z0BCLQf+JKrrTzxSkuwW51VO5NxdQleT8ce1UuWSD+mKxcF3aNTEKXJW5bH1bI5M
+s/PYb1Z5lKLR/OtFYe8hQl14oPgHtN3FeW82oSqffU0KhY5aYVfDAVT52XwU0aZo
+dlT1Ea0BO/QyIJLVyalbSmR7jC0xASVQ9tIHK8ImUsrOm9SORke15oDxI8V8u19I
+sow96yn5jWQeN/Unx0aILQtIbKgOl5LVMfycwVGvHO5J0KAZugRXV3ub9DFGG53w
+eigTHslqBRTuUqe7P3nX5J9gVYKX/aqv3cchheTYCmOttlaCHV0GVQ3r7hg3by6/
+D1Bza4dLMONqsCFJubx4QIu8CiwWfQ==
+=/y66
+-----END PGP SIGNATURE-----
 
+--qVwyhQhZiaZGLvFdjpK5D4D7Ro35aAYIB--
 
