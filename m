@@ -2,44 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1634CBB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 12:22:13 +0200 (CEST)
-Received: from localhost ([::1]:45918 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66E94CBAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 12:21:24 +0200 (CEST)
+Received: from localhost ([::1]:45904 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hduCq-00015p-Vp
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 06:22:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37451)
+	id 1hduC3-00006L-8K
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 06:21:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37065)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdu9K-0007CI-QH
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:18:37 -0400
+ (envelope-from <berrange@redhat.com>) id 1hdu98-0006ju-AM
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:18:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdtxg-0001ab-Mm
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:06:34 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:52464 helo=mail.rt-rk.com)
+ (envelope-from <berrange@redhat.com>) id 1hdu2Q-0005lK-7v
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:11:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48276)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hdtuF-00088y-H6
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 06:03:02 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 70AB51A464C;
- Thu, 20 Jun 2019 12:02:16 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 4C1851A4775;
- Thu, 20 Jun 2019 12:02:16 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 12:02:09 +0200
-Message-Id: <1561024929-26004-5-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561024929-26004-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1561024929-26004-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v3 4/4] target/mips: Fix if-else-switch-case
- arms checkpatch errors in translate.c
+ (Exim 4.71) (envelope-from <berrange@redhat.com>)
+ id 1hdu2O-0005kW-GQ; Thu, 20 Jun 2019 06:11:24 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id B2BC688E56;
+ Thu, 20 Jun 2019 10:11:23 +0000 (UTC)
+Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A69560156;
+ Thu, 20 Jun 2019 10:11:16 +0000 (UTC)
+Date: Thu, 20 Jun 2019 11:11:13 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190620101113.GV25448@redhat.com>
+References: <20190618092403.30006-1-ptoscano@redhat.com>
+ <ca41c9ef-aa6d-2e17-42a0-3a1beb42e208@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ca41c9ef-aa6d-2e17-42a0-3a1beb42e208@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Thu, 20 Jun 2019 10:11:23 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v10] ssh: switch from libssh2 to libssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,483 +58,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, fam@euphon.net, qemu-block@nongnu.org, rjones@redhat.com,
+ sw@weilnetz.de, qemu-devel@nongnu.org, Pino Toscano <ptoscano@redhat.com>,
+ alex.bennee@linaro.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On Tue, Jun 18, 2019 at 03:14:30PM +0200, Max Reitz wrote:
+> On 18.06.19 11:24, Pino Toscano wrote:
+> > Rewrite the implementation of the ssh block driver to use libssh inst=
+ead
+> > of libssh2.  The libssh library has various advantages over libssh2:
+> > - easier API for authentication (for example for using ssh-agent)
+> > - easier API for known_hosts handling
+> > - supports newer types of keys in known_hosts
+> >=20
+> > Use APIs/features available in libssh 0.8 conditionally, to support
+> > older versions (which are not recommended though).
+> >=20
+> > Adjust the tests according to the different error message, and to the
+> > newer host keys (ed25519) that are used by default with OpenSSH >=3D =
+6.7
+> > and libssh >=3D 0.7.0.
+> >=20
+> > Adjust the various Docker/Travis scripts to use libssh when available
+> > instead of libssh2. The mingw/mxe testing is dropped for now, as ther=
+e
+> > are no packages for it.
+> >=20
+> > Signed-off-by: Pino Toscano <ptoscano@redhat.com>
+> > Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > ---
+> >=20
+> > Changes from v9:
+> > - restored "default" case in the server status switch for libssh < 0.=
+8.0
+> > - print the host key type & fingerprint on mismatch with known_hosts
+> > - improve/fix message for failed socket_set_nodelay()
+> > - reset s->sock properly
+> >=20
+> > Changes from v8:
+> > - use a newer key type in iotest 207
+> > - improve the commit message
+> >=20
+> > Changes from v7:
+> > - #if HAVE_LIBSSH_0_8 -> #ifdef HAVE_LIBSSH_0_8
+> > - ptrdiff_t -> size_t
+> >=20
+> > Changes from v6:
+> > - fixed few checkpatch style issues
+> > - detect libssh 0.8 via symbol detection
+> > - adjust travis/docker test material
+> > - remove dead "default" case in a switch
+> > - use variables for storing MIN() results
+> > - adapt a documentation bit
+> >=20
+> > Changes from v5:
+> > - adapt to newer tracing APIs
+> > - disable ssh compression (mimic what libssh2 does by default)
+> > - use build time checks for libssh 0.8, and use newer APIs directly
+> >=20
+> > Changes from v4:
+> > - fix wrong usages of error_setg/session_error_setg/sftp_error_setg
+> > - fix few return code checks
+> > - remove now-unused parameters in few internal functions
+> > - allow authentication with "none" method
+> > - switch to unsigned int for the port number
+> > - enable TCP_NODELAY on the socket
+> > - fix one reference error message in iotest 207
+> >=20
+> > Changes from v3:
+> > - fix socket cleanup in connect_to_ssh()
+> > - add comments about the socket cleanup
+> > - improve the error reporting (closer to what was with libssh2)
+> > - improve EOF detection on sftp_read()
+> >=20
+> > Changes from v2:
+> > - used again an own fd
+> > - fixed co_yield() implementation
+> >=20
+> > Changes from v1:
+> > - fixed jumbo packets writing
+> > - fixed missing 'err' assignment
+> > - fixed commit message
+> >=20
+> >  .travis.yml                                   |   4 +-
+> >  block/Makefile.objs                           |   6 +-
+> >  block/ssh.c                                   | 665 ++++++++++------=
+--
+> >  block/trace-events                            |  14 +-
+> >  configure                                     |  65 +-
+> >  docs/qemu-block-drivers.texi                  |   2 +-
+> >  .../dockerfiles/debian-win32-cross.docker     |   1 -
+> >  .../dockerfiles/debian-win64-cross.docker     |   1 -
+> >  tests/docker/dockerfiles/fedora.docker        |   4 +-
+> >  tests/docker/dockerfiles/ubuntu.docker        |   2 +-
+> >  tests/docker/dockerfiles/ubuntu1804.docker    |   2 +-
+> >  tests/qemu-iotests/207                        |   4 +-
+> >  tests/qemu-iotests/207.out                    |   2 +-
+> >  13 files changed, 423 insertions(+), 349 deletions(-)
+>=20
+> [...]
+>=20
+> > diff --git a/block/ssh.c b/block/ssh.c
+> > index 6da7b9cbfe..644ae8b82c 100644
+> > --- a/block/ssh.c
+> > +++ b/block/ssh.c
+>=20
+> [...]
+>=20
+> > +    case SSH_SERVER_KNOWN_CHANGED:
+> > +        ret =3D -EINVAL;
+> > +        r =3D ssh_get_publickey(s->session, &pubkey);
+> > +        if (r =3D=3D 0) {
+> > +            r =3D ssh_get_publickey_hash(pubkey, SSH_PUBLICKEY_HASH_=
+SHA1,
+> > +                                       &server_hash, &server_hash_le=
+n);
+> > +            pubkey_type =3D ssh_key_type(pubkey);
+> > +            ssh_key_free(pubkey);
+> > +        }
+> > +        if (r =3D=3D 0) {
+> > +            fingerprint =3D ssh_get_fingerprint_hash(SSH_PUBLICKEY_H=
+ASH_SHA1,
+> > +                                                   server_hash,
+> > +                                                   server_hash_len);
+> > +            ssh_clean_pubkey_hash(&server_hash);
+> > +        }
+> > +        if (fingerprint) {
+> > +            error_setg(errp,
+> > +                       "host key (%s key with fingerprint %s) does n=
+ot match "
+> > +                       "the one in known_hosts",
+> > +                       ssh_key_type_to_char(pubkey_type), fingerprin=
+t);
+> > +            ssh_string_free_char(fingerprint);
+> > +        } else  {
+> > +            error_setg(errp, "host key does not match the one in kno=
+wn_hosts");
+> > +        }
+>=20
+> Usually I=E2=80=99d say that more information can=E2=80=99t be bad.  Bu=
+t here I don=E2=80=99t
+> see how this additional information is useful.  known_hosts contains
+> base64-encoded full public keys.  This only prints the SHA-1 digest.
+> The user cannot add that to known_hosts, or easily scan known_hosts to
+> see whether it perhaps belongs to some other hosts (maybe because DHCP
+> scrambled something).
+>=20
+> Actually, even if this printed the base64 representation of the full
+> key, the user probably wouldn=E2=80=99t just add that to known_hosts or=
+ do
+> anything with it.  They=E2=80=99ll debug the problem with other tools.
+>=20
+> So I don=E2=80=99t think this new information is really useful...?
+>=20
+>=20
+> (Hmm, I don=E2=80=99t know if this is a response to my =E2=80=9CBut the=
+ specification
+> requires a warning!!1!=E2=80=9D, but if so, I was actually not referrin=
+g to more
+> information but to this:
+>=20
+> $ ssh 192.168.0.12
+> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+> @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+> IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+> Someone could be eavesdropping on you right now (man-in-the-middle atta=
+ck)!
+> It is also possible that a host key has just been changed.
+>=20
+>=20
+> I mean, I was also only half-serious.  I should be serious because the
+> libssh specification requires us to print some warning like that, but,
+> well.  Yes, I=E2=80=99ll stop mumbling about this stuff now.)
 
-Remove if-else-switch-case-arms-related checkpatch errors.
+Those giant messages are targetted at humans though so I'm not so
+convinced it is useful for apps managing QEMU. IMHO it is sufficient
+to just report a simple error that the host ident check failed as
+the patch does now. It gives enough info to then investigate further
+to identify the root cause problems.
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- target/mips/translate.c | 205 +++++++++++++++++++++++++++++++-----------------
- 1 file changed, 133 insertions(+), 72 deletions(-)
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 54e0160..d489148 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -2619,16 +2619,18 @@ static const char * const mxuregnames[] = {
- /* General purpose registers moves. */
- static inline void gen_load_gpr(TCGv t, int reg)
- {
--    if (reg == 0)
-+    if (reg == 0) {
-         tcg_gen_movi_tl(t, 0);
--    else
-+    } else {
-         tcg_gen_mov_tl(t, cpu_gpr[reg]);
-+    }
- }
- 
- static inline void gen_store_gpr(TCGv t, int reg)
- {
--    if (reg != 0)
-+    if (reg != 0) {
-         tcg_gen_mov_tl(cpu_gpr[reg], t);
-+    }
- }
- 
- /* Moves to/from shadow registers. */
-@@ -2636,9 +2638,9 @@ static inline void gen_load_srsgpr(int from, int to)
- {
-     TCGv t0 = tcg_temp_new();
- 
--    if (from == 0)
-+    if (from == 0) {
-         tcg_gen_movi_tl(t0, 0);
--    else {
-+    } else {
-         TCGv_i32 t2 = tcg_temp_new_i32();
-         TCGv_ptr addr = tcg_temp_new_ptr();
- 
-@@ -2841,10 +2843,11 @@ static void gen_store_fpr64(DisasContext *ctx, TCGv_i64 t, int reg)
- 
- static inline int get_fp_bit(int cc)
- {
--    if (cc)
-+    if (cc) {
-         return 24 + cc;
--    else
-+    } else {
-         return 23;
-+    }
- }
- 
- /* Addresses computation */
-@@ -2908,14 +2911,16 @@ static inline void gen_move_high32(TCGv ret, TCGv_i64 arg)
- 
- static inline void check_cp0_enabled(DisasContext *ctx)
- {
--    if (unlikely(!(ctx->hflags & MIPS_HFLAG_CP0)))
-+    if (unlikely(!(ctx->hflags & MIPS_HFLAG_CP0))) {
-         generate_exception_err(ctx, EXCP_CpU, 0);
-+    }
- }
- 
- static inline void check_cp1_enabled(DisasContext *ctx)
- {
--    if (unlikely(!(ctx->hflags & MIPS_HFLAG_FPU)))
-+    if (unlikely(!(ctx->hflags & MIPS_HFLAG_FPU))) {
-         generate_exception_err(ctx, EXCP_CpU, 1);
-+    }
- }
- 
- /* Verify that the processor is running with COP1X instructions enabled.
-@@ -2924,8 +2929,9 @@ static inline void check_cp1_enabled(DisasContext *ctx)
- 
- static inline void check_cop1x(DisasContext *ctx)
- {
--    if (unlikely(!(ctx->hflags & MIPS_HFLAG_COP1X)))
-+    if (unlikely(!(ctx->hflags & MIPS_HFLAG_COP1X))) {
-         generate_exception_end(ctx, EXCP_RI);
-+    }
- }
- 
- /* Verify that the processor is running with 64-bit floating-point
-@@ -2933,8 +2939,9 @@ static inline void check_cop1x(DisasContext *ctx)
- 
- static inline void check_cp1_64bitmode(DisasContext *ctx)
- {
--    if (unlikely(~ctx->hflags & (MIPS_HFLAG_F64 | MIPS_HFLAG_COP1X)))
-+    if (unlikely(~ctx->hflags & (MIPS_HFLAG_F64 | MIPS_HFLAG_COP1X))) {
-         generate_exception_end(ctx, EXCP_RI);
-+    }
- }
- 
- /*
-@@ -2950,8 +2957,9 @@ static inline void check_cp1_64bitmode(DisasContext *ctx)
-  */
- static inline void check_cp1_registers(DisasContext *ctx, int regs)
- {
--    if (unlikely(!(ctx->hflags & MIPS_HFLAG_F64) && (regs & 1)))
-+    if (unlikely(!(ctx->hflags & MIPS_HFLAG_F64) && (regs & 1))) {
-         generate_exception_end(ctx, EXCP_RI);
-+    }
- }
- 
- /* Verify that the processor is running with DSP instructions enabled.
-@@ -3040,8 +3048,9 @@ static inline void check_ps(DisasContext *ctx)
-    instructions are not enabled. */
- static inline void check_mips_64(DisasContext *ctx)
- {
--    if (unlikely(!(ctx->hflags & MIPS_HFLAG_64)))
-+    if (unlikely(!(ctx->hflags & MIPS_HFLAG_64))) {
-         generate_exception_end(ctx, EXCP_RI);
-+    }
- }
- #endif
- 
-@@ -3126,13 +3135,12 @@ static inline void check_nms(DisasContext *ctx)
-  */
- static inline void check_nms_dl_il_sl_tl_l2c(DisasContext *ctx)
- {
--    if (unlikely(ctx->CP0_Config5 & (1 << CP0C5_NMS)) &&
--        !(ctx->CP0_Config1 & (1 << CP0C1_DL)) &&
--        !(ctx->CP0_Config1 & (1 << CP0C1_IL)) &&
--        !(ctx->CP0_Config2 & (1 << CP0C2_SL)) &&
--        !(ctx->CP0_Config2 & (1 << CP0C2_TL)) &&
--        !(ctx->CP0_Config5 & (1 << CP0C5_L2C)))
--    {
-+    if (unlikely( (ctx->CP0_Config5 & (1 << CP0C5_NMS)) &&
-+                 !(ctx->CP0_Config1 & (1 << CP0C1_DL )) &&
-+                 !(ctx->CP0_Config1 & (1 << CP0C1_IL )) &&
-+                 !(ctx->CP0_Config2 & (1 << CP0C2_SL )) &&
-+                 !(ctx->CP0_Config2 & (1 << CP0C2_TL )) &&
-+                 !(ctx->CP0_Config5 & (1 << CP0C5_L2C))     ) ) {
-         generate_exception_end(ctx, EXCP_RI);
-     }
- }
-@@ -3180,23 +3188,56 @@ static inline void gen_cmp ## type ## _ ## fmt(DisasContext *ctx, int n,      \
-     gen_ldcmp_fpr##bits (ctx, fp0, fs);                                       \
-     gen_ldcmp_fpr##bits (ctx, fp1, ft);                                       \
-     switch (n) {                                                              \
--    case  0: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _f, fp0, fp1, cc);    break;\
--    case  1: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _un, fp0, fp1, cc);   break;\
--    case  2: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _eq, fp0, fp1, cc);   break;\
--    case  3: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ueq, fp0, fp1, cc);  break;\
--    case  4: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _olt, fp0, fp1, cc);  break;\
--    case  5: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ult, fp0, fp1, cc);  break;\
--    case  6: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ole, fp0, fp1, cc);  break;\
--    case  7: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ule, fp0, fp1, cc);  break;\
--    case  8: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _sf, fp0, fp1, cc);   break;\
--    case  9: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ngle, fp0, fp1, cc); break;\
--    case 10: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _seq, fp0, fp1, cc);  break;\
--    case 11: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ngl, fp0, fp1, cc);  break;\
--    case 12: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _lt, fp0, fp1, cc);   break;\
--    case 13: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _nge, fp0, fp1, cc);  break;\
--    case 14: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _le, fp0, fp1, cc);   break;\
--    case 15: gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ngt, fp0, fp1, cc);  break;\
--    default: abort();                                                         \
-+    case  0:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _f, fp0, fp1, cc);         \
-+    break;                                                                    \
-+    case  1:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _un, fp0, fp1, cc);        \
-+    break;                                                                    \
-+    case  2:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _eq, fp0, fp1, cc);        \
-+    break;                                                                    \
-+    case  3:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ueq, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    case  4:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _olt, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    case  5:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ult, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    case  6:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ole, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    case  7:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ule, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    case  8:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _sf, fp0, fp1, cc);        \
-+    break;                                                                    \
-+    case  9:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ngle, fp0, fp1, cc);      \
-+    break;                                                                    \
-+    case 10:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _seq, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    case 11:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ngl, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    case 12:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _lt, fp0, fp1, cc);        \
-+    break;                                                                    \
-+    case 13:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _nge, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    case 14:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _le, fp0, fp1, cc);        \
-+    break;                                                                    \
-+    case 15:                                                                  \
-+        gen_helper_0e2i(cmp ## type ## _ ## fmt ## _ngt, fp0, fp1, cc);       \
-+    break;                                                                    \
-+    default:                                                                  \
-+        abort();                                                              \
-     }                                                                         \
-     tcg_temp_free_i##bits (fp0);                                              \
-     tcg_temp_free_i##bits (fp1);                                              \
-@@ -3882,22 +3923,25 @@ static void gen_logic_imm(DisasContext *ctx, uint32_t opc,
-     uimm = (uint16_t)imm;
-     switch (opc) {
-     case OPC_ANDI:
--        if (likely(rs != 0))
-+        if (likely(rs != 0)) {
-             tcg_gen_andi_tl(cpu_gpr[rt], cpu_gpr[rs], uimm);
--        else
-+        } else {
-             tcg_gen_movi_tl(cpu_gpr[rt], 0);
-+        }
-         break;
-     case OPC_ORI:
--        if (rs != 0)
-+        if (rs != 0) {
-             tcg_gen_ori_tl(cpu_gpr[rt], cpu_gpr[rs], uimm);
--        else
-+        } else {
-             tcg_gen_movi_tl(cpu_gpr[rt], uimm);
-+        }
-         break;
-     case OPC_XORI:
--        if (likely(rs != 0))
-+        if (likely(rs != 0)) {
-             tcg_gen_xori_tl(cpu_gpr[rt], cpu_gpr[rs], uimm);
--        else
-+        } else {
-             tcg_gen_movi_tl(cpu_gpr[rt], uimm);
-+        }
-         break;
-     case OPC_LUI:
-         if (rs != 0 && (ctx->insn_flags & ISA_MIPS32R6)) {
-@@ -6060,8 +6104,9 @@ static void gen_compute_branch (DisasContext *ctx, uint32_t opc,
-     }
- 
-  out:
--    if (insn_bytes == 2)
-+    if (insn_bytes == 2) {
-         ctx->hflags |= MIPS_HFLAG_B16;
-+    }
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
- }
-@@ -6708,8 +6753,9 @@ static void gen_mfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
- {
-     const char *register_name = "invalid";
- 
--    if (sel != 0)
-+    if (sel != 0) {
-         check_insn(ctx, ISA_MIPS32);
-+    }
- 
-     switch (reg) {
-     case CP0_REGISTER_00:
-@@ -7464,8 +7510,9 @@ static void gen_mtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
- {
-     const char *register_name = "invalid";
- 
--    if (sel != 0)
-+    if (sel != 0) {
-         check_insn(ctx, ISA_MIPS32);
-+    }
- 
-     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-         gen_io_start();
-@@ -8210,8 +8257,9 @@ static void gen_dmfc0(DisasContext *ctx, TCGv arg, int reg, int sel)
- {
-     const char *register_name = "invalid";
- 
--    if (sel != 0)
-+    if (sel != 0) {
-         check_insn(ctx, ISA_MIPS64);
-+    }
- 
-     switch (reg) {
-     case CP0_REGISTER_00:
-@@ -8920,8 +8968,9 @@ static void gen_dmtc0(DisasContext *ctx, TCGv arg, int reg, int sel)
- {
-     const char *register_name = "invalid";
- 
--    if (sel != 0)
-+    if (sel != 0) {
-         check_insn(ctx, ISA_MIPS64);
-+    }
- 
-     if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-         gen_io_start();
-@@ -9658,12 +9707,12 @@ static void gen_mftr(CPUMIPSState *env, DisasContext *ctx, int rt, int rd,
- 
-     if ((env->CP0_VPEConf0 & (1 << CP0VPEC0_MVP)) == 0 &&
-         ((env->tcs[other_tc].CP0_TCBind & (0xf << CP0TCBd_CurVPE)) !=
--         (env->active_tc.CP0_TCBind & (0xf << CP0TCBd_CurVPE))))
-+         (env->active_tc.CP0_TCBind & (0xf << CP0TCBd_CurVPE)))) {
-         tcg_gen_movi_tl(t0, -1);
--    else if ((env->CP0_VPEControl & (0xff << CP0VPECo_TargTC)) >
--             (env->mvp->CP0_MVPConf0 & (0xff << CP0MVPC0_PTC)))
-+    } else if ((env->CP0_VPEControl & (0xff << CP0VPECo_TargTC)) >
-+               (env->mvp->CP0_MVPConf0 & (0xff << CP0MVPC0_PTC))) {
-         tcg_gen_movi_tl(t0, -1);
--    else if (u == 0) {
-+    } else if (u == 0) {
-         switch (rt) {
-         case 1:
-             switch (sel) {
-@@ -9883,12 +9932,12 @@ static void gen_mttr(CPUMIPSState *env, DisasContext *ctx, int rd, int rt,
-     gen_load_gpr(t0, rt);
-     if ((env->CP0_VPEConf0 & (1 << CP0VPEC0_MVP)) == 0 &&
-         ((env->tcs[other_tc].CP0_TCBind & (0xf << CP0TCBd_CurVPE)) !=
--         (env->active_tc.CP0_TCBind & (0xf << CP0TCBd_CurVPE))))
-+         (env->active_tc.CP0_TCBind & (0xf << CP0TCBd_CurVPE)))) {
-         /* NOP */ ;
--    else if ((env->CP0_VPEControl & (0xff << CP0VPECo_TargTC)) >
--             (env->mvp->CP0_MVPConf0 & (0xff << CP0MVPC0_PTC)))
-+    } else if ((env->CP0_VPEControl & (0xff << CP0VPECo_TargTC)) >
-+             (env->mvp->CP0_MVPConf0 & (0xff << CP0MVPC0_PTC))) {
-         /* NOP */ ;
--    else if (u == 0) {
-+    } else if (u == 0) {
-         switch (rd) {
-         case 1:
-             switch (sel) {
-@@ -10162,8 +10211,9 @@ static void gen_cp0(CPUMIPSState *env, DisasContext *ctx, uint32_t opc,
-         break;
-     case OPC_TLBWI:
-         opn = "tlbwi";
--        if (!env->tlb->helper_tlbwi)
-+        if (!env->tlb->helper_tlbwi) {
-             goto die;
-+        }
-         gen_helper_tlbwi(cpu_env);
-         break;
-     case OPC_TLBINV:
-@@ -10186,20 +10236,23 @@ static void gen_cp0(CPUMIPSState *env, DisasContext *ctx, uint32_t opc,
-         break;
-     case OPC_TLBWR:
-         opn = "tlbwr";
--        if (!env->tlb->helper_tlbwr)
-+        if (!env->tlb->helper_tlbwr) {
-             goto die;
-+        }
-         gen_helper_tlbwr(cpu_env);
-         break;
-     case OPC_TLBP:
-         opn = "tlbp";
--        if (!env->tlb->helper_tlbp)
-+        if (!env->tlb->helper_tlbp) {
-             goto die;
-+        }
-         gen_helper_tlbp(cpu_env);
-         break;
-     case OPC_TLBR:
-         opn = "tlbr";
--        if (!env->tlb->helper_tlbr)
-+        if (!env->tlb->helper_tlbr) {
-             goto die;
-+        }
-         gen_helper_tlbr(cpu_env);
-         break;
-     case OPC_ERET: /* OPC_ERETNC */
-@@ -10273,8 +10326,9 @@ static void gen_compute_branch1(DisasContext *ctx, uint32_t op,
-         goto out;
-     }
- 
--    if (cc != 0)
-+    if (cc != 0) {
-         check_insn(ctx, ISA_MIPS4 | ISA_MIPS32);
-+    }
- 
-     btarget = ctx->base.pc_next + 4 + offset;
- 
-@@ -10728,10 +10782,11 @@ static void gen_movci(DisasContext *ctx, int rd, int rs, int cc, int tf)
-         return;
-     }
- 
--    if (tf)
-+    if (tf) {
-         cond = TCG_COND_EQ;
--    else
-+    } else {
-         cond = TCG_COND_NE;
-+    }
- 
-     l1 = gen_new_label();
-     t0 = tcg_temp_new_i32();
-@@ -10753,10 +10808,11 @@ static inline void gen_movcf_s(DisasContext *ctx, int fs, int fd, int cc,
-     TCGv_i32 t0 = tcg_temp_new_i32();
-     TCGLabel *l1 = gen_new_label();
- 
--    if (tf)
-+    if (tf) {
-         cond = TCG_COND_EQ;
--    else
-+    } else {
-         cond = TCG_COND_NE;
-+    }
- 
-     tcg_gen_andi_i32(t0, fpu_fcr31, 1 << get_fp_bit(cc));
-     tcg_gen_brcondi_i32(cond, t0, 0, l1);
-@@ -10774,10 +10830,11 @@ static inline void gen_movcf_d(DisasContext *ctx, int fs, int fd, int cc,
-     TCGv_i64 fp0;
-     TCGLabel *l1 = gen_new_label();
- 
--    if (tf)
-+    if (tf) {
-         cond = TCG_COND_EQ;
--    else
-+    } else {
-         cond = TCG_COND_NE;
-+    }
- 
-     tcg_gen_andi_i32(t0, fpu_fcr31, 1 << get_fp_bit(cc));
-     tcg_gen_brcondi_i32(cond, t0, 0, l1);
-@@ -10797,10 +10854,11 @@ static inline void gen_movcf_ps(DisasContext *ctx, int fs, int fd,
-     TCGLabel *l1 = gen_new_label();
-     TCGLabel *l2 = gen_new_label();
- 
--    if (tf)
-+    if (tf) {
-         cond = TCG_COND_EQ;
--    else
-+    } else {
-         cond = TCG_COND_NE;
-+    }
- 
-     tcg_gen_andi_i32(t0, fpu_fcr31, 1 << get_fp_bit(cc));
-     tcg_gen_brcondi_i32(cond, t0, 0, l1);
-@@ -12096,8 +12154,9 @@ static void gen_farith(DisasContext *ctx, enum fopcode op1,
-             TCGLabel *l1 = gen_new_label();
-             TCGv_i64 fp0;
- 
--            if (ft != 0)
-+            if (ft != 0) {
-                 tcg_gen_brcondi_tl(TCG_COND_NE, cpu_gpr[ft], 0, l1);
-+            }
-             fp0 = tcg_temp_new_i64();
-             gen_load_fpr64(ctx, fp0, fs);
-             gen_store_fpr64(ctx, fp0, fd);
-@@ -29991,12 +30050,14 @@ void mips_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-                  env->active_tc.PC, env->active_tc.HI[0], env->active_tc.LO[0],
-                  env->hflags, env->btarget, env->bcond);
-     for (i = 0; i < 32; i++) {
--        if ((i & 3) == 0)
-+        if ((i & 3) == 0) {
-             qemu_fprintf(f, "GPR%02d:", i);
-+        }
-         qemu_fprintf(f, " %s " TARGET_FMT_lx,
-                      regnames[i], env->active_tc.gpr[i]);
--        if ((i & 3) == 3)
-+        if ((i & 3) == 3) {
-             qemu_fprintf(f, "\n");
-+        }
-     }
- 
-     qemu_fprintf(f, "CP0 Status  0x%08x Cause   0x%08x EPC    0x" TARGET_FMT_lx "\n",
--- 
-2.7.4
-
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
