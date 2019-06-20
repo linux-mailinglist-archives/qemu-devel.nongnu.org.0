@@ -2,47 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD364D29B
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:58:27 +0200 (CEST)
-Received: from localhost ([::1]:49808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8FE4D292
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:56:57 +0200 (CEST)
+Received: from localhost ([::1]:49790 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdzSE-0000Wl-QS
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
+	id 1hdzQm-0007Kn-Qh
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52740)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <balaton@eik.bme.hu>) id 1hdzIq-00009R-3J
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:48:45 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hdzIo-0008Mo-Lz
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:48:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1hdzAf-0006kl-0c
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:40:18 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:63720)
+ (envelope-from <imammedo@redhat.com>) id 1hdzB4-0007HS-9L
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:40:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55134)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hdzAe-0006he-L4
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:40:16 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BBF587462D7;
- Thu, 20 Jun 2019 17:40:12 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 9354C7462D6; Thu, 20 Jun 2019 17:40:12 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 922017462BB;
- Thu, 20 Jun 2019 17:40:12 +0200 (CEST)
-Date: Thu, 20 Jun 2019 17:40:12 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Gerd Hoffmann <kraxel@redhat.com>
-In-Reply-To: <20190620150923.gpe4rqn3qc54gcsn@sirius.home.kraxel.org>
-Message-ID: <alpine.BSF.2.21.9999.1906201729320.50442@zero.eik.bme.hu>
-References: <cover.1561028123.git.balaton@eik.bme.hu>
- <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
- <20190620150923.gpe4rqn3qc54gcsn@sirius.home.kraxel.org>
-User-Agent: Alpine 2.21.9999 (BSF 287 2018-06-16)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] ati-vga: Implement DDC and EDID
- info from monitor
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hdzB4-0007Ge-3R
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:40:42 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6EFD0307D922
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 15:40:41 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7543819C5B;
+ Thu, 20 Jun 2019 15:40:40 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 20 Jun 2019 11:40:35 -0400
+Message-Id: <20190620154035.30989-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Thu, 20 Jun 2019 15:40:41 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2] qmp: make qmp-shell work with python3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,57 +51,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, qemu-devel@nongnu.org
+Cc: crosa@redhat.com, armbru@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 20 Jun 2019, Gerd Hoffmann wrote:
-> On Thu, Jun 20, 2019 at 12:55:23PM +0200, BALATON Zoltan wrote:
->> This adds DDC support to ati-vga and connects i2c-ddc to it. This
->> allows at least MacOS with an ATI ndrv, Linux radeonfb and MorphOS to
->
-> linux radeonfb is rv100 only, and aty128fb has no i2c support.
-> Do MacOS and MorphOS have working edid with both card variants?
+python3 doesn't have raw_input(), so qmp-shell breaks.
+Use input() instead and override it with raw_input()
+if running on python2.
 
-I've only tested EDID with MacOS with an NDRV from an ATI card ROM and 
-MorphOS on mac99. These could read EDID with this patch. Haven't tried 
-RV100 as that's known to be very incomplete to work yet (probably needs at 
-least command FIFO to do something). The rage128 Xorg driver might load 
-but that wants to use VESA BIOS function mentioned in the commit message 
-to read EDID so it does not work yet. If you can add that function to 
-vesabios it might get further.
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+v2:
+ use sys.version_info[0] instead try/except 
+    (Cleber Rosa <crosa@redhat.com>)
 
->> +    case GPIO_MONID ... GPIO_MONID + 3:
->> +        /* FIXME What does Radeon have here? */
->> +        if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
->> +            /* Rage128p accesses DDC used to get EDID on these pins */
->> +            ati_reg_write_offs(&s->regs.gpio_monid,
->> +                               addr - GPIO_MONID, data, size);
->> +            if ((s->regs.gpio_monid & BIT(25)) &&
->
-> Extra enable bit, ok.
+ scripts/qmp/qmp-shell | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-This bit is listed as mask bit in docs and clients set this to enable 
-other bits. It could probably safely be ignored (does not seem to be 
-present on RV100 only on older card) but checking it does not hurt either.
+diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+index 7776c7b141..f1cddeafbc 100755
+--- a/scripts/qmp/qmp-shell
++++ b/scripts/qmp/qmp-shell
+@@ -78,6 +78,9 @@ import re
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu import qmp
+ 
++if sys.version_info[0] == 2:
++    input = raw_input
++
+ class QMPCompleter(list):
+     def complete(self, text, state):
+         for cmd in self:
+@@ -308,7 +311,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         @return True if execution was ok, return False if disconnected.
+         """
+         try:
+-            cmdline = raw_input(prompt)
++            cmdline = input(prompt)
+         except EOFError:
+             print()
+             return False
+-- 
+2.18.1
 
->> +                addr <= GPIO_MONID + 2 && addr + size > GPIO_MONID + 2) {
->
-> Hmm, isn't this just "addr == GPIO_MONID + 2" ?
-
-No because there could be all kinds of unalligned or multibyte access and 
-we only want to trigger this when the byte with the enable bits are 
-touched. (The MacOS NDRV accesses this 1 byte at a time so this is needed 
-to avoid spurious i2c bit banging but other drivers write 4 bytes so then 
-addr is not equal but covering above byte which is what this test allows.
-
->> +                s->regs.gpio_monid = ati_i2c(s->bbi2c, s->regs.gpio_monid, 1);
->
-> So all i2c bits are shifted by one compared to rv100, correct?
-
-They are in a different register and drivers I've tried poke bits shifted 
-by one on R128P.
-
-Regards,
-BALATON Zoltan
 
