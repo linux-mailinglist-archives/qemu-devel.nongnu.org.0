@@ -2,68 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06324CCE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:27:41 +0200 (CEST)
-Received: from localhost ([::1]:46430 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB9E4CD2C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:52:59 +0200 (CEST)
+Received: from localhost ([::1]:46576 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdvED-00014e-11
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:27:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52851)
+	id 1hdvcg-0002JZ-BJ
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55036)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hdv4H-0004QD-8u
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:17:26 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hdvYd-00082C-JU
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:48:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hdv0D-0003BR-Pn
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:13:14 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40818)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hdv0D-0003As-KR
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:13:13 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v19so2731113wmj.5
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 04:13:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=716XKHodatM02Cxtj8XZxZhJd8kDjQVWNgZdEZm4Me0=;
- b=onMUFtAIT33eV3aKjkT4uUQwt7fHGMIfvKi1gb3ByhxVzDWsJCaFDaEJWjhdnK/hxz
- p1n/GGr7zYRtV8tcGT1FD7JxfYqmp1h78Z+029AdLlo4UHaNtvxDz0IBQcwLjXMsV1xs
- VAQp0QNQp+7ZJIEhary/rYzqShlh23nehSkq6vdZOLmpcy3XPvHcDzMzm9t2M4pjF9z1
- LI/z2tJYQNTa4fYL46p3WNb6+OJtYrBfPk55yXH3dgLXy/R7q4YBGeDOKNEDr2AwH55L
- scapdyUG+Te1tahEQcX9f3FJdI+ZPWdlmzh5D1OUMo4s2Dsnyn5IQ7FCwwQQ2Ms5pRwA
- Hm+A==
-X-Gm-Message-State: APjAAAUN/H1Jhybv69iG9jsuOpw4e/s17J/LCPTJAf85LH++n6PYnGb/
- rNdhY3v7Xav32arQK6O6F8sX+w==
-X-Google-Smtp-Source: APXvYqw9xtiDchYecZ8KE1sHUB/Itz2UdtzddXrY5VSzt3NUaua49TUVkuq8JKcIUdfN9Qm5RTDABw==
-X-Received: by 2002:a7b:cc86:: with SMTP id p6mr2303029wma.123.1561029192519; 
- Thu, 20 Jun 2019 04:13:12 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id h133sm1866927wme.28.2019.06.20.04.13.11
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 04:13:12 -0700 (PDT)
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1561022396-20649-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1561022396-20649-2-git-send-email-aleksandar.markovic@rt-rk.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <197176a8-193c-1c58-ebe4-49fb8aee4fb4@redhat.com>
-Date: Thu, 20 Jun 2019 13:13:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <1561022396-20649-2-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+ (envelope-from <imammedo@redhat.com>) id 1hdvRh-0007US-6o
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:41:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39548)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hdvRd-0007QC-6v
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:41:33 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E5D4F308FE8D
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 11:41:23 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E0CE3608D0;
+ Thu, 20 Jun 2019 11:41:20 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 20 Jun 2019 07:41:16 -0400
+Message-Id: <20190620114116.27254-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 20 Jun 2019 11:41:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH 1/4] MAINTAINERS: Update file items for
- MIPS Malta board
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] deprecate -mem-path fallback to anonymous RAM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,35 +51,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
+Cc: libvir-list@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/19 11:19 AM, Aleksandar Markovic wrote:
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
-> 
-> hw/mips/gt64xxx_pci.c is used for Malta only, so it is logical to
-> place this file in Malta board section of the MAINTAINERS file.
-> 
+Fallback might affect guest or worse whole host performance
+or functionality if backing file were used to share guest RAM
+with another process.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Patch deprecates fallback so that we could remove it in future
+and ensure that QEMU will provide expected behavior and fail if
+it can't use user provided backing file.
 
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index acbad13..869e87b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -930,6 +930,7 @@ M: Aurelien Jarno <aurelien@aurel32.net>
->  R: Aleksandar Rikalo <arikalo@wavecomp.com>
->  S: Maintained
->  F: hw/mips/mips_malta.c
-> +F: hw/mips/gt64xxx_pci.c
->  F: tests/acceptance/linux_ssh_mips_malta.py
->  
->  Mipssim
-> 
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+PS:
+Patch is written on top of
+  [PATCH v4 0/3] numa: deprecate '-numa node,  mem' and default memory distribution
+to avoid conflicts in qemu-deprecated.texi
+
+ numa.c               | 4 ++--
+ qemu-deprecated.texi | 8 ++++++++
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/numa.c b/numa.c
+index 91a29138a2..53d67b8ad9 100644
+--- a/numa.c
++++ b/numa.c
+@@ -494,8 +494,8 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
+             if (mem_prealloc) {
+                 exit(1);
+             }
+-            error_report("falling back to regular RAM allocation.");
+-
++            warn_report("falling back to regular RAM allocation. "
++                        "Fallback to RAM allocation is deprecated.");
+             /* Legacy behavior: if allocation failed, fall back to
+              * regular RAM allocation.
+              */
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 2fe9b72121..2193705644 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -112,6 +112,14 @@ QEMU using implicit generic or board specific splitting rule.
+ Use @option{memdev} with @var{memory-backend-ram} backend or @option{mem} (if
+ it's supported by used machine type) to define mapping explictly instead.
+ 
++@subsection -mem-path fallback to RAM (since 4.1)
++Currently if system memory allocation from file pointed by @option{mem-path}
++fails, QEMU fallbacks to allocating from anonymous RAM. Which might result
++in unpredictable behavior since provided backing file wasn't used. In future
++QEMU will not fallback and fail to start up, so user could fix his/her QEMU/host
++configuration or explicitly use -m without -mem-path if system memory allocated
++from anonymous RAM suits usecase.
++
+ @section QEMU Machine Protocol (QMP) commands
+ 
+ @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
+-- 
+2.18.1
+
 
