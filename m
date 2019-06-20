@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAA454C4EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 03:24:32 +0200 (CEST)
-Received: from localhost ([::1]:42976 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0324C4E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 03:22:06 +0200 (CEST)
+Received: from localhost ([::1]:42948 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdloV-0002f8-TJ
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 21:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40725)
+	id 1hdlm9-00006c-Ee
+	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 21:22:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40379)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hdle7-0002G1-0k
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 21:13:49 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hdle6-0001zb-1w
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 21:13:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hdlUr-0004rq-1T
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 21:04:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53400)
+ (envelope-from <jsnow@redhat.com>) id 1hdlUs-0004sk-8e
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 21:04:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38914)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hdlUp-0004po-KV; Wed, 19 Jun 2019 21:04:11 -0400
+ id 1hdlUq-0004r4-Rd; Wed, 19 Jun 2019 21:04:13 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CF99D81F1B;
- Thu, 20 Jun 2019 01:04:10 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 175B230C1CBF;
+ Thu, 20 Jun 2019 01:04:12 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-164.bos.redhat.com [10.18.17.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B26161001E67;
- Thu, 20 Jun 2019 01:04:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F19CB1001E67;
+ Thu, 20 Jun 2019 01:04:10 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Wed, 19 Jun 2019 21:03:50 -0400
-Message-Id: <20190620010356.19164-7-jsnow@redhat.com>
+Date: Wed, 19 Jun 2019 21:03:51 -0400
+Message-Id: <20190620010356.19164-8-jsnow@redhat.com>
 In-Reply-To: <20190620010356.19164-1-jsnow@redhat.com>
 References: <20190620010356.19164-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Thu, 20 Jun 2019 01:04:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Thu, 20 Jun 2019 01:04:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 06/12] block/dirty-bitmap: add
- bdrv_dirty_bitmap_claim
+Subject: [Qemu-devel] [PATCH 07/12] block/backup: add 'always' bitmap sync
+ policy
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,97 +64,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function can claim an hbitmap to replace its own current hbitmap.
-In the case that the granularities do not match, it will use
-hbitmap_merge to copy the bit data instead.
+This adds an "always" policy for bitmap synchronization. Regardless of if
+the job succeeds or fails, the bitmap is *always* synchronized. This mean=
+s
+that for backups that fail part-way through, the bitmap retains a record =
+of
+which sectors need to be copied out to accomplish a new backup using the
+old, partial result.
+
+In effect, this allows us to "resume" a failed backup; however the new ba=
+ckup
+will be from the new point in time, so it isn't a "resume" as much as it =
+is
+an "incremental retry." This can be useful in the case of extremely large
+backups that fail considerably through the operation and we'd like to not=
+ waste
+the work that was already performed.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- include/block/block_int.h |  1 +
- include/qemu/hbitmap.h    |  8 ++++++++
- block/dirty-bitmap.c      | 14 ++++++++++++++
- util/hbitmap.c            |  5 +++++
- 4 files changed, 28 insertions(+)
+ qapi/block-core.json |  5 ++++-
+ block/backup.c       | 10 ++++++----
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 89370c1b9b..7348ea8e78 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -1240,6 +1240,7 @@ void bdrv_set_dirty(BlockDriverState *bs, int64_t o=
-ffset, int64_t bytes);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0332dcaabc..58d267f1f5 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1143,6 +1143,9 @@
+ # An enumeration of possible behaviors for the synchronization of a bitm=
+ap
+ # when used for data copy operations.
+ #
++# @always: The bitmap is always synchronized with remaining blocks to co=
+py,
++#          whether or not the operation has completed successfully or no=
+t.
++#
+ # @conditional: The bitmap is only synchronized when the operation is su=
+ccessul.
+ #               This is useful for Incremental semantics.
+ #
+@@ -1153,7 +1156,7 @@
+ # Since: 4.1
+ ##
+ { 'enum': 'BitmapSyncMode',
+-  'data': ['conditional', 'never'] }
++  'data': ['always', 'conditional', 'never'] }
 =20
- void bdrv_clear_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap **out);
- void bdrv_restore_dirty_bitmap(BdrvDirtyBitmap *bitmap, HBitmap *backup)=
+ ##
+ # @MirrorCopyMode:
+diff --git a/block/backup.c b/block/backup.c
+index 627f724b68..beb2078696 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -266,15 +266,17 @@ static void backup_cleanup_sync_bitmap(BackupBlockJ=
+ob *job, int ret)
+     BlockDriverState *bs =3D blk_bs(job->common.blk);
+=20
+     if (ret < 0 || job->bitmap_mode =3D=3D BITMAP_SYNC_MODE_NEVER) {
+-        /* Failure, or we don't want to synchronize the bitmap.
+-         * Merge the successor back into the parent, delete nothing. */
++        /* Failure, or we don't want to synchronize the bitmap. */
++        if (job->bitmap_mode =3D=3D BITMAP_SYNC_MODE_ALWAYS) {
++            bdrv_dirty_bitmap_claim(job->sync_bitmap, &job->copy_bitmap)=
 ;
-+void bdrv_dirty_bitmap_claim(BdrvDirtyBitmap *bitmap, HBitmap **hbitmap)=
-;
-=20
- void bdrv_inc_in_flight(BlockDriverState *bs);
- void bdrv_dec_in_flight(BlockDriverState *bs);
-diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
-index 4afbe6292e..c74519042a 100644
---- a/include/qemu/hbitmap.h
-+++ b/include/qemu/hbitmap.h
-@@ -82,6 +82,14 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size);
-  */
- bool hbitmap_merge(const HBitmap *a, const HBitmap *b, HBitmap *result);
-=20
-+/**
-+ * hbitmap_same_conf:
-+ *
-+ * Compares the configuration for HBitmaps A and B.
-+ * Return true if they are identical, false otherwise.
-+ */
-+bool hbitmap_same_conf(const HBitmap *a, const HBitmap *b);
-+
- /**
-  * hbitmap_can_merge:
-  *
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 95a9c2a5d8..15c857e445 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -632,6 +632,20 @@ void bdrv_restore_dirty_bitmap(BdrvDirtyBitmap *bitm=
-ap, HBitmap *backup)
-     hbitmap_free(tmp);
- }
-=20
-+/* claim ownership of an hbitmap */
-+void bdrv_dirty_bitmap_claim(BdrvDirtyBitmap *bitmap, HBitmap **hbitmap)
-+{
-+    if (hbitmap_same_conf(bitmap->bitmap, *hbitmap)) {
-+        bdrv_restore_dirty_bitmap(bitmap, *hbitmap);
-+    } else {
-+        assert(hbitmap_can_merge(bitmap->bitmap, *hbitmap));
-+        bdrv_clear_dirty_bitmap(bitmap, NULL);
-+        hbitmap_merge(bitmap->bitmap, *hbitmap, bitmap->bitmap);
-+        hbitmap_free(*hbitmap);
-+    }
-+    *hbitmap =3D NULL;
-+}
-+
- uint64_t bdrv_dirty_bitmap_serialization_size(const BdrvDirtyBitmap *bit=
-map,
-                                               uint64_t offset, uint64_t =
-bytes)
- {
-diff --git a/util/hbitmap.c b/util/hbitmap.c
-index 0d6724b7bc..a2abd425b5 100644
---- a/util/hbitmap.c
-+++ b/util/hbitmap.c
-@@ -775,6 +775,11 @@ void hbitmap_truncate(HBitmap *hb, uint64_t size)
++        }
++        /* Merge the successor back into the parent. */
+         bm =3D bdrv_reclaim_dirty_bitmap(bs, job->sync_bitmap, NULL);
+-        assert(bm);
+     } else {
+         /* Everything is fine, delete this bitmap and install the backup=
+. */
+         bm =3D bdrv_dirty_bitmap_abdicate(bs, job->sync_bitmap, NULL);
+-        assert(bm);
      }
++    assert(bm);
  }
 =20
-+bool hbitmap_same_conf(const HBitmap *a, const HBitmap *b)
-+{
-+    return (a->size =3D=3D b->size) && (a->granularity =3D=3D b->granula=
-rity);
-+}
-+
- bool hbitmap_can_merge(const HBitmap *a, const HBitmap *b)
- {
-     return (a->size =3D=3D b->size);
+ static void backup_commit(Job *job)
 --=20
 2.21.0
 
