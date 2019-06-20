@@ -2,86 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BB34CAEB
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:33:21 +0200 (CEST)
-Received: from localhost ([::1]:45276 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CF44CA70
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:15:04 +0200 (CEST)
+Received: from localhost ([::1]:45104 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdtRY-0006ES-Ku
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:33:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49812)
+	id 1hdt9r-0005IM-Si
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:15:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38088)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hdtEP-0003Ff-BU
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:19:48 -0400
+ (envelope-from <berrange@redhat.com>) id 1hdspL-0005cV-2o
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:53:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hdszj-0007E7-Sy
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 05:05:33 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:43598)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hdsur-0002GV-Q8; Thu, 20 Jun 2019 04:59:33 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5K8wt8K170615;
- Thu, 20 Jun 2019 08:59:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2018-07-02; bh=sNsSDf8hgxnENr5bve0ufzPqBfT3rSp1SMEFcctj3N4=;
- b=Raf2cp3ZU0kPKc4nciwCNpEEwik1vD8UJWFl5Hi/GMDyttGXpJFrAv5lZzZ6gFrhk0fk
- jfoMIaHlc9qB+J50/fgWBM6rziyUNE/jVH2LgGYiEqRGf6px8uLpB8bhkl6M2Xol2PAa
- ooUHJedDRWfRo/JcMp9yo1EWQgxlkdLUtObCJUpXlFQOC9OSxPUcoG4SaN+fyUqe3BRu
- WXBuZbVkpAD0ajakAJH1SiXugXyQvV2Dqmndo9C8cBZ2vWBdiU7TSdVeYdkwAyWi6t5e
- avSqb3lzOHQVx8S5qmHRHLvyJ4Z1/ThQQ6L7Jtx2E8OH+nlDfUUnO38CqPeONw2smqIK yw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2t7809fvuf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Jun 2019 08:59:32 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5K8xHV7046503;
- Thu, 20 Jun 2019 08:59:31 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 2t7rdx2g47-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 20 Jun 2019 08:59:31 +0000
-Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5K8xT8H014500;
- Thu, 20 Jun 2019 08:59:30 GMT
-Received: from [10.0.0.38] (/79.180.42.160)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 20 Jun 2019 01:52:47 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-From: Sam Eiderman <shmuel.eiderman@oracle.com>
-In-Reply-To: <20190620055038.w7zwwxviqfp4vxvr@sirius.home.kraxel.org>
-Date: Thu, 20 Jun 2019 11:52:43 +0300
+ (envelope-from <berrange@redhat.com>) id 1hdspJ-0005XO-IK
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:53:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43682)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdspJ-0005WT-BD
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:53:49 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4D7F030BB55B
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:53:48 +0000 (UTC)
+Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D4D5A61987;
+ Thu, 20 Jun 2019 08:53:46 +0000 (UTC)
+Date: Thu, 20 Jun 2019 09:53:43 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190620085343.GN25448@redhat.com>
+References: <20190619201050.19040-1-armbru@redhat.com>
+ <20190619201050.19040-13-armbru@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190619201050.19040-13-armbru@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Thu, 20 Jun 2019 08:53:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <56B86010-3F22-4CCF-BBFA-2F40F419828B@oracle.com>
-References: <20190619092905.24029-1-shmuel.eiderman@oracle.com>
- <156093697557.22612.8821990862661724517@ce79690b2cb9>
- <20190620055038.w7zwwxviqfp4vxvr@sirius.home.kraxel.org>
-To: Gerd Hoffmann <kraxel@redhat.com>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906200067
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906200067
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: Re: [Qemu-devel] [SeaBIOS] [QEMU] [PATCH v4 0/8] Add Qemu to
- SeaBIOS LCHS interface
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 12/17] qapi: Split machine-target.json off
+ target.json and misc.json
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,53 +59,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, QEMU <qemu-devel@nongnu.org>, mreitz@redhat.com,
- kevin@koconnor.net, karl.heubaum@oracle.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jun 19, 2019 at 10:10:45PM +0200, Markus Armbruster wrote:
+> Move commands query-cpu-definitions, query-cpu-model-baseline,
+> query-cpu-model-comparison, and query-cpu-model-expansion with their
+> types from target.json to machine-target.json.  Also move typee
+> CpuModelInfo, CpuModelExpansionType, and CpuModelCompareResult from
+> misc.json there.  Add machine-target.json to MAINTAINERS section
+> "Machine core".
+>=20
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  MAINTAINERS                     |   1 +
+>  qapi/Makefile.objs              |   2 +-
+>  qapi/machine-target.json        | 318 ++++++++++++++++++++++++++++++++
+>  qapi/misc.json                  |  74 --------
+>  qapi/qapi-schema.json           |   1 +
+>  qapi/target.json                | 242 ------------------------
+>  target/arm/helper.c             |   2 +-
+>  target/i386/cpu.c               |   2 +-
+>  target/mips/helper.c            |   2 +-
+>  target/ppc/translate_init.inc.c |   2 +-
+>  target/s390x/cpu_models.c       |   2 +-
+>  11 files changed, 326 insertions(+), 322 deletions(-)
+>  create mode 100644 qapi/machine-target.json
+
+With the typo fixed,=20
+
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
 
-> On 20 Jun 2019, at 8:50, Gerd Hoffmann <kraxel@redhat.com> wrote:
->=20
->> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
->> 1/8 Checking commit cf2168a66dbd (block: Refactor macros - fix =
-tabbing)
->> ERROR: Macros with complex values should be enclosed in parenthesis
->> #55: FILE: include/hw/block/block.h:65:
->> +#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                   =
-   \
->> +    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),               =
-   \
->> +    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),             =
-   \
->>     DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
->=20
-> False positive.
->=20
->> 8/8 Checking commit 6664d7d898d5 (hd-geo-test: Add tests for lchs =
-override)
->> WARNING: line over 80 characters
->> #242: FILE: tests/hd-geo-test.c:579:
->> +                     (char *)r->dev_path, &(r->chs.c), &(r->chs.h), =
-&(r->chs.s));
->=20
-> Should be fixed.
-
-I=E2=80=99ll resubmit.
-
-Sam
-
->=20
->> WARNING: Block comments use a leading /* on a separate line
->> #640: FILE: tests/hd-geo-test.c:995:
->> +                       "skipping hd-geo/override/* tests");
->=20
-> False positive too.
->=20
-> cheers,
->  Gerd
->=20
-
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
