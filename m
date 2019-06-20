@@ -2,88 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE034C43A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 01:55:27 +0200 (CEST)
-Received: from localhost ([::1]:42614 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BB964C767
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 08:19:53 +0200 (CEST)
+Received: from localhost ([::1]:43980 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdkQI-0002mE-VL
-	for lists+qemu-devel@lfdr.de; Wed, 19 Jun 2019 19:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55470)
+	id 1hdqQJ-00020i-VS
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 02:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35257)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <maran.wilson@oracle.com>) id 1hdkOC-0001hV-1G
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:53:19 -0400
+ (envelope-from <winaes@yandex.ru>) id 1hdl9Y-0004WC-1O
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 20:42:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maran.wilson@oracle.com>) id 1hdkO9-00023q-U5
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:53:15 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:32780)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <maran.wilson@oracle.com>)
- id 1hdkO9-00021J-K2
- for qemu-devel@nongnu.org; Wed, 19 Jun 2019 19:53:13 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JNnZXI076903;
- Wed, 19 Jun 2019 23:53:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2018-07-02;
- bh=juZE9Qg2p6QoV0FADmXwZn45FspqngSNBEE+z0aiHAE=;
- b=n6+72eiI8B1UIGb08xvUPZz2XxuTbdrLFsVEu7FHkUN/7gz6NlvcDkqo8gKT8Ja5iZQR
- v4vxA8R2a0LmBkgn2H2+59zQ42SMhThbEmKzT45l4XXh7Xl+d2amHUF4TSe8dwCHjdHP
- oqAHvAYFeP3QwKiUAMIGs1JccBwH93PtCIL4k6+1FEuZ4Gt6K0i5e8CZMVK2tH2oiGVj
- SHHhF4ZmIfn3l0+n9umXuclcKMZaeIhgZIVP20Y3y5Jmu8PJfgh0orwz2ai6hZbN5Pwh
- C+1Xvr8N+1SY46SvJa4EGvAQgJFs8AJkKssrWg0FJ+P2PF3vltz49/PXbrFvzCnsL90X Iw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2120.oracle.com with ESMTP id 2t7809e4bj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jun 2019 23:53:04 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5JNpdDg106385;
- Wed, 19 Jun 2019 23:53:03 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 2t77ync13w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 19 Jun 2019 23:53:03 +0000
-Received: from abhmp0017.oracle.com (abhmp0017.oracle.com [141.146.116.23])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5JNr1KK008938;
- Wed, 19 Jun 2019 23:53:01 GMT
-Received: from [10.159.140.81] (/10.159.140.81)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 19 Jun 2019 16:53:01 -0700
-To: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
-References: <20190619162140.133674-1-liran.alon@oracle.com>
- <20190619162140.133674-11-liran.alon@oracle.com>
-From: Maran Wilson <maran.wilson@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <5ae979fd-39e0-50e2-df53-c6f70f939dd2@oracle.com>
-Date: Wed, 19 Jun 2019 16:52:59 -0700
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <winaes@yandex.ru>) id 1hdl5p-0005iI-D8
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 20:38:23 -0400
+Received: from forward105p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b7:108]:43549)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <winaes@yandex.ru>) id 1hdl5o-0005fl-Nb
+ for qemu-devel@nongnu.org; Wed, 19 Jun 2019 20:38:21 -0400
+Received: from mxback9j.mail.yandex.net (mxback9j.mail.yandex.net
+ [IPv6:2a02:6b8:0:1619::112])
+ by forward105p.mail.yandex.net (Yandex) with ESMTP id 785EF4D400DE
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 03:38:15 +0300 (MSK)
+Received: from localhost (localhost [::1])
+ by mxback9j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id JAxnP49A15-cEJ8pq2w; 
+ Thu, 20 Jun 2019 03:38:14 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+ t=1560991094; bh=hfqClprz5GtHFcppOC1PDmw4SLpPW2IBerJ9I42JlTE=;
+ h=Message-Id:Date:Subject:To:From;
+ b=jiZIBVSXTRAHQpSGSyHzftj7z71TSrrV7BzSr6+8A/S2DRE8ZeqEaG9Ar3CbRwEl0
+ MJiFU6DYj2kLAXcvEiFBvUnclAog8duCHiyfL4rxayqi86bGjIakN4doSnRsxE4jEP
+ HJFftRzclNoQXYu0CDZCKfATSxH3Uzk4bx2x04V4=
+Authentication-Results: mxback9j.mail.yandex.net; dkim=pass header.i=@yandex.ru
+Received: by myt5-02b80404fd9e.qloud-c.yandex.net with HTTP;
+ Thu, 20 Jun 2019 03:38:14 +0300
+From: =?utf-8?B?0JzQtdGC0LvQuNGG0LrQuNC5INCu0YDQuNC5?= <winaes@yandex.ru>
+To: qemu-devel@nongnu.org
 MIME-Version: 1.0
-In-Reply-To: <20190619162140.133674-11-liran.alon@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906190193
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9293
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906190193
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: Re: [Qemu-devel] [QEMU PATCH v4 10/10] target/i386: kvm: Add nested
- migration blocker only when kernel lacks required capabilities
+X-Mailer: Yamail [ http://yandex.ru ] 5.0
+Date: Thu, 20 Jun 2019 03:38:14 +0300
+Message-Id: <16163281560991094@myt5-02b80404fd9e.qloud-c.yandex.net>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 2a02:6b8:0:1472:2741:0:8b7:108
+X-Mailman-Approved-At: Thu, 20 Jun 2019 02:17:44 -0400
+Subject: [Qemu-devel] [PATCH] some remarks to build last version of qemu in
+ MSYS2 (from user)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,57 +61,378 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kvm@vger.kernel.org, mtosatti@redhat.com,
- dgilbert@redhat.com, pbonzini@redhat.com, jmattson@google.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/19/2019 9:21 AM, Liran Alon wrote:
-> Previous commits have added support for migration of nested virtualization
-> workloads. This was done by utilising two new KVM capabilities:
-> KVM_CAP_NESTED_STATE and KVM_CAP_EXCEPTION_PAYLOAD. Both which are
-> required in order to correctly migrate such workloads.
->
-> Therefore, change code to add a migration blocker for vCPUs exposed with
-> Intel VMX or AMD SVM in case one of these kernel capabilities is
-> missing.
->
-> Signed-off-by: Liran Alon <liran.alon@oracle.com>
-> ---
->   target/i386/kvm.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index 99480a52ad33..a3d0fbed3b35 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -1313,9 +1313,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
->                                     !!(c->ecx & CPUID_EXT_SMX);
->       }
->   
-> -    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker) {
-> +    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker &&
-> +        ((kvm_max_nested_state_length() <= 0) || !has_exception_payload)) {
->           error_setg(&nested_virt_mig_blocker,
-> -                   "Nested virtualization does not support live migration yet");
-> +                   "Kernel do not provide required capabilities for "
+Hello!
 
-s/do/does/
+Today I tried to build qemu from git in the current version of MSYS2 for =
+Windows 10 (X64).
+As a result, got the file qemu-setup-4.0.50.exe
+But on the way to this I met several problems that I want to share.
 
-And with that change:
+Sorry to be newbie and write in bad english. And so...
 
-Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
+After resolving all packages dependencies, I execute the commands:
 
-Thanks,
--Maran
+$ ./configure --enable-gtk --enable-sdl --enable-vnc-sasl --enable-capsto=
+ne=3Dsystem --enable-docs
+-------------------------------------------------------------------------=
+---------------------------------
+Install prefix    c:/Program Files/QEMU
+BIOS directory    c:/Program Files/QEMU
+firmware path     c:/Program Files/QEMU/share/qemu-firmware
+binary directory  c:/Program Files/QEMU
+library directory c:/Program Files/QEMU/lib
+module directory  c:/Program Files/QEMU/lib
+libexec directory c:/Program Files/QEMU/libexec
+include directory c:/Program Files/QEMU/include
+config directory  c:/Program Files/QEMU
+local state directory   queried at runtime
+Windows SDK       no
+Source path       /home/my/qemu
+GIT binary        git
+GIT submodules    ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/=
+berkeley-softfloat-3 dtc slirp
+C compiler        cc
+Host C compiler   cc
+C++ compiler      c++
+Objective-C compiler cc
+ARFLAGS           rv
+CFLAGS            -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g
+QEMU_CFLAGS       -IC:/msys64/mingw64/include/pixman-1 -I$(SRC_PATH)/dtc/=
+libfdt -Werror -DHAS_LIBSSH2_SFTP_FSYNC -IC:/msys64/mingw64/include -pthr=
+ead -mms-bitfields -IC:/msys64/mingw64/include -IC:/msys64/mingw64/includ=
+e/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/i=
+nclude -m64 -mcx16 -mthreads -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LA=
+RGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wall -Wundef -Wwrit=
+e-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -=
+std=3Dgnu99  -Wexpansion-to-defined -Wendif-labels -Wno-shift-negative-va=
+lue -Wno-missing-include-dirs -Wempty-body -Wnested-externs -Wformat-secu=
+rity -Wformat-y2k -Winit-self -Wignored-qualifiers -Wold-style-declaratio=
+n -Wold-style-definition -Wtype-limits -fstack-protector-strong -IC:/msys=
+64/mingw64/include -IC:/msys64/mingw64/include/p11-kit-1 -IC:/msys64/ming=
+w64/include   -IC:/msys64/mingw64/include/libpng16 -IC:/msys64/mingw64/in=
+clude -IC:/msys64/mingw64/include/capstone
+LDFLAGS           -Wl,--nxcompat -Wl,--no-seh -Wl,--dynamicbase -Wl,--war=
+n-common -m64 -g
+QEMU_LDFLAGS      -L$(BUILD_DIR)/dtc/libfdt
+make              make
+install           install
+python            python3 -B (3.7.3)
+slirp support     git
+smbd              /usr/sbin/smbd
+module support    no
+host CPU          x86_64
+host big endian   no
+target list       aarch64-softmmu alpha-softmmu arm-softmmu cris-softmmu =
+hppa-softmmu i386-softmmu lm32-softmmu m68k-softmmu microblazeel-softmmu =
+microblaze-softmmu mips64el-softmmu mips64-softmmu mipsel-softmmu mips-so=
+ftmmu moxie-softmmu nios2-softmmu or1k-softmmu ppc64-softmmu ppc-softmmu =
+riscv32-softmmu riscv64-softmmu s390x-softmmu sh4eb-softmmu sh4-softmmu s=
+parc64-softmmu sparc-softmmu tricore-softmmu unicore32-softmmu x86_64-sof=
+tmmu xtensaeb-softmmu xtensa-softmmu
+gprof enabled     no
+sparse enabled    no
+strip binaries    yes
+profiler          no
+static build      no
+SDL support       yes (2.0.9)
+SDL image support no
+GTK support       yes (3.24.8)
+GTK GL support    no
+VTE support       no
+TLS priority      NORMAL
+GNUTLS support    yes
+libgcrypt         no
+nettle            yes (3.4.1)
+libtasn1          yes
+PAM               no
+iconv support     yes
+curses support    no
+virgl support     no
+curl support      yes
+mingw32 support   yes
+Audio drivers     dsound
+Block whitelist (rw)
+Block whitelist (ro)
+VirtFS support    no
+Multipath support no
+VNC support       yes
+VNC SASL support  yes
+VNC JPEG support  yes
+VNC PNG support   yes
+xen support       no
+brlapi support    no
+bluez  support    no
+Documentation     yes
+PIE               no
+vde support       no
+netmap support    no
+Linux AIO support no
+ATTR/XATTR support no
+Install blobs     yes
+KVM support       no
+HAX support       yes
+HVF support       no
+WHPX support      no
+TCG support       yes
+TCG debug enabled no
+TCG interpreter   no
+malloc trim support no
+RDMA support      no
+PVRDMA support    no
+fdt support       git
+membarrier        no
+preadv support    no
+fdatasync         no
+madvise           no
+posix_madvise     no
+posix_memalign    no
+libcap-ng support no
+vhost-net support
+vhost-crypto support no
+vhost-scsi support no
+vhost-vsock support no
+vhost-user support no
+Trace backends    log
+spice support     no
+rbd support       no
+xfsctl support    no
+smartcard support no
+libusb            yes
+usb net redir     yes
+OpenGL support    no
+OpenGL dmabufs    no
+libiscsi support  no
+libnfs support    no
+build guest agent yes
+QGA VSS support   no
+QGA w32 disk info yes
+QGA MSI support   no
+seccomp support   no
+coroutine backend win32
+coroutine pool    yes
+debug stack usage no
+mutex debugging   no
+crypto afalg      no
+GlusterFS support no
+gcov              gcov
+gcov enabled      no
+TPM support       no
+libssh2 support   yes
+QOM debugging     yes
+Live block migration yes
+lzo support       yes
+snappy support    yes
+bzip2 support     yes
+lzfse support     no
+NUMA host support no
+libxml2           yes
+tcmalloc support  no
+jemalloc support  no
+avx2 optimization yes
+replication support yes
+VxHS block device no
+bochs support     yes
+cloop support     yes
+dmg support       yes
+qcow v1 support   yes
+vdi support       yes
+vvfat support     yes
+qed support       yes
+parallels support yes
+sheepdog support  yes
+capstone          system
+docker            no
+libpmem support   no
+libudev           no
+default devices   yes
+
+NOTE: cross-compilers enabled:  'cc'
+-------------------------------------------------------------------------=
+---------------------------------
+$ make installer
+
+Problem 1: if I do not use the --enable-capstone=3Dsystem option, the bui=
+ld is aborted
+
+$make -C /home/my/qemu/capstone CAPSTONE_SHARED=3Dno BUILDDIR=3D"/home/my=
+/qemu/capstone" CC=3D"cc" AR=3D"ar" LD=3D"ld" RANLIB=3D"ranlib" CFLAGS=3D=
+"-O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -g -IC:/msys64/mingw64/inclu=
+de/pixman-1 -I/home/my/qemu/dtc/libfdt -DHAS_LIBSSH2_SFTP_FSYNC -IC:/msys=
+64/mingw64/include -pthread -mms-bitfields -IC:/msys64/mingw64/include -I=
+C:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/inclu=
+de -IC:/msys64/mingw64/include -m64 -mcx16 -mthreads -D_GNU_SOURCE -D_FIL=
+E_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -fno-strict-aliasing -fno-common -=
+fwrapv -std=3Dgnu99 -fstack-protector-strong -IC:/msys64/mingw64/include =
+-IC:/msys64/mingw64/include/p11-kit-1 -IC:/msys64/mingw64/include -IC:/ms=
+ys64/mingw64/include/libpng16 -IC:/msys64/mingw64/include -I/home/my/qemu=
+/capstone/include -I/home/my/qemu/tests -DCAPSTONE_USE_SYS_DYN_MEM -DCAPS=
+TONE_HAS_ARM -DCAPSTONE_HAS_ARM64 -DCAPSTONE_HAS_POWERPC -DCAPSTONE_HAS_X=
+86"  BUILD_DIR=3D/home/my/qemu /home/my/qemu/capstone/capstone.lib
+
+make: Entering directory '/home/my/qemu/capstone'
+make: *** No rule to make target '/home/my/qemu/capstone/capstone.lib'.  =
+Stop.
+make: Leaving directory '/home/my/qemu/capstone'
+
+I found this solution:
+$ cd capstone
+$ make CROSS=3Dx86_64-w64-mingw32- capstone.lib
+  ...
+  AR      capstone.lib
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/9.1.0/../../../../x86=
+_64-w64-mingw32/bin/ar.exe: creating ./capstone.lib
+$ cd ..
+
+Problem 2: I wanted to use the --enable-vnc-sasl option, but the build st=
+opped due to a conflict of iovec structure definitions in files /mingw64/=
+x86_64-w64-mingw32/include/sasl.h and include/qemu/osdep.h
+I made simple patches:
+
+diff -Nurp cyrus-sasl-2.1.27-old/include/sasl.h cyrus-sasl-2.1.27/include=
+/sasl.h
+--- cyrus-sasl-old/include/sasl.h       2019-06-19 17:05:06.334050200 +03=
+00
++++ cyrus-sasl/include/sasl.h   2019-06-19 17:08:22.115365400 +0300
+@@ -189,8 +189,8 @@
+ #ifndef STRUCT_IOVEC_DEFINED
+ #define STRUCT_IOVEC_DEFINED 1
+ struct iovec {
+-    long iov_len;
+-    char *iov_base;
++    void *iov_base;
++    size_t iov_len;
+ };
+ #endif
+ #else
+
+diff -Nurp qemu-old/include/qemu/osdep.h qemu/include/qemu/osdep.h
+--- qemu-old/include/qemu/osdep.h       2019-06-19 18:10:22.808111000 +03=
+00
++++ qemu/include/qemu/osdep.h   2019-06-19 18:12:54.223226500 +0300
+@@ -483,10 +483,18 @@ bool qemu_write_pidfile(const char *pidf
+ int qemu_get_thread_id(void);
+
+ #ifndef CONFIG_IOVEC
++
++#ifdef _WIN32
++#ifndef STRUCT_IOVEC_DEFINED
++#define STRUCT_IOVEC_DEFINED 1
+ struct iovec {
+     void *iov_base;
+     size_t iov_len;
+ };
++#endif
++#else
++struct iovec;                               /* Defined in OS headers */
++#endif
+ /*
+  * Use the same value as Linux for now.
+  */
+
+Problem 3: when generating the html build stopped with
+
+Warning, treated as error:
+C:/msys64/home/my/qemu/docs/interop/bitmaps.rst:202:Could not lex literal=
+_block as "json". Highlighting skipped.
+
+Here I simply remove the -W option
+
+$ sphinx-build -v -T -n -b html -D version=3D4.0.50 -D release=3D"4.0.50 =
+(v4.0.0-1396-gf3d0bec9f8-dirty)" -d .doctrees/interop /home/my/qemu/docs/=
+interop docs/built/interop
+...
+C:/msys64/home/my/qemu/docs/interop/bitmaps.rst:1437: WARNING: Could not =
+lex literal_block as "json". Highlighting skipped.
+generating indices... genindex
+writing additional pages... search
+copying static files... done
+copying extra files... done
+dumping search index in English (code: en) ... done
+dumping object inventory... done
+build succeeded, 27 warnings.
+
+Problem 4: When installing files into a temporary directory, copying brea=
+ked
+I made a patch by deleting the "/".
+
+--- Makefile-orig       2019-06-16 23:23:49.352281900 +0300
++++ Makefile    2019-06-16 23:31:44.344762800 +0300
+@@ -873,19 +873,19 @@ ifneq ($(DESCS),)
+        done
+ endif
+        for s in $(ICON_SIZES); do \
+-               mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/$${s}/apps";=
+ \
++               mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; =
+\
+                $(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_$${s}.png \
+-                       "$(DESTDIR)/$(qemu_icondir)/hicolor/$${s}/apps/qe=
+mu.png"; \
++                       "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps/qem=
+u.png"; \
+        done; \
+-       mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/32x32/apps"; \
++       mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps"; \
+        $(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_32x32.bmp \
+-               "$(DESTDIR)/$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp";=
+ \
+-       mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/scalable/apps"; \
++               "$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp"; =
+\
++       mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps"; \
+        $(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu.svg \
+-               "$(DESTDIR)/$(qemu_icondir)/hicolor/scalable/apps/qemu.sv=
+g"
+-       mkdir -p "$(DESTDIR)/$(qemu_desktopdir)"
++               "$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps/qemu.svg=
+"
++       mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
+        $(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
+-               "$(DESTDIR)/$(qemu_desktopdir)/qemu.desktop"
++               "$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
+ ifdef CONFIG_GTK
+        $(MAKE) -C po $@
+ endif
+
+Problem 5: No bmp files
+...
+File: "C:/msys64/tmp/qemu-nsis\*.bmp" -> no files found.
+Usage: File [/nonfatal] [/a] ([/r] [/x filespec [...]] filespec [...] |
+   /oname=3Doutfile one_file_only)
+Error in script "C:/msys64/home/my/qemu/qemu.nsi" on line 122 -- aborting=
+ creation process
+make: *** [Makefile:1073: qemu-setup-4.0.50.exe] Error 1
+
+Simple hack:
+
+--- qemu.nsi-orig       2019-06-17 00:33:33.148978300 +0300
++++ qemu.nsi    2019-06-20 02:57:19.030516900 +0300
+@@ -119,7 +119,7 @@ Section "${PRODUCT} (required)"
+     File "${SRCDIR}\README"
+     File "${SRCDIR}\VERSION"
+
+-    File "${BINDIR}\*.bmp"
++;    File "${BINDIR}\*.bmp"
+     File "${BINDIR}\*.bin"
+     File "${BINDIR}\*.dtb"
+     File "${BINDIR}\*.rom"
+@@ -206,7 +206,7 @@ Section "Uninstall"
+     Delete "$INSTDIR\COPYING.LIB"
+     Delete "$INSTDIR\README"
+     Delete "$INSTDIR\VERSION"
+-    Delete "$INSTDIR\*.bmp"
++;    Delete "$INSTDIR\*.bmp"
+     Delete "$INSTDIR\*.bin"
+     Delete "$INSTDIR\*.dll"
+     Delete "$INSTDIR\*.dtb"
+
+Finally, the build is over, but it was not very easy
 
 
-> +                   "nested virtualization migration. "
-> +                   "(CAP_NESTED_STATE=%d, CAP_EXCEPTION_PAYLOAD=%d)",
-> +                   kvm_max_nested_state_length() > 0,
-> +                   has_exception_payload);
->           r = migrate_add_blocker(nested_virt_mig_blocker, &local_err);
->           if (local_err) {
->               error_report_err(local_err);
+--=C2=A0
+With best regards, Youry Metlitsky
 
 
