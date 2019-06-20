@@ -2,44 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB9E4CD2C
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:52:59 +0200 (CEST)
-Received: from localhost ([::1]:46576 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE454CD29
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 13:52:27 +0200 (CEST)
+Received: from localhost ([::1]:46570 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdvcg-0002JZ-BJ
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:52:58 -0400
+	id 1hdvcA-0001jk-1I
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 07:52:26 -0400
 Received: from eggs.gnu.org ([2001:470:142:3::10]:55036)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hdvYd-00082C-JU
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:48:49 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hdvY8-00082C-AK
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:48:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hdvRh-0007US-6o
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:41:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39548)
+ (envelope-from <kraxel@redhat.com>) id 1hdvXx-0004J9-1f
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:48:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41784)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hdvRd-0007QC-6v
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 07:41:33 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>)
+ id 1hdvXv-00046K-P7; Thu, 20 Jun 2019 07:48:03 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E5D4F308FE8D
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 11:41:23 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E0CE3608D0;
- Thu, 20 Jun 2019 11:41:20 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 07:41:16 -0400
-Message-Id: <20190620114116.27254-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+ by mx1.redhat.com (Postfix) with ESMTPS id 8528230BB559;
+ Thu, 20 Jun 2019 11:47:28 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-212.ams2.redhat.com
+ [10.36.116.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F7351001F54;
+ Thu, 20 Jun 2019 11:47:23 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3E67717446; Thu, 20 Jun 2019 13:47:22 +0200 (CEST)
+Date: Thu, 20 Jun 2019 13:47:22 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sam Eiderman <shmuel.eiderman@oracle.com>
+Message-ID: <20190620114722.uaw33cmfsysmf6xh@sirius.home.kraxel.org>
+References: <20190619092352.23583-1-shmuel.eiderman@oracle.com>
+ <20190619092352.23583-5-shmuel.eiderman@oracle.com>
+ <20190620054224.hfspxgorpd6mjxca@sirius.home.kraxel.org>
+ <ECC27FB9-1975-4C78-9584-BC82BB7FA34B@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ECC27FB9-1975-4C78-9584-BC82BB7FA34B@oracle.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 20 Jun 2019 11:41:23 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Thu, 20 Jun 2019 11:47:52 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] deprecate -mem-path fallback to anonymous RAM
+Subject: Re: [Qemu-devel] [SeaBIOS] [PATCH v3 4/4] geometry: Apply LCHS
+ values for boot devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,64 +64,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, ehabkost@redhat.com
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ kevin@koconnor.net, liran.alon@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fallback might affect guest or worse whole host performance
-or functionality if backing file were used to share guest RAM
-with another process.
+On Thu, Jun 20, 2019 at 11:52:01AM +0300, Sam Eiderman wrote:
+>=20
+>=20
+> > On 20 Jun 2019, at 8:42, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >=20
+> >> +static int
+> >> +overriden_lchs_supplied(struct drive_s *drive)
+> >> +{
+> >> +    return drive->lchs.cylinder || drive->lchs.head || drive->lchs.=
+sector;
+> >> +}
+> >=20
+> >> +    case TRANSLATION_MACHINE:
+> >=20
+> > Hmm, why this name?  Doesn't look intuitive to me.
+>=20
+> TRANSLATION_HOST?
+>=20
+> >=20
+> >> +        desc =3D "overriden";
+> >=20
+> > I'd name that "host-supplied" or "fw-cfg=E2=80=9D.
+>=20
+> =E2=80=9Chost-supplied=E2=80=9D?
+>=20
+> >=20
+> >> +        cylinders =3D drive->lchs.cylinder;
+> >> +        heads =3D drive->lchs.head;
+> >> +        if (heads > 255)
+> >> +            heads =3D 255;
+> >=20
+> > I suggest to move these sanity checks to overriden_lchs_supplied(), t=
+hen
+> > ignore the override altogether when heads or sectors is out of range
+> > instead of trying to fixup things.
+>=20
+> Sounds reasonable.
+> I=E2=80=99ll rename to host_lchs_supplied()?
+>=20
+> WDYT?
 
-Patch deprecates fallback so that we could remove it in future
-and ensure that QEMU will provide expected behavior and fail if
-it can't use user provided backing file.
+looks all good to me.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-PS:
-Patch is written on top of
-  [PATCH v4 0/3] numa: deprecate '-numa node,  mem' and default memory distribution
-to avoid conflicts in qemu-deprecated.texi
-
- numa.c               | 4 ++--
- qemu-deprecated.texi | 8 ++++++++
- 2 files changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/numa.c b/numa.c
-index 91a29138a2..53d67b8ad9 100644
---- a/numa.c
-+++ b/numa.c
-@@ -494,8 +494,8 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
-             if (mem_prealloc) {
-                 exit(1);
-             }
--            error_report("falling back to regular RAM allocation.");
--
-+            warn_report("falling back to regular RAM allocation. "
-+                        "Fallback to RAM allocation is deprecated.");
-             /* Legacy behavior: if allocation failed, fall back to
-              * regular RAM allocation.
-              */
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 2fe9b72121..2193705644 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -112,6 +112,14 @@ QEMU using implicit generic or board specific splitting rule.
- Use @option{memdev} with @var{memory-backend-ram} backend or @option{mem} (if
- it's supported by used machine type) to define mapping explictly instead.
- 
-+@subsection -mem-path fallback to RAM (since 4.1)
-+Currently if system memory allocation from file pointed by @option{mem-path}
-+fails, QEMU fallbacks to allocating from anonymous RAM. Which might result
-+in unpredictable behavior since provided backing file wasn't used. In future
-+QEMU will not fallback and fail to start up, so user could fix his/her QEMU/host
-+configuration or explicitly use -m without -mem-path if system memory allocated
-+from anonymous RAM suits usecase.
-+
- @section QEMU Machine Protocol (QMP) commands
- 
- @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
--- 
-2.18.1
+cheers,
+  Gerd
 
 
