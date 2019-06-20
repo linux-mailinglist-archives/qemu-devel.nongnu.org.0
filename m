@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562C74D07A
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 16:36:15 +0200 (CEST)
-Received: from localhost ([::1]:48330 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395C94D107
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 16:56:04 +0200 (CEST)
+Received: from localhost ([::1]:48662 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdyAf-0003yP-Mh
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 10:36:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37832)
+	id 1hdyTr-0002pw-DN
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 10:56:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37807)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hdy5r-0001AM-RT
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:33:06 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1hdyJm-0005pd-32
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:45:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hdxyP-0005Of-RU
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:25:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47324)
+ (envelope-from <kwankhede@nvidia.com>) id 1hdyJk-0005Jl-F7
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:45:38 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:1928)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hdxwa-0004Jw-9W; Thu, 20 Jun 2019 10:21:41 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B37E630C0DC2;
- Thu, 20 Jun 2019 14:21:32 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.205.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DD4019C4F;
- Thu, 20 Jun 2019 14:21:27 +0000 (UTC)
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-2-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <d671f373-77d1-d475-ff23-30bd7674c6df@redhat.com>
-Date: Thu, 20 Jun 2019 16:21:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1hdyJk-0005EG-4Y
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:45:36 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d0b9abc0001>; Thu, 20 Jun 2019 07:39:56 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 20 Jun 2019 07:39:56 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 07:39:56 -0700
+Received: from HQMAIL110.nvidia.com (172.18.146.15) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
+ 2019 14:39:56 +0000
+Received: from HQMAIL106.nvidia.com (172.18.146.12) by hqmail110.nvidia.com
+ (172.18.146.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 20 Jun
+ 2019 14:39:55 +0000
+Received: from kwankhede-dev.nvidia.com (172.20.13.39) by HQMAIL.nvidia.com
+ (172.18.146.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 20 Jun 2019 14:39:49 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Date: Thu, 20 Jun 2019 20:07:28 +0530
+Message-ID: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20190620010356.19164-2-jsnow@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="iV4RdhEYnAWY9zIp5Im1BXp1uDa80diTE"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 20 Jun 2019 14:21:32 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 01/12] qapi: add BitmapSyncMode enum
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1561041596; bh=knnwo+l784l396LMUbeE21LqeX6I9Z8RrVQnIqwTy7s=;
+ h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+ X-NVConfidentiality:MIME-Version:Content-Type;
+ b=YVPVTIIyk7d7Tc3Kfesk4sDG5eQG2DAvZDTl9wR9KaZXZZ0wmvzV2G844kEd0I0p+
+ Ju3LiyMtcn/hEMu5TNGLjgG/CPiYOocQ5oKwpJpxn8i6qX1tOnngYDNmAp3pQqigTu
+ 1IL2ZCHiYug3m3PzP+gTGm1w0+s4yG89nfYWqef946UrjJ6HkFjZym+7PzMmLrLKSe
+ J1vOKrWoL82Rh03CMfa49pqVu8KzEEk33030Zy3KxxvVJ8W8DYRekf9YKLPMXecbPV
+ fYDVJiVyxAX4ovXJ84af5lqhB9uY+YnIVLJ8xNzG4TNz0ULQEME1CCRH+yBzEyDD2O
+ smEF4LOthu+qg==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
+X-Received-From: 216.228.121.65
+Subject: [Qemu-devel] [PATCH v4 00/13] Add migration support for VFIO device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,119 +70,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- vsementsov@virtuozzo.com, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kirti Wankhede <kwankhede@nvidia.com>, Zhengxiao.zx@Alibaba-inc.com,
+ kevin.tian@intel.com, yi.l.liu@intel.com, yan.y.zhao@intel.com,
+ eskultet@redhat.com, ziye.yang@intel.com, qemu-devel@nongnu.org,
+ cohuck@redhat.com, shuangtai.tst@alibaba-inc.com, dgilbert@redhat.com,
+ zhi.a.wang@intel.com, mlevitsk@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ yulei.zhang@intel.com, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---iV4RdhEYnAWY9zIp5Im1BXp1uDa80diTE
-Content-Type: multipart/mixed; boundary="ST1J5Omq9yA8FbeUpP3LhBMAEK5IiPnwh";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
- eblake@redhat.com, vsementsov@virtuozzo.com,
- Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
- Xie Changlong <xiechanglong.d@gmail.com>
-Message-ID: <d671f373-77d1-d475-ff23-30bd7674c6df@redhat.com>
-Subject: Re: [PATCH 01/12] qapi: add BitmapSyncMode enum
-References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-2-jsnow@redhat.com>
-In-Reply-To: <20190620010356.19164-2-jsnow@redhat.com>
+Add migration support for VFIO device
 
---ST1J5Omq9yA8FbeUpP3LhBMAEK5IiPnwh
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This Patch set include patches as below:
+- Define KABI for VFIO device for migration support.
+- Added save and restore functions for PCI configuration space
+- Generic migration functionality for VFIO device.
+  * This patch set adds functionality only for PCI devices, but can be
+    extended to other VFIO devices.
+  * Added all the basic functions required for pre-copy, stop-and-copy and
+    resume phases of migration.
+  * Added state change notifier and from that notifier function, VFIO
+    device's state changed is conveyed to VFIO device driver.
+  * During save setup phase and resume/load setup phase, migration region
+    is queried and is used to read/write VFIO device data.
+  * .save_live_pending and .save_live_iterate are implemented to use QEMU's
+    functionality of iteration during pre-copy phase.
+  * In .save_live_complete_precopy, that is in stop-and-copy phase,
+    iteration to read data from VFIO device driver is implemented till pending
+    bytes returned by driver are not zero.
+  * Added function to get dirty pages bitmap for the pages which are used by
+    driver.
+- Add vfio_listerner_log_sync to mark dirty pages.
+- Make VFIO PCI device migration capable. If migration region is not provided by
+  driver, migration is blocked.
 
-On 20.06.19 03:03, John Snow wrote:
-> Depending on what a user is trying to accomplish, there might be a few
-> bitmap cleanup actions that occur when an operation is finished that
-> could be useful.
->=20
-> I am proposing three:
-> - NEVER: The bitmap is never synchronized against what was copied.
-> - ALWAYS: The bitmap is always synchronized, even on failures.
-> - CONDITIONAL: The bitmap is synchronized only on success.
->=20
-> The existing incremental backup modes use 'conditional' semantics,
-> so add just that one for right now.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  qapi/block-core.json | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->=20
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 0d43d4f37c..caf28a71a0 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -1134,6 +1134,20 @@
->  { 'enum': 'MirrorSyncMode',
->    'data': ['top', 'full', 'none', 'incremental'] }
-> =20
-> +##
-> +# @BitmapSyncMode:
-> +#
-> +# An enumeration of possible behaviors for the synchronization of a bi=
-tmap
-> +# when used for data copy operations.
-> +#
-> +# @conditional: The bitmap is only synchronized when the operation is =
-successul.
+Below is the flow of state change for live migration where states in brackets
+represent VM state, migration state and VFIO device state as:
+    (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
 
-*successful
+Live migration save path:
+        QEMU normal running state
+        (RUNNING, _NONE, _RUNNING)
+                        |
+    migrate_init spawns migration_thread.
+    (RUNNING, _SETUP, _RUNNING|_SAVING)
+    Migration thread then calls each device's .save_setup()
+                        |
+    (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+    If device is active, get pending bytes by .save_live_pending()
+    if pending bytes >= threshold_size,  call save_live_iterate()
+    Data of VFIO device for pre-copy phase is copied.
+    Iterate till pending bytes converge and are less than threshold
+                        |
+    On migration completion, vCPUs stops and calls .save_live_complete_precopy
+    for each active device. VFIO device is then transitioned in
+     _SAVING state.
+    (FINISH_MIGRATE, _DEVICE, _SAVING)
+    For VFIO device, iterate in  .save_live_complete_precopy  until
+    pending data is 0.
+    (FINISH_MIGRATE, _DEVICE, _STOPPED)
+                        |
+    (FINISH_MIGRATE, _COMPLETED, STOPPED)
+    Migraton thread schedule cleanup bottom half and exit
 
-> +#               This is useful for Incremental semantics.
+Live migration resume path:
+    Incomming migration calls .load_setup for each device
+    (RESTORE_VM, _ACTIVE, STOPPED)
+                        |
+    For each device, .load_state is called for that device section data
+                        |
+    At the end, called .load_cleanup for each device and vCPUs are started.
+                        |
+        (RUNNING, _NONE, _RUNNING)
 
-Hm, well.  All bitmap modes are for incremental semantics, in some way
-or another.  (=E2=80=9Cconditional=E2=80=9D and =E2=80=9Calways=E2=80=9D =
-just automatically create
-point-in-time snapshots, in a sense, where =E2=80=9Cnever=E2=80=9D requir=
-es the user to
-manually do so.)
+Note that:
+- Migration post copy is not supported.
 
-So maybe something more concrete would be better?  Like =E2=80=9CThis all=
-ows
-incremental use from one successful operation to the next, and
-restarting any operation on failure=E2=80=9D?
+v3 -> v4:
+- Added one more bit for _RESUMING flag to be set explicitly.
+- data_offset field is read-only for user space application.
+- data_size is read for every iteration before reading data from migration, that
+  is removed assumption that data will be till end of migration region.
+- If vendor driver supports mappable sparsed region, map those region during
+  setup state of save/load, similarly unmap those from cleanup routines.
+- Handles race condition that causes data corruption in migration region during
+  save device state by adding mutex and serialiaing save_buffer and
+  get_dirty_pages routines.
+- Skip called get_dirty_pages routine for mapped MMIO region of device.
+- Added trace events.
+- Splitted into multiple functional patches.
 
-Max
+v2 -> v3:
+- Removed enum of VFIO device states. Defined VFIO device state with 2 bits.
+- Re-structured vfio_device_migration_info to keep it minimal and defined action
+  on read and write access on its members.
 
-> +#
-> +# Since: 4.1
-> +##
-> +{ 'enum': 'BitmapSyncMode',
-> +  'data': ['conditional'] }
-> +
->  ##
->  # @MirrorCopyMode:
->  #
->=20
+v1 -> v2:
+- Defined MIGRATION region type and sub-type which should be used with region
+  type capability.
+- Re-structured vfio_device_migration_info. This structure will be placed at 0th
+  offset of migration region.
+- Replaced ioctl with read/write for trapped part of migration region.
+- Added both type of access support, trapped or mmapped, for data section of the
+  region.
+- Moved PCI device functions to pci file.
+- Added iteration to get dirty page bitmap until bitmap for all requested pages
+  are copied.
+
+Thanks,
+Kirti
 
 
+Kirti Wankhede (13):
+  vfio: KABI for migration interface
+  vfio: Add function to unmap VFIO region
+  vfio: Add save and load functions for VFIO PCI devices
+  vfio: Add migration region initialization and finalize function
+  vfio: Add VM state change handler to know state of VM
+  vfio: Add migration state change notifier
+  vfio: Register SaveVMHandlers for VFIO device
+  vfio: Add save state functions to SaveVMHandlers
+  vfio: Add load state functions to SaveVMHandlers
+  vfio: Add function to get dirty page list
+  vfio: Add vfio_listerner_log_sync to mark dirty pages
+  vfio: Make vfio-pci device migration capable.
+  vfio: Add trace events in migration code path
 
---ST1J5Omq9yA8FbeUpP3LhBMAEK5IiPnwh--
+ hw/vfio/Makefile.objs         |   2 +-
+ hw/vfio/common.c              |  55 +++
+ hw/vfio/migration.c           | 815 ++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/pci.c                 | 126 ++++++-
+ hw/vfio/pci.h                 |  29 ++
+ hw/vfio/trace-events          |  19 +
+ include/hw/vfio/vfio-common.h |  22 ++
+ linux-headers/linux/vfio.h    |  71 ++++
+ 8 files changed, 1132 insertions(+), 7 deletions(-)
+ create mode 100644 hw/vfio/migration.c
 
---iV4RdhEYnAWY9zIp5Im1BXp1uDa80diTE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+-- 
+2.7.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0LlmYACgkQ9AfbAGHV
-z0AVtggAkVtU5NzSPC4wAXtTDZLrwXOOsfIMcGaozOWQjsEKMda6bXrR06FS4gZ+
-bI594qPuc6C1cIwEg4E1P/wVtYhJzHzbjTviiwF4F1lVniM7gsyT3enUco+gJgb+
-2RIMycIMRIMMSvmqr2F0bfRUKEE7lzew1wq2CdApCGgoorRoK7ht6WUsb2CYU8Rh
-/4PE7GBIjqxm8olbcrqUXfqIzTz0dNPgH9Q0ugp107a8/EIyoBTv4XaqhE8xlF0q
-ED27It91kYiYpoMyNda7pv7c/Y3WbMbIyGackfh5TO6b8c1xEPgk87sKpGvLxSjy
-40lZp/jdlkIsk8v8yNcMa3WS2ertJw==
-=ZLP/
------END PGP SIGNATURE-----
-
---iV4RdhEYnAWY9zIp5Im1BXp1uDa80diTE--
 
