@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5F54CA53
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:08:59 +0200 (CEST)
-Received: from localhost ([::1]:45038 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9D94CA60
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:12:03 +0200 (CEST)
+Received: from localhost ([::1]:45064 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdt3z-0006CL-3A
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:08:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38483)
+	id 1hdt6w-0001zh-2F
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38526)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pizhenwei@bytedance.com>) id 1hdsqQ-0006T1-PT
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:55:01 -0400
+ (envelope-from <pizhenwei@bytedance.com>) id 1hdsqT-0006Tl-OT
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:55:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pizhenwei@bytedance.com>) id 1hdsqO-0006Zo-Rh
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:54:58 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40353)
+ (envelope-from <pizhenwei@bytedance.com>) id 1hdsqQ-0006bG-3s
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:55:01 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:35176)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <pizhenwei@bytedance.com>)
- id 1hdsqM-0006Pe-VF
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:54:55 -0400
-Received: by mail-pg1-x541.google.com with SMTP id w10so1217724pgj.7
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 01:54:45 -0700 (PDT)
+ id 1hdsqP-0006Rx-IO
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:54:57 -0400
+Received: by mail-pl1-x641.google.com with SMTP id p1so1125043plo.2
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 01:54:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Q++PuXQ04Zp6hoQX9wFKwFojx0AIP28t8ItaEcjA+So=;
- b=m7aNdc8ItkosH5h4msOLDiFJbcU9S/tcUdIicv0UFXsvZdpehUqx4N7rlK0+Kibn9i
- e3PwA2vn1KKZZFAR/6X80DmRDdiGmQND9EEaeagfbTb48bSO4VsZMBNHQXiixBDaCJ4s
- 6r18SaIy7yAuCLPXmVmkVKpxa/Lo9ww73n6DJsfHj9u9thSc2oHcR5yzK5bZDHsqGH8K
- raNtFSd1CgRCsla68YNa9JooELnVmJnNbGZb2LAv/33Wp2mTxqBOZPyUSAu4vLVxn/Xm
- 1RSJpMaBHZff394SGhyNTeMZj48dES7oQei7QU6iMrdyQ8oaWsZ+EqaEsKqIvCtq8xqe
- G2og==
+ bh=cJCSKKTdv36gQrhbcBLvJk3JSqEM/emgmnMnXZozayA=;
+ b=Hqi915xy8KXEeOk4cdmf0eqP6dV7aCQRI+ZsyZ3JdA8kfV/ZNan1lUUSo/L261OFVS
+ fIZNEHVtbooqSCGixGiuL/6KuRrvoj+WP4g+fL45YvZlWY5POoQB0mhBMPXsHjB+/5tY
+ Kc6YrGgPeRSKcADx1pS47p0C5RP8B1VdYcajvrydKqGCfSXdLBkivia50sXqcYNAwXpT
+ 9P2xUPBcDQT+sI+yB/46Ik1qqcpN7oif8dLL0J0Nf8PpxTnZX7QUVzwSwaMdJum4fps3
+ zhnQF2YZMYcEjl2wBdzUiVZVWkP/Vy+k2lhdV3Qa5//qIoA2ygBOwheOBhO0HCNnu+ac
+ A7Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=Q++PuXQ04Zp6hoQX9wFKwFojx0AIP28t8ItaEcjA+So=;
- b=a4mod8djic+FGFbOfDs5Hc+8vT9tPmx3k5c8sDr1fDTBavtsPdZXEnm6uYGk6L3je6
- DkhflUXE4Z74otvrS7gig8fP06kOEGgKxiq1kmQpVYrx3pMVFWYdP7BU3ywKwvVhIgCC
- OlDPV+cprBVyNRNEj6uCwZH1Y60kWq/Oe5zhiKNtv0zTDPTPndqBwSma5pVY2kT8LLSb
- /AlbjdgBX26Ii0nv6WBqOmb6kVkd1+3fueYvFPV9HwRgWYDwQcvEuB78FdpQGz2cwteI
- YsQE3Wb/r0FC8EVXkv5ueCO9ZhzmCIxzUEn1mmVtogcQkJ5n/KZwcq9Pwsng2gdLoqrM
- O1Vw==
-X-Gm-Message-State: APjAAAXgpiz87w2k4udHJ/0xPC/66S6NPjqFFcKVveec4/a7JowWQ+cL
- uCronAF7A+nUT6XHeeuUDg70Ww==
-X-Google-Smtp-Source: APXvYqxGgNIpP5m8hjt2XRXNjew6D43qZBDeycvm2oq0ajpQVwfCEyFY6dtZeJdWdrrrqzy5Jbilvg==
-X-Received: by 2002:a17:90a:950d:: with SMTP id
- t13mr1909178pjo.81.1561020884462; 
- Thu, 20 Jun 2019 01:54:44 -0700 (PDT)
+ bh=cJCSKKTdv36gQrhbcBLvJk3JSqEM/emgmnMnXZozayA=;
+ b=ld3bF131kkFvLwazqZfUHg3T3qayCQv7AmFHntEKDcheYVz9wAo3yV2zl1B8QuIgvv
+ XODtbwPaF6SGnMyqIDwOrrs3PE7ucYUTwHi60gG+dMVkD0HwV/qWY6yFZxndFKNOvNX1
+ a1D7t3ng+3puZXcUQTsaHAMP1k9boUwGpLXk9PJBBmXBPZIVaQMo9aKbmFaxIC11znBM
+ ODKk0k5iWTgyG4dTC1rjVldb3cCA7MpiN854gtWz+uMjALTiVFY9RjQEznfi2IwOJm8e
+ jY5mlr6x5w/ta+XcIFUOUgox2sGrh4BRxAdd92dGHygK7ASkMBZhvd15UBGUNlt5Qb2j
+ w6Eg==
+X-Gm-Message-State: APjAAAXxTfhVJi0KMtLwN7SuES0n8u7kdeI3Ufa3E6jvI/bhVKi8yzjS
+ j0+07iDf42B5Gps7KSPjlCAY+A==
+X-Google-Smtp-Source: APXvYqxPUQarjZRECDRpVMn8zyMg+9NOJHPCd0iUNqGGSMV5lDrbzYVQZhOvay2msvKhbS34wtXh4g==
+X-Received: by 2002:a17:902:30a3:: with SMTP id
+ v32mr125234768plb.6.1561020887182; 
+ Thu, 20 Jun 2019 01:54:47 -0700 (PDT)
 Received: from always-ThinkPad-T480.bytedance.net ([61.120.150.76])
- by smtp.gmail.com with ESMTPSA id c11sm19240635pgg.2.2019.06.20.01.54.41
+ by smtp.gmail.com with ESMTPSA id c11sm19240635pgg.2.2019.06.20.01.54.44
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Thu, 20 Jun 2019 01:54:43 -0700 (PDT)
+ Thu, 20 Jun 2019 01:54:46 -0700 (PDT)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: kwolf@redhat.com,
 	mreitz@redhat.com
-Date: Thu, 20 Jun 2019 16:54:31 +0800
-Message-Id: <1561020872-6214-3-git-send-email-pizhenwei@bytedance.com>
+Date: Thu, 20 Jun 2019 16:54:32 +0800
+Message-Id: <1561020872-6214-4-git-send-email-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561020872-6214-1-git-send-email-pizhenwei@bytedance.com>
 References: <1561020872-6214-1-git-send-email-pizhenwei@bytedance.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH 2/3] block/accounting: introduce block size
- histogram
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH 3/3] qapi: add block size histogram interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,81 +82,256 @@ Cc: fam@euphon.net, qemu-block@nongnu.org, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce block size histogram statics for block devices.
-
-For read/write/flush operation type, the block size region
-[0, +inf) is divided into subregions by several points.
-It works like block latency histogram.
+Set/Clear block size histograms through new command
+x-block-size-histogram-set and show new statistics in
+query-blockstats results.
 
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- block/accounting.c         | 24 ++++++++++++++++++++++++
- include/block/accounting.h |  4 ++++
- 2 files changed, 28 insertions(+)
+ block/qapi.c         |  24 ++++++++++++
+ blockdev.c           |  56 +++++++++++++++++++++++++++
+ qapi/block-core.json | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 3 files changed, 184 insertions(+), 1 deletion(-)
 
-diff --git a/block/accounting.c b/block/accounting.c
-index bb8148b6b1..94d5aa292e 100644
---- a/block/accounting.c
-+++ b/block/accounting.c
-@@ -187,6 +187,27 @@ void block_latency_histograms_clear(BlockAcctStats *stats)
+diff --git a/block/qapi.c b/block/qapi.c
+index f3a84f776e..04edbd5243 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -428,6 +428,20 @@ static void bdrv_latency_histogram_stats(BlockHistogram *hist,
      }
  }
  
-+int block_size_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
-+                                uint64List *boundaries)
++static void bdrv_size_histogram_stats(BlockHistogram *hist,
++                                         bool *not_null,
++                                         BlockSizeHistogramInfo **info)
 +{
-+    BlockHistogram *hist = &stats->size_histogram[type];
++    *not_null = hist->bins != NULL;
++    if (*not_null) {
++        *info = g_new0(BlockSizeHistogramInfo, 1);
 +
-+    return block_histogram_set(hist, boundaries);
-+}
-+
-+void block_size_histograms_clear(BlockAcctStats *stats)
-+{
-+    int i;
-+
-+    for (i = 0; i < BLOCK_MAX_IOTYPE; i++) {
-+        BlockHistogram *hist = &stats->size_histogram[i];
-+        g_free(hist->bins);
-+        g_free(hist->boundaries);
-+        memset(hist, 0, sizeof(*hist));
++        (*info)->boundaries = uint64_list(hist->boundaries, hist->nbins - 1);
++        (*info)->bins = uint64_list(hist->bins, hist->nbins);
 +    }
 +}
 +
 +
- static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
-                                  bool failed)
+ static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
  {
-@@ -211,6 +232,9 @@ static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
- 
-     block_histogram_account(&stats->latency_histogram[cookie->type],
-                                     latency_ns);
-+    block_histogram_account(&stats->size_histogram[cookie->type],
-+                                    cookie->bytes);
+     BlockAcctStats *stats = blk_get_stats(blk);
+@@ -503,6 +517,16 @@ static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
+     bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_FLUSH],
+                                  &ds->has_flush_latency_histogram,
+                                  &ds->flush_latency_histogram);
 +
++    bdrv_size_histogram_stats(&stats->size_histogram[BLOCK_ACCT_READ],
++                                 &ds->has_x_rd_size_histogram,
++                                 &ds->x_rd_size_histogram);
++    bdrv_size_histogram_stats(&stats->size_histogram[BLOCK_ACCT_WRITE],
++                                 &ds->has_x_wr_size_histogram,
++                                 &ds->x_wr_size_histogram);
++    bdrv_size_histogram_stats(&stats->size_histogram[BLOCK_ACCT_FLUSH],
++                                 &ds->has_x_flush_size_histogram,
++                                 &ds->x_flush_size_histogram);
+ }
  
-     if (!failed || stats->account_failed) {
-         stats->total_time_ns[cookie->type] += latency_ns;
-diff --git a/include/block/accounting.h b/include/block/accounting.h
-index 270fddb69c..49d3a78f48 100644
---- a/include/block/accounting.h
-+++ b/include/block/accounting.h
-@@ -89,6 +89,7 @@ struct BlockAcctStats {
-     bool account_invalid;
-     bool account_failed;
-     BlockHistogram latency_histogram[BLOCK_MAX_IOTYPE];
-+    BlockHistogram size_histogram[BLOCK_MAX_IOTYPE];
- };
+ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
+diff --git a/blockdev.c b/blockdev.c
+index 5d6a13dea9..c3f893891d 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -4563,6 +4563,62 @@ void qmp_block_latency_histogram_set(
+     }
+ }
  
- typedef struct BlockAcctCookie {
-@@ -117,5 +118,8 @@ double block_acct_queue_depth(BlockAcctTimedStats *stats,
- int block_latency_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
-                                 uint64List *boundaries);
- void block_latency_histograms_clear(BlockAcctStats *stats);
-+int block_size_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
-+                                uint64List *boundaries);
-+void block_size_histograms_clear(BlockAcctStats *stats);
++void qmp_x_block_size_histogram_set(
++    const char *id,
++    bool has_boundaries, uint64List *boundaries,
++    bool has_boundaries_read, uint64List *boundaries_read,
++    bool has_boundaries_write, uint64List *boundaries_write,
++    bool has_boundaries_flush, uint64List *boundaries_flush,
++    Error **errp)
++{
++    BlockBackend *blk = qmp_get_blk(NULL, id, errp);
++    BlockAcctStats *stats;
++    int ret;
++
++    if (!blk) {
++        return;
++    }
++
++    stats = blk_get_stats(blk);
++
++    if (!has_boundaries && !has_boundaries_read && !has_boundaries_write &&
++        !has_boundaries_flush)
++    {
++        block_size_histograms_clear(stats);
++        return;
++    }
++
++    if (has_boundaries || has_boundaries_read) {
++        ret = block_size_histogram_set(
++            stats, BLOCK_ACCT_READ,
++            has_boundaries_read ? boundaries_read : boundaries);
++        if (ret) {
++            error_setg(errp, "Device '%s' set read boundaries fail", id);
++            return;
++        }
++    }
++
++    if (has_boundaries || has_boundaries_write) {
++        ret = block_size_histogram_set(
++            stats, BLOCK_ACCT_WRITE,
++            has_boundaries_write ? boundaries_write : boundaries);
++        if (ret) {
++            error_setg(errp, "Device '%s' set write boundaries fail", id);
++            return;
++        }
++    }
++
++    if (has_boundaries || has_boundaries_flush) {
++        ret = block_size_histogram_set(
++            stats, BLOCK_ACCT_FLUSH,
++            has_boundaries_flush ? boundaries_flush : boundaries);
++        if (ret) {
++            error_setg(errp, "Device '%s' set flush boundaries fail", id);
++            return;
++        }
++    }
++}
++
+ QemuOptsList qemu_common_drive_opts = {
+     .name = "drive",
+     .head = QTAILQ_HEAD_INITIALIZER(qemu_common_drive_opts.head),
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 0d43d4f37c..cae45c9db5 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -633,6 +633,100 @@
+            '*boundaries-flush': ['uint64'] } }
  
- #endif
+ ##
++# @BlockSizeHistogramInfo:
++#
++# Block size histogram.
++#
++# @boundaries: list of interval boundary values in nanoseconds, all greater
++#              than zero and in ascending order.
++#              For example, the list [8193, 32769, 131073] produces the
++#              following histogram intervals:
++#              [0, 8193), [8193, 32769), [32769, 131073), [131073, +inf).
++#
++# @bins: list of io request counts corresponding to histogram intervals.
++#        len(@bins) = len(@boundaries) + 1
++#        For the example above, @bins may be something like [6, 3, 7, 9],
++#        and corresponding histogram looks like:
++#
++# Since: 4.0
++##
++{ 'struct': 'BlockSizeHistogramInfo',
++  'data': {'boundaries': ['uint64'], 'bins': ['uint64'] } }
++
++##
++# @x-block-size-histogram-set:
++#
++# Manage read, write and flush size histograms for the device.
++#
++# If only @id parameter is specified, remove all present size histograms
++# for the device. Otherwise, add/reset some of (or all) size histograms.
++#
++# @id: The name or QOM path of the guest device.
++#
++# @boundaries: list of interval boundary values (see description in
++#              BlockSizeHistogramInfo definition). If specified, all
++#              size histograms are removed, and empty ones created for all
++#              io types with intervals corresponding to @boundaries (except for
++#              io types, for which specific boundaries are set through the
++#              following parameters).
++#
++# @boundaries-read: list of interval boundary values for read size
++#                   histogram. If specified, old read size histogram is
++#                   removed, and empty one created with intervals
++#                   corresponding to @boundaries-read. The parameter has higher
++#                   priority then @boundaries.
++#
++# @boundaries-write: list of interval boundary values for write size
++#                    histogram.
++#
++# @boundaries-flush: list of interval boundary values for flush size
++#                    histogram.
++#
++# Returns: error if device is not found or any boundary arrays are invalid.
++#
++# Since: 4.0
++#
++# Example: set new histograms for all io types with intervals
++# [0, 8193), [8193, 32769), [32769, 131073), [131073, +inf):
++#
++# -> { "execute": "x-block-size-histogram-set",
++#      "arguments": { "id": "drive0",
++#                     "boundaries": [8193, 32769, 131073] } }
++# <- { "return": {} }
++#
++# Example: set new histogram only for write, other histograms will remain
++# not changed (or not created):
++#
++# -> { "execute": "x-block-size-histogram-set",
++#      "arguments": { "id": "drive0",
++#                     "boundaries-write": [8193, 32769, 131073] } }
++# <- { "return": {} }
++#
++# Example: set new histograms with the following intervals:
++#   read, flush: [0, 8193), [8193, 32769), [32769, 131073), [131073, +inf)
++#   write: [0, 4097), [4097, 8193), [8193, 32769), [32769, +inf)
++#
++# -> { "execute": "x-block-size-histogram-set",
++#      "arguments": { "id": "drive0",
++#                     "boundaries": [8193, 32769, 131073],
++#                     "boundaries-write": [4097, 8193, 32769] } }
++# <- { "return": {} }
++#
++# Example: remove all size histograms:
++#
++# -> { "execute": "x-block-size-histogram-set",
++#      "arguments": { "id": "drive0" } }
++# <- { "return": {} }
++##
++{ 'command': 'x-block-size-histogram-set',
++  'data': {'id': 'str',
++           '*boundaries': ['uint64'],
++           '*boundaries-read': ['uint64'],
++           '*boundaries-write': ['uint64'],
++           '*boundaries-flush': ['uint64'] } }
++
++
++##
+ # @BlockInfo:
+ #
+ # Block device information.  This structure describes a virtual device and
+@@ -918,6 +1012,12 @@
+ #
+ # @flush_latency_histogram: @BlockLatencyHistogramInfo. (Since 4.0)
+ #
++# @x_rd_size_histogram: @BlockSizeHistogramInfo. (Since 4.0)
++#
++# @x_wr_size_histogram: @BlockSizeHistogramInfo. (Since 4.0)
++#
++# @x_flush_size_histogram: @BlockSizeHistogramInfo. (Since 4.0)
++#
+ # Since: 0.14.0
+ ##
+ { 'struct': 'BlockDeviceStats',
+@@ -933,7 +1033,10 @@
+            'timed_stats': ['BlockDeviceTimedStats'],
+            '*rd_latency_histogram': 'BlockLatencyHistogramInfo',
+            '*wr_latency_histogram': 'BlockLatencyHistogramInfo',
+-           '*flush_latency_histogram': 'BlockLatencyHistogramInfo' } }
++           '*flush_latency_histogram': 'BlockLatencyHistogramInfo',
++           '*x_rd_size_histogram': 'BlockSizeHistogramInfo',
++           '*x_wr_size_histogram': 'BlockSizeHistogramInfo',
++           '*x_flush_size_histogram': 'BlockSizeHistogramInfo' } }
+ 
+ ##
+ # @BlockStats:
 -- 
 2.11.0
 
