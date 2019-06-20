@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AA44CDD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 14:39:47 +0200 (CEST)
-Received: from localhost ([::1]:47352 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9794CDD9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 14:41:15 +0200 (CEST)
+Received: from localhost ([::1]:47374 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdwLy-00064i-Ot
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 08:39:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33287)
+	id 1hdwNO-0000ZD-MT
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 08:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33214)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hdw2v-000194-NG
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:20:07 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hdw37-00017h-MB
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:20:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hdvq6-0003ab-CU
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:08:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40782)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>)
- id 1hdvoI-0002Nz-6r; Thu, 20 Jun 2019 08:04:58 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 600E6307D871;
- Thu, 20 Jun 2019 12:04:46 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 140AD19807;
- Thu, 20 Jun 2019 12:04:13 +0000 (UTC)
-Date: Thu, 20 Jun 2019 14:04:09 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Dongjiu Geng <gengdongjiu@huawei.com>
-Message-ID: <20190620140409.3c713760@redhat.com>
-In-Reply-To: <1557832703-42620-2-git-send-email-gengdongjiu@huawei.com>
-References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
- <1557832703-42620-2-git-send-email-gengdongjiu@huawei.com>
+ (envelope-from <pbonzini@redhat.com>) id 1hdvoH-0002QI-Pn
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:06:44 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:38562)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdvoH-0002J8-A7
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 08:04:57 -0400
+Received: by mail-wm1-f68.google.com with SMTP id s15so2890862wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 05:04:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5YCFq2iZepQnwJu68Ng1i3/CLbPGHwAuLVLer4Poq1A=;
+ b=bpA953Po2U/gC0VqzLTRZHYMRO4krGEkTDn17X2o5sN3bMI0lptnI/YZph1e0oxVIj
+ iXTnQuqiM5PUPqq/IVAHI1+RDk5YSP5lxQIAXvatK/qsWlSswwpdUauacE4yNAhcxpie
+ UGbc+++kxBavKxGFbPNie+TVhawfQiZYpZ/frKA2d/F/9fvQLQtf/FUz/yTzirnAseMY
+ hY2FY2jeyx4Z3u3a8/r3TNvyKQ2E0h9pCYfz+mmK0GUwPq9+OM3whvDzd+EJjuWicTOd
+ g2Y/mHdDJv/D+UnoKyrX8KR5KZvprxXMInj5NrFHTC+ENGlVwVysnA2m2RS3bBI8DPMC
+ SDwg==
+X-Gm-Message-State: APjAAAWQSL/TLGRb41Kf+D+Cqhg/raE4Wv7DHawMhKECkmvVHuXrVC03
+ dPycU6d6rfGbDC9S68jvpLcy7dXwyWY=
+X-Google-Smtp-Source: APXvYqzLXI/jz1OGb0EsfWkERuoBMddoo2Zwykx/55tTh7YF4MAMTqMfXBzlfIktUVz3MLNNsDs/LA==
+X-Received: by 2002:a1c:f415:: with SMTP id z21mr2790514wma.34.1561032264117; 
+ Thu, 20 Jun 2019 05:04:24 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
+ ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
+ by smtp.gmail.com with ESMTPSA id t140sm9965266wmt.0.2019.06.20.05.04.23
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Jun 2019 05:04:23 -0700 (PDT)
+To: Yan Zhao <yan.y.zhao@intel.com>
+References: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
+ <39c4c32b-e34a-8d8f-abbc-ab346ec5bed7@redhat.com>
+ <20190620040230.GB9073@xz-x1>
+ <6829b139-3eab-449e-04d6-07f1e381316d@redhat.com>
+ <20190620105752.GD9303@joy-OptiPlex-7040>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <532624f7-f1f9-98ce-9dcd-4f363d7870b7@redhat.com>
+Date: Thu, 20 Jun 2019 14:04:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190620105752.GD9303@joy-OptiPlex-7040>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 20 Jun 2019 12:04:47 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v17 01/10] hw/arm/virt: Add RAS platform
- version for migration
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH] memory: do not do out of bound notification
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,66 +75,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, kvm@vger.kernel.org,
- mst@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
- linuxarm@huawei.com, shannon.zhaosl@gmail.com, zhengxiang9@huawei.com,
- qemu-arm@nongnu.org, james.morse@arm.com, xuwei5@huawei.com,
- jonathan.cameron@huawei.com, pbonzini@redhat.com, lersek@redhat.com,
- rth@twiddle.net
+Cc: Auger Eric <eric.auger@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 May 2019 04:18:14 -0700
-Dongjiu Geng <gengdongjiu@huawei.com> wrote:
-
-> Support this feature since version 4.1, disable it by
-> default in the old version.
+On 20/06/19 12:57, Yan Zhao wrote:
+> On Thu, Jun 20, 2019 at 04:35:29PM +0800, Paolo Bonzini wrote:
+>> On 20/06/19 06:02, Peter Xu wrote:
+>>> Seems workable, to be explicit - we can even cut it into chunks with
+>>> different size to be efficient.
+>>
+>> Yes, this is not hard (completely untested):
+>>
+>> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+>> index 44b1231157..541538bc6c 100644
+>> --- a/hw/i386/intel_iommu.c
+>> +++ b/hw/i386/intel_iommu.c
+>> @@ -3388,39 +3388,34 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+>>      }
+>>  
+>>      assert(start <= end);
+>> -    size = end - start;
+>> +    while (end > start) {
+>> +        size = end - start;
+>> +        /* Only keep the lowest bit of either size or start.  */
+>> +        size = MIN(size & -size, start & -start);
+>> +        /* Should not happen, but limit to address width too just in case */
+>> +        size = MIN(size, 1ULL << s->aw_bits);
+>>  
+>> -    if (ctpop64(size) != 1) {
+>> -        /*
+>> -         * This size cannot format a correct mask. Let's enlarge it to
+>> -         * suite the minimum available mask.
+>> -         */
+>> -        int n = 64 - clz64(size);
+>> -        if (n > s->aw_bits) {
+>> -            /* should not happen, but in case it happens, limit it */
+>> -            n = s->aw_bits;
+>> -        }
+>> -        size = 1ULL << n;
+>> -    }
+>> +        assert((start & (size - 1)) == 0);
+>>  
+>> -    entry.target_as = &address_space_memory;
+>> -    /* Adjust iova for the size */
+>> -    entry.iova = n->start & ~(size - 1);
+>> -    /* This field is meaningless for unmap */
+>> -    entry.translated_addr = 0;
+>> -    entry.perm = IOMMU_NONE;
+>> -    entry.addr_mask = size - 1;
+>> +        entry.target_as = &address_space_memory;
+>> +        entry.iova = start;
+>> +        /* This field is meaningless for unmap */
+>> +        entry.translated_addr = 0;
+>> +        entry.perm = IOMMU_NONE;
+>> +        entry.addr_mask = size - 1;
+>>  
+>> -    trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
+>> -                             VTD_PCI_SLOT(as->devfn),
+>> -                             VTD_PCI_FUNC(as->devfn),
+>> -                             entry.iova, size);
+>> +        trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
+>> +                                 VTD_PCI_SLOT(as->devfn),
+>> +                                 VTD_PCI_FUNC(as->devfn),
+>> +                                 entry.iova, size);
+>>  
+>> -    map.iova = entry.iova;
+>> -    map.size = entry.addr_mask;
+>> -    iova_tree_remove(as->iova_tree, &map);
+>> +        map.iova = entry.iova;
+>> +        map.size = entry.addr_mask;
+>> +        iova_tree_remove(as->iova_tree, &map);
+>>  
+>> -    memory_region_notify_one(n, &entry);
+>> +        memory_region_notify_one(n, &entry);
+>> +        start += size;
+>> +    }
+>>  }
+>>  
+>>  static void vtd_address_space_unmap_all(IntelIOMMUState *s)
+>>
+>>
+>> Yan,
+>>
+>> if something like this works for you, let me know and I will submit it
+>> as a proper patch.
 > 
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> ---
->  hw/arm/virt.c         | 6 ++++++
->  include/hw/arm/virt.h | 1 +
->  2 files changed, 7 insertions(+)
+> Thanks and I'll try it tomorrow and let you know the result.
+> But may I know why it cannot simply be like below?
+
+Because the API is that addr_mask is a power of two minus 1.
+
+Paolo
+
+> Thanks
+> Yan
 > 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 5331ab7..7bdd41b 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2043,8 +2043,14 @@ DEFINE_VIRT_MACHINE_AS_LATEST(4, 1)
->  
->  static void virt_machine_4_0_options(MachineClass *mc)
->  {
-> +    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-> +
->      virt_machine_4_1_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-> +    /* Disable memory recovery feature for 4.0 as RAS support was
-> +     * introduced with 4.1.
-> +     */
-> +    vmc->no_ras = true;
-
-So it would mean that the feature is enabled unconditionally for
-new machine types and consumes resources whether user needs it or not.
-
-In light of the race for leaner QEMU and faster startup times,
-it might be better to make RAS optional and make user explicitly
-enable it using a machine option.
-
-
->  }
->  DEFINE_VIRT_MACHINE(4, 0)
->  
-> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> index 4240709..7f1a033 100644
-> --- a/include/hw/arm/virt.h
-> +++ b/include/hw/arm/virt.h
-> @@ -104,6 +104,7 @@ typedef struct {
->      bool disallow_affinity_adjustment;
->      bool no_its;
->      bool no_pmu;
-> +    bool no_ras;
->      bool claim_edge_triggered_timers;
->      bool smbios_old_sys_ver;
->      bool no_highmem_ecam;
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index b0d8a1c..2956db6 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3374,7 +3374,6 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+>      IntelIOMMUState *s = as->iommu_state;
+>      DMAMap map;
+> 
+>      /*
+>       * Note: all the codes in this function has a assumption that IOVA
+>       * bits are no more than VTD_MGAW bits (which is restricted by
+> @@ -3392,23 +3391,8 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+>      assert(start <= end);
+>      size = end - start;
+> 
+> -    if (ctpop64(size) != 1) {
+> -        /*
+> -         * This size cannot format a correct mask. Let's enlarge it to
+> -         * suite the minimum available mask.
+> -         */
+> -        int n = 64 - clz64(size);
+> -        if (n > s->aw_bits) {
+> -            /* should not happen, but in case it happens, limit it */
+> -            n = s->aw_bits;
+> -        }
+> -        size = 1ULL << n;
+> -    }
+> -
+> -
+>      entry.target_as = &address_space_memory;
+> -    /* Adjust iova for the size */
+> -    entry.iova = n->start & ~(size - 1);
+> +    entry.iova = n->start;
+>      /* This field is meaningless for unmap */
+>      entry.translated_addr = 0;
+>      entry.perm = IOMMU_NONE;
+> 
+> 
+> 
 
 
