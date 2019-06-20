@@ -2,56 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F6024D293
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:57:07 +0200 (CEST)
-Received: from localhost ([::1]:49792 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A9B4D2DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 18:10:14 +0200 (CEST)
+Received: from localhost ([::1]:50108 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdzQw-0007Zk-KR
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54608)
+	id 1hdzdc-0000PD-Kt
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 12:10:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56484)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hdzMY-0003zz-V7
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:52:35 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hdzV5-00027h-CK
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 12:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hdzMY-0004Vn-1E
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:52:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38002)
+ (envelope-from <jsnow@redhat.com>) id 1hdzV3-0004aV-8t
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 12:01:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60264)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hdzMX-0004Ut-NV
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:52:33 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1hdzUy-0004VR-94; Thu, 20 Jun 2019 12:01:16 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8F5B988319;
- Thu, 20 Jun 2019 15:52:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-212.ams2.redhat.com
- [10.36.116.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 526D860BE0;
- Thu, 20 Jun 2019 15:52:29 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7C37E17446; Thu, 20 Jun 2019 17:52:28 +0200 (CEST)
-Date: Thu, 20 Jun 2019 17:52:28 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Message-ID: <20190620155228.2nlxxrhdlw5n7wpn@sirius.home.kraxel.org>
-References: <cover.1561028123.git.balaton@eik.bme.hu>
- <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
- <20190620150923.gpe4rqn3qc54gcsn@sirius.home.kraxel.org>
- <alpine.BSF.2.21.9999.1906201729320.50442@zero.eik.bme.hu>
+ by mx1.redhat.com (Postfix) with ESMTPS id 83E9B3003B36;
+ Thu, 20 Jun 2019 16:01:14 +0000 (UTC)
+Received: from [10.10.123.29] (ovpn-123-29.rdu2.redhat.com [10.10.123.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 381275D71C;
+ Thu, 20 Jun 2019 16:01:12 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190620010356.19164-1-jsnow@redhat.com>
+ <20190620010356.19164-3-jsnow@redhat.com>
+ <e7143bb8-afb6-8326-6e93-49a7470b9b98@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <5a873055-72c2-ac4c-074d-2c31c8b4c863@redhat.com>
+Date: Thu, 20 Jun 2019 12:01:11 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.BSF.2.21.9999.1906201729320.50442@zero.eik.bme.hu>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <e7143bb8-afb6-8326-6e93-49a7470b9b98@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Thu, 20 Jun 2019 15:52:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Thu, 20 Jun 2019 16:01:14 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] ati-vga: Implement DDC and EDID
- info from monitor
+Subject: Re: [Qemu-devel] [PATCH 02/12] block/backup: Add mirror sync mode
+ 'bitmap'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,25 +136,285 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
 
-> > > +                addr <= GPIO_MONID + 2 && addr + size > GPIO_MONID + 2) {
-> > 
-> > Hmm, isn't this just "addr == GPIO_MONID + 2" ?
-> 
-> No because there could be all kinds of unalligned or multibyte access and we
-> only want to trigger this when the byte with the enable bits are touched.
-> (The MacOS NDRV accesses this 1 byte at a time so this is needed to avoid
-> spurious i2c bit banging but other drivers write 4 bytes so then addr is not
-> equal but covering above byte which is what this test allows.
 
-Can you add a comment explaining this (no need to respin, incremental patch is fine)?
+On 6/20/19 11:00 AM, Max Reitz wrote:
+> On 20.06.19 03:03, John Snow wrote:
+>> We don't need or want a new sync mode for simple differences in
+>> semantics.  Create a new mode simply named "BITMAP" that is designed t=
+o
+>> make use of the new Bitmap Sync Mode field.
+>>
+>> Because the only bitmap mode is 'conditional', this adds no new
+>> functionality to the backup job (yet). The old incremental backup mode
+>> is maintained as a syntactic sugar for sync=3Dbitmap, mode=3Dcondition=
+al.
+>>
+>> Add all of the plumbing necessary to support this new instruction.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>  qapi/block-core.json      | 30 ++++++++++++++++++++++--------
+>>  include/block/block_int.h |  6 +++++-
+>>  block/backup.c            | 35 ++++++++++++++++++++++++++++-------
+>>  block/mirror.c            |  6 ++++--
+>>  block/replication.c       |  2 +-
+>>  blockdev.c                |  8 ++++++--
+>>  6 files changed, 66 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/qapi/block-core.json b/qapi/block-core.json
+>> index caf28a71a0..6d05ad8f47 100644
+>> --- a/qapi/block-core.json
+>> +++ b/qapi/block-core.json
+>> @@ -1127,12 +1127,15 @@
+>>  #
+>>  # @none: only copy data written from now on
+>>  #
+>> -# @incremental: only copy data described by the dirty bitmap. Since: =
+2.4
+>> +# @incremental: only copy data described by the dirty bitmap. (since:=
+ 2.4)
+>=20
+> Why not deprecate this in the process and note that this is equal to
+> sync=3Dbitmap, bitmap-mode=3Dconditional?
+>=20
+> (I don=E2=80=99t think there is a rule that forces us to actually remov=
+e
+> deprecated stuff after two releases if it doesn=E2=80=99t hurt to keep =
+it.)
+>=20
 
-thanks,
-  Gerd
+Mostly I thought it would be fine to keep as sugar. In your replies so
+far I gather that "incremental" and "differential" don't mean specific
+backup paradigms to you, so maybe these seem like worthless words.
 
+It was my general understanding that in terms of backup
+paradigms/methodologies that "incremental" and "differential" mean very
+specific things.
+
+Incremental: Each backup contains only the delta from the last
+incremental backup.
+Differential: Each backup contains the delta from the last FULL backup.
+
+You can search "incremental vs differential backup" on your search
+engine of choice and find many relevant results. I took a Networking/IT
+vocational degree in 2007 and these terms were taught in textbooks then.
+
+So I will resist quite strongly changing them, and for this reason, felt
+that it was strictly a good thing to keep incremental as sugar, because
+I thought that people would know what it meant.
+
+(More than "conditional", anyway, which is jargon I made up.)
+
+>> +#
+>> +# @bitmap: only copy data described by the dirty bitmap. (since: 4.1)
+>> +#          Behavior on completion is determined by the BitmapSyncMode=
+.
+>>  #
+>>  # Since: 1.3
+>>  ##
+>>  { 'enum': 'MirrorSyncMode',
+>> -  'data': ['top', 'full', 'none', 'incremental'] }
+>> +  'data': ['top', 'full', 'none', 'incremental', 'bitmap'] }
+>> =20
+>>  ##
+>>  # @BitmapSyncMode:
+>> @@ -1352,10 +1355,14 @@
+>>  #
+>>  # @speed: the maximum speed, in bytes per second
+>>  #
+>> -# @bitmap: the name of dirty bitmap if sync is "incremental".
+>> -#          Must be present if sync is "incremental", must NOT be pres=
+ent
+>> +# @bitmap: the name of dirty bitmap if sync is "bitmap".
+>> +#          Must be present if sync is "bitmap", must NOT be present
+>>  #          otherwise. (Since 2.4)
+>=20
+> Er, well, now this is too fast of a deprecation. :-)  It must still als=
+o
+> be present if sync is =E2=80=9Cincremental=E2=80=9D.
+>=20
+
+OK; I will try to phrase it better. This is reflecting too much the
+implementation -- I think I was trying to communicate that incremental
+was just sugar for "bitmap", so I was trusting that was understood here.
+
+...But, depending on the order in which you read the docs, this could be
+confusing, so I guess I will change that.
+
+>>  #
+>> +# @bitmap-mode: Specifies the type of data the bitmap should contain =
+after
+>> +#               the operation concludes. Must be present if sync is "=
+bitmap".
+>> +#               Must NOT be present otherwise. (Since 4.1)
+>=20
+> Do we have any rule that qemu must enforce =E2=80=9Cmust not=E2=80=9Ds?=
+ :-)
+>=20
+> (No, I don=E2=80=99t think so.  I think it=E2=80=99s very reasonable th=
+at you accept
+> bitmap-mode=3Dconditional for sync=3Dincremental.)
+>=20
+
+Right, I left this a secret wiggle room. If you specify the correct
+bitmap sync mode for the incremental sugar, it will actually let it
+slide. If you specify the wrong one, it will error out.
+
+However, I think this is perfectly correct advice from the API: Please
+use this mode with sync=3Dbitmap and do not use it otherwise.
+
+Would you like me to change it to be more technically correct and
+document the little affordance I made?
+
+>>  # @compress: true to compress data, if the target format supports it.
+>>  #            (default: false) (since 2.8)
+>>  #
+>> @@ -1390,7 +1397,8 @@
+>>    'data': { '*job-id': 'str', 'device': 'str', 'target': 'str',
+>>              '*format': 'str', 'sync': 'MirrorSyncMode',
+>>              '*mode': 'NewImageMode', '*speed': 'int',
+>> -            '*bitmap': 'str', '*compress': 'bool',
+>> +            '*bitmap': 'str', '*bitmap-mode': 'BitmapSyncMode',
+>> +            '*compress': 'bool',
+>>              '*on-source-error': 'BlockdevOnError',
+>>              '*on-target-error': 'BlockdevOnError',
+>>              '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
+>> @@ -1412,10 +1420,14 @@
+>>  # @speed: the maximum speed, in bytes per second. The default is 0,
+>>  #         for unlimited.
+>>  #
+>> -# @bitmap: the name of dirty bitmap if sync is "incremental".
+>> -#          Must be present if sync is "incremental", must NOT be pres=
+ent
+>> +# @bitmap: the name of dirty bitmap if sync is "bitmap".
+>> +#          Must be present if sync is "bitmap", must NOT be present
+>>  #          otherwise. (Since 3.1)
+>=20
+> Same as above.
+>=20
+
+OK
+
+>> +# @bitmap-mode: Specifies the type of data the bitmap should contain =
+after
+>> +#               the operation concludes. Must be present if sync is "=
+bitmap".
+>> +#               Must NOT be present otherwise. (Since 4.1)
+>> +#
+>>  # @compress: true to compress data, if the target format supports it.
+>>  #            (default: false) (since 2.8)
+>>  #
+>> @@ -1449,7 +1461,9 @@
+>>  { 'struct': 'BlockdevBackup',
+>>    'data': { '*job-id': 'str', 'device': 'str', 'target': 'str',
+>>              'sync': 'MirrorSyncMode', '*speed': 'int',
+>> -            '*bitmap': 'str', '*compress': 'bool',
+>> +            '*bitmap': 'str',
+>> +            '*bitmap-mode': 'BitmapSyncMode',
+>> +            '*compress': 'bool',
+>>              '*on-source-error': 'BlockdevOnError',
+>>              '*on-target-error': 'BlockdevOnError',
+>>              '*auto-finalize': 'bool', '*auto-dismiss': 'bool' } }
+>> diff --git a/include/block/block_int.h b/include/block/block_int.h
+>> index d6415b53c1..89370c1b9b 100644
+>> --- a/include/block/block_int.h
+>> +++ b/include/block/block_int.h
+>> @@ -1132,7 +1132,9 @@ void mirror_start(const char *job_id, BlockDrive=
+rState *bs,
+>>   * @target: Block device to write to.
+>>   * @speed: The maximum speed, in bytes per second, or 0 for unlimited=
+.
+>>   * @sync_mode: What parts of the disk image should be copied to the d=
+estination.
+>> - * @sync_bitmap: The dirty bitmap if sync_mode is MIRROR_SYNC_MODE_IN=
+CREMENTAL.
+>> + * @sync_bitmap: The dirty bitmap if sync_mode is 'bitmap' or 'increm=
+ental'
+>> + * @has_bitmap_mode: true if @bitmap_sync carries a meaningful value.
+>=20
+> Hmm...  If you moved the conversion of incremental/- =3D>
+> bitmap/conditional into blockdev.c, you could get rid of this parameter
+> because it would be equal to (sync_bitmap !=3D NULL).
+>=20
+> (It itches me to get rid of this parameter because there is no other
+> has* parameter for this function yet.)
+>=20
+
+Yeah, it annoyed me too, and I believe later you do correctly guess why
+I did it -- it's so that the sugar conversion occurs all in one place
+where the logic was easiest to condense.
+
+I ran into the issue that there's no way to define a QAPI enum that has
+a "default"/"unset" state without also allowing that value to be entered
+by the user explicitly; so there was no way to pass along an "unset
+enum" down this far.
+
+So... (thought continued below)
+
+>> + * @bitmap_mode: The bitmap synchronization policy to use.
+>>   * @on_source_error: The action to take upon error reading from the s=
+ource.
+>>   * @on_target_error: The action to take upon error writing to the tar=
+get.
+>>   * @creation_flags: Flags that control the behavior of the Job lifeti=
+me.
+>> @@ -1148,6 +1150,8 @@ BlockJob *backup_job_create(const char *job_id, =
+BlockDriverState *bs,
+>>                              BlockDriverState *target, int64_t speed,
+>>                              MirrorSyncMode sync_mode,
+>>                              BdrvDirtyBitmap *sync_bitmap,
+>> +                            bool has_bitmap_mode,
+>> +                            BitmapSyncMode bitmap_mode,
+>>                              bool compress,
+>>                              BlockdevOnError on_source_error,
+>>                              BlockdevOnError on_target_error,
+>> diff --git a/block/backup.c b/block/backup.c
+>> index 715e1d3be8..c4f83d4ef7 100644
+>> --- a/block/backup.c
+>> +++ b/block/backup.c
+>=20
+> [...]
+>=20
+>> @@ -584,9 +586,28 @@ BlockJob *backup_job_create(const char *job_id, B=
+lockDriverState *bs,
+>>      }
+>> =20
+>>      if (sync_mode =3D=3D MIRROR_SYNC_MODE_INCREMENTAL) {
+>> +        if (has_bitmap_mode &&
+>> +            bitmap_mode !=3D BITMAP_SYNC_MODE_CONDITIONAL) {
+>> +            error_setg(errp, "Bitmap sync mode must be 'conditional' =
+"
+>> +                       "when using sync mode '%s'",
+>> +                       MirrorSyncMode_str(sync_mode));
+>> +            return NULL;
+>> +        }
+>> +        has_bitmap_mode =3D true;
+>> +        bitmap_mode =3D BITMAP_SYNC_MODE_CONDITIONAL;
+>> +        effective_mode =3D MIRROR_SYNC_MODE_BITMAP;
+>> +    }
+>> +
+>=20
+> I also just don=E2=80=99t quite feel like this is the correct place to =
+put this.
+>  It=E2=80=99s a deprecated interface, so it should be translated in the
+> interface code, i.e. in blockdev.c.
+>=20
+> (Sure, this gives you a central place for the translation, but you can
+> just as well add a function to the same effect to blockdev.c.)
+>=20
+> Max
+>=20
+
+... I can toy around with your idea of making a helper that can be
+called in blockdev and see if I like it.
+
+Thank you for taking a look!
 
