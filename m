@@ -2,45 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CBF4DB9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 22:51:01 +0200 (CEST)
-Received: from localhost ([::1]:53014 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A784DCA2
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 23:37:24 +0200 (CEST)
+Received: from localhost ([::1]:53230 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he41M-0002Ew-93
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 16:51:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46323)
+	id 1he4kE-0001O3-N0
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 17:37:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36049)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1he3xl-00010h-Uc
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 16:47:19 -0400
+ (envelope-from <no-reply@patchew.org>) id 1he4fn-0007xu-Ub
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 17:32:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1he3nE-0004nb-TE
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 16:36:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47228)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1he3nE-0004mT-K1
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 16:36:24 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 49E6030C1AD5;
- Thu, 20 Jun 2019 20:36:22 +0000 (UTC)
-Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA48F1001E69;
- Thu, 20 Jun 2019 20:36:21 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 17:36:16 -0300
-Message-Id: <20190620203616.22715-3-ehabkost@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1he4fm-0007Qn-HP
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 17:32:47 -0400
+Resent-Date: Thu, 20 Jun 2019 17:32:47 -0400
+Resent-Message-Id: <E1he4fm-0007Qn-HP@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21437)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1he4fk-0007Q9-K3
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 17:32:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561066272; cv=none; d=zoho.com; s=zohoarc; 
+ b=BxYcrQX1vsK7vbtNPs4U4OWTDvGFLBe9kCC4EG9EnA8Zix3d0BnUjzC8wN5Ih7tC75ksSDHqVrttJKFOBbLarMTNvXgl5BsSyZpcnjDkvn2OQ268bh2wtFqwIExF76DKYtNe7J1IaV3rXu46GcBnDXvfac2lDirw8e15TtY4Tc8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561066272;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=pVe138RqlDScDYwm0S8KKLKRuk3gNqgBu18GLFaI19k=; 
+ b=Usx/DHp4JyYKoroUiw+5fzS0LtM9wM6SUTM4pxL+h84uQmmFj/7bFVFI9fOA8ZLZpIT6l5fFlPU/p2VuO5ukFS/+ikOnRFjiG79qph/t3O6rHRt2UyVP/hr6VpK0ZYf0PSRDUA2tjiy8hiFC1jBi0j23wkyZ1kotVnUjQuGsVwk=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561066270226340.61188514923026;
+ Thu, 20 Jun 2019 14:31:10 -0700 (PDT)
 In-Reply-To: <20190620203616.22715-1-ehabkost@redhat.com>
-References: <20190620203616.22715-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 20 Jun 2019 20:36:22 +0000 (UTC)
+Message-ID: <156106626908.29212.2766222596090316863@ce79690b2cb9>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ehabkost@redhat.com
+Date: Thu, 20 Jun 2019 14:31:10 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] i386: Introduce X86CPUCacheCPUID struct
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH 0/2] i386: Introduce X86CPUCacheCPUID struct
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,267 +61,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Babu Moger <babu.moger@amd.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, qemu-devel@nongnu.org, babu.moger@amd.com,
+ imammedo@redhat.com, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new struct will be used to simplify the code that deals with
-legacy cache information.
-
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- target/i386/cpu.h |   7 +---
- target/i386/cpu.c | 100 ++++++++++++++++++++++++++++------------------
- 2 files changed, 63 insertions(+), 44 deletions(-)
-
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 2f03489bf0..86cf04d441 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1306,11 +1306,8 @@ typedef struct CPUX86State {
-     /* Features that were explicitly enabled/disabled */
-     FeatureWordArray user_features;
-     uint32_t cpuid_model[12];
--    /* Cache information for CPUID.  When legacy-cache=on, the cache data
--     * on each CPUID leaf will be different, because we keep compatibility
--     * with old QEMU versions.
--     */
--    CPUCaches cache_info_cpuid2, cache_info_cpuid4, cache_info_amd;
-+    /* Cache information for CPUID */
-+    const struct X86CPUCacheCPUID *caches;
- 
-     /* MTRRs */
-     uint64_t mtrr_fixed[11];
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index a6acd71911..e9f301f9ea 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1412,6 +1412,10 @@ static char *x86_cpu_class_get_model_name(X86CPUClass *cc)
-                      strlen(class_name) - strlen(X86_CPU_TYPE_SUFFIX));
- }
- 
-+typedef struct X86CPUCacheCPUID {
-+    CPUCaches cpuid2, cpuid4, amd;
-+} X86CPUCacheCPUID;
-+
- struct X86CPUDefinition {
-     const char *name;
-     uint32_t level;
-@@ -1423,7 +1427,7 @@ struct X86CPUDefinition {
-     int stepping;
-     FeatureWordArray features;
-     const char *model_id;
--    const CPUCaches *cache_info;
-+    const X86CPUCacheCPUID *cache_cpuid;
- };
- 
- static const CPUCaches epyc_cache_info = {
-@@ -1476,6 +1480,39 @@ static const CPUCaches epyc_cache_info = {
-     },
- };
- 
-+static X86CPUCacheCPUID epyc_cache_cpuid = {
-+    .cpuid2 = epyc_cache_info,
-+    .cpuid4 = epyc_cache_info,
-+    .amd = epyc_cache_info,
-+};
-+
-+/*
-+ * Legacy cache template.  When legacy-cache=on, the cache data
-+ * on each CPUID leaf will be different, because we keep compatibility
-+ * with old QEMU versions.
-+ */
-+static X86CPUCacheCPUID legacy_cache_cpuid = {
-+    .cpuid2 = {
-+        .l1d_cache = &legacy_l1d_cache,
-+        .l1i_cache = &legacy_l1i_cache,
-+        .l2_cache = &legacy_l2_cache_cpuid2,
-+        .l3_cache = &legacy_l3_cache,
-+    },
-+    .cpuid4 = {
-+        .l1d_cache = &legacy_l1d_cache,
-+        .l1i_cache = &legacy_l1i_cache,
-+        .l2_cache = &legacy_l2_cache,
-+        .l3_cache = &legacy_l3_cache,
-+    },
-+    .amd = {
-+        .l1d_cache = &legacy_l1d_cache_amd,
-+        .l1i_cache = &legacy_l1i_cache_amd,
-+        .l2_cache = &legacy_l2_cache_amd,
-+        .l3_cache = &legacy_l3_cache,
-+    },
-+};
-+
-+
- static X86CPUDefinition builtin_x86_defs[] = {
-     {
-         .name = "qemu64",
-@@ -2886,7 +2923,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-             CPUID_SVM_NPT | CPUID_SVM_NRIPSAVE,
-         .xlevel = 0x8000001E,
-         .model_id = "AMD EPYC Processor",
--        .cache_info = &epyc_cache_info,
-+        .cache_cpuid = &epyc_cache_cpuid,
-     },
-     {
-         .name = "EPYC-IBPB",
-@@ -2936,7 +2973,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-             CPUID_SVM_NPT | CPUID_SVM_NRIPSAVE,
-         .xlevel = 0x8000001E,
-         .model_id = "AMD EPYC Processor (with IBPB)",
--        .cache_info = &epyc_cache_info,
-+        .cache_cpuid = &epyc_cache_cpuid,
-     },
-     {
-         .name = "Dhyana",
-@@ -2986,7 +3023,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
-             CPUID_SVM_NPT | CPUID_SVM_NRIPSAVE,
-         .xlevel = 0x8000001E,
-         .model_id = "Hygon Dhyana Processor",
--        .cache_info = &epyc_cache_info,
-+        .cache_cpuid = &epyc_cache_cpuid,
-     },
- };
- 
-@@ -3951,7 +3988,7 @@ static void x86_cpu_load_def(X86CPU *cpu, X86CPUDefinition *def, Error **errp)
-     }
- 
-     /* legacy-cache defaults to 'off' if CPU model provides cache info */
--    cpu->legacy_cache = !def->cache_info;
-+    cpu->legacy_cache = !def->cache_cpuid;
- 
-     /* Special cases not set in the X86CPUDefinition structs: */
-     /* TODO: in-kernel irqchip for hvf */
-@@ -4301,11 +4338,11 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         if (!cpu->enable_l3_cache) {
-             *ecx = 0;
-         } else {
--            *ecx = cpuid2_cache_descriptor(env->cache_info_cpuid2.l3_cache);
-+            *ecx = cpuid2_cache_descriptor(env->caches->cpuid2.l3_cache);
-         }
--        *edx = (cpuid2_cache_descriptor(env->cache_info_cpuid2.l1d_cache) << 16) |
--               (cpuid2_cache_descriptor(env->cache_info_cpuid2.l1i_cache) <<  8) |
--               (cpuid2_cache_descriptor(env->cache_info_cpuid2.l2_cache));
-+        *edx = (cpuid2_cache_descriptor(env->caches->cpuid2.l1d_cache) << 16) |
-+               (cpuid2_cache_descriptor(env->caches->cpuid2.l1i_cache) <<  8) |
-+               (cpuid2_cache_descriptor(env->caches->cpuid2.l2_cache));
-         break;
-     case 4:
-         /* cache info: needed for Core compatibility */
-@@ -4320,24 +4357,24 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-             *eax = 0;
-             switch (count) {
-             case 0: /* L1 dcache info */
--                encode_cache_cpuid4(env->cache_info_cpuid4.l1d_cache,
-+                encode_cache_cpuid4(env->caches->cpuid4.l1d_cache,
-                                     1, cs->nr_cores,
-                                     eax, ebx, ecx, edx);
-                 break;
-             case 1: /* L1 icache info */
--                encode_cache_cpuid4(env->cache_info_cpuid4.l1i_cache,
-+                encode_cache_cpuid4(env->caches->cpuid4.l1i_cache,
-                                     1, cs->nr_cores,
-                                     eax, ebx, ecx, edx);
-                 break;
-             case 2: /* L2 cache info */
--                encode_cache_cpuid4(env->cache_info_cpuid4.l2_cache,
-+                encode_cache_cpuid4(env->caches->cpuid4.l2_cache,
-                                     cs->nr_threads, cs->nr_cores,
-                                     eax, ebx, ecx, edx);
-                 break;
-             case 3: /* L3 cache info */
-                 pkg_offset = apicid_pkg_offset(cs->nr_cores, cs->nr_threads);
-                 if (cpu->enable_l3_cache) {
--                    encode_cache_cpuid4(env->cache_info_cpuid4.l3_cache,
-+                    encode_cache_cpuid4(env->caches->cpuid4.l3_cache,
-                                         (1 << pkg_offset), cs->nr_cores,
-                                         eax, ebx, ecx, edx);
-                     break;
-@@ -4551,8 +4588,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                (L1_ITLB_2M_ASSOC <<  8) | (L1_ITLB_2M_ENTRIES);
-         *ebx = (L1_DTLB_4K_ASSOC << 24) | (L1_DTLB_4K_ENTRIES << 16) | \
-                (L1_ITLB_4K_ASSOC <<  8) | (L1_ITLB_4K_ENTRIES);
--        *ecx = encode_cache_cpuid80000005(env->cache_info_amd.l1d_cache);
--        *edx = encode_cache_cpuid80000005(env->cache_info_amd.l1i_cache);
-+        *ecx = encode_cache_cpuid80000005(env->caches->amd.l1d_cache);
-+        *edx = encode_cache_cpuid80000005(env->caches->amd.l1i_cache);
-         break;
-     case 0x80000006:
-         /* cache info (L2 cache) */
-@@ -4568,9 +4605,9 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-                (L2_DTLB_4K_ENTRIES << 16) | \
-                (AMD_ENC_ASSOC(L2_ITLB_4K_ASSOC) << 12) | \
-                (L2_ITLB_4K_ENTRIES);
--        encode_cache_cpuid80000006(env->cache_info_amd.l2_cache,
-+        encode_cache_cpuid80000006(env->caches->amd.l2_cache,
-                                    cpu->enable_l3_cache ?
--                                   env->cache_info_amd.l3_cache : NULL,
-+                                   env->caches->amd.l3_cache : NULL,
-                                    ecx, edx);
-         break;
-     case 0x80000007:
-@@ -4620,19 +4657,19 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         }
-         switch (count) {
-         case 0: /* L1 dcache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l1d_cache, cs,
-+            encode_cache_cpuid8000001d(env->caches->amd.l1d_cache, cs,
-                                        eax, ebx, ecx, edx);
-             break;
-         case 1: /* L1 icache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l1i_cache, cs,
-+            encode_cache_cpuid8000001d(env->caches->amd.l1i_cache, cs,
-                                        eax, ebx, ecx, edx);
-             break;
-         case 2: /* L2 cache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l2_cache, cs,
-+            encode_cache_cpuid8000001d(env->caches->amd.l2_cache, cs,
-                                        eax, ebx, ecx, edx);
-             break;
-         case 3: /* L3 cache info */
--            encode_cache_cpuid8000001d(env->cache_info_amd.l3_cache, cs,
-+            encode_cache_cpuid8000001d(env->caches->amd.l3_cache, cs,
-                                        eax, ebx, ecx, edx);
-             break;
-         default: /* end of info */
-@@ -5331,31 +5368,16 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
- 
-     /* Cache information initialization */
-     if (!cpu->legacy_cache) {
--        if (!xcc->cpu_def || !xcc->cpu_def->cache_info) {
-+        if (!xcc->cpu_def || !xcc->cpu_def->cache_cpuid) {
-             char *name = x86_cpu_class_get_model_name(xcc);
-             error_setg(errp,
-                        "CPU model '%s' doesn't support legacy-cache=off", name);
-             g_free(name);
-             return;
-         }
--        env->cache_info_cpuid2 = env->cache_info_cpuid4 = env->cache_info_amd =
--            *xcc->cpu_def->cache_info;
-+        env->caches = xcc->cpu_def->cache_cpuid;
-     } else {
--        /* Build legacy cache information */
--        env->cache_info_cpuid2.l1d_cache = &legacy_l1d_cache;
--        env->cache_info_cpuid2.l1i_cache = &legacy_l1i_cache;
--        env->cache_info_cpuid2.l2_cache = &legacy_l2_cache_cpuid2;
--        env->cache_info_cpuid2.l3_cache = &legacy_l3_cache;
--
--        env->cache_info_cpuid4.l1d_cache = &legacy_l1d_cache;
--        env->cache_info_cpuid4.l1i_cache = &legacy_l1i_cache;
--        env->cache_info_cpuid4.l2_cache = &legacy_l2_cache;
--        env->cache_info_cpuid4.l3_cache = &legacy_l3_cache;
--
--        env->cache_info_amd.l1d_cache = &legacy_l1d_cache_amd;
--        env->cache_info_amd.l1i_cache = &legacy_l1i_cache_amd;
--        env->cache_info_amd.l2_cache = &legacy_l2_cache_amd;
--        env->cache_info_amd.l3_cache = &legacy_l3_cache;
-+        env->caches = &legacy_cache_cpuid;
-     }
- 
- 
--- 
-2.18.0.rc1.1.g3f1ff2140
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyMDIwMzYxNi4yMjcx
+NS0xLWVoYWJrb3N0QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBh
+c2FuIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVp
+ciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJv
+YmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
+L2Jpbi9iYXNoCm1ha2UgZG9ja2VyLWltYWdlLWZlZG9yYSBWPTEgTkVUV09SSz0xCnRpbWUgbWFr
+ZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9eDg2XzY0LXNvZnRtbXUgSj0x
+NCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICB4ODZfNjQtc29m
+dG1tdS90YXJnZXQvaTM4Ni9zdm1faGVscGVyLm8KICBDQyAgICAgIHg4Nl82NC1zb2Z0bW11L3Rh
+cmdldC9pMzg2L21hY2hpbmUubwogIENDICAgICAgeDg2XzY0LXNvZnRtbXUvdGFyZ2V0L2kzODYv
+YXJjaF9tZW1vcnlfbWFwcGluZy5vCi90bXAvcWVtdS10ZXN0L3NyYy90YXJnZXQvaTM4Ni9jcHUu
+YzoxNDg0OjE1OiBlcnJvcjogaW5pdGlhbGl6ZXIgZWxlbWVudCBpcyBub3QgYSBjb21waWxlLXRp
+bWUgY29uc3RhbnQKICAgIC5jcHVpZDIgPSBlcHljX2NhY2hlX2luZm8sCiAgICAgICAgICAgICAg
+Xn5+fn5+fn5+fn5+fn5+CjEgZXJyb3IgZ2VuZXJhdGVkLgoKClRoZSBmdWxsIGxvZyBpcyBhdmFp
+bGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA2MjAyMDM2MTYuMjI3MTUtMS1l
+aGFia29zdEByZWRoYXQuY29tL3Rlc3RpbmcuYXNhbi8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwg
+Z2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9d
+LgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
 
