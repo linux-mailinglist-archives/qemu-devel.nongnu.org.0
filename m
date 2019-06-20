@@ -2,54 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F154C957
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:21:21 +0200 (CEST)
-Received: from localhost ([::1]:44762 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A59E4C97C
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:30:03 +0200 (CEST)
+Received: from localhost ([::1]:44852 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdsJs-0003i1-6C
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57563)
+	id 1hdsSI-000300-Kc
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:30:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58811)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <abologna@redhat.com>) id 1hdsFw-0001oZ-6V
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:17:17 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hdsIN-0003mh-Cg
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:19:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <abologna@redhat.com>) id 1hdsFF-0002CZ-Oc
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:16:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50636)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <abologna@redhat.com>)
- id 1hdsFF-00025y-ER; Thu, 20 Jun 2019 04:16:33 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DD1D6307D935;
- Thu, 20 Jun 2019 08:16:19 +0000 (UTC)
-Received: from kinshicho (unknown [10.43.2.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8393E60FAB;
- Thu, 20 Jun 2019 08:16:16 +0000 (UTC)
-Message-ID: <11f4e4ff6037427f52824ba586f8a330c12d8dfd.camel@redhat.com>
-From: Andrea Bolognani <abologna@redhat.com>
-To: Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 20 Jun 2019 10:16:14 +0200
-In-Reply-To: <CAKmqyKMmm-38DijX_wL=pAbvxzLQ+KSOtd1xg_GrT4Az70GKsw@mail.gmail.com>
-References: <cover.1560904640.git.alistair.francis@wdc.com>
- <CAEUhbmViJpKtiNXm7CYdF7SPRkOPkvpXJ5+We2m9tZSK_BWi-g@mail.gmail.com>
- <CAKmqyKM4UU+CPKu07AK65bNofbbxxaRkSACqoV_vfFEaH-195A@mail.gmail.com>
- <CAEUhbmUwAVLXY9SSoryWBDeNL8gUfBCE+xweSSmuE9KwzWeX=w@mail.gmail.com>
- <CAKmqyKMmm-38DijX_wL=pAbvxzLQ+KSOtd1xg_GrT4Az70GKsw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
+ (envelope-from <pbonzini@redhat.com>) id 1hdsIM-0004gL-5v
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:19:47 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:42270)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdsIL-0004bb-Vz
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:19:46 -0400
+Received: by mail-wr1-f68.google.com with SMTP id x17so1998493wrl.9
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 01:19:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3kK7fQCe77L28oObk6XxiNby+B0mG/pWnNQLMFN/yV0=;
+ b=XUjWXdo0GzYVJ/vvE2LWkgephGBdXZHaArODf/49nEJIg3vPiot5Uur7rchRRAS4UM
+ 5Y5fq1s0BdK3PMjTJ06FBbcmH+TH5LnvC5336jU8qgQ6kGJ42S+oA+VrIUQ9siKJ8K7y
+ DYFcOo53exaTOW4BrU95fQmCLylZtSZqTvRJgxPByDxigtlHi24mFrjzMBnpqVbj6SWq
+ Rw53LMfN6cwyrKQrlImbE0ZFz4Bfd+o/1rZEg6JhWjxTByF+E31SyPRfw1qQ2buU5+A8
+ FGuuC1WyNw2V7I9wvpQXvfmv0J1k+AYUuIMbW5D1EZ3FUEEutn7sVSvCiAL5KciC2Da5
+ kaMg==
+X-Gm-Message-State: APjAAAUaZNng1GDMnB+Y04SK8MXsfBnA+Lj0/7I5Soc7R1wmfPPz1JeQ
+ RDnz5uYHOuylnAlRa0Pp92wPLg==
+X-Google-Smtp-Source: APXvYqzy/Vy4cUHIpa39xTreeJoiTBBfapzZQ+bdwPk+g/cYEX21NNZZlbYesHIv0wXpwtRK7enDzg==
+X-Received: by 2002:adf:8367:: with SMTP id 94mr41458780wrd.179.1561018778395; 
+ Thu, 20 Jun 2019 01:19:38 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
+ ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
+ by smtp.gmail.com with ESMTPSA id n10sm20327509wrw.83.2019.06.20.01.19.37
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Thu, 20 Jun 2019 01:19:37 -0700 (PDT)
+To: Lidong Chen <lidong.chen@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1560806687.git.lidong.chen@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7b5c5b55-c465-57cd-8b75-85d33dbd343b@redhat.com>
+Date: Thu, 20 Jun 2019 10:19:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <cover.1560806687.git.lidong.chen@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 20 Jun 2019 08:16:20 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-riscv] [RFC v1 0/5] RISC-V: Add firmware
- loading support and default
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [Qemu-devel PATCH v3 0/2] fix incorrect assertions
+ in sd and main-loop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,37 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, berrange@redhat.com, liq3ea@gmail.com,
+ f4bug@amsat.org, armbru@redhat.com, darren.kenny@oracle.com,
+ liran.alon@oracle.com, marcandre.lureau@gmail.com, amarkovic@wavecomp.com,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2019-06-19 at 11:23 -0700, Alistair Francis wrote:
-> On Wed, Jun 19, 2019 at 7:42 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > On Wed, Jun 19, 2019 at 10:30 PM Alistair Francis <alistair23@gmail.com> wrote:
-> > > On Wed, Jun 19, 2019 at 7:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > >  pc-bios/opensbi-riscv32-fw_jump.elf | Bin 0 -> 197988 bytes
-> > > > >  pc-bios/opensbi-riscv64-fw_jump.elf | Bin 0 -> 200192 bytes
-> > > > 
-> > > > Since we are considering adding "bios" images, I prefer to add the
-> > > > pure binary images instead of ELF images here.
-> > > 
-> > > I didn't think about that. Can we just boot them in QEMU like we do
-> > > with the ELFs?
-> > 
-> > Yes, use load_image_targphys() instead of load_elf().
+On 19/06/19 21:14, Lidong Chen wrote:
+> This v3 added Philippe's Reviewed-by in patch2 (main-loop.c) 
+> I also included Philippe's previous comment about patch1 (sd.c)
+> in this cover: 
 > 
-> Ah, that is obvious. I'll update it to use the bin files then.
+> --------
+> Not sure via which tree this patch is going (trivial?).
+> To the maintainer, please consider adding when applying:
+> 
+> "This access can not happen. Fix to silent static analyzer warnings."
+> 
+> As confirmed by Lidong in v1 here:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg01337.html
+> 
+> Thanks,
+> 
+> Phil.
+> -------
+> 
+> Lidong Chen (2):
+>   sd: Fix out-of-bounds assertions
+>   util/main-loop: Fix incorrect assertion
+> 
+>  hw/sd/sd.c       | 4 ++--
+>  util/main-loop.c | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> -- 1.8.3.1
 
-I'm unclear on the advantages of using one format over the other,
-but one question comes to mind: once this is in, we will probably
-want to have OpenSBI packaged separately in distributions, the same
-way it already happens for SeaBIOS, SLOF and edk2-based firmwares.
+Queued, thanks.
 
-Will using either of the formats prevent that from happening?
-
--- 
-Andrea Bolognani / Red Hat / Virtualization
-
+Paolo
 
