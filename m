@@ -2,44 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA1E4CFC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 16:00:17 +0200 (CEST)
-Received: from localhost ([::1]:47938 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456A34D0E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 16:51:46 +0200 (CEST)
+Received: from localhost ([::1]:48630 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdxbs-0007rZ-M7
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 10:00:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52620)
+	id 1hdyPh-0007JZ-Dl
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 10:51:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39353)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdxOB-0004Sn-Qz
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:46:11 -0400
+ (envelope-from <lersek@redhat.com>) id 1hdy9k-0004D8-Ky
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:35:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hdxO8-0003Pn-1Y
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:46:07 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:36188 helo=mail.rt-rk.com)
+ (envelope-from <lersek@redhat.com>) id 1hdy9h-0006G6-Ho
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:35:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33802)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hdxO5-0003Mz-S8
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:46:03 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 1911C1A4774;
- Thu, 20 Jun 2019 15:45:56 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id E32641A4760;
- Thu, 20 Jun 2019 15:45:55 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 15:45:49 +0200
-Message-Id: <1561038349-17105-5-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561038349-17105-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1561038349-17105-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v2 4/4] target/mips: Fix emulation of
- ILVR.<B|H|W> on big endian host
+ (Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hdxTz-0006oi-Fl
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:52:08 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7E40B308FC4A
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 13:52:01 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-117-226.ams2.redhat.com
+ [10.36.117.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE0D21001E6F;
+ Thu, 20 Jun 2019 13:51:51 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190310004749.27029-1-philmd@redhat.com>
+ <20190310004749.27029-3-philmd@redhat.com>
+ <5e2f3651-5f00-0c93-353e-e58f079998e9@redhat.com>
+ <124e54f9-c7e1-0157-61f1-673154872749@redhat.com>
+ <88b7370c-1b6f-11e0-9fbe-d532e5726aa6@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <c5fed053-5dcf-afef-010b-c261741c748f@redhat.com>
+Date: Thu, 20 Jun 2019 15:51:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <88b7370c-1b6f-11e0-9fbe-d532e5726aa6@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Thu, 20 Jun 2019 13:52:01 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 2/4] hw/firmware: Add Edk2Crypto and
+ edk2_add_host_crypto_policy()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,92 +66,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
+Cc: "Daniel P . Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On 06/20/19 14:07, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi Laszlo,
+>=20
+> On 3/13/19 11:11 AM, Laszlo Ersek wrote:
+>> On 03/13/19 10:43, Laszlo Ersek wrote:
+>>> On 03/10/19 01:47, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>> The Edk2Crypto object is used to hold configuration values specific
+>>>> to EDK2.
+>>>>
+>>>> The edk2_add_host_crypto_policy() function loads crypto policies
+>>>> from the host, and register them as fw_cfg named file items.
+>>>> So far only the 'https' policy is supported.
+>>>>
+>>>> A usercase example is the 'HTTPS Boof' feature of OVMF [*].
+>>>>
+>>>> Usage example:
+>>>>
+>>>>   $ qemu-system-x86_64 \
+>>>>       --object edk2_crypto,id=3Dhttps,\
+>>>>               ciphers=3D/etc/crypto-policies/back-ends/openssl.confi=
+g,\
+>>>>               cacerts=3D/etc/pki/ca-trust/extracted/edk2/cacerts.bin
+>>>>
+>>>> (On Fedora these files are provided by the ca-certificates and
+>>>> crypto-policies packages).
+>>>>
+>>>> [*]: https://github.com/tianocore/edk2/blob/master/OvmfPkg/README
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>>> ---
+>>>> v3:
+>>>> - '-object' -> '--object' in commit description (Eric)
+>>>> - reworded the 'TODO: g_free' comment
+>>>> ---
+>>>>  MAINTAINERS                             |   8 ++
+>>>>  hw/Makefile.objs                        |   1 +
+>>>>  hw/firmware/Makefile.objs               |   1 +
+>>>>  hw/firmware/uefi_edk2_crypto_policies.c | 177 +++++++++++++++++++++=
++++
+>>>>  include/hw/firmware/uefi_edk2.h         |  28 ++++
+>>>>  5 files changed, 215 insertions(+)
+>>>>  create mode 100644 hw/firmware/Makefile.objs
+>>>>  create mode 100644 hw/firmware/uefi_edk2_crypto_policies.c
+>>>>  create mode 100644 include/hw/firmware/uefi_edk2.h
+>>>>
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index cf09a4c127..70122b3d0d 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -2206,6 +2206,14 @@ F: include/hw/i2c/smbus_master.h
+>>>>  F: include/hw/i2c/smbus_slave.h
+>>>>  F: include/hw/i2c/smbus_eeprom.h
+>>>> =20
+>>>> +EDK2 Firmware
+>>>> +M: Laszlo Ersek <lersek@redhat.com>
+>>>> +M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>>>> +S: Maintained
+>>>> +F: docs/interop/firmware.json
+>>>> +F: hw/firmware/uefi_edk2_crypto_policies.c
+>>>> +F: include/hw/firmware/uefi_edk2.h
+>>>> +
+>>>
+>>> I'm not happy with this.
+>>>
+>>> First, "docs/interop/firmware.json" is meant for more than just EDK2.=
+ We
+>>> shouldn't list it in a section called "EDK2 Firmware". I can't sugges=
+t
+>>> an alternative (MAINTAINERS is *huge* -- 2500+ lines), but this one
+>>> would be misleading.
+>>>
+>>> Second, we expose fw_cfg files to edk2 platform firmware from a bunch=
+ of
+>>> other places. For example -- and in this case I do mean to provide a
+>>> complex example! --, see "etc/smi/supported-features",
+>>> "etc/smi/requested-features", and "etc/smi/features-ok", in file
+>>> "hw/isa/lpc_ich9.c". I'm unconvinced that the present feature merits =
+new
+>>> directories and new files.
+>>>
+>>> Then again, I also don't know where to put the logic. I guess I'll ha=
+ve
+>>> to defer to more experienced reviewers.
+>>>
+>>> [snipping lots of QOM boilerplate]
+>>>
+>>>> +void edk2_add_host_crypto_policy(FWCfgState *fw_cfg)
+>>>> +{
+>>>> +    Edk2Crypto *s;
+>>>> +
+>>>> +    s =3D edk2_crypto_by_id("https", NULL);
+>>>> +    if (!s) {
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    if (s->ciphers_path) {
+>>>> +        /*
+>>>> +         * Note:
+>>>> +         * Unlike with fw_cfg_add_file() where the allocated data h=
+as
+>>>> +         * to be valid for the lifetime of the FwCfg object, there =
+is
+>>>> +         * no such contract interface with fw_cfg_add_file_from_hos=
+t().
+>>>> +         * It would be easier that the FwCfg object keeps reference=
+ of
+>>>> +         * its allocated memory and releases it when destroy, but i=
+t
+>>>> +         * currently doesn't. Meanwhile we simply add this TODO com=
+ment.
+>>>> +         */
+>>>> +        fw_cfg_add_file_from_host(fw_cfg, "etc/edk2/https/ciphers",
+>>>> +                                  s->ciphers_path, NULL);
+>>>> +    }
+>>>> +
+>>>> +    if (s->cacerts_path) {
+>>>> +        /*
+>>>> +         * TODO: g_free the returned pointer
+>>>> +         * (see previous comment for ciphers_path in this function)=
+.
+>>>> +         */
+>>>> +        fw_cfg_add_file_from_host(fw_cfg, "etc/edk2/https/cacerts",
+>>>> +                                  s->cacerts_path, NULL);
+>>>> +    }
+>>>> +}
+>>>
+>>> Shouldn't we do some error checking here?
+>>>
+>>> I mean, printing an error message in fw_cfg_add_file_from_host(), and
+>>> then continuing without exposing the named files in question to the
+>>> firmware, could be OK if this was a "default on" feature. But (IIUC)
+>>> here the user provided an explicit "-object" option, and we've just
+>>> failed to construct the object. Doesn't such a situation usually prev=
+ent
+>>> QEMU startup?
+>>
+>> Wait, I could be totally confused here. (Returning to this patch after
+>> seeing the rest of the series.)
+>>
+>> Is it actually the case that the Edk2Crypto object holds nothing more
+>> than two pathnames -- and so its construction can virtually never fail=
+?
+>> While the actual fw_cfg population occurs separately, in a machine_don=
+e
+>> notifier?
+>>
+>> If that's the case, I don't think it's the right approach. Reading the
+>> host files, and populating fw_cfg with them, should be part of the
+>> object construction. And if those steps fail, the object should not be
+>> possible to construct.
+>>
+>> We did something similar with the vmgenid device [hw/acpi/vmgenid.c], =
+if
+>> I remember correctly. It also has a dependency on fw_cfg...
+>>
+>> Ahh, no, I'm absolutely wrong about that. vmgenid_realize() doesn't do
+>> anything with fw_cfg. Instead, we have acpi_setup() in
+>> "hw/i386/acpi-build.c", which calls find_vmgenid_dev() and
+>> vmgenid_add_fw_cfg(). And acpi_setup() is certainly called from
+>> pc_machine_done().
+>>
+>> In other words, the pattern that you use here matches existing practic=
+e.
+>> Realize the device (or object) first, then add the fw_cfg thingies in
+>> the "machine done" callback. OK.
+>>
+>> *Still*, I would like to see better error handling/reporting (or an
+>> explanation why I'm wrong). How about reworking the edk2crypto class
+>> itself -- it shouldn't just hold the pathnames of the files, but also
+>> their contents. That is:
+>>
+>> - g_file_get_contents() should be called in the realize method
+>> - the object would own the file contents
+>> - the realize method would ensure that there wouldn't be any other
+>> instance of the class (i.e. that it would be a singleton -- see the sa=
+me
+>> idea in vmgenid)
+>> - there would be no need for the fw_cfg_add_file_from_host() API
+>> - the machine done notifier would be extended to locate the object
+>> (there could be zero or one instances), and if the one instance were
+>> found, the machine done callback would hook the file contents into
+>> fw_cfg. fw_cfg_add_file() cannot fail, so no errors to report at this =
+stage.
+>>
+>> Again I think this would follow the pattern from vmgenid.
+>=20
+> I want to say I am impressed by your deep review. Your design is
+> obviously way cleaner/safer. I think I was missing some part of the big
+> picture here, thank you for your detailed comments!
+>=20
+> I did not know how vmgenid is processed. The only difference is I don't
+> want the edk2crypto class to be a device, but rather a simple user
+> object, and we already have an interface that does that:
+> TYPE_USER_CREATABLE. Its UserCreatableClass::complete() method is
+> similar to DeviceClass::realize() in managing errors at object
+> instantiation, so the machine done notifier never fails.
+> I'll respin.
 
-Fix emulation of ILVR.<B|H|W> on big endian host by applying
-mapping of data element indexes from one endian to another.
+Sounds good to me, thanks! Please do CC reviewers with QOM experience,
+as I'm not familiar with TYPE_USER_CREATABLE.
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
----
- target/mips/msa_helper.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
-
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index 458c840..7a9bfb3 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -2001,6 +2001,24 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- 
-     switch (df) {
-     case DF_BYTE:
-+#if defined(TARGET_WORDS_BIGENDIAN)
-+        pwd->b[8]  = pws->b[0];
-+        pwd->b[9]  = pwt->b[0];
-+        pwd->b[10] = pws->b[1];
-+        pwd->b[11] = pwt->b[1];
-+        pwd->b[12] = pws->b[2];
-+        pwd->b[13] = pwt->b[2];
-+        pwd->b[14] = pws->b[3];
-+        pwd->b[15] = pwt->b[3];
-+        pwd->b[0]  = pws->b[4];
-+        pwd->b[1]  = pwt->b[4];
-+        pwd->b[2]  = pws->b[5];
-+        pwd->b[3]  = pwt->b[5];
-+        pwd->b[4]  = pws->b[6];
-+        pwd->b[5]  = pwt->b[6];
-+        pwd->b[6]  = pws->b[7];
-+        pwd->b[7]  = pwt->b[7];
-+#else
-         pwd->b[15] = pws->b[7];
-         pwd->b[14] = pwt->b[7];
-         pwd->b[13] = pws->b[6];
-@@ -2017,8 +2035,19 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-         pwd->b[2]  = pwt->b[1];
-         pwd->b[1]  = pws->b[0];
-         pwd->b[0]  = pwt->b[0];
-+#endif
-         break;
-     case DF_HALF:
-+#if defined(TARGET_WORDS_BIGENDIAN)
-+        pwd->h[4] = pws->h[0];
-+        pwd->h[5] = pwt->h[0];
-+        pwd->h[6] = pws->h[1];
-+        pwd->h[7] = pwt->h[1];
-+        pwd->h[0] = pws->h[2];
-+        pwd->h[1] = pwt->h[2];
-+        pwd->h[2] = pws->h[3];
-+        pwd->h[3] = pwt->h[3];
-+#else
-         pwd->h[7] = pws->h[3];
-         pwd->h[6] = pwt->h[3];
-         pwd->h[5] = pws->h[2];
-@@ -2027,12 +2056,20 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
-         pwd->h[2] = pwt->h[1];
-         pwd->h[1] = pws->h[0];
-         pwd->h[0] = pwt->h[0];
-+#endif
-         break;
-     case DF_WORD:
-+#if defined(TARGET_WORDS_BIGENDIAN)
-+        pwd->w[2] = pws->w[0];
-+        pwd->w[3] = pwt->w[0];
-+        pwd->w[0] = pws->w[1];
-+        pwd->w[1] = pwt->w[1];
-+#else
-         pwd->w[3] = pws->w[1];
-         pwd->w[2] = pwt->w[1];
-         pwd->w[1] = pws->w[0];
-         pwd->w[0] = pwt->w[0];
-+#endif
-         break;
-     case DF_DOUBLE:
-         pwd->d[1] = pws->d[0];
--- 
-2.7.4
-
+Thanks!
+Laszlo
 
