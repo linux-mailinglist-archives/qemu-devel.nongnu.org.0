@@ -2,130 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715584DA2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:32:24 +0200 (CEST)
-Received: from localhost ([::1]:52424 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135354DA6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 21:42:12 +0200 (CEST)
+Received: from localhost ([::1]:52484 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he2nF-0002Us-8j
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:32:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50037)
+	id 1he2wl-00009s-6V
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 15:42:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50470)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1he272-0003uF-GD
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:48:46 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1he28p-0004kp-8T
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:50:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1he26z-0001fA-I3
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:48:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37216)
+ (envelope-from <dgilbert@redhat.com>) id 1he28n-0004CW-9l
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:50:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39108)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1he26r-0000o9-4d; Thu, 20 Jun 2019 14:48:35 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1he28l-000480-Ay
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:50:32 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C260E22386B;
- Thu, 20 Jun 2019 18:48:09 +0000 (UTC)
-Received: from [10.10.123.29] (ovpn-123-29.rdu2.redhat.com [10.10.123.29])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD7C2608D0;
- Thu, 20 Jun 2019 18:48:00 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-9-jsnow@redhat.com>
- <be0cf312-a8e9-a39a-8d9d-47d76967d063@redhat.com>
- <58389e59-4fdd-ddf1-9e71-dd0131ec5fe1@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <a81fad35-87ab-5af4-7beb-03f0750f4cef@redhat.com>
-Date: Thu, 20 Jun 2019 14:47:59 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 10C5F58E42;
+ Thu, 20 Jun 2019 18:50:12 +0000 (UTC)
+Received: from work-vm (ovpn-117-203.ams2.redhat.com [10.36.117.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8E945D9E5;
+ Thu, 20 Jun 2019 18:50:02 +0000 (UTC)
+Date: Thu, 20 Jun 2019 19:50:00 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190620184959.GQ2907@work-vm>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-14-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <58389e59-4fdd-ddf1-9e71-dd0131ec5fe1@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561041461-22326-14-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Thu, 20 Jun 2019 18:48:14 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.39]); Thu, 20 Jun 2019 18:50:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 08/12] iotests: add testing shim for
- script-style python tests
+Subject: Re: [Qemu-devel] [PATCH v4 13/13] vfio: Add trace events in
+ migration code path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -137,60 +58,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- vsementsov@virtuozzo.com, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ yulei.zhang@intel.com, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, alex.williamson@redhat.com,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ yan.y.zhao@intel.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
 
+Thanks, adding traces really helps; however, it might be easier
+if you just add them in your previous patches where you're
+adding the functions.
 
-On 6/20/19 1:26 PM, Max Reitz wrote:
-> On 20.06.19 19:09, Max Reitz wrote:
->> On 20.06.19 03:03, John Snow wrote:
->>> Because the new-style python tests don't use the iotests.main() test
->>> launcher, we don't turn on the debugger logging for these scripts
->>> when invoked via ./check -d.
->>>
->>> Refactor the launcher shim into new and old style shims so that they
->>> share environmental configuration.
->>>
->>> Two cleanup notes: debug was not actually used as a global, and there
->>> was no reason to create a class in an inner scope just to achieve
->>> default variables; we can simply create an instance of the runner wit=
-h
->>> the values we want instead.
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>  tests/qemu-iotests/iotests.py | 40 +++++++++++++++++++++++----------=
+Dave
+
+> ---
+>  hw/vfio/migration.c  | 26 ++++++++++++++++++++++++++
+>  hw/vfio/trace-events | 18 ++++++++++++++++++
+>  2 files changed, 44 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 68775b5dec11..70c03f1a969f 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -21,6 +21,7 @@
+>  #include "exec/ramlist.h"
+>  #include "exec/ram_addr.h"
+>  #include "pci.h"
+> +#include "trace.h"
+>  
+>  /*
+>   * Flags used as delimiter:
+> @@ -104,6 +105,7 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t state)
+>      }
+>  
+>      vbasedev->device_state = state;
+> +    trace_vfio_migration_set_state(vbasedev->name, state);
+>      return 0;
+>  }
+>  
+> @@ -173,6 +175,8 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
+>          qemu_put_be64(f, data_size);
+>      }
+>  
+> +    trace_vfio_save_buffer(vbasedev->name, data_offset, data_size,
+> +                           migration->pending_bytes);
+>      ret = qemu_file_get_error(f);
+>  
+>      return data_size;
+> @@ -195,6 +199,7 @@ static int vfio_update_pending(VFIODevice *vbasedev)
+>      }
+>  
+>      migration->pending_bytes = pending_bytes;
+> +    trace_vfio_update_pending(vbasedev->name, pending_bytes);
+>      return 0;
+>  }
+>  
+> @@ -209,6 +214,8 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+>      }
+>      qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+>  
+> +    trace_vfio_save_device_config_state(vbasedev->name);
+> +
+>      return qemu_file_get_error(f);
+>  }
+>  
+> @@ -225,6 +232,7 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+>          return -EINVAL;
+>      }
+>  
+> +    trace_vfio_load_device_config_state(vbasedev->name);
+>      return qemu_file_get_error(f);
+>  }
+>  
+> @@ -343,6 +351,9 @@ void vfio_get_dirty_page_list(VFIODevice *vbasedev,
+>          }
+>      } while (count < pfn_count);
+>  
+> +    trace_vfio_get_dirty_page_list(vbasedev->name, start_pfn, pfn_count,
+> +                                   page_size);
+> +
+>  dpl_unlock:
+>      qemu_mutex_unlock(&migration->lock);
+>  }
+> @@ -390,6 +401,7 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+>          return ret;
+>      }
+>  
+> +    trace_vfio_save_setup(vbasedev->name);
+>      return 0;
+>  }
+>  
+> @@ -401,6 +413,7 @@ static void vfio_save_cleanup(void *opaque)
+>      if (migration->region.buffer.mmaps) {
+>          vfio_region_unmap(&migration->region.buffer);
+>      }
+> +    trace_vfio_cleanup(vbasedev->name);
+>  }
+>  
+>  static void vfio_save_pending(QEMUFile *f, void *opaque,
+> @@ -424,6 +437,7 @@ static void vfio_save_pending(QEMUFile *f, void *opaque,
+>          *res_postcopy_only += migration->pending_bytes;
+>      }
+>      *res_compatible += 0;
+> +    trace_vfio_save_pending(vbasedev->name);
+>  }
+>  
+>  static int vfio_save_iterate(QEMUFile *f, void *opaque)
+> @@ -451,6 +465,7 @@ static int vfio_save_iterate(QEMUFile *f, void *opaque)
+>          return ret;
+>      }
+>  
+> +    trace_vfio_save_iterate(vbasedev->name);
+>      return ret;
+>  }
+>  
+> @@ -504,6 +519,8 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>          error_report("Failed to set state STOPPED");
+>          return ret;
+>      }
+> +
+> +    trace_vfio_save_complete_precopy(vbasedev->name);
+>      return ret;
+>  }
+>  
+> @@ -544,6 +561,9 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+>  
+>      data = qemu_get_be64(f);
+>      while (data != VFIO_MIG_FLAG_END_OF_STATE) {
+> +
+> +        trace_vfio_load_state(vbasedev->name, data);
+> +
+>          switch (data) {
+>          case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
+>          {
+> @@ -627,6 +647,8 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+>                      return -EINVAL;
+>                  }
+>              }
+> +            trace_vfio_load_state_device_data(vbasedev->name, data_offset,
+> +                                              data_size);
+>              break;
+>          }
+>          }
+> @@ -668,6 +690,7 @@ static void vfio_vmstate_change(void *opaque, int running, RunState state)
+>      }
+>  
+>      vbasedev->vm_running = running;
+> +    trace_vfio_vmstate_change(vbasedev->name, running);
+>  }
+>  
+>  static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+> @@ -676,6 +699,8 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+>      VFIODevice *vbasedev = container_of(notifier, VFIODevice, migration_state);
+>      int ret;
+>  
+> +    trace_vfio_migration_state_notifier(vbasedev->name, s->state);
+> +
+>      switch (s->state) {
+>      case MIGRATION_STATUS_ACTIVE:
+>          if (vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING) {
+> @@ -758,6 +783,7 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+>              return ret;
+>          }
+>      } else {
+> +        trace_vfio_migration_probe(vbasedev->name, info->index);
+>          return vfio_migration_init(vbasedev, info);
+>      }
+>  
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 8cdc27946cb8..b1f19ae7a806 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -143,3 +143,21 @@ vfio_display_edid_link_up(void) ""
+>  vfio_display_edid_link_down(void) ""
+>  vfio_display_edid_update(uint32_t prefx, uint32_t prefy) "%ux%u"
+>  vfio_display_edid_write_error(void) ""
+> +
+> +# migration.c
+> +vfio_migration_set_state(char *name, uint32_t state) " (%s) state %d"
+> +vfio_save_buffer(char *name, uint64_t data_offset, uint64_t data_size, uint64_t pending) " (%s), Offset 0x%"PRIx64" size 0x%"PRIx64" pending 0x%"PRIx64
+> +vfio_update_pending(char *name, uint64_t pending) " (%s), pending 0x%"PRIx64
+> +vfio_save_device_config_state(char *name) " (%s)"
+> +vfio_load_device_config_state(char *name) " (%s)"
+> +vfio_get_dirty_page_list(char *name, uint64_t start, uint64_t pfn_count, uint64_t page_size) " (%s) start 0x%"PRIx64" pfn_count 0x%"PRIx64 " page size 0x%"PRIx64
+> +vfio_save_setup(char *name) " (%s)"
+> +vfio_cleanup(char *name) " (%s)"
+> +vfio_save_pending(char *name) " (%s)"
+> +vfio_save_iterate(char *name) " (%s)"
+> +vfio_save_complete_precopy(char *name) " (%s)"
+> +vfio_load_state(char *name, uint64_t data) " (%s) data 0x%"PRIx64
+> +vfio_load_state_device_data(char *name, uint64_t data_offset, uint64_t data_size) " (%s), Offset 0x%"PRIx64" size 0x%"PRIx64
+> +vfio_vmstate_change(char *name, int running) " (%s) running %d"
+> +vfio_migration_state_notifier(char *name, int state) " (%s) state %d"
+> +vfio_migration_probe(char *name, uint32_t index) " (%s) Region %d"
+> -- 
+> 2.7.0
+> 
 --
->>>  1 file changed, 26 insertions(+), 14 deletions(-)
->>
->> I don=E2=80=99t quite get how script_main() works (yes, both my Python=
-fu and my
->> Googlefu are that bad), but it works and looks good, so have a
->=20
-> Oh, it doesn=E2=80=99t work (well, not automagically).  I just assumed =
-seeing
-> the log output means it=E2=80=99s working.  Seeing that the test needs =
-to call
-> iotests.script_main() explicitly does clear up my confusion.
->=20
-> All OK with me.
->=20
-> Max
->=20
-
-Yes. I should convert the others to opt-in to the new format so that
-copy-paste in the future will get us the right paradigm.
-
-Tests just need to be refactored to have a single point of entry so it
-can be passed as a closure to the test runner.
-
-If this seems like a good change I will do that as a follow-up series
-with only the churn.
-
---js
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
