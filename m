@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B7C4CA80
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:17:33 +0200 (CEST)
-Received: from localhost ([::1]:45140 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5399C4CA83
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:17:41 +0200 (CEST)
+Received: from localhost ([::1]:45142 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdtCG-0000gb-7d
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38848)
+	id 1hdtCO-0000kE-Hx
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:17:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38918)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hdss7-0007gu-OS
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:56:45 -0400
+ (envelope-from <berrange@redhat.com>) id 1hdssj-0007n5-M7
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:57:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hdss5-00081p-NB
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:56:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44932)
+ (envelope-from <berrange@redhat.com>) id 1hdssh-0008W4-Rr
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:57:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53368)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdss5-00080z-Hh
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:56:41 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdssh-0008VJ-M5
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:57:19 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6D48CC05E14C
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:56:35 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AA824316290E
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:57:17 +0000 (UTC)
 Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EB99019722;
- Thu, 20 Jun 2019 08:56:30 +0000 (UTC)
-Date: Thu, 20 Jun 2019 09:56:27 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F3A05C1A1;
+ Thu, 20 Jun 2019 08:57:13 +0000 (UTC)
+Date: Thu, 20 Jun 2019 09:57:10 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190620085627.GR25448@redhat.com>
+Message-ID: <20190620085710.GS25448@redhat.com>
 References: <20190619201050.19040-1-armbru@redhat.com>
- <20190619201050.19040-17-armbru@redhat.com>
+ <20190619201050.19040-18-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190619201050.19040-17-armbru@redhat.com>
+In-Reply-To: <20190619201050.19040-18-armbru@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Thu, 20 Jun 2019 08:56:35 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Thu, 20 Jun 2019 08:57:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 16/17] MAINTAINERS: Add Windows dump to
- section "Dump"
+Subject: Re: [Qemu-devel] [PATCH 17/17] dump: Move HMP command handlers to
+ dump/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,41 +62,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: kwolf@redhat.com,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 19, 2019 at 10:10:49PM +0200, Markus Armbruster wrote:
-> Commit 2da91b54fe9 "dump: add Windows dump format to
-> dump-guest-memory" neglected to update MAINTAINERS.  Do it now.
+On Wed, Jun 19, 2019 at 10:10:50PM +0200, Markus Armbruster wrote:
+> Move the HMP handlers related to qapi/dump.json to
+> dimp/dump-hmp-cmds.c, where they are covered by MAINTAINERS section
+> "Dump", just like qapi/dump.json.
 >=20
 > Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  MAINTAINERS | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a3fdda015f..327ad80ae4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1850,9 +1850,10 @@ F: include/sysemu/device_tree.h
->  Dump
->  S: Supported
->  M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> -F: dump/dump.c
-> +F: dump/
-
-Isn't this better squashed in the previous patch in fact.
-
->  F: hw/misc/vmcoreinfo.c
->  F: include/hw/misc/vmcoreinfo.h
-> +F: include/qemu/win_dump_defs
->  F: include/sysemu/dump-arch.h
->  F: include/sysemu/dump.h
->  F: qapi/dump.json
-
-Either way, the result is good so
+>  Makefile.objs        |  1 +
+>  dump/Makefile.objs   |  1 +
+>  dump/dump-hmp-cmds.c | 88 ++++++++++++++++++++++++++++++++++++++++++++
+>  monitor/hmp-cmds.c   | 76 --------------------------------------
+>  4 files changed, 90 insertions(+), 76 deletions(-)
+>  create mode 100644 dump/dump-hmp-cmds.c
 
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
