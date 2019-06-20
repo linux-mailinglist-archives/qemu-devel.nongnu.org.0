@@ -2,47 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA504D577
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 19:54:41 +0200 (CEST)
-Received: from localhost ([::1]:51934 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606E94D800
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 20:24:32 +0200 (CEST)
+Received: from localhost ([::1]:52068 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he1Gi-0004bG-Cz
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 13:54:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34919)
+	id 1he1jb-0008A9-9p
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 14:24:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43355)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1he19O-0007IG-Ou
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:47:08 -0400
+ (envelope-from <alistair23@gmail.com>) id 1he1cV-0005MN-Jb
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:17:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1he10I-0004rK-1Z
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:37:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44948)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1he10H-0004qM-RC
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:37:41 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id EFD1B90C77;
- Thu, 20 Jun 2019 17:37:40 +0000 (UTC)
-Received: from localhost (ovpn-116-108.ams2.redhat.com [10.36.116.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 83E6B5C1A1;
- Thu, 20 Jun 2019 17:37:40 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 20 Jun 2019 18:37:09 +0100
-Message-Id: <20190620173709.14753-4-stefanha@redhat.com>
-In-Reply-To: <20190620173709.14753-1-stefanha@redhat.com>
-References: <20190620173709.14753-1-stefanha@redhat.com>
+ (envelope-from <alistair23@gmail.com>) id 1he1Pa-0004BR-1X
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 14:03:53 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42110)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1he1OP-0003b0-0h; Thu, 20 Jun 2019 14:02:38 -0400
+Received: by mail-io1-xd43.google.com with SMTP id u19so134381ior.9;
+ Thu, 20 Jun 2019 11:02:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xiAL8Dxd5KKhwRlNQNGWU4L7hroSCK2EcEjlwDL61N4=;
+ b=nAtWZaZA+2zAJWhyY+3kZbjuLSPj4T4rW2ipk2G+CEhrTVZjwDMUjiDqpQ+J1Vp3sJ
+ ysgoUsf87zmap8jBti7TkO8kaLBfWjNpvMDJDenfu4et3TiY/kB1Ethp1GOkwhZxG/Aa
+ U3JnkGkZoq6xGKfPGGXuiDfJxVv6qfpWnw6jsnNYUIJCYsKJKYv2zBL6Z8+IxYFxADLQ
+ 69AHNWqLi7NznwOT94OcXViGAKiRodqF+1KsCWcwZ3bcLq9EwcJPK/7/HhaEpu3WHZm9
+ wVsmmGhGSZMikRP25q3JYpBEZQOLjA6/sZmVfDO+u4ltIg23rUOEkEjvy32dkLC5i+ot
+ WXqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xiAL8Dxd5KKhwRlNQNGWU4L7hroSCK2EcEjlwDL61N4=;
+ b=TOkseE5F3kdr42BDDouGVy8XN3cHf/fgze4g7UeKE7JAOJiyK5Cxh0PBxCbxrbxTAd
+ O0NPE+S1Juk2oNzLZqyqtURh//7JVNBtJEMQVfgronUVGZZuAFdUwDu3x4sgmdCbxiF6
+ j7/micxIwdMultgibwU6l0DnQkh7jY3ISOAEIONHaWQXWyzq11mYUHib7FlzUT3kjbfP
+ 35SaUTkD+tIz8hdxWhN6xEoC4IeETTOU8LM2PYu/wbTAbQpKPoJf6jZRIuR9OfuJoKvB
+ 7bspRHqOPB3g+lVVLulXx8VCVtePHBPwP0fyqNEGC2cT+IcT9z2uEsy3+IJ7+25ISKda
+ uHMA==
+X-Gm-Message-State: APjAAAWlAoMfgG+TsI8dAsl6TtSm1t0dcUxnTWhxE4G6259IIpwwk9fy
+ RoZMdEnzW6gIS5QHE9cwfZBoadZEdSh6tGj8W1A=
+X-Google-Smtp-Source: APXvYqzEv97+JGJmkjfEWflVP0LRCdOQQn1qfqB0t5t+kx20rca4EC7WwpmshMonUmtP6XaKHDHjm5iDJTRH94pDvCQ=
+X-Received: by 2002:a02:6597:: with SMTP id u145mr6327558jab.26.1561053754290; 
+ Thu, 20 Jun 2019 11:02:34 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Thu, 20 Jun 2019 17:37:41 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 3/3] virtio-scsi: restart DMA after iothread
+References: <cover.1560904640.git.alistair.francis@wdc.com>
+ <CAEUhbmViJpKtiNXm7CYdF7SPRkOPkvpXJ5+We2m9tZSK_BWi-g@mail.gmail.com>
+ <CAKmqyKM4UU+CPKu07AK65bNofbbxxaRkSACqoV_vfFEaH-195A@mail.gmail.com>
+ <CAEUhbmUwAVLXY9SSoryWBDeNL8gUfBCE+xweSSmuE9KwzWeX=w@mail.gmail.com>
+ <CAKmqyKMmm-38DijX_wL=pAbvxzLQ+KSOtd1xg_GrT4Az70GKsw@mail.gmail.com>
+ <11f4e4ff6037427f52824ba586f8a330c12d8dfd.camel@redhat.com>
+In-Reply-To: <11f4e4ff6037427f52824ba586f8a330c12d8dfd.camel@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 20 Jun 2019 10:59:43 -0700
+Message-ID: <CAKmqyKOh3J07yg3dbaNcOaSzfbDZJJ-kjN3pBh+KqAKq05hzTA@mail.gmail.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d43
+Subject: Re: [Qemu-devel] [Qemu-riscv] [RFC v1 0/5] RISC-V: Add firmware
+ loading support and default
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,67 +76,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the 'cont' command resumes guest execution the vm change state
-handlers are invoked.  Unfortunately there is no explicit ordering
-between classic qemu_add_vm_change_state_handler() callbacks.  When two
-layers of code both use vm change state handlers, we don't control which
-handler runs first.
+On Thu, Jun 20, 2019 at 1:16 AM Andrea Bolognani <abologna@redhat.com> wrote:
+>
+> On Wed, 2019-06-19 at 11:23 -0700, Alistair Francis wrote:
+> > On Wed, Jun 19, 2019 at 7:42 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > On Wed, Jun 19, 2019 at 10:30 PM Alistair Francis <alistair23@gmail.com> wrote:
+> > > > On Wed, Jun 19, 2019 at 7:26 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > > >  pc-bios/opensbi-riscv32-fw_jump.elf | Bin 0 -> 197988 bytes
+> > > > > >  pc-bios/opensbi-riscv64-fw_jump.elf | Bin 0 -> 200192 bytes
+> > > > >
+> > > > > Since we are considering adding "bios" images, I prefer to add the
+> > > > > pure binary images instead of ELF images here.
+> > > >
+> > > > I didn't think about that. Can we just boot them in QEMU like we do
+> > > > with the ELFs?
+> > >
+> > > Yes, use load_image_targphys() instead of load_elf().
+> >
+> > Ah, that is obvious. I'll update it to use the bin files then.
+>
+> I'm unclear on the advantages of using one format over the other,
 
-virtio-scsi with iothreads hits a deadlock when a failed SCSI command is
-restarted and completes before the iothread is re-initialized.
+The main one that I see is that everyone else is already using .bin
+and no one else is using .elf.
 
-This patch uses the new qdev_add_vm_change_state_handler() API to
-guarantee that virtio-scsi's virtio change state handler executes before
-the SCSI bus children.  This way DMA is restarted after the iothread has
-re-initialized.
+> but one question comes to mind: once this is in, we will probably
+> want to have OpenSBI packaged separately in distributions, the same
+> way it already happens for SeaBIOS, SLOF and edk2-based firmwares.
+>
+> Will using either of the formats prevent that from happening?
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/scsi/scsi-bus.c | 4 ++--
- hw/virtio/virtio.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Both options allow this.
 
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 196136a307..fdc3a0e4e0 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -207,8 +207,8 @@ static void scsi_qdev_realize(DeviceState *qdev, Erro=
-r **errp)
-         error_propagate(errp, local_err);
-         return;
-     }
--    dev->vmsentry =3D qemu_add_vm_change_state_handler(scsi_dma_restart_=
-cb,
--                                                     dev);
-+    dev->vmsentry =3D qdev_add_vm_change_state_handler(DEVICE(dev),
-+            scsi_dma_restart_cb, dev);
- }
-=20
- static void scsi_qdev_unrealize(DeviceState *qdev, Error **errp)
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index e1e90fcfd6..e42e6710d2 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2354,8 +2354,8 @@ void virtio_init(VirtIODevice *vdev, const char *na=
-me,
-     } else {
-         vdev->config =3D NULL;
-     }
--    vdev->vmstate =3D qemu_add_vm_change_state_handler(virtio_vmstate_ch=
-ange,
--                                                     vdev);
-+    vdev->vmstate =3D qdev_add_vm_change_state_handler(DEVICE(vdev),
-+            virtio_vmstate_change, vdev);
-     vdev->device_endian =3D virtio_default_endian();
-     vdev->use_guest_notifier_mask =3D true;
- }
---=20
-2.21.0
+OE-Core already packages OpenSBI by default, Fedora and Debian are
+moving to OpenSBI for RISC-V targets as well.
 
+Any distro that supports the RISC-V toolchain (which is all
+upstreamed) can build OpenSBI.
+
+Alistair
+
+>
+> --
+> Andrea Bolognani / Red Hat / Virtualization
+>
 
