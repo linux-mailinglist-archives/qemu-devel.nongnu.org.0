@@ -2,49 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC954C6F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 07:55:19 +0200 (CEST)
-Received: from localhost ([::1]:43866 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93C04C6E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 07:52:35 +0200 (CEST)
+Received: from localhost ([::1]:43842 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdq2Y-0002yi-CH
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 01:55:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56213)
+	id 1hdpzv-000884-2Q
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 01:52:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56340)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <like.xu@linux.intel.com>) id 1hdpvg-0005yy-I2
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:48:14 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hdpw5-0006Hf-5Z
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:48:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <like.xu@linux.intel.com>) id 1hdpvf-0001rp-17
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:48:12 -0400
-Received: from mga05.intel.com ([192.55.52.43]:20328)
+ (envelope-from <kraxel@redhat.com>) id 1hdpw3-0002I9-6q
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:48:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59714)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
- id 1hdpvd-0001iJ-3f
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 01:48:10 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2019 22:48:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,395,1557212400"; d="scan'208";a="162243116"
-Received: from unknown (HELO likexu-E5-2699-v4.sh.intel.com) ([10.239.48.178])
- by fmsmga007.fm.intel.com with ESMTP; 19 Jun 2019 22:48:01 -0700
-From: Like Xu <like.xu@linux.intel.com>
-To: qemu-devel@nongnu.org,
-	Eduardo Habkost <ehabkost@redhat.com>
-Date: Thu, 20 Jun 2019 13:45:25 +0800
-Message-Id: <20190620054525.37188-4-like.xu@linux.intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190620054525.37188-1-like.xu@linux.intel.com>
-References: <20190620054525.37188-1-like.xu@linux.intel.com>
+ (Exim 4.71) (envelope-from <kraxel@redhat.com>)
+ id 1hdpvz-0002EM-Mu; Thu, 20 Jun 2019 01:48:31 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 92EFF3082E40;
+ Thu, 20 Jun 2019 05:48:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-212.ams2.redhat.com
+ [10.36.116.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 61CA35D9C6;
+ Thu, 20 Jun 2019 05:48:29 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4C3A816E19; Thu, 20 Jun 2019 07:48:28 +0200 (CEST)
+Date: Thu, 20 Jun 2019 07:48:28 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Sam Eiderman <shmuel.eiderman@oracle.com>
+Message-ID: <20190620054828.yhicxaac3myfilub@sirius.home.kraxel.org>
+References: <20190619092905.24029-1-shmuel.eiderman@oracle.com>
+ <20190619092905.24029-8-shmuel.eiderman@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.43
-Subject: [Qemu-devel]  [PATCH v4 3/3] vl.c: Add -smp,
- dies=* command line support and update doc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190619092905.24029-8-shmuel.eiderman@oracle.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Thu, 20 Jun 2019 05:48:30 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [QEMU] [PATCH v4 7/8] bootdevice: FW_CFG interface
+ for LCHS values
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,160 +61,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: like.xu@intel.com, Marcelo Tosatti <mtosatti@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
+ seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ kevin@koconnor.net, liran.alon@oracle.com, karl.heubaum@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For PC target, users could configure the number of dies per one package
-via command line with this patch, such as "-smp dies=2,cores=4".
+On Wed, Jun 19, 2019 at 12:29:04PM +0300, Sam Eiderman wrote:
+> Using fw_cfg, supply logical CHS values directly from QEMU to the BIOS.
+> 
+> Non-standard logical geometries break under QEMU.
+> 
+> A virtual disk which contains an operating system which depends on
+> logical geometries (consistent values being reported from BIOS INT13
+> AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
+> logical geometries - for example 56 SPT (sectors per track).
+> No matter what QEMU will report - SeaBIOS, for large enough disks - will
+> use LBA translation, which will report 63 SPT instead.
+> 
+> In addition we cannot force SeaBIOS to rely on physical geometries at
+> all. A virtio-blk-pci virtual disk with 255 phyiscal heads cannot
+> report more than 16 physical heads when moved to an IDE controller,
+> since the ATA spec allows a maximum of 16 heads - this is an artifact of
+> virtualization.
+> 
+> By supplying the logical geometries directly we are able to support such
+> "exotic" disks.
+> 
+> We serialize this information in a similar way to the "bootorder"
+> interface.
+> The new fw_cfg entry is "bios-geometry".
+> 
+> Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+> Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+> Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+> ---
+>  bootdevice.c            | 32 ++++++++++++++++++++++++++++++++
+>  hw/nvram/fw_cfg.c       | 14 +++++++++++---
+>  include/sysemu/sysemu.h |  1 +
+>  3 files changed, 44 insertions(+), 3 deletions(-)
+> 
+> diff --git a/bootdevice.c b/bootdevice.c
+> index 2b12fb85a4..b034ad7bdc 100644
+> --- a/bootdevice.c
+> +++ b/bootdevice.c
+> @@ -405,3 +405,35 @@ void del_boot_device_lchs(DeviceState *dev, const char *suffix)
+>          }
+>      }
+>  }
+> +
+> +/* Serialized as: (device name\0 + lchs struct) x devices */
 
-The parsing rules of new cpu-topology model obey the same restrictions/logic
-as the legacy socket/core/thread model especially on missing values computing.
+Comment is outdated.
 
-Signed-off-by: Like Xu <like.xu@linux.intel.com>
----
- hw/i386/pc.c    | 30 +++++++++++++++++-------------
- qemu-options.hx | 17 +++++++++--------
- vl.c            |  3 +++
- 3 files changed, 29 insertions(+), 21 deletions(-)
+> +    if (!mc->legacy_fw_cfg_order) {
+> +        buf = get_boot_devices_lchs_list(&len);
+> +        ptr = fw_cfg_modify_file(s, "bios-geometry", (uint8_t *)buf, len);
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 092bd10d4d..2ed1b3f8de 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1548,9 +1548,12 @@ static void pc_new_cpu(PCMachineState *pcms, int64_t apic_id, Error **errp)
-  */
- void pc_smp_parse(MachineState *ms, QemuOpts *opts)
- {
-+    PCMachineState *pcms = PC_MACHINE(ms);
-+
-     if (opts) {
-         unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
-         unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
-+        unsigned dies = qemu_opt_get_number(opts, "dies", 1);
-         unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
-         unsigned threads = qemu_opt_get_number(opts, "threads", 0);
- 
-@@ -1560,24 +1563,24 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-             threads = threads > 0 ? threads : 1;
-             if (cpus == 0) {
-                 sockets = sockets > 0 ? sockets : 1;
--                cpus = cores * threads * sockets;
-+                cpus = cores * threads * dies * sockets;
-             } else {
-                 ms->smp.max_cpus =
-                         qemu_opt_get_number(opts, "maxcpus", cpus);
--                sockets = ms->smp.max_cpus / (cores * threads);
-+                sockets = ms->smp.max_cpus / (cores * threads * dies);
-             }
-         } else if (cores == 0) {
-             threads = threads > 0 ? threads : 1;
--            cores = cpus / (sockets * threads);
-+            cores = cpus / (sockets * dies * threads);
-             cores = cores > 0 ? cores : 1;
-         } else if (threads == 0) {
--            threads = cpus / (cores * sockets);
-+            threads = cpus / (cores * dies * sockets);
-             threads = threads > 0 ? threads : 1;
--        } else if (sockets * cores * threads < cpus) {
-+        } else if (sockets * dies * cores * threads < cpus) {
-             error_report("cpu topology: "
--                         "sockets (%u) * cores (%u) * threads (%u) < "
-+                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
-                          "smp_cpus (%u)",
--                         sockets, cores, threads, cpus);
-+                         sockets, dies, cores, threads, cpus);
-             exit(1);
-         }
- 
-@@ -1589,26 +1592,27 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-             exit(1);
-         }
- 
--        if (sockets * cores * threads > ms->smp.max_cpus) {
-+        if (sockets * dies * cores * threads > ms->smp.max_cpus) {
-             error_report("cpu topology: "
--                         "sockets (%u) * cores (%u) * threads (%u) > "
-+                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) > "
-                          "maxcpus (%u)",
--                         sockets, cores, threads,
-+                         sockets, dies, cores, threads,
-                          ms->smp.max_cpus);
-             exit(1);
-         }
- 
--        if (sockets * cores * threads != ms->smp.max_cpus) {
-+        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
-             warn_report("Invalid CPU topology deprecated: "
--                        "sockets (%u) * cores (%u) * threads (%u) "
-+                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-                         "!= maxcpus (%u)",
--                        sockets, cores, threads,
-+                        sockets, dies, cores, threads,
-                         ms->smp.max_cpus);
-         }
- 
-         ms->smp.cpus = cpus;
-         ms->smp.cores = cores;
-         ms->smp.threads = threads;
-+        pcms->smp_dies = dies;
-     }
- 
-     if (ms->smp.cpus > 1) {
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 0d8beb4afd..a5b314a448 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -138,25 +138,26 @@ no incompatible TCG features have been enabled (e.g. icount/replay).
- ETEXI
- 
- DEF("smp", HAS_ARG, QEMU_OPTION_smp,
--    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,sockets=sockets]\n"
-+    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
-     "                set the number of CPUs to 'n' [default=1]\n"
-     "                maxcpus= maximum number of total cpus, including\n"
-     "                offline CPUs for hotplug, etc\n"
--    "                cores= number of CPU cores on one socket\n"
-+    "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
-     "                threads= number of threads on one CPU core\n"
-+    "                dies= number of CPU dies on one socket (for PC only)\n"
-     "                sockets= number of discrete sockets in the system\n",
-         QEMU_ARCH_ALL)
- STEXI
--@item -smp [cpus=]@var{n}[,cores=@var{cores}][,threads=@var{threads}][,sockets=@var{sockets}][,maxcpus=@var{maxcpus}]
-+@item -smp [cpus=]@var{n}[,cores=@var{cores}][,threads=@var{threads}][,dies=dies][,sockets=@var{sockets}][,maxcpus=@var{maxcpus}]
- @findex -smp
- Simulate an SMP system with @var{n} CPUs. On the PC target, up to 255
- CPUs are supported. On Sparc32 target, Linux limits the number of usable CPUs
- to 4.
--For the PC target, the number of @var{cores} per socket, the number
--of @var{threads} per cores and the total number of @var{sockets} can be
--specified. Missing values will be computed. If any on the three values is
--given, the total number of CPUs @var{n} can be omitted. @var{maxcpus}
--specifies the maximum number of hotpluggable CPUs.
-+For the PC target, the number of @var{cores} per die, the number of @var{threads}
-+per cores, the number of @var{dies} per packages and the total number of
-+@var{sockets} can be specified. Missing values will be computed.
-+If any on the three values is given, the total number of CPUs @var{n} can be omitted.
-+@var{maxcpus} specifies the maximum number of hotpluggable CPUs.
- ETEXI
- 
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
-diff --git a/vl.c b/vl.c
-index 9218a718f3..e3908caa47 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1233,6 +1233,9 @@ static QemuOptsList qemu_smp_opts = {
-         }, {
-             .name = "sockets",
-             .type = QEMU_OPT_NUMBER,
-+        }, {
-+            .name = "dies",
-+            .type = QEMU_OPT_NUMBER,
-         }, {
-             .name = "cores",
-             .type = QEMU_OPT_NUMBER,
--- 
-2.21.0
+Can fw_cfg_modify_file handle buf == NULL?
+
+cheers,
+  Gerd
 
 
