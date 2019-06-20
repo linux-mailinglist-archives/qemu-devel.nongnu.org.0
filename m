@@ -2,71 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF254CE99
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 15:24:47 +0200 (CEST)
-Received: from localhost ([::1]:47734 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D48E74D115
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:00:00 +0200 (CEST)
+Received: from localhost ([::1]:48802 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdx3W-0007Yr-Lm
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 09:24:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51285)
+	id 1hdyXg-0007Do-1y
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:00:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39320)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hdwxJ-0002ux-B5
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:18:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1hdy9i-00047X-0k
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:35:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hdwtE-0003Hq-Ga
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:14:28 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39377)
+ (envelope-from <bounces@canonical.com>) id 1hdy9e-0006AV-Us
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 10:35:13 -0400
+Received: from indium.canonical.com ([91.189.90.7]:32768)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdwtE-0003Hb-BR
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:14:08 -0400
-Received: by mail-wm1-f65.google.com with SMTP id z23so3130170wma.4
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 06:14:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=seUaZ8ZAtXPB0zezIpKBQyKsqYZdDLfJzZhChR50tMc=;
- b=Fh+HS3E5f80gHZppf2fm8YDP4qVnhJhUUVeS7jpff/DF6v3OezPYj+ryM+9qKZOK18
- iJBvGZhbGLui+MmUNu43n+e07+JmPtwX/xfIS08U/ddJTAkjTNEJoxipPsk49gKkmIWQ
- LWk5iSUYbMhIdbhMAttF14Qmfr2NtSTqVLHZA3VBU7nkU5kiEDl0XhS0wvSXvo9VP9/9
- lPmDhP1NxG2JDpCVJPb44j9BrESEc+njKVbkAPexpbQEUO+4AVYz2Wv6XeH9VtK+KBuy
- v3HLSB7gQ6dE3mR+QaAplDgZiXXg9epH7o2IV1OQI/qg7xVcDtuZ5rQi0/5KEKPV60aQ
- bKPg==
-X-Gm-Message-State: APjAAAWZcB/q7ZcSiF528RitwglWzUBMfXdvZudn9FARkswyQYrBCUsA
- tLtl3xG4Ag/9f9x/XmwzoMcJJj2a/GM=
-X-Google-Smtp-Source: APXvYqyiwa6h8gRy7sJGGhI4kAzKjZtsXsfx9GL9Zf/XrIogUSM7fuEcKBQjZQ3PZaWGGSfMP9h3YQ==
-X-Received: by 2002:a1c:1a56:: with SMTP id a83mr2814951wma.161.1561036447006; 
- Thu, 20 Jun 2019 06:14:07 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
- ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
- by smtp.gmail.com with ESMTPSA id d4sm19226439wra.38.2019.06.20.06.14.05
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 06:14:06 -0700 (PDT)
-To: Peter Xu <peterx@redhat.com>
-References: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
- <39c4c32b-e34a-8d8f-abbc-ab346ec5bed7@redhat.com>
- <20190620040230.GB9073@xz-x1>
- <6829b139-3eab-449e-04d6-07f1e381316d@redhat.com>
- <20190620125955.GB9657@xz-x1>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <df223a1f-bb87-0914-6216-8a4a70aae3ab@redhat.com>
-Date: Thu, 20 Jun 2019 15:14:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hdx9J-00040D-1F
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 09:30:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hdx9F-00066s-LT
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 13:30:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A18552E80C7
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 13:30:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190620125955.GB9657@xz-x1>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 20 Jun 2019 13:22:53 -0000
+From: QEMU <1832535@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=alistair@alistair23.me; 
+X-Launchpad-Bug-Tags: riscv
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 qemu-bug
+X-Launchpad-Bug-Reporter: QEMU (qemu-bug)
+X-Launchpad-Bug-Modifier: QEMU (qemu-bug)
+References: <156034277180.16851.16263953909128956213.malonedeb@soybean.canonical.com>
+Message-Id: <156103697341.12928.16218310300551780391.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18986";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 45315098e6bddac2f5e00eb426ccab0ff70551e1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH] memory: do not do out of bound notification
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1832535] Re: [riscv/regression] Missing tlb flush
+ introduced in refactoring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,52 +66,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Auger Eric <eric.auger@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1832535 <1832535@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/06/19 14:59, Peter Xu wrote:
-> I feel like this can be problematic.  I'm imaging:
-> 
-> start=0x1000_0000, size=0x1000_1000
-> 
-> This will get size=0x1000 but actually we can do size=0x1000_0000 as
-> the first.
+It has been solved thanks to the mailing-list members.
 
-Right, we can do:
+** Changed in: qemu
+       Status: Incomplete =3D> Invalid
 
-/*
- * If a naturally aligned region starting at "start" ends before "end",
- * use it.  Otherwise, keep the lowest bit of size.
- */
-if (size > (start & -start))
-    size = start & -start;
-else
-    size = size & -size;
+-- =
 
->>
->> +        trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
->> +                                 VTD_PCI_SLOT(as->devfn),
->> +                                 VTD_PCI_FUNC(as->devfn),
->> +                                 entry.iova, size);
-> 
-> Can move this out because this is a trace only so we don't have
-> restriction on mask?
-> 
->>
->> -    map.iova = entry.iova;
->> -    map.size = entry.addr_mask;
->> -    iova_tree_remove(as->iova_tree, &map);
->> +        map.iova = entry.iova;
->> +        map.size = entry.addr_mask;
->> +        iova_tree_remove(as->iova_tree, &map);
-> 
-> Same here?
-> 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1832535
 
-Yes, I would move these and the iova_tree_remove outside the loop, while
-keeping entry's initialization inside looks cleaner.
+Title:
+  [riscv/regression] Missing tlb flush introduced in refactoring
 
-Paolo
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Hello,
+
+  In qemu-system-riscv64, following a QEMU update, I get all sort of
+  weird and not easily reproducible crashes in my risc-v guest.
+
+  I have bissected this issue to commit c7b951718815694284501ed01fec7acb865=
+4db7b.
+  Some TLB flushes were removed in the following places:
+  target/riscv/cpu_helper.c: `csr_write_helper(env, s, CSR_MSTATUS);` -> `e=
+nv->mstatus =3D s;` (twice)
+  target/riscv/op_helper.c: `csr_write_helper(env, s, CSR_MSTATUS);` -> `en=
+v->mstatus =3D s;` (twice)
+
+  Adding TLB flushes in all 4 places fixes the issues for me.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1832535/+subscriptions
 
