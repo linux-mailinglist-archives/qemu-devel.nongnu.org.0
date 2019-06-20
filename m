@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9A414CA17
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:56:34 +0200 (CEST)
-Received: from localhost ([::1]:44962 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F86A4C9E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:51:44 +0200 (CEST)
+Received: from localhost ([::1]:44932 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdsrx-0005fb-T6
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35916)
+	id 1hdsnH-0001V0-5p
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:51:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36161)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hdsjB-0006s7-5j
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:47:30 -0400
+ (envelope-from <berrange@redhat.com>) id 1hdsjL-0007Qa-3P
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:47:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hdsai-0000jN-KG
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:38:45 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:50269)
+ (envelope-from <berrange@redhat.com>) id 1hdsVw-0006F8-LU
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:33:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44748)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hdsah-0000gv-UN; Thu, 20 Jun 2019 04:38:44 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45TwFn0qw1z9s3l; Thu, 20 Jun 2019 18:38:37 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1561019917;
- bh=9NsnpEgppU3+ikl8XqTF8D4NAdjGkbJUVFGxYbZN+G8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=anhPzc+lGzbU+7BnEG2+TuWGP9VmJYvbjK7IWkZbStkI+bSRLJgBiEe4xR2mE41+0
- ifyFkfWmMIMyATGTeNOlty0vFoXDV6cNzGuCkuTVmGutNLuErghV2f1b5FB4YOGtNv
- ajvrSq/agIlbKtlF2tGJLLZbDbf1H2J6v/EGQkTo=
-Date: Thu, 20 Jun 2019 18:32:57 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190620083257.GD8232@umbus.BigPond>
-References: <156077918969.433243.1416211899441569578.stgit@bahia.lan>
- <156077922319.433243.609897156640506891.stgit@bahia.lan>
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdsVt-00068p-Gt
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:33:46 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 736B11556B
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:33:30 +0000 (UTC)
+Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B1BDC60605;
+ Thu, 20 Jun 2019 08:33:28 +0000 (UTC)
+Date: Thu, 20 Jun 2019 09:33:25 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190620083325.GE25448@redhat.com>
+References: <20190619201050.19040-1-armbru@redhat.com>
+ <20190619201050.19040-4-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NklN7DEeGtkPCoo3"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <156077922319.433243.609897156640506891.stgit@bahia.lan>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 6/6] xics/kvm: Add proper rollback to
- xics_kvm_init()
+In-Reply-To: <20190619201050.19040-4-armbru@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.29]); Thu, 20 Jun 2019 08:33:30 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 03/17] hmp: Move hmp.h to include/monitor/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,90 +58,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---NklN7DEeGtkPCoo3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 17, 2019 at 03:47:03PM +0200, Greg Kurz wrote:
-> Make xics_kvm_disconnect() able to undo the changes of a partial execution
-> of xics_kvm_connect() and use it to perform rollback.
->=20
-> Note that kvmppc_define_rtas_kernel_token(0) never fails, no matter the
-> RTAS call has been defined or not.
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-
-Applied, thanks.
-
+On Wed, Jun 19, 2019 at 10:10:36PM +0200, Markus Armbruster wrote:
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  hw/intc/xics_kvm.c |   11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
->=20
-> diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-> index 4bfbe1a84092..51433b19b076 100644
-> --- a/hw/intc/xics_kvm.c
-> +++ b/hw/intc/xics_kvm.c
-> @@ -421,10 +421,7 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error=
- **errp)
-> =20
->  fail:
->      error_propagate(errp, local_err);
-> -    kvmppc_define_rtas_kernel_token(0, "ibm,set-xive");
-> -    kvmppc_define_rtas_kernel_token(0, "ibm,get-xive");
-> -    kvmppc_define_rtas_kernel_token(0, "ibm,int-on");
-> -    kvmppc_define_rtas_kernel_token(0, "ibm,int-off");
-> +    xics_kvm_disconnect(spapr, NULL);
->      return -1;
->  }
-> =20
-> @@ -448,8 +445,10 @@ void xics_kvm_disconnect(SpaprMachineState *spapr, E=
-rror **errp)
->       * removed from the list of devices of the VM. The VCPU presenters
->       * are also detached from the device.
->       */
-> -    close(kernel_xics_fd);
-> -    kernel_xics_fd =3D -1;
-> +    if (kernel_xics_fd !=3D -1) {
-> +        close(kernel_xics_fd);
-> +        kernel_xics_fd =3D -1;
-> +    }
-> =20
->      kvmppc_define_rtas_kernel_token(0, "ibm,set-xive");
->      kvmppc_define_rtas_kernel_token(0, "ibm,get-xive");
->=20
+>  hmp.h =3D> include/monitor/hmp.h | 0
+>  monitor/hmp-cmds.c             | 2 +-
+>  monitor/misc.c                 | 2 +-
+>  target/i386/monitor.c          | 2 +-
+>  target/nios2/monitor.c         | 2 +-
+>  target/ppc/monitor.c           | 2 +-
+>  target/sh4/monitor.c           | 2 +-
+>  target/sparc/monitor.c         | 2 +-
+>  target/xtensa/monitor.c        | 2 +-
+>  9 files changed, 8 insertions(+), 8 deletions(-)
+>  rename hmp.h =3D> include/monitor/hmp.h (100%)
 
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+
+
+Regards,
+Daniel
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---NklN7DEeGtkPCoo3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0LRLgACgkQbDjKyiDZ
-s5KCNw//ccbyeQ7hfd1oQtxgYOEKwyWeV9LcW0KZivVHjQeXVdvSrlZEYu/dMgoO
-nM9n/ATgM6XQObscQUiMbHaxwzGMzVlyAqIS6ZHNU26y+JRICRiXVK66iUktnDa8
-mcqb80PlPceBc26zWaYNtheeXc8sljOqYz0a2ncMLXlsxiUHAfUb1k5YVX5N+b7R
-+eNi/41kqw5JwNvtAj7cjrgg8S9ukZCkXi5sdDw8WTQ8Y+ZmP9ijJYXKjUkeZnfG
-c6S98oWyfo9uDq93U82dj3pLyzniVw607jbC1FrMBSGOKnqqOMEPh3HXASSGqtze
-zXD1GCMfAa4u+BlY3swcsVx3pMXT/h1e9KykNAfSIBlIkfF8KjpZGBUAg5PptsY8
-pMMdYN9on028Vqt2aMPcB1dhnnIUFhnsZy+ncneGrp0RV1xBFxAUroGIVhK46uWw
-59xpbAPkY2+LA3NMyrUxrNH//ZsIuYKNKE5i7T7zQTuC3ATwvZ2odMdyUj6Uhk59
-i0JSfoJxxct4B1EtxSeybo6UM7Ha88KxfO7HOqVYJVQ7AvizgHVyjQRFHJma4T0w
-ZY75ytbq+EaKsLdZyoqE8WCzNpPNh0aaL+BAk91ZMpkGtotVGt7i7/9zsscY7JFv
-1Wszx1IqNj77OEFRKaRjqEkX7Za2t6dGKjieYoqZcMlsCltgrvE=
-=zVmS
------END PGP SIGNATURE-----
-
---NklN7DEeGtkPCoo3--
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
