@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE2614D24E
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:39:26 +0200 (CEST)
-Received: from localhost ([::1]:49368 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E2F4D25F
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 17:45:11 +0200 (CEST)
+Received: from localhost ([::1]:49534 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdz9p-0007ch-6D
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:39:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44927)
+	id 1hdzFP-0005HY-4B
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 11:45:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44889)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hdypd-0005oR-Ig
+ (envelope-from <imammedo@redhat.com>) id 1hdypc-0005mr-Rc
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:18:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hdygt-0001U8-MV
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:09:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32804)
+ (envelope-from <imammedo@redhat.com>) id 1hdyhG-0001zh-NB
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:09:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54390)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hdygs-0001Pn-Gd
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 11:09:30 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1hdyhF-0001tR-5h; Thu, 20 Jun 2019 11:09:53 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CAE4A307C942;
- Thu, 20 Jun 2019 15:09:27 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-212.ams2.redhat.com
- [10.36.116.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AE9160A9D;
- Thu, 20 Jun 2019 15:09:24 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 9A01216E08; Thu, 20 Jun 2019 17:09:23 +0200 (CEST)
-Date: Thu, 20 Jun 2019 17:09:23 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Message-ID: <20190620150923.gpe4rqn3qc54gcsn@sirius.home.kraxel.org>
-References: <cover.1561028123.git.balaton@eik.bme.hu>
- <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
+ by mx1.redhat.com (Postfix) with ESMTPS id 44F243082140;
+ Thu, 20 Jun 2019 15:09:44 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3279419C5B;
+ Thu, 20 Jun 2019 15:09:39 +0000 (UTC)
+Date: Thu, 20 Jun 2019 17:09:34 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <20190620170934.39eae310@redhat.com>
+In-Reply-To: <f4f94ecb-200c-3e18-1a09-5fb6bc761834@huawei.com>
+References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
+ <1557832703-42620-3-git-send-email-gengdongjiu@huawei.com>
+ <20190620141052.370788fb@redhat.com>
+ <f4f94ecb-200c-3e18-1a09-5fb6bc761834@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Thu, 20 Jun 2019 15:09:28 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Thu, 20 Jun 2019 15:09:44 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] ati-vga: Implement DDC and EDID
- info from monitor
+Subject: Re: [Qemu-devel] [PATCH v17 02/10] ACPI: add some GHES structures
+ and macros definition
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,36 +59,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ linuxarm@huawei.com, shannon.zhaosl@gmail.com, zhengxiang9@huawei.com,
+ qemu-arm@nongnu.org, james.morse@arm.com, xuwei5@huawei.com,
+ jonathan.cameron@huawei.com, pbonzini@redhat.com, lersek@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 20, 2019 at 12:55:23PM +0200, BALATON Zoltan wrote:
-> This adds DDC support to ati-vga and connects i2c-ddc to it. This
-> allows at least MacOS with an ATI ndrv, Linux radeonfb and MorphOS to
+On Thu, 20 Jun 2019 22:04:01 +0800
+gengdongjiu <gengdongjiu@huawei.com> wrote:
 
-linux radeonfb is rv100 only, and aty128fb has no i2c support.
-Do MacOS and MorphOS have working edid with both card variants?
+> Hi Igor,
+>    Thanks for your review.
+> 
+> On 2019/6/20 20:10, Igor Mammedov wrote:
+> >> + */
+> >> +struct AcpiGenericErrorStatus {
+> >> +    /* It is a bitmask composed of ACPI_GEBS_xxx macros */
+> >> +    uint32_t block_status;
+> >> +    uint32_t raw_data_offset;
+> >> +    uint32_t raw_data_length;
+> >> +    uint32_t data_length;
+> >> +    uint32_t error_severity;
+> >> +} QEMU_PACKED;
+> >> +typedef struct AcpiGenericErrorStatus AcpiGenericErrorStatus;  
+> > there shouldn't be packed structures,
+> > is it a leftover from previous version?  
+> 
+> I remember some people suggest to add QEMU_PACKED before, anyway I will remove it in my next version patch.
 
-> +    case GPIO_MONID ... GPIO_MONID + 3:
-> +        /* FIXME What does Radeon have here? */
-> +        if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
-> +            /* Rage128p accesses DDC used to get EDID on these pins */
-> +            ati_reg_write_offs(&s->regs.gpio_monid,
-> +                               addr - GPIO_MONID, data, size);
-> +            if ((s->regs.gpio_monid & BIT(25)) &&
+Question is why it's  there and where it is used?
 
-Extra enable bit, ok.
+BTW:
+series doesn't apply to master anymore.
+Do you have a repo somewhere available for testing?
 
-> +                addr <= GPIO_MONID + 2 && addr + size > GPIO_MONID + 2) {
-
-Hmm, isn't this just "addr == GPIO_MONID + 2" ?
-
-> +                s->regs.gpio_monid = ati_i2c(s->bbi2c, s->regs.gpio_monid, 1);
-
-So all i2c bits are shifted by one compared to rv100, correct?
-
-cheers,
-  Gerd
+> 
+> >   
+> >> +
+> >> +/*
+> >> + * Masks for block_status flags above
+> >> + */
+> >> +#define ACPI_GEBS_UNCORRECTABLE         1
+> >> +
+> >> +/*  
+> 
 
 
