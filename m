@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DBD4CA28
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 11:01:07 +0200 (CEST)
-Received: from localhost ([::1]:44998 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395B64C9E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 10:54:04 +0200 (CEST)
+Received: from localhost ([::1]:44956 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hdswM-0000qh-Qy
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 05:01:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
+	id 1hdspX-0004h7-By
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 04:54:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35916)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hdsjB-0006s8-Kw
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:47:30 -0400
+ (envelope-from <berrange@redhat.com>) id 1hdsj6-0006s7-JR
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:47:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hdsac-0000gP-E4
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:38:39 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53310)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hdsac-0000fy-95
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:38:38 -0400
-Received: by mail-wm1-f67.google.com with SMTP id x15so2143612wmj.3
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 01:38:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AVzMDdYzRYDa/9qlp6STaY1kE5yotYb5iPRUD7XaJqc=;
- b=rqR8sh/P4KdSmTUwGUfnXaqky1Mfc8tz+G03zvw7guybTGdKISgPWgphhIdgiIkCJ8
- FWwfyZc1WEfysh66OmfLFOsHYwzsipxulgVEu8zMb4V8Tk92p53cp2e8U85P5da0sJy8
- c88IIumAZV77izpngBe3JWhFLsR/zecoEUMTwoq6Ik1+q5mjPmhylytdzKcHCC+7liGz
- OECCZfPEPy+C35c/gVW8BmXWZ+fRhg9j1TlJOCvYGBEQKiz+YqB1X2ZoIQv/N2xa4V3C
- wuacKzJr6L6w4wjxAZIakHthUvS+ZStVwAO0opqJ1otXqTrIciBEzcED/F/GJU6kbiWx
- zyLA==
-X-Gm-Message-State: APjAAAUxLYQ8E7xvAy4N45TFHxW8tE8zEon2lQJRZrvnMY97Y1jwNdB0
- KZo83t9Ozn1r+KhzdxQ5bPtbyA==
-X-Google-Smtp-Source: APXvYqyMzbpHQGAhbxDdf/r8UXU8ncUbxEAoebSiExPcVkdjAf6fAFk56HcqBDfPItjwqRIMSbuO0Q==
-X-Received: by 2002:a7b:cd84:: with SMTP id y4mr1840462wmj.41.1561019917157;
- Thu, 20 Jun 2019 01:38:37 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
- ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
- by smtp.gmail.com with ESMTPSA id 90sm1769622wrn.97.2019.06.20.01.38.36
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 01:38:36 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+ (envelope-from <berrange@redhat.com>) id 1hdsbp-0001OM-2p
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:39:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45720)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hdsbj-0001IM-EH
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 04:39:50 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1288C81E19
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 08:39:46 +0000 (UTC)
+Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EDD8F60A97;
+ Thu, 20 Jun 2019 08:39:41 +0000 (UTC)
+Date: Thu, 20 Jun 2019 09:39:38 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190620083938.GH25448@redhat.com>
 References: <20190619201050.19040-1-armbru@redhat.com>
- <20190619201050.19040-5-armbru@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6cca5383-fdd4-ab9b-d227-d2de1083d398@redhat.com>
-Date: Thu, 20 Jun 2019 10:38:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ <20190619201050.19040-7-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190619201050.19040-5-armbru@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20190619201050.19040-7-armbru@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Thu, 20 Jun 2019 08:39:46 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH 04/17] qapi: Split qom.json and qdev.json
- off misc.json
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 06/17] qom: Move HMP command handlers to
+ qom/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,18 +59,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/06/19 22:10, Markus Armbruster wrote:
-> Move commands device-list-properties, device_add, device-del, and
-> event DEVICE_DELETED from misc.json to new qdev.json.  qdev.json
-> remains uncovered by MAINTAINERS, like the rest of qdev.
+On Wed, Jun 19, 2019 at 10:10:39PM +0200, Markus Armbruster wrote:
+> There are just two HMP commands related to QOM: qom-list and qom-set.
+> Move their handlers from monitor/hmp-cmds.c to new qom/qom-hmp-cmds.c,
+> where they are covered by MAINTAINERS section QOM.
+>=20
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Daniel P. Berrange" <berrange@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  include/monitor/hmp.h |  2 ++
+>  monitor/hmp-cmds.c    | 50 +---------------------------------
+>  qom/Makefile.objs     |  2 +-
+>  qom/qom-hmp-cmds.c    | 62 +++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 66 insertions(+), 50 deletions(-)
+>  create mode 100644 qom/qom-hmp-cmds.c
 
-qdev should be added to either QOM or machine core.  QOM would be fine
-for me as the (newly,self)-appointed maintainer.
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Paolo
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
