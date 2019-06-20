@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DADF4D540
-	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 19:30:23 +0200 (CEST)
-Received: from localhost ([::1]:51614 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7414D55B
+	for <lists+qemu-devel@lfdr.de>; Thu, 20 Jun 2019 19:37:36 +0200 (CEST)
+Received: from localhost ([::1]:51798 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he0tC-0000tQ-IU
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 13:30:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51973)
+	id 1he10B-0005R8-Jt
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 13:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53173)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1he0mG-0005pw-Kb
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:23:14 -0400
+ (envelope-from <mreitz@redhat.com>) id 1he0pl-0000Re-AQ
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:26:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1he0mE-0001J8-1U
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:23:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45488)
+ (envelope-from <mreitz@redhat.com>) id 1he0pf-00042M-19
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 13:26:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43214)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1he0ly-00017x-3u; Thu, 20 Jun 2019 13:22:54 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1he0pV-0003vq-Lm; Thu, 20 Jun 2019 13:26:35 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C5C29308FB9D;
- Thu, 20 Jun 2019 17:22:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1595C3082B69;
+ Thu, 20 Jun 2019 17:26:32 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.205.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 332145C221;
- Thu, 20 Jun 2019 17:22:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5FC3519735;
+ Thu, 20 Jun 2019 17:26:22 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-11-jsnow@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
+ <20190620010356.19164-9-jsnow@redhat.com>
+ <be0cf312-a8e9-a39a-8d9d-47d76967d063@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
@@ -58,22 +59,22 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <480e9acf-089a-5f46-ea01-708c0ba33cb0@redhat.com>
-Date: Thu, 20 Jun 2019 19:22:42 +0200
+Message-ID: <58389e59-4fdd-ddf1-9e71-dd0131ec5fe1@redhat.com>
+Date: Thu, 20 Jun 2019 19:26:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190620010356.19164-11-jsnow@redhat.com>
+In-Reply-To: <be0cf312-a8e9-a39a-8d9d-47d76967d063@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="CepNsSNBtZLWSva3okhiN1p2GAJQF43pO"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+ boundary="sEYXBk2CZzzhrJlj1F8EFwlZZA8bUGkXh"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Thu, 20 Jun 2019 17:22:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Thu, 20 Jun 2019 17:26:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 10/12] iotests: teach FilePath to produce
- multiple paths
+Subject: Re: [Qemu-devel] [PATCH 08/12] iotests: add testing shim for
+ script-style python tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,8 +94,8 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---CepNsSNBtZLWSva3okhiN1p2GAJQF43pO
-Content-Type: multipart/mixed; boundary="m98MuAT8sd0AA1jwb9oAKvoFrxMeUGUeY";
+--sEYXBk2CZzzhrJlj1F8EFwlZZA8bUGkXh
+Content-Type: multipart/mixed; boundary="7xJlTYJwmIhBHXCHZWtNrTpjsYsKb7tID";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
@@ -102,52 +103,73 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
  eblake@redhat.com, vsementsov@virtuozzo.com,
  Markus Armbruster <armbru@redhat.com>, Fam Zheng <fam@euphon.net>,
  Xie Changlong <xiechanglong.d@gmail.com>
-Message-ID: <480e9acf-089a-5f46-ea01-708c0ba33cb0@redhat.com>
-Subject: Re: [PATCH 10/12] iotests: teach FilePath to produce multiple paths
+Message-ID: <58389e59-4fdd-ddf1-9e71-dd0131ec5fe1@redhat.com>
+Subject: Re: [PATCH 08/12] iotests: add testing shim for script-style python
+ tests
 References: <20190620010356.19164-1-jsnow@redhat.com>
- <20190620010356.19164-11-jsnow@redhat.com>
-In-Reply-To: <20190620010356.19164-11-jsnow@redhat.com>
+ <20190620010356.19164-9-jsnow@redhat.com>
+ <be0cf312-a8e9-a39a-8d9d-47d76967d063@redhat.com>
+In-Reply-To: <be0cf312-a8e9-a39a-8d9d-47d76967d063@redhat.com>
 
---m98MuAT8sd0AA1jwb9oAKvoFrxMeUGUeY
+--7xJlTYJwmIhBHXCHZWtNrTpjsYsKb7tID
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 20.06.19 03:03, John Snow wrote:
-> Use "FilePaths" instead of "FilePath" to request multiple files be
-> cleaned up after we leave that object's scope.
+On 20.06.19 19:09, Max Reitz wrote:
+> On 20.06.19 03:03, John Snow wrote:
+>> Because the new-style python tests don't use the iotests.main() test
+>> launcher, we don't turn on the debugger logging for these scripts
+>> when invoked via ./check -d.
+>>
+>> Refactor the launcher shim into new and old style shims so that they
+>> share environmental configuration.
+>>
+>> Two cleanup notes: debug was not actually used as a global, and there
+>> was no reason to create a class in an inner scope just to achieve
+>> default variables; we can simply create an instance of the runner with=
+
+>> the values we want instead.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>  tests/qemu-iotests/iotests.py | 40 +++++++++++++++++++++++-----------=
+-
+>>  1 file changed, 26 insertions(+), 14 deletions(-)
 >=20
-> This is not crucial; but it saves a little typing.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  tests/qemu-iotests/iotests.py | 21 +++++++++++++++------
->  1 file changed, 15 insertions(+), 6 deletions(-)
+> I don=E2=80=99t quite get how script_main() works (yes, both my Pythonf=
+u and my
+> Googlefu are that bad), but it works and looks good, so have a
 
-The example in the comment for FilePaths looks stale now, but it looked
-just as stale before.  (=E2=80=9CTestFilePath=E2=80=9D)
+Oh, it doesn=E2=80=99t work (well, not automagically).  I just assumed se=
+eing
+the log output means it=E2=80=99s working.  Seeing that the test needs to=
+ call
+iotests.script_main() explicitly does clear up my confusion.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+All OK with me.
+
+Max
 
 
---m98MuAT8sd0AA1jwb9oAKvoFrxMeUGUeY--
+--7xJlTYJwmIhBHXCHZWtNrTpjsYsKb7tID--
 
---CepNsSNBtZLWSva3okhiN1p2GAJQF43pO
+--sEYXBk2CZzzhrJlj1F8EFwlZZA8bUGkXh
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0LwOIACgkQ9AfbAGHV
-z0CA2AgAoj+lyGlrIElk+L/ArgIa9TK59TcZmvotrRXXoJMbtQxRvvLqBIWlsXGy
-3vTYpvoOvKOezC22gF7XnZx++u/kmAElGyVu6Efx+ibxrISk3azUxMbNut9SWQw9
-ng7LXjhEFKBCyIfGgm+pyCoJpkUAXXgmA+j4IBMQ1FVl8h8g54v4I1rhJWJJV7jH
-CXkqh1+TE6etj8cOkGQm5IzGNBgrvecCydn0XmhGD0W01xYnZpEbRixK3ls0euyc
-Y4yva+0N6rbE+qztUlG2nJL2tY+btZBc3+oa66+K3DpWknCyzhq6z/gdkAzMBcrw
-XeNbZcTecCOxE9bHHFXUuztvoboZag==
-=Y9GN
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0LwbwACgkQ9AfbAGHV
+z0CSFAgAqh7PLgOkeS0f0HvmVeiQnE5t2n1f5B1yOLQw5UqRLuBRLCZx+gz/U+m6
+FRtiQ8i8WH8LRDz1J6qYC5ahZnax20fwJlxBzSUX5dq4g4MthQMUoLExWLE6bXc4
+E44z+j2r5u/dFG8zTFnyrcF+yElnbfgOv/trLSOV+Z8zeK3U6aM0xKviyvBEkCaf
+LUps6DOa569HU1jfIB9qztwkjjestFiBgGmGeXp3b4hpNDaboZQAdBYuFFmtkzi8
+Pbf7BsskUjb3V1IBf3lsxsiq1iVXhfmyh5F2hqfCB0DaM+tCLDdeOI0RbkcCChsu
+H1sCtpfyQcdCXP7eaFU3G8kRjaHxyw==
+=kF4O
 -----END PGP SIGNATURE-----
 
---CepNsSNBtZLWSva3okhiN1p2GAJQF43pO--
+--sEYXBk2CZzzhrJlj1F8EFwlZZA8bUGkXh--
 
