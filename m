@@ -2,102 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3794E84E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:52:50 +0200 (CEST)
-Received: from localhost ([::1]:33826 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9D84E866
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:58:41 +0200 (CEST)
+Received: from localhost ([::1]:34128 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heJ29-0005DK-U4
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:52:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41596)
+	id 1heJ7o-0001vk-B6
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:58:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44050)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <rkagan@virtuozzo.com>) id 1heIyt-00037Y-0d
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:49:30 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1heJ6d-0001QV-Cw
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:57:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <rkagan@virtuozzo.com>) id 1heIyp-0008Cj-O3
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:49:26 -0400
-Received: from mail-bgr052101131090.outbound.protection.outlook.com
- ([52.101.131.90]:17611 helo=EUR02-AM5-obe.outbound.protection.outlook.com)
+ (envelope-from <vsementsov@virtuozzo.com>) id 1heJ6a-0001Eu-A6
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:57:27 -0400
+Received: from mail-eopbgr140125.outbound.protection.outlook.com
+ ([40.107.14.125]:53511 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <rkagan@virtuozzo.com>)
- id 1heIyo-00088a-VE
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:49:23 -0400
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1heJ6O-0000q3-UM; Fri, 21 Jun 2019 08:57:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hjvrZWdIt/3A7Yj4jSZtP4eN+Xj4vhSZvpXTTON3ctU=;
- b=We92YSP3TZ94JoAoScE8FcZKanfeoBKu+tAADSu6m232sH+MCcxJey6A9cjAvJX68FGEOCRa1YTNMDxo1NtpDrJs9Q05Ap7HvkIBj0++v263+F7gDEuq9wwtVZzS7HBqDR438gDkwO3UoV93GzTc23B/QfaAnOhavZTr2WR9O6Y=
-Received: from DB8PR08MB3977.eurprd08.prod.outlook.com (20.179.11.95) by
- DB8PR08MB5099.eurprd08.prod.outlook.com (10.255.18.155) with Microsoft SMTP
+ bh=QL0DYOE84VZS27eJfdIBlrfLZKZQu3WT4BIkn1/6BW8=;
+ b=XFWESVW3D7A+FldLamxrfe/GSsBgr42iwbXF5vt2SVG/DKlz8k0QSQxk/J45QZdVyp004H+QLPGAxHX+0uVMldieGL3QeqTQGWvZdSneJwcy2+kJjw5iLOqCyr9Se6kDPDUPYQhftLuhShftH9Gr4uruiUi30nvJUY0SeSTan3Q=
+Received: from DBBPR08MB4838.eurprd08.prod.outlook.com (20.179.46.151) by
+ DBBPR08MB4476.eurprd08.prod.outlook.com (20.179.43.203) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.13; Fri, 21 Jun 2019 12:49:08 +0000
-Received: from DB8PR08MB3977.eurprd08.prod.outlook.com
- ([fe80::3530:3b13:be7f:2944]) by DB8PR08MB3977.eurprd08.prod.outlook.com
- ([fe80::3530:3b13:be7f:2944%4]) with mapi id 15.20.1987.014; Fri, 21 Jun 2019
- 12:49:08 +0000
-From: Roman Kagan <rkagan@virtuozzo.com>
-To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Thread-Topic: [Qemu-devel] [RFC PATCH 0/2] establish nesting rule of BQL vs
- cpu-exclusive
-Thread-Index: AQHVEVXwLFxTyUznOk6fV4juQbW3H6Z4k2UAgAZCJQCAD92SAIAXiaEA
-Date: Fri, 21 Jun 2019 12:49:07 +0000
-Message-ID: <20190621124904.GA24164@rkaganb.sw.ru>
-References: <20190523105440.27045-1-rkagan@virtuozzo.com>
- <87imu11k6z.fsf@zen.linaroharston> <20190527110534.GA13549@rkaganb.sw.ru>
- <20190606132230.GB32258@rkaganb.sw.ru>
-In-Reply-To: <20190606132230.GB32258@rkaganb.sw.ru>
-Accept-Language: en-US, ru-RU
+ 15.20.1987.12; Fri, 21 Jun 2019 12:57:07 +0000
+Received: from DBBPR08MB4838.eurprd08.prod.outlook.com
+ ([fe80::9c49:321c:cc13:35d3]) by DBBPR08MB4838.eurprd08.prod.outlook.com
+ ([fe80::9c49:321c:cc13:35d3%3]) with mapi id 15.20.1987.014; Fri, 21 Jun 2019
+ 12:57:07 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Thread-Topic: [PATCH 07/12] block/backup: add 'always' bitmap sync policy
+Thread-Index: AQHVJwQUASyLXkk6xUaH3k5xNAqj4qamE50A
+Date: Fri, 21 Jun 2019 12:57:07 +0000
+Message-ID: <8fde15e1-9693-9e46-b5c8-0f657b1eebed@virtuozzo.com>
+References: <20190620010356.19164-1-jsnow@redhat.com>
+ <20190620010356.19164-8-jsnow@redhat.com>
+In-Reply-To: <20190620010356.19164-8-jsnow@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-user-agent: Mutt/1.11.4 (2019-03-13)
-mail-followup-to: =?iso-8859-1?Q?Roman_Kagan_<rkagan@virtuozzo.com>,
- =09Alex_Benn=E9e_<alex.?=
- =?iso-8859-1?Q?bennee@linaro.org>,=09Paolo_Bonzini_<pbonzini@redhat.com>,?=
- =?iso-8859-1?Q?=09"cota@braap.org"_<cota@braap.org>,=09"richard.henderson?=
- =?iso-8859-1?Q?@linaro.org"_<richard.henderson@linaro.org>,=09"qemu-devel?=
- =?iso-8859-1?Q?@nongnu.org"_<qemu-devel@nongnu.org>?=
-x-originating-ip: [185.231.240.5]
-x-clientproxiedby: HE1PR09CA0079.eurprd09.prod.outlook.com
- (2603:10a6:7:3d::23) To DB8PR08MB3977.eurprd08.prod.outlook.com
- (2603:10a6:10:ad::31)
+x-clientproxiedby: HE1P190CA0057.EURP190.PROD.OUTLOOK.COM (2603:10a6:7:52::46)
+ To DBBPR08MB4838.eurprd08.prod.outlook.com
+ (2603:10a6:10:d9::23)
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=rkagan@virtuozzo.com; 
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
 x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190621155704177
+x-originating-ip: [185.231.240.5]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a674d47b-1070-4e8b-58a5-08d6f646d983
+x-ms-office365-filtering-correlation-id: 2318c7f0-e948-4d01-e06b-08d6f647f6e2
 x-microsoft-antispam: BCL:0; PCL:0;
  RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB8PR08MB5099; 
-x-ms-traffictypediagnostic: DB8PR08MB5099:|DB8PR08MB5099:
-x-microsoft-antispam-prvs: <DB8PR08MB50996C473821A7316C751ED9C9E70@DB8PR08MB5099.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1148;
+ SRVR:DBBPR08MB4476; 
+x-ms-traffictypediagnostic: DBBPR08MB4476:
+x-microsoft-antispam-prvs: <DBBPR08MB4476E708387D18C8A0BABC95C1E70@DBBPR08MB4476.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
 x-forefront-prvs: 0075CB064E
-x-forefront-antispam-report: SFV:SPM;
- SFS:(10019020)(39850400004)(366004)(346002)(396003)(376002)(136003)(189003)(199004)(8936002)(81166006)(486006)(71190400001)(4326008)(71200400001)(81156014)(14454004)(446003)(68736007)(229853002)(316002)(5660300002)(11346002)(66946007)(66446008)(64756008)(66556008)(66476007)(36756003)(73956011)(33656002)(1076003)(476003)(256004)(14444005)(66574012)(9686003)(186003)(26005)(6512007)(54906003)(7736002)(86362001)(66066001)(58126008)(102836004)(76176011)(6506007)(386003)(6436002)(99286004)(52116002)(478600001)(6246003)(25786009)(2906002)(53936002)(3846002)(8676002)(6486002)(6916009)(305945005)(6116002)(30126002);
- DIR:OUT; SFP:1501; SCL:5; SRVR:DB8PR08MB5099;
- H:DB8PR08MB3977.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39850400004)(366004)(376002)(396003)(136003)(346002)(51444003)(199004)(189003)(7416002)(25786009)(305945005)(14444005)(81166006)(6512007)(8676002)(31696002)(2616005)(102836004)(6506007)(110136005)(256004)(99286004)(66556008)(4326008)(6116002)(2906002)(54906003)(478600001)(66946007)(14454004)(71190400001)(3846002)(6246003)(5660300002)(76176011)(6486002)(36756003)(229853002)(71200400001)(386003)(64756008)(73956011)(66476007)(446003)(81156014)(7736002)(476003)(8936002)(86362001)(66066001)(53936002)(6436002)(52116002)(66446008)(11346002)(2201001)(2501003)(186003)(486006)(31686004)(316002)(26005)(68736007);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4476;
+ H:DBBPR08MB4838.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: virtuozzo.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: yuDEBcTO8Z5HbQGd9/oJ2aikJXsPkPsE/dtV7cPtzJl/YneAZqUrVmARGNg7p++J7VnYNEl9hN1IoFrUQxo8070KDofO3kTPCM8PZTQoKRuPUGU+eiYmlwP8K5dqVt58V3BSqNR5NLJC8tSdiRMrmlTMkX5wJ3Rkpu3ALcWRQlnzgj7sbM4haCZyryfpFkhWj3nRMctKcjWotJFikDDEfKoLoW/jk1J59ducxRmkRsa7jly49T7aphjSeF7K/huvlXqo7FD9vCd78jVohIAE00neKF8aRFiAwnsrOZn6FIFSulxfTCDkIXxcVxba74HpQDLySYLA0e1WttYv0GEaeEQEIbEa47W9di5UnKMYng3ik+oEpBtuE9vGvfTvDnPKJqxlGfC9vJ26uptn4AqAs3DyrOpfh9C/yykuzkuvPGcvnlh4ls0+mHSHGfkHQLJjE50pcf06oI2gzRjN00H6PxLeJc+His5CK1SLorr3uxA7FrD1USByO6RiPRLPL6wX
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <81071A2CD9F37446B68E8C383A9A6BCD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: jPtZENoA7zdozmxaBI+wpuSjpmuvAahDWeJewVnQHWRbRU2Qgb++PUC5gfL0K36aecVGPnslW00l+ycgDXa9D5Mt5R7eRkE0qd8OuEzVJnVg6kQTDpl01axFkJEjmopQxmroeC7s45Afnf/FBr4O2gUwBez2BFjRQO8RzQIgkAWgBpUF6v84GMvDYEMkd4wVKlzuWtpQyepgTHnSaZlxr0UgTRl4hFrAPNKdT6TTg2BgG7VxtWOLgCH4Z+ev/h9AkJNeGqkVpimwLoeC0Sv33tOQPiozj4YaR9/A3nEmbSg/mUtCYNjtFpvjYSyawQhm+2UbrZyi6PK6nzU4LCFolLTPwNq5ynQn6ptGVzV7Tvg1ui64TG2UstONdXDL0RTV+4rwrc3T22tVe+jdOKRsh/j0raBtx37rDpdvq+tX0A0=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <AB4B513A6A479548904D34D690E0AE3A@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a674d47b-1070-4e8b-58a5-08d6f646d983
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2019 12:49:07.9060 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2318c7f0-e948-4d01-e06b-08d6f647f6e2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2019 12:57:07.2783 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rkagan@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5099
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4476
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 52.101.131.90
-Subject: Re: [Qemu-devel] [RFC PATCH 0/2] establish nesting rule of BQL vs
- cpu-exclusive
+X-Received-From: 40.107.14.125
+Subject: Re: [Qemu-devel] [PATCH 07/12] block/backup: add 'always' bitmap
+ sync policy
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,72 +101,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "cota@braap.org" <cota@braap.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 06, 2019 at 01:22:33PM +0000, Roman Kagan wrote:
-> On Mon, May 27, 2019 at 11:05:38AM +0000, Roman Kagan wrote:
-> > On Thu, May 23, 2019 at 12:31:16PM +0100, Alex Benn=E9e wrote:
-> > >=20
-> > > Roman Kagan <rkagan@virtuozzo.com> writes:
-> > >=20
-> > > > I came across the following AB-BA deadlock:
-> > > >
-> > > >     vCPU thread                             main thread
-> > > >     -----------                             -----------
-> > > > async_safe_run_on_cpu(self,
-> > > >                       async_synic_update)
-> > > > ...                                         [cpu hot-add]
-> > > > process_queued_cpu_work()
-> > > >   qemu_mutex_unlock_iothread()
-> > > >                                             [grab BQL]
-> > > >   start_exclusive()                         cpu_list_add()
-> > > >   async_synic_update()                        finish_safe_work()
-> > > >     qemu_mutex_lock_iothread()                  cpu_exec_start()
-> > > >
-> > > > ATM async_synic_update seems to be the only async safe work item th=
-at
-> > > > grabs BQL.  However it isn't quite obvious that it shouldn't; in th=
-e
-> > > > past there were more examples of this (e.g.
-> > > > memory_region_do_invalidate_mmio_ptr).
-> > > >
-> > > > It looks like the problem is generally in the lack of the nesting r=
-ule
-> > > > for cpu-exclusive sections against BQL, so I thought I would try to
-> > > > address that.  This patchset is my feeble attempt at this; I'm not =
-sure
-> > > > I fully comprehend all the consequences (rather, I'm sure I don't) =
-hence
-> > > > RFC.
-> > >=20
-> > > Hmm I think this is an area touched by:
-> > >=20
-> > >   Subject: [PATCH v7 00/73] per-CPU locks
-> > >   Date: Mon,  4 Mar 2019 13:17:00 -0500
-> > >   Message-Id: <20190304181813.8075-1-cota@braap.org>
-> > >=20
-> > > which has stalled on it's path into the tree. Last time I checked it
-> > > explicitly handled the concept of work that needed the BQL and work t=
-hat
-> > > didn't.
-> >=20
-> > I'm still trying to get my head around that patchset, but it looks like
-> > it changes nothing in regards to cpu-exclusive sections and safe work,
-> > so it doesn't make the problem go.
-> >=20
-> > > How do you trigger your deadlock? Just hot-pluging CPUs?
-> >=20
-> > Yes.  The window is pretty narrow so I only saw it once although this
-> > test (where the vms are started and stopped and the cpus are plugged in
-> > and out) is in our test loop for quite a bit (probably 2+ years).
-> >=20
-> > Roman.
->=20
-> ping?
-
-ping?
+MjAuMDYuMjAxOSA0OjAzLCBKb2huIFNub3cgd3JvdGU6DQo+IFRoaXMgYWRkcyBhbiAiYWx3YXlz
+IiBwb2xpY3kgZm9yIGJpdG1hcCBzeW5jaHJvbml6YXRpb24uIFJlZ2FyZGxlc3Mgb2YgaWYNCj4g
+dGhlIGpvYiBzdWNjZWVkcyBvciBmYWlscywgdGhlIGJpdG1hcCBpcyAqYWx3YXlzKiBzeW5jaHJv
+bml6ZWQuIFRoaXMgbWVhbnMNCj4gdGhhdCBmb3IgYmFja3VwcyB0aGF0IGZhaWwgcGFydC13YXkg
+dGhyb3VnaCwgdGhlIGJpdG1hcCByZXRhaW5zIGEgcmVjb3JkIG9mDQo+IHdoaWNoIHNlY3RvcnMg
+bmVlZCB0byBiZSBjb3BpZWQgb3V0IHRvIGFjY29tcGxpc2ggYSBuZXcgYmFja3VwIHVzaW5nIHRo
+ZQ0KPiBvbGQsIHBhcnRpYWwgcmVzdWx0Lg0KPiANCj4gSW4gZWZmZWN0LCB0aGlzIGFsbG93cyB1
+cyB0byAicmVzdW1lIiBhIGZhaWxlZCBiYWNrdXA7IGhvd2V2ZXIgdGhlIG5ldyBiYWNrdXANCj4g
+d2lsbCBiZSBmcm9tIHRoZSBuZXcgcG9pbnQgaW4gdGltZSwgc28gaXQgaXNuJ3QgYSAicmVzdW1l
+IiBhcyBtdWNoIGFzIGl0IGlzDQo+IGFuICJpbmNyZW1lbnRhbCByZXRyeS4iIFRoaXMgY2FuIGJl
+IHVzZWZ1bCBpbiB0aGUgY2FzZSBvZiBleHRyZW1lbHkgbGFyZ2UNCj4gYmFja3VwcyB0aGF0IGZh
+aWwgY29uc2lkZXJhYmx5IHRocm91Z2ggdGhlIG9wZXJhdGlvbiBhbmQgd2UnZCBsaWtlIHRvIG5v
+dCB3YXN0ZQ0KPiB0aGUgd29yayB0aGF0IHdhcyBhbHJlYWR5IHBlcmZvcm1lZC4NCj4gDQo+IFNp
+Z25lZC1vZmYtYnk6IEpvaG4gU25vdyA8anNub3dAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgcWFw
+aS9ibG9jay1jb3JlLmpzb24gfCAgNSArKysrLQ0KPiAgIGJsb2NrL2JhY2t1cC5jICAgICAgIHwg
+MTAgKysrKysrLS0tLQ0KPiAgIDIgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwgNSBk
+ZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9xYXBpL2Jsb2NrLWNvcmUuanNvbiBiL3Fh
+cGkvYmxvY2stY29yZS5qc29uDQo+IGluZGV4IDAzMzJkY2FhYmMuLjU4ZDI2N2YxZjUgMTAwNjQ0
+DQo+IC0tLSBhL3FhcGkvYmxvY2stY29yZS5qc29uDQo+ICsrKyBiL3FhcGkvYmxvY2stY29yZS5q
+c29uDQo+IEBAIC0xMTQzLDYgKzExNDMsOSBAQA0KPiAgICMgQW4gZW51bWVyYXRpb24gb2YgcG9z
+c2libGUgYmVoYXZpb3JzIGZvciB0aGUgc3luY2hyb25pemF0aW9uIG9mIGEgYml0bWFwDQo+ICAg
+IyB3aGVuIHVzZWQgZm9yIGRhdGEgY29weSBvcGVyYXRpb25zLg0KPiAgICMNCj4gKyMgQGFsd2F5
+czogVGhlIGJpdG1hcCBpcyBhbHdheXMgc3luY2hyb25pemVkIHdpdGggcmVtYWluaW5nIGJsb2Nr
+cyB0byBjb3B5LA0KPiArIyAgICAgICAgICB3aGV0aGVyIG9yIG5vdCB0aGUgb3BlcmF0aW9uIGhh
+cyBjb21wbGV0ZWQgc3VjY2Vzc2Z1bGx5IG9yIG5vdC4NCg0KSG1tLCBub3cgSSB0aGluayB0aGF0
+ICdhbHdheXMnIHNvdW5kcyBhIGJpdCBsaWtlICdyZWFsbHkgYWx3YXlzJyBpLmUuIGR1cmluZyBi
+YWNrdXANCnRvbywgd2hpY2ggaXMgY29uZnVzaW5nLi4gQnV0IEkgZG9uJ3QgaGF2ZSBiZXR0ZXIg
+c3VnZ2VzdGlvbi4NCg0KPiArIw0KPiAgICMgQGNvbmRpdGlvbmFsOiBUaGUgYml0bWFwIGlzIG9u
+bHkgc3luY2hyb25pemVkIHdoZW4gdGhlIG9wZXJhdGlvbiBpcyBzdWNjZXNzdWwuDQo+ICAgIyAg
+ICAgICAgICAgICAgIFRoaXMgaXMgdXNlZnVsIGZvciBJbmNyZW1lbnRhbCBzZW1hbnRpY3MuDQo+
+ICAgIw0KPiBAQCAtMTE1Myw3ICsxMTU2LDcgQEANCj4gICAjIFNpbmNlOiA0LjENCj4gICAjIw0K
+PiAgIHsgJ2VudW0nOiAnQml0bWFwU3luY01vZGUnLA0KPiAtICAnZGF0YSc6IFsnY29uZGl0aW9u
+YWwnLCAnbmV2ZXInXSB9DQo+ICsgICdkYXRhJzogWydhbHdheXMnLCAnY29uZGl0aW9uYWwnLCAn
+bmV2ZXInXSB9DQo+ICAgDQo+ICAgIyMNCj4gICAjIEBNaXJyb3JDb3B5TW9kZToNCj4gZGlmZiAt
+LWdpdCBhL2Jsb2NrL2JhY2t1cC5jIGIvYmxvY2svYmFja3VwLmMNCj4gaW5kZXggNjI3ZjcyNGI2
+OC4uYmViMjA3ODY5NiAxMDA2NDQNCj4gLS0tIGEvYmxvY2svYmFja3VwLmMNCj4gKysrIGIvYmxv
+Y2svYmFja3VwLmMNCj4gQEAgLTI2NiwxNSArMjY2LDE3IEBAIHN0YXRpYyB2b2lkIGJhY2t1cF9j
+bGVhbnVwX3N5bmNfYml0bWFwKEJhY2t1cEJsb2NrSm9iICpqb2IsIGludCByZXQpDQo+ICAgICAg
+IEJsb2NrRHJpdmVyU3RhdGUgKmJzID0gYmxrX2JzKGpvYi0+Y29tbW9uLmJsayk7DQo+ICAgDQo+
+ICAgICAgIGlmIChyZXQgPCAwIHx8IGpvYi0+Yml0bWFwX21vZGUgPT0gQklUTUFQX1NZTkNfTU9E
+RV9ORVZFUikgew0KPiAtICAgICAgICAvKiBGYWlsdXJlLCBvciB3ZSBkb24ndCB3YW50IHRvIHN5
+bmNocm9uaXplIHRoZSBiaXRtYXAuDQo+IC0gICAgICAgICAqIE1lcmdlIHRoZSBzdWNjZXNzb3Ig
+YmFjayBpbnRvIHRoZSBwYXJlbnQsIGRlbGV0ZSBub3RoaW5nLiAqLw0KPiArICAgICAgICAvKiBG
+YWlsdXJlLCBvciB3ZSBkb24ndCB3YW50IHRvIHN5bmNocm9uaXplIHRoZSBiaXRtYXAuICovDQo+
+ICsgICAgICAgIGlmIChqb2ItPmJpdG1hcF9tb2RlID09IEJJVE1BUF9TWU5DX01PREVfQUxXQVlT
+KSB7DQo+ICsgICAgICAgICAgICBiZHJ2X2RpcnR5X2JpdG1hcF9jbGFpbShqb2ItPnN5bmNfYml0
+bWFwLCAmam9iLT5jb3B5X2JpdG1hcCk7DQo+ICsgICAgICAgIH0NCj4gKyAgICAgICAgLyogTWVy
+Z2UgdGhlIHN1Y2Nlc3NvciBiYWNrIGludG8gdGhlIHBhcmVudC4gKi8NCj4gICAgICAgICAgIGJt
+ID0gYmRydl9yZWNsYWltX2RpcnR5X2JpdG1hcChicywgam9iLT5zeW5jX2JpdG1hcCwgTlVMTCk7
+DQoNCkhtbSBnb29kLCBpdCBzaG91bGQgd29yay4gSXQncyBhIGxvdCBtb3JlIHRyaWNreSwgdGhh
+biBqdXN0DQoic3luY2hyb25pemVkIHdpdGggcmVtYWluaW5nIGJsb2NrcyB0byBjb3B5IiwgYnV0
+IEknbSBub3Qgc3VyZSB0aGUgd2UgbmVlZCBtb3JlIGRldGFpbHMgaW4NCnNwZWMuDQoNCldoYXQg
+d2UgaGF2ZSBpbiBiYWNrdXA/IFNvLCBmcm9tIG9uZSBoYW5kIHdlIGhhdmUgYW4gaW5jcmVtZW50
+YWwgYmFja3VwLCBhbmQgYSBiaXRtYXAsIGNvdW50aW5nIGZyb20gaXQuDQpPbiB0aGUgb3RoZXIg
+aGFuZCBpdCdzIG5vdCBub3JtYWwgaW5jcmVtZW50YWwgYmFja3VwLCBhcyBpdCBkb24ndCBjb3Jy
+ZXNwb25kIHRvIGFueSB2YWxpZCBzdGF0ZSBvZiB2bSBkaXNrLA0KYW5kIGl0IG1heSBiZSB1c2Vk
+IG9ubHkgYXMgYSBiYWNraW5nIGluIGEgY2hhaW4gb2YgZnVydGhlciBzdWNjZXNzZnVsIGluY3Jl
+bWVudGFsIGJhY2t1cCwgeWVzPw0KDQpBbmQgdGhlbiBJIHRoaW5rOiB3aXRoIHRoaXMgbW9kZSB3
+ZSBjYW4gbm90IHN0b3Agb24gZmlyc3QgZXJyb3IsIGJ1dCBpZ25vcmUgaXQsIGp1c3QgbGVhdmlu
+ZyBkaXJ0eSBiaXQgZm9yDQpyZXN1bHRpbmcgYml0bWFwLi4gV2UgaGF2ZSBCTE9DS0RFVl9PTl9F
+UlJPUl9JR05PUkUsIHdoaWNoIG1heSBiZSB1c2VkIHRvIGFjaGlldmUgaXQsIGJ1dCBzZWVtcyBp
+dCBkb24ndA0Kd29yayBhcyBleHBlY3RlZCwgYXMgaW4gYmFja3VwX2xvb3AoKSB3ZSByZXRyeSBv
+cGVyYXRpb24gaWYgcmV0IDwgMCBhbmQgIGFjdGlvbiAhPSBCTE9DS19FUlJPUl9BQ1RJT05fUkVQ
+T1JULg0KDQpBbmQgYW5vdGhlciB0aG91Z2h0OiBjYW4gdXNlciB0YWtlIGEgZGVjaXNpb24gb2Yg
+ZGlzY2FyZGluZyAobGlrZSBDT05ESVRJT05BTCkgb3Igc2F2aW5nIGluIGJhY2tpbmcgY2hhaW4g
+KGxpa2UNCkFMV0FZUykgZmFpbGVkIGJhY2t1cCByZXN1bHQgX2FmdGVyXyBiYWNrdXAgam9iIGNv
+bXBsZXRlPyBGb3IgZXhhbXBsZSwgZm9yIHNtYWxsIHJlc3VsdGluZyBiYWNrdXAgaXQgbWF5IGJl
+DQpiZXR0ZXIgdG8gZGlzY2FyZCBpdCBhbmQgZm9yIGxhcmdlIC0gdG8gc2F2ZS4NCldpbGwgaXQg
+d29yayBpZiB3ZSBzdGFydCBqb2Igd2l0aCBBTFdBWVMgbW9kZSBhbmQgYXV0b2NvbXBsZXRlID0g
+ZmFsc2UsIHRoZW4gb24gZmFpbCB3ZSBjYW4gbG9vayBhdCBqb2IgcHJvZ3Jlc3MsDQphbmQgaWYg
+aXQgaXMgc21hbGwgd2UgY2FuY2VsIGpvYiwgb3RoZXJ3aXNlIGNhbGwgY29tcGxldGU/IE9yIHN0
+b3AsIGJsb2NrLWpvYi1jb21wbGV0ZSB3aWxsIG5vdCB3b3JrIHdpdGggZmFpbHVyZQ0Kc2NlbmFy
+aW9zPyBUaGVuIHdlIGhhdmUgdG8gc2V0IEJMT0NLREVWX09OX0VSUk9SX0lHTk9SRSwgYW5kIG9u
+IGZpcnN0IGVycm9yIGV2ZW50IGRlY2lkZSwgY2FuY2VsIG9yIG5vdD8gQnV0IHdlDQpjYW4gb25s
+eSBjYW5jZWwgb3IgY29udGludWUuLg0KDQpIbW0uIENhbmNlbC4gU28gb24gY2FuY2VsIGFuZCBh
+Ym9ydCB5b3Ugc3luY2hyb25pemUgYml0bWFwIHRvbz8gU2VlbXMgaW4gYmFkIHJlbGF0aW9uIHdp
+dGggd2hhdCBjYW5jZWwgc2hvdWxkIGRvLA0KYW5kIGluIHRyYW5zYWN0aW9ucyBpbiBnZW5lcmFs
+Li4uDQoNCg0KPiAtICAgICAgICBhc3NlcnQoYm0pOw0KPiAgICAgICB9IGVsc2Ugew0KPiAgICAg
+ICAgICAgLyogRXZlcnl0aGluZyBpcyBmaW5lLCBkZWxldGUgdGhpcyBiaXRtYXAgYW5kIGluc3Rh
+bGwgdGhlIGJhY2t1cC4gKi8NCj4gICAgICAgICAgIGJtID0gYmRydl9kaXJ0eV9iaXRtYXBfYWJk
+aWNhdGUoYnMsIGpvYi0+c3luY19iaXRtYXAsIE5VTEwpOw0KPiAtICAgICAgICBhc3NlcnQoYm0p
+Ow0KPiAgICAgICB9DQo+ICsgICAgYXNzZXJ0KGJtKTsNCj4gICB9DQo+ICAgDQo+ICAgc3RhdGlj
+IHZvaWQgYmFja3VwX2NvbW1pdChKb2IgKmpvYikNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMs
+DQpWbGFkaW1pcg0K
 
