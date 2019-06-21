@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827474E374
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 11:25:10 +0200 (CEST)
-Received: from localhost ([::1]:56688 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0284E2EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 11:14:38 +0200 (CEST)
+Received: from localhost ([::1]:55954 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heFnA-0004e9-SP
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 05:25:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39588)
+	id 1heFcz-0004qQ-Tq
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 05:14:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39435)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yan.y.zhao@intel.com>) id 1heFYr-0000tl-GE
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:10:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1heFXy-0000XB-Rd
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:09:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1heFKY-0004In-Os
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:57:23 -0400
-Received: from mga14.intel.com ([192.55.52.115]:18706)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1heFKV-0004FQ-AC
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:55:31 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2019 01:52:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="335761363"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.9])
- by orsmga005.jf.intel.com with ESMTP; 21 Jun 2019 01:52:20 -0700
-Date: Fri, 21 Jun 2019 04:46:28 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <20190621084627.GC4304@joy-OptiPlex-7040>
-References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
- <20190621002518.GF9303@joy-OptiPlex-7040>
- <20190621012404.GA4173@joy-OptiPlex-7040>
- <67726e08-f159-7054-57a7-36b08f691756@nvidia.com>
+ (envelope-from <philmd@redhat.com>) id 1heFWD-0002nU-Lm
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:09:26 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40906)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1heFWD-0002Wk-GI
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:07:37 -0400
+Received: by mail-wr1-f66.google.com with SMTP id p11so5774825wre.7
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 02:06:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EX3ZdPVdYwHsJfI1gqJSGjN5uoaqhIFz8DprGDtRLCk=;
+ b=pOrwSaiCqGzde1uJnonA44lddSK2I+aeHIffEWvhtd7v0Sl7ZnV/z50F0cKi6Wp7B2
+ VYSVTJCPQjcdH0GYXkW5NPe+zpyq6Cz9ypVZGD8cV6iWqvoPzRMkWkFn5Ndhs2Bj1PiA
+ wfyW1jhBWk0Nv9YGim+RNszod8Q6yA2HK5rJbI0bx4W9fjNUnGNQZrdDYViGxYeKV2H3
+ drkW1LbMJ50qbeMDkz+xTxQnDr5faMalS4y2TNnafZYAtT2xRPaFW7X9xt5NnElzoMTJ
+ PbskcMwxkHEeLXulbhSRLI2tM0VISf2iPVlLd0c56ndC1v4msARxfgm7m9n5iI2kRJ8m
+ w2tg==
+X-Gm-Message-State: APjAAAXlVKouJyIC3K+1o9MpM/48byuB/8HeRc3tVYvopHNygPi3BuA7
+ OTPtn3BAC77fxSmzROgongnekXV3iyE=
+X-Google-Smtp-Source: APXvYqyvgEPkGwk9P8TGBp+6PlnftfPV9o7++rnCaMDJGa00dzkrIjyOXeTZcXX3gFI4iB1DfZvELw==
+X-Received: by 2002:adf:e311:: with SMTP id b17mr3649359wrj.11.1561108016634; 
+ Fri, 21 Jun 2019 02:06:56 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id j189sm2986700wmb.48.2019.06.21.02.06.55
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 21 Jun 2019 02:06:56 -0700 (PDT)
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
+References: <20190621065242.32535-1-joel@jms.id.au>
+ <6aec047c-81bd-e179-6fad-4bee896ea7a2@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <21bd02d0-d051-e730-bfb9-bca2f57babe8@redhat.com>
+Date: Fri, 21 Jun 2019 11:06:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67726e08-f159-7054-57a7-36b08f691756@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.115
-Subject: Re: [Qemu-devel] [PATCH v4 00/13] Add migration support for VFIO
- device
+In-Reply-To: <6aec047c-81bd-e179-6fad-4bee896ea7a2@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v2] aspeed: Link SCU to the watchdog
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,218 +75,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 21, 2019 at 04:02:50PM +0800, Kirti Wankhede wrote:
+On 6/21/19 10:25 AM, Cédric Le Goater wrote:
+> On 21/06/2019 08:52, Joel Stanley wrote:
+>> The ast2500 uses the watchdog to reset the SDRAM controller. This
+>> operation is usually performed by u-boot's memory training procedure,
+>> and it is enabled by setting a bit in the SCU and then causing the
+>> watchdog to expire. Therefore, we need the watchdog to be able to
+>> access the SCU's register space.
+>>
+>> This causes the watchdog to not perform a system reset when the bit is
+>> set. In the future it could perform a reset of the SDMC model.
+>>
+>> Signed-off-by: Joel Stanley <joel@jms.id.au>
 > 
+> I was keeping this patch in my tree (hence the Sob) hoping that
+> someone could find the time to study the reset question. But this 
+> patch is useful as it is and I think we should merge it.
 > 
-> On 6/21/2019 6:54 AM, Yan Zhao wrote:
-> > On Fri, Jun 21, 2019 at 08:25:18AM +0800, Yan Zhao wrote:
-> >> On Thu, Jun 20, 2019 at 10:37:28PM +0800, Kirti Wankhede wrote:
-> >>> Add migration support for VFIO device
-> >>>
-> >>> This Patch set include patches as below:
-> >>> - Define KABI for VFIO device for migration support.
-> >>> - Added save and restore functions for PCI configuration space
-> >>> - Generic migration functionality for VFIO device.
-> >>>   * This patch set adds functionality only for PCI devices, but can be
-> >>>     extended to other VFIO devices.
-> >>>   * Added all the basic functions required for pre-copy, stop-and-copy and
-> >>>     resume phases of migration.
-> >>>   * Added state change notifier and from that notifier function, VFIO
-> >>>     device's state changed is conveyed to VFIO device driver.
-> >>>   * During save setup phase and resume/load setup phase, migration region
-> >>>     is queried and is used to read/write VFIO device data.
-> >>>   * .save_live_pending and .save_live_iterate are implemented to use QEMU's
-> >>>     functionality of iteration during pre-copy phase.
-> >>>   * In .save_live_complete_precopy, that is in stop-and-copy phase,
-> >>>     iteration to read data from VFIO device driver is implemented till pending
-> >>>     bytes returned by driver are not zero.
-> >>>   * Added function to get dirty pages bitmap for the pages which are used by
-> >>>     driver.
-> >>> - Add vfio_listerner_log_sync to mark dirty pages.
-> >>> - Make VFIO PCI device migration capable. If migration region is not provided by
-> >>>   driver, migration is blocked.
-> >>>
-> >>> Below is the flow of state change for live migration where states in brackets
-> >>> represent VM state, migration state and VFIO device state as:
-> >>>     (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
-> >>>
-> >>> Live migration save path:
-> >>>         QEMU normal running state
-> >>>         (RUNNING, _NONE, _RUNNING)
-> >>>                         |
-> >>>     migrate_init spawns migration_thread.
-> >>>     (RUNNING, _SETUP, _RUNNING|_SAVING)
-> >>>     Migration thread then calls each device's .save_setup()
-> >>>                         |
-> >>>     (RUNNING, _ACTIVE, _RUNNING|_SAVING)
-> >>>     If device is active, get pending bytes by .save_live_pending()
-> >>>     if pending bytes >= threshold_size,  call save_live_iterate()
-> >>>     Data of VFIO device for pre-copy phase is copied.
-> >>>     Iterate till pending bytes converge and are less than threshold
-> >>>                         |
-> >>>     On migration completion, vCPUs stops and calls .save_live_complete_precopy
-> >>>     for each active device. VFIO device is then transitioned in
-> >>>      _SAVING state.
-> >>>     (FINISH_MIGRATE, _DEVICE, _SAVING)
-> >>>     For VFIO device, iterate in  .save_live_complete_precopy  until
-> >>>     pending data is 0.
-> >>>     (FINISH_MIGRATE, _DEVICE, _STOPPED)
-> >>
-> >> I suggest we also register to VMStateDescription, whose .pre_save
-> >> handler would get called after .save_live_complete_precopy in pre-copy
-> >> only case, and will called before .save_live_iterate in post-copy
-> >> enabled case.
-> >> In the .pre_save handler, we can save all device state which must be
-> >> copied after device stop in source vm and before device start in target vm.
-> >>
-> > hi
-> > to better describe this idea:
-> > 
-> > in pre-copy only case, the flow is
-> > 
-> > start migration --> .save_live_iterate (several round) -> stop source vm
-> > --> .save_live_complete_precopy --> .pre_save  -->start target vm
-> > -->migration complete
-> > 
-> > 
-> > in post-copy enabled case, the flow is
-> > 
-> > start migration --> .save_live_iterate (several round) --> start post copy --> 
-> > stop source vm --> .pre_save --> start target vm --> .save_live_iterate (several round) 
-> > -->migration complete
-> > 
-> > Therefore, we should put saving of device state in .pre_save interface
-> > rather than in .save_live_complete_precopy. 
-> > The device state includes pci config data, page tables, register state, etc.
-> > 
-> > The .save_live_iterate and .save_live_complete_precopy should only deal
-> > with saving dirty memory.
-> > 
-> 
-> Vendor driver can decide when to save device state depending on the VFIO
-> device state set by user. Vendor driver doesn't have to depend on which
-> callback function QEMU or user application calls. In pre-copy case,
-> save_live_complete_precopy sets VFIO device state to
-> VFIO_DEVICE_STATE_SAVING which means vCPUs are stopped and vendor driver
-> should save all device state.
->
-when post copy stops vCPUs and vfio device, vendor driver only needs to
-provide device state. but how vendor driver knows that, if no extra
-interface or no extra device state is provides?
-
-> > 
-> > I know current implementation does not support post-copy. but at least
-> > it should not require huge change when we decide to enable it in future.
-> > 
-> 
-> .has_postcopy and .save_live_complete_postcopy need to be implemented to
-> support post-copy. I think .save_live_complete_postcopy should be
-> similar to vfio_save_complete_precopy.
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
 > 
 > Thanks,
-> Kirti
 > 
-> > Thanks
-> > Yan
-> > 
-> >>>                         |
-> >>>     (FINISH_MIGRATE, _COMPLETED, STOPPED)
-> >>>     Migraton thread schedule cleanup bottom half and exit
-> >>>
-> >>> Live migration resume path:
-> >>>     Incomming migration calls .load_setup for each device
-> >>>     (RESTORE_VM, _ACTIVE, STOPPED)
-> >>>                         |
-> >>>     For each device, .load_state is called for that device section data
-> >>>                         |
-> >>>     At the end, called .load_cleanup for each device and vCPUs are started.
-> >>>                         |
-> >>>         (RUNNING, _NONE, _RUNNING)
-> >>>
-> >>> Note that:
-> >>> - Migration post copy is not supported.
-> >>>
-> >>> v3 -> v4:
-> >>> - Added one more bit for _RESUMING flag to be set explicitly.
-> >>> - data_offset field is read-only for user space application.
-> >>> - data_size is read for every iteration before reading data from migration, that
-> >>>   is removed assumption that data will be till end of migration region.
-> >>> - If vendor driver supports mappable sparsed region, map those region during
-> >>>   setup state of save/load, similarly unmap those from cleanup routines.
-> >>> - Handles race condition that causes data corruption in migration region during
-> >>>   save device state by adding mutex and serialiaing save_buffer and
-> >>>   get_dirty_pages routines.
-> >>> - Skip called get_dirty_pages routine for mapped MMIO region of device.
-> >>> - Added trace events.
-> >>> - Splitted into multiple functional patches.
-> >>>
-> >>> v2 -> v3:
-> >>> - Removed enum of VFIO device states. Defined VFIO device state with 2 bits.
-> >>> - Re-structured vfio_device_migration_info to keep it minimal and defined action
-> >>>   on read and write access on its members.
-> >>>
-> >>> v1 -> v2:
-> >>> - Defined MIGRATION region type and sub-type which should be used with region
-> >>>   type capability.
-> >>> - Re-structured vfio_device_migration_info. This structure will be placed at 0th
-> >>>   offset of migration region.
-> >>> - Replaced ioctl with read/write for trapped part of migration region.
-> >>> - Added both type of access support, trapped or mmapped, for data section of the
-> >>>   region.
-> >>> - Moved PCI device functions to pci file.
-> >>> - Added iteration to get dirty page bitmap until bitmap for all requested pages
-> >>>   are copied.
-> >>>
-> >>> Thanks,
-> >>> Kirti
-> >>>
-> >>>
-> >>> Kirti Wankhede (13):
-> >>>   vfio: KABI for migration interface
-> >>>   vfio: Add function to unmap VFIO region
-> >>>   vfio: Add save and load functions for VFIO PCI devices
-> >>>   vfio: Add migration region initialization and finalize function
-> >>>   vfio: Add VM state change handler to know state of VM
-> >>>   vfio: Add migration state change notifier
-> >>>   vfio: Register SaveVMHandlers for VFIO device
-> >>>   vfio: Add save state functions to SaveVMHandlers
-> >>>   vfio: Add load state functions to SaveVMHandlers
-> >>>   vfio: Add function to get dirty page list
-> >>>   vfio: Add vfio_listerner_log_sync to mark dirty pages
-> >>>   vfio: Make vfio-pci device migration capable.
-> >>>   vfio: Add trace events in migration code path
-> >>>
-> >>>  hw/vfio/Makefile.objs         |   2 +-
-> >>>  hw/vfio/common.c              |  55 +++
-> >>>  hw/vfio/migration.c           | 815 ++++++++++++++++++++++++++++++++++++++++++
-> >>>  hw/vfio/pci.c                 | 126 ++++++-
-> >>>  hw/vfio/pci.h                 |  29 ++
-> >>>  hw/vfio/trace-events          |  19 +
-> >>>  include/hw/vfio/vfio-common.h |  22 ++
-> >>>  linux-headers/linux/vfio.h    |  71 ++++
-> >>>  8 files changed, 1132 insertions(+), 7 deletions(-)
-> >>>  create mode 100644 hw/vfio/migration.c
-> >>>
-> >>> -- 
-> >>> 2.7.0
-> >>>
+> C.
+> 
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>> v2: rebase on upstream, rework commit message
+>> ---
+>>  hw/arm/aspeed_soc.c              |  2 ++
+>>  hw/watchdog/wdt_aspeed.c         | 20 ++++++++++++++++++++
+>>  include/hw/watchdog/wdt_aspeed.h |  1 +
+>>  3 files changed, 23 insertions(+)
+>>
+>> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+>> index a2ea8c748449..ddd5dfacd7d6 100644
+>> --- a/hw/arm/aspeed_soc.c
+>> +++ b/hw/arm/aspeed_soc.c
+>> @@ -155,6 +155,8 @@ static void aspeed_soc_init(Object *obj)
+>>                                sizeof(s->wdt[i]), TYPE_ASPEED_WDT);
+>>          qdev_prop_set_uint32(DEVICE(&s->wdt[i]), "silicon-rev",
+>>                                      sc->info->silicon_rev);
+>> +        object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
+>> +                                       OBJECT(&s->scu), &error_abort);
+>>      }
+>>  
+>>      sysbus_init_child_obj(obj, "ftgmac100", OBJECT(&s->ftgmac100),
+>> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+>> index 4a8409f0daf5..57fe24ae6b1f 100644
+>> --- a/hw/watchdog/wdt_aspeed.c
+>> +++ b/hw/watchdog/wdt_aspeed.c
+>> @@ -44,6 +44,9 @@
+>>  
+>>  #define WDT_RESTART_MAGIC               0x4755
+>>  
+>> +#define SCU_RESET_CONTROL1              (0x04 / 4)
+>> +#define    SCU_RESET_SDRAM              BIT(0)
+>> +
+>>  static bool aspeed_wdt_is_enabled(const AspeedWDTState *s)
+>>  {
+>>      return s->regs[WDT_CTRL] & WDT_CTRL_ENABLE;
+>> @@ -222,6 +225,13 @@ static void aspeed_wdt_timer_expired(void *dev)
+>>  {
+>>      AspeedWDTState *s = ASPEED_WDT(dev);
+>>  
+>> +    /* Do not reset on SDRAM controller reset */
+>> +    if (s->scu->regs[SCU_RESET_CONTROL1] & SCU_RESET_SDRAM) {
+
+This would be cleaner as an static inlined function in
+"hw/misc/aspeed_scu.h" IMO, maybe 'bool scu_sdram_is_reset()'.
+
+Anyway the patch looks sane:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>> +        timer_del(s->timer);
+>> +        s->regs[WDT_CTRL] = 0;
+>> +        return;
+>> +    }
+>> +
+>>      qemu_log_mask(CPU_LOG_RESET, "Watchdog timer expired.\n");
+>>      watchdog_perform_action();
+>>      timer_del(s->timer);
+>> @@ -233,6 +243,16 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+>>  {
+>>      SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>>      AspeedWDTState *s = ASPEED_WDT(dev);
+>> +    Error *err = NULL;
+>> +    Object *obj;
+>> +
+>> +    obj = object_property_get_link(OBJECT(dev), "scu", &err);
+>> +    if (!obj) {
+>> +        error_propagate(errp, err);
+>> +        error_prepend(errp, "required link 'scu' not found: ");
+>> +        return;
+>> +    }
+>> +    s->scu = ASPEED_SCU(obj);
+>>  
+>>      if (!is_supported_silicon_rev(s->silicon_rev)) {
+>>          error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
+>> diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+>> index 88d8be4f78d6..daef0c0e230b 100644
+>> --- a/include/hw/watchdog/wdt_aspeed.h
+>> +++ b/include/hw/watchdog/wdt_aspeed.h
+>> @@ -27,6 +27,7 @@ typedef struct AspeedWDTState {
+>>      MemoryRegion iomem;
+>>      uint32_t regs[ASPEED_WDT_REGS_MAX];
+>>  
+>> +    AspeedSCUState *scu;
+>>      uint32_t pclk_freq;
+>>      uint32_t silicon_rev;
+>>      uint32_t ext_pulse_width_mask;
+>>
+> 
+> 
 
