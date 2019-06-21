@@ -2,41 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0424B4E26C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:56:39 +0200 (CEST)
-Received: from localhost ([::1]:55612 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6D84E20B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:40:30 +0200 (CEST)
+Received: from localhost ([::1]:55534 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heFLa-0002UC-4R
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:56:38 -0400
+	id 1heF5x-0006xm-Ba
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:40:29 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:58308)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEzV-0004Ba-W4
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:33:52 -0400
+ (envelope-from <clg@kaod.org>) id 1heEzJ-0004Ba-JK
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:33:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEow-0001ky-VA
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:22:55 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:41794)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEow-0001kl-OG
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:22:54 -0400
-Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id DBBF454006B;
- Fri, 21 Jun 2019 11:22:53 +0300 (MSK)
-From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 11:22:53 +0300
-Message-ID: <156110537370.25431.15604146322775530877.stgit@pasha-Precision-3630-Tower>
-In-Reply-To: <156110523748.25431.9310430853468653085.stgit@pasha-Precision-3630-Tower>
-References: <156110523748.25431.9310430853468653085.stgit@pasha-Precision-3630-Tower>
-User-Agent: StGit/0.17.1-dirty
+ (envelope-from <clg@kaod.org>) id 1heErH-0003RS-AT
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:25:20 -0400
+Received: from 4.mo173.mail-out.ovh.net ([46.105.34.219]:47291)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1heErH-0003P5-4y
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:25:19 -0400
+Received: from player750.ha.ovh.net (unknown [10.109.146.106])
+ by mo173.mail-out.ovh.net (Postfix) with ESMTP id 031DD10DCDD
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 10:25:12 +0200 (CEST)
+Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
+ (Authenticated sender: clg@kaod.org)
+ by player750.ha.ovh.net (Postfix) with ESMTPSA id 573FA7309928;
+ Fri, 21 Jun 2019 08:25:06 +0000 (UTC)
+To: Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
+References: <20190621065242.32535-1-joel@jms.id.au>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <6aec047c-81bd-e179-6fad-4bee896ea7a2@kaod.org>
+Date: Fri, 21 Jun 2019 10:25:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 83.149.199.45
-Subject: [Qemu-devel] [PATCH for-4.1 24/24] icount: clean up cpu_can_io
- before jumping to the next block
+In-Reply-To: <20190621065242.32535-1-joel@jms.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Ovh-Tracer-Id: 10693515840636816192
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrtdeigddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.34.219
+Subject: Re: [Qemu-devel] [PATCH v2] aspeed: Link SCU to the watchdog
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -48,42 +57,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
- pbonzini@redhat.com, quintela@redhat.com, ciro.santilli@gmail.com,
- jasowang@redhat.com, crosthwaite.peter@gmail.com, armbru@redhat.com,
- mreitz@redhat.com, alex.bennee@linaro.org, maria.klimushenkova@ispras.ru,
- mst@redhat.com, kraxel@redhat.com, boost.lists@gmail.com,
- thomas.dullien@googlemail.com, dovgaluk@ispras.ru, artem.k.pisarenko@gmail.com,
- dgilbert@redhat.com, rth@twiddle.net
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+On 21/06/2019 08:52, Joel Stanley wrote:
+> The ast2500 uses the watchdog to reset the SDRAM controller. This
+> operation is usually performed by u-boot's memory training procedure,
+> and it is enabled by setting a bit in the SCU and then causing the
+> watchdog to expire. Therefore, we need the watchdog to be able to
+> access the SCU's register space.
+>=20
+> This causes the watchdog to not perform a system reset when the bit is
+> set. In the future it could perform a reset of the SDMC model.
+>=20
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-Most of IO instructions can be executed only at the end of the block in
-icount mode. Therefore translator can set cpu_can_io flag when translating
-the last instruction.
-But when the blocks are chained, then this flag is not reset and may
-remain set at the beginning of the next block.
-This patch resets the flag before "chaining" the translation blocks.
+I was keeping this patch in my tree (hence the Sob) hoping that
+someone could find the time to study the reset question. But this=20
+patch is useful as it is and I think we should merge it.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
----
- accel/tcg/tcg-runtime.c |    2 ++
- 1 file changed, 2 insertions(+)
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
-index 8a1e408e31..fe6b83d0fc 100644
---- a/accel/tcg/tcg-runtime.c
-+++ b/accel/tcg/tcg-runtime.c
-@@ -151,6 +151,8 @@ void *HELPER(lookup_tb_ptr)(CPUArchState *env)
-     target_ulong cs_base, pc;
-     uint32_t flags;
- 
-+    /* We are going to jump to the next block. can_do_io should be reset */
-+    cpu->can_do_io = !use_icount;
-     tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, curr_cflags());
-     if (tb == NULL) {
-         return tcg_ctx->code_gen_epilogue;
+Thanks,
+
+C.
+
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+> v2: rebase on upstream, rework commit message
+> ---
+>  hw/arm/aspeed_soc.c              |  2 ++
+>  hw/watchdog/wdt_aspeed.c         | 20 ++++++++++++++++++++
+>  include/hw/watchdog/wdt_aspeed.h |  1 +
+>  3 files changed, 23 insertions(+)
+>=20
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index a2ea8c748449..ddd5dfacd7d6 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -155,6 +155,8 @@ static void aspeed_soc_init(Object *obj)
+>                                sizeof(s->wdt[i]), TYPE_ASPEED_WDT);
+>          qdev_prop_set_uint32(DEVICE(&s->wdt[i]), "silicon-rev",
+>                                      sc->info->silicon_rev);
+> +        object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
+> +                                       OBJECT(&s->scu), &error_abort);
+>      }
+> =20
+>      sysbus_init_child_obj(obj, "ftgmac100", OBJECT(&s->ftgmac100),
+> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+> index 4a8409f0daf5..57fe24ae6b1f 100644
+> --- a/hw/watchdog/wdt_aspeed.c
+> +++ b/hw/watchdog/wdt_aspeed.c
+> @@ -44,6 +44,9 @@
+> =20
+>  #define WDT_RESTART_MAGIC               0x4755
+> =20
+> +#define SCU_RESET_CONTROL1              (0x04 / 4)
+> +#define    SCU_RESET_SDRAM              BIT(0)
+> +
+>  static bool aspeed_wdt_is_enabled(const AspeedWDTState *s)
+>  {
+>      return s->regs[WDT_CTRL] & WDT_CTRL_ENABLE;
+> @@ -222,6 +225,13 @@ static void aspeed_wdt_timer_expired(void *dev)
+>  {
+>      AspeedWDTState *s =3D ASPEED_WDT(dev);
+> =20
+> +    /* Do not reset on SDRAM controller reset */
+> +    if (s->scu->regs[SCU_RESET_CONTROL1] & SCU_RESET_SDRAM) {
+> +        timer_del(s->timer);
+> +        s->regs[WDT_CTRL] =3D 0;
+> +        return;
+> +    }
+> +
+>      qemu_log_mask(CPU_LOG_RESET, "Watchdog timer expired.\n");
+>      watchdog_perform_action();
+>      timer_del(s->timer);
+> @@ -233,6 +243,16 @@ static void aspeed_wdt_realize(DeviceState *dev, E=
+rror **errp)
+>  {
+>      SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+>      AspeedWDTState *s =3D ASPEED_WDT(dev);
+> +    Error *err =3D NULL;
+> +    Object *obj;
+> +
+> +    obj =3D object_property_get_link(OBJECT(dev), "scu", &err);
+> +    if (!obj) {
+> +        error_propagate(errp, err);
+> +        error_prepend(errp, "required link 'scu' not found: ");
+> +        return;
+> +    }
+> +    s->scu =3D ASPEED_SCU(obj);
+> =20
+>      if (!is_supported_silicon_rev(s->silicon_rev)) {
+>          error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
+> diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt=
+_aspeed.h
+> index 88d8be4f78d6..daef0c0e230b 100644
+> --- a/include/hw/watchdog/wdt_aspeed.h
+> +++ b/include/hw/watchdog/wdt_aspeed.h
+> @@ -27,6 +27,7 @@ typedef struct AspeedWDTState {
+>      MemoryRegion iomem;
+>      uint32_t regs[ASPEED_WDT_REGS_MAX];
+> =20
+> +    AspeedSCUState *scu;
+>      uint32_t pclk_freq;
+>      uint32_t silicon_rev;
+>      uint32_t ext_pulse_width_mask;
+>=20
 
 
