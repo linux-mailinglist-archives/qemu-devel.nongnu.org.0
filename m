@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB764EB6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 17:00:24 +0200 (CEST)
-Received: from localhost ([::1]:35866 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01AF4EB97
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 17:12:37 +0200 (CEST)
+Received: from localhost ([::1]:35958 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heL1b-0007kS-85
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 11:00:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48428)
+	id 1heLDQ-0007Fq-TB
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 11:12:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49219)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1heKuV-0001xD-KZ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:53:04 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1heKwW-0004ZB-T4
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:55:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1heKuU-00038Q-I1
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:53:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5886
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1heKuU-00032Y-Bn
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:53:02 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5LEqlp1175272
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 10:52:56 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2t90btkdxb-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 10:52:51 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 21 Jun 2019 15:52:22 +0100
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 21 Jun 2019 15:52:20 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id x5LEqKIZ34079156
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Jun 2019 14:52:20 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 01240AE051;
- Fri, 21 Jun 2019 14:52:20 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C5BBFAE05A;
- Fri, 21 Jun 2019 14:52:19 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.7.212])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 21 Jun 2019 14:52:19 +0000 (GMT)
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Fri, 21 Jun 2019 16:52:19 +0200
-User-Agent: StGit/unknown-version
+ (envelope-from <pbonzini@redhat.com>) id 1heKwV-0004S3-QQ
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:55:08 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40050)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1heKwV-0004Qs-JF
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:55:07 -0400
+Received: by mail-wm1-f65.google.com with SMTP id v19so6905724wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 07:55:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4S4Tn/hIzBHcSLcIYO6lsh0V1lHzJoy8WrKzb4zNunA=;
+ b=qjOrMr2mkkL6AR4Rd0BCWRKOLxCVY8UQqjz8bC0m3j9FzmKAtVAqHJN5UELyj+C2Kd
+ 1WUy9ABOdeqibgMnW9o4+Q3bPMi2f5zbOCgcq+wDcRVm4tWzeGiwPkYIwvrnTuF9UxHz
+ y05cL8QMUsL6BLdMxEXkrVXqkYWGIbaFdbCMcq1KZOJMwlHhgiN85J4SQYI9aWTthHnq
+ /Pb5iMOrqmNCSYShklQPDRwGDDnJq+czCHAMSoMP6gxi20eSDoJueFhvwSU4BF5NlXJ+
+ e2jLJsEodZ4zRh5/IO6WSBs5Yp0DMFRCc/JonXWVHb0/8nNz8I6RicWh7fCBmQYgr8wA
+ EYuw==
+X-Gm-Message-State: APjAAAUD9TqPX1bavpHZs+p4UwctMoD1CS5xysK+qQp9TYL06jEOb1cw
+ OPZy/OANrpcoc2t+xpnEkuDgi0sBYRo=
+X-Google-Smtp-Source: APXvYqzOU9XeVPcyu2iDGPp1FgOGE84RlZlPg9eEK/hTV0d4xV9ubAudWSvB/uzhpkSYmk/o4FutEw==
+X-Received: by 2002:a1c:228b:: with SMTP id i133mr4484053wmi.140.1561128905480; 
+ Fri, 21 Jun 2019 07:55:05 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:45fb:a0de:928e:79e8?
+ ([2001:b07:6468:f312:45fb:a0de:928e:79e8])
+ by smtp.gmail.com with ESMTPSA id c17sm1809463wrv.82.2019.06.21.07.55.04
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 21 Jun 2019 07:55:04 -0700 (PDT)
+To: Liran Alon <liran.alon@oracle.com>
+References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
+ <1561116620-22245-21-git-send-email-pbonzini@redhat.com>
+ <C67C73E9-F0FA-4711-98F1-BB5CD782E473@oracle.com>
+ <3b4d778c-8c41-b8f2-7e1c-b7328072c3d5@redhat.com>
+ <96B0BE25-AA15-4FAA-9228-A68C0845E110@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <beac3448-d66f-438f-c0bf-b35bc7c90137@redhat.com>
+Date: Fri, 21 Jun 2019 16:55:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19062114-4275-0000-0000-00000344758B
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19062114-4276-0000-0000-00003854A8FF
-Message-Id: <156112873945.115975.15513090884722011930.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-21_10:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=971 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906210122
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH] spapr/xive: H_INT_ESB is used for LSIs only
+In-Reply-To: <96B0BE25-AA15-4FAA-9228-A68C0845E110@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PULL 20/25] target/i386: kvm: Add support for
+ save and restore nested state
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,37 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As indicated in the function header, this "hcall is only supported for
-LISNs that have the ESB hcall flag set to 1 when returned from hcall()
-H_INT_GET_SOURCE_INFO". We only set that flag for LSIs actually.
+On 21/06/19 14:48, Liran Alon wrote:
+> 
+> 
+>> On 21 Jun 2019, at 15:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> On 21/06/19 14:29, Liran Alon wrote:
+>>>> +    max_nested_state_len = kvm_max_nested_state_length();
+>>>> +    if (max_nested_state_len > 0) {
+>>>> +        assert(max_nested_state_len >= offsetof(struct kvm_nested_state, data));
+>>>> +        env->nested_state = g_malloc0(max_nested_state_len);
+>>>> +
+>>>> +        env->nested_state->size = max_nested_state_len;
+>>>> +
+>>>> +        if (IS_INTEL_CPU(env)) {
+>>> I think it’s better to change this to: “if (cpu_has_vmx(env))” {
+>>>
+>>>> +            struct kvm_vmx_nested_state_hdr *vmx_hdr =
+>>>> +                &env->nested_state->hdr.vmx;
+>>>> +
+>>>> +            env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
+>>>> +            vmx_hdr->vmxon_pa = -1ull;
+>>>> +            vmx_hdr->vmcs12_pa = -1ull;
+>>>> +        }
+>>>> +    }
+>>> I think we should add here:
+>>> } else if (cpu_has_svm(env)) {
+>>>    env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
+>>> }
+>>
+>> Or even force max_nested_state_len to 0 for AMD hosts, so that
+>> kvm_get/put_nested_state are dropped completely.
+>>
+>> Paolo
+>>
+> 
+> On AMD hosts, KVM returns 0 for KVM_CAP_NESTED_STATE because
+> Kvm-and.ko have kvm_x86_ops->get_nested_state set to NULL.
+> See kvm_vm_ioctl_check_extension().
 
-Check that in h_int_esb().
+Yes, now it does, my idea was to force that behavior in QEMU until we
+know what SVM support actually looks like.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/intc/spapr_xive.c |    6 ++++++
- 1 file changed, 6 insertions(+)
+In principle I don't like the idea of crossing fingers, even though
+there's an actual possibility that it could work.  But it couldn't be
+worse than what we have now, so maybe it *is* actually a good idea, just
+with some comment that explains the rationale.
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 58c2e5d890bd..01dd47ad5b02 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -1408,6 +1408,12 @@ static target_ulong h_int_esb(PowerPCCPU *cpu,
-         return H_P2;
-     }
- 
-+    if (!xive_source_irq_is_lsi(xsrc, lisn)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: LISN " TARGET_FMT_lx "isn't LSI\n",
-+                      lisn);
-+        return H_P2;
-+    }
-+
-     if (offset > (1ull << xsrc->esb_shift)) {
-         return H_P3;
-     }
+Paolo
+
+
+> I just thought it will be nicer to add what I proposed above as when kernel adds support
+> for nested state on AMD host, QEMU would maybe just work.
+> (Because maybe all state required for AMD nSVM is just flags in env->nested_state->flags).
+> 
+> -Liran
+> 
 
 
