@@ -2,52 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B7934DE30
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 02:53:16 +0200 (CEST)
-Received: from localhost ([::1]:53676 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706084DE44
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 02:57:39 +0200 (CEST)
+Received: from localhost ([::1]:53702 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he7nn-0001g6-LH
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 20:53:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59248)
+	id 1he7s2-000496-L9
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 20:57:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32870)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yan.y.zhao@intel.com>) id 1he7kP-0008Ld-O6
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:49:47 -0400
+ (envelope-from <sjitindarsingh@gmail.com>) id 1he7mA-0001Fn-0Z
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:51:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1he7Yw-0004TJ-7N
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:37:55 -0400
-Received: from mga01.intel.com ([192.55.52.88]:1342)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1he7Yv-0004Lq-SS
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:37:54 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2019 17:37:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,398,1557212400"; d="scan'208";a="311840447"
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
- ([10.239.13.9])
- by orsmga004.jf.intel.com with ESMTP; 20 Jun 2019 17:37:45 -0700
-Date: Thu, 20 Jun 2019 20:31:53 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <20190621003153.GG9303@joy-OptiPlex-7040>
-References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
- <1561041461-22326-9-git-send-email-kwankhede@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1561041461-22326-9-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+ (envelope-from <sjitindarsingh@gmail.com>) id 1he7m7-0001xp-6k
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:51:33 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:38247)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <sjitindarsingh@gmail.com>)
+ id 1he7m3-0001nv-3F; Thu, 20 Jun 2019 20:51:31 -0400
+Received: by mail-pf1-x441.google.com with SMTP id a186so2628599pfa.5;
+ Thu, 20 Jun 2019 17:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=qbJW3MwJ+ybqPZ79n+26e2vL0JDpJ7h5nwLnxi4cgzg=;
+ b=PCWvDoH7A1OYUihcznHiZQyWk4Z7edJUzrTz+vMTPYVYyIHBbEZSnNQFqdJ5qeMvUA
+ kccqtNeQ1Kd75jayk29j+X27BickHxkWGYi7fJtyD9Ojh3VpCrpGuC4vrNCKV7c+/pXM
+ Af7LK9b9hR5tGXV5e4zEN5BbjqA9nEHWj0qyRQ5OzIGNVnLlpsA0U/PtNQRUrkWc+dZH
+ esEX9yveE+Q68RtVadlVh43eV+w5kOSJdoS5ZMC0wgqIIoRnUW2xMey8T3ne01AXbwle
+ ildNIrqU3fjNKusGbdaOD5cYeOOXvWv/Q/68oIxGTdKW2bOWmH7d3KeORxPdY7hQ3saB
+ BiPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=qbJW3MwJ+ybqPZ79n+26e2vL0JDpJ7h5nwLnxi4cgzg=;
+ b=iAtTcFVv9ilgplk3S/FlJ+7POFnrym1mzEfFJoA9/bLmAIPuq7oLyQtJnua8YXRRDj
+ iLtR7TV2Ii2UEXoDOjkUf7XyzLFdgjRR+8+nRukvCPvtWg6S1ABCjcuHXUjV+fGfVHDW
+ Iilybaq7nutfAmkRVzylFkZxrnBMw/y9jDGvusyybhkLuTucXWI1qPrcXBfOkF0q2wtS
+ bJY3VkSjirC1coejl0fSJYMJdygW3ZoeckMZ/2zuHgzWDXfQKYTlvTwuoP+eRjuwKLrm
+ 8lRaNKAkFRcwAkYS63etddr5PcpOOh06Xy2IlXOKEFraPIpxQxMba72iX4o2AYkAJfrX
+ Cj4w==
+X-Gm-Message-State: APjAAAWTh+jXE3XUqqVPkCbfgUefaW9B052FuXyTybjBR37ELPksGPVL
+ suowM6/oeJs/UQHeOAlFrgCuILYv
+X-Google-Smtp-Source: APXvYqyErdoadSOqoQ0Fqw6SY+cikCev6/kqcYdeqbQ3phjmds3fjyVlyyRur8Htd5fGLXfUWu6CLQ==
+X-Received: by 2002:a63:d24f:: with SMTP id t15mr13781727pgi.301.1561078272611; 
+ Thu, 20 Jun 2019 17:51:12 -0700 (PDT)
+Received: from surajjs2.ozlabs.ibm.com ([122.99.82.10])
+ by smtp.googlemail.com with ESMTPSA id w1sm888642pjt.30.2019.06.20.17.51.09
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 20 Jun 2019 17:51:11 -0700 (PDT)
+Message-ID: <1561078267.4771.6.camel@gmail.com>
+From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 21 Jun 2019 10:51:07 +1000
+In-Reply-To: <20190501053522.10967-1-sjitindarsingh@gmail.com>
+References: <20190501053522.10967-1-sjitindarsingh@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.88
-Subject: Re: [Qemu-devel] [PATCH v4 08/13] vfio: Add save state functions to
- SaveVMHandlers
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH 1/2] monitor: Add dump-stack command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,306 +77,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "yulei.zhang@intel.com" <yulei.zhang@intel.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, dgilbert@redhat.com,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 20, 2019 at 10:37:36PM +0800, Kirti Wankhede wrote:
-> Added .save_live_pending, .save_live_iterate and .save_live_complete_precopy
-> functions. These functions handles pre-copy and stop-and-copy phase.
-> 
-> In _SAVING|_RUNNING device state or pre-copy phase:
-> - read pending_bytes
-> - read data_offset - indicates kernel driver to write data to staging
->   buffer which is mmapped.
-> - read data_size - amount of data in bytes written by vendor driver in migration
->   region.
-> - if data section is trapped, pread() number of bytes in data_size, from
->   data_offset.
-> - if data section is mmaped, read mmaped buffer of size data_size.
-> - Write data packet to file stream as below:
-> {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data,
-> VFIO_MIG_FLAG_END_OF_STATE }
-> 
-> In _SAVING device state or stop-and-copy phase
-> a. read config space of device and save to migration file stream. This
->    doesn't need to be from vendor driver. Any other special config state
->    from driver can be saved as data in following iteration.
-> b. read pending_bytes - indicates kernel driver to write data to staging
->    buffer which is mmapped.
-> c. read data_size - amount of data in bytes written by vendor driver in
->    migration region.
-> d. if data section is trapped, pread() from data_offset of size data_size.
-> e. if data section is mmaped, read mmaped buffer of size data_size.
-> f. Write data packet as below:
->    {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data}
-> g. iterate through steps b to f until (pending_bytes > 0)
-> h. Write {VFIO_MIG_FLAG_END_OF_STATE}
-> 
-> .save_live_iterate runs outside the iothread lock in the migration case, which
-> could race with asynchronous call to get dirty page list causing data corruption
-> in mapped migration region. Mutex added here to serial migration buffer read
-> operation.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> ---
->  hw/vfio/migration.c | 212 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 212 insertions(+)
-> 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index fe0887c27664..0a2f30872316 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -107,6 +107,111 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t state)
->      return 0;
->  }
->  
-> +static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
-> +{
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    VFIORegion *region = &migration->region.buffer;
-> +    uint64_t data_offset = 0, data_size = 0;
-> +    int ret;
-> +
-> +    ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
-> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                             data_offset));
-> +    if (ret != sizeof(data_offset)) {
-> +        error_report("Failed to get migration buffer data offset %d",
-> +                     ret);
-> +        return -EINVAL;
-> +    }
-> +
-> +    ret = pread(vbasedev->fd, &data_size, sizeof(data_size),
-> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                             data_size));
-> +    if (ret != sizeof(data_size)) {
-> +        error_report("Failed to get migration buffer data size %d",
-> +                     ret);
-> +        return -EINVAL;
-> +    }
-> +
-how big is the data_size ? 
-if this size is too big, it may take too much time and block others.
+On Wed, 2019-05-01 at 15:35 +1000, Suraj Jitindar Singh wrote:
+> Add a monitor command "dump-stack" to be used to dump the stack for
+> the
+> current cpu.
 
-> +    if (data_size > 0) {
-> +        void *buf = NULL;
-> +        bool buffer_mmaped = false;
-> +
-> +        if (region->mmaps) {
-> +            int i;
-> +
-> +            for (i = 0; i < region->nr_mmaps; i++) {
-> +                if ((data_offset >= region->mmaps[i].offset) &&
-> +                    (data_offset < region->mmaps[i].offset +
-> +                                   region->mmaps[i].size)) {
-> +                    buf = region->mmaps[i].mmap + (data_offset -
-> +                                                   region->mmaps[i].offset);
-> +                    buffer_mmaped = true;
-> +                    break;
-> +                }
-> +            }
-> +        }
-> +
-> +        if (!buffer_mmaped) {
-> +            buf = g_malloc0(data_size);
-> +            ret = pread(vbasedev->fd, buf, data_size,
-> +                        region->fd_offset + data_offset);
-> +            if (ret != data_size) {
-> +                error_report("Failed to get migration data %d", ret);
-> +                g_free(buf);
-> +                return -EINVAL;
-> +            }
-> +        }
-> +
-> +        qemu_put_be64(f, data_size);
-> +        qemu_put_buffer(f, buf, data_size);
-> +
-> +        if (!buffer_mmaped) {
-> +            g_free(buf);
-> +        }
-> +        migration->pending_bytes -= data_size;
-> +    } else {
-> +        qemu_put_be64(f, data_size);
-> +    }
-> +
-> +    ret = qemu_file_get_error(f);
-> +
-> +    return data_size;
-> +}
-> +
-> +static int vfio_update_pending(VFIODevice *vbasedev)
-> +{
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    VFIORegion *region = &migration->region.buffer;
-> +    uint64_t pending_bytes = 0;
-> +    int ret;
-> +
-> +    ret = pread(vbasedev->fd, &pending_bytes, sizeof(pending_bytes),
-> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
-> +                                             pending_bytes));
-> +    if ((ret < 0) || (ret != sizeof(pending_bytes))) {
-> +        error_report("Failed to get pending bytes %d", ret);
-> +        migration->pending_bytes = 0;
-> +        return (ret < 0) ? ret : -EINVAL;
-> +    }
-> +
-> +    migration->pending_bytes = pending_bytes;
-> +    return 0;
-> +}
-> +
-> +static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_CONFIG_STATE);
-> +
-> +    if (vbasedev->type == VFIO_DEVICE_TYPE_PCI) {
-> +        vfio_pci_save_config(vbasedev, f);
-> +    }
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> +
-> +    return qemu_file_get_error(f);
-> +}
-> +
->  /* ---------------------------------------------------------------------- */
+To summarise the discussion which occured on this patch,
+
+- It looks like it's ok to duplicate this functionality as it provides
+an easier method to achieve this in the field and also for development.
+- It's ok for this to remain as a separate command and to not place it
+as a subcommand under info.
+
+I'll rework based on the comments on 2/2 of the series and resend.
+
+Thanks,
+Suraj
+
+> 
+> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+> ---
+>  hmp-commands.hx   | 13 +++++++++++++
+>  hmp.h             |  1 +
+>  include/qom/cpu.h | 10 ++++++++++
+>  monitor.c         | 12 ++++++++++++
+>  qom/cpu.c         | 10 ++++++++++
+>  5 files changed, 46 insertions(+)
+> 
+> diff --git a/hmp-commands.hx b/hmp-commands.hx
+> index 9b4035965c..965ccdea28 100644
+> --- a/hmp-commands.hx
+> +++ b/hmp-commands.hx
+> @@ -862,6 +862,19 @@ ETEXI
+>      },
 >  
->  static int vfio_save_setup(QEMUFile *f, void *opaque)
-> @@ -163,9 +268,116 @@ static void vfio_save_cleanup(void *opaque)
+>  STEXI
+> +@item dump-stack
+> +@findex dump-stack
+> +dump stack of the cpu
+> +ETEXI
+> +    {
+> +        .name           = "dump-stack",
+> +        .args_type      = "",
+> +        .params         = "",
+> +        .help           = "dump stack",
+> +        .cmd            = hmp_dumpstack,
+> +    },
+> +
+> +STEXI
+>  @item pmemsave @var{addr} @var{size} @var{file}
+>  @findex pmemsave
+>  save to disk physical memory dump starting at @var{addr} of size
+> @var{size}.
+> diff --git a/hmp.h b/hmp.h
+> index 43617f2646..e6edf1215c 100644
+> --- a/hmp.h
+> +++ b/hmp.h
+> @@ -51,6 +51,7 @@ void hmp_announce_self(Monitor *mon, const QDict
+> *qdict);
+>  void hmp_cpu(Monitor *mon, const QDict *qdict);
+>  void hmp_memsave(Monitor *mon, const QDict *qdict);
+>  void hmp_pmemsave(Monitor *mon, const QDict *qdict);
+> +void hmp_dumpstack(Monitor *mon, const QDict *qdict);
+>  void hmp_ringbuf_write(Monitor *mon, const QDict *qdict);
+>  void hmp_ringbuf_read(Monitor *mon, const QDict *qdict);
+>  void hmp_cont(Monitor *mon, const QDict *qdict);
+> diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+> index 08abcbd3fe..f2e83e9918 100644
+> --- a/include/qom/cpu.h
+> +++ b/include/qom/cpu.h
+> @@ -181,6 +181,7 @@ typedef struct CPUClass {
+>      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+>                             uint8_t *buf, int len, bool is_write);
+>      void (*dump_state)(CPUState *cpu, FILE *, int flags);
+> +    void (*dump_stack)(CPUState *cpu, FILE *f);
+>      GuestPanicInformation* (*get_crash_info)(CPUState *cpu);
+>      void (*dump_statistics)(CPUState *cpu, int flags);
+>      int64_t (*get_arch_id)(CPUState *cpu);
+> @@ -568,6 +569,15 @@ enum CPUDumpFlags {
+>  void cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+>  
+>  /**
+> + * cpu_dump_stack:
+> + * @cpu: The CPU whose stack is to be dumped.
+> + * @f: If non-null, dump to this stream, else to current print sink.
+> + *
+> + * Dumps CPU stack.
+> + */
+> +void cpu_dump_stack(CPUState *cpu, FILE *f);
+> +
+> +/**
+>   * cpu_dump_statistics:
+>   * @cpu: The CPU whose state is to be dumped.
+>   * @flags: Flags what to dump.
+> diff --git a/monitor.c b/monitor.c
+> index 9b5f10b475..dbec2e4376 100644
+> --- a/monitor.c
+> +++ b/monitor.c
+> @@ -1299,6 +1299,18 @@ static void hmp_info_registers(Monitor *mon,
+> const QDict *qdict)
 >      }
 >  }
 >  
-> +static void vfio_save_pending(QEMUFile *f, void *opaque,
-> +                              uint64_t threshold_size,
-> +                              uint64_t *res_precopy_only,
-> +                              uint64_t *res_compatible,
-> +                              uint64_t *res_postcopy_only)
+> +void hmp_dumpstack(Monitor *mon, const QDict *qdict)
 > +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret;
+> +    CPUState *cs = mon_get_cpu();
 > +
-> +    ret = vfio_update_pending(vbasedev);
-> +    if (ret) {
+> +    if (!cs) {
+> +        monitor_printf(mon, "No CPU available\n");
 > +        return;
 > +    }
 > +
-> +    if (vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING) {
-> +        *res_precopy_only += migration->pending_bytes;
-> +    } else {
-> +        *res_postcopy_only += migration->pending_bytes;
-> +    }
-> +    *res_compatible += 0;
+> +    cpu_dump_stack(cs, NULL);
 > +}
 > +
-> +static int vfio_save_iterate(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret;
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
-> +
-> +    qemu_mutex_lock(&migration->lock);
-> +    ret = vfio_save_buffer(f, vbasedev);
-> +    qemu_mutex_unlock(&migration->lock);
-> +
-> +    if (ret < 0) {
-> +        error_report("vfio_save_buffer failed %s",
-> +                     strerror(errno));
-> +        return ret;
-> +    }
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> +
-> +    ret = qemu_file_get_error(f);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret;
-> +
-> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_SAVING);
-> +    if (ret) {
-> +        error_report("Failed to set state STOP and SAVING");
-> +        return ret;
-> +    }
-> +
-> +    ret = vfio_save_device_config_state(f, opaque);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    ret = vfio_update_pending(vbasedev);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    while (migration->pending_bytes > 0) {
-> +        qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
-> +        ret = vfio_save_buffer(f, vbasedev);
-> +        if (ret < 0) {
-> +            error_report("Failed to save buffer");
-> +            return ret;
-> +        } else if (ret == 0) {
-> +            break;
-> +        }
-> +
-> +        ret = vfio_update_pending(vbasedev);
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-> +
-> +    ret = qemu_file_get_error(f);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOPPED);
-> +    if (ret) {
-> +        error_report("Failed to set state STOPPED");
-> +        return ret;
-> +    }
-> +    return ret;
-> +}
-> +
->  static SaveVMHandlers savevm_vfio_handlers = {
->      .save_setup = vfio_save_setup,
->      .save_cleanup = vfio_save_cleanup,
-> +    .save_live_pending = vfio_save_pending,
-> +    .save_live_iterate = vfio_save_iterate,
-> +    .save_live_complete_precopy = vfio_save_complete_precopy,
->  };
+>  #ifdef CONFIG_TCG
+>  static void hmp_info_jit(Monitor *mon, const QDict *qdict)
+>  {
+> diff --git a/qom/cpu.c b/qom/cpu.c
+> index 3c5493c96c..0dc10004f4 100644
+> --- a/qom/cpu.c
+> +++ b/qom/cpu.c
+> @@ -230,6 +230,16 @@ void cpu_dump_state(CPUState *cpu, FILE *f, int
+> flags)
+>      }
+>  }
 >  
->  /* ---------------------------------------------------------------------- */
-> -- 
-> 2.7.0
-> 
+> +void cpu_dump_stack(CPUState *cpu, FILE *f)
+> +{
+> +    CPUClass *cc = CPU_GET_CLASS(cpu);
+> +
+> +    if (cc->dump_stack) {
+> +        cpu_synchronize_state(cpu);
+> +        cc->dump_stack(cpu, f);
+> +    }
+> +}
+> +
+>  void cpu_dump_statistics(CPUState *cpu, int flags)
+>  {
+>      CPUClass *cc = CPU_GET_CLASS(cpu);
 
