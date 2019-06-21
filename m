@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DB444E7B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:04:11 +0200 (CEST)
-Received: from localhost ([::1]:60192 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062C44E7CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:07:17 +0200 (CEST)
+Received: from localhost ([::1]:60354 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heIH4-0003Ip-J1
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:04:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49104)
+	id 1heIK4-0006d7-7B
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49137)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkf-0000lF-IZ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:45 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHkh-0000mu-JS
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkc-0005rV-Ek
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:41 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39048)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHke-0005uf-G9
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:43 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55526)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1heHkc-0005fu-8Q
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:38 -0400
-Received: by mail-wr1-x442.google.com with SMTP id x4so6228519wrt.6
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:34 -0700 (PDT)
+ id 1heHkc-0005hI-Ci
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:40 -0400
+Received: by mail-wm1-x343.google.com with SMTP id a15so6005383wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=rRyKyx29XW5YjtibDxKmJQDBBERS19STiC5lOwnEoTA=;
- b=gWLfH+xbFIXTdQ7wAVfukxJqFcrRIUB53jXQglFYvS8OOAJJGr/gLAAkT7p/UUv9KA
- TBPmiyUpO9ev6T/Wd3RH83eU2ZVI04vtta+Vz2O2/0fg22HG2eYHVG40aSa3D1jqejhK
- 7OB5c794iOeHEDnUseX1eU7/gpnVJedxFlITmMMjt7dizcNRD4phPlABMtKWXO4j3E5x
- I3CM2OWfjSyObYUMdFS7u+GqhtNWOKlCM0/ycATfZmpHQWB5SrZsTnzzxyopveX/Wbk4
- /XXNa1wWGx2dQIfz538MZoYhZJpM/HztzrXtlQDEH1ELuXm6U/wfb+WMJnhcNTSbTRkL
- fRmQ==
+ bh=yJQvGCIAx/7TCPsH6MnF6RRvIVhWqu77d3ySjfEx700=;
+ b=Wsy7NQPEWK0RolMo9fdHrp9tqDQiAVnTbitD6kAmMkrbVgQz+Datifdpc+mC3Vefm8
+ Df7DEYzKOEQ8x8FHeuLKwTpzA7stcUDDN9oII2BEcmaS8LJj0/xKEKbn087yFK+59c0/
+ +KlxM5UgLDaM0dQ2PRS19c5Gdnh3+MBl/bp8ZW+8zAmZ+rnqEYqOKS7PHU5cOkdDRn84
+ Nf+iPPdS4IKQUXvIA7rMkKNBkDx05063CmFccTQHBPWTJyoRRYjZdnBuebDUwrQNed8I
+ 0uZIiPd2FhVQuXbKBXyNV//1XZL6IopR3cdNEuEjIN7RBwx9wwIiBShWeUKNd+ygEf9v
+ Mzww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=rRyKyx29XW5YjtibDxKmJQDBBERS19STiC5lOwnEoTA=;
- b=P66DoJSsfStmwrOXdkc15u7nKMeMfm9J42NtwzRKmffN1vVlgicVFfS0XUuLHB+VJZ
- 92elfNaOwVsHIlsj5n9OOTnBeQb85UYSJ0UnEcSy3EvqdVTNMeOimbBTtAQ0VmjB+i6I
- GWX5zhc0cF2ZEjhfBetERXNMEeglWIfGAEJ5aGLPDlbaZf/GQ1g7t2nRsSkcxOpM6Ozv
- W1vmOmCoTZ5eVI5/iqFXUU5esfGFdb5RyKhF8xceb66MjVSOc+ogTHCWYRqrUr8bGu1/
- LzZWQHGNRlA5AAo9Tfna363mWTbA3jgBwilNBrYsYW6bJt5s1wKfDnPcwe/a35A94VM9
- C4Yw==
-X-Gm-Message-State: APjAAAW0LAlyaxJGZZJDmHASR47jz+NlS6bZ1lX/FzsyKsXeV40/6QwL
- Qi9F1ZMMwSVIWElgnUHlNKrzrheO
-X-Google-Smtp-Source: APXvYqzdXMbH2zdH/r3FTd2EiHXtHtBoMDnlapwBqvexNVvCIy2M3bfBVXPmiJtEXvuMYwobJF20sg==
-X-Received: by 2002:adf:f050:: with SMTP id t16mr77096796wro.99.1561116633570; 
- Fri, 21 Jun 2019 04:30:33 -0700 (PDT)
+ bh=yJQvGCIAx/7TCPsH6MnF6RRvIVhWqu77d3ySjfEx700=;
+ b=ZSd0NyzHbRzt+ZSZKgO0Rn2UWBVqA2ipTMPsn4oMvP5JgDHKGIY4LCsAtajW78s5FG
+ /ooZ6l/X+upX/4hbVgdwPg/s3BECQSzHexOF2iiZiT6AqKmVtSBxckFMBDu57StRogGf
+ KfgSrXwQx5YgnJ6WmFLlDUkVDxFaipgdJH0+eThBmwYoC2HUcAWkpjtLGQi8xawPsYQl
+ cgVnx9I+s2NJvg0id93WjLhluTK98hw4aKzL0DWtdWobw73u4QgUHg1i0l4hB75TBRbd
+ 2zPipJecDLZg9/R2Ar59dEWaJM1JE5ew9I87EPbQtBroH3Gmv1mtU8aoWI2f5afxQfCF
+ 29rQ==
+X-Gm-Message-State: APjAAAVWfXLkxxelSV3XqRQ9JLFFw1UW9L6wyh+0W2CFQMi+8cVMz77g
+ jAelYA0605kY8AApdJOFrmt/1mpy
+X-Google-Smtp-Source: APXvYqx/Xu75/HMWQqpFerPLQ9i4eqnCZNjKoJZ4nWuhvIn6saX66B0atMixq9M1ZCkMznGJaXVCZQ==
+X-Received: by 2002:a1c:7f54:: with SMTP id a81mr3896341wmd.170.1561116634470; 
+ Fri, 21 Jun 2019 04:30:34 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.32
+ by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.33
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:30:32 -0700 (PDT)
+ Fri, 21 Jun 2019 04:30:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:30:06 +0200
-Message-Id: <1561116620-22245-12-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 13:30:07 +0200
+Message-Id: <1561116620-22245-13-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PULL 11/25] i386/kvm: add support for Direct Mode for
- Hyper-V synthetic timers
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PULL 12/25] target/i386: define a new MSR based
+ feature word - FEAT_CORE_CAPABILITY
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,112 +75,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: Xiaoyao Li <xiaoyao.li@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@linux.intel.com>
 
-Hyper-V on KVM can only use Synthetic timers with Direct Mode (opting for
-an interrupt instead of VMBus message). This new capability is only
-announced in KVM_GET_SUPPORTED_HV_CPUID.
+MSR IA32_CORE_CAPABILITY is a feature-enumerating MSR, which only
+enumerates the feature split lock detection (via bit 5) by now.
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20190517141924.19024-10-vkuznets@redhat.com>
+The existence of MSR IA32_CORE_CAPABILITY is enumerated by CPUID.7_0:EDX[30].
+
+The latest kernel patches about them can be found here:
+https://lkml.org/lkml/2019/4/24/1909
+
+Signed-off-by: Xiaoyao Li <xiaoyao.li@linux.intel.com>
+Message-Id: <20190617153654.916-1-xiaoyao.li@linux.intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/hyperv.txt            | 10 ++++++++++
- target/i386/cpu.c          |  2 ++
- target/i386/cpu.h          |  1 +
- target/i386/hyperv-proto.h |  1 +
- target/i386/kvm.c          |  9 +++++++++
- 5 files changed, 23 insertions(+)
+ target/i386/cpu.c | 22 +++++++++++++++++++++-
+ target/i386/cpu.h |  5 +++++
+ target/i386/kvm.c |  9 +++++++++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index beadb2d..8fdf25c 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -174,6 +174,16 @@ without the feature to find out if enabling it is beneficial.
- 
- Requires: hv-vapic
- 
-+3.17. hv-stimer-direct
-+=======================
-+Hyper-V specification allows synthetic timer operation in two modes: "classic",
-+when expiration event is delivered as SynIC message and "direct", when the event
-+is delivered via normal interrupt. It is known that nested Hyper-V can only
-+use synthetic timers in direct mode and thus 'hv-stimer-direct' needs to be
-+enabled.
-+
-+Requires: hv-vpindex, hv-synic, hv-time, hv-stimer
-+
- 
- 4. Development features
- ========================
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index e07996c..7beb8ab 100644
+index 7beb8ab..c330fd9 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5883,6 +5883,8 @@ static Property x86_cpu_properties[] = {
-                       HYPERV_FEAT_EVMCS, 0),
-     DEFINE_PROP_BIT64("hv-ipi", X86CPU, hyperv_features,
-                       HYPERV_FEAT_IPI, 0),
-+    DEFINE_PROP_BIT64("hv-stimer-direct", X86CPU, hyperv_features,
-+                      HYPERV_FEAT_STIMER_DIRECT, 0),
-     DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
- 
-     DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 86edbf5..7470acf 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -749,6 +749,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
- #define HYPERV_FEAT_TLBFLUSH            11
- #define HYPERV_FEAT_EVMCS               12
- #define HYPERV_FEAT_IPI                 13
-+#define HYPERV_FEAT_STIMER_DIRECT       14
- 
- #ifndef HYPERV_SPINLOCK_NEVER_RETRY
- #define HYPERV_SPINLOCK_NEVER_RETRY             0xFFFFFFFF
-diff --git a/target/i386/hyperv-proto.h b/target/i386/hyperv-proto.h
-index c0272b3..cffac10 100644
---- a/target/i386/hyperv-proto.h
-+++ b/target/i386/hyperv-proto.h
-@@ -49,6 +49,7 @@
- #define HV_GUEST_IDLE_STATE_AVAILABLE           (1u << 5)
- #define HV_FREQUENCY_MSRS_AVAILABLE             (1u << 8)
- #define HV_GUEST_CRASH_MSR_AVAILABLE            (1u << 10)
-+#define HV_STIMER_DIRECT_MODE_AVAILABLE         (1u << 19)
- 
- /*
-  * HV_CPUID_ENLIGHTMENT_INFO.EAX bits
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 86de510..a323b1f 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -802,6 +802,14 @@ static struct {
+@@ -1085,7 +1085,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, "spec-ctrl", "stibp",
+-            NULL, "arch-capabilities", NULL, "ssbd",
++            NULL, "arch-capabilities", "core-capability", "ssbd",
          },
-         .dependencies = BIT(HYPERV_FEAT_VPINDEX)
+         .cpuid = {
+             .eax = 7,
+@@ -1203,6 +1203,26 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             }
+         },
      },
-+    [HYPERV_FEAT_STIMER_DIRECT] = {
-+        .desc = "direct mode synthetic timers (hv-stimer-direct)",
-+        .flags = {
-+            {.fw = FEAT_HYPERV_EDX,
-+             .bits = HV_STIMER_DIRECT_MODE_AVAILABLE}
++    [FEAT_CORE_CAPABILITY] = {
++        .type = MSR_FEATURE_WORD,
++        .feat_names = {
++            NULL, NULL, NULL, NULL,
++            NULL, "split-lock-detect", NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
 +        },
-+        .dependencies = BIT(HYPERV_FEAT_STIMER)
++        .msr = {
++            .index = MSR_IA32_CORE_CAPABILITY,
++            .cpuid_dep = {
++                FEAT_7_0_EDX,
++                CPUID_7_0_EDX_CORE_CAPABILITY,
++            },
++        },
 +    },
  };
  
- static struct kvm_cpuid2 *try_get_hv_cpuid(CPUState *cs, int max)
-@@ -1124,6 +1132,7 @@ static int hyperv_handle_properties(CPUState *cs,
-     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_TLBFLUSH);
-     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_EVMCS);
-     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_IPI);
-+    r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_STIMER_DIRECT);
+ typedef struct X86RegisterInfo32 {
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 7470acf..7f48136 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -345,6 +345,7 @@ typedef enum X86Seg {
+ #define MSR_IA32_SPEC_CTRL              0x48
+ #define MSR_VIRT_SSBD                   0xc001011f
+ #define MSR_IA32_PRED_CMD               0x49
++#define MSR_IA32_CORE_CAPABILITY        0xcf
+ #define MSR_IA32_ARCH_CAPABILITIES      0x10a
+ #define MSR_IA32_TSCDEADLINE            0x6e0
  
-     /* Additional dependencies not covered by kvm_hyperv_properties[] */
-     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC) &&
+@@ -496,6 +497,7 @@ typedef enum FeatureWord {
+     FEAT_XSAVE_COMP_LO, /* CPUID[EAX=0xd,ECX=0].EAX */
+     FEAT_XSAVE_COMP_HI, /* CPUID[EAX=0xd,ECX=0].EDX */
+     FEAT_ARCH_CAPABILITIES,
++    FEAT_CORE_CAPABILITY,
+     FEATURE_WORDS,
+ } FeatureWord;
+ 
+@@ -687,6 +689,7 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
+ #define CPUID_7_0_EDX_AVX512_4FMAPS (1U << 3) /* AVX512 Multiply Accumulation Single Precision */
+ #define CPUID_7_0_EDX_SPEC_CTRL     (1U << 26) /* Speculation Control */
+ #define CPUID_7_0_EDX_ARCH_CAPABILITIES (1U << 29)  /*Arch Capabilities*/
++#define CPUID_7_0_EDX_CORE_CAPABILITY   (1U << 30)  /*Core Capability*/
+ #define CPUID_7_0_EDX_SPEC_CTRL_SSBD  (1U << 31) /* Speculative Store Bypass Disable */
+ 
+ #define CPUID_8000_0008_EBX_WBNOINVD  (1U << 9)  /* Write back and
+@@ -734,6 +737,8 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
+ #define MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY (1U << 3)
+ #define MSR_ARCH_CAP_SSB_NO     (1U << 4)
+ 
++#define MSR_CORE_CAP_SPLIT_LOCK_DETECT  (1U << 5)
++
+ /* Supported Hyper-V Enlightenments */
+ #define HYPERV_FEAT_RELAXED             0
+ #define HYPERV_FEAT_VAPIC               1
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index a323b1f..279f99a 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -95,6 +95,7 @@ static bool has_msr_spec_ctrl;
+ static bool has_msr_virt_ssbd;
+ static bool has_msr_smi_count;
+ static bool has_msr_arch_capabs;
++static bool has_msr_core_capabs;
+ 
+ static uint32_t has_architectural_pmu_version;
+ static uint32_t num_architectural_pmu_gp_counters;
+@@ -1842,6 +1843,9 @@ static int kvm_get_supported_msrs(KVMState *s)
+                 case MSR_IA32_ARCH_CAPABILITIES:
+                     has_msr_arch_capabs = true;
+                     break;
++                case MSR_IA32_CORE_CAPABILITY:
++                    has_msr_core_capabs = true;
++                    break;
+                 }
+             }
+         }
+@@ -2368,6 +2372,11 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
+                           env->features[FEAT_ARCH_CAPABILITIES]);
+     }
+ 
++    if (has_msr_core_capabs) {
++        kvm_msr_entry_add(cpu, MSR_IA32_CORE_CAPABILITY,
++                          env->features[FEAT_CORE_CAPABILITY]);
++    }
++
+     /*
+      * The following MSRs have side effects on the guest or are too heavy
+      * for normal writeback. Limit them to reset or full state updates.
 -- 
 1.8.3.1
 
