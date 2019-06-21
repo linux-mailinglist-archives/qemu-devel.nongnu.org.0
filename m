@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF4824DEFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 04:06:33 +0200 (CEST)
-Received: from localhost ([::1]:54122 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183414DEEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 04:00:38 +0200 (CEST)
+Received: from localhost ([::1]:54094 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he8wi-0003pG-2p
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 22:06:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41303)
+	id 1he8qz-0001JG-9C
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 22:00:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41328)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1he8a6-0006ff-Ns
+ (envelope-from <paolo.bonzini@gmail.com>) id 1he8a7-0006gQ-4q
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:43:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1he8a3-0006ga-Rn
+ (envelope-from <paolo.bonzini@gmail.com>) id 1he8a3-0006fp-NF
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:43:10 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:52852)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38425)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1he8a3-0006M9-2h
+ id 1he8a3-0006MU-0Z
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:43:07 -0400
-Received: by mail-wm1-x341.google.com with SMTP id s3so4799244wms.2
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:42:51 -0700 (PDT)
+Received: by mail-wm1-x32a.google.com with SMTP id s15so4890454wmj.3
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=46R01TlppRnc8fuF4nJaB/BSCYQl7BxcBYUaCW1Ujrw=;
- b=MENpUo6m/sczgfCCCcszpwTluR0UbTdC0PihwUoCoqOrXslTn/td3BTF7BkGsSLZub
- T5TMBs3u4KNfeSGopIs/Nu7/wi1TqfxHjxFxDyNsvL2IYBs0ZmOS3jOtGwJ8oREsq/dr
- bH4aP3+6WqbskLuUoxECVzvzDE+1b1OogY9sls72TpYFYWkZLIphxcmb8G8FndEZU1Rt
- T2xEkAMznTnU5mI70+bK3ZnD/+dWAqfttnUK1yHxhZp+2j4qW8fsOn2cZ2zjjh29zwuG
- Fto8R6VF6GYHF7q9Yxp4zFjCECRUQ2pA5qhh4MZOGbAH8a9BG7NxZQvt55iez+maftO3
- 642Q==
+ bh=lELKDL0Qi4GxKG0TXKbAlktFhWCNneWOViNCGmw6D1c=;
+ b=VlxbECuR4mVYREo20S6CHcp9FhDNtpLD+uEkCjs2xK5/MaTtoACzA010XSjL2izOJj
+ wo7IOB8zLYzIJURZQGQbHVsR98CIvrRaaOEclUHnnzi5YqlsUoaAwdvs3aNWKKSroNrd
+ KvV9AAJyBdVK5Gb/eCxY0OUDiFJLL9xEBB7Sz4rJfGMgmlckI3WTXRAiqMYvByqwyK1Z
+ o4Zq2qnS4Ot8v48igMXUsT05lwNbWc4VZ99lwJHnE3L4OnJlEj6l17xlpRg911w4mUA1
+ OituoHxVW3sfdInAvxAqlkKE/rzjm98AXiAoPdAyjdvYGZOafUMertWiBQxQ1/FaI0C9
+ uANA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=46R01TlppRnc8fuF4nJaB/BSCYQl7BxcBYUaCW1Ujrw=;
- b=fIUiToMJaT9Z4bCxjLu8GPVaQrN/Eycz/lBJzsrsgIuFt4B+WyGfGbd1/gLhi1pkn6
- euqu/dfSN9j5hXFDSt0rD7tHrvV1qc8sNlGkX8vdu3FPmIiTPLAzE/k3F7wbiLUS111+
- HmKup+v0REAeXP/NeXt9zaWa9A6uaaJshS9cniZYCwaLzUbt6Ev/HOaEcyarFLJyp78h
- daEJ2YuMLZtgpIcvnAQ5zk1/sJLygX3l7oH/kAUst+UdVAZ080DiIUxRBjjkJP1WkSVS
- oc9iqzpVbrZED/NM1dctNNPb8A/4Nezm244GLCly9iZqhwqjSAwkShF0+7cHN3lGC8Kh
- 3Szg==
-X-Gm-Message-State: APjAAAWGSZuceH8fg1uwLwXnPLXJdIhoBQdm6yFzfM3CXjC21TRtnFa5
- dhGsagH7y69LziAAOinIjGoVOlXD
-X-Google-Smtp-Source: APXvYqyx2FZeCbmS7/8zGl43YD1+arX4ZLYQwI+I89tAUJEaAdtcgR47EPUUD+IaX7/rDGs6US4vRg==
-X-Received: by 2002:a1c:b155:: with SMTP id a82mr1440682wmf.35.1561081370758; 
- Thu, 20 Jun 2019 18:42:50 -0700 (PDT)
+ bh=lELKDL0Qi4GxKG0TXKbAlktFhWCNneWOViNCGmw6D1c=;
+ b=qT1TTFC8YPnYiqcQWZraKCqlKDCoFbbpQbbQ9Bbv2xoVRY9LHMDpVNNzOF19x3alRS
+ bsgyGpZcdsELMMi5QH+E+zrK/g3Wt05v5TQNc+Lh2KMLLIQaq/axSc4DD8ubcDCLaD/n
+ ENR5eGbx+egYj7/MiC+ZzVOAGb9uEQglUvPjbJ+OqekWAmHSCb6kNIiK1jwIxWRQuebS
+ YgsoyeufXeRVHxtcj+KURbC1OJ+WTYTWxzAOaLdiOscK8fnzgl1L4R/x1WUgu2CwiA3U
+ FIp2myOL6VLcqR2wCokPiueFspduizGiIxSI47fbWeM7H4dJ08fxj4TfhEEjWXYNG74y
+ yE9Q==
+X-Gm-Message-State: APjAAAVvwpbQaRKEOBw738EMGGoiLG7d5ekf1LYcu9x+CO0Cc0w2d2j6
+ QtmeSGPp5tQil5C6Gt7yms0XaSUB
+X-Google-Smtp-Source: APXvYqy4PuTD1QBrmweHPODxpbQAdWJuWlpkqD62C3pDCFq1pUt+nvwATZuZZkpIjVa6McnIEAJ1Ag==
+X-Received: by 2002:a1c:c2d5:: with SMTP id s204mr1558585wmf.174.1561081371726; 
+ Thu, 20 Jun 2019 18:42:51 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id d1sm1123125wru.41.2019.06.20.18.42.49
+ by smtp.gmail.com with ESMTPSA id d1sm1123125wru.41.2019.06.20.18.42.50
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 18:42:50 -0700 (PDT)
+ Thu, 20 Jun 2019 18:42:51 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 03:42:23 +0200
-Message-Id: <1561081350-3723-19-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 03:42:24 +0200
+Message-Id: <1561081350-3723-20-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
 References: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 18/25] linux-headers: sync with latest KVM
- headers from Linux 5.2
+X-Received-From: 2a00:1450:4864:20::32a
+Subject: [Qemu-devel] [PULL 19/25] vmstate: Add support for kernel integer
+ types
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,98 +81,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liran Alon <liran.alon@oracle.com>
 
-Improve the KVM_{GET,SET}_NESTED_STATE structs by detailing the format
-of VMX nested state data in a struct.
-
-In order to avoid changing the ioctl values of
-KVM_{GET,SET}_NESTED_STATE, there is a need to preserve
-sizeof(struct kvm_nested_state). This is done by defining the data
-struct as "data.vmx[0]". It was the most elegant way I found to
-preserve struct size while still keeping struct readable and easy to
-maintain. It does have a misfortunate side-effect that now it has to be
-accessed as "data.vmx[0]" rather than just "data.vmx".
-
-Because we are already modifying these structs, I also modified the
-following:
-* Define the "format" field values as macros.
-* Rename vmcs_pa to vmcs12_pa for better readability.
-
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
+Reviewed-by: Nikita Leshenko <nikita.leshchenko@oracle.com>
 Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
-Message-Id: <20190619162140.133674-7-liran.alon@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20190619162140.133674-8-liran.alon@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- linux-headers/asm-x86/kvm.h | 33 ++++++++++++++++++++++-----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ include/migration/vmstate.h | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
-index 7a0e64c..6e7dd79 100644
---- a/linux-headers/asm-x86/kvm.h
-+++ b/linux-headers/asm-x86/kvm.h
-@@ -383,16 +383,26 @@ struct kvm_sync_regs {
- #define KVM_X86_QUIRK_LAPIC_MMIO_HOLE	(1 << 2)
- #define KVM_X86_QUIRK_OUT_7E_INC_RIP	(1 << 3)
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index 9224370..ca68584 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -797,6 +797,19 @@ extern const VMStateInfo vmstate_info_qtailq;
+ #define VMSTATE_UINT64_V(_f, _s, _v)                                  \
+     VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint64, uint64_t)
  
-+#define KVM_STATE_NESTED_FORMAT_VMX	0
-+#define KVM_STATE_NESTED_FORMAT_SVM	1
++#ifdef CONFIG_LINUX
 +
- #define KVM_STATE_NESTED_GUEST_MODE	0x00000001
- #define KVM_STATE_NESTED_RUN_PENDING	0x00000002
- #define KVM_STATE_NESTED_EVMCS		0x00000004
- 
-+#define KVM_STATE_NESTED_VMX_VMCS_SIZE	0x1000
++#define VMSTATE_U8_V(_f, _s, _v)                                   \
++    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint8, __u8)
++#define VMSTATE_U16_V(_f, _s, _v)                                  \
++    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint16, __u16)
++#define VMSTATE_U32_V(_f, _s, _v)                                  \
++    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint32, __u32)
++#define VMSTATE_U64_V(_f, _s, _v)                                  \
++    VMSTATE_SINGLE(_f, _s, _v, vmstate_info_uint64, __u64)
 +
- #define KVM_STATE_NESTED_SMM_GUEST_MODE	0x00000001
- #define KVM_STATE_NESTED_SMM_VMXON	0x00000002
- 
--struct kvm_vmx_nested_state {
-+struct kvm_vmx_nested_state_data {
-+	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
-+	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
-+};
++#endif
 +
-+struct kvm_vmx_nested_state_hdr {
- 	__u64 vmxon_pa;
--	__u64 vmcs_pa;
-+	__u64 vmcs12_pa;
+ #define VMSTATE_BOOL(_f, _s)                                          \
+     VMSTATE_BOOL_V(_f, _s, 0)
  
- 	struct {
- 		__u16 flags;
-@@ -401,24 +411,25 @@ struct kvm_vmx_nested_state {
+@@ -818,6 +831,19 @@ extern const VMStateInfo vmstate_info_qtailq;
+ #define VMSTATE_UINT64(_f, _s)                                        \
+     VMSTATE_UINT64_V(_f, _s, 0)
  
- /* for KVM_CAP_NESTED_STATE */
- struct kvm_nested_state {
--	/* KVM_STATE_* flags */
- 	__u16 flags;
--
--	/* 0 for VMX, 1 for SVM.  */
- 	__u16 format;
--
--	/* 128 for SVM, 128 + VMCS size for VMX.  */
- 	__u32 size;
- 
- 	union {
--		/* VMXON, VMCS */
--		struct kvm_vmx_nested_state vmx;
-+		struct kvm_vmx_nested_state_hdr vmx;
- 
- 		/* Pad the header to 128 bytes.  */
- 		__u8 pad[120];
--	};
-+	} hdr;
- 
--	__u8 data[0];
-+	/*
-+	 * Define data region as 0 bytes to preserve backwards-compatability
-+	 * to old definition of kvm_nested_state in order to avoid changing
-+	 * KVM_{GET,PUT}_NESTED_STATE ioctl values.
-+	 */
-+	union {
-+		struct kvm_vmx_nested_state_data vmx[0];
-+	} data;
- };
- 
- #endif /* _ASM_X86_KVM_H */
++#ifdef CONFIG_LINUX
++
++#define VMSTATE_U8(_f, _s)                                         \
++    VMSTATE_U8_V(_f, _s, 0)
++#define VMSTATE_U16(_f, _s)                                        \
++    VMSTATE_U16_V(_f, _s, 0)
++#define VMSTATE_U32(_f, _s)                                        \
++    VMSTATE_U32_V(_f, _s, 0)
++#define VMSTATE_U64(_f, _s)                                        \
++    VMSTATE_U64_V(_f, _s, 0)
++
++#endif
++
+ #define VMSTATE_UINT8_EQUAL(_f, _s, _err_hint)                        \
+     VMSTATE_SINGLE_FULL(_f, _s, 0, 0,                                 \
+                         vmstate_info_uint8_equal, uint8_t, _err_hint)
 -- 
 1.8.3.1
 
