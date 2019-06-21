@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321DA4E795
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:58:40 +0200 (CEST)
-Received: from localhost ([::1]:60084 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0056A4E763
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:55:56 +0200 (CEST)
+Received: from localhost ([::1]:60016 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heIBj-0006vw-0C
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49223)
+	id 1heI95-00045X-Qj
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:55:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49230)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkz-0000wi-CN
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHl1-0000wp-99
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:31:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkk-00066E-Is
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:52 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42528)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHkl-00067B-Op
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:55 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53539)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1heHkk-00065H-Cu
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:46 -0400
-Received: by mail-wr1-x430.google.com with SMTP id x17so6205870wrl.9
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:46 -0700 (PDT)
+ id 1heHkl-00066I-AJ
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:47 -0400
+Received: by mail-wm1-x335.google.com with SMTP id x15so5999187wmj.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=kXfByX7LWMudNMbfoxt6/9xb5IJTtcMJHhGnMirNo+g=;
- b=h+lU+NQOdr+2kOx1yPMb232eQGGb5CiqxSQr20VrTCZBl89Jm+0fLHhl+83xi4bHIF
- SjcpybdXreecfqoG6meVUW0h677GCwh426/56TvEr1jhi6IGp4FiWaBAeHshUUwOY04z
- Z/dkl2DnVirGaptx83uqXd826+CGchcBSVco1BEYe5qYbHlEVPxcVfqzH7WWPxSMt7pg
- gReZCxrWfaFGzQi2FLp3XYSyOwpltOeEyB95wKkgz67OmNgRJzwidH/+hcQdprloFxYx
- 1NnVtgkiJfyVNQI9DlwpYfQ/M51kiHxv+YqqdWCbx6NR4UZNh0xhC+tURL2s9cPnNS3Q
- rKJw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=H+GIX/ew7P3W1KtFZyQEoH7Aekz0PvrQKasKssVk2dE=;
+ b=e3490pY53AyTGdnzLusrPW1DhvfbMRppGiwbKOfQMLHdcP3aP2llaPJI48NTDyyA8U
+ CAQjvDkaHdVwqGHE4D9QXer0uV+oVVF5xCQqFnT+Oz94lt8z9oPztfV0X+YEo6tipfbH
+ gzEFgw/sHb6zu+hrOh25hWbjsiS1y6ZqTZDrxcKqRmvuWM6wcCM9MstWDunn9tKvXB6W
+ R5cL5g+TbEvMecGaBsOo5k+RivyeqCbPmc1QeYh92+Kopa+Emmz0+m8a7rNKQnOcrPBc
+ 1cvOzU2DjxOnRQx9rQv69rALlS8PuHtZqD/NXM50SkNh/I3pAAqrFPZpmYSSF1fXl81F
+ MUCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=kXfByX7LWMudNMbfoxt6/9xb5IJTtcMJHhGnMirNo+g=;
- b=esYi8ZwvRDDjHU8HmpRvZy3Mx2tBiTGWOhRHLM5UgDIBGaUONH4gGVmprKdQo+9SK/
- GdxX5BVzTf/CO5d+H7qKn8psq98KFPQxC4tZyx+IYrqCXilms96nIRpC64Mwu6SV+kgd
- Ugucs7eRvD55Gs/917mHbUoR51ocaEepZx4jYJ2fMJedhvIPRmxRtzlc1AF8yp/Fxcfy
- 1ej2VP808JP2yayCIr/OUpNK7K9FBzqqNi64HXjrv+pkFu2vnAxfcSp2lPbYo0SJmjoR
- PdpjA7IJOcDU2oYQVmahzOkm3gGJce5d7RqP2FUN3rGpa60OQc7Pu/6gDPMOEx0b50Xq
- ntsw==
-X-Gm-Message-State: APjAAAUvRRJysHy8eT7+HGok6JAVrhAore1Gd/SwW4dXtG7sL3Ug/hum
- dibfynyebhLLuL7DasRhLRnGbGFT
-X-Google-Smtp-Source: APXvYqwMMWgrqB8vhrFEVlD3JfxN+ZDRvWrGe47LyWlu3F5v/T3MIsA6LiQ6UQ6ra0s5EiVLCoua+w==
-X-Received: by 2002:a5d:4489:: with SMTP id j9mr52585019wrq.15.1561116645008; 
- Fri, 21 Jun 2019 04:30:45 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=H+GIX/ew7P3W1KtFZyQEoH7Aekz0PvrQKasKssVk2dE=;
+ b=L1H4q8ifJkoPGIlMmEx3F/A78xdLUJrBF+MqYdQW+No4kdQHVWxXresQOpRF7se+Cf
+ EEMQ0MtXaqXo8FFxvEB/0Kz8aTy0ZtDGw/79A30TKifZSKpjctzyRxbxsmrHEmJt4kCa
+ Vda52Aqc1f0hMD00Z3Vwd0OnBLRVOzVNH1S8i2tXR+GsXLi0W3thMA/NMpf7eNM/py2x
+ eQej/WPj9n4xt4paq7WsEEP+avvH+CHAn+44uTrfI0udImkdbcKucxRrDF2JBhj1jBa4
+ Jc2OaRI1X+e/0/dg8MnMPCNfbtr8Cr5EihZtJBOXBQeHjbLDrIXQbWGx3iwL3kWScVbL
+ e6uQ==
+X-Gm-Message-State: APjAAAUej13A6eS2NYfHJycD6+FHKYsKA0UQd7JkAdeR7lVPOrrNVaA7
+ sn3kspZmXp/5SwuID8qDjGj9tru9
+X-Google-Smtp-Source: APXvYqw78QfeB8EWm76XpNXcEi9/Yq23E6X/cR6dtxqTrBJHKMJGGklY+qIcdVmAfPM7GBC0IHWgIA==
+X-Received: by 2002:a05:600c:2549:: with SMTP id
+ e9mr3946555wma.46.1561116646000; 
+ Fri, 21 Jun 2019 04:30:46 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.43
+ by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.45
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:30:44 -0700 (PDT)
+ Fri, 21 Jun 2019 04:30:45 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:30:17 +0200
-Message-Id: <1561116620-22245-23-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 13:30:18 +0200
+Message-Id: <1561116620-22245-24-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::430
-Subject: [Qemu-devel] [PULL 22/25] target/i386: kvm: Add nested migration
- blocker only when kernel lacks required capabilities
+X-Received-From: 2a00:1450:4864:20::335
+Subject: [Qemu-devel] [PULL 23/25] sd: Fix out-of-bounds assertions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,64 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Liran Alon <liran.alon@oracle.com>
+Cc: Lidong Chen <lidong.chen@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liran Alon <liran.alon@oracle.com>
+From: Lidong Chen <lidong.chen@oracle.com>
 
-Previous commits have added support for migration of nested virtualization
-workloads. This was done by utilising two new KVM capabilities:
-KVM_CAP_NESTED_STATE and KVM_CAP_EXCEPTION_PAYLOAD. Both which are
-required in order to correctly migrate such workloads.
+Due to an off-by-one error, the assert statements allow an
+out-of-bound array access.  This doesn't happen in practice,
+but the static analyzer notices.
 
-Therefore, change code to add a migration blocker for vCPUs exposed with
-Intel VMX or AMD SVM in case one of these kernel capabilities is
-missing.
-
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
-Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
-Message-Id: <20190619162140.133674-11-liran.alon@oracle.com>
+Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
+Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Message-Id: <6b19cb7359a10a6bedc3ea0fce22fed3ef93c102.1560806687.git.lidong.chen@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c     | 9 +++++++--
- target/i386/machine.c | 2 +-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+ hw/sd/sd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index c931e9d..e4b4f57 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1640,9 +1640,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
-                                   !!(c->ecx & CPUID_EXT_SMX);
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 60500ec..917195a6 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -145,7 +145,7 @@ static const char *sd_state_name(enum SDCardStates state)
+     if (state == sd_inactive_state) {
+         return "inactive";
      }
+-    assert(state <= ARRAY_SIZE(state_name));
++    assert(state < ARRAY_SIZE(state_name));
+     return state_name[state];
+ }
  
--    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker) {
-+    if (cpu_has_vmx(env) && !nested_virt_mig_blocker &&
-+        ((kvm_max_nested_state_length() <= 0) || !has_exception_payload)) {
-         error_setg(&nested_virt_mig_blocker,
--                   "Nested virtualization does not support live migration yet");
-+                   "Kernel do not provide required capabilities for "
-+                   "nested virtualization migration. "
-+                   "(CAP_NESTED_STATE=%d, CAP_EXCEPTION_PAYLOAD=%d)",
-+                   kvm_max_nested_state_length() > 0,
-+                   has_exception_payload);
-         r = migrate_add_blocker(nested_virt_mig_blocker, &local_err);
-         if (local_err) {
-             error_report_err(local_err);
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index fc49e5a..851b249 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -233,7 +233,7 @@ static int cpu_pre_save(void *opaque)
+@@ -166,7 +166,7 @@ static const char *sd_response_name(sd_rsp_type_t rsp)
+     if (rsp == sd_r1b) {
+         rsp = sd_r1;
+     }
+-    assert(rsp <= ARRAY_SIZE(response_name));
++    assert(rsp < ARRAY_SIZE(response_name));
+     return response_name[rsp];
+ }
  
- #ifdef CONFIG_KVM
-     /* Verify we have nested virtualization state from kernel if required */
--    if (cpu_has_nested_virt(env) && !env->nested_state) {
-+    if (kvm_enabled() && cpu_has_vmx(env) && !env->nested_state) {
-         error_report("Guest enabled nested virtualization but kernel "
-                 "does not support saving of nested state");
-         return -EINVAL;
 -- 
 1.8.3.1
 
