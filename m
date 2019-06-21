@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 016E74E833
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:42:50 +0200 (CEST)
-Received: from localhost ([::1]:33600 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCE44E847
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:51:33 +0200 (CEST)
+Received: from localhost ([::1]:33806 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heIsS-0007aB-RU
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:42:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39523)
+	id 1heJ0s-00039E-NR
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40671)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1heIqr-0006EJ-2v
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:41:12 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1heIvE-0001mM-NP
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:45:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1heIqo-0007nR-0j
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:41:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43942)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1heIqg-0007Lu-US; Fri, 21 Jun 2019 08:40:59 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9BA3E59465;
- Fri, 21 Jun 2019 12:40:52 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-30.brq.redhat.com
- [10.40.204.30])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF1FA5D9E5;
- Fri, 21 Jun 2019 12:40:51 +0000 (UTC)
-To: qemu-block@nongnu.org
-References: <20190618210238.9524-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <eab90820-63b3-e84d-858b-d02fae282281@redhat.com>
-Date: Fri, 21 Jun 2019 14:40:49 +0200
+ (envelope-from <pbonzini@redhat.com>) id 1heIvB-0006JH-KI
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:45:40 -0400
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:35833)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1heIv9-0005zT-OV
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:45:37 -0400
+Received: by mail-wr1-f54.google.com with SMTP id m3so6488133wrv.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 05:45:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vDmWHqPZAzTY+C7TxAofKOgBepN7iUYOILRu3BI6NUo=;
+ b=ugQ9Ec6e7X6SWWcYRWm80YO+sZp9KsW0IrBQQWRbiYcZbshhmPFfY6UIWPC4ihaE/y
+ 1JyOZ/WmFPgZTk3ca+/kU+gkIcWzzJdRXMhTsltE7Prv18gsDBuKfY79XRXUAw98mrFZ
+ wegKOqqtBegAbVSO69FHhlEYn/ckE5olJZUS/efHhk4TRCgQOE4isyToX4c5WSVjfac9
+ Z7oWG/NB52IYsN/8dqXpEDsZDkUNAB6UAE9pY6dd5euItioVeO3D/ykvwI+KKIh62pj5
+ AAar+K2G0OVb3147TUDU7rbA5h3YixK8Hb8y4N9FUYsJiqvOkGjnm5Nm+jl+CUEHDLvC
+ hQpQ==
+X-Gm-Message-State: APjAAAVzs7CWFvTpLbFk5UBXRVJL0w/6iafEt3SmeYH09lGuQ+/zdo6B
+ mcYOEp/ljJup56krM56MvaVyCCT4ieU=
+X-Google-Smtp-Source: APXvYqyYWb0G/dFwT7EkmXg/UBiIeBox5ptx8SFRhIBZ1WEWjX+YVWW/OmW9W2ueJ8olB8I7fVChSA==
+X-Received: by 2002:adf:e5d1:: with SMTP id a17mr5380382wrn.278.1561121130919; 
+ Fri, 21 Jun 2019 05:45:30 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:45fb:a0de:928e:79e8?
+ ([2001:b07:6468:f312:45fb:a0de:928e:79e8])
+ by smtp.gmail.com with ESMTPSA id s12sm1745836wmh.34.2019.06.21.05.45.29
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 21 Jun 2019 05:45:30 -0700 (PDT)
+To: Liran Alon <liran.alon@oracle.com>
+References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
+ <1561116620-22245-21-git-send-email-pbonzini@redhat.com>
+ <C67C73E9-F0FA-4711-98F1-BB5CD782E473@oracle.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3b4d778c-8c41-b8f2-7e1c-b7328072c3d5@redhat.com>
+Date: Fri, 21 Jun 2019 14:45:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190618210238.9524-1-mreitz@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="oygNjdaUqWThUu7Vld6YxnACjo4IlcI1m"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Fri, 21 Jun 2019 12:40:52 +0000 (UTC)
+In-Reply-To: <C67C73E9-F0FA-4711-98F1-BB5CD782E473@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] iotests: Fix 205 for concurrent runs
+ [fuzzy]
+X-Received-From: 209.85.221.54
+Subject: Re: [Qemu-devel] [PULL 20/25] target/i386: kvm: Add support for
+ save and restore nested state
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,60 +74,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---oygNjdaUqWThUu7Vld6YxnACjo4IlcI1m
-Content-Type: multipart/mixed; boundary="NIfaVM13wFT2xRcT5YpHXEci7uiMcxsql";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <eab90820-63b3-e84d-858b-d02fae282281@redhat.com>
-Subject: Re: [PATCH] iotests: Fix 205 for concurrent runs
-References: <20190618210238.9524-1-mreitz@redhat.com>
-In-Reply-To: <20190618210238.9524-1-mreitz@redhat.com>
+On 21/06/19 14:29, Liran Alon wrote:
+>> +    max_nested_state_len = kvm_max_nested_state_length();
+>> +    if (max_nested_state_len > 0) {
+>> +        assert(max_nested_state_len >= offsetof(struct kvm_nested_state, data));
+>> +        env->nested_state = g_malloc0(max_nested_state_len);
+>> +
+>> +        env->nested_state->size = max_nested_state_len;
+>> +
+>> +        if (IS_INTEL_CPU(env)) {
+> I think it’s better to change this to: “if (cpu_has_vmx(env))” {
+> 
+>> +            struct kvm_vmx_nested_state_hdr *vmx_hdr =
+>> +                &env->nested_state->hdr.vmx;
+>> +
+>> +            env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
+>> +            vmx_hdr->vmxon_pa = -1ull;
+>> +            vmx_hdr->vmcs12_pa = -1ull;
+>> +        }
+>> +    }
+> I think we should add here:
+> } else if (cpu_has_svm(env)) {
+>     env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
+> }
 
---NIfaVM13wFT2xRcT5YpHXEci7uiMcxsql
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Or even force max_nested_state_len to 0 for AMD hosts, so that
+kvm_get/put_nested_state are dropped completely.
 
-On 18.06.19 23:02, Max Reitz wrote:
-> Tests should place their files into the test directory.  This includes
-> Unix sockets.  205 currently fails to do so, which prevents it from
-> being run concurrently.
->=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/205 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Paolo
 
-Thanks for the review, applied to my block branch.
-
-Max
-
-
---NIfaVM13wFT2xRcT5YpHXEci7uiMcxsql--
-
---oygNjdaUqWThUu7Vld6YxnACjo4IlcI1m
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0M0FEACgkQ9AfbAGHV
-z0CbVQgArWtGLKyAUd0y/3YxLsX8egwbAgij5biH1N3e/fz1MOEO11q4IuFcW9gb
-fPmar7VEQJZQ6PjukyGdTyUVAWXz3x9cSveOiihlFQJJm7RxaLYKL9T6Z0cSSnuB
-OhdGKdfmd0u+Qv8+1UUxGfQ3YxeGYcE2+mC/ifKPoC79Qt2h+zGQxHvH6PVtAP3s
-G0M5pw/QHEtNi9oPYdqk9lxrkKMDC6nJW5lLbBSu04VwDGDquuGr0MX6RCPQbpVa
-RNqVYo2JQhX8p8P6tDXtwqrcxXdOG4xuc96dfagVr4/MGkn6K3AnwmKfdc1fdKi2
-EvXnaZ58GVV7sVdvNj6UUWA+7DAx4A==
-=mV8j
------END PGP SIGNATURE-----
-
---oygNjdaUqWThUu7Vld6YxnACjo4IlcI1m--
 
