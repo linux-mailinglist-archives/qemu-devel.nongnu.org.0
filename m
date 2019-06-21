@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDFC14DE06
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 02:20:12 +0200 (CEST)
-Received: from localhost ([::1]:53604 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0614DE2F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 02:53:08 +0200 (CEST)
+Received: from localhost ([::1]:53674 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he7Hi-00025A-8Y
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 20:20:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36281)
+	id 1he7ne-0001UM-W1
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 20:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59292)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yan.y.zhao@intel.com>) id 1he7GJ-0001dd-3b
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:18:40 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1he7kO-0008M0-Lc
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:49:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yan.y.zhao@intel.com>) id 1he7GD-0000Ic-Cc
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:18:35 -0400
-Received: from mga11.intel.com ([192.55.52.93]:18369)
+ (envelope-from <yan.y.zhao@intel.com>) id 1he7Sc-0005iM-Eu
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:31:25 -0400
+Received: from mga14.intel.com ([192.55.52.115]:63158)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
- id 1he7GC-0000Ab-Ay
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:18:33 -0400
+ id 1he7Sa-0005cV-TS
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 20:31:22 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2019 17:18:24 -0700
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2019 17:31:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,398,1557212400"; d="scan'208";a="183253959"
+X-IronPort-AV: E=Sophos;i="5.63,398,1557212400"; d="scan'208";a="358713769"
 Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
  ([10.239.13.9])
- by fmsmga004.fm.intel.com with ESMTP; 20 Jun 2019 17:18:21 -0700
-Date: Thu, 20 Jun 2019 20:12:29 -0400
+ by fmsmga005.fm.intel.com with ESMTP; 20 Jun 2019 17:31:11 -0700
+Date: Thu, 20 Jun 2019 20:25:18 -0400
 From: Yan Zhao <yan.y.zhao@intel.com>
 To: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <20190621001228.GE9303@joy-OptiPlex-7040>
+Message-ID: <20190621002518.GF9303@joy-OptiPlex-7040>
 References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
- <1561041461-22326-4-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1561041461-22326-4-git-send-email-kwankhede@nvidia.com>
+In-Reply-To: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.93
-Subject: Re: [Qemu-devel] [PATCH v4 03/13] vfio: Add save and load functions
- for VFIO PCI devices
+X-Received-From: 192.55.52.115
+Subject: Re: [Qemu-devel] [PATCH v4 00/13] Add migration support for VFIO
+ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,190 +78,143 @@ Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 20, 2019 at 10:37:31PM +0800, Kirti Wankhede wrote:
-> These functions save and restore PCI device specific data - config
-> space of PCI device.
-> Tested save and restore with MSI and MSIX type.
+On Thu, Jun 20, 2019 at 10:37:28PM +0800, Kirti Wankhede wrote:
+> Add migration support for VFIO device
 > 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> ---
->  hw/vfio/pci.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/pci.h |  29 +++++++++++++++
->  2 files changed, 141 insertions(+)
+> This Patch set include patches as below:
+> - Define KABI for VFIO device for migration support.
+> - Added save and restore functions for PCI configuration space
+> - Generic migration functionality for VFIO device.
+>   * This patch set adds functionality only for PCI devices, but can be
+>     extended to other VFIO devices.
+>   * Added all the basic functions required for pre-copy, stop-and-copy and
+>     resume phases of migration.
+>   * Added state change notifier and from that notifier function, VFIO
+>     device's state changed is conveyed to VFIO device driver.
+>   * During save setup phase and resume/load setup phase, migration region
+>     is queried and is used to read/write VFIO device data.
+>   * .save_live_pending and .save_live_iterate are implemented to use QEMU's
+>     functionality of iteration during pre-copy phase.
+>   * In .save_live_complete_precopy, that is in stop-and-copy phase,
+>     iteration to read data from VFIO device driver is implemented till pending
+>     bytes returned by driver are not zero.
+>   * Added function to get dirty pages bitmap for the pages which are used by
+>     driver.
+> - Add vfio_listerner_log_sync to mark dirty pages.
+> - Make VFIO PCI device migration capable. If migration region is not provided by
+>   driver, migration is blocked.
 > 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index ce3fe96efe2c..09a0821a5b1c 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -1187,6 +1187,118 @@ void vfio_pci_write_config(PCIDevice *pdev,
->      }
->  }
->  
-> +void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
-> +{
-> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    uint16_t pci_cmd;
-> +    int i;
-> +
-> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
-> +        uint32_t bar;
-> +
-> +        bar = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, 4);
-> +        qemu_put_be32(f, bar);
-> +    }
-> +
-> +    qemu_put_be32(f, vdev->interrupt);
-> +    if (vdev->interrupt == VFIO_INT_MSI) {
-> +        uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
-> +        bool msi_64bit;
-> +
-> +        msi_flags = pci_default_read_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> +                                            2);
-> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
-> +
-> +        msi_addr_lo = pci_default_read_config(pdev,
-> +                                         pdev->msi_cap + PCI_MSI_ADDRESS_LO, 4);
-> +        qemu_put_be32(f, msi_addr_lo);
-> +
-> +        if (msi_64bit) {
-> +            msi_addr_hi = pci_default_read_config(pdev,
-> +                                             pdev->msi_cap + PCI_MSI_ADDRESS_HI,
-> +                                             4);
-> +        }
-> +        qemu_put_be32(f, msi_addr_hi);
-> +
-> +        msi_data = pci_default_read_config(pdev,
-> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
-> +                2);
-> +        qemu_put_be32(f, msi_data);
-> +    } else if (vdev->interrupt == VFIO_INT_MSIX) {
-> +        uint16_t offset;
-> +
-> +        /* save enable bit and maskall bit */
-> +        offset = pci_default_read_config(pdev,
-> +                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
-> +        qemu_put_be16(f, offset);
-> +        msix_save(pdev, f);
-> +    }
-> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
-> +    qemu_put_be16(f, pci_cmd);
-> +}
-> +
-> +void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
-> +{
-> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    uint32_t interrupt_type;
-> +    uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
-> +    uint16_t pci_cmd;
-> +    bool msi_64bit;
-> +    int i;
-> +
-> +    /* retore pci bar configuration */
-> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
-> +    vfio_pci_write_config(pdev, PCI_COMMAND,
-> +                        pci_cmd & (!(PCI_COMMAND_IO | PCI_COMMAND_MEMORY)), 2);
-> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
-> +        uint32_t bar = qemu_get_be32(f);
-> +
-> +        vfio_pci_write_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, bar, 4);
-> +    }
-> +    vfio_pci_write_config(pdev, PCI_COMMAND,
-> +                          pci_cmd | PCI_COMMAND_IO | PCI_COMMAND_MEMORY, 2);
-> +
-> +    interrupt_type = qemu_get_be32(f);
-> +
-> +    if (interrupt_type == VFIO_INT_MSI) {
-> +        /* restore msi configuration */
-> +        msi_flags = pci_default_read_config(pdev,
-> +                                            pdev->msi_cap + PCI_MSI_FLAGS, 2);
-> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
-> +
-> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> +                              msi_flags & (!PCI_MSI_FLAGS_ENABLE), 2);
-> +
-> +        msi_addr_lo = qemu_get_be32(f);
-> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_LO,
-> +                              msi_addr_lo, 4);
-> +
-> +        msi_addr_hi = qemu_get_be32(f);
-> +        if (msi_64bit) {
-> +            vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_HI,
-> +                                  msi_addr_hi, 4);
-> +        }
-> +        msi_data = qemu_get_be32(f);
-> +        vfio_pci_write_config(pdev,
-> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
-> +                msi_data, 2);
-> +
-> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
-> +                              msi_flags | PCI_MSI_FLAGS_ENABLE, 2);
-> +    } else if (interrupt_type == VFIO_INT_MSIX) {
-> +        uint16_t offset = qemu_get_be16(f);
-> +
-> +        /* load enable bit and maskall bit */
-> +        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
-> +                              offset, 2);
-> +        msix_load(pdev, f);
-> +    }
-> +    pci_cmd = qemu_get_be16(f);
-> +    vfio_pci_write_config(pdev, PCI_COMMAND, pci_cmd, 2);
-> +}
-> +
-per the previous discussion, pci config state save/restore are better
-defined in fileds of VMStateDescription.
+> Below is the flow of state change for live migration where states in brackets
+> represent VM state, migration state and VFIO device state as:
+>     (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
+> 
+> Live migration save path:
+>         QEMU normal running state
+>         (RUNNING, _NONE, _RUNNING)
+>                         |
+>     migrate_init spawns migration_thread.
+>     (RUNNING, _SETUP, _RUNNING|_SAVING)
+>     Migration thread then calls each device's .save_setup()
+>                         |
+>     (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+>     If device is active, get pending bytes by .save_live_pending()
+>     if pending bytes >= threshold_size,  call save_live_iterate()
+>     Data of VFIO device for pre-copy phase is copied.
+>     Iterate till pending bytes converge and are less than threshold
+>                         |
+>     On migration completion, vCPUs stops and calls .save_live_complete_precopy
+>     for each active device. VFIO device is then transitioned in
+>      _SAVING state.
+>     (FINISH_MIGRATE, _DEVICE, _SAVING)
+>     For VFIO device, iterate in  .save_live_complete_precopy  until
+>     pending data is 0.
+>     (FINISH_MIGRATE, _DEVICE, _STOPPED)
 
+I suggest we also register to VMStateDescription, whose .pre_save
+handler would get called after .save_live_complete_precopy in pre-copy
+only case, and will called before .save_live_iterate in post-copy
+enabled case.
+In the .pre_save handler, we can save all device state which must be
+copied after device stop in source vm and before device state in target vm.
 
->  /*
->   * Interrupt setup
->   */
-> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-> index 834a90d64686..847be5f56478 100644
-> --- a/hw/vfio/pci.h
-> +++ b/hw/vfio/pci.h
-> @@ -19,6 +19,7 @@
->  #include "qemu/queue.h"
->  #include "qemu/timer.h"
->  
-> +#ifdef CONFIG_LINUX
->  #define PCI_ANY_ID (~0)
->  
->  struct VFIOPCIDevice;
-> @@ -202,4 +203,32 @@ void vfio_display_reset(VFIOPCIDevice *vdev);
->  int vfio_display_probe(VFIOPCIDevice *vdev, Error **errp);
->  void vfio_display_finalize(VFIOPCIDevice *vdev);
->  
-> +void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f);
-> +void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f);
-> +
-> +static inline Object *vfio_pci_get_object(VFIODevice *vbasedev)
-> +{
-> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-> +
-> +    return OBJECT(vdev);
-> +}
-> +
-> +#else
-> +static inline void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
-> +{
-> +    g_assert(false);
-> +}
-> +
-> +static inline void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
-> +{
-> +    g_assert(false);
-> +}
-> +
-> +static inline Object *vfio_pci_get_object(VFIODevice *vbasedev)
-> +{
-> +    return NULL;
-> +}
-> +
-> +#endif
-> +
->  #endif /* HW_VFIO_VFIO_PCI_H */
+>                         |
+>     (FINISH_MIGRATE, _COMPLETED, STOPPED)
+>     Migraton thread schedule cleanup bottom half and exit
+> 
+> Live migration resume path:
+>     Incomming migration calls .load_setup for each device
+>     (RESTORE_VM, _ACTIVE, STOPPED)
+>                         |
+>     For each device, .load_state is called for that device section data
+>                         |
+>     At the end, called .load_cleanup for each device and vCPUs are started.
+>                         |
+>         (RUNNING, _NONE, _RUNNING)
+> 
+> Note that:
+> - Migration post copy is not supported.
+> 
+> v3 -> v4:
+> - Added one more bit for _RESUMING flag to be set explicitly.
+> - data_offset field is read-only for user space application.
+> - data_size is read for every iteration before reading data from migration, that
+>   is removed assumption that data will be till end of migration region.
+> - If vendor driver supports mappable sparsed region, map those region during
+>   setup state of save/load, similarly unmap those from cleanup routines.
+> - Handles race condition that causes data corruption in migration region during
+>   save device state by adding mutex and serialiaing save_buffer and
+>   get_dirty_pages routines.
+> - Skip called get_dirty_pages routine for mapped MMIO region of device.
+> - Added trace events.
+> - Splitted into multiple functional patches.
+> 
+> v2 -> v3:
+> - Removed enum of VFIO device states. Defined VFIO device state with 2 bits.
+> - Re-structured vfio_device_migration_info to keep it minimal and defined action
+>   on read and write access on its members.
+> 
+> v1 -> v2:
+> - Defined MIGRATION region type and sub-type which should be used with region
+>   type capability.
+> - Re-structured vfio_device_migration_info. This structure will be placed at 0th
+>   offset of migration region.
+> - Replaced ioctl with read/write for trapped part of migration region.
+> - Added both type of access support, trapped or mmapped, for data section of the
+>   region.
+> - Moved PCI device functions to pci file.
+> - Added iteration to get dirty page bitmap until bitmap for all requested pages
+>   are copied.
+> 
+> Thanks,
+> Kirti
+> 
+> 
+> Kirti Wankhede (13):
+>   vfio: KABI for migration interface
+>   vfio: Add function to unmap VFIO region
+>   vfio: Add save and load functions for VFIO PCI devices
+>   vfio: Add migration region initialization and finalize function
+>   vfio: Add VM state change handler to know state of VM
+>   vfio: Add migration state change notifier
+>   vfio: Register SaveVMHandlers for VFIO device
+>   vfio: Add save state functions to SaveVMHandlers
+>   vfio: Add load state functions to SaveVMHandlers
+>   vfio: Add function to get dirty page list
+>   vfio: Add vfio_listerner_log_sync to mark dirty pages
+>   vfio: Make vfio-pci device migration capable.
+>   vfio: Add trace events in migration code path
+> 
+>  hw/vfio/Makefile.objs         |   2 +-
+>  hw/vfio/common.c              |  55 +++
+>  hw/vfio/migration.c           | 815 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/pci.c                 | 126 ++++++-
+>  hw/vfio/pci.h                 |  29 ++
+>  hw/vfio/trace-events          |  19 +
+>  include/hw/vfio/vfio-common.h |  22 ++
+>  linux-headers/linux/vfio.h    |  71 ++++
+>  8 files changed, 1132 insertions(+), 7 deletions(-)
+>  create mode 100644 hw/vfio/migration.c
+> 
 > -- 
 > 2.7.0
 > 
