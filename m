@@ -2,55 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC624E18D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:02:40 +0200 (CEST)
-Received: from localhost ([::1]:55374 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2294E18F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:03:54 +0200 (CEST)
+Received: from localhost ([::1]:55446 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heEK2-0005Ma-09
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 03:50:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46193)
+	id 1heEWX-0004SH-CZ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:03:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47369)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1heEID-0004Ii-4T
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:49:07 -0400
+ (envelope-from <bounces@canonical.com>) id 1heETh-0003Ae-Hd
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:00:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1heEDg-0006BR-FO
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:44:25 -0400
-Received: from mga03.intel.com ([134.134.136.65]:45038)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1heEDg-0005ss-5K
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:44:24 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2019 00:44:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="162602329"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga007.fm.intel.com with ESMTP; 21 Jun 2019 00:44:21 -0700
-Date: Fri, 21 Jun 2019 15:43:58 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Message-ID: <20190621074358.GB17378@richard>
-References: <20190430034412.12935-1-richardw.yang@linux.intel.com>
- <20190430034412.12935-3-richardw.yang@linux.intel.com>
- <20190514142108.GG2753@work-vm>
+ (envelope-from <bounces@canonical.com>) id 1heETd-0000Op-M3
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:00:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47044)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1heETd-0000NX-DV
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:00:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1heETc-0000pF-3A
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 08:00:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 13CD22E80C9
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 08:00:52 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190514142108.GG2753@work-vm>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.65
-Subject: Re: [Qemu-devel] [PATCH 2/3] migration/ram.c: start of
- cpu_physical_memory_sync_dirty_bitmap is always 0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Jun 2019 07:47:19 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1833668@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <156110323981.19354.11667763271761846721.malonedeb@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18989";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: b6bf23581950e2b2f85631d811591f8756aae8ef
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1833668] [NEW] linux-user: Unable to run ARM
+ binaries on Aarch64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,110 +66,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: pbonzini@redhat.com, quintela@redhat.com,
- Wei Yang <richardw.yang@linux.intel.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1833668 <1833668@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 14, 2019 at 03:21:08PM +0100, Dr. David Alan Gilbert wrote:
->* Wei Yang (richardw.yang@linux.intel.com) wrote:
->> Since start of cpu_physical_memory_sync_dirty_bitmap is always 0, we can
->> remove this parameter and simplify the calculation a bit.
->> 
->> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->
->So I think you're right it's currently unused; however, lets ask
->Paolo: Do we need to keep this parameter for flexiblity?
->
+Public bug reported:
 
-Hi, Paolo,
+Download a ARM package from https://packages.debian.org/sid/busybox-
+static
 
-Have time to take a look?
+Here tested with: busybox-static_1.30.1-4_armel.deb
 
->Dave
->
->> ---
->>  include/exec/ram_addr.h | 15 ++++++---------
->>  migration/ram.c         |  2 +-
->>  2 files changed, 7 insertions(+), 10 deletions(-)
->> 
->> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
->> index 9ecd911c3e..3dfb2d52fb 100644
->> --- a/include/exec/ram_addr.h
->> +++ b/include/exec/ram_addr.h
->> @@ -409,18 +409,16 @@ static inline void cpu_physical_memory_clear_dirty_range(ram_addr_t start,
->>  
->>  static inline
->>  uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
->> -                                               ram_addr_t start,
->>                                                 ram_addr_t length,
->>                                                 uint64_t *real_dirty_pages)
->>  {
->>      ram_addr_t addr;
->> -    unsigned long word = BIT_WORD((start + rb->offset) >> TARGET_PAGE_BITS);
->> +    unsigned long word = BIT_WORD(rb->offset >> TARGET_PAGE_BITS);
->>      uint64_t num_dirty = 0;
->>      unsigned long *dest = rb->bmap;
->>  
->> -    /* start address and length is aligned at the start of a word? */
->> -    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) ==
->> -         (start + rb->offset) &&
->> +    /* offset and length is aligned at the start of a word? */
->> +    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) == (rb->offset) &&
->>          !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
->>          int k;
->>          int nr = BITS_TO_LONGS(length >> TARGET_PAGE_BITS);
->> @@ -428,14 +426,13 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
->>          unsigned long idx = (word * BITS_PER_LONG) / DIRTY_MEMORY_BLOCK_SIZE;
->>          unsigned long offset = BIT_WORD((word * BITS_PER_LONG) %
->>                                          DIRTY_MEMORY_BLOCK_SIZE);
->> -        unsigned long page = BIT_WORD(start >> TARGET_PAGE_BITS);
->>  
->>          rcu_read_lock();
->>  
->>          src = atomic_rcu_read(
->>                  &ram_list.dirty_memory[DIRTY_MEMORY_MIGRATION])->blocks;
->>  
->> -        for (k = page; k < page + nr; k++) {
->> +        for (k = 0; k < nr; k++) {
->>              if (src[idx][offset]) {
->>                  unsigned long bits = atomic_xchg(&src[idx][offset], 0);
->>                  unsigned long new_dirty;
->> @@ -458,11 +455,11 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
->>  
->>          for (addr = 0; addr < length; addr += TARGET_PAGE_SIZE) {
->>              if (cpu_physical_memory_test_and_clear_dirty(
->> -                        start + addr + offset,
->> +                        addr + offset,
->>                          TARGET_PAGE_SIZE,
->>                          DIRTY_MEMORY_MIGRATION)) {
->>                  *real_dirty_pages += 1;
->> -                long k = (start + addr) >> TARGET_PAGE_BITS;
->> +                long k = addr >> TARGET_PAGE_BITS;
->>                  if (!test_and_set_bit(k, dest)) {
->>                      num_dirty++;
->>                  }
->> diff --git a/migration/ram.c b/migration/ram.c
->> index 9948b2d021..1def8122e9 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -1646,7 +1646,7 @@ static void migration_bitmap_sync_range(RAMState *rs, RAMBlock *rb,
->>                                          ram_addr_t length)
->>  {
->>      rs->migration_dirty_pages +=
->> -        cpu_physical_memory_sync_dirty_bitmap(rb, 0, length,
->> +        cpu_physical_memory_sync_dirty_bitmap(rb, length,
->>                                                &rs->num_dirty_pages_period);
->>  }
->>  
->> -- 
->> 2.19.1
->> 
->--
->Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+$ file busybox.armel
+busybox.armel: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), stat=
+ically linked, for GNU/Linux 3.2.0, BuildID[sha1]=3D12cf572e016bafa240e113b=
+57b3641e94b837f37, stripped
 
--- 
-Wei Yang
-Help you, Help me
+$ qemu-aarch64 --version
+qemu-aarch64 version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.14)
+
+$ qemu-aarch64 busybox.armel
+busybox.armel: Invalid ELF image for this architecture
+
+$ qemu-aarch64 -cpu cortex-a7 busybox.armel
+unable to find CPU model 'cortex-a7'
+
+Also reproduced with commit 33d609990621dea6c7d056c86f707b8811320ac1,
+while the aarch64_cpus[] array contains Aarch64 CPUs, the arm_cpus[] array =
+is empty:
+
+$ gdb -q aarch64-linux-user/qemu-aarch64
+(gdb) p aarch64_cpus
+$1 =3D {{name =3D 0x1fe4e8 "cortex-a57", initfn =3D 0x109bc0 <aarch64_a57_i=
+nitfn>, class_init =3D 0x0}, {name =3D 0x1fe508 "cortex-a53", initfn =3D 0x=
+109a10 <aarch64_a53_initfn>, class_init =3D 0x0}, {name =3D 0x1fe518 "corte=
+x-a72", =
+
+    initfn =3D 0x109868 <aarch64_a72_initfn>, class_init =3D 0x0}, {name =
+=3D 0x218020 "max", initfn =3D 0x109d70 <aarch64_max_initfn>, class_init =
+=3D 0x0}, {name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
+(gdb) p arm_cpus
+$2 =3D {{name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: arm linux-user
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1833668
+
+Title:
+  linux-user: Unable to run ARM binaries on Aarch64
+
+Status in QEMU:
+  New
+
+Bug description:
+  Download a ARM package from https://packages.debian.org/sid/busybox-
+  static
+
+  Here tested with: busybox-static_1.30.1-4_armel.deb
+
+  $ file busybox.armel
+  busybox.armel: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), st=
+atically linked, for GNU/Linux 3.2.0, BuildID[sha1]=3D12cf572e016bafa240e11=
+3b57b3641e94b837f37, stripped
+
+  $ qemu-aarch64 --version
+  qemu-aarch64 version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.14)
+
+  $ qemu-aarch64 busybox.armel
+  busybox.armel: Invalid ELF image for this architecture
+
+  $ qemu-aarch64 -cpu cortex-a7 busybox.armel
+  unable to find CPU model 'cortex-a7'
+
+  Also reproduced with commit 33d609990621dea6c7d056c86f707b8811320ac1,
+  while the aarch64_cpus[] array contains Aarch64 CPUs, the arm_cpus[] arra=
+y is empty:
+
+  $ gdb -q aarch64-linux-user/qemu-aarch64
+  (gdb) p aarch64_cpus
+  $1 =3D {{name =3D 0x1fe4e8 "cortex-a57", initfn =3D 0x109bc0 <aarch64_a57=
+_initfn>, class_init =3D 0x0}, {name =3D 0x1fe508 "cortex-a53", initfn =3D =
+0x109a10 <aarch64_a53_initfn>, class_init =3D 0x0}, {name =3D 0x1fe518 "cor=
+tex-a72", =
+
+      initfn =3D 0x109868 <aarch64_a72_initfn>, class_init =3D 0x0}, {name =
+=3D 0x218020 "max", initfn =3D 0x109d70 <aarch64_max_initfn>, class_init =
+=3D 0x0}, {name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
+  (gdb) p arm_cpus
+  $2 =3D {{name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1833668/+subscriptions
 
