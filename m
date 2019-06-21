@@ -2,44 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDFB4E7B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:03:13 +0200 (CEST)
-Received: from localhost ([::1]:60186 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7379C4E7E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:19:18 +0200 (CEST)
+Received: from localhost ([::1]:60688 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heIG8-0002Fb-Da
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:03:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55249)
+	id 1heIVh-0006VF-1Q
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58788)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1heI7M-0003L2-Kk
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:54:14 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1heILU-0008Po-BI
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:08:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1heI7E-0005Jg-UP
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:54:05 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:37531 helo=mail.rt-rk.com)
+ (envelope-from <dgibson@ozlabs.org>) id 1heILN-0000uY-Lm
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:08:42 -0400
+Received: from ozlabs.org ([203.11.71.1]:47521)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1heI7A-00059g-Ml
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:53:57 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 823BF1A45C4;
- Fri, 21 Jun 2019 13:53:51 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 2B26D1A45FC;
- Fri, 21 Jun 2019 13:53:51 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:53:40 +0200
-Message-Id: <1561118020-30489-6-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561118020-30489-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1561118020-30489-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v3 5/5] tests/tcg: target/mips: Amend tests for
- MSA int dot product instructions
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1heILK-0000d2-DB; Fri, 21 Jun 2019 08:08:37 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45VcsH52BWz9sND; Fri, 21 Jun 2019 22:08:19 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1561118899;
+ bh=Emh2fk+Y6uIgbEw5A3NZIDX7iBUKLstXiayY+zeLZhU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZdlmSZUGnKJeeF3IglAYl83tXXbmGtfmmFOZ9GmNu5gEx07mrmWvhMkUuFJnnHZke
+ vJkqhf+ZC/mz6x5AdMKU8DcPh6NFChLJjUgxedeeek+vK6tix35+SSH03JLKMPxeO2
+ kLI1gVipBk/b6V5QXvk/uDyJIKEidicYSkDsxSKw=
+Date: Fri, 21 Jun 2019 21:58:15 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190621115815.GG8232@umbus.BigPond>
+References: <156051052402.224162.13664250996245267046.stgit@bahia.lan>
+ <156051055736.224162.11641594431517798715.stgit@bahia.lan>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="gvF4niNJ+uBMJnEh"
+Content-Disposition: inline
+In-Reply-To: <156051055736.224162.11641594431517798715.stgit@bahia.lan>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH 6/7] ppc: Introduce
+ kvmppc_set_reg_tb_offset() helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,258 +57,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Add tests for instructions whose result depends on the value in destination
-register (prior to instruction execution).
+--gvF4niNJ+uBMJnEh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- tests/tcg/mips/include/wrappers_msa.h              |   4 +
- .../ase/msa/int-dot-product/test_msa_dpadd_s_h.c   | 214 +++++++++++++++++++++
- 2 files changed, 218 insertions(+)
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_s_h.c
+On Fri, Jun 14, 2019 at 01:09:17PM +0200, Greg Kurz wrote:
+> Introduce a KVM helper and its stub instead of guarding the code with
+> CONFIG_KVM.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/tests/tcg/mips/include/wrappers_msa.h b/tests/tcg/mips/include/wrappers_msa.h
-index 8f260f5..6234703 100644
---- a/tests/tcg/mips/include/wrappers_msa.h
-+++ b/tests/tcg/mips/include/wrappers_msa.h
-@@ -411,6 +411,10 @@ DO_MSA__WD__WS_WT(DOTP_U_H, dotp_u.h)
- DO_MSA__WD__WS_WT(DOTP_U_W, dotp_u.w)
- DO_MSA__WD__WS_WT(DOTP_U_D, dotp_u.d)
- 
-+DO_MSA__WD__WS_WT(DPADD_S_H, dpadd_s.h)
-+DO_MSA__WD__WD_WT(DPADD_S_H__DDT, dpadd_s.h)
-+DO_MSA__WD__WS_WD(DPADD_S_H__DSD, dpadd_s.h)
-+
- 
- /*
-  * Int Max Min
-diff --git a/tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_s_h.c b/tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_s_h.c
-new file mode 100644
-index 0000000..35b63a3
---- /dev/null
-+++ b/tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_s_h.c
-@@ -0,0 +1,214 @@
-+/*
-+ *  Test program for MSA instruction DPADD_S.H
-+ *
-+ *  Copyright (C) 2019  Wave Computing, Inc.
-+ *  Copyright (C) 2019  Aleksandar Markovic <amarkovic@wavecomp.com>
-+ *
-+ *  This program is free software: you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation, either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *`
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include <sys/time.h>
-+#include <stdint.h>
-+
-+#include "../../../../include/wrappers_msa.h"
-+#include "../../../../include/test_inputs_128.h"
-+#include "../../../../include/test_utils_128.h"
-+
-+#define TEST_COUNT_TOTAL (                                                \
-+            (PATTERN_INPUTS_SHORT_COUNT) * (PATTERN_INPUTS_SHORT_COUNT) + \
-+            3 * (RANDOM_INPUTS_SHORT_COUNT) * (RANDOM_INPUTS_SHORT_COUNT))
-+
-+
-+int32_t main(void)
-+{
-+    char *isa_ase_name = "MSA";
-+    char *group_name = "Int Dot Product";
-+    char *instruction_name =  "DPADD_S.H";
-+    int32_t ret;
-+    uint32_t i, j;
-+    struct timeval start, end;
-+    double elapsed_time;
-+
-+    uint64_t b128_result[TEST_COUNT_TOTAL][2];
-+    uint64_t b128_expect[TEST_COUNT_TOTAL][2] = {
-+        { 0xffffffffffffffffULL, 0xffffffffffffffffULL, },    /*   0  */
-+        { 0x0000000000000000ULL, 0xffffffffffffffffULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xffffffffffffffffULL, },
-+        { 0x5555555555555555ULL, 0xffffffffffffffffULL, },
-+        { 0xccccccccccccccccULL, 0xffffffffffffffffULL, },
-+        { 0x3333333333333333ULL, 0xffffffffffffffffULL, },
-+        { 0xe3388ee38ee3388eULL, 0xffffffffffffffffULL, },
-+        { 0x1cc7711c711cc771ULL, 0xffffffffffffffffULL, },
-+        { 0xffffffffffffffffULL, 0x0000000000000000ULL, },    /*   8  */
-+        { 0x0000000000000000ULL, 0x0000000000000000ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0x0000000000000000ULL, },
-+        { 0x5555555555555555ULL, 0x0000000000000000ULL, },
-+        { 0xccccccccccccccccULL, 0x0000000000000000ULL, },
-+        { 0x3333333333333333ULL, 0x0000000000000000ULL, },
-+        { 0xe3388ee38ee3388eULL, 0x0000000000000000ULL, },
-+        { 0x1cc7711c711cc771ULL, 0x0000000000000000ULL, },
-+        { 0xffffffffffffffffULL, 0xaaaaaaaaaaaaaaaaULL, },    /*  16  */
-+        { 0x0000000000000000ULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x5555555555555555ULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xccccccccccccccccULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x3333333333333333ULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xe3388ee38ee3388eULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0x1cc7711c711cc771ULL, 0xaaaaaaaaaaaaaaaaULL, },
-+        { 0xffffffffffffffffULL, 0x5555555555555555ULL, },    /*  24  */
-+        { 0x0000000000000000ULL, 0x5555555555555555ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0x5555555555555555ULL, },
-+        { 0x5555555555555555ULL, 0x5555555555555555ULL, },
-+        { 0xccccccccccccccccULL, 0x5555555555555555ULL, },
-+        { 0x3333333333333333ULL, 0x5555555555555555ULL, },
-+        { 0xe3388ee38ee3388eULL, 0x5555555555555555ULL, },
-+        { 0x1cc7711c711cc771ULL, 0x5555555555555555ULL, },
-+        { 0xffffffffffffffffULL, 0xccccccccccccccccULL, },    /*  32  */
-+        { 0x0000000000000000ULL, 0xccccccccccccccccULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xccccccccccccccccULL, },
-+        { 0x5555555555555555ULL, 0xccccccccccccccccULL, },
-+        { 0xccccccccccccccccULL, 0xccccccccccccccccULL, },
-+        { 0x3333333333333333ULL, 0xccccccccccccccccULL, },
-+        { 0xe3388ee38ee3388eULL, 0xccccccccccccccccULL, },
-+        { 0x1cc7711c711cc771ULL, 0xccccccccccccccccULL, },
-+        { 0xffffffffffffffffULL, 0x3333333333333333ULL, },    /*  40  */
-+        { 0x0000000000000000ULL, 0x3333333333333333ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0x3333333333333333ULL, },
-+        { 0x5555555555555555ULL, 0x3333333333333333ULL, },
-+        { 0xccccccccccccccccULL, 0x3333333333333333ULL, },
-+        { 0x3333333333333333ULL, 0x3333333333333333ULL, },
-+        { 0xe3388ee38ee3388eULL, 0x3333333333333333ULL, },
-+        { 0x1cc7711c711cc771ULL, 0x3333333333333333ULL, },
-+        { 0xffffffffffffffffULL, 0xe3388ee38ee3388eULL, },    /*  48  */
-+        { 0x0000000000000000ULL, 0xe3388ee38ee3388eULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0xe3388ee38ee3388eULL, },
-+        { 0x5555555555555555ULL, 0xe3388ee38ee3388eULL, },
-+        { 0xccccccccccccccccULL, 0xe3388ee38ee3388eULL, },
-+        { 0x3333333333333333ULL, 0xe3388ee38ee3388eULL, },
-+        { 0xe3388ee38ee3388eULL, 0xe3388ee38ee3388eULL, },
-+        { 0x1cc7711c711cc771ULL, 0xe3388ee38ee3388eULL, },
-+        { 0xffffffffffffffffULL, 0x1cc7711c711cc771ULL, },    /*  56  */
-+        { 0x0000000000000000ULL, 0x1cc7711c711cc771ULL, },
-+        { 0xaaaaaaaaaaaaaaaaULL, 0x1cc7711c711cc771ULL, },
-+        { 0x5555555555555555ULL, 0x1cc7711c711cc771ULL, },
-+        { 0xccccccccccccccccULL, 0x1cc7711c711cc771ULL, },
-+        { 0x3333333333333333ULL, 0x1cc7711c711cc771ULL, },
-+        { 0xe3388ee38ee3388eULL, 0x1cc7711c711cc771ULL, },
-+        { 0x1cc7711c711cc771ULL, 0x1cc7711c711cc771ULL, },
-+        { 0x675e7b0c6acc6240ULL, 0x675e7b0c6acc6240ULL, },    /*  64  */
-+        { 0xf71a3ffcbe639308ULL, 0x675e7b0c6acc6240ULL, },
-+        { 0xd8ff2b145aaacf80ULL, 0x675e7b0c6acc6240ULL, },
-+        { 0xf1d842a04f4d314eULL, 0x675e7b0c6acc6240ULL, },
-+        { 0x675e7b0c6acc6240ULL, 0xf71a3ffcbe639308ULL, },
-+        { 0xf71a3ffcbe639308ULL, 0xf71a3ffcbe639308ULL, },
-+        { 0xd8ff2b145aaacf80ULL, 0xf71a3ffcbe639308ULL, },
-+        { 0xf1d842a04f4d314eULL, 0xf71a3ffcbe639308ULL, },
-+        { 0x675e7b0c6acc6240ULL, 0xd8ff2b145aaacf80ULL, },    /*  72  */
-+        { 0xf71a3ffcbe639308ULL, 0xd8ff2b145aaacf80ULL, },
-+        { 0xd8ff2b145aaacf80ULL, 0xd8ff2b145aaacf80ULL, },
-+        { 0xf1d842a04f4d314eULL, 0xd8ff2b145aaacf80ULL, },
-+        { 0x675e7b0c6acc6240ULL, 0xf1d842a04f4d314eULL, },
-+        { 0xf71a3ffcbe639308ULL, 0xf1d842a04f4d314eULL, },
-+        { 0xd8ff2b145aaacf80ULL, 0xf1d842a04f4d314eULL, },
-+        { 0xf1d842a04f4d314eULL, 0xf1d842a04f4d314eULL, },
-+        { 0x000000000c000000ULL, 0x0000fe000000005eULL, },    /*  80  */
-+        { 0x00000000fc000000ULL, 0x000015000000001aULL, },
-+        { 0x0000000014000000ULL, 0x0000ab00000000ffULL, },
-+        { 0x00000000a0000000ULL, 0x0000a900000000d8ULL, },
-+        { 0x000040000000000cULL, 0x9300003f00120000ULL, },
-+        { 0x00000800000000fcULL, 0x9300003f00120000ULL, },
-+        { 0x0000800000000014ULL, 0x9300003f00120000ULL, },
-+        { 0x00004e00000000a0ULL, 0x9300003f00120000ULL, },
-+        { 0x0000000000000000ULL, 0x8800000000fee6aaULL, },    /*  88  */
-+        { 0x0000000000000000ULL, 0xfb000000001500aaULL, },
-+        { 0x0000000000000000ULL, 0xac00000000abaeaaULL, },
-+        { 0x0000000000000000ULL, 0x7000000000a916aaULL, },
-+        { 0x00004f0000e20000ULL, 0x0000000000000000ULL, },
-+        { 0x00004f0000e20000ULL, 0x0000000000000000ULL, },
-+        { 0x00004f0000e20000ULL, 0x0000000000000000ULL, },
-+        { 0x00004f0000e20000ULL, 0x0000000000000000ULL, },
-+        { 0x000000000c000000ULL, 0x0000fe000000005eULL, },    /*  96  */
-+        { 0x00000800000000fcULL, 0x6200007be64b0000ULL, },
-+        { 0x0000000000000000ULL, 0xac00000000abaeccULL, },
-+        { 0x00006a0000550000ULL, 0x0000000000000000ULL, },
-+        { 0x000000000c000000ULL, 0x0000fe000000005eULL, },
-+        { 0x00000800000000fcULL, 0x9300003f00120000ULL, },
-+        { 0x0000000000000000ULL, 0xac00000000abae63ULL, },
-+        { 0x0000be0000c70000ULL, 0x0000000000000000ULL, },
-+        { 0x000000000c000000ULL, 0x0000fe000000005eULL, },    /* 104  */
-+        { 0x00000800000000fcULL, 0xcf00002bae270000ULL, },
-+        { 0x0000000000000000ULL, 0xac00000000abaeaaULL, },
-+        { 0x00005a00008b0000ULL, 0x0000000000000000ULL, },
-+        { 0x000000000c000000ULL, 0x0000fe000000005eULL, },
-+        { 0x00000800000000fcULL, 0x31000042168d0000ULL, },
-+        { 0x0000000000000000ULL, 0xac00000000abae4dULL, },
-+        { 0x00004f0000e20000ULL, 0x0000000000000000ULL, },
-+    };
-+
-+    reset_msa_registers();
-+
-+    gettimeofday(&start, NULL);
-+
-+    for (i = 0; i < PATTERN_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < PATTERN_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_DPADD_S_H(b128_pattern[i], b128_pattern[j],
-+                             b128_result[PATTERN_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_DPADD_S_H(b128_random[i], b128_random[j],
-+                             b128_result[((PATTERN_INPUTS_SHORT_COUNT) *
-+                                          (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                         RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_DPADD_S_H__DDT(b128_random[i], b128_random[j],
-+                                  b128_result[
-+                                      ((PATTERN_INPUTS_SHORT_COUNT) *
-+                                       (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                      ((RANDOM_INPUTS_SHORT_COUNT) *
-+                                       (RANDOM_INPUTS_SHORT_COUNT)) +
-+                                      RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    for (i = 0; i < RANDOM_INPUTS_SHORT_COUNT; i++) {
-+        for (j = 0; j < RANDOM_INPUTS_SHORT_COUNT; j++) {
-+            do_msa_DPADD_S_H__DSD(b128_random[i], b128_random[j],
-+                                  b128_result[
-+                                      ((PATTERN_INPUTS_SHORT_COUNT) *
-+                                       (PATTERN_INPUTS_SHORT_COUNT)) +
-+                                      (2 * (RANDOM_INPUTS_SHORT_COUNT) *
-+                                       (RANDOM_INPUTS_SHORT_COUNT)) +
-+                                      RANDOM_INPUTS_SHORT_COUNT * i + j]);
-+        }
-+    }
-+
-+    gettimeofday(&end, NULL);
-+
-+    elapsed_time = (end.tv_sec - start.tv_sec) * 1000.0;
-+    elapsed_time += (end.tv_usec - start.tv_usec) / 1000.0;
-+
-+    ret = check_results_128(isa_ase_name, group_name, instruction_name,
-+                            TEST_COUNT_TOTAL, elapsed_time,
-+                            &b128_result[0][0], &b128_expect[0][0]);
-+
-+    return ret;
-+}
--- 
-2.7.4
+Applied, thanks.
 
+> ---
+>  hw/ppc/ppc.c         |    5 +----
+>  target/ppc/kvm.c     |    9 +++++++++
+>  target/ppc/kvm_ppc.h |    5 +++++
+>  3 files changed, 15 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index 288196dfa67a..a9e508c496de 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -1034,10 +1034,7 @@ static void timebase_load(PPCTimebase *tb)
+>      CPU_FOREACH(cpu) {
+>          PowerPCCPU *pcpu =3D POWERPC_CPU(cpu);
+>          pcpu->env.tb_env->tb_offset =3D tb_off_adj;
+> -#if defined(CONFIG_KVM)
+> -        kvm_set_one_reg(cpu, KVM_REG_PPC_TB_OFFSET,
+> -                        &pcpu->env.tb_env->tb_offset);
+> -#endif
+> +        kvmppc_set_reg_tb_offset(pcpu, pcpu->env.tb_env->tb_offset);
+>      }
+>  }
+> =20
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index d4107dd70d21..cde39904510a 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2939,3 +2939,12 @@ void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, un=
+signed int online)
+>          kvm_set_one_reg(cs, KVM_REG_PPC_ONLINE, &online);
+>      }
+>  }
+> +
+> +void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_offset)
+> +{
+> +    CPUState *cs =3D CPU(cpu);
+> +
+> +    if (kvm_enabled()) {
+> +        kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &tb_offset);
+> +    }
+> +}
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index 45776cad79d9..e642aaaf9226 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -80,6 +80,7 @@ bool kvmppc_pvr_workaround_required(PowerPCCPU *cpu);
+>  bool kvmppc_hpt_needs_host_contiguous_pages(void);
+>  void kvm_check_mmu(PowerPCCPU *cpu, Error **errp);
+>  void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, unsigned int online);
+> +void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_offset);
+> =20
+>  #else
+> =20
+> @@ -206,6 +207,10 @@ static inline void kvmppc_set_reg_ppc_online(PowerPC=
+CPU *cpu,
+>      return;
+>  }
+> =20
+> +static inline void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_=
+offset)
+> +{
+> +}
+> +
+>  #ifndef CONFIG_USER_ONLY
+>  static inline bool kvmppc_spapr_use_multitce(void)
+>  {
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--gvF4niNJ+uBMJnEh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0MxlQACgkQbDjKyiDZ
+s5LZFRAA0eaIJ02RDcNEJQhnEwAWIRyqFSERXVR6tl6063P2WJgAcBsU76VZYshX
+ZwaH2W5WTJ1MWKlMmbF+6DKZd4BqyP4YOCsgeRvwQFC5mvHdVxXmRFN31VogLUqc
+50fgs4teVF4XEbFwmT5WxopzPkCd/GuGjcGXzA+PPFriLc2sl9w898A5979UDPWi
+FtveEek9e4rGrO/q1nejDCH6PLMDoIVU6gcsth3lbPfoFyXWUU5Q4sXRWWQzO/EK
+rXtbHNDO1m+xSJdE91JVOOaBKTcOpPCmeUPcC3D2ofPR0l2EkJ6s338fMZGZ2P6j
+R/bhcMod9UnBBYiP25udF7U6IPosFBsV/QLccPTy8hFptHnvRS/UFXsE7ohYLlZU
+vo1fHBx3kiNqj4B9mbniRHECSeStpNnis0lRUEoa8XdC5TlPYhuoY/oU+YP8BGQQ
+GX/6APHs8QEy1xHN9hFSmnzXuJZZElLbP2do0wOT5FQOC9jImH+flElnapI1fUqy
+isESchXdFyakYHgNw8Lm0LVuPN3XcFQHEBO5gh1A5MGO0GBvW1E+Ng4sPzHkVkv9
+sCL5KxM1jw+eWE856XL9eZlviS6fuh8Hr+EsQyx9VQy61Aiy+ghxivHxOcqLJCBs
+Gqc/kSkL7Brz85Hjv2I7xr3cTTUg/7MptMGL4kAyjsAj4hN7Ffg=
+=Jmy2
+-----END PGP SIGNATURE-----
+
+--gvF4niNJ+uBMJnEh--
 
