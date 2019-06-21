@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA824EB06
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:48:57 +0200 (CEST)
-Received: from localhost ([::1]:35710 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E834EB3D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:55:00 +0200 (CEST)
+Received: from localhost ([::1]:35782 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heKqW-0004sh-1h
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:48:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45910)
+	id 1heKwL-0003Wg-Bk
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1heKnn-0003ID-Op
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:08 -0400
+ (envelope-from <skrtbhtngr@gmail.com>) id 1heKoS-0003VW-C2
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1heKmg-0005WP-Pz
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:45:00 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35897)
+ (envelope-from <skrtbhtngr@gmail.com>) id 1heKoQ-0006Ky-6f
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:48 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46773)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1heKmg-0005WL-Ja
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:44:58 -0400
-Received: by mail-wm1-f66.google.com with SMTP id u8so6894694wmm.1
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 07:44:58 -0700 (PDT)
+ (Exim 4.71) (envelope-from <skrtbhtngr@gmail.com>)
+ id 1heKoP-0006Bh-TZ
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:46 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id 81so3702408pfy.13
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 07:46:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8kxShQMD2pLEtqA5t1fFufIc2q0rmZaSupiozOi3vec=;
+ b=pBwj2OxKn27nxYH8bBh5lHrtbL0Qi9cPvukb0Je+bPIegmzx18nD353U6TLMKMLV3y
+ CftawFJSl0QlcOfiIZSLOJjqzCd09RiqHcTQa243VjJIY1+zBI54DruL+FNlLV39UoBI
+ PPCo2UNdkG9gq8kiSvifhStCJ2Jz0BTA1BS5AcT3P+//LHrVkDBXqQKoFcMxX2U4hJKc
+ HR0cv7af7TVkWRmhqSNJuvB8YhmQnkcKX3zteME93GAtJot+nqpuXK5pfefEJX6THzfV
+ jRogRtPdZ/L8PnhTUo5A7hsFO7b9jhwnxX+s2v39Wt1yR7Jjspc3RqRWr9bo/uW0/aNE
+ ZpKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=HNfwa9Z1m00gZgcXZz0SAwJCt6xsZguaiHCg+EvN2Jg=;
- b=j015kKH3Rhame4fcsfsA3s5pcF4vUzKO2ToZICTKC2pcy0Sv1sluV8Bv10QYqpG6rG
- Ezc9L3JAbcH9sCbnaPWrN8am4/+rIjDbVaQRnqGVulg158fSAvnYsOgs96x/gBWtwsaN
- jBpeyCM6BrO0CqanK4lRBI89TrElL59sSG0xVTA5IrPJ0vXCh9mSy2sZmSFZcMCnVLlk
- OPNPw6ndsfWj5yTOeHsrByeX0osrBRuru+U3NY9hRWpTAp3xGT3udnH+rCB8IPvuuljR
- n39SZ25R7e6aZTrbfjVg8WV5ustUECRDQswfPCOQ8/4CnShr4asgnfFBteVdx4O8g2b5
- 27FQ==
-X-Gm-Message-State: APjAAAVZk1NmlJ0AdhduRTeaEKp3ZGRUiaW9Y4+WB0Loiv+YMcFJKPyQ
- m47ddvS3DIbrb3/SN7VyEmzg5g==
-X-Google-Smtp-Source: APXvYqxaB9rOL9R+4t5yWJcrjcqijvd7z5nvhd8kR3Y6/hWhKO9nNHyKuzXxQCl2YzFLuI+JGVvAzw==
-X-Received: by 2002:a1c:3b45:: with SMTP id i66mr4588910wma.48.1561128297514; 
- Fri, 21 Jun 2019 07:44:57 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id 17sm1981542wmx.47.2019.06.21.07.44.56
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 07:44:56 -0700 (PDT)
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20190613143446.23937-1-philmd@redhat.com>
- <20190613143446.23937-2-philmd@redhat.com>
- <20190620112729-mutt-send-email-mst@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <791936b7-bd8d-d7fe-531e-f6e850448272@redhat.com>
-Date: Fri, 21 Jun 2019 16:44:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ bh=8kxShQMD2pLEtqA5t1fFufIc2q0rmZaSupiozOi3vec=;
+ b=akS5DShg3XTYfaTq61/VhcT5nMq9oWCi+/0igbcMBRNVPpufzsp7A5xcYwGfzfOFGs
+ ulYWFViuuvPRpe7XYP2pQqG6PXFFAJPLSRq7MPtyDPHlxqaJ2l/FmbfYqlRcn+NRzsW5
+ /MfosIcARdG4lwY/3Tubecii06QGoSSNxRNfRIMNDqz9ic+4xV4bAMycvB0Ega+zq/+x
+ O1DtmEHFT+1b5lwW2RZ1DMTV0jPWjsLFHLPrsaQdtSeVnqvCRN9bIRqWjUV6X+yHhYIU
+ ick3yAOLxOBjmSjFucmY266H5ByItAuu7hEDRyUKE7O1l0GmEpjfFxXWrk9TvYdZqPal
+ 7kmg==
+X-Gm-Message-State: APjAAAX788fk+gcOHPGGvvfQKBS5oM/3WsXFqXu556IMDP0CiZM/CTPa
+ qCThH9ex0/SEfz6DXgnRH0XjcJPs
+X-Google-Smtp-Source: APXvYqxN4eRJ6j5nvVBllDVtTBnzMfXR9LI6FuuWMm+ael01FxLU+zM/8ZrhqXdIljiVlssw6hsRfw==
+X-Received: by 2002:a17:90a:d587:: with SMTP id
+ v7mr7363237pju.28.1561128393170; 
+ Fri, 21 Jun 2019 07:46:33 -0700 (PDT)
+Received: from localhost.localdomain ([2405:204:2081:a5f2:5e1e:1cae:baa8:1943])
+ by smtp.gmail.com with ESMTPSA id v5sm3338591pgq.66.2019.06.21.07.46.29
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 21 Jun 2019 07:46:32 -0700 (PDT)
+From: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 21 Jun 2019 20:15:40 +0530
+Message-Id: <20190621144541.13770-1-skrtbhtngr@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190620112729-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v2 01/20] hw/i386/pc: Use unsigned type to
- index arrays
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::42f
+Subject: [Qemu-devel] [RFC 0/1] Add live migration support to the PVRDMA
+ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,85 +77,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, Marcelo Tosatti <mtosatti@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org,
- Rob Bradford <robert.bradford@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Samuel Ortiz <sameo@linux.intel.com>, Richard Henderson <rth@twiddle.net>
+Cc: Yuval Shaia <yuval.shaia@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/19 5:27 PM, Michael S. Tsirkin wrote:
-> On Thu, Jun 13, 2019 at 04:34:27PM +0200, Philippe Mathieu-Daudé wrote:
->> Reviewed-by: Li Qiang <liq3ea@gmail.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> Motivation?  Is this a bugfix?
+Hi,
 
-Apparently I started to work on this series after "chardev: Convert
-qemu_chr_write() to take a size_t argument" [*] for which I had these
-extra warnings:
+I am a GSoC participant, trying to implement live migration for the
+pvrdma device with help from my mentors Marcel and Yuval.
+My current task is to save and load the various addresses that the
+device uses for DMA mapping. We will be adding the device state into
+live migration, incrementally. As the first step in the implementation,
+we are performing migration to the same host. This will save us from
+many complexities, such as GID change, at this stage, and we will
+address migration across hosts at a later point when same-host migration
+works.
 
-  --extra-cflags=-Wtype-limits\
-                 -Wsign-compare\
-                 -Wno-error=sign-compare
+Currently, the save and load logic uses SaveVMHandlers, which is the
+legcay way, and will be ported to VMStateDescription once the
+existing issues are solved.
 
-[*] https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg05229.html
+This RFC is meant to request suggestions on the things which are
+working and for help on the things which are not.
 
->> ---
->>  hw/i386/pc.c         | 5 +++--
->>  include/hw/i386/pc.h | 2 +-
->>  2 files changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->> index 2c5446b095..bb3c74f4ca 100644
->> --- a/hw/i386/pc.c
->> +++ b/hw/i386/pc.c
->> @@ -874,7 +874,7 @@ static void handle_a20_line_change(void *opaque, int irq, int level)
->>  
->>  int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
->>  {
->> -    int index = le32_to_cpu(e820_reserve.count);
->> +    unsigned int index = le32_to_cpu(e820_reserve.count);
->>      struct e820_entry *entry;
->>  
->>      if (type != E820_RAM) {
->> @@ -906,7 +906,8 @@ int e820_get_num_entries(void)
->>      return e820_entries;
->>  }
->>  
->> -bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t *length)
->> +bool e820_get_entry(unsigned int idx, uint32_t type,
->> +                    uint64_t *address, uint64_t *length)
->>  {
->>      if (idx < e820_entries && e820_table[idx].type == cpu_to_le32(type)) {
->>          *address = le64_to_cpu(e820_table[idx].address);
 
-And here I wanted to fix:
+What is working:
 
-hw/i386/pc.c:911:13: warning: comparison of integers of different signs:
-'int' and 'unsigned int' [-Wsign-compare]
-    if (idx < e820_entries && e820_table[idx].type == cpu_to_le32(type)) {
-        ~~~ ^ ~~~~~~~~~~~~
-hw/i386/pc.c:972:36: warning: comparison of integers of different signs:
-'unsigned int' and 'int' [-Wsign-compare]
-    for (i = 0, array_count = 0; i < e820_get_num_entries(); i++) {
-                                 ~ ^ ~~~~~~~~~~~~~~~~~~~~~~
-Is it worthwhile?
+* pvrdma device is getting initialized in a VM, its GID entry is
+  getting added to the host, and rc_pingpong is successful between
+  two such VMs. This is when libvirt is used to launch the VMs.
 
->> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
->> index a7d0b87166..3b3a0d6e59 100644
->> --- a/include/hw/i386/pc.h
->> +++ b/include/hw/i386/pc.h
->> @@ -291,7 +291,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
->>  
->>  int e820_add_entry(uint64_t, uint64_t, uint32_t);
->>  int e820_get_num_entries(void);
->> -bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
->> +bool e820_get_entry(unsigned int, uint32_t, uint64_t *, uint64_t *);
->>  
->>  extern GlobalProperty pc_compat_4_0_1[];
->>  extern const size_t pc_compat_4_0_1_len;
->> -- 
->> 2.20.1
+* The dma, cmd_slot_dma and resp_slot_dma addresses are saved at the
+  source and loaded properly in the destination upon migration. That is,
+  the values loaded at the dest during migration are the same as the
+  ones saved.
+
+  `dma` is provided by the guest device when it writes to BAR1, stored
+  in dev->dsr_info.dma. A DSR is created on mapping to this address.
+  `cmd_slot_dma` and `resp_slot_dma` are the dma addresses of the command
+  and response buffers, respectively, which are provided by the guest
+  through the DSR.
+
+* The DSR successfully (re)maps to the dma address loaded from
+  migration at the dest.
+
+
+What is not working:
+
+* In the pvrdma_load() logic, the mapping to DSR is successful at dest.
+  But the mapping for cmd and resp slots fails.
+  rdma_pci_dma_map() eventually calls address_space_map(). Inside the
+  latter, a global BounceBuffer bounce is checked to see if it is in use
+  (the atomic_xchg() primitive).
+  At the dest, it is in use and the dma remapping fails there, which
+  fails the whole migration process. Essentially, I am looking for a
+  way to remap guest physical address after a live migration (to the
+  same host). Any tips on avoiding the BounceBuffer will also be great.
+
+  I have also tried unmapping the cmd and resp slots at the source before
+  saving the dma addresses in pvrdma_save(), but the mapping fails anyway.
+
+* It seems that vmxnet3 migration itself is not working properly, at least
+  for me. The pvrdma device depends on it, vmxnet3 is function 0 and pvrdma
+  is function 1. This is happening even for a build of unmodified code from
+  the master branch.
+  After migration, the network connectivity is lost at destination.
+  Things are fine at the source before migration.
+  This is the command I am using at src:
+
+  sudo /home/skrtbhtngr/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
+    -enable-kvm \
+    -m 2G -smp cpus=2 \
+    -hda /home/skrtbhtngr/fedora.img \
+    -netdev tap,id=hostnet0 \
+    -device vmxnet3,netdev=hostnet0,id=net0,mac=52:54:00:99:ff:bc \
+    -monitor telnet:127.0.0.1:4444,server,nowait \
+    -trace events=/home/skrtbhtngr/trace-events \
+    -vnc 0.0.0.0:0
+
+  Similar command is used for the dest. Currently, I am trying
+  same-host migration for testing purpose, without the pvrdma device.
+  Two tap interfaces, for src and dest were created successfully at
+  the host. Kernel logs:
+  ...
+  br0: port 2(tap0) entered forwarding state
+  ...
+  br0: port 3(tap1) entered forwarding state
+
+  tcpdump at the dest reports only outgoing ARP packets, which ask
+  for gateway: "ARP, Request who-has _gateway tell guest1".
+
+  Tried using user (slirp) as the network backend, but no luck.
+  
+  Also tried git bisect to find the issue using a working commit (given
+  by Marcel), but it turns out that it is very old and I faced build
+  errors one after another.
+
+  Please note that e1000 live migration is working fine in the same setup.
+
+* Since we are aiming at trying on same-host migration first, I cannot
+  use libvirt as it does not allow this. Currently, I am running the
+  VMs using qemu-system commands. But libvirt is needed to add the GID
+  entry of the guest device in the host. I am looking for a workaround,
+  if that is possible at all.
+  I started a thread few days ago for the same on libvirt-users:
+  https://www.redhat.com/archives/libvirt-users/2019-June/msg00011.html
+
+
+Sukrit Bhatnagar (1):
+  hw/pvrdma: Add live migration support
+
+ hw/rdma/vmw/pvrdma_main.c | 56 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
+
+-- 
+2.21.0
+
 
