@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884444E0CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 09:05:55 +0200 (CEST)
-Received: from localhost ([::1]:55212 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF5C24E11A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 09:22:16 +0200 (CEST)
+Received: from localhost ([::1]:55256 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heDcQ-0004mi-Ea
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 03:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57471)
+	id 1heDi3-0007Ja-46
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 03:11:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35278)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tao3.xu@intel.com>) id 1heDRO-0006al-IZ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:54:32 -0400
+ (envelope-from <joel.stan@gmail.com>) id 1heDfO-0006Ew-V2
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:09:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tao3.xu@intel.com>) id 1heDRM-0002P2-PZ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:54:30 -0400
-Received: from mga11.intel.com ([192.55.52.93]:33610)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1heDRM-0001tH-DE
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:54:28 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2019 23:54:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="335735536"
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
- by orsmga005.jf.intel.com with ESMTP; 20 Jun 2019 23:54:11 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
- cohuck@redhat.com, mst@redhat.com, mtosatti@redhat.com
-Date: Fri, 21 Jun 2019 14:51:34 +0800
-Message-Id: <20190621065134.7392-3-tao3.xu@intel.com>
+ (envelope-from <joel.stan@gmail.com>) id 1heDUr-0007V2-Pr
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:58:07 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43491)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <joel.stan@gmail.com>)
+ id 1heDPr-0008T2-4L; Fri, 21 Jun 2019 02:52:56 -0400
+Received: by mail-pg1-x542.google.com with SMTP id f25so2872727pgv.10;
+ Thu, 20 Jun 2019 23:52:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QrPb1I4hGgIdnSQDxicKRNj7Vi+MgOZceJ5iUqGk3p8=;
+ b=t9MEcABTrVvPUw9UNLxvsfUsdMWlb/UtFwiat6FbeB+dYpuHLBwxy6AcI79w3NzdoZ
+ Gr5/uV3k4hCNkG1szSwqGRi+2gMCii0O9HNuBHiZ1gZZzM7CHuKj4g6Pmni3CRcHGwsC
+ YFAYSawf/C2DcIDzN65JXzAVjvj80Ghl63X9std2Eze5h/ftCN0KXxaRaF925VJAgHjJ
+ OzMhJiGK6wypRtnn1XwSMcc/WSiwQXJvXZSEwNFV1KDEHQBN4tyTLSQ7QgeQD/PMWPyv
+ bHCNKIPB1Lc7ClLloZl7QxVNmQYoxHPMq9UJQFg15epwtS8T5jyRmzua30nSo0ZHI0wM
+ pFHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=QrPb1I4hGgIdnSQDxicKRNj7Vi+MgOZceJ5iUqGk3p8=;
+ b=GJmPjYNaL/mKCdtEDVtImOYUjJAR+JKJBSZuOzaZHbp09M3wPmNfvklO+JuaQoBgGQ
+ 5seyOpQy4tr7ax8BEd5AFtauUju3IE3B3mO9y0eNtG69r50UgHeeUTClNoIiTCCZtUhx
+ P3N27+k2PPjYDnPWr/GtsQOlbT4inpsP3Ip7OL8Nrw75Lwx7QHzkxQ4B2JAt81T9EhL5
+ 6yYGmr6uy/QwgNUmvSwICtHGbNy8LMrBs+HoHDyAfgZf+DDPEYs/O7xchHM/CRD/Q4hn
+ F7RDndgqOwMZ0hnuLOzoYxWxM7o0ykkrZNuz1dW206/e2jeeTa4Epjpe3nyv0kf5PB26
+ wneg==
+X-Gm-Message-State: APjAAAXm+uAXyKZDQBSDszvlApTvGEGUSZbnkqkU7c/AzVpRFAjj5++/
+ A2E3Dknes3z0vW9XxUmUhZA=
+X-Google-Smtp-Source: APXvYqwPUo8K7Yy7BSHo3QAwaJI/jWlT/qI8OzIdy8OKTWtnltzZxVslVtS0j2dRYzh4SOU4rm+twQ==
+X-Received: by 2002:a63:1d5:: with SMTP id 204mr17261028pgb.207.1561099972851; 
+ Thu, 20 Jun 2019 23:52:52 -0700 (PDT)
+Received: from voyager.ibm.com ([36.255.48.244])
+ by smtp.gmail.com with ESMTPSA id m19sm2833108pff.153.2019.06.20.23.52.50
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 20 Jun 2019 23:52:52 -0700 (PDT)
+From: Joel Stanley <joel@jms.id.au>
+To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 21 Jun 2019 16:22:42 +0930
+Message-Id: <20190621065242.32535-1-joel@jms.id.au>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190621065134.7392-1-tao3.xu@intel.com>
-References: <20190621065134.7392-1-tao3.xu@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.93
-Subject: [Qemu-devel] [PATCH RESEND v3 2/2] target/i386: Add support for
- save/load IA32_UMWAIT_CONTROL MSR
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v2] aspeed: Link SCU to the watchdog
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,142 +76,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jingqi.liu@intel.com, tao3.xu@intel.com, xiaoyao.li@linux.intel.com,
- qemu-devel@nongnu.org, kvm@vger.kernel.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UMWAIT and TPAUSE instructions use IA32_UMWAIT_CONTROL at MSR index
-E1H to determines the maximum time in TSC-quanta that the processor
-can reside in either C0.1 or C0.2.
+The ast2500 uses the watchdog to reset the SDRAM controller. This
+operation is usually performed by u-boot's memory training procedure,
+and it is enabled by setting a bit in the SCU and then causing the
+watchdog to expire. Therefore, we need the watchdog to be able to
+access the SCU's register space.
 
-This patch is to Add support for save/load IA32_UMWAIT_CONTROL MSR in
-guest.
+This causes the watchdog to not perform a system reset when the bit is
+set. In the future it could perform a reset of the SDMC model.
 
-Co-developed-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
-
-Changes in v3:
-        Resend to update the dependcy KVM link:
-        https://lkml.org/lkml/2019/6/21/23
+v2: rebase on upstream, rework commit message
 ---
- target/i386/cpu.h     |  2 ++
- target/i386/kvm.c     | 13 +++++++++++++
- target/i386/machine.c | 20 ++++++++++++++++++++
- 3 files changed, 35 insertions(+)
+ hw/arm/aspeed_soc.c              |  2 ++
+ hw/watchdog/wdt_aspeed.c         | 20 ++++++++++++++++++++
+ include/hw/watchdog/wdt_aspeed.h |  1 +
+ 3 files changed, 23 insertions(+)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 2f7c57a3c2..eb98b2e54a 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -450,6 +450,7 @@ typedef enum X86Seg {
- 
- #define MSR_IA32_BNDCFGS                0x00000d90
- #define MSR_IA32_XSS                    0x00000da0
-+#define MSR_IA32_UMWAIT_CONTROL         0xe1
- 
- #define XSTATE_FP_BIT                   0
- #define XSTATE_SSE_BIT                  1
-@@ -1348,6 +1349,7 @@ typedef struct CPUX86State {
-     uint16_t fpregs_format_vmstate;
- 
-     uint64_t xss;
-+    uint64_t umwait;
- 
-     TPRAccess tpr_access_type;
- } CPUX86State;
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 3efdb90f11..506c7cd038 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -91,6 +91,7 @@ static bool has_msr_hv_stimer;
- static bool has_msr_hv_frequencies;
- static bool has_msr_hv_reenlightenment;
- static bool has_msr_xss;
-+static bool has_msr_umwait;
- static bool has_msr_spec_ctrl;
- static bool has_msr_virt_ssbd;
- static bool has_msr_smi_count;
-@@ -1486,6 +1487,9 @@ static int kvm_get_supported_msrs(KVMState *s)
-                 case MSR_IA32_XSS:
-                     has_msr_xss = true;
-                     break;
-+                case MSR_IA32_UMWAIT_CONTROL:
-+                    has_msr_umwait = true;
-+                    break;
-                 case HV_X64_MSR_CRASH_CTL:
-                     has_msr_hv_crash = true;
-                     break;
-@@ -2023,6 +2027,9 @@ static int kvm_put_msrs(X86CPU *cpu, int level)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, env->xss);
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index a2ea8c748449..ddd5dfacd7d6 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -155,6 +155,8 @@ static void aspeed_soc_init(Object *obj)
+                               sizeof(s->wdt[i]), TYPE_ASPEED_WDT);
+         qdev_prop_set_uint32(DEVICE(&s->wdt[i]), "silicon-rev",
+                                     sc->info->silicon_rev);
++        object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
++                                       OBJECT(&s->scu), &error_abort);
      }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, env->umwait);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, env->spec_ctrl);
-     }
-@@ -2416,6 +2423,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-     if (has_msr_xss) {
-         kvm_msr_entry_add(cpu, MSR_IA32_XSS, 0);
-     }
-+    if (has_msr_umwait) {
-+        kvm_msr_entry_add(cpu, MSR_IA32_UMWAIT_CONTROL, 0);
-+    }
-     if (has_msr_spec_ctrl) {
-         kvm_msr_entry_add(cpu, MSR_IA32_SPEC_CTRL, 0);
-     }
-@@ -2665,6 +2675,9 @@ static int kvm_get_msrs(X86CPU *cpu)
-         case MSR_IA32_XSS:
-             env->xss = msrs[i].data;
-             break;
-+        case MSR_IA32_UMWAIT_CONTROL:
-+            env->umwait = msrs[i].data;
-+            break;
-         default:
-             if (msrs[i].index >= MSR_MC0_CTL &&
-                 msrs[i].index < MSR_MC0_CTL + (env->mcg_cap & 0xff) * 4) {
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 4aff1a763f..db388b6b85 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -810,6 +810,25 @@ static const VMStateDescription vmstate_xss = {
-     }
- };
  
-+static bool umwait_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
+     sysbus_init_child_obj(obj, "ftgmac100", OBJECT(&s->ftgmac100),
+diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+index 4a8409f0daf5..57fe24ae6b1f 100644
+--- a/hw/watchdog/wdt_aspeed.c
++++ b/hw/watchdog/wdt_aspeed.c
+@@ -44,6 +44,9 @@
+ 
+ #define WDT_RESTART_MAGIC               0x4755
+ 
++#define SCU_RESET_CONTROL1              (0x04 / 4)
++#define    SCU_RESET_SDRAM              BIT(0)
 +
-+    return env->umwait != 0;
-+}
-+
-+static const VMStateDescription vmstate_umwait = {
-+    .name = "cpu/umwait",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = umwait_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(env.umwait, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- #ifdef TARGET_X86_64
- static bool pkru_needed(void *opaque)
+ static bool aspeed_wdt_is_enabled(const AspeedWDTState *s)
  {
-@@ -1100,6 +1119,7 @@ VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_hyperv_reenlightenment,
-         &vmstate_avx512,
-         &vmstate_xss,
-+        &vmstate_umwait,
-         &vmstate_tsc_khz,
-         &vmstate_msr_smi_count,
- #ifdef TARGET_X86_64
+     return s->regs[WDT_CTRL] & WDT_CTRL_ENABLE;
+@@ -222,6 +225,13 @@ static void aspeed_wdt_timer_expired(void *dev)
+ {
+     AspeedWDTState *s = ASPEED_WDT(dev);
+ 
++    /* Do not reset on SDRAM controller reset */
++    if (s->scu->regs[SCU_RESET_CONTROL1] & SCU_RESET_SDRAM) {
++        timer_del(s->timer);
++        s->regs[WDT_CTRL] = 0;
++        return;
++    }
++
+     qemu_log_mask(CPU_LOG_RESET, "Watchdog timer expired.\n");
+     watchdog_perform_action();
+     timer_del(s->timer);
+@@ -233,6 +243,16 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+     AspeedWDTState *s = ASPEED_WDT(dev);
++    Error *err = NULL;
++    Object *obj;
++
++    obj = object_property_get_link(OBJECT(dev), "scu", &err);
++    if (!obj) {
++        error_propagate(errp, err);
++        error_prepend(errp, "required link 'scu' not found: ");
++        return;
++    }
++    s->scu = ASPEED_SCU(obj);
+ 
+     if (!is_supported_silicon_rev(s->silicon_rev)) {
+         error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
+diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+index 88d8be4f78d6..daef0c0e230b 100644
+--- a/include/hw/watchdog/wdt_aspeed.h
++++ b/include/hw/watchdog/wdt_aspeed.h
+@@ -27,6 +27,7 @@ typedef struct AspeedWDTState {
+     MemoryRegion iomem;
+     uint32_t regs[ASPEED_WDT_REGS_MAX];
+ 
++    AspeedSCUState *scu;
+     uint32_t pclk_freq;
+     uint32_t silicon_rev;
+     uint32_t ext_pulse_width_mask;
 -- 
 2.20.1
 
