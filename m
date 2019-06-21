@@ -2,46 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3084EA99
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:29:16 +0200 (CEST)
-Received: from localhost ([::1]:35646 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1A54EB33
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:53:13 +0200 (CEST)
+Received: from localhost ([::1]:35758 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heKXT-00084U-70
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42126)
+	id 1heKuf-0000xs-5F
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45910)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1heKWZ-0007cO-Oe
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:28:21 -0400
+ (envelope-from <crosa@redhat.com>) id 1heKoU-0003ID-Ge
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1heKWX-0001jQ-NS
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:28:18 -0400
-Received: from mga07.intel.com ([134.134.136.100]:22046)
+ (envelope-from <crosa@redhat.com>) id 1heKga-0002oK-0R
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:38:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35676)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1heKWV-0001gG-S5
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:28:16 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 21 Jun 2019 07:28:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,400,1557212400"; d="scan'208";a="160981182"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga008.fm.intel.com with ESMTP; 21 Jun 2019 07:28:11 -0700
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 22:27:39 +0800
-Message-Id: <20190621142739.23703-1-richardw.yang@linux.intel.com>
-X-Mailer: git-send-email 2.19.1
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1heKgZ-0002oB-Nt
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:38:39 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D866F6EB82;
+ Fri, 21 Jun 2019 14:38:28 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-120-204.rdu2.redhat.com
+ [10.10.120.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB2F160572;
+ Fri, 21 Jun 2019 14:38:18 +0000 (UTC)
+Date: Fri, 21 Jun 2019 10:38:16 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190621143816.GA24282@localhost.localdomain>
+References: <20190621060925.16214-1-crosa@redhat.com>
+ <20190621060925.16214-2-crosa@redhat.com>
+ <f18a5df8-201e-b8a1-1a3e-3e2254ce8b1e@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.100
-Subject: [Qemu-devel] [PATCH] migrtion: define
- MigrationState/MigrationIncomingState.state as MigrationStatus
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <f18a5df8-201e-b8a1-1a3e-3e2254ce8b1e@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 21 Jun 2019 14:38:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/2] Acceptance tests: exclude "flaky" tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,91 +60,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
- quintela@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No functional change. Add default case to fix warning.
+On Fri, Jun 21, 2019 at 09:03:33AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> On 6/21/19 8:09 AM, Cleber Rosa wrote:
+> > It's a fact that some tests may not be 100% reliable in all
+> > environments.  While it's a tough call to remove a useful test that
+> > from the tree because it may fail every 1/100th time (or so), having
+> > human attention drawn to known issues is very bad for humans and for
+> > the projects they manage.
+> >=20
+> > As a compromise solution, this marks tests that are known to have
+> > issues, or that exercises known issues in QEMU or other components,
+> > and excludes them from the entry point.  As a consequence, tests
+> > marked as "flaky" will not be executed as part of "make
+> > check-acceptance".
+> >=20
+> > Because such tests should be forgiven but never be forgotten, it's
+> > possible to list them with (assuming "make check-venv" or "make
+> > check-acceptance" has already initiatilized the venv):
+> >=20
+> >   $ ./tests/venv/bin/avocado list -t flaky tests/acceptance
+> >=20
+> > The current list of tests marked as flaky are a result of running
+> > the entire set of acceptance tests around 20 times.  The results
+> > were then processed with a helper script[1].  That either confirmed
+> > known issues (in the case of aarch64 and arm)[2] or revealed new
+> > ones (mips).
+> >=20
+> > This also bumps the Avocado version to one that includes a fix to the
+> > parsing of multiple and mix "key:val" and simple tag values.
+> >=20
+> > [1] https://raw.githubusercontent.com/avocado-framework/avocado/maste=
+r/contrib/scripts/summarize-job-failures.py
+> > [2] https://bugs.launchpad.net/qemu/+bug/1829779
+> >=20
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >  docs/devel/testing.rst                   | 17 +++++++++++++++++
+> >  tests/Makefile.include                   |  6 +++++-
+> >  tests/acceptance/boot_linux_console.py   |  2 ++
+> >  tests/acceptance/linux_ssh_mips_malta.py |  2 ++
+> >  tests/requirements.txt                   |  2 +-
+> >  5 files changed, 27 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> > index da2d0fc964..ff4d8e2e1c 100644
+> > --- a/docs/devel/testing.rst
+> > +++ b/docs/devel/testing.rst
+> > @@ -574,6 +574,23 @@ may be invoked by running:
+> > =20
+> >    tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
+> > =20
+> > +Tagging tests
+> > +-------------
+> > +
+> > +flaky
+> > +~~~~~
+> > +
+> > +If a test is known to fail intermittently, even if only every one
+> > +hundredth time, it's highly advisable to mark it as a flaky test.
+> > +This will prevent these individual tests from failing much larger
+> > +jobs, will avoid human interaction and time wasted to verify a known
+> > +issue, and worse of all, can lead to the discredit of automated
+> > +testing.
+> > +
+> > +To mark a test as flaky, add to its docstring.::
+> > +
+> > +  :avocado: tags=3Dflaky
+>=20
+> I certainly disagree with this patch, failing tests have to be fixed.
+> Why not tag all the codebase flaky and sing "happy coding"?
+>
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
----
- migration/migration.c | 8 +++++++-
- migration/migration.h | 6 +++---
- 2 files changed, 10 insertions(+), 4 deletions(-)
+That's a great idea! :)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 2865ae3fa9..0fd2364961 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -946,6 +946,8 @@ static void fill_source_migration_info(MigrationInfo *info)
-     case MIGRATION_STATUS_CANCELLED:
-         info->has_status = true;
-         break;
-+    default:
-+        return;
-     }
-     info->status = s->state;
- }
-@@ -1054,6 +1056,8 @@ static void fill_destination_migration_info(MigrationInfo *info)
-         info->has_status = true;
-         fill_destination_postcopy_migration_info(info);
-         break;
-+    default:
-+        return;
-     }
-     info->status = mis->state;
- }
-@@ -1446,7 +1450,7 @@ void qmp_migrate_start_postcopy(Error **errp)
- 
- /* shared migration helpers */
- 
--void migrate_set_state(int *state, int old_state, int new_state)
-+void migrate_set_state(MigrationStatus *state, int old_state, int new_state)
- {
-     assert(new_state < MIGRATION_STATUS__MAX);
-     if (atomic_cmpxchg(state, old_state, new_state) == old_state) {
-@@ -1683,6 +1687,8 @@ bool migration_is_idle(void)
-         return false;
-     case MIGRATION_STATUS__MAX:
-         g_assert_not_reached();
-+    default:
-+        g_assert_not_reached();
-     }
- 
-     return false;
-diff --git a/migration/migration.h b/migration/migration.h
-index 5e8f09c6db..418ee00053 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -65,7 +65,7 @@ struct MigrationIncomingState {
- 
-     QEMUBH *bh;
- 
--    int state;
-+    MigrationStatus state;
- 
-     bool have_colo_incoming_thread;
-     QemuThread colo_incoming_thread;
-@@ -151,7 +151,7 @@ struct MigrationState
-     /* params from 'migrate-set-parameters' */
-     MigrationParameters parameters;
- 
--    int state;
-+    MigrationStatus state;
- 
-     /* State related to return path */
-     struct {
-@@ -234,7 +234,7 @@ struct MigrationState
-     bool decompress_error_check;
- };
- 
--void migrate_set_state(int *state, int old_state, int new_state);
-+void migrate_set_state(MigrationStatus *state, int old_state, int new_state);
- 
- void migration_fd_process_incoming(QEMUFile *f);
- void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp);
--- 
-2.19.1
+Now, seriously, I also resisted this for quite a long time.  The
+reality, though, is that intermittent failures will continue to
+appear, and letting tests (and jobs, and CI pipelines, and whatnot)
+fail is a very bad idea.  We all agree that real fixes are better than
+this, but many times they don't come quickly.
 
+> Anyway if this get accepted, 'flaky' tags must have the intermittent
+> failure well described, and a Launchpad/Bugzilla tracking ticket refere=
+nced.
+>
+
+And here you have a key point that I absolutely agree with.  The
+"flaky" approach can either poison a lot of tests, and be seen as
+quick way out of a difficult issue revealed by a test.  Or, it can
+serve as an effective tool to keep track of these very important
+issues.
+
+If we add:
+
+   # https://bugs.launchpad.net/qemu/+bug/1829779
+   :avocado: flaky
+
+Topped with some human, I believe this can be very effective.  This goes
+without saying, but comments here are very much welcome.
+
+- Cleber.
+
+> > +
+> >  Manual Installation
+> >  -------------------
+> > =20
+> > diff --git a/tests/Makefile.include b/tests/Makefile.include
+> > index db750dd6d0..4c97da2878 100644
+> > --- a/tests/Makefile.include
+> > +++ b/tests/Makefile.include
+> > @@ -1125,7 +1125,11 @@ TESTS_RESULTS_DIR=3D$(BUILD_DIR)/tests/results
+> >  # Any number of command separated loggers are accepted.  For more
+> >  # information please refer to "avocado --help".
+> >  AVOCADO_SHOW=3Dapp
+> > -AVOCADO_TAGS=3D$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(=
+TARGET_DIRS)))
+> > +
+> > +# Additional tags that are added to each occurence of "--filter-by-t=
+ags"
+> > +AVOCADO_EXTRA_TAGS :=3D ,-flaky
+> > +
+> > +AVOCADO_TAGS=3D$(patsubst %-softmmu,--filter-by-tags=3Darch:%$(AVOCA=
+DO_EXTRA_TAGS), $(filter %-softmmu,$(TARGET_DIRS)))
+> > =20
+> >  ifneq ($(findstring v2,"v$(PYTHON_VERSION)"),v2)
+> >  $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+> > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptanc=
+e/boot_linux_console.py
+> > index 32159503e9..6bd5c1ab53 100644
+> > --- a/tests/acceptance/boot_linux_console.py
+> > +++ b/tests/acceptance/boot_linux_console.py
+> > @@ -249,6 +249,7 @@ class BootLinuxConsole(Test):
+> >          """
+> >          :avocado: tags=3Darch:aarch64
+> >          :avocado: tags=3Dmachine:virt
+> > +        :avocado: tags=3Dflaky
+> >          """
+> >          kernel_url =3D ('https://download.fedoraproject.org/pub/fedo=
+ra/linux/'
+> >                        'releases/29/Everything/aarch64/os/images/pxeb=
+oot/vmlinuz')
+> > @@ -270,6 +271,7 @@ class BootLinuxConsole(Test):
+> >          """
+> >          :avocado: tags=3Darch:arm
+> >          :avocado: tags=3Dmachine:virt
+> > +        :avocado: tags=3Dflaky
+> >          """
+> >          kernel_url =3D ('https://download.fedoraproject.org/pub/fedo=
+ra/linux/'
+> >                        'releases/29/Everything/armhfp/os/images/pxebo=
+ot/vmlinuz')
+> > diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/accepta=
+nce/linux_ssh_mips_malta.py
+> > index aafb0c39f6..ae70b658e0 100644
+> > --- a/tests/acceptance/linux_ssh_mips_malta.py
+> > +++ b/tests/acceptance/linux_ssh_mips_malta.py
+> > @@ -208,6 +208,7 @@ class LinuxSSH(Test):
+> >          :avocado: tags=3Dmachine:malta
+> >          :avocado: tags=3Dendian:big
+> >          :avocado: tags=3Ddevice:pcnet32
+> > +        :avocado: tags=3Dflaky
+> >          """
+> >          kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mip=
+s/'
+> >                        'vmlinux-3.2.0-4-5kc-malta')
+> > @@ -222,6 +223,7 @@ class LinuxSSH(Test):
+> >          :avocado: tags=3Dmachine:malta
+> >          :avocado: tags=3Dendian:little
+> >          :avocado: tags=3Ddevice:pcnet32
+> > +        :avocado: tags=3Dflaky
+> >          """
+> >          kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mip=
+sel/'
+> >                        'vmlinux-3.2.0-4-5kc-malta')
+> > diff --git a/tests/requirements.txt b/tests/requirements.txt
+> > index 3ae0e29ad7..58d63d171f 100644
+> > --- a/tests/requirements.txt
+> > +++ b/tests/requirements.txt
+> > @@ -1,5 +1,5 @@
+> >  # Add Python module requirements, one per line, to be installed
+> >  # in the tests/venv Python virtual environment. For more info,
+> >  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
+> > -avocado-framework=3D=3D68.0
+> > +avocado-framework=3D=3D69.1
+> >  paramiko
+> >=20
+>=20
 
