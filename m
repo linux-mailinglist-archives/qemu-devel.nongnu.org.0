@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2A54E73E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:38:21 +0200 (CEST)
-Received: from localhost ([::1]:59882 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9696E4E754
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:49:45 +0200 (CEST)
+Received: from localhost ([::1]:59970 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heHs5-0006VX-2g
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:38:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49029)
+	id 1heI36-0007GE-QE
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:49:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49031)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkY-0000fj-Ai
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHkY-0000fp-Ct
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkU-0005Qk-CV
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHkV-0005TU-8b
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:34 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45647)
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54498)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1heHkU-0005OJ-6A
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:30 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id f9so6189824wre.12
+ id 1heHkV-0005Qp-1U
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:31 -0400
+Received: by mail-wm1-x332.google.com with SMTP id g135so5999995wme.4
  for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=Iq0W4QsPIXfjOn4JNS6Kd8bNeG3F7+GRE1ESQz9CIvE=;
- b=KEn+RO9jA57d9xQy63pdzqzckOOwhKNmBSxlZAWjWyy8a4kWGeUZbLm+4R7hA8eeVI
- NTQN1fULRyFxe2WBPveCWcTEsSTztQ8eP2VuS/pOfjJQ3E2yIA3NJOEo2zYmTlOG6jYs
- d8UM/v/CGL+4yyYt7H4edWkot6A9O/dMPkHLy5s+ALo8NGC+h2DNJgX9OBfmDo3GnbCJ
- yHnrUZlY8MZj4kt6LY2qN9Mx/fpptkLqt5wU9j9t3e/RhsB9l4aAq166K1BNvWCVmqvn
- fTJB3yQszDPzsLuUcXJuFsMxYr3ymoirKnfRjXHbCIYE/yOceEVjpKUshu1yV9zdzZyj
- TX1w==
+ bh=rLWxEjPZN+ttDy6470/jW3LY13Gz8VOEZike0sn0oXQ=;
+ b=Bvzdz/Z513MYyxRbWwsxtM4IvKkQurc5MqVNLcsp4dDHTFAuGttSkA3OgieFIvxXeJ
+ q5LO1OOZxPLmCV2WUbSsb+LCxSwx31K6Ym2L/i80vxKwEZFfSfJU4TN7KCxVMoP9uqYg
+ JxHJB+5L68IaGs+YschFkoiMkXc5UdTyPlsG7rxCxF3Puqg/kX+eUwzK4pgrtu3frIcO
+ hTwUXVSwFXouKBpWtnwAgHqClPBfg9nyNMwNUu6olSm9WeyNhFvVgeBL3QuKnVN4vCNC
+ u9BtkmWYDnaITpEfok+pBtD7vbl/YFc9ti7i0XC+79seJvLC+NRMUSCDf9z4GxN5thrk
+ qp4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=Iq0W4QsPIXfjOn4JNS6Kd8bNeG3F7+GRE1ESQz9CIvE=;
- b=Bk30HC6WTiIcod7DBuJyaI4mhr5kehg73tBId+z2jZlIirgTJbobtqGbvLKPKI7152
- lO51E25ctEsJm09ERuKHiQnKhOP7sfst9wxfkgM5czqoh7tuPXuhrGI8BzO5lv8s97s5
- YWbbCcR1N35Ir/ABMISNSqTevk1iSXnkoUyyzXRjkqy6D4BfwA1RIDI95tQN/UNqUPRl
- MPUuI6ykmkqO5tJgp1b1A1F6k+uQd0p4ZOa3xt2xbdS/3pHAn83kdMjv0eTtgePqw/MY
- La4KGQvXAkVS/GgL6hJVXD/Z9i+hMiWeV0mFTG4Sg3wjoRn4smhHgBtzau+QbwHuD4Nv
- OnkA==
-X-Gm-Message-State: APjAAAVDri+nYchrSUx3PY1uY4VpNfvgLYGfQs+/bCp/a7BroGPu2Yla
- eGrQ3MDS0lr03si1xH75sXnXhA7g
-X-Google-Smtp-Source: APXvYqxAARNKzFKDIO9jej04MkvryfmnCHMpL/lX/j6Ca2FsMPjjEnmYtiTZUWGrg11wo/ZoVNPotA==
-X-Received: by 2002:adf:eb4e:: with SMTP id u14mr49657531wrn.168.1561116628781; 
- Fri, 21 Jun 2019 04:30:28 -0700 (PDT)
+ bh=rLWxEjPZN+ttDy6470/jW3LY13Gz8VOEZike0sn0oXQ=;
+ b=BiRMCsKhQcRsojlEtXLDuA/ocll2+MRoD6RDd3f2LHcgsutMF35a7dGDp704m573On
+ Fh7QRpED+90lZrXtwGRbv/pN8qdd4QJPEW1I1oaPeSWCJ6pqyhm/EyfjkuEZlo4eB5ly
+ JvTrSmfw/PHNHUjQ/iLB0joTFXPxD3l9ksfndd33uieiYQZ8MkDrUkl4r0vCC5rnvQPq
+ yjHoHubneYn0lwMLc9LdiTMhqhXtCECVJtd+/r83BQ3qJAoZS0Q4GhPMF/opQW7ksBhl
+ YFwGH12sa3e2YAGH1G9hvSc2hdRr1ao4OW+oUA6c509YYz5a/EnhXVtf/gA+eE3Rj0dX
+ 4yvQ==
+X-Gm-Message-State: APjAAAXcLm+BO7UIm/AA0D92V3tKNwMJRmYoccMjVRh/y2VuGWLVp/j4
+ zQGkKRWwBr2fUOt0ZpzeuKrhSiGQ
+X-Google-Smtp-Source: APXvYqwg8RHNJTJxZ6E+4Ov0SQTcWQxjYDlMCn20/q4lXJ6XWiopmJkeQoUWsz8mw59ot6L+RprW5Q==
+X-Received: by 2002:a7b:cb94:: with SMTP id m20mr3694471wmi.144.1561116629737; 
+ Fri, 21 Jun 2019 04:30:29 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.27
+ by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.28
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:30:27 -0700 (PDT)
+ Fri, 21 Jun 2019 04:30:29 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:30:01 +0200
-Message-Id: <1561116620-22245-7-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 13:30:02 +0200
+Message-Id: <1561116620-22245-8-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42d
-Subject: [Qemu-devel] [PULL 06/25] i386/kvm: document existing Hyper-V
- enlightenments
+X-Received-From: 2a00:1450:4864:20::332
+Subject: [Qemu-devel] [PULL 07/25] i386/kvm: implement 'hv-passthrough' mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,206 +80,238 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-Currently, there is no doc describing hv-* CPU flags, people are
-encouraged to get the information from Microsoft Hyper-V Top Level
-Functional specification (TLFS). There is, however, a bit of QEMU
-specifics.
+In many case we just want to give Windows guests all currently supported
+Hyper-V enlightenments and that's where this new mode may come handy. We
+pass through what was returned by KVM_GET_SUPPORTED_HV_CPUID.
+
+hv_cpuid_check_and_set() is modified to also set cpu->hyperv_* flags as
+we may want to check them later (and we actually do for hv_runtime,
+hv_synic,...).
+
+'hv-passthrough' is a development only feature, a migration blocker is
+added to prevent issues while migrating between hosts with different
+feature sets.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20190517141924.19024-5-vkuznets@redhat.com>
+Message-Id: <20190517141924.19024-6-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/hyperv.txt | 181 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 181 insertions(+)
- create mode 100644 docs/hyperv.txt
+ docs/hyperv.txt   | 10 +++++++
+ target/i386/cpu.c |  1 +
+ target/i386/cpu.h |  1 +
+ target/i386/kvm.c | 89 ++++++++++++++++++++++++++++++++++++++++++++++---------
+ 4 files changed, 87 insertions(+), 14 deletions(-)
 
 diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-new file mode 100644
-index 0000000..c423e0f
---- /dev/null
+index c423e0f..beadb2d 100644
+--- a/docs/hyperv.txt
 +++ b/docs/hyperv.txt
-@@ -0,0 +1,181 @@
-+Hyper-V Enlightenments
-+======================
-+
-+
-+1. Description
-+===============
-+In some cases when implementing a hardware interface in software is slow, KVM
-+implements its own paravirtualized interfaces. This works well for Linux as
-+guest support for such features is added simultaneously with the feature itself.
-+It may, however, be hard-to-impossible to add support for these interfaces to
-+proprietary OSes, namely, Microsoft Windows.
-+
-+KVM on x86 implements Hyper-V Enlightenments for Windows guests. These features
-+make Windows and Hyper-V guests think they're running on top of a Hyper-V
-+compatible hypervisor and use Hyper-V specific features.
-+
-+
-+2. Setup
-+=========
-+No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
-+QEMU, individual enlightenments can be enabled through CPU flags, e.g:
-+
-+  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
-+
-+Sometimes there are dependencies between enlightenments, QEMU is supposed to
-+check that the supplied configuration is sane.
-+
-+When any set of the Hyper-V enlightenments is enabled, QEMU changes hypervisor
-+identification (CPUID 0x40000000..0x4000000A) to Hyper-V. KVM identification
-+and features are kept in leaves 0x40000100..0x40000101.
-+
-+
-+3. Existing enlightenments
-+===========================
-+
-+3.1. hv-relaxed
-+================
-+This feature tells guest OS to disable watchdog timeouts as it is running on a
-+hypervisor. It is known that some Windows versions will do this even when they
-+see 'hypervisor' CPU flag.
-+
-+3.2. hv-vapic
-+==============
-+Provides so-called VP Assist page MSR to guest allowing it to work with APIC
-+more efficiently. In particular, this enlightenment allows paravirtualized
-+(exit-less) EOI processing.
-+
-+3.3. hv-spinlocks=xxx
-+======================
-+Enables paravirtualized spinlocks. The parameter indicates how many times
-+spinlock acquisition should be attempted before indicating the situation to the
-+hypervisor. A special value 0xffffffff indicates "never to retry".
-+
-+3.4. hv-vpindex
-+================
-+Provides HV_X64_MSR_VP_INDEX (0x40000002) MSR to the guest which has Virtual
-+processor index information. This enlightenment makes sense in conjunction with
-+hv-synic, hv-stimer and other enlightenments which require the guest to know its
-+Virtual Processor indices (e.g. when VP index needs to be passed in a
-+hypercall).
-+
-+3.5. hv-runtime
-+================
-+Provides HV_X64_MSR_VP_RUNTIME (0x40000010) MSR to the guest. The MSR keeps the
-+virtual processor run time in 100ns units. This gives guest operating system an
-+idea of how much time was 'stolen' from it (when the virtual CPU was preempted
-+to perform some other work).
-+
-+3.6. hv-crash
-+==============
-+Provides HV_X64_MSR_CRASH_P0..HV_X64_MSR_CRASH_P5 (0x40000100..0x40000105) and
-+HV_X64_MSR_CRASH_CTL (0x40000105) MSRs to the guest. These MSRs are written to
-+by the guest when it crashes, HV_X64_MSR_CRASH_P0..HV_X64_MSR_CRASH_P5 MSRs
-+contain additional crash information. This information is outputted in QEMU log
-+and through QAPI.
-+Note: unlike under genuine Hyper-V, write to HV_X64_MSR_CRASH_CTL causes guest
-+to shutdown. This effectively blocks crash dump generation by Windows.
-+
-+3.7. hv-time
-+=============
-+Enables two Hyper-V-specific clocksources available to the guest: MSR-based
-+Hyper-V clocksource (HV_X64_MSR_TIME_REF_COUNT, 0x40000020) and Reference TSC
-+page (enabled via MSR HV_X64_MSR_REFERENCE_TSC, 0x40000021). Both clocksources
-+are per-guest, Reference TSC page clocksource allows for exit-less time stamp
-+readings. Using this enlightenment leads to significant speedup of all timestamp
-+related operations.
-+
-+3.8. hv-synic
-+==============
-+Enables Hyper-V Synthetic interrupt controller - an extension of a local APIC.
-+When enabled, this enlightenment provides additional communication facilities
-+to the guest: SynIC messages and Events. This is a pre-requisite for
-+implementing VMBus devices (not yet in QEMU). Additionally, this enlightenment
-+is needed to enable Hyper-V synthetic timers. SynIC is controlled through MSRs
-+HV_X64_MSR_SCONTROL..HV_X64_MSR_EOM (0x40000080..0x40000084) and
-+HV_X64_MSR_SINT0..HV_X64_MSR_SINT15 (0x40000090..0x4000009F)
-+
-+Requires: hv-vpindex
-+
-+3.9. hv-stimer
-+===============
-+Enables Hyper-V synthetic timers. There are four synthetic timers per virtual
-+CPU controlled through HV_X64_MSR_STIMER0_CONFIG..HV_X64_MSR_STIMER3_COUNT
-+(0x400000B0..0x400000B7) MSRs. These timers can work either in single-shot or
-+periodic mode. It is known that certain Windows versions revert to using HPET
-+(or even RTC when HPET is unavailable) extensively when this enlightenment is
-+not provided; this can lead to significant CPU consumption, even when virtual
-+CPU is idle.
-+
-+Requires: hv-vpindex, hv-synic, hv-time
-+
-+3.10. hv-tlbflush
-+==================
-+Enables paravirtualized TLB shoot-down mechanism. On x86 architecture, remote
-+TLB flush procedure requires sending IPIs and waiting for other CPUs to perform
-+local TLB flush. In virtualized environment some virtual CPUs may not even be
-+scheduled at the time of the call and may not require flushing (or, flushing
-+may be postponed until the virtual CPU is scheduled). hv-tlbflush enlightenment
-+implements TLB shoot-down through hypervisor enabling the optimization.
-+
-+Requires: hv-vpindex
-+
-+3.11. hv-ipi
-+=============
-+Enables paravirtualized IPI send mechanism. HvCallSendSyntheticClusterIpi
-+hypercall may target more than 64 virtual CPUs simultaneously, doing the same
-+through APIC requires more than one access (and thus exit to the hypervisor).
-+
-+Requires: hv-vpindex
-+
-+3.12. hv-vendor-id=xxx
-+=======================
-+This changes Hyper-V identification in CPUID 0x40000000.EBX-EDX from the default
-+"Microsoft Hv". The parameter should be no longer than 12 characters. According
-+to the specification, guests shouldn't use this information and it is unknown
-+if there is a Windows version which acts differently.
-+Note: hv-vendor-id is not an enlightenment and thus doesn't enable Hyper-V
-+identification when specified without some other enlightenment.
-+
-+3.13. hv-reset
-+===============
-+Provides HV_X64_MSR_RESET (0x40000003) MSR to the guest allowing it to reset
-+itself by writing to it. Even when this MSR is enabled, it is not a recommended
-+way for Windows to perform system reboot and thus it may not be used.
-+
-+3.14. hv-frequencies
-+============================================
-+Provides HV_X64_MSR_TSC_FREQUENCY (0x40000022) and HV_X64_MSR_APIC_FREQUENCY
-+(0x40000023) allowing the guest to get its TSC/APIC frequencies without doing
-+measurements.
-+
-+3.15 hv-reenlightenment
+@@ -175,6 +175,16 @@ without the feature to find out if enabling it is beneficial.
+ Requires: hv-vapic
+ 
+ 
++4. Development features
 +========================
-+The enlightenment is nested specific, it targets Hyper-V on KVM guests. When
-+enabled, it provides HV_X64_MSR_REENLIGHTENMENT_CONTROL (0x40000106),
-+HV_X64_MSR_TSC_EMULATION_CONTROL (0x40000107)and HV_X64_MSR_TSC_EMULATION_STATUS
-+(0x40000108) MSRs allowing the guest to get notified when TSC frequency changes
-+(only happens on migration) and keep using old frequency (through emulation in
-+the hypervisor) until it is ready to switch to the new one. This, in conjunction
-+with hv-frequencies, allows Hyper-V on KVM to pass stable clocksource (Reference
-+TSC page) to its own guests.
-+
-+Recommended: hv-frequencies
-+
-+3.16. hv-evmcs
-+===============
-+The enlightenment is nested specific, it targets Hyper-V on KVM guests. When
-+enabled, it provides Enlightened VMCS feature to the guest. The feature
-+implements paravirtualized protocol between L0 (KVM) and L1 (Hyper-V)
-+hypervisors making L2 exits to the hypervisor faster. The feature is Intel-only.
-+Note: some virtualization features (e.g. Posted Interrupts) are disabled when
-+hv-evmcs is enabled. It may make sense to measure your nested workload with and
-+without the feature to find out if enabling it is beneficial.
-+
-+Requires: hv-vapic
++In some cases (e.g. during development) it may make sense to use QEMU in
++'pass-through' mode and give Windows guests all enlightenments currently
++supported by KVM. This pass-through mode is enabled by "hv-passthrough" CPU
++flag.
++Note: enabling this flag effectively prevents migration as supported features
++may differ between target and destination.
 +
 +
-+4. Useful links
-+================
-+Hyper-V Top Level Functional specification and other information:
-+https://github.com/MicrosoftDocs/Virtualization-Documentation
+ 4. Useful links
+ ================
+ Hyper-V Top Level Functional specification and other information:
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index e90c1ac..e07996c 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5883,6 +5883,7 @@ static Property x86_cpu_properties[] = {
+                       HYPERV_FEAT_EVMCS, 0),
+     DEFINE_PROP_BIT64("hv-ipi", X86CPU, hyperv_features,
+                       HYPERV_FEAT_IPI, 0),
++    DEFINE_PROP_BOOL("hv-passthrough", X86CPU, hyperv_passthrough, false),
+ 
+     DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
+     DEFINE_PROP_BOOL("enforce", X86CPU, enforce_cpuid, false),
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 30cd1a0..86edbf5 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1390,6 +1390,7 @@ struct X86CPU {
+     char *hyperv_vendor_id;
+     bool hyperv_synic_kvm_only;
+     uint64_t hyperv_features;
++    bool hyperv_passthrough;
+ 
+     bool check_cpuid;
+     bool enforce_cpuid;
+diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+index a041b4d..93ac6ba 100644
+--- a/target/i386/kvm.c
++++ b/target/i386/kvm.c
+@@ -639,7 +639,7 @@ static bool hyperv_enabled(X86CPU *cpu)
+     CPUState *cs = CPU(cpu);
+     return kvm_check_extension(cs->kvm_state, KVM_CAP_HYPERV) > 0 &&
+         ((cpu->hyperv_spinlock_attempts != HYPERV_SPINLOCK_NEVER_RETRY) ||
+-         cpu->hyperv_features);
++         cpu->hyperv_features || cpu->hyperv_passthrough);
+ }
+ 
+ static int kvm_arch_set_tsc_khz(CPUState *cs)
+@@ -985,10 +985,10 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+ {
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+-    uint32_t r, fw, bits;;
++    uint32_t r, fw, bits;
+     int i;
+ 
+-    if (!hyperv_feat_enabled(cpu, feature)) {
++    if (!hyperv_feat_enabled(cpu, feature) && !cpu->hyperv_passthrough) {
+         return 0;
+     }
+ 
+@@ -1001,15 +1001,23 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
+         }
+ 
+         if (hv_cpuid_get_fw(cpuid, fw, &r) || (r & bits) != bits) {
+-            fprintf(stderr,
+-                    "Hyper-V %s is not supported by kernel\n",
+-                    kvm_hyperv_properties[feature].desc);
+-            return 1;
++            if (hyperv_feat_enabled(cpu, feature)) {
++                fprintf(stderr,
++                        "Hyper-V %s is not supported by kernel\n",
++                        kvm_hyperv_properties[feature].desc);
++                return 1;
++            } else {
++                return 0;
++            }
+         }
+ 
+         env->features[fw] |= bits;
+     }
+ 
++    if (cpu->hyperv_passthrough) {
++        cpu->hyperv_features |= BIT(feature);
++    }
++
+     return 0;
+ }
+ 
+@@ -1027,22 +1035,29 @@ static int hyperv_handle_properties(CPUState *cs,
+     struct kvm_cpuid_entry2 *c;
+     uint32_t signature[3];
+     uint32_t cpuid_i = 0;
+-    int r = 0;
++    int r;
+ 
+     if (!hyperv_enabled(cpu))
+         return 0;
+ 
+-    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
++    if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) ||
++        cpu->hyperv_passthrough) {
+         uint16_t evmcs_version;
+ 
+-        if (kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_ENLIGHTENED_VMCS, 0,
+-                                (uintptr_t)&evmcs_version)) {
++        r = kvm_vcpu_enable_cap(cs, KVM_CAP_HYPERV_ENLIGHTENED_VMCS, 0,
++                                (uintptr_t)&evmcs_version);
++
++        if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS) && r) {
+             fprintf(stderr, "Hyper-V %s is not supported by kernel\n",
+                     kvm_hyperv_properties[HYPERV_FEAT_EVMCS].desc);
+             return -ENOSYS;
+         }
+-        env->features[FEAT_HV_RECOMM_EAX] |= HV_ENLIGHTENED_VMCS_RECOMMENDED;
+-        env->features[FEAT_HV_NESTED_EAX] = evmcs_version;
++
++        if (!r) {
++            env->features[FEAT_HV_RECOMM_EAX] |=
++                HV_ENLIGHTENED_VMCS_RECOMMENDED;
++            env->features[FEAT_HV_NESTED_EAX] = evmcs_version;
++        }
+     }
+ 
+     if (kvm_check_extension(cs->kvm_state, KVM_CAP_HYPERV_CPUID) > 0) {
+@@ -1051,8 +1066,33 @@ static int hyperv_handle_properties(CPUState *cs,
+         cpuid = get_supported_hv_cpuid_legacy(cs);
+     }
+ 
++    if (cpu->hyperv_passthrough) {
++        memcpy(cpuid_ent, &cpuid->entries[0],
++               cpuid->nent * sizeof(cpuid->entries[0]));
++
++        c = cpuid_find_entry(cpuid, HV_CPUID_FEATURES, 0);
++        if (c) {
++            env->features[FEAT_HYPERV_EAX] = c->eax;
++            env->features[FEAT_HYPERV_EBX] = c->ebx;
++            env->features[FEAT_HYPERV_EDX] = c->eax;
++        }
++        c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
++        if (c) {
++            env->features[FEAT_HV_RECOMM_EAX] = c->eax;
++
++            /* hv-spinlocks may have been overriden */
++            if (cpu->hyperv_spinlock_attempts != HYPERV_SPINLOCK_NEVER_RETRY) {
++                c->ebx = cpu->hyperv_spinlock_attempts;
++            }
++        }
++        c = cpuid_find_entry(cpuid, HV_CPUID_NESTED_FEATURES, 0);
++        if (c) {
++            env->features[FEAT_HV_NESTED_EAX] = c->eax;
++        }
++    }
++
+     /* Features */
+-    r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_RELAXED);
++    r = hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_RELAXED);
+     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_VAPIC);
+     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_TIME);
+     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_CRASH);
+@@ -1085,6 +1125,12 @@ static int hyperv_handle_properties(CPUState *cs,
+         goto free;
+     }
+ 
++    if (cpu->hyperv_passthrough) {
++        /* We already copied all feature words from KVM as is */
++        r = cpuid->nent;
++        goto free;
++    }
++
+     c = &cpuid_ent[cpuid_i++];
+     c->function = HV_CPUID_VENDOR_AND_MAX_FUNCTIONS;
+     if (!cpu->hyperv_vendor_id) {
+@@ -1156,11 +1202,26 @@ free:
+     return r;
+ }
+ 
++static Error *hv_passthrough_mig_blocker;
++
+ static int hyperv_init_vcpu(X86CPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
++    Error *local_err = NULL;
+     int ret;
+ 
++    if (cpu->hyperv_passthrough && hv_passthrough_mig_blocker == NULL) {
++        error_setg(&hv_passthrough_mig_blocker,
++                   "'hv-passthrough' CPU flag prevents migration, use explicit"
++                   " set of hv-* flags instead");
++        ret = migrate_add_blocker(hv_passthrough_mig_blocker, &local_err);
++        if (local_err) {
++            error_report_err(local_err);
++            error_free(hv_passthrough_mig_blocker);
++            return ret;
++        }
++    }
++
+     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_VPINDEX) && !hv_vpindex_settable) {
+         /*
+          * the kernel doesn't support setting vp_index; assert that its value
 -- 
 1.8.3.1
 
