@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B674E755
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:49:54 +0200 (CEST)
-Received: from localhost ([::1]:59976 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6826B4E752
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:49:05 +0200 (CEST)
+Received: from localhost ([::1]:59958 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heI3F-0007Xs-CF
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:49:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49164)
+	id 1heI2S-00060k-AX
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:49:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49169)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHki-0000no-OS
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHkj-0000o0-IJ
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkf-0005xi-MI
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:44 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37201)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHkg-0005zy-Fz
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:45 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35370)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1heHkf-0005vX-Gb
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:41 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id f17so6233318wme.2
+ id 1heHkg-0005wk-AZ
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:42 -0400
+Received: by mail-wm1-x341.google.com with SMTP id c6so6258800wml.0
  for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=jGOTUhh33OOT1Enfmvtwgh0euyeueOCeP1kgbRTa4fI=;
- b=LsxcLYibqiJwqVVPEgMPe6DHkUaueCP51KdnuJZk3tuNhPrfndHQaUte9pjKJqrs0e
- 1VL+rykF7gh+Ed2lzc5qouKZcY9G6gUL6fTAmcMUZRQ4Jef++JtXlJ2nqdcYJHvarMdP
- 6BXLIBrKNT9ekStqKF/tRTh/0FzMdxGZSL6XG0fsOsDqs91o6Ni2kNXoS9EkSAdVA2NY
- EifdbT2bh0J/85h6I68upQ/BB2ZCn/JceGldPgIMUwc4/LkhZrbzTo1vy7HLL5WqnwzT
- TPTsF6gzrB8sgq+ZFui1mXEhaQrPkkGN+vDFysCjUMZrjpKCMh3tYEUC2vzL3Mngcrsr
- VmDg==
+ bh=46R01TlppRnc8fuF4nJaB/BSCYQl7BxcBYUaCW1Ujrw=;
+ b=OCYJBFje81z8YsWV/eaa3U+OdyC4JMc6PkN2YO2W0k9IoCtHkUNHliAdgut0X8T8vY
+ 4ngbJK0p4HW43Oy0/t8AdxbsG2X5Wp3/a8BELvZWnOPHSswQylObo1uMfAaApqfpJl7q
+ Rwam7D0WHJ7976P7FJnV+Itn/HfuviAsWumElxSxEFfHpXV2jPskTi/aS1yP7Z1mHxnp
+ 2A0zm5lM5tHh+Gjhe+fYQOUyEtW8ey4eRgp6OIQR9xe3EImPcbO2dlwRNmwqfv6NF7EN
+ 0OXifCTRNYhs70XMl5lPUIVxXrK8bw9K5Vmr/Q65gYWx48P+BOwDWoYfmaL1pscQsFpD
+ yQhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=jGOTUhh33OOT1Enfmvtwgh0euyeueOCeP1kgbRTa4fI=;
- b=moYBTKGMBp78bw2ybfKKP/VQgSSPv4nQCI0DHA2y462dvBdHd8C0e1a8gbVdzjzTIk
- 3Xo9NmHBXRA3hi6WkeAI9DJ28diGvaGPEYKu/cQS6gBSyUGhJ7abEyZv9Gtm/G5PI0C0
- Sk5vUCj2Y/+aYE8tsvAjyblaR3VkxeZWRVf66HBqDCFAqwdpbZn8V9tjF4jUQjMV4rK/
- EUhS5IT5JE9N6ArxjOIS56Wn8PjWCRHXX2D6+VODClu4nYlB2JJzNuPXAzs9Hn3TscFU
- MNzZQwaxFkgBb4XjPFF0c1V51hGYG5aIpSfAcwLENAvi9Fzkqhq8SlhzkDqHeLXYjSXG
- 0hWA==
-X-Gm-Message-State: APjAAAW8gESPS+nOMqcjmc6S6YYOl1OPwjGtdqSZnjI3byRY1gV3SoJM
- GKBeHlcNuUMksefSRM5NY/NeiJqX
-X-Google-Smtp-Source: APXvYqwx3PQfJse8vvms+8JS91gnEzw7tfxRRGjQx1usJmrz7eZ33+SCFuihYGkwl2Lx/OhjP3/uMA==
-X-Received: by 2002:a7b:c748:: with SMTP id w8mr3645177wmk.36.1561116639913;
- Fri, 21 Jun 2019 04:30:39 -0700 (PDT)
+ bh=46R01TlppRnc8fuF4nJaB/BSCYQl7BxcBYUaCW1Ujrw=;
+ b=MAt6A6+yKzPxUGwC5Ga8W6UYcJqiVC10t0APzKIm5oGevCXB3IX8UNoM0NMw4URI+l
+ khP/0cv58GaFwZp7DbZRSZokE0YX2EWQZltQeMoi92L92qnvsigIxt6cL0r4ufZMUqQs
+ W67i4jNeMc6l5cD0cILC7nbtaNcg4CNIsAKojgIpnZpm8DUd8uxeDZS88hzcSmL5bxBW
+ tIlKPpb2E10voOho8Pbe07UET3VlIHQ0+hHD1SzS0jhZYryYS2OZ5YDwhKKa60BkwGfH
+ cnbEHaiiZe1cdI9xJAqQ97hKX4mmCyZ+iGncNj9fwt72D4/zl73cuq6jpzsGCoOmixKW
+ upLg==
+X-Gm-Message-State: APjAAAUHCTylmcRxzl89SN9MPlLRnRSdiAXc7S7DDBEYwJSeHyb+GOTN
+ nSAfZHAP/yH8bDi8aF2Wvg8aknxp
+X-Google-Smtp-Source: APXvYqw1QbpuyfKBP/VBHVEfR+tQUL3N5raQgG24Dskegx0dNhqHoBuyuT5MQTJGC03gV5DQ1FToOQ==
+X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr3480723wmj.87.1561116640822; 
+ Fri, 21 Jun 2019 04:30:40 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.38
+ by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.39
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:30:39 -0700 (PDT)
+ Fri, 21 Jun 2019 04:30:40 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:30:12 +0200
-Message-Id: <1561116620-22245-18-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 13:30:13 +0200
+Message-Id: <1561116620-22245-19-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32b
-Subject: [Qemu-devel] [PULL 17/25] target/i386: kvm: Block migration for
- vCPUs exposed with nested virtualization
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 18/25] linux-headers: sync with latest KVM
+ headers from Linux 5.2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,114 +81,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liran Alon <liran.alon@oracle.com>
 
-Commit d98f26073beb ("target/i386: kvm: add VMX migration blocker")
-added a migration blocker for vCPU exposed with Intel VMX.
-However, migration should also be blocked for vCPU exposed with
-AMD SVM.
+Improve the KVM_{GET,SET}_NESTED_STATE structs by detailing the format
+of VMX nested state data in a struct.
 
-Both cases should be blocked because QEMU should extract additional
-vCPU state from KVM that should be migrated as part of vCPU VMState.
-E.g. Whether vCPU is running in guest-mode or host-mode.
+In order to avoid changing the ioctl values of
+KVM_{GET,SET}_NESTED_STATE, there is a need to preserve
+sizeof(struct kvm_nested_state). This is done by defining the data
+struct as "data.vmx[0]". It was the most elegant way I found to
+preserve struct size while still keeping struct readable and easy to
+maintain. It does have a misfortunate side-effect that now it has to be
+accessed as "data.vmx[0]" rather than just "data.vmx".
 
-Fixes: d98f26073beb ("target/i386: kvm: add VMX migration blocker")
-Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
+Because we are already modifying these structs, I also modified the
+following:
+* Define the "format" field values as macros.
+* Rename vmcs_pa to vmcs12_pa for better readability.
+
 Signed-off-by: Liran Alon <liran.alon@oracle.com>
-Message-Id: <20190619162140.133674-6-liran.alon@oracle.com>
+Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
+Message-Id: <20190619162140.133674-7-liran.alon@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c |  6 ------
- target/i386/cpu.h | 12 ++++++++++++
- target/i386/kvm.c | 14 +++++++-------
- 3 files changed, 19 insertions(+), 13 deletions(-)
+ linux-headers/asm-x86/kvm.h | 33 ++++++++++++++++++++++-----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index c330fd9..61e44cb 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5215,12 +5215,6 @@ static int x86_cpu_filter_features(X86CPU *cpu)
-     return rv;
- }
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 7a0e64c..6e7dd79 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -383,16 +383,26 @@ struct kvm_sync_regs {
+ #define KVM_X86_QUIRK_LAPIC_MMIO_HOLE	(1 << 2)
+ #define KVM_X86_QUIRK_OUT_7E_INC_RIP	(1 << 3)
  
--#define IS_INTEL_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_INTEL_1 && \
--                           (env)->cpuid_vendor2 == CPUID_VENDOR_INTEL_2 && \
--                           (env)->cpuid_vendor3 == CPUID_VENDOR_INTEL_3)
--#define IS_AMD_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_AMD_1 && \
--                         (env)->cpuid_vendor2 == CPUID_VENDOR_AMD_2 && \
--                         (env)->cpuid_vendor3 == CPUID_VENDOR_AMD_3)
- static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-     CPUState *cs = CPU(dev);
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 7f48136..bf0c9c2 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -722,6 +722,13 @@ typedef uint32_t FeatureWordArray[FEATURE_WORDS];
- 
- #define CPUID_VENDOR_HYGON    "HygonGenuine"
- 
-+#define IS_INTEL_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_INTEL_1 && \
-+                           (env)->cpuid_vendor2 == CPUID_VENDOR_INTEL_2 && \
-+                           (env)->cpuid_vendor3 == CPUID_VENDOR_INTEL_3)
-+#define IS_AMD_CPU(env) ((env)->cpuid_vendor1 == CPUID_VENDOR_AMD_1 && \
-+                         (env)->cpuid_vendor2 == CPUID_VENDOR_AMD_2 && \
-+                         (env)->cpuid_vendor3 == CPUID_VENDOR_AMD_3)
++#define KVM_STATE_NESTED_FORMAT_VMX	0
++#define KVM_STATE_NESTED_FORMAT_SVM	1
 +
- #define CPUID_MWAIT_IBE     (1U << 1) /* Interrupts can exit capability */
- #define CPUID_MWAIT_EMX     (1U << 0) /* enumeration supported */
+ #define KVM_STATE_NESTED_GUEST_MODE	0x00000001
+ #define KVM_STATE_NESTED_RUN_PENDING	0x00000002
+ #define KVM_STATE_NESTED_EVMCS		0x00000004
  
-@@ -1848,6 +1855,11 @@ static inline int32_t x86_get_a20_mask(CPUX86State *env)
-     }
- }
- 
-+static inline bool cpu_has_vmx(CPUX86State *env)
-+{
-+    return env->features[FEAT_1_ECX] & CPUID_EXT_VMX;
-+}
++#define KVM_STATE_NESTED_VMX_VMCS_SIZE	0x1000
 +
- /* fpu_helper.c */
- void update_fp_status(CPUX86State *env);
- void update_mxcsr_status(CPUX86State *env);
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 9864aa0..f9872f1 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -1299,7 +1299,7 @@ static int hyperv_init_vcpu(X86CPU *cpu)
- }
+ #define KVM_STATE_NESTED_SMM_GUEST_MODE	0x00000001
+ #define KVM_STATE_NESTED_SMM_VMXON	0x00000002
  
- static Error *invtsc_mig_blocker;
--static Error *vmx_mig_blocker;
-+static Error *nested_virt_mig_blocker;
+-struct kvm_vmx_nested_state {
++struct kvm_vmx_nested_state_data {
++	__u8 vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
++	__u8 shadow_vmcs12[KVM_STATE_NESTED_VMX_VMCS_SIZE];
++};
++
++struct kvm_vmx_nested_state_hdr {
+ 	__u64 vmxon_pa;
+-	__u64 vmcs_pa;
++	__u64 vmcs12_pa;
  
- #define KVM_MAX_CPUID_ENTRIES  100
+ 	struct {
+ 		__u16 flags;
+@@ -401,24 +411,25 @@ struct kvm_vmx_nested_state {
  
-@@ -1597,13 +1597,13 @@ int kvm_arch_init_vcpu(CPUState *cs)
-                                   !!(c->ecx & CPUID_EXT_SMX);
-     }
+ /* for KVM_CAP_NESTED_STATE */
+ struct kvm_nested_state {
+-	/* KVM_STATE_* flags */
+ 	__u16 flags;
+-
+-	/* 0 for VMX, 1 for SVM.  */
+ 	__u16 format;
+-
+-	/* 128 for SVM, 128 + VMCS size for VMX.  */
+ 	__u32 size;
  
--    if ((env->features[FEAT_1_ECX] & CPUID_EXT_VMX) && !vmx_mig_blocker) {
--        error_setg(&vmx_mig_blocker,
--                   "Nested VMX virtualization does not support live migration yet");
--        r = migrate_add_blocker(vmx_mig_blocker, &local_err);
-+    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker) {
-+        error_setg(&nested_virt_mig_blocker,
-+                   "Nested virtualization does not support live migration yet");
-+        r = migrate_add_blocker(nested_virt_mig_blocker, &local_err);
-         if (local_err) {
-             error_report_err(local_err);
--            error_free(vmx_mig_blocker);
-+            error_free(nested_virt_mig_blocker);
-             return r;
-         }
-     }
-@@ -1674,7 +1674,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-  fail:
-     migrate_del_blocker(invtsc_mig_blocker);
-  fail2:
--    migrate_del_blocker(vmx_mig_blocker);
-+    migrate_del_blocker(nested_virt_mig_blocker);
+ 	union {
+-		/* VMXON, VMCS */
+-		struct kvm_vmx_nested_state vmx;
++		struct kvm_vmx_nested_state_hdr vmx;
  
-     return r;
- }
+ 		/* Pad the header to 128 bytes.  */
+ 		__u8 pad[120];
+-	};
++	} hdr;
+ 
+-	__u8 data[0];
++	/*
++	 * Define data region as 0 bytes to preserve backwards-compatability
++	 * to old definition of kvm_nested_state in order to avoid changing
++	 * KVM_{GET,PUT}_NESTED_STATE ioctl values.
++	 */
++	union {
++		struct kvm_vmx_nested_state_data vmx[0];
++	} data;
+ };
+ 
+ #endif /* _ASM_X86_KVM_H */
 -- 
 1.8.3.1
 
