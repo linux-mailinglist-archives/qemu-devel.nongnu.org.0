@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A971B4DED6
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 03:54:47 +0200 (CEST)
-Received: from localhost ([::1]:54064 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D7E4DEC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 03:49:21 +0200 (CEST)
+Received: from localhost ([::1]:54034 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he8lK-0004h4-Qx
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 21:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40642)
+	id 1he8g4-00005Q-K0
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 21:49:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40644)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1he8Za-0006Mx-Aj
+ (envelope-from <paolo.bonzini@gmail.com>) id 1he8Za-0006My-CW
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:42:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1he8ZY-00067Z-On
+ (envelope-from <paolo.bonzini@gmail.com>) id 1he8ZY-00067h-Pi
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:42:38 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46109)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38620)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1he8ZY-00061Z-FL
+ id 1he8ZY-00062n-G8
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:42:36 -0400
-Received: by mail-wr1-x444.google.com with SMTP id n4so4829629wrw.13
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:42:33 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id d18so4878335wrs.5
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=w+7TSfA05al3vMslcz/SOoRJBM36JJMcPLAo6eroszE=;
- b=m83rH5JzmClRQcxviYxQqQSExIoxbvRpDWMTslm1bGZluWJl24p7mU2Q48T4ANJVQu
- vMveleM8ovplH4IZTbT2bATxY9oYBlJXZrCfncUwjDBF6DseVdnjqr6omxtEgYlAxW/t
- eB0NMKMoeea88LF00p86gmNCm8Bakr2g7DCw278V20f9MIHTrhYds4YP4G0Sbr3oIKpb
- C9zJUc1NzHlCDVcmceF8tzHEAxs8HgVc+2D7KKFcx2REcARWgmxrJ0gMoVR7Aczg3IGK
- SxOJ7+3mMgUM5goJq4KkORxHZTY0lsyNLN2HAzcz2KMiJ/RvUCV9ofx1N03ZABv8ByHh
- 2i9Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=rF5i6pzq9tNlUQhJFdaXZR//yZxu/EIyRbH8FbNdhFc=;
+ b=lGnu2BHPEqEqHNamv8d/nKz63paJvo9uZ7ZuzwBub6GN7vxC7a+z/FtFbmhZofyMns
+ D//up6rJikyxhPa0DZAtrx1hrY5gojEPYDIRj1XSRtOjWosqPBmgt4I6OSZuQavHWUzn
+ 7abXlWBrXp6ReC8D5sivuI1wBfQGuiY7AGL8+RAg3MhESFPvHtd1Z9miqHY0B8zqq8Xp
+ yhCYu2qPebE4byV3pvPctDf/C6oUwUbaNrDXKDbtw/wPU1tBLQRe9FJJqZXEdt9PtM0H
+ Ox+E/WUy4MQbK2StxVjT4tVdARFHaiY1n6sb/mc5x03efomYgsIe5K+jRTAKg2bWHqO/
+ zp+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=w+7TSfA05al3vMslcz/SOoRJBM36JJMcPLAo6eroszE=;
- b=Oqx4tn8vF9WViqOyxRyo9KLi94+msz+TUOkpq1WgC0o7vjdSGeGuRPvjEU+4utaFgh
- RXrJQPPGKKdkc3dNOKsWV1oauB1DgP2oxy9YOhVVd/rV03GJCR4bm9+Qy8FjTmliafwA
- J1R+PSw0BmpyhnneaScDlerJW7X/WvwAQz3zCb06Rrx981eIfphqrTSjEfDEkNkhabEh
- qQIlu39jmAPMsq6wdYFwt8wXd7aZT9SwH1j23Bgofv3KDQMlqYhQvANP8xb5XK/Pmv6u
- 37N3ue36rmRwTDhyLl6bGh3XurSmv1qih9qfa1l30kLWFs+gATRyByLTFPteGLBJGVjt
- c+vg==
-X-Gm-Message-State: APjAAAXYbOBokruxjbnizKkrWBMCr2VhpvHnZZlxBV0m5mDZS2tRskHC
- w6OAPFL6Qf2ujUiqul/lswhfSplV
-X-Google-Smtp-Source: APXvYqzcL+W9RHHl9XT4iNd8YFG/KTiBMK4KrLimZLiRByB8I83h+WDd9OgH9/3QFlkMqC3PW1pdOw==
-X-Received: by 2002:adf:f04d:: with SMTP id t13mr12675015wro.36.1561081352238; 
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references;
+ bh=rF5i6pzq9tNlUQhJFdaXZR//yZxu/EIyRbH8FbNdhFc=;
+ b=XmadtQYOHLZ7uGAF6J7eec2HxYXXhr33CqAmN6nhmce7oljnYFEXXvYGyDsyrFsKDz
+ XBaN7Hiy5bqF5+nX8s9QQEC1+Y9f/zXUtmOby0TsROkU0nL0ds86MvMAiNJuZbVAq3uo
+ Ol70r7xnwXQj8Vn3JbpdkBF3HlExUaINh1fsfb9Ivwf1Bto7mq7mO9F8w9GpsAshMc5v
+ fgjz2xdvmIR/NRBjBCIt96ohZHEApLjTUTITuVxHhX0TYx369y5xI+NM+3ZSpniBW3Rd
+ WkFNX00Ag4gev83G0PcPyb3YT2EgpQ+NITtHeKPjYoe6/8ockJ/lvIONy7MGAmVZOEz2
+ GOjA==
+X-Gm-Message-State: APjAAAX3B0u5RQVk80c/qvKHcWyguKDtiOQrfJku/QOG7Bp9F/QzCyMr
+ qyQ+DNZW0M6mtGlWec6/X3aglUUj
+X-Google-Smtp-Source: APXvYqyxHM7yUMpqXv45P6S3A8q2viegX08LTVyJtmcsGD2+V+9c/2SdrU5v0gOPweGz8QcDCc6lYA==
+X-Received: by 2002:a5d:6549:: with SMTP id z9mr30290857wrv.63.1561081352960; 
  Thu, 20 Jun 2019 18:42:32 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id d1sm1123125wru.41.2019.06.20.18.42.31
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id d1sm1123125wru.41.2019.06.20.18.42.32
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 18:42:31 -0700 (PDT)
+ Thu, 20 Jun 2019 18:42:32 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 03:42:05 +0200
-Message-Id: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 03:42:06 +0200
+Message-Id: <1561081350-3723-2-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
+References: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PULL 00/25] Misc (mostly x86) patches for 2019-06-21
+X-Received-From: 2a00:1450:4864:20::42b
+Subject: [Qemu-devel] [PULL 01/25] kvm-all: Add/update fprintf's for
+ kvm_*_ioeventfd_del
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,99 +75,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yury Kotov <yury-kotov@yandex-team.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 33d609990621dea6c7d056c86f707b8811320ac1:
+From: Yury Kotov <yury-kotov@yandex-team.ru>
 
-  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-18 17:00:52 +0100)
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+Message-Id: <20190607090830.18807-1-yury-kotov@yandex-team.ru>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ accel/kvm/kvm-all.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-are available in the git repository at:
-
-
-  git://github.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 15e7ea4a8e0ed97361fefabb04c6a9aaebe321df:
-
-  hw: Nuke hw_compat_4_0_1 and pc_compat_4_0_1 (2019-06-21 02:29:40 +0200)
-
-----------------------------------------------------------------
-* Nuke hw_compat_4_0_1 and pc_compat_4_0_1 (Greg)
-* Static analysis fixes (Igor, Lidong)
-* X86 Hyper-V CPUID improvements (Vitaly)
-* X86 nested virt migration (Liran)
-* New MSR-based features (Xiaoyao)
-
-----------------------------------------------------------------
-Colin Xu (1):
-      hax: Honor CPUState::halted
-
-Greg Kurz (1):
-      hw: Nuke hw_compat_4_0_1 and pc_compat_4_0_1
-
-Lidong Chen (2):
-      sd: Fix out-of-bounds assertions
-      util/main-loop: Fix incorrect assertion
-
-Liran Alon (10):
-      target/i386: kvm: Delete VMX migration blocker on vCPU init failure
-      KVM: Introduce kvm_arch_destroy_vcpu()
-      target/i386: kvm: Use symbolic constant for #DB/#BP exception constants
-      target/i386: kvm: Re-inject #DB to guest with updated DR6
-      target/i386: kvm: Block migration for vCPUs exposed with nested virtualization
-      linux-headers: sync with latest KVM headers from Linux 5.2
-      vmstate: Add support for kernel integer types
-      target/i386: kvm: Add support for save and restore nested state
-      target/i386: kvm: Add support for KVM_CAP_EXCEPTION_PAYLOAD
-      target/i386: kvm: Add nested migration blocker only when kernel lacks required capabilities
-
-Vitaly Kuznetsov (9):
-      i386/kvm: convert hyperv enlightenments properties from bools to bits
-      i386/kvm: add support for KVM_GET_SUPPORTED_HV_CPUID
-      i386/kvm: move Hyper-V CPUID filling to hyperv_handle_properties()
-      i386/kvm: document existing Hyper-V enlightenments
-      i386/kvm: implement 'hv-passthrough' mode
-      i386/kvm: hv-stimer requires hv-time and hv-synic
-      i386/kvm: hv-tlbflush/ipi require hv-vpindex
-      i386/kvm: hv-evmcs requires hv-vapic
-      i386/kvm: add support for Direct Mode for Hyper-V synthetic timers
-
-Xiaoyao Li (1):
-      target/i386: define a new MSR based feature word - FEAT_CORE_CAPABILITY
-
-Yury Kotov (1):
-      kvm-all: Add/update fprintf's for kvm_*_ioeventfd_del
-
- accel/kvm/kvm-all.c         |  25 +-
- cpus.c                      |   1 -
- docs/hyperv.txt             | 201 +++++++++
- hw/core/machine.c           |   5 +-
- hw/i386/pc.c                |   6 +-
- hw/i386/pc_q35.c            |  12 +-
- hw/sd/sd.c                  |   4 +-
- include/hw/boards.h         |   3 -
- include/hw/i386/pc.h        |   3 -
- include/migration/vmstate.h |  26 ++
- include/sysemu/kvm.h        |   2 +
- linux-headers/asm-x86/kvm.h |  33 +-
- target/arm/kvm32.c          |   5 +
- target/arm/kvm64.c          |   5 +
- target/i386/cpu.c           |  81 +++-
- target/i386/cpu.h           |  75 +++-
- target/i386/hax-all.c       |  36 +-
- target/i386/hvf/hvf.c       |  10 +-
- target/i386/hvf/x86hvf.c    |   4 +-
- target/i386/hyperv-proto.h  |   1 +
- target/i386/hyperv.c        |   2 +-
- target/i386/kvm.c           | 999 +++++++++++++++++++++++++++++++++-----------
- target/i386/machine.c       | 284 ++++++++++++-
- target/mips/kvm.c           |   5 +
- target/ppc/kvm.c            |   5 +
- target/s390x/kvm.c          |  10 +
- util/main-loop.c            |   2 +-
- 27 files changed, 1516 insertions(+), 329 deletions(-)
- create mode 100644 docs/hyperv.txt
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index b0c4bed..d2f481a 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -863,8 +863,8 @@ static void kvm_mem_ioeventfd_add(MemoryListener *listener,
+                                data, true, int128_get64(section->size),
+                                match_data);
+     if (r < 0) {
+-        fprintf(stderr, "%s: error adding ioeventfd: %s\n",
+-                __func__, strerror(-r));
++        fprintf(stderr, "%s: error adding ioeventfd: %s (%d)\n",
++                __func__, strerror(-r), -r);
+         abort();
+     }
+ }
+@@ -881,6 +881,8 @@ static void kvm_mem_ioeventfd_del(MemoryListener *listener,
+                                data, false, int128_get64(section->size),
+                                match_data);
+     if (r < 0) {
++        fprintf(stderr, "%s: error deleting ioeventfd: %s (%d)\n",
++                __func__, strerror(-r), -r);
+         abort();
+     }
+ }
+@@ -897,8 +899,8 @@ static void kvm_io_ioeventfd_add(MemoryListener *listener,
+                               data, true, int128_get64(section->size),
+                               match_data);
+     if (r < 0) {
+-        fprintf(stderr, "%s: error adding ioeventfd: %s\n",
+-                __func__, strerror(-r));
++        fprintf(stderr, "%s: error adding ioeventfd: %s (%d)\n",
++                __func__, strerror(-r), -r);
+         abort();
+     }
+ }
+@@ -916,6 +918,8 @@ static void kvm_io_ioeventfd_del(MemoryListener *listener,
+                               data, false, int128_get64(section->size),
+                               match_data);
+     if (r < 0) {
++        fprintf(stderr, "%s: error deleting ioeventfd: %s (%d)\n",
++                __func__, strerror(-r), -r);
+         abort();
+     }
+ }
 -- 
 1.8.3.1
+
 
 
