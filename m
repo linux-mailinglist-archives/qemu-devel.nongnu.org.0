@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D5C4DF20
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 04:31:43 +0200 (CEST)
-Received: from localhost ([::1]:54276 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BA34DF30
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 04:49:33 +0200 (CEST)
+Received: from localhost ([::1]:54330 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he9L4-0005oH-Tf
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 22:31:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
+	id 1he9cK-0001nM-M4
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 22:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56883)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pizhenwei@bytedance.com>) id 1he8j6-0003zF-Rn
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:52:31 -0400
+ (envelope-from <no-reply@patchew.org>) id 1he9ZQ-0000Lw-2E
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:46:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pizhenwei@bytedance.com>) id 1he8j3-000687-Sp
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:52:28 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:34475)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pizhenwei@bytedance.com>)
- id 1he8j2-00062u-Ty
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:52:25 -0400
-Received: by mail-pl1-x642.google.com with SMTP id i2so2182076plt.1
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language;
- bh=ErT/AdEca57HhNANwgVGMyROutCXCJlnyaa0iXRyYJE=;
- b=edNO7EgwcipilzaA8yD8OnNrQt6oVCM9tjqOBp8e3a/VHaEeEwpzKEVZOjdd8wQJOy
- qVhYvAGR0V74PTvDY6OvnMk7t9oM5lqfvxE34l6IirqWEwPhXFC0pWP2Z1yZR/nLgpCi
- zl5yANNzxEJvVcC71SPfo4Ph3EUs4xo0rv0SctRTpNFPZBNgTz7qm7miQ5N2UxwZWZD5
- xWrUrh6mzrITkvgNcuHzZeopucIXDCOfrLfqQTp8AYeLhkUOLwmrnkrHtvIdtWUjThM2
- ek0aTukMXjwcShhx1X7ZILI8X9aB8LbET9GJNeYa8wWfsIrL8yuwRpdK1gUuD/f1atn5
- PPsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language;
- bh=ErT/AdEca57HhNANwgVGMyROutCXCJlnyaa0iXRyYJE=;
- b=DiLTe0/V0P9VErBUQkePNRbTXHYwql28UNKvaa/R8fALZbcJrEbZm/9lrpnmedBH3m
- uvOfkwqywKWdpOBCQfklIIe1GcRv6FniFW0QiKJ7iz82ig4lKW9edylRfnoY1kANJEj6
- J9Wt2REh4DKNR4QueeEq9jV7oGKsC0WoDxy/7XaLDX34Lk6JTbQLNCqe18fmni6krufK
- HUBCp9QDAoMKBUurUNCt5C43cz2rx/AMMuaT1MU7HW/zJRpRt9tQ9jYOIADPFfW2m12v
- swxT4e7ZdBlsJZbzpuhXXoErfrdI7uZXqRJhsWaVCgDFievQUTUFraFGxQD/2micBmwE
- tVOQ==
-X-Gm-Message-State: APjAAAUqQDt2rm+pUKVQI+q0OFQKHW/lndJexb7Vir6pKUKGoUTLfvNn
- lurcnFukvqNweFOF9mleb0d7zB5FwgE=
-X-Google-Smtp-Source: APXvYqxr5nNVOZVaut8qNUf2N3DLOfelJAiXeDx157oXLdEqfENRBBHSbEEH8/aHK8keO3TYDZD8Tw==
-X-Received: by 2002:a17:902:e490:: with SMTP id
- cj16mr125859727plb.136.1561081940730; 
- Thu, 20 Jun 2019 18:52:20 -0700 (PDT)
-Received: from [10.92.144.180] ([61.120.150.76])
- by smtp.gmail.com with ESMTPSA id z20sm829445pfk.72.2019.06.20.18.52.17
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 18:52:19 -0700 (PDT)
-To: Eric Blake <eblake@redhat.com>, kwolf@redhat.com, mreitz@redhat.com
-References: <1561020872-6214-1-git-send-email-pizhenwei@bytedance.com>
- <1561020872-6214-4-git-send-email-pizhenwei@bytedance.com>
- <cdb81887-5d68-9de5-e72b-3df8a45e52b4@redhat.com>
-From: zhenwei pi <pizhenwei@bytedance.com>
-Message-ID: <3e4acc6e-9439-6007-9d08-de6878ab8ee6@bytedance.com>
-Date: Fri, 21 Jun 2019 09:52:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <no-reply@patchew.org>) id 1he9KP-00074Q-0P
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:31:03 -0400
+Resent-Date: Thu, 20 Jun 2019 22:31:02 -0400
+Resent-Message-Id: <E1he9KP-00074Q-0P@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21416)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1he9KO-00072b-L7
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:31:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561084222; cv=none; d=zoho.com; s=zohoarc; 
+ b=mmBSXDb1Gd2G0xD2R1QzgQsf65SMyVjEiGFrnhZjiYFKv4Rbu0ZgON5HVnW/RNaVznfZ4dkJBHhHAkU8JznD7LugovVQGdttiYAVappZYAtiL5MdaXfgq7OsbuykqgPkcs9sxEL0A60D3eoJAjb1cHiLkCHYYT0Ny+LbKda6Ow4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561084222;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=RrpUEpjYW98jqznaugNG8bElTfhxMb8YoMB7ymmItn0=; 
+ b=TzI7Wl6eoNJkYX72cqFD9Uzfv8CsfF7QFleNp0Imy6bDBcmNszBQs/DSrRbYOIrX8N4BDICQR8DzR8+qaaphKbY3mGOR6gQMrhKc+D4gpBoiVV7brX99Y2orqgsveF7OU/lh28/JugA8owXZZ67taDE+q6aXB0UYDwOm77COfOE=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561084219724277.1042381366726;
+ Thu, 20 Jun 2019 19:30:19 -0700 (PDT)
+In-Reply-To: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
+Message-ID: <156108421887.1171.3420420775655910185@ce79690b2cb9>
 MIME-Version: 1.0
-In-Reply-To: <cdb81887-5d68-9de5-e72b-3df8a45e52b4@redhat.com>
-Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [External Email] Re: [PATCH 3/3] qapi: add block
- size histogram interface
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Thu, 20 Jun 2019 19:30:19 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PULL 00/25] Misc (mostly x86) patches for
+ 2019-06-21
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,195 +62,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/19 10:03 PM, Eric Blake wrote:
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxMDgxMzUwLTM3MjMtMS1n
+aXQtc2VuZC1lbWFpbC1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
+ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
+Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BVTEwgMDAvMjVd
+IE1pc2MgKG1vc3RseSB4ODYpIHBhdGNoZXMgZm9yIDIwMTktMDYtMjEKVHlwZTogc2VyaWVzCk1l
+c3NhZ2UtaWQ6IDE1NjEwODEzNTAtMzcyMy0xLWdpdC1zZW5kLWVtYWlsLXBib256aW5pQHJlZGhh
+dC5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
+ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
+IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8v
+Z2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICAgICAg
+ICBwYXRjaGV3LzE1NjEwODEzNTAtMzcyMy0xLWdpdC1zZW5kLWVtYWlsLXBib256aW5pQHJlZGhh
+dC5jb20gLT4gcGF0Y2hldy8xNTYxMDgxMzUwLTM3MjMtMS1naXQtc2VuZC1lbWFpbC1wYm9uemlu
+aUByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNDBkOGQyYTZiZCBo
+dzogTnVrZSBod19jb21wYXRfNF8wXzEgYW5kIHBjX2NvbXBhdF80XzBfMQo3M2ZlMDg4OWY0IHV0
+aWwvbWFpbi1sb29wOiBGaXggaW5jb3JyZWN0IGFzc2VydGlvbgo2MThmZDQ0ZDc5IHNkOiBGaXgg
+b3V0LW9mLWJvdW5kcyBhc3NlcnRpb25zCmQzYzhkYWUwMjEgdGFyZ2V0L2kzODY6IGt2bTogQWRk
+IG5lc3RlZCBtaWdyYXRpb24gYmxvY2tlciBvbmx5IHdoZW4ga2VybmVsIGxhY2tzIHJlcXVpcmVk
+IGNhcGFiaWxpdGllcwozMTI5M2ZjYzgzIHRhcmdldC9pMzg2OiBrdm06IEFkZCBzdXBwb3J0IGZv
+ciBLVk1fQ0FQX0VYQ0VQVElPTl9QQVlMT0FECmM4NmI3ZjllYTcgdGFyZ2V0L2kzODY6IGt2bTog
+QWRkIHN1cHBvcnQgZm9yIHNhdmUgYW5kIHJlc3RvcmUgbmVzdGVkIHN0YXRlCjc0YWYxNDFlNzYg
+dm1zdGF0ZTogQWRkIHN1cHBvcnQgZm9yIGtlcm5lbCBpbnRlZ2VyIHR5cGVzCjdmYjAwNmY2ZGMg
+bGludXgtaGVhZGVyczogc3luYyB3aXRoIGxhdGVzdCBLVk0gaGVhZGVycyBmcm9tIExpbnV4IDUu
+MgpiMGU3MmRkNWJlIHRhcmdldC9pMzg2OiBrdm06IEJsb2NrIG1pZ3JhdGlvbiBmb3IgdkNQVXMg
+ZXhwb3NlZCB3aXRoIG5lc3RlZCB2aXJ0dWFsaXphdGlvbgo2ZWI2ZWU3MzNkIHRhcmdldC9pMzg2
+OiBrdm06IFJlLWluamVjdCAjREIgdG8gZ3Vlc3Qgd2l0aCB1cGRhdGVkIERSNgowNjM3NzliNDY2
+IHRhcmdldC9pMzg2OiBrdm06IFVzZSBzeW1ib2xpYyBjb25zdGFudCBmb3IgI0RCLyNCUCBleGNl
+cHRpb24gY29uc3RhbnRzCjBkNWYxZGIzZjMgS1ZNOiBJbnRyb2R1Y2Uga3ZtX2FyY2hfZGVzdHJv
+eV92Y3B1KCkKODQxMDk0MzE2MiB0YXJnZXQvaTM4Njoga3ZtOiBEZWxldGUgVk1YIG1pZ3JhdGlv
+biBibG9ja2VyIG9uIHZDUFUgaW5pdCBmYWlsdXJlCjdkMjY5YzdiMjUgdGFyZ2V0L2kzODY6IGRl
+ZmluZSBhIG5ldyBNU1IgYmFzZWQgZmVhdHVyZSB3b3JkIC0gRkVBVF9DT1JFX0NBUEFCSUxJVFkK
+NDhhNjYwZGRmMSBpMzg2L2t2bTogYWRkIHN1cHBvcnQgZm9yIERpcmVjdCBNb2RlIGZvciBIeXBl
+ci1WIHN5bnRoZXRpYyB0aW1lcnMKNGMyODZiYjBmMCBpMzg2L2t2bTogaHYtZXZtY3MgcmVxdWly
+ZXMgaHYtdmFwaWMKYjBhODRhYzBmMyBpMzg2L2t2bTogaHYtdGxiZmx1c2gvaXBpIHJlcXVpcmUg
+aHYtdnBpbmRleAo2N2FlMTYzNjk3IGkzODYva3ZtOiBodi1zdGltZXIgcmVxdWlyZXMgaHYtdGlt
+ZSBhbmQgaHYtc3luaWMKYzQyMzVhMjBlMyBpMzg2L2t2bTogaW1wbGVtZW50ICdodi1wYXNzdGhy
+b3VnaCcgbW9kZQo5YjQxZWMxZGUwIGkzODYva3ZtOiBkb2N1bWVudCBleGlzdGluZyBIeXBlci1W
+IGVubGlnaHRlbm1lbnRzCjY0NGQ5MTBkZWYgaTM4Ni9rdm06IG1vdmUgSHlwZXItViBDUFVJRCBm
+aWxsaW5nIHRvIGh5cGVydl9oYW5kbGVfcHJvcGVydGllcygpCmNmM2YzODNkYzYgaTM4Ni9rdm06
+IGFkZCBzdXBwb3J0IGZvciBLVk1fR0VUX1NVUFBPUlRFRF9IVl9DUFVJRAowM2IxY2I3MzM5IGkz
+ODYva3ZtOiBjb252ZXJ0IGh5cGVydiBlbmxpZ2h0ZW5tZW50cyBwcm9wZXJ0aWVzIGZyb20gYm9v
+bHMgdG8gYml0cwozMWEyYjA3OWFhIGhheDogSG9ub3IgQ1BVU3RhdGU6OmhhbHRlZAo0ZmYwZDk0
+ZDE5IGt2bS1hbGw6IEFkZC91cGRhdGUgZnByaW50ZidzIGZvciBrdm1fKl9pb2V2ZW50ZmRfZGVs
+Cgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzI1IENoZWNraW5nIGNvbW1pdCA0ZmYwZDk0ZDE5MTcg
+KGt2bS1hbGw6IEFkZC91cGRhdGUgZnByaW50ZidzIGZvciBrdm1fKl9pb2V2ZW50ZmRfZGVsKQoy
+LzI1IENoZWNraW5nIGNvbW1pdCAzMWEyYjA3OWFhZjkgKGhheDogSG9ub3IgQ1BVU3RhdGU6Omhh
+bHRlZCkKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFy
+YXRlIGxpbmUKIzc3OiBGSUxFOiB0YXJnZXQvaTM4Ni9oYXgtYWxsLmM6NDc5OgorICAgIC8qIEFm
+dGVyIGEgdmNwdSBpcyBoYWx0ZWQgKGVpdGhlciBiZWNhdXNlIGl0IGlzIGFuIEFQIGFuZCBoYXMg
+anVzdCBiZWVuCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEg
+c2VwYXJhdGUgbGluZQojMTA5OiBGSUxFOiB0YXJnZXQvaTM4Ni9oYXgtYWxsLmM6NTE5OgorICAg
+ICAgICAvKiBJZiB0aGlzIHZjcHUgaXMgaGFsdGVkLCB3ZSBtdXN0IG5vdCBhc2sgSEFYTSB0byBy
+dW4gaXQuIEluc3RlYWQsIHdlCgp0b3RhbDogMCBlcnJvcnMsIDIgd2FybmluZ3MsIDYwIGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDIvMjUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMy8yNSBDaGVj
+a2luZyBjb21taXQgMDNiMWNiNzMzOTI5IChpMzg2L2t2bTogY29udmVydCBoeXBlcnYgZW5saWdo
+dGVubWVudHMgcHJvcGVydGllcyBmcm9tIGJvb2xzIHRvIGJpdHMpCjQvMjUgQ2hlY2tpbmcgY29t
+bWl0IGNmM2YzODNkYzY1MiAoaTM4Ni9rdm06IGFkZCBzdXBwb3J0IGZvciBLVk1fR0VUX1NVUFBP
+UlRFRF9IVl9DUFVJRCkKNS8yNSBDaGVja2luZyBjb21taXQgNjQ0ZDkxMGRlZjgyIChpMzg2L2t2
+bTogbW92ZSBIeXBlci1WIENQVUlEIGZpbGxpbmcgdG8gaHlwZXJ2X2hhbmRsZV9wcm9wZXJ0aWVz
+KCkpCjYvMjUgQ2hlY2tpbmcgY29tbWl0IDliNDFlYzFkZTBlZSAoaTM4Ni9rdm06IGRvY3VtZW50
+IGV4aXN0aW5nIEh5cGVyLVYgZW5saWdodGVubWVudHMpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBv
+ciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE4OiAK
+bmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTgxIGxp
+bmVzIGNoZWNrZWQKClBhdGNoIDYvMjUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KNy8yNSBD
+aGVja2luZyBjb21taXQgYzQyMzVhMjBlMzEyIChpMzg2L2t2bTogaW1wbGVtZW50ICdodi1wYXNz
+dGhyb3VnaCcgbW9kZSkKOC8yNSBDaGVja2luZyBjb21taXQgNjdhZTE2MzY5N2ZmIChpMzg2L2t2
+bTogaHYtc3RpbWVyIHJlcXVpcmVzIGh2LXRpbWUgYW5kIGh2LXN5bmljKQo5LzI1IENoZWNraW5n
+IGNvbW1pdCBiMGE4NGFjMGYzZmEgKGkzODYva3ZtOiBodi10bGJmbHVzaC9pcGkgcmVxdWlyZSBo
+di12cGluZGV4KQoxMC8yNSBDaGVja2luZyBjb21taXQgNGMyODZiYjBmMGQ0IChpMzg2L2t2bTog
+aHYtZXZtY3MgcmVxdWlyZXMgaHYtdmFwaWMpCjExLzI1IENoZWNraW5nIGNvbW1pdCA0OGE2NjBk
+ZGYxYWIgKGkzODYva3ZtOiBhZGQgc3VwcG9ydCBmb3IgRGlyZWN0IE1vZGUgZm9yIEh5cGVyLVYg
+c3ludGhldGljIHRpbWVycykKMTIvMjUgQ2hlY2tpbmcgY29tbWl0IDdkMjY5YzdiMjU3ZiAodGFy
+Z2V0L2kzODY6IGRlZmluZSBhIG5ldyBNU1IgYmFzZWQgZmVhdHVyZSB3b3JkIC0gRkVBVF9DT1JF
+X0NBUEFCSUxJVFkpCjEzLzI1IENoZWNraW5nIGNvbW1pdCA4NDEwOTQzMTYyMzcgKHRhcmdldC9p
+Mzg2OiBrdm06IERlbGV0ZSBWTVggbWlncmF0aW9uIGJsb2NrZXIgb24gdkNQVSBpbml0IGZhaWx1
+cmUpCjE0LzI1IENoZWNraW5nIGNvbW1pdCAwZDVmMWRiM2YzYjggKEtWTTogSW50cm9kdWNlIGt2
+bV9hcmNoX2Rlc3Ryb3lfdmNwdSgpKQpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVz
+ZSB0YWJzCiM2MTogRklMRTogdGFyZ2V0L2FybS9rdm0zMi5jOjI0NToKK15JcmV0dXJuIDA7JAoK
+RVJST1I6IGdfZnJlZShOVUxMKSBpcyBzYWZlIHRoaXMgY2hlY2sgaXMgcHJvYmFibHkgbm90IHJl
+cXVpcmVkCiM5NjogRklMRTogdGFyZ2V0L2kzODYva3ZtLmM6MTY4NzoKKyAgICBpZiAoY3B1LT5r
+dm1fbXNyX2J1ZikgeworICAgICAgICBnX2ZyZWUoY3B1LT5rdm1fbXNyX2J1Zik7Cgp0b3RhbDog
+MiBlcnJvcnMsIDAgd2FybmluZ3MsIDk2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE0LzI1IGhhcyBz
+dHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJl
+IGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNL
+UEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxNS8yNSBDaGVja2luZyBjb21taXQgMDYzNzc5YjQ2NjRk
+ICh0YXJnZXQvaTM4Njoga3ZtOiBVc2Ugc3ltYm9saWMgY29uc3RhbnQgZm9yICNEQi8jQlAgZXhj
+ZXB0aW9uIGNvbnN0YW50cykKMTYvMjUgQ2hlY2tpbmcgY29tbWl0IDZlYjZlZTczM2Q3MyAodGFy
+Z2V0L2kzODY6IGt2bTogUmUtaW5qZWN0ICNEQiB0byBndWVzdCB3aXRoIHVwZGF0ZWQgRFI2KQox
+Ny8yNSBDaGVja2luZyBjb21taXQgYjBlNzJkZDViZTY2ICh0YXJnZXQvaTM4Njoga3ZtOiBCbG9j
+ayBtaWdyYXRpb24gZm9yIHZDUFVzIGV4cG9zZWQgd2l0aCBuZXN0ZWQgdmlydHVhbGl6YXRpb24p
+CkVSUk9SOiByZXR1cm4gaXMgbm90IGEgZnVuY3Rpb24sIHBhcmVudGhlc2VzIGFyZSBub3QgcmVx
+dWlyZWQKIzY0OiBGSUxFOiB0YXJnZXQvaTM4Ni9jcHUuaDoxODYwOgorICAgIHJldHVybiAoZW52
+LT5mZWF0dXJlc1tGRUFUXzFfRUNYXSAmIENQVUlEX0VYVF9WTVgpOwoKRVJST1I6IHJldHVybiBp
+cyBub3QgYSBmdW5jdGlvbiwgcGFyZW50aGVzZXMgYXJlIG5vdCByZXF1aXJlZAojNjk6IEZJTEU6
+IHRhcmdldC9pMzg2L2NwdS5oOjE4NjU6CisgICAgcmV0dXJuIChlbnYtPmZlYXR1cmVzW0ZFQVRf
+ODAwMF8wMDAxX0VDWF0gJiBDUFVJRF9FWFQzX1NWTSk7CgpFUlJPUjogcmV0dXJuIGlzIG5vdCBh
+IGZ1bmN0aW9uLCBwYXJlbnRoZXNlcyBhcmUgbm90IHJlcXVpcmVkCiM3NDogRklMRTogdGFyZ2V0
+L2kzODYvY3B1Lmg6MTg3MDoKKyAgICByZXR1cm4gKGNwdV9oYXNfdm14KGVudikgfHwgY3B1X2hh
+c19zdm0oZW52KSk7Cgp0b3RhbDogMyBlcnJvcnMsIDAgd2FybmluZ3MsIDgwIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDE3LzI1IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFu
+eSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUg
+bWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxOC8yNSBDaGVja2lu
+ZyBjb21taXQgN2ZiMDA2ZjZkY2ZhIChsaW51eC1oZWFkZXJzOiBzeW5jIHdpdGggbGF0ZXN0IEtW
+TSBoZWFkZXJzIGZyb20gTGludXggNS4yKQoxOS8yNSBDaGVja2luZyBjb21taXQgNzRhZjE0MWU3
+NjQwICh2bXN0YXRlOiBBZGQgc3VwcG9ydCBmb3Iga2VybmVsIGludGVnZXIgdHlwZXMpCjIwLzI1
+IENoZWNraW5nIGNvbW1pdCBjODZiN2Y5ZWE3ZDMgKHRhcmdldC9pMzg2OiBrdm06IEFkZCBzdXBw
+b3J0IGZvciBzYXZlIGFuZCByZXN0b3JlIG5lc3RlZCBzdGF0ZSkKRVJST1I6IGdfZnJlZShOVUxM
+KSBpcyBzYWZlIHRoaXMgY2hlY2sgaXMgcHJvYmFibHkgbm90IHJlcXVpcmVkCiMxMzA6IEZJTEU6
+IHRhcmdldC9pMzg2L2t2bS5jOjE3MTI6CisgICAgaWYgKGVudi0+bmVzdGVkX3N0YXRlKSB7Cisg
+ICAgICAgIGdfZnJlZShlbnYtPm5lc3RlZF9zdGF0ZSk7CgpFUlJPUjogc3BhY2VzIHJlcXVpcmVk
+IGFyb3VuZCB0aGF0ICcqJyAoY3R4OlZ4VikKIzMxNjogRklMRTogdGFyZ2V0L2kzODYvbWFjaGlu
+ZS5jOjkzNToKKyAgICAuc3Vic2VjdGlvbnMgPSAoY29uc3QgVk1TdGF0ZURlc2NyaXB0aW9uKltd
+KSB7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9S
+OiByZXR1cm4gaXMgbm90IGEgZnVuY3Rpb24sIHBhcmVudGhlc2VzIGFyZSBub3QgcmVxdWlyZWQK
+IzM0NTogRklMRTogdGFyZ2V0L2kzODYvbWFjaGluZS5jOjk2NDoKKyAgICByZXR1cm4gKGVudi0+
+bmVzdGVkX3N0YXRlICYmCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAo
+Y3R4OlZ4VikKIzQwNzogRklMRTogdGFyZ2V0L2kzODYvbWFjaGluZS5jOjEwMjY6CisgICAgLnN1
+YnNlY3Rpb25zID0gKGNvbnN0IFZNU3RhdGVEZXNjcmlwdGlvbipbXSkgewogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgp0b3RhbDogNCBlcnJvcnMsIDAgd2Fy
+bmluZ3MsIDM4NiBsaW5lcyBjaGVja2VkCgpQYXRjaCAyMC8yNSBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgoKMjEvMjUgQ2hlY2tpbmcgY29tbWl0IDMxMjkzZmNjODMxNyAodGFyZ2V0L2kzODY6
+IGt2bTogQWRkIHN1cHBvcnQgZm9yIEtWTV9DQVBfRVhDRVBUSU9OX1BBWUxPQUQpCkVSUk9SOiBj
+b2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzEzNzogRklMRTogdGFyZ2V0L2kzODYv
+a3ZtLmM6NTkwOgorXkllbnYtPmV4Y2VwdGlvbl9uciA9IC0xOyQKCkVSUk9SOiBjb2RlIGluZGVu
+dCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzEzODogRklMRTogdGFyZ2V0L2kzODYva3ZtLmM6NTkx
+OgorXkllbnYtPmV4Y2VwdGlvbl9wZW5kaW5nID0gMDskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
+dWxkIG5ldmVyIHVzZSB0YWJzCiMxMzk6IEZJTEU6IHRhcmdldC9pMzg2L2t2bS5jOjU5MjoKK15J
+ZW52LT5leGNlcHRpb25faW5qZWN0ZWQgPSAwOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQg
+bmV2ZXIgdXNlIHRhYnMKIzE0MDogRklMRTogdGFyZ2V0L2kzODYva3ZtLmM6NTkzOgorXkllbnYt
+PmV4Y2VwdGlvbl9oYXNfcGF5bG9hZCA9IGZhbHNlOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91
+bGQgbmV2ZXIgdXNlIHRhYnMKIzE0MTogRklMRTogdGFyZ2V0L2kzODYva3ZtLmM6NTk0OgorXkll
+bnYtPmV4Y2VwdGlvbl9wYXlsb2FkID0gMDskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5l
+dmVyIHVzZSB0YWJzCiMzNjM6IEZJTEU6IHRhcmdldC9pMzg2L21hY2hpbmUuYzozNDI6CisgICAg
+ICpeSSAgcGVuZGluZyBvciBndWVzdCB3YXNuJ3QgcnVubmluZyBMMiAoU2VlIGNvbW1lbnQgaW4g
+Y3B1X3ByZV9zYXZlKCkpLiQKCkVSUk9SOiByZXR1cm4gaXMgbm90IGEgZnVuY3Rpb24sIHBhcmVu
+dGhlc2VzIGFyZSBub3QgcmVxdWlyZWQKIzM5MjogRklMRTogdGFyZ2V0L2kzODYvbWFjaGluZS5j
+OjQwOToKKyAgICByZXR1cm4gKGVudi0+ZXhjZXB0aW9uX3BlbmRpbmcgJiYgKGVudi0+aGZsYWdz
+ICYgSEZfR1VFU1RfTUFTSykpOwoKdG90YWw6IDcgZXJyb3JzLCAwIHdhcm5pbmdzLCAzNTMgbGlu
+ZXMgY2hlY2tlZAoKUGF0Y2ggMjEvMjUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIyLzI1
+IENoZWNraW5nIGNvbW1pdCBkM2M4ZGFlMDIxZmIgKHRhcmdldC9pMzg2OiBrdm06IEFkZCBuZXN0
+ZWQgbWlncmF0aW9uIGJsb2NrZXIgb25seSB3aGVuIGtlcm5lbCBsYWNrcyByZXF1aXJlZCBjYXBh
+YmlsaXRpZXMpCjIzLzI1IENoZWNraW5nIGNvbW1pdCA2MThmZDQ0ZDc5NGMgKHNkOiBGaXggb3V0
+LW9mLWJvdW5kcyBhc3NlcnRpb25zKQoyNC8yNSBDaGVja2luZyBjb21taXQgNzNmZTA4ODlmNDEy
+ICh1dGlsL21haW4tbG9vcDogRml4IGluY29ycmVjdCBhc3NlcnRpb24pCjI1LzI1IENoZWNraW5n
+IGNvbW1pdCA0MGQ4ZDJhNmJkMmIgKGh3OiBOdWtlIGh3X2NvbXBhdF80XzBfMSBhbmQgcGNfY29t
+cGF0XzRfMF8xKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBj
+b2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcv
+bG9ncy8xNTYxMDgxMzUwLTM3MjMtMS1naXQtc2VuZC1lbWFpbC1wYm9uemluaUByZWRoYXQuY29t
+L3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1
+dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2Vu
+ZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
-> On 6/20/19 3:54 AM, zhenwei pi wrote:
->> Set/Clear block size histograms through new command
->> x-block-size-histogram-set and show new statistics in
->> query-blockstats results.
->>
-> I'm guessing this is modeled after the existing
-> block-latency-histogram-set command?
-
-zhenwei: Yes, it is.
-
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->>   block/qapi.c         |  24 ++++++++++++
->>   blockdev.c           |  56 +++++++++++++++++++++++++++
->>   qapi/block-core.json | 105 ++++++++++++++++++++++++++++++++++++++++++++++++++-
->>   3 files changed, 184 insertions(+), 1 deletion(-)
->> +++ b/qapi/block-core.json
->> @@ -633,6 +633,100 @@
->>              '*boundaries-flush': ['uint64'] } }
->>   
->>   ##
->> +# @BlockSizeHistogramInfo:
->> +#
->> +# Block size histogram.
->> +#
->> +# @boundaries: list of interval boundary values in nanoseconds, all greater
->> +#              than zero and in ascending order.
->> +#              For example, the list [8193, 32769, 131073] produces the
->> +#              following histogram intervals:
->> +#              [0, 8193), [8193, 32769), [32769, 131073), [131073, +inf).
->> +#
->> +# @bins: list of io request counts corresponding to histogram intervals.
->> +#        len(@bins) = len(@boundaries) + 1
->> +#        For the example above, @bins may be something like [6, 3, 7, 9],
->> +#        and corresponding histogram looks like:
->> +#
->> +# Since: 4.0
-> You've missed 4.0; the next release is 4.1.
-
-zhenwei: OK, I will fix all the version info.
-
->> +##
->> +{ 'struct': 'BlockSizeHistogramInfo',
->> +  'data': {'boundaries': ['uint64'], 'bins': ['uint64'] } }
-> This is identical to struct BlockLatencyHistogramInfo; can we instead
-> rename the type (which does not affect API) and share it between both
-> implementations, instead of duplicating it?
->
-zhenwei: Good idea. But I am confused about the compatibility of the
-structure BlockLatencyHistogramInfo. If I rename BlockLatencyHistogramInfo
-to BlockHistogramInfo, it will be common.
-
->> +
->> +##
->> +# @x-block-size-histogram-set:
-> Does this need to be experimental from the get-go? Or can it be stable
-> by dropping 'x-' since it matches the fact that
-> block-latency-histogram-set is stable?
-
-zhenwei: OK, I will drop 'x-' prefix.
-
->> +#
->> +# Manage read, write and flush size histograms for the device.
->> +#
->> +# If only @id parameter is specified, remove all present size histograms
->> +# for the device. Otherwise, add/reset some of (or all) size histograms.
->> +#
->> +# @id: The name or QOM path of the guest device.
->> +#
->> +# @boundaries: list of interval boundary values (see description in
->> +#              BlockSizeHistogramInfo definition). If specified, all
->> +#              size histograms are removed, and empty ones created for all
->> +#              io types with intervals corresponding to @boundaries (except for
->> +#              io types, for which specific boundaries are set through the
->> +#              following parameters).
->> +#
->> +# @boundaries-read: list of interval boundary values for read size
->> +#                   histogram. If specified, old read size histogram is
->> +#                   removed, and empty one created with intervals
->> +#                   corresponding to @boundaries-read. The parameter has higher
->> +#                   priority then @boundaries.
->> +#
->> +# @boundaries-write: list of interval boundary values for write size
->> +#                    histogram.
->> +#
->> +# @boundaries-flush: list of interval boundary values for flush size
->> +#                    histogram.
->> +#
->> +# Returns: error if device is not found or any boundary arrays are invalid.
->> +#
->> +# Since: 4.0
-> 4.1
->
->> +#
->> +# Example: set new histograms for all io types with intervals
->> +# [0, 8193), [8193, 32769), [32769, 131073), [131073, +inf):
->> +#
->> +# -> { "execute": "x-block-size-histogram-set",
->> +#      "arguments": { "id": "drive0",
->> +#                     "boundaries": [8193, 32769, 131073] } }
->> +# <- { "return": {} }
->> +#
->> +# Example: set new histogram only for write, other histograms will remain
->> +# not changed (or not created):
->> +#
->> +# -> { "execute": "x-block-size-histogram-set",
->> +#      "arguments": { "id": "drive0",
->> +#                     "boundaries-write": [8193, 32769, 131073] } }
->> +# <- { "return": {} }
->> +#
->> +# Example: set new histograms with the following intervals:
->> +#   read, flush: [0, 8193), [8193, 32769), [32769, 131073), [131073, +inf)
->> +#   write: [0, 4097), [4097, 8193), [8193, 32769), [32769, +inf)
->> +#
->> +# -> { "execute": "x-block-size-histogram-set",
->> +#      "arguments": { "id": "drive0",
->> +#                     "boundaries": [8193, 32769, 131073],
->> +#                     "boundaries-write": [4097, 8193, 32769] } }
->> +# <- { "return": {} }
->> +#
->> +# Example: remove all size histograms:
->> +#
->> +# -> { "execute": "x-block-size-histogram-set",
->> +#      "arguments": { "id": "drive0" } }
->> +# <- { "return": {} }
->> +##
->> +{ 'command': 'x-block-size-histogram-set',
->> +  'data': {'id': 'str',
->> +           '*boundaries': ['uint64'],
->> +           '*boundaries-read': ['uint64'],
->> +           '*boundaries-write': ['uint64'],
->> +           '*boundaries-flush': ['uint64'] } }
-> Again, this copies heavily from block-latency-histogram-set.  But
-> changing the command name is not API compatible.  Should we have a
-> single new command 'block-histogram-set' which takes an enum choosing
-> between 'latency' and 'size', and start the deprecation clock on
-> 'block-latency-histogram-set'?
->   (and defaulting to 'latency' for back-compat
->
-zhenwei: this actually copies from block-latency-histogram-set, because the
-two APIs have the similar logic but different structure
-BlockLatencyHistogramInfo and BlockSizeHistogramInfo.
-For further extension, a single new command 'block-histogram-set' with
-enum operation is better.
-So, should I remove 'block-latency-histogram-set' and add 'block-histogram-set'?
-
->> +
->> +
->> +##
->>   # @BlockInfo:
->>   #
->>   # Block device information.  This structure describes a virtual device and
->> @@ -918,6 +1012,12 @@
->>   #
->>   # @flush_latency_histogram: @BlockLatencyHistogramInfo. (Since 4.0)
->>   #
->> +# @x_rd_size_histogram: @BlockSizeHistogramInfo. (Since 4.0)
->> +#
->> +# @x_wr_size_histogram: @BlockSizeHistogramInfo. (Since 4.0)
->> +#
->> +# @x_flush_size_histogram: @BlockSizeHistogramInfo. (Since 4.0)
-> since 4.1 on all of these additions.
->
->> +#
->>   # Since: 0.14.0
->>   ##
->>   { 'struct': 'BlockDeviceStats',
->> @@ -933,7 +1033,10 @@
->>              'timed_stats': ['BlockDeviceTimedStats'],
->>              '*rd_latency_histogram': 'BlockLatencyHistogramInfo',
->>              '*wr_latency_histogram': 'BlockLatencyHistogramInfo',
->> -           '*flush_latency_histogram': 'BlockLatencyHistogramInfo' } }
->> +           '*flush_latency_histogram': 'BlockLatencyHistogramInfo',
->> +           '*x_rd_size_histogram': 'BlockSizeHistogramInfo',
->> +           '*x_wr_size_histogram': 'BlockSizeHistogramInfo',
->> +           '*x_flush_size_histogram': 'BlockSizeHistogramInfo' } }
->>   
->>   ##
->>   # @BlockStats:
->>
-
--- 
-Thanks and Best Regards,
-zhenwei pi
 
