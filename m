@@ -2,55 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49C4A4EA26
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:04:26 +0200 (CEST)
-Received: from localhost ([::1]:35294 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 068FE4EA7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:22:36 +0200 (CEST)
+Received: from localhost ([::1]:35546 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heK9R-0000vF-Bs
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59393)
+	id 1heKR0-0005Nz-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37521)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1heJze-0005oZ-MQ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:54:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1heKKb-0000uE-Es
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:15:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1heJzc-0002Ck-Pf
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:54:18 -0400
-Resent-Date: Fri, 21 Jun 2019 09:54:18 -0400
-Resent-Message-Id: <E1heJzc-0002Ck-Pf@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21467)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1heJzc-00029Y-K8
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:54:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1561125228; cv=none; d=zoho.com; s=zohoarc; 
- b=RTyU71FIMbz8QiLnghMzbGtFxJYD2wwGiXdOiHMBs71KgO6bHVBydCBBQlhvLaVy+HQ8K51LrmSIYHPp4YQkpiIY/4e0dLAqThOGd8ZHlkN7YQ10r8lV8/09G2aNSVc/xgYe/8X4B6yCniIgDpdU615CDJeIZa1cnddYUBrhgAE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1561125228;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=9JmYmk/yg/XqxAeU9CcABAZNXsBUKGMn89Jn3KPIv0o=; 
- b=cSOET5aGyDZN5fcMWKb06bq5bcWFwlw6/1NNjQ5PTa3+lrDu//fX7LLPuzbMlhhewelXi4kyJn/nmktCWC0ALFzS5uPb3PpclfMm8nEFl4Mue4l/QT3aHb6k4c9QpLFRLEZFaqlEacfmYmXqDSJsMNfQVWBHx2yklIdlAPT45tU=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1561125227824410.8884676618551;
- Fri, 21 Jun 2019 06:53:47 -0700 (PDT)
-In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
-Message-ID: <156112522699.1396.16881215372332861528@ce79690b2cb9>
+ (envelope-from <philmd@redhat.com>) id 1heKEU-0003Xd-Sm
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:09:41 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36344)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1heKES-0003Kf-L5
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:09:37 -0400
+Received: by mail-wr1-f67.google.com with SMTP id n4so5541142wrs.3
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 07:09:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sV6byMKl59G7ev8i5/GIEY2b5DQTQK4llf8DLy5qge4=;
+ b=WjNuU9OI1GjCfOTNUADSlr8Y1TIY7cIiGWIgxdGsxEQoCjLodka/gifmylPi5VyOi7
+ Z9j2D31YP0JMenJBQl9OYCWfPlqkF3qJgtYbDb2P/tQFw81wwcBI30PTFwvhNK6zLI3C
+ genSvu2XYgo5cJSEGw0pdPe067nu+/uq8kFB7IoDtE9rBkhiFRbYpLfspXL7AC3qQaMV
+ fnZZQPXY3419/3Ubz7mBw1LshgmmB0EwGuS9mBPoDc0x9jIjOGmeUmxzHL/uBsyiUvXf
+ vohpGflryo0KRzMXmBVewRG5RZx3MPqNjydD2iFzd4B17LALAJolsBGHZh59b4LvuIPk
+ P8mg==
+X-Gm-Message-State: APjAAAUeEDHRB8hy9THIgp/lHGk4hNbY9zbl5ruFCX9qI67aYdKGJGFR
+ 80KjDopMIpQwnv250Hpv/nQVXA==
+X-Google-Smtp-Source: APXvYqyN8XANqg2Z/LyO/2GkVwytATvBLBGohkglnG7ZlJQVGQFhKZz0aTPsUNKHJvquWcALA9Q/bg==
+X-Received: by 2002:adf:b1ca:: with SMTP id r10mr19579563wra.156.1561126174204; 
+ Fri, 21 Jun 2019 07:09:34 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id o13sm2884994wra.92.2019.06.21.07.09.32
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 21 Jun 2019 07:09:33 -0700 (PDT)
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20190619221933.1981-1-laurent@vivier.eu>
+ <20190619221933.1981-2-laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <1de4d92a-4176-6584-0363-6f624ecb5af3@redhat.com>
+Date: Fri, 21 Jun 2019 16:09:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Fri, 21 Jun 2019 06:53:47 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20190619221933.1981-2-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PULL v2 00/25] Misc (mostly x86) patches for
- 2019-06-21
+ [fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH v8 01/10] escc: introduce a selector for
+ the register bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,139 +75,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Thomas Huth <huth@tuxfamily.org>,
+ Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxMTE2NjIwLTIyMjQ1LTEt
-Z2l0LXNlbmQtZW1haWwtcGJvbnppbmlAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVs
-XSBbUFVMTCB2MiAwMC8yNV0gTWlzYyAobW9zdGx5IHg4NikgcGF0Y2hlcyBmb3IgMjAxOS0wNi0y
-MQpNZXNzYWdlLWlkOiAxNTYxMTE2NjIwLTIyMjQ1LTEtZ2l0LXNlbmQtZW1haWwtcGJvbnppbmlA
-cmVkaGF0LmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2
-LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBj
-b25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0
-Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5n
-IDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dp
-dGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hl
-dy8yMDE5MDYyMTEzMjMyNC4yMTY1LTEtbXJlaXR6QHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDE5
-MDYyMTEzMjMyNC4yMTY1LTEtbXJlaXR6QHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJh
-bmNoICd0ZXN0JwpjZjY2ZTU1IGh3OiBOdWtlIGh3X2NvbXBhdF80XzBfMSBhbmQgcGNfY29tcGF0
-XzRfMF8xCjZjODhlM2EgdXRpbC9tYWluLWxvb3A6IEZpeCBpbmNvcnJlY3QgYXNzZXJ0aW9uCjEz
-MzcxYjEgc2Q6IEZpeCBvdXQtb2YtYm91bmRzIGFzc2VydGlvbnMKMGI4MzdkOSB0YXJnZXQvaTM4
-Njoga3ZtOiBBZGQgbmVzdGVkIG1pZ3JhdGlvbiBibG9ja2VyIG9ubHkgd2hlbiBrZXJuZWwgbGFj
-a3MgcmVxdWlyZWQgY2FwYWJpbGl0aWVzCjE1ODMwNDggdGFyZ2V0L2kzODY6IGt2bTogQWRkIHN1
-cHBvcnQgZm9yIEtWTV9DQVBfRVhDRVBUSU9OX1BBWUxPQUQKNGU0ZDM5MiB0YXJnZXQvaTM4Njog
-a3ZtOiBBZGQgc3VwcG9ydCBmb3Igc2F2ZSBhbmQgcmVzdG9yZSBuZXN0ZWQgc3RhdGUKYzk1MmZk
-MiB2bXN0YXRlOiBBZGQgc3VwcG9ydCBmb3Iga2VybmVsIGludGVnZXIgdHlwZXMKYmUwYmMyYSBs
-aW51eC1oZWFkZXJzOiBzeW5jIHdpdGggbGF0ZXN0IEtWTSBoZWFkZXJzIGZyb20gTGludXggNS4y
-CmZjYzEyM2MgdGFyZ2V0L2kzODY6IGt2bTogQmxvY2sgbWlncmF0aW9uIGZvciB2Q1BVcyBleHBv
-c2VkIHdpdGggbmVzdGVkIHZpcnR1YWxpemF0aW9uCmZmMGU3ZGYgdGFyZ2V0L2kzODY6IGt2bTog
-UmUtaW5qZWN0ICNEQiB0byBndWVzdCB3aXRoIHVwZGF0ZWQgRFI2CmIwM2MzZmYgdGFyZ2V0L2kz
-ODY6IGt2bTogVXNlIHN5bWJvbGljIGNvbnN0YW50IGZvciAjREIvI0JQIGV4Y2VwdGlvbiBjb25z
-dGFudHMKNjdlYTMzYiBLVk06IEludHJvZHVjZSBrdm1fYXJjaF9kZXN0cm95X3ZjcHUoKQo5ZTI2
-YjMyIHRhcmdldC9pMzg2OiBrdm06IERlbGV0ZSBWTVggbWlncmF0aW9uIGJsb2NrZXIgb24gdkNQ
-VSBpbml0IGZhaWx1cmUKNzAyMGY4OSB0YXJnZXQvaTM4NjogZGVmaW5lIGEgbmV3IE1TUiBiYXNl
-ZCBmZWF0dXJlIHdvcmQgLSBGRUFUX0NPUkVfQ0FQQUJJTElUWQozYTBkNDk1IGkzODYva3ZtOiBh
-ZGQgc3VwcG9ydCBmb3IgRGlyZWN0IE1vZGUgZm9yIEh5cGVyLVYgc3ludGhldGljIHRpbWVycwo2
-YTcxMjdhIGkzODYva3ZtOiBodi1ldm1jcyByZXF1aXJlcyBodi12YXBpYwpjNzUxNGI0IGkzODYv
-a3ZtOiBodi10bGJmbHVzaC9pcGkgcmVxdWlyZSBodi12cGluZGV4CjUxY2RmYWMgaTM4Ni9rdm06
-IGh2LXN0aW1lciByZXF1aXJlcyBodi10aW1lIGFuZCBodi1zeW5pYwoxZjAyZTczIGkzODYva3Zt
-OiBpbXBsZW1lbnQgJ2h2LXBhc3N0aHJvdWdoJyBtb2RlCmFlYWY2ZjggaTM4Ni9rdm06IGRvY3Vt
-ZW50IGV4aXN0aW5nIEh5cGVyLVYgZW5saWdodGVubWVudHMKODJkMWM4MSBpMzg2L2t2bTogbW92
-ZSBIeXBlci1WIENQVUlEIGZpbGxpbmcgdG8gaHlwZXJ2X2hhbmRsZV9wcm9wZXJ0aWVzKCkKZjVl
-MDkzMiBpMzg2L2t2bTogYWRkIHN1cHBvcnQgZm9yIEtWTV9HRVRfU1VQUE9SVEVEX0hWX0NQVUlE
-CmIwYjg5ZGEgaTM4Ni9rdm06IGNvbnZlcnQgaHlwZXJ2IGVubGlnaHRlbm1lbnRzIHByb3BlcnRp
-ZXMgZnJvbSBib29scyB0byBiaXRzCmQ0OWVmYjEgaGF4OiBIb25vciBDUFVTdGF0ZTo6aGFsdGVk
-CjExM2NmZTQga3ZtLWFsbDogQWRkL3VwZGF0ZSBmcHJpbnRmJ3MgZm9yIGt2bV8qX2lvZXZlbnRm
-ZF9kZWwKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMjUgQ2hlY2tpbmcgY29tbWl0IDExM2NmZTQy
-OWEwNyAoa3ZtLWFsbDogQWRkL3VwZGF0ZSBmcHJpbnRmJ3MgZm9yIGt2bV8qX2lvZXZlbnRmZF9k
-ZWwpCjIvMjUgQ2hlY2tpbmcgY29tbWl0IGQ0OWVmYjEzMWRlMSAoaGF4OiBIb25vciBDUFVTdGF0
-ZTo6aGFsdGVkKQpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEg
-c2VwYXJhdGUgbGluZQojNzc6IEZJTEU6IHRhcmdldC9pMzg2L2hheC1hbGwuYzo0Nzk6CisgICAg
-LyogQWZ0ZXIgYSB2Y3B1IGlzIGhhbHRlZCAoZWl0aGVyIGJlY2F1c2UgaXQgaXMgYW4gQVAgYW5k
-IGhhcyBqdXN0IGJlZW4KCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyog
-b24gYSBzZXBhcmF0ZSBsaW5lCiMxMDk6IEZJTEU6IHRhcmdldC9pMzg2L2hheC1hbGwuYzo1MTk6
-CisgICAgICAgIC8qIElmIHRoaXMgdmNwdSBpcyBoYWx0ZWQsIHdlIG11c3Qgbm90IGFzayBIQVhN
-IHRvIHJ1biBpdC4gSW5zdGVhZCwgd2UKCnRvdGFsOiAwIGVycm9ycywgMiB3YXJuaW5ncywgNjAg
-bGluZXMgY2hlY2tlZAoKUGF0Y2ggMi8yNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgozLzI1
-IENoZWNraW5nIGNvbW1pdCBiMGI4OWRhYTNjNTkgKGkzODYva3ZtOiBjb252ZXJ0IGh5cGVydiBl
-bmxpZ2h0ZW5tZW50cyBwcm9wZXJ0aWVzIGZyb20gYm9vbHMgdG8gYml0cykKNC8yNSBDaGVja2lu
-ZyBjb21taXQgZjVlMDkzMjA2NzFiIChpMzg2L2t2bTogYWRkIHN1cHBvcnQgZm9yIEtWTV9HRVRf
-U1VQUE9SVEVEX0hWX0NQVUlEKQo1LzI1IENoZWNraW5nIGNvbW1pdCA4MmQxYzgxNDdhNTQgKGkz
-ODYva3ZtOiBtb3ZlIEh5cGVyLVYgQ1BVSUQgZmlsbGluZyB0byBoeXBlcnZfaGFuZGxlX3Byb3Bl
-cnRpZXMoKSkKNi8yNSBDaGVja2luZyBjb21taXQgYWVhZjZmODg1OThmIChpMzg2L2t2bTogZG9j
-dW1lbnQgZXhpc3RpbmcgSHlwZXItViBlbmxpZ2h0ZW5tZW50cykKV0FSTklORzogYWRkZWQsIG1v
-dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
-MTg6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAx
-ODEgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNi8yNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSBy
-ZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0
-IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo3
-LzI1IENoZWNraW5nIGNvbW1pdCAxZjAyZTczOGQ5NTMgKGkzODYva3ZtOiBpbXBsZW1lbnQgJ2h2
-LXBhc3N0aHJvdWdoJyBtb2RlKQo4LzI1IENoZWNraW5nIGNvbW1pdCA1MWNkZmFjNGZjYTMgKGkz
-ODYva3ZtOiBodi1zdGltZXIgcmVxdWlyZXMgaHYtdGltZSBhbmQgaHYtc3luaWMpCjkvMjUgQ2hl
-Y2tpbmcgY29tbWl0IGM3NTE0YjQ0ZTJkMCAoaTM4Ni9rdm06IGh2LXRsYmZsdXNoL2lwaSByZXF1
-aXJlIGh2LXZwaW5kZXgpCjEwLzI1IENoZWNraW5nIGNvbW1pdCA2YTcxMjdhOTc1NTIgKGkzODYv
-a3ZtOiBodi1ldm1jcyByZXF1aXJlcyBodi12YXBpYykKMTEvMjUgQ2hlY2tpbmcgY29tbWl0IDNh
-MGQ0OTUyNDg5OCAoaTM4Ni9rdm06IGFkZCBzdXBwb3J0IGZvciBEaXJlY3QgTW9kZSBmb3IgSHlw
-ZXItViBzeW50aGV0aWMgdGltZXJzKQoxMi8yNSBDaGVja2luZyBjb21taXQgNzAyMGY4OWYyZjA4
-ICh0YXJnZXQvaTM4NjogZGVmaW5lIGEgbmV3IE1TUiBiYXNlZCBmZWF0dXJlIHdvcmQgLSBGRUFU
-X0NPUkVfQ0FQQUJJTElUWSkKMTMvMjUgQ2hlY2tpbmcgY29tbWl0IDllMjZiMzI5YzM4NSAodGFy
-Z2V0L2kzODY6IGt2bTogRGVsZXRlIFZNWCBtaWdyYXRpb24gYmxvY2tlciBvbiB2Q1BVIGluaXQg
-ZmFpbHVyZSkKMTQvMjUgQ2hlY2tpbmcgY29tbWl0IDY3ZWEzM2JjYzQ5ZSAoS1ZNOiBJbnRyb2R1
-Y2Uga3ZtX2FyY2hfZGVzdHJveV92Y3B1KCkpCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2
-ZXIgdXNlIHRhYnMKIzYxOiBGSUxFOiB0YXJnZXQvYXJtL2t2bTMyLmM6MjQ1OgorXklyZXR1cm4g
-MDskCgpFUlJPUjogZ19mcmVlKE5VTEwpIGlzIHNhZmUgdGhpcyBjaGVjayBpcyBwcm9iYWJseSBu
-b3QgcmVxdWlyZWQKIzk2OiBGSUxFOiB0YXJnZXQvaTM4Ni9rdm0uYzoxNjg3OgorICAgIGlmIChj
-cHUtPmt2bV9tc3JfYnVmKSB7CisgICAgICAgIGdfZnJlZShjcHUtPmt2bV9tc3JfYnVmKTsKCnRv
-dGFsOiAyIGVycm9ycywgMCB3YXJuaW5ncywgOTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTQvMjUg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjE1LzI1IENoZWNraW5nIGNvbW1pdCBiMDNjM2Zm
-YmIyNmUgKHRhcmdldC9pMzg2OiBrdm06IFVzZSBzeW1ib2xpYyBjb25zdGFudCBmb3IgI0RCLyNC
-UCBleGNlcHRpb24gY29uc3RhbnRzKQoxNi8yNSBDaGVja2luZyBjb21taXQgZmYwZTdkZmExMjA3
-ICh0YXJnZXQvaTM4Njoga3ZtOiBSZS1pbmplY3QgI0RCIHRvIGd1ZXN0IHdpdGggdXBkYXRlZCBE
-UjYpCjE3LzI1IENoZWNraW5nIGNvbW1pdCBmY2MxMjNjYTVjOGUgKHRhcmdldC9pMzg2OiBrdm06
-IEJsb2NrIG1pZ3JhdGlvbiBmb3IgdkNQVXMgZXhwb3NlZCB3aXRoIG5lc3RlZCB2aXJ0dWFsaXph
-dGlvbikKMTgvMjUgQ2hlY2tpbmcgY29tbWl0IGJlMGJjMmE0MWNhOCAobGludXgtaGVhZGVyczog
-c3luYyB3aXRoIGxhdGVzdCBLVk0gaGVhZGVycyBmcm9tIExpbnV4IDUuMikKMTkvMjUgQ2hlY2tp
-bmcgY29tbWl0IGM5NTJmZDIzOThlZiAodm1zdGF0ZTogQWRkIHN1cHBvcnQgZm9yIGtlcm5lbCBp
-bnRlZ2VyIHR5cGVzKQoyMC8yNSBDaGVja2luZyBjb21taXQgNGU0ZDM5MmI1ZjMwICh0YXJnZXQv
-aTM4Njoga3ZtOiBBZGQgc3VwcG9ydCBmb3Igc2F2ZSBhbmQgcmVzdG9yZSBuZXN0ZWQgc3RhdGUp
-CkVSUk9SOiBnX2ZyZWUoTlVMTCkgaXMgc2FmZSB0aGlzIGNoZWNrIGlzIHByb2JhYmx5IG5vdCBy
-ZXF1aXJlZAojMTMwOiBGSUxFOiB0YXJnZXQvaTM4Ni9rdm0uYzoxNzEyOgorICAgIGlmIChlbnYt
-Pm5lc3RlZF9zdGF0ZSkgeworICAgICAgICBnX2ZyZWUoZW52LT5uZXN0ZWRfc3RhdGUpOwoKRVJS
-T1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKicgKGN0eDpWeFYpCiMzMTY6IEZJTEU6
-IHRhcmdldC9pMzg2L21hY2hpbmUuYzo5MzU6CisgICAgLnN1YnNlY3Rpb25zID0gKGNvbnN0IFZN
-U3RhdGVEZXNjcmlwdGlvbipbXSkgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBeCgpFUlJPUjogcmV0dXJuIGlzIG5vdCBhIGZ1bmN0aW9uLCBwYXJlbnRoZXNl
-cyBhcmUgbm90IHJlcXVpcmVkCiMzNDU6IEZJTEU6IHRhcmdldC9pMzg2L21hY2hpbmUuYzo5NjQ6
-CisgICAgcmV0dXJuIChlbnYtPm5lc3RlZF9zdGF0ZSAmJgoKRVJST1I6IHNwYWNlcyByZXF1aXJl
-ZCBhcm91bmQgdGhhdCAnKicgKGN0eDpWeFYpCiM0MDc6IEZJTEU6IHRhcmdldC9pMzg2L21hY2hp
-bmUuYzoxMDI2OgorICAgIC5zdWJzZWN0aW9ucyA9IChjb25zdCBWTVN0YXRlRGVzY3JpcHRpb24q
-W10pIHsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90
-YWw6IDQgZXJyb3JzLCAwIHdhcm5pbmdzLCAzODYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMjAvMjUg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIxLzI1IENoZWNraW5nIGNvbW1pdCAxNTgzMDQ4
-ODVlNTEgKHRhcmdldC9pMzg2OiBrdm06IEFkZCBzdXBwb3J0IGZvciBLVk1fQ0FQX0VYQ0VQVElP
-Tl9QQVlMT0FEKQoyMi8yNSBDaGVja2luZyBjb21taXQgMGI4MzdkOTU5NWQ4ICh0YXJnZXQvaTM4
-Njoga3ZtOiBBZGQgbmVzdGVkIG1pZ3JhdGlvbiBibG9ja2VyIG9ubHkgd2hlbiBrZXJuZWwgbGFj
-a3MgcmVxdWlyZWQgY2FwYWJpbGl0aWVzKQoyMy8yNSBDaGVja2luZyBjb21taXQgMTMzNzFiMWFk
-OTk1IChzZDogRml4IG91dC1vZi1ib3VuZHMgYXNzZXJ0aW9ucykKMjQvMjUgQ2hlY2tpbmcgY29t
-bWl0IDZjODhlM2E2Mjc0MSAodXRpbC9tYWluLWxvb3A6IEZpeCBpbmNvcnJlY3QgYXNzZXJ0aW9u
-KQoyNS8yNSBDaGVja2luZyBjb21taXQgY2Y2NmU1NWM0ZGJlIChodzogTnVrZSBod19jb21wYXRf
-NF8wXzEgYW5kIHBjX2NvbXBhdF80XzBfMSkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
-bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
-cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU2MTExNjYyMC0yMjI0NS0xLWdpdC1zZW5kLWVtYWlsLXBi
-b256aW5pQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpF
-bWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcu
-b3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQu
-Y29t
+On 6/20/19 12:19 AM, Laurent Vivier wrote:
+> On Sparc and PowerMac, the bit 0 of the address
+> selects the register type (control or data) and
+> bit 1 selects the channel (B or A).
+> 
+> On m68k Macintosh, the bit 0 selects the channel and
+> bit 1 the register type.
+> 
+> This patch introduces a new parameter (bit_swap) to
+> the device interface to indicate bits usage must
+> be swapped between registers and channels.
+> 
+> For the moment all the machines use the bit 0,
+> but this change will be needed to emulate Quadra 800.
 
+I feel we are missing something and this model slowly becomes another
+Frankenstein. The SCC core is a monster anyway.
+I'm glad you could resolve your issue with this easy fix.
+
+
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
+> Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> ---
+>  hw/char/escc.c         | 30 ++++++++++++++++++++++++------
+>  include/hw/char/escc.h |  1 +
+>  2 files changed, 25 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/char/escc.c b/hw/char/escc.c
+> index 8ddbb4be4f..2748bd62c3 100644
+> --- a/hw/char/escc.c
+> +++ b/hw/char/escc.c
+> @@ -43,14 +43,21 @@
+>   * mouse and keyboard ports don't implement all functions and they are
+>   * only asynchronous. There is no DMA.
+>   *
+> - * Z85C30 is also used on PowerMacs. There are some small differences
+> - * between Sparc version (sunzilog) and PowerMac (pmac):
+> + * Z85C30 is also used on PowerMacs and m68k Macs.
+> + *
+> + * There are some small differences between Sparc version (sunzilog)
+> + * and PowerMac (pmac):
+>   *  Offset between control and data registers
+>   *  There is some kind of lockup bug, but we can ignore it
+>   *  CTS is inverted
+>   *  DMA on pmac using DBDMA chip
+>   *  pmac can do IRDA and faster rates, sunzilog can only do 38400
+>   *  pmac baud rate generator clock is 3.6864 MHz, sunzilog 4.9152 MHz
+> + *
+> + * Linux driver for m68k Macs is the same as for PowerMac (pmac_zilog),
+> + * but registers are grouped by type and not by channel:
+> + * channel is selected by bit 0 of the address (instead of bit 1)
+> + * and register is selected by bit 1 of the address (instead of bit 0).
+>   */
+>  
+>  /*
+> @@ -170,6 +177,16 @@ static void handle_kbd_command(ESCCChannelState *s, int val);
+>  static int serial_can_receive(void *opaque);
+>  static void serial_receive_byte(ESCCChannelState *s, int ch);
+>  
+> +static int reg_shift(ESCCState *s)
+> +{
+> +    return s->bit_swap ? s->it_shift + 1 : s->it_shift;
+> +}
+> +
+> +static int chn_shift(ESCCState *s)
+> +{
+> +    return s->bit_swap ? s->it_shift : s->it_shift + 1;
+> +}
+> +
+>  static void clear_queue(void *opaque)
+>  {
+>      ESCCChannelState *s = opaque;
+> @@ -434,8 +451,8 @@ static void escc_mem_write(void *opaque, hwaddr addr,
+>      int newreg, channel;
+>  
+>      val &= 0xff;
+> -    saddr = (addr >> serial->it_shift) & 1;
+> -    channel = (addr >> (serial->it_shift + 1)) & 1;
+> +    saddr = (addr >> reg_shift(serial)) & 1;
+> +    channel = (addr >> chn_shift(serial)) & 1;
+>      s = &serial->chn[channel];
+>      switch (saddr) {
+>      case SERIAL_CTRL:
+> @@ -545,8 +562,8 @@ static uint64_t escc_mem_read(void *opaque, hwaddr addr,
+>      uint32_t ret;
+>      int channel;
+>  
+> -    saddr = (addr >> serial->it_shift) & 1;
+> -    channel = (addr >> (serial->it_shift + 1)) & 1;
+> +    saddr = (addr >> reg_shift(serial)) & 1;
+> +    channel = (addr >> chn_shift(serial)) & 1;
+>      s = &serial->chn[channel];
+>      switch (saddr) {
+>      case SERIAL_CTRL:
+> @@ -830,6 +847,7 @@ static void escc_realize(DeviceState *dev, Error **errp)
+>  static Property escc_properties[] = {
+>      DEFINE_PROP_UINT32("frequency", ESCCState, frequency,   0),
+>      DEFINE_PROP_UINT32("it_shift",  ESCCState, it_shift,    0),
+> +    DEFINE_PROP_BOOL("bit_swap",    ESCCState, bit_swap,    false),
+>      DEFINE_PROP_UINT32("disabled",  ESCCState, disabled,    0),
+>      DEFINE_PROP_UINT32("chnBtype",  ESCCState, chn[0].type, 0),
+>      DEFINE_PROP_UINT32("chnAtype",  ESCCState, chn[1].type, 0),
+> diff --git a/include/hw/char/escc.h b/include/hw/char/escc.h
+> index 42aca83611..8762f61c14 100644
+> --- a/include/hw/char/escc.h
+> +++ b/include/hw/char/escc.h
+> @@ -50,6 +50,7 @@ typedef struct ESCCState {
+>  
+>      struct ESCCChannelState chn[2];
+>      uint32_t it_shift;
+> +    bool bit_swap;
+>      MemoryRegion mmio;
+>      uint32_t disabled;
+>      uint32_t frequency;
+> 
 
