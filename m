@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA7EC4E366
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 11:22:31 +0200 (CEST)
-Received: from localhost ([::1]:56562 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852F94E2A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 11:09:15 +0200 (CEST)
+Received: from localhost ([::1]:55738 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heFkd-0002k9-32
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 05:22:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58240)
+	id 1heFXm-0007qo-OI
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 05:09:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58042)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEze-0004B9-5Y
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEzd-00044x-Uq
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:33:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEn2-0008PV-IL
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:20:57 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:41278)
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEn8-00007p-5V
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:21:03 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:41296)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEn2-0008P7-Bk
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:20:56 -0400
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEn7-00006F-VI
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:21:02 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 70F0D54008A;
- Fri, 21 Jun 2019 11:20:55 +0300 (MSK)
+ by mail.ispras.ru (Postfix) with ESMTPSA id 1A47554008B;
+ Fri, 21 Jun 2019 11:21:01 +0300 (MSK)
 From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 11:20:55 +0300
-Message-ID: <156110525518.25431.4178984201371684282.stgit@pasha-Precision-3630-Tower>
+Date: Fri, 21 Jun 2019 11:21:00 +0300
+Message-ID: <156110526089.25431.13065025960739413137.stgit@pasha-Precision-3630-Tower>
 In-Reply-To: <156110523748.25431.9310430853468653085.stgit@pasha-Precision-3630-Tower>
 References: <156110523748.25431.9310430853468653085.stgit@pasha-Precision-3630-Tower>
 User-Agent: StGit/0.17.1-dirty
@@ -35,8 +35,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 83.149.199.45
-Subject: [Qemu-devel] [PATCH for-4.1 03/24] replay: disable default snapshot
- for record/replay
+Subject: [Qemu-devel] [PATCH for-4.1 04/24] replay: update docs for
+ record/replay with block devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,45 +58,59 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-This patch disables setting '-snapshot' option on by default
-in record/replay mode. This is needed for creating vmstates in record
-and replay modes.
+This patch updates the description of the command lines for using
+record/replay with attached block devices.
 
-Signed-off-by: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Acked-by: Kevin Wolf <kwolf@redhat.com>
+Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
- vl.c |   10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ docs/replay.txt |   12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/vl.c b/vl.c
-index 99a56b5556..8fcfd905ee 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1208,7 +1208,7 @@ static void configure_blockdev(BlockdevOptionsQueue *bdo_queue,
-         qapi_free_BlockdevOptions(bdo->bdo);
-         g_free(bdo);
-     }
--    if (snapshot || replay_mode != REPLAY_MODE_NONE) {
-+    if (snapshot) {
-         qemu_opts_foreach(qemu_find_opts("drive"), drive_enable_snapshot,
-                           NULL, NULL);
-     }
-@@ -3128,7 +3128,13 @@ int main(int argc, char **argv, char **envp)
-                 drive_add(IF_PFLASH, -1, optarg, PFLASH_OPTS);
-                 break;
-             case QEMU_OPTION_snapshot:
--                snapshot = 1;
-+                {
-+                    Error *blocker = NULL;
-+                    snapshot = 1;
-+                    error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED,
-+                               "-snapshot");
-+                    replay_add_blocker(blocker);
-+                }
-                 break;
-             case QEMU_OPTION_numa:
-                 opts = qemu_opts_parse_noisily(qemu_find_opts("numa"),
+diff --git a/docs/replay.txt b/docs/replay.txt
+index ee6aee9861..ce97c3f72f 100644
+--- a/docs/replay.txt
++++ b/docs/replay.txt
+@@ -27,7 +27,7 @@ Usage of the record/replay:
+  * First, record the execution with the following command line:
+     qemu-system-i386 \
+      -icount shift=7,rr=record,rrfile=replay.bin \
+-     -drive file=disk.qcow2,if=none,id=img-direct \
++     -drive file=disk.qcow2,if=none,snapshot,id=img-direct \
+      -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay \
+      -device ide-hd,drive=img-blkreplay \
+      -netdev user,id=net1 -device rtl8139,netdev=net1 \
+@@ -35,7 +35,7 @@ Usage of the record/replay:
+  * After recording, you can replay it by using another command line:
+     qemu-system-i386 \
+      -icount shift=7,rr=replay,rrfile=replay.bin \
+-     -drive file=disk.qcow2,if=none,id=img-direct \
++     -drive file=disk.qcow2,if=none,snapshot,id=img-direct \
+      -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay \
+      -device ide-hd,drive=img-blkreplay \
+      -netdev user,id=net1 -device rtl8139,netdev=net1 \
+@@ -223,7 +223,7 @@ Block devices record/replay module intercepts calls of
+ bdrv coroutine functions at the top of block drivers stack.
+ To record and replay block operations the drive must be configured
+ as following:
+- -drive file=disk.qcow2,if=none,id=img-direct
++ -drive file=disk.qcow2,if=none,snapshot,id=img-direct
+  -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay
+  -device ide-hd,drive=img-blkreplay
+ 
+@@ -252,6 +252,12 @@ This snapshot is created at start of recording and restored at start
+ of replaying. It also can be loaded while replaying to roll back
+ the execution.
+ 
++'snapshot' flag of the disk image must be removed to save the snapshots
++in the overlay (or original image) instead of using the temporary overlay.
++ -drive file=disk.ovl,if=none,id=img-direct
++ -drive driver=blkreplay,if=none,image=img-direct,id=img-blkreplay
++ -device ide-hd,drive=img-blkreplay
++
+ Use QEMU monitor to create additional snapshots. 'savevm <name>' command
+ created the snapshot and 'loadvm <name>' restores it. To prevent corruption
+ of the original disk image, use overlay files linked to the original images.
 
 
