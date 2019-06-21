@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD9B4EBBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 17:18:47 +0200 (CEST)
-Received: from localhost ([::1]:36024 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD8D4EBD7
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 17:21:25 +0200 (CEST)
+Received: from localhost ([::1]:36058 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heLJO-0004pm-A8
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 11:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54140)
+	id 1heLLw-0007Eu-F9
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 11:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54138)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1heLGT-00037R-80
+ (envelope-from <vsementsov@virtuozzo.com>) id 1heLGT-00037O-75
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 11:15:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1heLGR-00078M-Ll
+ (envelope-from <vsementsov@virtuozzo.com>) id 1heLGR-00078H-Il
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 11:15:45 -0400
-Received: from relay.sw.ru ([185.231.240.75]:37036)
+Received: from relay.sw.ru ([185.231.240.75]:37038)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1heLGR-000763-8b; Fri, 21 Jun 2019 11:15:43 -0400
+ id 1heLGR-000762-8d; Fri, 21 Jun 2019 11:15:43 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <vsementsov@virtuozzo.com>)
- id 1heLGN-0002HP-1n; Fri, 21 Jun 2019 18:15:39 +0300
+ id 1heLGN-0002HP-7Z; Fri, 21 Jun 2019 18:15:39 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Fri, 21 Jun 2019 18:15:37 +0300
-Message-Id: <20190621151538.30384-1-vsementsov@virtuozzo.com>
+Date: Fri, 21 Jun 2019 18:15:38 +0300
+Message-Id: <20190621151538.30384-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190621151538.30384-1-vsementsov@virtuozzo.com>
+References: <20190621151538.30384-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH] blockjob: drain all job nodes in
+Subject: [Qemu-devel] [PATCH v2] blockjob: drain all job nodes in
  block_job_drain
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,27 +54,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Instead of draining additional nodes in each job code, let's do it in
 common block_job_drain, draining just all job's children.
+BlockJobDriver.drain becomes unused, so, drop it at all.
 
 It's also a first step to finally get rid of blockjob->blk.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
 
-Hi all!
+v2: apply Max's suggestions:
+ - drop BlockJobDriver.drain
+ - do firtly loop of bdrv_drained_begin and then separate loop
+   of bdrv_drained_end.
 
-As a follow-up for "block: drop bs->job" recently merged, I'm now trying
-to drop BlockJob.blk pointer, jobs really works with several nodes and
-now reason to keep special blk for one of the children, and no reason to
-handle nodes differently in, for example, backup code..
+   Hmm, a question here: should I call bdrv_drained_end in reverse
+   order? Or it's OK as is?
 
-And as a first step I need to sort out block_job_drain, and here is my
-suggestion on it.
+ include/block/blockjob_int.h | 11 -----------
+ block/backup.c               | 18 +-----------------
+ block/mirror.c               | 26 +++-----------------------
+ blockjob.c                   | 13 ++++++++-----
+ 4 files changed, 12 insertions(+), 56 deletions(-)
 
- block/backup.c | 18 +-----------------
- block/mirror.c | 26 +++-----------------------
- blockjob.c     |  7 ++++++-
- 3 files changed, 10 insertions(+), 41 deletions(-)
-
+diff --git a/include/block/blockjob_int.h b/include/block/blockjob_int.h
+index e4a318dd15..e1abf4ee85 100644
+--- a/include/block/blockjob_int.h
++++ b/include/block/blockjob_int.h
+@@ -52,17 +52,6 @@ struct BlockJobDriver {
+      * besides job->blk to the new AioContext.
+      */
+     void (*attached_aio_context)(BlockJob *job, AioContext *new_context);
+-
+-    /*
+-     * If the callback is not NULL, it will be invoked when the job has to be
+-     * synchronously cancelled or completed; it should drain BlockDriverStates
+-     * as required to ensure progress.
+-     *
+-     * Block jobs must use the default implementation for job_driver.drain,
+-     * which will in turn call this callback after doing generic block job
+-     * stuff.
+-     */
+-    void (*drain)(BlockJob *job);
+ };
+ 
+ /**
 diff --git a/block/backup.c b/block/backup.c
 index 715e1d3be8..7930004bbd 100644
 --- a/block/backup.c
@@ -170,24 +194,30 @@ index d17be4cdbc..6bea99558f 100644
  
  static void coroutine_fn
 diff --git a/blockjob.c b/blockjob.c
-index 458ae76f51..0cabdc867d 100644
+index 458ae76f51..059dc199ba 100644
 --- a/blockjob.c
 +++ b/blockjob.c
-@@ -94,8 +94,13 @@ void block_job_drain(Job *job)
+@@ -92,12 +92,15 @@ void block_job_free(Job *job)
+ void block_job_drain(Job *job)
+ {
      BlockJob *bjob = container_of(job, BlockJob, job);
-     const JobDriver *drv = job->driver;
-     BlockJobDriver *bjdrv = container_of(drv, BlockJobDriver, job_driver);
+-    const JobDriver *drv = job->driver;
+-    BlockJobDriver *bjdrv = container_of(drv, BlockJobDriver, job_driver);
 +    GSList *l;
-+
-+    for (l = bjob->nodes; l; l = l->next) {
-+        BdrvChild *c = l->data;
-+        bdrv_drain(c->bs);
-+    }
  
 -    blk_drain(bjob->blk);
-     if (bjdrv->drain) {
-         bjdrv->drain(bjob);
+-    if (bjdrv->drain) {
+-        bjdrv->drain(bjob);
++    for (l = bjob->nodes; l; l = l->next) {
++        BdrvChild *c = l->data;
++        bdrv_drained_begin(c->bs);
++    }
++    for (l = bjob->nodes; l; l = l->next) {
++        BdrvChild *c = l->data;
++        bdrv_drained_end(c->bs);
      }
+ }
+ 
 -- 
 2.18.0
 
