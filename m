@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6D14E7F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:24:35 +0200 (CEST)
-Received: from localhost ([::1]:60936 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9874A4E7FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:30:10 +0200 (CEST)
+Received: from localhost ([::1]:32774 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heIap-0003Pr-5v
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:24:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49242)
+	id 1heIgD-00067d-QS
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51459)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHl6-0000xN-PF
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:31:11 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1heHsY-0008Nz-M9
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:38:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkt-0006BO-NP
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:31:01 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43231)
+ (envelope-from <pbonzini@redhat.com>) id 1heHsS-0006yj-Iw
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:38:48 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:35108)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1heHkn-00067f-26
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:49 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p13so6208405wru.10
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=9dmj/U5AqjA5GQ9gcpPTO1P5uO7lsSOgQoq/OntyvQ4=;
- b=t+Vd0TmkPSQxWcfr98T9fe1ubQXA2JJ//o8Sy71LVW6aKwZ8ZGji2KwoyVUrhigsAE
- DMnT0YqgLA+Zb/nRH6ZF1HzxVUFbEOCbKhMUnvdGRddocSPLeYGQmaxtZGg9xf15wcn6
- KhvbZdEr+LPBH2umfSwFBaQDHPbIYTrMysryAhZeMpBtMaZngkB7LT6/i5GF8H6kLgRn
- AkXrZKoSMsna3GSx5KnPklog7Q9iELpXjIdNde0RxD7b/ibLAiUFt6Y55EvAVxgmQ4UU
- ZvOcdo6YTXWaJ3f1L2uqTQFwdr8gq0chgSIWXcnhUzANbaVJDAu4j3bGCNh9aLblUsgm
- Wkyw==
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1heHsQ-0006vK-RU
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:38:43 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c6so6284096wml.0
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:38:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references;
- bh=9dmj/U5AqjA5GQ9gcpPTO1P5uO7lsSOgQoq/OntyvQ4=;
- b=SnnLg5cv20HgK67u6vy6BnbriKxwqAi/pV6+UdsbVeY3njsr65d5JFnHbg0UH2r1hT
- F/RSnNJbfLgLcJI4z6O7ax9rGhhpOCacozzKTtd3kQxOukDNjrxCA0lKplCtVqYPztIY
- jvdtJPZ/WTA0zUsMKwUt4Tffjk53DOkK2rt4M2YYqxETanZ4kIyHdINTDdj0Pm768AqZ
- v5BEpBsXgxSr1a610HeiM5iGBfVW0SFn7/95zCWkbY08T+d0Ym02XtD+WwjdqptwpgXC
- /DV3ZhS1IavZpfL9kto4LE7HRg5IBb1xttZRjBtb71uOZs+uDAWjd1IX7JOP8zvy+L3u
- sOtQ==
-X-Gm-Message-State: APjAAAWRn4DAhICtEshL23TjP6mOrauc4aqVNG0YObhJSh5A1FOMuece
- If5mH+x1zm2opucAmrJgEwwrbGBK
-X-Google-Smtp-Source: APXvYqz4joCmMA8FD2EDhAKeliMkQPOxym9VuhoMMe7m6LnyzmijWzDr0dYomkqv4s2e2Bep8j3RKQ==
-X-Received: by 2002:adf:fc91:: with SMTP id g17mr6709705wrr.194.1561116647853; 
- Fri, 21 Jun 2019 04:30:47 -0700 (PDT)
-Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.46
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:30:47 -0700 (PDT)
+ h=x-gm-message-state:subject:from:to:references:cc:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=O8fnh++1Jxm6NrQHrqP2phcCwmABgizmm/acikDrvXg=;
+ b=hr7kY9HUQ2dsmzGmHpw3dcY1nsMT6lWd/srD7RvXiuteY8cy0Vwpl52uJPvSIu8bg9
+ BGkM4GWansOvrYRRTY/Xn/2P7fqKpSCtYd0uIfznfqGVnCs19aRYuBY6lYQL/NtEaBhn
+ yjVXiYZGBKs20agea2qvQ5LJDw4u7uMloDKSDrX1CGHBM72pHjhlxAOSLYd1Und51Fs4
+ JUVLihANmvzCNCMtGJ80Jtl8PL3lMa6G4GTpH5wAsHL876BufUYvVzfthAKVE0EuFC9V
+ R7nJwrWscX+//wRbVIbvYBEugVRqNnootq9Tg7zByuOynUjNkLNGM5vBAJRah0vrQim1
+ 90MQ==
+X-Gm-Message-State: APjAAAXBiFFFXJsyfGV6bjBsd9bZGIxwgqwVKQmnqcxAbXUh3lGldCad
+ morAXgReN3FIE2m/xCSPHiphIG3Zuzk=
+X-Google-Smtp-Source: APXvYqyugEoaOZ6wU57J1Yg5alzIHWhGhObpVd3MnkKX+REfG0kXS9JLjBOa4NjhQsuUlGwpqo6nyg==
+X-Received: by 2002:a05:600c:2056:: with SMTP id
+ p22mr3784826wmg.155.1561117114725; 
+ Fri, 21 Jun 2019 04:38:34 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:45fb:a0de:928e:79e8?
+ ([2001:b07:6468:f312:45fb:a0de:928e:79e8])
+ by smtp.gmail.com with ESMTPSA id q10sm2472520wrf.32.2019.06.21.04.38.33
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 21 Jun 2019 04:38:33 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:30:20 +0200
-Message-Id: <1561116620-22245-26-git-send-email-pbonzini@redhat.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
-References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 25/25] hw: Nuke hw_compat_4_0_1 and
- pc_compat_4_0_1
+References: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
+Message-ID: <52c7ce77-0f39-eb32-2248-2d6ab9a288f4@redhat.com>
+Date: Fri, 21 Jun 2019 13:38:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PULL 00/25] Misc (mostly x86) patches for
+ 2019-06-21
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,146 +73,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+On 21/06/19 03:42, Paolo Bonzini wrote:
+> The following changes since commit 33d609990621dea6c7d056c86f707b8811320ac1:
+> 
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-18 17:00:52 +0100)
+> 
+> are available in the git repository at:
+> 
+> 
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+> 
+> for you to fetch changes up to 15e7ea4a8e0ed97361fefabb04c6a9aaebe321df:
+> 
+>   hw: Nuke hw_compat_4_0_1 and pc_compat_4_0_1 (2019-06-21 02:29:40 +0200)
 
-Commit c87759ce876a fixed a regression affecting pc-q35 machines by
-introducing a new pc-q35-4.0.1 machine version to be used instead
-of pc-q35-4.0. The only purpose was to revert the default behaviour
-of not using split irqchip, but the change also introduced the usual
-hw_compat and pc_compat bits, and wired them for pc-q35 only.
+The nested live migration series had failed to apply on Patchew, and
+therefore it wasn't covered by CI.  Therefore^2 I missed some checkpatch
+complaints, and I'm sending v2 of the pull request with those fixed.
 
-This raises questions when it comes to add new compat properties for
-4.0* machine versions of any architecture. Where to add them ? In
-4.0, 4.0.1 or both ? Error prone. Another possibility would be to teach
-all other architectures about 4.0.1. This solution isn't satisfying,
-especially since this is a pc-q35 specific issue.
+Paolo
 
-It turns out that the split irqchip default is handled in the machine
-option function and doesn't involve compat lists at all.
-
-Drop all the 4.0.1 compat lists and use the 4.0 ones instead in the 4.0.1
-machine option function.
-
-Move the compat props that were added to the 4.0.1 since c87759ce876a to
-4.0.
-
-Even if only hw_compat_4_0_1 had an impact on other architectures,
-drop pc_compat_4_0_1 as well for consistency.
-
-Fixes: c87759ce876a "q35: Revert to kernel irqchip"
-Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Message-Id: <156051774276.244890.8660277280145466396.stgit@bahia.lan>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/core/machine.c    |  5 +----
- hw/i386/pc.c         |  3 ---
- hw/i386/pc_q35.c     | 12 ++++++++----
- include/hw/boards.h  |  3 ---
- include/hw/i386/pc.h |  3 ---
- 5 files changed, 9 insertions(+), 17 deletions(-)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 84ebb8d..ea5a01a 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -24,16 +24,13 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
- 
--GlobalProperty hw_compat_4_0_1[] = {
-+GlobalProperty hw_compat_4_0[] = {
-     { "VGA",            "edid", "false" },
-     { "secondary-vga",  "edid", "false" },
-     { "bochs-display",  "edid", "false" },
-     { "virtio-vga",     "edid", "false" },
-     { "virtio-gpu-pci", "edid", "false" },
- };
--const size_t hw_compat_4_0_1_len = G_N_ELEMENTS(hw_compat_4_0_1);
--
--GlobalProperty hw_compat_4_0[] = {};
- const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
- 
- GlobalProperty hw_compat_3_1[] = {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e41192b..e96360b 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -111,9 +111,6 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
- /* Physical Address of PVH entry point read from kernel ELF NOTE */
- static size_t pvh_start_addr;
- 
--GlobalProperty pc_compat_4_0_1[] = {};
--const size_t pc_compat_4_0_1_len = G_N_ELEMENTS(pc_compat_4_0_1);
--
- GlobalProperty pc_compat_4_0[] = {};
- const size_t pc_compat_4_0_len = G_N_ELEMENTS(pc_compat_4_0);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index dcddc64..57232ae 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -378,8 +378,13 @@ static void pc_q35_4_0_1_machine_options(MachineClass *m)
- {
-     pc_q35_4_1_machine_options(m);
-     m->alias = NULL;
--    compat_props_add(m->compat_props, hw_compat_4_0_1, hw_compat_4_0_1_len);
--    compat_props_add(m->compat_props, pc_compat_4_0_1, pc_compat_4_0_1_len);
-+    /*
-+     * This is the default machine for the 4.0-stable branch. It is basically
-+     * a 4.0 that doesn't use split irqchip by default. It MUST hence apply the
-+     * 4.0 compat props.
-+     */
-+    compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-+    compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
- }
- 
- DEFINE_Q35_MACHINE(v4_0_1, "pc-q35-4.0.1", NULL,
-@@ -390,8 +395,7 @@ static void pc_q35_4_0_machine_options(MachineClass *m)
-     pc_q35_4_0_1_machine_options(m);
-     m->default_kernel_irqchip_split = true;
-     m->alias = NULL;
--    compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
--    compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
-+    /* Compat props are applied by the 4.0.1 machine */
- }
- 
- DEFINE_Q35_MACHINE(v4_0, "pc-q35-4.0", NULL,
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index b7362af..eaa050a 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -293,9 +293,6 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
- 
--extern GlobalProperty hw_compat_4_0_1[];
--extern const size_t hw_compat_4_0_1_len;
--
- extern GlobalProperty hw_compat_4_0[];
- extern const size_t hw_compat_4_0_len;
- 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index a7d0b87..c54cc54 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -293,9 +293,6 @@ int e820_add_entry(uint64_t, uint64_t, uint32_t);
- int e820_get_num_entries(void);
- bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
- 
--extern GlobalProperty pc_compat_4_0_1[];
--extern const size_t pc_compat_4_0_1_len;
--
- extern GlobalProperty pc_compat_4_0[];
- extern const size_t pc_compat_4_0_len;
- 
--- 
-1.8.3.1
+> ----------------------------------------------------------------
+> * Nuke hw_compat_4_0_1 and pc_compat_4_0_1 (Greg)
+> * Static analysis fixes (Igor, Lidong)
+> * X86 Hyper-V CPUID improvements (Vitaly)
+> * X86 nested virt migration (Liran)
+> * New MSR-based features (Xiaoyao)
+> 
+> ----------------------------------------------------------------
+> Colin Xu (1):
+>       hax: Honor CPUState::halted
+> 
+> Greg Kurz (1):
+>       hw: Nuke hw_compat_4_0_1 and pc_compat_4_0_1
+> 
+> Lidong Chen (2):
+>       sd: Fix out-of-bounds assertions
+>       util/main-loop: Fix incorrect assertion
+> 
+> Liran Alon (10):
+>       target/i386: kvm: Delete VMX migration blocker on vCPU init failure
+>       KVM: Introduce kvm_arch_destroy_vcpu()
+>       target/i386: kvm: Use symbolic constant for #DB/#BP exception constants
+>       target/i386: kvm: Re-inject #DB to guest with updated DR6
+>       target/i386: kvm: Block migration for vCPUs exposed with nested virtualization
+>       linux-headers: sync with latest KVM headers from Linux 5.2
+>       vmstate: Add support for kernel integer types
+>       target/i386: kvm: Add support for save and restore nested state
+>       target/i386: kvm: Add support for KVM_CAP_EXCEPTION_PAYLOAD
+>       target/i386: kvm: Add nested migration blocker only when kernel lacks required capabilities
+> 
+> Vitaly Kuznetsov (9):
+>       i386/kvm: convert hyperv enlightenments properties from bools to bits
+>       i386/kvm: add support for KVM_GET_SUPPORTED_HV_CPUID
+>       i386/kvm: move Hyper-V CPUID filling to hyperv_handle_properties()
+>       i386/kvm: document existing Hyper-V enlightenments
+>       i386/kvm: implement 'hv-passthrough' mode
+>       i386/kvm: hv-stimer requires hv-time and hv-synic
+>       i386/kvm: hv-tlbflush/ipi require hv-vpindex
+>       i386/kvm: hv-evmcs requires hv-vapic
+>       i386/kvm: add support for Direct Mode for Hyper-V synthetic timers
+> 
+> Xiaoyao Li (1):
+>       target/i386: define a new MSR based feature word - FEAT_CORE_CAPABILITY
+> 
+> Yury Kotov (1):
+>       kvm-all: Add/update fprintf's for kvm_*_ioeventfd_del
+> 
+>  accel/kvm/kvm-all.c         |  25 +-
+>  cpus.c                      |   1 -
+>  docs/hyperv.txt             | 201 +++++++++
+>  hw/core/machine.c           |   5 +-
+>  hw/i386/pc.c                |   6 +-
+>  hw/i386/pc_q35.c            |  12 +-
+>  hw/sd/sd.c                  |   4 +-
+>  include/hw/boards.h         |   3 -
+>  include/hw/i386/pc.h        |   3 -
+>  include/migration/vmstate.h |  26 ++
+>  include/sysemu/kvm.h        |   2 +
+>  linux-headers/asm-x86/kvm.h |  33 +-
+>  target/arm/kvm32.c          |   5 +
+>  target/arm/kvm64.c          |   5 +
+>  target/i386/cpu.c           |  81 +++-
+>  target/i386/cpu.h           |  75 +++-
+>  target/i386/hax-all.c       |  36 +-
+>  target/i386/hvf/hvf.c       |  10 +-
+>  target/i386/hvf/x86hvf.c    |   4 +-
+>  target/i386/hyperv-proto.h  |   1 +
+>  target/i386/hyperv.c        |   2 +-
+>  target/i386/kvm.c           | 999 +++++++++++++++++++++++++++++++++-----------
+>  target/i386/machine.c       | 284 ++++++++++++-
+>  target/mips/kvm.c           |   5 +
+>  target/ppc/kvm.c            |   5 +
+>  target/s390x/kvm.c          |  10 +
+>  util/main-loop.c            |   2 +-
+>  27 files changed, 1516 insertions(+), 329 deletions(-)
+>  create mode 100644 docs/hyperv.txt
+> 
 
 
