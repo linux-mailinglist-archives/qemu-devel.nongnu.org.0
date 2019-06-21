@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124A54E84F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:52:52 +0200 (CEST)
-Received: from localhost ([::1]:33830 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 016E74E833
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:42:50 +0200 (CEST)
+Received: from localhost ([::1]:33600 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heJ2B-0005HV-8C
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
+	id 1heIsS-0007aB-RU
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:42:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39523)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liran.alon@oracle.com>) id 1heIps-00055f-TG
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:40:11 -0400
+ (envelope-from <mreitz@redhat.com>) id 1heIqr-0006EJ-2v
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:41:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1heIpp-0004FW-Qb
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:40:08 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:58964)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1heIpp-00047G-FH
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:40:05 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5LCY3DH046146;
- Fri, 21 Jun 2019 12:40:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2018-07-02; bh=YKYtvmNBR6/e/kUGQi+xsdwebSpS/gXEjL9tjEnOpwY=;
- b=FBfQe0neYCm8QtSiBwR96K0XZp+tIKGhy5O25jjVRtcHUnWdADaJedLOaE93VxXMBl/t
- 7WyhR7j0LUngBRlEc/zFC2hTg0/cjVvcaktLd3ugA4Tc/GlCPADIKzJYvaypFFAsDGsV
- LqZCBee6DXQ15vi4Wks8qUh0nyV78x7ylBNfszmKgZvYHjmjX6R4IhHFpLzOpOpso8E0
- 5iiDaNxFApzS31O9gsOY/sWyff3SogJXl+qa5Ko8P0izWqFJNJ36gxMCwN+1lOcMEpKg
- ChQk6vdnveshXZF2rnxuGCDzGTLSS5C7CLPR6noWtw3FLZWS6QzDvQfK7M5glcqcyUEt Dw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2t7809p8jx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Jun 2019 12:40:03 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5LCcYWW109332;
- Fri, 21 Jun 2019 12:40:03 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 2t77ypxbuq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Jun 2019 12:40:03 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5LCe2Pv021208;
- Fri, 21 Jun 2019 12:40:02 GMT
-Received: from [192.168.14.112] (/109.64.216.174)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 21 Jun 2019 12:40:01 +0000
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
-From: Liran Alon <liran.alon@oracle.com>
-In-Reply-To: <1561116620-22245-23-git-send-email-pbonzini@redhat.com>
-Date: Fri, 21 Jun 2019 15:39:59 +0300
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <96A3CC63-2B7D-44C2-AA9A-C02AF8FC3691@oracle.com>
-References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
- <1561116620-22245-23-git-send-email-pbonzini@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-X-Mailer: Apple Mail (2.3445.4.7)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9294
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906210106
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9294
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906210106
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: Re: [Qemu-devel] [PULL 22/25] target/i386: kvm: Add nested
- migration blocker only when kernel lacks required capabilities
+ (envelope-from <mreitz@redhat.com>) id 1heIqo-0007nR-0j
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 08:41:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43942)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1heIqg-0007Lu-US; Fri, 21 Jun 2019 08:40:59 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9BA3E59465;
+ Fri, 21 Jun 2019 12:40:52 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-30.brq.redhat.com
+ [10.40.204.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF1FA5D9E5;
+ Fri, 21 Jun 2019 12:40:51 +0000 (UTC)
+To: qemu-block@nongnu.org
+References: <20190618210238.9524-1-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <eab90820-63b3-e84d-858b-d02fae282281@redhat.com>
+Date: Fri, 21 Jun 2019 14:40:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190618210238.9524-1-mreitz@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="oygNjdaUqWThUu7Vld6YxnACjo4IlcI1m"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Fri, 21 Jun 2019 12:40:52 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] iotests: Fix 205 for concurrent runs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,109 +84,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--oygNjdaUqWThUu7Vld6YxnACjo4IlcI1m
+Content-Type: multipart/mixed; boundary="NIfaVM13wFT2xRcT5YpHXEci7uiMcxsql";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
+Message-ID: <eab90820-63b3-e84d-858b-d02fae282281@redhat.com>
+Subject: Re: [PATCH] iotests: Fix 205 for concurrent runs
+References: <20190618210238.9524-1-mreitz@redhat.com>
+In-Reply-To: <20190618210238.9524-1-mreitz@redhat.com>
 
+--NIfaVM13wFT2xRcT5YpHXEci7uiMcxsql
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> On 21 Jun 2019, at 14:30, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On 18.06.19 23:02, Max Reitz wrote:
+> Tests should place their files into the test directory.  This includes
+> Unix sockets.  205 currently fails to do so, which prevents it from
+> being run concurrently.
 >=20
-> From: Liran Alon <liran.alon@oracle.com>
->=20
-> Previous commits have added support for migration of nested =
-virtualization
-> workloads. This was done by utilising two new KVM capabilities:
-> KVM_CAP_NESTED_STATE and KVM_CAP_EXCEPTION_PAYLOAD. Both which are
-> required in order to correctly migrate such workloads.
->=20
-> Therefore, change code to add a migration blocker for vCPUs exposed =
-with
-> Intel VMX or AMD SVM in case one of these kernel capabilities is
-> missing.
->=20
-> Signed-off-by: Liran Alon <liran.alon@oracle.com>
-> Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
-> Message-Id: <20190619162140.133674-11-liran.alon@oracle.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
-> target/i386/kvm.c     | 9 +++++++--
-> target/i386/machine.c | 2 +-
-> 2 files changed, 8 insertions(+), 3 deletions(-)
->=20
-> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-> index c931e9d..e4b4f57 100644
-> --- a/target/i386/kvm.c
-> +++ b/target/i386/kvm.c
-> @@ -1640,9 +1640,14 @@ int kvm_arch_init_vcpu(CPUState *cs)
->                                   !!(c->ecx & CPUID_EXT_SMX);
->     }
->=20
-> -    if (cpu_has_nested_virt(env) && !nested_virt_mig_blocker) {
-> +    if (cpu_has_vmx(env) && !nested_virt_mig_blocker &&
+>  tests/qemu-iotests/205 | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-The change here from cpu_has_nested_virt(env) to cpu_has_vmx(env) is not =
-clear.
-We should explicitly explain that it=E2=80=99s because we still wish to =
-preserve backwards-compatability
-to migrating AMD vCPU exposed with SVM.
+Thanks for the review, applied to my block branch.
 
-In addition, commit ("target/i386: kvm: Block migration for vCPUs =
-exposed with nested virtualization")
-doesn=E2=80=99t make sense in case we still want to allow migrating AMD =
-vCPU exposed with SVM.
+Max
 
-Since QEMU commit 75d373ef9729 ("target-i386: Disable SVM by default in =
-KVM mode"),
-machine-types since v2.2 don=E2=80=99t expose AMD SVM by default.
-Therefore, my personal opinion on this is that it=E2=80=99s fine to =
-block migration in this case.
 
-> +        ((kvm_max_nested_state_length() <=3D 0) || =
-!has_exception_payload)) {
->         error_setg(&nested_virt_mig_blocker,
-> -                   "Nested virtualization does not support live =
-migration yet");
-> +                   "Kernel do not provide required capabilities for =
-=E2=80=9C
+--NIfaVM13wFT2xRcT5YpHXEci7uiMcxsql--
 
-As Maran have noted, we should change this =E2=80=9Cdo not=E2=80=9D to =
-=E2=80=9Cdoes not=E2=80=9D.
-Sorry for my bad English grammer. :)
+--oygNjdaUqWThUu7Vld6YxnACjo4IlcI1m
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-> +                   "nested virtualization migration. "
-> +                   "(CAP_NESTED_STATE=3D%d, =
-CAP_EXCEPTION_PAYLOAD=3D%d)",
-> +                   kvm_max_nested_state_length() > 0,
-> +                   has_exception_payload);
->         r =3D migrate_add_blocker(nested_virt_mig_blocker, =
-&local_err);
->         if (local_err) {
->             error_report_err(local_err);
-> diff --git a/target/i386/machine.c b/target/i386/machine.c
-> index fc49e5a..851b249 100644
-> --- a/target/i386/machine.c
-> +++ b/target/i386/machine.c
-> @@ -233,7 +233,7 @@ static int cpu_pre_save(void *opaque)
->=20
-> #ifdef CONFIG_KVM
->     /* Verify we have nested virtualization state from kernel if =
-required */
-> -    if (cpu_has_nested_virt(env) && !env->nested_state) {
-> +    if (kvm_enabled() && cpu_has_vmx(env) && !env->nested_state) {
+-----BEGIN PGP SIGNATURE-----
 
-Good catch regarding adding kvm_enabled() here.
-But I think this should have been added to commit ("target/i386: kvm: =
-Add support for save and restore nested state=E2=80=9D).
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0M0FEACgkQ9AfbAGHV
+z0CbVQgArWtGLKyAUd0y/3YxLsX8egwbAgij5biH1N3e/fz1MOEO11q4IuFcW9gb
+fPmar7VEQJZQ6PjukyGdTyUVAWXz3x9cSveOiihlFQJJm7RxaLYKL9T6Z0cSSnuB
+OhdGKdfmd0u+Qv8+1UUxGfQ3YxeGYcE2+mC/ifKPoC79Qt2h+zGQxHvH6PVtAP3s
+G0M5pw/QHEtNi9oPYdqk9lxrkKMDC6nJW5lLbBSu04VwDGDquuGr0MX6RCPQbpVa
+RNqVYo2JQhX8p8P6tDXtwqrcxXdOG4xuc96dfagVr4/MGkn6K3AnwmKfdc1fdKi2
+EvXnaZ58GVV7sVdvNj6UUWA+7DAx4A==
+=mV8j
+-----END PGP SIGNATURE-----
 
--Liran
-
->         error_report("Guest enabled nested virtualization but kernel "
->                 "does not support saving of nested state");
->         return -EINVAL;
-> --=20
-> 1.8.3.1
->=20
->=20
-
+--oygNjdaUqWThUu7Vld6YxnACjo4IlcI1m--
 
