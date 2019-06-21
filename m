@@ -2,68 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CEC4E277
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:59:26 +0200 (CEST)
-Received: from localhost ([::1]:55640 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5034E1BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:13:52 +0200 (CEST)
+Received: from localhost ([::1]:55468 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heFOH-0006Pc-Jm
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:59:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58042)
+	id 1heEgA-0008Hz-Vi
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:13:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50908)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwankhede@nvidia.com>) id 1heEzZ-00044x-0m
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:33:56 -0400
+ (envelope-from <imammedo@redhat.com>) id 1heEeU-0007kg-4t
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:12:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwankhede@nvidia.com>) id 1heEoa-0001QB-6o
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:22:33 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:11164)
+ (envelope-from <imammedo@redhat.com>) id 1heEeD-0002Vl-AR
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:12:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54754)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
- id 1heEWT-0002pA-36
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:03:49 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
- hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
- id <B5d0c8f610001>; Fri, 21 Jun 2019 01:03:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
- by hqpgpgate101.nvidia.com (PGP Universal service);
- Fri, 21 Jun 2019 01:03:46 -0700
-X-PGP-Universal: processed;
- by hqpgpgate101.nvidia.com on Fri, 21 Jun 2019 01:03:46 -0700
-Received: from [10.24.71.210] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 21 Jun
- 2019 08:02:55 +0000
-To: Yan Zhao <yan.y.zhao@intel.com>
-References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
- <20190621002518.GF9303@joy-OptiPlex-7040>
- <20190621012404.GA4173@joy-OptiPlex-7040>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <67726e08-f159-7054-57a7-36b08f691756@nvidia.com>
-Date: Fri, 21 Jun 2019 13:32:50 +0530
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1heEeB-0002S4-9O
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:11:47 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D509C308429B;
+ Fri, 21 Jun 2019 08:11:40 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE9DD1001B3D;
+ Fri, 21 Jun 2019 08:11:35 +0000 (UTC)
+Date: Fri, 21 Jun 2019 10:11:31 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190621101131.5cf44250@redhat.com>
+In-Reply-To: <20190621005644.GA10591@richard>
+References: <20190513061913.9284-1-richardw.yang@linux.intel.com>
+ <20190618175956.4373ac7e@redhat.com>
+ <20190619062050.GA15665@richard>
+ <20190619110440.13a54848@redhat.com>
+ <20190620141842.ijqwozpjrkccy7qx@master>
+ <20190620170429.7237cfa1@redhat.com>
+ <20190621005644.GA10591@richard>
 MIME-Version: 1.0
-In-Reply-To: <20190621012404.GA4173@joy-OptiPlex-7040>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1561104225; bh=duqjEl0Ywt8wBMZj3smS8ZxxYgckjQQhFY9/qrnLdFc=;
- h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
- Message-ID:Date:MIME-Version:In-Reply-To:X-Originating-IP:
- X-ClientProxiedBy:Content-Type:Content-Language:
- Content-Transfer-Encoding;
- b=HTlweUQ6E9EFu1/6BrjurUWD0TcyyGTP/rP9gn6RUL4W2y+hMjUuIscH3YrbXH9Yn
- pGyo/LDxvJQkjAEDmTrHcf4xuoPirmOFB4QEykNIAIKnLs5LrJpjI56NGwy/gS0jk4
- MNi+o3SLBF6ZIt8EFONnr6oKDsljYnVP+/sgKj80NN8IlphPhUeuHUgZnWkQKsNn8D
- 1cb778/ZudEzflBtdDyrEx9nQrVR7jcwIBOMW40wWzHfm5GO5AEmkEUgVhnZUvJPd1
- PUKpqJ9K7YosXlAhf6fgG8s4dghOmXBQZGeDNGDPSUB4BGl5ufny7a//bT8Lx6db/d
- DsxdS1JDlgkMg==
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
-X-Received-From: 216.228.121.143
-Subject: Re: [Qemu-devel] [PATCH v4 00/13] Add migration support for VFIO
- device
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Fri, 21 Jun 2019 08:11:46 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH 0/9] hw/acpi: make build_madt arch
+ agnostic
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,212 +62,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
- Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
- "cjia@nvidia.com" <cjia@nvidia.com>,
- "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
- Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang, 
- Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
- "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "eauger@redhat.com" <eauger@redhat.com>,
- "felipe@nutanix.com" <felipe@nutanix.com>,
- "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
- Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
+Cc: yang.zhong@intel.com, ehabkost@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, Wei Yang <richard.weiyang@gmail.com>,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 21 Jun 2019 08:56:44 +0800
+Wei Yang <richardw.yang@linux.intel.com> wrote:
 
+> On Thu, Jun 20, 2019 at 05:04:29PM +0200, Igor Mammedov wrote:
+> >On Thu, 20 Jun 2019 14:18:42 +0000
+> >Wei Yang <richard.weiyang@gmail.com> wrote:
+> >  
+> >> On Wed, Jun 19, 2019 at 11:04:40AM +0200, Igor Mammedov wrote:  
+> >> >On Wed, 19 Jun 2019 14:20:50 +0800
+> >> >Wei Yang <richardw.yang@linux.intel.com> wrote:
+> >> >    
+> >> >> On Tue, Jun 18, 2019 at 05:59:56PM +0200, Igor Mammedov wrote:    
+> >> >> >
+> >> >> >On Mon, 13 May 2019 14:19:04 +0800
+> >> >> >Wei Yang <richardw.yang@linux.intel.com> wrote:
+> >> >> >      
+> >> >> >> Now MADT is highly depend in architecture and machine type and leaves
+> >> >> >> duplicated code in different architecture. The series here tries to generalize
+> >> >> >> it.
+> >> >> >> 
+> >> >> >> MADT contains one main table and several sub tables. These sub tables are
+> >> >> >> highly related to architecture. Here we introduce one method to make it
+> >> >> >> architecture agnostic.
+> >> >> >> 
+> >> >> >>   * each architecture define its sub-table implementation function in madt_sub
+> >> >> >>   * introduces struct madt_input to collect sub table information and pass to
+> >> >> >>     build_madt
+> >> >> >> 
+> >> >> >> By doing so, each architecture could prepare its own sub-table implementation
+> >> >> >> and madt_input. And keep build_madt architecture agnostic.      
+> >> >> >
+> >> >> >I've skimmed over patches, and to me it looks mostly as code movement
+> >> >> >without apparent benefits and probably a bit more complex than what we have now
+> >> >> >(it might be ok cost if it simplifies MADT support for other boards).
+> >> >> >
+> >> >> >Before I do line by line review could you demonstrate what effect new way
+> >> >> >to build MADT would have on arm/virt and i386/virt (from NEMU). So it would be
+> >> >> >possible to estimate net benefits from new approach?
+> >> >> >(PS: it doesn't have to be patches ready for merging, just a dirty hack
+> >> >> >that would demonstrate adding MADT for new board using mad_sub[])
+> >> >> >      
+> >> >> 
+> >> >> Per APIC spec 5.2.12, MADT contains a *main* table and several *sub* tables
+> >> >> (Interrupt Controllere), so the idea is give a callback hook in
+> >> >> AcpiDeviceIfClass for each table, including *main* and *sub* table.
+> >> >> 
+> >> >> Current AcpiDeviceIfClass has one callback pc_madt_cpu_entry for some *sub*
+> >> >> tables, after replacing the AcpiDeviceIfClass will look like this:
+> >> >> 
+> >> >> typedef struct AcpiDeviceIfClass {
+> >> >>     /* <private> */
+> >> >>     InterfaceClass parent_class;
+> >> >> 
+> >> >>     /* <public> */
+> >> >>     void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
+> >> >>     void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
+> >> >> -   void (*madt_cpu)(AcpiDeviceIf *adev, int uid,
+> >> >> -                    const CPUArchIdList *apic_ids, GArray *entry);
+> >> >> +   madt_operation madt_main;
+> >> >> +   madt_operation *madt_sub;
+> >> >> } AcpiDeviceIfClass;
+> >> >> 
+> >> >> By doing so, each arch could have its own implementation for MADT.
+> >> >> 
+> >> >> After this refactoring, build_madt could be simplified to:
+> >> >> 
+> >> >> build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms,
+> >> >>            struct madt_input *input)
+> >> >> {
+> >> >>     ...
+> >> >> 
+> >> >>     if (adevc->madt_main) {
+> >> >>         adevc->madt_main(table_data, madt);
+> >> >>     }
+> >> >> 
+> >> >>     for (i = 0; ; i++) {
+> >> >>         sub_id = input[i].sub_id;
+> >> >>         if (sub_id == ACPI_APIC_RESERVED) {
+> >> >>             break;
+> >> >>         }
+> >> >>         opaque = input[i].opaque;
+> >> >>         adevc->madt_sub[sub_id](table_data, opaque);
+> >> >>     }
+> >> >> 
+> >> >>     ...
+> >> >> }
+> >> >> 
+> >> >> input is a list of data necessary to build *sub* table. Its details is also
+> >> >> arch dependent.    
+> >> >I've got general idea reading patches in this series.
+> >> >As I've mentioned before it's hard to generalize MADT since it
+> >> >mostly contains entries unique for target/board.
+> >> >Goal here isn't generalizing at any cost, but rather find out
+> >> >if there is enough common code to justify generalization
+> >> >and if it allows us to reduce code duplication and simplify.
+> >> >    
+> >> >> For following new arch, what it need to do is prepare the input array and
+> >> >> implement necessary *main*/*sub* table callbacks.    
+> >> >What I'd like to see is the actual patch that does this,
+> >> >to see if it has any merit and to compare to the current
+> >> >approach.    
+> >> 
+> >> I didn't get some idea about your approach. Would you mind sharing more light?  
+> >With current approach, 'each board' has its own MADT build routine.
+> >Considering that there is very little to share between different
+> >implementations it might be ok.
+> >
+> >This series just add extra data structure for board to populate
+> >and a bunch of callbacks for every record type. Essentially all
+> >the code we have now is still there. It was just moved elsewhere
+> >and made available via callbacks.  
+> 
+> Yes, you are right.
+> 
+> >This series touches only pc/q35 machines and it's not apparent
+> >to me why it's any better than what we have now.  
+> 
+> This is the demo for i386. In case you think this approach is reasonable, it
+> could be applied to arm. And then for new board, we can apply the same
+> approach.
+well, it's not obvious from i386 demo, how it's any better than what
+we have now. It lacks arm/virt patches so we could see if it would make
+anything better or not.
 
-On 6/21/2019 6:54 AM, Yan Zhao wrote:
-> On Fri, Jun 21, 2019 at 08:25:18AM +0800, Yan Zhao wrote:
->> On Thu, Jun 20, 2019 at 10:37:28PM +0800, Kirti Wankhede wrote:
->>> Add migration support for VFIO device
->>>
->>> This Patch set include patches as below:
->>> - Define KABI for VFIO device for migration support.
->>> - Added save and restore functions for PCI configuration space
->>> - Generic migration functionality for VFIO device.
->>>   * This patch set adds functionality only for PCI devices, but can be
->>>     extended to other VFIO devices.
->>>   * Added all the basic functions required for pre-copy, stop-and-copy and
->>>     resume phases of migration.
->>>   * Added state change notifier and from that notifier function, VFIO
->>>     device's state changed is conveyed to VFIO device driver.
->>>   * During save setup phase and resume/load setup phase, migration region
->>>     is queried and is used to read/write VFIO device data.
->>>   * .save_live_pending and .save_live_iterate are implemented to use QEMU's
->>>     functionality of iteration during pre-copy phase.
->>>   * In .save_live_complete_precopy, that is in stop-and-copy phase,
->>>     iteration to read data from VFIO device driver is implemented till pending
->>>     bytes returned by driver are not zero.
->>>   * Added function to get dirty pages bitmap for the pages which are used by
->>>     driver.
->>> - Add vfio_listerner_log_sync to mark dirty pages.
->>> - Make VFIO PCI device migration capable. If migration region is not provided by
->>>   driver, migration is blocked.
->>>
->>> Below is the flow of state change for live migration where states in brackets
->>> represent VM state, migration state and VFIO device state as:
->>>     (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
->>>
->>> Live migration save path:
->>>         QEMU normal running state
->>>         (RUNNING, _NONE, _RUNNING)
->>>                         |
->>>     migrate_init spawns migration_thread.
->>>     (RUNNING, _SETUP, _RUNNING|_SAVING)
->>>     Migration thread then calls each device's .save_setup()
->>>                         |
->>>     (RUNNING, _ACTIVE, _RUNNING|_SAVING)
->>>     If device is active, get pending bytes by .save_live_pending()
->>>     if pending bytes >= threshold_size,  call save_live_iterate()
->>>     Data of VFIO device for pre-copy phase is copied.
->>>     Iterate till pending bytes converge and are less than threshold
->>>                         |
->>>     On migration completion, vCPUs stops and calls .save_live_complete_precopy
->>>     for each active device. VFIO device is then transitioned in
->>>      _SAVING state.
->>>     (FINISH_MIGRATE, _DEVICE, _SAVING)
->>>     For VFIO device, iterate in  .save_live_complete_precopy  until
->>>     pending data is 0.
->>>     (FINISH_MIGRATE, _DEVICE, _STOPPED)
->>
->> I suggest we also register to VMStateDescription, whose .pre_save
->> handler would get called after .save_live_complete_precopy in pre-copy
->> only case, and will called before .save_live_iterate in post-copy
->> enabled case.
->> In the .pre_save handler, we can save all device state which must be
->> copied after device stop in source vm and before device start in target vm.
->>
-> hi
-> to better describe this idea:
-> 
-> in pre-copy only case, the flow is
-> 
-> start migration --> .save_live_iterate (several round) -> stop source vm
-> --> .save_live_complete_precopy --> .pre_save  -->start target vm
-> -->migration complete
-> 
-> 
-> in post-copy enabled case, the flow is
-> 
-> start migration --> .save_live_iterate (several round) --> start post copy --> 
-> stop source vm --> .pre_save --> start target vm --> .save_live_iterate (several round) 
-> -->migration complete
-> 
-> Therefore, we should put saving of device state in .pre_save interface
-> rather than in .save_live_complete_precopy. 
-> The device state includes pci config data, page tables, register state, etc.
-> 
-> The .save_live_iterate and .save_live_complete_precopy should only deal
-> with saving dirty memory.
-> 
+If I were to talk about i386 demo alone, then I'd say it just makes
+code more complex and I'd leave existing MADT code as it.
 
-Vendor driver can decide when to save device state depending on the VFIO
-device state set by user. Vendor driver doesn't have to depend on which
-callback function QEMU or user application calls. In pre-copy case,
-save_live_complete_precopy sets VFIO device state to
-VFIO_DEVICE_STATE_SAVING which means vCPUs are stopped and vendor driver
-should save all device state.
-
-> 
-> I know current implementation does not support post-copy. but at least
-> it should not require huge change when we decide to enable it in future.
-> 
-
-.has_postcopy and .save_live_complete_postcopy need to be implemented to
-support post-copy. I think .save_live_complete_postcopy should be
-similar to vfio_save_complete_precopy.
-
-Thanks,
-Kirti
-
-> Thanks
-> Yan
-> 
->>>                         |
->>>     (FINISH_MIGRATE, _COMPLETED, STOPPED)
->>>     Migraton thread schedule cleanup bottom half and exit
->>>
->>> Live migration resume path:
->>>     Incomming migration calls .load_setup for each device
->>>     (RESTORE_VM, _ACTIVE, STOPPED)
->>>                         |
->>>     For each device, .load_state is called for that device section data
->>>                         |
->>>     At the end, called .load_cleanup for each device and vCPUs are started.
->>>                         |
->>>         (RUNNING, _NONE, _RUNNING)
->>>
->>> Note that:
->>> - Migration post copy is not supported.
->>>
->>> v3 -> v4:
->>> - Added one more bit for _RESUMING flag to be set explicitly.
->>> - data_offset field is read-only for user space application.
->>> - data_size is read for every iteration before reading data from migration, that
->>>   is removed assumption that data will be till end of migration region.
->>> - If vendor driver supports mappable sparsed region, map those region during
->>>   setup state of save/load, similarly unmap those from cleanup routines.
->>> - Handles race condition that causes data corruption in migration region during
->>>   save device state by adding mutex and serialiaing save_buffer and
->>>   get_dirty_pages routines.
->>> - Skip called get_dirty_pages routine for mapped MMIO region of device.
->>> - Added trace events.
->>> - Splitted into multiple functional patches.
->>>
->>> v2 -> v3:
->>> - Removed enum of VFIO device states. Defined VFIO device state with 2 bits.
->>> - Re-structured vfio_device_migration_info to keep it minimal and defined action
->>>   on read and write access on its members.
->>>
->>> v1 -> v2:
->>> - Defined MIGRATION region type and sub-type which should be used with region
->>>   type capability.
->>> - Re-structured vfio_device_migration_info. This structure will be placed at 0th
->>>   offset of migration region.
->>> - Replaced ioctl with read/write for trapped part of migration region.
->>> - Added both type of access support, trapped or mmapped, for data section of the
->>>   region.
->>> - Moved PCI device functions to pci file.
->>> - Added iteration to get dirty page bitmap until bitmap for all requested pages
->>>   are copied.
->>>
->>> Thanks,
->>> Kirti
->>>
->>>
->>> Kirti Wankhede (13):
->>>   vfio: KABI for migration interface
->>>   vfio: Add function to unmap VFIO region
->>>   vfio: Add save and load functions for VFIO PCI devices
->>>   vfio: Add migration region initialization and finalize function
->>>   vfio: Add VM state change handler to know state of VM
->>>   vfio: Add migration state change notifier
->>>   vfio: Register SaveVMHandlers for VFIO device
->>>   vfio: Add save state functions to SaveVMHandlers
->>>   vfio: Add load state functions to SaveVMHandlers
->>>   vfio: Add function to get dirty page list
->>>   vfio: Add vfio_listerner_log_sync to mark dirty pages
->>>   vfio: Make vfio-pci device migration capable.
->>>   vfio: Add trace events in migration code path
->>>
->>>  hw/vfio/Makefile.objs         |   2 +-
->>>  hw/vfio/common.c              |  55 +++
->>>  hw/vfio/migration.c           | 815 ++++++++++++++++++++++++++++++++++++++++++
->>>  hw/vfio/pci.c                 | 126 ++++++-
->>>  hw/vfio/pci.h                 |  29 ++
->>>  hw/vfio/trace-events          |  19 +
->>>  include/hw/vfio/vfio-common.h |  22 ++
->>>  linux-headers/linux/vfio.h    |  71 ++++
->>>  8 files changed, 1132 insertions(+), 7 deletions(-)
->>>  create mode 100644 hw/vfio/migration.c
->>>
->>> -- 
->>> 2.7.0
->>>
 
