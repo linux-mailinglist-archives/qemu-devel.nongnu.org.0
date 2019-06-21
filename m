@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE2A4E114
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 09:19:28 +0200 (CEST)
-Received: from localhost ([::1]:55254 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1CAA4E112
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 09:19:08 +0200 (CEST)
+Received: from localhost ([::1]:55282 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heDht-00078X-8V
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 03:11:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34753)
+	id 1heDpD-0001BQ-Kg
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 03:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35686)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1heDf5-0005zW-IX
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:08:41 -0400
+ (envelope-from <fziglio@redhat.com>) id 1heDna-0000io-Rt
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:17:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1heDaE-0007be-SD
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:03:40 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:40209)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1heDaD-0007Z5-B4
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:03:37 -0400
-Received: by mail-wr1-f65.google.com with SMTP id p11so5403801wre.7
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 00:03:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FsSvt2kljdqfU//U4CRsFXm6JmXXkMNLF0RQJy7HOEE=;
- b=nUsyTlUqk74+qJPgpufhXY31iB/kJ2UIHdHbxSC6LC87259buhKCxLqiymgN4i5ijl
- vd9N3C5ZEBWI3IjIIc3lkMfWHvsuNj2+yvUQGrZOAIpCxv4UhtkdCtkWuqQndDZ2OlXn
- ynM+TDQoU4urcnB1Uf/CEA7U6ULDVM31CEaPI3FrHZisy0iPv+Z5WXTq6RRVho5zuDKK
- xjJ8gUPf3Rl7nvfgJpe7NuZzvnhi/+r51x19OcLA97KRZ26j6iRDVAlJukPEcMeZAzj7
- H+2B6zDb8+66EKcZhgYAyWCmqme3cYpfkRxnUdfHtrafx8dBVIbVdnGKGrRSN3v9XkkV
- QgaA==
-X-Gm-Message-State: APjAAAWSd7fthWjOhXRnAkssq79jgy53hKJjmcDOi9MYCf7wSpmZ/SX5
- vuSHxfUjqwcOtRCzEcGdgppsRQ==
-X-Google-Smtp-Source: APXvYqxXacr4LTCAhhx11blTSuEG7UWKtIC6j3q+/QJ9+AzqLSfg4h6cHCBKsv6v4bsz+QtJzkU4Iw==
-X-Received: by 2002:a5d:5448:: with SMTP id w8mr61966075wrv.180.1561100615373; 
- Fri, 21 Jun 2019 00:03:35 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id v65sm2108643wme.31.2019.06.21.00.03.34
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 00:03:34 -0700 (PDT)
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20190621060925.16214-1-crosa@redhat.com>
- <20190621060925.16214-2-crosa@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f18a5df8-201e-b8a1-1a3e-3e2254ce8b1e@redhat.com>
-Date: Fri, 21 Jun 2019 09:03:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <fziglio@redhat.com>) id 1heDnU-0005p6-P5
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:17:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46674)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <fziglio@redhat.com>) id 1heDnU-0005Mc-CZ
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:17:20 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AB9726EB8A;
+ Fri, 21 Jun 2019 07:16:52 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8DBE060BEC;
+ Fri, 21 Jun 2019 07:16:52 +0000 (UTC)
+Received: from zmail25.collab.prod.int.phx2.redhat.com
+ (zmail25.collab.prod.int.phx2.redhat.com [10.5.83.31])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 995E924F19;
+ Fri, 21 Jun 2019 07:16:50 +0000 (UTC)
+Date: Fri, 21 Jun 2019 03:16:48 -0400 (EDT)
+From: Frediano Ziglio <fziglio@redhat.com>
+To: Kevin Pouget <kpouget@redhat.com>
+Message-ID: <2139720774.23871724.1561101408712.JavaMail.zimbra@redhat.com>
+In-Reply-To: <CADJ1XR3fh0cyOerSM8VQkpde6cHLb8WccP05Rwr7xWMOK59rog@mail.gmail.com>
+References: <20190619123042.4822-1-kpouget@redhat.com>
+ <e9fcdbfd-cde2-fc91-ce1d-6bfe06d39c4f@redhat.com>
+ <CADJ1XR3fh0cyOerSM8VQkpde6cHLb8WccP05Rwr7xWMOK59rog@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190621060925.16214-2-crosa@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.33.32.12, 10.4.195.28]
+Thread-Topic: spice-core: allow setting properties from QMP
+Thread-Index: JcZm5h4xS1Mxjqqfp/uZaSyKbIHTxQ==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 21 Jun 2019 07:16:57 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH 1/2] Acceptance tests: exclude "flaky" tests
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC] spice-core: allow setting properties from QMP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,156 +65,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: spice-devel@lists.freedesktop.org, qemu-devel@nongnu.org,
+ Marc-Andre Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/19 8:09 AM, Cleber Rosa wrote:
-> It's a fact that some tests may not be 100% reliable in all
-> environments.  While it's a tough call to remove a useful test that
-> from the tree because it may fail every 1/100th time (or so), having
-> human attention drawn to known issues is very bad for humans and for
-> the projects they manage.
 > 
-> As a compromise solution, this marks tests that are known to have
-> issues, or that exercises known issues in QEMU or other components,
-> and excludes them from the entry point.  As a consequence, tests
-> marked as "flaky" will not be executed as part of "make
-> check-acceptance".
+> Hello Eric,
 > 
-> Because such tests should be forgiven but never be forgotten, it's
-> possible to list them with (assuming "make check-venv" or "make
-> check-acceptance" has already initiatilized the venv):
+> > A new command may be okay, however,
 > 
->   $ ./tests/venv/bin/avocado list -t flaky tests/acceptance
+> thanks, I've fix the typos and updated the patch to use an Enum, which
+> indeed makes more sense.
 > 
-> The current list of tests marked as flaky are a result of running
-> the entire set of acceptance tests around 20 times.  The results
-> were then processed with a helper script[1].  That either confirmed
-> known issues (in the case of aarch64 and arm)[2] or revealed new
-> ones (mips).
+> I've also updated "spice-query" command to provide the current value
+> of the "video-codec" property,
+> but it made me wonder if I should improve this QMP interface with a
+> json list, or keep the current string-based list
+> ("enc1:codec1;enc2:codec2").
 > 
-> This also bumps the Avocado version to one that includes a fix to the
-> parsing of multiple and mix "key:val" and simple tag values.
+> I CC the spice-devel list to get their point of view
 > 
-> [1] https://raw.githubusercontent.com/avocado-framework/avocado/master/contrib/scripts/summarize-job-failures.py
-> [2] https://bugs.launchpad.net/qemu/+bug/1829779
+> The current behavior is:
 > 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> --> { "execute": "set-spice", "arguments": { "property":
+> "video-codecs", "value": "spice:mjpeg;gstreamer:h264" } }
+> <-- {"return":{},"id":"libvirt-23"}
+
+It looks complicated from the user. Why not just
+
+--> { "execute": "set-spice", "arguments": { "video-codecs": "spice:mjpeg;gstreamer:h264" } }
+
+> 
+> --> { "execute": "query-spice" }
+> <-- {.... "video-codecs": "spice:mjpeg;gstreamer:h264;" ....}
+> 
+> 
+> I put the new version of the RFC patch below
+> 
+> best regards,
+> 
+> Kevin
+> 
 > ---
->  docs/devel/testing.rst                   | 17 +++++++++++++++++
->  tests/Makefile.include                   |  6 +++++-
->  tests/acceptance/boot_linux_console.py   |  2 ++
->  tests/acceptance/linux_ssh_mips_malta.py |  2 ++
->  tests/requirements.txt                   |  2 +-
->  5 files changed, 27 insertions(+), 2 deletions(-)
 > 
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index da2d0fc964..ff4d8e2e1c 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-> @@ -574,6 +574,23 @@ may be invoked by running:
->  
->    tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
->  
-> +Tagging tests
-> +-------------
+> This patch allows setting spice properties from the QMP interface.
+> 
+> At the moment, only the 'video-codecs' property is supported.
+> 
+> Signed-off-by: Kevin Pouget <kpouget@redhat.com>
+> ---
+>  qapi/ui.json    | 42 ++++++++++++++++++++++++++++++++++++++++--
+>  ui/spice-core.c | 21 +++++++++++++++++++++
+>  2 files changed, 61 insertions(+), 2 deletions(-)
+> 
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index 59e412139a..5f67096bcb 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -211,12 +211,16 @@
+>  #
+>  # @channels: a list of @SpiceChannel for each active spice channel
+>  #
+> +# @video-codecs: The list of encoders:codecs currently allowed for
+> +#                video streaming (since: ...)
+> +#
+>  # Since: 0.14.0
+>  ##
+>  { 'struct': 'SpiceInfo',
+>    'data': {'enabled': 'bool', 'migrated': 'bool', '*host': 'str',
+> '*port': 'int',
+>             '*tls-port': 'int', '*auth': 'str', '*compiled-version': 'str',
+> -           'mouse-mode': 'SpiceQueryMouseMode', '*channels':
+> ['SpiceChannel']},
+> +           'mouse-mode': 'SpiceQueryMouseMode', '*channels':
+> ['SpiceChannel'],
+> +           'video-codecs': 'str'},
+>    'if': 'defined(CONFIG_SPICE)' }
+> 
+>  ##
+> @@ -257,7 +261,8 @@
+>  #                "tls": false
+>  #             },
+>  #             [ ... more channels follow ... ]
+> -#          ]
+> +#          ],
+> +#          "video-codecs": "spice:mjpeg;gstreamer:h264;"
+>  #       }
+>  #    }
+>  #
+> @@ -265,6 +270,39 @@
+>  { 'command': 'query-spice', 'returns': 'SpiceInfo',
+>    'if': 'defined(CONFIG_SPICE)' }
+> 
+> +##
+> +# @SpiceProperty:
+> +#
+> +# An enumeration of Spice properties that can be set at runtime.
+> +#
+> +# @video-codecs: the ;-separated list of video-codecs allowed for
+> +# spice-server video streaming.
+> +#
+> +# Since: ...
+> +##
+> +{ 'enum': 'SpiceProperty',
+> +  'data': [ 'video-codecs'],
+> +  'if': 'defined(CONFIG_SPICE)' }
 > +
-> +flaky
-> +~~~~~
+> +##
+> +# @set-spice:
+> +#
+> +# Set Spice properties.
+> +# @property: the SPICE property to modify
+> +# @value: the new value to affect to this property
+> +#
+> +# Since: ...
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "set-spice", "arguments": { "property": "video-codecs",
+> +#                                             "value": "spice:mjpeg;" } }
+> +# <- { "returns": {} }
+> +##
+> +{ 'command': 'set-spice',
+> +  'data': {'property': 'SpiceProperty', 'value': 'str'},
+> +  'if': 'defined(CONFIG_SPICE)' }
 > +
-> +If a test is known to fail intermittently, even if only every one
-> +hundredth time, it's highly advisable to mark it as a flaky test.
-> +This will prevent these individual tests from failing much larger
-> +jobs, will avoid human interaction and time wasted to verify a known
-> +issue, and worse of all, can lead to the discredit of automated
-> +testing.
+>  ##
+>  # @SPICE_CONNECTED:
+>  #
+> diff --git a/ui/spice-core.c b/ui/spice-core.c
+> index 63e8694df8..1660f49f15 100644
+> --- a/ui/spice-core.c
+> +++ b/ui/spice-core.c
+> @@ -506,6 +506,25 @@ static QemuOptsList qemu_spice_opts = {
+>      },
+>  };
+> 
+> +void qmp_set_spice(SpiceProperty property, const char *value, Error **errp)
+> +{
+> +    int invalid_codecs;
 > +
-> +To mark a test as flaky, add to its docstring.::
+> +    switch(property) {
+> +    case SPICE_PROPERTY_VIDEO_CODECS:
+> +        invalid_codecs = spice_server_set_video_codecs(spice_server, value);
 > +
-> +  :avocado: tags=flaky
-
-I certainly disagree with this patch, failing tests have to be fixed.
-Why not tag all the codebase flaky and sing "happy coding"?
-
-Anyway if this get accepted, 'flaky' tags must have the intermittent
-failure well described, and a Launchpad/Bugzilla tracking ticket referenced.
-
+> +        if (invalid_codecs) {
+> +            error_setg(errp, "Found %d invalid video-codecs while
+> setting spice"
+> +                       " property 'video-codec=%s'", invalid_codecs, value);
+> +        }
+> +        break;
+> +    default:
+> +        /* only reached in case of version mismatched */
+> +        error_setg(errp, "Property #%d not supported.", property);
+> +    }
+> +}
 > +
->  Manual Installation
->  -------------------
->  
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index db750dd6d0..4c97da2878 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -1125,7 +1125,11 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
->  # Any number of command separated loggers are accepted.  For more
->  # information please refer to "avocado --help".
->  AVOCADO_SHOW=app
-> -AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGET_DIRS)))
+>  SpiceInfo *qmp_query_spice(Error **errp)
+>  {
+>      QemuOpts *opts = QTAILQ_FIRST(&qemu_spice_opts.head);
+> @@ -555,6 +574,8 @@ SpiceInfo *qmp_query_spice(Error **errp)
+>                         SPICE_QUERY_MOUSE_MODE_SERVER :
+>                         SPICE_QUERY_MOUSE_MODE_CLIENT;
+> 
+> +    info->video_codecs = spice_server_get_video_codecs(spice_server);
 > +
-> +# Additional tags that are added to each occurence of "--filter-by-tags"
-> +AVOCADO_EXTRA_TAGS := ,-flaky
-> +
-> +AVOCADO_TAGS=$(patsubst %-softmmu,--filter-by-tags=arch:%$(AVOCADO_EXTRA_TAGS), $(filter %-softmmu,$(TARGET_DIRS)))
->  
->  ifneq ($(findstring v2,"v$(PYTHON_VERSION)"),v2)
->  $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index 32159503e9..6bd5c1ab53 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -249,6 +249,7 @@ class BootLinuxConsole(Test):
->          """
->          :avocado: tags=arch:aarch64
->          :avocado: tags=machine:virt
-> +        :avocado: tags=flaky
->          """
->          kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
->                        'releases/29/Everything/aarch64/os/images/pxeboot/vmlinuz')
-> @@ -270,6 +271,7 @@ class BootLinuxConsole(Test):
->          """
->          :avocado: tags=arch:arm
->          :avocado: tags=machine:virt
-> +        :avocado: tags=flaky
->          """
->          kernel_url = ('https://download.fedoraproject.org/pub/fedora/linux/'
->                        'releases/29/Everything/armhfp/os/images/pxeboot/vmlinuz')
-> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
-> index aafb0c39f6..ae70b658e0 100644
-> --- a/tests/acceptance/linux_ssh_mips_malta.py
-> +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> @@ -208,6 +208,7 @@ class LinuxSSH(Test):
->          :avocado: tags=machine:malta
->          :avocado: tags=endian:big
->          :avocado: tags=device:pcnet32
-> +        :avocado: tags=flaky
->          """
->          kernel_url = ('https://people.debian.org/~aurel32/qemu/mips/'
->                        'vmlinux-3.2.0-4-5kc-malta')
-> @@ -222,6 +223,7 @@ class LinuxSSH(Test):
->          :avocado: tags=machine:malta
->          :avocado: tags=endian:little
->          :avocado: tags=device:pcnet32
-> +        :avocado: tags=flaky
->          """
->          kernel_url = ('https://people.debian.org/~aurel32/qemu/mipsel/'
->                        'vmlinux-3.2.0-4-5kc-malta')
-> diff --git a/tests/requirements.txt b/tests/requirements.txt
-> index 3ae0e29ad7..58d63d171f 100644
-> --- a/tests/requirements.txt
-> +++ b/tests/requirements.txt
-> @@ -1,5 +1,5 @@
->  # Add Python module requirements, one per line, to be installed
->  # in the tests/venv Python virtual environment. For more info,
->  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
-> -avocado-framework==68.0
-> +avocado-framework==69.1
->  paramiko
+>      /* for compatibility with the original command */
+>      info->has_channels = true;
+>      info->channels = qmp_query_spice_channels();
+> --
+> 2.21.0
+> 
 > 
 
