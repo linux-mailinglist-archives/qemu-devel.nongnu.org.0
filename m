@@ -2,50 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6D84E20B
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:40:30 +0200 (CEST)
-Received: from localhost ([::1]:55534 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851A24E29F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 11:04:53 +0200 (CEST)
+Received: from localhost ([::1]:55694 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heF5x-0006xm-Ba
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:40:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58308)
+	id 1heFTY-00034d-OS
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 05:04:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59689)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1heEzJ-0004Ba-JK
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:33:39 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1heF13-0005l5-E2
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:35:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1heErH-0003RS-AT
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:25:20 -0400
-Received: from 4.mo173.mail-out.ovh.net ([46.105.34.219]:47291)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1heErH-0003P5-4y
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:25:19 -0400
-Received: from player750.ha.ovh.net (unknown [10.109.146.106])
- by mo173.mail-out.ovh.net (Postfix) with ESMTP id 031DD10DCDD
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 10:25:12 +0200 (CEST)
-Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
- (Authenticated sender: clg@kaod.org)
- by player750.ha.ovh.net (Postfix) with ESMTPSA id 573FA7309928;
- Fri, 21 Jun 2019 08:25:06 +0000 (UTC)
-To: Joel Stanley <joel@jms.id.au>, Peter Maydell <peter.maydell@linaro.org>
-References: <20190621065242.32535-1-joel@jms.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <6aec047c-81bd-e179-6fad-4bee896ea7a2@kaod.org>
-Date: Fri, 21 Jun 2019 10:25:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190621065242.32535-1-joel@jms.id.au>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1heF11-0001Sx-An
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:35:25 -0400
+Received: from mail-eopbgr130124.outbound.protection.outlook.com
+ ([40.107.13.124]:24046 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1heF0q-0001Kf-Qd; Fri, 21 Jun 2019 04:35:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o0Lep+h646LcVG3BhU9b8gEUvgloDdZWFVwwwyqdAvY=;
+ b=Jwra/8Ev9cDKgbG2iRjRsm7wau34IVOpB5TA2fm7N23KT2QwnPasvsC6+nKIGYlH57gLagCD5AZgiNrGyluSuvEG7B2AUQlC55M7RvNrpe5tzpJQyGqN2aSBumZsRdy3R0M+jxnfAzbyFeTOR4ITHe0vjFezBkS++Qrb9AI966o=
+Received: from DBBPR08MB4838.eurprd08.prod.outlook.com (20.179.46.151) by
+ DBBPR08MB4538.eurprd08.prod.outlook.com (20.179.44.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.13; Fri, 21 Jun 2019 08:34:52 +0000
+Received: from DBBPR08MB4838.eurprd08.prod.outlook.com
+ ([fe80::9c49:321c:cc13:35d3]) by DBBPR08MB4838.eurprd08.prod.outlook.com
+ ([fe80::9c49:321c:cc13:35d3%3]) with mapi id 15.20.1987.014; Fri, 21 Jun 2019
+ 08:34:52 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, Andrey Shinkevich
+ <andrey.shinkevich@virtuozzo.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v7 1/3] block: include base when checking image chain for
+ block allocation
+Thread-Index: AQHVFkfpJI7HPY/3OU+RVp+FXgzRGKajfZmAgAJuN4A=
+Date: Fri, 21 Jun 2019 08:34:52 +0000
+Message-ID: <af775092-de7c-0068-bf64-16f3037d04b9@virtuozzo.com>
+References: <1559152576-281803-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1559152576-281803-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <e3cf99ae-62e9-8b6e-5a06-d3c8b9363b85@redhat.com>
+In-Reply-To: <e3cf99ae-62e9-8b6e-5a06-d3c8b9363b85@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-X-Ovh-Tracer-Id: 10693515840636816192
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrtdeigddthecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.34.219
-Subject: Re: [Qemu-devel] [PATCH v2] aspeed: Link SCU to the watchdog
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0701CA0050.eurprd07.prod.outlook.com
+ (2603:10a6:3:9e::18) To DBBPR08MB4838.eurprd08.prod.outlook.com
+ (2603:10a6:10:d9::23)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190621113449163
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 14cd3e2a-089d-4f92-887a-08d6f623548e
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DBBPR08MB4538; 
+x-ms-traffictypediagnostic: DBBPR08MB4538:
+x-microsoft-antispam-prvs: <DBBPR08MB4538520B77BD7CD397130CC9C1E70@DBBPR08MB4538.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2000;
+x-forefront-prvs: 0075CB064E
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(346002)(366004)(39840400004)(376002)(136003)(199004)(189003)(71200400001)(7736002)(99286004)(486006)(107886003)(6512007)(53546011)(446003)(478600001)(102836004)(81166006)(52116002)(6436002)(8936002)(305945005)(7416002)(71190400001)(6246003)(54906003)(316002)(110136005)(2906002)(6116002)(76176011)(476003)(68736007)(2201001)(3846002)(5660300002)(36756003)(26005)(8676002)(6486002)(86362001)(66066001)(81156014)(73956011)(64756008)(25786009)(2501003)(11346002)(66556008)(66476007)(66946007)(4326008)(31696002)(256004)(229853002)(53936002)(186003)(6506007)(66446008)(14454004)(2616005)(386003)(31686004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4538;
+ H:DBBPR08MB4838.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: juLc1r14+R/a7JXKPEZtE2+ciGthvHYl1DCChAcUX44b/vgyUvFgvBP0QwanLGr07BfagraCXILKQooMDI4w2OaApR9yXWOvz+7Ohb+fbLVIbe6W6wUOKv9POrYszoKGZr2ntgFxK+e3cQK+CIM8qsPW1p0z1tdGnQKKSTlPS+clTYk/lLarUdMxK27l5B67J2K0m/94mZblWjSdywFYwYBc9ZAKijypefYy+gs0B6XUUi7yw2NMLj0ml3FTx+ejHRaSo601slUp2Y4VHc1CsOiAyMw1w5MdRjljDT5MJbjmYMPh0nIi6TNEfggus90oC49xEfNSa7+siuk45JvhUr9Tm96ExhRCQ39Wp4ziq4C3bee3zJit4dSpQaD/Tap3C9S1QS0uVF0mmMuudlVCKd/ZbNGUcWo5imdC4mdECJo=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A3BD8211DA364A4D9ED0FDD125B453E9@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14cd3e2a-089d-4f92-887a-08d6f623548e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2019 08:34:52.5147 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4538
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.13.124
+Subject: Re: [Qemu-devel] [PATCH v7 1/3] block: include base when checking
+ image chain for block allocation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,114 +104,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ "berto@igalia.com" <berto@igalia.com>, Denis Lunev <den@virtuozzo.com>,
+ "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
+ "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/06/2019 08:52, Joel Stanley wrote:
-> The ast2500 uses the watchdog to reset the SDRAM controller. This
-> operation is usually performed by u-boot's memory training procedure,
-> and it is enabled by setting a bit in the SCU and then causing the
-> watchdog to expire. Therefore, we need the watchdog to be able to
-> access the SCU's register space.
->=20
-> This causes the watchdog to not perform a system reset when the bit is
-> set. In the future it could perform a reset of the SDMC model.
->=20
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-
-I was keeping this patch in my tree (hence the Sob) hoping that
-someone could find the time to study the reset question. But this=20
-patch is useful as it is and I think we should merge it.
-
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
-> v2: rebase on upstream, rework commit message
-> ---
->  hw/arm/aspeed_soc.c              |  2 ++
->  hw/watchdog/wdt_aspeed.c         | 20 ++++++++++++++++++++
->  include/hw/watchdog/wdt_aspeed.h |  1 +
->  3 files changed, 23 insertions(+)
->=20
-> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-> index a2ea8c748449..ddd5dfacd7d6 100644
-> --- a/hw/arm/aspeed_soc.c
-> +++ b/hw/arm/aspeed_soc.c
-> @@ -155,6 +155,8 @@ static void aspeed_soc_init(Object *obj)
->                                sizeof(s->wdt[i]), TYPE_ASPEED_WDT);
->          qdev_prop_set_uint32(DEVICE(&s->wdt[i]), "silicon-rev",
->                                      sc->info->silicon_rev);
-> +        object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
-> +                                       OBJECT(&s->scu), &error_abort);
->      }
-> =20
->      sysbus_init_child_obj(obj, "ftgmac100", OBJECT(&s->ftgmac100),
-> diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-> index 4a8409f0daf5..57fe24ae6b1f 100644
-> --- a/hw/watchdog/wdt_aspeed.c
-> +++ b/hw/watchdog/wdt_aspeed.c
-> @@ -44,6 +44,9 @@
-> =20
->  #define WDT_RESTART_MAGIC               0x4755
-> =20
-> +#define SCU_RESET_CONTROL1              (0x04 / 4)
-> +#define    SCU_RESET_SDRAM              BIT(0)
-> +
->  static bool aspeed_wdt_is_enabled(const AspeedWDTState *s)
->  {
->      return s->regs[WDT_CTRL] & WDT_CTRL_ENABLE;
-> @@ -222,6 +225,13 @@ static void aspeed_wdt_timer_expired(void *dev)
->  {
->      AspeedWDTState *s =3D ASPEED_WDT(dev);
-> =20
-> +    /* Do not reset on SDRAM controller reset */
-> +    if (s->scu->regs[SCU_RESET_CONTROL1] & SCU_RESET_SDRAM) {
-> +        timer_del(s->timer);
-> +        s->regs[WDT_CTRL] =3D 0;
-> +        return;
-> +    }
-> +
->      qemu_log_mask(CPU_LOG_RESET, "Watchdog timer expired.\n");
->      watchdog_perform_action();
->      timer_del(s->timer);
-> @@ -233,6 +243,16 @@ static void aspeed_wdt_realize(DeviceState *dev, E=
-rror **errp)
->  {
->      SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
->      AspeedWDTState *s =3D ASPEED_WDT(dev);
-> +    Error *err =3D NULL;
-> +    Object *obj;
-> +
-> +    obj =3D object_property_get_link(OBJECT(dev), "scu", &err);
-> +    if (!obj) {
-> +        error_propagate(errp, err);
-> +        error_prepend(errp, "required link 'scu' not found: ");
-> +        return;
-> +    }
-> +    s->scu =3D ASPEED_SCU(obj);
-> =20
->      if (!is_supported_silicon_rev(s->silicon_rev)) {
->          error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
-> diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt=
-_aspeed.h
-> index 88d8be4f78d6..daef0c0e230b 100644
-> --- a/include/hw/watchdog/wdt_aspeed.h
-> +++ b/include/hw/watchdog/wdt_aspeed.h
-> @@ -27,6 +27,7 @@ typedef struct AspeedWDTState {
->      MemoryRegion iomem;
->      uint32_t regs[ASPEED_WDT_REGS_MAX];
-> =20
-> +    AspeedSCUState *scu;
->      uint32_t pclk_freq;
->      uint32_t silicon_rev;
->      uint32_t ext_pulse_width_mask;
->=20
-
+MTkuMDYuMjAxOSAyMjoyNywgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAyOS4wNS4xOSAxOTo1Niwg
+QW5kcmV5IFNoaW5rZXZpY2ggd3JvdGU6DQo+PiBUaGlzIHBhdGNoIGlzIHVzZWQgaW4gdGhlICdi
+bG9jay9zdHJlYW06IGludHJvZHVjZSBhIGJvdHRvbSBub2RlJw0KPj4gdGhhdCBpcyBmb2xsb3dp
+bmcuIEluc3RlYWQgb2YgdGhlIGJhc2Ugbm9kZSwgdGhlIGNhbGxlciBtYXkgcGFzcw0KPj4gdGhl
+IG5vZGUgdGhhdCBoYXMgdGhlIGJhc2UgYXMgaXRzIGJhY2tpbmcgaW1hZ2UgdG8gdGhlIGZ1bmN0
+aW9uDQo+PiBiZHJ2X2lzX2FsbG9jYXRlZF9hYm92ZSgpIHdpdGggYSBuZXcgcGFyYW1ldGVyIGlu
+Y2x1ZGVfYmFzZSA9IHRydWUNCj4+IGFuZCBnZXQgcmlkIG9mIHRoZSBkZXBlbmRlbmN5IG9uIHRo
+ZSBiYXNlIHRoYXQgbWF5IGNoYW5nZSBkdXJpbmcNCj4+IGNvbW1pdC9zdHJlYW0gcGFyYWxsZWwg
+am9icy4gTm93LCBpZiB0aGUgc3BlY2lmaWVkIGJhc2UgaXMgbm90DQo+PiBmb3VuZCBpbiB0aGUg
+YmFja2luZyBpbWFnZSBjaGFpbiwgdGhlIFFFTVUgd2lsbCBhYm9ydC4NCj4+DQo+PiBTdWdnZXN0
+ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpv
+LmNvbT4NCj4+IFNpZ25lZC1vZmYtYnk6IEFuZHJleSBTaGlua2V2aWNoIDxhbmRyZXkuc2hpbmtl
+dmljaEB2aXJ0dW96em8uY29tPg0KPj4gUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1P
+Z2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVvenpvLmNvbT4NCj4+IFJldmlld2VkLWJ5OiBBbGJl
+cnRvIEdhcmNpYSA8YmVydG9AaWdhbGlhLmNvbT4NCj4+IC0tLQ0KPj4gICBibG9jay9jb21taXQu
+YyAgICAgICAgfCAgMiArLQ0KPj4gICBibG9jay9pby5jICAgICAgICAgICAgfCAyMSArKysrKysr
+KysrKysrKystLS0tLS0NCj4+ICAgYmxvY2svbWlycm9yLmMgICAgICAgIHwgIDIgKy0NCj4+ICAg
+YmxvY2svcmVwbGljYXRpb24uYyAgIHwgIDIgKy0NCj4+ICAgYmxvY2svc3RyZWFtLmMgICAgICAg
+IHwgIDIgKy0NCj4+ICAgaW5jbHVkZS9ibG9jay9ibG9jay5oIHwgIDMgKystDQo+PiAgIDYgZmls
+ZXMgY2hhbmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pDQo+IA0KPiBUaGlz
+IG5lZWRzIHRoZSBmb2xsb3dpbmcgaHVuayBzcXVhc2hlZCBpbiBzbyBpdCBzdGlsbCBjb21waWxl
+czoNCj4gDQo+IChJIGNhbiBkbyB0aGF0LCBpZiB5b3UgYWdyZWUuKQ0KDQpJdCB3aWxsIGJlIGdy
+ZWF0LCB0aGFua3MhIChBbmRyZXkgaXMgb24gdm9jYXRpb24gbm93KQ0KDQo+IA0KPiBkaWZmIC0t
+Z2l0IGEvYmxvY2svcWNvdzIuYyBiL2Jsb2NrL3Fjb3cyLmMNCj4gaW5kZXggOTM5NmQ0OTBkNS4u
+MmE1OWViMjdmZSAxMDA2NDQNCj4gLS0tIGEvYmxvY2svcWNvdzIuYw0KPiArKysgYi9ibG9jay9x
+Y293Mi5jDQo+IEBAIC0yMTQ4LDcgKzIxNDgsOCBAQCBzdGF0aWMgYm9vbCBpc191bmFsbG9jYXRl
+ZChCbG9ja0RyaXZlclN0YXRlICpicywNCj4gaW50NjRfdCBvZmZzZXQsIGludDY0X3QgYnl0ZXMp
+DQo+ICAgew0KPiAgICAgICBpbnQ2NF90IG5yOw0KPiAgICAgICByZXR1cm4gIWJ5dGVzIHx8DQo+
+IC0gICAgICAgICghYmRydl9pc19hbGxvY2F0ZWRfYWJvdmUoYnMsIE5VTEwsIG9mZnNldCwgYnl0
+ZXMsICZucikgJiYgbnINCj4gPT0gYnl0ZXMpOw0KPiArICAgICAgICAoIWJkcnZfaXNfYWxsb2Nh
+dGVkX2Fib3ZlKGJzLCBOVUxMLCBmYWxzZSwgb2Zmc2V0LCBieXRlcywgJm5yKSAmJg0KPiArICAg
+ICAgICAgbnIgPT0gYnl0ZXMpOw0KPiAgIH0NCj4gDQo+ICAgc3RhdGljIGJvb2wgaXNfemVyb19j
+b3coQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIFFDb3dMMk1ldGEgKm0pDQo+IGRpZmYgLS1naXQgYS9x
+ZW11LWltZy5jIGIvcWVtdS1pbWcuYw0KPiBpbmRleCAxNThiM2E1MDVmLi43OTk4Mzc3MmRlIDEw
+MDY0NA0KPiAtLS0gYS9xZW11LWltZy5jDQo+ICsrKyBiL3FlbXUtaW1nLmMNCj4gQEAgLTM1MTgs
+NyArMzUxOCw3IEBAIHN0YXRpYyBpbnQgaW1nX3JlYmFzZShpbnQgYXJnYywgY2hhciAqKmFyZ3Yp
+DQo+ICAgICAgICAgICAgICAgICAgICAqIHRvIHRha2UgYWN0aW9uDQo+ICAgICAgICAgICAgICAg
+ICAgICAqLw0KPiAgICAgICAgICAgICAgICAgICByZXQgPSBiZHJ2X2lzX2FsbG9jYXRlZF9hYm92
+ZShiYWNraW5nX2JzKGJzKSwNCj4gcHJlZml4X2NoYWluX2JzLA0KPiAtICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9mZnNldCwgbiwgJm4pOw0KPiArICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZhbHNlLCBvZmZzZXQsIG4s
+ICZuKTsNCj4gICAgICAgICAgICAgICAgICAgaWYgKHJldCA8IDApIHsNCj4gICAgICAgICAgICAg
+ICAgICAgICAgIGVycm9yX3JlcG9ydCgiZXJyb3Igd2hpbGUgcmVhZGluZyBpbWFnZSBtZXRhZGF0
+YTogJXMiLA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN0cmVycm9yKC1y
+ZXQpKTsNCj4gDQoNCg0KLS0gDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
