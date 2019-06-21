@@ -2,67 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01AF4EB97
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 17:12:37 +0200 (CEST)
-Received: from localhost ([::1]:35958 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93AEC4EB8B
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 17:07:47 +0200 (CEST)
+Received: from localhost ([::1]:35902 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heLDQ-0007Fq-TB
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 11:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49219)
+	id 1heL8k-0002QG-8c
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 11:07:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50618)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1heKwW-0004ZB-T4
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:55:10 -0400
+ (envelope-from <liran.alon@oracle.com>) id 1heL2C-0008UM-77
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 11:01:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1heKwV-0004S3-QQ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:55:08 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40050)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1heKwV-0004Qs-JF
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:55:07 -0400
-Received: by mail-wm1-f65.google.com with SMTP id v19so6905724wmj.5
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 07:55:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4S4Tn/hIzBHcSLcIYO6lsh0V1lHzJoy8WrKzb4zNunA=;
- b=qjOrMr2mkkL6AR4Rd0BCWRKOLxCVY8UQqjz8bC0m3j9FzmKAtVAqHJN5UELyj+C2Kd
- 1WUy9ABOdeqibgMnW9o4+Q3bPMi2f5zbOCgcq+wDcRVm4tWzeGiwPkYIwvrnTuF9UxHz
- y05cL8QMUsL6BLdMxEXkrVXqkYWGIbaFdbCMcq1KZOJMwlHhgiN85J4SQYI9aWTthHnq
- /Pb5iMOrqmNCSYShklQPDRwGDDnJq+czCHAMSoMP6gxi20eSDoJueFhvwSU4BF5NlXJ+
- e2jLJsEodZ4zRh5/IO6WSBs5Yp0DMFRCc/JonXWVHb0/8nNz8I6RicWh7fCBmQYgr8wA
- EYuw==
-X-Gm-Message-State: APjAAAUD9TqPX1bavpHZs+p4UwctMoD1CS5xysK+qQp9TYL06jEOb1cw
- OPZy/OANrpcoc2t+xpnEkuDgi0sBYRo=
-X-Google-Smtp-Source: APXvYqzOU9XeVPcyu2iDGPp1FgOGE84RlZlPg9eEK/hTV0d4xV9ubAudWSvB/uzhpkSYmk/o4FutEw==
-X-Received: by 2002:a1c:228b:: with SMTP id i133mr4484053wmi.140.1561128905480; 
- Fri, 21 Jun 2019 07:55:05 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:45fb:a0de:928e:79e8?
- ([2001:b07:6468:f312:45fb:a0de:928e:79e8])
- by smtp.gmail.com with ESMTPSA id c17sm1809463wrv.82.2019.06.21.07.55.04
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 07:55:04 -0700 (PDT)
-To: Liran Alon <liran.alon@oracle.com>
+ (envelope-from <liran.alon@oracle.com>) id 1heL1s-00017B-S4
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 11:00:46 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:43206)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
+ id 1heL1n-0000yo-IG
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 11:00:37 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5LExQuD069311;
+ Fri, 21 Jun 2019 15:00:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2018-07-02; bh=iUueJpciRd5+L7Nyb1u2ZjUOAY3oI3QhAUxM/MUEwnc=;
+ b=amp4RluE2JuK7dgyTHplTXHpJkAfRzfJLRmF4UeWeSS2rT9JKpT33hcRndxQivqO8KWI
+ /353eBnVWc85FI/e9OEfa7Mgp0abaOk7rejnyWE5wqgEMi7Aa/z32L3OgOsOvuPHgtT2
+ 1q462vL8DSZoXk423WzN/GX6PKrQLcHkqXjFVTiQ/lnHsdDPfb5EK0R5/ph7oqvrPYfL
+ b4giSNwe2Qn+3bcKQAjwBxpe3223SpW7UqbJIs5opus47axe4IKPJWeOTifsnAuzCU//
+ zYSuOCLgEw5hwB9MNs/NZ43v77wgOAXhKt6B4q8CcRR4siHOmdysOz6US829YA/RBmoS 7w== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 2t7809pybt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 21 Jun 2019 15:00:33 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5LExg64070025;
+ Fri, 21 Jun 2019 15:00:33 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 2t77yp8byq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 21 Jun 2019 15:00:32 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5LF0UIf010676;
+ Fri, 21 Jun 2019 15:00:30 GMT
+Received: from [192.168.14.112] (/109.64.216.174)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 21 Jun 2019 08:00:30 -0700
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
+From: Liran Alon <liran.alon@oracle.com>
+In-Reply-To: <beac3448-d66f-438f-c0bf-b35bc7c90137@redhat.com>
+Date: Fri, 21 Jun 2019 18:00:28 +0300
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <10C55D5F-B505-4172-8500-D8EBCEA43941@oracle.com>
 References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
  <1561116620-22245-21-git-send-email-pbonzini@redhat.com>
  <C67C73E9-F0FA-4711-98F1-BB5CD782E473@oracle.com>
  <3b4d778c-8c41-b8f2-7e1c-b7328072c3d5@redhat.com>
  <96B0BE25-AA15-4FAA-9228-A68C0845E110@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <beac3448-d66f-438f-c0bf-b35bc7c90137@redhat.com>
-Date: Fri, 21 Jun 2019 16:55:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <96B0BE25-AA15-4FAA-9228-A68C0845E110@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
+ <beac3448-d66f-438f-c0bf-b35bc7c90137@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+X-Mailer: Apple Mail (2.3445.4.7)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9294
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906210123
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9294
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906210123
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
 Subject: Re: [Qemu-devel] [PULL 20/25] target/i386: kvm: Add support for
  save and restore nested state
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,61 +101,81 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/06/19 14:48, Liran Alon wrote:
-> 
-> 
->> On 21 Jun 2019, at 15:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
->>
->> On 21/06/19 14:29, Liran Alon wrote:
->>>> +    max_nested_state_len = kvm_max_nested_state_length();
->>>> +    if (max_nested_state_len > 0) {
->>>> +        assert(max_nested_state_len >= offsetof(struct kvm_nested_state, data));
->>>> +        env->nested_state = g_malloc0(max_nested_state_len);
->>>> +
->>>> +        env->nested_state->size = max_nested_state_len;
->>>> +
->>>> +        if (IS_INTEL_CPU(env)) {
->>> I think it’s better to change this to: “if (cpu_has_vmx(env))” {
->>>
->>>> +            struct kvm_vmx_nested_state_hdr *vmx_hdr =
->>>> +                &env->nested_state->hdr.vmx;
->>>> +
->>>> +            env->nested_state->format = KVM_STATE_NESTED_FORMAT_VMX;
->>>> +            vmx_hdr->vmxon_pa = -1ull;
->>>> +            vmx_hdr->vmcs12_pa = -1ull;
->>>> +        }
->>>> +    }
->>> I think we should add here:
->>> } else if (cpu_has_svm(env)) {
->>>    env->nested_state->format = KVM_STATE_NESTED_FORMAT_SVM;
->>> }
->>
->> Or even force max_nested_state_len to 0 for AMD hosts, so that
->> kvm_get/put_nested_state are dropped completely.
->>
->> Paolo
->>
-> 
-> On AMD hosts, KVM returns 0 for KVM_CAP_NESTED_STATE because
-> Kvm-and.ko have kvm_x86_ops->get_nested_state set to NULL.
-> See kvm_vm_ioctl_check_extension().
-
-Yes, now it does, my idea was to force that behavior in QEMU until we
-know what SVM support actually looks like.
-
-In principle I don't like the idea of crossing fingers, even though
-there's an actual possibility that it could work.  But it couldn't be
-worse than what we have now, so maybe it *is* actually a good idea, just
-with some comment that explains the rationale.
-
-Paolo
 
 
-> I just thought it will be nicer to add what I proposed above as when kernel adds support
-> for nested state on AMD host, QEMU would maybe just work.
-> (Because maybe all state required for AMD nSVM is just flags in env->nested_state->flags).
-> 
-> -Liran
-> 
+> On 21 Jun 2019, at 17:55, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>=20
+> On 21/06/19 14:48, Liran Alon wrote:
+>>=20
+>>=20
+>>> On 21 Jun 2019, at 15:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>>=20
+>>> On 21/06/19 14:29, Liran Alon wrote:
+>>>>> +    max_nested_state_len =3D kvm_max_nested_state_length();
+>>>>> +    if (max_nested_state_len > 0) {
+>>>>> +        assert(max_nested_state_len >=3D offsetof(struct =
+kvm_nested_state, data));
+>>>>> +        env->nested_state =3D g_malloc0(max_nested_state_len);
+>>>>> +
+>>>>> +        env->nested_state->size =3D max_nested_state_len;
+>>>>> +
+>>>>> +        if (IS_INTEL_CPU(env)) {
+>>>> I think it=E2=80=99s better to change this to: =E2=80=9Cif =
+(cpu_has_vmx(env))=E2=80=9D {
+>>>>=20
+>>>>> +            struct kvm_vmx_nested_state_hdr *vmx_hdr =3D
+>>>>> +                &env->nested_state->hdr.vmx;
+>>>>> +
+>>>>> +            env->nested_state->format =3D =
+KVM_STATE_NESTED_FORMAT_VMX;
+>>>>> +            vmx_hdr->vmxon_pa =3D -1ull;
+>>>>> +            vmx_hdr->vmcs12_pa =3D -1ull;
+>>>>> +        }
+>>>>> +    }
+>>>> I think we should add here:
+>>>> } else if (cpu_has_svm(env)) {
+>>>>   env->nested_state->format =3D KVM_STATE_NESTED_FORMAT_SVM;
+>>>> }
+>>>=20
+>>> Or even force max_nested_state_len to 0 for AMD hosts, so that
+>>> kvm_get/put_nested_state are dropped completely.
+>>>=20
+>>> Paolo
+>>>=20
+>>=20
+>> On AMD hosts, KVM returns 0 for KVM_CAP_NESTED_STATE because
+>> Kvm-and.ko have kvm_x86_ops->get_nested_state set to NULL.
+>> See kvm_vm_ioctl_check_extension().
+>=20
+> Yes, now it does, my idea was to force that behavior in QEMU until we
+> know what SVM support actually looks like.
+>=20
+> In principle I don't like the idea of crossing fingers, even though
+> there's an actual possibility that it could work.  But it couldn't be
+> worse than what we have now, so maybe it *is* actually a good idea, =
+just
+> with some comment that explains the rationale.
+>=20
+> Paolo
+
+Cool.
+Are you planning to make those changes when applying/merging or
+do you need me to submit a new patch-series version?
+Also note my comment on the other patch regarding block migration on AMD =
+vCPU which expose SVM.
+
+-Liran
+
+>=20
+>=20
+>> I just thought it will be nicer to add what I proposed above as when =
+kernel adds support
+>> for nested state on AMD host, QEMU would maybe just work.
+>> (Because maybe all state required for AMD nSVM is just flags in =
+env->nested_state->flags).
+>>=20
+>> -Liran
+>>=20
+>=20
 
 
