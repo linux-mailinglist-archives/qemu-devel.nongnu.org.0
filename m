@@ -2,49 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A25F74F0E9
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jun 2019 00:59:48 +0200 (CEST)
-Received: from localhost ([::1]:38316 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC68B4F2E7
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jun 2019 02:49:24 +0200 (CEST)
+Received: from localhost ([::1]:38600 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heSVX-0007nU-5p
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 18:59:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33310)
+	id 1heUDa-00058n-Np
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 20:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33676)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1heSSm-0006ZX-2o
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 18:56:57 -0400
+ (envelope-from <marlies.ruck@gmail.com>) id 1heSUm-0007me-1o
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 18:59:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1heSSj-0002QD-Ba
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 18:56:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41670)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1heSSi-0002Ji-2g
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 18:56:52 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3E11A3082E03;
- Fri, 21 Jun 2019 22:56:48 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-120-204.rdu2.redhat.com
- [10.10.120.204])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C4DF160BEC;
- Fri, 21 Jun 2019 22:56:42 +0000 (UTC)
-From: Cleber Rosa <crosa@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 18:56:40 -0400
-Message-Id: <20190621225640.2188-1-crosa@redhat.com>
-In-Reply-To: <20190621153806.13489-1-wainersm@redhat.com>
-References: <20190621153806.13489-1-wainersm@redhat.com>
+ (envelope-from <marlies.ruck@gmail.com>) id 1heSUj-0006I0-Ve
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 18:58:59 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:45238)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marlies.ruck@gmail.com>)
+ id 1heSUh-00069U-SB
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 18:58:56 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id e3so4914742ioc.12
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 15:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=1g0zr3kl3LbsJ+l0SJdCuFf9ZDEbk/mv+OJ3WSy3lAA=;
+ b=AExfeHhEpVDI//Q7/yona9Gz+S5w7F0JJTBpW7iGHujPq2zFedsMTqG1WVOT+gAVZi
+ OWAqrgnMe8vTDIZ/zXvB1ZCe7ogVYh3iiTRJX3jYjtM4HEfXTc6bCXC+grjafZsQvDcm
+ Y3dr81kywR/PHp6lGDSYQwRI5x/VMN4zk3cwVzzgmiTTnaiaprjMySI8rS8XJkuewXJR
+ 04pylUBciVdTLXglOO61xWIqmkfoksj/VUfQtp6r771KvuTAvDEmu0k0MEb9LV+/F2Ks
+ wzmN/m+wmVoD/sYxQTXnXjcfKcioeE4NPo346AVyKzyjZurpKBGY7IRnilU1mSn0Jok6
+ Ar6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=1g0zr3kl3LbsJ+l0SJdCuFf9ZDEbk/mv+OJ3WSy3lAA=;
+ b=UZuEFTQc0lwug94iJ7k2EhgoA/JRrRmY+iw3IjqEKrhKG28cO2gmGI7zjxo1h+d/Ws
+ 7tXAW0lkCMgDvo12BxjOkesGNChksXxK7PCcZX/WkhtHNJqgxLk8iECZ7MJ9qizUclfG
+ WcLU7nc/iPNZtcK9vqqvnaFuYURhLyX3wZRaNRN0PhRqK3wkoq0piUni0QAkl/OsSeM+
+ EQlzRIW7HXlR7euKlq3VDdYuPo+6MPLxWA+3XSHT2075y58/eZshWP5cytYx+uRtKpcR
+ jF5FBn40/ptAO7pLaj/or6stFCiMXHnPTD+kCboeRBLFBnU0S2B6gm6mD8UkvAJqTDVT
+ +YUQ==
+X-Gm-Message-State: APjAAAXAgCmwT5cHCeeA6O+dJ/HfFIMxykOhdJKF2n9YwMA/pNOR0LdF
+ faPA/etNI5t/7VS/6U3QXB2FukZmxSswO3aX3Y8bTJn0
+X-Google-Smtp-Source: APXvYqwGLiKC59v+jWg2T7MdOu33QR1Qzeo1qFPhfsbIneQfeKVbNEP+bnTGYW/6+FFU6PlvsmmiXGN3duv4ivrMA6U=
+X-Received: by 2002:a02:b395:: with SMTP id p21mr26441548jan.31.1561157933261; 
+ Fri, 21 Jun 2019 15:58:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Fri, 21 Jun 2019 22:56:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC PATCH] Acceptance tests: run generic tests on all
- built targets
+From: Marlies Ruck <marlies.ruck@gmail.com>
+Date: Fri, 21 Jun 2019 15:58:42 -0700
+Message-ID: <CALw29ZZZ08Lt13oZsbZCwV+uP0roLuT6t+8m16y+8YT-KH4t7A@mail.gmail.com>
+To: qemu-devel@nongnu.org
+Content-Type: multipart/mixed; boundary="0000000000000d1680058bdd68b3"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d2e
+X-Mailman-Approved-At: Fri, 21 Jun 2019 20:46:26 -0400
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: [Qemu-devel] patch to swap SIGRTMIN + 1 and SIGRTMAX - 1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,150 +70,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, peter.maydell@linaro.org,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The intention here is to discuss the validity of running the the
-acceptance tests are not depedent on target specific functionality on
-all built targets.
+--0000000000000d1680058bdd68b3
+Content-Type: text/plain; charset="UTF-8"
 
-Subtle but important questions that this topic brings:
+Hi,
 
- 1) Should the QEMU binary target provide, as much as possible,
-    a similar experience across targets, or should upper layer
-    code deal with it?
+Attached is a patch to let guest programs use SIGRTMIN + 1 by swapping with
+SIGRTMAX - 1. Since QEMU links against glibc, it reserves the signal for
+itself and returns EINVAL (as noted in the commit message). This means
+various applications that use SIGRTMIN + 1 cannot run on QEMU, including
+G-WAN web server and Open TFTP.
 
- 2) Are those tests exercising the same exact features and
-    implementation, which just happen to be linked to various
-    different binaries?  Or is the simple fact that they are
-    integrated into different code worth testing?
+Thanks,
+Marli
 
- 3) Should the default target match the host target?  Or the
-    first binary found in the build tree?  Or something else?
+--0000000000000d1680058bdd68b3
+Content-Type: application/octet-stream; 
+	name="0001-Swap-SIGRTMIN-1-and-SIGRTMAX-1.patch"
+Content-Disposition: attachment; 
+	filename="0001-Swap-SIGRTMIN-1-and-SIGRTMAX-1.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_jx6p0rod0>
+X-Attachment-Id: f_jx6p0rod0
 
-An example of a Travis CI job based on this can be seen here:
-
- https://travis-ci.org/clebergnu/qemu/jobs/548905146
-
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
----
- .travis.yml                               |  2 +-
- tests/Makefile.include                    | 18 +++++++++++++++++-
- tests/acceptance/avocado_qemu/__init__.py |  9 +++++++++
- tests/acceptance/cpu_queries.py           |  3 +++
- tests/acceptance/migration.py             |  4 +++-
- 5 files changed, 33 insertions(+), 3 deletions(-)
-
-diff --git a/.travis.yml b/.travis.yml
-index aeb9b211cd..310febb866 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -232,7 +232,7 @@ matrix:
-     # Acceptance (Functional) tests
-     - env:
-         - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
-oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
-ftmmu,alpha-softmmu"
--        - TEST_CMD=3D"make check-acceptance"
-+        - TEST_CMD=3D"make check-acceptance-all"
-       after_failure:
-         - cat tests/results/latest/job.log
-       addons:
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index db750dd6d0..34126167a5 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -1154,7 +1154,23 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
-             --filter-by-tags-include-empty --filter-by-tags-include-empt=
-y-key \
-             $(AVOCADO_TAGS) \
-             --failfast=3Don $(SRC_PATH)/tests/acceptance, \
--            "AVOCADO", "tests/acceptance")
-+            "AVOCADO", "tests/acceptance (target arch based on test)")
-+
-+# Allows one to run tests that are generic (independent of target)
-+# using a given target
-+check-acceptance-generic-on-%: check-venv $(TESTS_RESULTS_DIR)
-+	$(call quiet-command, \
-+            $(TESTS_VENV_DIR)/bin/python -m avocado \
-+            --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_RES=
-ULTS_DIR) \
-+            --filter-by-tags-include-empty --filter-by-tags-include-empt=
-y-key \
-+            --filter-by-tags=3D-arch -p arch=3D$* \
-+            -p add-qtest=3Dyes -p set-arm-aarch64-machine=3Dyes \
-+            --failfast=3Don $(SRC_PATH)/tests/acceptance, \
-+            "AVOCADO", "tests/acceptance (target arch set to $*)")
-+
-+check-acceptance-generic: $(patsubst %-softmmu,check-acceptance-generic-=
-on-%, $(filter %-softmmu,$(TARGET_DIRS)))
-+
-+check-acceptance-all: check-acceptance check-acceptance-generic
-=20
- # Consolidated targets
-=20
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
-/avocado_qemu/__init__.py
-index 2b236a1cf0..7a47f0d514 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -69,6 +69,15 @@ class Test(avocado.Test):
-         vm =3D QEMUMachine(self.qemu_bin)
-         if args:
-             vm.add_args(*args)
-+        if self.params.get('add-qtest', default=3DFalse):
-+            # mips and sh4 targets require either a bios or a kernel or
-+            # qtest enabled to not abort right at the commad line
-+            if self.arch in ('mips', 'mipsel', 'mips64', 'mips64el', 'sh=
-4'):
-+                vm.add_args('-accel', 'qtest')
-+        if self.params.get('set-arm-aarch64-machine', default=3DFalse):
-+            # arm and aarch64 require a machine type to be set
-+            if self.arch in ('arm', 'aarch64'):
-+                vm.set_machine('virt')
-         return vm
-=20
-     @property
-diff --git a/tests/acceptance/cpu_queries.py b/tests/acceptance/cpu_queri=
-es.py
-index e71edec39f..af47d2795a 100644
---- a/tests/acceptance/cpu_queries.py
-+++ b/tests/acceptance/cpu_queries.py
-@@ -18,6 +18,9 @@ class QueryCPUModelExpansion(Test):
-     """
-=20
-     def test(self):
-+        """
-+        :avocado: tags=3Darch:x86_64
-+        """
-         self.vm.set_machine('none')
-         self.vm.add_args('-S')
-         self.vm.launch()
-diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration.p=
-y
-index 6115cf6c24..c4ed87cd98 100644
---- a/tests/acceptance/migration.py
-+++ b/tests/acceptance/migration.py
-@@ -33,8 +33,10 @@ class Migration(Test):
-             self.cancel('Failed to find a free port')
-         return port
-=20
--
-     def test_migration_with_tcp_localhost(self):
-+        blacklist_targets =3D ["arm", "ppc64", "sh4", "s390x"]
-+        if self.arch in blacklist_targets:
-+            self.cancel("Test failing on targets: %s" % ", ".join(blackl=
-ist_targets))
-         source_vm =3D self.get_vm()
-         dest_uri =3D 'tcp:localhost:%u' % self._get_free_port()
-         dest_vm =3D self.get_vm('-incoming', dest_uri)
---=20
-2.21.0
-
+RnJvbSAwOTZjMjQ0NjY4MzQ1ZjgwYTQ1ODI3OTlkMGI4NjBiN2MyMGE5YjU5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBtYXJsaWVzIHJ1Y2sgPG1hcmxpZXNAZm9yYWxsc2VjdXJlLmNv
+bT4KRGF0ZTogRnJpLCAyMSBKdW4gMjAxOSAxNDo0Mjo0MiAtMDcwMApTdWJqZWN0OiBbUEFUQ0hd
+IFN3YXAgU0lHUlRNSU4gKyAxIGFuZCBTSUdSVE1BWCAtIDEKCldlIGFscmVhZHkgaGF2ZSBhIGhh
+Y2sgd2hlcmVieSB3ZSBmbGlwIHRoZSBndWVzdCdzIFNJR1JUTUFYIGFuZCBTSUdSVE1JTgpzaWdu
+YWxzLCB0byBhdm9pZCBhIGNvbGxpc2lvbiBiZXR3ZWVuIGd1ZXN0IHVzZSBvZiBTSUdSVE1JTiBh
+bmQgdGhlIGhvc3QKbGliYyB1c2Ugb2YgaXQgZm9yIFNJR0NBTkNFTC4gSG93ZXZlciBuZXdlciBn
+bGliYyBhbHNvIHVzZXMgU0lHUlRNSU4rMQpmb3IgaW50ZXJuYWwgcHVycG9zZXMgKGFzIFNJR1NF
+VFhJRCkuIFJldmVyc2UgU0lHUlRNSU4rMSBhbmQgU0lHUlRNQVgtMQpzbyB0aGUgZ3Vlc3QgY2Fu
+IHN1Y2Nlc3NmdWxseSB1c2UgU0lHUlRNSU4rMS4KClRoaXMgZGlkbid0IGNhdXNlIGFueSBpbW1l
+ZGlhdGVseSBvYnNlcnZlZCBpc3N1ZXMgaW4gZ3Vlc3RzIGJlY2F1c2UgZ2xpYmMKZG9lcyBub3Qg
+Y2hlY2sgdGhlIHJldHVybiB2YWx1ZSB3aGVuIGl0IHJlZ2lzdGVycyBhIFNJR1NFVFhJRCBoYW5k
+bGVyKCEpLgpIb3dldmVyIGl0IG1lYW50IHRoYXQgaWYgYSBndWVzdCBwcm9ncmFtIHdpdGggbW9y
+ZSB0aGFuIG9uZSB0aHJlYWQgaXNzdWVkCmEgc2V0dWlkKCkgc3lzY2FsbCBpdCB3b3VsZCBoYW5n
+LgoKQ3JlZGl0OiBQZXRlciBNYXlkZWxsIGh0dHBzOi8vcGF0Y2hlcy5saW5hcm8ub3JnL3BhdGNo
+LzYzMzEzLwpTaWduZWQtb2ZmLWJ5OiBtYXJsaWVzIHJ1Y2sgPG1hcmxpZXNAZm9yYWxsc2VjdXJl
+LmNvbT4KLS0tCiBsaW51eC11c2VyL3NpZ25hbC5jIHwgNiArKysrKy0KIDEgZmlsZSBjaGFuZ2Vk
+LCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9saW51eC11c2Vy
+L3NpZ25hbC5jIGIvbGludXgtdXNlci9zaWduYWwuYwppbmRleCA1Y2QyMzc4MzRkLi4xMzdhNDQ5
+MTQwIDEwMDY0NAotLS0gYS9saW51eC11c2VyL3NpZ25hbC5jCisrKyBiL2xpbnV4LXVzZXIvc2ln
+bmFsLmMKQEAgLTc1LDggKzc1LDEyIEBAIHN0YXRpYyB1aW50OF90IGhvc3RfdG9fdGFyZ2V0X3Np
+Z25hbF90YWJsZVtfTlNJR10gPSB7CiAgICAgLyogTmFzdHkgaGFjazogUmV2ZXJzZSBTSUdSVE1J
+TiBhbmQgU0lHUlRNQVggdG8gYXZvaWQgb3ZlcmxhcCB3aXRoCiAgICAgICAgaG9zdCBsaWJwdGhy
+ZWFkIHNpZ25hbHMuICBUaGlzIGFzc3VtZXMgbm8gb25lIGFjdHVhbGx5IHVzZXMgU0lHUlRNQVgg
+Oi0vCiAgICAgICAgVG8gZml4IHRoaXMgcHJvcGVybHkgd2UgbmVlZCB0byBkbyBtYW51YWwgc2ln
+bmFsIGRlbGl2ZXJ5IG11bHRpcGxleGVkCi0gICAgICAgb3ZlciBhIHNpbmdsZSBob3N0IHNpZ25h
+bC4gICovCisgICAgICAgb3ZlciBhIHNpbmdsZSBob3N0IHNpZ25hbC4KKyAgICAgICBTaW1pbGFy
+bHkgd2UgcmV2ZXJzZSBTSUdSVE1JTiArIDEgYW5kIFNJR1JUTUFYIC0gMSwgYmVjYXVzZQorICAg
+ICAgIGhvc3QgZ2xpYmMgdXNlcyBTSUdSVE1JTisxIGZvciBTSUdTRVRYSUQuICovCiAgICAgW19f
+U0lHUlRNSU5dID0gX19TSUdSVE1BWCwKKyAgICBbX19TSUdSVE1JTiArIDFdID0gX19TSUdSVE1B
+WCAtIDEsCisgICAgW19fU0lHUlRNQVggLSAxXSA9IF9fU0lHUlRNSU4gKyAxLAogICAgIFtfX1NJ
+R1JUTUFYXSA9IF9fU0lHUlRNSU4sCiB9Owogc3RhdGljIHVpbnQ4X3QgdGFyZ2V0X3RvX2hvc3Rf
+c2lnbmFsX3RhYmxlW19OU0lHXTsKLS0gCjIuMjAuMSAoQXBwbGUgR2l0LTExNykKCg==
+--0000000000000d1680058bdd68b3--
 
