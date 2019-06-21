@@ -2,68 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393B94E022
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 07:43:42 +0200 (CEST)
-Received: from localhost ([::1]:54872 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976204E07D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 08:17:57 +0200 (CEST)
+Received: from localhost ([::1]:55020 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heCKr-0005aj-F9
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 01:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37951)
+	id 1heCs0-0003QY-R0
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 02:17:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47109)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1heCJV-0004cT-9R
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 01:42:18 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1heClQ-0005C7-AY
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:11:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1heCJT-0001t9-P3
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 01:42:17 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:37144)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1heCJN-0001jd-Ki; Fri, 21 Jun 2019 01:42:11 -0400
-Received: by mail-ed1-x543.google.com with SMTP id w13so8285982eds.4;
- Thu, 20 Jun 2019 22:42:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S4C7FnR95ZDwDe3AyiXlTFD27Hv0dqjENvk3oIztgU8=;
- b=Od/jOMJx/xuiIqw01JXg6a3UIeIyr3SWT+9QGnbNH7Pv/sZOi6ifZpBLMUy0atS6yo
- MWJ3Z+XuWv/FvCdWhF3Ix/FLKZtKmazF2poaZI7fFCKQNgzx2OBAvqk2M/LjIPC/pr6p
- P1d/6cLP+hdVMPDovIFk17/B7xWslFsRDLgjTu/AOj74jJ8vJzmOIKq2GhXWLQgWmBvH
- ldakp8jsEYhwKOKUr2k1+GH673rBpHO48lNohUpDNVbXXYGIzobhpWA3RMARjtEM68Gt
- 5G5ZHmANs7Tb703cplUA+C/ovD+2jqFPxKwG8yWkEMgw7RPNf5wUINHOb9CwMczi424J
- EaHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S4C7FnR95ZDwDe3AyiXlTFD27Hv0dqjENvk3oIztgU8=;
- b=SSooIm7RAimkvhyPzSbsMgfj/j2dna4N7FrpSZPYVfjnhO0HMzY6IDZ9d6dn2+93/M
- vyc/s+SfqY5iOx4PPduQxlUzkDM7ZrGN+6gKkQDmFRLPVZf0IMKLIGLw4APO2s75jFx6
- LmIHUTJ6SKgBK50bwddRe8glOVvylqDk//57WHl62OQwm2+ThNbnVd0CQUZbQF2R1FhS
- 5eUCMhYuyzf4ZSvIvcYi9iefgcP6X7pU+xKZMh3/Y+C9gtZ7B/PgR33s9bbqdZttsW/9
- RQD1wGjc4xlzYNahg74aC+knOe5Pk515zdTdHk0kPhHYSfpg1hUOgIxllq9f3YVjnNAq
- Qc7g==
-X-Gm-Message-State: APjAAAVMG2fu3miS5yLrpzeiLIxjsVwTwR2lUgFmOQhDBsgK/4e54ls9
- P8d4iRGeHCRE793YTw3tp6vj31EdtL/UYYrvUzZtkw==
-X-Google-Smtp-Source: APXvYqzHln8/OZqmjwm8fNKFEOFaK5dy1jWW0rcPH7n/uw6Hh25LUay3a18jtgohN4KCffYNhxcp3Kzl6uWZ7qijMOE=
-X-Received: by 2002:a50:ad01:: with SMTP id y1mr120752856edc.180.1561095725612; 
- Thu, 20 Jun 2019 22:42:05 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1560904640.git.alistair.francis@wdc.com>
- <2fd2fa66cf561d8041f75351c28ed025828c56ff.1560904640.git.alistair.francis@wdc.com>
- <CAAhSdy12uKV14cdxvUniSLFw_iF5WNKjoLCanS3Bs=33w-c9xA@mail.gmail.com>
- <CAEUhbmXYfdAojDtNxXz8XYRk0X1jt+qLB6oVP1pFKNcjWjeh5w@mail.gmail.com>
- <CAKmqyKPSsFQw0xoeoP7376UpS6LWN1T5Kc53Q7tStZsgwKiNiQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKPSsFQw0xoeoP7376UpS6LWN1T5Kc53Q7tStZsgwKiNiQ@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 21 Jun 2019 13:41:54 +0800
-Message-ID: <CAEUhbmVWYHfRDu+EO_V6OC6kOr2cB8aecyJRQUYZPDoxbB4Wag@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ (envelope-from <chen.zhang@intel.com>) id 1heCXe-0005rf-JH
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 01:56:55 -0400
+Received: from mga09.intel.com ([134.134.136.24]:60483)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
+ id 1heCXd-0005l6-DS; Fri, 21 Jun 2019 01:56:53 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2019 22:56:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="171116418"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga002.jf.intel.com with ESMTP; 20 Jun 2019 22:56:44 -0700
+From: Zhang Chen <chen.zhang@intel.com >
+To: Xie Changlong <xiechanglong.d@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ qemu-dev <qemu-devel@nongnu.org>
+Date: Fri, 21 Jun 2019 13:52:02 +0800
+Message-Id: <20190621055202.28270-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.17.GIT
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::543
-Subject: Re: [Qemu-devel] [Qemu-riscv] [RFC v1 4/5] roms: Add OpenSBI
- version 0.3
+X-Received-From: 134.134.136.24
+Subject: [Qemu-devel] [PATCH V2] block/replication.c: Fix crash issue after
+ failover
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,62 +52,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <anup@brainfault.org>, Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 20, 2019 at 2:30 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Wed, Jun 19, 2019 at 8:18 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Wed, Jun 19, 2019 at 1:14 PM Anup Patel <anup@brainfault.org> wrote:
-> > >
-> > > On Wed, Jun 19, 2019 at 6:24 AM Alistair Francis
-> > > <alistair.francis@wdc.com> wrote:
-> > > >
-> > > > Add OpenSBI version 0.3 as a git submodule and as a prebult binary.
-> > > >
-> > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > ---
-> > > >  .gitmodules                         |   3 +++
-> > > >  Makefile                            |   3 ++-
-> > > >  configure                           |   1 +
-> > > >  pc-bios/opensbi-riscv32-fw_jump.elf | Bin 0 -> 197988 bytes
-> > > >  pc-bios/opensbi-riscv64-fw_jump.elf | Bin 0 -> 200192 bytes
-> > > >  roms/Makefile                       |  17 +++++++++++++++++
-> > > >  roms/opensbi                        |   1 +
-> > > >  7 files changed, 24 insertions(+), 1 deletion(-)
-> > > >  create mode 100644 pc-bios/opensbi-riscv32-fw_jump.elf
-> > > >  create mode 100644 pc-bios/opensbi-riscv64-fw_jump.elf
-> > > >  create mode 160000 roms/opensbi
-> > > >
-> > >
-> > > The OpenSBI firmwares are platform specific so we should have
-> > > machine directory under pc-bios/ directory
-> > >
-> > > So for virt machine we will have:
-> > > pc-bios/riscv32/virt/fw_jump.elf
-> > > pc-bios/riscv64/virt/fw_jump.elf
->
-> I have updated the names to indicate the machine. The pc-bios directly
-> appears to be flat (at least for binaries) so I don't want to add
-> subdirectories.
->
+From: Zhang Chen <chen.zhang@intel.com>
 
-Should we include pre-built OpenSBI "bios" for "sifive_u" machine too?
+If we try to close replication after failover, it will crash here.
+So we need check the block job on active disk before cancel the job.
 
-> >
-> > And we should only integrate plain binary image for "bios" images here.
-> >
-> > pc-bios/riscv32/virt/fw_jump.bin
-> > pc-bios/riscv64/virt/fw_jump.bin
->
-> Yep, fixed.
->
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+---
+ block/replication.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Regards,
-Bin
+diff --git a/block/replication.c b/block/replication.c
+index 3d4dedddfc..845f796dd4 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -146,7 +146,9 @@ static void replication_close(BlockDriverState *bs)
+         replication_stop(s->rs, false, NULL);
+     }
+     if (s->stage == BLOCK_REPLICATION_FAILOVER) {
+-        job_cancel_sync(&s->active_disk->bs->job->job);
++        if (s->active_disk->bs->job) {
++            job_cancel_sync(&s->active_disk->bs->job->job);
++        }
+     }
+ 
+     if (s->mode == REPLICATION_MODE_SECONDARY) {
+-- 
+2.17.GIT
+
 
