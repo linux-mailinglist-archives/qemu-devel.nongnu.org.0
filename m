@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF824E687
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 12:57:22 +0200 (CEST)
-Received: from localhost ([::1]:59162 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7984E695
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:00:32 +0200 (CEST)
+Received: from localhost ([::1]:59198 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heHEP-0003Qj-5p
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 06:57:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40272)
+	id 1heHHT-0005Jt-Il
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:00:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40294)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <anthony.perard@citrix.com>) id 1heHC0-0002E2-VW
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 06:54:56 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1heHC4-0002Fk-Qz
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 06:55:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1heHBx-0008MC-14
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 06:54:52 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1heHC0-0008Vc-Vh
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 06:54:56 -0400
 Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:13604)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1heHBw-0008De-6r
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 06:54:48 -0400
+ id 1heHBy-0008De-U2
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 06:54:52 -0400
 Authentication-Results: esa3.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -51,29 +51,32 @@ Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: WhdzG/TUsfpYvx+RGdfe58xsG7P3wSW2FAIpod07Gf6Oqsy82JXLu/ehZr4Pg5SDvgzdYxFZ84
- wo0PqkjNAVlOye8Ko874MUjI1968VKfQwjhh2Bu1tRn6sOKseK0ZzCZbt4s2PRGvSNWtraCbbl
- ALlo6DIiyktaoqp4KQDzCOeZPy+CAZ/KUZwga8VnUe/S3zskmL0/WrZ1K3yHvUMaldIsrU1cs6
- p81FJgqub7cIWB/wmmbYbkn0fttuqNCpAtcaRg9KjG++y7TvFMDBGd236uq9se2NCg3OWKMaeu
- jRU=
+IronPort-SDR: uAUANqurQVuiHmctksfiUbTsh9YirwrEq7cQDny0WDE1k5j9VTlY8PligOUtu0II1ORd2cCqUV
+ PtRSr2qv6xsJGnBEzvO15j1hpPRucJZdtf/b2z9GMmJvVpP4UOvObJoD4CXcVMkhECq7MPC48Y
+ KQKSqf8O/oDBWExJA+JngQyDDKK4RtaEG31+kAyAntkOaoWeIiXI099K/rZftP7CO4ieYB81GZ
+ UdKVtxAUUIiRLQUVi7pp4pC4SioD312mVTHv8SfQKFLyHbii7Jphj319cPJEMnpF6wkqow2MBy
+ DFk=
 X-SBRS: 2.7
-X-MesageID: 2052041
+X-MesageID: 2052042
 X-Ironport-Server: esa3.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.63,400,1557201600"; 
-   d="scan'208";a="2052041"
+   d="scan'208";a="2052042"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Date: Fri, 21 Jun 2019 11:54:39 +0100
-Message-ID: <20190621105441.3025-1-anthony.perard@citrix.com>
+Date: Fri, 21 Jun 2019 11:54:40 +0100
+Message-ID: <20190621105441.3025-2-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190621105441.3025-1-anthony.perard@citrix.com>
+References: <20190621105441.3025-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.145.155
-Subject: [Qemu-devel] [PATCH v3 0/2] Fix build of Xen support + cleanup
+Subject: [Qemu-devel] [PATCH v3 1/2] Revert xen/io/ring.h of "Clean up a few
+ header guard symbols"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,72 +88,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Stefano Stabellini <sstabellini@kernel.org>,
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Paul Durrant <paul.durrant@citrix.com>
+ Markus Armbruster <armbru@redhat.com>, Paul Durrant <paul.durrant@citrix.com>,
+ Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This reverts changes to include/hw/xen/io/ring.h from commit
+37677d7db39a3c250ad661d00fb7c3b59d047b1f.
 
-Changes in v3:
-- two patches queued for a pull requests[1]:
-    xen: Drop includes of xen/hvm/params.h
-    xen: Avoid VLA
-- the two others patchs has changed, to keep the headers identical (nearly;
-  at least the header guard isn't changed anymore)
+Following 37677d7db3 "Clean up a few header guard symbols", QEMU start
+to fail to build:
 
-Fix the build in osstest and some cleanup
+In file included from ~/xen/tools/../tools/include/xen/io/blkif.h:31:0,
+                 from ~/xen/tools/qemu-xen-dir/hw/block/xen_blkif.h:5,
+                 from ~/xen/tools/qemu-xen-dir/hw/block/xen-block.c:22:
+~/xen/tools/../tools/include/xen/io/ring.h:68:0: error: "__CONST_RING_SIZE" redefined [-Werror]
+ #define __CONST_RING_SIZE(_s, _sz) \
 
-For reference:
+In file included from ~/xen/tools/qemu-xen-dir/hw/block/xen_blkif.h:4:0,
+                 from ~/xen/tools/qemu-xen-dir/hw/block/xen-block.c:22:
+~/xen/tools/qemu-xen-dir/include/hw/xen/io/ring.h:66:0: note: this is the location of the previous definition
+ #define __CONST_RING_SIZE(_s, _sz) \
 
-Recent flight failure:
-https://lists.xenproject.org/archives/html/xen-devel/2019-06/msg01022.html
+The issue is that some public xen headers have been imported (by
+f65eadb639 "xen: import ring.h from xen") but not all. With the change
+in the guards symbole, the ring.h header start to be imported twice.
 
-Bisect result:
-https://lists.xenproject.org/archives/html/xen-devel/2019-06/msg01029.html
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
+CC: Markus Armbruster <armbru@redhat.com>
+---
 
-[1] Queue here:
-  https://xenbits.xen.org/git-http/qemu-upstream-unstable.git
-  branch: xen.next
+Notes:
+    v3:
+    - new patch, replace "xen: Fix build with public headers" from previous
+      patch series version
+    - Revert problematic change instead.
 
-Thanks.
+ include/hw/xen/io/ring.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Anthony PERARD (2):
-  Revert xen/io/ring.h of "Clean up a few header guard symbols"
-  xen: Import other xen/io/*.h
-
- hw/9pfs/xen-9pfs.h                       |    4 +-
- hw/block/xen_blkif.h                     |    5 +-
- hw/char/xen_console.c                    |    2 +-
- hw/display/xenfb.c                       |    7 +-
- hw/net/xen_nic.c                         |    2 +-
- hw/usb/xen-usb.c                         |    3 +-
- hw/xen/xen-legacy-backend.c              |    2 -
- include/hw/xen/interface/grant_table.h   |   36 +
- include/hw/xen/interface/io/blkif.h      |  712 +++++++++++++++
- include/hw/xen/interface/io/console.h    |   46 +
- include/hw/xen/interface/io/fbif.h       |  156 ++++
- include/hw/xen/interface/io/kbdif.h      |  566 ++++++++++++
- include/hw/xen/interface/io/netif.h      | 1010 ++++++++++++++++++++++
- include/hw/xen/interface/io/protocols.h  |   42 +
- include/hw/xen/{ => interface}/io/ring.h |    6 +-
- include/hw/xen/interface/io/usbif.h      |  254 ++++++
- include/hw/xen/interface/io/xenbus.h     |   70 ++
- include/hw/xen/xen_common.h              |    2 +-
- 18 files changed, 2906 insertions(+), 19 deletions(-)
- create mode 100644 include/hw/xen/interface/grant_table.h
- create mode 100644 include/hw/xen/interface/io/blkif.h
- create mode 100644 include/hw/xen/interface/io/console.h
- create mode 100644 include/hw/xen/interface/io/fbif.h
- create mode 100644 include/hw/xen/interface/io/kbdif.h
- create mode 100644 include/hw/xen/interface/io/netif.h
- create mode 100644 include/hw/xen/interface/io/protocols.h
- rename include/hw/xen/{ => interface}/io/ring.h (99%)
- create mode 100644 include/hw/xen/interface/io/usbif.h
- create mode 100644 include/hw/xen/interface/io/xenbus.h
-
+diff --git a/include/hw/xen/io/ring.h b/include/hw/xen/io/ring.h
+index 62abfd7a6e..1adacf09f9 100644
+--- a/include/hw/xen/io/ring.h
++++ b/include/hw/xen/io/ring.h
+@@ -24,8 +24,8 @@
+  * Tim Deegan and Andrew Warfield November 2004.
+  */
+ 
+-#ifndef XEN_PUBLIC_IO_RING_H
+-#define XEN_PUBLIC_IO_RING_H
++#ifndef __XEN_PUBLIC_IO_RING_H__
++#define __XEN_PUBLIC_IO_RING_H__
+ 
+ /*
+  * When #include'ing this header, you need to provide the following
+@@ -469,7 +469,7 @@ struct name##_data_intf {                                                     \
+ };                                                                            \
+ DEFINE_XEN_FLEX_RING(name)
+ 
+-#endif /* XEN_PUBLIC_IO_RING_H */
++#endif /* __XEN_PUBLIC_IO_RING_H__ */
+ 
+ /*
+  * Local variables:
 -- 
 Anthony PERARD
 
