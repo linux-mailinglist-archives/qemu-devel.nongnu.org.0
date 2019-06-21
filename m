@@ -2,62 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E044E0A3
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 08:51:32 +0200 (CEST)
-Received: from localhost ([::1]:55090 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E53694E0C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 09:03:49 +0200 (CEST)
+Received: from localhost ([::1]:55186 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heDOQ-0001lN-N3
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 02:51:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56583)
+	id 1heDaP-0002zr-4i
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 03:03:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57408)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1heDKd-00084e-21
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:47:32 -0400
+ (envelope-from <tao3.xu@intel.com>) id 1heDRE-0006LX-Qk
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:54:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1heDK0-0005VY-J0
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:46:53 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:40091)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1heDK0-0005V9-G6
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:46:52 -0400
-Received: by mail-qk1-f194.google.com with SMTP id c70so3683745qkg.7
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 23:46:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4a367De+MaFB/R4qvFTLUbUDKGFJvFceJZYzgUfwehk=;
- b=gIYMf6sXum9YN8aiz4upZPjC6+4k5pmTdXKeXwpH9TloffI/CwdRA2WNG9RuqUF1rb
- ez6bqbaKQMweVhSu4osedh8HOifD+2XtQ3dyEzANgVNhEF0ufjA/b4L+uFmrVnuWo50b
- xh+EuzJiUc0Ry+bUWUDe20pcrMY0PNxhoyJy4ydEUVA4mDyxYMxispEvs49elfgCcqwh
- 3ZLGkO5bHbSdXf9khYwELbahki83y4IZ5Bq6zJpn9jnEab5ZVrTc6XrDdFPwM+LXJBWD
- 5j4SNoRxKriwWg4PniFmw0wJyI9loytzfCZHOh9bC+ar9pN5mF6HCSCnYv0yg6Oyznop
- 2C8g==
-X-Gm-Message-State: APjAAAVfIlgH2mW9KdUZvYtzLgB02BR3VgFHfmxhOQyNuyk0/E5JB0q+
- 3Sw6uUvC5CSJwKjDjt8snkdqfIY1i88=
-X-Google-Smtp-Source: APXvYqxj0DWmRWR76tDVP0rl9tAhgp5e8jBxCU6G09jlc02rDDz1HiWHumhu8auDMkcOF6vQKDWJHw==
-X-Received: by 2002:a37:b843:: with SMTP id i64mr15728891qkf.77.1561099611579; 
- Thu, 20 Jun 2019 23:46:51 -0700 (PDT)
-Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
- [100.0.197.103])
- by smtp.gmail.com with ESMTPSA id y29sm976202qkj.8.2019.06.20.23.46.50
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 20 Jun 2019 23:46:50 -0700 (PDT)
-Date: Fri, 21 Jun 2019 02:46:50 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20190621064615.20099-4-mst@redhat.com>
-References: <20190621064615.20099-1-mst@redhat.com>
+ (envelope-from <tao3.xu@intel.com>) id 1heDRC-00023I-SU
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:54:20 -0400
+Received: from mga11.intel.com ([192.55.52.93]:33601)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1heDRC-0001qK-Ic
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:54:18 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2019 23:54:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="335735519"
+Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.104])
+ by orsmga005.jf.intel.com with ESMTP; 20 Jun 2019 23:54:07 -0700
+From: Tao Xu <tao3.xu@intel.com>
+To: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, mtosatti@redhat.com
+Date: Fri, 21 Jun 2019 14:51:32 +0800
+Message-Id: <20190621065134.7392-1-tao3.xu@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190621064615.20099-1-mst@redhat.com>
-X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
-X-Mutt-Fcc: =sent
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.222.194
-Subject: [Qemu-devel] [PATCH 3/3] pcie: work around for racy guest init
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.93
+Subject: [Qemu-devel] [PATCH RESEND v3 0/2] x86: Enable user wait
+ instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,71 +54,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jingqi.liu@intel.com, tao3.xu@intel.com, xiaoyao.li@linux.intel.com,
+ qemu-devel@nongnu.org, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-During boot, linux guests tend to clear all bits in pcie slot status
-register which is used for hotplug.
-If they clear bits that weren't set this is racy and will lose events:
-not a big problem for manual hotplug on bare-metal, but a problem for us.
+UMONITOR, UMWAIT and TPAUSE are a set of user wait instructions.
 
-For example, the following is broken ATM:
+UMONITOR arms address monitoring hardware using an address. A store
+to an address within the specified address range triggers the
+monitoring hardware to wake up the processor waiting in umwait.
 
-/x86_64-softmmu/qemu-system-x86_64 -enable-kvm -S -machine q35  \
-    -device pcie-root-port,id=pcie_root_port_0,slot=2,chassis=2,addr=0x2,bus=pcie.0 \
-    -device virtio-balloon-pci,id=balloon,bus=pcie_root_port_0 \
-    -monitor stdio disk.qcow2
-(qemu)device_del balloon
-(qemu)cont
+UMWAIT instructs the processor to enter an implementation-dependent
+optimized state while monitoring a range of addresses. The optimized
+state may be either a light-weight power/performance optimized state
+(c0.1 state) or an improved power/performance optimized state
+(c0.2 state).
 
-Balloon isn't deleted as it should.
+TPAUSE instructs the processor to enter an implementation-dependent
+optimized state c0.1 or c0.2 state and wake up when time-stamp counter
+reaches specified timeout.
 
-As a work-around, detect this attempt to clear slot status and revert
-status to what it was before the write.
+Availability of the user wait instructions is indicated by the presence
+of the CPUID feature flag WAITPKG CPUID.0x07.0x0:ECX[5].
 
-Note: in theory this can be detected as a duplicate button press
-which cancels the previous press. Does not seem to happen in
-practice as guests seem to only have this bug during init.
+The patches enable the umonitor, umwait and tpause features in KVM.
+Because umwait and tpause can put a (psysical) CPU into a power saving
+state, by default we dont't expose it in kvm and provide a capability to
+enable it. Use kvm capability to enable UMONITOR, UMWAIT and TPAUSE when
+QEMU use "-overcommit cpu-pm=on, a VM can use UMONITOR, UMWAIT and TPAUSE
+instructions. If the instruction causes a delay, the amount of time
+delayed is called here the physical delay. The physical delay is first
+computed by determining the virtual delay (the time to delay relative to
+the VM’s timestamp counter). Otherwise, UMONITOR, UMWAIT and TPAUSE cause
+an invalid-opcode exception(#UD).
 
-Note2: the right thing to do is probably to fix Linux to
-read status before clearing it, and act on the bits that are set.
+The dependency KVM patch link:
+https://lkml.org/lkml/2019/6/21/23
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/pci/pcie.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+The release document ref below link:
+https://software.intel.com/sites/default/files/\
+managed/39/c5/325462-sdm-vol-1-2abcd-3abcd.pdf
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index f8490a00de..c605d32dd4 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -610,6 +610,25 @@ void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slt_ctl, uint16_t slt_s
-     uint16_t sltsta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
- 
-     if (ranges_overlap(addr, len, pos + PCI_EXP_SLTSTA, 2)) {
-+        /*
-+         * Guests tend to clears all bits during init.
-+         * If they clear bits that weren't set this is racy and will lose events:
-+         * not a big problem for manual button presses, but a problem for us.
-+         * As a work-around, detect this and revert status to what it was
-+         * before the write.
-+         *
-+         * Note: in theory this can be detected as a duplicate button press
-+         * which cancels the previous press. Does not seem to happen in
-+         * practice as guests seem to only have this bug during init.
-+         */
-+#define PCIE_SLOT_EVENTS (PCI_EXP_SLTSTA_ABP | PCI_EXP_SLTSTA_PFD | \
-+                          PCI_EXP_SLTSTA_MRLSC | PCI_EXP_SLTSTA_PDC | \
-+                          PCI_EXP_SLTSTA_CC)
-+
-+        if (val & ~slt_sta & PCIE_SLOT_EVENTS) {
-+            sltsta = (sltsta & ~PCIE_SLOT_EVENTS) | (slt_sta & PCIE_SLOT_EVENTS);
-+            pci_set_word(exp_cap + PCI_EXP_SLTSTA, sltsta);
-+        }
-         hotplug_event_clear(dev);
-     }
- 
+Changelog:
+v3:
+	Simplify the patches, expose user wait instructions when the guest
+	has CPUID (Paolo)
+	Resend to update the dependcy KVM link:
+	https://lkml.org/lkml/2019/6/21/23
+v2:
+	Separated from the series
+	https://www.mail-archive.com/qemu-devel@nongnu.org/msg549526.html
+	Use kvm capability to enable UMONITOR, UMWAIT and TPAUSE when
+	QEMU use "-overcommit cpu-pm=on"	
+v1:
+	Sent out with MOVDIRI/MOVDIR64B instructions patches
+
+Tao Xu (2):
+  x86/cpu: Add support for UMONITOR/UMWAIT/TPAUSE
+  target/i386: Add support for save/load IA32_UMWAIT_CONTROL MSR
+
+ target/i386/cpu.c     |  3 ++-
+ target/i386/cpu.h     |  3 +++
+ target/i386/kvm.c     | 17 +++++++++++++++++
+ target/i386/machine.c | 20 ++++++++++++++++++++
+ 4 files changed, 42 insertions(+), 1 deletion(-)
+
 -- 
-MST
+2.20.1
 
 
