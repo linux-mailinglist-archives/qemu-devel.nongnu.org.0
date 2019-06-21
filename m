@@ -2,73 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C5B94EF2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 21:03:08 +0200 (CEST)
-Received: from localhost ([::1]:37428 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ADF4EF3A
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 21:06:18 +0200 (CEST)
+Received: from localhost ([::1]:37438 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heOoV-0005e0-Bp
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 15:03:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47119)
+	id 1heOrZ-0006oQ-71
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 15:06:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48086)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kevin@koconnor.net>) id 1heOlS-0004JB-AG
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 14:59:59 -0400
+ (envelope-from <crosa@redhat.com>) id 1heOpt-0006Db-Uz
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 15:04:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kevin@koconnor.net>) id 1heOlR-0000Cu-71
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 14:59:58 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:36191)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <kevin@koconnor.net>) id 1heOlQ-0000C4-MM
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 14:59:57 -0400
-Received: by mail-qt1-x843.google.com with SMTP id p15so8011919qtl.3
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 11:59:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=koconnor.net; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=wSZKVWaU13Lldt+uoeDTm6X0Hu3SIy1ANPDm7fEqQGI=;
- b=OfaqrZxm5zAsN+c9/+aTqYgkhqQid3dOvb4D8Pz5KOmK5cePQ51vkN2Q+eZLzEYmIJ
- E5PFTMoQ7ozbF2PFUHW4oPzGXHAtysrKWW8R+VTE0cyDfKqzK+Cxq0RIEJrY6yFBckRH
- egVXAJYWPJxqncP+1UwV5P0mwOpYu/AKKjCdI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=wSZKVWaU13Lldt+uoeDTm6X0Hu3SIy1ANPDm7fEqQGI=;
- b=iZJDz02p9TKCsWbTdkePXdQS0cpRSmVof+4n9AM6uicUfgGPM1AL2ObAWO9V3+eEVL
- y7ygZSGuFRwDD4+JMSRHbT2RiGtQaqrk8V35UGjErMm1wddn5Y4zQCWLxTLfoGtJmFUo
- Wb0IA+P5hahKk9oNKITYcdwzrZcsLIlx3qbwchl9IeHhxnBS3n1qrA/U+UQmtXZ1WD6B
- QGQ3597ygozx24xE1+d5IPCzqkwkfgUB8XZYSzg97z/Ry/AF93oZtVjpPyXPWLu3VV7Z
- EUJfY7TdoySNuZDdbXLK+WzjSnWl7Kz/fQmYVRdcQCFmyVMS9ckXCrdnQCL3gHe2nKDk
- ttYA==
-X-Gm-Message-State: APjAAAXXJ9aV+c50ZgXsXVJ6Y+CL13ZLObIneGRr9idmjtVrfrdgkkx9
- 1KGBV5ftHbFqdDK6v5OIKDamSA==
-X-Google-Smtp-Source: APXvYqxbuycj8AMuhPv2e7m2bSQxqsw2tFrGhKVcsXI/iwqrDw1yA60dI9jklHBcs3RO425smNfkKA==
-X-Received: by 2002:a0c:b04d:: with SMTP id l13mr46803805qvc.104.1561143595173; 
- Fri, 21 Jun 2019 11:59:55 -0700 (PDT)
-Received: from localhost ([64.9.249.135])
- by smtp.gmail.com with ESMTPSA id l5sm2011268qte.9.2019.06.21.11.59.54
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 21 Jun 2019 11:59:54 -0700 (PDT)
-Date: Fri, 21 Jun 2019 14:59:53 -0400
-From: Kevin O'Connor <kevin@koconnor.net>
-To: Sam Eiderman <shmuel.eiderman@oracle.com>
-Message-ID: <20190621185953.GA6620@morn.lan>
-References: <20190619092352.23583-1-shmuel.eiderman@oracle.com>
- <20190619092352.23583-4-shmuel.eiderman@oracle.com>
- <20190620143749.GC17015@morn.lan>
- <62F1EBAB-C7E8-42D1-BB6F-22C4945E51B5@oracle.com>
+ (envelope-from <crosa@redhat.com>) id 1heOpr-0006c0-V5
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 15:04:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53000)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>)
+ id 1heOpn-0006XH-BH; Fri, 21 Jun 2019 15:04:27 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id CF516308A968;
+ Fri, 21 Jun 2019 19:04:25 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-120-204.rdu2.redhat.com
+ [10.10.120.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BC495C21A;
+ Fri, 21 Jun 2019 19:04:22 +0000 (UTC)
+Date: Fri, 21 Jun 2019 15:04:21 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190621190421.GA679@localhost.localdomain>
+References: <20190620222314.2670-1-wainersm@redhat.com>
+ <CAFEAcA92m9n7FR2a6=ecnr5bn-Sq97LZRxHRuzWO-OcbdgA4fw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <62F1EBAB-C7E8-42D1-BB6F-22C4945E51B5@oracle.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Subject: Re: [Qemu-devel] [SeaBIOS] [PATCH v3 3/4] geometry: Add
- boot_lchs_find_*() utility functions
+In-Reply-To: <CAFEAcA92m9n7FR2a6=ecnr5bn-Sq97LZRxHRuzWO-OcbdgA4fw@mail.gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Fri, 21 Jun 2019 19:04:25 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC v2 PATCH] hw/arm/virt: makes virt a default
+ machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,29 +59,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, arbel.moshe@oracle.com,
- seabios@seabios.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- liran.alon@oracle.com, kraxel@redhat.com, karl.heubaum@oracle.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 21, 2019 at 08:42:28PM +0300, Sam Eiderman wrote:
-> Sounds reasonable, how do purpose to deal with:
+On Fri, Jun 21, 2019 at 11:33:10AM +0100, Peter Maydell wrote:
+> On Thu, 20 Jun 2019 at 23:23, Wainer dos Santos Moschetta
+> <wainersm@redhat.com> wrote:
+> > I came across this when running the acceptance tests in an aarch64 host.
+> > The arch-independent tests fail because, in general, they don't set a
+> > machine type. In order to avoid treating arm targets as special cases
+> > on avocado_qemu framework I prefered to attempt to promote virt as
+> > default for ARM emulation. Moreover since it represents a generic hardware
+> > and its used is broaden advised [1], I found it the right choice.
 > 
-> config BIOS_GEOMETRY
-> config BOOTORDER
+> Not providing a default machine type for Arm is a deliberate
+> choice: there is no single right answer and the user has
+> to decide what their preference is. We used to have a default
+> machine type set, and it caused a lot of user confusion as
+> they expected Arm to be like x86 where everything will run
+> fine on the default machine type and it did not, which is
+> why we switched to not having a default.
 > 
-> precompiler optouts?
+> thanks
+> -- PMM
 
-I think you can stick them both under BOOTORDER.  That option is only
-there in case someone wants to reduce the size of the SeaBIOS binary.
-I can't think of a reasonable situation where one cares that much
-about binary size, yet wants to override legacy disk translations..
+The experience acquired here deserves the highest consideration, but I
+can't help myself to wonder if this isn't one of the (conceptual)
+reasons for parameters such as '-nodefaults'.  I know QEMU doesn't
+promise the same behavior across different targets, but that could
+improve considerably with very cheap actions.
 
-> If we don’t need any of them we also don’t need to call “get_scsi_devpath", “get_ata_devpath”, “get_pci_dev_path”.
-> 
-> I’ll see what can be done. 
+You can consider me biased (I do consider myself), but trying to wear
+the hat of a user first interacting with QEMU, I would expect a (any)
+reasonably capable environment that can represent the given target.
+That will probably be a different environment than the one I may need,
+and I think that's fine.
 
-Thanks.
--Kevin
+Now on the functional testing side, this means less code adjusting to
+the specifics of each target, and overall, more test code that could
+be reused across different targets.  I believe the same to be true
+for management layer code.
+
+Anyway, it'd be nice to just double check if keeping things as they
+are is in this specific aspect is a firm yes.  If so, tests (and
+management layers) will (continue to) have to adapat.
+
+Best,
+- Cleber.
 
