@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACC04EA22
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:03:42 +0200 (CEST)
-Received: from localhost ([::1]:35284 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BFF4EA35
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:06:45 +0200 (CEST)
+Received: from localhost ([::1]:35324 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heK8j-00073M-NX
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:03:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57920)
+	id 1heKBf-0003jN-Vm
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58791)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mlureau@redhat.com>) id 1heJuW-00015b-9H
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:49:02 -0400
+ (envelope-from <mlureau@redhat.com>) id 1heJxs-0004Da-OE
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:52:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mlureau@redhat.com>) id 1heJuQ-0003vH-20
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:48:56 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:42409)
+ (envelope-from <mlureau@redhat.com>) id 1heJxr-0000BX-KA
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:52:28 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:34373)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1heJuP-0003u5-Sr
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:48:53 -0400
-Received: by mail-ot1-f65.google.com with SMTP id l15so6326531otn.9
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 06:48:53 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1heJxr-00008c-G4
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:52:27 -0400
+Received: by mail-ot1-f66.google.com with SMTP id n5so6385982otk.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 06:52:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=fZRJhkyPs8QaDQFGILUFDlL1B//32xk1Po8cLgRKWM4=;
- b=dNzFD8DfFJ9SXCVol/mLVn1w38RN64V32iIbX39SROAC2iwgptv1Yak7R/oEYxqBNX
- uGtB/Z2VnaTDRtteYGY1QD5yho6cFAqYypV8u3/Mz7k3fNcRnTlVdLuD3eqrz/oJKdcM
- Jco7DOEzLCqMgPFAPW72wpzVULlMB1p3bj3xHsuQEDDwfeOiFKeXiynhvt0GQrDTfUyy
- 8vJcEbyxFlKQCIG9f7wgmRGZdZyDouf6pDpLAWDrBO2f0wAzTuxFDL8W+lEwl0/dveGe
- BDmetkq+wCHUs00JcMWBuQYTUFQi2AcrEC5B6U24mKGmiw/M2+E2hU0/L0KztKVNs0vL
- ARYw==
-X-Gm-Message-State: APjAAAXQMl/ZtU2HFPosxxtZ0yVS3wttz4GZsS5JS4Ue28irUs11GuiH
- KtiIsmFnaCJcj+fA8ueuXrXpcB4wORKulu4kZw18Ow==
-X-Google-Smtp-Source: APXvYqyG29Ac1b2cY7C/78kPze1cHf+EEOcz72e2HQh6gHVL2UJNTWRyvR+dmNHd2JFDjSGMAu0+a9mKzVbMdaIQMN0=
-X-Received: by 2002:a05:6830:1009:: with SMTP id
- a9mr13083771otp.331.1561124932653; 
- Fri, 21 Jun 2019 06:48:52 -0700 (PDT)
+ bh=IAXGhDuUFucViQqpG2UYLxicdRsxhydTaYPtkAwcF2U=;
+ b=dlPRJpV2bTZpgOW2jc0fa4OllWJc6+0jKiiAn0GupwhiJDcmsdGj4hGGf0xLx1y/Nw
+ RjYGuFlyXRSyBZA8OOcvIz4x3r3Ka78Z2ldi3xlgIUb3g0hd1QiED0+Zfinh0VnWPPGe
+ ewJHa3mLPELwwM/OGwI6PKNdTOkejhtfbZQaZJMFpmNJQPdDjUgSmdqJTRPedRHVwsla
+ aBtnUAl0idTeoSPqglCtGCEzMlhym0FNVK/vlOn5txKXjJqCsAvslKivMq7JvJNyUDVL
+ OA+w2+3szGsCswOKesHfrKPsFcth5JI9kCEipGSOU9onrcPa5wZ2PANq2WH0xHY0Yo/i
+ MBIA==
+X-Gm-Message-State: APjAAAV4S4sFb1L6v1dLt12NV8WbK5cNMUKWYFPuLWQY+4Euw9/8oajf
+ walo9R2oL2Yu96YldttV6ZUG8d1vDwVLBgcSVgYWlA==
+X-Google-Smtp-Source: APXvYqxT3r73tLPyBpqp6z++VDPSlAY0crq0owm6Y8JRwLZb1dp4PXD4rNsVPwI39lG6/GElBX4gTXRtbP8xk/lyDm0=
+X-Received: by 2002:a9d:3f06:: with SMTP id m6mr45407513otc.62.1561125145906; 
+ Fri, 21 Jun 2019 06:52:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190621094005.4134-1-stefanha@redhat.com>
- <20190621094005.4134-2-stefanha@redhat.com>
-In-Reply-To: <20190621094005.4134-2-stefanha@redhat.com>
+ <20190621094005.4134-5-stefanha@redhat.com>
+In-Reply-To: <20190621094005.4134-5-stefanha@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 21 Jun 2019 15:48:41 +0200
-Message-ID: <CAMxuvayxbioSOGbH8HV+SKk6PjOXU01HOmf1otu_pB85MQtEAA@mail.gmail.com>
+Date: Fri, 21 Jun 2019 15:52:14 +0200
+Message-ID: <CAMxuvaw4EknmmpHhhN1HxvkkzE8qMuWc-AQDuCgpr-xOJE2f6Q@mail.gmail.com>
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.65
-Subject: Re: [Qemu-devel] [PATCH 1/4] libvhost-user: add
- vmsg_set_reply_u64() helper
+X-Received-From: 209.85.210.66
+Subject: Re: [Qemu-devel] [PATCH 4/4] docs: avoid vhost-user-net specifics
+ in multiqueue section
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,93 +71,70 @@ Cc: Sebastien Boeuf <sebastien.boeuf@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 21, 2019 at 11:40 AM Stefan Hajnoczi <stefanha@redhat.com> wrot=
+On Fri, Jun 21, 2019 at 11:41 AM Stefan Hajnoczi <stefanha@redhat.com> wrot=
 e:
 >
-> The VhostUserMsg request is reused as the reply by message processing
-> functions.  This is risky since request fields may corrupt the reply if
-> the vhost-user message handler function forgets to re-initialize them.
+> The "Multiple queue support" section makes references to vhost-user-net
+> "queue pairs".  This is confusing for two reasons:
+> 1. This actually applies to all device types, not just vhost-user-net.
+> 2. VHOST_USER_GET_QUEUE_NUM returns the number of virtqueues, not the
+>    number of queue pairs.
 >
-> Changing this practice would be very invasive but we can introduce a
-> helper function to make u64 payload replies safe.  This also eliminates
-> code duplication in message processing functions.
+> Reword the section so that the vhost-user-net specific part is relegated
+> to the very end: we acknowledge that vhost-user-net historically
+> automatically enabled the first queue pair.
 >
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-
 > ---
->  contrib/libvhost-user/libvhost-user.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
+>  docs/interop/vhost-user.rst | 21 +++++++++++----------
+>  1 file changed, 11 insertions(+), 10 deletions(-)
 >
-> diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-use=
-r/libvhost-user.c
-> index 443b7e08c3..a8657c7af2 100644
-> --- a/contrib/libvhost-user/libvhost-user.c
-> +++ b/contrib/libvhost-user/libvhost-user.c
-> @@ -216,6 +216,15 @@ vmsg_close_fds(VhostUserMsg *vmsg)
->      }
->  }
+> diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+> index dc0ff9211f..5750668aba 100644
+> --- a/docs/interop/vhost-user.rst
+> +++ b/docs/interop/vhost-user.rst
+> @@ -324,19 +324,20 @@ must support changing some configuration aspects on=
+ the fly.
+>  Multiple queue support
+>  ----------------------
 >
-> +/* Set reply payload.u64 and clear request flags and fd_num */
-> +static void vmsg_set_reply_u64(VhostUserMsg *vmsg, uint64_t val)
-> +{
-> +    vmsg->flags =3D 0; /* defaults will be set by vu_send_reply() */
-> +    vmsg->size =3D sizeof(vmsg->payload.u64);
-> +    vmsg->payload.u64 =3D val;
-> +    vmsg->fd_num =3D 0;
-> +}
+> -Multiple queue is treated as a protocol extension, hence the slave has
+> -to implement protocol features first. The multiple queues feature is
+> -supported only when the protocol feature ``VHOST_USER_PROTOCOL_F_MQ``
+> -(bit 0) is set.
+> +Multiple queue support allows the slave to advertise the maximum number =
+of
+> +queues.  This is treated as a protocol extension, hence the slave has to
+> +implement protocol features first. The multiple queues feature is suppor=
+ted
+> +only when the protocol feature ``VHOST_USER_PROTOCOL_F_MQ`` (bit 0) is s=
+et.
+>
+> -The max number of queue pairs the slave supports can be queried with
+> -message ``VHOST_USER_GET_QUEUE_NUM``. Master should stop when the
+> -number of requested queues is bigger than that.
+> +The max number of queues the slave supports can be queried with message
+> +``VHOST_USER_GET_QUEUE_NUM``. Master should stop when the number of requ=
+ested
+> +queues is bigger than that.
+>
+>  As all queues share one connection, the master uses a unique index for e=
+ach
+> -queue in the sent message to identify a specified queue. One queue pair
+> -is enabled initially. More queues are enabled dynamically, by sending
+> -message ``VHOST_USER_SET_VRING_ENABLE``.
+> +queue in the sent message to identify a specified queue.
 > +
->  /* A test to see if we have userfault available */
->  static bool
->  have_userfault(void)
-> @@ -1168,10 +1177,7 @@ vu_get_protocol_features_exec(VuDev *dev, VhostUse=
-rMsg *vmsg)
->          features |=3D dev->iface->get_protocol_features(dev);
->      }
+> +The master enables queues by sending message ``VHOST_USER_SET_VRING_ENAB=
+LE``.
+> +vhost-user-net has historically automatically enabled the first queue pa=
+ir.
 >
-> -    vmsg->payload.u64 =3D features;
-> -    vmsg->size =3D sizeof(vmsg->payload.u64);
-> -    vmsg->fd_num =3D 0;
-> -
-> +    vmsg_set_reply_u64(vmsg, features);
->      return true;
->  }
->
-> @@ -1307,17 +1313,14 @@ out:
->  static bool
->  vu_set_postcopy_listen(VuDev *dev, VhostUserMsg *vmsg)
->  {
-> -    vmsg->payload.u64 =3D -1;
-> -    vmsg->size =3D sizeof(vmsg->payload.u64);
-> -
->      if (dev->nregions) {
->          vu_panic(dev, "Regions already registered at postcopy-listen");
-> +        vmsg_set_reply_u64(vmsg, -1);
->          return true;
->      }
->      dev->postcopy_listening =3D true;
->
-> -    vmsg->flags =3D VHOST_USER_VERSION |  VHOST_USER_REPLY_MASK;
-> -    vmsg->payload.u64 =3D 0; /* Success */
-> +    vmsg_set_reply_u64(vmsg, 0);
->      return true;
->  }
->
-> @@ -1332,10 +1335,7 @@ vu_set_postcopy_end(VuDev *dev, VhostUserMsg *vmsg=
-)
->          DPRINT("%s: Done close\n", __func__);
->      }
->
-> -    vmsg->fd_num =3D 0;
-> -    vmsg->payload.u64 =3D 0;
-> -    vmsg->size =3D sizeof(vmsg->payload.u64);
-> -    vmsg->flags =3D VHOST_USER_VERSION |  VHOST_USER_REPLY_MASK;
-> +    vmsg_set_reply_u64(vmsg, 0);
->      DPRINT("%s: exit\n", __func__);
->      return true;
->  }
+>  Migration
+>  ---------
 > --
 > 2.21.0
 >
