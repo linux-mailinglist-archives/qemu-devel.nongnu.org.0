@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3214B4E0AC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 08:56:04 +0200 (CEST)
-Received: from localhost ([::1]:55114 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 486944E0A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 08:51:38 +0200 (CEST)
+Received: from localhost ([::1]:55094 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heDSs-0005kp-MJ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 02:56:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56583)
+	id 1heDOb-0001oU-G5
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 02:51:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56628)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1heDKl-00084e-PD
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:47:45 -0400
+ (envelope-from <mst@redhat.com>) id 1heDKf-00087T-98
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:47:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1heDJv-0005Qt-Tg
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:46:48 -0400
-Received: from mail-qt1-f172.google.com ([209.85.160.172]:43409)
+ (envelope-from <mst@redhat.com>) id 1heDJw-0005SY-Tn
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:46:49 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:46007)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1heDJv-0005PD-Px
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:46:47 -0400
-Received: by mail-qt1-f172.google.com with SMTP id w17so5839922qto.10
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 23:46:47 -0700 (PDT)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1heDJw-0005Rm-QE
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:46:48 -0400
+Received: by mail-qt1-f195.google.com with SMTP id j19so5835966qtr.12
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 23:46:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:subject:message-id:mime-version
- :content-disposition;
- bh=Gply2wdUcSWE8WAK1WV00kWqs8yaDSEL8abnlXTmTTw=;
- b=moqdksNwk0I6gkv7/xoV9eObGqtgmWp3to21rN4MiJDJBEoozc2oSZFWy+a0zyS6t9
- TfgE99Py2qXwbQ+2iaZz8fi5yAbXse+lA6J6Ff/qTif5Jsq9Ft16d6PHHgy2VS+FKcxE
- iG+euDwAbeVedvpQMerDA9V9yJISlVtafdCGDk/VchwEO7VevJUeDFFk+GtY7oLfgz76
- in9056JRluccQC8PfhrxmYHveutu2lqeFW8Ex3c0B+7ifwxFXZkhbMfzDhG/GeTH2bDf
- 976VEXLHC+Xs9o/U/yD88Q7F5mPdz4xdIEpzUcRuLdCT1p0Gk7UIgvXChMGK9YR2TSD9
- kNcA==
-X-Gm-Message-State: APjAAAU9A1HeFyXTmGWOERmc4ZVmjwbJATCDylVOIZrVkkA34dlyV4Wo
- ecyOdgsigrMr9YFyf+dt5GQEGPlUxhg=
-X-Google-Smtp-Source: APXvYqy25da1HdVe6Oy1VVayrkjX1PxyHjEoh5sjZFhFhwyZ6Wwt+TLX1gUG8ya/sxr7zoJedN9mFw==
-X-Received: by 2002:ac8:3908:: with SMTP id s8mr114533081qtb.224.1561099606299; 
- Thu, 20 Jun 2019 23:46:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fs4Y07E+1GAKPQC2EK12ZPOAC9gn6lG/ttRIZSdSg+s=;
+ b=HyPfICshR9MxLRMu9TjjAabytHF+1hm7iImJLKc+vbegRbHDVniwtWFyKPgFHzz6WC
+ xZbqqvaMD+aVsuKfJUTGdrM1YRJ/2GopH3ZunL/XO569kmAtkYsKWjXIezVANVzu5cFT
+ 6JyloZ4BQIkL/9MsDyQ8svEkzaUra1+VWh9ZCgtoNRZQgp2if5atRRGmz1loqOXjmGIF
+ /iSDDnF8sDmvKHN32lwnvZsOFqC3ornPyEcmaKHQUzbFcHebWQAp505kLZnFgFItCpry
+ mFTCStfrzzs/ibJlbm7OpUBibOGWm/nSRhrTSUSZ4c/GnNO3Q9TveSatexPQC+PI2j+5
+ Ix3A==
+X-Gm-Message-State: APjAAAW3qapj848Kgngi2yqxlK/u9dQMlS1m2DMVdR4WMmJ1l4BmJ/Se
+ UiNYoN84oEW6YoN3rWjaYcNurrB3c88=
+X-Google-Smtp-Source: APXvYqydSjGQQjtuUiePWzzI2qsKqxLudFKBIbQ07Tt7MkkJ2SVbRuEqDiPUEzYkvR8+re5zPyB8Sw==
+X-Received: by 2002:ac8:2b14:: with SMTP id 20mr23638136qtu.295.1561099608038; 
+ Thu, 20 Jun 2019 23:46:48 -0700 (PDT)
 Received: from redhat.com (pool-100-0-197-103.bstnma.fios.verizon.net.
  [100.0.197.103])
- by smtp.gmail.com with ESMTPSA id 16sm827263qkl.100.2019.06.20.23.46.43
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id z1sm908155qke.122.2019.06.20.23.46.47
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 20 Jun 2019 23:46:45 -0700 (PDT)
-Date: Fri, 21 Jun 2019 02:46:42 -0400
+ Thu, 20 Jun 2019 23:46:47 -0700 (PDT)
+Date: Fri, 21 Jun 2019 02:46:46 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190621064615.20099-1-mst@redhat.com>
+Message-ID: <20190621064615.20099-2-mst@redhat.com>
+References: <20190621064615.20099-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20190621064615.20099-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.160.172
-Subject: [Qemu-devel] [PATCH 0/3] pcie: hotplug fixes
+X-Received-From: 209.85.160.195
+Subject: [Qemu-devel] [PATCH 1/3] pcie: don't skip multi-mask events
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,20 +72,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Red Hat QE reported several bugs around PCI Express hotplug.
-Fixes/workarounds follow.
+If we are trying to set multiple bits at once, testing that just one of
+them is already set gives a false positive. As a result we won't
+interrupt guest if e.g. presence detection change and attention button
+press are both set. This happens with multi-function device removal.
 
-Michael S. Tsirkin (3):
-  pcie: don't skip multi-mask events
-  pcie: check that slt ctrl changed before deleting
-  pcie: work around for racy guest init
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/pci/pcie.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- include/hw/pci/pcie.h              |  3 ++-
- hw/pci-bridge/pcie_root_port.c     |  5 ++++-
- hw/pci-bridge/xio3130_downstream.c |  5 ++++-
- hw/pci/pcie.c                      | 35 +++++++++++++++++++++++++++---
- 4 files changed, 42 insertions(+), 6 deletions(-)
-
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 88c30ff74c..b22527000d 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -383,7 +383,7 @@ static void pcie_cap_slot_event(PCIDevice *dev, PCIExpressHotPlugEvent event)
+ {
+     /* Minor optimization: if nothing changed - no event is needed. */
+     if (pci_word_test_and_set_mask(dev->config + dev->exp.exp_cap +
+-                                   PCI_EXP_SLTSTA, event)) {
++                                   PCI_EXP_SLTSTA, event) == event) {
+         return;
+     }
+     hotplug_event_notify(dev);
 -- 
 MST
 
