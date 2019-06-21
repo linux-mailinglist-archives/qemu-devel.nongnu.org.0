@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84E834EB3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:55:00 +0200 (CEST)
-Received: from localhost ([::1]:35782 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5C24EB0D
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:49:19 +0200 (CEST)
+Received: from localhost ([::1]:35718 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heKwL-0003Wg-Bk
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46178)
+	id 1heKqs-0005lw-Qu
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46176)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <skrtbhtngr@gmail.com>) id 1heKoS-0003VW-C2
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:50 -0400
+ (envelope-from <skrtbhtngr@gmail.com>) id 1heKoS-0003VU-Az
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <skrtbhtngr@gmail.com>) id 1heKoQ-0006Ky-6f
+ (envelope-from <skrtbhtngr@gmail.com>) id 1heKoQ-0006Ke-12
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:48 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:46773)
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:35723)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <skrtbhtngr@gmail.com>)
- id 1heKoP-0006Bh-TZ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:46 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id 81so3702408pfy.13
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 07:46:34 -0700 (PDT)
+ id 1heKoP-0006Dw-On
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:45 -0400
+Received: by mail-pg1-x544.google.com with SMTP id s27so3504021pgl.2
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 07:46:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8kxShQMD2pLEtqA5t1fFufIc2q0rmZaSupiozOi3vec=;
- b=pBwj2OxKn27nxYH8bBh5lHrtbL0Qi9cPvukb0Je+bPIegmzx18nD353U6TLMKMLV3y
- CftawFJSl0QlcOfiIZSLOJjqzCd09RiqHcTQa243VjJIY1+zBI54DruL+FNlLV39UoBI
- PPCo2UNdkG9gq8kiSvifhStCJ2Jz0BTA1BS5AcT3P+//LHrVkDBXqQKoFcMxX2U4hJKc
- HR0cv7af7TVkWRmhqSNJuvB8YhmQnkcKX3zteME93GAtJot+nqpuXK5pfefEJX6THzfV
- jRogRtPdZ/L8PnhTUo5A7hsFO7b9jhwnxX+s2v39Wt1yR7Jjspc3RqRWr9bo/uW0/aNE
- ZpKQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RbHz2enfkwMHmJ+my47FZRWClOp++teCJSyLbAhJtF0=;
+ b=mZYkOXmnXAhmlBeVKNjdB83awaCESTqzI5cPqR+E3JEiSl2QzBI2l7mH5KzubCDnos
+ WUZkKojmGy/xSAi2k7C+oBsgVJMOEU82HuuQmQPgoPplaNvgYGJLw5bl356zo/8D/yAf
+ QitIJiw7Be+doNnacy9+QnGA0yLwDUqVxRN3Yfy7KMlkJqtHWejOJIlHgdOqLuBGdT64
+ 3yNAfULzeXPrYULSCvd32iz6l4N/Iypefi5PAEvaveZ1S2hffpsXzdg/oXp36iSVsEnC
+ IQ0xZJCEKDsmQyTHAGNbDMK/2DoN9dcEJZzYwEaj81zq048yK0H14BMvV39hUcftVSIb
+ 4/Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8kxShQMD2pLEtqA5t1fFufIc2q0rmZaSupiozOi3vec=;
- b=akS5DShg3XTYfaTq61/VhcT5nMq9oWCi+/0igbcMBRNVPpufzsp7A5xcYwGfzfOFGs
- ulYWFViuuvPRpe7XYP2pQqG6PXFFAJPLSRq7MPtyDPHlxqaJ2l/FmbfYqlRcn+NRzsW5
- /MfosIcARdG4lwY/3Tubecii06QGoSSNxRNfRIMNDqz9ic+4xV4bAMycvB0Ega+zq/+x
- O1DtmEHFT+1b5lwW2RZ1DMTV0jPWjsLFHLPrsaQdtSeVnqvCRN9bIRqWjUV6X+yHhYIU
- ick3yAOLxOBjmSjFucmY266H5ByItAuu7hEDRyUKE7O1l0GmEpjfFxXWrk9TvYdZqPal
- 7kmg==
-X-Gm-Message-State: APjAAAX788fk+gcOHPGGvvfQKBS5oM/3WsXFqXu556IMDP0CiZM/CTPa
- qCThH9ex0/SEfz6DXgnRH0XjcJPs
-X-Google-Smtp-Source: APXvYqxN4eRJ6j5nvVBllDVtTBnzMfXR9LI6FuuWMm+ael01FxLU+zM/8ZrhqXdIljiVlssw6hsRfw==
-X-Received: by 2002:a17:90a:d587:: with SMTP id
- v7mr7363237pju.28.1561128393170; 
- Fri, 21 Jun 2019 07:46:33 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RbHz2enfkwMHmJ+my47FZRWClOp++teCJSyLbAhJtF0=;
+ b=hzoTo9Ocu3nmSDGmfNsWxOM/cZCsM+oZJL/dSV8ossHcTEa2/zdlz/IWCJOSAq0t1U
+ q0VwItpiTnA8H0VXEXSOXYz4mxFkXHzHe4zHiK87kUUDSZrJ4lC2o7wEg3PpcskR0vtE
+ PQ00M9DU34JkhASdSBcqGEmxB8jI1TsflNamJaGY1EHTBYKnbhEk5ZGt3CWccBnZDcVg
+ fhVBS6gvyyQ+1ypB5gExkZA9YmTzWS91ppFag51jMZ+q9cKyEAiXRgsQIV4ClPRhKZia
+ Op0vEG4Ytl4UYJwo1sp/zsSDeK4BhGeL2OyT+u0/+EQUGJVIprAdgZeQfy5Lgy3owIDF
+ C+Og==
+X-Gm-Message-State: APjAAAVFchpgVY5C3bzyihMyHAFFfyKX2X2wT3OuQsyTEEvMIjD2T2ZS
+ gpTT7cJX8ZwAnjGyqwFiVcYF9S0P
+X-Google-Smtp-Source: APXvYqwlXe2IbRsL4nYhUrdLWBKoCemadkbGf4Yrs4+lXXS91Oe9ysr2MQ/eGIr/VkyMVX155AUCKA==
+X-Received: by 2002:a63:2224:: with SMTP id i36mr19197435pgi.70.1561128396072; 
+ Fri, 21 Jun 2019 07:46:36 -0700 (PDT)
 Received: from localhost.localdomain ([2405:204:2081:a5f2:5e1e:1cae:baa8:1943])
- by smtp.gmail.com with ESMTPSA id v5sm3338591pgq.66.2019.06.21.07.46.29
+ by smtp.gmail.com with ESMTPSA id v5sm3338591pgq.66.2019.06.21.07.46.33
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 21 Jun 2019 07:46:32 -0700 (PDT)
+ Fri, 21 Jun 2019 07:46:35 -0700 (PDT)
 From: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 20:15:40 +0530
-Message-Id: <20190621144541.13770-1-skrtbhtngr@gmail.com>
+Date: Fri, 21 Jun 2019 20:15:41 +0530
+Message-Id: <20190621144541.13770-2-skrtbhtngr@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190621144541.13770-1-skrtbhtngr@gmail.com>
+References: <20190621144541.13770-1-skrtbhtngr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::42f
-Subject: [Qemu-devel] [RFC 0/1] Add live migration support to the PVRDMA
- device
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [RFC 1/1] hw/pvrdma: Add live migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,115 +81,105 @@ Cc: Yuval Shaia <yuval.shaia@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Define and register SaveVMHandlers pvrdma_save and
+pvrdma_load for saving and loading the device state,
+which currently includes only the dma, command slot
+and response slot addresses.
 
-I am a GSoC participant, trying to implement live migration for the
-pvrdma device with help from my mentors Marcel and Yuval.
-My current task is to save and load the various addresses that the
-device uses for DMA mapping. We will be adding the device state into
-live migration, incrementally. As the first step in the implementation,
-we are performing migration to the same host. This will save us from
-many complexities, such as GID change, at this stage, and we will
-address migration across hosts at a later point when same-host migration
-works.
+Remap the DSR, command slot and response slot upon
+loading the addresses in the pvrdma_load function.
 
-Currently, the save and load logic uses SaveVMHandlers, which is the
-legcay way, and will be ported to VMStateDescription once the
-existing issues are solved.
-
-This RFC is meant to request suggestions on the things which are
-working and for help on the things which are not.
-
-
-What is working:
-
-* pvrdma device is getting initialized in a VM, its GID entry is
-  getting added to the host, and rc_pingpong is successful between
-  two such VMs. This is when libvirt is used to launch the VMs.
-
-* The dma, cmd_slot_dma and resp_slot_dma addresses are saved at the
-  source and loaded properly in the destination upon migration. That is,
-  the values loaded at the dest during migration are the same as the
-  ones saved.
-
-  `dma` is provided by the guest device when it writes to BAR1, stored
-  in dev->dsr_info.dma. A DSR is created on mapping to this address.
-  `cmd_slot_dma` and `resp_slot_dma` are the dma addresses of the command
-  and response buffers, respectively, which are provided by the guest
-  through the DSR.
-
-* The DSR successfully (re)maps to the dma address loaded from
-  migration at the dest.
-
-
-What is not working:
-
-* In the pvrdma_load() logic, the mapping to DSR is successful at dest.
-  But the mapping for cmd and resp slots fails.
-  rdma_pci_dma_map() eventually calls address_space_map(). Inside the
-  latter, a global BounceBuffer bounce is checked to see if it is in use
-  (the atomic_xchg() primitive).
-  At the dest, it is in use and the dma remapping fails there, which
-  fails the whole migration process. Essentially, I am looking for a
-  way to remap guest physical address after a live migration (to the
-  same host). Any tips on avoiding the BounceBuffer will also be great.
-
-  I have also tried unmapping the cmd and resp slots at the source before
-  saving the dma addresses in pvrdma_save(), but the mapping fails anyway.
-
-* It seems that vmxnet3 migration itself is not working properly, at least
-  for me. The pvrdma device depends on it, vmxnet3 is function 0 and pvrdma
-  is function 1. This is happening even for a build of unmodified code from
-  the master branch.
-  After migration, the network connectivity is lost at destination.
-  Things are fine at the source before migration.
-  This is the command I am using at src:
-
-  sudo /home/skrtbhtngr/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
-    -enable-kvm \
-    -m 2G -smp cpus=2 \
-    -hda /home/skrtbhtngr/fedora.img \
-    -netdev tap,id=hostnet0 \
-    -device vmxnet3,netdev=hostnet0,id=net0,mac=52:54:00:99:ff:bc \
-    -monitor telnet:127.0.0.1:4444,server,nowait \
-    -trace events=/home/skrtbhtngr/trace-events \
-    -vnc 0.0.0.0:0
-
-  Similar command is used for the dest. Currently, I am trying
-  same-host migration for testing purpose, without the pvrdma device.
-  Two tap interfaces, for src and dest were created successfully at
-  the host. Kernel logs:
-  ...
-  br0: port 2(tap0) entered forwarding state
-  ...
-  br0: port 3(tap1) entered forwarding state
-
-  tcpdump at the dest reports only outgoing ARP packets, which ask
-  for gateway: "ARP, Request who-has _gateway tell guest1".
-
-  Tried using user (slirp) as the network backend, but no luck.
-  
-  Also tried git bisect to find the issue using a working commit (given
-  by Marcel), but it turns out that it is very old and I faced build
-  errors one after another.
-
-  Please note that e1000 live migration is working fine in the same setup.
-
-* Since we are aiming at trying on same-host migration first, I cannot
-  use libvirt as it does not allow this. Currently, I am running the
-  VMs using qemu-system commands. But libvirt is needed to add the GID
-  entry of the guest device in the host. I am looking for a workaround,
-  if that is possible at all.
-  I started a thread few days ago for the same on libvirt-users:
-  https://www.redhat.com/archives/libvirt-users/2019-June/msg00011.html
-
-
-Sukrit Bhatnagar (1):
-  hw/pvrdma: Add live migration support
-
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Yuval Shaia <yuval.shaia@oracle.com>
+Signed-off-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+---
  hw/rdma/vmw/pvrdma_main.c | 56 +++++++++++++++++++++++++++++++++++++++
  1 file changed, 56 insertions(+)
 
+diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+index adcf79cd63..cd8573173c 100644
+--- a/hw/rdma/vmw/pvrdma_main.c
++++ b/hw/rdma/vmw/pvrdma_main.c
+@@ -28,6 +28,7 @@
+ #include "sysemu/sysemu.h"
+ #include "monitor/monitor.h"
+ #include "hw/rdma/rdma.h"
++#include "migration/register.h"
+ 
+ #include "../rdma_rm.h"
+ #include "../rdma_backend.h"
+@@ -592,9 +593,62 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
+     pvrdma_fini(pci_dev);
+ }
+ 
++static void pvrdma_save(QEMUFile *f, void *opaque)
++{
++    PVRDMADev *dev = PVRDMA_DEV(opaque);
++
++    qemu_put_be64(f, dev->dsr_info.dma);
++    qemu_put_be64(f, dev->dsr_info.dsr->cmd_slot_dma);
++    qemu_put_be64(f, dev->dsr_info.dsr->resp_slot_dma);
++}
++
++static int pvrdma_load(QEMUFile *f, void *opaque, int version_id)
++{
++    PVRDMADev *dev = PVRDMA_DEV(opaque);
++    PCIDevice *pci_dev = PCI_DEVICE(dev);
++
++    // Remap DSR
++    dev->dsr_info.dma = qemu_get_be64(f);
++    dev->dsr_info.dsr = rdma_pci_dma_map(pci_dev, dev->dsr_info.dma,
++                                    sizeof(struct pvrdma_device_shared_region));
++    if (!dev->dsr_info.dsr) {
++        rdma_error_report("Failed to map to DSR");
++        return -1;
++    }
++    qemu_log("pvrdma_load: successfully remapped to DSR\n");
++
++    // Remap cmd slot
++    dev->dsr_info.dsr->cmd_slot_dma = qemu_get_be64(f);
++    dev->dsr_info.req = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->cmd_slot_dma,
++                                     sizeof(union pvrdma_cmd_req));
++    if (!dev->dsr_info.req) {
++        rdma_error_report("Failed to map to command slot address");
++        return -1;
++    }
++    qemu_log("pvrdma_load: successfully remapped to cmd slot\n");
++
++    // Remap rsp slot
++    dev->dsr_info.dsr->resp_slot_dma = qemu_get_be64(f);
++    dev->dsr_info.rsp = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->resp_slot_dma,
++                                     sizeof(union pvrdma_cmd_resp));
++    if (!dev->dsr_info.rsp) {
++        rdma_error_report("Failed to map to response slot address");
++        return -1;
++    }
++    qemu_log("pvrdma_load: successfully remapped to rsp slot\n");
++
++    return 0;
++}
++
++static SaveVMHandlers savevm_pvrdma = {
++    .save_state = pvrdma_save,
++    .load_state = pvrdma_load,
++};
++
+ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+ {
+     int rc = 0;
++    DeviceState *s = DEVICE(pdev);
+     PVRDMADev *dev = PVRDMA_DEV(pdev);
+     Object *memdev_root;
+     bool ram_shared = false;
+@@ -666,6 +720,8 @@ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+     dev->shutdown_notifier.notify = pvrdma_shutdown_notifier;
+     qemu_register_shutdown_notifier(&dev->shutdown_notifier);
+ 
++    register_savevm_live(s, "pvrdma", -1, 1, &savevm_pvrdma, dev);
++
+ out:
+     if (rc) {
+         pvrdma_fini(pdev);
 -- 
 2.21.0
 
