@@ -2,66 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9874A4E7FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:30:10 +0200 (CEST)
-Received: from localhost ([::1]:32774 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654C84E7AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:00:43 +0200 (CEST)
+Received: from localhost ([::1]:60090 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heIgD-00067d-QS
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:30:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51459)
+	id 1heIDi-0008Bs-H2
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:00:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52087)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1heHsY-0008Nz-M9
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:38:55 -0400
+ (envelope-from <vsementsov@virtuozzo.com>) id 1heHvI-0002ZJ-Vh
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:41:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1heHsS-0006yj-Iw
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:38:48 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35108)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1heHsQ-0006vK-RU
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:38:43 -0400
-Received: by mail-wm1-f65.google.com with SMTP id c6so6284096wml.0
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:38:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:references:cc:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=O8fnh++1Jxm6NrQHrqP2phcCwmABgizmm/acikDrvXg=;
- b=hr7kY9HUQ2dsmzGmHpw3dcY1nsMT6lWd/srD7RvXiuteY8cy0Vwpl52uJPvSIu8bg9
- BGkM4GWansOvrYRRTY/Xn/2P7fqKpSCtYd0uIfznfqGVnCs19aRYuBY6lYQL/NtEaBhn
- yjVXiYZGBKs20agea2qvQ5LJDw4u7uMloDKSDrX1CGHBM72pHjhlxAOSLYd1Und51Fs4
- JUVLihANmvzCNCMtGJ80Jtl8PL3lMa6G4GTpH5wAsHL876BufUYvVzfthAKVE0EuFC9V
- R7nJwrWscX+//wRbVIbvYBEugVRqNnootq9Tg7zByuOynUjNkLNGM5vBAJRah0vrQim1
- 90MQ==
-X-Gm-Message-State: APjAAAXBiFFFXJsyfGV6bjBsd9bZGIxwgqwVKQmnqcxAbXUh3lGldCad
- morAXgReN3FIE2m/xCSPHiphIG3Zuzk=
-X-Google-Smtp-Source: APXvYqyugEoaOZ6wU57J1Yg5alzIHWhGhObpVd3MnkKX+REfG0kXS9JLjBOa4NjhQsuUlGwpqo6nyg==
-X-Received: by 2002:a05:600c:2056:: with SMTP id
- p22mr3784826wmg.155.1561117114725; 
- Fri, 21 Jun 2019 04:38:34 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:45fb:a0de:928e:79e8?
- ([2001:b07:6468:f312:45fb:a0de:928e:79e8])
- by smtp.gmail.com with ESMTPSA id q10sm2472520wrf.32.2019.06.21.04.38.33
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:38:33 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-References: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
-Message-ID: <52c7ce77-0f39-eb32-2248-2d6ab9a288f4@redhat.com>
-Date: Fri, 21 Jun 2019 13:38:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <vsementsov@virtuozzo.com>) id 1heHvF-0000mj-TH
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:41:40 -0400
+Received: from mail-eopbgr50111.outbound.protection.outlook.com
+ ([40.107.5.111]:15173 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1heHv8-0000dE-AH; Fri, 21 Jun 2019 07:41:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oJ8Q14Hq6xMBtmMyJP7uJ7f6a0WBBI5cfOiBdUdavNw=;
+ b=Lq7qAvPYE9ElaRubvgx/0ZlphNjO8143w6z/lTELvimilMfWQMJj6iklCpJaJM28Ozst67/Y0K30tBTVpvMsjxKjQU72ZeLavTVhBAF+k0d5PiHZ0pbrJagQAs18MtUja1IeuvmlFTsksz6sV+Wy1M274PZiNtW4uR0rFE1HE8A=
+Received: from DBBPR08MB4838.eurprd08.prod.outlook.com (20.179.46.151) by
+ DBBPR08MB4743.eurprd08.prod.outlook.com (10.255.79.202) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.13; Fri, 21 Jun 2019 11:41:23 +0000
+Received: from DBBPR08MB4838.eurprd08.prod.outlook.com
+ ([fe80::9c49:321c:cc13:35d3]) by DBBPR08MB4838.eurprd08.prod.outlook.com
+ ([fe80::9c49:321c:cc13:35d3%3]) with mapi id 15.20.1987.014; Fri, 21 Jun 2019
+ 11:41:23 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Thread-Topic: [PATCH 05/12] hbitmap: enable merging across granularities
+Thread-Index: AQHVJwQT19qzFPzhvEyXs1QUU1uOMqal/naA
+Date: Fri, 21 Jun 2019 11:41:23 +0000
+Message-ID: <49880a7b-0af3-3e58-bd84-afc988da9894@virtuozzo.com>
+References: <20190620010356.19164-1-jsnow@redhat.com>
+ <20190620010356.19164-6-jsnow@redhat.com>
+In-Reply-To: <20190620010356.19164-6-jsnow@redhat.com>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PULL 00/25] Misc (mostly x86) patches for
- 2019-06-21
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0501CA0034.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::44) To DBBPR08MB4838.eurprd08.prod.outlook.com
+ (2603:10a6:10:d9::23)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190621144121040
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1a3d9029-5277-4dd0-ae24-08d6f63d62f3
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DBBPR08MB4743; 
+x-ms-traffictypediagnostic: DBBPR08MB4743:
+x-microsoft-antispam-prvs: <DBBPR08MB4743C221A56490A8E4D8C7A9C1E70@DBBPR08MB4743.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 0075CB064E
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(39840400004)(376002)(346002)(396003)(366004)(136003)(189003)(199004)(486006)(4326008)(64756008)(2616005)(305945005)(386003)(3846002)(36756003)(66066001)(73956011)(14444005)(316002)(81156014)(6486002)(6436002)(6512007)(2906002)(7736002)(71190400001)(2501003)(54906003)(71200400001)(5660300002)(31696002)(68736007)(7416002)(11346002)(26005)(8936002)(446003)(476003)(66476007)(229853002)(110136005)(256004)(66946007)(6506007)(2201001)(102836004)(99286004)(186003)(66556008)(14454004)(6116002)(66446008)(478600001)(86362001)(25786009)(6246003)(81166006)(53936002)(8676002)(31686004)(52116002)(76176011);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4743;
+ H:DBBPR08MB4838.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 51S5B8I2BmvOkoO8E9jXtDgcXhPF1ck6KAMGD7VlM02QsHjybzWTtW+e6U2ot/SeflnId5jImqeGCyoW3RIW3rsa1rovSlF+It4RrLi1DnXqSjNNGIyiNT7YNTRxi7z8uFssTt7/fOD8M03dbYlWOFuQg9m/0vTkK+YAg4dk71fatu7AL9EmJJDuvW7p7X7qTjRwVc8Ch09eeh+rwGqi/CpkSbUJlLhEID89c5HJq2dOZTyx7BhhL+2L7WejBr0r6HrMjlBiC208iuktmu07VE+31ZQYcbK6kDMktS6x0Bx7LsLhpVhxItjs01p2lLFkKCM2gRIX2uBEhphB086FkHgnRyecBockLdcpq0CZIWnHdwEyOYPnr+ER1LB8CkYWoe0/OJSkNIaeX6wH175AZZICWv6KkK8E/0GtgYcwduQ=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <134380F54E0A1E44B777D9BED7F30FB3@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a3d9029-5277-4dd0-ae24-08d6f63d62f3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2019 11:41:23.8225 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4743
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.5.111
+Subject: Re: [Qemu-devel] [PATCH 05/12] hbitmap: enable merging across
+ granularities
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,106 +101,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/06/19 03:42, Paolo Bonzini wrote:
-> The following changes since commit 33d609990621dea6c7d056c86f707b8811320ac1:
-> 
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-18 17:00:52 +0100)
-> 
-> are available in the git repository at:
-> 
-> 
->   git://github.com/bonzini/qemu.git tags/for-upstream
-> 
-> for you to fetch changes up to 15e7ea4a8e0ed97361fefabb04c6a9aaebe321df:
-> 
->   hw: Nuke hw_compat_4_0_1 and pc_compat_4_0_1 (2019-06-21 02:29:40 +0200)
-
-The nested live migration series had failed to apply on Patchew, and
-therefore it wasn't covered by CI.  Therefore^2 I missed some checkpatch
-complaints, and I'm sending v2 of the pull request with those fixed.
-
-Paolo
-
-> ----------------------------------------------------------------
-> * Nuke hw_compat_4_0_1 and pc_compat_4_0_1 (Greg)
-> * Static analysis fixes (Igor, Lidong)
-> * X86 Hyper-V CPUID improvements (Vitaly)
-> * X86 nested virt migration (Liran)
-> * New MSR-based features (Xiaoyao)
-> 
-> ----------------------------------------------------------------
-> Colin Xu (1):
->       hax: Honor CPUState::halted
-> 
-> Greg Kurz (1):
->       hw: Nuke hw_compat_4_0_1 and pc_compat_4_0_1
-> 
-> Lidong Chen (2):
->       sd: Fix out-of-bounds assertions
->       util/main-loop: Fix incorrect assertion
-> 
-> Liran Alon (10):
->       target/i386: kvm: Delete VMX migration blocker on vCPU init failure
->       KVM: Introduce kvm_arch_destroy_vcpu()
->       target/i386: kvm: Use symbolic constant for #DB/#BP exception constants
->       target/i386: kvm: Re-inject #DB to guest with updated DR6
->       target/i386: kvm: Block migration for vCPUs exposed with nested virtualization
->       linux-headers: sync with latest KVM headers from Linux 5.2
->       vmstate: Add support for kernel integer types
->       target/i386: kvm: Add support for save and restore nested state
->       target/i386: kvm: Add support for KVM_CAP_EXCEPTION_PAYLOAD
->       target/i386: kvm: Add nested migration blocker only when kernel lacks required capabilities
-> 
-> Vitaly Kuznetsov (9):
->       i386/kvm: convert hyperv enlightenments properties from bools to bits
->       i386/kvm: add support for KVM_GET_SUPPORTED_HV_CPUID
->       i386/kvm: move Hyper-V CPUID filling to hyperv_handle_properties()
->       i386/kvm: document existing Hyper-V enlightenments
->       i386/kvm: implement 'hv-passthrough' mode
->       i386/kvm: hv-stimer requires hv-time and hv-synic
->       i386/kvm: hv-tlbflush/ipi require hv-vpindex
->       i386/kvm: hv-evmcs requires hv-vapic
->       i386/kvm: add support for Direct Mode for Hyper-V synthetic timers
-> 
-> Xiaoyao Li (1):
->       target/i386: define a new MSR based feature word - FEAT_CORE_CAPABILITY
-> 
-> Yury Kotov (1):
->       kvm-all: Add/update fprintf's for kvm_*_ioeventfd_del
-> 
->  accel/kvm/kvm-all.c         |  25 +-
->  cpus.c                      |   1 -
->  docs/hyperv.txt             | 201 +++++++++
->  hw/core/machine.c           |   5 +-
->  hw/i386/pc.c                |   6 +-
->  hw/i386/pc_q35.c            |  12 +-
->  hw/sd/sd.c                  |   4 +-
->  include/hw/boards.h         |   3 -
->  include/hw/i386/pc.h        |   3 -
->  include/migration/vmstate.h |  26 ++
->  include/sysemu/kvm.h        |   2 +
->  linux-headers/asm-x86/kvm.h |  33 +-
->  target/arm/kvm32.c          |   5 +
->  target/arm/kvm64.c          |   5 +
->  target/i386/cpu.c           |  81 +++-
->  target/i386/cpu.h           |  75 +++-
->  target/i386/hax-all.c       |  36 +-
->  target/i386/hvf/hvf.c       |  10 +-
->  target/i386/hvf/x86hvf.c    |   4 +-
->  target/i386/hyperv-proto.h  |   1 +
->  target/i386/hyperv.c        |   2 +-
->  target/i386/kvm.c           | 999 +++++++++++++++++++++++++++++++++-----------
->  target/i386/machine.c       | 284 ++++++++++++-
->  target/mips/kvm.c           |   5 +
->  target/ppc/kvm.c            |   5 +
->  target/s390x/kvm.c          |  10 +
->  util/main-loop.c            |   2 +-
->  27 files changed, 1516 insertions(+), 329 deletions(-)
->  create mode 100644 docs/hyperv.txt
-> 
-
+MjAuMDYuMjAxOSA0OjAzLCBKb2huIFNub3cgd3JvdGU6DQo+IFNpZ25lZC1vZmYtYnk6IEpvaG4g
+U25vdyA8anNub3dAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgdXRpbC9oYml0bWFwLmMgfCAyMiAr
+KysrKysrKysrKysrKysrKysrKystDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDIxIGluc2VydGlvbnMo
+KyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS91dGlsL2hiaXRtYXAuYyBiL3V0
+aWwvaGJpdG1hcC5jDQo+IGluZGV4IDQ1ZDE3MjVkYWYuLjBkNjcyNGI3YmMgMTAwNjQ0DQo+IC0t
+LSBhL3V0aWwvaGJpdG1hcC5jDQo+ICsrKyBiL3V0aWwvaGJpdG1hcC5jDQo+IEBAIC03NzcsNyAr
+Nzc3LDE3IEBAIHZvaWQgaGJpdG1hcF90cnVuY2F0ZShIQml0bWFwICpoYiwgdWludDY0X3Qgc2l6
+ZSkNCj4gICANCj4gICBib29sIGhiaXRtYXBfY2FuX21lcmdlKGNvbnN0IEhCaXRtYXAgKmEsIGNv
+bnN0IEhCaXRtYXAgKmIpDQo+ICAgew0KPiAtICAgIHJldHVybiAoYS0+c2l6ZSA9PSBiLT5zaXpl
+KSAmJiAoYS0+Z3JhbnVsYXJpdHkgPT0gYi0+Z3JhbnVsYXJpdHkpOw0KPiArICAgIHJldHVybiAo
+YS0+c2l6ZSA9PSBiLT5zaXplKTsNCj4gK30NCj4gKw0KPiArc3RhdGljIHZvaWQgaGJpdG1hcF9z
+cGFyc2VfbWVyZ2UoSEJpdG1hcCAqZHN0LCBjb25zdCBIQml0bWFwICpzcmMpDQo+ICt7DQo+ICsg
+ICAgdWludDY0X3Qgb2Zmc2V0ID0gMDsNCj4gKyAgICB1aW50NjRfdCBjb3VudCA9IHNyYy0+b3Jp
+Z19zaXplOw0KPiArDQo+ICsgICAgd2hpbGUgKGhiaXRtYXBfbmV4dF9kaXJ0eV9hcmVhKHNyYywg
+Jm9mZnNldCwgJmNvdW50KSkgew0KPiArICAgICAgICBoYml0bWFwX3NldChkc3QsIG9mZnNldCwg
+Y291bnQpOw0KDQpUaGlzIHdpbGwgbm90IHdvcmssIGFzIGhiaXRtYXBfbmV4dF9kaXJ0eV9hcmVh
+IHdpbGwgcmV0dXJuIHRoZSBzYW1lIGFuc3dlciBhbGwgdGhlIHRpbWUgSSB0aGluay4NCllvdSBu
+ZWVkIHRvIHVwZGF0ZSBvZmZzZXQgYW5kIGNvdW50IGluIGEgbG9vcCwgbGlrZSBpdCBpcyBkb25l
+IGluIGJhY2t1cF9pbmNyZW1lbnRhbF9pbml0X2NvcHlfYml0bWFwLg0KDQoNCj4gKyAgICB9DQo+
+ICAgfQ0KPiAgIA0KPiAgIC8qKg0KPiBAQCAtODA0LDYgKzgxNCwxNiBAQCBib29sIGhiaXRtYXBf
+bWVyZ2UoY29uc3QgSEJpdG1hcCAqYSwgY29uc3QgSEJpdG1hcCAqYiwgSEJpdG1hcCAqcmVzdWx0
+KQ0KPiAgICAgICAgICAgcmV0dXJuIHRydWU7DQo+ICAgICAgIH0NCj4gICANCj4gKyAgICBpZiAo
+YS0+c2l6ZSAhPSBiLT5zaXplKSB7DQo+ICsgICAgICAgIGlmIChhICE9IHJlc3VsdCkgew0KPiAr
+ICAgICAgICAgICAgaGJpdG1hcF9zcGFyc2VfbWVyZ2UocmVzdWx0LCBhKTsNCj4gKyAgICAgICAg
+fQ0KPiArICAgICAgICBpZiAoYiAhPSByZXN1bHQpIHsNCj4gKyAgICAgICAgICAgIGhiaXRtYXBf
+c3BhcnNlX21lcmdlKHJlc3VsdCwgYik7DQo+ICsgICAgICAgIH0NCj4gKyAgICAgICAgcmV0dXJu
+IHRydWU7DQo+ICsgICAgfQ0KPiArDQo+ICAgICAgIC8qIFRoaXMgbWVyZ2UgaXMgTyhzaXplKSwg
+YXMgQklUU19QRVJfTE9ORyBhbmQgSEJJVE1BUF9MRVZFTFMgYXJlIGNvbnN0YW50Lg0KPiAgICAg
+ICAgKiBJdCBtYXkgYmUgcG9zc2libGUgdG8gaW1wcm92ZSBydW5uaW5nIHRpbWVzIGZvciBzcGFy
+c2VseSBwb3B1bGF0ZWQgbWFwcw0KPiAgICAgICAgKiBieSB1c2luZyBoYml0bWFwX2l0ZXJfbmV4
+dCwgYnV0IHRoaXMgaXMgc3Vib3B0aW1hbCBmb3IgZGVuc2UgbWFwcy4NCj4gDQoNCg0KLS0gDQpC
+ZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
 
