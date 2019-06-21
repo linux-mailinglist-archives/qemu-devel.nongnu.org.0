@@ -2,44 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F10A4E0C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 09:03:31 +0200 (CEST)
-Received: from localhost ([::1]:55184 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348014E0A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 08:51:00 +0200 (CEST)
+Received: from localhost ([::1]:55088 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heDa6-0002Wb-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 03:03:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56628)
+	id 1heDNw-0001S0-1c
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 02:50:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56583)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <chen.zhang@intel.com>) id 1heDLU-00087T-Me
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:48:29 -0400
+ (envelope-from <chen.zhang@intel.com>) id 1heDKY-00084e-NK
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:47:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1heD75-0007zo-VZ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:33:33 -0400
-Received: from mga01.intel.com ([192.55.52.88]:19607)
+ (envelope-from <chen.zhang@intel.com>) id 1heD8f-0000lI-Gv
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:35:11 -0400
+Received: from mga14.intel.com ([192.55.52.115]:12437)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1heD74-0007x3-CY; Fri, 21 Jun 2019 02:33:30 -0400
+ id 1heD8b-0000iy-Hx; Fri, 21 Jun 2019 02:35:07 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2019 23:33:26 -0700
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2019 23:35:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="358780519"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by fmsmga005.fm.intel.com with ESMTP; 20 Jun 2019 23:33:25 -0700
-From: Zhang Chen <chen.zhang@intel.com >
+X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="162589934"
+Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
+ by fmsmga007.fm.intel.com with ESMTP; 20 Jun 2019 23:35:04 -0700
+Received: from fmsmsx124.amr.corp.intel.com (10.18.125.39) by
+ FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 20 Jun 2019 23:35:04 -0700
+Received: from shsmsx108.ccr.corp.intel.com (10.239.4.97) by
+ fmsmsx124.amr.corp.intel.com (10.18.125.39) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Thu, 20 Jun 2019 23:35:04 -0700
+Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.33]) by
+ SHSMSX108.ccr.corp.intel.com ([169.254.8.236]) with mapi id 14.03.0439.000;
+ Fri, 21 Jun 2019 14:35:02 +0800
+From: "Zhang, Chen" <chen.zhang@intel.com>
 To: Xie Changlong <xiechanglong.d@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block <qemu-block@nongnu.org>,
- qemu-dev <qemu-devel@nongnu.org>
-Date: Fri, 21 Jun 2019 14:28:43 +0800
-Message-Id: <20190621062843.1605-1-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.17.GIT
+ Max Reitz <mreitz@redhat.com>, qemu-block <qemu-block@nongnu.org>, qemu-dev
+ <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH V2] block/replication.c: Fix crash issue after failover
+Thread-Index: AQHVJ/Yhc4bDu8Fa3kC2VE1u3MqwPaalpqJQ
+Date: Fri, 21 Jun 2019 06:35:01 +0000
+Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D780618ACFD@shsmsx102.ccr.corp.intel.com>
+References: <20190621055202.28270-1-chen.zhang@intel.com>
+In-Reply-To: <20190621055202.28270-1-chen.zhang@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.0.600.7
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZTBmNGY2ZTQtYzdhNS00M2ZlLThmZGYtMGJjOTE1OTJlMWY0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoicW9rckpwN1FcL3Rpemthb2NUTlhpSGZmSWRac2FRcG1iWEZQOGxOanVcLzhEYWhiMW50QUYwdlRabThxcWo1VStuIn0=
+x-originating-ip: [10.239.127.40]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.88
-Subject: [Qemu-devel] [PATCH V2 RESEND] block/replication.c: Fix crash issue
+X-Received-From: 192.55.52.115
+Subject: Re: [Qemu-devel] [PATCH V2] block/replication.c: Fix crash issue
  after failover
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,36 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Zhang Chen <zhangckid@gmail.com>
+Cc: Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+Please redirect to the V2 RESEND patch, this one not rebased on upstream co=
+de.
 
-If we try to close replication after failover, it will crash here.
-So we need check the block job on active disk before cancel the job.
+Thanks
+Zhang Chen
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- block/replication.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/block/replication.c b/block/replication.c
-index b41bc507c0..a68bc7e986 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -149,7 +149,9 @@ static void replication_close(BlockDriverState *bs)
-         replication_stop(s->rs, false, NULL);
-     }
-     if (s->stage == BLOCK_REPLICATION_FAILOVER) {
--        job_cancel_sync(&s->commit_job->job);
-+        if (s->commit_job) {
-+            job_cancel_sync(&s->commit_job->job);
-+        }
-     }
- 
-     if (s->mode == REPLICATION_MODE_SECONDARY) {
--- 
-2.17.GIT
+> -----Original Message-----
+> From: Zhang, Chen
+> Sent: Friday, June 21, 2019 1:52 PM
+> To: Xie Changlong <xiechanglong.d@gmail.com>; Kevin Wolf
+> <kwolf@redhat.com>; Max Reitz <mreitz@redhat.com>; qemu-block <qemu-
+> block@nongnu.org>; qemu-dev <qemu-devel@nongnu.org>
+> Cc: Zhang Chen <zhangckid@gmail.com>; Zhang, Chen <chen.zhang@intel.com>
+> Subject: [PATCH V2] block/replication.c: Fix crash issue after failover
+>=20
+> From: Zhang Chen <chen.zhang@intel.com>
+>=20
+> If we try to close replication after failover, it will crash here.
+> So we need check the block job on active disk before cancel the job.
+>=20
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+>  block/replication.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/block/replication.c b/block/replication.c index
+> 3d4dedddfc..845f796dd4 100644
+> --- a/block/replication.c
+> +++ b/block/replication.c
+> @@ -146,7 +146,9 @@ static void replication_close(BlockDriverState *bs)
+>          replication_stop(s->rs, false, NULL);
+>      }
+>      if (s->stage =3D=3D BLOCK_REPLICATION_FAILOVER) {
+> -        job_cancel_sync(&s->active_disk->bs->job->job);
+> +        if (s->active_disk->bs->job) {
+> +            job_cancel_sync(&s->active_disk->bs->job->job);
+> +        }
+>      }
+>=20
+>      if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
+> --
+> 2.17.GIT
 
 
