@@ -2,99 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21D9E4E92E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 15:31:19 +0200 (CEST)
-Received: from localhost ([::1]:34862 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978724EA25
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:04:04 +0200 (CEST)
+Received: from localhost ([::1]:35288 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heJdO-00046U-7G
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 09:31:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51141)
+	id 1heK95-0000b9-OZ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:04:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55440)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <vsementsov@virtuozzo.com>) id 1heJYd-0001of-OQ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:26:26 -0400
+ (envelope-from <bounces@canonical.com>) id 1heJmk-00051X-7z
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:41:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <vsementsov@virtuozzo.com>) id 1heJYa-000721-Lh
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:26:23 -0400
-Received: from mail-ve1eur01on0720.outbound.protection.outlook.com
- ([2a01:111:f400:fe1f::720]:9283
- helo=EUR01-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
- id 1heJYW-0006s1-S8; Fri, 21 Jun 2019 09:26:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d1uigyxDMrbKr8bl+7W/RNHu9p3Iykc++vJU2jF1rKA=;
- b=L91Oy56W0ZS37oJoWgdoGV2O4vBYi9xDtvk+lh3xoNtyZUJQkq7SaMSg+r61nWgJ80bA7wwsnbXumDG94wcorYjFpgC7JTE5qFaIqniIPMCePI3vhtkOlt/h8HLXl7kGmxMbv9ISHRawIqxKnu6jdJkWW4kckYfHJv6JFRUvmac=
-Received: from DBBPR08MB4838.eurprd08.prod.outlook.com (20.179.46.151) by
- DBBPR08MB4744.eurprd08.prod.outlook.com (10.255.79.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.13; Fri, 21 Jun 2019 13:26:13 +0000
-Received: from DBBPR08MB4838.eurprd08.prod.outlook.com
- ([fe80::9c49:321c:cc13:35d3]) by DBBPR08MB4838.eurprd08.prod.outlook.com
- ([fe80::9c49:321c:cc13:35d3%3]) with mapi id 15.20.1987.014; Fri, 21 Jun 2019
- 13:26:13 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v5 33/42] blockdev: Fix active commit choice
-Thread-Index: AQHVIWvMnB+nkUgz2kCIZe++5LqMP6aiwJeAgABsYgCAAvn0AA==
-Date: Fri, 21 Jun 2019 13:26:13 +0000
-Message-ID: <72c0be9e-cff6-1c6d-3f9b-d257d92a8cc6@virtuozzo.com>
-References: <20190612221004.2317-1-mreitz@redhat.com>
- <20190612221004.2317-34-mreitz@redhat.com>
- <2670e61d-6c9b-9499-8e41-01c294379e47@virtuozzo.com>
- <761c245d-3bb3-5fb3-21e4-0085caaffd2a@redhat.com>
-In-Reply-To: <761c245d-3bb3-5fb3-21e4-0085caaffd2a@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0502CA0020.eurprd05.prod.outlook.com
- (2603:10a6:3:e3::30) To DBBPR08MB4838.eurprd08.prod.outlook.com
- (2603:10a6:10:d9::23)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190621162608081
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d41a88ab-de06-4e5c-0549-08d6f64c077e
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DBBPR08MB4744; 
-x-ms-traffictypediagnostic: DBBPR08MB4744:
-x-microsoft-antispam-prvs: <DBBPR08MB4744ACC3402AA6FC86948443C1E70@DBBPR08MB4744.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 0075CB064E
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(396003)(376002)(136003)(39840400004)(346002)(189003)(199004)(6486002)(6436002)(73956011)(229853002)(36756003)(2906002)(8936002)(110136005)(53936002)(386003)(66946007)(86362001)(486006)(2501003)(53546011)(186003)(66066001)(316002)(68736007)(478600001)(31696002)(446003)(2616005)(6506007)(99286004)(102836004)(476003)(81166006)(52116002)(76176011)(305945005)(5660300002)(54906003)(6246003)(26005)(71200400001)(71190400001)(8676002)(81156014)(11346002)(4326008)(14454004)(6512007)(7736002)(14444005)(25786009)(66446008)(64756008)(6116002)(66556008)(3846002)(31686004)(66476007)(256004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4744;
- H:DBBPR08MB4838.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: EhIst4USuGa0ZyMezrx21lGH1IK7jZ3K9TlGZArIj7ds6GBcLo+bLmVHdkeGX33o8WVrdJGC5tBTxBLhrzInZY6AhstNDAv18n4T2PqbijKr22y53C9M21vV9NakyHnTqdPzoArdxIHKfQKVTV18da/xkpgNQgiPFoCdX9cmd0qlcVX8ap+coet0FDfVEEEdJIFk4fMdvvA3Ossu7Lp0kWorijkDpwtW5sD+ul6UwDbCczMx9LI2tn/i9EsdHs4Pt9qcSk3Mu/SIed8e0C6m12YU1gagMzortDnNpdZNRHvbao5mzd10IHrkVm3sGOXys1LAVa4kikVEW5XDMKjuEVVjzUQEkqfKUunfTGUYtIECQtcuU+atvfWY53lOJS9zuNg7iriykkYOuCyIxu2TYtRGFq38U0ByQCToG4eoT40=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <01321B0712D270448F02EF7B74FC3EB6@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <bounces@canonical.com>) id 1heJmh-0005dq-VT
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:40:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50012)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1heJmh-0005Zu-QX
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 09:40:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1heJmb-000309-KS
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 13:40:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 977402E80C7
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 13:40:49 +0000 (UTC)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d41a88ab-de06-4e5c-0549-08d6f64c077e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2019 13:26:13.6463 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vsementsov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4744
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe1f::720
-Subject: Re: [Qemu-devel] [PATCH v5 33/42] blockdev: Fix active commit choice
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Jun 2019 13:30:55 -0000
+From: Frank Schreuder <1831225@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bonzini dgilbert-h dionbosschieter frank9999
+ jpmenil
+X-Launchpad-Bug-Reporter: Dion Bosschieter (dionbosschieter)
+X-Launchpad-Bug-Modifier: Frank Schreuder (frank9999)
+References: <155929929657.13088.9555373471112683391.malonedeb@soybean.canonical.com>
+Message-Id: <156112385528.18960.5987158517191892443.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18989";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 333647d215f7ff084e09ee1659b4c4d163afdce7
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831225] Re: guest migration 100% cpu freeze bug
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,77 +64,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1831225 <1831225@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTkuMDYuMjAxOSAxODo1OSwgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAxOS4wNi4xOSAxMTozMSwg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IDEzLjA2LjIwMTkgMTowOSwg
-TWF4IFJlaXR6IHdyb3RlOg0KPj4+IFdlIGhhdmUgdG8gcGVyZm9ybSBhbiBhY3RpdmUgY29tbWl0
-IHdoZW5ldmVyIHRoZSB0b3Agbm9kZSBoYXMgYSBwYXJlbnQNCj4+PiB0aGF0IGhhcyB0YWtlbiB0
-aGUgV1JJVEUgcGVybWlzc2lvbiBvbiBpdC4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IE1heCBS
-ZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+DQo+Pj4gLS0tDQo+Pj4gICAgYmxvY2tkZXYuYyB8IDI0
-ICsrKysrKysrKysrKysrKysrKysrKy0tLQ0KPj4+ICAgIDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNl
-cnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2Jsb2NrZGV2
-LmMgYi9ibG9ja2Rldi5jDQo+Pj4gaW5kZXggYTQ2NGNhYmY5ZS4uNTM3MGYzYjczOCAxMDA2NDQN
-Cj4+PiAtLS0gYS9ibG9ja2Rldi5jDQo+Pj4gKysrIGIvYmxvY2tkZXYuYw0KPj4+IEBAIC0zMjk0
-LDYgKzMyOTQsNyBAQCB2b2lkIHFtcF9ibG9ja19jb21taXQoYm9vbCBoYXNfam9iX2lkLCBjb25z
-dCBjaGFyICpqb2JfaWQsIGNvbnN0IGNoYXIgKmRldmljZSwNCj4+PiAgICAgICAgICovDQo+Pj4g
-ICAgICAgIEJsb2NrZGV2T25FcnJvciBvbl9lcnJvciA9IEJMT0NLREVWX09OX0VSUk9SX1JFUE9S
-VDsNCj4+PiAgICAgICAgaW50IGpvYl9mbGFncyA9IEpPQl9ERUZBVUxUOw0KPj4+ICsgICAgdWlu
-dDY0X3QgdG9wX3Blcm0sIHRvcF9zaGFyZWQ7DQo+Pj4gICAgDQo+Pj4gICAgICAgIGlmICghaGFz
-X3NwZWVkKSB7DQo+Pj4gICAgICAgICAgICBzcGVlZCA9IDA7DQo+Pj4gQEAgLTM0MDYsMTQgKzM0
-MDcsMzEgQEAgdm9pZCBxbXBfYmxvY2tfY29tbWl0KGJvb2wgaGFzX2pvYl9pZCwgY29uc3QgY2hh
-ciAqam9iX2lkLCBjb25zdCBjaGFyICpkZXZpY2UsDQo+Pj4gICAgICAgICAgICBnb3RvIG91dDsN
-Cj4+PiAgICAgICAgfQ0KPj4+ICAgIA0KPj4+IC0gICAgaWYgKHRvcF9icyA9PSBicykgew0KPj4+
-ICsgICAgLyoNCj4+PiArICAgICAqIEFjdGl2ZSBjb21taXQgaXMgcmVxdWlyZWQgaWYgYW5kIG9u
-bHkgaWYgc29tZW9uZSBoYXMgdGFrZW4gYQ0KPj4+ICsgICAgICogV1JJVEUgcGVybWlzc2lvbiBv
-biB0aGUgdG9wIG5vZGUuICBIaXN0b3JpY2FsbHksIHdlIGhhdmUgYWx3YXlzDQo+Pj4gKyAgICAg
-KiB1c2VkIGFjdGl2ZSBjb21taXQgZm9yIHRvcCBub2Rlcywgc28gY29udGludWUgdGhhdCBwcmFj
-dGljZS4NCj4+PiArICAgICAqIChBY3RpdmUgY29tbWl0IGlzIG5ldmVyIHJlYWxseSB3cm9uZy4p
-DQo+Pg0KPj4gSG1tLCBpZiB3ZSBzdGFydCBhY3RpdmUgY29tbWl0IHdoZW4gbm9ib2R5IGhhcyB3
-cml0ZSBhY2Nlc3MsIHRoYW4NCj4+IHdlIGxlYXZlIGEgcG9zc2liaWxpdHkgdG8gc29tZW9uZSB0
-byBnZXQgdGhpcyBhY2Nlc3MgZHVyaW5nIGNvbW1pdC4NCj4gDQo+IElzbuKAmXQgdGhhdCBibG9j
-a2VkIGJ5IHRoZSBjb21taXQgZmlsdGVyPyAgSWYgaXQgaXNu4oCZdCwgaXQgc2hvdWxkIGJlLg0K
-PiANCj4+IEFuZCBkdXJpbmcNCj4+IHBhc3NpdmUgY29tbWl0IHdyaXRlIGFjY2VzcyBpcyBibG9j
-a2VkLiBTbywgbWF5IGJlIHJpZ2h0IHdheSBpcyBkbyBhY3RpdmUgY29tbWl0DQo+PiBhbHdheXM/
-IEJlbmVmaXRzOg0KPj4gMS4gT25lIGNvZGUgcGF0aC4gYW5kIGl0IHNob3VsZG4ndCBiZSB3b3Jz
-ZSB3aGVuIG5vIHdyaXRlcnMsIHdpdGhvdXQgZ3Vlc3Qgd3JpdGVzDQo+PiBtaXJyb3IgY29kZSBz
-aG91bGRuJ3Qgd29yayB3b3JzZSB0aGFuIHBhc3NpdmUgY29tbWl0LCBpZiBpdCBpcywgaXQgc2hv
-dWxkIGJlIGZpeGVkLg0KPj4gMi4gUG9zc2liaWxpdHkgb2Ygd3JpdGUgYWNjZXNzIGlmIHVzZXIg
-bmVlZHMgaXQgZHVyaW5nIGNvbW1pdA0KPj4gMy4gSSdtIHN1cmUgdGhhdCBhY3RpdmUgY29tbWl0
-IChtaXJyb3IgY29kZSkgYWN0dWFsbHkgd29ya3MgZmFzdGVyLCBhcyBpdCB1c2VzDQo+PiBhc3lu
-YyByZXF1ZXN0cyBhbmQgc21hcnRlciBoYW5kbGluZyBvZiBibG9jayBzdGF0dXMuDQo+IA0KPiBE
-aXNhZHZhbnRhZ2U6IFNvbWV0aGluZyBtYXkgYnJlYWsgYmVjYXVzZSB0aGUgYmFzaWMgY29tbWl0
-IGpvYiBkb2VzIG5vdA0KPiBlbWl0IEJMT0NLX0pPQl9SRUFEWSBhbmQgdGh1cyBkb2VzIG5vdCBy
-ZXF1aXJlIGJsb2NrLWpvYi1jb21wbGV0ZS4NCj4gDQo+IFRlY2huaWNhbGx5IGV2ZXJ5dGhpbmcg
-c2hvdWxkIGV4cGVjdCBqb2JzIHRvIHBvdGVudGlhbGx5IGVtaXQNCj4gQkxPQ0tfSk9CX1JFQURZ
-LCBidXQgd2hvIGtub3dzLiAgSSB0aGluayB3ZeKAmWQgd2FudCBhdCBsZWFzdCBhDQo+IGRlcHJl
-Y2F0aW9uIHBlcmlvZC4NCj4gDQo+IE1heA0KDQpPSywgc28gdGhpcyBpcyBmb3IgZnV0dXJlLi4g
-VGhlbjoNCg0KUmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1l
-bnRzb3ZAdmlydHVvenpvLmNvbT4NCg0KPiANCj4+PiArICAgICAqLw0KPj4+ICsgICAgYmRydl9n
-ZXRfY3VtdWxhdGl2ZV9wZXJtKHRvcF9icywgJnRvcF9wZXJtLCAmdG9wX3NoYXJlZCk7DQo+Pj4g
-KyAgICBpZiAodG9wX3Blcm0gJiBCTEtfUEVSTV9XUklURSB8fA0KPj4+ICsgICAgICAgIGJkcnZf
-c2tpcF9yd19maWx0ZXJzKHRvcF9icykgPT0gYmRydl9za2lwX3J3X2ZpbHRlcnMoYnMpKQ0KPj4+
-ICsgICAgew0KPj4+ICAgICAgICAgICAgaWYgKGhhc19iYWNraW5nX2ZpbGUpIHsNCj4+PiAgICAg
-ICAgICAgICAgICBlcnJvcl9zZXRnKGVycnAsICInYmFja2luZy1maWxlJyBzcGVjaWZpZWQsIg0K
-Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIiBidXQgJ3RvcCcgaXMgdGhlIGFj
-dGl2ZSBsYXllciIpOw0KPj4+ICAgICAgICAgICAgICAgIGdvdG8gb3V0Ow0KPj4+ICAgICAgICAg
-ICAgfQ0KPj4+IC0gICAgICAgIGNvbW1pdF9hY3RpdmVfc3RhcnQoaGFzX2pvYl9pZCA/IGpvYl9p
-ZCA6IE5VTEwsIGJzLCBiYXNlX2JzLA0KPj4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-am9iX2ZsYWdzLCBzcGVlZCwgb25fZXJyb3IsDQo+Pj4gKyAgICAgICAgaWYgKCFoYXNfam9iX2lk
-KSB7DQo+Pj4gKyAgICAgICAgICAgIC8qDQo+Pj4gKyAgICAgICAgICAgICAqIEVtdWxhdGUgaGVy
-ZSB3aGF0IGJsb2NrX2pvYl9jcmVhdGUoKSBkb2VzLCBiZWNhdXNlIGl0DQo+Pj4gKyAgICAgICAg
-ICAgICAqIGlzIHBvc3NpYmxlIHRoYXQgQGJzICE9IEB0b3BfYnMgKHRoZSBibG9jayBqb2Igc2hv
-dWxkDQo+Pj4gKyAgICAgICAgICAgICAqIGJlIG5hbWVkIGFmdGVyIEBicywgZXZlbiBpZiBAdG9w
-X2JzIGlzIHRoZSBhY3R1YWwNCj4+PiArICAgICAgICAgICAgICogc291cmNlKQ0KPj4+ICsgICAg
-ICAgICAgICAgKi8NCj4+PiArICAgICAgICAgICAgam9iX2lkID0gYmRydl9nZXRfZGV2aWNlX25h
-bWUoYnMpOw0KPj4+ICsgICAgICAgIH0NCj4+PiArICAgICAgICBjb21taXRfYWN0aXZlX3N0YXJ0
-KGpvYl9pZCwgdG9wX2JzLCBiYXNlX2JzLCBqb2JfZmxhZ3MsIHNwZWVkLCBvbl9lcnJvciwNCj4+
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmlsdGVyX25vZGVfbmFtZSwgTlVMTCwg
-TlVMTCwgZmFsc2UsICZsb2NhbF9lcnIpOw0KPj4+ICAgICAgICB9IGVsc2Ugew0KPj4+ICAgICAg
-ICAgICAgQmxvY2tEcml2ZXJTdGF0ZSAqb3ZlcmxheV9icyA9IGJkcnZfZmluZF9vdmVybGF5KGJz
-LCB0b3BfYnMpOw0KPj4+DQo+Pg0KPj4NCj4gDQo+IA0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0K
-VmxhZGltaXINCg==
+An update on our further research. We tried bumping the hypervisor
+kernel form 4.19.43 to 4.19.50 which included the following patch, which
+we hoped to be related to our issue:
+
+https://lore.kernel.org/lkml/20190520115253.743557788@linuxfoundation.org/#t
+
+Sadly after a few thousand migrations we encountered two freezes again,
+and halted further migrations. Again the affected VMs seem to run
+pre-4.x kernels and all but one freezes occurred with Gold 6126 CPUs.
+
+While analyzing memory dumps of the VMs with the crash utility we found
+a peculiar similarity. They all seem to have jumped ~584 years, which
+led me to this bug report from 2011:
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/805341 . Does this
+provide any insight into what the issue might be on host-level?
+
+It is very well possible that the issue lies in the guest kernel, but as
+the service we provide is unmanaged we have no control over it.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831225
+
+Title:
+  guest migration 100% cpu freeze bug
+
+Status in QEMU:
+  New
+
+Bug description:
+  # Investigate migration cpu hog(100%) bug
+
+  I have some issues when migrating from kernel 4.14.63 running qemu 2.11.2=
+ to kernel 4.19.43 running qemu 2.11.2.
+  The hypervisors are running on debian jessie with libvirt v5.3.0.
+  Linux, libvirt and qemu are all custom compiled.
+
+  I migrated around 10.000 vms and every once in a while a vm is stuck
+  at 100% cpu after what we can see right now is that the target
+  hypervisor runs on linux 4.19.53. This happened with 4 vms so far. It
+  is not that easy to debug, we found this out pretty quickly because we
+  are running monitoring on frozen vms after migrations.
+
+  Last year we were having the same "kind of" bug https://bugs.launchpad.ne=
+t/qemu/+bug/1775555 when trying to upgrade qemu 2.6 to 2.11.
+  This bug was fixed after applying the following patch: http://lists.nongn=
+u.org/archive/html/qemu-devel/2018-04/msg00820.html
+
+  This patch is still applied as you can see because of the available pre_l=
+oad var on the kvmclock_vmsd struct:
+  (gdb) ptype kvmclock_vmsd
+  type =3D const struct VMStateDescription {
+      const char *name;
+      int unmigratable;
+      int version_id;
+      int minimum_version_id;
+      int minimum_version_id_old;
+      MigrationPriority priority;
+      LoadStateHandler *load_state_old;
+      int (*pre_load)(void *);                                             =
+   =
+
+      int (*post_load)(void *, int);
+      int (*pre_save)(void *);
+      _Bool (*needed)(void *);
+      VMStateField *fields;
+      const VMStateDescription **subsections;
+  }
+
+  I attached gdb to a vcpu thread of one stuck vm, and a bt showed the foll=
+owing info:
+  Thread 4 (Thread 0x7f3a431a4700 (LWP 37799)):
+  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
+84
+  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fca78d=
+0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
+kvm/kvm-all.c:2050
+  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fca78d0)=
+ at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
+  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fca78d0) a=
+t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
+  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a431a4700) at pthread_=
+create.c:456
+  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:97
+
+  Thread 3 (Thread 0x7f3a439a5700 (LWP 37798)):
+  #0  0x00007f3a576f5017 in ioctl () at ../sysdeps/unix/syscall-template.S:=
+84
+  #1  0x000055d84d15de57 in kvm_vcpu_ioctl (cpu=3Dcpu@entry=3D0x55d84fc5cbb=
+0, type=3Dtype@entry=3D44672) at /home/dbosschieter/src/qemu-pkg/src/accel/=
+kvm/kvm-all.c:2050
+  #2  0x000055d84d15dfc6 in kvm_cpu_exec (cpu=3Dcpu@entry=3D0x55d84fc5cbb0)=
+ at /home/dbosschieter/src/qemu-pkg/src/accel/kvm/kvm-all.c:1887
+  #3  0x000055d84d13ab64 in qemu_kvm_cpu_thread_fn (arg=3D0x55d84fc5cbb0) a=
+t /home/dbosschieter/src/qemu-pkg/src/cpus.c:1136
+  #4  0x00007f3a579ba4a4 in start_thread (arg=3D0x7f3a439a5700) at pthread_=
+create.c:456
+  #5  0x00007f3a576fcd0f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:97
+
+  The ioctl call is a ioctl(18, KVM_RUN and it looks like it is looping
+  inside the vm itself.
+
+  I saved the state of the VM (with `virsh save`) after I found it was hang=
+ing on its vcpu threads. Then I restored this vm on a test environment runn=
+ing the same kernel, QEMU and libvirt version). After the restore the VM st=
+ill was haning at 100% cpu usage on all the vcpus.
+  I tried to use the perf kvm guest option to trace the guest vm with a cop=
+y of the kernel, modules and kallsyms files from inside the guest vm and I =
+got to the following perf stat:
+
+   Event                                         Total %Total CurAvg/s
+   kvm_entry                                   5198993   23.1   277007
+   kvm_exit                                    5198976   23.1   277006
+   kvm_apic                                    1732103    7.7    92289
+   kvm_msr                                     1732101    7.7    92289
+   kvm_inj_virq                                1731904    7.7    92278
+   kvm_eoi                                     1731900    7.7    92278
+   kvm_apic_accept_irq                         1731900    7.7    92278
+   kvm_hv_timer_state                          1731780    7.7    92274
+   kvm_pv_eoi                                  1731701    7.7    92267
+   kvm_ple_window                                   36    0.0        2
+   Total                                      22521394         1199967
+
+  We tried to run the crash tool against a dump of guest vm memory and that=
+ gave us the following backtrace:
+  crash> bt
+  PID: 0      TASK: ffffffff81610040  CPU: 0   COMMAND: "swapper/0"
+      [exception RIP: native_read_tsc+2]
+      RIP: ffffffff810146a9  RSP: ffff88003fc03df0  RFLAGS: 00000046
+      RAX: 000000008762c0fa  RBX: ffff88003fc13680  RCX: 0000000000000001
+      RDX: 0000000000fe4871  RSI: 0000000000000000  RDI: ffff88003fc13603
+      RBP: 000000000003052c   R8: 0000000000000200   R9: ffffffff8169b180
+      R10: 0000000000000020  R11: 0000000000000005  R12: 006a33290b40455c
+      R13: 00000000df1fd292  R14: 000000002ca284ff  R15: 00fe485f3febe21a
+      CS: 0010  SS: 0018
+   #0 [ffff88003fc03df0] pvclock_clocksource_read at ffffffff8102cbb3
+   #1 [ffff88003fc03e40] kvm_clock_read at ffffffff8102c2c9
+   #2 [ffff88003fc03e50] timekeeping_get_ns at ffffffff810691b0
+   #3 [ffff88003fc03e60] ktime_get at ffffffff810695c8
+   #4 [ffff88003fc03e90] sched_rt_period_timer at ffffffff8103e4f5
+   #5 [ffff88003fc03ee0] __run_hrtimer at ffffffff810652d3
+   #6 [ffff88003fc03f20] hrtimer_interrupt at ffffffff81065abd
+   #7 [ffff88003fc03f90] smp_apic_timer_interrupt at ffffffff81024ba8
+   #8 [ffff88003fc03fb0] apic_timer_interrupt at ffffffff813587e2
+  --- <IRQ stack> ---
+   #9 [ffffffff81601e98] apic_timer_interrupt at ffffffff813587e2
+      [exception RIP: native_safe_halt+2]
+      RIP: ffffffff8102c360  RSP: ffffffff81601f40  RFLAGS: 00010246
+      RAX: 0000000000000000  RBX: ffffffff81601fd8  RCX: 00000000ffffffff
+      RDX: 00000000ffffffff  RSI: 0000000000000000  RDI: 0000000000000001
+      RBP: 0000000000000000   R8: 0000000000000000   R9: 0000000000000000
+      R10: 0000000000000020  R11: 0000000000000005  R12: ffffffff816f5d80
+      R13: ffffffffffffffff  R14: 000000000008c800  R15: 0000000000000000
+      ORIG_RAX: ffffffffffffff10  CS: 0010  SS: 0018
+  #10 [ffffffff81601f40] default_idle at ffffffff81014c35
+  #11 [ffffffff81601f50] cpu_idle at ffffffff8100d258
+
+  So it seems like the vm is reading its clock constantly trying to
+  catch up some time after the migration.
+
+  Last time it was a bug that was only triggered on newer Gold cpu
+  hardware, but this time we also see this coming back on older Intel E5
+  cpus we tried to reproduce with a migrate loop of 3 days times between
+  kernel 4.14.63 and 4.19.43 but this gave us no results.
+
+  The vms were running ubuntu 14.04, centos 7, debian 7, debian 8 these
+  vms are running linux kernel 3.*.
+
+  The thing is that we are out of ideas for reproducing this, it seems
+  like it the same kind of bug we are hitting, just like last time the
+  vm is basically only trying to read the clock. Perhaps we can try to
+  read the clock data and also try to read what the guest is actually
+  waiting for, which value of the counter does it want to reach.
+
+  I am not sure how to pinpoint the cause of this issue, I would like some =
+help and possible some extra tips on debugging.
+  We are able to read the guests kernel which makes it a bit easier to debu=
+g, reproducing and finding the source of the problem is still something we =
+are trying to figure out.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831225/+subscriptions
 
