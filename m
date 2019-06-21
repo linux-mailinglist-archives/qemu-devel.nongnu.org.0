@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2294E18F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:03:54 +0200 (CEST)
-Received: from localhost ([::1]:55446 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAA4F4E176
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 09:57:47 +0200 (CEST)
+Received: from localhost ([::1]:55408 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heEWX-0004SH-CZ
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:03:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47369)
+	id 1heEQc-0000bg-Do
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 03:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46093)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1heETh-0003Ae-Hd
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:00:59 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1heEPe-000062-7D
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:56:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1heETd-0000Op-M3
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:00:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47044)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1heETd-0000NX-DV
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:00:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1heETc-0000pF-3A
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 08:00:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 13CD22E80C9
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 08:00:52 +0000 (UTC)
+ (envelope-from <yan.y.zhao@intel.com>) id 1heEPc-00032v-A5
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:56:46 -0400
+Received: from mga06.intel.com ([134.134.136.31]:18028)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1heEPa-0002xs-7U
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 03:56:42 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 21 Jun 2019 00:56:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="311923500"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by orsmga004.jf.intel.com with ESMTP; 21 Jun 2019 00:56:33 -0700
+Date: Fri, 21 Jun 2019 03:50:41 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190621075040.GA4304@joy-OptiPlex-7040>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-4-git-send-email-kwankhede@nvidia.com>
+ <20190621001228.GE9303@joy-OptiPlex-7040>
+ <20a0f8c4-e555-6a4d-598a-b72beac6a62f@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 21 Jun 2019 07:47:19 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1833668@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philmd
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-Message-Id: <156110323981.19354.11667763271761846721.malonedeb@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18989";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: b6bf23581950e2b2f85631d811591f8756aae8ef
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1833668] [NEW] linux-user: Unable to run ARM
- binaries on Aarch64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20a0f8c4-e555-6a4d-598a-b72beac6a62f@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.31
+Subject: Re: [Qemu-devel] [PATCH v4 03/13] vfio: Add save and load functions
+ for VFIO PCI devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,104 +61,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1833668 <1833668@bugs.launchpad.net>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Fri, Jun 21, 2019 at 02:44:30PM +0800, Kirti Wankhede wrote:
+> 
+> 
+> On 6/21/2019 5:42 AM, Yan Zhao wrote:
+> > On Thu, Jun 20, 2019 at 10:37:31PM +0800, Kirti Wankhede wrote:
+> >> These functions save and restore PCI device specific data - config
+> >> space of PCI device.
+> >> Tested save and restore with MSI and MSIX type.
+> >>
+> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> >> ---
+> >>  hw/vfio/pci.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> >>  hw/vfio/pci.h |  29 +++++++++++++++
+> >>  2 files changed, 141 insertions(+)
+> >>
+> >> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> >> index ce3fe96efe2c..09a0821a5b1c 100644
+> >> --- a/hw/vfio/pci.c
+> >> +++ b/hw/vfio/pci.c
+> >> @@ -1187,6 +1187,118 @@ void vfio_pci_write_config(PCIDevice *pdev,
+> >>      }
+> >>  }
+> >>  
+> >> +void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
+> >> +{
+> >> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+> >> +    PCIDevice *pdev = &vdev->pdev;
+> >> +    uint16_t pci_cmd;
+> >> +    int i;
+> >> +
+> >> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
+> >> +        uint32_t bar;
+> >> +
+> >> +        bar = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, 4);
+> >> +        qemu_put_be32(f, bar);
+> >> +    }
+> >> +
+> >> +    qemu_put_be32(f, vdev->interrupt);
+> >> +    if (vdev->interrupt == VFIO_INT_MSI) {
+> >> +        uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
+> >> +        bool msi_64bit;
+> >> +
+> >> +        msi_flags = pci_default_read_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+> >> +                                            2);
+> >> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
+> >> +
+> >> +        msi_addr_lo = pci_default_read_config(pdev,
+> >> +                                         pdev->msi_cap + PCI_MSI_ADDRESS_LO, 4);
+> >> +        qemu_put_be32(f, msi_addr_lo);
+> >> +
+> >> +        if (msi_64bit) {
+> >> +            msi_addr_hi = pci_default_read_config(pdev,
+> >> +                                             pdev->msi_cap + PCI_MSI_ADDRESS_HI,
+> >> +                                             4);
+> >> +        }
+> >> +        qemu_put_be32(f, msi_addr_hi);
+> >> +
+> >> +        msi_data = pci_default_read_config(pdev,
+> >> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
+> >> +                2);
+> >> +        qemu_put_be32(f, msi_data);
+> >> +    } else if (vdev->interrupt == VFIO_INT_MSIX) {
+> >> +        uint16_t offset;
+> >> +
+> >> +        /* save enable bit and maskall bit */
+> >> +        offset = pci_default_read_config(pdev,
+> >> +                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
+> >> +        qemu_put_be16(f, offset);
+> >> +        msix_save(pdev, f);
+> >> +    }
+> >> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
+> >> +    qemu_put_be16(f, pci_cmd);
+> >> +}
+> >> +
+> >> +void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
+> >> +{
+> >> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+> >> +    PCIDevice *pdev = &vdev->pdev;
+> >> +    uint32_t interrupt_type;
+> >> +    uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
+> >> +    uint16_t pci_cmd;
+> >> +    bool msi_64bit;
+> >> +    int i;
+> >> +
+> >> +    /* retore pci bar configuration */
+> >> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
+> >> +    vfio_pci_write_config(pdev, PCI_COMMAND,
+> >> +                        pci_cmd & (!(PCI_COMMAND_IO | PCI_COMMAND_MEMORY)), 2);
+> >> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
+> >> +        uint32_t bar = qemu_get_be32(f);
+> >> +
+> >> +        vfio_pci_write_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, bar, 4);
+> >> +    }
+> >> +    vfio_pci_write_config(pdev, PCI_COMMAND,
+> >> +                          pci_cmd | PCI_COMMAND_IO | PCI_COMMAND_MEMORY, 2);
+> >> +
+> >> +    interrupt_type = qemu_get_be32(f);
+> >> +
+> >> +    if (interrupt_type == VFIO_INT_MSI) {
+> >> +        /* restore msi configuration */
+> >> +        msi_flags = pci_default_read_config(pdev,
+> >> +                                            pdev->msi_cap + PCI_MSI_FLAGS, 2);
+> >> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
+> >> +
+> >> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+> >> +                              msi_flags & (!PCI_MSI_FLAGS_ENABLE), 2);
+> >> +
+> >> +        msi_addr_lo = qemu_get_be32(f);
+> >> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_LO,
+> >> +                              msi_addr_lo, 4);
+> >> +
+> >> +        msi_addr_hi = qemu_get_be32(f);
+> >> +        if (msi_64bit) {
+> >> +            vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_HI,
+> >> +                                  msi_addr_hi, 4);
+> >> +        }
+> >> +        msi_data = qemu_get_be32(f);
+> >> +        vfio_pci_write_config(pdev,
+> >> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
+> >> +                msi_data, 2);
+> >> +
+> >> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+> >> +                              msi_flags | PCI_MSI_FLAGS_ENABLE, 2);
+> >> +    } else if (interrupt_type == VFIO_INT_MSIX) {
+> >> +        uint16_t offset = qemu_get_be16(f);
+> >> +
+> >> +        /* load enable bit and maskall bit */
+> >> +        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
+> >> +                              offset, 2);
+> >> +        msix_load(pdev, f);
+> >> +    }
+> >> +    pci_cmd = qemu_get_be16(f);
+> >> +    vfio_pci_write_config(pdev, PCI_COMMAND, pci_cmd, 2);
+> >> +}
+> >> +
+> > per the previous discussion, pci config state save/restore are better
+> > defined in fileds of VMStateDescription.
+> > 
+> > 
+> 
+> With that route there is no pre-copy phase and we do want pre-copy phase
+> for VFIO devices. Vendor driver can skip pre-copy phase by doing nothing
+> on any read/write operation during pre-copy phase.
+> 
+> Thanks,
+> Kirti
+>
+hi Kirti
+It is able to register both VMSTateDescritpion and SaveVMHandlers at the
+same time.
 
-Download a ARM package from https://packages.debian.org/sid/busybox-
-static
+Thanks
+Yan
 
-Here tested with: busybox-static_1.30.1-4_armel.deb
-
-$ file busybox.armel
-busybox.armel: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), stat=
-ically linked, for GNU/Linux 3.2.0, BuildID[sha1]=3D12cf572e016bafa240e113b=
-57b3641e94b837f37, stripped
-
-$ qemu-aarch64 --version
-qemu-aarch64 version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.14)
-
-$ qemu-aarch64 busybox.armel
-busybox.armel: Invalid ELF image for this architecture
-
-$ qemu-aarch64 -cpu cortex-a7 busybox.armel
-unable to find CPU model 'cortex-a7'
-
-Also reproduced with commit 33d609990621dea6c7d056c86f707b8811320ac1,
-while the aarch64_cpus[] array contains Aarch64 CPUs, the arm_cpus[] array =
-is empty:
-
-$ gdb -q aarch64-linux-user/qemu-aarch64
-(gdb) p aarch64_cpus
-$1 =3D {{name =3D 0x1fe4e8 "cortex-a57", initfn =3D 0x109bc0 <aarch64_a57_i=
-nitfn>, class_init =3D 0x0}, {name =3D 0x1fe508 "cortex-a53", initfn =3D 0x=
-109a10 <aarch64_a53_initfn>, class_init =3D 0x0}, {name =3D 0x1fe518 "corte=
-x-a72", =
-
-    initfn =3D 0x109868 <aarch64_a72_initfn>, class_init =3D 0x0}, {name =
-=3D 0x218020 "max", initfn =3D 0x109d70 <aarch64_max_initfn>, class_init =
-=3D 0x0}, {name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
-(gdb) p arm_cpus
-$2 =3D {{name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: arm linux-user
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1833668
-
-Title:
-  linux-user: Unable to run ARM binaries on Aarch64
-
-Status in QEMU:
-  New
-
-Bug description:
-  Download a ARM package from https://packages.debian.org/sid/busybox-
-  static
-
-  Here tested with: busybox-static_1.30.1-4_armel.deb
-
-  $ file busybox.armel
-  busybox.armel: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), st=
-atically linked, for GNU/Linux 3.2.0, BuildID[sha1]=3D12cf572e016bafa240e11=
-3b57b3641e94b837f37, stripped
-
-  $ qemu-aarch64 --version
-  qemu-aarch64 version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.14)
-
-  $ qemu-aarch64 busybox.armel
-  busybox.armel: Invalid ELF image for this architecture
-
-  $ qemu-aarch64 -cpu cortex-a7 busybox.armel
-  unable to find CPU model 'cortex-a7'
-
-  Also reproduced with commit 33d609990621dea6c7d056c86f707b8811320ac1,
-  while the aarch64_cpus[] array contains Aarch64 CPUs, the arm_cpus[] arra=
-y is empty:
-
-  $ gdb -q aarch64-linux-user/qemu-aarch64
-  (gdb) p aarch64_cpus
-  $1 =3D {{name =3D 0x1fe4e8 "cortex-a57", initfn =3D 0x109bc0 <aarch64_a57=
-_initfn>, class_init =3D 0x0}, {name =3D 0x1fe508 "cortex-a53", initfn =3D =
-0x109a10 <aarch64_a53_initfn>, class_init =3D 0x0}, {name =3D 0x1fe518 "cor=
-tex-a72", =
-
-      initfn =3D 0x109868 <aarch64_a72_initfn>, class_init =3D 0x0}, {name =
-=3D 0x218020 "max", initfn =3D 0x109d70 <aarch64_max_initfn>, class_init =
-=3D 0x0}, {name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
-  (gdb) p arm_cpus
-  $2 =3D {{name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1833668/+subscriptions
+> >>  /*
+> >>   * Interrupt setup
+> >>   */
+> >> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+> >> index 834a90d64686..847be5f56478 100644
+> >> --- a/hw/vfio/pci.h
+> >> +++ b/hw/vfio/pci.h
+> >> @@ -19,6 +19,7 @@
+> >>  #include "qemu/queue.h"
+> >>  #include "qemu/timer.h"
+> >>  
+> >> +#ifdef CONFIG_LINUX
+> >>  #define PCI_ANY_ID (~0)
+> >>  
+> >>  struct VFIOPCIDevice;
+> >> @@ -202,4 +203,32 @@ void vfio_display_reset(VFIOPCIDevice *vdev);
+> >>  int vfio_display_probe(VFIOPCIDevice *vdev, Error **errp);
+> >>  void vfio_display_finalize(VFIOPCIDevice *vdev);
+> >>  
+> >> +void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f);
+> >> +void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f);
+> >> +
+> >> +static inline Object *vfio_pci_get_object(VFIODevice *vbasedev)
+> >> +{
+> >> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+> >> +
+> >> +    return OBJECT(vdev);
+> >> +}
+> >> +
+> >> +#else
+> >> +static inline void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
+> >> +{
+> >> +    g_assert(false);
+> >> +}
+> >> +
+> >> +static inline void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
+> >> +{
+> >> +    g_assert(false);
+> >> +}
+> >> +
+> >> +static inline Object *vfio_pci_get_object(VFIODevice *vbasedev)
+> >> +{
+> >> +    return NULL;
+> >> +}
+> >> +
+> >> +#endif
+> >> +
+> >>  #endif /* HW_VFIO_VFIO_PCI_H */
+> >> -- 
+> >> 2.7.0
+> >>
 
