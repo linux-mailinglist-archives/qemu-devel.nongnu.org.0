@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B7BF4DF0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 04:16:12 +0200 (CEST)
-Received: from localhost ([::1]:54182 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E974DEFE
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 04:06:34 +0200 (CEST)
+Received: from localhost ([::1]:54124 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he962-00048W-W9
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 22:16:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41176)
+	id 1he8wj-0003rR-6R
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 22:06:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41104)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1he8a4-0006cX-TZ
+ (envelope-from <paolo.bonzini@gmail.com>) id 1he8a3-0006b2-Pv
  for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:43:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1he8a2-0006dC-QS
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:43:08 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42213)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1he8a1-0006Yj-UT
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:43:07 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39749)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1he8a2-0006KR-BQ
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:43:06 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x17so4853465wrl.9
- for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:42:47 -0700 (PDT)
+ id 1he8Zw-0006Ki-Ml
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 21:43:01 -0400
+Received: by mail-wr1-x432.google.com with SMTP id x4so4878741wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 18:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=99rkvJmjgZNHPGZCddK8znZ7niUUbuJAuf+Rk2/QtO8=;
- b=HWM/s6IYXwS6XEvPQDKrLi1HGg+7Mq5vgCn4hR2rUYD3nWyz/7RlC59KZL/4axq68i
- iGr5DRrsZ2KKV93DxozwbO7TSs331PGG9tj9h5vqTnHOgwreS63FRXrJ0F7QWNn97Cm1
- O1rIv52VYd6SsTWyKXWwdsfWQPXYGOIjHYTK3dPvr8EGEP3GZICvOksWp5CaorWdRkz1
- gsUpuI0AyJaYg9g//CKv08Rmd1+9vWfZStH5+6CCHYDFO/OxzjYcQaDx7Y/A4XaepV+0
- BSs/ZYzXaghzq7KuCd3qoLSQjdzg0dq4vxpOHGmoKSJnh3or+65j3ZFpIBj0Y8GOz0Nx
- A0AA==
+ bh=6T+CvKxhIT/wD43F8C6X0mfQEc7rDvNDe6JNobc9BRE=;
+ b=XDhqWwpP8SOls3rUCVN3Fdp9LDJoXkaD3Xr12NwOSvCRJIeludk44jelRs+W3zLi38
+ zpIzqU6SfVtRgpa7HMmUH7EpA8fS1n5PWwiw2dgPT2ORR4EFhO4mZOXDl0Ox01H8eisU
+ yQBaFI+jeLJUfAbxP9JAeFo5MrH0Z5ykhMYl7hLqd4FjMmTwo19Tl2KFNykl3mZJrqVk
+ K66/wr5f+Wi/afGXIqmk9+kab6kkda5qF5pE6RwNBeZTiZ+o4/cne8b0sdEAbLsHxUqx
+ cZlz4HfEUkg1O6+A/76wXeZSXs2y4hmx9HUJcq8nuNNV3iVWbwSraMCiHG7cJvtqU60/
+ 4MsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=99rkvJmjgZNHPGZCddK8znZ7niUUbuJAuf+Rk2/QtO8=;
- b=jbG+Sf2EaMT48UVrkXqTzThl3oMefFpsf5t7eRmSdM8EezZcdXNqUgykOqfMUqTihu
- E3kLT4tzjTKJ9H7iFim/6bWt13g6G6zq5ZdsZ2u/UPXBCuvUnvx6U1mhoWiroR3PRNY4
- zzikvbNbE2fYZqY1STFlkKYxVqJc890ADVMx221XhPf9eG2SH00Afdx0/6Lm+OfqUIGN
- LeH1Ls6HqI8HagllV4x22ZKalxgAtBr13Y9QDLwKInEBti9XfsH296P2NpF5GWaJURCi
- xoqm/zmUgd9iq69Torj1z3NQsgD8tK45VLny5SIa4Lz+6aJWLsf0zqn7nor+7BQrMANH
- 9Aug==
-X-Gm-Message-State: APjAAAXhOKO69oVwlHGgxGMfMMvjTQRmHLCV0XBQoxlGRhDzYgzQU8fN
- K4aCpgxMO4Bjwe+nQGqymEvRR7qr
-X-Google-Smtp-Source: APXvYqx1yJHEuwsu8m40oI7uyW0MZeHNFrvhWbJUS0wfYjyuIHeQ82WtAcLBIdZXQxQP8+7XCm4jeg==
-X-Received: by 2002:a5d:4d84:: with SMTP id b4mr12694936wru.242.1561081366085; 
- Thu, 20 Jun 2019 18:42:46 -0700 (PDT)
+ bh=6T+CvKxhIT/wD43F8C6X0mfQEc7rDvNDe6JNobc9BRE=;
+ b=prOixgobMnzwMTKLMsAuiCcNLs51JomboFqUilWmDg5KjaiUO3sQpFpf6TWV8pGzsM
+ FP+6Dvt2VXdS9N5rA9L3bxdAVM++YzzOfXqsuMwQnIrk9UZp9d3u5LcxdwN0AX0ggLlK
+ ZTGarhsHRj4O3eJmo/jE8eqR2Q6nuTekqA1DbggDFXumZRymbDXWoN29SDQV8mt1Zwq6
+ PqHn22lTFwE7ipBfFKpoFF9a2G86SRqeXmqf+sx5Hg504NlC6wg9gcojhoeI4pXqEf+t
+ S6RdpmEg09WU2BAIwNZoGGQZ6BJt0apTxlcf/Tb3Y6xj4mf23eTsvLtZ2aaeK5XwYNDd
+ ldDQ==
+X-Gm-Message-State: APjAAAWxD+uz98FXPK1g/EFT5YaIp9fT3m++o9kFsCkVmYDuu/66vDMA
+ s36PGX9E5MnHccBMevAJuesn4zKZ
+X-Google-Smtp-Source: APXvYqx8ElBEfZ/vW5ce+4tsoc7CJ/352laHkfQ61vXO7xS+1cYyCCzbBX46GPwUREsBNfRNjeB/bw==
+X-Received: by 2002:a5d:484e:: with SMTP id n14mr8853354wrs.348.1561081367029; 
+ Thu, 20 Jun 2019 18:42:47 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id d1sm1123125wru.41.2019.06.20.18.42.45
+ by smtp.gmail.com with ESMTPSA id d1sm1123125wru.41.2019.06.20.18.42.46
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 20 Jun 2019 18:42:45 -0700 (PDT)
+ Thu, 20 Jun 2019 18:42:46 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 03:42:18 +0200
-Message-Id: <1561081350-3723-14-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 03:42:19 +0200
+Message-Id: <1561081350-3723-15-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
 References: <1561081350-3723-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PULL 13/25] target/i386: kvm: Delete VMX migration
- blocker on vCPU init failure
+X-Received-From: 2a00:1450:4864:20::432
+Subject: [Qemu-devel] [PULL 14/25] KVM: Introduce kvm_arch_destroy_vcpu()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,56 +80,167 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Liran Alon <liran.alon@oracle.com>
 
-Commit d98f26073beb ("target/i386: kvm: add VMX migration blocker")
-added migration blocker for vCPU exposed with Intel VMX because QEMU
-doesn't yet contain code to support migration of nested virtualization
-workloads.
+Simiar to how kvm_init_vcpu() calls kvm_arch_init_vcpu() to perform
+arch-dependent initialisation, introduce kvm_arch_destroy_vcpu()
+to be called from kvm_destroy_vcpu() to perform arch-dependent
+destruction.
 
-However, that commit missed adding deletion of the migration blocker in
-case init of vCPU failed. Similar to invtsc_mig_blocker. This commit fix
-that issue.
+This was added because some architectures (Such as i386)
+currently do not free memory that it have allocated in
+kvm_arch_init_vcpu().
 
-Fixes: d98f26073beb ("target/i386: kvm: add VMX migration blocker")
-Signed-off-by: Liran Alon <liran.alon@oracle.com>
+Suggested-by: Maran Wilson <maran.wilson@oracle.com>
 Reviewed-by: Maran Wilson <maran.wilson@oracle.com>
-Message-Id: <20190619162140.133674-2-liran.alon@oracle.com>
+Signed-off-by: Liran Alon <liran.alon@oracle.com>
+Message-Id: <20190619162140.133674-3-liran.alon@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ accel/kvm/kvm-all.c  |  5 +++++
+ include/sysemu/kvm.h |  1 +
+ target/arm/kvm32.c   |  5 +++++
+ target/arm/kvm64.c   |  5 +++++
+ target/i386/kvm.c    | 12 ++++++++++++
+ target/mips/kvm.c    |  5 +++++
+ target/ppc/kvm.c     |  5 +++++
+ target/s390x/kvm.c   | 10 ++++++++++
+ 8 files changed, 48 insertions(+)
 
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index d2f481a..f0f5ab8 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -291,6 +291,11 @@ int kvm_destroy_vcpu(CPUState *cpu)
+ 
+     DPRINTF("kvm_destroy_vcpu\n");
+ 
++    ret = kvm_arch_destroy_vcpu(cpu);
++    if (ret < 0) {
++        goto err;
++    }
++
+     mmap_size = kvm_ioctl(s, KVM_GET_VCPU_MMAP_SIZE, 0);
+     if (mmap_size < 0) {
+         ret = mmap_size;
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index a6d1cd1..64f55e5 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -371,6 +371,7 @@ int kvm_arch_put_registers(CPUState *cpu, int level);
+ int kvm_arch_init(MachineState *ms, KVMState *s);
+ 
+ int kvm_arch_init_vcpu(CPUState *cpu);
++int kvm_arch_destroy_vcpu(CPUState *cpu);
+ 
+ bool kvm_vcpu_id_is_valid(int vcpu_id);
+ 
+diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
+index 4e54e37..51f78f7 100644
+--- a/target/arm/kvm32.c
++++ b/target/arm/kvm32.c
+@@ -240,6 +240,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     return kvm_arm_init_cpreg_list(cpu);
+ }
+ 
++int kvm_arch_destroy_vcpu(CPUState *cs)
++{
++	return 0;
++}
++
+ typedef struct Reg {
+     uint64_t id;
+     int offset;
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 998d21f..22d19c9 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -654,6 +654,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     return kvm_arm_init_cpreg_list(cpu);
+ }
+ 
++int kvm_arch_destroy_vcpu(CPUState *cs)
++{
++    return 0;
++}
++
+ bool kvm_arm_reg_syncs_via_cpreg_list(uint64_t regidx)
+ {
+     /* Return true if the regidx is a register we should synchronize
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 279f99a..c5cbead 100644
+index c5cbead..26d8c61 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -1333,7 +1333,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-     r = kvm_arch_set_tsc_khz(cs);
-     if (r < 0) {
--        goto fail;
-+        return r;
-     }
- 
-     /* vcpu's TSC frequency is either specified by user, or following
-@@ -1622,7 +1622,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             if (local_err) {
-                 error_report_err(local_err);
-                 error_free(invtsc_mig_blocker);
--                return r;
-+                goto fail2;
-             }
-         }
-     }
-@@ -1673,6 +1673,9 @@ int kvm_arch_init_vcpu(CPUState *cs)
- 
-  fail:
-     migrate_del_blocker(invtsc_mig_blocker);
-+ fail2:
-+    migrate_del_blocker(vmx_mig_blocker);
-+
+@@ -1679,6 +1679,18 @@ int kvm_arch_init_vcpu(CPUState *cs)
      return r;
  }
  
++int kvm_arch_destroy_vcpu(CPUState *cs)
++{
++    X86CPU *cpu = X86_CPU(cs);
++
++    if (cpu->kvm_msr_buf) {
++        g_free(cpu->kvm_msr_buf);
++        cpu->kvm_msr_buf = NULL;
++    }
++
++    return 0;
++}
++
+ void kvm_arch_reset_vcpu(X86CPU *cpu)
+ {
+     CPUX86State *env = &cpu->env;
+diff --git a/target/mips/kvm.c b/target/mips/kvm.c
+index 8e72850..938f8f1 100644
+--- a/target/mips/kvm.c
++++ b/target/mips/kvm.c
+@@ -91,6 +91,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     return ret;
+ }
+ 
++int kvm_arch_destroy_vcpu(CPUState *cs)
++{
++    return 0;
++}
++
+ void kvm_mips_reset_vcpu(MIPSCPU *cpu)
+ {
+     CPUMIPSState *env = &cpu->env;
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index d4107dd..4b4989c 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -521,6 +521,11 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     return ret;
+ }
+ 
++int kvm_arch_destroy_vcpu(CPUState *cs)
++{
++    return 0;
++}
++
+ static void kvm_sw_tlb_put(PowerPCCPU *cpu)
+ {
+     CPUPPCState *env = &cpu->env;
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index bcec979..0267c6c 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -368,6 +368,16 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     return 0;
+ }
+ 
++int kvm_arch_destroy_vcpu(CPUState *cs)
++{
++    S390CPU *cpu = S390_CPU(cs);
++
++    g_free(cpu->irqstate);
++    cpu->irqstate = NULL;
++
++    return 0;
++}
++
+ void kvm_s390_reset_vcpu(S390CPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
 -- 
 1.8.3.1
 
