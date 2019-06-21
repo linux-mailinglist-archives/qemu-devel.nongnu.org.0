@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9684E264
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:54:07 +0200 (CEST)
-Received: from localhost ([::1]:55590 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C6D4E26E
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 10:57:37 +0200 (CEST)
+Received: from localhost ([::1]:55616 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heFJ8-0008FZ-VO
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:54:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58774)
+	id 1heFMW-0003hi-DJ
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 04:57:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58372)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEza-0004Ue-SB
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEza-0004CE-S3
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:33:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEoC-0000wq-4C
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:22:09 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:41570)
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEoE-00010x-B0
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:22:11 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:41600)
  by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEoA-0000sM-45
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:22:06 -0400
+ (envelope-from <pavel.dovgaluk@gmail.com>) id 1heEoD-00010J-V7
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 04:22:10 -0400
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 76A6154006B;
- Fri, 21 Jun 2019 11:22:03 +0300 (MSK)
+ by mail.ispras.ru (Postfix) with ESMTPSA id 17A7E54006B;
+ Fri, 21 Jun 2019 11:22:09 +0300 (MSK)
 From: Pavel Dovgalyuk <pavel.dovgaluk@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 11:22:03 +0300
-Message-ID: <156110532327.25431.17706154271325991738.stgit@pasha-Precision-3630-Tower>
+Date: Fri, 21 Jun 2019 11:22:08 +0300
+Message-ID: <156110532889.25431.10442246764810242357.stgit@pasha-Precision-3630-Tower>
 In-Reply-To: <156110523748.25431.9310430853468653085.stgit@pasha-Precision-3630-Tower>
 References: <156110523748.25431.9310430853468653085.stgit@pasha-Precision-3630-Tower>
 User-Agent: StGit/0.17.1-dirty
@@ -35,8 +35,8 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 83.149.199.45
-Subject: [Qemu-devel] [PATCH for-4.1 15/24] replay: flush rr queue before
- loading the vmstate
+Subject: [Qemu-devel] [PATCH for-4.1 16/24] gdbstub: add reverse step
+ support in replay mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,61 +60,277 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 
-Non-empty record/replay queue prevents saving and loading the VM state,
-because it includes pending bottom halves and block coroutines.
-But when the new VM state is loaded, we don't have to preserve the consistency
-of the current state anymore. Therefore this patch just flushes the queue
-allowing the coroutines to finish.
+GDB remote protocol supports two reverse debugging commands:
+reverse step and reverse continue.
+This patch adds support of the first one to the gdbstub.
+Reverse step is intended to step one instruction in the backwards
+direction. This is not possible in regular execution.
+But replayed execution is deterministic, therefore we can load one of
+the prior snapshots and proceed to the desired step. It is equivalent
+to stepping one instruction back.
+There should be at least one snapshot preceding the debugged part of
+the replay log.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
 ---
- include/sysemu/replay.h  |    2 ++
- migration/savevm.c       |    6 ++++++
- replay/replay-internal.h |    2 --
- 3 files changed, 8 insertions(+), 2 deletions(-)
+ accel/tcg/translator.c    |    1 +
+ cpus.c                    |   14 +++++++++--
+ exec.c                    |    7 ++++++
+ gdbstub.c                 |   56 +++++++++++++++++++++++++++++++++++++++++++--
+ include/sysemu/replay.h   |   11 +++++++++
+ replay/replay-debugging.c |   33 +++++++++++++++++++++++++++
+ stubs/replay.c            |    5 ++++
+ 7 files changed, 121 insertions(+), 6 deletions(-)
 
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index 3fe14b5f57..d7e859d915 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -140,6 +140,8 @@ void replay_disable_events(void);
- void replay_enable_events(void);
- /*! Returns true when saving events is enabled */
- bool replay_events_enabled(void);
-+/* Flushes events queue */
-+void replay_flush_events(void);
- /*! Adds bottom half event to the queue */
- void replay_bh_schedule_event(QEMUBH *bh);
- /*! Adds input event to the queue */
-diff --git a/migration/savevm.c b/migration/savevm.c
-index a113cc187d..053f470eea 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2793,6 +2793,12 @@ int load_snapshot(const char *name, Error **errp)
-         return -EINVAL;
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 9226a348a3..708bbedd43 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -16,6 +16,7 @@
+ #include "exec/gen-icount.h"
+ #include "exec/log.h"
+ #include "exec/translator.h"
++#include "sysemu/replay.h"
+ 
+ /* Pairs with tcg_clear_temp_count.
+    To be called by #TranslatorOps.{translate_insn,tb_stop} if
+diff --git a/cpus.c b/cpus.c
+index 0a44253523..c2356f9836 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -1109,9 +1109,17 @@ static bool cpu_can_run(CPUState *cpu)
+ 
+ static void cpu_handle_guest_debug(CPUState *cpu)
+ {
+-    gdb_set_stop_cpu(cpu);
+-    qemu_system_debug_request();
+-    cpu->stopped = true;
++    if (!replay_running_debug()) {
++        gdb_set_stop_cpu(cpu);
++        qemu_system_debug_request();
++        cpu->stopped = true;
++    } else {
++        if (!cpu->singlestep_enabled) {
++            cpu_single_step(cpu, SSTEP_ENABLE);
++        } else {
++            cpu_single_step(cpu, 0);
++        }
++    }
+ }
+ 
+ #ifdef CONFIG_LINUX
+diff --git a/exec.c b/exec.c
+index e7622d1956..ee21e6de34 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2816,6 +2816,13 @@ static void check_watchpoint(int offset, int len, MemTxAttrs attrs, int flags)
+     QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+         if (cpu_watchpoint_address_matches(wp, vaddr, len)
+             && (wp->flags & flags)) {
++            if (replay_running_debug()) {
++                /*
++                 * Don't process the watchpoints when we are
++                 * in a reverse debugging operation.
++                 */
++                return;
++            }
+             if (flags == BP_MEM_READ) {
+                 wp->flags |= BP_WATCHPOINT_HIT_READ;
+             } else {
+diff --git a/gdbstub.c b/gdbstub.c
+index 8618e34311..2fe718d0b7 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -43,6 +43,7 @@
+ #include "sysemu/kvm.h"
+ #include "hw/semihosting/semihost.h"
+ #include "exec/exec-all.h"
++#include "sysemu/replay.h"
+ 
+ #ifdef CONFIG_USER_ONLY
+ #define GDB_ATTACHED "0"
+@@ -364,6 +365,20 @@ typedef struct GDBState {
+  */
+ static int sstep_flags = SSTEP_ENABLE|SSTEP_NOIRQ|SSTEP_NOTIMER;
+ 
++/* Retrieves flags for single step mode. */
++static int get_sstep_flags(void)
++{
++    /*
++     * In replay mode all events written into the log should be replayed.
++     * That is why NOIRQ flag is removed in this mode.
++     */
++    if (replay_mode != REPLAY_MODE_NONE) {
++        return SSTEP_ENABLE;
++    } else {
++        return sstep_flags;
++    }
++}
++
+ static GDBState *gdbserver_state;
+ 
+ bool gdb_has_xml;
+@@ -454,7 +469,7 @@ static int gdb_continue_partial(GDBState *s, char *newstates)
+     CPU_FOREACH(cpu) {
+         if (newstates[cpu->cpu_index] == 's') {
+             trace_gdbstub_op_stepping(cpu->cpu_index);
+-            cpu_single_step(cpu, sstep_flags);
++            cpu_single_step(cpu, get_sstep_flags());
+         }
+     }
+     s->running_state = 1;
+@@ -473,7 +488,7 @@ static int gdb_continue_partial(GDBState *s, char *newstates)
+                 break; /* nothing to do here */
+             case 's':
+                 trace_gdbstub_op_stepping(cpu->cpu_index);
+-                cpu_single_step(cpu, sstep_flags);
++                cpu_single_step(cpu, get_sstep_flags());
+                 cpu_resume(cpu);
+                 flag = 1;
+                 break;
+@@ -1826,10 +1841,31 @@ static void handle_step(GdbCmdContext *gdb_ctx, void *user_ctx)
+         gdb_set_cpu_pc(gdb_ctx->s, (target_ulong)gdb_ctx->params[0].val_ull);
      }
  
-+    /*
-+     * Flush the record/replay queue. Now the VM state is going
-+     * to change. Therefore we don't need to preserve its consistency
-+     */
-+    replay_flush_events();
-+
-     /* Flush all IO requests so they don't interfere with the new state.  */
-     bdrv_drain_all_begin();
+-    cpu_single_step(gdb_ctx->s->c_cpu, sstep_flags);
++    cpu_single_step(gdb_ctx->s->c_cpu, get_sstep_flags());
+     gdb_continue(gdb_ctx->s);
+ }
  
-diff --git a/replay/replay-internal.h b/replay/replay-internal.h
-index 8c15a41350..945802361b 100644
---- a/replay/replay-internal.h
-+++ b/replay/replay-internal.h
-@@ -146,8 +146,6 @@ void replay_read_next_clock(unsigned int kind);
- void replay_init_events(void);
- /*! Clears internal data structures for events handling */
- void replay_finish_events(void);
--/*! Flushes events queue */
--void replay_flush_events(void);
- /*! Returns true if there are any unsaved events in the queue */
- bool replay_has_events(void);
- /*! Saves events from queue into the file */
++static void handle_backward(GdbCmdContext *gdb_ctx, void *user_ctx)
++{
++    if (replay_mode != REPLAY_MODE_PLAY) {
++        put_packet(gdb_ctx->s, "E22");
++    }
++    if (gdb_ctx->num_params == 1) {
++        switch (gdb_ctx->params[0].opcode) {
++        case 's':
++            if (replay_reverse_step()) {
++                gdb_continue(gdb_ctx->s);
++            } else {
++                put_packet(gdb_ctx->s, "E14");
++            }
++            return;
++        }
++    }
++
++    /* Default invalid command */
++    put_packet(gdb_ctx->s, "");
++}
++
+ static void handle_v_cont_query(GdbCmdContext *gdb_ctx, void *user_ctx)
+ {
+     put_packet(gdb_ctx->s, "vCont;c;C;s;S");
+@@ -2084,6 +2120,9 @@ static void handle_query_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
+         pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf),
+                 ";qXfer:features:read+");
+     }
++    if (replay_mode == REPLAY_MODE_PLAY) {
++        pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";ReverseStep+");
++    }
+ 
+     if (gdb_ctx->num_params &&
+         strstr(gdb_ctx->params[0].data, "multiprocess+")) {
+@@ -2423,6 +2462,17 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
+             cmd_parser = &step_cmd_desc;
+         }
+         break;
++    case 'b':
++        {
++            static const GdbCmdParseEntry backward_cmd_desc = {
++                .handler = handle_backward,
++                .cmd = "b",
++                .cmd_startswith = 1,
++                .schema = "o0"
++            };
++            cmd_parser = &backward_cmd_desc;
++        }
++        break;
+     case 'F':
+         {
+             static const GdbCmdParseEntry file_io_cmd_desc = {
+diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
+index d7e859d915..533003f2b0 100644
+--- a/include/sysemu/replay.h
++++ b/include/sysemu/replay.h
+@@ -73,6 +73,17 @@ void replay_finish(void);
+ void replay_add_blocker(Error *reason);
+ /* Returns name of the replay log file */
+ const char *replay_get_filename(void);
++/*
++ * Start making one step in backward direction.
++ * Used by gdbstub for backwards debugging.
++ * Returns true on success.
++ */
++bool replay_reverse_step(void);
++/*
++ * Returns true if replay module is processing
++ * reverse_continue or reverse_step request
++ */
++bool replay_running_debug(void);
+ 
+ /* Processing the instructions */
+ 
+diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
+index e3821ab1ba..3d94859b8f 100644
+--- a/replay/replay-debugging.c
++++ b/replay/replay-debugging.c
+@@ -21,6 +21,13 @@
+ #include "block/snapshot.h"
+ #include "migration/snapshot.h"
+ 
++static bool replay_is_debugging;
++
++bool replay_running_debug(void)
++{
++    return replay_is_debugging;
++}
++
+ void hmp_info_replay(Monitor *mon, const QDict *qdict)
+ {
+     if (replay_mode == REPLAY_MODE_NONE) {
+@@ -219,3 +226,29 @@ void hmp_replay_seek(Monitor *mon, const QDict *qdict)
+         return;
+     }
+ }
++
++static void replay_stop_vm_debug(void *opaque)
++{
++    replay_is_debugging = false;
++    vm_stop(RUN_STATE_DEBUG);
++    replay_delete_break();
++}
++
++bool replay_reverse_step(void)
++{
++    Error *err = NULL;
++
++    assert(replay_mode == REPLAY_MODE_PLAY);
++
++    if (replay_get_current_step() != 0) {
++        replay_seek(replay_get_current_step() - 1, replay_stop_vm_debug, &err);
++        if (err) {
++            error_free(err);
++            return false;
++        }
++        replay_is_debugging = true;
++        return true;
++    }
++
++    return false;
++}
+diff --git a/stubs/replay.c b/stubs/replay.c
+index 4ac607895d..521552fa83 100644
+--- a/stubs/replay.c
++++ b/stubs/replay.c
+@@ -80,3 +80,8 @@ void replay_mutex_lock(void)
+ void replay_mutex_unlock(void)
+ {
+ }
++
++bool replay_reverse_step(void)
++{
++    return false;
++}
 
 
