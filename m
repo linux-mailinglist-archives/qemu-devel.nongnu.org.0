@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1A54EB33
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:53:13 +0200 (CEST)
-Received: from localhost ([::1]:35758 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FDCB4EB0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 16:49:08 +0200 (CEST)
+Received: from localhost ([::1]:35712 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heKuf-0000xs-5F
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45910)
+	id 1heKqh-0005L2-HR
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 10:49:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46049)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1heKoU-0003ID-Ge
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:52 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1heKoP-0003PE-Gr
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:46:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1heKga-0002oK-0R
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:38:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35676)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1heKgZ-0002oB-Nt
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:38:39 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D866F6EB82;
- Fri, 21 Jun 2019 14:38:28 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-120-204.rdu2.redhat.com
- [10.10.120.204])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB2F160572;
- Fri, 21 Jun 2019 14:38:18 +0000 (UTC)
-Date: Fri, 21 Jun 2019 10:38:16 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Message-ID: <20190621143816.GA24282@localhost.localdomain>
-References: <20190621060925.16214-1-crosa@redhat.com>
- <20190621060925.16214-2-crosa@redhat.com>
- <f18a5df8-201e-b8a1-1a3e-3e2254ce8b1e@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1heKi7-0003UA-Ic
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:40:16 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:43812)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1heKi7-0003So-Bm
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 10:40:15 -0400
+Received: by mail-oi1-x235.google.com with SMTP id w79so4807311oif.10
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 07:40:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QRu88ASqSpE5ElN5F8+dkMskCs7Oq8uu+Z49OnBx/GE=;
+ b=al6g0ACwXch8X/nPcRbMuyN8ySgijIL1t0lisk0QmBjRyEEgwpFF0uLyCvwTr7bM2K
+ vF6nM2Vdatkh0/zTxY+ZgKGmOxjxy9FHLi2KO6JtemgjNE9kCeELXQdHMLqs/mKfkRJC
+ R1TOIeFzn9oEcaKXWHP6IuJ9GyPJkxC0e7UfBcTUYRxlzcGsyE1SAQMe20pcFYNlilKR
+ wQ1cS+xGDag6QQGQIaSrRId4Z56NX0hJkhIyfFp8Tf/Il/vZZetbsPHoJn3KFzcmzxt8
+ Zk32GWzHl0/wulOdHIJNOyxAcgViCiMF5o18eIMsR9cPKrPbXxiTyyEpiFupwDkqlN1r
+ klXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QRu88ASqSpE5ElN5F8+dkMskCs7Oq8uu+Z49OnBx/GE=;
+ b=c0Y1F9zihO61DaPz3aKKLzMsBBN3/mZ0v7JEpuVG1D1JkApWbRcjlL89TkQpUmE3qy
+ uhn9IiH+JXpTG43Iy6M5VY/rJhRr2/4uknbYyccxOk0kZ9hvdhftg1wGsnUzOQjDLl4G
+ ATTnIVMnBbD3EnrTcQPKlmS2nSafkkJZww3f6qVULquVoAV7wRyjrhJuJTOILCD5GRF9
+ a6dL/iTh3CJ1txY+kH0/NWvVWb52zGGzeQssW4mP0TjwWqwFquup5R7PQdCrXi0hStcB
+ ViQJadocw1P9Jx70Ygg6OgPGDx8cxqFvfZjNQ85c/wqM6vLXxeBEYqbRYOhZ4BVXwJAc
+ Xbkg==
+X-Gm-Message-State: APjAAAXe1iKdrV/q6JmpoX6l8u2BhaFO6W1s13RM0TwFXmAUSnLPTMYd
+ JawbipfQOhkn7tZ3dlCJg5o4K1tz2vp1L49XM7SjAg==
+X-Google-Smtp-Source: APXvYqwIaWW6r93Qm7QJK5e9OAyjmS9PNCHPmq7sA8fRZgFBTOPVYmZHD9bvJfWCWOFUcFONHdtUUkxDKzJNWVZGBPo=
+X-Received: by 2002:aca:ac48:: with SMTP id v69mr2865094oie.48.1561128014317; 
+ Fri, 21 Jun 2019 07:40:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <f18a5df8-201e-b8a1-1a3e-3e2254ce8b1e@redhat.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 21 Jun 2019 14:38:38 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] Acceptance tests: exclude "flaky" tests
+References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 21 Jun 2019 15:40:03 +0100
+Message-ID: <CAFEAcA-eD9f25u17BYcj1qGBkdX4B-i0aB-ubGVcbyzfuyCdGA@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::235
+Subject: Re: [Qemu-devel] [PULL v2 00/25] Misc (mostly x86) patches for
+ 2019-06-21
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,197 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 21, 2019 at 09:03:33AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> On 6/21/19 8:09 AM, Cleber Rosa wrote:
-> > It's a fact that some tests may not be 100% reliable in all
-> > environments.  While it's a tough call to remove a useful test that
-> > from the tree because it may fail every 1/100th time (or so), having
-> > human attention drawn to known issues is very bad for humans and for
-> > the projects they manage.
-> >=20
-> > As a compromise solution, this marks tests that are known to have
-> > issues, or that exercises known issues in QEMU or other components,
-> > and excludes them from the entry point.  As a consequence, tests
-> > marked as "flaky" will not be executed as part of "make
-> > check-acceptance".
-> >=20
-> > Because such tests should be forgiven but never be forgotten, it's
-> > possible to list them with (assuming "make check-venv" or "make
-> > check-acceptance" has already initiatilized the venv):
-> >=20
-> >   $ ./tests/venv/bin/avocado list -t flaky tests/acceptance
-> >=20
-> > The current list of tests marked as flaky are a result of running
-> > the entire set of acceptance tests around 20 times.  The results
-> > were then processed with a helper script[1].  That either confirmed
-> > known issues (in the case of aarch64 and arm)[2] or revealed new
-> > ones (mips).
-> >=20
-> > This also bumps the Avocado version to one that includes a fix to the
-> > parsing of multiple and mix "key:val" and simple tag values.
-> >=20
-> > [1] https://raw.githubusercontent.com/avocado-framework/avocado/maste=
-r/contrib/scripts/summarize-job-failures.py
-> > [2] https://bugs.launchpad.net/qemu/+bug/1829779
-> >=20
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> >  docs/devel/testing.rst                   | 17 +++++++++++++++++
-> >  tests/Makefile.include                   |  6 +++++-
-> >  tests/acceptance/boot_linux_console.py   |  2 ++
-> >  tests/acceptance/linux_ssh_mips_malta.py |  2 ++
-> >  tests/requirements.txt                   |  2 +-
-> >  5 files changed, 27 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> > index da2d0fc964..ff4d8e2e1c 100644
-> > --- a/docs/devel/testing.rst
-> > +++ b/docs/devel/testing.rst
-> > @@ -574,6 +574,23 @@ may be invoked by running:
-> > =20
-> >    tests/venv/bin/avocado run $OPTION1 $OPTION2 tests/acceptance/
-> > =20
-> > +Tagging tests
-> > +-------------
-> > +
-> > +flaky
-> > +~~~~~
-> > +
-> > +If a test is known to fail intermittently, even if only every one
-> > +hundredth time, it's highly advisable to mark it as a flaky test.
-> > +This will prevent these individual tests from failing much larger
-> > +jobs, will avoid human interaction and time wasted to verify a known
-> > +issue, and worse of all, can lead to the discredit of automated
-> > +testing.
-> > +
-> > +To mark a test as flaky, add to its docstring.::
-> > +
-> > +  :avocado: tags=3Dflaky
->=20
-> I certainly disagree with this patch, failing tests have to be fixed.
-> Why not tag all the codebase flaky and sing "happy coding"?
+On Fri, 21 Jun 2019 at 12:34, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 33d609990621dea6c7d056c86f707b8811320ac1:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-06-18 17:00:52 +0100)
+>
+> are available in the git repository at:
+>
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 8e8cbed09ad9d577955691b4c061b61b602406d1:
+>
+>   hw: Nuke hw_compat_4_0_1 and pc_compat_4_0_1 (2019-06-21 13:25:29 +0200)
+>
+> ----------------------------------------------------------------
+> * Nuke hw_compat_4_0_1 and pc_compat_4_0_1 (Greg)
+> * Static analysis fixes (Igor, Lidong)
+> * X86 Hyper-V CPUID improvements (Vitaly)
+> * X86 nested virt migration (Liran)
+> * New MSR-based features (Xiaoyao)
 >
 
-That's a great idea! :)
+Applied, thanks.
 
-Now, seriously, I also resisted this for quite a long time.  The
-reality, though, is that intermittent failures will continue to
-appear, and letting tests (and jobs, and CI pipelines, and whatnot)
-fail is a very bad idea.  We all agree that real fixes are better than
-this, but many times they don't come quickly.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-> Anyway if this get accepted, 'flaky' tags must have the intermittent
-> failure well described, and a Launchpad/Bugzilla tracking ticket refere=
-nced.
->
-
-And here you have a key point that I absolutely agree with.  The
-"flaky" approach can either poison a lot of tests, and be seen as
-quick way out of a difficult issue revealed by a test.  Or, it can
-serve as an effective tool to keep track of these very important
-issues.
-
-If we add:
-
-   # https://bugs.launchpad.net/qemu/+bug/1829779
-   :avocado: flaky
-
-Topped with some human, I believe this can be very effective.  This goes
-without saying, but comments here are very much welcome.
-
-- Cleber.
-
-> > +
-> >  Manual Installation
-> >  -------------------
-> > =20
-> > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> > index db750dd6d0..4c97da2878 100644
-> > --- a/tests/Makefile.include
-> > +++ b/tests/Makefile.include
-> > @@ -1125,7 +1125,11 @@ TESTS_RESULTS_DIR=3D$(BUILD_DIR)/tests/results
-> >  # Any number of command separated loggers are accepted.  For more
-> >  # information please refer to "avocado --help".
-> >  AVOCADO_SHOW=3Dapp
-> > -AVOCADO_TAGS=3D$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(=
-TARGET_DIRS)))
-> > +
-> > +# Additional tags that are added to each occurence of "--filter-by-t=
-ags"
-> > +AVOCADO_EXTRA_TAGS :=3D ,-flaky
-> > +
-> > +AVOCADO_TAGS=3D$(patsubst %-softmmu,--filter-by-tags=3Darch:%$(AVOCA=
-DO_EXTRA_TAGS), $(filter %-softmmu,$(TARGET_DIRS)))
-> > =20
-> >  ifneq ($(findstring v2,"v$(PYTHON_VERSION)"),v2)
-> >  $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
-> > diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptanc=
-e/boot_linux_console.py
-> > index 32159503e9..6bd5c1ab53 100644
-> > --- a/tests/acceptance/boot_linux_console.py
-> > +++ b/tests/acceptance/boot_linux_console.py
-> > @@ -249,6 +249,7 @@ class BootLinuxConsole(Test):
-> >          """
-> >          :avocado: tags=3Darch:aarch64
-> >          :avocado: tags=3Dmachine:virt
-> > +        :avocado: tags=3Dflaky
-> >          """
-> >          kernel_url =3D ('https://download.fedoraproject.org/pub/fedo=
-ra/linux/'
-> >                        'releases/29/Everything/aarch64/os/images/pxeb=
-oot/vmlinuz')
-> > @@ -270,6 +271,7 @@ class BootLinuxConsole(Test):
-> >          """
-> >          :avocado: tags=3Darch:arm
-> >          :avocado: tags=3Dmachine:virt
-> > +        :avocado: tags=3Dflaky
-> >          """
-> >          kernel_url =3D ('https://download.fedoraproject.org/pub/fedo=
-ra/linux/'
-> >                        'releases/29/Everything/armhfp/os/images/pxebo=
-ot/vmlinuz')
-> > diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/accepta=
-nce/linux_ssh_mips_malta.py
-> > index aafb0c39f6..ae70b658e0 100644
-> > --- a/tests/acceptance/linux_ssh_mips_malta.py
-> > +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> > @@ -208,6 +208,7 @@ class LinuxSSH(Test):
-> >          :avocado: tags=3Dmachine:malta
-> >          :avocado: tags=3Dendian:big
-> >          :avocado: tags=3Ddevice:pcnet32
-> > +        :avocado: tags=3Dflaky
-> >          """
-> >          kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mip=
-s/'
-> >                        'vmlinux-3.2.0-4-5kc-malta')
-> > @@ -222,6 +223,7 @@ class LinuxSSH(Test):
-> >          :avocado: tags=3Dmachine:malta
-> >          :avocado: tags=3Dendian:little
-> >          :avocado: tags=3Ddevice:pcnet32
-> > +        :avocado: tags=3Dflaky
-> >          """
-> >          kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mip=
-sel/'
-> >                        'vmlinux-3.2.0-4-5kc-malta')
-> > diff --git a/tests/requirements.txt b/tests/requirements.txt
-> > index 3ae0e29ad7..58d63d171f 100644
-> > --- a/tests/requirements.txt
-> > +++ b/tests/requirements.txt
-> > @@ -1,5 +1,5 @@
-> >  # Add Python module requirements, one per line, to be installed
-> >  # in the tests/venv Python virtual environment. For more info,
-> >  # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
-> > -avocado-framework=3D=3D68.0
-> > +avocado-framework=3D=3D69.1
-> >  paramiko
-> >=20
->=20
+-- PMM
 
