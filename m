@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0056A4E763
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:55:56 +0200 (CEST)
-Received: from localhost ([::1]:60016 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F044E75F
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:53:44 +0200 (CEST)
+Received: from localhost ([::1]:59996 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heI95-00045X-Qj
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:55:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49230)
+	id 1heI6x-0001tp-KF
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49229)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHl1-0000wp-99
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHl1-0000wo-99
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:31:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkl-00067B-Op
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHkm-00067Y-9c
  for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:55 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53539)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51500)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1heHkl-00066I-AJ
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:47 -0400
-Received: by mail-wm1-x335.google.com with SMTP id x15so5999187wmj.3
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:47 -0700 (PDT)
+ id 1heHkm-00066q-34
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:48 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 207so6031510wma.1
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=H+GIX/ew7P3W1KtFZyQEoH7Aekz0PvrQKasKssVk2dE=;
- b=e3490pY53AyTGdnzLusrPW1DhvfbMRppGiwbKOfQMLHdcP3aP2llaPJI48NTDyyA8U
- CAQjvDkaHdVwqGHE4D9QXer0uV+oVVF5xCQqFnT+Oz94lt8z9oPztfV0X+YEo6tipfbH
- gzEFgw/sHb6zu+hrOh25hWbjsiS1y6ZqTZDrxcKqRmvuWM6wcCM9MstWDunn9tKvXB6W
- R5cL5g+TbEvMecGaBsOo5k+RivyeqCbPmc1QeYh92+Kopa+Emmz0+m8a7rNKQnOcrPBc
- 1cvOzU2DjxOnRQx9rQv69rALlS8PuHtZqD/NXM50SkNh/I3pAAqrFPZpmYSSF1fXl81F
- MUCA==
+ bh=a3VGuwnoGM9LiZBZHhLPfux9Kyat183XzMS8uuGHjKk=;
+ b=vfnsTVvpoLsCV3J9zxaZqMHgDbWFpYiznQGay7eixnslFrrXf6aaHfu/LuUcQ3zzUQ
+ iSKdr2mNqA8+lC+FALXYH/E2iUegO5ESxvOvCYo5J2ITcYKqwkMoQUaTnLoI0Lb7wPzl
+ YzFfu8WE95I9HTJHx4Oc1J0bnQOAFqrfFXMPGKhiyXwJtGvpOtMiuLP1a3URV8bXmTR8
+ Lk8Uklm02kAI+plAP6R7VHwfQxtqsrQSohd4Dl0Dl04V4DB4dV+UiwkHZimhZnp1y23d
+ 8qshSMOOgs9pIkbtjux5AKVg2hbqif0+pai00AevWUAAgQM+yNMCAXWBcYpEzyvUMzB0
+ VUkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=H+GIX/ew7P3W1KtFZyQEoH7Aekz0PvrQKasKssVk2dE=;
- b=L1H4q8ifJkoPGIlMmEx3F/A78xdLUJrBF+MqYdQW+No4kdQHVWxXresQOpRF7se+Cf
- EEMQ0MtXaqXo8FFxvEB/0Kz8aTy0ZtDGw/79A30TKifZSKpjctzyRxbxsmrHEmJt4kCa
- Vda52Aqc1f0hMD00Z3Vwd0OnBLRVOzVNH1S8i2tXR+GsXLi0W3thMA/NMpf7eNM/py2x
- eQej/WPj9n4xt4paq7WsEEP+avvH+CHAn+44uTrfI0udImkdbcKucxRrDF2JBhj1jBa4
- Jc2OaRI1X+e/0/dg8MnMPCNfbtr8Cr5EihZtJBOXBQeHjbLDrIXQbWGx3iwL3kWScVbL
- e6uQ==
-X-Gm-Message-State: APjAAAUej13A6eS2NYfHJycD6+FHKYsKA0UQd7JkAdeR7lVPOrrNVaA7
- sn3kspZmXp/5SwuID8qDjGj9tru9
-X-Google-Smtp-Source: APXvYqw78QfeB8EWm76XpNXcEi9/Yq23E6X/cR6dtxqTrBJHKMJGGklY+qIcdVmAfPM7GBC0IHWgIA==
-X-Received: by 2002:a05:600c:2549:: with SMTP id
- e9mr3946555wma.46.1561116646000; 
+ bh=a3VGuwnoGM9LiZBZHhLPfux9Kyat183XzMS8uuGHjKk=;
+ b=gYoEtvlK9hi3DRqPzqU+B492pZvRIxDzs5XV4Sf7NEzqNVr68W6SSSS/+BI6wg7wQL
+ yvgyEPIjjiXTeyc2P6hNwUaYPVRle0Yer4o+RMyYBcYbT5TEgcSB/BjxoVCNyb7GzGRx
+ O0PLgVrQ4QT6RTturzUikg79i4kHdgNSw2xBJhmOx+IsFd1xDQE20Ai7mSW6bVOCe2Id
+ XUnvFCVnkYPSDoglVqVeJkhHox6IqgDmqenZ7TtzA1lRDMCfNfhaKaK3LzG70Ld77z92
+ 4qcbUrgomsP/JOhUbHGIfeae+T/05yE7VWqxHzTNiol48H/dBiG8R0/VMhCyf/zRLb0E
+ 4lDw==
+X-Gm-Message-State: APjAAAVZ6riUeHYMv53RRFaoJVjifrWXnM21Zy36y67jJVRfVRdOkq7i
+ +Bk4A0Ht4C+VRc7tGVz1Z4dcb9sN
+X-Google-Smtp-Source: APXvYqykY5Odf/j/xE+rxPQq1QqQ6UYmgViZuKeBIK6KH4Iz3JOnPODDY2Ri9Y90KAwqSXcAOoyxBQ==
+X-Received: by 2002:a7b:cc97:: with SMTP id p23mr4031210wma.120.1561116646861; 
  Fri, 21 Jun 2019 04:30:46 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.45
+ by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.46
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:30:45 -0700 (PDT)
+ Fri, 21 Jun 2019 04:30:46 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:30:18 +0200
-Message-Id: <1561116620-22245-24-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 13:30:19 +0200
+Message-Id: <1561116620-22245-25-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
@@ -66,8 +65,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::335
-Subject: [Qemu-devel] [PULL 23/25] sd: Fix out-of-bounds assertions
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 24/25] util/main-loop: Fix incorrect assertion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,44 +84,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lidong Chen <lidong.chen@oracle.com>
 
-Due to an off-by-one error, the assert statements allow an
-out-of-bound array access.  This doesn't happen in practice,
-but the static analyzer notices.
+The check for poll_fds in g_assert() was incorrect. The correct assertion
+should check "n_poll_fds + w->num <= ARRAY_SIZE(poll_fds)" because the
+subsequent for-loop is doing access to poll_fds[n_poll_fds + i] where i
+is in [0, w->num).  This could happen with a very high number of file
+descriptors and/or wait objects.
 
 Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
-Reviewed-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Suggested-by: Liam Merwick <liam.merwick@oracle.com>
+Reviewed-by: Liran Alon <liran.alon@oracle.com>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <6b19cb7359a10a6bedc3ea0fce22fed3ef93c102.1560806687.git.lidong.chen@oracle.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <ded30967982811617ce7f0222d11228130c198b7.1560806687.git.lidong.chen@oracle.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/sd/sd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ util/main-loop.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 60500ec..917195a6 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -145,7 +145,7 @@ static const char *sd_state_name(enum SDCardStates state)
-     if (state == sd_inactive_state) {
-         return "inactive";
-     }
--    assert(state <= ARRAY_SIZE(state_name));
-+    assert(state < ARRAY_SIZE(state_name));
-     return state_name[state];
- }
+diff --git a/util/main-loop.c b/util/main-loop.c
+index e1e349c..a9f4e8d 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -422,7 +422,7 @@ static int os_host_main_loop_wait(int64_t timeout)
+     g_main_context_prepare(context, &max_priority);
+     n_poll_fds = g_main_context_query(context, max_priority, &poll_timeout,
+                                       poll_fds, ARRAY_SIZE(poll_fds));
+-    g_assert(n_poll_fds <= ARRAY_SIZE(poll_fds));
++    g_assert(n_poll_fds + w->num <= ARRAY_SIZE(poll_fds));
  
-@@ -166,7 +166,7 @@ static const char *sd_response_name(sd_rsp_type_t rsp)
-     if (rsp == sd_r1b) {
-         rsp = sd_r1;
-     }
--    assert(rsp <= ARRAY_SIZE(response_name));
-+    assert(rsp < ARRAY_SIZE(response_name));
-     return response_name[rsp];
- }
- 
+     for (i = 0; i < w->num; i++) {
+         poll_fds[n_poll_fds + i].fd = (DWORD_PTR)w->events[i];
 -- 
 1.8.3.1
 
