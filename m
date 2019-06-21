@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136804DF2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 04:49:06 +0200 (CEST)
-Received: from localhost ([::1]:54328 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9C14DF36
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 04:51:41 +0200 (CEST)
+Received: from localhost ([::1]:54344 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1he9bs-0001Ro-OK
-	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 22:49:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56752)
+	id 1he9eO-0003YR-PL
+	for lists+qemu-devel@lfdr.de; Thu, 20 Jun 2019 22:51:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59561)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peterx@redhat.com>) id 1he9ZE-0000Im-PU
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:46:21 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1he9cd-0002qs-BY
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:49:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1he9Pe-0003yw-ER
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:36:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39348)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1he9Pe-0003yO-81
- for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:36:26 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2EF6330842A0;
- Fri, 21 Jun 2019 02:36:25 +0000 (UTC)
-Received: from xz-x1 (unknown [10.66.60.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B7211601A5;
- Fri, 21 Jun 2019 02:36:18 +0000 (UTC)
-Date: Fri, 21 Jun 2019 10:36:13 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190621023613.GB9371@xz-x1>
-References: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
- <39c4c32b-e34a-8d8f-abbc-ab346ec5bed7@redhat.com>
- <20190620040230.GB9073@xz-x1>
- <6829b139-3eab-449e-04d6-07f1e381316d@redhat.com>
- <20190620125955.GB9657@xz-x1>
- <df223a1f-bb87-0914-6216-8a4a70aae3ab@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <df223a1f-bb87-0914-6216-8a4a70aae3ab@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Fri, 21 Jun 2019 02:36:25 +0000 (UTC)
+ (envelope-from <palmer@dabbelt.com>) id 1he9cc-0007P9-0g
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:49:51 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:40797)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1he9ca-0007K7-VL
+ for qemu-devel@nongnu.org; Thu, 20 Jun 2019 22:49:49 -0400
+Received: by mail-pl1-f194.google.com with SMTP id a93so2241910pla.7
+ for <qemu-devel@nongnu.org>; Thu, 20 Jun 2019 19:49:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=aw5wQUD3VPHO+OMY2qMWNTo++9Jftg7mvus/qfGsyqE=;
+ b=Kw/OXMVrV6z0PkIdX0p+GMp3zP+JiXIBRpC9B4W1lFvNRUQ0/K+NPoo8wyTKKZn4B/
+ X37ghvqKZfm+w5Lnundq0Vhy/C32nyAKFjuPty94KLk/lcbeWqz7Ygm5eSWXZ64dEH8w
+ Muui9MERf0/3td7vi+2LWVUC11Hzh5srPYSBfMyv/n0Cy2gsat8LKFYtbF2z1zLAVjcI
+ RJWAXsJdqstsQKO2rp/OiQ0kdJJKJoUSDtdkM1WgIfCbgLbiERJSznYsckN5ZxpxSvHB
+ YNRqBE7W+NVDIWzlWBUAn+TTtp0wAS0eX14X/0XLn21PNLJAd8mkzo7Y95YWCDPIlg0h
+ O2Jg==
+X-Gm-Message-State: APjAAAXVKSzm2itZwqK3gJMdu35njmPXI1HYdZRhvzPCtek0XKNtKQY7
+ eKCGirVlJZMWzZinMkdqdH7fug==
+X-Google-Smtp-Source: APXvYqyfTMyEBgN9jjzkVHj92pAld7l8OPxCMiJDL7IwcJepCj6g1F4eYyELMa6BA8U7TNxYwl0QEQ==
+X-Received: by 2002:a17:902:8f87:: with SMTP id
+ z7mr100620972plo.65.1561085385651; 
+ Thu, 20 Jun 2019 19:49:45 -0700 (PDT)
+Received: from localhost (amx-tls3.starhub.net.sg. [203.116.164.13])
+ by smtp.gmail.com with ESMTPSA id h21sm863887pgg.75.2019.06.20.19.49.43
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 20 Jun 2019 19:49:44 -0700 (PDT)
+Date: Thu, 20 Jun 2019 19:49:44 -0700 (PDT)
+X-Google-Original-Date: Thu, 20 Jun 2019 19:41:46 PDT (-0700)
+In-Reply-To: <CAKmqyKPRWASwUPQUROPWyrNC8gXTnizXTaXYdpbEAmkfjOZo1g@mail.gmail.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-2816be05-3e0d-4cb6-a39e-082b071f8ba2@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] memory: do not do out of bound notification
+ [fuzzy]
+X-Received-From: 209.85.214.194
+Subject: Re: [Qemu-devel] [PATCH v1 0/9] Update the RISC-V specification
+ versions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,64 +68,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Auger Eric <eric.auger@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>,
+Cc: qemu-riscv@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 20, 2019 at 03:14:04PM +0200, Paolo Bonzini wrote:
-> On 20/06/19 14:59, Peter Xu wrote:
-> > I feel like this can be problematic.  I'm imaging:
-> > 
-> > start=0x1000_0000, size=0x1000_1000
-> > 
-> > This will get size=0x1000 but actually we can do size=0x1000_0000 as
-> > the first.
-> 
-> Right, we can do:
-> 
-> /*
->  * If a naturally aligned region starting at "start" ends before "end",
->  * use it.  Otherwise, keep the lowest bit of size.
->  */
-> if (size > (start & -start))
->     size = start & -start;
+On Wed, 19 Jun 2019 07:19:38 PDT (-0700), alistair23@gmail.com wrote:
+> On Wed, Jun 19, 2019 at 3:58 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+>>
+>> On Mon, 17 Jun 2019 18:31:00 PDT (-0700), Alistair Francis wrote:
+>> > Based-on: <cover.1555726824.git.alistair.francis@wdc.com>
+>> >
+>> > Now that the RISC-V spec has started to be ratified let's update our
+>> > QEMU implementation. There are a few things going on here:
+>> >  - Add priv version 1.11.0 to QEMU
+>> >     - This is the ratified version of the Privledge spec
+>> >     - There are almost no changes to 1.10
+>> >  - Mark the 1.09.1 privledge spec as depreated
+>> >      - Let's aim to remove it in two releases
+>> >  - Set priv version 1.11.0 as the default
+>> >  - Remove the user_spec version
+>> >      - This doesn't really mean anything so let's remove it
+>> >  - Add support for the "Counters" extension
+>> >  - Add command line options for Zifencei and Zicsr
+>>
+>> Thanks!  I'll look at the code, but I've currently got this queued up behind
+>> your hypervisor patches so it might take a bit.  LMK if you want me to invert
+>> the priority on these.  I'll probably be buried until the start of July.
+>
+> Let's move the Hypervisor patches to the back then. There is a new
+> spec version now anyway so I'll have to update them for that.
 
-May need to consider start==0, otherwise size will be zero here?
+OK.  Do you want me to just drop them and wait for a v2 / draft 0.4?
 
-> else
->     size = size & -size;
-
-Should use MSB rather than LSB of size?
-
-> 
-> >>
-> >> +        trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
-> >> +                                 VTD_PCI_SLOT(as->devfn),
-> >> +                                 VTD_PCI_FUNC(as->devfn),
-> >> +                                 entry.iova, size);
-> > 
-> > Can move this out because this is a trace only so we don't have
-> > restriction on mask?
-> > 
-> >>
-> >> -    map.iova = entry.iova;
-> >> -    map.size = entry.addr_mask;
-> >> -    iova_tree_remove(as->iova_tree, &map);
-> >> +        map.iova = entry.iova;
-> >> +        map.size = entry.addr_mask;
-> >> +        iova_tree_remove(as->iova_tree, &map);
-> > 
-> > Same here?
-> > 
-> 
-> Yes, I would move these and the iova_tree_remove outside the loop, while
-> keeping entry's initialization inside looks cleaner.
-
-Yeah that's ok to me too.
-
-Thanks,
-
--- 
-Peter Xu
+>
+> Alistair
+>
+>>
+>> > We can remove the spec version as it's unused and has never been exposed
+>> > to users. The idea is to match the specs in specifying the version. To
+>> > handle versions in the future we can extend the extension props to
+>> > handle version information.
+>> >
+>> > For example something like this: -cpu rv64,i=2.2,c=2.0,h=0.4,priv_spec=1.11
+>> >
+>> > NOTE: This isn't supported today as we only have one of each version.
+>> >
+>> > This will be a future change if we decide to support multiple versions
+>> > of extensions.
+>> >
+>> > The "priv_spec" string doesn't really match, but I don't have a better
+>> > way to say "Machine ISA" and "Supervisor ISA" which is what is included
+>> > in "priv_spec".
+>> >
+>> > For completeness I have also added the Counters, Zifencei and Zicsr
+>> > extensions.
+>> >
+>> > Everything else seems to match the spec names/style.
+>> >
+>> > Please let me know if I'm missing something. QEMU 4.1 is the first
+>> > release to support the extensions from the command line, so we can
+>> > easily change it until then. After that it'll take more work to change
+>> > the command line interface.
+>> >
+>> > Alistair Francis (9):
+>> >   target/riscv: Restructure deprecatd CPUs
+>> >   target/riscv: Add the privledge spec version 1.11.0
+>> >   target/riscv: Comment in the mcountinhibit CSR
+>> >   target/riscv: Set privledge spec 1.11.0 as default
+>> >   qemu-deprecated.texi: Deprecate the RISC-V privledge spec 1.09.1
+>> >   target/riscv: Require either I or E base extension
+>> >   target/riscv: Remove user version information
+>> >   target/riscv: Add support for disabling/enabling Counters
+>> >   target/riscv: Add Zifencei and Zicsr as command line options
+>> >
+>> >  qemu-deprecated.texi                          |  8 +++
+>> >  target/riscv/cpu.c                            | 72 ++++++++++---------
+>> >  target/riscv/cpu.h                            | 19 ++---
+>> >  target/riscv/cpu_bits.h                       |  1 +
+>> >  target/riscv/csr.c                            | 13 +++-
+>> >  .../riscv/insn_trans/trans_privileged.inc.c   |  2 +-
+>> >  6 files changed, 71 insertions(+), 44 deletions(-)
 
