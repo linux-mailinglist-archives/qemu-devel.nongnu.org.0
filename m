@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E9F4E0AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 08:57:14 +0200 (CEST)
-Received: from localhost ([::1]:55120 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 595284E0AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 08:57:04 +0200 (CEST)
+Received: from localhost ([::1]:55116 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heDU1-0006MV-Rc
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 02:57:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56583)
+	id 1heDTr-00065p-H0
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 02:57:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56672)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <chen.zhang@intel.com>) id 1heDKz-00084e-3n
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:48:02 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1heDKv-0008Eu-67
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:47:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chen.zhang@intel.com>) id 1heDHF-00070k-5I
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:44:03 -0400
-Received: from mga09.intel.com ([134.134.136.24]:63019)
+ (envelope-from <kwankhede@nvidia.com>) id 1heDI2-0000UX-1X
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:44:51 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:17428)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <chen.zhang@intel.com>)
- id 1heDHD-0006vq-A8
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:44:01 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 20 Jun 2019 23:43:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,399,1557212400"; d="scan'208";a="243883645"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
- by orsmga001.jf.intel.com with ESMTP; 20 Jun 2019 23:43:55 -0700
-Received: from FMSMSX110.amr.corp.intel.com (10.18.116.10) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 20 Jun 2019 23:43:54 -0700
-Received: from shsmsx105.ccr.corp.intel.com (10.239.4.158) by
- fmsmsx110.amr.corp.intel.com (10.18.116.10) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Thu, 20 Jun 2019 23:43:54 -0700
-Received: from shsmsx102.ccr.corp.intel.com ([169.254.2.33]) by
- SHSMSX105.ccr.corp.intel.com ([169.254.11.72]) with mapi id 14.03.0439.000;
- Fri, 21 Jun 2019 14:43:52 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- "Li Zhijian" <lizhijian@cn.fujitsu.com>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Juan Quintela <quintela@redhat.com>, zhanghailiang
- <zhang.zhanghailiang@huawei.com>, qemu-dev <qemu-devel@nongnu.org>, "Stefano
- Stabellini" <sstabellini@kernel.org>, Paul Durrant <paul.durrant@citrix.com>
-Thread-Topic: [PATCH V2 0/5] Add Xen COLO support
-Thread-Index: AQHVHuNRBWevQzBoQk2i1pAZg06es6aTwJgAgACjccCAEVckwA==
-Date: Fri, 21 Jun 2019 06:43:52 +0000
-Message-ID: <9CFF81C0F6B98A43A459C9EDAD400D780618AD39@shsmsx102.ccr.corp.intel.com>
-References: <20190609164433.5866-1-chen.zhang@intel.com>
- <e02f265c-a0f4-0b34-e3e9-48f0d9eefaf8@redhat.com>
- <9CFF81C0F6B98A43A459C9EDAD400D780615AACB@shsmsx102.ccr.corp.intel.com>
-In-Reply-To: <9CFF81C0F6B98A43A459C9EDAD400D780615AACB@shsmsx102.ccr.corp.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.0.600.7
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMzBmYWFhYTItYTBiNy00ZWM0LTllM2YtZGUzMDBiZTlmZTM4IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiQ0VSa0krdmRYemVheWFXQzkxTzRNKytIU0Q0RjdQVE5tcDQ5Z1pGcGN1U2xvS296SHNnWTFaVVkzdG9DT0xaQSJ9
-x-originating-ip: [10.239.127.40]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1heDI1-0000NB-9i
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 02:44:49 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d0c7ce00000>; Thu, 20 Jun 2019 23:44:48 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 20 Jun 2019 23:44:47 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 20 Jun 2019 23:44:47 -0700
+Received: from [10.24.71.210] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 21 Jun
+ 2019 06:44:35 +0000
+To: Yan Zhao <yan.y.zhao@intel.com>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-4-git-send-email-kwankhede@nvidia.com>
+ <20190621001228.GE9303@joy-OptiPlex-7040>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20a0f8c4-e555-6a4d-598a-b72beac6a62f@nvidia.com>
+Date: Fri, 21 Jun 2019 12:14:30 +0530
 MIME-Version: 1.0
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.24
-Subject: Re: [Qemu-devel] [PATCH V2 0/5] Add Xen COLO support
+In-Reply-To: <20190621001228.GE9303@joy-OptiPlex-7040>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1561099489; bh=ttEsADUXYr6aQeHpPG+ugVUie+6ZSbsA9GSH8lE5Ptg=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:MIME-Version:In-Reply-To:X-Originating-IP:
+ X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=VzG0pRWh20ZTeETPVXmAsY/wtS3OhVhMfz5QjDzE7nR/U+JNdb9WANEcWhqFZA9NQ
+ cQRHInjGcARDRKt/PoWOiiPp4S3M2NGSETvOcHuD2iee/ugoGdozuaBHvEM+ut39RC
+ 82s9KQGpitRJyZ1J/O539n88sqS/WK/YuTMl7L3iLPctJfI8wfj8nJ5bTSVr6Jey9b
+ GUOeyj0YASHfW+IZcc2fpKS4fAi4vHFA7Y3xZQ35hYMmiza88D6iQhiKQItbfSeeAR
+ 4qbDKxp1a8V1Dbe45qP0AETn2hGJHoWzBFa36VdIm6MDavg8a8jMiuQ2TfnWWpougE
+ zDJ0gJoc778nQ==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
+X-Received-From: 216.228.121.64
+Subject: Re: [Qemu-devel] [PATCH v4 03/13] vfio: Add save and load functions
+ for VFIO PCI devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,58 +75,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang, 
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QW55b25lIGhhdmUgYW55IGNvbW1lbnRzIGFib3V0IHRoaXMgc2VyaWVzPw0KDQpUaGFua3MNClpo
-YW5nIENoZW4NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFFlbXUt
-ZGV2ZWwgW21haWx0bzpxZW11LWRldmVsLQ0KPiBib3VuY2VzK2NoZW4uemhhbmc9aW50ZWwuY29t
-QG5vbmdudS5vcmddIE9uIEJlaGFsZiBPZiBaaGFuZywgQ2hlbg0KPiBTZW50OiBNb25kYXksIEp1
-bmUgMTAsIDIwMTkgMTo1NiBQTQ0KPiBUbzogSmFzb24gV2FuZyA8amFzb3dhbmdAcmVkaGF0LmNv
-bT47IExpIFpoaWppYW4gPGxpemhpamlhbkBjbi5mdWppdHN1LmNvbT47DQo+IERyLiBEYXZpZCBB
-bGFuIEdpbGJlcnQgPGRnaWxiZXJ0QHJlZGhhdC5jb20+OyBKdWFuIFF1aW50ZWxhDQo+IDxxdWlu
-dGVsYUByZWRoYXQuY29tPjsgemhhbmdoYWlsaWFuZyA8emhhbmcuemhhbmdoYWlsaWFuZ0BodWF3
-ZWkuY29tPjsNCj4gcWVtdS1kZXYgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz47IFN0ZWZhbm8gU3Rh
-YmVsbGluaQ0KPiA8c3N0YWJlbGxpbmlAa2VybmVsLm9yZz47IFBhdWwgRHVycmFudCA8cGF1bC5k
-dXJyYW50QGNpdHJpeC5jb20+DQo+IENjOiBaaGFuZyBDaGVuIDx6aGFuZ2NraWRAZ21haWwuY29t
-Pg0KPiBTdWJqZWN0OiBSZTogW1FlbXUtZGV2ZWxdIFtQQVRDSCBWMiAwLzVdIEFkZCBYZW4gQ09M
-TyBzdXBwb3J0DQo+IA0KPiANCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4g
-PiBGcm9tOiBKYXNvbiBXYW5nIFttYWlsdG86amFzb3dhbmdAcmVkaGF0LmNvbV0NCj4gPiBTZW50
-OiBNb25kYXksIEp1bmUgMTAsIDIwMTkgMTI6MDkgUE0NCj4gPiBUbzogWmhhbmcsIENoZW4gPGNo
-ZW4uemhhbmdAaW50ZWwuY29tPjsgTGkgWmhpamlhbg0KPiA+IDxsaXpoaWppYW5AY24uZnVqaXRz
-dS5jb20+OyBEci4gRGF2aWQgQWxhbiBHaWxiZXJ0DQo+ID4gPGRnaWxiZXJ0QHJlZGhhdC5jb20+
-OyBKdWFuIFF1aW50ZWxhIDxxdWludGVsYUByZWRoYXQuY29tPjsNCj4gPiB6aGFuZ2hhaWxpYW5n
-IDx6aGFuZy56aGFuZ2hhaWxpYW5nQGh1YXdlaS5jb20+OyBxZW11LWRldg0KPiA+IDxxZW11LWRl
-dmVsQG5vbmdudS5vcmc+OyBTdGVmYW5vIFN0YWJlbGxpbmkgPHNzdGFiZWxsaW5pQGtlcm5lbC5v
-cmc+Ow0KPiA+IFBhdWwgRHVycmFudCA8cGF1bC5kdXJyYW50QGNpdHJpeC5jb20+DQo+ID4gQ2M6
-IFpoYW5nIENoZW4gPHpoYW5nY2tpZEBnbWFpbC5jb20+DQo+ID4gU3ViamVjdDogUmU6IFtQQVRD
-SCBWMiAwLzVdIEFkZCBYZW4gQ09MTyBzdXBwb3J0DQo+ID4NCj4gPg0KPiA+IE9uIDIwMTkvNi8x
-MCDkuIrljYgxMjo0NCwgWmhhbmcgQ2hlbiB3cm90ZToNCj4gPiA+IEZyb206IFpoYW5nIENoZW4g
-PGNoZW4uemhhbmdAaW50ZWwuY29tPg0KPiA+ID4NCj4gPiA+IFhlbiBDT0xPIGJhc2VkIG9uIEtW
-TSBDT0xPIGFyY2hpdGVjdHVyZSwgaXQgc2hhcmVkIENPTE8gcHJveHkgYW5kDQo+ID4gPiBibG9j
-ayByZXBsaWNhdGlvbiB3aXRoIEtWTSBDT0xPLiBUaGUgb25seSBkaWZmZXJlY2UgaXMgWGVuIENP
-TE8gaGF2ZQ0KPiA+ID4gb3duIENPTE8tZnJhbWUgdG8gaGFuZGxlIGxpdmUgbWlncmF0aW9uIHJl
-bGF0ZWQgZnVuY3Rpb24sIHNvIHdlIG5lZWQNCj4gPiA+IHRoaXMgc2VyaWVzIG1ha2UgWGVuIENP
-TE8gZnJhbWUgY2FuIGNvbW11bmljYXRlIHdpdGggb3RoZXIgQ09MTw0KPiA+ID4gbW9kdWxlcyBp
-biBxZW11LiBYZW4gc2lkZSByZWxhdGVkIHBhdGNoZXMgaGF2ZSBiZWVuIG1lcmdlZC4NCj4gPg0K
-PiA+DQo+ID4gQW55IHBvaW50ZXIgdG8gdGhpcz8NCj4gPg0KPiANCj4gWWVzLCBwbGVhc2Ugc2Vl
-IHRoaXMgdGhyZWFkOg0KPiANCj4gaHR0cHM6Ly9saXN0cy54ZW4ub3JnL2FyY2hpdmVzL2h0bWwv
-eGVuLWRldmVsLzIwMTctMDMvbXNnMDA3MTguaHRtbA0KPiANCj4gVGhhbmtzDQo+IFpoYW5nIENo
-ZW4NCj4gDQo+ID4gVGhhbmtzDQo+ID4NCj4gPg0KPiA+ID4NCj4gPiA+IFYyOg0KPiA+ID4gICAt
-IFJlYmFzZSBvbiB1cHN0cmVhbSBjb2RlLg0KPiA+ID4gICAtIE9wdGltaXplIGNvZGUgYnkgWmhp
-amlhbidzIGNvbW1lbnRzIGluIHBhdGNoIDQvNS4NCj4gPiA+ICAgLSBSZW1vdmUgb3JpZ2luIDUv
-NiBwYXRjaC4NCj4gPiA+DQo+ID4gPiBWMToNCj4gPiA+ICAgLSBJbml0aWFsIHBhdGNoLg0KPiA+
-ID4NCj4gPiA+IFpoYW5nIENoZW4gKDUpOg0KPiA+ID4gICAgQ09MTy1jb21wYXJlOiBBZGQgbmV3
-IHBhcmFtZXRlciB0byBjb21tdW5pY2F0ZSB3aXRoIHJlbW90ZSBjb2xvLQ0KPiA+IGZyYW1lDQo+
-ID4gPiAgICBDT0xPLWNvbXBhcmU6IEFkZCByZW1vdGUgbm90aWZpY2F0aW9uIGNoYXJkZXYgaGFu
-ZGxlciBmcmFtZQ0KPiA+ID4gICAgQ09MTy1jb21wYXJlOiBNYWtlIHRoZSBjb21wYXJlX2Nocl9z
-ZW5kKCkgY2FuIHNlbmQgbm90aWZpY2F0aW9uDQo+ID4gPiAgICAgIG1lc3NhZ2UuDQo+ID4gPiAg
-ICBDT0xPLWNvbXBhcmU6IEFkZCBjb2xvLWNvbXBhcmUgcmVtb3RlIG5vdGlmeSBzdXBwb3J0DQo+
-ID4gPiAgICBtaWdyYXRpb24vY29sby5jOiBBZGQgbWlzc2VkIGZpbHRlciBub3RpZnkgZm9yIFhl
-biBDT0xPLg0KPiA+ID4NCj4gPiA+ICAgbWlncmF0aW9uL2NvbG8uYyAgIHwgICAyICsNCj4gPiA+
-ICAgbmV0L2NvbG8tY29tcGFyZS5jIHwgMTU1DQo+ID4gPiArKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKystLS0NCj4gPiAtLS0NCj4gPiA+ICAgcWVtdS1vcHRpb25zLmh4ICAg
-IHwgIDMzICsrKysrKysrKy0NCj4gPiA+ICAgMyBmaWxlcyBjaGFuZ2VkLCAxNzEgaW5zZXJ0aW9u
-cygrKSwgMTkgZGVsZXRpb25zKC0pDQo+ID4gPg0K
+
+
+On 6/21/2019 5:42 AM, Yan Zhao wrote:
+> On Thu, Jun 20, 2019 at 10:37:31PM +0800, Kirti Wankhede wrote:
+>> These functions save and restore PCI device specific data - config
+>> space of PCI device.
+>> Tested save and restore with MSI and MSIX type.
+>>
+>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>> ---
+>>  hw/vfio/pci.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  hw/vfio/pci.h |  29 +++++++++++++++
+>>  2 files changed, 141 insertions(+)
+>>
+>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>> index ce3fe96efe2c..09a0821a5b1c 100644
+>> --- a/hw/vfio/pci.c
+>> +++ b/hw/vfio/pci.c
+>> @@ -1187,6 +1187,118 @@ void vfio_pci_write_config(PCIDevice *pdev,
+>>      }
+>>  }
+>>  
+>> +void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
+>> +{
+>> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+>> +    PCIDevice *pdev = &vdev->pdev;
+>> +    uint16_t pci_cmd;
+>> +    int i;
+>> +
+>> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
+>> +        uint32_t bar;
+>> +
+>> +        bar = pci_default_read_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, 4);
+>> +        qemu_put_be32(f, bar);
+>> +    }
+>> +
+>> +    qemu_put_be32(f, vdev->interrupt);
+>> +    if (vdev->interrupt == VFIO_INT_MSI) {
+>> +        uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
+>> +        bool msi_64bit;
+>> +
+>> +        msi_flags = pci_default_read_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+>> +                                            2);
+>> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
+>> +
+>> +        msi_addr_lo = pci_default_read_config(pdev,
+>> +                                         pdev->msi_cap + PCI_MSI_ADDRESS_LO, 4);
+>> +        qemu_put_be32(f, msi_addr_lo);
+>> +
+>> +        if (msi_64bit) {
+>> +            msi_addr_hi = pci_default_read_config(pdev,
+>> +                                             pdev->msi_cap + PCI_MSI_ADDRESS_HI,
+>> +                                             4);
+>> +        }
+>> +        qemu_put_be32(f, msi_addr_hi);
+>> +
+>> +        msi_data = pci_default_read_config(pdev,
+>> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
+>> +                2);
+>> +        qemu_put_be32(f, msi_data);
+>> +    } else if (vdev->interrupt == VFIO_INT_MSIX) {
+>> +        uint16_t offset;
+>> +
+>> +        /* save enable bit and maskall bit */
+>> +        offset = pci_default_read_config(pdev,
+>> +                                       pdev->msix_cap + PCI_MSIX_FLAGS + 1, 2);
+>> +        qemu_put_be16(f, offset);
+>> +        msix_save(pdev, f);
+>> +    }
+>> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
+>> +    qemu_put_be16(f, pci_cmd);
+>> +}
+>> +
+>> +void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
+>> +{
+>> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+>> +    PCIDevice *pdev = &vdev->pdev;
+>> +    uint32_t interrupt_type;
+>> +    uint32_t msi_flags, msi_addr_lo, msi_addr_hi = 0, msi_data;
+>> +    uint16_t pci_cmd;
+>> +    bool msi_64bit;
+>> +    int i;
+>> +
+>> +    /* retore pci bar configuration */
+>> +    pci_cmd = pci_default_read_config(pdev, PCI_COMMAND, 2);
+>> +    vfio_pci_write_config(pdev, PCI_COMMAND,
+>> +                        pci_cmd & (!(PCI_COMMAND_IO | PCI_COMMAND_MEMORY)), 2);
+>> +    for (i = 0; i < PCI_ROM_SLOT; i++) {
+>> +        uint32_t bar = qemu_get_be32(f);
+>> +
+>> +        vfio_pci_write_config(pdev, PCI_BASE_ADDRESS_0 + i * 4, bar, 4);
+>> +    }
+>> +    vfio_pci_write_config(pdev, PCI_COMMAND,
+>> +                          pci_cmd | PCI_COMMAND_IO | PCI_COMMAND_MEMORY, 2);
+>> +
+>> +    interrupt_type = qemu_get_be32(f);
+>> +
+>> +    if (interrupt_type == VFIO_INT_MSI) {
+>> +        /* restore msi configuration */
+>> +        msi_flags = pci_default_read_config(pdev,
+>> +                                            pdev->msi_cap + PCI_MSI_FLAGS, 2);
+>> +        msi_64bit = (msi_flags & PCI_MSI_FLAGS_64BIT);
+>> +
+>> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+>> +                              msi_flags & (!PCI_MSI_FLAGS_ENABLE), 2);
+>> +
+>> +        msi_addr_lo = qemu_get_be32(f);
+>> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_LO,
+>> +                              msi_addr_lo, 4);
+>> +
+>> +        msi_addr_hi = qemu_get_be32(f);
+>> +        if (msi_64bit) {
+>> +            vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_ADDRESS_HI,
+>> +                                  msi_addr_hi, 4);
+>> +        }
+>> +        msi_data = qemu_get_be32(f);
+>> +        vfio_pci_write_config(pdev,
+>> +                pdev->msi_cap + (msi_64bit ? PCI_MSI_DATA_64 : PCI_MSI_DATA_32),
+>> +                msi_data, 2);
+>> +
+>> +        vfio_pci_write_config(pdev, pdev->msi_cap + PCI_MSI_FLAGS,
+>> +                              msi_flags | PCI_MSI_FLAGS_ENABLE, 2);
+>> +    } else if (interrupt_type == VFIO_INT_MSIX) {
+>> +        uint16_t offset = qemu_get_be16(f);
+>> +
+>> +        /* load enable bit and maskall bit */
+>> +        vfio_pci_write_config(pdev, pdev->msix_cap + PCI_MSIX_FLAGS + 1,
+>> +                              offset, 2);
+>> +        msix_load(pdev, f);
+>> +    }
+>> +    pci_cmd = qemu_get_be16(f);
+>> +    vfio_pci_write_config(pdev, PCI_COMMAND, pci_cmd, 2);
+>> +}
+>> +
+> per the previous discussion, pci config state save/restore are better
+> defined in fileds of VMStateDescription.
+> 
+> 
+
+With that route there is no pre-copy phase and we do want pre-copy phase
+for VFIO devices. Vendor driver can skip pre-copy phase by doing nothing
+on any read/write operation during pre-copy phase.
+
+Thanks,
+Kirti
+
+>>  /*
+>>   * Interrupt setup
+>>   */
+>> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+>> index 834a90d64686..847be5f56478 100644
+>> --- a/hw/vfio/pci.h
+>> +++ b/hw/vfio/pci.h
+>> @@ -19,6 +19,7 @@
+>>  #include "qemu/queue.h"
+>>  #include "qemu/timer.h"
+>>  
+>> +#ifdef CONFIG_LINUX
+>>  #define PCI_ANY_ID (~0)
+>>  
+>>  struct VFIOPCIDevice;
+>> @@ -202,4 +203,32 @@ void vfio_display_reset(VFIOPCIDevice *vdev);
+>>  int vfio_display_probe(VFIOPCIDevice *vdev, Error **errp);
+>>  void vfio_display_finalize(VFIOPCIDevice *vdev);
+>>  
+>> +void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f);
+>> +void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f);
+>> +
+>> +static inline Object *vfio_pci_get_object(VFIODevice *vbasedev)
+>> +{
+>> +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
+>> +
+>> +    return OBJECT(vdev);
+>> +}
+>> +
+>> +#else
+>> +static inline void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
+>> +{
+>> +    g_assert(false);
+>> +}
+>> +
+>> +static inline void vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
+>> +{
+>> +    g_assert(false);
+>> +}
+>> +
+>> +static inline Object *vfio_pci_get_object(VFIODevice *vbasedev)
+>> +{
+>> +    return NULL;
+>> +}
+>> +
+>> +#endif
+>> +
+>>  #endif /* HW_VFIO_VFIO_PCI_H */
+>> -- 
+>> 2.7.0
+>>
 
