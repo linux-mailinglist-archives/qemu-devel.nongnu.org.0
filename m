@@ -2,82 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85AD4E392
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 11:30:00 +0200 (CEST)
-Received: from localhost ([::1]:57104 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C064E4BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 11:53:33 +0200 (CEST)
+Received: from localhost ([::1]:57676 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heFrs-0000ca-0X
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 05:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45746)
+	id 1heGEe-00051L-7h
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 05:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52540)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1heFpr-0007Si-4N
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:27:58 -0400
+ (envelope-from <no-reply@patchew.org>) id 1heGDS-00042h-5m
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:52:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1heFpo-0001gB-1A
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:27:55 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37448)
+ (envelope-from <no-reply@patchew.org>) id 1heGDP-0002jZ-1y
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:52:18 -0400
+Resent-Date: Fri, 21 Jun 2019 05:52:18 -0400
+Resent-Message-Id: <E1heGDP-0002jZ-1y@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21476)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1heFpn-0001cV-NP
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:27:51 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5L9ODNm032710
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 05:27:41 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2t8tq8530r-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 05:27:41 -0400
-Received: from localhost
- by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Fri, 21 Jun 2019 10:27:38 +0100
-Received: from b06avi18626390.portsmouth.uk.ibm.com (9.149.26.192)
- by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Fri, 21 Jun 2019 10:27:35 +0100
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id x5L9RPhI38470076
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 21 Jun 2019 09:27:25 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 535BD11C069;
- Fri, 21 Jun 2019 09:27:34 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1DDE211C05E;
- Fri, 21 Jun 2019 09:27:34 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.7.212])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 21 Jun 2019 09:27:34 +0000 (GMT)
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
-Date: Fri, 21 Jun 2019 11:27:33 +0200
-User-Agent: StGit/unknown-version
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1heGDO-0002hp-Qd
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 05:52:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561109774; cv=none; d=zoho.com; s=zohoarc; 
+ b=B9veY7//xAR+F8h/1Pj/C+BV9FbMuWp9qmhnTw+kZ5xRU6VTZYa6T40MHUOC3Nb1ReCeOexpMy20I1KtDfTztgGHct453Y2zIingdwOZnv4o6FMxPJp9FU/SVvPLTgmxF1am68J/zg1Z+OOs7m2Cxlw5+0ml9ba6JfRppsrzWB0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561109774;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=ecdrE7Y/AYmSwiq5w4nmvCUxRNd4ngz0fpDFGRyf8kM=; 
+ b=bveF0FGyginIhAuYz+mUkGmVmKwg/JFiVyDkC9Mb9TBKons6O+7YRMfSf/4Wji0eEpwus2yKreHUa2pkimK3iWxqxltnZHfHl/3hYQYDwSPL2JpJ9HhDAMytBTaKyxolRB998P4VQui8JY8FWZPk/tcO1bg5pbX0RxYc8HhUIqc=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561109772685926.3391995985952;
+ Fri, 21 Jun 2019 02:36:12 -0700 (PDT)
+In-Reply-To: <156110523748.25431.9310430853468653085.stgit@pasha-Precision-3630-Tower>
+Message-ID: <156110977034.1396.1570300226964095944@ce79690b2cb9>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19062109-0016-0000-0000-0000028B1E77
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19062109-0017-0000-0000-000032E880BD
-Message-Id: <156110925375.92514.11649846071216864570.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-21_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906210078
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH] spapr_pci: Unregister listeners before
- destroying the IOMMU address space
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pavel.dovgaluk@gmail.com
+Date: Fri, 21 Jun 2019 02:36:12 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH for-4.1 00/24] Fix record/replay and add
+ reverse debugging
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,100 +62,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, boost.lists@gmail.com,
+ artem.k.pisarenko@gmail.com, quintela@redhat.com, ciro.santilli@gmail.com,
+ jasowang@redhat.com, crosthwaite.peter@gmail.com, qemu-devel@nongnu.org,
+ armbru@redhat.com, dovgaluk@ispras.ru, maria.klimushenkova@ispras.ru,
+ mst@redhat.com, kraxel@redhat.com, pavel.dovgaluk@ispras.ru,
+ thomas.dullien@googlemail.com, pbonzini@redhat.com, mreitz@redhat.com,
+ alex.bennee@linaro.org, dgilbert@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hot-unplugging a PHB with a VFIO device connected to it crashes QEMU:
-
--device spapr-pci-host-bridge,index=1,id=phb1 \
--device vfio-pci,host=0034:01:00.3,id=vfio0
-
-(qemu) device_del phb1
-[  357.207183] iommu: Removing device 0001:00:00.0 from group 1
-[  360.375523] rpadlpar_io: slot PHB 1 removed
-qemu-system-ppc64: memory.c:2742:
- do_address_space_destroy: Assertion `QTAILQ_EMPTY(&as->listeners)' failed.
-
-'as' is the IOMMU address space, which indeed has a listener registered
-to by vfio_connect_container() when the VFIO device is realized. This
-listener is supposed to be unregistered by vfio_disconnect_container()
-when the VFIO device is finalized. Unfortunately, the VFIO device hasn't
-reached finalize yet at the time the PHB unrealize function is called,
-and address_space_destroy() gets called with the VFIO listener still
-being registered.
-
-All regions have just been unmapped from the address space. Listeners
-aren't needed anymore at this point. Remove them before destroying the
-address space.
-
-The VFIO code will try to remove them _again_ at device finalize,
-but it is okay since memory_listener_unregister() is idempotent.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/ppc/spapr_pci.c    |    6 ++++++
- include/exec/memory.h |   10 ++++++++++
- memory.c              |    7 +++++++
- 3 files changed, 23 insertions(+)
-
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 2dca1e57f36c..eee92b102d5c 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1788,6 +1788,12 @@ static void spapr_phb_unrealize(DeviceState *dev, Error **errp)
- 
-     memory_region_del_subregion(&sphb->iommu_root, &sphb->msiwindow);
- 
-+    /*
-+     * An attached PCI device may have memory listeners, eg. VFIO PCI. We have
-+     * unmapped all sections. Remove the listeners now, before destroying the
-+     * address space.
-+     */
-+    address_space_remove_listeners(&sphb->iommu_as);
-     address_space_destroy(&sphb->iommu_as);
- 
-     qbus_set_hotplug_handler(BUS(phb->bus), NULL, &error_abort);
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index e6140e8a0489..1ba2e89aa8ce 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -1757,6 +1757,16 @@ void address_space_init(AddressSpace *as, MemoryRegion *root, const char *name);
-  */
- void address_space_destroy(AddressSpace *as);
- 
-+/**
-+ * address_space_remove_listeners: unregister all listerners of an address space
-+ *
-+ * Removes all callbacks previously registered with memory_listener_register()
-+ * for @as.
-+ *
-+ * @as: an initialized #AddressSpace
-+ */
-+void address_space_remove_listeners(AddressSpace *as);
-+
- /**
-  * address_space_rw: read from or write to an address space.
-  *
-diff --git a/memory.c b/memory.c
-index 0a089a73ae1a..480f3d989b4f 100644
---- a/memory.c
-+++ b/memory.c
-@@ -2723,6 +2723,13 @@ void memory_listener_unregister(MemoryListener *listener)
-     listener->address_space = NULL;
- }
- 
-+void address_space_remove_listeners(AddressSpace *as)
-+{
-+    while (!QTAILQ_EMPTY(&as->listeners)) {
-+        memory_listener_unregister(QTAILQ_FIRST(&as->listeners));
-+    }
-+}
-+
- void address_space_init(AddressSpace *as, MemoryRegion *root, const char *name)
- {
-     memory_region_ref(root);
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxMTA1MjM3NDguMjU0MzEu
+OTMxMDQzMDg1MzQ2ODY1MzA4NS5zdGdpdEBwYXNoYS1QcmVjaXNpb24tMzYzMC1Ub3dlci8KCgoK
+SGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1z
+LiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUt
+ZGV2ZWxdIFtQQVRDSCBmb3ItNC4xIDAwLzI0XSBGaXggcmVjb3JkL3JlcGxheSBhbmQgYWRkIHJl
+dmVyc2UgZGVidWdnaW5nClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAxNTYxMTA1MjM3NDguMjU0
+MzEuOTMxMDQzMDg1MzQ2ODY1MzA4NS5zdGdpdEBwYXNoYS1QcmVjaXNpb24tMzYzMC1Ub3dlcgoK
+PT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2Ug
+PiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0
+IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2Nh
+bCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWls
+YmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0cHM6Ly9naXRodWIu
+Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgICAgICAgIHBhdGNo
+ZXcvMTU2MTEwNTIzNzQ4LjI1NDMxLjkzMTA0MzA4NTM0Njg2NTMwODUuc3RnaXRAcGFzaGEtUHJl
+Y2lzaW9uLTM2MzAtVG93ZXIgLT4gcGF0Y2hldy8xNTYxMTA1MjM3NDguMjU0MzEuOTMxMDQzMDg1
+MzQ2ODY1MzA4NS5zdGdpdEBwYXNoYS1QcmVjaXNpb24tMzYzMC1Ub3dlcgpTd2l0Y2hlZCB0byBh
+IG5ldyBicmFuY2ggJ3Rlc3QnCmFkYjgzMzI0ZjkgaWNvdW50OiBjbGVhbiB1cCBjcHVfY2FuX2lv
+IGJlZm9yZSBqdW1waW5nIHRvIHRoZSBuZXh0IGJsb2NrCmI3MDdlYTZhMmIgcmVwbGF5OiByZW5h
+bWUgc3RlcC1yZWxhdGVkIHZhcmlhYmxlcyBhbmQgZnVuY3Rpb25zCjFkMDgwYjQ3M2MgcmVwbGF5
+OiBmaXggcmVwbGF5IHNodXRkb3duCjU5MjEyYTYyMzQgdXRpbC9xZW11LXRpbWVyOiByZWZhY3Rv
+ciBkZWFkbGluZSBjYWxjdWxhdGlvbiBmb3IgZXh0ZXJuYWwgdGltZXJzCmVhY2NmYmI1NjYgcmVw
+bGF5OiBkb2N1bWVudCBkZXZlbG9wbWVudCBydWxlcwowYmUxMDY5OWZmIHJlcGxheTogYWRkIEJI
+IG9uZXNob3QgZXZlbnQgZm9yIGJsb2NrIGxheWVyCmQwMjU5NzZiNjggcmVwbGF5OiBkZXNjcmli
+ZSByZXZlcnNlIGRlYnVnZ2luZyBpbiBkb2NzL3JlcGxheS50eHQKYTI2MTEzMmRiOCBnZGJzdHVi
+OiBhZGQgcmV2ZXJzZSBjb250aW51ZSBzdXBwb3J0IGluIHJlcGxheSBtb2RlCmIzMWNlOWQzOTkg
+Z2Ric3R1YjogYWRkIHJldmVyc2Ugc3RlcCBzdXBwb3J0IGluIHJlcGxheSBtb2RlCmYyYjNjNGE4
+MjggcmVwbGF5OiBmbHVzaCByciBxdWV1ZSBiZWZvcmUgbG9hZGluZyB0aGUgdm1zdGF0ZQpmMmQy
+ZDEyMWIzIHJlcGxheTogcmVmaW5lIHJlcGxheS10aW1lIG1vZHVsZQowYjAyZTNiMGNjIHJlcGxh
+eTogaW1wbGVtZW50IHJlcGxheS1zZWVrIGNvbW1hbmQKODRlNTkyOTQ3ZiByZXBsYXk6IGludHJv
+ZHVjZSBicmVha3BvaW50IGF0IHRoZSBzcGVjaWZpZWQgc3RlcApjZGMxZTYxZWIyIHJlcGxheTog
+aW50cm9kdWNlIGluZm8gaG1wL3FtcCBjb21tYW5kCmQ3ZjZiMjIwOTkgcWFwaTogaW50cm9kdWNl
+IHJlcGxheS5qc29uIGZvciByZWNvcmQvcmVwbGF5LXJlbGF0ZWQgc3R1ZmYKNTJjN2I1MGFhOCBy
+ZXBsYXk6IHByb3ZpZGUgYW4gYWNjZXNzb3IgZm9yIHJyIGZpbGVuYW1lCmI3NDA3ZTM1ZDUgbWln
+cmF0aW9uOiBpbnRyb2R1Y2UgaWNvdW50IGZpZWxkIGZvciBzbmFwc2hvdHMKZjhiY2U3Yzg3ZiBx
+Y293MjogaW50cm9kdWNlIGljb3VudCBmaWVsZCBmb3Igc25hcHNob3RzCjY1ZWI1NmUzZDggcmVw
+bGF5OiBmaW5pc2ggcmVjb3JkL3JlcGxheSBiZWZvcmUgY2xvc2luZyB0aGUgZGlza3MKZWRkNTRk
+Mjc0MSByZXBsYXk6IGRvbid0IGRyYWluL2ZsdXNoIGJkcnYgcXVldWUgd2hpbGUgUlIgaXMgd29y
+a2luZwo5MDk1MjA4MDE0IHJlcGxheTogdXBkYXRlIGRvY3MgZm9yIHJlY29yZC9yZXBsYXkgd2l0
+aCBibG9jayBkZXZpY2VzCmMwZWJlODI3M2QgcmVwbGF5OiBkaXNhYmxlIGRlZmF1bHQgc25hcHNo
+b3QgZm9yIHJlY29yZC9yZXBsYXkKM2IwMjM1ZDQ5OSBibG9jazogaW1wbGVtZW50IGJkcnZfc25h
+cHNob3RfZ290byBmb3IgYmxrcmVwbGF5CjM1ODJkMzFkMGQgcmVwbGF5OiBhZGQgbWlzc2luZyBm
+aXggZm9yIGludGVybmFsIGZ1bmN0aW9uCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzI0IENoZWNr
+aW5nIGNvbW1pdCAzNTgyZDMxZDBkOTcgKHJlcGxheTogYWRkIG1pc3NpbmcgZml4IGZvciBpbnRl
+cm5hbCBmdW5jdGlvbikKMi8yNCBDaGVja2luZyBjb21taXQgM2IwMjM1ZDQ5OWU2IChibG9jazog
+aW1wbGVtZW50IGJkcnZfc25hcHNob3RfZ290byBmb3IgYmxrcmVwbGF5KQozLzI0IENoZWNraW5n
+IGNvbW1pdCBjMGViZTgyNzNkMjcgKHJlcGxheTogZGlzYWJsZSBkZWZhdWx0IHNuYXBzaG90IGZv
+ciByZWNvcmQvcmVwbGF5KQo0LzI0IENoZWNraW5nIGNvbW1pdCA5MDk1MjA4MDE0YmYgKHJlcGxh
+eTogdXBkYXRlIGRvY3MgZm9yIHJlY29yZC9yZXBsYXkgd2l0aCBibG9jayBkZXZpY2VzKQo1LzI0
+IENoZWNraW5nIGNvbW1pdCBlZGQ1NGQyNzQxOTEgKHJlcGxheTogZG9uJ3QgZHJhaW4vZmx1c2gg
+YmRydiBxdWV1ZSB3aGlsZSBSUiBpcyB3b3JraW5nKQo2LzI0IENoZWNraW5nIGNvbW1pdCA2NWVi
+NTZlM2Q4ODggKHJlcGxheTogZmluaXNoIHJlY29yZC9yZXBsYXkgYmVmb3JlIGNsb3NpbmcgdGhl
+IGRpc2tzKQo3LzI0IENoZWNraW5nIGNvbW1pdCBmOGJjZTdjODdmNWUgKHFjb3cyOiBpbnRyb2R1
+Y2UgaWNvdW50IGZpZWxkIGZvciBzbmFwc2hvdHMpCjgvMjQgQ2hlY2tpbmcgY29tbWl0IGI3NDA3
+ZTM1ZDViMCAobWlncmF0aW9uOiBpbnRyb2R1Y2UgaWNvdW50IGZpZWxkIGZvciBzbmFwc2hvdHMp
+CjkvMjQgQ2hlY2tpbmcgY29tbWl0IDUyYzdiNTBhYThmMiAocmVwbGF5OiBwcm92aWRlIGFuIGFj
+Y2Vzc29yIGZvciByciBmaWxlbmFtZSkKMTAvMjQgQ2hlY2tpbmcgY29tbWl0IGQ3ZjZiMjIwOTk3
+ZiAocWFwaTogaW50cm9kdWNlIHJlcGxheS5qc29uIGZvciByZWNvcmQvcmVwbGF5LXJlbGF0ZWQg
+c3R1ZmYpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJ
+TlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzEwMTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3Rh
+bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDgwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEwLzI0IGhh
+cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
+YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
+RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjExLzI0IENoZWNraW5nIGNvbW1pdCBjZGMxZTYxZWIy
+MWMgKHJlcGxheTogaW50cm9kdWNlIGluZm8gaG1wL3FtcCBjb21tYW5kKQpXQVJOSU5HOiBhZGRl
+ZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRp
+bmc/CiMxNDI6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5p
+bmdzLCAxMjcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTEvMjQgaGFzIHN0eWxlIHByb2JsZW1zLCBw
+bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
+IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
+TkVSUy4KMTIvMjQgQ2hlY2tpbmcgY29tbWl0IDg0ZTU5Mjk0N2ZmOCAocmVwbGF5OiBpbnRyb2R1
+Y2UgYnJlYWtwb2ludCBhdCB0aGUgc3BlY2lmaWVkIHN0ZXApCjEzLzI0IENoZWNraW5nIGNvbW1p
+dCAwYjAyZTNiMGNjZDAgKHJlcGxheTogaW1wbGVtZW50IHJlcGxheS1zZWVrIGNvbW1hbmQpCjE0
+LzI0IENoZWNraW5nIGNvbW1pdCBmMmQyZDEyMWIzNjUgKHJlcGxheTogcmVmaW5lIHJlcGxheS10
+aW1lIG1vZHVsZSkKMTUvMjQgQ2hlY2tpbmcgY29tbWl0IGYyYjNjNGE4Mjg2NiAocmVwbGF5OiBm
+bHVzaCByciBxdWV1ZSBiZWZvcmUgbG9hZGluZyB0aGUgdm1zdGF0ZSkKMTYvMjQgQ2hlY2tpbmcg
+Y29tbWl0IGIzMWNlOWQzOTkyYiAoZ2Ric3R1YjogYWRkIHJldmVyc2Ugc3RlcCBzdXBwb3J0IGlu
+IHJlcGxheSBtb2RlKQoxNy8yNCBDaGVja2luZyBjb21taXQgYTI2MTEzMmRiODlmIChnZGJzdHVi
+OiBhZGQgcmV2ZXJzZSBjb250aW51ZSBzdXBwb3J0IGluIHJlcGxheSBtb2RlKQpFUlJPUjogbGlu
+ZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzcxOiBGSUxFOiBnZGJzdHViLmM6MjEzMToKKyAgICAgICAg
+cHN0cmNhdChnZGJfY3R4LT5zdHJfYnVmLCBzaXplb2YoZ2RiX2N0eC0+c3RyX2J1ZiksICI7UmV2
+ZXJzZVN0ZXArO1JldmVyc2VDb250aW51ZSsiKTsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5n
+cywgMTQ2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDE3LzI0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
+YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
+ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
+UlMuCgoxOC8yNCBDaGVja2luZyBjb21taXQgZDAyNTk3NmI2ODBhIChyZXBsYXk6IGRlc2NyaWJl
+IHJldmVyc2UgZGVidWdnaW5nIGluIGRvY3MvcmVwbGF5LnR4dCkKMTkvMjQgQ2hlY2tpbmcgY29t
+bWl0IDBiZTEwNjk5ZmZkOSAocmVwbGF5OiBhZGQgQkggb25lc2hvdCBldmVudCBmb3IgYmxvY2sg
+bGF5ZXIpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJ
+TlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzMxNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3Rh
+bDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDIyNCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxOS8yNCBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoyMC8yNCBDaGVja2luZyBjb21taXQgZWFjY2ZiYjU2
+NjFmIChyZXBsYXk6IGRvY3VtZW50IGRldmVsb3BtZW50IHJ1bGVzKQpXQVJOSU5HOiBhZGRlZCwg
+bW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/
+CiMxODogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3Ms
+IDQ2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDIwLzI0IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
+IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
+cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
+CjIxLzI0IENoZWNraW5nIGNvbW1pdCA1OTIxMmE2MjM0MjUgKHV0aWwvcWVtdS10aW1lcjogcmVm
+YWN0b3IgZGVhZGxpbmUgY2FsY3VsYXRpb24gZm9yIGV4dGVybmFsIHRpbWVycykKMjIvMjQgQ2hl
+Y2tpbmcgY29tbWl0IDFkMDgwYjQ3M2NiMiAocmVwbGF5OiBmaXggcmVwbGF5IHNodXRkb3duKQoy
+My8yNCBDaGVja2luZyBjb21taXQgYjcwN2VhNmEyYjk5IChyZXBsYXk6IHJlbmFtZSBzdGVwLXJl
+bGF0ZWQgdmFyaWFibGVzIGFuZCBmdW5jdGlvbnMpCjI0LzI0IENoZWNraW5nIGNvbW1pdCBhZGI4
+MzMyNGY5NmEgKGljb3VudDogY2xlYW4gdXAgY3B1X2Nhbl9pbyBiZWZvcmUganVtcGluZyB0byB0
+aGUgbmV4dCBibG9jaykKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdp
+dGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcu
+b3JnL2xvZ3MvMTU2MTEwNTIzNzQ4LjI1NDMxLjkzMTA0MzA4NTM0Njg2NTMwODUuc3RnaXRAcGFz
+aGEtUHJlY2lzaW9uLTM2MzAtVG93ZXIvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2Uu
+Ci0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3Bh
+dGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEBy
+ZWRoYXQuY29t
 
 
