@@ -2,52 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701B24ED27
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 18:29:41 +0200 (CEST)
-Received: from localhost ([::1]:36694 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2BAC4ED53
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 18:43:34 +0200 (CEST)
+Received: from localhost ([::1]:36758 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heMQ0-0007SL-AX
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 12:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
+	id 1heMdR-0007VX-D8
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 12:43:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44489)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1heMNv-0006oT-7O
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 12:27:32 -0400
+ (envelope-from <drjones@redhat.com>) id 1heMVH-0001Uq-MZ
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 12:35:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1heMNu-0003r8-6Z
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 12:27:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56062)
+ (envelope-from <drjones@redhat.com>) id 1heMVF-0001GH-L1
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 12:35:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59002)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1heMNt-0003pH-Vu
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 12:27:30 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <drjones@redhat.com>)
+ id 1heMV3-0008Mt-Ly; Fri, 21 Jun 2019 12:34:55 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3A79330BC100;
- Fri, 21 Jun 2019 16:27:24 +0000 (UTC)
-Received: from localhost (ovpn-117-248.ams2.redhat.com [10.36.117.248])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08C18604CC;
- Fri, 21 Jun 2019 16:27:13 +0000 (UTC)
-Date: Fri, 21 Jun 2019 17:27:12 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Message-ID: <20190621162712.GA10947@stefanha-x1.localdomain>
-References: <20190621094005.4134-1-stefanha@redhat.com>
- <20190621094005.4134-3-stefanha@redhat.com>
- <CAMxuvaz64dd00mhoZ4QjOZ_eGPMw_WBJQN1tWS0ueUhpSsN1SQ@mail.gmail.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 3ABBD2E95AF;
+ Fri, 21 Jun 2019 16:34:30 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D03B31001DDD;
+ Fri, 21 Jun 2019 16:34:23 +0000 (UTC)
+From: Andrew Jones <drjones@redhat.com>
+To: qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org
+Date: Fri, 21 Jun 2019 18:34:08 +0200
+Message-Id: <20190621163422.6127-1-drjones@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
-Content-Disposition: inline
-In-Reply-To: <CAMxuvaz64dd00mhoZ4QjOZ_eGPMw_WBJQN1tWS0ueUhpSsN1SQ@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Fri, 21 Jun 2019 16:27:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Fri, 21 Jun 2019 16:34:30 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/4] libvhost-user: support many virtqueues
+Subject: [Qemu-devel] [PATCH v2 00/14] target/arm/kvm: enable SVE in guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,66 +53,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sebastien Boeuf <sebastien.boeuf@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
+ eric.auger@redhat.com, imammedo@redhat.com, alex.bennee@linaro.org,
+ Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since Linux kernel v5.2-rc1 KVM has support for enabling SVE in guests.
+This series provides the QEMU bits for that enablement. This is a v2
+series, however it looks completely different than v1. Thank you to
+all who reviewed v1. I've included all input still relevant to this
+new approach. And the new approach is thanks to Igor for suggesting
+it. The new approach is to use a CPU property for each vector length
+and then implement the preexisting qmp_query_cpu_model_expansion
+query for Arm to expose them. Here's how the series goes:
 
---WIyZ46R2i8wDzkSu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+First, we select existing CPU properties representing features we
+want to advertise in addition to the SVE vector lengths and prepare
+them for the qmp query. Then we introduce the qmp query, applying
+it immediately to those selected features. We next add a qtest for
+the selected CPU features that uses the qmp query for its tests - and
+we continue to add tests as we add CPU features with the following
+patches. So then, once we have the support we need for CPU feature
+querying and testing, we add our first SVE CPU feature property, sve,
+which just allows SVE to be completely enabled/disabled. Following
+that feature property, we add all 16 vector length properties along
+with the input validation they need and tests to prove the validation
+works. At this point the SVE features are still only for TCG, so we
+provide some patches to prepare for KVM and then a patch that allows
+the 'max' CPU type to enable SVE with KVM, but at first without
+vector length properties. After a bit more preparation we add the
+SVE vector length properties to the KVM-enabled 'max' CPU type along
+with the additional input validation and tests that that needs.
+Finally we allow the 'host' CPU type to also enjoy these properties
+by simply sharing them with it.
 
-On Fri, Jun 21, 2019 at 03:48:36PM +0200, Marc-Andr=E9 Lureau wrote:
-> On Fri, Jun 21, 2019 at 11:40 AM Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> > diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-us=
-er-blk/vhost-user-blk.c
-> > index 86a3987744..ae61034656 100644
-> > --- a/contrib/vhost-user-blk/vhost-user-blk.c
-> > +++ b/contrib/vhost-user-blk/vhost-user-blk.c
-> > @@ -25,6 +25,10 @@
-> >  #include <sys/ioctl.h>
-> >  #endif
-> >
-> > +enum {
-> > +    VHOST_USER_BLK_MAX_QUEUES =3D 8,
-> > +};
->=20
-> why do you use enum,(and not const int) ? (similarly for other devices)
->=20
-> other than than
-> Reviewed-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
+Phew, I think that's everything.
 
-This is how I was taught when I was a little boy.
+Thanks!
+drew
 
-With an actual variable there's a risk that the compiler reserves space
-for a variable when you actually just need a constant.  Whether modern
-compilers do that or not, I don't know.
+Andrew Jones (14):
+  target/arm/cpu64: Ensure kvm really supports aarch64=3Doff
+  target/arm/cpu: Ensure we can use the pmu with kvm
+  target/arm/monitor: Introduce qmp_query_cpu_model_expansion
+  tests: arm: Introduce cpu feature tests
+  target/arm/helper: zcr: Add build bug next to value range assumption
+  target/arm: Allow SVE to be disabled via a CPU property
+  target/arm/cpu64: max cpu: Introduce sve<vl-bits> properties
+  target/arm/kvm64: Fix error returns
+  target/arm/kvm64: Move the get/put of fpsimd registers out
+  target/arm/kvm64: Add kvm_arch_get/put_sve
+  target/arm/kvm64: max cpu: Enable SVE when available
+  target/arm/kvm: scratch vcpu: Preserve input kvm_vcpu_init features
+  target/arm/cpu64: max cpu: Support sve properties with KVM
+  target/arm/kvm: host cpu: Add support for sve<vl-bits> properties
 
-The type is clearer when a variable is used instead of an enum.
+ qapi/target.json         |   6 +-
+ target/arm/cpu.c         |  47 +++-
+ target/arm/cpu.h         |  17 ++
+ target/arm/cpu64.c       | 548 +++++++++++++++++++++++++++++++++++++--
+ target/arm/helper.c      |  20 +-
+ target/arm/kvm.c         |  34 ++-
+ target/arm/kvm32.c       |   6 +-
+ target/arm/kvm64.c       | 428 +++++++++++++++++++++++++-----
+ target/arm/kvm_arm.h     |  73 ++++++
+ target/arm/monitor.c     | 148 +++++++++++
+ tests/Makefile.include   |   5 +-
+ tests/arm-cpu-features.c | 509 ++++++++++++++++++++++++++++++++++++
+ 12 files changed, 1738 insertions(+), 103 deletions(-)
+ create mode 100644 tests/arm-cpu-features.c
 
-Pros and cons...
+--=20
+2.20.1
 
-Stefan
-
---WIyZ46R2i8wDzkSu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0NBWAACgkQnKSrs4Gr
-c8i6NggAp0i1+C51JiDFfBU8g1BCCR3UFaA8K7Q5pv/5IAB7Vm/Zh1oB7X/RqoVc
-WFFUqEg0z42LeGMyGExxkwkUfnq5saVbFLmP7AE4wEenBRKqQ4dRj6msxJhyYcM6
-BM9wegfyN15gDDFvbVt489aRpIe9+y/O3NdNuKtpvz3cPTY8RQ2r/WzCEMFJo4zi
-h8y4TfXdYCjLJjL83a8Clrk1x0F1PPBorVZG4CoaiOeEnjloJxm8f4tMcfB475hj
-iJ0Ci8ymqXpKnYLC+gvDYE79ZQZoKz4jkAxoUOGK4WbQlCmcu2wrfVi6AIEv4iNk
-tGgbBnCQ8TJs+TcONTOogMuZMm8RDw==
-=iDYn
------END PGP SIGNATURE-----
-
---WIyZ46R2i8wDzkSu--
 
