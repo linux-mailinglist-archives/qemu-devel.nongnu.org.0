@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F044E75F
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:53:44 +0200 (CEST)
-Received: from localhost ([::1]:59996 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6D14E7F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 14:24:35 +0200 (CEST)
+Received: from localhost ([::1]:60936 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heI6x-0001tp-KF
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49229)
+	id 1heIap-0003Pr-5v
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 08:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49242)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHl1-0000wo-99
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:31:06 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHl6-0000xN-PF
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:31:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkm-00067Y-9c
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:55 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51500)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHkt-0006BO-NP
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:31:01 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43231)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1heHkm-00066q-34
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:48 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 207so6031510wma.1
+ id 1heHkn-00067f-26
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:49 -0400
+Received: by mail-wr1-x441.google.com with SMTP id p13so6208405wru.10
  for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=a3VGuwnoGM9LiZBZHhLPfux9Kyat183XzMS8uuGHjKk=;
- b=vfnsTVvpoLsCV3J9zxaZqMHgDbWFpYiznQGay7eixnslFrrXf6aaHfu/LuUcQ3zzUQ
- iSKdr2mNqA8+lC+FALXYH/E2iUegO5ESxvOvCYo5J2ITcYKqwkMoQUaTnLoI0Lb7wPzl
- YzFfu8WE95I9HTJHx4Oc1J0bnQOAFqrfFXMPGKhiyXwJtGvpOtMiuLP1a3URV8bXmTR8
- Lk8Uklm02kAI+plAP6R7VHwfQxtqsrQSohd4Dl0Dl04V4DB4dV+UiwkHZimhZnp1y23d
- 8qshSMOOgs9pIkbtjux5AKVg2hbqif0+pai00AevWUAAgQM+yNMCAXWBcYpEzyvUMzB0
- VUkw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=9dmj/U5AqjA5GQ9gcpPTO1P5uO7lsSOgQoq/OntyvQ4=;
+ b=t+Vd0TmkPSQxWcfr98T9fe1ubQXA2JJ//o8Sy71LVW6aKwZ8ZGji2KwoyVUrhigsAE
+ DMnT0YqgLA+Zb/nRH6ZF1HzxVUFbEOCbKhMUnvdGRddocSPLeYGQmaxtZGg9xf15wcn6
+ KhvbZdEr+LPBH2umfSwFBaQDHPbIYTrMysryAhZeMpBtMaZngkB7LT6/i5GF8H6kLgRn
+ AkXrZKoSMsna3GSx5KnPklog7Q9iELpXjIdNde0RxD7b/ibLAiUFt6Y55EvAVxgmQ4UU
+ ZvOcdo6YTXWaJ3f1L2uqTQFwdr8gq0chgSIWXcnhUzANbaVJDAu4j3bGCNh9aLblUsgm
+ Wkyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=a3VGuwnoGM9LiZBZHhLPfux9Kyat183XzMS8uuGHjKk=;
- b=gYoEtvlK9hi3DRqPzqU+B492pZvRIxDzs5XV4Sf7NEzqNVr68W6SSSS/+BI6wg7wQL
- yvgyEPIjjiXTeyc2P6hNwUaYPVRle0Yer4o+RMyYBcYbT5TEgcSB/BjxoVCNyb7GzGRx
- O0PLgVrQ4QT6RTturzUikg79i4kHdgNSw2xBJhmOx+IsFd1xDQE20Ai7mSW6bVOCe2Id
- XUnvFCVnkYPSDoglVqVeJkhHox6IqgDmqenZ7TtzA1lRDMCfNfhaKaK3LzG70Ld77z92
- 4qcbUrgomsP/JOhUbHGIfeae+T/05yE7VWqxHzTNiol48H/dBiG8R0/VMhCyf/zRLb0E
- 4lDw==
-X-Gm-Message-State: APjAAAVZ6riUeHYMv53RRFaoJVjifrWXnM21Zy36y67jJVRfVRdOkq7i
- +Bk4A0Ht4C+VRc7tGVz1Z4dcb9sN
-X-Google-Smtp-Source: APXvYqykY5Odf/j/xE+rxPQq1QqQ6UYmgViZuKeBIK6KH4Iz3JOnPODDY2Ri9Y90KAwqSXcAOoyxBQ==
-X-Received: by 2002:a7b:cc97:: with SMTP id p23mr4031210wma.120.1561116646861; 
- Fri, 21 Jun 2019 04:30:46 -0700 (PDT)
+ :in-reply-to:references;
+ bh=9dmj/U5AqjA5GQ9gcpPTO1P5uO7lsSOgQoq/OntyvQ4=;
+ b=SnnLg5cv20HgK67u6vy6BnbriKxwqAi/pV6+UdsbVeY3njsr65d5JFnHbg0UH2r1hT
+ F/RSnNJbfLgLcJI4z6O7ax9rGhhpOCacozzKTtd3kQxOukDNjrxCA0lKplCtVqYPztIY
+ jvdtJPZ/WTA0zUsMKwUt4Tffjk53DOkK2rt4M2YYqxETanZ4kIyHdINTDdj0Pm768AqZ
+ v5BEpBsXgxSr1a610HeiM5iGBfVW0SFn7/95zCWkbY08T+d0Ym02XtD+WwjdqptwpgXC
+ /DV3ZhS1IavZpfL9kto4LE7HRg5IBb1xttZRjBtb71uOZs+uDAWjd1IX7JOP8zvy+L3u
+ sOtQ==
+X-Gm-Message-State: APjAAAWRn4DAhICtEshL23TjP6mOrauc4aqVNG0YObhJSh5A1FOMuece
+ If5mH+x1zm2opucAmrJgEwwrbGBK
+X-Google-Smtp-Source: APXvYqz4joCmMA8FD2EDhAKeliMkQPOxym9VuhoMMe7m6LnyzmijWzDr0dYomkqv4s2e2Bep8j3RKQ==
+X-Received: by 2002:adf:fc91:: with SMTP id g17mr6709705wrr.194.1561116647853; 
+ Fri, 21 Jun 2019 04:30:47 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
  by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.46
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:30:46 -0700 (PDT)
+ Fri, 21 Jun 2019 04:30:47 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:30:19 +0200
-Message-Id: <1561116620-22245-25-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 13:30:20 +0200
+Message-Id: <1561116620-22245-26-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PULL 24/25] util/main-loop: Fix incorrect assertion
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 25/25] hw: Nuke hw_compat_4_0_1 and
+ pc_compat_4_0_1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,46 +75,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lidong Chen <lidong.chen@oracle.com>
+Cc: Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lidong Chen <lidong.chen@oracle.com>
+From: Greg Kurz <groug@kaod.org>
 
-The check for poll_fds in g_assert() was incorrect. The correct assertion
-should check "n_poll_fds + w->num <= ARRAY_SIZE(poll_fds)" because the
-subsequent for-loop is doing access to poll_fds[n_poll_fds + i] where i
-is in [0, w->num).  This could happen with a very high number of file
-descriptors and/or wait objects.
+Commit c87759ce876a fixed a regression affecting pc-q35 machines by
+introducing a new pc-q35-4.0.1 machine version to be used instead
+of pc-q35-4.0. The only purpose was to revert the default behaviour
+of not using split irqchip, but the change also introduced the usual
+hw_compat and pc_compat bits, and wired them for pc-q35 only.
 
-Signed-off-by: Lidong Chen <lidong.chen@oracle.com>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Suggested-by: Liam Merwick <liam.merwick@oracle.com>
-Reviewed-by: Liran Alon <liran.alon@oracle.com>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <ded30967982811617ce7f0222d11228130c198b7.1560806687.git.lidong.chen@oracle.com>
+This raises questions when it comes to add new compat properties for
+4.0* machine versions of any architecture. Where to add them ? In
+4.0, 4.0.1 or both ? Error prone. Another possibility would be to teach
+all other architectures about 4.0.1. This solution isn't satisfying,
+especially since this is a pc-q35 specific issue.
+
+It turns out that the split irqchip default is handled in the machine
+option function and doesn't involve compat lists at all.
+
+Drop all the 4.0.1 compat lists and use the 4.0 ones instead in the 4.0.1
+machine option function.
+
+Move the compat props that were added to the 4.0.1 since c87759ce876a to
+4.0.
+
+Even if only hw_compat_4_0_1 had an impact on other architectures,
+drop pc_compat_4_0_1 as well for consistency.
+
+Fixes: c87759ce876a "q35: Revert to kernel irqchip"
+Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <156051774276.244890.8660277280145466396.stgit@bahia.lan>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/main-loop.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/core/machine.c    |  5 +----
+ hw/i386/pc.c         |  3 ---
+ hw/i386/pc_q35.c     | 12 ++++++++----
+ include/hw/boards.h  |  3 ---
+ include/hw/i386/pc.h |  3 ---
+ 5 files changed, 9 insertions(+), 17 deletions(-)
 
-diff --git a/util/main-loop.c b/util/main-loop.c
-index e1e349c..a9f4e8d 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -422,7 +422,7 @@ static int os_host_main_loop_wait(int64_t timeout)
-     g_main_context_prepare(context, &max_priority);
-     n_poll_fds = g_main_context_query(context, max_priority, &poll_timeout,
-                                       poll_fds, ARRAY_SIZE(poll_fds));
--    g_assert(n_poll_fds <= ARRAY_SIZE(poll_fds));
-+    g_assert(n_poll_fds + w->num <= ARRAY_SIZE(poll_fds));
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 84ebb8d..ea5a01a 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -24,16 +24,13 @@
+ #include "hw/pci/pci.h"
+ #include "hw/mem/nvdimm.h"
  
-     for (i = 0; i < w->num; i++) {
-         poll_fds[n_poll_fds + i].fd = (DWORD_PTR)w->events[i];
+-GlobalProperty hw_compat_4_0_1[] = {
++GlobalProperty hw_compat_4_0[] = {
+     { "VGA",            "edid", "false" },
+     { "secondary-vga",  "edid", "false" },
+     { "bochs-display",  "edid", "false" },
+     { "virtio-vga",     "edid", "false" },
+     { "virtio-gpu-pci", "edid", "false" },
+ };
+-const size_t hw_compat_4_0_1_len = G_N_ELEMENTS(hw_compat_4_0_1);
+-
+-GlobalProperty hw_compat_4_0[] = {};
+ const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
+ 
+ GlobalProperty hw_compat_3_1[] = {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index e41192b..e96360b 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -111,9 +111,6 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
+ /* Physical Address of PVH entry point read from kernel ELF NOTE */
+ static size_t pvh_start_addr;
+ 
+-GlobalProperty pc_compat_4_0_1[] = {};
+-const size_t pc_compat_4_0_1_len = G_N_ELEMENTS(pc_compat_4_0_1);
+-
+ GlobalProperty pc_compat_4_0[] = {};
+ const size_t pc_compat_4_0_len = G_N_ELEMENTS(pc_compat_4_0);
+ 
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index dcddc64..57232ae 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -378,8 +378,13 @@ static void pc_q35_4_0_1_machine_options(MachineClass *m)
+ {
+     pc_q35_4_1_machine_options(m);
+     m->alias = NULL;
+-    compat_props_add(m->compat_props, hw_compat_4_0_1, hw_compat_4_0_1_len);
+-    compat_props_add(m->compat_props, pc_compat_4_0_1, pc_compat_4_0_1_len);
++    /*
++     * This is the default machine for the 4.0-stable branch. It is basically
++     * a 4.0 that doesn't use split irqchip by default. It MUST hence apply the
++     * 4.0 compat props.
++     */
++    compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
++    compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
+ }
+ 
+ DEFINE_Q35_MACHINE(v4_0_1, "pc-q35-4.0.1", NULL,
+@@ -390,8 +395,7 @@ static void pc_q35_4_0_machine_options(MachineClass *m)
+     pc_q35_4_0_1_machine_options(m);
+     m->default_kernel_irqchip_split = true;
+     m->alias = NULL;
+-    compat_props_add(m->compat_props, hw_compat_4_0, hw_compat_4_0_len);
+-    compat_props_add(m->compat_props, pc_compat_4_0, pc_compat_4_0_len);
++    /* Compat props are applied by the 4.0.1 machine */
+ }
+ 
+ DEFINE_Q35_MACHINE(v4_0, "pc-q35-4.0", NULL,
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index b7362af..eaa050a 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -293,9 +293,6 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
+ 
+-extern GlobalProperty hw_compat_4_0_1[];
+-extern const size_t hw_compat_4_0_1_len;
+-
+ extern GlobalProperty hw_compat_4_0[];
+ extern const size_t hw_compat_4_0_len;
+ 
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index a7d0b87..c54cc54 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -293,9 +293,6 @@ int e820_add_entry(uint64_t, uint64_t, uint32_t);
+ int e820_get_num_entries(void);
+ bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
+ 
+-extern GlobalProperty pc_compat_4_0_1[];
+-extern const size_t pc_compat_4_0_1_len;
+-
+ extern GlobalProperty pc_compat_4_0[];
+ extern const size_t pc_compat_4_0_len;
+ 
 -- 
 1.8.3.1
-
 
 
