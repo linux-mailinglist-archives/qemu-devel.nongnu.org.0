@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C1434E75E
-	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:52:54 +0200 (CEST)
-Received: from localhost ([::1]:59992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8434E4E7AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 21 Jun 2019 13:59:31 +0200 (CEST)
+Received: from localhost ([::1]:60086 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heI69-0001aw-Nk
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:52:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49044)
+	id 1heICY-0007ZF-M0
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 07:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49084)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHka-0000hb-CI
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:40 -0400
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHke-0000l0-G5
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paolo.bonzini@gmail.com>) id 1heHkW-0005YJ-8p
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:36 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51021)
+ (envelope-from <paolo.bonzini@gmail.com>) id 1heHka-0005jZ-Bc
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:40 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54490)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
- id 1heHkW-0005V5-15
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:32 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id c66so6035179wmf.0
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:31 -0700 (PDT)
+ id 1heHkY-0005Yh-Au
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 07:30:36 -0400
+Received: by mail-wm1-x329.google.com with SMTP id g135so6000133wme.4
+ for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 04:30:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=HAAne3y/gROX4bU2C72LMlD4mSuvEZFb/lzmz3j4hms=;
- b=aRsQOzfFlJ7SUog+PSDnEfue3a52L44GPhkTjV8O6fCWQJO/0ZsyH6UmjtOA16VnMT
- t7W3MOho8lw8W1tXHGFwzRrSOXCWJnoYF41SFR9qdb7c7CYGPSeNtVl7oKNUY4hYSQ0g
- oPKNknuc1t5VCDnliamzLRFPL+1XCCbbB7Lorc8TNF/+LxFkp7UCOPZR8vkYzB744Pgn
- HrvPfIdTI3twTapZPDGuHneyBNfTCXRyaH5ynVKhaWdfRbqF+PuqcmxSK8oz09HGTr9t
- PhnkjgByNEC3HgwZmA0AnAXuqp2x9DpnNW/AmdoTNHuJlgv+3onoEB6Ua+6hLtoUM+Kw
- DOfA==
+ bh=bNCR6BSZrVAsd51s0wYru1/heSmPhGDxRbakfLjjL5g=;
+ b=lqUPF8DEj0x9oC3vQD68TqYZaBfQvBn+2p+u8AaxKfUTtUKLrTmnVZfYuuoa9IabhF
+ p7FJ/3T9MYNtCYDbOZVBrsl3vLoaLn1B0Nz8Dwp2KGgQkZ0sadmFxcJtQrBOUUWfcs9Z
+ BQGDEMRQYGXyeestjR/l08ILDIapq+IMgSZ8mvHsdFqZvD77hLlnD0DpQnjANSjfOKjQ
+ njNC+aep7B/N0j4UMavnAN9q8g949yRFQc1xw3gqm4L/aB+evbDWiu2xKB0FcGTQ/aPH
+ WNG1jRv38aGlV6p8vn8TsIZZG+jhmZIl2z5j8/s7OR0FnUF79/gAwzWrJIDhqXDmXlaE
+ QVWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references;
- bh=HAAne3y/gROX4bU2C72LMlD4mSuvEZFb/lzmz3j4hms=;
- b=Pc/5tiSfIs2w0jBC602v83SEDSkfjao+BOM5zyh/ANipfR3rkkn+/Nn/Y387ZMTKwV
- wVmiIXuNl0prOZYPUIpPe++EI4yJX1PdoogPZGXQkujxZhLKFy46tUBFEdzEejV33Apf
- dJMCXJ+u44ovVnIrV1XMfQ4NirOWTk8yjvbhuCR+0wHIdJIAIMeX108ECpXxPMx9uUUH
- BjdB43AxgRt+NcQfVl90naW3v0uYOgSHD9VEhSkrAbkH+VpGJWI570A2np20iTzJ0Ycl
- leezsO/LDIbFHISlII3HGhajB4ascOGDekDmVUA3j8eCQzT7fWkG33Uj4o9mOz71z2aD
- hrsQ==
-X-Gm-Message-State: APjAAAW1zfUgOj5BYZL0XVVGx+lK+I8K7gWt+kfxnAvUbGnP8GWObzBM
- 68uLQ0OwXR7j/EDfF+aWnq3bwbY3
-X-Google-Smtp-Source: APXvYqyG5BrQN1PUI/eKhI1tgGenUMLv3s8wYiseKBj/N1e94pZZvVflVS9nuijn3DP6M//+LRl3/Q==
-X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr3480297wmj.87.1561116630797; 
- Fri, 21 Jun 2019 04:30:30 -0700 (PDT)
+ bh=bNCR6BSZrVAsd51s0wYru1/heSmPhGDxRbakfLjjL5g=;
+ b=kGHRYuHlZ18vm3EVolB9w9Xew84lzGtlZeF3aSiOGmY0gUNpoFTsqkZ1AqsDYk2CoQ
+ 29KNH5actrCO5SK67WbbCD9CMCIdeIvZl+sqR/JStj2ualRnHx0JH+h1xpAaAuQe5xFd
+ d7G8pvtsYl5hwJ7+8uS4Z70tb7FVN9NCh/pCBGt7YaNSOW/6slJt2o6WtrM1F+83bfpO
+ xGXamxce2BCzGuMc1whsCbvkK4DltvPaDO0XNG3rdmCQ8qgvGp5JH/VQ8Tc3WtHHPpNb
+ du16f888LNp9ONOjLAZRSgH1R1lQne/0DBtRzH25aOsEnfmMG4sg/djxiqmBGsU090ri
+ nzUA==
+X-Gm-Message-State: APjAAAUS79BOx6TwoCNJkHKvY0lpbDdH9i2IyzJC95hlj2PU/xxZFDYU
+ 6FVaquqMvI5A5MPNYTUaeQj1Ydyy
+X-Google-Smtp-Source: APXvYqxA63/Ji+nLiab2a//vfVdX2782XThRYa9NQjZbtNzArvJDcYYfFqH2LWGJBCq3xKxwQvsllw==
+X-Received: by 2002:a1c:a1c1:: with SMTP id k184mr4027146wme.81.1561116631750; 
+ Fri, 21 Jun 2019 04:30:31 -0700 (PDT)
 Received: from 640k.lan ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.29
+ by smtp.gmail.com with ESMTPSA id r3sm2712851wrr.61.2019.06.21.04.30.30
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 04:30:30 -0700 (PDT)
+ Fri, 21 Jun 2019 04:30:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 21 Jun 2019 13:30:03 +0200
-Message-Id: <1561116620-22245-9-git-send-email-pbonzini@redhat.com>
+Date: Fri, 21 Jun 2019 13:30:04 +0200
+Message-Id: <1561116620-22245-10-git-send-email-pbonzini@redhat.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 References: <1561116620-22245-1-git-send-email-pbonzini@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
-Subject: [Qemu-devel] [PULL 08/25] i386/kvm: hv-stimer requires hv-time and
- hv-synic
+X-Received-From: 2a00:1450:4864:20::329
+Subject: [Qemu-devel] [PULL 09/25] i386/kvm: hv-tlbflush/ipi require
+ hv-vpindex
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,82 +81,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 
-Synthetic timers operate in hv-time time and Windows won't use these
-without SynIC.
-
-Add .dependencies field to kvm_hyperv_properties[] and a generic mechanism
-to check dependencies between features.
+The corresponding hypercalls require using VP indexes.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Message-Id: <20190517141924.19024-7-vkuznets@redhat.com>
+Message-Id: <20190517141924.19024-8-vkuznets@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm.c | 23 +++++++++++++++++++----
- 1 file changed, 19 insertions(+), 4 deletions(-)
+ target/i386/kvm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index 93ac6ba..58afa31 100644
+index 58afa31..1dfa282 100644
 --- a/target/i386/kvm.c
 +++ b/target/i386/kvm.c
-@@ -689,6 +689,7 @@ static struct {
-         uint32_t fw;
-         uint32_t bits;
-     } flags[2];
-+    uint64_t dependencies;
- } kvm_hyperv_properties[] = {
-     [HYPERV_FEAT_RELAXED] = {
-         .desc = "relaxed timing (hv-relaxed)",
-@@ -756,7 +757,8 @@ static struct {
-         .flags = {
-             {.fw = FEAT_HYPERV_EAX,
-              .bits = HV_SYNTIMERS_AVAILABLE}
+@@ -782,7 +782,8 @@ static struct {
+             {.fw = FEAT_HV_RECOMM_EAX,
+              .bits = HV_REMOTE_TLB_FLUSH_RECOMMENDED |
+              HV_EX_PROCESSOR_MASKS_RECOMMENDED}
 -        }
 +        },
-+        .dependencies = BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_TIME)
++        .dependencies = BIT(HYPERV_FEAT_VPINDEX)
      },
-     [HYPERV_FEAT_FREQUENCIES] = {
-         .desc = "frequency MSRs (hv-frequencies)",
-@@ -986,12 +988,25 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-     uint32_t r, fw, bits;
--    int i;
-+    uint64_t deps;
-+    int i, dep_feat = 0;
+     [HYPERV_FEAT_EVMCS] = {
+         .desc = "enlightened VMCS (hv-evmcs)",
+@@ -797,7 +798,8 @@ static struct {
+             {.fw = FEAT_HV_RECOMM_EAX,
+              .bits = HV_CLUSTER_IPI_RECOMMENDED |
+              HV_EX_PROCESSOR_MASKS_RECOMMENDED}
+-        }
++        },
++        .dependencies = BIT(HYPERV_FEAT_VPINDEX)
+     },
+ };
  
-     if (!hyperv_feat_enabled(cpu, feature) && !cpu->hyperv_passthrough) {
-         return 0;
-     }
- 
-+    deps = kvm_hyperv_properties[feature].dependencies;
-+    while ((dep_feat = find_next_bit(&deps, 64, dep_feat)) < 64) {
-+        if (!(hyperv_feat_enabled(cpu, dep_feat))) {
-+                fprintf(stderr,
-+                        "Hyper-V %s requires Hyper-V %s\n",
-+                        kvm_hyperv_properties[feature].desc,
-+                        kvm_hyperv_properties[dep_feat].desc);
-+                return 1;
-+        }
-+        dep_feat++;
-+    }
-+
-     for (i = 0; i < ARRAY_SIZE(kvm_hyperv_properties[feature].flags); i++) {
-         fw = kvm_hyperv_properties[feature].flags[i].fw;
-         bits = kvm_hyperv_properties[feature].flags[i].bits;
-@@ -1107,11 +1122,11 @@ static int hyperv_handle_properties(CPUState *cs,
-     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_EVMCS);
-     r |= hv_cpuid_check_and_set(cs, cpuid, HYPERV_FEAT_IPI);
- 
--    /* Dependencies */
-+    /* Additional dependencies not covered by kvm_hyperv_properties[] */
-     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC) &&
-         !cpu->hyperv_synic_kvm_only &&
-         !hyperv_feat_enabled(cpu, HYPERV_FEAT_VPINDEX)) {
--        fprintf(stderr, "Hyper-V %s requires %s\n",
-+        fprintf(stderr, "Hyper-V %s requires Hyper-V %s\n",
-                 kvm_hyperv_properties[HYPERV_FEAT_SYNIC].desc,
-                 kvm_hyperv_properties[HYPERV_FEAT_VPINDEX].desc);
-         r |= 1;
 -- 
 1.8.3.1
 
