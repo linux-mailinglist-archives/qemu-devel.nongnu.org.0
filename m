@@ -2,65 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 452C94F20D
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jun 2019 02:00:26 +0200 (CEST)
-Received: from localhost ([::1]:38472 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275A54F2A0
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jun 2019 02:28:19 +0200 (CEST)
+Received: from localhost ([::1]:38544 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heTSC-0005nD-PD
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 20:00:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42880)
+	id 1heTtC-0006Cl-C8
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 20:28:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46714)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1heTRC-0005M6-2C
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 19:59:23 -0400
+ (envelope-from <liq3ea@163.com>) id 1heTn0-0002XG-Hu
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 20:21:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1heTRB-000676-6i
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 19:59:21 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46322)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1heTRA-00065v-WE
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 19:59:21 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n4so8022117wrw.13
- for <qemu-devel@nongnu.org>; Fri, 21 Jun 2019 16:59:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ti8uChpvZxZ8gGxCDrOIOLG2OsOih9j9fBssRuuWX+o=;
- b=iHF9ljY8muJBKUcCVHDzwoh7samiUq8baruQadIE3ibgAZWV6zQny7nNG2mlIjUA2B
- vwty7x5uRH3JhcI/gsd5zYmhq67QIuisYVJCnXYxNlvBaSQCjXm9MKJilIZjLPbCw9y7
- hJXoLOz0QkogRmQi7DTUs/Oe6HlPMstwKxOePx3BliEsEKlInmNLoM7ByAsSRRslg+ut
- dXSFwGweSjOEpbRX/U1KFlE2tHiTyy/MfT8X7cgL1mXtjOYYOc4FknHmsCdsgvidlBL4
- X2RB1Juz9NAQvWXmF8nF8NGPOGJfZSJDSA5hyCX+HmhKpHm2JG4/gjNyKefrb+yg5Z9L
- rx4A==
-X-Gm-Message-State: APjAAAWYO0hppgJfUSi68ZSEWcDYL7uXc/FXsYDAoaKsE5KvkJ7MoKeG
- nbrbmvyFqo7jTNbpC5hIRdItSQ==
-X-Google-Smtp-Source: APXvYqzeynYHfYaILX5uPFVdtoW89PLwCO3SC0+eLaCGlhKJ6VUrH6WT+tezENgpl4IDlbsizSFtvg==
-X-Received: by 2002:a5d:6742:: with SMTP id l2mr35628886wrw.323.1561161559636; 
- Fri, 21 Jun 2019 16:59:19 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:45fb:a0de:928e:79e8?
- ([2001:b07:6468:f312:45fb:a0de:928e:79e8])
- by smtp.gmail.com with ESMTPSA id w67sm4897793wma.24.2019.06.21.16.59.18
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 21 Jun 2019 16:59:19 -0700 (PDT)
-To: Liran Alon <liran.alon@oracle.com>, qemu-devel@nongnu.org
-References: <20190621213712.16222-1-liran.alon@oracle.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <01713909-71dd-99e6-40bf-a2b93dfbd578@redhat.com>
-Date: Sat, 22 Jun 2019 01:59:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190621213712.16222-1-liran.alon@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH 0/2] target/i386: kvm: Fix treatment of AMD
- SVM in nested migration
+ (envelope-from <liq3ea@163.com>) id 1heTmz-00064B-BX
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 20:21:54 -0400
+Received: from m12-13.163.com ([220.181.12.13]:49294)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <liq3ea@163.com>) id 1heTmy-0005zd-AT
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 20:21:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id; bh=O84hladO0cfx5Ur2HP
+ Z72mgm6uy/ITH4gX3sTPbtxzs=; b=oeTkkWkMzFNLbGFjixyxclF9Vnp0gjubLy
+ Q15YH8s8ieFCUJ2iPI7GtpOupBV9i7TdfXnVnPI2h6+gHHbzLK7hFot1yK9WLmV+
+ Ay8dq+JqH7eDP6MqsMQbXlXsNhUixZSa99D16rfIP+3sDWnOQQC9Jq6E8XZD5zUt
+ Hvx7jGl6E=
+Received: from localhost.localdomain (unknown [115.200.202.73])
+ by smtp9 (Coremail) with SMTP id DcCowACnLqeZdA1d_ihoCA--.23625S2;
+ Sat, 22 Jun 2019 08:21:46 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: mst@redhat.com,
+	pbonzini@redhat.com
+Date: Fri, 21 Jun 2019 17:21:19 -0700
+Message-Id: <20190622002119.126834-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: DcCowACnLqeZdA1d_ihoCA--.23625S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGFy8WrW7CrWDur1UuFy7GFg_yoW5tFy8pr
+ ZrAF93Kr95Kry8XFW8Za1xAF1fGr1kAryUGa92kayFgr15Zr1rZF1DJF1vqFyYg3yfAry5
+ Zay7GFn5Ga4v9aDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UqFAJUUUUU=
+X-Originating-IP: [115.200.202.73]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBLxrbbVUMJ-seqQAAsx
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 220.181.12.13
+Subject: [Qemu-devel] [PATCH v2] ioapic: use irq number instead of vector in
+ ioapic_eoi_broadcast
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,23 +57,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dgilbert@redhat.com, maran.wilson@oracle.com
+Cc: Li Qiang <liq3ea@163.com>, liq3ea@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/06/19 23:37, Liran Alon wrote:
-> However, during discussion made after merge, it was realised that since QEMU commit
-> 75d373ef9729 ("target-i386: Disable SVM by default in KVM mode"), an AMD vCPU that
-> is virtualized by KVM doesn't expose SVM by default, even if you use "-cpu host".
-> Therefore, it is unlikely that vCPU expose SVM CPUID flag when user is not running
-> an SVM workload inside guest.
+When emulating irqchip in qemu, such as following command:
 
-libvirt has "host-model" mode, which constructs a "-cpu
-model,+feature,+feature" command line option that matches the host as
-good as possible.  This lets libvirt check migratability while retaining
-a lot of the benefits of "-cpu host", and is the default for OpenStack
-for example.  I need to check if libvirt adds SVM to this configuration,
-if it does the QEMU commit you mention is unfortunately not enough.
+x86_64-softmmu/qemu-system-x86_64 -m 1024 -smp 4 -hda /home/test/test.img
+-machine kernel-irqchip=off --enable-kvm -vnc :0 -device edu -monitor stdio
 
-Paolo
+We will get a crash with following asan output:
+
+(qemu) /home/test/qemu5/qemu/hw/intc/ioapic.c:266:27: runtime error: index 35 out of bounds for type 'int [24]'
+=================================================================
+==113504==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x61b000003114 at pc 0x5579e3c7a80f bp 0x7fd004bf8c10 sp 0x7fd004bf8c00
+WRITE of size 4 at 0x61b000003114 thread T4
+    #0 0x5579e3c7a80e in ioapic_eoi_broadcast /home/test/qemu5/qemu/hw/intc/ioapic.c:266
+    #1 0x5579e3c6f480 in apic_eoi /home/test/qemu5/qemu/hw/intc/apic.c:428
+    #2 0x5579e3c720a7 in apic_mem_write /home/test/qemu5/qemu/hw/intc/apic.c:802
+    #3 0x5579e3b1e31a in memory_region_write_accessor /home/test/qemu5/qemu/memory.c:503
+    #4 0x5579e3b1e6a2 in access_with_adjusted_size /home/test/qemu5/qemu/memory.c:569
+    #5 0x5579e3b28d77 in memory_region_dispatch_write /home/test/qemu5/qemu/memory.c:1497
+    #6 0x5579e3a1b36b in flatview_write_continue /home/test/qemu5/qemu/exec.c:3323
+    #7 0x5579e3a1b633 in flatview_write /home/test/qemu5/qemu/exec.c:3362
+    #8 0x5579e3a1bcb1 in address_space_write /home/test/qemu5/qemu/exec.c:3452
+    #9 0x5579e3a1bd03 in address_space_rw /home/test/qemu5/qemu/exec.c:3463
+    #10 0x5579e3b8b979 in kvm_cpu_exec /home/test/qemu5/qemu/accel/kvm/kvm-all.c:2045
+    #11 0x5579e3ae4499 in qemu_kvm_cpu_thread_fn /home/test/qemu5/qemu/cpus.c:1287
+    #12 0x5579e4cbdb9f in qemu_thread_start util/qemu-thread-posix.c:502
+    #13 0x7fd0146376da in start_thread (/lib/x86_64-linux-gnu/libpthread.so.0+0x76da)
+    #14 0x7fd01436088e in __clone (/lib/x86_64-linux-gnu/libc.so.6+0x12188e
+
+This is because in ioapic_eoi_broadcast function, we uses 'vector' to
+index the 's->irq_eoi'. To fix this, we should uses the irq number.
+
+Signed-off-by: Li Qiang <liq3ea@163.com>
+---
+Change since v1:
+remove auto-generated unnecessary message
+
+ hw/intc/ioapic.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+index 7074489fdf..711775cc6f 100644
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -245,8 +245,8 @@ void ioapic_eoi_broadcast(int vector)
+             s->ioredtbl[n] = entry & ~IOAPIC_LVT_REMOTE_IRR;
+ 
+             if (!(entry & IOAPIC_LVT_MASKED) && (s->irr & (1 << n))) {
+-                ++s->irq_eoi[vector];
+-                if (s->irq_eoi[vector] >= SUCCESSIVE_IRQ_MAX_COUNT) {
++                ++s->irq_eoi[n];
++                if (s->irq_eoi[n] >= SUCCESSIVE_IRQ_MAX_COUNT) {
+                     /*
+                      * Real hardware does not deliver the interrupt immediately
+                      * during eoi broadcast, and this lets a buggy guest make
+@@ -254,16 +254,16 @@ void ioapic_eoi_broadcast(int vector)
+                      * level-triggered interrupt. Emulate this behavior if we
+                      * detect an interrupt storm.
+                      */
+-                    s->irq_eoi[vector] = 0;
++                    s->irq_eoi[n] = 0;
+                     timer_mod_anticipate(s->delayed_ioapic_service_timer,
+                                          qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+                                          NANOSECONDS_PER_SECOND / 100);
+-                    trace_ioapic_eoi_delayed_reassert(vector);
++                    trace_ioapic_eoi_delayed_reassert(n);
+                 } else {
+                     ioapic_service(s);
+                 }
+             } else {
+-                s->irq_eoi[vector] = 0;
++                s->irq_eoi[n] = 0;
+             }
+         }
+     }
+-- 
+2.17.1
+
+
 
