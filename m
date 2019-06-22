@@ -2,84 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EDA14F2E5
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jun 2019 02:47:39 +0200 (CEST)
-Received: from localhost ([::1]:38592 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 676B74F349
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jun 2019 04:56:37 +0200 (CEST)
+Received: from localhost ([::1]:38764 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1heUBt-0003Yt-N9
-	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 20:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50648)
+	id 1heWCh-0002hE-W8
+	for lists+qemu-devel@lfdr.de; Fri, 21 Jun 2019 22:56:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53579)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liran.alon@oracle.com>) id 1heU99-0002d8-T9
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 20:44:48 -0400
+ (envelope-from <no-reply@patchew.org>) id 1heWAz-000264-4s
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 22:54:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liran.alon@oracle.com>) id 1heU97-000455-9u
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 20:44:47 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:41612)
+ (envelope-from <no-reply@patchew.org>) id 1heWAx-0007Ih-Ld
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 22:54:49 -0400
+Resent-Date: Fri, 21 Jun 2019 22:54:48 -0400
+Resent-Message-Id: <E1heWAx-0007Ih-Ld@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21556)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <liran.alon@oracle.com>)
- id 1heU96-00040E-TL
- for qemu-devel@nongnu.org; Fri, 21 Jun 2019 20:44:45 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5M0hvbf184839;
- Sat, 22 Jun 2019 00:44:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2018-07-02; bh=0pcFFU3ampzWJDEmRw5Lhug74KQ+edltrPniNUhvuZs=;
- b=zBYngyrhzgQ9AibRMh4NeQw5aCQnqmGe1LXy2AQEsSW/+HUGxiS98cldUGbjnniD+izk
- z978z/9EjPhsupydM12vpDs2+4eqmoewfdaN/qFyRXSEWlcU+EhAZTzhvmq8sx9GBSEN
- IbWOL9DDfh8izC7Ik9+bZMRirpgNoOhchCjfsZzZ8dl27ekda8s5zf4ZBODc9cBLO/Ly
- tUNCWWxH+3OSTgsxdNLyqMXsonQwyq/P7zkbNyLnJ6Fdd5+5cLoPg+AGdjRTPWtsTTp0
- lpHWB4QszGa9S7U3hbBA0quia/2pKW4rwg+mAOp9w7H1sXdNCYh8zhgjPBSzF+F5jFNK ag== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 2t7809rs81-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 22 Jun 2019 00:44:42 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5M0hhTa119982;
- Sat, 22 Jun 2019 00:44:42 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 2t99f2g9vu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sat, 22 Jun 2019 00:44:42 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5M0ie94005852;
- Sat, 22 Jun 2019 00:44:41 GMT
-Received: from [192.168.14.112] (/109.64.216.174)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 21 Jun 2019 17:44:40 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
-From: Liran Alon <liran.alon@oracle.com>
-In-Reply-To: <01713909-71dd-99e6-40bf-a2b93dfbd578@redhat.com>
-Date: Sat, 22 Jun 2019 03:44:37 +0300
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <323EE54C-1A7B-48FD-922C-74BEFBB1C3D6@oracle.com>
-References: <20190621213712.16222-1-liran.alon@oracle.com>
- <01713909-71dd-99e6-40bf-a2b93dfbd578@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-X-Mailer: Apple Mail (2.3445.4.7)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9295
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906220005
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9295
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906220005
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1heWAx-0006vq-DF
+ for qemu-devel@nongnu.org; Fri, 21 Jun 2019 22:54:47 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561171153; cv=none; d=zoho.com; s=zohoarc; 
+ b=d2voGgo76USJLlaSdAhgWdTJGOxcBSLr2Sbqh9vfCgeKxeCnnusAdz85920ayNwC2dzaPxY98izD33TDuUlCoJqZHcjYEpCTVYVTzpLOBv9c0icRaRc75s38N3+1BRiVL1CBrLovGvyHm/K5EPLtRVWH+tlVRls0wOLtZhSapRE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561171153;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=eL9Y9BhZATYEErVINWmIw7Pd/9MdQ7IW2vjEkNEqN2c=; 
+ b=TDeYvG7CKued5emAUSh2MUTenntOsObYANPKxLs7sohL14nYtCaUEDOoIwnfupXXRYKetWe0s+LYKrGr8uDYF+Kyc56XP7p3TuvNs/7x1xYKSh4utVf5bDVAmNdLHr6pLYkZFG9J60vbBx9s2dMzsS4wHtwRX9RFRLppSVovflE=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561171150980542.5349430617862;
+ Fri, 21 Jun 2019 19:39:10 -0700 (PDT)
+In-Reply-To: <20190621213712.16222-1-liran.alon@oracle.com>
+Message-ID: <156117114996.4070.7484891206134271759@ce79690b2cb9>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: liran.alon@oracle.com
+Date: Fri, 21 Jun 2019 19:39:10 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
 Subject: Re: [Qemu-devel] [PATCH 0/2] target/i386: kvm: Fix treatment of AMD
  SVM in nested migration
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,43 +62,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com, maran.wilson@oracle.com
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, maran.wilson@oracle.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> On 22 Jun 2019, at 2:59, Paolo Bonzini <pbonzini@redhat.com> wrote:
->=20
-> On 21/06/19 23:37, Liran Alon wrote:
->> However, during discussion made after merge, it was realised that =
-since QEMU commit
->> 75d373ef9729 ("target-i386: Disable SVM by default in KVM mode"), an =
-AMD vCPU that
->> is virtualized by KVM doesn't expose SVM by default, even if you use =
-"-cpu host".
->> Therefore, it is unlikely that vCPU expose SVM CPUID flag when user =
-is not running
->> an SVM workload inside guest.
->=20
-> libvirt has "host-model" mode, which constructs a "-cpu
-> model,+feature,+feature" command line option that matches the host as
-> good as possible.  This lets libvirt check migratability while =
-retaining
-> a lot of the benefits of "-cpu host", and is the default for OpenStack
-> for example.  I need to check if libvirt adds SVM to this =
-configuration,
-> if it does the QEMU commit you mention is unfortunately not enough.
->=20
-> Paolo
-
-Hmm nice catch. I haven=E2=80=99t thought about it (Not familiar much =
-with libvirt).
-I agree that if libvirt adds SVM to this configuration than we must not =
-block
-migration for an AMD vCPU that is exposed with SVM=E2=80=A6 :(
-
-Please update once you figure out libvirt behaviour regarding this,
--Liran
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyMTIxMzcxMi4xNjIy
+Mi0xLWxpcmFuLmFsb25Ab3JhY2xlLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCAwLzJdIHRhcmdldC9p
+Mzg2OiBrdm06IEZpeCB0cmVhdG1lbnQgb2YgQU1EIFNWTSBpbiBuZXN0ZWQgbWlncmF0aW9uClR5
+cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDE5MDYyMTIxMzcxMi4xNjIyMi0xLWxpcmFuLmFsb25A
+b3JhY2xlLmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2
+LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
+LnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBj
+b25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0
+Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCkZyb20gaHR0
+cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAg
+ICAgICAgIHBhdGNoZXcvMjAxOTA2MjEyMTM3MTIuMTYyMjItMS1saXJhbi5hbG9uQG9yYWNsZS5j
+b20gLT4gcGF0Y2hldy8yMDE5MDYyMTIxMzcxMi4xNjIyMi0xLWxpcmFuLmFsb25Ab3JhY2xlLmNv
+bQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmE1ZGU5NDA4YTggdGFyZ2V0L2kzODY6
+IGt2bTogSW5pdCBuZXN0ZWQtc3RhdGUgaW4gY2FzZSBvZiB2Q1BVIGV4cG9zZWQgd2l0aCBTVk0K
+MDZjYTk5ZDkwNyB0YXJnZXQvaTM4Njoga3ZtOiBCbG9jayBtaWdyYXRpb24gb24gdkNQVSBleHBv
+c2VkIHdpdGggU1ZNIHdoZW4ga2VybmVsIGxhY2tzIGNhcHMgdG8gc2F2ZS9yZXN0b3JlIG5lc3Rl
+ZCBzdGF0ZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8yIENoZWNraW5nIGNvbW1pdCAwNmNhOTlk
+OTA3YmMgKHRhcmdldC9pMzg2OiBrdm06IEJsb2NrIG1pZ3JhdGlvbiBvbiB2Q1BVIGV4cG9zZWQg
+d2l0aCBTVk0gd2hlbiBrZXJuZWwgbGFja3MgY2FwcyB0byBzYXZlL3Jlc3RvcmUgbmVzdGVkIHN0
+YXRlKQpFUlJPUjogcmV0dXJuIGlzIG5vdCBhIGZ1bmN0aW9uLCBwYXJlbnRoZXNlcyBhcmUgbm90
+IHJlcXVpcmVkCiM0NjogRklMRTogdGFyZ2V0L2kzODYvY3B1Lmg6MTg3NzoKKyAgICByZXR1cm4g
+KGNwdV9oYXNfdm14KGVudikgfHwgY3B1X2hhc19zdm0oZW52KSk7Cgp0b3RhbDogMSBlcnJvcnMs
+IDAgd2FybmluZ3MsIDMyIGxpbmVzIGNoZWNrZWQKClBhdGNoIDEvMiBoYXMgc3R5bGUgcHJvYmxl
+bXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3Np
+dGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1B
+SU5UQUlORVJTLgoKMi8yIENoZWNraW5nIGNvbW1pdCBhNWRlOTQwOGE4OWEgKHRhcmdldC9pMzg2
+OiBrdm06IEluaXQgbmVzdGVkLXN0YXRlIGluIGNhc2Ugb2YgdkNQVSBleHBvc2VkIHdpdGggU1ZN
+KQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoK
+VGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5
+MDYyMTIxMzcxMi4xNjIyMi0xLWxpcmFuLmFsb25Ab3JhY2xlLmNvbS90ZXN0aW5nLmNoZWNrcGF0
+Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
+dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
+byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
 
