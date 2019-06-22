@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2B94F665
-	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jun 2019 17:03:59 +0200 (CEST)
-Received: from localhost ([::1]:41146 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60D14F66A
+	for <lists+qemu-devel@lfdr.de>; Sat, 22 Jun 2019 17:14:05 +0200 (CEST)
+Received: from localhost ([::1]:41184 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hehYb-0002zL-Tr
-	for lists+qemu-devel@lfdr.de; Sat, 22 Jun 2019 11:03:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33687)
+	id 1hehiO-0006Ro-LQ
+	for lists+qemu-devel@lfdr.de; Sat, 22 Jun 2019 11:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35059)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hehXH-0002RT-JZ
- for qemu-devel@nongnu.org; Sat, 22 Jun 2019 11:02:37 -0400
+ (envelope-from <stefanha@gmail.com>) id 1hehev-0005N3-OT
+ for qemu-devel@nongnu.org; Sat, 22 Jun 2019 11:10:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hehXC-0001d6-BE
- for qemu-devel@nongnu.org; Sat, 22 Jun 2019 11:02:32 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:56224
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hehX1-0000cN-9g
- for qemu-devel@nongnu.org; Sat, 22 Jun 2019 11:02:21 -0400
-Received: from host86-173-229-95.range86-173.btcentralplus.com
- ([86.173.229.95] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hehWN-000435-Ao; Sat, 22 Jun 2019 16:01:39 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190519041522.12327-1-richard.henderson@linaro.org>
- <8f28d008-2608-a579-7505-4546b08deb41@linaro.org>
- <085d6881-f518-9888-a13e-081cdc09de46@ilande.co.uk>
- <0b9f4772-37f6-1453-e4ea-5ad9d0f52a5b@ilande.co.uk>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <acc57487-c8a0-9380-bc2a-4de22541eabf@ilande.co.uk>
-Date: Sat, 22 Jun 2019 16:01:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ (envelope-from <stefanha@gmail.com>) id 1hehes-0005bL-KT
+ for qemu-devel@nongnu.org; Sat, 22 Jun 2019 11:10:29 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33744)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>)
+ id 1hehep-0005No-Tf; Sat, 22 Jun 2019 11:10:25 -0400
+Received: by mail-wm1-x342.google.com with SMTP id h19so11059582wme.0;
+ Sat, 22 Jun 2019 08:10:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ND/OsQPN7u2KNGhtkciq7m7WDTyA+2D2PkEjrRmSADU=;
+ b=OWdUnqa1VKU/Ftan1ZjHrpYfZm5n9WIkvOxsRKXyrjkP7R287GJ2fW0sgh28YQaQi3
+ HsCSCZ1KCC+NEIFHbDxrcpL3Xdn6QXwWpfdOCN83je87zCGKKcbFbj0Q903Hn/ZOgUcg
+ NTFD4+xM2G7nSdvJE1BJCAVQM9acQUtb20iv6R2XBfMpx8KI21KPNszn6jYe1rZi17te
+ y43t1kCjek3xwfDhSWUbo68iGZ3sICHjqknPkeS6J3QnJf8KZv7mBY28pl60BF5DoCUQ
+ 7rTes26gbiq237Mrx5owM/u2salsJ+ELV5e0CodpWdHcp+uBR67EFjm2VTyNs1tR+li5
+ MNtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ND/OsQPN7u2KNGhtkciq7m7WDTyA+2D2PkEjrRmSADU=;
+ b=U+SzvhQQ0duyUkgVmnOH0bYcO61nXcutvX0QfSSBDMMoS5SfvAb1z9e7TWHbgNQdhZ
+ ODT7VLZSPFNKDf5YWxXWsyf5sDrybAGGPyrnXEeMHM0ZUVN54H7yhUxjx+WHzd23a0Gv
+ 2YElRZJHUuHw2D5uAEg+3FRG2Zs/b0TspEoPIW/KgR7/+8XT0d7xk1xXgCjj2O7nlnus
+ IRrXhavekqXUIQr2LKCo3fUaB6Oc6rjgPax4icJPYTSKqBjuXiM80B9ORHr9E3hDGWCv
+ UIHOgEtNXEzJS3ZypfWiSl7h1/6020R4edFt5LmHTfZxjqbt7yWAocxtpv7E1JXfV8WE
+ P3vA==
+X-Gm-Message-State: APjAAAVn8NgZxHrTB9cxpNNFEvoMNUxxff+1SjbPFkc4/2S2zjXsleey
+ Zc9kohEHko+pPPc3ey5t7xmUWVm0MymKic6KRSo=
+X-Google-Smtp-Source: APXvYqxnssGuHnkYyk0wzN3jN/nGnwCz+l/GFjy8I/csoxkx23XEJJBpoAr7gs6X2edPwofkA10c+A828Lcmv/kdQ8o=
+X-Received: by 2002:a7b:c7d7:: with SMTP id z23mr8688335wmk.46.1561216218596; 
+ Sat, 22 Jun 2019 08:10:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <0b9f4772-37f6-1453-e4ea-5ad9d0f52a5b@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.173.229.95
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
-Subject: Re: [Qemu-devel] [PATCH v4 0/7] tcg/ppc: Add vector opcodes
+References: <20190610134905.22294-1-mehta.aaru20@gmail.com>
+ <20190610134905.22294-5-mehta.aaru20@gmail.com>
+ <81e4ab9b07d5678a3a28e1314c07ee0224e4d9ed.camel@redhat.com>
+In-Reply-To: <81e4ab9b07d5678a3a28e1314c07ee0224e4d9ed.camel@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Sat, 22 Jun 2019 16:10:07 +0100
+Message-ID: <CAJSP0QVXFF+OPJpw8QpNkPfOnEoYbDKawtx4gG-nfZqRaveMhA@mail.gmail.com>
+To: Maxim Levitsky <mlevitsk@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v5 04/12] block/io_uring:
+ implements interfaces for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,47 +73,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, saket.sinha89@gmail.com,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Julia Suvorova <jusual@mail.ru>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/06/2019 15:20, Mark Cave-Ayland wrote:
+On Mon, Jun 17, 2019 at 1:27 PM Maxim Levitsky <mlevitsk@redhat.com> wrote:
+> On Mon, 2019-06-10 at 19:18 +0530, Aarushi Mehta wrote:
+> > +        if (!cqes) {
+> > +            break;
+> > +        }
+> > +        LuringAIOCB *luringcb = io_uring_cqe_get_data(cqes);
+> > +        ret = cqes->res;
+> > +
+> > +        if (ret == luringcb->qiov->size) {
+> > +            ret = 0;
+> > +        } else if (ret >= 0) {
+>
+>
+> You should very carefully check the allowed return values here.
+>
+> It looks like you can get '-EINTR' here, which would ask you to rerun the read operation, and otherwise
+> you will get the number of bytes read, which might be less that what was asked for, which implies that you
+> need to retry the read operation with the remainder of the buffer rather that zero the end of the buffer IMHO
+>
+> (0 is returned on EOF according to 'read' semantics, which I think are used here, thus a short read might not be an EOF)
+>
+>
+> Looking at linux-aio.c though I do see that it just passes through the returned value with no special treatments.
+> including lack of check for -EINTR.
+>
+> I assume that since aio is linux specific, and it only supports direct IO, it happens
+> to have assumption of no short reads/-EINTR (but since libaio has very sparse documentation I can't verify this)
+>
+> On the other hand the aio=threads implementation actually does everything as specified on the 'write' manpage,
+> retrying the reads on -EINTR, and doing additional reads if less that required number of bytes were read.
+>
+> Looking at io_uring implementation in the kernel I see that it does support synchronous (non O_DIRECT mode),
+> and in this case, it goes through the same ->read_iter which is pretty much the same path that
+> regular read() takes and so it might return short reads and or -EINTR.
 
-> I've just given your tcg-ppc-vsx branch a spin here, and like Howard I'm getting
-> segfaults trying to launch my MacOS images :(  The segfault is weird: it doesn't get
-> caught by an attached gdb and the qemu-system-ppc process seems to hang around like a
-> zombie which makes me think that it's probably an illegal instruction of some kind,
-> but the PPC kernel can't handle it as well as x86 does.
-> 
-> With a bit more work I bisected it down to the first commit in the patchset
-> (d8dcbb57e9: "tcg/ppc: Initial backend support for Altivec") and then as an
-> experiment I hacked tcg_can_emit_vec_op() to always return 0 to see if that made a
-> difference, but the segfault still appears.
-> 
-> The commit message mentions that the load and store helpers are also improved, so I
-> wonder if they are what is causing the error rather than the vector parts? Also in
-> the kernel log I see the following messages appearing:
-> 
-> [3639669.374942] qemu-system-ppc[28591]: segfault (11) at 64b8 nip f87280 lr f8723c
-> code 1 in qemu-system-ppc[94e000+aa0000]
-> [3639669.380015] qemu-system-ppc[28591]: code: 93c10038 91810020 90010044 7fc802a6
-> 3fde0059 2e030000 3bde6c18 7c9d2378
-> [3639669.385056] qemu-system-ppc[28591]: code: 813e80a0 7cbb2b78 7cda3378 7cf93b78
-> <81428ff8> 9141001c 39400000 81290000
-> 
-> Does that help at all? If not let me know if there are any other tests that you'd
-> like me to try to help debug this.
+Thanks, Maxim.  I've confirmed that -EINTR needs to be handled based
+on fs/io_uring.c.  We need to get a new sqe (since the old one is no
+longer usable) and submit the request again.  There are no ordering
+guarantees between pending requests so doing this is permissible.
 
-One more hint: if I try a build of d8dcbb57e9 along with my tcg_can_emit_vec_op()
-hack and pass --enable-debug-tcg to configure then I get an assert on startup:
-
-qemu-system-ppc: /home/mca/src/qemu/tcg/tcg.c:2207: process_op_defs: Assertion `tdefs
-!= ((void *)0)' failed.
-Aborted
-
-
-ATB,
-
-Mark.
+Stefan
 
