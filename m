@@ -2,51 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367D94FB11
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jun 2019 12:17:33 +0200 (CEST)
-Received: from localhost ([::1]:43858 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628914F9E2
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jun 2019 06:32:24 +0200 (CEST)
+Received: from localhost ([::1]:43240 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hezYx-00057b-NY
-	for lists+qemu-devel@lfdr.de; Sun, 23 Jun 2019 06:17:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51765)
+	id 1heuAx-0004iC-0f
+	for lists+qemu-devel@lfdr.de; Sun, 23 Jun 2019 00:32:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59271)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hezWt-0004LV-6V
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 06:15:24 -0400
+ (envelope-from <bounces@canonical.com>) id 1heu9v-000449-Fg
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 00:31:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hezWr-0005Le-84
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 06:15:22 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:40085)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hezWp-0004x6-01
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 06:15:19 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45WpFc1bm3z9sBp; Sun, 23 Jun 2019 20:15:00 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1561284900;
- bh=v0lUron4g3lIrg+nkhpIfFlNzjB/N10qL5gkmuF/1wk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=F+eDGaqSjShosl93ccsBKxhzCDSf9yJtaSegKCGJINzdvARYd19ZsmmpmvvCyJ4Uu
- nuHb0klFB6dkQS/bRoMb/MNMVtceWIZ/E4M4zdDCai1JvgzDWC+PhZBtD3aqfFxlVu
- f5S8ozom9c6zQQhoamEfQcsq4R+0fx2xB25oS3uE=
-Date: Sun, 23 Jun 2019 13:09:57 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Message-ID: <20190623030957.GI8232@umbus.BigPond>
-References: <20190621220120.15567-1-farosas@linux.ibm.com>
+ (envelope-from <bounces@canonical.com>) id 1heu9u-00085r-EJ
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 00:31:19 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39436)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1heu9u-00084q-7x
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 00:31:18 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1heu9s-0000E3-AZ
+ for <qemu-devel@nongnu.org>; Sun, 23 Jun 2019 04:31:16 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 49F8C2E80C7
+ for <qemu-devel@nongnu.org>; Sun, 23 Jun 2019 04:31:16 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MFZs98Tklfu0WsCO"
-Content-Disposition: inline
-In-Reply-To: <20190621220120.15567-1-farosas@linux.ibm.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH] vfio-common.h: Remove inaccurate comment
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 23 Jun 2019 04:18:03 -0000
+From: Launchpad Bug Tracker <1615079@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bugreport-mailinator janitor th-huth
+X-Launchpad-Bug-Reporter: Bug Report (bugreport-mailinator)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <20160819182404.11358.22174.malonedeb@soybean.canonical.com>
+Message-Id: <156126348326.11275.13509523670382322891.malone@loganberry.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18989";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 122e177fac06383ee368cb63c1d0c7b8baf757ce
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1615079] Re: GTK+ UI virtual consoles scrolling
+ broken
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,71 +65,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1615079 <1615079@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[Expired for QEMU because there has been no activity for 60 days.]
 
---MFZs98Tklfu0WsCO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-On Fri, Jun 21, 2019 at 07:01:20PM -0300, Fabiano Rosas wrote:
-> This is a left-over from "f4ec5e26ed vfio: Add host side DMA window
-> capabilities", which added support to more than one DMA window.
->=20
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+-- =
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1615079
 
-> ---
->  include/hw/vfio/vfio-common.h | 5 -----
->  1 file changed, 5 deletions(-)
->=20
-> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> index a88b69b675..9107bd41c0 100644
-> --- a/include/hw/vfio/vfio-common.h
-> +++ b/include/hw/vfio/vfio-common.h
-> @@ -74,11 +74,6 @@ typedef struct VFIOContainer {
->      int error;
->      bool initialized;
->      unsigned long pgsizes;
-> -    /*
-> -     * This assumes the host IOMMU can support only a single
-> -     * contiguous IOVA window.  We may need to generalize that in
-> -     * future
-> -     */
->      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
->      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
->      QLIST_HEAD(, VFIOGroup) group_list;
+Title:
+  GTK+ UI virtual consoles scrolling broken
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Status in QEMU:
+  Expired
 
---MFZs98Tklfu0WsCO
-Content-Type: application/pgp-signature; name="signature.asc"
+Bug description:
+  "In the virtual consoles, you can use Ctrl-Up, Ctrl-Down, Ctrl-PageUp
+  and Ctrl-PageDown to move in the back log."
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0O7YMACgkQbDjKyiDZ
-s5INqg//XMir5S20ojUPArcN1KkruLw51cpzD7LINEHjcbloQVOlBxgOHf7pN8IO
-s4hpFyWmm2prFrJ7CEpxq7zpFcK9Xwbte6L3/HNN3wcCUxc2MURgKmwURB0QARFI
-TszGLxzYkZi7Rf/p7iad8m7J/JywQxwVO8mFR+09n4vH5jGtJ4f2qLiHc8pOniC1
-S7CBGzIqATzdmDU9gbR2SG9b1ZPLCKCSy/Is9zsCPzf24P5TZRRZFa9T48NYQk+U
-fzfzGCJYSLJLBlTcheejFvvUdT2JSfTw2IwK1c5SMSBxa8wagldvk9hR9AlvGgGL
-PJU+zioS41iVsRcGyNuigd5sZ8MjRk1Ixw/ae5x7RmPgKiCRP7Sc7tOAgwr1+DnE
-2DRbBaYg0kzzqZ9Igw1C+Y3RLJh0RGuX1hj2me42puXs+ah+7axqryPX5OKfiSJc
-kYuvGq7Miy/jMxO0tH9W2Tdax9/sYJB4gL6ef8039ql/mGfGm9ERThhLEanbPNJb
-QOuiyGVUloi9RUwoItikthqBPvNi6AwMO0EKE1pZBthnbcdmQDYm6f6t3ClMtHKw
-h62+9I9/C+JhMZWlJjX+pgOeaJ4QUkbs3d0Z6wPrqbgJzsCpImTWO5JboxFCIHwh
-D5mJmJzMQ73C50W3lvp+MpXKMqUgSHf2l3qF1oCU1FP9V3n33qc=
-=nrUZ
------END PGP SIGNATURE-----
-
---MFZs98Tklfu0WsCO--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1615079/+subscriptions
 
