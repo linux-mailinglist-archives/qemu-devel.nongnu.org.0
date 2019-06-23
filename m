@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B24444FD50
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jun 2019 19:28:14 +0200 (CEST)
-Received: from localhost ([::1]:45952 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD66F4FD53
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jun 2019 19:31:02 +0200 (CEST)
+Received: from localhost ([::1]:45990 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hf6Hl-0003ur-UE
-	for lists+qemu-devel@lfdr.de; Sun, 23 Jun 2019 13:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37315)
+	id 1hf6KU-0007ND-42
+	for lists+qemu-devel@lfdr.de; Sun, 23 Jun 2019 13:31:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39814)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hf68V-0004Hd-5S
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:18:40 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hf6IJ-0005Xl-KK
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:28:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hf68T-0002TI-D0
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:18:38 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33862)
+ (envelope-from <peter.maydell@linaro.org>) id 1hf6IH-0006Tp-1r
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:28:47 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40096)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hf68O-0002DL-09
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:18:34 -0400
-Received: by mail-ot1-x343.google.com with SMTP id n5so11234616otk.1
- for <qemu-devel@nongnu.org>; Sun, 23 Jun 2019 10:18:26 -0700 (PDT)
+ id 1hf6IC-0006Mn-Ke
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:28:42 -0400
+Received: by mail-ot1-x344.google.com with SMTP id e8so11201817otl.7
+ for <qemu-devel@nongnu.org>; Sun, 23 Jun 2019 10:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=StNw1w7qh0pKRBMracOseZbSTKTUsSVpfScuOln+xLg=;
- b=NZnkMdzYWS1fERKEJYe/5fhoEfgmjePXywPxzg4/1H/TyhIQmyG11pYsjSTFB6lSNG
- 2E33mkosLYSoxISBlc5ZDDYcRQ/JbdTzEvGRNWdA0/zkun6dblQhWPVkx+WWwTebKQod
- NgtoXlFiDlCq+L1t3PiN0JzMJ3Wpq7H0XEnkDHLu4OBv4PQwGP/MExYc6h7moEke6d3k
- pSgYjl7Y1qhKUwn5W5CFWk1/vWJWEJJb7QFlliCo2BIqEba785O6g/E3aqMfJ87dDSqk
- myqp9/jHEFaRATqPtfuigN3hdDFik8HlQ2xhmABT2+MHehu2J22DBCRq2MebMXUehma/
- rZJQ==
+ bh=ocu7dvhfT6qKErnmwC9GM3wR+wDZgRONvgHkwHbb7KM=;
+ b=eFX4+IYHJ0tpKWlZLpLzsTT+gSpiaItRin5eYmrIzWgL8OjI/Cs+7dHG0NIR+0JOWX
+ Eq/RBZ/FlqCHbo0lljfeqsAZEOwCmLrzKBxNtBDBD0ocJQiETYO4YwVjV/6vR77EvfYh
+ gSySDTxKPOPMsLby0aw3vvoU8D+Z+3VMT8iuwsXACf064dU8UMP1pMh424MX/F/dowB5
+ GF6yPB7E/vwHSIwGmvYJHt1L/7cmhaBeB9HtDWyeFLWZzXlKhBreSZoaE0AKD0EHmifp
+ h7R12moTZWOpvkwhdWyWDFT1yvfG0Td00fjUqoiZscm1qnkOSOL0x+JftwE73VjMOj8r
+ 2cHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=StNw1w7qh0pKRBMracOseZbSTKTUsSVpfScuOln+xLg=;
- b=YHu8X9vuHoBJ7fcSJX6hAWid6Vhzc36gdvuPqbmqsoVwoZx5mqyne/72uo38kpmczz
- 4ic/sGV1Ua/zi+FMPgvlU+Q0i2Ai6Qaw3V2lRToVXdQzHzIubJaSHEZff3Nzzj03TPaG
- dMAfGycAOKu0FrGs/h77ilvYy+4vw4vGBswvBnMtCyv2GJz6WTsc0bmU5LvVEw03DopL
- STCzjdU/qNo9coBdvqfJJboncRCZqrW+lTnCcYpH1+G6xNveJA1WE5Tx9neD9baguwiV
- XrGbQL9alDqRAXcPayn9/K+Zb1sS7CZ8quP4qRFq4JTrUaELN6Zk52OxevuRmPHlpjFm
- Jnxg==
-X-Gm-Message-State: APjAAAU3hZ48he+lAFydC3Im36O3+7xPb2Blp3+xw4NkIW9BmPAjZKVW
- AENDy0kft/k4NAFWc85fHjjyp9TUB7BC9+kwS4dn1Q==
-X-Google-Smtp-Source: APXvYqzjJTHrZhMDG7V//tl4xYFlBv3X1n2bKXKb0avFn0uDit0GZYEiCXciCeC9WZunR8/bgQHMBM9VvvcmDFVRX1U=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr27697964oti.91.1561310305211; 
- Sun, 23 Jun 2019 10:18:25 -0700 (PDT)
+ bh=ocu7dvhfT6qKErnmwC9GM3wR+wDZgRONvgHkwHbb7KM=;
+ b=nyh1H5W/zjseKw0eYzfomD71RKj6cA+eK9kdZ7Z9QfaVnBY7GmPHp611Xw6/YDsKrt
+ Ijn0RIRf4NzOn0RKmOzUJdquOPIDx5s1up3uZCeMRs9qBZ0c2n7IzNndFsy9QrbdK320
+ j+mD5Ivr77OydBQYUuljdKWQkr45IVb9e4AGZjrxi1uCrn5Gh/BzJECpuoAJwJoaIjbF
+ OG9PUi1p8f34oam3iiYqXkf99NnsX8y28t3Myebd+lEvkFT7ZEilZtMcCRgqR+Gv/s6D
+ jqOWijE5M46ghOE6YydDG7fW8dA0Ld33Mc2NO5jFPIi0xUQWxoRVtsbZcSSNwacmZsOX
+ tDRQ==
+X-Gm-Message-State: APjAAAVQrTXBrL9JtGDS1TqCCRuvKoJQ4Vg16d2y+bz3TLMKaaddA25E
+ SRLdNY8OMbOeSs8mW/LaIfkGDszKtV+99sNX04w4cg==
+X-Google-Smtp-Source: APXvYqzZns4E/jIOHqrNi8IqZSqGbUxBM9t9O1aX9vVLa+d3PvKO3xX0kFZQoPsGDaAs597PIPxckg2oNUEzudvIIiE=
+X-Received: by 2002:a9d:4d81:: with SMTP id u1mr8807008otk.221.1561310917626; 
+ Sun, 23 Jun 2019 10:28:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190621132324.2165-1-mreitz@redhat.com>
-In-Reply-To: <20190621132324.2165-1-mreitz@redhat.com>
+References: <C95C3BAC-3DE1-44F3-BB08-715D3121371A@gmail.com>
+In-Reply-To: <C95C3BAC-3DE1-44F3-BB08-715D3121371A@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 23 Jun 2019 18:18:14 +0100
-Message-ID: <CAFEAcA9tPUcZ5BZmasT=GpccGw1EAqMTHRJhsq9cGZjJUhGs=Q@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
+Date: Sun, 23 Jun 2019 18:28:26 +0100
+Message-ID: <CAFEAcA8mcQJiYkHdzNJT3m+9-vak_CWaxGBQ0TME1tZQQK7f_w@mail.gmail.com>
+To: =?UTF-8?Q?Juan_Rafael_Garc=C3=ADa_Blanco?= <juanrgar@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PULL 0/8] Block patches
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [Qemu-discuss] qemu-io-cmds does not compile on
+ macOS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,60 +74,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 21 Jun 2019 at 14:23, Max Reitz <mreitz@redhat.com> wrote:
+On Sun, 23 Jun 2019 at 16:22, Juan Rafael Garc=C3=ADa Blanco
+<juanrgar@gmail.com> wrote:
+> I think the latest changes to qemu-io-cmds.c make it impossible to compil=
+e under macOS. It now uses clock_gettime, which is not available in this OS=
+. I=E2=80=99m using 10.9.5; I think this function is now included in 10.12.
 >
-> The following changes since commit 33d609990621dea6c7d056c86f707b8811320a=
-c1:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into sta=
-ging (2019-06-18 17:00:52 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/XanClic/qemu.git tags/pull-block-2019-06-21
->
-> for you to fetch changes up to e2a76186f7948b8b75d1b2b52638de7c2f7f7472:
->
->   iotests: Fix 205 for concurrent runs (2019-06-21 14:40:28 +0200)
->
-> ----------------------------------------------------------------
-> Block patches:
-> - The SSH block driver now uses libssh instead of libssh2
-> - The VMDK block driver gets read-only support for the seSparse
->   subformat
-> - Various fixes
->
+> I would step up to try to prepare a patch that uses a replacement in case=
+ it is being compiled in a macOS version that does not include that functio=
+n. But I do not know if you want to support these =E2=80=98old' macOS versi=
+ons=E2=80=A6
 
-Hi; this failed to build on my s390 box:
+Hi; thanks for this report. (This kind of bug report is better sent
+to qemu-devel or to the launchpad bug tracker -- qemu-discuss
+is mostly user-to-user conversations, and developers tend to
+be on -devel; I've cc'd -devel on this.)
 
-/home/linux1/qemu/block/ssh.c: In function =E2=80=98check_host_key_knownhos=
-ts=E2=80=99:
-/home/linux1/qemu/block/ssh.c:367:27: error: implicit declaration of
-function =E2=80=98ssh_get_fingerprint_hash=E2=80=99
-[-Werror=3Dimplicit-function-declaration]
-             fingerprint =3D ssh_get_fingerprint_hash(SSH_PUBLICKEY_HASH_SH=
-A1,
-                           ^
-/home/linux1/qemu/block/ssh.c:367:13: error: nested extern declaration
-of =E2=80=98ssh_get_fingerprint_hash=E2=80=99 [-Werror=3Dnested-externs]
-             fingerprint =3D ssh_get_fingerprint_hash(SSH_PUBLICKEY_HASH_SH=
-A1,
-             ^
-/home/linux1/qemu/block/ssh.c:367:25: error: assignment makes pointer
-from integer without a cast [-Werror=3Dint-conversion]
-             fingerprint =3D ssh_get_fingerprint_hash(SSH_PUBLICKEY_HASH_SH=
-A1,
-                         ^
+Our official support policy is that we support building with the
+two most recent versions of macOS; in practice we might support
+building with some earlier versions; as of commit 5588840ff77800e839
+we definitely dropped support for anything earlier than 10.10.
+So in theory we don't strongly care about anything before 10.13
+at the moment; but if it's easy to avoid the problem it might be
+worth doing that.
 
-It looks like that function was introduced in libssh 0.8.3, and this box
-has 0.6.3. (configure has correctly not defined HAVE_LIBSSH_0_8
-but this usage is inside a bit of code that's compiled even when
-that is not defined.)
+Alex, it looks like the relevant commit was one of yours.
+Could you have a look at how easy it would be to support
+systems without clock_gettime/CLOCK_MONOTONIC ?
+I notice that other places in QEMU have #ifdeffery for
+a lack of CLOCK_MONOTONIC, so we should ideally be
+consistent, and either support systems without it, or else
+say we require it and remove the remaining legacy ifdefs...
 
 thanks
 -- PMM
