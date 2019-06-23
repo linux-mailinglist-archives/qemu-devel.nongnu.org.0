@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD66F4FD53
-	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jun 2019 19:31:02 +0200 (CEST)
-Received: from localhost ([::1]:45990 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9974C4FD85
+	for <lists+qemu-devel@lfdr.de>; Sun, 23 Jun 2019 20:25:13 +0200 (CEST)
+Received: from localhost ([::1]:46312 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hf6KU-0007ND-42
-	for lists+qemu-devel@lfdr.de; Sun, 23 Jun 2019 13:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39814)
+	id 1hf7Au-0006b9-Ca
+	for lists+qemu-devel@lfdr.de; Sun, 23 Jun 2019 14:25:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55424)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hf6IJ-0005Xl-KK
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:28:49 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hf78I-0005Yx-Gc
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 14:22:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hf6IH-0006Tp-1r
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:28:47 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:40096)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hf6IC-0006Mn-Ke
- for qemu-devel@nongnu.org; Sun, 23 Jun 2019 13:28:42 -0400
-Received: by mail-ot1-x344.google.com with SMTP id e8so11201817otl.7
- for <qemu-devel@nongnu.org>; Sun, 23 Jun 2019 10:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ocu7dvhfT6qKErnmwC9GM3wR+wDZgRONvgHkwHbb7KM=;
- b=eFX4+IYHJ0tpKWlZLpLzsTT+gSpiaItRin5eYmrIzWgL8OjI/Cs+7dHG0NIR+0JOWX
- Eq/RBZ/FlqCHbo0lljfeqsAZEOwCmLrzKBxNtBDBD0ocJQiETYO4YwVjV/6vR77EvfYh
- gSySDTxKPOPMsLby0aw3vvoU8D+Z+3VMT8iuwsXACf064dU8UMP1pMh424MX/F/dowB5
- GF6yPB7E/vwHSIwGmvYJHt1L/7cmhaBeB9HtDWyeFLWZzXlKhBreSZoaE0AKD0EHmifp
- h7R12moTZWOpvkwhdWyWDFT1yvfG0Td00fjUqoiZscm1qnkOSOL0x+JftwE73VjMOj8r
- 2cHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ocu7dvhfT6qKErnmwC9GM3wR+wDZgRONvgHkwHbb7KM=;
- b=nyh1H5W/zjseKw0eYzfomD71RKj6cA+eK9kdZ7Z9QfaVnBY7GmPHp611Xw6/YDsKrt
- Ijn0RIRf4NzOn0RKmOzUJdquOPIDx5s1up3uZCeMRs9qBZ0c2n7IzNndFsy9QrbdK320
- j+mD5Ivr77OydBQYUuljdKWQkr45IVb9e4AGZjrxi1uCrn5Gh/BzJECpuoAJwJoaIjbF
- OG9PUi1p8f34oam3iiYqXkf99NnsX8y28t3Myebd+lEvkFT7ZEilZtMcCRgqR+Gv/s6D
- jqOWijE5M46ghOE6YydDG7fW8dA0Ld33Mc2NO5jFPIi0xUQWxoRVtsbZcSSNwacmZsOX
- tDRQ==
-X-Gm-Message-State: APjAAAVQrTXBrL9JtGDS1TqCCRuvKoJQ4Vg16d2y+bz3TLMKaaddA25E
- SRLdNY8OMbOeSs8mW/LaIfkGDszKtV+99sNX04w4cg==
-X-Google-Smtp-Source: APXvYqzZns4E/jIOHqrNi8IqZSqGbUxBM9t9O1aX9vVLa+d3PvKO3xX0kFZQoPsGDaAs597PIPxckg2oNUEzudvIIiE=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr8807008otk.221.1561310917626; 
- Sun, 23 Jun 2019 10:28:37 -0700 (PDT)
+ (envelope-from <no-reply@patchew.org>) id 1hf78B-0006WJ-Jp
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 14:22:25 -0400
+Resent-Date: Sun, 23 Jun 2019 14:22:24 -0400
+Resent-Message-Id: <E1hf78B-0006WJ-Jp@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21430)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hf785-0006LH-4s
+ for qemu-devel@nongnu.org; Sun, 23 Jun 2019 14:22:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561311374; cv=none; d=zoho.com; s=zohoarc; 
+ b=LeCX5rWartUN7u9Zy5xWMVaZe2U/B7cENJAFlB270OyqGEzp4+te02XqPyQyMqLaRw/w3RZ/kOuw5XHvU9wW3Lvnv3r6PlVM4iadcUOW6CP1jLzOwUA/1JUt9tfEl3u4STyvqm+OR+eOQSrDSeHhlvEeFC1fXwWMZ4MVFp1x9iQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561311374;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=L5/nSCRymEDojfpOxfWgiztQyhO9MigLVABwj+tu8tk=; 
+ b=ZYu+jcVg7S3IewAXKammYw3wC+SpKtFJK4MqrK71T3tJeeHp/QTnam0C0jL3u6PwXLd3X+P6ZQxaMWK8ieESNfjYMFyYEB9p5Sd/MLvH7vZ7hk9up394JrdfJi99ujmAdoGdVUZsv6s4MX+Ncj8DQjkBGKHl+21VAd2uqLOTb3k=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561311373759627.9100495419506;
+ Sun, 23 Jun 2019 10:36:13 -0700 (PDT)
+In-Reply-To: <1561309489-16146-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-ID: <156131137251.4070.16221244619259102410@ce79690b2cb9>
 MIME-Version: 1.0
-References: <C95C3BAC-3DE1-44F3-BB08-715D3121371A@gmail.com>
-In-Reply-To: <C95C3BAC-3DE1-44F3-BB08-715D3121371A@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 23 Jun 2019 18:28:26 +0100
-Message-ID: <CAFEAcA8mcQJiYkHdzNJT3m+9-vak_CWaxGBQ0TME1tZQQK7f_w@mail.gmail.com>
-To: =?UTF-8?Q?Juan_Rafael_Garc=C3=ADa_Blanco?= <juanrgar@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [Qemu-discuss] qemu-io-cmds does not compile on
- macOS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: aleksandar.markovic@rt-rk.com
+Date: Sun, 23 Jun 2019 10:36:13 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH v5 00/16] tcg/ppc: Add vector opcodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,44 +61,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- qemu-discuss <qemu-discuss@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, amarkovic@wavecomp.com, hsp.cat7@gmail.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 23 Jun 2019 at 16:22, Juan Rafael Garc=C3=ADa Blanco
-<juanrgar@gmail.com> wrote:
-> I think the latest changes to qemu-io-cmds.c make it impossible to compil=
-e under macOS. It now uses clock_gettime, which is not available in this OS=
-. I=E2=80=99m using 10.9.5; I think this function is now included in 10.12.
->
-> I would step up to try to prepare a patch that uses a replacement in case=
- it is being compiled in a macOS version that does not include that functio=
-n. But I do not know if you want to support these =E2=80=98old' macOS versi=
-ons=E2=80=A6
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxMzA5NDg5LTE2MTQ2LTEt
+Z2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20vCgoKCkhpLAoKVGhp
+cyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91
+dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKClN1YmplY3Q6IFtRZW11LWRldmVsXSBb
+UEFUQ0ggdjUgMDAvMTZdIHRjZy9wcGM6IEFkZCB2ZWN0b3Igb3Bjb2RlcwpUeXBlOiBzZXJpZXMK
+TWVzc2FnZS1pZDogMTU2MTMwOTQ4OS0xNjE0Ni0xLWdpdC1zZW5kLWVtYWlsLWFsZWtzYW5kYXIu
+bWFya292aWNAcnQtcmsuY29tCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNo
+CmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxv
+Y2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRy
+dWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMv
+Y2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoK
+RnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWdd
+ICAgICAgICAgICAgICAgcGF0Y2hldy8xNTYxMzA5NDg5LTE2MTQ2LTEtZ2l0LXNlbmQtZW1haWwt
+YWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20gLT4gcGF0Y2hldy8xNTYxMzA5NDg5LTE2MTQ2
+LTEtZ2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20KU3dpdGNoZWQg
+dG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoyMmQxMzNiN2QzIHRjZy9wcGM6IFVwZGF0ZSB2ZWN0b3Ig
+c3VwcG9ydCB0byB2My4wMAo5MGJiZjUxMTYzIHRjZy9wcGM6IFVwZGF0ZSB2ZWN0b3Igc3VwcG9y
+dCB0byB2Mi4wNwpiNTMzNTY4OGM4IHRjZy9wcGM6IFVwZGF0ZSB2ZWN0b3Igc3VwcG9ydCB0byB2
+Mi4wNgpiNTIxOTAxNDg4IHRjZy9wcGM6IFN1cHBvcnQgdmVjdG9yIGR1cDIKODkyNGU2OGY5NyB0
+Y2cvcHBjOiBTdXBwb3J0IHZlY3RvciBtdWx0aXBseQplMjkzZmZmODBiIHRjZy9wcGM6IFN1cHBv
+cnQgdmVjdG9yIHNoaWZ0IGJ5IGltbWVkaWF0ZQpmNjkwMjIzNzIyIHRjZy9wcGM6IEFkZCBlbXB0
+eSBmaWxlIHRjZy10YXJnZXQub3BjLmgKZTRlNjQxOWY4YyB0Y2cvcHBjOiBQcmVwYXJlIGNhc2Ug
+Zm9yIHZlY3RvciBtdWx0aXBseQo3OTU3ZjhmNDFjIHRjZy9wcGM6IEFkZCBzdXBwb3J0IGZvciB2
+ZWN0b3Igc2F0dXJhdGVkIGFkZC9zdWJ0cmFjdApmZTgwNTM5NmFlIHRjZy9wcGM6IEFkZCBzdXBw
+b3J0IGZvciB2ZWN0b3IgYWRkL3N1YnRyYWN0CjVjYjZjZDBmYzAgdGNnL3BwYzogQWRkIHN1cHBv
+cnQgZm9yIHZlY3RvciBtYXhpbXVtL21pbmltdW0KNDc0N2NlY2RiMSB0Y2cvcHBjOiBBZGQgc3Vw
+cG9ydCBmb3IgbG9hZC9zdG9yZS9sb2dpYy9jb21wYXJpc29uCjQyMWJjNmQ3ZDMgdGNnL3BwYzog
+SW50cm9kdWNlIG1hY3JvcyBWUlQoKSwgVlJBKCksIFZSQigpLCBWUkMoKQowMzc5NzA1ZjhkIHRj
+Zy9wcGM6IEludHJvZHVjZSBtYWNybyBWWDQoKQo3ZmM0NTU0NjQ3IHRjZy9wcGM6IEludHJvZHVj
+ZSBmbGFnIGhhdmVfaXNhX2FsdGl2ZWMKMjljNTVkZGQ5ZiB0Y2cvcHBjOiBJbnRyb2R1Y2UgQWx0
+aXZlYyByZWdpc3RlcnMKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvMTYgQ2hlY2tpbmcgY29tbWl0
+IDI5YzU1ZGRkOWYyZSAodGNnL3BwYzogSW50cm9kdWNlIEFsdGl2ZWMgcmVnaXN0ZXJzKQoyLzE2
+IENoZWNraW5nIGNvbW1pdCA3ZmM0NTU0NjQ3ODkgKHRjZy9wcGM6IEludHJvZHVjZSBmbGFnIGhh
+dmVfaXNhX2FsdGl2ZWMpCjMvMTYgQ2hlY2tpbmcgY29tbWl0IDAzNzk3MDVmOGQzMSAodGNnL3Bw
+YzogSW50cm9kdWNlIG1hY3JvIFZYNCgpKQpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0
+aGF0ICd8JyAoY3R4OlZ4VikKIzIxOiBGSUxFOiB0Y2cvcHBjL3RjZy10YXJnZXQuaW5jLmM6MzIz
+OgorI2RlZmluZSBWWDQob3BjKSAgKE9QQ0QoNCl8KG9wYykpCiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIF4KCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgNyBsaW5lcyBjaGVja2VkCgpQ
+YXRjaCAzLzE2IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo0LzE2IENoZWNraW5nIGNvbW1p
+dCA0MjFiYzZkN2QzMDggKHRjZy9wcGM6IEludHJvZHVjZSBtYWNyb3MgVlJUKCksIFZSQSgpLCBW
+UkIoKSwgVlJDKCkpCjUvMTYgQ2hlY2tpbmcgY29tbWl0IDQ3NDdjZWNkYjFiMCAodGNnL3BwYzog
+QWRkIHN1cHBvcnQgZm9yIGxvYWQvc3RvcmUvbG9naWMvY29tcGFyaXNvbikKNi8xNiBDaGVja2lu
+ZyBjb21taXQgNWNiNmNkMGZjMDQzICh0Y2cvcHBjOiBBZGQgc3VwcG9ydCBmb3IgdmVjdG9yIG1h
+eGltdW0vbWluaW11bSkKNy8xNiBDaGVja2luZyBjb21taXQgZmU4MDUzOTZhZWUzICh0Y2cvcHBj
+OiBBZGQgc3VwcG9ydCBmb3IgdmVjdG9yIGFkZC9zdWJ0cmFjdCkKOC8xNiBDaGVja2luZyBjb21t
+aXQgNzk1N2Y4ZjQxYzYzICh0Y2cvcHBjOiBBZGQgc3VwcG9ydCBmb3IgdmVjdG9yIHNhdHVyYXRl
+ZCBhZGQvc3VidHJhY3QpCjkvMTYgQ2hlY2tpbmcgY29tbWl0IGU0ZTY0MTlmOGM4OCAodGNnL3Bw
+YzogUHJlcGFyZSBjYXNlIGZvciB2ZWN0b3IgbXVsdGlwbHkpCjEwLzE2IENoZWNraW5nIGNvbW1p
+dCBmNjkwMjIzNzIyMDIgKHRjZy9wcGM6IEFkZCBlbXB0eSBmaWxlIHRjZy10YXJnZXQub3BjLmgp
+CldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5F
+UlMgbmVlZCB1cGRhdGluZz8KIzE0OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCldBUk5JTkc6IEJs
+b2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiMxOTogRklM
+RTogdGNnL3BwYy90Y2ctdGFyZ2V0Lm9wYy5oOjE6CisvKiBUYXJnZXQtc3BlY2lmaWMgb3Bjb2Rl
+cyBmb3IgaG9zdCB2ZWN0b3IgZXhwYW5zaW9uLiAgVGhlc2Ugd2lsbCBiZQoKV0FSTklORzogQmxv
+Y2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5lcwojMjA6IEZJTEU6IHRjZy9wcGMv
+dGNnLXRhcmdldC5vcGMuaDoyOgorLyogVGFyZ2V0LXNwZWNpZmljIG9wY29kZXMgZm9yIGhvc3Qg
+dmVjdG9yIGV4cGFuc2lvbi4gIFRoZXNlIHdpbGwgYmUKKyAgIGVtaXR0ZWQgYnkgdGNnX2V4cGFu
+ZF92ZWNfb3AuICBGb3IgdGhvc2UgZmFtaWxpYXIgd2l0aCBHQ0MgaW50ZXJuYWxzLAoKV0FSTklO
+RzogQmxvY2sgY29tbWVudHMgdXNlIGEgdHJhaWxpbmcgKi8gb24gYSBzZXBhcmF0ZSBsaW5lCiMy
+MTogRklMRTogdGNnL3BwYy90Y2ctdGFyZ2V0Lm9wYy5oOjM6CisgICBjb25zaWRlciB0aGVzZSB0
+byBiZSBVTlNQRUMgd2l0aCBuYW1lcy4gICovCgp0b3RhbDogMCBlcnJvcnMsIDQgd2FybmluZ3Ms
+IDMgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMTAvMTYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2Ug
+cmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9y
+dCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4K
+MTEvMTYgQ2hlY2tpbmcgY29tbWl0IGUyOTNmZmY4MGIzOSAodGNnL3BwYzogU3VwcG9ydCB2ZWN0
+b3Igc2hpZnQgYnkgaW1tZWRpYXRlKQoxMi8xNiBDaGVja2luZyBjb21taXQgODkyNGU2OGY5N2M2
+ICh0Y2cvcHBjOiBTdXBwb3J0IHZlY3RvciBtdWx0aXBseSkKRVJST1I6IGNvZGUgaW5kZW50IHNo
+b3VsZCBuZXZlciB1c2UgdGFicwojMTMzOiBGSUxFOiB0Y2cvcHBjL3RjZy10YXJnZXQuaW5jLmM6
+MzIxOToKK15JYnJlYWs7JAoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxODUgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggMTIvMTYgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjEzLzE2IENo
+ZWNraW5nIGNvbW1pdCBiNTIxOTAxNDg4NDUgKHRjZy9wcGM6IFN1cHBvcnQgdmVjdG9yIGR1cDIp
+CjE0LzE2IENoZWNraW5nIGNvbW1pdCBiNTMzNTY4OGM4MjcgKHRjZy9wcGM6IFVwZGF0ZSB2ZWN0
+b3Igc3VwcG9ydCB0byB2Mi4wNikKMTUvMTYgQ2hlY2tpbmcgY29tbWl0IDkwYmJmNTExNjM0OSAo
+dGNnL3BwYzogVXBkYXRlIHZlY3RvciBzdXBwb3J0IHRvIHYyLjA3KQoxNi8xNiBDaGVja2luZyBj
+b21taXQgMjJkMTMzYjdkMzI2ICh0Y2cvcHBjOiBVcGRhdGUgdmVjdG9yIHN1cHBvcnQgdG8gdjMu
+MDApCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEK
+CgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzE1
+NjEzMDk0ODktMTYxNDYtMS1naXQtc2VuZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJr
+LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRl
+ZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNl
+IHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-Hi; thanks for this report. (This kind of bug report is better sent
-to qemu-devel or to the launchpad bug tracker -- qemu-discuss
-is mostly user-to-user conversations, and developers tend to
-be on -devel; I've cc'd -devel on this.)
-
-Our official support policy is that we support building with the
-two most recent versions of macOS; in practice we might support
-building with some earlier versions; as of commit 5588840ff77800e839
-we definitely dropped support for anything earlier than 10.10.
-So in theory we don't strongly care about anything before 10.13
-at the moment; but if it's easy to avoid the problem it might be
-worth doing that.
-
-Alex, it looks like the relevant commit was one of yours.
-Could you have a look at how easy it would be to support
-systems without clock_gettime/CLOCK_MONOTONIC ?
-I notice that other places in QEMU have #ifdeffery for
-a lack of CLOCK_MONOTONIC, so we should ideally be
-consistent, and either support systems without it, or else
-say we require it and remove the remaining legacy ifdefs...
-
-thanks
--- PMM
 
