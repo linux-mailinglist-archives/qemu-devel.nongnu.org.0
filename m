@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DA6501C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:01:54 +0200 (CEST)
-Received: from localhost ([::1]:48140 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 259D95020A
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:18:40 +0200 (CEST)
+Received: from localhost ([::1]:48204 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfI35-0005Pq-L0
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:01:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35894)
+	id 1hfIJL-0003SV-52
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:18:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39382)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sjitindarsingh@gmail.com>) id 1hfHzp-0003aD-Sq
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 01:58:30 -0400
+ (envelope-from <bounces@canonical.com>) id 1hfIGl-0001uy-6m
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:16:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sjitindarsingh@gmail.com>) id 1hfHzo-00061D-Py
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 01:58:29 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41234)
+ (envelope-from <bounces@canonical.com>) id 1hfIGj-00036R-7M
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:15:59 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54310)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sjitindarsingh@gmail.com>)
- id 1hfHzl-0005yO-OE; Mon, 24 Jun 2019 01:58:25 -0400
-Received: by mail-pf1-x444.google.com with SMTP id m30so6850796pff.8;
- Sun, 23 Jun 2019 22:58:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BNTveCJapGdj0Gv7DBpJLbE+44u541pQ9RFkUPFhZ0E=;
- b=u8xQ3EqrsdT2p3zJbJBjyGfdY0D8UsMm3Kaa5w31AhgYRzM4BWu3uIjsH4791dTWVa
- fibzMzPR6I4KgbbnQEq5KFd3YdKnCauNZLglleXNizLYm5NclxM9UvDhaA+dSNiSArvS
- TKUM19OBmxV022079tzd9vYJ9glwZRgvFlzDJSAOEQ4h2viZ5mPPdL92v4UM9RLGgG9Y
- 5Gxkaqi1tf4lLylkx1OF8aLf1AhYVM87Ggvu6L2TW/F/2CI+zki47UJNw9iFVr+qg859
- Yerznd1rNA34VzundVQuO8dFbqMsRClN2BMC4SaN3msCFFGoMwDhYsAbf4HBP16KNgnq
- LzTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=BNTveCJapGdj0Gv7DBpJLbE+44u541pQ9RFkUPFhZ0E=;
- b=N/0SuQ0bRn8piJsBnWc5a39JVongVQ39DEXwu5t2v9L93J6nNrHIziPUVjglTMtiO2
- yrCJMEVZV6zX80C5sIE2xhmFRGjU9n02G21ZO9zRAQbKcmGoPooVuBtAFQFwUKvfmRWC
- SPNo7Ox9jYw9ulHpp5C8iRxjMAFQObrLzaVoyru2Y09dHdB5XTeMbO0hB4ZFeZIePdV7
- +wmoRQixUIAHGx5mfxRct+fIZEDCRrXfNhb5bRRs8Zl0i15VtXq6hY5NTjkwPzDjJu6Q
- JynJ7hJuJ33ttxRSTuKoQ1KDGw6tOI8YyHkZ/wm0zx3xI0DG7crziciaaeZgOypDhgIF
- QKpA==
-X-Gm-Message-State: APjAAAVo9alMj+g4qT4btmjPFDuBAuBa27KVHD19ReXCfYxH2cLEaY8j
- hb8+QwKAyMtedJf6YpmVePrwmfww
-X-Google-Smtp-Source: APXvYqwNfB/ZqmihU93asYXQ2m2bbIbyNkRFEPUowGXSZj7JBCzS+25dxAS4jRX0ygK4ng7NzA5xCA==
-X-Received: by 2002:a63:e43:: with SMTP id 3mr7899574pgo.402.1561355904637;
- Sun, 23 Jun 2019 22:58:24 -0700 (PDT)
-Received: from surajjs2.ozlabs.ibm.com ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id s15sm12579335pfd.183.2019.06.23.22.58.22
- (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 23 Jun 2019 22:58:24 -0700 (PDT)
-From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-To: qemu-ppc@nongnu.org
-Date: Mon, 24 Jun 2019 15:58:12 +1000
-Message-Id: <20190624055812.3906-2-sjitindarsingh@gmail.com>
-X-Mailer: git-send-email 2.13.6
-In-Reply-To: <20190624055812.3906-1-sjitindarsingh@gmail.com>
-References: <20190624055812.3906-1-sjitindarsingh@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [QEMU-PPC] [PATCH 2/2] ppc/spapr: Enable H_PURR
- in-kernel handling
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hfIGh-0002z2-Bh
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:15:55 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hfIGd-0003G7-Q0
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:15:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B80292E80C7
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:15:51 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 24 Jun 2019 06:06:28 -0000
+From: Alex <1833053@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: crash qemu spice usbredir
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gsanic hijacker-c
+X-Launchpad-Bug-Reporter: Nikolay Kichukov (hijacker-c)
+X-Launchpad-Bug-Modifier: Alex (gsanic)
+References: <156076455835.24347.5065510387911666481.malonedeb@gac.canonical.com>
+Message-Id: <156135638888.18276.13440248414787508100.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18989";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 40a6d0aff33a908fb7944dea56e09ce6f49d1419
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1833053] Re: qemu guest crashes on spice client
+ USB redirected device removal
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,75 +65,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, sjitindarsingh@gmail.com,
- david@gibson.dropbear.id.au
+Reply-To: Bug 1833053 <1833053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable in-kernel handling of the hcall H_PURR. This means that if the
-kernel implements an hcall handler for H_PURR, it will be used.
+Hello,
+I have the same qemu behaviour. It happens every time I have unplugged phys=
+ical usb device attached to guest from the host system. My device is USB GS=
+M dongle. Some times it disconnects and reconnects again for unknown reason=
+, may be power loss... With version 3.1.0 qemu (gentoo linux) this disconne=
+cts had normal USB device disconnects in guest system. But with version 4.0=
+.0 it gets guest VM to crash.
 
-Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
----
- hw/ppc/spapr.c       | 3 +++
- target/ppc/kvm.c     | 5 +++++
- target/ppc/kvm_ppc.h | 5 +++++
- 3 files changed, 13 insertions(+)
+-- =
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 39e698e9b0..b62dce8876 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2851,6 +2851,9 @@ static void spapr_machine_init(MachineState *machine)
- 
-         /* Enable H_PAGE_INIT */
-         kvmppc_enable_h_page_init();
-+
-+        /* Enable H_PURR */
-+        kvmppc_enable_h_purr();
-     }
- 
-     /* allocate RAM */
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 3bf0a46c33..0fd3ef4d48 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2075,6 +2075,11 @@ void kvmppc_enable_h_page_init(void)
-     kvmppc_enable_hcall(kvm_state, H_PAGE_INIT);
- }
- 
-+void kvmppc_enable_h_purr(void)
-+{
-+    kvmppc_enable_hcall(kvm_state, H_PURR);
-+}
-+
- void kvmppc_set_papr(PowerPCCPU *cpu)
- {
-     CPUState *cs = CPU(cpu);
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 45776cad79..b5d2feab22 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -24,6 +24,7 @@ void kvmppc_enable_logical_ci_hcalls(void);
- void kvmppc_enable_set_mode_hcall(void);
- void kvmppc_enable_clear_ref_mod_hcalls(void);
- void kvmppc_enable_h_page_init(void);
-+void kvmppc_enable_h_purr(void);
- void kvmppc_set_papr(PowerPCCPU *cpu);
- int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
- void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-@@ -145,6 +146,10 @@ static inline void kvmppc_enable_h_page_init(void)
- {
- }
- 
-+static inline void kvmppc_enable_h_purr(void)
-+{
-+}
-+
- static inline void kvmppc_set_papr(PowerPCCPU *cpu)
- {
- }
--- 
-2.13.6
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1833053
 
+Title:
+  qemu guest crashes on spice client USB redirected device removal
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I am experiencing guest crashes, which cannot be reproduced at all
+  times, but are pretty frequent (4 out of 5 tries it would crash). The
+  guest crashes when a previously attached USB redirected device through
+  SPICE has been removed by the client.
+
+  Steps to reproduce:
+  1.) Start windows 10 guest with display driver Spice
+  2.) Connect to the console with remote-viewer spice://IP:PORT or via virt=
+-viewer (tunnelled through SSH)
+  3.) Attach a client USB device, for example storage device, iPhone or And=
+roid phone
+  4.) Observe the guest OS detects it and sets it up
+  5.) Go back to 'USB device selection' and untick the USB device
+  6.) Observe the guest VM crashed and the below assertion was printed in t=
+he qemu log for this virtual machine:
+
+  qemu-system-x86_64: /var/tmp/portage/app-emulation/qemu-4.0.0-r3/work/qem=
+u-4.0.0/hw/usb/core.c:720: usb_ep_get: Assertion `dev !=3D NULL' failed.
+  2019-06-17 09:25:09.160+0000: shutting down, reason=3Dcrashed
+
+  =
+
+  Versions of related packages on the host:
+  app-emulation/qemu-4.0.0-r3
+  app-emulation/spice-0.14.0-r2:0
+  app-emulation/spice-protocol-0.12.14:0
+  net-misc/spice-gtk-0.35:0
+  Kernel: 5.1.7-gentoo on Intel x86_64 CPU
+
+  Version of the spice-tools on the guest:
+  virtio-win 0.1-126
+  QXL 0.1-21
+  mingw-vdagent-win 0.8.0
+
+  QEMU command line (generated by libvirt):
+
+  /usr/bin/qemu-system-x86_64 -name guest=3DW10VM,debug-threads=3Don -S
+  -object
+  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-4=
+1-W10VM
+  /master-key.aes -machine pc-i440fx-2.12,accel=3Dkvm,usb=3Doff,vmport=3Doff
+  ,dump-guest-core=3Doff -cpu
+  qemu64,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_synic,hv_stim=
+er
+  -m 4500 -realtime mlock=3Doff -smp
+  2,maxcpus=3D4,sockets=3D4,cores=3D1,threads=3D1 -uuid b39afae2-5085-4659-=
+891c-
+  b3c65e65af2e -no-user-config -nodefaults -chardev
+  socket,id=3Dcharmonitor,fd=3D26,server,nowait -mon
+  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
+  base=3Dlocaltime,driftfix=3Dslew -no-hpet -global kvm-
+  pit.lost_tick_policy=3Ddelay -no-shutdown -global PIIX4_PM.disable_s3=3D1
+  -global PIIX4_PM.disable_s4=3D1 -boot menu=3Doff,strict=3Don -device ich9
+  -usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x5.0x7 -device ich9-usb-
+  uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,multifunction=3Don,addr=
+=3D0x5
+  -device ich9-usb-
+  uhci2,masterbus=3Dusb.0,firstport=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device =
+ich9
+  -usb-uhci3,masterbus=3Dusb.0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -de=
+vice
+  virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x8 -device virtio-serial-
+  pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x6 -drive
+  file=3D/libvirt/images/W10VM.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-
+  scsi0-0-0-1,cache=3Dunsafe,discard=3Dunmap,detect-zeroes=3Dunmap -device
+  scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=3Ddrive-
+  scsi0-0-0-1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,bootindex=3D1,writ=
+e-
+  cache=3Don -netdev tap,fd=3D28,id=3Dhostnet0,vhost=3Don,vhostfd=3D29 -dev=
+ice
+  virtio-net-
+  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:44:f6:21,bus=3Dpci.0,addr=
+=3D0x3
+  -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device
+  virtserialport,bus=3Dvirtio-
+  serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dcom.redhat.s=
+pice.0
+  -chardev socket,id=3Dcharchannel1,fd=3D30,server,nowait -device
+  virtserialport,bus=3Dvirtio-
+  serial0.0,nr=3D3,chardev=3Dcharchannel1,id=3Dchannel1,name=3Dorg.qemu.gue=
+st_agent.0
+  -chardev spiceport,id=3Dcharchannel2,name=3Dorg.spice-space.webdav.0
+  -device virtserialport,bus=3Dvirtio-
+  serial0.0,nr=3D2,chardev=3Dcharchannel2,id=3Dchannel2,name=3Dorg.spice-
+  space.webdav.0 -spice port=3D5901,addr=3D0.0.0.0,seamless-migration=3Don
+  -device qxl-
+  vga,id=3Dvideo0,ram_size=3D134217728,vram_size=3D134217728,vram64_size_mb=
+=3D0,vgamem_mb=3D64,max_outputs=3D1,bus=3Dpci.0,addr=3D0x2
+  -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -device hda-
+  duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -chardev
+  spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D1 -chardev
+  spicevmc,id=3Dcharredir1,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D2 -device virti=
+o-
+  balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x7 -sandbox
+  on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
+=3Ddeny
+  -msg timestamp=3Don
+
+  =
+
+  I have attempted to collect a backtrace, but will need direction as I am =
+not sure on which thread to listen and where to set the breakpoint, 'thread=
+ apply all backtrace' does not seem to work well with the qemu process...
+
+  Thank you
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1833053/+subscriptions
 
