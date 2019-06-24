@@ -2,99 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B442E5197B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 19:25:47 +0200 (CEST)
-Received: from localhost ([::1]:53382 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78562519FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 19:51:01 +0200 (CEST)
+Received: from localhost ([::1]:53502 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfSiw-0005RC-Jg
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 13:25:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44839)
+	id 1hfT7M-0007so-AV
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 13:51:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48763)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hfShC-0004MT-MU
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:24:00 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hfSwj-00018Z-A6
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hfShB-0004DZ-EX
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:23:58 -0400
-Received: from mail-eopbgr20118.outbound.protection.outlook.com
- ([40.107.2.118]:18241 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hfSh8-00049b-E9; Mon, 24 Jun 2019 13:23:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UzfXJQAsIE92IbHEao1pwoPaWf8CrzAFhHAjpKEmlhE=;
- b=J+XH5AEMD4v6t83IB/FpNAI/QN0KLOJ0HBKXb2AiVWLgnnGdIRI2E0drkTX7fi7hmG7VVW5ErOin+dIv/ds3sjzWLTOfmyBZ5HPaUr162RF6HN1+avWdtQnRRUTXjiIPPPctlDxWxgmBeIbO0hv5LPVkS/b5yBuqqMdS87Myx28=
-Received: from VI1PR08MB3677.eurprd08.prod.outlook.com (20.177.61.92) by
- VI1PR08MB4109.eurprd08.prod.outlook.com (20.178.127.211) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.16; Mon, 24 Jun 2019 17:23:51 +0000
-Received: from VI1PR08MB3677.eurprd08.prod.outlook.com
- ([fe80::4c71:9c23:235b:fbed]) by VI1PR08MB3677.eurprd08.prod.outlook.com
- ([fe80::4c71:9c23:235b:fbed%3]) with mapi id 15.20.2008.014; Mon, 24 Jun 2019
- 17:23:51 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Eric Blake <eblake@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@virtuozzo.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v2 7/7] iotests: new file to suppress
- Valgrind errors
-Thread-Index: AQHVIH/WtZ37DP0CJEiTLkjzsZK8gqaZXjmAgBG8HwCAAAO/gIAABBMA
-Date: Mon, 24 Jun 2019 17:23:51 +0000
-Message-ID: <789c7c71-fac4-ca61-56b7-ef1cf3a1eea9@virtuozzo.com>
-References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1560276131-683243-8-git-send-email-andrey.shinkevich@virtuozzo.com>
- <dc4ae7d2-64bf-ab12-4712-5752f848b5dd@virtuozzo.com>
- <5b57cb61-7eef-b89e-7ea7-053e65c9f227@virtuozzo.com>
- <538b1e90-c5c6-671a-7b73-1833b20982ec@redhat.com>
-In-Reply-To: <538b1e90-c5c6-671a-7b73-1833b20982ec@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0501CA0026.eurprd05.prod.outlook.com
- (2603:10a6:3:1a::36) To VI1PR08MB3677.eurprd08.prod.outlook.com
- (2603:10a6:803:85::28)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9835193e-9302-49eb-6e48-08d6f8c8b95a
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:VI1PR08MB4109; 
-x-ms-traffictypediagnostic: VI1PR08MB4109:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <VI1PR08MB4109E958E18CF87DF71969FEF4E00@VI1PR08MB4109.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 007814487B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(136003)(39850400004)(366004)(346002)(396003)(199004)(189003)(2501003)(6246003)(2616005)(5660300002)(4326008)(68736007)(476003)(486006)(11346002)(44832011)(52116002)(31696002)(14454004)(229853002)(305945005)(386003)(6506007)(14444005)(256004)(53546011)(186003)(6306002)(81166006)(53936002)(26005)(2906002)(76176011)(102836004)(6512007)(81156014)(2201001)(86362001)(99286004)(36756003)(110136005)(54906003)(316002)(6116002)(3846002)(6436002)(6486002)(25786009)(71200400001)(71190400001)(7736002)(66066001)(73956011)(8676002)(478600001)(64756008)(66556008)(66446008)(8936002)(66476007)(66946007)(31686004)(446003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB4109;
- H:VI1PR08MB3677.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: ZzkJTgOXUlBcIZcCtQhNvHcsYNw6xyBThn6nGcaW4Mm4DaUGvA5ddRbYOEtdP86WSwS3iShoC/wp4Lz1LV0aoLYDHWjCjZeBR6FjxZdg7TrjbL+JeSTMJF8gKKnlQRhSl2E+wUYnfFB+2IDlHC+oobY2P00KoIEgiAsFthMEehh0G2gsDpKMzePoqIHpSCvh6hq37Mw3QhTBrSit4ggEJxlqhb7P9C4JU4zEiZdsnLLw4FS4/3vb94yONKi2U4ZERjlelWeO6rcfdLTEblGzqSgyFBBzTJmptKdHF/m3SKNRk7Ln9B78/am5dj/clen94KqkM08b68uYwk12JVNtmcxk7m7EoPqJbtHu22z49h8EG+o7YqmlUe/Xm/Z1hXsR8ypXmorEefZG21YlBOcLsAGeNZBRXEk8uG9YijfuNUw=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <92D27FE8294FAD4A8CC184F30398A353@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <mreitz@redhat.com>) id 1hfSwc-0004fl-KG
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:39:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59402)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hfSwN-00041x-Ht; Mon, 24 Jun 2019 13:39:41 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 972333087930;
+ Mon, 24 Jun 2019 17:39:37 +0000 (UTC)
+Received: from localhost (ovpn-204-152.brq.redhat.com [10.40.204.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C7A895D9C5;
+ Mon, 24 Jun 2019 17:39:36 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Mon, 24 Jun 2019 19:39:20 +0200
+Message-Id: <20190624173935.25747-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9835193e-9302-49eb-6e48-08d6f8c8b95a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2019 17:23:51.1419 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: andrey.shinkevich@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4109
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.2.118
-Subject: Re: [Qemu-devel] [PATCH v2 7/7] iotests: new file to suppress
- Valgrind errors
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Mon, 24 Jun 2019 17:39:37 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v4 00/14] block: Try to create well-typed
+ json:{} filenames
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -106,42 +54,438 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "berrange@redhat.com" <berrange@redhat.com>,
- Roman Kagan <rkagan@virtuozzo.com>, Denis Lunev <den@virtuozzo.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDI0LzA2LzIwMTkgMjA6MDksIEVyaWMgQmxha2Ugd3JvdGU6DQo+IE9uIDYvMjQvMTkg
-MTE6NTUgQU0sIEFuZHJleSBTaGlua2V2aWNoIHdyb3RlOg0KPiANCj4+Pj4gKysrIGIvdGVzdHMv
-cWVtdS1pb3Rlc3RzL2NvbW1vbi5yYw0KPj4+PiBAQCAtMTcsNiArMTcsOCBAQA0KPj4+PiAgICAg
-IyBhbG9uZyB3aXRoIHRoaXMgcHJvZ3JhbS4gIElmIG5vdCwgc2VlIDxodHRwOi8vd3d3LmdudS5v
-cmcvbGljZW5zZXMvPi4NCj4+Pj4gICAgICMNCj4+Pj4gICAgIA0KPj4+PiArcmVhZG9ubHkgVkFM
-R1JJTkRfU1VQUFJFU1NfRVJST1JTPS4vdmFsZ3JpbmQuc3VwcA0KPj4+DQo+Pj4gV2h5IHJlYWRv
-bmx5Pw0KPj4+DQo+Pj4gSSB0aGluayBpdCBzaG91bGQgYmUgZGVmaW5lZCBuZWFyIGFuZCBpbiBz
-YW1lIG1hbm5lciBhcyBWQUxHUklORF9MT0dGSUxFLA0KPj4+IHdpdGggdXNlIG9mIFRFU1RfRElS
-DQo+Pj4NCj4+DQo+PiBUaGUgbmV3IGZpbGUgJ3ZhbGdyaW5kLnN1cHAnIGlzIGludGVuZGVkIHRv
-IGJlIGEgcGFydCBvZiB0aGUgUUVNVQ0KPj4gcHJvamVjdC4gU28sIGl0IHdpbGwgYmUgbG9jYXRl
-ZCBpbiB0aGUgdGVzdCBkaXJlY3RvcnkgdGVzdHMvcWVtdS1pb3Rlc3RzLg0KPj4gVGhlIHZhcmlh
-YmxlIFRFU1RfRElSIG1heSBjaGFuZ2UgdGhlIHdvcmtpbmcgZGlyZWN0b3J5LiBJbiB0aGF0IGNh
-c2UsDQo+PiBtb3ZpbmcgdGhlIHByb2plY3QgZmlsZSB3aWxsIGJlIGEgaGFzc2xlLg0KPiANCj4g
-TXkgcGVyc29uYWwgdGhvdWdodHMgYXJlIHRoYXQgbm8gc2VyaW91cyBQT1NJWCBvciBiYXNoIHNo
-ZWxsIHNjcmlwdCBldmVyDQo+IHVzZXMgcmVhZG9ubHkgKGl0IG9mZmVycyB0aGUgaWxsdXNpb24g
-b2Ygc2VjdXJpdHkgYnV0IGNhbm5vdCBhY3R1YWxseQ0KPiBiYWNrIGl0IHVwLCBhbmQgaW4gcmVh
-bGl0eSBlbmRzIHVwIGNhdXNpbmcgbW9yZSBidWdzIHRoYW4gaXQgcHJldmVudHMNCj4gd2hlbiB5
-b3VyIHNjcmlwdCBicmVha3MgYmVjYXVzZSB5b3UgdHJpZWQgdG8gbW9kaWZ5IGEgcmVhZG9ubHkN
-Cj4gdmFyaWFibGUpLiAgSSd2ZSBvbmx5IGV2ZXIgZGVhbHQgd2l0aCBvbmUgcHJvamVjdCB0aGF0
-IHRyaWVkIHRvIHVzZQ0KPiByZWFkb25seSBpbiBlYXJuZXN0ICh0aGUgJ2N5Z3BvcnQnIHNjcmlw
-dCBmb3IgYnVpbGRpbmcgQ3lnd2luIHBhY2thZ2VzKQ0KPiBhbmQgaXQgZ290IGluIHRoZSB3YXkg
-bW9yZSB0aGFuIGl0IHNhdmVkIG1lIGZyb20gYnVncy4NCj4gDQo+IERlY2xhcmluZyB0aGF0IFZB
-TEdSSU5EX1NVUFBSRVNTX0VSUk9SUyBpcyBpbml0aWFsaXplZCBoYXJkLWNvZGVkIHRvIC4vDQo+
-IGluc3RlYWQgb2YgcmVsYXRpdmUgdG8gJHtURVNUX0RJUn0gaXMgb3J0aG9nb25hbCB0byB3aGV0
-aGVyIHlvdSBkZWNsYXJlDQo+IHRoYXQgdGhlIHZhcmlhYmxlIFZBTEdSSU5EX1NVUFBSRVNTX0VS
-Uk9SUyBjYW4gbm8gbG9uZ2VyIGJlIGZ1cnRoZXINCj4gbW9kaWZpZWQgYnkgdGhlIHJlc3Qgb2Yg
-dGhlIHNjcmlwdC4NCj4gDQoNClRoYW5rIHlvdSBFcmljLiBJIGFtIGZsZXhpYmxlIG9uIHRoYXQg
-c3ViamVjdC4gSWYgdGhlIHBhdGggaXMgcmVsYXRpdmUgDQp0byAke1RFU1RfRElSfSwgc2hvdWxk
-IHRoZSBmaWxlIHZhbGdyaW5kLnN1cHAgYmUgY29waWVkIGZyb20gLi8gdG8gdGhlIA0KJHtURVNU
-X0RJUn0gYnkgdGhlIHNjcmlwdCBpdHNlbGY/DQoNCkFuZHJleQ0KLS0gDQpXaXRoIHRoZSBiZXN0
-IHJlZ2FyZHMsDQpBbmRyZXkgU2hpbmtldmljaA0K
+Hi,
+
+There are two explanations of this cover letter, a relative one (to v3)
+and an absolute one.
+
+
+*** Important note ***
+
+The final patch in this series is an example that converts most of
+block-core.json to use default values where possible.  We may decide to
+take it or not.  It isn=E2=80=99t important for the main purpose of this =
+series,
+so I=E2=80=99d be very much fine with chopping it off.
+
+(It does have a nice diff stat, though.)
+
+*** Important note end ***
+
+
+Relative explanation:
+
+The actual functional goal of this series is to allow all blockdev
+options that can be represented with -drive to have an equivalent with
+-blockdev (safe for rbd=E2=80=99s =3Dkeyvalue-pairs).
+
+To this end, qcow(2)=E2=80=99s encryption needs an =E2=80=9Cauto=E2=80=9D=
+ format which can
+automatically deduce the format from the image header.  To make things
+nicer, I decided (already in v1) to make this format optional so users
+could just specify encrypt.secret and let the format driver figure out
+the rest.
+
+Until v3, this was implemented by letting the discriminator of flat
+unions be optional, as long as a default-value is provided.  Markus
+(rightfully) complained that this is very specific and would be covered
+by just having default values for QAPI struct members in general.
+So now this version implements this.  This is a bit more complicated
+than just implementing a default-variant, mainly because the latter only
+needs to accept enum values, whereas a generally usable =E2=80=9Cdefault=E2=
+=80=9D should
+accept values of all QAPI types (to the extent what is reasonable).
+
+So what was (until v3)
+
+  { 'union': 'Foo',
+    'base': { '*discr': 'SomeEnum' },
+    'discriminator': 'discr',
+    'default-variant': 'value1',
+    'data': { 'value1': 'Bar', 'value2': 'Baz' } }
+
+becomes
+
+  { 'union': 'Foo',
+    'base': { '*discr': { 'type': 'SomeEnum', 'default': 'value1' } },
+    'discriminator': 'discr',
+    'data': { 'value1': 'Bar', 'value2': 'Baz' } }
+
+
+
+Absolute explanation:
+
+When qemu reports json:{} filename, it just uses whatever type you gave
+an option in.  With -drive, all options are strings and they do not have
+to pass the test of the typing firewall of the QAPI schema, so you just
+get strings thrown back at you even if that does not match the schema.
+(Also, if you use json:{} yourself, you=E2=80=99re free to give the optio=
+ns as
+strings as well.)
+
+Example:
+
+$ ./qemu-img info --image-opts driver=3Draw,size=3D512,file.driver=3Dnull=
+-co
+image: json:{"driver": "raw", "size": "512", "file": {"driver": "null-co"=
+}}
+
+@size is supposed to be an integer, according to the schema, so the
+correct result would be (which is what you get after this series):
+
+$ ./qemu-img info --image-opts driver=3Draw,size=3D512,file.driver=3Dnull=
+-co
+image: json:{"driver": "raw", "size": 512, "file": {"driver": "null-co"}}
+
+
+This is achieved by patch 11, which makes bdrv_refresh_filename() run
+the options through the flat-confused input visitor, and then through
+the output visitor to get all to the correct type.  If anything fails,
+the result is as before (hence the =E2=80=9CTry=E2=80=9D in the title).
+
+There are cases where this cannot work.  Those are the ones where -drive
+accepts something that is not allowed by the QAPI schema.  One of these
+cases is rbd=E2=80=99s =3Dkeyvalue-pairs, which is just broken altogether=
+, so
+let=E2=80=99s simply ignore that.  (I don=E2=80=99t think anybody=E2=80=99=
+s going to complain
+that the json:{} filename they get is not correctly typed after they=E2=80=
+=99ve
+used that option.)
+
+The other case (I know of) is qcow(2)=E2=80=99s encryption.  In the QAPI =
+schema,
+encrypt.format is not optional because it is the discriminator for which
+kind of options to use.  However, for -drive, it is optional because the
+qcow2 driver can infer the encryption format from the image header.
+
+The solution that=E2=80=99s proposed by this series is to make flat union
+discriminators optional and provide a default.  This is accomplished by
+generally allowing default values to be provided for QAPI struct
+members.
+
+Both AES and LUKS encryption allow only a key-secret option, so we can
+add a new pseudo-format =E2=80=9Cauto=E2=80=9D that accepts exactly that =
+option and
+makes the qcow2 driver read the real format from the image header.  This
+pseudo-format is made the default for encrypt.format, and thus you can
+then specify encrypt.key-secret without having to specify
+encrypt.format (while still adhering to the QAPI schema).
+
+
+So, in this series:
+- The QAPI code generator is modified to allow default values for
+  optional struct members.  This in turn allows flat union
+  discriminators be optional, too, but only if a default value is
+  provided.
+  - Accordingly, documentation, tests, and introspection are adjusted.
+
+- This is used to make qcow=E2=80=99s and qcow2=E2=80=99s encrypt.format =
+parameter
+  optional.  It now defaults to =E2=80=9Cfrom-image=E2=80=9D which is a n=
+ew
+  pseudo-format that allows a key-secret to be given, and otherwise
+  leaves it to the format driver to determine the encryption format.
+
+- json:{} filenames are attempted to be typed correctly when they are
+  generated, by running bs->full_open_options through a healthy mix of
+  qdict_flatten(), the flat-confused input visitor for BlockdevOptions,
+  and the output visitor.
+  This may not always work but I hope it usually will.  Fingers crossed.
+  (At least it won=E2=80=99t make things worse.)
+
+- Tests, tests, tests.
+
+
+(Yes, I know that =E2=80=9CIn this series tests, tests, tests.=E2=80=9D i=
+s not a
+ sentence.)
+
+
+v4:
+- Drop the default-variant stuff and replace it by a more general
+  concept of allowing default values for all QAPI struct members
+
+
+git backport-diff against v3:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/14:[down] 'qapi: Parse numeric values'
+002/14:[down] 'qapi: Move to_c_string() to common.py'
+003/14:[down] 'qapi: Introduce default values for struct members'
+004/14:[down] 'qapi: Allow optional discriminators'
+005/14:[down] 'qapi: Document default values for struct members'
+006/14:[down] 'test-qapi: Print struct members' default values'
+007/14:[down] 'tests: Test QAPI default values for struct members'
+008/14:[0044] [FC] 'tests: Add QAPI optional discriminator tests'
+009/14:[0009] [FC] 'qapi: Formalize qcow2 encryption probing'
+010/14:[0005] [FC] 'qapi: Formalize qcow encryption probing'
+011/14:[0014] [FC] 'block: Try to create well typed json:{} filenames'
+012/14:[----] [--] 'iotests: Test internal option typing'
+013/14:[----] [--] 'iotests: qcow2's encrypt.format is now optional'
+014/14:[down] 'block: Make use of QAPI defaults'
+
+
+Max Reitz (14):
+  qapi: Parse numeric values
+  qapi: Move to_c_string() to common.py
+  qapi: Introduce default values for struct members
+  qapi: Allow optional discriminators
+  qapi: Document default values for struct members
+  test-qapi: Print struct members' default values
+  tests: Test QAPI default values for struct members
+  tests: Add QAPI optional discriminator tests
+  qapi: Formalize qcow2 encryption probing
+  qapi: Formalize qcow encryption probing
+  block: Try to create well typed json:{} filenames
+  iotests: Test internal option typing
+  iotests: qcow2's encrypt.format is now optional
+  block: Make use of QAPI defaults
+
+ docs/devel/qapi-code-gen.txt                  |  81 +++++-
+ tests/Makefile.include                        |  17 +-
+ qapi/block-core.json                          | 180 +++++++++-----
+ qapi/introspect.json                          |   9 +-
+ tests/qapi-schema/bad-type-int.json           |   1 -
+ tests/qapi-schema/enum-int-member.json        |   1 -
+ ...l-discriminator-invalid-specification.json |  11 +
+ ...on-optional-discriminator-no-default.json} |   5 +-
+ tests/qapi-schema/qapi-schema-test.json       |  38 +++
+ .../struct-member-alternate-default.json      |  10 +
+ ...struct-member-bool-wrong-default-type.json |   3 +
+ .../struct-member-enum-invalid-default.json   |   4 +
+ ...struct-member-enum-wrong-default-type.json |   4 +
+ .../struct-member-float-invalid-default.json  |   4 +
+ ...truct-member-float-wrong-default-type.json |   3 +
+ .../struct-member-int-wrong-default-type.json |   3 +
+ .../struct-member-int8-erange-default.json    |   3 +
+ .../struct-member-list-nonempty-default.json  |   4 +
+ .../struct-member-non-optional-default.json   |   3 +
+ .../struct-member-null-default.json           |   6 +
+ .../struct-member-str-wrong-default-type.json |   3 +
+ .../struct-member-uint8-erange-default.json   |   3 +
+ .../struct-member-uint8-negative-default.json |   3 +
+ block.c                                       |  68 ++++-
+ block/file-posix.c                            |   9 -
+ block/file-win32.c                            |   8 +-
+ block/parallels.c                             |   6 +-
+ block/qcow2.c                                 |  39 +--
+ block/qed.c                                   |   3 -
+ block/sheepdog.c                              |   3 -
+ block/vdi.c                                   |   3 -
+ block/vhdx.c                                  |  28 +--
+ block/vpc.c                                   |   3 -
+ blockdev.c                                    | 182 +++-----------
+ monitor/hmp-cmds.c                            |  27 +-
+ monitor/qmp-cmds.c                            |   3 +-
+ scripts/qapi/commands.py                      |   2 +-
+ scripts/qapi/common.py                        | 232 ++++++++++++++++--
+ scripts/qapi/doc.py                           |  20 +-
+ scripts/qapi/introspect.py                    |   8 +-
+ scripts/qapi/types.py                         |   2 +-
+ scripts/qapi/visit.py                         |  38 ++-
+ tests/qapi-schema/bad-type-int.err            |   2 +-
+ tests/qapi-schema/enum-int-member.err         |   2 +-
+ ...al-discriminator-invalid-specification.err |   1 +
+ ...-discriminator-invalid-specification.exit} |   0
+ ...l-discriminator-invalid-specification.out} |   0
+ ...nion-optional-discriminator-no-default.err |   1 +
+ ...ion-optional-discriminator-no-default.exit |   1 +
+ ...nion-optional-discriminator-no-default.out |   0
+ .../flat-union-optional-discriminator.err     |   1 -
+ tests/qapi-schema/leading-comma-list.err      |   2 +-
+ tests/qapi-schema/qapi-schema-test.out        |  33 +++
+ .../struct-member-alternate-default.err       |   1 +
+ .../struct-member-alternate-default.exit      |   1 +
+ .../struct-member-alternate-default.out       |   0
+ .../struct-member-bool-wrong-default-type.err |   1 +
+ ...struct-member-bool-wrong-default-type.exit |   1 +
+ .../struct-member-bool-wrong-default-type.out |   0
+ .../struct-member-enum-invalid-default.err    |   1 +
+ .../struct-member-enum-invalid-default.exit   |   1 +
+ .../struct-member-enum-invalid-default.out    |   0
+ .../struct-member-enum-wrong-default-type.err |   1 +
+ ...struct-member-enum-wrong-default-type.exit |   1 +
+ .../struct-member-enum-wrong-default-type.out |   0
+ .../struct-member-float-invalid-default.err   |   1 +
+ .../struct-member-float-invalid-default.exit  |   1 +
+ .../struct-member-float-invalid-default.out   |   0
+ ...struct-member-float-wrong-default-type.err |   1 +
+ ...truct-member-float-wrong-default-type.exit |   1 +
+ ...struct-member-float-wrong-default-type.out |   0
+ .../struct-member-int-wrong-default-type.err  |   1 +
+ .../struct-member-int-wrong-default-type.exit |   1 +
+ .../struct-member-int-wrong-default-type.out  |   0
+ .../struct-member-int8-erange-default.err     |   1 +
+ .../struct-member-int8-erange-default.exit    |   1 +
+ .../struct-member-int8-erange-default.out     |   0
+ .../struct-member-list-nonempty-default.err   |   1 +
+ .../struct-member-list-nonempty-default.exit  |   1 +
+ .../struct-member-list-nonempty-default.out   |   0
+ .../struct-member-non-optional-default.err    |   1 +
+ .../struct-member-non-optional-default.exit   |   1 +
+ .../struct-member-non-optional-default.out    |   0
+ .../struct-member-null-default.err            |   1 +
+ .../struct-member-null-default.exit           |   1 +
+ .../struct-member-null-default.out            |   0
+ .../struct-member-str-wrong-default-type.err  |   1 +
+ .../struct-member-str-wrong-default-type.exit |   1 +
+ .../struct-member-str-wrong-default-type.out  |   0
+ .../struct-member-uint8-erange-default.err    |   1 +
+ .../struct-member-uint8-erange-default.exit   |   1 +
+ .../struct-member-uint8-erange-default.out    |   0
+ .../struct-member-uint8-negative-default.err  |   1 +
+ .../struct-member-uint8-negative-default.exit |   1 +
+ .../struct-member-uint8-negative-default.out  |   0
+ tests/qapi-schema/test-qapi.py                |   8 +-
+ tests/qemu-iotests/059.out                    |   2 +-
+ tests/qemu-iotests/087                        |  65 +++--
+ tests/qemu-iotests/087.out                    |  26 +-
+ tests/qemu-iotests/089                        |  25 ++
+ tests/qemu-iotests/089.out                    |   9 +
+ tests/qemu-iotests/099.out                    |   4 +-
+ tests/qemu-iotests/110.out                    |   2 +-
+ tests/qemu-iotests/198.out                    |   4 +-
+ 104 files changed, 915 insertions(+), 384 deletions(-)
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-i=
+nvalid-specification.json
+ rename tests/qapi-schema/{flat-union-optional-discriminator.json =3D> fl=
+at-union-optional-discriminator-no-default.json} (68%)
+ create mode 100644 tests/qapi-schema/struct-member-alternate-default.jso=
+n
+ create mode 100644 tests/qapi-schema/struct-member-bool-wrong-default-ty=
+pe.json
+ create mode 100644 tests/qapi-schema/struct-member-enum-invalid-default.=
+json
+ create mode 100644 tests/qapi-schema/struct-member-enum-wrong-default-ty=
+pe.json
+ create mode 100644 tests/qapi-schema/struct-member-float-invalid-default=
+.json
+ create mode 100644 tests/qapi-schema/struct-member-float-wrong-default-t=
+ype.json
+ create mode 100644 tests/qapi-schema/struct-member-int-wrong-default-typ=
+e.json
+ create mode 100644 tests/qapi-schema/struct-member-int8-erange-default.j=
+son
+ create mode 100644 tests/qapi-schema/struct-member-list-nonempty-default=
+.json
+ create mode 100644 tests/qapi-schema/struct-member-non-optional-default.=
+json
+ create mode 100644 tests/qapi-schema/struct-member-null-default.json
+ create mode 100644 tests/qapi-schema/struct-member-str-wrong-default-typ=
+e.json
+ create mode 100644 tests/qapi-schema/struct-member-uint8-erange-default.=
+json
+ create mode 100644 tests/qapi-schema/struct-member-uint8-negative-defaul=
+t.json
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-i=
+nvalid-specification.err
+ rename tests/qapi-schema/{flat-union-optional-discriminator.exit =3D> fl=
+at-union-optional-discriminator-invalid-specification.exit} (100%)
+ rename tests/qapi-schema/{flat-union-optional-discriminator.out =3D> fla=
+t-union-optional-discriminator-invalid-specification.out} (100%)
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-n=
+o-default.err
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-n=
+o-default.exit
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-n=
+o-default.out
+ delete mode 100644 tests/qapi-schema/flat-union-optional-discriminator.e=
+rr
+ create mode 100644 tests/qapi-schema/struct-member-alternate-default.err
+ create mode 100644 tests/qapi-schema/struct-member-alternate-default.exi=
+t
+ create mode 100644 tests/qapi-schema/struct-member-alternate-default.out
+ create mode 100644 tests/qapi-schema/struct-member-bool-wrong-default-ty=
+pe.err
+ create mode 100644 tests/qapi-schema/struct-member-bool-wrong-default-ty=
+pe.exit
+ create mode 100644 tests/qapi-schema/struct-member-bool-wrong-default-ty=
+pe.out
+ create mode 100644 tests/qapi-schema/struct-member-enum-invalid-default.=
+err
+ create mode 100644 tests/qapi-schema/struct-member-enum-invalid-default.=
+exit
+ create mode 100644 tests/qapi-schema/struct-member-enum-invalid-default.=
+out
+ create mode 100644 tests/qapi-schema/struct-member-enum-wrong-default-ty=
+pe.err
+ create mode 100644 tests/qapi-schema/struct-member-enum-wrong-default-ty=
+pe.exit
+ create mode 100644 tests/qapi-schema/struct-member-enum-wrong-default-ty=
+pe.out
+ create mode 100644 tests/qapi-schema/struct-member-float-invalid-default=
+.err
+ create mode 100644 tests/qapi-schema/struct-member-float-invalid-default=
+.exit
+ create mode 100644 tests/qapi-schema/struct-member-float-invalid-default=
+.out
+ create mode 100644 tests/qapi-schema/struct-member-float-wrong-default-t=
+ype.err
+ create mode 100644 tests/qapi-schema/struct-member-float-wrong-default-t=
+ype.exit
+ create mode 100644 tests/qapi-schema/struct-member-float-wrong-default-t=
+ype.out
+ create mode 100644 tests/qapi-schema/struct-member-int-wrong-default-typ=
+e.err
+ create mode 100644 tests/qapi-schema/struct-member-int-wrong-default-typ=
+e.exit
+ create mode 100644 tests/qapi-schema/struct-member-int-wrong-default-typ=
+e.out
+ create mode 100644 tests/qapi-schema/struct-member-int8-erange-default.e=
+rr
+ create mode 100644 tests/qapi-schema/struct-member-int8-erange-default.e=
+xit
+ create mode 100644 tests/qapi-schema/struct-member-int8-erange-default.o=
+ut
+ create mode 100644 tests/qapi-schema/struct-member-list-nonempty-default=
+.err
+ create mode 100644 tests/qapi-schema/struct-member-list-nonempty-default=
+.exit
+ create mode 100644 tests/qapi-schema/struct-member-list-nonempty-default=
+.out
+ create mode 100644 tests/qapi-schema/struct-member-non-optional-default.=
+err
+ create mode 100644 tests/qapi-schema/struct-member-non-optional-default.=
+exit
+ create mode 100644 tests/qapi-schema/struct-member-non-optional-default.=
+out
+ create mode 100644 tests/qapi-schema/struct-member-null-default.err
+ create mode 100644 tests/qapi-schema/struct-member-null-default.exit
+ create mode 100644 tests/qapi-schema/struct-member-null-default.out
+ create mode 100644 tests/qapi-schema/struct-member-str-wrong-default-typ=
+e.err
+ create mode 100644 tests/qapi-schema/struct-member-str-wrong-default-typ=
+e.exit
+ create mode 100644 tests/qapi-schema/struct-member-str-wrong-default-typ=
+e.out
+ create mode 100644 tests/qapi-schema/struct-member-uint8-erange-default.=
+err
+ create mode 100644 tests/qapi-schema/struct-member-uint8-erange-default.=
+exit
+ create mode 100644 tests/qapi-schema/struct-member-uint8-erange-default.=
+out
+ create mode 100644 tests/qapi-schema/struct-member-uint8-negative-defaul=
+t.err
+ create mode 100644 tests/qapi-schema/struct-member-uint8-negative-defaul=
+t.exit
+ create mode 100644 tests/qapi-schema/struct-member-uint8-negative-defaul=
+t.out
+
+--=20
+2.21.0
+
 
