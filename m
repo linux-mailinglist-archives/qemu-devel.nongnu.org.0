@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955D851813
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 18:10:01 +0200 (CEST)
-Received: from localhost ([::1]:52808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E75851845
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 18:20:38 +0200 (CEST)
+Received: from localhost ([::1]:52956 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfRXc-00023m-0r
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 12:10:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52843)
+	id 1hfRhr-00020I-Jp
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 12:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55768)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hfRP5-0005j1-T7
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:01:14 -0400
+ (envelope-from <bounces@canonical.com>) id 1hfRZ0-0004wh-DT
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:11:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hfRP2-0005Ei-Bz
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:01:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45078)
+ (envelope-from <bounces@canonical.com>) id 1hfRYz-0006eK-3g
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:11:26 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50122)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hfROz-00055t-1A
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:01:08 -0400
+ id 1hfRYy-0006cx-Tt
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:11:25 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hfROl-0000fz-RN
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 16:00:51 +0000
+ id 1hfRYw-00036a-Ri
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 16:11:22 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC5392E806F
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 16:00:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id CFB282E80CB
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 16:11:22 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Jun 2019 15:48:16 -0000
+Date: Mon, 24 Jun 2019 15:56:53 -0000
 From: roblabla <1834051@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,13 +43,13 @@ X-Launchpad-Bug-Commenters: roblabla
 X-Launchpad-Bug-Reporter: roblabla (roblabla)
 X-Launchpad-Bug-Modifier: roblabla (roblabla)
 References: <156138866047.31005.4592891012762616724.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156139129648.31249.9749384155457458398.launchpad@soybean.canonical.com>
+Message-Id: <156139181396.18147.18062095652882733100.launchpad@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18991";
  Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: af4db308cdae79ffa619b58c87448436729be3a2
+X-Launchpad-Hash: d06998f39724fcdf4347fc2848104f0a9a4c517e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1834051] Re: IRQ2 ignored under KVM when using
@@ -89,10 +89,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   confused why the behavior only happened in KVM and not in non-KVM.
   =
 
-- Version tested: QEMU emulator version 4.0.50
-- (v4.0.0-226-g8482ff2eb3-dirty)
-+ EDIT: Interestingly, the HPET only supports IRQ2 under qemu, which,
-+ combined with this bug, makes it completely unusable.
+- EDIT: Interestingly, the HPET only supports IRQ2 under qemu, which,
+- combined with this bug, makes it completely unusable.
++ EDIT: Interestingly, the HPET only supports IRQ2 when using the default
++ PIIX chipset, which, combined with this bug, makes it completely
++ unusable.
   =
 
   [0]:
