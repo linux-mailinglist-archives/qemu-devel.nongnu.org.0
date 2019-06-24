@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAEB550525
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:07:54 +0200 (CEST)
-Received: from localhost ([::1]:48930 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CBF50538
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:13:29 +0200 (CEST)
+Received: from localhost ([::1]:48954 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfKx8-0008QA-1U
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:07:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49638)
+	id 1hfL2V-0002sQ-MF
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:13:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51065)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hfKvR-0007WY-Ry
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:06:11 -0400
+ (envelope-from <peterx@redhat.com>) id 1hfKzE-0001vQ-QR
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:10:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hfKvQ-0001FG-Jl
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:06:09 -0400
-Resent-Date: Mon, 24 Jun 2019 05:06:09 -0400
-Resent-Message-Id: <E1hfKvQ-0001FG-Jl@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21465)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hfKvQ-0000dl-BH
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:06:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1561367147; cv=none; d=zoho.com; s=zohoarc; 
- b=gZtTK9FeBJ94kzwVjtZ+3CI1fhQf+tSHlmQg7DL8OjfRXh3MuPkHEQk4YPiT7EACo1nkkj+CYDAb69aUw2hPNyDBJ9CUNTMlSXiDZTiWzkPIUExZoNmniRlrfsSw/7p2BLWigiRAZebdcIpBNqWiw15Uv7Do6tnsVMlCvZmP+qc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1561367147;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=zQqvxBlrC0LCnjEEAVNSOMJgVZvmgj1OcRvsDQLpWQM=; 
- b=eK2SP9EoDc4DG4uivs5YTVT22kQReCBF10OCZpFNo8Zi51ZunnIXL3Vcbp+X58ZsqtN0Mcr3rkq8HkruYUhqapJQuAoVTnhkFDBIqWAA9OVMNJZiliDSFS8XUKI0kVXX8XbUP4Du4KEGjQIa2AKi+L5RrBn/drca+6gJIycoltM=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1561367145183735.9013859929129;
- Mon, 24 Jun 2019 02:05:45 -0700 (PDT)
-In-Reply-To: <20190624070339.4408-1-david.brenken@efs-auto.org>
-Message-ID: <156136714420.4070.12487446110075258042@ce79690b2cb9>
+ (envelope-from <peterx@redhat.com>) id 1hfKzD-0008Ms-RO
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:10:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39424)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hfKzD-0008Lc-LN
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:10:03 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E467C3082B25;
+ Mon, 24 Jun 2019 09:09:54 +0000 (UTC)
+Received: from xz-x1 (ovpn-12-60.pek2.redhat.com [10.72.12.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D54C608E4;
+ Mon, 24 Jun 2019 09:09:44 +0000 (UTC)
+Date: Mon, 24 Jun 2019 17:09:40 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190624090940.GH6279@xz-x1>
+References: <20190624063733.22079-1-peterx@redhat.com>
+ <20190624063733.22079-3-peterx@redhat.com>
+ <20190624064122.GB27894@joy-OptiPlex-7040>
+ <20190624065750.GE6279@xz-x1>
+ <20190624070450.GC27894@joy-OptiPlex-7040>
+ <20190624080649.GG6279@xz-x1>
+ <a0a6a698-d671-9b4c-badf-75bc258242ff@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: david.brenken@efs-auto.org
-Date: Mon, 24 Jun 2019 02:05:45 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <a0a6a698-d671-9b4c-badf-75bc258242ff@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Mon, 24 Jun 2019 09:09:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH v3 0/5] tricore: adding new instructions
- and fixing
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 2/2] intel_iommu: Fix unexpected unmaps
+ during global unmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,38 +63,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kbastian@mail.uni-paderborn.de, david.brenken@efs-auto.de,
- qemu-devel@nongnu.org
+Cc: Auger Eric <eric.auger@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Yan Zhao <yan.y.zhao@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyNDA3MDMzOS40NDA4
-LTEtZGF2aWQuYnJlbmtlbkBlZnMtYXV0by5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVk
-IGJ1aWxkIHRlc3Qgb24gczM5MHggaG9zdC4gUGxlYXNlIGZpbmQgdGhlIGRldGFpbHMgYmVsb3cu
-Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCiMgVGVzdGluZyBzY3JpcHQg
-d2lsbCBiZSBpbnZva2VkIHVuZGVyIHRoZSBnaXQgY2hlY2tvdXQgd2l0aAojIEhFQUQgcG9pbnRp
-bmcgdG8gYSBjb21taXQgdGhhdCBoYXMgdGhlIHBhdGNoZXMgYXBwbGllZCBvbiB0b3Agb2YgImJh
-c2UiCiMgYnJhbmNoCnNldCAtZQpDQz0kSE9NRS9iaW4vY2MKSU5TVEFMTD0kUFdEL2luc3RhbGwK
-QlVJTEQ9JFBXRC9idWlsZApta2RpciAtcCAkQlVJTEQgJElOU1RBTEwKU1JDPSRQV0QKY2QgJEJV
-SUxECiRTUkMvY29uZmlndXJlIC0tY2M9JENDIC0tcHJlZml4PSRJTlNUQUxMCm1ha2UgLWo0CiMg
-WFhYOiB3ZSBuZWVkIHJlbGlhYmxlIGNsZWFuIHVwCiMgbWFrZSBjaGVjayAtajQgVj0xCm1ha2Ug
-aW5zdGFsbAoKZWNobwplY2hvICI9PT0gRU5WID09PSIKZW52CgplY2hvCmVjaG8gIj09PSBQQUNL
-QUdFUyA9PT0iCnJwbSAtcWEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICB0cmlj
-b3JlLXNvZnRtbXUvdGFyZ2V0L3RyaWNvcmUvZnB1X2hlbHBlci5vCiAgQ0MgICAgICB1bmljb3Jl
-MzItc29mdG1tdS9ody90cG0vdHBtX3BwaS5vCi92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC13
-dG9jMHppOS9zcmMvdGFyZ2V0L3RyaWNvcmUvZnB1X2hlbHBlci5jOiBJbiBmdW5jdGlvbiDigJho
-ZWxwZXJfcXNlZWTigJk6Ci92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC13dG9jMHppOS9zcmMv
-dGFyZ2V0L3RyaWNvcmUvZnB1X2hlbHBlci5jOjI0Mzo5OiBlcnJvcjogdG9vIGZldyBhcmd1bWVu
-dHMgdG8gZnVuY3Rpb24g4oCYZmxvYXQzMl9pc19zaWduYWxpbmdfbmFu4oCZCiAgMjQzIHwgICAg
-IGlmIChmbG9hdDMyX2lzX3NpZ25hbGluZ19uYW4oYXJnMSkgfHwgcmVzdWx0ID09IGZsb2F0MzJf
-c3FydF9uYW4pIHsKICAgICAgfCAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgpJbiBm
-aWxlIGluY2x1ZGVkIGZyb20gL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXd0b2Mwemk5L3Ny
-Yy90YXJnZXQvdHJpY29yZS9mcHVfaGVscGVyLmM6MjM6CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWls
-YWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDYyNDA3MDMzOS40NDA4LTEtZGF2
-aWQuYnJlbmtlbkBlZnMtYXV0by5vcmcvdGVzdGluZy5zMzkweC8/dHlwZT1tZXNzYWdlLgotLS0K
-RW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3
-Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0
-LmNvbQ==
+On Mon, Jun 24, 2019 at 10:43:21AM +0200, Paolo Bonzini wrote:
+> On 24/06/19 10:06, Peter Xu wrote:
+> > Well, if with such an error we'd better fix it right away in this
+> > patch... :)
+> > 
+> > Let me wait for some more comments, I'll touch that up too if I need a
+> > repost.
+> 
+> Looks good to me, except for one minor issue in this patch.  But do not
+> attribute this one to me, it's basically all code from you.
 
+OK.
+
+> 
+> > +static uint64_t vtd_get_next_mask(uint64_t start, uint64_t size, int gaw)
+> > +{
+> > +    /* Tries to find smallest mask from start first */
+> > +    uint64_t rmask = start & -start, max_mask = 1ULL << gaw;
+> > +
+> > +    assert(size && gaw > 0 && gaw < 64);
+> > +
+> > +    /* Zero start, or too big */
+> > +    if (!rmask || rmask > max_mask) {
+> > +        rmask = max_mask;
+> > +    }
+> 
+> Perhaps simpler:
+> 
+>     uint64_t max_mask = 1ULL << gaw;
+>     uint64_t alignment = start ? start & -start : max_mask;
+> 
+
+(I'll add another "alignment = MIN(alignment, max_mask)" here if no
+ one disagree...)
+
+>     size = MIN(size, max_mask);
+>     if (alignment <= size) {
+>         /* Increase the alignment of start */
+>         return alignment;
+>     } else {
+>         /* Find the largest page mask from size */
+>         return 1ULL << (63 - clz64(size));
+>     }
+> 
+> Also please rename it to get_naturally_aligned_size.
+
+Will do.  Thanks,
+
+-- 
+Peter Xu
 
