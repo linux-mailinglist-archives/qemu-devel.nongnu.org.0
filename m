@@ -2,103 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F288351A35
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 20:02:24 +0200 (CEST)
-Received: from localhost ([::1]:53600 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0903151A5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 20:19:09 +0200 (CEST)
+Received: from localhost ([::1]:53692 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfTIM-0002Bz-2c
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 14:02:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53165)
+	id 1hfTYZ-0002en-IP
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 14:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55489)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lvivier@redhat.com>) id 1hfTAv-0004OX-8v
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:54:42 -0400
+ (envelope-from <groeck7@gmail.com>) id 1hfTHr-0003HE-FN
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:01:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1hfTAs-0002aM-Ty
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:54:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33508)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hfTAs-0002YZ-2h
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:54:38 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D51C7356CA;
- Mon, 24 Jun 2019 17:54:35 +0000 (UTC)
-Received: from [10.36.117.25] (ovpn-117-25.ams2.redhat.com [10.36.117.25])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 276C25C22F;
- Mon, 24 Jun 2019 17:54:28 +0000 (UTC)
-To: Greg Kurz <groug@kaod.org>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20190520231008.20140-1-mst@redhat.com>
- <20190320112646.3712-2-xieyongji@baidu.com>
- <20190524121909.277ae31e@bahia.lan>
- <CAONzpcbf+AcY4yEO6hBnyp1dBaV4XgUrSTdU55B3S+wcn6gOVA@mail.gmail.com>
- <20190527124446.6b809c7f@bahia.lan>
- <20190527145329-mutt-send-email-mst@kernel.org>
- <CAONzpcb6dtsnYhVW+yy0FijXtHoLavXX_bwStVEZC1hqJr9wSQ@mail.gmail.com>
- <20190531193633.GI22103@habkost.net>
- <20190601174941.00bf108f@bahia.lab.toulouse-stg.fr.ibm.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <5e49e2e8-0753-67f0-d453-74d9dd8372ce@redhat.com>
-Date: Mon, 24 Jun 2019 19:54:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <groeck7@gmail.com>) id 1hfTHp-00052f-Ih
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:01:51 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35371)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <groeck7@gmail.com>) id 1hfTHl-0004ql-Q0
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:01:47 -0400
+Received: by mail-pg1-x543.google.com with SMTP id s27so7544439pgl.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 11:01:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:user-agent;
+ bh=mFheYF+BIWEOVBgxx/dvOxxMQ9l0+ijuNp6PBJXdVXk=;
+ b=FTMGNniRLm2dpXfBgOjLUhvPPwdpNz+dWAcdgYDTDxJckM7YmW+q127hqvlLbOOrEV
+ w9BxIXlafR8/w0paEO/zRVlOGnf4AQaQa01BtuIVTdS5V2OdqCYbC9umTn0CQLfpVtIl
+ Dsf+4ifrCw7lnBO7Yy0P7FjEikM5pKe8vH7ZMKodZ8ZrYDEXtSXSKdB7tQlo6iM8n9DQ
+ OwNmzvMxTLr318vvrS0/5rxkQM8WpsLGMHw0MOIZVjvhzyRdGpE0T0tEA3sCNZitHiMl
+ Lljs7/tI6K6bz60WGOIZSuNAcRfbsSGhY81u1swFOD5blTEn96YK4y4VKC6bxITIzruz
+ ehHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :mime-version:content-disposition:user-agent;
+ bh=mFheYF+BIWEOVBgxx/dvOxxMQ9l0+ijuNp6PBJXdVXk=;
+ b=WA1LNKUliRyXOd4bxp+lLMOOv4oNrrubP0sjBJRsf3Bs7jSKjywxTcAnIlUiuKXGYC
+ HKhlUJSjkH4baGqtK7YsP3lWzwOGUGwuWea1CjQ+5SkMbZZD0LGRMVP1KT/iQWpl3uu2
+ 2Swwr01DJjnAx44RBmJeGMyXMMHBqjwFqXaYJfHhAy2PTaLHfXdJ4wwdnl8RoYRWsmdO
+ r5msCZuFmoJ8fcOd8VyRMwF8wyHikkZSJtQBbxa/D4Nq8a62wD+GVD8geuxEVzP3AL1X
+ hKSUcMTcuOZ8EqZwb5FgHxFwxcqXSzVYGDLrBHDxgLgyur/59Cfg7ghBKD+Iq2R+Jjtw
+ YASg==
+X-Gm-Message-State: APjAAAULdTY5wAz5sSVXG1bgXsqqcognZE1Y2xto0a0l86BOvyRg8q7+
+ mjVa3L7jRpnR+F2FrBq6X7JO34Fj
+X-Google-Smtp-Source: APXvYqwRPlUx6bPI2XdsTtrhzL4ec/vllJ0tMW8PoTe9p1KY1Obc4bCAZSVlJgHnF1cMXfw2yc0k9g==
+X-Received: by 2002:a63:d66:: with SMTP id 38mr35167370pgn.59.1561399301973;
+ Mon, 24 Jun 2019 11:01:41 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id v9sm11942028pfm.34.2019.06.24.11.01.40
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 24 Jun 2019 11:01:40 -0700 (PDT)
+Date: Mon, 24 Jun 2019 11:01:39 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: qemu-devel@nongnu.org
+Message-ID: <20190624180139.GA17161@roeck-us.net>
 MIME-Version: 1.0
-In-Reply-To: <20190601174941.00bf108f@bahia.lab.toulouse-stg.fr.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Mon, 24 Jun 2019 17:54:36 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL v2 04/36] virtio: Introduce started flag to
- VirtioDevice
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] qemu-system-x86_64: hw/usb/core.c:720: usb_ep_get:
+ Assertion `dev != NULL' failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,91 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Zhang Yu <zhangyu31@baidu.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Yongji Xie <elohimes@gmail.com>, Xie Yongji <xieyongji@baidu.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/06/2019 17:49, Greg Kurz wrote:
-> On Fri, 31 May 2019 16:36:33 -0300
-> Eduardo Habkost <ehabkost@redhat.com> wrote:
-> 
->> On Tue, May 28, 2019 at 10:48:09AM +0800, Yongji Xie wrote:
->>> On Tue, 28 May 2019 at 02:54, Michael S. Tsirkin <mst@redhat.com> wrote:  
->>>>
->>>> On Mon, May 27, 2019 at 12:44:46PM +0200, Greg Kurz wrote:  
->>>>> On Fri, 24 May 2019 19:56:06 +0800
->>>>> Yongji Xie <elohimes@gmail.com> wrote:
->>>>>  
->>>>>> On Fri, 24 May 2019 at 18:20, Greg Kurz <groug@kaod.org> wrote:  
->>>>>>>
->>>>>>> On Mon, 20 May 2019 19:10:35 -0400
->>>>>>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->>>>>>>  
->>>>>>>> From: Xie Yongji <xieyongji@baidu.com>  
->> [...]
->>>>>>>> @@ -1770,6 +1796,13 @@ static bool virtio_broken_needed(void *opaque)
->>>>>>>>      return vdev->broken;
->>>>>>>>  }
->>>>>>>>
->>>>>>>> +static bool virtio_started_needed(void *opaque)
->>>>>>>> +{
->>>>>>>> +    VirtIODevice *vdev = opaque;
->>>>>>>> +
->>>>>>>> +    return vdev->started;  
->>>>>>>
->>>>>>> Existing machine types don't know about the "virtio/started" subsection. This
->>>>>>> breaks migration to older QEMUs if the driver has started the device, ie. most
->>>>>>> probably always when it comes to live migration.
->>>>>>>
->>>>>>> My understanding is that we do try to support backward migration though. It
->>>>>>> is a regular practice in datacenters to migrate workloads without having to
->>>>>>> take care of the QEMU version. FWIW I had to fix similar issues downstream
->>>>>>> many times in the past because customers had filed bugs.
->>>>>>>  
->>>>>>
->>>>>> If we do need to support backward migration, for this patch, what I
->>>>>> can think of is to only migrate the flag in the case that guest kicks
->>>>>> but not set DRIVER_OK. This could fix backward migration in most case.  
->>>>>
->>>>> You mean something like that ?
->>>>>
->>>>> static bool virtio_started_needed(void *opaque)
->>>>> {
->>>>>     VirtIODevice *vdev = opaque;
->>>>>
->>>>>     return vdev->started && !(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK);
->>>>> }
->>>>>  
->>>>>> Not sure if there is a more general approach...
->>>>>>  
->>>>>
->>>>> Another approach would be to only implement the started flag for
->>>>> machine version > 4.0. This can be achieved by adding a "use-started"
->>>>> property to the base virtio device, true by default and set to
->>>>> false by hw_compat_4_0.  
->>>>
->>>> I think this is best frankly.
->>>>  
->>>
->>> Only implement the started flag for machine version > 4.0 might not be
->>> good because vhost-user-blk now need to use this flag. How about only
->>> migrating this flag for machine version > 4.0 instead?  
->>
->> Was this implemented?  Is migration from QEMU 4.1 to QEMU 4.0
->> currently broken?
->>
-> 
-> Answer is yes for both questions.
-> 
+Hi,
 
-Is there a fix?
+I have seen the following problem several times recently. This is with qemu-4.0.
 
-The problem is really easy to reproduce: start a guest with virtio-blk
-and migrate once the driver has started.
+qemu-system-x86_64: hw/usb/core.c:720: usb_ep_get: Assertion `dev != NULL' failed
+
+Backtrace gives me the following call path.
+
+main_loop()
+  main_loop_wait()
+    glib_pollfds_poll()
+      aio_ctx_dispatch()
+	aio_dispatch()
+	  aio_bh_poll()
+            ehci_work_bh()
+              ehci_advance_async_state()
+                ehci_advance_state()
+                  ehci_execute()
+                    usb_ep_get()
+
+The problem always happens during shutdown, maybe once every 100 boots.
+It seems to be more likely to happen when the system is under heavy load.
+
+...
+umount: devtmpfs busy - remounted read-only
+[   49.018682] EXT4-fs (sda): re-mounted. Opts: (null)
+[   49.028052] sd 6:0:0:0: [sda] Synchronizing SCSI cache
+qemu-system-x86_64: hw/usb/core.c:733: usb_ep_get: Assertion `dev != NULL' failed.
+
+Essentially that means that p->queue->dev is NULL in ehci_execute().
+
+Has anyone else seen this problem ? Any idea what I can do to debug
+this further ?
 
 Thanks,
-Laurent
+Guenter
 
