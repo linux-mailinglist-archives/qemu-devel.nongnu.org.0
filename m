@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9605E50F5A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:58:56 +0200 (CEST)
-Received: from localhost ([::1]:52028 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B44F50F23
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:51:38 +0200 (CEST)
+Received: from localhost ([::1]:51950 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfQQp-0003xf-QE
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:58:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60129)
+	id 1hfQJl-00051i-HZ
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:51:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60112)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hfQGK-0002o6-KD
+ (envelope-from <mreitz@redhat.com>) id 1hfQGK-0002n1-1y
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:48:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hfQGI-0006FL-Vk
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:48:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35281)
+ (envelope-from <mreitz@redhat.com>) id 1hfQGI-0006EP-ME
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:48:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46902)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hfQGG-0005pF-3D; Mon, 24 Jun 2019 10:48:00 -0400
+ id 1hfQGE-0005tJ-55; Mon, 24 Jun 2019 10:48:00 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0E9D2C04B93D;
- Mon, 24 Jun 2019 14:47:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 61F93307D868;
+ Mon, 24 Jun 2019 14:47:53 +0000 (UTC)
 Received: from localhost (ovpn-204-152.brq.redhat.com [10.40.204.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 998AD6090E;
- Mon, 24 Jun 2019 14:47:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF121608D0;
+ Mon, 24 Jun 2019 14:47:52 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 24 Jun 2019 16:47:35 +0200
-Message-Id: <20190624144740.5338-4-mreitz@redhat.com>
+Date: Mon, 24 Jun 2019 16:47:36 +0200
+Message-Id: <20190624144740.5338-5-mreitz@redhat.com>
 In-Reply-To: <20190624144740.5338-1-mreitz@redhat.com>
 References: <20190624144740.5338-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 24 Jun 2019 14:47:51 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Mon, 24 Jun 2019 14:47:53 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 3/8] iotest 134: test cluster-misaligned
- encrypted write
+Subject: [Qemu-devel] [PULL v2 4/8] vmdk: Fix comment regarding max l1_size
+ coverage
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,68 +60,67 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Anton Nefedov <anton.nefedov@virtuozzo.com>
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
 
-COW (even empty/zero) areas require encryption too
+Commit b0651b8c246d ("vmdk: Move l1_size check into vmdk_add_extent")
+extended the l1_size check from VMDK4 to VMDK3 but did not update the
+default coverage in the moved comment.
 
-Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+The previous vmdk4 calculation:
+
+    (512 * 1024 * 1024) * 512(l2 entries) * 65536(grain) =3D 16PB
+
+The added vmdk3 calculation:
+
+    (512 * 1024 * 1024) * 4096(l2 entries) * 512(grain) =3D 1PB
+
+Adding the calculation of vmdk3 to the comment.
+
+In any case, VMware does not offer virtual disks more than 2TB for
+vmdk4/vmdk3 or 64TB for the new undocumented seSparse format which is
+not implemented yet in qemu.
+
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Eyal Moscovici <eyal.moscovici@oracle.com>
+Reviewed-by: Liran Alon <liran.alon@oracle.com>
+Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+Message-id: 20190620091057.47441-2-shmuel.eiderman@oracle.com
+Reviewed-by: yuchenlin <yuchenlin@synology.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Message-id: 20190516143028.81155-1-anton.nefedov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/134     |  9 +++++++++
- tests/qemu-iotests/134.out | 10 ++++++++++
- 2 files changed, 19 insertions(+)
+ block/vmdk.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/134 b/tests/qemu-iotests/134
-index 141a2eaa7e..5f0fb86211 100755
---- a/tests/qemu-iotests/134
-+++ b/tests/qemu-iotests/134
-@@ -56,6 +56,15 @@ echo
- echo "=3D=3D reading whole image =3D=3D"
- $QEMU_IO --object $SECRET -c "read 0 $size" --image-opts $IMGSPEC | _fil=
-ter_qemu_io | _filter_testdir
-=20
-+echo
-+echo "=3D=3D rewriting cluster part =3D=3D"
-+$QEMU_IO --object $SECRET -c "write -P 0xb 512 512" --image-opts $IMGSPE=
-C | _filter_qemu_io | _filter_testdir
-+
-+echo
-+echo "=3D=3D verify pattern =3D=3D"
-+$QEMU_IO --object $SECRET -c "read -P 0 0 512"  --image-opts $IMGSPEC | =
-_filter_qemu_io | _filter_testdir
-+$QEMU_IO --object $SECRET -c "read -P 0xb 512 512"  --image-opts $IMGSPE=
-C | _filter_qemu_io | _filter_testdir
-+
- echo
- echo "=3D=3D rewriting whole image =3D=3D"
- $QEMU_IO --object $SECRET -c "write -P 0xa 0 $size" --image-opts $IMGSPE=
-C | _filter_qemu_io | _filter_testdir
-diff --git a/tests/qemu-iotests/134.out b/tests/qemu-iotests/134.out
-index 972be49d91..09d46f6b17 100644
---- a/tests/qemu-iotests/134.out
-+++ b/tests/qemu-iotests/134.out
-@@ -5,6 +5,16 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1342=
-17728 encryption=3Don encrypt.
- read 134217728/134217728 bytes at offset 0
- 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-=20
-+=3D=3D rewriting cluster part =3D=3D
-+wrote 512/512 bytes at offset 512
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=3D=3D verify pattern =3D=3D
-+read 512/512 bytes at offset 0
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 512/512 bytes at offset 512
-+512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
- =3D=3D rewriting whole image =3D=3D
- wrote 134217728/134217728 bytes at offset 0
- 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 51067c774f..0f2e453bf5 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -426,10 +426,15 @@ static int vmdk_add_extent(BlockDriverState *bs,
+         return -EFBIG;
+     }
+     if (l1_size > 512 * 1024 * 1024) {
+-        /* Although with big capacity and small l1_entry_sectors, we can=
+ get a
++        /*
++         * Although with big capacity and small l1_entry_sectors, we can=
+ get a
+          * big l1_size, we don't want unbounded value to allocate the ta=
+ble.
+-         * Limit it to 512M, which is 16PB for default cluster and L2 ta=
+ble
+-         * size */
++         * Limit it to 512M, which is:
++         *     16PB - for default "Hosted Sparse Extent" (VMDK4)
++         *            cluster size: 64KB, L2 table size: 512 entries
++         *     1PB  - for default "ESXi Host Sparse Extent" (VMDK3/vmfsS=
+parse)
++         *            cluster size: 512B, L2 table size: 4096 entries
++         */
+         error_setg(errp, "L1 size too big");
+         return -EFBIG;
+     }
 --=20
 2.21.0
 
