@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3D0519E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 19:44:11 +0200 (CEST)
-Received: from localhost ([::1]:53466 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D86EB51A07
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 19:52:07 +0200 (CEST)
+Received: from localhost ([::1]:53506 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfT0l-00040t-0q
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 13:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48986)
+	id 1hfT8R-0000WM-2O
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 13:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49158)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hfSwt-0001NT-1t
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:12 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hfSx2-0001g7-R1
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hfSwr-0005BH-4g
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33192)
+ (envelope-from <mreitz@redhat.com>) id 1hfSx0-0005Vy-0F
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43256)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hfSwn-0004yO-JM; Mon, 24 Jun 2019 13:40:05 -0400
+ id 1hfSwv-0005K1-0b; Mon, 24 Jun 2019 13:40:13 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A9D5D3079B60;
- Mon, 24 Jun 2019 17:40:03 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C99835D61E;
+ Mon, 24 Jun 2019 17:40:06 +0000 (UTC)
 Received: from localhost (ovpn-204-152.brq.redhat.com [10.40.204.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 083A55D9C5;
- Mon, 24 Jun 2019 17:40:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D1E15D9C5;
+ Mon, 24 Jun 2019 17:40:05 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 24 Jun 2019 19:39:30 +0200
-Message-Id: <20190624173935.25747-11-mreitz@redhat.com>
+Date: Mon, 24 Jun 2019 19:39:31 +0200
+Message-Id: <20190624173935.25747-12-mreitz@redhat.com>
 In-Reply-To: <20190624173935.25747-1-mreitz@redhat.com>
 References: <20190624173935.25747-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Mon, 24 Jun 2019 17:40:03 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Mon, 24 Jun 2019 17:40:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 10/14] qapi: Formalize qcow encryption
- probing
+Subject: [Qemu-devel] [PATCH v4 11/14] block: Try to create well typed
+ json:{} filenames
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,30 +61,225 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcow only supports a single encryption (and there is no reason why that
-would change in the future), so we can make it the default.
+By applying qdict_flatten(), the flat-confused input visitor, and the
+output visitor, we can at least try to bring bs->full_open_options into
+accordance with the QAPI schema.  This may not always work (there are
+some options left that have not been QAPI-fied yet), but in practice it
+usually will.
 
+In any case, sometimes emitting wrongly typed json:{} filenames is
+better than doing it effectively half the time.
+
+This affects some iotests because json:{} filenames are now usually
+crumpled.  In 198, "format": "auto" now appears in the qcow2 encryption
+options because going through a visitor makes optional members' default
+values explicit.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1534396
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ block.c                    | 68 +++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/059.out |  2 +-
+ tests/qemu-iotests/099.out |  4 +--
+ tests/qemu-iotests/110.out |  2 +-
+ tests/qemu-iotests/198.out |  4 +--
+ 5 files changed, 73 insertions(+), 7 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 9df3fc8bd7..b30a19bf8e 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3059,7 +3059,9 @@
- # Since: 2.10
- ##
- { 'union': 'BlockdevQcowEncryption',
--  'base': { 'format': 'BlockdevQcowEncryptionFormat' },
-+  'base': {
-+      '*format': { 'type': 'BlockdevQcowEncryptionFormat', 'default': 'a=
-es' }
-+  },
-   'discriminator': 'format',
-   'data': { 'aes': 'QCryptoBlockOptionsQCow' } }
+diff --git a/block.c b/block.c
+index c139540f2b..d3c1041087 100644
+--- a/block.c
++++ b/block.c
+@@ -36,6 +36,7 @@
+ #include "qapi/qmp/qjson.h"
+ #include "qapi/qmp/qnull.h"
+ #include "qapi/qmp/qstring.h"
++#include "qapi/qobject-input-visitor.h"
+ #include "qapi/qobject-output-visitor.h"
+ #include "qapi/qapi-visit-block-core.h"
+ #include "sysemu/block-backend.h"
+@@ -6283,6 +6284,56 @@ static bool bdrv_backing_overridden(BlockDriverSta=
+te *bs)
+     }
+ }
 =20
++/**
++ * Take a blockdev @options QDict and convert its values to the
++ * correct type.
++ *
++ * Fail if @options does not match the QAPI schema of BlockdevOptions.
++ *
++ * In case of failure, return NULL and set @errp.
++ *
++ * In case of success, return a correctly typed new QDict.
++ */
++static QDict *bdrv_type_blockdev_opts(const QDict *options, Error **errp=
+)
++{
++    Visitor *v;
++    BlockdevOptions *blockdev_options;
++    QObject *typed_opts;
++    QDict *string_options;
++    Error *local_err =3D NULL;
++
++    string_options =3D qdict_clone_shallow(options);
++
++    qdict_flatten(string_options);
++    v =3D qobject_input_visitor_new_flat_confused(string_options, errp);
++    if (!v) {
++        error_prepend(errp, "Failed to prepare options: ");
++        return NULL;
++    }
++
++    visit_type_BlockdevOptions(v, NULL, &blockdev_options, &local_err);
++    visit_free(v);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        error_prepend(errp, "Not a valid BlockdevOptions object: ");
++        return NULL;
++    }
++
++    v =3D qobject_output_visitor_new(&typed_opts);
++    visit_type_BlockdevOptions(v, NULL, &blockdev_options, &local_err);
++    if (!local_err) {
++        visit_complete(v, &typed_opts);
++    }
++    visit_free(v);
++    qapi_free_BlockdevOptions(blockdev_options);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        return NULL;
++    }
++
++    return qobject_to(QDict, typed_opts);
++}
++
+ /* Updates the following BDS fields:
+  *  - exact_filename: A filename which may be used for opening a block d=
+evice
+  *                    which (mostly) equals the given BDS (even without =
+any
+@@ -6400,10 +6451,25 @@ void bdrv_refresh_filename(BlockDriverState *bs)
+     if (bs->exact_filename[0]) {
+         pstrcpy(bs->filename, sizeof(bs->filename), bs->exact_filename);
+     } else {
+-        QString *json =3D qobject_to_json(QOBJECT(bs->full_open_options)=
+);
++        QString *json;
++        QDict *typed_opts, *json_opts;
++
++        typed_opts =3D bdrv_type_blockdev_opts(bs->full_open_options, NU=
+LL);
++
++        /*
++         * We cannot be certain that bs->full_open_options matches
++         * BlockdevOptions, so bdrv_type_blockdev_opts() may fail.
++         * That is not fatal, we can just emit bs->full_open_options
++         * directly -- qemu will accept that, even if it does not
++         * match the schema.
++         */
++        json_opts =3D typed_opts ?: bs->full_open_options;
++
++        json =3D qobject_to_json(QOBJECT(json_opts));
+         snprintf(bs->filename, sizeof(bs->filename), "json:%s",
+                  qstring_get_str(json));
+         qobject_unref(json);
++        qobject_unref(typed_opts);
+     }
+ }
+=20
+diff --git a/tests/qemu-iotests/059.out b/tests/qemu-iotests/059.out
+index 4fab42a28c..53109b2d49 100644
+--- a/tests/qemu-iotests/059.out
++++ b/tests/qemu-iotests/059.out
+@@ -2050,7 +2050,7 @@ wrote 512/512 bytes at offset 10240
+=20
+ =3D=3D=3D Testing monolithicFlat with internally generated JSON file nam=
+e =3D=3D=3D
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 subformat=3D=
+monolithicFlat
+-qemu-io: can't open: Cannot use relative extent paths with VMDK descript=
+or file 'json:{"image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT=
+"}, "driver": "blkdebug", "inject-error.0.event": "read_aio"}'
++qemu-io: can't open: Cannot use relative extent paths with VMDK descript=
+or file 'json:{"inject-error": [{"event": "read_aio"}], "image": {"driver=
+": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driver": "blkdebug"}'
+=20
+ =3D=3D=3D Testing version 3 =3D=3D=3D
+ image: TEST_DIR/iotest-version3.IMGFMT
+diff --git a/tests/qemu-iotests/099.out b/tests/qemu-iotests/099.out
+index 8cce627529..0a9c434148 100644
+--- a/tests/qemu-iotests/099.out
++++ b/tests/qemu-iotests/099.out
+@@ -12,11 +12,11 @@ blkverify:TEST_DIR/t.IMGFMT.compare:TEST_DIR/t.IMGFMT
+=20
+ =3D=3D=3D Testing JSON filename for blkdebug =3D=3D=3D
+=20
+-json:{"driver": "IMGFMT", "file": {"image": {"driver": "file", "filename=
+": "TEST_DIR/t.IMGFMT"}, "driver": "blkdebug", "inject-error.0.event": "l=
+1_update"}}
++json:{"driver": "IMGFMT", "file": {"inject-error": [{"event": "l1_update=
+"}], "image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "drive=
+r": "blkdebug"}}
+=20
+ =3D=3D=3D Testing indirectly enforced JSON filename =3D=3D=3D
+=20
+-json:{"driver": "raw", "file": {"test": {"driver": "IMGFMT", "file": {"i=
+mage": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driver": "bl=
+kdebug", "inject-error.0.event": "l1_update"}}, "driver": "blkverify", "r=
+aw": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT.compare"}}}
++json:{"driver": "raw", "file": {"test": {"driver": "IMGFMT", "file": {"i=
+nject-error": [{"event": "l1_update"}], "image": {"driver": "file", "file=
+name": "TEST_DIR/t.IMGFMT"}, "driver": "blkdebug"}}, "driver": "blkverify=
+", "raw": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT.compare"}}}
+=20
+ =3D=3D=3D Testing plain filename for blkdebug =3D=3D=3D
+=20
+diff --git a/tests/qemu-iotests/110.out b/tests/qemu-iotests/110.out
+index f60b26390e..d95b92bee7 100644
+--- a/tests/qemu-iotests/110.out
++++ b/tests/qemu-iotests/110.out
+@@ -11,7 +11,7 @@ backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IM=
+GFMT.base)
+=20
+ =3D=3D=3D Non-reconstructable filename =3D=3D=3D
+=20
+-image: json:{"driver": "IMGFMT", "file": {"set-state.0.event": "read_aio=
+", "image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driver"=
+: "blkdebug", "set-state.0.new_state": 42}}
++image: json:{"driver": "IMGFMT", "file": {"set-state": [{"new_state": 42=
+, "event": "read_aio"}], "image": {"driver": "file", "filename": "TEST_DI=
+R/t.IMGFMT"}, "driver": "blkdebug"}}
+ file format: IMGFMT
+ virtual size: 64 MiB (67108864 bytes)
+ backing file: t.IMGFMT.base (actual path: TEST_DIR/t.IMGFMT.base)
+diff --git a/tests/qemu-iotests/198.out b/tests/qemu-iotests/198.out
+index e86b175e39..eef8af3cdc 100644
+--- a/tests/qemu-iotests/198.out
++++ b/tests/qemu-iotests/198.out
+@@ -32,7 +32,7 @@ read 16777216/16777216 bytes at offset 0
+ 16 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+=20
+ =3D=3D checking image base =3D=3D
+-image: json:{"encrypt.key-secret": "sec0", "driver": "IMGFMT", "file": {=
+"driver": "file", "filename": "TEST_DIR/t.IMGFMT.base"}}
++image: json:{"driver": "IMGFMT", "encrypt": {"format": "auto", "key-secr=
+et": "sec0"}, "file": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT.b=
+ase"}}
+ file format: IMGFMT
+ virtual size: 16 MiB (16777216 bytes)
+ Format specific information:
+@@ -74,7 +74,7 @@ Format specific information:
+         master key iters: 1024
+=20
+ =3D=3D checking image layer =3D=3D
+-image: json:{"encrypt.key-secret": "sec1", "driver": "IMGFMT", "file": {=
+"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}}
++image: json:{"driver": "IMGFMT", "encrypt": {"format": "auto", "key-secr=
+et": "sec1"}, "file": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}=
+}
+ file format: IMGFMT
+ virtual size: 16 MiB (16777216 bytes)
+ backing file: TEST_DIR/t.IMGFMT.base
 --=20
 2.21.0
 
