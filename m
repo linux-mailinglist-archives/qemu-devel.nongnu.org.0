@@ -2,55 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900B750975
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 13:09:41 +0200 (CEST)
-Received: from localhost ([::1]:49818 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C3B50978
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 13:11:02 +0200 (CEST)
+Received: from localhost ([::1]:49826 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfMqy-00040L-Pc
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 07:09:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52869)
+	id 1hfMsH-0005qI-62
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 07:11:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53203)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hfMoe-00025o-N5
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:07:17 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1hfMqT-0004MA-IH
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:09:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hfMod-0004pp-MV
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:07:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53508)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hfMod-0004nu-DK
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:07:15 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 59C1BA70E;
- Mon, 24 Jun 2019 11:07:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-169.ams2.redhat.com
- [10.36.117.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2368619C69;
- Mon, 24 Jun 2019 11:07:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 97DAC11386A0; Mon, 24 Jun 2019 13:07:12 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>
-References: <20190619201050.19040-1-armbru@redhat.com>
- <20190619201050.19040-2-armbru@redhat.com>
- <e0595422-c115-ca7f-9e3c-cfb69602d5e2@suse.de>
-Date: Mon, 24 Jun 2019 13:07:12 +0200
-In-Reply-To: <e0595422-c115-ca7f-9e3c-cfb69602d5e2@suse.de> ("Andreas
- =?utf-8?Q?F=C3=A4rber=22's?= message of "Wed, 19 Jun 2019 22:31:23 +0200")
-Message-ID: <87o92ns0m7.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <liq3ea@gmail.com>) id 1hfMqS-0006Rd-4c
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:09:09 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34829)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hfMqR-0006QT-R3
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:09:08 -0400
+Received: by mail-ot1-x343.google.com with SMTP id j19so13086883otq.2
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 04:09:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UVzbIZc4EBciOaQptpV3eLW93DDK64nenvgyquyswow=;
+ b=eU/mV8uwD07eF+4EOK8mTJe8+pjo/fkiJCa0YHD+gN4ErxMqc2gZAxbzGTAIIULyUX
+ 5WZhDoEHjOUH4GM6G2ZDe9y10QQuknl1xYqMO5zg/JfZUa0lZrzxMRntPkrsBgGB1IRi
+ 0YZvbbu9YLI2G2YDnN7Buj3HxR73qfT9OLtY9Ftz31LZzYNpAXENzoZTtMCq/4RnxCXq
+ khPCHU9dCmZ4FtL/i/gi7bB75Tde/0EjRB+Z0HmXsQ3lKZAWONIpd/lE0KbVBxTonhAT
+ ijMMwnzRMV+zdqdkhrwcESXWyhj++Rg7xWDcHUfxxqYRAargtV2UpkU8QK963IblWAu9
+ G3XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UVzbIZc4EBciOaQptpV3eLW93DDK64nenvgyquyswow=;
+ b=Rj0kFq8+/teickDIXPvtqNZFbDBU/jHG4eRwytlR4BA/TUAMszualfFZmacixRcEOf
+ mewVWB0QS1LdWQStr335tuGer7pAjasPNbmZSLX0vJlLSajiGLK6SKkXiq+ZLNfxeOkm
+ sfhwkjsAH5Apx6tLrdXIWqRN5O3MsZh+B0Eea85n6kOtzQDaiqIAaPF8diSZ35kqI11G
+ 6lhG4nwRUvdit8KnFCZ+bq809s6/I7rnnI9MfZAE4uSr7LKmkDTxi1PLHyrlcHQOJvnb
+ /PIptgY64GF+g3NYN+eoz0u5YOLMmfmASAh7dvR38YLQ4g3Swvqe4DmRENpCqXbYsR96
+ 5VaA==
+X-Gm-Message-State: APjAAAVmCGVdxu5Xmv83WQ7zv/jAiUWtJ/IV7xwqis/sRUhZ6hYPLBu5
+ xXNrxSGHVwVNKenUwVjeY6aDFQHHwYZXDSV8XhI=
+X-Google-Smtp-Source: APXvYqyG2g/7PpKoEs1Mw2Lr6IoVhg4tsORTAxDEd+wYhYbYoS6ooZxgUnOVrSwbrOp98qg7BLldGALRe92NHj+NQ7U=
+X-Received: by 2002:a05:6830:14c:: with SMTP id
+ j12mr10602909otp.181.1561374546220; 
+ Mon, 24 Jun 2019 04:09:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20190622002119.126834-1-liq3ea@163.com>
+ <20190624094216.GI6279@xz-x1>
+In-Reply-To: <20190624094216.GI6279@xz-x1>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Mon, 24 Jun 2019 19:08:30 +0800
+Message-ID: <CAKXe6S+5Ad-WHYpX9E8EFv61ASxSQYL+RQoqnG6NVbysgtv4FQ@mail.gmail.com>
+To: Peter Xu <peterx@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Mon, 24 Jun 2019 11:07:14 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 01/17] MAINTAINERS: new maintainers for QOM
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2] ioapic: use irq number instead of
+ vector in ioapic_eoi_broadcast
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,39 +75,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Li Qiang <liq3ea@163.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andreas F=C3=A4rber <afaerber@suse.de> writes:
+Peter Xu <peterx@redhat.com> =E4=BA=8E2019=E5=B9=B46=E6=9C=8824=E6=97=A5=E5=
+=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=885:42=E5=86=99=E9=81=93=EF=BC=9A
 
-> Am 19.06.19 um 22:10 schrieb Markus Armbruster:
->> From: Paolo Bonzini <pbonzini@redhat.com>
->>=20
->> QOM is not a particularly active subsystem now: 51 commits in two years.
->> But, we need active maintainers to review and merge patches, and Git
->> shows the following top committers taking on QOM:
->>=20
->>     Markus Armbruster <armbru@redhat.com>
->>     Eduardo Habkost <ehabkost@redhat.com>
->>     Paolo Bonzini <pbonzini@redhat.com>
->>     Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>     Eric Blake <eblake@redhat.com>
->>=20
->> I volunteer myself, and also volunteer Eduardo and Daniel as reviewers
->> since they understand the code well.
->>=20
->> Cc: Andreas F=C3=A4rber <afaerber@suse.de>
->> Cc: Daniel P. Berrange <berrange@redhat.com>
->> Cc: Eduardo Habkost <ehabkost@redhat.com>
->> Suggested-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->> Message-Id: <20190607113737.13473-1-pbonzini@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> On Fri, Jun 21, 2019 at 05:21:19PM -0700, Li Qiang wrote:
+> > When emulating irqchip in qemu, such as following command:
+> >
+> > x86_64-softmmu/qemu-system-x86_64 -m 1024 -smp 4 -hda /home/test/test.i=
+mg
+> > -machine kernel-irqchip=3Doff --enable-kvm -vnc :0 -device edu -monitor
+> stdio
+> >
+> > We will get a crash with following asan output:
+> >
+> > (qemu) /home/test/qemu5/qemu/hw/intc/ioapic.c:266:27: runtime error:
+> index 35 out of bounds for type 'int [24]'
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > =3D=3D113504=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addr=
+ess
+> 0x61b000003114 at pc 0x5579e3c7a80f bp 0x7fd004bf8c10 sp 0x7fd004bf8c00
+> > WRITE of size 4 at 0x61b000003114 thread T4
+> >     #0 0x5579e3c7a80e in ioapic_eoi_broadcast
+> /home/test/qemu5/qemu/hw/intc/ioapic.c:266
+> >     #1 0x5579e3c6f480 in apic_eoi
+> /home/test/qemu5/qemu/hw/intc/apic.c:428
+> >     #2 0x5579e3c720a7 in apic_mem_write
+> /home/test/qemu5/qemu/hw/intc/apic.c:802
+> >     #3 0x5579e3b1e31a in memory_region_write_accessor
+> /home/test/qemu5/qemu/memory.c:503
+> >     #4 0x5579e3b1e6a2 in access_with_adjusted_size
+> /home/test/qemu5/qemu/memory.c:569
+> >     #5 0x5579e3b28d77 in memory_region_dispatch_write
+> /home/test/qemu5/qemu/memory.c:1497
+> >     #6 0x5579e3a1b36b in flatview_write_continue
+> /home/test/qemu5/qemu/exec.c:3323
+> >     #7 0x5579e3a1b633 in flatview_write /home/test/qemu5/qemu/exec.c:33=
+62
+> >     #8 0x5579e3a1bcb1 in address_space_write
+> /home/test/qemu5/qemu/exec.c:3452
+> >     #9 0x5579e3a1bd03 in address_space_rw
+> /home/test/qemu5/qemu/exec.c:3463
+> >     #10 0x5579e3b8b979 in kvm_cpu_exec
+> /home/test/qemu5/qemu/accel/kvm/kvm-all.c:2045
+> >     #11 0x5579e3ae4499 in qemu_kvm_cpu_thread_fn
+> /home/test/qemu5/qemu/cpus.c:1287
+> >     #12 0x5579e4cbdb9f in qemu_thread_start util/qemu-thread-posix.c:50=
+2
+> >     #13 0x7fd0146376da in start_thread
+> (/lib/x86_64-linux-gnu/libpthread.so.0+0x76da)
+> >     #14 0x7fd01436088e in __clone
+> (/lib/x86_64-linux-gnu/libc.so.6+0x12188e
+> >
+> > This is because in ioapic_eoi_broadcast function, we uses 'vector' to
+> > index the 's->irq_eoi'. To fix this, we should uses the irq number.
+> >
+> > Signed-off-by: Li Qiang <liq3ea@163.com>
 >
-> I'm pretty sure I gave an Acked-by that's missing above?
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+>
+>
+Thanks Peter.
 
-My fault.  I'll make sure it's in v2 or else the pull request.
 
+
+> Maybe also add:
+>
+> Fixes: 958a01dab8 ("ioapic: allow buggy guests mishandling ...")
+>
+> Should we better clear irq_eoi when the entries are updated in
+> ioapic_mem_write()?
+>
+>
+Do you mean the redirect table entry of ioapic update?
+I think this is reasonable, I will prepare a separate patch with this one
+as a patchset later.
+
+Thanks,
+Li Qiang
+
+
+
+> Regards,
+>
+> --
+> Peter Xu
+>
