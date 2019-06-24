@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C531850288
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:52:11 +0200 (CEST)
-Received: from localhost ([::1]:48302 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD3550293
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:55:32 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfIpn-00063A-0v
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46152)
+	id 1hfIt2-0000Bu-6g
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:55:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46177)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pizhenwei@bytedance.com>) id 1hfIna-0004cA-2n
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:56 -0400
+ (envelope-from <pizhenwei@bytedance.com>) id 1hfInc-0004dF-TL
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pizhenwei@bytedance.com>) id 1hfInX-0003Cq-Aw
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:53 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40655)
+ (envelope-from <pizhenwei@bytedance.com>) id 1hfIna-0003Hl-0Q
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:56 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:37952)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <pizhenwei@bytedance.com>)
- id 1hfInU-000301-Cd
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:49 -0400
-Received: by mail-pg1-x541.google.com with SMTP id w10so6561444pgj.7
- for <qemu-devel@nongnu.org>; Sun, 23 Jun 2019 23:49:46 -0700 (PDT)
+ id 1hfInX-00035t-Rf
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:52 -0400
+Received: by mail-pl1-x642.google.com with SMTP id g4so6301971plb.5
+ for <qemu-devel@nongnu.org>; Sun, 23 Jun 2019 23:49:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=KK+YGEA0uSCnrX+5Jr/a/tEimY4fAc66vitG4iWRbas=;
- b=IfDy3cysG+tq1Ob4DJ7brxU8iHWSBgVk2XYJ2WPZLQKtOraT6xJqxCw/udiT5Ohau1
- sTUUcMwmZocDs72CZ5Vy9FoLTBF7bMfoZS6VeY6sFa0Jz15dk6Pz2kz7DWlLDx0uUs/r
- HHgpoPXtwC6BMt2iLyvAKKpBMY70i7zFUX8l3xYVn//moEqT5oG+tZtBNnpIK4Cu6wAF
- db52lFEDtEgxLlqSJ0Whr+kgUF93oaU4OSAw9eUx1k6qg3uVMIm5hVN8PZ/j3RUf1n5+
- a4u5pYhjyMuuXRSuFow6nQ0IFB2ewS7E11fL87BIcBvSw12UYA83L+ob4f80LDQWr5V7
- sIpg==
+ bh=h8g/nC6vUT95D9nx3c9BGLOpS2Xrlhhb+4JSssXi+BA=;
+ b=IFtiLPEbF3y2XTvShN4yk9BIFbZWnS9SjMG5Pd1YD3wACDtubaRGgQ4ZR/WhZVHr5d
+ b8y7kdeydwwJ64+c8YHOF+JQbgzT982Nm64ctTgSNHtTvLg/2BmRteA5LegtaOplOml7
+ W9LDTNYyZBZiLz4OEscdiiL5G/Rjdo9/SdWkqdF+jApf7R/EmGjggm5B007TYqK/iS6d
+ Ppr7FyNIcMfZfscKnl1w6y+v+a+dbv73HJ0c4uNPX0eFpDmlo0jk0ProoELvARwEhMbx
+ 8uRJ0sNnKbIEqtcRHowWQX9/yCM3jiWdhNnkL/7ZXcRmqVyZQ7mx8C+Cm9Mk80HK5UHL
+ qT1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=KK+YGEA0uSCnrX+5Jr/a/tEimY4fAc66vitG4iWRbas=;
- b=ghcHcMSAIMxC+VguNU1BpFwmBRBuqaN4E8EhluWro7ocrQmtrPvAuQ73u0O+4+gyV6
- YWjP7fHyc10WryDgYakK1VIZFat5B6M5sD2e11mQ2pmJp9tWzmOlpNSSjFfJXUT4OZzH
- jUXWhnowiV7uXSf352Df2KoVQw0Ge8XhDT6FPaXBop1DU1+TMFGMNIGTAohSTLawDcfu
- BJkck8F6ePunNnIaI2Lgmyh2wiJPfrGl5sUztqIME4wrNm7muAMGlDk7RCLCVYT5k6KT
- EG6ZgB5HZa/j7qESPX5kgkR3UcU4SGy+mlW2jaU8g5jv+syaj/oYNdk4AMg+zu0JNJhM
- +NTQ==
-X-Gm-Message-State: APjAAAVfjZZMIGBFim4PxpkwGx/YLlg/utXasX/2DqfQkiHGHU7qYIF4
- kmzAkFWIAtKfFS39vN6GR8UCYg==
-X-Google-Smtp-Source: APXvYqx2FpgsyMhBTG1p/95UuwZbslrZlNum1M4oVHZcS5LyxNlepvtrJUj6wxDe6N7sbSCjTH+hwA==
-X-Received: by 2002:a63:f146:: with SMTP id o6mr30655438pgk.179.1561358985979; 
- Sun, 23 Jun 2019 23:49:45 -0700 (PDT)
+ bh=h8g/nC6vUT95D9nx3c9BGLOpS2Xrlhhb+4JSssXi+BA=;
+ b=pA9dg3VN6ZPmMPknCblVYfG3D7Qu/xexbD4dPAVlmRhZ3K7nnklQ7RALijHnTRoWDV
+ 4ZUUwdcyIATNKnZuc1UzIBxL27HEN+kDyi5jsEUE17fTZ4SwaEA8SRL3i1RYuJheJbzj
+ ld/alcq4S+LqPO52fcp5qGsi0jdiY3owQdJXYiu28EVP9teJ+78v0vcgMuxFtiZphhc/
+ BvCmsJd+sNkSjICYwhogZ/agEShwAXoy2N+emd/Tg0hy7Ehdq8EA2SdkW5ko97CuQZb4
+ B4GuxRzM+0JerdR34ATOVmRvbpru+CrXhH/gJC+xug933Fd7y2yoIvI1IXYhSzwG+qMt
+ GQTg==
+X-Gm-Message-State: APjAAAXmV1kOJbQ78i24rRS6akqcCMAbjOMB5GMxuqjLBVO5sMjcjkAa
+ ENy+/dzxVSTP7yqLjp2Axa3BnQ==
+X-Google-Smtp-Source: APXvYqwpCmcMvTfnVXBoxY1paM6DWUYbBjd6EZTR+7lZ2h55ByO/PJsnEatwV85Nzq5uwxSlWXYnOQ==
+X-Received: by 2002:a17:902:2ae7:: with SMTP id
+ j94mr62003836plb.270.1561358988845; 
+ Sun, 23 Jun 2019 23:49:48 -0700 (PDT)
 Received: from always-ThinkPad-T480.bytedance.net ([61.120.150.76])
- by smtp.gmail.com with ESMTPSA id n17sm17734259pfq.182.2019.06.23.23.49.43
+ by smtp.gmail.com with ESMTPSA id n17sm17734259pfq.182.2019.06.23.23.49.46
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
- Sun, 23 Jun 2019 23:49:45 -0700 (PDT)
+ Sun, 23 Jun 2019 23:49:48 -0700 (PDT)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: kwolf@redhat.com,
 	mreitz@redhat.com,
 	eblake@redhat.com
-Date: Mon, 24 Jun 2019 14:49:34 +0800
-Message-Id: <1561358976-5183-2-git-send-email-pizhenwei@bytedance.com>
+Date: Mon, 24 Jun 2019 14:49:35 +0800
+Message-Id: <1561358976-5183-3-git-send-email-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561358976-5183-1-git-send-email-pizhenwei@bytedance.com>
 References: <1561358976-5183-1-git-send-email-pizhenwei@bytedance.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH V2 1/3] block/accounting: rename struct
- BlockLatencyHistogram
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH V2 2/3] block/accounting: introduce block size
+ histogram
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,207 +84,76 @@ Cc: fam@euphon.net, qemu-block@nongnu.org, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename struct BlockLatencyHistogram to BlockHistogram, and rename
-related functions.
-Make this struct and functions be common, they can be used widely.
+Introduce block size histogram statics for block devices.
+
+For read/write/flush operation type, the block size region
+[0, +inf) is divided into subregions by several points.
+It works like block latency histogram.
 
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/accounting.c         | 44 +++++++++++++++++++++++++++-----------------
- block/qapi.c               | 23 +++++++++++------------
- include/block/accounting.h |  8 ++++----
- 3 files changed, 42 insertions(+), 33 deletions(-)
+ block/accounting.c         | 18 ++++++++++++++++++
+ include/block/accounting.h |  5 ++++-
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
 diff --git a/block/accounting.c b/block/accounting.c
-index 70a3d9a426..d210a73fe9 100644
+index d210a73fe9..3a1e41a971 100644
 --- a/block/accounting.c
 +++ b/block/accounting.c
-@@ -94,13 +94,14 @@ void block_acct_start(BlockAcctStats *stats, BlockAcctCookie *cookie,
-     cookie->type = type;
- }
- 
--/* block_latency_histogram_compare_func:
-+/**
-+ * block_histogram_compare_func:
-  * Compare @key with interval [@it[0], @it[1]).
-  * Return: -1 if @key < @it[0]
-  *          0 if @key in [@it[0], @it[1])
-  *         +1 if @key >= @it[1]
-  */
--static int block_latency_histogram_compare_func(const void *key, const void *it)
-+static int block_histogram_compare_func(const void *key, const void *it)
- {
-     uint64_t k = *(uint64_t *)key;
-     uint64_t a = ((uint64_t *)it)[0];
-@@ -109,8 +110,7 @@ static int block_latency_histogram_compare_func(const void *key, const void *it)
-     return k < a ? -1 : (k < b ? 0 : 1);
- }
- 
--static void block_latency_histogram_account(BlockLatencyHistogram *hist,
--                                            int64_t latency_ns)
-+static void block_histogram_account(BlockHistogram *hist, int64_t val)
- {
-     uint64_t *pos;
- 
-@@ -120,28 +120,26 @@ static void block_latency_histogram_account(BlockLatencyHistogram *hist,
+@@ -192,6 +192,22 @@ void block_latency_histograms_clear(BlockAcctStats *stats)
      }
- 
- 
--    if (latency_ns < hist->boundaries[0]) {
-+    if (val < hist->boundaries[0]) {
-         hist->bins[0]++;
-         return;
-     }
- 
--    if (latency_ns >= hist->boundaries[hist->nbins - 2]) {
-+    if (val >= hist->boundaries[hist->nbins - 2]) {
-         hist->bins[hist->nbins - 1]++;
-         return;
-     }
- 
--    pos = bsearch(&latency_ns, hist->boundaries, hist->nbins - 2,
-+    pos = bsearch(&val, hist->boundaries, hist->nbins - 2,
-                   sizeof(hist->boundaries[0]),
--                  block_latency_histogram_compare_func);
-+                  block_histogram_compare_func);
-     assert(pos != NULL);
- 
-     hist->bins[pos - hist->boundaries + 1]++;
  }
  
--int block_latency_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
--                                uint64List *boundaries)
-+static int block_histogram_set(BlockHistogram *hist, uint64List *boundaries)
- {
--    BlockLatencyHistogram *hist = &stats->latency_histogram[type];
-     uint64List *entry;
-     uint64_t *ptr;
-     uint64_t prev = 0;
-@@ -170,15 +168,27 @@ int block_latency_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
-     return 0;
- }
- 
-+static void block_histogram_clear(BlockHistogram *hist)
++int block_size_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
++                             uint64List *boundaries)
 +{
-+    g_free(hist->bins);
-+    g_free(hist->boundaries);
-+    memset(hist, 0, sizeof(*hist));
-+}
-+
-+int block_latency_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
-+                                uint64List *boundaries)
-+{
-+    BlockHistogram *hist = &stats->latency_histogram[type];
++    BlockHistogram *hist = &stats->size_histogram[type];
 +
 +    return block_histogram_set(hist, boundaries);
 +}
 +
- void block_latency_histograms_clear(BlockAcctStats *stats)
++void block_size_histograms_clear(BlockAcctStats *stats)
++{
++    int i;
++
++    for (i = 0; i < BLOCK_MAX_IOTYPE; i++) {
++        block_histogram_clear(&stats->size_histogram[i]);
++    }
++}
+ static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
+                                  bool failed)
  {
-     int i;
+@@ -216,6 +232,8 @@ static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
  
-     for (i = 0; i < BLOCK_MAX_IOTYPE; i++) {
--        BlockLatencyHistogram *hist = &stats->latency_histogram[i];
--        g_free(hist->bins);
--        g_free(hist->boundaries);
--        memset(hist, 0, sizeof(*hist));
-+        block_histogram_clear(&stats->latency_histogram[i]);
-     }
- }
- 
-@@ -204,8 +214,8 @@ static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
-         stats->nr_ops[cookie->type]++;
-     }
- 
--    block_latency_histogram_account(&stats->latency_histogram[cookie->type],
--                                    latency_ns);
-+    block_histogram_account(&stats->latency_histogram[cookie->type],
-+                            latency_ns);
+     block_histogram_account(&stats->latency_histogram[cookie->type],
+                             latency_ns);
++    block_histogram_account(&stats->size_histogram[cookie->type],
++                            cookie->bytes);
  
      if (!failed || stats->account_failed) {
          stats->total_time_ns[cookie->type] += latency_ns;
-diff --git a/block/qapi.c b/block/qapi.c
-index 917435f022..9d9b2f1927 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -415,9 +415,8 @@ static uint64List *uint64_list(uint64_t *list, int size)
-     return out_list;
- }
- 
--static void bdrv_latency_histogram_stats(BlockLatencyHistogram *hist,
--                                         bool *not_null,
--                                         BlockLatencyHistogramInfo **info)
-+static void bdrv_histogram_stats(BlockHistogram *hist, bool *not_null,
-+                                 BlockLatencyHistogramInfo **info)
- {
-     *not_null = hist->bins != NULL;
-     if (*not_null) {
-@@ -494,15 +493,15 @@ static void bdrv_query_blk_stats(BlockDeviceStats *ds, BlockBackend *blk)
-             block_acct_queue_depth(ts, BLOCK_ACCT_WRITE);
-     }
- 
--    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_READ],
--                                 &ds->has_rd_latency_histogram,
--                                 &ds->rd_latency_histogram);
--    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_WRITE],
--                                 &ds->has_wr_latency_histogram,
--                                 &ds->wr_latency_histogram);
--    bdrv_latency_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_FLUSH],
--                                 &ds->has_flush_latency_histogram,
--                                 &ds->flush_latency_histogram);
-+    bdrv_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_READ],
-+                         &ds->has_rd_latency_histogram,
-+                         &ds->rd_latency_histogram);
-+    bdrv_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_WRITE],
-+                         &ds->has_wr_latency_histogram,
-+                         &ds->wr_latency_histogram);
-+    bdrv_histogram_stats(&stats->latency_histogram[BLOCK_ACCT_FLUSH],
-+                         &ds->has_flush_latency_histogram,
-+                         &ds->flush_latency_histogram);
- }
- 
- static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
 diff --git a/include/block/accounting.h b/include/block/accounting.h
-index d1f67b10dd..270fddb69c 100644
+index 270fddb69c..0fbba64408 100644
 --- a/include/block/accounting.h
 +++ b/include/block/accounting.h
-@@ -46,7 +46,7 @@ struct BlockAcctTimedStats {
-     QSLIST_ENTRY(BlockAcctTimedStats) entries;
- };
- 
--typedef struct BlockLatencyHistogram {
-+typedef struct BlockHistogram {
-     /* The following histogram is represented like this:
-      *
-      * 5|           *
-@@ -57,7 +57,7 @@ typedef struct BlockLatencyHistogram {
-      *  +------------------
-      *      10   50   100
-      *
--     * BlockLatencyHistogram histogram = {
-+     * BlockHistogram histogram = {
-      *     .nbins = 4,
-      *     .boundaries = {10, 50, 100},
-      *     .bins = {3, 1, 5, 2},
-@@ -74,7 +74,7 @@ typedef struct BlockLatencyHistogram {
-     uint64_t *boundaries; /* @nbins-1 numbers here
-                              (all boundaries, except 0 and +inf) */
-     uint64_t *bins;
--} BlockLatencyHistogram;
-+} BlockHistogram;
- 
- struct BlockAcctStats {
-     QemuMutex lock;
-@@ -88,7 +88,7 @@ struct BlockAcctStats {
-     QSLIST_HEAD(, BlockAcctTimedStats) intervals;
+@@ -89,6 +89,7 @@ struct BlockAcctStats {
      bool account_invalid;
      bool account_failed;
--    BlockLatencyHistogram latency_histogram[BLOCK_MAX_IOTYPE];
-+    BlockHistogram latency_histogram[BLOCK_MAX_IOTYPE];
+     BlockHistogram latency_histogram[BLOCK_MAX_IOTYPE];
++    BlockHistogram size_histogram[BLOCK_MAX_IOTYPE];
  };
  
  typedef struct BlockAcctCookie {
+@@ -117,5 +118,7 @@ double block_acct_queue_depth(BlockAcctTimedStats *stats,
+ int block_latency_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
+                                 uint64List *boundaries);
+ void block_latency_histograms_clear(BlockAcctStats *stats);
+-
++int block_size_histogram_set(BlockAcctStats *stats, enum BlockAcctType type,
++                             uint64List *boundaries);
++void block_size_histograms_clear(BlockAcctStats *stats);
+ #endif
 -- 
 2.11.0
 
