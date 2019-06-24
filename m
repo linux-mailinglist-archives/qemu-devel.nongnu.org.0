@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72C1F502BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 09:06:51 +0200 (CEST)
-Received: from localhost ([::1]:48374 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2817A502E8
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 09:18:35 +0200 (CEST)
+Received: from localhost ([::1]:48442 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfJ3y-0004wY-M0
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 03:06:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48992)
+	id 1hfJFK-0004Bt-CK
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 03:18:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50667)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <david.brenken@efs-auto.org>) id 1hfJ1O-0003bN-7V
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:04:11 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hfJ8M-00081m-Ea
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:11:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <david.brenken@efs-auto.org>) id 1hfJ1M-0002yS-OK
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:04:10 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:44245)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <david.brenken@efs-auto.org>)
- id 1hfJ1M-0002xO-En
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:04:08 -0400
-Received: from localhost.localdomain ([178.239.76.114]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N0G5n-1iTfvC2Rxn-00xKk7; Mon, 24 Jun 2019 09:04:01 +0200
-From: David Brenken <david.brenken@efs-auto.org>
-To: qemu-devel@nongnu.org
-Date: Mon, 24 Jun 2019 09:03:39 +0200
-Message-Id: <20190624070339.4408-6-david.brenken@efs-auto.org>
-X-Mailer: git-send-email 2.16.1.windows.4
-In-Reply-To: <20190624070339.4408-1-david.brenken@efs-auto.org>
-References: <20190624070339.4408-1-david.brenken@efs-auto.org>
-X-Provags-ID: V03:K1:vhCVLqHR3s0QsxJSoDSjOStroo4Z0/vVx4pR7Gwz3n0a6lYcJ9K
- d4fdcEmfrbve4SRc5t68IqeShVJMa2xQrrcLWo6K0YIXTj5HCQMyNapZPjYD+ytR4DcetMY
- QzJaCuBhJJdOFeGkb6XnzE1r3hXgZgSN9GQo0RJn+L9loJftmJysg/gi+1Yy9B182Yrhgk4
- LQaRczjM2l7rgHwk0pnTQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ebG4iHkKY/c=:Pl6dL43MS0GLKf1x0/vs3p
- Ap+DEMqzJOqJyiXrmz3d+X6NSwaeJ8Qd9OoKwE590PnPs4CzRNdF9F9AXlwGECEHvhL/EH3pl
- 5y9suXP+93wbDYruLpXkyUzLUg61HHUwJUZaiIrV9CccYeU7Dkk7Rpx4b5IRMN1AvQD0L+rC5
- TIFf/oYSh9UdP2fRBfcNIoH+lqhMOtj6mHgMd2miRfW3HKM62vK0ASXWff2g3ckuEObpCQJ8z
- kREfLKpO0Tb0bQuhEVWZflL9dYGZX3h+4tBcg5p1cbivBP3Th6vCpPHGGlNcFqSBnlpnXbRiS
- ygs39dePRokTEUaY0/yHeTO0w0WK7zKFVLizq+ns1t62fJCyZNmfD4SUTyAl3jCGD+3bmOc0m
- 3Y7amVgrHepy9rhWJJN3657WYvA5Xj7fetuSjQt0oh/kCYr/64c2Uv/LXQADugS8h13Dkdzr8
- q6wBe+EvhvNUK+q1CPjbHRyW7frj1fvIsT48xU8iMF36h//k47AoREbVMBY9bJ30HNKe6eKyB
- /r1wfU97uH5VABAqwBMlNphR6gJNMlQ5sjuOWQBMYAvxufmTZ0TB9/3YlacIiLVDiiGYqJwgt
- deox807iB0cqOeQdPAWoJmbyIwtnTVYkWXA5MxCPhPjz/3U58+qXVcNP/rhAQBCD2vr6Vob3W
- YbAbggpd5Mthm8vULTp7svfi/PzvxzNqytjaEHsyDBBIUTjWgDCUhC81aZSszb0mjOIjEnBB2
- r4smIu51UvKIGIrV60ozrC7e1w4P6l5mjjPtScYaYjjj5Y0bgtV8fetd9eE=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: [Qemu-devel] [PATCH v3 5/5] tricore: add QSEED instruction
+ (envelope-from <yan.y.zhao@intel.com>) id 1hfJ8K-0001fx-9W
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:11:22 -0400
+Received: from mga18.intel.com ([134.134.136.126]:61799)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hfJ8E-0001a4-S3
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:11:16 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 24 Jun 2019 00:10:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,411,1557212400"; d="scan'208";a="163519186"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by orsmga003.jf.intel.com with ESMTP; 24 Jun 2019 00:10:43 -0700
+Date: Mon, 24 Jun 2019 03:04:50 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Message-ID: <20190624070450.GC27894@joy-OptiPlex-7040>
+References: <20190624063733.22079-1-peterx@redhat.com>
+ <20190624063733.22079-3-peterx@redhat.com>
+ <20190624064122.GB27894@joy-OptiPlex-7040>
+ <20190624065750.GE6279@xz-x1>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190624065750.GE6279@xz-x1>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.126
+Subject: Re: [Qemu-devel] [PATCH 2/2] intel_iommu: Fix unexpected unmaps
+ during global unmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,165 +61,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbastian@mail.uni-paderborn.de,
- Lars Biermanski <lars.biermanski@efs-auto.de>,
- Andreas Konopik <andreas.konopik@fau.de>,
- Georg Hofstetter <georg.hofstetter@efs-auto.de>,
- David Brenken <david.brenken@efs-auto.de>,
- Robert Rasche <robert.rasche@efs-auto.de>,
- Andreas Konopik <andreas.konopik@efs-auto.de>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Auger Eric <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andreas Konopik <andreas.konopik@fau.de>
+On Mon, Jun 24, 2019 at 02:57:50PM +0800, Peter Xu wrote:
+> On Mon, Jun 24, 2019 at 02:41:22AM -0400, Yan Zhao wrote:
+> > On Mon, Jun 24, 2019 at 02:37:33PM +0800, Peter Xu wrote:
+> > > From: Paolo Bonzini <pbonzini@redhat.com>
+> > > 
+> > > This is an replacement work of Yan Zhao's patch:
+> > > 
+> > > https://www.mail-archive.com/qemu-devel@nongnu.org/msg625340.html
+> > > 
+> > > vtd_address_space_unmap() will do proper page mask alignment to make
+> > > sure each IOTLB message will have correct masks for notification
+> > > messages (2^N-1), but sometimes it can be expanded to even supercede
+> > > the registered range.  That could lead to unexpected UNMAP of already
+> > > mapped regions in some other notifiers.
+> > > 
+> > > Instead of doing mindless expension of the start address and address
+> > > mask, we split the range into smaller ones and guarantee that each
+> > > small range will have correct masks (2^N-1) and at the same time we
+> > > should also try our best to generate as less IOTLB messages as
+> > > possible.
+> > > 
+> > > Reported-by: Yan Zhao <yan.y.zhao@intel.com>
+> > > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > > [peterx: fixup mask generation algos and other touchups, introduce
+> > >  vtd_get_next_mask(), write commit message]
+> > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > ---
+> > >  hw/i386/intel_iommu.c | 70 +++++++++++++++++++++++++++----------------
+> > >  1 file changed, 44 insertions(+), 26 deletions(-)
+> > > 
+> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> > > index 719ce19ab3..39cedf73b8 100644
+> > > --- a/hw/i386/intel_iommu.c
+> > > +++ b/hw/i386/intel_iommu.c
+> > > @@ -3363,11 +3363,31 @@ VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
+> > >      return vtd_dev_as;
+> > >  }
+> > >  
+> > > +static uint64_t vtd_get_next_mask(uint64_t start, uint64_t size, int gaw)
+> > > +{
+> > > +    /* Tries to find smallest mask from start first */
+> > > +    uint64_t rmask = start & -start, max_mask = 1ULL << gaw;
+> > > +
+> > > +    assert(size && gaw > 0 && gaw < 64);
+> > > +
+> > > +    /* Zero start, or too big */
+> > > +    if (!rmask || rmask > max_mask) {
+> > > +        rmask = max_mask;
+> > > +    }
+> > > +
+> > > +    /* If the start mask worked, then use it */
+> > > +    if (rmask <= size) {
+> > > +        return rmask;
+> > > +    }
+> > > +
+> > > +    /* Find the largest page mask from size */
+> > > +    return 1ULL << (63 - clz64(size));
+> > > +}
+> > > +
+> > >  /* Unmap the whole range in the notifier's scope. */
+> > >  static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+> > >  {
+> > > -    IOMMUTLBEntry entry;
+> > > -    hwaddr size;
+> > > +    hwaddr size, remain;
+> > >      hwaddr start = n->start;
+> > >      hwaddr end = n->end;
+> > >      IntelIOMMUState *s = as->iommu_state;
+> > > @@ -3388,39 +3408,37 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+> > >      }
+> > >  
+> > >      assert(start <= end);
+> > > -    size = end - start;
+> > > +    size = remain = end - start + 1;
+> > >  
+> > > -    if (ctpop64(size) != 1) {
+> > > -        /*
+> > > -         * This size cannot format a correct mask. Let's enlarge it to
+> > > -         * suite the minimum available mask.
+> > > -         */
+> > > -        int n = 64 - clz64(size);
+> > > -        if (n > s->aw_bits) {
+> > > -            /* should not happen, but in case it happens, limit it */
+> > > -            n = s->aw_bits;
+> > > -        }
+> > > -        size = 1ULL << n;
+> > > +    while (remain > 0) {
+> > hi 
+> > I think here remain should still be "remain >= VTD_PAGE_SIZE"
+> > because we cannot unmap entry less than PAGE_SIZE.
+> 
+> Yes we can.
+> 
+> I'd say this is purely for protection purpose no matter what.  If we
+> did write the code correctly when registering the IOMMU notifier then
+> we'll always have aligned "remain" here and these checks will be
+> meaningless...  So we'll definitely fail in the case you mentioned,
+> imho the only difference is when it happens.
+> 
+> If we want to fail at the earliest point, we can probably check during
+> registering of the notifiers for page alignment.
+>
+I think it might be helpful if there anything wrong in code.
+for example, when previously, size = end - start, it will happen that
+size will eventually be less than page size.
 
-Signed-off-by: Andreas Konopik <andreas.konopik@efs-auto.de>
-Signed-off-by: David Brenken <david.brenken@efs-auto.de>
-Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
-Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
-Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
----
- target/tricore/fpu_helper.c | 84 +++++++++++++++++++++++++++++++++++++
- target/tricore/helper.h     |  1 +
- target/tricore/translate.c  |  3 ++
- 3 files changed, 88 insertions(+)
-
-diff --git a/target/tricore/fpu_helper.c b/target/tricore/fpu_helper.c
-index 432079c8e2..0f5e1a3eb0 100644
---- a/target/tricore/fpu_helper.c
-+++ b/target/tricore/fpu_helper.c
-@@ -24,6 +24,7 @@
- 
- #define QUIET_NAN 0x7fc00000
- #define ADD_NAN   0x7fc00001
-+#define SQRT_NAN  0x7fc00004
- #define DIV_NAN   0x7fc00008
- #define MUL_NAN   0x7fc00002
- #define FPU_FS PSW_USB_C
-@@ -32,6 +33,9 @@
- #define FPU_FZ PSW_USB_AV
- #define FPU_FU PSW_USB_SAV
- 
-+#define float32_sqrt_nan make_float32(SQRT_NAN)
-+#define float32_quiet_nan make_float32(QUIET_NAN)
-+
- /* we don't care about input_denormal */
- static inline uint8_t f_get_excp_flags(CPUTriCoreState *env)
- {
-@@ -166,6 +170,86 @@ uint32_t helper_fmul(CPUTriCoreState *env, uint32_t r1, uint32_t r2)
- 
- }
- 
-+/*
-+ * Target TriCore QSEED.F significand Lookup Table
-+ *
-+ * The QSEED.F output significand depends on the least-significant
-+ * exponent bit and the 6 most-significant significand bits.
-+ *
-+ * IEEE 754 float datatype
-+ * partitioned into Sign (S), Exponent (E) and Significand (M):
-+ *
-+ * S   E E E E E E E E   M M M M M M ...
-+ *    |             |               |
-+ *    +------+------+-------+-------+
-+ *           |              |
-+ *          for        lookup table
-+ *      calculating     index for
-+ *        output E       output M
-+ *
-+ * This lookup table was extracted by analyzing QSEED output
-+ * from the real hardware
-+ */
-+static const uint8_t target_qseed_significand_table[128] = {
-+    253, 252, 245, 244, 239, 238, 231, 230, 225, 224, 217, 216,
-+    211, 210, 205, 204, 201, 200, 195, 194, 189, 188, 185, 184,
-+    179, 178, 175, 174, 169, 168, 165, 164, 161, 160, 157, 156,
-+    153, 152, 149, 148, 145, 144, 141, 140, 137, 136, 133, 132,
-+    131, 130, 127, 126, 123, 122, 121, 120, 117, 116, 115, 114,
-+    111, 110, 109, 108, 103, 102, 99, 98, 93, 92, 89, 88, 83,
-+    82, 79, 78, 75, 74, 71, 70, 67, 66, 63, 62, 59, 58, 55,
-+    54, 53, 52, 49, 48, 45, 44, 43, 42, 39, 38, 37, 36, 33,
-+    32, 31, 30, 27, 26, 25, 24, 23, 22, 19, 18, 17, 16, 15,
-+    14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2
-+};
-+
-+uint32_t helper_qseed(CPUTriCoreState *env, uint32_t r1)
-+{
-+    uint32_t arg1, S, E, M, E_minus_one, m_idx;
-+    uint32_t new_E, new_M, new_S, result;
-+
-+    arg1 = make_float32(r1);
-+
-+    /* fetch IEEE-754 fields S, E and the uppermost 6-bit of M */
-+    S = extract32(arg1, 31, 1);
-+    E = extract32(arg1, 23, 8);
-+    M = extract32(arg1, 17, 6);
-+
-+    if (float32_is_any_nan(arg1)) {
-+        result = float32_quiet_nan;
-+    } else if (float32_is_zero_or_denormal(arg1)) {
-+        if (float32_is_neg(arg1)) {
-+            result = float32_infinity | (1 << 31);
-+        } else {
-+            result = float32_infinity;
-+        }
-+    } else if (float32_is_neg(arg1)) {
-+        result = float32_sqrt_nan;
-+    } else if (float32_is_infinity(arg1)) {
-+        result = float32_zero;
-+    } else {
-+        E_minus_one = E - 1;
-+        m_idx = ((E_minus_one & 1) << 6) | M;
-+        new_S = S;
-+        new_E = 0xBD - E_minus_one / 2;
-+        new_M = target_qseed_significand_table[m_idx];
-+
-+        result = 0;
-+        result = deposit32(result, 31, 1, new_S);
-+        result = deposit32(result, 23, 8, new_E);
-+        result = deposit32(result, 15, 8, new_M);
-+    }
-+
-+    if (float32_is_signaling_nan(arg1) || result == float32_sqrt_nan) {
-+        env->FPU_FI = 1 << 31;
-+        env->FPU_FS = 1;
-+    } else {
-+        env->FPU_FS = 0;
-+    }
-+
-+    return (uint32_t) result;
-+}
-+
- uint32_t helper_fdiv(CPUTriCoreState *env, uint32_t r1, uint32_t r2)
- {
-     uint32_t flags;
-diff --git a/target/tricore/helper.h b/target/tricore/helper.h
-index f1a5cb367e..b64780c37d 100644
---- a/target/tricore/helper.h
-+++ b/target/tricore/helper.h
-@@ -109,6 +109,7 @@ DEF_HELPER_3(fdiv, i32, env, i32, i32)
- DEF_HELPER_4(fmadd, i32, env, i32, i32, i32)
- DEF_HELPER_4(fmsub, i32, env, i32, i32, i32)
- DEF_HELPER_3(fcmp, i32, env, i32, i32)
-+DEF_HELPER_2(qseed, i32, env, i32)
- DEF_HELPER_2(ftoi, i32, env, i32)
- DEF_HELPER_2(itof, i32, env, i32)
- DEF_HELPER_2(utof, i32, env, i32)
-diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 5d4febf1c0..6d3f9e57b6 100644
---- a/target/tricore/translate.c
-+++ b/target/tricore/translate.c
-@@ -6753,6 +6753,9 @@ static void decode_rr_divide(CPUTriCoreState *env, DisasContext *ctx)
-     case OPC2_32_RR_FTOIZ:
-         gen_helper_ftoiz(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
-         break;
-+    case OPC2_32_RR_QSEED_F:
-+        gen_helper_qseed(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
-+        break;
-     default:
-         generate_trap(ctx, TRAPC_INSN_ERR, TIN2_IOPC);
-     }
--- 
-2.22.0.windows.1
-
+> > 
+> > > +        IOMMUTLBEntry entry;
+> > > +        uint64_t mask = vtd_get_next_mask(start, remain, s->aw_bits);
+> > > +
+> > > +        assert(mask);
+> > > +
+> > 
+> > > +        entry.iova = start;
+> > > +        entry.addr_mask = mask - 1;
+> > > +        entry.target_as = &address_space_memory;
+> > > +        entry.perm = IOMMU_NONE;
+> > > +        /* This field is meaningless for unmap */
+> > > +        entry.translated_addr = 0;
+> > > +
+> > > +        memory_region_notify_one(n, &entry);
+> > > +
+> > > +        start += mask;
+> > > +        remain -= mask;
+> > >      }
+> > Add assert(remain) here?
+> 
+> Do you mean assert(!remain)?  If so, it's below [1].
+> 
+yes, sorry, assert(!remain) :)
+> > 
+> > >  
+> > > -    entry.target_as = &address_space_memory;
+> > > -    /* Adjust iova for the size */
+> > > -    entry.iova = n->start & ~(size - 1);
+> > > -    /* This field is meaningless for unmap */
+> > > -    entry.translated_addr = 0;
+> > > -    entry.perm = IOMMU_NONE;
+> > > -    entry.addr_mask = size - 1;
+> > > +    assert(!remain);
+> 
+> [1]
+> 
+> > >  
+> > >      trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
+> > >                               VTD_PCI_SLOT(as->devfn),
+> > >                               VTD_PCI_FUNC(as->devfn),
+> > > -                             entry.iova, size);
+> > > +                             n->start, size);
+> > >  
+> > > -    map.iova = entry.iova;
+> > > -    map.size = entry.addr_mask;
+> > > +    map.iova = n->start;
+> > > +    map.size = size;
+> > >      iova_tree_remove(as->iova_tree, &map);
+> > > -
+> > > -    memory_region_notify_one(n, &entry);
+> > >  }
+> > >  
+> > >  static void vtd_address_space_unmap_all(IntelIOMMUState *s)
+> > > -- 
+> > > 2.21.0
+> > > 
+> 
+> Regards,
+> 
+> -- 
+> Peter Xu
 
