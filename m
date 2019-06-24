@@ -2,75 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D192151E79
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:40:53 +0200 (CEST)
-Received: from localhost ([::1]:55140 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B766051E8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:50:20 +0200 (CEST)
+Received: from localhost ([::1]:55228 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfXds-0004R4-ME
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34184)
+	id 1hfXn1-0004SZ-Nk
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:50:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39154)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSP-0004CO-Vl
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:03 -0400
+ (envelope-from <wainersm@redhat.com>) id 1hfXl2-000392-Rp
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:48:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSO-0005Pc-Ma
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:01 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44693)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSO-0005Ny-E4
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:00 -0400
-Received: by mail-wr1-x442.google.com with SMTP id r16so15528502wrl.11
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:29:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9SctNReWxhEE3cMWEX6p+uUNHMIHY/fb8Bqmz63WdR4=;
- b=RgQukXrfhDk9U6VLTwaL94F0+GEQYpzHt9aH/mSzmEFJPF/o0QUHhM4HaJ0NkmedIB
- CMfKSe/9NMIfzdXJuc0C58UXQ1/tb1pWsA2Y3pPWCcQEFnMfw6qkwUU2Kq2enIetEs4M
- RqP6jQYjn9AaTGJPN5lg+quL6BZzS8qy2r4KasUVOpPRGQzoXtzPKHvoHgHfGcp2YImg
- 8/4P7/myjbG/w9TJ/uq1qwkHlRYCumjKTAeSEkFO9OHWYdHFZrCO7/xzpyurmtf7fObp
- ZbnkoEs6/jR+oA5XE8HsIZiBtKIUjGHM611WTqv/Syu3KCAL4TKVq5IqViL9bATttOhl
- jVqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9SctNReWxhEE3cMWEX6p+uUNHMIHY/fb8Bqmz63WdR4=;
- b=mie8JhfGhXgL/MIY8EEMpcPlGk8yCZX9vCnndpX789l70tZ91lUrbzG1+R7FpFYkDN
- Teix2GS55t8Dz6FBQ8lCCb+wWnCKkbpvyTAVAiUpf8ZLvWBWRcWpfr7+FSCn1Uz+E4CV
- NrI3d0g1Jt64LOvug3Fvvrb5AM6njTEwJKFfUZUqoqXnt9ipIiXB6Xx9UDE4vleKDVHl
- d+/P4eF84oBHQCTDlp8caprLQMvZu3JpEVybaZxlbSBh7Wv8E9yLINSiqhpvMekF5aU6
- PmwUOO9aZFmlb3I2X1+4n0ssbr+f36BUeXDF3jZ79wsGxJE7KqTReGl+tc9zOSsrRQtw
- vpTw==
-X-Gm-Message-State: APjAAAU7J7racoWdtzwO2RjcF22VAkk9XnvkPLNvqekt4yPzsn2Ifw41
- A5aQoLYYwJGkkltZmlUbudN8n85/
-X-Google-Smtp-Source: APXvYqw/+IZ/snn4T9+g/yNeUZATXLbOk5a0vVi69maJqE87fahpMwL6MmmCau8T32QC8LBlzyU6kw==
-X-Received: by 2002:a5d:484e:: with SMTP id n14mr26801694wrs.348.1561415339334; 
- Mon, 24 Jun 2019 15:28:59 -0700 (PDT)
-Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.58
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 15:28:58 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 00:28:44 +0200
-Message-Id: <20190624222844.26584-11-f4bug@amsat.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190624222844.26584-1-f4bug@amsat.org>
-References: <20190624222844.26584-1-f4bug@amsat.org>
+ (envelope-from <wainersm@redhat.com>) id 1hfXl1-0008O5-OX
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:48:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48266)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1hfXl1-0008Ln-Hi
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:48:15 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AB58530917AC
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 22:48:11 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-123-99.rdu2.redhat.com
+ [10.10.123.99])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6DE6F100033E;
+ Mon, 24 Jun 2019 22:48:07 +0000 (UTC)
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20190608233447.27970-1-ehabkost@redhat.com>
+ <20190624180326.GJ1862@habkost.net>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <b55a1b4d-7aa4-ccb4-33f8-aae583776d3d@redhat.com>
+Date: Mon, 24 Jun 2019 19:48:06 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.5.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [RFC PATCH 10/10] hw/pci-host/gt64120: Clean the
- decoded address space
+In-Reply-To: <20190624180326.GJ1862@habkost.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Mon, 24 Jun 2019 22:48:11 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 0/1] Export machine type deprecation
+ info through QMP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,95 +61,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SysAd bus is split in various address spaces.
-Declare the different regions separately, this helps a lot
-while tracing different access while debugging.
 
-We also add the PCI1 ranges.
 
-See 'GT-64120A System Controller' datasheet Rev, 1.1,
-"Table 15: CPU and Device Decoder Default Address Mapping"
+On 06/24/2019 03:03 PM, Eduardo Habkost wrote:
+> Any objections to this?  I'm planning to merge it this week.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-While this device is modelled toward the Malta board, it is generic.
----
- hw/mips/mips_malta.c  |  6 ------
- hw/pci-host/gt64120.c | 19 +++++++++++++++++++
- 2 files changed, 19 insertions(+), 6 deletions(-)
+IMHO, 1+. So I don't have objections.
 
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 97f8ffbf1b..d6e4a0dad9 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -53,7 +53,6 @@
- #include "sysemu/qtest.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
--#include "hw/misc/empty_slot.h"
- #include "sysemu/kvm.h"
- #include "hw/semihosting/semihost.h"
- #include "hw/mips/cps.h"
-@@ -1209,11 +1208,6 @@ void mips_malta_init(MachineState *machine)
-     DeviceState *dev = qdev_create(NULL, TYPE_MIPS_MALTA);
-     MaltaState *s = MIPS_MALTA(dev);
- 
--    /* The whole address space decoded by the GT-64120A doesn't generate
--       exception when accessing invalid memory. Create an empty slot to
--       emulate this feature. */
--    empty_slot_init("gt64120-ad", 0x00000000, 0x20000000);
--
-     qdev_init_nofail(dev);
- 
-     /* create CPU */
-diff --git a/hw/pci-host/gt64120.c b/hw/pci-host/gt64120.c
-index 5209038ee5..6eaa571994 100644
---- a/hw/pci-host/gt64120.c
-+++ b/hw/pci-host/gt64120.c
-@@ -31,6 +31,8 @@
- #include "hw/pci/pci_host.h"
- #include "hw/i386/pc.h"
- #include "exec/address-spaces.h"
-+#include "hw/misc/empty_slot.h"
-+#include "hw/misc/unimp.h"
- #include "trace.h"
- 
- #define GT_REGS                 (0x1000 >> 2)
-@@ -1206,6 +1208,23 @@ PCIBus *gt64120_create(qemu_irq *pic, bool target_is_bigendian)
-                           "isd-mem", 0x1000);
- 
-     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
-+
-+    create_unimplemented_device("gt64120_i2o", 0x14000000, 256);
-+
-+    empty_slot_init("SCS0",     0x00000000, 8 * MiB);
-+    empty_slot_init("SCS1",     0x00800000, 8 * MiB);
-+    empty_slot_init("SCS2",     0x01000000, 8 * MiB);
-+    empty_slot_init("SCS3",     0x01800000, 8 * MiB);
-+    empty_slot_init("CS0",      0x1c000000, 8 * MiB);
-+    empty_slot_init("CS1",      0x1c800000, 8 * MiB);
-+    empty_slot_init("CS2",      0x1d000000, 32 * MiB);
-+    empty_slot_init("CS3",      0x1f000000, 12 * MiB);
-+    empty_slot_init("BootCS",   0x1fc00000, 4 * MiB);
-+
-+    create_unimplemented_device("pci1-io", 0x20000000, 32 * MiB);
-+    empty_slot_init("pci1-mem0", 0x22000000, 32 * MiB);
-+    empty_slot_init("pci1-mem1", 0x24000000, 32 * MiB);
-+
-     return phb->bus;
- }
- 
--- 
-2.19.1
+- Wainer
+
+>
+> On Sat, Jun 08, 2019 at 08:34:46PM -0300, Eduardo Habkost wrote:
+>> Changes v1 -> v2:
+>> * I've decided to get rid of the status-message and
+>>    suggested-alternative fields, to avoid more bikeshedding.
+>>
+>> This series adds machine type deprecation information to the
+>> output of the `query-machines` QMP command.  With this, libvirt
+>> and management software will be able to show this information to
+>> users and/or suggest changes to VM configuration to avoid
+>> deprecated machine types.
+>>
+>> Eduardo Habkost (1):
+>>    qmp: Add deprecation information to query-machines
+>>
+>>   qapi/misc.json | 7 ++++++-
+>>   vl.c           | 1 +
+>>   2 files changed, 7 insertions(+), 1 deletion(-)
+>>
+>> -- 
+>> 2.18.0.rc1.1.g3f1ff2140
+>>
 
 
