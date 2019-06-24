@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA7B510DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 17:41:56 +0200 (CEST)
-Received: from localhost ([::1]:52416 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31408510DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 17:41:54 +0200 (CEST)
+Received: from localhost ([::1]:52412 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfR6R-0000fV-Mm
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 11:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44896)
+	id 1hfR6O-0000bR-Ma
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 11:41:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44863)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <anthony.perard@citrix.com>) id 1hfQy2-0003XX-Oi
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:17 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1hfQy1-0003WN-FC
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1hfQy0-0000Nm-Li
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:14 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1hfQxz-0000MV-RR
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:13 -0400
 Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:11946)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1hfQy0-0000GL-7O
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:12 -0400
+ id 1hfQxz-0000GL-Ec
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:11 -0400
 Authentication-Results: esa3.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -51,22 +51,22 @@ Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: B3wKRDHoAjpADVOFuiATXfXHImcAfgyg7BNFdetLoH3TdtHsH3YaUosadRE04AfSH31Zg9wEHq
- 7+aivZYNxOifUV9NRFPB3nbSMjjQh/8AOIZcyzkucR7NEzFw2BGYlQT89rHb6Vv67eOPph3pbs
- MM+xcRSWQsLwO8nLUZ19pg7VQp/GWi8xsEg0a2qYoc41UY32w41g8DOkpksoj+HlI6z5IHBHoL
- DGpXE2o2y99Ee3BYEGog+nxL2QiwmdWI5teBBTzIBY2x6BGAU0oLyudiXVzr6PCpxM4W7CEsGO
- W8E=
+IronPort-SDR: kQPaiIH49oII/yU/o4NKBjCSgEIJPIXZ8PW24fJT53I5h9Lwd8rU6U2sT/Cz1SJyOnE+Nr5Iwz
+ ayRZdM6prlyheBn06gLPP860/3E9AzgYpjE50T9aWSY9bfoL5Ht6HVqNvrM+Bdue/aH2vXuqJM
+ 9qZSztspZhASrz2372T5ndQUfWzmVk0bRZQ/346Q2pl36QcLH7G+uglzWnkhEMYldjTYS9cdeg
+ hiEpu2WTJSYG4ZTPJ+nEXaviFTcim9c9mAGIhvL34IQ7o4F0LGwl8IHEQiDRnJrSiMPFV5ATXo
+ NwM=
 X-SBRS: 2.7
-X-MesageID: 2148102
+X-MesageID: 2148097
 X-Ironport-Server: esa3.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.63,412,1557201600"; 
-   d="scan'208";a="2148102"
+   d="scan'208";a="2148097"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Date: Mon, 24 Jun 2019 16:32:51 +0100
-Message-ID: <20190624153257.20163-3-anthony.perard@citrix.com>
+Date: Mon, 24 Jun 2019 16:32:52 +0100
+Message-ID: <20190624153257.20163-4-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190624153257.20163-1-anthony.perard@citrix.com>
 References: <20190624153257.20163-1-anthony.perard@citrix.com>
@@ -75,8 +75,8 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.145.155
-Subject: [Qemu-devel] [PULL 2/8] xen-bus: use a separate fd for each event
- channel
+Subject: [Qemu-devel] [PULL 3/8] xen-bus: allow AioContext to be specified
+ for each event channel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,228 +95,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Paul Durrant <paul.durrant@citrix.com>
 
-To better support use of IOThread-s it will be necessary to be able to set
-the AioContext for each XenEventChannel and hence it is necessary to open a
-separate handle to libxenevtchan for each channel.
-
-This patch stops using NotifierList for event channel callbacks, replacing
-that construct by a list of complete XenEventChannel structures. Each of
-these now has a xenevtchn_handle pointer in place of the single pointer
-previously held in the XenDevice structure. The individual handles are
-opened/closed in xen_device_bind/unbind_event_channel(), replacing the
-single open/close in xen_device_realize/unrealize().
-
-NOTE: This patch does not add an AioContext parameter to
-      xen_device_bind_event_channel(). That will be done in a subsequent
-      patch.
+This patch adds an AioContext parameter to xen_device_bind_event_channel()
+and then uses aio_set_fd_handler() to set the callback rather than
+qemu_set_fd_handler().
 
 Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
 Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
-Message-Id: <20190408151617.13025-2-paul.durrant@citrix.com>
+Message-Id: <20190408151617.13025-3-paul.durrant@citrix.com>
+[Call aio_set_fd_handler() with is_external=true]
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 ---
- hw/xen/xen-bus.c         | 79 ++++++++++++++++++++--------------------
- include/hw/xen/xen-bus.h |  6 +--
- 2 files changed, 42 insertions(+), 43 deletions(-)
+ hw/block/dataplane/xen-block.c |  2 +-
+ hw/xen/xen-bus.c               | 10 +++++++---
+ include/hw/xen/xen-bus.h       |  1 +
+ 3 files changed, 9 insertions(+), 4 deletions(-)
 
+diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
+index 6da5c77fbb..aadca75644 100644
+--- a/hw/block/dataplane/xen-block.c
++++ b/hw/block/dataplane/xen-block.c
+@@ -806,7 +806,7 @@ void xen_block_dataplane_start(XenBlockDataPlane *dataplane,
+     }
+ 
+     dataplane->event_channel =
+-        xen_device_bind_event_channel(xendev, event_channel,
++        xen_device_bind_event_channel(xendev, dataplane->ctx, event_channel,
+                                       xen_block_dataplane_event, dataplane,
+                                       &local_err);
+     if (local_err) {
 diff --git a/hw/xen/xen-bus.c b/hw/xen/xen-bus.c
-index a4416d0bcf..43a90cae42 100644
+index 43a90cae42..2210526490 100644
 --- a/hw/xen/xen-bus.c
 +++ b/hw/xen/xen-bus.c
-@@ -924,19 +924,22 @@ void xen_device_copy_grant_refs(XenDevice *xendev, bool to_domain,
- }
+@@ -925,6 +925,7 @@ void xen_device_copy_grant_refs(XenDevice *xendev, bool to_domain,
  
  struct XenEventChannel {
-+    QLIST_ENTRY(XenEventChannel) list;
-+    xenevtchn_handle *xeh;
+     QLIST_ENTRY(XenEventChannel) list;
++    AioContext *ctx;
+     xenevtchn_handle *xeh;
      evtchn_port_t local_port;
      XenEventHandler handler;
-     void *opaque;
--    Notifier notifier;
- };
- 
--static void event_notify(Notifier *n, void *data)
-+static void xen_device_event(void *opaque)
- {
--    XenEventChannel *channel = container_of(n, XenEventChannel, notifier);
--    unsigned long port = (unsigned long)data;
-+    XenEventChannel *channel = opaque;
-+    unsigned long port = xenevtchn_pending(channel->xeh);
- 
-     if (port == channel->local_port) {
-         channel->handler(channel->opaque);
-+
-+        xenevtchn_unmask(channel->xeh, port);
-     }
+@@ -944,6 +945,7 @@ static void xen_device_event(void *opaque)
  }
  
-@@ -948,24 +951,39 @@ XenEventChannel *xen_device_bind_event_channel(XenDevice *xendev,
-     XenEventChannel *channel = g_new0(XenEventChannel, 1);
-     xenevtchn_port_or_error_t local_port;
- 
--    local_port = xenevtchn_bind_interdomain(xendev->xeh,
-+    channel->xeh = xenevtchn_open(NULL, 0);
-+    if (!channel->xeh) {
-+        error_setg_errno(errp, errno, "failed xenevtchn_open");
-+        goto fail;
-+    }
-+
-+    local_port = xenevtchn_bind_interdomain(channel->xeh,
-                                             xendev->frontend_id,
-                                             port);
-     if (local_port < 0) {
-         error_setg_errno(errp, errno, "xenevtchn_bind_interdomain failed");
--
--        g_free(channel);
--        return NULL;
-+        goto fail;
-     }
- 
-     channel->local_port = local_port;
+ XenEventChannel *xen_device_bind_event_channel(XenDevice *xendev,
++                                               AioContext *ctx,
+                                                unsigned int port,
+                                                XenEventHandler handler,
+                                                void *opaque, Error **errp)
+@@ -969,8 +971,9 @@ XenEventChannel *xen_device_bind_event_channel(XenDevice *xendev,
      channel->handler = handler;
      channel->opaque = opaque;
--    channel->notifier.notify = event_notify;
  
--    notifier_list_add(&xendev->event_notifiers, &channel->notifier);
-+    qemu_set_fd_handler(xenevtchn_fd(channel->xeh), xen_device_event, NULL,
-+                        channel);
-+
-+    QLIST_INSERT_HEAD(&xendev->event_channels, channel, list);
+-    qemu_set_fd_handler(xenevtchn_fd(channel->xeh), xen_device_event, NULL,
+-                        channel);
++    channel->ctx = ctx;
++    aio_set_fd_handler(channel->ctx, xenevtchn_fd(channel->xeh), true,
++                       xen_device_event, NULL, NULL, channel);
  
-     return channel;
-+
-+fail:
-+    if (channel->xeh) {
-+        xenevtchn_close(channel->xeh);
-+    }
-+
-+    g_free(channel);
-+
-+    return NULL;
- }
+     QLIST_INSERT_HEAD(&xendev->event_channels, channel, list);
  
- void xen_device_notify_event_channel(XenDevice *xendev,
-@@ -977,7 +995,7 @@ void xen_device_notify_event_channel(XenDevice *xendev,
-         return;
-     }
+@@ -1011,7 +1014,8 @@ void xen_device_unbind_event_channel(XenDevice *xendev,
  
--    if (xenevtchn_notify(xendev->xeh, channel->local_port) < 0) {
-+    if (xenevtchn_notify(channel->xeh, channel->local_port) < 0) {
-         error_setg_errno(errp, errno, "xenevtchn_notify failed");
-     }
- }
-@@ -991,12 +1009,15 @@ void xen_device_unbind_event_channel(XenDevice *xendev,
-         return;
-     }
+     QLIST_REMOVE(channel, list);
  
--    notifier_remove(&channel->notifier);
-+    QLIST_REMOVE(channel, list);
+-    qemu_set_fd_handler(xenevtchn_fd(channel->xeh), NULL, NULL, NULL);
++    aio_set_fd_handler(channel->ctx, xenevtchn_fd(channel->xeh), true,
++                       NULL, NULL, NULL, NULL);
  
--    if (xenevtchn_unbind(xendev->xeh, channel->local_port) < 0) {
-+    qemu_set_fd_handler(xenevtchn_fd(channel->xeh), NULL, NULL, NULL);
-+
-+    if (xenevtchn_unbind(channel->xeh, channel->local_port) < 0) {
+     if (xenevtchn_unbind(channel->xeh, channel->local_port) < 0) {
          error_setg_errno(errp, errno, "xenevtchn_unbind failed");
-     }
- 
-+    xenevtchn_close(channel->xeh);
-     g_free(channel);
- }
- 
-@@ -1005,6 +1026,7 @@ static void xen_device_unrealize(DeviceState *dev, Error **errp)
-     XenDevice *xendev = XEN_DEVICE(dev);
-     XenDeviceClass *xendev_class = XEN_DEVICE_GET_CLASS(xendev);
-     const char *type = object_get_typename(OBJECT(xendev));
-+    XenEventChannel *channel, *next;
- 
-     if (!xendev->name) {
-         return;
-@@ -1021,15 +1043,14 @@ static void xen_device_unrealize(DeviceState *dev, Error **errp)
-         xendev_class->unrealize(xendev, errp);
-     }
- 
-+    /* Make sure all event channels are cleaned up */
-+    QLIST_FOREACH_SAFE(channel, &xendev->event_channels, list, next) {
-+        xen_device_unbind_event_channel(xendev, channel, NULL);
-+    }
-+
-     xen_device_frontend_destroy(xendev);
-     xen_device_backend_destroy(xendev);
- 
--    if (xendev->xeh) {
--        qemu_set_fd_handler(xenevtchn_fd(xendev->xeh), NULL, NULL, NULL);
--        xenevtchn_close(xendev->xeh);
--        xendev->xeh = NULL;
--    }
--
-     if (xendev->xgth) {
-         xengnttab_close(xendev->xgth);
-         xendev->xgth = NULL;
-@@ -1046,16 +1067,6 @@ static void xen_device_exit(Notifier *n, void *data)
-     xen_device_unrealize(DEVICE(xendev), &error_abort);
- }
- 
--static void xen_device_event(void *opaque)
--{
--    XenDevice *xendev = opaque;
--    unsigned long port = xenevtchn_pending(xendev->xeh);
--
--    notifier_list_notify(&xendev->event_notifiers, (void *)port);
--
--    xenevtchn_unmask(xendev->xeh, port);
--}
--
- static void xen_device_realize(DeviceState *dev, Error **errp)
- {
-     XenDevice *xendev = XEN_DEVICE(dev);
-@@ -1096,16 +1107,6 @@ static void xen_device_realize(DeviceState *dev, Error **errp)
-     xendev->feature_grant_copy =
-         (xengnttab_grant_copy(xendev->xgth, 0, NULL) == 0);
- 
--    xendev->xeh = xenevtchn_open(NULL, 0);
--    if (!xendev->xeh) {
--        error_setg_errno(errp, errno, "failed xenevtchn_open");
--        goto unrealize;
--    }
--
--    notifier_list_init(&xendev->event_notifiers);
--    qemu_set_fd_handler(xenevtchn_fd(xendev->xeh), xen_device_event, NULL,
--                        xendev);
--
-     xen_device_backend_create(xendev, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
 diff --git a/include/hw/xen/xen-bus.h b/include/hw/xen/xen-bus.h
-index 3183f10e3c..3315f0de20 100644
+index 3315f0de20..8183b98c7d 100644
 --- a/include/hw/xen/xen-bus.h
 +++ b/include/hw/xen/xen-bus.h
-@@ -15,6 +15,7 @@
- typedef void (*XenWatchHandler)(void *opaque);
- 
- typedef struct XenWatch XenWatch;
-+typedef struct XenEventChannel XenEventChannel;
- 
- typedef struct XenDevice {
-     DeviceState qdev;
-@@ -28,8 +29,7 @@ typedef struct XenDevice {
-     XenWatch *backend_online_watch;
-     xengnttab_handle *xgth;
-     bool feature_grant_copy;
--    xenevtchn_handle *xeh;
--    NotifierList event_notifiers;
-+    QLIST_HEAD(, XenEventChannel) event_channels;
- } XenDevice;
- 
- typedef char *(*XenDeviceGetName)(XenDevice *xendev, Error **errp);
-@@ -119,8 +119,6 @@ void xen_device_copy_grant_refs(XenDevice *xendev, bool to_domain,
-                                 XenDeviceGrantCopySegment segs[],
-                                 unsigned int nr_segs, Error **errp);
- 
--typedef struct XenEventChannel XenEventChannel;
--
+@@ -122,6 +122,7 @@ void xen_device_copy_grant_refs(XenDevice *xendev, bool to_domain,
  typedef void (*XenEventHandler)(void *opaque);
  
  XenEventChannel *xen_device_bind_event_channel(XenDevice *xendev,
++                                               AioContext *ctx,
+                                                unsigned int port,
+                                                XenEventHandler handler,
+                                                void *opaque, Error **errp);
 -- 
 Anthony PERARD
 
