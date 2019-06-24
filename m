@@ -2,77 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8624D51A4D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 20:13:12 +0200 (CEST)
-Received: from localhost ([::1]:53650 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F288351A35
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 20:02:24 +0200 (CEST)
+Received: from localhost ([::1]:53600 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfTSo-0007t6-Uh
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 14:13:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51383)
+	id 1hfTIM-0002Bz-2c
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 14:02:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53165)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <maxiwell@linux.ibm.com>) id 1hfT49-0007US-9T
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:47:42 -0400
+ (envelope-from <lvivier@redhat.com>) id 1hfTAv-0004OX-8v
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:54:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <maxiwell@linux.ibm.com>) id 1hfT47-00011B-Tj
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:47:41 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49436
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <maxiwell@linux.ibm.com>)
- id 1hfT47-0000m4-MW
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:47:39 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5OHl0I9106389; Mon, 24 Jun 2019 13:47:29 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tb1y6kqc9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jun 2019 13:47:28 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x5OHjspA032605;
- Mon, 24 Jun 2019 17:47:27 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma04dal.us.ibm.com with ESMTP id 2t9by6fe54-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 24 Jun 2019 17:47:27 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5OHlQUR51511728
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 24 Jun 2019 17:47:26 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 287E47805C;
- Mon, 24 Jun 2019 17:47:26 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7022F78069;
- Mon, 24 Jun 2019 17:47:24 +0000 (GMT)
-Received: from maxibm.ibmuc.com (unknown [9.85.234.214])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 24 Jun 2019 17:47:24 +0000 (GMT)
-From: "Maxiwell S. Garcia" <maxiwell@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 24 Jun 2019 14:46:36 -0300
-Message-Id: <20190624174636.12428-1-maxiwell@linux.ibm.com>
-X-Mailer: git-send-email 2.20.1
+ (envelope-from <lvivier@redhat.com>) id 1hfTAs-0002aM-Ty
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:54:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33508)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hfTAs-0002YZ-2h
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:54:38 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D51C7356CA;
+ Mon, 24 Jun 2019 17:54:35 +0000 (UTC)
+Received: from [10.36.117.25] (ovpn-117-25.ams2.redhat.com [10.36.117.25])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 276C25C22F;
+ Mon, 24 Jun 2019 17:54:28 +0000 (UTC)
+To: Greg Kurz <groug@kaod.org>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20190520231008.20140-1-mst@redhat.com>
+ <20190320112646.3712-2-xieyongji@baidu.com>
+ <20190524121909.277ae31e@bahia.lan>
+ <CAONzpcbf+AcY4yEO6hBnyp1dBaV4XgUrSTdU55B3S+wcn6gOVA@mail.gmail.com>
+ <20190527124446.6b809c7f@bahia.lan>
+ <20190527145329-mutt-send-email-mst@kernel.org>
+ <CAONzpcb6dtsnYhVW+yy0FijXtHoLavXX_bwStVEZC1hqJr9wSQ@mail.gmail.com>
+ <20190531193633.GI22103@habkost.net>
+ <20190601174941.00bf108f@bahia.lab.toulouse-stg.fr.ibm.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <5e49e2e8-0753-67f0-d453-74d9dd8372ce@redhat.com>
+Date: Mon, 24 Jun 2019 19:54:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-24_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906240141
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH] migration: Use RunState enum to save global
- state pre migrate
+In-Reply-To: <20190601174941.00bf108f@bahia.lab.toulouse-stg.fr.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Mon, 24 Jun 2019 17:54:36 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL v2 04/36] virtio: Introduce started flag to
+ VirtioDevice
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,192 +110,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, dgilbert@redhat.com,
- "Maxiwell S. Garcia" <maxiwell@linux.ibm.com>, quintela@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Zhang Yu <zhangyu31@baidu.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Yongji Xie <elohimes@gmail.com>, Xie Yongji <xieyongji@baidu.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GlobalState struct has two confusing fields:
-- uint8_t runstate[100]
-- RunState state
+On 01/06/2019 17:49, Greg Kurz wrote:
+> On Fri, 31 May 2019 16:36:33 -0300
+> Eduardo Habkost <ehabkost@redhat.com> wrote:
+> 
+>> On Tue, May 28, 2019 at 10:48:09AM +0800, Yongji Xie wrote:
+>>> On Tue, 28 May 2019 at 02:54, Michael S. Tsirkin <mst@redhat.com> wrote:  
+>>>>
+>>>> On Mon, May 27, 2019 at 12:44:46PM +0200, Greg Kurz wrote:  
+>>>>> On Fri, 24 May 2019 19:56:06 +0800
+>>>>> Yongji Xie <elohimes@gmail.com> wrote:
+>>>>>  
+>>>>>> On Fri, 24 May 2019 at 18:20, Greg Kurz <groug@kaod.org> wrote:  
+>>>>>>>
+>>>>>>> On Mon, 20 May 2019 19:10:35 -0400
+>>>>>>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+>>>>>>>  
+>>>>>>>> From: Xie Yongji <xieyongji@baidu.com>  
+>> [...]
+>>>>>>>> @@ -1770,6 +1796,13 @@ static bool virtio_broken_needed(void *opaque)
+>>>>>>>>      return vdev->broken;
+>>>>>>>>  }
+>>>>>>>>
+>>>>>>>> +static bool virtio_started_needed(void *opaque)
+>>>>>>>> +{
+>>>>>>>> +    VirtIODevice *vdev = opaque;
+>>>>>>>> +
+>>>>>>>> +    return vdev->started;  
+>>>>>>>
+>>>>>>> Existing machine types don't know about the "virtio/started" subsection. This
+>>>>>>> breaks migration to older QEMUs if the driver has started the device, ie. most
+>>>>>>> probably always when it comes to live migration.
+>>>>>>>
+>>>>>>> My understanding is that we do try to support backward migration though. It
+>>>>>>> is a regular practice in datacenters to migrate workloads without having to
+>>>>>>> take care of the QEMU version. FWIW I had to fix similar issues downstream
+>>>>>>> many times in the past because customers had filed bugs.
+>>>>>>>  
+>>>>>>
+>>>>>> If we do need to support backward migration, for this patch, what I
+>>>>>> can think of is to only migrate the flag in the case that guest kicks
+>>>>>> but not set DRIVER_OK. This could fix backward migration in most case.  
+>>>>>
+>>>>> You mean something like that ?
+>>>>>
+>>>>> static bool virtio_started_needed(void *opaque)
+>>>>> {
+>>>>>     VirtIODevice *vdev = opaque;
+>>>>>
+>>>>>     return vdev->started && !(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK);
+>>>>> }
+>>>>>  
+>>>>>> Not sure if there is a more general approach...
+>>>>>>  
+>>>>>
+>>>>> Another approach would be to only implement the started flag for
+>>>>> machine version > 4.0. This can be achieved by adding a "use-started"
+>>>>> property to the base virtio device, true by default and set to
+>>>>> false by hw_compat_4_0.  
+>>>>
+>>>> I think this is best frankly.
+>>>>  
+>>>
+>>> Only implement the started flag for machine version > 4.0 might not be
+>>> good because vhost-user-blk now need to use this flag. How about only
+>>> migrating this flag for machine version > 4.0 instead?  
+>>
+>> Was this implemented?  Is migration from QEMU 4.1 to QEMU 4.0
+>> currently broken?
+>>
+> 
+> Answer is yes for both questions.
+> 
 
-The first field saves the 'current_run_state' from vl.c file before
-migrate. The second field is filled in the post load func using the
-'runstate' value. So, this commit renames the 'runstate' to
-'state_pre_migrate' and use the same type used by 'state' and
-'current_run_state' variables.
+Is there a fix?
 
-Signed-off-by: Maxiwell S. Garcia <maxiwell@linux.ibm.com>
----
- include/sysemu/sysemu.h  |  2 +-
- migration/global_state.c | 65 ++++++----------------------------------
- vl.c                     | 11 ++-----
- 3 files changed, 12 insertions(+), 66 deletions(-)
+The problem is really easy to reproduce: start a guest with virtio-blk
+and migrate once the driver has started.
 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 61579ae71e..483b536c4f 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -23,7 +23,7 @@ bool runstate_check(RunState state);
- void runstate_set(RunState new_state);
- int runstate_is_running(void);
- bool runstate_needs_reset(void);
--bool runstate_store(char *str, size_t size);
-+RunState runstate_get(void);
- typedef struct vm_change_state_entry VMChangeStateEntry;
- typedef void VMChangeStateHandler(void *opaque, int running, RunState state);
- 
-diff --git a/migration/global_state.c b/migration/global_state.c
-index 2c8c447239..b49b99f3a1 100644
---- a/migration/global_state.c
-+++ b/migration/global_state.c
-@@ -20,8 +20,7 @@
- #include "trace.h"
- 
- typedef struct {
--    uint32_t size;
--    uint8_t runstate[100];
-+    RunState state_pre_migrate;
-     RunState state;
-     bool received;
- } GlobalState;
-@@ -30,21 +29,14 @@ static GlobalState global_state;
- 
- int global_state_store(void)
- {
--    if (!runstate_store((char *)global_state.runstate,
--                        sizeof(global_state.runstate))) {
--        error_report("runstate name too big: %s", global_state.runstate);
--        trace_migrate_state_too_big();
--        return -EINVAL;
--    }
-+    global_state.state_pre_migrate = runstate_get();
-+
-     return 0;
- }
- 
- void global_state_store_running(void)
- {
--    const char *state = RunState_str(RUN_STATE_RUNNING);
--    assert(strlen(state) < sizeof(global_state.runstate));
--    strncpy((char *)global_state.runstate,
--           state, sizeof(global_state.runstate));
-+    global_state.state_pre_migrate = RUN_STATE_RUNNING;
- }
- 
- bool global_state_received(void)
-@@ -60,7 +52,6 @@ RunState global_state_get_runstate(void)
- static bool global_state_needed(void *opaque)
- {
-     GlobalState *s = opaque;
--    char *runstate = (char *)s->runstate;
- 
-     /* If it is not optional, it is mandatory */
- 
-@@ -70,8 +61,8 @@ static bool global_state_needed(void *opaque)
- 
-     /* If state is running or paused, it is not needed */
- 
--    if (strcmp(runstate, "running") == 0 ||
--        strcmp(runstate, "paused") == 0) {
-+    if (s->state_pre_migrate == RUN_STATE_RUNNING ||
-+        s->state_pre_migrate == RUN_STATE_PAUSED) {
-         return false;
-     }
- 
-@@ -82,45 +73,10 @@ static bool global_state_needed(void *opaque)
- static int global_state_post_load(void *opaque, int version_id)
- {
-     GlobalState *s = opaque;
--    Error *local_err = NULL;
--    int r;
--    char *runstate = (char *)s->runstate;
--
-     s->received = true;
--    trace_migrate_global_state_post_load(runstate);
--
--    if (strnlen((char *)s->runstate,
--                sizeof(s->runstate)) == sizeof(s->runstate)) {
--        /*
--         * This condition should never happen during migration, because
--         * all runstate names are shorter than 100 bytes (the size of
--         * s->runstate). However, a malicious stream could overflow
--         * the qapi_enum_parse() call, so we force the last character
--         * to a NUL byte.
--         */
--        s->runstate[sizeof(s->runstate) - 1] = '\0';
--    }
--    r = qapi_enum_parse(&RunState_lookup, runstate, -1, &local_err);
--
--    if (r == -1) {
--        if (local_err) {
--            error_report_err(local_err);
--        }
--        return -EINVAL;
--    }
--    s->state = r;
--
--    return 0;
--}
--
--static int global_state_pre_save(void *opaque)
--{
--    GlobalState *s = opaque;
--
--    trace_migrate_global_state_pre_save((char *)s->runstate);
--    s->size = strnlen((char *)s->runstate, sizeof(s->runstate)) + 1;
--    assert(s->size <= sizeof(s->runstate));
-+    s->state = s->state_pre_migrate;
- 
-+    trace_migrate_global_state_post_load(RunState_str(s->state));
-     return 0;
- }
- 
-@@ -129,11 +85,9 @@ static const VMStateDescription vmstate_globalstate = {
-     .version_id = 1,
-     .minimum_version_id = 1,
-     .post_load = global_state_post_load,
--    .pre_save = global_state_pre_save,
-     .needed = global_state_needed,
-     .fields = (VMStateField[]) {
--        VMSTATE_UINT32(size, GlobalState),
--        VMSTATE_BUFFER(runstate, GlobalState),
-+        VMSTATE_UINT32(state_pre_migrate, GlobalState),
-         VMSTATE_END_OF_LIST()
-     },
- };
-@@ -141,7 +95,6 @@ static const VMStateDescription vmstate_globalstate = {
- void register_global_state(void)
- {
-     /* We would use it independently that we receive it */
--    strcpy((char *)&global_state.runstate, "");
-     global_state.received = false;
-     vmstate_register(NULL, 0, &vmstate_globalstate, &global_state);
- }
-diff --git a/vl.c b/vl.c
-index 99a56b5556..2b15d68d60 100644
---- a/vl.c
-+++ b/vl.c
-@@ -680,16 +680,9 @@ bool runstate_check(RunState state)
-     return current_run_state == state;
- }
- 
--bool runstate_store(char *str, size_t size)
-+RunState runstate_get(void)
- {
--    const char *state = RunState_str(current_run_state);
--    size_t len = strlen(state) + 1;
--
--    if (len > size) {
--        return false;
--    }
--    memcpy(str, state, len);
--    return true;
-+    return current_run_state;
- }
- 
- static void runstate_init(void)
--- 
-2.20.1
-
+Thanks,
+Laurent
 
