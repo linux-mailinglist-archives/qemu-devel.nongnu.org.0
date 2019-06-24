@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3A350273
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:39:32 +0200 (CEST)
-Received: from localhost ([::1]:48260 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6605850286
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:51:31 +0200 (CEST)
+Received: from localhost ([::1]:48298 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfIdX-0008WD-M1
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:39:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43578)
+	id 1hfIp8-00055v-AD
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46023)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peterx@redhat.com>) id 1hfIcL-0007c8-Jv
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:38:18 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hfIn4-0004IK-46
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1hfIcK-0005Mp-3X
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:38:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54060)
+ (envelope-from <yan.y.zhao@intel.com>) id 1hfIn2-0001u5-2w
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:21 -0400
+Received: from mga02.intel.com ([134.134.136.20]:23942)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hfIcH-0005G1-Bi
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:38:15 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AD010882F5;
- Mon, 24 Jun 2019 06:38:07 +0000 (UTC)
-Received: from xz-x1.redhat.com (ovpn-12-60.pek2.redhat.com [10.72.12.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77765608D0;
- Mon, 24 Jun 2019 06:37:55 +0000 (UTC)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 24 Jun 2019 14:37:33 +0800
-Message-Id: <20190624063733.22079-3-peterx@redhat.com>
-In-Reply-To: <20190624063733.22079-1-peterx@redhat.com>
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hfIn0-00078l-Nd
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:49:19 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2019 23:47:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,411,1557212400"; d="scan'208";a="161533775"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by fmsmga008.fm.intel.com with ESMTP; 23 Jun 2019 23:47:16 -0700
+Date: Mon, 24 Jun 2019 02:41:22 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Message-ID: <20190624064122.GB27894@joy-OptiPlex-7040>
 References: <20190624063733.22079-1-peterx@redhat.com>
+ <20190624063733.22079-3-peterx@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Mon, 24 Jun 2019 06:38:07 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] intel_iommu: Fix unexpected unmaps during
- global unmap
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190624063733.22079-3-peterx@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.20
+Subject: Re: [Qemu-devel] [PATCH 2/2] intel_iommu: Fix unexpected unmaps
+ during global unmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,144 +59,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Zhao <yan.y.zhao@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, peterx@redhat.com,
- Auger Eric <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Auger Eric <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+On Mon, Jun 24, 2019 at 02:37:33PM +0800, Peter Xu wrote:
+> From: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> This is an replacement work of Yan Zhao's patch:
+> 
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg625340.html
+> 
+> vtd_address_space_unmap() will do proper page mask alignment to make
+> sure each IOTLB message will have correct masks for notification
+> messages (2^N-1), but sometimes it can be expanded to even supercede
+> the registered range.  That could lead to unexpected UNMAP of already
+> mapped regions in some other notifiers.
+> 
+> Instead of doing mindless expension of the start address and address
+> mask, we split the range into smaller ones and guarantee that each
+> small range will have correct masks (2^N-1) and at the same time we
+> should also try our best to generate as less IOTLB messages as
+> possible.
+> 
+> Reported-by: Yan Zhao <yan.y.zhao@intel.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> [peterx: fixup mask generation algos and other touchups, introduce
+>  vtd_get_next_mask(), write commit message]
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  hw/i386/intel_iommu.c | 70 +++++++++++++++++++++++++++----------------
+>  1 file changed, 44 insertions(+), 26 deletions(-)
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 719ce19ab3..39cedf73b8 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3363,11 +3363,31 @@ VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
+>      return vtd_dev_as;
+>  }
+>  
+> +static uint64_t vtd_get_next_mask(uint64_t start, uint64_t size, int gaw)
+> +{
+> +    /* Tries to find smallest mask from start first */
+> +    uint64_t rmask = start & -start, max_mask = 1ULL << gaw;
+> +
+> +    assert(size && gaw > 0 && gaw < 64);
+> +
+> +    /* Zero start, or too big */
+> +    if (!rmask || rmask > max_mask) {
+> +        rmask = max_mask;
+> +    }
+> +
+> +    /* If the start mask worked, then use it */
+> +    if (rmask <= size) {
+> +        return rmask;
+> +    }
+> +
+> +    /* Find the largest page mask from size */
+> +    return 1ULL << (63 - clz64(size));
+> +}
+> +
+>  /* Unmap the whole range in the notifier's scope. */
+>  static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+>  {
+> -    IOMMUTLBEntry entry;
+> -    hwaddr size;
+> +    hwaddr size, remain;
+>      hwaddr start = n->start;
+>      hwaddr end = n->end;
+>      IntelIOMMUState *s = as->iommu_state;
+> @@ -3388,39 +3408,37 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+>      }
+>  
+>      assert(start <= end);
+> -    size = end - start;
+> +    size = remain = end - start + 1;
+>  
+> -    if (ctpop64(size) != 1) {
+> -        /*
+> -         * This size cannot format a correct mask. Let's enlarge it to
+> -         * suite the minimum available mask.
+> -         */
+> -        int n = 64 - clz64(size);
+> -        if (n > s->aw_bits) {
+> -            /* should not happen, but in case it happens, limit it */
+> -            n = s->aw_bits;
+> -        }
+> -        size = 1ULL << n;
+> +    while (remain > 0) {
+hi 
+I think here remain should still be "remain >= VTD_PAGE_SIZE"
+because we cannot unmap entry less than PAGE_SIZE.
 
-This is an replacement work of Yan Zhao's patch:
+> +        IOMMUTLBEntry entry;
+> +        uint64_t mask = vtd_get_next_mask(start, remain, s->aw_bits);
+> +
+> +        assert(mask);
+> +
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg625340.html
+> +        entry.iova = start;
+> +        entry.addr_mask = mask - 1;
+> +        entry.target_as = &address_space_memory;
+> +        entry.perm = IOMMU_NONE;
+> +        /* This field is meaningless for unmap */
+> +        entry.translated_addr = 0;
+> +
+> +        memory_region_notify_one(n, &entry);
+> +
+> +        start += mask;
+> +        remain -= mask;
+>      }
+Add assert(remain) here?
 
-vtd_address_space_unmap() will do proper page mask alignment to make
-sure each IOTLB message will have correct masks for notification
-messages (2^N-1), but sometimes it can be expanded to even supercede
-the registered range.  That could lead to unexpected UNMAP of already
-mapped regions in some other notifiers.
-
-Instead of doing mindless expension of the start address and address
-mask, we split the range into smaller ones and guarantee that each
-small range will have correct masks (2^N-1) and at the same time we
-should also try our best to generate as less IOTLB messages as
-possible.
-
-Reported-by: Yan Zhao <yan.y.zhao@intel.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-[peterx: fixup mask generation algos and other touchups, introduce
- vtd_get_next_mask(), write commit message]
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- hw/i386/intel_iommu.c | 70 +++++++++++++++++++++++++++----------------
- 1 file changed, 44 insertions(+), 26 deletions(-)
-
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 719ce19ab3..39cedf73b8 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -3363,11 +3363,31 @@ VTDAddressSpace *vtd_find_add_as(IntelIOMMUState =
-*s, PCIBus *bus, int devfn)
-     return vtd_dev_as;
- }
-=20
-+static uint64_t vtd_get_next_mask(uint64_t start, uint64_t size, int gaw=
-)
-+{
-+    /* Tries to find smallest mask from start first */
-+    uint64_t rmask =3D start & -start, max_mask =3D 1ULL << gaw;
-+
-+    assert(size && gaw > 0 && gaw < 64);
-+
-+    /* Zero start, or too big */
-+    if (!rmask || rmask > max_mask) {
-+        rmask =3D max_mask;
-+    }
-+
-+    /* If the start mask worked, then use it */
-+    if (rmask <=3D size) {
-+        return rmask;
-+    }
-+
-+    /* Find the largest page mask from size */
-+    return 1ULL << (63 - clz64(size));
-+}
-+
- /* Unmap the whole range in the notifier's scope. */
- static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *=
-n)
- {
--    IOMMUTLBEntry entry;
--    hwaddr size;
-+    hwaddr size, remain;
-     hwaddr start =3D n->start;
-     hwaddr end =3D n->end;
-     IntelIOMMUState *s =3D as->iommu_state;
-@@ -3388,39 +3408,37 @@ static void vtd_address_space_unmap(VTDAddressSpa=
-ce *as, IOMMUNotifier *n)
-     }
-=20
-     assert(start <=3D end);
--    size =3D end - start;
-+    size =3D remain =3D end - start + 1;
-=20
--    if (ctpop64(size) !=3D 1) {
--        /*
--         * This size cannot format a correct mask. Let's enlarge it to
--         * suite the minimum available mask.
--         */
--        int n =3D 64 - clz64(size);
--        if (n > s->aw_bits) {
--            /* should not happen, but in case it happens, limit it */
--            n =3D s->aw_bits;
--        }
--        size =3D 1ULL << n;
-+    while (remain > 0) {
-+        IOMMUTLBEntry entry;
-+        uint64_t mask =3D vtd_get_next_mask(start, remain, s->aw_bits);
-+
-+        assert(mask);
-+
-+        entry.iova =3D start;
-+        entry.addr_mask =3D mask - 1;
-+        entry.target_as =3D &address_space_memory;
-+        entry.perm =3D IOMMU_NONE;
-+        /* This field is meaningless for unmap */
-+        entry.translated_addr =3D 0;
-+
-+        memory_region_notify_one(n, &entry);
-+
-+        start +=3D mask;
-+        remain -=3D mask;
-     }
-=20
--    entry.target_as =3D &address_space_memory;
--    /* Adjust iova for the size */
--    entry.iova =3D n->start & ~(size - 1);
--    /* This field is meaningless for unmap */
--    entry.translated_addr =3D 0;
--    entry.perm =3D IOMMU_NONE;
--    entry.addr_mask =3D size - 1;
-+    assert(!remain);
-=20
-     trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
-                              VTD_PCI_SLOT(as->devfn),
-                              VTD_PCI_FUNC(as->devfn),
--                             entry.iova, size);
-+                             n->start, size);
-=20
--    map.iova =3D entry.iova;
--    map.size =3D entry.addr_mask;
-+    map.iova =3D n->start;
-+    map.size =3D size;
-     iova_tree_remove(as->iova_tree, &map);
--
--    memory_region_notify_one(n, &entry);
- }
-=20
- static void vtd_address_space_unmap_all(IntelIOMMUState *s)
---=20
-2.21.0
-
+>  
+> -    entry.target_as = &address_space_memory;
+> -    /* Adjust iova for the size */
+> -    entry.iova = n->start & ~(size - 1);
+> -    /* This field is meaningless for unmap */
+> -    entry.translated_addr = 0;
+> -    entry.perm = IOMMU_NONE;
+> -    entry.addr_mask = size - 1;
+> +    assert(!remain);
+>  
+>      trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
+>                               VTD_PCI_SLOT(as->devfn),
+>                               VTD_PCI_FUNC(as->devfn),
+> -                             entry.iova, size);
+> +                             n->start, size);
+>  
+> -    map.iova = entry.iova;
+> -    map.size = entry.addr_mask;
+> +    map.iova = n->start;
+> +    map.size = size;
+>      iova_tree_remove(as->iova_tree, &map);
+> -
+> -    memory_region_notify_one(n, &entry);
+>  }
+>  
+>  static void vtd_address_space_unmap_all(IntelIOMMUState *s)
+> -- 
+> 2.21.0
+> 
 
