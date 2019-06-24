@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7DE4504CB
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 10:46:30 +0200 (CEST)
-Received: from localhost ([::1]:48852 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA845051A
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:05:09 +0200 (CEST)
+Received: from localhost ([::1]:48916 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfKcP-0000jW-Gr
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 04:46:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44411)
+	id 1hfKuS-00065e-9w
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:05:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48534)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hfKZg-0000Fy-Dd
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 04:43:41 -0400
+ (envelope-from <armbru@redhat.com>) id 1hfKrR-0003hq-4K
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:02:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hfKZe-0006fC-Gj
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 04:43:39 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43434)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hfKZd-0006AK-PA
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 04:43:38 -0400
-Received: by mail-wr1-f66.google.com with SMTP id p13so12903908wru.10
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 01:43:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Pxvu1mJoqFjEaFccbXq19G8BApOz4ylS8kbf4r105Js=;
- b=Q1Mlt0dPHnd1o1i/JaRSSX2MG896Usb5VVlnNSUnlBdMZTpWSKd2usXhT3Pb3A5/IC
- QhOUriRygUSuV5onslDq2oNThBySZ6JIgZubwMQpR/+E30d46/sjivX5NsfDnOm2oQX9
- 3x6jP2BK/LjTEUeRrh95g7yxDVrwirBzAqYBS+U4YLd/45akDd2mzpBhLrRlU+yHZ7yU
- TkLGAs71OQH/3OHKY5aE7gF9g2R8HgKOeS0o5caozQI/g7rynFQxu3szVmsF3XXIHbHt
- h9WimN7+0FVU6XYaOgzXfpQi7slPVGWn7xkEMVdmp+3A0yZ2V3NpmWO6vqx+vdjbMi++
- dtww==
-X-Gm-Message-State: APjAAAUdzpinQe36W68yDuZxpyXD9n88wlhFT4/JRkAerooq4VVHL+RZ
- u5+Uu48/6RiPxTFRsaU4wPnUyg==
-X-Google-Smtp-Source: APXvYqzaIdCAnSJzGqnqOqi8mMUnz/5szdZGcX6Qv/On/P49QDuEbEtpX6QogpYAzyNciJhw0haedw==
-X-Received: by 2002:a5d:6b90:: with SMTP id n16mr66173623wrx.206.1561365802991; 
- Mon, 24 Jun 2019 01:43:22 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:7822:aa18:a9d8:39ab?
- ([2001:b07:6468:f312:7822:aa18:a9d8:39ab])
- by smtp.gmail.com with ESMTPSA id s7sm18661920wmc.2.2019.06.24.01.43.22
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 24 Jun 2019 01:43:22 -0700 (PDT)
-To: Peter Xu <peterx@redhat.com>, Yan Zhao <yan.y.zhao@intel.com>
-References: <20190624063733.22079-1-peterx@redhat.com>
- <20190624063733.22079-3-peterx@redhat.com>
- <20190624064122.GB27894@joy-OptiPlex-7040> <20190624065750.GE6279@xz-x1>
- <20190624070450.GC27894@joy-OptiPlex-7040> <20190624080649.GG6279@xz-x1>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a0a6a698-d671-9b4c-badf-75bc258242ff@redhat.com>
-Date: Mon, 24 Jun 2019 10:43:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ (envelope-from <armbru@redhat.com>) id 1hfKrJ-0000fK-MU
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:01:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51868)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>)
+ id 1hfKrJ-0007yQ-AH; Mon, 24 Jun 2019 05:01:53 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6B2EC5D619;
+ Mon, 24 Jun 2019 09:01:28 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-169.ams2.redhat.com
+ [10.36.117.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 328231001B04;
+ Mon, 24 Jun 2019 09:01:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9ABD511386A3; Mon, 24 Jun 2019 10:57:24 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+References: <20190501053522.10967-1-sjitindarsingh@gmail.com>
+ <1561078267.4771.6.camel@gmail.com>
+Date: Mon, 24 Jun 2019 10:57:24 +0200
+In-Reply-To: <1561078267.4771.6.camel@gmail.com> (Suraj Jitindar Singh's
+ message of "Fri, 21 Jun 2019 10:51:07 +1000")
+Message-ID: <87y31rtl6z.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20190624080649.GG6279@xz-x1>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Mon, 24 Jun 2019 09:01:34 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH 2/2] intel_iommu: Fix unexpected unmaps
- during global unmap
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/2] monitor: Add dump-stack command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,49 +60,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Auger Eric <eric.auger@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/19 10:06, Peter Xu wrote:
-> Well, if with such an error we'd better fix it right away in this
-> patch... :)
-> 
-> Let me wait for some more comments, I'll touch that up too if I need a
-> repost.
+Suraj Jitindar Singh <sjitindarsingh@gmail.com> writes:
 
-Looks good to me, except for one minor issue in this patch.  But do not
-attribute this one to me, it's basically all code from you.
+> On Wed, 2019-05-01 at 15:35 +1000, Suraj Jitindar Singh wrote:
+>> Add a monitor command "dump-stack" to be used to dump the stack for
+>> the
+>> current cpu.
+>
+> To summarise the discussion which occured on this patch,
+>
+> - It looks like it's ok to duplicate this functionality as it provides
+> an easier method to achieve this in the field and also for development.
 
-> +static uint64_t vtd_get_next_mask(uint64_t start, uint64_t size, int gaw)
-> +{
-> +    /* Tries to find smallest mask from start first */
-> +    uint64_t rmask = start & -start, max_mask = 1ULL << gaw;
-> +
-> +    assert(size && gaw > 0 && gaw < 64);
-> +
-> +    /* Zero start, or too big */
-> +    if (!rmask || rmask > max_mask) {
-> +        rmask = max_mask;
-> +    }
+By "duplicate", do you mean "one copy in gdb, one copy in QEMU"?
 
-Perhaps simpler:
+The question "why can't we simply hot-add a gdb server and use gdb?" has
+not been answered as far as I can tell.
 
-    uint64_t max_mask = 1ULL << gaw;
-    uint64_t alignment = start ? start & -start : max_mask;
+If the answer is "we can, but we find duplicating the functionality in
+QEMU more convenient", then the next question is "okay, but is the
+convenience worth the additional code?".  For PPC, the additional code
+is fairly small.  What about more ornery targets like x86_64?  This
+hasn't been answered, either.
 
-    size = MIN(size, max_mask);
-    if (alignment <= size) {
-        /* Increase the alignment of start */
-        return alignment;
-    } else {
-        /* Find the largest page mask from size */
-        return 1ULL << (63 - clz64(size));
-    }
+> - It's ok for this to remain as a separate command and to not place it
+> as a subcommand under info.
 
-Also please rename it to get_naturally_aligned_size.
+I strongly prefer "info FOO" for "pure" information-retrieving
+commands.  But I'm not the maintainer anymore.
 
-Paolo
+> I'll rework based on the comments on 2/2 of the series and resend.
 
