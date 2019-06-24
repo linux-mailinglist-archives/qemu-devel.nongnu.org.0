@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02F5B510B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 17:37:24 +0200 (CEST)
-Received: from localhost ([::1]:52394 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68F0510DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 17:41:54 +0200 (CEST)
+Received: from localhost ([::1]:52414 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfR23-0005T8-6c
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 11:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44930)
+	id 1hfR6P-0000eL-Tn
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 11:41:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <anthony.perard@citrix.com>) id 1hfQy4-0003Ze-Fk
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:18 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1hfQy2-0000ST-Hz
+ (envelope-from <anthony.perard@citrix.com>) id 1hfQy3-0003YN-HI
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:16 -0400
-Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:11946)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <anthony.perard@citrix.com>) id 1hfQy1-0000PO-Lu
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:15 -0400
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:11953)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1hfQy2-0000GL-00
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:14 -0400
+ id 1hfQy1-0000JY-2G
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:13 -0400
 Authentication-Results: esa3.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
  spf=None smtp.pra=anthony.perard@citrix.com;
@@ -51,31 +51,31 @@ Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: K5kUsN90E5VToN2tpmS2SfG7x98Z94kiLli0DChz2RnWbjCXjckGfa9ZpXH+d42unqqhcEvu1k
- GljG4mhfzqFgczTE9LqCIjgBzT2qL+YWJgHX/9A7a/JyNELUdRZWCI9gfSLt/C7cighXPiJyLC
- 4PYm6+npJL4WkNrgwhrjkOEiefvapW+OBq+d+gMvbJid427JxRVyLFGLe9yv5utZdk2np7S2zv
- qVKgP0LFFnOI7YNg7g2HkjP1/1j6S4C0nnGEZ4ZB+NmrZQ2r0XM+Hiw0m1GKT0Igqej9zVM+Fz
- +Y8=
+IronPort-SDR: LBSCboi4CmuHI0ZhLiS8dKEbwlqxbx/9i5oDZDUhy33jUIWCOhvr+6HzNIgMvgFQbSyuSavqlV
+ nHsMJGsfvqJnU8/yJ6hXdIyM3OcAG16J/TgiTRdFfCcMjd99ksJCb8u48+J7n8fdBjTaiOmIwk
+ bXtf/c4aV3nQpOICgwX0AsbNtTLaRxmt0tPayd9SfTLFam16TTkqKIupJvX9YizmYQUNSBdqm3
+ JhFhjiR+25iujCBGX+2XniSWjRq8fqvy0jytsojuzL9Iy+/iHvrR+J4w2a2DTxOXizR8ZAtmJX
+ x10=
 X-SBRS: 2.7
-X-MesageID: 2148105
+X-MesageID: 2148103
 X-Ironport-Server: esa3.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.63,412,1557201600"; 
-   d="scan'208";a="2148105"
+   d="scan'208";a="2148103"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Date: Mon, 24 Jun 2019 16:32:54 +0100
-Message-ID: <20190624153257.20163-6-anthony.perard@citrix.com>
+Date: Mon, 24 Jun 2019 16:32:55 +0100
+Message-ID: <20190624153257.20163-7-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190624153257.20163-1-anthony.perard@citrix.com>
 References: <20190624153257.20163-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.145.155
-Subject: [Qemu-devel] [PULL 5/8] xen: Avoid VLA
+Subject: [Qemu-devel] [PULL 6/8] xen: Drop includes of xen/hvm/params.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,86 +92,47 @@ Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid using a variable length array.
+xen-mapcache.c doesn't needs params.h.
 
-We allocate the `dirty_bitmap' buffer only once when we start tracking
-for dirty bits.
+xen-hvm.c uses defines available in params.h but so is xen_common.h
+which is included before. HVM_PARAM_* flags are only needed to make
+xc_hvm_param_{get,set} calls so including only xenctrl.h, which is
+where the definition the function is, should be enough.
+(xenctrl.h does include params.h)
 
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 Reviewed-by: Paul Durrant <paul.durrant@citrix.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190618112341.513-5-anthony.perard@citrix.com>
+Message-Id: <20190618112341.513-4-anthony.perard@citrix.com>
 ---
- hw/i386/xen/xen-hvm.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ hw/i386/xen/xen-hvm.c      | 1 -
+ hw/i386/xen/xen-mapcache.c | 2 --
+ 2 files changed, 3 deletions(-)
 
 diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 2939122e7c..ed9c37c72d 100644
+index ed9c37c72d..469f1260a4 100644
 --- a/hw/i386/xen/xen-hvm.c
 +++ b/hw/i386/xen/xen-hvm.c
-@@ -120,6 +120,8 @@ typedef struct XenIOState {
-     DeviceListener device_listener;
-     hwaddr free_phys_offset;
-     const XenPhysmap *log_for_dirtybit;
-+    /* Buffer used by xen_sync_dirty_bitmap */
-+    unsigned long *dirty_bitmap;
+@@ -27,7 +27,6 @@
+ #include "exec/address-spaces.h"
  
-     Notifier exit;
-     Notifier suspend;
-@@ -465,6 +467,8 @@ static int xen_remove_from_physmap(XenIOState *state,
-     QLIST_REMOVE(physmap, list);
-     if (state->log_for_dirtybit == physmap) {
-         state->log_for_dirtybit = NULL;
-+        g_free(state->dirty_bitmap);
-+        state->dirty_bitmap = NULL;
-     }
-     g_free(physmap);
+ #include <xen/hvm/ioreq.h>
+-#include <xen/hvm/params.h>
+ #include <xen/hvm/e820.h>
  
-@@ -615,7 +619,7 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
- {
-     hwaddr npages = size >> TARGET_PAGE_BITS;
-     const int width = sizeof(unsigned long) * 8;
--    unsigned long bitmap[DIV_ROUND_UP(npages, width)];
-+    size_t bitmap_size = DIV_ROUND_UP(npages, width);
-     int rc, i, j;
-     const XenPhysmap *physmap = NULL;
+ //#define DEBUG_XEN_HVM
+diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
+index 254759f776..dc73c86c61 100644
+--- a/hw/i386/xen/xen-mapcache.c
++++ b/hw/i386/xen/xen-mapcache.c
+@@ -17,8 +17,6 @@
+ #include "hw/xen/xen-legacy-backend.h"
+ #include "qemu/bitmap.h"
  
-@@ -627,13 +631,14 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
+-#include <xen/hvm/params.h>
+-
+ #include "sysemu/xen-mapcache.h"
+ #include "trace.h"
  
-     if (state->log_for_dirtybit == NULL) {
-         state->log_for_dirtybit = physmap;
-+        state->dirty_bitmap = g_new(unsigned long, bitmap_size);
-     } else if (state->log_for_dirtybit != physmap) {
-         /* Only one range for dirty bitmap can be tracked. */
-         return;
-     }
- 
-     rc = xen_track_dirty_vram(xen_domid, start_addr >> TARGET_PAGE_BITS,
--                              npages, bitmap);
-+                              npages, state->dirty_bitmap);
-     if (rc < 0) {
- #ifndef ENODATA
- #define ENODATA  ENOENT
-@@ -647,8 +652,8 @@ static void xen_sync_dirty_bitmap(XenIOState *state,
-         return;
-     }
- 
--    for (i = 0; i < ARRAY_SIZE(bitmap); i++) {
--        unsigned long map = bitmap[i];
-+    for (i = 0; i < bitmap_size; i++) {
-+        unsigned long map = state->dirty_bitmap[i];
-         while (map != 0) {
-             j = ctzl(map);
-             map &= ~(1ul << j);
-@@ -678,6 +683,8 @@ static void xen_log_stop(MemoryListener *listener, MemoryRegionSection *section,
- 
-     if (old & ~new & (1 << DIRTY_MEMORY_VGA)) {
-         state->log_for_dirtybit = NULL;
-+        g_free(state->dirty_bitmap);
-+        state->dirty_bitmap = NULL;
-         /* Disable dirty bit tracking */
-         xen_track_dirty_vram(xen_domid, 0, 0, NULL);
-     }
 -- 
 Anthony PERARD
 
