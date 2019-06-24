@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0903151A5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 20:19:09 +0200 (CEST)
-Received: from localhost ([::1]:53692 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973CF51A4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 20:09:46 +0200 (CEST)
+Received: from localhost ([::1]:53646 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfTYZ-0002en-IP
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 14:19:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55489)
+	id 1hfTPU-0006Od-0M
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 14:09:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56026)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groeck7@gmail.com>) id 1hfTHr-0003HE-FN
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:01:53 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hfTJp-0004kW-Dr
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:03:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groeck7@gmail.com>) id 1hfTHp-00052f-Ih
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:01:51 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35371)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <groeck7@gmail.com>) id 1hfTHl-0004ql-Q0
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:01:47 -0400
-Received: by mail-pg1-x543.google.com with SMTP id s27so7544439pgl.2
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 11:01:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:user-agent;
- bh=mFheYF+BIWEOVBgxx/dvOxxMQ9l0+ijuNp6PBJXdVXk=;
- b=FTMGNniRLm2dpXfBgOjLUhvPPwdpNz+dWAcdgYDTDxJckM7YmW+q127hqvlLbOOrEV
- w9BxIXlafR8/w0paEO/zRVlOGnf4AQaQa01BtuIVTdS5V2OdqCYbC9umTn0CQLfpVtIl
- Dsf+4ifrCw7lnBO7Yy0P7FjEikM5pKe8vH7ZMKodZ8ZrYDEXtSXSKdB7tQlo6iM8n9DQ
- OwNmzvMxTLr318vvrS0/5rxkQM8WpsLGMHw0MOIZVjvhzyRdGpE0T0tEA3sCNZitHiMl
- Lljs7/tI6K6bz60WGOIZSuNAcRfbsSGhY81u1swFOD5blTEn96YK4y4VKC6bxITIzruz
- ehHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :mime-version:content-disposition:user-agent;
- bh=mFheYF+BIWEOVBgxx/dvOxxMQ9l0+ijuNp6PBJXdVXk=;
- b=WA1LNKUliRyXOd4bxp+lLMOOv4oNrrubP0sjBJRsf3Bs7jSKjywxTcAnIlUiuKXGYC
- HKhlUJSjkH4baGqtK7YsP3lWzwOGUGwuWea1CjQ+5SkMbZZD0LGRMVP1KT/iQWpl3uu2
- 2Swwr01DJjnAx44RBmJeGMyXMMHBqjwFqXaYJfHhAy2PTaLHfXdJ4wwdnl8RoYRWsmdO
- r5msCZuFmoJ8fcOd8VyRMwF8wyHikkZSJtQBbxa/D4Nq8a62wD+GVD8geuxEVzP3AL1X
- hKSUcMTcuOZ8EqZwb5FgHxFwxcqXSzVYGDLrBHDxgLgyur/59Cfg7ghBKD+Iq2R+Jjtw
- YASg==
-X-Gm-Message-State: APjAAAULdTY5wAz5sSVXG1bgXsqqcognZE1Y2xto0a0l86BOvyRg8q7+
- mjVa3L7jRpnR+F2FrBq6X7JO34Fj
-X-Google-Smtp-Source: APXvYqwRPlUx6bPI2XdsTtrhzL4ec/vllJ0tMW8PoTe9p1KY1Obc4bCAZSVlJgHnF1cMXfw2yc0k9g==
-X-Received: by 2002:a63:d66:: with SMTP id 38mr35167370pgn.59.1561399301973;
- Mon, 24 Jun 2019 11:01:41 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id v9sm11942028pfm.34.2019.06.24.11.01.40
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 24 Jun 2019 11:01:40 -0700 (PDT)
-Date: Mon, 24 Jun 2019 11:01:39 -0700
-From: Guenter Roeck <linux@roeck-us.net>
+ (envelope-from <ehabkost@redhat.com>) id 1hfTJm-0008Om-3K
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:03:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48734)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfTJi-0007lL-Sj
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:03:48 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1BD68308FE62;
+ Mon, 24 Jun 2019 18:03:33 +0000 (UTC)
+Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C8565D9C5;
+ Mon, 24 Jun 2019 18:03:27 +0000 (UTC)
+Date: Mon, 24 Jun 2019 15:03:26 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190624180139.GA17161@roeck-us.net>
+Message-ID: <20190624180326.GJ1862@habkost.net>
+References: <20190608233447.27970-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] qemu-system-x86_64: hw/usb/core.c:720: usb_ep_get:
- Assertion `dev != NULL' failed
+In-Reply-To: <20190608233447.27970-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Mon, 24 Jun 2019 18:03:33 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 0/1] Export machine type deprecation
+ info through QMP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,44 +56,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Any objections to this?  I'm planning to merge it this week.
 
-I have seen the following problem several times recently. This is with qemu-4.0.
+On Sat, Jun 08, 2019 at 08:34:46PM -0300, Eduardo Habkost wrote:
+> Changes v1 -> v2:
+> * I've decided to get rid of the status-message and
+>   suggested-alternative fields, to avoid more bikeshedding.
+> 
+> This series adds machine type deprecation information to the
+> output of the `query-machines` QMP command.  With this, libvirt
+> and management software will be able to show this information to
+> users and/or suggest changes to VM configuration to avoid
+> deprecated machine types.
+> 
+> Eduardo Habkost (1):
+>   qmp: Add deprecation information to query-machines
+> 
+>  qapi/misc.json | 7 ++++++-
+>  vl.c           | 1 +
+>  2 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> -- 
+> 2.18.0.rc1.1.g3f1ff2140
+> 
 
-qemu-system-x86_64: hw/usb/core.c:720: usb_ep_get: Assertion `dev != NULL' failed
-
-Backtrace gives me the following call path.
-
-main_loop()
-  main_loop_wait()
-    glib_pollfds_poll()
-      aio_ctx_dispatch()
-	aio_dispatch()
-	  aio_bh_poll()
-            ehci_work_bh()
-              ehci_advance_async_state()
-                ehci_advance_state()
-                  ehci_execute()
-                    usb_ep_get()
-
-The problem always happens during shutdown, maybe once every 100 boots.
-It seems to be more likely to happen when the system is under heavy load.
-
-...
-umount: devtmpfs busy - remounted read-only
-[   49.018682] EXT4-fs (sda): re-mounted. Opts: (null)
-[   49.028052] sd 6:0:0:0: [sda] Synchronizing SCSI cache
-qemu-system-x86_64: hw/usb/core.c:733: usb_ep_get: Assertion `dev != NULL' failed.
-
-Essentially that means that p->queue->dev is NULL in ehci_execute().
-
-Has anyone else seen this problem ? Any idea what I can do to debug
-this further ?
-
-Thanks,
-Guenter
+-- 
+Eduardo
 
