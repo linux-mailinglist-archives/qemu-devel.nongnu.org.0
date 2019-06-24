@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586E65057F
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:18:03 +0200 (CEST)
-Received: from localhost ([::1]:48996 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E49C050581
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:18:10 +0200 (CEST)
+Received: from localhost ([::1]:48998 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfL6v-00070M-5s
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52346)
+	id 1hfL74-000745-42
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:18:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52789)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hfL37-0004PU-H1
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:14:06 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hfL4m-0005uR-70
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:15:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hfL36-0004ju-99
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:14:05 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54630)
+ (envelope-from <alex.bennee@linaro.org>) id 1hfL4k-0007mk-W9
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:15:48 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46897)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hfL35-0004hI-W5
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:14:04 -0400
-Received: by mail-wm1-x343.google.com with SMTP id g135so11995493wme.4
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 02:14:03 -0700 (PDT)
+ id 1hfL4i-0007Vz-45
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:15:45 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n4so12997895wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 02:15:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:in-reply-to:date
  :message-id:mime-version:content-transfer-encoding;
- bh=fECS+Ho6/MQgPPptn3FSlsPIolFdYt6ldUcm+pMJAzE=;
- b=Xhli4+0LE1PeD2XRHTr+2GvKLlm+S3gzTFDd9Wry1P+Av1pYIq+4/DO9HnF5Zl9rf0
- iDt6jwZ0fGoa44rdeBiIzJ0sr7H75HvmBFPq+8+byZ6LH7EZl8Z21+FMSZACpvwu3oIN
- ONgas3LAaGiQ+YDeohImI+HvGSLlVJ3xhjshaflDxXMjswQv1eiGlVx4Iv2ArSPR+QES
- 0UckI7gSxyFsh6e1n9hE7zFgbsj/5yDYUO8fqYhNFvs09b5kBuTjTtlE6oq21tZcYBxn
- 7TQHt5oPHJ56CLZdOKIKsFLLkfV50jCBPY9syGsE8J83xLfqswnqX6kVlSvRxRwHuxKY
- Qxvg==
+ bh=yPT+p/oPFgsesjCyQq2ViD4VEzs7q1Wyyw2Dq9TRy24=;
+ b=hfiqFgAsFn+nqeRcezBksGjM85+kYxz2QKOqqkdBjJPZXq7Eu28Z5SHbl3xsqAHa7A
+ hZEfBWF7uDQHhYMxZ7vFK1asYFL2N5f9bCtvA7PSazP4W/TW2jqWOufHZ3w/FH1I8hPQ
+ ncvG1ZEmX4o225+9UoLDQmETL2c2RO4tFCjQyDxEcFXEHYkcMbzMjrgTyLBAKqQeNJuN
+ YgHlj+dDYCDxvAflqxqltLjJucSsCn9gS6Q70sA+8xlQ+zWk4azcS8HPPTKoJZ9s2v5W
+ NCyC4+KBQcCb2+82tPZujStiFB0AunUXrKhKBSNtEsU4hXUyO226M4MFfCKyW0CTaI9h
+ QDvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject
  :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=fECS+Ho6/MQgPPptn3FSlsPIolFdYt6ldUcm+pMJAzE=;
- b=hjhyt8+4Zr9qpXiCyWY2qn8ZHb0OJx1NgyL/6La6uH/Af6F+io262kc++vOhJqxT/t
- nCrK2YZQGg8HHxu7g/VKbm/olojdDNOuTg6eXji3OrlK0M6TUWGrL8+tCqyF7Kef5RdT
- euBbBNiqCGk6b/331p0VFefbC21wnabCll92WIrIIIrMdCD0EdxMGowPhAPTsXtDVH+U
- jByz2KMyRdoyXd+N43hmX7dGqaB4vT0ttAWArHgdfwX2fRouKIoP+Vjx+1NhI4GY8Gdv
- +989Clz14p9v1aG+NrADaup+nKrjE87d3zJ4lkU/xGYWZGQNioP7ULoAJ4rKBwpzav8x
- SKxw==
-X-Gm-Message-State: APjAAAUi/0SBIzNy2ShdrJhtBaW+B7rV3OY/xWTyTWlM2kdit+fescp6
- vRouUUEjusdI7VvgFZjcGcNMrQ==
-X-Google-Smtp-Source: APXvYqxIfixMHBvTeJaDoc/fZvC3+Cjx+J1GqZpdFX5d39giasA76uF524FXYyTzfByf+z0gUDKTGw==
-X-Received: by 2002:a7b:c251:: with SMTP id b17mr15535566wmj.143.1561367641861; 
- Mon, 24 Jun 2019 02:14:01 -0700 (PDT)
+ bh=yPT+p/oPFgsesjCyQq2ViD4VEzs7q1Wyyw2Dq9TRy24=;
+ b=oK1z0qIRiiE3d2AYyJ7B3Nm+g+X22CFJbtPtyNgdloaDNnWdTclVrKworwUzl6HSmf
+ VGYBYPnFbhZ8DQ2mrk3KyW+FGU30NVj4vGF2eve1GR/fHrx8LYyl/pEugmCU/iPUN5Gk
+ 8VS5Y4GWdliEnaRbSKIQArguS2OXkXYJ+4ESsbUuw/9KL1b8z3GUg3bdOpcrChOzY6D2
+ fK8wzrmNKSacuMXEAeZpTZa0W4bLkLzgoivRCDgJzK5z8GYP+XThNqyhx9SNWsus5ZRT
+ hRVuXfu1osiNJqjYDe+lqL8g53vPsCnkC/x6jiDqsfxNxNQlwPA/XD9CorfC8qPWfCZ+
+ E7EA==
+X-Gm-Message-State: APjAAAUB/iEEhrRRpajsSdeZ1q7HuXO2DVtwvpGkkQXmLX/7jPx0c9U1
+ IaPhnLJ/SgXuICQHDZNELkRvuQ==
+X-Google-Smtp-Source: APXvYqwnqu7jQCq+ELf9TYNkl8NJQ2+lPGy879F8/wogaH+RarUeIQF2QvRe5fhIk05O6jTogb/zLA==
+X-Received: by 2002:adf:f3c7:: with SMTP id g7mr31412137wrp.133.1561367738652; 
+ Mon, 24 Jun 2019 02:15:38 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id y19sm13875595wmc.21.2019.06.24.02.14.01
+ by smtp.gmail.com with ESMTPSA id j32sm24957260wrj.43.2019.06.24.02.15.38
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 02:14:01 -0700 (PDT)
+ Mon, 24 Jun 2019 02:15:38 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EFFB21FF87;
- Mon, 24 Jun 2019 10:14:00 +0100 (BST)
-References: <C95C3BAC-3DE1-44F3-BB08-715D3121371A@gmail.com>
- <CAFEAcA8mcQJiYkHdzNJT3m+9-vak_CWaxGBQ0TME1tZQQK7f_w@mail.gmail.com>
+ by zen.linaroharston (Postfix) with ESMTP id CEEAD1FF87;
+ Mon, 24 Jun 2019 10:15:37 +0100 (BST)
+References: <20190531064341.29730-1-philmd@redhat.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA8mcQJiYkHdzNJT3m+9-vak_CWaxGBQ0TME1tZQQK7f_w@mail.gmail.com>
-Date: Mon, 24 Jun 2019 10:14:00 +0100
-Message-ID: <87v9wv1h2f.fsf@zen.linaroharston>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+In-reply-to: <20190531064341.29730-1-philmd@redhat.com>
+Date: Mon, 24 Jun 2019 10:15:37 +0100
+Message-ID: <87tvcf1gzq.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [Qemu-discuss] qemu-io-cmds does not compile on
- macOS
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH] Makefile: Rename the 'vm-test' target as
+ 'vm-help'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,63 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-discuss <qemu-discuss@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Juan Rafael =?utf-8?Q?Garc=C3=ADa?= Blanco <juanrgar@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> On Sun, 23 Jun 2019 at 16:22, Juan Rafael Garc=C3=ADa Blanco
-> <juanrgar@gmail.com> wrote:
->> I think the latest changes to qemu-io-cmds.c make it impossible to compi=
-le under macOS. It now uses clock_gettime, which is not available in this O=
-S. I=E2=80=99m using 10.9.5; I think this function is now included in 10.12.
->>
->> I would step up to try to prepare a patch that uses a replacement in cas=
-e it is being compiled in a macOS version that does not include that functi=
-on. But I do not know if you want to support these =E2=80=98old' macOS vers=
-ions=E2=80=A6
+> We already have 'make check-help', use the 'make vm-help' form
+> to display helps about VM testing. Keep the old target to not
+> bother old customs.
 >
-> Hi; thanks for this report. (This kind of bug report is better sent
-> to qemu-devel or to the launchpad bug tracker -- qemu-discuss
-> is mostly user-to-user conversations, and developers tend to
-> be on -devel; I've cc'd -devel on this.)
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Queued to testing/next, thanks.
+
+> ---
+> Based-on: <20190530101603.22254-1-alex.bennee@linaro.org>
+>           "testing/next queue"
+> ---
+>  Makefile                  | 4 ++--
+>  docs/devel/testing.rst    | 4 ++--
+>  tests/vm/Makefile.include | 5 +++--
+>  3 files changed, 7 insertions(+), 6 deletions(-)
 >
-> Our official support policy is that we support building with the
-> two most recent versions of macOS; in practice we might support
-> building with some earlier versions; as of commit 5588840ff77800e839
-> we definitely dropped support for anything earlier than 10.10.
-> So in theory we don't strongly care about anything before 10.13
-> at the moment; but if it's easy to avoid the problem it might be
-> worth doing that.
+> diff --git a/Makefile b/Makefile
+> index f0be624f47..f67739df7c 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -9,7 +9,7 @@ SRC_PATH=3D.
+>  UNCHECKED_GOALS :=3D %clean TAGS cscope ctags dist \
+>      html info pdf txt \
+>      help check-help print-% \
+> -    docker docker-% vm-test vm-build-%
+> +    docker docker-% vm-help vm-test vm-build-%
 >
-> Alex, it looks like the relevant commit was one of yours.
-
-Which commit was that?
-
-> Could you have a look at how easy it would be to support
-> systems without clock_gettime/CLOCK_MONOTONIC ?
-> I notice that other places in QEMU have #ifdeffery for
-> a lack of CLOCK_MONOTONIC, so we should ideally be
-> consistent, and either support systems without it, or else
-> say we require it and remove the remaining legacy ifdefs...
-
-Ahh was this the changes to qemu-iocmds to use proper monotonic clocks
-to avoid /0 that was occuring with gettimeofday?
-
-In the main code we have comments about:
-
-        /* XXX: using gettimeofday leads to problems if the date
-           changes, so it should be avoided. */
-
-Is this the only option for old MacOS?
-
+>  print-%:
+>  	@echo '$*=3D$($*)'
+> @@ -1121,7 +1121,7 @@ endif
+>  	@echo  'Test targets:'
+>  	@echo  '  check           - Run all tests (check-help for details)'
+>  	@echo  '  docker          - Help about targets running tests inside Doc=
+ker containers'
+> -	@echo  '  vm-test         - Help about targets running tests inside VM'
+> +	@echo  '  vm-help         - Help about targets running tests inside VM'
+>  	@echo  ''
+>  	@echo  'Documentation targets:'
+>  	@echo  '  html info pdf txt'
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index da2d0fc964..68aba3926e 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -399,12 +399,12 @@ VM testing
 >
-> thanks
-> -- PMM
+>  This test suite contains scripts that bootstrap various guest images tha=
+t have
+>  necessary packages to build QEMU. The basic usage is documented in ``Mak=
+efile``
+> -help which is displayed with ``make vm-test``.
+> +help which is displayed with ``make vm-help``.
+>
+>  Quickstart
+>  ----------
+>
+> -Run ``make vm-test`` to list available make targets. Invoke a specific m=
+ake
+> +Run ``make vm-help`` to list available make targets. Invoke a specific m=
+ake
+>  command to run build test in an image. For example, ``make vm-build-free=
+bsd``
+>  will build the source tree in the FreeBSD image. The command can be exec=
+uted
+>  from either the source tree or the build dir; if the former, ``./configu=
+re`` is
+> diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+> index 5e37063d32..b7311d7bd9 100644
+> --- a/tests/vm/Makefile.include
+> +++ b/tests/vm/Makefile.include
+> @@ -8,8 +8,9 @@ IMAGE_FILES :=3D $(patsubst %, $(IMAGES_DIR)/%.img, $(IMA=
+GES))
+>
+>  .PRECIOUS: $(IMAGE_FILES)
+>
+> -vm-test:
+> -	@echo "vm-test: Test QEMU in preconfigured virtual machines"
+> +# 'vm-help' target was historically named 'vm-test'
+> +vm-help vm-test:
+> +	@echo "vm-help: Test QEMU in preconfigured virtual machines"
+>  	@echo
+>  	@echo "  vm-build-ubuntu.i386            - Build QEMU in ubuntu i386 VM"
+>  	@echo "  vm-build-freebsd                - Build QEMU in FreeBSD VM"
 
 
 --
