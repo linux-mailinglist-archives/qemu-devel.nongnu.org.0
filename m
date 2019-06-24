@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8AF51DF4
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:09:16 +0200 (CEST)
-Received: from localhost ([::1]:54908 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A659651DFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:12:05 +0200 (CEST)
+Received: from localhost ([::1]:54928 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfX9I-0004mn-5c
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54667)
+	id 1hfXC0-0007kc-Bb
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54693)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfX1L-0007jI-SH
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:01:07 -0400
+ id 1hfX1R-0007jP-DE
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:01:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfX1J-000317-KK
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:01:03 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51412)
+ id 1hfX1L-000340-MZ
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:01:04 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33235)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfX1J-000301-DW
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:01:01 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 207so790029wma.1
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:01:01 -0700 (PDT)
+ id 1hfX1K-00031R-LU
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:01:03 -0400
+Received: by mail-wm1-x342.google.com with SMTP id h19so890721wme.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CqzSg8zo4MBdOpl0X3dMGpLIXRC6uXRJAn0bBo9bK7c=;
- b=lD2uCuKH6chTdQVqVYa/7gU6DU14+ItN7EFSol7TEDN5rO+vqbLXdpHW7BoHg1MTnW
- PCW8KAE7KbTsPebxBMFkHADiwGEKFztXyVMtCWG0LBJARhUNT+nP9V8zKJKJwpFvYvjf
- g+DNj89z6BN5kja8kZjIdag2kHgeAYVf4NY4/NlLuuDxdIhwADMnPnhw8WyY6Nm2oHU8
- f4fxB2KyCQyE0tABv1IzGZxQnwQbWd0+AVu3ZJ+4TiACFbkDypXcQD/JEy2L/wSocEJk
- GBzk+ACCgKcUzKx43a2LOfxxbW3WUpiCtza45ihjLL6wVL6Z370jLc3psEyQPIk0qK43
- pSUw==
+ bh=aBqxrS2+6+Ym/rs4g7maJmz+R7nY9F00WICb45xxr6c=;
+ b=gZdgE9M+DoSv6ZkiBFY/h2BQqJjX3O6wwj/K/4+PD1YgV9fQg0TPtIBHyy9vOES5d5
+ MIA7noZWBfnLZsLoiLRIiF8JvBcIh5pw6AOjrhPyFZT6heUUl39W1+BZoeqjRYBYYZ6m
+ bwCG6c0YDDK4U0Ne5dbt3FL6UCN0xok1PbsKl1Bx7Lh/GeutAmNUVNSE0HWoolWEOUtQ
+ S9Swpxdn1YsCc5SnvMAP1nlzKf0S9BswMtaT3dq7fear/AGiU3yQL+MDqlpxZbqDGT3H
+ JopRQuhIJXVBXN9kCXbdOtV9CSzZW/Ue2nzcjUVUmW+I1FEL/0bBvM3obq2r84DoEshp
+ SPTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CqzSg8zo4MBdOpl0X3dMGpLIXRC6uXRJAn0bBo9bK7c=;
- b=gwaNA/2ai+Jtt+hB3cs2oj9iC1xeYB07H5KjNZSdZOj8RLpJYyx13A104IJFX5ih83
- L4p7LjjBSW5fnjBU33nTsQC4P7bG1GYRntn+UnvV9IKwfqIbv8RvO2RShyEl86pw6bW9
- jH1rulnugOofDbGdKcGeImwwe5dkHR1TfJES2XCcMCdpJWBDKXMQPrBGt4lMCLCKUDly
- cnpBojcxTEmBxWnwfFH5Seis3ZmEUWZPenWb7UCixCCgsgxOSyL1x58JZ7qFDyBjt6VC
- wkUIEsDN/9ssfrDqsWgHaCXYYiQ3+sOpNecf+tZ9D0fjgddNHZFkASfgyRhxPZsgIQNm
- inOw==
-X-Gm-Message-State: APjAAAUAzqrqonFk2F5p0QjGN5niC1cMUmhyfz0rmmo7BbPCY4OHieq0
- wCLnslcN9lnZ5WlqQdUa4d9AIaPC
-X-Google-Smtp-Source: APXvYqwuMeLCbGnHCLv7mdvBTdf2xDLPmRx3jG1weTHJx1B1pyh5zL6VLj+uC6drsZpAB/zldQ1GZA==
-X-Received: by 2002:a7b:cd84:: with SMTP id y4mr17403808wmj.79.1561413660101; 
- Mon, 24 Jun 2019 15:01:00 -0700 (PDT)
+ bh=aBqxrS2+6+Ym/rs4g7maJmz+R7nY9F00WICb45xxr6c=;
+ b=iA2ozcSBzSJDrsgsUotDla7PrP/fUDgJwK5579D8gPv6jqDxgIMGw8XIGOLqxHfKpR
+ r5xHv5n5LuAuWUl11PdNiTn3jGjsW2zY0VULV82dLOt9kBl5MGWHp83pTmKFk82deuIo
+ xOkLcgJ2bgArYsR8cVuIfbMakRVDQQa8FIMtHefoP62gSGC7UoVSBxrwEY0dKP95h3eL
+ g6q6spwIe4v6FY/3hFnc6IYbUjVh2Cdg2VF1DLqf8VWLi92D5m5yfSqu6xFtrVkM6jpl
+ bc6XHECaJJrCLDZ5OaSvTC+f3S0jJXBGivxXDTrqftDnOHT5bSHjry0sCT5CWvtrQcs0
+ kDIA==
+X-Gm-Message-State: APjAAAV8/wBXFrLQ+3CkbbvYyD1In0RlM7OAqPZFFdrHh6WqY3nMhmjk
+ heScJbDYtKlz1PcqCfBBHX5cq4Lg
+X-Google-Smtp-Source: APXvYqyDwTsmwnY1ELVjqSytaPdzaZ7RQCFi0jiFSwQJ18TbakYtNig3lT8TwW852wUqj0t0YiXQwA==
+X-Received: by 2002:a1c:5f56:: with SMTP id t83mr16233899wmb.37.1561413661353; 
+ Mon, 24 Jun 2019 15:01:01 -0700 (PDT)
 Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id z126sm1118612wmb.32.2019.06.24.15.00.58
+ by smtp.gmail.com with ESMTPSA id z126sm1118612wmb.32.2019.06.24.15.01.00
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 15:00:59 -0700 (PDT)
+ Mon, 24 Jun 2019 15:01:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 00:00:48 +0200
-Message-Id: <20190624220056.25861-2-f4bug@amsat.org>
+Date: Tue, 25 Jun 2019 00:00:49 +0200
+Message-Id: <20190624220056.25861-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190624220056.25861-1-f4bug@amsat.org>
 References: <20190624220056.25861-1-f4bug@amsat.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH 1/9] hw/misc: Move the 'empty_slot' device to
- hw/misc/
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [RFC PATCH 2/9] MAINTAINERS: Add the 'empty_slot'
+ device with the 'unimp' one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,137 +92,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The EmptySlot and UnimplementedDevice are very similar, the only
+difference is how they log guest accesses.
+Maintain them altogether.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/empty_slot.h        |  7 -------
- include/hw/misc/empty_slot.h   | 32 ++++++++++++++++++++++++++++++++
- hw/mips/mips_malta.c           |  2 +-
- hw/{core => misc}/empty_slot.c |  2 +-
- hw/sparc/sun4m.c               |  2 +-
- hw/core/Makefile.objs          |  1 -
- hw/misc/Makefile.objs          |  1 +
- 7 files changed, 36 insertions(+), 11 deletions(-)
- delete mode 100644 include/hw/empty_slot.h
- create mode 100644 include/hw/misc/empty_slot.h
- rename hw/{core => misc}/empty_slot.c (98%)
+Peter, are you OK with that? Do you prefer 2 distinct sections?
 
-diff --git a/include/hw/empty_slot.h b/include/hw/empty_slot.h
-deleted file mode 100644
-index 123a9f8989..0000000000
---- a/include/hw/empty_slot.h
-+++ /dev/null
-@@ -1,7 +0,0 @@
--#ifndef HW_EMPTY_SLOT_H
--#define HW_EMPTY_SLOT_H
--
--/* empty_slot.c */
--void empty_slot_init(hwaddr addr, uint64_t slot_size);
--
--#endif
-diff --git a/include/hw/misc/empty_slot.h b/include/hw/misc/empty_slot.h
-new file mode 100644
-index 0000000000..46483f24c3
---- /dev/null
-+++ b/include/hw/misc/empty_slot.h
-@@ -0,0 +1,32 @@
-+/*
-+ * QEMU Empty Slot
-+ *
-+ * The empty_slot device emulates known to a bus but not connected devices.
-+ *
-+ * Copyright (c) 2010 Artyom Tarasenko
-+ *
-+ * This code is licensed under the GNU GPL v2 or (at your option) any later
-+ * version.
-+ */
-+
-+#ifndef HW_EMPTY_SLOT_H
-+#define HW_EMPTY_SLOT_H
-+
-+/**
-+ * empty_slot_init: create and map a RAZ/WI device
-+ * @base: base address of the device's MMIO region
-+ * @size: size of the device's MMIO region
-+ *
-+ * This utility function creates and maps an instance of empty slot,
-+ * which is a dummy device which simply read as zero, and ignore writes.
-+ * An empty slot sit on a bus, and no bus errors are generated when it is
-+ * accessed.
-+ * Guest accesses can be traced, using the '-trace empty_slot\*' command
-+ * line argument.
-+ * The device is mapped at priority -10000, which means that you can
-+ * use it to cover a large region and then map other devices on top of it
-+ * if necessary.
-+ */
-+void empty_slot_init(hwaddr addr, uint64_t slot_size);
-+
-+#endif
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 37ec89b07e..7008be2e5b 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -53,7 +53,7 @@
- #include "sysemu/qtest.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
--#include "hw/empty_slot.h"
-+#include "hw/misc/empty_slot.h"
- #include "sysemu/kvm.h"
- #include "hw/semihosting/semihost.h"
- #include "hw/mips/cps.h"
-diff --git a/hw/core/empty_slot.c b/hw/misc/empty_slot.c
-similarity index 98%
-rename from hw/core/empty_slot.c
-rename to hw/misc/empty_slot.c
-index c694532046..0adf7a26dc 100644
---- a/hw/core/empty_slot.c
-+++ b/hw/misc/empty_slot.c
-@@ -13,7 +13,7 @@
- #include "hw/hw.h"
- #include "hw/sysbus.h"
- #include "qemu/module.h"
--#include "hw/empty_slot.h"
-+#include "hw/misc/empty_slot.h"
+ MAINTAINERS | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cad58b9487..abef4a1cfc 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1643,11 +1643,13 @@ F: docs/specs/vmgenid.txt
+ F: tests/vmgenid-test.c
+ F: stubs/vmgenid.c
  
- //#define DEBUG_EMPTY_SLOT
+-Unimplemented device
++Unimplemented device, empty slot device
+ M: Peter Maydell <peter.maydell@linaro.org>
+ R: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ S: Maintained
++F: include/hw/misc/empty_slot.h
+ F: include/hw/misc/unimp.h
++F: hw/misc/empty_slot.c
+ F: hw/misc/unimp.c
  
-diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-index 7e4f61fc3e..cc85598d5b 100644
---- a/hw/sparc/sun4m.c
-+++ b/hw/sparc/sun4m.c
-@@ -41,7 +41,7 @@
- #include "hw/nvram/chrp_nvram.h"
- #include "hw/nvram/fw_cfg.h"
- #include "hw/char/escc.h"
--#include "hw/empty_slot.h"
-+#include "hw/misc/empty_slot.h"
- #include "hw/loader.h"
- #include "elf.h"
- #include "trace.h"
-diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-index a799c83815..5122a28a3b 100644
---- a/hw/core/Makefile.objs
-+++ b/hw/core/Makefile.objs
-@@ -8,7 +8,6 @@ common-obj-y += irq.o
- common-obj-y += hotplug.o
- common-obj-$(CONFIG_SOFTMMU) += nmi.o
- 
--common-obj-$(CONFIG_EMPTY_SLOT) += empty_slot.o
- common-obj-$(CONFIG_XILINX_AXI) += stream.o
- common-obj-$(CONFIG_PTIMER) += ptimer.o
- common-obj-$(CONFIG_SOFTMMU) += sysbus.o
-diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-index 77b9df9796..8ed900f9f5 100644
---- a/hw/misc/Makefile.objs
-+++ b/hw/misc/Makefile.objs
-@@ -10,6 +10,7 @@ common-obj-$(CONFIG_EDU) += edu.o
- common-obj-$(CONFIG_PCA9552) += pca9552.o
- 
- common-obj-y += unimp.o
-+common-obj-$(CONFIG_EMPTY_SLOT) += empty_slot.o
- common-obj-$(CONFIG_FW_CFG_DMA) += vmcoreinfo.o
- 
- # ARM devices
+ Standard VGA
 -- 
 2.19.1
 
