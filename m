@@ -2,54 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BF150209
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:18:32 +0200 (CEST)
-Received: from localhost ([::1]:48200 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3492050272
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:39:23 +0200 (CEST)
+Received: from localhost ([::1]:48258 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfIJC-000358-Vf
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:18:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39297)
+	id 1hfIdN-0008HJ-KK
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:39:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43481)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peterx@redhat.com>) id 1hfIGK-0001mi-9k
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:15:34 -0400
+ (envelope-from <peterx@redhat.com>) id 1hfIc1-0007Y8-J7
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:37:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peterx@redhat.com>) id 1hfIGI-0002Pi-Fe
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:15:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49432)
+ (envelope-from <peterx@redhat.com>) id 1hfIbz-0004TG-Vh
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:37:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53918)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hfIGI-0002Lj-6G
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:15:30 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hfIbz-0004IY-P2
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:37:55 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B92A1308FC4B;
- Mon, 24 Jun 2019 06:15:26 +0000 (UTC)
-Received: from xz-x1 (ovpn-12-60.pek2.redhat.com [10.72.12.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C59E600C4;
- Mon, 24 Jun 2019 06:15:02 +0000 (UTC)
-Date: Mon, 24 Jun 2019 14:14:59 +0800
+ by mx1.redhat.com (Postfix) with ESMTPS id B3E684E938;
+ Mon, 24 Jun 2019 06:37:47 +0000 (UTC)
+Received: from xz-x1.redhat.com (ovpn-12-60.pek2.redhat.com [10.72.12.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85FA0608D0;
+ Mon, 24 Jun 2019 06:37:36 +0000 (UTC)
 From: Peter Xu <peterx@redhat.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Message-ID: <20190624061459.GD6279@xz-x1>
-References: <1560934185-14152-1-git-send-email-yan.y.zhao@intel.com>
- <39c4c32b-e34a-8d8f-abbc-ab346ec5bed7@redhat.com>
- <20190620040230.GB9073@xz-x1>
- <6829b139-3eab-449e-04d6-07f1e381316d@redhat.com>
- <20190620125955.GB9657@xz-x1> <20190620130443.GC9657@xz-x1>
- <20190624052255.GA27894@joy-OptiPlex-7040>
+To: qemu-devel@nongnu.org
+Date: Mon, 24 Jun 2019 14:37:31 +0800
+Message-Id: <20190624063733.22079-1-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190624052255.GA27894@joy-OptiPlex-7040>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 24 Jun 2019 06:15:26 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Mon, 24 Jun 2019 06:37:47 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] memory: do not do out of bound notification
+Subject: [Qemu-devel] [PATCH 0/2] intel_iommu: Fix unexpected unmaps during
+ global unmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,364 +53,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Auger Eric <eric.auger@redhat.com>
+Cc: Yan Zhao <yan.y.zhao@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, peterx@redhat.com,
+ Auger Eric <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 24, 2019 at 01:22:55AM -0400, Yan Zhao wrote:
-> On Thu, Jun 20, 2019 at 09:04:43PM +0800, Peter Xu wrote:
-> > On Thu, Jun 20, 2019 at 08:59:55PM +0800, Peter Xu wrote:
-> > > On Thu, Jun 20, 2019 at 10:35:29AM +0200, Paolo Bonzini wrote:
-> > > > On 20/06/19 06:02, Peter Xu wrote:
-> > > > > Seems workable, to be explicit - we can even cut it into chunks with
-> > > > > different size to be efficient.
-> > > > 
-> > > > Yes, this is not hard (completely untested):
-> > > > 
-> > > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > > > index 44b1231157..541538bc6c 100644
-> > > > --- a/hw/i386/intel_iommu.c
-> > > > +++ b/hw/i386/intel_iommu.c
-> > > > @@ -3388,39 +3388,34 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
-> > > >      }
-> > > >  
-> > > >      assert(start <= end);
-> > > > -    size = end - start;
-> > > > +    while (end > start) {
-> > > > +        size = end - start;
-> > > > +        /* Only keep the lowest bit of either size or start.  */
-> > > > +        size = MIN(size & -size, start & -start);
-> > > 
-> > > I feel like this can be problematic.  I'm imaging:
-> > > 
-> > > start=0x1000_0000, size=0x1000_1000
-> > > 
-> > > This will get size=0x1000 but actually we can do size=0x1000_0000 as
-> > > the first.
-> > > 
-> > > > +        /* Should not happen, but limit to address width too just in case */
-> > > > +        size = MIN(size, 1ULL << s->aw_bits);
-> > > >  
-> > > > -    if (ctpop64(size) != 1) {
-> > > > -        /*
-> > > > -         * This size cannot format a correct mask. Let's enlarge it to
-> > > > -         * suite the minimum available mask.
-> > > > -         */
-> > > > -        int n = 64 - clz64(size);
-> > > > -        if (n > s->aw_bits) {
-> > > > -            /* should not happen, but in case it happens, limit it */
-> > > > -            n = s->aw_bits;
-> > > > -        }
-> > > > -        size = 1ULL << n;
-> > > > -    }
-> > > > +        assert((start & (size - 1)) == 0);
-> > > >  
-> > > > -    entry.target_as = &address_space_memory;
-> > > > -    /* Adjust iova for the size */
-> > > > -    entry.iova = n->start & ~(size - 1);
-> > > > -    /* This field is meaningless for unmap */
-> > > > -    entry.translated_addr = 0;
-> > > > -    entry.perm = IOMMU_NONE;
-> > > > -    entry.addr_mask = size - 1;
-> > > > +        entry.target_as = &address_space_memory;
-> > > > +        entry.iova = start;
-> > > > +        /* This field is meaningless for unmap */
-> > > > +        entry.translated_addr = 0;
-> > > > +        entry.perm = IOMMU_NONE;
-> > > > +        entry.addr_mask = size - 1;
-> > > 
-> > > (some of the fields can be moved out of loop because they are
-> > >  constants)
-> > > 
-> > > >  
-> > > > -    trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
-> > > > -                             VTD_PCI_SLOT(as->devfn),
-> > > > -                             VTD_PCI_FUNC(as->devfn),
-> > > > -                             entry.iova, size);
-> > > > +        trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
-> > > > +                                 VTD_PCI_SLOT(as->devfn),
-> > > > +                                 VTD_PCI_FUNC(as->devfn),
-> > > > +                                 entry.iova, size);
-> > > 
-> > > Can move this out because this is a trace only so we don't have
-> > > restriction on mask?
-> > > 
-> > > >  
-> > > > -    map.iova = entry.iova;
-> > > > -    map.size = entry.addr_mask;
-> > > > -    iova_tree_remove(as->iova_tree, &map);
-> > > > +        map.iova = entry.iova;
-> > > > +        map.size = entry.addr_mask;
-> > > > +        iova_tree_remove(as->iova_tree, &map);
-> > > 
-> > > Same here?
-> > > 
-> > > >  
-> > > > -    memory_region_notify_one(n, &entry);
-> > > > +        memory_region_notify_one(n, &entry);
-> > > > +        start += size;
-> > > > +    }
-> > > >  }
-> > > >  
-> > > >  static void vtd_address_space_unmap_all(IntelIOMMUState *s)
-> > > > 
-> > > > 
-> > > > Yan,
-> > > > 
-> > > > if something like this works for you, let me know and I will submit it
-> > > > as a proper patch.
-> > > > 
-> > > > Paolo
-> > > 
-> > > Since during review I'm thinking how to generate a correct sequence of
-> > > these masks... here's my try below with above issues fixed... :)
-> > > 
-> > > I've tried compile but not tested.  Yan can test it, or I can do it
-> > > too tomorrow after I find some machines.
-> > > 
-> > > Thanks,
-> > > 
-> > > ------------------------------------------------------------
-> > > diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-> > > index 44b1231157..cfbd225f0a 100644
-> > > --- a/hw/i386/intel_iommu.c
-> > > +++ b/hw/i386/intel_iommu.c
-> > > @@ -3363,11 +3363,32 @@ VTDAddressSpace *vtd_find_add_as(IntelIOMMUState *s, PCIBus *bus, int devfn)
-> > >      return vtd_dev_as;
-> > >  }
-> > > 
-> > > +static uint64_t vtd_get_next_mask(uint64_t start, uint64_t size, int gaw)
-> > > +{
-> > > +    /* Tries to find smallest mask from start first */
-> > > +    uint64_t rmask = start & -start, max_mask = 1ULL << gaw;
-> > > +
-> > > +    assert(size && gaw > 0 && gaw < 64);
-> > > +
-> > > +    /* Zero start, or too big */
-> > > +    if (!rmask || rmask > max_mask) {
-> > > +        rmask = max_mask;
-> > > +    }
-> > > +
-> > > +    /* If the start mask worked, then use it */
-> > > +    if (rmask <= size) {
-> > > +        return rmask;
-> > > +    }
-> > > +
-> > > +    /* Find the largest page mask from size */
-> > > +    return 1ULL << (63 - clz64(size));
-> > > +}
-> > > +
-> > >  /* Unmap the whole range in the notifier's scope. */
-> > >  static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
-> > >  {
-> > >      IOMMUTLBEntry entry;
-> > > -    hwaddr size;
-> > > +    hwaddr size, remain;
-> > >      hwaddr start = n->start;
-> > >      hwaddr end = n->end;
-> > >      IntelIOMMUState *s = as->iommu_state;
-> > > @@ -3388,39 +3409,28 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
-> > >      }
-> > > 
-> > >      assert(start <= end);
-> > > -    size = end - start;
-> > > -
-> > > -    if (ctpop64(size) != 1) {
-> > > -        /*
-> > > -         * This size cannot format a correct mask. Let's enlarge it to
-> > > -         * suite the minimum available mask.
-> > > -         */
-> > > -        int n = 64 - clz64(size);
-> > > -        if (n > s->aw_bits) {
-> > > -            /* should not happen, but in case it happens, limit it */
-> > > -            n = s->aw_bits;
-> > > -        }
-> > > -        size = 1ULL << n;
-> > > -    }
-> > > -
-> > > +    size = remain = end - start;
-> > >      entry.target_as = &address_space_memory;
-> > > -    /* Adjust iova for the size */
-> > > -    entry.iova = n->start & ~(size - 1);
-> > > +    entry.perm = IOMMU_NONE;
-> > >      /* This field is meaningless for unmap */
-> > >      entry.translated_addr = 0;
-> > > -    entry.perm = IOMMU_NONE;
-> > > -    entry.addr_mask = size - 1;
-> > > +
-> > > +    while (remain) {
-> > > +        uint64_t mask = vtd_get_next_mask(start, remain, s->aw_bits);
-> > > +
-> > > +        entry.iova = start;
-> > > +        entry.addr_mask = mask - 1;
-> > > +        memory_region_notify_one(n, &entry);
-> > 
-> > Sorry, I at least missed these lines:
-> > 
-> >            start += mask;
-> >            remain -= mask;
-> > 
-> > > +    }
-> > > 
-> > >      trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
-> > >                               VTD_PCI_SLOT(as->devfn),
-> > >                               VTD_PCI_FUNC(as->devfn),
-> > > -                             entry.iova, size);
-> > > +                             n->start, size);
-> > > 
-> > > -    map.iova = entry.iova;
-> > > -    map.size = entry.addr_mask;
-> > > +    map.iova = n->start;
-> > > +    map.size = size;
-> > >      iova_tree_remove(as->iova_tree, &map);
-> > > -
-> > > -    memory_region_notify_one(n, &entry);
-> > >  }
-> > > 
-> > >  static void vtd_address_space_unmap_all(IntelIOMMUState *s)
-> > > ------------------------------------------------------------
-> > > 
-> > > Regards,
-> > > 
-> > > -- 
-> > > Peter Xu
-> > 
-> > Regards,
-> > 
-> > -- 
-> > Peter Xu
-> 
-> hi Peter and Paolo,
-> I tested with code and it's fine in my side.
-> It's base on your version with some minor modifications, such as size is
-> now  (end - start + 1) now.
-> Thanks
-> Yan
+Yan & Paolo,
 
-Hi, Yan,
+I've re-ordered the patch into two, and I'm making bold to do that
+with your authorships and sign-offs as I see correct.  Please reply if
+any of you have problem with that.
 
-Thanks for testing the patches.  I think below change [1] is not
-related to the problem so I tend to split it out.  For [2] I'll change
-to an assertion if you won't disagree.  I'll reorganize the patches
-and post a formal version with proper authorships soon.
+Yan,
 
-Thanks,
+Please feel free to test this series and offer your tested-by again
+here.  I can't do that for you because I modified your previous patch
+a bit.
 
-> 
-> +static uint64_t vtd_get_next_mask(uint64_t start, uint64_t size, int gaw)
-> +{
-> +    /* Tries to find smallest mask from start first */
-> +    uint64_t rmask = start & -start, max_mask = 1ULL << gaw;
-> +    assert(size && gaw > 0 && gaw < 64);
-> +    /* Zero start, or too big */
-> +    if (!rmask || rmask > max_mask) {
-> +        rmask = max_mask;
-> +    }
-> +    /* If the start mask worked, then use it */
-> +    if (rmask <= size) {
-> +        return rmask;
-> +    }
-> +
-> +    /* Find the largest page mask from size */
-> +    return 1ULL << (63 - clz64(size));
-> +}
-> +
->  /* Unmap the whole range in the notifier's scope. */
->  static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
->  {
->      IOMMUTLBEntry entry;
-> -    hwaddr size;
-> +    hwaddr size, remain;
->      hwaddr start = n->start;
->      hwaddr end = n->end;
->      IntelIOMMUState *s = as->iommu_state;
-> @@ -3380,48 +3398,46 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
->       * VT-d spec), otherwise we need to consider overflow of 64 bits.
->       */
-> 
-> -    if (end > VTD_ADDRESS_SIZE(s->aw_bits)) {
-> +    if (end > VTD_ADDRESS_SIZE(s->aw_bits) - 1) {
->          /*
->           * Don't need to unmap regions that is bigger than the whole
->           * VT-d supported address space size
->           */
-> -        end = VTD_ADDRESS_SIZE(s->aw_bits);
-> +        end = VTD_ADDRESS_SIZE(s->aw_bits) - 1;
+Please review, thanks.
 
-[1]
+Paolo Bonzini (1):
+  intel_iommu: Fix unexpected unmaps during global unmap
 
->      }
-> 
->      assert(start <= end);
-> -    size = end - start;
-> 
-> -    if (ctpop64(size) != 1) {
-> -        /*
-> -         * This size cannot format a correct mask. Let's enlarge it to
-> -         * suite the minimum available mask.
-> -         */
-> -        int n = 64 - clz64(size);
-> -        if (n > s->aw_bits) {
-> -            /* should not happen, but in case it happens, limit it */
-> -            n = s->aw_bits;
-> -        }
-> -        size = 1ULL << n;
-> -    }
-> +    size = remain = end - start + 1;
-> 
->      entry.target_as = &address_space_memory;
-> -    /* Adjust iova for the size */
-> -    entry.iova = n->start & ~(size - 1);
-> +
-> +    entry.perm = IOMMU_NONE;
->      /* This field is meaningless for unmap */
->      entry.translated_addr = 0;
-> -    entry.perm = IOMMU_NONE;
-> -    entry.addr_mask = size - 1;
-> +
-> +    while (remain >= VTD_PAGE_SIZE) {
-> +        uint64_t mask = vtd_get_next_mask(start, remain, s->aw_bits);
-> +
-> +        entry.iova = start;
-> +        entry.addr_mask = mask - 1;
-> +        memory_region_notify_one(n, &entry);
-> +        start += mask;
-> +        remain -= mask;
-> +    }
-> +
-> +    if (remain) {
-> +        warn_report("Unmapping unaligned range %lx-%lx", start, end);
+Yan Zhao (1):
+  intel_iommu: Fix incorrect "end" for vtd_address_space_unmap
 
-[2]
+ hw/i386/intel_iommu.c | 74 +++++++++++++++++++++++++++----------------
+ 1 file changed, 46 insertions(+), 28 deletions(-)
 
-> +    }
-> 
->      trace_vtd_as_unmap_whole(pci_bus_num(as->bus),
->                               VTD_PCI_SLOT(as->devfn),
->                               VTD_PCI_FUNC(as->devfn),
-> -                             entry.iova, size);
-> -
-> -    map.iova = entry.iova;
-> -    map.size = entry.addr_mask;
-> +                             n->start, size);
-> +    map.iova = n->start;
-> +    map.size = size;
->      iova_tree_remove(as->iova_tree, &map);
-> 
-> -    memory_region_notify_one(n, &entry);
->  }
-> 
->  static void vtd_address_space_unmap_all(IntelIOMMUState *s)
-> --
-> 2.7.4
-> 
-> 
-> 
+--=20
+2.21.0
 
-Regards,
-
--- 
-Peter Xu
 
