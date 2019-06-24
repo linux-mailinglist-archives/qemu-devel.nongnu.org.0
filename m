@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C130750D80
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:11:09 +0200 (CEST)
-Received: from localhost ([::1]:51498 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E7CD50D3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:06:50 +0200 (CEST)
+Received: from localhost ([::1]:51460 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfPga-000051-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:11:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43884)
+	id 1hfPcP-0001EB-GO
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:06:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41606)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPP4-00060e-Qw
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:53:04 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hfPGJ-0006jQ-Ti
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:44:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPP2-0001Cv-OV
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:53:02 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44304)
+ (envelope-from <alex.bennee@linaro.org>) id 1hfPGG-0007gw-VC
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:59 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:50525)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hfPP2-0001Ae-HD
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:53:00 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r16so13983376wrl.11
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:52:59 -0700 (PDT)
+ id 1hfPGG-0007WK-L5
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:56 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id c66so12881340wmf.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AuGWXO++XORyc/3VqRL/LyTlB90VYc261lGuzU8sLu8=;
- b=PBe2eunJi1FJ7i0Y3uk6JPnhhjoft5fr/USyTKYtpBJ7arsQ2vUwRr233li5+QaefU
- lIp7RUsyUwkas8qwVixCbZJ/D7SkxihTOWGx24q5EU+2q4Iis+ts6YB6NpuL6CvWyNdr
- hF7iSzXLaDlC3+GpLPzyYYEffBFq/M9JzL6FMWMXDOMcWIK2h5NJkRKWC32+m1+w5p/E
- oyvf/uk0JX2lo2AiWvSNignxdfRiyP9oxOhtsQ4zN5LoxvXvdtTEGGa6KM9KeKiNI4bk
- V68+fl13zcXgbRoG2LPTaIgo/0kXPEuNITLkpswCKX8zj2KQWDy/WpXA9JmUYcYGTzaN
- Gb8w==
+ bh=KxVNBoteG2ZKNWG79/wL8DSFUaTRSU+Jwkvg0mrRqy0=;
+ b=ZJaBFGNnbPwK7O1wxovlElcbI5VeMEZq8hWNjdV3ZYNCu5j3cc9x0BnL7bsNi7b6gq
+ Vfe+aWAbLYKSVPhO6sRGn9u+6RtJu4CJgXg6x5HLspWmKtKhqtOaDKyf/CNOepxGlmOl
+ EssENbXG5zEDXffoz1NEkl2/aFgn4K1fOfcxtzkivlwf8VZx4cufjTqosYKbd/z4rPO+
+ jWC7owKfFpPW8avzRyk2V1wnBr0KLRSaQDuCDSoYL+e8rDe9UpLqaiemYfOQTnv3nrLh
+ YKINfixWGmPclt6YGf8BhdVjfhaot4F8hMoGTMIvVwEwLcTzqaV7VxctzuaX7LeCMKFM
+ 8/6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AuGWXO++XORyc/3VqRL/LyTlB90VYc261lGuzU8sLu8=;
- b=QNVNfV0KxfLeDAdaYK3WD+7o7xEeUUBENzzyWOVJmTNuHqrOK4wxVtqAF/qMXQx1er
- gM2qfttfKIwPBicVwLUwOSQyTX2DqgljFqVZOd3duy6GFeWUhUITLsV4BT2MuUkAZm7e
- sP88XGNG5ApsBwd/oROAGRpDb/ZRT9YkTImfTu6Nuc4LwjecWGBnNPa+cJQ0TFPhyPCk
- nCgMt7hPOmtJ2mvNIxcAzSzIj2ziVip5cznn1NWk2uFI5wMzyElqAk69QIS0CJBrThhQ
- fx8d6N6kml7LuBen7+kP8Xq9FRsTLg98quRqDPbCbDOS5WoJxv6zgixNk6p1W7wrDppq
- PIPQ==
-X-Gm-Message-State: APjAAAV11cIrltQkHmEYG/aSVaYtwKKsXzph1Z+VxEoXWfu4AMS1UnCn
- TUKbdpdwTPsneZUs8lkl+djurg==
-X-Google-Smtp-Source: APXvYqytidLDUCp91smjbqj4P76G8ebSTLjXBUpO2cMC/5wzjf8Cd9hYI1UESEUZueaewBK6IhFtZA==
-X-Received: by 2002:adf:f7c8:: with SMTP id a8mr43492077wrq.246.1561384377841; 
- Mon, 24 Jun 2019 06:52:57 -0700 (PDT)
+ bh=KxVNBoteG2ZKNWG79/wL8DSFUaTRSU+Jwkvg0mrRqy0=;
+ b=srOuXYvmVE/A8z0YnVJ/j2VDShYYDPRfIXZS0v4CVk+ELKQQj+Api6F+F5jjKjYYRV
+ bcWE1e4aGwB/7C0OJlsuIxXIkH0+jrqJVwGH6k3vhRmia3bR1029mj59z2QDiw7+5mJa
+ JVlj7WbxJ8VSv5L6HDk93H6wPa0O2oa+KjtLirS5Il/p8r2D6Jcrrjpdyay53EomxyAb
+ H91FPuE46tkw3Cwq/xj7IQRWI4QGaomhrhIQwsXqcYFkR48bVFQG8IdVwBd1Ok4YCBlb
+ Px1owdXXz6qH9kw3upIP8FJvMSprwDVWvfgjin8cS+uOYbrfanivjtfKMoxtyyjY7W3t
+ qKGQ==
+X-Gm-Message-State: APjAAAUJQiDb5pklotL0aJx8nd2dBHikQDPuMRLZvjNjRovpaN5MDGdE
+ zFHDMozCG0q9pgOrNXVjONLfC0zSEfA=
+X-Google-Smtp-Source: APXvYqz8Qew/loJl4dWPd/44D9wwJDwh8G6KATvE9MuOWO329Px1Rq+QcdpDHagkKYD1YExKyJZ8Fw==
+X-Received: by 2002:a7b:c148:: with SMTP id z8mr10195590wmi.142.1561383829425; 
+ Mon, 24 Jun 2019 06:43:49 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id h84sm10583658wmf.43.2019.06.24.06.52.56
+ by smtp.gmail.com with ESMTPSA id a7sm11151625wrs.94.2019.06.24.06.43.42
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 06:52:56 -0700 (PDT)
+ Mon, 24 Jun 2019 06:43:48 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D95C31FF9F;
+ by zen.linaroharston (Postfix) with ESMTP id ECD8A1FFA3;
  Mon, 24 Jun 2019 14:43:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Mon, 24 Jun 2019 14:43:34 +0100
-Message-Id: <20190624134337.10532-17-alex.bennee@linaro.org>
+Date: Mon, 24 Jun 2019 14:43:35 +0100
+Message-Id: <20190624134337.10532-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190624134337.10532-1-alex.bennee@linaro.org>
 References: <20190624134337.10532-1-alex.bennee@linaro.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: [Qemu-devel] [PULL 16/19] .travis.yml: default the --disable-system
- build to --static
+X-Received-From: 2a00:1450:4864:20::32b
+Subject: [Qemu-devel] [PULL 17/19] .travis.yml: force a brew update for
+ MacOS builds
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,29 +88,27 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's fairly common to build qemu-user binaries with --static linking
-so the binary can be copied around without libraries. Enable --static
-in the default qemu-user build to cover this.
+It looks like the Travis image package databases are out of date
+causing the build to error with:
 
-There are other qemu-user builds that use dynamic linking so they
-should catch any problems there.
+  Error: Your Homebrew is outdated. Please run `brew update`.
+  Error: Kernel.exit
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 diff --git a/.travis.yml b/.travis.yml
-index aeb9b211cd..9750dc905c 100644
+index 9750dc905c..a891ce2485 100644
 --- a/.travis.yml
 +++ b/.travis.yml
-@@ -80,7 +80,7 @@ script:
- matrix:
-   include:
-     - env:
--        - CONFIG="--disable-system"
-+        - CONFIG="--disable-system --static"
+@@ -43,6 +43,7 @@ addons:
+       - glib
+       - pixman
+       - gnu-sed
++    update: true
  
  
-     # we split the system builds as it takes a while to build them all
+ # The channel name "irc.oftc.net#qemu" is encrypted against qemu/qemu
 -- 
 2.20.1
 
