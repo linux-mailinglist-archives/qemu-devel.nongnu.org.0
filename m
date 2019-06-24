@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7F1502D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 09:14:40 +0200 (CEST)
-Received: from localhost ([::1]:48416 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C7E502EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 09:19:13 +0200 (CEST)
+Received: from localhost ([::1]:48446 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfJBY-0001u1-53
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 03:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50449)
+	id 1hfJFu-00050I-M5
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 03:19:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51830)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hfJ6w-0007Za-96
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:09:56 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hfJDD-0003yV-S1
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:16:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hfJ6v-0008Qs-2z
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:09:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33990)
+ (envelope-from <eric.auger@redhat.com>) id 1hfJDC-0006Dl-TJ
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:16:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59634)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hfJ6u-00081M-S1
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:09:53 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1hfJDC-0005wh-MD
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 03:16:22 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 29C404ACDF;
- Mon, 24 Jun 2019 07:09:28 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A4DEA3087944;
+ Mon, 24 Jun 2019 07:16:02 +0000 (UTC)
 Received: from [10.36.116.89] (ovpn-116-89.ams2.redhat.com [10.36.116.89])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A5F860BF7;
- Mon, 24 Jun 2019 07:09:27 +0000 (UTC)
-To: Yan Zhao <yan.y.zhao@intel.com>, pbonzini@redhat.com
-References: <1561354383-21322-1-git-send-email-yan.y.zhao@intel.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EDBED608E4;
+ Mon, 24 Jun 2019 07:15:55 +0000 (UTC)
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+References: <20190624063733.22079-1-peterx@redhat.com>
+ <20190624063733.22079-2-peterx@redhat.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <ff6e9034-5e23-7a29-1377-1892036bfec2@redhat.com>
-Date: Mon, 24 Jun 2019 09:09:24 +0200
+Message-ID: <34f387d7-ddfb-9a25-debc-2fddd6b82db4@redhat.com>
+Date: Mon, 24 Jun 2019 09:15:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <1561354383-21322-1-git-send-email-yan.y.zhao@intel.com>
+In-Reply-To: <20190624063733.22079-2-peterx@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Mon, 24 Jun 2019 07:09:28 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Mon, 24 Jun 2019 07:16:02 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] memory: warning on out of scope
- notification
+Subject: Re: [Qemu-devel] [PATCH 1/2] intel_iommu: Fix incorrect "end" for
+ vtd_address_space_unmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,65 +61,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Yan,
-
-On 6/24/19 7:33 AM, Yan Zhao wrote:
-> if an entry has parts out of scope of notifier's range, print warning
-> message.
+Hi Peter,
+On 6/24/19 8:37 AM, Peter Xu wrote:
+> From: Yan Zhao <yan.y.zhao@intel.com>
 > 
-> Out of scope mapping/unmapping would cause problem, as in below case:
+> IOMMUNotifier is with inclusive ranges, so we should check
+> against (VTD_ADDRESS_SIZE(s->aw_bits) - 1).
 > 
-> 1. initially there are two notifiers with ranges
-> 0-0xfedfffff, 0xfef00000-0xffffffffffffffff,
-> IOVAs from 0x3c000000 - 0x3c1fffff is in shadow page table.
-> 
-> 2. in vfio, memory_region_register_iommu_notifier() is followed by
-> memory_region_iommu_replay(), which will first call address space
-> unmap,
-> and walk and add back all entries in vtd shadow page table. e.g.
-> (1) for notifier 0-0xfedfffff,
->     IOVAs from 0 - 0xffffffff get unmapped,
->     and IOVAs from 0x3c000000 - 0x3c1fffff get mapped
-> (2) for notifier 0xfef00000-0xffffffffffffffff
->     IOVAs from 0 - 0x7fffffffff get unmapped,
->     but IOVAs from 0x3c000000 - 0x3c1fffff cannot get mapped back.
-> 
-> Cc: Auger Eric <eric.auger@redhat.com>
 > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
-> ---
->  memory.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/memory.c b/memory.c
-> index 0a089a7..18927f2 100644
-> --- a/memory.c
-> +++ b/memory.c
-> @@ -1953,6 +1953,16 @@ void memory_region_notify_one(IOMMUNotifier *notifier,
->          request_flags = IOMMU_NOTIFIER_UNMAP;
->      }
-I think introducing a local variable for entry end would be worth now
->  
-> +    if (entry->iova < notifier->start ||
-> +            entry->iova + entry->addr_mask > notifier->end) {
-> +        warn_report("%s IOMMUTLBEntry %lx-%lx outside of "
-> +                "notifier scope %lx-%lx",
-Also I think you should use PRIx64 instead.
+> [peterx: split from another bigger patch]
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 Thanks
 
 Eric
-> +                (request_flags == IOMMU_NOTIFIER_MAP) ?
-> +                "Mapping" : "Unmapping",
-> +                entry->iova, entry->iova + entry->addr_mask,
-> +                notifier->start, notifier->end);
-> +    }
-> +
->      if (notifier->notifier_flags & request_flags) {
->          notifier->notify(notifier, entry);
+> ---
+>  hw/i386/intel_iommu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 44b1231157..719ce19ab3 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3379,12 +3379,12 @@ static void vtd_address_space_unmap(VTDAddressSpace *as, IOMMUNotifier *n)
+>       * VT-d spec), otherwise we need to consider overflow of 64 bits.
+>       */
+>  
+> -    if (end > VTD_ADDRESS_SIZE(s->aw_bits)) {
+> +    if (end > VTD_ADDRESS_SIZE(s->aw_bits) - 1) {
+>          /*
+>           * Don't need to unmap regions that is bigger than the whole
+>           * VT-d supported address space size
+>           */
+> -        end = VTD_ADDRESS_SIZE(s->aw_bits);
+> +        end = VTD_ADDRESS_SIZE(s->aw_bits) - 1;
 >      }
+>  
+>      assert(start <= end);
 > 
 
