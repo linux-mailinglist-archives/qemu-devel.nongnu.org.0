@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259D95020A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:18:40 +0200 (CEST)
-Received: from localhost ([::1]:48204 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DB2501F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:14:09 +0200 (CEST)
+Received: from localhost ([::1]:48178 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfIJL-0003SV-52
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39382)
+	id 1hfIEx-00014k-Td
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38631)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hfIGl-0001uy-6m
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:16:00 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hfIDK-0000M6-CK
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:12:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hfIGj-00036R-7M
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:15:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54310)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hfIGh-0002z2-Bh
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:15:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hfIGd-0003G7-Q0
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:15:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B80292E80C7
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:15:51 +0000 (UTC)
+ (envelope-from <no-reply@patchew.org>) id 1hfIDI-0005WR-Cy
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:12:26 -0400
+Resent-Date: Mon, 24 Jun 2019 02:12:26 -0400
+Resent-Message-Id: <E1hfIDI-0005WR-Cy@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21405)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hfIDI-0005TU-4F
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 02:12:24 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561356732; cv=none; d=zoho.com; s=zohoarc; 
+ b=IwOfpr3WAVukZyrdo6S9fgOGpDkaBGABeQlJ3gmGOcMlTuT3xlyaNnfDtzkV/BvJTBDkOI1z0YegK7HVzmmErRUTOEKrWAiWF6aA8nwgnf8WR6HnESVVEQ+OEHgb/OSS38Dpyqac2Yc3ntsFZpjQgneKf1dSBoUXIkrgsPeunRI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561356732;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=GoSPoB3Wg/P25Bm3WnMzMMr7UEyf9tDaF9VU/T5bgVk=; 
+ b=fSgD3bphDx1TBLsxeWzPgru+HKDGlf2X2xjn4knizOkvntri2tBLk8Z4eAvw/9dgu9zA3aBzcIEqcVd4lLrTPUWjJrGxEQ40VQnkToVKgjU4MTE2jUfdTcAXG3c4zwR7rSsHjYiiAG10Kt4r9D8Z/mAIqS3B38sJwJUC7E2mhsw=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561356730773410.50512660127856;
+ Sun, 23 Jun 2019 23:12:10 -0700 (PDT)
+In-Reply-To: <20190624055442.2973-1-vandersonmr2@gmail.com>
+Message-ID: <156135672991.4070.5354174349753457909@ce79690b2cb9>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Jun 2019 06:06:28 -0000
-From: Alex <1833053@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: crash qemu spice usbredir
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gsanic hijacker-c
-X-Launchpad-Bug-Reporter: Nikolay Kichukov (hijacker-c)
-X-Launchpad-Bug-Modifier: Alex (gsanic)
-References: <156076455835.24347.5065510387911666481.malonedeb@gac.canonical.com>
-Message-Id: <156135638888.18276.13440248414787508100.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18989";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 40a6d0aff33a908fb7944dea56e09ce6f49d1419
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vandersonmr2@gmail.com
+Date: Sun, 23 Jun 2019 23:12:10 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1833053] Re: qemu guest crashes on spice client
- USB redirected device removal
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH v2 0/4] dumping hot TBs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,141 +61,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1833053 <1833053@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-I have the same qemu behaviour. It happens every time I have unplugged phys=
-ical usb device attached to guest from the host system. My device is USB GS=
-M dongle. Some times it disconnects and reconnects again for unknown reason=
-, may be power loss... With version 3.1.0 qemu (gentoo linux) this disconne=
-cts had normal USB device disconnects in guest system. But with version 4.0=
-.0 it gets guest VM to crash.
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyNDA1NTQ0Mi4yOTcz
+LTEtdmFuZGVyc29ubXIyQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2MiAwLzRdIGR1bXBp
+bmcgaG90IFRCcwpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTA2MjQwNTU0NDIuMjk3My0x
+LXZhbmRlcnNvbm1yMkBnbWFpbC5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmlu
+L2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFt
+ZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2Ny
+aXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQg
+PT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3
+IHRhZ10gICAgICAgICAgICAgICBwYXRjaGV3LzIwMTkwNjI0MDU1NDQyLjI5NzMtMS12YW5kZXJz
+b25tcjJAZ21haWwuY29tIC0+IHBhdGNoZXcvMjAxOTA2MjQwNTU0NDIuMjk3My0xLXZhbmRlcnNv
+bm1yMkBnbWFpbC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwoyMzFjMjgwN2Rk
+IGFkZGluZyAtZCBob3RfdGJzOmxpbWl0IGNvbW1hbmQgbGluZSBvcHRpb24KZDA1OTcxNWRlZCBJ
+bnRyb2R1Y2UgZHVtcCBvZiBob3QgVEJzCjI1ZmU0MmNmYWQgQWRkaW5nIGFuIG9wdGlvbmFsIHRi
+IGV4ZWN1dGlvbiBjb3VudGVyLgo5ZDNlOWIyNWUwIGFkZCBhbmQgbGluayBhIHN0YXRpc3RpYyBz
+dHJ1Y3QgdG8gVEJzCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzQgQ2hlY2tpbmcgY29tbWl0IDlk
+M2U5YjI1ZTAzNiAoYWRkIGFuZCBsaW5rIGEgc3RhdGlzdGljIHN0cnVjdCB0byBUQnMpCkVSUk9S
+OiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMyMzogRklMRTogYWNjZWwvdGNnL3RyYW5zbGF0ZS1hbGwu
+YzoxMTIxOgorc3RhdGljIGdpbnQgc3RhdGlzdGljc19jbXAoZ2NvbnN0cG9pbnRlciBwMSwgZ2Nv
+bnN0cG9pbnRlciBwMikgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzI4OiBGSUxFOiBh
+Y2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjExMjY6CisgICAgcmV0dXJuIChhLT5wYyA9PSBiLT5w
+YyAmJiAkCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMyOTogRklM
+RTogYWNjZWwvdGNnL3RyYW5zbGF0ZS1hbGwuYzoxMTI3OgorXkleSSAgIGEtPmNzX2Jhc2UgPT0g
+Yi0+Y3NfYmFzZSAmJiQKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMzMDogRklMRTogYWNj
+ZWwvdGNnL3RyYW5zbGF0ZS1hbGwuYzoxMTI4OgorXkleSSAgIGEtPmZsYWdzID09IGItPmZsYWdz
+ICYmICQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzMwOiBGSUxF
+OiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjExMjg6CiteSV5JICAgYS0+ZmxhZ3MgPT0gYi0+
+ZmxhZ3MgJiYgJAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMzE6
+IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxsLmM6MTEyOToKK15JICAgICAgIGEtPnBhZ2Vf
+YWRkclswXSA9PSBiLT5wYWdlX2FkZHJbMF0gJiYkCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFj
+ZQojMzI6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxsLmM6MTEzMDoKKyAgICBeSSAgIGEt
+PnBhZ2VfYWRkclsxXSA9PSBiLT5wYWdlX2FkZHJbMV0pID8gMCA6IDE7ICQKCkVSUk9SOiBjb2Rl
+IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzMyOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNs
+YXRlLWFsbC5jOjExMzA6CisgICAgXkkgICBhLT5wYWdlX2FkZHJbMV0gPT0gYi0+cGFnZV9hZGRy
+WzFdKSA/IDAgOiAxOyAkCgpFUlJPUjogb3BlbiBicmFjZSAneycgZm9sbG93aW5nIGZ1bmN0aW9u
+IGRlY2xhcmF0aW9ucyBnbyBvbiB0aGUgbmV4dCBsaW5lCiM0MjogRklMRTogYWNjZWwvdGNnL3Ry
+YW5zbGF0ZS1hbGwuYzoxNjAxOgorc3RhdGljIHZvaWQgdGJfaW5zZXJ0X3N0YXRpc3RpY3Nfc3Ry
+dWN0dXJlKFRyYW5zbGF0aW9uQmxvY2sgKnRiKSB7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJh
+Y3RlcnMKIzUwOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjE2MDk6CisgICAgICAg
+R0xpc3QgKmxvb2t1cF9yZXN1bHQgPSBnX2xpc3RfZmluZF9jdXN0b20odGJfY3R4LnRiX3N0YXRp
+c3RpY3MsIG5ld19zdGF0cywgc3RhdGlzdGljc19jbXApOwoKRVJST1I6IGNvZGUgaW5kZW50IHNo
+b3VsZCBuZXZlciB1c2UgdGFicwojNTA6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxsLmM6
+MTYwOToKK15JR0xpc3QgKmxvb2t1cF9yZXN1bHQgPSBnX2xpc3RfZmluZF9jdXN0b20odGJfY3R4
+LnRiX3N0YXRpc3RpY3MsIG5ld19zdGF0cywgc3RhdGlzdGljc19jbXApOyQKCkVSUk9SOiBjb2Rl
+IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzUyOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNs
+YXRlLWFsbC5jOjE2MTE6CiteSWlmIChsb29rdXBfcmVzdWx0KSB7JAoKV0FSTklORzogbGluZSBv
+dmVyIDgwIGNoYXJhY3RlcnMKIzUzOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjE2
+MTI6CisgICAgICAgICAgICAgICAvKiBJZiB0aGVyZSBpcyBhbHJlYWR5IGEgVEJTdGF0aXN0aWMg
+Zm9yIHRoaXMgVEIgZnJvbSBhIHByZXZpb3VzIGZsdXNoCgpFUlJPUjogY29kZSBpbmRlbnQgc2hv
+dWxkIG5ldmVyIHVzZSB0YWJzCiM1MzogRklMRTogYWNjZWwvdGNnL3RyYW5zbGF0ZS1hbGwuYzox
+NjEyOgorXkleSS8qIElmIHRoZXJlIGlzIGFscmVhZHkgYSBUQlN0YXRpc3RpYyBmb3IgdGhpcyBU
+QiBmcm9tIGEgcHJldmlvdXMgZmx1c2gkCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBs
+ZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNTM6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xh
+dGUtYWxsLmM6MTYxMjoKKyAgICAgICAgICAgICAgIC8qIElmIHRoZXJlIGlzIGFscmVhZHkgYSBU
+QlN0YXRpc3RpYyBmb3IgdGhpcyBUQiBmcm9tIGEgcHJldmlvdXMgZmx1c2gKCkVSUk9SOiBjb2Rl
+IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzU0OiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNs
+YXRlLWFsbC5jOjE2MTM6CiteSV5JKiB0aGVuIGp1c3QgbWFrZSB0aGUgbmV3IFRCIHBvaW50IHRv
+IHRoZSBvbGRlciBUQlN0YXRpc3RpYyQKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHNob3VsZCBh
+bGlnbiB0aGUgKiBvbiBlYWNoIGxpbmUKIzU0OiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFs
+bC5jOjE2MTM6CisgICAgICAgICAgICAgICAvKiBJZiB0aGVyZSBpcyBhbHJlYWR5IGEgVEJTdGF0
+aXN0aWMgZm9yIHRoaXMgVEIgZnJvbSBhIHByZXZpb3VzIGZsdXNoCisgICAgICAgICAgICAgICAq
+IHRoZW4ganVzdCBtYWtlIHRoZSBuZXcgVEIgcG9pbnQgdG8gdGhlIG9sZGVyIFRCU3RhdGlzdGlj
+CgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM1NTogRklMRTogYWNj
+ZWwvdGNnL3RyYW5zbGF0ZS1hbGwuYzoxNjE0OgorXkleSSovJAoKRVJST1I6IGNvZGUgaW5kZW50
+IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTY6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxs
+LmM6MTYxNToKK15JXklmcmVlKG5ld19zdGF0cyk7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3Vs
+ZCBuZXZlciB1c2UgdGFicwojNTc6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxsLmM6MTYx
+NjoKKyAgICBeSXRiLT50Yl9zdGF0cyA9IGxvb2t1cF9yZXN1bHQtPmRhdGE7JAoKRVJST1I6IGNv
+ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojNTg6IEZJTEU6IGFjY2VsL3RjZy90cmFu
+c2xhdGUtYWxsLmM6MTYxNzoKK15JfSBlbHNlIHskCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hh
+cmFjdGVycwojNTk6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxsLmM6MTYxODoKKyAgICAg
+ICAgICAgICAgIC8qIElmIG5vdCwgdGhlbiBwb2ludHMgdG8gdGhlIG5ldyB0Yl9zdGF0aXN0aWNz
+IGFuZCBhZGQgaXQgdG8gdGhlIGhhc2ggKi8KCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2
+ZXIgdXNlIHRhYnMKIzU5OiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjE2MTg6Cite
+SV5JLyogSWYgbm90LCB0aGVuIHBvaW50cyB0byB0aGUgbmV3IHRiX3N0YXRpc3RpY3MgYW5kIGFk
+ZCBpdCB0byB0aGUgaGFzaCAqLyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
+IHRhYnMKIzYwOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjE2MTk6CiteSV5JdGIt
+PnRiX3N0YXRzID0gbmV3X3N0YXRzOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIg
+dXNlIHRhYnMKIzYxOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjE2MjA6CisgICAg
+Xkl0Yl9jdHgudGJfc3RhdGlzdGljcyA9IGdfbGlzdF9wcmVwZW5kKHRiX2N0eC50Yl9zdGF0aXN0
+aWNzLCBuZXdfc3RhdHMpOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRh
+YnMKIzYyOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjE2MjE6CiteSX0kCgpFUlJP
+UjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM3MzogRklMRTogYWNjZWwvdGNn
+L3RyYW5zbGF0ZS1hbGwuYzoxNjc1OgorICAgICAgICBeSS8qIGNyZWF0ZSBhbmQgbGluayB0byBp
+dHMgVEIgYSBzdHJ1Y3R1cmUgdG8gc3RvcmUgc3RhdGlzdGljcyAqLyQKCkVSUk9SOiBjb2RlIGlu
+ZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzc0OiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRl
+LWFsbC5jOjE2NzY6CisgICAgICAgIF5JdGJfaW5zZXJ0X3N0YXRpc3RpY3Nfc3RydWN0dXJlKHRi
+KTskCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiM3NTogRklMRTog
+YWNjZWwvdGNnL3RyYW5zbGF0ZS1hbGwuYzoxNjc3OgorXkleSX0kCgpFUlJPUjogdHJhaWxpbmcg
+d2hpdGVzcGFjZQojODg6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjMyNzoKK3R5cGVk
+ZWYgc3RydWN0IFRCU3RhdGlzdGljcyBUQlN0YXRpc3RpY3M7ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJAoKRVJST1I6IGxpbmUgb3ZlciA5MCBj
+aGFyYWN0ZXJzCiM4ODogRklMRTogaW5jbHVkZS9leGVjL2V4ZWMtYWxsLmg6MzI3OgordHlwZWRl
+ZiBzdHJ1Y3QgVEJTdGF0aXN0aWNzIFRCU3RhdGlzdGljczsgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNw
+YWNlCiM5MDogRklMRTogaW5jbHVkZS9leGVjL2V4ZWMtYWxsLmg6MzI5OgorLyogJAoKV0FSTklO
+RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzkxOiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhlYy1h
+bGwuaDozMzA6CisgKiBUaGlzIHN0cnVjdCBzdG9yZXMgc3RhdGlzdGljcyBzdWNoIGFzIGV4ZWN1
+dGlvbiBjb3VudCBvZiB0aGUgVHJhbnNsYXRpb25CbG9ja3MuCgpFUlJPUjogdHJhaWxpbmcgd2hp
+dGVzcGFjZQojOTI6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjMzMToKKyAqIEVhY2gg
+VEIgaGFzIGl0cyBvd24gVEJTdGF0aXN0aWNzLiBUQlN0YXRpc3RpY3MgaXMgc3VwcG9zZSB0byBs
+aXZlIGV2ZW4gYWZ0ZXIgJAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzk1OiBGSUxFOiBp
+bmNsdWRlL2V4ZWMvZXhlYy1hbGwuaDozMzQ6CitzdHJ1Y3QgVEJTdGF0aXN0aWNzIHsgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICQKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojOTU6IEZJTEU6IGlu
+Y2x1ZGUvZXhlYy9leGVjLWFsbC5oOjMzNDoKK3N0cnVjdCBUQlN0YXRpc3RpY3MgeyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojOTY6IEZJTEU6IGluY2x1ZGUv
+ZXhlYy9leGVjLWFsbC5oOjMzNToKKyAgICB0YXJnZXRfdWxvbmcgcGM7ICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgJAoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiM5NjogRklMRTogaW5jbHVkZS9l
+eGVjL2V4ZWMtYWxsLmg6MzM1OgorICAgIHRhcmdldF91bG9uZyBwYzsgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM5NzogRklMRTogaW5jbHVkZS9leGVjL2V4
+ZWMtYWxsLmg6MzM2OgorICAgIHRhcmdldF91bG9uZyBjc19iYXNlOyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAkCgpF
+UlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3RlcnMKIzk3OiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhl
+Yy1hbGwuaDozMzY6CisgICAgdGFyZ2V0X3Vsb25nIGNzX2Jhc2U7ICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAoKRVJS
+T1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzk4OiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhlYy1hbGwu
+aDozMzc6CisgICAgdWludDMyX3QgZmxhZ3M7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICQKCkVSUk9SOiBs
+aW5lIG92ZXIgOTAgY2hhcmFjdGVycwojOTg6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5o
+OjMzNzoKKyAgICB1aW50MzJfdCBmbGFnczsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCgpFUlJPUjogdHJh
+aWxpbmcgd2hpdGVzcGFjZQojOTk6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjMzODoK
+KyAgICB0Yl9wYWdlX2FkZHJfdCBwYWdlX2FkZHJbMl07ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJAoKRVJST1I6IGxpbmUgb3Zl
+ciA5MCBjaGFyYWN0ZXJzCiM5OTogRklMRTogaW5jbHVkZS9leGVjL2V4ZWMtYWxsLmg6MzM4Ogor
+ICAgIHRiX3BhZ2VfYWRkcl90IHBhZ2VfYWRkclsyXTsgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKCkVSUk9SOiB0cmFpbGluZyB3
+aGl0ZXNwYWNlCiMxMDE6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjM0MDoKKyAgICAv
+LyB0b3RhbCBudW1iZXIgb2YgdGltZXMgdGhhdCB0aGUgcmVsYXRlZCBUQiBoYXZlIGJlaW5nIGV4
+ZWN1dGVkICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJAoKRVJST1I6IGxpbmUgb3ZlciA5MCBj
+aGFyYWN0ZXJzCiMxMDE6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjM0MDoKKyAgICAv
+LyB0b3RhbCBudW1iZXIgb2YgdGltZXMgdGhhdCB0aGUgcmVsYXRlZCBUQiBoYXZlIGJlaW5nIGV4
+ZWN1dGVkICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCgpFUlJPUjogZG8gbm90IHVzZSBDOTkg
+Ly8gY29tbWVudHMKIzEwMTogRklMRTogaW5jbHVkZS9leGVjL2V4ZWMtYWxsLmg6MzQwOgorICAg
+IC8vIHRvdGFsIG51bWJlciBvZiB0aW1lcyB0aGF0IHRoZSByZWxhdGVkIFRCIGhhdmUgYmVpbmcg
+ZXhlY3V0ZWQgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKCkVSUk9SOiB0cmFpbGluZyB3aGl0
+ZXNwYWNlCiMxMDI6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjM0MToKKyAgICB1aW50
+MzJfdCBleGVjX2NvdW50OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJAoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFy
+YWN0ZXJzCiMxMDI6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjM0MToKKyAgICB1aW50
+MzJfdCBleGVjX2NvdW50OyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFj
+ZQojMTAzOiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhlYy1hbGwuaDozNDI6CisgICAgdWludDMyX3Qg
+ZXhlY19jb3VudF9vdmVyZmxvd3M7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICQKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVy
+cwojMTAzOiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhlYy1hbGwuaDozNDI6CisgICAgdWludDMyX3Qg
+ZXhlY19jb3VudF9vdmVyZmxvd3M7ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIAoKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzEw
+NDogRklMRTogaW5jbHVkZS9leGVjL2V4ZWMtYWxsLmg6MzQzOgorfTsgICQKCkVSUk9SOiBkbyBu
+b3QgdXNlIEM5OSAvLyBjb21tZW50cwojMTE0OiBGSUxFOiBpbmNsdWRlL2V4ZWMvZXhlYy1hbGwu
+aDo0MjU6CisgICAgLy8gUG9pbnRlciB0byBhIHN0cnVjdCB3aGVyZSBzdGF0aXN0aWNzIGZyb20g
+dGhlIFRCIGlzIHN0b3JlZAoKdG90YWw6IDQ4IGVycm9ycywgNSB3YXJuaW5ncywgMTA1IGxpbmVz
+IGNoZWNrZWQKClBhdGNoIDEvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
+ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
+dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMi80IENoZWNr
+aW5nIGNvbW1pdCAyNWZlNDJjZmFkMDggKEFkZGluZyBhbiBvcHRpb25hbCB0YiBleGVjdXRpb24g
+Y291bnRlci4pCkVSUk9SOiAiKGZvbyopIiBzaG91bGQgYmUgIihmb28gKikiCiMyNTogRklMRTog
+YWNjZWwvdGNnL3RjZy1ydW50aW1lLmM6MTczOgorICAgIFRyYW5zbGF0aW9uQmxvY2sgKnRiID0g
+KFRyYW5zbGF0aW9uQmxvY2sqKSBwdHI7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojMjY6IEZJTEU6IGFjY2VsL3RjZy90Y2ctcnVudGltZS5jOjE3NDoKKyAgICAvLyBpZiBvdmVy
+Zmxvd3MsIHRoZW4gcmVzZXQgdGhlIGV4ZWN1dGlvbiBjb3VudGVyIGFuZCBpbmNyZW1lbnQgdGhl
+IG92ZXJmbG93IGNvdW50ZXIKCkVSUk9SOiBkbyBub3QgdXNlIEM5OSAvLyBjb21tZW50cwojMjY6
+IEZJTEU6IGFjY2VsL3RjZy90Y2ctcnVudGltZS5jOjE3NDoKKyAgICAvLyBpZiBvdmVyZmxvd3Ms
+IHRoZW4gcmVzZXQgdGhlIGV4ZWN1dGlvbiBjb3VudGVyIGFuZCBpbmNyZW1lbnQgdGhlIG92ZXJm
+bG93IGNvdW50ZXIKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyNzogRklMRTog
+YWNjZWwvdGNnL3RjZy1ydW50aW1lLmM6MTc1OgorICAgIGlmIChhdG9taWNfY21weGNoZygmdGIt
+PnRiX3N0YXRzLT5leGVjX2NvdW50LCAweEZGRkZGRkZGLCAwKSA9PSAweEZGRkZGRkZGKSB7Cgp0
+b3RhbDogMiBlcnJvcnMsIDIgd2FybmluZ3MsIDQzIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvNCBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy80IENoZWNraW5nIGNvbW1pdCBkMDU5NzE1ZGVk
+YTAgKEludHJvZHVjZSBkdW1wIG9mIGhvdCBUQnMpCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFj
+dGVycwojMzA6IEZJTEU6IGFjY2VsL3RjZy90cmFuc2xhdGUtYWxsLmM6MTI1MjoKKyAgICBxZW11
+X2xvZygiRXhlY3V0aW9uIENvdW50OiBcdCVsdVxuXG4iLCAodWludDY0X3QpICh0YnMtPmV4ZWNf
+Y291bnQgKyB0YnMtPmV4ZWNfY291bnRfb3ZlcmZsb3dzKjB4RkZGRkZGRkYpKTsKCkVSUk9SOiBz
+cGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6VnhWKQojMzA6IEZJTEU6IGFjY2Vs
+L3RjZy90cmFuc2xhdGUtYWxsLmM6MTI1MjoKKyAgICBxZW11X2xvZygiRXhlY3V0aW9uIENvdW50
+OiBcdCVsdVxuXG4iLCAodWludDY0X3QpICh0YnMtPmV4ZWNfY291bnQgKyB0YnMtPmV4ZWNfY291
+bnRfb3ZlcmZsb3dzKjB4RkZGRkZGRkYpKTsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgXgoKRVJST1I6IGxpbmUgb3ZlciA5MCBjaGFyYWN0ZXJzCiMzMzogRklMRTog
+YWNjZWwvdGNnL3RyYW5zbGF0ZS1hbGwuYzoxMjU1OgorICAgIFRyYW5zbGF0aW9uQmxvY2sgKnRi
+ID0gdGJfZ2VuX2NvZGUoY3VycmVudF9jcHUsIHRicy0+cGMsIHRicy0+Y3NfYmFzZSwgdGJzLT5m
+bGFncywgY2ZsYWdzKTsKCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiM0OTogRklMRTogYWNj
+ZWwvdGNnL3RyYW5zbGF0ZS1hbGwuYzoxMzAwOgorc3RhdGljIGdpbnQgaW52ZXJzZV9zb3J0X3Ri
+cyhnY29uc3Rwb2ludGVyIHAxLCBnY29uc3Rwb2ludGVyIHAyKSAkCgpFUlJPUjogbGluZSBvdmVy
+IDkwIGNoYXJhY3RlcnMKIzUzOiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjEzMDQ6
+CisgICAgdWludDY0X3QgcDFfY291bnQgPSAodWludDY0X3QpICh0YnMxLT5leGVjX2NvdW50ICsg
+dGJzMS0+ZXhlY19jb3VudF9vdmVyZmxvd3MqMHhGRkZGRkZGRik7CgpFUlJPUjogc3BhY2VzIHJl
+cXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4OlZ4VikKIzUzOiBGSUxFOiBhY2NlbC90Y2cvdHJh
+bnNsYXRlLWFsbC5jOjEzMDQ6CisgICAgdWludDY0X3QgcDFfY291bnQgPSAodWludDY0X3QpICh0
+YnMxLT5leGVjX2NvdW50ICsgdGJzMS0+ZXhlY19jb3VudF9vdmVyZmxvd3MqMHhGRkZGRkZGRik7
+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3Rl
+cnMKIzU0OiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5jOjEzMDU6CisgICAgdWludDY0
+X3QgcDJfY291bnQgPSAodWludDY0X3QpICh0YnMyLT5leGVjX2NvdW50ICsgdGJzMi0+ZXhlY19j
+b3VudF9vdmVyZmxvd3MqMHhGRkZGRkZGRik7CgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3Vu
+ZCB0aGF0ICcqJyAoY3R4OlZ4VikKIzU0OiBGSUxFOiBhY2NlbC90Y2cvdHJhbnNsYXRlLWFsbC5j
+OjEzMDU6CisgICAgdWludDY0X3QgcDJfY291bnQgPSAodWludDY0X3QpICh0YnMyLT5leGVjX2Nv
+dW50ICsgdGJzMi0+ZXhlY19jb3VudF9vdmVyZmxvd3MqMHhGRkZGRkZGRik7CiAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBeCgpFUlJPUjogY29kZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJz
+CiM2NjogRklMRTogYWNjZWwvdGNnL3RyYW5zbGF0ZS1hbGwuYzoxMzE3OgorXkkgICAgdGJfZHVt
+cF9zdGF0aXN0aWNzKChUQlN0YXRpc3RpY3MgKikgaS0+ZGF0YSk7JAoKdG90YWw6IDkgZXJyb3Jz
+LCAwIHdhcm5pbmdzLCA2MyBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzQgaGFzIHN0eWxlIHByb2Js
+ZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9z
+aXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBN
+QUlOVEFJTkVSUy4KCjQvNCBDaGVja2luZyBjb21taXQgMjMxYzI4MDdkZDc4IChhZGRpbmcgLWQg
+aG90X3RiczpsaW1pdCBjb21tYW5kIGxpbmUgb3B0aW9uKQo9PT0gT1VUUFVUIEVORCA9PT0KClRl
+c3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJs
+ZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDYyNDA1NTQ0Mi4yOTczLTEtdmFuZGVy
+c29ubXIyQGdtYWlsLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVt
+YWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5v
+cmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5j
+b20=
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1833053
-
-Title:
-  qemu guest crashes on spice client USB redirected device removal
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-
-  I am experiencing guest crashes, which cannot be reproduced at all
-  times, but are pretty frequent (4 out of 5 tries it would crash). The
-  guest crashes when a previously attached USB redirected device through
-  SPICE has been removed by the client.
-
-  Steps to reproduce:
-  1.) Start windows 10 guest with display driver Spice
-  2.) Connect to the console with remote-viewer spice://IP:PORT or via virt=
--viewer (tunnelled through SSH)
-  3.) Attach a client USB device, for example storage device, iPhone or And=
-roid phone
-  4.) Observe the guest OS detects it and sets it up
-  5.) Go back to 'USB device selection' and untick the USB device
-  6.) Observe the guest VM crashed and the below assertion was printed in t=
-he qemu log for this virtual machine:
-
-  qemu-system-x86_64: /var/tmp/portage/app-emulation/qemu-4.0.0-r3/work/qem=
-u-4.0.0/hw/usb/core.c:720: usb_ep_get: Assertion `dev !=3D NULL' failed.
-  2019-06-17 09:25:09.160+0000: shutting down, reason=3Dcrashed
-
-  =
-
-  Versions of related packages on the host:
-  app-emulation/qemu-4.0.0-r3
-  app-emulation/spice-0.14.0-r2:0
-  app-emulation/spice-protocol-0.12.14:0
-  net-misc/spice-gtk-0.35:0
-  Kernel: 5.1.7-gentoo on Intel x86_64 CPU
-
-  Version of the spice-tools on the guest:
-  virtio-win 0.1-126
-  QXL 0.1-21
-  mingw-vdagent-win 0.8.0
-
-  QEMU command line (generated by libvirt):
-
-  /usr/bin/qemu-system-x86_64 -name guest=3DW10VM,debug-threads=3Don -S
-  -object
-  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-4=
-1-W10VM
-  /master-key.aes -machine pc-i440fx-2.12,accel=3Dkvm,usb=3Doff,vmport=3Doff
-  ,dump-guest-core=3Doff -cpu
-  qemu64,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff,hv_synic,hv_stim=
-er
-  -m 4500 -realtime mlock=3Doff -smp
-  2,maxcpus=3D4,sockets=3D4,cores=3D1,threads=3D1 -uuid b39afae2-5085-4659-=
-891c-
-  b3c65e65af2e -no-user-config -nodefaults -chardev
-  socket,id=3Dcharmonitor,fd=3D26,server,nowait -mon
-  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
-  base=3Dlocaltime,driftfix=3Dslew -no-hpet -global kvm-
-  pit.lost_tick_policy=3Ddelay -no-shutdown -global PIIX4_PM.disable_s3=3D1
-  -global PIIX4_PM.disable_s4=3D1 -boot menu=3Doff,strict=3Don -device ich9
-  -usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x5.0x7 -device ich9-usb-
-  uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,multifunction=3Don,addr=
-=3D0x5
-  -device ich9-usb-
-  uhci2,masterbus=3Dusb.0,firstport=3D2,bus=3Dpci.0,addr=3D0x5.0x1 -device =
-ich9
-  -usb-uhci3,masterbus=3Dusb.0,firstport=3D4,bus=3Dpci.0,addr=3D0x5.0x2 -de=
-vice
-  virtio-scsi-pci,id=3Dscsi0,bus=3Dpci.0,addr=3D0x8 -device virtio-serial-
-  pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x6 -drive
-  file=3D/libvirt/images/W10VM.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-
-  scsi0-0-0-1,cache=3Dunsafe,discard=3Dunmap,detect-zeroes=3Dunmap -device
-  scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D1,device_id=3Ddrive-
-  scsi0-0-0-1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1,bootindex=3D1,writ=
-e-
-  cache=3Don -netdev tap,fd=3D28,id=3Dhostnet0,vhost=3Don,vhostfd=3D29 -dev=
-ice
-  virtio-net-
-  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:44:f6:21,bus=3Dpci.0,addr=
-=3D0x3
-  -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device
-  virtserialport,bus=3Dvirtio-
-  serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dcom.redhat.s=
-pice.0
-  -chardev socket,id=3Dcharchannel1,fd=3D30,server,nowait -device
-  virtserialport,bus=3Dvirtio-
-  serial0.0,nr=3D3,chardev=3Dcharchannel1,id=3Dchannel1,name=3Dorg.qemu.gue=
-st_agent.0
-  -chardev spiceport,id=3Dcharchannel2,name=3Dorg.spice-space.webdav.0
-  -device virtserialport,bus=3Dvirtio-
-  serial0.0,nr=3D2,chardev=3Dcharchannel2,id=3Dchannel2,name=3Dorg.spice-
-  space.webdav.0 -spice port=3D5901,addr=3D0.0.0.0,seamless-migration=3Don
-  -device qxl-
-  vga,id=3Dvideo0,ram_size=3D134217728,vram_size=3D134217728,vram64_size_mb=
-=3D0,vgamem_mb=3D64,max_outputs=3D1,bus=3Dpci.0,addr=3D0x2
-  -device intel-hda,id=3Dsound0,bus=3Dpci.0,addr=3D0x4 -device hda-
-  duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -chardev
-  spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-
-  redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D1 -chardev
-  spicevmc,id=3Dcharredir1,name=3Dusbredir -device usb-
-  redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D2 -device virti=
-o-
-  balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x7 -sandbox
-  on,obsolete=3Ddeny,elevateprivileges=3Ddeny,spawn=3Ddeny,resourcecontrol=
-=3Ddeny
-  -msg timestamp=3Don
-
-  =
-
-  I have attempted to collect a backtrace, but will need direction as I am =
-not sure on which thread to listen and where to set the breakpoint, 'thread=
- apply all backtrace' does not seem to work well with the qemu process...
-
-  Thank you
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1833053/+subscriptions
 
