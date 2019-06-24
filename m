@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D43051E6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:37:41 +0200 (CEST)
-Received: from localhost ([::1]:55128 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1321E51E5B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:33:55 +0200 (CEST)
+Received: from localhost ([::1]:55096 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfXam-000329-HS
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:37:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34070)
+	id 1hfXX7-0007EF-Vb
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34074)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSL-00047P-Lx
+ id 1hfXSL-00047R-M8
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSH-0005K5-Mt
+ id 1hfXSH-0005Jl-LJ
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:57 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45921)
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51859)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSG-0005Dv-Ev
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:53 -0400
-Received: by mail-wr1-x442.google.com with SMTP id f9so15528965wre.12
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:28:49 -0700 (PDT)
+ id 1hfXSF-0005Et-Vf
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:52 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 207so839941wma.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:28:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AW/xKO7mT5etUQtESYRRO4Lg0VmgTpD5DqdFMv+nnSk=;
- b=t/5pRsq4kx9n6VdI7kt7a6mIBirBRCuz9f0XwXGJIb/QrFoVSEfOB2D8Sg1U1jdqIg
- 3hEXPS+1UJU0B6psU1rImYNu7UaxO30Bx8Y7wea/NUlSFLVQsZAMlJNvJeXmniUxJphc
- yLdY5sSD2CrhmQCHRkNX76AEXcmLSvpwH6tr8qzccunMvs3k8V0rewjIexpwjAKBsP+N
- IP2NXMt40nsDVz76VlVfLExm+czkbWStu6Nnrk81xU3HEtNBnQ+t4Qk/LxJeUFwnDDL6
- jrgY3IRXuaS1nfBv0Z0lVa2Ozh5jngPIXjV7gkjMc6/wUIqVJAcRgRhJW/USFOrCcohJ
- YO8A==
+ bh=YYl7ySgnYbSglcrqVRBmzU1Qj+0tLpaiLz2/ZpoWR08=;
+ b=sfSnJm59jzSwwZ50SGvY9J225P8mBx27jYxT3nwWSTse5BalmyZnr3jcQCJA3lydSs
+ blGfejHeTFBAVEdHDEjBMTaWQ1zyWZ92JUeXSxKrOhCrGGHHpLwm8UgIMbaeLRqvuYyH
+ hB//oJ6sTs9A6MXVIYVpAkjbFyQrE4mZzAp8HN9RzdamRP01pcrLXSchbMeyzRGfZZcu
+ XhfiemufCYXuc5w1Fs1/l6q5DSccoi5MxvVXT8j9KSM8KT2rGDUkjwkNFDsqHdlpoBRA
+ cUv/96wlAYdKMMP6HwnphDZ7EUt0ArUdXLRjUbJMR6ojS0qsZzrxUbCvbvET+O7BmjaH
+ 1OIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AW/xKO7mT5etUQtESYRRO4Lg0VmgTpD5DqdFMv+nnSk=;
- b=PAxpLZV3wgY4aOt4nTu7+PA4KPZbgM8ftp/lBNCibW8wNhx4d3GydOmokvrX3MSqoy
- 1zs7aiE5rK1Qaf7fVa60do78ofjulUkUkriUegrQNgTfWBq73JgX/3pTp9CPwLvnU6uk
- M3m8eEYFncC4pXk4fiHJLWh36a1wNtxoRrFcuvuPqJTvJQXT03byqflH4ezrPfPRH1ya
- ZcLHTMAX7socB66zixucaaGQ9nfWvo3wocEA8crMYUHAwsq2hHlmTnA7JdC2TFOoR4dz
- +/5N4gI9u6nvI8oZCF5bE3nXdJxo7QWEpf7mqUtV/1VYl/9/tS8SsHW41CWWVpy8ug86
- IhCQ==
-X-Gm-Message-State: APjAAAUmvWHERltrJoRNl6dkgMYuIVBMZ2Z2FwJQFDACc9eqy64hX0vY
- Mw+26J8upAAS6G0kbBlJZPQEQALG
-X-Google-Smtp-Source: APXvYqwcEMzwaNOiA92PIjeXDSc/AxkEbAT4quzy0ms2scZsajbMRma2w6av9ON1TRzbY93InRwF+w==
-X-Received: by 2002:adf:f581:: with SMTP id f1mr16415389wro.179.1561415328149; 
- Mon, 24 Jun 2019 15:28:48 -0700 (PDT)
+ bh=YYl7ySgnYbSglcrqVRBmzU1Qj+0tLpaiLz2/ZpoWR08=;
+ b=UTqihKPW2s986A1KaKuABskGdhE8MiiCEVDjhFGnHOvL3mj1mvIfA9E+q3lBPMB6d/
+ CltXlAP3UepuL1aXlTXKu6IVdkO4l0CKTri0UD6XuCmQnkiHhIMZSAmRIr4ihDHplqkn
+ 94F9r6GXXouVvwrrVxpJpSr+Mco6D6SDytD9ga974c3DS2rMeOD5TC/GWevmDTsnUxBz
+ Y/oiFlOXPgM+Sa2eCpgKv/+NeiDTo2O/WkMCJtByJEpmP0QgVFXgUDNLSJ/iCwnVvVRe
+ QmI4EbBi1BmXHRr8ZafRaBf0n75kA9kN9mV/D7yVXd/FFVOAg+U9eKd8Gq4DHejv7KWK
+ PoIQ==
+X-Gm-Message-State: APjAAAXzT51y/GQUtl6MrfqWy+gu8+1Ug15X/2tcERtf/SqJd5dbnVhk
+ T/J5Ks0XVSg4Efq0pNx5r2ksdNrx
+X-Google-Smtp-Source: APXvYqwil3VFfYQiElzKt/26JhI8NfYq9EiAWbzrfxQ2OQeG51q9/TqnP/zWfmdXkQs3qud516tF8A==
+X-Received: by 2002:a1c:9e90:: with SMTP id h138mr18073169wme.67.1561415329365; 
+ Mon, 24 Jun 2019 15:28:49 -0700 (PDT)
 Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.46
+ by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.48
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 15:28:47 -0700 (PDT)
+ Mon, 24 Jun 2019 15:28:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 00:28:35 +0200
-Message-Id: <20190624222844.26584-2-f4bug@amsat.org>
+Date: Tue, 25 Jun 2019 00:28:36 +0200
+Message-Id: <20190624222844.26584-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190624222844.26584-1-f4bug@amsat.org>
 References: <20190624222844.26584-1-f4bug@amsat.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH 01/10] hw/mips/gt64xxx_pci: Fix multiline
- comment syntax
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH 02/10] hw/mips/gt64xxx_pci: Fix 'tabs' coding
+ style issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,149 +92,368 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 8c06fbdf36b checkpatch.pl enforce a new multiline
-comment syntax. Since we'll move this code around, fix its style
-first.
+Since we'll move this code around, fix its style first:
+
+  ERROR: code indent should never use tabs
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/gt64xxx_pci.c | 64 +++++++++++++++++++++++--------------------
- 1 file changed, 35 insertions(+), 29 deletions(-)
+ hw/mips/gt64xxx_pci.c | 312 +++++++++++++++++++++---------------------
+ 1 file changed, 156 insertions(+), 156 deletions(-)
 
 diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index f707e59c7a..c0924646b5 100644
+index c0924646b5..bbd719f091 100644
 --- a/hw/mips/gt64xxx_pci.c
 +++ b/hw/mips/gt64xxx_pci.c
-@@ -248,10 +248,11 @@ typedef struct GT64120State {
- } GT64120State;
+@@ -38,192 +38,192 @@
+ #define DPRINTF(fmt, ...)
+ #endif
  
- /* Adjust range to avoid touching space which isn't mappable via PCI */
--/* XXX: Hardcoded values for Malta: 0x1e000000 - 0x1f100000
--                                    0x1fc00000 - 0x1fd00000  */
--static void check_reserved_space (hwaddr *start,
--                                  hwaddr *length)
-+/*
-+ * XXX: Hardcoded values for Malta: 0x1e000000 - 0x1f100000
-+ *                                  0x1fc00000 - 0x1fd00000
-+ */
-+static void check_reserved_space(hwaddr *start, hwaddr *length)
- {
-     hwaddr begin = *start;
-     hwaddr end = *start + *length;
-@@ -650,8 +651,10 @@ static void gt64120_writel (void *opaque, hwaddr addr,
-     case GT_SDRAM_B1:
-     case GT_SDRAM_B2:
-     case GT_SDRAM_B3:
--        /* We don't simulate electrical parameters of the SDRAM.
--           Accept, but ignore the values. */
-+        /*
-+         * We don't simulate electrical parameters of the SDRAM.
-+         * Accept, but ignore the values.
-+         */
-         s->regs[saddr] = val;
-         break;
+-#define GT_REGS			(0x1000 >> 2)
++#define GT_REGS                 (0x1000 >> 2)
  
-@@ -674,8 +677,10 @@ static uint64_t gt64120_readl (void *opaque,
+ /* CPU Configuration */
+-#define GT_CPU    		(0x000 >> 2)
+-#define GT_MULTI    		(0x120 >> 2)
++#define GT_CPU                  (0x000 >> 2)
++#define GT_MULTI                (0x120 >> 2)
  
-     /* CPU Configuration */
-     case GT_MULTI:
--        /* Only one GT64xxx is present on the CPU bus, return
--           the initial value */
-+        /*
-+         * Only one GT64xxx is present on the CPU bus, return
-+         * the initial value.
-+         */
-         val = s->regs[saddr];
-         break;
+ /* CPU Address Decode */
+-#define GT_SCS10LD    		(0x008 >> 2)
+-#define GT_SCS10HD    		(0x010 >> 2)
+-#define GT_SCS32LD    		(0x018 >> 2)
+-#define GT_SCS32HD    		(0x020 >> 2)
+-#define GT_CS20LD    		(0x028 >> 2)
+-#define GT_CS20HD    		(0x030 >> 2)
+-#define GT_CS3BOOTLD    	(0x038 >> 2)
+-#define GT_CS3BOOTHD    	(0x040 >> 2)
+-#define GT_PCI0IOLD    		(0x048 >> 2)
+-#define GT_PCI0IOHD    		(0x050 >> 2)
+-#define GT_PCI0M0LD    		(0x058 >> 2)
+-#define GT_PCI0M0HD    		(0x060 >> 2)
+-#define GT_PCI0M1LD    		(0x080 >> 2)
+-#define GT_PCI0M1HD    		(0x088 >> 2)
+-#define GT_PCI1IOLD    		(0x090 >> 2)
+-#define GT_PCI1IOHD    		(0x098 >> 2)
+-#define GT_PCI1M0LD    		(0x0a0 >> 2)
+-#define GT_PCI1M0HD    		(0x0a8 >> 2)
+-#define GT_PCI1M1LD    		(0x0b0 >> 2)
+-#define GT_PCI1M1HD    		(0x0b8 >> 2)
+-#define GT_ISD    		(0x068 >> 2)
+-
+-#define GT_SCS10AR    		(0x0d0 >> 2)
+-#define GT_SCS32AR    		(0x0d8 >> 2)
+-#define GT_CS20R    		(0x0e0 >> 2)
+-#define GT_CS3BOOTR    		(0x0e8 >> 2)
+-
+-#define GT_PCI0IOREMAP    	(0x0f0 >> 2)
+-#define GT_PCI0M0REMAP    	(0x0f8 >> 2)
+-#define GT_PCI0M1REMAP    	(0x100 >> 2)
+-#define GT_PCI1IOREMAP    	(0x108 >> 2)
+-#define GT_PCI1M0REMAP    	(0x110 >> 2)
+-#define GT_PCI1M1REMAP    	(0x118 >> 2)
++#define GT_SCS10LD              (0x008 >> 2)
++#define GT_SCS10HD              (0x010 >> 2)
++#define GT_SCS32LD              (0x018 >> 2)
++#define GT_SCS32HD              (0x020 >> 2)
++#define GT_CS20LD               (0x028 >> 2)
++#define GT_CS20HD               (0x030 >> 2)
++#define GT_CS3BOOTLD            (0x038 >> 2)
++#define GT_CS3BOOTHD            (0x040 >> 2)
++#define GT_PCI0IOLD             (0x048 >> 2)
++#define GT_PCI0IOHD             (0x050 >> 2)
++#define GT_PCI0M0LD             (0x058 >> 2)
++#define GT_PCI0M0HD             (0x060 >> 2)
++#define GT_PCI0M1LD             (0x080 >> 2)
++#define GT_PCI0M1HD             (0x088 >> 2)
++#define GT_PCI1IOLD             (0x090 >> 2)
++#define GT_PCI1IOHD             (0x098 >> 2)
++#define GT_PCI1M0LD             (0x0a0 >> 2)
++#define GT_PCI1M0HD             (0x0a8 >> 2)
++#define GT_PCI1M1LD             (0x0b0 >> 2)
++#define GT_PCI1M1HD             (0x0b8 >> 2)
++#define GT_ISD                  (0x068 >> 2)
++
++#define GT_SCS10AR              (0x0d0 >> 2)
++#define GT_SCS32AR              (0x0d8 >> 2)
++#define GT_CS20R                (0x0e0 >> 2)
++#define GT_CS3BOOTR             (0x0e8 >> 2)
++
++#define GT_PCI0IOREMAP          (0x0f0 >> 2)
++#define GT_PCI0M0REMAP          (0x0f8 >> 2)
++#define GT_PCI0M1REMAP          (0x100 >> 2)
++#define GT_PCI1IOREMAP          (0x108 >> 2)
++#define GT_PCI1M0REMAP          (0x110 >> 2)
++#define GT_PCI1M1REMAP          (0x118 >> 2)
  
-@@ -685,17 +690,18 @@ static uint64_t gt64120_readl (void *opaque,
-     case GT_CPUERR_DATALO:
-     case GT_CPUERR_DATAHI:
-     case GT_CPUERR_PARITY:
--        /* Emulated memory has no error, always return the initial
--           values */
-+        /* Emulated memory has no error, always return the initial values. */
-         val = s->regs[saddr];
-         break;
+ /* CPU Error Report */
+-#define GT_CPUERR_ADDRLO    	(0x070 >> 2)
+-#define GT_CPUERR_ADDRHI    	(0x078 >> 2)
+-#define GT_CPUERR_DATALO    	(0x128 >> 2)		/* GT-64120A only  */
+-#define GT_CPUERR_DATAHI    	(0x130 >> 2)		/* GT-64120A only  */
+-#define GT_CPUERR_PARITY    	(0x138 >> 2)		/* GT-64120A only  */
++#define GT_CPUERR_ADDRLO        (0x070 >> 2)
++#define GT_CPUERR_ADDRHI        (0x078 >> 2)
++#define GT_CPUERR_DATALO        (0x128 >> 2)        /* GT-64120A only  */
++#define GT_CPUERR_DATAHI        (0x130 >> 2)        /* GT-64120A only  */
++#define GT_CPUERR_PARITY        (0x138 >> 2)        /* GT-64120A only  */
  
-     /* CPU Sync Barrier */
-     case GT_PCI0SYNC:
-     case GT_PCI1SYNC:
--        /* Reading those register should empty all FIFO on the PCI
--           bus, which are not emulated. The return value should be
--           a random value that should be ignored. */
-+        /*
-+         * Reading those register should empty all FIFO on the PCI
-+         * bus, which are not emulated. The return value should be
-+         * a random value that should be ignored.
-+         */
-         val = 0xc000ffee;
-         break;
+ /* CPU Sync Barrier */
+-#define GT_PCI0SYNC    		(0x0c0 >> 2)
+-#define GT_PCI1SYNC    		(0x0c8 >> 2)
++#define GT_PCI0SYNC             (0x0c0 >> 2)
++#define GT_PCI1SYNC             (0x0c8 >> 2)
  
-@@ -705,8 +711,7 @@ static uint64_t gt64120_readl (void *opaque,
-     case GT_ECC_MEM:
-     case GT_ECC_CALC:
-     case GT_ECC_ERRADDR:
--        /* Emulated memory has no error, always return the initial
--           values */
-+        /* Emulated memory has no error, always return the initial values. */
-         val = s->regs[saddr];
-         break;
+ /* SDRAM and Device Address Decode */
+-#define GT_SCS0LD    		(0x400 >> 2)
+-#define GT_SCS0HD    		(0x404 >> 2)
+-#define GT_SCS1LD    		(0x408 >> 2)
+-#define GT_SCS1HD    		(0x40c >> 2)
+-#define GT_SCS2LD    		(0x410 >> 2)
+-#define GT_SCS2HD    		(0x414 >> 2)
+-#define GT_SCS3LD    		(0x418 >> 2)
+-#define GT_SCS3HD    		(0x41c >> 2)
+-#define GT_CS0LD    		(0x420 >> 2)
+-#define GT_CS0HD    		(0x424 >> 2)
+-#define GT_CS1LD    		(0x428 >> 2)
+-#define GT_CS1HD    		(0x42c >> 2)
+-#define GT_CS2LD    		(0x430 >> 2)
+-#define GT_CS2HD    		(0x434 >> 2)
+-#define GT_CS3LD    		(0x438 >> 2)
+-#define GT_CS3HD    		(0x43c >> 2)
+-#define GT_BOOTLD    		(0x440 >> 2)
+-#define GT_BOOTHD    		(0x444 >> 2)
+-#define GT_ADERR    		(0x470 >> 2)
++#define GT_SCS0LD               (0x400 >> 2)
++#define GT_SCS0HD               (0x404 >> 2)
++#define GT_SCS1LD               (0x408 >> 2)
++#define GT_SCS1HD               (0x40c >> 2)
++#define GT_SCS2LD               (0x410 >> 2)
++#define GT_SCS2HD               (0x414 >> 2)
++#define GT_SCS3LD               (0x418 >> 2)
++#define GT_SCS3HD               (0x41c >> 2)
++#define GT_CS0LD                (0x420 >> 2)
++#define GT_CS0HD                (0x424 >> 2)
++#define GT_CS1LD                (0x428 >> 2)
++#define GT_CS1HD                (0x42c >> 2)
++#define GT_CS2LD                (0x430 >> 2)
++#define GT_CS2HD                (0x434 >> 2)
++#define GT_CS3LD                (0x438 >> 2)
++#define GT_CS3HD                (0x43c >> 2)
++#define GT_BOOTLD               (0x440 >> 2)
++#define GT_BOOTHD               (0x444 >> 2)
++#define GT_ADERR                (0x470 >> 2)
  
-@@ -785,8 +790,10 @@ static uint64_t gt64120_readl (void *opaque,
-     case GT_SDRAM_B1:
-     case GT_SDRAM_B2:
-     case GT_SDRAM_B3:
--        /* We don't simulate electrical parameters of the SDRAM.
--           Just return the last written value. */
-+        /*
-+         * We don't simulate electrical parameters of the SDRAM.
-+         * Just return the last written value.
-+         */
-         val = s->regs[saddr];
-         break;
+ /* SDRAM Configuration */
+-#define GT_SDRAM_CFG    	(0x448 >> 2)
+-#define GT_SDRAM_OPMODE    	(0x474 >> 2)
+-#define GT_SDRAM_BM    		(0x478 >> 2)
+-#define GT_SDRAM_ADDRDECODE    	(0x47c >> 2)
++#define GT_SDRAM_CFG            (0x448 >> 2)
++#define GT_SDRAM_OPMODE         (0x474 >> 2)
++#define GT_SDRAM_BM             (0x478 >> 2)
++#define GT_SDRAM_ADDRDECODE     (0x47c >> 2)
  
-@@ -949,20 +956,20 @@ static int gt64120_pci_map_irq(PCIDevice *pci_dev, int irq_num)
-     slot = (pci_dev->devfn >> 3);
+ /* SDRAM Parameters */
+-#define GT_SDRAM_B0    		(0x44c >> 2)
+-#define GT_SDRAM_B1    		(0x450 >> 2)
+-#define GT_SDRAM_B2    		(0x454 >> 2)
+-#define GT_SDRAM_B3    		(0x458 >> 2)
++#define GT_SDRAM_B0             (0x44c >> 2)
++#define GT_SDRAM_B1             (0x450 >> 2)
++#define GT_SDRAM_B2             (0x454 >> 2)
++#define GT_SDRAM_B3             (0x458 >> 2)
  
-     switch (slot) {
--      /* PIIX4 USB */
--      case 10:
-+    /* PIIX4 USB */
-+    case 10:
-         return 3;
--      /* AMD 79C973 Ethernet */
--      case 11:
-+    /* AMD 79C973 Ethernet */
-+    case 11:
-         return 1;
--      /* Crystal 4281 Sound */
--      case 12:
-+    /* Crystal 4281 Sound */
-+    case 12:
-         return 2;
--      /* PCI slot 1 to 4 */
--      case 18 ... 21:
-+    /* PCI slot 1 to 4 */
-+    case 18 ... 21:
-         return ((slot - 18) + irq_num) & 0x03;
--      /* Unknown device, don't do any translation */
--      default:
-+    /* Unknown device, don't do any translation */
-+    default:
-         return irq_num;
-     }
- }
-@@ -980,8 +987,7 @@ static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
-     /* XXX: optimize */
-     pic_irq = piix4_dev->config[0x60 + irq_num];
-     if (pic_irq < 16) {
--        /* The pic level is the logical OR of all the PCI irqs mapped
--           to it */
-+        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-         pic_level = 0;
-         for (i = 0; i < 4; i++) {
-             if (pic_irq == piix4_dev->config[0x60 + i])
+ /* Device Parameters */
+-#define GT_DEV_B0    		(0x45c >> 2)
+-#define GT_DEV_B1    		(0x460 >> 2)
+-#define GT_DEV_B2    		(0x464 >> 2)
+-#define GT_DEV_B3    		(0x468 >> 2)
+-#define GT_DEV_BOOT    		(0x46c >> 2)
++#define GT_DEV_B0               (0x45c >> 2)
++#define GT_DEV_B1               (0x460 >> 2)
++#define GT_DEV_B2               (0x464 >> 2)
++#define GT_DEV_B3               (0x468 >> 2)
++#define GT_DEV_BOOT             (0x46c >> 2)
+ 
+ /* ECC */
+-#define GT_ECC_ERRDATALO	(0x480 >> 2)		/* GT-64120A only  */
+-#define GT_ECC_ERRDATAHI	(0x484 >> 2)		/* GT-64120A only  */
+-#define GT_ECC_MEM		(0x488 >> 2)		/* GT-64120A only  */
+-#define GT_ECC_CALC		(0x48c >> 2)		/* GT-64120A only  */
+-#define GT_ECC_ERRADDR		(0x490 >> 2)		/* GT-64120A only  */
++#define GT_ECC_ERRDATALO        (0x480 >> 2)        /* GT-64120A only  */
++#define GT_ECC_ERRDATAHI        (0x484 >> 2)        /* GT-64120A only  */
++#define GT_ECC_MEM              (0x488 >> 2)        /* GT-64120A only  */
++#define GT_ECC_CALC             (0x48c >> 2)        /* GT-64120A only  */
++#define GT_ECC_ERRADDR          (0x490 >> 2)        /* GT-64120A only  */
+ 
+ /* DMA Record */
+-#define GT_DMA0_CNT    		(0x800 >> 2)
+-#define GT_DMA1_CNT    		(0x804 >> 2)
+-#define GT_DMA2_CNT    		(0x808 >> 2)
+-#define GT_DMA3_CNT    		(0x80c >> 2)
+-#define GT_DMA0_SA    		(0x810 >> 2)
+-#define GT_DMA1_SA    		(0x814 >> 2)
+-#define GT_DMA2_SA    		(0x818 >> 2)
+-#define GT_DMA3_SA    		(0x81c >> 2)
+-#define GT_DMA0_DA    		(0x820 >> 2)
+-#define GT_DMA1_DA    		(0x824 >> 2)
+-#define GT_DMA2_DA    		(0x828 >> 2)
+-#define GT_DMA3_DA    		(0x82c >> 2)
+-#define GT_DMA0_NEXT    	(0x830 >> 2)
+-#define GT_DMA1_NEXT    	(0x834 >> 2)
+-#define GT_DMA2_NEXT    	(0x838 >> 2)
+-#define GT_DMA3_NEXT    	(0x83c >> 2)
+-#define GT_DMA0_CUR    		(0x870 >> 2)
+-#define GT_DMA1_CUR    		(0x874 >> 2)
+-#define GT_DMA2_CUR    		(0x878 >> 2)
+-#define GT_DMA3_CUR    		(0x87c >> 2)
++#define GT_DMA0_CNT             (0x800 >> 2)
++#define GT_DMA1_CNT             (0x804 >> 2)
++#define GT_DMA2_CNT             (0x808 >> 2)
++#define GT_DMA3_CNT             (0x80c >> 2)
++#define GT_DMA0_SA              (0x810 >> 2)
++#define GT_DMA1_SA              (0x814 >> 2)
++#define GT_DMA2_SA              (0x818 >> 2)
++#define GT_DMA3_SA              (0x81c >> 2)
++#define GT_DMA0_DA              (0x820 >> 2)
++#define GT_DMA1_DA              (0x824 >> 2)
++#define GT_DMA2_DA              (0x828 >> 2)
++#define GT_DMA3_DA              (0x82c >> 2)
++#define GT_DMA0_NEXT            (0x830 >> 2)
++#define GT_DMA1_NEXT            (0x834 >> 2)
++#define GT_DMA2_NEXT            (0x838 >> 2)
++#define GT_DMA3_NEXT            (0x83c >> 2)
++#define GT_DMA0_CUR             (0x870 >> 2)
++#define GT_DMA1_CUR             (0x874 >> 2)
++#define GT_DMA2_CUR             (0x878 >> 2)
++#define GT_DMA3_CUR             (0x87c >> 2)
+ 
+ /* DMA Channel Control */
+-#define GT_DMA0_CTRL    	(0x840 >> 2)
+-#define GT_DMA1_CTRL    	(0x844 >> 2)
+-#define GT_DMA2_CTRL    	(0x848 >> 2)
+-#define GT_DMA3_CTRL    	(0x84c >> 2)
++#define GT_DMA0_CTRL            (0x840 >> 2)
++#define GT_DMA1_CTRL            (0x844 >> 2)
++#define GT_DMA2_CTRL            (0x848 >> 2)
++#define GT_DMA3_CTRL            (0x84c >> 2)
+ 
+ /* DMA Arbiter */
+-#define GT_DMA_ARB    		(0x860 >> 2)
++#define GT_DMA_ARB              (0x860 >> 2)
+ 
+ /* Timer/Counter */
+-#define GT_TC0    		(0x850 >> 2)
+-#define GT_TC1    		(0x854 >> 2)
+-#define GT_TC2    		(0x858 >> 2)
+-#define GT_TC3    		(0x85c >> 2)
+-#define GT_TC_CONTROL    	(0x864 >> 2)
++#define GT_TC0                  (0x850 >> 2)
++#define GT_TC1                  (0x854 >> 2)
++#define GT_TC2                  (0x858 >> 2)
++#define GT_TC3                  (0x85c >> 2)
++#define GT_TC_CONTROL           (0x864 >> 2)
+ 
+ /* PCI Internal */
+-#define GT_PCI0_CMD    		(0xc00 >> 2)
+-#define GT_PCI0_TOR    		(0xc04 >> 2)
+-#define GT_PCI0_BS_SCS10    	(0xc08 >> 2)
+-#define GT_PCI0_BS_SCS32    	(0xc0c >> 2)
+-#define GT_PCI0_BS_CS20    	(0xc10 >> 2)
+-#define GT_PCI0_BS_CS3BT    	(0xc14 >> 2)
+-#define GT_PCI1_IACK    	(0xc30 >> 2)
+-#define GT_PCI0_IACK    	(0xc34 >> 2)
+-#define GT_PCI0_BARE    	(0xc3c >> 2)
+-#define GT_PCI0_PREFMBR    	(0xc40 >> 2)
+-#define GT_PCI0_SCS10_BAR    	(0xc48 >> 2)
+-#define GT_PCI0_SCS32_BAR    	(0xc4c >> 2)
+-#define GT_PCI0_CS20_BAR    	(0xc50 >> 2)
+-#define GT_PCI0_CS3BT_BAR    	(0xc54 >> 2)
+-#define GT_PCI0_SSCS10_BAR    	(0xc58 >> 2)
+-#define GT_PCI0_SSCS32_BAR    	(0xc5c >> 2)
+-#define GT_PCI0_SCS3BT_BAR    	(0xc64 >> 2)
+-#define GT_PCI1_CMD    		(0xc80 >> 2)
+-#define GT_PCI1_TOR    		(0xc84 >> 2)
+-#define GT_PCI1_BS_SCS10    	(0xc88 >> 2)
+-#define GT_PCI1_BS_SCS32    	(0xc8c >> 2)
+-#define GT_PCI1_BS_CS20    	(0xc90 >> 2)
+-#define GT_PCI1_BS_CS3BT    	(0xc94 >> 2)
+-#define GT_PCI1_BARE    	(0xcbc >> 2)
+-#define GT_PCI1_PREFMBR    	(0xcc0 >> 2)
+-#define GT_PCI1_SCS10_BAR    	(0xcc8 >> 2)
+-#define GT_PCI1_SCS32_BAR    	(0xccc >> 2)
+-#define GT_PCI1_CS20_BAR    	(0xcd0 >> 2)
+-#define GT_PCI1_CS3BT_BAR    	(0xcd4 >> 2)
+-#define GT_PCI1_SSCS10_BAR    	(0xcd8 >> 2)
+-#define GT_PCI1_SSCS32_BAR    	(0xcdc >> 2)
+-#define GT_PCI1_SCS3BT_BAR    	(0xce4 >> 2)
+-#define GT_PCI1_CFGADDR    	(0xcf0 >> 2)
+-#define GT_PCI1_CFGDATA    	(0xcf4 >> 2)
+-#define GT_PCI0_CFGADDR    	(0xcf8 >> 2)
+-#define GT_PCI0_CFGDATA    	(0xcfc >> 2)
++#define GT_PCI0_CMD             (0xc00 >> 2)
++#define GT_PCI0_TOR             (0xc04 >> 2)
++#define GT_PCI0_BS_SCS10        (0xc08 >> 2)
++#define GT_PCI0_BS_SCS32        (0xc0c >> 2)
++#define GT_PCI0_BS_CS20         (0xc10 >> 2)
++#define GT_PCI0_BS_CS3BT        (0xc14 >> 2)
++#define GT_PCI1_IACK            (0xc30 >> 2)
++#define GT_PCI0_IACK            (0xc34 >> 2)
++#define GT_PCI0_BARE            (0xc3c >> 2)
++#define GT_PCI0_PREFMBR         (0xc40 >> 2)
++#define GT_PCI0_SCS10_BAR       (0xc48 >> 2)
++#define GT_PCI0_SCS32_BAR       (0xc4c >> 2)
++#define GT_PCI0_CS20_BAR        (0xc50 >> 2)
++#define GT_PCI0_CS3BT_BAR       (0xc54 >> 2)
++#define GT_PCI0_SSCS10_BAR      (0xc58 >> 2)
++#define GT_PCI0_SSCS32_BAR      (0xc5c >> 2)
++#define GT_PCI0_SCS3BT_BAR      (0xc64 >> 2)
++#define GT_PCI1_CMD             (0xc80 >> 2)
++#define GT_PCI1_TOR             (0xc84 >> 2)
++#define GT_PCI1_BS_SCS10        (0xc88 >> 2)
++#define GT_PCI1_BS_SCS32        (0xc8c >> 2)
++#define GT_PCI1_BS_CS20         (0xc90 >> 2)
++#define GT_PCI1_BS_CS3BT        (0xc94 >> 2)
++#define GT_PCI1_BARE            (0xcbc >> 2)
++#define GT_PCI1_PREFMBR         (0xcc0 >> 2)
++#define GT_PCI1_SCS10_BAR       (0xcc8 >> 2)
++#define GT_PCI1_SCS32_BAR       (0xccc >> 2)
++#define GT_PCI1_CS20_BAR        (0xcd0 >> 2)
++#define GT_PCI1_CS3BT_BAR       (0xcd4 >> 2)
++#define GT_PCI1_SSCS10_BAR      (0xcd8 >> 2)
++#define GT_PCI1_SSCS32_BAR      (0xcdc >> 2)
++#define GT_PCI1_SCS3BT_BAR      (0xce4 >> 2)
++#define GT_PCI1_CFGADDR         (0xcf0 >> 2)
++#define GT_PCI1_CFGDATA         (0xcf4 >> 2)
++#define GT_PCI0_CFGADDR         (0xcf8 >> 2)
++#define GT_PCI0_CFGDATA         (0xcfc >> 2)
+ 
+ /* Interrupts */
+-#define GT_INTRCAUSE    	(0xc18 >> 2)
+-#define GT_INTRMASK    		(0xc1c >> 2)
+-#define GT_PCI0_ICMASK    	(0xc24 >> 2)
+-#define GT_PCI0_SERR0MASK    	(0xc28 >> 2)
+-#define GT_CPU_INTSEL    	(0xc70 >> 2)
+-#define GT_PCI0_INTSEL    	(0xc74 >> 2)
+-#define GT_HINTRCAUSE    	(0xc98 >> 2)
+-#define GT_HINTRMASK    	(0xc9c >> 2)
+-#define GT_PCI0_HICMASK    	(0xca4 >> 2)
+-#define GT_PCI1_SERR1MASK    	(0xca8 >> 2)
++#define GT_INTRCAUSE            (0xc18 >> 2)
++#define GT_INTRMASK             (0xc1c >> 2)
++#define GT_PCI0_ICMASK          (0xc24 >> 2)
++#define GT_PCI0_SERR0MASK       (0xc28 >> 2)
++#define GT_CPU_INTSEL           (0xc70 >> 2)
++#define GT_PCI0_INTSEL          (0xc74 >> 2)
++#define GT_HINTRCAUSE           (0xc98 >> 2)
++#define GT_HINTRMASK            (0xc9c >> 2)
++#define GT_PCI0_HICMASK         (0xca4 >> 2)
++#define GT_PCI1_SERR1MASK       (0xca8 >> 2)
+ 
+ #define PCI_MAPPING_ENTRY(regname)            \
+     hwaddr regname ##_start;      \
 -- 
 2.19.1
 
