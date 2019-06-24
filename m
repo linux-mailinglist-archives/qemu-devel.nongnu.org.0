@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9282501E3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:05:46 +0200 (CEST)
-Received: from localhost ([::1]:48154 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DA6501C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 08:01:54 +0200 (CEST)
+Received: from localhost ([::1]:48140 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfI6p-0007OF-TS
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:05:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35879)
+	id 1hfI35-0005Pq-L0
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 02:01:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35894)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sjitindarsingh@gmail.com>) id 1hfHzp-0003Yd-1z
+ (envelope-from <sjitindarsingh@gmail.com>) id 1hfHzp-0003aD-Sq
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 01:58:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sjitindarsingh@gmail.com>) id 1hfHzn-0005zn-O5
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 01:58:28 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:36795)
+ (envelope-from <sjitindarsingh@gmail.com>) id 1hfHzo-00061D-Py
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 01:58:29 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41234)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <sjitindarsingh@gmail.com>)
- id 1hfHzk-0005wp-0r; Mon, 24 Jun 2019 01:58:24 -0400
-Received: by mail-pf1-x442.google.com with SMTP id r7so6870312pfl.3;
- Sun, 23 Jun 2019 22:58:23 -0700 (PDT)
+ id 1hfHzl-0005yO-OE; Mon, 24 Jun 2019 01:58:25 -0400
+Received: by mail-pf1-x444.google.com with SMTP id m30so6850796pff.8;
+ Sun, 23 Jun 2019 22:58:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=e1sCAFcw0EvnjOzpHw97/K0fRePmkZE8GMoO+SZykS0=;
- b=GUt5ecBzxgnbVLwWuVs+RcvW3DvNrqnRwZ+Fg2HiTr2GEVQhxSkpTRG/V7G2hNlcGq
- SnA3/h73O/eKLOm9VddjrDlxwF8dceHYh85NsioWqck2Eh4+gQ7IhCNNkddtNwBdI4Qi
- iLbgvJ08zYmNE5b/EVwuT41uKClJzb6TGUqERY3NP5zh+JI7V1N6D6qHfZhG7NcGsTX1
- fg3nFobLMRKhIMGPsp17qgy28hD3N1YZBBbsVqJ2OYXnn/Xnia8FF44rUDy4GUwvh9uL
- aNrJNGhhSZODGA/eN66i3D+1hXmxY/DV/WLNP0jjIQwGKrG/gTPr6CEpCCThwwExLu/W
- YCRw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=BNTveCJapGdj0Gv7DBpJLbE+44u541pQ9RFkUPFhZ0E=;
+ b=u8xQ3EqrsdT2p3zJbJBjyGfdY0D8UsMm3Kaa5w31AhgYRzM4BWu3uIjsH4791dTWVa
+ fibzMzPR6I4KgbbnQEq5KFd3YdKnCauNZLglleXNizLYm5NclxM9UvDhaA+dSNiSArvS
+ TKUM19OBmxV022079tzd9vYJ9glwZRgvFlzDJSAOEQ4h2viZ5mPPdL92v4UM9RLGgG9Y
+ 5Gxkaqi1tf4lLylkx1OF8aLf1AhYVM87Ggvu6L2TW/F/2CI+zki47UJNw9iFVr+qg859
+ Yerznd1rNA34VzundVQuO8dFbqMsRClN2BMC4SaN3msCFFGoMwDhYsAbf4HBP16KNgnq
+ LzTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=e1sCAFcw0EvnjOzpHw97/K0fRePmkZE8GMoO+SZykS0=;
- b=IgwOhszau7MxwlxymTeBs3XlPqHFBPksm2iFHd6ptCgEZFnObOcatC0f+dlaI8ovmp
- pYrMOMsTSlrdt4aoGWYh2SdrVAnQ1LdiBH2fGKrxzBBX5z5cksCx3CFM/33jrIl50eqt
- wO7grBTXvl6gjKqVP+Z0IwCWNkSGj8fY7O92+IYAREpuVNGmDsG+OVG/Nlfd2qefr7eP
- tDEdtG97oXS3fwzgWw17EykHL8X3rxjKTOF+279ddub6uRVFonxmYDQMAuwp1AfTeO0n
- Du8jabkFrgtB8nISLMA88DHIn83IVmW+zvw8JNgh0Xd43hgvJmz9HFPoXundw94YrcMV
- vvug==
-X-Gm-Message-State: APjAAAXD/A1dwMmPnhbnbMhB4OgDANi+Czj2BfOzEtHivGkAtiLDOaPm
- XY4winoCqDafm5V09M/utNjpzzg2
-X-Google-Smtp-Source: APXvYqxXNLJLs/cXf50gfS8EdmTPuXi6RewIEFUg+msRrrSZ8Ot09TqtLDM3pozlFX8Kfzq35e+EKg==
-X-Received: by 2002:a63:d211:: with SMTP id a17mr31184187pgg.269.1561355902273; 
- Sun, 23 Jun 2019 22:58:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=BNTveCJapGdj0Gv7DBpJLbE+44u541pQ9RFkUPFhZ0E=;
+ b=N/0SuQ0bRn8piJsBnWc5a39JVongVQ39DEXwu5t2v9L93J6nNrHIziPUVjglTMtiO2
+ yrCJMEVZV6zX80C5sIE2xhmFRGjU9n02G21ZO9zRAQbKcmGoPooVuBtAFQFwUKvfmRWC
+ SPNo7Ox9jYw9ulHpp5C8iRxjMAFQObrLzaVoyru2Y09dHdB5XTeMbO0hB4ZFeZIePdV7
+ +wmoRQixUIAHGx5mfxRct+fIZEDCRrXfNhb5bRRs8Zl0i15VtXq6hY5NTjkwPzDjJu6Q
+ JynJ7hJuJ33ttxRSTuKoQ1KDGw6tOI8YyHkZ/wm0zx3xI0DG7crziciaaeZgOypDhgIF
+ QKpA==
+X-Gm-Message-State: APjAAAVo9alMj+g4qT4btmjPFDuBAuBa27KVHD19ReXCfYxH2cLEaY8j
+ hb8+QwKAyMtedJf6YpmVePrwmfww
+X-Google-Smtp-Source: APXvYqwNfB/ZqmihU93asYXQ2m2bbIbyNkRFEPUowGXSZj7JBCzS+25dxAS4jRX0ygK4ng7NzA5xCA==
+X-Received: by 2002:a63:e43:: with SMTP id 3mr7899574pgo.402.1561355904637;
+ Sun, 23 Jun 2019 22:58:24 -0700 (PDT)
 Received: from surajjs2.ozlabs.ibm.com ([122.99.82.10])
- by smtp.gmail.com with ESMTPSA id s15sm12579335pfd.183.2019.06.23.22.58.20
+ by smtp.gmail.com with ESMTPSA id s15sm12579335pfd.183.2019.06.23.22.58.22
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 23 Jun 2019 22:58:21 -0700 (PDT)
+ Sun, 23 Jun 2019 22:58:24 -0700 (PDT)
 From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 To: qemu-ppc@nongnu.org
-Date: Mon, 24 Jun 2019 15:58:11 +1000
-Message-Id: <20190624055812.3906-1-sjitindarsingh@gmail.com>
+Date: Mon, 24 Jun 2019 15:58:12 +1000
+Message-Id: <20190624055812.3906-2-sjitindarsingh@gmail.com>
 X-Mailer: git-send-email 2.13.6
+In-Reply-To: <20190624055812.3906-1-sjitindarsingh@gmail.com>
+References: <20190624055812.3906-1-sjitindarsingh@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [QEMU-PPC] [PATCH 1/2] ppc/spapr: Add implementation
- of hcall H_PURR
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [QEMU-PPC] [PATCH 2/2] ppc/spapr: Enable H_PURR
+ in-kernel handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,63 +79,69 @@ Cc: qemu-devel@nongnu.org, sjitindarsingh@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The hcall H_PURR is used by a guest to read the PURR (processor
-utilisation of resources register). A guest expects that this register
-will count at a rate of timebase scaled by the number of guest vcpus
-present in the vcore. That is the per vcpu purr will count at a rate of
-timebase / # vcpus per vcore.
-
-Implement a handler for the H_PURR hcall and return the purr value
-divided by smp_threads so that the sum of the purr deltas across the
-vcpus of a vcore equals the timebase delta
+Enable in-kernel handling of the hcall H_PURR. This means that if the
+kernel implements an hcall handler for H_PURR, it will be used.
 
 Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 ---
- hw/ppc/spapr_hcall.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ hw/ppc/spapr.c       | 3 +++
+ target/ppc/kvm.c     | 5 +++++
+ target/ppc/kvm_ppc.h | 5 +++++
+ 3 files changed, 13 insertions(+)
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index aae9fd2b3e..88b3343f04 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1819,6 +1819,27 @@ static target_ulong h_update_dt(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     return H_SUCCESS;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 39e698e9b0..b62dce8876 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2851,6 +2851,9 @@ static void spapr_machine_init(MachineState *machine)
+ 
+         /* Enable H_PAGE_INIT */
+         kvmppc_enable_h_page_init();
++
++        /* Enable H_PURR */
++        kvmppc_enable_h_purr();
+     }
+ 
+     /* allocate RAM */
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 3bf0a46c33..0fd3ef4d48 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2075,6 +2075,11 @@ void kvmppc_enable_h_page_init(void)
+     kvmppc_enable_hcall(kvm_state, H_PAGE_INIT);
  }
  
-+static target_ulong h_purr(PowerPCCPU *cpu, SpaprMachineState *spapr,
-+                           target_ulong opcode, target_ulong *args)
++void kvmppc_enable_h_purr(void)
 +{
-+    CPUPPCState *env = &cpu->env;
-+    target_ulong purr;
-+
-+    if (kvm_enabled()) {
-+        cpu_synchronize_state(CPU(cpu));
-+        /*
-+         * Divide by smp_threads so that the sum of the purr deltas across the
-+         * vcpus of a vcore equal the timebase delta.
-+         */
-+        purr = env->spr[SPR_PURR] / smp_threads;
-+    } else {
-+        purr = cpu_ppc_load_purr(env);
-+    }
-+    args[0] = purr;
-+
-+    return H_SUCCESS;
++    kvmppc_enable_hcall(kvm_state, H_PURR);
 +}
 +
- static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4) + 1];
- static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX - KVMPPC_HCALL_BASE + 1];
+ void kvmppc_set_papr(PowerPCCPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
+diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+index 45776cad79..b5d2feab22 100644
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@ -24,6 +24,7 @@ void kvmppc_enable_logical_ci_hcalls(void);
+ void kvmppc_enable_set_mode_hcall(void);
+ void kvmppc_enable_clear_ref_mod_hcalls(void);
+ void kvmppc_enable_h_page_init(void);
++void kvmppc_enable_h_purr(void);
+ void kvmppc_set_papr(PowerPCCPU *cpu);
+ int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
+@@ -145,6 +146,10 @@ static inline void kvmppc_enable_h_page_init(void)
+ {
+ }
  
-@@ -1915,6 +1936,9 @@ static void hypercall_register_types(void)
-     spapr_register_hypercall(H_LOGICAL_DCBF, h_logical_dcbf);
-     spapr_register_hypercall(KVMPPC_H_LOGICAL_MEMOP, h_logical_memop);
- 
-+    /* hcall-purr */
-+    spapr_register_hypercall(H_PURR, h_purr);
++static inline void kvmppc_enable_h_purr(void)
++{
++}
 +
-     /* qemu/KVM-PPC specific hcalls */
-     spapr_register_hypercall(KVMPPC_H_RTAS, h_rtas);
- 
+ static inline void kvmppc_set_papr(PowerPCCPU *cpu)
+ {
+ }
 -- 
 2.13.6
 
