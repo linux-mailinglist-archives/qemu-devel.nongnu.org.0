@@ -2,62 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29427505E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:37:11 +0200 (CEST)
-Received: from localhost ([::1]:49228 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCFF505EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:39:09 +0200 (CEST)
+Received: from localhost ([::1]:49274 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfLPS-0000hH-7h
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:37:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57722)
+	id 1hfLRM-0002FD-9A
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58990)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hfLLn-0006gI-JY
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:33:24 -0400
+ (envelope-from <berrange@redhat.com>) id 1hfLPi-0001Ye-KD
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:37:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hfLLi-00037o-BA
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:33:23 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:46189)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hfLLi-000362-3q
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:33:18 -0400
-Received: by mail-pl1-f194.google.com with SMTP id e5so6542233pls.13
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 02:33:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=q+IxMvOlXZB+UXym25rv/BUxLzFnH+hT1oYYNFoZSKg=;
- b=gdJ4yU+6sz766S1rA+zzSmEcfEaaQX5VsbJM6eqTg2KtRM0Ex1GDtOCokXe5d1JFM2
- rNxdk3zAzn5drtHWSFkxTS22voxer61AxzhEmuohygLoyiXH09SRNWNv0pGQjCRn7Taw
- khkyDHrbKBaascFao5upj3XFn78kwdRW83UPgbDe6xtOGVuaNOaxpRasJcjaAsCrjHhV
- iI2ej9bjJceQYEwsTDlDh0rsyZD6Q7NvsOnAoJ0TBBqMQHc7IB/bnDuJVuLNlLJzxPQq
- kYg8MOCVaHUIni7CxUgih0GO0SrmjUvIM/lYmaTIcfwoMensiYowb6jzN3H/sjEYknty
- Tx/g==
-X-Gm-Message-State: APjAAAViSjUc2MAnqVvCHR+ovw6+GgHfmPxl1GrzpKtn3HXc2Fzw8JCb
- onvboYi6DDGK08byBdv3VHyPZwpLBqQ7Ag==
-X-Google-Smtp-Source: APXvYqzQQExPdF/p4gEcLU+rFcG3lZoKQkTlHw7Xmh3mkDuEiYaSiYCx+ynqws6RN2vjQi+Trytu8A==
-X-Received: by 2002:a17:902:7894:: with SMTP id
- q20mr135487815pll.339.1561368796764; 
- Mon, 24 Jun 2019 02:33:16 -0700 (PDT)
-Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
- [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id c33sm2621335pgl.70.2019.06.24.02.33.15
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 02:33:15 -0700 (PDT)
-Date: Mon, 24 Jun 2019 02:33:15 -0700 (PDT)
-X-Google-Original-Date: Mon, 24 Jun 2019 02:33:05 PDT (-0700)
-In-Reply-To: <cover.1560821342.git.alistair.francis@wdc.com>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-1bb3bc4e-1846-4e2a-ab19-ab4436041f63@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (envelope-from <berrange@redhat.com>) id 1hfLPg-0001Rj-CD
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:37:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35281)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hfLPg-0000xQ-5a
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:37:24 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E50A7308FC4D
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 09:37:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.17.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D89721001B04;
+ Mon, 24 Jun 2019 09:36:57 +0000 (UTC)
+Date: Mon, 24 Jun 2019 10:36:55 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190624093655.GE17698@redhat.com>
+References: <20190620114116.27254-1-imammedo@redhat.com>
+ <87blynv1lu.fsf@dusky.pond.sub.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87blynv1lu.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Mon, 24 Jun 2019 09:37:00 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.214.194
-Subject: Re: [Qemu-devel] [PATCH v1 0/9] Update the RISC-V specification
- versions
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [libvirt] [PATCH] deprecate -mem-path fallback to
+ anonymous RAM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,77 +58,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, alistair23@gmail.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, Igor Mammedov <imammedo@redhat.com>,
+ qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Jun 2019 18:31:00 PDT (-0700), Alistair Francis wrote:
-> Based-on: <cover.1555726824.git.alistair.francis@wdc.com>
->
-> Now that the RISC-V spec has started to be ratified let's update our
-> QEMU implementation. There are a few things going on here:
->  - Add priv version 1.11.0 to QEMU
->     - This is the ratified version of the Privledge spec
->     - There are almost no changes to 1.10
->  - Mark the 1.09.1 privledge spec as depreated
->      - Let's aim to remove it in two releases
->  - Set priv version 1.11.0 as the default
->  - Remove the user_spec version
->      - This doesn't really mean anything so let's remove it
->  - Add support for the "Counters" extension
->  - Add command line options for Zifencei and Zicsr
->
-> We can remove the spec version as it's unused and has never been exposed
-> to users. The idea is to match the specs in specifying the version. To
-> handle versions in the future we can extend the extension props to
-> handle version information.
->
-> For example something like this: -cpu rv64,i=2.2,c=2.0,h=0.4,priv_spec=1.11
->
-> NOTE: This isn't supported today as we only have one of each version.
->
-> This will be a future change if we decide to support multiple versions
-> of extensions.
->
-> The "priv_spec" string doesn't really match, but I don't have a better
-> way to say "Machine ISA" and "Supervisor ISA" which is what is included
-> in "priv_spec".
->
-> For completeness I have also added the Counters, Zifencei and Zicsr
-> extensions.
->
-> Everything else seems to match the spec names/style.
->
-> Please let me know if I'm missing something. QEMU 4.1 is the first
-> release to support the extensions from the command line, so we can
-> easily change it until then. After that it'll take more work to change
-> the command line interface.
->
-> Alistair Francis (9):
->   target/riscv: Restructure deprecatd CPUs
->   target/riscv: Add the privledge spec version 1.11.0
->   target/riscv: Comment in the mcountinhibit CSR
->   target/riscv: Set privledge spec 1.11.0 as default
->   qemu-deprecated.texi: Deprecate the RISC-V privledge spec 1.09.1
->   target/riscv: Require either I or E base extension
->   target/riscv: Remove user version information
->   target/riscv: Add support for disabling/enabling Counters
->   target/riscv: Add Zifencei and Zicsr as command line options
->
->  qemu-deprecated.texi                          |  8 +++
->  target/riscv/cpu.c                            | 72 ++++++++++---------
->  target/riscv/cpu.h                            | 19 ++---
->  target/riscv/cpu_bits.h                       |  1 +
->  target/riscv/csr.c                            | 13 +++-
->  .../riscv/insn_trans/trans_privileged.inc.c   |  2 +-
->  6 files changed, 71 insertions(+), 44 deletions(-)
+On Mon, Jun 24, 2019 at 10:17:33AM +0200, Markus Armbruster wrote:
+> Igor Mammedov <imammedo@redhat.com> writes:
+> 
+> > Fallback might affect guest or worse whole host performance
+> > or functionality if backing file were used to share guest RAM
+> > with another process.
+> >
+> > Patch deprecates fallback so that we could remove it in future
+> > and ensure that QEMU will provide expected behavior and fail if
+> > it can't use user provided backing file.
+> >
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > ---
+> > PS:
+> > Patch is written on top of
+> >   [PATCH v4 0/3] numa: deprecate '-numa node,  mem' and default memory distribution
+> > to avoid conflicts in qemu-deprecated.texi
+> >
+> >  numa.c               | 4 ++--
+> >  qemu-deprecated.texi | 8 ++++++++
+> >  2 files changed, 10 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/numa.c b/numa.c
+> > index 91a29138a2..53d67b8ad9 100644
+> > --- a/numa.c
+> > +++ b/numa.c
+> > @@ -494,8 +494,8 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
+> >              if (mem_prealloc) {
+> >                  exit(1);
+> >              }
+> > -            error_report("falling back to regular RAM allocation.");
+> > -
+> > +            warn_report("falling back to regular RAM allocation. "
+> > +                        "Fallback to RAM allocation is deprecated.");
+> 
+> Can we give the user clues on how to avoid the deprecated fallback?
 
-Aside from the comments on 3 and 9
+There's nothing a user can do aside from ensuring they have sufficient
+free memory before launching QEMU to satisfy the huge pag request.
 
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+Probably just needs changing to do.
 
-I've got these, along with my proposed modifications, queued up.  LMK if that's
-a problem, particularly the two-patch replacement for 9 needs a review as it's
-entirely new code.
+    "This is deprecated, future QEMU releases will exit when
+     huge pages cannot be allocated"
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
