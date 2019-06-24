@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F279B51E7B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:41:29 +0200 (CEST)
-Received: from localhost ([::1]:55144 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9211151E4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:30:59 +0200 (CEST)
+Received: from localhost ([::1]:55082 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfXeT-0005F3-5t
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34067)
+	id 1hfXUH-0005bn-JU
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:30:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34120)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSL-00047M-LY
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:59 -0400
+ id 1hfXSN-000495-WE
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSH-0005KB-Or
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:55 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37680)
+ id 1hfXSL-0005Lm-IR
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:59 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34769)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSH-0005G9-II
+ id 1hfXSH-0005HH-L1
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:53 -0400
-Received: by mail-wm1-x342.google.com with SMTP id f17so878767wme.2
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:28:51 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id w9so919719wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5dXEvYdBuMJfEvXkir0hEhmfw03d7UAVN7/M5JOtto0=;
- b=vgoGK1s5qWODw5qrxDj2KbfQuVz/Ek2j+3yC2Bd0DhthPj/Y2l0VMCFSgwOh6XiIQI
- cM5gscqDJhwHFLSdobBFt5wxNFo0ESF/YMoNB0KJsMRYxn7XnZtXoxxLLTFlmgFEVHnw
- FX2w5qmD5iyltJ+Zt6bMzjQW41CGjgmfxJIa7xLXb5CXHDB2DpU0uOVdtzXhgLgYIS01
- 7iFiAlh45RgEbrlQipclGf5EfZ3+IEoPUyEmY4NG/Nj877L082JBjfTIPgu2t0bOumyz
- 2hwlIrqzTyzlOskBtkTMeRARdREiB4iPQpYY3Z7dG0abPBB8X8RUouK+awFPvqxFXv/J
- Jh9w==
+ bh=B16UC5jpLoiB2eLXN09Oz9O+5YpGIzoXUKS3ahIfaxM=;
+ b=CKWKMr13uVcD39gXizeBevl8HbVjB8O8Gp0lS6DlHbl0nW1I2dqWSDpvOEMJa3Q5fs
+ WpJTLL8qUTE/fmluRYlKoFwQqEe7xaFC+aNBRGmddV4Xyr7Ob38l3u02UZHrJ5UlZeDg
+ xB1uxwN3f37Ud2TvRwqNP8sU2nuZ6vLikn317Mps8cUdywFKxG2BVWIL43x29T1Ei7lF
+ R4eYhL2XXQ4lBLsnaq/LusvnKOG8Fw/LOZAquIsMnzSu6LZVf4CYiVFc1kGplRrQcQ++
+ 7JyaUALAc6U0COZzWUo+2u3rBEWCqO+fjj3J+9jtZnCr6WdFSapKnYDMyUs6Ybouvcby
+ gLxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5dXEvYdBuMJfEvXkir0hEhmfw03d7UAVN7/M5JOtto0=;
- b=jYJ0PTRMHpzUMDO2j5eHBg2nMWJw6cq1agm24JZyq8w5fjKhxysqzZ4kaz+JYqx6zk
- qGk7EipWmFcgP8DynsZ/UcLq+ht1Txh0SgfU6i23RwE4fCUNfGSjd3kWhjSoLOfze9yY
- 9PiDH4DJrOBbrt0xyVMPN28GFb3+Pd447wIKx7Qfrz+yY6sZ7W2eRNt+ootVXyGJZpwO
- IGqNZpBoG8Hiu/o2auFMJAt+cMQjan5yAj7+SQqIYOgdnMe98CRa8MQGYNdsLShrrRXb
- iqEobpoVYYB9Qathd+21pzh1KjeazTLKMk7ao21XeShSHxXiMmK/gvcryFlkmt4CqtEK
- Maqw==
-X-Gm-Message-State: APjAAAVV10cfQ6Oi6bcEgvZ5zeI6i7Qr+fac167S+BM8p36vJko13BGr
- KOquRHwf/M9cri6mxFAKLOGx3947
-X-Google-Smtp-Source: APXvYqxo5nOW6kvYQcwr/iUQcYmi5fgCXXYDXuJQ8qM2MCFHVFBFuKaGjxdBG+EjeDEcilA8sH8Dqw==
-X-Received: by 2002:a1c:20cf:: with SMTP id g198mr5482204wmg.88.1561415330618; 
- Mon, 24 Jun 2019 15:28:50 -0700 (PDT)
+ bh=B16UC5jpLoiB2eLXN09Oz9O+5YpGIzoXUKS3ahIfaxM=;
+ b=UMRgsafW9d0wzk6FzoyyXe7bfuLm9i+S06eM4fRuQhr8N53yC3mXJL97uugavRO/p5
+ H2BmmH4aEweEraj9lYnbv2XsqvJhTvoX/AIp4wIb7a1kP+r+JBJWW7GBg97gnc9yFHQI
+ s40fqfFVwj6p+h5hmyNYWL9deffllTi+VDS5fS9JWfyUdHENf/vc30hRmNva3cvMrLQl
+ PWkXsa7z8sIxTEKWwqa2VB9Z1QtQPd+wgrqC3txhk6Y/tfLHBFv7R2dttFCyZFHnNqv0
+ 1BbmGHI53UnTcECGcRKb99zp03X9uGZBp/fQXmyefF92l8TEjqW7ZOetjswBNIdIiNfu
+ yjIw==
+X-Gm-Message-State: APjAAAXhfIOLt8RnFwGju6RJZtZxRAA7LM1EAASGTfK/byYp9P27tKFQ
+ jwdOlo3KsjHSYkAABixKz8CKi8Ft
+X-Google-Smtp-Source: APXvYqzx6dGBxEHnOqRH2pcxMWJdYDkNhoPgcHMlPPPj1CFcDaxFDNG1dKu0FvMuHqkepTlSORyurQ==
+X-Received: by 2002:a7b:c933:: with SMTP id h19mr18076367wml.52.1561415331785; 
+ Mon, 24 Jun 2019 15:28:51 -0700 (PDT)
 Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.49
+ by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.50
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 15:28:50 -0700 (PDT)
+ Mon, 24 Jun 2019 15:28:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 00:28:37 +0200
-Message-Id: <20190624222844.26584-4-f4bug@amsat.org>
+Date: Tue, 25 Jun 2019 00:28:38 +0200
+Message-Id: <20190624222844.26584-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190624222844.26584-1-f4bug@amsat.org>
 References: <20190624222844.26584-1-f4bug@amsat.org>
@@ -68,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH 03/10] hw/mips/gt64xxx_pci: Fix 'braces' coding
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH 04/10] hw/mips/gt64xxx_pci: Fix 'spaces' coding
  style issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,82 +94,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Since we'll move this code around, fix its style first:
 
-  ERROR: braces {} are necessary for all arms of this statement
+  ERROR: space prohibited between function name and open parenthesis
+  ERROR: line over 90 characters
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/gt64xxx_pci.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ hw/mips/gt64xxx_pci.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index bbd719f091..cfd497960c 100644
+index cfd497960c..0b9fb02475 100644
 --- a/hw/mips/gt64xxx_pci.c
 +++ b/hw/mips/gt64xxx_pci.c
-@@ -257,19 +257,25 @@ static void check_reserved_space(hwaddr *start, hwaddr *length)
-     hwaddr begin = *start;
-     hwaddr end = *start + *length;
+@@ -384,8 +384,8 @@ static const VMStateDescription vmstate_gt64120 = {
+     }
+ };
  
--    if (end >= 0x1e000000LL && end < 0x1f100000LL)
-+    if (end >= 0x1e000000LL && end < 0x1f100000LL) {
-         end = 0x1e000000LL;
--    if (begin >= 0x1e000000LL && begin < 0x1f100000LL)
-+    }
-+    if (begin >= 0x1e000000LL && begin < 0x1f100000LL) {
-         begin = 0x1f100000LL;
--    if (end >= 0x1fc00000LL && end < 0x1fd00000LL)
-+    }
-+    if (end >= 0x1fc00000LL && end < 0x1fd00000LL) {
-         end = 0x1fc00000LL;
--    if (begin >= 0x1fc00000LL && begin < 0x1fd00000LL)
-+    }
-+    if (begin >= 0x1fc00000LL && begin < 0x1fd00000LL) {
-         begin = 0x1fd00000LL;
-+    }
-     /* XXX: This is broken when a reserved range splits the requested range */
--    if (end >= 0x1f100000LL && begin < 0x1e000000LL)
-+    if (end >= 0x1f100000LL && begin < 0x1e000000LL) {
-         end = 0x1e000000LL;
--    if (end >= 0x1fd00000LL && begin < 0x1fc00000LL)
-+    }
-+    if (end >= 0x1fd00000LL && begin < 0x1fc00000LL) {
-         end = 0x1fc00000LL;
-+    }
- 
-     *start = begin;
-     *length = end - begin;
-@@ -385,8 +391,9 @@ static void gt64120_writel (void *opaque, hwaddr addr,
+-static void gt64120_writel (void *opaque, hwaddr addr,
+-                            uint64_t val, unsigned size)
++static void gt64120_writel(void *opaque, hwaddr addr,
++                           uint64_t val, unsigned size)
+ {
+     GT64120State *s = opaque;
      PCIHostState *phb = PCI_HOST_BRIDGE(s);
-     uint32_t saddr;
- 
--    if (!(s->regs[GT_CPU] & 0x00001000))
-+    if (!(s->regs[GT_CPU] & 0x00001000)) {
-         val = bswap32(val);
-+    }
- 
-     saddr = (addr & 0xfff) >> 2;
-     switch (saddr) {
-@@ -937,8 +944,9 @@ static uint64_t gt64120_readl (void *opaque,
-         break;
+@@ -671,8 +671,8 @@ static void gt64120_writel (void *opaque, hwaddr addr,
      }
- 
--    if (!(s->regs[GT_CPU] & 0x00001000))
-+    if (!(s->regs[GT_CPU] & 0x00001000)) {
-         val = bswap32(val);
-+    }
- 
-     return val;
  }
-@@ -990,8 +998,9 @@ static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
-         /* The pic level is the logical OR of all the PCI irqs mapped to it. */
-         pic_level = 0;
-         for (i = 0; i < 4; i++) {
--            if (pic_irq == piix4_dev->config[0x60 + i])
-+            if (pic_irq == piix4_dev->config[0x60 + i]) {
-                 pic_level |= pci_irq_levels[i];
-+            }
-         }
-         qemu_set_irq(pic[pic_irq], pic_level);
-     }
+ 
+-static uint64_t gt64120_readl (void *opaque,
+-                               hwaddr addr, unsigned size)
++static uint64_t gt64120_readl(void *opaque,
++                              hwaddr addr, unsigned size)
+ {
+     GT64120State *s = opaque;
+     PCIHostState *phb = PCI_HOST_BRIDGE(s);
+@@ -1193,7 +1193,8 @@ PCIBus *gt64120_register(qemu_irq *pic)
+                                      get_system_io(),
+                                      PCI_DEVFN(18, 0), 4, TYPE_PCI_BUS);
+     qdev_init_nofail(dev);
+-    memory_region_init_io(&d->ISD_mem, OBJECT(dev), &isd_mem_ops, d, "isd-mem", 0x1000);
++    memory_region_init_io(&d->ISD_mem, OBJECT(dev), &isd_mem_ops, d,
++                          "isd-mem", 0x1000);
+ 
+     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
+     return phb->bus;
 -- 
 2.19.1
 
