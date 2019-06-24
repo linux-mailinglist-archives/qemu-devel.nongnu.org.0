@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA56650A42
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 13:57:08 +0200 (CEST)
-Received: from localhost ([::1]:50020 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBDE509F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 13:41:14 +0200 (CEST)
+Received: from localhost ([::1]:50054 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfN91-0007Qc-8N
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 07:28:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60524)
+	id 1hfNER-0001Gj-Ti
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 07:33:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33978)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liq3ea@gmail.com>) id 1hfN6f-0006Oj-AH
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:25:54 -0400
+ (envelope-from <drjones@redhat.com>) id 1hfNCF-0000ds-7f
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:31:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liq3ea@gmail.com>) id 1hfN6Y-0006sU-Ec
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:25:49 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45164)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hfN6W-0006ZS-9L
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:25:44 -0400
-Received: by mail-oi1-x241.google.com with SMTP id m206so9440089oib.12
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 04:25:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5ST2PF5q4Z6x+/Jg3bOgoDlbdjI3m8HcoOI/bl+t7Ro=;
- b=bQGvgh6Ynl718K2KboiBBylaQBoPBnYSYySKsNNVs+mNGnjm2IFhnBQmn0iPeeYRrH
- EHgQjS8LJh9r7DkFregoqWP6VwfHxiexc3R9zWW1i2n9QO6H1hp9OqbfzT2lfeGjC/ZZ
- ttyWXpIGd4tYPVj8l7iLSPd4QzrXY+UzrSPx7Z3oMvr7g9TtJVMupR8qnx2CFhQtoCeA
- 2z6sg2c5/pD7f+G7sUNM2ogSyvpFahQdrzOAhu/hmDs7IVZ+RFm1N+pNpkGhWkvw88xN
- EtdB5bvCcUl5VluFPJwjYfHNM64r9tCgexUNZuFx13xSUsTY1IV7IweeO9/DkX07DoyX
- kmDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5ST2PF5q4Z6x+/Jg3bOgoDlbdjI3m8HcoOI/bl+t7Ro=;
- b=Dw3k1/HKohClKFSwH18Zy2OsxSt30rZc6RgzThNl/HfT0dTLuQYeeM11lVHUwkVWSW
- ecZWg2+49mYagmBKYuO+dTwa2WfxTEA24NEH+nTcXaVybFxPGJuejGzutMaIIper9/G9
- ydosD3p1yQXGdQniBWFFmRnyNXg7bYB198B2uq60BXLK02UL1IlObOPzS4ZhiWpqLTW1
- wDkif3NUIeX/H9zDPXly/OFNNdUMAG6WpTnJmmiI+KGtFHLk7/aHzh8Cnbzmw9mKIdwe
- NUWnRx+o8sWJrHpTEWay8Q6D5gVhg/FgkvNrKF1/qgiQWzKSX5XbEGOHBAF2uDND5r6C
- OtoQ==
-X-Gm-Message-State: APjAAAUgL465gz0ggI5I4LtCNHRh7eIu1h5CAMaOSAT+95WK38EKr5So
- 4lvPiKyZ+/RbHqS2j5aSOfx7qG+DtQ1mlLMBePA=
-X-Google-Smtp-Source: APXvYqxfGq2vdXUi8TnVkiYIzyhpqRRaAufCN2jNVzxM/FgUII7js/mL05oie7Q0bH+JHxn5fnsPeyf1VDb3CFI+VlQ=
-X-Received: by 2002:a54:468c:: with SMTP id k12mr11158865oic.56.1561375533623; 
- Mon, 24 Jun 2019 04:25:33 -0700 (PDT)
+ (envelope-from <drjones@redhat.com>) id 1hfNCD-0006Xo-2c
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:31:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:13387)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <drjones@redhat.com>)
+ id 1hfNC7-0005S0-1T; Mon, 24 Jun 2019 07:31:31 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 1C9B87E437;
+ Mon, 24 Jun 2019 11:30:48 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D874D60BF7;
+ Mon, 24 Jun 2019 11:30:39 +0000 (UTC)
+Date: Mon, 24 Jun 2019 13:30:37 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Dave Martin <Dave.Martin@arm.com>
+Message-ID: <20190624113037.m5onedluc4x7c5ej@kamzik.brq.redhat.com>
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-6-drjones@redhat.com>
+ <20190624110507.GG2790@e103592.cambridge.arm.com>
 MIME-Version: 1.0
-References: <20190622002119.126834-1-liq3ea@163.com>
- <20190624094216.GI6279@xz-x1>
- <CAKXe6S+5Ad-WHYpX9E8EFv61ASxSQYL+RQoqnG6NVbysgtv4FQ@mail.gmail.com>
- <20190624112056.GM6279@xz-x1>
-In-Reply-To: <20190624112056.GM6279@xz-x1>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Mon, 24 Jun 2019 19:24:57 +0800
-Message-ID: <CAKXe6SJ2eV=nOQgmT3OAaWTFv6unr4p0zS3tTrjHwCadPB43JQ@mail.gmail.com>
-To: Peter Xu <peterx@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v2] ioapic: use irq number instead of
- vector in ioapic_eoi_broadcast
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190624110507.GG2790@e103592.cambridge.arm.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Mon, 24 Jun 2019 11:30:48 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 05/14] target/arm/helper: zcr: Add build
+ bug next to value range assumption
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,43 +59,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Li Qiang <liq3ea@163.com>,
- Qemu Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Xu <peterx@redhat.com> =E4=BA=8E2019=E5=B9=B46=E6=9C=8824=E6=97=A5=E5=
-=91=A8=E4=B8=80 =E4=B8=8B=E5=8D=887:21=E5=86=99=E9=81=93=EF=BC=9A
+On Mon, Jun 24, 2019 at 12:05:07PM +0100, Dave Martin wrote:
+> On Fri, Jun 21, 2019 at 05:34:13PM +0100, Andrew Jones wrote:
+> 
+> The purpose of this check should probably at least be described in a
+> comment -- i.e., what actually depends on this?
 
-> On Mon, Jun 24, 2019 at 07:08:30PM +0800, Li Qiang wrote:
-> > Do you mean the redirect table entry of ioapic update?
->
-> Yes.
->
-> > I think this is reasonable, I will prepare a separate patch with this o=
-ne
-> > as a patchset later.
->
-> IMHO you can post that as separate patch.  After all these are
-> different issues and this one looks good already, so no need to
-> repost.
->
->
+I was thinking the already present "Bits other than [3:0] are RAZ/WI."
+explained that, but how about this for an improvement?
 
-OK, got.
-
-For the maintainer please remember to add the Fixes tag Peter adds in the
-review
-and also merge the v2 version.
-
+/*
+ * Only the lowest 4 bits of ZCR_ELx may be used to constrain the vector
+ * length, the rest of the bits are RAZ/WI. Since the vector length of
+ * 128-bits (1 in quadwords) is represented as zero in ZCR_ELx, and all
+ * vector lengths are represented as their length in quadwords minus 1,
+ * then four bits allow up to quadword 16 to be selected.
+ */
 
 Thanks,
-Li Qiang
+drew
 
+> 
+> Cheers
+> ---Dave
+> 
+> > Suggested-by: Dave Martin <Dave.Martin@arm.com>
+> > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > ---
+> >  target/arm/helper.c | 1 +
+> >  1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/target/arm/helper.c b/target/arm/helper.c
+> > index df4276f5f6ca..edba94004e0b 100644
+> > --- a/target/arm/helper.c
+> > +++ b/target/arm/helper.c
+> > @@ -5319,6 +5319,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> >      int new_len;
+> >  
+> >      /* Bits other than [3:0] are RAZ/WI.  */
+> > +    QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
+> >      raw_write(env, ri, value & 0xf);
+> >  
+> >      /*
+> > -- 
+> > 2.20.1
+> > 
+> 
 
-
-> Regards,
->
-> --
-> Peter Xu
->
