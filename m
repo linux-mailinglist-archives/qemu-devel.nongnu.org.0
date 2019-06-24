@@ -2,55 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9C951BD3
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 21:57:53 +0200 (CEST)
-Received: from localhost ([::1]:54286 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0348351C09
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 22:09:24 +0200 (CEST)
+Received: from localhost ([::1]:54384 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfV67-0003Jk-Ct
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 15:57:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54405)
+	id 1hfVHH-0001Nn-7u
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 16:09:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56666)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hfV4h-0002qy-4i
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:56:24 -0400
+ (envelope-from <bounces@canonical.com>) id 1hfVDd-0007sQ-CY
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 16:05:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hfV4g-0006O7-5p
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:56:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54562)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfV4f-0006Mu-W6
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:56:22 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7CF6058E23;
- Mon, 24 Jun 2019 19:56:15 +0000 (UTC)
-Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D17B60BFB;
- Mon, 24 Jun 2019 19:56:13 +0000 (UTC)
-Date: Mon, 24 Jun 2019 16:56:12 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190624195612.GM1862@habkost.net>
-References: <20190624190214.14468-1-mreitz@redhat.com>
- <20190624192108.GL1862@habkost.net>
- <8cfbd3c5-9473-46bf-b59b-b7d7711d636f@redhat.com>
- <a75ac63e-c84b-c674-4a42-e96c4c0d9326@redhat.com>
+ (envelope-from <bounces@canonical.com>) id 1hfVDb-0006br-RE
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 16:05:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:34798)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hfVDb-0006Zq-HU
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 16:05:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hfVDZ-0003Gm-U7
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 20:05:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D4A3A2E80C7
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 20:05:33 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a75ac63e-c84b-c674-4a42-e96c4c0d9326@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Mon, 24 Jun 2019 19:56:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 24 Jun 2019 19:59:23 -0000
+From: Andrew Randrianasulu <1831545@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=alex.bennee@linaro.org; 
+X-Launchpad-Bug-Tags: regression tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: andrew-randrianasulu
+X-Launchpad-Bug-Reporter: Andrew Randrianasulu (andrew-randrianasulu)
+X-Launchpad-Bug-Modifier: Andrew Randrianasulu (andrew-randrianasulu)
+References: <155962633298.7880.15982922254182327026.malonedeb@wampee.canonical.com>
+Message-Id: <156140636398.31121.205256729214833167.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18991";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 06a90c33ddaf1780db3b844c3bceb267b1b5e1a3
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] i386/kvm: Fix build with -m32
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1831545] Re: "accel/tcg: demacro cputlb" break
+ qemu-system-x86_64 on 32-bit x86 host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,58 +66,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1831545 <1831545@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 24, 2019 at 09:30:26PM +0200, Max Reitz wrote:
-> On 24.06.19 21:26, Max Reitz wrote:
-> > On 24.06.19 21:21, Eduardo Habkost wrote:
-> >> On Mon, Jun 24, 2019 at 09:02:14PM +0200, Max Reitz wrote:
-> >>> find_next_bit() takes a pointer of type "const unsigned long *", bu=
-t the
-> >>> first argument passed here is a "uint64_t *".  These types are
-> >>> incompatible when compiling qemu with -m32.
-> >>>
-> >>> Just cast it to "const void *", find_next_bit() works fine with any=
- type
-> >>> on little-endian hosts (which x86 is).
-> >>>
-> >>> Fixes: c686193072a47032d83cb4e131dc49ae30f9e5d
-> >>> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> >>
-> >> Why not declare kvm_hyperv_properties.dependencies with the right
-> >> type for bitmaps, using
-> >>   unsigned long dependencies[BITS_TO_LONGS(64)]
-> >> ?
-> >=20
-> > How would you (statically) initialize that field, then?
-> >=20
-> > I cannot imagine a reasonable static way that does not invoke the sam=
-e
-> > =E2=80=9CThe host must be little-endian, so it=E2=80=99s OK=E2=80=9D =
-assumption.
->=20
-> Sorry, brain fart.  That=E2=80=99s not the problem because in either ca=
-se, the
-> lower index will receive the lower-indexed bits.
->=20
-> But we=E2=80=99d still have to deal with the fact that it could either =
-be one or
-> two indices, which doesn=E2=80=99t seem nice to initialize either.
+bug fixed in current git (commit
+474f3938d79ab36b9231c9ad3b5a9314c2aeacde). Thanks, Alex!
 
-Right, a uint64_t field is more convenient to initialize.
+-- =
 
->=20
-> Max
->=20
-> > The better question is perhaps, why not use ffsll().  Hm.  I don=E2=80=
-=99t know,
-> > maybe I should?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1831545
 
-uint64_t + ffsll() seems simple and appropriate.
+Title:
+  "accel/tcg: demacro cputlb" break qemu-system-x86_64 on 32-bit x86
+  host
 
---=20
-Eduardo
+Status in QEMU:
+  In Progress
+
+Bug description:
+  As described in https://lists.gnu.org/archive/html/qemu-
+  devel//2019-05/msg07362.html I run into TCG regression in qemu-git.
+
+  Unfortunately, fix from bug
+  https://bugs.launchpad.net/qemu/+bug/1830872 seems to be nonn-
+  effective for my case.
+
+  For reproduction (on 32-bit x86 host, in my case Slackware with gcc
+  5.5.0):
+
+  ./configure --target-list=3Dx86_64-softmmu --disable-werror --enable-
+  debug-tcg
+
+  make (-j5 in my case)
+
+  try to boot any 64-bit kernel:
+
+  x86_64-softmmu/qemu-system-x86_64 -kernel /boot/bzImage-4.12.0-x64
+  -accel tcg
+
+  result is - qemu appear to hang right after "Booting the kernel" line.
+  Decompression (xz) was ok.
+
+  Tested with qemu-git commit  e2a58ff493a2e00db3e963c1839c5374500110f2
+
+  32-bit OS can be booted fine, and -enable-kvm also allow 64 bit
+  kernel/os to boot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1831545/+subscriptions
 
