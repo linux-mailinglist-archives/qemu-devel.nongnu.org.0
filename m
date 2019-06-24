@@ -2,49 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973CF51A4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 20:09:46 +0200 (CEST)
-Received: from localhost ([::1]:53646 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D73751A67
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 20:22:56 +0200 (CEST)
+Received: from localhost ([::1]:53766 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfTPU-0006Od-0M
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 14:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56026)
+	id 1hfTcF-0005lg-19
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 14:22:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57364)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hfTJp-0004kW-Dr
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:03:55 -0400
+ (envelope-from <joel@sing.id.au>) id 1hfTPm-0007kS-2u
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:10:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hfTJm-0008Om-3K
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:03:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48734)
+ (envelope-from <joel@sing.id.au>) id 1hfTPk-0002Lq-0s
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:10:01 -0400
+Received: from stingray.exigere.com.au ([162.217.113.74]:23701)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfTJi-0007lL-Sj
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 14:03:48 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1BD68308FE62;
- Mon, 24 Jun 2019 18:03:33 +0000 (UTC)
-Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C8565D9C5;
- Mon, 24 Jun 2019 18:03:27 +0000 (UTC)
-Date: Mon, 24 Jun 2019 15:03:26 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20190624180326.GJ1862@habkost.net>
-References: <20190608233447.27970-1-ehabkost@redhat.com>
+ (Exim 4.71) (envelope-from <joel@sing.id.au>)
+ id 1hfTPb-0000UC-AS; Mon, 24 Jun 2019 14:09:52 -0400
+Received: from hippo.sing.id.au (exi2311632.lnk.telstra.net [144.139.233.124])
+ by stingray.exigere.com.au (OpenSMTPD) with ESMTPSA id a7f122bb
+ (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO); 
+ Tue, 25 Jun 2019 04:34:49 +1000 (AEST)
+Received: from localhost (hippo.sing.id.au [local])
+ by hippo.sing.id.au (OpenSMTPD) with ESMTPA id c019513a;
+ Tue, 25 Jun 2019 04:08:38 +1000 (AEST)
+Date: Tue, 25 Jun 2019 04:08:38 +1000
+From: Joel Sing <joel@sing.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190624180837.GM61734@hippo.sing.id.au>
+References: <20190616191900.GH61734@hippo.sing.id.au>
+ <41ef5fbf-f438-e60a-2fba-a72e3ad422f9@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190608233447.27970-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 24 Jun 2019 18:03:33 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 0/1] Export machine type deprecation
- info through QMP
+In-Reply-To: <41ef5fbf-f438-e60a-2fba-a72e3ad422f9@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 162.217.113.74
+Subject: Re: [Qemu-devel] [PATCH] atomic failures on qemu-system-riscv64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,38 +53,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: me@carlosedp.com, qemu-riscv@nongnu.org, palmer@sifive.com,
+ qemu-devel@nongnu.org, Alistair.Francis@wdc.com, marco@decred.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any objections to this?  I'm planning to merge it this week.
+On 19-06-17 16:52:44, Richard Henderson wrote:
+> On 6/16/19 12:19 PM, Joel Sing wrote:
+> > +    /*
+> > +     * Clear the load reservation, since an SC must fail if there is
+> > +     * an SC to any address, in between an LR and SC pair.
+> > +     */
+> > +    tcg_gen_movi_tl(load_res, 0);
+> > +
+> >      gen_set_label(l2);
+> 
+> This clear needs to be moved down below label l2.
+> Otherwise, with lr / sc / sc, the second sc could succeed in error.
 
-On Sat, Jun 08, 2019 at 08:34:46PM -0300, Eduardo Habkost wrote:
-> Changes v1 -> v2:
-> * I've decided to get rid of the status-message and
->   suggested-alternative fields, to avoid more bikeshedding.
-> 
-> This series adds machine type deprecation information to the
-> output of the `query-machines` QMP command.  With this, libvirt
-> and management software will be able to show this information to
-> users and/or suggest changes to VM configuration to avoid
-> deprecated machine types.
-> 
-> Eduardo Habkost (1):
->   qmp: Add deprecation information to query-machines
-> 
->  qapi/misc.json | 7 ++++++-
->  vl.c           | 1 +
->  2 files changed, 7 insertions(+), 1 deletion(-)
-> 
-> -- 
-> 2.18.0.rc1.1.g3f1ff2140
-> 
+Indeed, thanks.
 
+> FWIW, other targets have used -1 as the "invalid" load reservation, since the
+> architecture does not require address 0 to be unmapped.  This should be quite
+> visible in M-mode with paging disabled and ram at offset 0.  Often, other
+> targets require alignment for the lr/sc address, though I don't see that for riscv.
+
+I've switched to -1 as suggested. Regarding the alignment for reservations, the
+specification does require this, although I do not recall seeing any enforcement
+of this by qemu itself.
+
+New diff follows.
+
+From 8ef31a2ce8ef1cbeee92995a0b2994f480e9bb6d Mon Sep 17 00:00:00 2001
+From: Joel Sing <joel@sing.id.au>
+Date: Tue, 25 Jun 2019 02:44:24 +1000
+Subject: [PATCH] Clear load reservations on qemu riscv target
+
+This prevents a load reservation from being placed in one context/process,
+then being used in another, resulting in an SC succeeding incorrectly and
+breaking atomics.
+
+Signed-off-by: Joel Sing <joel@sing.id.au>
+---
+ target/riscv/cpu.c                      | 1 +
+ target/riscv/cpu_helper.c               | 9 +++++++++
+ target/riscv/insn_trans/trans_rva.inc.c | 8 +++++++-
+ 3 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index d61bce6d55..e7c8bf48fc 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -281,6 +281,7 @@ static void riscv_cpu_reset(CPUState *cs)
+     env->pc = env->resetvec;
+ #endif
+     cs->exception_index = EXCP_NONE;
++    env->load_res = -1;
+     set_default_nan_mode(1, &env->fp_status);
+ }
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index b17f169681..6a07b12e65 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -113,6 +113,15 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+     }
+     /* tlb_flush is unnecessary as mode is contained in mmu_idx */
+     env->priv = newpriv;
++
++    /* Clear the load reservation - otherwise a reservation placed in one
++     * context/process can be used by another, resulting in an SC succeeding
++     * incorrectly. Version 2.2 of the ISA specification explicitly requires
++     * this behaviour, while later revisions say that the kernel "should" use
++     * an SC instruction to force the yielding of a load reservation on a
++     * preemptive context switch. As a result, do both.
++     */
++    env->load_res = -1;
+ }
+ 
+ /* get_physical_address - get the physical address for this virtual address
+diff --git a/target/riscv/insn_trans/trans_rva.inc.c b/target/riscv/insn_trans/trans_rva.inc.c
+index f6dbbc065e..fadd88849e 100644
+--- a/target/riscv/insn_trans/trans_rva.inc.c
++++ b/target/riscv/insn_trans/trans_rva.inc.c
+@@ -61,7 +61,7 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
+ 
+     gen_set_label(l1);
+     /*
+-     * Address comparion failure.  However, we still need to
++     * Address comparison failure.  However, we still need to
+      * provide the memory barrier implied by AQ/RL.
+      */
+     tcg_gen_mb(TCG_MO_ALL + a->aq * TCG_BAR_LDAQ + a->rl * TCG_BAR_STRL);
+@@ -69,6 +69,12 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
+     gen_set_gpr(a->rd, dat);
+ 
+     gen_set_label(l2);
++    /*
++     * Clear the load reservation, since an SC must fail if there is
++     * an SC to any address, in between an LR and SC pair.
++     */
++    tcg_gen_movi_tl(load_res, -1);
++
+     tcg_temp_free(dat);
+     tcg_temp_free(src1);
+     tcg_temp_free(src2);
 -- 
-Eduardo
+2.21.0
+
 
