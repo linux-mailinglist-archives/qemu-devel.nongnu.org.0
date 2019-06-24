@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E75851845
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 18:20:38 +0200 (CEST)
-Received: from localhost ([::1]:52956 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDB051814
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 18:10:01 +0200 (CEST)
+Received: from localhost ([::1]:52816 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfRhr-00020I-Jp
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 12:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55768)
+	id 1hfRXd-00027j-2h
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 12:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53440)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hfRZ0-0004wh-DT
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:11:27 -0400
+ (envelope-from <Dave.Martin@arm.com>) id 1hfRR7-0006Rg-3U
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:03:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hfRYz-0006eK-3g
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:11:26 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50122)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hfRYy-0006cx-Tt
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:11:25 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hfRYw-00036a-Ri
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 16:11:22 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CFB282E80CB
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 16:11:22 +0000 (UTC)
+ (envelope-from <Dave.Martin@arm.com>) id 1hfRR6-0007dd-1Y
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 12:03:16 -0400
+Received: from foss.arm.com ([217.140.110.172]:52750)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <Dave.Martin@arm.com>)
+ id 1hfRR3-0007ad-Hw; Mon, 24 Jun 2019 12:03:13 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0DE2B2B;
+ Mon, 24 Jun 2019 09:03:12 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C67833F71E;
+ Mon, 24 Jun 2019 09:03:10 -0700 (PDT)
+Date: Mon, 24 Jun 2019 17:03:08 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Andrew Jones <drjones@redhat.com>
+Message-ID: <20190624160308.GT2790@e103592.cambridge.arm.com>
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-6-drjones@redhat.com>
+ <20190624110507.GG2790@e103592.cambridge.arm.com>
+ <20190624113037.m5onedluc4x7c5ej@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Jun 2019 15:56:53 -0000
-From: roblabla <1834051@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: roblabla
-X-Launchpad-Bug-Reporter: roblabla (roblabla)
-X-Launchpad-Bug-Modifier: roblabla (roblabla)
-References: <156138866047.31005.4592891012762616724.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156139181396.18147.18062095652882733100.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18991";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: d06998f39724fcdf4347fc2848104f0a9a4c517e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190624113037.m5onedluc4x7c5ej@kamzik.brq.redhat.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1834051] Re: IRQ2 ignored under KVM when using
- IOAPIC
+X-Received-From: 217.140.110.172
+Subject: Re: [Qemu-devel] [PATCH v2 05/14] target/arm/helper: zcr: Add build
+ bug next to value range assumption
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,85 +55,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1834051 <1834051@bugs.launchpad.net>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+On Mon, Jun 24, 2019 at 12:30:37PM +0100, Andrew Jones wrote:
+> On Mon, Jun 24, 2019 at 12:05:07PM +0100, Dave Martin wrote:
+> > On Fri, Jun 21, 2019 at 05:34:13PM +0100, Andrew Jones wrote:
+> > 
+> > The purpose of this check should probably at least be described in a
+> > comment -- i.e., what actually depends on this?
+> 
+> I was thinking the already present "Bits other than [3:0] are RAZ/WI."
+> explained that, but how about this for an improvement?
+> 
+> /*
+>  * Only the lowest 4 bits of ZCR_ELx may be used to constrain the vector
+>  * length, the rest of the bits are RAZ/WI. Since the vector length of
+>  * 128-bits (1 in quadwords) is represented as zero in ZCR_ELx, and all
+>  * vector lengths are represented as their length in quadwords minus 1,
+>  * then four bits allow up to quadword 16 to be selected.
+>  */
 
-  When using KVM, and an OS that supports the IOAPIC, interrupts mapped on
-  IRQ2 (for instance, routing an HPET timer on interrupt 2) will cause the
-  interrupts to never be delivered. This is because QEmu, when setting up
-  the KVM interrupt routes, will not set one up for IRQ2[0]. When running
-  without KVM, IRQ2 is identity-mapped to GSI2.
-  =
+No, maybe the existing comment is enough.
 
-  My understanding is that IRQs should be identity mapped to their
-  equivalent GSI unless a redirection entry is present in the MADT. This
-  is supported by ACPI 6.2 spec[1], 5.2.12.5 Interrupt Source Override
-  Structure, which claims: "It is assumed that the ISA interrupts will be
-  identity-mapped into the first I/O APIC sources.".
-  =
+I thought there might be more code elsewhere that assumes that checks
+sve_max_vq <= ARM_MAX_VQ then then assumes that sve_max_vq <= 16.  But
+if not, we probably don't need an additional comment here.
 
-  I stumbled across this while working on my own custom OS, got very
-  confused why the HPET wasn't triggering any interruption - and even more
-  confused why the behavior only happened in KVM and not in non-KVM.
-  =
+I haven't tried to understand all the code in the series beyond the
+user/kernel interactions, so maybe I was just paranoid.
 
-- EDIT: Interestingly, the HPET only supports IRQ2 under qemu, which,
-- combined with this bug, makes it completely unusable.
-+ EDIT: Interestingly, the HPET only supports IRQ2 when using the default
-+ PIIX chipset, which, combined with this bug, makes it completely
-+ unusable.
-  =
+[...]
 
-  [0]:
-  https://github.com/qemu/qemu/blob/37560c259d7a0d6aceb96e9d6903ee002f4e5e0=
-c/hw/i386/kvm/ioapic.c#L40
-  =
-
-  [1]: https://uefi.org/sites/default/files/resources/ACPI_6_2.pdf
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1834051
-
-Title:
-  IRQ2 ignored under KVM when using IOAPIC
-
-Status in QEMU:
-  New
-
-Bug description:
-  When using KVM, and an OS that supports the IOAPIC, interrupts mapped
-  on IRQ2 (for instance, routing an HPET timer on interrupt 2) will
-  cause the interrupts to never be delivered. This is because QEmu, when
-  setting up the KVM interrupt routes, will not set one up for IRQ2[0].
-  When running without KVM, IRQ2 is identity-mapped to GSI2.
-
-  My understanding is that IRQs should be identity mapped to their
-  equivalent GSI unless a redirection entry is present in the MADT. This
-  is supported by ACPI 6.2 spec[1], 5.2.12.5 Interrupt Source Override
-  Structure, which claims: "It is assumed that the ISA interrupts will
-  be identity-mapped into the first I/O APIC sources.".
-
-  I stumbled across this while working on my own custom OS, got very
-  confused why the HPET wasn't triggering any interruption - and even
-  more confused why the behavior only happened in KVM and not in non-
-  KVM.
-
-  EDIT: Interestingly, the HPET only supports IRQ2 when using the
-  default PIIX chipset, which, combined with this bug, makes it
-  completely unusable.
-
-  [0]:
-  https://github.com/qemu/qemu/blob/37560c259d7a0d6aceb96e9d6903ee002f4e5e0=
-c/hw/i386/kvm/ioapic.c#L40
-
-  [1]: https://uefi.org/sites/default/files/resources/ACPI_6_2.pdf
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1834051/+subscriptions
+Cheers
+---Dave
 
