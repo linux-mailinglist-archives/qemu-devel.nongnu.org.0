@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 418F25096D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 13:07:57 +0200 (CEST)
-Received: from localhost ([::1]:49794 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86B8250977
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 13:10:25 +0200 (CEST)
+Received: from localhost ([::1]:49822 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfMpI-0001oC-F7
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 07:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52400)
+	id 1hfMrf-0004Ve-2c
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 07:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52461)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Dave.Martin@arm.com>) id 1hfMmt-0000Nb-LO
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:05:28 -0400
+ (envelope-from <Dave.Martin@arm.com>) id 1hfMn0-0000dG-GY
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:05:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>) id 1hfMms-0001eA-Jx
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:05:27 -0400
-Received: from foss.arm.com ([217.140.110.172]:45764)
+ (envelope-from <Dave.Martin@arm.com>) id 1hfMmz-0002YF-9C
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:05:34 -0400
+Received: from foss.arm.com ([217.140.110.172]:45774)
  by eggs.gnu.org with esmtp (Exim 4.71)
  (envelope-from <Dave.Martin@arm.com>)
- id 1hfMmp-00085I-Af; Mon, 24 Jun 2019 07:05:23 -0400
+ id 1hfMmw-00027y-MB; Mon, 24 Jun 2019 07:05:30 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9563B2B;
- Mon, 24 Jun 2019 04:05:10 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 118ECC0A;
+ Mon, 24 Jun 2019 04:05:30 -0700 (PDT)
 Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
  [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3E99A3F718;
- Mon, 24 Jun 2019 04:05:09 -0700 (PDT)
-Date: Mon, 24 Jun 2019 12:05:07 +0100
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0EA23F718;
+ Mon, 24 Jun 2019 04:05:28 -0700 (PDT)
+Date: Mon, 24 Jun 2019 12:05:26 +0100
 From: Dave Martin <Dave.Martin@arm.com>
 To: Andrew Jones <drjones@redhat.com>
-Message-ID: <20190624110507.GG2790@e103592.cambridge.arm.com>
+Message-ID: <20190624110526.GH2790@e103592.cambridge.arm.com>
 References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-6-drjones@redhat.com>
+ <20190621163422.6127-8-drjones@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190621163422.6127-6-drjones@redhat.com>
+In-Reply-To: <20190621163422.6127-8-drjones@redhat.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.140.110.172
-Subject: Re: [Qemu-devel] [PATCH v2 05/14] target/arm/helper: zcr: Add build
- bug next to value range assumption
+Subject: Re: [Qemu-devel] [PATCH v2 07/14] target/arm/cpu64: max cpu:
+ Introduce sve<vl-bits> properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,33 +64,69 @@ Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 21, 2019 at 05:34:13PM +0100, Andrew Jones wrote:
+On Fri, Jun 21, 2019 at 05:34:15PM +0100, Andrew Jones wrote:
+> Introduce cpu properties to give fine control over SVE vector lengths.
+> We introduce a property for each valid length up to the current
+> maximum supported, which is 2048-bits. The properties are named, e.g.
+> sve128, sve256, sve512, ..., where the number is the number of bits.
+> 
+> It's now possible to do something like -cpu max,sve-max-vq=4,sve384=off
+> to provide a guest vector lengths 128, 256, and 512 bits. The resulting
+> set must conform to the architectural constraint of having all power-of-2
+> lengths smaller than the maximum length present. It's also possible to
+> only provide sve<vl-bits> properties, e.g. -cpu max,sve512=on. That
+> example provides the machine with 128, 256, and 512 bit vector lengths.
+> It doesn't hurt to explicitly ask for all expected vector lengths,
+> which is what, for example, libvirt should do.
+> 
+> Note1, it is not possible to use sve<vl-bits> properties before
+> sve-max-vq, e.g. -cpu max,sve384=off,sve-max-vq=4, as supporting
+> that overly complicates the user input validation.
+> 
+> Note2, while one might expect -cpu max,sve-max-vq=4,sve512=on to be the
+> same as -cpu max,sve512=on, they are not. The former enables all vector
+> lengths 512 bits and smaller, while the latter only sets the 512-bit
+> length and its smaller power-of-2 lengths. It's probably best not to use
+> sve-max-vq with sve<vl-bits> properties, but it can't be completely
+> forbidden as we want qmp_query_cpu_model_expansion to work with guests
+> launched with e.g. -cpu max,sve-max-vq=8 on their command line.
 
-The purpose of this check should probably at least be described in a
-comment -- i.e., what actually depends on this?
+Supporting both options together in a non-idempotent way seems to
+complicate things.
+
+Would it be simpler to allow sve-max-vq only when there are no sve<bits>
+options?
+
+Alternatively, the two options would be defined so that their meanings
+are independent of parse order.
+
+So, way sve-max-vq=<max> means that:
+
+ * all VQs up to max for which there is no corresponding sve<bits>=off,
+   are enabled; and
+
+ * VQ max is enabled; and
+
+ * all VQs exceeding max are disabled.
+
+While sve<bits>=(on|off) means
+
+ * the VQ coresponding to <bits> is enabled (for on) or disabled (for
+   off).
+ 
+After parsing all the options, you check that the sve-max-vq and
+sve<bits> optinos are consistent.  If you disallow duplicate sve-max-vq
+or sve<bits> options, then there is no possibility of ambiguity and the
+order or options doesn't matter.
+
+(There may be constraints on the way qemu options parsing works that
+make this hard, though...)
+
+Having sve-max-vq in 128-bit units while sve<bits> are named in terms of
+bit counts also feels a bit odd now.
+
+[...]
 
 Cheers
 ---Dave
-
-> Suggested-by: Dave Martin <Dave.Martin@arm.com>
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> ---
->  target/arm/helper.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index df4276f5f6ca..edba94004e0b 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -5319,6 +5319,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
->      int new_len;
->  
->      /* Bits other than [3:0] are RAZ/WI.  */
-> +    QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
->      raw_write(env, ri, value & 0xf);
->  
->      /*
-> -- 
-> 2.20.1
-> 
 
