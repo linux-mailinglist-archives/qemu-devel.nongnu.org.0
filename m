@@ -2,45 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6FE50514
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:03:38 +0200 (CEST)
-Received: from localhost ([::1]:48909 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAEB550525
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:07:54 +0200 (CEST)
+Received: from localhost ([::1]:48930 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfKsz-0004oL-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:03:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48632)
+	id 1hfKx8-0008QA-1U
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:07:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49638)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hfKri-0003ut-2D
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:02:18 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hfKvR-0007WY-Ry
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:06:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hfKrh-0002SH-1S
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:02:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39782)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hfKrg-00023a-Pg
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:02:16 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 00D1C308FEE2;
- Mon, 24 Jun 2019 09:02:07 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 132B85D9CC;
- Mon, 24 Jun 2019 09:02:02 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 24 Jun 2019 05:02:00 -0400
-Message-Id: <20190624090200.5383-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 24 Jun 2019 09:02:12 +0000 (UTC)
+ (envelope-from <no-reply@patchew.org>) id 1hfKvQ-0001FG-Jl
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:06:09 -0400
+Resent-Date: Mon, 24 Jun 2019 05:06:09 -0400
+Resent-Message-Id: <E1hfKvQ-0001FG-Jl@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21465)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hfKvQ-0000dl-BH
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:06:08 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561367147; cv=none; d=zoho.com; s=zohoarc; 
+ b=gZtTK9FeBJ94kzwVjtZ+3CI1fhQf+tSHlmQg7DL8OjfRXh3MuPkHEQk4YPiT7EACo1nkkj+CYDAb69aUw2hPNyDBJ9CUNTMlSXiDZTiWzkPIUExZoNmniRlrfsSw/7p2BLWigiRAZebdcIpBNqWiw15Uv7Do6tnsVMlCvZmP+qc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561367147;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=zQqvxBlrC0LCnjEEAVNSOMJgVZvmgj1OcRvsDQLpWQM=; 
+ b=eK2SP9EoDc4DG4uivs5YTVT22kQReCBF10OCZpFNo8Zi51ZunnIXL3Vcbp+X58ZsqtN0Mcr3rkq8HkruYUhqapJQuAoVTnhkFDBIqWAA9OVMNJZiliDSFS8XUKI0kVXX8XbUP4Du4KEGjQIa2AKi+L5RrBn/drca+6gJIycoltM=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561367145183735.9013859929129;
+ Mon, 24 Jun 2019 02:05:45 -0700 (PDT)
+In-Reply-To: <20190624070339.4408-1-david.brenken@efs-auto.org>
+Message-ID: <156136714420.4070.12487446110075258042@ce79690b2cb9>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: david.brenken@efs-auto.org
+Date: Mon, 24 Jun 2019 02:05:45 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2] pc: fix possible NULL pointer dereference
- in pc_machine_get_device_memory_region_size()
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH v3 0/5] tricore: adding new instructions
+ and fixing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,48 +62,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, rth@twiddle.net, ehabkost@redhat.com,
- armbru@redhat.com, mst@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: kbastian@mail.uni-paderborn.de, david.brenken@efs-auto.de,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU will crash when device-memory-region-size property is read if ms->device_memory
-wasn't initialized yet.
-
-Crash can be reproduced with:
- $QEMU -preconfig -qmp unix:qmp_socket,server,nowait &
- ./scripts/qmp/qom-get -s qmp_socket /machine.device-memory-region-size
-
-Instead of crashing return 0 if ms->device_memory hasn't been initialized.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-
-v2:
-  * fix missing return value assignment
-      (Eduardo Habkost <ehabkost@redhat.com>)
----
- hw/i386/pc.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e96360b47a..552f3401e2 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -2458,7 +2458,11 @@ pc_machine_get_device_memory_region_size(Object *obj, Visitor *v,
-                                          Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
--    int64_t value = memory_region_size(&ms->device_memory->mr);
-+    int64_t value = 0;
-+
-+    if (ms->device_memory) {
-+        value = memory_region_size(&ms->device_memory->mr);
-+    }
- 
-     visit_type_int(v, name, &value, errp);
- }
--- 
-2.18.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyNDA3MDMzOS40NDA4
+LTEtZGF2aWQuYnJlbmtlbkBlZnMtYXV0by5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVk
+IGJ1aWxkIHRlc3Qgb24gczM5MHggaG9zdC4gUGxlYXNlIGZpbmQgdGhlIGRldGFpbHMgYmVsb3cu
+Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCiMgVGVzdGluZyBzY3JpcHQg
+d2lsbCBiZSBpbnZva2VkIHVuZGVyIHRoZSBnaXQgY2hlY2tvdXQgd2l0aAojIEhFQUQgcG9pbnRp
+bmcgdG8gYSBjb21taXQgdGhhdCBoYXMgdGhlIHBhdGNoZXMgYXBwbGllZCBvbiB0b3Agb2YgImJh
+c2UiCiMgYnJhbmNoCnNldCAtZQpDQz0kSE9NRS9iaW4vY2MKSU5TVEFMTD0kUFdEL2luc3RhbGwK
+QlVJTEQ9JFBXRC9idWlsZApta2RpciAtcCAkQlVJTEQgJElOU1RBTEwKU1JDPSRQV0QKY2QgJEJV
+SUxECiRTUkMvY29uZmlndXJlIC0tY2M9JENDIC0tcHJlZml4PSRJTlNUQUxMCm1ha2UgLWo0CiMg
+WFhYOiB3ZSBuZWVkIHJlbGlhYmxlIGNsZWFuIHVwCiMgbWFrZSBjaGVjayAtajQgVj0xCm1ha2Ug
+aW5zdGFsbAoKZWNobwplY2hvICI9PT0gRU5WID09PSIKZW52CgplY2hvCmVjaG8gIj09PSBQQUNL
+QUdFUyA9PT0iCnJwbSAtcWEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCiAgQ0MgICAgICB0cmlj
+b3JlLXNvZnRtbXUvdGFyZ2V0L3RyaWNvcmUvZnB1X2hlbHBlci5vCiAgQ0MgICAgICB1bmljb3Jl
+MzItc29mdG1tdS9ody90cG0vdHBtX3BwaS5vCi92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC13
+dG9jMHppOS9zcmMvdGFyZ2V0L3RyaWNvcmUvZnB1X2hlbHBlci5jOiBJbiBmdW5jdGlvbiDigJho
+ZWxwZXJfcXNlZWTigJk6Ci92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC13dG9jMHppOS9zcmMv
+dGFyZ2V0L3RyaWNvcmUvZnB1X2hlbHBlci5jOjI0Mzo5OiBlcnJvcjogdG9vIGZldyBhcmd1bWVu
+dHMgdG8gZnVuY3Rpb24g4oCYZmxvYXQzMl9pc19zaWduYWxpbmdfbmFu4oCZCiAgMjQzIHwgICAg
+IGlmIChmbG9hdDMyX2lzX3NpZ25hbGluZ19uYW4oYXJnMSkgfHwgcmVzdWx0ID09IGZsb2F0MzJf
+c3FydF9uYW4pIHsKICAgICAgfCAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgpJbiBm
+aWxlIGluY2x1ZGVkIGZyb20gL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLXd0b2Mwemk5L3Ny
+Yy90YXJnZXQvdHJpY29yZS9mcHVfaGVscGVyLmM6MjM6CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWls
+YWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDYyNDA3MDMzOS40NDA4LTEtZGF2
+aWQuYnJlbmtlbkBlZnMtYXV0by5vcmcvdGVzdGluZy5zMzkweC8/dHlwZT1tZXNzYWdlLgotLS0K
+RW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3
+Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0
+LmNvbQ==
 
 
