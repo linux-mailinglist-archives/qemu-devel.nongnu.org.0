@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68F0510DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 17:41:54 +0200 (CEST)
-Received: from localhost ([::1]:52414 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106BB51784
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 17:44:34 +0200 (CEST)
+Received: from localhost ([::1]:52472 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfR6P-0000eL-Tn
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 11:41:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
+	id 1hfR8y-0004SI-Lm
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 11:44:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44912)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <anthony.perard@citrix.com>) id 1hfQy3-0003YN-HI
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:16 -0400
+ (envelope-from <anthony.perard@citrix.com>) id 1hfQy3-0003Ya-Nq
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anthony.perard@citrix.com>) id 1hfQy1-0000PO-Lu
+ (envelope-from <anthony.perard@citrix.com>) id 1hfQy1-0000PJ-Lh
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:15 -0400
-Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:11953)
+Received: from esa3.hc3370-68.iphmx.com ([216.71.145.155]:11946)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <anthony.perard@citrix.com>)
- id 1hfQy1-0000JY-2G
+ id 1hfQy1-0000GL-1g
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:33:13 -0400
 Authentication-Results: esa3.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none;
@@ -51,31 +51,32 @@ Received-SPF: None (esa3.hc3370-68.iphmx.com: no sender
  envelope-from="anthony.perard@citrix.com";
  x-sender="postmaster@mail.citrix.com";
  x-conformance=sidf_compatible
-IronPort-SDR: LBSCboi4CmuHI0ZhLiS8dKEbwlqxbx/9i5oDZDUhy33jUIWCOhvr+6HzNIgMvgFQbSyuSavqlV
- nHsMJGsfvqJnU8/yJ6hXdIyM3OcAG16J/TgiTRdFfCcMjd99ksJCb8u48+J7n8fdBjTaiOmIwk
- bXtf/c4aV3nQpOICgwX0AsbNtTLaRxmt0tPayd9SfTLFam16TTkqKIupJvX9YizmYQUNSBdqm3
- JhFhjiR+25iujCBGX+2XniSWjRq8fqvy0jytsojuzL9Iy+/iHvrR+J4w2a2DTxOXizR8ZAtmJX
- x10=
+IronPort-SDR: 8a/f3n8FrzsCNMdKRAJOtwsqjTiA0a4FLq3A2XI0xZ1DlDQZvuVaC/p1tV6/EnLfA1kf33mOz5
+ 1uslDhMrijaO7GqLdogyXwL6HQZwIV+qmYliRtpRp1Xzb4W8cLVNbQH+uJJ0v7EqfB4j06/kBt
+ bVklUXfDvjjFgkLrvN3FMPmByYOg8KBRgluadUaH9LXz5HeI0+2GdEvQKYpuvue96rDucnQdko
+ 8Rle0HnjzCkMnvZQx0971bA7WoNY8ngDjF0HenocJ33ZIhzxLQd6uagwUxZW5G0LrYEqmOxPne
+ g+Y=
 X-SBRS: 2.7
-X-MesageID: 2148103
+X-MesageID: 2148104
 X-Ironport-Server: esa3.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
 X-IronPort-AV: E=Sophos;i="5.63,412,1557201600"; 
-   d="scan'208";a="2148103"
+   d="scan'208";a="2148104"
 From: Anthony PERARD <anthony.perard@citrix.com>
 To: <qemu-devel@nongnu.org>
-Date: Mon, 24 Jun 2019 16:32:55 +0100
-Message-ID: <20190624153257.20163-7-anthony.perard@citrix.com>
+Date: Mon, 24 Jun 2019 16:32:56 +0100
+Message-ID: <20190624153257.20163-8-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190624153257.20163-1-anthony.perard@citrix.com>
 References: <20190624153257.20163-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
 X-Received-From: 216.71.145.155
-Subject: [Qemu-devel] [PULL 6/8] xen: Drop includes of xen/hvm/params.h
+Subject: [Qemu-devel] [PULL 7/8] Revert xen/io/ring.h of "Clean up a few
+ header guard symbols"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,47 +93,59 @@ Cc: Anthony PERARD <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-xen-mapcache.c doesn't needs params.h.
+This reverts changes to include/hw/xen/io/ring.h from commit
+37677d7db39a3c250ad661d00fb7c3b59d047b1f.
 
-xen-hvm.c uses defines available in params.h but so is xen_common.h
-which is included before. HVM_PARAM_* flags are only needed to make
-xc_hvm_param_{get,set} calls so including only xenctrl.h, which is
-where the definition the function is, should be enough.
-(xenctrl.h does include params.h)
+Following 37677d7db3 "Clean up a few header guard symbols", QEMU start
+to fail to build:
+
+In file included from ~/xen/tools/../tools/include/xen/io/blkif.h:31:0,
+                 from ~/xen/tools/qemu-xen-dir/hw/block/xen_blkif.h:5,
+                 from ~/xen/tools/qemu-xen-dir/hw/block/xen-block.c:22:
+~/xen/tools/../tools/include/xen/io/ring.h:68:0: error: "__CONST_RING_SIZE" redefined [-Werror]
+ #define __CONST_RING_SIZE(_s, _sz) \
+
+In file included from ~/xen/tools/qemu-xen-dir/hw/block/xen_blkif.h:4:0,
+                 from ~/xen/tools/qemu-xen-dir/hw/block/xen-block.c:22:
+~/xen/tools/qemu-xen-dir/include/hw/xen/io/ring.h:66:0: note: this is the location of the previous definition
+ #define __CONST_RING_SIZE(_s, _sz) \
+
+The issue is that some public xen headers have been imported (by
+f65eadb639 "xen: import ring.h from xen") but not all. With the change
+in the guards symbole, the ring.h header start to be imported twice.
 
 Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Paul Durrant <paul.durrant@citrix.com>
-Message-Id: <20190618112341.513-4-anthony.perard@citrix.com>
+Message-Id: <20190621105441.3025-2-anthony.perard@citrix.com>
 ---
- hw/i386/xen/xen-hvm.c      | 1 -
- hw/i386/xen/xen-mapcache.c | 2 --
- 2 files changed, 3 deletions(-)
+ include/hw/xen/io/ring.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index ed9c37c72d..469f1260a4 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -27,7 +27,6 @@
- #include "exec/address-spaces.h"
+diff --git a/include/hw/xen/io/ring.h b/include/hw/xen/io/ring.h
+index 62abfd7a6e..1adacf09f9 100644
+--- a/include/hw/xen/io/ring.h
++++ b/include/hw/xen/io/ring.h
+@@ -24,8 +24,8 @@
+  * Tim Deegan and Andrew Warfield November 2004.
+  */
  
- #include <xen/hvm/ioreq.h>
--#include <xen/hvm/params.h>
- #include <xen/hvm/e820.h>
+-#ifndef XEN_PUBLIC_IO_RING_H
+-#define XEN_PUBLIC_IO_RING_H
++#ifndef __XEN_PUBLIC_IO_RING_H__
++#define __XEN_PUBLIC_IO_RING_H__
  
- //#define DEBUG_XEN_HVM
-diff --git a/hw/i386/xen/xen-mapcache.c b/hw/i386/xen/xen-mapcache.c
-index 254759f776..dc73c86c61 100644
---- a/hw/i386/xen/xen-mapcache.c
-+++ b/hw/i386/xen/xen-mapcache.c
-@@ -17,8 +17,6 @@
- #include "hw/xen/xen-legacy-backend.h"
- #include "qemu/bitmap.h"
+ /*
+  * When #include'ing this header, you need to provide the following
+@@ -469,7 +469,7 @@ struct name##_data_intf {                                                     \
+ };                                                                            \
+ DEFINE_XEN_FLEX_RING(name)
  
--#include <xen/hvm/params.h>
--
- #include "sysemu/xen-mapcache.h"
- #include "trace.h"
+-#endif /* XEN_PUBLIC_IO_RING_H */
++#endif /* __XEN_PUBLIC_IO_RING_H__ */
  
+ /*
+  * Local variables:
 -- 
 Anthony PERARD
 
