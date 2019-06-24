@@ -2,62 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F11505DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:35:37 +0200 (CEST)
-Received: from localhost ([::1]:49202 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C9A505E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 11:37:17 +0200 (CEST)
+Received: from localhost ([::1]:49230 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfLNw-0006le-1j
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:35:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
+	id 1hfLPZ-0000rc-0a
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 05:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57391)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hfLKQ-0005i2-Kv
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:32:03 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hfLKi-0005wg-Ex
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:32:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hfLKN-0000XG-KK
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:31:58 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:34575)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hfLKL-0000H3-FS
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:31:55 -0400
-Received: by mail-pf1-f196.google.com with SMTP id c85so7188323pfc.1
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 02:31:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=YxolcGymuQ3OFUnbprKZWkwKWoHmo36UA5NlpWkVX6o=;
- b=oMGVjQMO5HBpJ/TB2jGEyo0bVfv7PIBO1RK+n9yqV1JEI112UQ43pQVTezn8rmbnlG
- iKE/KQGhiVONk58Qqq0/9GDeO9VIpuOooeBWrB+jWrpHfbtrTyf78rjf9oCZj1zYVs4k
- VNmcft/SgYEdnHx4P7aIoqGKpXK5ehoS9Mki6ugahfhGRomKAd+IGUZmRzSWiAz/MVOo
- VYmwfShgwuN6e/44uPQnS9iyGcfsm03gdwJHCu7HPoQMLxCwIV7Bc/jXXqatl/IfZOM9
- w255QFaOsBeK9LUHoGN+1Mcbgz49D6abHBCAdNa8V8jA+uxw9di6jr7IXSs8AkRKvZyr
- 7BXw==
-X-Gm-Message-State: APjAAAV5fw+ZuQ2anp4wVpe8APar9qvgBHo0QK/xTARyeHntIG1cK6H2
- VTPVq5NPDcrvG9gO8Tc0rl7duDHzC6MdEg==
-X-Google-Smtp-Source: APXvYqy6PqsRjZgFhJkx3NVY7/IWZR34Is2mZ4E1Qqg0gZi4HeMsUip3IdwtwP2+3p3v3kcGoVRRDA==
-X-Received: by 2002:a17:90a:8a17:: with SMTP id
- w23mr2003844pjn.139.1561368704761; 
- Mon, 24 Jun 2019 02:31:44 -0700 (PDT)
-Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
- [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id l2sm8724962pff.107.2019.06.24.02.31.44
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 02:31:44 -0700 (PDT)
-Date: Mon, 24 Jun 2019 02:31:44 -0700 (PDT)
-X-Google-Original-Date: Mon, 24 Jun 2019 02:31:26 PDT (-0700)
-In-Reply-To: <b1a3188a4d5538d4d0ed0a77114926a2fdae1258.1560821342.git.alistair.francis@wdc.com>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-32c41f8f-e2b3-4880-89d9-0e56340538ec@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.196
-Subject: Re: [Qemu-devel] [PATCH v1 9/9] target/riscv: Add Zifencei and
- Zicsr as command line options
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hfLKb-0000v6-DD
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 05:32:12 -0400
+Received: from mail-eopbgr40134.outbound.protection.outlook.com
+ ([40.107.4.134]:28398 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hfLKT-0000ev-LH; Mon, 24 Jun 2019 05:32:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZQ1Q2bKZEdcirwCizEIqn9I0R/O7rQqGvIVG0ugu+So=;
+ b=eG7malwUDNub5dwndgwRzct8V0T7AAEFXatgSb3UzhZ15Sctp5StOIy+q1qisfPeVZ3u8cYRR+m9mYuw2FLwIQ2DNlS6qqF1bUnMTznJFf+G1tx0DwI2dHA+vo1lKnXQzTDzhGvsFuscezPtPZ6TRJR61GDruXfLvC+WxwC/HVY=
+Received: from VI1PR08MB3677.eurprd08.prod.outlook.com (20.177.61.92) by
+ VI1PR08MB3312.eurprd08.prod.outlook.com (52.134.31.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2008.16; Mon, 24 Jun 2019 09:31:57 +0000
+Received: from VI1PR08MB3677.eurprd08.prod.outlook.com
+ ([fe80::4c71:9c23:235b:fbed]) by VI1PR08MB3677.eurprd08.prod.outlook.com
+ ([fe80::4c71:9c23:235b:fbed%3]) with mapi id 15.20.2008.014; Mon, 24 Jun 2019
+ 09:31:57 +0000
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v7 1/3] block: include base when checking image chain for
+ block allocation
+Thread-Index: AQHVFkfpZprNaltKyk2LZHGpYGsZSqajfZmAgAc1KAA=
+Date: Mon, 24 Jun 2019 09:31:57 +0000
+Message-ID: <50e6ccce-16e2-8313-fe36-36e7a4cb5be0@virtuozzo.com>
+References: <1559152576-281803-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1559152576-281803-2-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <e3cf99ae-62e9-8b6e-5a06-d3c8b9363b85@redhat.com>
+In-Reply-To: <e3cf99ae-62e9-8b6e-5a06-d3c8b9363b85@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0402CA0019.eurprd04.prod.outlook.com
+ (2603:10a6:3:d0::29) To VI1PR08MB3677.eurprd08.prod.outlook.com
+ (2603:10a6:803:85::28)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a253e2f2-1bbe-4945-be2d-08d6f886cd28
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:VI1PR08MB3312; 
+x-ms-traffictypediagnostic: VI1PR08MB3312:
+x-microsoft-antispam-prvs: <VI1PR08MB331274ACCAC3F0F5DC20294DF4E00@VI1PR08MB3312.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 007814487B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(396003)(136003)(376002)(39840400004)(366004)(346002)(199004)(189003)(7736002)(86362001)(229853002)(386003)(99286004)(6506007)(14454004)(2501003)(8676002)(31686004)(81156014)(81166006)(2201001)(31696002)(2906002)(305945005)(36756003)(66066001)(66446008)(64756008)(53936002)(7416002)(4326008)(66476007)(66556008)(186003)(73956011)(66946007)(25786009)(26005)(53546011)(102836004)(6486002)(68736007)(6436002)(6512007)(2616005)(478600001)(107886003)(6246003)(8936002)(52116002)(76176011)(5660300002)(71200400001)(44832011)(71190400001)(256004)(11346002)(6116002)(3846002)(110136005)(446003)(54906003)(316002)(486006)(476003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB3312;
+ H:VI1PR08MB3677.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: KjXPOe3JQsc1v2/vI52DnAjA5s0BUuC0Ca5F//f3eUz5dKDAeIpBDMkOhtRt4kqkR20mz7UplIeRigF1zwnF85gkty0rAhD/cfuOUVySMC4w9rkonDswstpBkwnPZyARki5huhII7i9pvoqd85+uieNwW+XgQAntYCvz8NzYvyI+k4HUEAJZAWT0aHi/6Eqai+N3S0702Ie2sHDd1Upqhjcl84R7D6DtrXQDQIHWxg+dYMh5rmJIgtkbXwnMypiH4vHPBnE6jfXy6zfokd7G2tyXQ2I90UGUmxacizpaRo6uMU9tNjrLSiR+huYDtWeNYJdSlFICjffAHSGHD60ayt23m/uihvXkghAOTEIGi8VuwuPVhPyUlkLn8qBkfFvU+gE8Ag+/mbco5Ys9eQLwRi2VTicrHjbJVleWPxSlyTY=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <95BF371B2D0A3A4C8EB68101009B2D69@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a253e2f2-1bbe-4945-be2d-08d6f886cd28
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2019 09:31:57.3347 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: andrey.shinkevich@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3312
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.4.134
+Subject: Re: [Qemu-devel] [PATCH v7 1/3] block: include base when checking
+ image chain for block allocation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,280 +102,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, alistair23@gmail.com
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "berto@igalia.com" <berto@igalia.com>, Denis Lunev <den@virtuozzo.com>,
+ "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
+ "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 17 Jun 2019 18:31:25 PDT (-0700), Alistair Francis wrote:
-> For completeness let's add Zifencei and Zicsr as command line options,
-> even though they can't be disabled at the moment.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/cpu.c | 9 +++++++++
->  target/riscv/cpu.h | 2 ++
->  2 files changed, 11 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 5af1c9b38c..53cf8607f7 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -409,6 +409,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->          set_misa(env, RVXLEN | target_misa);
->      }
->
-> +    if (!cpu->cfg.ext_ifencei) {
-> +        warn_report("QEMU does not support disabling Zifencei");
-> +    }
-> +    if (!cpu->cfg.ext_icsr) {
-> +        warn_report("QEMU does not support disabling Zicsr");
-> +    }
-> +
->      riscv_cpu_register_gdb_regs_for_features(cs);
->
->      qemu_init_vcpu(cs);
-> @@ -441,6 +448,8 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
->      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
->      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-> +    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> +    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 786f620564..b4c212dfcf 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -222,6 +222,8 @@ typedef struct RISCVCPU {
->          bool ext_s;
->          bool ext_u;
->          bool ext_counters;
-> +        bool ext_ifencei;
-> +        bool ext_icsr;
->
->          char *priv_spec;
->          char *user_spec;
-
-I'd rather just support these, which seems about as hard as emitting a warning.
-Disabling Zifencei is particularly useful, as the Linux ABI forbids it so this
-way we can run tests that way.  Unless I'm missing something, I think these two
-should do it:
-
-From 6d645eb1e8ba4d16431af40bf04e5c165475bf5a Mon Sep 17 00:00:00 2001
-From: Palmer Dabbelt <palmer@sifive.com>
-Date: Mon, 24 Jun 2019 01:59:05 -0700
-Subject: [PATCH 1/2] RISC-V: Add support for the Zifencei extension
-
-fence.i has been split out of the base ISA as part of the ratification
-process.  This patch adds a Zifencei argument, which disables the
-fence.i instruction.
-
-Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
----
- target/riscv/cpu.c                      | 1 +
- target/riscv/cpu.h                      | 1 +
- target/riscv/insn_trans/trans_rvi.inc.c | 3 +++
- target/riscv/translate.c                | 3 +++
- 4 files changed, 8 insertions(+)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index be90fa7d0808..bbad39a337b3 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -441,6 +441,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-+    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 4d4e0f89e206..ba551cd3082c 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -223,6 +223,7 @@ typedef struct RISCVCPU {
-         bool ext_s;
-         bool ext_u;
-         bool ext_counters;
-+        bool ext_ifencei;
- 
-         char *priv_spec;
-         char *user_spec;
-diff --git a/target/riscv/insn_trans/trans_rvi.inc.c b/target/riscv/insn_trans/trans_rvi.inc.c
-index 6cda078ed6ba..766594ba08ce 100644
---- a/target/riscv/insn_trans/trans_rvi.inc.c
-+++ b/target/riscv/insn_trans/trans_rvi.inc.c
-@@ -484,6 +484,9 @@ static bool trans_fence(DisasContext *ctx, arg_fence *a)
- 
- static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
- {
-+    if (!ctx->ext_ifencei)
-+        return false;
-+
-     /*
-      * FENCE_I is a no-op in QEMU,
-      * however we need to end the translation block
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 313c27b70073..8d6ab732588d 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -54,6 +54,7 @@ typedef struct DisasContext {
-        to any system register, which includes CSR_FRM, so we do not have
-        to reset this known value.  */
-     int frm;
-+    bool ext_ifencei;
- } DisasContext;
- 
- #ifdef TARGET_RISCV64
-@@ -752,6 +753,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPURISCVState *env = cs->env_ptr;
-+    RISCVCPU *cpu = RISCV_CPU(cs);
- 
-     ctx->pc_succ_insn = ctx->base.pc_first;
-     ctx->mem_idx = ctx->base.tb->flags & TB_FLAGS_MMU_MASK;
-@@ -759,6 +761,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->priv_ver = env->priv_ver;
-     ctx->misa = env->misa;
-     ctx->frm = -1;  /* unknown rounding mode */
-+    ctx->ext_ifencei = cpu->cfg.ext_ifencei;
- }
- 
- static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
--- 
-2.21.0
-
-
-From 6d280048f076eb0f28ee0c4454a1ed8b130240cb Mon Sep 17 00:00:00 2001
-From: Palmer Dabbelt <palmer@sifive.com>
-Date: Mon, 24 Jun 2019 01:59:51 -0700
-Subject: [PATCH 2/2] RISC-V: Add support for the Zicsr extension
-
-The various CSR instructions have been split out of the base ISA as part
-of the ratification process.  This patch adds a Zicsr argument, which
-disables all the CSR instructions.
-
-Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
----
- target/riscv/cpu.c                      |  1 +
- target/riscv/cpu.h                      |  1 +
- target/riscv/insn_trans/trans_rvi.inc.c | 18 ++++++++++++++++++
- target/riscv/translate.c                |  2 ++
- 4 files changed, 22 insertions(+)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index bbad39a337b3..915b9e77df33 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -442,6 +442,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-+    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index ba551cd3082c..0adb307f3298 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -224,6 +224,7 @@ typedef struct RISCVCPU {
-         bool ext_u;
-         bool ext_counters;
-         bool ext_ifencei;
-+        bool ext_icsr;
- 
-         char *priv_spec;
-         char *user_spec;
-diff --git a/target/riscv/insn_trans/trans_rvi.inc.c b/target/riscv/insn_trans/trans_rvi.inc.c
-index 766594ba08ce..66c5202cc5d6 100644
---- a/target/riscv/insn_trans/trans_rvi.inc.c
-+++ b/target/riscv/insn_trans/trans_rvi.inc.c
-@@ -524,6 +524,9 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
- 
- static bool trans_csrrw(DisasContext *ctx, arg_csrrw *a)
- {
-+    if (!ctx->ext_icsr)
-+        return false;
-+
-     TCGv source1, csr_store, dest, rs1_pass;
-     RISCV_OP_CSR_PRE;
-     gen_helper_csrrw(dest, cpu_env, source1, csr_store);
-@@ -533,6 +536,9 @@ static bool trans_csrrw(DisasContext *ctx, arg_csrrw *a)
- 
- static bool trans_csrrs(DisasContext *ctx, arg_csrrs *a)
- {
-+    if (!ctx->ext_icsr)
-+        return false;
-+
-     TCGv source1, csr_store, dest, rs1_pass;
-     RISCV_OP_CSR_PRE;
-     gen_helper_csrrs(dest, cpu_env, source1, csr_store, rs1_pass);
-@@ -542,6 +548,9 @@ static bool trans_csrrs(DisasContext *ctx, arg_csrrs *a)
- 
- static bool trans_csrrc(DisasContext *ctx, arg_csrrc *a)
- {
-+    if (!ctx->ext_icsr)
-+        return false;
-+
-     TCGv source1, csr_store, dest, rs1_pass;
-     RISCV_OP_CSR_PRE;
-     gen_helper_csrrc(dest, cpu_env, source1, csr_store, rs1_pass);
-@@ -551,6 +560,9 @@ static bool trans_csrrc(DisasContext *ctx, arg_csrrc *a)
- 
- static bool trans_csrrwi(DisasContext *ctx, arg_csrrwi *a)
- {
-+    if (!ctx->ext_icsr)
-+        return false;
-+
-     TCGv source1, csr_store, dest, rs1_pass;
-     RISCV_OP_CSR_PRE;
-     gen_helper_csrrw(dest, cpu_env, rs1_pass, csr_store);
-@@ -560,6 +572,9 @@ static bool trans_csrrwi(DisasContext *ctx, arg_csrrwi *a)
- 
- static bool trans_csrrsi(DisasContext *ctx, arg_csrrsi *a)
- {
-+    if (!ctx->ext_icsr)
-+        return false;
-+
-     TCGv source1, csr_store, dest, rs1_pass;
-     RISCV_OP_CSR_PRE;
-     gen_helper_csrrs(dest, cpu_env, rs1_pass, csr_store, rs1_pass);
-@@ -569,6 +584,9 @@ static bool trans_csrrsi(DisasContext *ctx, arg_csrrsi *a)
- 
- static bool trans_csrrci(DisasContext *ctx, arg_csrrci *a)
- {
-+    if (!ctx->ext_icsr)
-+        return false;
-+
-     TCGv source1, csr_store, dest, rs1_pass;
-     RISCV_OP_CSR_PRE;
-     gen_helper_csrrc(dest, cpu_env, rs1_pass, csr_store, rs1_pass);
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 8d6ab732588d..be46435b9a7b 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -55,6 +55,7 @@ typedef struct DisasContext {
-        to reset this known value.  */
-     int frm;
-     bool ext_ifencei;
-+    bool ext_icsr;
- } DisasContext;
- 
- #ifdef TARGET_RISCV64
-@@ -762,6 +763,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->misa = env->misa;
-     ctx->frm = -1;  /* unknown rounding mode */
-     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-+    ctx->ext_icsr = cpu->cfg.ext_icsr;
- }
- 
- static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
--- 
-2.21.0
-
+DQoNCk9uIDE5LzA2LzIwMTkgMjI6MjcsIE1heCBSZWl0eiB3cm90ZToNCj4gT24gMjkuMDUuMTkg
+MTk6NTYsIEFuZHJleSBTaGlua2V2aWNoIHdyb3RlOg0KPj4gVGhpcyBwYXRjaCBpcyB1c2VkIGlu
+IHRoZSAnYmxvY2svc3RyZWFtOiBpbnRyb2R1Y2UgYSBib3R0b20gbm9kZScNCj4+IHRoYXQgaXMg
+Zm9sbG93aW5nLiBJbnN0ZWFkIG9mIHRoZSBiYXNlIG5vZGUsIHRoZSBjYWxsZXIgbWF5IHBhc3MN
+Cj4+IHRoZSBub2RlIHRoYXQgaGFzIHRoZSBiYXNlIGFzIGl0cyBiYWNraW5nIGltYWdlIHRvIHRo
+ZSBmdW5jdGlvbg0KPj4gYmRydl9pc19hbGxvY2F0ZWRfYWJvdmUoKSB3aXRoIGEgbmV3IHBhcmFt
+ZXRlciBpbmNsdWRlX2Jhc2UgPSB0cnVlDQo+PiBhbmQgZ2V0IHJpZCBvZiB0aGUgZGVwZW5kZW5j
+eSBvbiB0aGUgYmFzZSB0aGF0IG1heSBjaGFuZ2UgZHVyaW5nDQo+PiBjb21taXQvc3RyZWFtIHBh
+cmFsbGVsIGpvYnMuIE5vdywgaWYgdGhlIHNwZWNpZmllZCBiYXNlIGlzIG5vdA0KPj4gZm91bmQg
+aW4gdGhlIGJhY2tpbmcgaW1hZ2UgY2hhaW4sIHRoZSBRRU1VIHdpbGwgYWJvcnQuDQo+Pg0KPj4g
+U3VnZ2VzdGVkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZp
+cnR1b3p6by5jb20+DQo+PiBTaWduZWQtb2ZmLWJ5OiBBbmRyZXkgU2hpbmtldmljaCA8YW5kcmV5
+LnNoaW5rZXZpY2hAdmlydHVvenpvLmNvbT4NCj4+IFJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1l
+bnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6by5jb20+DQo+PiBSZXZpZXdlZC1i
+eTogQWxiZXJ0byBHYXJjaWEgPGJlcnRvQGlnYWxpYS5jb20+DQo+PiAtLS0NCj4+ICAgYmxvY2sv
+Y29tbWl0LmMgICAgICAgIHwgIDIgKy0NCj4+ICAgYmxvY2svaW8uYyAgICAgICAgICAgIHwgMjEg
+KysrKysrKysrKysrKysrLS0tLS0tDQo+PiAgIGJsb2NrL21pcnJvci5jICAgICAgICB8ICAyICst
+DQo+PiAgIGJsb2NrL3JlcGxpY2F0aW9uLmMgICB8ICAyICstDQo+PiAgIGJsb2NrL3N0cmVhbS5j
+ICAgICAgICB8ICAyICstDQo+PiAgIGluY2x1ZGUvYmxvY2svYmxvY2suaCB8ICAzICsrLQ0KPj4g
+ICA2IGZpbGVzIGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDExIGRlbGV0aW9ucygtKQ0KPiAN
+Cj4gVGhpcyBuZWVkcyB0aGUgZm9sbG93aW5nIGh1bmsgc3F1YXNoZWQgaW4gc28gaXQgc3RpbGwg
+Y29tcGlsZXM6DQo+IA0KPiAoSSBjYW4gZG8gdGhhdCwgaWYgeW91IGFncmVlLikNCg0KWWVzLCBw
+bGVhc2UhDQpBbmRyZXkNCg0KPiANCj4gZGlmZiAtLWdpdCBhL2Jsb2NrL3Fjb3cyLmMgYi9ibG9j
+ay9xY293Mi5jDQo+IGluZGV4IDkzOTZkNDkwZDUuLjJhNTllYjI3ZmUgMTAwNjQ0DQo+IC0tLSBh
+L2Jsb2NrL3Fjb3cyLmMNCj4gKysrIGIvYmxvY2svcWNvdzIuYw0KPiBAQCAtMjE0OCw3ICsyMTQ4
+LDggQEAgc3RhdGljIGJvb2wgaXNfdW5hbGxvY2F0ZWQoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsDQo+
+IGludDY0X3Qgb2Zmc2V0LCBpbnQ2NF90IGJ5dGVzKQ0KPiAgIHsNCj4gICAgICAgaW50NjRfdCBu
+cjsNCj4gICAgICAgcmV0dXJuICFieXRlcyB8fA0KPiAtICAgICAgICAoIWJkcnZfaXNfYWxsb2Nh
+dGVkX2Fib3ZlKGJzLCBOVUxMLCBvZmZzZXQsIGJ5dGVzLCAmbnIpICYmIG5yDQo+ID09IGJ5dGVz
+KTsNCj4gKyAgICAgICAgKCFiZHJ2X2lzX2FsbG9jYXRlZF9hYm92ZShicywgTlVMTCwgZmFsc2Us
+IG9mZnNldCwgYnl0ZXMsICZucikgJiYNCj4gKyAgICAgICAgIG5yID09IGJ5dGVzKTsNCj4gICB9
+DQo+IA0KPiAgIHN0YXRpYyBib29sIGlzX3plcm9fY293KEJsb2NrRHJpdmVyU3RhdGUgKmJzLCBR
+Q293TDJNZXRhICptKQ0KPiBkaWZmIC0tZ2l0IGEvcWVtdS1pbWcuYyBiL3FlbXUtaW1nLmMNCj4g
+aW5kZXggMTU4YjNhNTA1Zi4uNzk5ODM3NzJkZSAxMDA2NDQNCj4gLS0tIGEvcWVtdS1pbWcuYw0K
+PiArKysgYi9xZW11LWltZy5jDQo+IEBAIC0zNTE4LDcgKzM1MTgsNyBAQCBzdGF0aWMgaW50IGlt
+Z19yZWJhc2UoaW50IGFyZ2MsIGNoYXIgKiphcmd2KQ0KPiAgICAgICAgICAgICAgICAgICAgKiB0
+byB0YWtlIGFjdGlvbg0KPiAgICAgICAgICAgICAgICAgICAgKi8NCj4gICAgICAgICAgICAgICAg
+ICAgcmV0ID0gYmRydl9pc19hbGxvY2F0ZWRfYWJvdmUoYmFja2luZ19icyhicyksDQo+IHByZWZp
+eF9jaGFpbl9icywNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBvZmZzZXQsIG4sICZuKTsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBmYWxzZSwgb2Zmc2V0LCBuLCAmbik7DQo+ICAgICAgICAgICAgICAgICAg
+IGlmIChyZXQgPCAwKSB7DQo+ICAgICAgICAgICAgICAgICAgICAgICBlcnJvcl9yZXBvcnQoImVy
+cm9yIHdoaWxlIHJlYWRpbmcgaW1hZ2UgbWV0YWRhdGE6ICVzIiwNCj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBzdHJlcnJvcigtcmV0KSk7DQo+IA0KDQotLSANCldpdGggdGhl
+IGJlc3QgcmVnYXJkcywNCkFuZHJleSBTaGlua2V2aWNoDQo=
 
