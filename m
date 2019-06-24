@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B1250E95
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:36:45 +0200 (CEST)
-Received: from localhost ([::1]:51768 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1F350E7D
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:35:45 +0200 (CEST)
+Received: from localhost ([::1]:51744 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfQ5M-0007O3-Ja
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:36:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54976)
+	id 1hfQ4P-0005KD-1w
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55623)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hfPyt-00023M-Gt
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:30:05 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1hfQ0r-0003kO-UD
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:32:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hfPyr-0006Ri-R4
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:30:03 -0400
-Received: from 2.mo179.mail-out.ovh.net ([178.33.250.45]:37087)
+ (envelope-from <kwankhede@nvidia.com>) id 1hfQ0q-0000jQ-GU
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:32:05 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:10550)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hfPyq-00067s-Kq
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:30:01 -0400
-Received: from player693.ha.ovh.net (unknown [10.108.42.239])
- by mo179.mail-out.ovh.net (Postfix) with ESMTP id 10ABA135F80
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 16:29:47 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player693.ha.ovh.net (Postfix) with ESMTPSA id 40FB57286277;
- Mon, 24 Jun 2019 14:29:37 +0000 (UTC)
-Date: Mon, 24 Jun 2019 16:29:35 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190624162935.02d08837@bahia.lan>
-In-Reply-To: <156033129836.26635.3348706829139659071.stgit@aravinda>
-References: <156033104292.26635.15759339817253067370.stgit@aravinda>
- <156033129836.26635.3348706829139659071.stgit@aravinda>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1hfQ0n-0000QW-1h
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:32:04 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d10dece0000>; Mon, 24 Jun 2019 07:31:42 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Mon, 24 Jun 2019 07:31:42 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Mon, 24 Jun 2019 07:31:42 -0700
+Received: from [10.24.70.40] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 24 Jun
+ 2019 14:31:34 +0000
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-9-git-send-email-kwankhede@nvidia.com>
+ <20190620132505.1cf64ac5@x1.home>
+ <9256515a-f815-58e1-c9ca-81d64bac6db1@nvidia.com>
+ <20190621091638.18127e7a@x1.home>
+ <b345a59c-b34d-c589-be78-b7a7690e80b2@nvidia.com>
+ <20190621140243.621fd2d7@x1.home>
+ <18c8fb0d-c1d7-3b19-4721-7e765237dd1d@nvidia.com>
+ <20190621143226.4d23c9f7@x1.home>
+ <0242d206-1e2d-c1b0-0131-7375f087a394@nvidia.com>
+ <20190621161325.30992675@x1.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <9c334b12-5715-fd02-8060-83058a9e89b7@nvidia.com>
+Date: Mon, 24 Jun 2019 20:01:26 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190621161325.30992675@x1.home>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL103.nvidia.com (172.20.187.11) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 16022400103085676948
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddruddvgdejlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.250.45
-Subject: Re: [Qemu-devel] [PATCH v10 6/6] ppc: spapr: Handle "ibm,
- nmi-register" and "ibm, nmi-interlock" RTAS calls
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1561386702; bh=Q13Ipl3p2WJ/6fjYPb0+fhy+5HLNGCFpr8TYfZteCRc=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:MIME-Version:In-Reply-To:X-Originating-IP:
+ X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=EvKSTv9HiahOc8pAxtOBwbN4ErYJInbrXT+2icuDq92vm3AHiHqS2B3CzZKQyNBCz
+ bJRiv4BSuB1QRo/WyGkLQGEheDqGD9KOlHezy7KZr6cmmlMZdRrNkZ+ZlWypX47Cj8
+ tQolTDgK5miLsouFfeRMH9XAfAIEpLJGgaN2MXglcTwXLk7m5jRBiB8F4jOU/AGrB/
+ wkJNg65pbJ2IRXBpcFDiLP7EZgOePe75mexYcuIkf20cp/JRCmkYEqn51g++cUJgr7
+ 3hg2DTmABq9048q6woe717roFnCGZk24HW4ZGf84C7RawMve5YPtfmCZvJF6a8jlul
+ wIn6RsyV3PuEA==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
+X-Received-From: 216.228.121.65
+Subject: Re: [Qemu-devel] [PATCH v4 08/13] vfio: Add save state functions to
+ SaveVMHandlers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,192 +83,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Zhengxiao.zx@Alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ qemu-devel@nongnu.org, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ dgilbert@redhat.com, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, eauger@redhat.com, felipe@nutanix.com,
+ jonathan.davies@nutanix.com, yan.y.zhao@intel.com, changpeng.liu@intel.com,
+ Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 12 Jun 2019 14:51:38 +0530
-Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
-
-> This patch adds support in QEMU to handle "ibm,nmi-register"
-> and "ibm,nmi-interlock" RTAS calls and sets the default
-> value of SPAPR_CAP_FWNMI_MCE to SPAPR_CAP_ON for machine
-> type 4.0.
+<snip>
+>>>>>>>>>> +static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
+>>>>>>>>>> +{
+>>>>>>>>>> +    VFIOMigration *migration = vbasedev->migration;
+>>>>>>>>>> +    VFIORegion *region = &migration->region.buffer;
+>>>>>>>>>> +    uint64_t data_offset = 0, data_size = 0;
+>>>>>>>>>> +    int ret;
+>>>>>>>>>> +
+>>>>>>>>>> +    ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
+>>>>>>>>>> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+>>>>>>>>>> +                                             data_offset));
+>>>>>>>>>> +    if (ret != sizeof(data_offset)) {
+>>>>>>>>>> +        error_report("Failed to get migration buffer data offset %d",
+>>>>>>>>>> +                     ret);
+>>>>>>>>>> +        return -EINVAL;
+>>>>>>>>>> +    }
+>>>>>>>>>> +
+>>>>>>>>>> +    ret = pread(vbasedev->fd, &data_size, sizeof(data_size),
+>>>>>>>>>> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+>>>>>>>>>> +                                             data_size));
+>>>>>>>>>> +    if (ret != sizeof(data_size)) {
+>>>>>>>>>> +        error_report("Failed to get migration buffer data size %d",
+>>>>>>>>>> +                     ret);
+>>>>>>>>>> +        return -EINVAL;
+>>>>>>>>>> +    }
+>>>>>>>>>> +
+>>>>>>>>>> +    if (data_size > 0) {
+>>>>>>>>>> +        void *buf = NULL;
+>>>>>>>>>> +        bool buffer_mmaped = false;
+>>>>>>>>>> +
+>>>>>>>>>> +        if (region->mmaps) {
+>>>>>>>>>> +            int i;
+>>>>>>>>>> +
+>>>>>>>>>> +            for (i = 0; i < region->nr_mmaps; i++) {
+>>>>>>>>>> +                if ((data_offset >= region->mmaps[i].offset) &&
+>>>>>>>>>> +                    (data_offset < region->mmaps[i].offset +
+>>>>>>>>>> +                                   region->mmaps[i].size)) {
+>>>>>>>>>> +                    buf = region->mmaps[i].mmap + (data_offset -
+>>>>>>>>>> +                                                   region->mmaps[i].offset);        
+>>>>>>>>>
+>>>>>>>>> So you're expecting that data_offset is somewhere within the data
+>>>>>>>>> area.  Why doesn't the data always simply start at the beginning of the
+>>>>>>>>> data area?  ie. data_offset would coincide with the beginning of the
+>>>>>>>>> mmap'able area (if supported) and be static.  Does this enable some
+>>>>>>>>> functionality in the vendor driver?        
+>>>>>>>>
+>>>>>>>> Do you want to enforce that to vendor driver?
+>>>>>>>> From the feedback on previous version I thought vendor driver should
+>>>>>>>> define data_offset within the region
+>>>>>>>> "I'd suggest that the vendor driver expose a read-only
+>>>>>>>> data_offset that matches a sparse mmap capability entry should the
+>>>>>>>> driver support mmap.  The use should always read or write data from the
+>>>>>>>> vendor defined data_offset"
+>>>>>>>>
+>>>>>>>> This also adds flexibility to vendor driver such that vendor driver can
+>>>>>>>> define different data_offset for device data and dirty page bitmap
+>>>>>>>> within same mmaped region.      
+>>>>>>>
+>>>>>>> I agree, it adds flexibility, the protocol was not evident to me until
+>>>>>>> I got here though.
+>>>>>>>       
+>>>>>>>>>  Does resume data need to be
+>>>>>>>>> written from the same offset where it's read?        
+>>>>>>>>
+>>>>>>>> No, resume data should be written from the data_offset that vendor
+>>>>>>>> driver provided during resume.      
+>>>>>
+>>>>> A)
+>>>>>     
+>>>>>>> s/resume/save/?    
+>>>>>
+>>>>> B)
+>>>>>      
+>>>>>>> Or is this saying that on resume that the vendor driver is requesting a
+>>>>>>> specific block of data via data_offset?       
+>>>>>>
+>>>>>> Correct.    
+>>>>>
+>>>>> Which one is correct?  Thanks,
+>>>>>     
+>>>>
+>>>> B is correct.  
+>>>
+>>> Shouldn't data_offset be stored in the migration stream then so we can
+>>> at least verify that source and target are in sync?   
+>>
+>> Why? data_offset is offset within migration region, nothing to do with
+>> data stream. While resuming vendor driver can ask data at different
+>> offset in migration region.
+> 
+> So the data is opaque and the sequencing is opaque, the user should
+> have no expectation that there's any relationship between where the
+> data was read from while saving versus where the target device is
+> requesting the next block be written while resuming.  We have a data
+> blob and a size and we do what we're told.
 > 
 
-Next machine type is 4.1.
+That's correct.
 
-> The machine check notification address is saved when the
-> OS issues "ibm,nmi-register" RTAS call.
+>>> I'm not getting a
+>>> sense that this protocol involves any sort of sanity or integrity
+>>> testing on the vendor driver end, the user can just feed garbage into
+>>> the device on resume and watch the results :-\  Thanks,
+>>>  
+>>
+>> vendor driver should be able to do sanity and integrity check within its
+>> opaque data. If that sanity fails, return failure for access on field in
+>> migration region structure.
 > 
-> This patch also handles the case when multiple processors
-> experience machine check at or about the same time by
-> handling "ibm,nmi-interlock" call. In such cases, as per
-> PAPR, subsequent processors serialize waiting for the first
-> processor to issue the "ibm,nmi-interlock" call. The second
-> processor that also received a machine check error waits
-> till the first processor is done reading the error log.
-> The first processor issues "ibm,nmi-interlock" call
-> when the error log is consumed.
-> 
-> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> ---
->  hw/ppc/spapr.c         |    6 ++++-
->  hw/ppc/spapr_rtas.c    |   63 ++++++++++++++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |    5 +++-
->  3 files changed, 72 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 3d6d139..213d493 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2946,6 +2946,9 @@ static void spapr_machine_init(MachineState *machine)
->          /* Create the error string for live migration blocker */
->          error_setg(&spapr->fwnmi_migration_blocker,
->                  "Live migration not supported during machine check handling");
-> +
-> +        /* Register ibm,nmi-register and ibm,nmi-interlock RTAS calls */
-> +        spapr_fwnmi_register();
-
-IIRC this was supposed to depend on SPAPR_CAP_FWNMI_MCE being ON.
-
->      }
->  
->      spapr->rtas_blob = g_malloc(spapr->rtas_size);
-> @@ -4408,7 +4411,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
->      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
->      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
->      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
-> -    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
-> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_ON;
->      spapr_caps_add_properties(smc, &error_abort);
->      smc->irq = &spapr_irq_dual;
->      smc->dr_phb_enabled = true;
-> @@ -4512,6 +4515,7 @@ static void spapr_machine_3_1_class_options(MachineClass *mc)
->      smc->default_caps.caps[SPAPR_CAP_SBBC] = SPAPR_CAP_BROKEN;
->      smc->default_caps.caps[SPAPR_CAP_IBS] = SPAPR_CAP_BROKEN;
->      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_OFF;
-> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
-
-This should have been put into spapr_machine_4_0_class_options().
-
-But unless you manage to get this merged before soft-freeze (2019-07-02),
-I'm afraid this will be a 4.2 feature.
-
->  }
->  
->  DEFINE_SPAPR_MACHINE(3_1, "3.1", false);
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index a015a80..e010cb2 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -49,6 +49,7 @@
->  #include "hw/ppc/fdt.h"
->  #include "target/ppc/mmu-hash64.h"
->  #include "target/ppc/mmu-book3s-v3.h"
-> +#include "migration/blocker.h"
->  
->  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
->                                     uint32_t token, uint32_t nargs,
-> @@ -352,6 +353,60 @@ static void rtas_get_power_level(PowerPCCPU *cpu, SpaprMachineState *spapr,
->      rtas_st(rets, 1, 100);
->  }
->  
-> +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-> +                                  SpaprMachineState *spapr,
-> +                                  uint32_t token, uint32_t nargs,
-> +                                  target_ulong args,
-> +                                  uint32_t nret, target_ulong rets)
-> +{
-> +    int ret;
-> +    hwaddr rtas_addr = spapr_get_rtas_addr();
-> +
-> +    if (!rtas_addr) {
-> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> +        return;
-> +    }
-> +
-> +    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI_MCE) == SPAPR_CAP_OFF) {
-> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> +        return;
-> +    }
-> +
-> +    ret = kvmppc_fwnmi_enable(cpu);
-> +    if (ret == 1) {
-> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> +        return;
-> +    } else if (ret < 0) {
-> +        error_report("Couldn't enable KVM FWNMI capability");
-> +        rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
-> +        return;
-> +    }
-> +
-> +    spapr->guest_machine_check_addr = rtas_ld(args, 1);
-> +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> +}
-> +
-> +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
-> +                                   SpaprMachineState *spapr,
-> +                                   uint32_t token, uint32_t nargs,
-> +                                   target_ulong args,
-> +                                   uint32_t nret, target_ulong rets)
-> +{
-> +    if (spapr->guest_machine_check_addr == -1) {
-> +        /* NMI register not called */
-> +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> +    } else {
-> +        /*
-> +         * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
-> +         * hence unset mc_status.
-> +         */
-> +        spapr->mc_status = -1;
-> +        qemu_cond_signal(&spapr->mc_delivery_cond);
-> +        migrate_del_blocker(spapr->fwnmi_migration_blocker);
-> +        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> +    }
-> +}
-> +
->  static struct rtas_call {
->      const char *name;
->      spapr_rtas_fn fn;
-> @@ -496,6 +551,14 @@ hwaddr spapr_get_rtas_addr(void)
->      return (hwaddr)fdt32_to_cpu(*rtas_data);
->  }
->  
-> +void spapr_fwnmi_register(void)
-> +{
-> +    spapr_rtas_register(RTAS_IBM_NMI_REGISTER, "ibm,nmi-register",
-> +                        rtas_ibm_nmi_register);
-> +    spapr_rtas_register(RTAS_IBM_NMI_INTERLOCK, "ibm,nmi-interlock",
-> +                        rtas_ibm_nmi_interlock);
-> +}
-> +
->  static void core_rtas_register_types(void)
->  {
->      spapr_rtas_register(RTAS_DISPLAY_CHARACTER, "display-character",
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 0dedf0a..7ae53e2 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -637,8 +637,10 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
->  #define RTAS_IBM_CREATE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x27)
->  #define RTAS_IBM_REMOVE_PE_DMA_WINDOW           (RTAS_TOKEN_BASE + 0x28)
->  #define RTAS_IBM_RESET_PE_DMA_WINDOW            (RTAS_TOKEN_BASE + 0x29)
-> +#define RTAS_IBM_NMI_REGISTER                   (RTAS_TOKEN_BASE + 0x2A)
-> +#define RTAS_IBM_NMI_INTERLOCK                  (RTAS_TOKEN_BASE + 0x2B)
->  
-> -#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2A)
-> +#define RTAS_TOKEN_MAX                          (RTAS_TOKEN_BASE + 0x2C)
->  
->  /* RTAS ibm,get-system-parameter token values */
->  #define RTAS_SYSPARM_SPLPAR_CHARACTERISTICS      20
-> @@ -894,4 +896,5 @@ void spapr_check_pagesize(SpaprMachineState *spapr, hwaddr pagesize,
->  
->  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
->  hwaddr spapr_get_rtas_addr(void);
-> +void spapr_fwnmi_register(void);
->  #endif /* HW_SPAPR_H */
+> Would that be a synchronous failure on the write of data_size, which
+> should result in the device_state moving to invalid?  Thanks,
 > 
 
+If data section of migration region is mapped, then on write to
+data_size, vendor driver should read staging buffer, validate data and
+return sizeof(data_size) if success or return error (< 0). If data
+section is trapped, then write on data section should return accordingly
+on receiving data. On error, migration/restore would fail.
+
+Thanks,
+Kirti
 
