@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E5550F22
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:51:37 +0200 (CEST)
-Received: from localhost ([::1]:51948 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9605E50F5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:58:56 +0200 (CEST)
+Received: from localhost ([::1]:52028 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfQJk-0004yQ-8n
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:51:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60044)
+	id 1hfQQp-0003xf-QE
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:58:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60129)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hfQGI-0002je-9X
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:48:03 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hfQGK-0002o6-KD
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:48:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hfQGH-0006BE-Al
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:48:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44474)
+ (envelope-from <mreitz@redhat.com>) id 1hfQGI-0006FL-Vk
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 10:48:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35281)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hfQGC-0005mX-0t; Mon, 24 Jun 2019 10:47:57 -0400
+ id 1hfQGG-0005pF-3D; Mon, 24 Jun 2019 10:48:00 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AEAB730832DA;
- Mon, 24 Jun 2019 14:47:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0E9D2C04B93D;
+ Mon, 24 Jun 2019 14:47:51 +0000 (UTC)
 Received: from localhost (ovpn-204-152.brq.redhat.com [10.40.204.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 474F46085B;
- Mon, 24 Jun 2019 14:47:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 998AD6090E;
+ Mon, 24 Jun 2019 14:47:50 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 24 Jun 2019 16:47:34 +0200
-Message-Id: <20190624144740.5338-3-mreitz@redhat.com>
+Date: Mon, 24 Jun 2019 16:47:35 +0200
+Message-Id: <20190624144740.5338-4-mreitz@redhat.com>
 In-Reply-To: <20190624144740.5338-1-mreitz@redhat.com>
 References: <20190624144740.5338-1-mreitz@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 24 Jun 2019 14:47:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Mon, 24 Jun 2019 14:47:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 2/8] blockdev: enable non-root nodes for
- transaction drive-backup source
+Subject: [Qemu-devel] [PULL v2 3/8] iotest 134: test cluster-misaligned
+ encrypted write
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,35 +60,68 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 
-We forget to enable it for transaction .prepare, while it is already
-enabled in do_drive_backup since commit a2d665c1bc362
-    "blockdev: loosen restrictions on drive-backup source node"
+COW (even empty/zero) areas require encryption too
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190618140804.59214-1-vsementsov@virtuozzo.com
-Reviewed-by: John Snow <jsnow@redhat.com>
+Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+Message-id: 20190516143028.81155-1-anton.nefedov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- blockdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/134     |  9 +++++++++
+ tests/qemu-iotests/134.out | 10 ++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/blockdev.c b/blockdev.c
-index 5d6a13dea9..4d141e9a1f 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -1774,7 +1774,7 @@ static void drive_backup_prepare(BlkActionState *co=
-mmon, Error **errp)
-     assert(common->action->type =3D=3D TRANSACTION_ACTION_KIND_DRIVE_BAC=
-KUP);
-     backup =3D common->action->u.drive_backup.data;
+diff --git a/tests/qemu-iotests/134 b/tests/qemu-iotests/134
+index 141a2eaa7e..5f0fb86211 100755
+--- a/tests/qemu-iotests/134
++++ b/tests/qemu-iotests/134
+@@ -56,6 +56,15 @@ echo
+ echo "=3D=3D reading whole image =3D=3D"
+ $QEMU_IO --object $SECRET -c "read 0 $size" --image-opts $IMGSPEC | _fil=
+ter_qemu_io | _filter_testdir
 =20
--    bs =3D qmp_get_root_bs(backup->device, errp);
-+    bs =3D bdrv_lookup_bs(backup->device, backup->device, errp);
-     if (!bs) {
-         return;
-     }
++echo
++echo "=3D=3D rewriting cluster part =3D=3D"
++$QEMU_IO --object $SECRET -c "write -P 0xb 512 512" --image-opts $IMGSPE=
+C | _filter_qemu_io | _filter_testdir
++
++echo
++echo "=3D=3D verify pattern =3D=3D"
++$QEMU_IO --object $SECRET -c "read -P 0 0 512"  --image-opts $IMGSPEC | =
+_filter_qemu_io | _filter_testdir
++$QEMU_IO --object $SECRET -c "read -P 0xb 512 512"  --image-opts $IMGSPE=
+C | _filter_qemu_io | _filter_testdir
++
+ echo
+ echo "=3D=3D rewriting whole image =3D=3D"
+ $QEMU_IO --object $SECRET -c "write -P 0xa 0 $size" --image-opts $IMGSPE=
+C | _filter_qemu_io | _filter_testdir
+diff --git a/tests/qemu-iotests/134.out b/tests/qemu-iotests/134.out
+index 972be49d91..09d46f6b17 100644
+--- a/tests/qemu-iotests/134.out
++++ b/tests/qemu-iotests/134.out
+@@ -5,6 +5,16 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1342=
+17728 encryption=3Don encrypt.
+ read 134217728/134217728 bytes at offset 0
+ 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+=20
++=3D=3D rewriting cluster part =3D=3D
++wrote 512/512 bytes at offset 512
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D verify pattern =3D=3D
++read 512/512 bytes at offset 0
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 512/512 bytes at offset 512
++512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
+ =3D=3D rewriting whole image =3D=3D
+ wrote 134217728/134217728 bytes at offset 0
+ 128 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 --=20
 2.21.0
 
