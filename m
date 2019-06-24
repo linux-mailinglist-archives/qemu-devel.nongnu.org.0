@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951A251A18
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 19:55:43 +0200 (CEST)
-Received: from localhost ([::1]:53538 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35F5451A26
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 19:59:02 +0200 (CEST)
+Received: from localhost ([::1]:53572 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfTBu-0004Ia-Pv
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 13:55:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49189)
+	id 1hfTF7-00083p-46
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 13:59:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49079)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hfSxA-0001j9-Sf
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:34 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hfSww-0001YC-Us
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hfSwz-0005V1-Lj
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56364)
+ (envelope-from <mreitz@redhat.com>) id 1hfSwv-0005MX-3U
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 13:40:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33182)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hfSwl-0004rY-Hm; Mon, 24 Jun 2019 13:40:05 -0400
+ id 1hfSwn-0004vB-MX; Mon, 24 Jun 2019 13:40:06 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 32B8E30872EA;
- Mon, 24 Jun 2019 17:39:55 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B7CCE3162912;
+ Mon, 24 Jun 2019 17:39:57 +0000 (UTC)
 Received: from localhost (ovpn-204-152.brq.redhat.com [10.40.204.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 60894600C0;
- Mon, 24 Jun 2019 17:39:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1DF9F600C0;
+ Mon, 24 Jun 2019 17:39:56 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 24 Jun 2019 19:39:27 +0200
-Message-Id: <20190624173935.25747-8-mreitz@redhat.com>
+Date: Mon, 24 Jun 2019 19:39:28 +0200
+Message-Id: <20190624173935.25747-9-mreitz@redhat.com>
 In-Reply-To: <20190624173935.25747-1-mreitz@redhat.com>
 References: <20190624173935.25747-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 24 Jun 2019 17:39:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Mon, 24 Jun 2019 17:39:57 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 07/14] tests: Test QAPI default values for
- struct members
+Subject: [Qemu-devel] [PATCH v4 08/14] tests: Add QAPI optional
+ discriminator tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,732 +61,208 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a number of tests for how not to specify a default for
-an optional struct member, and one rather large test on how to do it
-right (in qapi-schema-test.json).
+There already is an optional discriminator test, although it also noted
+the discriminator name itself as optional.  This already gives us one
+error test case, to which this patch adds one other, namely whether that
+using an optional discriminator requires the respective field to have a
+default value.
 
-As a side effect, this patch tests the QAPI code generator's integer and
-float parsing capability.
+Furthermore, a passing test case is added to qapi-schema-test.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/Makefile.include                        | 14 ++++++++++
- tests/qapi-schema/qapi-schema-test.json       | 28 +++++++++++++++++++
- .../struct-member-alternate-default.json      | 10 +++++++
- ...struct-member-bool-wrong-default-type.json |  3 ++
- .../struct-member-enum-invalid-default.json   |  4 +++
- ...struct-member-enum-wrong-default-type.json |  4 +++
- .../struct-member-float-invalid-default.json  |  4 +++
- ...truct-member-float-wrong-default-type.json |  3 ++
- .../struct-member-int-wrong-default-type.json |  3 ++
- .../struct-member-int8-erange-default.json    |  3 ++
- .../struct-member-list-nonempty-default.json  |  4 +++
- .../struct-member-non-optional-default.json   |  3 ++
- .../struct-member-null-default.json           |  6 ++++
- .../struct-member-str-wrong-default-type.json |  3 ++
- .../struct-member-uint8-erange-default.json   |  3 ++
- .../struct-member-uint8-negative-default.json |  3 ++
- tests/qapi-schema/qapi-schema-test.out        | 24 ++++++++++++++++
- .../struct-member-alternate-default.err       |  1 +
- .../struct-member-alternate-default.exit      |  1 +
- .../struct-member-alternate-default.out       |  0
- .../struct-member-bool-wrong-default-type.err |  1 +
- ...struct-member-bool-wrong-default-type.exit |  1 +
- .../struct-member-bool-wrong-default-type.out |  0
- .../struct-member-enum-invalid-default.err    |  1 +
- .../struct-member-enum-invalid-default.exit   |  1 +
- .../struct-member-enum-invalid-default.out    |  0
- .../struct-member-enum-wrong-default-type.err |  1 +
- ...struct-member-enum-wrong-default-type.exit |  1 +
- .../struct-member-enum-wrong-default-type.out |  0
- .../struct-member-float-invalid-default.err   |  1 +
- .../struct-member-float-invalid-default.exit  |  1 +
- .../struct-member-float-invalid-default.out   |  0
- ...struct-member-float-wrong-default-type.err |  1 +
- ...truct-member-float-wrong-default-type.exit |  1 +
- ...struct-member-float-wrong-default-type.out |  0
- .../struct-member-int-wrong-default-type.err  |  1 +
- .../struct-member-int-wrong-default-type.exit |  1 +
- .../struct-member-int-wrong-default-type.out  |  0
- .../struct-member-int8-erange-default.err     |  1 +
- .../struct-member-int8-erange-default.exit    |  1 +
- .../struct-member-int8-erange-default.out     |  0
- .../struct-member-list-nonempty-default.err   |  1 +
- .../struct-member-list-nonempty-default.exit  |  1 +
- .../struct-member-list-nonempty-default.out   |  0
- .../struct-member-non-optional-default.err    |  1 +
- .../struct-member-non-optional-default.exit   |  1 +
- .../struct-member-non-optional-default.out    |  0
- .../struct-member-null-default.err            |  1 +
- .../struct-member-null-default.exit           |  1 +
- .../struct-member-null-default.out            |  0
- .../struct-member-str-wrong-default-type.err  |  1 +
- .../struct-member-str-wrong-default-type.exit |  1 +
- .../struct-member-str-wrong-default-type.out  |  0
- .../struct-member-uint8-erange-default.err    |  1 +
- .../struct-member-uint8-erange-default.exit   |  1 +
- .../struct-member-uint8-erange-default.out    |  0
- .../struct-member-uint8-negative-default.err  |  1 +
- .../struct-member-uint8-negative-default.exit |  1 +
- .../struct-member-uint8-negative-default.out  |  0
- 59 files changed, 150 insertions(+)
- create mode 100644 tests/qapi-schema/struct-member-alternate-default.jso=
-n
- create mode 100644 tests/qapi-schema/struct-member-bool-wrong-default-ty=
-pe.json
- create mode 100644 tests/qapi-schema/struct-member-enum-invalid-default.=
-json
- create mode 100644 tests/qapi-schema/struct-member-enum-wrong-default-ty=
-pe.json
- create mode 100644 tests/qapi-schema/struct-member-float-invalid-default=
-.json
- create mode 100644 tests/qapi-schema/struct-member-float-wrong-default-t=
-ype.json
- create mode 100644 tests/qapi-schema/struct-member-int-wrong-default-typ=
-e.json
- create mode 100644 tests/qapi-schema/struct-member-int8-erange-default.j=
-son
- create mode 100644 tests/qapi-schema/struct-member-list-nonempty-default=
-.json
- create mode 100644 tests/qapi-schema/struct-member-non-optional-default.=
-json
- create mode 100644 tests/qapi-schema/struct-member-null-default.json
- create mode 100644 tests/qapi-schema/struct-member-str-wrong-default-typ=
-e.json
- create mode 100644 tests/qapi-schema/struct-member-uint8-erange-default.=
-json
- create mode 100644 tests/qapi-schema/struct-member-uint8-negative-defaul=
-t.json
- create mode 100644 tests/qapi-schema/struct-member-alternate-default.err
- create mode 100644 tests/qapi-schema/struct-member-alternate-default.exi=
-t
- create mode 100644 tests/qapi-schema/struct-member-alternate-default.out
- create mode 100644 tests/qapi-schema/struct-member-bool-wrong-default-ty=
-pe.err
- create mode 100644 tests/qapi-schema/struct-member-bool-wrong-default-ty=
-pe.exit
- create mode 100644 tests/qapi-schema/struct-member-bool-wrong-default-ty=
-pe.out
- create mode 100644 tests/qapi-schema/struct-member-enum-invalid-default.=
-err
- create mode 100644 tests/qapi-schema/struct-member-enum-invalid-default.=
-exit
- create mode 100644 tests/qapi-schema/struct-member-enum-invalid-default.=
-out
- create mode 100644 tests/qapi-schema/struct-member-enum-wrong-default-ty=
-pe.err
- create mode 100644 tests/qapi-schema/struct-member-enum-wrong-default-ty=
-pe.exit
- create mode 100644 tests/qapi-schema/struct-member-enum-wrong-default-ty=
-pe.out
- create mode 100644 tests/qapi-schema/struct-member-float-invalid-default=
-.err
- create mode 100644 tests/qapi-schema/struct-member-float-invalid-default=
-.exit
- create mode 100644 tests/qapi-schema/struct-member-float-invalid-default=
-.out
- create mode 100644 tests/qapi-schema/struct-member-float-wrong-default-t=
-ype.err
- create mode 100644 tests/qapi-schema/struct-member-float-wrong-default-t=
-ype.exit
- create mode 100644 tests/qapi-schema/struct-member-float-wrong-default-t=
-ype.out
- create mode 100644 tests/qapi-schema/struct-member-int-wrong-default-typ=
-e.err
- create mode 100644 tests/qapi-schema/struct-member-int-wrong-default-typ=
-e.exit
- create mode 100644 tests/qapi-schema/struct-member-int-wrong-default-typ=
-e.out
- create mode 100644 tests/qapi-schema/struct-member-int8-erange-default.e=
+ tests/Makefile.include                                |  3 ++-
+ ...-optional-discriminator-invalid-specification.json | 11 +++++++++++
+ ...flat-union-optional-discriminator-no-default.json} |  5 +++--
+ tests/qapi-schema/qapi-schema-test.json               | 10 ++++++++++
+ ...n-optional-discriminator-invalid-specification.err |  1 +
+ ...optional-discriminator-invalid-specification.exit} |  0
+ ...-optional-discriminator-invalid-specification.out} |  0
+ .../flat-union-optional-discriminator-no-default.err  |  1 +
+ .../flat-union-optional-discriminator-no-default.exit |  1 +
+ .../flat-union-optional-discriminator-no-default.out  |  0
+ .../qapi-schema/flat-union-optional-discriminator.err |  1 -
+ tests/qapi-schema/qapi-schema-test.out                |  9 +++++++++
+ 12 files changed, 38 insertions(+), 4 deletions(-)
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-i=
+nvalid-specification.json
+ rename tests/qapi-schema/{flat-union-optional-discriminator.json =3D> fl=
+at-union-optional-discriminator-no-default.json} (68%)
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-i=
+nvalid-specification.err
+ rename tests/qapi-schema/{flat-union-optional-discriminator.exit =3D> fl=
+at-union-optional-discriminator-invalid-specification.exit} (100%)
+ rename tests/qapi-schema/{flat-union-optional-discriminator.out =3D> fla=
+t-union-optional-discriminator-invalid-specification.out} (100%)
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-n=
+o-default.err
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-n=
+o-default.exit
+ create mode 100644 tests/qapi-schema/flat-union-optional-discriminator-n=
+o-default.out
+ delete mode 100644 tests/qapi-schema/flat-union-optional-discriminator.e=
 rr
- create mode 100644 tests/qapi-schema/struct-member-int8-erange-default.e=
-xit
- create mode 100644 tests/qapi-schema/struct-member-int8-erange-default.o=
-ut
- create mode 100644 tests/qapi-schema/struct-member-list-nonempty-default=
-.err
- create mode 100644 tests/qapi-schema/struct-member-list-nonempty-default=
-.exit
- create mode 100644 tests/qapi-schema/struct-member-list-nonempty-default=
-.out
- create mode 100644 tests/qapi-schema/struct-member-non-optional-default.=
-err
- create mode 100644 tests/qapi-schema/struct-member-non-optional-default.=
-exit
- create mode 100644 tests/qapi-schema/struct-member-non-optional-default.=
-out
- create mode 100644 tests/qapi-schema/struct-member-null-default.err
- create mode 100644 tests/qapi-schema/struct-member-null-default.exit
- create mode 100644 tests/qapi-schema/struct-member-null-default.out
- create mode 100644 tests/qapi-schema/struct-member-str-wrong-default-typ=
-e.err
- create mode 100644 tests/qapi-schema/struct-member-str-wrong-default-typ=
-e.exit
- create mode 100644 tests/qapi-schema/struct-member-str-wrong-default-typ=
-e.out
- create mode 100644 tests/qapi-schema/struct-member-uint8-erange-default.=
-err
- create mode 100644 tests/qapi-schema/struct-member-uint8-erange-default.=
-exit
- create mode 100644 tests/qapi-schema/struct-member-uint8-erange-default.=
-out
- create mode 100644 tests/qapi-schema/struct-member-uint8-negative-defaul=
-t.err
- create mode 100644 tests/qapi-schema/struct-member-uint8-negative-defaul=
-t.exit
- create mode 100644 tests/qapi-schema/struct-member-uint8-negative-defaul=
-t.out
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index db750dd6d0..76dc581096 100644
+index 76dc581096..3202ddab10 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -451,6 +451,20 @@ qapi-schema +=3D returns-whitelist.json
- qapi-schema +=3D struct-base-clash-deep.json
- qapi-schema +=3D struct-base-clash.json
- qapi-schema +=3D struct-data-invalid.json
-+qapi-schema +=3D struct-member-alternate-default.json
-+qapi-schema +=3D struct-member-bool-wrong-default-type.json
-+qapi-schema +=3D struct-member-enum-invalid-default.json
-+qapi-schema +=3D struct-member-enum-wrong-default-type.json
-+qapi-schema +=3D struct-member-float-invalid-default.json
-+qapi-schema +=3D struct-member-float-wrong-default-type.json
-+qapi-schema +=3D struct-member-int-wrong-default-type.json
-+qapi-schema +=3D struct-member-int8-erange-default.json
-+qapi-schema +=3D struct-member-list-nonempty-default.json
-+qapi-schema +=3D struct-member-non-optional-default.json
-+qapi-schema +=3D struct-member-null-default.json
-+qapi-schema +=3D struct-member-str-wrong-default-type.json
-+qapi-schema +=3D struct-member-uint8-erange-default.json
-+qapi-schema +=3D struct-member-uint8-negative-default.json
- qapi-schema +=3D struct-member-invalid-dict.json
- qapi-schema +=3D struct-member-invalid.json
- qapi-schema +=3D trailing-comma-list.json
+@@ -398,7 +398,8 @@ qapi-schema +=3D flat-union-invalid-branch-key.json
+ qapi-schema +=3D flat-union-invalid-discriminator.json
+ qapi-schema +=3D flat-union-invalid-if-discriminator.json
+ qapi-schema +=3D flat-union-no-base.json
+-qapi-schema +=3D flat-union-optional-discriminator.json
++qapi-schema +=3D flat-union-optional-discriminator-invalid-specification=
+.json
++qapi-schema +=3D flat-union-optional-discriminator-no-default.json
+ qapi-schema +=3D flat-union-string-discriminator.json
+ qapi-schema +=3D funny-char.json
+ qapi-schema +=3D ident-with-escape.json
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator-invalid-=
+specification.json b/tests/qapi-schema/flat-union-optional-discriminator-=
+invalid-specification.json
+new file mode 100644
+index 0000000000..d20a2cd295
+--- /dev/null
++++ b/tests/qapi-schema/flat-union-optional-discriminator-invalid-specifi=
+cation.json
+@@ -0,0 +1,11 @@
++# For using optional discriminators, only the field in the base struct
++# must be marked optional, not the discriminator name itself
++{ 'enum': 'Enum', 'data': [ 'one', 'two' ] }
++{ 'struct': 'Base',
++  'data': { '*switch': { 'type': 'Enum', 'default': 'one' } } }
++{ 'struct': 'Branch', 'data': { 'name': 'str' } }
++{ 'union': 'MyUnion',
++  'base': 'Base',
++  'discriminator': '*switch',
++  'data': { 'one': 'Branch',
++            'two': 'Branch' } }
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator.json b/t=
+ests/qapi-schema/flat-union-optional-discriminator-no-default.json
+similarity index 68%
+rename from tests/qapi-schema/flat-union-optional-discriminator.json
+rename to tests/qapi-schema/flat-union-optional-discriminator-no-default.=
+json
+index 08a8f7ef8b..31ebb85afb 100644
+--- a/tests/qapi-schema/flat-union-optional-discriminator.json
++++ b/tests/qapi-schema/flat-union-optional-discriminator-no-default.json
+@@ -1,10 +1,11 @@
+-# we require the discriminator to be non-optional
++# Using an optional discriminator requires the respective field to
++# have a default
+ { 'enum': 'Enum', 'data': [ 'one', 'two' ] }
+ { 'struct': 'Base',
+   'data': { '*switch': 'Enum' } }
+ { 'struct': 'Branch', 'data': { 'name': 'str' } }
+ { 'union': 'MyUnion',
+   'base': 'Base',
+-  'discriminator': '*switch',
++  'discriminator': 'switch',
+   'data': { 'one': 'Branch',
+             'two': 'Branch' } }
 diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/=
 qapi-schema-test.json
-index c6d59acc3e..12ae387d46 100644
+index 12ae387d46..0f4b123a82 100644
 --- a/tests/qapi-schema/qapi-schema-test.json
 +++ b/tests/qapi-schema/qapi-schema-test.json
-@@ -281,3 +281,31 @@
-             'cfs1': 'CondFeatureStruct1',
-             'cfs2': 'CondFeatureStruct2',
-             'cfs3': 'CondFeatureStruct3' } }
-+
-+# test defaults for optional struct members
-+
-+{ 'enum': 'TestDefaultEnum',
-+  'data': [ 'value1', 'value2', 'value3' ] }
-+
-+{ 'struct': 'TestDefaultSubStruct',
-+  'data': { 'member': 'int' } }
-+
-+{ 'struct': 'TestDefaultStruct',
-+  'data': {
-+      '*bool_false': { 'type': 'bool', 'default': false },
-+      '*bool_true':  { 'type': 'bool', 'default': true },
-+      '*integer':    { 'type': 'int',   'default': -42 },
-+      '*int8_low':   { 'type': 'int8',  'default': -0x80 },
-+      '*int8_high':  { 'type': 'int8',  'default':  0x7f },
-+      '*uint8_high': { 'type': 'uint8', 'default':  0xff },
-+      '*size':       { 'type': 'size',  'default':  0xffffffffffffffff }=
-,
-+      '*fpneg':    { 'type': 'number', 'default': -.375e3 },
-+      '*fppos':    { 'type': 'number', 'default': +42. },
-+      '*fpposinf': { 'type': 'number', 'default':  inf },
-+      '*fpneginf': { 'type': 'number', 'default': -inf },
-+      '*fpnan':    { 'type': 'number', 'default': nan },
-+      '*str': { 'type': 'str', 'default': 'foo \\=E9=B9=BF"\u007f\b"\'' =
-},
-+      '*enum_value2': { 'type': 'TestDefaultEnum', 'default': 'value2' }=
-,
-+      '*list_scalar': { 'type': ['int'], 'default': [] },
-+      '*list_struct': { 'type': ['TestDefaultSubStruct'], 'default': [] =
-}
+@@ -104,6 +104,16 @@
+ { 'struct': 'UserDefC',
+   'data': { 'string1': 'str', 'string2': 'str' } }
+=20
++# for testing unions with an optional discriminator
++{ 'union': 'UserDefFlatUnion3',
++  'base': { '*enum1': { 'type': 'EnumOne', 'default': 'value1' } },
++  'discriminator': 'enum1',
++  'data': { 'value1' : 'UserDefA',
++            'value2' : 'UserDefB',
++            'value3' : 'UserDefB'
++            # 'value4' defaults to empty
 +  } }
-diff --git a/tests/qapi-schema/struct-member-alternate-default.json b/tes=
-ts/qapi-schema/struct-member-alternate-default.json
++
+ # for testing use of 'number' within alternates
+ { 'alternate': 'AltEnumBool', 'data': { 'e': 'EnumOne', 'b': 'bool' } }
+ { 'alternate': 'AltEnumNum', 'data': { 'e': 'EnumOne', 'n': 'number' } }
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator-invalid-=
+specification.err b/tests/qapi-schema/flat-union-optional-discriminator-i=
+nvalid-specification.err
 new file mode 100644
-index 0000000000..0441b3af80
+index 0000000000..cbf154e726
 --- /dev/null
-+++ b/tests/qapi-schema/struct-member-alternate-default.json
-@@ -0,0 +1,10 @@
-+# Check defaults for unsupported types (alternates, here)
-+# TODO: Implement support for alternates, and then add a test where
-+#       default=3Dnull so we can see that that is another thing that
-+#       should be implemented
-+{ 'enum': 'TestEnum', 'data': [ 'value1', 'value2' ] }
-+{ 'alternate': 'TestAlt',
-+  'data': { 'alt1': 'TestEnum',
-+            'alt2': 'null' } }
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'TestAlt', 'default': 'value1' } } }
-diff --git a/tests/qapi-schema/struct-member-bool-wrong-default-type.json=
- b/tests/qapi-schema/struct-member-bool-wrong-default-type.json
++++ b/tests/qapi-schema/flat-union-optional-discriminator-invalid-specifi=
+cation.err
+@@ -0,0 +1 @@
++tests/qapi-schema/flat-union-optional-discriminator-invalid-specificatio=
+n.json:7: Discriminator of flat union 'MyUnion' does not allow optional n=
+ame '*switch'
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator.exit b/t=
+ests/qapi-schema/flat-union-optional-discriminator-invalid-specification.=
+exit
+similarity index 100%
+rename from tests/qapi-schema/flat-union-optional-discriminator.exit
+rename to tests/qapi-schema/flat-union-optional-discriminator-invalid-spe=
+cification.exit
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator.out b/te=
+sts/qapi-schema/flat-union-optional-discriminator-invalid-specification.o=
+ut
+similarity index 100%
+rename from tests/qapi-schema/flat-union-optional-discriminator.out
+rename to tests/qapi-schema/flat-union-optional-discriminator-invalid-spe=
+cification.out
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator-no-defau=
+lt.err b/tests/qapi-schema/flat-union-optional-discriminator-no-default.e=
+rr
 new file mode 100644
-index 0000000000..c9f9c45a87
+index 0000000000..5a022a0bc7
 --- /dev/null
-+++ b/tests/qapi-schema/struct-member-bool-wrong-default-type.json
-@@ -0,0 +1,3 @@
-+# Check that booleans do not accept non-booleans
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'bool', 'default': 0 } } }
-diff --git a/tests/qapi-schema/struct-member-enum-invalid-default.json b/=
-tests/qapi-schema/struct-member-enum-invalid-default.json
++++ b/tests/qapi-schema/flat-union-optional-discriminator-no-default.err
+@@ -0,0 +1 @@
++tests/qapi-schema/flat-union-optional-discriminator-no-default.json:7: O=
+ptional discriminator 'switch' has no default value
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator-no-defau=
+lt.exit b/tests/qapi-schema/flat-union-optional-discriminator-no-default.=
+exit
 new file mode 100644
-index 0000000000..d5724970be
+index 0000000000..d00491fd7e
 --- /dev/null
-+++ b/tests/qapi-schema/struct-member-enum-invalid-default.json
-@@ -0,0 +1,4 @@
-+# Check that enum values do not accept anything that is not part of the =
-enum
-+{ 'enum': 'TestEnum', 'data': [ 'value1', 'value2' ] }
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'TestEnum', 'default': 'value3' } } }
-diff --git a/tests/qapi-schema/struct-member-enum-wrong-default-type.json=
- b/tests/qapi-schema/struct-member-enum-wrong-default-type.json
++++ b/tests/qapi-schema/flat-union-optional-discriminator-no-default.exit
+@@ -0,0 +1 @@
++1
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator-no-defau=
+lt.out b/tests/qapi-schema/flat-union-optional-discriminator-no-default.o=
+ut
 new file mode 100644
-index 0000000000..98f18b462c
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-enum-wrong-default-type.json
-@@ -0,0 +1,4 @@
-+# Check that enum values do not accept non-strings
-+{ 'enum': 'TestEnum', 'data': [ 'value1', 'value2' ] }
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'TestEnum', 'default': 0 } } }
-diff --git a/tests/qapi-schema/struct-member-float-invalid-default.json b=
-/tests/qapi-schema/struct-member-float-invalid-default.json
-new file mode 100644
-index 0000000000..ba351a91c8
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-float-invalid-default.json
-@@ -0,0 +1,4 @@
-+# This matches our number regex, but it is an invalid float still --
-+# test that it is rejected
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'number', 'default': 4.42. } } }
-diff --git a/tests/qapi-schema/struct-member-float-wrong-default-type.jso=
-n b/tests/qapi-schema/struct-member-float-wrong-default-type.json
-new file mode 100644
-index 0000000000..89b6863307
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-float-wrong-default-type.json
-@@ -0,0 +1,3 @@
-+# Check that floats do not accept non-floats
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'number', 'default': 42 } } }
-diff --git a/tests/qapi-schema/struct-member-int-wrong-default-type.json =
-b/tests/qapi-schema/struct-member-int-wrong-default-type.json
-new file mode 100644
-index 0000000000..6c6c752176
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-int-wrong-default-type.json
-@@ -0,0 +1,3 @@
-+# Check that integers do not accept non-integers
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'int', 'default': 0.0 } } }
-diff --git a/tests/qapi-schema/struct-member-int8-erange-default.json b/t=
-ests/qapi-schema/struct-member-int8-erange-default.json
-new file mode 100644
-index 0000000000..a0093bc4b9
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-int8-erange-default.json
-@@ -0,0 +1,3 @@
-+# int8 does not accept out-of-range values
-+{ 'struct': 'Test',
-+  'data': { '*s8': { 'type': 'int8', 'default': -0x81 } } }
-diff --git a/tests/qapi-schema/struct-member-list-nonempty-default.json b=
-/tests/qapi-schema/struct-member-list-nonempty-default.json
-new file mode 100644
-index 0000000000..604692631b
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-list-nonempty-default.json
-@@ -0,0 +1,4 @@
-+# Currently, we do not support nonempty defaults for lists
-+# TODO: Implement support
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': ['int'], 'default': [42] } } }
-diff --git a/tests/qapi-schema/struct-member-non-optional-default.json b/=
-tests/qapi-schema/struct-member-non-optional-default.json
-new file mode 100644
-index 0000000000..354b34167d
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-non-optional-default.json
-@@ -0,0 +1,3 @@
-+# Only optional members can have defaults
-+{ 'struct': 'Test',
-+  'data': { 'member': { 'type': 'int', 'default': 42 } } }
-diff --git a/tests/qapi-schema/struct-member-null-default.json b/tests/qa=
-pi-schema/struct-member-null-default.json
-new file mode 100644
-index 0000000000..c0cf70b984
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-null-default.json
-@@ -0,0 +1,6 @@
-+# Currently, you cannot give a default for null members, because
-+# 'None' is reserved for 'no default'.
-+# TODO: Fix that, though it would only really make sense for
-+#       alternates (which currently cannot receive defaults either)
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'null', 'default': null } } }
-diff --git a/tests/qapi-schema/struct-member-str-wrong-default-type.json =
-b/tests/qapi-schema/struct-member-str-wrong-default-type.json
-new file mode 100644
-index 0000000000..d460d3a9b4
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-str-wrong-default-type.json
-@@ -0,0 +1,3 @@
-+# Check that strings do not accept non-strings
-+{ 'struct': 'Test',
-+  'data': { '*member': { 'type': 'str', 'default': null } } }
-diff --git a/tests/qapi-schema/struct-member-uint8-erange-default.json b/=
-tests/qapi-schema/struct-member-uint8-erange-default.json
-new file mode 100644
-index 0000000000..a4fe7fd918
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-uint8-erange-default.json
-@@ -0,0 +1,3 @@
-+# uint8 does not accept out-of-range values
-+{ 'struct': 'Test',
-+  'data': { '*u8': { 'type': 'uint8', 'default': 0x100 } } }
-diff --git a/tests/qapi-schema/struct-member-uint8-negative-default.json =
-b/tests/qapi-schema/struct-member-uint8-negative-default.json
-new file mode 100644
-index 0000000000..62bbf86af9
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-uint8-negative-default.json
-@@ -0,0 +1,3 @@
-+# uint8 does not accept negative values
-+{ 'struct': 'Test',
-+  'data': { '*u8': { 'type': 'uint8', 'default': -1 } } }
+index 0000000000..e69de29bb2
+diff --git a/tests/qapi-schema/flat-union-optional-discriminator.err b/te=
+sts/qapi-schema/flat-union-optional-discriminator.err
+deleted file mode 100644
+index aaabedb3bd..0000000000
+--- a/tests/qapi-schema/flat-union-optional-discriminator.err
++++ /dev/null
+@@ -1 +0,0 @@
+-tests/qapi-schema/flat-union-optional-discriminator.json:6: Discriminato=
+r of flat union 'MyUnion' does not allow optional name '*switch'
 diff --git a/tests/qapi-schema/qapi-schema-test.out b/tests/qapi-schema/q=
 api-schema-test.out
-index 85d510bc00..724276f5de 100644
+index 724276f5de..3729736747 100644
 --- a/tests/qapi-schema/qapi-schema-test.out
 +++ b/tests/qapi-schema/qapi-schema-test.out
-@@ -397,3 +397,27 @@ object q_obj_test-features-arg
-     member cfs3: CondFeatureStruct3 optional=3DFalse
- command test-features q_obj_test-features-arg -> None
-    gen=3DTrue success_response=3DTrue boxed=3DFalse oob=3DFalse preconfi=
-g=3DFalse
-+enum TestDefaultEnum
-+    member value1
-+    member value2
-+    member value3
-+object TestDefaultSubStruct
-+    member member: int optional=3DFalse
-+array TestDefaultSubStructList TestDefaultSubStruct
-+object TestDefaultStruct
-+    member bool_false: bool optional=3DTrue default=3DFalse
-+    member bool_true: bool optional=3DTrue default=3DTrue
-+    member integer: int optional=3DTrue default=3D-42
-+    member int8_low: int8 optional=3DTrue default=3D-128
-+    member int8_high: int8 optional=3DTrue default=3D127
-+    member uint8_high: uint8 optional=3DTrue default=3D255
-+    member size: size optional=3DTrue default=3D18446744073709551615
-+    member fpneg: number optional=3DTrue default=3D-375.0
-+    member fppos: number optional=3DTrue default=3D42.0
-+    member fpposinf: number optional=3DTrue default=3Dinf
-+    member fpneginf: number optional=3DTrue default=3D-inf
-+    member fpnan: number optional=3DTrue default=3Dnan
-+    member str: str optional=3DTrue default=3Dfoo \=E9=B9=BF"=7F=08"'
-+    member enum_value2: TestDefaultEnum optional=3DTrue default=3Dvalue2
-+    member list_scalar: intList optional=3DTrue default=3D[]
-+    member list_struct: TestDefaultSubStructList optional=3DTrue default=
-=3D[]
-diff --git a/tests/qapi-schema/struct-member-alternate-default.err b/test=
-s/qapi-schema/struct-member-alternate-default.err
-new file mode 100644
-index 0000000000..48314475f9
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-alternate-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-alternate-default.json:9: Cannot specify=
- values for type TestAlt (not built-in or an enum)
-diff --git a/tests/qapi-schema/struct-member-alternate-default.exit b/tes=
-ts/qapi-schema/struct-member-alternate-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-alternate-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-alternate-default.out b/test=
-s/qapi-schema/struct-member-alternate-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-bool-wrong-default-type.err =
-b/tests/qapi-schema/struct-member-bool-wrong-default-type.err
-new file mode 100644
-index 0000000000..a0095e5c83
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-bool-wrong-default-type.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-bool-wrong-default-type.json:2: Value '0=
-' does not match type bool
-diff --git a/tests/qapi-schema/struct-member-bool-wrong-default-type.exit=
- b/tests/qapi-schema/struct-member-bool-wrong-default-type.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-bool-wrong-default-type.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-bool-wrong-default-type.out =
-b/tests/qapi-schema/struct-member-bool-wrong-default-type.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-enum-invalid-default.err b/t=
-ests/qapi-schema/struct-member-enum-invalid-default.err
-new file mode 100644
-index 0000000000..6aa3684a28
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-enum-invalid-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-enum-invalid-default.json:3: Value 'valu=
-e3' does not occur in enum TestEnum
-diff --git a/tests/qapi-schema/struct-member-enum-invalid-default.exit b/=
-tests/qapi-schema/struct-member-enum-invalid-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-enum-invalid-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-enum-invalid-default.out b/t=
-ests/qapi-schema/struct-member-enum-invalid-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-enum-wrong-default-type.err =
-b/tests/qapi-schema/struct-member-enum-wrong-default-type.err
-new file mode 100644
-index 0000000000..846dad0316
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-enum-wrong-default-type.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-enum-wrong-default-type.json:3: Enum val=
-ues must be strings, but '0' is no string
-diff --git a/tests/qapi-schema/struct-member-enum-wrong-default-type.exit=
- b/tests/qapi-schema/struct-member-enum-wrong-default-type.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-enum-wrong-default-type.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-enum-wrong-default-type.out =
-b/tests/qapi-schema/struct-member-enum-wrong-default-type.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-float-invalid-default.err b/=
-tests/qapi-schema/struct-member-float-invalid-default.err
-new file mode 100644
-index 0000000000..1ae241641f
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-float-invalid-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-float-invalid-default.json:4:55: "4.42."=
- is not a valid integer or float
-diff --git a/tests/qapi-schema/struct-member-float-invalid-default.exit b=
-/tests/qapi-schema/struct-member-float-invalid-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-float-invalid-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-float-invalid-default.out b/=
-tests/qapi-schema/struct-member-float-invalid-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-float-wrong-default-type.err=
- b/tests/qapi-schema/struct-member-float-wrong-default-type.err
-new file mode 100644
-index 0000000000..8f8bf68d23
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-float-wrong-default-type.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-float-wrong-default-type.json:2: Value '=
-42' does not match type number
-diff --git a/tests/qapi-schema/struct-member-float-wrong-default-type.exi=
-t b/tests/qapi-schema/struct-member-float-wrong-default-type.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-float-wrong-default-type.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-float-wrong-default-type.out=
- b/tests/qapi-schema/struct-member-float-wrong-default-type.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-int-wrong-default-type.err b=
-/tests/qapi-schema/struct-member-int-wrong-default-type.err
-new file mode 100644
-index 0000000000..a6b93e8403
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-int-wrong-default-type.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-int-wrong-default-type.json:2: Value '0.=
-0' does not match type int
-diff --git a/tests/qapi-schema/struct-member-int-wrong-default-type.exit =
-b/tests/qapi-schema/struct-member-int-wrong-default-type.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-int-wrong-default-type.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-int-wrong-default-type.out b=
-/tests/qapi-schema/struct-member-int-wrong-default-type.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-int8-erange-default.err b/te=
-sts/qapi-schema/struct-member-int8-erange-default.err
-new file mode 100644
-index 0000000000..e58bf7279c
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-int8-erange-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-int8-erange-default.json:2: Value '-129'=
- does not match type int8
-diff --git a/tests/qapi-schema/struct-member-int8-erange-default.exit b/t=
-ests/qapi-schema/struct-member-int8-erange-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-int8-erange-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-int8-erange-default.out b/te=
-sts/qapi-schema/struct-member-int8-erange-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-list-nonempty-default.err b/=
-tests/qapi-schema/struct-member-list-nonempty-default.err
-new file mode 100644
-index 0000000000..48b6fd61a6
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-list-nonempty-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-list-nonempty-default.json:3: Support fo=
-r non-empty lists as default values has not been implemented yet: '[42]'
-diff --git a/tests/qapi-schema/struct-member-list-nonempty-default.exit b=
-/tests/qapi-schema/struct-member-list-nonempty-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-list-nonempty-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-list-nonempty-default.out b/=
-tests/qapi-schema/struct-member-list-nonempty-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-non-optional-default.err b/t=
-ests/qapi-schema/struct-member-non-optional-default.err
-new file mode 100644
-index 0000000000..ba79cb43fa
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-non-optional-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-non-optional-default.json:2: 'member' is=
- not optional, so it cannot have a default value
-diff --git a/tests/qapi-schema/struct-member-non-optional-default.exit b/=
-tests/qapi-schema/struct-member-non-optional-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-non-optional-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-non-optional-default.out b/t=
-ests/qapi-schema/struct-member-non-optional-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-null-default.err b/tests/qap=
-i-schema/struct-member-null-default.err
-new file mode 100644
-index 0000000000..6a37655f3d
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-null-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-null-default.json:5: Cannot specify valu=
-es for type null
-diff --git a/tests/qapi-schema/struct-member-null-default.exit b/tests/qa=
-pi-schema/struct-member-null-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-null-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-null-default.out b/tests/qap=
-i-schema/struct-member-null-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-str-wrong-default-type.err b=
-/tests/qapi-schema/struct-member-str-wrong-default-type.err
-new file mode 100644
-index 0000000000..597165e22a
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-str-wrong-default-type.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-str-wrong-default-type.json:2: Value 'No=
-ne' does not match type str
-diff --git a/tests/qapi-schema/struct-member-str-wrong-default-type.exit =
-b/tests/qapi-schema/struct-member-str-wrong-default-type.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-str-wrong-default-type.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-str-wrong-default-type.out b=
-/tests/qapi-schema/struct-member-str-wrong-default-type.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-uint8-erange-default.err b/t=
-ests/qapi-schema/struct-member-uint8-erange-default.err
-new file mode 100644
-index 0000000000..a870c7074e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-uint8-erange-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-uint8-erange-default.json:2: Value '256'=
- does not match type uint8
-diff --git a/tests/qapi-schema/struct-member-uint8-erange-default.exit b/=
-tests/qapi-schema/struct-member-uint8-erange-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-uint8-erange-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-uint8-erange-default.out b/t=
-ests/qapi-schema/struct-member-uint8-erange-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qapi-schema/struct-member-uint8-negative-default.err b=
-/tests/qapi-schema/struct-member-uint8-negative-default.err
-new file mode 100644
-index 0000000000..e17ef38e15
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-uint8-negative-default.err
-@@ -0,0 +1 @@
-+tests/qapi-schema/struct-member-uint8-negative-default.json:2: Value '-1=
-' does not match type uint8
-diff --git a/tests/qapi-schema/struct-member-uint8-negative-default.exit =
-b/tests/qapi-schema/struct-member-uint8-negative-default.exit
-new file mode 100644
-index 0000000000..d00491fd7e
---- /dev/null
-+++ b/tests/qapi-schema/struct-member-uint8-negative-default.exit
-@@ -0,0 +1 @@
-+1
-diff --git a/tests/qapi-schema/struct-member-uint8-negative-default.out b=
-/tests/qapi-schema/struct-member-uint8-negative-default.out
-new file mode 100644
-index 0000000000..e69de29bb2
+@@ -96,6 +96,15 @@ alternate UserDefAlternate
+ object UserDefC
+     member string1: str optional=3DFalse
+     member string2: str optional=3DFalse
++object q_obj_UserDefFlatUnion3-base
++    member enum1: EnumOne optional=3DTrue default=3Dvalue1
++object UserDefFlatUnion3
++    base q_obj_UserDefFlatUnion3-base
++    tag enum1
++    case value1: UserDefA
++    case value2: UserDefB
++    case value3: UserDefB
++    case value4: q_empty
+ alternate AltEnumBool
+     tag type
+     case e: EnumOne
 --=20
 2.21.0
 
