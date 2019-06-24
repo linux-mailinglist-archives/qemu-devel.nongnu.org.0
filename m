@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485B950D5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:09:51 +0200 (CEST)
-Received: from localhost ([::1]:51492 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB0050CD6
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 15:56:03 +0200 (CEST)
+Received: from localhost ([::1]:51366 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfPfJ-0007DB-7U
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:09:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41612)
+	id 1hfPRy-0007zE-MI
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 09:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPGK-0006jS-3d
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:44:04 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hfPGG-0006fk-Ci
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPGG-0007h3-VV
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:59 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:51554)
+ (envelope-from <alex.bennee@linaro.org>) id 1hfPGE-0007dO-Hf
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:56 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40884)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hfPGG-0007JP-KV
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:56 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id 207so12881921wma.1
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:43:40 -0700 (PDT)
+ id 1hfPGD-0007MF-5z
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:54 -0400
+Received: by mail-wr1-x433.google.com with SMTP id p11so13968664wre.7
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IGs3kzw+BI2fE8Ae88LzkdFhpv0ghN5hux8Z4DaX/+I=;
- b=t9I3fhZd8bxzsfpVLvbf+GRhcegKRKVkyCFmIEOQfttF9JdlBaOFguPFWWeFXxhwnN
- uZ0UtWOrq9N14fQSnSPMacMm+pptgGjmoVbnVOKPDM9N6uOupAjbphAGArrNnhq7ftAV
- 62j7Ph06MzvKX0gv1UKy9j3JeuBGuQffvXiqqw/k3TQu3faAMxsWvh138BEhzaHsmc0/
- tiAgRLJA3IStTt17SEAGYDoiV/B0gb9RNPkwW+jfItKbx1agwGv8NPcGedNFrO1q6Mj8
- QodjTwZeexqH+2YLhwinIz8xO8fPTlJ15zkRHJjYpukyjl8u271RVDmlBHSFA0/fADHc
- /PCw==
+ bh=xtIRwzundNicszHIR+Xc5ItZ9WkO8ULjpABGU4hH988=;
+ b=KqgCuy9dPwLZhtEumpwHuY0ekl0UMQfJ8xPf2t/6KOJqLtBZfrA5FOlV1KJq0c1WMO
+ jLzy6koClz0+DQlyOy0L/tAVy74tN7JDEbY6HV99VPZ01R5Z2tKcA5T/xz1q1u2Mb9Oq
+ gcx9c2DMj72roCBKZQZOQvEvebLYfTADFuphEyiGHpQ6yob2K6wc+oCgx4/WxJ8EBE3x
+ W7H+3BGRLVIGzDpUXGx6llmqrsKSKqTanWgiF1Gwif3R/Rn7p9a+aqMLQbkezqSwJxEo
+ cXnjZq3sChMNzj2YwG8uzQGOITYwRQGF5qHyWFAbLvKb9j2t+/7u63jpIu7dX1R4X8HS
+ Yh0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IGs3kzw+BI2fE8Ae88LzkdFhpv0ghN5hux8Z4DaX/+I=;
- b=P8P352zW5nU7k0g3mN0hZuWpSeaCcwUW/URLzyZmyELtvnU03EU7Z9nS2+WLYefVv6
- dGNTTy7lX5B1+g3OWue1fzdOMgk3IqFkTZjTJ//LdOuHFwYFaYnDkU5Hg9HxUkp6Nmgo
- uMLQfKDfrUHqPGg5rKvwso+IMF0CJ33U8MqTnc5c3SoqGroHzEc/bFrJhkFVyKo6LGS9
- vXCEsb1YKSak1seAdChhzLowl4+4BqqjUqLVZFtCHt/XuuDZ/k3f0CJ+shdPQl5PJHbH
- PC6t7Cw26THHTs1vo9J740PTm48LC3Hc5HgmLfoEg16W4+l8nEXCgY5YlCstq4UifNim
- 4ifw==
-X-Gm-Message-State: APjAAAU1NQOhQSUIcl44c4BvzcCNp3qibxETxFlU+9vvAJWsvjfPPSO4
- +kQVoAHNYkit79XqW2rxl9MFhw==
-X-Google-Smtp-Source: APXvYqw5BO3qXdUfNiTzbnKk7PDdW8d7X2UURPk1v8RVMbg84aWmvddu2p5A3XzefBHUGPLz1C2W6A==
-X-Received: by 2002:a05:600c:204c:: with SMTP id
- p12mr16171881wmg.121.1561383819494; 
- Mon, 24 Jun 2019 06:43:39 -0700 (PDT)
+ bh=xtIRwzundNicszHIR+Xc5ItZ9WkO8ULjpABGU4hH988=;
+ b=lNj7LB/EzBLawQdbJBKkezVOd320eGgJBY8UxPZ93HM0nUCViiXj45B1ooh4qgO1bZ
+ LuD9OXpdSIJmYrJQQgd8V0ZukxvY9/Fgtx1OSAmo4jVzCvXV+RfL3iaMcs0c5KyA1TiV
+ nK3mv9i5Qxnj8foZhAvR5VYFdoGHnrscnme8R8K+ZpRy1XNDbuquHywGb1Sjhx4nfmv3
+ xz56tZk0hjCaM9ApnxWhri33oDm4E4uW8hWOBE5YdNjjooR3G3dfuDyVViEvUO+e4g8N
+ Jvn2ek1tUJ8vV5GamQ9oG86BtLuDKpqADQgBCCKCJ9gY0yBxONLaSQ/m56YpifbP6Qfh
+ eyGw==
+X-Gm-Message-State: APjAAAV11cwHrFYSjbBB55msWtvqMKWuy6K47JwONFofYkR3F6uwXFtd
+ cHvNX/a7ak+CWPiuCXXqh/rl6g==
+X-Google-Smtp-Source: APXvYqyeAkZE74pKnqCICtUk3qdhnBAAwYal5kKyb7jyJAToRm/c9mncO1JqyM/q9FGQc48U0hEBlg==
+X-Received: by 2002:a5d:6190:: with SMTP id j16mr16866483wru.49.1561383821278; 
+ Mon, 24 Jun 2019 06:43:41 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id h1sm10498779wrt.20.2019.06.24.06.43.38
+ by smtp.gmail.com with ESMTPSA id 32sm22683122wra.35.2019.06.24.06.43.38
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Mon, 24 Jun 2019 06:43:38 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AA1EF1FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id C12351FF90;
  Mon, 24 Jun 2019 14:43:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Mon, 24 Jun 2019 14:43:20 +0100
-Message-Id: <20190624134337.10532-3-alex.bennee@linaro.org>
+Date: Mon, 24 Jun 2019 14:43:21 +0100
+Message-Id: <20190624134337.10532-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190624134337.10532-1-alex.bennee@linaro.org>
 References: <20190624134337.10532-1-alex.bennee@linaro.org>
@@ -69,9 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::32a
-Subject: [Qemu-devel] [PULL 02/19] tests/vm: avoid image presence check and
- removal
+X-Received-From: 2a00:1450:4864:20::433
+Subject: [Qemu-devel] [PULL 03/19] tests/vm: pin ubuntu.i386 image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,82 +90,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-Python's os.rename() will silently replace an existing file,
-so there's no need for the extra check and removal.
+It's a good practice to always have the same components used in tests.
+According to:
 
-Reference: https://docs.python.org/3/library/os.html#os.rename
+   https://cloud-images.ubuntu.com/releases/16.04/
+
+New images are released from time to time, and the "release/"
+directory points to the latest release.  Let's pin to the latest
+available version, and while at it, set a hash for verification.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190613130718.3763-3-crosa@redhat.com>
+Message-Id: <20190613130718.3763-4-crosa@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/tests/vm/centos b/tests/vm/centos
-index b00b46a8dc..53976f1c4c 100755
---- a/tests/vm/centos
-+++ b/tests/vm/centos
-@@ -77,8 +77,6 @@ class CentosVM(basevm.BaseVM):
-         self.ssh_root_check("systemctl enable docker")
-         self.ssh_root("poweroff")
-         self.wait()
--        if os.path.exists(img):
--            os.remove(img)
-         os.rename(img_tmp, img)
-         return 0
- 
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 5575c23a6f..091be1a065 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -36,8 +36,6 @@ class FreeBSDVM(basevm.BaseVM):
-         sys.stderr.write("Extracting the image...\n")
-         subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
-         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
--        if os.path.exists(img):
--            os.remove(img)
-         os.rename(img_tmp, img)
- 
- if __name__ == "__main__":
-diff --git a/tests/vm/netbsd b/tests/vm/netbsd
-index d0508f4465..ee9eaeab50 100755
---- a/tests/vm/netbsd
-+++ b/tests/vm/netbsd
-@@ -36,8 +36,6 @@ class NetBSDVM(basevm.BaseVM):
-         sys.stderr.write("Extracting the image...\n")
-         subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
-         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
--        if os.path.exists(img):
--            os.remove(img)
-         os.rename(img_tmp, img)
- 
- if __name__ == "__main__":
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 87ec982489..28c7d25e29 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -38,8 +38,6 @@ class OpenBSDVM(basevm.BaseVM):
-         sys.stderr.write("Extracting the image...\n")
-         subprocess.check_call(["ln", "-f", cimg, img_tmp_xz])
-         subprocess.check_call(["xz", "--keep", "-dvf", img_tmp_xz])
--        if os.path.exists(img):
--            os.remove(img)
-         os.rename(img_tmp, img)
- 
- if __name__ == "__main__":
 diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index a22d137e76..12867b193f 100755
+index 12867b193f..7017e6d388 100755
 --- a/tests/vm/ubuntu.i386
 +++ b/tests/vm/ubuntu.i386
-@@ -80,8 +80,6 @@ class UbuntuX86VM(basevm.BaseVM):
-         self.ssh_root_check("apt-get install -y libfdt-dev flex bison")
-         self.ssh_root("poweroff")
-         self.wait()
--        if os.path.exists(img):
--            os.remove(img)
-         os.rename(img_tmp, img)
-         return 0
+@@ -61,7 +61,9 @@ class UbuntuX86VM(basevm.BaseVM):
+         return os.path.join(cidir, "cloud-init.iso")
  
+     def build_image(self, img):
+-        cimg = self._download_with_cache("https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-i386-disk1.img")
++        cimg = self._download_with_cache(
++            "https://cloud-images.ubuntu.com/releases/16.04/release-20190605/ubuntu-16.04-server-cloudimg-i386-disk1.img",
++            sha256sum="e30091144c73483822b7c27193e9d47346dd1064229da577c3fedcf943f7cfcc")
+         img_tmp = img + ".tmp"
+         subprocess.check_call(["cp", "-f", cimg, img_tmp])
+         subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
 -- 
 2.20.1
 
