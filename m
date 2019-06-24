@@ -2,75 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3650250CFF
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 15:58:53 +0200 (CEST)
-Received: from localhost ([::1]:51392 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7CD50D2F
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 16:02:36 +0200 (CEST)
+Received: from localhost ([::1]:51424 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfPUi-0002q7-DL
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 09:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41595)
+	id 1hfPYJ-0006f2-AZ
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 10:02:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44835)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPGJ-0006jF-EU
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:44:02 -0400
+ (envelope-from <rkagan@virtuozzo.com>) id 1hfPSJ-0001HI-Iw
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:56:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPGG-0007ga-Sw
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:58 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37790)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hfPGG-0007Z0-JM
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:56 -0400
-Received: by mail-wm1-x329.google.com with SMTP id f17so13456169wme.2
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sgFHUBki7irv0ZpoKsilsQQcYReZg1Ztcy4s6VB+Mlo=;
- b=F4t46+YJFn9aDyEA2g2iYs48FjwPQs9jrzySLiJj4eJSOMfBkPgIRZcHd4TRC/l4un
- wj5mHt3OQe+b3rjnmp7pQ/9nf4C2EQklCyD1l9qmEvr5cUGXZAcXELW+wshJcO4HNWZB
- /tN/zWD5hJpjbZaaG1WX1/9c7RMZeNXqiYg8V7u8J6PmsFI8D/lo2uJD/nihzvpYLcPo
- JgbY1eULIwzYwSjrfFF5KWzHGsk+Ydvry1cQBNpcmVk/ic/fCv4DdlcepXITjDCufUU5
- 8dY90pmjW3Uab5/coteRczgAWfmQtnpjEoI/lPqsMd/1O8tonx/+/D5DMt2WyUinaIVL
- Ecxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sgFHUBki7irv0ZpoKsilsQQcYReZg1Ztcy4s6VB+Mlo=;
- b=UnsTV9/kgwEDMAb7a9MbmVt0HNYR3hBErPSTyvdwvS1xpWh4J5mgg1diOoPAW+7Zit
- jm73y21N1Nf+WUNtvAWuTuI7YHRv7VvKHlPkdeO0SBwXEmSTXScvYF8Vg23xR1TZdkPx
- h/FKHQ9pe0M7WR6w+WRVFPHMNf0RYXawPiujwGnX+d/XoDIChs5q41tm7iE5Hn4lpw2c
- 9fNlgZ7/JMde5Y8Ll2TjBi9jLErZ9NieAU3Ql2SPxypriNHShlNT378BAdxtdmaL8Tm/
- 4NjpLfxszZDljyR9s1HYlteH8YX4rrFtsyJ/Vx4eIWRRiFMkJuotsuzknTzri1STTR9v
- +Amw==
-X-Gm-Message-State: APjAAAW7t5rYhL/OzaqGppMqZPDjBcQ8eCCxfyjNEPT+k/A4zcLjz3xo
- F82Q+r2VN/hbJfGx5zVlRfsIpA==
-X-Google-Smtp-Source: APXvYqy2xCNc2j5W5ggwl8XgFQ2YqwEMyEx4PbJ6/kw3OimNvKs2+KR2iTebb7G9wipdFMNnrXwjZg==
-X-Received: by 2002:a05:600c:2549:: with SMTP id
- e9mr16443711wma.46.1561383830792; 
- Mon, 24 Jun 2019 06:43:50 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id r2sm16154485wma.26.2019.06.24.06.43.42
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 06:43:48 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 252001FFA5;
- Mon, 24 Jun 2019 14:43:39 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Mon, 24 Jun 2019 14:43:37 +0100
-Message-Id: <20190624134337.10532-20-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190624134337.10532-1-alex.bennee@linaro.org>
-References: <20190624134337.10532-1-alex.bennee@linaro.org>
+ (envelope-from <rkagan@virtuozzo.com>) id 1hfPSI-0004qX-K4
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:56:23 -0400
+Received: from mail-bgr052101135048.outbound.protection.outlook.com
+ ([52.101.135.48]:46977 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <rkagan@virtuozzo.com>)
+ id 1hfPSG-0004j3-9n
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:56:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YOZZQe8qSqcBDnTrWpMCHc9KhtWHYFks342NGKUlEgU=;
+ b=IKsT9UnzrHEvDbMgaAy3akmeeYdTwJVc6p/UJJNr10ZdqG6TczFUUIKiy9jB/qRIPIMPYvKL3kNPvAgnYUs87GmfyXOXbXnMg2MBwP+3jArCkKsDiimRvQmCoj5wOtSna0pdFlT+ArDJHm1V30X2BOL9gMKRoeOIiAg1JqXzNUI=
+Received: from VI1PR08MB3981.eurprd08.prod.outlook.com (20.178.126.10) by
+ VI1PR08MB3216.eurprd08.prod.outlook.com (52.133.15.156) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2008.16; Mon, 24 Jun 2019 13:56:10 +0000
+Received: from VI1PR08MB3981.eurprd08.prod.outlook.com
+ ([fe80::70f3:9c8:b21:58]) by VI1PR08MB3981.eurprd08.prod.outlook.com
+ ([fe80::70f3:9c8:b21:58%5]) with mapi id 15.20.2008.014; Mon, 24 Jun 2019
+ 13:56:10 +0000
+From: Roman Kagan <rkagan@virtuozzo.com>
+To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+Thread-Topic: [PATCH] target/i386: fix feature check in hyperv-stub.c
+Thread-Index: AQHVKonHdWlzk0C+XUaoVDKJqx3fE6aq1BCA
+Date: Mon, 24 Jun 2019 13:56:10 +0000
+Message-ID: <20190624135607.GA2457@rkaganb.sw.ru>
+References: <20190624123835.28869-1-alex.bennee@linaro.org>
+In-Reply-To: <20190624123835.28869-1-alex.bennee@linaro.org>
+Accept-Language: en-US, ru-RU
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mutt/1.12.0 (2019-05-25)
+mail-followup-to: =?iso-8859-1?Q?Roman_Kagan_<rkagan@virtuozzo.com>,
+ =09Alex_Benn=E9e_<alex.?=
+ =?iso-8859-1?Q?bennee@linaro.org>,=09peter.maydell@linaro.org,_qemu-devel?=
+ =?iso-8859-1?Q?@nongnu.org,=09Vitaly_Kuznetsov_<vkuznets@redhat.com>,=09P?=
+ =?iso-8859-1?Q?aolo_Bonzini_<pbonzini@redhat.com>,=09Richard_Henderson_<r?=
+ =?iso-8859-1?Q?th@twiddle.net>,=09Eduardo_Habkost_<ehabkost@redhat.com>?=
+x-originating-ip: [185.231.240.5]
+x-clientproxiedby: HE1PR02CA0108.eurprd02.prod.outlook.com
+ (2603:10a6:7:29::37) To VI1PR08MB3981.eurprd08.prod.outlook.com
+ (2603:10a6:803:e0::10)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=rkagan@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 71069648-3cc0-4afb-0785-08d6f8abb62d
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:VI1PR08MB3216; 
+x-ms-traffictypediagnostic: VI1PR08MB3216:|VI1PR08MB3216:
+x-microsoft-antispam-prvs: <VI1PR08MB3216CCBE048E731B7F7372F7C9E00@VI1PR08MB3216.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 007814487B
+x-forefront-antispam-report: SFV:SPM;
+ SFS:(10019020)(136003)(346002)(396003)(366004)(376002)(39840400004)(199004)(189003)(6246003)(14454004)(5660300002)(71200400001)(52116002)(71190400001)(66946007)(53936002)(186003)(446003)(316002)(7736002)(486006)(476003)(229853002)(66476007)(8936002)(6436002)(66446008)(25786009)(66556008)(86362001)(64756008)(76176011)(73956011)(81156014)(1076003)(8676002)(6512007)(9686003)(81166006)(6506007)(99286004)(386003)(14444005)(66574012)(6486002)(305945005)(26005)(102836004)(66066001)(6916009)(3846002)(6116002)(54906003)(11346002)(33656002)(58126008)(36756003)(4326008)(2906002)(478600001)(68736007)(256004)(30126002);
+ DIR:OUT; SFP:1501; SCL:5; SRVR:VI1PR08MB3216;
+ H:VI1PR08MB3981.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: AWv0uTkHj1OXZmMlnEPxPrz+CxY5WwRD+ysx3LnlPdYX9TEDRZJ55U3haKfLI0FNAeiX5N62EOMvEFZ0MUhZMIl5UNr7qfKS4Kj5upLHHTZ8ynkymHWwFgSv21C1fTsrArkVPRgqwYecjT6Y6cJ6IYnS4zqbm8BKrFn/tJulKf+QuR5I+NGGdo+oPSLzUaCpT7RmKFDUIqZkOlNjLT/sFvhcY3reFi+WlNCp7uqyWpMSvs3axT5pZyUNOaXSMnP1Zf2e3HC6QjPPXuMhxFKzqoEdXjXGyvevKG10U/NgutE3MU7cYLjx1xHECBLK/7Bav/C98L822EgyMwFd2OAOidagXXQ22FXouPCvoZmMFWMwgGRZCpKbxA1pHjcx+w2xS2btXXYDJRkkqRWWTKEWPjHznJLMu3IcDtRhVyVYq87Qk9t2pkDzkJg5TjH7SllMM2+fBFwgfDyCUPmwEVGF37DJpcea8SI6msdYYpi7WREWj7mgYQtYTqQHHXja3zgR
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <8CCB7F646F3C5B47BF6EE330BDC64F4E@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::329
-Subject: [Qemu-devel] [PULL 19/19] target/i386: fix feature check in
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71069648-3cc0-4afb-0785-08d6f8abb62d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2019 13:56:10.1982 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rkagan@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3216
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 52.101.135.48
+Subject: Re: [Qemu-devel] [PATCH] target/i386: fix feature check in
  hyperv-stub.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,42 +106,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Roman Kagan <rkagan@virtuozzo.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 2d384d7c8 broken the build when built with:
+On Mon, Jun 24, 2019 at 01:38:35PM +0100, Alex Benn=E9e wrote:
+> Commit 2d384d7c8 broken the build when built with:
+>=20
+>   configure --without-default-devices --disable-user
+>=20
+> The reason was the conversion of cpu->hyperv_synic to
+> cpu->hyperv_synic_kvm_only although the rest of the patch introduces a
+> feature checking mechanism. So I've fixed the KVM_EXIT_HYPERV_SYNIC in
+> hyperv-stub to do the same feature check as in the real hyperv.c
+>=20
+> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
+> Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Roman Kagan <rkagan@virtuozzo.com>
+> ---
+>  target/i386/hyperv-stub.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-  configure --without-default-devices --disable-user
+Reviewed-by: Roman Kagan <rkagan@virtuozzo.com>
 
-The reason was the conversion of cpu->hyperv_synic to
-cpu->hyperv_synic_kvm_only although the rest of the patch introduces a
-feature checking mechanism. So I've fixed the KVM_EXIT_HYPERV_SYNIC in
-hyperv-stub to do the same feature check as in the real hyperv.c
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Roman Kagan <rkagan@virtuozzo.com>
-
-diff --git a/target/i386/hyperv-stub.c b/target/i386/hyperv-stub.c
-index fe548cbae2..0028527e79 100644
---- a/target/i386/hyperv-stub.c
-+++ b/target/i386/hyperv-stub.c
-@@ -15,7 +15,7 @@ int kvm_hv_handle_exit(X86CPU *cpu, struct kvm_hyperv_exit *exit)
- {
-     switch (exit->type) {
-     case KVM_EXIT_HYPERV_SYNIC:
--        if (!cpu->hyperv_synic) {
-+        if (!hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC)) {
-             return -1;
-         }
- 
--- 
-2.20.1
-
+>=20
+> diff --git a/target/i386/hyperv-stub.c b/target/i386/hyperv-stub.c
+> index fe548cbae2..0028527e79 100644
+> --- a/target/i386/hyperv-stub.c
+> +++ b/target/i386/hyperv-stub.c
+> @@ -15,7 +15,7 @@ int kvm_hv_handle_exit(X86CPU *cpu, struct kvm_hyperv_e=
+xit *exit)
+>  {
+>      switch (exit->type) {
+>      case KVM_EXIT_HYPERV_SYNIC:
+> -        if (!cpu->hyperv_synic) {
+> +        if (!hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC)) {
+>              return -1;
+>          }
+> =20
+> --=20
+> 2.20.1
+>=20
 
