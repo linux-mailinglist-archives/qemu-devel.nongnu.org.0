@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D7A50C57
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 15:50:03 +0200 (CEST)
-Received: from localhost ([::1]:51314 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6590F50C59
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 15:50:05 +0200 (CEST)
+Received: from localhost ([::1]:51318 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfPMA-0000JO-7P
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 09:50:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41434)
+	id 1hfPMC-0000Wq-Iy
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 09:50:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41523)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPGC-0006ac-Ij
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:54 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hfPGH-0006hj-IN
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPGA-0007XZ-JK
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:52 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38427)
+ (envelope-from <alex.bennee@linaro.org>) id 1hfPGG-0007fL-Az
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:57 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38376)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hfPG6-0007NP-OB
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:48 -0400
-Received: by mail-wm1-x332.google.com with SMTP id s15so13429318wmj.3
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:43:43 -0700 (PDT)
+ id 1hfPGE-0007Oi-DS
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:54 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d18so13994189wrs.5
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=INLzBrnOdVpVaX735jR9Ql7IOiOc8rJWuc+qFiZ4wMM=;
- b=w+gFRtDHcBs4MeHAgFdm7/Q0W6J8DVe7h0IihpVSwDry2bm0ZDph9Mwr/57vjLqinJ
- 79gqC8ZVTWXl/y+N6bPt29fwP8uEfU8jVeaaPqxQCA5oCxsRFRfCFFieZZ4Yqv7jZp4B
- tj8mA3BrjR9dVY7S6vssL3CxTzL8Gjc5pOvvmwkb0rgXjLw86+CT0GH/qg1RE102xp+m
- HIMoPlQmtgWJK2uiVu5Yhser7X4b8/yiWDeoOoeyA3H00vqg7U0fS6kBFeXFHCIE017d
- +G5xqP9HvjBJFyCUuUbnn1QhzwtorKfz3++GhRv1gImjRqwccC6m6QQSwhdid9zIEYyL
- hCTw==
+ bh=c6RTlncvKEOxdPzqDtthTA6vXD5pXgd87E8kJP9158o=;
+ b=WqnUV4HNKo4DS2e2EQXp0afedkA08ZF6h1AXyr+FJCgdB36To9Bc1Cbtdu6jRCDaWx
+ OHSPEW8ZRl3fW5F++mopm5ynQelzWU/Lv7NzRjIMEA1Oc85pqOI0mzWnElu0gOuPrnO9
+ TkhQBX3npI5PBer5YBHSrpvkmbFFd3cYGUR4WZr1GNUw4bwAcdC4AGjNHyyzdHfrGe+U
+ 0Yrj/PONaqedOFmw+6N/Wp37kWu557MdBIywL9SktRrrlQFqOnEvul7d6uWEYOVQtRh+
+ 8jtybw25h63b5QKm3go8wKxSoEBJ5+U4yLX4hwBjnerYQjA+tNqQWl0zdgD1+SQfmrbf
+ oHMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=INLzBrnOdVpVaX735jR9Ql7IOiOc8rJWuc+qFiZ4wMM=;
- b=TV0T3Mm7VI0Uweg2Z6ygZh033BPy2roBE3NsdrvdF28Ea09Cfe9sePfwvY1iHBSFdo
- x/5YNysu0TFN7E5gzefXNt4AllGhgbxMgOhoAOR+VKu9W2Cxmu25TdYmmlFYv8hSFCWN
- SgWHzmtsFB/BuJzaHAdmARsoNjnLfjSmv1grvLTrGtonHTMZ3bUNttZXW1wzLyOvnwTC
- ZeOrQHosfqTiLKzfIYsn+VN9U1/omox+m/kbhM3sMxCd4Wpsprys08KruiN0HeIMehUd
- xCFebbtODBBwGs4FNP1JNNOp0BdFyCr7NLvTHMKuYMMdeJoMgN3nm63jYdfc0Upcg2Dc
- 38yA==
-X-Gm-Message-State: APjAAAW0byZCrcPDzBskyE03VJXZyQx3Cdn6xClCrWTXenNilliCqnhe
- q69jkPt2BN/lzoQF7dZIUb4wXw==
-X-Google-Smtp-Source: APXvYqw1Pv/fO7fw8xSRQpHWa4REIbOC1voPCqmg4wybZQLfTBY5tEDaNCOL6UB8YOYssPM2oMiQmg==
-X-Received: by 2002:a1c:b146:: with SMTP id a67mr15829427wmf.124.1561383822192; 
- Mon, 24 Jun 2019 06:43:42 -0700 (PDT)
+ bh=c6RTlncvKEOxdPzqDtthTA6vXD5pXgd87E8kJP9158o=;
+ b=MoSqBv5iOlA3v5zvsCQ8xSgXQLYRv+brx2DXnBK1d9F5oOvT+RnlJxwarMQ4ppK53O
+ F4fqMEXUcYFCIIfZ4ZcfGa5VNUm8r3Q1P50nKK43KfVDdvGhBdavypOirPEKU5ojrtyT
+ xAPlGIscJ7B29sA5dTs+zapTOvqYsS+z3r+2JOvPH8OtEufHFLZXWoutkvvdSuM6vhaJ
+ v37Rpxjsol/hkVolditdshcQPOtKf4Tsk4/HakXFRuD1Ce1l5gmLKRnlwRqsgE4c7eKC
+ jA+AYCCHs2B54Asn9hNyDplK2S81zZA/c8t6KwyXGlplcozNBXsVG2FiEXsl3sClEkVF
+ /+aA==
+X-Gm-Message-State: APjAAAU0wx4Q1DhVANrZRQcw3IcG1uX5nL6v6eQsaBdbW3SKqnT8f+YG
+ wn079cdJY2nKWNCtqHznpSBTnw==
+X-Google-Smtp-Source: APXvYqycduhhLupneyF6DwiALAvNx9yrAK7UN37lIFMifF0/3TT0yyCzcjNEZG5krUdfMm3Om4kTXQ==
+X-Received: by 2002:adf:fecd:: with SMTP id q13mr18321554wrs.97.1561383823469; 
+ Mon, 24 Jun 2019 06:43:43 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id p3sm8196123wrd.47.2019.06.24.06.43.38
+ by smtp.gmail.com with ESMTPSA id s7sm11584wmc.2.2019.06.24.06.43.39
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 06:43:39 -0700 (PDT)
+ Mon, 24 Jun 2019 06:43:41 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0A2AE1FF93;
+ by zen.linaroharston (Postfix) with ESMTP id 1ECFD1FF96;
  Mon, 24 Jun 2019 14:43:38 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Mon, 24 Jun 2019 14:43:24 +0100
-Message-Id: <20190624134337.10532-7-alex.bennee@linaro.org>
+Date: Mon, 24 Jun 2019 14:43:25 +0100
+Message-Id: <20190624134337.10532-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190624134337.10532-1-alex.bennee@linaro.org>
 References: <20190624134337.10532-1-alex.bennee@linaro.org>
@@ -68,8 +68,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::332
-Subject: [Qemu-devel] [PULL 06/19] tests/vm: use ssh with pty unconditionally
+X-Received-From: 2a00:1450:4864:20::436
+Subject: [Qemu-devel] [PULL 07/19] tests/vm: run test builds on snapshot
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,6 +82,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Ed Maste <emaste@freebsd.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
@@ -90,61 +91,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Allways ask ssh to run with a pseudo terminal.
-Not having a terminal causes problems now and then.
+The build script doesn't shutdown the guest VMs properly,
+which results in filesystem corruption and guest boot
+failures sooner or later.
+
+Use the --snapshot to run builds on a snapshot,
+That way killing the VM doesn't corrupt the base image.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Tested-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Ed Maste <emaste@freebsd.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190617043858.8290-3-kraxel@redhat.com>
+Message-Id: <20190617043858.8290-4-kraxel@redhat.com>
+[AJB: added tags]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 5e30bac661..395eefaec9 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -107,16 +107,14 @@ class BaseVM(object):
-         os.rename(fname + ".download", fname)
-         return fname
- 
--    def _ssh_do(self, user, cmd, check, interactive=False):
--        ssh_cmd = ["ssh", "-q",
-+    def _ssh_do(self, user, cmd, check):
-+        ssh_cmd = ["ssh", "-q", "-t",
-                    "-o", "StrictHostKeyChecking=no",
-                    "-o", "UserKnownHostsFile=" + os.devnull,
-                    "-o", "ConnectTimeout=1",
-                    "-p", self.ssh_port, "-i", self._ssh_key_file]
-         for var in self.envvars:
-             ssh_cmd += ['-o', "SendEnv=%s" % var ]
--        if interactive:
--            ssh_cmd += ['-t']
-         assert not isinstance(cmd, str)
-         ssh_cmd += ["%s@127.0.0.1" % user] + list(cmd)
-         logging.debug("ssh_cmd: %s", " ".join(ssh_cmd))
-@@ -128,9 +126,6 @@ class BaseVM(object):
-     def ssh(self, *cmd):
-         return self._ssh_do(self.GUEST_USER, cmd, False)
- 
--    def ssh_interactive(self, *cmd):
--        return self._ssh_do(self.GUEST_USER, cmd, False, True)
--
-     def ssh_root(self, *cmd):
-         return self._ssh_do("root", cmd, False)
- 
-@@ -284,9 +279,9 @@ def main(vmcls):
-         return 2
- 
-     if args.interactive:
--        if vm.ssh_interactive(*cmd) == 0:
-+        if vm.ssh(*cmd) == 0:
-             return 0
--        vm.ssh_interactive()
-+        vm.ssh()
-         return 3
-     else:
-         if vm.ssh(*cmd) != 0:
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index c59411bee0..276b870216 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -57,6 +57,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
+ 		$(if $(V),--verbose) \
+ 		--image "$<" \
+ 		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
++		--snapshot \
+ 		--build-qemu $(SRC_PATH) -- \
+ 		$(if $(TARGET_LIST),--target-list=$(TARGET_LIST)) \
+ 		$(if $(EXTRA_CONFIGURE_OPTS),$(EXTRA_CONFIGURE_OPTS)), \
 -- 
 2.20.1
 
