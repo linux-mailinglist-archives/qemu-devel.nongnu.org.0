@@ -2,52 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBDE509F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 13:41:14 +0200 (CEST)
-Received: from localhost ([::1]:50054 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A9450A03
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 13:45:06 +0200 (CEST)
+Received: from localhost ([::1]:50068 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfNER-0001Gj-Ti
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 07:33:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33978)
+	id 1hfNJm-0005hD-1H
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 07:39:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34129)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <drjones@redhat.com>) id 1hfNCF-0000ds-7f
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:31:40 -0400
+ (envelope-from <armbru@redhat.com>) id 1hfNCo-0000ra-8m
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:32:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1hfNCD-0006Xo-2c
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:31:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:13387)
+ (envelope-from <armbru@redhat.com>) id 1hfNCj-0007DW-J0
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:32:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35644)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1hfNC7-0005S0-1T; Mon, 24 Jun 2019 07:31:31 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hfNCj-0006yj-CG
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 07:32:09 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1C9B87E437;
- Mon, 24 Jun 2019 11:30:48 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D874D60BF7;
- Mon, 24 Jun 2019 11:30:39 +0000 (UTC)
-Date: Mon, 24 Jun 2019 13:30:37 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Dave Martin <Dave.Martin@arm.com>
-Message-ID: <20190624113037.m5onedluc4x7c5ej@kamzik.brq.redhat.com>
-References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-6-drjones@redhat.com>
- <20190624110507.GG2790@e103592.cambridge.arm.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E7F4030872DD
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 11:31:55 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-169.ams2.redhat.com
+ [10.36.117.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8315F600CD;
+ Mon, 24 Jun 2019 11:31:53 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 037FD11386A0; Mon, 24 Jun 2019 13:31:51 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+References: <20190619201050.19040-1-armbru@redhat.com>
+ <20190619201050.19040-17-armbru@redhat.com>
+ <20190620085627.GR25448@redhat.com>
+Date: Mon, 24 Jun 2019 13:31:51 +0200
+In-Reply-To: <20190620085627.GR25448@redhat.com> ("Daniel P. =?utf-8?Q?Ber?=
+ =?utf-8?Q?rang=C3=A9=22's?=
+ message of "Thu, 20 Jun 2019 09:56:27 +0100")
+Message-ID: <87a7e7rzh4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190624110507.GG2790@e103592.cambridge.arm.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 24 Jun 2019 11:30:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Mon, 24 Jun 2019 11:31:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 05/14] target/arm/helper: zcr: Add build
- bug next to value range assumption
+Subject: Re: [Qemu-devel] [PATCH 16/17] MAINTAINERS: Add Windows dump to
+ section "Dump"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,61 +64,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "eric.auger@redhat.com" <eric.auger@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 24, 2019 at 12:05:07PM +0100, Dave Martin wrote:
-> On Fri, Jun 21, 2019 at 05:34:13PM +0100, Andrew Jones wrote:
-> 
-> The purpose of this check should probably at least be described in a
-> comment -- i.e., what actually depends on this?
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-I was thinking the already present "Bits other than [3:0] are RAZ/WI."
-explained that, but how about this for an improvement?
+> On Wed, Jun 19, 2019 at 10:10:49PM +0200, Markus Armbruster wrote:
+>> Commit 2da91b54fe9 "dump: add Windows dump format to
+>> dump-guest-memory" neglected to update MAINTAINERS.  Do it now.
+>>=20
+>> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  MAINTAINERS | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index a3fdda015f..327ad80ae4 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -1850,9 +1850,10 @@ F: include/sysemu/device_tree.h
+>>  Dump
+>>  S: Supported
+>>  M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> -F: dump/dump.c
+>> +F: dump/
+>
+> Isn't this better squashed in the previous patch in fact.
 
-/*
- * Only the lowest 4 bits of ZCR_ELx may be used to constrain the vector
- * length, the rest of the bits are RAZ/WI. Since the vector length of
- * 128-bits (1 in quadwords) is represented as zero in ZCR_ELx, and all
- * vector lengths are represented as their length in quadwords minus 1,
- * then four bits allow up to quadword 16 to be selected.
- */
+If I do that, the commit does two things: move code and improve
+MAINTAINERS coverage.  Okay in this case.  We can just as well finish
+the improvement job then, i.e. squash the entire commit into the
+previous one.
 
-Thanks,
-drew
+>>  F: hw/misc/vmcoreinfo.c
+>>  F: include/hw/misc/vmcoreinfo.h
+>> +F: include/qemu/win_dump_defs
+>>  F: include/sysemu/dump-arch.h
+>>  F: include/sysemu/dump.h
+>>  F: qapi/dump.json
+>
+> Either way, the result is good so
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-> 
-> Cheers
-> ---Dave
-> 
-> > Suggested-by: Dave Martin <Dave.Martin@arm.com>
-> > Signed-off-by: Andrew Jones <drjones@redhat.com>
-> > ---
-> >  target/arm/helper.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/target/arm/helper.c b/target/arm/helper.c
-> > index df4276f5f6ca..edba94004e0b 100644
-> > --- a/target/arm/helper.c
-> > +++ b/target/arm/helper.c
-> > @@ -5319,6 +5319,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-> >      int new_len;
-> >  
-> >      /* Bits other than [3:0] are RAZ/WI.  */
-> > +    QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
-> >      raw_write(env, ri, value & 0xf);
-> >  
-> >      /*
-> > -- 
-> > 2.20.1
-> > 
-> 
+Thanks!
 
