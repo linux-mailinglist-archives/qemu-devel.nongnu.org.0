@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D950851F2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 01:43:24 +0200 (CEST)
-Received: from localhost ([::1]:55486 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F0151F3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 01:49:09 +0200 (CEST)
+Received: from localhost ([::1]:55514 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfYcN-00084c-6G
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 19:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51256)
+	id 1hfYhw-0003MT-UB
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 19:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51957)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=0714f841a=atish.patra@wdc.com>)
- id 1hfYbR-0007av-1H
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 19:42:26 -0400
+ (envelope-from <prvs=07161884e=alistair.francis@wdc.com>)
+ id 1hfYe2-0001Fg-Jj
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 19:45:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=0714f841a=atish.patra@wdc.com>)
- id 1hfYbP-00066K-P9
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 19:42:24 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:61229)
+ (envelope-from <prvs=07161884e=alistair.francis@wdc.com>)
+ id 1hfYdz-00019O-1C
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 19:45:04 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:37535)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=0714f841a=atish.patra@wdc.com>)
- id 1hfYbM-0005zp-DW; Mon, 24 Jun 2019 19:42:21 -0400
+ (Exim 4.71) (envelope-from <prvs=07161884e=alistair.francis@wdc.com>)
+ id 1hfYdw-00011M-8b; Mon, 24 Jun 2019 19:45:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1561419740; x=1592955740;
+ t=1561419900; x=1592955900;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=94tX/HnMqhSklm+vTa89vm8kXlhCBjhpnBv26y+knTE=;
- b=alT2L9e/pAAakEdT9nsJOux0u78Qt1K+G8/qMn6dsheRpzGj/nABn9cA
- ZrJR4Ztn5ormn+qNbo4VEIVRNxaV7i7XURh88CDIarF77G6i1ah1qv77e
- nlmey/23QWE2YFnvDoZ3Yp/N3WXkib4FV0BFArIVstiapWFjJblxKF/06
- +kL3fYCBjl0Gm0s9lpQEuvEwWIjy8KY/eiuKCDs6udNbzpg9/r52KWv3b
- fNQvMy6ASWbLHz6oU1+vEcjQJOfMaMKWACs3dBZyMwJsFdUXMC7Y2WZuf
- ULNT3Xc3N6RFtPJRNZS4zGTys9B7Ok3IRRgKzyeT5QIyliIdRKXwv0E9+ w==;
-X-IronPort-AV: E=Sophos;i="5.63,413,1557158400"; d="scan'208";a="217801147"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 25 Jun 2019 07:42:06 +0800
-IronPort-SDR: iWXFNbab6CAcv6Jiv5SkWCca5hZVdS2BSYRm28Je4kvZjmf405L79I99Y3jmk4Vyb/7wOviulP
- Y6KvU6UZhOBjsDXqETZvvCnKhZFU+5EpuuYqbimaksOCfTCWlURMz/p68hw3eTAe9osiuS4ogK
- h5fZpC9nR6JQWmhuBJY/YzrDq1NNR7W5BSak2jpSLOGGjv2/ZLmZzv7/D20SItZ2TXPKflmQBV
- vMb/TyUcES6hgiPLI5OvM6DNZgDvI6WNshIiZw56U9MGIx7ZtbdIhfmx2GKjAFwbylXF5DTEIT
- nluRSX4VimQA/Qff/zgfI49L
+ bh=AcXq8ItUNFjLveFP5uB7gVk5soMtprJBIPBMsqiICrI=;
+ b=Bfvah1n9StTPQuCPlSCK1mXae6RxZovqE2kWBQESBTpCjLQG8zjQ0qyj
+ ldin4ouCOm0BIBiXkSFKPJ9p1b/vwskKg1sInpfag6CU24hqOFDkZGewt
+ 6DghpFOP4o7/9eKB8JTSy55X0nv9xks0CjKh6b4g7doY1aJD0KWGQSAlI
+ 7UvCQaz3GF94Rk/A1eimwPQ5nbR7tty6Q/t8FZUFeuPszVObJ4NGYN958
+ 4uorr7cgqzVYqT05YrhBErFZnPVI5OQmsCY82Qkh9Deg/yIGt4TchjrYD
+ ICHbuGwYVTrDZHKpI1YngLPnH7tyhn0vOabR3aJwHFRRopKbzdyMXlN6p g==;
+X-IronPort-AV: E=Sophos;i="5.63,413,1557158400"; d="scan'208";a="116313404"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 25 Jun 2019 07:44:56 +0800
+IronPort-SDR: BE+49INteURKLbE5/n0dl6IEBIiObmyX5K+1Uv6rCm49dfoOvK8FBRop6PBDf9VCQx7LloTcTJ
+ 2gzUnpw4y5LrLF/D7eh7ETHBlq2UbfydBgvUwvPB9bNBcRU8taEPW54ZO4QkNCDFl/nw1Oh+yM
+ V6LuGcvAuy0GkXbRzgpX/eL9432q3wNOlYEPjuD63DsRAl2RhjRDSe6euiplnEZaVa/0s5E+id
+ fAJt4q7rGr3Zexkm4jfCxzcIZxaLT0+9n4Q295ug5S7WMuslWWkRByg26htHct4oqSS75AAPP0
+ 6HaWlOcnBjPbAdXplsAmPGDe
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP; 24 Jun 2019 16:41:25 -0700
-IronPort-SDR: J7rg9QJz4pbNTv9xWe3D7wtiFzIoJ1WqZB2HuIgLewP5yvC+RdAudGTdhfuHr9Fmp2jlS50bh2
- g+Q4hFlcfZI6e2hrgZsGOc1vu6JwjgqZEfFN5uMyoBA1kEe9hMZ+CsCrsfgbKWvFml2mHzb9+F
- bfjgADlZUlhQCnT8TBod0wdyLM8ZupCheOA52wK6Jbz64No58FYN2HjZ/Fdhm0JNFb2FZyg+pb
- wRohb5uaKddht9/0cCaU+ZlZXyq2jHzekMHygtUdIgR/a1u1mtQw9hPDB7h8Jy2+Kf6OreEjP3
- L18=
-Received: from jedi-01.sdcorp.global.sandisk.com (HELO
- jedi-01.int.fusionio.com) ([10.11.143.218])
- by uls-op-cesaip02.wdc.com with ESMTP; 24 Jun 2019 16:42:04 -0700
-From: Atish Patra <atish.patra@wdc.com>
-To: qemu-riscv@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Mon, 24 Jun 2019 16:41:44 -0700
-Message-Id: <20190624234144.10768-1-atish.patra@wdc.com>
-X-Mailer: git-send-email 2.21.0
+ by uls-op-cesaep01.wdc.com with ESMTP; 24 Jun 2019 16:44:08 -0700
+IronPort-SDR: 9+4nsIs2qjxNbv+F+C5UmKdwd0PptYCUITh8Yxdu5XRXBpFMf86S/w8taA1dpYX0evnXPDbOy/
+ FdIolrNqY01ugtAPWk+mSLflAqcltrBjH1bsp8oATmIylh28+fxgnxZh7Tn00vbJu4zo2F7V1s
+ oMFKEKsEb7/UoiEWK+cQtab3y/q9VVqFHPvsBIXH+/9dLKeadlRmDM2E6gVAeA7qQhcQZqBoiJ
+ /b2eAdFVf55w7WvjZwpiog3z6uJfIR/zG+6hyu7z7kQt5MCWt4GCGIZu2GrUNdKbIzdmUsfxU+
+ uvc=
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+ risc6-mainframe.int.fusionio.com) ([10.196.157.140])
+ by uls-op-cesaip02.wdc.com with ESMTP; 24 Jun 2019 16:44:54 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Date: Mon, 24 Jun 2019 16:42:27 -0700
+Message-Id: <cover.1561419713.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 68.232.141.245
-Subject: [Qemu-devel]  [PATCH v2] riscv: virt: Add cpu-topology DT node.
+X-Received-From: 216.71.153.141
+Subject: [Qemu-devel] [PATCH v2 0/4] Miscellaneous patches from the RISC-V
+ fork
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,87 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atish.patra@wdc.com>, Palmer Dabbelt <palmer@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: alistair23@gmail.com, palmer@sifive.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, there is no cpu topology defined in RISC-V.
-Define a device tree node that clearly describes the
-entire topology. This saves the trouble of scanning individual
-cache to figure out the topology.
+This should be the last series bringing the patches from the RISC-V fork
+into mainline QEMU.
 
-Here is the linux kernel patch series that enables topology
-for RISC-V.
+v2:
+ - Add Wladimir's SOB line, after talking to them
+ - Allow c.andi to have a 0 immediate
 
-http://lists.infradead.org/pipermail/linux-riscv/2019-June/005072.html
+Dayeol Lee (1):
+  target/riscv: Fix PMP range boundary address bug
 
-CPU topology after applying this patch in QEMU & above series in kernel
+Michael Clark (3):
+  disas/riscv: Disassemble reserved compressed encodings as illegal
+  disas/riscv: Fix `rdinstreth` constraint
+  target/riscv: Implement riscv_cpu_unassigned_access
 
-/ # cat /sys/devices/system/cpu/cpu2/topology/thread_siblings_list
-2
-/ # cat /sys/devices/system/cpu/cpu2/topology/physical_package_id
-0
-/ # cat /sys/devices/system/cpu/cpu2/topology/core_siblings_list
-0-7
+ disas/riscv.c             | 51 ++++++++++++++++++++++++++-------------
+ target/riscv/cpu.c        |  1 +
+ target/riscv/cpu.h        |  2 ++
+ target/riscv/cpu_helper.c | 16 ++++++++++++
+ target/riscv/pmp.c        |  2 +-
+ 5 files changed, 54 insertions(+), 18 deletions(-)
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/virt.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 84d94d0c42d8..45a1edcd6c4a 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -191,6 +191,7 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
- 
-     for (cpu = s->soc.num_harts - 1; cpu >= 0; cpu--) {
-         int cpu_phandle = phandle++;
-+        int intc_phandle;
-         nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
-         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
-         char *isa = riscv_isa_string(&s->soc.harts[cpu]);
-@@ -203,9 +204,12 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
-         qemu_fdt_setprop_string(fdt, nodename, "status", "okay");
-         qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
-         qemu_fdt_setprop_string(fdt, nodename, "device_type", "cpu");
-+        qemu_fdt_setprop_cell(fdt, nodename, "phandle", cpu_phandle);
-+        qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", cpu_phandle);
-+        intc_phandle = phandle++;
-         qemu_fdt_add_subnode(fdt, intc);
--        qemu_fdt_setprop_cell(fdt, intc, "phandle", cpu_phandle);
--        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", cpu_phandle);
-+        qemu_fdt_setprop_cell(fdt, intc, "phandle", intc_phandle);
-+        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", intc_phandle);
-         qemu_fdt_setprop_string(fdt, intc, "compatible", "riscv,cpu-intc");
-         qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
-         qemu_fdt_setprop_cell(fdt, intc, "#interrupt-cells", 1);
-@@ -214,6 +218,20 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
-         g_free(nodename);
-     }
- 
-+    /* Add cpu-topology node */
-+    qemu_fdt_add_subnode(fdt, "/cpus/cpu-map");
-+    qemu_fdt_add_subnode(fdt, "/cpus/cpu-map/cluster0");
-+    for (cpu = s->soc.num_harts - 1; cpu >= 0; cpu--) {
-+        char *core_nodename = g_strdup_printf("/cpus/cpu-map/cluster0/core%d",
-+                                              cpu);
-+        char *cpu_nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
-+        uint32_t intc_phandle = qemu_fdt_get_phandle(fdt, cpu_nodename);
-+        qemu_fdt_add_subnode(fdt, core_nodename);
-+        qemu_fdt_setprop_cell(fdt, core_nodename, "cpu", intc_phandle);
-+        g_free(core_nodename);
-+        g_free(cpu_nodename);
-+    }
-+
-     cells =  g_new0(uint32_t, s->soc.num_harts * 4);
-     for (cpu = 0; cpu < s->soc.num_harts; cpu++) {
-         nodename =
 -- 
-2.21.0
+2.22.0
 
 
