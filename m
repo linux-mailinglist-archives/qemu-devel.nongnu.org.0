@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7792551E85
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:45:39 +0200 (CEST)
-Received: from localhost ([::1]:55174 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AD5A51E61
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:35:58 +0200 (CEST)
+Received: from localhost ([::1]:55106 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfXiU-0000hQ-Mx
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:45:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34155)
+	id 1hfXZ7-0000ge-PI
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34179)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSP-0004AU-11
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:02 -0400
+ id 1hfXSP-0004C3-O9
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSN-0005O7-T3
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:00 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37682)
+ id 1hfXSO-0005P2-6g
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:01 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35469)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSL-0005LC-NQ
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:57 -0400
-Received: by mail-wm1-x343.google.com with SMTP id f17so878904wme.2
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:28:56 -0700 (PDT)
+ id 1hfXSN-0005Le-Tj
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:29:00 -0400
+Received: by mail-wm1-x344.google.com with SMTP id c6so891944wml.0
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:28:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KYk64fDgJf3EGuB/Zdsti2GInZLj+JR40MhwE281SdQ=;
- b=HfdHXcnIXZGy2hmeWotpRxxZ7Fz+go3S7kfxiAZtNIqP6E/Vymn3+i1ONBXxhzpIVj
- GP1a8lkosg17Z21KeDZ76Z1p7JGdn3Nf+oU5hYCs5gGvaAbrEXflDX/xzxXXmTTVUi35
- xYdgkRpuJzJcOqoM1M8P0aAUt3xTwZY3F0kq7rDS3pOZ6NBZvDFuqKM2LkJfmfTs5TwC
- 5HJZiY6aN4bntWP2ZqPvh6XPY16gd2aIJx0Sv/xi4jvCMsvoTsoSyt1PyTJ9ANH0i7wG
- Xq7rtsWJjuhMRDDER+UqrT9cVWcy1P9izpgGlMCsQARbS0aMuQfZD084wgKKiPJbxlw4
- mNlA==
+ bh=rT3WvtpigTN3xO4aUvjlhGu30zqDl1BA3eirdCSenGY=;
+ b=CO6zLsdQmYkw/tpmJ7ZdO1Nni8NIkxXbjZGZYfilr2ULrHk8LveGwlyYo2qx+pz7lq
+ KLPbpO0UudAjz8NuiD+ZKllK0LCHioqqopIavypky0k7UB+tyAwITlhdn+WZjW/r7Jn3
+ Es7N9S7p+ATy2bR/cbhfREGgai03TY8XkSVEixkAd/4+pJlK78TQCiMeyTJug5BmOkY/
+ 0duahjtOA/dNOphAyZIra7O9aBPmLwLxuN/j716KzUVIuUGUsE13fmKFyuM+ODvZIdeZ
+ wxGzVokWYHbeRcSvWoGq+7CxW2YVI7+GagjaWsGeKnKo5/8r6PPEkPJue/UDr/WPcH1G
+ mIWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KYk64fDgJf3EGuB/Zdsti2GInZLj+JR40MhwE281SdQ=;
- b=iDcbabbG6J264ZSmgrb9kS26H8HyPXFYfN3etXEK32nxDur1lhBiI1/0uNtg5981Ad
- igN+8oeCXCk3LBm81xSug0Qq/wXD1mLhXHTJnFGc2lYncXS8jXCLgoeyM1V6HmNmkF9w
- t5j9ZVRRXoEmAHvUrfItQdkmOTMgkejwfrxM7lvYPZXkEqFX74Z7DDXS8hBpPs+bZcTX
- UVjCEXtCI2AeBUa+9hGphB7EaAAGYxwxgll578jv8x/L2ZW/CKmgt6GPyabilOu4QuJl
- 9GBYgb2q8oeQgPhtrVqz+9aMvUjgY73IDeevgblQ+rO42I/WBz4NYsZacQx6Sn2Hm7y7
- vjtw==
-X-Gm-Message-State: APjAAAXAT3EfejVcnHfdWDZdGLawrv1I/1H6IcyMVpJ/PveFACU6nNzX
- +CVQnasD1UjtGv0k8W2waG0Evynd
-X-Google-Smtp-Source: APXvYqwPXDmdFgHp1zgf5gBDChS07DejhIJ1U65DogBa+A3MxZFlbcAVRZhhs0OU2ug8RM5SgX5UoQ==
-X-Received: by 2002:a05:600c:2549:: with SMTP id
- e9mr17711615wma.46.1561415335517; 
- Mon, 24 Jun 2019 15:28:55 -0700 (PDT)
+ bh=rT3WvtpigTN3xO4aUvjlhGu30zqDl1BA3eirdCSenGY=;
+ b=Y6b4eFtgT5Ibi7JlfvroARR/eYqKKnU/G+EeBAZkJK7rCGlrlRHbcZ1wUn3kP3wiLu
+ XVb+FGjuLT5BS2pJOVZSy6Ii+baJP5YEgKE9Z2gXCmiriToY/2MI5LKpccICIq1UQy37
+ Ddmaq2+143xn4Z3ShmA5GjMn1KbbWugatdUZ/toRiJjShOqahrqBZuSSNFO9dn+oI6Yd
+ 4Ubb1AE2ca0/L6bao5rLgJG8Fjr6IRtLJDaIeV79ksR0OAgZqEf6v1l+PPdeDMxDM5qq
+ i2a+/83fs8GKn2+C8RsSpakcuJFFbvNSM6aU6hlWP+7NJM3jZ/p8tURxqoV51TQVvcL7
+ SPHg==
+X-Gm-Message-State: APjAAAWblHizphsRcbh9NxhT4YvvNkfbNTzla/Kx6jWvPRvBoPVxK0cC
+ WhxbkLrsFcVj1RbNB1sHbQY0OT1G
+X-Google-Smtp-Source: APXvYqw3EwM8fMiInZQV7ll8rHWM61Hjlqs3BlBBIZ/7Lmsk4FpnR4dMsgb0K46PIERkNBUHv/HX/g==
+X-Received: by 2002:a1c:c2d5:: with SMTP id
+ s204mr17776629wmf.174.1561415336828; 
+ Mon, 24 Jun 2019 15:28:56 -0700 (PDT)
 Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.54
+ by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.55
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 15:28:54 -0700 (PDT)
+ Mon, 24 Jun 2019 15:28:56 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 00:28:41 +0200
-Message-Id: <20190624222844.26584-8-f4bug@amsat.org>
+Date: Tue, 25 Jun 2019 00:28:42 +0200
+Message-Id: <20190624222844.26584-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190624222844.26584-1-f4bug@amsat.org>
 References: <20190624222844.26584-1-f4bug@amsat.org>
@@ -69,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH 07/10] hw/mips/gt64xxx_pci: Align the pci0-mem
- size
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH 08/10] hw/mips/gt64xxx_pci: Add a
+ 'cpu_big_endian' qdev property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,39 +93,138 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-One byte is missing, use an aligned size.
-
-    (qemu) info mtree
-    memory-region: pci0-mem
-      0000000000000000-00000000fffffffe (prio 0, i/o): pci0-mem
-                                      ^
+This device does not have to be TARGET-dependent.
+Add a 'cpu_big_endian' property which sets the byte-swapping
+options if required.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/gt64xxx_pci.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I might change my mind and name it 'little_endian' to be closer
+to the datasheet.
+---
+ include/hw/mips/mips.h |  2 +-
+ hw/mips/gt64xxx_pci.c  | 29 +++++++++++++----------------
+ hw/mips/mips_malta.c   |  2 +-
+ 3 files changed, 15 insertions(+), 18 deletions(-)
 
+diff --git a/include/hw/mips/mips.h b/include/hw/mips/mips.h
+index 2f6774d540..6ec41d33f1 100644
+--- a/include/hw/mips/mips.h
++++ b/include/hw/mips/mips.h
+@@ -9,7 +9,7 @@
+ #include "hw/irq.h"
+ 
+ /* gt64xxx.c */
+-PCIBus *gt64120_register(qemu_irq *pic);
++PCIBus *gt64120_create(qemu_irq *pic, bool target_is_bigendian);
+ 
+ /* bonito.c */
+ PCIBus *bonito_init(qemu_irq *pic);
 diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index 815ef0711d..2fa313f498 100644
+index 2fa313f498..5209038ee5 100644
 --- a/hw/mips/gt64xxx_pci.c
 +++ b/hw/mips/gt64xxx_pci.c
-@@ -23,6 +23,7 @@
-  */
+@@ -240,6 +240,7 @@ typedef struct GT64120State {
+     PCI_MAPPING_ENTRY(ISD);
+     MemoryRegion pci0_mem;
+     AddressSpace pci0_mem_as;
++    bool cpu_big_endian;
+ } GT64120State;
  
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qemu/log.h"
- #include "hw/hw.h"
- #include "hw/mips/mips.h"
-@@ -1201,7 +1202,7 @@ PCIBus *gt64120_register(qemu_irq *pic)
+ /* Adjust range to avoid touching space which isn't mappable via PCI */
+@@ -1028,15 +1029,12 @@ static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
+ static void gt64120_reset(DeviceState *dev)
+ {
+     GT64120State *s = GT64120_PCI_HOST_BRIDGE(dev);
++    const uint32_t pci_cmd = s->cpu_big_endian ? 0x00000000 : 0x00010001;
+ 
+     /* FIXME: Malta specific hw assumptions ahead */
+ 
+     /* CPU Configuration */
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    s->regs[GT_CPU]           = 0x00000000;
+-#else
+-    s->regs[GT_CPU]           = 0x00001000;
+-#endif
++    s->regs[GT_CPU]           = !s->cpu_big_endian << 12;
+     s->regs[GT_MULTI]         = 0x00000003;
+ 
+     /* CPU Address decode */
+@@ -1143,11 +1141,7 @@ static void gt64120_reset(DeviceState *dev)
+     s->regs[GT_TC_CONTROL]    = 0x00000000;
+ 
+     /* PCI Internal */
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    s->regs[GT_PCI0_CMD]      = 0x00000000;
+-#else
+-    s->regs[GT_PCI0_CMD]      = 0x00010001;
+-#endif
++    s->regs[GT_PCI0_CMD]      = pci_cmd;
+     s->regs[GT_PCI0_TOR]      = 0x0000070f;
+     s->regs[GT_PCI0_BS_SCS10] = 0x00fff000;
+     s->regs[GT_PCI0_BS_SCS32] = 0x00fff000;
+@@ -1164,11 +1158,7 @@ static void gt64120_reset(DeviceState *dev)
+     s->regs[GT_PCI0_SSCS10_BAR] = 0x00000000;
+     s->regs[GT_PCI0_SSCS32_BAR] = 0x01000000;
+     s->regs[GT_PCI0_SCS3BT_BAR] = 0x1f000000;
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    s->regs[GT_PCI1_CMD]      = 0x00000000;
+-#else
+-    s->regs[GT_PCI1_CMD]      = 0x00010001;
+-#endif
++    s->regs[GT_PCI1_CMD]      = pci_cmd;
+     s->regs[GT_PCI1_TOR]      = 0x0000070f;
+     s->regs[GT_PCI1_BS_SCS10] = 0x00fff000;
+     s->regs[GT_PCI1_BS_SCS32] = 0x00fff000;
+@@ -1193,13 +1183,14 @@ static void gt64120_reset(DeviceState *dev)
+     gt64120_pci_mapping(s);
+ }
+ 
+-PCIBus *gt64120_register(qemu_irq *pic)
++PCIBus *gt64120_create(qemu_irq *pic, bool target_is_bigendian)
+ {
+     GT64120State *d;
+     PCIHostState *phb;
+     DeviceState *dev;
+ 
      dev = qdev_create(NULL, TYPE_GT64120_PCI_HOST_BRIDGE);
++    qdev_prop_set_bit(dev, "cpu_big_endian", target_is_bigendian);
      d = GT64120_PCI_HOST_BRIDGE(dev);
      phb = PCI_HOST_BRIDGE(dev);
--    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", UINT32_MAX);
-+    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
-     address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
-     phb->bus = pci_register_root_bus(dev, "pci",
-                                      gt64120_pci_set_irq, gt64120_pci_map_irq,
+     memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
+@@ -1262,6 +1253,11 @@ static const TypeInfo gt64120_pci_info = {
+     },
+ };
+ 
++static Property gt64120_properties[] = {
++    DEFINE_PROP_BOOL("cpu_big_endian", GT64120State, cpu_big_endian, true),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void gt64120_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -1269,6 +1265,7 @@ static void gt64120_class_init(ObjectClass *klass, void *data)
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+     dc->reset = gt64120_reset;
+     dc->vmsd = &vmstate_gt64120;
++    dc->props = gt64120_properties;
+ }
+ 
+ static const TypeInfo gt64120_info = {
+diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+index 51db5212be..97f8ffbf1b 100644
+--- a/hw/mips/mips_malta.c
++++ b/hw/mips/mips_malta.c
+@@ -1375,7 +1375,7 @@ void mips_malta_init(MachineState *machine)
+     isa_irq = qemu_irq_proxy(&s->i8259, 16);
+ 
+     /* Northbridge */
+-    pci_bus = gt64120_register(isa_irq);
++    pci_bus = gt64120_create(isa_irq, be);
+ 
+     /* Southbridge */
+     ide_drive_get(hd, ARRAY_SIZE(hd));
 -- 
 2.19.1
 
