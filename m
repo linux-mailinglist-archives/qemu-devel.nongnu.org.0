@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ECB851E60
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:35:07 +0200 (CEST)
-Received: from localhost ([::1]:55104 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D43051E6E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 00:37:41 +0200 (CEST)
+Received: from localhost ([::1]:55128 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfXYI-000057-La
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34069)
+	id 1hfXam-000329-HS
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 18:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34070)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSL-00047O-Lj
+ id 1hfXSL-00047P-Lx
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSH-0005Jm-LJ
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:55 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46862)
+ id 1hfXSH-0005K5-Mt
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:57 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45921)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfXSF-0005Cs-T1
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:52 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n4so15507444wrw.13
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:28:48 -0700 (PDT)
+ id 1hfXSG-0005Dv-Ev
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 18:28:53 -0400
+Received: by mail-wr1-x442.google.com with SMTP id f9so15528965wre.12
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=QbyF3F7R8CToKHemwXpvJuBxZLBOEbyrjFoIXswa+Q0=;
- b=YUuJiHNubaRloYXmBFbwAcRzE9zu+gRFWF3DJ5zz+LSKvWMIA5HsdSlR21ycN8Lb/A
- MQVUrej5hnI9zDuOGw0/SR5GgAzGFZBBInaAQAZEsn/jgO10yQM2+tmQ29a6oFVRX6eu
- ZCeNT5zL1//UCpN2tvAzu0jzEN3JGSlVR6BF/M2rdXfINyeizrKhJ+pefl+3OtizSSGY
- j69Yc7hNra5HADMTLs9bHjbi1wt7c/1LIyW+hxL5T4z8CAga07Eb4+4NrCws7KlYL54i
- wUwtGOyQRg3GDkHyCi6zGeafuzIfvGKkRQbhgOoTurHnjQwzICxHGoPE8WZw1WdpTwcv
- 2UTg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=AW/xKO7mT5etUQtESYRRO4Lg0VmgTpD5DqdFMv+nnSk=;
+ b=t/5pRsq4kx9n6VdI7kt7a6mIBirBRCuz9f0XwXGJIb/QrFoVSEfOB2D8Sg1U1jdqIg
+ 3hEXPS+1UJU0B6psU1rImYNu7UaxO30Bx8Y7wea/NUlSFLVQsZAMlJNvJeXmniUxJphc
+ yLdY5sSD2CrhmQCHRkNX76AEXcmLSvpwH6tr8qzccunMvs3k8V0rewjIexpwjAKBsP+N
+ IP2NXMt40nsDVz76VlVfLExm+czkbWStu6Nnrk81xU3HEtNBnQ+t4Qk/LxJeUFwnDDL6
+ jrgY3IRXuaS1nfBv0Z0lVa2Ozh5jngPIXjV7gkjMc6/wUIqVJAcRgRhJW/USFOrCcohJ
+ YO8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=QbyF3F7R8CToKHemwXpvJuBxZLBOEbyrjFoIXswa+Q0=;
- b=Q7U1lBU6ACN6zABbyqQVCY712n4dFepqkxnGUOtegducjS9jSHtULQ2ZZ7QoAVPbJt
- KtTzv4mMC3P5eRC99I6UvPL7vkbO1kAuhG+X/V19T39DJ+pM4r2f2hCxUAXl1O2hGKsD
- 9jd6tWY0XHQsbiYhg4KBDB5vJzcia8dOkERD95qXYRIZZzfeQeUul6XLd1ci3smt2ygi
- Kfgh9DeLc+r1xDNLB34XOUj0RnMUJXdvD9hMtHvAp/XxuzRWDW3Ii34Ybz/3kkRenuJk
- aL7SX9vvQ/Gq86s66rNYhJ+3b3uTcq5ExqYIjw2F/mrjWq4W24Ubyym/vrXjBVBoTtw+
- T1hw==
-X-Gm-Message-State: APjAAAX82Z74slg/e+DJxi8agSLbrTRd4RDcNUX8oSLvstuIKj+kPrT4
- OaU9IShU84TpJ49w9vKzb9wTN2yZ
-X-Google-Smtp-Source: APXvYqyTs/f/pc9429XyOPMPNMTj9BZ4mL6c6ww+j0Mg8gL3DSl28S48G0Y5KNP41fMACcZeNQZf5w==
-X-Received: by 2002:adf:db12:: with SMTP id s18mr14221164wri.335.1561415326906; 
- Mon, 24 Jun 2019 15:28:46 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=AW/xKO7mT5etUQtESYRRO4Lg0VmgTpD5DqdFMv+nnSk=;
+ b=PAxpLZV3wgY4aOt4nTu7+PA4KPZbgM8ftp/lBNCibW8wNhx4d3GydOmokvrX3MSqoy
+ 1zs7aiE5rK1Qaf7fVa60do78ofjulUkUkriUegrQNgTfWBq73JgX/3pTp9CPwLvnU6uk
+ M3m8eEYFncC4pXk4fiHJLWh36a1wNtxoRrFcuvuPqJTvJQXT03byqflH4ezrPfPRH1ya
+ ZcLHTMAX7socB66zixucaaGQ9nfWvo3wocEA8crMYUHAwsq2hHlmTnA7JdC2TFOoR4dz
+ +/5N4gI9u6nvI8oZCF5bE3nXdJxo7QWEpf7mqUtV/1VYl/9/tS8SsHW41CWWVpy8ug86
+ IhCQ==
+X-Gm-Message-State: APjAAAUmvWHERltrJoRNl6dkgMYuIVBMZ2Z2FwJQFDACc9eqy64hX0vY
+ Mw+26J8upAAS6G0kbBlJZPQEQALG
+X-Google-Smtp-Source: APXvYqwcEMzwaNOiA92PIjeXDSc/AxkEbAT4quzy0ms2scZsajbMRma2w6av9ON1TRzbY93InRwF+w==
+X-Received: by 2002:adf:f581:: with SMTP id f1mr16415389wro.179.1561415328149; 
+ Mon, 24 Jun 2019 15:28:48 -0700 (PDT)
 Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.45
+ by smtp.gmail.com with ESMTPSA id l1sm646781wmg.13.2019.06.24.15.28.46
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 24 Jun 2019 15:28:45 -0700 (PDT)
+ Mon, 24 Jun 2019 15:28:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 00:28:34 +0200
-Message-Id: <20190624222844.26584-1-f4bug@amsat.org>
+Date: Tue, 25 Jun 2019 00:28:35 +0200
+Message-Id: <20190624222844.26584-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190624222844.26584-1-f4bug@amsat.org>
+References: <20190624222844.26584-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH 00/10] hw/pci-host: Clean the GT64120 north
- bridge
+Subject: [Qemu-devel] [PATCH 01/10] hw/mips/gt64xxx_pci: Fix multiline
+ comment syntax
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,43 +92,149 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Since commit 8c06fbdf36b checkpatch.pl enforce a new multiline
+comment syntax. Since we'll move this code around, fix its style
+first.
 
-This series clean the gt64120 device.
-It is no more target-dependent, and tracing is improved.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/mips/gt64xxx_pci.c | 64 +++++++++++++++++++++++--------------------
+ 1 file changed, 35 insertions(+), 29 deletions(-)
 
-Regards,
-
-Phil.
-
-Based-on: 20190624220056.25861-1-f4bug@amsat.org
-https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg05304.html
-
-Philippe Mathieu-Daudé (10):
-  hw/mips/gt64xxx_pci: Fix multiline comment syntax
-  hw/mips/gt64xxx_pci: Fix 'tabs' coding style issues
-  hw/mips/gt64xxx_pci: Fix 'braces' coding style issues
-  hw/mips/gt64xxx_pci: Fix 'spaces' coding style issues
-  hw/mips/gt64xxx_pci: Use qemu_log_mask() instead of debug printf()
-  hw/mips/gt64xxx_pci: Convert debug printf()s to trace events
-  hw/mips/gt64xxx_pci: Align the pci0-mem size
-  hw/mips/gt64xxx_pci: Add a 'cpu_big_endian' qdev property
-  hw/mips/gt64xxx_pci: Move it to hw/pci-host/
-  hw/pci-host/gt64120: Clean the decoded address space
-
- Makefile.objs                                 |   1 +
- include/hw/mips/mips.h                        |   2 +-
- hw/mips/mips_malta.c                          |   8 +-
- hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} | 542 ++++++++++--------
- MAINTAINERS                                   |   2 +-
- hw/mips/Makefile.objs                         |   2 +-
- hw/mips/trace-events                          |   0
- hw/pci-host/Makefile.objs                     |   2 +-
- hw/pci-host/trace-events                      |   5 +
- 9 files changed, 307 insertions(+), 257 deletions(-)
- rename hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} (68%)
- create mode 100644 hw/mips/trace-events
-
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index f707e59c7a..c0924646b5 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -248,10 +248,11 @@ typedef struct GT64120State {
+ } GT64120State;
+ 
+ /* Adjust range to avoid touching space which isn't mappable via PCI */
+-/* XXX: Hardcoded values for Malta: 0x1e000000 - 0x1f100000
+-                                    0x1fc00000 - 0x1fd00000  */
+-static void check_reserved_space (hwaddr *start,
+-                                  hwaddr *length)
++/*
++ * XXX: Hardcoded values for Malta: 0x1e000000 - 0x1f100000
++ *                                  0x1fc00000 - 0x1fd00000
++ */
++static void check_reserved_space(hwaddr *start, hwaddr *length)
+ {
+     hwaddr begin = *start;
+     hwaddr end = *start + *length;
+@@ -650,8 +651,10 @@ static void gt64120_writel (void *opaque, hwaddr addr,
+     case GT_SDRAM_B1:
+     case GT_SDRAM_B2:
+     case GT_SDRAM_B3:
+-        /* We don't simulate electrical parameters of the SDRAM.
+-           Accept, but ignore the values. */
++        /*
++         * We don't simulate electrical parameters of the SDRAM.
++         * Accept, but ignore the values.
++         */
+         s->regs[saddr] = val;
+         break;
+ 
+@@ -674,8 +677,10 @@ static uint64_t gt64120_readl (void *opaque,
+ 
+     /* CPU Configuration */
+     case GT_MULTI:
+-        /* Only one GT64xxx is present on the CPU bus, return
+-           the initial value */
++        /*
++         * Only one GT64xxx is present on the CPU bus, return
++         * the initial value.
++         */
+         val = s->regs[saddr];
+         break;
+ 
+@@ -685,17 +690,18 @@ static uint64_t gt64120_readl (void *opaque,
+     case GT_CPUERR_DATALO:
+     case GT_CPUERR_DATAHI:
+     case GT_CPUERR_PARITY:
+-        /* Emulated memory has no error, always return the initial
+-           values */
++        /* Emulated memory has no error, always return the initial values. */
+         val = s->regs[saddr];
+         break;
+ 
+     /* CPU Sync Barrier */
+     case GT_PCI0SYNC:
+     case GT_PCI1SYNC:
+-        /* Reading those register should empty all FIFO on the PCI
+-           bus, which are not emulated. The return value should be
+-           a random value that should be ignored. */
++        /*
++         * Reading those register should empty all FIFO on the PCI
++         * bus, which are not emulated. The return value should be
++         * a random value that should be ignored.
++         */
+         val = 0xc000ffee;
+         break;
+ 
+@@ -705,8 +711,7 @@ static uint64_t gt64120_readl (void *opaque,
+     case GT_ECC_MEM:
+     case GT_ECC_CALC:
+     case GT_ECC_ERRADDR:
+-        /* Emulated memory has no error, always return the initial
+-           values */
++        /* Emulated memory has no error, always return the initial values. */
+         val = s->regs[saddr];
+         break;
+ 
+@@ -785,8 +790,10 @@ static uint64_t gt64120_readl (void *opaque,
+     case GT_SDRAM_B1:
+     case GT_SDRAM_B2:
+     case GT_SDRAM_B3:
+-        /* We don't simulate electrical parameters of the SDRAM.
+-           Just return the last written value. */
++        /*
++         * We don't simulate electrical parameters of the SDRAM.
++         * Just return the last written value.
++         */
+         val = s->regs[saddr];
+         break;
+ 
+@@ -949,20 +956,20 @@ static int gt64120_pci_map_irq(PCIDevice *pci_dev, int irq_num)
+     slot = (pci_dev->devfn >> 3);
+ 
+     switch (slot) {
+-      /* PIIX4 USB */
+-      case 10:
++    /* PIIX4 USB */
++    case 10:
+         return 3;
+-      /* AMD 79C973 Ethernet */
+-      case 11:
++    /* AMD 79C973 Ethernet */
++    case 11:
+         return 1;
+-      /* Crystal 4281 Sound */
+-      case 12:
++    /* Crystal 4281 Sound */
++    case 12:
+         return 2;
+-      /* PCI slot 1 to 4 */
+-      case 18 ... 21:
++    /* PCI slot 1 to 4 */
++    case 18 ... 21:
+         return ((slot - 18) + irq_num) & 0x03;
+-      /* Unknown device, don't do any translation */
+-      default:
++    /* Unknown device, don't do any translation */
++    default:
+         return irq_num;
+     }
+ }
+@@ -980,8 +987,7 @@ static void gt64120_pci_set_irq(void *opaque, int irq_num, int level)
+     /* XXX: optimize */
+     pic_irq = piix4_dev->config[0x60 + irq_num];
+     if (pic_irq < 16) {
+-        /* The pic level is the logical OR of all the PCI irqs mapped
+-           to it */
++        /* The pic level is the logical OR of all the PCI irqs mapped to it. */
+         pic_level = 0;
+         for (i = 0; i < 4; i++) {
+             if (pic_irq == piix4_dev->config[0x60 + i])
 -- 
 2.19.1
 
