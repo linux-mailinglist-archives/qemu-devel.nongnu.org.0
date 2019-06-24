@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A9651B72
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 21:32:24 +0200 (CEST)
-Received: from localhost ([::1]:54192 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A237E51C85
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 22:39:06 +0200 (CEST)
+Received: from localhost ([::1]:54574 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfUhT-0002NF-1L
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 15:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48185)
+	id 1hfVk1-0008Ni-3d
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 16:39:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49636)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hfUfg-0001tE-SZ
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:30:33 -0400
+ (envelope-from <scheckow@oberlin.edu>) id 1hfUlS-0003pu-IB
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:36:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hfUff-0005g0-SJ
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:30:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54476)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>) id 1hfUff-0005dF-KS
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:30:31 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7CB0430832E3;
- Mon, 24 Jun 2019 19:30:29 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-152.brq.redhat.com
- [10.40.204.152])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D9595D70D;
- Mon, 24 Jun 2019 19:30:28 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190624190214.14468-1-mreitz@redhat.com>
- <20190624192108.GL1862@habkost.net>
- <8cfbd3c5-9473-46bf-b59b-b7d7711d636f@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <a75ac63e-c84b-c674-4a42-e96c4c0d9326@redhat.com>
-Date: Mon, 24 Jun 2019 21:30:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <8cfbd3c5-9473-46bf-b59b-b7d7711d636f@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 24 Jun 2019 19:30:29 +0000 (UTC)
+ (envelope-from <scheckow@oberlin.edu>) id 1hfUlO-0002NK-In
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:36:30 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:43208)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <scheckow@oberlin.edu>)
+ id 1hfUlE-00028J-TD
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 15:36:19 -0400
+Received: by mail-pf1-x444.google.com with SMTP id i189so8081349pfg.10
+ for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 12:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oberlin.edu; s=google;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=Zrhol/4u5kdGsa3kthkiEPW1M/fmG81jnRGDThTgxHM=;
+ b=JB/J679zHGqqZlx0fO+6mw1jhsIK5PKzLwnPCW63oLzNaRWHsqjUZb0+7SQJzXbXyE
+ 5PUglbcv+7oiMcO+U4maT53IzabNBSymFndBVuLS3BESi0C3uWDRnVfxQRS+n4KwJtd/
+ RQlsMUWyMTMC7VkfjaGMesW6HEjFBuL2S5no6jlSjxh1jmunZsitygVE+VcmAZFZeypH
+ SgvoggXA8JeH81p1aQ6x/XvZ5HDzad2gFcHemYCEA7OOkomdablo4nsYnZ1Y3YWGlXiW
+ Hd+8CfQ6uzItWPA+W7BQTXMXFXBstixd1OnHOL2YuWLvXAaHEQfGD/oC5u09ox7t8mu9
+ RNow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=Zrhol/4u5kdGsa3kthkiEPW1M/fmG81jnRGDThTgxHM=;
+ b=gcSqwAlSr5/A1qDj7mNDZRNJab5Yt3i8kW7zFXSDVIXE25QESzGAgJKbGYcn4WlnmN
+ LSjM2QdLkuDXdArqYQ3SKHq/Zb+KgixUBCux7PfvYnjyxbU8KxHKblUjd33KzenZAfkn
+ OSCPHB5BDsF/+NA1MLMLAC+hTpIbrMevqlhnetT7KQx+Ns3G4JQbzHMEBXcZ5/Fopf+T
+ zbg6ueHz4JiydfGStIrupuH3KFxew0xbon+ukRgWhBK5eLk1AZSYLePvQFpxfsZ2waau
+ 0tpidRWbwIb/js7syHfgDXcjdL5XaMMm4Ft+a59v0l5uHs03NKVxDXsydhgdf0pLi5K7
+ YoQA==
+X-Gm-Message-State: APjAAAVJiy13EXC26RWxPJkhsQCYkKgGnwduhccyhllBqXSHrkKxO0iR
+ J6HRQOlG/r+6vlWnYJlyymTTIg==
+X-Google-Smtp-Source: APXvYqyO7hn6//r4aV2rOTcKgBn9cXtqRzoA3Ilj726GMRwX7LHUEhoZ6fFShh8WOBqsHyy9PjGkEg==
+X-Received: by 2002:a17:90a:9503:: with SMTP id
+ t3mr26616191pjo.47.1561404968438; 
+ Mon, 24 Jun 2019 12:36:08 -0700 (PDT)
+Received: from [10.252.5.100] ([198.134.98.50])
+ by smtp.gmail.com with ESMTPSA id h21sm12215783pgg.75.2019.06.24.12.36.07
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 24 Jun 2019 12:36:07 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (1.0)
+From: Stephen Checkoway <scheckow@oberlin.edu>
+X-Mailer: iPhone Mail (16F203)
+In-Reply-To: <b7730260-bfb6-f2b1-7c01-9d7b6a10c71e@amsat.org>
+Date: Mon, 24 Jun 2019 12:36:05 -0700
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] i386/kvm: Fix build with -m32
+Message-Id: <F2BE0BC3-0C7D-42FB-8B3A-04FE2D0523E6@oberlin.edu>
+References: <20190426162624.55977-1-stephen.checkoway@oberlin.edu>
+ <20190426162624.55977-5-stephen.checkoway@oberlin.edu>
+ <6d2c9dcc-06f5-4eed-d779-b0c4d2b60182@amsat.org>
+ <b7730260-bfb6-f2b1-7c01-9d7b6a10c71e@amsat.org>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::444
+X-Mailman-Approved-At: Mon, 24 Jun 2019 16:35:39 -0400
+Subject: Re: [Qemu-devel] [PATCH v4 04/10] block/pflash_cfi02: Implement
+ intereleaved flash devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,52 +85,240 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier <lvivier@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.06.19 21:26, Max Reitz wrote:
-> On 24.06.19 21:21, Eduardo Habkost wrote:
->> On Mon, Jun 24, 2019 at 09:02:14PM +0200, Max Reitz wrote:
->>> find_next_bit() takes a pointer of type "const unsigned long *", but =
-the
->>> first argument passed here is a "uint64_t *".  These types are
->>> incompatible when compiling qemu with -m32.
->>>
->>> Just cast it to "const void *", find_next_bit() works fine with any t=
-ype
->>> on little-endian hosts (which x86 is).
->>>
->>> Fixes: c686193072a47032d83cb4e131dc49ae30f9e5d
->>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>
->> Why not declare kvm_hyperv_properties.dependencies with the right
->> type for bitmaps, using
->>   unsigned long dependencies[BITS_TO_LONGS(64)]
->> ?
+
+
+> On Jun 24, 2019, at 12:05, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> w=
+rote:
 >=20
-> How would you (statically) initialize that field, then?
+>> On 6/22/19 2:25 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> Hi Stephen,
+>>=20
+>> This series haven't fall through the cracks, however it is taking me
+>> longer than expected to review it.
+>>=20
+>>> On 4/26/19 6:26 PM, Stephen Checkoway wrote:
+>>> It's common for multiple narrow flash chips to be hooked up in parallel
+>>> to support wider buses. For example, four 8-bit wide flash chips (x8)
+>>> may be combined in parallel to produce a 32-bit wide device. Similarly,
+>>> two 16-bit wide chips (x16) may be combined.
+>>>=20
+>>> This commit introduces `device-width` and `max-device-width` properties,=
+
+>>> similar to pflash_cfi01, with the following meanings:
+>>> - `width`: The width of the logical, qemu device (same as before);
+>>> - `device-width`: The width of an individual flash chip, defaulting to
+>>>  `width`; and
+>>> - `max-device-width`: The maximum width of an individual flash chip,
+>>>  defaulting to `device-width`.
+>>>=20
+>>> Nothing needs to change to support reading such interleaved devices but
+>>> commands (e.g., erase and programming) must be sent to all devices at
+>>> the same time or else the various chips will be in different states.
+>>=20
+>> After some thoughts on this, I'd rather we model how hardware manage
+>> interleaved devices: do it at the bus level, and instanciate N devices
+>> in an interleaved config.
+>> I believe that would drastically reduce this device complexity, and we
+>> would match the real internal state machine.
+>> Also this could be reused by other parallel devices used in a such config=
+.
+>>=20
+>>> For example, a 4-byte wide logical device can be composed of four x8/x16=
+
+>>> devices in x8 mode. That is, each device supports both x8 or x16 and
+>>> they're being used in the byte, rather than word, mode. This
+>>> configuration would have `width=3D4`, `device-width=3D1`, and
+>>> `max-device-width=3D2`.
+>>=20
+>>=20
+>> I'm thinking of this draft:
+>>=20
+>> FlashDevice # x8
+>>  MemoryRegionOps
+>>    .valid.max_access_size =3D 1
+>>=20
+>> FlashDevice # x16
+>>  MemoryRegionOps
+>>    .valid.min_access_size =3D 2
+>>    .valid.max_access_size =3D 2
+>>=20
+>> FlashDevice # x8/x16
+>>  MemoryRegionOps
+>>    .valid.min_access_size =3D 1
+>>    .valid.max_access_size =3D 2
+>>=20
+>> We might use .impl.min_access_size =3D 2 and consider all NOR flash using=
+
+>> 16-bit words internally.
+>>    .impl.max_access_size =3D 2 is implicit.
+>>=20
+>> So for you example we'd instanciate one:
+>>=20
+>> InterleaverDevice
+>>  Property
+>>    .bus_width =3D 4 # 4-byte wide logical device, `width=3D4`
+>>    .device_width =3D 1 # `device-width=3D1`
+>>  MemoryRegionOps
+>>    .valid.max_access_size =3D .bus_width # 4, set at realize()
+>>    .impl.max_access_size =3D .device_width # 1, set at realize()
+>>=20
+>> Then instanciate 4 pflash devices, and link them to the interleaver
+>> using object_property_set_link().
+>>=20
+>> typedef struct {
+>>    SysBusDevice parent_obj;
+>>    MemoryRegion iomem;
+>>    char *name;
+>>    /*
+>>     * On a 64-bit wide bus we can have at most
+>>     * 8 devices in 8-bit access mode.
+>>     */
+>>    MemoryRegion device[8];
+>>    unsigned device_count;
+>>    unsigned device_index_mask;
+>>    /* Properties */
+>>    unsigned bus_width;
+>>    unsigned device_width;
+>> } InterleaverDeviceState;
+>>=20
+>> static Property interleaver_properties[] =3D {
+>>    DEFINE_PROP_LINK("device[0]", InterleaverDeviceState,
+>>                     device[0],
+>>                     TYPE_MEMORY_REGION, MemoryRegion *),
+>>    ...
+>>    DEFINE_PROP_LINK("device[7]", InterleaverDeviceState,
+>>                     device[7],
+>>                     TYPE_MEMORY_REGION, MemoryRegion *),
+>>    DEFINE_PROP_END_OF_LIST(),
+>> };
+>>=20
+>> Then previous to call InterleaverDevice.realize():
+>>=20
+>> In the board realize():
+>>=20
+>>=20
+>>    for (i =3D 0; i < interleaved_devices; i++) {
+>>        pflash[i] =3D create_pflash(...);
+>>        ...
+>>    }
+>>=20
+>>    ild =3D ... create InterleaverDevice ...
+>>    for (i =3D 0; i < interleaved_devices; i++) {
+>>        char *propname =3D g_strdup_printf("device[%u]", i);
+>>=20
+>>=20
+>>        object_property_set_link(OBJECT(&ild->device[i]),
+>>                                 OBJECT(pflash[i]),
+>>                                 propname, &err);
+>>        ...
+>>    }
+>>=20
+>> Finally,
+>>=20
+>> static void interleaved_realize(DeviceState *dev, Error **errp)
+>> {
+>>    InterleaverDeviceState *s =3D INTERLEAVER_DEVICE(opaque);
+>>=20
+>>    s->device_count =3D s->bus_width / s->device_width;
+>>    s->device_index_mask =3D ~(s->device_count - 1);
+>>    ...
+>> }
+>>=20
+>> static void interleaved_write(void *opaque, hwaddr offset,
+>>                              uint64_t value, unsigned size)
+>> {
+>>    InterleaverDeviceState *s =3D INTERLEAVER_DEVICE(opaque);
+>>    MemoryRegion *mr;
+>>=20
+>>    /*
+>>     * Since we set .impl.max_access_size =3D device_width,
+>>     * access_with_adjusted_size() always call this with
+>>     * size =3D device_width.
+>>     *
+>>     * Adjust the address (offset).
+>>     */
+>>    offset >>=3D size;
+>>    /* Access the N interleaved device */
+>>    mr =3D s->device[offset & s->device_index_mask];
+>>    memory_region_dispatch_write(mr, offset, &value, size,
+>>                                 MEMTXATTRS_UNSPECIFIED);
+>> }
+>>=20
+>> I'll try a PoC.
 >=20
-> I cannot imagine a reasonable static way that does not invoke the same
-> =E2=80=9CThe host must be little-endian, so it=E2=80=99s OK=E2=80=9D as=
-sumption.
-
-Sorry, brain fart.  That=E2=80=99s not the problem because in either case=
-, the
-lower index will receive the lower-indexed bits.
-
-But we=E2=80=99d still have to deal with the fact that it could either be=
- one or
-two indices, which doesn=E2=80=99t seem nice to initialize either.
-
-Max
-
-> The better question is perhaps, why not use ffsll().  Hm.  I don=E2=80=99=
-t know,
-> maybe I should?
+> So I have a PoC, but then realize I can not use the same flash dump...
 >=20
-> Max
+> I need to deinterleave is. This is easily fixed with few lines of
+> Python, then if I want to store/share the dump (aka 'backend storage') I
+> have to re-interleave it.
 >=20
+> I wonder if it would be possible/easy to add a 'interleave' option to
+> blockdev to be able to have 2 pflash devices sharing the same backend...
+> Is it worthwhile? Kevin/Markus/Max any thought on this?
 
+Hi Phil,
+
+Sorry for the delay, I=E2=80=99ve been traveling.
+
+I considered something like this approach and I think it could work. Ultimat=
+ely, I opted not to go that route for a few reasons:
+- duplicated CFI tables and other state waste (a small amount of) memory whe=
+n the flash chips are the same (the usual case in my limited experience)
+- it adds an extra layer of read/write calls plus recombining from/splitting=
+ into the component parts
+- duplicated timers firing to walk the programming/erasing state machine for=
+ward for each chip
+- the firmware or data stored in the chips is likely already interleaved nec=
+essitating either splitting it up before use or adding functionality to a lo=
+wer layer to split it (as you=E2=80=99ve suggested here)
+
+None of the above seem like a big deal separately or together but I didn=E2=80=
+=99t find the advantages of this approach to be sufficiently compelling to j=
+ustify it. Namely, it allows using a heterogeneous set of flash chips to imp=
+lement a logical device.
+
+Nevertheless, if that=E2=80=99s the route you think is best, I have no objec=
+tions.
+
+Cheers,
+
+Steve
+
+>=20
+> Thanks,
+>=20
+> Phil.
+>=20
+>>> In addition to commands being sent to all devices, guest firmware
+>>> expects the status and CFI queries to be replicated for each device.
+>>> (The one exception to the response replication is that each device gets
+>>> to report its own status bit DQ7 while programming because its value
+>>> depends on the value being programmed which will usually differ for each=
+
+>>> device.)
+>>>=20
+>>> Testing is limited to 16-bit wide devices due to the current inability
+>>> to override the properties set by `pflash_cfi02_register`, but multiple
+>>> configurations are tested.
+>>>=20
+>>> Stop using global_qtest. Instead, package the qtest variable inside the
+>>> FlashConfig structure.
+>>>=20
+>>> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+>>> Acked-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>> hw/block/pflash_cfi02.c   | 270 +++++++++++++++------
+>>> tests/pflash-cfi02-test.c | 476 ++++++++++++++++++++++++++++++--------
+>>> 2 files changed, 576 insertions(+), 170 deletions(-)
 
