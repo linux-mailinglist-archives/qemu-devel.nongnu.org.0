@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB0050CD6
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 15:56:03 +0200 (CEST)
-Received: from localhost ([::1]:51366 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D4350C58
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 15:50:04 +0200 (CEST)
+Received: from localhost ([::1]:51316 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfPRy-0007zE-MI
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 09:56:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41478)
+	id 1hfPMB-0000Vm-No
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 09:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41477)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPGG-0006fk-Ci
+ (envelope-from <alex.bennee@linaro.org>) id 1hfPGG-0006fj-Cf
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hfPGE-0007dO-Hf
+ (envelope-from <alex.bennee@linaro.org>) id 1hfPGE-0007dJ-Gx
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:56 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40884)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36052)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hfPGD-0007MF-5z
+ id 1hfPGD-0007Lj-5s
  for qemu-devel@nongnu.org; Mon, 24 Jun 2019 09:43:54 -0400
-Received: by mail-wr1-x433.google.com with SMTP id p11so13968664wre.7
+Received: by mail-wr1-x433.google.com with SMTP id n4so12787225wrs.3
  for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 06:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xtIRwzundNicszHIR+Xc5ItZ9WkO8ULjpABGU4hH988=;
- b=KqgCuy9dPwLZhtEumpwHuY0ekl0UMQfJ8xPf2t/6KOJqLtBZfrA5FOlV1KJq0c1WMO
- jLzy6koClz0+DQlyOy0L/tAVy74tN7JDEbY6HV99VPZ01R5Z2tKcA5T/xz1q1u2Mb9Oq
- gcx9c2DMj72roCBKZQZOQvEvebLYfTADFuphEyiGHpQ6yob2K6wc+oCgx4/WxJ8EBE3x
- W7H+3BGRLVIGzDpUXGx6llmqrsKSKqTanWgiF1Gwif3R/Rn7p9a+aqMLQbkezqSwJxEo
- cXnjZq3sChMNzj2YwG8uzQGOITYwRQGF5qHyWFAbLvKb9j2t+/7u63jpIu7dX1R4X8HS
- Yh0Q==
+ bh=g1Gikb/q4aJ790nsrLBBZxeFgZO8Vqq/Oo0RByk4pDk=;
+ b=DrcGtnpFi3Ydl8TJ6ET8W4Atli+YgU6sjopl3d7io59NTYvCQ7Zp8EhjwkN5qRrmtJ
+ C7s350UC4Fd/X5DzncZ+fg9ox45RyUQLr3VTc6JAFKZepSKFaqfDXO3iJk6Sv+ktSP9A
+ JsaEwsu3f5lWmnkkHOhtxoYyC77lVlgfUOwSmI8VbGOJrKnEwZNY/7QvO8o0HBvUkWHK
+ gbwm8xzv1W7rmNJEBE4guiDGEeC9aqt3rQ/dnG7yvfQOJs32RlgnuEFEfCQZ+eLcLKcM
+ OvnZtI3z2zsl7fbp72jwEihnQTwjfw7XsNANB7NuUL15h/2fsgrt8aawdsU+aKWgJ5rP
+ IAUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xtIRwzundNicszHIR+Xc5ItZ9WkO8ULjpABGU4hH988=;
- b=lNj7LB/EzBLawQdbJBKkezVOd320eGgJBY8UxPZ93HM0nUCViiXj45B1ooh4qgO1bZ
- LuD9OXpdSIJmYrJQQgd8V0ZukxvY9/Fgtx1OSAmo4jVzCvXV+RfL3iaMcs0c5KyA1TiV
- nK3mv9i5Qxnj8foZhAvR5VYFdoGHnrscnme8R8K+ZpRy1XNDbuquHywGb1Sjhx4nfmv3
- xz56tZk0hjCaM9ApnxWhri33oDm4E4uW8hWOBE5YdNjjooR3G3dfuDyVViEvUO+e4g8N
- Jvn2ek1tUJ8vV5GamQ9oG86BtLuDKpqADQgBCCKCJ9gY0yBxONLaSQ/m56YpifbP6Qfh
- eyGw==
-X-Gm-Message-State: APjAAAV11cwHrFYSjbBB55msWtvqMKWuy6K47JwONFofYkR3F6uwXFtd
- cHvNX/a7ak+CWPiuCXXqh/rl6g==
-X-Google-Smtp-Source: APXvYqyeAkZE74pKnqCICtUk3qdhnBAAwYal5kKyb7jyJAToRm/c9mncO1JqyM/q9FGQc48U0hEBlg==
-X-Received: by 2002:a5d:6190:: with SMTP id j16mr16866483wru.49.1561383821278; 
- Mon, 24 Jun 2019 06:43:41 -0700 (PDT)
+ bh=g1Gikb/q4aJ790nsrLBBZxeFgZO8Vqq/Oo0RByk4pDk=;
+ b=gC65MsQ9Ow1ctoFhqciViW04dvFu4YkM9BAEk4qcuZsm/QEHh//FN+IdSsaVk3/4Xh
+ /OqWEdzQ4zFksHR4rqlggVrKDgRn00KTJyLknw0XyPBE6PwsaK4luZ8a7SGRlk8tXc3y
+ WxknLiCdMM6u54VWWjFxQS37AeNsbRNcYYiX957jb3RoUNSROX8xQeZcoFPiW9uT+Ywf
+ uFk68ozy0MGBMO+J5X+FpPGNn88jvd5vEucRDk4h9RreXa1f98ldR7mmuA5xVfs5ewro
+ 48tHwHGLrSHiECnGXzDakvti5hko9x7HXBKsDqofB8/GTtCbRl5vEZk6WOwAhOU91rZw
+ pJ7g==
+X-Gm-Message-State: APjAAAWgNy7zhWhlM9tkYsO7hT+vYCSvU/vyBOVgzL2xhL/nyMBxEtPL
+ G7uEQ+GYYH47Wqf7XW8J4oImlw==
+X-Google-Smtp-Source: APXvYqwcwsFNu5Nf5LHFzO5QTBW31YpnNRNSUnN+crPgC/6y760jgaykRecTvjIvPghb7KY+W9dXQg==
+X-Received: by 2002:a5d:4fc1:: with SMTP id h1mr24334734wrw.83.1561383820838; 
+ Mon, 24 Jun 2019 06:43:40 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id 32sm22683122wra.35.2019.06.24.06.43.38
+ by smtp.gmail.com with ESMTPSA id t6sm11005487wmb.29.2019.06.24.06.43.38
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Mon, 24 Jun 2019 06:43:38 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C12351FF90;
+ by zen.linaroharston (Postfix) with ESMTP id D53BC1FF91;
  Mon, 24 Jun 2019 14:43:37 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Date: Mon, 24 Jun 2019 14:43:21 +0100
-Message-Id: <20190624134337.10532-4-alex.bennee@linaro.org>
+Date: Mon, 24 Jun 2019 14:43:22 +0100
+Message-Id: <20190624134337.10532-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190624134337.10532-1-alex.bennee@linaro.org>
 References: <20190624134337.10532-1-alex.bennee@linaro.org>
@@ -69,7 +69,7 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2a00:1450:4864:20::433
-Subject: [Qemu-devel] [PULL 03/19] tests/vm: pin ubuntu.i386 image
+Subject: [Qemu-devel] [PULL 04/19] tests/vm: add source repos on ubuntu.i386
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,36 +90,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-It's a good practice to always have the same components used in tests.
-According to:
+Possibly because of different behavior on the newly update
+cloud-image, trying to run 'apt-get build-dep' results in:
 
-   https://cloud-images.ubuntu.com/releases/16.04/
+   E: You must put some 'source' URIs in your sources.list
 
-New images are released from time to time, and the "release/"
-directory points to the latest release.  Let's pin to the latest
-available version, and while at it, set a hash for verification.
+This enables all source repos (even though some are not
+needed) for simplicity sake.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190613130718.3763-4-crosa@redhat.com>
+Message-Id: <20190613130718.3763-5-crosa@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
 diff --git a/tests/vm/ubuntu.i386 b/tests/vm/ubuntu.i386
-index 12867b193f..7017e6d388 100755
+index 7017e6d388..3ea459ee20 100755
 --- a/tests/vm/ubuntu.i386
 +++ b/tests/vm/ubuntu.i386
-@@ -61,7 +61,9 @@ class UbuntuX86VM(basevm.BaseVM):
-         return os.path.join(cidir, "cloud-init.iso")
- 
-     def build_image(self, img):
--        cimg = self._download_with_cache("https://cloud-images.ubuntu.com/releases/16.04/release/ubuntu-16.04-server-cloudimg-i386-disk1.img")
-+        cimg = self._download_with_cache(
-+            "https://cloud-images.ubuntu.com/releases/16.04/release-20190605/ubuntu-16.04-server-cloudimg-i386-disk1.img",
-+            sha256sum="e30091144c73483822b7c27193e9d47346dd1064229da577c3fedcf943f7cfcc")
-         img_tmp = img + ".tmp"
-         subprocess.check_call(["cp", "-f", cimg, img_tmp])
-         subprocess.check_call(["qemu-img", "resize", img_tmp, "50G"])
+@@ -77,6 +77,7 @@ class UbuntuX86VM(basevm.BaseVM):
+         time.sleep(5)
+         self.wait_ssh()
+         # The previous update sometimes doesn't survive a reboot, so do it again
++        self.ssh_root_check("sed -ie s/^#\ deb-src/deb-src/g /etc/apt/sources.list")
+         self.ssh_root_check("apt-get update")
+         self.ssh_root_check("apt-get build-dep -y qemu")
+         self.ssh_root_check("apt-get install -y libfdt-dev flex bison")
 -- 
 2.20.1
 
