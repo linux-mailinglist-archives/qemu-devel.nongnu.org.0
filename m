@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1DC5108A
-	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 17:32:37 +0200 (CEST)
-Received: from localhost ([::1]:52342 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D800651040
+	for <lists+qemu-devel@lfdr.de>; Mon, 24 Jun 2019 17:24:36 +0200 (CEST)
+Received: from localhost ([::1]:52296 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfQxQ-0002cc-8O
-	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 11:32:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44035)
+	id 1hfQpf-0007TK-P6
+	for lists+qemu-devel@lfdr.de; Mon, 24 Jun 2019 11:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42146)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hfQvh-0002Dt-0H
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:30:50 -0400
+ (envelope-from <berrange@redhat.com>) id 1hfQoi-0006ws-QX
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:23:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hfQve-0005Yg-Gh
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:30:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35692)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hfQvc-0005U9-LT
- for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:30:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hfQva-0003jT-As
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:30:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5142D2E8024
- for <qemu-devel@nongnu.org>; Mon, 24 Jun 2019 15:30:42 +0000 (UTC)
+ (envelope-from <berrange@redhat.com>) id 1hfQoh-00010E-IA
+ for qemu-devel@nongnu.org; Mon, 24 Jun 2019 11:23:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50352)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>)
+ id 1hfQoe-0000oR-Ej; Mon, 24 Jun 2019 11:23:32 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A948FC1EB201;
+ Mon, 24 Jun 2019 15:23:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.17.95])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 125B35D9D3;
+ Mon, 24 Jun 2019 15:23:22 +0000 (UTC)
+Date: Mon, 24 Jun 2019 16:23:20 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <20190624152320.GK17698@redhat.com>
+References: <20190620122132.10075-1-philmd@redhat.com>
+ <20190620122132.10075-2-philmd@redhat.com>
+ <6a0086e7-79ea-fc5e-6359-c1d4d256bf6e@redhat.com>
+ <ebe04ce2-0e0a-c764-e235-3aabd420439e@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ebe04ce2-0e0a-c764-e235-3aabd420439e@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Mon, 24 Jun 2019 15:23:31 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 24 Jun 2019 15:20:36 -0000
-From: roblabla <1834051@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: roblabla
-X-Launchpad-Bug-Reporter: roblabla (roblabla)
-X-Launchpad-Bug-Modifier: roblabla (roblabla)
-References: <156138866047.31005.4592891012762616724.malonedeb@chaenomeles.canonical.com>
-Message-Id: <156138963655.17814.17558605662796879437.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18991";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: cec8d0e8c08de96fca65c3dcb4d728ebf4923b83
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1834051] Re: IRQ2 ignored under KVM when using
- IOAPIC
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 1/3] hw/firmware: Add Edk2Crypto and
+ edk2_add_host_crypto_policy()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,81 +61,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1834051 <1834051@bugs.launchpad.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+On Mon, Jun 24, 2019 at 05:14:23PM +0200, Laszlo Ersek wrote:
+> On 06/24/19 16:53, Laszlo Ersek wrote:
+> > (+Daniel)
+> >=20
+> > On 06/20/19 14:21, Philippe Mathieu-Daud=C3=A9 wrote:
+>=20
+> >>   $ qemu-system-x86_64 \
+> >>       --object edk2_crypto,id=3Dhttps,\
+> >>               ciphers=3D/etc/crypto-policies/back-ends/openssl.confi=
+g,\
+> >>               cacerts=3D/etc/pki/ca-trust/extracted/edk2/cacerts.bin
+>=20
+> (12) Regarding the command line. It just occurs to me that Daniel
+> suggested [*] that libvirt should not be taught about this feature
+> specifically.
 
-  When using KVM, and an OS that supports the IOAPIC, interrupts mapped on
-  IRQ2 (for instance, routing an HPET timer on interrupt 2) will cause the
-  interrupts to never be delivered. This is because QEmu, when setting up
-  the KVM interrupt routes, will not set one up for IRQ2[0]. When running
-  without KVM, IRQ2 is identity-mapped to GSI2.
-  =
+Oh yes, thank you for reminding me of this point.
 
-  My understanding is that IRQs should be identity mapped to their
-  equivalent GSI unless a redirection entry is present in the MADT. This
-  is supported by ACPI 6.2 spec[1], 5.2.12.5 Interrupt Source Override
-  Structure, which claims: "It is assumed that the ISA interrupts will be
-  identity-mapped into the first I/O APIC sources.".
-  =
+Essentially this is the same use case as with the GNUTLS default crypto
+policy in QEMU.
 
-  I stumbled across this while working on my own custom OS, got very
-  confused why the HPET wasn't triggering any interruption - and even more
-  confused why the behavior only happened in KVM and not in non-KVM.
-  =
+The tls-creds-x409 object type in QEMU has a "priority" property which
+lets you set a GNUTLS priority string eg
 
-+ Version tested: QEMU emulator version 4.0.50
-+ (v4.0.0-226-g8482ff2eb3-dirty)
-+ =
+    --object tls-creds-x509,id=3Dtls0,priority=3D@SYSTEM
 
-  [0]:
-  https://github.com/qemu/qemu/blob/37560c259d7a0d6aceb96e9d6903ee002f4e5e0=
-c/hw/i386/kvm/ioapic.c#L40
-  =
+In practice, however, libvirt never uses this because the QEMU configure
+script has a --tls-priority arg and distros will use that arg to set the
+desired priority at build time. eg Fedora/RHEL build QEMU with the
+"--tls-priority=3D@QEMU,SYSTEM" string and libvirt hasn't bothered to
+make use of the 'priority' arg for tls-creds-x509 as a result.
 
-  [1]: https://uefi.org/sites/default/files/resources/ACPI_6_2.pdf
+I'd expect similar to be done with EDK2 priority where Fedora/RHEL sets
+a compile time ciphers/cacerts list in RPM build.
 
--- =
+Contrary to what we did with GNUTLS though, libvirt might still allow
+this to be overridden at runtime, since the handling of the ciphers
+is not as smart as we get with GNUTLS priority setting.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1834051
+> Thus, I think we need properties that are "smarter" than plain
+> user-specified strings:
+>=20
+> - they should have default values (the ones your example includes above=
+)
+>=20
+> - for each of the properties: if the default pathname fails to identify
+> a file, then treat it as a normal situation (leave the corresponding
+> fields NULL)
+>=20
+> - if the user overrides the default, and the pathname resolution fails,
+> then that should generate an error
+>=20
+> - the user should be permitted to override the default such that the
+> corresponding setting is disabled (i.e. no error, but also no loading)
+>=20
+>=20
+> It's too bad that I'm not sure about the right way to implement this. I=
+t
+> reminds me of On/Off/Auto, but only vaguely.
+>=20
+> In fact, if we never want to teach libvirt about this feature, then we
+> essentially expect QEMU to auto-load these files, whenever they exist -=
+-
+> even if the guest ends up booting something other than edk2 firmware!
+>=20
+> [*] https://bugzilla.redhat.com/show_bug.cgi?id=3D1536624#c11 --
+> unfortunately, this is a private RHBZ :(
+>=20
+> Thanks
+> Laszlo
 
-Title:
-  IRQ2 ignored under KVM when using IOAPIC
-
-Status in QEMU:
-  New
-
-Bug description:
-  When using KVM, and an OS that supports the IOAPIC, interrupts mapped
-  on IRQ2 (for instance, routing an HPET timer on interrupt 2) will
-  cause the interrupts to never be delivered. This is because QEmu, when
-  setting up the KVM interrupt routes, will not set one up for IRQ2[0].
-  When running without KVM, IRQ2 is identity-mapped to GSI2.
-
-  My understanding is that IRQs should be identity mapped to their
-  equivalent GSI unless a redirection entry is present in the MADT. This
-  is supported by ACPI 6.2 spec[1], 5.2.12.5 Interrupt Source Override
-  Structure, which claims: "It is assumed that the ISA interrupts will
-  be identity-mapped into the first I/O APIC sources.".
-
-  I stumbled across this while working on my own custom OS, got very
-  confused why the HPET wasn't triggering any interruption - and even
-  more confused why the behavior only happened in KVM and not in non-
-  KVM.
-
-  Version tested: QEMU emulator version 4.0.50
-  (v4.0.0-226-g8482ff2eb3-dirty)
-
-  [0]:
-  https://github.com/qemu/qemu/blob/37560c259d7a0d6aceb96e9d6903ee002f4e5e0=
-c/hw/i386/kvm/ioapic.c#L40
-
-  [1]: https://uefi.org/sites/default/files/resources/ACPI_6_2.pdf
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1834051/+subscriptions
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
