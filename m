@@ -2,80 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677C15534A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:24:56 +0200 (CEST)
-Received: from localhost ([::1]:33038 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3F75534D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:25:44 +0200 (CEST)
+Received: from localhost ([::1]:33060 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnJX-0008Rb-Jm
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54532)
+	id 1hfnKJ-0001cX-FF
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:25:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55512)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hfmyu-0007aE-SF
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:03:38 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hfn2r-0001A3-Cp
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:07:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hfmys-0000hd-9n
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:03:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33636)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hfmyo-0000br-Hd; Tue, 25 Jun 2019 11:03:30 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 39B9E307D945;
- Tue, 25 Jun 2019 15:03:23 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-156.brq.redhat.com
- [10.40.204.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 59FCB1019303;
- Tue, 25 Jun 2019 15:03:07 +0000 (UTC)
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hfn2p-0005Pw-FO
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:07:41 -0400
+Received: from mail-eopbgr80117.outbound.protection.outlook.com
+ ([40.107.8.117]:27916 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hfn2j-00051o-Pp; Tue, 25 Jun 2019 11:07:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jo+sV8kpg1FeHKLp3d8WAL4aFMw6HqigHetz/HGIkLY=;
+ b=g/7zv8LCthD9mo/HWkJbVC1W7dcUkfE6DE0lLQWjvNcUg8K5G0sMtFMnvFLPXehEmJQPcHPJty4CzuQJJD7rS0F1r0/+uJIIjWIFFzQNjjJ6/VY1A+yXmMhDFB+cl20RfSn5GjunqIl4K+fKq3yyTAULsQI/67ZxU4CDm3QCsLk=
+Received: from VI1PR08MB3677.eurprd08.prod.outlook.com (20.177.61.92) by
+ VI1PR08MB2878.eurprd08.prod.outlook.com (10.170.239.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2008.16; Tue, 25 Jun 2019 15:07:17 +0000
+Received: from VI1PR08MB3677.eurprd08.prod.outlook.com
+ ([fe80::4c71:9c23:235b:fbed]) by VI1PR08MB3677.eurprd08.prod.outlook.com
+ ([fe80::4c71:9c23:235b:fbed%3]) with mapi id 15.20.2008.014; Tue, 25 Jun 2019
+ 15:07:17 +0000
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: Max Reitz <mreitz@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Thread-Topic: [PATCH v7 0/3] block/stream: get rid of the base
+Thread-Index: AQHVJtVTk86p5LXvIUyhwnd3Wk/TrKasrG4A///UFYCAAAEogA==
+Date: Tue, 25 Jun 2019 15:07:17 +0000
+Message-ID: <60312237-b69e-6248-f2ea-8f260018e3af@virtuozzo.com>
 References: <1559152576-281803-1-git-send-email-andrey.shinkevich@virtuozzo.com>
  <87a5ec62-6274-77c6-60a3-b4ad7b4ec822@redhat.com>
  <3362e8ef-d698-e860-9830-45a3f924ef48@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <a63c700d-8206-06c5-ee5e-70d0534dd147@redhat.com>
-Date: Tue, 25 Jun 2019 17:03:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ <a63c700d-8206-06c5-ee5e-70d0534dd147@redhat.com>
+In-Reply-To: <a63c700d-8206-06c5-ee5e-70d0534dd147@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR09CA0069.eurprd09.prod.outlook.com
+ (2603:10a6:7:3d::13) To VI1PR08MB3677.eurprd08.prod.outlook.com
+ (2603:10a6:803:85::28)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3edd0139-5a8b-4023-f1d4-08d6f97ed001
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:VI1PR08MB2878; 
+x-ms-traffictypediagnostic: VI1PR08MB2878:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <VI1PR08MB28786491A2D4B876CA253169F4E30@VI1PR08MB2878.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0079056367
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(366004)(396003)(136003)(346002)(39850400004)(189003)(199004)(71190400001)(8676002)(5660300002)(6486002)(53936002)(6512007)(86362001)(229853002)(6306002)(256004)(486006)(6436002)(14444005)(36756003)(44832011)(476003)(107886003)(2501003)(2906002)(99286004)(6246003)(76176011)(6506007)(2616005)(53546011)(386003)(14454004)(966005)(26005)(71200400001)(3846002)(25786009)(6116002)(446003)(4326008)(52116002)(11346002)(66066001)(31686004)(102836004)(7416002)(66946007)(186003)(2201001)(81156014)(64756008)(81166006)(66476007)(66446008)(31696002)(316002)(7736002)(66556008)(68736007)(8936002)(110136005)(54906003)(305945005)(73956011)(478600001)(26583001);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR08MB2878;
+ H:VI1PR08MB3677.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Fig/c1FytIxiYTWvIvRJTaG27dl9ck4x3+cj+SU8CZyV5auexURTuutCVe670hxXD43RLB9W/itVtEh8nNlRtsrcei2erR6JPfAvtj6pMn8ex2W3e4xva4CPXAttJxLrr+ppjAcldua4d1Xz2RFEE01XNtSlAMzldlTCdtLMFSUwBpak5qC8RM3i8sxiuXlKYd8ep+HSJhvBY1kxxj055H+otAAaNMmJpyrerznoVb1cRif2Os/uqdj9hNRlLRqm0iJU+Y75Mm/F1JLGt3kh4ySk8tHcnLexCsEcShvySWcnYIRP1PjGpGgGJ9A4VlkFZLMM3zEIJ30N1BaEkNG1nQbUMoJzE/QPV47kxrXWximRTzVtNQB0bjmdapZCBP8ra1Ql0aga2YaJd/fs0t1vo4RN7XgisI4wi9RSg0xiiJw=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9F41D26E843BF34AAFA9E8D9206B4427@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <3362e8ef-d698-e860-9830-45a3f924ef48@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="naesmTpyGTh4gWMrzve75dQXPgeaBjflU"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 25 Jun 2019 15:03:28 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3edd0139-5a8b-4023-f1d4-08d6f97ed001
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2019 15:07:17.3695 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: andrey.shinkevich@virtuozzo.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2878
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.8.117
 Subject: Re: [Qemu-devel] [PATCH v7 0/3] block/stream: get rid of the base
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,130 +112,57 @@ Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---naesmTpyGTh4gWMrzve75dQXPgeaBjflU
-Content-Type: multipart/mixed; boundary="1c2ynLPIb71Ys6PSBgV8FO7cJMtSipvWs";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "berto@igalia.com"
- <berto@igalia.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>, "fam@euphon.net"
- <fam@euphon.net>, "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
- "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
- Denis Lunev <den@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <a63c700d-8206-06c5-ee5e-70d0534dd147@redhat.com>
-Subject: Re: [PATCH v7 0/3] block/stream: get rid of the base
-References: <1559152576-281803-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <87a5ec62-6274-77c6-60a3-b4ad7b4ec822@redhat.com>
- <3362e8ef-d698-e860-9830-45a3f924ef48@virtuozzo.com>
-In-Reply-To: <3362e8ef-d698-e860-9830-45a3f924ef48@virtuozzo.com>
-
---1c2ynLPIb71Ys6PSBgV8FO7cJMtSipvWs
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 25.06.19 16:40, Andrey Shinkevich wrote:
->=20
->=20
-> On 19/06/2019 22:29, Max Reitz wrote:
->> On 29.05.19 19:56, Andrey Shinkevich wrote:
->>> This series introduces a bottom intermediate node that eliminates the=
-
->>> dependency on the base that may change while stream job is running.
->>> It happens when stream/commit parallel jobs are running on the same
->>> backing chain. The base node of the stream job may be a top node of
->>> the parallel commit job and can change before the stream job is
->>> completed. We avoid that dependency by introducing the bottom node.
->>>
->>> v7: [resend by Andrey]
->>>    01: assert(intermediate) was inserted before the call to
->>>        bdrv_is_allocated() in the intermediate node loop of the
->>>        bdrv_is_allocated_above() as suggested by Max.
->>>    02: The change of the intermediate node loop in the stream_start()=
- was
->>>        rolled back to its original design and the reassignment of the=
- base
->>>        node pointer was added as Vladimir and Max suggested. The rele=
-vant
->>>        comment was amended.
->>>
->>> v6: [resend by Vladimir]
->>>    01: improve comment in block/io.c, suggested by Alberto
->>>
->>> v5: [resend by Vladimir]
->>>    01: use comment wording in block/io.c suggested by Alberto
->>>
->>> v4:
->>> trace_stream_start reverted to the base.
->>> bdrv_is_allocated_above_inclusive() deleted and the new parameter
->>> 'bool include_base' was added to the bdrv_is_allocated_above().
->>>
->>> Andrey Shinkevich (3):
->>>    block: include base when checking image chain for block allocation=
-
->>>    block/stream: refactor stream_run: drop goto
->>>    block/stream: introduce a bottom node
->>>
->>>   block/commit.c         |  2 +-
->>>   block/io.c             | 21 +++++++++++++------
->>>   block/mirror.c         |  2 +-
->>>   block/replication.c    |  2 +-
->>>   block/stream.c         | 56 ++++++++++++++++++++++++---------------=
------------
->>>   include/block/block.h  |  3 ++-
->>>   tests/qemu-iotests/245 |  4 ++--
->>>   7 files changed, 49 insertions(+), 41 deletions(-)
->>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->>
->> Just needs some simple changes to patch 1 to rebase it on 863cc78f1b3
->> and c8bb23cbdbe.
->>
->> Max
->>
->=20
-> Please let us know who would take this series for pull request?
-
-Nothing, I was just waiting for my current pull request (lingering from
-last week due to a build failure because of one of the patches) to be
-processed.
-
-I suppose I won=E2=80=99t wait longer and just take this series now and d=
-eal
-with the fallout later if there=E2=80=99s something else in my last week=E2=
-=80=99s pull
-request that needs fixing...
-
-So: Thanks, applied to my block branch:
-
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
-
-Max
-
-
---1c2ynLPIb71Ys6PSBgV8FO7cJMtSipvWs--
-
---naesmTpyGTh4gWMrzve75dQXPgeaBjflU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0SN6kACgkQ9AfbAGHV
-z0AV0gf8C26hTvBJFcjt42I1OLimAiFs+GFiSpfjcexjmC91UmhBGOkfFVbIU15v
-MyPz8uZK8hqQDZZAPNAOiKV8HECdfVql5Jyj4dPbjj8DcmFzQwreBNacaWUgbui5
-0DRl/JaQRjAjlY8/5tiZEVaMFC4IIMn71qSfq8oVrN5HVW1ifge1M2/SBsGyebI1
-jhTWA2hqJ9qxwEOvyybiu4XxeYZFmLJPr5oBmzw5rWb3UfJjURAQKwsBwbGJO6Rt
-6wt3g3QsZ6K6wA/pSov5xrl+jUneu68K7BU0jLW/uST8UbupMtC8F+zUBdN3UjW+
-6yC0IaAs8Zvap9z+WpoKfTTknNm4fg==
-=0i/f
------END PGP SIGNATURE-----
-
---naesmTpyGTh4gWMrzve75dQXPgeaBjflU--
+DQoNCk9uIDI1LzA2LzIwMTkgMTg6MDMsIE1heCBSZWl0eiB3cm90ZToNCj4gT24gMjUuMDYuMTkg
+MTY6NDAsIEFuZHJleSBTaGlua2V2aWNoIHdyb3RlOg0KPj4NCj4+DQo+PiBPbiAxOS8wNi8yMDE5
+IDIyOjI5LCBNYXggUmVpdHogd3JvdGU6DQo+Pj4gT24gMjkuMDUuMTkgMTk6NTYsIEFuZHJleSBT
+aGlua2V2aWNoIHdyb3RlOg0KPj4+PiBUaGlzIHNlcmllcyBpbnRyb2R1Y2VzIGEgYm90dG9tIGlu
+dGVybWVkaWF0ZSBub2RlIHRoYXQgZWxpbWluYXRlcyB0aGUNCj4+Pj4gZGVwZW5kZW5jeSBvbiB0
+aGUgYmFzZSB0aGF0IG1heSBjaGFuZ2Ugd2hpbGUgc3RyZWFtIGpvYiBpcyBydW5uaW5nLg0KPj4+
+PiBJdCBoYXBwZW5zIHdoZW4gc3RyZWFtL2NvbW1pdCBwYXJhbGxlbCBqb2JzIGFyZSBydW5uaW5n
+IG9uIHRoZSBzYW1lDQo+Pj4+IGJhY2tpbmcgY2hhaW4uIFRoZSBiYXNlIG5vZGUgb2YgdGhlIHN0
+cmVhbSBqb2IgbWF5IGJlIGEgdG9wIG5vZGUgb2YNCj4+Pj4gdGhlIHBhcmFsbGVsIGNvbW1pdCBq
+b2IgYW5kIGNhbiBjaGFuZ2UgYmVmb3JlIHRoZSBzdHJlYW0gam9iIGlzDQo+Pj4+IGNvbXBsZXRl
+ZC4gV2UgYXZvaWQgdGhhdCBkZXBlbmRlbmN5IGJ5IGludHJvZHVjaW5nIHRoZSBib3R0b20gbm9k
+ZS4NCj4+Pj4NCj4+Pj4gdjc6IFtyZXNlbmQgYnkgQW5kcmV5XQ0KPj4+PiAgICAgMDE6IGFzc2Vy
+dChpbnRlcm1lZGlhdGUpIHdhcyBpbnNlcnRlZCBiZWZvcmUgdGhlIGNhbGwgdG8NCj4+Pj4gICAg
+ICAgICBiZHJ2X2lzX2FsbG9jYXRlZCgpIGluIHRoZSBpbnRlcm1lZGlhdGUgbm9kZSBsb29wIG9m
+IHRoZQ0KPj4+PiAgICAgICAgIGJkcnZfaXNfYWxsb2NhdGVkX2Fib3ZlKCkgYXMgc3VnZ2VzdGVk
+IGJ5IE1heC4NCj4+Pj4gICAgIDAyOiBUaGUgY2hhbmdlIG9mIHRoZSBpbnRlcm1lZGlhdGUgbm9k
+ZSBsb29wIGluIHRoZSBzdHJlYW1fc3RhcnQoKSB3YXMNCj4+Pj4gICAgICAgICByb2xsZWQgYmFj
+ayB0byBpdHMgb3JpZ2luYWwgZGVzaWduIGFuZCB0aGUgcmVhc3NpZ25tZW50IG9mIHRoZSBiYXNl
+DQo+Pj4+ICAgICAgICAgbm9kZSBwb2ludGVyIHdhcyBhZGRlZCBhcyBWbGFkaW1pciBhbmQgTWF4
+IHN1Z2dlc3RlZC4gVGhlIHJlbGV2YW50DQo+Pj4+ICAgICAgICAgY29tbWVudCB3YXMgYW1lbmRl
+ZC4NCj4+Pj4NCj4+Pj4gdjY6IFtyZXNlbmQgYnkgVmxhZGltaXJdDQo+Pj4+ICAgICAwMTogaW1w
+cm92ZSBjb21tZW50IGluIGJsb2NrL2lvLmMsIHN1Z2dlc3RlZCBieSBBbGJlcnRvDQo+Pj4+DQo+
+Pj4+IHY1OiBbcmVzZW5kIGJ5IFZsYWRpbWlyXQ0KPj4+PiAgICAgMDE6IHVzZSBjb21tZW50IHdv
+cmRpbmcgaW4gYmxvY2svaW8uYyBzdWdnZXN0ZWQgYnkgQWxiZXJ0bw0KPj4+Pg0KPj4+PiB2NDoN
+Cj4+Pj4gdHJhY2Vfc3RyZWFtX3N0YXJ0IHJldmVydGVkIHRvIHRoZSBiYXNlLg0KPj4+PiBiZHJ2
+X2lzX2FsbG9jYXRlZF9hYm92ZV9pbmNsdXNpdmUoKSBkZWxldGVkIGFuZCB0aGUgbmV3IHBhcmFt
+ZXRlcg0KPj4+PiAnYm9vbCBpbmNsdWRlX2Jhc2UnIHdhcyBhZGRlZCB0byB0aGUgYmRydl9pc19h
+bGxvY2F0ZWRfYWJvdmUoKS4NCj4+Pj4NCj4+Pj4gQW5kcmV5IFNoaW5rZXZpY2ggKDMpOg0KPj4+
+PiAgICAgYmxvY2s6IGluY2x1ZGUgYmFzZSB3aGVuIGNoZWNraW5nIGltYWdlIGNoYWluIGZvciBi
+bG9jayBhbGxvY2F0aW9uDQo+Pj4+ICAgICBibG9jay9zdHJlYW06IHJlZmFjdG9yIHN0cmVhbV9y
+dW46IGRyb3AgZ290bw0KPj4+PiAgICAgYmxvY2svc3RyZWFtOiBpbnRyb2R1Y2UgYSBib3R0b20g
+bm9kZQ0KPj4+Pg0KPj4+PiAgICBibG9jay9jb21taXQuYyAgICAgICAgIHwgIDIgKy0NCj4+Pj4g
+ICAgYmxvY2svaW8uYyAgICAgICAgICAgICB8IDIxICsrKysrKysrKysrKystLS0tLS0NCj4+Pj4g
+ICAgYmxvY2svbWlycm9yLmMgICAgICAgICB8ICAyICstDQo+Pj4+ICAgIGJsb2NrL3JlcGxpY2F0
+aW9uLmMgICAgfCAgMiArLQ0KPj4+PiAgICBibG9jay9zdHJlYW0uYyAgICAgICAgIHwgNTYgKysr
+KysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+Pj4gICAg
+aW5jbHVkZS9ibG9jay9ibG9jay5oICB8ICAzICsrLQ0KPj4+PiAgICB0ZXN0cy9xZW11LWlvdGVz
+dHMvMjQ1IHwgIDQgKystLQ0KPj4+PiAgICA3IGZpbGVzIGNoYW5nZWQsIDQ5IGluc2VydGlvbnMo
+KyksIDQxIGRlbGV0aW9ucygtKQ0KPj4+DQo+Pj4gUmV2aWV3ZWQtYnk6IE1heCBSZWl0eiA8bXJl
+aXR6QHJlZGhhdC5jb20+DQo+Pj4NCj4+PiBKdXN0IG5lZWRzIHNvbWUgc2ltcGxlIGNoYW5nZXMg
+dG8gcGF0Y2ggMSB0byByZWJhc2UgaXQgb24gODYzY2M3OGYxYjMNCj4+PiBhbmQgYzhiYjIzY2Jk
+YmUuDQo+Pj4NCj4+PiBNYXgNCj4+Pg0KPj4NCj4+IFBsZWFzZSBsZXQgdXMga25vdyB3aG8gd291
+bGQgdGFrZSB0aGlzIHNlcmllcyBmb3IgcHVsbCByZXF1ZXN0Pw0KPiANCj4gTm90aGluZywgSSB3
+YXMganVzdCB3YWl0aW5nIGZvciBteSBjdXJyZW50IHB1bGwgcmVxdWVzdCAobGluZ2VyaW5nIGZy
+b20NCj4gbGFzdCB3ZWVrIGR1ZSB0byBhIGJ1aWxkIGZhaWx1cmUgYmVjYXVzZSBvZiBvbmUgb2Yg
+dGhlIHBhdGNoZXMpIHRvIGJlDQo+IHByb2Nlc3NlZC4NCj4gDQo+IEkgc3VwcG9zZSBJIHdvbuKA
+mXQgd2FpdCBsb25nZXIgYW5kIGp1c3QgdGFrZSB0aGlzIHNlcmllcyBub3cgYW5kIGRlYWwNCj4g
+d2l0aCB0aGUgZmFsbG91dCBsYXRlciBpZiB0aGVyZeKAmXMgc29tZXRoaW5nIGVsc2UgaW4gbXkg
+bGFzdCB3ZWVr4oCZcyBwdWxsDQo+IHJlcXVlc3QgdGhhdCBuZWVkcyBmaXhpbmcuLi4NCj4gDQo+
+IFNvOiBUaGFua3MsIGFwcGxpZWQgdG8gbXkgYmxvY2sgYnJhbmNoOg0KPiANCj4gaHR0cHM6Ly9n
+aXQueGFuY2xpYy5tb2UvWGFuQ2xpYy9xZW11L2NvbW1pdHMvYnJhbmNoL2Jsb2NrDQo+IA0KPiBN
+YXgNCj4gDQoNClRoYW5rcyBhIGxvdCwgTWF4Lg0KDQpBbmRyZXkNCi0tIA0KV2l0aCB0aGUgYmVz
+dCByZWdhcmRzLA0KQW5kcmV5IFNoaW5rZXZpY2gNCg0K
 
