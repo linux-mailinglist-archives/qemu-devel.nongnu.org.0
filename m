@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A365228E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 07:08:28 +0200 (CEST)
-Received: from localhost ([::1]:56578 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDBDE52298
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 07:11:09 +0200 (CEST)
+Received: from localhost ([::1]:56592 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfdgx-0003Qo-Pj
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 01:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33674)
+	id 1hfdjZ-000586-6R
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 01:11:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33692)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hfdZH-00070d-Eq
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:32 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hfdZQ-0007BQ-Va
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hfdZG-0002aS-65
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60228)
+ (envelope-from <ehabkost@redhat.com>) id 1hfdZP-0002ki-1y
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59512)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfdZF-0002ZY-W2
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:30 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfdZO-0002iP-8L
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:38 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4E86530832EE
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 05:00:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 61B5036899;
+ Tue, 25 Jun 2019 05:00:31 +0000 (UTC)
 Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B39DB5C231;
- Tue, 25 Jun 2019 05:00:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4AB3600C7;
+ Tue, 25 Jun 2019 05:00:30 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 02:00:07 -0300
-Message-Id: <20190625050008.12789-6-ehabkost@redhat.com>
+Date: Tue, 25 Jun 2019 02:00:08 -0300
+Message-Id: <20190625050008.12789-7-ehabkost@redhat.com>
 In-Reply-To: <20190625050008.12789-1-ehabkost@redhat.com>
 References: <20190625050008.12789-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 25 Jun 2019 05:00:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Tue, 25 Jun 2019 05:00:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 5/6] docs: Deprecate CPU model runnability
- guarantees
+Subject: [Qemu-devel] [PATCH 6/6] i386: Add Cascadelake-Server-4.1.1 CPU
+ model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,50 +53,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Igor Mammedov <imammedo@redhat.com>,
- Jiri Denemark <jdenemar@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, jingqi.liu@intel.com,
+ Tao Xu <tao3.xu@intel.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Hu, Robert" <robert.hu@intel.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, "Lai, Paul C" <paul.c.lai@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document that CPU model runnability guarantees won't apply to
-unversioned CPU models anymore.
+Add new version of Cascadelake-Server CPU model, setting
+stepping=5 and enabling the IA32_ARCH_CAPABILITIES MSR.
+
+The new feature will introduce a new host software requirement,
+breaking our CPU model runnability promises.  This means we can't
+enable the new CPU model version by default in QEMU 4.1, because
+management software isn't ready yet to resolve CPU model aliases.
+This is why the feature is being enabled in a
+Cascadelake-Server-4.1.1 CPU model instead of
+Cascadelake-Server-4.1.
+
+Includes a test case to ensure the right combinations of
+machine-type + CPU model + command-line feature flags will work
+as expected.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: libvir-list@redhat.com
+Cc: "Hu, Robert" <robert.hu@intel.com>
+Cc: Tao Xu <tao3.xu@intel.com>
+Cc: jingqi.liu@intel.com,
+Cc: "Lai, Paul C" <paul.c.lai@intel.com>
 ---
- qemu-deprecated.texi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ target/i386/cpu.c                          | 15 +++++
+ tests/acceptance/x86_cpu_model_versions.py | 71 ++++++++++++++++++++++
+ 2 files changed, 86 insertions(+)
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index df04f2840b..5fafb62a6d 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -243,3 +243,22 @@ Note that if you are exposing the export via /dev/nbd0, it is easier
- to just export the entire image and then mount only /dev/nbd0p1 than
- it is to reinvoke @command{qemu-nbd -c /dev/nbd0} limited to just a
- subset of the image.
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 121f568954..8edae04161 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -2607,6 +2607,21 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_6_EAX_ARAT,
+         .xlevel = 0x80000008,
+         .model_id = "Intel Xeon Processor (Cascadelake)",
++        .versions = (X86CPUVersionDefinition[]) {
++            /*
++             * 4.1 won't have arch-capabilities enabled yet, to not break
++             * older management software
++             */
++            { .name = "4.1" },
++            { .name = "4.1.1",
++              .props = (PropValue[]) {
++                  { "stepping", "5" },
++                  { "arch-capabilities", "on" },
++                  { /* end of list */ },
++              },
++            },
++            { /* end of list */ },
++        }
+     },
+     {
+         .name = "Icelake-Client",
+diff --git a/tests/acceptance/x86_cpu_model_versions.py b/tests/acceptance/x86_cpu_model_versions.py
+index c0660a552f..127239e2a1 100644
+--- a/tests/acceptance/x86_cpu_model_versions.py
++++ b/tests/acceptance/x86_cpu_model_versions.py
+@@ -49,6 +49,8 @@ class X86CPUModelAliases(avocado_qemu.Test):
+                          'unversioned Cascadelake-Server CPU model must not be static')
+         self.assertNotIn('alias-of', cpus['Cascadelake-Server'],
+                          'Cascadelake-Server must not be an alias')
++        self.assertNotIn('alias-of', cpus['Cascadelake-Server-4.1'],
++                         'Cascadelake-Server-4.1 must not be an alias')
+ 
+         self.assertFalse(cpus['qemu64']['static'],
+                          'unversioned qemu64 CPU model must not be static')
+@@ -100,3 +102,72 @@ class X86CPUModelAliases(avocado_qemu.Test):
+                           'qemu64 must be an alias of versioned CPU model')
+         self.assertNotIn('alias-of', cpus['qemu64-4.1'],
+                          'qemu64-4.1 must not be an alias')
 +
-+@section Backwards compatibility
++    def test_Cascadelake_arch_capabilities_result(self):
++        # machine-type only:
++        vm = self.get_vm()
++        vm.add_args('-S')
++        vm.set_machine('pc-i440fx-4.1')
++        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off')
++        vm.launch()
++        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
++                         'pc-i440fx-4.1 + Cascadelake-Server should not have arch-capabilities')
 +
-+@subsection Runnability guarantee of CPU models (since 4.1.0)
++        vm = self.get_vm()
++        vm.add_args('-S')
++        vm.set_machine('pc-i440fx-4.0')
++        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off')
++        vm.launch()
++        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
++                         'pc-i440fx-4.0 + Cascadelake-Server should not have arch-capabilities')
 +
-+Previous versions of QEMU never changed existing CPU models in
-+ways that introduced additional host software or hardware
-+requirements to the VM.  This allowed management software to
-+safely change the machine type of an existing VM without
-+introducing new requirements ("runnability guarantee").  This
-+prevented CPU models from being updated to include CPU
-+vulnerability mitigations, leaving guests vulnerable in the
-+default configuration.
++        # command line must override machine-type if CPU model is not versioned:
++        vm = self.get_vm()
++        vm.add_args('-S')
++        vm.set_machine('pc-i440fx-4.0')
++        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off,+arch-capabilities')
++        vm.launch()
++        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
++                        'pc-i440fx-4.0 + Cascadelake-Server,+arch-capabilities should have arch-capabilities')
 +
-+The CPU model runnability guarantee won't apply anymore to
-+existing CPU models.  Management software that needs runnability
-+guarantees must resolve the CPU model aliases using te
-+``alias-of'' field returned by the ``query-cpu-definitions'' QMP
-+command.
++        vm = self.get_vm()
++        vm.add_args('-S')
++        vm.set_machine('pc-i440fx-4.1')
++        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off,-arch-capabilities')
++        vm.launch()
++        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
++                         'pc-i440fx-4.1 + Cascadelake-Server,-arch-capabilities should not have arch-capabilities')
++
++        # versioned CPU model overrides machine-type:
++        vm = self.get_vm()
++        vm.add_args('-S')
++        vm.set_machine('pc-i440fx-4.0')
++        vm.add_args('-cpu', 'Cascadelake-Server-4.1,x-force-features=on,check=off,enforce=off')
++        vm.launch()
++        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
++                         'pc-i440fx-4.1 + Cascadelake-Server-4.1 should not have arch-capabilities')
++
++        vm = self.get_vm()
++        vm.add_args('-S')
++        vm.set_machine('pc-i440fx-4.0')
++        vm.add_args('-cpu', 'Cascadelake-Server-4.1.1,x-force-features=on,check=off,enforce=off')
++        vm.launch()
++        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
++                         'pc-i440fx-4.1 + Cascadelake-Server-4.1 should have arch-capabilities')
++
++        # command line must override machine-type and versioned CPU model:
++        vm = self.get_vm()
++        vm.add_args('-S')
++        vm.set_machine('pc-i440fx-4.0')
++        vm.add_args('-cpu', 'Cascadelake-Server,x-force-features=on,check=off,enforce=off,+arch-capabilities')
++        vm.launch()
++        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
++                         'pc-i440fx-4.0 + Cascadelake-Server-4.1,+arch-capabilities should have arch-capabilities')
++
++        vm = self.get_vm()
++        vm.add_args('-S')
++        vm.set_machine('pc-i440fx-4.1')
++        vm.add_args('-cpu', 'Cascadelake-Server-4.1.1,x-force-features=on,check=off,enforce=off,-arch-capabilities')
++        vm.launch()
++        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
++                         'pc-i440fx-4.1 + Cascadelake-Server-4.1.1,-arch-capabilities should not have arch-capabilities')
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
