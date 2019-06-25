@@ -2,52 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732A254DD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 13:38:08 +0200 (CEST)
-Received: from localhost ([::1]:59052 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC8E54DDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 13:42:58 +0200 (CEST)
+Received: from localhost ([::1]:59080 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfjm3-0007UU-LU
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 07:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54724)
+	id 1hfjqj-0002Sx-3R
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 07:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56213)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hfjgg-0003Cq-JM
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:32:36 -0400
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1hfjnC-0000yE-8L
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:39:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hfjgf-000074-8U
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:32:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55744)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hfjge-00005D-4J
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:32:32 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 32EE21796
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 11:32:23 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D17515D9D5;
- Tue, 25 Jun 2019 11:32:17 +0000 (UTC)
-Date: Tue, 25 Jun 2019 13:32:16 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190625133216.5a38736d@redhat.com>
-In-Reply-To: <87y31rnktu.fsf@dusky.pond.sub.org>
-References: <20190620114116.27254-1-imammedo@redhat.com>
- <87blynv1lu.fsf@dusky.pond.sub.org>
- <20190624115805.36cc794a@redhat.com>
- <87y31rnktu.fsf@dusky.pond.sub.org>
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1hfjn8-0007YC-Gf
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:39:16 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53003)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
+ id 1hfjn6-0007U0-Q4
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:39:14 -0400
+Received: by mail-wm1-x344.google.com with SMTP id s3so2450834wms.2
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 04:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=XihMBel6+9VHt+N5UDgW7rphHGe8fdoDAO/nmllXomA=;
+ b=DAIKwuFb7CKqqAJxbq7VObcKInrhAmoAKSrGFA919qCQpxd2mkj3LsifYY38J+vI+2
+ uA4zJM3IIwGAMiNNUJdTbNKm8mrGhnuxSqQV5JOu4qVad7BdkXFyEG+PCJUTCq/dvyae
+ daXUqBjI2NLHNARgV2OJ9R58WzXow7BiLjcZeG7QTDnUgqy8ur9qXkC2ZyW9nx8OVtLE
+ RSbF2DLf2AakMSG+8RSm7pJ9Ti7wM/R/ivdSPnmj9ryyaWPxvuG4s9lark5sPf9Wzkvi
+ EV/lPZdAipMjb7NKgS30OVDNOyVkxC9MY9JlPdxABQRRFiUhKcQlpaVKNjKGazAPazJ5
+ 2AXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=XihMBel6+9VHt+N5UDgW7rphHGe8fdoDAO/nmllXomA=;
+ b=dWUl1siwsuwbS2sE2N2CeiX3MJwpDHjk06lXQo3DjKYXy7HDE6H7UnNwaTUdOa9gFH
+ 5HDlE9qyxPT6ay4/C6fzqjvHmUhzVmTIyuH2a5k7Pv7HWPbMMcOaMSfZwrr0jIo44jiv
+ 4ZAj+WGAwqlzw5nQczk0ej/IMw2w4bEk95YUeK4tmXM0xYUumFhfuapkhSu4dnAykFZG
+ WDePvvNXyA9lDzYWvbBBknu/ZTErhe9q5uGy9s2JBL/Bhk/E/uJ0/F/cnUGFMgFbeODn
+ 1HHhJ8LfrUdlT7FHWr0mh53Wpdya0c2irVvI8ISSG8ENQANCEWJOglxVa9j+6F3yHDKk
+ ewcg==
+X-Gm-Message-State: APjAAAVOKCFckUCIhN4e4zQUZevDhLVuT7HnpBR3IrpVipMLa9LDhnqP
+ swKO4XwXl/WhOY1ING8AGnI=
+X-Google-Smtp-Source: APXvYqyFB6HWqoCMTBbJv3Jtii11jtgePaQ4s11XQ18f0SYVIp93wmgZEqEWQXwJgmeuFQZeUfmaew==
+X-Received: by 2002:a1c:6a11:: with SMTP id f17mr18178363wmc.110.1561462750299; 
+ Tue, 25 Jun 2019 04:39:10 -0700 (PDT)
+Received: from localhost.localdomain ([37.142.144.12])
+ by smtp.gmail.com with ESMTPSA id o6sm2735422wmc.15.2019.06.25.04.39.08
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 25 Jun 2019 04:39:09 -0700 (PDT)
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20190621144541.13770-1-skrtbhtngr@gmail.com>
+ <a80f7beb-48c1-553a-f137-731e5500b608@gmail.com>
+ <1AD565D7-F99E-4879-BFEF-0E2C7474A09A@gmail.com>
+ <91874483-215c-1ccc-6f33-5ceeb8f6ec47@gmail.com>
+ <20190625091116.GE3226@work-vm>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <e957d1d1-d531-9438-b716-3c61fe3f83a2@gmail.com>
+Date: Tue, 25 Jun 2019 14:39:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 25 Jun 2019 11:32:23 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] deprecate -mem-path fallback to anonymous
- RAM
+In-Reply-To: <20190625091116.GE3226@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [RFC 0/1] Add live migration support to the PVRDMA
+ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,144 +86,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: Sukrit Bhatnagar <skrtbhtngr@gmail.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-devel@nongnu.org,
+ Yuval Shaia <yuval.shaia@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 24 Jun 2019 16:01:49 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
 
-> Igor Mammedov <imammedo@redhat.com> writes:
-> 
-> > On Mon, 24 Jun 2019 10:17:33 +0200
-> > Markus Armbruster <armbru@redhat.com> wrote:
-> >  
-> >> Igor Mammedov <imammedo@redhat.com> writes:
-> >>   
-> >> > Fallback might affect guest or worse whole host performance
-> >> > or functionality if backing file were used to share guest RAM
-> >> > with another process.
-> >> >
-> >> > Patch deprecates fallback so that we could remove it in future
-> >> > and ensure that QEMU will provide expected behavior and fail if
-> >> > it can't use user provided backing file.
-> >> >
-> >> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> >> > ---
-> >> > PS:
-> >> > Patch is written on top of
-> >> >   [PATCH v4 0/3] numa: deprecate '-numa node,  mem' and default memory distribution
-> >> > to avoid conflicts in qemu-deprecated.texi
-> >> >
-> >> >  numa.c               | 4 ++--
-> >> >  qemu-deprecated.texi | 8 ++++++++
-> >> >  2 files changed, 10 insertions(+), 2 deletions(-)
-> >> >
-> >> > diff --git a/numa.c b/numa.c
-> >> > index 91a29138a2..53d67b8ad9 100644
-> >> > --- a/numa.c
-> >> > +++ b/numa.c
-> >> > @@ -494,8 +494,8 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
-> >> >              if (mem_prealloc) {
-> >> >                  exit(1);
-> >> >              }
-> >> > -            error_report("falling back to regular RAM allocation.");
-> >> > -
-> >> > +            warn_report("falling back to regular RAM allocation. "
-> >> > +                        "Fallback to RAM allocation is deprecated.");    
-> >> 
-> >> Can we give the user clues on how to avoid the deprecated fallback?  
-> >
-> > I've intentionally left it out for a lack of clear enough advise.
-> > Something like:
-> >   "Make sure that host has resources to map file pointed by -mem-path"
-> > would be pretty useless.  
-> 
-> I see.
-> 
-> > I think describing how host should be configured in various ways
-> > depending on type of backing storage is well out of scope of any
-> > QEMU documentation. But if you have an idea to what to put there
-> > (or what to put in deprecation doc and refer to from here),
-> > I'll add it on respin.
-> >  
-> >> Warning message nitpick: the message should be a single phrase, with no
-> >> newline or trailing punctuation.  Suggest something like
-> >> 
-> >>                warn_report("falling back to regular RAM allocation");
-> >>                error_printf("This is deprecated.  <Advice on what\n"
-> >>                             "to do goes here>\n");
-> >>   
-> >> >              /* Legacy behavior: if allocation failed, fall back to
-> >> >               * regular RAM allocation.
-> >> >               */
-> >> > diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> >> > index 2fe9b72121..2193705644 100644
-> >> > --- a/qemu-deprecated.texi
-> >> > +++ b/qemu-deprecated.texi
-> >> > @@ -112,6 +112,14 @@ QEMU using implicit generic or board specific splitting rule.
-> >> >  Use @option{memdev} with @var{memory-backend-ram} backend or @option{mem} (if
-> >> >  it's supported by used machine type) to define mapping explictly instead.
-> >> >  
-> >> > +@subsection -mem-path fallback to RAM (since 4.1)
-> >> > +Currently if system memory allocation from file pointed by @option{mem-path}
-> >> > +fails, QEMU fallbacks to allocating from anonymous RAM. Which might result
-> >> > +in unpredictable behavior since provided backing file wasn't used.    
-> >> 
-> >> 
-> >> Noch such verb "to fallback", obvious fix "QEMU falls back to"
-> >> 
-> >> Suggest "RAM, which might".
-> >> 
-> >> Better: "since the backing file specified by the user is ignored".
-> >>   
-> >> >                                                                     In future
-> >> > +QEMU will not fallback and fail to start up, so user could fix his/her QEMU/host
-> >> > +configuration or explicitly use -m without -mem-path if system memory allocated
-> >> > +from anonymous RAM suits usecase.    
-> >> 
-> >> What's "system memory allocation"?  
-> > Using man page language, would be
-> >  'guest startup RAM size'
-> > acceptable?
-> >
-> >  
-> >> Perhaps: "In the future, QEMU will not fall back, but fail instead.
-> >> Adjust either the host configuration [FIXME how?] or the QEMU
-> >> configuration [FIXME how?]."  
-> >
-> > Maybe
-> > "
-> >  In the future, QEMU will not fall back, but fail instead.
-> >  Adjust either the QEMU configuration by removing @option{-mem-path} so
-> >  QEMU will use only anonymous or host configuration to make sure that  
-> 
-> Do you mean "only anonymous memory"?
-yep
 
-> >  there are sufficient resources on backing storage pointed by -mem-path
-> >  to allocate amount specified by @option{-m}.
-> > "  
-> 
-> Perhaps this could suffice: "Users will be responsible for making sure
-> the backing storage specified with -mem-path can actually provide the
-> guest RAM configured with -m."
-amended hunk will look like:
-"
-@subsection -mem-path fallback to RAM (since 4.1)                                
-Currently if guest RAM allocation from file pointed by @option{mem-path}         
-fails, QEMU falls back to allocating from RAM, which might result                
-in unpredictable behavior since the backing file specified by the user           
-is ignored. In the future, users will be responsible for making sure             
-the backing storage specified with @option{-mem-path} can actually provide       
-the guest RAM configured with @option{-m} and fail to start up if RAM allocation 
-is unsuccessful.   
-"
-> 
-> >> > +
-> >> >  @section QEMU Machine Protocol (QMP) commands
-> >> >  
-> >> >  @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)    
-> >>   
+On 6/25/19 12:11 PM, Dr. David Alan Gilbert wrote:
+> * Marcel Apfelbaum (marcel.apfelbaum@gmail.com) wrote:
+>> Hi Dmitry,
+>>
+>> On 6/25/19 11:39 AM, Dmitry Fleytman wrote:
+>>>> On 25 Jun 2019, at 11:14, Marcel Apfelbaum <marcel.apfelbaum@gmail.com> wrote:
+>>>>
+>>>> Hi Sukrit
+>>>>
+>>>> On 6/21/19 5:45 PM, Sukrit Bhatnagar wrote:
+>>>>> Hi,
+>>>> [...]
+>>>>> This RFC is meant to request suggestions on the things which are
+>>>>> working and for help on the things which are not.
+>>>>>
+>>>> [...]
+>>>>> What is not working:
+>>>>>
+>>>> [...]
+>>>>> * It seems that vmxnet3 migration itself is not working properly, at least
+>>>>>     for me. The pvrdma device depends on it, vmxnet3 is function 0 and pvrdma
+>>>>>     is function 1. This is happening even for a build of unmodified code from
+>>>>>     the master branch.
+>>>>>     After migration, the network connectivity is lost at destination.
+>>>>>     Things are fine at the source before migration.
+>>>>>     This is the command I am using at src:
+>>>>>
+>>>>>     sudo /home/skrtbhtngr/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
+>>>>>       -enable-kvm \
+>>>>>       -m 2G -smp cpus=2 \
+>>>>>       -hda /home/skrtbhtngr/fedora.img \
+>>>>>       -netdev tap,id=hostnet0 \
+>>>>>       -device vmxnet3,netdev=hostnet0,id=net0,mac=52:54:00:99:ff:bc \
+>>>>>       -monitor telnet:127.0.0.1:4444,server,nowait \
+>>>>>       -trace events=/home/skrtbhtngr/trace-events \
+>>>>>       -vnc 0.0.0.0:0
+>>>>>
+>>>>>     Similar command is used for the dest. Currently, I am trying
+>>>>>     same-host migration for testing purpose, without the pvrdma device.
+>>>>>     Two tap interfaces, for src and dest were created successfully at
+>>>>>     the host. Kernel logs:
+>>>>>     ...
+>>>>>     br0: port 2(tap0) entered forwarding state
+>>>>>     ...
+>>>>>     br0: port 3(tap1) entered forwarding state
+>>>>>
+>>>>>     tcpdump at the dest reports only outgoing ARP packets, which ask
+>>>>>     for gateway: "ARP, Request who-has _gateway tell guest1".
+>>>>>
+>>>>>     Tried using user (slirp) as the network backend, but no luck.
+>>>>>        Also tried git bisect to find the issue using a working commit (given
+>>>>>     by Marcel), but it turns out that it is very old and I faced build
+>>>>>     errors one after another.
+>>>>>
+>>>>>     Please note that e1000 live migration is working fine in the same setup.
+>>>>>
+>>>> I tried to git bisect , but I couldn't find a working version of vmxnet supporting live migration ....
+>>>> I tried even a commit from December 2014 and it didn't work.
+>>>>
+>>>> What is strange (to me) is that the networking packets can't be sent from the guest (after migration)
+>>>> even after rebooting the guest.
+>>> This makes me think that some network offload configuration wasn’t properly migrated or applied.
+>>> What network backend are you using?
+>> Suktrit tried with tap device, I tried with slirp.
+>> If you can point me to the property that disables all the offloads it will
+>> really help.
+>>
+>>> Do you see any outgoing packets in the sniffer?
+>> I didn't use the sniffer, I checked dmesg in guest, there was a line
+>> complaining that it can't send packets.
+> What exactly was the error?
+
+I'll try to reproduce the error
+
+Thanks,
+Marcel
+
+> I don't know much about vmxnet3;  but if the guest driver is seeing the
+> problem then I guess that's the best pointer we have.
+>
+>
+> Dave
+>
+>> Thanks,
+>> Marcel
+>>
+>>>> Any help or pointer would be greatly appreciated.
+>>>> Thanks,
+>>>> Marcel
+>>>>
+>>>>
+>>>> [...]
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
