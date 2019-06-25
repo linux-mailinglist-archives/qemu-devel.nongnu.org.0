@@ -2,77 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D0C5296B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:27:50 +0200 (CEST)
-Received: from localhost ([::1]:58476 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B4A52994
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:31:04 +0200 (CEST)
+Received: from localhost ([::1]:58564 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfig1-0000Fy-Uf
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37147)
+	id 1hfij9-0003Ye-Q3
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38368)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dmitry.fleytman@gmail.com>) id 1hfieD-0007Ga-OK
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:25:59 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hfiiP-00032D-RG
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:30:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dmitry.fleytman@gmail.com>) id 1hfieC-0008Bi-29
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:25:57 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34690)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <dmitry.fleytman@gmail.com>)
- id 1hfie8-00085Q-Kc
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:25:54 -0400
-Received: by mail-wr1-x443.google.com with SMTP id k11so17253906wrl.1
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 03:25:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
- :references; bh=x4NsOqcfCZxBAUoRul5qsRmFfLKZ15qKXHULqbNkFQE=;
- b=W6sy819BE6TTjHqeCEL912xE+lTQEWLsuozS+YB3P9bGMdwFIRBnwr9xVFNe8zCCYg
- /fTEgHIC+E33HzVASU2minkp6ifpEIIPLSvctMxE5leP1J/SvkR1/CIaSJwVcJt5nHWy
- pFbFUMPPHNBzLLq6P/sdgIJPTLE8hbcdqAxaui46qqSsQoDfnbimL6sDyfAa22ZY0oQV
- OQilWKrpm/wQROQjR7UfcgxhHGz5x0EDrNI5kHX1v10YF7G2tHRuCtNdjaGH3KFxj9Fc
- uf8jFwwBrBL1tLihwzPul34YPFuAsmSVXiUf/IC6taAud48px/xbmELl9Y96mJgeelmk
- 1Wqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:message-id:mime-version:subject:date
- :in-reply-to:cc:to:references;
- bh=x4NsOqcfCZxBAUoRul5qsRmFfLKZ15qKXHULqbNkFQE=;
- b=VUWbSvxyQ7PVjL0aOZb9vjPOtAENiLvqqrVBQSHz02yWeetZ/09AEG2MF4rg7b/Iwe
- t46pKQ7vL+0KptATygxyn23KErzAIsN+XK/jNr43tzrlYpxoubI5FlX2rmhF/JUADh0v
- DqBlJ4LFiOagifh8T3olvBXctbMGcrUnYm+VW7d3RTvs1Y5PVlPdimYsshxr/nlpOHxk
- kBM35tUgm8J7l8cdPsqsCfRvQ+GT06lzE4nBjg3WwAmhhpRkH3F+GPjZxFsIIlLkjRNR
- 6vQpLvsENqAmRgXb7ofkRDqBg3J34eHsVBMtgGwxDjEd3HCG5mbbrkEr2JYoDyBFcKFx
- BDUA==
-X-Gm-Message-State: APjAAAXABqdXhw7vm15Phc9fJd+oQkrKdGn112RHFzix+asYwXg2nXcv
- k+TotpRwDz3dmuvWF6vtDFc=
-X-Google-Smtp-Source: APXvYqwLP7xSF9L3jais2r0FSVLJtYJvL6dN9qCT/l2cwzZBU24MIBDMqFNKoWk+lvc9/Smw7z7BEg==
-X-Received: by 2002:a05:6000:9:: with SMTP id
- h9mr49494119wrx.212.1561458347484; 
- Tue, 25 Jun 2019 03:25:47 -0700 (PDT)
-Received: from [10.0.1.34] ([141.226.29.227])
- by smtp.gmail.com with ESMTPSA id q12sm14950434wrp.50.2019.06.25.03.25.45
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Jun 2019 03:25:46 -0700 (PDT)
-From: Dmitry Fleytman <dmitry.fleytman@gmail.com>
-Message-Id: <0AEAB72A-6168-434C-B19A-F4F05B41108D@gmail.com>
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-Date: Tue, 25 Jun 2019 13:25:44 +0300
-In-Reply-To: <91874483-215c-1ccc-6f33-5ceeb8f6ec47@gmail.com>
-To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20190621144541.13770-1-skrtbhtngr@gmail.com>
- <a80f7beb-48c1-553a-f137-731e5500b608@gmail.com>
- <1AD565D7-F99E-4879-BFEF-0E2C7474A09A@gmail.com>
- <91874483-215c-1ccc-6f33-5ceeb8f6ec47@gmail.com>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [RFC 0/1] Add live migration support to the PVRDMA
- device
+ (envelope-from <dgilbert@redhat.com>) id 1hfiiO-0003oq-3E
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:30:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56270)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hfiiL-0003kE-VM
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:30:15 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 899CE7FD6C;
+ Tue, 25 Jun 2019 10:30:02 +0000 (UTC)
+Received: from work-vm (ovpn-117-108.ams2.redhat.com [10.36.117.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AD07019936;
+ Tue, 25 Jun 2019 10:29:47 +0000 (UTC)
+Date: Tue, 25 Jun 2019 11:29:45 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190625102945.GI3226@work-vm>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-6-git-send-email-kwankhede@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561041461-22326-6-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Tue, 25 Jun 2019 10:30:09 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 05/13] vfio: Add VM state change handler
+ to know state of VM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,114 +58,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sukrit Bhatnagar <skrtbhtngr@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Yuval Shaia <yuval.shaia@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ yulei.zhang@intel.com, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, alex.williamson@redhat.com,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ yan.y.zhao@intel.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> VM state change handler gets called on change in VM's state. This is used to set
+> VFIO device state to _RUNNING.
+> VM state change handler, migration state change handler and log_sync listener
+> are called asynchronously, which sometimes lead to data corruption in migration
+> region. Initialised mutex that is used to serialize operations on migration data
+> region during saving state.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
 
 
-> On 25 Jun 2019, at 11:49, Marcel Apfelbaum =
-<marcel.apfelbaum@gmail.com> wrote:
->=20
-> Hi Dmitry,
->=20
-> On 6/25/19 11:39 AM, Dmitry Fleytman wrote:
->>=20
->>> On 25 Jun 2019, at 11:14, Marcel Apfelbaum =
-<marcel.apfelbaum@gmail.com> wrote:
->>>=20
->>> Hi Sukrit
->>>=20
->>> On 6/21/19 5:45 PM, Sukrit Bhatnagar wrote:
->>>> Hi,
->>> [...]
->>>> This RFC is meant to request suggestions on the things which are
->>>> working and for help on the things which are not.
->>>>=20
->>> [...]
->>>> What is not working:
->>>>=20
->>> [...]
->>>> * It seems that vmxnet3 migration itself is not working properly, =
-at least
->>>>   for me. The pvrdma device depends on it, vmxnet3 is function 0 =
-and pvrdma
->>>>   is function 1. This is happening even for a build of unmodified =
-code from
->>>>   the master branch.
->>>>   After migration, the network connectivity is lost at destination.
->>>>   Things are fine at the source before migration.
->>>>   This is the command I am using at src:
->>>>=20
->>>>   sudo =
-/home/skrtbhtngr/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
->>>>     -enable-kvm \
->>>>     -m 2G -smp cpus=3D2 \
->>>>     -hda /home/skrtbhtngr/fedora.img \
->>>>     -netdev tap,id=3Dhostnet0 \
->>>>     -device vmxnet3,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:99:ff:=
-bc \
->>>>     -monitor telnet:127.0.0.1:4444,server,nowait \
->>>>     -trace events=3D/home/skrtbhtngr/trace-events \
->>>>     -vnc 0.0.0.0:0
->>>>=20
->>>>   Similar command is used for the dest. Currently, I am trying
->>>>   same-host migration for testing purpose, without the pvrdma =
-device.
->>>>   Two tap interfaces, for src and dest were created successfully at
->>>>   the host. Kernel logs:
->>>>   ...
->>>>   br0: port 2(tap0) entered forwarding state
->>>>   ...
->>>>   br0: port 3(tap1) entered forwarding state
->>>>=20
->>>>   tcpdump at the dest reports only outgoing ARP packets, which ask
->>>>   for gateway: "ARP, Request who-has _gateway tell guest1".
->>>>=20
->>>>   Tried using user (slirp) as the network backend, but no luck.
->>>>      Also tried git bisect to find the issue using a working commit =
-(given
->>>>   by Marcel), but it turns out that it is very old and I faced =
-build
->>>>   errors one after another.
->>>>=20
->>>>   Please note that e1000 live migration is working fine in the same =
-setup.
->>>>=20
->>> I tried to git bisect , but I couldn't find a working version of =
-vmxnet supporting live migration ....
->>> I tried even a commit from December 2014 and it didn't work.
->>>=20
->>> What is strange (to me) is that the networking packets can't be sent =
-from the guest (after migration)
->>> even after rebooting the guest.
->> This makes me think that some network offload configuration wasn=E2=80=99=
-t properly migrated or applied.
->> What network backend are you using?
->=20
-> Suktrit tried with tap device, I tried with slirp.
-> If you can point me to the property that disables all the offloads it =
-will really help.
->=20
->> Do you see any outgoing packets in the sniffer?
->=20
-> I didn't use the sniffer, I checked dmesg in guest, there was a line =
-complaining that it can't send packets.
+> ---
+>  hw/vfio/migration.c           | 45 +++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/vfio/vfio-common.h |  4 ++++
+>  2 files changed, 49 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index ba58d9253d26..15af218c23d1 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -77,6 +77,41 @@ err:
+>      return ret;
+>  }
+>  
+> +static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t state)
+> +{
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    VFIORegion *region = &migration->region.buffer;
+> +    int ret = 0;
+> +
+> +    ret = pwrite(vbasedev->fd, &state, sizeof(state),
+> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              device_state));
+> +    if (ret < 0) {
+> +        error_report("Failed to set migration state %d %s",
+> +                     ret, strerror(errno));
 
-I see. If it cannot send packet on the guest side, then it=E2=80=99s not =
-an offload.
-A snippet from dmesg will be helpful indeed.
+Please include the device name/id in errors; it just makes it easier to
+figure out the cause when someone sends me a log.
 
->=20
-> Thanks,
-> Marcel
->=20
->>> Any help or pointer would be greatly appreciated.
->>> Thanks,
->>> Marcel
->>>=20
->>>=20
->>> [...]
+Other than that;
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> +        return ret;
+> +    }
+> +
+> +    vbasedev->device_state = state;
+> +    return 0;
+> +}
+> +
+> +static void vfio_vmstate_change(void *opaque, int running, RunState state)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +
+> +    if ((vbasedev->vm_running != running) && running) {
+> +        int ret;
+> +
+> +        ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RUNNING);
+> +        if (ret) {
+> +            error_report("Failed to set state RUNNING");
+> +        }
+> +    }
+> +
+> +    vbasedev->vm_running = running;
+> +}
+> +
+>  static int vfio_migration_init(VFIODevice *vbasedev,
+>                                 struct vfio_region_info *info)
+>  {
+> @@ -91,6 +126,11 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>          return ret;
+>      }
+>  
+> +    qemu_mutex_init(&vbasedev->migration->lock);
+> +
+> +    vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+> +                                                          vbasedev);
+> +
+>      return 0;
+>  }
+>  
+> @@ -127,11 +167,16 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
+>          return;
+>      }
+>  
+> +    if (vbasedev->vm_state) {
+> +        qemu_del_vm_change_state_handler(vbasedev->vm_state);
+> +    }
+> +
+>      if (vbasedev->migration_blocker) {
+>          migrate_del_blocker(vbasedev->migration_blocker);
+>          error_free(vbasedev->migration_blocker);
+>      }
+>  
+> +    qemu_mutex_destroy(&vbasedev->migration->lock);
+>      vfio_migration_region_exit(vbasedev);
+>      g_free(vbasedev->migration);
+>  }
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 1374a03470d8..f2392e97fa57 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -29,6 +29,7 @@
+>  #ifdef CONFIG_LINUX
+>  #include <linux/vfio.h>
+>  #endif
+> +#include "sysemu/sysemu.h"
+>  
+>  #define VFIO_MSG_PREFIX "vfio %s: "
+>  
+> @@ -129,6 +130,9 @@ typedef struct VFIODevice {
+>      unsigned int flags;
+>      VFIOMigration *migration;
+>      Error *migration_blocker;
+> +    uint32_t device_state;
+> +    VMChangeStateEntry *vm_state;
+> +    int vm_running;
+>  } VFIODevice;
+>  
+>  struct VFIODeviceOps {
+> -- 
+> 2.7.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
