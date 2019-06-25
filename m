@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E96155380
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:35:42 +0200 (CEST)
-Received: from localhost ([::1]:33150 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B37755390
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:38:26 +0200 (CEST)
+Received: from localhost ([::1]:33198 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnTx-00084f-Ex
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:35:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58559)
+	id 1hfnWb-0002iv-5V
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:38:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33754)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hfnGQ-0006uO-TE
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:21:44 -0400
+ (envelope-from <bounces@canonical.com>) id 1hfnTn-0000ix-1z
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:35:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hfnGP-0003I8-OL
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:21:42 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:42522)
+ (envelope-from <bounces@canonical.com>) id 1hfnTl-0005ld-Me
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:35:30 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44672)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hfnGA-0002xt-5D; Tue, 25 Jun 2019 11:21:28 -0400
-Received: by mail-lj1-x243.google.com with SMTP id t28so16667463lje.9;
- Tue, 25 Jun 2019 08:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8k32kILfnaI5q812rKLEj40kaQZaiC/LxwuWyTXi9RA=;
- b=LzPADc7Z9xCfUkU2D7n5+DVcZVms89cCExZBkpS3KcfgenQYOa6qTV2aCXfFaTrT7x
- ts3W+YBR9v6BVViFXG8nFnc7dCzD1cV5rdYr8jObb0/LAkEgpI4ijKeNGpKY1W7Kfyv4
- xRYNb2jX+qrWQUkJsyt93K5/bSk+SxtPD5onkK1Ua/dVEgOTQHsYC1YlHuMxzZ56s7AI
- LHAZxTbZF5T2CXmW0v5s6ETcArESVwXYAq0R8fqGwBl7YISlyUJ7CryDU6pXOpd/pGjT
- FF5If98U365UfkDeEzAkAOMYzTmm+9p4MufCHAU3VVqB3yYP7dY559RFc5Zim10bIJuS
- lYUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8k32kILfnaI5q812rKLEj40kaQZaiC/LxwuWyTXi9RA=;
- b=AvekQDQN1Qt9OlXWzWspx8qEh3hbB3RL1PLynD9NCk0ANsn/7K0tGYMIj8I68wwgHO
- BSHOhMC+z9r/yFm2SHqBwehw/oh5lXiV/fdE0EuNhBfDHqBwPjf/biUlfAZ9JQUemfo+
- nf8aRSMZnuKzkcNmMEqHV22f305U4Q5BE2JGTf+z32BSkmkX5QAnf+XxLgsTNBJJkccu
- CMl54CzIeRYGLlYYrIwRYZU1n/jlztUHO65PRHrkhMg5ItH9dHuT9vVREvbn1eXI57IC
- 88kmhdjUoTo6yB/WSmYe0mTqVnPSsd563uQ9fks28PSOLr7iUbJCOQnNS1TBmJTYYtvT
- oQkA==
-X-Gm-Message-State: APjAAAU3tCt5d14+QnIJqfrrf/8HQVGjmuo0T1az44ca8H0GCfD1/l+E
- UhYDnxjXENlrI13K37Fjd6GOZvs3QoIBw9u0K4s=
-X-Google-Smtp-Source: APXvYqyt5vs93B1JGMEqOzbZv0GdGKu8NeMpS3WTZpBTmP5TS/HxWaSCmqPWUfdtEvHf981dm9gMwZHY2AeucRRG8M4=
-X-Received: by 2002:a2e:9758:: with SMTP id f24mr33283818ljj.58.1561476083998; 
- Tue, 25 Jun 2019 08:21:23 -0700 (PDT)
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hfnTl-0005kn-F8
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:35:29 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hfnTj-0003gT-W5
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 15:35:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EBC062E8078
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 15:35:27 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190625100757.12580-1-palmer@sifive.com>
-In-Reply-To: <20190625100757.12580-1-palmer@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 25 Jun 2019 08:20:55 -0700
-Message-ID: <CAKmqyKOGKuMJXSPJJEWn7s6OkUZ4ZRL7KFOqtaBWTErrbi6+aQ@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH] RISC-V: Add support for the Zicsr extension
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 25 Jun 2019 15:27:50 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: laurent-vivier philmd rth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <156110323981.19354.11667763271761846721.malonedeb@wampee.canonical.com>
+ <156147381286.18147.1572558561573422063.malone@gac.canonical.com>
+Message-Id: <d5c913aa-0edf-ff4b-f21e-8c1a375e10fd@vivier.eu>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18991";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 1140a9ecac8d9d59f05bad407b4c6b90b42fe7d3
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: Re: [Qemu-devel] [Bug 1833668] Re: linux-user: Unable to run ARM
+ binaries on Aarch64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,84 +68,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1833668 <1833668@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 25, 2019 at 3:09 AM Palmer Dabbelt <palmer@sifive.com> wrote:
->
-> The various CSR instructions have been split out of the base ISA as part
-> of the ratification process.  This patch adds a Zicsr argument, which
-> disables all the CSR instructions.
->
-> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-> ---
->  target/riscv/cpu.c | 1 +
->  target/riscv/cpu.h | 1 +
->  target/riscv/csr.c | 5 +++++
->  3 files changed, 7 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index bbad39a337b3..915b9e77df33 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -442,6 +442,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
->      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> +    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
->      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index ba551cd3082c..0adb307f3298 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -224,6 +224,7 @@ typedef struct RISCVCPU {
->          bool ext_u;
->          bool ext_counters;
->          bool ext_ifencei;
-> +        bool ext_icsr;
->
->          char *priv_spec;
->          char *user_spec;
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index de67741f3648..ff988917b995 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -793,6 +793,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
->  {
->      int ret;
->      target_ulong old_value;
-> +    RISCVCPU *cpu = env_archcpu(env);
->
->      /* check privileges and return -1 if check fails */
->  #if !defined(CONFIG_USER_ONLY)
-> @@ -803,6 +804,10 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
->      }
->  #endif
->
-> +    /* ensure the CSR extension is enabled. */
-> +    if (!cpu->cfg.ext_icsr)
-> +        return -1;
+Le 25/06/2019 =C3=A0 16:43, Richard Henderson a =C3=A9crit=C2=A0:
+> Of course.  There's a separate qemu-arm executable for that.
 
-QEMU style include curly braces around a single line if. Plus I think
-it makes it less error prone. Can you add braces?
+On some other architectures (like ppc/ppc64) the idea is the 64bit
+version supports also all 32bit versions CPUs.
 
-After that:
+I think it's why this bug has been opened.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+-- =
 
-Alistair
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1833668
 
-> +
->      /* check predicate */
->      if (!csr_ops[csrno].predicate || csr_ops[csrno].predicate(env, csrno) < 0) {
->          return -1;
-> --
-> 2.21.0
->
->
+Title:
+  linux-user: Unable to run ARM binaries on Aarch64
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Download a ARM package from https://packages.debian.org/sid/busybox-
+  static
+
+  Here tested with: busybox-static_1.30.1-4_armel.deb
+
+  $ file busybox.armel
+  busybox.armel: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), st=
+atically linked, for GNU/Linux 3.2.0, BuildID[sha1]=3D12cf572e016bafa240e11=
+3b57b3641e94b837f37, stripped
+
+  $ qemu-aarch64 --version
+  qemu-aarch64 version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.14)
+
+  $ qemu-aarch64 busybox.armel
+  busybox.armel: Invalid ELF image for this architecture
+
+  $ qemu-aarch64 -cpu cortex-a7 busybox.armel
+  unable to find CPU model 'cortex-a7'
+
+  Also reproduced with commit 33d609990621dea6c7d056c86f707b8811320ac1,
+  while the aarch64_cpus[] array contains Aarch64 CPUs, the arm_cpus[] arra=
+y is empty:
+
+  $ gdb -q aarch64-linux-user/qemu-aarch64
+  (gdb) p aarch64_cpus
+  $1 =3D {{name =3D 0x1fe4e8 "cortex-a57", initfn =3D 0x109bc0 <aarch64_a57=
+_initfn>, class_init =3D 0x0}, {name =3D 0x1fe508 "cortex-a53", initfn =3D =
+0x109a10 <aarch64_a53_initfn>, class_init =3D 0x0}, {name =3D 0x1fe518 "cor=
+tex-a72", =
+
+      initfn =3D 0x109868 <aarch64_a72_initfn>, class_init =3D 0x0}, {name =
+=3D 0x218020 "max", initfn =3D 0x109d70 <aarch64_max_initfn>, class_init =
+=3D 0x0}, {name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
+  (gdb) p arm_cpus
+  $2 =3D {{name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1833668/+subscriptions
 
