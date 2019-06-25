@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20F9550B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:48:36 +0200 (CEST)
-Received: from localhost ([::1]:60402 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86292550AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:43:22 +0200 (CEST)
+Received: from localhost ([::1]:60348 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfloJ-0005A0-RZ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53869)
+	id 1hfljE-0001UG-6B
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:43:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <renyime@gmail.com>) id 1hflLD-0001b4-ET
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:32 -0400
+ (envelope-from <balaton@eik.bme.hu>) id 1hflNf-0002fm-Mm
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:21:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <renyime@gmail.com>) id 1hflLC-0007N5-C0
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:31 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45155)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <renyime@gmail.com>) id 1hflLC-0007MW-50
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:30 -0400
-Received: by mail-pl1-x643.google.com with SMTP id bi6so8836240plb.12
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 06:18:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=+79mAr/7Gf0QAGwn8jdzz/emVw6D7Ys9kqIb4RtqpPA=;
- b=JqOZALO1Juwb7JyBzK6EP5Yx+/dDKgjl2LyjylpMKaPcIh9dQJkYP1PaQO5leyOSYy
- 6sxQlheubiS/mricv0RNgtCLv4zJPR6crbHDC7PieSD7U8tl5K3om0cOgt0vk186tB5b
- TaTurwOAPlIRnB8fXwlZ62e2iSvdjJjd4IjchAeup1Iwlh/ndmIjbvtI3ldtIkAUHERM
- gyJgYvAlIbS3X+eUG0qJU7VjKOfhIZTrBWy1qYBEFRyRldQxp4Kr6ix/YSzGEh3IlpB0
- 5z9t4iZJ7p6qo2BZx/GZ/oG0z5ntIGexjMlCKtvDpjZYzVEovP3DFevvOf7IsPTHeBlA
- qRvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=+79mAr/7Gf0QAGwn8jdzz/emVw6D7Ys9kqIb4RtqpPA=;
- b=piGL8kVijHLXnq/JFglucoN6QR1zw5LlbnpS2AhgWc4rIBWnzLTbbt+RHdpI6p5iTR
- 0yVlfuvnD6QyBD0+NvHeEoaMsvokIk3wDRFBFmzkle5FbXijKspTUQfEHUjCDoOAKc19
- y9sRxEYXh0EQ7FVQOCl/0IwTIt1//3qUdmJ/1DaWiibZ71WE3AYfRLO1QpmRO2cigvjJ
- lFirzsZ1qYmg79h5pH6N1zegnDFVagjdMrjfCV8UuBRNCRfehyNwJALzvy7zfjWPv12L
- zhkm1iQ76y57/xvQdVBvrC/yS7RTWLkkxU/YWOaQJXjQt+HteoiSYgmnhsXp3IhvH9uW
- S1Ng==
-X-Gm-Message-State: APjAAAVRR1Bjhz9HGmswYppjcMhhhFI+9YP0ni6osAVCkhKzekvwFjFv
- R7EPwQQ5+15K9a+Rc8vEFaTU466FLMJ6ezhY
-X-Google-Smtp-Source: APXvYqwj+LQR12XsU1rHs7fyRwOhj5+NX6C3Ud951nbg9AzcNh1JvUxPrSSMVsFBScZbPJi3h5PUgQ==
-X-Received: by 2002:a17:902:e6:: with SMTP id
- a93mr112356342pla.175.1561468709319; 
- Tue, 25 Jun 2019 06:18:29 -0700 (PDT)
-Received: from VM_64_241_centos.localdomain ([129.226.57.92])
- by smtp.gmail.com with ESMTPSA id f186sm15675814pfb.5.2019.06.25.06.18.28
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Jun 2019 06:18:28 -0700 (PDT)
-From: Ivan Ren <renyime@gmail.com>
-X-Google-Original-From: Ivan Ren <ivanren@tencent.com>
-To: quintela@redhat.com,
-	dgilbert@redhat.com
-Date: Tue, 25 Jun 2019 21:18:19 +0800
-Message-Id: <1561468699-9819-4-git-send-email-ivanren@tencent.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1561468699-9819-1-git-send-email-ivanren@tencent.com>
-References: <1561468699-9819-1-git-send-email-ivanren@tencent.com>
+ (envelope-from <balaton@eik.bme.hu>) id 1hflNe-0000U5-Fr
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:21:03 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:53108)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hflNe-0000Ju-0S
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:21:02 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6807C7462BD;
+ Tue, 25 Jun 2019 15:20:26 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 52D577462B8; Tue, 25 Jun 2019 15:20:25 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 51C7A7462AF;
+ Tue, 25 Jun 2019 15:20:25 +0200 (CEST)
+Date: Tue, 25 Jun 2019 15:20:25 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Corey Minyard <cminyard@mvista.com>
+In-Reply-To: <20190625125623.GF5565@minyard.net>
+Message-ID: <alpine.BSF.2.21.9999.1906251500460.4039@zero.eik.bme.hu>
+References: <cover.1561028123.git.balaton@eik.bme.hu>
+ <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
+ <20190625125623.GF5565@minyard.net>
+User-Agent: Alpine 2.21.9999 (BSF 287 2018-06-16)
+MIME-Version: 1.0
+Content-Type: text/plain; format=flowed; charset=US-ASCII
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH 3/3] migration: fix migrate_cancel multifd
- migration leads destination hung forever
+X-Received-From: 2001:738:2001:2001::2001
+Subject: Re: [Qemu-devel] [PATCH v5 2/2] ati-vga: Implement DDC and EDID
+ info from monitor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,52 +55,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When migrate_cancel a multifd migration, if run sequence like this:
+On Tue, 25 Jun 2019, Corey Minyard wrote:
+> On Thu, Jun 20, 2019 at 12:55:23PM +0200, BALATON Zoltan wrote:
+>> This adds DDC support to ati-vga and connects i2c-ddc to it. This
+>> allows at least MacOS with an ATI ndrv, Linux radeonfb and MorphOS to
+>> get monitor EDID info (although MorphOS splash screen is not displayed
+>> and radeonfb needs additional tables from vgabios-rv100). Xorg needs
+>> additional support from VESA vgabios, it's missing INT10 0x4F15
+>> function (see
+>> https://gitlab.freedesktop.org/xorg/xserver/blob/master/hw/xfree86/vbe/vbe.c)
+>> without which no DDC is available that also prevents loading the
+>> accelerated X driver.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>
+> This patch also looks good, and thanks to Gerd for reviewing.
+>
+> I didn't see the followup documentation patch that Gerd suggested, did
+> I miss that?
+>
+> Also, how would you like to handle these?
 
-        [source]                              [destination]
+Gerd has already queued them (including the requested follow up to update 
+comment which I think only cc'd to Gerd that's why you may have missed it, 
+but another fix up I've sent adding reg names to ati_dbg.h may still be 
+missing from Gerd's tree). I think Gerd can send these via his tree with 
+your Acked-by on the i2c patch which should be OK if nobody disagrees.
 
-multifd_send_sync_main[finish]
-                                    multifd_recv_thread wait &p->sem_sync
-shutdown to_dst_file
-                                    detect error from_src_file
-send  RAM_SAVE_FLAG_EOS[fail]       [no chance to run multifd_recv_sync_main]
-                                    multifd_load_cleanup
-                                    join multifd receive thread forever
+There's still the issue with cleaning up bitbang_i2c that results in an 
+ASan warning which we have discussed before:
+https://lists.nongnu.org/archive/html/qemu-devel/2019-03/msg05966.html
+but we could not find an easy fix so since it's preexisting problem it can 
+be fixed later. Although, I don't have plans to fix that, only mentioning 
+it here as a reminder.
 
-will lead destination qemu hung at following stack:
-
-pthread_join
-qemu_thread_join
-multifd_load_cleanup
-process_incoming_migration_co
-coroutine_trampoline
-
-Signed-off-by: Ivan Ren <ivanren@tencent.com>
----
- migration/ram.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/migration/ram.c b/migration/ram.c
-index e4eb9c441f..504c8ccb03 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1291,6 +1291,11 @@ int multifd_load_cleanup(Error **errp)
-         MultiFDRecvParams *p = &multifd_recv_state->params[i];
- 
-         if (p->running) {
-+            /*
-+             * multifd_recv_thread may hung at MULTIFD_FLAG_SYNC handle code,
-+             * however try to wakeup it without harm in cleanup phase.
-+             */
-+            qemu_sem_post(&p->sem_sync);
-             qemu_thread_join(&p->thread);
-         }
-         object_unref(OBJECT(p->c));
--- 
-2.17.2 (Apple Git-113)
-
+Thank you,
+BALATON Zoltan
 
