@@ -2,76 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39EB952897
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 11:52:53 +0200 (CEST)
-Received: from localhost ([::1]:58180 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6A0528C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 11:57:54 +0200 (CEST)
+Received: from localhost ([::1]:58208 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfi8B-0000VF-VB
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 05:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55823)
+	id 1hfiD3-0002lD-IA
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 05:57:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57409)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hfi73-0008FH-Pm
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 05:51:42 -0400
+ (envelope-from <gengdongjiu@huawei.com>) id 1hfiBb-0001mT-18
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 05:56:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hfi72-0007sw-9x
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 05:51:41 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37810)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hfi72-0007pM-0K
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 05:51:40 -0400
-Received: by mail-wr1-x441.google.com with SMTP id v14so17110489wrr.4
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 02:51:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=1lAHR5oTFCXo0fFe3w4Ev+BS0Wj3LkqFFKPjN9hbCz8=;
- b=tsTiaWqLampQDtz360gJofpuzkwiB+8heZ3n87zUa2Ha8WR9nHSjl84NV073RzWxHl
- H/j6CucXnCZRiVi/rPcgIipk+H1OptQySbWYHN5bWC7e6prVITJT21M3gjt+CU3rHyf/
- 5ac+o/J31n73IkgqoBbgOrrQZyZuzWWV0lluWZPtqMjxdWTHDo5O5o+nuH53a4xZPRmY
- 26Wzq9bJUWzOFdKqEc6g3ni/6gJrY1sTTB0OLChi9UuLJeLHl8RH/0TlEqVMjaJtrIKa
- KPFaNsprtOtPULiHwzZMNDBddyA9ul/4jLhIver2NfcHBiJEvbKl6Jop1Ck/R8JNVa1m
- 4w6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=1lAHR5oTFCXo0fFe3w4Ev+BS0Wj3LkqFFKPjN9hbCz8=;
- b=dqAX+P2G/fmfgEH+xaBGS/ukPhPpAD5kF33xcAHMP3jOlloLd+bCQSUin78DYluUfG
- lB52oGMll9hUo0CBEKiz074tiMcapymLQMWBwfyZqvXaUJ5LF9L8jPWJBtPNwgsWl+5E
- A6YEaeVyJPVAfnJrU8mYYhvv+GMcLg+XaQnKw/0PtJP3G3rCUITGArYuqGm7KW5QM4vr
- Ab5msyMAkoQUUn2SGaWn3T1Aj2s4XgZNUyTPwEn2888DblJYmlq8U7BOURY53XiHlgGS
- VzDFKGPyYbrpHsu+QlA40MQPkxGWIbtjO2PVVfR0bUt1JfAv/Tf/xjBMYUrRGqH6E92N
- cdWw==
-X-Gm-Message-State: APjAAAUyYPlIsn76z+mpnpsFoGfJsnUmovQtayYFxQcgje/rUcF+S4Xe
- YG49AgbJwJA6S+3Wsz1iYr06TA==
-X-Google-Smtp-Source: APXvYqwGXA98clcSJw3u4FmR6qjIjlWwzAWeuvVxOsidiIg+zU8ZjpgCqQ+pPxyAQJ2OhebToeW6qw==
-X-Received: by 2002:adf:ec0c:: with SMTP id x12mr21089176wrn.342.1561456297387; 
- Tue, 25 Jun 2019 02:51:37 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id o4sm1826720wmh.35.2019.06.25.02.51.36
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 25 Jun 2019 02:51:36 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 63EAD1FF87;
- Tue, 25 Jun 2019 10:51:36 +0100 (BST)
-References: <20190624055442.2973-1-vandersonmr2@gmail.com>
- <20190624055442.2973-3-vandersonmr2@gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190624055442.2973-3-vandersonmr2@gmail.com>
-Date: Tue, 25 Jun 2019 10:51:36 +0100
-Message-ID: <87k1da0z87.fsf@zen.linaroharston>
+ (envelope-from <gengdongjiu@huawei.com>) id 1hfiBa-0005Af-22
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 05:56:22 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2177 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1hfiBX-00055t-L7; Tue, 25 Jun 2019 05:56:20 -0400
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by Forcepoint Email with ESMTP id B42DE6DEBFE07697B51F;
+ Tue, 25 Jun 2019 17:56:14 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS401-HUB.china.huawei.com
+ (10.3.19.201) with Microsoft SMTP Server id 14.3.439.0; Tue, 25 Jun 2019
+ 17:56:04 +0800
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
+ <1557832703-42620-3-git-send-email-gengdongjiu@huawei.com>
+ <20190620141052.370788fb@redhat.com>
+ <f4f94ecb-200c-3e18-1a09-5fb6bc761834@huawei.com>
+ <20190620170934.39eae310@redhat.com>
+ <ec089c94-589b-782c-1bdc-1b2c74e0ea46@huawei.com>
+ <20190624131629.7f586861@redhat.com>
+From: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <623d8454-6d9a-43ff-dd34-f5e0d1896f01@huawei.com>
+Date: Tue, 25 Jun 2019 17:56:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v2 2/4] Adding an optional tb execution
- counter.
+In-Reply-To: <20190624131629.7f586861@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 45.249.212.190
+Subject: Re: [Qemu-devel] [PATCH v17 02/10] ACPI: add some GHES structures
+ and macros definition
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,112 +61,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, vandersonmr <vandersonmr2@gmail.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ linuxarm@huawei.com, shannon.zhaosl@gmail.com, zhengxiang9@huawei.com,
+ qemu-arm@nongnu.org, james.morse@arm.com, xuwei5@huawei.com,
+ jonathan.cameron@huawei.com, pbonzini@redhat.com, lersek@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-vandersonmr <vandersonmr2@gmail.com> writes:
 
-> We collect the number of times each TB is executed
-> and store it in the its TBStatistics.
-> We also count the number of times the execution counter overflows.
->
-> Signed-off-by: Vanderson M. do Rosario <vandersonmr2@gmail.com>
-> ---
->  accel/tcg/tcg-runtime.c   | 10 ++++++++++
->  accel/tcg/tcg-runtime.h   |  2 ++
->  accel/tcg/translator.c    |  1 +
->  include/exec/gen-icount.h |  9 +++++++++
->  4 files changed, 22 insertions(+)
->
-> diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
-> index 8a1e408e31..9888a7fce8 100644
-> --- a/accel/tcg/tcg-runtime.c
-> +++ b/accel/tcg/tcg-runtime.c
-> @@ -167,3 +167,13 @@ void HELPER(exit_atomic)(CPUArchState *env)
->  {
->      cpu_loop_exit_atomic(env_cpu(env), GETPC());
->  }
-> +
-> +void HELPER(inc_exec_freq)(void *ptr)
-> +{
-> +    TranslationBlock *tb =3D (TranslationBlock*) ptr;
+On 2019/6/24 19:16, Igor Mammedov wrote:
+>>>> On 2019/6/20 20:10, Igor Mammedov wrote:  
+>>>>>> + */
+>>>>>> +struct AcpiGenericErrorStatus {
+>>>>>> +    /* It is a bitmask composed of ACPI_GEBS_xxx macros */
+>>>>>> +    uint32_t block_status;
+>>>>>> +    uint32_t raw_data_offset;
+>>>>>> +    uint32_t raw_data_length;
+>>>>>> +    uint32_t data_length;
+>>>>>> +    uint32_t error_severity;
+>>>>>> +} QEMU_PACKED;
+>>>>>> +typedef struct AcpiGenericErrorStatus AcpiGenericErrorStatus;    
+>>>>> there shouldn't be packed structures,
+>>>>> is it a leftover from previous version?    
+>>>> I remember some people suggest to add QEMU_PACKED before, anyway I will remove it in my next version patch.  
+>>> Question is why it's  there and where it is used?  
+>> sorry, it is my carelessness. it should be packed structures.
+>>
+>> I used this structures to get its actual total size and member offset in [PATCH v17 10/10].
+>> If it is not packed structures, the total size and member offset may be not right.
+> I'd suggest to drop these typedefs and use a macro with size for that purpose,
+> Also it might be good to make it local to the file that would use it.
+so you mean we also use macro for the  member offset  in the structures?  such as the offset of data_length,
+may be there is many hardcode.
 
-To make things clearer:
+> 
+>>> BTW:
+>>> series doesn't apply to master anymore.
 
-  TBStatistics *stats =3D tb->tb_stats;
-
-> +    // if overflows, then reset the execution counter and increment the =
-overflow counter
-> +    if (atomic_cmpxchg(&tb->tb_stats->exec_count, 0xFFFFFFFF, 0) =3D=3D =
-0xFFFFFFFF) {
-> +        atomic_inc(&tb->tb_stats->exec_count_overflows);
-> +    }
-
-This is all very nice but how often do you actually see overflows?
-You'll see them even less on 32 bit hosts as they have much less memory
-for translations so will flush them out more often. I'd suggest making
-the counter "unsigned long" and just living with the fact the 32 bit
-might get the execution stats wrong if a block executes more than 4
-billion times.
-
-> +    atomic_inc(&tb->tb_stats->exec_count);
-> +}
-> diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
-> index 4fa61b49b4..bf0b75dbe8 100644
-> --- a/accel/tcg/tcg-runtime.h
-> +++ b/accel/tcg/tcg-runtime.h
-> @@ -28,6 +28,8 @@ DEF_HELPER_FLAGS_1(lookup_tb_ptr, TCG_CALL_NO_WG_SE, pt=
-r, env)
->
->  DEF_HELPER_FLAGS_1(exit_atomic, TCG_CALL_NO_WG, noreturn, env)
->
-> +DEF_HELPER_FLAGS_1(inc_exec_freq, TCG_CALL_NO_RWG, void, ptr)
-> +
->  #ifdef CONFIG_SOFTMMU
->
->  DEF_HELPER_FLAGS_5(atomic_cmpxchgb, TCG_CALL_NO_WG,
-> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-> index 9226a348a3..cc06070e7e 100644
-> --- a/accel/tcg/translator.c
-> +++ b/accel/tcg/translator.c
-> @@ -54,6 +54,7 @@ void translator_loop(const TranslatorOps *ops, DisasCon=
-textBase *db,
->      gen_tb_start(db->tb);
->      ops->tb_start(db, cpu);
->      tcg_debug_assert(db->is_jmp =3D=3D DISAS_NEXT);  /* no early exit */
-> +    gen_tb_exec_count(tb);
->
->      while (true) {
->          db->num_insns++;
-> diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
-> index f7669b6841..6d38b6e1fb 100644
-> --- a/include/exec/gen-icount.h
-> +++ b/include/exec/gen-icount.h
-> @@ -7,6 +7,15 @@
->
->  static TCGOp *icount_start_insn;
->
-> +static inline void gen_tb_exec_count(TranslationBlock *tb)
-> +{
-> +  if (qemu_loglevel_mask(CPU_LOG_HOT_TBS)) {
-> +    TCGv_ptr tb_ptr =3D tcg_const_ptr(tb);
-
-Why not pass the address of the counter itself to save the cost of the
-indirection calculation at runtime?
-
-> +    gen_helper_inc_exec_freq(tb_ptr);
-> +    tcg_temp_free_ptr(tb_ptr);
-> +  }
-> +}
-> +
->  static inline void gen_tb_start(TranslationBlock *tb)
->  {
->      TCGv_i32 count, imm;
-
-
---
-Alex Benn=C3=A9e
 
