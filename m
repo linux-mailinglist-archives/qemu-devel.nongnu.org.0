@@ -2,47 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547F852641
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 10:16:01 +0200 (CEST)
-Received: from localhost ([::1]:57402 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FBF52643
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 10:16:26 +0200 (CEST)
+Received: from localhost ([::1]:57412 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfgcS-0002Sb-0T
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 04:16:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48409)
+	id 1hfgcr-0003Vd-8z
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 04:16:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48512)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hfgaG-0001Uv-Is
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:13:45 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hfgag-0001we-Nj
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:14:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hfgaF-0000Sx-G7
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:13:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49278)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hfgaE-0000Qr-MU
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:13:43 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5995D308A9BE
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 08:13:41 +0000 (UTC)
-Received: from donizetti.redhat.com (ovpn-112-27.ams2.redhat.com
- [10.36.112.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 80FBF5C231;
- Tue, 25 Jun 2019 08:13:40 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 10:13:39 +0200
-Message-Id: <20190625081339.9176-1-pbonzini@redhat.com>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hfgae-0000tf-3H
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:14:10 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46151)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hfgad-0000s1-Kf
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:14:07 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n4so16685752wrw.13
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 01:14:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:openpgp:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YBLs8OG60oShkdumH+V/Pk0KT1TyDVbEI+FgCCXj7EQ=;
+ b=AvlkopbGWWjXbR6PamMEyvuAssmsw3e2lKI/WCroJJJTFHfWskECBMdThnWjyiEcqv
+ 6/BNg7UjyliBhGFzPKJ4K6/oBDMDDvkML7CO/V+vF//7RsQDDaREe8wHLXRetm/w2Sb2
+ HrCUdiy3HwWZA1eXxBgzckTJZgFITNqVh0TplZ5fVoM0oUV8nqYLGhPD1ZWHwMyZsg4M
+ yODPDmOj0KJUAsElAtcZuHml++UUDjUwJXJCJcbOu3nUS/OqELBxkrSmqGB/KCeNFd9S
+ IcuqErE3+N2Tr0HMehjnDLoP92sZiPhAO2zlUpkmBR7LTUN/K1pC6+d5eFyd76dFCIDe
+ PVig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=YBLs8OG60oShkdumH+V/Pk0KT1TyDVbEI+FgCCXj7EQ=;
+ b=XtSgSEbYR3Qp06ZP8tSu3cg6J1kH6wwKY3NSX18gPSiGUU+AxSMD/haPyqZX72N1AX
+ 5rE/3iz3KWjbDb8Lqwb4xEbIk5M5P3334LWUIAKubn8+lWmMY0+VaTVeABK/lzYL33rk
+ pWB81sm5Pe6J1fO1y/ZUfQYNet7yd9S4mt5tfOyunPsZQmLOlkOwTVHlzLoBupw6OthG
+ FGMH4MHkSRqKuPN7qZtWRn2HZVR/s3T9HIfa2Mk9Km5oEb/LcjbITMhXJhvU4mfLpdab
+ 3JeG0fjjp7s55FB5KXur/7pWoyjGP/yRWO+95oEE5NxMIBhOISzXyfITWMTZ5sStfqiw
+ Us5A==
+X-Gm-Message-State: APjAAAWmmljAfTKPC/wW8LXknNbBrad9D6bUC3SL5I4dQ4jOeOSvTXWQ
+ 0PfgmDfomvDx10iG5u5JcyM=
+X-Google-Smtp-Source: APXvYqxm8jpN11Vtkpz/HH1m/p4/96aNYBoJQZNXFaKWyoA+rpGjzn85IvottXbdlQB6Rc/27zp+gA==
+X-Received: by 2002:adf:f582:: with SMTP id f2mr57497890wro.144.1561450446397; 
+ Tue, 25 Jun 2019 01:14:06 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id 15sm1419142wmk.34.2019.06.25.01.14.05
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Tue, 25 Jun 2019 01:14:05 -0700 (PDT)
+To: Artyom Tarasenko <atar4qemu@gmail.com>
+References: <20190624220056.25861-1-f4bug@amsat.org>
+ <20190624220056.25861-9-f4bug@amsat.org>
+ <CACXAS8C=D+Jf9SPiW9SMTj6VMTcjeAQS+VXhpgUtKPPSfFrg5w@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Openpgp: url=http://pgp.mit.edu/pks/lookup?op=get&search=0xE3E32C2CDEADC0DE
+Message-ID: <de3bfeeb-16f7-2c88-e65e-575640a1974e@amsat.org>
+Date: Tue, 25 Jun 2019 10:14:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Tue, 25 Jun 2019 08:13:41 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] minikconf: do not include variables from
- MINIKCONF_ARGS in config-all-devices.mak
+In-Reply-To: <CACXAS8C=D+Jf9SPiW9SMTj6VMTcjeAQS+VXhpgUtKPPSfFrg5w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH 8/9] hw/sparc/sun4m: Simplify the RAM
+ creation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,56 +89,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe de Dinechin <cdupontd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When minikconf writes config-devices.mak, it includes all variables inclu=
-ding
-those from MINIKCONF_ARGS.  This causes values from config-host.mak to "s=
-tick" to
-the ones used in generating config-devices.mak, because config-devices.ma=
-k is
-included after config-host.mak.  Avoid this by omitting assignments comin=
-g
-from the command line in the output of minikconf.
+On 6/25/19 9:14 AM, Artyom Tarasenko wrote:
+> On Tue, Jun 25, 2019 at 12:01 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Now than the empty_slot device can be overlapped, use it to cover
+>> the maximum memory range.
+> 
+> Whilie this is true for SS-5, the SS-20 does trap on missing RAM, so
+> empty_slot_init must be conditional.
+> nack.
 
-Reported-by: Christophe de Dinechin <cdupontd@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/minikconf.py | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Oh, I totally forgot the 'if (!hwdef->ecc_base)'...
 
-diff --git a/scripts/minikconf.py b/scripts/minikconf.py
-index 0ffc6c38da..3109a81db7 100644
---- a/scripts/minikconf.py
-+++ b/scripts/minikconf.py
-@@ -688,11 +688,13 @@ if __name__ =3D=3D '__main__':
-=20
-     data =3D KconfigData(mode)
-     parser =3D KconfigParser(data)
-+    external_vars =3D set()
-     for arg in argv[3:]:
-         m =3D re.match(r'^(CONFIG_[A-Z0-9_]+)=3D([yn]?)$', arg)
-         if m is not None:
-             name, value =3D m.groups()
-             parser.do_assignment(name, value =3D=3D 'y')
-+            external_vars.add(name[7:])
-         else:
-             fp =3D open(arg, 'r')
-             parser.parse_file(fp)
-@@ -700,7 +702,8 @@ if __name__ =3D=3D '__main__':
-=20
-     config =3D data.compute_config()
-     for key in sorted(config.keys()):
--        print ('CONFIG_%s=3D%s' % (key, ('y' if config[key] else 'n')))
-+        if key not in external_vars:
-+            print ('CONFIG_%s=3D%s' % (key, ('y' if config[key] else 'n'=
-)))
-=20
-     deps =3D open(argv[2], 'w')
-     for fname in data.previously_included:
---=20
-2.21.0
+Thanks Artyom!
 
+>> We can simplify now the main RAM is created.
+>> The TYPE_SUN4M_MEMORY is not migratable, simply remove it.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  hw/sparc/sun4m.c | 85 ++++++++----------------------------------------
+>>  1 file changed, 13 insertions(+), 72 deletions(-)
+>>
+>> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+>> index 0df5a8edfc..d55753d5cb 100644
+>> --- a/hw/sparc/sun4m.c
+>> +++ b/hw/sparc/sun4m.c
+>> @@ -767,71 +767,6 @@ static const TypeInfo prom_info = {
+>>      .class_init    = prom_class_init,
+>>  };
+>>
+>> -#define TYPE_SUN4M_MEMORY "memory"
+>> -#define SUN4M_RAM(obj) OBJECT_CHECK(RamDevice, (obj), TYPE_SUN4M_MEMORY)
+>> -
+>> -typedef struct RamDevice {
+>> -    SysBusDevice parent_obj;
+>> -
+>> -    MemoryRegion ram;
+>> -    uint64_t size;
+>> -} RamDevice;
+>> -
+>> -/* System RAM */
+>> -static void ram_realize(DeviceState *dev, Error **errp)
+>> -{
+>> -    RamDevice *d = SUN4M_RAM(dev);
+>> -    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>> -
+>> -    memory_region_allocate_system_memory(&d->ram, OBJECT(d), "sun4m.ram",
+>> -                                         d->size);
+>> -    sysbus_init_mmio(sbd, &d->ram);
+>> -}
+>> -
+>> -static void ram_init(hwaddr addr, ram_addr_t RAM_size,
+>> -                     uint64_t max_mem)
+>> -{
+>> -    DeviceState *dev;
+>> -    SysBusDevice *s;
+>> -    RamDevice *d;
+>> -
+>> -    /* allocate RAM */
+>> -    if ((uint64_t)RAM_size > max_mem) {
+>> -        error_report("Too much memory for this machine: %" PRId64 ","
+>> -                     " maximum %" PRId64,
+>> -                     RAM_size / MiB, max_mem / MiB);
+>> -        exit(1);
+>> -    }
+>> -    dev = qdev_create(NULL, "memory");
+>> -    s = SYS_BUS_DEVICE(dev);
+>> -
+>> -    d = SUN4M_RAM(dev);
+>> -    d->size = RAM_size;
+>> -    qdev_init_nofail(dev);
+>> -
+>> -    sysbus_mmio_map(s, 0, addr);
+>> -}
+>> -
+>> -static Property ram_properties[] = {
+>> -    DEFINE_PROP_UINT64("size", RamDevice, size, 0),
+>> -    DEFINE_PROP_END_OF_LIST(),
+>> -};
+>> -
+>> -static void ram_class_init(ObjectClass *klass, void *data)
+>> -{
+>> -    DeviceClass *dc = DEVICE_CLASS(klass);
+>> -
+>> -    dc->realize = ram_realize;
+>> -    dc->props = ram_properties;
+>> -}
+>> -
+>> -static const TypeInfo ram_info = {
+>> -    .name          = TYPE_SUN4M_MEMORY,
+>> -    .parent        = TYPE_SYS_BUS_DEVICE,
+>> -    .instance_size = sizeof(RamDevice),
+>> -    .class_init    = ram_class_init,
+>> -};
+>> -
+>>  static void cpu_devinit(const char *cpu_type, unsigned int id,
+>>                          uint64_t prom_addr, qemu_irq **cpu_irqs)
+>>  {
+>> @@ -872,6 +807,19 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
+>>      FWCfgState *fw_cfg;
+>>      DeviceState *dev;
+>>      SysBusDevice *s;
+>> +    MemoryRegion ram;
+>> +
+>> +    if ((uint64_t)machine->ram_size > hwdef->max_mem) {
+>> +        error_report("Too much memory for this machine: %" PRId64 ","
+>> +                     " maximum %" PRId64,
+>> +                     machine->ram_size / MiB, hwdef->max_mem / MiB);
+>> +        exit(1);
+>> +    }
+>> +    memory_region_allocate_system_memory(&ram, OBJECT(machine), "sun4m.ram",
+>> +                                         machine->ram_size);
+>> +    memory_region_add_subregion(get_system_memory(), 0x00000000, &ram);
+>> +    /* models without ECC don't trap when missing ram is accessed */
+>> +    empty_slot_init(0x00000000, hwdef->max_mem);
+>>
+>>      /* init CPUs */
+>>      for(i = 0; i < smp_cpus; i++) {
+>> @@ -881,13 +829,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
+>>      for (i = smp_cpus; i < MAX_CPUS; i++)
+>>          cpu_irqs[i] = qemu_allocate_irqs(dummy_cpu_set_irq, NULL, MAX_PILS);
+>>
+>> -
+>>      /* set up devices */
+>> -    ram_init(0, machine->ram_size, hwdef->max_mem);
+>> -    /* models without ECC don't trap when missing ram is accessed */
+>> -    if (!hwdef->ecc_base) {
+>> -        empty_slot_init(machine->ram_size, hwdef->max_mem - machine->ram_size);
+>> -    }
+>>
+>>      prom_init(hwdef->slavio_base, bios_name);
+>>
+>> @@ -1561,7 +1503,6 @@ static void sun4m_register_types(void)
+>>      type_register_static(&idreg_info);
+>>      type_register_static(&afx_info);
+>>      type_register_static(&prom_info);
+>> -    type_register_static(&ram_info);
+>>
+>>      type_register_static(&ss5_type);
+>>      type_register_static(&ss10_type);
+>> --
+>> 2.19.1
+>>
+> 
+> 
 
