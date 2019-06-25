@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02FD52947
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:19:13 +0200 (CEST)
-Received: from localhost ([::1]:58342 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD79052954
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:24:26 +0200 (CEST)
+Received: from localhost ([::1]:58418 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfiXh-0007Ck-5q
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:19:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34076)
+	id 1hficj-0005Dg-Ty
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34067)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hfiUp-0005r7-E4
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:16:22 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hfiUn-0007Vh-Jz
+ (envelope-from <philmd@redhat.com>) id 1hfiUp-0005ql-0y
  for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:16:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53504)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+ (envelope-from <philmd@redhat.com>) id 1hfiUn-0007VQ-G5
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:16:14 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38644)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hfiUn-0007KI-BQ
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hfiUn-0007UH-8S
  for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:16:13 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 77F8F2F8BDF;
- Tue, 25 Jun 2019 10:16:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id AA4DE3091851;
+ Tue, 25 Jun 2019 10:16:09 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.165])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 94FE05B68D;
- Tue, 25 Jun 2019 10:15:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F3C7D5B68D;
+ Tue, 25 Jun 2019 10:16:02 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 12:15:23 +0200
-Message-Id: <20190625101524.13447-5-philmd@redhat.com>
+Date: Tue, 25 Jun 2019 12:15:24 +0200
+Message-Id: <20190625101524.13447-6-philmd@redhat.com>
 In-Reply-To: <20190625101524.13447-1-philmd@redhat.com>
 References: <20190625101524.13447-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Tue, 25 Jun 2019 10:16:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Tue, 25 Jun 2019 10:16:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/5] tests/acceptance: Add bFLT loader
- linux-user test
+Subject: [Qemu-devel] [PATCH 5/5] .travis.yml: Let the avocado job run
+ linux-user tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,86 +68,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Add a very quick test that runs a busybox binary in bFLT format:
-
-  $ avocado --show=3Dapp run tests/acceptance/load_bflt.py
-  JOB ID     : db94d5960ce564c50904d666a7e259148c27e88f
-  JOB LOG    : ~/avocado/job-results/job-2019-06-25T10.52-db94d59/job.log
-   (1/1) tests/acceptance/load_bflt.py:LoadBFLT.test_stm32: PASS (0.15 s)
-  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 =
-| CANCEL 0
-  JOB TIME   : 0.54 s
-
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 ---
-This test currently fails on Aarch64 host, see LP#1833668
-https://bugs.launchpad.net/qemu/+bug/1833668
----
- tests/acceptance/load_bflt.py | 52 +++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
- create mode 100644 tests/acceptance/load_bflt.py
+ .travis.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/load_bflt.py b/tests/acceptance/load_bflt.p=
-y
-new file mode 100644
-index 0000000000..fdcaf8ad88
---- /dev/null
-+++ b/tests/acceptance/load_bflt.py
-@@ -0,0 +1,52 @@
-+# Test the bFLT format
-+#
-+# Copyright (C) 2019 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+import os
-+import bz2
-+import subprocess
-+
-+from avocado_qemu import LinuxUserTest
-+
-+
-+class LoadBFLT(LinuxUserTest):
-+
-+    def extract_cpio(self, cpio_path):
-+        """
-+        Extracts a cpio archive into the test workdir
-+
-+        :param cpio_path: path to the cpio archive
-+        """
-+        cwd =3D os.getcwd()
-+        os.chdir(self.workdir)
-+        with bz2.open(cpio_path, 'rb') as archive_cpio:
-+            subprocess.run(['cpio', '-i'], input=3Darchive_cpio.read(),
-+                           stderr=3Dsubprocess.DEVNULL)
-+        os.chdir(cwd)
-+
-+    def test_stm32(self):
-+        """
-+        :avocado: tags=3Darch:arm
-+        :avocado: tags=3Dlinux_user
-+        :avocado: tags=3Dquick
-+        """
-+        # See https://elinux.org/STM32#User_Space
-+        rootfs_url =3D ('https://elinux.org/images/5/51/'
-+                      'Stm32_mini_rootfs.cpio.bz2')
-+        rootfs_hash =3D '9f065e6ba40cce7411ba757f924f30fcc57951e6'
-+        rootfs_path_bz2 =3D self.fetch_asset(rootfs_url, asset_hash=3Dro=
-otfs_hash)
-+        busybox_path =3D self.workdir + "/bin/busybox"
-+
-+        self.extract_cpio(rootfs_path_bz2)
-+
-+        cmd =3D ''
-+        res =3D self.run("%s %s" % (busybox_path, cmd))
-+        ver =3D 'BusyBox v1.24.0.git (2015-02-03 22:17:13 CET) multi-cal=
-l binary.'
-+        self.assertIn(ver, res.stdout_text)
-+
-+        cmd =3D 'uname -a'
-+        res =3D self.run("%s %s" % (busybox_path, cmd))
-+        unm =3D 'armv7l GNU/Linux'
-+        self.assertIn(unm, res.stdout_text)
+diff --git a/.travis.yml b/.travis.yml
+index aeb9b211cd..2ece761ac7 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -231,7 +231,7 @@ matrix:
+=20
+     # Acceptance (Functional) tests
+     - env:
+-        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
+oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
+ftmmu,alpha-softmmu"
++        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
+oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
+ftmmu,alpha-softmmu,arm-linux-user"
+         - TEST_CMD=3D"make check-acceptance"
+       after_failure:
+         - cat tests/results/latest/job.log
 --=20
 2.20.1
 
