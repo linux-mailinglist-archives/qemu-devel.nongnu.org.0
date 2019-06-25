@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C73D5508A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:39:31 +0200 (CEST)
-Received: from localhost ([::1]:60310 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59BA55091
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:39:57 +0200 (CEST)
+Received: from localhost ([::1]:60316 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hflfV-0005L1-DI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53832)
+	id 1hflfw-0005oU-Ud
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:39:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53842)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <renyime@gmail.com>) id 1hflLA-0001XJ-KU
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:29 -0400
+ (envelope-from <renyime@gmail.com>) id 1hflLB-0001YM-6E
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <renyime@gmail.com>) id 1hflL9-0007L0-NW
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:28 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36469)
+ (envelope-from <renyime@gmail.com>) id 1hflL9-0007LC-Uv
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:29 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44049)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <renyime@gmail.com>) id 1hflL9-0007KM-E5
+ (Exim 4.71) (envelope-from <renyime@gmail.com>) id 1hflL9-0007Kk-Ol
  for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:27 -0400
-Received: by mail-pg1-x542.google.com with SMTP id f21so8979543pgi.3
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 06:18:26 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id n2so8951277pgp.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 06:18:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=+mvwjYgLWyjKWcLHV58N51syiwUJURFH8odBAzC6P7A=;
- b=Khcit/JWtVqPgIL7U/OmHbD1Ommr9BU/LbEpnXiIhcUdKVGQm4fy4TgLQ0iccYlzjc
- mmQndH6AMhzjltszJ5UQo/t3sESnxIlYP/LMMDMMQpCIioerEzA4LNtDxAQPeP1esI2E
- WehwmVIGB9Y2YTafZMsYdcCfbXPPOWy5DM3c5MgYwWKo8qzxuIwdVV1Fzw9pi7IU5onD
- 2N18cUfk6HgkkxrYVXQuQ4A7F+5CDfkuW5KaQ9R1vWsxdAqzjxDNuOUwURLjm16EIIgx
- wrM8k1J+hKtH3236WC8Y4s7m+bZ25i8eFQBLqTe4jKm8juumynGPzPdWRHkKmYvDKvBb
- HT1g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=ofGWpnUEWAExuocXnmIhVSIOoE3czShQOTCROPMCBNM=;
+ b=RQI26Y1fYrBV56JWRn9SgFTyYLjxXZkvzk9i/VVABomRKOuWpBJOfjeXfFtpYBm+V1
+ SGI5EMOmeUitTY18HzhHG1IBGIPa6za+jaTTCZgD2XWcjq/jJEsZFdfp6aD7izvEx7/8
+ 4zht9/vlizTzC66TYVVB/Feh3TA9hPnz1NGGxWlBfCZABu3XW83HsHxmyehPHYmw9NXG
+ 1NOGN1g0ATjcK01yz+bkw9/Ozn4WgvW5zgL2TCPb3xmz6woasu5b6S/IA/5kavZtc7Ke
+ AOGiVlMCFrISFufXJbNTyuOq+jG8LPhpDoTXbpWO3eAqkEHxeSEC1c10W+i528kacFYw
+ kgEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=+mvwjYgLWyjKWcLHV58N51syiwUJURFH8odBAzC6P7A=;
- b=n5xf4cWtptfoZ2tF2f2XqyD9WjXumevcd9UN4f52N6hI9rFjrLcePGsLRS/INlveBh
- 5KlaLOmnCXtmzF9tjl65s86t6TiiCTvmOs5GdNX/Wg0h6z3SUFnJeU7rwq0zfIicVa2n
- apmG1jnQC+kms+9amPIH/ZQAKvtEAR6WJWYNJJ7ZJ/isMxolMQ4NxIn0l2UJitZSTYFv
- 3P+HifJkAZedvXNCYaPxqASsQapore4pXZHPvjLsjmEluz+eVmTGqtVYgG9JCRvccYn0
- ECiUr89TyzcKU6thldmy3AlW61pCJtwxZ58a1mQn9EZApm9Z1sUi0//lQ/AmOLF9855j
- zxpQ==
-X-Gm-Message-State: APjAAAV5vE8cbw9h9JrXITSS7nRrZvfD3i16lNBn6owsdGrzCdJ6P+ir
- pSE9v7nXOuZDfvq0fvOnqi/oyF57pbGOVA1N
-X-Google-Smtp-Source: APXvYqy/fGjJX8IN7A5m0eNAkjhP9TkKtW1CMGrrQK9Mncok+202Lls7et1YrZy7jyPvjcZ2dfMkvA==
-X-Received: by 2002:a17:90a:e397:: with SMTP id
- b23mr32081243pjz.117.1561468705779; 
- Tue, 25 Jun 2019 06:18:25 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=ofGWpnUEWAExuocXnmIhVSIOoE3czShQOTCROPMCBNM=;
+ b=bVPpZSc5KJ05qV7m+f3ICOMdc4BzQI2YVMzpdK8dVbCEuSqcP+QUOEhk7aWfsTKmZE
+ uD39OGIcanqWaLG1jBJWrD3cXhmOCwkEzCe+Qje9GHY5P+9yo9N4DpDFMprLfC2UNepe
+ 1ibDVrJ4RkwR7PulTbGzjBdg+B4DV8XLGYQOEAhtnEG7YZqK0xrIxOlOVUwDlLp+e/f1
+ lLa9vNVuvnfguZv2da21Fkp58eMIlKAXJLLEq/iNdCD1axjVSTrTrMJXKzsTgXZuM/4M
+ 55yyoA+ClTYNtVtjZRAMtzwAK4sILkIgW35SaNi8Jo+kfvsyW/TTnysQkS/8PMnjw5DU
+ Ewkg==
+X-Gm-Message-State: APjAAAW8yiUtZ6bwf6cTmivgTs9T/VwSFw1g4Gkb4GxOJzJmFHu9KztY
+ brxawOLSlWaDYZ8fMuhrIpw=
+X-Google-Smtp-Source: APXvYqwDK59X+Zav/YyOOBWudB2TX0oJ3agMoRsqx7CoF4iIUl8MoLHCPQVMrOSpznCoMo75JdXlyQ==
+X-Received: by 2002:a17:90b:8d2:: with SMTP id
+ ds18mr32704877pjb.132.1561468706920; 
+ Tue, 25 Jun 2019 06:18:26 -0700 (PDT)
 Received: from VM_64_241_centos.localdomain ([129.226.57.92])
- by smtp.gmail.com with ESMTPSA id f186sm15675814pfb.5.2019.06.25.06.18.24
+ by smtp.gmail.com with ESMTPSA id f186sm15675814pfb.5.2019.06.25.06.18.25
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Jun 2019 06:18:25 -0700 (PDT)
+ Tue, 25 Jun 2019 06:18:26 -0700 (PDT)
 From: Ivan Ren <renyime@gmail.com>
 X-Google-Original-From: Ivan Ren <ivanren@tencent.com>
 To: quintela@redhat.com,
 	dgilbert@redhat.com
-Date: Tue, 25 Jun 2019 21:18:16 +0800
-Message-Id: <1561468699-9819-1-git-send-email-ivanren@tencent.com>
+Date: Tue, 25 Jun 2019 21:18:17 +0800
+Message-Id: <1561468699-9819-2-git-send-email-ivanren@tencent.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1561468699-9819-1-git-send-email-ivanren@tencent.com>
+References: <1561468699-9819-1-git-send-email-ivanren@tencent.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH 0/3] migration: fix migrate_cancel problems of
- multifd
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH 1/3] migration: fix migrate_cancel leads
+ live_migration thread endless loop
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,18 +81,137 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The patches fix the problems encountered in multifd migration when try
-to cancel the migration by migrate_cancel.
+When we 'migrate_cancel' a multifd migration, live_migration thread may
+go into endless loop in multifd_send_pages functions.
 
-Ivan Ren (3):
-  migration: fix migrate_cancel leads live_migration thread endless loop
-  migration: fix migrate_cancel leads live_migration thread hung forever
-  migration: fix migrate_cancel multifd migration leads destination hung
-    forever
+Reproduce steps:
 
- migration/ram.c | 62 ++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 51 insertions(+), 11 deletions(-)
+(qemu) migrate_set_capability multifd on
+(qemu) migrate -d url
+(qemu) [wait a while]
+(qemu) migrate_cancel
 
+Then may get live_migration 100% cpu usage in following stack:
+
+pthread_mutex_lock
+qemu_mutex_lock_impl
+multifd_send_pages
+multifd_queue_page
+ram_save_multifd_page
+ram_save_target_page
+ram_save_host_page
+ram_find_and_save_block
+ram_find_and_save_block
+ram_save_iterate
+qemu_savevm_state_iterate
+migration_iteration_run
+migration_thread
+qemu_thread_start
+start_thread
+clone
+
+Signed-off-by: Ivan Ren <ivanren@tencent.com>
+---
+ migration/ram.c | 36 +++++++++++++++++++++++++++++-------
+ 1 file changed, 29 insertions(+), 7 deletions(-)
+
+diff --git a/migration/ram.c b/migration/ram.c
+index 908517fc2b..f8908286c2 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -920,7 +920,7 @@ struct {
+  * false.
+  */
+ 
+-static void multifd_send_pages(void)
++static int multifd_send_pages(void)
+ {
+     int i;
+     static int next_channel;
+@@ -933,6 +933,11 @@ static void multifd_send_pages(void)
+         p = &multifd_send_state->params[i];
+ 
+         qemu_mutex_lock(&p->mutex);
++        if (p->quit) {
++            error_report("%s: channel %d has already quit!", __func__, i);
++            qemu_mutex_unlock(&p->mutex);
++            return -1;
++        }
+         if (!p->pending_job) {
+             p->pending_job++;
+             next_channel = (i + 1) % migrate_multifd_channels();
+@@ -951,9 +956,11 @@ static void multifd_send_pages(void)
+     ram_counters.transferred += transferred;;
+     qemu_mutex_unlock(&p->mutex);
+     qemu_sem_post(&p->sem);
++
++    return 1;
+ }
+ 
+-static void multifd_queue_page(RAMBlock *block, ram_addr_t offset)
++static int multifd_queue_page(RAMBlock *block, ram_addr_t offset)
+ {
+     MultiFDPages_t *pages = multifd_send_state->pages;
+ 
+@@ -968,15 +975,19 @@ static void multifd_queue_page(RAMBlock *block, ram_addr_t offset)
+         pages->used++;
+ 
+         if (pages->used < pages->allocated) {
+-            return;
++            return 1;
+         }
+     }
+ 
+-    multifd_send_pages();
++    if (multifd_send_pages() < 0) {
++        return -1;
++    }
+ 
+     if (pages->block != block) {
+-        multifd_queue_page(block, offset);
++        return  multifd_queue_page(block, offset);
+     }
++
++    return 1;
+ }
+ 
+ static void multifd_send_terminate_threads(Error *err)
+@@ -1049,7 +1060,10 @@ static void multifd_send_sync_main(void)
+         return;
+     }
+     if (multifd_send_state->pages->used) {
+-        multifd_send_pages();
++        if (multifd_send_pages() < 0) {
++            error_report("%s: multifd_send_pages fail", __func__);
++            return;
++        }
+     }
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDSendParams *p = &multifd_send_state->params[i];
+@@ -1058,6 +1072,12 @@ static void multifd_send_sync_main(void)
+ 
+         qemu_mutex_lock(&p->mutex);
+ 
++        if (p->quit) {
++            error_report("%s: channel %d has already quit", __func__, i);
++            qemu_mutex_unlock(&p->mutex);
++            return;
++        }
++
+         p->packet_num = multifd_send_state->packet_num++;
+         p->flags |= MULTIFD_FLAG_SYNC;
+         p->pending_job++;
+@@ -2000,7 +2020,9 @@ static int ram_save_page(RAMState *rs, PageSearchStatus *pss, bool last_stage)
+ static int ram_save_multifd_page(RAMState *rs, RAMBlock *block,
+                                  ram_addr_t offset)
+ {
+-    multifd_queue_page(block, offset);
++    if (multifd_queue_page(block, offset) < 0) {
++        return -1;
++    }
+     ram_counters.normal++;
+ 
+     return 1;
 -- 
 2.17.2 (Apple Git-113)
 
