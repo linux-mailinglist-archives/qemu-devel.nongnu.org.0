@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86292550AA
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:43:22 +0200 (CEST)
-Received: from localhost ([::1]:60348 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1606B55078
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:36:14 +0200 (CEST)
+Received: from localhost ([::1]:60290 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfljE-0001UG-6B
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
+	id 1hflcL-00039d-6m
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:36:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57042)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <balaton@eik.bme.hu>) id 1hflNf-0002fm-Mm
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:21:04 -0400
+ (envelope-from <gengdongjiu@huawei.com>) id 1hflWR-0000oT-8z
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:30:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1hflNe-0000U5-Fr
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:21:03 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:53108)
+ (envelope-from <gengdongjiu@huawei.com>) id 1hflWO-0006OE-UA
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:30:07 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:42042 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hflNe-0000Ju-0S
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:21:02 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6807C7462BD;
- Tue, 25 Jun 2019 15:20:26 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 52D577462B8; Tue, 25 Jun 2019 15:20:25 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 51C7A7462AF;
- Tue, 25 Jun 2019 15:20:25 +0200 (CEST)
-Date: Tue, 25 Jun 2019 15:20:25 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Corey Minyard <cminyard@mvista.com>
-In-Reply-To: <20190625125623.GF5565@minyard.net>
-Message-ID: <alpine.BSF.2.21.9999.1906251500460.4039@zero.eik.bme.hu>
-References: <cover.1561028123.git.balaton@eik.bme.hu>
- <046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu>
- <20190625125623.GF5565@minyard.net>
-User-Agent: Alpine 2.21.9999 (BSF 287 2018-06-16)
+ (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+ id 1hflWM-0006Hz-DM; Tue, 25 Jun 2019 09:30:02 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 169C71F4372C443137A0;
+ Tue, 25 Jun 2019 21:29:56 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.439.0; Tue, 25 Jun 2019
+ 21:29:49 +0800
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
+ <1557832703-42620-2-git-send-email-gengdongjiu@huawei.com>
+ <20190620140409.3c713760@redhat.com>
+ <fbd558d5-03b7-df5c-e781-549261207221@huawei.com>
+ <20190625151616.12e46566@redhat.com>
+From: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <a4b5706f-a8f0-0a20-b77e-4cb250159ccb@huawei.com>
+Date: Tue, 25 Jun 2019 21:29:46 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset=US-ASCII
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2001:738:2001:2001::2001
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] ati-vga: Implement DDC and EDID
- info from monitor
+In-Reply-To: <20190625151616.12e46566@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 45.249.212.35
+Subject: Re: [Qemu-devel] [PATCH v17 01/10] hw/arm/virt: Add RAS platform
+ version for migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,44 +59,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ linuxarm@huawei.com, shannon.zhaosl@gmail.com, zhengxiang9@huawei.com,
+ qemu-arm@nongnu.org, james.morse@arm.com, xuwei5@huawei.com,
+ jonathan.cameron@huawei.com, pbonzini@redhat.com, lersek@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Jun 2019, Corey Minyard wrote:
-> On Thu, Jun 20, 2019 at 12:55:23PM +0200, BALATON Zoltan wrote:
->> This adds DDC support to ati-vga and connects i2c-ddc to it. This
->> allows at least MacOS with an ATI ndrv, Linux radeonfb and MorphOS to
->> get monitor EDID info (although MorphOS splash screen is not displayed
->> and radeonfb needs additional tables from vgabios-rv100). Xorg needs
->> additional support from VESA vgabios, it's missing INT10 0x4F15
->> function (see
->> https://gitlab.freedesktop.org/xorg/xserver/blob/master/hw/xfree86/vbe/vbe.c)
->> without which no DDC is available that also prevents loading the
->> accelerated X driver.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->
-> This patch also looks good, and thanks to Gerd for reviewing.
->
-> I didn't see the followup documentation patch that Gerd suggested, did
-> I miss that?
->
-> Also, how would you like to handle these?
 
-Gerd has already queued them (including the requested follow up to update 
-comment which I think only cc'd to Gerd that's why you may have missed it, 
-but another fix up I've sent adding reg names to ati_dbg.h may still be 
-missing from Gerd's tree). I think Gerd can send these via his tree with 
-your Acked-by on the i2c patch which should be OK if nobody disagrees.
 
-There's still the issue with cleaning up bitbang_i2c that results in an 
-ASan warning which we have discussed before:
-https://lists.nongnu.org/archive/html/qemu-devel/2019-03/msg05966.html
-but we could not find an easy fix so since it's preexisting problem it can 
-be fixed later. Although, I don't have plans to fix that, only mentioning 
-it here as a reminder.
+On 2019/6/25 21:16, Igor Mammedov wrote:
+>>> In light of the race for leaner QEMU and faster startup times,
+>>> it might be better to make RAS optional and make user explicitly
+>>> enable it using a machine option.  
+>> I will add a machine option to make RAS optional, do you think we should enable or disable it by default? I think it is better if we enable it by default.
+> I'd start with disabled by default as it's easy to make it
+> enabled by default later and we can't do so other way around.
+ok
 
-Thank you,
-BALATON Zoltan
+> 
+>  
+>>>   
+>>>>  }
+>>>>  DEFINE_VIRT_MACHINE(4, 0)
+>>>>  
+>>>> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt
+
 
