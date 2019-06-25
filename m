@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B067C5241E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 09:12:27 +0200 (CEST)
-Received: from localhost ([::1]:57040 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F0752415
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 09:10:44 +0200 (CEST)
+Received: from localhost ([::1]:57030 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hffcw-0006Bh-TA
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 03:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58865)
+	id 1hffbH-0004d8-Di
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 03:10:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59164)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <atar4qemu@gmail.com>) id 1hffWd-0002O2-LI
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:05:56 -0400
+ (envelope-from <atar4qemu@gmail.com>) id 1hffXv-0002qP-9f
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:07:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <atar4qemu@gmail.com>) id 1hffWZ-0001ry-9v
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:05:53 -0400
-Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:36613)
+ (envelope-from <atar4qemu@gmail.com>) id 1hffXs-0002q9-3r
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:07:13 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:42292)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <atar4qemu@gmail.com>) id 1hffWX-0001nm-Re
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:05:50 -0400
-Received: by mail-io1-xd41.google.com with SMTP id h6so904658ioh.3
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 00:05:44 -0700 (PDT)
+ (Exim 4.71) (envelope-from <atar4qemu@gmail.com>) id 1hffXr-0002oX-Hl
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:07:11 -0400
+Received: by mail-io1-xd42.google.com with SMTP id u19so813543ior.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 00:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=1C4B+hlARBNNcnI71RNZNmqn/ceaZrea5U2OySrK9Ns=;
- b=NSe5n18gxqwr9PgyugEZvnJ/g0fWznClE5EDIZIpz8xCMJcwjKI8tJOvXMBCx885n6
- ctzcHBziCg+lYZBCC/ViLfGGsSQWhxiMETqApVYd3nULsYadetPkW7IpfyNWIIxY2KNl
- wqOBkh85itfMV5GRS8Zn0Sp9TBkRhl6LUdDxsBoC1h13dFysFsbdyZm4LlBJ+FapnPlz
- 5Rq/Gcm2fg53tUJITk+9gnfIB7SmBRedxxrjj7ugXY6LPNW1MnOBo/s2Bab97E+mk85c
- CbNjoB5Kp8OQ28uTgFvSwkYVwSM40oQSUSkg0IWJI95jK3xPX/P3kZXpj9CO//vTFgsJ
- wWcg==
+ bh=sLw2Akk9vFEYFtKgoXwuNMcfg6tNknYCDHEdcP6DzUU=;
+ b=qqjkqWUK2+OX/VsXeEfVTXPXOuFW4poiyiEgtEhafzx7IB8As6MU+sBe3SR8FTiGuV
+ uGR2TraoOxJZjG1uGv/E95/y/4zObBaGzxExZTjbNak4RzDF1/xfW7q4whPJgbCNgBxO
+ 4YNVtdRUhsCZcUJ0sBwq6+hcDcirzBA2WCiBQ7Kjk+f0T03mfIMZue01PUrRPr2lKz+3
+ bpdGpKJoLkxvf9bPDP02MHmg7m/ewkJo0ES/UOGhDAsjlflBvgFjzvcoUuZSFWPn/YIz
+ SJBcZ2VCVrlVm1WggBpDII3x+sqlp+hb9AJhW5486caCb2I0lb1lrtkGZ+/ClpOfLnIy
+ lVag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=1C4B+hlARBNNcnI71RNZNmqn/ceaZrea5U2OySrK9Ns=;
- b=WIS/ICyQPHlgRDMsvFdOwYRFNF3AlyKseoqCU50NaLszBC9Ymvs/R8cwyEZQaXVAUP
- 02Ojb0PeUGf5+HcQW3Er4VitNA8tDipmAv0GUsMTtCNB5wSDaVWB2/ghBgClRCbbKikY
- MLhhc8uSWkPTyvySkvCm054k6XHkfsvGUA5dtD+PCK92OVDoLOVf0LueygFTb/4W7Xbg
- L3wEOVTRSOKnyF3LnuWybstxANNplJW/sLp2jxCo/BjsyZaC9aBE85XMLIE/ypbYE/SP
- vlalKoBWjeh36QLX8SjPz3TC2H5GbS1PV0mByqSLBLTyuzcmniuMj1sTbzpNjqEzS1YO
- A/6A==
-X-Gm-Message-State: APjAAAXDXAlP4Y0CB4xDasgOaMshyxjnAYoZhiRObiEHd+pctxh/qJAB
- H0aIz+CVgwlPd2Q+K1IrapgvzkUxeUNpi6k0wL6pkgI1
-X-Google-Smtp-Source: APXvYqyIQswVALhQeWRAwN3DVYtzSfHCtrQO3vmF9Yya5pkfYJiyjOZPYS/Sb9hQJ7+nOyPReECmi2XgzIYsu1UliC8=
-X-Received: by 2002:a02:cd82:: with SMTP id l2mr703193jap.96.1561446343504;
- Tue, 25 Jun 2019 00:05:43 -0700 (PDT)
+ bh=sLw2Akk9vFEYFtKgoXwuNMcfg6tNknYCDHEdcP6DzUU=;
+ b=R9pFCldwJ6Jzx+jeM2XQrCDLaVjNTy+wYo5+gJF3qgA50O6O4jQ8p9TJMX5FmTWJXg
+ ussgRfHDBWbbzsiAKYFBg74dF4mvjegBjlTOAazpHw6o06QqIThbbayUp1d1tQuOp4o7
+ GjbAV4J9xd/4h34PseDXqzFr5TwCM/dffvPcpZm2ugq0XUpssUKXXoiqqZnjAwqF/3NW
+ +k+cwJn1kamcIKhQWBkeHxvJVTjOcYtcqP/WxQws7/kkA4xYGdEMj97XNXcACJ8rOjNV
+ a8PZJOOowG9j4KKaZoyKH9QhJJ0m5Q4acCvHCdH5KQO7kU4tfbRAeeuIi92CFSjQcJ3R
+ 44Rg==
+X-Gm-Message-State: APjAAAUkEJ74jVL/NIffrBUtiyRI7cLjPGh2Qeco16mZ/7FPs/3b71tv
+ OcGzEYUeICtuQH/AoccseAQhcMNvEodmuB9Ks6I=
+X-Google-Smtp-Source: APXvYqyB5y/X/g84yaejJSltDGYKH0Z+nO9o85lwDLQgrR8xTWXft0zIQv8h87R8e78UWpR/D81pS3LDHT6ufYOtGxE=
+X-Received: by 2002:a5d:8497:: with SMTP id t23mr5969812iom.298.1561446429964; 
+ Tue, 25 Jun 2019 00:07:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190624220056.25861-1-f4bug@amsat.org>
- <20190624220056.25861-6-f4bug@amsat.org>
-In-Reply-To: <20190624220056.25861-6-f4bug@amsat.org>
+ <20190624220056.25861-3-f4bug@amsat.org>
+In-Reply-To: <20190624220056.25861-3-f4bug@amsat.org>
 From: Artyom Tarasenko <atar4qemu@gmail.com>
-Date: Tue, 25 Jun 2019 09:05:32 +0200
-Message-ID: <CACXAS8D0VgXeRfufVLhm8SmtmQ-gK_DX-1OoSQmPLn-aPTcBdQ@mail.gmail.com>
+Date: Tue, 25 Jun 2019 09:06:59 +0200
+Message-ID: <CACXAS8B0kFgZxaqJpjdoMSq4VJP5DFVxFJYs1LEqnN05Rs-Dfw@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d41
-Subject: Re: [Qemu-devel] [PATCH 5/9] hw/misc/empty_slot: Add a qdev
- property 'name'
+X-Received-From: 2607:f8b0:4864:20::d42
+Subject: Re: [Qemu-devel] [RFC PATCH 2/9] MAINTAINERS: Add the 'empty_slot'
+ device with the 'unimp' one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,50 +86,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, Jun 25, 2019 at 12:01 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
-> If few commits empty_slot_init() will take 'name' as argument.
-> Meanwhile, initialize it as 'empty-slot'.
+> The EmptySlot and UnimplementedDevice are very similar, the only
+> difference is how they log guest accesses.
+> Maintain them altogether.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
 
 > ---
->  hw/misc/empty_slot.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+> Peter, are you OK with that? Do you prefer 2 distinct sections?
 >
-> diff --git a/hw/misc/empty_slot.c b/hw/misc/empty_slot.c
-> index ef0a7b99ba..c32241a9e5 100644
-> --- a/hw/misc/empty_slot.c
-> +++ b/hw/misc/empty_slot.c
-> @@ -32,6 +32,7 @@ typedef struct EmptySlot {
->      SysBusDevice parent_obj;
+>  MAINTAINERS | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
->      MemoryRegion iomem;
-> +    char *name;
->      uint64_t size;
->  } EmptySlot;
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cad58b9487..abef4a1cfc 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1643,11 +1643,13 @@ F: docs/specs/vmgenid.txt
+>  F: tests/vmgenid-test.c
+>  F: stubs/vmgenid.c
 >
-> @@ -78,14 +79,18 @@ static void empty_slot_realize(DeviceState *dev, Erro=
-r **errp)
->          error_setg(errp, "property 'size' not specified or zero");
->          return;
->      }
-> +    if (s->name =3D=3D NULL) {
-> +        s->name =3D g_strdup("empty-slot");
-> +    }
+> -Unimplemented device
+> +Unimplemented device, empty slot device
+>  M: Peter Maydell <peter.maydell@linaro.org>
+>  R: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>  S: Maintained
+> +F: include/hw/misc/empty_slot.h
+>  F: include/hw/misc/unimp.h
+> +F: hw/misc/empty_slot.c
+>  F: hw/misc/unimp.c
 >
->      memory_region_init_io(&s->iomem, OBJECT(s), &empty_slot_ops, s,
-> -                          "empty-slot", s->size);
-> +                          s->name, s->size);
->      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
->  }
->
->  static Property empty_slot_properties[] =3D {
->      DEFINE_PROP_UINT64("size", EmptySlot, size, 0),
-> +    DEFINE_PROP_STRING("name", EmptySlot, name),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
+>  Standard VGA
 > --
 > 2.19.1
 >
