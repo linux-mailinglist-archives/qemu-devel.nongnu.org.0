@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADC655401
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:08:30 +0200 (CEST)
-Received: from localhost ([::1]:33482 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25657553A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:42:48 +0200 (CEST)
+Received: from localhost ([::1]:33268 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnzh-0004G6-FO
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:08:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35362)
+	id 1hfnap-0007BC-9n
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34761)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hfnZK-0006eO-OJ
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:41:16 -0400
+ (envelope-from <yuval.shaia@oracle.com>) id 1hfnX1-0004L9-9r
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:38:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hfnZI-0002ua-OT
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:41:14 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:59968
- helo=mail.default.ilande.uk0.bigv.io)
+ (envelope-from <yuval.shaia@oracle.com>) id 1hfnWz-0000ZL-RQ
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:38:51 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:60944)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hfnZB-0001SZ-2m
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:41:07 -0400
-Received: from host86-173-229-95.range86-173.btcentralplus.com
- ([86.173.229.95] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hfnVX-0007MI-AC; Tue, 25 Jun 2019 16:37:19 +0100
-To: Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20190519041522.12327-1-richard.henderson@linaro.org>
- <8f28d008-2608-a579-7505-4546b08deb41@linaro.org>
- <085d6881-f518-9888-a13e-081cdc09de46@ilande.co.uk>
- <0b9f4772-37f6-1453-e4ea-5ad9d0f52a5b@ilande.co.uk>
- <acc57487-c8a0-9380-bc2a-4de22541eabf@ilande.co.uk>
- <CAL1e-=iavFqEeFuNm2efVM7mu5OaABBVo90wqJEhmoWa4DQv=Q@mail.gmail.com>
- <ffae3651-5daf-e008-6562-2de09d82ace9@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <b8aab3f4-e3eb-a137-62b4-ba5ac1a2ad8f@ilande.co.uk>
-Date: Tue, 25 Jun 2019 16:37:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (Exim 4.71) (envelope-from <yuval.shaia@oracle.com>)
+ id 1hfnWz-0000X3-I8
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:38:49 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5PFch9C026985;
+ Tue, 25 Jun 2019 15:38:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=FSPlglVOrRdME8UV5LathSA879RvzYgoT97B86S4sig=;
+ b=xXoUhihVOvmSjEy8RUVE4uHinmBEfrh+3QJwwPEJWueHBDYs9qDEFnstBNGdklKuRdq8
+ q++J8dL3i9BRZyRxto1aG18bsO8L+xZIECBnnFEvCge+cz2ftwKAagTKXZSkBu42tnIK
+ QVGLsp7QY88ELLp4wEAOaBtBumNMYi6/mzIw2ij/tyKXZuuiNb1CzIpEtA+wwFpucAH1
+ KH1tL30T5Gmzm2ib9/7Ti6V1SU36Eou4pdcPr9VcWi1p1pCM4eL7FLvaievYZrnkqDBw
+ yp0nqYcnu/RvYwEcwc3VjPItTAc2LkqNbWOyJXLU3qZiDTOuXqHJL5qyY8l5pXO37DsO Rg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 2t9brt57pt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Jun 2019 15:38:43 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5PFcS7h129036;
+ Tue, 25 Jun 2019 15:38:43 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by userp3030.oracle.com with ESMTP id 2t99f3xn5m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Jun 2019 15:38:43 +0000
+Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5PFcf6g025042;
+ Tue, 25 Jun 2019 15:38:43 GMT
+Received: from lap1 (/77.138.183.59) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 25 Jun 2019 08:38:40 -0700
+Date: Tue, 25 Jun 2019 18:38:33 +0300
+From: Yuval Shaia <yuval.shaia@oracle.com>
+To: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+Message-ID: <20190625153830.GA10554@lap1>
+References: <20190621144541.13770-1-skrtbhtngr@gmail.com>
+ <20190621144541.13770-2-skrtbhtngr@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ffae3651-5daf-e008-6562-2de09d82ace9@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.173.229.95
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
-Subject: Re: [Qemu-devel] [PATCH v4 0/7] tcg/ppc: Add vector opcodes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190621144541.13770-2-skrtbhtngr@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906250118
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906250118
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.86
+Subject: Re: [Qemu-devel] [RFC 1/1] hw/pvrdma: Add live migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,63 +90,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/06/2019 07:56, Richard Henderson wrote:
-
->>> One more hint: if I try a build of d8dcbb57e9 along with my tcg_can_emit_vec_op()
->>> hack and pass --enable-debug-tcg to configure then I get an assert on startup:
->>>
->>> qemu-system-ppc: /home/mca/src/qemu/tcg/tcg.c:2207: process_op_defs: Assertion `tdefs
->>> != ((void *)0)' failed.
->>> Aborted
->>>
->>
->> Mark, Richard, Howard, David,
->>
->> I just sent v5 of the series, that is (in the sense of net-result of
->> code changes) equivalent to v4, but the patch 1/7 from v4 is now split
->> into ten smaller patches. This was done mainly to enable Mark to
->> perhaps try v5 and bisect, in order to at least somewhat narrow down
->> the culprit. Most likely it will be patch 5 from v5, that is still
->> sizeable, but even if this is the case, we can eliminate other smaller
->> things from consideration.
+On Fri, Jun 21, 2019 at 08:15:41PM +0530, Sukrit Bhatnagar wrote:
+> Define and register SaveVMHandlers pvrdma_save and
+> pvrdma_load for saving and loading the device state,
+> which currently includes only the dma, command slot
+> and response slot addresses.
 > 
-> Thanks for the help on that.
+> Remap the DSR, command slot and response slot upon
+> loading the addresses in the pvrdma_load function.
 > 
-> I don't believe your split is actually bisectable -- there's a minimum amount
-> that is required to enable vector opcodes at all.  Patch 5 is the first that
-> enables tcg_out_{mov,ld,st}, so while patches beforehand may compile, they
-> certainly will not run.
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Yuval Shaia <yuval.shaia@oracle.com>
+> Signed-off-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+> ---
+>  hw/rdma/vmw/pvrdma_main.c | 56 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
 > 
-> I can retain your split, but for real bisectability we need to move the enable
-> of TCG_TARGET_HAS_v128 from patch 2 to patch 5.
+> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> index adcf79cd63..cd8573173c 100644
+> --- a/hw/rdma/vmw/pvrdma_main.c
+> +++ b/hw/rdma/vmw/pvrdma_main.c
+> @@ -28,6 +28,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "monitor/monitor.h"
+>  #include "hw/rdma/rdma.h"
+> +#include "migration/register.h"
+>  
+>  #include "../rdma_rm.h"
+>  #include "../rdma_backend.h"
+> @@ -592,9 +593,62 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
+>      pvrdma_fini(pci_dev);
+>  }
+>  
+> +static void pvrdma_save(QEMUFile *f, void *opaque)
+> +{
+> +    PVRDMADev *dev = PVRDMA_DEV(opaque);
+> +
+> +    qemu_put_be64(f, dev->dsr_info.dma);
+> +    qemu_put_be64(f, dev->dsr_info.dsr->cmd_slot_dma);
+> +    qemu_put_be64(f, dev->dsr_info.dsr->resp_slot_dma);
+> +}
+> +
+> +static int pvrdma_load(QEMUFile *f, void *opaque, int version_id)
+> +{
+> +    PVRDMADev *dev = PVRDMA_DEV(opaque);
+> +    PCIDevice *pci_dev = PCI_DEVICE(dev);
+> +
+> +    // Remap DSR
+> +    dev->dsr_info.dma = qemu_get_be64(f);
+> +    dev->dsr_info.dsr = rdma_pci_dma_map(pci_dev, dev->dsr_info.dma,
+> +                                    sizeof(struct pvrdma_device_shared_region));
+> +    if (!dev->dsr_info.dsr) {
+> +        rdma_error_report("Failed to map to DSR");
+> +        return -1;
+> +    }
+> +    qemu_log("pvrdma_load: successfully remapped to DSR\n");
+> +
+> +    // Remap cmd slot
+> +    dev->dsr_info.dsr->cmd_slot_dma = qemu_get_be64(f);
+> +    dev->dsr_info.req = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->cmd_slot_dma,
+> +                                     sizeof(union pvrdma_cmd_req));
+> +    if (!dev->dsr_info.req) {
+> +        rdma_error_report("Failed to map to command slot address");
+> +        return -1;
+> +    }
+> +    qemu_log("pvrdma_load: successfully remapped to cmd slot\n");
+> +
+> +    // Remap rsp slot
+> +    dev->dsr_info.dsr->resp_slot_dma = qemu_get_be64(f);
+> +    dev->dsr_info.rsp = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->resp_slot_dma,
+> +                                     sizeof(union pvrdma_cmd_resp));
+> +    if (!dev->dsr_info.rsp) {
+> +        rdma_error_report("Failed to map to response slot address");
+> +        return -1;
+> +    }
+> +    qemu_log("pvrdma_load: successfully remapped to rsp slot\n");
+> +
+> +    return 0;
+> +}
+> +
+> +static SaveVMHandlers savevm_pvrdma = {
+> +    .save_state = pvrdma_save,
+> +    .load_state = pvrdma_load,
+> +};
+> +
+>  static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+>  {
+>      int rc = 0;
+> +    DeviceState *s = DEVICE(pdev);
+>      PVRDMADev *dev = PVRDMA_DEV(pdev);
+>      Object *memdev_root;
+>      bool ram_shared = false;
+> @@ -666,6 +720,8 @@ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+>      dev->shutdown_notifier.notify = pvrdma_shutdown_notifier;
+>      qemu_register_shutdown_notifier(&dev->shutdown_notifier);
+>  
+> +    register_savevm_live(s, "pvrdma", -1, 1, &savevm_pvrdma, dev);
+> +
+
+Don't forget to unregister_savevm on fini()
+
+>  out:
+>      if (rc) {
+>          pvrdma_fini(pdev);
+> -- 
+> 2.21.0
 > 
-> Given that all this works for me on a Power9 host, I expect that there's a
-> simple fix for Mark's G5 host.  Given the above assertion, a missing opcode
-> definition, perhaps for -m32 vs -m64?
-
-Right, I'm starting to dig into this a bit more now. First of all, I've figured out
-what is triggering the above assertion:
-
-"qemu-system-ppc: /home/mca/src/qemu/tcg/tcg.c:2207: process_op_defs: Assertion
-`tdefs != ((void *)0)' failed."
-
-The problem is that in tcg/tcg-op.h we define "DEF(dup2_vec, 1, 2, 0, IMPLVEC |
-IMPL(TCG_TARGET_REG_BITS == 32))" and in the last patchset dup2_vec isn't introduced
-until towards the end. Unfortunately it's not a simple as bringing the patch forward
-within the series to maintain bisectability because the current implementation
-depends on VMRG which only appears in the patch just before it...
-
-Next to try and figure out what exactly is causing the fault. Just a quick question
-out of curiosity: is your Power9 system BE or LE?
-
-
-ATB,
-
-Mark.
+> 
 
