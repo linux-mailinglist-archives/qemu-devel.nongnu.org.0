@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 426B652410
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 09:09:13 +0200 (CEST)
-Received: from localhost ([::1]:57018 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B067C5241E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 09:12:27 +0200 (CEST)
+Received: from localhost ([::1]:57040 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hffZo-0002r6-EI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 03:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58718)
+	id 1hffcw-0006Bh-TA
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 03:12:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58865)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <atar4qemu@gmail.com>) id 1hffVk-0001lz-N9
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:05:02 -0400
+ (envelope-from <atar4qemu@gmail.com>) id 1hffWd-0002O2-LI
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:05:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <atar4qemu@gmail.com>) id 1hffVj-0000wn-BL
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:05:00 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:35151)
+ (envelope-from <atar4qemu@gmail.com>) id 1hffWZ-0001ry-9v
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:05:53 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:36613)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <atar4qemu@gmail.com>) id 1hffVi-0000uW-WB
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:04:59 -0400
-Received: by mail-io1-xd44.google.com with SMTP id m24so295673ioo.2
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 00:04:58 -0700 (PDT)
+ (Exim 4.71) (envelope-from <atar4qemu@gmail.com>) id 1hffWX-0001nm-Re
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:05:50 -0400
+Received: by mail-io1-xd41.google.com with SMTP id h6so904658ioh.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 00:05:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=7WcuPFvvgwavS8cJ2IWDuusKpU3X2B9vBzghhkLVXHw=;
- b=WzIWgxppEoJOPU16+Y9DRUBeIELpUrcIgMVph7OtgOdL4F+RElwsMb03gIeyucBwSI
- oADGDHsO2Q+r23+JasDb/YYb6Px6DhHMWuOVSbtyF9IwuNs56cizPR8rrz54bVi4Z1QY
- 4POjJ98zDtG5yc5ki9cjapyFgesobkYjmp5WRNw2H+VBMB1bqp9RB9PnAp9wR4syzhXJ
- W2us8/AaHYbz4LufP8cVA6/VIqdtlQ+3902VjTzqif6OVkWTLM/T8Z/7/VFs9QcY/c1G
- 4uHkRxs3MCOtf2imkGrwuVat860Y/Mtj0TbaPU+M7NvN3p6oJREopyvOvECALZvvMY84
- mX3Q==
+ bh=1C4B+hlARBNNcnI71RNZNmqn/ceaZrea5U2OySrK9Ns=;
+ b=NSe5n18gxqwr9PgyugEZvnJ/g0fWznClE5EDIZIpz8xCMJcwjKI8tJOvXMBCx885n6
+ ctzcHBziCg+lYZBCC/ViLfGGsSQWhxiMETqApVYd3nULsYadetPkW7IpfyNWIIxY2KNl
+ wqOBkh85itfMV5GRS8Zn0Sp9TBkRhl6LUdDxsBoC1h13dFysFsbdyZm4LlBJ+FapnPlz
+ 5Rq/Gcm2fg53tUJITk+9gnfIB7SmBRedxxrjj7ugXY6LPNW1MnOBo/s2Bab97E+mk85c
+ CbNjoB5Kp8OQ28uTgFvSwkYVwSM40oQSUSkg0IWJI95jK3xPX/P3kZXpj9CO//vTFgsJ
+ wWcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=7WcuPFvvgwavS8cJ2IWDuusKpU3X2B9vBzghhkLVXHw=;
- b=cZugdN9Re7cOcPMPdHcUKLVv0xBJ4sMf2GNFwi7pA9HEV3aummpR8wRkkZY+FY7CWo
- d0HZv5d/uchINj9cmzZuXzZTHrzz9SDRtPW++7u8Ss06OkV1emh/6re1lv+N8RbbL3oB
- OQZXTU5Kr9MZzNJ1vBV50gP++Pt0DNmF4xnBL5PX8VOGgxvp/ZAtA0ueLffju+A5q5vG
- I9jBao8xR260YfDI2QsEyPb2c/YlhAmSu6ThydAJ3UQWzDJ/thzr/iNxOz46zPRA6fsY
- G8PsMmRDrhNRCnvrcXo8Va3nVjTiQpziaWq98kkUdCcvR3ac7f5F5DRU2HWEGg1b6o/n
- DyDg==
-X-Gm-Message-State: APjAAAUrTq+crMI119XjqJ4hQb7xJWcSdDBVrbBz2arzrKEhxvEcvnfW
- GQQH3DaTOg+WjuuDXG2mdcVATn23Bp/MVP+eRQc=
-X-Google-Smtp-Source: APXvYqz+XNSk9XJeGC+TfZCLLTS1a3+BXaUNN4gGkCKxQX/9tgy2Ml55+8G/8A168z4NzAr8BzMCOz3zJIpt9bvK5Q4=
-X-Received: by 2002:a6b:6012:: with SMTP id r18mr4344705iog.241.1561446298031; 
- Tue, 25 Jun 2019 00:04:58 -0700 (PDT)
+ bh=1C4B+hlARBNNcnI71RNZNmqn/ceaZrea5U2OySrK9Ns=;
+ b=WIS/ICyQPHlgRDMsvFdOwYRFNF3AlyKseoqCU50NaLszBC9Ymvs/R8cwyEZQaXVAUP
+ 02Ojb0PeUGf5+HcQW3Er4VitNA8tDipmAv0GUsMTtCNB5wSDaVWB2/ghBgClRCbbKikY
+ MLhhc8uSWkPTyvySkvCm054k6XHkfsvGUA5dtD+PCK92OVDoLOVf0LueygFTb/4W7Xbg
+ L3wEOVTRSOKnyF3LnuWybstxANNplJW/sLp2jxCo/BjsyZaC9aBE85XMLIE/ypbYE/SP
+ vlalKoBWjeh36QLX8SjPz3TC2H5GbS1PV0mByqSLBLTyuzcmniuMj1sTbzpNjqEzS1YO
+ A/6A==
+X-Gm-Message-State: APjAAAXDXAlP4Y0CB4xDasgOaMshyxjnAYoZhiRObiEHd+pctxh/qJAB
+ H0aIz+CVgwlPd2Q+K1IrapgvzkUxeUNpi6k0wL6pkgI1
+X-Google-Smtp-Source: APXvYqyIQswVALhQeWRAwN3DVYtzSfHCtrQO3vmF9Yya5pkfYJiyjOZPYS/Sb9hQJ7+nOyPReECmi2XgzIYsu1UliC8=
+X-Received: by 2002:a02:cd82:: with SMTP id l2mr703193jap.96.1561446343504;
+ Tue, 25 Jun 2019 00:05:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190624220056.25861-1-f4bug@amsat.org>
- <20190624220056.25861-7-f4bug@amsat.org>
-In-Reply-To: <20190624220056.25861-7-f4bug@amsat.org>
+ <20190624220056.25861-6-f4bug@amsat.org>
+In-Reply-To: <20190624220056.25861-6-f4bug@amsat.org>
 From: Artyom Tarasenko <atar4qemu@gmail.com>
-Date: Tue, 25 Jun 2019 09:04:47 +0200
-Message-ID: <CACXAS8BbvAWr0UW9_RCnu0qGH-A1TtRrW9O9zC5dnEwSV2a_Bw@mail.gmail.com>
+Date: Tue, 25 Jun 2019 09:05:32 +0200
+Message-ID: <CACXAS8D0VgXeRfufVLhm8SmtmQ-gK_DX-1OoSQmPLn-aPTcBdQ@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d44
-Subject: Re: [Qemu-devel] [PATCH 6/9] hw/misc/empty_slot: Convert debug
- printf()s to trace events
+X-Received-From: 2607:f8b0:4864:20::d41
+Subject: Re: [Qemu-devel] [PATCH 5/9] hw/misc/empty_slot: Add a qdev
+ property 'name'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,76 +86,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, Jun 25, 2019 at 12:01 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
+> If few commits empty_slot_init() will take 'name' as argument.
+> Meanwhile, initialize it as 'empty-slot'.
+>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
 
 > ---
->  hw/misc/empty_slot.c | 19 ++++++++-----------
->  hw/misc/trace-events |  4 ++++
->  2 files changed, 12 insertions(+), 11 deletions(-)
+>  hw/misc/empty_slot.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 >
 > diff --git a/hw/misc/empty_slot.c b/hw/misc/empty_slot.c
-> index c32241a9e5..b810655554 100644
+> index ef0a7b99ba..c32241a9e5 100644
 > --- a/hw/misc/empty_slot.c
 > +++ b/hw/misc/empty_slot.c
-> @@ -15,15 +15,7 @@
->  #include "hw/sysbus.h"
->  #include "qemu/module.h"
->  #include "hw/misc/empty_slot.h"
-> -
-> -//#define DEBUG_EMPTY_SLOT
-> -
-> -#ifdef DEBUG_EMPTY_SLOT
-> -#define DPRINTF(fmt, ...)                                       \
-> -    do { printf("empty_slot: " fmt , ## __VA_ARGS__); } while (0)
-> -#else
-> -#define DPRINTF(fmt, ...) do {} while (0)
-> -#endif
-> +#include "trace.h"
+> @@ -32,6 +32,7 @@ typedef struct EmptySlot {
+>      SysBusDevice parent_obj;
 >
->  #define TYPE_EMPTY_SLOT "empty_slot"
->  #define EMPTY_SLOT(obj) OBJECT_CHECK(EmptySlot, (obj), TYPE_EMPTY_SLOT)
-> @@ -39,14 +31,19 @@ typedef struct EmptySlot {
->  static uint64_t empty_slot_read(void *opaque, hwaddr addr,
->                                  unsigned size)
->  {
-> -    DPRINTF("read from " TARGET_FMT_plx "\n", addr);
-> +    EmptySlot *s =3D EMPTY_SLOT(opaque);
-> +
-> +    trace_empty_slot_write(addr, size << 1, 0, size, s->name);
-> +
->      return 0;
+>      MemoryRegion iomem;
+> +    char *name;
+>      uint64_t size;
+>  } EmptySlot;
+>
+> @@ -78,14 +79,18 @@ static void empty_slot_realize(DeviceState *dev, Erro=
+r **errp)
+>          error_setg(errp, "property 'size' not specified or zero");
+>          return;
+>      }
+> +    if (s->name =3D=3D NULL) {
+> +        s->name =3D g_strdup("empty-slot");
+> +    }
+>
+>      memory_region_init_io(&s->iomem, OBJECT(s), &empty_slot_ops, s,
+> -                          "empty-slot", s->size);
+> +                          s->name, s->size);
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
 >  }
 >
->  static void empty_slot_write(void *opaque, hwaddr addr,
->                               uint64_t val, unsigned size)
->  {
-> -    DPRINTF("write 0x%x to " TARGET_FMT_plx "\n", (unsigned)val, addr);
-> +    EmptySlot *s =3D EMPTY_SLOT(opaque);
-> +
-> +    trace_empty_slot_write(addr, size << 1, val, size, s->name);
->  }
+>  static Property empty_slot_properties[] =3D {
+>      DEFINE_PROP_UINT64("size", EmptySlot, size, 0),
+> +    DEFINE_PROP_STRING("name", EmptySlot, name),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
 >
->  static const MemoryRegionOps empty_slot_ops =3D {
-> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> index 47e1bccf71..b81135ab1e 100644
-> --- a/hw/misc/trace-events
-> +++ b/hw/misc/trace-events
-> @@ -1,5 +1,9 @@
->  # See docs/devel/tracing.txt for syntax documentation.
->
-> +# empty_slot.c
-> +empty_slot_read(uint64_t addr, unsigned width, uint64_t value, unsigned =
-size, const char *name) "rd addr:0x%04"PRIx64" data:0x%0*"PRIx64" size %u [=
-%s]"
-> +empty_slot_write(uint64_t addr, unsigned width, uint64_t value, unsigned=
- size, const char *name) "wr addr:0x%04"PRIx64" data:0x%0*"PRIx64" size %u =
-[%s]"
-> +
->  # eccmemctl.c
->  ecc_mem_writel_mer(uint32_t val) "Write memory enable 0x%08x"
->  ecc_mem_writel_mdr(uint32_t val) "Write memory delay 0x%08x"
 > --
 > 2.19.1
 >
