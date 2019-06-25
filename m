@@ -2,45 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13805554AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:37:59 +0200 (CEST)
-Received: from localhost ([::1]:33942 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C9285546D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:27:22 +0200 (CEST)
+Received: from localhost ([::1]:33856 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfoSE-0002bg-AM
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44152)
+	id 1hfoHx-0002GS-Ku
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:27:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46483)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hfo7i-0004Fa-Jv
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:16:47 -0400
+ (envelope-from <berrange@redhat.com>) id 1hfoGp-0001Ol-Hp
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:26:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hfo7h-0000U0-Ib
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:16:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43386)
+ (envelope-from <berrange@redhat.com>) id 1hfoGo-0000Pa-6A
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:26:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37376)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hfo7f-0000QX-IK
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:16:45 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hfoGn-0000N8-Ve
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:26:10 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A0238300183C
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 16:16:37 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BAAAB1001281;
- Tue, 25 Jun 2019 16:16:33 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 12:16:29 -0400
-Message-Id: <20190625161629.302-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+ by mx1.redhat.com (Postfix) with ESMTPS id B3F4DB0CF5;
+ Tue, 25 Jun 2019 16:26:08 +0000 (UTC)
+Received: from redhat.com (ovpn-112-73.ams2.redhat.com [10.36.112.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09FE5608A4;
+ Tue, 25 Jun 2019 16:26:05 +0000 (UTC)
+Date: Tue, 25 Jun 2019 17:26:03 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190625162603.GK3139@redhat.com>
+References: <20190625050008.12789-1-ehabkost@redhat.com>
+ <20190625050008.12789-5-ehabkost@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190625050008.12789-5-ehabkost@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Tue, 25 Jun 2019 16:16:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Tue, 25 Jun 2019 16:26:08 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2] deprecate -mem-path fallback to anonymous
- RAM
+Subject: Re: [Qemu-devel] [PATCH 4/6] i386: Infrastructure for versioned CPU
+ models
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,67 +58,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- dgilbert@redhat.com, armbru@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fallback might affect guest or worse whole host performance
-or functionality if backing file were used to share guest RAM
-with another process.
+On Tue, Jun 25, 2019 at 02:00:06AM -0300, Eduardo Habkost wrote:
+> Base code for versioned CPU models.  This will register a "-4.1"
+> version of all existing CPU models, and make the unversioned CPU
+> models be an alias for the -4.1 versions on the pc-*-4.1 machine
+> types.
+> 
+> On older machine types, the unversioned CPU models will keep the
+> old behavior.  This way, management software can use old machine
+> types while resolving aliases if compatibility with older QEMU
+> versions is required.
+> 
+> Using "-machine none", the unversioned CPU models will be aliases
+> to the latest CPU model version.
+> 
+> Includes a test case to ensure that:
+> old machine types won't report any alias to versioned CPU models;
+> "pc-*-4.1" will return aliases to -4.1 CPU models;
+> and "-machine none" will report aliases to some versioned CPU model.
 
-Patch deprecates fallback so that we could remove it in future
-and ensure that QEMU will provide expected behavior and fail if
-it can't use user provided backing file.
+I'm wondering about the of tieing CPU versions to the release version
+number and whether its a good idea or not ?
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
-v2:
- * improve text language
-    (Markus Armbruster <armbru@redhat.com>)
+Could there be a reason for us to introduce 2 or more variants
+of a CPU in the same release & would that be a problem if we needed
+todo it ?
 
- numa.c               | 6 ++++--
- qemu-deprecated.texi | 9 +++++++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+Consider if we did not have a Broadwell CPU model defined yet
+and we were adding it at the same time as Spectre came out. We
+might have needed to add "Broadwell-NN" and "Broadwell-MM" one
+with "spec-ctrl" and one without, in order to ensure runability
+on hosts with & without the microcode upgrade.  "Broadwell" alias
+would resolve to either the NN or MM variant according to what
+the current host supported.
 
-diff --git a/numa.c b/numa.c
-index 91a29138a2..c15e53e92d 100644
---- a/numa.c
-+++ b/numa.c
-@@ -494,8 +494,10 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
-             if (mem_prealloc) {
-                 exit(1);
-             }
--            error_report("falling back to regular RAM allocation.");
--
-+            warn_report("falling back to regular RAM allocation");
-+            error_printf("This is deprecated. Make sure that -mem-path "
-+                         " specified path has sufficient resources to allocate"
-+                         " -m specified RAM amount or QEMU will fail to start");
-             /* Legacy behavior: if allocation failed, fall back to
-              * regular RAM allocation.
-              */
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 2fe9b72121..1b7f3b10dc 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -112,6 +112,15 @@ QEMU using implicit generic or board specific splitting rule.
- Use @option{memdev} with @var{memory-backend-ram} backend or @option{mem} (if
- it's supported by used machine type) to define mapping explictly instead.
- 
-+@subsection -mem-path fallback to RAM (since 4.1)
-+Currently if guest RAM allocation from file pointed by @option{mem-path}
-+fails, QEMU falls back to allocating from RAM, which might result
-+in unpredictable behavior since the backing file specified by the user
-+is ignored. In the future, users will be responsible for making sure
-+the backing storage specified with @option{-mem-path} can actually provide
-+the guest RAM configured with @option{-m} and fail to start up if RAM allocation
-+is unsuccessful.
-+
- @section QEMU Machine Protocol (QMP) commands
- 
- @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
+One way to cope with that would have been to add a 3rd digit
+after the version number. eg a Broadwell-4.1.1 and Broadwell-4.1.2
+
+An alternative could consider using a plain counter for the CPU
+versions eg Broadwell-1, Broadwell-2, etc.... ?
+
+
+If we want to backport the newly added CPU model variants to
+exist branches, plain counters don't have the unsightly mismatch.
+eg we'd backport Broadwell-3 to QEMU 3.1, not Broadwell-4.1 to
+QEMU 3.1.  This isn't a functional problem, just something looking
+a bit odd.
+
+
+Regards,
+Daniel
 -- 
-2.18.1
-
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
