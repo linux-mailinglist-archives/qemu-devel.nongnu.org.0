@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61B852420
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 09:12:59 +0200 (CEST)
-Received: from localhost ([::1]:57048 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DF652436
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 09:18:18 +0200 (CEST)
+Received: from localhost ([::1]:57078 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hffdS-0007YL-Uy
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 03:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59866)
+	id 1hffib-0001dj-Sd
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 03:18:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32942)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <atar4qemu@gmail.com>) id 1hffao-0005Gq-KI
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:10:16 -0400
+ (envelope-from <atar4qemu@gmail.com>) id 1hfffN-0000a5-91
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:14:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <atar4qemu@gmail.com>) id 1hffam-0004s1-JG
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:10:14 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42413)
+ (envelope-from <atar4qemu@gmail.com>) id 1hfffL-0008HA-Qw
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:14:57 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:44393)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <atar4qemu@gmail.com>) id 1hffaj-0004mS-MC
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:10:11 -0400
-Received: by mail-io1-xd43.google.com with SMTP id u19so828909ior.9
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 00:10:09 -0700 (PDT)
+ (Exim 4.71) (envelope-from <atar4qemu@gmail.com>) id 1hfffK-0008F7-VT
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 03:14:55 -0400
+Received: by mail-io1-xd42.google.com with SMTP id s7so903655iob.11
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 00:14:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=e5yEapvPey+GUZkFY5pyU+anmO8AXON9ahw0k3Xk3iY=;
- b=TF0ieVG2WVvM4tXqZf+dBNbHJzZtdvuV8xQayqAeu+Lp3kZJuOV1bnXE3TJN8/k604
- flXDaL0Uaz4N1XYflSx9BAccz+kftHhc9UhQIIc56RLOPRmPe9UOD+/oBqQNUF37V9VS
- LMxgv3GQ3HYhXXsdoDnWhUCQHIMFHwzMnr7mL6Q/alYxpMNrITbH19qpBLyExEKMcVl2
- Gu9+Tlo7sN26i+PwZf7trbnB2V6fBjSnV9AeC3nnjcy7b1A2vNwgL9ORwwN0L18hobx6
- H73zs9LerxH6yHsIsX/7/jFUZ8MOClxyM2QA3J6URCAKIb5GO7jqCm+uDSka8wyHBFCz
- N0VQ==
+ bh=t3Cn+pUIhIpjURzIYY1KGobuO49nmtNfCIkUNb9tzP8=;
+ b=eRMQboMP11yYXSTydtFfxLe8rWz6VHZhKGyj0ZZN8d6kGmZj/P3E5gIcKIltqK7NGt
+ YfyPYG+rYWbiP68s205v1GcZaJKB2xF4nGZ2XR7UOLHnvoQ/Ysg+//tW7xZ2S+/2ODTj
+ lG1r47MDRg9bIwq8FaIrgiSfnGD6P4Qlndkobvr2DRRXY7a3zaeUNYxYYNRn8xesdxDR
+ Fl4FHRRUCdbl52P6HDMepVwUC2o6QHbdXH8EZXiffs4AvhH5qUYfjDANFK2bDK0Ma+AT
+ 5Xa8LUz0x0Hpt2HACUgNXUljdUVC78kr+sLZXz47OuwugcI3Jx6ex/i9PN6q41a+Ys7b
+ gisg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=e5yEapvPey+GUZkFY5pyU+anmO8AXON9ahw0k3Xk3iY=;
- b=m/4NJGBoiDk+bzgf3geWgHTvfmfAG/e3FRPEF/uaH1cX7/PQc3K0Rdi0djeoIHT9H2
- c+8pvC+9lvgMgASS7WWIHVsn6X+oJJY1gJ0otdEw36lil9fSEtC36pCtieidozosX0WM
- p4RWWNLwWstpO4ugD8IgsJs+pfLJs8UQFOFMmbN9sbjHDkmHl3HMyCEQz1UOLvUvawDB
- qgO+/0m3d1IHIW8TlhRz9q9a7J++X9mQzUblF/N4GDDexbCOYr8m8uXMgOpbsJttPYeq
- HKbol4thp7zrOnNawlq2XMgzIySmvpUP+ll4wGTr1N4kjPeHxvIcTAPgP2RzGKVPrBi5
- 0CVA==
-X-Gm-Message-State: APjAAAUXdhy2JbrfWyb9GwmJx8F6h9zZKppAnJYl2j+Gkvi9aaBmbQix
- N7Ek3UCRuvzNECIxxXrB6DvJKEx9pj6/cPlj6c8=
-X-Google-Smtp-Source: APXvYqzORdEPcuIHNW7/pEHGlzCATK4zMB00c6iBafuI7lU2A6lqCW3iAGGNjhpw2/4IX/3AhRGwQ7aQv4xYomYKZsU=
-X-Received: by 2002:a6b:6012:: with SMTP id r18mr4368716iog.241.1561446608756; 
- Tue, 25 Jun 2019 00:10:08 -0700 (PDT)
+ bh=t3Cn+pUIhIpjURzIYY1KGobuO49nmtNfCIkUNb9tzP8=;
+ b=fnqY6uMX/YdYmKD0ZBGKMo+QQn8XO/PQ7878cs1W1knFu3u4PRSkZUuuW4bcZ0hVHn
+ KFKxEk03/FASOUcL4UijiEYD5S+oLj6ibR9xZ8hNukJa7Z41KtnPSow1ZzCaLwHa1VYv
+ CbI/tjk08OklxU7L/Z2VeJnIZfNi7O5FaG/VoD+O6Zw3OxZPUmMRogqsUNo6eEog+p/v
+ QyyUCELhAtoNz5QXcVj9qx9lmhH9Mx5JloszTH4vLf+xZenCTHzUB8v+uVDc4RpibVm9
+ CILDhOidcbPbsohovGRiWgTTx8B5FkzCO+kAfAYYp7r3fZVfYyl12kPppS6wGrSq87Ht
+ p1Mw==
+X-Gm-Message-State: APjAAAW43G8e9rgkMzjPvI3TUUCKpUtzaDPdk8Ve8T7ZRXqNUrpt4Akt
+ RQw3hWSDV0qNLvX2L+8JKVD8QiTM+vREzeUSbSI=
+X-Google-Smtp-Source: APXvYqwMA1rSt0Wp5Q8GbqBp8LDsEEVRXBt3a5lFUU/tIConIzQIuZkjceU3dCdzYCAJzViXk2Io/vAN9FQircKEyqU=
+X-Received: by 2002:a6b:6012:: with SMTP id r18mr4388784iog.241.1561446894337; 
+ Tue, 25 Jun 2019 00:14:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190624220056.25861-1-f4bug@amsat.org>
- <20190624220056.25861-2-f4bug@amsat.org>
-In-Reply-To: <20190624220056.25861-2-f4bug@amsat.org>
+ <20190624220056.25861-9-f4bug@amsat.org>
+In-Reply-To: <20190624220056.25861-9-f4bug@amsat.org>
 From: Artyom Tarasenko <atar4qemu@gmail.com>
-Date: Tue, 25 Jun 2019 09:09:58 +0200
-Message-ID: <CACXAS8Au+qyMgFUhZAT6oOnLinSkT0JF4Ut0ZTw-9vUxs3cQhQ@mail.gmail.com>
+Date: Tue, 25 Jun 2019 09:14:43 +0200
+Message-ID: <CACXAS8C=D+Jf9SPiW9SMTj6VMTcjeAQS+VXhpgUtKPPSfFrg5w@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
-Subject: Re: [Qemu-devel] [PATCH 1/9] hw/misc: Move the 'empty_slot' device
- to hw/misc/
+X-Received-From: 2607:f8b0:4864:20::d42
+Subject: Re: [Qemu-devel] [PATCH 8/9] hw/sparc/sun4m: Simplify the RAM
+ creation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,144 +86,145 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, Jun 25, 2019 at 12:01 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
+> Now than the empty_slot device can be overlapped, use it to cover
+> the maximum memory range.
+
+Whilie this is true for SS-5, the SS-20 does trap on missing RAM, so
+empty_slot_init must be conditional.
+nack.
+
+> We can simplify now the main RAM is created.
+> The TYPE_SUN4M_MEMORY is not migratable, simply remove it.
+>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
-
 > ---
->  include/hw/empty_slot.h        |  7 -------
->  include/hw/misc/empty_slot.h   | 32 ++++++++++++++++++++++++++++++++
->  hw/mips/mips_malta.c           |  2 +-
->  hw/{core =3D> misc}/empty_slot.c |  2 +-
->  hw/sparc/sun4m.c               |  2 +-
->  hw/core/Makefile.objs          |  1 -
->  hw/misc/Makefile.objs          |  1 +
->  7 files changed, 36 insertions(+), 11 deletions(-)
->  delete mode 100644 include/hw/empty_slot.h
->  create mode 100644 include/hw/misc/empty_slot.h
->  rename hw/{core =3D> misc}/empty_slot.c (98%)
->
-> diff --git a/include/hw/empty_slot.h b/include/hw/empty_slot.h
-> deleted file mode 100644
-> index 123a9f8989..0000000000
-> --- a/include/hw/empty_slot.h
-> +++ /dev/null
-> @@ -1,7 +0,0 @@
-> -#ifndef HW_EMPTY_SLOT_H
-> -#define HW_EMPTY_SLOT_H
-> -
-> -/* empty_slot.c */
-> -void empty_slot_init(hwaddr addr, uint64_t slot_size);
-> -
-> -#endif
-> diff --git a/include/hw/misc/empty_slot.h b/include/hw/misc/empty_slot.h
-> new file mode 100644
-> index 0000000000..46483f24c3
-> --- /dev/null
-> +++ b/include/hw/misc/empty_slot.h
-> @@ -0,0 +1,32 @@
-> +/*
-> + * QEMU Empty Slot
-> + *
-> + * The empty_slot device emulates known to a bus but not connected devic=
-es.
-> + *
-> + * Copyright (c) 2010 Artyom Tarasenko
-> + *
-> + * This code is licensed under the GNU GPL v2 or (at your option) any la=
-ter
-> + * version.
-> + */
-> +
-> +#ifndef HW_EMPTY_SLOT_H
-> +#define HW_EMPTY_SLOT_H
-> +
-> +/**
-> + * empty_slot_init: create and map a RAZ/WI device
-> + * @base: base address of the device's MMIO region
-> + * @size: size of the device's MMIO region
-> + *
-> + * This utility function creates and maps an instance of empty slot,
-> + * which is a dummy device which simply read as zero, and ignore writes.
-> + * An empty slot sit on a bus, and no bus errors are generated when it i=
-s
-> + * accessed.
-> + * Guest accesses can be traced, using the '-trace empty_slot\*' command
-> + * line argument.
-> + * The device is mapped at priority -10000, which means that you can
-> + * use it to cover a large region and then map other devices on top of i=
-t
-> + * if necessary.
-> + */
-> +void empty_slot_init(hwaddr addr, uint64_t slot_size);
-> +
-> +#endif
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 37ec89b07e..7008be2e5b 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -53,7 +53,7 @@
->  #include "sysemu/qtest.h"
->  #include "qapi/error.h"
->  #include "qemu/error-report.h"
-> -#include "hw/empty_slot.h"
-> +#include "hw/misc/empty_slot.h"
->  #include "sysemu/kvm.h"
->  #include "hw/semihosting/semihost.h"
->  #include "hw/mips/cps.h"
-> diff --git a/hw/core/empty_slot.c b/hw/misc/empty_slot.c
-> similarity index 98%
-> rename from hw/core/empty_slot.c
-> rename to hw/misc/empty_slot.c
-> index c694532046..0adf7a26dc 100644
-> --- a/hw/core/empty_slot.c
-> +++ b/hw/misc/empty_slot.c
-> @@ -13,7 +13,7 @@
->  #include "hw/hw.h"
->  #include "hw/sysbus.h"
->  #include "qemu/module.h"
-> -#include "hw/empty_slot.h"
-> +#include "hw/misc/empty_slot.h"
->
->  //#define DEBUG_EMPTY_SLOT
+>  hw/sparc/sun4m.c | 85 ++++++++----------------------------------------
+>  1 file changed, 13 insertions(+), 72 deletions(-)
 >
 > diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 7e4f61fc3e..cc85598d5b 100644
+> index 0df5a8edfc..d55753d5cb 100644
 > --- a/hw/sparc/sun4m.c
 > +++ b/hw/sparc/sun4m.c
-> @@ -41,7 +41,7 @@
->  #include "hw/nvram/chrp_nvram.h"
->  #include "hw/nvram/fw_cfg.h"
->  #include "hw/char/escc.h"
-> -#include "hw/empty_slot.h"
-> +#include "hw/misc/empty_slot.h"
->  #include "hw/loader.h"
->  #include "elf.h"
->  #include "trace.h"
-> diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-> index a799c83815..5122a28a3b 100644
-> --- a/hw/core/Makefile.objs
-> +++ b/hw/core/Makefile.objs
-> @@ -8,7 +8,6 @@ common-obj-y +=3D irq.o
->  common-obj-y +=3D hotplug.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D nmi.o
+> @@ -767,71 +767,6 @@ static const TypeInfo prom_info =3D {
+>      .class_init    =3D prom_class_init,
+>  };
 >
-> -common-obj-$(CONFIG_EMPTY_SLOT) +=3D empty_slot.o
->  common-obj-$(CONFIG_XILINX_AXI) +=3D stream.o
->  common-obj-$(CONFIG_PTIMER) +=3D ptimer.o
->  common-obj-$(CONFIG_SOFTMMU) +=3D sysbus.o
-> diff --git a/hw/misc/Makefile.objs b/hw/misc/Makefile.objs
-> index 77b9df9796..8ed900f9f5 100644
-> --- a/hw/misc/Makefile.objs
-> +++ b/hw/misc/Makefile.objs
-> @@ -10,6 +10,7 @@ common-obj-$(CONFIG_EDU) +=3D edu.o
->  common-obj-$(CONFIG_PCA9552) +=3D pca9552.o
+> -#define TYPE_SUN4M_MEMORY "memory"
+> -#define SUN4M_RAM(obj) OBJECT_CHECK(RamDevice, (obj), TYPE_SUN4M_MEMORY)
+> -
+> -typedef struct RamDevice {
+> -    SysBusDevice parent_obj;
+> -
+> -    MemoryRegion ram;
+> -    uint64_t size;
+> -} RamDevice;
+> -
+> -/* System RAM */
+> -static void ram_realize(DeviceState *dev, Error **errp)
+> -{
+> -    RamDevice *d =3D SUN4M_RAM(dev);
+> -    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
+> -
+> -    memory_region_allocate_system_memory(&d->ram, OBJECT(d), "sun4m.ram"=
+,
+> -                                         d->size);
+> -    sysbus_init_mmio(sbd, &d->ram);
+> -}
+> -
+> -static void ram_init(hwaddr addr, ram_addr_t RAM_size,
+> -                     uint64_t max_mem)
+> -{
+> -    DeviceState *dev;
+> -    SysBusDevice *s;
+> -    RamDevice *d;
+> -
+> -    /* allocate RAM */
+> -    if ((uint64_t)RAM_size > max_mem) {
+> -        error_report("Too much memory for this machine: %" PRId64 ","
+> -                     " maximum %" PRId64,
+> -                     RAM_size / MiB, max_mem / MiB);
+> -        exit(1);
+> -    }
+> -    dev =3D qdev_create(NULL, "memory");
+> -    s =3D SYS_BUS_DEVICE(dev);
+> -
+> -    d =3D SUN4M_RAM(dev);
+> -    d->size =3D RAM_size;
+> -    qdev_init_nofail(dev);
+> -
+> -    sysbus_mmio_map(s, 0, addr);
+> -}
+> -
+> -static Property ram_properties[] =3D {
+> -    DEFINE_PROP_UINT64("size", RamDevice, size, 0),
+> -    DEFINE_PROP_END_OF_LIST(),
+> -};
+> -
+> -static void ram_class_init(ObjectClass *klass, void *data)
+> -{
+> -    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> -
+> -    dc->realize =3D ram_realize;
+> -    dc->props =3D ram_properties;
+> -}
+> -
+> -static const TypeInfo ram_info =3D {
+> -    .name          =3D TYPE_SUN4M_MEMORY,
+> -    .parent        =3D TYPE_SYS_BUS_DEVICE,
+> -    .instance_size =3D sizeof(RamDevice),
+> -    .class_init    =3D ram_class_init,
+> -};
+> -
+>  static void cpu_devinit(const char *cpu_type, unsigned int id,
+>                          uint64_t prom_addr, qemu_irq **cpu_irqs)
+>  {
+> @@ -872,6 +807,19 @@ static void sun4m_hw_init(const struct sun4m_hwdef *=
+hwdef,
+>      FWCfgState *fw_cfg;
+>      DeviceState *dev;
+>      SysBusDevice *s;
+> +    MemoryRegion ram;
+> +
+> +    if ((uint64_t)machine->ram_size > hwdef->max_mem) {
+> +        error_report("Too much memory for this machine: %" PRId64 ","
+> +                     " maximum %" PRId64,
+> +                     machine->ram_size / MiB, hwdef->max_mem / MiB);
+> +        exit(1);
+> +    }
+> +    memory_region_allocate_system_memory(&ram, OBJECT(machine), "sun4m.r=
+am",
+> +                                         machine->ram_size);
+> +    memory_region_add_subregion(get_system_memory(), 0x00000000, &ram);
+> +    /* models without ECC don't trap when missing ram is accessed */
+> +    empty_slot_init(0x00000000, hwdef->max_mem);
 >
->  common-obj-y +=3D unimp.o
-> +common-obj-$(CONFIG_EMPTY_SLOT) +=3D empty_slot.o
->  common-obj-$(CONFIG_FW_CFG_DMA) +=3D vmcoreinfo.o
+>      /* init CPUs */
+>      for(i =3D 0; i < smp_cpus; i++) {
+> @@ -881,13 +829,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *=
+hwdef,
+>      for (i =3D smp_cpus; i < MAX_CPUS; i++)
+>          cpu_irqs[i] =3D qemu_allocate_irqs(dummy_cpu_set_irq, NULL, MAX_=
+PILS);
 >
->  # ARM devices
+> -
+>      /* set up devices */
+> -    ram_init(0, machine->ram_size, hwdef->max_mem);
+> -    /* models without ECC don't trap when missing ram is accessed */
+> -    if (!hwdef->ecc_base) {
+> -        empty_slot_init(machine->ram_size, hwdef->max_mem - machine->ram=
+_size);
+> -    }
+>
+>      prom_init(hwdef->slavio_base, bios_name);
+>
+> @@ -1561,7 +1503,6 @@ static void sun4m_register_types(void)
+>      type_register_static(&idreg_info);
+>      type_register_static(&afx_info);
+>      type_register_static(&prom_info);
+> -    type_register_static(&ram_info);
+>
+>      type_register_static(&ss5_type);
+>      type_register_static(&ss10_type);
 > --
 > 2.19.1
 >
