@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9603B55413
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:11:18 +0200 (CEST)
-Received: from localhost ([::1]:33558 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7873255440
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:16:21 +0200 (CEST)
+Received: from localhost ([::1]:33598 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfo2P-000702-1u
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:11:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41054)
+	id 1hfo7H-0002Rk-LK
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:16:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41416)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sgarzare@redhat.com>) id 1hfnvL-0002q0-0K
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:04:00 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hfnx1-00043g-Uh
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:05:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1hfnvI-0004XS-Aj
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:03:58 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:32984)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hfnvI-0004WI-1M
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:03:56 -0400
-Received: by mail-oi1-f194.google.com with SMTP id f80so12948952oib.0
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 09:03:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OUu+8e6DNz+miKxAf5CHH0w9x+D9Prky3TKzZan1grw=;
- b=qSh17ucnol6w1fwB1qOqJeQ3NxbyhtmzLwBt3ZIO0cZ3RxWwNwDOkNtM6Fx22+HSI8
- 83FeOGkaz/rD2f85p1ru3euJ2iMxAsQPbwKVQKQjmV/BlfIm/lRZNkxicqBAKQo0JbxI
- mUGqlLlGiUOYZl1S6ZEl06RQM9eSHwWYAII620e7mfEkohU/FXcR2vwIiWDRDtc41vmh
- 3b30qZfoBexVglb5A925AShoNXweL6hqejZYdpOTkeArvZRWERcwQkf//fp8YQWCosT6
- 39CHUAKjAeix7FfcDEtBbOQy/uMFxg03cmGQACjbMa9z8pwdNaVaSXELQ5xunXr2czIb
- NHMg==
-X-Gm-Message-State: APjAAAXYc+ypclNcdN5r3dtHmePrRn8B8vD5sY8OXIm5PyWMqc4yNXEw
- 1KzzmNeZQB1Q2592o/Nj9sq4ihE9lLcuPq7BqXwJ4R5P
-X-Google-Smtp-Source: APXvYqwdxdGeM+0JC7051d1lHShqDMgehB6lyGdSap1DPJnF2FfFiobN5zCcjObVZKa0FrLdwiVQEIHKjH0KRZEj8nY=
-X-Received: by 2002:aca:aad3:: with SMTP id
- t202mr15718212oie.158.1561478633751; 
- Tue, 25 Jun 2019 09:03:53 -0700 (PDT)
+ (envelope-from <ehabkost@redhat.com>) id 1hfnwz-0006De-TP
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:05:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:19082)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfnwy-0005PY-2V
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:05:41 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 94DC67FD6C;
+ Tue, 25 Jun 2019 16:05:06 +0000 (UTC)
+Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F80F608A4;
+ Tue, 25 Jun 2019 16:05:05 +0000 (UTC)
+Date: Tue, 25 Jun 2019 13:05:04 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190625160504.GS1862@habkost.net>
+References: <20190625050008.12789-1-ehabkost@redhat.com>
+ <20190625050008.12789-5-ehabkost@redhat.com>
+ <20190625093201.GF3226@work-vm> <20190625134029.GP1862@habkost.net>
+ <20190625143216.GL3226@work-vm> <20190625145309.GQ1862@habkost.net>
+ <20190625145651.GM3226@work-vm>
 MIME-Version: 1.0
-References: <20190517134748.340381-1-sgarzare@redhat.com>
-In-Reply-To: <20190517134748.340381-1-sgarzare@redhat.com>
-From: Stefano Garzarella <sgarzare@redhat.com>
-Date: Tue, 25 Jun 2019 18:03:42 +0200
-Message-ID: <CAGxU2F4iGjwNe-D3zuFh3Mr-OJtiSTDLe=ZM_EdyufApQUe9hg@mail.gmail.com>
-To: qemu devel list <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190625145651.GM3226@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Tue, 25 Jun 2019 16:05:06 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.167.194
-Subject: Re: [Qemu-devel] [PATCH v3 0/4] Clean ups in net/net.c
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 4/6] i386: Infrastructure for versioned CPU
+ models
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,46 +60,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping.
+On Tue, Jun 25, 2019 at 03:56:51PM +0100, Dr. David Alan Gilbert wrote:
+> * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > On Tue, Jun 25, 2019 at 03:32:16PM +0100, Dr. David Alan Gilbert wrote:
+> > > * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > > > On Tue, Jun 25, 2019 at 10:32:01AM +0100, Dr. David Alan Gilbert wrote:
+> > > > > * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > > > > > Base code for versioned CPU models.  This will register a "-4.1"
+> > > > > > version of all existing CPU models, and make the unversioned CPU
+> > > > > > models be an alias for the -4.1 versions on the pc-*-4.1 machine
+> > > > > > types.
+> > > > > > 
+> > > > > > On older machine types, the unversioned CPU models will keep the
+> > > > > > old behavior.  This way, management software can use old machine
+> > > > > > types while resolving aliases if compatibility with older QEMU
+> > > > > > versions is required.
+> > > > > > 
+> > > > > > Using "-machine none", the unversioned CPU models will be aliases
+> > > > > > to the latest CPU model version.
+> > > > > > 
+> > > > > > Includes a test case to ensure that:
+> > > > > > old machine types won't report any alias to versioned CPU models;
+> > > > > > "pc-*-4.1" will return aliases to -4.1 CPU models;
+> > > > > > and "-machine none" will report aliases to some versioned CPU model.
+> > > > > > 
+> > > > > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > > > 
+> > > > > What happens when we add the next new CPU model?  So say in 4.2 we add
+> > > > > a new CPU, does that default to being newcpu-4.2 ?
+> > > > 
+> > > > We can choose between providing old versions of the CPU model
+> > > > retroactively ("NewModel-4.1" and "NewModel-4.2"), or providing
+> > > > only "NewModel-4.2".
+> > > > 
+> > > > The question is: if we provide only "NewModel-4.2", what should
+> > > > be the behavior of "-machine pc-i440fx-4.1 -cpu NewModel"?
+> > > 
+> > > Perhaps the existing CPUs and the first instance of a new CPU
+> > > we should use something non-numeric, e.g. 'orig' rather than 4.1;
+> > > we only go numeric when we cause a divergence.
+> > 
+> > What would be the advantage of a non-numeric version identifier?
+> > I believe it would be more confusing to have (e.g.)
+> > ["NewModel-orig", "NewModel-4.3"] in QEMU 4.3 instead of
+> > ["NewModel-4.2", "NewModel-4.3"].
+> 
+> To my mind it answers your question:
+> > > > The question is: if we provide only "NewModel-4.2", what should
+> > > > be the behavior of "-machine pc-i440fx-4.1 -cpu NewModel"?
+> 
+> NewModel-orig doesn't look weird in pc-i440fx-4.1
 
-Thanks,
-Stefano
+It doesn't look weird in the surface, but it doesn't change the
+fact that "NewModel-orig" is the version of NewModel that was
+shipped in in QEMU 4.2.  Why would we want to hide that fact?
 
-On Fri, May 17, 2019 at 3:51 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->
-> This series contains some clean ups in net/net.c
->
-> The patch 1 solves an assertion failure when ipv6-prefixlen is not a number,
->
-> Following the Markus' advice, I modified the parsing of IPv6 prefix
-> (patch 2) and IPv4 host:port (patch 3). Then I removed the get_str_sep()
-> function (patch 4) because it is no longer used.
->
-> v3:
->  - Patch 2:
->    - fix indentation [Markus]
->    - move substrings at the function level, and call g_strfreev(substrings)
->      at the end of the function [Markus]
->  - add Markus' R-b
->
-> v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg615866.html
-> v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg614561.html
->
-> Stefano Garzarella (4):
->   net: fix assertion failure when ipv6-prefixlen is not a number
->   net: avoid using variable length array in net_client_init()
->   net: use g_strsplit() for parsing host address and port
->   net: remove unused get_str_sep() function
->
->  net/net.c | 99 +++++++++++++++++++++++++++----------------------------
->  1 file changed, 49 insertions(+), 50 deletions(-)
->
-> --
-> 2.20.1
->
->
+What's the advantage of:
+
+  "-machine pc-i440fx-4.1 -cpu NewModel" will use "NewModel-orig",
+  which is the version of NewModel added in QEMU 4.2.
+
+in relation to:
+
+  "-machine pc-i440fx-4.1 -cpu NewModel" will use "NewModel-4.2",
+  which is the version of NewModel added in QEMU 4.2.
+
+
+-- 
+Eduardo
 
