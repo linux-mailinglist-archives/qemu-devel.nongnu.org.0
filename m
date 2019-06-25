@@ -2,64 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B37755390
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:38:26 +0200 (CEST)
-Received: from localhost ([::1]:33198 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E734C55377
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:32:52 +0200 (CEST)
+Received: from localhost ([::1]:33130 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnWb-0002iv-5V
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33754)
+	id 1hfnRE-0006C3-1X
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:32:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60181)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hfnTn-0000ix-1z
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:35:32 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hfnMW-0003jx-7n
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:28:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hfnTl-0005ld-Me
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:35:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44672)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hfnTl-0005kn-F8
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:35:29 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hfnTj-0003gT-W5
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 15:35:28 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EBC062E8078
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 15:35:27 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 25 Jun 2019 15:27:50 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: laurent-vivier philmd rth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+ (envelope-from <laurent@vivier.eu>) id 1hfnMV-0008D4-AU
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:28:00 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:51367)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hfnMS-00087s-NQ
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:27:57 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N1gWU-1ihkq73ftA-0122Q4; Tue, 25 Jun 2019 17:27:52 +0200
+To: Bug 1833668 <1833668@bugs.launchpad.net>, qemu-devel@nongnu.org
 References: <156110323981.19354.11667763271761846721.malonedeb@wampee.canonical.com>
  <156147381286.18147.1572558561573422063.malone@gac.canonical.com>
-Message-Id: <d5c913aa-0edf-ff4b-f21e-8c1a375e10fd@vivier.eu>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18991";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 1140a9ecac8d9d59f05bad407b4c6b90b42fe7d3
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <d5c913aa-0edf-ff4b-f21e-8c1a375e10fd@vivier.eu>
+Date: Tue, 25 Jun 2019 17:27:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <156147381286.18147.1572558561573422063.malone@gac.canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:joRG4KvCjzteEm0yppdaCCJwYvFljWEWCULou20V7HCwq+jaaig
+ 5/ttbpo/+j4g4IK/VEgWhSHJnCqHq5VoClJA/yLNnY6nctaAtjVYDU0RVjryXkKFpU+beGU
+ tIwc9nvCQQcpYSg/Gar0+S4QG/HlFQfopO0B3xZcJ1ZTgqsppvd3kxDwJrWtT16JbOuNHSG
+ VDzyVds2tN+06BjR7m7vQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mXch//xFirs=:4E7fwKISC8NBmf9yaqoyKv
+ dh7PBChNVADoOw8G1ckvM/uN58l0DsB1qK3dxUGYLqrHyq0JUgZVOyEFBq0Q5FeCtAdGHBOyn
+ VxYj1/vCnXDFxBEK8oICSbqSgyvTCj4SDh2/DCt+TyweXiZSyp4H4kDQnsr8sfsP0bAwT/rNP
+ nDjBtK4lzVc0O2vB67LTN5C4g/ewtzTuQac+yzbUD/QudmYWZ20SqB7hiMK5g47A2JRqBpv8y
+ RphAto4SMU0j9jO9E6/alnJfwFnRxUz8yoC7ETxKedrV63bDd6P21PBUMY4jB0+xzWPuJYydJ
+ moFgl8z8ceer2ogP1EMn2ce5V5hTnm3+8/vr27uH1lawLe1ScQnFT5FRrvCC3xqK+6uIUAkz/
+ qaQXCfsuCstbqSPFirvdi/9EYDzRGHTS7tPPWBrEgDUWW1PpqQQ/9iMVptkWn6zRJrlj8Y9xO
+ Im+hy3edr3nC8Q5F7ENUqQZRcrIQYLqsyZCJ40Gkfe/UlDpvHi9KOA9EuPUerWtOVbPv+fHbW
+ tCvh4Hl7HeW0znPM/PyB0hyICz9ZjnHoPO9jBDSTNwYrfsz4P8uVCwb8Nia32j6lEB22jzetR
+ 84I7udab3UFraZkHlQv63AfQytW75soxkKCgpuc9LDExQBzeJ2TNkL+b0342aVqjBckZywKvf
+ FbsYrporZdkuo4ukatbIcas1J3uLbkAPven6n9EL2AxecMA3jVU5V+GnfiOWnDA+Spjvz/vJP
+ do2s6GQ+njMkzjoX8PMhSWTNGmMAxAllsEFsi8phbUV22/CCpkLUZNWwZ5Q=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+X-Received-From: 212.227.17.13
 Subject: Re: [Qemu-devel] [Bug 1833668] Re: linux-user: Unable to run ARM
  binaries on Aarch64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,67 +110,14 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1833668 <1833668@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/06/2019 =C3=A0 16:43, Richard Henderson a =C3=A9crit=C2=A0:
+Le 25/06/2019 à 16:43, Richard Henderson a écrit :
 > Of course.  There's a separate qemu-arm executable for that.
 
 On some other architectures (like ppc/ppc64) the idea is the 64bit
 version supports also all 32bit versions CPUs.
 
 I think it's why this bug has been opened.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1833668
-
-Title:
-  linux-user: Unable to run ARM binaries on Aarch64
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  Download a ARM package from https://packages.debian.org/sid/busybox-
-  static
-
-  Here tested with: busybox-static_1.30.1-4_armel.deb
-
-  $ file busybox.armel
-  busybox.armel: ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), st=
-atically linked, for GNU/Linux 3.2.0, BuildID[sha1]=3D12cf572e016bafa240e11=
-3b57b3641e94b837f37, stripped
-
-  $ qemu-aarch64 --version
-  qemu-aarch64 version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.14)
-
-  $ qemu-aarch64 busybox.armel
-  busybox.armel: Invalid ELF image for this architecture
-
-  $ qemu-aarch64 -cpu cortex-a7 busybox.armel
-  unable to find CPU model 'cortex-a7'
-
-  Also reproduced with commit 33d609990621dea6c7d056c86f707b8811320ac1,
-  while the aarch64_cpus[] array contains Aarch64 CPUs, the arm_cpus[] arra=
-y is empty:
-
-  $ gdb -q aarch64-linux-user/qemu-aarch64
-  (gdb) p aarch64_cpus
-  $1 =3D {{name =3D 0x1fe4e8 "cortex-a57", initfn =3D 0x109bc0 <aarch64_a57=
-_initfn>, class_init =3D 0x0}, {name =3D 0x1fe508 "cortex-a53", initfn =3D =
-0x109a10 <aarch64_a53_initfn>, class_init =3D 0x0}, {name =3D 0x1fe518 "cor=
-tex-a72", =
-
-      initfn =3D 0x109868 <aarch64_a72_initfn>, class_init =3D 0x0}, {name =
-=3D 0x218020 "max", initfn =3D 0x109d70 <aarch64_max_initfn>, class_init =
-=3D 0x0}, {name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
-  (gdb) p arm_cpus
-  $2 =3D {{name =3D 0x0, initfn =3D 0x0, class_init =3D 0x0}}
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1833668/+subscriptions
 
