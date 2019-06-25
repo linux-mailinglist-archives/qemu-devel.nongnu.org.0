@@ -2,76 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD6954EA7
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 14:17:51 +0200 (CEST)
-Received: from localhost ([::1]:59610 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7787454EE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 14:30:41 +0200 (CEST)
+Received: from localhost ([::1]:59680 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfkOU-00078E-Sl
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 08:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35607)
+	id 1hfkau-0007jn-GM
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 08:30:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36244)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hfkKi-0005Ri-8C
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:13:57 -0400
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1hfkMY-00078v-Py
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:15:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hfkKh-0002Y7-3O
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:13:56 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34596)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hfkKg-0002VP-Ro
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:13:55 -0400
-Received: by mail-wr1-x441.google.com with SMTP id k11so17634338wrl.1
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 05:13:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=UksaqtF4N/TPnqD/x+MneQK0JrFAEjRTWNgnhoMnXwU=;
- b=MHO9QgJ62G1vTj1jSK8CSwS3w2D71/omOcfa9CfzR5j/sXo03g83Hd2OnVKUsC9Zvr
- twd2SBXPqBfMKMpd+adsmc2J1/RuHpftdWJsTgI6L6XN+l6q3spYFXusK/CGPwEkgJJI
- E0TckHGlGsjuLOlunxkMiNmVQHP4wiv+37KZvbfsfs7Dx0W3j1RyadKGS+ph6bjDwO+S
- db86suwf53guXpEhF54x5zeHHqC5wAvJPJrULCToI/tELq9OCRjHduPm7PCM02MOiu/N
- SKA5Dj/A8Y9C3OOgqcR/oWTafOyP1BWAjTDHb5WwPcr4LCWg9uOMkPWorlAdpO1MwrlB
- CPwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=UksaqtF4N/TPnqD/x+MneQK0JrFAEjRTWNgnhoMnXwU=;
- b=P/97ym7fkC+tIrjsPgKoMOdcqm2MaIZfxyg8+QqyM/nHn45C/eAJBe45BUGtt1ECIY
- U/n9hEALIotP/zp/sWmFZ8XdZkJrXUl6VL/RxsykvzqnX1rxOZqJotD7ZlIc5gq0RpZI
- iUjhJY4Wf+HARNvjvyyYFadwt+VdN7Cn5Ly6vwzN0BbA6FglustZw3uM0LCMc2fhGWXT
- RgEf0Ac6KM93AeldQ6C145/xda8QPQHt0cg6f1vgkS/Ml5lPc4hK4TAsPILINwM6vmUW
- H3Wa/noPxWxTi1PeniiB1ERuPOsRy9dnU4OPj4Dfua7pcR3L0v065fY1uJ5DUUOJN/fX
- 3gwQ==
-X-Gm-Message-State: APjAAAUauZBjp+rdf8593Gid1A33oJq+1zk1rYkpN5ClUnt7GBRnZGPB
- 0BQj7I3p211FtoSfQ9lIk0LJng==
-X-Google-Smtp-Source: APXvYqz1CwiM0jvK82K4dPV07IV+vJIDflKYZv9LRiufox2b/V4PB0DnOAVlYs+GgogDTl35w1g/Yw==
-X-Received: by 2002:adf:f046:: with SMTP id t6mr11767694wro.307.1561464831574; 
- Tue, 25 Jun 2019 05:13:51 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id l8sm30609191wrg.40.2019.06.25.05.13.50
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 25 Jun 2019 05:13:50 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 890811FF87;
- Tue, 25 Jun 2019 13:13:50 +0100 (BST)
-References: <20190624055442.2973-1-vandersonmr2@gmail.com>
- <20190624055442.2973-5-vandersonmr2@gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190624055442.2973-5-vandersonmr2@gmail.com>
-Date: Tue, 25 Jun 2019 13:13:50 +0100
-Message-ID: <87h88d277l.fsf@zen.linaroharston>
+ (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1hfkMW-00046m-5X
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:15:50 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:33532 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1hfkMS-0003xO-0W; Tue, 25 Jun 2019 08:15:45 -0400
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 7C5BD68F4B86F0A1E654;
+ Tue, 25 Jun 2019 20:15:34 +0800 (CST)
+Received: from S00345302A-PC.china.huawei.com (10.202.227.237) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 25 Jun 2019 20:15:25 +0800
+From: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
+ <imammedo@redhat.com>
+Date: Tue, 25 Jun 2019 13:14:13 +0100
+Message-ID: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
+X-Mailer: git-send-email 2.12.0.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v2 4/4] adding -d hot_tbs:limit command
- line option
+Content-Type: text/plain
+X-Originating-IP: [10.202.227.237]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 45.249.212.32
+Subject: [Qemu-devel] [PATCH v6 0/8] ARM virt: ACPI memory hotplug support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,110 +52,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, vandersonmr <vandersonmr2@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: peter.maydell@linaro.org, sameo@linux.intel.com, ard.biesheuvel@linaro.org,
+ linuxarm@huawei.com, xuwei5@hisilicon.com, shannon.zhaosl@gmail.com,
+ sebastien.boeuf@intel.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series is an attempt to provide device memory hotplug support 
+on ARM virt platform. This is based on Eric's recent works here[1]
+and carries some of the pc-dimm related patches dropped from his
+series.
 
-vandersonmr <vandersonmr2@gmail.com> writes:
+The kernel support for arm64 memory hot add was added recently by
+Robin and hence the guest kernel should be => 5.0-rc1.
 
-> add option to dump the N most hot TB blocks.
-> -d hot_tbs:N
->
-> Signed-off-by: vandersonmr <vandersonmr2@gmail.com>
-> ---
->  include/qemu/log-for-trace.h | 2 ++
->  linux-user/exit.c            | 3 +++
->  util/log.c                   | 9 +++++++++
->  3 files changed, 14 insertions(+)
->
-> diff --git a/include/qemu/log-for-trace.h b/include/qemu/log-for-trace.h
-> index 2f0a5b080e..d65eb83037 100644
-> --- a/include/qemu/log-for-trace.h
-> +++ b/include/qemu/log-for-trace.h
-> @@ -21,6 +21,8 @@
->  /* Private global variable, don't use */
->  extern int qemu_loglevel;
->
-> +extern int32_t max_num_hot_tbs_to_dump;
-> +
+NVDIM support is not included currently as we still have an unresolved
+issue while hot adding NVDIMM[2]. However NVDIMM cold plug patches
+can be included, but not done for now, for keeping it simple.
 
-This might as well be an int (especially as your using atoi to scan it).
+This makes use of GED device to sent hotplug ACPI events to the
+Guest. GED code is based on Nemu. Thanks to the efforts of Samuel and
+Sebastien to add the hardware-reduced support to Nemu using GED
+device[3]. (Please shout if I got the author/signed-off wrong for
+those patches or missed any names).
 
->  #define LOG_TRACE          (1 << 15)
->
->  /* Returns true if a bit is set in the current loglevel mask */
-> diff --git a/linux-user/exit.c b/linux-user/exit.c
-> index bdda720553..08b86dfd61 100644
-> --- a/linux-user/exit.c
-> +++ b/linux-user/exit.c
-> @@ -28,6 +28,9 @@ extern void __gcov_dump(void);
->
->  void preexit_cleanup(CPUArchState *env, int code)
->  {
-> +    if (qemu_loglevel_mask(CPU_LOG_HOT_TBS)) {
-> +        tb_dump_exec_freq(max_num_hot_tbs_to_dump);
-> +    }
+This is sanity tested on a HiSilicon ARM64 platform and appreciate
+any further testing.
 
-Rather than baking the individual flags here and the fact you'll need to
-duplicate the test for system emulation why not have a common helper
-which you call unconditionally here and in the tail end of vl.c's main:
+Thanks,
+Shameer
 
-  qemu_do_exit_logs()
+[1] https://patchwork.kernel.org/cover/10837565/
+[2] https://patchwork.kernel.org/cover/10783589/
+[3] https://github.com/intel/nemu/blob/topic/virt-x86/hw/acpi/ged.c
+[4] http://lists.infradead.org/pipermail/linux-arm-kernel/2019-May/651763.html
 
-where:
+v5 --> v6
 
-void qemu_do_exit_logs(void)
-{
-    if (qemu_loglevel_mask(CPU_LOG_HOT_TBS)) {
-        tb_dump_exec_freq(max_num_hot_tbs_to_dump);
-    }
-}
+-Addressed comments from Eric.
+-Added R-by from Eric and Igor.
 
-and we can extend that for other reports later...
+v4 --> v5
+-Removed gsi/ged-irq routing in virt.
+-Added Migration support.
+-Dropped support for DT coldplug case based on the discussions
+ here[4]
+-Added system_powerdown support through GED.
 
+v3 --> v4
+Addressed comments from Igor and Eric,
+-Renamed "virt-acpi" to "acpi-ged".
+-Changed ged device parent to TYPE_DEVICE.
+-Introduced DT memory node property "hotpluggable" to resolve device
+ memory being treated as early boot memory issue(patch #7).
+-Combined patches #3 and #9 from v3 into #3.
 
->  #ifdef TARGET_GPROF
->          _mcleanup();
->  #endif
-> diff --git a/util/log.c b/util/log.c
-> index 1d1b33f7d9..e71c663143 100644
-> --- a/util/log.c
-> +++ b/util/log.c
-> @@ -30,6 +30,7 @@ FILE *qemu_logfile;
->  int qemu_loglevel;
->  static int log_append =3D 0;
->  static GArray *debug_regions;
-> +int32_t max_num_hot_tbs_to_dump;
->
->  /* Return the number of characters emitted.  */
->  int qemu_log(const char *fmt, ...)
-> @@ -273,6 +274,9 @@ const QEMULogItem qemu_log_items[] =3D {
->      { CPU_LOG_TB_NOCHAIN, "nochain",
->        "do not chain compiled TBs so that \"exec\" and \"cpu\" show\n"
->        "complete traces" },
-> +    { CPU_LOG_HOT_TBS, "hot_tbs(:limit)",
-> +      "show TBs (until given a limit) ordered by their hotness.\n"
-> +      "(if no limit is given, show all)" },
->      { 0, NULL, NULL },
->  };
->
-> @@ -294,6 +298,11 @@ int qemu_str_to_log_mask(const char *str)
->              trace_enable_events((*tmp) + 6);
->              mask |=3D LOG_TRACE;
->  #endif
-> +        } else if (g_str_has_prefix(*tmp, "hot_tbs")) {
-> +            if (g_str_has_prefix(*tmp, "hot_tbs:") && (*tmp)[8] !=3D '\0=
-') {
-> +                max_num_hot_tbs_to_dump =3D atoi((*tmp) + 8);
-> +            }
-> +            mask |=3D CPU_LOG_HOT_TBS;
->          } else {
->              for (item =3D qemu_log_items; item->mask !=3D 0; item++) {
->                  if (g_str_equal(*tmp, item->name)) {
+v2 --> v3
+
+Addressed comments from Igor and Eric,
+-Made virt acpi device platform independent and moved
+ to hw/acpi/generic_event_device.c
+-Moved ged specific code into hw/acpi/generic_event_device.c
+-Introduced an opt-in feature "fdt" to resolve device-memory being
+ treated as early boot memory.
+-Dropped patch #1 from v2.
+
+RFC --> v2
+
+-Use GED device instead of GPIO for ACPI hotplug events.
+-Removed NVDIMM support for now.
+-Includes dropped patches from Eric's v9 series.
+
+Eric Auger (1):
+  hw/arm/virt: Add memory hotplug framework
+
+Samuel Ortiz (2):
+  hw/acpi: Do not create memory hotplug method when handler is not
+    defined
+  hw/acpi: Add ACPI Generic Event Device Support
+
+Shameer Kolothum (5):
+  hw/acpi: Make ACPI IO address space configurable
+  hw/arm/virt: Enable device memory cold/hot plug with ACPI boot
+  hw/arm/virt-acpi-build: Add PC-DIMM in SRAT
+  hw/acpi: Add system power down support to GED
+  hw/arm: Use GED for system_powerdown event
+
+ hw/acpi/Kconfig                        |   4 +
+ hw/acpi/Makefile.objs                  |   1 +
+ hw/acpi/generic_event_device.c         | 352 +++++++++++++++++++++++++
+ hw/acpi/memory_hotplug.c               |  35 +--
+ hw/arm/Kconfig                         |   4 +
+ hw/arm/virt-acpi-build.c               |  58 ++--
+ hw/arm/virt.c                          |  88 ++++++-
+ hw/i386/acpi-build.c                   |   3 +-
+ include/hw/acpi/generic_event_device.h | 106 ++++++++
+ include/hw/acpi/memory_hotplug.h       |   9 +-
+ include/hw/arm/virt.h                  |   3 +
+ 11 files changed, 607 insertions(+), 56 deletions(-)
+ create mode 100644 hw/acpi/generic_event_device.c
+ create mode 100644 include/hw/acpi/generic_event_device.h
+
+-- 
+2.17.1
 
 
---
-Alex Benn=C3=A9e
 
