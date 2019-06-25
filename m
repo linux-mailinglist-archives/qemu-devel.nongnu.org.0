@@ -2,83 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3D5528EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:04:01 +0200 (CEST)
-Received: from localhost ([::1]:58240 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDC852902
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:06:55 +0200 (CEST)
+Received: from localhost ([::1]:58254 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfiIy-0004mS-80
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58248)
+	id 1hfiLm-0007SO-Eu
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58407)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfiFM-000485-Vm
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:00:18 -0400
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hfiGK-0004PF-Sm
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:01:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfiFH-00088d-HJ
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:00:16 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40773)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hfiFH-00087q-A2
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:00:11 -0400
-Received: by mail-wr1-x441.google.com with SMTP id p11so17115921wre.7
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 03:00:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:openpgp:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GDD319ZPcmRZ+EH12gIoMUsvxFL+Tnlhk45osYnMz+Y=;
- b=UEG5W47qDqlXYBCBHTvlZrRHORuvFRO0CSBnTRDp9o0E3KTQjmaz+8k6fA8gPXGiqI
- qxdMu/RbvWulM/H7mb/Dl+Pvzx5DgsNyUqSNbEP/0jSaFjQ1Yzlh5OQtA3HFin0KRaRK
- sP4NKLUxUNfYaoAuByHmRTGmMZG5TfZcARPZoAwj4iTH6fAvu6KZuQxQP4HfxtrL/Y8n
- MocBhN7iJcFluALJQG5XGsVxExND5RkHbt76ZRcXcZuyr4Cyrl9+8XAcMB5aPWO/MLAJ
- xnLCstFSRLO7pP/FYqsWM0KWW96jPrkXri8VTTsyCdId8+3GJCxEmct+qFogE+rGSoai
- 1fYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=GDD319ZPcmRZ+EH12gIoMUsvxFL+Tnlhk45osYnMz+Y=;
- b=M3B3NGs6b+0fEkypy+SKcOxoZRIHJT4PNyQjHToRS6Ryc8EjQm2KUHdCfR5eMiEAsZ
- PjJHqLqnjSfSu6jAUpcjPOiPbd9QkAxzi+bVLCu4riroVzrzDvMzB1VGutap/m17wzcQ
- eiktdf3e1RMxP614pIaiun+H4dhRRPCNRP4MDRlqIXcaeHoZAMEfKk3u6XKP54RgqSYf
- jb5PuUkDqICdXabV9ORws5CsuoNaQy2SDp+jJgWkZ52Th8Gq6j1f6LYOljEsPAj26Diz
- 8NBi5Tnuo9r9+lkqW2IMwkhdt9rQ54TTlm5w4Rcq0PVcA1BLQvTXQI6yxsj/8zV+MyDY
- oWJw==
-X-Gm-Message-State: APjAAAXeFGRQ/LLE9X/FKeWG6stFFJ8Vnlh0X1lM8e0ZU9aD6Mtr6uix
- 9fbes5Gk0+WZknOl3HNM5ic=
-X-Google-Smtp-Source: APXvYqyp1ZdthmqFS6orUP5+fFORVmsVCdAiTJ/C+jm2xGYJ1ykyt4PWopFXFWaLiJwCt0FR+u6AXw==
-X-Received: by 2002:a5d:46c6:: with SMTP id g6mr21011417wrs.1.1561456809932;
- Tue, 25 Jun 2019 03:00:09 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id u25sm1700693wmc.3.2019.06.25.03.00.08
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Jun 2019 03:00:08 -0700 (PDT)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20190624222844.26584-1-f4bug@amsat.org>
- <20190624222844.26584-7-f4bug@amsat.org>
- <CAL1e-=jSPHmeSjK1UA=bzghZo4Yn83Vi6QWqN0_76ACtz0SZJg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Openpgp: url=http://pgp.mit.edu/pks/lookup?op=get&search=0xE3E32C2CDEADC0DE
-Message-ID: <998ea490-5a3b-679d-0949-97f42953435c@amsat.org>
-Date: Tue, 25 Jun 2019 12:00:07 +0200
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hfiGG-0000bs-QS
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:01:14 -0400
+Received: from telepax.uni-paderborn.de ([131.234.189.14]:56576)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1hfiGC-0000NB-Se
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:01:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:Content-Type
+ :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KmyxiAjadGekmOj3zZzbypkz7ZXT/QrWyxcd1C5JsWk=; b=M52xewo1f+te7XmqhxVaL2GPCO
+ Lko3Mh5K9ulMjouHy1e17RQXTCYSbLbB4On24SI0zHkz9kHsjokmRn5kRCvDmH6SddMm+tIhUebIs
+ uB0zxanZU/xnMWlMLYz9olVaNyfZah/qEkt/jFRPGZRDSSmU3/kHcgIf4UWuSi1HXejQ=;
+To: David Brenken <david.brenken@efs-auto.org>, qemu-devel@nongnu.org
+References: <20190624070339.4408-1-david.brenken@efs-auto.org>
+ <20190624070339.4408-5-david.brenken@efs-auto.org>
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Message-ID: <5ab305b9-a527-f91c-38b0-12167d63a0da@mail.uni-paderborn.de>
+Date: Tue, 25 Jun 2019 12:00:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=jSPHmeSjK1UA=bzghZo4Yn83Vi6QWqN0_76ACtz0SZJg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH 06/10] hw/mips/gt64xxx_pci: Convert debug
- printf()s to trace events
+In-Reply-To: <20190624070339.4408-5-david.brenken@efs-auto.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US-large
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.6.2792898, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2019.6.25.95716, AntiVirus-Engine: 5.63.0,
+ AntiVirus-Data: 2019.6.18.5630002
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 131.234.189.14
+Subject: Re: [Qemu-devel] [PATCH v3 4/5] tricore: sync ctx.hflags with
+ tb->flags
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,214 +63,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Andreas Konopik <andreas.konopik@efs-auto.de>,
+ David Brenken <david.brenken@efs-auto.de>,
+ Robert Rasche <robert.rasche@efs-auto.de>,
+ Georg Hofstetter <georg.hofstetter@efs-auto.de>,
+ Lars Biermanski <lars.biermanski@efs-auto.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Aleksandar,
 
-On 6/25/19 2:40 AM, Aleksandar Markovic wrote:
-> 
-> Philippe, can you hust clarify (explain) what is the criterium when to
-> use log message, and when to use trace event, which are bith present in
-> gt64xxx implementation.
+On 6/24/19 9:03 AM, David Brenken wrote:
+> From: Georg Hofstetter <georg.hofstetter@efs-auto.de>
+>
+> Signed-off-by: Andreas Konopik <andreas.konopik@efs-auto.de>
+> Signed-off-by: David Brenken <david.brenken@efs-auto.de>
+> Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
+> Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
+> Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
+> ---
+>   target/tricore/translate.c | 1 +
+>   1 file changed, 1 insertion(+)
 
-The criterium is rather generic.
+Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 
-All those log/events are meant for developpers, and are disabled by default.
+Cheers,
 
-- DPRINTF()
+Bastian
 
-  This is the older printf() method, flooding the stdout (confuse when
-  the serial console is displayed on stdio).
-  It is deprecated because you have to edit the source and recompile to
-  be able to use it, and once enabled you can not disable it.
-  Since it is compile-time disabled, it tends to bitrot (string formats
-  are not updated).
-  Not recommended for new design.
 
-- qemu_log_mask(loglevel_bits, ...)
-
-  These calls are filtered with the global qemu_loglevel.
-  The log is output to the 'log_file' file if set, or to stderr.
-
-  You can set the global loglevel from command line with '-d bits,...'
-  and the global logfile with the '-D file.log' command line option.
-
-  You can also set those globals at runtime using the HMP 'log' and
-  'logfile' commands:
-
-  (qemu) log help
-  Log items (comma separated):
-  none       remove all logs
-  out_asm    show generated host assembly code for each compiled TB
-  in_asm     show target assembly code for each compiled TB
-  op         show micro ops for each compiled TB
-  op_opt     show micro ops after optimization
-  op_ind     show micro ops before indirect lowering
-  [...]
-  (qemu) log in_asm
-  [...]
-  (qemu) log none
-
-  Note that this logging doesn't have precise timing information.
-
-- qemu_log_mask(LOG_GUEST_ERROR, ...)
-
-  You select this level with '-d guest_errors' or via HMP.
-  This reports invalid hardware accesses from the guest (buggy firmware,
-  code running on an incorrect machine).
-  This is useful for developpers of bootloader, who might want to fix
-  their incorrect accesses before trying the fw on real hardware.
-  Hardware not always generate exception for these incorrect accesses.
-
-  Error reported come from the guest, and QEMU is not responsible, nor
-  need modification in its models.
-
-- qemu_log_mask(LOG_UNIMP, ...)
-
-  You select this one with '-d unimp' or via HMP.
-  This reports accesses to devices QEMU is not modeling.
-  Having the missing device correctly modeled is likely to change the
-  guest code flow (device/driver initialization).
-  This also log accesses to not-yet-implemented registers within a
-  partially implemented device.
-  The common case is an OS driver added new functionalities. The model
-  was developped with a limited driver, newer drivers expect to set
-  more features up.
-  I don't use it with guests image I know are already working, but I
-  often use it when trying an image with a newer/older kernel for
-  example.
-
-- trace events
-
-  Tracing is more powerful than the previous items, but usually requires
-  post-processing effort. It is usually targetting live/post-mortem
-  debugging. You can use various trace backends. It has precise timing,
-  is not invasite, thus is suitable for enterprise grade products.
-  You tipically want to use the 'nop' backend which totally disable
-  tracing when building a production release binary.
-
-  Trace events are useful to debug the guest but also the QEMU code.
-  They are better to debug asynchrone issues than log_mask.
-  They are also very useful to measure timings.
-  <Many more features to add here...>
-
-  Some backends allow easy parsing of events for further (graphical)
-  analysis.
-
-  You can enable/disable traces at runtime with the HMP
-  'trace-event NAME on|off' command:
-
-  (qemu) info trace-events
-  [...]
-  memory_region_ops_write : state 0
-  memory_region_ops_read : state 0
-  ram_block_discard_range : state 0
-  find_ram_offset_loop : state 0
-  find_ram_offset : state 0
-  dma_map_wait : state 0
-  dma_blk_cb : state 0
-  [...]
-  (qemu) trace-event find* on
-  (qemu) info trace-events
-  [...]
-  memory_region_ops_write : state 0
-  memory_region_ops_read : state 0
-  ram_block_discard_range : state 0
-  find_ram_offset_loop : state 1
-  find_ram_offset : state 1
-  dma_map_wait : state 0
-  dma_blk_cb : state 0
-  [...]
-
-  You can also use a file with filtered events.
-  Example tracing how YAMON access the flash and setup the
-  PCI bars:
-
-  $ cat yamon.trace
-  # all flash i/o, no data
-  pflash*
-  -pflash_data
-  pci*
-  gt64120*
-
-  $ qemu-system-mipsel -M malta \
-    -serial vc \
-    -pflash dump.bin \
-    -trace events=yamon.trace
-  11281@1561456612.571933:gt64120_isd_remap ISD: 0x00000000@0x00000000
--> 0x00001000@0x14000000
-  11284@1561456612.576392:gt64120_isd_remap ISD: 0x00001000@0x14000000
--> 0x00001000@0x1be00000
-  11284@1561456612.627574:pci_cfg_write gt64120_pci 00:0 @0x20 <- 0x1be00000
-  11284@1561456614.825315:gt64120_write gt64120 write INTRCAUSE
-value:0xfff3ffff
-  ...
-  11284@1561456615.176261:pci_cfg_write cirrus-vga 18:0 @0x4 <- 0x2
-  11284@1561456615.176275:pci_update_mappings_add d=0x564efb01dd50
-00:12.0 0,0x10000000+0x2000000
-  11284@1561456615.176672:pci_update_mappings_add d=0x564efb01dd50
-00:12.0 1,0x12050000+0x1000
-  ...
-
-Hope that help!
-
-Regards,
-
-Phil.
-
->>  Makefile.objs         |  1 +
->>  hw/mips/gt64xxx_pci.c | 29 ++++++++++-------------------
->>  hw/mips/trace-events  |  4 ++++
->>  3 files changed, 15 insertions(+), 19 deletions(-)
->>  create mode 100644 hw/mips/trace-events
->>
->> diff --git a/Makefile.objs b/Makefile.objs
->> index 658cfc9d9f..3b83621f32 100644
->> --- a/Makefile.objs
->> +++ b/Makefile.objs
->> @@ -163,6 +163,7 @@ trace-events-subdirs += hw/input
->>  trace-events-subdirs += hw/intc
->>  trace-events-subdirs += hw/isa
->>  trace-events-subdirs += hw/mem
->> +trace-events-subdirs += hw/mips
->>  trace-events-subdirs += hw/misc
->>  trace-events-subdirs += hw/misc/macio
->>  trace-events-subdirs += hw/net
->> diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
->> index f44326f14f..815ef0711d 100644
->> --- a/hw/mips/gt64xxx_pci.c
->> +++ b/hw/mips/gt64xxx_pci.c
->> @@ -30,14 +30,7 @@
->>  #include "hw/pci/pci_host.h"
->>  #include "hw/i386/pc.h"
->>  #include "exec/address-spaces.h"
->> -
->> -//#define DEBUG
->> -
->> -#ifdef DEBUG
->> -#define DPRINTF(fmt, ...) fprintf(stderr, "%s: " fmt, __func__,
-> ##__VA_ARGS__)
->> -#else
->> -#define DPRINTF(fmt, ...)
->> -#endif
->> +#include "trace.h"
->>
->>  #define GT_REGS                 (0x1000 >> 2)
->>
->> @@ -294,9 +287,7 @@ static void gt64120_isd_mapping(GT64120State *s)
->>      check_reserved_space(&start, &length);
->>      length = 0x1000;
->>      /* Map new address */
->> -    DPRINTF("ISD: "TARGET_FMT_plx"@"TARGET_FMT_plx
->> -        " -> "TARGET_FMT_plx"@"TARGET_FMT_plx"\n",
->> -        s->ISD_length, s->ISD_start, length, start);
->> +    trace_gt64120_isd_remap(s->ISD_length, s->ISD_start, length, start);
-[...]
 
