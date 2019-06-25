@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1945506A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:32:08 +0200 (CEST)
-Received: from localhost ([::1]:60258 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C73D5508A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:39:31 +0200 (CEST)
+Received: from localhost ([::1]:60310 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hflYO-0001Ie-4S
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:32:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53307)
+	id 1hflfV-0005L1-DI
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:39:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53832)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <imammedo@redhat.com>) id 1hflJR-00006D-7l
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:16:42 -0400
+ (envelope-from <renyime@gmail.com>) id 1hflLA-0001XJ-KU
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <imammedo@redhat.com>) id 1hflJP-0005ts-VO
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:16:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42454)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <imammedo@redhat.com>)
- id 1hflJL-0005p0-9r; Tue, 25 Jun 2019 09:16:35 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BE3F030F1BDC;
- Tue, 25 Jun 2019 13:16:27 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C4565D9C5;
- Tue, 25 Jun 2019 13:16:21 +0000 (UTC)
-Date: Tue, 25 Jun 2019 15:16:16 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <20190625151616.12e46566@redhat.com>
-In-Reply-To: <fbd558d5-03b7-df5c-e781-549261207221@huawei.com>
-References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
- <1557832703-42620-2-git-send-email-gengdongjiu@huawei.com>
- <20190620140409.3c713760@redhat.com>
- <fbd558d5-03b7-df5c-e781-549261207221@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Tue, 25 Jun 2019 13:16:27 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v17 01/10] hw/arm/virt: Add RAS platform
- version for migration
+ (envelope-from <renyime@gmail.com>) id 1hflL9-0007L0-NW
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:28 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36469)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <renyime@gmail.com>) id 1hflL9-0007KM-E5
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:18:27 -0400
+Received: by mail-pg1-x542.google.com with SMTP id f21so8979543pgi.3
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 06:18:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=+mvwjYgLWyjKWcLHV58N51syiwUJURFH8odBAzC6P7A=;
+ b=Khcit/JWtVqPgIL7U/OmHbD1Ommr9BU/LbEpnXiIhcUdKVGQm4fy4TgLQ0iccYlzjc
+ mmQndH6AMhzjltszJ5UQo/t3sESnxIlYP/LMMDMMQpCIioerEzA4LNtDxAQPeP1esI2E
+ WehwmVIGB9Y2YTafZMsYdcCfbXPPOWy5DM3c5MgYwWKo8qzxuIwdVV1Fzw9pi7IU5onD
+ 2N18cUfk6HgkkxrYVXQuQ4A7F+5CDfkuW5KaQ9R1vWsxdAqzjxDNuOUwURLjm16EIIgx
+ wrM8k1J+hKtH3236WC8Y4s7m+bZ25i8eFQBLqTe4jKm8juumynGPzPdWRHkKmYvDKvBb
+ HT1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=+mvwjYgLWyjKWcLHV58N51syiwUJURFH8odBAzC6P7A=;
+ b=n5xf4cWtptfoZ2tF2f2XqyD9WjXumevcd9UN4f52N6hI9rFjrLcePGsLRS/INlveBh
+ 5KlaLOmnCXtmzF9tjl65s86t6TiiCTvmOs5GdNX/Wg0h6z3SUFnJeU7rwq0zfIicVa2n
+ apmG1jnQC+kms+9amPIH/ZQAKvtEAR6WJWYNJJ7ZJ/isMxolMQ4NxIn0l2UJitZSTYFv
+ 3P+HifJkAZedvXNCYaPxqASsQapore4pXZHPvjLsjmEluz+eVmTGqtVYgG9JCRvccYn0
+ ECiUr89TyzcKU6thldmy3AlW61pCJtwxZ58a1mQn9EZApm9Z1sUi0//lQ/AmOLF9855j
+ zxpQ==
+X-Gm-Message-State: APjAAAV5vE8cbw9h9JrXITSS7nRrZvfD3i16lNBn6owsdGrzCdJ6P+ir
+ pSE9v7nXOuZDfvq0fvOnqi/oyF57pbGOVA1N
+X-Google-Smtp-Source: APXvYqy/fGjJX8IN7A5m0eNAkjhP9TkKtW1CMGrrQK9Mncok+202Lls7et1YrZy7jyPvjcZ2dfMkvA==
+X-Received: by 2002:a17:90a:e397:: with SMTP id
+ b23mr32081243pjz.117.1561468705779; 
+ Tue, 25 Jun 2019 06:18:25 -0700 (PDT)
+Received: from VM_64_241_centos.localdomain ([129.226.57.92])
+ by smtp.gmail.com with ESMTPSA id f186sm15675814pfb.5.2019.06.25.06.18.24
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 25 Jun 2019 06:18:25 -0700 (PDT)
+From: Ivan Ren <renyime@gmail.com>
+X-Google-Original-From: Ivan Ren <ivanren@tencent.com>
+To: quintela@redhat.com,
+	dgilbert@redhat.com
+Date: Tue, 25 Jun 2019 21:18:16 +0800
+Message-Id: <1561468699-9819-1-git-send-email-ivanren@tencent.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH 0/3] migration: fix migrate_cancel problems of
+ multifd
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,80 +74,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, kvm@vger.kernel.org,
- mst@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
- linuxarm@huawei.com, shannon.zhaosl@gmail.com, zhengxiang9@huawei.com,
- qemu-arm@nongnu.org, james.morse@arm.com, xuwei5@huawei.com,
- jonathan.cameron@huawei.com, pbonzini@redhat.com, lersek@redhat.com,
- rth@twiddle.net
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 24 Jun 2019 20:19:12 +0800
-gengdongjiu <gengdongjiu@huawei.com> wrote:
+The patches fix the problems encountered in multifd migration when try
+to cancel the migration by migrate_cancel.
 
-> On 2019/6/20 20:04, Igor Mammedov wrote:
-> > On Tue, 14 May 2019 04:18:14 -0700
-> > Dongjiu Geng <gengdongjiu@huawei.com> wrote:
-> >   
-> >> Support this feature since version 4.1, disable it by
-> >> default in the old version.
-> >>
-> >> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
-> >> ---
-> >>  hw/arm/virt.c         | 6 ++++++
-> >>  include/hw/arm/virt.h | 1 +
-> >>  2 files changed, 7 insertions(+)
-> >>
-> >> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> >> index 5331ab7..7bdd41b 100644
-> >> --- a/hw/arm/virt.c
-> >> +++ b/hw/arm/virt.c
-> >> @@ -2043,8 +2043,14 @@ DEFINE_VIRT_MACHINE_AS_LATEST(4, 1)
-> >>  
-> >>  static void virt_machine_4_0_options(MachineClass *mc)
-> >>  {
-> >> +    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-> >> +
-> >>      virt_machine_4_1_options(mc);
-> >>      compat_props_add(mc->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-> >> +    /* Disable memory recovery feature for 4.0 as RAS support was
-> >> +     * introduced with 4.1.
-> >> +     */
-> >> +    vmc->no_ras = true;  
-> > 
-> > So it would mean that the feature is enabled unconditionally for
-> > new machine types and consumes resources whether user needs it or not.
-> > 
-> > In light of the race for leaner QEMU and faster startup times,
-> > it might be better to make RAS optional and make user explicitly
-> > enable it using a machine option.  
-> 
-> I will add a machine option to make RAS optional, do you think we should enable or disable it by default? I think it is better if we enable it by default.
-I'd start with disabled by default as it's easy to make it
-enabled by default later and we can't do so other way around.
+Ivan Ren (3):
+  migration: fix migrate_cancel leads live_migration thread endless loop
+  migration: fix migrate_cancel leads live_migration thread hung forever
+  migration: fix migrate_cancel multifd migration leads destination hung
+    forever
 
- 
-> > 
-> >   
-> >>  }
-> >>  DEFINE_VIRT_MACHINE(4, 0)
-> >>  
-> >> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> >> index 4240709..7f1a033 100644
-> >> --- a/include/hw/arm/virt.h
-> >> +++ b/include/hw/arm/virt.h
-> >> @@ -104,6 +104,7 @@ typedef struct {
-> >>      bool disallow_affinity_adjustment;
-> >>      bool no_its;
-> >>      bool no_pmu;
-> >> +    bool no_ras;
-> >>      bool claim_edge_triggered_timers;
-> >>      bool smbios_old_sys_ver;
-> >>      bool no_highmem_ecam;  
-> > 
-> > .
-> >   
-> 
+ migration/ram.c | 62 ++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 51 insertions(+), 11 deletions(-)
+
+-- 
+2.17.2 (Apple Git-113)
 
 
