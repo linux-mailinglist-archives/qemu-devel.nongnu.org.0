@@ -2,69 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FBC854D9B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 13:28:27 +0200 (CEST)
-Received: from localhost ([::1]:58952 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B10954DC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 13:35:49 +0200 (CEST)
+Received: from localhost ([::1]:59026 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfjcg-00064Q-Ih
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 07:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53011)
+	id 1hfjjo-0004US-M5
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 07:35:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53746)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hfjbX-0005a8-Qa
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:27:17 -0400
+ (envelope-from <jonathan.cameron@huawei.com>) id 1hfjdF-00074o-Lv
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:29:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hfjbW-0001q0-Je
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:27:15 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:36021)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hfjbW-0001oS-DZ
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:27:14 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n4so16235947wrs.3
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 04:27:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=huWTvh49i5FGsRTTKDZBDsk6B0l64V5qCSg46Ze010w=;
- b=KgkaLWE6xzOt7PU/rDiPeVSPk93KYk0YmXODQ/rNcgaPTe87ybvVHkxP6Qlm2fCmVw
- uWtyIv9vNhTnAE9+XiTtT+NAVOCcesSPPcpNx1Ss1Q8W51uPPBdokQqkFJ8OocrdwJkf
- x3Xs+5No6HTZndEWaWYOSs74+S0MKYx4DM/EbjzGaB/PkjJKFM1qnYh+GNJg49DunKUN
- 7yGtFkDPSQQWfFqJ72D3YD+xNCjlEV3ixthTiHU8t6I8L31cPeMZ0SE0dKOijy/hilXD
- ve2te4r+2k+k4AuRWfi6yW0IL3cJfANDhnxJgMog7itBUUf7iYlEM8hqhs+9B3BJcq1c
- iMDA==
-X-Gm-Message-State: APjAAAXOls0rRnpHWhADBK7nZqp/xArVigHqG8Toy8IWp+lmDyJ1RW3s
- YsgG83uQsPwL3uGyoUDeWMbnmQ==
-X-Google-Smtp-Source: APXvYqwtOfrgpWufmSanayc6gEzPAP9TWhOh8fQJjJJwpDWeq/TNbVFDpGvrhte8V4S1CKOheW4GYQ==
-X-Received: by 2002:a5d:4841:: with SMTP id n1mr1176614wrs.320.1561462032941; 
- Tue, 25 Jun 2019 04:27:12 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id o126sm3525184wmo.1.2019.06.25.04.27.11
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Jun 2019 04:27:12 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20190624225446.22597-1-atish.patra@wdc.com>
- <CAKmqyKO28WO3QzQOOzJnFOA5J2Wjeg-MF5+BcoWWF+qO=+UTNA@mail.gmail.com>
- <09df5e02-e241-1046-5051-909c53fe19b7@redhat.com>
- <20190625104122.GC3139@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <e91591ed-3a69-ff99-3953-c55beb3d88d3@redhat.com>
-Date: Tue, 25 Jun 2019 13:27:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <jonathan.cameron@huawei.com>) id 1hfjdE-0004F1-05
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 07:29:01 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2178 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1hfjd5-0003id-DU; Tue, 25 Jun 2019 07:28:55 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id 12F7E70A72843ED135E0;
+ Tue, 25 Jun 2019 19:28:38 +0800 (CST)
+Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 25 Jun 2019 19:28:29 +0800
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Tue, 25 Jun 2019 19:27:45 +0800
+Message-ID: <20190625112752.83188-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190625104122.GC3139@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.123.41.22]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH] riscv: virt: Add cpu-topology DT node.
+X-Received-From: 45.249.212.190
+Subject: [Qemu-devel] [RFC PATCH 0/7] qemu: CCIX pcie config space emulation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,80 +50,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, jcm@redhat.com,
+ linuxarm@huawei.com, Auger Eric <eric.auger@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/25/19 12:41 PM, Daniel P. Berrangé wrote:
-> On Tue, Jun 25, 2019 at 12:36:35PM +0200, Philippe Mathieu-Daudé wrote:
->> On 6/25/19 1:24 AM, Alistair Francis wrote:
->>> On Mon, Jun 24, 2019 at 3:57 PM Atish Patra <atish.patra@wdc.com> wrote:
->>>>
->>>> Currently, there is no cpu topology defined in RISC-V.
->>>> Define a device tree node that clearly describes the
->>>> entire topology. This saves the trouble of scanning individual
->>>> cache to figure out the topology.
->>>>
->>>> Here is the linux kernel patch series that enables topology
->>>> for RISC-V.
->>>>
->>>> http://lists.infradead.org/pipermail/linux-riscv/2019-June/005072.html
->>>>
->>>> CPU topology after applying this patch in QEMU & above series in kernel
->>>>
->>>> / # cat /sys/devices/system/cpu/cpu2/topology/thread_siblings_list
->>>> 2
->>>> / # cat /sys/devices/system/cpu/cpu2/topology/physical_package_id
->>>> 0
->>>> / # cat /sys/devices/system/cpu/cpu2/topology/core_siblings_list
->>>> 0-7
->>>>
->>>> Signed-off-by: Atish Patra <atish.patra@wdc.com>
->>>> ---
->>>>  hw/riscv/virt.c | 21 +++++++++++++++++++--
->>>>  1 file changed, 19 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
->>>> index 84d94d0c42d8..da0b8aa18747 100644
->>>> --- a/hw/riscv/virt.c
->>>> +++ b/hw/riscv/virt.c
->>>> @@ -203,9 +203,12 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
->>>>          qemu_fdt_setprop_string(fdt, nodename, "status", "okay");
->>>>          qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
->>>>          qemu_fdt_setprop_string(fdt, nodename, "device_type", "cpu");
->>>> +        qemu_fdt_setprop_cell(fdt, nodename, "phandle", cpu_phandle);
->>>> +        qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", cpu_phandle);
->>>> +        int intc_phandle = phandle++;
->>>
->>> Don't declare variables in the middle of code. The variable must be
->>> declared at the start of a block.
->>
->> I guess this has been relaxed since we allow GNU C99:
-> 
-> Even though we allow GNU C99 I think it is undesirable to declare variables
-> in the middle of methods. This is especially true when combined with "goto"
-> as you end up with undefined / uninitialized vairable contents at the jump
-> target, if we've jumped over the variable declaration.
-> 
-> We can't enforce location of variable declarations, but I'd really
-> recommend we keep them all at the start of code blocks.
+CCIX topologies are 'layered' on top of PCIe tree topologies.
+This is done primarily by allowing a single CCIX device to appear as
+multiple disjoint nodes in the PCIe tree.
 
-In this case I find it desirable:
+This layering is described via extensive PCIe DVSEC extended
+capabilities in PCIe config space across all the functions that
+are present in the device (some placement rules apply).
 
-  for (int i = 0; ...) {
-    ...
-  }
+The extremely flexible nature of allowed topologies makes the
+development of generic firmware and OS software difficult if we rely
+on actual hardware setups, due to the large test set that is necessary.
 
-For the rest, I agree to keep them at the start of code block.
+To enable the ongoing work on EDK2 and within the Linux kernel and
+userspace, this series provides the bare bones of what is necessary
+to be able to test 'configuration' of a CCIX topology.  Note
+that no actual CCIX data flow is being emulated within this patchset,
+merely a substantial subset of the interface that allows the topologies
+to be configured.  Testing has to rely on verification based on
+the result rather than true emulation of the coherency protocol.
+(that is a very different form of emulation for which other tools
+are perhaps better suited).
 
-Regards,
+For information on how to do the coherency protocol configuration,
+see the forthcoming CCIX SW guide, in conjunction with the CCIX 1.0
+Base Specification.
 
-Phil.
+An example of a 2x2 mesh with a spur to the host can be run with:
+
+qemu-system-aarch64 -M virt -m 1024 -cpu cortex-a53 \
+...
+ -device ioh3420,id=3Droot_port1 \
+ -device ccix-upstream-port,num_links=3D4,primaryport=3Dtrue,rsam_entries=
+=3D4,ccix_device=3D"ccix_dev1",bus=3Droot_port1,addr=3D0.0,multifunction=3D=
+"on",id=3Dup0,port_id=3D0 \
+ -device ccix-downstream-port,ccix_device=3D"ccix_dev1",bus=3Dup0,slot=3D=
+0,chassis=3D2,id=3Dbus_top,port_id=3D1 \
+ -device ccix-downstream-port,ccix_device=3D"ccix_dev1",bus=3Dup0,slot=3D=
+1,chassis=3D2,id=3Dbus_left,port_id=3D2 \
+ -device ccix-ep,primaryport=3Dfalse,home_agents=3D1,request_agents=3D1,c=
+cix_device=3D"ccix_dev1",bus=3Droot_port1,addr=3D0.1,multifunction=3D"on"=
+ \
+ -device ccix-upstream-port,num_links=3D4,primaryport=3Dtrue,rsam_entries=
+=3D4,ccix_device=3D"ccix_dev2",bus=3Dbus_top,addr=3D0.0,multifunction=3D"=
+on",id=3Dup1,port_id=3D0 \
+ -device ccix-downstream-port,ccix_device=3D"ccix_dev2",bus=3Dup1,slot=3D=
+0,chassis=3D3,id=3Dbus_right,port_id=3D1 \
+ -device ccix-ep,primaryport=3Dfalse,request_agents=3D2,ccix_device=3D"cc=
+ix_dev2",bus=3Dbus_top,addr=3D0.1,multifunction=3D"on" \
+ -device ccix-upstream-port,num_links=3D4,primaryport=3Dtrue,rsam_entries=
+=3D4,ccix_device=3D"ccix_dev3",bus=3Dbus_left,addr=3D0.0,multifunction=3D=
+"on",id=3Dup2,port_id=3D0 \
+ -device ccix-downstream-port,ccix_device=3D"ccix_dev3",bus=3Dup2,slot=3D=
+0,chassis=3D4,id=3Dbus_bottom,port_id=3D1,multifunciton=3D"on" \
+ -device ccix-ep,primaryport=3Dfalse,request_agents=3D2,ccix_device=3D"cc=
+ix_dev3",bus=3Dbus_left,addr=3D0.1,multifunction=3D"on" \
+ -device ccix-ep,primaryport=3Dtrue,request_agents=3D2,ccix_device=3D"cci=
+x_dev4",bus=3Dbus_right,addr=3D0.0,port_id=3D0 \
+ -device ccix-ep,primaryport=3Dtrue,request_agents=3D2,ccix_device=3D"cci=
+x_dev4",bus=3Dbus_bottom,addr=3D0.0,port_id=3D1
+
+
+I'm not going to try drawing all the detail (it's bad enough
+trying to draw these in inkscape, but in a very much simplifed
+fashion, this generates.
+
+-----------------
+|     Host      |
+|               |=20
+--- root_port1--
+        |
+        |
+        v
+-----------------          ---------------
+|  ccix_dev1    | -------> |  ccix_dev2  |
+-----------------          ---------------
+        |                         |
+        V                         V
+-----------------          ---------------
+|  ccix_dev3    | -------> |  ccix_dev4  |
+-----------------          ---------------
+
+$lspci -t
+-[0000:00]-+-00.0
+           +-01.0-[01-08]--+-00.0-[02-08]--+-00.0-[03-05]--+-00.0-[04-05]=
+----00.0-[05]----00.0
+                           |               |               |             =
+  \-00.1
+                           |               |               \-01.0-[06-08]=
+--+-00.0-[07-08]----00.0-[08]----00.0
+                           |               |                             =
+  \-00.1
+                           |               \-00.1
+						      =20
+RFC questions:
+
+1.  The nature of CCIX devices is that we need to extend normal
+    PCI devices, slots, and ports.  I could not find an elegant way of
+    doing this without lots of code replication.  The current solution
+    just exposes some internal functions from xio3130 port implementation=
+s.
+    Is there a better way to do this?
+
+2.  The association of the different PCIDevices to a given CCIX device is
+    currently somewhat of a hack. Can anyone suggest a cleaner solution
+    for this?  I can improved the current implementation, but don't reall=
+y
+    like that we basically search for all the parts whenever a cross
+    device implementation is needed.
+
+3.  Is emulation via a large number of PCIe devices like this a good
+    approach or is there a nicer way to handle it?  Given we need to
+    be able to 'spread' the CCIX device configuration across multiple
+    PCIe functions anyway perhaps this is the most sensible approach.
+
+4.  I've cut and paste a 100+ lines of code from each of the xio3130_*
+    modules as we are also implemening PCIE up and downstream ports
+    and as this is a emulation only device, we might as well use the
+    same register set.  There are various possible ways to avoid this:
+    * Add a library with the shared code in it.
+    * Add an xio3130_upstream.h header and similar to allow the CCIX
+      port modules to call those functions directly.
+    * Don't worry about the replication in the interests of keeping
+      the code structure simple.
+
+5.  I'm not that familiar with qemu 'style' yet, so pointers on structure=
+s
+    to use etc most welcome.
+
+Note that not all elements of CCIX are supported by the current implement=
+ation,
+for example slave agents and error records are missing.  These will follo=
+w
+either in later revisions or as follow patches.  We also have no actual
+accelerator functions in the current design and hence no mapping to RAs.
+
+Only a subset of configuration constraints are currently implemented.
+This will want tightenning up in future.
+
+As we don't have any actual chunks of the spec in here so I haven't
+added the statement from the trademark grant that follows.
+
+Thanks,
+
+Jonathan
+
+This patch is being distributed by the CCIX Consortium, Inc. (CCIX) to
+you and other parties that are paticipating (the "participants") in
+qemu with the understanding that the participants will use CCIX's
+name and trademark only when this patch is used in association with
+qemu.
+
+CCIX is also distributing this patch to these participants with the
+understanding that if any portion of the CCIX specification will be
+used or referenced in qemu, the participants will not modify the cited
+portion of the CCIX specification and will give CCIX propery copyright
+attribution by including the following copyright notice with
+the cited part of the CCIX specification:
+"=C2=A9 2019 CCIX CONSORTIUM, INC. ALL RIGHTS RESERVED."
+
+Jonathan Cameron (7):
+  Temp: Add the PCI_EXT_ID_DVSEC definition to the qemu pci_regs.h copy.
+  pci: Add Huawei vendor ID and Huawei Emulated CCIX Device IDs.
+  pci: CCIX config space emulation library.
+  pci-bridge: CCIX capable PCIE/CCIX switch upstream port.
+  pci-bridge: CCIX capable PCIE/CCIX switch downstream port
+  misc: CCIX endpoint function
+  Temp: Add to ARM64 makefiles for testing
+
+ default-configs/arm-softmmu.mak           |    3 +-
+ hw/misc/Kconfig                           |    5 +
+ hw/misc/Makefile.objs                     |    1 +
+ hw/misc/ccix-ep.c                         |  112 ++
+ hw/pci-bridge/Kconfig                     |    5 +
+ hw/pci-bridge/Makefile.objs               |    1 +
+ hw/pci-bridge/ccix_downstream.c           |  222 ++++
+ hw/pci-bridge/ccix_upstream.c             |  197 ++++
+ hw/pci/Kconfig                            |    3 +
+ hw/pci/Makefile.objs                      |    1 +
+ hw/pci/ccix_lib.c                         | 1299 +++++++++++++++++++++
+ include/hw/misc/ccix.h                    |   28 +
+ include/hw/pci/pci_ids.h                  |    7 +
+ include/standard-headers/linux/pci_regs.h |    3 +-
+ 14 files changed, 1885 insertions(+), 2 deletions(-)
+ create mode 100644 hw/misc/ccix-ep.c
+ create mode 100644 hw/pci-bridge/ccix_downstream.c
+ create mode 100644 hw/pci-bridge/ccix_upstream.c
+ create mode 100644 hw/pci/ccix_lib.c
+ create mode 100644 include/hw/misc/ccix.h
+
+--=20
+2.20.1
+
 
