@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534875534C
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:25:37 +0200 (CEST)
-Received: from localhost ([::1]:33054 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 079ED55370
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:31:25 +0200 (CEST)
+Received: from localhost ([::1]:33108 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnKC-0001T9-GZ
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:25:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57647)
+	id 1hfnPo-0004n1-73
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:31:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57719)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <walling@linux.ibm.com>) id 1hfnDD-00046L-EV
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:24 -0400
+ (envelope-from <walling@linux.ibm.com>) id 1hfnDK-00048q-Rn
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <walling@linux.ibm.com>) id 1hfnDA-0007Fl-VK
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:22 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43598
+ (envelope-from <walling@linux.ibm.com>) id 1hfnDI-0007Op-Mc
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:30 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22296
  helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <walling@linux.ibm.com>)
- id 1hfnD9-00078K-1d
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:19 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5PF3R8N025384
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 11:18:13 -0400
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tbnn9hp3w-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 11:18:13 -0400
-Received: from localhost
- by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <walling@linux.ibm.com>;
- Tue, 25 Jun 2019 16:18:12 +0100
-Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
- by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Tue, 25 Jun 2019 16:18:09 +0100
+ id 1hfnD9-00076L-1l; Tue, 25 Jun 2019 11:18:19 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5PF3T7j099484; Tue, 25 Jun 2019 11:18:10 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tbnra9c16-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Jun 2019 11:18:09 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x5PFFLQn019894;
+ Tue, 25 Jun 2019 15:18:09 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 2t9by6rx43-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 25 Jun 2019 15:18:09 +0000
 Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
  [9.57.199.107])
  by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5PFI8MJ49938898
+ x5PFI8XG35979728
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 25 Jun 2019 15:18:08 GMT
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 035BE124054;
+ by IMSVA (Postfix) with ESMTP id 2252512405B;
  Tue, 25 Jun 2019 15:18:08 +0000 (GMT)
 Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EE5E912405A;
- Tue, 25 Jun 2019 15:18:07 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 106C4124052;
+ Tue, 25 Jun 2019 15:18:08 +0000 (GMT)
 Received: from collin-T470p.pok.ibm.com (unknown [9.63.14.221])
  by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 25 Jun 2019 15:18:07 +0000 (GMT)
+ Tue, 25 Jun 2019 15:18:08 +0000 (GMT)
 From: Collin Walling <walling@linux.ibm.com>
 To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, cohuck@redhat.com,
  rth@twiddle.net, david@redhat.com, pasic@linux.ibm.com,
  borntraeger@de.ibm.com, mst@redhat.com, pbonzini@redhat.com
-Date: Tue, 25 Jun 2019 11:17:07 -0400
+Date: Tue, 25 Jun 2019 11:17:08 -0400
+Message-Id: <1561475829-19202-2-git-send-email-walling@linux.ibm.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
+References: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19062515-0064-0000-0000-000003F3864D
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011328; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01223108; UDB=6.00643639; IPR=6.01004281; 
- MB=3.00027462; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-25 15:18:11
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19062515-0065-0000-0000-00003E071D9D
-Message-Id: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
  definitions=2019-06-25_11:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
  malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
  mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.0.1-1810050000 definitions=main-1906250116
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH v5 0/2] Guest Support for DIAGNOSE 0x318
+Subject: [Qemu-devel] [PATCH v5 1/2] s390/kvm: header sync for diag318
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,61 +86,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changelog:
+Signed-off-by: Collin Walling <walling@linux.ibm.com>
+---
+ linux-headers/asm-s390/kvm.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-    v5
-        - split off header updates in kvm_s390x.h to a separate patch
-        - implemented CPU model feature for this insn made available with
-            zEC12-full and later models
-        - s/cpc/diag318_info in order to make the relevant data more clear
-        - reduced S390_MAX_CPUS from 248 to 247
-
-The DIAGNOSE 0x318 instruction is a privileged instruction that is executed by the
-linux kernel once and only once during setup. This requires interception by KVM to 
-handle the instruction call safely. The instruction assists with determining the 
-environment the VM is running in -- this is better described in the KVM patches.
-
-The analogous KVM patches still under review can be found here:
-https://marc.info/?l=linux-s390&m=156147521528818&w=2
-
-Guest support for the diag 318 instruction is accomplished by implementing a device 
-class, a cpu model feature, and adjusting the Read Info struct. The Read Info struct
-adjustment coincidentally reduces the maximum number of VCPUs we can have by one.
-
-A device class is used for this instruction in order to streamline the migration and 
-reset of the DIAG 318 related data.
-
-A CPU model feature is added for this instruction, appropriately named diag318.
-
-The instruction is determined by a Read Info byte 134 bit 0. This is a new byte that
-expands into the space of the Read Info SCCB that is also used to contain CPU entry
-data. Due to this expansion, we lose space for one CPU entry and we must reduce the
-maximum possible CPUs from 248 to 247. Hopefully this drawback does not affect many 
-VMs.
-
-Collin Walling (2):
-  s390/kvm: header sync for diag318
-  s390: diagnose 318 info reset and migration support
-
- hw/s390x/Makefile.objs          |  1 +
- hw/s390x/diag318.c              | 80 +++++++++++++++++++++++++++++++++++++++++
- hw/s390x/diag318.h              | 38 ++++++++++++++++++++
- hw/s390x/s390-virtio-ccw.c      | 17 +++++++++
- hw/s390x/sclp.c                 |  3 ++
- include/hw/s390x/sclp.h         |  2 ++
- linux-headers/asm-s390/kvm.h    |  4 +++
- target/s390x/cpu.h              |  8 ++++-
- target/s390x/cpu_features.c     |  3 ++
- target/s390x/cpu_features.h     |  1 +
- target/s390x/cpu_features_def.h |  3 ++
- target/s390x/gen-features.c     |  1 +
- target/s390x/kvm-stub.c         | 10 ++++++
- target/s390x/kvm.c              | 29 +++++++++++++++
- target/s390x/kvm_s390x.h        |  2 ++
- 15 files changed, 201 insertions(+), 1 deletion(-)
- create mode 100644 hw/s390x/diag318.c
- create mode 100644 hw/s390x/diag318.h
-
+diff --git a/linux-headers/asm-s390/kvm.h b/linux-headers/asm-s390/kvm.h
+index 03ab596..4a857bb 100644
+--- a/linux-headers/asm-s390/kvm.h
++++ b/linux-headers/asm-s390/kvm.h
+@@ -74,6 +74,7 @@ struct kvm_s390_io_adapter_req {
+ #define KVM_S390_VM_CRYPTO		2
+ #define KVM_S390_VM_CPU_MODEL		3
+ #define KVM_S390_VM_MIGRATION		4
++#define KVM_S390_VM_MISC		5
+ 
+ /* kvm attributes for mem_ctrl */
+ #define KVM_S390_VM_MEM_ENABLE_CMMA	0
+@@ -171,6 +172,9 @@ struct kvm_s390_vm_cpu_subfunc {
+ #define KVM_S390_VM_MIGRATION_START	1
+ #define KVM_S390_VM_MIGRATION_STATUS	2
+ 
++/* kvm attributes for KVM_S390_VM_MISC */
++#define KVM_S390_VM_MISC_DIAG318	0
++
+ /* for KVM_GET_REGS and KVM_SET_REGS */
+ struct kvm_regs {
+ 	/* general purpose regs for s390 */
 -- 
 2.7.4
 
