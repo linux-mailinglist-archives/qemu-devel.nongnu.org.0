@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04E152281
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 07:03:43 +0200 (CEST)
-Received: from localhost ([::1]:56554 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23A752283
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 07:06:43 +0200 (CEST)
+Received: from localhost ([::1]:56566 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfdcL-0007pF-KR
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 01:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33606)
+	id 1hfdfG-0001TU-U6
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 01:06:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33623)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hfdZ8-0006gw-8R
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:23 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hfdZA-0006jA-Db
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hfdZ7-0002OL-7l
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41614)
+ (envelope-from <ehabkost@redhat.com>) id 1hfdZ9-0002QW-FI
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44736)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfdZ7-0002Mk-27
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:21 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfdZ9-0002Po-9K
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 01:00:23 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5FDB881F35
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 05:00:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 82499BDD1
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 05:00:17 +0000 (UTC)
 Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E14C25C231;
- Tue, 25 Jun 2019 05:00:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F4205D9D3;
+ Tue, 25 Jun 2019 05:00:15 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 02:00:03 -0300
-Message-Id: <20190625050008.12789-2-ehabkost@redhat.com>
+Date: Tue, 25 Jun 2019 02:00:04 -0300
+Message-Id: <20190625050008.12789-3-ehabkost@redhat.com>
 In-Reply-To: <20190625050008.12789-1-ehabkost@redhat.com>
 References: <20190625050008.12789-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 25 Jun 2019 05:00:19 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Tue, 25 Jun 2019 05:00:17 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/6] i386: Add x-force-features option for
- testing
+Subject: [Qemu-devel] [PATCH 2/6] i386: Remove unused host_cpudef variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,59 +58,33 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new option that can be used to disable feature flag
-filtering.  This will allow CPU model compatibility test cases to
-work without host hardware dependencies.
+The variable is completely unused, probably a leftover from
+previous code clean up.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.h | 6 ++++++
- target/i386/cpu.c | 8 ++++++--
- 2 files changed, 12 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index df99d70c43..25544fdaaa 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1414,6 +1414,12 @@ struct X86CPU {
- 
-     bool check_cpuid;
-     bool enforce_cpuid;
-+    /*
-+     * Force features to be enabled even if the host doesn't support them.
-+     * This is dangerous and should be done only for testing CPUID
-+     * compatibility.
-+     */
-+    bool force_features;
-     bool expose_kvm;
-     bool expose_tcg;
-     bool migratable;
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index f8d8f779c1..1bad957f6e 100644
+index 1bad957f6e..cf03dc786e 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5140,8 +5140,11 @@ static int x86_cpu_filter_features(X86CPU *cpu)
-         uint32_t host_feat =
-             x86_cpu_get_supported_feature_word(w, false);
-         uint32_t requested_features = env->features[w];
--        env->features[w] &= host_feat;
--        cpu->filtered_features[w] = requested_features & ~env->features[w];
-+        uint32_t available_features = requested_features & host_feat;
-+        if (!cpu->force_features) {
-+            env->features[w] = available_features;
-+        }
-+        cpu->filtered_features[w] = requested_features & ~available_features;
-         if (cpu->filtered_features[w]) {
-             rv = 1;
-         }
-@@ -5866,6 +5869,7 @@ static Property x86_cpu_properties[] = {
+@@ -3133,14 +3133,8 @@ static void max_x86_cpu_initfn(Object *obj)
+         char vendor[CPUID_VENDOR_SZ + 1] = { 0 };
+         char model_id[CPUID_MODEL_ID_SZ + 1] = { 0 };
+         int family, model, stepping;
+-        X86CPUDefinition host_cpudef = { };
+-        uint32_t eax = 0, ebx = 0, ecx = 0, edx = 0;
+-
+-        host_cpuid(0x0, 0, &eax, &ebx, &ecx, &edx);
+-        x86_cpu_vendor_words2str(host_cpudef.vendor, ebx, edx, ecx);
  
-     DEFINE_PROP_BOOL("check", X86CPU, check_cpuid, true),
-     DEFINE_PROP_BOOL("enforce", X86CPU, enforce_cpuid, false),
-+    DEFINE_PROP_BOOL("x-force-features", X86CPU, force_features, false),
-     DEFINE_PROP_BOOL("kvm", X86CPU, expose_kvm, true),
-     DEFINE_PROP_UINT32("phys-bits", X86CPU, phys_bits, 0),
-     DEFINE_PROP_BOOL("host-phys-bits", X86CPU, host_phys_bits, false),
+         host_vendor_fms(vendor, &family, &model, &stepping);
+-
+         cpu_x86_fill_model_id(model_id);
+ 
+         object_property_set_str(OBJECT(cpu), vendor, "vendor", &error_abort);
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
