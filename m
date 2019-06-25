@@ -2,65 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE81525D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 10:03:00 +0200 (CEST)
-Received: from localhost ([::1]:57344 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD6B52642
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 10:16:07 +0200 (CEST)
+Received: from localhost ([::1]:57404 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfgPr-0007D7-Rj
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 04:02:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45285)
+	id 1hfgcY-0002jD-B0
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 04:16:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48431)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hfgOr-0006lD-Ee
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:01:59 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hfgaL-0001VQ-SX
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:13:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hfgOm-0005QW-UR
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:01:56 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38775)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hfgOf-0004wT-H2
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:01:47 -0400
-Received: by mail-wm1-f66.google.com with SMTP id s15so1855001wmj.3
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 01:01:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uxc3F61hidTqb8sPNldKP+dtqraZZxlm2dUHrEm81VY=;
- b=D4cwE6IXMVPFB3QiiPnwgb/kWAwQYHaQNiv2BZCMCTrvqiW89q7/I/+1JZyf+dkKjh
- NrOh5lOxr55pOvDHAnyTh96uJ7vjcJ+H0d2wJs4XlhhiLgizHdjxcakXoc0+TnXWjONw
- KmzUsBFrKnJLzy3+wwl0WdXNQ1yxIOHtImGEwfLOI68tdrkLAj7RIjOT9QJRcjYIaKLJ
- Q8DQy8oQvoGm6Elp7nPv9ZcaYKgZ5VSwR9FqSqtG1qESULpxNyqlKCOnHB8nUYW2eOog
- gSC1fTFZSmdub98sKw1K4LjBOBaspHZK/gMajJdgVBAAPdWnKGJk58KB7SnuGNZj8CHw
- CcXg==
-X-Gm-Message-State: APjAAAW0Xtidz2/Q0VaBnlFMfcOKNVbvyCXP+4feJce2yYJB+BNTn9th
- KyLoFYAtEMBZUqRDhfE7RndlEA==
-X-Google-Smtp-Source: APXvYqxjaM/UILGu15gLDo4PD3snKZpxN5Hu/g5GvxDv+X0iDl15C5xF226f73CGtrhABoFV6m9lYg==
-X-Received: by 2002:a1c:5a56:: with SMTP id o83mr18405294wmb.103.1561449681580; 
- Tue, 25 Jun 2019 01:01:21 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:e88d:856c:e081:f67d?
- ([2001:b07:6468:f312:e88d:856c:e081:f67d])
- by smtp.gmail.com with ESMTPSA id i11sm1701552wmi.33.2019.06.25.01.01.20
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Jun 2019 01:01:21 -0700 (PDT)
-To: Li Qiang <liq3ea@163.com>, peterx@redhat.com, mst@redhat.com
-References: <20190624151635.22494-1-liq3ea@163.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <be98a9c4-3a49-00e9-b67c-e362f234208e@redhat.com>
-Date: Tue, 25 Jun 2019 10:01:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <kwolf@redhat.com>) id 1hfgaK-0000YN-UL
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 04:13:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33808)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hfgaA-0000Ju-1H; Tue, 25 Jun 2019 04:13:39 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 37803308626C;
+ Tue, 25 Jun 2019 08:13:35 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-23.ams2.redhat.com
+ [10.36.117.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6495A1001B00;
+ Tue, 25 Jun 2019 08:13:33 +0000 (UTC)
+Date: Tue, 25 Jun 2019 10:13:31 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <20190625081331.GB5187@localhost.localdomain>
+References: <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1560276131-683243-8-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <20190617114544.GE7397@linux.fritz.box>
+ <09632364-3d1d-9e5c-a050-f48f76d2e38c@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20190624151635.22494-1-liq3ea@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <09632364-3d1d-9e5c-a050-f48f76d2e38c@virtuozzo.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Tue, 25 Jun 2019 08:13:35 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH] ioapic: clear irq_eoi when updating the
- ioapic redirect table entry
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 7/7] iotests: new file to suppress
+ Valgrind errors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,36 +61,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liq3ea@gmail.com, qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "berrange@redhat.com" <berrange@redhat.com>, Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>, Roman Kagan <rkagan@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/06/19 17:16, Li Qiang wrote:
-> irq_eoi is used to count the number of irq injected during eoi
-> broadcast. It should be set to 0 when updating the ioapic's redirect
-> table entry.
+Am 24.06.2019 um 18:55 hat Andrey Shinkevich geschrieben:
 > 
-> Suggested-by: Peter Xu <peterx@redhat.com>
-> Signed-off-by: Li Qiang <liq3ea@163.com>
-> ---
->  hw/intc/ioapic.c | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
-> index 7074489fdf..db9e518602 100644
-> --- a/hw/intc/ioapic.c
-> +++ b/hw/intc/ioapic.c
-> @@ -380,6 +380,7 @@ ioapic_mem_write(void *opaque, hwaddr addr, uint64_t val,
->                  /* restore RO bits */
->                  s->ioredtbl[index] &= IOAPIC_RW_BITS;
->                  s->ioredtbl[index] |= ro_bits;
-> +                s->irq_eoi[index] = 0;
->                  ioapic_fix_edge_remote_irr(&s->ioredtbl[index]);
->                  ioapic_service(s);
->              }
+> On 17/06/2019 14:45, Kevin Wolf wrote:
+> > Am 11.06.2019 um 20:02 hat Andrey Shinkevich geschrieben:
+> >> The Valgrind tool reports about an uninitialised memory usage when the
+> >> initialization is actually not needed. For example, the buffer 'buf'
+> >> instantiated on a stack of the function guess_disk_lchs().
+> > 
+> > I would be careful with calling initialisation "not needed". It means
+> > that the test case may not behave entirely determinstic because the
+> > uninitialised memory can vary between runs.\
 > 
+> I am going to amend the comment.
+> 
+> Andrey
+> 
+> > 
+> > In this specific case, I assume that guess_disk_lchs() is called for a
+> > null block node, for which .bdrv_co_preadv by default returns without
+> > actually writing to the buffer. Instead of ignoring the valgrind error,
+> > we could instead pass read-zeroes=on to the null block driver to make
+> > the test deterministic.
+> 
+> The buffer that the Valgrind complains of is initialized by the 
+> following function call blk_pread_unthrottled() that reads the first 
+> BDRV_SECTOR_SIZE bytes form a disk "to guess the disk logical geometry". 
+> The Valgrind does not recognize that way of initialization. I believe we 
+> do not need to zero the buffer instantiated on the stack just to make 
+> the Valgrind silent there.
 
-Queued, thanks.
+My point is that blk_pread_unthrottled() with null-co/null-aio leaves
+the buffer untouched if read-zeroes=off (which is the default). So yes,
+valgrind is right, this memory is still uninitialised after
+blk_pread_unthrottled().
 
-Paolo
+Kevin
 
