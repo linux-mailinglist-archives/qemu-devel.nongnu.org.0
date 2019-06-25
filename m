@@ -2,52 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E13D555216
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 16:38:54 +0200 (CEST)
-Received: from localhost ([::1]:60944 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E701755289
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 16:52:37 +0200 (CEST)
+Received: from localhost ([::1]:32796 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfmaz-0007XE-DR
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 10:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46229)
+	id 1hfmoH-0007Rr-3t
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 10:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46526)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hfmUs-0005HL-Ed
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:32:35 -0400
+ (envelope-from <arikalo@wavecomp.com>) id 1hfmVz-0005lx-85
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:33:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hfmUr-0002L7-Al
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:32:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50801)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hfmUp-0002HQ-8J
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:32:33 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C8C5D307EA85;
- Tue, 25 Jun 2019 14:32:22 +0000 (UTC)
-Received: from work-vm (ovpn-117-108.ams2.redhat.com [10.36.117.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 568D55C236;
- Tue, 25 Jun 2019 14:32:19 +0000 (UTC)
-Date: Tue, 25 Jun 2019 15:32:16 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190625143216.GL3226@work-vm>
-References: <20190625050008.12789-1-ehabkost@redhat.com>
- <20190625050008.12789-5-ehabkost@redhat.com>
- <20190625093201.GF3226@work-vm> <20190625134029.GP1862@habkost.net>
+ (envelope-from <arikalo@wavecomp.com>) id 1hfmVx-0003BV-83
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:33:43 -0400
+Received: from mail-co1nam04on0727.outbound.protection.outlook.com
+ ([2a01:111:f400:fe4d::727]:60366
+ helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <arikalo@wavecomp.com>)
+ id 1hfmVw-00035s-NE
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:33:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=wavesemi.onmicrosoft.com; s=selector1-wavesemi-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=J6eIfbogJdSpcpwFa6bXUeLMFktMdYfGbywx68CZz74=;
+ b=no9C893y0Bw9pQsJpzPLb2Z0azweRvtyXtDHgrSed8xRGfmRgU47aax5KWSzvRE9z1YJEcO6r5Dd+qlNTgxsUzqHY32e7pXaqB082QC9xSLroRc4sMFqnwgg1feivy9wTcQCyoAqXZR/U4M4j22eJn35PHj9QG+JdQQzaTVRMq4=
+Received: from DM5PR22MB1658.namprd22.prod.outlook.com (10.164.152.163) by
+ DM5PR22MB0714.namprd22.prod.outlook.com (10.172.192.15) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2008.16; Tue, 25 Jun 2019 14:33:36 +0000
+Received: from DM5PR22MB1658.namprd22.prod.outlook.com
+ ([fe80::3579:1b6c:1f31:c6b9]) by DM5PR22MB1658.namprd22.prod.outlook.com
+ ([fe80::3579:1b6c:1f31:c6b9%7]) with mapi id 15.20.2008.014; Tue, 25 Jun 2019
+ 14:33:35 +0000
+From: Aleksandar Rikalo <arikalo@wavecomp.com>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH 2/2] dma/rc4030: Minor code style cleanup
+Thread-Index: AQHVK2IoNLF7CduNiES5vAKQ9cTlHqasbrtN
+Date: Tue, 25 Jun 2019 14:33:35 +0000
+Message-ID: <DM5PR22MB1658B6F1F277373069EFD54FD2E30@DM5PR22MB1658.namprd22.prod.outlook.com>
+References: <1561472838-32272-1-git-send-email-aleksandar.markovic@rt-rk.com>,
+ <1561472838-32272-3-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1561472838-32272-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=arikalo@wavecomp.com; 
+x-originating-ip: [82.117.201.26]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e3981ae6-fe0b-43e7-011a-08d6f97a1b53
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DM5PR22MB0714; 
+x-ms-traffictypediagnostic: DM5PR22MB0714:
+x-microsoft-antispam-prvs: <DM5PR22MB07148A695787969EADEC63FCD2E30@DM5PR22MB0714.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:161;
+x-forefront-prvs: 0079056367
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(376002)(39850400004)(396003)(366004)(136003)(346002)(189003)(199004)(55016002)(486006)(26005)(7736002)(229853002)(446003)(52536014)(476003)(9686003)(11346002)(6116002)(66066001)(54896002)(3846002)(6436002)(2906002)(7696005)(5660300002)(6606003)(53936002)(99286004)(256004)(71190400001)(19627405001)(71200400001)(2501003)(76176011)(316002)(14454004)(14444005)(55236004)(25786009)(91956017)(102836004)(76116006)(64756008)(68736007)(66476007)(66556008)(73956011)(66446008)(66946007)(53546011)(110136005)(54906003)(6246003)(6506007)(8936002)(186003)(478600001)(81166006)(8676002)(81156014)(4326008)(74316002)(86362001)(33656002)(21314003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR22MB0714;
+ H:DM5PR22MB1658.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: wavecomp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 0kXSXSHFkMm20oKlJ+c4xj5Y7kFk75CAJbRsnPTmiHsEVrgx3pCMv1HrJNga2ZzGxsrL2SI9k8pwDZYQ2sbA21GprJamWuOH80mh/FvGZmLDI9KaKrC4I6uSqrPQxCIvvS80h5mgLr7tFXgU6ezj7Vc9PEp3jSV7C6At0mzZPj2xd1ON3I/wMO+wfQ5hOeB4y87xFPdMzWCvCMY+AYxUNdU5slT7kyztz40BD2u6vyccPPejzFqAjcBb53ILFgTFO3c9C7epVnjr5DsOuVZbHHNRZGXT9aDBGfHCImio4JXXJUHkobA7QD9c04dwZ7ZoSTA51a5R2qaS22TceeoLRNIkgw/vtdE/WU9t9iQrQ+P3rHTcUOPMXOBvSCimPz9Sl8n+5gXBDDzJn01j6jOIgBoc9Pdx2SllFn7CHEhjxYY=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190625134029.GP1862@habkost.net>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Tue, 25 Jun 2019 14:32:27 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 4/6] i386: Infrastructure for versioned CPU
- models
+X-OriginatorOrg: wavecomp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3981ae6-fe0b-43e7-011a-08d6f97a1b53
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2019 14:33:35.7965 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: arikalo@wavecomp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR22MB0714
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 2a01:111:f400:fe4d::727
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH 2/2] dma/rc4030: Minor code style cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,53 +97,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: "hpoussin@reactos.org" <hpoussin@reactos.org>,
+ "f4bug@amsat.org" <f4bug@amsat.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Eduardo Habkost (ehabkost@redhat.com) wrote:
-> On Tue, Jun 25, 2019 at 10:32:01AM +0100, Dr. David Alan Gilbert wrote:
-> > * Eduardo Habkost (ehabkost@redhat.com) wrote:
-> > > Base code for versioned CPU models.  This will register a "-4.1"
-> > > version of all existing CPU models, and make the unversioned CPU
-> > > models be an alias for the -4.1 versions on the pc-*-4.1 machine
-> > > types.
-> > > 
-> > > On older machine types, the unversioned CPU models will keep the
-> > > old behavior.  This way, management software can use old machine
-> > > types while resolving aliases if compatibility with older QEMU
-> > > versions is required.
-> > > 
-> > > Using "-machine none", the unversioned CPU models will be aliases
-> > > to the latest CPU model version.
-> > > 
-> > > Includes a test case to ensure that:
-> > > old machine types won't report any alias to versioned CPU models;
-> > > "pc-*-4.1" will return aliases to -4.1 CPU models;
-> > > and "-machine none" will report aliases to some versioned CPU model.
-> > > 
-> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > 
-> > What happens when we add the next new CPU model?  So say in 4.2 we add
-> > a new CPU, does that default to being newcpu-4.2 ?
-> 
-> We can choose between providing old versions of the CPU model
-> retroactively ("NewModel-4.1" and "NewModel-4.2"), or providing
-> only "NewModel-4.2".
-> 
-> The question is: if we provide only "NewModel-4.2", what should
-> be the behavior of "-machine pc-i440fx-4.1 -cpu NewModel"?
+> From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+> Sent: Tuesday, June 25, 2019 4:27 PM
+> To: qemu-devel@nongnu.org
+> Cc: Aleksandar Markovic; Aleksandar Rikalo; hpoussin@reactos.org; f4bug@a=
+msat.org
+> Subject: [PATCH 2/2] dma/rc4030: Minor code style cleanup
+>
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+>
+> Fix some simple checkpatch.pl warnings in rc4030.c.
+>
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> ---
+>  hw/dma/rc4030.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+> index 88ff271..155af9b 100644
+> --- a/hw/dma/rc4030.c
+> +++ b/hw/dma/rc4030.c
+> @@ -58,8 +58,8 @@ typedef struct dma_pagetable_entry {
+>
+>  #define TYPE_RC4030_IOMMU_MEMORY_REGION "rc4030-iommu-memory-region"
+>
+> -typedef struct rc4030State
+> -{
+> +typedef struct rc4030State {
+> +
+>      SysBusDevice parent;
+>
+>      uint32_t config; /* 0x0000: RC4030 config register */
+> @@ -152,8 +152,9 @@ static uint64_t rc4030_read(void *opaque, hwaddr addr=
+, unsigned int size)
+>      case 0x0058:
+>          val =3D s->cache_bmask;
+>          /* HACK */
+> -        if (s->cache_bmask =3D=3D (uint32_t)-1)
+> +        if (s->cache_bmask =3D=3D (uint32_t)-1) {
+>              s->cache_bmask =3D 0;
+> +        }
+>          break;
+>      /* Remote Speed Registers */
+>      case 0x0070:
+> @@ -538,8 +539,9 @@ static void rc4030_reset(DeviceState *dev)
+>
+>      s->memory_refresh_rate =3D 0x18186;
+>      s->nvram_protect =3D 7;
+> -    for (i =3D 0; i < 15; i++)
+> +    for (i =3D 0; i < 15; i++) {
+>          s->rem_speed[i] =3D 7;
+> +    }
+>      s->imr_jazz =3D 0x10; /* XXX: required by firmware, but why? */
+>      s->isr_jazz =3D 0;
+>
+> @@ -551,7 +553,7 @@ static void rc4030_reset(DeviceState *dev)
+>
+>  static int rc4030_post_load(void *opaque, int version_id)
+>  {
+> -    rc4030State* s =3D opaque;
+> +    rc4030State *s =3D opaque;
+>
+>      set_next_tick(s);
+>      update_jazz_irq(s);
+> @@ -591,7 +593,8 @@ static void rc4030_do_dma(void *opaque, int n, uint8_=
+t *buf, int len, int is_wri
+>      hwaddr dma_addr;
+>      int dev_to_mem;
+>
+> -    s->dma_regs[n][DMA_REG_ENABLE] &=3D ~(DMA_FLAG_TC_INTR | DMA_FLAG_ME=
+M_INTR | DMA_FLAG_ADDR_INTR);
+> +    s->dma_regs[n][DMA_REG_ENABLE] &=3D
+> +           ~(DMA_FLAG_TC_INTR | DMA_FLAG_MEM_INTR | DMA_FLAG_ADDR_INTR);
+>
+>      /* Check DMA channel consistency */
+>      dev_to_mem =3D (s->dma_regs[n][DMA_REG_ENABLE] & DMA_FLAG_MEM_TO_DEV=
+) ? 0 : 1;
+> @@ -603,8 +606,9 @@ static void rc4030_do_dma(void *opaque, int n, uint8_=
+t *buf, int len, int is_wri
+>      }
+>
+>      /* Get start address and len */
+> -    if (len > s->dma_regs[n][DMA_REG_COUNT])
+> +    if (len > s->dma_regs[n][DMA_REG_COUNT]) {
+>          len =3D s->dma_regs[n][DMA_REG_COUNT];
+> +    }
+>      dma_addr =3D s->dma_regs[n][DMA_REG_ADDRESS];
+>
+>      /* Read/write data at right place */
+> --
+> 2.7.4
 
-Perhaps the existing CPUs and the first instance of a new CPU
-we should use something non-numeric, e.g. 'orig' rather than 4.1;
-we only go numeric when we cause a divergence.
-
-Dave
-
-> -- 
-> Eduardo
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
 
