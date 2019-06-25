@@ -2,50 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37E345294E
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:22:21 +0200 (CEST)
-Received: from localhost ([::1]:58374 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B015296C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:28:08 +0200 (CEST)
+Received: from localhost ([::1]:58478 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfiai-0002A9-B6
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:22:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34588)
+	id 1hfigI-0000oy-U7
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:28:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35095)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgilbert@redhat.com>) id 1hfiWh-0007iQ-T2
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:18:13 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hfiYZ-0000E5-Vh
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:20:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgilbert@redhat.com>) id 1hfiWc-0000z8-FC
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:18:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51945)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hfiWc-0000yF-5f
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:18:06 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7D26A307D97F;
- Tue, 25 Jun 2019 10:18:05 +0000 (UTC)
-Received: from work-vm (ovpn-117-108.ams2.redhat.com [10.36.117.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 62E626085B;
- Tue, 25 Jun 2019 10:18:03 +0000 (UTC)
-Date: Tue, 25 Jun 2019 11:18:00 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Maxiwell S. Garcia" <maxiwell@linux.ibm.com>
-Message-ID: <20190625101800.GH3226@work-vm>
-References: <20190624174636.12428-1-maxiwell@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190624174636.12428-1-maxiwell@linux.ibm.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 25 Jun 2019 10:18:05 +0000 (UTC)
+ (envelope-from <palmer@dabbelt.com>) id 1hfiYY-00030n-GM
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:20:07 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42676)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hfiYY-0002zZ-8Y
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:20:06 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q10so9239077pff.9
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 03:20:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=eYufa29gR8Qoq691MeFTHr9ktSdVsXgSvRUvOy0sXpM=;
+ b=SuTXikpHl+jKC3tQKf5Jw/kmyAL5t4a7mmsToBrEK8rgJmDAHfrIRqbp1YjDRzZ1ZU
+ W0Ezxy9winrQbwBjjuhbvxFIwM6uOHRAAGBufeUaLtsJ6YYuU3hg1rpvo++/W37MuM9L
+ zfUgprMa/taNXYQdaZ5KeI1X35zYWbVCV1LRP0UEvzZRgv/I2lsg/JgFR/PTm2py81Hp
+ PGfMxPEMMPCb1ABPUmCMzJg1pqdulgkRe9jM2qxkGa9f1js9RmejDCkSQm0014AyK28H
+ lB7NX62W2SAk+z3WOrs1QLUyEYAxk68rPyg3nQGDpRH/derLTXz/QQ4kQVwIesnBVpMA
+ kccg==
+X-Gm-Message-State: APjAAAXdM5mbemH+6EVouoWA7Xul5IHdnA/nTlDTn0wVwOAtS0cFa2Eh
+ bv3dsU0yqWQr/FsKE4s8MioghA==
+X-Google-Smtp-Source: APXvYqyNg+Y5CTHPzBny3L/12ops6+PaQFKzzzwPHDQTZWTYBhXFA5OShJ/UrOo6bLBsTQjNSznQjQ==
+X-Received: by 2002:a17:90a:9a83:: with SMTP id
+ e3mr30365096pjp.105.1561458004906; 
+ Tue, 25 Jun 2019 03:20:04 -0700 (PDT)
+Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
+ [220.132.236.182])
+ by smtp.gmail.com with ESMTPSA id i126sm18198466pfb.32.2019.06.25.03.20.04
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 25 Jun 2019 03:20:04 -0700 (PDT)
+Date: Tue, 25 Jun 2019 03:20:04 -0700 (PDT)
+X-Google-Original-Date: Tue, 25 Jun 2019 03:09:31 PDT (-0700)
+In-Reply-To: <20190624234144.10768-1-atish.patra@wdc.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Atish Patra <Atish.Patra@wdc.com>
+Message-ID: <mhng-7c1a8a81-ee0d-4e95-87b9-ef9543ad121c@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] migration: Use RunState enum to save
- global state pre migrate
+ [fuzzy]
+X-Received-From: 209.85.210.195
+Subject: Re: [Qemu-devel] [PATCH v2] riscv: virt: Add cpu-topology DT node.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,211 +68,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- quintela@redhat.com
+Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org,
+ Atish Patra <Atish.Patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Maxiwell S. Garcia (maxiwell@linux.ibm.com) wrote:
-> The GlobalState struct has two confusing fields:
-> - uint8_t runstate[100]
-> - RunState state
-> 
-> The first field saves the 'current_run_state' from vl.c file before
-> migrate. The second field is filled in the post load func using the
-> 'runstate' value. So, this commit renames the 'runstate' to
-> 'state_pre_migrate' and use the same type used by 'state' and
-> 'current_run_state' variables.
-> 
-> Signed-off-by: Maxiwell S. Garcia <maxiwell@linux.ibm.com>
+On Mon, 24 Jun 2019 16:41:44 PDT (-0700), Atish Patra wrote:
+> Currently, there is no cpu topology defined in RISC-V.
+> Define a device tree node that clearly describes the
+> entire topology. This saves the trouble of scanning individual
+> cache to figure out the topology.
+>
+> Here is the linux kernel patch series that enables topology
+> for RISC-V.
+>
+> http://lists.infradead.org/pipermail/linux-riscv/2019-June/005072.html
+>
+> CPU topology after applying this patch in QEMU & above series in kernel
+>
+> / # cat /sys/devices/system/cpu/cpu2/topology/thread_siblings_list
+> 2
+> / # cat /sys/devices/system/cpu/cpu2/topology/physical_package_id
+> 0
+> / # cat /sys/devices/system/cpu/cpu2/topology/core_siblings_list
+> 0-7
+>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Hi,
-  Thanks for the patch.
-
-  Unfortunately this wont work for a few different reasons:
-
-  a) 'RunState' is an enum whose order and encoding is not specified - 
-     to keep migration compatibility the wire format must be stable.
-     The textual version is more stable.
-
-  b) It's also too late to change it, because existing migration streams
-     send the textual Runstate; this change breaks migration
-     compatibility from/to existing qemu's.
-
-Dave
+Thanks.  This is in the queue for 4.1, which is just pending Alistar's review
+on those two Z patches I reworked.
 
 > ---
->  include/sysemu/sysemu.h  |  2 +-
->  migration/global_state.c | 65 ++++++----------------------------------
->  vl.c                     | 11 ++-----
->  3 files changed, 12 insertions(+), 66 deletions(-)
-> 
-> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-> index 61579ae71e..483b536c4f 100644
-> --- a/include/sysemu/sysemu.h
-> +++ b/include/sysemu/sysemu.h
-> @@ -23,7 +23,7 @@ bool runstate_check(RunState state);
->  void runstate_set(RunState new_state);
->  int runstate_is_running(void);
->  bool runstate_needs_reset(void);
-> -bool runstate_store(char *str, size_t size);
-> +RunState runstate_get(void);
->  typedef struct vm_change_state_entry VMChangeStateEntry;
->  typedef void VMChangeStateHandler(void *opaque, int running, RunState state);
->  
-> diff --git a/migration/global_state.c b/migration/global_state.c
-> index 2c8c447239..b49b99f3a1 100644
-> --- a/migration/global_state.c
-> +++ b/migration/global_state.c
-> @@ -20,8 +20,7 @@
->  #include "trace.h"
->  
->  typedef struct {
-> -    uint32_t size;
-> -    uint8_t runstate[100];
-> +    RunState state_pre_migrate;
->      RunState state;
->      bool received;
->  } GlobalState;
-> @@ -30,21 +29,14 @@ static GlobalState global_state;
->  
->  int global_state_store(void)
->  {
-> -    if (!runstate_store((char *)global_state.runstate,
-> -                        sizeof(global_state.runstate))) {
-> -        error_report("runstate name too big: %s", global_state.runstate);
-> -        trace_migrate_state_too_big();
-> -        return -EINVAL;
-> -    }
-> +    global_state.state_pre_migrate = runstate_get();
-> +
->      return 0;
->  }
->  
->  void global_state_store_running(void)
->  {
-> -    const char *state = RunState_str(RUN_STATE_RUNNING);
-> -    assert(strlen(state) < sizeof(global_state.runstate));
-> -    strncpy((char *)global_state.runstate,
-> -           state, sizeof(global_state.runstate));
-> +    global_state.state_pre_migrate = RUN_STATE_RUNNING;
->  }
->  
->  bool global_state_received(void)
-> @@ -60,7 +52,6 @@ RunState global_state_get_runstate(void)
->  static bool global_state_needed(void *opaque)
->  {
->      GlobalState *s = opaque;
-> -    char *runstate = (char *)s->runstate;
->  
->      /* If it is not optional, it is mandatory */
->  
-> @@ -70,8 +61,8 @@ static bool global_state_needed(void *opaque)
->  
->      /* If state is running or paused, it is not needed */
->  
-> -    if (strcmp(runstate, "running") == 0 ||
-> -        strcmp(runstate, "paused") == 0) {
-> +    if (s->state_pre_migrate == RUN_STATE_RUNNING ||
-> +        s->state_pre_migrate == RUN_STATE_PAUSED) {
->          return false;
+>  hw/riscv/virt.c | 22 ++++++++++++++++++++--
+>  1 file changed, 20 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 84d94d0c42d8..45a1edcd6c4a 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -191,6 +191,7 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+>
+>      for (cpu = s->soc.num_harts - 1; cpu >= 0; cpu--) {
+>          int cpu_phandle = phandle++;
+> +        int intc_phandle;
+>          nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
+>          char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
+>          char *isa = riscv_isa_string(&s->soc.harts[cpu]);
+> @@ -203,9 +204,12 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+>          qemu_fdt_setprop_string(fdt, nodename, "status", "okay");
+>          qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
+>          qemu_fdt_setprop_string(fdt, nodename, "device_type", "cpu");
+> +        qemu_fdt_setprop_cell(fdt, nodename, "phandle", cpu_phandle);
+> +        qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", cpu_phandle);
+> +        intc_phandle = phandle++;
+>          qemu_fdt_add_subnode(fdt, intc);
+> -        qemu_fdt_setprop_cell(fdt, intc, "phandle", cpu_phandle);
+> -        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", cpu_phandle);
+> +        qemu_fdt_setprop_cell(fdt, intc, "phandle", intc_phandle);
+> +        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", intc_phandle);
+>          qemu_fdt_setprop_string(fdt, intc, "compatible", "riscv,cpu-intc");
+>          qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
+>          qemu_fdt_setprop_cell(fdt, intc, "#interrupt-cells", 1);
+> @@ -214,6 +218,20 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+>          g_free(nodename);
 >      }
->  
-> @@ -82,45 +73,10 @@ static bool global_state_needed(void *opaque)
->  static int global_state_post_load(void *opaque, int version_id)
->  {
->      GlobalState *s = opaque;
-> -    Error *local_err = NULL;
-> -    int r;
-> -    char *runstate = (char *)s->runstate;
-> -
->      s->received = true;
-> -    trace_migrate_global_state_post_load(runstate);
-> -
-> -    if (strnlen((char *)s->runstate,
-> -                sizeof(s->runstate)) == sizeof(s->runstate)) {
-> -        /*
-> -         * This condition should never happen during migration, because
-> -         * all runstate names are shorter than 100 bytes (the size of
-> -         * s->runstate). However, a malicious stream could overflow
-> -         * the qapi_enum_parse() call, so we force the last character
-> -         * to a NUL byte.
-> -         */
-> -        s->runstate[sizeof(s->runstate) - 1] = '\0';
-> -    }
-> -    r = qapi_enum_parse(&RunState_lookup, runstate, -1, &local_err);
-> -
-> -    if (r == -1) {
-> -        if (local_err) {
-> -            error_report_err(local_err);
-> -        }
-> -        return -EINVAL;
-> -    }
-> -    s->state = r;
-> -
-> -    return 0;
-> -}
-> -
-> -static int global_state_pre_save(void *opaque)
-> -{
-> -    GlobalState *s = opaque;
-> -
-> -    trace_migrate_global_state_pre_save((char *)s->runstate);
-> -    s->size = strnlen((char *)s->runstate, sizeof(s->runstate)) + 1;
-> -    assert(s->size <= sizeof(s->runstate));
-> +    s->state = s->state_pre_migrate;
->  
-> +    trace_migrate_global_state_post_load(RunState_str(s->state));
->      return 0;
->  }
->  
-> @@ -129,11 +85,9 @@ static const VMStateDescription vmstate_globalstate = {
->      .version_id = 1,
->      .minimum_version_id = 1,
->      .post_load = global_state_post_load,
-> -    .pre_save = global_state_pre_save,
->      .needed = global_state_needed,
->      .fields = (VMStateField[]) {
-> -        VMSTATE_UINT32(size, GlobalState),
-> -        VMSTATE_BUFFER(runstate, GlobalState),
-> +        VMSTATE_UINT32(state_pre_migrate, GlobalState),
->          VMSTATE_END_OF_LIST()
->      },
->  };
-> @@ -141,7 +95,6 @@ static const VMStateDescription vmstate_globalstate = {
->  void register_global_state(void)
->  {
->      /* We would use it independently that we receive it */
-> -    strcpy((char *)&global_state.runstate, "");
->      global_state.received = false;
->      vmstate_register(NULL, 0, &vmstate_globalstate, &global_state);
->  }
-> diff --git a/vl.c b/vl.c
-> index 99a56b5556..2b15d68d60 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -680,16 +680,9 @@ bool runstate_check(RunState state)
->      return current_run_state == state;
->  }
->  
-> -bool runstate_store(char *str, size_t size)
-> +RunState runstate_get(void)
->  {
-> -    const char *state = RunState_str(current_run_state);
-> -    size_t len = strlen(state) + 1;
-> -
-> -    if (len > size) {
-> -        return false;
-> -    }
-> -    memcpy(str, state, len);
-> -    return true;
-> +    return current_run_state;
->  }
->  
->  static void runstate_init(void)
-> -- 
-> 2.20.1
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>
+> +    /* Add cpu-topology node */
+> +    qemu_fdt_add_subnode(fdt, "/cpus/cpu-map");
+> +    qemu_fdt_add_subnode(fdt, "/cpus/cpu-map/cluster0");
+> +    for (cpu = s->soc.num_harts - 1; cpu >= 0; cpu--) {
+> +        char *core_nodename = g_strdup_printf("/cpus/cpu-map/cluster0/core%d",
+> +                                              cpu);
+> +        char *cpu_nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
+> +        uint32_t intc_phandle = qemu_fdt_get_phandle(fdt, cpu_nodename);
+> +        qemu_fdt_add_subnode(fdt, core_nodename);
+> +        qemu_fdt_setprop_cell(fdt, core_nodename, "cpu", intc_phandle);
+> +        g_free(core_nodename);
+> +        g_free(cpu_nodename);
+> +    }
+> +
+>      cells =  g_new0(uint32_t, s->soc.num_harts * 4);
+>      for (cpu = 0; cpu < s->soc.num_harts; cpu++) {
+>          nodename =
 
