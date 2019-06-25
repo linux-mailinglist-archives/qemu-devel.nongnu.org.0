@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADEA55346
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:23:05 +0200 (CEST)
-Received: from localhost ([::1]:33020 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8598E5537E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:34:36 +0200 (CEST)
+Received: from localhost ([::1]:33142 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnHk-0006kM-9i
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:23:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57721)
+	id 1hfnSt-0007Hc-AN
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:34:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58346)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <walling@linux.ibm.com>) id 1hfnDK-00048t-SF
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:33 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1hfnFb-0006H7-RX
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:20:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <walling@linux.ibm.com>) id 1hfnDI-0007OV-Hn
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:30 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:23138
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <walling@linux.ibm.com>)
- id 1hfnD9-00076x-1r; Tue, 25 Jun 2019 11:18:19 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5PF5iPk139150; Tue, 25 Jun 2019 11:18:12 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tbmka4sk0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Jun 2019 11:18:10 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x5PFFLXW019897;
- Tue, 25 Jun 2019 15:18:09 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 2t9by6rx44-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 25 Jun 2019 15:18:09 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5PFI8Ko50659610
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Jun 2019 15:18:08 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4DD81124053;
- Tue, 25 Jun 2019 15:18:08 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2F46C12405C;
- Tue, 25 Jun 2019 15:18:08 +0000 (GMT)
-Received: from collin-T470p.pok.ibm.com (unknown [9.63.14.221])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 25 Jun 2019 15:18:08 +0000 (GMT)
-From: Collin Walling <walling@linux.ibm.com>
-To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, cohuck@redhat.com,
- rth@twiddle.net, david@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, mst@redhat.com, pbonzini@redhat.com
-Date: Tue, 25 Jun 2019 11:17:09 -0400
-Message-Id: <1561475829-19202-3-git-send-email-walling@linux.ibm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
-References: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-25_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906250116
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH v5 2/2] s390: diagnose 318 info reset and
- migration support
+ (envelope-from <kwankhede@nvidia.com>) id 1hfnFZ-0002GV-EU
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:20:51 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:9548)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1hfnFU-0001PE-BR
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:20:45 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d123bb60001>; Tue, 25 Jun 2019 08:20:22 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Tue, 25 Jun 2019 08:20:22 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Tue, 25 Jun 2019 08:20:22 -0700
+Received: from [10.24.206.166] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 25 Jun
+ 2019 15:20:16 +0000
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-2-git-send-email-kwankhede@nvidia.com>
+ <20190620111848.1bf70e99@x1.home>
+ <ff9f4aeb-1dd2-c44d-e513-b2f4a06ae780@nvidia.com>
+ <20190621090343.3be524f5@x1.home>
+ <1648d75d-bda3-f5da-2684-312033ae9477@nvidia.com>
+ <20190621140039.3820dd5d@x1.home>
+ <24404cfe-bb2d-551b-af8f-609a4bdfce38@nvidia.com>
+ <20190621160104.6893958f@x1.home>
+ <72da05c6-eae9-c34c-20e1-da8d4846839d@nvidia.com>
+ <20190624092535.4b66bac5@x1.home>
+ <c26273f7-0f05-860c-fb4d-5e8f641140a4@nvidia.com>
+ <20190624130103.68deb4cd@x1.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <4c72cdbf-27b3-e98b-6ebf-6a86a67cb9ec@nvidia.com>
+Date: Tue, 25 Jun 2019 20:50:13 +0530
+MIME-Version: 1.0
+In-Reply-To: <20190624130103.68deb4cd@x1.home>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1561476022; bh=keP3TU/xeYBqXlkODCalkajWy5B8RFJBPRLrbuSk0Jg=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:MIME-Version:In-Reply-To:X-Originating-IP:
+ X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=VM3nmLAjC4UdQGJt9Qd6B5J12863dRKT4+QtxlzO6j9Z+uxdTQyOuLIp1ZePTdUsn
+ 7Br9WbIJkHzU2uWKt5nFEzJxXQ9QZ1nWUmSvj/SLYyS+wDM8ob/EZmBenrR2bmGs7z
+ 4Gb8ZKKkTfWeDfPPguttDbuMBidM5prQNtHkP9uVF8B4XMWhnStona4cMPbIBU8Xw9
+ 5mYNxlNqNy6ZIEHmK0GXE5TzjBj2UN+pPl79g/cWMJUWK6KOzM1OZ1yjQGBzimMRd9
+ tW28+EsP7B58AVv1yGOtJrkgqE+4GRCbKl0XxWDxLb6j26ER9Sl4xiC//clUrYUfP+
+ qbeGe912iNkYQ==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
+X-Received-From: 216.228.121.65
+Subject: Re: [Qemu-devel] [PATCH v4 01/13] vfio: KABI for migration interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,426 +84,305 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kevin.tian@intel.com, yi.l.liu@intel.com, cjia@nvidia.com,
+ eskultet@redhat.com, ziye.yang@intel.com, Ken.Xue@amd.com,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, dgilbert@redhat.com, pasic@linux.ibm.com, aik@ozlabs.ru,
+ eauger@redhat.com, cohuck@redhat.com, jonathan.davies@nutanix.com,
+ felipe@nutanix.com, mlevitsk@redhat.com, changpeng.liu@intel.com,
+ zhi.a.wang@intel.com, yan.y.zhao@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DIAGNOSE 0x318 (diag318) is a privileged s390x instruction that must
-be intercepted by SIE and handled via KVM. Let's introduce some
-functions to communicate between QEMU and KVM via ioctls. These
-will be used to get/set the diag318 information.
 
-The availability of this instruction is determined by byte 134, bit 0
-of the Read Info block. This coincidentally expands into the space used
-for CPU entries, which means VMs running with the diag318 capability
-will have a reduced maximum CPU count. Let's reduce the maximum CPU
-count from 248 to 247.
 
-In order to simplify the migration and system reset requirements of
-the diag318 data, let's introduce it as a device class and include
-a VMStateDescription.
+On 6/25/2019 12:31 AM, Alex Williamson wrote:
+> On Tue, 25 Jun 2019 00:22:16 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+>> On 6/24/2019 8:55 PM, Alex Williamson wrote:
+>>> On Mon, 24 Jun 2019 20:30:08 +0530
+>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>   
+>>>> On 6/22/2019 3:31 AM, Alex Williamson wrote:  
+>>>>> On Sat, 22 Jun 2019 02:00:08 +0530
+>>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:    
+>>>>>> On 6/22/2019 1:30 AM, Alex Williamson wrote:    
+>>>>>>> On Sat, 22 Jun 2019 01:05:48 +0530
+>>>>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>>>>>       
+>>>>>>>> On 6/21/2019 8:33 PM, Alex Williamson wrote:      
+>>>>>>>>> On Fri, 21 Jun 2019 11:22:15 +0530
+>>>>>>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>>>>>>>         
+>>>>>>>>>> On 6/20/2019 10:48 PM, Alex Williamson wrote:        
+>>>>>>>>>>> On Thu, 20 Jun 2019 20:07:29 +0530
+>>>>>>>>>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>>>>>>>>>           
+>>>>>>>>>>>> - Defined MIGRATION region type and sub-type.
+>>>>>>>>>>>> - Used 3 bits to define VFIO device states.
+>>>>>>>>>>>>     Bit 0 => _RUNNING
+>>>>>>>>>>>>     Bit 1 => _SAVING
+>>>>>>>>>>>>     Bit 2 => _RESUMING
+>>>>>>>>>>>>     Combination of these bits defines VFIO device's state during migration
+>>>>>>>>>>>>     _STOPPED => All bits 0 indicates VFIO device stopped.
+>>>>>>>>>>>>     _RUNNING => Normal VFIO device running state.
+>>>>>>>>>>>>     _SAVING | _RUNNING => vCPUs are running, VFIO device is running but start
+>>>>>>>>>>>>                           saving state of device i.e. pre-copy state
+>>>>>>>>>>>>     _SAVING  => vCPUs are stoppped, VFIO device should be stopped, and
+>>>>>>>>>>>>                           save device state,i.e. stop-n-copy state
+>>>>>>>>>>>>     _RESUMING => VFIO device resuming state.
+>>>>>>>>>>>>     _SAVING | _RESUMING => Invalid state if _SAVING and _RESUMING bits are set
+>>>>>>>>>>>> - Defined vfio_device_migration_info structure which will be placed at 0th
+>>>>>>>>>>>>   offset of migration region to get/set VFIO device related information.
+>>>>>>>>>>>>   Defined members of structure and usage on read/write access:
+>>>>>>>>>>>>     * device_state: (read/write)
+>>>>>>>>>>>>         To convey VFIO device state to be transitioned to. Only 3 bits are used
+>>>>>>>>>>>>         as of now.
+>>>>>>>>>>>>     * pending bytes: (read only)
+>>>>>>>>>>>>         To get pending bytes yet to be migrated for VFIO device.
+>>>>>>>>>>>>     * data_offset: (read only)
+>>>>>>>>>>>>         To get data offset in migration from where data exist during _SAVING
+>>>>>>>>>>>>         and from where data should be written by user space application during
+>>>>>>>>>>>>          _RESUMING state
+>>>>>>>>>>>>     * data_size: (read/write)
+>>>>>>>>>>>>         To get and set size of data copied in migration region during _SAVING
+>>>>>>>>>>>>         and _RESUMING state.
+>>>>>>>>>>>>     * start_pfn, page_size, total_pfns: (write only)
+>>>>>>>>>>>>         To get bitmap of dirty pages from vendor driver from given
+>>>>>>>>>>>>         start address for total_pfns.
+>>>>>>>>>>>>     * copied_pfns: (read only)
+>>>>>>>>>>>>         To get number of pfns bitmap copied in migration region.
+>>>>>>>>>>>>         Vendor driver should copy the bitmap with bits set only for
+>>>>>>>>>>>>         pages to be marked dirty in migration region. Vendor driver
+>>>>>>>>>>>>         should return 0 if there are 0 pages dirty in requested
+>>>>>>>>>>>>         range. Vendor driver should return -1 to mark all pages in the section
+>>>>>>>>>>>>         as dirty
+>>>>>>>>>>>>
+>>>>>>>>>>>> Migration region looks like:
+>>>>>>>>>>>>  ------------------------------------------------------------------
+>>>>>>>>>>>> |vfio_device_migration_info|    data section                      |
+>>>>>>>>>>>> |                          |     ///////////////////////////////  |
+>>>>>>>>>>>>  ------------------------------------------------------------------
+>>>>>>>>>>>>  ^                              ^                              ^
+>>>>>>>>>>>>  offset 0-trapped part        data_offset                 data_size
+>>>>>>>>>>>>
+>>>>>>>>>>>> Data section is always followed by vfio_device_migration_info
+>>>>>>>>>>>> structure in the region, so data_offset will always be none-0.
+>>>>>>>>>>>> Offset from where data is copied is decided by kernel driver, data
+>>>>>>>>>>>> section can be trapped or mapped depending on how kernel driver
+>>>>>>>>>>>> defines data section. If mmapped, then data_offset should be page
+>>>>>>>>>>>> aligned, where as initial section which contain
+>>>>>>>>>>>> vfio_device_migration_info structure might not end at offset which
+>>>>>>>>>>>> is page aligned.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>>>>>>>>>>>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>>>>>>>>>>>> ---
+>>>>>>>>>>>>  linux-headers/linux/vfio.h | 71 ++++++++++++++++++++++++++++++++++++++++++++++
+>>>>>>>>>>>>  1 file changed, 71 insertions(+)
+>>>>>>>>>>>>
+>>>>>>>>>>>> diff --git a/linux-headers/linux/vfio.h b/linux-headers/linux/vfio.h
+>>>>>>>>>>>> index 24f505199f83..274ec477eb82 100644
+>>>>>>>>>>>> --- a/linux-headers/linux/vfio.h
+>>>>>>>>>>>> +++ b/linux-headers/linux/vfio.h
+>>>>>>>>>>>> @@ -372,6 +372,77 @@ struct vfio_region_gfx_edid {
+>>>>>>>>>>>>   */
+>>>>>>>>>>>>  #define VFIO_REGION_SUBTYPE_IBM_NVLINK2_ATSD	(1)
+>>>>>>>>>>>>  
+>>>>>>>>>>>> +/* Migration region type and sub-type */
+>>>>>>>>>>>> +#define VFIO_REGION_TYPE_MIGRATION	        (2)
+>>>>>>>>>>>> +#define VFIO_REGION_SUBTYPE_MIGRATION	        (1)
+>>>>>>>>>>>> +
+>>>>>>>>>>>> +/**
+>>>>>>>>>>>> + * Structure vfio_device_migration_info is placed at 0th offset of
+>>>>>>>>>>>> + * VFIO_REGION_SUBTYPE_MIGRATION region to get/set VFIO device related migration
+>>>>>>>>>>>> + * information. Field accesses from this structure are only supported at their
+>>>>>>>>>>>> + * native width and alignment, otherwise should return error.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * device_state: (read/write)
+>>>>>>>>>>>> + *      To indicate vendor driver the state VFIO device should be transitioned
+>>>>>>>>>>>> + *      to. If device state transition fails, write to this field return error.
+>>>>>>>>>>>> + *      It consists of 3 bits:
+>>>>>>>>>>>> + *      - If bit 0 set, indicates _RUNNING state. When its reset, that indicates
+>>>>>>>>>>>> + *        _STOPPED state. When device is changed to _STOPPED, driver should stop
+>>>>>>>>>>>> + *        device before write returns.
+>>>>>>>>>>>> + *      - If bit 1 set, indicates _SAVING state.
+>>>>>>>>>>>> + *      - If bit 2 set, indicates _RESUMING state.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * pending bytes: (read only)
+>>>>>>>>>>>> + *      Read pending bytes yet to be migrated from vendor driver
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * data_offset: (read only)
+>>>>>>>>>>>> + *      User application should read data_offset in migration region from where
+>>>>>>>>>>>> + *      user application should read data during _SAVING state or write data
+>>>>>>>>>>>> + *      during _RESUMING state.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * data_size: (read/write)
+>>>>>>>>>>>> + *      User application should read data_size to know data copied in migration
+>>>>>>>>>>>> + *      region during _SAVING state and write size of data copied in migration
+>>>>>>>>>>>> + *      region during _RESUMING state.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * start_pfn: (write only)
+>>>>>>>>>>>> + *      Start address pfn to get bitmap of dirty pages from vendor driver duing
+>>>>>>>>>>>> + *      _SAVING state.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * page_size: (write only)
+>>>>>>>>>>>> + *      User application should write the page_size of pfn.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * total_pfns: (write only)
+>>>>>>>>>>>> + *      Total pfn count from start_pfn for which dirty bitmap is requested.
+>>>>>>>>>>>> + *
+>>>>>>>>>>>> + * copied_pfns: (read only)
+>>>>>>>>>>>> + *      pfn count for which dirty bitmap is copied to migration region.
+>>>>>>>>>>>> + *      Vendor driver should copy the bitmap with bits set only for pages to be
+>>>>>>>>>>>> + *      marked dirty in migration region.
+>>>>>>>>>>>> + *      Vendor driver should return 0 if there are 0 pages dirty in requested
+>>>>>>>>>>>> + *      range.
+>>>>>>>>>>>> + *      Vendor driver should return -1 to mark all pages in the section as
+>>>>>>>>>>>> + *      dirty.          
+>>>>>>>>>>>
+>>>>>>>>>>> Is the protocol that the user writes start_pfn/page_size/total_pfns in
+>>>>>>>>>>> any order and then the read of copied_pfns is what triggers the
+>>>>>>>>>>> snapshot?          
+>>>>>>>>>>
+>>>>>>>>>> Yes.
+>>>>>>>>>>        
+>>>>>>>>>>>  Are start_pfn/page_size/total_pfns sticky such that a user
+>>>>>>>>>>> can write them once and get repeated refreshes of the dirty bitmap by
+>>>>>>>>>>> re-reading copied_pfns?          
+>>>>>>>>>>
+>>>>>>>>>> Yes and that bitmap should be for given range (from start_pfn till
+>>>>>>>>>> start_pfn + tolal_pfns).
+>>>>>>>>>> Re-reading of copied_pfns is to handle the case where it might be
+>>>>>>>>>> possible that vendor driver reserved area for bitmap < total bitmap size
+>>>>>>>>>> for range (start_pfn to start_pfn + tolal_pfns), then user will have to
+>>>>>>>>>> iterate till copied_pfns == total_pfns or till copied_pfns == 0 (that
+>>>>>>>>>> is, there are no pages dirty in rest of the range)        
+>>>>>>>>>
+>>>>>>>>> So reading copied_pfns triggers the data range to be updated, but the
+>>>>>>>>> caller cannot assume it to be synchronous and uses total_pfns to poll
+>>>>>>>>> that the update is complete?  How does the vendor driver differentiate
+>>>>>>>>> the user polling for the previous update to finish versus requesting a
+>>>>>>>>> new update?
+>>>>>>>>>         
+>>>>>>>>
+>>>>>>>> Write on start_pfn/page_size/total_pfns, then read on copied_pfns
+>>>>>>>> indicates new update, where as sequential read on copied_pfns indicates
+>>>>>>>> polling for previous update.      
+>>>>>>>
+>>>>>>> Hmm, this seems to contradict the answer to my question above where I
+>>>>>>> ask if the write fields are sticky so a user can trigger a refresh via
+>>>>>>> copied_pfns.      
+>>>>>>
+>>>>>> Sorry, how its contradict? pasting it again below:    
+>>>>>>>>>>>  Are start_pfn/page_size/total_pfns sticky such that a user
+>>>>>>>>>>> can write them once and get repeated refreshes of the dirty bitmap by
+>>>>>>>>>>> re-reading copied_pfns?      
+>>>>>>>>>>
+>>>>>>>>>> Yes and that bitmap should be for given range (from start_pfn till
+>>>>>>>>>> start_pfn + tolal_pfns).
+>>>>>>>>>> Re-reading of copied_pfns is to handle the case where it might be
+>>>>>>>>>> possible that vendor driver reserved area for bitmap < total bitmap      
+>>>>>> size    
+>>>>>>>>>> for range (start_pfn to start_pfn + tolal_pfns), then user will have to
+>>>>>>>>>> iterate till copied_pfns == total_pfns or till copied_pfns == 0 (that
+>>>>>>>>>> is, there are no pages dirty in rest of the range)      
+>>>>>
+>>>>> Sorry, I guess I misinterpreted again.  So the vendor driver can return
+>>>>> copied_pfns < total_pfns if it has a buffer limitation, not as an
+>>>>> indication of its background progress in writing out the bitmap.  Just
+>>>>> as a proof of concept, let's say the vendor driver has a 1 bit buffer
+>>>>> and I write 0 to start_pfn and 3 to total_pfns.  I read copied_pfns,
+>>>>> which returns 1, so I read data_offset to find where this 1 bit is
+>>>>> located and then read my bit from that location.  This is the dirty
+>>>>> state of the first pfn.  I read copied_pfns again and it reports 2,    
+>>>>
+>>>> It should report 1 to indicate its data for one pfn.
+>>>>  
+>>>>> I again read data_offset to find where the data is located, and it's my
+>>>>> job to remember that I've already read 1 bit, so 2 means there's only 1
+>>>>> bit available and it's the second pfn.    
+>>>>
+>>>> No.
+>>>> Here 'I' means User application, right?  
+>>>
+>>> Yes
+>>>   
+>>>> User application knows for how many pfns bitmap he had already received,
+>>>> i.e. see 'count' in function vfio_get_dirty_page_list().
+>>>>
+>>>> Here copied_pfns is the number of pfns for which bitmap is available in
+>>>> buffer. Start address for that bitmap is then calculated by user
+>>>> application as :
+>>>> ((start_pfn + count) * page_size)
+>>>>
+>>>> Then QEMU calls:
+>>>>
+>>>> cpu_physical_memory_set_dirty_lebitmap((unsigned long *)buf,
+>>>>                                        (start_pfn + count) * page_size,
+>>>>                                         copied_pfns);
+>>>>  
+>>>>>  I read the bit.  I again read
+>>>>> copied_pfns, which now reports 3, I read data_offset to find the
+>>>>> location of the data, I remember that I've already read 2 bits, so I
+>>>>> read my bit into the 3rd pfn.  This seems rather clumsy.
+>>>>>    
+>>>>
+>>>> Hope above explanation helps.  
+>>>
+>>> Still seems rather clumsy, the knowledge of which bit(s) are available
+>>> in the buffer can only be known by foreknowledge of which bits have
+>>> already been read.  That seems error prone for both the user and the
+>>> vendor driver to stay in sync.
+>>>   
+>>>>> Now that copied_pfns == total_pfns, what happens if I read copied_pfns
+>>>>> again?  This is actually what I thought I was asking previously.
+>>>>>     
+>>>>
+>>>> It should return 0.  
+>>>
+>>> Are we assuming no new pages have been dirtied?  What if pages have
+>>> been dirtied?
+>>>   
+>>>>> Should we expose the pfn buffer size and fault on writes of larger than that
+>>>>> size, requiring the user to iterate start_pfn themselves?    
+>>>>
+>>>> Who should fault, vendor driver or user application?
+>>>>
+>>>> Here Vendor driver is writing data to data section.
+>>>> In the steps in this patch-set, user application is incrementing
+>>>> start_pfn by adding copied_pfn count.  
+>>>
+>>> The user app is writing total_pfns to get a range, correct?  The vendor
+>>> driver could return errno on that write if total_pfns exceeds the
+>>> available buffer size.
+>>>   
+>>
+>> ok. If vendor driver returns error, then will user application retry
+>> with smaller size?
+> 
+> I think we'd need to improve the header to indicate the available size,
+> it would seem unreasonable to me to require the user to guess how much
+> is available.  Thanks,
+> 
 
-Diag318 is set to 0 during modified clear and load normal resets.
+Instead of returning error on write to total_pfns, how about writing
+updated start_pfn and total_pfns again as below:
 
-Signed-off-by: Collin Walling <walling@linux.ibm.com>
----
- hw/s390x/Makefile.objs          |  1 +
- hw/s390x/diag318.c              | 80 +++++++++++++++++++++++++++++++++++++++++
- hw/s390x/diag318.h              | 38 ++++++++++++++++++++
- hw/s390x/s390-virtio-ccw.c      | 17 +++++++++
- hw/s390x/sclp.c                 |  3 ++
- include/hw/s390x/sclp.h         |  2 ++
- target/s390x/cpu.h              |  8 ++++-
- target/s390x/cpu_features.c     |  3 ++
- target/s390x/cpu_features.h     |  1 +
- target/s390x/cpu_features_def.h |  3 ++
- target/s390x/gen-features.c     |  1 +
- target/s390x/kvm-stub.c         | 10 ++++++
- target/s390x/kvm.c              | 29 +++++++++++++++
- target/s390x/kvm_s390x.h        |  2 ++
- 14 files changed, 197 insertions(+), 1 deletion(-)
- create mode 100644 hw/s390x/diag318.c
- create mode 100644 hw/s390x/diag318.h
+count = 0
+while (total_pfns > 0) {
+    write(start_pfn + count)
+    write(page_size)
+    write(total_pfns)
+    read(copied_pfns)
+    read(data_offset)
+    read bitmap from data_offset for copied_pfns and mark pages dirty
+    if (copied_pfns < total_pfns)
+        count += copied_pfns,
+        total_pfns -= copied_pfns
+}
 
-diff --git a/hw/s390x/Makefile.objs b/hw/s390x/Makefile.objs
-index e02ed80..93621dc 100644
---- a/hw/s390x/Makefile.objs
-+++ b/hw/s390x/Makefile.objs
-@@ -34,3 +34,4 @@ obj-$(CONFIG_KVM) += s390-stattrib-kvm.o
- obj-y += s390-ccw.o
- obj-y += ap-device.o
- obj-y += ap-bridge.o
-+obj-y += diag318.o
-diff --git a/hw/s390x/diag318.c b/hw/s390x/diag318.c
-new file mode 100644
-index 0000000..0eb80fe
---- /dev/null
-+++ b/hw/s390x/diag318.c
-@@ -0,0 +1,80 @@
-+/*
-+ * DIAGNOSE 0x318 functions for reset and migration
-+ *
-+ * Copyright IBM, Corp. 2019
-+ *
-+ * Authors:
-+ *  Collin Walling <walling@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at your
-+ * option) any later version. See the COPYING file in the top-level directory.
-+ */
-+
-+#include "hw/s390x/diag318.h"
-+#include "qapi/error.h"
-+#include "kvm_s390x.h"
-+#include "sysemu/kvm.h"
-+
-+static int diag318_post_load(void *opaque, int version_id)
-+{
-+    DIAG318State *d = opaque;
-+
-+    kvm_s390_set_diag318_info(d->info);
-+    return 0;
-+}
-+
-+static int diag318_pre_save(void *opaque)
-+{
-+    DIAG318State *d = opaque;
-+
-+    kvm_s390_get_diag318_info(&d->info);
-+    return 0;
-+}
-+
-+static bool diag318_needed(void *opaque)
-+{
-+    return s390_has_feat(S390_FEAT_DIAG318);
-+}
-+
-+const VMStateDescription vmstate_diag318 = {
-+    .name = "vmstate_diag318",
-+    .post_load = diag318_post_load,
-+    .pre_save = diag318_pre_save,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = diag318_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT64(info, DIAG318State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void s390_diag318_reset(DeviceState *dev)
-+{
-+    kvm_s390_set_diag318_info(0);
-+}
-+
-+static void s390_diag318_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->reset = s390_diag318_reset;
-+    dc->vmsd = &vmstate_diag318;
-+    dc->hotpluggable = false;
-+    /* Reason: Set automatically during IPL */
-+    dc->user_creatable = false;
-+}
-+
-+static const TypeInfo s390_diag318_info = {
-+    .class_init = s390_diag318_class_init,
-+    .parent = TYPE_DEVICE,
-+    .name = TYPE_S390_DIAG318,
-+    .instance_size = sizeof(DIAG318State),
-+};
-+
-+static void s390_diag318_register_types(void)
-+{
-+    type_register_static(&s390_diag318_info);
-+}
-+
-+type_init(s390_diag318_register_types)
-diff --git a/hw/s390x/diag318.h b/hw/s390x/diag318.h
-new file mode 100644
-index 0000000..d588bdd
---- /dev/null
-+++ b/hw/s390x/diag318.h
-@@ -0,0 +1,38 @@
-+/*
-+ * DIAGNOSE 0x318 functions for reset and migration
-+ *
-+ * Copyright IBM, Corp. 2019
-+ *
-+ * Authors:
-+ *  Collin Walling <walling@linux.ibm.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at your
-+ * option) any later version. See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef HW_DIAG318_H
-+#define HW_DIAG318_H
-+
-+#include "qemu/osdep.h"
-+#include "hw/qdev.h"
-+
-+#define TYPE_S390_DIAG318 "diag318"
-+#define DIAG318(obj) \
-+    OBJECT_CHECK(DIAG318State, (obj), TYPE_S390_DIAG318)
-+
-+typedef struct DIAG318State {
-+    /*< private >*/
-+    DeviceState parent_obj;
-+
-+    /*< public >*/
-+    uint64_t info;
-+} DIAG318State;
-+
-+typedef struct DIAG318Class {
-+    /*< private >*/
-+    DeviceClass parent_class;
-+
-+    /*< public >*/
-+} DIAG318Class;
-+
-+#endif /* HW_DIAG318_H */
-\ No newline at end of file
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 87b2039..54230c7 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -38,6 +38,7 @@
- #include "cpu_models.h"
- #include "hw/nmi.h"
- #include "hw/s390x/tod.h"
-+#include "hw/s390x/diag318.h"
- 
- S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
- {
-@@ -94,6 +95,7 @@ static const char *const reset_dev_types[] = {
-     "s390-sclp-event-facility",
-     "s390-flic",
-     "diag288",
-+    TYPE_S390_DIAG318,
- };
- 
- static void subsystem_reset(void)
-@@ -258,6 +260,17 @@ static void s390_create_sclpconsole(const char *type, Chardev *chardev)
-     qdev_init_nofail(dev);
- }
- 
-+static void s390_init_diag318(void)
-+{
-+    Object *new = object_new(TYPE_S390_DIAG318);
-+    DeviceState *dev = DEVICE(new);
-+
-+    object_property_add_child(qdev_get_machine(), TYPE_S390_DIAG318,
-+                              new, NULL);
-+    object_unref(new);
-+    qdev_init_nofail(dev);
-+}
-+
- static void ccw_init(MachineState *machine)
- {
-     int ret;
-@@ -315,6 +328,9 @@ static void ccw_init(MachineState *machine)
- 
-     /* init the TOD clock */
-     s390_init_tod();
-+
-+    /* init object used for migrating diag318 info */
-+    s390_init_diag318();
- }
- 
- static void s390_cpu_plug(HotplugHandler *hotplug_dev,
-@@ -583,6 +599,7 @@ static void machine_set_loadparm(Object *obj, const char *val, Error **errp)
-         ms->loadparm[i] = ' '; /* pad right with spaces */
-     }
- }
-+
- static inline void s390_machine_initfn(Object *obj)
- {
-     object_property_add_bool(obj, "aes-key-wrap",
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 4510a80..f905af0 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -22,6 +22,7 @@
- #include "hw/s390x/event-facility.h"
- #include "hw/s390x/s390-pci-bus.h"
- #include "hw/s390x/ipl.h"
-+#include "kvm_s390x.h"
- 
- static inline SCLPDevice *get_sclp_device(void)
- {
-@@ -74,6 +75,8 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
-     s390_get_feat_block(S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT,
-                          read_info->conf_char_ext);
- 
-+    s390_get_feat_block(S390_FEAT_TYPE_SCLP_BYTE_134, read_info->fac134);
-+
-     read_info->facilities = cpu_to_be64(SCLP_HAS_CPU_INFO |
-                                         SCLP_HAS_IOA_RECONFIG);
- 
-diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
-index f9db243..667da49 100644
---- a/include/hw/s390x/sclp.h
-+++ b/include/hw/s390x/sclp.h
-@@ -133,6 +133,8 @@ typedef struct ReadInfo {
-     uint16_t highest_cpu;
-     uint8_t  _reserved5[124 - 122];     /* 122-123 */
-     uint32_t hmfai;
-+    uint8_t  _reserved7[134 - 128];     /* 128-133 */
-+    uint8_t  fac134[1];
-     struct CPUEntry entries[0];
- } QEMU_PACKED ReadInfo;
- 
-diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
-index a606547..4c26754 100644
---- a/target/s390x/cpu.h
-+++ b/target/s390x/cpu.h
-@@ -39,7 +39,13 @@
- 
- #define MMU_USER_IDX 0
- 
--#define S390_MAX_CPUS 248
-+/*
-+ * HACK: The introduction of additional facility bytes in the Read Info
-+ * struct consumes space used for CPU entries, thus we must reduce the
-+ * original maximum CPUs of 248 by one for each new byte or risk smashing
-+ * the stack.
-+ */
-+#define S390_MAX_CPUS 247
- 
- typedef struct PSW {
-     uint64_t mask;
-diff --git a/target/s390x/cpu_features.c b/target/s390x/cpu_features.c
-index f64f581..77a1df5 100644
---- a/target/s390x/cpu_features.c
-+++ b/target/s390x/cpu_features.c
-@@ -127,6 +127,9 @@ static const S390FeatDef s390_features[] = {
-     FEAT_INIT("pfmfi", S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF interpretation facility"),
-     FEAT_INIT("ibs", S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT, 10, "SIE: Interlock-and-broadcast-suppression facility"),
- 
-+    /* SCLP SCCB Byte 134 */
-+    FEAT_INIT("diag318", S390_FEAT_TYPE_SCLP_BYTE_134, 0, "Control program name and version codes"),
-+
-     FEAT_INIT("sief2", S390_FEAT_TYPE_SCLP_CPU, 4, "SIE: interception format 2 (Virtual SIE)"),
-     FEAT_INIT("skey", S390_FEAT_TYPE_SCLP_CPU, 5, "SIE: Storage-key facility"),
-     FEAT_INIT("gpereh", S390_FEAT_TYPE_SCLP_CPU, 10, "SIE: Guest-PER enhancement facility"),
-diff --git a/target/s390x/cpu_features.h b/target/s390x/cpu_features.h
-index da695a8..954544e 100644
---- a/target/s390x/cpu_features.h
-+++ b/target/s390x/cpu_features.h
-@@ -23,6 +23,7 @@ typedef enum {
-     S390_FEAT_TYPE_STFL,
-     S390_FEAT_TYPE_SCLP_CONF_CHAR,
-     S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT,
-+    S390_FEAT_TYPE_SCLP_BYTE_134,
-     S390_FEAT_TYPE_SCLP_CPU,
-     S390_FEAT_TYPE_MISC,
-     S390_FEAT_TYPE_PLO,
-diff --git a/target/s390x/cpu_features_def.h b/target/s390x/cpu_features_def.h
-index 292b17b..4f2c23e 100644
---- a/target/s390x/cpu_features_def.h
-+++ b/target/s390x/cpu_features_def.h
-@@ -115,6 +115,9 @@ typedef enum {
-     S390_FEAT_SIE_PFMFI,
-     S390_FEAT_SIE_IBS,
- 
-+    /* Sclp Byte 134 */
-+    S390_FEAT_DIAG318,
-+
-     /* Sclp Cpu */
-     S390_FEAT_SIE_F2,
-     S390_FEAT_SIE_SKEY,
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index dc320a0..cdd1875 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -521,6 +521,7 @@ static uint16_t full_GEN12_GA1[] = {
-     S390_FEAT_AP_QUERY_CONFIG_INFO,
-     S390_FEAT_AP_FACILITIES_TEST,
-     S390_FEAT_AP,
-+    S390_FEAT_DIAG318,
- };
- 
- static uint16_t full_GEN12_GA2[] = {
-diff --git a/target/s390x/kvm-stub.c b/target/s390x/kvm-stub.c
-index 5152e2b..7c39d6a 100644
---- a/target/s390x/kvm-stub.c
-+++ b/target/s390x/kvm-stub.c
-@@ -107,3 +107,13 @@ void kvm_s390_stop_interrupt(S390CPU *cpu)
- void kvm_s390_restart_interrupt(S390CPU *cpu)
- {
- }
-+
-+int kvm_s390_get_diag318_info(uint64_t *info)
-+{
-+    return 0;
-+}
-+
-+int kvm_s390_set_diag318_info(uint64_t info)
-+{
-+    return 0;
-+}
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index 0267c6c..1fda9cd 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -750,6 +750,28 @@ int kvm_s390_set_clock_ext(uint8_t tod_high, uint64_t tod_low)
-     return kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attr);
- }
- 
-+int kvm_s390_get_diag318_info(uint64_t *info)
-+{
-+    struct kvm_device_attr attr = {
-+        .group = KVM_S390_VM_MISC,
-+        .attr = KVM_S390_VM_MISC_DIAG318,
-+        .addr = (uint64_t)info,
-+    };
-+
-+    return kvm_vm_ioctl(kvm_state, KVM_GET_DEVICE_ATTR, &attr);
-+}
-+
-+int kvm_s390_set_diag318_info(uint64_t info)
-+{
-+    struct kvm_device_attr attr = {
-+        .group = KVM_S390_VM_MISC,
-+        .attr = KVM_S390_VM_MISC_DIAG318,
-+        .addr = (uint64_t)&info,
-+    };
-+
-+    return kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attr);
-+}
-+
- /**
-  * kvm_s390_mem_op:
-  * @addr:      the logical start address in guest memory
-@@ -2323,6 +2345,13 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
-         KVM_S390_VM_CRYPTO_ENABLE_APIE)) {
-         set_bit(S390_FEAT_AP, model->features);
-     }
-+
-+    /* if KVM supports interception of diag318, then let's provide the bit */
-+    if (kvm_vm_check_attr(kvm_state, KVM_S390_VM_MISC,
-+        KVM_S390_VM_MISC_DIAG318)) {
-+        set_bit(S390_FEAT_DIAG318, model->features);
-+    }
-+
-     /* strip of features that are not part of the maximum model */
-     bitmap_and(model->features, model->features, model->def->full_feat,
-                S390_FEAT_MAX);
-diff --git a/target/s390x/kvm_s390x.h b/target/s390x/kvm_s390x.h
-index caf9859..50df93e 100644
---- a/target/s390x/kvm_s390x.h
-+++ b/target/s390x/kvm_s390x.h
-@@ -29,6 +29,8 @@ int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_clock);
- int kvm_s390_get_clock_ext(uint8_t *tod_high, uint64_t *tod_clock);
- int kvm_s390_set_clock(uint8_t tod_high, uint64_t tod_clock);
- int kvm_s390_set_clock_ext(uint8_t tod_high, uint64_t tod_clock);
-+int kvm_s390_get_diag318_info(uint64_t *info);
-+int kvm_s390_set_diag318_info(uint64_t info);
- void kvm_s390_enable_css_support(S390CPU *cpu);
- int kvm_s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch,
-                                     int vq, bool assign);
--- 
-2.7.4
-
+Thanks,
+Kirti
 
