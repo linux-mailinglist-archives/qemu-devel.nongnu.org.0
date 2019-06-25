@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E701755289
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 16:52:37 +0200 (CEST)
-Received: from localhost ([::1]:32796 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9505522E
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 16:41:12 +0200 (CEST)
+Received: from localhost ([::1]:60950 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfmoH-0007Rr-3t
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 10:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46526)
+	id 1hfmdD-00008s-Ap
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 10:41:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46796)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <arikalo@wavecomp.com>) id 1hfmVz-0005lx-85
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:33:44 -0400
+ (envelope-from <arikalo@wavecomp.com>) id 1hfmXD-0006eF-IH
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:35:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arikalo@wavecomp.com>) id 1hfmVx-0003BV-83
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:33:43 -0400
-Received: from mail-co1nam04on0727.outbound.protection.outlook.com
- ([2a01:111:f400:fe4d::727]:60366
- helo=NAM04-CO1-obe.outbound.protection.outlook.com)
+ (envelope-from <arikalo@wavecomp.com>) id 1hfmXB-00047V-Rx
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:34:59 -0400
+Received: from mail-eopbgr710093.outbound.protection.outlook.com
+ ([40.107.71.93]:42210 helo=NAM05-BY2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <arikalo@wavecomp.com>)
- id 1hfmVw-00035s-NE
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:33:41 -0400
+ id 1hfmXB-00041h-C1
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:34:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=wavesemi.onmicrosoft.com; s=selector1-wavesemi-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J6eIfbogJdSpcpwFa6bXUeLMFktMdYfGbywx68CZz74=;
- b=no9C893y0Bw9pQsJpzPLb2Z0azweRvtyXtDHgrSed8xRGfmRgU47aax5KWSzvRE9z1YJEcO6r5Dd+qlNTgxsUzqHY32e7pXaqB082QC9xSLroRc4sMFqnwgg1feivy9wTcQCyoAqXZR/U4M4j22eJn35PHj9QG+JdQQzaTVRMq4=
+ bh=lLVg4pmJWwlhgdYnMjCL4bseAFsp2RzG5NiQaxyTfls=;
+ b=JN+oGMoeWxjC4jvDf+GOxMYHE3HA5IaGFSS3IFVxSotyqPG+/smf+BOnGpRuWJhfuOZ22BrHsHO8KEh2+5gS9KMj343DkR6yD42L1JlqfA9Gcq+bL2nwdwqwXv0ospV0dz+/gx3vGScv2BOylXVQlksHGOt9IdUxgkZfUuiyTFU=
 Received: from DM5PR22MB1658.namprd22.prod.outlook.com (10.164.152.163) by
- DM5PR22MB0714.namprd22.prod.outlook.com (10.172.192.15) with Microsoft SMTP
+ DM5PR22MB0395.namprd22.prod.outlook.com (10.173.175.137) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.16; Tue, 25 Jun 2019 14:33:36 +0000
+ 15.20.2008.16; Tue, 25 Jun 2019 14:34:50 +0000
 Received: from DM5PR22MB1658.namprd22.prod.outlook.com
  ([fe80::3579:1b6c:1f31:c6b9]) by DM5PR22MB1658.namprd22.prod.outlook.com
  ([fe80::3579:1b6c:1f31:c6b9%7]) with mapi id 15.20.2008.014; Tue, 25 Jun 2019
- 14:33:35 +0000
+ 14:34:50 +0000
 From: Aleksandar Rikalo <arikalo@wavecomp.com>
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH 2/2] dma/rc4030: Minor code style cleanup
-Thread-Index: AQHVK2IoNLF7CduNiES5vAKQ9cTlHqasbrtN
-Date: Tue, 25 Jun 2019 14:33:35 +0000
-Message-ID: <DM5PR22MB1658B6F1F277373069EFD54FD2E30@DM5PR22MB1658.namprd22.prod.outlook.com>
+Thread-Topic: [PATCH 1/2] dma/rc4030: Fix off-by-one error in specified memory
+ region size
+Thread-Index: AQHVK2IlIJh4xRxCNUKQiCCvE3Nxlqasbzz7
+Date: Tue, 25 Jun 2019 14:34:49 +0000
+Message-ID: <DM5PR22MB1658932B6874A4143E937CEDD2E30@DM5PR22MB1658.namprd22.prod.outlook.com>
 References: <1561472838-32272-1-git-send-email-aleksandar.markovic@rt-rk.com>,
- <1561472838-32272-3-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1561472838-32272-3-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1561472838-32272-2-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1561472838-32272-2-git-send-email-aleksandar.markovic@rt-rk.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -54,38 +54,39 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=arikalo@wavecomp.com; 
 x-originating-ip: [82.117.201.26]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e3981ae6-fe0b-43e7-011a-08d6f97a1b53
+x-ms-office365-filtering-correlation-id: 5137173f-bd9e-4d04-5224-08d6f97a477a
 x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DM5PR22MB0714; 
-x-ms-traffictypediagnostic: DM5PR22MB0714:
-x-microsoft-antispam-prvs: <DM5PR22MB07148A695787969EADEC63FCD2E30@DM5PR22MB0714.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:161;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
+ SRVR:DM5PR22MB0395; 
+x-ms-traffictypediagnostic: DM5PR22MB0395:
+x-microsoft-antispam-prvs: <DM5PR22MB0395F48D3586291A5068BBB9D2E30@DM5PR22MB0395.namprd22.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:287;
 x-forefront-prvs: 0079056367
 x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(376002)(39850400004)(396003)(366004)(136003)(346002)(189003)(199004)(55016002)(486006)(26005)(7736002)(229853002)(446003)(52536014)(476003)(9686003)(11346002)(6116002)(66066001)(54896002)(3846002)(6436002)(2906002)(7696005)(5660300002)(6606003)(53936002)(99286004)(256004)(71190400001)(19627405001)(71200400001)(2501003)(76176011)(316002)(14454004)(14444005)(55236004)(25786009)(91956017)(102836004)(76116006)(64756008)(68736007)(66476007)(66556008)(73956011)(66446008)(66946007)(53546011)(110136005)(54906003)(6246003)(6506007)(8936002)(186003)(478600001)(81166006)(8676002)(81156014)(4326008)(74316002)(86362001)(33656002)(21314003);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR22MB0714;
+ SFS:(10019020)(136003)(346002)(366004)(396003)(376002)(39850400004)(189003)(199004)(316002)(4326008)(8936002)(66556008)(81166006)(81156014)(8676002)(86362001)(110136005)(66066001)(229853002)(99286004)(6606003)(19627405001)(71200400001)(478600001)(74316002)(71190400001)(14454004)(2501003)(68736007)(14444005)(73956011)(7696005)(3846002)(186003)(6116002)(25786009)(54906003)(33656002)(446003)(6246003)(476003)(7736002)(55016002)(52536014)(5660300002)(26005)(55236004)(102836004)(2906002)(54896002)(76176011)(66476007)(486006)(6506007)(53936002)(6436002)(76116006)(9686003)(53546011)(91956017)(64756008)(66946007)(66446008)(11346002)(256004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR22MB0395;
  H:DM5PR22MB1658.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
  PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: wavecomp.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 0kXSXSHFkMm20oKlJ+c4xj5Y7kFk75CAJbRsnPTmiHsEVrgx3pCMv1HrJNga2ZzGxsrL2SI9k8pwDZYQ2sbA21GprJamWuOH80mh/FvGZmLDI9KaKrC4I6uSqrPQxCIvvS80h5mgLr7tFXgU6ezj7Vc9PEp3jSV7C6At0mzZPj2xd1ON3I/wMO+wfQ5hOeB4y87xFPdMzWCvCMY+AYxUNdU5slT7kyztz40BD2u6vyccPPejzFqAjcBb53ILFgTFO3c9C7epVnjr5DsOuVZbHHNRZGXT9aDBGfHCImio4JXXJUHkobA7QD9c04dwZ7ZoSTA51a5R2qaS22TceeoLRNIkgw/vtdE/WU9t9iQrQ+P3rHTcUOPMXOBvSCimPz9Sl8n+5gXBDDzJn01j6jOIgBoc9Pdx2SllFn7CHEhjxYY=
+x-microsoft-antispam-message-info: XDdWH1NvqA1TAO+bPbElxiGqQXwq9e0UWaSYIrkfL2n1glYpW5p9+UdnawSLDdWvL2uvjwzW9/6vGY56JI48DGiVMgxFH65DZgV50otio4NEYeUzjR5nzTeZJuQXfwz2r6FBEvxE5xS63y60AYhpW9nw0JSin1WCkm+2CYQM5ogCO2TT/6esxq/+8SCiiPlnOFQVzMU4Z7WjjV51NDgiQ2d/voeOrzxMRUWy9s1ObtfzlH28Frd+XiI1odHVdzRMvWHoAMRY3XrW9ByvSHBhfgLav5g+o8EdGxXtApr5XpzsiOFOnZY49NBAyGwZIyl0wDzy03ROJoam5SRa/MUNNS6Fq4dWCX6jkUKO0rqX5xhvxFMcPBE1d3ErUnmd6JzYgU35g4+n95uFTchw1VP9n+Bli0LtiupP/FZ1VNKnP+M=
 MIME-Version: 1.0
 X-OriginatorOrg: wavecomp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3981ae6-fe0b-43e7-011a-08d6f97a1b53
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2019 14:33:35.7965 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5137173f-bd9e-4d04-5224-08d6f97a477a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2019 14:34:49.9029 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
 X-MS-Exchange-CrossTenant-userprincipalname: arikalo@wavecomp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR22MB0714
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR22MB0395
 X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe4d::727
+X-Received-From: 40.107.71.93
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH 2/2] dma/rc4030: Minor code style cleanup
+Subject: Re: [Qemu-devel] [PATCH 1/2] dma/rc4030: Fix off-by-one error in
+ specified memory region size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -108,89 +109,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > To: qemu-devel@nongnu.org
 > Cc: Aleksandar Markovic; Aleksandar Rikalo; hpoussin@reactos.org; f4bug@a=
 msat.org
-> Subject: [PATCH 2/2] dma/rc4030: Minor code style cleanup
+> Subject: [PATCH 1/2] dma/rc4030: Fix off-by-one error in specified memory=
+ region size
 >
 > From: Aleksandar Markovic <amarkovic@wavecomp.com>
 >
-> Fix some simple checkpatch.pl warnings in rc4030.c.
+> The size is one byte less than it should be:
+>
+> address-space: rc4030-dma
+>   0000000000000000-00000000fffffffe (prio 0, i/o): rc4030.dma
+>
+> rc4030 is used in MIPS Jazz board context.
 >
 > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > ---
->  hw/dma/rc4030.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+>  hw/dma/rc4030.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
 > diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
-> index 88ff271..155af9b 100644
+> index 6ccafec..88ff271 100644
 > --- a/hw/dma/rc4030.c
 > +++ b/hw/dma/rc4030.c
-> @@ -58,8 +58,8 @@ typedef struct dma_pagetable_entry {
+> @@ -23,6 +23,7 @@
+>   */
 >
->  #define TYPE_RC4030_IOMMU_MEMORY_REGION "rc4030-iommu-memory-region"
+>  #include "qemu/osdep.h"
+> +#include "qemu/units.h"
+>  #include "hw/hw.h"
+>  #include "hw/mips/mips.h"
+>  #include "hw/sysbus.h"
+> @@ -678,7 +679,7 @@ static void rc4030_realize(DeviceState *dev, Error **=
+errp)
 >
-> -typedef struct rc4030State
-> -{
-> +typedef struct rc4030State {
-> +
->      SysBusDevice parent;
+>      memory_region_init_iommu(&s->dma_mr, sizeof(s->dma_mr),
+>                               TYPE_RC4030_IOMMU_MEMORY_REGION,
+> -                             o, "rc4030.dma", UINT32_MAX);
+> +                             o, "rc4030.dma", 4 * GiB);
+>      address_space_init(&s->dma_as, MEMORY_REGION(&s->dma_mr), "rc4030-dm=
+a");
+>  }
 >
->      uint32_t config; /* 0x0000: RC4030 config register */
-> @@ -152,8 +152,9 @@ static uint64_t rc4030_read(void *opaque, hwaddr addr=
-, unsigned int size)
->      case 0x0058:
->          val =3D s->cache_bmask;
->          /* HACK */
-> -        if (s->cache_bmask =3D=3D (uint32_t)-1)
-> +        if (s->cache_bmask =3D=3D (uint32_t)-1) {
->              s->cache_bmask =3D 0;
-> +        }
->          break;
->      /* Remote Speed Registers */
->      case 0x0070:
-> @@ -538,8 +539,9 @@ static void rc4030_reset(DeviceState *dev)
->
->      s->memory_refresh_rate =3D 0x18186;
->      s->nvram_protect =3D 7;
-> -    for (i =3D 0; i < 15; i++)
-> +    for (i =3D 0; i < 15; i++) {
->          s->rem_speed[i] =3D 7;
-> +    }
->      s->imr_jazz =3D 0x10; /* XXX: required by firmware, but why? */
->      s->isr_jazz =3D 0;
->
-> @@ -551,7 +553,7 @@ static void rc4030_reset(DeviceState *dev)
->
->  static int rc4030_post_load(void *opaque, int version_id)
->  {
-> -    rc4030State* s =3D opaque;
-> +    rc4030State *s =3D opaque;
->
->      set_next_tick(s);
->      update_jazz_irq(s);
-> @@ -591,7 +593,8 @@ static void rc4030_do_dma(void *opaque, int n, uint8_=
-t *buf, int len, int is_wri
->      hwaddr dma_addr;
->      int dev_to_mem;
->
-> -    s->dma_regs[n][DMA_REG_ENABLE] &=3D ~(DMA_FLAG_TC_INTR | DMA_FLAG_ME=
-M_INTR | DMA_FLAG_ADDR_INTR);
-> +    s->dma_regs[n][DMA_REG_ENABLE] &=3D
-> +           ~(DMA_FLAG_TC_INTR | DMA_FLAG_MEM_INTR | DMA_FLAG_ADDR_INTR);
->
->      /* Check DMA channel consistency */
->      dev_to_mem =3D (s->dma_regs[n][DMA_REG_ENABLE] & DMA_FLAG_MEM_TO_DEV=
-) ? 0 : 1;
-> @@ -603,8 +606,9 @@ static void rc4030_do_dma(void *opaque, int n, uint8_=
-t *buf, int len, int is_wri
->      }
->
->      /* Get start address and len */
-> -    if (len > s->dma_regs[n][DMA_REG_COUNT])
-> +    if (len > s->dma_regs[n][DMA_REG_COUNT]) {
->          len =3D s->dma_regs[n][DMA_REG_COUNT];
-> +    }
->      dma_addr =3D s->dma_regs[n][DMA_REG_ADDRESS];
->
->      /* Read/write data at right place */
 > --
 > 2.7.4
 
