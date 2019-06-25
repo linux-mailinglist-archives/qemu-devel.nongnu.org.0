@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02A9553A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:42:55 +0200 (CEST)
-Received: from localhost ([::1]:33270 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26BFB5539A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:40:48 +0200 (CEST)
+Received: from localhost ([::1]:33242 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnaw-0007N2-Vw
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33196)
+	id 1hfnYt-00050T-BJ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:40:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34023)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <yuval.shaia@oracle.com>) id 1hfnRb-0007f7-SK
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:33:18 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hfnUo-0001pu-MY
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:36:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <yuval.shaia@oracle.com>) id 1hfnRa-0003nO-IQ
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:33:15 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:52912)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <yuval.shaia@oracle.com>)
- id 1hfnRa-0003iR-9j
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:33:14 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5PFIZ95112723;
- Tue, 25 Jun 2019 15:33:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2018-07-02;
- bh=giQLjB4r70OrOQgwF2ArWb04iuzHkVajgXm3mrAXfFY=;
- b=CbecMq1OBLZlP8ZIm4ik49Yz8ilam2Z2DRVgSchjVrC/U+ZRlhgJZWYc+apral4d5GRu
- ZoH9DdBRX64C9otwu8/ul4sS+5VeXrPPlP6xf2EvyTEpT/Z5NePzFPNPfEUhPVd9/96P
- eEL4GYMoWD3uNf/B/HZU1CMGNh3BbWfx9QUgdjZ2UFo70nf+vIFOUgL7b80D3suHjqeh
- bAa7A+/owS3MkFBFkpjy3E1/muPDUkbSl1DPxhIh9MqUrEcOPpe8NDPk84fw96sTfjh0
- VGsRzRMuc0mf5mljI8WWp59bwycKt7aiAfxsUoxDpjo7PiuVSdLhQWwJg4bXyUHeBGLc bg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2120.oracle.com with ESMTP id 2t9c9pn45u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Jun 2019 15:33:06 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5PFWiji109348;
- Tue, 25 Jun 2019 15:33:05 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 2t9p6u8hnh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 25 Jun 2019 15:33:05 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5PFX4xP004583;
- Tue, 25 Jun 2019 15:33:04 GMT
-Received: from lap1 (/77.138.183.59) by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 25 Jun 2019 08:33:03 -0700
-Date: Tue, 25 Jun 2019 18:32:55 +0300
-From: Yuval Shaia <yuval.shaia@oracle.com>
-To: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
-Message-ID: <20190625153253.GA10458@lap1>
-References: <20190621144541.13770-1-skrtbhtngr@gmail.com>
- <20190621144541.13770-2-skrtbhtngr@gmail.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hfnUn-0006kS-8W
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:36:34 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40755)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hfnUm-0006ii-F8
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:36:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id p11so18397112wre.7
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 08:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EOXiXqRkOBnlWG2kLlaZsuMqLACxnqUCtoQCgNdNGHQ=;
+ b=EAKAeXQHuYOaCw0CIJlmAGs81ognnLHgoWaMTWsDTlE3lyiu1V07NAMO0KGKbIAk93
+ 4egUneO+TZab3oeGry0d/jmfRG98vpMS1tQRy+gEOT8pYQU5Zer9qMpvpGo3N0k8qZtu
+ jY5+lqS09EXSZfhDKtRjFucCVQy+vdzGXxxWCIQnoVOTEnKlTn3H0CO839T89bbyieZD
+ 5G6oZjOxMxcfu6Q4GVX1kIYHFSgx8dAEwBCBNqK3ypNAvEJv3A4oiUu1bHSnFeXbCeqq
+ ttjKSNNmjAUl/Iqev0Ku7DeeTBPUO/wb1XpWrG6bzc0fMxQtQm/mRB2lDC3Dv7NnDfhV
+ 7rUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EOXiXqRkOBnlWG2kLlaZsuMqLACxnqUCtoQCgNdNGHQ=;
+ b=Br/TMhNdO+Kf06XxZgtQO8Ge0BbrOF34UDQldObvhHzRvV0dbJJ1FMzMuRoBLhDu+N
+ 9ok/5C9cBa9u4Q2HgtRBjkfA2dBqACbsVoLwRldgnxiSCn7wNYB/86oTnXXy2aikoROM
+ YJCrt5jK6rqex9mGEwJv5X9nqsTGF3WzE60WBxgpP2XvyHzyPcDHpHbavGqKafJ9cWwc
+ 9aRd7sxirK0qHl/tGfS0PONjfVCDxOTy4oPonzRNIhG0w3yAQR3teiDMysKWO+uCiwo+
+ bBDJ9Rk2yqQXQS1f9CSB0w/Sah/q9SqOIGSquwKVNYpYvoDTVMdtVmE2GmBL+S8DCTEb
+ Ws/w==
+X-Gm-Message-State: APjAAAXszOJ0dFInk+zLFfvzdV7f+2XFcnvad7RTacHE2t2NI+j0MK1U
+ B03vCUwezRZZjuDWYkkgJYV2LA==
+X-Google-Smtp-Source: APXvYqyD8hCkcsWYnDQpfX9oIVeRdGOMYAkW+61Y+0dj0/ziOrt4vQK3ol4hCy9Bp+n/Zn1lA31njg==
+X-Received: by 2002:adf:b64e:: with SMTP id i14mr63977390wre.248.1561476990653; 
+ Tue, 25 Jun 2019 08:36:30 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id 128sm4317958wme.12.2019.06.25.08.36.29
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 25 Jun 2019 08:36:30 -0700 (PDT)
+To: Joel Sing <joel@sing.id.au>
+References: <20190616191900.GH61734@hippo.sing.id.au>
+ <41ef5fbf-f438-e60a-2fba-a72e3ad422f9@linaro.org>
+ <20190624180837.GM61734@hippo.sing.id.au>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <2dec03cb-22af-4d0d-f182-3bee9db83d6f@linaro.org>
+Date: Tue, 25 Jun 2019 17:36:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190621144541.13770-2-skrtbhtngr@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906250117
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
- signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906250117
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: Re: [Qemu-devel] [RFC 1/1] hw/pvrdma: Add live migration support
+In-Reply-To: <20190624180837.GM61734@hippo.sing.id.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH] atomic failures on qemu-system-riscv64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,122 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: me@carlosedp.com, qemu-riscv@nongnu.org, palmer@sifive.com,
+ qemu-devel@nongnu.org, Alistair.Francis@wdc.com, marco@decred.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 21, 2019 at 08:15:41PM +0530, Sukrit Bhatnagar wrote:
-> Define and register SaveVMHandlers pvrdma_save and
-> pvrdma_load for saving and loading the device state,
-> which currently includes only the dma, command slot
-> and response slot addresses.
-> 
-> Remap the DSR, command slot and response slot upon
-> loading the addresses in the pvrdma_load function.
-> 
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Cc: Yuval Shaia <yuval.shaia@oracle.com>
-> Signed-off-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
-> ---
->  hw/rdma/vmw/pvrdma_main.c | 56 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-> index adcf79cd63..cd8573173c 100644
-> --- a/hw/rdma/vmw/pvrdma_main.c
-> +++ b/hw/rdma/vmw/pvrdma_main.c
-> @@ -28,6 +28,7 @@
->  #include "sysemu/sysemu.h"
->  #include "monitor/monitor.h"
->  #include "hw/rdma/rdma.h"
-> +#include "migration/register.h"
->  
->  #include "../rdma_rm.h"
->  #include "../rdma_backend.h"
-> @@ -592,9 +593,62 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
->      pvrdma_fini(pci_dev);
->  }
->  
-> +static void pvrdma_save(QEMUFile *f, void *opaque)
-> +{
-> +    PVRDMADev *dev = PVRDMA_DEV(opaque);
-> +
-> +    qemu_put_be64(f, dev->dsr_info.dma);
-> +    qemu_put_be64(f, dev->dsr_info.dsr->cmd_slot_dma);
-> +    qemu_put_be64(f, dev->dsr_info.dsr->resp_slot_dma);
-> +}
-> +
-> +static int pvrdma_load(QEMUFile *f, void *opaque, int version_id)
-> +{
-> +    PVRDMADev *dev = PVRDMA_DEV(opaque);
-> +    PCIDevice *pci_dev = PCI_DEVICE(dev);
-> +
-> +    // Remap DSR
-> +    dev->dsr_info.dma = qemu_get_be64(f);
-> +    dev->dsr_info.dsr = rdma_pci_dma_map(pci_dev, dev->dsr_info.dma,
-> +                                    sizeof(struct pvrdma_device_shared_region));
-> +    if (!dev->dsr_info.dsr) {
-> +        rdma_error_report("Failed to map to DSR");
-> +        return -1;
-> +    }
-> +    qemu_log("pvrdma_load: successfully remapped to DSR\n");
-> +
-> +    // Remap cmd slot
-> +    dev->dsr_info.dsr->cmd_slot_dma = qemu_get_be64(f);
-> +    dev->dsr_info.req = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->cmd_slot_dma,
-> +                                     sizeof(union pvrdma_cmd_req));
-> +    if (!dev->dsr_info.req) {
+On 6/24/19 8:08 PM, Joel Sing wrote:
+> Regarding the alignment for reservations, the
+> specification does require this, although I do not recall seeing any enforcement
+> of this by qemu itself.
 
-So this is where you hit the error, right?
-All looks good to me, i wonder why the first pci_dma_map works fine but
-second fails where the global BounceBuffer is marked as used.
+Ah, I see it now.  Enforcement begins here:
 
-Anyone?
+static bool trans_lr_w(DisasContext *ctx, arg_lr_w *a)
+{
+    REQUIRE_EXT(ctx, RVA);
+    return gen_lr(ctx, a, (MO_ALIGN | MO_TESL));
+                           ^^^^^^^^
 
-> +        rdma_error_report("Failed to map to command slot address");
-> +        return -1;
-> +    }
-> +    qemu_log("pvrdma_load: successfully remapped to cmd slot\n");
-> +
-> +    // Remap rsp slot
+This will force softmmu (but notably not linux-user; a design limitation) to
+generate an alignment fault for an unaligned address.
 
-btw, this is RFC so we are fine but try to avoid such way of comments.
 
-> +    dev->dsr_info.dsr->resp_slot_dma = qemu_get_be64(f);
-> +    dev->dsr_info.rsp = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->resp_slot_dma,
-> +                                     sizeof(union pvrdma_cmd_resp));
-> +    if (!dev->dsr_info.rsp) {
-> +        rdma_error_report("Failed to map to response slot address");
-> +        return -1;
-> +    }
-> +    qemu_log("pvrdma_load: successfully remapped to rsp slot\n");
-> +
-> +    return 0;
-> +}
-> +
-> +static SaveVMHandlers savevm_pvrdma = {
-> +    .save_state = pvrdma_save,
-> +    .load_state = pvrdma_load,
-> +};
-> +
->  static void pvrdma_realize(PCIDevice *pdev, Error **errp)
->  {
->      int rc = 0;
-> +    DeviceState *s = DEVICE(pdev);
->      PVRDMADev *dev = PVRDMA_DEV(pdev);
->      Object *memdev_root;
->      bool ram_shared = false;
-> @@ -666,6 +720,8 @@ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
->      dev->shutdown_notifier.notify = pvrdma_shutdown_notifier;
->      qemu_register_shutdown_notifier(&dev->shutdown_notifier);
->  
-> +    register_savevm_live(s, "pvrdma", -1, 1, &savevm_pvrdma, dev);
-> +
->  out:
->      if (rc) {
->          pvrdma_fini(pdev);
-> -- 
-> 2.21.0
-> 
-> 
+r~
 
