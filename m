@@ -2,103 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E734C55377
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:32:52 +0200 (CEST)
-Received: from localhost ([::1]:33130 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAE045538D
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:37:50 +0200 (CEST)
+Received: from localhost ([::1]:33170 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnRE-0006C3-1X
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60181)
+	id 1hfnW1-0001EC-Ux
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60405)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hfnMW-0003jx-7n
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:28:01 -0400
+ (envelope-from <sgarzare@redhat.com>) id 1hfnNc-0004mV-Hm
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:29:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hfnMV-0008D4-AU
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:28:00 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:51367)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hfnMS-00087s-NQ
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:27:57 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N1gWU-1ihkq73ftA-0122Q4; Tue, 25 Jun 2019 17:27:52 +0200
-To: Bug 1833668 <1833668@bugs.launchpad.net>, qemu-devel@nongnu.org
-References: <156110323981.19354.11667763271761846721.malonedeb@wampee.canonical.com>
- <156147381286.18147.1572558561573422063.malone@gac.canonical.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d5c913aa-0edf-ff4b-f21e-8c1a375e10fd@vivier.eu>
-Date: Tue, 25 Jun 2019 17:27:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <sgarzare@redhat.com>) id 1hfnNa-0000bB-Vt
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:29:08 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:36749)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hfnNW-0000Po-5i
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:29:03 -0400
+Received: by mail-wm1-f65.google.com with SMTP id u8so3423659wmm.1
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 08:28:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=maX/9ZztO3o0ap2K1rEyN53t8p8liQm0W+YzEPOCuR4=;
+ b=IA0eaX2zyYxHYEHoAYVzHGAmy+OXByEbbgPWz4UE7XxsLwTa78MQ97qAmFSk8YiuMH
+ g/LbqRW94ORxRc2q6ik3FW9s3oFPY/8omgEwlsCvESILhWvCLWR357s6DMcHpd7P0eNB
+ yie+GY2J9VrCcu52z4himh5Ohi2E2043oKOPQUM5Sq7DJ/gYr4/D6xke05WoJZAGM0n9
+ NTsBeN9jai8mg4M6tHpOHxJST3pz3N85uG0jjmIvD6w8iDk1AqccCZqLcKwGy3ifqbFn
+ Md8jeGPeGoPMSzNUThrmr+xutMjUB7M1cCOmm8vkRaotdhixegxpuwwycLmPqpuW5/bb
+ rxAA==
+X-Gm-Message-State: APjAAAV1KdOkMNHHOqlePFnDymwEXJI5PyTYlVrxVr4rYm5oITsiYDrQ
+ wd2KMgLn3/CM3UmwPiRGt8Mtng==
+X-Google-Smtp-Source: APXvYqwD+C8CpdGTf0vCXVjHgzKxV5G803HHIeULW8hWC/syH1G7ZLjpdWIZsn54iBqsGyfFyFoQIg==
+X-Received: by 2002:a05:600c:228b:: with SMTP id
+ 11mr20662968wmf.26.1561476535681; 
+ Tue, 25 Jun 2019 08:28:55 -0700 (PDT)
+Received: from steredhat (host21-207-dynamic.52-79-r.retail.telecomitalia.it.
+ [79.52.207.21])
+ by smtp.gmail.com with ESMTPSA id x3sm15155729wrp.78.2019.06.25.08.28.54
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 25 Jun 2019 08:28:55 -0700 (PDT)
+Date: Tue, 25 Jun 2019 17:28:52 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190625152852.6xbswgit7f5gszq5@steredhat>
+References: <20190509145927.293369-1-sgarzare@redhat.com>
+ <7a3e37bd-dd24-a97f-5354-7793df44c53e@redhat.com>
+ <20190625144710.xvlwcqcbp5bipbku@steredhat>
+ <b02a2b04-4955-c341-8639-b03d3a125927@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <156147381286.18147.1572558561573422063.malone@gac.canonical.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:joRG4KvCjzteEm0yppdaCCJwYvFljWEWCULou20V7HCwq+jaaig
- 5/ttbpo/+j4g4IK/VEgWhSHJnCqHq5VoClJA/yLNnY6nctaAtjVYDU0RVjryXkKFpU+beGU
- tIwc9nvCQQcpYSg/Gar0+S4QG/HlFQfopO0B3xZcJ1ZTgqsppvd3kxDwJrWtT16JbOuNHSG
- VDzyVds2tN+06BjR7m7vQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mXch//xFirs=:4E7fwKISC8NBmf9yaqoyKv
- dh7PBChNVADoOw8G1ckvM/uN58l0DsB1qK3dxUGYLqrHyq0JUgZVOyEFBq0Q5FeCtAdGHBOyn
- VxYj1/vCnXDFxBEK8oICSbqSgyvTCj4SDh2/DCt+TyweXiZSyp4H4kDQnsr8sfsP0bAwT/rNP
- nDjBtK4lzVc0O2vB67LTN5C4g/ewtzTuQac+yzbUD/QudmYWZ20SqB7hiMK5g47A2JRqBpv8y
- RphAto4SMU0j9jO9E6/alnJfwFnRxUz8yoC7ETxKedrV63bDd6P21PBUMY4jB0+xzWPuJYydJ
- moFgl8z8ceer2ogP1EMn2ce5V5hTnm3+8/vr27uH1lawLe1ScQnFT5FRrvCC3xqK+6uIUAkz/
- qaQXCfsuCstbqSPFirvdi/9EYDzRGHTS7tPPWBrEgDUWW1PpqQQ/9iMVptkWn6zRJrlj8Y9xO
- Im+hy3edr3nC8Q5F7ENUqQZRcrIQYLqsyZCJ40Gkfe/UlDpvHi9KOA9EuPUerWtOVbPv+fHbW
- tCvh4Hl7HeW0znPM/PyB0hyICz9ZjnHoPO9jBDSTNwYrfsz4P8uVCwb8Nia32j6lEB22jzetR
- 84I7udab3UFraZkHlQv63AfQytW75soxkKCgpuc9LDExQBzeJ2TNkL+b0342aVqjBckZywKvf
- FbsYrporZdkuo4ukatbIcas1J3uLbkAPven6n9EL2AxecMA3jVU5V+GnfiOWnDA+Spjvz/vJP
- do2s6GQ+njMkzjoX8PMhSWTNGmMAxAllsEFsi8phbUV22/CCpkLUZNWwZ5Q=
+In-Reply-To: <b02a2b04-4955-c341-8639-b03d3a125927@redhat.com>
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
-Subject: Re: [Qemu-devel] [Bug 1833668] Re: linux-user: Unable to run ARM
- binaries on Aarch64
+ [fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v3] block/rbd: increase dynamically the
+ image size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,14 +75,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
+ Jason Dillaman <jdillama@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/06/2019 à 16:43, Richard Henderson a écrit :
-> Of course.  There's a separate qemu-arm executable for that.
+On Tue, Jun 25, 2019 at 04:57:53PM +0200, Max Reitz wrote:
+> On 25.06.19 16:47, Stefano Garzarella wrote:
+> > On Tue, Jun 25, 2019 at 04:02:04PM +0200, Max Reitz wrote:
+> >> On 09.05.19 16:59, Stefano Garzarella wrote:
+> >>> RBD APIs don't allow us to write more than the size set with
+> >>> rbd_create() or rbd_resize().
+> >>> In order to support growing images (eg. qcow2), we resize the
+> >>> image before write operations that exceed the current size.
+> >>>
+> >>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> >>> ---
+> >>> v3:
+> >>>   - add 'image_size' field in the BDRVRBDState to keep track of the
+> >>>     current size of the RBD image [Jason, Kevin]
+> >>> ---
+> >>>  block/rbd.c | 42 +++++++++++++++++++++++++++++++++++++++---
+> >>>  1 file changed, 39 insertions(+), 3 deletions(-)
+> >>>
+> >>> diff --git a/block/rbd.c b/block/rbd.c
+> >>> index 0c549c9935..b0355a2ce0 100644
+> >>> --- a/block/rbd.c
+> >>> +++ b/block/rbd.c
+> >>
+> >> [...]
+> >>
+> >>> @@ -833,6 +842,22 @@ static void qemu_rbd_close(BlockDriverState *bs)
+> >>>      rados_shutdown(s->cluster);
+> >>>  }
+> >>>  
+> >>> +/* Resize the RBD image and update the 'image_size' with the current size */
+> >>> +static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
+> >>> +{
+> >>> +    BDRVRBDState *s = bs->opaque;
+> >>> +    int r;
+> >>> +
+> >>> +    r = rbd_resize(s->image, size);
+> >>> +    if (r < 0) {
+> >>> +        return r;
+> >>> +    }
+> >>> +
+> >>> +    s->image_size = size;
+> >>
+> >> I think this should update bs->total_sectors, too.  In fact, I’m
+> >> wondering why you don’t just use bs->total_sectors (or bdrv_getlength(),
+> >> which returns bs->total_sectors * 512) instead of adding this new field?
+> >>
+> > 
+> > Hi Max,
+> > thanks for taking a look!
+> > 
+> > I used bs->total_sectors in the v2, but Jason pointed out a possible
+> > issue with this, so I proposed to add a variable in the BDRVRBDState to
+> > track the latest resize and Kevin acked [1].
+> > 
+> > IIUC what Kevin said on his comment, the 'bs->total_sectors' should be
+> > updated by bdrv_co_write_req_finish(), for this reason I didn't update
+> > it.
+> > 
+> > [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg615195.html
+> 
+> Ah, right!  Yeah, sure, now that I think about it, the block layer must
+> have general code for successful writes beyond EOF...  (Read: Now that
+> I’m pointed towards it...)
 
-On some other architectures (like ppc/ppc64) the idea is the 64bit
-version supports also all 32bit versions CPUs.
+Yeah, do you mean for example to call .bdrv_co_truncate() (or a new
+callback implemented only in the driver that need to be resized like
+rbd) in the bdrv_driver_pwritev() if we will write beyond EOF?
 
-I think it's why this bug has been opened.
+> 
+> OK then; thanks for the patch, applied to my block branch:
+
+Thanks to take this!
+Stefano
+
 
