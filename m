@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048C055008
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:16:29 +0200 (CEST)
-Received: from localhost ([::1]:60092 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2A054FF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:12:35 +0200 (CEST)
+Received: from localhost ([::1]:60046 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hflJE-0006zV-0y
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:16:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50898)
+	id 1hflFR-0003MW-Sn
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50927)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hflAL-0001CU-0r
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:07:21 -0400
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hflAQ-0001D3-SK
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:07:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hflAH-0007hT-7y
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:07:15 -0400
-Received: from telepax.uni-paderborn.de ([131.234.189.14]:50752)
+ (envelope-from <kbastian@mail.uni-paderborn.de>) id 1hflAM-0007l9-Mh
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:07:20 -0400
+Received: from telepax.uni-paderborn.de ([131.234.189.14]:50772)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1hflAD-0007ds-Ek
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:07:11 -0400
+ id 1hflAJ-0007ew-51
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:07:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
  :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=708RpPXa2IUo7RUFoWejwd4pEMIalApEbAkil0e53M4=; b=mMSadSgHTaoQ5qV4/XV14b0ojP
- OQox13LiIXjXPBUrLZnHpaANsBZLBeoZTGgLW7h1JK0tBMQ5mj+2bOgIhmR+VnBaiFHdl5PIpLQlj
- C0cdZ1ZGTnJQtNH5DCR2vIVSCsaePbBFQJwnEL3pL2gr5c8NPg6kzYq5z/ZKL7rokggk=;
+ bh=/qFG3mD2W0Qhl1cjRE0qltS4XbcDV/9BfLnaosA5+ug=; b=CrzJii7NnxWaG/7S5S5EH/nOt/
+ XPamJMDaDQpGc+BNRBhLLwXrW1hSQuK30qlkfqZ+4I2zcd4A0jJGVfv837GSoWyhqMJfodb++5wF8
+ pcMxvFVzaRwMlHYYp4ZZXX7yaKIMIkLbcInHeToL2UARbkH5barQpysz9OP7Z92zG2ME=;
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
-Date: Tue, 25 Jun 2019 15:06:55 +0200
-Message-Id: <20190625130658.24895-3-kbastian@mail.uni-paderborn.de>
+Date: Tue, 25 Jun 2019 15:06:56 +0200
+Message-Id: <20190625130658.24895-4-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190625130658.24895-1-kbastian@mail.uni-paderborn.de>
 References: <20190625130658.24895-1-kbastian@mail.uni-paderborn.de>
@@ -46,7 +46,7 @@ X-PMX-Version: 6.4.6.2792898, Antispam-Engine: 2.7.2.2107409,
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 131.234.189.14
-Subject: [Qemu-devel] [PULL 2/5] tricore: add UTOF instruction
+Subject: [Qemu-devel] [PULL 3/5] tricore: fix RRPW_INSERT instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,67 +74,28 @@ Signed-off-by: Georg Hofstetter <georg.hofstetter@efs-auto.de>
 Signed-off-by: Robert Rasche <robert.rasche@efs-auto.de>
 Signed-off-by: Lars Biermanski <lars.biermanski@efs-auto.de>
 Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Message-Id: <20190624070339.4408-3-david.brenken@efs-auto.org>
+Message-Id: <20190624070339.4408-4-david.brenken@efs-auto.org>
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- target/tricore/fpu_helper.c | 16 ++++++++++++++++
- target/tricore/helper.h     |  1 +
- target/tricore/translate.c  |  3 +++
- 3 files changed, 20 insertions(+)
+ target/tricore/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/tricore/fpu_helper.c b/target/tricore/fpu_helper.c
-index f079d9e939..432079c8e2 100644
---- a/target/tricore/fpu_helper.c
-+++ b/target/tricore/fpu_helper.c
-@@ -303,6 +303,22 @@ uint32_t helper_itof(CPUTriCoreState *env, uint32_t arg)
-     return (uint32_t)f_result;
- }
- 
-+uint32_t helper_utof(CPUTriCoreState *env, uint32_t arg)
-+{
-+    float32 f_result;
-+    uint32_t flags;
-+
-+    f_result = uint32_to_float32(arg, &env->fp_status);
-+
-+    flags = f_get_excp_flags(env);
-+    if (flags) {
-+        f_update_psw_flags(env, flags);
-+    } else {
-+        env->FPU_FS = 0;
-+    }
-+    return (uint32_t)f_result;
-+}
-+
- uint32_t helper_ftoiz(CPUTriCoreState *env, uint32_t arg)
- {
-     float32 f_arg = make_float32(arg);
-diff --git a/target/tricore/helper.h b/target/tricore/helper.h
-index 16b62edf7f..f1a5cb367e 100644
---- a/target/tricore/helper.h
-+++ b/target/tricore/helper.h
-@@ -111,6 +111,7 @@ DEF_HELPER_4(fmsub, i32, env, i32, i32, i32)
- DEF_HELPER_3(fcmp, i32, env, i32, i32)
- DEF_HELPER_2(ftoi, i32, env, i32)
- DEF_HELPER_2(itof, i32, env, i32)
-+DEF_HELPER_2(utof, i32, env, i32)
- DEF_HELPER_2(ftoiz, i32, env, i32)
- DEF_HELPER_2(ftouz, i32, env, i32)
- DEF_HELPER_2(updfl, void, env, i32)
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 5e1c4f54b9..bd913d71a1 100644
+index bd913d71a1..5d4febf1c0 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -6747,6 +6747,9 @@ static void decode_rr_divide(CPUTriCoreState *env, DisasContext *ctx)
-     case OPC2_32_RR_UPDFL:
-         gen_helper_updfl(cpu_env, cpu_gpr_d[r1]);
+@@ -7025,9 +7025,9 @@ static void decode_rrpw_extract_insert(CPUTriCoreState *env, DisasContext *ctx)
+         }
          break;
-+    case OPC2_32_RR_UTOF:
-+        gen_helper_utof(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
-+        break;
-     case OPC2_32_RR_FTOIZ:
-         gen_helper_ftoiz(cpu_gpr_d[r3], cpu_env, cpu_gpr_d[r1]);
+     case OPC2_32_RRPW_INSERT:
+-        if (pos + width <= 31) {
++        if (pos + width <= 32) {
+             tcg_gen_deposit_tl(cpu_gpr_d[r3], cpu_gpr_d[r1], cpu_gpr_d[r2],
+-                               width, pos);
++                               pos, width);
+         }
          break;
+     default:
 -- 
 2.22.0
 
