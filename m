@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 210475546B
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:27:17 +0200 (CEST)
-Received: from localhost ([::1]:33854 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6815548C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:33:58 +0200 (CEST)
+Received: from localhost ([::1]:33912 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfoHr-000241-A2
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:27:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
+	id 1hfoOL-0007Ks-NZ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:33:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43573)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hfnxW-0004Pm-7v
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:06:16 -0400
+ (envelope-from <berrange@redhat.com>) id 1hfo5E-000340-Sr
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:14:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hfnxU-0006l3-6h
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:06:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51774)
+ (envelope-from <berrange@redhat.com>) id 1hfo5B-00065i-6J
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:14:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43246)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hfnxQ-0006bZ-2O; Tue, 25 Jun 2019 12:06:08 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hfo59-000619-LD
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:14:08 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2D130300B916;
- Tue, 25 Jun 2019 16:06:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-156.brq.redhat.com
- [10.40.204.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FFAB5D70D;
- Tue, 25 Jun 2019 16:06:04 +0000 (UTC)
-To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
-References: <20190506122322.90035-1-sgarzare@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
- mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
- /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
- U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
- mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
- awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
- AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
- CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
- B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
- 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
- AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
- 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
- 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
- BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
- xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
- W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
- DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
- 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
- ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
- sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
- alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
- /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
- bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
- R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <90af513d-7051-45f7-2953-55e0c8460be5@redhat.com>
-Date: Tue, 25 Jun 2019 18:06:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 4736C308FE62;
+ Tue, 25 Jun 2019 16:14:03 +0000 (UTC)
+Received: from redhat.com (ovpn-112-73.ams2.redhat.com [10.36.112.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69E04600C7;
+ Tue, 25 Jun 2019 16:14:00 +0000 (UTC)
+Date: Tue, 25 Jun 2019 17:13:57 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190625161357.GI3139@redhat.com>
+References: <20190625050008.12789-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190506122322.90035-1-sgarzare@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="WhbUSNj8eME1mDj9m3sM7hnxmYMguzJMY"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190625050008.12789-1-ehabkost@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Tue, 25 Jun 2019 16:06:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Tue, 25 Jun 2019 16:14:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] block/rbd: add preallocation support
+Subject: Re: [Qemu-devel] [PATCH 0/6] x86 CPU model versioning
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,191 +56,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Jason Dillaman <jdillama@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Pavel Hrdina <phrdina@redhat.com>, Tao Xu <tao3.xu@intel.com>, "Hu,
+ Robert" <robert.hu@intel.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---WhbUSNj8eME1mDj9m3sM7hnxmYMguzJMY
-Content-Type: multipart/mixed; boundary="88FjVcCXJYlgpHMwqDXaZpRa17405vbyP";
- protected-headers="v1"
-From: Max Reitz <mreitz@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Jason Dillaman <jdillama@redhat.com>,
- Josh Durgin <jdurgin@redhat.com>, qemu-block@nongnu.org
-Message-ID: <90af513d-7051-45f7-2953-55e0c8460be5@redhat.com>
-Subject: Re: [PATCH v2] block/rbd: add preallocation support
-References: <20190506122322.90035-1-sgarzare@redhat.com>
-In-Reply-To: <20190506122322.90035-1-sgarzare@redhat.com>
+On Tue, Jun 25, 2019 at 02:00:02AM -0300, Eduardo Habkost wrote:
+> This series implements basic infrastructure for CPU model
+> versioning, as discussed before[1][2][3].  This will finally
+> allow us to update CPU models in ways that introduce new software
+> or hardware requirements.
+> 
+> My original plan was to use "query-cpu-model-expansion
+> mode=static" to resolve aliases, but I dropped that plan because
+> it would increase complexity for management software a lot.
+> static CPU models are documented as not being affected by the
+> machine type and accelerator at all, which would make the
+> versioned CPU models very inconvenient to use in the command
+> line.  e.g.: users would be forced to replace:
+> 
+>   -cpu Haswell
+> 
+> with:
+> 
+>   -cpu Haswell-4.1,+2apic,+monitor,+kvmclock,+kvm-nopiodelay,+kvm-asyncpf,+kvm-steal-time,+kvm-pv-eoi,+kvmclock-stable-bit,+x2apic,-acpi,-monitor,-svm
+> 
+> In the end, making the versioned CPU models static is not a
+> requirement at all: what we really need is to drop the
+> runnability guarantees from unversioned CPU model names, and
+> require management software to resolve the unversioned alias
+> before saving the VM configuration.
+> 
+> Guest ABI compatibility and live migration guarantees are going
+> to be kept: unversioned CPU models will still be usable with live
+> migration.  Only runnability guarantees when updating the machine
+> type will be dropped.  This means unversioned CPU models are
+> still reported as migration-safe in query-cpu-definitions.
 
---88FjVcCXJYlgpHMwqDXaZpRa17405vbyP
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+I'm having a little bit of a hard time parsing the overall behaviour
+from the above description. Let me outline the examples so you can
+confirm if I've got it right.
 
-On 06.05.19 14:23, Stefano Garzarella wrote:
-> This patch adds the support of preallocation (off/full) for the RBD
-> block driver.
-> If available, we use rbd_writesame() to quickly fill the image when
-> full preallocation is required.
->=20
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+Lets assume there is a VM configured using "Haswell"
+
+Today a mgmt app would pass the CPU model name in to QEMU as is,
+and thus we get
+
+  $QEMU -machine pc-i440fx-4.0 -cpu Haswell ...more args...
+
+The semantics of "Haswell" here is going to vary according to
+what the machine type pc-i440fx-4.0 customizes wrt Haswell.
+
+If the config later has the machine type changed to pc-i440fx-4.1
+the semantics of Haswell might change in an arbitrary way. It
+might even become unrunnable on the current hardware.
+
+With the new versioned machine types, the VM config of "Haswell"
+would be resolved into some arbitrary versioned machine type
+"Haswell-NNN" and thus the mgmt app would launch
+
+  $QEMU -machine pc-i440fx-4.0 -cpu Haswell-NNN ...more args...
+
+The semantics of "Haswell-NNN" will never change no matter what
+the machine type does.
+
+The end user has the option to explicitly give "Haswell-NNN" to
+the mgmt app if they know they want that particular variant, and
+in this case the mgmt app won't need to resolve anything (or at
+least the process of trying to resolve it won't change it).
+
+
+> 
+> The last patch in the series demonstrates how the new feature can
+> be used to update a CPU model: it adds a Cascadelake-Server-4.1.1
+> CPU model, including "arch-capabilities=on" and "stepping=5".
+> Unfortunately we can't enable arch-capabilities in the -4.1
+> version of Cascadelake-Server because it would break our existing
+> runnability guarantees.
+> 
+> [1] https://www.mail-archive.com/libvir-list@redhat.com/msg167342.html
+> [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg590034.html
+> [3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg611244.html
+> 
 > ---
-> v2:
-> - Use 4 KiB buffer for rbd_writesame() [Jason]
-> - Use "rbd_concurrent_management_ops" and "stripe_unit" to limit
->   concurrent ops to the backing cluster [Jason]
-> ---
->  block/rbd.c          | 188 +++++++++++++++++++++++++++++++++++++++----=
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Pavel Hrdina <phrdina@redhat.com>
+> Cc: Jiri Denemark <jdenemar@redhat.com>
+> Cc: "Hu, Robert" <robert.hu@intel.com>
+> Cc: Tao Xu <tao3.xu@intel.com>
+> Cc: Richard Henderson <rth@twiddle.net>
+> 
+> Eduardo Habkost (6):
+>   i386: Add x-force-features option for testing
+>   i386: Remove unused host_cpudef variable
+>   qmp: Add "alias-of" field to query-cpu-definitions
+>   i386: Infrastructure for versioned CPU models
+>   docs: Deprecate CPU model runnability guarantees
+>   i386: Add Cascadelake-Server-4.1.1 CPU model
+> 
+>  qapi/target.json                           |   9 +-
+>  include/hw/i386/pc.h                       |   3 +
+>  target/i386/cpu-qom.h                      |  10 +-
+>  target/i386/cpu.h                          |  16 ++
+>  hw/i386/pc.c                               |   3 +
+>  hw/i386/pc_piix.c                          |   4 +
+>  hw/i386/pc_q35.c                           |   4 +
+>  target/i386/cpu.c                          | 188 +++++++++++++++++----
+>  qemu-deprecated.texi                       |  19 +++
+>  tests/acceptance/x86_cpu_model_versions.py | 173 +++++++++++++++++++
+>  10 files changed, 388 insertions(+), 41 deletions(-)
+>  create mode 100644 tests/acceptance/x86_cpu_model_versions.py
+> 
+> -- 
+> 2.18.0.rc1.1.g3f1ff2140
+> 
 
->  qapi/block-core.json |   4 +-
->  2 files changed, 175 insertions(+), 17 deletions(-)
-
-This patch conflicts a bit with the rbd file growth patch, so that would
-need to be resolved in a v3.
-
-But still, that doesn=E2=80=99t prevent me from reviewing it as it is:
-
-> diff --git a/block/rbd.c b/block/rbd.c
-> index 0c549c9935..bc54395e1c 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-
-[...]
-
-> @@ -331,6 +333,147 @@ static void qemu_rbd_memset(RADOSCB *rcb, int64_t=
- offs)
-
-[...]
-
-> +static int qemu_rbd_do_truncate(rados_t cluster, rbd_image_t image,
-> +                                int64_t offset, PreallocMode prealloc,=
-
-> +                                Error **errp)
-> +{
-
-[...]
-
-> +#ifdef LIBRBD_SUPPORTS_WRITESAME
-> +        uint64_t stripe_unit, writesame_max_size;
-> +        int max_concurrent_ops;
-> +
-> +        max_concurrent_ops =3D qemu_rbd_get_max_concurrent_ops(cluster=
-);
-> +        ret =3D rbd_get_stripe_unit(image, &stripe_unit);
-> +        if (ret < 0) {
-> +            error_setg_errno(errp, -ret, "Failed to get stripe unit");=
-
-> +            goto out;
-> +        }
-> +
-> +        /*
-> +         * We limit the rbd_writesame() size to avoid to spawn more th=
-en
-
-s/then/than/
-
-> +         * 'rbd_concurrent_management_ops' concurrent operations.
-> +         */
-> +        writesame_max_size =3D MIN(stripe_unit * max_concurrent_ops, I=
-NT_MAX);
-> +#endif /* LIBRBD_SUPPORTS_WRITESAME */
-> +
-> +        buf =3D g_malloc(buf_size);
-> +        /*
-> +         * Some versions of rbd_writesame() discards writes of buffers=
- with
-> +         * all zeroes. In order to avoid this behaviour, we set the fi=
-rst byte
-> +         * to one.
-> +         */
-> +        buf[0] =3D 1;
-
-But I guess you=E2=80=99ll need to rewrite it as zero later, or the
-=E2=80=9Cbdrv_rbd.bdrv_has_zero_init =3D bdrv_has_zero_init_1=E2=80=9D is=
- no longer quite
-true.
-
-[...]
-
-> @@ -449,6 +603,16 @@ static int coroutine_fn qemu_rbd_co_create_opts(co=
-nst char *filename,
->                                                     BLOCK_OPT_CLUSTER_S=
-IZE, 0);
->      rbd_opts->has_cluster_size =3D (rbd_opts->cluster_size !=3D 0);
-> =20
-> +    prealloc =3D qemu_opt_get_del(opts, BLOCK_OPT_PREALLOC);
-> +    rbd_opts->preallocation =3D qapi_enum_parse(&PreallocMode_lookup, =
-prealloc,
-> +                                              PREALLOC_MODE_OFF, &loca=
-l_err);
-
-You also need to set rbd_opts->has_preallocation to true.
-
-> +    g_free(prealloc);
-> +    if (local_err) {
-> +        ret =3D -EINVAL;
-> +        error_propagate(errp, local_err);
-> +        goto exit;
-> +    }
-> +
->      options =3D qdict_new();
->      qemu_rbd_parse_filename(filename, options, &local_err);
->      if (local_err) {
-
-[...]
-
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 7ccbfff9d0..db25a4065b 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -4277,13 +4277,15 @@
->  #                   point to a snapshot.
->  # @size             Size of the virtual disk in bytes
->  # @cluster-size     RBD object size
-> +# @preallocation    Preallocation mode (allowed values: off, full)
-
-There should be a "(Since: 4.1)" note here.
-
-Max
-
->  #
->  # Since: 2.12
->  ##
->  { 'struct': 'BlockdevCreateOptionsRbd',
->    'data': { 'location':         'BlockdevOptionsRbd',
->              'size':             'size',
-> -            '*cluster-size' :   'size' } }
-> +            '*cluster-size' :   'size',
-> +            '*preallocation':   'PreallocMode' } }
-> =20
->  ##
->  # @BlockdevVmdkSubformat:
->=20
-
-
-
---88FjVcCXJYlgpHMwqDXaZpRa17405vbyP--
-
---WhbUSNj8eME1mDj9m3sM7hnxmYMguzJMY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0SRmoACgkQ9AfbAGHV
-z0A3Xwf6A1+DEIXy7njnIg2PL1SPdGr3fAZ2S0zG3XQbSR3cj66bfj7RJYLMcrSI
-hIURgFGEQDJO4bkq6P1F6aTeu9f5SzJ1O+oKMUq3KYcn4YSptncMudt3q6a4B9o5
-RHm4h8gKsGImfziHdvomzYi8MmNZ5pebse4X1iU1WYBNN1W8EHyT4QmkqBu7kwZl
-4wM8vY0v+QQ843x1AxUoBccEye7vOT8NCIyHHknLPZuc0h+w7FlYosIsoHWxwP28
-l2DW2/2BgHgdzrCAeN3nzY0jmr3oJ0834GcYZvc2IDW7+l/oQ2c3hTKDAPlKne6k
-MuSbUPhL+IeMkLfw36T7RTAbeU20fQ==
-=DfHm
------END PGP SIGNATURE-----
-
---WhbUSNj8eME1mDj9m3sM7hnxmYMguzJMY--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
