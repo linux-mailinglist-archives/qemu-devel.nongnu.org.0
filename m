@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096A955050
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:27:30 +0200 (CEST)
-Received: from localhost ([::1]:60210 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1945506A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 15:32:08 +0200 (CEST)
+Received: from localhost ([::1]:60258 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hflTs-0006Rr-P0
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:27:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51892)
+	id 1hflYO-0001Ie-4S
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 09:32:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53307)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hflEK-0003cv-Nm
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:11:26 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hflJR-00006D-7l
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:16:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hflEG-0002J1-LW
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:11:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33992)
+ (envelope-from <imammedo@redhat.com>) id 1hflJP-0005ts-VO
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:16:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42454)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hflEE-0002E7-KK
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 09:11:20 -0400
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>)
+ id 1hflJL-0005p0-9r; Tue, 25 Jun 2019 09:16:35 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C184788305;
- Tue, 25 Jun 2019 13:11:08 +0000 (UTC)
-Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 438215D9D3;
- Tue, 25 Jun 2019 13:11:07 +0000 (UTC)
-Date: Tue, 25 Jun 2019 10:11:05 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Tao Xu <tao3.xu@intel.com>
-Message-ID: <20190625131105.GO1862@habkost.net>
-References: <20190625050008.12789-1-ehabkost@redhat.com>
- <20190625050008.12789-7-ehabkost@redhat.com>
- <ace5bfc8-7b05-d1ab-bada-271cf82ec4ae@intel.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id BE3F030F1BDC;
+ Tue, 25 Jun 2019 13:16:27 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C4565D9C5;
+ Tue, 25 Jun 2019 13:16:21 +0000 (UTC)
+Date: Tue, 25 Jun 2019 15:16:16 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <20190625151616.12e46566@redhat.com>
+In-Reply-To: <fbd558d5-03b7-df5c-e781-549261207221@huawei.com>
+References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
+ <1557832703-42620-2-git-send-email-gengdongjiu@huawei.com>
+ <20190620140409.3c713760@redhat.com>
+ <fbd558d5-03b7-df5c-e781-549261207221@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ace5bfc8-7b05-d1ab-bada-271cf82ec4ae@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 25 Jun 2019 13:11:17 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 25 Jun 2019 13:16:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 6/6] i386: Add Cascadelake-Server-4.1.1 CPU
- model
+Subject: Re: [Qemu-devel] [PATCH v17 01/10] hw/arm/virt: Add RAS platform
+ version for migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,79 +59,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, jingqi.liu@intel.com, "Lai,
- Paul C" <paul.c.lai@intel.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "Hu,
- Robert" <robert.hu@intel.com>, Igor Mammedov <imammedo@redhat.com>,
- Jiri Denemark <jdenemar@redhat.com>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
+ linuxarm@huawei.com, shannon.zhaosl@gmail.com, zhengxiang9@huawei.com,
+ qemu-arm@nongnu.org, james.morse@arm.com, xuwei5@huawei.com,
+ jonathan.cameron@huawei.com, pbonzini@redhat.com, lersek@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 25, 2019 at 01:35:17PM +0800, Tao Xu wrote:
-> On 6/25/2019 1:00 PM, Eduardo Habkost wrote:
-> > Add new version of Cascadelake-Server CPU model, setting
-> > stepping=5 and enabling the IA32_ARCH_CAPABILITIES MSR.
+On Mon, 24 Jun 2019 20:19:12 +0800
+gengdongjiu <gengdongjiu@huawei.com> wrote:
+
+> On 2019/6/20 20:04, Igor Mammedov wrote:
+> > On Tue, 14 May 2019 04:18:14 -0700
+> > Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+> >   
+> >> Support this feature since version 4.1, disable it by
+> >> default in the old version.
+> >>
+> >> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+> >> ---
+> >>  hw/arm/virt.c         | 6 ++++++
+> >>  include/hw/arm/virt.h | 1 +
+> >>  2 files changed, 7 insertions(+)
+> >>
+> >> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> >> index 5331ab7..7bdd41b 100644
+> >> --- a/hw/arm/virt.c
+> >> +++ b/hw/arm/virt.c
+> >> @@ -2043,8 +2043,14 @@ DEFINE_VIRT_MACHINE_AS_LATEST(4, 1)
+> >>  
+> >>  static void virt_machine_4_0_options(MachineClass *mc)
+> >>  {
+> >> +    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
+> >> +
+> >>      virt_machine_4_1_options(mc);
+> >>      compat_props_add(mc->compat_props, hw_compat_4_0, hw_compat_4_0_len);
+> >> +    /* Disable memory recovery feature for 4.0 as RAS support was
+> >> +     * introduced with 4.1.
+> >> +     */
+> >> +    vmc->no_ras = true;  
 > > 
-> > The new feature will introduce a new host software requirement,
-> > breaking our CPU model runnability promises.  This means we can't
-> > enable the new CPU model version by default in QEMU 4.1, because
-> > management software isn't ready yet to resolve CPU model aliases.
-> > This is why the feature is being enabled in a
-> > Cascadelake-Server-4.1.1 CPU model instead of
-> > Cascadelake-Server-4.1.
+> > So it would mean that the feature is enabled unconditionally for
+> > new machine types and consumes resources whether user needs it or not.
 > > 
-> > Includes a test case to ensure the right combinations of
-> > machine-type + CPU model + command-line feature flags will work
-> > as expected.
-> > 
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> > Cc: "Hu, Robert" <robert.hu@intel.com>
-> > Cc: Tao Xu <tao3.xu@intel.com>
-> > Cc: jingqi.liu@intel.com,
-> > Cc: "Lai, Paul C" <paul.c.lai@intel.com>
-> > ---
-> >   target/i386/cpu.c                          | 15 +++++
-> >   tests/acceptance/x86_cpu_model_versions.py | 71 ++++++++++++++++++++++
-> >   2 files changed, 86 insertions(+)
-> > 
-> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > index 121f568954..8edae04161 100644
-> > --- a/target/i386/cpu.c
-> > +++ b/target/i386/cpu.c
-> > @@ -2607,6 +2607,21 @@ static X86CPUDefinition builtin_x86_defs[] = {
-> ...
-> > +        # versioned CPU model overrides machine-type:
-> > +        vm = self.get_vm()
-> > +        vm.add_args('-S')
-> > +        vm.set_machine('pc-i440fx-4.0')
-> > +        vm.add_args('-cpu', 'Cascadelake-Server-4.1,x-force-features=on,check=off,enforce=off')
-> > +        vm.launch()
-> > +        self.assertFalse(get_cpu_prop(vm, 'arch-capabilities'),
-> > +                         'pc-i440fx-4.1 + Cascadelake-Server-4.1 should not have arch-capabilities')
-> > +
-> > +        vm = self.get_vm()
-> > +        vm.add_args('-S')
-> > +        vm.set_machine('pc-i440fx-4.0')
-> > +        vm.add_args('-cpu', 'Cascadelake-Server-4.1.1,x-force-features=on,check=off,enforce=off')
-> > +        vm.launch()
-> > +        self.assertTrue(get_cpu_prop(vm, 'arch-capabilities'),
-> > +                         'pc-i440fx-4.1 + Cascadelake-Server-4.1 should have arch-capabilities')
-> Hi Eduardo
+> > In light of the race for leaner QEMU and faster startup times,
+> > it might be better to make RAS optional and make user explicitly
+> > enable it using a machine option.  
 > 
-> Could me ask why here the error show "Cascadelake-Server-4.1" instead of
-> "Cascadelake-Server-4.1.1"?
+> I will add a machine option to make RAS optional, do you think we should enable or disable it by default? I think it is better if we enable it by default.
+I'd start with disabled by default as it's easy to make it
+enabled by default later and we can't do so other way around.
 
-My mistake.  Will fix it.
-
+ 
+> > 
+> >   
+> >>  }
+> >>  DEFINE_VIRT_MACHINE(4, 0)
+> >>  
+> >> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> >> index 4240709..7f1a033 100644
+> >> --- a/include/hw/arm/virt.h
+> >> +++ b/include/hw/arm/virt.h
+> >> @@ -104,6 +104,7 @@ typedef struct {
+> >>      bool disallow_affinity_adjustment;
+> >>      bool no_its;
+> >>      bool no_pmu;
+> >> +    bool no_ras;
+> >>      bool claim_edge_triggered_timers;
+> >>      bool smbios_old_sys_ver;
+> >>      bool no_highmem_ecam;  
+> > 
+> > .
+> >   
 > 
-> And will you add the MSR_ARCH_CAP_RDCL_NO, MSR_ARCH_CAP_IBRS_ALL, and
-> MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY into .features[FEAT_ARCH_CAPABILITIES]?
 
-I will do it.  I don't know why I didn't notice them in the "Add
-some MSR based features on Cascadelake-Server CPU model" patches
-you sent.
-
--- 
-Eduardo
 
