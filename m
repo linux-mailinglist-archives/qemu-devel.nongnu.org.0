@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E6455331
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:20:10 +0200 (CEST)
-Received: from localhost ([::1]:32992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534875534C
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:25:37 +0200 (CEST)
+Received: from localhost ([::1]:33054 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnEv-0004Nw-3I
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:20:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56500)
+	id 1hfnKC-0001T9-GZ
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:25:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57647)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hfn7Z-0002FA-L9
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:12:34 -0400
+ (envelope-from <walling@linux.ibm.com>) id 1hfnDD-00046L-EV
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hfn7Y-0002uc-Hy
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:12:33 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45734)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hfn7Y-0002iR-4C
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:12:32 -0400
-Received: by mail-wr1-x443.google.com with SMTP id f9so18285848wre.12
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 08:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z74vgaw59eEylXze3EjYHN602U16U7SY7oGfBB0aiHs=;
- b=TuEwxq2ZrxnrczTh97KLembddX7IKEXar12Vrpdq8Ckx/vBY8YXEEGiJauFmAXq7ro
- 3wgE1NY9iB8wPh3S900+DJzkzellgYa5ME21dFYB9MjGPAX0gppDml+iUEzNIbLkvoyh
- 18aTsBHB9ikc7G9bC4bBhk7fuecTuy5vOgnZRNoXwMQFE7TGeD6gZaywyx2w6En4p4mM
- qpTUghdyg9xDCvD7IlYHKq+F08+Zni7ydw6Z19J7j2CK+z0W6eiooYjhMruer0UzS6Hy
- 939P2ckDVG151jwSy/FSkThspIKuTbECFQJC4eSHpbSDLhXWo0drOsfAU+BVKzQZa8aP
- jw+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Z74vgaw59eEylXze3EjYHN602U16U7SY7oGfBB0aiHs=;
- b=TnzGkzJPLZLhWtiuVFuiJT6BDJh9XCYMWcbrxOQWu/y/XwqUoKsuPNOyc8caZDE8hw
- XN2+BJNIjiDq75ylDX4Cm2xP8VE3iMbuDGC/k4RuNoUaZ0XZMRd4dHdeKON1GiDW5OTX
- eHRU8+Q6vOK9xcWq+G1ca9i38TsTVIa78nDXwgakZDHMyy/I8wBpVL0eBPQY+U13wx9m
- 1+Ev5+mjNzdtWJoS4POHI8ZpCDTlIfFQ1qHxhZh2Z8mEAyKbAC+JTQCaGPblMR/1qpAI
- 4gG5WrxQHLLu65AuY0FrnmJcqgvdBoi71ys7j2shRrfe7M7+Fb7xb4RedgvPPQm5A1/g
- Wf7A==
-X-Gm-Message-State: APjAAAXo8s67dVZTEynqIwnhb+WMWQt9B600jQoSQ14XRVA+SlzHeYuy
- DHX1yygGDqJ4JqT77D/+0Quf+g==
-X-Google-Smtp-Source: APXvYqwjTPp4aoeX14e4LQcT0giwQyjQYmQVjiKwrfdQAkPLau3p3XM6i+ahhYyFDnVrfAZpBZPdrA==
-X-Received: by 2002:a5d:6449:: with SMTP id d9mr58704070wrw.192.1561475535487; 
- Tue, 25 Jun 2019 08:12:15 -0700 (PDT)
-Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id a7sm14997071wrs.94.2019.06.25.08.12.14
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 25 Jun 2019 08:12:14 -0700 (PDT)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <1561116534-21814-1-git-send-email-pbonzini@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <c7affa1f-2945-765c-6c54-ed1a26ab8798@linaro.org>
-Date: Tue, 25 Jun 2019 17:12:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <1561116534-21814-1-git-send-email-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH RFC] checkpatch: do not warn for multiline
- parenthesized returned value
+ (envelope-from <walling@linux.ibm.com>) id 1hfnDA-0007Fl-VK
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:22 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43598
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <walling@linux.ibm.com>)
+ id 1hfnD9-00078K-1d
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:18:19 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x5PF3R8N025384
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 11:18:13 -0400
+Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 2tbnn9hp3w-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 11:18:13 -0400
+Received: from localhost
+ by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <walling@linux.ibm.com>;
+ Tue, 25 Jun 2019 16:18:12 +0100
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+ by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway: Authorized
+ Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Tue, 25 Jun 2019 16:18:09 +0100
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x5PFI8MJ49938898
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Jun 2019 15:18:08 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 035BE124054;
+ Tue, 25 Jun 2019 15:18:08 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE5E912405A;
+ Tue, 25 Jun 2019 15:18:07 +0000 (GMT)
+Received: from collin-T470p.pok.ibm.com (unknown [9.63.14.221])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 25 Jun 2019 15:18:07 +0000 (GMT)
+From: Collin Walling <walling@linux.ibm.com>
+To: qemu-devel@nongnu.org, qemu-s390x@nongnu.org, cohuck@redhat.com,
+ rth@twiddle.net, david@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, mst@redhat.com, pbonzini@redhat.com
+Date: Tue, 25 Jun 2019 11:17:07 -0400
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-GCONF: 00
+x-cbid: 19062515-0064-0000-0000-000003F3864D
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011328; HX=3.00000242; KW=3.00000007;
+ PH=3.00000004; SC=3.00000286; SDB=6.01223108; UDB=6.00643639; IPR=6.01004281; 
+ MB=3.00027462; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-25 15:18:11
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19062515-0065-0000-0000-00003E071D9D
+Message-Id: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-06-25_11:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906250116
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [PATCH v5 0/2] Guest Support for DIAGNOSE 0x318
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,33 +92,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/19 1:28 PM, Paolo Bonzini wrote:
-> While indeed we do not want to have
-> 
->     return (a);
-> 
-> it is less clear that this applies to
-> 
->     return (a &&
->             b);
-> 
-> Some editors indent more nicely if you have parentheses, and some people's
-> eyes may appreciate that as well.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  scripts/checkpatch.pl | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+Changelog:
 
-Thanks, I do this semi-regularly.
+    v5
+        - split off header updates in kvm_s390x.h to a separate patch
+        - implemented CPU model feature for this insn made available with
+            zEC12-full and later models
+        - s/cpc/diag318_info in order to make the relevant data more clear
+        - reduced S390_MAX_CPUS from 248 to 247
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The DIAGNOSE 0x318 instruction is a privileged instruction that is executed by the
+linux kernel once and only once during setup. This requires interception by KVM to 
+handle the instruction call safely. The instruction assists with determining the 
+environment the VM is running in -- this is better described in the KVM patches.
 
+The analogous KVM patches still under review can be found here:
+https://marc.info/?l=linux-s390&m=156147521528818&w=2
 
-r~
+Guest support for the diag 318 instruction is accomplished by implementing a device 
+class, a cpu model feature, and adjusting the Read Info struct. The Read Info struct
+adjustment coincidentally reduces the maximum number of VCPUs we can have by one.
+
+A device class is used for this instruction in order to streamline the migration and 
+reset of the DIAG 318 related data.
+
+A CPU model feature is added for this instruction, appropriately named diag318.
+
+The instruction is determined by a Read Info byte 134 bit 0. This is a new byte that
+expands into the space of the Read Info SCCB that is also used to contain CPU entry
+data. Due to this expansion, we lose space for one CPU entry and we must reduce the
+maximum possible CPUs from 248 to 247. Hopefully this drawback does not affect many 
+VMs.
+
+Collin Walling (2):
+  s390/kvm: header sync for diag318
+  s390: diagnose 318 info reset and migration support
+
+ hw/s390x/Makefile.objs          |  1 +
+ hw/s390x/diag318.c              | 80 +++++++++++++++++++++++++++++++++++++++++
+ hw/s390x/diag318.h              | 38 ++++++++++++++++++++
+ hw/s390x/s390-virtio-ccw.c      | 17 +++++++++
+ hw/s390x/sclp.c                 |  3 ++
+ include/hw/s390x/sclp.h         |  2 ++
+ linux-headers/asm-s390/kvm.h    |  4 +++
+ target/s390x/cpu.h              |  8 ++++-
+ target/s390x/cpu_features.c     |  3 ++
+ target/s390x/cpu_features.h     |  1 +
+ target/s390x/cpu_features_def.h |  3 ++
+ target/s390x/gen-features.c     |  1 +
+ target/s390x/kvm-stub.c         | 10 ++++++
+ target/s390x/kvm.c              | 29 +++++++++++++++
+ target/s390x/kvm_s390x.h        |  2 ++
+ 15 files changed, 201 insertions(+), 1 deletion(-)
+ create mode 100644 hw/s390x/diag318.c
+ create mode 100644 hw/s390x/diag318.h
+
+-- 
+2.7.4
 
 
