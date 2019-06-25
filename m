@@ -2,51 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A8A554A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:36:04 +0200 (CEST)
-Received: from localhost ([::1]:33930 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13805554AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:37:59 +0200 (CEST)
+Received: from localhost ([::1]:33942 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfoQN-0000WD-QI
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:36:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43997)
+	id 1hfoSE-0002bg-AM
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:37:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44152)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hfo6x-0003ef-Q9
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:16:02 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hfo7i-0004Fa-Jv
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:16:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hfo6w-00081c-E7
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:15:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52420)
+ (envelope-from <imammedo@redhat.com>) id 1hfo7h-0000U0-Ib
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:16:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43386)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hfo6w-0007m4-6J
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:15:58 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hfo7f-0000QX-IK
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:16:45 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E6CE7C047B7A
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 16:15:38 +0000 (UTC)
-Received: from redhat.com (ovpn-112-73.ams2.redhat.com [10.36.112.73])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43F065D9C5;
- Tue, 25 Jun 2019 16:15:36 +0000 (UTC)
-Date: Tue, 25 Jun 2019 17:15:33 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190625161533.GJ3139@redhat.com>
-References: <20190625050008.12789-1-ehabkost@redhat.com>
- <20190625050008.12789-4-ehabkost@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190625050008.12789-4-ehabkost@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ by mx1.redhat.com (Postfix) with ESMTPS id A0238300183C
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 16:16:37 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BAAAB1001281;
+ Tue, 25 Jun 2019 16:16:33 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 25 Jun 2019 12:16:29 -0400
+Message-Id: <20190625161629.302-1-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 25 Jun 2019 16:15:38 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Tue, 25 Jun 2019 16:16:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/6] qmp: Add "alias-of" field to
- query-cpu-definitions
+Subject: [Qemu-devel] [PATCH v2] deprecate -mem-path fallback to anonymous
+ RAM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,60 +52,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: libvir-list@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ dgilbert@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 25, 2019 at 02:00:05AM -0300, Eduardo Habkost wrote:
-> Management software will be expected to resolve CPU model name
-> aliases using the new field.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> ---
-> Cc: Eric Blake <eblake@redhat.com>
-> Cc: Markus Armbruster <armbru@redhat.com>
-> ---
->  qapi/target.json | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/qapi/target.json b/qapi/target.json
-> index 1d4d54b600..0197c7962c 100644
-> --- a/qapi/target.json
-> +++ b/qapi/target.json
-> @@ -475,6 +475,12 @@
->  #            to introspect properties configurable using -cpu or -global.
->  #            (since 2.9)
->  #
-> +# @alias-of: Name of CPU model this model is an alias for.  The target of the
-> +#            CPU model alias may change depending on the machine type.
-> +#            Management software is supposed to translate CPU model aliases
-> +#            in the VM configuration, because aliases may stop being
-> +#            migration-safe in the future (since 4.1)
-> +#
->  # @unavailable-features is a list of QOM property names that
->  # represent CPU model attributes that prevent the CPU from running.
->  # If the QOM property is read-only, that means there's no known
-> @@ -498,7 +504,8 @@
->              '*migration-safe': 'bool',
->              'static': 'bool',
->              '*unavailable-features': [ 'str' ],
-> -            'typename': 'str' },
-> +            'typename': 'str',
-> +            '*alias-of' : 'str' },
->    'if': 'defined(TARGET_PPC) || defined(TARGET_ARM) || defined(TARGET_I386) || defined(TARGET_S390X) || defined(TARGET_MIPS)' }
+Fallback might affect guest or worse whole host performance
+or functionality if backing file were used to share guest RAM
+with another process.
 
-IIUC, this means that data for a "Haswell" CPU model will now report
-"alias-of": "Haswell-NNN"  (for some arbitrary NNN which may change
-at will in any release).
+Patch deprecates fallback so that we could remove it in future
+and ensure that QEMU will provide expected behavior and fail if
+it can't use user provided backing file.
 
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+v2:
+ * improve text language
+    (Markus Armbruster <armbru@redhat.com>)
 
-Regards,
-Daniel
+ numa.c               | 6 ++++--
+ qemu-deprecated.texi | 9 +++++++++
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/numa.c b/numa.c
+index 91a29138a2..c15e53e92d 100644
+--- a/numa.c
++++ b/numa.c
+@@ -494,8 +494,10 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
+             if (mem_prealloc) {
+                 exit(1);
+             }
+-            error_report("falling back to regular RAM allocation.");
+-
++            warn_report("falling back to regular RAM allocation");
++            error_printf("This is deprecated. Make sure that -mem-path "
++                         " specified path has sufficient resources to allocate"
++                         " -m specified RAM amount or QEMU will fail to start");
+             /* Legacy behavior: if allocation failed, fall back to
+              * regular RAM allocation.
+              */
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 2fe9b72121..1b7f3b10dc 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -112,6 +112,15 @@ QEMU using implicit generic or board specific splitting rule.
+ Use @option{memdev} with @var{memory-backend-ram} backend or @option{mem} (if
+ it's supported by used machine type) to define mapping explictly instead.
+ 
++@subsection -mem-path fallback to RAM (since 4.1)
++Currently if guest RAM allocation from file pointed by @option{mem-path}
++fails, QEMU falls back to allocating from RAM, which might result
++in unpredictable behavior since the backing file specified by the user
++is ignored. In the future, users will be responsible for making sure
++the backing storage specified with @option{-mem-path} can actually provide
++the guest RAM configured with @option{-m} and fail to start up if RAM allocation
++is unsuccessful.
++
+ @section QEMU Machine Protocol (QMP) commands
+ 
+ @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.18.1
+
 
