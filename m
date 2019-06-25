@@ -2,38 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED875532A
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:19:06 +0200 (CEST)
-Received: from localhost ([::1]:32982 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677C15534A
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:24:56 +0200 (CEST)
+Received: from localhost ([::1]:33038 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnDs-0003RC-MS
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53284)
+	id 1hfnJX-0008Rb-Jm
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:24:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54532)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hfmtY-0003kI-6O
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:58:05 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hfmyu-0007aE-SF
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:03:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hfmtW-0002i7-Mv
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:58:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56930)
+ (envelope-from <mreitz@redhat.com>) id 1hfmys-0000hd-9n
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:03:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33636)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hfmtS-0002bR-6F; Tue, 25 Jun 2019 10:57:58 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hfmyo-0000br-Hd; Tue, 25 Jun 2019 11:03:30 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 18CC08830C;
- Tue, 25 Jun 2019 14:57:57 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 39B9E307D945;
+ Tue, 25 Jun 2019 15:03:23 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-204-156.brq.redhat.com
  [10.40.204.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8851819C6F;
- Tue, 25 Jun 2019 14:57:55 +0000 (UTC)
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20190509145927.293369-1-sgarzare@redhat.com>
- <7a3e37bd-dd24-a97f-5354-7793df44c53e@redhat.com>
- <20190625144710.xvlwcqcbp5bipbku@steredhat>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59FCB1019303;
+ Tue, 25 Jun 2019 15:03:07 +0000 (UTC)
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+References: <1559152576-281803-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <87a5ec62-6274-77c6-60a3-b4ad7b4ec822@redhat.com>
+ <3362e8ef-d698-e860-9830-45a3f924ef48@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -60,22 +62,21 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <b02a2b04-4955-c341-8639-b03d3a125927@redhat.com>
-Date: Tue, 25 Jun 2019 16:57:53 +0200
+Message-ID: <a63c700d-8206-06c5-ee5e-70d0534dd147@redhat.com>
+Date: Tue, 25 Jun 2019 17:03:05 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190625144710.xvlwcqcbp5bipbku@steredhat>
+In-Reply-To: <3362e8ef-d698-e860-9830-45a3f924ef48@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="lSVgjTJc3v0zwcaHOcW2VSxiqwtUguOBz"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+ boundary="naesmTpyGTh4gWMrzve75dQXPgeaBjflU"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 25 Jun 2019 14:57:57 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.48]); Tue, 25 Jun 2019 15:03:28 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3] block/rbd: increase dynamically the
- image size
+Subject: Re: [Qemu-devel] [PATCH v7 0/3] block/stream: get rid of the base
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,127 +88,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
- Jason Dillaman <jdillama@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "berto@igalia.com" <berto@igalia.com>, Denis Lunev <den@virtuozzo.com>,
+ "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
+ "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "jsnow@redhat.com" <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lSVgjTJc3v0zwcaHOcW2VSxiqwtUguOBz
-Content-Type: multipart/mixed; boundary="ykgFLyaq93psLZsY9d3tSikgoTA50RrgQ";
+--naesmTpyGTh4gWMrzve75dQXPgeaBjflU
+Content-Type: multipart/mixed; boundary="1c2ynLPIb71Ys6PSBgV8FO7cJMtSipvWs";
  protected-headers="v1"
 From: Max Reitz <mreitz@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: qemu-devel@nongnu.org, Jason Dillaman <jdillama@redhat.com>,
- qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
- Josh Durgin <jdurgin@redhat.com>
-Message-ID: <b02a2b04-4955-c341-8639-b03d3a125927@redhat.com>
-Subject: Re: [PATCH v3] block/rbd: increase dynamically the image size
-References: <20190509145927.293369-1-sgarzare@redhat.com>
- <7a3e37bd-dd24-a97f-5354-7793df44c53e@redhat.com>
- <20190625144710.xvlwcqcbp5bipbku@steredhat>
-In-Reply-To: <20190625144710.xvlwcqcbp5bipbku@steredhat>
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "berto@igalia.com"
+ <berto@igalia.com>, "jsnow@redhat.com" <jsnow@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>, "fam@euphon.net"
+ <fam@euphon.net>, "wencongyang2@huawei.com" <wencongyang2@huawei.com>,
+ "xiechanglong.d@gmail.com" <xiechanglong.d@gmail.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <a63c700d-8206-06c5-ee5e-70d0534dd147@redhat.com>
+Subject: Re: [PATCH v7 0/3] block/stream: get rid of the base
+References: <1559152576-281803-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <87a5ec62-6274-77c6-60a3-b4ad7b4ec822@redhat.com>
+ <3362e8ef-d698-e860-9830-45a3f924ef48@virtuozzo.com>
+In-Reply-To: <3362e8ef-d698-e860-9830-45a3f924ef48@virtuozzo.com>
 
---ykgFLyaq93psLZsY9d3tSikgoTA50RrgQ
+--1c2ynLPIb71Ys6PSBgV8FO7cJMtSipvWs
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-On 25.06.19 16:47, Stefano Garzarella wrote:
-> On Tue, Jun 25, 2019 at 04:02:04PM +0200, Max Reitz wrote:
->> On 09.05.19 16:59, Stefano Garzarella wrote:
->>> RBD APIs don't allow us to write more than the size set with
->>> rbd_create() or rbd_resize().
->>> In order to support growing images (eg. qcow2), we resize the
->>> image before write operations that exceed the current size.
+On 25.06.19 16:40, Andrey Shinkevich wrote:
+>=20
+>=20
+> On 19/06/2019 22:29, Max Reitz wrote:
+>> On 29.05.19 19:56, Andrey Shinkevich wrote:
+>>> This series introduces a bottom intermediate node that eliminates the=
+
+>>> dependency on the base that may change while stream job is running.
+>>> It happens when stream/commit parallel jobs are running on the same
+>>> backing chain. The base node of the stream job may be a top node of
+>>> the parallel commit job and can change before the stream job is
+>>> completed. We avoid that dependency by introducing the bottom node.
 >>>
->>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->>> ---
->>> v3:
->>>   - add 'image_size' field in the BDRVRBDState to keep track of the
->>>     current size of the RBD image [Jason, Kevin]
->>> ---
->>>  block/rbd.c | 42 +++++++++++++++++++++++++++++++++++++++---
->>>  1 file changed, 39 insertions(+), 3 deletions(-)
+>>> v7: [resend by Andrey]
+>>>    01: assert(intermediate) was inserted before the call to
+>>>        bdrv_is_allocated() in the intermediate node loop of the
+>>>        bdrv_is_allocated_above() as suggested by Max.
+>>>    02: The change of the intermediate node loop in the stream_start()=
+ was
+>>>        rolled back to its original design and the reassignment of the=
+ base
+>>>        node pointer was added as Vladimir and Max suggested. The rele=
+vant
+>>>        comment was amended.
 >>>
->>> diff --git a/block/rbd.c b/block/rbd.c
->>> index 0c549c9935..b0355a2ce0 100644
->>> --- a/block/rbd.c
->>> +++ b/block/rbd.c
->>
->> [...]
->>
->>> @@ -833,6 +842,22 @@ static void qemu_rbd_close(BlockDriverState *bs)=
+>>> v6: [resend by Vladimir]
+>>>    01: improve comment in block/io.c, suggested by Alberto
+>>>
+>>> v5: [resend by Vladimir]
+>>>    01: use comment wording in block/io.c suggested by Alberto
+>>>
+>>> v4:
+>>> trace_stream_start reverted to the base.
+>>> bdrv_is_allocated_above_inclusive() deleted and the new parameter
+>>> 'bool include_base' was added to the bdrv_is_allocated_above().
+>>>
+>>> Andrey Shinkevich (3):
+>>>    block: include base when checking image chain for block allocation=
 
->>>      rados_shutdown(s->cluster);
->>>  }
->>> =20
->>> +/* Resize the RBD image and update the 'image_size' with the current=
- size */
->>> +static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
->>> +{
->>> +    BDRVRBDState *s =3D bs->opaque;
->>> +    int r;
->>> +
->>> +    r =3D rbd_resize(s->image, size);
->>> +    if (r < 0) {
->>> +        return r;
->>> +    }
->>> +
->>> +    s->image_size =3D size;
+>>>    block/stream: refactor stream_run: drop goto
+>>>    block/stream: introduce a bottom node
+>>>
+>>>   block/commit.c         |  2 +-
+>>>   block/io.c             | 21 +++++++++++++------
+>>>   block/mirror.c         |  2 +-
+>>>   block/replication.c    |  2 +-
+>>>   block/stream.c         | 56 ++++++++++++++++++++++++---------------=
+-----------
+>>>   include/block/block.h  |  3 ++-
+>>>   tests/qemu-iotests/245 |  4 ++--
+>>>   7 files changed, 49 insertions(+), 41 deletions(-)
 >>
->> I think this should update bs->total_sectors, too.  In fact, I=E2=80=99=
-m
->> wondering why you don=E2=80=99t just use bs->total_sectors (or bdrv_ge=
-tlength(),
->> which returns bs->total_sectors * 512) instead of adding this new fiel=
-d?
+>> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>>
+>> Just needs some simple changes to patch 1 to rebase it on 863cc78f1b3
+>> and c8bb23cbdbe.
+>>
+>> Max
 >>
 >=20
-> Hi Max,
-> thanks for taking a look!
->=20
-> I used bs->total_sectors in the v2, but Jason pointed out a possible
-> issue with this, so I proposed to add a variable in the BDRVRBDState to=
+> Please let us know who would take this series for pull request?
 
-> track the latest resize and Kevin acked [1].
->=20
-> IIUC what Kevin said on his comment, the 'bs->total_sectors' should be
-> updated by bdrv_co_write_req_finish(), for this reason I didn't update
-> it.
->=20
-> [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg615195.html
+Nothing, I was just waiting for my current pull request (lingering from
+last week due to a build failure because of one of the patches) to be
+processed.
 
-Ah, right!  Yeah, sure, now that I think about it, the block layer must
-have general code for successful writes beyond EOF...  (Read: Now that
-I=E2=80=99m pointed towards it...)
+I suppose I won=E2=80=99t wait longer and just take this series now and d=
+eal
+with the fallout later if there=E2=80=99s something else in my last week=E2=
+=80=99s pull
+request that needs fixing...
 
-OK then; thanks for the patch, applied to my block branch:
+So: Thanks, applied to my block branch:
 
 https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 
 Max
 
 
---ykgFLyaq93psLZsY9d3tSikgoTA50RrgQ--
+--1c2ynLPIb71Ys6PSBgV8FO7cJMtSipvWs--
 
---lSVgjTJc3v0zwcaHOcW2VSxiqwtUguOBz
+--naesmTpyGTh4gWMrzve75dQXPgeaBjflU
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0SNnIACgkQ9AfbAGHV
-z0AVSAf/dKPS1JUQEjCWS6OgFH8fCI5kCSXFSDRG97n2VzhozPK49s+7GN7BH7rH
-wX/H8ULpyBVFk0rHsIbX5bC7CGzWH206vX/5v6reaMSwY1F/7JvajiJC1wans/Dw
-z5Egzg397avw1MtwtlYOXVQjkd8rRsdL1iCwpQl8EMjanv/8cy2cRoOIULtT1LIw
-wIJTs82tKZqDgwcZrY5VHVLyrMPMxo3C0sGecBuZr8yHygLhUz+YMB7GIzYN4AhF
-tw7ZTUKyrqnFia6O7yUNw30Z41XR6vlMXlNMUaYebf5UsiIUV8UcvyK8a9eAY6Q6
-mXD3hOWNFKg0ncJb6riuTAdL2osqjQ==
-=inKg
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0SN6kACgkQ9AfbAGHV
+z0AV0gf8C26hTvBJFcjt42I1OLimAiFs+GFiSpfjcexjmC91UmhBGOkfFVbIU15v
+MyPz8uZK8hqQDZZAPNAOiKV8HECdfVql5Jyj4dPbjj8DcmFzQwreBNacaWUgbui5
+0DRl/JaQRjAjlY8/5tiZEVaMFC4IIMn71qSfq8oVrN5HVW1ifge1M2/SBsGyebI1
+jhTWA2hqJ9qxwEOvyybiu4XxeYZFmLJPr5oBmzw5rWb3UfJjURAQKwsBwbGJO6Rt
+6wt3g3QsZ6K6wA/pSov5xrl+jUneu68K7BU0jLW/uST8UbupMtC8F+zUBdN3UjW+
+6yC0IaAs8Zvap9z+WpoKfTTknNm4fg==
+=0i/f
 -----END PGP SIGNATURE-----
 
---lSVgjTJc3v0zwcaHOcW2VSxiqwtUguOBz--
+--naesmTpyGTh4gWMrzve75dQXPgeaBjflU--
 
