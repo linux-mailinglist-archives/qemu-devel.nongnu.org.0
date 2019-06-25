@@ -2,68 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAE045538D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:37:50 +0200 (CEST)
-Received: from localhost ([::1]:33170 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02A9553A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:42:55 +0200 (CEST)
+Received: from localhost ([::1]:33270 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfnW1-0001EC-Ux
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:37:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60405)
+	id 1hfnaw-0007N2-Vw
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33196)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sgarzare@redhat.com>) id 1hfnNc-0004mV-Hm
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:29:09 -0400
+ (envelope-from <yuval.shaia@oracle.com>) id 1hfnRb-0007f7-SK
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:33:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1hfnNa-0000bB-Vt
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:29:08 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:36749)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hfnNW-0000Po-5i
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:29:03 -0400
-Received: by mail-wm1-f65.google.com with SMTP id u8so3423659wmm.1
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 08:28:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=maX/9ZztO3o0ap2K1rEyN53t8p8liQm0W+YzEPOCuR4=;
- b=IA0eaX2zyYxHYEHoAYVzHGAmy+OXByEbbgPWz4UE7XxsLwTa78MQ97qAmFSk8YiuMH
- g/LbqRW94ORxRc2q6ik3FW9s3oFPY/8omgEwlsCvESILhWvCLWR357s6DMcHpd7P0eNB
- yie+GY2J9VrCcu52z4himh5Ohi2E2043oKOPQUM5Sq7DJ/gYr4/D6xke05WoJZAGM0n9
- NTsBeN9jai8mg4M6tHpOHxJST3pz3N85uG0jjmIvD6w8iDk1AqccCZqLcKwGy3ifqbFn
- Md8jeGPeGoPMSzNUThrmr+xutMjUB7M1cCOmm8vkRaotdhixegxpuwwycLmPqpuW5/bb
- rxAA==
-X-Gm-Message-State: APjAAAV1KdOkMNHHOqlePFnDymwEXJI5PyTYlVrxVr4rYm5oITsiYDrQ
- wd2KMgLn3/CM3UmwPiRGt8Mtng==
-X-Google-Smtp-Source: APXvYqwD+C8CpdGTf0vCXVjHgzKxV5G803HHIeULW8hWC/syH1G7ZLjpdWIZsn54iBqsGyfFyFoQIg==
-X-Received: by 2002:a05:600c:228b:: with SMTP id
- 11mr20662968wmf.26.1561476535681; 
- Tue, 25 Jun 2019 08:28:55 -0700 (PDT)
-Received: from steredhat (host21-207-dynamic.52-79-r.retail.telecomitalia.it.
- [79.52.207.21])
- by smtp.gmail.com with ESMTPSA id x3sm15155729wrp.78.2019.06.25.08.28.54
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 25 Jun 2019 08:28:55 -0700 (PDT)
-Date: Tue, 25 Jun 2019 17:28:52 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190625152852.6xbswgit7f5gszq5@steredhat>
-References: <20190509145927.293369-1-sgarzare@redhat.com>
- <7a3e37bd-dd24-a97f-5354-7793df44c53e@redhat.com>
- <20190625144710.xvlwcqcbp5bipbku@steredhat>
- <b02a2b04-4955-c341-8639-b03d3a125927@redhat.com>
+ (envelope-from <yuval.shaia@oracle.com>) id 1hfnRa-0003nO-IQ
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:33:15 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:52912)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yuval.shaia@oracle.com>)
+ id 1hfnRa-0003iR-9j
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 11:33:14 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5PFIZ95112723;
+ Tue, 25 Jun 2019 15:33:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=giQLjB4r70OrOQgwF2ArWb04iuzHkVajgXm3mrAXfFY=;
+ b=CbecMq1OBLZlP8ZIm4ik49Yz8ilam2Z2DRVgSchjVrC/U+ZRlhgJZWYc+apral4d5GRu
+ ZoH9DdBRX64C9otwu8/ul4sS+5VeXrPPlP6xf2EvyTEpT/Z5NePzFPNPfEUhPVd9/96P
+ eEL4GYMoWD3uNf/B/HZU1CMGNh3BbWfx9QUgdjZ2UFo70nf+vIFOUgL7b80D3suHjqeh
+ bAa7A+/owS3MkFBFkpjy3E1/muPDUkbSl1DPxhIh9MqUrEcOPpe8NDPk84fw96sTfjh0
+ VGsRzRMuc0mf5mljI8WWp59bwycKt7aiAfxsUoxDpjo7PiuVSdLhQWwJg4bXyUHeBGLc bg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 2t9c9pn45u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Jun 2019 15:33:06 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5PFWiji109348;
+ Tue, 25 Jun 2019 15:33:05 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2t9p6u8hnh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 25 Jun 2019 15:33:05 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5PFX4xP004583;
+ Tue, 25 Jun 2019 15:33:04 GMT
+Received: from lap1 (/77.138.183.59) by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Tue, 25 Jun 2019 08:33:03 -0700
+Date: Tue, 25 Jun 2019 18:32:55 +0300
+From: Yuval Shaia <yuval.shaia@oracle.com>
+To: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+Message-ID: <20190625153253.GA10458@lap1>
+References: <20190621144541.13770-1-skrtbhtngr@gmail.com>
+ <20190621144541.13770-2-skrtbhtngr@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b02a2b04-4955-c341-8639-b03d3a125927@redhat.com>
-User-Agent: NeoMutt/20180716
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH v3] block/rbd: increase dynamically the
- image size
+In-Reply-To: <20190621144541.13770-2-skrtbhtngr@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906250117
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906250117
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Subject: Re: [Qemu-devel] [RFC 1/1] hw/pvrdma: Add live migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,84 +90,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
- Jason Dillaman <jdillama@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 25, 2019 at 04:57:53PM +0200, Max Reitz wrote:
-> On 25.06.19 16:47, Stefano Garzarella wrote:
-> > On Tue, Jun 25, 2019 at 04:02:04PM +0200, Max Reitz wrote:
-> >> On 09.05.19 16:59, Stefano Garzarella wrote:
-> >>> RBD APIs don't allow us to write more than the size set with
-> >>> rbd_create() or rbd_resize().
-> >>> In order to support growing images (eg. qcow2), we resize the
-> >>> image before write operations that exceed the current size.
-> >>>
-> >>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> >>> ---
-> >>> v3:
-> >>>   - add 'image_size' field in the BDRVRBDState to keep track of the
-> >>>     current size of the RBD image [Jason, Kevin]
-> >>> ---
-> >>>  block/rbd.c | 42 +++++++++++++++++++++++++++++++++++++++---
-> >>>  1 file changed, 39 insertions(+), 3 deletions(-)
-> >>>
-> >>> diff --git a/block/rbd.c b/block/rbd.c
-> >>> index 0c549c9935..b0355a2ce0 100644
-> >>> --- a/block/rbd.c
-> >>> +++ b/block/rbd.c
-> >>
-> >> [...]
-> >>
-> >>> @@ -833,6 +842,22 @@ static void qemu_rbd_close(BlockDriverState *bs)
-> >>>      rados_shutdown(s->cluster);
-> >>>  }
-> >>>  
-> >>> +/* Resize the RBD image and update the 'image_size' with the current size */
-> >>> +static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
-> >>> +{
-> >>> +    BDRVRBDState *s = bs->opaque;
-> >>> +    int r;
-> >>> +
-> >>> +    r = rbd_resize(s->image, size);
-> >>> +    if (r < 0) {
-> >>> +        return r;
-> >>> +    }
-> >>> +
-> >>> +    s->image_size = size;
-> >>
-> >> I think this should update bs->total_sectors, too.  In fact, I’m
-> >> wondering why you don’t just use bs->total_sectors (or bdrv_getlength(),
-> >> which returns bs->total_sectors * 512) instead of adding this new field?
-> >>
-> > 
-> > Hi Max,
-> > thanks for taking a look!
-> > 
-> > I used bs->total_sectors in the v2, but Jason pointed out a possible
-> > issue with this, so I proposed to add a variable in the BDRVRBDState to
-> > track the latest resize and Kevin acked [1].
-> > 
-> > IIUC what Kevin said on his comment, the 'bs->total_sectors' should be
-> > updated by bdrv_co_write_req_finish(), for this reason I didn't update
-> > it.
-> > 
-> > [1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg615195.html
+On Fri, Jun 21, 2019 at 08:15:41PM +0530, Sukrit Bhatnagar wrote:
+> Define and register SaveVMHandlers pvrdma_save and
+> pvrdma_load for saving and loading the device state,
+> which currently includes only the dma, command slot
+> and response slot addresses.
 > 
-> Ah, right!  Yeah, sure, now that I think about it, the block layer must
-> have general code for successful writes beyond EOF...  (Read: Now that
-> I’m pointed towards it...)
-
-Yeah, do you mean for example to call .bdrv_co_truncate() (or a new
-callback implemented only in the driver that need to be resized like
-rbd) in the bdrv_driver_pwritev() if we will write beyond EOF?
-
+> Remap the DSR, command slot and response slot upon
+> loading the addresses in the pvrdma_load function.
 > 
-> OK then; thanks for the patch, applied to my block branch:
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Yuval Shaia <yuval.shaia@oracle.com>
+> Signed-off-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+> ---
+>  hw/rdma/vmw/pvrdma_main.c | 56 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+> 
+> diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> index adcf79cd63..cd8573173c 100644
+> --- a/hw/rdma/vmw/pvrdma_main.c
+> +++ b/hw/rdma/vmw/pvrdma_main.c
+> @@ -28,6 +28,7 @@
+>  #include "sysemu/sysemu.h"
+>  #include "monitor/monitor.h"
+>  #include "hw/rdma/rdma.h"
+> +#include "migration/register.h"
+>  
+>  #include "../rdma_rm.h"
+>  #include "../rdma_backend.h"
+> @@ -592,9 +593,62 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
+>      pvrdma_fini(pci_dev);
+>  }
+>  
+> +static void pvrdma_save(QEMUFile *f, void *opaque)
+> +{
+> +    PVRDMADev *dev = PVRDMA_DEV(opaque);
+> +
+> +    qemu_put_be64(f, dev->dsr_info.dma);
+> +    qemu_put_be64(f, dev->dsr_info.dsr->cmd_slot_dma);
+> +    qemu_put_be64(f, dev->dsr_info.dsr->resp_slot_dma);
+> +}
+> +
+> +static int pvrdma_load(QEMUFile *f, void *opaque, int version_id)
+> +{
+> +    PVRDMADev *dev = PVRDMA_DEV(opaque);
+> +    PCIDevice *pci_dev = PCI_DEVICE(dev);
+> +
+> +    // Remap DSR
+> +    dev->dsr_info.dma = qemu_get_be64(f);
+> +    dev->dsr_info.dsr = rdma_pci_dma_map(pci_dev, dev->dsr_info.dma,
+> +                                    sizeof(struct pvrdma_device_shared_region));
+> +    if (!dev->dsr_info.dsr) {
+> +        rdma_error_report("Failed to map to DSR");
+> +        return -1;
+> +    }
+> +    qemu_log("pvrdma_load: successfully remapped to DSR\n");
+> +
+> +    // Remap cmd slot
+> +    dev->dsr_info.dsr->cmd_slot_dma = qemu_get_be64(f);
+> +    dev->dsr_info.req = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->cmd_slot_dma,
+> +                                     sizeof(union pvrdma_cmd_req));
+> +    if (!dev->dsr_info.req) {
 
-Thanks to take this!
-Stefano
+So this is where you hit the error, right?
+All looks good to me, i wonder why the first pci_dma_map works fine but
+second fails where the global BounceBuffer is marked as used.
 
+Anyone?
+
+> +        rdma_error_report("Failed to map to command slot address");
+> +        return -1;
+> +    }
+> +    qemu_log("pvrdma_load: successfully remapped to cmd slot\n");
+> +
+> +    // Remap rsp slot
+
+btw, this is RFC so we are fine but try to avoid such way of comments.
+
+> +    dev->dsr_info.dsr->resp_slot_dma = qemu_get_be64(f);
+> +    dev->dsr_info.rsp = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->resp_slot_dma,
+> +                                     sizeof(union pvrdma_cmd_resp));
+> +    if (!dev->dsr_info.rsp) {
+> +        rdma_error_report("Failed to map to response slot address");
+> +        return -1;
+> +    }
+> +    qemu_log("pvrdma_load: successfully remapped to rsp slot\n");
+> +
+> +    return 0;
+> +}
+> +
+> +static SaveVMHandlers savevm_pvrdma = {
+> +    .save_state = pvrdma_save,
+> +    .load_state = pvrdma_load,
+> +};
+> +
+>  static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+>  {
+>      int rc = 0;
+> +    DeviceState *s = DEVICE(pdev);
+>      PVRDMADev *dev = PVRDMA_DEV(pdev);
+>      Object *memdev_root;
+>      bool ram_shared = false;
+> @@ -666,6 +720,8 @@ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+>      dev->shutdown_notifier.notify = pvrdma_shutdown_notifier;
+>      qemu_register_shutdown_notifier(&dev->shutdown_notifier);
+>  
+> +    register_savevm_live(s, "pvrdma", -1, 1, &savevm_pvrdma, dev);
+> +
+>  out:
+>      if (rc) {
+>          pvrdma_fini(pdev);
+> -- 
+> 2.21.0
+> 
+> 
 
