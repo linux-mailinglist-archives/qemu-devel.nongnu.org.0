@@ -2,63 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E59AD5548D
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:33:58 +0200 (CEST)
-Received: from localhost ([::1]:33910 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABDF9554AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 18:37:26 +0200 (CEST)
+Received: from localhost ([::1]:33938 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfoOM-0007Kj-5b
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47784)
+	id 1hfoRh-0001rV-U3
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 12:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49069)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <th.huth@gmail.com>) id 1hfoKx-0005iT-KJ
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:30:32 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hfoPy-0000YA-Lm
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:35:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@gmail.com>) id 1hfoKw-0004Dn-DN
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:30:27 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39271)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1hfoKw-0004CY-4g
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:30:26 -0400
-Received: by mail-wr1-f67.google.com with SMTP id x4so18594830wrt.6
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 09:30:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6xPkbnECwZtV2J2603/yIrcgJrGP/eSXDsDSxdGWShc=;
- b=rt2gQ19pJnJp+lZbRBtJIsTXzdUDIMpOXImeswqAGJ3nXZsn19tNNJ5Ts7i5bw7TYE
- rctFEGyYcZnyExD6/08vfW+iv5YcfV2XmuzgiJeGZ78ujDw0m9wCE+tyLc/Vmt6Bc+Yh
- 9V5mcm3SNsIKO3V4UzL/K1K0NCIwpUSRelsVpCJoXSGjXHPyRa4VJTH/0xLW4puv7PMl
- B8Fa3+aQ3Tm9z12YALcG84wCdn3V5um08JhbI8dZjuIgBC7UfjkM/Wvo+8sFAlHZbfDJ
- NCPAQddHRPezeG3Y25jeC5UfgGjPaHCcc3g9gW4YKbKfbnivodCXD07cI3ZzWSH3wOfA
- Slmw==
-X-Gm-Message-State: APjAAAWDKe3z3pfGtM1HMq0PZgMCbscrAGRGvNoxGssw4+1Cb92nNyEd
- m4MOFIC9o/m0Td+RQgb3gLM=
-X-Google-Smtp-Source: APXvYqxbngM3DdffkeOnyxu16XYKje1ZZeh9qX90NAhsISOC/L8l1mlkDcgzyUeswq5q5Swfeh1LWQ==
-X-Received: by 2002:adf:edcd:: with SMTP id v13mr36827591wro.210.1561480224342; 
- Tue, 25 Jun 2019 09:30:24 -0700 (PDT)
-Received: from thl530.multi.box (p5791D9D1.dip0.t-ipconnect.de.
- [87.145.217.209])
- by smtp.gmail.com with ESMTPSA id r131sm2089906wmf.4.2019.06.25.09.30.22
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 25 Jun 2019 09:30:22 -0700 (PDT)
-Date: Tue, 25 Jun 2019 18:30:19 +0200
-From: Thomas Huth <huth@tuxfamily.org>
-To: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <20190625183019.3cb231d2@thl530.multi.box>
-In-Reply-To: <20190619221933.1981-11-laurent@vivier.eu>
-References: <20190619221933.1981-1-laurent@vivier.eu>
- <20190619221933.1981-11-laurent@vivier.eu>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <no-reply@patchew.org>) id 1hfoPw-00089L-SZ
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 12:35:38 -0400
+Resent-Date: Tue, 25 Jun 2019 12:35:38 -0400
+Resent-Message-Id: <E1hfoPw-00089L-SZ@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21813)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hfoPw-00088k-JX; Tue, 25 Jun 2019 12:35:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561480497; cv=none; d=zoho.com; s=zohoarc; 
+ b=FnkpOuKB1+lhnhZpYKMbcLDo4jtmgwtbdTrHziUCHTPYeeDsLEf1/C8gxdPwdexqvN8oOClH7PUBZgOck+F4ddqcCn4KE35Akizigb5+//nQDxyGJaA5RRe+9N+KEbVCPH+YuVHW/3zmn08YZ0OCNpVGWb+6Rg7gv+LuaMjZJHc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561480497;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=nNv/F3UtR3DkmDHXQCkDHRx64dhTFSQ3kiIocrSIdGw=; 
+ b=Iw0lJMf7zd2bIR/6y4/AXlpWGnoB5TcE/kifO3/ck+gBPc0sItpJ0AiR3HkPgDtFD4nrC/rZcbvNowjouE4gClaH4L+y3FVbsTQxJRprHq7rtdS01LwhB1EuouJ5tDKckZbWVJIAI9q0X0AijQn5qT1wPLUavvtEpq2P42nFxoQ=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561480496400176.43585904483007;
+ Tue, 25 Jun 2019 09:34:56 -0700 (PDT)
+Message-ID: <156148049495.4374.2975977607094009414@c4a48874b076>
+In-Reply-To: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: walling@linux.ibm.com
+Date: Tue, 25 Jun 2019 09:34:56 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH v8 10/10] hw/m68k: define Macintosh Quadra
- 800
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH v5 0/2] Guest Support for DIAGNOSE 0x318
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,20 +60,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: david@redhat.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ mst@redhat.com, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Thu, 20 Jun 2019 00:19:33 +0200
-schrieb Laurent Vivier <laurent@vivier.eu>:
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxNDc1ODI5LTE5MjAyLTEt
+Z2l0LXNlbmQtZW1haWwtd2FsbGluZ0BsaW51eC5pYm0uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVz
+IHNlZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVs
+b3cgZm9yCm1vcmUgaW5mb3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIHY1
+IDAvMl0gR3Vlc3QgU3VwcG9ydCBmb3IgRElBR05PU0UgMHgzMTgKVHlwZTogc2VyaWVzCk1lc3Nh
+Z2UtaWQ6IDE1NjE0NzU4MjktMTkyMDItMS1naXQtc2VuZC1lbWFpbC13YWxsaW5nQGxpbnV4Lmli
+bS5jb20KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
+ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
+IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8v
+Z2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRj
+aGV3LzE1NjE0NzU4MjktMTkyMDItMS1naXQtc2VuZC1lbWFpbC13YWxsaW5nQGxpbnV4LmlibS5j
+b20gLT4gcGF0Y2hldy8xNTYxNDc1ODI5LTE5MjAyLTEtZ2l0LXNlbmQtZW1haWwtd2FsbGluZ0Bs
+aW51eC5pYm0uY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKMmNkNjAyMSBzMzkw
+OiBkaWFnbm9zZSAzMTggaW5mbyByZXNldCBhbmQgbWlncmF0aW9uIHN1cHBvcnQKZjAxNzg1YiBz
+MzkwL2t2bTogaGVhZGVyIHN5bmMgZm9yIGRpYWczMTgKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEv
+MiBDaGVja2luZyBjb21taXQgZjAxNzg1YjkwMzEwIChzMzkwL2t2bTogaGVhZGVyIHN5bmMgZm9y
+IGRpYWczMTgpCjIvMiBDaGVja2luZyBjb21taXQgMmNkNjAyMWI2ZDJhIChzMzkwOiBkaWFnbm9z
+ZSAzMTggaW5mbyByZXNldCBhbmQgbWlncmF0aW9uIHN1cHBvcnQpCldBUk5JTkc6IGFkZGVkLCBt
+b3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8K
+IzM3OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiBhZGRpbmcgYSBsaW5lIHdpdGhvdXQg
+bmV3bGluZSBhdCBlbmQgb2YgZmlsZQojMTY1OiBGSUxFOiBody9zMzkweC9kaWFnMzE4Lmg6Mzg6
+CisjZW5kaWYgLyogSFdfRElBRzMxOF9IICovCgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3Rl
+cnMKIzI4NTogRklMRTogdGFyZ2V0L3MzOTB4L2NwdV9mZWF0dXJlcy5jOjEzMToKKyAgICBGRUFU
+X0lOSVQoImRpYWczMTgiLCBTMzkwX0ZFQVRfVFlQRV9TQ0xQX0JZVEVfMTM0LCAwLCAiQ29udHJv
+bCBwcm9ncmFtIG5hbWUgYW5kIHZlcnNpb24gY29kZXMiKSwKCnRvdGFsOiAyIGVycm9ycywgMSB3
+YXJuaW5ncywgMzAwIGxpbmVzIGNoZWNrZWQKClBhdGNoIDIvMiBoYXMgc3R5bGUgcHJvYmxlbXMs
+IHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2
+ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5U
+QUlORVJTLgoKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29k
+ZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xv
+Z3MvMTU2MTQ3NTgyOS0xOTIwMi0xLWdpdC1zZW5kLWVtYWlsLXdhbGxpbmdAbGludXguaWJtLmNv
+bS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
+dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
+bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
 
-> If you want to test the machine, it doesn't yet boot a MacROM, but
-> you can boot a linux kernel from the command line.
-
-I gave the patch series a quick try, and was indeed able to boot the
-Debian installer with the q800 machine, so:
-
-Tested-by: Thomas Huth <huth@tuxfamily.org>
 
