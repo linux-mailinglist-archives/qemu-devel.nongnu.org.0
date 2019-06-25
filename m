@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FD654C97
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:44:30 +0200 (CEST)
-Received: from localhost ([::1]:58656 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2C054CA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 12:46:14 +0200 (CEST)
+Received: from localhost ([::1]:58676 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfiw9-00027f-H4
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:44:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41193)
+	id 1hfixp-0004WH-LL
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 06:46:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41533)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hfiu4-0001DD-H6
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:42:22 -0400
+ (envelope-from <berrange@redhat.com>) id 1hfiug-0001nE-Uq
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:43:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hfiu2-0008S5-Jk
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:42:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54400)
+ (envelope-from <berrange@redhat.com>) id 1hfiue-0000pw-Qy
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:42:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44320)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hfiu0-00086F-QQ
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:42:18 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hfiuc-0000mO-SV
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 06:42:56 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 950423087944
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 10:41:55 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-169.ams2.redhat.com
- [10.36.117.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BA07600C7;
- Tue, 25 Jun 2019 10:41:50 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DEC8611386A0; Tue, 25 Jun 2019 12:41:48 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Christophe de Dinechin <dinechin@redhat.com>
-References: <4C5F8F98-D058-46A4-81E7-D9A5D4FEE2EC@redhat.com>
-Date: Tue, 25 Jun 2019 12:41:48 +0200
-In-Reply-To: <4C5F8F98-D058-46A4-81E7-D9A5D4FEE2EC@redhat.com> (Christophe de
- Dinechin's message of "Tue, 25 Jun 2019 11:24:05 +0200")
-Message-ID: <87sgryeykz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ by mx1.redhat.com (Postfix) with ESMTPS id 575EB308222E;
+ Tue, 25 Jun 2019 10:42:53 +0000 (UTC)
+Received: from redhat.com (ovpn-112-73.ams2.redhat.com [10.36.112.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8656E600C7;
+ Tue, 25 Jun 2019 10:42:49 +0000 (UTC)
+Date: Tue, 25 Jun 2019 11:42:46 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Colin Xu <colin.xu@intel.com>
+Message-ID: <20190625104246.GD3139@redhat.com>
+References: <20190625032142.13854-1-colin.xu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20190625032142.13854-1-colin.xu@intel.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Tue, 25 Jun 2019 10:41:55 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Tue, 25 Jun 2019 10:42:53 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] Fix build error when VNC is configured out
+Subject: Re: [Qemu-devel] [PATCH] ui: Correct icon install path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,50 +57,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- David Alan Gilbert <dgilbert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: David Gilbert
-
-Christophe de Dinechin <dinechin@redhat.com> writes:
-
-> In hmp_change(), the variable hmp_mon is only used
-> by code under #ifdef CONFIG_VNC. This results in a build
-> error when VNC is configured out with the default of
-> treating warnings as errors:
->
-> monitor/hmp-cmds.c: In function =E2=80=98hmp_change=E2=80=99:
-> monitor/hmp-cmds.c:1946:17: error: unused variable =E2=80=98hmp_mon=E2=80=
-=99 [-Werror=3Dunused-variable]
-> 1946 |     MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
->      |                 ^~~~~~~
->
-> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
+On Tue, Jun 25, 2019 at 11:21:42AM +0800, Colin Xu wrote:
+> The double slash in path will fail the installation on MINGW/MSYS.
+>=20
+> Fixes: a8260d387638 (ui: install logo icons to $prefix/share/icons)
+>=20
+> Signed-off-by: Colin Xu <colin.xu@intel.com>
 > ---
->  monitor/hmp-cmds.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index c283dde0e9..038614da8e 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1943,7 +1943,6 @@ static void hmp_change_read_arg(void *opaque, const=
- char *password,
->=20=20
->  void hmp_change(Monitor *mon, const QDict *qdict)
->  {
-> -    MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
->      const char *device =3D qdict_get_str(qdict, "device");
->      const char *target =3D qdict_get_str(qdict, "target");
->      const char *arg =3D qdict_get_try_str(qdict, "arg");
-> @@ -1952,6 +1951,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
->      Error *err =3D NULL;
->=20=20
->  #ifdef CONFIG_VNC
-> +    MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP, common);
->      if (strcmp(device, "vnc") =3D=3D 0) {
->          if (read_only) {
->              monitor_printf(mon,
+>  Makefile | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+
+Hmmm I swear this exact fix has been posted before but I can't find
+/ remember where and obviously it didnt get merged.
+
+>=20
+> diff --git a/Makefile b/Makefile
+> index cfb18f152544..562205be290c 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -875,19 +875,19 @@ ifneq ($(DESCS),)
+>  	done
+>  endif
+>  	for s in $(ICON_SIZES); do \
+> -		mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/$${s}/apps"; \
+> +		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
+>  		$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_$${s}.png \
+> -			"$(DESTDIR)/$(qemu_icondir)/hicolor/$${s}/apps/qemu.png"; \
+> +			"$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps/qemu.png"; \
+>  	done; \
+> -	mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/32x32/apps"; \
+> +	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps"; \
+>  	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_32x32.bmp \
+> -		"$(DESTDIR)/$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp"; \
+> -	mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/scalable/apps"; \
+> +		"$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp"; \
+> +	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps"; \
+>  	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu.svg \
+> -		"$(DESTDIR)/$(qemu_icondir)/hicolor/scalable/apps/qemu.svg"
+> -	mkdir -p "$(DESTDIR)/$(qemu_desktopdir)"
+> +		"$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps/qemu.svg"
+> +	mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
+>  	$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
+> -		"$(DESTDIR)/$(qemu_desktopdir)/qemu.desktop"
+> +		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
+>  ifdef CONFIG_GTK
+>  	$(MAKE) -C po $@
+>  endif
+
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
