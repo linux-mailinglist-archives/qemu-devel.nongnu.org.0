@@ -2,65 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E764D552A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 16:56:54 +0200 (CEST)
-Received: from localhost ([::1]:32828 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C9155329
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 17:19:06 +0200 (CEST)
+Received: from localhost ([::1]:32984 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfmsQ-0001Uh-5L
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 10:56:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50513)
+	id 1hfnDt-0003TF-0r
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 11:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52138)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sgarzare@redhat.com>) id 1hfmjF-0005Ni-Ux
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:47:27 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hfmp4-0000iG-Vk
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:53:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1hfmjD-000880-1D
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:47:24 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52308)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hfmjA-00084M-L6
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:47:20 -0400
-Received: by mail-wm1-f67.google.com with SMTP id s3so3143621wms.2
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 07:47:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=f29OXgzObWKmch49Da0RFamZ2zfhq4D4gpvDqbKtncA=;
- b=c95MIjC5HDc2SDB8igOCS370jnb8qk62Bwycsoc7CMtQHayYwAPHI5jzmx4qxoYTyC
- I3+DI0MbVcO1DQlzM20GZtOmpBUCeWlRzLNtZJRNmBBfV+ONCNqSWJrH1xbbIYJPJRus
- DBleoq4+zkD9yl7eC7xpdJcRZdICLE7kjUW4flFDGVHln8eUyZgVq1raed1bhX9LzZ2O
- KPoV6d8gl/M60skAdiydhLM9syFoSu/EXBVUVyp7cQLJF7ydt0j7zhWQC7KoOKaofakO
- 62HTEtdPUTKUfBlU0aWX/yRyPD+8JJ9h9emdaKdUpDAp6TjBXUglMBIQffMlKQRE2aK3
- ESVQ==
-X-Gm-Message-State: APjAAAUly32pzpKQU2OEbEud4uaoDzm54Vp99sLYAmytWudmscFjm77b
- N23Ql0XdOMZsjnK8ZoEqKXiWpA==
-X-Google-Smtp-Source: APXvYqxmhLhP/gpD0EFpaKKz9Xz4uw9I+45F+7vQfhvQpulGw9e9X3yvX89+O/yyxRJW9dQX7413Gw==
-X-Received: by 2002:a7b:c148:: with SMTP id z8mr14226833wmi.142.1561474039158; 
- Tue, 25 Jun 2019 07:47:19 -0700 (PDT)
-Received: from steredhat (host21-207-dynamic.52-79-r.retail.telecomitalia.it.
- [79.52.207.21])
- by smtp.gmail.com with ESMTPSA id z6sm14037357wrw.2.2019.06.25.07.47.18
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 25 Jun 2019 07:47:18 -0700 (PDT)
-Date: Tue, 25 Jun 2019 16:47:10 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190625144710.xvlwcqcbp5bipbku@steredhat>
-References: <20190509145927.293369-1-sgarzare@redhat.com>
- <7a3e37bd-dd24-a97f-5354-7793df44c53e@redhat.com>
+ (envelope-from <ehabkost@redhat.com>) id 1hfmp2-0005UK-DZ
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:53:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54504)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hfmp2-0005P2-7S
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 10:53:24 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 35272C0B2E2D;
+ Tue, 25 Jun 2019 14:53:12 +0000 (UTC)
+Received: from localhost (ovpn-116-76.gru2.redhat.com [10.97.116.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A0B7F5C231;
+ Tue, 25 Jun 2019 14:53:11 +0000 (UTC)
+Date: Tue, 25 Jun 2019 11:53:09 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190625145309.GQ1862@habkost.net>
+References: <20190625050008.12789-1-ehabkost@redhat.com>
+ <20190625050008.12789-5-ehabkost@redhat.com>
+ <20190625093201.GF3226@work-vm> <20190625134029.GP1862@habkost.net>
+ <20190625143216.GL3226@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7a3e37bd-dd24-a97f-5354-7793df44c53e@redhat.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190625143216.GL3226@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Tue, 25 Jun 2019 14:53:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH v3] block/rbd: increase dynamically the
- image size
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 4/6] i386: Infrastructure for versioned CPU
+ models
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,70 +59,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
- Jason Dillaman <jdillama@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Jiri Denemark <jdenemar@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 25, 2019 at 04:02:04PM +0200, Max Reitz wrote:
-> On 09.05.19 16:59, Stefano Garzarella wrote:
-> > RBD APIs don't allow us to write more than the size set with
-> > rbd_create() or rbd_resize().
-> > In order to support growing images (eg. qcow2), we resize the
-> > image before write operations that exceed the current size.
+On Tue, Jun 25, 2019 at 03:32:16PM +0100, Dr. David Alan Gilbert wrote:
+> * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > On Tue, Jun 25, 2019 at 10:32:01AM +0100, Dr. David Alan Gilbert wrote:
+> > > * Eduardo Habkost (ehabkost@redhat.com) wrote:
+> > > > Base code for versioned CPU models.  This will register a "-4.1"
+> > > > version of all existing CPU models, and make the unversioned CPU
+> > > > models be an alias for the -4.1 versions on the pc-*-4.1 machine
+> > > > types.
+> > > > 
+> > > > On older machine types, the unversioned CPU models will keep the
+> > > > old behavior.  This way, management software can use old machine
+> > > > types while resolving aliases if compatibility with older QEMU
+> > > > versions is required.
+> > > > 
+> > > > Using "-machine none", the unversioned CPU models will be aliases
+> > > > to the latest CPU model version.
+> > > > 
+> > > > Includes a test case to ensure that:
+> > > > old machine types won't report any alias to versioned CPU models;
+> > > > "pc-*-4.1" will return aliases to -4.1 CPU models;
+> > > > and "-machine none" will report aliases to some versioned CPU model.
+> > > > 
+> > > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > > 
+> > > What happens when we add the next new CPU model?  So say in 4.2 we add
+> > > a new CPU, does that default to being newcpu-4.2 ?
 > > 
-> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > ---
-> > v3:
-> >   - add 'image_size' field in the BDRVRBDState to keep track of the
-> >     current size of the RBD image [Jason, Kevin]
-> > ---
-> >  block/rbd.c | 42 +++++++++++++++++++++++++++++++++++++++---
-> >  1 file changed, 39 insertions(+), 3 deletions(-)
+> > We can choose between providing old versions of the CPU model
+> > retroactively ("NewModel-4.1" and "NewModel-4.2"), or providing
+> > only "NewModel-4.2".
 > > 
-> > diff --git a/block/rbd.c b/block/rbd.c
-> > index 0c549c9935..b0355a2ce0 100644
-> > --- a/block/rbd.c
-> > +++ b/block/rbd.c
+> > The question is: if we provide only "NewModel-4.2", what should
+> > be the behavior of "-machine pc-i440fx-4.1 -cpu NewModel"?
 > 
-> [...]
-> 
-> > @@ -833,6 +842,22 @@ static void qemu_rbd_close(BlockDriverState *bs)
-> >      rados_shutdown(s->cluster);
-> >  }
-> >  
-> > +/* Resize the RBD image and update the 'image_size' with the current size */
-> > +static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
-> > +{
-> > +    BDRVRBDState *s = bs->opaque;
-> > +    int r;
-> > +
-> > +    r = rbd_resize(s->image, size);
-> > +    if (r < 0) {
-> > +        return r;
-> > +    }
-> > +
-> > +    s->image_size = size;
-> 
-> I think this should update bs->total_sectors, too.  In fact, I’m
-> wondering why you don’t just use bs->total_sectors (or bdrv_getlength(),
-> which returns bs->total_sectors * 512) instead of adding this new field?
-> 
+> Perhaps the existing CPUs and the first instance of a new CPU
+> we should use something non-numeric, e.g. 'orig' rather than 4.1;
+> we only go numeric when we cause a divergence.
 
-Hi Max,
-thanks for taking a look!
+What would be the advantage of a non-numeric version identifier?
+I believe it would be more confusing to have (e.g.)
+["NewModel-orig", "NewModel-4.3"] in QEMU 4.3 instead of
+["NewModel-4.2", "NewModel-4.3"].
 
-I used bs->total_sectors in the v2, but Jason pointed out a possible
-issue with this, so I proposed to add a variable in the BDRVRBDState to
-track the latest resize and Kevin acked [1].
+However, you have another interesting point: should we introduce
+-4.2 versions of all CPU models in QEMU 4.2, or only for the ones
+that actually changed?  I think I prefer consistency, even if it
+means making the list of CPU models larger.
 
-IIUC what Kevin said on his comment, the 'bs->total_sectors' should be
-updated by bdrv_co_write_req_finish(), for this reason I didn't update
-it.
+What do others think?
 
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg615195.html
-
-Thanks,
-Stefano
+-- 
+Eduardo
 
