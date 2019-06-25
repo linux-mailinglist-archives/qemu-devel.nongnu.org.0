@@ -2,50 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4BD54E92
-	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 14:15:16 +0200 (CEST)
-Received: from localhost ([::1]:59593 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC77C54EA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 25 Jun 2019 14:18:29 +0200 (CEST)
+Received: from localhost ([::1]:59622 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfkLy-0005j0-38
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 08:15:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
+	id 1hfkP6-00086k-Sz
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 08:18:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35709)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <gengdongjiu@huawei.com>) id 1hfkIc-0004OX-A9
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:11:47 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hfkL9-0005yx-3x
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:14:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <gengdongjiu@huawei.com>) id 1hfkIX-0000rT-4T
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:11:43 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2246 helo=huawei.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hfkL4-0002we-54
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:14:21 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:49056 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
- id 1hfkIM-0000dH-1w; Tue, 25 Jun 2019 08:11:30 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id AC84597342FD98737BF6;
- Tue, 25 Jun 2019 20:11:20 +0800 (CST)
-Received: from [127.0.0.1] (10.142.68.147) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.439.0; Tue, 25 Jun 2019
- 20:11:13 +0800
-To: Igor Mammedov <imammedo@redhat.com>
-References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
- <1557832703-42620-6-git-send-email-gengdongjiu@huawei.com>
- <20190620144257.7400b0a7@redhat.com>
-From: gengdongjiu <gengdongjiu@huawei.com>
-Message-ID: <93dcd75e-77e4-8813-beef-7939cdb75413@huawei.com>
-Date: Tue, 25 Jun 2019 20:11:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.3.0
-MIME-Version: 1.0
-In-Reply-To: <20190620144257.7400b0a7@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.142.68.147]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.191
-Subject: Re: [Qemu-devel] [PATCH v17 05/10] acpi: add
- build_append_ghes_generic_status() helper for Generic Error Status Block
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hfkL3-0001yw-CV
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 08:14:17 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 5D29E1A2166;
+ Tue, 25 Jun 2019 14:13:09 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 414661A1D0D;
+ Tue, 25 Jun 2019 14:13:09 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 25 Jun 2019 14:12:49 +0200
+Message-Id: <1561464774-20548-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v4 0/5] target/mips: Improve MSA TCG tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,101 +48,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, kvm@vger.kernel.org,
- mst@redhat.com, mtosatti@redhat.com, qemu-devel@nongnu.org,
- linuxarm@huawei.com, shannon.zhaosl@gmail.com, zhengxiang9@huawei.com,
- qemu-arm@nongnu.org, james.morse@arm.com, xuwei5@huawei.com,
- jonathan.cameron@huawei.com, pbonzini@redhat.com, lersek@redhat.com,
- rth@twiddle.net
+Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
+
+This series contains various improvements and additions of MSA ASE
+TCG tests.
+
+v3->v4:
+
+  - patches 1 and 2 from v3 got reviewed and integrated into upstream,
+    so they are now removed in v4
+  - added tests for MSA int multiply instructions
+  - added support for MSA big-endian target testings
+  - amend4ed remainign patches
+  - rebased to the latest code
+
+v2->v3:
+
+  - added some tests from move group
+  - added some tests from int dot product group
+  - completed tests from bit move group
+
+v1->v2:
+
+  - added some tests from bit move group
+  - improved and updated commit messages
 
 
-On 2019/6/20 20:42, Igor Mammedov wrote:
-> On Tue, 14 May 2019 04:18:18 -0700
-> Dongjiu Geng <gengdongjiu@huawei.com> wrote:
-> 
->> It will help to add Generic Error Status Block to ACPI tables
->> without using packed C structures and avoid endianness
->> issues as API doesn't need explicit conversion.
->>
->> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
->> ---
->>  hw/acpi/aml-build.c         | 14 ++++++++++++++
->>  include/hw/acpi/aml-build.h |  6 ++++++
->>  2 files changed, 20 insertions(+)
->>
->> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
->> index 102a288..ce90970 100644
->> --- a/hw/acpi/aml-build.c
->> +++ b/hw/acpi/aml-build.c
->> @@ -296,6 +296,20 @@ void build_append_ghes_notify(GArray *table, const uint8_t type,
->>          build_append_int_noprefix(table, error_threshold_window, 4);
->>  }
->>  
->> +/* Generic Error Status Block
->> + * ACPI 4.0: 17.3.2.6.1 Generic Error Data
->> + */
->> +void build_append_ghes_generic_status(GArray *table, uint32_t block_status,
-> maybe ..._generic_error_status???
-good point, the build_append_ghes_generic_error_status() is better than build_append_ghes_generic_status()
+Aleksandar Markovic (5):
+  tests/tcg: target/mips: Add tests for MSA bit move instructions
+  tests/tcg: target/mips: Add tests for MSA move instructions
+  tests/tcg: target/mips: Amend tests for MSA int dot product
+    instructions
+  tests/tcg: target/mips: Amend tests for MSA int multiply instructions
+  tests/tcg: target/mips: Add support for MSA big-endian target testings
 
-> 
->> +                      uint32_t raw_data_offset, uint32_t raw_data_length,
->> +                      uint32_t data_length, uint32_t error_severity)
-> see CODING_STYLE, 1.1 Multiline Indent
-> 
->> +{
-> when describing filds from spec try to add 'verbatim' copy of the name from spec
-> so it would be esy to grep for it. Like:
->        /* Block Status */
->> +    build_append_int_noprefix(table, block_status, 4);
->        /* Raw Data Offset */
-> 
-> note applies all other places where you compose ACPI tables
-ok
+ tests/tcg/mips/include/wrappers_msa.h              |  80 ++-
+ .../mips/user/ase/msa/bit-move/test_msa_binsl_b.c  | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_binsl_d.c  | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_binsl_h.c  | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_binsl_w.c  | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_binsr_b.c  | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_binsr_d.c  | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_binsr_h.c  | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_binsr_w.c  | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_bmnz_v.c   | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_bmz_v.c    | 214 +++++++
+ .../mips/user/ase/msa/bit-move/test_msa_bsel_v.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpadd_s_d.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpadd_s_h.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpadd_s_w.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpadd_u_d.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpadd_u_h.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpadd_u_w.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpsub_s_d.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpsub_s_h.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpsub_s_w.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpsub_u_d.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpsub_u_h.c   | 214 +++++++
+ .../ase/msa/int-dot-product/test_msa_dpsub_u_w.c   | 214 +++++++
+ .../user/ase/msa/int-multiply/test_msa_maddv_d.c   | 214 +++++++
+ tests/tcg/mips/user/ase/msa/move/test_msa_move_v.c | 149 +++++
+ .../mips/user/ase/msa/test_msa_compile_64r6eb.sh   | 627 +++++++++++++++++++++
+ ...t_msa_compile.sh => test_msa_compile_64r6el.sh} | 561 ++++++++++--------
+ tests/tcg/mips/user/ase/msa/test_msa_run.sh        | 326 -----------
+ tests/tcg/mips/user/ase/msa/test_msa_run_64r6eb.sh | 355 ++++++++++++
+ tests/tcg/mips/user/ase/msa/test_msa_run_64r6el.sh | 355 ++++++++++++
+ 31 files changed, 7013 insertions(+), 576 deletions(-)
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsl_b.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsl_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsl_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsl_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsr_b.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsr_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsr_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsr_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_bmnz_v.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_bmz_v.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_bsel_v.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_s_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_s_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_s_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_u_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_u_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpadd_u_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpsub_s_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpsub_s_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpsub_s_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpsub_u_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpsub_u_h.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_dpsub_u_w.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_maddv_d.c
+ create mode 100644 tests/tcg/mips/user/ase/msa/move/test_msa_move_v.c
+ create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_compile_64r6eb.sh
+ rename tests/tcg/mips/user/ase/msa/{test_msa_compile.sh => test_msa_compile_64r6el.sh} (77%)
+ delete mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run.sh
+ create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run_64r6eb.sh
+ create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run_64r6el.sh
 
-> 
->> +    build_append_int_noprefix(table, raw_data_offset, 4);
->> +    build_append_int_noprefix(table, raw_data_length, 4);
->> +    build_append_int_noprefix(table, data_length, 4);
->> +    build_append_int_noprefix(table, error_severity, 4);
->> +}
->> +
->>  /* Generic Error Data Entry
->>   * ACPI 4.0: 17.3.2.6.1 Generic Error Data
->>   */
->> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
->> index a71db2f..1ec7e1b 100644
->> --- a/include/hw/acpi/aml-build.h
->> +++ b/include/hw/acpi/aml-build.h
->> @@ -425,6 +425,12 @@ void build_append_ghes_generic_data(GArray *table, const char *section_type,
->>                                      uint32_t error_data_length, uint8_t *fru_id,
->>                                      uint8_t *fru_text, uint64_t time_stamp);
->>  
->> +void
->> +build_append_ghes_generic_status(GArray *table, uint32_t block_status,
->> +                                 uint32_t raw_data_offset,
->> +                                 uint32_t raw_data_length,
->> +                                 uint32_t data_length, uint32_t error_severity);
-> this and previous patch, it might be better to to move declaration
-> to its own header, for example to include/hw/acpi/acpi_ghes.h
-> that you are adding later in the series.
-> And maybe move helpers to hw/acpi/acpi_ghes.c
-> They are not really independent ACPI primitives that are shared
-> with other tables, aren't they?
-Some ACPI primitives are shared with other table, such as Notification Structure.
-we have 10 types of error sources, some error source will share the  Notification Structure primitives.
-Now I only implement Generic Hardware Error Source version 2 (GHESv2 - Type 10)
-
-> .
->> +
->>  void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
->>                         uint64_t len, int node, MemoryAffinityFlags flags);
->>  
-> 
-> .
-> 
+-- 
+2.7.4
 
 
