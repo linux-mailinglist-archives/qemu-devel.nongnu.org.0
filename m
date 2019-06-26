@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978A7570F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:46:14 +0200 (CEST)
-Received: from localhost ([::1]:44286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991805732D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 22:55:44 +0200 (CEST)
+Received: from localhost ([::1]:44862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgCvt-0007gU-MN
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:46:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47269)
+	id 1hgExD-0005jv-RG
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 16:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44896)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eajames@linux.ibm.com>) id 1hgCtQ-00060E-QD
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:43:43 -0400
+ (envelope-from <fa636e323b8644469f9b03619758b6c1c6d1d4f2@lizzy.crudebyte.com>)
+ id 1hgEsM-0003rk-UB
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:50:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eajames@linux.ibm.com>) id 1hgCtO-0005Dh-Iw
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:43:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9860
- helo=mx0a-001b2d01.pphosted.com)
+ (envelope-from <fa636e323b8644469f9b03619758b6c1c6d1d4f2@lizzy.crudebyte.com>)
+ id 1hgEsL-0005h7-HH
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:50:42 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:47527)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eajames@linux.ibm.com>)
- id 1hgCtO-00058I-C0
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:43:38 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x5QIfr2r045635
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 14:43:32 -0400
-Received: from e11.ny.us.ibm.com (e11.ny.us.ibm.com [129.33.205.201])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tcddrt9c8-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 14:43:32 -0400
-Received: from localhost
- by e11.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <eajames@linux.ibm.com>;
- Wed, 26 Jun 2019 19:43:31 +0100
-Received: from b01cxnp22036.gho.pok.ibm.com (9.57.198.26)
- by e11.ny.us.ibm.com (146.89.104.198) with IBM ESMTP SMTP Gateway: Authorized
- Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Wed, 26 Jun 2019 19:43:28 +0100
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x5QIhSln13173406
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jun 2019 18:43:28 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E449F28058;
- Wed, 26 Jun 2019 18:43:27 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3843C2805A;
- Wed, 26 Jun 2019 18:43:27 +0000 (GMT)
-Received: from talon7.ibm.com (unknown [9.41.179.222])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 26 Jun 2019 18:43:27 +0000 (GMT)
-From: Eddie James <eajames@linux.ibm.com>
-To: qemu-arm@nongnu.org
-Date: Wed, 26 Jun 2019 13:43:24 -0500
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-x-cbid: 19062618-2213-0000-0000-000003A56092
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011336; HX=3.00000242; KW=3.00000007;
- PH=3.00000004; SC=3.00000286; SDB=6.01223650; UDB=6.00643968; IPR=6.01004829; 
- MB=3.00027479; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-26 18:43:31
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19062618-2214-0000-0000-00005F01B89F
-Message-Id: <1561574604-1204-1-git-send-email-eajames@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-06-26_10:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1906260216
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH] hw/sd/aspeed_sdhci: New device
+ (Exim 4.71)
+ (envelope-from <fa636e323b8644469f9b03619758b6c1c6d1d4f2@lizzy.crudebyte.com>)
+ id 1hgEsL-0004mM-A7
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:50:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
+ Message-Id:Sender:Reply-To:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=m+LzS1451scdkEEys2FRbJmpMFaBVTxicT3+nDaCl+8=; b=av+Ku9UiNZSfirr4HZuBKi1mf
+ 4bCUE0bQkkgjJSa2sdyJk2D8ZT2ZR6JRlJyFf6qAm6tBpcwi8NqN1wJKnqyKKvejDIrQJGlfkIG4+
+ 2f0Ia/F1J60XLNhuoz+L2kA2wmtbi9MZy5bQLH7cCm2fKfxBOsuX5PYeLFOyVbhkVFPXKJVMRlZ3y
+ nC80BLdPMu8bfXJNDVkfvpqH1GvqzKhZgoe4NQRE73M3PY1lOY/bJrH7BhHnh2/SP8Ca61Y/p217S
+ MvXMHu152AgpaWb3y87ZgA/VfkHHFFVBS3q1gOk9uK8xoTfqOuubjtNwNvS+TLcUpvOIhS60Y+ucP
+ 4nmfHNvsg==;
+Message-Id: <fa636e323b8644469f9b03619758b6c1c6d1d4f2.1561575449.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1561575449.git.qemu_oss@crudebyte.com>
+References: <cover.1561575449.git.qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 26 Jun 2019 20:46:24 +0200
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.194.90.13
+Subject: [Qemu-devel] [PATCH v4 4/5] 9p: stat_to_qid: implement slow path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,449 +55,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, andrew@aj.id.au,
- Eddie James <eajames@linux.ibm.com>, qemu-devel@nongnu.org, clg@kaod.org,
- philmd@redhat.com, joel@jms.id.au
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>, Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Aspeed SOCs have two SD/MMC controllers. Add a device that
-encapsulates both of these controllers and models the Aspeed-specific
-registers and behavior.
+stat_to_qid attempts via qid_path_prefixmap to map unique files (which are
+identified by 64 bit inode nr and 32 bit device id) to a 64 QID path value.
+However this implementation makes some assumptions about inode number
+generation on the host.
 
-Both controllers use a single HW interrupt. In order to trigger that
-interrupt, a function pointer was added to the generic SDHCI structure.
-This function (if the pointer is set) is called when the SDHCI model
-changes it's interrupt status, allowing the user (the Aspeed SDHCI
-model in this case) to set it's own interrupt.
+If qid_path_prefixmap fails, we still have 48 bits available in the QID
+path to fall back to a less memory efficient full mapping.
 
-This goes on top of Cedric's set of Aspeed changes.
-
-Tested, booted, and read from /dev/mmcblk0 and /dev/mmcblk1:
-./arm-softmmu/qemu-system-arm -M ast2500-evb -nographic \
- -drive file=flash-romulus,format=raw,if=mtd \
- -drive file=<some file>,format=raw,if=sd \
- -drive file=<some file>,format=raw,if=sd \
- -kernel zImage \
- -dtb aspeed-ast2500-evb.dtb \
- -initrd romulus.cpio.lzma \
- -d trace:sdhci* -no-reboot
-
-Signed-off-by: Eddie James <eajames@linux.ibm.com>
+Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/arm/aspeed.c              |   1 -
- hw/arm/aspeed_soc.c          |  67 ++++++++++++++++++
- hw/sd/Makefile.objs          |   1 +
- hw/sd/aspeed_sdhci.c         | 163 +++++++++++++++++++++++++++++++++++++++++++
- hw/sd/sdhci.c                |   8 ++-
- include/hw/arm/aspeed_soc.h  |   3 +
- include/hw/sd/aspeed_sdhci.h |  39 +++++++++++
- include/hw/sd/sdhci.h        |   1 +
- 8 files changed, 281 insertions(+), 2 deletions(-)
- create mode 100644 hw/sd/aspeed_sdhci.c
- create mode 100644 include/hw/sd/aspeed_sdhci.h
+ hw/9pfs/9p.c | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-----
+ hw/9pfs/9p.h |  9 +++++++++
+ 2 files changed, 67 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 5fee2f5..fbec946 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -422,7 +422,6 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
-     mc->desc = board->desc;
-     mc->init = aspeed_machine_init;
-     mc->max_cpus = ASPEED_CPUS_NUM;
--    mc->no_sdcard = 1;
-     mc->no_floppy = 1;
-     mc->no_cdrom = 1;
-     mc->no_parallel = 1;
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 1bbbdae..1378498 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -22,6 +22,7 @@
- #include "qemu/error-report.h"
- #include "hw/i2c/aspeed_i2c.h"
- #include "net/net.h"
-+#include "sysemu/blockdev.h"
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 7ccc68a829..e6e410972f 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -579,23 +579,69 @@ static uint32_t qpp_hash(QppEntry e)
+     return qemu_xxhash7(e.ino_prefix, e.dev, 0, 0, 0);
+ }
  
- #define ASPEED_SOC_IOMEM_SIZE       0x00200000
++static uint32_t qpf_hash(QpfEntry e)
++{
++    return qemu_xxhash7(e.ino, e.dev, 0, 0, 0);
++}
++
+ static bool qpp_lookup_func(const void *obj, const void *userp)
+ {
+     const QppEntry *e1 = obj, *e2 = userp;
+     return e1->dev == e2->dev && e1->ino_prefix == e2->ino_prefix;
+ }
  
-@@ -62,6 +63,7 @@ static const hwaddr aspeed_soc_ast2500_memmap[] = {
-     [ASPEED_XDMA]   = 0x1E6E7000,
-     [ASPEED_ADC]    = 0x1E6E9000,
-     [ASPEED_SRAM]   = 0x1E720000,
-+    [ASPEED_SDHCI]  = 0x1E740000,
-     [ASPEED_GPIO]   = 0x1E780000,
-     [ASPEED_RTC]    = 0x1E781000,
-     [ASPEED_TIMER1] = 0x1E782000,
-@@ -142,6 +144,7 @@ static const int aspeed_soc_ast2400_irqmap[] = {
-     [ASPEED_ETH1]   = 2,
-     [ASPEED_ETH2]   = 3,
-     [ASPEED_XDMA]   = 6,
-+    [ASPEED_SDHCI]  = 26,
+-static void qpp_table_remove(void *p, uint32_t h, void *up)
++static bool qpf_lookup_func(const void *obj, const void *userp)
++{
++    const QpfEntry *e1 = obj, *e2 = userp;
++    return e1->dev == e2->dev && e1->ino == e2->ino;
++}
++
++static void qp_table_remove(void *p, uint32_t h, void *up)
+ {
+     g_free(p);
+ }
+ 
+-static void qpp_table_destroy(struct qht *ht)
++static void qp_table_destroy(struct qht *ht)
+ {
+-    qht_iter(ht, qpp_table_remove, NULL);
++    qht_iter(ht, qp_table_remove, NULL);
+     qht_destroy(ht);
+ }
+ 
++static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
++                            uint64_t *path)
++{
++    QpfEntry lookup = {
++        .dev = stbuf->st_dev,
++        .ino = stbuf->st_ino
++    }, *val;
++    uint32_t hash = qpf_hash(lookup);
++
++    /* most users won't need the fullmap, so init the table lazily */
++    if (!pdu->s->qpf_table.map) {
++        qht_init(&pdu->s->qpf_table, qpf_lookup_func, 1 << 16, QHT_MODE_AUTO_RESIZE);
++    }
++
++    val = qht_lookup(&pdu->s->qpf_table, &lookup, hash);
++
++    if (!val) {
++        if (pdu->s->qp_fullpath_next == 0) {
++            /* no more files can be mapped :'( */
++            return -ENFILE;
++        }
++
++        val = g_malloc0(sizeof(QppEntry));
++        *val = lookup;
++
++        /* new unique inode and device combo */
++        val->path = pdu->s->qp_fullpath_next++;
++        pdu->s->qp_fullpath_next &= QPATH_INO_MASK;
++        qht_insert(&pdu->s->qpf_table, val, hash, NULL);
++    }
++
++    *path = val->path;
++    return 0;
++}
++
+ /* stat_to_qid needs to map inode number (64 bits) and device id (32 bits)
+  * to a unique QID path (64 bits). To avoid having to map and keep track
+  * of up to 2^64 objects, we map only the 16 highest bits of the inode plus
+@@ -642,6 +688,10 @@ static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
+     if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
+         /* map inode+device to qid path (fast path) */
+         err = qid_path_prefixmap(pdu, stbuf, &qidp->path);
++        if (err == -ENFILE) {
++            /* fast path didn't work, fall back to full map */
++            err = qid_path_fullmap(pdu, stbuf, &qidp->path);
++        }
+         if (err) {
+             return err;
+         }
+@@ -3752,6 +3802,7 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+     /* QID path hash table. 1 entry ought to be enough for anybody ;) */
+     qht_init(&s->qpp_table, qpp_lookup_func, 1, QHT_MODE_AUTO_RESIZE);
+     s->qp_prefix_next = 1; /* reserve 0 to detect overflow */
++    s->qp_fullpath_next = 1;
+ 
+     s->ctx.fst = &fse->fst;
+     fsdev_throttle_init(s->ctx.fst);
+@@ -3766,7 +3817,8 @@ out:
+         }
+         g_free(s->tag);
+         g_free(s->ctx.fs_root);
+-        qpp_table_destroy(&s->qpp_table);
++        qp_table_destroy(&s->qpp_table);
++        qp_table_destroy(&s->qpf_table);
+         v9fs_path_free(&path);
+     }
+     return rc;
+@@ -3779,7 +3831,8 @@ void v9fs_device_unrealize_common(V9fsState *s, Error **errp)
+     }
+     fsdev_throttle_cleanup(s->ctx.fst);
+     g_free(s->tag);
+-    qpp_table_destroy(&s->qpp_table);
++    qp_table_destroy(&s->qpp_table);
++    qp_table_destroy(&s->qpf_table);
+     g_free(s->ctx.fs_root);
+ }
+ 
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 0200e04176..2b74561030 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -245,6 +245,13 @@ typedef struct {
+     uint16_t qp_prefix;
+ } QppEntry;
+ 
++/* QID path full entry, as above */
++typedef struct {
++    dev_t dev;
++    ino_t ino;
++    uint64_t path;
++} QpfEntry;
++
+ struct V9fsState
+ {
+     QLIST_HEAD(, V9fsPDU) free_list;
+@@ -268,7 +275,9 @@ struct V9fsState
+     V9fsQID root_qid;
+     dev_t dev_id;
+     struct qht qpp_table;
++    struct qht qpf_table;
+     uint16_t qp_prefix_next;
++    uint64_t qp_fullpath_next;
  };
  
- #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
-@@ -378,6 +381,16 @@ static void aspeed_soc_init(Object *obj)
-         sysbus_init_child_obj(obj, "fsi[*]", OBJECT(&s->fsi[0]),
-                               sizeof(s->fsi[0]), TYPE_ASPEED_FSI);
-     }
-+
-+    sysbus_init_child_obj(obj, "sdhci", OBJECT(&s->sdhci), sizeof(s->sdhci),
-+                          TYPE_ASPEED_SDHCI);
-+
-+    for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; ++i) {
-+        sysbus_init_child_obj(obj, "sdhci_slot[*]",
-+                              OBJECT(&s->sdhci.slots[i].sdhci),
-+                              sizeof(s->sdhci.slots[i].sdhci),
-+                              TYPE_SYSBUS_SDHCI);
-+    }
- }
- 
- static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-@@ -699,6 +712,60 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->fsi[0]), 0,
-                            aspeed_soc_get_irq(s, ASPEED_FSI1));
-     }
-+
-+    /* SD/SDIO */
-+    for (i = 0; i < ASPEED_SDHCI_NUM_SLOTS; i++) {
-+        hwaddr hci_addr = sc->info->memmap[ASPEED_SDHCI] + (0x100 * (i + 1));
-+        DriveInfo *di;
-+        BlockBackend *blk;
-+        DeviceState *card;
-+
-+        /*
-+         * Compatible with:
-+         * - SD Host Controller Specification Version 2.0
-+         * - SDIO Specification Version 2.0
-+         * - MMC Specification Version 4.3
-+         */
-+        object_property_set_int(OBJECT(&s->sdhci.slots[i].sdhci), 2,
-+                                "sd-spec-version", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+
-+        object_property_set_uint(OBJECT(&s->sdhci.slots[i].sdhci),
-+                                 ASPEED_SDHCI_CAPABILITIES, "capareg", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+
-+        object_property_set_bool(OBJECT(&s->sdhci.slots[i].sdhci), true,
-+                                 "realized", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
-+
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci.slots[i].sdhci), 0, hci_addr);
-+
-+        di = drive_get_next(IF_SD);
-+        blk = di ? blk_by_legacy_dinfo(di) : NULL;
-+        card = qdev_create(qdev_get_child_bus(DEVICE(&s->sdhci.slots[i].sdhci),
-+                                              "sd-bus"), TYPE_SD_CARD);
-+        qdev_prop_set_drive(card, "drive", blk, &error_fatal);
-+        object_property_set_bool(OBJECT(card), true, "realized", &error_fatal);
-+    }
-+
-+    object_property_set_bool(OBJECT(&s->sdhci), true, "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
-+                    sc->info->memmap[ASPEED_SDHCI]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_SDHCI));
- }
- static Property aspeed_soc_properties[] = {
-     DEFINE_PROP_UINT32("num-cpus", AspeedSoCState, num_cpus, 0),
-diff --git a/hw/sd/Makefile.objs b/hw/sd/Makefile.objs
-index 0665727..a884c23 100644
---- a/hw/sd/Makefile.objs
-+++ b/hw/sd/Makefile.objs
-@@ -8,3 +8,4 @@ obj-$(CONFIG_MILKYMIST) += milkymist-memcard.o
- obj-$(CONFIG_OMAP) += omap_mmc.o
- obj-$(CONFIG_PXA2XX) += pxa2xx_mmci.o
- obj-$(CONFIG_RASPI) += bcm2835_sdhost.o
-+obj-$(CONFIG_ASPEED_SOC) += aspeed_sdhci.o
-diff --git a/hw/sd/aspeed_sdhci.c b/hw/sd/aspeed_sdhci.c
-new file mode 100644
-index 0000000..f684b12
---- /dev/null
-+++ b/hw/sd/aspeed_sdhci.c
-@@ -0,0 +1,163 @@
-+/*
-+ * Aspeed SD Host Controller
-+ * Eddie James <eajames@linux.ibm.com>
-+ *
-+ * Copyright (C) 2019 IBM Corp
-+ * SPDX-License-Identifer: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "hw/sd/aspeed_sdhci.h"
-+#include "qapi/error.h"
-+
-+#define ASPEED_SDHCI_INFO            0x00
-+#define  ASPEED_SDHCI_INFO_RESET     0x00030000
-+#define ASPEED_SDHCI_DEBOUNCE        0x04
-+#define  ASPEED_SDHCI_DEBOUNCE_RESET 0x00000005
-+#define ASPEED_SDHCI_BUS             0x08
-+#define ASPEED_SDHCI_SDIO_140        0x10
-+#define ASPEED_SDHCI_SDIO_148        0x18
-+#define ASPEED_SDHCI_SDIO_240        0x20
-+#define ASPEED_SDHCI_SDIO_248        0x28
-+#define ASPEED_SDHCI_WP_POL          0xec
-+#define ASPEED_SDHCI_CARD_DET        0xf0
-+#define ASPEED_SDHCI_IRQ_STAT        0xfc
-+
-+#define TO_REG(addr) ((addr) / sizeof(uint32_t))
-+
-+static uint64_t aspeed_sdhci_read(void *opaque, hwaddr addr, unsigned int size)
-+{
-+    uint32_t val = 0;
-+    AspeedSDHCIState *sdhci = opaque;
-+
-+    switch (addr) {
-+    case ASPEED_SDHCI_SDIO_140:
-+        val = (uint32_t)sdhci->slots[0].sdhci.capareg;
-+        break;
-+    case ASPEED_SDHCI_SDIO_148:
-+        val = (uint32_t)sdhci->slots[0].sdhci.maxcurr;
-+        break;
-+    case ASPEED_SDHCI_SDIO_240:
-+        val = (uint32_t)sdhci->slots[1].sdhci.capareg;
-+        break;
-+    case ASPEED_SDHCI_SDIO_248:
-+        val = (uint32_t)sdhci->slots[1].sdhci.maxcurr;
-+        break;
-+    default:
-+        if (addr < ASPEED_SDHCI_REG_SIZE) {
-+            val = sdhci->regs[TO_REG(addr)];
-+        }
-+    }
-+
-+    return (uint64_t)val;
-+}
-+
-+static void aspeed_sdhci_write(void *opaque, hwaddr addr, uint64_t val,
-+                               unsigned int size)
-+{
-+    AspeedSDHCIState *sdhci = opaque;
-+
-+    switch (addr) {
-+    case ASPEED_SDHCI_SDIO_140:
-+        sdhci->slots[0].sdhci.capareg = (uint64_t)(uint32_t)val;
-+        break;
-+    case ASPEED_SDHCI_SDIO_148:
-+        sdhci->slots[0].sdhci.maxcurr = (uint64_t)(uint32_t)val;
-+        break;
-+    case ASPEED_SDHCI_SDIO_240:
-+        sdhci->slots[1].sdhci.capareg = (uint64_t)(uint32_t)val;
-+        break;
-+    case ASPEED_SDHCI_SDIO_248:
-+        sdhci->slots[1].sdhci.maxcurr = (uint64_t)(uint32_t)val;
-+        break;
-+    default:
-+        if (addr < ASPEED_SDHCI_REG_SIZE) {
-+            sdhci->regs[TO_REG(addr)] = (uint32_t)val;
-+        }
-+    }
-+}
-+
-+static const MemoryRegionOps aspeed_sdhci_ops = {
-+    .read = aspeed_sdhci_read,
-+    .write = aspeed_sdhci_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .valid.min_access_size = 4,
-+    .valid.max_access_size = 4,
-+};
-+
-+static void aspeed_sdhci_irq_notify(SDHCIState *s, int level)
-+{
-+    AspeedSDHCISlotState *as = container_of(s, AspeedSDHCISlotState, sdhci);
-+    AspeedSDHCIState *sdhci = container_of(as, AspeedSDHCIState,
-+                                           slots[as->slot]);
-+
-+    if (level) {
-+        sdhci->regs[TO_REG(ASPEED_SDHCI_IRQ_STAT)] |= BIT(as->slot);
-+
-+        qemu_irq_raise(sdhci->irq);
-+    } else {
-+        sdhci->regs[TO_REG(ASPEED_SDHCI_IRQ_STAT)] &= ~BIT(as->slot);
-+
-+        qemu_irq_lower(sdhci->irq);
-+    }
-+}
-+
-+static void aspeed_sdhci_realize(DeviceState *dev, Error **errp)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    AspeedSDHCIState *sdhci = ASPEED_SDHCI(dev);
-+
-+    sysbus_init_irq(sbd, &sdhci->irq);
-+    memory_region_init_io(&sdhci->iomem, OBJECT(sdhci), &aspeed_sdhci_ops,
-+                          sdhci, TYPE_ASPEED_SDHCI, ASPEED_SDHCI_REG_SIZE);
-+    sysbus_init_mmio(sbd, &sdhci->iomem);
-+
-+    sdhci->slots[0].slot = 0;
-+    sdhci->slots[0].sdhci.irq_notify = aspeed_sdhci_irq_notify;
-+
-+    sdhci->slots[1].slot = 1;
-+    sdhci->slots[1].sdhci.irq_notify = aspeed_sdhci_irq_notify;
-+}
-+
-+static void aspeed_sdhci_reset(DeviceState *dev)
-+{
-+    AspeedSDHCIState *sdhci = ASPEED_SDHCI(dev);
-+
-+    memset(sdhci->regs, 0, ASPEED_SDHCI_REG_SIZE);
-+    sdhci->regs[TO_REG(ASPEED_SDHCI_INFO)] = ASPEED_SDHCI_INFO_RESET;
-+    sdhci->regs[TO_REG(ASPEED_SDHCI_DEBOUNCE)] = ASPEED_SDHCI_DEBOUNCE_RESET;
-+}
-+
-+static const VMStateDescription vmstate_aspeed_sdhci = {
-+    .name = TYPE_ASPEED_SDHCI,
-+    .version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_UINT32_ARRAY(regs, AspeedSDHCIState, ASPEED_SDHCI_NUM_REGS),
-+        VMSTATE_END_OF_LIST(),
-+    },
-+};
-+
-+static void aspeed_sdhci_class_init(ObjectClass *classp, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(classp);
-+
-+    dc->realize = aspeed_sdhci_realize;
-+    dc->reset = aspeed_sdhci_reset;
-+    dc->vmsd = &vmstate_aspeed_sdhci;
-+}
-+
-+static TypeInfo aspeed_sdhci_info = {
-+    .name          = TYPE_ASPEED_SDHCI,
-+    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(AspeedSDHCIState),
-+    .class_init    = aspeed_sdhci_class_init,
-+};
-+
-+static void aspeed_sdhci_register_types(void)
-+{
-+    type_register_static(&aspeed_sdhci_info);
-+}
-+
-+type_init(aspeed_sdhci_register_types)
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 7b80b1d..51a733b 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -213,7 +213,13 @@ static uint8_t sdhci_slotint(SDHCIState *s)
- 
- static inline void sdhci_update_irq(SDHCIState *s)
- {
--    qemu_set_irq(s->irq, sdhci_slotint(s));
-+    int level = sdhci_slotint(s);
-+
-+    qemu_set_irq(s->irq, level);
-+
-+    if (s->irq_notify) {
-+        s->irq_notify(s, level);
-+    }
- }
- 
- static void sdhci_raise_insertion_irq(void *opaque)
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 7abb394..ba0f72f 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -29,6 +29,7 @@
- #include "hw/misc/aspeed_pwm.h"
- #include "hw/misc/aspeed_lpc.h"
- #include "hw/misc/aspeed_fsi.h"
-+#include "hw/sd/aspeed_sdhci.h"
- 
- #define ASPEED_SPIS_NUM  2
- #define ASPEED_WDTS_NUM  4
-@@ -62,6 +63,7 @@ typedef struct AspeedSoCState {
-     AspeedPWMState pwm;
-     AspeedLPCState lpc;
-     AspeedFsiState fsi[2];
-+    AspeedSDHCIState sdhci;
- } AspeedSoCState;
- 
- #define TYPE_ASPEED_SOC "aspeed-soc"
-@@ -108,6 +110,7 @@ enum {
-     ASPEED_SCU,
-     ASPEED_ADC,
-     ASPEED_SRAM,
-+    ASPEED_SDHCI,
-     ASPEED_GPIO,
-     ASPEED_RTC,
-     ASPEED_TIMER1,
-diff --git a/include/hw/sd/aspeed_sdhci.h b/include/hw/sd/aspeed_sdhci.h
-new file mode 100644
-index 0000000..67fb7ef
---- /dev/null
-+++ b/include/hw/sd/aspeed_sdhci.h
-@@ -0,0 +1,39 @@
-+/*
-+ * Aspeed SD Host Controller
-+ * Eddie James <eajames@linux.ibm.com>
-+ *
-+ * Copyright (C) 2019 IBM Corp
-+ * SPDX-License-Identifer: GPL-2.0-or-later
-+ */
-+
-+#ifndef ASPEED_SDHCI_H
-+#define ASPEED_SDHCI_H
-+
-+#include "hw/sd/sdhci.h"
-+
-+#define TYPE_ASPEED_SDHCI "aspeed.sdhci"
-+#define ASPEED_SDHCI(obj) OBJECT_CHECK(AspeedSDHCIState, (obj), \
-+                                       TYPE_ASPEED_SDHCI)
-+
-+#define ASPEED_SDHCI_CAPABILITIES 0x01E80080
-+#define ASPEED_SDHCI_NUM_SLOTS    2
-+#define ASPEED_SDHCI_NUM_REGS     (ASPEED_SDHCI_REG_SIZE / sizeof(uint32_t))
-+#define ASPEED_SDHCI_REG_SIZE     0x100
-+
-+typedef struct AspeedSDHCISlotState {
-+    SDHCIState sdhci;
-+    int slot;
-+} AspeedSDHCISlotState;
-+
-+typedef struct AspeedSDHCIState {
-+    SysBusDevice parent;
-+
-+    AspeedSDHCISlotState slots[ASPEED_SDHCI_NUM_SLOTS];
-+
-+    MemoryRegion iomem;
-+    qemu_irq irq;
-+
-+    uint32_t regs[ASPEED_SDHCI_NUM_REGS];
-+} AspeedSDHCIState;
-+
-+#endif /* ASPEED_SDHCI_H */
-diff --git a/include/hw/sd/sdhci.h b/include/hw/sd/sdhci.h
-index cbf415e..90dbf7b 100644
---- a/include/hw/sd/sdhci.h
-+++ b/include/hw/sd/sdhci.h
-@@ -48,6 +48,7 @@ typedef struct SDHCIState {
-     QEMUTimer *insert_timer;       /* timer for 'changing' sd card. */
-     QEMUTimer *transfer_timer;
-     qemu_irq irq;
-+    void (*irq_notify)(struct SDHCIState *s, int level);
- 
-     /* Registers cleared on reset */
-     uint32_t sdmasysad;    /* SDMA System Address register */
+ /* 9p2000.L open flags */
 -- 
-1.8.3.1
+2.11.0
 
 
