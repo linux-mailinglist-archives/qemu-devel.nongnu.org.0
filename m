@@ -2,55 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0892657077
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:20:19 +0200 (CEST)
-Received: from localhost ([::1]:44110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B175730F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 22:48:23 +0200 (CEST)
+Received: from localhost ([::1]:44836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgCWn-0004gt-Nq
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:20:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41492)
+	id 1hgEq6-0000wm-QQ
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 16:48:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43830)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <balaton@eik.bme.hu>) id 1hgCUv-00042V-Ox
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:18:23 -0400
+ (envelope-from <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f@lizzy.crudebyte.com>)
+ id 1hgEn0-0008Az-7K
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:45:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <balaton@eik.bme.hu>) id 1hgCUt-0000X5-GU
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:18:21 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:14230)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <balaton@eik.bme.hu>) id 1hgCUt-0000Qu-53
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:18:19 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 942777461AA;
- Wed, 26 Jun 2019 20:18:05 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5510C7456B4; Wed, 26 Jun 2019 20:18:05 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 434B174569A;
- Wed, 26 Jun 2019 20:18:05 +0200 (CEST)
-Date: Wed, 26 Jun 2019 20:18:05 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <0ceec012-fcdc-ccde-291a-121a4e475f86@ilande.co.uk>
-Message-ID: <alpine.BSF.2.21.9999.1906262010500.23988@zero.eik.bme.hu>
-References: <20190519041522.12327-1-richard.henderson@linaro.org>
- <8f28d008-2608-a579-7505-4546b08deb41@linaro.org>
- <085d6881-f518-9888-a13e-081cdc09de46@ilande.co.uk>
- <0b9f4772-37f6-1453-e4ea-5ad9d0f52a5b@ilande.co.uk>
- <acc57487-c8a0-9380-bc2a-4de22541eabf@ilande.co.uk>
- <CAL1e-=iavFqEeFuNm2efVM7mu5OaABBVo90wqJEhmoWa4DQv=Q@mail.gmail.com>
- <ffae3651-5daf-e008-6562-2de09d82ace9@linaro.org>
- <b8aab3f4-e3eb-a137-62b4-ba5ac1a2ad8f@ilande.co.uk>
- <68facefc-b801-4902-11c0-4542662bfc4e@linaro.org>
- <d2c1f979-7ff2-946e-4863-c1be19c5f003@ilande.co.uk>
- <16f26b7f-2435-aa05-66a3-073e8310d5c8@linaro.org>
- <0ceec012-fcdc-ccde-291a-121a4e475f86@ilande.co.uk>
-User-Agent: Alpine 2.21.9999 (BSF 287 2018-06-16)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x [fuzzy]
-X-Received-From: 152.66.115.2
-Subject: Re: [Qemu-devel] [PATCH v4 0/7] tcg/ppc: Add vector opcodes
+ (envelope-from <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f@lizzy.crudebyte.com>)
+ id 1hgEmw-0001e0-LH
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:45:10 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:47965)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71)
+ (envelope-from <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f@lizzy.crudebyte.com>)
+ id 1hgEmu-0000rO-2B
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:45:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
+ Message-Id:Sender:Reply-To:MIME-Version:Content-Type:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=IoXjgFM2c0DgKUTZy636+sU0x3f3ZXaCQnzY3pgeM14=; b=mDKvjuMBD8KoA1RDHZYXvBEKI
+ X4S0CWyXlngZpz/UpoLEsnz58R3niBbk7oHB6eLBjCaif3JYs/RJmB+FSkZolSr2s1HL3MyKd7Zh5
+ MySvsQpFbPeY+DWI8br/Y9AK7HFixbQV6TxEvSApJuG3aXVnrDJh68jgtF8Vy/3C5czYoqkqIRs2l
+ iPVbejvbeybyy9Zk7rVAFqXY//0r6hJ9+WDrPlkY2hSWwuvv+FoUUqkft+JG4hlrYn3JTBirdAHCJ
+ xKhvhB78eNsXd9i52+kSaUirbZ54u7omRcnw0UrNsvpLvq0iZzgbONQMP1kONe6FaoWhK4LMM/0Yj
+ 9B8fHpJgg==;
+Message-Id: <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f.1561575449.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1561575449.git.qemu_oss@crudebyte.com>
+References: <cover.1561575449.git.qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 26 Jun 2019 20:25:55 +0200
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.194.90.13
+Subject: [Qemu-devel] [PATCH v4 1/5] 9p: unsigned type for type, version,
+ path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,113 +56,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>, Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019, Mark Cave-Ayland wrote:
-> On 26/06/2019 08:45, Richard Henderson wrote:
->> On 6/25/19 7:55 PM, Mark Cave-Ayland wrote:
->>> And here's where we are blowing up according to -d in_asm,op_out_asm:
->>>
->>> IN:
->>> 0x00f22ca0:  101ffc84  vor      v0, v31, v31
->>>
->>> OP:
->>>  ld_i32 tmp0,env,$0xfffffff8
->>>  movi_i32 tmp1,$0x0
->>>  brcond_i32 tmp0,tmp1,lt,$L0
->>>
->>>  ---- 00f22ca0
->>>  ld_vec v128,e8,tmp2,env,$0xd6b0
->>>  st_vec v128,e8,tmp2,env,$0xd4c0
->>
->> Yep, that looks right.
->>
->> As an aside, this does suggest to me that target/ppc might be well served in
->> moving the ppc_vsr_t members of CPUPPCState earlier, so that this offset is
->> smaller.
->>
->>>  movi_i32 nip,$0xf22ca4
->>>  movi_i32 nip,$0xf22ca4
->>>  movi_i32 tmp0,$0x10002
->>>  call raise_exception,$0x2,$0,env,tmp0
->>
->> And this, presumably is the single-step debug exception.
->>
->>> 0xa4e7f12c:  3c400000  lis      r2, 0
->>> 0xa4e7f130:  6042d6b0  ori      r2, r2, 0xd6b0
->>> 0xa4e7f134:  7c5b10ce  lvx      v2, r27, r2
->>
->>> 0xa4e7f138:  3c400000  lis      r2, 0
->>> 0xa4e7f13c:  6042d4c0  ori      r2, r2, 0xd4c0
->>> 0xa4e7f140:  7c5b11ce  stvx     v2, r27, r2
->>
->> These also look correct.  Form an offset into r2, load or store from env+r2.
->>
->> This also shows what I mention above re offset.  For a ppc host, the offset is
->> large enough to require two instructions to form them.
->>
->>> Any ideas what might be going on here?
->>
->> What is the observed problem that makes you think that this is the incorrect
->> instruction?
->
-> What I've been doing is set a breakpoint a few instructions before and then issuing
-> "stepi" commands via the gdbstub. As I step over the "vor v0, v31, v31" instruction
-> then either the qemu-system-ppc process segfaults outside of gdb, or inside gdb it
-> goes to bg. Bringing it back to fg just causes gdb to get confused and in the end the
-> only thing I can do is kill the gdb process.
->
-> On the plus side I've managed to work out where we are faulting by hacking the load
-> and store functions to inject trap opcodes in the ld_vec and st_vec and it appears
-> that we are segfaulting here:
->
-> OUT: [size=96]
-> 0xa4e7f120:  81dbfff8  lwz      r14, -8(r27)
-> 0xa4e7f124:  2f8e0000  cmpwi    cr7, r14, 0
-> 0xa4e7f128:  419c004c  blt      cr7, 0xa4e7f174
-> 0xa4e7f12c:  3c400000  lis      r2, 0
->                       ^^^^^^^^^^^^^^
-> 0xa4e7f130:  6042d6b0  ori      r2, r2, 0xd6b0
-> 0xa4e7f134:  7c5b10ce  lvx      v2, r27, r2
-> 0xa4e7f138:  3c400000  lis      r2, 0
-> 0xa4e7f13c:  6042d4c0  ori      r2, r2, 0xd4c0
-> 0xa4e7f140:  7c5b11ce  stvx     v2, r27, r2
-> 0xa4e7f144:  3dc000f2  lis      r14, 0xf2
-> 0xa4e7f148:  61ce2ca4  ori      r14, r14, 0x2ca4
-> 0xa4e7f14c:  91db016c  stw      r14, 0x16c(r27)
-> 0xa4e7f150:  7f63db78  mr       r3, r27
-> 0xa4e7f154:  3c800001  lis      r4, 1
-> 0xa4e7f158:  60840002  ori      r4, r4, 2
-> 0xa4e7f15c:  3c000087  lis      r0, 0x87
-> 0xa4e7f160:  6000b618  ori      r0, r0, 0xb618
-> 0xa4e7f164:  7c0903a6  mtctr    r0
-> 0xa4e7f168:  4e800421  bctrl
-> 0xa4e7f16c:  38600000  li       r3, 0
-> 0xa4e7f170:  4bfffef0  b        0xa4e7f060
-> 0xa4e7f174:  3c60a4e7  lis      r3, -0x5b19
-> 0xa4e7f178:  6063f0c3  ori      r3, r3, 0xf0c3
-> 0xa4e7f17c:  4bfffee4  b        0xa4e7f060
->
-> Interestingly if I set a trap and then switch the opcode to "lis r4,0" (0x3c800000)
-> then we carry on as normal until the next "lis r2,0" instruction. Looking through the
-> whole output of -d out_asm this is the first mention of r2 which makes me wonder if
-> it is special somehow? At least a quick search indicates that for 32-bit PPC r2 is
-> supposed to be dedicated as a TOC pointer.
+There is no need for signedness on these QID fields for 9p.
 
-According to a PowerPC ABI doc: 
-http://refspecs.linux-foundation.org/elf/elfspec_ppc.pdf
-r2 is system reserved and should not be used by application code and 
-another one (probably the same you were referring to mentions TOC 
-https://refspecs.linuxfoundation.org/ELF/ppc64/PPC-elf64abi-1.9.html#REG. 
-I'm not sure if that's relevant for the above but it looks like clobbering 
-r2 might cause problems.
+Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ fsdev/9p-marshal.h   |  6 +++---
+ hw/9pfs/9p.c         |  6 +++---
+ hw/9pfs/trace-events | 14 +++++++-------
+ 3 files changed, 13 insertions(+), 13 deletions(-)
 
-Regards,
-BALATON Zoltan
+diff --git a/fsdev/9p-marshal.h b/fsdev/9p-marshal.h
+index c8823d878f..8f3babb60a 100644
+--- a/fsdev/9p-marshal.h
++++ b/fsdev/9p-marshal.h
+@@ -9,9 +9,9 @@ typedef struct V9fsString
+ 
+ typedef struct V9fsQID
+ {
+-    int8_t type;
+-    int32_t version;
+-    int64_t path;
++    uint8_t type;
++    uint32_t version;
++    uint64_t path;
+ } V9fsQID;
+ 
+ typedef struct V9fsStat
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 55821343e5..586a6dccba 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -743,9 +743,9 @@ static int donttouch_stat(V9fsStat *stat)
+ {
+     if (stat->type == -1 &&
+         stat->dev == -1 &&
+-        stat->qid.type == -1 &&
+-        stat->qid.version == -1 &&
+-        stat->qid.path == -1 &&
++        stat->qid.type == 0xff &&
++        stat->qid.version == (uint32_t) -1 &&
++        stat->qid.path == (uint64_t) -1 &&
+         stat->mode == -1 &&
+         stat->atime == -1 &&
+         stat->mtime == -1 &&
+diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
+index c0a0a4ab5d..6964756922 100644
+--- a/hw/9pfs/trace-events
++++ b/hw/9pfs/trace-events
+@@ -6,7 +6,7 @@ v9fs_rerror(uint16_t tag, uint8_t id, int err) "tag %d id %d err %d"
+ v9fs_version(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
+ v9fs_version_return(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
+ v9fs_attach(uint16_t tag, uint8_t id, int32_t fid, int32_t afid, char* uname, char* aname) "tag %u id %u fid %d afid %d uname %s aname %s"
+-v9fs_attach_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d type %d version %d path %"PRId64
++v9fs_attach_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d type %d version %d path %"PRId64
+ v9fs_stat(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+ v9fs_stat_return(uint16_t tag, uint8_t id, int32_t mode, int32_t atime, int32_t mtime, int64_t length) "tag %d id %d stat={mode %d atime %d mtime %d length %"PRId64"}"
+ v9fs_getattr(uint16_t tag, uint8_t id, int32_t fid, uint64_t request_mask) "tag %d id %d fid %d request_mask %"PRIu64
+@@ -14,9 +14,9 @@ v9fs_getattr_return(uint16_t tag, uint8_t id, uint64_t result_mask, uint32_t mod
+ v9fs_walk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, uint16_t nwnames) "tag %d id %d fid %d newfid %d nwnames %d"
+ v9fs_walk_return(uint16_t tag, uint8_t id, uint16_t nwnames, void* qids) "tag %d id %d nwnames %d qids %p"
+ v9fs_open(uint16_t tag, uint8_t id, int32_t fid, int32_t mode) "tag %d id %d fid %d mode %d"
+-v9fs_open_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
++v9fs_open_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
+ v9fs_lcreate(uint16_t tag, uint8_t id, int32_t dfid, int32_t flags, int32_t mode, uint32_t gid) "tag %d id %d dfid %d flags %d mode %d gid %u"
+-v9fs_lcreate_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int32_t iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
++v9fs_lcreate_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int32_t iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
+ v9fs_fsync(uint16_t tag, uint8_t id, int32_t fid, int datasync) "tag %d id %d fid %d datasync %d"
+ v9fs_clunk(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+ v9fs_read(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t max_count) "tag %d id %d fid %d off %"PRIu64" max_count %u"
+@@ -26,21 +26,21 @@ v9fs_readdir_return(uint16_t tag, uint8_t id, uint32_t count, ssize_t retval) "t
+ v9fs_write(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t count, int cnt) "tag %d id %d fid %d off %"PRIu64" count %u cnt %d"
+ v9fs_write_return(uint16_t tag, uint8_t id, int32_t total, ssize_t err) "tag %d id %d total %d err %zd"
+ v9fs_create(uint16_t tag, uint8_t id, int32_t fid, char* name, int32_t perm, int8_t mode) "tag %d id %d fid %d name %s perm %d mode %d"
+-v9fs_create_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
++v9fs_create_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
+ v9fs_symlink(uint16_t tag, uint8_t id, int32_t fid,  char* name, char* symname, uint32_t gid) "tag %d id %d fid %d name %s symname %s gid %u"
+-v9fs_symlink_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
++v9fs_symlink_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
+ v9fs_flush(uint16_t tag, uint8_t id, int16_t flush_tag) "tag %d id %d flush_tag %d"
+ v9fs_link(uint16_t tag, uint8_t id, int32_t dfid, int32_t oldfid, char* name) "tag %d id %d dfid %d oldfid %d name %s"
+ v9fs_remove(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
+ v9fs_wstat(uint16_t tag, uint8_t id, int32_t fid, int32_t mode, int32_t atime, int32_t mtime) "tag %u id %u fid %d stat={mode %d atime %d mtime %d}"
+ v9fs_mknod(uint16_t tag, uint8_t id, int32_t fid, int mode, int major, int minor) "tag %d id %d fid %d mode %d major %d minor %d"
+-v9fs_mknod_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
++v9fs_mknod_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
+ v9fs_lock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length) "tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
+ v9fs_lock_return(uint16_t tag, uint8_t id, int8_t status) "tag %d id %d status %d"
+ v9fs_getlock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length)"tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
+ v9fs_getlock_return(uint16_t tag, uint8_t id, uint8_t type, uint64_t start, uint64_t length, uint32_t proc_id) "tag %d id %d type %d start %"PRIu64" length %"PRIu64" proc_id %u"
+ v9fs_mkdir(uint16_t tag, uint8_t id, int32_t fid, char* name, int mode, uint32_t gid) "tag %u id %u fid %d name %s mode %d gid %u"
+-v9fs_mkdir_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int err) "tag %u id %u qid={type %d version %d path %"PRId64"} err %d"
++v9fs_mkdir_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int err) "tag %u id %u qid={type %d version %d path %"PRId64"} err %d"
+ v9fs_xattrwalk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, char* name) "tag %d id %d fid %d newfid %d name %s"
+ v9fs_xattrwalk_return(uint16_t tag, uint8_t id, int64_t size) "tag %d id %d size %"PRId64
+ v9fs_xattrcreate(uint16_t tag, uint8_t id, int32_t fid, char* name, uint64_t size, int flags) "tag %d id %d fid %d name %s size %"PRIu64" flags %d"
+-- 
+2.11.0
+
 
