@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D8D55F16
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 04:38:41 +0200 (CEST)
-Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6699D55F17
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 04:38:42 +0200 (CEST)
+Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfxpY-0005tr-81
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 22:38:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48230)
+	id 1hfxpZ-0005wX-KY
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 22:38:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48372)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elohimes@gmail.com>) id 1hfxjH-0001Vz-O0
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:12 -0400
+ (envelope-from <elohimes@gmail.com>) id 1hfxjP-0001Yq-Sg
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elohimes@gmail.com>) id 1hfxj9-0001jU-Qq
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:06 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36082)
+ (envelope-from <elohimes@gmail.com>) id 1hfxjN-00020v-Gl
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:19 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43702)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hfxj9-0001hJ-Iv
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:03 -0400
-Received: by mail-pl1-x644.google.com with SMTP id k8so520452plt.3
- for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 19:32:02 -0700 (PDT)
+ (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hfxjL-0001lP-C4
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:15 -0400
+Received: by mail-pg1-x543.google.com with SMTP id f25so393657pgv.10
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 19:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=hL8K5Kz2dooDS7h4mI8LPQsh2fPsmgF3Cej6yW+tB9U=;
- b=MjQ4nGV2MX4jdP0vA4TQ7mJgoitzIHWqQD+d8oxOhMboAfiEOBq/HvnsL2XdXEIMb7
- lqNio7vmqciecdeHoSh6JpHVvs4U2Gx561vUvM8KLgy4Ai54HhZqLaFs1dGEBfmy1PlQ
- uOCYTDrUHQ8Wg/X017hXrWGddFQhmyqahG5lnmGqCCDWBOpEV0/RQEKz/lJhCQ8JJtVP
- wnDaBHPOs9IabFN9glr09tOoKlzi7hzy71nqceN0/UXNI6UHBuy+6SxdzV7nhdStAouD
- h0HE5bjPUmfRw2LYar/l50OZP8qYGzPp7lir8rDtpEn5ol0Y9bMPMe/qwUJxX+2Uh0J2
- P2qA==
+ bh=IRZxfIBWQYVYbj7iYvlX3G7D8+JN2aZ0YIiAZvFz7kI=;
+ b=ku+Uu4DY1q1G+NrrF4UG5WsLr7HSDTnS1CBnoHpdXnb/fLmjN+n5P6nALPs93ACScA
+ 8e7i8t/8rnwN/lm3psF1zJsL+UwgwMy3EuYgJbI28o0u/6cF/BCgmzRuv5NxQR2yc4dM
+ NGtzUVfNaWE7zkyO7j6dqBFnVrjPtNRFYwl1M0J17YICXo+s4aRl2zJI6MQDc+r0extq
+ ZRnrATH9q6q/9yOo4OP9V3VxTSqWnb2nY5f8bscD+rtivD3wfPqa7vf0H/Ie2Xmdvl0Y
+ Pt0UqLtUGsfgFXf2vilh62MUNaQ02Wjc2n3hMMXABmex5hkQ22J3qoGTDqYmjPMr4gjy
+ W6Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=hL8K5Kz2dooDS7h4mI8LPQsh2fPsmgF3Cej6yW+tB9U=;
- b=APMDWkwjIAb1O1Z6fvIB2VaAk5Z0R3+N5q6esJdWkW49IIVRkzONJn0iC2TtHKxVBD
- qCO8WOj8WaXpkX860lBNc3KgNs3zEXpsnqPoGltVVdAxC8FcsMESk7Md+YY8E5IJDJB5
- Ls87fPTBy8R4dhDJJVyvARHWINYmzkQfL/UTAu57eFVLQ/5hzvy8s8xypAaG+cxEE9So
- zKlMcMh8pHAH8JnxDMOOpQCKvpTLFCBAKZXL4L5e7ATcnTa9DKAxq14MKiqDPnGlZ/be
- jDryacPl6UmPvReDY9q1/x6PVtG3Qa/bq2gC59xmzOKUveyGNLw6TyxjtuRWjmBKrOHb
- peVA==
-X-Gm-Message-State: APjAAAVRU1WQf2Ld+TRIetKQd9jcT5hvLO/RpRElW+BIf+pq6h3uscwZ
- i5Mvh3XaGDSBisu5FTlYcbQ=
-X-Google-Smtp-Source: APXvYqxN97+rj8d7/wycLADPgymISub6wgYCxHgzR8Ry4dOT+EVsTcXiATpmTYhq7Y4zPnchQCIJlQ==
-X-Received: by 2002:a17:902:e01:: with SMTP id 1mr2231993plw.268.1561516322032; 
- Tue, 25 Jun 2019 19:32:02 -0700 (PDT)
+ bh=IRZxfIBWQYVYbj7iYvlX3G7D8+JN2aZ0YIiAZvFz7kI=;
+ b=qLHbRtaosvyJHaEH4B4OBB+bNdVqPO9K7c5L4FeoP1wv41XnLoknsQ6QVyIf9AnrgS
+ 6Ry7PU1DLjvvNiIsGHxmgBv8oyT0TEgcNpH3pHGd/OBE9Qd3SeJGDqCeEHuuUlgnnalp
+ zA9OQJ1AS2Y0/L5JiX8qudBGTpWS2T+z/mAIkn14UIhEv1LzHVz8fJ3UNydBuUSSJU8c
+ uy4InS2U59kyaT4vUXf4gIqpMOmCpHVRNnc0JGvTL04cuTRIaTgGVTn929GQh1RBtZBa
+ vnNKULRyBCk3ocoGrdfxQwfOJbPaktRdazmKB5IhWU3rSAQKHeO84d3TqcFFoE8StxZB
+ AH8Q==
+X-Gm-Message-State: APjAAAVwG+WaPciFZm8cBhzjaJfkNLn1CNcR9jZjicJxRnnzRXtXjdux
+ hfdGiPZLe5KoFO8kCrxerPc=
+X-Google-Smtp-Source: APXvYqxh7ptZOf6BKv6W6talr2pQpF3kmDVD9d3OAyBG8JgePtIaA9nTC6D/pbgPx+p7WMFd2LtKgw==
+X-Received: by 2002:a17:90a:3585:: with SMTP id
+ r5mr1414694pjb.15.1561516325699; 
+ Tue, 25 Jun 2019 19:32:05 -0700 (PDT)
 Received: from localhost ([116.247.112.152])
- by smtp.gmail.com with ESMTPSA id y16sm21043219pff.89.2019.06.25.19.32.01
+ by smtp.gmail.com with ESMTPSA id 30sm341032pjk.17.2019.06.25.19.32.05
  (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 25 Jun 2019 19:32:01 -0700 (PDT)
+ Tue, 25 Jun 2019 19:32:05 -0700 (PDT)
 From: elohimes@gmail.com
 X-Google-Original-From: xieyongji@baidu.com
 To: mst@redhat.com,
 	groug@kaod.org
-Date: Wed, 26 Jun 2019 10:31:28 +0800
-Message-Id: <20190626023130.31315-4-xieyongji@baidu.com>
+Date: Wed, 26 Jun 2019 10:31:29 +0800
+Message-Id: <20190626023130.31315-5-xieyongji@baidu.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190626023130.31315-1-xieyongji@baidu.com>
 References: <20190626023130.31315-1-xieyongji@baidu.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v4 3/5] virtio: Set "start_on_kick" on
- virtio_set_features()
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v4 4/5] virtio: Make sure we get correct state
+ of device on handle_aio_output()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,79 +84,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xie Yongji <xieyongji@baidu.com>
 
-The guest feature is not set correctly on virtio_reset() and
-virtio_init(). So we should not use it to set "start_on_kick" at that
-point. This patch set "start_on_kick" on virtio_set_features() instead.
+We should set the flags: "start_on_kick" and "started" after we call
+the kick functions (handle_aio_output() and handle_output()).
 
-Fixes: badaf79cfdbd3 ("virtio: Introduce started flag to VirtioDevice")
 Signed-off-by: Xie Yongji <xieyongji@baidu.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/virtio/virtio.c | 28 ++++++++++++++++++++--------
- 1 file changed, 20 insertions(+), 8 deletions(-)
+ hw/virtio/virtio.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index f7504d1395..5fd25d98a9 100644
+index 5fd25d98a9..e098fc8ef0 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -1212,7 +1212,7 @@ void virtio_reset(void *opaque)
-         k->reset(vdev);
-     }
+@@ -1571,10 +1571,10 @@ void virtio_queue_notify(VirtIODevice *vdev, int n)
+         event_notifier_set(&vq->host_notifier);
+     } else if (vq->handle_output) {
+         vq->handle_output(vdev, vq);
+-    }
  
--    vdev->start_on_kick = !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1);
-+    vdev->start_on_kick = false;
-     vdev->started = false;
-     vdev->broken = false;
-     vdev->guest_features = 0;
-@@ -2063,14 +2063,21 @@ int virtio_set_features(VirtIODevice *vdev, uint64_t val)
-         return -EINVAL;
-     }
-     ret = virtio_set_features_nocheck(vdev, val);
--    if (!ret && virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
--        /* VIRTIO_RING_F_EVENT_IDX changes the size of the caches.  */
--        int i;
--        for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--            if (vdev->vq[i].vring.num != 0) {
--                virtio_init_region_cache(vdev, i);
-+    if (!ret) {
-+        if (virtio_vdev_has_feature(vdev, VIRTIO_RING_F_EVENT_IDX)) {
-+            /* VIRTIO_RING_F_EVENT_IDX changes the size of the caches.  */
-+            int i;
-+            for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-+                if (vdev->vq[i].vring.num != 0) {
-+                    virtio_init_region_cache(vdev, i);
-+                }
-             }
-         }
-+
-+        if (!virtio_device_started(vdev, vdev->status) &&
-+            !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-+            vdev->start_on_kick = true;
+-    if (unlikely(vdev->start_on_kick)) {
+-        virtio_set_started(vdev, true);
++        if (unlikely(vdev->start_on_kick)) {
++            virtio_set_started(vdev, true);
 +        }
      }
-     return ret;
  }
-@@ -2222,6 +2229,11 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
-         }
-     }
  
-+    if (!virtio_device_started(vdev, vdev->status) &&
-+        !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
-+        vdev->start_on_kick = true;
-+    }
-+
-     rcu_read_lock();
-     for (i = 0; i < num; i++) {
-         if (vdev->vq[i].vring.desc) {
-@@ -2324,7 +2336,7 @@ void virtio_init(VirtIODevice *vdev, const char *name,
-             g_malloc0(sizeof(*vdev->vector_queues) * nvectors);
-     }
- 
--    vdev->start_on_kick = !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1);
-+    vdev->start_on_kick = false;
-     vdev->started = false;
-     vdev->device_id = device_id;
-     vdev->status = 0;
 -- 
 2.17.1
 
