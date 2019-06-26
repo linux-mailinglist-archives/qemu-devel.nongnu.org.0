@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65109563AC
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 09:50:57 +0200 (CEST)
-Received: from localhost ([::1]:37358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B1CF563D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 09:57:33 +0200 (CEST)
+Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg2hk-0001k0-J7
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 03:50:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
+	id 1hg2o8-00008a-95
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 03:57:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38572)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hg2fo-0008Et-F2
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:57 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hg2lV-0007hr-7o
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:54:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hg2fn-0004xC-8O
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:56 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44550)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hg2lT-0001mT-TN
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:54:49 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43569)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hg2fm-0004uq-Tk
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:55 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r16so1464473wrl.11
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 00:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=clJr5Kgf8rNpIsygI48thRCVYe5Ho9N/9bfnCdo91XY=;
- b=kocD5iBu0ayOwrH6NymlCWnj5Yt+kvrT+rH78zlllk/3cMxpgwpwWOaK5xrZDvXXuw
- GB84iYvSM6/juY602OEsLjBwcyeug+aeAxEL3BIo1K1a6SJUo+J7uf3JzvcN/PFRWOuW
- HMuodVuW+TmczmaP+lHO2Kvkl3jdDotPOH1mefuuDjuZRaKzYvI+QeCCWa7GPUfrtJ59
- cyhr2skc9KX621Ay37xLKpKxGDI8YeQ9vaTA9J5HlqqC9XHovcQDK9eRBqYjIFZimXg/
- lyEC7Sb68PGfrcQKLsS5IfeYhsewhek0FBuIPc6zRckusV244m6ZpnwaBlkyfDRnwTtJ
- PXDg==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1hg2lT-0001k1-N2
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:54:47 -0400
+Received: by mail-ot1-x344.google.com with SMTP id i8so1579798oth.10
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 00:54:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=LO9aJ/Ajxg5iceuxEQu40tKjmcJ4pleWTZmwrq0BNvY=;
+ b=jv3qL77zffahNtYXLI87wOR2bzJIl10yN4zgnEApaB73EbbbSW0zplG1gqGT1+Oarb
+ WV36uJm0xnGWQOwZyEGP6lCON1fGyVWAOpYGcHOW+zhcYmqR/p5GzF9KQ4HJ8dnvEqtv
+ EPaQ2IdFRntkuGFAqF3jJr7vde4DgmWH20fJj7GIoBaOW3l4la0wFVUlQ6wjW1euIkpv
+ eJ4h/crRl13+Mg4+iwkWPHpZbSoESLjKI0CxNrFRJ5j2u3fEY/uyMiOg11PYyjF+JJ3g
+ fwsdx4cSBnBIHJ41mCKGuE2avUjWtopECFTnS34XhUJKJAFe1LBPi4pOkTq8x69xwZU2
+ z0MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=clJr5Kgf8rNpIsygI48thRCVYe5Ho9N/9bfnCdo91XY=;
- b=OUSOV0Xva8UKzu2s91fGfkxo0ima9Q0J44WK7sxWygu0MYjUCbSj7WzOrF9olDVo5w
- QaYmdtWbrIGefDSpey3iSDfmjr8hdLRrpONfJ+FaZHXXKTzQ10W53mydvDFx4lyla3eO
- K/MRQ5HocV7aiHceeqzatWNy4N0Kan8/DMLfsznlsGohMLfZe8feAiA/ij4gW9pvk5DK
- 8S7qpIxxAyt4lE/mCBb4F0EHgKu59iy2FPVUh+jQWEqJ31KxEOfNULIBpsvByVIcE8bw
- L2dXkhKT7i5VFlrt0gdp0IIV5bOGpuQSD69+0fKzBpVGwlLh8yDVbRXv/U82jcnVYX/P
- iYzw==
-X-Gm-Message-State: APjAAAXIYhy7SR4eSATbQEhElfOzxpAGbR7T4vTfKjxeVDVTrJC9kOK1
- Ngp+UlkeIcT4AOBZEXtilQ9aqw==
-X-Google-Smtp-Source: APXvYqw27uDt9M1G3TwySWhPauhK6/69sNU/MKlecfmFNMIMY+XsRR3u21blVfVFN5/cAm5q/1+Q7w==
-X-Received: by 2002:a5d:5283:: with SMTP id c3mr2265274wrv.268.1561535333005; 
- Wed, 26 Jun 2019 00:48:53 -0700 (PDT)
-Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id s10sm1411600wmf.8.2019.06.26.00.48.52
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 00:48:52 -0700 (PDT)
-To: Palmer Dabbelt <palmer@sifive.com>
-References: <mhng-3b5978c4-bfb8-4757-ae5b-0731f2851d30@palmer-si-x1e>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <5711ab6f-610c-b05a-c728-4a35a0963a2b@linaro.org>
-Date: Wed, 26 Jun 2019 09:48:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=LO9aJ/Ajxg5iceuxEQu40tKjmcJ4pleWTZmwrq0BNvY=;
+ b=Ke1GVLXOkRV8u7MIZdpB4NXO0e0DkWkxylFa0joIpjTaxy1KdRwKao0EQJFj/3+DQo
+ cbFbIUilS/RQyFvtk13inY4DFluCycUwVp0oN4oCZlYjHPVTwhMJ4r0c6bzbTQQplrT1
+ braKZDovOdw+G++i8FOoL9XjfJikTT3n8bvt2tHbgc7FkVfcIOtGRV+g8LcuvawP6x8T
+ GEWpg57F4PEOw9mBLlrVgkMv4Jod4TBFMNFNGKu+8Ju3M5t9xk8g+GdSpp/feIS3qkfS
+ vTrtZ3nX9p6oYCRvR1+v15pbmTcOueZ2/l2eIV+d+7oM34Ey1fYERWNBc/bc8QlNaPYW
+ gTrw==
+X-Gm-Message-State: APjAAAVdmanm6yzfqWrjWYtguN8tpNITg/g7l5IZ6SMFg2LLUW9e8DUu
+ hYgfnF+AC+vKaKk/4oq5whmsg0H74IRzQENRAo32mA==
+X-Google-Smtp-Source: APXvYqzMOTcQbx7hJpndG+Q8YPKDQleh2IDe0FrL+XUpiOcl0L6IYppxWUH9RHkGlTFil4NcupAJ1SnZRoJdkmVDdVM=
+X-Received: by 2002:a9d:6e8a:: with SMTP id a10mr2328770otr.295.1561535686042; 
+ Wed, 26 Jun 2019 00:54:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <mhng-3b5978c4-bfb8-4757-ae5b-0731f2851d30@palmer-si-x1e>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Wed, 26 Jun 2019 00:54:45
+ -0700 (PDT)
+Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Wed, 26 Jun 2019 00:54:45
+ -0700 (PDT)
+In-Reply-To: <a45cb51c-68f0-f52e-17d0-a8926852c74c@vivier.eu>
+References: <1560953834-29584-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1560953834-29584-6-git-send-email-aleksandar.markovic@rt-rk.com>
+ <a45cb51c-68f0-f52e-17d0-a8926852c74c@vivier.eu>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 26 Jun 2019 09:54:45 +0200
+Message-ID: <CAL1e-=iVBGniLxy28jbrLjz4uULBGdG6OaaoXHoZQd32B2zqGQ@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH] atomic failures on qemu-system-riscv64
+X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v12 5/5] linux-user: Fix flock structure
+ for MIPS O64 ABI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,41 +80,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: me@carlosedp.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- joel@sing.id.au, Alistair Francis <Alistair.Francis@wdc.com>, marco@decred.org
+Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org,
+ amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/26/19 8:07 AM, Palmer Dabbelt wrote:
-> On Tue, 25 Jun 2019 08:36:28 PDT (-0700), richard.henderson@linaro.org wrote:
->> On 6/24/19 8:08 PM, Joel Sing wrote:
->>> Regarding the alignment for reservations, the
->>> specification does require this, although I do not recall seeing any
->>> enforcement
->>> of this by qemu itself.
->>
->> Ah, I see it now.  Enforcement begins here:
->>
->> static bool trans_lr_w(DisasContext *ctx, arg_lr_w *a)
->> {
->>     REQUIRE_EXT(ctx, RVA);
->>     return gen_lr(ctx, a, (MO_ALIGN | MO_TESL));
->>                            ^^^^^^^^
->>
->> This will force softmmu (but notably not linux-user; a design limitation) to
->> generate an alignment fault for an unaligned address.
-> 
-> That was probably correct at the time the code went in, as the ISA used to
-> allow these to succeed but not be atomic.  No implementations did this, so as
-> part of the ratification process we just mandated that unaligned atomics always
-> trap.
-> 
-> Is there a better way to fix this than just doing the alignment check
-> explicitly?
+On Jun 19, 2019 6:34 PM, "Laurent Vivier" <laurent@vivier.eu> wrote:
+>
+> Le 19/06/2019 =C3=A0 16:17, Aleksandar Markovic a =C3=A9crit :
+> > From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> >
+> > Only MIPS O32 and N32 have special (different than other
+> > architectures) definition of structure flock in kernel.
+> >
+> > Bring flock definition for MIPS O64 ABI to the correct state.
+> >
+> > Reported-by: Dragan Mladjenovic <dmladjenovic@wavecomp.com>
+> > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> > ---
+> >  linux-user/generic/fcntl.h     | 2 +-
+> >  linux-user/mips/target_fcntl.h | 4 ++++
+> >  2 files changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
+> > index a775a49..1b48dde 100644
+> > --- a/linux-user/generic/fcntl.h
+> > +++ b/linux-user/generic/fcntl.h
+> > @@ -129,7 +129,7 @@ struct target_flock {
+> >      short l_whence;
+> >      abi_long l_start;
+> >      abi_long l_len;
+> > -#if defined(TARGET_MIPS)
+> > +#if defined(TARGET_MIPS) && (TARGET_ABI_BITS =3D=3D 32)
+> >      abi_long l_sysid;
+> >  #endif
+> >      int l_pid;
+> > diff --git a/linux-user/mips/target_fcntl.h
+b/linux-user/mips/target_fcntl.h
+> > index 000527c..795bba7 100644
+> > --- a/linux-user/mips/target_fcntl.h
+> > +++ b/linux-user/mips/target_fcntl.h
+> > @@ -27,7 +27,11 @@
+> >  #define TARGET_F_SETOWN        24       /*  for sockets. */
+> >  #define TARGET_F_GETOWN        23       /*  for sockets. */
+> >
+> > +#if (TARGET_ABI_BITS =3D=3D 32)
+> >  #define TARGET_ARCH_FLOCK_PAD abi_long pad[4];
+> > +#else
+> > +#define TARGET_ARCH_FLOCK_PAD
+> > +#endif
+> >  #define TARGET_ARCH_FLOCK64_PAD
+> >
+> >  #define TARGET_F_GETLK64       33      /*  using 'struct flock64' */
+> >
+>
+> The patch is correct, but I think it would be cleaner to introduce an
+> "TARGET_HAVE_ARCH_STRUCT_FLOCK" as we have in the kernel for the mips
+case.
+>
+> Thanks,
+> Laurent
+>
 
-You misunderstand.  The code is exactly correct as-is.  The alignment check
-happens implicitly as a part of the softmmu tlb resolution.
+Do you mean we should do everything in a single patch, or do you ask me to
+devise a separate restructuring/cleanup patch here?
 
-
-r~
-
+Aleksandar
