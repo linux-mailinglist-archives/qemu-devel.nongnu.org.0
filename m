@@ -2,103 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40AA556E3F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:01:13 +0200 (CEST)
-Received: from localhost ([::1]:41434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB249570F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:48:09 +0200 (CEST)
+Received: from localhost ([::1]:44304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgAMB-0001Yh-DK
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:01:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50666)
+	id 1hgCxl-0001vS-5t
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44352)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hgAIf-0008Gt-W5
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:57:35 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfn-0001iO-Mb
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hgAIe-0007cq-L7
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:57:33 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:43979)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1hgAIY-0007Y9-Qw; Wed, 26 Jun 2019 11:57:27 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N2V8Z-1iiCqQ1gYJ-013xxs; Wed, 26 Jun 2019 17:57:01 +0200
-To: Antonio Ospite <ao2@ao2.it>, qemu-devel@nongnu.org
-References: <20190526144747.30019-1-ao2@ao2.it>
- <20190526144747.30019-3-ao2@ao2.it>
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfl-0008C3-NY
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:35 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51520)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hgCfj-00088j-LQ
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:31 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 207so3119907wma.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=A46Hpmb0H66Rk2WS0TVzfFJH8LvfoXnQh8E86a/0j0U=;
+ b=CndLwFoWxryuT+syMpNFHIaAUh1jPwSZSOpw5U7UhHIXU75LI5fEeLM0Dv6qjruVpN
+ wn39OKnZVIIGIV7u8+V3SVDkDK+nl87N6nZAOuxum8/SNITf95o1cBHTpOjei6BAmqxm
+ 4d+QqD97F4a/X5heJPdFYZ7/L1rCzaRYwgzUqRlg/7BDRUUsAvqM/NcdPLIcVdAFzjb4
+ gOyGjOpm1Pzv/L2766nHH61fSGgkmMsEgwUAr7kHV1u0nYsnSefDS0bgoRIU27UG/cuV
+ 1RWvuTCVFFOD9K7rkg9v5RffOLfZzwu56t8xCXiASG9gpYwqg6w2r4umwN7MLfINpBZz
+ oqmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=A46Hpmb0H66Rk2WS0TVzfFJH8LvfoXnQh8E86a/0j0U=;
+ b=Kg8rrJeNyksu8n79KEMDKUTEeCkHEi5XA8FXg1fkFptwn+9qjHPv+GpB41j/gnmZYQ
+ 25GFk42sG8jq8xXsOxbGzm4pNtSUdHegyQ8p4g28MDS2aSWq2lPku7sRaf880rhVi8kP
+ iwLz9rgpzKmhZu8josjDwdQC9rGuk82/RGwj9EWJTojnMmayG9Ns0I2faT0sJLGbWvBC
+ aG5ma8/t76rn//MuNgKyABiXzn2xFQ90eWpTKLYVhtW84fkhcQvuxcPj2ofN0o5q4OkW
+ 9LUP/5Hn1OZpgQEp3jddyzdFmzVb0D2L2EUs0fR2EE/SS5pykV+wqTQ1u1rYsqx/mdp0
+ FhUQ==
+X-Gm-Message-State: APjAAAXXucZhc7bscYqpsHNTzGPnHg/NhsF/kjJnTQCPKl/ku0PCV6rG
+ Ce+fA+AS8qGr8L7j8wX1L6o+6TyDSjt3tQ==
+X-Google-Smtp-Source: APXvYqzPhsB98Xghu+9qWcshSZcY16xNyA5mac45ebzqRpi/IgNtmpW6r5B3LhL2pus/2/VTiKhxPg==
+X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr272529wml.124.1561573769177;
+ Wed, 26 Jun 2019 11:29:29 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id v204sm3368331wma.20.2019.06.26.11.29.28
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Jun 2019 11:29:28 -0700 (PDT)
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1561038349-17105-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1561038349-17105-2-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <9723b8df-f1dc-4f0f-157e-8a48408e2cf7@vivier.eu>
-Date: Wed, 26 Jun 2019 17:56:59 +0200
+Message-ID: <31b602e7-bf33-ec29-d6e3-6a61abefa866@linaro.org>
+Date: Wed, 26 Jun 2019 18:02:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190526144747.30019-3-ao2@ao2.it>
+In-Reply-To: <1561038349-17105-2-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/z4xanTY8MzrbbZqixzSMacltJWFqM93wrhutpc74s6wkz4dfYz
- rkM6fTIlya40YE2YfJL8Ut6RHZQ9kQ7qDwgcbMAUFPGXj7DQi9fGSggH97edpqpHdxWNTY+
- Y6V0pmH7F8jqC6VTnUAmLd6j/Uyx8SI/wXgMwH2yBwD7yXNB9nBq6NiYVwCtU88die4QhRG
- FNEC5FszKOZwXFni7jwjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:e1ICqpNGqAs=:8u6kkf3BJkeauCRJOpAOv1
- Jzsv+y0EV5fnjb/bJ3wZnOZmwvvuY+u+p++une3jGx2XFIeo645XCWgxUsxVhzH/0vY313dgq
- zI3CfGtUeFkZoq8l7QNsi9CzZqTjTa0Xqz8wMgX9j0Bum6FR1ufTCiJMbvTZOsFcr+6TIpTWz
- 8P8ZOLe0VU5Tr34gjLOB8rOI+tlt4b5mts6E09nIsYX2gYgZsFb6+vOrLJBXwnylJeDCX+Rq9
- SRToFKZJG6EQjS44UFQkGupPyIQUz8WREA2e+UPXl6n9sAWAiCd+dj1gDc1OPUdQiuakhKh23
- +W/eVTxevXayodb3yg9LuY3Jt6Cf4yUFlfOjYHAIlwPCBNMj8y0dviWsI+nWhTbWomD8jNuuR
- xgbp2096oIBkACPxjEsNLBQN3QCSz/pkWuV6gdOeZHnId0Lfpvpz3wEmtbkixzfO8D/viGZJC
- pGm3D9ZsJw7w/8lo8+MfcZwvlINJhQyUHO+nj3VhjG+4iazyFoiraOg+NlDoj+AEPznHAcEij
- vvrL1cPMcBl3YfpYixyxQ35rPV7vy76fNvGYS9R3WZ82GLu/YE7Mbd96OANPGs+3CEF3gEtOf
- wbvh5mFjCAhsF1waqxvijFXZx3O5DM31Rtyh6xTmYGpfclLkFRtonts1WY5ngEW9gEu+e3N31
- J6S+ylbDKqpeN82XnXMwajktVHhvB8l4WIfBAVo5t34rSYQM+aj6UohaprMPVzEI8OW4runLo
- h3Agxl70HisAJ4Et/IDsPvIO+BqrfQoLeTl3/phyzwY961tse11pFtErQKc=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: Re: [Qemu-devel] [PATCH v3 2/2] configure: disallow spaces and
- colons in source path and build path
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v2 1/4] target/mips: Fix emulation of
+ ILVEV.<B|H|W> on big endian host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -110,73 +85,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Antonio Ospite <antonio.ospite@collabora.com>
+Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/05/2019 à 16:47, Antonio Ospite a écrit :
-> From: Antonio Ospite <antonio.ospite@collabora.com>
+On 6/20/19 3:45 PM, Aleksandar Markovic wrote:
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> The configure script breaks when the qemu source directory is in a path
-> containing white spaces, in particular the list of targets is not
-> correctly generated when calling "./configure --help" because of how the
-> default_target_list variable is built.
+> Fix emulation of ILVEV.<B|H|W> on big endian host by applying
+> mapping of data element indexes from one endian to another.
 > 
-> In addition to that, *building* qemu from a directory with spaces breaks
-> some assumptions in the Makefiles, even if the original source path does
-> not contain spaces like in the case of an out-of-tree build, or when
-> symlinks are involved.
-> 
-> To avoid these issues, refuse to run the configure script and the
-> Makefile if there are spaces or colons in the source path or the build
-> path, taking as inspiration what the kbuild system in linux does.
-> 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1817345
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Antonio Ospite <antonio.ospite@collabora.com>
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
 > ---
->  Makefile  | 4 ++++
->  configure | 5 +++++
->  2 files changed, 9 insertions(+)
+>  target/mips/msa_helper.c | 37 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 > 
-> diff --git a/Makefile b/Makefile
-> index e02b88bcb1..bed1323a45 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1,5 +1,9 @@
->  # Makefile for QEMU.
+> diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+> index be059a3..215d8af 100644
+> --- a/target/mips/msa_helper.c
+> +++ b/target/mips/msa_helper.c
+> @@ -1737,6 +1737,24 @@ void helper_msa_ilvev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
 >  
-> +ifneq ($(words $(subst :, ,$(CURDIR))), 1)
-> +  $(error main directory cannot contain spaces nor colons)
-> +endif
-> +
->  # Always point to the root of the build tree (needs GNU make).
->  BUILD_DIR=$(CURDIR)
->  
-> diff --git a/configure b/configure
-> index 9f12120ad9..2833d73ccc 100755
-> --- a/configure
-> +++ b/configure
-> @@ -279,6 +279,11 @@ ld_has() {
->  # make source path absolute
->  source_path=$(cd "$(dirname -- "$0")"; pwd)
->  
-> +if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
-> +then
-> +  error_exit "main directory cannot contain spaces nor colons"
-> +fi
-> +
->  # default parameters
->  cpu=""
->  iasl="iasl"
-> 
+>      switch (df) {
+>      case DF_BYTE:
+> +#if defined(TARGET_WORDS_BIGENDIAN)
 
-Applied to my trivial-patches branch.
+The commit message talks about the endianness of the host, whereas this check
+is for the endianness of the target.
 
-Thanks,
-Laurent
 
+> +        pwd->b[8]  = pws->b[9];
+> +        pwd->b[9]  = pwt->b[9];
+> +        pwd->b[10] = pws->b[11];
+> +        pwd->b[11] = pwt->b[11];
+> +        pwd->b[12] = pws->b[13];
+> +        pwd->b[13] = pwt->b[13];
+> +        pwd->b[14] = pws->b[15];
+> +        pwd->b[15] = pwt->b[15];
+> +        pwd->b[0]  = pws->b[1];
+> +        pwd->b[1]  = pwt->b[1];
+> +        pwd->b[2]  = pws->b[3];
+> +        pwd->b[3]  = pwt->b[3];
+> +        pwd->b[4]  = pws->b[5];
+> +        pwd->b[5]  = pwt->b[5];
+> +        pwd->b[6]  = pws->b[7];
+> +        pwd->b[7]  = pwt->b[7];
+> +#else
+>          pwd->b[15] = pws->b[14];
+>          pwd->b[14] = pwt->b[14];
+>          pwd->b[13] = pws->b[12];
+
+FWIW, avoiding this sort of duplication is why other targets define helper
+macros like
+
+PPC:
+#define VsrB(i) u8[15 - (i)]
+etc
+
+ARM, S390:
+/* Note that vector data is stored in host-endian 64-bit chunks,
+   so addressing units smaller than that needs a host-endian fixup.  */
+#ifdef HOST_WORDS_BIGENDIAN
+#define H1(x)  ((x) ^ 7)
+etc
+
+
+r~
 
