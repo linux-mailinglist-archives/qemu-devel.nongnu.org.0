@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC4156696
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 12:23:32 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C9D566DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 12:35:41 +0200 (CEST)
+Received: from localhost ([::1]:38710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg55P-0002m2-VZ
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 06:23:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48729)
+	id 1hg5HA-0002a9-0T
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 06:35:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52881)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hg52Y-0000WV-J4
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:20:35 -0400
+ (envelope-from <philmd@redhat.com>) id 1hg5F5-0001YP-DP
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:33:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hg52X-0004oW-CV
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:20:34 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35538)
+ (envelope-from <philmd@redhat.com>) id 1hg5F4-0004Zb-6k
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:33:31 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34974)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hg52W-0004m7-VJ
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:20:33 -0400
-Received: by mail-wm1-x342.google.com with SMTP id c6so1513970wml.0
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 03:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AJROqdVuF3MKSOUxZEUUzGgPgREzKz04HNRZCztinVY=;
- b=m/0yJbJnx4fCTEXTrOgsHsxrl3hX6Nzptdr0Xe26prTmK2ZDFA0XdZa8s5s75Isp4U
- 913az60WI8i8qtgY/UaxzPfXwQ8KRKKcEsrUpD7Z1ErwX7vRnMK8qQig2EPAnTne+/wQ
- KCCFCBCmZzCsZhLmvfIH9SnBRYazVjMT5DU1xZu3L6kzLWpsfaINVtO6vbHlVy2tdINv
- 9xAOIy5JcXlcJ57lU46oBEqCphw2gkB4KUzrOXUH83bNi75Y0spv2XTX541HUsgXTYFk
- c6IdTEAGwOEgKRgyDIB9CQ6/2iORi7uweh7bqwfSXOnBWJVZQDuNKLa0b6OazaJ8mlhK
- 0d0g==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hg5F4-0004FZ-0b
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:33:30 -0400
+Received: by mail-wr1-f68.google.com with SMTP id f15so2140389wrp.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 03:33:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AJROqdVuF3MKSOUxZEUUzGgPgREzKz04HNRZCztinVY=;
- b=j5U+RbyZlh2cicF+fQ/8H0KIVcaRO/EMhy4mQKZhjx5YJ0W7M5gvO/JVVBgkpOlWDI
- PtpteP+oPgD2FGlynMsuLmNBryOrcJ4DIcpIp08dAcXbbS+iw/VtMb5nSJiPXWvngb0c
- xMtqNd0dbX5WaqaoxMe09fDFhBr+oN056A1PguhOuiGGfSl4BSoxothyG9DfUOKf16V1
- DAugypcV90HJMa6MCDgNV/b3QJ5qflDjpaiLBKe8F3cRNNr/RTI9tWoSdfBOQ8IuWMWg
- C+quHbMpwCcF7c+RblPo7UZp+EnQJVIp/Ehrf7zEOZSVQQwnOSPqfzFZd7YvFd8ryfxu
- EO6Q==
-X-Gm-Message-State: APjAAAW8ocW+TVfqMgtTnSGJIwT7xkhcQuywPtrWjhCEOFKN0tT0Bdla
- fTI8BOf0TRGuPXN+4mFYEm9n2A==
-X-Google-Smtp-Source: APXvYqzMkSfavkM8g6Ou7HsrjGV1NSrMZl0A/bF457+KLh7Huj0b7lFzlXoR3U5ptXC38GrIgDCGBw==
-X-Received: by 2002:a1c:7310:: with SMTP id d16mr2162544wmb.107.1561544431257; 
- Wed, 26 Jun 2019 03:20:31 -0700 (PDT)
-Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id a2sm3478001wmj.9.2019.06.26.03.20.30
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 03:20:30 -0700 (PDT)
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-7-drjones@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <c794d810-fbaf-ff81-9833-3e40fb5a951d@linaro.org>
-Date: Wed, 26 Jun 2019 12:20:29 +0200
+ bh=6FEoyIJFmiCe378e7DrgdHINSy2kAjijN6BA1YKUcwo=;
+ b=rYYRcQVfrufh18sdimE3T8eNfh81w81QihLUouSR66XTSGyd57Nt0DNXOK74AW0G+Y
+ TgVA+ODaGX0YuohxH23EDUcpu6MSe3anEH9GcFXoSfJwe3lthfqUYF5sX3YpTotFg5/J
+ mYylZ4rmrxUGA2C6mpg6NVTA2pE6vpDgb/N82wQo2emkGJg+Y5hd8Er0+KX8kntnYibn
+ HfPftterwnBRo8z99R3tNzvhRU2/wHwI+PbzdZij/3sPXB2/fftCxEg8tU0XW4edaIDu
+ QHfOraxeia79Ktz5r0Ws6HERroPF3cjwey7/uQahj5k8hGQQjmmoSF/O3PCyTdeeeNn7
+ xsEA==
+X-Gm-Message-State: APjAAAVzSqJMLGJdlm5YrTL9JRugKY/y2NrIMcCXmVe2UcypIYmBVzZd
+ WGq2dtE9JeX5udrU53Y0XYGxzA==
+X-Google-Smtp-Source: APXvYqwR0q7AIoAas6DS7DsDBWWi6X7UPuKVDlPim9PeIn3ZyQjPhdZ8u/UtElTf5zoZEdCIswAnbA==
+X-Received: by 2002:adf:e88e:: with SMTP id d14mr2900767wrm.189.1561545189282; 
+ Wed, 26 Jun 2019 03:33:09 -0700 (PDT)
+Received: from [10.201.33.53] ([195.166.127.210])
+ by smtp.gmail.com with ESMTPSA id h21sm2254743wmb.47.2019.06.26.03.33.08
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Jun 2019 03:33:08 -0700 (PDT)
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20190626074228.11558-1-imammedo@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d027ccd8-cf75-a44a-e818-4fff859baf2c@redhat.com>
+Date: Wed, 26 Jun 2019 12:33:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190621163422.6127-7-drjones@redhat.com>
+In-Reply-To: <20190626074228.11558-1-imammedo@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v2 06/14] target/arm: Allow SVE to be
- disabled via a CPU property
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v3] deprecate -mem-path fallback to
+ anonymous RAM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,66 +73,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
- imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: armbru@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/19 6:34 PM, Andrew Jones wrote:
-> Since 97a28b0eeac14 ("target/arm: Allow VFP and Neon to be disabled via
-> a CPU property") we can disable the 'max' cpu model's VFP and neon
-> features, but there's no way to disable SVE. Add the 'sve=on|off'
-> property to give it that flexibility. We also rename
-> cpu_max_get/set_sve_vq to cpu_max_get/set_sve_max_vq in order for them
-> to follow the typical *_get/set_<property-name> pattern.
+On 6/26/19 9:42 AM, Igor Mammedov wrote:
+> Fallback might affect guest or worse whole host performance
+> or functionality if backing file were used to share guest RAM
+> with another process.
+> 
+> Patch deprecates fallback so that we could remove it in future
+> and ensure that QEMU will provide expected behavior and fail if
+> it can't use user provided backing file.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-I think perhaps the new property should not be overloaded on cpu->sve_max_vq.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-At present you are generating an error for
-
-    -cpu max,sve=off,sve_max_vq=2
-
-but not for
-
-    -cpu max,sve_max_vq=2,sve=off
-
-and then there's the issue of
-
-    -cpu max,sve_max_vq=2,sve=off,sve=on
-
-discarding the earlier sve_max_vq setting.
-
-
-> @@ -1129,6 +1129,14 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->          cpu->isar.mvfr0 = u;
->      }
+> ---
+> v2:
+>  * improve text language
+>     (Markus Armbruster <armbru@redhat.com>)
+> v3:
+>  * drop confusing 'or QEMU will fail to start' in error message
+>  * fix up grammar error
+>      (Markus Armbruster <armbru@redhat.com>)
+> 
+>  numa.c               | 6 ++++--
+>  qemu-deprecated.texi | 9 +++++++++
+>  2 files changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/numa.c b/numa.c
+> index 91a29138a2..1994ab0655 100644
+> --- a/numa.c
+> +++ b/numa.c
+> @@ -494,8 +494,10 @@ static void allocate_system_memory_nonnuma(MemoryRegion *mr, Object *owner,
+>              if (mem_prealloc) {
+>                  exit(1);
+>              }
+> -            error_report("falling back to regular RAM allocation.");
+> -
+> +            warn_report("falling back to regular RAM allocation");
+> +            error_printf("This is deprecated. Make sure that -mem-path "
+> +                         " specified path has sufficient resources to allocate"
+> +                         " -m specified RAM amount");
+>              /* Legacy behavior: if allocation failed, fall back to
+>               * regular RAM allocation.
+>               */
+> diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+> index 2fe9b72121..9cba82d5ec 100644
+> --- a/qemu-deprecated.texi
+> +++ b/qemu-deprecated.texi
+> @@ -112,6 +112,15 @@ QEMU using implicit generic or board specific splitting rule.
+>  Use @option{memdev} with @var{memory-backend-ram} backend or @option{mem} (if
+>  it's supported by used machine type) to define mapping explictly instead.
 >  
-> +    if (!cpu->sve_max_vq) {
-> +        uint64_t t;
+> +@subsection -mem-path fallback to RAM (since 4.1)
+> +Currently if guest RAM allocation from file pointed by @option{mem-path}
+> +fails, QEMU falls back to allocating from RAM, which might result
+> +in unpredictable behavior since the backing file specified by the user
+> +is ignored. In the future, users will be responsible for making sure
+> +the backing storage specified with @option{-mem-path} can actually provide
+> +the guest RAM configured with @option{-m} and QEMU will fail to start up if
+> +RAM allocation is unsuccessful.
 > +
-> +        t = cpu->isar.id_aa64pfr0;
-> +        t = FIELD_DP64(t, ID_AA64PFR0, SVE, 0);
-> +        cpu->isar.id_aa64pfr0 = t;
-> +    }
-
-
-I suppse the isar bits are initialized too late for you to be able to re-use
-the ID_AA64PFR0.SVE field *as* the property?
-
-
->  static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
->                        uint64_t value)
->  {
-> +    ARMCPU *cpu = env_archcpu(env);
->      int cur_el = arm_current_el(env);
-> -    int old_len = sve_zcr_len_for_el(env, cur_el);
-> -    int new_len;
-> +    int old_len, new_len;
-> +
-> +    assert(cpu->sve_max_vq);
-
-Certainly there's no reason for this assert, given the above.
-
-
-r~
+>  @section QEMU Machine Protocol (QMP) commands
+>  
+>  @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
+> 
 
