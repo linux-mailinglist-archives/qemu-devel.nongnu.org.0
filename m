@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65543570BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:35:50 +0200 (CEST)
-Received: from localhost ([::1]:44198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D968570EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:45:25 +0200 (CEST)
+Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgClp-0004ah-J4
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:35:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44305)
+	id 1hgCv6-0006tt-QY
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:45:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfh-0001dC-Ny
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfh-0001dD-Ny
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCff-00087D-HU
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCff-00087Z-Pg
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:29 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:34741)
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55998)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hgCfd-00084e-Kz
+ id 1hgCff-000868-Er
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:27 -0400
-Received: by mail-wm1-x341.google.com with SMTP id w9so5249659wmd.1
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:24 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id a15so3112484wmj.5
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j73IWeE9j9dPjC/uhdxa2nC+8/trzeKutNSYF5vdd6M=;
- b=GOOxsf1j8RXK/9ujd81ge09pV7HLBWlJ7sLmLUWhgD4BoLYVLzr1y6kK2Lp1NfZOv9
- Rd72a7tEg1FpfKvCMZAJUKghW9cL/Cdp07IO4vK6r8kQcjgx75MKZpoxJyb4mDSJ00JB
- NNf2EGOAj0gVIu6ce4X1ShHLE+8r5SFFtNGJ8u2gvocYOywoINmx1bN3ILY8fvcP+y5g
- swx2Ztr7yjtJ+72k63d9Glpc06pMq3z2xHQI7iS9t0QrLx/zW5m2XoEpjc6VhxgPaUeV
- Z8D2ZJRMT4RLJo45mjsecjwBi6CE3RoWY7KKu7hrkdi3Clup243C7qBtSpZaoOYo90NO
- zwXQ==
+ bh=6/MbOA1xCDJwm6PMhIwJdefvlJygKmDk3Z/HdE1idV4=;
+ b=xGtEbPMwG3juWxUQgUWJqmRo7GE5amDHhIK/tlIRQN+6BFpdq4TuFxpv6xyTZvdSwo
+ yQH9Ch3Ve6OcFsKTomuLf1XmQlGOde4f0b4FEJYHyaDDutCnD+ZsoGaoRbp1rzCk1uh9
+ 3D70rTZsJtJgthdh7MRNtadVuxpywP2c6MLr1VMjz5kvzgdeNTvTo8BMSR4TV0YUQWr7
+ dfY9XwktSPUFlisgspLawFhvTylBy2ZzJoYjoX8aYNKpAHIC54wgRT4eBQeQZZkXBOFd
+ TAafMiYfMjvn7GnlNFWeBZpXu7xOvo5uMvkqQkmzbHuf3Po/wYqkm0vqniIfnj4RWr5V
+ p2KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j73IWeE9j9dPjC/uhdxa2nC+8/trzeKutNSYF5vdd6M=;
- b=UmJt9WXzASRLkITFenaahihnnkgu9Qza20qzbzH5s4EoCkMcR/TZJwXgyDmZYYl++y
- JDWf3jHT5tv3fEcmv4FFiqWQWeQajvAFlpLe4fQJWYfAjIu9orPME5HwodrRikgf4sYv
- ZR0euDHvJ+7qBu6xTTYlw3y5A//RCDtROzsxi8HsJ/Cslnudo42LPog2DRB0ElsxT/hW
- DMEo+Sq6ippV0Io2D/AAGPKmkajBtOS91wC8+KIbo7H6j0PMsP7ph/rCRqyznxSRksue
- ZjVPiOoHppzrLiIMDJJcLQvxdOzQrsEWWkT8VnyBVdDIXWS9e4GA1XBqQgp1/saA5il1
- zBFw==
-X-Gm-Message-State: APjAAAXkqxlpoC/qTQGoCfEHB2Isp9VOjgLxiGkJU+oVnZAeVRq+yiJm
- +c7bhmdraBP/Wwjx+YmYXOSUo3pR0m3vFQ==
-X-Google-Smtp-Source: APXvYqzZ45OJHe5Oq9htjM/1hxyhGC1NCvucMGvOlJAIxDSJ5Idwax+FCoADvS0bHhsx9MMqrNNDRw==
-X-Received: by 2002:a1c:7f54:: with SMTP id a81mr251141wmd.170.1561573764085; 
- Wed, 26 Jun 2019 11:29:24 -0700 (PDT)
+ bh=6/MbOA1xCDJwm6PMhIwJdefvlJygKmDk3Z/HdE1idV4=;
+ b=LogDh18EFqsn392DAGZ3ASchG9Ofe7IwYLrE0GBzAwwSYHnqaEyNhaGX6ItcYpdwJQ
+ jsjha1kM9rp4meOzegbMh0WF7KXpSW4G7188dEzxKnMyhgYjH8lXWuW/EuIW/d9Apxzx
+ 24E9mSABHk9JlL8YNEpD+OA90TJanIL5L8SpO73/3KY5dwHomX8xO9sFY6uNrtJhjwmD
+ C5hod/OGcpzC6uT0fZEPqhbzpx6c7nsmyxgXfJKTOdTQmVYZkXL49oHlm1TDXe7tNWDk
+ dXBbLCl8ev/+WuZP6cOENolG1CWn2TuzSVUAtXYV/Zxes4gppMtmx++2RiGw0VEgd328
+ DwUA==
+X-Gm-Message-State: APjAAAWxefc1g01a2a7eQvuKKHAONzxO5vFupSLyaiFHb3xk0D4OCO75
+ 1/EIEpbUhOEnCO1iVOQGdvB+gg+6sccSdw==
+X-Google-Smtp-Source: APXvYqw2IVtHHjUnOLYc/rD6df64d4gsPVtfQCJiKh5V0C2cOam8JefPGyHt5p607bLOHPTr3e4IXA==
+X-Received: by 2002:a1c:b604:: with SMTP id g4mr241248wmf.111.1561573765927;
+ Wed, 26 Jun 2019 11:29:25 -0700 (PDT)
 Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
  [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id 35sm22266536wrj.87.2019.06.26.11.29.23
+ by smtp.gmail.com with ESMTPSA id o6sm4200007wmc.15.2019.06.26.11.29.25
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 11:29:23 -0700 (PDT)
+ Wed, 26 Jun 2019 11:29:25 -0700 (PDT)
 To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
 References: <1560942225-24728-1-git-send-email-stefan.brankovic@rt-rk.com>
- <1560942225-24728-5-git-send-email-stefan.brankovic@rt-rk.com>
+ <1560942225-24728-7-git-send-email-stefan.brankovic@rt-rk.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <763ade00-7c85-06df-909d-eac520dd6c70@linaro.org>
-Date: Wed, 26 Jun 2019 17:37:16 +0200
+Message-ID: <e35eb094-83e1-24a7-4201-177682081c67@linaro.org>
+Date: Wed, 26 Jun 2019 17:38:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1560942225-24728-5-git-send-email-stefan.brankovic@rt-rk.com>
+In-Reply-To: <1560942225-24728-7-git-send-email-stefan.brankovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH 4/8] target/ppc: Optimize emulation of
- vgbbd instruction
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH 6/8] target/ppc: Optimize emulation of
+ vclzw instruction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -90,36 +90,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/19/19 1:03 PM, Stefan Brankovic wrote:
-> Optimize altivec instruction vgbbd (Vector Gather Bits by Bytes by Doubleword)
-> All ith bits (i in range 1 to 8) of each byte of doubleword element in
-> source register are concatenated and placed into ith byte of appropriate
-> doubleword element in destination register.
+> Optimize Altivec instruction vclzw (Vector Count Leading Zeros Word).
+> This instruction counts the number of leading zeros of each word element
+> in source register and places result in the appropriate word element of
+> destination register.
 > 
-> Following solution is done for both doubleword elements of source register
-> in parallel, in order to reduce the number of instructions needed(that's why
-> arrays are used):
-> First, both doubleword elements of source register vB are placed in
-> appropriate element of array avr. Bits are gathered in 2x8 iterations(2 for
-> loops). In first iteration bit 1 of byte 1, bit 2 of byte 2,... bit 8 of
-> byte 8 are in their final spots so avr[i], i={0,1} can be and-ed with
-> tcg_mask. For every following iteration, both avr[i] and tcg_mask variables
-> have to be shifted right for 7 and 8 places, respectively, in order to get
-> bit 1 of byte 2, bit 2 of byte 3.. bit 7 of byte 8 in their final spots so
-> shifted avr values(saved in tmp) can be and-ed with new value of tcg_mask...
-> After first 8 iteration(first loop), all the first bits are in their final
-> places, all second bits but second bit from eight byte are in their places...
-> only 1 eight bit from eight byte is in it's place). In second loop we do all
-> operations symmetrically, in order to get other half of bits in their final
-> spots. Results for first and second doubleword elements are saved in
-> result[0] and result[1] respectively. In the end those results are saved in
-> appropriate doubleword element of destination register vD.
+> Counting is to be performed in four iterations of for loop(one for each
+> word elemnt of source register vB). Every iteration consists of loading
+> appropriate word element from source register, counting leading zeros
+> with tcg_gen_clzi_i32, and saving the result in appropriate word element
+> of destination register.
 > 
 > Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 > ---
->  target/ppc/helper.h                 |   1 -
->  target/ppc/int_helper.c             | 276 ------------------------------------
->  target/ppc/translate/vmx-impl.inc.c |  77 +++++++++-
->  3 files changed, 76 insertions(+), 278 deletions(-)
+>  target/ppc/helper.h                 |  1 -
+>  target/ppc/int_helper.c             |  3 ---
+>  target/ppc/translate/vmx-impl.inc.c | 28 +++++++++++++++++++++++++++-
+>  3 files changed, 27 insertions(+), 5 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
