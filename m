@@ -2,32 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C7B56EF0
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:38:44 +0200 (CEST)
-Received: from localhost ([::1]:41872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D963256EEB
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:37:49 +0200 (CEST)
+Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgAwV-0001Bc-GA
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57488)
+	id 1hgAvd-00006U-2b
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58191)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hgAn3-0002L5-VW
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:28:58 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hgApJ-0004qN-9e
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:31:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hgAn3-0005hh-0Y
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:28:57 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:57007)
+ (envelope-from <laurent@vivier.eu>) id 1hgApI-0007ac-33
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:31:17 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:50673)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1hgAn0-0005eb-IP; Wed, 26 Jun 2019 12:28:54 -0400
+ id 1hgApG-0007Vr-2Z; Wed, 26 Jun 2019 12:31:15 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MxUfh-1iUOr71fLd-00xtrV; Wed, 26 Jun 2019 18:28:36 +0200
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MkW10-1iQo231uBi-00m1T8; Wed, 26 Jun 2019 18:30:49 +0200
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Stefano Stabellini <sstabellini@kernel.org>
+References: <155912548463.2019004.3515830305299809902.stgit@bahia.lan>
+ <20190529125926.GD2126@perard.uk.xensource.com>
+ <20190605121056.0e784daf@bahia.lab.toulouse-stg.fr.ibm.com>
+ <c85d973ca2d444678e8fdc86a4cd6f4f@AMSPEX02CL03.citrite.net>
+ <20190614101621.098742e2@bahia.lan>
+ <c2c63dd46c684b1bb0f2e342a085d93d@AMSPEX02CL03.citrite.net>
+ <alpine.DEB.2.21.1906140844150.2072@sstabellini-ThinkPad-T480s>
+ <20190614185054.6f12ab30@bahia.lan>
+ <b40f16eb-5ae5-4b36-e0a8-02b10c3b7769@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190605131221.29432-1-marcandre.lureau@redhat.com>
- <b66f43e4-e176-67d7-388b-23e04cff0884@vivier.eu>
 Openpgp: preference=signencrypt
 Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
@@ -71,35 +78,35 @@ Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
  OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
  JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
  ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
-Message-ID: <8212139b-80a7-3af8-6af1-0c004ec2fe82@vivier.eu>
-Date: Wed, 26 Jun 2019 18:28:35 +0200
+Message-ID: <ca73d533-644b-a366-2927-4163f9aa2ce9@vivier.eu>
+Date: Wed, 26 Jun 2019 18:30:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <b66f43e4-e176-67d7-388b-23e04cff0884@vivier.eu>
+In-Reply-To: <b40f16eb-5ae5-4b36-e0a8-02b10c3b7769@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bj854EWvvWZ+CYMLSosg+n9yAbPLn+YCYEEpM6ZTH9uolkWAmjH
- 25GkDZbwCF2aNl2KHARxl4IUzfVgBgYv9TiXwSabK1Afr4FNawn/CRTQZulT2exPkO7+8kG
- 4yvqAd0uiLs5j5tCwD9LH23HB1iN3Jrg0frnJ6TA1sRLz1YuNUin/88TGy5ScWD6bERgLNO
- M2ObohyR0OG+xjGsEo9kQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h7QtK/8Ylpg=:+CBVo2X9UakLs43IxwqGWQ
- 351EE+yjv75QjZnUZvoEKRjbqZj9oPjEm2OI2PdO1w0OxJyg8R6MV0zNGmhpZ6KH8rlKnTLpW
- x17UZoPtS3V839c9y0UKQcR33h4uFuNHHHM0c5kbbqqH4P+qR6W/pIOG9jZBC1YENxi1tvE1w
- QOFxgXI44v86S8CmYmK57tsovh9EY5x5s2QW2jDhy5RUXZRnLisYm64Lv0RbPijzUY+eF9COC
- vVZT0c3LNsttgWtif+RV3U7g/cgZDx5snamEqO2BVMTN+kmhmDcC5PLTl8D/KRt1KQpdAMXgF
- Ty7gDLvoXKasdJ00es6MtAtpof50QVe5akTADNZGJdpLgIxiakLT9mI9SVzQAJOGEx8b5IbVM
- YVHeCOLsc2QHhKUtT0/vHUOAkG33GXzt478gfD7Gd8qopmborKsEO4HXo+CgGMgivgpaoaRcz
- cUox14gVicz+Wvb2GJ2NV09huZP9E7c0o8RsXkiq/Yvo7cGfdVpwQg3UerNbGtzjhg42hrm4f
- HL72fIbG4Qf+Ty6S8WeHQFq1qInYMIHN64Z6jdQw8/C2aBahQL3Yt6GPMMopLdqfADWOvGKKE
- a9NPI8GNT+VP1lwg7vt8LQ00J4o5Fackqn2XEK+iyW4Ya7UOyWybgvv3X8DODt+hiCBWMLQOf
- uMlu0nK9LKs13y9Yttyc6zgPiiZsh5KfiGSL8WfnFoFSIjWkBKoX2MEjT09DAdUN7yUafCh8G
- tVZRArQnu6CNBsO6Nnhwe59g+mCcg0Ck5OYaSYk4cIxPa8FmaZWuuF+sf3U=
+X-Provags-ID: V03:K1:DqaxqHaS92Pb2bEMXsKdWRIb2V+Hw3es/TklEXNJXQ5981NvV9d
+ pLyyO+wtt4ZS698ly1jkkkj4ogEfTvskSqJx/sK4otT2WtlDO5wRKJJb5gGKBOH7yn5etST
+ CDKflCO3wjus5m+1y1EddmQNJinVBeSTljmZvvJS0RBM5sMkp5mHhlb1VcgeAi6vzoCMitL
+ RuOYOaifrM5Chc1WMsurA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2f3pUEZEXz0=:bmNfv80jVFL0ttsOLNUXuh
+ XSS9aGc0vkPgyYcGOhjMRWhjLYeQK53GGah9X9y9jo0bkN+bcAU/HvnoA+r1kMGGGYGxn+tu+
+ wxMF3s5KUhemAWm5ok7fX9bvfZcoqI6H9meB1/iiGsjjMuBPQ7/xev82YbRWphc4F4kGUFZI1
+ t1BGOvIkMjwxzGJpshjgG0DKHsK4qMTI8LdwXkMH1//UJBDyDmq8s5+9FAUaqa0y0beubQ1O/
+ WawHFKTZE/sCZIV7sV2vyCY5suab8Z/Q7/f80Eg2jIc7PkNMuZfXV5g8vEvbA4fE5Sz1mwGiH
+ YI0kPum6mb1B6UidJckr72l4dQC5keRLiu24ElagD0yjDjOqiI6d+dMHWUssGw457tRQoOZPX
+ W3w+KomjKqWw81LexsDX0+hbDU/7thRmbBFJhluKXVzEZPXO3JJOMsEJzL0UV6p/Xc1A0sHhj
+ eDCJ0wuG0C4uNnEIJiunD+JxaD3U8kfjEtzwEnzqqQ1sFUWq7zPE+SgIqjPalqw6KPk0QhcGE
+ EEpHvP2hSd7rsmi+Rtl4wAG8OqZm5mViALVNameKmdAMaywaAbVlQldsUQvyTWACRIbYpE+pD
+ DPiBjtqy2P6JHDp7V9FeCg6yOm9Ebxoodl55SWW5U2BOvYPiHzgiWz7wiivOSuaYgr5DEg3mK
+ Art2zK/6AZSXbMBhEhqOngd/JmslFmHWztT4bNqYTAQV23Z8itgsdSDVd+HV7/6k9KbkGd587
+ iLbLZKkcSMYyGsggYF8xaOwva0n61HIAtboEvA9XFo5wRSOZ9pIYJFOfpVM=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] docs/vhost-user.json: some
- firmware.json copy leftovers
+X-Received-From: 212.227.126.130
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] MAINTAINERS: Change
+ maintership of Xen code under hw/9pfs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -111,51 +118,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, mst@redhat.com
+Cc: Anthony Perard <anthony.perard@citrix.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Paul Durrant <Paul.Durrant@citrix.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/06/2019 à 18:24, Laurent Vivier a écrit :
-> Le 05/06/2019 à 15:12, Marc-André Lureau a écrit :
->> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->> ---
->>  docs/interop/vhost-user.json | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
+Le 15/06/2019 à 07:43, Philippe Mathieu-Daudé a écrit :
+> Cc'ing qemu-trivial@
+> 
+> On 6/14/19 6:50 PM, Greg Kurz wrote:
+> [...]
+>> Markus, Xen maintainers,
 >>
->> diff --git a/docs/interop/vhost-user.json b/docs/interop/vhost-user.json
->> index ae88c03117..da6aaf51c8 100644
->> --- a/docs/interop/vhost-user.json
->> +++ b/docs/interop/vhost-user.json
->> @@ -178,11 +178,11 @@
->>  #
->>  #   - /usr/share/qemu/vhost-user/50-crosvm-gpu.json
->>  #
->> -# then the sysadmin can prevent the default QEMU being used at all with
->> +# then the sysadmin can prevent the default QEMU GPU being used at all with
->>  #
->>  #   $ touch /etc/qemu/vhost-user/50-qemu-gpu.json
->>  #
->> -# The sysadmin can replace/alter the distro default OVMF with
->> +# The sysadmin can replace/alter the distro default QEMU GPU with
->>  #
->>  #   $ vim /etc/qemu/vhost-user/50-qemu-gpu.json
->>  #
->> @@ -190,7 +190,7 @@
->>  #
->>  #   $ vim /etc/qemu/vhost-user/10-qemu-gpu.json
->>  #
->> -# or they can provide a parallel OVMF with lower priority
->> +# or they can provide a parallel QEMU GPU with lower priority
->>  #
->>  #   $ vim /etc/qemu/vhost-user/99-qemu-gpu.json
->>  #
+>> All needed Acked-by have been provided. I don't plan to send a 9pfs PR
+>> anytime soon. Can this go through someone else's tree please ?
+>>
+>> Cheers,
+>>
+>> --
+>> Greg
 >>
 > 
-> Applied to my trivial-patches branch.
 
-In fact, no, it has already been merged.
+Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
-
 
