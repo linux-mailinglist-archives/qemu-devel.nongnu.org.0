@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65741567E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 13:51:10 +0200 (CEST)
-Received: from localhost ([::1]:39040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45E8C56803
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 13:54:10 +0200 (CEST)
+Received: from localhost ([::1]:39066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6SD-0003Af-IJ
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 07:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43654)
+	id 1hg6V7-00079h-G2
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 07:54:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43665)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NG-0001KG-LZ
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NH-0001KK-22
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NF-0005w3-I0
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NF-0005wR-L5
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:02 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60768 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:60769 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hg6NF-0005tN-8t
+ id 1hg6NF-0005tM-Cy
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:01 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id DF85A1A464F;
+ by mail.rt-rk.com (Postfix) with ESMTP id E261D1A469C;
  Wed, 26 Jun 2019 13:45:56 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id A3E561A4688;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id ACF351A2276;
  Wed, 26 Jun 2019 13:45:56 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 13:45:40 +0200
-Message-Id: <1561549550-3501-8-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 26 Jun 2019 13:45:41 +0200
+Message-Id: <1561549550-3501-9-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 07/17] hw/mips/gt64xxx_pci: Align the pci0-mem
- size
+Subject: [Qemu-devel] [PULL 08/17] dma/rc4030: Fix off-by-one error in
+ specified memory region size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,45 +58,48 @@ Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-One byte is missing, use an aligned size.
+The size is one byte less than it should be:
 
-    (qemu) info mtree
-    memory-region: pci0-mem
-      0000000000000000-00000000fffffffe (prio 0, i/o): pci0-mem
-                                      ^
+address-space: rc4030-dma
+  0000000000000000-00000000fffffffe (prio 0, i/o): rc4030.dma
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20190624222844.26584-8-f4bug@amsat.org>
+rc4030 is used in MIPS Jazz board context.
+
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <1561472838-32272-2-git-send-email-aleksandar.markovic@rt-rk.=
+com>
 ---
- hw/mips/gt64xxx_pci.c | 3 ++-
+ hw/dma/rc4030.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index 815ef07..2fa313f 100644
---- a/hw/mips/gt64xxx_pci.c
-+++ b/hw/mips/gt64xxx_pci.c
+diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+index 6ccafec..88ff271 100644
+--- a/hw/dma/rc4030.c
++++ b/hw/dma/rc4030.c
 @@ -23,6 +23,7 @@
   */
 =20
  #include "qemu/osdep.h"
 +#include "qemu/units.h"
- #include "qemu/log.h"
  #include "hw/hw.h"
  #include "hw/mips/mips.h"
-@@ -1201,7 +1202,7 @@ PCIBus *gt64120_register(qemu_irq *pic)
-     dev =3D qdev_create(NULL, TYPE_GT64120_PCI_HOST_BRIDGE);
-     d =3D GT64120_PCI_HOST_BRIDGE(dev);
-     phb =3D PCI_HOST_BRIDGE(dev);
--    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", UINT32_MAX=
-);
-+    memory_region_init(&d->pci0_mem, OBJECT(dev), "pci0-mem", 4 * GiB);
-     address_space_init(&d->pci0_mem_as, &d->pci0_mem, "pci0-mem");
-     phb->bus =3D pci_register_root_bus(dev, "pci",
-                                      gt64120_pci_set_irq, gt64120_pci_ma=
-p_irq,
+ #include "hw/sysbus.h"
+@@ -678,7 +679,7 @@ static void rc4030_realize(DeviceState *dev, Error **=
+errp)
+=20
+     memory_region_init_iommu(&s->dma_mr, sizeof(s->dma_mr),
+                              TYPE_RC4030_IOMMU_MEMORY_REGION,
+-                             o, "rc4030.dma", UINT32_MAX);
++                             o, "rc4030.dma", 4 * GiB);
+     address_space_init(&s->dma_as, MEMORY_REGION(&s->dma_mr), "rc4030-dm=
+a");
+ }
+=20
 --=20
 2.7.4
 
