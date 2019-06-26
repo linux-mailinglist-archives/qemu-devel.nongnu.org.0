@@ -2,51 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078125694F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:36:23 +0200 (CEST)
-Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C83975697C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:41:29 +0200 (CEST)
+Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg79x-0007Ie-U7
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:36:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54833)
+	id 1hg7Eu-00024w-W6
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55887)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hg77n-0006FR-7B
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:34:13 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CF-0000HY-0J
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hg77k-0006xQ-F3
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:34:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57726)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hg77k-0006vS-49; Wed, 26 Jun 2019 08:34:04 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BD27D31628EF;
- Wed, 26 Jun 2019 12:33:41 +0000 (UTC)
-Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 55D6D608C1;
- Wed, 26 Jun 2019 12:33:27 +0000 (UTC)
-Date: Wed, 26 Jun 2019 14:33:24 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Collin Walling <walling@linux.ibm.com>
-Message-ID: <20190626143324.6f359cd0.cohuck@redhat.com>
-In-Reply-To: <1561475829-19202-3-git-send-email-walling@linux.ibm.com>
-References: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
- <1561475829-19202-3-git-send-email-walling@linux.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Wed, 26 Jun 2019 12:33:55 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] s390: diagnose 318 info reset and
- migration support
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CD-0006U7-II
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:42 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:40950)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+ id 1hg7C7-0006Gl-4c; Wed, 26 Jun 2019 08:38:35 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCYECL105242;
+ Wed, 26 Jun 2019 12:38:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=ctg1U7ZXa/ucf+cAYr43gPZyEKHKzEUUwGQ3sHqLG+U=;
+ b=j2Qo3DaVsn5jAds87502ypJ58rz9kx8zvirCB0+zRP+ZK57DzZO20DCxo49gPHlDQX4T
+ 6/TzOAHNGF34TnNiRIvBrRY36g3p3SvEt+HUprDhIa+R5jyfpqIjZEDhTmrmo6y/s613
+ W+87wQDtcGhGIfsL1JrAloBmaXH+Kfe99vr5Q1IdoxumSFtPNUQibEiVTp5m6odVsipA
+ f9XTOQMxoHNPWb9pFCO9wAYBU1PlzR63kaIKVSjNNh2Ir8u2w5bEFUB9cI8MoleZ39nF
+ CdQFIkurcQ8aYW7ctufJfZlAh8uB5fCzDB/US84wiegAmId2wrHFa3rlvuicoG+brKZ7 VQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 2t9c9pt2bt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jun 2019 12:38:31 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCbUrg021783;
+ Wed, 26 Jun 2019 12:38:31 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 2tat7ct4ux-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jun 2019 12:38:31 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5QCcTVg019535;
+ Wed, 26 Jun 2019 12:38:29 GMT
+Received: from nexus.ravello.local (/213.57.127.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 26 Jun 2019 05:38:29 -0700
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
+ kevin@koconnor.net
+Date: Wed, 26 Jun 2019 15:38:11 +0300
+Message-Id: <20190626123816.8907-1-shmuel.eiderman@oracle.com>
+X-Mailer: git-send-email 2.13.3
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=844
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906260150
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=888 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906260150
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Subject: [Qemu-devel] [SeaBIOS] [PATCH v4 0/5] Add Qemu to SeaBIOS LCHS
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,275 +86,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
+ arbel.moshe@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 25 Jun 2019 11:17:09 -0400
-Collin Walling <walling@linux.ibm.com> wrote:
+v1:
 
-> DIAGNOSE 0x318 (diag318) is a privileged s390x instruction that must
-> be intercepted by SIE and handled via KVM. Let's introduce some
-> functions to communicate between QEMU and KVM via ioctls. These
-> will be used to get/set the diag318 information.
-> 
-> The availability of this instruction is determined by byte 134, bit 0
-> of the Read Info block. This coincidentally expands into the space used
-> for CPU entries, which means VMs running with the diag318 capability
-> will have a reduced maximum CPU count. Let's reduce the maximum CPU
-> count from 248 to 247.
-> 
-> In order to simplify the migration and system reset requirements of
-> the diag318 data, let's introduce it as a device class and include
-> a VMStateDescription.
-> 
-> Diag318 is set to 0 during modified clear and load normal resets.
-> 
-> Signed-off-by: Collin Walling <walling@linux.ibm.com>
-> ---
->  hw/s390x/Makefile.objs          |  1 +
->  hw/s390x/diag318.c              | 80 +++++++++++++++++++++++++++++++++++++++++
->  hw/s390x/diag318.h              | 38 ++++++++++++++++++++
->  hw/s390x/s390-virtio-ccw.c      | 17 +++++++++
->  hw/s390x/sclp.c                 |  3 ++
->  include/hw/s390x/sclp.h         |  2 ++
->  target/s390x/cpu.h              |  8 ++++-
->  target/s390x/cpu_features.c     |  3 ++
->  target/s390x/cpu_features.h     |  1 +
->  target/s390x/cpu_features_def.h |  3 ++
->  target/s390x/gen-features.c     |  1 +
->  target/s390x/kvm-stub.c         | 10 ++++++
->  target/s390x/kvm.c              | 29 +++++++++++++++
->  target/s390x/kvm_s390x.h        |  2 ++
->  14 files changed, 197 insertions(+), 1 deletion(-)
->  create mode 100644 hw/s390x/diag318.c
->  create mode 100644 hw/s390x/diag318.h
+Non-standard logical geometries break under QEMU.
 
-(...)
+A virtual disk which contains an operating system which depends on
+logical geometries (consistent values being reported from BIOS INT13
+AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
+logical geometries - for example 56 SPT (sectors per track).
+No matter what QEMU will guess - SeaBIOS, for large enough disks - will
+use LBA translation, which will report 63 SPT instead.
 
-> diff --git a/hw/s390x/diag318.c b/hw/s390x/diag318.c
-> new file mode 100644
-> index 0000000..0eb80fe
-> --- /dev/null
-> +++ b/hw/s390x/diag318.c
-> @@ -0,0 +1,80 @@
-> +/*
-> + * DIAGNOSE 0x318 functions for reset and migration
-> + *
-> + * Copyright IBM, Corp. 2019
-> + *
-> + * Authors:
-> + *  Collin Walling <walling@linux.ibm.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (at your
-> + * option) any later version. See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "hw/s390x/diag318.h"
-> +#include "qapi/error.h"
-> +#include "kvm_s390x.h"
-> +#include "sysemu/kvm.h"
-> +
-> +static int diag318_post_load(void *opaque, int version_id)
-> +{
-> +    DIAG318State *d = opaque;
-> +
-> +    kvm_s390_set_diag318_info(d->info);
+In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
+all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
+report more than 16 physical heads when moved to an IDE controller, the
+ATA spec allows a maximum of 16 heads - this is an artifact of
+virtualization.
 
-Shouldn't we at least moan if something goes wrong here?
+By supplying the logical geometies directly we are able to support such
+"exotic" disks.
 
-> +    return 0;
-> +}
-> +
-> +static int diag318_pre_save(void *opaque)
-> +{
-> +    DIAG318State *d = opaque;
-> +
-> +    kvm_s390_get_diag318_info(&d->info);
-> +    return 0;
-> +}
-> +
-> +static bool diag318_needed(void *opaque)
-> +{
-> +    return s390_has_feat(S390_FEAT_DIAG318);
+We will use fw_cfg to do just that.
 
-What happens if we emulate diag 318 in tcg and set this feature bit? We
-probably don't want to call kvm_ functions in that case.
+v2:
 
-> +}
-> +
-> +const VMStateDescription vmstate_diag318 = {
-> +    .name = "vmstate_diag318",
-> +    .post_load = diag318_post_load,
-> +    .pre_save = diag318_pre_save,
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = diag318_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT64(info, DIAG318State),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void s390_diag318_reset(DeviceState *dev)
-> +{
-> +    kvm_s390_set_diag318_info(0);
+Rename bootdevices fw_cfg key to bios-geoemtry
 
-Same here; we probably need a s390_set_diag318_info() function that
-either calls the kvm_ function or resets some internal state.
+v3:
 
-> +}
-> +
-> +static void s390_diag318_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->reset = s390_diag318_reset;
-> +    dc->vmsd = &vmstate_diag318;
-> +    dc->hotpluggable = false;
-> +    /* Reason: Set automatically during IPL */
+Change fw_cfg interface from mixed binary/textual to textual only
+Squash commit "config: Add toggle for bootdevice information"
 
-"Created automatically during machine instantiation" ?
+v4:
 
-> +    dc->user_creatable = false;
-> +}
-> +
-> +static const TypeInfo s390_diag318_info = {
-> +    .class_init = s390_diag318_class_init,
-> +    .parent = TYPE_DEVICE,
-> +    .name = TYPE_S390_DIAG318,
-> +    .instance_size = sizeof(DIAG318State),
-> +};
-> +
-> +static void s390_diag318_register_types(void)
-> +{
-> +    type_register_static(&s390_diag318_info);
-> +}
-> +
-> +type_init(s390_diag318_register_types)
+* Rename TRANSLATION_MACHINE to TRANSLATION_HOST
+* Rename "overriden" translation name to "host-supplied"
+* Rename overriden_lchs_supplied() to host_lchs_supplied()
+* Move sectors and heads check to host_lchs_supplied()
+* Reuse duplicate code in boot.c
 
-(..)
+Sam Eiderman (5):
+  geometry: Read LCHS from fw_cfg
+  boot: Reorder functions in boot.c
+  boot: Build ata and scsi paths in function
+  geometry: Add boot_lchs_find_*() utility functions
+  geometry: Apply LCHS values for boot devices
 
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index 87b2039..54230c7 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -38,6 +38,7 @@
->  #include "cpu_models.h"
->  #include "hw/nmi.h"
->  #include "hw/s390x/tod.h"
-> +#include "hw/s390x/diag318.h"
->  
->  S390CPU *s390_cpu_addr2state(uint16_t cpu_addr)
->  {
-> @@ -94,6 +95,7 @@ static const char *const reset_dev_types[] = {
->      "s390-sclp-event-facility",
->      "s390-flic",
->      "diag288",
-> +    TYPE_S390_DIAG318,
+ src/Kconfig          |   7 ++
+ src/block.c          |  18 +++-
+ src/block.h          |   1 +
+ src/boot.c           | 273 +++++++++++++++++++++++++++++++++++++++++----------
+ src/hw/ahci.c        |   1 +
+ src/hw/ata.c         |   8 ++
+ src/hw/esp-scsi.c    |   2 +
+ src/hw/lsi-scsi.c    |   2 +
+ src/hw/megasas.c     |   1 +
+ src/hw/mpt-scsi.c    |   2 +
+ src/hw/pvscsi.c      |   1 +
+ src/hw/virtio-blk.c  |   2 +
+ src/hw/virtio-scsi.c |   2 +
+ src/util.h           |   6 ++
+ 14 files changed, 272 insertions(+), 54 deletions(-)
 
-This looks a bit odd, although it is not wrong :)
+-- 
+2.13.3
 
->  };
->  
->  static void subsystem_reset(void)
-> @@ -258,6 +260,17 @@ static void s390_create_sclpconsole(const char *type, Chardev *chardev)
->      qdev_init_nofail(dev);
->  }
->  
-> +static void s390_init_diag318(void)
-> +{
-> +    Object *new = object_new(TYPE_S390_DIAG318);
-> +    DeviceState *dev = DEVICE(new);
-> +
-> +    object_property_add_child(qdev_get_machine(), TYPE_S390_DIAG318,
-> +                              new, NULL);
-> +    object_unref(new);
-> +    qdev_init_nofail(dev);
-> +}
-> +
->  static void ccw_init(MachineState *machine)
->  {
->      int ret;
-> @@ -315,6 +328,9 @@ static void ccw_init(MachineState *machine)
->  
->      /* init the TOD clock */
->      s390_init_tod();
-> +
-> +    /* init object used for migrating diag318 info */
-> +    s390_init_diag318();
->  }
->  
->  static void s390_cpu_plug(HotplugHandler *hotplug_dev,
-> @@ -583,6 +599,7 @@ static void machine_set_loadparm(Object *obj, const char *val, Error **errp)
->          ms->loadparm[i] = ' '; /* pad right with spaces */
->      }
->  }
-> +
-
-unrelated whitespace change :)
-
->  static inline void s390_machine_initfn(Object *obj)
->  {
->      object_property_add_bool(obj, "aes-key-wrap",
-
-(...)
-
-> diff --git a/target/s390x/cpu_features.c b/target/s390x/cpu_features.c
-> index f64f581..77a1df5 100644
-> --- a/target/s390x/cpu_features.c
-> +++ b/target/s390x/cpu_features.c
-> @@ -127,6 +127,9 @@ static const S390FeatDef s390_features[] = {
->      FEAT_INIT("pfmfi", S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT, 9, "SIE: PFMF interpretation facility"),
->      FEAT_INIT("ibs", S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT, 10, "SIE: Interlock-and-broadcast-suppression facility"),
->  
-> +    /* SCLP SCCB Byte 134 */
-> +    FEAT_INIT("diag318", S390_FEAT_TYPE_SCLP_BYTE_134, 0, "Control program name and version codes"),
-> +
->      FEAT_INIT("sief2", S390_FEAT_TYPE_SCLP_CPU, 4, "SIE: interception format 2 (Virtual SIE)"),
->      FEAT_INIT("skey", S390_FEAT_TYPE_SCLP_CPU, 5, "SIE: Storage-key facility"),
->      FEAT_INIT("gpereh", S390_FEAT_TYPE_SCLP_CPU, 10, "SIE: Guest-PER enhancement facility"),
-> diff --git a/target/s390x/cpu_features.h b/target/s390x/cpu_features.h
-> index da695a8..954544e 100644
-> --- a/target/s390x/cpu_features.h
-> +++ b/target/s390x/cpu_features.h
-> @@ -23,6 +23,7 @@ typedef enum {
->      S390_FEAT_TYPE_STFL,
->      S390_FEAT_TYPE_SCLP_CONF_CHAR,
->      S390_FEAT_TYPE_SCLP_CONF_CHAR_EXT,
-> +    S390_FEAT_TYPE_SCLP_BYTE_134,
->      S390_FEAT_TYPE_SCLP_CPU,
->      S390_FEAT_TYPE_MISC,
->      S390_FEAT_TYPE_PLO,
-> diff --git a/target/s390x/cpu_features_def.h b/target/s390x/cpu_features_def.h
-> index 292b17b..4f2c23e 100644
-> --- a/target/s390x/cpu_features_def.h
-> +++ b/target/s390x/cpu_features_def.h
-> @@ -115,6 +115,9 @@ typedef enum {
->      S390_FEAT_SIE_PFMFI,
->      S390_FEAT_SIE_IBS,
->  
-> +    /* Sclp Byte 134 */
-> +    S390_FEAT_DIAG318,
-> +
->      /* Sclp Cpu */
->      S390_FEAT_SIE_F2,
->      S390_FEAT_SIE_SKEY,
-> diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-> index dc320a0..cdd1875 100644
-> --- a/target/s390x/gen-features.c
-> +++ b/target/s390x/gen-features.c
-> @@ -521,6 +521,7 @@ static uint16_t full_GEN12_GA1[] = {
->      S390_FEAT_AP_QUERY_CONFIG_INFO,
->      S390_FEAT_AP_FACILITIES_TEST,
->      S390_FEAT_AP,
-> +    S390_FEAT_DIAG318,
->  };
->  
->  static uint16_t full_GEN12_GA2[] = {
-
-The feature bit stuff probably needs some (easy) adaption on top of my
-s390-next branch.
 
