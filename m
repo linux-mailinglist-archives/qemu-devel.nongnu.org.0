@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69BEA570D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:39:59 +0200 (CEST)
-Received: from localhost ([::1]:44234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D17570E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:42:17 +0200 (CEST)
+Received: from localhost ([::1]:44258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgCpq-00015p-LH
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:39:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44212)
+	id 1hgCs5-0003nI-09
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:42:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44253)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfZ-0001Xa-Qc
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:23 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfd-0001aL-HP
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfW-0007zi-C5
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:21 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40799)
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfb-00083d-GQ
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:25 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43719)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hgCfW-0007yw-3f
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:18 -0400
-Received: by mail-wr1-x444.google.com with SMTP id p11so3875362wre.7
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:18 -0700 (PDT)
+ id 1hgCfZ-00080X-QI
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:21 -0400
+Received: by mail-wr1-x442.google.com with SMTP id p13so3852209wru.10
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=L5TFjTIA0S4uo9coV4FdErRUtFqXXlJt9/7Jahxl5zg=;
- b=Y4GZ/vASz36bxNxYFcJWVfCfs8yi7wkS2kYlIGYv3q8uvdKY6foGkA6Ag5jX80+ZYP
- Xkpb1EYgbwOcrzZs+q9ZDz5dJ8XZhxQ+87Orn6cuJn9Kmaq3U6bkdi1O2wlVUyp9XCyU
- aQEq/tLrENSGYUUC/zkWepA8ePZXr+XAraw2k+esqNBjPl8zCNmb0qDGUV98sEYw1lsu
- Kqvahzw6mI+ou/RnfTMg5oyBjgci0tTdC3psxwjLFx3St931CBzvg9al73GCvcpRSAke
- dtqAx7IsZaz8NxtiW6BLsRQkteeyVHuBbfNkXNP2OqLukX2hrvoXxroaORbJHqJPH7JY
- +e8g==
+ bh=xOZcadB5JBrL4YNeHrB2j2WnVJKKBRMPVf+Uhla9LtI=;
+ b=Jy/AlKv85FwKt7qMSacreQfttl9Ma2Xl48dyd6q36MqZzf8+VqIbKwZUIRCWWPrq4C
+ vEfEB7J1ep9TEdKNWe7k7Gf+bV2QP7CFbqneaWFyhn6zFk9wQcVs1FIXKDkD20xhVVeC
+ Xx9V/TnAU8yZYiowWLwk+IyvC/BzVo15ddC3WzqmYrkAkgKliLyijkPExmH7IWKRedVf
+ gdHzIrEnfo9PkJUnOgNcJ37jNBLeOzSyEBvstPpxEaOPt9AyEwo04n8kcp/iZ7R+O49y
+ WowlYtc9NhDQ/5LqlIpErPRUuAM8wNWWDDo/qVIyNFNIAdPgA8ltQ77PVnIfZqU34j1u
+ YlGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=L5TFjTIA0S4uo9coV4FdErRUtFqXXlJt9/7Jahxl5zg=;
- b=VlZhM5eCVLlrzWX2veVvgSUrXuxHpnV4tuauhA0e5xAAWYcqCnwLmCK/1d3ztl6Ah2
- vwH393+YCtvS0jfs8YytI9TlyZlBjSApNGpHpLXTV/3r4LlgifHMt5uDwA9MogBhqPWG
- +V1lnx1jipChoOJGnCWAp8HzL/hZygKrSe5DrWDw1BnhK5n+erN2AC0TNuhYlidOIHkU
- TOlIKET5vAYYaJ8SD2ykf23T7pSAeHAFoyLCGfqzfBQZZ59M8Ugg+LVQ0IFFMhqnwS4/
- F4xj5ATSLobgc9oggLNViwZi9Q0phbPApp0QmxWLy5hYu2jTAmdguVyNBsVXfzfp9xNi
- x09Q==
-X-Gm-Message-State: APjAAAUUG58HUs2eyVPQdTfk78GahQ/5WHGJBZ4192S73Jm9lsKIIbby
- 6oSWkdkL9MV/Ot9fsUp8tdCIoA==
-X-Google-Smtp-Source: APXvYqwo3t5ZMwLNX2xzhjoUY4QBzVLKd0wHISODXXD+VkXjxrGWw3NGG+GBNoEoUZM/W/EdSyhPTw==
-X-Received: by 2002:adf:eb4e:: with SMTP id u14mr4778819wrn.168.1561573757143; 
- Wed, 26 Jun 2019 11:29:17 -0700 (PDT)
+ bh=xOZcadB5JBrL4YNeHrB2j2WnVJKKBRMPVf+Uhla9LtI=;
+ b=D3aXG6FuFrPcxtrBX9qEhO6OFysQNBF2NNOKkz/Pc/VtNEH9jK6pSFGuFAArPL83hP
+ M2Nc+kMoyJdDc2FMeWnsYtR9wzIAp1TyXio9sUpTMeR3F6g+yxps9l4E+/464cubyClu
+ 2afr5sxi0lmqnsor53ue2RZOEa5+IvtMxdiXgckLeYjcHM3KzEZDKSYUJ9R46K682h7m
+ jXRa+fERYCZgfDeYSoTgl8xMGFOOxeyirvp5eAfUhKfLkJb3pHQxwHwmO/6Gn73Cvm25
+ JbyiM7vuzTqpjm07Gz6/NyuVqj8jUeqWjdcvwDoZdaRSO0ixIlndQKJCdcJiQEuKt9AM
+ DcRQ==
+X-Gm-Message-State: APjAAAVNgdJqkbFlZUeK2MBiVTys9FZGy1TCLL5yfTEp9wROTMQaEiLO
+ ZQPvNNRTTzEUUDX6cWLKtBLPkg==
+X-Google-Smtp-Source: APXvYqwj3J9vldM1OJeSEG7ifv5wKdjnSe88Xy2fxkZHAOT9aPQ9AjDraZUgro41FEFa9opqJuw/GQ==
+X-Received: by 2002:a5d:4090:: with SMTP id o16mr4924537wrp.292.1561573758852; 
+ Wed, 26 Jun 2019 11:29:18 -0700 (PDT)
 Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
  [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id e11sm40649513wrc.9.2019.06.26.11.29.16
+ by smtp.gmail.com with ESMTPSA id a81sm3478214wmh.3.2019.06.26.11.29.17
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 11:29:16 -0700 (PDT)
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-11-drjones@redhat.com>
+ Wed, 26 Jun 2019 11:29:18 -0700 (PDT)
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20190519041522.12327-1-richard.henderson@linaro.org>
+ <8f28d008-2608-a579-7505-4546b08deb41@linaro.org>
+ <085d6881-f518-9888-a13e-081cdc09de46@ilande.co.uk>
+ <0b9f4772-37f6-1453-e4ea-5ad9d0f52a5b@ilande.co.uk>
+ <acc57487-c8a0-9380-bc2a-4de22541eabf@ilande.co.uk>
+ <CAL1e-=iavFqEeFuNm2efVM7mu5OaABBVo90wqJEhmoWa4DQv=Q@mail.gmail.com>
+ <ffae3651-5daf-e008-6562-2de09d82ace9@linaro.org>
+ <b8aab3f4-e3eb-a137-62b4-ba5ac1a2ad8f@ilande.co.uk>
+ <68facefc-b801-4902-11c0-4542662bfc4e@linaro.org>
+ <20190626083344.GC2410@umbus.BigPond>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <1e0bc93f-42e3-087f-a4b5-d356879cb806@linaro.org>
-Date: Wed, 26 Jun 2019 17:22:34 +0200
+Message-ID: <7dde0d63-955b-017e-2af0-93d39d8bf31c@linaro.org>
+Date: Wed, 26 Jun 2019 17:25:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190621163422.6127-11-drjones@redhat.com>
+In-Reply-To: <20190626083344.GC2410@umbus.BigPond>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v2 10/14] target/arm/kvm64: Add
- kvm_arch_get/put_sve
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH v4 0/7] tcg/ppc: Add vector opcodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,82 +92,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
- imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/19 6:34 PM, Andrew Jones wrote:
-> +/*
-> + * If ARM_MAX_VQ is increased to be greater than 16, then we can no
-> + * longer hard code slices to 1 in kvm_arch_put/get_sve().
-> + */
-> +QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
+On 6/26/19 10:33 AM, David Gibson wrote:
+>>> out of curiosity: is your Power9 system BE or LE?
+>>
+>> The Power9 is LE.
+> 
+> It's the kernel determines endianness, not the system.
 
-This seems easy to fix, or simply drop the slices entirely for now, as
-otherwise they are a teeny bit confusing.
-
-It's a shame that these slices exist at all.  It seems like the kernel could
-use the negotiated max sve size to grab the data all at once.
-
-> +        for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
-> +            uint64_t *q = aa64_vfp_qreg(env, n);
-> +#ifdef HOST_WORDS_BIGENDIAN
-> +            uint64_t d[ARM_MAX_VQ * 2];
-> +            int j;
-> +            for (j = 0; j < cpu->sve_max_vq * 2; j++) {
-> +                d[j] = bswap64(q[j]);
-> +            }
-> +            reg.addr = (uintptr_t)d;
-> +#else
-> +            reg.addr = (uintptr_t)q;
-> +#endif
-> +            reg.id = KVM_REG_ARM64_SVE_ZREG(n, i);
-> +            ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-
-It might be worth splitting this...
-
-> +        for (n = 0; n < KVM_ARM64_SVE_NUM_PREGS; n++) {
-> +            uint64_t *q = &env->vfp.pregs[n].p[0];
-> +#ifdef HOST_WORDS_BIGENDIAN
-> +            uint64_t d[ARM_MAX_VQ * 2 / 8];
-> +            int j;
-> +            for (j = 0; j < cpu->sve_max_vq * 2 / 8; j++) {
-> +                d[j] = bswap64(q[j]);
-> +            }
-> +            reg.addr = (uintptr_t)d;
-> +#else
-> +            reg.addr = (uintptr_t)q;
-> +#endif
-> +            reg.id = KVM_REG_ARM64_SVE_PREG(n, i);
-> +            ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-
-... and this (unified w/ reg + size parameters?) to a function because ...
-
-> +        reg.addr = (uintptr_t)&env->vfp.pregs[FFR_PRED_NUM].p[0];
-> +        reg.id = KVM_REG_ARM64_SVE_FFR(i);
-> +        ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
-
-... you forgot to apply the bswap here.
-
-Likewise for the other direction.
+Yes.  Lazy verbiage on my part -- I did mean "The Power9 that I have access to
+is configured as LE".
 
 
 r~
-
-
-PS: It's also tempting to drop the ifdefs and, since we know the host supports
-sve instructions, and that the host supports sve_max_vq, do the reformatting as
-
-    uint64_t scratch[ARM_MAX_VQ * 2];
-    asm("whilelo  p0.d, xzr, %2\n\t"
-        "ld1d     z0.d, p0/z [%1]\n\t"
-        "str      z0, [%0]"
-        : "=Q"(scratch)
-        : "Q"(*aa64_vfp_qreg(env, n)),
-          "r"(cpu->sve_max_vq)
-        : "p0", "v0");
-
-PPS: Ideally, this would be further cleaned up with acle builtins, but those
-are still under development for GCC.
 
