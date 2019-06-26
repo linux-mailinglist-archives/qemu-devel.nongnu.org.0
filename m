@@ -2,63 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2303A56DC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 17:35:10 +0200 (CEST)
-Received: from localhost ([::1]:41262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2931570EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:43:52 +0200 (CEST)
+Received: from localhost ([::1]:44262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg9wy-00047X-VM
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 11:35:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44534)
+	id 1hgCtb-000535-Ud
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44276)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cdupontd@redhat.com>) id 1hg9t3-0003My-79
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:31:06 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCff-0001b3-Ei
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cdupontd@redhat.com>) id 1hg9t0-0000sa-G5
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:31:04 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44589)
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfd-00085o-Lk
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:27 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:42649)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <cdupontd@redhat.com>) id 1hg9sv-0000di-Ev
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:31:00 -0400
-Received: by mail-wr1-f68.google.com with SMTP id r16so3214833wrl.11
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 08:30:45 -0700 (PDT)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hgCfc-00083K-Tu
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:25 -0400
+Received: by mail-wr1-x441.google.com with SMTP id x17so3856344wrl.9
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qNVygF9Rj5H50lQdbMbn70sxvvH5Ew9VLUG6FLuSh+k=;
+ b=OiislaP5QuPVV+thxuZLXJliFIEzYK2y4smv23CGCDsBzEczQkzs67fEXlXx6W4Z1H
+ hz4OTlTQqfAYoGMfUpzaU/UNWEJILT+K3VvLg0ohwPZ5UpI4O3XW/6XxfulpA0Fk3GrO
+ bHWvNm7GJ9nkhOmpgZqZfsEQY2X1KP2VaY1LvUTxUhwXfoxtenKOsxV5r3UhlLbRoJ4V
+ twJ0EEx4VyzU0XmDTz2DkjndAGY/ahR3LQHEEWo7pnUMSRY32TQZ8vEL4aDisokbO1qG
+ Zlalr4nWMVEQm6J6MahvvDEV5BV6POYKiwgkeX0p2k89nMFtITiMyJbfsG1dSQPx05/p
+ 7vIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=4vmIoMBEfVwRj2ceMUu/PmBJOZVjdqsUgJURsn0H6GM=;
- b=toKxnNdiX2zMUfgP269XWZ54qXbPkpLloLaT/xWwivwSvtB3aDVFpPOWCxH0vwlrf/
- Eteixa41DH2KYx+8L93by0Y8w0+BQ7eiJQ9JfQn/hBc8aoQ8PKe2y7Zs5X2gHTDoeXfh
- hhaZ/ZaatyXoMPMLFDBYLZzz06NPyfaHatwhdPWCaeZle89PhirlX/1CUu53LKdsp03d
- j3rajsQ2N0APeT5RKTmF8z/tamdFUYBieVgAC2hy1WKHxuvEXQOMtw4sY8W1f85FfM04
- kbLfstUl4ZJh7ATxlT1034/IWYvF22VwZI3MwcVsqyfgDzmRguthfTLfYzy0q5n5j4Gs
- yFjA==
-X-Gm-Message-State: APjAAAW8rsuTr2Y3a9Pi2Hdyw9zNuJQIyRuXOKlr/vzODycTLEMTCvH4
- vvs/I3t5JRXmyIfTTQOfD+Vw1Q==
-X-Google-Smtp-Source: APXvYqw5oGypDtzGgNwvvWbslpU4EMb/BnrRDKBpEjy5N/diMrjDcitfFjkBoPWofM/KjPVv+WoNiw==
-X-Received: by 2002:adf:e283:: with SMTP id v3mr4153132wri.338.1561563044816; 
- Wed, 26 Jun 2019 08:30:44 -0700 (PDT)
-Received: from ?IPv6:2a01:e35:8b6a:1220:e080:14ab:15ae:4341?
- ([2a01:e35:8b6a:1220:e080:14ab:15ae:4341])
- by smtp.gmail.com with ESMTPSA id o6sm3511640wmc.15.2019.06.26.08.30.43
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qNVygF9Rj5H50lQdbMbn70sxvvH5Ew9VLUG6FLuSh+k=;
+ b=POrQSh+gWwDNdgthliAOp0BzHm6+eIWxgeM5nt8Jcfb21eko/edXI5xEgzlqyhrqVW
+ RifjEXTlfrChuULEJ/OwFKweghfFc/RIKm6F9hz1dOMq4/wv1ezEX487fkGro04FhDzP
+ bCato6Cc4pf5nk8gu8mPl0l5uIk+4Obs08GVzUZlG2Q12DKo0N9nsy0OFWb4LfC/OnlH
+ UGZfP2g1Rs58UZGuW7NDqxapC5jkyGMbh/9p4TMPls1on7Otg1G6bJ8AkJaZ+fCOku2f
+ O+GAX9MsQIuaXfj/VsnEsvggWRnOyRYiDzHptIJ88Vxxb75Pp5j22ubjTkMhdpqfHii3
+ RMCQ==
+X-Gm-Message-State: APjAAAVvLhJiJYGJ0sCOeY/HsV/HGq+b5Qina3SpX8nZet89RR7EWfJ0
+ At+Ux51qQ1u00wvEOCscPCOypg==
+X-Google-Smtp-Source: APXvYqxd05kKVsyDnCFkIF7IhB7pAE9BNPi+BTIf/grUjD/kEHipyUoOd8FeSYQuWVmE5CjgYrqr0g==
+X-Received: by 2002:a5d:4941:: with SMTP id r1mr4537398wrs.225.1561573762545; 
+ Wed, 26 Jun 2019 11:29:22 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id j7sm25686965wru.54.2019.06.26.11.29.21
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 08:30:43 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
-From: Christophe de Dinechin <cdupontd@redhat.com>
-In-Reply-To: <20190624123835.28869-1-alex.bennee@linaro.org>
-Date: Wed, 26 Jun 2019 17:30:42 +0200
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <44600E39-15E9-4E1C-ACA1-B435F5EEB8FB@redhat.com>
-References: <20190624123835.28869-1-alex.bennee@linaro.org>
-To: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-X-Mailer: Apple Mail (2.3445.104.11)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH] target/i386: fix feature check in
- hyperv-stub.c
+ Wed, 26 Jun 2019 11:29:22 -0700 (PDT)
+To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1560942225-24728-1-git-send-email-stefan.brankovic@rt-rk.com>
+ <1560942225-24728-3-git-send-email-stefan.brankovic@rt-rk.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <d33e4335-94c7-8bff-67c5-48848d48929e@linaro.org>
+Date: Wed, 26 Jun 2019 17:34:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <1560942225-24728-3-git-send-email-stefan.brankovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH 2/8] target/ppc: Optimize emulation of vsl
+ and vsr instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,57 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Roman Kagan <rkagan@virtuozzo.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-> On 24 Jun 2019, at 14:38, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->=20
-> Commit 2d384d7c8 broken the build when built with:
->=20
->  configure --without-default-devices --disable-user
->=20
-> The reason was the conversion of cpu->hyperv_synic to
-> cpu->hyperv_synic_kvm_only although the rest of the patch introduces a
-> feature checking mechanism. So I've fixed the KVM_EXIT_HYPERV_SYNIC in
-> hyperv-stub to do the same feature check as in the real hyperv.c
-
-Sorry, I failed to check on the mailing list before sending an exact
-duplicate of this patch=E2=80=A6
-
-
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Vitaly Kuznetsov <vkuznets@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Roman Kagan <rkagan@virtuozzo.com>
+On 6/19/19 1:03 PM, Stefan Brankovic wrote:
+> Optimization of altivec instructions vsl and vsr(Vector Shift Left/Rigt).
+> Perform shift operation (left and right respectively) on 128 bit value of
+> register vA by value specified in bits 125-127 of register vB. Lowest 3
+> bits in each byte element of register vB must be identical or result is
+> undefined.
+> 
+> For vsl instruction, the first step is bits 125-127 of register vB have
+> to be saved in variable sh. Then, the highest sh bits of the lower
+> doubleword element of register vA are saved in variable shifted,
+> in order not to lose those bits when shift operation is performed on
+> the lower doubleword element of register vA, which is the next
+> step. After shifting the lower doubleword element shift operation
+> is performed on higher doubleword element of vA, with replacement of
+> the lowest sh bits(that are now 0) with bits saved in shifted.
+> 
+> For vsr instruction, firstly, the bits 125-127 of register vB have
+> to be saved in variable sh. Then, the lowest sh bits of the higher
+> doubleword element of register vA are saved in variable shifted,
+> in odred not to lose those bits when the shift operation is
+> performed on the higher doubleword element of register vA, which is
+> the next step. After shifting higher doubleword element, shift operation
+> is performed on lower doubleword element of vA, with replacement of
+> highest sh bits(that are now 0) with bits saved in shifted.
+> 
+> Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 > ---
-> target/i386/hyperv-stub.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/target/i386/hyperv-stub.c b/target/i386/hyperv-stub.c
-> index fe548cbae2..0028527e79 100644
-> --- a/target/i386/hyperv-stub.c
-> +++ b/target/i386/hyperv-stub.c
-> @@ -15,7 +15,7 @@ int kvm_hv_handle_exit(X86CPU *cpu, struct =
-kvm_hyperv_exit *exit)
-> {
->     switch (exit->type) {
->     case KVM_EXIT_HYPERV_SYNIC:
-> -        if (!cpu->hyperv_synic) {
-> +        if (!hyperv_feat_enabled(cpu, HYPERV_FEAT_SYNIC)) {
->             return -1;
->         }
->=20
-> --=20
-> 2.20.1
->=20
->=20
+>  target/ppc/helper.h                 |  2 -
+>  target/ppc/int_helper.c             | 35 -------------
+>  target/ppc/translate/vmx-impl.inc.c | 99 ++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 97 insertions(+), 39 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
 
