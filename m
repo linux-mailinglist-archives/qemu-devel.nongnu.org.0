@@ -2,49 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CBA55E04
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 03:57:45 +0200 (CEST)
-Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49D1655EBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 04:34:26 +0200 (CEST)
+Received: from localhost ([::1]:36324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfxBw-0007aa-MS
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 21:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46517)
+	id 1hfxlR-0002pU-Fi
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 22:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48239)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hfx9a-0004gV-Gt
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 21:55:19 -0400
+ (envelope-from <elohimes@gmail.com>) id 1hfxjH-0001W0-Pq
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hfx9Y-0006sg-Q2
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 21:55:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57886)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
- id 1hfx9Y-0006jW-A0; Tue, 25 Jun 2019 21:55:16 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E567A308FC22;
- Wed, 26 Jun 2019 01:55:10 +0000 (UTC)
-Received: from localhost (ovpn-116-101.gru2.redhat.com [10.97.116.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3DA195D719;
- Wed, 26 Jun 2019 01:55:05 +0000 (UTC)
-Date: Tue, 25 Jun 2019 22:55:04 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Message-ID: <20190626015503.GX1862@habkost.net>
-References: <20190625232333.30752-1-marcandre.lureau@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20190625232333.30752-1-marcandre.lureau@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Wed, 26 Jun 2019 01:55:10 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] virtio-pci: fix missing device properties
+ (envelope-from <elohimes@gmail.com>) id 1hfxj9-0001iR-Gk
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:06 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:36943)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hfxj5-0001Y4-N7
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 22:32:01 -0400
+Received: by mail-pl1-x641.google.com with SMTP id bh12so518708plb.4
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 19:31:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=TAl0nqcP224QX/pPpnsk83//p0CtvtlL6Rvc+QhPyC0=;
+ b=VM2mwxcJZUWqi2BQNT3B66AQzDpK+/Vc49bQQrz4dHQtFZEl8xom9QaN0j4U681Zn9
+ z9/5YuE5zIvnjCcocdN9dDeh6RI9goRRxiMIKwHrAMjBUd9PJ2KScg/MCYg2u+a/JV8S
+ Hbc0Z1xaO92LWdqKcaaKOihHsacxiLn4BfW2+mhBF05tBgFlAs0FzXN+dH8N7xDUIHBO
+ 6ja0MLUcYOrt1qxmEjAJrxKX4TWy7jkBRMYweeD2EDSLddaJW0vCchnxTE+rbWWtrcDR
+ K59+Hd76VUs87d7sndKtD9f+1SdCgP8+EHbkuV7uCJ2aOSQpjNG2ZhRJXjkMpaC/4a0x
+ KCWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=TAl0nqcP224QX/pPpnsk83//p0CtvtlL6Rvc+QhPyC0=;
+ b=jf970R66uO0BlYL8L0ZA/QdIM5L3BptL2zQgh2FTlwY7R7t8twNEnUWJ3m7ifxQ+35
+ 1wvhpXvMS7qeZucFUuBjm7NegFYSlUb6WbER5lZe4wAi5al9fEVP7ijvJJKP5Xl690q9
+ v/sPPQBMO02Bc18xdGai4hVWllcAR99hnJ0lst45uAvuJacddaZIAcJ/cICtxfm0v6h4
+ xmbG5EyHSbvxYBRU88E4lNafReAnrjQDpkaM23EUDoJXOZmiG1hPGMhWSml3cK6+vbjp
+ rTb49N4RLLWkI8or0zpD5IgFdTpKdncwx8XLF+Ub9d9BNy0DTVzI7UpOaTM33r6VSELJ
+ 8JyA==
+X-Gm-Message-State: APjAAAXi93b4a8M1VSn/4hK7ISuiYW9JxQqVtWN4slVuS0CLML36hu7i
+ FAxcjBgWp56N50L1tObQBXU=
+X-Google-Smtp-Source: APXvYqxG3dG0Bthwflt0To9ZPUXw0LTvTDSyGIQV3EaGCbqqZfd1metPuKmldqamgzWaUxuBTx2Q7A==
+X-Received: by 2002:a17:902:b215:: with SMTP id
+ t21mr2204554plr.123.1561516311211; 
+ Tue, 25 Jun 2019 19:31:51 -0700 (PDT)
+Received: from localhost ([116.247.112.152])
+ by smtp.gmail.com with ESMTPSA id r6sm351163pji.0.2019.06.25.19.31.50
+ (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 25 Jun 2019 19:31:50 -0700 (PDT)
+From: elohimes@gmail.com
+X-Google-Original-From: xieyongji@baidu.com
+To: mst@redhat.com,
+	groug@kaod.org
+Date: Wed, 26 Jun 2019 10:31:25 +0800
+Message-Id: <20190626023130.31315-1-xieyongji@baidu.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH v4 0/5] virtio: fix some issues of "started"
+ and "start_on_kick" flag
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,170 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- mst@redhat.com
+Cc: lvivier@redhat.com, ehabkost@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, Xie Yongji <xieyongji@baidu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 26, 2019 at 01:23:33AM +0200, Marc-Andr=E9 Lureau wrote:
-> Since commit a4ee4c8baa37154 ("virtio: Helper for registering virtio
-> device types"), virtio-gpu-pci, virtio-vga, and virtio-crypto-pci lost
-> some properties: "ioeventfd" and "vectors". This may cause various
-> issues, such as failing migration or invalid properties.
->=20
-> Since those VirtioPCI devices do not have a base name, their class are
-> initialized with virtio_pci_generic_base_class_init(). However, if the
-> VirtioPCIDeviceTypeInfo provided a class_init which sets dc->props,
-> the properties were overwritten by virtio_pci_generic_class_init().
->=20
-> Instead, introduce an intermediary base-type to register the generic
-> properties.
->=20
-> Fixes: a4ee4c8baa37154f42b4dc6a13fee79268d15238
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  hw/virtio/virtio-pci.c | 28 ++++++++++++++--------------
->  1 file changed, 14 insertions(+), 14 deletions(-)
->=20
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index e6d5467e54..62c4977332 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1913,13 +1913,6 @@ static void virtio_pci_generic_class_init(Object=
-Class *klass, void *data)
->      dc->props =3D virtio_pci_generic_properties;
->  }
-> =20
-> -/* Used when the generic type and the base type is the same */
-> -static void virtio_pci_generic_base_class_init(ObjectClass *klass, voi=
-d *data)
-> -{
-> -    virtio_pci_base_class_init(klass, data);
-> -    virtio_pci_generic_class_init(klass, NULL);
-> -}
-> -
->  static void virtio_pci_transitional_instance_init(Object *obj)
->  {
->      VirtIOPCIProxy *proxy =3D VIRTIO_PCI(obj);
-> @@ -1938,14 +1931,13 @@ static void virtio_pci_non_transitional_instanc=
-e_init(Object *obj)
-> =20
->  void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t)
->  {
-> +    char *base_name =3D NULL;
->      TypeInfo base_type_info =3D {
->          .name          =3D t->base_name,
->          .parent        =3D t->parent ? t->parent : TYPE_VIRTIO_PCI,
->          .instance_size =3D t->instance_size,
->          .instance_init =3D t->instance_init,
->          .class_size    =3D t->class_size,
-> -        .class_init    =3D virtio_pci_base_class_init,
-> -        .class_data    =3D (void *)t,
->          .abstract      =3D true,
->      };
->      TypeInfo generic_type_info =3D {
-> @@ -1961,13 +1953,20 @@ void virtio_pci_types_register(const VirtioPCID=
-eviceTypeInfo *t)
-> =20
->      if (!base_type_info.name) {
->          /* No base type -> register a single generic device type */
-> -        base_type_info.name =3D t->generic_name;
-> -        base_type_info.class_init =3D virtio_pci_generic_base_class_in=
-it;
-> -        base_type_info.interfaces =3D generic_type_info.interfaces;
-> -        base_type_info.abstract =3D false;
-> -        generic_type_info.name =3D NULL;
-> +        /* use intermediate %s-base-type to add generic device props *=
-/
-> +        base_name =3D g_strdup_printf("%s-base-type", t->generic_name)=
-;
-> +        base_type_info.name =3D base_name;
-> +        base_type_info.class_init =3D virtio_pci_generic_class_init;
-> +
-> +        generic_type_info.parent =3D base_name;
-> +        generic_type_info.class_init =3D virtio_pci_base_class_init;
-> +        generic_type_info.class_data =3D (void *)t;
+From: Xie Yongji <xieyongji@baidu.com>
 
-Why are you using virtio_pci_generic_class_init for the base
-class, and virtio_pci_base_class_init for the subclass, but doing
-exactly the opposite when t->base_name is set?
+We introduced two flags "started" and "start_on_kick" to indicate virtio
+device's state before. But there still are some problems with them. So
+we try to fixup them in this patchset.
 
-Isn't it simpler to just initialize base_type_info.name and leave
-all the rest alone?  Patch below.
+The patch 1 introduces a "use-started" property to avoid a migration
+issue under Greg Kurz's suggestion [1].
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index e6d5467e54..3ee50a0783 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1913,13 +1913,6 @@ static void virtio_pci_generic_class_init(ObjectCl=
-ass *klass, void *data)
-     dc->props =3D virtio_pci_generic_properties;
- }
-=20
--/* Used when the generic type and the base type is the same */
--static void virtio_pci_generic_base_class_init(ObjectClass *klass, void =
-*data)
--{
--    virtio_pci_base_class_init(klass, data);
--    virtio_pci_generic_class_init(klass, NULL);
--}
--
- static void virtio_pci_transitional_instance_init(Object *obj)
- {
-     VirtIOPCIProxy *proxy =3D VIRTIO_PCI(obj);
-@@ -1938,8 +1931,11 @@ static void virtio_pci_non_transitional_instance_i=
-nit(Object *obj)
-=20
- void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t)
- {
-+    char *base_name =3D t->base_name ?
-+                      NULL :
-+                      g_strdup_printf("%s-base-type", t->generic_name);
-     TypeInfo base_type_info =3D {
--        .name          =3D t->base_name,
-+        .name          =3D t->base_name ?: base_name,
-         .parent        =3D t->parent ? t->parent : TYPE_VIRTIO_PCI,
-         .instance_size =3D t->instance_size,
-         .instance_init =3D t->instance_init,
-@@ -1959,21 +1955,8 @@ void virtio_pci_types_register(const VirtioPCIDevi=
-ceTypeInfo *t)
-         },
-     };
-=20
--    if (!base_type_info.name) {
--        /* No base type -> register a single generic device type */
--        base_type_info.name =3D t->generic_name;
--        base_type_info.class_init =3D virtio_pci_generic_base_class_init=
-;
--        base_type_info.interfaces =3D generic_type_info.interfaces;
--        base_type_info.abstract =3D false;
--        generic_type_info.name =3D NULL;
--        assert(!t->non_transitional_name);
--        assert(!t->transitional_name);
--    }
--
-     type_register(&base_type_info);
--    if (generic_type_info.name) {
--        type_register(&generic_type_info);
--    }
-+    type_register(&generic_type_info);
-=20
-     if (t->non_transitional_name) {
-         const TypeInfo non_transitional_type_info =3D {
-@@ -2005,6 +1988,7 @@ void virtio_pci_types_register(const VirtioPCIDevic=
-eTypeInfo *t)
-         };
-         type_register(&transitional_type_info);
-     }
-+    g_free(base_name);
- }
-=20
- /* virtio-pci-bus */
+The patch 2 set "start_on_kick" flag for legacy devices.
 
+The patch 3 fixes a regression bug that old guest is not able to boot with
+vhost-user-blk device.
 
---=20
-Eduardo
+The patch 4,5 fix some problems with "started" and "start_on_kick" flag.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg06247.html
+
+v4:
+- Patch 1 is rebased on commit 8e8cbed09ad9d5 ("hw: Nuke hw_compat_4_0_1 and
+  pc_compat_4_0_1")
+
+v3:
+- change the order of patches
+- Also disable "use-started" property by hw_compat_4_0
+
+v2:
+- Recalculate "start_on_kick" flag after migration instead of migrating
+  it
+- Set "start_on_kick" flag for legacy devices
+- Avoid setting "started" flag when "use_started" property is true
+- Set "use_started" to false by hw_compat_4_0_1 instead of hw_compat_4_0
+
+Xie Yongji (5):
+  virtio: add "use-started" property
+  virtio: Set "start_on_kick" for legacy devices
+  virtio: Set "start_on_kick" on virtio_set_features()
+  virtio: Make sure we get correct state of device on
+    handle_aio_output()
+  virtio: Don't change "started" flag on virtio_vmstate_change()
+
+ hw/block/vhost-user-blk.c  |  4 +--
+ hw/core/machine.c          |  1 +
+ hw/virtio/virtio.c         | 53 ++++++++++++++++++++++----------------
+ include/hw/virtio/virtio.h | 23 ++++++++++++++++-
+ 4 files changed, 56 insertions(+), 25 deletions(-)
+
+-- 
+2.17.1
+
 
