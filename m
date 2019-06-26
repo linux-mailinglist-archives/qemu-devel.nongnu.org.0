@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AF656867
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:15:04 +0200 (CEST)
-Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1543056891
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:22:29 +0200 (CEST)
+Received: from localhost ([::1]:39613 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6pL-0007Sa-7p
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:15:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49913)
+	id 1hg6wW-0005D5-9A
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50005)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hg6mV-0005bP-GV
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:09 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hg6mo-00061D-VZ
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hg6mT-0000pL-Le
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:07 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:58451)
+ (envelope-from <laurent@vivier.eu>) id 1hg6mn-0001Vs-2e
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:26 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:47701)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hg6mT-0000l5-36
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:05 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hg6ml-0001R0-Ef
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:24 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MAwPf-1hqo1q0ucL-00BJMb; Wed, 26 Jun 2019 14:11:47 +0200
+ id 1M3UhQ-1hfYoL3bZC-000YeE; Wed, 26 Jun 2019 14:11:48 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 14:11:34 +0200
-Message-Id: <20190626121139.19114-2-laurent@vivier.eu>
+Date: Wed, 26 Jun 2019 14:11:35 +0200
+Message-Id: <20190626121139.19114-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190626121139.19114-1-laurent@vivier.eu>
 References: <20190626121139.19114-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ui0tnn6wr8frkgkNKUI2A5bMESmhU0/bggWXerM4U3JzIGWhPzj
- SDcYe/WEQeD3/6u7R06IPk1+uipyZsz0qKDf5ERxSaW+fNAOffzhwlCyQNJI7ekAx2w10G0
- G3DShJuZ1DUcr1H0M1dngBE1+KsTlZWE/hQOF2Z4+qtvKkSkyB5pufTSsAYMZ0KjSFQcf4J
- FzaH67N/4WI5rNa7o5LRg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:v7FjBSlm+fk=:y7w1AUsHyS4jQbtYxiop6t
- ulz3tGZi8uENGzaGKXaS/M+v1GdW6Rpcc6ae76LHK4SkwBwMXKGFC1pZ8rlKE1LV7WZJQbG0J
- ePTG5pVH7O/nWvRiBHkP6zYRvGvTx9tdldNIZO8FooxIYHTu8aaJ2xLZiABuPH4LHCrOd6HyO
- 6YGwaPavOFC+k8ujjpcPlZ2IJze20Lo2W82MBBlqFKHdjlnYqyMY5M0CLKK21MgO44/7Q1CAy
- YiQj5j3qKv8Prz8s8fvyxeBY12IDzSYx4+zVFQtNXFb2OcDaQh/4ZqDxVKQzcJTiT1jTPq4Ei
- QITzHOZUZGxdeqKtPo+LS3PbdtvIg755+gi2bhvuKmOtWMzeEJyQ8O1maAtEF4MrMb6J+3rf5
- bCCZFcKCz4s1hH5xA0lD81C4G8s0/Jy91vCRY1/2Iu42+yZFa01sKf9kHRKz+g7EuWaBnKTOz
- fqshisatzc6yhDP1voW3U4INQfTzLO9PcMrVCXpDByiU6MnmG3sFVtQptH/2m8YcvuBIPwafD
- 4hinh1RB5HzKf9vx6E3V96uHs+kJco0UUAG7+U6x6Ho+Oq+1i/9KBcvbjR0pI8iB7WZnqVjse
- seELPfsE90NaxpyJ+Sino6Xk+TUQMdFy+locWnfeyBX9GtXNNoTn6UABMy7EK9P1L+tLAHNEq
- WHHgWF/yMZaZaHcZVJOCXyQC4r+rTDLH3G1y/+Yprq9bIEe8YNzdS0RIjvZfNokY9VO9W+Dz3
- 0YpzSXk714yTeZTjA4ho+hWNWzWqn5luZVl+Bg==
+X-Provags-ID: V03:K1:FOwiOG93lZxN3jZq8PqE1FTpHQMpEYZGlvzo+TTxjuB6C3iXL3S
+ Ole3VcfL9p6XjEndwziC8GoQsbZPaI95U3Mvv4MVrKH8oFoj04mEfcq1xYjtFWTqpAsuRrH
+ 2ZItz5FMh0Z+ZLkJlqOmyNva/FuMvaCUE9uAXBZC2WXqk+qDAI/m0TIz4pHnk+pbptl+t4Z
+ KTIz++fIZhLXm3GeFgtow==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YhjZtYQ93Zg=:gRqpnlKAfjKsGei51/+KjF
+ YWfjf+gndprJb7N2S8smsYOII4VHa7o6mNSTOGn3WsRGxuvzm3t+INmUsLy0K0bTAPb+3AN37
+ A/+oqPrk5MmbQjdGGORGbJKdgnIQykAw1r0Oq8BCxsqYwM1BL4HvAxeW1oDd5PNVz2W1uHG6M
+ jCfcyTiVPTbjERe67mx6ds02JS+O7xCO38DdJf1X/+rtEaSFHtUEf+cSVIgCYehBHqo/Ud02g
+ wsuO42WlVPjPdZX015WlQfN0Dxg4VFtQxjSYZvwZXM3iMkD3BYe7t6gXFPPhI5sllV6kJTA5j
+ N46+ZIFXVUemIR4fJPc0c1hGP7/lnc+gFOY4CEfmjIpyeYxCgjuWUluiU4O/nzo5wZnFCmpdw
+ B2h2CXsgx1g2nv+VA/++3lFkgXGiq2EjQ+sRITedKoqzsD36TZCKw6/KxgFXCv8mJMSEmL9V4
+ 42kVNCoT4ebCm8urz+prsVQXTUWCszmSCZGRXjNfiTCYzH9027UtY24ajk9r3Fx369/I/BiEn
+ azP/eF+cukT8PnYGaXr5/tClvJwu4eTfkR1pg9vdGOKuDM8IhhSxVaq+ZN7rVu5UYr9Mm0MeV
+ qltnBJs6b+BwKkjzgZSo44vYyeebT6MKusYDJu35s1TRayHH664K39eqLNN7hlxh0ofgMxTXE
+ joMTYXVfepicAAdNio9B4Em5LKmdc2BkiaYNlBsZE39mLH2h1flM0+xOp1DkDpzFcppA/4O4D
+ pqDVmHlhWWPoFM/bOJdasTcAuBrZs6XN+XKZyA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: [Qemu-devel] [PULL 1/6] util/path: Do not cache all filenames at
- startup
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PULL 2/6] linux-user: emulate msgsnd(),
+ msgrcv() and semtimedop()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,251 +63,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+When we have updated kernel headers to 5.2-rc1 we have introduced
+new syscall numbers that can be not supported by older kernels
+and fail with ENOSYS while the guest emulation succeeded before
+because the syscalls were emulated with ipc().
 
-If one uses -L $PATH to point to a full chroot, the startup time
-is significant.  In addition, the existing probing algorithm fails
-to handle symlink loops.
+This patch fixes the problem by using ipc() if the new syscall
+returns ENOSYS.
 
-Instead, probe individual paths on demand.  Cache both positive
-and negative results within $PATH, so that any one filename is
-probed only once.
-
-Use glib filename functions for clarity.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Tested-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20190519201953.20161-2-richard.henderson@linaro.org>
+Fixes: 86e636951ddc ("linux-user: fix __NR_semtimedop undeclared error")
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20190529084804.25950-1-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- util/path.c | 193 ++++++++++++----------------------------------------
- 1 file changed, 43 insertions(+), 150 deletions(-)
+ linux-user/syscall.c      | 61 +++++++++++++++++++--------------------
+ linux-user/syscall_defs.h |  1 +
+ 2 files changed, 31 insertions(+), 31 deletions(-)
 
-diff --git a/util/path.c b/util/path.c
-index 7f9fc272fbb3..8e174eb43642 100644
---- a/util/path.c
-+++ b/util/path.c
-@@ -8,170 +8,63 @@
- #include <dirent.h>
- #include "qemu/cutils.h"
- #include "qemu/path.h"
-+#include "qemu/thread.h"
- 
--struct pathelem
--{
--    /* Name of this, eg. lib */
--    char *name;
--    /* Full path name, eg. /usr/gnemul/x86-linux/lib. */
--    char *pathname;
--    struct pathelem *parent;
--    /* Children */
--    unsigned int num_entries;
--    struct pathelem *entries[0];
--};
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index b187c1281dce..e942049cb0da 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -762,50 +762,21 @@ safe_syscall2(int, nanosleep, const struct timespec *, req,
+ safe_syscall4(int, clock_nanosleep, const clockid_t, clock, int, flags,
+               const struct timespec *, req, struct timespec *, rem)
+ #endif
+-#if !defined(__NR_msgsnd) || !defined(__NR_msgrcv) || !defined(__NR_semtimedop)
+-/* This host kernel architecture uses a single ipc syscall; fake up
+- * wrappers for the sub-operations to hide this implementation detail.
+- * Annoyingly we can't include linux/ipc.h to get the constant definitions
+- * for the call parameter because some structs in there conflict with the
+- * sys/ipc.h ones. So we just define them here, and rely on them being
+- * the same for all host architectures.
+- */
+-#define Q_SEMTIMEDOP 4
+-#define Q_MSGSND 11
+-#define Q_MSGRCV 12
+-#define Q_IPCCALL(VERSION, OP) ((VERSION) << 16 | (OP))
 -
--static struct pathelem *base;
--
--/* First N chars of S1 match S2, and S2 is N chars long. */
--static int strneq(const char *s1, unsigned int n, const char *s2)
--{
--    unsigned int i;
--
--    for (i = 0; i < n; i++)
--        if (s1[i] != s2[i])
--            return 0;
--    return s2[i] == 0;
--}
--
--static struct pathelem *add_entry(struct pathelem *root, const char *name,
--                                  unsigned type);
-+static const char *base;
-+static GHashTable *hash;
-+static QemuMutex lock;
- 
--static struct pathelem *new_entry(const char *root,
--                                  struct pathelem *parent,
--                                  const char *name)
--{
--    struct pathelem *new = g_malloc(sizeof(*new));
--    new->name = g_strdup(name);
--    new->pathname = g_strdup_printf("%s/%s", root, name);
--    new->num_entries = 0;
--    return new;
--}
--
--#define streq(a,b) (strcmp((a), (b)) == 0)
--
--/* Not all systems provide this feature */
--#if defined(DT_DIR) && defined(DT_UNKNOWN) && defined(DT_LNK)
--# define dirent_type(dirent) ((dirent)->d_type)
--# define is_dir_maybe(type) \
--    ((type) == DT_DIR || (type) == DT_UNKNOWN || (type) == DT_LNK)
++#ifdef __NR_ipc
+ safe_syscall6(int, ipc, int, call, long, first, long, second, long, third,
+               void *, ptr, long, fifth)
+ #endif
+ #ifdef __NR_msgsnd
+ safe_syscall4(int, msgsnd, int, msgid, const void *, msgp, size_t, sz,
+               int, flags)
 -#else
--# define dirent_type(dirent) (1)
--# define is_dir_maybe(type)  (type)
--#endif
--
--static struct pathelem *add_dir_maybe(struct pathelem *path)
-+void init_paths(const char *prefix)
+-static int safe_msgsnd(int msgid, const void *msgp, size_t sz, int flags)
+-{
+-    return safe_ipc(Q_IPCCALL(0, Q_MSGSND), msgid, sz, flags, (void *)msgp, 0);
+-}
+ #endif
+ #ifdef __NR_msgrcv
+ safe_syscall5(int, msgrcv, int, msgid, void *, msgp, size_t, sz,
+               long, msgtype, int, flags)
+-#else
+-static int safe_msgrcv(int msgid, void *msgp, size_t sz, long type, int flags)
+-{
+-    return safe_ipc(Q_IPCCALL(1, Q_MSGRCV), msgid, sz, flags, msgp, type);
+-}
+ #endif
+ #ifdef __NR_semtimedop
+ safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
+               unsigned, nsops, const struct timespec *, timeout)
+-#else
+-static int safe_semtimedop(int semid, struct sembuf *tsops, unsigned nsops,
+-                           const struct timespec *timeout)
+-{
+-    return safe_ipc(Q_IPCCALL(0, Q_SEMTIMEDOP), semid, nsops, 0, tsops,
+-                    (long)timeout);
+-}
+ #endif
+ #if defined(TARGET_NR_mq_open) && defined(__NR_mq_open)
+ safe_syscall5(int, mq_timedsend, int, mqdes, const char *, msg_ptr,
+@@ -3529,11 +3500,21 @@ static inline abi_long target_to_host_sembuf(struct sembuf *host_sembuf,
+ static inline abi_long do_semop(int semid, abi_long ptr, unsigned nsops)
  {
--    DIR *dir;
--
--    if ((dir = opendir(path->pathname)) != NULL) {
--        struct dirent *dirent;
--
--        while ((dirent = readdir(dir)) != NULL) {
--            if (!streq(dirent->d_name,".") && !streq(dirent->d_name,"..")){
--                path = add_entry(path, dirent->d_name, dirent_type(dirent));
--            }
--        }
--        closedir(dir);
-+    if (prefix[0] == '\0' || !strcmp(prefix, "/")) {
-+        return;
-     }
--    return path;
--}
--
--static struct pathelem *add_entry(struct pathelem *root, const char *name,
--                                  unsigned type)
--{
--    struct pathelem **e;
--
--    root->num_entries++;
--
--    root = g_realloc(root, sizeof(*root)
--                   + sizeof(root->entries[0])*root->num_entries);
--    e = &root->entries[root->num_entries-1];
+     struct sembuf sops[nsops];
++    abi_long ret;
  
--    *e = new_entry(root->pathname, root, name);
--    if (is_dir_maybe(type)) {
--        *e = add_dir_maybe(*e);
-+    if (prefix[0] == '/') {
-+        base = g_strdup(prefix);
-+    } else {
-+        char *cwd = g_get_current_dir();
-+        base = g_build_filename(cwd, prefix, NULL);
-+        g_free(cwd);
-     }
+     if (target_to_host_sembuf(sops, ptr, nsops))
+         return -TARGET_EFAULT;
  
--    return root;
--}
--
--/* This needs to be done after tree is stabilized (ie. no more reallocs!). */
--static void set_parents(struct pathelem *child, struct pathelem *parent)
--{
--    unsigned int i;
--
--    child->parent = parent;
--    for (i = 0; i < child->num_entries; i++)
--        set_parents(child->entries[i], child);
-+    hash = g_hash_table_new(g_str_hash, g_str_equal);
-+    qemu_mutex_init(&lock);
- }
- 
--/* FIXME: Doesn't handle DIR/.. where DIR is not in emulated dir. */
--static const char *
--follow_path(const struct pathelem *cursor, const char *name)
--{
--    unsigned int i, namelen;
--
--    name += strspn(name, "/");
--    namelen = strcspn(name, "/");
--
--    if (namelen == 0)
--        return cursor->pathname;
--
--    if (strneq(name, namelen, ".."))
--        return follow_path(cursor->parent, name + namelen);
--
--    if (strneq(name, namelen, "."))
--        return follow_path(cursor, name + namelen);
--
--    for (i = 0; i < cursor->num_entries; i++)
--        if (strneq(name, namelen, cursor->entries[i]->name))
--            return follow_path(cursor->entries[i], name + namelen);
--
--    /* Not found */
--    return NULL;
--}
--
--void init_paths(const char *prefix)
-+/* Look for path in emulation dir, otherwise return name. */
-+const char *path(const char *name)
- {
--    char pref_buf[PATH_MAX];
--
--    if (prefix[0] == '\0' ||
--        !strcmp(prefix, "/"))
--        return;
-+    gpointer key, value;
-+    const char *ret;
- 
--    if (prefix[0] != '/') {
--        char *cwd = getcwd(NULL, 0);
--        size_t pref_buf_len = sizeof(pref_buf);
-+    /* Only do absolute paths: quick and dirty, but should mostly be OK.  */
-+    if (!base || !name || name[0] != '/') {
-+        return name;
+-    return get_errno(safe_semtimedop(semid, sops, nsops, NULL));
++    ret = -TARGET_ENOSYS;
++#ifdef __NR_semtimedop
++    ret = get_errno(safe_semtimedop(semid, sops, nsops, NULL));
++#endif
++#ifdef __NR_ipc
++    if (ret == -TARGET_ENOSYS) {
++        ret = get_errno(safe_ipc(IPCOP_semtimedop, semid, nsops, 0, sops, 0));
 +    }
- 
--        if (!cwd)
--            abort();
--        pstrcpy(pref_buf, sizeof(pref_buf), cwd);
--        pstrcat(pref_buf, pref_buf_len, "/");
--        pstrcat(pref_buf, pref_buf_len, prefix);
--        free(cwd);
--    } else
--        pstrcpy(pref_buf, sizeof(pref_buf), prefix + 1);
-+    qemu_mutex_lock(&lock);
- 
--    base = new_entry("", NULL, pref_buf);
--    base = add_dir_maybe(base);
--    if (base->num_entries == 0) {
--        g_free(base->pathname);
--        g_free(base->name);
--        g_free(base);
--        base = NULL;
-+    /* Have we looked up this file before?  */
-+    if (g_hash_table_lookup_extended(hash, name, &key, &value)) {
-+        ret = value ? value : name;
-     } else {
--        set_parents(base, base);
-+        char *save = g_strdup(name);
-+        char *full = g_build_filename(base, name, NULL);
-+
-+        /* Look for the path; record the result, pass or fail.  */
-+        if (access(full, F_OK) == 0) {
-+            /* Exists.  */
-+            g_hash_table_insert(hash, save, full);
-+            ret = full;
-+        } else {
-+            /* Does not exist.  */
-+            g_free(full);
-+            g_hash_table_insert(hash, save, NULL);
-+            ret = name;
-+        }
-     }
--}
--
--/* Look for path in emulation dir, otherwise return name. */
--const char *path(const char *name)
--{
--    /* Only do absolute paths: quick and dirty, but should mostly be OK.
--       Could do relative by tracking cwd. */
--    if (!base || !name || name[0] != '/')
--        return name;
- 
--    return follow_path(base, name) ?: name;
-+    qemu_mutex_unlock(&lock);
++#endif
 +    return ret;
  }
+ 
+ struct target_msqid_ds
+@@ -3688,7 +3669,16 @@ static inline abi_long do_msgsnd(int msqid, abi_long msgp,
+     }
+     host_mb->mtype = (abi_long) tswapal(target_mb->mtype);
+     memcpy(host_mb->mtext, target_mb->mtext, msgsz);
++    ret = -TARGET_ENOSYS;
++#ifdef __NR_msgsnd
+     ret = get_errno(safe_msgsnd(msqid, host_mb, msgsz, msgflg));
++#endif
++#ifdef __NR_ipc
++    if (ret == -TARGET_ENOSYS) {
++        ret = get_errno(safe_ipc(IPCOP_msgsnd, msqid, msgsz, msgflg,
++                                 host_mb, 0));
++    }
++#endif
+     g_free(host_mb);
+     unlock_user_struct(target_mb, msgp, 0);
+ 
+@@ -3716,7 +3706,16 @@ static inline abi_long do_msgrcv(int msqid, abi_long msgp,
+         ret = -TARGET_ENOMEM;
+         goto end;
+     }
++    ret = -TARGET_ENOSYS;
++#ifdef __NR_msgrcv
+     ret = get_errno(safe_msgrcv(msqid, host_mb, msgsz, msgtyp, msgflg));
++#endif
++#ifdef __NR_ipc
++    if (ret == -TARGET_ENOSYS) {
++        ret = get_errno(safe_ipc(IPCOP_CALL(1, IPCOP_msgrcv), msqid, msgsz,
++                        msgflg, host_mb, msgtyp));
++    }
++#endif
+ 
+     if (ret > 0) {
+         abi_ulong target_mtext_addr = msgp + sizeof(abi_ulong);
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 7f141f699c1a..3175440e9dd9 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -32,6 +32,7 @@
+ #define TARGET_SYS_RECVMMSG     19        /* recvmmsg()            */
+ #define TARGET_SYS_SENDMMSG     20        /* sendmmsg()            */
+ 
++#define IPCOP_CALL(VERSION, OP) ((VERSION) << 16 | (OP))
+ #define IPCOP_semop		1
+ #define IPCOP_semget		2
+ #define IPCOP_semctl		3
 -- 
 2.21.0
 
