@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C625056865
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:14:42 +0200 (CEST)
-Received: from localhost ([::1]:39454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3940568BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:25:28 +0200 (CEST)
+Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6oz-0007PJ-V0
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49901)
+	id 1hg6zN-00088D-P8
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:25:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50654)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hg6mU-0005au-9z
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:07 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hg6pd-00015r-Mm
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:15:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hg6mT-0000nh-2z
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:06 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:46299)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hg6mR-0000eK-Fd
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:03 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MCsLu-1hosDd3hVA-008qO4; Wed, 26 Jun 2019 14:11:50 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 14:11:39 +0200
-Message-Id: <20190626121139.19114-7-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190626121139.19114-1-laurent@vivier.eu>
-References: <20190626121139.19114-1-laurent@vivier.eu>
+ (envelope-from <cohuck@redhat.com>) id 1hg6pc-0008Cf-GI
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:15:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46748)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>)
+ id 1hg6pc-0006OX-9M; Wed, 26 Jun 2019 08:15:20 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F1ACD307D945;
+ Wed, 26 Jun 2019 12:14:32 +0000 (UTC)
+Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C30465C1A1;
+ Wed, 26 Jun 2019 12:14:25 +0000 (UTC)
+Date: Wed, 26 Jun 2019 14:14:23 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <20190626141423.0bbd86eb.cohuck@redhat.com>
+In-Reply-To: <b2351294-c3f1-ca67-6ebf-dea591b2441d@de.ibm.com>
+References: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
+ <1561475829-19202-3-git-send-email-walling@linux.ibm.com>
+ <b2351294-c3f1-ca67-6ebf-dea591b2441d@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Lxe9LVwcW5n3k+00I+6eF7McLrcLyYRterrhAxEULvbIEohd+kr
- sc+bU5Fapiz/o9Ypi4aCgv5ndVd0+MDisv+pZUjB5gz2VYn5PHJ7WslEy4HDVMHS+NS1iV5
- tcfSLzipB1WzA5MG6990F1QgZ/Q+eg9ockFWJ7wFCypBKdN4VZYs9CEAucTTykm8fDm1dPj
- QAc4mg9V68s3fNJpW269Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Pfqx+sg7EPI=:IXteKgPB94kC/rLvpeSli0
- HhE6SAbC83feD9rsLDacg1RPS//F7xPf7XMeyGqwk5zLWEA/GLDHKog5fKP0u/I+FiSFhKHFx
- vPBVMDxRqftOLatVOu9L9R9dvBSwNmT8ncAiJ0TJdU7lL1+VhHyvuiRC4+8lHyr2cDTaJXsSr
- vA8fYL4Wn63hbpNVueLHhxxAo/yv5XZ8VWDxW1/WO7FUESyAGuzVNd0EYnNkci2Bnztusgg4e
- NcAKMtMdR+UrycRb3LLZVxTyKjMw+9fLbm01MtHUkvqyQhxKTRu/PHChpCtdMT5s7xYSjZ2RM
- Xn/A9utdB3XS2WsnrPZr7mOZlzUvUAmSyae7oi7+ELq//7oYjcI6RPnaLfsQdGTpbBxKIxfhV
- ++lkIW/pUVWW49EbPFssjjN/R+5AjAk6QWzhEI8zE7Qg2Qqwy4kgnwkWJcv3gpxYHYVp8teb2
- zIYEzfJXg4Fg3HvblaYuSMaKtnZky8Vl059n4lMLUXgcfphdffRM/HTRTTBzdBHJF62Mpe1PD
- hN8tH4bIweaLh4BA42IlOyQjq8bVNBJtSsm9XGIRFYWIVyHjC3Zh90TEoLOo8CJlQJo5dkG75
- fa5aiAeZgCEKDNG2YJZhCH2qVBAiqkZJ+L1t8EqAStPwZg9lEYlutAz0RhRJCx7QSk4nYaBZe
- ATBqoD6z1T4WZphRmZ6ZbzV2l5TdjnXdJfLuuSfyBO1oKGIGWlc+PESiJVPyTX1strRPkjHzV
- MDHawE0LLOL7jpOwEUld0d2gpdgWiXl3Alqslg==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Wed, 26 Jun 2019 12:14:38 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 6/6] linux-user: set default PPC64 CPU
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 2/2] s390: diagnose 318 info reset and
+ migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,34 +59,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Collin Walling <walling@linux.ibm.com>, david@redhat.com, mst@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The default CPU for pseries has been set to POWER9 by default.
-We can use the same default for linux-user
+On Wed, 26 Jun 2019 11:12:04 +0200
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20190609143521.19374-2-laurent@vivier.eu>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/ppc/target_elf.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On 25.06.19 17:17, Collin Walling wrote:
+> > index a606547..4c26754 100644
+> > --- a/target/s390x/cpu.h
+> > +++ b/target/s390x/cpu.h
+> > @@ -39,7 +39,13 @@
+> >  
+> >  #define MMU_USER_IDX 0
+> >  
+> > -#define S390_MAX_CPUS 248
+> > +/*
+> > + * HACK: The introduction of additional facility bytes in the Read Info
+> > + * struct consumes space used for CPU entries, thus we must reduce the
+> > + * original maximum CPUs of 248 by one for each new byte or risk smashing
+> > + * the stack.
+> > + */
+> > +#define S390_MAX_CPUS 247  
+> 
+> I think we decided to not change that. Only if the cpu model contains the diag318
+> feature we are limited to 247 but only for the sclp response.
+> So we said: 
+> - we continue to allow 248 cpus
+> - the sclp response will be limited to 247 CPUs if the feature is one
+> - (optional) we print a warning that the guest might not see all CPUs
+> 
 
-diff --git a/linux-user/ppc/target_elf.h b/linux-user/ppc/target_elf.h
-index 576a5b9959f4..061661885423 100644
---- a/linux-user/ppc/target_elf.h
-+++ b/linux-user/ppc/target_elf.h
-@@ -10,7 +10,7 @@
- static inline const char *cpu_get_model(uint32_t eflags)
- {
- #ifdef TARGET_PPC64
--    return "POWER8";
-+    return "POWER9";
- #else
-     return "750";
- #endif
--- 
-2.21.0
-
+Yes, that's what I remember as well... and printing/logging a warning
+is a good idea.
 
