@@ -2,60 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74403564A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 10:33:52 +0200 (CEST)
-Received: from localhost ([::1]:37600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BFB9566E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 12:38:02 +0200 (CEST)
+Received: from localhost ([::1]:38738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg3NH-0006jP-NJ
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 04:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46934)
+	id 1hg5JR-0004Dd-PU
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 06:38:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53374)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hg3LQ-0005qe-7Z
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 04:31:58 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hg5HN-0003Ea-Og
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:35:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hg3LP-0008Ei-6M
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 04:31:56 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:36703)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hg3LP-0008Db-0F
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 04:31:55 -0400
-Received: by mail-pf1-f194.google.com with SMTP id r7so970128pfl.3
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 01:31:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=xpkB33jinwT4ATtBFOv4jybsidxDTYPFps6HY6FF87s=;
- b=ix7MbgHlGnugY0cLQZQl/nOnda63dzGkZpbMmafgUjQUMglohdOxH4xC/SScJt3mRx
- CA+7pGEA4BjxJmoJNSxrNxydvRqfUmfNYg1CJ5BQceoQ2UrS3n5NwYoJWynJRezz1fBs
- j1J3MVFOHCKyRHpLZ60seCutVXnaET3/Ij00Ci5nQzJfS5Gkzo2UIj76P4IYFKkXKIlN
- yXKKRl2TXlzVyv3tnnWwpFbioPyb07957kdx0k0dLQWpH+atkT30WA/e2uzMshFxkceh
- 6ynetu6KSt8aI1DJGuZmesgPtvBfEhD30GREBIYYIyMxVLNSsiCJK56YDUgUgr6B9jrs
- sQQw==
-X-Gm-Message-State: APjAAAVjcPo8+VQ/GzUWlaW9/CqaGuEzO/wZ3eHOgms/d5FeOmvuF1JI
- 6oE7q7K1HTAO6xa1Sj/xf4PTLA==
-X-Google-Smtp-Source: APXvYqxgGnZV+BTlb+7uwRMI2mgKZEB0znw2F4ZiRPu6mPhxsRIXoV7k9cMaZx6+1qSuR7x6/Zzztw==
-X-Received: by 2002:a63:2310:: with SMTP id j16mr1863717pgj.238.1561537913693; 
- Wed, 26 Jun 2019 01:31:53 -0700 (PDT)
-Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
- [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id h18sm11451962pfr.75.2019.06.26.01.31.52
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 26 Jun 2019 01:31:53 -0700 (PDT)
-Date: Wed, 26 Jun 2019 01:31:53 -0700 (PDT)
-X-Google-Original-Date: Wed, 26 Jun 2019 01:31:49 PDT (-0700)
-In-Reply-To: <77792d70-b438-df37-6fe4-b5723f7da99d@linaro.org>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: richard.henderson@linaro.org
-Message-ID: <mhng-5938add3-68fb-43bb-b0cb-60fd330a8866@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.194
-Subject: Re: [Qemu-devel] [PATCH] atomic failures on qemu-system-riscv64
+ (envelope-from <dgibson@ozlabs.org>) id 1hg5HM-000813-2h
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:35:53 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52265 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hg5HL-0007Mp-3P
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:35:52 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45YfZ14DZmz9sCJ; Wed, 26 Jun 2019 20:35:37 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1561545337;
+ bh=cgixGdsEoMsPh+X6XPzQj4lSztU6BqgNMZgkSBCrYsU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=i/R2hlItkMp5lrJHzv2f2rNkH9BUKliy6qj42p7QHoBi3oANGOHVhpNrdKaLFVjLj
+ xC1ZILQwYJTYtaXdmc8wPHsS7u46t+FQMbJoKJKAKzXbRJ8LSZMx6esfoNnlUkV0e0
+ uJuVkc4Tc0W+eEUcRnp204lemUg22eEloy8dzLqU=
+Date: Wed, 26 Jun 2019 18:33:44 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190626083344.GC2410@umbus.BigPond>
+References: <20190519041522.12327-1-richard.henderson@linaro.org>
+ <8f28d008-2608-a579-7505-4546b08deb41@linaro.org>
+ <085d6881-f518-9888-a13e-081cdc09de46@ilande.co.uk>
+ <0b9f4772-37f6-1453-e4ea-5ad9d0f52a5b@ilande.co.uk>
+ <acc57487-c8a0-9380-bc2a-4de22541eabf@ilande.co.uk>
+ <CAL1e-=iavFqEeFuNm2efVM7mu5OaABBVo90wqJEhmoWa4DQv=Q@mail.gmail.com>
+ <ffae3651-5daf-e008-6562-2de09d82ace9@linaro.org>
+ <b8aab3f4-e3eb-a137-62b4-ba5ac1a2ad8f@ilande.co.uk>
+ <68facefc-b801-4902-11c0-4542662bfc4e@linaro.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TiqCXmo5T1hvSQQg"
+Content-Disposition: inline
+In-Reply-To: <68facefc-b801-4902-11c0-4542662bfc4e@linaro.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v4 0/7] tcg/ppc: Add vector opcodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,25 +63,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: me@carlosedp.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- joel@sing.id.au, Alistair Francis <Alistair.Francis@wdc.com>, marco@decred.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 01:30:35 PDT (-0700), richard.henderson@linaro.org wrote:
-> On 6/26/19 10:25 AM, Palmer Dabbelt wrote:
->>> You misunderstand.  The code is exactly correct as-is.  The alignment check
->>> happens implicitly as a part of the softmmu tlb resolution.
->>
->> Sorry, I thought you said it wasn't happening for linux-user?  If it happens
->> for both then we're good.
->
-> Oh, that.  No, there's no better way for linux-user.  Though honestly, if we're
-> going to fix this, it should be done in tcg/* rather than adding hacks within
-> target/riscv.
 
-OK, I'm fine punting on it for now.  If I ever get time to fix it up then we'll
-attempt to do so genericly.
+--TiqCXmo5T1hvSQQg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+g
+
+
+On Tue, Jun 25, 2019 at 05:56:42PM +0200, Richard Henderson wrote:
+> On 6/25/19 5:37 PM, Mark Cave-Ayland wrote:
+> > The problem is that in tcg/tcg-op.h we define "DEF(dup2_vec, 1, 2, 0, I=
+MPLVEC |
+> > IMPL(TCG_TARGET_REG_BITS =3D=3D 32))" and in the last patchset dup2_vec=
+ isn't introduced
+> > until towards the end. Unfortunately it's not a simple as bringing the =
+patch forward
+> > within the series to maintain bisectability because the current impleme=
+ntation
+> > depends on VMRG which only appears in the patch just before it...
+>=20
+> Ah, that would explain it.  I admit I haven't looked at v5 that closely.
+>=20
+> > Next to try and figure out what exactly is causing the fault. Just a qu=
+ick question
+> > out of curiosity: is your Power9 system BE or LE?
+>=20
+> The Power9 is LE.
+
+It's the kernel determines endianness, not the system.
+
+>=20
+> I do have access to a Power7 BE system, and that worked last time I check=
+ed.
+> I'll try that again tomorrow to be sure.
+>=20
+>=20
+> r~
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--TiqCXmo5T1hvSQQg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0TLeUACgkQbDjKyiDZ
+s5KPyQ/9EvvQUAbEYGWHXbuG2RUFGcgpv1W8AJnwxF+qfUorYbcBXAiSy10/cwOl
+5zguVAzP1KN6JH6i3rT/IpoRa9nIr/Zzfawx8hGGY2zVgSSRi8ZY+L4FcyREZVjc
+kyITmoN6CL141I6qObHP1ljH1rE66+1roW3ONyGwbenABd3qnfgOM6OrvBF7frhd
+dESIksy0Z6l+P9QkGe9nzSLAtV+FaW44xe5Mk3imD9FpawcTL39YRIxaA8ebqVxd
+bvc7WX1K7WCcLdd87b93CADwBYRde7ZlJvQ9OvEnhrtYImjUT82tptyq4eHb76l/
+U8lPJ2o7WWZZh6RrZpz6Q49jvueA2Lk168u2ydhpYfHBbK978eSTKB/weuE1utUO
+zpu2uPlDQZfLDfvQJAI3yncek2GXbfi9ynfOsVWeg9iw/sHCkPhc+7OrAs8A39rS
+N5Y2gHRXdWoN5/Pl0FKQnNm5xthRLlaceVMCUtPcKYVxjbAj9KGbqZ8ks+o36x3y
+RggG7+C7JeZAPNL4+TcYZjN9Z5DfrL87xUBOkUSBjBd9XqB0Bbr9DL8N3ULoXZw4
+DJHQcH8cP+jFqp96Qpm8toebzlCz4wyHol5Rrz+Lkherj6Jedsqzj3ral62KRruM
+21xNsybY7kNQPzRp7MjGiagZeoVkxH/1dI8KR4KjVfX2ZNm8mZk=
+=Pc5w
+-----END PGP SIGNATURE-----
+
+--TiqCXmo5T1hvSQQg--
 
