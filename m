@@ -2,55 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18485561CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 07:41:08 +0200 (CEST)
-Received: from localhost ([::1]:36826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F418564E8
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 10:50:38 +0200 (CEST)
+Received: from localhost ([::1]:37716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg0g7-0003m9-00
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 01:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36450)
+	id 1hg3dV-0004nz-Ms
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 04:50:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42488)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hg0eQ-0003E4-Ss
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 01:39:24 -0400
+ (envelope-from <hang.yuan@linux.intel.com>) id 1hg18U-0002Wi-Hb
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:10:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hg0eP-0002UB-NO
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 01:39:22 -0400
-Resent-Date: Wed, 26 Jun 2019 01:39:22 -0400
-Resent-Message-Id: <E1hg0eP-0002UB-NO@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21450)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hg0eP-0002TN-Fx
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 01:39:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1561527505; cv=none; d=zoho.com; s=zohoarc; 
- b=Gj5aKEw8AMKwIjzXJwlwfo78RpyPjDyifea9tMSuY+N4mab/H8flLodxRgA1bgTdCXHQgesvuywS9u1G0N+f8axsR5UzpnSSR+JNd+cCAA5E21hYP4W4fZKPEkKPOCHP+a55xwh64M5LzWxKMvAipGj2c+p1jJ9zSv8icy/TUf8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1561527505;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=2Pp2Fik+JNy8L0F4BFT8mgLxFrqAdLG3BK7EyR0//D0=; 
- b=DqI/63V+TlL/sCZpop7yuoUNYCUI7yzEKhthyzijigIBYpKcE7qg9EaGbUo9CvrjPei3JilmduYMbHALhf7bHIJ/9kazKchdjJu+YQCnCNyON3ciqOrEfZlZBeayPBMx1VC3cZK8Ltk+KuxHRiDtein9D7odmkxBeIBCZM2t66o=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1561527504375137.51994354852354;
- Tue, 25 Jun 2019 22:38:24 -0700 (PDT)
-Message-ID: <156152750324.6332.18067610008811555832@c4a48874b076>
-In-Reply-To: <20190626051903.26829-1-sjitindarsingh@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: sjitindarsingh@gmail.com
-Date: Tue, 25 Jun 2019 22:38:24 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH v2] powerpc/spapr: Add host
- threads parameter to ibm, get_system_parameter
+ (envelope-from <hang.yuan@linux.intel.com>) id 1hg18Q-0005LD-18
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:10:24 -0400
+Received: from mga07.intel.com ([134.134.136.100]:34941)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <hang.yuan@linux.intel.com>)
+ id 1hg18M-0004wF-1z
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:10:20 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2019 23:10:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,418,1557212400"; d="scan'208";a="337098619"
+Received: from henry-optiplex-7050.bj.intel.com ([10.238.156.132])
+ by orsmga005.jf.intel.com with ESMTP; 25 Jun 2019 23:10:02 -0700
+From: hang.yuan@linux.intel.com
+To: qemu-devel@nongnu.org
+Date: Wed, 26 Jun 2019 14:00:15 +0800
+Message-Id: <1561528815-4912-1-git-send-email-hang.yuan@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.100
+X-Mailman-Approved-At: Wed, 26 Jun 2019 04:46:31 -0400
+Subject: [Qemu-devel] [PATCH] target/i386: HAX: Enable ROM/ROM device memory
+ region support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,42 +52,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: david@gibson.dropbear.id.au, qemu-ppc@nongnu.org, groug@kaod.org,
- sjitindarsingh@gmail.com, qemu-devel@nongnu.org
+Cc: Hang Yuan <hang.yuan@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyNjA1MTkwMy4yNjgy
-OS0xLXNqaXRpbmRhcnNpbmdoQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0
-byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgpt
-b3JlIGluZm9ybWF0aW9uOgoKTWVzc2FnZS1pZDogMjAxOTA2MjYwNTE5MDMuMjY4MjktMS1zaml0
-aW5kYXJzaW5naEBnbWFpbC5jb20KVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBb
-UUVNVS1QUENdIFtQQVRDSCB2Ml0gcG93ZXJwYy9zcGFwcjogQWRkIGhvc3QgdGhyZWFkcyBwYXJh
-bWV0ZXIgdG8gaWJtLCBnZXRfc3lzdGVtX3BhcmFtZXRlcgoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKODMzNTBhOCBw
-b3dlcnBjL3NwYXByOiBBZGQgaG9zdCB0aHJlYWRzIHBhcmFtZXRlciB0byBpYm0sIGdldF9zeXN0
-ZW1fcGFyYW1ldGVyCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjogYnJhY2VzIHt9IGFyZSBu
-ZWNlc3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM0MjogRklMRTogaHcvcHBj
-L3NwYXByX3J0YXMuYzoyNDM6CisgICAgaWYgKCFrdm1fZW5hYmxlZCgpKQpbLi4uXQoKRVJST1I6
-IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAoj
-NDc6IEZJTEU6IGh3L3BwYy9zcGFwcl9ydGFzLmM6MjQ4OgorICAgIGlmICghZGlyKQpbLi4uXQoK
-RVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRl
-bWVudAojNzI6IEZJTEU6IGh3L3BwYy9zcGFwcl9ydGFzLmM6MjczOgorICAgICAgICBpZiAoc3Vi
-Y29yZXMpClsuLi5dCgp0b3RhbDogMyBlcnJvcnMsIDAgd2FybmluZ3MsIDcxIGxpbmVzIGNoZWNr
-ZWQKCkNvbW1pdCA4MzM1MGE4ZmYwYzggKHBvd2VycGMvc3BhcHI6IEFkZCBob3N0IHRocmVhZHMg
-cGFyYW1ldGVyIHRvIGlibSwgZ2V0X3N5c3RlbV9wYXJhbWV0ZXIpIGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNv
-ZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9s
-b2dzLzIwMTkwNjI2MDUxOTAzLjI2ODI5LTEtc2ppdGluZGFyc2luZ2hAZ21haWwuY29tL3Rlc3Rp
-bmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRp
-Y2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3Vy
-IGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+From: Hang Yuan <hang.yuan@linux.intel.com>
+
+Add ROM and ROM device memory region support in HAX. Their memory region is
+read only and write access will generate EPT violation. The violation will
+be handled in the HAX kernel with the following patch.
+
+https://github.com/intel/haxm/commit/33ceea09a1655fca12c47f1e112b1d269357ff28
+
+Signed-off-by: Hang Yuan <hang.yuan@linux.intel.com>
+---
+ target/i386/hax-mem.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/target/i386/hax-mem.c b/target/i386/hax-mem.c
+index 6bb5a24917..685e88cb45 100644
+--- a/target/i386/hax-mem.c
++++ b/target/i386/hax-mem.c
+@@ -175,15 +175,11 @@ static void hax_process_section(MemoryRegionSection *section, uint8_t flags)
+     uint64_t host_va;
+     uint32_t max_mapping_size;
+ 
+-    /* We only care about RAM and ROM regions */
+-    if (!memory_region_is_ram(mr)) {
+-        if (memory_region_is_romd(mr)) {
+-            /* HAXM kernel module does not support ROMD yet  */
+-            warn_report("Ignoring ROMD region 0x%016" PRIx64 "->0x%016" PRIx64,
+-                        start_pa, start_pa + size);
+-        }
++    /* We only care about RAM/ROM regions and ROM device */
++    if (memory_region_is_rom(mr) || (memory_region_is_romd(mr)))
++	flags |= HAX_RAM_INFO_ROM;
++    else if (!memory_region_is_ram(mr))
+         return;
+-    }
+ 
+     /* Adjust start_pa and size so that they are page-aligned. (Cf
+      * kvm_set_phys_mem() in kvm-all.c).
+-- 
+2.21.0
 
 
