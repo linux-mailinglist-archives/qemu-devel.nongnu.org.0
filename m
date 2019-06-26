@@ -2,46 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8925457332
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 22:56:37 +0200 (CEST)
-Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33CD6571DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 21:36:27 +0200 (CEST)
+Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgEy4-0006du-2z
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 16:56:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44645)
+	id 1hgDiT-0005NK-KP
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 15:36:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57032)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <fea3c051eb7ac3e2c5cbccb89d279a84d9b2c91d@lizzy.crudebyte.com>)
- id 1hgErE-0002ji-Ff
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:49:33 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hgDfr-00046D-0w
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 15:33:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fea3c051eb7ac3e2c5cbccb89d279a84d9b2c91d@lizzy.crudebyte.com>)
- id 1hgEr6-0004j1-OG
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:49:28 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47113)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hgDfn-0005GP-Dy
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 15:33:40 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:34460
+ helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71)
- (envelope-from <fea3c051eb7ac3e2c5cbccb89d279a84d9b2c91d@lizzy.crudebyte.com>)
- id 1hgEqx-0003yc-SE
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:49:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:Message-Id:Sender:
- Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Btj2NNaVSNMjsXpEYNmXQm1oG+b8mCN5x+DYgs/ykg8=; b=Lu9VNHgW8pnZM1Pp4lh6bbUxpI
- Lz3xtabwT3LD6BefeFiPGgtNSSvXtjuFEYK0TXw2j/UAyficiMfPwyf5gwvObbh835tuK/AyB9qkg
- G2aX00F7cpsvbHm+vA53MKTLCw+5yKFHy8K1aIFoa1fBadq1QWJ3slYfkXs+FQHQNMHZdwKiV0mib
- Nh5fZymZguY/9AMSuAkBDfORjmK6Df3Iel9kyPbGb58uhqvWayFqllrU95ud0IRtrhvFNSIvSqcnc
- Oku3r8ExX53c1WW6wlKTvNlEpL0BNBqkOONx19n2UF+kD5E7OcXIw7ATe668s/P6xgEyOzWTk7bAd
- 5wEKxjqg==;
-Message-Id: <cover.1561575449.git.qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 20:57:29 +0200
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1hgDfh-0004oc-PF
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 15:33:37 -0400
+Received: from host86-173-229-95.range86-173.btcentralplus.com
+ ([86.173.229.95] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1hgDed-0003B1-Ho; Wed, 26 Jun 2019 20:32:27 +0100
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <20190319172126.7502-1-richard.henderson@linaro.org>
+ <20190319172126.7502-13-richard.henderson@linaro.org>
+ <alpine.BSF.2.21.9999.1906262030380.23988@zero.eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <4a9eb686-8b7e-1bf3-3787-112f4ee45cac@ilande.co.uk>
+Date: Wed, 26 Jun 2019 20:32:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <alpine.BSF.2.21.9999.1906262030380.23988@zero.eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.173.229.95
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.194.90.13
-Subject: [Qemu-devel] [PATCH v4 0/5] 9p: Fix file ID collisions
+X-Received-From: 46.43.2.167
+Subject: Re: [Qemu-devel] [PATCH for-4.1 v3 12/17] tcg/ppc: Initial backend
+ support for Altivec
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,58 +86,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>, Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is v4 of a proposed patch set for fixing file ID collisions with 9pfs.
+On 26/06/2019 19:36, BALATON Zoltan wrote:
 
-v3->v4:
+> On Tue, 19 Mar 2019, Richard Henderson wrote:
+>> diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
+>> index ec8e336be8..70a64dd214 100644
+>> --- a/tcg/ppc/tcg-target.inc.c
+>> +++ b/tcg/ppc/tcg-target.inc.c
+>> @@ -42,6 +42,9 @@
+>> # define TCG_REG_TMP1   TCG_REG_R12
+>> #endif
+>>
+>> +#define TCG_VEC_TMP1    TCG_REG_V0
+>> +#define TCG_VEC_TMP2    TCG_REG_V1
+>> +
+>> #define TCG_REG_TB     TCG_REG_R31
+>> #define USE_REG_TB     (TCG_TARGET_REG_BITS == 64)
+>>
+>> @@ -61,6 +64,7 @@
+>>
+>> static tcg_insn_unit *tb_ret_addr;
+>>
+>> +bool have_isa_altivec;
+>> bool have_isa_2_06;
+>> bool have_isa_3_00;
+>>
+>> @@ -72,39 +76,15 @@ bool have_isa_3_00;
+>> #endif
+>>
+>> #ifdef CONFIG_DEBUG_TCG
+>> -static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
+>> -    "r0",
+>> -    "r1",
+>> -    "r2",
+>> -    "r3",
+>> -    "r4",
+>> -    "r5",
+>> -    "r6",
+>> -    "r7",
+>> -    "r8",
+>> -    "r9",
+>> -    "r10",
+>> -    "r11",
+>> -    "r12",
+>> -    "r13",
+>> -    "r14",
+>> -    "r15",
+>> -    "r16",
+>> -    "r17",
+>> -    "r18",
+>> -    "r19",
+>> -    "r20",
+>> -    "r21",
+>> -    "r22",
+>> -    "r23",
+>> -    "r24",
+>> -    "r25",
+>> -    "r26",
+>> -    "r27",
+>> -    "r28",
+>> -    "r29",
+>> -    "r30",
+>> -    "r31"
+>> +static const char tcg_target_reg_names[TCG_TARGET_NB_REGS][4] = {
+>> +    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
+>> +    "r8",  "r9",  "r10", "r11", "r12", "r13", "r14", "r15",
+>> +    "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
+>> +    "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+>> +    "v0",  "v1",  "v2",  "v3",  "v4",  "v5",  "v6",  "v7",
+>> +    "v8",  "v9",  "v10", "v11", "v12", "v13", "v14", "v15",
+>> +    "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23",
+>> +    "v24", "v25", "v26", "v27", "v28", "v29", "v30", "v31",
+>> };
+>> #endif
+>>
+>> @@ -139,6 +119,26 @@ static const int tcg_target_reg_alloc_order[] = {
+>>     TCG_REG_R5,
+>>     TCG_REG_R4,
+>>     TCG_REG_R3,
+> 
+> Purely guessing without knowing anything about this but would removing TCG_REG_R2
+> from this tcg_target_reg_alloc_order[] list help? Question is why it was not a
+> problem before?
 
-  * Rebased to latest git master head.
+Thanks for the suggestion, but I've just tried it and it doesn't seem to make any
+difference :(
 
-  * Splitted Antonios' patch set to its original 4 individual patches.
-    (was merged previously as only 1 patch).
 
-  * Addressed discussed issues directly on Antonios' patches
-    (was a separate patch before).
+ATB,
 
-  * Added virtfs command line option "remap_inodes": Unless this option
-    is not enabled, no inode remapping is performed at all, the user
-    just gets an error message when trying to use more than 1 device
-    per export.
-
-  * Dropped persistency feature of QIDs beyond reboots.
-
-  * Dropped disputed "vii" feature.
-
-Greg, please check if I am doing anything superfluous in patch 3 regarding
-the new command line parameter "remap_inodes".
-
-Daniel, I also have a libvirt patch for this new "remap_inodes" command
-line parameter, but I guess I wait for this qemu patch set to get through.
-
-Christian Schoenebeck (5):
-  9p: unsigned type for type, version, path
-  9p: Treat multiple devices on one export as an error
-  9p: Added virtfs option "remap_inodes"
-  9p: stat_to_qid: implement slow path
-  9p: Use variable length suffixes for inode remapping
-
- fsdev/9p-marshal.h      |   6 +-
- fsdev/file-op-9p.h      |   1 +
- fsdev/qemu-fsdev-opts.c |   7 +-
- fsdev/qemu-fsdev.c      |   6 +
- hw/9pfs/9p.c            | 448 +++++++++++++++++++++++++++++++++++++++++++++---
- hw/9pfs/9p.h            |  83 +++++++++
- hw/9pfs/trace-events    |  14 +-
- qemu-options.hx         |  17 +-
- vl.c                    |   3 +
- 9 files changed, 550 insertions(+), 35 deletions(-)
-
--- 
-2.11.0
-
+Mark.
 
