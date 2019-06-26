@@ -2,36 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4339A572A2
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 22:36:40 +0200 (CEST)
-Received: from localhost ([::1]:44800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F6557351
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 23:09:57 +0200 (CEST)
+Received: from localhost ([::1]:44912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgEel-0004dz-GF
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 16:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41700)
+	id 1hgFAy-0002pK-7M
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 17:09:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47594)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hgEcS-00049h-6w
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:34:20 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hgF74-00013a-Dg
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 17:05:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hgEcH-0002RB-QZ
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:34:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45668)
+ (envelope-from <jsnow@redhat.com>) id 1hgF70-0007DM-U5
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 17:05:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47966)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hgEc8-0002Ig-20; Wed, 26 Jun 2019 16:33:56 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1hgF6p-0006SD-88; Wed, 26 Jun 2019 17:05:40 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D305C3082E06;
- Wed, 26 Jun 2019 20:33:53 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3640E30832CC;
+ Wed, 26 Jun 2019 21:04:29 +0000 (UTC)
 Received: from [10.18.17.47] (dhcp-17-47.bos.redhat.com [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 586CE60BE5;
- Wed, 26 Jun 2019 20:33:50 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Stephen Checkoway <stephen.checkoway@oberlin.edu>
-References: <20190505221544.31568-1-philmd@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3836F5D9C6;
+ Wed, 26 Jun 2019 21:04:26 +0000 (UTC)
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+References: <20190510153346.238366-1-sgarzare@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -108,22 +107,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <10a0c45b-f58f-cb04-0404-0f5c2f3c4568@redhat.com>
-Date: Wed, 26 Jun 2019 16:33:49 -0400
+Message-ID: <96429d33-6514-33b5-3fe8-7bdf2eccc8d9@redhat.com>
+Date: Wed, 26 Jun 2019 17:04:25 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190505221544.31568-1-philmd@redhat.com>
+In-Reply-To: <20190510153346.238366-1-sgarzare@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Wed, 26 Jun 2019 20:33:53 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Wed, 26 Jun 2019 21:04:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 00/13] hw/block/pflash_cfi02:
- Clean-up and fixes
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] block/rbd: implement
+ .bdrv_get_allocated_file_size callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -135,65 +134,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
+ Jason Dillaman <jdillama@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I don't think this series ever made it upstream, and it's now well past
-30 days, so I might encourage a resend when you can if this is still
-important to pursue.
+It looks like this has hit a 30 day expiration without any reviews or
+being merged; do we still want this? If so, can you please resend?
 
---js
+On 5/10/19 11:33 AM, Stefano Garzarella wrote:
+> This patch allows 'qemu-img info' to show the 'disk size' for
+> the RBD images that have the fast-diff feature enabled.
+>=20
+> If this feature is enabled, we use the rbd_diff_iterate2() API
+> to calculate the allocated size for the image.
+>=20
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> ---
+> v2:
+>   - calculate the actual usage only if the fast-diff feature is
+>     enabled [Jason]
+> ---
+>  block/rbd.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 54 insertions(+)
+>=20
+> diff --git a/block/rbd.c b/block/rbd.c
+> index 0c549c9935..f1bc76ab80 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -1046,6 +1046,59 @@ static int64_t qemu_rbd_getlength(BlockDriverSta=
+te *bs)
+>      return info.size;
+>  }
+> =20
+> +static int rbd_allocated_size_cb(uint64_t offset, size_t len, int exis=
+ts,
+> +                                 void *arg)
+> +{
+> +    int64_t *alloc_size =3D (int64_t *) arg;
+> +
+> +    if (exists) {
+> +        (*alloc_size) +=3D len;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static int64_t qemu_rbd_get_allocated_file_size(BlockDriverState *bs)
+> +{
+> +    BDRVRBDState *s =3D bs->opaque;
+> +    uint64_t flags, features;
+> +    int64_t alloc_size =3D 0;
+> +    int r;
+> +
+> +    r =3D rbd_get_flags(s->image, &flags);
+> +    if (r < 0) {
+> +        return r;
+> +    }
+> +
 
-On 5/5/19 6:15 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi,
+Do you know where rbd_get_flags is documented? I can't seem to quickly
+find a reference that tells me what to expect from calling it. It
+returns an int, I guess an error code, but how can I confirm this?
+
+*clones the ceph repository*
+
+src/librbd/internal.cc get_flags convinces me it probably works like I
+think, but is there not a reference here?
+
+> +    r =3D rbd_get_features(s->image, &features);
+> +    if (r < 0) {
+> +        return r;
+> +    }
+> +
+> +    /*
+> +     * We use rbd_diff_iterate2() only if the RBD image have fast-diff
+> +     * feature enabled. If it is disabled, rbd_diff_iterate2() could b=
+e
+> +     * very slow on a big image.
+> +     */
+> +    if (!(features & RBD_FEATURE_FAST_DIFF) ||
+> +        (flags & RBD_FLAG_FAST_DIFF_INVALID)) {
+> +        return -1;
+> +    }
+> +
+
+(Is there a reference for the list of flags to make sure there aren't
+other cases we might want to skip this?)
+
+It looks reasonable at a glance, but maybe let's return -ENOTSUP instead
+of -1, based on the idea that bdrv_get_allocated_file_size returns
+-ENOMEDIUM in a prominent error case -- let's match that error convention=
+.
+
+(Well, I wonder what the librbd calls are returning and if THOSE mean
+anything.)
+
+> +    /*
+> +     * rbd_diff_iterate2(), if the source snapshot name is NULL, invok=
+es
+> +     * the callback on all allocated regions of the image.
+> +     */
+> +    r =3D rbd_diff_iterate2(s->image, NULL, 0,
+> +                          bs->total_sectors * BDRV_SECTOR_SIZE, 0, 1,
+> +                          &rbd_allocated_size_cb, &alloc_size);
+> +    if (r < 0) {
+> +        return r;
+> +    }
+> +
+
+I guess I'll take your word for it. =C2=AF\_(=E3=83=84)_/=C2=AF
+
+> +    return alloc_size;
+> +}
+> +
+>  static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
+>                                               int64_t offset,
+>                                               PreallocMode prealloc,
+> @@ -1254,6 +1307,7 @@ static BlockDriver bdrv_rbd =3D {
+>      .bdrv_get_info          =3D qemu_rbd_getinfo,
+>      .create_opts            =3D &qemu_rbd_create_opts,
+>      .bdrv_getlength         =3D qemu_rbd_getlength,
+> +    .bdrv_get_allocated_file_size =3D qemu_rbd_get_allocated_file_size=
+,
+>      .bdrv_co_truncate       =3D qemu_rbd_co_truncate,
+>      .protocol_name          =3D "rbd",
+> =20
 >=20
-> While reviewing Stephen Checkoway's v4 "Implement missing AMD
-> pflash functionality" [*] I found it hard (for me) to digest,
-> so I took step by step notes. This series is the result of
-> those notes.
-> Regarding Stephen's series, this series only contains the
-> generic code movement and trivial cleanup. The other patches
-> are rather dense and I need more time to study the specs.
->=20
-> Stephen: If you take out the patch #2 ("Use the GLib API"),
-> you can rebase your series on top of this.
-> I'd appreciate if you can adapt your tests to use the GLib
-> functions, else I plan to do it later.
->=20
-> Regards,
->=20
-> Phil.
->=20
-> [*] https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg04595.html
->=20
-> Philippe Mathieu-Daud=C3=A9 (10):
->   tests/pflash-cfi02: Use the GLib API
->   tests/pflash-cfi02: Use IEC binary prefixes for size constants
->   hw/block/pflash_cfi02: Fix debug format string
->   hw/block/pflash_cfi02: Add an enum to define the write cycles
->   hw/block/pflash_cfi02: Add helpers to manipulate the status bits
->   hw/block/pflash_cfi02: Simplify a statement using fall through
->   hw/block/pflash_cfi02: Use the ldst API in pflash_write()
->   hw/block/pflash_cfi02: Use the ldst API in pflash_read()
->   hw/block/pflash_cfi02: Extract the pflash_data_read() function
->   hw/block/pflash_cfi02: Unify the MemoryRegionOps
->=20
-> Stephen Checkoway (3):
->   tests/pflash-cfi02: Add test for supported CFI commands
->   hw/block/pflash_cfi02: Fix command address comparison
->   hw/block/pflash_cfi02: Use the chip erase time specified in the CFI
->     table
->=20
->  hw/block/pflash_cfi02.c   | 234 +++++++++++++++++---------------------
->  tests/Makefile.include    |   2 +
->  tests/pflash-cfi02-test.c | 232 +++++++++++++++++++++++++++++++++++++
->  3 files changed, 339 insertions(+), 129 deletions(-)
->  create mode 100644 tests/pflash-cfi02-test.c
->=20
+
 
