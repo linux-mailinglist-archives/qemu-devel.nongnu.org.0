@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3940568BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:25:28 +0200 (CEST)
-Received: from localhost ([::1]:39668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00BE56880
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:20:11 +0200 (CEST)
+Received: from localhost ([::1]:39594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6zN-00088D-P8
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:25:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50654)
+	id 1hg6uI-00034Y-RD
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:20:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51081)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <cohuck@redhat.com>) id 1hg6pd-00015r-Mm
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:15:22 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hg6r7-0001cT-Vt
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:16:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <cohuck@redhat.com>) id 1hg6pc-0008Cf-GI
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:15:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46748)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <cohuck@redhat.com>)
- id 1hg6pc-0006OX-9M; Wed, 26 Jun 2019 08:15:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F1ACD307D945;
- Wed, 26 Jun 2019 12:14:32 +0000 (UTC)
-Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C30465C1A1;
- Wed, 26 Jun 2019 12:14:25 +0000 (UTC)
-Date: Wed, 26 Jun 2019 14:14:23 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <20190626141423.0bbd86eb.cohuck@redhat.com>
-In-Reply-To: <b2351294-c3f1-ca67-6ebf-dea591b2441d@de.ibm.com>
-References: <1561475829-19202-1-git-send-email-walling@linux.ibm.com>
- <1561475829-19202-3-git-send-email-walling@linux.ibm.com>
- <b2351294-c3f1-ca67-6ebf-dea591b2441d@de.ibm.com>
-Organization: Red Hat GmbH
+ (envelope-from <alex.bennee@linaro.org>) id 1hg6r6-0003cY-OA
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:16:53 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46436)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hg6r6-0003ZG-Dg
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:16:52 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id n4so2436872wrw.13
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 05:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HYE0wJ2rSvsKHKxBmrzmiKhOTPWzCI5w+tM2tkyF6lU=;
+ b=JPjWgPc/n1gZQQYfso8iaFfEW4U7qD4Q/zwyTb5GfLuH/Rp2iWftPzdF55BfhJ/6JN
+ BjvSpfUSSZflZUpvytllP/IYnV2L6Suvs509zT4mxAkrUqfApFuwTv+3EmEoZGnds0qY
+ 3ECwkIRc5RriNxQU1Kew61ABxRPw6/f9FZjonMeDEB6fub7BuDMtVL/0PFFiCNX+uePG
+ WjrhJqxZQoQEi7Jg6Hpc5eauVIck76Ea4uepLUPyI4VAmMHFV/YESXnYk1Rs2SE8M+tL
+ CQqaALEUMC+EsshlLeXKIQe3WL0+1V9oKO0F4pdyQGZlTHjq1ZtCtiunOCKeGVBhLwuU
+ HpUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=HYE0wJ2rSvsKHKxBmrzmiKhOTPWzCI5w+tM2tkyF6lU=;
+ b=o2vw7tCFBVBlYhGScVxwex41hIDo+046O8duEHEesVNdaAQYI5Ls1b8OqvkGqmi6Cr
+ uVL0B6NVrrAXKKIBkrnqCCmqRmUp7w+zqhXjxxJLj/ntNZ2Z1DQ8G/aq7bBqOJDzOAbW
+ 5UX+BL8VAUx0NKbEA3tw98ooIaepxeAuEmdBDrV0aRg2wl7KFNhFTUEgskISTCcSGpPd
+ Oghj8449ztAub13IJvaHqFUeyL16VIpyc1Fj9ENAWH/gR0RzJxoP9idnnJRrhod6KW0d
+ IK5OPjVesbdZc9HqQFHbFo0cCtaGGQB71g68Tve9IvCfKKDsQdJN5TgOsQa7tRB3PIve
+ dB1A==
+X-Gm-Message-State: APjAAAVr0MV6jW9DI34c/hhrernt6efkRNc50JU9k4OWKHiBv1YOAhJI
+ H/vsRpgKkKWlVrAbLv/OqHVaqQ==
+X-Google-Smtp-Source: APXvYqyqWb04wNgFRlbcdv5QWnDlwup3AHmECVTZdMRrFWb6UpwJCGVVaTavqeqinzjVRTXWfyqMtg==
+X-Received: by 2002:adf:ea88:: with SMTP id s8mr3354754wrm.68.1561551410900;
+ Wed, 26 Jun 2019 05:16:50 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id f7sm12136155wrv.38.2019.06.26.05.16.50
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 26 Jun 2019 05:16:50 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E01FE1FF87;
+ Wed, 26 Jun 2019 13:16:49 +0100 (BST)
+References: <f8f439b4-3835-686c-2c1e-20fe78d6bbf1@redhat.com>
+ <d75c0641-01a3-ac5c-2f4d-b41505747815@redhat.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+In-reply-to: <d75c0641-01a3-ac5c-2f4d-b41505747815@redhat.com>
+Date: Wed, 26 Jun 2019 13:16:49 +0100
+Message-ID: <878sto1qz2.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Wed, 26 Jun 2019 12:14:38 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] s390: diagnose 318 info reset and
- migration support
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::42f
+Subject: Re: [Qemu-devel] trace: floating-point values blacklisted
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,40 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Collin Walling <walling@linux.ibm.com>, david@redhat.com, mst@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net
+Cc: =?utf-8?Q?Llu=C3=ADs?= Vilanova <vilanova@ac.upc.edu>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 11:12:04 +0200
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-> On 25.06.19 17:17, Collin Walling wrote:
-> > index a606547..4c26754 100644
-> > --- a/target/s390x/cpu.h
-> > +++ b/target/s390x/cpu.h
-> > @@ -39,7 +39,13 @@
-> >  
-> >  #define MMU_USER_IDX 0
-> >  
-> > -#define S390_MAX_CPUS 248
-> > +/*
-> > + * HACK: The introduction of additional facility bytes in the Read Info
-> > + * struct consumes space used for CPU entries, thus we must reduce the
-> > + * original maximum CPUs of 248 by one for each new byte or risk smashing
-> > + * the stack.
-> > + */
-> > +#define S390_MAX_CPUS 247  
-> 
-> I think we decided to not change that. Only if the cpu model contains the diag318
-> feature we are limited to 247 but only for the sclp response.
-> So we said: 
-> - we continue to allow 248 cpus
-> - the sclp response will be limited to 247 CPUs if the feature is one
-> - (optional) we print a warning that the guest might not see all CPUs
-> 
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Yes, that's what I remember as well... and printing/logging a warning
-is a good idea.
+> [I forgot to Cc the list, resending]
+>
+> Hi Stefan, Llu=C3=ADs,
+>
+> When trying to add a trace event to report a float value, I get:
+>
+> trace-events:11: Argument type 'float' is not in whitelist. Only
+> standard C types and fixed size integer types should be used. struct,
+> union, and other complex pointer types should be declared as 'void *'
+> Traceback (most recent call last):
+>   File "./scripts/tracetool.py", line 152, in <module>
+>     main(sys.argv)
+>   File "./scripts/tracetool.py", line 143, in main
+>     events.extend(tracetool.read_events(fh, arg))
+>   File "./scripts/tracetool/__init__.py", line 365, in read_events
+>     event =3D Event.build(line)
+>   File "./scripts/tracetool/__init__.py", line 283, in build
+>     args =3D Arguments.build(groups["args"])
+>   File "./scripts/tracetool/__init__.py", line 133, in build
+>     validate_type(arg_type)
+>   File "./scripts/tracetool/__init__.py", line 86, in validate_type
+>     "declared as 'void *'" % name)
+>
+> Floating-point types are specified in the optional Annex F of the
+> standard ("IEC 60559 floating-point arithmetic").
+>
+> Is there a specific reason to not trace them, or simply nobody ever had
+> to trace them?
+
+I suspect that latter. I can't see any reason not to have floats (and
+doubles) in the allowed list although I wonder what happens with x86's
+weird-ass 80bit values. Do floats in x86 accommodate that?
+
+>
+> Thanks,
+>
+> Phil.
+
+
+--
+Alex Benn=C3=A9e
 
