@@ -2,78 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0B5570F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:46:53 +0200 (CEST)
-Received: from localhost ([::1]:44288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D736C56E11
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 17:51:35 +0200 (CEST)
+Received: from localhost ([::1]:41356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgCwX-0000Ej-1Z
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44335)
+	id 1hgACs-0004DN-II
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 11:51:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49091)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfl-0001h3-P0
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:35 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hgABz-0003kA-81
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:50:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfj-0008Ag-NA
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:33 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38999)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hgCfh-00087e-L2
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:29 -0400
-Received: by mail-wr1-x443.google.com with SMTP id x4so3875056wrt.6
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l08eu0l9D5ktUzQZ4NmUljmAfhxNN6xoemzjFfIAF7A=;
- b=KnqqEV8x9Z4Rz/EREv7Q1AHdoqKpM1PIIqD+mQmSWDIuwb8yl05VbE4p3lS/2DJbF1
- 4clTNNbEBAUfK3uht3wPvjdiQOZFKQWDQkJutVJa7w1Q0dTpTFAxkNJ5hbTJg8wVkAi0
- soX6ktyrsyWtE4HX+OaLWkCdi3mN60Q3m443bq4ekqhuMYc1JooFjXPBi5djG91/Mq1z
- Sx0fVqHIpQghNjd32zSHSISMMRg26xKcRqxYNgQbLpSn8vWPulyj65dUUS8MkRCXXpcY
- ThzAETolfKqsz7v6VhH7ZuR1545je/YDJOm7K9rWpIdMcX/mcFqkiUMODLGHoWgNoY0j
- CAfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=l08eu0l9D5ktUzQZ4NmUljmAfhxNN6xoemzjFfIAF7A=;
- b=G4r0Zbr55+2lWHXNp2u1tbIxNESKIPT6UitbwssNXw0YgZQNwH0IhkmAha5zQaG9W7
- eMORmixHqtNNnNUUAWaX4EtAA/wCbi10wO88Mg4rFdjvPNESl+N4GSsHvZGOIN4CzqG6
- kGSYBhZ1Hb+3HNSQyNX4Hk2y6eGjnoBOyOOevKD7+D0NUeCXivFL6cgwW8Qn4EihScEq
- 25z89+mQhXdw22z0Z3O9gUt2dmtkHWdMk6kbhcsBuRQfcziUhsHShE8UVBwtEde4Cc5V
- 1DkCPYBu35D7UsHJkWdil1ZYNHq+rFbZXRBAOlpA1qc51YvPEhKbiQ3ARitIBN43cJJX
- m94w==
-X-Gm-Message-State: APjAAAUtpaKfDfFIITRiuNCthkTChD8S0JVooIpAqfJ/ohUzlL4oSGxa
- vjkwbrheLFYX9wOyAknWa7TQ0mcQ8Hdihw==
-X-Google-Smtp-Source: APXvYqzKTgZrncqWDVB7pZolW6QQlEkEWmi5rkUd7WOk6cKrQ910W1S+SmQJsDEdXpYPV1HEMuv8pQ==
-X-Received: by 2002:a5d:4949:: with SMTP id r9mr4535954wrs.289.1561573767578; 
- Wed, 26 Jun 2019 11:29:27 -0700 (PDT)
-Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id d18sm51318197wrb.90.2019.06.26.11.29.26
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 11:29:27 -0700 (PDT)
-To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1560942225-24728-1-git-send-email-stefan.brankovic@rt-rk.com>
- <1560942225-24728-2-git-send-email-stefan.brankovic@rt-rk.com>
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1hgABy-0000y7-3k
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:50:39 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:46995)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hgABx-0000wj-Pw
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:50:38 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MIMXE-1hlfx73D4W-00EMnS; Wed, 26 Jun 2019 17:50:17 +0200
+To: Antonio Ospite <antonio.ospite@collabora.com>, Antonio Ospite
+ <ao2@ao2.it>, qemu-devel@nongnu.org
+References: <20190526144747.30019-1-ao2@ao2.it>
+ <adce6062-9289-afe8-b26a-949144700656@collabora.com>
+From: Laurent Vivier <laurent@vivier.eu>
 Openpgp: preference=signencrypt
-Message-ID: <fcf11625-48cc-2f79-42d1-6faad9ec38b8@linaro.org>
-Date: Wed, 26 Jun 2019 17:48:46 +0200
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <4d4588e3-b804-7774-756a-3c8092fe732f@vivier.eu>
+Date: Wed, 26 Jun 2019 17:50:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1560942225-24728-2-git-send-email-stefan.brankovic@rt-rk.com>
+In-Reply-To: <adce6062-9289-afe8-b26a-949144700656@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH 1/8] target/ppc: Optimize emulation of lvsl
- and lvsr instructions
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:WMsQxhLy+tGKBff+L0XTcRrUkZ4QUyrzlpwTF88Re25p+kjN+WW
+ ktfUR8XnLRJVFI9tX7SiiTKRRhj3B8+7bM5+IiwNFxvFZ/UUidXzf5cuJVyAQ0066kQuoeI
+ UIwQjALNAZ9fC+z6hTMUWRHRjrF0LeW+PmrV5NLmMGfvOi+1ySU6yhfkwxBrPyhjAZah63V
+ EP9L/GfR5LH5ufmlAOf2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:t6vNQQ2crlA=:OV4ghunRRc8fF2e9m4QE0W
+ VSmHSwxujlFcfu6dZap/E8yBdKG3zkO3goEbvONgehL7JJ0teAevJefXJYwFyF5EJCvoBKApN
+ rxkiTDJa9s+mwCq81MY81ZKhCa3P7PL44qM6tILDlF5dX7/X7cXUlaSkacZBOs1kUWHFpTSW+
+ KXWyWsuttRsS8ZVBUqDNmFKySYEiJU6SmOJs4qbIlfc5AhHV3ACXqWX3Uk9hI/gqrmI+BBWcy
+ QO3Fppgpjlys3AJOTSoX2Ku9evBBU2Ph8vnjs5k2THQE0t4zQIE8QW9DupJiWVslMyr/I37JS
+ E+IxB5MOmmczu7bZqsE0Vr1KxD/RFJBxiTQ6OKdbttnpdIPdc7Wv5benajp9QZ8hgeGmFdr0d
+ MGxSgH9uIaR40pffrlaVJZIA6g7hgvpwGYdUusA2mn/YJoyf5iKncnLB4pcSyHfEJ2GXwfJ4q
+ Ar2NbvkSf46yFDhWSBtTlcUcNCVlaLEf86w7KTXs6+xNnwE/7xoJlFc4bhMN9qk58spdXDV3F
+ voMQhkOcIfVBaBRZ2uJvIy746zMuKF3SP91lr4ykYaL293lQSLDuKahTPVniwUuyXpck3vluf
+ qVkfKE/DELhbySIRoM/qxrXAkmnr8zKVAbOEuW3r2Ce2OF2VyWHBMvOKAuUik2n+mY1M8jQEs
+ FTVYvhJmjUi0aFBfFp1Mm5Ym9hlb42KAz9MA7GUNUpC3y0BCw9APtn9n2EUU1WZk+OaMlTDzb
+ wWY1mSB1C5qrqep+zyfw3Vteb1t1qRcUab0EUk1IxXF9MIJO4urwIbRUPMc=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.135
+Subject: Re: [Qemu-devel] [PATCH v3 0/2] configure: disallow spaces and
+ colons in source path and build path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,19 +111,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/19/19 1:03 PM, Stefan Brankovic wrote:
-> +    /* Get sh(from description) by anding EA with 0xf. */
-> +    gen_addr_reg_index(ctx, EA);
-> +    tcg_gen_ext_i32_i64(sh, EA);
+Le 26/06/2019 à 17:16, Antonio Ospite a écrit :
+> On 26/05/19 16:47, Antonio Ospite wrote:
+>> Hi,
+>>
+>> Here is a v3 set to address
+>> https://bugs.launchpad.net/qemu/+bug/1817345
+>>
+>> CCing Laurent Vivier as the patch is going through the trivial-patches
+>> branch.
+>>
+> 
+> Ping.
+> 
+> I cannot see this in the trivial-patches repository nor in mainline qemu.
+> 
 
->From patchew, this fails to build one of the ppc*-linux-user configurations.
+I missed it because you didn't cc: qemu-trivial ML (I use this list to
+pick up the patches).
 
-You need to use tcg_gen_extu_tl_i64().
+I'm going to add them to the next pull request.
 
-
-r~
+Thanks,
+Laurent
 
