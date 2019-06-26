@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C304956836
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:06:37 +0200 (CEST)
-Received: from localhost ([::1]:39218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7965656879
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:19:31 +0200 (CEST)
+Received: from localhost ([::1]:39590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6hA-00008I-VD
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46119)
+	id 1hg6te-0002kg-NH
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:19:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49914)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hg6Yg-0004aq-7e
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:57:51 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hg6mV-0005bR-Gp
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hg6Yf-0000YR-5S
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:57:50 -0400
-Received: from mail-wr1-f54.google.com ([209.85.221.54]:38920)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hg6Ye-0000Mn-T3
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:57:49 -0400
-Received: by mail-wr1-f54.google.com with SMTP id x4so2406419wrt.6
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 04:57:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:references:to:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3RIWYQo2xsO/H0aefoqbA59gX8qjE1yxHNyyCEEvpDg=;
- b=Gmy9lnDdPbhemJ6eQBrgB3Hn8HVkGUp1nkORX0VvqKpO+kCY0ZSAcwJVmPhW2jyfXY
- opMv85rDoNF1o1Hbq2JccXiG9mFWsMnKUlVdgtfvs1UZK0K5UvXLRc8su2MVP/mNeC0J
- 0BENNMjAXN3MHn7GYIvx+iCApC8hpEQB4qtGWoz0DZfVwOgQjuao0uK78E3q8PDa4Y1a
- mOM/+MML0oQam7OPEFvjJu1G24eiBpzslnXgB5R50F3zPltP8JtJLoVj3+YI1Zad39Hk
- aVl88/+TXki090hzYcGl4UxrrQAqZRB/D2E4VC43/TMgQ3BLbrojqvUnTp3s7dSRWN1X
- FQfA==
-X-Gm-Message-State: APjAAAW/H9Q7xIbwJ0e+W4NuQcszT699eaXwOqzhk61YlC8uB3AEiuiX
- swi67nx42SAp2QfQASzAO66J/w==
-X-Google-Smtp-Source: APXvYqxSp2KUpHwTJt2oYu30GLQCXV6r++r78stvhzF4QoXkA/LGeHiiwtxeU1TmR6+9ewNB1/yf8w==
-X-Received: by 2002:adf:f04d:: with SMTP id t13mr3430942wro.36.1561550264473; 
- Wed, 26 Jun 2019 04:57:44 -0700 (PDT)
-Received: from [10.201.33.53] ([195.166.127.210])
- by smtp.gmail.com with ESMTPSA id a84sm2809474wmf.29.2019.06.26.04.57.43
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 04:57:44 -0700 (PDT)
-References: <f8f439b4-3835-686c-2c1e-20fe78d6bbf1@redhat.com>
-To: QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Llu=c3=ads_Vilanova?=
- <vilanova@ac.upc.edu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-X-Forwarded-Message-Id: <f8f439b4-3835-686c-2c1e-20fe78d6bbf1@redhat.com>
-Message-ID: <d75c0641-01a3-ac5c-2f4d-b41505747815@redhat.com>
-Date: Wed, 26 Jun 2019 13:57:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <laurent@vivier.eu>) id 1hg6mT-0000pF-LD
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:07 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:38831)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hg6mT-0000ks-2q
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:05 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1Mwwhx-1iTybx303v-00yRfb; Wed, 26 Jun 2019 14:11:46 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Wed, 26 Jun 2019 14:11:33 +0200
+Message-Id: <20190626121139.19114-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <f8f439b4-3835-686c-2c1e-20fe78d6bbf1@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:QH7l5DQX0fRO2l5URhQSbZhxFdREoysWzCQeqAYZ171CyitzLL4
+ vc3OMBEGZRduZUHj+MRcXXucsbuA06A1MCbnCd0o67pwIcOTnAWOK6iQlVq2+8p8N7QvhR0
+ TPNT+BVcAS/3E24AZPkv2zLAzI8EJ2pydapZcgUnN++h45wfc6lkvvbM2L/3TW17aFtKcPc
+ iKTS8EVNOOZ5AeT+sczgw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FDDWkivlT7s=:SeCdwTPdgYWsQVr4MYtD4D
+ XCLwmKv+xiyMPXhF5c0EZZAHH+hSdXR3TetWCId7eT9W1cZfy54emfaocCpy0XYiOOdGD0GtX
+ IfpYGXeSBbJ/KdKr4jcWCHZfttxEXTGI6coBjFUewCG+MgOYxPQy+Vx9ludKYSmXe+nT9FHJ5
+ fIUo3iJ0H83yv0ZK5OOn9XMWQgy5f/XnmawdmS6sCOohQHIn1C5kscpaBtFhIXvsMzq3Q5oLt
+ XkBSgpz/4VmBfdVfVSOytp0fB+lvKeWDOusjuiYNlrY3b0VQhAnQV8xTZGdWerXcNOsDiy9lL
+ mAoi+Xo1gg/WNuLT275g9J3LgcTHohvoILNSJftmud2U38lkV8drqagUU0O2LDysa5cbEmEEI
+ /COmBCxdakq/zgwjqLo58f/Cz+kejBjwo73xYviGVR/pS7bbcZbYOconHYiaCw7ls1Cipg2kZ
+ FqUPpD7V+wmpDiK8QnX8NTuJAqRAxl97yGBVrJf9cacnVbv6P7B0RRdx4vWxfmBsL5hcW+dhn
+ LDmUq1vyl1dHzTGYKPe0NZfHnVJDMzJMtislGxgoOc1t4J2ri/fyKIhxjaFdVhaMeB+nBCMi7
+ OiIdX6nbwlkdWlOVTl5uqCrygKNY9h1qHXedfKWEkQ5NL3QeQaVyontyQCXHNNtN9ahXyAh9+
+ iopKYQlYf1TRtnE5yQRggTw/FUD0IIqxD554kU5Ec8ToREerVQ2E06Yf9WVIVTH6KVobA8gyC
+ CDufNGj64OJ2sJIhtYzci6a269ml285t82nOSCqN7zbqzVO0uY/FSSr3w04=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.54
-Subject: [Qemu-devel] trace: floating-point values blacklisted
+X-Received-From: 217.72.192.73
+Subject: [Qemu-devel] [PULL 0/6] Linux user for 4.1 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,39 +61,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[I forgot to Cc the list, resending]
+The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
 
-Hi Stefan, Lluís,
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
 
-When trying to add a trace event to report a float value, I get:
+are available in the Git repository at:
 
-trace-events:11: Argument type 'float' is not in whitelist. Only
-standard C types and fixed size integer types should be used. struct,
-union, and other complex pointer types should be declared as 'void *'
-Traceback (most recent call last):
-  File "./scripts/tracetool.py", line 152, in <module>
-    main(sys.argv)
-  File "./scripts/tracetool.py", line 143, in main
-    events.extend(tracetool.read_events(fh, arg))
-  File "./scripts/tracetool/__init__.py", line 365, in read_events
-    event = Event.build(line)
-  File "./scripts/tracetool/__init__.py", line 283, in build
-    args = Arguments.build(groups["args"])
-  File "./scripts/tracetool/__init__.py", line 133, in build
-    validate_type(arg_type)
-  File "./scripts/tracetool/__init__.py", line 86, in validate_type
-    "declared as 'void *'" % name)
+  git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
 
-Floating-point types are specified in the optional Annex F of the
-standard ("IEC 60559 floating-point arithmetic").
+for you to fetch changes up to b50d1e42a4a7dc746ecd42c34c386d81a997759c:
 
-Is there a specific reason to not trace them, or simply nobody ever had
-to trace them?
+  linux-user: set default PPC64 CPU (2019-06-24 23:10:36 +0200)
 
-Thanks,
+----------------------------------------------------------------
+Update ppc64 feature and default CPU
+next setsockops() options
+Improve "-L" option
+Another fix for 5.2-rc1 headers
 
-Phil.
+----------------------------------------------------------------
+
+Laurent Vivier (3):
+  linux-user: emulate msgsnd(), msgrcv() and semtimedop()
+  linux-user: update PPC64 HWCAP2 feature list
+  linux-user: set default PPC64 CPU
+
+Neng Chen (1):
+  linux-user: Add support for setsockopt() options
+    IPV6_<ADD|DROP>_MEMBERSHIP
+
+Richard Henderson (1):
+  util/path: Do not cache all filenames at startup
+
+Yunqiang Su (1):
+  linux-user: Add support for setsockopt() option SOL_ALG
+
+ linux-user/elfload.c        |  12 ++-
+ linux-user/ppc/target_elf.h |   2 +-
+ linux-user/syscall.c        | 111 +++++++++++++++------
+ linux-user/syscall_defs.h   |   1 +
+ util/path.c                 | 193 ++++++++----------------------------
+ 5 files changed, 135 insertions(+), 184 deletions(-)
+
+-- 
+2.21.0
+
 
