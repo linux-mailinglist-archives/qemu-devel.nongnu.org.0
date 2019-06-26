@@ -2,43 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C0D56D91
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 17:24:15 +0200 (CEST)
-Received: from localhost ([::1]:41076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69BEA570D5
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:39:59 +0200 (CEST)
+Received: from localhost ([::1]:44234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg9mQ-00061m-Da
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 11:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41987)
+	id 1hgCpq-00015p-LH
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:39:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44212)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <paul.c.lai@intel.com>) id 1hg9ki-0005Ay-A7
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:22:29 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfZ-0001Xa-Qc
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <paul.c.lai@intel.com>) id 1hg9kg-0001t1-UH
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:22:28 -0400
-Received: from mga18.intel.com ([134.134.136.126]:11756)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <paul.c.lai@intel.com>)
- id 1hg9kg-0001by-MD
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:22:26 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2019 08:22:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,420,1557212400"; d="scan'208";a="155901538"
-Received: from pclaidev.sc.intel.com ([143.183.85.146])
- by orsmga008.jf.intel.com with ESMTP; 26 Jun 2019 08:22:08 -0700
-From: Paul Lai <paul.c.lai@intel.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 08:20:14 -0700
-Message-Id: <20190626152014.24329-1-paul.c.lai@intel.com>
-X-Mailer: git-send-email 2.17.2
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfW-0007zi-C5
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:21 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40799)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hgCfW-0007yw-3f
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:18 -0400
+Received: by mail-wr1-x444.google.com with SMTP id p11so3875362wre.7
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=L5TFjTIA0S4uo9coV4FdErRUtFqXXlJt9/7Jahxl5zg=;
+ b=Y4GZ/vASz36bxNxYFcJWVfCfs8yi7wkS2kYlIGYv3q8uvdKY6foGkA6Ag5jX80+ZYP
+ Xkpb1EYgbwOcrzZs+q9ZDz5dJ8XZhxQ+87Orn6cuJn9Kmaq3U6bkdi1O2wlVUyp9XCyU
+ aQEq/tLrENSGYUUC/zkWepA8ePZXr+XAraw2k+esqNBjPl8zCNmb0qDGUV98sEYw1lsu
+ Kqvahzw6mI+ou/RnfTMg5oyBjgci0tTdC3psxwjLFx3St931CBzvg9al73GCvcpRSAke
+ dtqAx7IsZaz8NxtiW6BLsRQkteeyVHuBbfNkXNP2OqLukX2hrvoXxroaORbJHqJPH7JY
+ +e8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=L5TFjTIA0S4uo9coV4FdErRUtFqXXlJt9/7Jahxl5zg=;
+ b=VlZhM5eCVLlrzWX2veVvgSUrXuxHpnV4tuauhA0e5xAAWYcqCnwLmCK/1d3ztl6Ah2
+ vwH393+YCtvS0jfs8YytI9TlyZlBjSApNGpHpLXTV/3r4LlgifHMt5uDwA9MogBhqPWG
+ +V1lnx1jipChoOJGnCWAp8HzL/hZygKrSe5DrWDw1BnhK5n+erN2AC0TNuhYlidOIHkU
+ TOlIKET5vAYYaJ8SD2ykf23T7pSAeHAFoyLCGfqzfBQZZ59M8Ugg+LVQ0IFFMhqnwS4/
+ F4xj5ATSLobgc9oggLNViwZi9Q0phbPApp0QmxWLy5hYu2jTAmdguVyNBsVXfzfp9xNi
+ x09Q==
+X-Gm-Message-State: APjAAAUUG58HUs2eyVPQdTfk78GahQ/5WHGJBZ4192S73Jm9lsKIIbby
+ 6oSWkdkL9MV/Ot9fsUp8tdCIoA==
+X-Google-Smtp-Source: APXvYqwo3t5ZMwLNX2xzhjoUY4QBzVLKd0wHISODXXD+VkXjxrGWw3NGG+GBNoEoUZM/W/EdSyhPTw==
+X-Received: by 2002:adf:eb4e:: with SMTP id u14mr4778819wrn.168.1561573757143; 
+ Wed, 26 Jun 2019 11:29:17 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id e11sm40649513wrc.9.2019.06.26.11.29.16
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Jun 2019 11:29:16 -0700 (PDT)
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-11-drjones@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <1e0bc93f-42e3-087f-a4b5-d356879cb806@linaro.org>
+Date: Wed, 26 Jun 2019 17:22:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190621163422.6127-11-drjones@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 134.134.136.126
-Subject: [Qemu-devel] [Qemu-devel v3] Introduce SnowRidge CPU model
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v2 10/14] target/arm/kvm64: Add
+ kvm_arch_get/put_sve
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -50,109 +86,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wei.w.wang@intel.com, luwei.kang@intel.com, tao3.xu@intel.com,
- paul.c.lai@intel.com
+Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
+ imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SnowRidge CPU supports Accelerator Infrastrcture Architecture (MOVDIRI,
-MOVDIR64B), CLDEMOTE and SPLIT_LOCK_DISABLE.
+On 6/21/19 6:34 PM, Andrew Jones wrote:
+> +/*
+> + * If ARM_MAX_VQ is increased to be greater than 16, then we can no
+> + * longer hard code slices to 1 in kvm_arch_put/get_sve().
+> + */
+> +QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
 
-MOVDIRI, MOVDIR64B, and CLDEMOTE are found via CPUID.
-The availability of SPLIT_LOCK_DISABLE is check via msr access
+This seems easy to fix, or simply drop the slices entirely for now, as
+otherwise they are a teeny bit confusing.
 
-References can be found in either:
- https://software.intel.com/en-us/articles/intel-sdm
- https://software.intel.com/en-us/download/intel-architecture-instruction-set-extensions-and-future-features-programming-reference
+It's a shame that these slices exist at all.  It seems like the kernel could
+use the negotiated max sve size to grab the data all at once.
 
-Signed-off-by: Paul Lai <paul.c.lai@intel.com>
-Tested-by: Tao3 Xu <tao3.xu@intel.com>
----
-We fix name to "SnowRidge-Server".
----
- target/i386/cpu.c | 68 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
+> +        for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
+> +            uint64_t *q = aa64_vfp_qreg(env, n);
+> +#ifdef HOST_WORDS_BIGENDIAN
+> +            uint64_t d[ARM_MAX_VQ * 2];
+> +            int j;
+> +            for (j = 0; j < cpu->sve_max_vq * 2; j++) {
+> +                d[j] = bswap64(q[j]);
+> +            }
+> +            reg.addr = (uintptr_t)d;
+> +#else
+> +            reg.addr = (uintptr_t)q;
+> +#endif
+> +            reg.id = KVM_REG_ARM64_SVE_ZREG(n, i);
+> +            ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index da6eb67cfb..868190673e 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -2687,6 +2687,74 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Icelake)",
-     },
-+    {
-+        .name = "SnowRidge",
-+        .level = 27,
-+        .vendor = CPUID_VENDOR_INTEL,
-+        .family = 6,
-+        .model = 134,
-+        .stepping = 1,
-+        .features[FEAT_1_EDX] =
-+            /* missing: CPUID_PN CPUID_IA64 */
-+            /* missing: CPUID_DTS, CPUID_HT, CPUID_TM, CPUID_PBE */
-+            CPUID_FP87 | CPUID_VME | CPUID_DE | CPUID_PSE |
-+            CPUID_TSC | CPUID_MSR | CPUID_PAE | CPUID_MCE |
-+            CPUID_CX8 | CPUID_APIC | CPUID_SEP |
-+            CPUID_MTRR | CPUID_PGE | CPUID_MCA | CPUID_CMOV |
-+            CPUID_PAT | CPUID_PSE36 | CPUID_CLFLUSH |
-+            CPUID_MMX |
-+            CPUID_FXSR | CPUID_SSE | CPUID_SSE2,
-+        .features[FEAT_1_ECX] =
-+            CPUID_EXT_SSE3 | CPUID_EXT_PCLMULQDQ | CPUID_EXT_MONITOR |
-+            CPUID_EXT_VMX |
-+            CPUID_EXT_SSSE3 |
-+            CPUID_EXT_CX16 |
-+            CPUID_EXT_SSE41 |
-+            CPUID_EXT_SSE42 | CPUID_EXT_X2APIC | CPUID_EXT_MOVBE |
-+            CPUID_EXT_POPCNT |
-+            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_AES | CPUID_EXT_XSAVE |
-+            CPUID_EXT_RDRAND,
-+        .features[FEAT_8000_0001_EDX] =
-+            CPUID_EXT2_SYSCALL |
-+            CPUID_EXT2_NX |
-+            CPUID_EXT2_PDPE1GB | CPUID_EXT2_RDTSCP |
-+            CPUID_EXT2_LM,
-+        .features[FEAT_8000_0001_ECX] =
-+            CPUID_EXT3_LAHF_LM |
-+            CPUID_EXT3_3DNOWPREFETCH,
-+        .features[FEAT_7_0_EBX] =
-+            CPUID_7_0_EBX_FSGSBASE |
-+            CPUID_7_0_EBX_SMEP |
-+            CPUID_7_0_EBX_ERMS |
-+            CPUID_7_0_EBX_MPX |  /* missing bits 13, 15 */
-+            CPUID_7_0_EBX_RDSEED |
-+            CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
-+            CPUID_7_0_EBX_CLWB |
-+            CPUID_7_0_EBX_SHA_NI,
-+        .features[FEAT_7_0_ECX] =
-+            CPUID_7_0_ECX_UMIP |
-+            /* missing bit 5 */
-+            CPUID_7_0_ECX_GFNI |
-+            CPUID_7_0_ECX_MOVDIRI | CPUID_7_0_ECX_CLDEMOTE |
-+            CPUID_7_0_ECX_MOVDIR64B,
-+        .features[FEAT_7_0_EDX] =
-+            CPUID_7_0_EDX_SPEC_CTRL |
-+            CPUID_7_0_EDX_ARCH_CAPABILITIES | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-+        /*
-+         * Missing: XSAVES (not supported by some Linux versions,
-+         * including v4.1 to v4.12).
-+         * KVM doesn't yet expose any XSAVES state save component,
-+         * and the only one defined in Skylake (processor tracing)
-+         * probably will block migration anyway.
-+         */
-+        .features[FEAT_XSAVE] =
-+            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-+            CPUID_XSAVE_XGETBV1,
-+        .features[FEAT_6_EAX] =
-+            CPUID_6_EAX_ARAT,
-+        .xlevel = 0x80000008,
-+        .model_id = "Intel Atom Processor (SnowRidge)",
-+    },
-     {
-         .name = "KnightsMill",
-         .level = 0xd,
--- 
-2.17.2
+It might be worth splitting this...
 
+> +        for (n = 0; n < KVM_ARM64_SVE_NUM_PREGS; n++) {
+> +            uint64_t *q = &env->vfp.pregs[n].p[0];
+> +#ifdef HOST_WORDS_BIGENDIAN
+> +            uint64_t d[ARM_MAX_VQ * 2 / 8];
+> +            int j;
+> +            for (j = 0; j < cpu->sve_max_vq * 2 / 8; j++) {
+> +                d[j] = bswap64(q[j]);
+> +            }
+> +            reg.addr = (uintptr_t)d;
+> +#else
+> +            reg.addr = (uintptr_t)q;
+> +#endif
+> +            reg.id = KVM_REG_ARM64_SVE_PREG(n, i);
+> +            ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+
+... and this (unified w/ reg + size parameters?) to a function because ...
+
+> +        reg.addr = (uintptr_t)&env->vfp.pregs[FFR_PRED_NUM].p[0];
+> +        reg.id = KVM_REG_ARM64_SVE_FFR(i);
+> +        ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+
+... you forgot to apply the bswap here.
+
+Likewise for the other direction.
+
+
+r~
+
+
+PS: It's also tempting to drop the ifdefs and, since we know the host supports
+sve instructions, and that the host supports sve_max_vq, do the reformatting as
+
+    uint64_t scratch[ARM_MAX_VQ * 2];
+    asm("whilelo  p0.d, xzr, %2\n\t"
+        "ld1d     z0.d, p0/z [%1]\n\t"
+        "str      z0, [%0]"
+        : "=Q"(scratch)
+        : "Q"(*aa64_vfp_qreg(env, n)),
+          "r"(cpu->sve_max_vq)
+        : "p0", "v0");
+
+PPS: Ideally, this would be further cleaned up with acle builtins, but those
+are still under development for GCC.
 
