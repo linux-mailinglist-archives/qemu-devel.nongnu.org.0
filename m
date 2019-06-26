@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B175730F
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 22:48:23 +0200 (CEST)
-Received: from localhost ([::1]:44836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD61B57313
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 22:50:12 +0200 (CEST)
+Received: from localhost ([::1]:44846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgEq6-0000wm-QQ
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 16:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43830)
+	id 1hgErs-0002NM-46
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 16:50:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44246)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f@lizzy.crudebyte.com>)
- id 1hgEn0-0008Az-7K
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:45:12 -0400
+ (envelope-from <26b626706b5fa0c492413a3279512c17952be5de@lizzy.crudebyte.com>)
+ id 1hgEp0-000197-54
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:47:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f@lizzy.crudebyte.com>)
- id 1hgEmw-0001e0-LH
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:45:10 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47965)
+ (envelope-from <26b626706b5fa0c492413a3279512c17952be5de@lizzy.crudebyte.com>)
+ id 1hgEoy-0003Oy-E8
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:47:14 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:33915)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71)
- (envelope-from <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f@lizzy.crudebyte.com>)
- id 1hgEmu-0000rO-2B
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:45:06 -0400
+ (envelope-from <26b626706b5fa0c492413a3279512c17952be5de@lizzy.crudebyte.com>)
+ id 1hgEoy-0002kW-6T
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:47:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:References:In-Reply-To:
  Message-Id:Sender:Reply-To:MIME-Version:Content-Type:
  Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
  Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
  List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=IoXjgFM2c0DgKUTZy636+sU0x3f3ZXaCQnzY3pgeM14=; b=mDKvjuMBD8KoA1RDHZYXvBEKI
- X4S0CWyXlngZpz/UpoLEsnz58R3niBbk7oHB6eLBjCaif3JYs/RJmB+FSkZolSr2s1HL3MyKd7Zh5
- MySvsQpFbPeY+DWI8br/Y9AK7HFixbQV6TxEvSApJuG3aXVnrDJh68jgtF8Vy/3C5czYoqkqIRs2l
- iPVbejvbeybyy9Zk7rVAFqXY//0r6hJ9+WDrPlkY2hSWwuvv+FoUUqkft+JG4hlrYn3JTBirdAHCJ
- xKhvhB78eNsXd9i52+kSaUirbZ54u7omRcnw0UrNsvpLvq0iZzgbONQMP1kONe6FaoWhK4LMM/0Yj
- 9B8fHpJgg==;
-Message-Id: <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f.1561575449.git.qemu_oss@crudebyte.com>
+ bh=LjrOQu+9Jh+h6d63oxkjgWpFcKr99hSw0963ytKVccY=; b=HETVCaDg4u38tPhTQcZUJONvy
+ fLjSXtedBjnD2Q9ktDsefYcD/r6ri/FkhgddnErhcptkj7bwZrrMmZgq6OBCBufOISh4LUczpMUZm
+ FxxSfA7Kh4HAGnCj8q7jCxuSJxJmalfFPgnIjgi4zOre+WeeqtuK/omZf0LQzzs0XHkV5YpWCdY4P
+ QzOWcocSvCfMDFjBbz13wTcChJKTK5+eKX1vbq0FcIO54g+RE2S5pj9INeNAn1FMr8T7J++gLCsUM
+ EKn3XjqS8qKys1r9tsWHzWrRjZBzYrTJxtmmfvoTWVL7AQH3p51ZcWwllFVPj0QV962aXAhbjeLwk
+ 4iLwj++PA==;
+Message-Id: <26b626706b5fa0c492413a3279512c17952be5de.1561575449.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1561575449.git.qemu_oss@crudebyte.com>
 References: <cover.1561575449.git.qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 20:25:55 +0200
+Date: Wed, 26 Jun 2019 20:30:41 +0200
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.194.90.13
-Subject: [Qemu-devel] [PATCH v4 1/5] 9p: unsigned type for type, version,
- path
+Subject: [Qemu-devel] [PATCH v4 2/5] 9p: Treat multiple devices on one
+ export as an error
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,101 +62,222 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>, Greg Kurz <groug@kaod.org>, Ant
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need for signedness on these QID fields for 9p.
+The QID path should uniquely identify a file. However, the
+inode of a file is currently used as the QID path, which
+on its own only uniquely identifies wiles within a device.
+Here we track the device hosting the 9pfs share, in order
+to prevent security issues with QID path collisions from
+other devices.
 
 Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- fsdev/9p-marshal.h   |  6 +++---
- hw/9pfs/9p.c         |  6 +++---
- hw/9pfs/trace-events | 14 +++++++-------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ hw/9pfs/9p.c | 71 ++++++++++++++++++++++++++++++++++++++++++++++++------------
+ hw/9pfs/9p.h |  1 +
+ 2 files changed, 58 insertions(+), 14 deletions(-)
 
-diff --git a/fsdev/9p-marshal.h b/fsdev/9p-marshal.h
-index c8823d878f..8f3babb60a 100644
---- a/fsdev/9p-marshal.h
-+++ b/fsdev/9p-marshal.h
-@@ -9,9 +9,9 @@ typedef struct V9fsString
- 
- typedef struct V9fsQID
- {
--    int8_t type;
--    int32_t version;
--    int64_t path;
-+    uint8_t type;
-+    uint32_t version;
-+    uint64_t path;
- } V9fsQID;
- 
- typedef struct V9fsStat
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 55821343e5..586a6dccba 100644
+index 586a6dccba..cbaa212625 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -743,9 +743,9 @@ static int donttouch_stat(V9fsStat *stat)
+@@ -572,10 +572,20 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+                                 P9_STAT_MODE_SOCKET)
+ 
+ /* This is the algorithm from ufs in spfs */
+-static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
++static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
  {
-     if (stat->type == -1 &&
-         stat->dev == -1 &&
--        stat->qid.type == -1 &&
--        stat->qid.version == -1 &&
--        stat->qid.path == -1 &&
-+        stat->qid.type == 0xff &&
-+        stat->qid.version == (uint32_t) -1 &&
-+        stat->qid.path == (uint64_t) -1 &&
-         stat->mode == -1 &&
-         stat->atime == -1 &&
-         stat->mtime == -1 &&
-diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
-index c0a0a4ab5d..6964756922 100644
---- a/hw/9pfs/trace-events
-+++ b/hw/9pfs/trace-events
-@@ -6,7 +6,7 @@ v9fs_rerror(uint16_t tag, uint8_t id, int err) "tag %d id %d err %d"
- v9fs_version(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
- v9fs_version_return(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
- v9fs_attach(uint16_t tag, uint8_t id, int32_t fid, int32_t afid, char* uname, char* aname) "tag %u id %u fid %d afid %d uname %s aname %s"
--v9fs_attach_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d type %d version %d path %"PRId64
-+v9fs_attach_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d type %d version %d path %"PRId64
- v9fs_stat(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
- v9fs_stat_return(uint16_t tag, uint8_t id, int32_t mode, int32_t atime, int32_t mtime, int64_t length) "tag %d id %d stat={mode %d atime %d mtime %d length %"PRId64"}"
- v9fs_getattr(uint16_t tag, uint8_t id, int32_t fid, uint64_t request_mask) "tag %d id %d fid %d request_mask %"PRIu64
-@@ -14,9 +14,9 @@ v9fs_getattr_return(uint16_t tag, uint8_t id, uint64_t result_mask, uint32_t mod
- v9fs_walk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, uint16_t nwnames) "tag %d id %d fid %d newfid %d nwnames %d"
- v9fs_walk_return(uint16_t tag, uint8_t id, uint16_t nwnames, void* qids) "tag %d id %d nwnames %d qids %p"
- v9fs_open(uint16_t tag, uint8_t id, int32_t fid, int32_t mode) "tag %d id %d fid %d mode %d"
--v9fs_open_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-+v9fs_open_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
- v9fs_lcreate(uint16_t tag, uint8_t id, int32_t dfid, int32_t flags, int32_t mode, uint32_t gid) "tag %d id %d dfid %d flags %d mode %d gid %u"
--v9fs_lcreate_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int32_t iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-+v9fs_lcreate_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int32_t iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
- v9fs_fsync(uint16_t tag, uint8_t id, int32_t fid, int datasync) "tag %d id %d fid %d datasync %d"
- v9fs_clunk(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
- v9fs_read(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t max_count) "tag %d id %d fid %d off %"PRIu64" max_count %u"
-@@ -26,21 +26,21 @@ v9fs_readdir_return(uint16_t tag, uint8_t id, uint32_t count, ssize_t retval) "t
- v9fs_write(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t count, int cnt) "tag %d id %d fid %d off %"PRIu64" count %u cnt %d"
- v9fs_write_return(uint16_t tag, uint8_t id, int32_t total, ssize_t err) "tag %d id %d total %d err %zd"
- v9fs_create(uint16_t tag, uint8_t id, int32_t fid, char* name, int32_t perm, int8_t mode) "tag %d id %d fid %d name %s perm %d mode %d"
--v9fs_create_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-+v9fs_create_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
- v9fs_symlink(uint16_t tag, uint8_t id, int32_t fid,  char* name, char* symname, uint32_t gid) "tag %d id %d fid %d name %s symname %s gid %u"
--v9fs_symlink_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
-+v9fs_symlink_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
- v9fs_flush(uint16_t tag, uint8_t id, int16_t flush_tag) "tag %d id %d flush_tag %d"
- v9fs_link(uint16_t tag, uint8_t id, int32_t dfid, int32_t oldfid, char* name) "tag %d id %d dfid %d oldfid %d name %s"
- v9fs_remove(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
- v9fs_wstat(uint16_t tag, uint8_t id, int32_t fid, int32_t mode, int32_t atime, int32_t mtime) "tag %u id %u fid %d stat={mode %d atime %d mtime %d}"
- v9fs_mknod(uint16_t tag, uint8_t id, int32_t fid, int mode, int major, int minor) "tag %d id %d fid %d mode %d major %d minor %d"
--v9fs_mknod_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
-+v9fs_mknod_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
- v9fs_lock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length) "tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
- v9fs_lock_return(uint16_t tag, uint8_t id, int8_t status) "tag %d id %d status %d"
- v9fs_getlock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length)"tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
- v9fs_getlock_return(uint16_t tag, uint8_t id, uint8_t type, uint64_t start, uint64_t length, uint32_t proc_id) "tag %d id %d type %d start %"PRIu64" length %"PRIu64" proc_id %u"
- v9fs_mkdir(uint16_t tag, uint8_t id, int32_t fid, char* name, int mode, uint32_t gid) "tag %u id %u fid %d name %s mode %d gid %u"
--v9fs_mkdir_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int err) "tag %u id %u qid={type %d version %d path %"PRId64"} err %d"
-+v9fs_mkdir_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int err) "tag %u id %u qid={type %d version %d path %"PRId64"} err %d"
- v9fs_xattrwalk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, char* name) "tag %d id %d fid %d newfid %d name %s"
- v9fs_xattrwalk_return(uint16_t tag, uint8_t id, int64_t size) "tag %d id %d size %"PRId64
- v9fs_xattrcreate(uint16_t tag, uint8_t id, int32_t fid, char* name, uint64_t size, int flags) "tag %d id %d fid %d name %s size %"PRIu64" flags %d"
+     size_t size;
+ 
++    if (pdu->s->dev_id == 0) {
++        pdu->s->dev_id = stbuf->st_dev;
++    } else if (pdu->s->dev_id != stbuf->st_dev) {
++        error_report_once(
++            "9p: Multiple devices detected in same VirtFS export. "
++            "You must use a separate export for each device."
++        );
++        return -ENOSYS;
++    }
++
+     memset(&qidp->path, 0, sizeof(qidp->path));
+     size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
+     memcpy(&qidp->path, &stbuf->st_ino, size);
+@@ -587,6 +597,8 @@ static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
+     if (S_ISLNK(stbuf->st_mode)) {
+         qidp->type |= P9_QID_TYPE_SYMLINK;
+     }
++
++    return 0;
+ }
+ 
+ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+@@ -599,7 +611,10 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+     if (err < 0) {
+         return err;
+     }
+-    stat_to_qid(&stbuf, qidp);
++    err = stat_to_qid(pdu, &stbuf, qidp);
++    if (err < 0) {
++        return err;
++    }
+     return 0;
+ }
+ 
+@@ -830,7 +845,10 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+ 
+     memset(v9stat, 0, sizeof(*v9stat));
+ 
+-    stat_to_qid(stbuf, &v9stat->qid);
++    err = stat_to_qid(pdu, stbuf, &v9stat->qid);
++    if (err < 0) {
++        return err;
++    }
+     v9stat->mode = stat_to_v9mode(stbuf);
+     v9stat->atime = stbuf->st_atime;
+     v9stat->mtime = stbuf->st_mtime;
+@@ -891,7 +909,7 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+ #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields above */
+ 
+ 
+-static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
++static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+                                 V9fsStatDotl *v9lstat)
+ {
+     memset(v9lstat, 0, sizeof(*v9lstat));
+@@ -913,7 +931,7 @@ static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
+     /* Currently we only support BASIC fields in stat */
+     v9lstat->st_result_mask = P9_STATS_BASIC;
+ 
+-    stat_to_qid(stbuf, &v9lstat->qid);
++    return stat_to_qid(pdu, stbuf, &v9lstat->qid);
+ }
+ 
+ static void print_sg(struct iovec *sg, int cnt)
+@@ -1115,7 +1133,6 @@ static void coroutine_fn v9fs_getattr(void *opaque)
+     uint64_t request_mask;
+     V9fsStatDotl v9stat_dotl;
+     V9fsPDU *pdu = opaque;
+-    V9fsState *s = pdu->s;
+ 
+     retval = pdu_unmarshal(pdu, offset, "dq", &fid, &request_mask);
+     if (retval < 0) {
+@@ -1136,7 +1153,10 @@ static void coroutine_fn v9fs_getattr(void *opaque)
+     if (retval < 0) {
+         goto out;
+     }
+-    stat_to_v9stat_dotl(s, &stbuf, &v9stat_dotl);
++    retval = stat_to_v9stat_dotl(pdu, &stbuf, &v9stat_dotl);
++    if (retval < 0) {
++        goto out;
++    }
+ 
+     /*  fill st_gen if requested and supported by underlying fs */
+     if (request_mask & P9_STATS_GEN) {
+@@ -1381,7 +1401,10 @@ static void coroutine_fn v9fs_walk(void *opaque)
+             if (err < 0) {
+                 goto out;
+             }
+-            stat_to_qid(&stbuf, &qid);
++            err = stat_to_qid(pdu, &stbuf, &qid);
++            if (err < 0) {
++                goto out;
++            }
+             v9fs_path_copy(&dpath, &path);
+         }
+         memcpy(&qids[name_idx], &qid, sizeof(qid));
+@@ -1483,7 +1506,10 @@ static void coroutine_fn v9fs_open(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     if (S_ISDIR(stbuf.st_mode)) {
+         err = v9fs_co_opendir(pdu, fidp);
+         if (err < 0) {
+@@ -1593,7 +1619,10 @@ static void coroutine_fn v9fs_lcreate(void *opaque)
+         fidp->flags |= FID_NON_RECLAIMABLE;
+     }
+     iounit =  get_iounit(pdu, &fidp->path);
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
+     if (err < 0) {
+         goto out;
+@@ -2327,7 +2356,10 @@ static void coroutine_fn v9fs_create(void *opaque)
+         }
+     }
+     iounit = get_iounit(pdu, &fidp->path);
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
+     if (err < 0) {
+         goto out;
+@@ -2384,7 +2416,10 @@ static void coroutine_fn v9fs_symlink(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err =  pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3064,7 +3099,10 @@ static void coroutine_fn v9fs_mknod(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3222,7 +3260,10 @@ static void coroutine_fn v9fs_mkdir(void *opaque)
+     if (err < 0) {
+         goto out;
+     }
+-    stat_to_qid(&stbuf, &qid);
++    err = stat_to_qid(pdu, &stbuf, &qid);
++    if (err < 0) {
++        goto out;
++    }
+     err = pdu_marshal(pdu, offset, "Q", &qid);
+     if (err < 0) {
+         goto out;
+@@ -3633,6 +3674,8 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+         goto out;
+     }
+ 
++    s->dev_id = 0;
++
+     s->ctx.fst = &fse->fst;
+     fsdev_throttle_init(s->ctx.fst);
+ 
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 8883761b2c..5e316178d5 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -256,6 +256,7 @@ struct V9fsState
+     Error *migration_blocker;
+     V9fsConf fsconf;
+     V9fsQID root_qid;
++    dev_t dev_id;
+ };
+ 
+ /* 9p2000.L open flags */
 -- 
 2.11.0
 
