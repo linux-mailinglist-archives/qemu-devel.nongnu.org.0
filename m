@@ -2,46 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A89C55C3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 01:25:22 +0200 (CEST)
-Received: from localhost ([::1]:35738 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE9755D13
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 02:48:34 +0200 (CEST)
+Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfuoS-0002M1-Kt
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 19:25:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44513)
+	id 1hfw6z-0005sb-QK
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 20:48:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49797)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hfunI-0001mS-2H
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 19:24:09 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hfw5K-0005QJ-II
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:46:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcandre.lureau@redhat.com>) id 1hfunF-0007k7-Ti
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 19:24:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39036)
+ (envelope-from <yan.y.zhao@intel.com>) id 1hfw5C-0006k4-Fu
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:46:47 -0400
+Received: from mga07.intel.com ([134.134.136.100]:23999)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
- id 1hfunD-0007PP-Rz; Tue, 25 Jun 2019 19:24:05 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5A9D58666C;
- Tue, 25 Jun 2019 23:23:44 +0000 (UTC)
-Received: from localhost (ovpn-112-17.ams2.redhat.com [10.36.112.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D64D608C1;
- Tue, 25 Jun 2019 23:23:34 +0000 (UTC)
-From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 01:23:33 +0200
-Message-Id: <20190625232333.30752-1-marcandre.lureau@redhat.com>
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hfw5B-0006cD-Sc
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:46:42 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2019 17:46:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,417,1557212400"; d="scan'208";a="360134456"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by fmsmga005.fm.intel.com with ESMTP; 25 Jun 2019 17:46:33 -0700
+Date: Tue, 25 Jun 2019 20:40:39 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190626004039.GE6971@joy-OptiPlex-7040>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-11-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Tue, 25 Jun 2019 23:23:44 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] virtio-pci: fix missing device properties
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561041461-22326-11-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.100
+Subject: Re: [Qemu-devel] [PATCH v4 10/13] vfio: Add function to get dirty
+ page list
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -53,107 +59,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-stable@nongnu.org, ehabkost@redhat.com, mst@redhat.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@Alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "yulei.zhang@intel.com" <yulei.zhang@intel.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit a4ee4c8baa37154 ("virtio: Helper for registering virtio
-device types"), virtio-gpu-pci, virtio-vga, and virtio-crypto-pci lost
-some properties: "ioeventfd" and "vectors". This may cause various
-issues, such as failing migration or invalid properties.
+On Thu, Jun 20, 2019 at 10:37:38PM +0800, Kirti Wankhede wrote:
+> Dirty page tracking (.log_sync) is part of RAM copying state, where
+> vendor driver provides the bitmap of pages which are dirtied by vendor
+> driver through migration region and as part of RAM copy, those pages
+> gets copied to file stream.
+> 
+> To get dirty page bitmap:
+> - write start address, page_size and pfn count.
+> - read count of pfns copied.
+>     - Vendor driver should return 0 if driver doesn't have any page to
+>       report dirty in given range.
+>     - Vendor driver should return -1 to mark all pages dirty for given range.
+> - read data_offset, where vendor driver has written bitmap.
+> - read bitmap from the region or mmaped part of the region. This copy is
+>   iterated till page bitmap for all requested pfns are copied.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  hw/vfio/migration.c           | 119 ++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/vfio/vfio-common.h |   2 +
+>  2 files changed, 121 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index e4895f91761d..68775b5dec11 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -228,6 +228,125 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+>      return qemu_file_get_error(f);
+>  }
+>  
+> +void vfio_get_dirty_page_list(VFIODevice *vbasedev,
+> +                              uint64_t start_pfn,
+> +                              uint64_t pfn_count,
+> +                              uint64_t page_size)
+> +{
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    VFIORegion *region = &migration->region.buffer;
+> +    uint64_t count = 0;
+> +    int64_t copied_pfns = 0;
+> +    int ret;
+> +
+> +    qemu_mutex_lock(&migration->lock);
+> +    ret = pwrite(vbasedev->fd, &start_pfn, sizeof(start_pfn),
+> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              start_pfn));
+> +    if (ret < 0) {
+> +        error_report("Failed to set dirty pages start address %d %s",
+> +                ret, strerror(errno));
+> +        goto dpl_unlock;
+> +    }
+> +
+> +    ret = pwrite(vbasedev->fd, &page_size, sizeof(page_size),
+> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              page_size));
+> +    if (ret < 0) {
+> +        error_report("Failed to set dirty page size %d %s",
+> +                ret, strerror(errno));
+> +        goto dpl_unlock;
+> +    }
+> +
+> +    ret = pwrite(vbasedev->fd, &pfn_count, sizeof(pfn_count),
+> +                 region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                              total_pfns));
+> +    if (ret < 0) {
+> +        error_report("Failed to set dirty page total pfns %d %s",
+> +                ret, strerror(errno));
+> +        goto dpl_unlock;
+> +    }
+> +
+> +    do {
+> +        uint64_t bitmap_size, data_offset = 0;
+> +        void *buf = NULL;
+> +        bool buffer_mmaped = false;
+> +
+> +        /* Read copied dirty pfns */
+> +        ret = pread(vbasedev->fd, &copied_pfns, sizeof(copied_pfns),
+> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                             copied_pfns));
+> +        if (ret < 0) {
+> +            error_report("Failed to get dirty pages bitmap count %d %s",
+> +                    ret, strerror(errno));
+> +            goto dpl_unlock;
+> +        }
+> +
+> +        if (copied_pfns == 0) {
+> +            /*
+> +             * copied_pfns could be 0 if driver doesn't have any page to
+> +             * report dirty in given range
+> +             */
+> +            break;
+this copied_pfn is the dirty page count in which range?
+if it is got each iteration, why break here rather than continue ?
+consider there's a big region with pfn_count, and it is now breaked into
+several smaller subregions, and copied_pfns is 0 in the first subregion,
+it doesn't mean copied_pfns are all 0 in the remaining subregions.
 
-Since those VirtioPCI devices do not have a base name, their class are
-initialized with virtio_pci_generic_base_class_init(). However, if the
-VirtioPCIDeviceTypeInfo provided a class_init which sets dc->props,
-the properties were overwritten by virtio_pci_generic_class_init().
+> +        } else if (copied_pfns == -1) {
+> +            /* Mark all pages dirty for this range */
+> +            cpu_physical_memory_set_dirty_range(start_pfn * page_size,
+> +                                                pfn_count * page_size,
+> +                                                DIRTY_MEMORY_MIGRATION);
+> +            break;
+> +        }
+> +
+> +        bitmap_size = (BITS_TO_LONGS(copied_pfns) + 1) * sizeof(unsigned long);
+> +
+> +        ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
+> +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> +                                             data_offset));
+> +        if (ret != sizeof(data_offset)) {
+> +            error_report("Failed to get migration buffer data offset %d",
+> +                         ret);
+> +            goto dpl_unlock;
+> +        }
+> +
+> +        if (region->mmaps) {
+> +            int i;
+> +            for (i = 0; i < region->nr_mmaps; i++) {
+> +                if ((region->mmaps[i].offset >= data_offset) &&
+> +                    (data_offset < region->mmaps[i].offset +
+> +                                   region->mmaps[i].size)) {
+> +                    buf = region->mmaps[i].mmap + (data_offset -
+> +                                                   region->mmaps[i].offset);
+> +                    buffer_mmaped = true;
+> +                    break;
+> +                }
+> +            }
+> +        }
+> +
+> +        if (!buffer_mmaped) {
+> +            buf = g_malloc0(bitmap_size);
+> +
+> +            ret = pread(vbasedev->fd, buf, bitmap_size,
+> +                        region->fd_offset + data_offset);
+> +            if (ret != bitmap_size) {
+> +                error_report("Failed to get dirty pages bitmap %d", ret);
+> +                g_free(buf);
+> +                goto dpl_unlock;
+> +            }
+> +        }
+> +
+> +        cpu_physical_memory_set_dirty_lebitmap((unsigned long *)buf,
+> +                                               (start_pfn + count) * page_size,
+> +                                                copied_pfns);
+> +        count +=  copied_pfns;
+> +
+here also. why it is count += copied_pfns.
 
-Instead, introduce an intermediary base-type to register the generic
-properties.
-
-Fixes: a4ee4c8baa37154f42b4dc6a13fee79268d15238
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- hw/virtio/virtio-pci.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
-
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index e6d5467e54..62c4977332 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1913,13 +1913,6 @@ static void virtio_pci_generic_class_init(ObjectCl=
-ass *klass, void *data)
-     dc->props =3D virtio_pci_generic_properties;
- }
-=20
--/* Used when the generic type and the base type is the same */
--static void virtio_pci_generic_base_class_init(ObjectClass *klass, void =
-*data)
--{
--    virtio_pci_base_class_init(klass, data);
--    virtio_pci_generic_class_init(klass, NULL);
--}
--
- static void virtio_pci_transitional_instance_init(Object *obj)
- {
-     VirtIOPCIProxy *proxy =3D VIRTIO_PCI(obj);
-@@ -1938,14 +1931,13 @@ static void virtio_pci_non_transitional_instance_=
-init(Object *obj)
-=20
- void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t)
- {
-+    char *base_name =3D NULL;
-     TypeInfo base_type_info =3D {
-         .name          =3D t->base_name,
-         .parent        =3D t->parent ? t->parent : TYPE_VIRTIO_PCI,
-         .instance_size =3D t->instance_size,
-         .instance_init =3D t->instance_init,
-         .class_size    =3D t->class_size,
--        .class_init    =3D virtio_pci_base_class_init,
--        .class_data    =3D (void *)t,
-         .abstract      =3D true,
-     };
-     TypeInfo generic_type_info =3D {
-@@ -1961,13 +1953,20 @@ void virtio_pci_types_register(const VirtioPCIDev=
-iceTypeInfo *t)
-=20
-     if (!base_type_info.name) {
-         /* No base type -> register a single generic device type */
--        base_type_info.name =3D t->generic_name;
--        base_type_info.class_init =3D virtio_pci_generic_base_class_init=
-;
--        base_type_info.interfaces =3D generic_type_info.interfaces;
--        base_type_info.abstract =3D false;
--        generic_type_info.name =3D NULL;
-+        /* use intermediate %s-base-type to add generic device props */
-+        base_name =3D g_strdup_printf("%s-base-type", t->generic_name);
-+        base_type_info.name =3D base_name;
-+        base_type_info.class_init =3D virtio_pci_generic_class_init;
-+
-+        generic_type_info.parent =3D base_name;
-+        generic_type_info.class_init =3D virtio_pci_base_class_init;
-+        generic_type_info.class_data =3D (void *)t;
-+
-         assert(!t->non_transitional_name);
-         assert(!t->transitional_name);
-+    } else {
-+        base_type_info.class_init =3D virtio_pci_base_class_init;
-+        base_type_info.class_data =3D (void *)t;
-     }
-=20
-     type_register(&base_type_info);
-@@ -2005,6 +2004,7 @@ void virtio_pci_types_register(const VirtioPCIDevic=
-eTypeInfo *t)
-         };
-         type_register(&transitional_type_info);
-     }
-+    g_free(base_name);
- }
-=20
- /* virtio-pci-bus */
---=20
-2.22.0.rc2.384.g1a9a72ea1d
-
+> +        if (!buffer_mmaped) {
+> +            g_free(buf);
+> +        }
+> +    } while (count < pfn_count);
+> +
+> +dpl_unlock:
+> +    qemu_mutex_unlock(&migration->lock);
+> +}
+> +
+>  /* ---------------------------------------------------------------------- */
+>  
+>  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 1d26e6be8d48..423d6dbccace 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -224,5 +224,7 @@ int vfio_spapr_remove_window(VFIOContainer *container,
+>  
+>  int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
+>  void vfio_migration_finalize(VFIODevice *vbasedev);
+> +void vfio_get_dirty_page_list(VFIODevice *vbasedev, uint64_t start_pfn,
+> +                               uint64_t pfn_count, uint64_t page_size);
+>  
+>  #endif /* HW_VFIO_VFIO_COMMON_H */
+> -- 
+> 2.7.0
+> 
 
