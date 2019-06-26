@@ -2,45 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F418564E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 10:50:38 +0200 (CEST)
-Received: from localhost ([::1]:37716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EE235620C
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 08:09:44 +0200 (CEST)
+Received: from localhost ([::1]:36920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg3dV-0004nz-Ms
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 04:50:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42488)
+	id 1hg17m-0000ve-HM
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 02:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41766)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <hang.yuan@linux.intel.com>) id 1hg18U-0002Wi-Hb
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:10:27 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hg160-000052-A9
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:07:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hang.yuan@linux.intel.com>) id 1hg18Q-0005LD-18
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:10:24 -0400
-Received: from mga07.intel.com ([134.134.136.100]:34941)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <hang.yuan@linux.intel.com>)
- id 1hg18M-0004wF-1z
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:10:20 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2019 23:10:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,418,1557212400"; d="scan'208";a="337098619"
-Received: from henry-optiplex-7050.bj.intel.com ([10.238.156.132])
- by orsmga005.jf.intel.com with ESMTP; 25 Jun 2019 23:10:02 -0700
-From: hang.yuan@linux.intel.com
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 14:00:15 +0800
-Message-Id: <1561528815-4912-1-git-send-email-hang.yuan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 134.134.136.100
-X-Mailman-Approved-At: Wed, 26 Jun 2019 04:46:31 -0400
-Subject: [Qemu-devel] [PATCH] target/i386: HAX: Enable ROM/ROM device memory
- region support
+ (envelope-from <palmer@dabbelt.com>) id 1hg15z-0002ix-6c
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:07:52 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:46715)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hg15z-0002hq-1U
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 02:07:51 -0400
+Received: by mail-pf1-f193.google.com with SMTP id 81so724549pfy.13
+ for <qemu-devel@nongnu.org>; Tue, 25 Jun 2019 23:07:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=EmGZqkWZXz+TznH7WqJXu6yj6AO4KHO44rr6hePQgrs=;
+ b=GeA2dCZYouHplGQr+FjWRDZj00tRKV7tKZzP6sT9+gACgOVMyv8TstqPMaPNk1/W96
+ ZKvoHoMMK4wCc1UjnftGaRFHyKnIu4gavVGBuqYdCUU4XwcoACK5JwuSJItdG/sK/Oyp
+ GjBUbx9LdVZOidJTZGnyX3DlSzB3hHdfMbuxKIXVB1THGoUxCOONbtYgRUyGl0vMjPju
+ R/d9sRhPDV6/qK1ONPwoCmD7fwRS0eB7DZuVAhFPY9XJ8g/zAf5uBxSaQ41AJmy6UbAx
+ pPpzNW+MvBl3m92Vmxvipz/ArGrAaQ7QwAs8qSX+uI0M2lWSo7dMpN2dUhz8kclMCecl
+ Ypqg==
+X-Gm-Message-State: APjAAAUIysbtvCHLVkpPxluLV82F3nUcI2p4NhNqvovKbIiXquQkypxI
+ T8/GvQdzIhk/BIsoI2lv/7Z4IQ==
+X-Google-Smtp-Source: APXvYqzXFdyOlcRsq0ehCife6IjFondFhfG8Gxh0s/+OgauV14yDlln/7qLxLGHJP4njXHScufagBg==
+X-Received: by 2002:a63:2323:: with SMTP id j35mr1215735pgj.166.1561529269373; 
+ Tue, 25 Jun 2019 23:07:49 -0700 (PDT)
+Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
+ [220.132.236.182])
+ by smtp.gmail.com with ESMTPSA id x65sm20879927pfd.139.2019.06.25.23.07.48
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 25 Jun 2019 23:07:48 -0700 (PDT)
+Date: Tue, 25 Jun 2019 23:07:48 -0700 (PDT)
+X-Google-Original-Date: Tue, 25 Jun 2019 22:32:56 PDT (-0700)
+In-Reply-To: <CAKmqyKOGKuMJXSPJJEWn7s6OkUZ4ZRL7KFOqtaBWTErrbi6+aQ@mail.gmail.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-9ce79f43-2d09-489c-a089-be1ad81057ee@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.210.193
+Subject: Re: [Qemu-devel] [PATCH] RISC-V: Add support for the Zicsr extension
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,48 +67,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hang Yuan <hang.yuan@linux.intel.com>
+Cc: qemu-riscv@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hang Yuan <hang.yuan@linux.intel.com>
+On Tue, 25 Jun 2019 08:20:55 PDT (-0700), alistair23@gmail.com wrote:
+> On Tue, Jun 25, 2019 at 3:09 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+>>
+>> The various CSR instructions have been split out of the base ISA as part
+>> of the ratification process.  This patch adds a Zicsr argument, which
+>> disables all the CSR instructions.
+>>
+>> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+>> ---
+>>  target/riscv/cpu.c | 1 +
+>>  target/riscv/cpu.h | 1 +
+>>  target/riscv/csr.c | 5 +++++
+>>  3 files changed, 7 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index bbad39a337b3..915b9e77df33 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -442,6 +442,7 @@ static Property riscv_cpu_properties[] = {
+>>      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+>>      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+>>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>> +    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+>>      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+>>      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+>>      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index ba551cd3082c..0adb307f3298 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -224,6 +224,7 @@ typedef struct RISCVCPU {
+>>          bool ext_u;
+>>          bool ext_counters;
+>>          bool ext_ifencei;
+>> +        bool ext_icsr;
+>>
+>>          char *priv_spec;
+>>          char *user_spec;
+>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>> index de67741f3648..ff988917b995 100644
+>> --- a/target/riscv/csr.c
+>> +++ b/target/riscv/csr.c
+>> @@ -793,6 +793,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+>>  {
+>>      int ret;
+>>      target_ulong old_value;
+>> +    RISCVCPU *cpu = env_archcpu(env);
+>>
+>>      /* check privileges and return -1 if check fails */
+>>  #if !defined(CONFIG_USER_ONLY)
+>> @@ -803,6 +804,10 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+>>      }
+>>  #endif
+>>
+>> +    /* ensure the CSR extension is enabled. */
+>> +    if (!cpu->cfg.ext_icsr)
+>> +        return -1;
+>
+> QEMU style include curly braces around a single line if. Plus I think
+> it makes it less error prone. Can you add braces?
+>
+> After that:
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Add ROM and ROM device memory region support in HAX. Their memory region is
-read only and write access will generate EPT violation. The violation will
-be handled in the HAX kernel with the following patch.
+Thanks.
 
-https://github.com/intel/haxm/commit/33ceea09a1655fca12c47f1e112b1d269357ff28
-
-Signed-off-by: Hang Yuan <hang.yuan@linux.intel.com>
----
- target/i386/hax-mem.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
-
-diff --git a/target/i386/hax-mem.c b/target/i386/hax-mem.c
-index 6bb5a24917..685e88cb45 100644
---- a/target/i386/hax-mem.c
-+++ b/target/i386/hax-mem.c
-@@ -175,15 +175,11 @@ static void hax_process_section(MemoryRegionSection *section, uint8_t flags)
-     uint64_t host_va;
-     uint32_t max_mapping_size;
- 
--    /* We only care about RAM and ROM regions */
--    if (!memory_region_is_ram(mr)) {
--        if (memory_region_is_romd(mr)) {
--            /* HAXM kernel module does not support ROMD yet  */
--            warn_report("Ignoring ROMD region 0x%016" PRIx64 "->0x%016" PRIx64,
--                        start_pa, start_pa + size);
--        }
-+    /* We only care about RAM/ROM regions and ROM device */
-+    if (memory_region_is_rom(mr) || (memory_region_is_romd(mr)))
-+	flags |= HAX_RAM_INFO_ROM;
-+    else if (!memory_region_is_ram(mr))
-         return;
--    }
- 
-     /* Adjust start_pa and size so that they are page-aligned. (Cf
-      * kvm_set_phys_mem() in kvm-all.c).
--- 
-2.21.0
-
+>
+> Alistair
+>
+>> +
+>>      /* check predicate */
+>>      if (!csr_ops[csrno].predicate || csr_ops[csrno].predicate(env, csrno) < 0) {
+>>          return -1;
+>> --
+>> 2.21.0
+>>
+>>
 
