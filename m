@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BDC56830
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:04:53 +0200 (CEST)
-Received: from localhost ([::1]:39120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F5056801
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 13:54:06 +0200 (CEST)
+Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6fU-0006EP-8v
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:04:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43659)
+	id 1hg6V3-00070b-QH
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 07:54:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43623)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NG-0001KI-Rg
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:05 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NF-0001KA-Rh
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NE-0005t8-EK
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:02 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60629 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NE-0005t1-Dt
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:01 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:60633 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hg6NE-0005nM-1e
+ id 1hg6NE-0005nW-1X
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:00 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 7AAE01A464C;
+ by mail.rt-rk.com (Postfix) with ESMTP id 8785F1A20B4;
  Wed, 26 Jun 2019 13:45:56 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 5ECE71A20B4;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 676131A2276;
  Wed, 26 Jun 2019 13:45:56 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 13:45:33 +0200
-Message-Id: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 26 Jun 2019 13:45:34 +0200
+Message-Id: <1561549550-3501-2-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
+References: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 00/17] MIPS queue for June 2016th, 2019
+Subject: [Qemu-devel] [PULL 01/17] hw/mips/gt64xxx_pci: Fix multiline
+ comment syntax
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,205 +58,160 @@ Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeac=
-de:
+Since commit 8c06fbdf36b checkpatch.pl enforce a new multiline
+comment syntax. Since we'll move this code around, fix its style
+first.
 
-  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-=
-2019' into staging (2019-06-21 15:40:50 +0100)
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <20190624222844.26584-2-f4bug@amsat.org>
+---
+ hw/mips/gt64xxx_pci.c | 64 ++++++++++++++++++++++++++++-----------------=
+------
+ 1 file changed, 35 insertions(+), 29 deletions(-)
 
-are available in the git repository at:
-
-  https://github.com/AMarkovic/qemu tags/mips-queue-jun-26-2019
-
-for you to fetch changes up to 5a6a1fabfcbbdf7808aaa8e906fee86ed6eb37e7:
-
-  target/mips: Fix big endian host behavior for interleave MSA instructio=
-ns (2019-06-26 13:25:56 +0200)
-
-----------------------------------------------------------------
-
-MIPS queue for June 2016th, 2019
-
-Note:
-
-  - seven checkpatch warnings on updating MAINTAINERS can be ignored
-
-Highlights:
-
-  - cleanups and fixes for Malta's gt64xxx PCI controller
-  - cleanups and fixes for Jazz'src4030 DMA controller
-  - improvements of MSA TCG tests
-  - fix for big endian host interleave instructions behavior
-
-----------------------------------------------------------------
-
-Aleksandar Markovic (10):
-  dma/rc4030: Fix off-by-one error in specified memory region size
-  dma/rc4030: Minor code style cleanup
-  tests/tcg: target/mips: Add tests for MSA bit move instructions
-  tests/tcg: target/mips: Add tests for MSA move instructions
-  tests/tcg: target/mips: Amend tests for MSA int dot product
-    instructions
-  tests/tcg: target/mips: Amend tests for MSA int multiply instructions
-  tests/tcg: target/mips: Add support for MSA big-endian target testings
-  tests/tcg: target/mips: Add support for MSA MIPS32R6 testings
-  tests/tcg: target/mips: Fix some test cases for pack MSA instructions
-  target/mips: Fix big endian host behavior for interleave MSA
-    instructions
-
-Philippe Mathieu-Daud=C3=A9 (7):
-  hw/mips/gt64xxx_pci: Fix multiline comment syntax
-  hw/mips/gt64xxx_pci: Fix 'tabs' coding style issues
-  hw/mips/gt64xxx_pci: Fix 'braces' coding style issues
-  hw/mips/gt64xxx_pci: Fix 'spaces' coding style issues
-  hw/mips/gt64xxx_pci: Use qemu_log_mask() instead of debug printf()
-  hw/mips/gt64xxx_pci: Convert debug printf()s to trace events
-  hw/mips/gt64xxx_pci: Align the pci0-mem size
-
- Makefile.objs                                      |   1 +
- hw/dma/rc4030.c                                    |  21 +-
- hw/mips/gt64xxx_pci.c                              | 494 ++++++++-------=
--
- hw/mips/trace-events                               |   4 +
- target/mips/msa_helper.c                           |  24 +-
- tests/tcg/mips/include/wrappers_msa.h              |  96 +++-
- .../mips/user/ase/msa/bit-move/test_msa_binsl_b.c  | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_binsl_d.c  | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_binsl_h.c  | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_binsl_w.c  | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_binsr_b.c  | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_binsr_d.c  | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_binsr_h.c  | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_binsr_w.c  | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_bmnz_v.c   | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_bmz_v.c    | 214 +++++++
- .../mips/user/ase/msa/bit-move/test_msa_bsel_v.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpadd_s_d.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpadd_s_h.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpadd_s_w.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpadd_u_d.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpadd_u_h.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpadd_u_w.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpsub_s_d.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpsub_s_h.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpsub_s_w.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpsub_u_d.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpsub_u_h.c   | 214 +++++++
- .../ase/msa/int-dot-product/test_msa_dpsub_u_w.c   | 214 +++++++
- .../user/ase/msa/int-multiply/test_msa_maddv_b.c   | 214 +++++++
- .../user/ase/msa/int-multiply/test_msa_maddv_d.c   | 214 +++++++
- .../user/ase/msa/int-multiply/test_msa_maddv_h.c   | 214 +++++++
- .../user/ase/msa/int-multiply/test_msa_maddv_w.c   | 214 +++++++
- .../user/ase/msa/int-multiply/test_msa_msubv_b.c   | 214 +++++++
- .../user/ase/msa/int-multiply/test_msa_msubv_d.c   | 214 +++++++
- .../user/ase/msa/int-multiply/test_msa_msubv_h.c   | 214 +++++++
- .../user/ase/msa/int-multiply/test_msa_msubv_w.c   | 214 +++++++
- tests/tcg/mips/user/ase/msa/move/test_msa_move_v.c | 149 +++++
- .../tcg/mips/user/ase/msa/pack/test_msa_pckev_b.c  |  64 +--
- .../tcg/mips/user/ase/msa/pack/test_msa_pckev_d.c  |  64 +--
- .../tcg/mips/user/ase/msa/pack/test_msa_pckev_h.c  |  64 +--
- .../tcg/mips/user/ase/msa/pack/test_msa_pckev_w.c  |  64 +--
- .../tcg/mips/user/ase/msa/pack/test_msa_pckod_b.c  |  64 +--
- .../tcg/mips/user/ase/msa/pack/test_msa_pckod_d.c  |  64 +--
- .../tcg/mips/user/ase/msa/pack/test_msa_pckod_h.c  |  64 +--
- .../tcg/mips/user/ase/msa/pack/test_msa_pckod_w.c  |  64 +--
- tests/tcg/mips/user/ase/msa/pack/test_msa_vshf_b.c |  64 +--
- tests/tcg/mips/user/ase/msa/pack/test_msa_vshf_d.c |  64 +--
- tests/tcg/mips/user/ase/msa/pack/test_msa_vshf_h.c |  64 +--
- tests/tcg/mips/user/ase/msa/pack/test_msa_vshf_w.c |  64 +--
- .../mips/user/ase/msa/test_msa_compile_32r6eb.sh   | 627 +++++++++++++++=
-++++++
- .../mips/user/ase/msa/test_msa_compile_32r6el.sh   | 627 +++++++++++++++=
-++++++
- .../mips/user/ase/msa/test_msa_compile_64r6eb.sh   | 627 +++++++++++++++=
-++++++
- ...t_msa_compile.sh =3D> test_msa_compile_64r6el.sh} | 561 ++++++++++---=
------
- tests/tcg/mips/user/ase/msa/test_msa_run.sh        | 326 -----------
- tests/tcg/mips/user/ase/msa/test_msa_run_32r6eb.sh | 363 ++++++++++++
- tests/tcg/mips/user/ase/msa/test_msa_run_32r6el.sh | 363 ++++++++++++
- tests/tcg/mips/user/ase/msa/test_msa_run_64r6eb.sh | 363 ++++++++++++
- tests/tcg/mips/user/ase/msa/test_msa_run_64r6el.sh | 363 ++++++++++++
- 59 files changed, 11201 insertions(+), 1210 deletions(-)
- create mode 100644 hw/mips/trace-events
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsl_b=
-.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsl_d=
-.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsl_h=
-.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsl_w=
-.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsr_b=
-.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsr_d=
-.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsr_h=
-.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_binsr_w=
-.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_bmnz_v.=
-c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_bmz_v.c
- create mode 100644 tests/tcg/mips/user/ase/msa/bit-move/test_msa_bsel_v.=
-c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpadd_s_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpadd_s_h.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpadd_s_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpadd_u_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpadd_u_h.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpadd_u_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpsub_s_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpsub_s_h.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpsub_s_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpsub_u_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpsub_u_h.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-dot-product/test_msa_=
-dpsub_u_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_mad=
-dv_b.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_mad=
-dv_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_mad=
-dv_h.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_mad=
-dv_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_msu=
-bv_b.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_msu=
-bv_d.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_msu=
-bv_h.c
- create mode 100644 tests/tcg/mips/user/ase/msa/int-multiply/test_msa_msu=
-bv_w.c
- create mode 100644 tests/tcg/mips/user/ase/msa/move/test_msa_move_v.c
- create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_compile_32r6eb.s=
-h
- create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_compile_32r6el.s=
-h
- create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_compile_64r6eb.s=
-h
- rename tests/tcg/mips/user/ase/msa/{test_msa_compile.sh =3D> test_msa_co=
-mpile_64r6el.sh} (77%)
- delete mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run.sh
- create mode 100644 tests/tcg/mips/user/ase/msa/test_msa_run_32r6eb.sh
- create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run_32r6el.sh
- create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run_64r6eb.sh
- create mode 100755 tests/tcg/mips/user/ase/msa/test_msa_run_64r6el.sh
-
+diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
+index f707e59..c092464 100644
+--- a/hw/mips/gt64xxx_pci.c
++++ b/hw/mips/gt64xxx_pci.c
+@@ -248,10 +248,11 @@ typedef struct GT64120State {
+ } GT64120State;
+=20
+ /* Adjust range to avoid touching space which isn't mappable via PCI */
+-/* XXX: Hardcoded values for Malta: 0x1e000000 - 0x1f100000
+-                                    0x1fc00000 - 0x1fd00000  */
+-static void check_reserved_space (hwaddr *start,
+-                                  hwaddr *length)
++/*
++ * XXX: Hardcoded values for Malta: 0x1e000000 - 0x1f100000
++ *                                  0x1fc00000 - 0x1fd00000
++ */
++static void check_reserved_space(hwaddr *start, hwaddr *length)
+ {
+     hwaddr begin =3D *start;
+     hwaddr end =3D *start + *length;
+@@ -650,8 +651,10 @@ static void gt64120_writel (void *opaque, hwaddr add=
+r,
+     case GT_SDRAM_B1:
+     case GT_SDRAM_B2:
+     case GT_SDRAM_B3:
+-        /* We don't simulate electrical parameters of the SDRAM.
+-           Accept, but ignore the values. */
++        /*
++         * We don't simulate electrical parameters of the SDRAM.
++         * Accept, but ignore the values.
++         */
+         s->regs[saddr] =3D val;
+         break;
+=20
+@@ -674,8 +677,10 @@ static uint64_t gt64120_readl (void *opaque,
+=20
+     /* CPU Configuration */
+     case GT_MULTI:
+-        /* Only one GT64xxx is present on the CPU bus, return
+-           the initial value */
++        /*
++         * Only one GT64xxx is present on the CPU bus, return
++         * the initial value.
++         */
+         val =3D s->regs[saddr];
+         break;
+=20
+@@ -685,17 +690,18 @@ static uint64_t gt64120_readl (void *opaque,
+     case GT_CPUERR_DATALO:
+     case GT_CPUERR_DATAHI:
+     case GT_CPUERR_PARITY:
+-        /* Emulated memory has no error, always return the initial
+-           values */
++        /* Emulated memory has no error, always return the initial value=
+s. */
+         val =3D s->regs[saddr];
+         break;
+=20
+     /* CPU Sync Barrier */
+     case GT_PCI0SYNC:
+     case GT_PCI1SYNC:
+-        /* Reading those register should empty all FIFO on the PCI
+-           bus, which are not emulated. The return value should be
+-           a random value that should be ignored. */
++        /*
++         * Reading those register should empty all FIFO on the PCI
++         * bus, which are not emulated. The return value should be
++         * a random value that should be ignored.
++         */
+         val =3D 0xc000ffee;
+         break;
+=20
+@@ -705,8 +711,7 @@ static uint64_t gt64120_readl (void *opaque,
+     case GT_ECC_MEM:
+     case GT_ECC_CALC:
+     case GT_ECC_ERRADDR:
+-        /* Emulated memory has no error, always return the initial
+-           values */
++        /* Emulated memory has no error, always return the initial value=
+s. */
+         val =3D s->regs[saddr];
+         break;
+=20
+@@ -785,8 +790,10 @@ static uint64_t gt64120_readl (void *opaque,
+     case GT_SDRAM_B1:
+     case GT_SDRAM_B2:
+     case GT_SDRAM_B3:
+-        /* We don't simulate electrical parameters of the SDRAM.
+-           Just return the last written value. */
++        /*
++         * We don't simulate electrical parameters of the SDRAM.
++         * Just return the last written value.
++         */
+         val =3D s->regs[saddr];
+         break;
+=20
+@@ -949,20 +956,20 @@ static int gt64120_pci_map_irq(PCIDevice *pci_dev, =
+int irq_num)
+     slot =3D (pci_dev->devfn >> 3);
+=20
+     switch (slot) {
+-      /* PIIX4 USB */
+-      case 10:
++    /* PIIX4 USB */
++    case 10:
+         return 3;
+-      /* AMD 79C973 Ethernet */
+-      case 11:
++    /* AMD 79C973 Ethernet */
++    case 11:
+         return 1;
+-      /* Crystal 4281 Sound */
+-      case 12:
++    /* Crystal 4281 Sound */
++    case 12:
+         return 2;
+-      /* PCI slot 1 to 4 */
+-      case 18 ... 21:
++    /* PCI slot 1 to 4 */
++    case 18 ... 21:
+         return ((slot - 18) + irq_num) & 0x03;
+-      /* Unknown device, don't do any translation */
+-      default:
++    /* Unknown device, don't do any translation */
++    default:
+         return irq_num;
+     }
+ }
+@@ -980,8 +987,7 @@ static void gt64120_pci_set_irq(void *opaque, int irq=
+_num, int level)
+     /* XXX: optimize */
+     pic_irq =3D piix4_dev->config[0x60 + irq_num];
+     if (pic_irq < 16) {
+-        /* The pic level is the logical OR of all the PCI irqs mapped
+-           to it */
++        /* The pic level is the logical OR of all the PCI irqs mapped to=
+ it. */
+         pic_level =3D 0;
+         for (i =3D 0; i < 4; i++) {
+             if (pic_irq =3D=3D piix4_dev->config[0x60 + i])
 --=20
 2.7.4
 
