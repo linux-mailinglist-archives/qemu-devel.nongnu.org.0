@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE9B570C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:35:53 +0200 (CEST)
-Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C304956836
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:06:37 +0200 (CEST)
+Received: from localhost ([::1]:39218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgCls-0004hK-8r
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:35:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44181)
+	id 1hg6hA-00008I-VD
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:06:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46119)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfV-0001Tt-Dr
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:19 -0400
+ (envelope-from <philmd@redhat.com>) id 1hg6Yg-0004aq-7e
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:57:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfU-0007xh-Gs
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:17 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38147)
+ (envelope-from <philmd@redhat.com>) id 1hg6Yf-0000YR-5S
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:57:50 -0400
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:38920)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hgCfU-0007x4-9g
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:16 -0400
-Received: by mail-wr1-x442.google.com with SMTP id d18so3877022wrs.5
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=n3YkOEVUPRaKEULHS1Gzl/S5jvMt2zT4d79BA6WQFVk=;
- b=uiQNBUaXa29Gqmi5QC15DLBZoLVs0XXbFDquCUaCqd/6/tWYWyJfCQ1wiii6GBT1lq
- L3cUjsT3NBdopSZZDe4/41NvQCcEjVURS3YlJbCCRjffMkYNCB2kSY04OsmdAmlKx86W
- a7RVem45mdQRJ+xGqert/+rrniVuDU55MVCwUz8JkDREpx9DwWLkV89a+xl+vZWm7kSr
- g5ziA3mLeBy97Lj46+ow5b9iqMgq+iOb+IhmwRJZ/3IgQsNsXA/uWs+ywji9aLr3IjAZ
- hww5muX7T2LVNvPzChfMOyes2kSlyBoxTSOWHcAxVdCeCZF6Wh64SX4fbO+gjqiJDwSP
- 4qrw==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hg6Ye-0000Mn-T3
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:57:49 -0400
+Received: by mail-wr1-f54.google.com with SMTP id x4so2406419wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 04:57:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ h=x-gm-message-state:subject:references:to:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=n3YkOEVUPRaKEULHS1Gzl/S5jvMt2zT4d79BA6WQFVk=;
- b=Sh9cZKXpZ0Ax+TlynKNu0oJHojkWcxYqYzUwDAeO9qjg1rgu7ejQ+3uapezLHMyXUU
- ULMtf6GoBSxFr0J7iqcYycga0hCji6IDxdcs6F3hPquu1A05qOGGLyE1LUK+KyG38a2i
- MbrfwNnynPkMWkYWz+RcYDMXRt5Ali1Q3RSzelsmE2WzGN0kEA3uXtx6RWjvQUEwDjXP
- TXFYT8YINNJmftFj1UDZq6xKetdLaw1pNkKm+fCG4KrclU6m6qBgfJ4uIAWajCJzgi0I
- CJqO30VWNjShSBTp6Yxr9hMO9WMsJhODpEw0A1kGNuQVX26UcsZGCNaZsrW1Byv0OIc4
- 0EVQ==
-X-Gm-Message-State: APjAAAVQWR8Gd5MSSXMrgbNmt4bliNkTggUm+BElogEcI/844bPP/+Gc
- TjsRQ5E3zfONJNsxA0w3JZ5Zig==
-X-Google-Smtp-Source: APXvYqxS4k5Ds+/EqCduvsf9WJjkJc3fyPnY9jW2DFjyd+wSoBaHPHJbWa0nAaEacibQVVQdTsgvaw==
-X-Received: by 2002:adf:f649:: with SMTP id x9mr4351295wrp.86.1561573755313;
- Wed, 26 Jun 2019 11:29:15 -0700 (PDT)
-Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id o11sm3350513wmh.37.2019.06.26.11.29.14
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 11:29:14 -0700 (PDT)
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-9-drjones@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <90009b4b-0f96-89b2-a401-9d84a8b2526e@linaro.org>
-Date: Wed, 26 Jun 2019 13:50:03 +0200
+ bh=3RIWYQo2xsO/H0aefoqbA59gX8qjE1yxHNyyCEEvpDg=;
+ b=Gmy9lnDdPbhemJ6eQBrgB3Hn8HVkGUp1nkORX0VvqKpO+kCY0ZSAcwJVmPhW2jyfXY
+ opMv85rDoNF1o1Hbq2JccXiG9mFWsMnKUlVdgtfvs1UZK0K5UvXLRc8su2MVP/mNeC0J
+ 0BENNMjAXN3MHn7GYIvx+iCApC8hpEQB4qtGWoz0DZfVwOgQjuao0uK78E3q8PDa4Y1a
+ mOM/+MML0oQam7OPEFvjJu1G24eiBpzslnXgB5R50F3zPltP8JtJLoVj3+YI1Zad39Hk
+ aVl88/+TXki090hzYcGl4UxrrQAqZRB/D2E4VC43/TMgQ3BLbrojqvUnTp3s7dSRWN1X
+ FQfA==
+X-Gm-Message-State: APjAAAW/H9Q7xIbwJ0e+W4NuQcszT699eaXwOqzhk61YlC8uB3AEiuiX
+ swi67nx42SAp2QfQASzAO66J/w==
+X-Google-Smtp-Source: APXvYqxSp2KUpHwTJt2oYu30GLQCXV6r++r78stvhzF4QoXkA/LGeHiiwtxeU1TmR6+9ewNB1/yf8w==
+X-Received: by 2002:adf:f04d:: with SMTP id t13mr3430942wro.36.1561550264473; 
+ Wed, 26 Jun 2019 04:57:44 -0700 (PDT)
+Received: from [10.201.33.53] ([195.166.127.210])
+ by smtp.gmail.com with ESMTPSA id a84sm2809474wmf.29.2019.06.26.04.57.43
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Jun 2019 04:57:44 -0700 (PDT)
+References: <f8f439b4-3835-686c-2c1e-20fe78d6bbf1@redhat.com>
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, =?UTF-8?Q?Llu=c3=ads_Vilanova?=
+ <vilanova@ac.upc.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+X-Forwarded-Message-Id: <f8f439b4-3835-686c-2c1e-20fe78d6bbf1@redhat.com>
+Message-ID: <d75c0641-01a3-ac5c-2f4d-b41505747815@redhat.com>
+Date: Wed, 26 Jun 2019 13:57:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190621163422.6127-9-drjones@redhat.com>
+In-Reply-To: <f8f439b4-3835-686c-2c1e-20fe78d6bbf1@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH v2 08/14] target/arm/kvm64: Fix error
- returns
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.221.54
+Subject: [Qemu-devel] trace: floating-point values blacklisted
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,23 +75,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
- imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/21/19 6:34 PM, Andrew Jones wrote:
-> A couple return -EINVAL's forgot their '-'s.
-> 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  target/arm/kvm64.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+[I forgot to Cc the list, resending]
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi Stefan, Lluís,
 
+When trying to add a trace event to report a float value, I get:
 
-r~
+trace-events:11: Argument type 'float' is not in whitelist. Only
+standard C types and fixed size integer types should be used. struct,
+union, and other complex pointer types should be declared as 'void *'
+Traceback (most recent call last):
+  File "./scripts/tracetool.py", line 152, in <module>
+    main(sys.argv)
+  File "./scripts/tracetool.py", line 143, in main
+    events.extend(tracetool.read_events(fh, arg))
+  File "./scripts/tracetool/__init__.py", line 365, in read_events
+    event = Event.build(line)
+  File "./scripts/tracetool/__init__.py", line 283, in build
+    args = Arguments.build(groups["args"])
+  File "./scripts/tracetool/__init__.py", line 133, in build
+    validate_type(arg_type)
+  File "./scripts/tracetool/__init__.py", line 86, in validate_type
+    "declared as 'void *'" % name)
 
+Floating-point types are specified in the optional Annex F of the
+standard ("IEC 60559 floating-point arithmetic").
+
+Is there a specific reason to not trace them, or simply nobody ever had
+to trace them?
+
+Thanks,
+
+Phil.
 
