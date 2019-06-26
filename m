@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D968570EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:45:25 +0200 (CEST)
-Received: from localhost ([::1]:44278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DBAC56DED
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 17:43:19 +0200 (CEST)
+Received: from localhost ([::1]:41314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgCv6-0006tt-QY
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:45:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44306)
+	id 1hgA4r-0001Bc-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 11:43:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47269)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfh-0001dD-Ny
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:31 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hgA3Z-0000NN-PA
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:41:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCff-00087Z-Pg
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:29 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55998)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hgCff-000868-Er
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:27 -0400
-Received: by mail-wm1-x342.google.com with SMTP id a15so3112484wmj.5
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6/MbOA1xCDJwm6PMhIwJdefvlJygKmDk3Z/HdE1idV4=;
- b=xGtEbPMwG3juWxUQgUWJqmRo7GE5amDHhIK/tlIRQN+6BFpdq4TuFxpv6xyTZvdSwo
- yQH9Ch3Ve6OcFsKTomuLf1XmQlGOde4f0b4FEJYHyaDDutCnD+ZsoGaoRbp1rzCk1uh9
- 3D70rTZsJtJgthdh7MRNtadVuxpywP2c6MLr1VMjz5kvzgdeNTvTo8BMSR4TV0YUQWr7
- dfY9XwktSPUFlisgspLawFhvTylBy2ZzJoYjoX8aYNKpAHIC54wgRT4eBQeQZZkXBOFd
- TAafMiYfMjvn7GnlNFWeBZpXu7xOvo5uMvkqQkmzbHuf3Po/wYqkm0vqniIfnj4RWr5V
- p2KQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6/MbOA1xCDJwm6PMhIwJdefvlJygKmDk3Z/HdE1idV4=;
- b=LogDh18EFqsn392DAGZ3ASchG9Ofe7IwYLrE0GBzAwwSYHnqaEyNhaGX6ItcYpdwJQ
- jsjha1kM9rp4meOzegbMh0WF7KXpSW4G7188dEzxKnMyhgYjH8lXWuW/EuIW/d9Apxzx
- 24E9mSABHk9JlL8YNEpD+OA90TJanIL5L8SpO73/3KY5dwHomX8xO9sFY6uNrtJhjwmD
- C5hod/OGcpzC6uT0fZEPqhbzpx6c7nsmyxgXfJKTOdTQmVYZkXL49oHlm1TDXe7tNWDk
- dXBbLCl8ev/+WuZP6cOENolG1CWn2TuzSVUAtXYV/Zxes4gppMtmx++2RiGw0VEgd328
- DwUA==
-X-Gm-Message-State: APjAAAWxefc1g01a2a7eQvuKKHAONzxO5vFupSLyaiFHb3xk0D4OCO75
- 1/EIEpbUhOEnCO1iVOQGdvB+gg+6sccSdw==
-X-Google-Smtp-Source: APXvYqw2IVtHHjUnOLYc/rD6df64d4gsPVtfQCJiKh5V0C2cOam8JefPGyHt5p607bLOHPTr3e4IXA==
-X-Received: by 2002:a1c:b604:: with SMTP id g4mr241248wmf.111.1561573765927;
- Wed, 26 Jun 2019 11:29:25 -0700 (PDT)
-Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id o6sm4200007wmc.15.2019.06.26.11.29.25
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 11:29:25 -0700 (PDT)
-To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1560942225-24728-1-git-send-email-stefan.brankovic@rt-rk.com>
- <1560942225-24728-7-git-send-email-stefan.brankovic@rt-rk.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <e35eb094-83e1-24a7-4201-177682081c67@linaro.org>
-Date: Wed, 26 Jun 2019 17:38:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <no-reply@patchew.org>) id 1hgA3Y-0002AZ-JB
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:41:57 -0400
+Resent-Date: Wed, 26 Jun 2019 11:41:57 -0400
+Resent-Message-Id: <E1hgA3Y-0002AZ-JB@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21964)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hgA3Y-00028d-Db
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 11:41:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561563667; cv=none; d=zoho.com; s=zohoarc; 
+ b=GLKgyKCZWS6S1/6yNcvzVjT936ri4D9S+vcqhDbT+yETj7qjEJBZ0BQXNqbG7w+2qRSWpj7SmCZ0L2IBe7jJSNv+D87IScFIF+RAuLwpiyla4WGmtsp38ubNyXUXVzPexdGOtl17sZM4+B6orQCNV1/WDLx1zsKDAlI3sRGggoI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561563667;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=o8NnjDmGIFlTCwvlW/mKh4NrkXGLHcyxXpZI3Of7Ujo=; 
+ b=TuFqPc6OEJ6IhIJ3YA9/xV7r6mnZq0v1uJxmIN9HHWF9ZvE6fDCJ8ZkGM+4gPwqW2FgEt/0P5EvUTopXnSKnyQbX5jde+PzfMjWoFhLSBlEE6OWdcv62ZS7QIItxC7hBa4scxValKZhBO1rNY8rSpwBJ3Eb8Xto+lHqoDp/fW40=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561563664594618.6854988653449;
+ Wed, 26 Jun 2019 08:41:04 -0700 (PDT)
+Message-ID: <156156366354.6332.12395600972268443110@c4a48874b076>
+In-Reply-To: <20190626152703.4871-1-dinechin@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1560942225-24728-7-git-send-email-stefan.brankovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH 6/8] target/ppc: Optimize emulation of
- vclzw instruction
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: dinechin@redhat.com
+Date: Wed, 26 Jun 2019 08:41:04 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.59
+Subject: Re: [Qemu-devel] [PATCH] hyperv-stub: Remove invalid reference to
+ hyperv_synic
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,32 +62,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@gibson.dropbear.id.au
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, vkuznets@redhat.com, rth@twiddle.net,
+ qemu-devel@nongnu.org, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/19/19 1:03 PM, Stefan Brankovic wrote:
-> Optimize Altivec instruction vclzw (Vector Count Leading Zeros Word).
-> This instruction counts the number of leading zeros of each word element
-> in source register and places result in the appropriate word element of
-> destination register.
-> 
-> Counting is to be performed in four iterations of for loop(one for each
-> word elemnt of source register vB). Every iteration consists of loading
-> appropriate word element from source register, counting leading zeros
-> with tcg_gen_clzi_i32, and saving the result in appropriate word element
-> of destination register.
-> 
-> Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-> ---
->  target/ppc/helper.h                 |  1 -
->  target/ppc/int_helper.c             |  3 ---
->  target/ppc/translate/vmx-impl.inc.c | 28 +++++++++++++++++++++++++++-
->  3 files changed, 27 insertions(+), 5 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyNjE1MjcwMy40ODcx
+LTEtZGluZWNoaW5AcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgYnVpbGQg
+dGVzdCBvbiBzMzkweCBob3N0LiBQbGVhc2UgZmluZCB0aGUgZGV0YWlscyBiZWxvdy4KCj09PSBU
+RVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKIyBUZXN0aW5nIHNjcmlwdCB3aWxsIGJl
+IGludm9rZWQgdW5kZXIgdGhlIGdpdCBjaGVja291dCB3aXRoCiMgSEVBRCBwb2ludGluZyB0byBh
+IGNvbW1pdCB0aGF0IGhhcyB0aGUgcGF0Y2hlcyBhcHBsaWVkIG9uIHRvcCBvZiAiYmFzZSIKIyBi
+cmFuY2gKc2V0IC1lCkNDPSRIT01FL2Jpbi9jYwpJTlNUQUxMPSRQV0QvaW5zdGFsbApCVUlMRD0k
+UFdEL2J1aWxkCm1rZGlyIC1wICRCVUlMRCAkSU5TVEFMTApTUkM9JFBXRApjZCAkQlVJTEQKJFNS
+Qy9jb25maWd1cmUgLS1jYz0kQ0MgLS1wcmVmaXg9JElOU1RBTEwKbWFrZSAtajQKIyBYWFg6IHdl
+IG5lZWQgcmVsaWFibGUgY2xlYW4gdXAKIyBtYWtlIGNoZWNrIC1qNCBWPTEKbWFrZSBpbnN0YWxs
+CgplY2hvCmVjaG8gIj09PSBFTlYgPT09IgplbnYKCmVjaG8KZWNobyAiPT09IFBBQ0tBR0VTID09
+PSIKcnBtIC1xYQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKCgoKVGhlIGZ1bGwgbG9nIGlzIGF2
+YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDYyNjE1MjcwMy40ODcxLTEt
+ZGluZWNoaW5AcmVkaGF0LmNvbS90ZXN0aW5nLnMzOTB4Lz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
+bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
+L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
