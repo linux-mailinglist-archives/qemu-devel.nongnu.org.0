@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83975697C
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:41:29 +0200 (CEST)
-Received: from localhost ([::1]:39786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3B956998
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:44:13 +0200 (CEST)
+Received: from localhost ([::1]:39814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg7Eu-00024w-W6
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:41:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55887)
+	id 1hg7HY-0005w3-No
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:44:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CF-0000HY-0J
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:44 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CG-0000IL-Hb
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CD-0006U7-II
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:42 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:40950)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CE-0006Wd-Va
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:44 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:40978)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hg7C7-0006Gl-4c; Wed, 26 Jun 2019 08:38:35 -0400
+ id 1hg7C9-0006K0-7E; Wed, 26 Jun 2019 08:38:37 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCYECL105242;
- Wed, 26 Jun 2019 12:38:32 GMT
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCY6sD104975;
+ Wed, 26 Jun 2019 12:38:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2018-07-02;
- bh=ctg1U7ZXa/ucf+cAYr43gPZyEKHKzEUUwGQ3sHqLG+U=;
- b=j2Qo3DaVsn5jAds87502ypJ58rz9kx8zvirCB0+zRP+ZK57DzZO20DCxo49gPHlDQX4T
- 6/TzOAHNGF34TnNiRIvBrRY36g3p3SvEt+HUprDhIa+R5jyfpqIjZEDhTmrmo6y/s613
- W+87wQDtcGhGIfsL1JrAloBmaXH+Kfe99vr5Q1IdoxumSFtPNUQibEiVTp5m6odVsipA
- f9XTOQMxoHNPWb9pFCO9wAYBU1PlzR63kaIKVSjNNh2Ir8u2w5bEFUB9cI8MoleZ39nF
- CdQFIkurcQ8aYW7ctufJfZlAh8uB5fCzDB/US84wiegAmId2wrHFa3rlvuicoG+brKZ7 VQ== 
+ subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
+ bh=XYssG+J/294GjGfqMpD5KUXLrc6cguktTtRRpAjXxbY=;
+ b=piHR5uJZmBldCwFMO6F55QQ6QnFtCBjeyGBAhMOMlejSm3U4GQd0NBxKgalxDFbWUNrV
+ 3AnkysuQIcFwX3GxtsRthAaB5CO4iPdn+LdvDUpKss8eD/9H9cIlX4gx5bAtth83oP5V
+ Xa+7HPyEgLr8qAPgG/Q4AqV0GdrRT47LInHEMpkuVVYCAUq6gqHp1NGh8bOavSZmiFa+
+ zZd5v1NmzMzbIh1NKRHhHryUW8vJy++r2KOiaY+Ogv2enbLorIik+4LLLYGr5qE+aZ67
+ MDNnOpG8SkGlncvDvumTAhaM7OI684mFg85y3fs7NUvybtB+WneKvDlP5bL2j598lmAO YQ== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 2t9c9pt2bt-1
+ by aserp2120.oracle.com with ESMTP id 2t9c9pt2c3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jun 2019 12:38:31 +0000
+ Wed, 26 Jun 2019 12:38:34 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCbUrg021783;
- Wed, 26 Jun 2019 12:38:31 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2tat7ct4ux-1
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCbRwx021575;
+ Wed, 26 Jun 2019 12:38:33 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 2tat7ct4vj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jun 2019 12:38:31 +0000
+ Wed, 26 Jun 2019 12:38:33 +0000
 Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5QCcTVg019535;
- Wed, 26 Jun 2019 12:38:29 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5QCcWAP000685;
+ Wed, 26 Jun 2019 12:38:32 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 26 Jun 2019 05:38:29 -0700
+ with ESMTP ; Wed, 26 Jun 2019 05:38:32 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
  kevin@koconnor.net
-Date: Wed, 26 Jun 2019 15:38:11 +0300
-Message-Id: <20190626123816.8907-1-shmuel.eiderman@oracle.com>
+Date: Wed, 26 Jun 2019 15:38:12 +0300
+Message-Id: <20190626123816.8907-2-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
+In-Reply-To: <20190626123816.8907-1-shmuel.eiderman@oracle.com>
+References: <20190626123816.8907-1-shmuel.eiderman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
  signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
  malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=844
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1906260150
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
  signatures=668687
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=888 adultscore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906260150
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [SeaBIOS] [PATCH v4 0/5] Add Qemu to SeaBIOS LCHS
- interface
+Subject: [Qemu-devel] [SeaBIOS] [PATCH v4 1/5] geometry: Read LCHS from
+ fw_cfg
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,68 +93,130 @@ Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1:
+Read bios geometry for boot devices from fw_cfg.
 
-Non-standard logical geometries break under QEMU.
+By receiving LCHS values directly from QEMU through fw_cfg we will be
+able to support logical geometries which can not be inferred by SeaBIOS
+itself.
+(For instance: A 8GB virtio-blk hard drive which was originally created
+as an IDE and must report LCHS of */32/63 for its operating system to
+function will always break under SeaBIOS since a LARGE/LBA translation
+will be used, causing the number of reported logical heads to be > 32.)
 
-A virtual disk which contains an operating system which depends on
-logical geometries (consistent values being reported from BIOS INT13
-AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
-logical geometries - for example 56 SPT (sectors per track).
-No matter what QEMU will guess - SeaBIOS, for large enough disks - will
-use LBA translation, which will report 63 SPT instead.
+The only LCHS paravirtual interface available at the moment is for IDE
+disks (rtc_read() in get_translation()) and it's limited to a maximum
+of 4 disks (this code existed in SeaBIOS's translation function before
+SCSI and VirtIO were even introduced).
+This is why we create a new interface which allows passing LCHS
+information per hdd.
 
-In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
-all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
-report more than 16 physical heads when moved to an IDE controller, the
-ATA spec allows a maximum of 16 heads - this is an artifact of
-virtualization.
+Boot device information is serialized in the following way:
+    * device_path lcyls lheads lsecs\n
+    ...
+    * device_path lcyls lheads lsecs\0
 
-By supplying the logical geometies directly we are able to support such
-"exotic" disks.
+Device path is a null terminated string in the "Open Firmware" device
+path format, the same path as used in bootorder.
 
-We will use fw_cfg to do just that.
+Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
+Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
+Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
+---
+ src/boot.c | 74 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 74 insertions(+)
 
-v2:
-
-Rename bootdevices fw_cfg key to bios-geoemtry
-
-v3:
-
-Change fw_cfg interface from mixed binary/textual to textual only
-Squash commit "config: Add toggle for bootdevice information"
-
-v4:
-
-* Rename TRANSLATION_MACHINE to TRANSLATION_HOST
-* Rename "overriden" translation name to "host-supplied"
-* Rename overriden_lchs_supplied() to host_lchs_supplied()
-* Move sectors and heads check to host_lchs_supplied()
-* Reuse duplicate code in boot.c
-
-Sam Eiderman (5):
-  geometry: Read LCHS from fw_cfg
-  boot: Reorder functions in boot.c
-  boot: Build ata and scsi paths in function
-  geometry: Add boot_lchs_find_*() utility functions
-  geometry: Apply LCHS values for boot devices
-
- src/Kconfig          |   7 ++
- src/block.c          |  18 +++-
- src/block.h          |   1 +
- src/boot.c           | 273 +++++++++++++++++++++++++++++++++++++++++----------
- src/hw/ahci.c        |   1 +
- src/hw/ata.c         |   8 ++
- src/hw/esp-scsi.c    |   2 +
- src/hw/lsi-scsi.c    |   2 +
- src/hw/megasas.c     |   1 +
- src/hw/mpt-scsi.c    |   2 +
- src/hw/pvscsi.c      |   1 +
- src/hw/virtio-blk.c  |   2 +
- src/hw/virtio-scsi.c |   2 +
- src/util.h           |   6 ++
- 14 files changed, 272 insertions(+), 54 deletions(-)
-
+diff --git a/src/boot.c b/src/boot.c
+index 5acf94fe..a2cb167c 100644
+--- a/src/boot.c
++++ b/src/boot.c
+@@ -24,6 +24,79 @@
+ 
+ 
+ /****************************************************************
++ * Boot device logical geometry
++ ****************************************************************/
++
++typedef struct BootDeviceLCHS {
++    char *name;
++    u32 lcyls;
++    u32 lheads;
++    u32 lsecs;
++} BootDeviceLCHS;
++
++static BootDeviceLCHS *BiosGeometry VARVERIFY32INIT;
++static int BiosGeometryCount;
++
++static char *
++parse_u32(char *cur, u32 *n)
++{
++    u32 m = 0;
++    if (cur) {
++        while ('0' <= *cur && *cur <= '9') {
++            m = 10 * m + (*cur - '0');
++            cur++;
++        }
++        if (*cur != '\0')
++            cur++;
++    }
++    *n = m;
++    return cur;
++}
++
++static void
++loadBiosGeometry(void)
++{
++    char *f = romfile_loadfile("bios-geometry", NULL);
++    if (!f)
++        return;
++
++    int i = 0;
++    BiosGeometryCount = 1;
++    while (f[i]) {
++        if (f[i] == '\n')
++            BiosGeometryCount++;
++        i++;
++    }
++    BiosGeometry = malloc_tmphigh(BiosGeometryCount * sizeof(BootDeviceLCHS));
++    if (!BiosGeometry) {
++        warn_noalloc();
++        free(f);
++        BiosGeometryCount = 0;
++        return;
++    }
++
++    dprintf(1, "bios geometry:\n");
++    i = 0;
++    do {
++        BootDeviceLCHS *d = &BiosGeometry[i];
++        d->name = f;
++        f = strchr(f, '\n');
++        if (f)
++            *(f++) = '\0';
++        char *chs_values = strchr(d->name, ' ');
++        if (chs_values)
++            *(chs_values++) = '\0';
++        chs_values = parse_u32(chs_values, &d->lcyls);
++        chs_values = parse_u32(chs_values, &d->lheads);
++        chs_values = parse_u32(chs_values, &d->lsecs);
++        dprintf(1, "%s: (%u, %u, %u)\n",
++                d->name, d->lcyls, d->lheads, d->lsecs);
++        i++;
++    } while (f);
++}
++
++
++/****************************************************************
+  * Boot priority ordering
+  ****************************************************************/
+ 
+@@ -288,6 +361,7 @@ boot_init(void)
+     BootRetryTime = romfile_loadint("etc/boot-fail-wait", 60*1000);
+ 
+     loadBootOrder();
++    loadBiosGeometry();
+ }
+ 
+ 
 -- 
 2.13.3
 
