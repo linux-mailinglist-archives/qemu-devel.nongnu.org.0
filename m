@@ -2,75 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00BE56880
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:20:11 +0200 (CEST)
-Received: from localhost ([::1]:39594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EBE568D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:27:57 +0200 (CEST)
+Received: from localhost ([::1]:39700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6uI-00034Y-RD
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:20:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51081)
+	id 1hg71l-0002KQ-1a
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:27:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51948)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hg6r7-0001cT-Vt
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:16:55 -0400
+ (envelope-from <philmd@redhat.com>) id 1hg6vC-0005D0-Ep
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:21:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hg6r6-0003cY-OA
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:16:53 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46436)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hg6r6-0003ZG-Dg
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:16:52 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id n4so2436872wrw.13
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 05:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=HYE0wJ2rSvsKHKxBmrzmiKhOTPWzCI5w+tM2tkyF6lU=;
- b=JPjWgPc/n1gZQQYfso8iaFfEW4U7qD4Q/zwyTb5GfLuH/Rp2iWftPzdF55BfhJ/6JN
- BjvSpfUSSZflZUpvytllP/IYnV2L6Suvs509zT4mxAkrUqfApFuwTv+3EmEoZGnds0qY
- 3ECwkIRc5RriNxQU1Kew61ABxRPw6/f9FZjonMeDEB6fub7BuDMtVL/0PFFiCNX+uePG
- WjrhJqxZQoQEi7Jg6Hpc5eauVIck76Ea4uepLUPyI4VAmMHFV/YESXnYk1Rs2SE8M+tL
- CQqaALEUMC+EsshlLeXKIQe3WL0+1V9oKO0F4pdyQGZlTHjq1ZtCtiunOCKeGVBhLwuU
- HpUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=HYE0wJ2rSvsKHKxBmrzmiKhOTPWzCI5w+tM2tkyF6lU=;
- b=o2vw7tCFBVBlYhGScVxwex41hIDo+046O8duEHEesVNdaAQYI5Ls1b8OqvkGqmi6Cr
- uVL0B6NVrrAXKKIBkrnqCCmqRmUp7w+zqhXjxxJLj/ntNZ2Z1DQ8G/aq7bBqOJDzOAbW
- 5UX+BL8VAUx0NKbEA3tw98ooIaepxeAuEmdBDrV0aRg2wl7KFNhFTUEgskISTCcSGpPd
- Oghj8449ztAub13IJvaHqFUeyL16VIpyc1Fj9ENAWH/gR0RzJxoP9idnnJRrhod6KW0d
- IK5OPjVesbdZc9HqQFHbFo0cCtaGGQB71g68Tve9IvCfKKDsQdJN5TgOsQa7tRB3PIve
- dB1A==
-X-Gm-Message-State: APjAAAVr0MV6jW9DI34c/hhrernt6efkRNc50JU9k4OWKHiBv1YOAhJI
- H/vsRpgKkKWlVrAbLv/OqHVaqQ==
-X-Google-Smtp-Source: APXvYqyqWb04wNgFRlbcdv5QWnDlwup3AHmECVTZdMRrFWb6UpwJCGVVaTavqeqinzjVRTXWfyqMtg==
-X-Received: by 2002:adf:ea88:: with SMTP id s8mr3354754wrm.68.1561551410900;
- Wed, 26 Jun 2019 05:16:50 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id f7sm12136155wrv.38.2019.06.26.05.16.50
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 26 Jun 2019 05:16:50 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E01FE1FF87;
- Wed, 26 Jun 2019 13:16:49 +0100 (BST)
-References: <f8f439b4-3835-686c-2c1e-20fe78d6bbf1@redhat.com>
- <d75c0641-01a3-ac5c-2f4d-b41505747815@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <d75c0641-01a3-ac5c-2f4d-b41505747815@redhat.com>
-Date: Wed, 26 Jun 2019 13:16:49 +0100
-Message-ID: <878sto1qz2.fsf@zen.linaroharston>
+ (envelope-from <philmd@redhat.com>) id 1hg6v7-0005iZ-Pb
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:21:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52066)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hg6v7-0005g7-JY; Wed, 26 Jun 2019 08:21:01 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id C1001309175F;
+ Wed, 26 Jun 2019 12:20:50 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-66.brq.redhat.com [10.40.204.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 95E8E1001B10;
+ Wed, 26 Jun 2019 12:20:45 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-trivial@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Wed, 26 Jun 2019 14:20:40 +0200
+Message-Id: <20190626122042.7656-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.41]); Wed, 26 Jun 2019 12:20:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: Re: [Qemu-devel] trace: floating-point values blacklisted
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/2] hw/timer/m48t59: Convert to trace events
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,53 +54,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Llu=C3=ADs?= Vilanova <vilanova@ac.upc.edu>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ qemu-ppc@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Another trivial cleanup series.
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Philippe Mathieu-Daud=C3=A9 (2):
+  MAINTAINERS: Add missing m48t59 files to the PReP section
+  hw/timer/m48t59: Convert debug printf()s to trace events
 
-> [I forgot to Cc the list, resending]
->
-> Hi Stefan, Llu=C3=ADs,
->
-> When trying to add a trace event to report a float value, I get:
->
-> trace-events:11: Argument type 'float' is not in whitelist. Only
-> standard C types and fixed size integer types should be used. struct,
-> union, and other complex pointer types should be declared as 'void *'
-> Traceback (most recent call last):
->   File "./scripts/tracetool.py", line 152, in <module>
->     main(sys.argv)
->   File "./scripts/tracetool.py", line 143, in main
->     events.extend(tracetool.read_events(fh, arg))
->   File "./scripts/tracetool/__init__.py", line 365, in read_events
->     event =3D Event.build(line)
->   File "./scripts/tracetool/__init__.py", line 283, in build
->     args =3D Arguments.build(groups["args"])
->   File "./scripts/tracetool/__init__.py", line 133, in build
->     validate_type(arg_type)
->   File "./scripts/tracetool/__init__.py", line 86, in validate_type
->     "declared as 'void *'" % name)
->
-> Floating-point types are specified in the optional Annex F of the
-> standard ("IEC 60559 floating-point arithmetic").
->
-> Is there a specific reason to not trace them, or simply nobody ever had
-> to trace them?
+ MAINTAINERS                |  2 ++
+ hw/timer/m48t59-internal.h |  5 -----
+ hw/timer/m48t59.c          | 11 +++++------
+ hw/timer/trace-events      |  6 ++++++
+ 4 files changed, 13 insertions(+), 11 deletions(-)
 
-I suspect that latter. I can't see any reason not to have floats (and
-doubles) in the allowed list although I wonder what happens with x86's
-weird-ass 80bit values. Do floats in x86 accommodate that?
+--=20
+2.20.1
 
->
-> Thanks,
->
-> Phil.
-
-
---
-Alex Benn=C3=A9e
 
