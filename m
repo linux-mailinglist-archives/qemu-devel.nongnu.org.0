@@ -2,45 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370A255D09
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 02:44:26 +0200 (CEST)
-Received: from localhost ([::1]:35954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4136B55D16
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 02:50:46 +0200 (CEST)
+Received: from localhost ([::1]:35976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hfw2y-0004Om-EL
-	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 20:44:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47395)
+	id 1hfw97-0007ZJ-GU
+	for lists+qemu-devel@lfdr.de; Tue, 25 Jun 2019 20:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hfw1X-0003xd-DN
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:42:56 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hfw7a-0006bQ-Lz
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:49:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richardw.yang@linux.intel.com>) id 1hfw1V-0000uz-EF
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:42:55 -0400
-Received: from mga17.intel.com ([192.55.52.151]:57298)
+ (envelope-from <yan.y.zhao@intel.com>) id 1hfw7Y-0002H9-Rd
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:49:10 -0400
+Received: from mga09.intel.com ([134.134.136.24]:47944)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
- id 1hfw1T-0000Tt-FO
- for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:42:53 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hfw7W-0002Bl-Gf
+ for qemu-devel@nongnu.org; Tue, 25 Jun 2019 20:49:06 -0400
+X-Amp-Result: UNSCANNABLE
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2019 17:42:37 -0700
+ by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2019 17:49:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,417,1557212400"; d="scan'208";a="360571016"
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
- by fmsmga006.fm.intel.com with ESMTP; 25 Jun 2019 17:42:36 -0700
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 08:42:11 +0800
-Message-Id: <20190626004211.4822-1-richardw.yang@linux.intel.com>
-X-Mailer: git-send-email 2.19.1
+X-IronPort-AV: E=Sophos;i="5.63,417,1557212400"; d="scan'208";a="360572295"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by fmsmga006.fm.intel.com with ESMTP; 25 Jun 2019 17:48:57 -0700
+Date: Tue, 25 Jun 2019 20:43:03 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190626004303.GF6971@joy-OptiPlex-7040>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <20190621002518.GF9303@joy-OptiPlex-7040>
+ <20190621012404.GA4173@joy-OptiPlex-7040>
+ <67726e08-f159-7054-57a7-36b08f691756@nvidia.com>
+ <20190621084627.GC4304@joy-OptiPlex-7040>
+ <583faf0d-55e7-0611-3e1c-b4925ca7e533@nvidia.com>
+ <20190624190024.GX2726@work-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190624190024.GX2726@work-vm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 192.55.52.151
-Subject: [Qemu-devel] [PATCH] migration: current_migration is never NULL
+X-Received-From: 134.134.136.24
+Subject: Re: [Qemu-devel] [PATCH v4 00/13] Add migration support for VFIO
+ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,35 +63,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Yang <richardw.yang@linux.intel.com>, dgilbert@redhat.com,
- quintela@redhat.com
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-migration_object_init() create and assign current_migration, which means
-it will never be null until migration_shutdown().
+On Tue, Jun 25, 2019 at 03:00:24AM +0800, Dr. David Alan Gilbert wrote:
+> * Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> > 
+> > 
+> > On 6/21/2019 2:16 PM, Yan Zhao wrote:
+> > > On Fri, Jun 21, 2019 at 04:02:50PM +0800, Kirti Wankhede wrote:
+> > >>
+> > >>
+> > >> On 6/21/2019 6:54 AM, Yan Zhao wrote:
+> > >>> On Fri, Jun 21, 2019 at 08:25:18AM +0800, Yan Zhao wrote:
+> > >>>> On Thu, Jun 20, 2019 at 10:37:28PM +0800, Kirti Wankhede wrote:
+> > >>>>> Add migration support for VFIO device
+> > >>>>>
+> > >>>>> This Patch set include patches as below:
+> > >>>>> - Define KABI for VFIO device for migration support.
+> > >>>>> - Added save and restore functions for PCI configuration space
+> > >>>>> - Generic migration functionality for VFIO device.
+> > >>>>>   * This patch set adds functionality only for PCI devices, but can be
+> > >>>>>     extended to other VFIO devices.
+> > >>>>>   * Added all the basic functions required for pre-copy, stop-and-copy and
+> > >>>>>     resume phases of migration.
+> > >>>>>   * Added state change notifier and from that notifier function, VFIO
+> > >>>>>     device's state changed is conveyed to VFIO device driver.
+> > >>>>>   * During save setup phase and resume/load setup phase, migration region
+> > >>>>>     is queried and is used to read/write VFIO device data.
+> > >>>>>   * .save_live_pending and .save_live_iterate are implemented to use QEMU's
+> > >>>>>     functionality of iteration during pre-copy phase.
+> > >>>>>   * In .save_live_complete_precopy, that is in stop-and-copy phase,
+> > >>>>>     iteration to read data from VFIO device driver is implemented till pending
+> > >>>>>     bytes returned by driver are not zero.
+> > >>>>>   * Added function to get dirty pages bitmap for the pages which are used by
+> > >>>>>     driver.
+> > >>>>> - Add vfio_listerner_log_sync to mark dirty pages.
+> > >>>>> - Make VFIO PCI device migration capable. If migration region is not provided by
+> > >>>>>   driver, migration is blocked.
+> > >>>>>
+> > >>>>> Below is the flow of state change for live migration where states in brackets
+> > >>>>> represent VM state, migration state and VFIO device state as:
+> > >>>>>     (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
+> > >>>>>
+> > >>>>> Live migration save path:
+> > >>>>>         QEMU normal running state
+> > >>>>>         (RUNNING, _NONE, _RUNNING)
+> > >>>>>                         |
+> > >>>>>     migrate_init spawns migration_thread.
+> > >>>>>     (RUNNING, _SETUP, _RUNNING|_SAVING)
+> > >>>>>     Migration thread then calls each device's .save_setup()
+> > >>>>>                         |
+> > >>>>>     (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+> > >>>>>     If device is active, get pending bytes by .save_live_pending()
+> > >>>>>     if pending bytes >= threshold_size,  call save_live_iterate()
+> > >>>>>     Data of VFIO device for pre-copy phase is copied.
+> > >>>>>     Iterate till pending bytes converge and are less than threshold
+> > >>>>>                         |
+> > >>>>>     On migration completion, vCPUs stops and calls .save_live_complete_precopy
+> > >>>>>     for each active device. VFIO device is then transitioned in
+> > >>>>>      _SAVING state.
+> > >>>>>     (FINISH_MIGRATE, _DEVICE, _SAVING)
+> > >>>>>     For VFIO device, iterate in  .save_live_complete_precopy  until
+> > >>>>>     pending data is 0.
+> > >>>>>     (FINISH_MIGRATE, _DEVICE, _STOPPED)
+> > >>>>
+> > >>>> I suggest we also register to VMStateDescription, whose .pre_save
+> > >>>> handler would get called after .save_live_complete_precopy in pre-copy
+> > >>>> only case, and will called before .save_live_iterate in post-copy
+> > >>>> enabled case.
+> > >>>> In the .pre_save handler, we can save all device state which must be
+> > >>>> copied after device stop in source vm and before device start in target vm.
+> > >>>>
+> > >>> hi
+> > >>> to better describe this idea:
+> > >>>
+> > >>> in pre-copy only case, the flow is
+> > >>>
+> > >>> start migration --> .save_live_iterate (several round) -> stop source vm
+> > >>> --> .save_live_complete_precopy --> .pre_save  -->start target vm
+> > >>> -->migration complete
+> > >>>
+> > >>>
+> > >>> in post-copy enabled case, the flow is
+> > >>>
+> > >>> start migration --> .save_live_iterate (several round) --> start post copy --> 
+> > >>> stop source vm --> .pre_save --> start target vm --> .save_live_iterate (several round) 
+> > >>> -->migration complete
+> > >>>
+> > >>> Therefore, we should put saving of device state in .pre_save interface
+> > >>> rather than in .save_live_complete_precopy. 
+> > >>> The device state includes pci config data, page tables, register state, etc.
+> > >>>
+> > >>> The .save_live_iterate and .save_live_complete_precopy should only deal
+> > >>> with saving dirty memory.
+> > >>>
+> > >>
+> > >> Vendor driver can decide when to save device state depending on the VFIO
+> > >> device state set by user. Vendor driver doesn't have to depend on which
+> > >> callback function QEMU or user application calls. In pre-copy case,
+> > >> save_live_complete_precopy sets VFIO device state to
+> > >> VFIO_DEVICE_STATE_SAVING which means vCPUs are stopped and vendor driver
+> > >> should save all device state.
+> > >>
+> > > when post copy stops vCPUs and vfio device, vendor driver only needs to
+> > > provide device state. but how vendor driver knows that, if no extra
+> > > interface or no extra device state is provides?
+> > > 
+> > 
+> > .save_live_complete_postcopy interface for post-copy will get called,
+> > right?
+> 
+> That happens at the very end; I think the question here is for something
+> that gets called at the point we stop iteratively sending RAM, send the
+> device states and then start sending RAM on demand to the destination
+> as it's running. Typically we send a small set of device state
+> (registers etc) at this point.
+> 
+> I guess there's two different postcopy cases that we need to think
+> about:
+>   a) Where the VFIO device doesn't support postcopy - it just gets
+>   migrated like any other device, so all it's RAM must get sent
+>   before we flip into postcopy mode.
+> 
+>   b) Where the VFIO device does support postcopy - where the pages
+>   get sent on demand.
+> 
+> (b) maybe tricky depending on whether your hardware can fault
+> on pages of your RAM that are needed but not yet transferred;  but
+> if you can that would make life a lot more practical on really
+> big VFO devices.
+> 
+> Dave
+>
+hi Dave,
+so do you think it is good to abstract device state data and save it in
+.pre_save callback?
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
----
- migration/migration.c | 4 ----
- 1 file changed, 4 deletions(-)
+Thanks
+Yan
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 0fd2364961..43fd8297ef 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1667,10 +1667,6 @@ bool migration_is_idle(void)
- {
-     MigrationState *s = current_migration;
- 
--    if (!s) {
--        return true;
--    }
--
-     switch (s->state) {
-     case MIGRATION_STATUS_NONE:
-     case MIGRATION_STATUS_CANCELLED:
--- 
-2.19.1
-
+> > Thanks,
+> > Kirti
+> > 
+> > >>>
+> > >>> I know current implementation does not support post-copy. but at least
+> > >>> it should not require huge change when we decide to enable it in future.
+> > >>>
+> > >>
+> > >> .has_postcopy and .save_live_complete_postcopy need to be implemented to
+> > >> support post-copy. I think .save_live_complete_postcopy should be
+> > >> similar to vfio_save_complete_precopy.
+> > >>
+> > >> Thanks,
+> > >> Kirti
+> > >>
+> > >>> Thanks
+> > >>> Yan
+> > >>>
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
