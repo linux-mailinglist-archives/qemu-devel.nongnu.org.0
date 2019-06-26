@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFEE57247
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 22:08:20 +0200 (CEST)
-Received: from localhost ([::1]:44700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 307EB57235
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 22:05:46 +0200 (CEST)
+Received: from localhost ([::1]:44680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgEDL-0003lF-Sz
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 16:08:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35095)
+	id 1hgEAr-0000oa-Cr
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 16:05:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35077)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hgE8u-0007s5-Hw
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:03:46 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hgE8t-0007ra-7H
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:03:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hgE8t-00018f-9S
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:03:44 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:37915)
+ (envelope-from <laurent@vivier.eu>) id 1hgE8l-00014N-P9
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 16:03:41 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:47723)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <laurent@vivier.eu>)
- id 1hgE8r-000155-9p; Wed, 26 Jun 2019 16:03:43 -0400
+ id 1hgE8f-000101-Vw; Wed, 26 Jun 2019 16:03:31 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MTAJl-1i93784A5n-00UdDd; Wed, 26 Jun 2019 22:02:58 +0200
+ id 1N2E9Y-1iiNzw2I74-013gr2; Wed, 26 Jun 2019 22:02:58 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 22:02:50 +0200
-Message-Id: <20190626200252.30220-3-laurent@vivier.eu>
+Date: Wed, 26 Jun 2019 22:02:51 +0200
+Message-Id: <20190626200252.30220-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190626200252.30220-1-laurent@vivier.eu>
 References: <20190626200252.30220-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SDsrwGvhBVkJ1fQwnm9ExkGPbQNuyGaBfWIh6K97u5SFy6/iUwr
- 94CiJlMZk2roPrD9Zbmqnj9or6zVrBAgRX4XX24yvxM1W8ne5tesrQ93Sq+gOooixZGA9xg
- PbTjBFoouLcCFg015N6Iou2k6YKmnK18ESsgsuJsddlSQVMDsUidL3nZhYTtAfViE/qhe2f
- XAbpoj/jSJK6icLFJMAIg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ktFOV5d8Jyg=:YxQAZ5bbj5BXviSveKSRrQ
- YxS/xcm955RkJztqm6GpN1DxR3x/+/SL+Fu8AGbpysdSxm4fn9mChqNdjMeDwoTd/ljncWCu/
- WHqs6AxLtgayStqlMt7iVxBsf4m7M8WqmphdiTWHGq7RCsPyL0Vn6b9Z4b7GuQhTbwe4HlSFb
- VSNtWpfjr9Sc5Oq2aekTxWjeleBJNnlQLSTiVRn79v6K49f2SYkJ13skk5kwsRTvMZpUHiNkf
- vEqFYQLXXI8+vShpLzENNnVgTBAOaJpRaTFeWac7ArWXh4gWHsSrPCT+KfhZ3rU6l5CpwDgcu
- ZUgFdst0bw8QqDu0/nK60NEZNSM8CSfOBy/+eWiZmQH+uqkY12R6BMH8XC7yfXobS49D4j10x
- hpB8TmgkuCh7hRu8jxJ744TDGENa+GfTs+Qln14Gf31oGUksn0ZLLO91O13wvSnmM/SN+wWVv
- YEyG3t2cvUCf7PnxZUy6dmWL7pQoSnmq8ENgeqLHQUwNqS1witNtpStfFEN/wp9mylCkuo7dJ
- jjjmG0/rSHBMysBBEsiyi5VMXZ+hsWdzIYlKqsYsK1cyCm6Et1OmH42FDzyjjORmKq82g0uR+
- 5M1uFbwZFQbHENbkVWRseRbGku9rhHp5dkdxkQ9HH0GTTp8ES14JZNVIQSmKQit+B1NANZtRd
- f/AWpomKYUe9v37+CL7yXSVhEg2xPA2yyq0PxeWHDJ5TK9V+N8EKngkZHqWqd7ERwYYX2V6Zv
- xNXSP6Jt2bEoSttAmTrahUrUqpzgIzpHoXrG6w==
+X-Provags-ID: V03:K1:6Eu+HSQFiVFuj5n34n9byGYW1DCaRx0C6Pl2ex5KQhZc9CYgSTe
+ 0diqwb6b7oHg+N/+QACDCwfGV1+stUC/IC+SLrgY8ICBDvo7hAw3qLqqm+ovvis7PpS/CaQ
+ qYv/YFQo9SIhdYa1wtYUyU6HW+eSZXQENYYtQlCIvtVBdIC7HN98gu7ZqMoR718xzohyBn+
+ xcY/rbbv+lLxMdlXNfkWg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hloth9wYqoM=:pPPx9cKo2Yenaqt0777Vpq
+ UWJj3lSlH0jaJJf7fDFuHtAYAWe6dPH1iA8A5k2iZhvPJcI1NOVrcEg3HpbSuGncikAoZ8pkg
+ 5cD4F1sGOvVCW4FkbR1Ujlk1lUNIs17VEbFB3tWoTNyC16E/KIBkySJTVUk50Gxs5WLnHJeew
+ lOrvtV0kXZf5w08iKWBQeRPrtpDY7QpceFlOBX/TQvx0CCbsbK1U6de1YqSVH6HMhae/cjcSh
+ XOwfze/juSUQBRzrXcLndtxlJ5apAuW2OwDmdDxPb696YXStEOWKG2d73/kQ2gayKuspbkKMt
+ pbKFOdZvbfrBNvkxUzkTqdom88z0DkW8jBRIqy511hNt+C84WVl8lKQ6Yn/d0LWZqAw8e3lPn
+ 8dhulLdem/VSFAQSUQEWbZkuuG7tLo8VIxxGg146CpzQWev/vBa9apFKbLsAPzO6G0Lmd8GHB
+ 1TapaTsCM83R+aRc1ytKmY10Va8eE74hNoC1MxMhzp4Su8rlD3jRJQbNODmgpME26LP0OPvuH
+ dsiHZTt9laimVKjnvUSTUbw1bZKuJB6XMJkI1U9ZIkG4aGoyR05Euiht/XeyxOADUba2jajvL
+ FunGXnksfpOKd9yvvhhJRNWDBphSSiMqrxFOl+jHF+wdEDlWB3lu1UNbjTM54gahQ6xtgzwWl
+ liM4WrvkJfJjhmu2qT1NEYw3g9ikltOk7XvrbMDtAuPfcDNRS9qtTpCcHzJ/p6b/fLtQLFrNl
+ J8ZiC6fglB1RxaTAVAzXeoqKzxqpB2bUPOha0HDui+gnWalmPGfB82DTcmY=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: [Qemu-devel] [PULL 2/4] configure: disallow spaces and colons in
- source path and build path
+X-Received-From: 217.72.192.73
+Subject: [Qemu-devel] [PULL 3/4] configure: use valid args testing
+ sem_timedwait
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,68 +64,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Antonio Ospite <antonio.ospite@collabora.com>,
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Antonio Ospite <antonio.ospite@collabora.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-The configure script breaks when the qemu source directory is in a path
-containing white spaces, in particular the list of targets is not
-correctly generated when calling "./configure --help" because of how the
-default_target_list variable is built.
+The sem_timedwait function has been annotated as requiring
+non-null args in latest header files from GCC snapshot
+representing the future 2.30 release.
 
-In addition to that, *building* qemu from a directory with spaces breaks
-some assumptions in the Makefiles, even if the original source path does
-not contain spaces like in the case of an out-of-tree build, or when
-symlinks are involved.
+This causes configure to fail when -Werror is used:
 
-To avoid these issues, refuse to run the configure script and the
-Makefile if there are spaces or colons in the source path or the build
-path, taking as inspiration what the kbuild system in linux does.
+config-temp/qemu-conf.c: In function ‘main’:
+config-temp/qemu-conf.c:2:25: error: null argument where non-null required (argument 1) [-Werror=nonnull]
+    2 | int main(void) { return sem_timedwait(0, 0); }
+      |                         ^~~~~~~~~~~~~
+config-temp/qemu-conf.c:2:25: error: null argument where non-null required (argument 2) [-Werror=nonnull]
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1817345
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Antonio Ospite <antonio.ospite@collabora.com>
-Message-Id: <20190526144747.30019-3-ao2@ao2.it>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20190617114114.24897-1-berrange@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- Makefile  | 4 ++++
- configure | 5 +++++
- 2 files changed, 9 insertions(+)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index cfb18f152544..c62594445d5f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1,5 +1,9 @@
- # Makefile for QEMU.
- 
-+ifneq ($(words $(subst :, ,$(CURDIR))), 1)
-+  $(error main directory cannot contain spaces nor colons)
-+endif
-+
- # Always point to the root of the build tree (needs GNU make).
- BUILD_DIR=$(CURDIR)
- 
 diff --git a/configure b/configure
-index b6962d1381a5..cf3d9d30bfce 100755
+index cf3d9d30bfce..f94633101094 100755
 --- a/configure
 +++ b/configure
-@@ -279,6 +279,11 @@ ld_has() {
- # make source path absolute
- source_path=$(cd "$(dirname -- "$0")"; pwd)
- 
-+if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
-+then
-+  error_exit "main directory cannot contain spaces nor colons"
-+fi
-+
- # default parameters
- cpu=""
- iasl="iasl"
+@@ -5144,7 +5144,7 @@ fi
+ sem_timedwait=no
+ cat > $TMPC << EOF
+ #include <semaphore.h>
+-int main(void) { return sem_timedwait(0, 0); }
++int main(void) { sem_t s; struct timespec t = {0}; return sem_timedwait(&s, &t); }
+ EOF
+ if compile_prog "" "" ; then
+     sem_timedwait=yes
 -- 
 2.21.0
 
