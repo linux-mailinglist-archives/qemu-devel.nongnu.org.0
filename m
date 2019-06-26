@@ -2,51 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B2C5699B
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:44:30 +0200 (CEST)
-Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 769E2569B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:51:03 +0200 (CEST)
+Received: from localhost ([::1]:39870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg7Hn-00062U-D3
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:44:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56355)
+	id 1hg7O6-0002y5-Q4
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56612)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hg7DJ-0001Kg-Hz
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:39:50 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7E8-0001wL-L1
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:40:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hg7DI-0000Gf-0c
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:39:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54012)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
- id 1hg7DH-0000ER-MC; Wed, 26 Jun 2019 08:39:47 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5384230C120E;
- Wed, 26 Jun 2019 12:39:40 +0000 (UTC)
-Received: from localhost (ovpn-116-101.gru2.redhat.com [10.97.116.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52A3160BF3;
- Wed, 26 Jun 2019 12:39:36 +0000 (UTC)
-Date: Wed, 26 Jun 2019 09:39:34 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Message-ID: <20190626123934.GZ1862@habkost.net>
-References: <20190625232333.30752-1-marcandre.lureau@redhat.com>
- <20190626015503.GX1862@habkost.net>
- <CAJ+F1CKWRvuDxNuidWPE6+A7gKmbJ2h9G3DcDDVbd24y1XMYKw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <CAJ+F1CKWRvuDxNuidWPE6+A7gKmbJ2h9G3DcDDVbd24y1XMYKw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Wed, 26 Jun 2019 12:39:46 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] virtio-pci: fix missing device properties
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7E6-0002Gp-JB
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:40:40 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42700)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+ id 1hg7Dp-0001Os-RY; Wed, 26 Jun 2019 08:40:23 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCdVgp001868;
+ Wed, 26 Jun 2019 12:40:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=klP9djOyKhRO9kY1X54DxUB/l2sZzVN6P/CepuQbKVY=;
+ b=fNTOgejrkbLD6yL+KNhxmjZ3AYl3Hf7peNEG8enMFoW8TbV2glFf9yE50LyjcTf+Wvov
+ E3/WirPEsmFXusUdIlf0NgVI30E8Ke0xBMqL2wU3HfkWJrBqrKDA4s+v2YX/WzJ4Mcwq
+ tQ1tUewqR3ZueFB7QCfcjuZe6hvO6FjcIR8H1MFfZ3PdFamaz72tNJUPlzRG1dWc2vx2
+ q5elKkyRULsltATa1QmBUFTKzrwtRirqkPcDam1p0i1UYqqWDKw1DA8xSYWG3sE1Bv4Y
+ vX2aWtjjn+DGd/rHPrLK45ylDrcMD13qnfqigVbH1+HAitItZ7EwgJZTt1PtdlTYs42M 3A== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 2t9cyqj0r7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jun 2019 12:40:15 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCcl2R164755;
+ Wed, 26 Jun 2019 12:40:14 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 2t9p6urkkn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 26 Jun 2019 12:40:14 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5QCeDiK001705;
+ Wed, 26 Jun 2019 12:40:13 GMT
+Received: from nexus.ravello.local (/213.57.127.2)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 26 Jun 2019 05:40:13 -0700
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
+ kevin@koconnor.net
+Date: Wed, 26 Jun 2019 15:39:40 +0300
+Message-Id: <20190626123948.10199-1-shmuel.eiderman@oracle.com>
+X-Mailer: git-send-email 2.13.3
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=788
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906260150
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9299
+ signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=832 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906260151
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [QEMU] [PATCH v5 0/8] Add Qemu to SeaBIOS LCHS
+ interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,227 +86,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-stable <qemu-stable@nongnu.org>, QEMU <qemu-devel@nongnu.org>
+Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
+ arbel.moshe@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jun 26, 2019 at 11:48:20AM +0200, Marc-Andr=E9 Lureau wrote:
-> Hi
->=20
-> On Wed, Jun 26, 2019 at 3:56 AM Eduardo Habkost <ehabkost@redhat.com> w=
-rote:
-> >
-> > On Wed, Jun 26, 2019 at 01:23:33AM +0200, Marc-Andr=E9 Lureau wrote:
-> > > Since commit a4ee4c8baa37154 ("virtio: Helper for registering virti=
-o
-> > > device types"), virtio-gpu-pci, virtio-vga, and virtio-crypto-pci l=
-ost
-> > > some properties: "ioeventfd" and "vectors". This may cause various
-> > > issues, such as failing migration or invalid properties.
-> > >
-> > > Since those VirtioPCI devices do not have a base name, their class =
-are
-> > > initialized with virtio_pci_generic_base_class_init(). However, if =
-the
-> > > VirtioPCIDeviceTypeInfo provided a class_init which sets dc->props,
-> > > the properties were overwritten by virtio_pci_generic_class_init().
-> > >
-> > > Instead, introduce an intermediary base-type to register the generi=
-c
-> > > properties.
-> > >
-> > > Fixes: a4ee4c8baa37154f42b4dc6a13fee79268d15238
-> > > Cc: qemu-stable@nongnu.org
-> > > Signed-off-by: Marc-Andr=E9 Lureau <marcandre.lureau@redhat.com>
-> > > ---
-> > >  hw/virtio/virtio-pci.c | 28 ++++++++++++++--------------
-> > >  1 file changed, 14 insertions(+), 14 deletions(-)
-> > >
-> > > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > > index e6d5467e54..62c4977332 100644
-> > > --- a/hw/virtio/virtio-pci.c
-> > > +++ b/hw/virtio/virtio-pci.c
-> > > @@ -1913,13 +1913,6 @@ static void virtio_pci_generic_class_init(Ob=
-jectClass *klass, void *data)
-> > >      dc->props =3D virtio_pci_generic_properties;
-> > >  }
-> > >
-> > > -/* Used when the generic type and the base type is the same */
-> > > -static void virtio_pci_generic_base_class_init(ObjectClass *klass,=
- void *data)
-> > > -{
-> > > -    virtio_pci_base_class_init(klass, data);
-> > > -    virtio_pci_generic_class_init(klass, NULL);
-> > > -}
-> > > -
-> > >  static void virtio_pci_transitional_instance_init(Object *obj)
-> > >  {
-> > >      VirtIOPCIProxy *proxy =3D VIRTIO_PCI(obj);
-> > > @@ -1938,14 +1931,13 @@ static void virtio_pci_non_transitional_ins=
-tance_init(Object *obj)
-> > >
-> > >  void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t)
-> > >  {
-> > > +    char *base_name =3D NULL;
-> > >      TypeInfo base_type_info =3D {
-> > >          .name          =3D t->base_name,
-> > >          .parent        =3D t->parent ? t->parent : TYPE_VIRTIO_PCI=
-,
-> > >          .instance_size =3D t->instance_size,
-> > >          .instance_init =3D t->instance_init,
-> > >          .class_size    =3D t->class_size,
-> > > -        .class_init    =3D virtio_pci_base_class_init,
-> > > -        .class_data    =3D (void *)t,
-> > >          .abstract      =3D true,
-> > >      };
-> > >      TypeInfo generic_type_info =3D {
-> > > @@ -1961,13 +1953,20 @@ void virtio_pci_types_register(const Virtio=
-PCIDeviceTypeInfo *t)
-> > >
-> > >      if (!base_type_info.name) {
-> > >          /* No base type -> register a single generic device type *=
-/
-> > > -        base_type_info.name =3D t->generic_name;
-> > > -        base_type_info.class_init =3D virtio_pci_generic_base_clas=
-s_init;
-> > > -        base_type_info.interfaces =3D generic_type_info.interfaces=
-;
-> > > -        base_type_info.abstract =3D false;
-> > > -        generic_type_info.name =3D NULL;
-> > > +        /* use intermediate %s-base-type to add generic device pro=
-ps */
-> > > +        base_name =3D g_strdup_printf("%s-base-type", t->generic_n=
-ame);
-> > > +        base_type_info.name =3D base_name;
-> > > +        base_type_info.class_init =3D virtio_pci_generic_class_ini=
-t;
-> > > +
-> > > +        generic_type_info.parent =3D base_name;
-> > > +        generic_type_info.class_init =3D virtio_pci_base_class_ini=
-t;
-> > > +        generic_type_info.class_data =3D (void *)t;
-> >
-> > Why are you using virtio_pci_generic_class_init for the base
-> > class, and virtio_pci_base_class_init for the subclass, but doing
-> > exactly the opposite when t->base_name is set?
-> >
-> > Isn't it simpler to just initialize base_type_info.name and leave
-> > all the rest alone?  Patch below.
->=20
-> That was my initial approach. But then I tested the backport on v4.0.0,=
- you get:
->=20
-> hw/display/virtio-vga.c:200:virtio_vga_class_init: Object
-> 0x56247edbc0e0 is not an instance of type virtio-vga
->=20
-> The problem is that the introduced base class calls the t->class_init,
-> which expects the final class (virtio-vga, not virtio-vga-base-type).
+v1:
 
-Ouch.  In this case:
+Non-standard logical geometries break under QEMU.
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+A virtual disk which contains an operating system which depends on
+logical geometries (consistent values being reported from BIOS INT13
+AH=08) will most likely break under QEMU/SeaBIOS if it has non-standard
+logical geometries - for example 56 SPT (sectors per track).
+No matter what QEMU will guess - SeaBIOS, for large enough disks - will
+use LBA translation, which will report 63 SPT instead.
 
-This would be much easier if we could append properties to
-dc->props.  But this would be too complex for a
-4.0-stable bug fix.
+In addition we can not enforce SeaBIOS to rely on phyiscal geometries at
+all. A virtio-blk-pci virtual disk with 255 phyiscal heads can not
+report more than 16 physical heads when moved to an IDE controller, the
+ATA spec allows a maximum of 16 heads - this is an artifact of
+virtualization.
 
->=20
-> This seems to be limited to virtio-vga, and gone in upstream since the
-> registration changed. But I would rather have the same patch
-> reviewed/applied.
->=20
->=20
-> >
-> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > ---
-> > diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> > index e6d5467e54..3ee50a0783 100644
-> > --- a/hw/virtio/virtio-pci.c
-> > +++ b/hw/virtio/virtio-pci.c
-> > @@ -1913,13 +1913,6 @@ static void virtio_pci_generic_class_init(Obje=
-ctClass *klass, void *data)
-> >      dc->props =3D virtio_pci_generic_properties;
-> >  }
-> >
-> > -/* Used when the generic type and the base type is the same */
-> > -static void virtio_pci_generic_base_class_init(ObjectClass *klass, v=
-oid *data)
-> > -{
-> > -    virtio_pci_base_class_init(klass, data);
-> > -    virtio_pci_generic_class_init(klass, NULL);
-> > -}
-> > -
-> >  static void virtio_pci_transitional_instance_init(Object *obj)
-> >  {
-> >      VirtIOPCIProxy *proxy =3D VIRTIO_PCI(obj);
-> > @@ -1938,8 +1931,11 @@ static void virtio_pci_non_transitional_instan=
-ce_init(Object *obj)
-> >
-> >  void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t)
-> >  {
-> > +    char *base_name =3D t->base_name ?
-> > +                      NULL :
-> > +                      g_strdup_printf("%s-base-type", t->generic_nam=
-e);
-> >      TypeInfo base_type_info =3D {
-> > -        .name          =3D t->base_name,
-> > +        .name          =3D t->base_name ?: base_name,
-> >          .parent        =3D t->parent ? t->parent : TYPE_VIRTIO_PCI,
-> >          .instance_size =3D t->instance_size,
-> >          .instance_init =3D t->instance_init,
-> > @@ -1959,21 +1955,8 @@ void virtio_pci_types_register(const VirtioPCI=
-DeviceTypeInfo *t)
-> >          },
-> >      };
-> >
-> > -    if (!base_type_info.name) {
-> > -        /* No base type -> register a single generic device type */
-> > -        base_type_info.name =3D t->generic_name;
-> > -        base_type_info.class_init =3D virtio_pci_generic_base_class_=
-init;
-> > -        base_type_info.interfaces =3D generic_type_info.interfaces;
-> > -        base_type_info.abstract =3D false;
-> > -        generic_type_info.name =3D NULL;
-> > -        assert(!t->non_transitional_name);
-> > -        assert(!t->transitional_name);
-> > -    }
-> > -
-> >      type_register(&base_type_info);
-> > -    if (generic_type_info.name) {
-> > -        type_register(&generic_type_info);
-> > -    }
-> > +    type_register(&generic_type_info);
->=20
-> t->generic_name can't be NULL anymore? I thought the condition was
-> done for a good reason.
+By supplying the logical geometies directly we are able to support such
+"exotic" disks.
 
-My mistake.  I forgot generic_type_info.name could be NULL
-because of t->generic_name was already NULL.
+We will use fw_cfg to do just that.
 
->=20
-> >
-> >      if (t->non_transitional_name) {
-> >          const TypeInfo non_transitional_type_info =3D {
-> > @@ -2005,6 +1988,7 @@ void virtio_pci_types_register(const VirtioPCID=
-eviceTypeInfo *t)
-> >          };
-> >          type_register(&transitional_type_info);
-> >      }
-> > +    g_free(base_name);
-> >  }
-> >
-> >  /* virtio-pci-bus */
-> >
-> >
-> > --
-> > Eduardo
-> >
->=20
->=20
-> --=20
-> Marc-Andr=E9 Lureau
+v2:
 
---=20
-Eduardo
+Fix missing parenthesis check in
+    "hd-geo-test: Add tests for lchs override"
+
+v3:
+
+* Rename fw_cfg key to "bios-geometry".
+* Remove "extendible" interface.
+* Add cpu_to_le32 fix as Laszlo suggested or big endian hosts
+* Fix last qtest commit - automatic docker tester for some reason does not have qemu-img set
+
+v4:
+
+* Change fw_cfg interface from mixed textual/binary to textual only
+
+v5:
+
+* Fix line > 80 chars in tests/hd-geo-test.c
+
+Sam Eiderman (8):
+  block: Refactor macros - fix tabbing
+  block: Support providing LCHS from user
+  bootdevice: Add interface to gather LCHS
+  scsi: Propagate unrealize() callback to scsi-hd
+  bootdevice: Gather LCHS from all relevant devices
+  bootdevice: Refactor get_boot_devices_list
+  bootdevice: FW_CFG interface for LCHS values
+  hd-geo-test: Add tests for lchs override
+
+ bootdevice.c             | 148 +++++++++---
+ hw/block/virtio-blk.c    |   6 +
+ hw/ide/qdev.c            |   7 +-
+ hw/nvram/fw_cfg.c        |  14 +-
+ hw/scsi/scsi-bus.c       |  15 ++
+ hw/scsi/scsi-disk.c      |  14 ++
+ include/hw/block/block.h |  22 +-
+ include/hw/scsi/scsi.h   |   1 +
+ include/sysemu/sysemu.h  |   4 +
+ tests/Makefile.include   |   2 +-
+ tests/hd-geo-test.c      | 582 +++++++++++++++++++++++++++++++++++++++++++++++
+ 11 files changed, 774 insertions(+), 41 deletions(-)
+
+-- 
+2.13.3
+
 
