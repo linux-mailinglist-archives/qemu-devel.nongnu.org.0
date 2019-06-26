@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E6B56FCD
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 19:46:35 +0200 (CEST)
-Received: from localhost ([::1]:43956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9A557004
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 19:52:34 +0200 (CEST)
+Received: from localhost ([::1]:43984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgC09-0005to-Us
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 13:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60906)
+	id 1hgC5x-0000Sf-PF
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 13:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33924)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hgBy8-0005G0-Gv
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 13:44:30 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hgC3C-0007ON-KG
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 13:49:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hgBy4-000580-6K
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 13:44:28 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:39863)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hgBy2-00054r-G2
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 13:44:24 -0400
-Received: by mail-wm1-f68.google.com with SMTP id z23so2950630wma.4
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 10:44:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zDGCPfWr/LJdpehnnuRDYEz90rfUeUQj6/NKawLKErg=;
- b=lpB6VhMlUdO5FyG9oL/HfJ1jQ3M6/a3ljMehjNT28tfpZbq0ocjUMpZ550olR/9s0H
- bVa73wi3pz0gWggB3Rybh4bf4nHBqDlPJp+zsHliqYWIrLKJH80H7dTYxtaUnM0F2nmj
- J7MOITQSFpD6suQ7Xsoi1ni+D5RRjf1sSGliZbWQeubOpvHDafXMmOCxCkpI1M3FBnxV
- jMyKAQE2DxJZZHgpwmwRbwN7ArwwTU+77ZCxZf9+DkGne/vP9FthjfHDYZWiarTJGytf
- NxPdUGLCSXsJjqibmDwJLhgxkFnTP6+PlPIGgnkZUmb3mjAQbA+WCGu2TXA1Ql1hHdds
- Nbmw==
-X-Gm-Message-State: APjAAAXvVWFopveBufQnzu1/ZMHLalIOmGM3dbFpqNFc2nGn/v5ukT41
- +DgPcEQo7LIi1M3SbcPVtGQ+Ew==
-X-Google-Smtp-Source: APXvYqy75Lvm0rt4DWdL++JuE21YNiRCtGr+jlgD5X/nBytF/BXzWBWpAPwOpx7nFLMpqibEVm2gdg==
-X-Received: by 2002:a7b:cc86:: with SMTP id p6mr112228wma.123.1561571059654;
- Wed, 26 Jun 2019 10:44:19 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id z17sm14938624wru.21.2019.06.26.10.44.18
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 10:44:19 -0700 (PDT)
-To: Stefano Garzarella <sgarzare@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>
-References: <20190625123905.25434-1-dinechin@redhat.com>
- <20190626164913.dn2vfv4rji7xsk5k@steredhat>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <0458fb96-33d8-05eb-cb41-cf19086f986b@redhat.com>
-Date: Wed, 26 Jun 2019 19:44:18 +0200
+ (envelope-from <mreitz@redhat.com>) id 1hgC36-00019Y-C5
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 13:49:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36976)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hgC2t-0000oH-U9; Wed, 26 Jun 2019 13:49:24 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BFBE1307D922;
+ Wed, 26 Jun 2019 17:49:05 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.153])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 485EB1001B05;
+ Wed, 26 Jun 2019 17:48:57 +0000 (UTC)
+To: Anthony PERARD <anthony.perard@citrix.com>
+References: <20190409164038.25484-1-paul.durrant@citrix.com>
+ <c9c1360d-cebc-5c2a-a019-eca2f8f7f461@redhat.com>
+ <20190626171947.GF13449@perard.uk.xensource.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <1518aab5-83d3-fb0e-cb33-7b9d2d996497@redhat.com>
+Date: Wed, 26 Jun 2019 19:48:55 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190626164913.dn2vfv4rji7xsk5k@steredhat>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190626171947.GF13449@perard.uk.xensource.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="PxkiPkpTf9HppIvddhgSOmWKke5pHdjzR"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Wed, 26 Jun 2019 17:49:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v2] Fix build error when VNC is configured
- out
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] xen-block: support
+ feature-large-sector-size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,37 +86,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Paul Durrant <paul.durrant@citrix.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/26/19 6:49 PM, Stefano Garzarella wrote:
-> On Tue, Jun 25, 2019 at 02:39:05PM +0200, Christophe de Dinechin wrote:
->> In hmp_change(), the variable hmp_mon is only used
->> by code under #ifdef CONFIG_VNC. This results in a build
->> error when VNC is configured out with the default of
->> treating warnings as errors:
->>
->> monitor/hmp-cmds.c: In function ‘hmp_change’:
->> monitor/hmp-cmds.c:1946:17: error: unused variable ‘hmp_mon’ [-Werror=unused-variable]
->> 1946 |     MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
->>      |                 ^~~~~~~
->>
->> v2: Move variable down as suggested by Philippe Mathieu-Daudé
-> 
-> Should we move out this line from the commit message?
-> (Maybe Dave can remove it when apply)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--PxkiPkpTf9HppIvddhgSOmWKke5pHdjzR
+Content-Type: multipart/mixed; boundary="LiTUtQe8dZ9voZ3bXKAItQQ4f5mf3jYce";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: Paul Durrant <paul.durrant@citrix.com>, qemu-devel@nongnu.org,
+ xen-devel@lists.xenproject.org, qemu-block@nongnu.org,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Message-ID: <1518aab5-83d3-fb0e-cb33-7b9d2d996497@redhat.com>
+Subject: Re: [PATCH] xen-block: support feature-large-sector-size
+References: <20190409164038.25484-1-paul.durrant@citrix.com>
+ <c9c1360d-cebc-5c2a-a019-eca2f8f7f461@redhat.com>
+ <20190626171947.GF13449@perard.uk.xensource.com>
+In-Reply-To: <20190626171947.GF13449@perard.uk.xensource.com>
 
-Yes please :) It was meant to go after the '---' separator.
+--LiTUtQe8dZ9voZ3bXKAItQQ4f5mf3jYce
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
+On 26.06.19 19:19, Anthony PERARD wrote:
+> On Wed, Jun 26, 2019 at 06:48:50PM +0200, Max Reitz wrote:
+>> On 09.04.19 18:40, Paul Durrant wrote:
+>>> A recent Xen commit [1] clarified the semantics of sector based quant=
+ities
+>>> used in the blkif protocol such that it is now safe to create a xen-b=
+lock
+>>> device with a logical_block_size !=3D 512, as long as the device only=
+
+>>> connects to a frontend advertizing 'feature-large-block-size'.
+>>>
+>>> This patch modifies xen-block accordingly. It also uses a stack varia=
+ble
+>>> for the BlockBackend in xen_block_realize() to avoid repeated derefer=
+encing
+>>> of the BlockConf pointer, and changes the parameters of
+>>> xen_block_dataplane_create() so that the BlockBackend pointer and sec=
+tor
+>>> size are passed expicitly rather than implicitly via the BlockConf.
+>>>
+>>> These modifications have been tested against a recent Windows PV XENV=
+BD
+>>> driver [2] using a xen-disk device with a 4kB logical block size.
+>>>
+>>> [1] http://xenbits.xen.org/gitweb/?p=3Dxen.git;a=3Dcommit;h=3D67e1c05=
+0e36b2c9900cca83618e56189effbad98
+>>> [2] https://winpvdrvbuild.xenproject.org:8080/job/XENVBD-master/126
+>>>
+>>> Signed-off-by: Paul Durrant <paul.durrant@citrix.com>
+>>> ---
+>>> Cc: Stefano Stabellini <sstabellini@kernel.org>
+>>> Cc: Anthony Perard <anthony.perard@citrix.com>
+>>> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+>>> Cc: Kevin Wolf <kwolf@redhat.com>
+>>> Cc: Max Reitz <mreitz@redhat.com>
+>>> ---
+>>>  hw/block/dataplane/xen-block.c | 25 ++++++++++++----------
+>>>  hw/block/dataplane/xen-block.h |  3 ++-
+>>>  hw/block/xen-block.c           | 38 +++++++++++++++++++++-----------=
+--
+>>>  3 files changed, 40 insertions(+), 26 deletions(-)
 >>
->> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
->> ---
->>  monitor/hmp-cmds.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-> 
+>> Thanks, added =E2=80=9Cby frontend=E2=80=9D to the error message and a=
+pplied to my block
+>> branch:
+>>
+>> https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+>=20
+> :(, I've just sent a pull request with that patch:
+> https://patchew.org/QEMU/20190624153257.20163-1-anthony.perard@citrix.c=
+om/20190624153257.20163-2-anthony.perard@citrix.com/
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+That=E2=80=99s just as well, then. :-)
+
+> I guess I need to start sending an email every time I've added a patch
+> to my queue.
+
+Well, it certainly won=E2=80=99t hurt.  Although in this cases it=E2=80=99=
+s just a bit
+of an unfortunate coincidence that I looked at this patch now when Peter
+seems to be away (otherwise I=E2=80=99d have seen it in master).
+
+Max
+
+
+--LiTUtQe8dZ9voZ3bXKAItQQ4f5mf3jYce--
+
+--PxkiPkpTf9HppIvddhgSOmWKke5pHdjzR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0TsAcACgkQ9AfbAGHV
+z0BcNwf/Ql4IZr5iOViyJxBWQxDKppLZ8rdF/Ht5i5JFJjmB3Ow4RHCqcxC6h60Q
+fee6fEWqhbqMWnSvxAs+/HWS0aTZAm2epWLipp3TBDH1aKpT+Zlno1OdJs91qd0D
+4rjkgwgk7fX1q0I+J7KoCqJFsgkAjS7sLCCAFXzUHEjybw9+2y66Ou9Nrlz8rcU+
+dJNko8PvJEoqoHEYPCEhjIyv9ueBXNv4xTFYE2AbxWgBY3jTk1NC1RmdTe/IA23N
+Ki10DEOB1RLQmua22+eT6H7Q4TgNT3BZo3Tr3qS6IEwbUjcsaysrd0zGuXNROtii
+qsSAjOO8K8Z0Zil4MpDmuUuzT9oCeQ==
+=HFZl
+-----END PGP SIGNATURE-----
+
+--PxkiPkpTf9HppIvddhgSOmWKke5pHdjzR--
 
