@@ -2,64 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B723356F26
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:52:29 +0200 (CEST)
-Received: from localhost ([::1]:41974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 206F556F2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:54:53 +0200 (CEST)
+Received: from localhost ([::1]:42010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgB9o-0003v5-Vb
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:52:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34286)
+	id 1hgBC8-0005np-Bh
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:54:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35690)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sgarzare@redhat.com>) id 1hgB76-0002KE-Ol
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:49:42 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hgBAS-0005FC-I6
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:53:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1hgB71-0004c9-Dy
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:49:36 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39978)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hgB6s-0004M2-05
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:49:27 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v19so2796723wmj.5
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 09:49:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=eyqwr1JNXTuZXcESW20xlAoTqcK3kn1VqNUOXwRkQVE=;
- b=OhCUSPIsykW3I6G+Va/ZdAFIGCf+o4Dc9IX0AZzenyEk6/E231RrbQ1o++jT6uQtMO
- 2jD4Hm1WBkAoGKiVOrwZwtAN35vYdilL5JshxumSAAy3WPcuraKdvdILofxfmYAFJaUZ
- UA3UaBYGivVTGMHHjIpYiB8AkcrsJRox6I56ugfXz2unxt+grkxdqfGs2J5FgB+ckOXh
- Mgd6ULzf68QbXvNpHFCbStNP9TFZ+rwWyG01gP63DGlRdt36X7Sn8mtQx+USG9pZVq1m
- /rUOUVcJszI0jorVG3s0xtt0eKyZrLu8a+X2iMDRlWo7tJf13e5jw3eLGqNYoq0Fa/o3
- 67Yw==
-X-Gm-Message-State: APjAAAU9/t3OhV3yi8TAT/6EolChb1FQV7VaeirzCOTDBxJ5SvEDwM9K
- kWSo8XFi+5IzRWqtKJFBW6ULCA==
-X-Google-Smtp-Source: APXvYqwgheF1yDrw3G3hN37LjmPR+5UYYrZJynxOVGcfhiS4VmZwBwU2ZfZ+eNmFzlMMoNrBzo1AHQ==
-X-Received: by 2002:a1c:345:: with SMTP id 66mr24028wmd.8.1561567756178;
- Wed, 26 Jun 2019 09:49:16 -0700 (PDT)
-Received: from steredhat (host21-207-dynamic.52-79-r.retail.telecomitalia.it.
- [79.52.207.21])
- by smtp.gmail.com with ESMTPSA id n1sm13638073wrx.39.2019.06.26.09.49.14
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Wed, 26 Jun 2019 09:49:15 -0700 (PDT)
-Date: Wed, 26 Jun 2019 18:49:13 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Christophe de Dinechin <dinechin@redhat.com>
-Message-ID: <20190626164913.dn2vfv4rji7xsk5k@steredhat>
-References: <20190625123905.25434-1-dinechin@redhat.com>
+ (envelope-from <no-reply@patchew.org>) id 1hgBAR-0008Lc-7V
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:53:08 -0400
+Resent-Date: Wed, 26 Jun 2019 12:53:08 -0400
+Resent-Message-Id: <E1hgBAR-0008Lc-7V@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21831)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hgBAQ-0008ID-Th
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:53:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561567964; cv=none; d=zoho.com; s=zohoarc; 
+ b=PeaizRca7I+uk2uHwXPmAcry6J91z/5zxR0D8Qgm+29wqh0y23W4akTmfxOeDLABw4l48DRrpuM0PNuOOAvAL8m+ezIji8qidPlo0TRyUzcuk/RJZvde8W1yE0O1TwqDJWz3wmadMd1rDploDUFm/NocHKxv6MOteWGci+GIDmw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561567964;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=iQhHxFUQ6CA9DSZtf33tE8lclAOvZRCoh2lYnUhEhBY=; 
+ b=JsYPxk3avUBwI/RWK9txeXth86GIG5wyy4pEAjnrAlrJoFwGE9OV3LlAGrCDNWmloqgsV+voPqoSuLqTAlW3A2N2d5v9Af/2e8PLqUNj1Txrrou9pFCa0OMqEcILkqb4GUVvb7iGkeVQwdYgdH5ECXrtV3Naqno44BdN3U7KtAE=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561567963287372.5575686306122;
+ Wed, 26 Jun 2019 09:52:43 -0700 (PDT)
+Message-ID: <156156796232.6332.14135538127911357904@c4a48874b076>
+In-Reply-To: <20190626162100.24774-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190625123905.25434-1-dinechin@redhat.com>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: laurent@vivier.eu
+Date: Wed, 26 Jun 2019 09:52:43 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v2] Fix build error when VNC is configured
- out
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PULL 0/3] M68k next patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,31 +61,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: riku.voipio@iki.fi, qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 25, 2019 at 02:39:05PM +0200, Christophe de Dinechin wrote:
-> In hmp_change(), the variable hmp_mon is only used
-> by code under #ifdef CONFIG_VNC. This results in a build
-> error when VNC is configured out with the default of
-> treating warnings as errors:
-> 
-> monitor/hmp-cmds.c: In function ‘hmp_change’:
-> monitor/hmp-cmds.c:1946:17: error: unused variable ‘hmp_mon’ [-Werror=unused-variable]
-> 1946 |     MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
->      |                 ^~~~~~~
-> 
-> v2: Move variable down as suggested by Philippe Mathieu-Daudé
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyNjE2MjEwMC4yNDc3
+NC0xLWxhdXJlbnRAdml2aWVyLmV1LwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCBidWlsZCB0
+ZXN0IG9uIHMzOTB4IGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJlbG93LgoKPT09IFRF
+U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAojIFRlc3Rpbmcgc2NyaXB0IHdpbGwgYmUg
+aW52b2tlZCB1bmRlciB0aGUgZ2l0IGNoZWNrb3V0IHdpdGgKIyBIRUFEIHBvaW50aW5nIHRvIGEg
+Y29tbWl0IHRoYXQgaGFzIHRoZSBwYXRjaGVzIGFwcGxpZWQgb24gdG9wIG9mICJiYXNlIgojIGJy
+YW5jaApzZXQgLWUKQ0M9JEhPTUUvYmluL2NjCklOU1RBTEw9JFBXRC9pbnN0YWxsCkJVSUxEPSRQ
+V0QvYnVpbGQKbWtkaXIgLXAgJEJVSUxEICRJTlNUQUxMClNSQz0kUFdECmNkICRCVUlMRAokU1JD
+L2NvbmZpZ3VyZSAtLWNjPSRDQyAtLXByZWZpeD0kSU5TVEFMTAptYWtlIC1qNAojIFhYWDogd2Ug
+bmVlZCByZWxpYWJsZSBjbGVhbiB1cAojIG1ha2UgY2hlY2sgLWo0IFY9MQptYWtlIGluc3RhbGwK
+CmVjaG8KZWNobyAiPT09IEVOViA9PT0iCmVudgoKZWNobwplY2hvICI9PT0gUEFDS0FHRVMgPT09
+IgpycG0gLXFhCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgoKCgpUaGUgZnVsbCBsb2cgaXMgYXZh
+aWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNjI2MTYyMTAwLjI0Nzc0LTEt
+bGF1cmVudEB2aXZpZXIuZXUvdGVzdGluZy5zMzkweC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwg
+Z2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9d
+LgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
-Should we move out this line from the commit message?
-(Maybe Dave can remove it when apply)
-
-> 
-> Signed-off-by: Christophe de Dinechin <dinechin@redhat.com>
-> ---
->  monitor/hmp-cmds.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
