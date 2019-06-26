@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2203B56990
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:42:59 +0200 (CEST)
-Received: from localhost ([::1]:39810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEDD569C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:53:05 +0200 (CEST)
+Received: from localhost ([::1]:39898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg7GM-0004NC-Av
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:42:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56692)
+	id 1hg7Q9-00069D-3t
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56760)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7EA-00020z-Kt
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:40:44 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7ED-000272-6m
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:40:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7E9-0002NA-4a
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:40:42 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:42108)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7EC-0002W1-1L
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:40:45 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42780)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hg7E1-0001Tp-F6; Wed, 26 Jun 2019 08:40:34 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCd8QR108930;
- Wed, 26 Jun 2019 12:40:18 GMT
+ id 1hg7E8-0001ac-KB; Wed, 26 Jun 2019 08:40:40 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCdK1U001588;
+ Wed, 26 Jun 2019 12:40:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
- bh=IF99orgPl5PZbXP/iOJCxdKOiazKw347UHLBH9LWKbA=;
- b=kYl2i8oUqWeObWPMvdxV9japkh2f/mKgk3E4hxaBIyfcMG9FFwj9txdvmrbocxVVelh0
- UawKBW8uAlRj1S/O4apqLaphz4JO2Ov7px9KD+Vs9X0wjuXLXymTADuHOb1p6O22xJPD
- DVhWJwwTydU/n3PD+iCGd2xepPAtLRReZNwoIhBvx0tZEP9b8veDqgcSySWK7Kz2fUe5
- Jl7ILVbC9fGdlVE4SHy0R9YdgQofiOAbmFOYX9dAaBBCS/wBu49/6DLT+xRpYrI1cCBv
- FBqximDoZlPMXnpItu0hqPmlzNfk7d6eL5Gip7Fhg+NcfpIl1VJSnXinknaBoRCg1inP 2Q== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 2t9c9pt2m6-1
+ bh=wNJVY/MJnZ0hr3JnQpWCYzEqCzxEtI5MUZ+RiQowC2s=;
+ b=ryAp6GPZRNKQz9b7E6/XspHSq1PKxbQM6XFV+UPfH2qtnRZEUUtW+pQswOfo/O7aRhTz
+ DfwOK+G++X2mFWU/Mdct178g2zMRM/zQjX3DiSV2BMBREWH4DCbixpsjDcncuZTbdNOh
+ 1pnTM1a0c18JXlYrlZuhy1Bz/KH5Gy2gf6qAFiNI1q1tyGTTOu/Z0jizC6yJUFNSUgsf
+ Bye5F+UpW3fVQhxPhGeqWvNFshxH8oKKxm6NbgMfXDKm3WrLBon9JyWqkIyNzDCtP8P9
+ yD6wefsIUI+leayUFemxzy829UotpZt+fhuoBB5Oeoa8+ix1gA64n3EprnivSDrV57Uh 1g== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2120.oracle.com with ESMTP id 2t9cyqj0rv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jun 2019 12:40:18 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCdW5P100358;
- Wed, 26 Jun 2019 12:40:17 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3030.oracle.com with ESMTP id 2t9accp20r-1
+ Wed, 26 Jun 2019 12:40:20 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCcldQ164749;
+ Wed, 26 Jun 2019 12:40:19 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3020.oracle.com with ESMTP id 2t9p6urkmw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jun 2019 12:40:17 +0000
+ Wed, 26 Jun 2019 12:40:19 +0000
 Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5QCeGc7001811;
- Wed, 26 Jun 2019 12:40:16 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5QCeJV0003698;
+ Wed, 26 Jun 2019 12:40:19 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 26 Jun 2019 05:40:16 -0700
+ with ESMTP ; Wed, 26 Jun 2019 05:40:19 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
  kevin@koconnor.net
-Date: Wed, 26 Jun 2019 15:39:41 +0300
-Message-Id: <20190626123948.10199-2-shmuel.eiderman@oracle.com>
+Date: Wed, 26 Jun 2019 15:39:42 +0300
+Message-Id: <20190626123948.10199-3-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20190626123948.10199-1-shmuel.eiderman@oracle.com>
 References: <20190626123948.10199-1-shmuel.eiderman@oracle.com>
@@ -74,9 +74,9 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
  definitions=main-1906260151
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 141.146.126.78
-Subject: [Qemu-devel] [QEMU] [PATCH v5 1/8] block: Refactor macros - fix
- tabbing
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [QEMU] [PATCH v5 2/8] block: Support providing LCHS
+ from user
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,63 +93,50 @@ Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixing tabbing in block related macros.
+Add logical geometry variables to BlockConf.
+
+A user can now supply "lcyls", "lheads" & "lsecs" for any HD device
+that supports CHS ("cyls", "heads", "secs").
+
+These devices include:
+    * ide-hd
+    * scsi-hd
+    * virtio-blk-pci
+
+In future commits we will use the provided LCHS and pass it to the BIOS
+through fw_cfg to be supplied using INT13 routines.
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 ---
- hw/ide/qdev.c            |  2 +-
- include/hw/block/block.h | 16 ++++++++--------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ include/hw/block/block.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
-index 360cd20bd8..9cae3205df 100644
---- a/hw/ide/qdev.c
-+++ b/hw/ide/qdev.c
-@@ -285,7 +285,7 @@ static void ide_drive_realize(IDEDevice *dev, Error **errp)
-     DEFINE_BLOCK_PROPERTIES(IDEDrive, dev.conf),        \
-     DEFINE_BLOCK_ERROR_PROPERTIES(IDEDrive, dev.conf),  \
-     DEFINE_PROP_STRING("ver",  IDEDrive, dev.version),  \
--    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),    \
-+    DEFINE_PROP_UINT64("wwn",  IDEDrive, dev.wwn, 0),   \
-     DEFINE_PROP_STRING("serial",  IDEDrive, dev.serial),\
-     DEFINE_PROP_STRING("model", IDEDrive, dev.model)
- 
 diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-index 607539057a..fd55a30bca 100644
+index fd55a30bca..d7246f3862 100644
 --- a/include/hw/block/block.h
 +++ b/include/hw/block/block.h
-@@ -50,21 +50,21 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
-                           _conf.logical_block_size),                    \
-     DEFINE_PROP_BLOCKSIZE("physical_block_size", _state,                \
-                           _conf.physical_block_size),                   \
--    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),  \
-+    DEFINE_PROP_UINT16("min_io_size", _state, _conf.min_io_size, 0),    \
-     DEFINE_PROP_UINT32("opt_io_size", _state, _conf.opt_io_size, 0),    \
--    DEFINE_PROP_UINT32("discard_granularity", _state, \
--                       _conf.discard_granularity, -1), \
--    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce, \
--                            ON_OFF_AUTO_AUTO), \
-+    DEFINE_PROP_UINT32("discard_granularity", _state,                   \
-+                       _conf.discard_granularity, -1),                  \
-+    DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           \
-+                            ON_OFF_AUTO_AUTO),                          \
-     DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
- 
- #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          \
-     DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      \
-     DEFINE_BLOCK_PROPERTIES_BASE(_state, _conf)
- 
--#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)      \
--    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),  \
--    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0), \
-+#define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      \
-+    DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  \
-+    DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                \
-     DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
+@@ -26,6 +26,7 @@ typedef struct BlockConf {
+     uint32_t discard_granularity;
+     /* geometry, not all devices use this */
+     uint32_t cyls, heads, secs;
++    uint32_t lcyls, lheads, lsecs;
+     OnOffAuto wce;
+     bool share_rw;
+     BlockdevOnError rerror;
+@@ -65,7 +66,10 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
+ #define DEFINE_BLOCK_CHS_PROPERTIES(_state, _conf)                      \
+     DEFINE_PROP_UINT32("cyls", _state, _conf.cyls, 0),                  \
+     DEFINE_PROP_UINT32("heads", _state, _conf.heads, 0),                \
+-    DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0)
++    DEFINE_PROP_UINT32("secs", _state, _conf.secs, 0),                  \
++    DEFINE_PROP_UINT32("lcyls", _state, _conf.lcyls, 0),                \
++    DEFINE_PROP_UINT32("lheads", _state, _conf.lheads, 0),              \
++    DEFINE_PROP_UINT32("lsecs", _state, _conf.lsecs, 0)
  
  #define DEFINE_BLOCK_ERROR_PROPERTIES(_state, _conf)                    \
+     DEFINE_PROP_BLOCKDEV_ON_ERROR("rerror", _state, _conf.rerror,       \
 -- 
 2.13.3
 
