@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E414956EFB
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:42:15 +0200 (CEST)
-Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B5556F0D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:45:45 +0200 (CEST)
+Received: from localhost ([::1]:41940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgAzv-0005Zi-4V
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59150)
+	id 1hgB3I-0000Of-9n
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:45:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59810)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hgAt7-0006v9-VS
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:35:15 -0400
+ (envelope-from <chmeeedalf@gmail.com>) id 1hgAvf-00019i-WF
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:37:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hgAt5-0002Z5-PH
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:35:13 -0400
-Received: from 10.mo178.mail-out.ovh.net ([46.105.76.150]:59306)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hgAt0-00027J-CX
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:35:07 -0400
-Received: from player792.ha.ovh.net (unknown [10.108.35.103])
- by mo178.mail-out.ovh.net (Postfix) with ESMTP id 2F2266E97A
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 18:34:56 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player792.ha.ovh.net (Postfix) with ESMTPSA id CF6DE75CB61F;
- Wed, 26 Jun 2019 16:34:48 +0000 (UTC)
-Date: Wed, 26 Jun 2019 18:34:47 +0200
-From: Greg Kurz <groug@kaod.org>
+ (envelope-from <chmeeedalf@gmail.com>) id 1hgAve-0004JM-JB
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:37:51 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:33233)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <chmeeedalf@gmail.com>)
+ id 1hgAve-0004HO-2u; Wed, 26 Jun 2019 12:37:50 -0400
+Received: by mail-io1-xd42.google.com with SMTP id u13so6081189iop.0;
+ Wed, 26 Jun 2019 09:37:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=eLbdG4UnFVI/tE72kVCbYfoj31PWgbsP/uUtDLM1NPA=;
+ b=TPpzmkXf4a4NgWWWGu8i4RS0vvoaQQzWMgs7YWm+GXCYVAx4gI+kCXEIdLNARlWwIB
+ zFDqETYi/P8q3FSPbi8RPEzfYjy6oQVyxL77W0wKvJOmn66efcvZCn8n4oWGyvGBhm6s
+ /A2zpb8ByQBzGq/op0/UExKw1DaW14YW8ihNHBWXR+/+tfQ2YVpby2pQmRR/kpP+L7GK
+ TaQXXXIQUBSMus4gnDIadOtBNH+1ivHokVur8jx/o3l53AGB20lwwTBcVl8spOkwNvd/
+ 2bTZ3GO+S0YqxmtnnCjfq4NXh4fzK3WsuUmzUbFXxlOqyhTKlhGe7xZdW5MSHg0hgrJn
+ mBFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=eLbdG4UnFVI/tE72kVCbYfoj31PWgbsP/uUtDLM1NPA=;
+ b=QWNqlz8Y+P8WdmcaK34Gsn5JXXtXGOdCFbDA4v/hoGcVv4tIPdrDnXc15TFmcpM5qm
+ OyAmu/dLOPuHolu0qllA4jJvYi31N/OxxPX5XMHv1SBg9hx3/hXmEx5wmCJQEANQR50y
+ wQiIiTRA2bAvnOYCkfnNZ3pekL2joYZwU6yDcTlRdgQjuOMai9uu8bqbCAxr8ca6v7R5
+ IX4wvQ3oqUS6pAzQbkfbrsM1jDCHSzNvY8OiTEUHRccu7ChwprhihrjL0FYi3c1f9bPr
+ 4YXHt3EDOfFUa4bOoA3gywkiu/vNitqppMR8ucFjA1ej78UyTpKHvYU4x92MYZi1uxZu
+ GVCw==
+X-Gm-Message-State: APjAAAUHjsBVbh5MZJ1qMKE31SgSmhnCL9hhvGLAYd8lEw/+CJ77odW9
+ j5pfiulWJCKjru4G/pf015U=
+X-Google-Smtp-Source: APXvYqwLPQdYquEUE1DbQUq802oalVZNQ+oDRo51l+p/wmFUTU2BXNKRe/goYJD6kqwmghrpP5VtAQ==
+X-Received: by 2002:a5e:8505:: with SMTP id i5mr6213688ioj.101.1561567068514; 
+ Wed, 26 Jun 2019 09:37:48 -0700 (PDT)
+Received: from titan.knownspace (173-25-245-129.client.mchsi.com.
+ [173.25.245.129])
+ by smtp.gmail.com with ESMTPSA id t19sm14196051iog.41.2019.06.26.09.37.47
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Wed, 26 Jun 2019 09:37:48 -0700 (PDT)
+Date: Wed, 26 Jun 2019 11:37:42 -0500
+From: Justin Hibbits <chmeeedalf@gmail.com>
 To: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <20190626183447.1c4cb4c3@bahia.lan>
-In-Reply-To: <ca73d533-644b-a366-2927-4163f9aa2ce9@vivier.eu>
-References: <155912548463.2019004.3515830305299809902.stgit@bahia.lan>
- <20190529125926.GD2126@perard.uk.xensource.com>
- <20190605121056.0e784daf@bahia.lab.toulouse-stg.fr.ibm.com>
- <c85d973ca2d444678e8fdc86a4cd6f4f@AMSPEX02CL03.citrite.net>
- <20190614101621.098742e2@bahia.lan>
- <c2c63dd46c684b1bb0f2e342a085d93d@AMSPEX02CL03.citrite.net>
- <alpine.DEB.2.21.1906140844150.2072@sstabellini-ThinkPad-T480s>
- <20190614185054.6f12ab30@bahia.lan>
- <b40f16eb-5ae5-4b36-e0a8-02b10c3b7769@redhat.com>
- <ca73d533-644b-a366-2927-4163f9aa2ce9@vivier.eu>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+Message-ID: <20190626113742.6bcd8a26@titan.knownspace>
+In-Reply-To: <92053c9c-e7bf-76cb-9399-987f4ab31bfb@vivier.eu>
+References: <20190607135653.6ece685d@titan.knownspace>
+ <8676232e-917d-44e2-1149-b25f26698a73@vivier.eu>
+ <92053c9c-e7bf-76cb-9399-987f4ab31bfb@vivier.eu>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; powerpc64-portbld-freebsd13.0)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 11434639454646016472
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudeigddutdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.76.150
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH] MAINTAINERS: Change
- maintership of Xen code under hw/9pfs
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::d42
+Subject: Re: [Qemu-devel] [Qemu-trivial] Fix cacheline size retrieval on
+ FreeBSD/PowerPC(64)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,45 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Paul Durrant <Paul.Durrant@citrix.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: qemu-trivial@nongnu.org, "Emilio G. Cota" <cota@braap.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 18:30:47 +0200
+On Wed, 26 Jun 2019 18:16:36 +0200
 Laurent Vivier <laurent@vivier.eu> wrote:
 
-> Le 15/06/2019 =C3=A0 07:43, Philippe Mathieu-Daud=C3=A9 a =C3=A9crit=C2=
-=A0:
-> > Cc'ing qemu-trivial@
-> >=20
-> > On 6/14/19 6:50 PM, Greg Kurz wrote:
-> > [...] =20
-> >> Markus, Xen maintainers,
+> Le 26/06/2019 =C3=A0 18:14, Laurent Vivier a =C3=A9crit=C2=A0:
+> > Le 07/06/2019 =C3=A0 20:56, Justin Hibbits a =C3=A9crit=C2=A0: =20
+> >> The attached very trivial patch fixes a startup bug that prevents
+> >> at least Qemu 3.1 and later from working on FreeBSD/powerpc64.
 > >>
-> >> All needed Acked-by have been provided. I don't plan to send a 9pfs PR
-> >> anytime soon. Can this go through someone else's tree please ?
-> >>
-> >> Cheers,
-> >>
-> >> --
-> >> Greg
+> >> - Justin
 > >> =20
+> >=20
+> > Please don't send a patch in attachment but inlined in the message
+> > (you may use "git send-email" for that).
+> >=20
+> > This patch fixes "util: add cacheinfo" that has changed the type
+> > from unsigned to long.
+> >=20
+> > You can add the following line in the commit message:
+> >=20
+> > Fixes: b255b2c8a548 ("util: add cacheinfo")
+> >=20
+> > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > >  =20
 >=20
-> Applied to my trivial-patches branch.
+> CC: author of b255b2c8a548 ("util: add cacheinfo")
 >=20
 > Thanks,
 > Laurent
 
-Merci Laurent ! :)
+Hi Laurent,
 
-Cheers,
+Sorry.  I had never used git send-email before, so wasn't comfortable
+with it.  I just updated the commit message with your feedback and used
+git send-email to submit the patch.  I hope everything went well.
 
---
-Greg
+Thanks for your feedback.
+
+- Justin
 
