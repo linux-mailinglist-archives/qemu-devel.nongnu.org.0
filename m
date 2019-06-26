@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA8C570AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:35:19 +0200 (CEST)
-Received: from localhost ([::1]:44196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A54570DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 20:41:03 +0200 (CEST)
+Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgClK-0004Lz-6C
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:35:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44115)
+	id 1hgCqs-0002CY-IH
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 14:41:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44145)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfQ-0001QH-Sm
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:13 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfS-0001Rb-TY
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hgCfP-0007tS-S8
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:12 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42645)
+ (envelope-from <richard.henderson@linaro.org>) id 1hgCfS-0007vi-0N
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:14 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51516)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hgCfO-0007s3-Vw
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:11 -0400
-Received: by mail-wr1-x442.google.com with SMTP id x17so3855701wrl.9
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:10 -0700 (PDT)
+ id 1hgCfR-0007ug-PE
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 14:29:13 -0400
+Received: by mail-wm1-x341.google.com with SMTP id 207so3119231wma.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 11:29:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rohLCCH3DW1wIMS2KSOyep/+sdviPpS4gXS+9OPP1N8=;
- b=Ji0IW4CpZ7Zq6k1Z3xqZ7x/2mfnDJ6tdBRRwNqjUCouFyfgFcVPc+vd+YGQMEeZh89
- /aHYTCwco0fE+/KxmX9h11+LsxObtpVprs3vcBzXRkDFHrIlLtshksZBT/HBElHNdmIr
- VlbdHoSHTIcqVik2MSA+GHhc1jjRC6MKeYVbN9DNhA6L0iuDOOrdW9cETsXGBGJ/Ls5A
- Q6BjYKok8cdz0WDbfKe+WMkax9rD80JvhTcGSOjuEJIyMH3fmUsrPl0OBw8DrQenV82W
- AH/6bt1x7OAPuRcROO2KeJ2c9aYAUGoICimk+fY75w5SJm2sxfusoprve6VrIKrqJgDP
- hvgQ==
+ bh=TlinqMiI0XnNpF5PDe6h/VtVQZwjyIh7N8OSWH29deA=;
+ b=o2LJfQNp32F+LBPbs5mKuIFvKfPbjGDX2iCoxCi3E3aLoRi31GAgZhJn5AWfpQ7MMM
+ Rwx+nyG23C+NrWJiMTsA7d9rY5rD8E01c8Ht5rS+faHD06V9YR1yCjcUwDC2TOggoqya
+ ku28IAve7BPCqoXs6q43kPuPWeSXcWsHMPdUcVzBf3J3VRpIm8uyA8Xo3xTmGCZW2brB
+ isW74UvNqDzUwQd1BmNXWbjjkWISXx9kg5G1l66yZsmC84YPYZ5P1nHmyxEsQieA/h85
+ kPm9OJSEFXj9hhs8SnA6eZ5o6vJ47CXXOS5zICRF8dfaslBU+crgxZhk6cDTyEy6XoI+
+ wtSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=rohLCCH3DW1wIMS2KSOyep/+sdviPpS4gXS+9OPP1N8=;
- b=dVbcCnL6RKmdiVDDSxdi4V39JtUjtrIhHduY2rCzdm/CeJn6UW4pjgBPhszmROrAuQ
- DgQV7Leb+oJ9wW8UU/UD6dPc9UR5EQ5V1Fkv7sTchczUCZGavUryJcC78KplacS7pvPI
- bqpptAL4lmxyeXNxGO2NnkHhP5yfZumg9sq7AQLga1Zx279zsi9COwP73mzd3Y9YQqst
- OI74BIgBtXFL3eo1H8gi6/wgFLAPjdcIHB8Zo8v2SgtPEixTuyKw+Ph8HguIc8oAjhrM
- ypuDp/3mUK5/qpXegiXL1z05Gcv85RqyDfvp2/pq/KXZjwCSWw0Ax5gph0QMEoKm6G/+
- awoA==
-X-Gm-Message-State: APjAAAXMrnj2R3tU8lwFZWNA0gMnJ/xOlGMN4N9yX6Z29i7TIx/WHgUj
- YwZqpGMMV7dCS0FTT29QkCr5oQ==
-X-Google-Smtp-Source: APXvYqxOuB3Yv1CpY6A/6jbfqjkiLxoPkphA5kSh2Of5jlQ7YmpVVZqLh3zzg4ZvLwoubFbXAR+Ofg==
-X-Received: by 2002:a05:6000:110:: with SMTP id
- o16mr4454827wrx.200.1561573749365; 
- Wed, 26 Jun 2019 11:29:09 -0700 (PDT)
+ bh=TlinqMiI0XnNpF5PDe6h/VtVQZwjyIh7N8OSWH29deA=;
+ b=cb+rUspBccNMO1AsiqtmPquw8Wp6VN7GqnBCbzFgXrG1Rx1XHCWXlNK7+3aoAP57AW
+ 89VEfBry4AOo/5A+c0FA5TBFwb4Nz2OGJmxi+sjnSRu0qV7aBuB6PvY/7iAxOm5vXice
+ T97V3UNok5hJHT0Wj34Eh4sL/DrahfkAyHHzivyJnhjdgj1Ez9WZwL33P6y4b3q5mR30
+ gViiXwYDE+FXxTISDKfQXZwTGgTuTt3jHhRaIg4F8HyPHAXGhjzkv5ZSR7RJdKLMv90T
+ k9373mefOMqPE2lJ0GtrBwiUcqMP4wWRkfaprVlRw8B+R1V/e1As45nlFG3iP6/4zxCQ
+ ZXPQ==
+X-Gm-Message-State: APjAAAUIxEf85k+TlV24Adm/fOPWineCpdMyFMvpxsmNQpcSx4YzhWtd
+ AVhteZYsNE5td7hCc3yL98jVjQ==
+X-Google-Smtp-Source: APXvYqz3IgYAemkF6MzC5BiDq72EvLPgrxuftT+0RpZNi6zva8cr6fvkyS+Iw0JTkPOKUxMLoP7mRw==
+X-Received: by 2002:a05:600c:224d:: with SMTP id
+ a13mr254634wmm.62.1561573752606; 
+ Wed, 26 Jun 2019 11:29:12 -0700 (PDT)
 Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
  [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id a84sm4264284wmf.29.2019.06.26.11.29.08
+ by smtp.gmail.com with ESMTPSA id o2sm17267186wrq.56.2019.06.26.11.29.11
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 26 Jun 2019 11:29:08 -0700 (PDT)
+ Wed, 26 Jun 2019 11:29:11 -0700 (PDT)
 To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
 References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-12-drjones@redhat.com>
+ <20190621163422.6127-13-drjones@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <bd43a392-18a5-b04c-9a52-d4113ab1e5be@linaro.org>
-Date: Wed, 26 Jun 2019 13:09:45 +0200
+Message-ID: <9fa08d2a-eecd-e7ee-9f7c-abc763ab417c@linaro.org>
+Date: Wed, 26 Jun 2019 13:11:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190621163422.6127-12-drjones@redhat.com>
+In-Reply-To: <20190621163422.6127-13-drjones@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH v2 11/14] target/arm/kvm64: max cpu: Enable
- SVE when available
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v2 12/14] target/arm/kvm: scratch vcpu:
+ Preserve input kvm_vcpu_init features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,24 +93,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 6/21/19 6:34 PM, Andrew Jones wrote:
-> @@ -675,6 +689,11 @@ static void aarch64_max_initfn(Object *obj)
->  
->      if (kvm_enabled()) {
->          kvm_arm_set_cpu_features_from_host(cpu);
-> +        /*
-> +         * KVM doesn't yet support the sve-max-vq property, but
-> +         * setting cpu->sve_max_vq is also used to turn SVE on.
-> +         */
-> +        cpu->sve_max_vq = ARM_SVE_INIT;
+> kvm_arm_create_scratch_host_vcpu() takes a struct kvm_vcpu_init
+> parameter. Rather than just using it as an output parameter to
+> pass back the preferred target, use it also as an input parameter,
+> allowing a caller to pass a selected target if they wish and to
+> also pass cpu features. If the caller doesn't want to select a
+> target they can pass -1 for the target which indicates they want
+> to use the preferred target and have it passed back like before.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  target/arm/kvm.c   | 20 +++++++++++++++-----
+>  target/arm/kvm32.c |  6 +++++-
+>  target/arm/kvm64.c |  6 +++++-
+>  3 files changed, 25 insertions(+), 7 deletions(-)
 
-Can we support this value with KVM_GET/SET_ONE_REG on ZCR_EL2?  (IIRC KVM
-requires VHE to support SVE, so the host is always EL2 and the guest is always
-EL1.)
-
-Or do we need to probe this via normal userland prctl?
-
-Or am I getting ahead of the patches to follow?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
