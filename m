@@ -2,44 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F5756648
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 12:09:45 +0200 (CEST)
-Received: from localhost ([::1]:38478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6145664B
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 12:11:27 +0200 (CEST)
+Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg4s2-0007ez-TD
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 06:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44806)
+	id 1hg4tj-0001U4-3z
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 06:11:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44941)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg4pp-00063w-GM
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:07:27 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hg4q4-0006RH-U2
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:07:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg4pn-0003P3-Vw
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:07:25 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:39496 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hg4pn-0003NS-Hr
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:07:23 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id EDCC61A21E9;
- Wed, 26 Jun 2019 12:07:20 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id BC78A1A2033;
- Wed, 26 Jun 2019 12:07:20 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 12:07:09 +0200
-Message-Id: <1561543629-20327-9-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561543629-20327-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1561543629-20327-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v6 8/8] target/mips: Fix big endian host
- behavior for interleave MSA instructions
+ (envelope-from <richard.henderson@linaro.org>) id 1hg4q3-0003ga-QZ
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:07:40 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:37885)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hg4q3-0003fX-Hn
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:07:39 -0400
+Received: by mail-wm1-x341.google.com with SMTP id f17so1458780wme.2
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 03:07:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=d13CFAs8heXrNe1lEMEAnywPJmbZC2RHpfH/z4Bp+Cg=;
+ b=fUlQR/yCzjv9zpDX99mCZl0qkKJ14ozQMrthed/R+cIHiRmZgf6U+5u15BjHwxsd27
+ HeqiYLRSPWxK/modB1CoGSfmJoKwsTpc0hJJlBMkvmuqM0wv7J7XTe1W9PaS62odX1Su
+ dKkipVqymtpCNHr1Yl5pZFX2lx4V1J6RfAKY4BNJt9hrltOlVPcC4UMw4QoKtwim/UqV
+ sU/sNRIWWfVJe2dP76COWlmq/BbSLRI9wRVWJCZEi3qhHnpalfWa6XdsxlR868YUibzU
+ n2G8Hee2VG7sbYI3dss7f/XJo7JrCO9EUh/hNV+r1dU5HjhfRzLoZWeU2PsqVd2+qplF
+ oqKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d13CFAs8heXrNe1lEMEAnywPJmbZC2RHpfH/z4Bp+Cg=;
+ b=uJf3CcnwD9vdy8UaNDA7wJlTQ0xlp+18ZRRZ/8CQRWjWhq/VHCeHQLpRtUu4z6uPrN
+ 1xmRTwjpHVRVP/QHiVda6Kw72ytPlESW8BlQ6vzqp17PLKN6+PeHawjw8sGKLMhEFxsN
+ kotQUF1KYq9LT0Kro1Fo0D79Wb/nGTf7XI3RrbErYsshbZQOvLxi/n03i2wG4VW3udyn
+ 38x0O5bmoB+6PLYQOY1eMLPlLvPhALYczg39Sh+NL8EmDWSu2Y2It5ibHYlAJBn6uev7
+ KcSYglF35yY+m3M6sV2inHDcKpH4MfhGghtI0lZQWt2zFYnYp4vgXB8m5rYyJ7QQ2PK0
+ MPNw==
+X-Gm-Message-State: APjAAAUFAeFcc1CufKJ+NW+f7lro8xqgK8pT1zawixzzYql+e5eB6sAu
+ sYPRkXApD0coJ1CuqZN6gMsYNA==
+X-Google-Smtp-Source: APXvYqyLaAs5XqQSGQhJNLMdFFpYV107oBZt5JWJ52BPC+hkq8GO8dOFUmtP8BSoIyjhGTh+jx8DQw==
+X-Received: by 2002:a7b:c766:: with SMTP id x6mr2239722wmk.40.1561543658321;
+ Wed, 26 Jun 2019 03:07:38 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id 32sm32360886wra.35.2019.06.26.03.07.37
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Jun 2019 03:07:37 -0700 (PDT)
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-6-drjones@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <07f6fb25-daf2-4429-49c8-7aefb2cde7ae@linaro.org>
+Date: Wed, 26 Jun 2019 12:07:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190621163422.6127-6-drjones@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v2 05/14] target/arm/helper: zcr: Add build
+ bug next to value range assumption
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,134 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com
+Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
+ imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On 6/21/19 6:34 PM, Andrew Jones wrote:
+> Suggested-by: Dave Martin <Dave.Martin@arm.com>
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  target/arm/helper.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-Fix big endian host behavior for interleave MSA instructions. Previous
-fix used TARGET_WORDS_BIGENDIAN instead of HOST_WORDS_BIGENDIAN, which
-was a mistake.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- target/mips/msa_helper.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index df4276f5f6ca..edba94004e0b 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -5319,6 +5319,7 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>      int new_len;
+>  
+>      /* Bits other than [3:0] are RAZ/WI.  */
+> +    QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
+>      raw_write(env, ri, value & 0xf);
+>  
 
-diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-index 7a9bfb3..8bad636 100644
---- a/target/mips/msa_helper.c
-+++ b/target/mips/msa_helper.c
-@@ -1737,7 +1737,7 @@ void helper_msa_ilvev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- 
-     switch (df) {
-     case DF_BYTE:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->b[8]  = pws->b[9];
-         pwd->b[9]  = pwt->b[9];
-         pwd->b[10] = pws->b[11];
-@@ -1774,7 +1774,7 @@ void helper_msa_ilvev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #endif
-         break;
-     case DF_HALF:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->h[4] = pws->h[5];
-         pwd->h[5] = pwt->h[5];
-         pwd->h[6] = pws->h[7];
-@@ -1795,7 +1795,7 @@ void helper_msa_ilvev_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #endif
-         break;
-     case DF_WORD:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->w[2] = pws->w[3];
-         pwd->w[3] = pwt->w[3];
-         pwd->w[0] = pws->w[1];
-@@ -1825,7 +1825,7 @@ void helper_msa_ilvod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- 
-     switch (df) {
-     case DF_BYTE:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->b[7]  = pwt->b[6];
-         pwd->b[6]  = pws->b[6];
-         pwd->b[5]  = pwt->b[4];
-@@ -1862,7 +1862,7 @@ void helper_msa_ilvod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #endif
-         break;
-     case DF_HALF:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->h[3] = pwt->h[2];
-         pwd->h[2] = pws->h[2];
-         pwd->h[1] = pwt->h[0];
-@@ -1883,7 +1883,7 @@ void helper_msa_ilvod_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #endif
-         break;
-     case DF_WORD:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->w[1] = pwt->w[0];
-         pwd->w[0] = pws->w[0];
-         pwd->w[3] = pwt->w[2];
-@@ -1913,7 +1913,7 @@ void helper_msa_ilvl_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- 
-     switch (df) {
-     case DF_BYTE:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->b[7]  = pwt->b[15];
-         pwd->b[6]  = pws->b[15];
-         pwd->b[5]  = pwt->b[14];
-@@ -1950,7 +1950,7 @@ void helper_msa_ilvl_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #endif
-         break;
-     case DF_HALF:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->h[3] = pwt->h[7];
-         pwd->h[2] = pws->h[7];
-         pwd->h[1] = pwt->h[6];
-@@ -1971,7 +1971,7 @@ void helper_msa_ilvl_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #endif
-         break;
-     case DF_WORD:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->w[1] = pwt->w[3];
-         pwd->w[0] = pws->w[3];
-         pwd->w[3] = pwt->w[2];
-@@ -2001,7 +2001,7 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- 
-     switch (df) {
-     case DF_BYTE:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->b[8]  = pws->b[0];
-         pwd->b[9]  = pwt->b[0];
-         pwd->b[10] = pws->b[1];
-@@ -2038,7 +2038,7 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #endif
-         break;
-     case DF_HALF:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->h[4] = pws->h[0];
-         pwd->h[5] = pwt->h[0];
-         pwd->h[6] = pws->h[1];
-@@ -2059,7 +2059,7 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
- #endif
-         break;
-     case DF_WORD:
--#if defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN)
-         pwd->w[2] = pws->w[0];
-         pwd->w[3] = pwt->w[0];
-         pwd->w[0] = pws->w[1];
--- 
-2.7.4
+Re down-thread conversation, I think this is the nice easy way to make sure
+that the 0xf is modified if we ever decide to support larger vectors.
 
+I *think* that we could write ARM_MAX_VQ - 1 here, but I'm pretty sure there
+are a few other places where we assume that we only need 4 bits to store this
+value.  Anyway, we'd definitely need to audit the code to allow ARM_MAX_VQ to
+change.
+
+
+r~
 
