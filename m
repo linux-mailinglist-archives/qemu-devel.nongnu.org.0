@@ -2,49 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80A22563BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 09:53:15 +0200 (CEST)
-Received: from localhost ([::1]:37382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65109563AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 09:50:57 +0200 (CEST)
+Received: from localhost ([::1]:37358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg2jy-000586-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 03:53:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36846)
+	id 1hg2hk-0001k0-J7
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 03:50:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hg2fz-00006I-Q8
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:49:10 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hg2fo-0008Et-F2
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hg2fy-00057c-NT
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:49:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57172)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hg2fy-000576-Hk
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:49:06 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A65D930821F4;
- Wed, 26 Jun 2019 07:49:05 +0000 (UTC)
-Received: from localhost (ovpn-116-164.ams2.redhat.com [10.36.116.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FD7B1001B10;
- Wed, 26 Jun 2019 07:49:03 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 08:48:15 +0100
-Message-Id: <20190626074815.19994-5-stefanha@redhat.com>
-In-Reply-To: <20190626074815.19994-1-stefanha@redhat.com>
-References: <20190626074815.19994-1-stefanha@redhat.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hg2fn-0004xC-8O
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:56 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44550)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hg2fm-0004uq-Tk
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:55 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r16so1464473wrl.11
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 00:48:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=clJr5Kgf8rNpIsygI48thRCVYe5Ho9N/9bfnCdo91XY=;
+ b=kocD5iBu0ayOwrH6NymlCWnj5Yt+kvrT+rH78zlllk/3cMxpgwpwWOaK5xrZDvXXuw
+ GB84iYvSM6/juY602OEsLjBwcyeug+aeAxEL3BIo1K1a6SJUo+J7uf3JzvcN/PFRWOuW
+ HMuodVuW+TmczmaP+lHO2Kvkl3jdDotPOH1mefuuDjuZRaKzYvI+QeCCWa7GPUfrtJ59
+ cyhr2skc9KX621Ay37xLKpKxGDI8YeQ9vaTA9J5HlqqC9XHovcQDK9eRBqYjIFZimXg/
+ lyEC7Sb68PGfrcQKLsS5IfeYhsewhek0FBuIPc6zRckusV244m6ZpnwaBlkyfDRnwTtJ
+ PXDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=clJr5Kgf8rNpIsygI48thRCVYe5Ho9N/9bfnCdo91XY=;
+ b=OUSOV0Xva8UKzu2s91fGfkxo0ima9Q0J44WK7sxWygu0MYjUCbSj7WzOrF9olDVo5w
+ QaYmdtWbrIGefDSpey3iSDfmjr8hdLRrpONfJ+FaZHXXKTzQ10W53mydvDFx4lyla3eO
+ K/MRQ5HocV7aiHceeqzatWNy4N0Kan8/DMLfsznlsGohMLfZe8feAiA/ij4gW9pvk5DK
+ 8S7qpIxxAyt4lE/mCBb4F0EHgKu59iy2FPVUh+jQWEqJ31KxEOfNULIBpsvByVIcE8bw
+ L2dXkhKT7i5VFlrt0gdp0IIV5bOGpuQSD69+0fKzBpVGwlLh8yDVbRXv/U82jcnVYX/P
+ iYzw==
+X-Gm-Message-State: APjAAAXIYhy7SR4eSATbQEhElfOzxpAGbR7T4vTfKjxeVDVTrJC9kOK1
+ Ngp+UlkeIcT4AOBZEXtilQ9aqw==
+X-Google-Smtp-Source: APXvYqw27uDt9M1G3TwySWhPauhK6/69sNU/MKlecfmFNMIMY+XsRR3u21blVfVFN5/cAm5q/1+Q7w==
+X-Received: by 2002:a5d:5283:: with SMTP id c3mr2265274wrv.268.1561535333005; 
+ Wed, 26 Jun 2019 00:48:53 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id s10sm1411600wmf.8.2019.06.26.00.48.52
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Jun 2019 00:48:52 -0700 (PDT)
+To: Palmer Dabbelt <palmer@sifive.com>
+References: <mhng-3b5978c4-bfb8-4757-ae5b-0731f2851d30@palmer-si-x1e>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <5711ab6f-610c-b05a-c728-4a35a0963a2b@linaro.org>
+Date: Wed, 26 Jun 2019 09:48:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Wed, 26 Jun 2019 07:49:05 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 4/4] docs: avoid vhost-user-net specifics in
- multiqueue section
+In-Reply-To: <mhng-3b5978c4-bfb8-4757-ae5b-0731f2851d30@palmer-si-x1e>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH] atomic failures on qemu-system-riscv64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,74 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: me@carlosedp.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ joel@sing.id.au, Alistair Francis <Alistair.Francis@wdc.com>, marco@decred.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "Multiple queue support" section makes references to vhost-user-net
-"queue pairs".  This is confusing for two reasons:
-1. This actually applies to all device types, not just vhost-user-net.
-2. VHOST_USER_GET_QUEUE_NUM returns the number of virtqueues, not the
-   number of queue pairs.
+On 6/26/19 8:07 AM, Palmer Dabbelt wrote:
+> On Tue, 25 Jun 2019 08:36:28 PDT (-0700), richard.henderson@linaro.org wrote:
+>> On 6/24/19 8:08 PM, Joel Sing wrote:
+>>> Regarding the alignment for reservations, the
+>>> specification does require this, although I do not recall seeing any
+>>> enforcement
+>>> of this by qemu itself.
+>>
+>> Ah, I see it now.  Enforcement begins here:
+>>
+>> static bool trans_lr_w(DisasContext *ctx, arg_lr_w *a)
+>> {
+>>     REQUIRE_EXT(ctx, RVA);
+>>     return gen_lr(ctx, a, (MO_ALIGN | MO_TESL));
+>>                            ^^^^^^^^
+>>
+>> This will force softmmu (but notably not linux-user; a design limitation) to
+>> generate an alignment fault for an unaligned address.
+> 
+> That was probably correct at the time the code went in, as the ISA used to
+> allow these to succeed but not be atomic.  No implementations did this, so as
+> part of the ratification process we just mandated that unaligned atomics always
+> trap.
+> 
+> Is there a better way to fix this than just doing the alignment check
+> explicitly?
 
-Reword the section so that the vhost-user-net specific part is relegated
-to the very end: we acknowledge that vhost-user-net historically
-automatically enabled the first queue pair.
+You misunderstand.  The code is exactly correct as-is.  The alignment check
+happens implicitly as a part of the softmmu tlb resolution.
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- docs/interop/vhost-user.rst | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index dc0ff9211f..5750668aba 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -324,19 +324,20 @@ must support changing some configuration aspects on=
- the fly.
- Multiple queue support
- ----------------------
-=20
--Multiple queue is treated as a protocol extension, hence the slave has
--to implement protocol features first. The multiple queues feature is
--supported only when the protocol feature ``VHOST_USER_PROTOCOL_F_MQ``
--(bit 0) is set.
-+Multiple queue support allows the slave to advertise the maximum number =
-of
-+queues.  This is treated as a protocol extension, hence the slave has to
-+implement protocol features first. The multiple queues feature is suppor=
-ted
-+only when the protocol feature ``VHOST_USER_PROTOCOL_F_MQ`` (bit 0) is s=
-et.
-=20
--The max number of queue pairs the slave supports can be queried with
--message ``VHOST_USER_GET_QUEUE_NUM``. Master should stop when the
--number of requested queues is bigger than that.
-+The max number of queues the slave supports can be queried with message
-+``VHOST_USER_GET_QUEUE_NUM``. Master should stop when the number of requ=
-ested
-+queues is bigger than that.
-=20
- As all queues share one connection, the master uses a unique index for e=
-ach
--queue in the sent message to identify a specified queue. One queue pair
--is enabled initially. More queues are enabled dynamically, by sending
--message ``VHOST_USER_SET_VRING_ENABLE``.
-+queue in the sent message to identify a specified queue.
-+
-+The master enables queues by sending message ``VHOST_USER_SET_VRING_ENAB=
-LE``.
-+vhost-user-net has historically automatically enabled the first queue pa=
-ir.
-=20
- Migration
- ---------
---=20
-2.21.0
-
+r~
 
