@@ -2,91 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962DF56680
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 12:19:36 +0200 (CEST)
-Received: from localhost ([::1]:38542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08053566B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 12:28:22 +0200 (CEST)
+Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg51W-0007C5-3t
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 06:19:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46686)
+	id 1hg5A4-0006tc-Vg
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 06:28:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47089)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <arikalo@wavecomp.com>) id 1hg4vm-0004Nr-Ng
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:13:37 -0400
+ (envelope-from <pbonzini@redhat.com>) id 1hg4ww-0004rN-WE
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:14:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <arikalo@wavecomp.com>) id 1hg4vh-0002d1-A9
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:13:32 -0400
-Received: from mail-eopbgr710135.outbound.protection.outlook.com
- ([40.107.71.135]:30386 helo=NAM05-BY2-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <arikalo@wavecomp.com>)
- id 1hg4vZ-0002FL-2R
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:13:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=wavesemi.onmicrosoft.com; s=selector1-wavesemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+uMek8ri2brabssvkG+bZ1M6wMMwRnpkj865iUclQMY=;
- b=dEZ/y3k7PY+lkgjQzIYPMKf2Lo19y9tGBjjvVop4yQkq8dHw5XDefY0T6CcAG5wsiPcc/VQJO8+T4RWp29hInlUAARTM+rJix3rkUFY1X26a0bssx+mzNSzrljhyeRxUadkSIzTrDENEAXqBMok5igK6oaafbIipFZc3EvFgi6Q=
-Received: from DM5PR22MB1658.namprd22.prod.outlook.com (10.164.152.163) by
- DM5PR22MB0364.namprd22.prod.outlook.com (10.173.174.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.13; Wed, 26 Jun 2019 10:13:09 +0000
-Received: from DM5PR22MB1658.namprd22.prod.outlook.com
- ([fe80::3579:1b6c:1f31:c6b9]) by DM5PR22MB1658.namprd22.prod.outlook.com
- ([fe80::3579:1b6c:1f31:c6b9%7]) with mapi id 15.20.2008.018; Wed, 26 Jun 2019
- 10:13:09 +0000
-From: Aleksandar Rikalo <arikalo@wavecomp.com>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v6 8/8] target/mips: Fix big endian host behavior for
- interleave MSA instructions
-Thread-Index: AQHVLAb1PbuKIgIXfE+6FY/hXfpZsKattze9
-Date: Wed, 26 Jun 2019 10:13:09 +0000
-Message-ID: <DM5PR22MB16581E0A25343FB6F5464D53D2E20@DM5PR22MB1658.namprd22.prod.outlook.com>
-References: <1561543629-20327-1-git-send-email-aleksandar.markovic@rt-rk.com>,
- <1561543629-20327-9-git-send-email-aleksandar.markovic@rt-rk.com>
-In-Reply-To: <1561543629-20327-9-git-send-email-aleksandar.markovic@rt-rk.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=arikalo@wavecomp.com; 
-x-originating-ip: [82.117.201.26]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 04150d74-061f-4ea4-fcf4-08d6fa1ee38b
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DM5PR22MB0364; 
-x-ms-traffictypediagnostic: DM5PR22MB0364:
-x-microsoft-antispam-prvs: <DM5PR22MB0364AB6DA8EF9348506EF3D3D2E20@DM5PR22MB0364.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2000;
-x-forefront-prvs: 00808B16F3
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(396003)(376002)(366004)(346002)(39850400004)(136003)(199004)(189003)(9686003)(68736007)(102836004)(54896002)(66066001)(2501003)(25786009)(55016002)(316002)(107886003)(6246003)(53936002)(110136005)(14454004)(33656002)(8936002)(229853002)(6116002)(8676002)(7736002)(81156014)(81166006)(2906002)(3846002)(26005)(186003)(6606003)(4326008)(478600001)(74316002)(6436002)(76176011)(66946007)(76116006)(64756008)(91956017)(71200400001)(446003)(66446008)(11346002)(71190400001)(6506007)(66556008)(486006)(5660300002)(256004)(19627405001)(66476007)(476003)(73956011)(99286004)(86362001)(7696005)(52536014)(53546011)(55236004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM5PR22MB0364;
- H:DM5PR22MB1658.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: wavecomp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: vJVG8fa86VIFbylWRyfx+6Mtqjo/31aihRaGZhFl2WsSuo6avrvB5wig7qgWnOPJzNRrBEuT7rJmpxWV3DJYx4MSZMSDPFdW1n93K2QRJ4k6pqp60Xq3FOMhJy28WaL+Y7ehioDHXt5wDfMTeU4AT7XuQP6nK7Sx3jpozlf+GcflG4IBUWMIZ+aDa7FpFmtCNePGL+Kya2bRBqi3b4FsUXI2Pi4Y6q7cbpeYA9KeczJzv2oK5dTXmMV3TWqCRr8uUt6yt09MbWJqduUoHKUHfeHlY0E+Zcb9vxk8SC15s8zMEeNNHRlRN1eSkWeSOiilPyYdLvdL2jWoyc2u8TAdOCcT6mqMlFjreMKkcrwbt/5BKpi1zAHIztkBOwf7wJEQT8g7TB0Plf+IsgVDlCHhqaO1MuxQ/7ssga0/48vZs7k=
+ (envelope-from <pbonzini@redhat.com>) id 1hg4wv-0004LU-Pq
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:14:46 -0400
+Received: from mail-wm1-f49.google.com ([209.85.128.49]:34159)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hg4wq-0003j1-TB
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 06:14:41 -0400
+Received: by mail-wm1-f49.google.com with SMTP id w9so4266318wmd.1
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 03:14:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=B2pU4TWo/bR51g7Wxh79Ied5ngUN7ijs23qJYlIUjP8=;
+ b=ANy0DWpzRf2As+xMNOcMS+uS6aW7j944eleWihQw8aKdhcGLbf5tY8yx4JEdHGnijB
+ Tvj4YdjPtx9WK27Tk7EmjUx/OXfFKrNES3DkDZzlQo/6em2SRR6Hrdx/8ZUBeWj3bnUY
+ t3WvkxPxtnenLFPi/0sWsiXMlO2cWdETxe3SgZY0AJNyZW14VOYL3fmwPctgZlskpGJY
+ 5vNY+Oyr+jnKAlze+jJGjHHnfyVRAFPhBZhMqqbaqXxlXzZ5FEvW7t+0P7LIjxKNLgkX
+ 685JTXfZBhuSA9TqGIdQrhW8hFJq6eUVHH5U2c4zG67+Ewro8MJ1QGrSL7yFerQz+yF2
+ RHig==
+X-Gm-Message-State: APjAAAWDFcny56WSXkx8kloSSYrk6dAPJYzyyt3AUvKrOUvs8WJYS8zw
+ z6Ul2Hp/npyfCjKpjKrn+cp5+A==
+X-Google-Smtp-Source: APXvYqzhAqHBEe2TFlBRzRbYRxKxwyITG6KsT0si4UJ6stoc7oejuGBP6+7PzEM+sos5C1iC56NbeA==
+X-Received: by 2002:a1c:751a:: with SMTP id o26mr2152400wmc.13.1561544056623; 
+ Wed, 26 Jun 2019 03:14:16 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:e88d:856c:e081:f67d?
+ ([2001:b07:6468:f312:e88d:856c:e081:f67d])
+ by smtp.gmail.com with ESMTPSA id z5sm14413675wrh.16.2019.06.26.03.14.15
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Wed, 26 Jun 2019 03:14:15 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20190617081205.GA26990@apples.localdomain>
+ <c754211f-b41d-4b69-585b-b287fb776d81@redhat.com>
+ <20190624080154.GA4263@apples.localdomain>
+ <20190624101828.GC12855@linux.fritz.box>
+ <3571317f-84c2-8649-ba63-0e6508679b05@redhat.com>
+ <87wohajjq6.fsf@dusky.pond.sub.org>
+ <20190625164726.GB21148@apples.localdomain>
+ <87o92lkl6x.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3d94d5af-002a-d079-4e23-8a8b06c11152@redhat.com>
+Date: Wed, 26 Jun 2019 12:14:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: wavecomp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04150d74-061f-4ea4-fcf4-08d6fa1ee38b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2019 10:13:09.1489 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: arikalo@wavecomp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR22MB0364
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.71.135
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v6 8/8] target/mips: Fix big endian host
- behavior for interleave MSA instructions
+In-Reply-To: <87o92lkl6x.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.49
+Subject: Re: [Qemu-devel] [Qemu-block] [RFC] nvme: how to support multiple
+ namespaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,154 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <keith.busch@intel.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-> Sent: Wednesday, June 26, 2019 12:07 PM
-> To: qemu-devel@nongnu.org
-> Cc: Aleksandar Markovic; Aleksandar Rikalo
-> Subject: [PATCH v6 8/8] target/mips: Fix big endian host behavior for int=
-erleave MSA instructions
->
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> Fix big endian host behavior for interleave MSA instructions. Previous
-> fix used TARGET_WORDS_BIGENDIAN instead of HOST_WORDS_BIGENDIAN, which
-> was a mistake.
->
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->  target/mips/msa_helper.c | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
->
-> diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-> index 7a9bfb3..8bad636 100644
-> --- a/target/mips/msa_helper.c
-> +++ b/target/mips/msa_helper.c
-> @@ -1737,7 +1737,7 @@ void helper_msa_ilvev_df(CPUMIPSState *env, uint32_=
-t df, uint32_t wd,
->
->      switch (df) {
->      case DF_BYTE:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->b[8]  =3D pws->b[9];
->          pwd->b[9]  =3D pwt->b[9];
->          pwd->b[10] =3D pws->b[11];
-> @@ -1774,7 +1774,7 @@ void helper_msa_ilvev_df(CPUMIPSState *env, uint32_=
-t df, uint32_t wd,
->  #endif
->          break;
->      case DF_HALF:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->h[4] =3D pws->h[5];
->          pwd->h[5] =3D pwt->h[5];
->          pwd->h[6] =3D pws->h[7];
-> @@ -1795,7 +1795,7 @@ void helper_msa_ilvev_df(CPUMIPSState *env, uint32_=
-t df, uint32_t wd,
->  #endif
->          break;
->      case DF_WORD:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->w[2] =3D pws->w[3];
->          pwd->w[3] =3D pwt->w[3];
->          pwd->w[0] =3D pws->w[1];
-> @@ -1825,7 +1825,7 @@ void helper_msa_ilvod_df(CPUMIPSState *env, uint32_=
-t df, uint32_t wd,
->
->      switch (df) {
->      case DF_BYTE:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->b[7]  =3D pwt->b[6];
->          pwd->b[6]  =3D pws->b[6];
->          pwd->b[5]  =3D pwt->b[4];
-> @@ -1862,7 +1862,7 @@ void helper_msa_ilvod_df(CPUMIPSState *env, uint32_=
-t df, uint32_t wd,
->  #endif
->          break;
->      case DF_HALF:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->h[3] =3D pwt->h[2];
->          pwd->h[2] =3D pws->h[2];
->          pwd->h[1] =3D pwt->h[0];
-> @@ -1883,7 +1883,7 @@ void helper_msa_ilvod_df(CPUMIPSState *env, uint32_=
-t df, uint32_t wd,
->  #endif
->          break;
->      case DF_WORD:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->w[1] =3D pwt->w[0];
->          pwd->w[0] =3D pws->w[0];
->          pwd->w[3] =3D pwt->w[2];
-> @@ -1913,7 +1913,7 @@ void helper_msa_ilvl_df(CPUMIPSState *env, uint32_t=
- df, uint32_t wd,
->
->      switch (df) {
->      case DF_BYTE:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->b[7]  =3D pwt->b[15];
->          pwd->b[6]  =3D pws->b[15];
->          pwd->b[5]  =3D pwt->b[14];
-> @@ -1950,7 +1950,7 @@ void helper_msa_ilvl_df(CPUMIPSState *env, uint32_t=
- df, uint32_t wd,
->  #endif
->          break;
->      case DF_HALF:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->h[3] =3D pwt->h[7];
->          pwd->h[2] =3D pws->h[7];
->          pwd->h[1] =3D pwt->h[6];
-> @@ -1971,7 +1971,7 @@ void helper_msa_ilvl_df(CPUMIPSState *env, uint32_t=
- df, uint32_t wd,
->  #endif
->          break;
->      case DF_WORD:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->w[1] =3D pwt->w[3];
->          pwd->w[0] =3D pws->w[3];
->          pwd->w[3] =3D pwt->w[2];
-> @@ -2001,7 +2001,7 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t=
- df, uint32_t wd,
->
->      switch (df) {
->      case DF_BYTE:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->b[8]  =3D pws->b[0];
->          pwd->b[9]  =3D pwt->b[0];
->          pwd->b[10] =3D pws->b[1];
-> @@ -2038,7 +2038,7 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t=
- df, uint32_t wd,
->  #endif
->          break;
->      case DF_HALF:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->h[4] =3D pws->h[0];
->          pwd->h[5] =3D pwt->h[0];
->          pwd->h[6] =3D pws->h[1];
-> @@ -2059,7 +2059,7 @@ void helper_msa_ilvr_df(CPUMIPSState *env, uint32_t=
- df, uint32_t wd,
->  #endif
->          break;
->      case DF_WORD:
-> -#if defined(TARGET_WORDS_BIGENDIAN)
-> +#if defined(HOST_WORDS_BIGENDIAN)
->          pwd->w[2] =3D pws->w[0];
->          pwd->w[3] =3D pwt->w[0];
->          pwd->w[0] =3D pws->w[1];
-> --
-> 2.7.4
+On 26/06/19 06:46, Markus Armbruster wrote:
+>> I'm not sure how to wire it together without the bus abstraction? So
+>> I'll stick with the bus for now. It *is* extremely convenient!
+> 
+> As far as I can tell offhand, a common use of bus-less connections
+> between devices is wiring together composite devices.  Example:
+> 
+>     static void designware_pcie_host_init(Object *obj)
+>     {
+>         DesignwarePCIEHost *s = DESIGNWARE_PCIE_HOST(obj);
+>         DesignwarePCIERoot *root = &s->root;
+> 
+>         object_initialize_child(obj, "root",  root, sizeof(*root),
+>                                 TYPE_DESIGNWARE_PCIE_ROOT, &error_abort, NULL);
+>         qdev_prop_set_int32(DEVICE(root), "addr", PCI_DEVFN(0, 0));
+>         qdev_prop_set_bit(DEVICE(root), "multifunction", false);
+>     }
+> 
+> This creates a TYPE_DESIGNWARE_PCIE_ROOT device "within" the
+> TYPE_DESIGNWARE_PCIE_HOST device.
+> 
+> Bus-less connections between separate devices (i.e. neither device is a
+> part of the other) are also possible.  But I'm failing at grep right
+> now.  Here's an example for connecting a device to a machine:
+> 
+>     static void mch_realize(PCIDevice *d, Error **errp)
+>     {
+>         int i;
+>         MCHPCIState *mch = MCH_PCI_DEVICE(d);
+> 
+>         [...]
+>         object_property_add_const_link(qdev_get_machine(), "smram",
+>                                        OBJECT(&mch->smram), &error_abort);
+>         [...]
+>     }
 
-Reviewed-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+This is a link to a memory region.  A connection to a separate device
+can be found in hw/dma/xilinx_axidma.c and hw/net/xilinx_axienet.c,
+where you have
+
+         data stream <------------> data stream
+       /                                        \
+   dma                                            enet
+       \                                        /
+         control stream <------> control stream
+
+where the horizontal links in the middle are set up by board code, while
+the diagonal lines on the side are set up by device code.
+
+> Paolo, can you provide guidance on when to use a bus, and when not to?
+
+I would definitely use a bus if 1) it is common for the user (and not
+for machine code) to set up the connection 2) the relationship is
+parent-child.  Link properties are basically unused on the command line,
+and it only makes sense to make something different if the connection is
+some kind of graph so bus-child does not cut it.
+
+Paolo
 
