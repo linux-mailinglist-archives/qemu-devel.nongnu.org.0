@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F353556892
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:22:33 +0200 (CEST)
-Received: from localhost ([::1]:39616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DC056864
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:14:40 +0200 (CEST)
+Received: from localhost ([::1]:39452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6wb-0005NU-6k
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49947)
+	id 1hg6ox-0007Mn-M7
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49865)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hg6mZ-0005fK-Fb
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:12 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hg6mP-0005ZI-Ql
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hg6mX-0000yq-Dc
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:11 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:50379)
+ (envelope-from <laurent@vivier.eu>) id 1hg6mN-0000XF-Ay
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:01 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:59925)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hg6mV-0000q9-Dx
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:12:07 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hg6mM-0000PJ-5f
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:11:59 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MnJdC-1iPJUv02VQ-00jHfM; Wed, 26 Jun 2019 14:11:49 +0200
+ id 1MqJuP-1iJ0FC1rKF-00nQ8d; Wed, 26 Jun 2019 14:11:49 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 14:11:37 +0200
-Message-Id: <20190626121139.19114-5-laurent@vivier.eu>
+Date: Wed, 26 Jun 2019 14:11:38 +0200
+Message-Id: <20190626121139.19114-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190626121139.19114-1-laurent@vivier.eu>
 References: <20190626121139.19114-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:7TAxZSKcncYtCqBr1MuuDh5e7eyk5WkHUwdqneS78+dWpefslQ9
- q5m8nq1dmd3hIj2Ho5c1h66NKOGqCeMqBOOvRid/pq9kWSN5CwfQ8GsAxBc3/pvD7KTjSWg
- rucahPSSUiOeeMJdTVuzvR2GhDrha+i5bVmKA4Z0xY6VwetH5OEGqqntOWTWkCCKunN/Oel
- OK7SQQcLn7xpxV4gdasjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GlpujgIpShw=:DNtxMrgebXyaauCP4V996w
- QK+Ngex/96afYAx5wqp+CbqqwhD7u6BTAmvmegeTM/V5qAOMT7/J6RlyxpMBWw5fqBeJ2lAdN
- 9dUVSwbl65ktUmSfYHBH0eue8Cf+cSEdsY6W4cyfpbjJaHHFN3AYTIkj+bnChSbmEOwzOFPcM
- 25nw0B7Xgdp/MOlHYx+AyYFNiKtW8aeb9qBsEM8cp74teFtm5IlU+jvqN7LBgdWOHYFs2nzZ0
- 4vKnbFgqmcNkxg0GI6Gy83cXmEyd/LL1DdbZsh0gUymC6HusD8ccIAbMJm+n9JCUi+hLA2NgG
- cPBiR9Z1BmN/Eslp/FjyIYQh2VZ5IFmoZYLAyxpngXX0yKHHgA8IrRoAAH8Twn1VjExmfJ+H+
- YRg1opPITMraqY/7eolkRLGRVyu6vMJy/PzbyGfodfusWE3Y293NKV7G4Xssv6w8CBIt/D65u
- iiovLt1B0807okIhdZ4YbR5u2MHjnbAqlioba2fqa9gm5pW+OtgxHg99uA6yn92yTt0PpiYwU
- Hb68vTj9/ogBMadY7/HU/+K/jjEGQIQXSU1wPCVxd0Q5QvY062+0YmoYjSQZBjdzys0U6tga8
- X5Y/n/pFDCn3PlmBO1pEfJUyZbCnaHyCZMGDXyPp+uxJtm7uGBB7aebpXDbER+qO9vm8qS3U8
- aBz3rcpRzMByzhgeJ4mwIPmHWMw4UKGxRSso+Sy7BVngf9NCcdmTfGlkUF7EHyIdMj5jHcmQp
- UMDEVSFIZ6VjqkEGRpM/zoeAXw4A70VYJyf2wQ==
+X-Provags-ID: V03:K1:DY24OluJBP6dpVY2Eewm/U9gPbN5GvyYdhzTNOe/HppzORaXKxh
+ zA/G9+SPII72PWHbujM0lU5/BXAh7Inda8WtlI7yU7PciKlWX9tSv1EUbgldiWFDOc5G1fO
+ +/KaO2XbUyqZc4j9MOLyhArbh3rqBIZjI9gl5JjLnGmWg59wIY0lW5a/PpJP0VmHAdiQRYP
+ WwKpYgNQirWtiQC8y3Z9w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Nv+gFETMw6I=:yY7qBbTXmbS8zRVMd6084k
+ L25dtkQr+dExPko6TBTPstDcYjA9CrMYRegga1D9fR1ovpwzHUJIFJrym3552lu8Sf068KAvV
+ AXWXaIMON0BXJKhdhlu3QfKfGR6AwbTGBDtuUuRmqs11gbhd5sM6P3DTh/ZB/5RdurrS2HKRU
+ w3DB3Hsvg0zbgIK4GWEflo2X3675tHZS3zndz8j4rVsYMbkHYUXHaMxhxQhTKfBoZ7tDMpGNq
+ uRP84RqekLuN6xavV+O0pT51YoIP/gxlIFEuCXUTZ7+04iC7u3i1u5FGFIUZ7xoXvmGBMKza1
+ wvGso+ifJO2JZY0i6knL5CSuoENHr/0P29KNZQvdR2XQK3o4AF2QOBhvhhZ7I0wjLETDKDYkN
+ 6jczXBTpJ+KDVhy5mecMb4B+o5WQrTGqd75gJvX8/uhOUhmM4PI/wn3cjstyy3pi++qc4G/PU
+ B8MrxxJLjCNiGS0OXtmNoet1ZIlV6uZ6WBcjnjHnKtM2KRgWg+4/Hpd1k+50eNXgQP9Kwn621
+ VkAh7m9LAUMPCzlkIbCusBhrG76sdCxXP0L7N0qW1F4Gv/G3FegTZRL8Pke4bgbmJCO5JTgLb
+ 3DJ3jJTBivfLPpOyKz0nyHePEKUAa/BkbW/DbKH3Ps9R8YmtUs815GYUg7Ra7nqfwaDyG+bmL
+ IgDfJ9yP4hcSAl8sv4QG0mAlv2BGAr2MV6TbDVUskHZ8hE/aWTz8cqcC5f2rzdli1g26IFuM/
+ xk4e8etRoGxipc8PwRPFbpHI02v3jHk47vdBgw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: [Qemu-devel] [PULL 4/6] linux-user: Add support for setsockopt()
- options IPV6_<ADD|DROP>_MEMBERSHIP
+X-Received-From: 217.72.192.75
+Subject: [Qemu-devel] [PULL 5/6] linux-user: update PPC64 HWCAP2 feature list
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,92 +62,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <amarkovic@wavecomp.com>,
- Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
- Neng Chen <nchen@wavecomp.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Neng Chen <nchen@wavecomp.com>
+QEMU_PPC_FEATURE2_VEC_CRYPTO enables the use
+of VSX instructions in libcrypto that are accelerated
+by the TCG vector instructions now.
 
-Add support for the option IPV6_<ADD|DROP>_MEMBERSHIP of the syscall
-setsockopt(). This option controls membership in multicast groups.
-Argument is a pointer to a struct ipv6_mreq.
+QEMU_PPC_FEATURE2_DARN allows to use the new builtin
+qemu_guest_getrandom() function.
 
-The glibc <netinet/in.h> header defines the ipv6_mreq structure,
-which includes the following members:
-
-  struct in6_addr  ipv6mr_multiaddr;
-  unsigned int     ipv6mr_interface;
-
-Whereas the kernel in its <linux/in6.h> header defines following
-members of the same structure:
-
-  struct in6_addr  ipv6mr_multiaddr;
-  int              ipv6mr_ifindex;
-
-POSIX defines ipv6mr_interface [1].
-
-__UAPI_DEF_IVP6_MREQ appears in kernel headers with v3.12:
-
-  cfd280c91253 net: sync some IP headers with glibc
-
-Without __UAPI_DEF_IVP6_MREQ, kernel defines ipv6mr_ifindex, and
-this is explained in cfd280c91253:
-
-  "If you include the kernel headers first you get those,
-  and if you include the glibc headers first you get those,
-  and the following patch arranges a coordination and
-  synchronization between the two."
-
-So before 3.12, a program can't include both <netinet/in.h> and
-<linux/in6.h>.
-
-In linux-user/syscall.c, we only include <netinet/in.h> (glibc) and
-not <linux/in6.h> (kernel headers), so ipv6mr_interface is the one
-to use.
-
-[1] http://pubs.opengroup.org/onlinepubs/009695399/basedefs/netinet/in.h.html
-
-Signed-off-by: Neng Chen <nchen@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1560953834-29584-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20190609143521.19374-1-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ linux-user/elfload.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ed1c9b0033be..d2c9817938c9 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -1892,6 +1892,25 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
-                                        &pki, sizeof(pki)));
-             break;
-         }
-+        case IPV6_ADD_MEMBERSHIP:
-+        case IPV6_DROP_MEMBERSHIP:
-+        {
-+            struct ipv6_mreq ipv6mreq;
-+
-+            if (optlen < sizeof(ipv6mreq)) {
-+                return -TARGET_EINVAL;
-+            }
-+
-+            if (copy_from_user(&ipv6mreq, optval_addr, sizeof(ipv6mreq))) {
-+                return -TARGET_EFAULT;
-+            }
-+
-+            ipv6mreq.ipv6mr_interface = tswap32(ipv6mreq.ipv6mr_interface);
-+
-+            ret = get_errno(setsockopt(sockfd, level, optname,
-+                                       &ipv6mreq, sizeof(ipv6mreq)));
-+            break;
-+        }
-         default:
-             goto unimplemented;
-         }
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 9fd65708c4c4..bd43c4817df8 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -768,7 +768,13 @@ enum {
+     QEMU_PPC_FEATURE2_HAS_EBB = 0x10000000, /* Event Base Branching */
+     QEMU_PPC_FEATURE2_HAS_ISEL = 0x08000000, /* Integer Select */
+     QEMU_PPC_FEATURE2_HAS_TAR = 0x04000000, /* Target Address Register */
++    QEMU_PPC_FEATURE2_VEC_CRYPTO = 0x02000000,
++    QEMU_PPC_FEATURE2_HTM_NOSC = 0x01000000,
+     QEMU_PPC_FEATURE2_ARCH_3_00 = 0x00800000, /* ISA 3.00 */
++    QEMU_PPC_FEATURE2_HAS_IEEE128 = 0x00400000, /* VSX IEEE Bin Float 128-bit */
++    QEMU_PPC_FEATURE2_DARN = 0x00200000, /* darn random number insn */
++    QEMU_PPC_FEATURE2_SCV = 0x00100000, /* scv syscall */
++    QEMU_PPC_FEATURE2_HTM_NO_SUSPEND = 0x00080000, /* TM w/o suspended state */
+ };
+ 
+ #define ELF_HWCAP get_elf_hwcap()
+@@ -822,8 +828,10 @@ static uint32_t get_elf_hwcap2(void)
+     GET_FEATURE(PPC_ISEL, QEMU_PPC_FEATURE2_HAS_ISEL);
+     GET_FEATURE2(PPC2_BCTAR_ISA207, QEMU_PPC_FEATURE2_HAS_TAR);
+     GET_FEATURE2((PPC2_BCTAR_ISA207 | PPC2_LSQ_ISA207 | PPC2_ALTIVEC_207 |
+-                  PPC2_ISA207S), QEMU_PPC_FEATURE2_ARCH_2_07);
+-    GET_FEATURE2(PPC2_ISA300, QEMU_PPC_FEATURE2_ARCH_3_00);
++                  PPC2_ISA207S), QEMU_PPC_FEATURE2_ARCH_2_07 |
++                  QEMU_PPC_FEATURE2_VEC_CRYPTO);
++    GET_FEATURE2(PPC2_ISA300, QEMU_PPC_FEATURE2_ARCH_3_00 |
++                 QEMU_PPC_FEATURE2_DARN);
+ 
+ #undef GET_FEATURE
+ #undef GET_FEATURE2
 -- 
 2.21.0
 
