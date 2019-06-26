@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBAC5697A
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:41:26 +0200 (CEST)
-Received: from localhost ([::1]:39784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60E55697D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 14:41:31 +0200 (CEST)
+Received: from localhost ([::1]:39790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg7Er-0001wj-7E
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55954)
+	id 1hg7Ew-0002AD-TZ
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 08:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55952)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CJ-0000M5-7W
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:49 -0400
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CJ-0000M2-1M
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CH-0006cN-VV
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:47 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:52266)
+ (envelope-from <shmuel.eiderman@oracle.com>) id 1hg7CH-0006cK-VO
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 08:38:46 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:52306)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
- id 1hg7CD-0006Ol-JO; Wed, 26 Jun 2019 08:38:41 -0400
+ id 1hg7CD-0006TV-Qr; Wed, 26 Jun 2019 08:38:42 -0400
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCY7kf187573;
- Wed, 26 Jun 2019 12:38:37 GMT
+ by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCYAXj187602;
+ Wed, 26 Jun 2019 12:38:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2018-07-02;
- bh=UW6sWZMVwR6L4QasUuYIjj/mBRcHWV2QZfAt+64nLos=;
- b=o65pryBIhPsRKbcg+A50iL7ZHv7lWiCkGPhQsjlyStShBB3xDr/AAJsbNz4q5jJ8sv6n
- RYEnSpiXIuQqTQDzmckF1nFCswqqpoa3KbBJ6cde28VhQwerhuwOfYJf6XndMwBM2uz2
- R/VcoEJjBseNMrkqfehpkQeYMlTlhtSK1MWv/ziSaLqc+XxtnhYPvUtZAVYsev2Bt09z
- l0Kdm0STF7xHFCvn9Ex0LDdJhD8YypCMWVT1XJaJIV9ww0neUfZHdZiGt3c98BAjiOIo
- VBenagZkbQEd94A/woMkO1ESa9WG5FXvdDp3DdXU9ZIi7tFNtUOuFP9gLIcTcpVaw+xs bw== 
+ bh=unrVc136npZDb5NaLZdO2sOpKQ7GyimxsHu2DkvWsbA=;
+ b=RUE81+suKmwwjtIMKzcp24b6VzI1XH1QDTDrHWbXLU2z16MYpJwkc1fGoUN+GB2luf1h
+ RzB9ZqtzlyyPFIU24J9Vd8sEFrtdjsEKAS4IjoBpugR6cvH2WSG0Hl6uG8Q9CECrZhlD
+ bFS/3NqdDwmkIKZG4PNtYzZzfBakpcIPziBr6aD/zk6UEeivbRFM4swsiO2rK9Dbd2sq
+ 2DcMkaPcORgABL6Y681KgUaNZh+LIjDyupxZ7l6XzqCCmKxMGDdU26t9IWVU0tnt1V3c
+ ccjUqHDc+pxt1v5tXtAvY7UQvoXtiaGVPfcLzLyqBrFEzlunbM/e8RKp7lF2cVUb1bG7 mw== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 2t9brta44n-1
+ by userp2130.oracle.com with ESMTP id 2t9brta44x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jun 2019 12:38:37 +0000
+ Wed, 26 Jun 2019 12:38:40 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCbTmZ021745;
- Wed, 26 Jun 2019 12:38:36 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3020.oracle.com with ESMTP id 2tat7ct4w6-1
+ by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5QCbS3s021700;
+ Wed, 26 Jun 2019 12:38:40 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 2tat7ct4wp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 26 Jun 2019 12:38:36 +0000
+ Wed, 26 Jun 2019 12:38:39 +0000
 Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5QCcZIS019621;
- Wed, 26 Jun 2019 12:38:35 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5QCccf3002703;
+ Wed, 26 Jun 2019 12:38:38 GMT
 Received: from nexus.ravello.local (/213.57.127.2)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 26 Jun 2019 05:38:35 -0700
+ with ESMTP ; Wed, 26 Jun 2019 05:38:38 -0700
 From: Sam Eiderman <shmuel.eiderman@oracle.com>
 To: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
  mreitz@redhat.com, seabios@seabios.org, kraxel@redhat.com,
  kevin@koconnor.net
-Date: Wed, 26 Jun 2019 15:38:13 +0300
-Message-Id: <20190626123816.8907-3-shmuel.eiderman@oracle.com>
+Date: Wed, 26 Jun 2019 15:38:14 +0300
+Message-Id: <20190626123816.8907-4-shmuel.eiderman@oracle.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20190626123816.8907-1-shmuel.eiderman@oracle.com>
 References: <20190626123816.8907-1-shmuel.eiderman@oracle.com>
@@ -75,8 +75,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  definitions=main-1906260150
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [SeaBIOS] [PATCH v4 2/5] boot: Reorder functions in
- boot.c
+Subject: [Qemu-devel] [SeaBIOS] [PATCH v4 3/5] boot: Build ata and scsi
+ paths in function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -93,137 +93,77 @@ Cc: liran.alon@oracle.com, shmuel.eiderman@oracle.com, karl.heubaum@oracle.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently glob_prefix() and build_pci_path() are under the "Boot
-priority ordering" section.
-Move them to a new "Helper search functions" section since we will reuse
-them in the next commits.
+Introduce build_scsi_path() and build_ata_path().
+We will reuse these functions in the next commit.
 
 Reviewed-by: Karl Heubaum <karl.heubaum@oracle.com>
 Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
 Signed-off-by: Sam Eiderman <shmuel.eiderman@oracle.com>
 ---
- src/boot.c | 94 ++++++++++++++++++++++++++++++++------------------------------
- 1 file changed, 49 insertions(+), 45 deletions(-)
+ src/boot.c | 36 ++++++++++++++++++++++++++++--------
+ 1 file changed, 28 insertions(+), 8 deletions(-)
 
 diff --git a/src/boot.c b/src/boot.c
-index a2cb167c..70f639f4 100644
+index 70f639f4..52e1c8e6 100644
 --- a/src/boot.c
 +++ b/src/boot.c
-@@ -22,6 +22,55 @@
- #include "util.h" // irqtimer_calc
- #include "tcgbios.h" // tpm_*
+@@ -71,6 +71,30 @@ build_pci_path(char *buf, int max, const char *devname, struct pci_device *pci)
+     return p;
+ }
  
-+/****************************************************************
-+ * Helper search functions
-+ ****************************************************************/
-+
-+// See if 'str' starts with 'glob' - if glob contains an '*' character
-+// it will match any number of characters in str that aren't a '/' or
-+// the next glob character.
 +static char *
-+glob_prefix(const char *glob, const char *str)
++build_scsi_path(char *buf, int max,
++                struct pci_device *pci, int target, int lun)
 +{
-+    for (;;) {
-+        if (!*glob && (!*str || *str == '/'))
-+            return (char*)str;
-+        if (*glob == '*') {
-+            if (!*str || *str == '/' || *str == glob[1])
-+                glob++;
-+            else
-+                str++;
-+            continue;
-+        }
-+        if (*glob != *str)
-+            return NULL;
-+        glob++;
-+        str++;
-+    }
++    // Build the string path of a scsi drive - for example:
++    // /pci@i0cf8/scsi@5/channel@0/disk@1,0
++    char *p;
++    p = build_pci_path(buf, max, "*", pci);
++    p += snprintf(p, buf+max-p, "/*@0/*@%x,%x", target, lun);
++    return p;
 +}
 +
-+#define FW_PCI_DOMAIN "/pci@i0cf8"
-+
 +static char *
-+build_pci_path(char *buf, int max, const char *devname, struct pci_device *pci)
++build_ata_path(char *buf, int max,
++               struct pci_device *pci, int chanid, int slave)
 +{
-+    // Build the string path of a bdf - for example: /pci@i0cf8/isa@1,2
-+    char *p = buf;
-+    if (pci->parent) {
-+        p = build_pci_path(p, max, "pci-bridge", pci->parent);
-+    } else {
-+        p += snprintf(p, buf+max-p, "%s", FW_PCI_DOMAIN);
-+        if (pci->rootbus)
-+            p += snprintf(p, buf+max-p, ",%x", pci->rootbus);
-+    }
-+
-+    int dev = pci_bdf_to_dev(pci->bdf), fn = pci_bdf_to_fn(pci->bdf);
-+    p += snprintf(p, buf+max-p, "/%s@%x", devname, dev);
-+    if (fn)
-+        p += snprintf(p, buf+max-p, ",%x", fn);
++    // Build the string path of an ata drive - for example:
++    // /pci@i0cf8/ide@1,1/drive@1/disk@0
++    char *p;
++    p = build_pci_path(buf, max, "*", pci);
++    p += snprintf(p, buf+max-p, "/drive@%x/disk@%x", chanid, slave);
 +    return p;
 +}
 +
  
  /****************************************************************
   * Boot device logical geometry
-@@ -141,29 +190,6 @@ loadBootOrder(void)
-     } while (f);
+@@ -221,10 +245,8 @@ int bootprio_find_scsi_device(struct pci_device *pci, int target, int lun)
+     if (!pci)
+         // support only pci machine for now
+         return -1;
+-    // Find scsi drive - for example: /pci@i0cf8/scsi@5/channel@0/disk@1,0
+-    char desc[256], *p;
+-    p = build_pci_path(desc, sizeof(desc), "*", pci);
+-    snprintf(p, desc+sizeof(desc)-p, "/*@0/*@%x,%x", target, lun);
++    char desc[256];
++    build_scsi_path(desc, sizeof(desc), pci, target, lun);
+     return find_prio(desc);
  }
  
--// See if 'str' starts with 'glob' - if glob contains an '*' character
--// it will match any number of characters in str that aren't a '/' or
--// the next glob character.
--static char *
--glob_prefix(const char *glob, const char *str)
--{
--    for (;;) {
--        if (!*glob && (!*str || *str == '/'))
--            return (char*)str;
--        if (*glob == '*') {
--            if (!*str || *str == '/' || *str == glob[1])
--                glob++;
--            else
--                str++;
--            continue;
--        }
--        if (*glob != *str)
--            return NULL;
--        glob++;
--        str++;
--    }
--}
--
- // Search the bootorder list for the given glob pattern.
- static int
- find_prio(const char *glob)
-@@ -176,28 +202,6 @@ find_prio(const char *glob)
-     return -1;
+@@ -237,10 +259,8 @@ int bootprio_find_ata_device(struct pci_device *pci, int chanid, int slave)
+     if (!pci)
+         // support only pci machine for now
+         return -1;
+-    // Find ata drive - for example: /pci@i0cf8/ide@1,1/drive@1/disk@0
+-    char desc[256], *p;
+-    p = build_pci_path(desc, sizeof(desc), "*", pci);
+-    snprintf(p, desc+sizeof(desc)-p, "/drive@%x/disk@%x", chanid, slave);
++    char desc[256];
++    build_ata_path(desc, sizeof(desc), pci, chanid, slave);
+     return find_prio(desc);
  }
  
--#define FW_PCI_DOMAIN "/pci@i0cf8"
--
--static char *
--build_pci_path(char *buf, int max, const char *devname, struct pci_device *pci)
--{
--    // Build the string path of a bdf - for example: /pci@i0cf8/isa@1,2
--    char *p = buf;
--    if (pci->parent) {
--        p = build_pci_path(p, max, "pci-bridge", pci->parent);
--    } else {
--        p += snprintf(p, buf+max-p, "%s", FW_PCI_DOMAIN);
--        if (pci->rootbus)
--            p += snprintf(p, buf+max-p, ",%x", pci->rootbus);
--    }
--
--    int dev = pci_bdf_to_dev(pci->bdf), fn = pci_bdf_to_fn(pci->bdf);
--    p += snprintf(p, buf+max-p, "/%s@%x", devname, dev);
--    if (fn)
--        p += snprintf(p, buf+max-p, ",%x", fn);
--    return p;
--}
--
- int bootprio_find_pci_device(struct pci_device *pci)
- {
-     if (CONFIG_CSM)
 -- 
 2.13.3
 
