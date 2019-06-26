@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EF7567E8
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 13:51:09 +0200 (CEST)
-Received: from localhost ([::1]:39038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 271C7567E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 13:51:07 +0200 (CEST)
+Received: from localhost ([::1]:39036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg6SC-000397-Bb
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 07:51:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43613)
+	id 1hg6S9-00032I-O9
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 07:51:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43608)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NF-0001K9-Eq
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:03 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NF-0001K7-50
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NE-0005sR-9p
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hg6NE-0005s6-4u
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:01 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60650 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:60655 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hg6NE-0005o5-1f
+ id 1hg6ND-0005oH-Tz
  for qemu-devel@nongnu.org; Wed, 26 Jun 2019 07:46:00 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 9F61F1A457C;
+ by mail.rt-rk.com (Postfix) with ESMTP id A8D351A468E;
  Wed, 26 Jun 2019 13:45:56 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 7E9C81A4651;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 87D981A4608;
  Wed, 26 Jun 2019 13:45:56 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 13:45:36 +0200
-Message-Id: <1561549550-3501-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 26 Jun 2019 13:45:37 +0200
+Message-Id: <1561549550-3501-5-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -41,7 +41,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL 03/17] hw/mips/gt64xxx_pci: Fix 'braces' coding
+Subject: [Qemu-devel] [PULL 04/17] hw/mips/gt64xxx_pci: Fix 'spaces' coding
  style issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,89 +62,54 @@ From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Since we'll move this code around, fix its style first:
 
-  ERROR: braces {} are necessary for all arms of this statement
+  ERROR: space prohibited between function name and open parenthesis
+  ERROR: line over 90 characters
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <20190624222844.26584-4-f4bug@amsat.org>
+Message-Id: <20190624222844.26584-5-f4bug@amsat.org>
 ---
- hw/mips/gt64xxx_pci.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
+ hw/mips/gt64xxx_pci.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/hw/mips/gt64xxx_pci.c b/hw/mips/gt64xxx_pci.c
-index bbd719f..cfd4979 100644
+index cfd4979..0b9fb02 100644
 --- a/hw/mips/gt64xxx_pci.c
 +++ b/hw/mips/gt64xxx_pci.c
-@@ -257,19 +257,25 @@ static void check_reserved_space(hwaddr *start, hwa=
-ddr *length)
-     hwaddr begin =3D *start;
-     hwaddr end =3D *start + *length;
+@@ -384,8 +384,8 @@ static const VMStateDescription vmstate_gt64120 =3D {
+     }
+ };
 =20
--    if (end >=3D 0x1e000000LL && end < 0x1f100000LL)
-+    if (end >=3D 0x1e000000LL && end < 0x1f100000LL) {
-         end =3D 0x1e000000LL;
--    if (begin >=3D 0x1e000000LL && begin < 0x1f100000LL)
-+    }
-+    if (begin >=3D 0x1e000000LL && begin < 0x1f100000LL) {
-         begin =3D 0x1f100000LL;
--    if (end >=3D 0x1fc00000LL && end < 0x1fd00000LL)
-+    }
-+    if (end >=3D 0x1fc00000LL && end < 0x1fd00000LL) {
-         end =3D 0x1fc00000LL;
--    if (begin >=3D 0x1fc00000LL && begin < 0x1fd00000LL)
-+    }
-+    if (begin >=3D 0x1fc00000LL && begin < 0x1fd00000LL) {
-         begin =3D 0x1fd00000LL;
-+    }
-     /* XXX: This is broken when a reserved range splits the requested ra=
-nge */
--    if (end >=3D 0x1f100000LL && begin < 0x1e000000LL)
-+    if (end >=3D 0x1f100000LL && begin < 0x1e000000LL) {
-         end =3D 0x1e000000LL;
--    if (end >=3D 0x1fd00000LL && begin < 0x1fc00000LL)
-+    }
-+    if (end >=3D 0x1fd00000LL && begin < 0x1fc00000LL) {
-         end =3D 0x1fc00000LL;
-+    }
-=20
-     *start =3D begin;
-     *length =3D end - begin;
-@@ -385,8 +391,9 @@ static void gt64120_writel (void *opaque, hwaddr addr=
-,
+-static void gt64120_writel (void *opaque, hwaddr addr,
+-                            uint64_t val, unsigned size)
++static void gt64120_writel(void *opaque, hwaddr addr,
++                           uint64_t val, unsigned size)
+ {
+     GT64120State *s =3D opaque;
      PCIHostState *phb =3D PCI_HOST_BRIDGE(s);
-     uint32_t saddr;
-=20
--    if (!(s->regs[GT_CPU] & 0x00001000))
-+    if (!(s->regs[GT_CPU] & 0x00001000)) {
-         val =3D bswap32(val);
-+    }
-=20
-     saddr =3D (addr & 0xfff) >> 2;
-     switch (saddr) {
-@@ -937,8 +944,9 @@ static uint64_t gt64120_readl (void *opaque,
-         break;
+@@ -671,8 +671,8 @@ static void gt64120_writel (void *opaque, hwaddr addr=
+,
      }
-=20
--    if (!(s->regs[GT_CPU] & 0x00001000))
-+    if (!(s->regs[GT_CPU] & 0x00001000)) {
-         val =3D bswap32(val);
-+    }
-=20
-     return val;
  }
-@@ -990,8 +998,9 @@ static void gt64120_pci_set_irq(void *opaque, int irq=
-_num, int level)
-         /* The pic level is the logical OR of all the PCI irqs mapped to=
- it. */
-         pic_level =3D 0;
-         for (i =3D 0; i < 4; i++) {
--            if (pic_irq =3D=3D piix4_dev->config[0x60 + i])
-+            if (pic_irq =3D=3D piix4_dev->config[0x60 + i]) {
-                 pic_level |=3D pci_irq_levels[i];
-+            }
-         }
-         qemu_set_irq(pic[pic_irq], pic_level);
-     }
+=20
+-static uint64_t gt64120_readl (void *opaque,
+-                               hwaddr addr, unsigned size)
++static uint64_t gt64120_readl(void *opaque,
++                              hwaddr addr, unsigned size)
+ {
+     GT64120State *s =3D opaque;
+     PCIHostState *phb =3D PCI_HOST_BRIDGE(s);
+@@ -1193,7 +1193,8 @@ PCIBus *gt64120_register(qemu_irq *pic)
+                                      get_system_io(),
+                                      PCI_DEVFN(18, 0), 4, TYPE_PCI_BUS);
+     qdev_init_nofail(dev);
+-    memory_region_init_io(&d->ISD_mem, OBJECT(dev), &isd_mem_ops, d, "is=
+d-mem", 0x1000);
++    memory_region_init_io(&d->ISD_mem, OBJECT(dev), &isd_mem_ops, d,
++                          "isd-mem", 0x1000);
+=20
+     pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
+     return phb->bus;
 --=20
 2.7.4
 
