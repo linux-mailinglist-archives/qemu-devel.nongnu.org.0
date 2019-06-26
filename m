@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF8E56EFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:42:52 +0200 (CEST)
-Received: from localhost ([::1]:41920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 373AC56E9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 18:23:35 +0200 (CEST)
+Received: from localhost ([::1]:41778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgB0W-0006a6-79
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:42:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58918)
+	id 1hgAhq-0006eO-DX
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 12:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55808)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hgAsL-0006MZ-5w
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:34:26 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hgAfs-0005ad-4P
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:21:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hgAsK-0001R1-4W
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:34:25 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:51123)
+ (envelope-from <laurent@vivier.eu>) id 1hgAfq-0006nb-2I
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:21:32 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:48575)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hgAsJ-0001HA-RS
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:34:24 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hgAfp-0006gG-Ok
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 12:21:29 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MjjGX-1iPQdj2wmp-00lCGs; Wed, 26 Jun 2019 18:21:08 +0200
+ id 1MG9c2-1hnspF0n1w-00GYQ5; Wed, 26 Jun 2019 18:21:09 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 18:20:57 +0200
-Message-Id: <20190626162100.24774-1-laurent@vivier.eu>
+Date: Wed, 26 Jun 2019 18:20:58 +0200
+Message-Id: <20190626162100.24774-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190626162100.24774-1-laurent@vivier.eu>
+References: <20190626162100.24774-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vY8bPVBxri4FZS7L7dVW7hjI91XFPsMeDZ4jOM9qxD+st9JGaij
- G/AkRLIK8JIloinotAjLbRhmQQ989Mo1C5IcB0huLxRk9SLVo9PCgvIS/aQui8irhV7p818
- 8s8Npd0T8RqaXuFbgmpDcfgroaQ34rWW8k9oYpXtFUxLdU082IkIyvnr9DdS8wokxWz+6Zi
- Kuu8Jo8bQtrlq5crzXZ2A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:NsQp4/UU/Go=:1Kyd1iDgd3HvfRbOT2Vg2Q
- YRMGRMthseo1sAkrgtLy9o1RUD/V+9tdV5MeNkDzhC7RtKsZ6k/iY7y4Dc5BvjjTXk3Qr7Rw8
- Rb/ux4cjigKj15TmgvzVzUfkYJn5L8saUaq2u5bseWnhaSwshRlfMY2jO7B2dBZthmF1ampZN
- gs8MnfS9O8aGoOCQJPZEA/aeCrIawJ/90pIXj9wcfrp27qk3QP+U2UpAKdWJbg4SNSCYxUQ8r
- ncrCOvDwb6/pEkEaFR1jdbjSPL89pbpDuDbrSY4CjHyQVpwkb+qErblTZ/xTqvIsuBntEpLVp
- W+Ih415L0up3Q2xCBhP+lQj+GZ74qfZvdPzmEVxYYwEmFM/EJVVX4jYpUbOgSNnBfYWohf756
- WDG5wemk5YB1yOu/5RuYX1RwVk6GR34VXaHxge7bv7xDkDJFCD3pDpZYVh8T+pf4wu7tVyGjP
- oOhvAVFbJfz4ae6FreHb7E2UcZFG4aBraF7NldX0DT4tjHUGJvj9FTn9ll6/ifpQJVyHfXg8p
- J4OaT+lX4N2Vlp2eCwc/oQmZ8kA0JL1czL0GKXssDjDm5/HBvDb/Y+9Gmt8lzOUlJUgzGGAwr
- rTB/mMHegHQW6nzh35cwiq0DzGhLo6zzfHe21oZoXzirRnxLBINAfrZE1IYG0KGnHqxy0JX3C
- KAVO/dlKQ6CtQR1kkMoGkXMsTBbtr79yC0mhXyNpcYX90u8yFzBbHk/Sw5qDDqDGruz/TgUiI
- o3bcELENmrltqdoKsZXQJtLG4gWGt5TkxLVbYw==
+X-Provags-ID: V03:K1:tHpE2TGhZyegXH1arIg25W/5J/pvplOjvArWH8Il02t/6e6EnoG
+ KMEA7Ny6UhXiBvHUBs1q9x5ourmI2abrTdoDUcpZAtBoNQKMJktPc2wZ956iHC7YKwHHCuZ
+ neaXDayAlF18bDTwYejzqi4Ki/ZziWL2EixCNA5/FLYU6EBod1AapSvYL5gqMKaHd+7C8YP
+ 53V3DFN/CZZYMpuBV2S0g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:pPNZbaz7G7E=:nxDDdc5PnLO5TLaNQPatFT
+ z105sJ1lVbg2tz6vLBTl5CAUccn/YVHnNbLv9B/ZuA136pcbYSbSbxJlIbeqx27HXP7V4md5S
+ E2HC6Ar+FKnxAKMyqW0mtGesNNxsPHk0wanLMJC8lmAhYRRQZWICgQ2LrTD4UdQiHFHGqwiPw
+ EPyx3eTwtAPmBIZfXkU/uwGCzzhgIfkcZ83XRFVOOuwdD/HMlV4mO2fxDKsRB1VibrTUcSlSN
+ DiD6WizC49d1yTq9UncRhRK4Mq3AE3UiJg7FBJ5Quy1wFVCDzDDRGWcR13+lAIi+wnhCuFmQB
+ yAM+bNxaaUTeMM4Ug7Krk2PzJzti1SsR6yEQzqAR5YRLw/43M5+5auIOTxiDKgCW4DWeHmwt8
+ FdaVTYXBEqPdghpqogIlJDne8BhXYfdN+3QAFr9jLuU9Zy4LtFDI1zn74Xuz3hmAVeHfcWIFC
+ uDoiUbnbG20uvT6c/oPHRsLpIrgApECGn+IKHNyDJvNcYoc3mBnE+1XFYYZnW/dSfHl5fiFeZ
+ anaYUUyinUaEO/nQfajkHCr2uxANOwnauoJGhNukIuZUOmLMBXGNy2JAKxI8hljKl0ZS9IPs/
+ EomYJynvqoj5pfmlnJL1eRHoExcMIov5besvIIcdPjAWPLsZnwHQCuQMb5NLNYBuCoaqPwIJ0
+ nbtjmyZuhcsgXQLVWFS814iFdFdboQ7jEBS6DNNEzbjjJgH5TNzxoV6XQ/LMe9Ijs4s+X2pOh
+ QuTduK0V3WNOCyvsnbKI7mwOkaaLDnKpDAOLFg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
-Subject: [Qemu-devel] [PULL 0/3] M68k next patches
+X-Received-From: 212.227.17.10
+Subject: [Qemu-devel] [PULL 1/3] The m68k gdbstub SR reg request doesnt
+ include Condition-Codes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,57 +63,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
+ Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
+From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
 
-  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+The register request via gdbstub would return the SR part
+which contains the Trace/Master/IRQ state flags, but
+would be missing the CR (Condition Register) state bits.
 
-are available in the Git repository at:
+This fix adds this support by merging them in the m68k
+specific gdbstub handler m68k_cpu_gdb_read_register for SR register.
 
-  git://github.com/vivier/qemu-m68k.git tags/m68k-next-pull-request
+Signed-off-by: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20190609105154.GA16755@localhost.localdomain>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ target/m68k/gdbstub.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to c6d0700f57b2c50229a27e31b9f99056a011215f:
-
-  linux-user/m68k: remove simulator syscall interface (2019-06-26 17:14:41 +0200)
-
-----------------------------------------------------------------
-remove m68k simulator syscall interface
-Fix comments format
-Fix gdbstub
-
-----------------------------------------------------------------
-
-Laurent Vivier (1):
-  linux-user/m68k: remove simulator syscall interface
-
-Lucien Murray-Pitts (2):
-  The m68k gdbstub SR reg request doesnt include Condition-Codes
-  m68k comments break patch submission due to being incorrectly
-    formatted
-
- linux-user/Makefile.objs            |   1 -
- linux-user/m68k-sim.c               | 163 ------------------
- linux-user/m68k/cpu_loop.c          |  17 +-
- linux-user/m68k/target_syscall.h    |   2 -
- linux-user/qemu.h                   |   1 -
- target/m68k/cpu-qom.h               |   2 +-
- target/m68k/cpu.c                   |   6 +-
- target/m68k/cpu.h                   |  29 ++--
- target/m68k/fpu_helper.c            |   6 +-
- target/m68k/gdbstub.c               |   9 +-
- target/m68k/helper.c                |  16 +-
- target/m68k/m68k-semi.c             |  24 ++-
- target/m68k/op_helper.c             |  58 ++++---
- target/m68k/softfloat.c             | 181 ++++++++++----------
- target/m68k/softfloat.h             |   3 +-
- target/m68k/softfloat_fpsp_tables.h |   3 +-
- target/m68k/translate.c             | 246 ++++++++++++++++++----------
- 17 files changed, 356 insertions(+), 411 deletions(-)
- delete mode 100644 linux-user/m68k-sim.c
-
+diff --git a/target/m68k/gdbstub.c b/target/m68k/gdbstub.c
+index e6baf0601e..5cad2b658f 100644
+--- a/target/m68k/gdbstub.c
++++ b/target/m68k/gdbstub.c
+@@ -35,7 +35,8 @@ int m68k_cpu_gdb_read_register(CPUState *cs, uint8_t *mem_buf, int n)
+     } else {
+         switch (n) {
+         case 16:
+-            return gdb_get_reg32(mem_buf, env->sr);
++            /* SR is made of SR+CCR, CCR is many 1bit flags so uses helper */
++            return gdb_get_reg32(mem_buf, env->sr | cpu_m68k_get_ccr(env));
+         case 17:
+             return gdb_get_reg32(mem_buf, env->pc);
+         }
 -- 
 2.21.0
 
