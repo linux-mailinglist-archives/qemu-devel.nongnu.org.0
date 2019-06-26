@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFC7563B6
-	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 09:52:53 +0200 (CEST)
-Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949F0563C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 26 Jun 2019 09:53:57 +0200 (CEST)
+Received: from localhost ([::1]:37390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hg2jc-0004pw-MS
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 03:52:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36641)
+	id 1hg2ke-0006XU-RU
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 03:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36685)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hg2fk-0008BB-L7
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:54 -0400
+ (envelope-from <stefanha@redhat.com>) id 1hg2fm-0008CP-WE
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hg2fg-0004qj-SN
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52256)
+ (envelope-from <stefanha@redhat.com>) id 1hg2fk-0004uZ-Vd
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57108)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hg2fg-0004bh-Kn
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:48 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ (Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hg2fk-0004h3-MK
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 03:48:52 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B15E12F8BD0;
- Wed, 26 Jun 2019 07:48:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 99F4230821F4;
+ Wed, 26 Jun 2019 07:48:40 +0000 (UTC)
 Received: from localhost (ovpn-116-164.ams2.redhat.com [10.36.116.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C898A1001B04;
- Wed, 26 Jun 2019 07:48:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 264046012D;
+ Wed, 26 Jun 2019 07:48:30 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 26 Jun 2019 08:48:11 +0100
-Message-Id: <20190626074815.19994-1-stefanha@redhat.com>
+Date: Wed, 26 Jun 2019 08:48:12 +0100
+Message-Id: <20190626074815.19994-2-stefanha@redhat.com>
+In-Reply-To: <20190626074815.19994-1-stefanha@redhat.com>
+References: <20190626074815.19994-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Wed, 26 Jun 2019 07:48:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Wed, 26 Jun 2019 07:48:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/4] libvhost-user: VHOST_USER_PROTOCOL_F_MQ
- support
+Subject: [Qemu-devel] [PATCH v2 1/4] libvhost-user: add vmsg_set_reply_u64()
+ helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,46 +64,87 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
- * Add missing dev->max_queues =3D max_queues assignment in vu_init() [dg=
-ilbert]
- * Folded in Marc-Andr=C3=A9's Reviewed-By
+The VhostUserMsg request is reused as the reply by message processing
+functions.  This is risky since request fields may corrupt the reply if
+the vhost-user message handler function forgets to re-initialize them.
 
-Sebastien Boeuf <sebastien.boeuf@intel.com> pointed out that libvhost-use=
-r
-doesn't advertise VHOST_USER_PROTOCOL_F_MQ.  Today this prevents vhost-us=
-er-net
-multiqueue from working.
+Changing this practice would be very invasive but we can introduce a
+helper function to make u64 payload replies safe.  This also eliminates
+code duplication in message processing functions.
 
-In virtio-fs we also want to support multiqueue so I'm sending patches to=
- add
-this.  It's free to advertise VHOST_USER_PROTOCOL_F_MQ for all devices so=
- we
-can do it unconditionally in libvhost-user.
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ contrib/libvhost-user/libvhost-user.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
-Several related improvements are included:
-Patch 1 - clean up duplicated and risky VhostUserMsg reply building code
-Patch 2 - remove hardcoded 8 virtqueue limit in libvhost-user
-Patch 4 - clarify vhost-user multiqueue specification
-
-Stefan Hajnoczi (4):
-  libvhost-user: add vmsg_set_reply_u64() helper
-  libvhost-user: support many virtqueues
-  libvhost-user: implement VHOST_USER_PROTOCOL_F_MQ
-  docs: avoid vhost-user-net specifics in multiqueue section
-
- contrib/libvhost-user/libvhost-user-glib.h |  2 +-
- contrib/libvhost-user/libvhost-user.h      | 10 +++-
- contrib/libvhost-user/libvhost-user-glib.c | 12 +++-
- contrib/libvhost-user/libvhost-user.c      | 66 ++++++++++++++--------
- contrib/vhost-user-blk/vhost-user-blk.c    | 16 +++---
- contrib/vhost-user-gpu/main.c              |  9 ++-
- contrib/vhost-user-input/main.c            | 11 +++-
- contrib/vhost-user-scsi/vhost-user-scsi.c  | 21 +++----
- tests/vhost-user-bridge.c                  | 42 +++++++++-----
- docs/interop/vhost-user.rst                | 21 +++----
- 10 files changed, 133 insertions(+), 77 deletions(-)
-
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-use=
+r/libvhost-user.c
+index 443b7e08c3..a8657c7af2 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -216,6 +216,15 @@ vmsg_close_fds(VhostUserMsg *vmsg)
+     }
+ }
+=20
++/* Set reply payload.u64 and clear request flags and fd_num */
++static void vmsg_set_reply_u64(VhostUserMsg *vmsg, uint64_t val)
++{
++    vmsg->flags =3D 0; /* defaults will be set by vu_send_reply() */
++    vmsg->size =3D sizeof(vmsg->payload.u64);
++    vmsg->payload.u64 =3D val;
++    vmsg->fd_num =3D 0;
++}
++
+ /* A test to see if we have userfault available */
+ static bool
+ have_userfault(void)
+@@ -1168,10 +1177,7 @@ vu_get_protocol_features_exec(VuDev *dev, VhostUse=
+rMsg *vmsg)
+         features |=3D dev->iface->get_protocol_features(dev);
+     }
+=20
+-    vmsg->payload.u64 =3D features;
+-    vmsg->size =3D sizeof(vmsg->payload.u64);
+-    vmsg->fd_num =3D 0;
+-
++    vmsg_set_reply_u64(vmsg, features);
+     return true;
+ }
+=20
+@@ -1307,17 +1313,14 @@ out:
+ static bool
+ vu_set_postcopy_listen(VuDev *dev, VhostUserMsg *vmsg)
+ {
+-    vmsg->payload.u64 =3D -1;
+-    vmsg->size =3D sizeof(vmsg->payload.u64);
+-
+     if (dev->nregions) {
+         vu_panic(dev, "Regions already registered at postcopy-listen");
++        vmsg_set_reply_u64(vmsg, -1);
+         return true;
+     }
+     dev->postcopy_listening =3D true;
+=20
+-    vmsg->flags =3D VHOST_USER_VERSION |  VHOST_USER_REPLY_MASK;
+-    vmsg->payload.u64 =3D 0; /* Success */
++    vmsg_set_reply_u64(vmsg, 0);
+     return true;
+ }
+=20
+@@ -1332,10 +1335,7 @@ vu_set_postcopy_end(VuDev *dev, VhostUserMsg *vmsg=
+)
+         DPRINT("%s: Done close\n", __func__);
+     }
+=20
+-    vmsg->fd_num =3D 0;
+-    vmsg->payload.u64 =3D 0;
+-    vmsg->size =3D sizeof(vmsg->payload.u64);
+-    vmsg->flags =3D VHOST_USER_VERSION |  VHOST_USER_REPLY_MASK;
++    vmsg_set_reply_u64(vmsg, 0);
+     DPRINT("%s: exit\n", __func__);
+     return true;
+ }
 --=20
 2.21.0
 
