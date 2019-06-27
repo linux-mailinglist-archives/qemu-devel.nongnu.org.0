@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9565870E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:29:12 +0200 (CEST)
-Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2153B586B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:09:22 +0200 (CEST)
+Received: from localhost ([::1]:52088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgXGp-0006gU-Oq
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:29:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34841)
+	id 1hgWxd-00025h-AK
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:09:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34799)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgWOl-0001iC-Af
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:33:24 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgWOJ-0001eX-Vx
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:33:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgWOe-0006fV-Hm
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:33:14 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:56542 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgWOE-0006JJ-Vt
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:32:48 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:56668 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hgWOS-0005nV-AU
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:33:04 -0400
+ id 1hgWOB-0005qK-ER
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:32:45 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 874D41A4566;
- Thu, 27 Jun 2019 17:32:08 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTP id 05C5E1A2113;
+ Thu, 27 Jun 2019 17:32:12 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 5CB741A4562;
- Thu, 27 Jun 2019 17:32:08 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id D267A1A20BA;
+ Thu, 27 Jun 2019 17:32:11 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu, 27 Jun 2019 17:31:48 +0200
-Message-Id: <1561649510-21183-4-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Thu, 27 Jun 2019 17:31:49 +0200
+Message-Id: <1561649510-21183-5-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561649510-21183-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1561649510-21183-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v14 3/5] linux-user: Fix flock structure for
- MIPS O64 ABI
+Subject: [Qemu-devel] [PATCH v14 4/5] linux-user: Introduce
+ TARGET_HAVE_ARCH_STRUCT_FLOCK
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,49 +58,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Only MIPS O32 and N32 have special (different than other
-architectures) definition of structure flock in kernel.
+Bring target_flock definitions to be more in sync with the way
+flock is defined in kernel.
 
-Bring flock definition for MIPS O64 ABI to the correct state,
-which is currently different than the most common definition,
-and it should be the same.
+Basically, the rules from the kernel are:
 
-Reported-by: Dragan Mladjenovic <dmladjenovic@wavecomp.com>
+1. Majority of architectures have a common flock definition.
+
+2. Architectures with 32-bit MIPS ABIs have a sligtly different
+flock definition; those architectures are the only arcitectures
+that have HAVE_ARCH_STRUCT_FLOCK defined, and that preprocessor
+constant is used in the common header as a flag for including or
+not including common flock definition.
+
+3. Sparc architectures also have a sligtly different flock
+definition, but the difference is only the padding at the end of
+the structure. The presence of that padding is determined by
+preprocessor constants __ARCH_FLOCK6_PAD and __ARCH_FLOCK64_PAD.
+
+QEMU linux-user already implements rules 1. and 3. in a very
+similar way as they are implemented in kernel. However, rule 2.
+is implemented in a dissimilar way (for example, the constant
+TARGET_HAVE_ARCH_STRUCT_FLOCK is missing), and this patch brings
+QEMU implementation much closer to the kernel implementation.
+TARGET_HAVE_ARCH_STRUCT_FLOCK64 constant is also introduced to
+mimic HAVE_ARCH_STRUCT_FLOCK64 from kernel, but it is not defined
+anywhere, however, this is the case with HAVE_ARCH_STRUCT_FLOCK64
+in kernel as well.
+
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- linux-user/generic/fcntl.h     | 2 +-
- linux-user/mips/target_fcntl.h | 4 ++++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ linux-user/generic/fcntl.h     |  8 +++++---
+ linux-user/mips/target_fcntl.h | 17 +++++++++++++----
+ 2 files changed, 18 insertions(+), 7 deletions(-)
 
 diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index a775a49..1b48dde 100644
+index 1b48dde..9f727d4 100644
 --- a/linux-user/generic/fcntl.h
 +++ b/linux-user/generic/fcntl.h
-@@ -129,7 +129,7 @@ struct target_flock {
+@@ -120,6 +120,7 @@ struct target_f_owner_ex {
+ #define TARGET_F_SHLCK         8
+ #endif
+ 
++#ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK
+ #ifndef TARGET_ARCH_FLOCK_PAD
+ #define TARGET_ARCH_FLOCK_PAD
+ #endif
+@@ -129,13 +130,12 @@ struct target_flock {
      short l_whence;
      abi_long l_start;
      abi_long l_len;
--#if defined(TARGET_MIPS)
-+#if defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
-     abi_long l_sysid;
- #endif
+-#if defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
+-    abi_long l_sysid;
+-#endif
      int l_pid;
+     TARGET_ARCH_FLOCK_PAD
+ };
++#endif
+ 
++#ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK64
+ #ifndef TARGET_ARCH_FLOCK64_PAD
+ #define TARGET_ARCH_FLOCK64_PAD
+ #endif
+@@ -149,3 +149,5 @@ struct target_flock64 {
+     TARGET_ARCH_FLOCK64_PAD
+ };
+ #endif
++
++#endif
 diff --git a/linux-user/mips/target_fcntl.h b/linux-user/mips/target_fcntl.h
-index 000527c..795bba7 100644
+index 795bba7..6fc7b8a 100644
 --- a/linux-user/mips/target_fcntl.h
 +++ b/linux-user/mips/target_fcntl.h
-@@ -27,7 +27,11 @@
- #define TARGET_F_SETOWN        24       /*  for sockets. */
+@@ -28,11 +28,20 @@
  #define TARGET_F_GETOWN        23       /*  for sockets. */
  
-+#if (TARGET_ABI_BITS == 32)
- #define TARGET_ARCH_FLOCK_PAD abi_long pad[4];
-+#else
-+#define TARGET_ARCH_FLOCK_PAD
-+#endif
- #define TARGET_ARCH_FLOCK64_PAD
+ #if (TARGET_ABI_BITS == 32)
+-#define TARGET_ARCH_FLOCK_PAD abi_long pad[4];
+-#else
+-#define TARGET_ARCH_FLOCK_PAD
++
++struct target_flock {
++    short l_type;
++    short l_whence;
++    abi_long l_start;
++    abi_long l_len;
++    abi_long l_sysid;
++    int l_pid;
++    abi_long pad[4];
++};
++
++#define TARGET_HAVE_ARCH_STRUCT_FLOCK
++
+ #endif
+-#define TARGET_ARCH_FLOCK64_PAD
  
  #define TARGET_F_GETLK64       33      /*  using 'struct flock64' */
+ #define TARGET_F_SETLK64       34
 -- 
 2.7.4
 
