@@ -2,74 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ABF458D61
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 23:51:28 +0200 (CEST)
-Received: from localhost ([::1]:54912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF60A58E09
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 00:36:47 +0200 (CEST)
+Received: from localhost ([::1]:55074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgcIh-0000e0-3q
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 17:51:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35831)
+	id 1hgd0Z-0003bO-4E
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 18:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44227)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stephen.checkoway@oberlin.edu>) id 1hgcHO-0007yr-Gt
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 17:50:08 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hgcxR-0000N8-Ex
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stephen.checkoway@oberlin.edu>) id 1hgcHM-000458-2x
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 17:50:06 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:46612)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stephen.checkoway@oberlin.edu>)
- id 1hgcHL-00043T-P8
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 17:50:03 -0400
-Received: by mail-qt1-x843.google.com with SMTP id h21so4134008qtn.13
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 14:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oberlin.edu; s=google;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=QbnBPwpArp8APmHkjaYDxx4xjV+LBRD7FucskNM64kU=;
- b=Fi2uJbY03hYKyOPrcwR82UCikqesbMv+jJJ3UifFghjxq0SDCKmNQafJMmzEtIoj47
- 5jSxC7+lmFJU6KBdvvZQAeHnDeroh7lq5IlTV0m7v/9X5ddZJjUmaYE3/+/LuaFl+rpn
- Y6pF5RrTdJcRysd+2DMqVC+au3BnJ/5UY4rPsUC/Uts0WqZMjpDGKTYHh9/0z1lmfJky
- FuXnO2sop0RwIfTuzVmT+ZzoOndJ5NZP5xwN9hN/NGsFfxk71outwnDV+hg15ckz1+dr
- vlwGjuafDRbubxJrLWzCrOI6TD6ebGVnVuAbbsHru4LjdCXxAxcEaXjcniQ8O9o/X6gb
- dKfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=QbnBPwpArp8APmHkjaYDxx4xjV+LBRD7FucskNM64kU=;
- b=NY18Yq219BFwmmrpYSHiZSNUej2CLIwoXoru52gNctPwac1SMRDQ1J3+LLZ1iLYWZq
- 14BPUFN5LSSgA1j06qMOeblPn9TqNzYidpcOo+P3w1LWmtn3MzrisGFsDR1QemFCJPlD
- vCy6QwM2iVCBjm5CbF/aeOnHHDQtWq4fkpozt9jbmU6Km2JCMZiEdNqnme8FQ+C0widg
- vBUtxVUSf65Q04lWK4xLOTAxJFreq4UTUIDFgYhOuvykLDLzWJEheB6Y69mmDHwEMYT7
- N8JC8oSlt5fjHtoZ25rKfTqEuPE/U/u8g4vFxeV834F56EogMCyTGCyBATlXPD/s6E1q
- 6/Ow==
-X-Gm-Message-State: APjAAAX3KwX8JQ7ll1UuIp2ipSrd0OFHNPKXmPMnkIQDy0VAY6DVreI2
- iQ8RfLoHB5z9Fw6qiInwsEwt3g==
-X-Google-Smtp-Source: APXvYqyF0HrHO7l587Wqzi5qawdfv2YTHeAxa+pAKH4pUPpmcChWNSQitWPT4FWUCfw4yDp6ztiwrA==
-X-Received: by 2002:ac8:2baa:: with SMTP id m39mr5294131qtm.242.1561672202323; 
- Thu, 27 Jun 2019 14:50:02 -0700 (PDT)
-Received: from [192.168.1.7] (ip-210-181.oberlin.net. [208.66.210.181])
- by smtp.gmail.com with ESMTPSA id z63sm153712qkb.136.2019.06.27.14.49.59
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 27 Jun 2019 14:50:01 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.5 \(3445.9.1\))
-From: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-In-Reply-To: <20190627202719.17739-3-philmd@redhat.com>
-Date: Thu, 27 Jun 2019 17:49:57 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hgcxO-0004Ex-3C
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35932)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hgcxH-0003lH-CZ; Thu, 27 Jun 2019 18:33:23 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 2250987630;
+ Thu, 27 Jun 2019 22:33:02 +0000 (UTC)
+Received: from localhost (ovpn-204-47.brq.redhat.com [10.40.204.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 422C15C237;
+ Thu, 27 Jun 2019 22:32:56 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Fri, 28 Jun 2019 00:32:50 +0200
+Message-Id: <20190627223255.3789-1-mreitz@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Thu, 27 Jun 2019 22:33:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <BCB1CC45-F457-4F8B-8F9E-DC70CF9CE35A@oberlin.edu>
-References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-3-philmd@redhat.com>
-To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-X-Mailer: Apple Mail (2.3445.9.1)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Subject: Re: [Qemu-devel] [PATCH v5 02/28] hw/block/pflash: Simplify
- trace_pflash_io_read/write()
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/5] block: Add BDS.never_freeze
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,181 +53,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, Magnus Damm <magnus.damm@gmail.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
  qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Michael Walle <michael@walle.cc>, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Jan Kiszka <jan.kiszka@web.de>,
- John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Phil,
+As it is, this series depends on my block branch, most importantly
+Andrey=E2=80=99s series =E2=80=9Cblock/stream: get rid of the base=E2=80=9D=
+.
 
-Thanks for pushing this forward! I'll try to get to the rest of these =
-early next week.
+Depends-on: <1559152576-281803-1-git-send-email-andrey.shinkevich@virtuoz=
+zo.com>
 
-> On Jun 27, 2019, at 16:26, Philippe Mathieu-Daud=C3=A9 =
-<philmd@redhat.com> wrote:
->=20
-> Call the read() trace function after the value is set, so we can
-> log the returned value.
-> Rename the I/O trace functions with '_io_' in their name.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
-> hw/block/pflash_cfi01.c | 5 +++--
-> hw/block/pflash_cfi02.c | 6 ++----
-> hw/block/trace-events   | 4 ++--
-> 3 files changed, 7 insertions(+), 8 deletions(-)
->=20
-> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-> index 35080d915f..74fc1bc2da 100644
-> --- a/hw/block/pflash_cfi01.c
-> +++ b/hw/block/pflash_cfi01.c
-> @@ -288,7 +288,6 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, =
-hwaddr offset,
->     uint32_t ret;
->=20
->     ret =3D -1;
-> -    trace_pflash_read(offset, pfl->cmd, width, pfl->wcycle);
->     switch (pfl->cmd) {
->     default:
->         /* This should never happen : reset state & treat it as a read =
-*/
-> @@ -391,6 +390,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, =
-hwaddr offset,
->=20
->         break;
->     }
-> +    trace_pflash_io_read(offset, width, width << 1, ret, pfl->cmd, =
-pfl->wcycle);
+This series made the problem apparent to me, but it existed before:
+Namely, the commit and mirror block jobs create filter nodes which they
+just try to drop with an &error_fatal.  If any of its parent links is
+frozen, that will abort qemu.  Patch 1 fixes this by adding a
+BDS.never_freeze flag, which prevents bdrv_freeze_backing_chain() from
+freezing any links to a BDS that has this flag set.
 
-width * 2 might make it more clear what is going on.
+Now, after Andrey=E2=80=99s series, you can reproduce this problem by fir=
+st
+launching a commit job and then launching a stream job from the commit=E2=
+=80=99s
+top node.  This is actually something that iotest 030 tests, but I
+didn=E2=80=99t notice the problem because 030 has two problems of itself:
+(1) It fails to do proper throttling, so usually, the commit job is
+    already gone by the time the stream job starts.  (Fixed by patch 2.)
+(2) It doesn=E2=80=99t check the error message, but just the error class.=
+  If it
+    had checked the error message, we would have seen that it just says
+    that the stream=E2=80=99s base node cannot be found, and thus would h=
+ave
+    fixed problem #1 earlier.  (Fixed by patch 3.)
 
-> +
->     return ret;
-> }
->=20
-> @@ -453,7 +454,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr =
-offset,
->=20
->     cmd =3D value;
->=20
-> -    trace_pflash_write(offset, value, width, pfl->wcycle);
-> +    trace_pflash_io_write(offset, width, width << 1, value, =
-pfl->wcycle);
+If you apply patches 2 and 3 to my block branch, you=E2=80=99ll see that =
+both
+jobs can be created.  If you remove the check that creating the stream
+job should fail and replace the self.wait_until_completed() by a
+self.vm.run_job('drive0'), you will see that qemu aborts.
 
-Same here.
+So that appears to be a new problem introduced by Andrey=E2=80=99s series=
+,
+right?  But it actually isn=E2=80=99t new.  Patch 5 adds a test for a
+pre-existing case:
 
->     if (!pfl->wcycle) {
->         /* Set the device in I/O access mode */
->         memory_region_rom_device_set_romd(&pfl->mem, false);
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index eb106f4996..f05cd507b3 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -145,7 +145,6 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, =
-hwaddr offset,
->     uint8_t *p;
->=20
->     ret =3D -1;
-> -    trace_pflash_read(offset, pfl->cmd, width, pfl->wcycle);
->     /* Lazy reset to ROMD mode after a certain amount of read accesses =
-*/
->     if (!pfl->rom_mode && pfl->wcycle =3D=3D 0 &&
->         ++pfl->read_counter > PFLASH_LAZY_ROMD_THRESHOLD) {
-> @@ -241,6 +240,7 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, =
-hwaddr offset,
->         }
->         break;
->     }
-> +    trace_pflash_io_read(offset, width, width << 1, ret, pfl->cmd, =
-pfl->wcycle);
+If on master you launch a commit job and then a stream job from the
+commit=E2=80=99s filter node, qemu will abort (if the commit job complete=
+s
+before the stream job, at least).  So the problem existed well before
+Andrey=E2=80=99s series, it just moved it down one node.
+(You can test that by applying patches 2 through 5 on master.  You will
+get a failure in test_overlapping_4, and a qemu abort in
+test_overlapping_5.)
 
-And here.
+In turn, thanks to said series, this test case now fully works.  (So you
+can stream from a commit=E2=80=99s filter node.)
 
->=20
->     return ret;
-> }
-> @@ -267,6 +267,7 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr =
-offset,
->     uint8_t *p;
->     uint8_t cmd;
->=20
-> +    trace_pflash_io_write(offset, width, width << 1, value, =
-pfl->wcycle);
 
-And here.
+So either way, the problem addressed by patch 1 is visible both on
+master and on my block branch.  It just appears in different places,
+hence the dependency.
 
->     cmd =3D value;
->     if (pfl->cmd !=3D 0xA0 && cmd =3D=3D 0xF0) {
-> #if 0
-> @@ -275,11 +276,8 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr =
-offset,
-> #endif
->         goto reset_flash;
->     }
-> -    trace_pflash_write(offset, value, width, pfl->wcycle);
->     offset &=3D pfl->chip_len - 1;
->=20
-> -    DPRINTF("%s: offset " TARGET_FMT_plx " %08x %d\n", __func__,
-> -            offset, value, width);
->     boff =3D offset & (pfl->sector_len - 1);
->     if (pfl->width =3D=3D 2)
->         boff =3D boff >> 1;
-> diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index 97a17838ed..f637fe918e 100644
-> --- a/hw/block/trace-events
-> +++ b/hw/block/trace-events
-> @@ -7,9 +7,9 @@ fdc_ioport_write(uint8_t reg, uint8_t value) "write =
-reg 0x%02x val 0x%02x"
-> # pflash_cfi02.c
-> # pflash_cfi01.c
-> pflash_reset(void) "reset"
-> -pflash_read(uint64_t offset, uint8_t cmd, int width, uint8_t wcycle) =
-"offset:0x%04"PRIx64" cmd:0x%02x width:%d wcycle:%u"
-> -pflash_write(uint64_t offset, uint32_t value, int width, uint8_t =
-wcycle) "offset:0x%04"PRIx64" value:0x%03x width:%d wcycle:%u"
-> pflash_timer_expired(uint8_t cmd) "command 0x%02x done"
-> +pflash_io_read(uint64_t offset, int width, int fmt_width, uint32_t =
-value, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d =
-value:0x%0*x cmd:0x%02x wcycle:%u"
-> +pflash_io_write(uint64_t offset, int width, int fmt_width, uint32_t =
-value, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%0*x =
-wcycle:%u"
-> pflash_data_read8(uint64_t offset, uint32_t value) "data =
-offset:0x%04"PRIx64" value:0x%02x"
-> pflash_data_read16(uint64_t offset, uint32_t value) "data =
-offset:0x%04"PRIx64" value:0x%04x"
-> pflash_data_read32(uint64_t offset, uint32_t value) "data =
-offset:0x%04"PRIx64" value:0x%08x"
-> --=20
-> 2.20.1
->=20
 
-Either way,
+Max Reitz (5):
+  block: Add BDS.never_freeze
+  iotests: Fix throttling in 030
+  iotests: Compare error messages in 030
+  iotests: Add @use_log to VM.run_job()
+  iotests: Add new case to 030
 
-Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-
-(And please let me know if I'm doing code review incorrectly or if that =
-should be Reviewed-by or whatever.)
-
-Cheers,
-
-Steve=20
+ include/block/block_int.h     |   3 +
+ block.c                       |   8 +++
+ block/commit.c                |   4 ++
+ block/mirror.c                |   4 ++
+ tests/qemu-iotests/030        | 121 ++++++++++++++++++++++++++--------
+ tests/qemu-iotests/030.out    |   4 +-
+ tests/qemu-iotests/iotests.py |  18 +++--
+ 7 files changed, 127 insertions(+), 35 deletions(-)
 
 --=20
-Stephen Checkoway
-
-
-
-
+2.21.0
 
 
