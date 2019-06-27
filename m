@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9478458C6C
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 23:03:46 +0200 (CEST)
-Received: from localhost ([::1]:54474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BCFD58C1C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 22:56:09 +0200 (CEST)
+Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgbYX-0002Hj-Q5
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 17:03:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46024)
+	id 1hgbRA-0002hs-KT
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 16:56:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46079)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hgb1W-0002FY-PL
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:41 -0400
+ (envelope-from <philmd@redhat.com>) id 1hgb1c-0002NW-JU
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hgb1V-0000uv-Mg
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49496)
+ (envelope-from <philmd@redhat.com>) id 1hgb1b-00011x-EI
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33194)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hgb1N-0000fL-Iv; Thu, 27 Jun 2019 16:29:29 -0400
+ id 1hgb1T-0000pz-OG; Thu, 27 Jun 2019 16:29:35 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 82C5E356DA;
- Thu, 27 Jun 2019 20:29:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 277C737F46;
+ Thu, 27 Jun 2019 20:29:33 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-69.brq.redhat.com [10.40.204.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D50C600CC;
- Thu, 27 Jun 2019 20:29:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F3BE6600CC;
+ Thu, 27 Jun 2019 20:29:27 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Stephen Checkoway <stephen.checkoway@oberlin.edu>,
 	qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 22:27:05 +0200
-Message-Id: <20190627202719.17739-15-philmd@redhat.com>
+Date: Thu, 27 Jun 2019 22:27:06 +0200
+Message-Id: <20190627202719.17739-16-philmd@redhat.com>
 In-Reply-To: <20190627202719.17739-1-philmd@redhat.com>
 References: <20190627202719.17739-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Thu, 27 Jun 2019 20:29:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Thu, 27 Jun 2019 20:29:33 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 14/28] hw/block/pflash_cfi02: Remove
- pointless local variable
+Subject: [Qemu-devel] [PATCH v5 15/28] hw/block/pflash_cfi02: Document the
+ current CFI values
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,84 +73,64 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can directly use pfl->total_len, remove the local 'chip_len'
-variable.
-
 Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
 Message-Id: <20190426162624.55977-6-stephen.checkoway@oberlin.edu>
 [PMD: Extracted from bigger patch]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi02.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ hw/block/pflash_cfi02.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 4be3837be5..1a794fa83c 100644
+index 1a794fa83c..f1bac480f5 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -409,7 +409,7 @@ static void pflash_write(void *opaque, hwaddr offset,=
- uint64_t value,
-             /* Chip erase */
-             DPRINTF("%s: start chip erase\n", __func__);
-             if (!pfl->ro) {
--                memset(pfl->storage, 0xFF, pfl->chip_len);
-+                memset(pfl->storage, 0xff, pfl->chip_len);
-                 pflash_update(pfl, 0, pfl->chip_len);
-             }
-             set_dq7(pfl, 0x00);
-@@ -490,7 +490,6 @@ static const MemoryRegionOps pflash_cfi02_ops =3D {
- static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
- {
-     PFlashCFI02 *pfl =3D PFLASH_CFI02(dev);
--    uint32_t chip_len;
-     int ret;
-     Error *local_err =3D NULL;
-=20
-@@ -507,18 +506,17 @@ static void pflash_cfi02_realize(DeviceState *dev, =
+@@ -550,6 +550,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+     pfl->wcycle =3D 0;
+     pfl->cmd =3D 0;
+     pfl->status =3D 0;
++
+     /* Hardcoded CFI table (mostly from SG29 Spansion flash) */
+     /* Standard "QRY" string */
+     pfl->cfi_table[0x10] =3D 'Q';
+@@ -575,7 +576,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+     pfl->cfi_table[0x1D] =3D 0x00;
+     /* Vpp max (no Vpp pin) */
+     pfl->cfi_table[0x1E] =3D 0x00;
+-    /* Reserved */
++    /* Timeout per single byte/word write (128 ms) */
+     pfl->cfi_table[0x1F] =3D 0x07;
+     /* Timeout for min size buffer write (NA) */
+     pfl->cfi_table[0x20] =3D 0x00;
+@@ -614,17 +615,25 @@ static void pflash_cfi02_realize(DeviceState *dev, =
 Error **errp)
-         return;
-     }
+     pfl->cfi_table[0x32] =3D 'R';
+     pfl->cfi_table[0x33] =3D 'I';
 =20
--    chip_len =3D pfl->sector_len * pfl->nb_blocs;
-+    pfl->chip_len =3D pfl->sector_len * pfl->nb_blocs;
++    /* Extended version 1.0 */
+     pfl->cfi_table[0x34] =3D '1';
+     pfl->cfi_table[0x35] =3D '0';
 =20
-     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
-                                   &pflash_cfi02_ops, pfl, pfl->name,
--                                  chip_len, &local_err);
-+                                  pfl->chip_len, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-     }
++    /* Address sensitive unlock required. */
+     pfl->cfi_table[0x36] =3D 0x00;
++    /* Erase suspend not supported. */
+     pfl->cfi_table[0x37] =3D 0x00;
++    /* Sector protect not supported. */
+     pfl->cfi_table[0x38] =3D 0x00;
++    /* Temporary sector unprotect not supported. */
+     pfl->cfi_table[0x39] =3D 0x00;
 =20
-     pfl->storage =3D memory_region_get_ram_ptr(&pfl->orig_mem);
--    pfl->chip_len =3D chip_len;
++    /* Sector protect/unprotect scheme. */
+     pfl->cfi_table[0x3a] =3D 0x00;
 =20
-     if (pfl->blk) {
-         uint64_t perm;
-@@ -533,8 +531,8 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
-ror **errp)
-     }
++    /* Simultaneous operation not supported. */
+     pfl->cfi_table[0x3b] =3D 0x00;
++    /* Burst mode not supported. */
+     pfl->cfi_table[0x3c] =3D 0x00;
+ }
 =20
-     if (pfl->blk) {
--        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage, chip_le=
-n,
--                                         errp)) {
-+        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage,
-+                                         pfl->chip_len, errp)) {
-             vmstate_unregister_ram(&pfl->orig_mem, DEVICE(pfl));
-             return;
-         }
-@@ -594,7 +592,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
-ror **errp)
-     /* Max timeout for chip erase */
-     pfl->cfi_table[0x26] =3D 0x0D;
-     /* Device size */
--    pfl->cfi_table[0x27] =3D ctz32(chip_len);
-+    pfl->cfi_table[0x27] =3D ctz32(pfl->chip_len);
-     /* Flash device interface (8 & 16 bits) */
-     pfl->cfi_table[0x28] =3D 0x02;
-     pfl->cfi_table[0x29] =3D 0x00;
 --=20
 2.20.1
 
