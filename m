@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4572057963
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 04:19:59 +0200 (CEST)
-Received: from localhost ([::1]:45822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABEF57964
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 04:21:28 +0200 (CEST)
+Received: from localhost ([::1]:45828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgK10-0000vU-Gt
-	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 22:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53540)
+	id 1hgK2R-0001zJ-SS
+	for lists+qemu-devel@lfdr.de; Wed, 26 Jun 2019 22:21:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53891)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <elohimes@gmail.com>) id 1hgK0N-0000Wm-U2
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 22:19:20 -0400
+ (envelope-from <elohimes@gmail.com>) id 1hgK1R-0001TU-WD
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 22:20:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <elohimes@gmail.com>) id 1hgK0N-0001Pq-26
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 22:19:19 -0400
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841]:39786)
+ (envelope-from <elohimes@gmail.com>) id 1hgK1Q-0002ZU-W4
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 22:20:25 -0400
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:43937)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hgK0M-0001PN-UB
- for qemu-devel@nongnu.org; Wed, 26 Jun 2019 22:19:18 -0400
-Received: by mail-qt1-x841.google.com with SMTP id i34so814553qta.6
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 19:19:18 -0700 (PDT)
+ (Exim 4.71) (envelope-from <elohimes@gmail.com>) id 1hgK1Q-0002Xg-R2
+ for qemu-devel@nongnu.org; Wed, 26 Jun 2019 22:20:24 -0400
+Received: by mail-qt1-x844.google.com with SMTP id w17so789321qto.10
+ for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 19:20:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wD9sFkjaBvZkKTUBz3WodT0IxcfNgujD69Mx8fsFUbc=;
- b=gcbXHFOcH43U3ri/XAi92+R8GAGxT8Oan7LH0N/P4ptWRZJtjE3v9x/4iD9S5vy8EG
- yBiu/kekUh8phwirKuYVgR3wz+qeZLOgz+U/dI/rEfTnDk7QbXtmtZOXfxnWxQ1T3vQI
- Y4yFQiAyNBLNBK1/8dSdznG/nbsetxIU0mLdqaOZC8+eeON1dwLXc/Hol7AQXzy1wJ+n
- l5FuDL8nykMOFWVnE4F5GaPiQQu8rS+R0WTTl5n0QqOYN/7mk2wjZfoAhmmj6UYaDHsG
- MWrhLHgDqlyHfgCvC7XNN3SH+a7YaSLX6g8JUpXOKEX9mC8nkGo6K2T/uuYiu7u5L3Uy
- mAaA==
+ :cc; bh=LpmtgVigqYWU3H5LknR4oq+I7GPBn3rrMGMoJbtfhiQ=;
+ b=nXykS8g5+WlTMTcGYBtPdu0Gr8Ow87ttklIqwhyW9vimznA2oQ2AFE0IsuyuSO/K6S
+ aZ08GaoYeIdjYP90Db4rKxkkBOcFqYsuVF4UBq98qosHfQ4dOzV4ghyCHr+bjSKXT1/1
+ qE20MQvnnjkKxga89x4xCuzQntY3zfjGL1P6vGLtul6t3DSjfuH4ErPT2LWDIEXHEo9h
+ Zjikb7ansCgPbgqHP/ld7nZqFZgTIEIODqhd8ekUa+xSWedfZPiB0CcgKnbmsHVwQhBi
+ nGn4qzvqJmUlszrWCHlOq2pDsRVO0+pbnG9fLq6px7ba79CHSJLBiCvNao2SOIQekh7T
+ sppg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wD9sFkjaBvZkKTUBz3WodT0IxcfNgujD69Mx8fsFUbc=;
- b=Nbiyvy2d/R8MMTmA4Fd08NYi26odKjNBa90xEnX0yLwFw+UsPPm5bMJAOk6w+8f21s
- pi9vsaRHXyvTP37mBQIvdsfeVgOcHB8sGH19GaYVfs71NIORxtU/FfotsmEoSaZ9bjtg
- b3xwCso1QOzrBXOynTwivu3v57hGduRHu+HtAXy4n3UOjP/s98m+TgdEVWP9jADd4NxR
- RheUIeESbzyLVVEpqCKEb5qwCCcBGryByODcCtSm1Psq11+cxHUP/VEcfXHBN1S+0Pb+
- S/OeeO5/2i4ZGN41RQSRxX4Qly6wSTcY65TJYcsNvyi5FAdUku5u8M3+STxhTBy4tu4y
- hyog==
-X-Gm-Message-State: APjAAAU92C1o5ly4ALa/xoDkpo4KRSMBlm5LIdrBGeJTefkaxSB9Khb9
- yIFWHHuK7R7T2L14rb58k5LBzWg4Uy2Cg7kpGKU=
-X-Google-Smtp-Source: APXvYqyUKy5Qp9UhFef5k0mhHYwVJK7FzMA2Y1QAtO3IH/Sdsix5hLkfXc5i3PwBUN0hs7isd2pu9njwR/i813eJpbs=
-X-Received: by 2002:ac8:1a3c:: with SMTP id v57mr949367qtj.339.1561601958170; 
- Wed, 26 Jun 2019 19:19:18 -0700 (PDT)
+ bh=LpmtgVigqYWU3H5LknR4oq+I7GPBn3rrMGMoJbtfhiQ=;
+ b=dUf+JE/mRZ+Trdg/FMEEl6NrCIGnNan3UAFEM0tShuNcoxOsVxwAEr+B/NXztlnoip
+ fo8g+aCXfUKnZa5OSlMsXXlsii47q+VE9SGr1NEjpyjuMuu6AyBFxlJnWU+8d2kglxCM
+ CYAeWwKkEnu9pNjOJpsuAQukyFZwSF+AuM2zAs83+qBMRoFNwInr5dZzK9zO266r5NQP
+ +NAjHkgpGLi8R5qStqVRZ2y08Kdi6SJok6fl3fTlEkINH8kVsh9RiuLFSMigiMOlVKZa
+ 6HUQIuADIbl6nse1Bv32hAfNp5IFYOiUSUQNeKPtAKV1vsFvQ2ix/faEd8htf4ZvJC0s
+ g6zQ==
+X-Gm-Message-State: APjAAAUsEngIdIIJ3wbv8gxp9hSyOy5tuNaFn7k41m7l/DfwGFxCMiAC
+ 77t5hl0V7qCN6l+xvfSgn/Q4pJ7LY8fV9Xj3jdS1Dw==
+X-Google-Smtp-Source: APXvYqzBXm/WonRb4qXmygv1ZLtEuzJ0zYIwqjIsyrOyytvcrHO3F60BPO8k7s7NH/CaIIn5RrpUf7nR+SXx10MnruI=
+X-Received: by 2002:ac8:30c4:: with SMTP id w4mr965936qta.314.1561602024260;
+ Wed, 26 Jun 2019 19:20:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190626023130.31315-1-xieyongji@baidu.com>
- <cf5017f0-c13d-fdc2-c1ef-5b36a3c595c1@redhat.com>
-In-Reply-To: <cf5017f0-c13d-fdc2-c1ef-5b36a3c595c1@redhat.com>
+ <20190626023130.31315-2-xieyongji@baidu.com>
+ <20190626121754.57a32df8@bahia.lan>
+In-Reply-To: <20190626121754.57a32df8@bahia.lan>
 From: Yongji Xie <elohimes@gmail.com>
-Date: Thu, 27 Jun 2019 10:19:06 +0800
-Message-ID: <CAONzpcZzKEin0YnWpG-e3EYyHz8CrKbmpuxQ9vQbRRQJSV_aPg@mail.gmail.com>
-To: Laurent Vivier <lvivier@redhat.com>
+Date: Thu, 27 Jun 2019 10:20:12 +0800
+Message-ID: <CAONzpcZW_ze92Z1T-zsMqSgbSzDMTiqqsFP5NH26hGDVLCyLVg@mail.gmail.com>
+To: Greg Kurz <groug@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::841
-Subject: Re: [Qemu-devel] [PATCH v4 0/5] virtio: fix some issues of
- "started" and "start_on_kick" flag
+X-Received-From: 2607:f8b0:4864:20::844
+Subject: Re: [Qemu-devel] [PATCH v4 1/5] virtio: add "use-started" property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,30 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Xie Yongji <xieyongji@baidu.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Xie Yongji <xieyongji@baidu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 at 18:43, Laurent Vivier <lvivier@redhat.com> wrote:
+On Wed, 26 Jun 2019 at 18:18, Greg Kurz <groug@kaod.org> wrote:
 >
-> On 26/06/2019 04:31, elohimes@gmail.com wrote:
+> On Wed, 26 Jun 2019 10:31:26 +0800
+> elohimes@gmail.com wrote:
+>
 > > From: Xie Yongji <xieyongji@baidu.com>
+> >
+> > In order to avoid migration issues, we introduce a "use-started"
+> > property to the base virtio device to indicate whether use
+> > "started" flag or not. This property will be true by default and
+> > set to false when machine type <= 4.0.
+> >
+> > Suggested-by: Greg Kurz <groug@kaod.org>
+> > Signed-off-by: Xie Yongji <xieyongji@baidu.com>
+> > ---
 >
-> Could you use the same address to send the series?
-> Or may be you need to add a Signed-off-by with your name and this address?
+> LGTM,
 >
-> I don't know what is the rule when someone send a patch with a different
-> address than the author one but he is the same person (it's not obvious
-> in this case).
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+>
+> This fixes the backward migration breakage I was observing.
+>
+> Tested-by: Greg Kurz <groug@kaod.org>
 >
 
-Sorry for that, this two emails are both mine. The gmail is my
-personal email, and I usually use it for the community works.
-
-Thanks,
-Yongji
+Thanks for the testing.
 
