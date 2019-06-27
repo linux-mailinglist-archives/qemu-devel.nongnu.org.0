@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8511E58634
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:44:55 +0200 (CEST)
-Received: from localhost ([::1]:51908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3D95861D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:41:03 +0200 (CEST)
+Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgWZy-0005D6-My
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:44:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33170)
+	id 1hgWWF-0000JL-4y
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60864)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgWHc-0003Dq-KU
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:25:57 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgWGg-0001lf-Mh
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgWHX-00008m-5L
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:25:54 -0400
-Received: from mail-pg1-f173.google.com ([209.85.215.173]:34410)
+ (envelope-from <palmer@dabbelt.com>) id 1hgWGc-0007ft-Hx
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:55 -0400
+Received: from mail-pf1-f176.google.com ([209.85.210.176]:43256)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWHW-0006pM-Nz
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:25:50 -0400
-Received: by mail-pg1-f173.google.com with SMTP id p10so1187236pgn.1
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:53 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWGa-0006rZ-7j
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:52 -0400
+Received: by mail-pf1-f176.google.com with SMTP id i189so1392755pfg.10
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=4yIbg4wQD3g4mppuKoX6VmO7ZtWwJtsrHDtVUEb9gdk=;
- b=m8yfKnaUPlomR5QJZxb9vT1ACuMcFQuqlS6HJMlgwMSa2EIQ0LGSDXm2wvwEbvOwfN
- QSshCbdV62m6hmRNV+ei8/kF+NhG5CaNVeqz0cdSGBCUCmYLTR6+QjtsWJjgj56mrj6w
- ft4FHNn1eox70xJ1zw/wiVfTsm1z0YR0Fh1AFCr2PwUXqo4jqrmQAWx8nia8dYWBrqzP
- eMMVImnPJgeDb322QCidE0RaruGeK9TsLArrlm5Jb0AUMDBKFuQhdt3VOY+C7HfbuVxl
- 8cRES2A8lk43v9FgCaLduY5gxPhfWgbwM9ZImHdO96OrS09Jl2gYoWwyNqfet+gFiSRf
- 8Nzg==
-X-Gm-Message-State: APjAAAXVVM8n9HRuAwKjyqq3S8bhZ2r8jt1yzLx7tSaUtX5UL0f8Ymtw
- v+S4FABQOYHrPkstJ9E6qkdNCQ==
-X-Google-Smtp-Source: APXvYqz6pcnvPX2KZOFHTXI7pFTur2BiU0yki97vVm4XDwHQNkUZkVKZDwP3Yvd6v8BIPoCiPUY8SQ==
-X-Received: by 2002:a17:90a:1d8:: with SMTP id 24mr6891888pjd.70.1561649032005; 
- Thu, 27 Jun 2019 08:23:52 -0700 (PDT)
+ bh=6yKLCYV0R/YTgETaWALBnJzQY0evqNRz2E1ZKL76ixI=;
+ b=qJLKRIkoqknKnWF1Y30UknHpez+vWzgCMhxNmrsG5192NppY16C04hkOeoCe+HXYO4
+ P1JeFxqtd+o1IWK4yhZgcgcAjC7no6dyNSELrcjwotkR5/83bn5JNninkYuwI8lNVFLt
+ Fsxm7cZ0VQ0E2Yby3KIHBd7I4W3d+/19s2O8R9+0W6NyRFBpieYUHc/XTswtJYxjISbE
+ S8rIyAcSd0o76Z+ZJbKF3ozAQErKA4anugYUBXdy31lycePT8ADIG+rj+lBeWxvrJKnJ
+ IjUB5GsHwS1+wnZ+cvR6EzpK6IKIT4O+z8T4dXNFIGBaSdCrYLuCzJZJu+hJFoYGKFpQ
+ PUlA==
+X-Gm-Message-State: APjAAAWv2LIiQO+GM4cBCPZWKwfil7IdY5ZjszJTQF/F+IFzMHfY82WS
+ jCl5LeaE4VLaMdnX8VVBb2zSpw==
+X-Google-Smtp-Source: APXvYqwBAlaG6G4QY5RdGtr6me2Jzd4YAgzF6UjogwdJEMa26gBpgMfBq5x2f2og2yzWiXUdma0how==
+X-Received: by 2002:a17:90a:a407:: with SMTP id
+ y7mr6746243pjp.97.1561649034180; 
+ Thu, 27 Jun 2019 08:23:54 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id h21sm2503665pgg.75.2019.06.27.08.23.51
+ by smtp.gmail.com with ESMTPSA id 131sm7652151pfx.57.2019.06.27.08.23.53
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 08:23:51 -0700 (PDT)
-Date: Thu, 27 Jun 2019 08:19:49 -0700
-Message-Id: <20190627152011.18686-13-palmer@sifive.com>
+ Thu, 27 Jun 2019 08:23:53 -0700 (PDT)
+Date: Thu, 27 Jun 2019 08:19:50 -0700
+Message-Id: <20190627152011.18686-14-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190627152011.18686-1-palmer@sifive.com>
 References: <20190627152011.18686-1-palmer@sifive.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.173
-Subject: [Qemu-devel] [PULL 12/34] RISC-V: Fix a memory leak when realizing
- a sifive_e
+X-Received-From: 209.85.210.176
+Subject: [Qemu-devel] [PULL 13/34] target/riscv: Restructure deprecatd CPUs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,82 +68,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- ilippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity pointed out a memory leak in riscv_sifive_e_soc_realize(),
-where a pair of recently added MemoryRegion instances would not be freed
-if there were errors elsewhere in the function.  The fix here is to
-simply not use dynamic allocation for these instances: there's always
-one of each in SiFiveESoCState, so instead we just include them within
-the struct.
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Fixes: 30efbf330a45 ("SiFive RISC-V GPIO Device")
+Restructure the deprecated CPUs to make it clear in the code that these
+are depreated. They are already marked as deprecated in
+qemu-deprecated.texi. There are no functional changes.
+
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_e.c         | 13 ++++++-------
- include/hw/riscv/sifive_e.h |  2 ++
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ target/riscv/cpu.c | 18 ++++++++++--------
+ target/riscv/cpu.h | 13 +++++++------
+ 2 files changed, 17 insertions(+), 14 deletions(-)
 
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index 80ac56fa7d5e..a5b4086da36d 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -158,17 +158,15 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 5b9fae608cca..17467c3d8705 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -559,18 +559,20 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
+ #if defined(TARGET_RISCV32)
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base32_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_09_1, rv32gcsu_priv1_09_1_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_10_0, rv32gcsu_priv1_10_0_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV32IMACU_NOMMU,  rv32imacu_nommu_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32imacu_nommu_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32gcsu_priv1_10_0_cpu_init)
++    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32gcsu_priv1_10_0_cpu_init),
++    /* Depreacted */
++    DEFINE_CPU(TYPE_RISCV_CPU_RV32IMACU_NOMMU,  rv32imacu_nommu_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_09_1, rv32gcsu_priv1_09_1_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_10_0, rv32gcsu_priv1_10_0_cpu_init)
+ #elif defined(TARGET_RISCV64)
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base64_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_09_1, rv64gcsu_priv1_09_1_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_10_0, rv64gcsu_priv1_10_0_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_RV64IMACU_NOMMU,  rv64imacu_nommu_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64imacu_nommu_cpu_init),
+-    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64gcsu_priv1_10_0_cpu_init)
++    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64gcsu_priv1_10_0_cpu_init),
++    /* Deprecated */
++    DEFINE_CPU(TYPE_RISCV_CPU_RV64IMACU_NOMMU,  rv64imacu_nommu_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_09_1, rv64gcsu_priv1_09_1_cpu_init),
++    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_10_0, rv64gcsu_priv1_10_0_cpu_init)
+ #endif
+ };
  
-     SiFiveESoCState *s = RISCV_E_SOC(dev);
-     MemoryRegion *sys_mem = get_system_memory();
--    MemoryRegion *xip_mem = g_new(MemoryRegion, 1);
--    MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 934b71c85e13..5eb9cab2ad62 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -35,16 +35,17 @@
+ #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
+ #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+ #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
+-#define TYPE_RISCV_CPU_RV32GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.9.1")
+-#define TYPE_RISCV_CPU_RV32GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.10.0")
+-#define TYPE_RISCV_CPU_RV32IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv32imacu-nommu")
+-#define TYPE_RISCV_CPU_RV64GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.9.1")
+-#define TYPE_RISCV_CPU_RV64GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.10.0")
+-#define TYPE_RISCV_CPU_RV64IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv64imacu-nommu")
+ #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
+ #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
+ #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+ #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
++/* Deprecated */
++#define TYPE_RISCV_CPU_RV32IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv32imacu-nommu")
++#define TYPE_RISCV_CPU_RV32GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.9.1")
++#define TYPE_RISCV_CPU_RV32GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.10.0")
++#define TYPE_RISCV_CPU_RV64IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv64imacu-nommu")
++#define TYPE_RISCV_CPU_RV64GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.9.1")
++#define TYPE_RISCV_CPU_RV64GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.10.0")
  
-     object_property_set_bool(OBJECT(&s->cpus), true, "realized",
-                             &error_abort);
- 
-     /* Mask ROM */
--    memory_region_init_rom(mask_rom, NULL, "riscv.sifive.e.mrom",
-+    memory_region_init_rom(&s->mask_rom, NULL, "riscv.sifive.e.mrom",
-         memmap[SIFIVE_E_MROM].size, &error_fatal);
-     memory_region_add_subregion(sys_mem,
--        memmap[SIFIVE_E_MROM].base, mask_rom);
-+        memmap[SIFIVE_E_MROM].base, &s->mask_rom);
- 
-     /* MMIO */
-     s->plic = sifive_plic_create(memmap[SIFIVE_E_PLIC].base,
-@@ -228,10 +226,11 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
-         memmap[SIFIVE_E_PWM2].base, memmap[SIFIVE_E_PWM2].size);
- 
-     /* Flash memory */
--    memory_region_init_ram(xip_mem, NULL, "riscv.sifive.e.xip",
-+    memory_region_init_ram(&s->xip_mem, NULL, "riscv.sifive.e.xip",
-         memmap[SIFIVE_E_XIP].size, &error_fatal);
--    memory_region_set_readonly(xip_mem, true);
--    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base, xip_mem);
-+    memory_region_set_readonly(&s->xip_mem, true);
-+    memory_region_add_subregion(sys_mem, memmap[SIFIVE_E_XIP].base,
-+        &s->xip_mem);
- }
- 
- static void riscv_sifive_e_machine_init(MachineClass *mc)
-diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
-index 3b14eb74621f..d175b24cb209 100644
---- a/include/hw/riscv/sifive_e.h
-+++ b/include/hw/riscv/sifive_e.h
-@@ -33,6 +33,8 @@ typedef struct SiFiveESoCState {
-     RISCVHartArrayState cpus;
-     DeviceState *plic;
-     SIFIVEGPIOState gpio;
-+    MemoryRegion xip_mem;
-+    MemoryRegion mask_rom;
- } SiFiveESoCState;
- 
- typedef struct SiFiveEState {
+ #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
+ #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
 -- 
 2.21.0
 
