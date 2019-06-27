@@ -2,78 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C408581CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:44:07 +0200 (CEST)
-Received: from localhost ([::1]:49046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA61581C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:40:57 +0200 (CEST)
+Received: from localhost ([::1]:49010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgSow-0006Jn-K8
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:44:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34491)
+	id 1hgSls-0004Dp-VE
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35257)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hgSgV-00024D-1d
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:35:24 -0400
+ (envelope-from <armbru@redhat.com>) id 1hgSjX-0003MI-0N
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:38:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hgSgT-0001xy-5L
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:35:22 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37825)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hgSgR-0001uX-EV
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:35:19 -0400
-Received: by mail-wr1-x444.google.com with SMTP id v14so2163715wrr.4
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 04:35:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=f71s4kh9uJ8lWfKZYm5WBKZeBr81cCBGcYjn+fA9IBU=;
- b=Clc3U9wr2MaE4wDGcNA/IKDWeAc1TM279MCoNNQZJUz6egFkaWL3T3xQMCKLHNO+mN
- 4PV9wVSN25j2GkB724qwRpNTxy6bazayQSfr0mNzOqlSUAgE0KJqX2k0+xuOXP/EOAHm
- uO2rGsES8wTOxSp3Xg4whywGCC/ltgTRuY26acJ/b0bwHMR6430R1K2YaUV7Yjesa6kF
- wJhJ+zB0WUJ5OFoJ2uQxa8RPUpwdiScu5hc1gdKI4QwmdR2XkIU5oNf9bZykD2Mehs+l
- LOfZTuuaB5AehezUG0mVCNamIDC29XfZRtWaT0G6NHLjSUhdDnXFX3YAbr4Rz8mXKpeH
- xz6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=f71s4kh9uJ8lWfKZYm5WBKZeBr81cCBGcYjn+fA9IBU=;
- b=JR2Wcvkdi1o4EMXacAveymwdBIrG4w5H2SF5yDamYIyuJhq/J+jV8jJvXRyUIFxhy9
- MRJyQj5yTO51Vk9xTTtqL6LpXfwhhN96r8FXvPr3ktgS/MMWXOn0FNvn9h02gz1KGfCy
- HutRf6gKDsI5Tj2r0SofDT7pUiHppWWV8eFsk0WHTxCOGgFN62d7FjXSmlic6bqhzNnX
- P+zWOjyCfxD+kjarLPDlj5OEdWArkvfxB0cdDMFmMqmOLP5kVGyyGJ6XN88vyJN9e/ek
- YGdHlaFydASVl2N2UNHVWHJwuX+f67bG64tiM9x+gtGiDSSkCyD+04rIj+6sNjnIRYaI
- jSDg==
-X-Gm-Message-State: APjAAAUDCtUmptrCqdMxEpQme7hNU9RZEfnU3vYvteHi9QPdbP+RB1Ug
- CdF/tZlHA8onNYPpKyu1rGiCsQ==
-X-Google-Smtp-Source: APXvYqyFxGBUN5p3qVOysMaylEFXaFgIWBP133Lc56zkTk5AtjBUOlIjR3ZJv2cxAGEAYkSCy1sSpg==
-X-Received: by 2002:adf:fb8d:: with SMTP id a13mr2910961wrr.273.1561635314452; 
- Thu, 27 Jun 2019 04:35:14 -0700 (PDT)
-Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id c6sm7415579wma.25.2019.06.27.04.35.13
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 27 Jun 2019 04:35:13 -0700 (PDT)
-To: Stefan Brankovic <stefan.brankovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1561632985-24866-1-git-send-email-stefan.brankovic@rt-rk.com>
- <1561632985-24866-9-git-send-email-stefan.brankovic@rt-rk.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <d42d0cdf-1cc5-b434-f974-4d5bde543271@linaro.org>
-Date: Thu, 27 Jun 2019 13:35:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <armbru@redhat.com>) id 1hgSjT-0004QO-1g
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:38:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59698)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hgSjO-0004BD-Fn
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:38:25 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3B53B3082E8E
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 11:38:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-169.ams2.redhat.com
+ [10.36.117.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D49941001281;
+ Thu, 27 Jun 2019 11:38:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 530EE11386A0; Thu, 27 Jun 2019 13:38:07 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <1560165301-39026-1-git-send-email-pbonzini@redhat.com>
+ <1560165301-39026-8-git-send-email-pbonzini@redhat.com>
+Date: Thu, 27 Jun 2019 13:38:07 +0200
+In-Reply-To: <1560165301-39026-8-git-send-email-pbonzini@redhat.com> (Paolo
+ Bonzini's message of "Mon, 10 Jun 2019 13:15:01 +0200")
+Message-ID: <874l4bgsww.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1561632985-24866-9-git-send-email-stefan.brankovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v4 08/13] tcg: Add opcodes for vector vmrgh
- instructions
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Thu, 27 Jun 2019 11:38:09 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 7/7] rdmacm-mux: convert to Meson
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,33 +60,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hsp.cat7@gmail.com, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/27/19 12:56 PM, Stefan Brankovic wrote:
-> +void HELPER(gvec_vmrgh8)(void *d, void *a, void *b, uint32_t desc)
-> +{
-> +    intptr_t oprsz = simd_oprsz(desc);
-> +    intptr_t i;
-> +
-> +    for (i = 0; i < (oprsz / 2); i += sizeof(uint8_t)) {
-> +        uint8_t aa = *(uint8_t *)(a + 8 * sizeof(uint8_t) + i);
-> +        uint8_t bb = *(uint8_t *)(b + 8 * sizeof(uint8_t) + i);
-> +        *(uint8_t *)(d + 2 * i) = bb;
-> +        *(uint8_t *)(d + 2 * i + sizeof(uint8_t)) = aa;
-> +    }
-> +    clear_high(d, oprsz, desc);
-> +}
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-I tried this while developing the ARM SVE code.
+> We can use config-host.mak to decide whether the tool has to be built,
+> apart from that the conversion is straightforward.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  .gitignore                       | 1 +
+>  Makefile                         | 5 -----
+>  Makefile.objs                    | 1 -
+>  contrib/rdmacm-mux/Makefile.objs | 3 ---
+>  contrib/rdmacm-mux/meson.build   | 6 ++++++
+>  meson.build                      | 2 ++
+>  6 files changed, 9 insertions(+), 9 deletions(-)
+>  delete mode 100644 contrib/rdmacm-mux/Makefile.objs
+>  create mode 100644 contrib/rdmacm-mux/meson.build
+>
+> diff --git a/.gitignore b/.gitignore
+> index 3934eff..b8d38a8 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -63,6 +63,7 @@
+>  /qemu-version.h.tmp
+>  /module_block.h
+>  /scsi/qemu-pr-helper
+> +/contrib/rdmacm-mux/rdmacm-mux
+>  /contrib/vhost-user-scsi/vhost-user-scsi
+>  /contrib/vhost-user-blk/vhost-user-blk
+>  /fsdev/virtfs-proxy-helper
+> diff --git a/Makefile b/Makefile
+> index bff097c..713f301 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -425,7 +425,6 @@ dummy := $(call unnest-vars,, \
+>                  elf2dmp-obj-y \
+>                  ivshmem-client-obj-y \
+>                  ivshmem-server-obj-y \
+> -                rdmacm-mux-obj-y \
+>                  vhost-user-input-obj-y \
+>                  vhost-user-gpu-obj-y \
+>                  qga-vss-dll-obj-y \
+> @@ -629,10 +628,6 @@ ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
+>  	$(call LINK, $^)
+>  endif
+>  
+> -rdmacm-mux$(EXESUF): LIBS += "-libumad"
+> -rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+> -	$(call LINK, $^)
+> -
 
-The problem is that the vector element numbering differs for each host.  So
-while you may be able to get the correct results out of x86, you'll the the
-wrong answers when you run this same code on a big-endian host.
+Another way to pass extra flags to the compiler: target-specific
+variables.  More direct than the funny variables we saw in the previous
+patch.
 
-The same goes for the INDEX_OP_vmrgh_vec opcode you introduced.
+The fine manual describes a way how to shoot yourself in the foot with
+target-specific variabes.  Been there, done that, had "fun" debugging.
 
+>  vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a
+>  	$(call LINK, $^)
+>  
+> diff --git a/Makefile.objs b/Makefile.objs
+> index adf2f92..cf02f63 100644
+> --- a/Makefile.objs
+> +++ b/Makefile.objs
+> @@ -116,7 +116,6 @@ qga-vss-dll-obj-y = qga/
+>  elf2dmp-obj-y = contrib/elf2dmp/
+>  ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
+>  ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
+> -rdmacm-mux-obj-y = contrib/rdmacm-mux/
+>  vhost-user-input-obj-y = contrib/vhost-user-input/
+>  vhost-user-gpu-obj-y = contrib/vhost-user-gpu/
+>  
+> diff --git a/contrib/rdmacm-mux/Makefile.objs b/contrib/rdmacm-mux/Makefile.objs
+> deleted file mode 100644
+> index 3df744a..0000000
+> --- a/contrib/rdmacm-mux/Makefile.objs
+> +++ /dev/null
+> @@ -1,3 +0,0 @@
+> -ifdef CONFIG_PVRDMA
+> -rdmacm-mux-obj-y = main.o
+> -endif
+> diff --git a/contrib/rdmacm-mux/meson.build b/contrib/rdmacm-mux/meson.build
+> new file mode 100644
+> index 0000000..8451756
+> --- /dev/null
+> +++ b/contrib/rdmacm-mux/meson.build
+> @@ -0,0 +1,6 @@
+> +if config_host['CONFIG_PVRDMA'] == 'y'
+> +  # if not found, CONFIG_PVRDMA should not be set
 
-r~
+Our Makefiles use "either unset or 'y'" booleans pretty pervasively.  Is
+it idiomatic meson?
+
+> +  libumad = cc.find_library('ibumad', required: true)
+
+With configure & make, we have configure check -libumad works, and make
+use it.
+
+Ignorant question: cc.find_library() looks like it checks.  Could this
+replace checking in configure?
+
+> +  executable('rdmacm-mux', files('main.c'),
+> +             dependencies: [glib, libumad])
+> +endif
+> diff --git a/meson.build b/meson.build
+> index bc7fbea..2fc6111 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1,4 +1,5 @@
+>  project('qemu', 'c', meson_version: '>=0.50.999')
+> +cc = meson.get_compiler('c')
+>  
+>  kconfig = import('unstable-kconfig')
+>  config_host = kconfig.load(meson.current_build_dir() / 'config-host.mak')
+> @@ -14,5 +15,6 @@ libiscsi = declare_dependency(compile_args: config_host['LIBISCSI_CFLAGS'].split
+>                            link_args: config_host['LIBISCSI_LIBS'].split())
+>  
+>  subdir('contrib/libvhost-user')
+> +subdir('contrib/rdmacm-mux')
+>  subdir('contrib/vhost-user-blk')
+>  subdir('contrib/vhost-user-scsi')
 
