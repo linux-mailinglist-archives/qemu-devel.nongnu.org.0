@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E32058152
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:19:51 +0200 (CEST)
-Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE7058158
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:21:52 +0200 (CEST)
+Received: from localhost ([::1]:48774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgSRS-0002US-Gp
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:19:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55845)
+	id 1hgSTP-0006Us-Ik
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:21:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55857)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5x-0001yv-Iq
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:47 -0400
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5y-0001zs-4f
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:58:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5v-0001hW-Jx
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:37 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:36494 helo=mail.rt-rk.com)
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5v-0001hj-Km
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:38 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:36495 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1hgS5v-0001fm-6T
+ id 1hgS5v-0001fl-85
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:35 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 1533E1A4548;
+ by mail.rt-rk.com (Postfix) with ESMTP id 280661A45A6;
  Thu, 27 Jun 2019 12:56:30 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
  [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id D61181A4567;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id E2BA91A4539;
  Thu, 27 Jun 2019 12:56:29 +0200 (CEST)
 From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 12:56:19 +0200
-Message-Id: <1561632985-24866-8-git-send-email-stefan.brankovic@rt-rk.com>
+Date: Thu, 27 Jun 2019 12:56:20 +0200
+Message-Id: <1561632985-24866-9-git-send-email-stefan.brankovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561632985-24866-1-git-send-email-stefan.brankovic@rt-rk.com>
 References: <1561632985-24866-1-git-send-email-stefan.brankovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v4 07/13] target/ppc: Refactor emulation of
- vmrgew and vmrgow instructions
+Subject: [Qemu-devel] [PATCH v4 08/13] tcg: Add opcodes for vector vmrgh
+ instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,125 +56,209 @@ Cc: stefan.brankovic@rt-rk.com, hsp.cat7@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since I found this two instructions implemented with tcg, I refactored
-them so they are consistent with other similar implementations that
-I introduced in this patch.
-
-Also, a new dual macro GEN_VXFORM_TRANS_DUAL is added. This macro is
-used if one instruction is realized with direct translation, and second
-one with a helper.
-
 Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 ---
- target/ppc/translate/vmx-impl.inc.c | 66 +++++++++++++++++++++----------------
- 1 file changed, 37 insertions(+), 29 deletions(-)
+ accel/tcg/tcg-runtime-gvec.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ accel/tcg/tcg-runtime.h      |  4 ++++
+ tcg/i386/tcg-target.h        |  1 +
+ tcg/tcg-op-gvec.c            | 23 +++++++++++++++++++++++
+ tcg/tcg-op-gvec.h            |  3 +++
+ tcg/tcg-op-vec.c             |  5 +++++
+ tcg/tcg-op.h                 |  2 ++
+ tcg/tcg-opc.h                |  2 ++
+ tcg/tcg.c                    |  2 ++
+ tcg/tcg.h                    |  1 +
+ 10 files changed, 85 insertions(+)
 
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index fd25b7c..39fb26d 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -350,6 +350,28 @@ static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-     }                                                                  \
+diff --git a/accel/tcg/tcg-runtime-gvec.c b/accel/tcg/tcg-runtime-gvec.c
+index 51cb29c..28173ae 100644
+--- a/accel/tcg/tcg-runtime-gvec.c
++++ b/accel/tcg/tcg-runtime-gvec.c
+@@ -1458,3 +1458,45 @@ void HELPER(gvec_bitsel)(void *d, void *a, void *b, void *c, uint32_t desc)
+     }
+     clear_high(d, oprsz, desc);
  }
- 
-+/*
-+ * We use this macro if one instruction is realized with direct
-+ * translation, and second one with helper.
-+ */
-+#define GEN_VXFORM_TRANS_DUAL(name0, flg0, flg2_0, name1, flg1, flg2_1)\
-+static void glue(gen_, name0##_##name1)(DisasContext *ctx)             \
-+{                                                                      \
-+    if ((Rc(ctx->opcode) == 0) &&                                      \
-+        ((ctx->insns_flags & flg0) || (ctx->insns_flags2 & flg2_0))) { \
-+        if (unlikely(!ctx->altivec_enabled)) {                         \
-+            gen_exception(ctx, POWERPC_EXCP_VPU);                      \
-+            return;                                                    \
-+        }                                                              \
-+        trans_##name0(ctx);                                            \
-+    } else if ((Rc(ctx->opcode) == 1) &&                               \
-+        ((ctx->insns_flags & flg1) || (ctx->insns_flags2 & flg2_1))) { \
-+        gen_##name1(ctx);                                              \
-+    } else {                                                           \
-+        gen_inval_exception(ctx, POWERPC_EXCP_INVAL_INVAL);            \
-+    }                                                                  \
++
++void HELPER(gvec_vmrgh8)(void *d, void *a, void *b, uint32_t desc)
++{
++    intptr_t oprsz = simd_oprsz(desc);
++    intptr_t i;
++
++    for (i = 0; i < (oprsz / 2); i += sizeof(uint8_t)) {
++        uint8_t aa = *(uint8_t *)(a + 8 * sizeof(uint8_t) + i);
++        uint8_t bb = *(uint8_t *)(b + 8 * sizeof(uint8_t) + i);
++        *(uint8_t *)(d + 2 * i) = bb;
++        *(uint8_t *)(d + 2 * i + sizeof(uint8_t)) = aa;
++    }
++    clear_high(d, oprsz, desc);
 +}
 +
- /* Adds support to provide invalid mask */
- #define GEN_VXFORM_DUAL_EXT(name0, flg0, flg2_0, inval0,                \
-                             name1, flg1, flg2_1, inval1)                \
-@@ -431,20 +453,13 @@ GEN_VXFORM(vmrglb, 6, 4);
- GEN_VXFORM(vmrglh, 6, 5);
- GEN_VXFORM(vmrglw, 6, 6);
++void HELPER(gvec_vmrgh16)(void *d, void *a, void *b, uint32_t desc)
++{
++    intptr_t oprsz = simd_oprsz(desc);
++    intptr_t i;
++
++    for (i = 0; i < (oprsz / 2); i += sizeof(uint16_t)) {
++        uint16_t aa = *(uint16_t *)(a + 4 * sizeof(uint16_t) + i);
++        uint16_t bb = *(uint16_t *)(b + 4 * sizeof(uint16_t) + i);
++        *(uint16_t *)(d + 2 * i) = bb;
++        *(uint16_t *)(d + 2 * i + sizeof(uint16_t)) = aa;
++    }
++    clear_high(d, oprsz, desc);
++}
++
++void HELPER(gvec_vmrgh32)(void *d, void *a, void *b, uint32_t desc)
++{
++    intptr_t oprsz = simd_oprsz(desc);
++    intptr_t i;
++
++    for (i = 0; i < oprsz; i += sizeof(uint32_t)) {
++        uint32_t aa = *(uint32_t *)(a + 2 * sizeof(uint32_t) + i);
++        uint32_t bb = *(uint32_t *)(b + 2 * sizeof(uint32_t) + i);
++        *(uint32_t *)(d + 2 * i) = bb;
++        *(uint32_t *)(d + 2 * i + sizeof(uint32_t)) = aa;
++    }
++    clear_high(d, oprsz, desc);
++}
+diff --git a/accel/tcg/tcg-runtime.h b/accel/tcg/tcg-runtime.h
+index 4fa61b4..089956f 100644
+--- a/accel/tcg/tcg-runtime.h
++++ b/accel/tcg/tcg-runtime.h
+@@ -305,3 +305,7 @@ DEF_HELPER_FLAGS_4(gvec_leu32, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_leu64, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
  
--static void gen_vmrgew(DisasContext *ctx)
-+static void trans_vmrgew(DisasContext *ctx)
- {
--    TCGv_i64 tmp;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    tmp = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 tmp = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
+ DEF_HELPER_FLAGS_5(gvec_bitsel, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_4(gvec_vmrgh8, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vmrgh16, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(gvec_vmrgh32, TCG_CALL_NO_RWG, void, ptr, ptr, ptr, i32)
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index 928e8b8..e11b22d 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -192,6 +192,7 @@ extern bool have_avx2;
+ #define TCG_TARGET_HAS_minmax_vec       1
+ #define TCG_TARGET_HAS_bitsel_vec       0
+ #define TCG_TARGET_HAS_cmpsel_vec       -1
++#define TCG_TARGET_HAS_vmrgh_vec        0
  
-     get_avr64(avr, VB, true);
-     tcg_gen_shri_i64(tmp, avr, 32);
-@@ -462,21 +477,14 @@ static void gen_vmrgew(DisasContext *ctx)
-     tcg_temp_free_i64(avr);
+ #define TCG_TARGET_deposit_i32_valid(ofs, len) \
+     (((ofs) == 0 && (len) == 8) || ((ofs) == 8 && (len) == 8) || \
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 17679b6..2560fb6 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -2102,6 +2102,29 @@ void tcg_gen_gvec_umax(unsigned vece, uint32_t dofs, uint32_t aofs,
+     tcg_gen_gvec_3(dofs, aofs, bofs, oprsz, maxsz, &g[vece]);
  }
  
--static void gen_vmrgow(DisasContext *ctx)
-+static void trans_vmrgow(DisasContext *ctx)
++static const TCGOpcode vecop_list_vmrgh[] = { INDEX_op_vmrgh_vec, 0 };
++
++void tcg_gen_gvec_vmrgh(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz)
++{
++    static const GVecGen3 g[3] = {
++        { .fniv = tcg_gen_vmrgh_vec,
++          .fno = gen_helper_gvec_vmrgh8,
++          .opt_opc = vecop_list_vmrgh,
++          .vece = MO_8 },
++        { .fniv = tcg_gen_vmrgh_vec,
++          .fno = gen_helper_gvec_vmrgh16,
++          .opt_opc = vecop_list_vmrgh,
++          .vece = MO_16 },
++        { .fniv = tcg_gen_vmrgh_vec,
++          .fno = gen_helper_gvec_vmrgh32,
++          .opt_opc = vecop_list_vmrgh,
++          .vece = MO_32 }
++    };
++    tcg_debug_assert(vece <= MO_64);
++    tcg_gen_gvec_3(dofs, aofs, bofs, oprsz, maxsz, &g[vece]);
++}
++
+ /* Perform a vector negation using normal negation and a mask.
+    Compare gen_subv_mask above.  */
+ static void gen_negv_mask(TCGv_i64 d, TCGv_i64 b, TCGv_i64 m)
+diff --git a/tcg/tcg-op-gvec.h b/tcg/tcg-op-gvec.h
+index 830d68f..8c04d71 100644
+--- a/tcg/tcg-op-gvec.h
++++ b/tcg/tcg-op-gvec.h
+@@ -272,6 +272,9 @@ void tcg_gen_gvec_smax(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+ void tcg_gen_gvec_umax(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
++/* Vector merge. */
++void tcg_gen_gvec_vmrgh(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+ 
+ void tcg_gen_gvec_and(unsigned vece, uint32_t dofs, uint32_t aofs,
+                       uint32_t bofs, uint32_t oprsz, uint32_t maxsz);
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index c8fdc24..fb0b83e 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -663,6 +663,11 @@ void tcg_gen_umax_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+     do_minmax(vece, r, a, b, INDEX_op_umax_vec, TCG_COND_GTU);
+ }
+ 
++void tcg_gen_vmrgh_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
++{
++    do_op3(vece, r, a, b, INDEX_op_vmrgh_vec);
++}
++
+ void tcg_gen_shlv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
  {
--    TCGv_i64 t0, t1;
--    TCGv_i64 avr;
--    int VT, VA, VB;
--    if (unlikely(!ctx->altivec_enabled)) {
--        gen_exception(ctx, POWERPC_EXCP_VPU);
--        return;
--    }
--    VT = rD(ctx->opcode);
--    VA = rA(ctx->opcode);
--    VB = rB(ctx->opcode);
--    t0 = tcg_temp_new_i64();
--    t1 = tcg_temp_new_i64();
--    avr = tcg_temp_new_i64();
-+    int VT = rD(ctx->opcode);
-+    int VA = rA(ctx->opcode);
-+    int VB = rB(ctx->opcode);
-+    TCGv_i64 t0 = tcg_temp_new_i64();
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+    TCGv_i64 avr = tcg_temp_new_i64();
+     do_op3_nofail(vece, r, a, b, INDEX_op_shlv_vec);
+diff --git a/tcg/tcg-op.h b/tcg/tcg-op.h
+index 2d4dd5c..d8de022 100644
+--- a/tcg/tcg-op.h
++++ b/tcg/tcg-op.h
+@@ -985,6 +985,8 @@ void tcg_gen_umin_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b);
+ void tcg_gen_smax_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b);
+ void tcg_gen_umax_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b);
  
-     get_avr64(t0, VB, true);
-     get_avr64(t1, VA, true);
-@@ -1052,14 +1060,14 @@ GEN_VXFORM_ENV(vminfp, 5, 17);
- GEN_VXFORM_HETRO(vextublx, 6, 24)
- GEN_VXFORM_HETRO(vextuhlx, 6, 25)
- GEN_VXFORM_HETRO(vextuwlx, 6, 26)
--GEN_VXFORM_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-+GEN_VXFORM_TRANS_DUAL(vmrgow, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwlx, PPC_NONE, PPC2_ISA300)
- GEN_VXFORM_HETRO(vextubrx, 6, 28)
- GEN_VXFORM_HETRO(vextuhrx, 6, 29)
- GEN_VXFORM_HETRO(vextuwrx, 6, 30)
- GEN_VXFORM_TRANS(lvsl, 6, 31)
- GEN_VXFORM_TRANS(lvsr, 6, 32)
--GEN_VXFORM_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207, \
-+GEN_VXFORM_TRANS_DUAL(vmrgew, PPC_NONE, PPC2_ALTIVEC_207,
-                 vextuwrx, PPC_NONE, PPC2_ISA300)
++void tcg_gen_vmrgh_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b);
++
+ void tcg_gen_shli_vec(unsigned vece, TCGv_vec r, TCGv_vec a, int64_t i);
+ void tcg_gen_shri_vec(unsigned vece, TCGv_vec r, TCGv_vec a, int64_t i);
+ void tcg_gen_sari_vec(unsigned vece, TCGv_vec r, TCGv_vec a, int64_t i);
+diff --git a/tcg/tcg-opc.h b/tcg/tcg-opc.h
+index 242d608..2bc3bdf 100644
+--- a/tcg/tcg-opc.h
++++ b/tcg/tcg-opc.h
+@@ -235,6 +235,8 @@ DEF(umin_vec, 1, 2, 0, IMPLVEC | IMPL(TCG_TARGET_HAS_minmax_vec))
+ DEF(smax_vec, 1, 2, 0, IMPLVEC | IMPL(TCG_TARGET_HAS_minmax_vec))
+ DEF(umax_vec, 1, 2, 0, IMPLVEC | IMPL(TCG_TARGET_HAS_minmax_vec))
  
- #define GEN_VXRFORM1(opname, name, str, opc2, opc3)                     \
++DEF(vmrgh_vec, 1, 2, 0, IMPLVEC | IMPL(TCG_TARGET_HAS_vmrgh_vec))
++
+ DEF(and_vec, 1, 2, 0, IMPLVEC)
+ DEF(or_vec, 1, 2, 0, IMPLVEC)
+ DEF(xor_vec, 1, 2, 0, IMPLVEC)
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 02a2680..fed9a6f 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1646,6 +1646,8 @@ bool tcg_op_supported(TCGOpcode op)
+     case INDEX_op_smax_vec:
+     case INDEX_op_umax_vec:
+         return have_vec && TCG_TARGET_HAS_minmax_vec;
++    case INDEX_op_vmrgh_vec:
++        return have_vec && TCG_TARGET_HAS_vmrgh_vec;
+     case INDEX_op_bitsel_vec:
+         return have_vec && TCG_TARGET_HAS_bitsel_vec;
+     case INDEX_op_cmpsel_vec:
+diff --git a/tcg/tcg.h b/tcg/tcg.h
+index b411e17..05b9b51 100644
+--- a/tcg/tcg.h
++++ b/tcg/tcg.h
+@@ -186,6 +186,7 @@ typedef uint64_t TCGRegSet;
+ #define TCG_TARGET_HAS_mul_vec          0
+ #define TCG_TARGET_HAS_sat_vec          0
+ #define TCG_TARGET_HAS_minmax_vec       0
++#define TCG_TARGET_HAS_vmrgh_vec        0
+ #define TCG_TARGET_HAS_bitsel_vec       0
+ #define TCG_TARGET_HAS_cmpsel_vec       0
+ #else
 -- 
 2.7.4
 
