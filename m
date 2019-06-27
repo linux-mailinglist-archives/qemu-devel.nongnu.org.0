@@ -2,50 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA435856F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:21:09 +0200 (CEST)
-Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3429858593
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:28:45 +0200 (CEST)
+Received: from localhost ([::1]:51712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgWCy-0006is-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:21:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59005)
+	id 1hgWKK-0004h1-A8
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60531)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Dave.Martin@arm.com>) id 1hgW8w-0004uP-6c
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:17:10 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgWFG-000173-B9
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:23:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>) id 1hgW8n-0006zq-QI
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:16:53 -0400
-Received: from foss.arm.com ([217.140.110.172]:55118)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>)
- id 1hgW8X-0006f2-J5; Thu, 27 Jun 2019 11:16:34 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 953A6360;
- Thu, 27 Jun 2019 08:16:31 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 586983F246;
- Thu, 27 Jun 2019 08:16:30 -0700 (PDT)
-Date: Thu, 27 Jun 2019 16:16:28 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Andrew Jones <drjones@redhat.com>
-Message-ID: <20190627151628.GI2790@e103592.cambridge.arm.com>
-References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-8-drjones@redhat.com>
- <ee8ce4a6-09fd-47ab-ef7e-a231df1e9c1b@redhat.com>
- <20190627104638.x4gxsmv7vpww3mra@kamzik.brq.redhat.com>
- <ae98bf94-6826-1f2b-2f2e-a11a3f75cb92@redhat.com>
- <20190627114701.n7tjgmljeribk7to@kamzik.brq.redhat.com>
+ (envelope-from <palmer@dabbelt.com>) id 1hgWFD-0006VB-Ar
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:23:29 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:41815)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWFB-0006Rd-0t
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:23:25 -0400
+Received: by mail-pg1-f195.google.com with SMTP id c70so1046729pga.8
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=Pw2Nr3I+/5EVRnOzDOc9YXIEf5FJ+JDG7yoiQZALAIQ=;
+ b=SlqdiMjPq6FW3a0T+c6l5YQeIOJMS10k1WjcQUSbldRkQygZIdtLvXBEmr5TOCdR9l
+ 3cgcMQ4NYqj5SQ0Ep9UvNyfuahTbngrfdUs9qS4RTKR2RTcJHoGw2Ju9YzZTeeRNCG9H
+ i2+u5teuK6jjX4iHIKOP1VAwSnqq+i98AJWCi2EZiE+29rNaFWnlexJ5ooZyErmvhSz6
+ q0SHAIhZQ1RvMkiu3zDt0k51e0uXQNIuYvFt6Smk3DFpzyRIPg5C0WaauwD698NtStXP
+ OTxDaWzfBSDUPrgTAgPe28FeKhgvelYMOpUCEDYfZDaiSCJZee3TdYiZerlZv+7dqS7m
+ srQg==
+X-Gm-Message-State: APjAAAVosBnjU+DYMLsWZDC208eBvtHkHBLGqemUDZm86aFtTT2ZabO7
+ P+4DBfsHBRsu0rB9bImsrnZf9A==
+X-Google-Smtp-Source: APXvYqzQfZZ4dwHMuhEdtSvhWi4F6pS6UG9Unovot9YhQRtlnZZ+GkFKKbc5iPOGImaLYhL/NWxrqQ==
+X-Received: by 2002:a17:90a:ac0e:: with SMTP id
+ o14mr6784262pjq.142.1561649001369; 
+ Thu, 27 Jun 2019 08:23:21 -0700 (PDT)
+Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
+ [220.132.236.182])
+ by smtp.gmail.com with ESMTPSA id f15sm7644455pje.17.2019.06.27.08.23.20
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 27 Jun 2019 08:23:20 -0700 (PDT)
+Date: Thu, 27 Jun 2019 08:19:37 -0700
+Message-Id: <20190627152011.18686-1-palmer@sifive.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190627114701.n7tjgmljeribk7to@kamzik.brq.redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+Content-Transfer-Encoding: 8bit
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.140.110.172
-Subject: Re: [Qemu-devel] [PATCH v2 07/14] target/arm/cpu64: max cpu:
- Introduce sve<vl-bits> properties
+ [fuzzy]
+X-Received-From: 209.85.215.195
+Subject: [Qemu-devel] [PULL] RISC-V Patches for the 4.1 Soft Freeze, Part 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,83 +66,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 12:47:01PM +0100, Andrew Jones wrote:
-> On Thu, Jun 27, 2019 at 01:00:27PM +0200, Auger Eric wrote:
-> > Hi,
-> > 
-> > On 6/27/19 12:46 PM, Andrew Jones wrote:
-> > > On Wed, Jun 26, 2019 at 06:56:54PM +0200, Auger Eric wrote:
-> > >>> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> > >>> index f500ccb6d31b..b7b719dba57f 100644
-> > >>> --- a/target/arm/helper.c
-> > >>> +++ b/target/arm/helper.c
-> > >>> @@ -5324,7 +5324,16 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-> > >>>  
-> > >>>      /* Bits other than [3:0] are RAZ/WI.  */
-> > >>>      QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
-> > >>> -    raw_write(env, ri, value & 0xf);
-> > >>> +    value &= 0xf;
-> > >>> +
-> > >>> +    if (value) {
-> > >>> +        /* get next vq that is smaller than or equal to value's vq */
-> > >>> +        uint32_t vq = value + 1;
-> > >>> +        vq = arm_cpu_vq_map_next_smaller(cpu, vq + 1);
-> > >>> +        value = vq - 1;
-> > >> spec says:
-> > >>
-> > >> "if an unsupported vector length is requested in ZCR_ELx, the
-> > >> implementation is required to select the largest
-> > >> supported vector length that is less than the requested length. This
-> > >> does not alter the value of ZCR_ELx.LEN.
-> > >> "
-> > >>
-> > >> So I understand the value written in the reg should not be unmodified.
-> > >>
-> > > 
-> > > Sorry, I can't parse what you're trying to tell me here. Here we have
-> > > to write 'value', because that's what the guest is trying to do. As the
-> > > spec says in your quote, we have to pick the length the guest wants, or
-> > > the next smaller valid one, so that's what the code above does. So are
-> > > you just stating that you agree with this hunk of the code?
-> > What we are writing into the reg is arm_cpu_vq_map_next_smaller(cpu, vq
-> > + 1) -1. Maybe I misunderstand the whole wording but I would have
-> > expected the original unmodified value to be written in the reg instead?
-> 
-> Hmm... So maybe we need more changes to the emulation in order for it to
-> have an acting value and a register value? Maybe Richard knows what we
-> should do here.
+merged tag 'mips-queue-jun-21-2019'
+The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
 
-The "effective" value of an individual ZCR_ELx.LEN field is a bit
-nonsensical: the effective vector length comes from the minimum
-LEN value at any relevant EL (depending on which ELs are implemented,
-which security state you're in, VHE controls etc.).
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
 
-This is tedious to compute, so I'd expect you want to cache it,
-recomputing it only when a ZCR_ELx.LEN changes or when you switch to a
-different EL.
+are available in the Git repository at:
 
+  git://github.com/palmer-dabbelt/qemu.git tags/riscv-for-master-4.1-sf1
 
-The architecture says:
+for you to fetch changes up to c08a8317e31033ec76b8460a0b75cbcdaeeef481:
 
-"For all purposes other than returning the result of a direct read of
-ZCR_EL1 then this field behaves as if it is set to the minimum of the
-stored value and the constrained length inherited from more privileged
-Exception levels in the current Security state, rounded down to the
-nearest implemented vector length."
+  hw/riscv: Load OpenSBI as the default firmware (2019-06-27 02:47:06 -0700)
 
-I think the behaviour of a direct read is implied: the LEN bits yielded
-by an MRS should contain exactly what was last written to them via MSR.
+----------------------------------------------------------------
+RISC-V Patches for the 4.1 Soft Freeze, Part 2
 
-Cheers
----Dave
+This pull request contains a handful of patches that I'd like to target
+for the 4.1 soft freeze.  There are a handful of new features:
+
+* The -bios option now works sanely, including both a built-in copy of
+  OpenSBI and the ability to load external versions.  Users no longer
+  need to figure out how to build their own firmware.
+* Support for the 1.11.0, the latest privileged specification.
+* Support for reading and writing the PRCI registers.
+* Better control over the ISA of the target machine.
+* Support for the cpu-topology device tree node.
+
+Additionally, there are a handful of bug fixes including:
+
+* Load reservations are now broken by both store conditional and by
+  scheduling, which fixes issues with parallel applications.
+* Various fixes to the PMP implementation.
+* Fixes to the 32-bit linux-user syscall ABI.
+* Various fixes for instruction decodeing.
+* A fix to the PCI device tree "bus-range" property.
+
+This boots 32-bit and 64-bit OpenEmbedded.
+
+----------------------------------------------------------------
+Alistair Francis (14):
+      target/riscv: Allow setting ISA extensions via CPU props
+      target/riscv: Restructure deprecatd CPUs
+      target/riscv: Add the privledge spec version 1.11.0
+      target/riscv: Add the mcountinhibit CSR
+      target/riscv: Set privledge spec 1.11.0 as default
+      qemu-deprecated.texi: Deprecate the RISC-V privledge spec 1.09.1
+      target/riscv: Require either I or E base extension
+      target/riscv: Remove user version information
+      target/riscv: Add support for disabling/enabling Counters
+      hw/riscv: Split out the boot functions
+      hw/riscv: Add support for loading a firmware
+      hw/riscv: Extend the kernel loading support
+      roms: Add OpenSBI version 0.3
+      hw/riscv: Load OpenSBI as the default firmware
+
+Atish Patra (1):
+      riscv: virt: Add cpu-topology DT node.
+
+Bin Meng (3):
+      riscv: virt: Correct pci "bus-range" encoding
+      riscv: sifive_u: Do not create hard-coded phandles in DT
+      riscv: sifive_u: Update the plic hart config to support multicore
+
+Dayeol Lee (1):
+      target/riscv: Fix PMP range boundary address bug
+
+Hesham Almatary (6):
+      RISC-V: Only Check PMP if MMU translation succeeds
+      RISC-V: Raise access fault exceptions on PMP violations
+      RISC-V: Check for the effective memory privilege mode during PMP checks
+      RISC-V: Check PMP during Page Table Walks
+      RISC-V: Fix a PMP bug where it succeeds even if PMP entry is off
+      RISC-V: Fix a PMP check with the correct access size
+
+Jim Wilson (1):
+      RISC-V: Update syscall list for 32-bit support.
+
+Joel Sing (1):
+      RISC-V: Clear load reservations on context switch and SC
+
+Michael Clark (2):
+      target/riscv: Implement riscv_cpu_unassigned_access
+      disas/riscv: Disassemble reserved compressed encodings as illegal
+
+Nathaniel Graff (1):
+      sifive_prci: Read and write PRCI registers
+
+Palmer Dabbelt (3):
+      RISC-V: Fix a memory leak when realizing a sifive_e
+      RISC-V: Add support for the Zifencei extension
+      RISC-V: Add support for the Zicsr extension
+
+Wladimir J. van der Laan (1):
+      disas/riscv: Fix `rdinstreth` constraint
+
+ .gitmodules                                    |   3 +
+ Makefile                                       |   5 +-
+ disas/riscv.c                                  |  65 ++++++++---
+ hw/riscv/Makefile.objs                         |   1 +
+ hw/riscv/boot.c                                | 154 +++++++++++++++++++++++++
+ hw/riscv/sifive_e.c                            |  30 ++---
+ hw/riscv/sifive_prci.c                         |  49 ++++++--
+ hw/riscv/sifive_u.c                            |  55 +++++----
+ hw/riscv/spike.c                               |  21 +---
+ hw/riscv/virt.c                                |  84 ++++++--------
+ include/hw/riscv/boot.h                        |  32 +++++
+ include/hw/riscv/sifive_e.h                    |   2 +
+ include/hw/riscv/sifive_prci.h                 |  32 +++++
+ linux-user/riscv/syscall_nr.h                  |  15 ++-
+ pc-bios/opensbi-riscv32-virt-fw_jump.bin       | Bin 0 -> 28848 bytes
+ pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin   | Bin 0 -> 28904 bytes
+ pc-bios/opensbi-riscv64-virt-fw_jump.bin       | Bin 0 -> 28904 bytes
+ qemu-deprecated.texi                           |  28 +++++
+ roms/Makefile                                  |  48 ++++++--
+ roms/opensbi                                   |   1 +
+ target/riscv/cpu.c                             | 137 ++++++++++++++++------
+ target/riscv/cpu.h                             |  33 ++++--
+ target/riscv/cpu_bits.h                        |   1 +
+ target/riscv/cpu_helper.c                      |  55 ++++++++-
+ target/riscv/csr.c                             |  30 ++++-
+ target/riscv/insn_trans/trans_privileged.inc.c |   2 +-
+ target/riscv/insn_trans/trans_rva.inc.c        |   8 +-
+ target/riscv/insn_trans/trans_rvi.inc.c        |   4 +
+ target/riscv/pmp.c                             |  17 +--
+ target/riscv/pmp.h                             |   2 +-
+ target/riscv/translate.c                       |   3 +
+ 31 files changed, 705 insertions(+), 212 deletions(-)
+ create mode 100644 hw/riscv/boot.c
+ create mode 100644 include/hw/riscv/boot.h
+ create mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+ create mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+ create mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+ create mode 160000 roms/opensbi
+
 
