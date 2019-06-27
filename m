@@ -2,79 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80D058730
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:35:10 +0200 (CEST)
-Received: from localhost ([::1]:52538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA0A586D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:18:06 +0200 (CEST)
+Received: from localhost ([::1]:52238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgXMa-0003Lj-Vh
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:35:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36599)
+	id 1hgX65-0003U8-LU
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37002)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hgWTN-0006r3-6R
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:38:06 -0400
+ (envelope-from <berto@igalia.com>) id 1hgWUM-00009t-Ew
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:39:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hgWTL-000366-ME
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:38:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:13783)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hgWTG-0002wD-AP; Thu, 27 Jun 2019 11:37:58 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A25A8285B4;
- Thu, 27 Jun 2019 15:37:53 +0000 (UTC)
-Received: from [10.3.116.142] (ovpn-116-142.phx2.redhat.com [10.3.116.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5CA660126;
- Thu, 27 Jun 2019 15:37:52 +0000 (UTC)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20190626024942.29758-1-eblake@redhat.com>
- <20190626082251.GA29008@redhat.com>
- <a3418db6-4bb4-029e-8a5d-d9e6b1185f22@redhat.com>
- <20190627145850.GN12358@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <fd45bfbe-f8a3-afd9-1230-798f4c647d30@redhat.com>
-Date: Thu, 27 Jun 2019 10:37:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <berto@igalia.com>) id 1hgWUK-00044k-El
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:39:06 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:54139)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1hgWUI-0003zP-Qe; Thu, 27 Jun 2019 11:39:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=fDFEB5hiZyJlf6ooIQWUPnmUBsWvg4OuPTQx4MpHJoI=; 
+ b=V7XpoJiUN9lkoFb+2ViVA9UEn5ZqjBp9/KUsLXNV62U0yrvnme0z52gh0sn8IGgh4Yietul94BO0VRWgw5bGnWW8QMHKZFgB4ni968tX5gM5B7C4JeZ1syUhnOm2uVXoBLrtgu29ZB+kePBKCIulyfsPkmsrm+CNqC9JrnSqq6SUWgbNQzLvekLWtj/VzzaHGcqc+FkDyFbfEZcxJbUjW6CCi2/NsdWkhtDLHPmvuCj1WKwIE9g2OAmu9TNM6XMIl4Xok32cJs0MHMr0YSqegBZkPJYDG56UifZRgQZa4TpIFzcANhavt6DHtoK4DY6zvRCVFt60eOK8172OYN8XhA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1hgWUC-0005GG-JB; Thu, 27 Jun 2019 17:38:56 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1hgWUC-0003IB-GQ; Thu, 27 Jun 2019 17:38:56 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Denis Lunev <den@virtuozzo.com>,
+ "qemu-devel\@nongnu.org" <qemu-devel@nongnu.org>
+In-Reply-To: <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
+References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
+ <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Thu, 27 Jun 2019 17:38:56 +0200
+Message-ID: <w51a7e3domn.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190627145850.GN12358@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SSf8SMWCiJ474UWdKl8hmADN2xC7Ivz7s"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Thu, 27 Jun 2019 15:37:53 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] qemu-nbd: Permit TLS with Unix sockets
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 91.117.99.155
+Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
+ qcow2 images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,122 +59,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>, rjones@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SSf8SMWCiJ474UWdKl8hmADN2xC7Ivz7s
-Content-Type: multipart/mixed; boundary="892I7ZPAfaPTWrCcMyC1q7OZ3csgscr7l";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, rjones@redhat.com,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>
-Message-ID: <fd45bfbe-f8a3-afd9-1230-798f4c647d30@redhat.com>
-Subject: Re: [PATCH] qemu-nbd: Permit TLS with Unix sockets
-References: <20190626024942.29758-1-eblake@redhat.com>
- <20190626082251.GA29008@redhat.com>
- <a3418db6-4bb4-029e-8a5d-d9e6b1185f22@redhat.com>
- <20190627145850.GN12358@redhat.com>
-In-Reply-To: <20190627145850.GN12358@redhat.com>
+On Thu 27 Jun 2019 04:19:25 PM CEST, Denis Lunev wrote:
 
---892I7ZPAfaPTWrCcMyC1q7OZ3csgscr7l
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+> Right now QCOW2 is not very efficient with default cluster size (64k)
+> for fast performance with big disks. Nowadays ppl uses really BIG
+> images and 1-2-3-8 Tb disks are really common. Unfortunately ppl want
+> to get random IO fast too.  Thus metadata cache should be in memory as
+> in the any other case we will get IOPSes halved (1 operation for
+> metadata cache read and one operation for real read). For 8 Tb image
+> this results in 1 Gb RAM for that. For 1 Mb cluster we get 64 Mb which
+> is much more reasonable.
 
-On 6/27/19 9:58 AM, Daniel P. Berrang=C3=A9 wrote:
+Correct, the L2 metadata size is a well-known problem that has been
+discussed extensively, and that has received plenty of attention.
 
->>>
->>> Do you need something on the client side too ?
->>
->> The proposal that Rich is working on for standardized NBD URIs [1] say=
-s
->> that we need a patch to support nbds://host/export and
->> nbds+unix://export?socket=3D/path as ways to request an encrypted clie=
-nt
->> connection with default encryption parameters. For anything more
->> complex, we have to use --imageopts and request an encrypted connectio=
-n
->> by parts - but the QAPI schema already permits us to pass in an
->> 'tls-creds' parameter for both TCP and Unix sockets, so no, I don't
->> think we need any client side changes at this point.
+> Though with 1 Mb cluster the reclaim process becomes much-much
+> worse. I can not give exact number, unfortunately.  AFAIR the image
+> occupies 30-50% more space. Guys, I would appreciate if you will
+> correct me here with real numbers.
 
-Okay, I just tested that pre-patch, qemu-nbd --list refuses to connect,
-but post-patch it works:
+Correct, because the cluster size is the smallest unit of allocation, so
+a 16KB write on an empty area of the image will always allocate a
+complete 1MB cluster.
 
-$ ./qemu-nbd -r -k /tmp/nbdsock --object \
-  tls-creds-psk,id=3Dtls0,endpoint=3Dserver,dir=3D/home/eblake/libnbd/tes=
-ts \
-  --tls-creds tls0 -f raw -x / ./file
-$ qemu-nbd --list -k /tmp/nbdsock --object \
+> Thus in respect to this patterns subclusters could give us benefits of
+> fast random IO and good reclaim rate.
 
-tls-creds-psk,id=3Dtls0,endpoint=3Dclient,dir=3D/home/eblake/libnbd/tests=
-,username=3Deblake
-\
-  --tls-creds tls0
-qemu-nbd: TLS is only supported with IPv4/IPv6
-$ ./qemu-nbd --list -k /tmp/nbdsock --object \
+Exactly, but that fast random I/O would only happen when allocating new
+clusters. Once the clusters are allocated it doesn't provide any
+additional performance benefit.
 
-tls-creds-psk,id=3Dtls0,endpoint=3Dclient,dir=3D/home/eblake/libnbd/tests=
-,username=3Deblake
-\
-  --tls-creds tls0
-exports available: 1
-=2E..
+> I would consider 64k cluster/8k subcluster as too extreme for me.  In
+> reality we would end up with completely fragmented image very soon.
 
->=20
-> The QAPI schema isn't what I was thinking about....  in block/nbd.c
-> we have the same restriction you lifted here
->=20
->         tlscreds =3D nbd_get_tls_creds(s->tlscredsid, errp);
->         if (!tlscreds) {
->             goto error;
->         }
->=20
->         /* TODO SOCKET_ADDRESS_KIND_FD where fd has AF_INET or AF_INET6=
- */
->         if (s->saddr->type !=3D SOCKET_ADDRESS_TYPE_INET) {
->             error_setg(errp, "TLS only supported over IP sockets");
->             goto error;
->         }
+You mean because of the 64k cluster size, or because of the 8k
+subcluster size? If it's the former, yes. If it's the latter, it can be
+solved by preallocating the cluster with fallocate(). But then you would
+lose the benefit of the good reclaim rate.
 
-Oh. Yeah, I'll have to fix that; it's different than qemu-nbd --list.
-
->=20
-> For client side we would also need to allow a 'tls-hostname' parameter
-> in BlockdevOptionsNbd, so that the client can pass a hostname to use
-> for validating the x509 certificate, the same way we allow for live
-> migration.
-
-Okay, v2 coming up later, once I've done more integration testing.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
-
---892I7ZPAfaPTWrCcMyC1q7OZ3csgscr7l--
-
---SSf8SMWCiJ474UWdKl8hmADN2xC7Ivz7s
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0U4tAACgkQp6FrSiUn
-Q2pNuAf/WyiDmacuqI5lvvA9PwERxevsYEo0+8y8tzpafFjES0FYuw6Rg2t2ET6S
-OdIwKyOistECKwsX1XaM9AsKM+6L0tUeaQuO/zHPWfcyvDPLvGqBjkzGhoJdRQsY
-f33/arSqQe5StEvOALfMpCgOvcrqt7F7vO9vwIBzQ4JAHRcTGNe2KQXuax8JHtMn
-YNzHSUwP4+qsRJuzhH2JBrXTpyAyta7Aug+07ijCBy17JS9eZYt83xf0ZenWXYwd
-v3i/ngI+hU+5V45JU8uw+NEWMZyJpX95D+yqCP6Z04SiKEqzod5CvGoEEO30OKkc
-SqSKcix3qdutYFh+YWTuMRKf01IR9A==
-=l4fw
------END PGP SIGNATURE-----
-
---SSf8SMWCiJ474UWdKl8hmADN2xC7Ivz7s--
+Berto
 
