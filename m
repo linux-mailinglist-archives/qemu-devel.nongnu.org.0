@@ -2,47 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5E758132
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:13:55 +0200 (CEST)
-Received: from localhost ([::1]:48676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2E9358130
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:12:46 +0200 (CEST)
+Received: from localhost ([::1]:48668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgSLi-0006JT-NA
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
+	id 1hgSKb-0004r1-T7
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56437)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <Dave.Martin@arm.com>) id 1hgSBE-00082e-2B
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:03:14 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hgSB6-0007xT-JL
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:03:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>) id 1hgSAt-0007U0-NZ
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:03:03 -0400
-Received: from foss.arm.com ([217.140.110.172]:50328)
- by eggs.gnu.org with esmtp (Exim 4.71)
- (envelope-from <Dave.Martin@arm.com>)
- id 1hgSAA-0006qx-Pf; Thu, 27 Jun 2019 07:01:58 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54E6A2B;
- Thu, 27 Jun 2019 04:01:57 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
- [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E9B3C3F718;
- Thu, 27 Jun 2019 04:01:55 -0700 (PDT)
-Date: Thu, 27 Jun 2019 12:01:53 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Auger Eric <eric.auger@redhat.com>
-Message-ID: <20190627110153.GE2790@e103592.cambridge.arm.com>
-References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-13-drjones@redhat.com>
- <40326319-4f1a-019e-1cb7-840a011ed8b4@redhat.com>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hgSAg-0007FN-Fg
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:02:53 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45451)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hgSAg-0006yL-9V
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:02:30 -0400
+Received: by mail-wr1-x441.google.com with SMTP id f9so2006743wre.12
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 04:02:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dcB8BYSGUn66tEC53pOClW1bq1/Id357LOxsMrnpnLQ=;
+ b=OHCrmngUrDmHQWiYFbVqrFKNiHsYjdujrS2wHa7KSVe/2gIvtwpy5zaUoxH9yvvz2P
+ uksYH4rR30w1+9rouvED0GLtM0xy4Qp5g432ZmIfBPQtN0+wlEHAq7A2ZP8wEXcREiJK
+ mI0gpjUlmGTF3ehaGWdJ9LATAL8wdSogpD+GZ4GJk2yRKcOJ0g+B8EWhf0gxRj55uonw
+ Jz08gJZ1n0zbwEPFwyIArzFSg92y3Dp8aMz1eAhwleTU+EKPY8+Hg4l+PODjayss3NIz
+ iCCrCKdWHxwxOBY28dM4Q2a63pnnAHvWeXNdYGnS1btlm5KrS38dZkOG4Ia4YiCqYnAU
+ gBSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=dcB8BYSGUn66tEC53pOClW1bq1/Id357LOxsMrnpnLQ=;
+ b=URDooDmDZOKAE2HI7H68pNEwIripJ3BJBnLic8IP0uBKWV10/ulKI9IaxD6KHTmBi6
+ 5g+srVN8WGXBWnC04NAkEr7y/MfE/DB9qc/g61Zjg3wVMYy/bQBOInahqujQ5O2ymvGP
+ Y1pqzMGzDe7co1VUcwh8VusXC7AVM8qbDgD4rBi+C133k/OJsA+NANqBX6y8I9dWdTS1
+ Iy4mhJK2i6SIWrCTQqnlrWkRBBie6n/JO2iK8fk4bLFYPrnUiPYdHTiVR/vUt3Cs4MII
+ ZKZ2zxgCJmMWI5h0EFQQML3OuaktsATJWm5KtZ1DhCwqhxGDXM8YQIW64Us700w1e55M
+ 4EoQ==
+X-Gm-Message-State: APjAAAWRQAupEjEmI8212PZvSWvoRydu28Q1UUqXTY8/H4FS160G/Wek
+ NhpgnWWjX69gKCJwbP17FK+WJ3h9
+X-Google-Smtp-Source: APXvYqybPPHqISj7zAmkseKkbPFxV7g1zRre1Jelb9RsYM60103tuAvRsZq7qspIz++8aEuq8FY25w==
+X-Received: by 2002:a5d:4908:: with SMTP id x8mr2717845wrq.290.1561633330669; 
+ Thu, 27 Jun 2019 04:02:10 -0700 (PDT)
+Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id y18sm6368968wmi.23.2019.06.27.04.02.03
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 27 Jun 2019 04:02:05 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Date: Thu, 27 Jun 2019 13:01:56 +0200
+Message-Id: <20190627110201.1999-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <40326319-4f1a-019e-1cb7-840a011ed8b4@redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.140.110.172
-Subject: Re: [Qemu-devel] [PATCH v2 12/14] target/arm/kvm: scratch vcpu:
- Preserve input kvm_vcpu_init features
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH 0/5] tests/acceptance: Add tests for the
+ PReP/40p machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,80 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- Andrew Jones <drjones@redhat.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "imammedo@redhat.com" <imammedo@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 08:30:57AM +0100, Auger Eric wrote:
-> Hi Drew,
-> 
-> On 6/21/19 6:34 PM, Andrew Jones wrote:
-> > kvm_arm_create_scratch_host_vcpu() takes a struct kvm_vcpu_init
-> > parameter. Rather than just using it as an output parameter to
-> > pass back the preferred target, use it also as an input parameter,
-> > allowing a caller to pass a selected target if they wish and to
-> > also pass cpu features. If the caller doesn't want to select a
-> > target they can pass -1 for the target which indicates they want
-> > to use the preferred target and have it passed back like before.
-> > 
-> > Signed-off-by: Andrew Jones <drjones@redhat.com>
-> > ---
-> >  target/arm/kvm.c   | 20 +++++++++++++++-----
-> >  target/arm/kvm32.c |  6 +++++-
-> >  target/arm/kvm64.c |  6 +++++-
-> >  3 files changed, 25 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> > index 60645a196d3d..66c0c198604a 100644
-> > --- a/target/arm/kvm.c
-> > +++ b/target/arm/kvm.c
-> > @@ -64,7 +64,7 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-> >                                        int *fdarray,
-> >                                        struct kvm_vcpu_init *init)
-> >  {
-> > -    int ret, kvmfd = -1, vmfd = -1, cpufd = -1;
-> > +    int ret = 0, kvmfd = -1, vmfd = -1, cpufd = -1;
-> >  
-> >      kvmfd = qemu_open("/dev/kvm", O_RDWR);
-> >      if (kvmfd < 0) {
-> > @@ -84,7 +84,14 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-> >          goto finish;
-> >      }
-> >  
-> > -    ret = ioctl(vmfd, KVM_ARM_PREFERRED_TARGET, init);
-> > +    if (init->target == -1) {
-> > +        struct kvm_vcpu_init preferred;
-> > +
-> > +        ret = ioctl(vmfd, KVM_ARM_PREFERRED_TARGET, &preferred);
-> > +        if (!ret) {
-> > +            init->target = preferred.target;
-> wouldn't it be safe to copy the whole struct. Kernel code says:
->         /*
->          * For now, we don't return any features.
->          * In future, we might use features to return target
->          * specific features available for the preferred
->          * target type.
->          */
+Collection of various user cases from different mailing lists.
 
-Marc or Christoffer should preferably comment on this.
+Quick tests worth to avoid regressions, idea from
+https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04177.html
+"Maintainers, please tell us how to boot your machines"
 
-I think the spirit of the ABI is that can use the whole return of
-KVM_ARM_PREFERRED_TARGET as a reasonable template for KVM_VCPU_INIT
-without it blowing up in your face.
+Regards,
 
-I initially tried to report SVE as available through this route,
-but we decided against it precisely because userspace might be doing
-the above.
+Phil.
 
-[...]
+Philippe Mathieu-Daudé (5):
+  tests/acceptance: Add test that runs NetBSD installer on PRep/40p
+  tests/acceptance: Test Open Firmware on the PReP/40p
+  tests/acceptance: Test OpenBIOS on the PReP/40p
+  tests/acceptance: Test Sandalfoot initrd on the PReP/40p
+  .travis.yml: Let the avocado job run the 40p tests
 
-Cheers
----Dave
+ .travis.yml                      |   2 +-
+ tests/acceptance/ppc_prep_40p.py | 150 +++++++++++++++++++++++++++++++
+ 2 files changed, 151 insertions(+), 1 deletion(-)
+ create mode 100644 tests/acceptance/ppc_prep_40p.py
+
+-- 
+2.19.1
+
 
