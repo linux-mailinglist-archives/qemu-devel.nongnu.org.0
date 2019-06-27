@@ -2,90 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569B858856
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 19:29:21 +0200 (CEST)
-Received: from localhost ([::1]:53198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A15858847
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 19:26:31 +0200 (CEST)
+Received: from localhost ([::1]:53168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgYD2-0003zP-JO
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 13:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34280)
+	id 1hgYAI-0000jX-N6
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 13:26:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hgYBQ-0002yb-RT
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:27:41 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hgY8M-00080f-Lp
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:24:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hgYBP-0007pA-OO
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:27:40 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:36274
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hgYBN-0006Vz-W1
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:27:39 -0400
-Received: from host86-173-229-95.range86-173.btcentralplus.com
- ([86.173.229.95] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hgY7m-0007HL-RW; Thu, 27 Jun 2019 18:23:55 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20190519041522.12327-1-richard.henderson@linaro.org>
- <8f28d008-2608-a579-7505-4546b08deb41@linaro.org>
- <085d6881-f518-9888-a13e-081cdc09de46@ilande.co.uk>
- <0b9f4772-37f6-1453-e4ea-5ad9d0f52a5b@ilande.co.uk>
- <acc57487-c8a0-9380-bc2a-4de22541eabf@ilande.co.uk>
- <CAL1e-=iavFqEeFuNm2efVM7mu5OaABBVo90wqJEhmoWa4DQv=Q@mail.gmail.com>
- <ffae3651-5daf-e008-6562-2de09d82ace9@linaro.org>
- <b8aab3f4-e3eb-a137-62b4-ba5ac1a2ad8f@ilande.co.uk>
- <68facefc-b801-4902-11c0-4542662bfc4e@linaro.org>
- <d2c1f979-7ff2-946e-4863-c1be19c5f003@ilande.co.uk>
- <16f26b7f-2435-aa05-66a3-073e8310d5c8@linaro.org>
- <0ceec012-fcdc-ccde-291a-121a4e475f86@ilande.co.uk>
- <7b1699e1-28ca-a58f-787e-c0ca11666b90@linaro.org>
- <9502af13-22b9-031e-2ba9-ec4ff75ccd0e@ilande.co.uk>
+ (envelope-from <jsnow@redhat.com>) id 1hgY8L-0004sp-Bx
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:24:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49240)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1hgY8I-0004qU-FY; Thu, 27 Jun 2019 13:24:26 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 833B18F916;
+ Thu, 27 Jun 2019 17:24:25 +0000 (UTC)
+Received: from [10.18.17.47] (dhcp-17-47.bos.redhat.com [10.18.17.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4488600CC;
+ Thu, 27 Jun 2019 17:24:24 +0000 (UTC)
+To: Stefano Garzarella <sgarzare@redhat.com>
+References: <20190510153346.238366-1-sgarzare@redhat.com>
+ <96429d33-6514-33b5-3fe8-7bdf2eccc8d9@redhat.com>
+ <20190627084816.u6fj556uen3iqa3r@steredhat.homenet.telecomitalia.it>
+From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <cd1a0635-5b5d-3c2d-dec3-4ceda8c789f9@ilande.co.uk>
-Date: Thu, 27 Jun 2019 18:24:21 +0100
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <b7aaa681-12ae-e256-e295-06e953dc51ff@redhat.com>
+Date: Thu, 27 Jun 2019 13:24:24 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <9502af13-22b9-031e-2ba9-ec4ff75ccd0e@ilande.co.uk>
+In-Reply-To: <20190627084816.u6fj556uen3iqa3r@steredhat.homenet.telecomitalia.it>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.173.229.95
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Thu, 27 Jun 2019 17:24:25 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
-Subject: Re: [Qemu-devel] [PATCH v4 0/7] tcg/ppc: Add vector opcodes
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] block/rbd: implement
+ .bdrv_get_allocated_file_size callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,93 +136,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Jason Dillaman <jdillama@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/06/2019 20:38, Mark Cave-Ayland wrote:
 
->> But I thought that _CALL_AIX was only defined for ppc64 elf version 1.  I
->> thought that ppc32 used _CALL_SYSV instead.  Certainly that's what is used
->> elsewhere...
+
+On 6/27/19 4:48 AM, Stefano Garzarella wrote:
+> On Wed, Jun 26, 2019 at 05:04:25PM -0400, John Snow wrote:
+>> It looks like this has hit a 30 day expiration without any reviews or
+>> being merged; do we still want this? If so, can you please resend?
 > 
-> No, that didn't work either. I've confirmed using #ifdef _CALL_AIX #error ERROR
-> #endif that _CALL_AIX is *NOT* defined and _CALL_SYSV *is* defined.
+> Yes, I think we still want :)
 > 
-> I've also tried removing TCG_REG_R2 from tcg_target_reg_alloc_order[] and
-> tcg_regset_set_reg() for TCG_REG_R2 from tcg_target_init() and I'm still generating
-> bad code that writes to r2(!).
+> Is it okay if I send a v3 following your comments?
 > 
-> Since I can't find any other mentions of TCG_REG_TMP1 and TCG_REG_R2 that isn't
-> inside an #ifdef _CALL_AIX ... #endif section I'm starting to get stuck. Is there any
-> chance that the R_PPC_ADDR32 change could be causing this at all?
 
-So after a lot more digging: the issue can be seen in tcg_out_ld() and tcg_out_st()
-for the vector registers. Taking tcg_out_ld() as an example:
+Yes, but I don't know who is responsible for final approval; I guess
+that's Josh Durgin?
 
-    case TCG_TYPE_V128:
-        tcg_debug_assert(ret >= 32);
-        assert((offset & 15) == 0);
-        tcg_out_mem_long(s, 0, LVX, ret & 31, base, offset);
-        break;
+>>
+>> On 5/10/19 11:33 AM, Stefano Garzarella wrote:
+>>> This patch allows 'qemu-img info' to show the 'disk size' for
+>>> the RBD images that have the fast-diff feature enabled.
+>>>
+>>> If this feature is enabled, we use the rbd_diff_iterate2() API
+>>> to calculate the allocated size for the image.
+>>>
+>>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>>> ---
+>>> v2:
+>>>   - calculate the actual usage only if the fast-diff feature is
+>>>     enabled [Jason]
+>>> ---
+>>>  block/rbd.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>>  1 file changed, 54 insertions(+)
+>>>
+>>> diff --git a/block/rbd.c b/block/rbd.c
+>>> index 0c549c9935..f1bc76ab80 100644
+>>> --- a/block/rbd.c
+>>> +++ b/block/rbd.c
+>>> @@ -1046,6 +1046,59 @@ static int64_t qemu_rbd_getlength(BlockDriverState *bs)
+>>>      return info.size;
+>>>  }
+>>>  
+>>> +static int rbd_allocated_size_cb(uint64_t offset, size_t len, int exists,
+>>> +                                 void *arg)
+>>> +{
+>>> +    int64_t *alloc_size = (int64_t *) arg;
+>>> +
+>>> +    if (exists) {
+>>> +        (*alloc_size) += len;
+>>> +    }
+>>> +
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static int64_t qemu_rbd_get_allocated_file_size(BlockDriverState *bs)
+>>> +{
+>>> +    BDRVRBDState *s = bs->opaque;
+>>> +    uint64_t flags, features;
+>>> +    int64_t alloc_size = 0;
+>>> +    int r;
+>>> +
+>>> +    r = rbd_get_flags(s->image, &flags);
+>>> +    if (r < 0) {
+>>> +        return r;
+>>> +    }
+>>> +
+>>
+>> Do you know where rbd_get_flags is documented? I can't seem to quickly
+>> find a reference that tells me what to expect from calling it. It
+>> returns an int, I guess an error code, but how can I confirm this?
+>>
+>> *clones the ceph repository*
+>>
+>> src/librbd/internal.cc get_flags convinces me it probably works like I
+>> think, but is there not a reference here?
+>>
+> 
+> Good question!
+> I didn't find any docs, but looking in the ceph tests test/librbd/fsx.cc,
+> they print an error message if the return value is less than 0.
+> 
+> A 'get_flags' implemented in cls/rbd/cls_rbd.cc for example returns 0 at the
+> end and -EINVAL in a try/catch. It also uses 'read_key()' that in some cases
+> returns -EIO, so I hope that the error returned by rbd_get_flags() is one of
+> the errors defined in errno.h
+> 
+>>> +    r = rbd_get_features(s->image, &features);
+>>> +    if (r < 0) {
+>>> +        return r;
+>>> +    }
+>>> +
+>>> +    /*
+>>> +     * We use rbd_diff_iterate2() only if the RBD image have fast-diff
+>>> +     * feature enabled. If it is disabled, rbd_diff_iterate2() could be
+>>> +     * very slow on a big image.
+>>> +     */
+>>> +    if (!(features & RBD_FEATURE_FAST_DIFF) ||
+>>> +        (flags & RBD_FLAG_FAST_DIFF_INVALID)) {
+>>> +        return -1;
+>>> +    }
+>>> +
+>>
+>> (Is there a reference for the list of flags to make sure there aren't
+>> other cases we might want to skip this?)
+> 
+> Unfortunately no :(
+> As Jason suggested, I followed what libvirt did in the
+> volStorageBackendRBDUseFastDiff() [src/storage/storage_backend_rbd.c]
+> 
+>>
+>> It looks reasonable at a glance, but maybe let's return -ENOTSUP instead
+>> of -1, based on the idea that bdrv_get_allocated_file_size returns
+>> -ENOMEDIUM in a prominent error case -- let's match that error convention.
+> 
+> Sure, -ENOTSUP is absolutely better!
+> 
+>>
+>> (Well, I wonder what the librbd calls are returning and if THOSE mean
+>> anything.)
+> 
+> I hope they return an errno.h errors, but I'm not sure if the meaning
+> make sense for us.
+> 
+> Do you think is better to return -ENOTSUP or -EIO when librbd calls
+> fail?
+> 
 
-For the TCG_TYPE_V128 case we have ret = TCG_REG_V2 but (ret & 31) masks off the top
-bit which converts this to TCG_REG_R2 and that's why tcg_out_mem_long() starts using
-r2 to calculate offsets.
+I'll be honest, I have no idea because I don't know what failure of
+these calls means _at all_, so I don't know if it should be something
+severe like EIO or something more mundane.
 
-Assuming that rt is the temporary register used to calculate the address then the
-patch below tentatively appears to get things working again by passing in
-TCG_REG_TMP1 instead, but ultimately I still see a crash much later when trying to
-boot MacOS 9:
+I guess just leave them alone in absence of better information, honestly.
 
-diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-index 61732c1f45..dd823447cc 100644
---- a/tcg/ppc/tcg-target.inc.c
-+++ b/tcg/ppc/tcg-target.inc.c
-@@ -1139,7 +1139,7 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret,
-     case TCG_TYPE_V64:
-         tcg_debug_assert(ret >= 32);
-         assert((offset & 7) == 0);
--        tcg_out_mem_long(s, 0, LVX, ret & 31, base, offset & -16);
-+        tcg_out_mem_long(s, 0, LVX, TCG_REG_TMP1, base, offset & -16);
-         if (offset & 8) {
-             tcg_out_vsldoi(s, ret, ret, ret, 8);
-         }
-@@ -1147,7 +1147,7 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret,
-     case TCG_TYPE_V128:
-         tcg_debug_assert(ret >= 32);
-         assert((offset & 15) == 0);
--        tcg_out_mem_long(s, 0, LVX, ret & 31, base, offset);
-+        tcg_out_mem_long(s, 0, LVX, TCG_REG_TMP1, base, offset);
-         break;
-     default:
-         g_assert_not_reached();
-@@ -1186,12 +1186,13 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
-             tcg_out_vsldoi(s, TCG_VEC_TMP1, arg, arg, 8);
-             arg = TCG_VEC_TMP1;
-         }
--        tcg_out_mem_long(s, 0, STVEWX, arg & 31, base, offset);
--        tcg_out_mem_long(s, 0, STVEWX, arg & 31, base, offset + 4);
-+        tcg_out_mem_long(s, 0, STVEWX, TCG_REG_TMP1, base, offset);
-+        tcg_out_mem_long(s, 0, STVEWX, TCG_REG_TMP1, base, offset + 4);
-         break;
-     case TCG_TYPE_V128:
-         tcg_debug_assert(arg >= 32);
--        tcg_out_mem_long(s, 0, STVX, arg & 31, base, offset);
-+        assert((offset & 15) == 0);
-+        tcg_out_mem_long(s, 0, STVX, TCG_REG_TMP1, base, offset);
-         break;
-     default:
-         g_assert_not_reached();
+> 
+> Thanks for your comments,
+> Stefano
+> 
 
-Richard: even though it's still not perfect, does this look like it's fixing the
-right problem? Presumably the reason this didn't break on your Power 9 box is because
-the 64-bit ABI doesn't mark r2 as reserved?
-
-
-ATB,
-
-Mark.
+Thank you for trying to patch rbd :)
 
