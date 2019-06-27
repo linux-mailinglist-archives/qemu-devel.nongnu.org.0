@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AC458C37
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 22:57:13 +0200 (CEST)
-Received: from localhost ([::1]:54410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE7A58BFD
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 22:50:47 +0200 (CEST)
+Received: from localhost ([::1]:54324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgbSD-0003xW-2O
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 16:57:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45816)
+	id 1hgbLy-0004GA-LG
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 16:50:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45867)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hgb1E-0001x9-Li
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:22 -0400
+ (envelope-from <philmd@redhat.com>) id 1hgb1I-0001zl-FN
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hgb1C-0000Qp-Iv
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50450)
+ (envelope-from <philmd@redhat.com>) id 1hgb1G-0000YX-Eq
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56840)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hgb10-0008Ai-NK; Thu, 27 Jun 2019 16:29:06 -0400
+ id 1hgb14-0008Nn-S7; Thu, 27 Jun 2019 16:29:11 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 722303082231;
- Thu, 27 Jun 2019 20:28:48 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6F51430BDE4B;
+ Thu, 27 Jun 2019 20:29:00 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-69.brq.redhat.com [10.40.204.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C6BC600CC;
- Thu, 27 Jun 2019 20:28:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E3DE5600CC;
+ Thu, 27 Jun 2019 20:28:48 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Stephen Checkoway <stephen.checkoway@oberlin.edu>,
 	qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 22:27:00 +0200
-Message-Id: <20190627202719.17739-10-philmd@redhat.com>
+Date: Thu, 27 Jun 2019 22:27:01 +0200
+Message-Id: <20190627202719.17739-11-philmd@redhat.com>
 In-Reply-To: <20190627202719.17739-1-philmd@redhat.com>
 References: <20190627202719.17739-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Thu, 27 Jun 2019 20:28:48 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Thu, 27 Jun 2019 20:29:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 09/28] hw/block/pflash_cfi02: Use the ldst
- API in pflash_read()
+Subject: [Qemu-devel] [PATCH v5 10/28] hw/block/pflash_cfi02: Extract the
+ pflash_data_read() function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,61 +73,76 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The load/store API eases code review.
+Extract the code block in a new function, remove a goto statement.
 
 Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
 Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-[PMD: Extracted from bigger patch, simplified tracing]
+[PMD: Extracted from bigger patch, remove the XXX tracing comment]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi02.c | 32 +++++---------------------------
- 1 file changed, 5 insertions(+), 27 deletions(-)
+ hw/block/pflash_cfi02.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index ae38ed0bae..49afecb921 100644
+index 49afecb921..c079a63880 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -196,33 +196,11 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwadd=
-r offset,
+@@ -165,12 +165,23 @@ static void pflash_timer (void *opaque)
+     pfl->cmd =3D 0;
+ }
+=20
++/*
++ * Read data from flash.
++ */
++static uint64_t pflash_data_read(PFlashCFI02 *pfl, hwaddr offset,
++                                 unsigned int width)
++{
++    uint8_t *p =3D (uint8_t *)pfl->storage + offset;
++    uint64_t ret =3D pfl->be ? ldn_be_p(p, width) : ldn_le_p(p, width);
++    trace_pflash_data_read(offset, width << 1, ret);
++    return ret;
++}
++
+ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr offset,
+                             int width, int be)
+ {
+     hwaddr boff;
+     uint32_t ret;
+-    uint8_t *p;
+=20
+     ret =3D -1;
+     /* Lazy reset to ROMD mode after a certain amount of read accesses *=
+/
+@@ -194,15 +205,8 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr=
+ offset,
+     case 0x80:
+         /* We accept reads during second unlock sequence... */
      case 0x00:
-     flash_read:
+-    flash_read:
          /* Flash area read */
--        p =3D pfl->storage;
--        switch (width) {
--        case 1:
--            ret =3D p[offset];
--            break;
--        case 2:
--            if (be) {
--                ret =3D p[offset] << 8;
--                ret |=3D p[offset + 1];
--            } else {
--                ret =3D p[offset];
--                ret |=3D p[offset + 1] << 8;
--            }
--            break;
--        case 4:
--            if (be) {
--                ret =3D p[offset] << 24;
--                ret |=3D p[offset + 1] << 16;
--                ret |=3D p[offset + 2] << 8;
--                ret |=3D p[offset + 3];
--            } else {
--                ret =3D p[offset];
--                ret |=3D p[offset + 1] << 8;
--                ret |=3D p[offset + 2] << 16;
--                ret |=3D p[offset + 3] << 24;
--            }
--            break;
-+        p =3D (uint8_t *)pfl->storage + offset;
-+        if (pfl->be) {
-+            ret =3D ldn_be_p(p, width);
-+        } else {
-+            ret =3D ldn_le_p(p, width);
+-        p =3D (uint8_t *)pfl->storage + offset;
+-        if (pfl->be) {
+-            ret =3D ldn_be_p(p, width);
+-        } else {
+-            ret =3D ldn_le_p(p, width);
+-        }
+-        trace_pflash_data_read(offset, width << 1, ret);
++        ret =3D pflash_data_read(pfl, offset, width);
+         break;
+     case 0x90:
+         /* flash ID read */
+@@ -222,7 +226,7 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
+offset,
+             }
+             /* Fall through to data read. */
+         default:
+-            goto flash_read;
++            ret =3D pflash_data_read(pfl, offset, width);
          }
-         trace_pflash_data_read(offset, width << 1, ret);
+         DPRINTF("%s: ID " TARGET_FMT_plx " %" PRIx32 "\n", __func__, bof=
+f, ret);
          break;
 --=20
 2.20.1
