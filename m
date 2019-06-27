@@ -2,53 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D6C587F2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 19:06:56 +0200 (CEST)
-Received: from localhost ([::1]:52935 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5AC587C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:55:29 +0200 (CEST)
+Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgXrL-00088e-Br
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 13:06:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52608)
+	id 1hgXgG-0007Kd-Ct
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:55:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53600)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hgXWE-0006Vg-ED
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:45:08 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hgXaC-00018T-IJ
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:49:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hgXWD-0004c3-FG
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:45:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34100)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hgXWD-0004az-6o
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:45:05 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 72217308427C;
- Thu, 27 Jun 2019 16:45:04 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-117-169.ams2.redhat.com
- [10.36.117.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A5A21001DFD;
- Thu, 27 Jun 2019 16:45:04 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AB01211386A0; Thu, 27 Jun 2019 18:45:02 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <87tvcbc9ul.fsf@dusky.pond.sub.org>
- <655a1ac0-bbd9-9798-4e44-478f94afb86f@redhat.com>
-Date: Thu, 27 Jun 2019 18:45:02 +0200
-In-Reply-To: <655a1ac0-bbd9-9798-4e44-478f94afb86f@redhat.com> (Paolo
- Bonzini's message of "Thu, 27 Jun 2019 18:01:13 +0200")
-Message-ID: <87ftnvasfl.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <richard.henderson@linaro.org>) id 1hgXa8-000857-RC
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:49:10 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:33706)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hgXa7-00081X-CI
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:49:08 -0400
+Received: by mail-wm1-x342.google.com with SMTP id h19so7499066wme.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 09:49:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KxaezKipBS23o61QK8eZk3AlZTmXnPtWw+JObqAW/p4=;
+ b=vpRMsVUV/nm5/ml4RovtUjO6KoxNioiuu3WDSg3Zz0mtcjxZozEt+IBRZVmz/tr4De
+ ZzMi1YVoazraEr7yY8VcE3jHaifK3RjFOYsrn4qVQnc5LivN8hxNXjt0MOPaTj9H+bYc
+ lNT+6CN0MtGoMN7p0T1zyiTjoDVHZLAHLACILdP3l856Rkr9TCM9d72kpXcdTf9yAB3a
+ U+7on4Vl6UZPS7TVYCVKqNpRJRcE2oOsfgvCJ6eAs19R2HsEv+/3SFmbOdB19kjL/iuc
+ LtbxzA+EjhtzCvv/ilrFgYRwQSng0SCBbYiHQs4FhqOPufclliwjnBG+V2TpOw11RjHb
+ DItw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KxaezKipBS23o61QK8eZk3AlZTmXnPtWw+JObqAW/p4=;
+ b=Ksj/prHoB/hBNXBeMo/aQS3mlEqqVD8ByXvCbPSarFglI+ThDf8fyqeCZqvux9c0rE
+ UpWcnDx0nDhilIwWUfBSzGl/te/xx665UzUKWBeDCf/aKQ2Tgj+Vv5uFQKkicjipAKdt
+ 3oxG44+ws3XknifJUKhsSfUZHkmovXAkboSIFrP9q6u7bkhJKlT7PZ0voJVdynvq3eM0
+ GPxWm5yRdmX0136dkU08qLptz+dXnxMP7XsFffAkKHLAg/WpgeDPNVy9JeKZngRrlhSG
+ O1DZuGHAiuRUcP4vdjypKrBdHqiOLqGTlNRdoWUsLtATNOWZrUVXW1lpOvJsqL5XRwK/
+ V3Hw==
+X-Gm-Message-State: APjAAAUMMlV2o/HTLmtZsdENkwGAg6BNxocsd0EsR/D0Kjbi7u+m20QD
+ kmRpuvRbXmwjOpsvbp5kz8d02A==
+X-Google-Smtp-Source: APXvYqw0dXcQ6SMbSTw0LaOL66eawMY2BJ3g6gMKi1zpD6dVL7zhuHJY0y3a9H8TpaOjRphG12Mdaw==
+X-Received: by 2002:a1c:c747:: with SMTP id x68mr3923706wmf.138.1561654144652; 
+ Thu, 27 Jun 2019 09:49:04 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id h90sm3796163wrh.15.2019.06.27.09.49.03
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 27 Jun 2019 09:49:04 -0700 (PDT)
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-8-drjones@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <be805987-250d-93a7-7d11-5204f0e16e7b@linaro.org>
+Date: Thu, 27 Jun 2019 18:49:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 27 Jun 2019 16:45:04 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Should configure --enable-debug add -Og to CFLAGS?
+In-Reply-To: <20190621163422.6127-8-drjones@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v2 07/14] target/arm/cpu64: max cpu:
+ Introduce sve<vl-bits> properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,48 +86,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, armbru@redhat.com, eric.auger@redhat.com,
+ imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On 6/21/19 6:34 PM, Andrew Jones wrote:
+> +    /*
+> +     * In sve_vq_map each set bit is a supported vector length of
+> +     * (bit-number + 1) * 16 bytes, i.e. each bit number + 1 is the vector
+> +     * length in quadwords. We need a map size twice the maximum
+> +     * quadword length though because we use two bits for each vector
+> +     * length in order to track three states: uninitialized, off, and on.
+> +     */
+> +    DECLARE_BITMAP(sve_vq_map, ARM_MAX_VQ * 2);
 
-> On 27/06/19 17:43, Markus Armbruster wrote:
->> The fine manual advises:
->> 
->> '-O0'
->>      Reduce compilation time and make debugging produce the expected
->>      results.  This is the default.
->> [...]
->> '-Og'
->>      Optimize debugging experience.  '-Og' should be the optimization
->>      level of choice for the standard edit-compile-debug cycle, offering
->>      a reasonable level of optimization while maintaining fast
->>      compilation and a good debugging experience.  It is a better choice
->>      than '-O0' for producing debuggable code because some compiler
->>      passes that collect debug information are disabled at '-O0'.
->> 
->> Our configure --enable-debug effectively picks -O0.  Should it pick -Og
->> instead?
->> 
->
->     commit 48e56d503e18bd1e8a75463fd7cc1580bf7e7650
->     Author: Paolo Bonzini <pbonzini@redhat.com>
->     Date:   Tue Mar 6 11:32:44 2018 +0100
->
->     Revert "build-sys: compile with -Og or -O1 when --enable-debug"
->
->     This reverts commit 906548689e37ab6cca1e93b3f8d9327a4e17e8af.
->     Even with -Og, the debug experience is noticeably worse
->     because gdb shows a lot more "<optimised out>" variables and
->     function arguments.
->
->     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
-> :(
+I don't see that having one continuous bitmap is more convenient than two.
+Indeed, there appear to be several places that would be clearer with two.
 
-Aha, GCC's documentation is more aspirational than factual here.
-Nevermind!
+> +static arm_vq_state arm_cpu_vq_map_get(ARMCPU *cpu, int vq)
+> +{
+> +    assert(vq <= ARM_MAX_VQ);
+> +
+> +    return test_bit(vq - 1, cpu->sve_vq_map) |
+> +           test_bit(vq - 1 + ARM_MAX_VQ, cpu->sve_vq_map) << 1;
+> +}
+
+Neither easier nor more complex w/ one or two bitmaps.
+
+> +static void arm_cpu_vq_map_init(ARMCPU *cpu)
+> +{
+> +    bitmap_zero(cpu->sve_vq_map, ARM_MAX_VQ * 2);
+> +    bitmap_set(cpu->sve_vq_map, ARM_MAX_VQ, ARM_MAX_VQ);
+> +}
+
+Clearer with two bitmaps.
+
+	bitmap_zero(cpu->sve_vq_map, ARM_MAX_VQ);
+	bitmap_set(cpu->sve_vq_uninit_map, 0, ARM_MAX_VQ);
+
+> +static bool arm_cpu_vq_map_is_finalized(ARMCPU *cpu)
+> +{
+> +    DECLARE_BITMAP(map, ARM_MAX_VQ * 2);
+> +
+> +    bitmap_zero(map, ARM_MAX_VQ * 2);
+> +    bitmap_set(map, ARM_MAX_VQ, ARM_MAX_VQ);
+> +    bitmap_and(map, map, cpu->sve_vq_map, ARM_MAX_VQ * 2);
+> +
+> +    return bitmap_empty(map, ARM_MAX_VQ * 2);
+> +}
+
+Definitely clearer w/ 2 bitmaps,
+
+	return bitmap_empty(cpu->sve_vq_uninit_map);
+
+
+As for how sve-max-vq=Y and sveX={on,off} interoperate...  I wonder if we can
+just remove cpu->sve_max_vq.  That might simplify your code a bit.
+
+What if sve-max-vq=Y "expands" to
+
+	for (X = 1; X <= Y; X++) { sve(X*128)=on }
+
+Then you've got a reasonable in-order definition of how those two sets of
+switches interoperate.
+
+The uses of cpu->sve_max_vq within cpu.c and cpu64.c are all initialization
+stuff that you're replacing.
+
+The use within sve_zcr_len_for_el can be replaced by AVR_MAX_VQ.  Your "select
+supported vector size not larger than" code goes at the end of that function,
+such that we select a supported maximum no larger than the raw .LEN values.
+
+The use within aarch64_sve_narrow_vq should in fact assert that the given vq is
+set within cpu->sve_vq_map.
+
+
+r~
 
