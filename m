@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12055813D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:15:38 +0200 (CEST)
-Received: from localhost ([::1]:48690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FB45812F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:12:18 +0200 (CEST)
+Received: from localhost ([::1]:48664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgSNN-0007jN-QG
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:15:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55828)
+	id 1hgSK9-0003zS-GL
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:12:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55830)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5x-0001yl-7h
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5x-0001ym-8c
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5v-0001hL-Hm
+ (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5v-0001hJ-Hc
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:37 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:36500 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:36504 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1hgS5v-0001fs-8J
+ id 1hgS5v-0001fw-7d
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:35 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 2DA471A45AE;
+ by mail.rt-rk.com (Postfix) with ESMTP id 3EC001A4539;
  Thu, 27 Jun 2019 12:56:30 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
  [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id EEA2D1A4583;
- Thu, 27 Jun 2019 12:56:29 +0200 (CEST)
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 034331A457F;
+ Thu, 27 Jun 2019 12:56:30 +0200 (CEST)
 From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 12:56:21 +0200
-Message-Id: <1561632985-24866-10-git-send-email-stefan.brankovic@rt-rk.com>
+Date: Thu, 27 Jun 2019 12:56:22 +0200
+Message-Id: <1561632985-24866-11-git-send-email-stefan.brankovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561632985-24866-1-git-send-email-stefan.brankovic@rt-rk.com>
 References: <1561632985-24866-1-git-send-email-stefan.brankovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v4 09/13] tcg/i386: Implement vector vmrgh
- instructions
+Subject: [Qemu-devel] [PATCH v4 10/13] target/ppc: convert vmrgh
+ instructions to vector operations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,81 +58,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
 ---
- tcg/i386/tcg-target.h     |  2 +-
- tcg/i386/tcg-target.inc.c | 19 +++++++++++++++++++
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ target/ppc/helper.h                 | 3 ---
+ target/ppc/int_helper.c             | 2 +-
+ target/ppc/translate/vmx-impl.inc.c | 6 +++---
+ 3 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index e11b22d..daae35f 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -192,7 +192,7 @@ extern bool have_avx2;
- #define TCG_TARGET_HAS_minmax_vec       1
- #define TCG_TARGET_HAS_bitsel_vec       0
- #define TCG_TARGET_HAS_cmpsel_vec       -1
--#define TCG_TARGET_HAS_vmrgh_vec        0
-+#define TCG_TARGET_HAS_vmrgh_vec        1
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index ac1a5bd..9a7721f 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -164,9 +164,6 @@ DEF_HELPER_4(vcmpbfp_dot, void, env, avr, avr, avr)
+ DEF_HELPER_3(vmrglb, void, avr, avr, avr)
+ DEF_HELPER_3(vmrglh, void, avr, avr, avr)
+ DEF_HELPER_3(vmrglw, void, avr, avr, avr)
+-DEF_HELPER_3(vmrghb, void, avr, avr, avr)
+-DEF_HELPER_3(vmrghh, void, avr, avr, avr)
+-DEF_HELPER_3(vmrghw, void, avr, avr, avr)
+ DEF_HELPER_3(vmulesb, void, avr, avr, avr)
+ DEF_HELPER_3(vmulesh, void, avr, avr, avr)
+ DEF_HELPER_3(vmulesw, void, avr, avr, avr)
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index 3edf334..00e6e02 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -948,7 +948,7 @@ void helper_vmladduhm(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
  
- #define TCG_TARGET_deposit_i32_valid(ofs, len) \
-     (((ofs) == 0 && (len) == 8) || ((ofs) == 8 && (len) == 8) || \
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index 6ddeebf..31e1b2b 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -2823,6 +2823,9 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_umax_vec:
-         insn = umax_insn[vece];
-         goto gen_simd;
-+    case INDEX_op_vmrgh_vec:
-+        insn = punpckh_insn[vece];
-+        goto gen_simd;
-     case INDEX_op_shlv_vec:
-         insn = shlv_insn[vece];
-         goto gen_simd;
-@@ -3223,6 +3226,7 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_umin_vec:
-     case INDEX_op_smax_vec:
-     case INDEX_op_umax_vec:
-+    case INDEX_op_vmrgh_vec:
-     case INDEX_op_shlv_vec:
-     case INDEX_op_shrv_vec:
-     case INDEX_op_sarv_vec:
-@@ -3321,6 +3325,8 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_umax_vec:
-     case INDEX_op_abs_vec:
-         return vece <= MO_32;
-+    case INDEX_op_vmrgh_vec:
-+        return vece <= MO_32 ? -1 : 0;
- 
-     default:
-         return 0;
-@@ -3614,6 +3620,14 @@ static void expand_vec_cmpsel(TCGType type, unsigned vece, TCGv_vec v0,
-     tcg_temp_free_vec(t);
- }
- 
-+static void expand_vec_vmrg(TCGOpcode opc, TCGType type, unsigned vece,
-+                              TCGv_vec v0, TCGv_vec v1, TCGv_vec v2)
-+{
-+    vec_gen_3(opc, type, vece,
-+              tcgv_vec_arg(v0), tcgv_vec_arg(v2),
-+              tcgv_vec_arg(v1));
-+}
+ #define VMRG(suffix, element, access)          \
+     VMRG_DO(mrgl##suffix, element, access, half)   \
+-    VMRG_DO(mrgh##suffix, element, access, 0)
 +
- void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-                        TCGArg a0, ...)
- {
-@@ -3653,6 +3667,11 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-         expand_vec_cmpsel(type, vece, v0, v1, v2, v3, v4, va_arg(va, TCGArg));
-         break;
- 
-+    case INDEX_op_vmrgh_vec:
-+        v2 = temp_tcgv_vec(arg_temp(a2));
-+        expand_vec_vmrg(opc, type, vece, v0, v1, v2);
-+        break;
-+
-     default:
-         break;
-     }
+ VMRG(b, u8, VsrB)
+ VMRG(h, u16, VsrH)
+ VMRG(w, u32, VsrW)
+diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
+index 39fb26d..e02390f 100644
+--- a/target/ppc/translate/vmx-impl.inc.c
++++ b/target/ppc/translate/vmx-impl.inc.c
+@@ -446,9 +446,9 @@ GEN_VXFORM_DUAL(vavguw, PPC_ALTIVEC, PPC_NONE, \
+ GEN_VXFORM(vavgsb, 1, 20);
+ GEN_VXFORM(vavgsh, 1, 21);
+ GEN_VXFORM(vavgsw, 1, 22);
+-GEN_VXFORM(vmrghb, 6, 0);
+-GEN_VXFORM(vmrghh, 6, 1);
+-GEN_VXFORM(vmrghw, 6, 2);
++GEN_VXFORM_V(vmrghb, MO_8, tcg_gen_gvec_vmrgh, 6, 0);
++GEN_VXFORM_V(vmrghh, MO_16, tcg_gen_gvec_vmrgh, 6, 1);
++GEN_VXFORM_V(vmrghw, MO_32, tcg_gen_gvec_vmrgh, 6, 2);
+ GEN_VXFORM(vmrglb, 6, 4);
+ GEN_VXFORM(vmrglh, 6, 5);
+ GEN_VXFORM(vmrglw, 6, 6);
 -- 
 2.7.4
 
