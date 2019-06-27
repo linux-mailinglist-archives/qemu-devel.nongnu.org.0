@@ -2,65 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5647057EE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 11:03:49 +0200 (CEST)
-Received: from localhost ([::1]:47888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F298A57EEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 11:06:39 +0200 (CEST)
+Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgQJj-00031l-C6
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 05:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59140)
+	id 1hgQMZ-0004xJ-7A
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 05:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59647)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hgQIF-0002Uq-9F
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 05:02:13 -0400
+ (envelope-from <armbru@redhat.com>) id 1hgQJc-0003DN-Ow
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 05:03:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hgQID-0008Go-Ii
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 05:02:11 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53315)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hgQID-0007ic-8J
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 05:02:09 -0400
-Received: by mail-wm1-f67.google.com with SMTP id x15so4911898wmj.3
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 02:01:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FlOWw/XFm2REc278TnM4G9fixGXO++7lGpaubJ3RO60=;
- b=cHt6GS9npykApAay6ZnARFWg+ydKJcmia7I/sJoIDK2jsWGoHK0oGqnQ45hLgGh5MY
- A3PhHxW1tbVUf8RsJ4Ix/K5lqZEjM92FWZu7rOc2dZVvxaJppVKuv6H8xr/7y8vy38+M
- JlJZMCh2mdCRnjuX8qoUk5ztK0nwhmWcl7YHcTWf7lf6sansCcl7ykkkihC4nTwL6IpT
- SIlUvmrX6WTnoKXBRAnOTwPwWN90g6791rKspgregwr4Rhfb5/b9IlIfxsixebhQxdBp
- OlKLIae9KakcycwFw5PNlVYiUymkDSkw+gxHA45IyNH5dLJ1UWk52yvrG0eIaZfPv4sY
- vsxQ==
-X-Gm-Message-State: APjAAAXQ1pxx7xhIVzj+9wwHKsRQ3dN57pBSlcQJwX09LJ7ZC9nUTMsj
- GrmvmO2viw6YrVIwhAY6y4Jfiw==
-X-Google-Smtp-Source: APXvYqyGkjW+tbYqkiLtmFDHE2uMyvpcWbWlNcF8n+CgNQUOTiOpZHA8TQiNZDG39rHRiykj/1dNxQ==
-X-Received: by 2002:a1c:bbc1:: with SMTP id l184mr2318628wmf.111.1561626071300; 
- Thu, 27 Jun 2019 02:01:11 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:41bc:c7e6:75c9:c69f?
- ([2001:b07:6468:f312:41bc:c7e6:75c9:c69f])
- by smtp.gmail.com with ESMTPSA id m9sm2070914wrn.92.2019.06.27.02.01.10
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 27 Jun 2019 02:01:10 -0700 (PDT)
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
-References: <97104495f5c945d25315aff1bd618e1a7bacf34c.1561589072.git.alistair.francis@wdc.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1bd3ffcd-3f91-ecb9-2315-da7125f1dcdd@redhat.com>
-Date: Thu, 27 Jun 2019 11:01:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <armbru@redhat.com>) id 1hgQJb-0000zJ-ES
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 05:03:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60604)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hgQJa-0000xf-5S
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 05:03:34 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E700F30C8AB4
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 09:03:32 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-169.ams2.redhat.com
+ [10.36.117.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70963601B6;
+ Thu, 27 Jun 2019 09:03:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D85D211386A0; Thu, 27 Jun 2019 11:03:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <1560165301-39026-1-git-send-email-pbonzini@redhat.com>
+ <1560165301-39026-5-git-send-email-pbonzini@redhat.com>
+Date: Thu, 27 Jun 2019 11:03:30 +0200
+In-Reply-To: <1560165301-39026-5-git-send-email-pbonzini@redhat.com> (Paolo
+ Bonzini's message of "Mon, 10 Jun 2019 13:14:58 +0200")
+Message-ID: <87sgrvh02l.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <97104495f5c945d25315aff1bd618e1a7bacf34c.1561589072.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.44]); Thu, 27 Jun 2019 09:03:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH v1 1/1] hw/scsi: Report errors and sense to
- guests through scsi-block
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 4/7] libvhost-user: convert to Meson
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,103 +60,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, shinichiro.kawasaki@wdc.com, alistair23@gmail.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/06/19 00:46, Alistair Francis wrote:
-> From: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> 
-> When host block devices are bridged to a guest system through
-> virtio-scsi-pci and scsi-block driver, scsi_handle_rw_error() in
-> hw/scsi/scsi-disk.c checks the error number to judge which error to
-> report to the guests. EIO and EINVAL are not reported and ignored. Once
-> EIO or EINVAL happen, eternal wait of guest system happens. This problem
-> was observed with zoned block devices on the host system attached to the
-> guest via virtio-scsi-pci. To avoid the eternal wait, add EIO and EINVAL
-> to the list of error numbers to report to the guest.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-This is certainly correct for EINVAL, I am not sure about EIO.  Did you
-run the VM with "-drive ...,rerror=report,werror=report"?
-
-The update_sense part is okay too.
-
-Paolo
-
-> On top of this, it is required to report SCSI sense data to the guest
-> so that the guest can handle the error correctly. However,
-> scsi_handle_rw_error() does not passthrough sense data that host
-> scsi-block device reported. Instead, it newly generates fixed sense
-> data only for certain error numbers. This is inflexible to support new
-> error codes to report to guest. To avoid this inflexiblity, pass the SCSI
-> sense data that the host scsi-block device reported as is. To be more
-> precise, set valid sense_len in the SCSIDiskReq referring sb_len_wr that
-> host SCSI device SG_IO ioctl reported. Add update_sense callback to
-> SCSIDiskClass to refer the SG_IO ioctl result only when scsi-block device
-> is targeted.
-> 
-> Signed-off-by: Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Because libqemuutil.a is not converted yet, selected files have to be
+> compiled twice, once with Meson and once with Makefile.objs.  Apart
+> from this the conversion is straightforward.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  hw/scsi/scsi-disk.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-> index ed7295bfd7..6801e3a0d0 100644
-> --- a/hw/scsi/scsi-disk.c
-> +++ b/hw/scsi/scsi-disk.c
-> @@ -62,6 +62,7 @@ typedef struct SCSIDiskClass {
->      DMAIOFunc       *dma_readv;
->      DMAIOFunc       *dma_writev;
->      bool            (*need_fua_emulation)(SCSICommand *cmd);
-> +    void            (*update_sense)(SCSIRequest *r);
->  } SCSIDiskClass;
+>  Makefile                            | 10 ++++------
+>  Makefile.objs                       |  1 -
+>  contrib/libvhost-user/Makefile.objs |  1 -
+>  contrib/libvhost-user/meson.build   |  7 +++++++
+>  meson.build                         |  2 ++
+>  5 files changed, 13 insertions(+), 8 deletions(-)
+>  delete mode 100644 contrib/libvhost-user/Makefile.objs
+>  create mode 100644 contrib/libvhost-user/meson.build
+>
+> diff --git a/Makefile b/Makefile
+> index b8f802c..6a3461e 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -426,7 +426,6 @@ dummy := $(call unnest-vars,, \
+>                  ivshmem-client-obj-y \
+>                  ivshmem-server-obj-y \
+>                  rdmacm-mux-obj-y \
+> -                libvhost-user-obj-y \
+>                  vhost-user-scsi-obj-y \
+>                  vhost-user-blk-obj-y \
+>                  vhost-user-input-obj-y \
+> @@ -529,7 +528,6 @@ Makefile: $(version-obj-y)
+>  # Build libraries
 >  
->  typedef struct SCSIDiskReq {
-> @@ -438,6 +439,7 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
->  {
->      bool is_read = (r->req.cmd.mode == SCSI_XFER_FROM_DEV);
->      SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
-> +    SCSIDiskClass *sdc = (SCSIDiskClass *) object_get_class(OBJECT(s));
->      BlockErrorAction action = blk_get_error_action(s->qdev.conf.blk,
->                                                     is_read, error);
+>  libqemuutil.a: $(util-obj-y) $(trace-obj-y) $(stub-obj-y)
+> -libvhost-user.a: $(libvhost-user-obj-y) $(util-obj-y) $(stub-obj-y)
 >  
-> @@ -452,9 +454,12 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
->               * pause the host.
->               */
->              assert(r->status && *r->status);
-> +            if (sdc->update_sense) {
-> +                sdc->update_sense(&r->req);
-> +            }
->              error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
->              if (error == ECANCELED || error == EAGAIN || error == ENOTCONN ||
-> -                error == 0)  {
-> +                error == EIO || error == EINVAL || error == 0)  {
->                  /* These errors are handled by guest. */
->                  scsi_req_complete(&r->req, *r->status);
->                  return true;
-> @@ -2894,6 +2899,13 @@ static int scsi_block_parse_cdb(SCSIDevice *d, SCSICommand *cmd,
->      }
->  }
+>  ######################################################################
 >  
-> +static void scsi_block_update_sense(SCSIRequest *req)
-> +{
-> +    SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
-> +    SCSIBlockReq *br = DO_UPCAST(SCSIBlockReq, req, r);
-> +    r->req.sense_len = MIN(br->io_header.sb_len_wr, sizeof(r->req.sense));
-> +}
-> +
->  #endif
+> @@ -632,21 +630,21 @@ ivshmem-client$(EXESUF): $(ivshmem-client-obj-y) $(COMMON_LDADDS)
+>  ivshmem-server$(EXESUF): $(ivshmem-server-obj-y) $(COMMON_LDADDS)
+>  	$(call LINK, $^)
+>  endif
+> -vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) libvhost-user.a
+> +vhost-user-scsi$(EXESUF): $(vhost-user-scsi-obj-y) contrib/libvhost-user/libvhost-user.a
+>  	$(call LINK, $^)
+> -vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) libvhost-user.a
+> +vhost-user-blk$(EXESUF): $(vhost-user-blk-obj-y) contrib/libvhost-user/libvhost-user.a
+>  	$(call LINK, $^)
 >  
->  static
-> @@ -3059,6 +3071,7 @@ static void scsi_block_class_initfn(ObjectClass *klass, void *data)
->      sc->parse_cdb    = scsi_block_parse_cdb;
->      sdc->dma_readv   = scsi_block_dma_readv;
->      sdc->dma_writev  = scsi_block_dma_writev;
-> +    sdc->update_sense = scsi_block_update_sense;
->      sdc->need_fua_emulation = scsi_block_no_fua;
->      dc->desc = "SCSI block device passthrough";
->      dc->props = scsi_block_properties;
-> 
+>  rdmacm-mux$(EXESUF): LIBS += "-libumad"
+>  rdmacm-mux$(EXESUF): $(rdmacm-mux-obj-y) $(COMMON_LDADDS)
+>  	$(call LINK, $^)
+>  
+> -vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) $(libvhost-user-obj-y) libqemuutil.a libqemustub.a
+> +vhost-user-gpu$(EXESUF): $(vhost-user-gpu-obj-y) contrib/libvhost-user/libvhost-user.a
+>  	$(call LINK, $^)
+>  
+>  ifdef CONFIG_VHOST_USER_INPUT
+>  ifdef CONFIG_LINUX
+> -vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) libvhost-user.a libqemuutil.a
+> +vhost-user-input$(EXESUF): $(vhost-user-input-obj-y) contrib/libvhost-user/libvhost-user.a $(COMMON_LDADDS)
+>  	$(call LINK, $^)
+>  
+>  # build by default, do not install
 
+This hunk is only due to the move of libvhost-user.a from the root of
+the build tree to contrib/libvhost-user/.  I'm not counting it as "meson
+churn".
+
+> diff --git a/Makefile.objs b/Makefile.objs
+> index c8337fa..4f2fa6a 100644
+> --- a/Makefile.objs
+> +++ b/Makefile.objs
+> @@ -116,7 +116,6 @@ qga-vss-dll-obj-y = qga/
+>  elf2dmp-obj-y = contrib/elf2dmp/
+>  ivshmem-client-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-client/
+>  ivshmem-server-obj-$(CONFIG_IVSHMEM) = contrib/ivshmem-server/
+> -libvhost-user-obj-y = contrib/libvhost-user/
+>  vhost-user-scsi.o-cflags := $(LIBISCSI_CFLAGS)
+>  vhost-user-scsi.o-libs := $(LIBISCSI_LIBS)
+>  vhost-user-scsi-obj-y = contrib/vhost-user-scsi/
+> diff --git a/contrib/libvhost-user/Makefile.objs b/contrib/libvhost-user/Makefile.objs
+> deleted file mode 100644
+> index ef3778e..0000000
+> --- a/contrib/libvhost-user/Makefile.objs
+> +++ /dev/null
+> @@ -1 +0,0 @@
+> -libvhost-user-obj-y += libvhost-user.o libvhost-user-glib.o
+> diff --git a/contrib/libvhost-user/meson.build b/contrib/libvhost-user/meson.build
+> new file mode 100644
+> index 0000000..7ef610a
+> --- /dev/null
+> +++ b/contrib/libvhost-user/meson.build
+> @@ -0,0 +1,7 @@
+> +libvhost_user = static_library('vhost-user',
+> +               [files('libvhost-user.c', 'libvhost-user-glib.c'),
+
+These are the "selected files [that] have to be compiled twice, once
+with Meson and once with Makefile.objs":
+
+> +                meson.source_root() / 'stubs/error-printf.c',
+> +                meson.source_root() / 'stubs/monitor.c',
+> +                meson.source_root() / 'util/error.c',
+> +                meson.source_root() / 'util/qemu-error.c',
+> +                meson.source_root() / 'util/memfd.c'])
+
+Quite okay for a PoC.
+
+> diff --git a/meson.build b/meson.build
+> index b683d70..a6748f9 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -7,3 +7,5 @@ add_project_arguments(config_host['QEMU_CFLAGS'].split(),
+>                        language: 'c')
+>  add_project_arguments(config_host['QEMU_INCLUDES'].split(),
+>                        language: 'c')
+> +
+> +subdir('contrib/libvhost-user')
+
+In your cover letter, you wrote "it's a simple example of how the
+current build system causes clutter in the toplevel Makefiles and how
+interrelated the Makefile, Makefile.objs and contrib/*/Makefile.objs
+file are even for such simple executables."  True.  Before this patch,
+the logic for building libvhost-user.a is split over Makefile (two
+lines), Makefile.obj (one) and contrib/libvhost-user/Makefile.objs
+(one).  Afterwards, its all in one place.
 
