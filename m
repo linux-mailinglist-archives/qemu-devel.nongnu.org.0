@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93A958E08
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 00:36:15 +0200 (CEST)
-Received: from localhost ([::1]:55072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC17758E13
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 00:40:19 +0200 (CEST)
+Received: from localhost ([::1]:55108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgd03-0002lB-2U
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 18:36:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44279)
+	id 1hgd3z-0007U5-5r
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 18:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44257)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hgcxU-0000Ro-BX
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:38 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hgcxS-0000Qg-VG
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hgcxQ-0004HS-5y
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49926)
+ (envelope-from <mreitz@redhat.com>) id 1hgcxQ-0004I7-Np
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58880)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hgcxH-00042k-CL; Thu, 27 Jun 2019 18:33:23 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hgcxM-00046y-5i; Thu, 27 Jun 2019 18:33:28 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5A578308A9E2;
- Thu, 27 Jun 2019 22:33:20 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 22A2A3082E6A;
+ Thu, 27 Jun 2019 22:33:25 +0000 (UTC)
 Received: from localhost (ovpn-204-47.brq.redhat.com [10.40.204.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A4935D9D2;
- Thu, 27 Jun 2019 22:33:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 473905D719;
+ Thu, 27 Jun 2019 22:33:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 28 Jun 2019 00:32:53 +0200
-Message-Id: <20190627223255.3789-4-mreitz@redhat.com>
+Date: Fri, 28 Jun 2019 00:32:54 +0200
+Message-Id: <20190627223255.3789-5-mreitz@redhat.com>
 In-Reply-To: <20190627223255.3789-1-mreitz@redhat.com>
 References: <20190627223255.3789-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Thu, 27 Jun 2019 22:33:20 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Thu, 27 Jun 2019 22:33:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/5] iotests: Compare error messages in 030
+Subject: [Qemu-devel] [PATCH 4/5] iotests: Add @use_log to VM.run_job()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,232 +61,62 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, 030 just compares the error class, which does not say
-anything.
-
-Before HEAD^ added throttling to test_overlapping_4, that test actually
-usually failed because node2 was already gone, not because it was the
-commit and stream job were not allowed to overlap.
-
-Prevent such problems in the future by comparing the error description
-instead.
+unittest-style tests generally do not use the log file, but VM.run_job()
+can still be useful to them.  Add a parameter to it that hides its
+output from the log file.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/030 | 66 +++++++++++++++++++++++++++---------------
- 1 file changed, 42 insertions(+), 24 deletions(-)
+ tests/qemu-iotests/iotests.py | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 2cf8d54dc5..10fe1de89d 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -144,11 +144,12 @@ class TestSingleDrive(iotests.QMPTestCase):
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+index 3ecef5bc90..ce74177ab1 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -542,7 +542,7 @@ class VM(qtest.QEMUQtestMachine):
 =20
-     def test_device_not_found(self):
-         result =3D self.vm.qmp('block-stream', device=3D'nonexistent')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            'Cannot find device=3Dnonexistent nor node_name=3Dnonexisten=
-t')
-=20
-     def test_job_id_missing(self):
-         result =3D self.vm.qmp('block-stream', device=3D'mid')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc', "Invalid job ID ''")
-=20
-=20
- class TestParallelOps(iotests.QMPTestCase):
-@@ -245,24 +246,30 @@ class TestParallelOps(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'node5', job_id=3D=
-'stream-node5', base=3Dself.imgs[2])
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node4' is busy: block device is in use by block job: =
-stream")
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'node3', job_id=3D=
-'stream-node3', base=3Dself.imgs[2])
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node3' is busy: block device is in use by block job: =
-stream")
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'node4', job_id=3D=
-'stream-node4-v2')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node4' is busy: block device is in use by block job: =
-stream")
-=20
-         # block-commit should also fail if it touches nodes used by the =
-stream job
-         result =3D self.vm.qmp('block-commit', device=3D'drive0', base=3D=
-self.imgs[4], job_id=3D'commit-node4')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node4' is busy: block device is in use by block job: =
-stream")
-=20
-         result =3D self.vm.qmp('block-commit', device=3D'drive0', base=3D=
-self.imgs[1], top=3Dself.imgs[3], job_id=3D'commit-node1')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node3' is busy: block device is in use by block job: =
-stream")
-=20
-         # This fails because it needs to modify the backing string in no=
-de2, which is blocked
-         result =3D self.vm.qmp('block-commit', device=3D'drive0', base=3D=
-self.imgs[0], top=3Dself.imgs[1], job_id=3D'commit-node0')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node2' is busy: block device is in use by block job: =
-stream")
-=20
-         result =3D self.vm.qmp('block-job-set-speed', device=3D'stream-n=
-ode4', speed=3D0)
-         self.assert_qmp(result, 'return', {})
-@@ -281,20 +288,25 @@ class TestParallelOps(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'node3', job_id=3D=
-'stream-node3')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node3' is busy: block device is in use by block job: =
-commit")
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'node6', base=3D=
-self.imgs[2], job_id=3D'stream-node6')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node5' is busy: block device is in use by block job: =
-commit")
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'node4', base=3D=
-self.imgs[2], job_id=3D'stream-node4')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node4' is busy: block device is in use by block job: =
-commit")
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'node6', base=3D=
-self.imgs[4], job_id=3D'stream-node6-v2')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node5' is busy: block device is in use by block job: =
-commit")
-=20
-         # This fails because block-commit currently blocks the active la=
-yer even if it's not used
-         result =3D self.vm.qmp('block-stream', device=3D'drive0', base=3D=
-self.imgs[5], job_id=3D'stream-drive0')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'drive0' is busy: block device is in use by block job:=
- commit")
-=20
-         result =3D self.vm.qmp('block-job-set-speed', device=3D'commit-n=
-ode3', speed=3D0)
-         self.assert_qmp(result, 'return', {})
-@@ -312,7 +324,8 @@ class TestParallelOps(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'node5', base=3D=
-self.imgs[3], job_id=3D'stream-node6')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node5' is busy: block device is in use by block job: =
-commit")
-=20
-         event =3D self.vm.event_wait(name=3D'BLOCK_JOB_READY')
-         self.assert_qmp(event, 'data/device', 'commit-drive0')
-@@ -328,20 +341,21 @@ class TestParallelOps(iotests.QMPTestCase):
-         self.wait_until_completed(drive=3D'commit-drive0')
-=20
-     # In this case the base node of the stream job is the same as the
--    # top node of commit job. Since block-commit removes the top node
--    # when it finishes, this is not allowed.
-+    # top node of commit job. Since this results in the commit filter
-+    # node being part of the stream chain, this is not allowed.
-     def test_overlapping_4(self):
-         self.assert_no_active_block_jobs()
-=20
-         # Commit from node2 into node0
-         result =3D self.vm.qmp('block-commit', device=3D'drive0',
-                              top=3Dself.imgs[2], base=3Dself.imgs[0],
--                             speed=3D1024*1024)
-+                             filter_node_name=3D'commit-filter', speed=3D=
-1024*1024)
-         self.assert_qmp(result, 'return', {})
-=20
-         # Stream from node2 into node4
-         result =3D self.vm.qmp('block-stream', device=3D'node4', base_no=
-de=3D'node2', job_id=3D'node4')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Cannot freeze 'backing' link to 'commit-filter'")
-=20
-         result =3D self.vm.qmp('block-job-set-speed', device=3D'drive0',=
- speed=3D0)
-         self.assert_qmp(result, 'return', {})
-@@ -428,19 +442,23 @@ class TestParallelOps(iotests.QMPTestCase):
-=20
-         # Error: the base node does not exist
-         result =3D self.vm.qmp('block-stream', device=3D'node4', base_no=
-de=3D'none', job_id=3D'stream')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            'Cannot find device=3D nor node_name=3Dnone')
-=20
-         # Error: the base node is not a backing file of the top node
-         result =3D self.vm.qmp('block-stream', device=3D'node4', base_no=
-de=3D'node6', job_id=3D'stream')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node6' is not a backing image of 'node4'")
-=20
-         # Error: the base node is the same as the top node
-         result =3D self.vm.qmp('block-stream', device=3D'node4', base_no=
-de=3D'node4', job_id=3D'stream')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "Node 'node4' is not a backing image of 'node4'")
-=20
-         # Error: cannot specify 'base' and 'base-node' at the same time
-         result =3D self.vm.qmp('block-stream', device=3D'node4', base=3D=
-self.imgs[2], base_node=3D'node2', job_id=3D'stream')
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc',
-+            "'base' and 'base-node' cannot be specified at the same time=
-")
-=20
-         # Success: the base node is a backing file of the top node
-         result =3D self.vm.qmp('block-stream', device=3D'node4', base_no=
-de=3D'node2', job_id=3D'stream')
-@@ -873,7 +891,7 @@ class TestSetSpeed(iotests.QMPTestCase):
-         self.assert_no_active_block_jobs()
-=20
-         result =3D self.vm.qmp('block-stream', device=3D'drive0', speed=3D=
--1)
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc', "Invalid parameter 'speed'=
-")
-=20
-         self.assert_no_active_block_jobs()
-=20
-@@ -882,7 +900,7 @@ class TestSetSpeed(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         result =3D self.vm.qmp('block-job-set-speed', device=3D'drive0',=
- speed=3D-1)
--        self.assert_qmp(result, 'error/class', 'GenericError')
-+        self.assert_qmp(result, 'error/desc', "Invalid parameter 'speed'=
-")
-=20
-         self.cancel_and_wait(resume=3DTrue)
+     # Returns None on success, and an error string on failure
+     def run_job(self, job, auto_finalize=3DTrue, auto_dismiss=3DFalse,
+-                pre_finalize=3DNone, wait=3D60.0):
++                pre_finalize=3DNone, use_log=3DTrue, wait=3D60.0):
+         match_device =3D {'data': {'device': job}}
+         match_id =3D {'data': {'id': job}}
+         events =3D [
+@@ -557,7 +557,8 @@ class VM(qtest.QEMUQtestMachine):
+         while True:
+             ev =3D filter_qmp_event(self.events_wait(events))
+             if ev['event'] !=3D 'JOB_STATUS_CHANGE':
+-                log(ev)
++                if use_log:
++                    log(ev)
+                 continue
+             status =3D ev['data']['status']
+             if status =3D=3D 'aborting':
+@@ -565,13 +566,20 @@ class VM(qtest.QEMUQtestMachine):
+                 for j in result['return']:
+                     if j['id'] =3D=3D job:
+                         error =3D j['error']
+-                        log('Job failed: %s' % (j['error']))
++                        if use_log:
++                            log('Job failed: %s' % (j['error']))
+             elif status =3D=3D 'pending' and not auto_finalize:
+                 if pre_finalize:
+                     pre_finalize()
+-                self.qmp_log('job-finalize', id=3Djob)
++                if use_log:
++                    self.qmp_log('job-finalize', id=3Djob)
++                else:
++                    self.qmp('job-finalize', id=3Djob)
+             elif status =3D=3D 'concluded' and not auto_dismiss:
+-                self.qmp_log('job-dismiss', id=3Djob)
++                if use_log:
++                    self.qmp_log('job-dismiss', id=3Djob)
++                else:
++                    self.qmp('job-dismiss', id=3Djob)
+             elif status =3D=3D 'null':
+                 return error
 =20
 --=20
 2.21.0
