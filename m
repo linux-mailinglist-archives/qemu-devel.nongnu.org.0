@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CB0E58687
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:58:06 +0200 (CEST)
-Received: from localhost ([::1]:52010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93DA586B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:08:18 +0200 (CEST)
+Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgWmj-0008PN-CC
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:58:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33519)
+	id 1hgWwc-0000u1-14
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:08:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33539)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgWHz-0003Wn-Vc
+ (envelope-from <palmer@dabbelt.com>) id 1hgWI0-0003XZ-AV
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:26:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgWHy-0000dr-AT
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:26:19 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:38321)
+ (envelope-from <palmer@dabbelt.com>) id 1hgWHy-0000eR-Nl
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:26:20 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:37219)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWHy-0007PP-0V
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWHy-0007RL-Ek
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:26:18 -0400
-Received: by mail-pg1-f194.google.com with SMTP id z75so1179911pgz.5
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:24:40 -0700 (PDT)
+Received: by mail-pf1-f194.google.com with SMTP id 19so1409652pfa.4
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:24:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=e4LpAArqCMZjxsWg9gz2sRwwsdArZOrpMF0nx0rvwxQ=;
- b=hKwRMwXQ6K7x5O/6qXj57wDLQFmE9RD9RjZZMOlKuoxLsTrM6dOX4lUGtJ80olMKPJ
- 0BXWSyc7b7m4wSRWKrnxXo0lra583P5jAjgqURoQkdfrUlDwm72ornCNarrUXtAT6dW9
- o2UiD0Cl0fcjQEGAGNDsQ2yEjAZsAtz/JvKE7wRaZXpyteSk6Nj4xUgyIx8lH8EHmLYr
- 8USC9QwS4OfSYOhp2sNZforonZM1d+f/U+JJqj2ZHaqTqZEg6bjIhXamOWCCGsoag0Vt
- icXT+fgev/s5z21EFAIm9v5kVgnpsilAaYSu/ARHAy5KUCHZWbR7FifDP1btuvCyFrmA
- 70rQ==
-X-Gm-Message-State: APjAAAWxRHDeXRjwDgH/1TTWljWcmPzk5ewtjVlEU0BoBYA3vqRDI2eA
- Bd3nHuHdlumREQK+XLG8yxc3Fg==
-X-Google-Smtp-Source: APXvYqzS4fXuAQgiD1T2BKjob0CchJ7MTjj7R/cWlOqcHh/t9hXv3QHR5RyjcllMlQMX/RZlOKvK3Q==
-X-Received: by 2002:a63:e018:: with SMTP id e24mr4241570pgh.361.1561649079447; 
- Thu, 27 Jun 2019 08:24:39 -0700 (PDT)
+ bh=Ll0IfljzezEKYOWEmbGf9wV1tOe7NCSXkPQeobGClJk=;
+ b=ES5im7OofQhXD18ilIcpUCr4f3PoQuivhzlW0y/rAne+gGA4mO6kyKgahZ6pYRatXq
+ Dd4SnevWZoxvM2XHfd1MvXoc8BoRR9cJRN+S5LCRxbLv7CBdOu7fRD2DD145XOBOdpyO
+ SSqr7c3dR2vzPCSxeqeB+WIKVg4dI8QwXtVT55otT8UE+gbEbEvTJUyGWilu1Jb8JXz5
+ wkPBsaKR7C7SiwzIGGGq5GuKmd7Sbsc/HAA2X/OpHkgkCNY7OyGXHiXZuJLTghUhE+2T
+ bZRoCVEhJO119Wv0Ve8OKtnsk1/jkmHaicdrHLlrOK+QBK09FxswZiQA6fbzL3ux9sXQ
+ vprg==
+X-Gm-Message-State: APjAAAXM7+SPGBFrCjIA1UEe9iI4H5m0sEfr8xRmZivNRUOavo7qihOr
+ SWBoYGsly9fOpo0XGDsr9hn56A==
+X-Google-Smtp-Source: APXvYqz5wVrouuxE15mqeXUlOn6ssM6cUIxlUE12cqlIIkDNu8mqI3+lGFWABMMIi309vDqdD0MvDQ==
+X-Received: by 2002:a63:4006:: with SMTP id n6mr4086210pga.403.1561649081832; 
+ Thu, 27 Jun 2019 08:24:41 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id q3sm2364742pgv.21.2019.06.27.08.24.38
+ by smtp.gmail.com with ESMTPSA id f88sm6614731pjg.5.2019.06.27.08.24.41
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 08:24:39 -0700 (PDT)
-Date: Thu, 27 Jun 2019 08:20:08 -0700
-Message-Id: <20190627152011.18686-32-palmer@sifive.com>
+ Thu, 27 Jun 2019 08:24:41 -0700 (PDT)
+Date: Thu, 27 Jun 2019 08:20:09 -0700
+Message-Id: <20190627152011.18686-33-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190627152011.18686-1-palmer@sifive.com>
 References: <20190627152011.18686-1-palmer@sifive.com>
@@ -54,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.194
-Subject: [Qemu-devel] [PULL 31/34] hw/riscv: Add support for loading a
- firmware
+X-Received-From: 209.85.210.194
+Subject: [Qemu-devel] [PULL 32/34] hw/riscv: Extend the kernel loading
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,104 +76,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Add support for loading a firmware file for the virt machine and the
-SiFive U. This can be run with the following command:
+Extend the RISC-V kernel loader to support Image and uImage files.
+A Linux kernel can now be booted with:
 
-    qemu-system-riscv64 -machine virt -bios fw_jump.bin -kernel vmlinux
+    qemu-system-riscv64 -machine virt -bios fw_jump.bin -kernel Image
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Tested-by: Bin Meng <bmeng.cn@gmail.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/boot.c         | 26 ++++++++++++++++++++++++++
- hw/riscv/sifive_u.c     |  4 ++++
- hw/riscv/virt.c         |  4 ++++
- include/hw/riscv/boot.h |  2 ++
- 4 files changed, 36 insertions(+)
+ hw/riscv/boot.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 0c8e72e455d7..883df49a0c65 100644
+index 883df49a0c65..ff023f42d01d 100644
 --- a/hw/riscv/boot.c
 +++ b/hw/riscv/boot.c
-@@ -23,8 +23,34 @@
- #include "exec/cpu-defs.h"
- #include "hw/loader.h"
- #include "hw/riscv/boot.h"
-+#include "hw/boards.h"
- #include "elf.h"
- 
-+#if defined(TARGET_RISCV32)
-+# define KERNEL_BOOT_ADDRESS 0x80400000
-+#else
-+# define KERNEL_BOOT_ADDRESS 0x80200000
-+#endif
-+
-+target_ulong riscv_load_firmware(const char *firmware_filename,
-+                                 hwaddr firmware_load_addr)
-+{
-+    uint64_t firmware_entry, firmware_start, firmware_end;
-+
-+    if (load_elf(firmware_filename, NULL, NULL, NULL, &firmware_entry,
-+                 &firmware_start, &firmware_end, 0, EM_RISCV, 1, 0) > 0) {
-+        return firmware_entry;
-+    }
-+
-+    if (load_image_targphys_as(firmware_filename, firmware_load_addr,
-+                               ram_size, NULL) > 0) {
-+        return firmware_load_addr;
-+    }
-+
-+    error_report("could not load firmware '%s'", firmware_filename);
-+    exit(1);
-+}
-+
- target_ulong riscv_load_kernel(const char *kernel_filename)
- {
+@@ -56,12 +56,22 @@ target_ulong riscv_load_kernel(const char *kernel_filename)
      uint64_t kernel_entry, kernel_high;
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index f6b9c12e6094..420867155293 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -269,6 +269,10 @@ static void riscv_sifive_u_init(MachineState *machine)
-     /* create device tree */
-     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
  
-+    if (machine->firmware) {
-+        riscv_load_firmware(machine->firmware, memmap[SIFIVE_U_DRAM].base);
-+    }
-+
-     if (machine->kernel_filename) {
-         riscv_load_kernel(machine->kernel_filename);
+     if (load_elf(kernel_filename, NULL, NULL, NULL,
+-                 &kernel_entry, NULL, &kernel_high, 0, EM_RISCV, 1, 0) < 0) {
+-        error_report("could not load kernel '%s'", kernel_filename);
+-        exit(1);
++                 &kernel_entry, NULL, &kernel_high, 0, EM_RISCV, 1, 0) > 0) {
++        return kernel_entry;
      }
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 485aefa99523..d8181a4ff18a 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -398,6 +398,10 @@ static void riscv_virt_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
-                                 mask_rom);
  
-+    if (machine->firmware) {
-+        riscv_load_firmware(machine->firmware, memmap[VIRT_DRAM].base);
+-    return kernel_entry;
++    if (load_uimage_as(kernel_filename, &kernel_entry, NULL, NULL,
++                       NULL, NULL, NULL) > 0) {
++        return kernel_entry;
 +    }
 +
-     if (machine->kernel_filename) {
-         uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename);
++    if (load_image_targphys_as(kernel_filename, KERNEL_BOOT_ADDRESS,
++                               ram_size, NULL) > 0) {
++        return KERNEL_BOOT_ADDRESS;
++    }
++
++    error_report("could not load kernel '%s'", kernel_filename);
++    exit(1);
+ }
  
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index f84fd6c2df5e..daa179b600f4 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -20,6 +20,8 @@
- #ifndef RISCV_BOOT_H
- #define RISCV_BOOT_H
- 
-+target_ulong riscv_load_firmware(const char *firmware_filename,
-+                                 hwaddr firmware_load_addr);
- target_ulong riscv_load_kernel(const char *kernel_filename);
  hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
-                          uint64_t kernel_entry, hwaddr *start);
 -- 
 2.21.0
 
