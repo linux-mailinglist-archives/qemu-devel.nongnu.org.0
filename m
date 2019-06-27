@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE5258628
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:42:31 +0200 (CEST)
-Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B0F58652
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:52:18 +0200 (CEST)
+Received: from localhost ([::1]:51962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgWXe-0001j4-PR
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60784)
+	id 1hgWh8-00011L-30
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgWGX-0001fa-2o
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:50 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgWHd-0003FT-Kt
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:26:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgWGS-0007TQ-PS
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:47 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:41834)
+ (envelope-from <palmer@dabbelt.com>) id 1hgWHZ-0000Bn-7z
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:25:56 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40849)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWGJ-0006do-Ey
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:41 -0400
-Received: by mail-pg1-f196.google.com with SMTP id c70so1047003pga.8
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:37 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWHW-0006g1-Te
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:25:51 -0400
+Received: by mail-pl1-f195.google.com with SMTP id a93so1492675pla.7
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=D1HIL5SBmBBlqGmn3DV7OFXg5gWo+HXWOwuA3mR3IqE=;
- b=mmwq4OM2z/PEyqZHgwXBjovyVMsy1feGGuWYBYi/v5c00HiSlgjlWoe3TsPB4wJQkE
- EE22/bu6TTFgbR9CKoDO51QOEzPG0YRehAwyw58SL6OeQrFoM/DLLvi7svA7dJMscIGG
- gRza5fdhDwZMcXf89gAQlDQoe6OVmmD0jwzecrLz3W5K/ORE5rRwvuUJG0fFLun1f0Ay
- MnFwjEb3mJ1HFptb8c/ByJ/C/lI47JhfRMA1Y0YyDusYOEQcknErlFiHQpIv2QRIPTOt
- YIgvRAPCP4pr0jbE9NBvsEdF49J3rBdXSdR39yrPx9GNjMQVl23TI4is0HDJRJ6jQ+ss
- u/Ww==
-X-Gm-Message-State: APjAAAXbQlc+M/oZUWk0yLNiBUB/1LlEdUOMOTkXUc1hHViBFPduF1Ha
- knc2HOFqkIqOXSuyarpJN5+AIA==
-X-Google-Smtp-Source: APXvYqxDaEWLLQB8fkwoK3yZU7rCX3qjMztCZ/F/6l+n7NunyB7bfU+/KEkS8baPbYJsjd/WtAiEYg==
-X-Received: by 2002:a17:90a:2430:: with SMTP id
- h45mr6962496pje.14.1561649016893; 
- Thu, 27 Jun 2019 08:23:36 -0700 (PDT)
+ bh=88zslYUcPLzZ8t2plNr1KKUO0CCDFAsO4z2B6UJDjVI=;
+ b=cKiyWHQTlusATTUVD4DeX1L0w8qHWKJ568EVlNHF8MK58HP3gYY3/jhoGzbsI6iasJ
+ yU7YDAEaChjaY1LGS0kIQOz84Po1xfbAuc75VF/oyx5ttb7VbZWRnTgNl6BhkAFomVuI
+ +EuURV+jPwF0Eo60CUZZp73gmZT0CzKZuV+3fuxN5FKaS8sgCVK4pPPplL9jGcaOkmkY
+ QFqboJrx7n+3C4beaK5XbjvjUVEN+5SRLQ/6PCkC8HZ4IGJOciHAK+7ed4yaB0k6TcFQ
+ A7VMZ0zEe0Dr6GaUraf3gezXT9Zu2aXOyhUzEXiId8hyRgiyACwHZu+zdCz8DSyVPI5X
+ GwHg==
+X-Gm-Message-State: APjAAAWnVwmSOQknq9Ysn+eMRPZJ/LZ05Mu6I9iUId9Avw0lgnU+4rgq
+ 8oTMFQlE4yT2QzCc7jRt5c6G9w==
+X-Google-Smtp-Source: APXvYqzfYJMkURulSsXl5tjWUD75OA2vhPy3ZvA/dEdMimihJ4Cy0ZlHAntJAM8QtQyj57rBifNmUQ==
+X-Received: by 2002:a17:902:2a27:: with SMTP id
+ i36mr5241418plb.161.1561649019753; 
+ Thu, 27 Jun 2019 08:23:39 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id h1sm3166288pfo.152.2019.06.27.08.23.36
+ by smtp.gmail.com with ESMTPSA id q126sm5110291pfq.123.2019.06.27.08.23.38
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 08:23:36 -0700 (PDT)
-Date: Thu, 27 Jun 2019 08:19:43 -0700
-Message-Id: <20190627152011.18686-7-palmer@sifive.com>
+ Thu, 27 Jun 2019 08:23:39 -0700 (PDT)
+Date: Thu, 27 Jun 2019 08:19:44 -0700
+Message-Id: <20190627152011.18686-8-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190627152011.18686-1-palmer@sifive.com>
 References: <20190627152011.18686-1-palmer@sifive.com>
@@ -55,9 +55,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.196
-Subject: [Qemu-devel] [PULL 06/34] RISC-V: Raise access fault exceptions on
- PMP violations
+X-Received-From: 209.85.214.195
+Subject: [Qemu-devel] [PULL 07/34] RISC-V: Check for the effective memory
+ privilege mode during PMP checks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,65 +77,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 
-Section 3.6 in RISC-V v1.10 privilege specification states that PMP violations
-report "access exceptions." The current PMP implementation has
-a bug which wrongly reports "page exceptions" on PMP violations.
+The current PMP check function checks for env->priv which is not the effective
+memory privilege mode.
 
-This patch fixes this bug by reporting the correct PMP access exceptions
-trap values.
+For example, mstatus.MPRV could be set while executing in M-Mode, and in that
+case the privilege mode for the PMP check should be S-Mode rather than M-Mode
+(in env->priv) if mstatus.MPP == PRV_S.
 
+This patch passes the effective memory privilege mode to the PMP check.
+Functions that call the PMP check should pass the correct memory privilege mode
+after reading mstatus' MPRV/MPP or hstatus.SPRV (if Hypervisor mode exists).
+
+Suggested-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_helper.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/riscv/cpu_helper.c | 10 +++++++++-
+ target/riscv/pmp.c        |  6 +++---
+ target/riscv/pmp.h        |  2 +-
+ 3 files changed, 13 insertions(+), 5 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index a45b05ef8395..ffbfaf433268 100644
+index ffbfaf433268..71b8123b1019 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -337,12 +337,13 @@ restart:
- }
- 
- static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
--                                MMUAccessType access_type)
-+                                MMUAccessType access_type, bool pmp_violation)
- {
-     CPUState *cs = env_cpu(env);
-     int page_fault_exceptions =
-         (env->priv_ver >= PRIV_VERSION_1_10_0) &&
--        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE;
-+        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE &&
-+        !pmp_violation;
-     switch (access_type) {
-     case MMU_INST_FETCH:
-         cs->exception_index = page_fault_exceptions ?
-@@ -424,6 +425,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     CPURISCVState *env = &cpu->env;
-     hwaddr pa = 0;
+@@ -427,19 +427,27 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
      int prot;
-+    bool pmp_violation = false;
+     bool pmp_violation = false;
      int ret = TRANSLATE_FAIL;
++    int mode = mmu_idx;
  
      qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
-@@ -438,6 +440,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                   __func__, address, access_type, mmu_idx);
+ 
+     ret = get_physical_address(env, &pa, &prot, address, access_type, mmu_idx);
+ 
++    if (mode == PRV_M && access_type != MMU_INST_FETCH) {
++        if (get_field(env->mstatus, MSTATUS_MPRV)) {
++            mode = get_field(env->mstatus, MSTATUS_MPP);
++        }
++    }
++
+     qemu_log_mask(CPU_LOG_MMU,
+                   "%s address=%" VADDR_PRIx " ret %d physical " TARGET_FMT_plx
+                   " prot %d\n", __func__, address, ret, pa, prot);
+ 
      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
          (ret == TRANSLATE_SUCCESS) &&
-         !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
-+        pmp_violation = true;
+-        !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
++        !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type,
++        mode)) {
+         pmp_violation = true;
          ret = TRANSLATE_FAIL;
      }
-     if (ret == TRANSLATE_SUCCESS) {
-@@ -447,7 +450,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     } else if (probe) {
-         return false;
-     } else {
--        raise_mmu_exception(env, address, access_type);
-+        raise_mmu_exception(env, address, access_type, pmp_violation);
-         riscv_raise_exception(env, cs->exception_index, retaddr);
-     }
- #else
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index e0fe2064074a..5944f4cb6607 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -228,7 +228,7 @@ static int pmp_is_in_range(CPURISCVState *env, int pmp_index, target_ulong addr)
+  * Check if the address has required RWX privs to complete desired operation
+  */
+ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+-    target_ulong size, pmp_priv_t privs)
++    target_ulong size, pmp_priv_t privs, target_ulong mode)
+ {
+     int i = 0;
+     int ret = -1;
+@@ -264,7 +264,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+             }
+ 
+             allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+-            if ((env->priv != PRV_M) || pmp_is_locked(env, i)) {
++            if ((mode != PRV_M) || pmp_is_locked(env, i)) {
+                 allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
+             }
+ 
+@@ -280,7 +280,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+ 
+     /* No rule matched */
+     if (ret == -1) {
+-        if (env->priv == PRV_M) {
++        if (mode == PRV_M) {
+             ret = 1; /* Privileged spec v1.10 states if no PMP entry matches an
+                       * M-Mode access, the access succeeds */
+         } else {
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index 66790950eb75..8e19793132db 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -59,6 +59,6 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+     target_ulong val);
+ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index);
+ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+-    target_ulong size, pmp_priv_t priv);
++    target_ulong size, pmp_priv_t priv, target_ulong mode);
+ 
+ #endif
 -- 
 2.21.0
 
