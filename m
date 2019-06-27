@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5415C58BB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 22:34:28 +0200 (CEST)
-Received: from localhost ([::1]:54190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870FF58BBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 22:38:51 +0200 (CEST)
+Received: from localhost ([::1]:54232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgb6B-0005Om-Fj
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 16:34:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45309)
+	id 1hgbAQ-0001th-N6
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 16:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45439)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hgb0C-0001Ae-AG
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:28:18 -0400
+ (envelope-from <philmd@redhat.com>) id 1hgb0O-0001RS-4N
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:28:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hgb0A-0007dr-PV
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:28:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38766)
+ (envelope-from <philmd@redhat.com>) id 1hgb0L-0007os-M0
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:28:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34806)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hgb03-0007VF-MX; Thu, 27 Jun 2019 16:28:07 -0400
+ id 1hgb0C-0007eJ-9T; Thu, 27 Jun 2019 16:28:16 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id CAEFB3083391;
- Thu, 27 Jun 2019 20:28:03 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DC7FF81F0E;
+ Thu, 27 Jun 2019 20:28:14 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-69.brq.redhat.com [10.40.204.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 542C36012D;
- Thu, 27 Jun 2019 20:27:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 424E8600CC;
+ Thu, 27 Jun 2019 20:28:04 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Stephen Checkoway <stephen.checkoway@oberlin.edu>,
 	qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 22:26:54 +0200
-Message-Id: <20190627202719.17739-4-philmd@redhat.com>
+Date: Thu, 27 Jun 2019 22:26:55 +0200
+Message-Id: <20190627202719.17739-5-philmd@redhat.com>
 In-Reply-To: <20190627202719.17739-1-philmd@redhat.com>
 References: <20190627202719.17739-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Thu, 27 Jun 2019 20:28:04 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Thu, 27 Jun 2019 20:28:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 03/28] hw/block/pflash: Simplify
- trace_pflash_data_read/write()
+Subject: [Qemu-devel] [PATCH v5 04/28] hw/block/pflash_cfi02: Fix debug
+ format string
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,135 +73,75 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a field width format to have a single function to log
-the different width accesses.
+Always compile the debug code to prevent format string to bitrot.
+Delete dead code.
 
+Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+[PMD: Extracted from bigger patch, use PRIx32]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 6 ++----
- hw/block/pflash_cfi02.c | 6 ++----
- hw/block/trace-events   | 6 ++----
- 3 files changed, 6 insertions(+), 12 deletions(-)
+ hw/block/pflash_cfi02.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 74fc1bc2da..db4a246b22 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -248,7 +248,6 @@ static uint32_t pflash_data_read(PFlashCFI01 *pfl, hw=
-addr offset,
-     switch (width) {
-     case 1:
-         ret =3D p[offset];
--        trace_pflash_data_read8(offset, ret);
-         break;
-     case 2:
-         if (be) {
-@@ -258,7 +257,6 @@ static uint32_t pflash_data_read(PFlashCFI01 *pfl, hw=
-addr offset,
-             ret =3D p[offset];
-             ret |=3D p[offset + 1] << 8;
-         }
--        trace_pflash_data_read16(offset, ret);
-         break;
-     case 4:
-         if (be) {
-@@ -272,12 +270,12 @@ static uint32_t pflash_data_read(PFlashCFI01 *pfl, =
-hwaddr offset,
-             ret |=3D p[offset + 2] << 16;
-             ret |=3D p[offset + 3] << 24;
-         }
--        trace_pflash_data_read32(offset, ret);
-         break;
-     default:
-         DPRINTF("BUG in %s\n", __func__);
-         abort();
-     }
-+    trace_pflash_data_read(offset, width << 1, ret);
-     return ret;
- }
-=20
-@@ -415,7 +413,7 @@ static inline void pflash_data_write(PFlashCFI01 *pfl=
-, hwaddr offset,
- {
-     uint8_t *p =3D pfl->storage;
-=20
--    trace_pflash_data_write(offset, value, width, pfl->counter);
-+    trace_pflash_data_write(offset, width << 1, value, pfl->counter);
-     switch (width) {
-     case 1:
-         p[offset] =3D value;
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index f05cd507b3..6cdfc85264 100644
+index 6cdfc85264..43796e551a 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -172,7 +172,6 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
-offset,
-         switch (width) {
-         case 1:
-             ret =3D p[offset];
--            trace_pflash_data_read8(offset, ret);
-             break;
-         case 2:
-             if (be) {
-@@ -182,7 +181,6 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
-offset,
-                 ret =3D p[offset];
-                 ret |=3D p[offset + 1] << 8;
-             }
--            trace_pflash_data_read16(offset, ret);
-             break;
-         case 4:
-             if (be) {
-@@ -196,9 +194,9 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
-offset,
-                 ret |=3D p[offset + 2] << 16;
-                 ret |=3D p[offset + 3] << 24;
-             }
--            trace_pflash_data_read32(offset, ret);
-             break;
+@@ -47,15 +47,13 @@
+ #include "hw/sysbus.h"
+ #include "trace.h"
+=20
+-//#define PFLASH_DEBUG
+-#ifdef PFLASH_DEBUG
++#define PFLASH_DEBUG false
+ #define DPRINTF(fmt, ...)                                  \
+ do {                                                       \
+-    fprintf(stderr, "PFLASH: " fmt , ## __VA_ARGS__);       \
++    if (PFLASH_DEBUG) {                                    \
++        fprintf(stderr, "PFLASH: " fmt, ## __VA_ARGS__);   \
++    }                                                      \
+ } while (0)
+-#else
+-#define DPRINTF(fmt, ...) do { } while (0)
+-#endif
+=20
+ #define PFLASH_LAZY_ROMD_THRESHOLD 42
+=20
+@@ -218,14 +216,14 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwadd=
+r offset,
+         default:
+             goto flash_read;
          }
-+        trace_pflash_data_read(offset, width << 1, ret);
+-        DPRINTF("%s: ID " TARGET_FMT_plx " %x\n", __func__, boff, ret);
++        DPRINTF("%s: ID " TARGET_FMT_plx " %" PRIx32 "\n", __func__, bof=
+f, ret);
          break;
-     case 0x90:
-         /* flash ID read */
-@@ -343,7 +341,7 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr off=
-set,
-             /* We need another unlock sequence */
-             goto check_unlock0;
-         case 0xA0:
--            trace_pflash_data_write(offset, value, width, 0);
-+            trace_pflash_data_write(offset, width << 1, value, 0);
-             p =3D pfl->storage;
-             if (!pfl->ro) {
-                 switch (width) {
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index f637fe918e..13d1b21dd4 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -10,10 +10,8 @@ pflash_reset(void) "reset"
- pflash_timer_expired(uint8_t cmd) "command 0x%02x done"
- pflash_io_read(uint64_t offset, int width, int fmt_width, uint32_t value=
-, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%0*=
-x cmd:0x%02x wcycle:%u"
- pflash_io_write(uint64_t offset, int width, int fmt_width, uint32_t valu=
-e, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%0*x wcycle:%u"
--pflash_data_read8(uint64_t offset, uint32_t value) "data offset:0x%04"PR=
-Ix64" value:0x%02x"
--pflash_data_read16(uint64_t offset, uint32_t value) "data offset:0x%04"P=
-RIx64" value:0x%04x"
--pflash_data_read32(uint64_t offset, uint32_t value) "data offset:0x%04"P=
-RIx64" value:0x%08x"
--pflash_data_write(uint64_t offset, uint32_t value, int width, uint64_t c=
-ounter) "data offset:0x%04"PRIx64" value:0x%08x width:%d counter:0x%016"P=
-RIx64
-+pflash_data_read(uint64_t offset, int width, uint32_t value) "data offse=
-t:0x%04"PRIx64" value:0x%0*x"
-+pflash_data_write(uint64_t offset, int width, uint32_t value, uint64_t c=
-ounter) "data offset:0x%04"PRIx64" value:0x%0*x counter:0x%016"PRIx64
- pflash_manufacturer_id(uint16_t id) "Read Manufacturer ID: 0x%04x"
- pflash_device_id(uint16_t id) "Read Device ID: 0x%04x"
- pflash_device_info(uint64_t offset) "Read Device Information offset:0x%0=
-4"PRIx64
+     case 0xA0:
+     case 0x10:
+     case 0x30:
+         /* Status register read */
+         ret =3D pfl->status;
+-        DPRINTF("%s: status %x\n", __func__, ret);
++        DPRINTF("%s: status %" PRIx32 "\n", __func__, ret);
+         /* Toggle bit 6 */
+         pfl->status ^=3D 0x40;
+         break;
+@@ -268,10 +266,6 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr of=
+fset,
+     trace_pflash_io_write(offset, width, width << 1, value, pfl->wcycle)=
+;
+     cmd =3D value;
+     if (pfl->cmd !=3D 0xA0 && cmd =3D=3D 0xF0) {
+-#if 0
+-        DPRINTF("%s: flash reset asked (%02x %02x)\n",
+-                __func__, pfl->cmd, cmd);
+-#endif
+         goto reset_flash;
+     }
+     offset &=3D pfl->chip_len - 1;
 --=20
 2.20.1
 
