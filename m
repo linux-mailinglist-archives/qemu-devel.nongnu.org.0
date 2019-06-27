@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E65582D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 14:48:46 +0200 (CEST)
-Received: from localhost ([::1]:50428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B01582E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 14:52:25 +0200 (CEST)
+Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgTpU-0006co-JY
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 08:48:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53257)
+	id 1hgTt2-0000tt-6i
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 08:52:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53723)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hgTo2-0006B7-QG
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:47:16 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1hgTpT-0006ul-Vv
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:48:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hgTo0-0002RK-Bz
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:47:14 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:35824)
+ (envelope-from <tcminyard@gmail.com>) id 1hgTpS-0003gR-1C
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:48:43 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33302)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hgTo0-00024e-3N
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:47:12 -0400
-Received: by mail-wr1-f65.google.com with SMTP id f15so2433856wrp.2
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 05:46:50 -0700 (PDT)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hgTpR-0003V3-OC
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:48:41 -0400
+Received: by mail-oi1-x243.google.com with SMTP id u15so1343017oiv.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 05:48:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id;
+ bh=PxyitUFXInVkUJpFcUgL7Sje5P9j9XglyfCCVSMSEUY=;
+ b=AabZQGmzOUGIAbs3DmX3I/Yj16l/jb2StAnF76H7OQhi9h0JJWcAfDA7xPdnaDm3J2
+ mnVERIBsf1rkOWx2DePn2iBUgUDszEQyCCu/ts2pVw50j0peL3c6BTIWEmncD1jPSosq
+ 0tpGL0J/KJ0jPnwjKUeq0i9dD+ru2i94BQtr6F8AX3gPLFbvpd5GK+5bzZglO1YJ601P
+ CKyYkUY2sIOjoybcvZI9N2d0PqKD2Obf9jTrNeHC3rQFqcULOgWyMTE/kEbTCLn5lHZ6
+ dVM+PRKR+D4EPrf5QbUQyQOIZXncFp0OpONPY+uTES9luPHNPhOkZUUIm4m788JlYKK5
+ z0ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BK01IBTXq/tRj+nONUGZyRKbu5iQ2bSozEijQ7zP7Ng=;
- b=EFTmNQJzp/bbLddyCLRUAfes7NGDQEjMV38cJkO1AQ5Whw4eoG4fyUhGxKOLwJoN5D
- yE0eZfZ3qmqa6DTRN921IJFoMew0UOF6DzKLhYwwcFA2PI7j5a4PUngSTrMulGJdLwic
- OgTPzZ/REGbHrVRuW+eMst7Eu4vr5KpWNQHEDluJJigFgge37v9ETt9IxXYVOPkD1xwU
- vqcbg7S9fTWo+fpklbrDAkDWqkj1cP/3z+8V2hngvXbcNrCKKh0MmTHYqp9NmjgJI6Wz
- PYBzP83Fm1SzBjQ47UFpuZdcMAEcdRd/bw2NsCVVVUS4fWtcB9UryWCZWHilHhU0xzbb
- linA==
-X-Gm-Message-State: APjAAAUcjd3AQ5u+7kDA41fhFh7V85ecpn1Mf1pZYWj5ttk3wSMaQZga
- DQ9KoCCO5UiEsGdot7zl0FkRKg==
-X-Google-Smtp-Source: APXvYqxHbQ+neuoZ13y6194ZiZs4Jr6Wrn+bCPA5LJIhJCeAjAmky+R0i0LFmNunhBsoWgp2aHlupA==
-X-Received: by 2002:adf:f84f:: with SMTP id d15mr3160143wrq.53.1561639609206; 
- Thu, 27 Jun 2019 05:46:49 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id p140sm3490513wme.31.2019.06.27.05.46.48
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 27 Jun 2019 05:46:48 -0700 (PDT)
-To: KONRAD Frederic <frederic.konrad@adacore.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20190627115331.2373-1-f4bug@amsat.org>
- <f27e2a5c-07dd-b118-7a85-c46587ffaf99@adacore.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f6a65ae9-11dd-8033-516a-9c12adbd6598@redhat.com>
-Date: Thu, 27 Jun 2019 14:46:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <f27e2a5c-07dd-b118-7a85-c46587ffaf99@adacore.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH 0/3] tests/acceptance: Add tests for the
- Leon3 board
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+ bh=PxyitUFXInVkUJpFcUgL7Sje5P9j9XglyfCCVSMSEUY=;
+ b=qqOeQ3Kj+bXhPAEofSulXHtbDnIhmNGkUHCBRbR3ems2QM5G+UHze6Fwo0QzJyyhKz
+ N8sWsuEnlZM0szTcqlsmNxE2pfufcFvUlAmNVEsconqroTOEN9dvV5dvQsjOW6CABOZ+
+ QO+dEUu0pt9N3xibPBWA+BS1eUyxlNJFAG11eRolLz0mMHOs+orIAxzCvM6Zo3Ty+Aih
+ VVLmM8v4vAza8sTB97RrBbyMqbV/0MvidRNejsmh+ZaKV7agNLwd+fNsvwiVvvdOk6zm
+ 2H5v7Bkg5YJQPeRgJokDKnr+KJoWrh4/JsdMNMAu3KwZQqYGTD3zhG/df1hFaJ4wOVXD
+ x5DA==
+X-Gm-Message-State: APjAAAVMTUVttxTv3rgcsMz92001eP1AuWV47TwTYEUGA7/B84Ksogj0
+ lCCuunKZUALXaWf7DFhMMdBpd6A=
+X-Google-Smtp-Source: APXvYqyEoMlik65jY+bbV1nGnPXjLH8e/gsIW4uRYFUJ8qoWO9B9+LfFVnr8clEetnI/JhzVZyxOkg==
+X-Received: by 2002:a05:6808:8c2:: with SMTP id
+ k2mr2100933oij.98.1561639706016; 
+ Thu, 27 Jun 2019 05:48:26 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id q20sm640724otm.32.2019.06.27.05.48.25
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 27 Jun 2019 05:48:25 -0700 (PDT)
+Received: from t430.minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:8437:2822:278a:bbee])
+ by serve.minyard.net (Postfix) with ESMTPA id 8AE791805A6;
+ Thu, 27 Jun 2019 12:48:24 +0000 (UTC)
+Received: by t430.minyard.net (Postfix, from userid 1000)
+ id 0B8BD302322; Thu, 27 Jun 2019 07:48:23 -0500 (CDT)
+From: minyard@acm.org
+To: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 27 Jun 2019 07:48:13 -0500
+Message-Id: <20190627124815.29536-1-minyard@acm.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: [Qemu-devel] [PULL 0/2] Add a UUID device property to IPMI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,267 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabien Chouteau <chouteau@adacore.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/27/19 2:28 PM, KONRAD Frederic wrote:
-> Hi Philippe,
-> 
-> Thanks for that!
-> 
-> I'm not aware at all of the tests/acceptance/* stuff.. How can we launch
-> those
-> tests?
+I believe we are not in softfreeze yet, and this is the only real
+fix I have for IPMI at the moment.
 
-$ make subdir-sparc-softmmu
-$ make check-venv
-$ tests/venv/bin/python -m avocado --show=app run
-tests/acceptance/machine_sparc_leon3.py
-JOB ID     : 12900968820fcd9ba2a03b9cfe2d060508c1d91c
-JOB LOG    :
-/home/phil/avocado/job-results/job-2019-06-27T14.38-1290096/job.log
- (1/2)
-tests/acceptance/machine_sparc_leon3.py:Leon3Machine.test_leon3_helenos_uimage:
-PASS (1.10 s)
- (2/2)
-tests/acceptance/machine_sparc_leon3.py:Leon3Machine.test_leon3_linux_kernel_4_9_busybox:
-PASS (3.72 s)
-RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 |
-CANCEL 0
-JOB TIME   : 5.32 s
+This was posted Nov 2018 with little commentary.
 
-Due to a pending issue with the chardev console [*] , the Avocado
-framework sometime hangs, so meanwhile I run tests in a loop and they
-eventually succeed :S
+The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
 
-[*] https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg01879.html
+  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
 
-To get the console, and filter uimage tests:
+are available in the Git repository at:
 
-$ tests/venv/bin/python -m avocado --show=app,console run -t
-binfmt:uimage tests/acceptance/machine_sparc_leon3.py
-JOB ID     : b1fb8e8a101c6a45d2f15e57a9faafee94cdf2b5
-JOB LOG    :
-/home/phil/avocado/job-results/job-2019-06-27T14.41-b1fb8e8/job.log
- (1/1)
-tests/acceptance/machine_sparc_leon3.py:Leon3Machine.test_leon3_helenos_uimage:
- console: HelenOS bootloader, release 0.6.0 (Elastic Horse)
-console: Built on 2014-12-21 20:17:42 for sparc32
-console: Copyright (c) 2001-2014 HelenOS project
-console: 0x4000bf20|0x4000bf20: kernel image (496640/128466 bytes)
-console: 0x4002b4f2|0x4002b4f2: ns image (154195/66444 bytes)
-console: 0x4003b87e|0x4003b87e: loader image (153182/66437 bytes)
-console: 0x4004bc03|0x4004bc03: init image (155339/66834 bytes)
-console: 0x4005c115|0x4005c115: locsrv image (162063/70267 bytes)
-console: 0x4006d390|0x4006d390: rd image (152678/65889 bytes)
-console: 0x4007d4f1|0x4007d4f1: vfs image (168480/73394 bytes)
-console: 0x4008f3a3|0x4008f3a3: logger image (158034/68368 bytes)
-console: 0x4009feb3|0x4009feb3: ext4fs image (234510/100301 bytes)
-console: 0x400b8680|0x400b8680: initrd image (8388608/1668901 bytes)
-console: ABMA devices:
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: <0:3000> at 0x00000000 irq 0
-console: Memory size: 0 MB
-console: Inflating components ... initrd ext4fs logger vfs rd locsrv
-init loader ns kernel Booting the kernel ...
-PASS (1.11 s)
-RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 |
-CANCEL 0
-JOB TIME   : 1.48 s
+  git://github.com/cminyard/qemu.git tags/ipmi-for-release-20190627
 
-The other test often timeouts due to [*]:
+for you to fetch changes up to bddef5881d0c935a5d9d8e15f822d9d700666ae6:
 
-$ tests/venv/bin/python -m avocado --show=app,console run
-tests/acceptance/machine_sparc_leon3.py
- (1/2)
-tests/acceptance/machine_sparc_leon3.py:Leon3Machine.test_leon3_helenos_uimage:
-PASS (1.19 s)
- (2/2)
-tests/acceptance/machine_sparc_leon3.py:Leon3Machine.test_leon3_linux_kernel_4_9_busybox:
- console: PROMLIB: Sun Boot Prom Version 0 Revision 0
-console: Linux version 4.9.54-00018-g62dab2c (andreas@andreas) (gcc
-version 4.9.4 (Cobham Gaisler Linux 4.9 Toolchain 1.0) ) #2 Wed Oct 18
-09:45:51 CEST 2017
-console: bootconsole [earlyprom0] enabled
-console: ARCH: LEON
-console: TYPE: Leon3 System-on-a-Chip
-console: Ethernet address: 00:00:7c:cc:01:45
-console: CACHE: direct mapped cache, set size 1k
-console: CACHE: not flushing on every context switch
-console: OF stdout device is: /a::a
-console: PROM: Built device tree with 8629 bytes of memory.
-console: Booting Linux...
-console: Built 1 zonelists in Zone order, mobility grouping on.  Total
-pages: 30732
-console: Kernel command line: console=ttyS0,38400 init=/sbin/init
-console: PID hash table entries: 512 (order: -1, 2048 bytes)
-console: Dentry cache hash table entries: 16384 (order: 4, 65536 bytes)
-console: Inode-cache hash table entries: 8192 (order: 3, 32768 bytes)
-console: Sorting __ex_table...
-console: Memory: 120576K/123952K available (3894K kernel code, 155K
-rwdata, 692K rodata, 2188K init, 129K bss, 3376K reserved, 0K
-cma-reserved, 0K highmem)
-console: NR_IRQS:64
-console: Console: colour dummy device 80x25
-console: console [ttyS0] enabled
-console: console [ttyS0] enabled
-console: bootconsole [earlyprom0] disabled
-console: bootconsole [earlyprom0] disabled
-console: clocksource: timer_cs: mask: 0xffffffffffffffff max_cycles:
-0x1d854df40, max_idle_ns: 3526361616960 ns
-console: Calibrating delay loop... 133.01 BogoMIPS (lpj=665088)
-console: pid_max: default: 32768 minimum: 301
-console: Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
-console: Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
-console: devtmpfs: initialized
-console: clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff,
-max_idle_ns: 19112604462750000 ns
-console: futex hash table entries: 256 (order: -1, 3072 bytes)
-console: NET: Registered protocol family 16
-console: SCSI subsystem initialized
-console: clocksource: Switched to clocksource timer_cs
-console: FS-Cache: Loaded
-console: CacheFiles: Loaded
-console: NET: Registered protocol family 2
-console: TCP established hash table entries: 1024 (order: 0, 4096 bytes)
-console: TCP bind hash table entries: 1024 (order: 0, 4096 bytes)
-console: TCP: Hash tables configured (established 1024 bind 1024)
-console: UDP hash table entries: 256 (order: 0, 4096 bytes)
-console: UDP-Lite hash table entries: 256 (order: 0, 4096 bytes)
-console: NET: Registered protocol family 1
-console: RPC: Registered named UNIX socket transport module.
-console: RPC: Registered udp transport module.
-console: RPC: Registered tcp transport module.
-console: RPC: Registered tcp NFSv4.1 backchannel transport module.
-|console: workingset: timestamp_bits=30 max_order=15 bucket_order=0
-console: FS-Cache: Netfs 'nfs' registered for caching
-console: NFS: Registering the id_resolver key type
-console: Key type id_resolver registered
-console: Key type id_legacy registered
-console: jitterentropy: Initialization failed with host not compliant
-with requirements: 2
-console: io scheduler noop registered
-console: io scheduler deadline registered
-console: io scheduler cfq registered (default)
-console: Serial: GRLIB APBUART driver
-console: ffd0fce4: ttyS0 at MMIO 0x80000100 (irq = 3, base_baud =
-2500000) is a GRLIB/APBUART
-console: grlib-apbuart at 0x80000100, irq 3
-console: brd: module loaded
-console: loop: module loaded
-console: NET: Registered protocol family 10
-console: sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
-console: NET: Registered protocol family 17
-console: Key type dns_resolver registered
-console: leon: power management initialized
-console: Freeing unused kernel memory: 2188K
-console: This architecture does not have kernel memory protection.
-/console: Starting lograndom: fast init done
-console: ging: OK
--console: Initializing random number generator... done.
-console: Starting network: OK
-console: Welcome to Buildroot
-INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout
-reached\nOriginal status: ERROR\n{'name':
-'2-tests/acceptance/machine_sparc_leon3.py:Leon3Machine.test_leon3_linux_kernel_4_9_busybox',
-'logdir': '/home/phil/avocado/job-results/job-2019-06-27T14.43... (60.44 s)
-RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 1 |
-CANCEL 0
-JOB TIME   : 62.10 s
+  ipmi: Add a UUID device property (2019-06-26 15:31:33 -0500)
 
-I guess Cleber is working on a fix, but it is unrelated to this series.
+----------------------------------------------------------------
+Add a UUID device property to IPMI
 
-> Appart of that it looks good to me :).
+This is fairly important for two reasons:
 
-Thanks!
+* It allows a BMC to be created with no UUID, returning an error, which
+  is the behavior of many BMCs in the world.
+* It lets the user set the UUID to a fixed value.
 
-> Regards,
-> Fred
-> 
-> Le 6/27/19 à 1:53 PM, Philippe Mathieu-Daudé a écrit :
->> Quick tests worth to avoid regressions, idea from
->> https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04177.html
->> "Maintainers, please tell us how to boot your machines"
->>
->> Regards,
->>
->> Phil.
->>
->> Philippe Mathieu-Daudé (3):
->>    tests/acceptance: Add test that boots the HelenOS microkernel on Leon3
->>    tests/acceptance: Add test that boots Linux up to BusyBox on Leon3
->>    .travis.yml: Let the avocado job run the Leon3 test
->>
->>   .travis.yml                             |  2 +-
->>   MAINTAINERS                             |  1 +
->>   tests/acceptance/machine_sparc_leon3.py | 89 +++++++++++++++++++++++++
->>   3 files changed, 91 insertions(+), 1 deletion(-)
->>   create mode 100644 tests/acceptance/machine_sparc_leon3.py
->>
+Some software using IPMI will get confused if it gets different UUIDs
+from what should be the same device, which is what happens now if qemu
+quits and restarts.
+
+----------------------------------------------------------------
+Corey Minyard (2):
+      qdev: Add a no default uuid property
+      ipmi: Add a UUID device property
+
+ hw/ipmi/ipmi_bmc_sim.c       | 22 ++++++++++++++--------
+ include/hw/qdev-properties.h |  7 +++++++
+ qemu-options.hx              | 10 +++++++---
+ 3 files changed, 28 insertions(+), 11 deletions(-)
+
+
 
