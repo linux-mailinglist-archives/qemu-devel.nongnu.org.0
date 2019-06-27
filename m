@@ -2,129 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A15858847
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 19:26:31 +0200 (CEST)
-Received: from localhost ([::1]:53168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7224358852
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 19:28:38 +0200 (CEST)
+Received: from localhost ([::1]:53194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgYAI-0000jX-N6
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 13:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1hgYCL-0003Bc-M0
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 13:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34003)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hgY8M-00080f-Lp
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:24:31 -0400
+ (envelope-from <groug@kaod.org>) id 1hgYAL-0001v7-14
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:26:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hgY8L-0004sp-Bx
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:24:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49240)
+ (envelope-from <groug@kaod.org>) id 1hgYAJ-0006UR-GT
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:26:32 -0400
+Received: from 18.mo5.mail-out.ovh.net ([178.33.45.10]:38673)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hgY8I-0004qU-FY; Thu, 27 Jun 2019 13:24:26 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 833B18F916;
- Thu, 27 Jun 2019 17:24:25 +0000 (UTC)
-Received: from [10.18.17.47] (dhcp-17-47.bos.redhat.com [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4488600CC;
- Thu, 27 Jun 2019 17:24:24 +0000 (UTC)
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20190510153346.238366-1-sgarzare@redhat.com>
- <96429d33-6514-33b5-3fe8-7bdf2eccc8d9@redhat.com>
- <20190627084816.u6fj556uen3iqa3r@steredhat.homenet.telecomitalia.it>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <b7aaa681-12ae-e256-e295-06e953dc51ff@redhat.com>
-Date: Thu, 27 Jun 2019 13:24:24 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hgYAJ-0006ST-6D
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:26:31 -0400
+Received: from player756.ha.ovh.net (unknown [10.108.35.74])
+ by mo5.mail-out.ovh.net (Postfix) with ESMTP id C20B224078E
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 19:26:27 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+ [82.253.208.248]) (Authenticated sender: groug@kaod.org)
+ by player756.ha.ovh.net (Postfix) with ESMTPSA id E1E5D68335FD;
+ Thu, 27 Jun 2019 17:26:23 +0000 (UTC)
+Date: Thu, 27 Jun 2019 19:26:22 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Message-ID: <20190627192622.6f49dc0a@bahia.lan>
+In-Reply-To: <26b626706b5fa0c492413a3279512c17952be5de.1561575449.git.qemu_oss@crudebyte.com>
+References: <cover.1561575449.git.qemu_oss@crudebyte.com>
+ <26b626706b5fa0c492413a3279512c17952be5de.1561575449.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190627084816.u6fj556uen3iqa3r@steredhat.homenet.telecomitalia.it>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 27 Jun 2019 17:24:25 +0000 (UTC)
+X-Ovh-Tracer-Id: 18177372523683092800
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudekgdduudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] block/rbd: implement
- .bdrv_get_allocated_file_size callback
+X-Received-From: 178.33.45.10
+Subject: Re: [Qemu-devel] [PATCH v4 2/5] 9p: Treat multiple devices on one
+ export as an error
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -136,147 +57,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Jason Dillaman <jdillama@redhat.com>
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 26 Jun 2019 20:30:41 +0200
+Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
 
+> The QID path should uniquely identify a file. However, the
+> inode of a file is currently used as the QID path, which
+> on its own only uniquely identifies wiles within a device.
 
-On 6/27/19 4:48 AM, Stefano Garzarella wrote:
-> On Wed, Jun 26, 2019 at 05:04:25PM -0400, John Snow wrote:
->> It looks like this has hit a 30 day expiration without any reviews or
->> being merged; do we still want this? If so, can you please resend?
-> 
-> Yes, I think we still want :)
-> 
-> Is it okay if I send a v3 following your comments?
-> 
+s/wile/files
 
-Yes, but I don't know who is responsible for final approval; I guess
-that's Josh Durgin?
+> Here we track the device hosting the 9pfs share, in order
+> to prevent security issues with QID path collisions from
+> other devices.
+> 
+> Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
 
->>
->> On 5/10/19 11:33 AM, Stefano Garzarella wrote:
->>> This patch allows 'qemu-img info' to show the 'disk size' for
->>> the RBD images that have the fast-diff feature enabled.
->>>
->>> If this feature is enabled, we use the rbd_diff_iterate2() API
->>> to calculate the allocated size for the image.
->>>
->>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->>> ---
->>> v2:
->>>   - calculate the actual usage only if the fast-diff feature is
->>>     enabled [Jason]
->>> ---
->>>  block/rbd.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->>>  1 file changed, 54 insertions(+)
->>>
->>> diff --git a/block/rbd.c b/block/rbd.c
->>> index 0c549c9935..f1bc76ab80 100644
->>> --- a/block/rbd.c
->>> +++ b/block/rbd.c
->>> @@ -1046,6 +1046,59 @@ static int64_t qemu_rbd_getlength(BlockDriverState *bs)
->>>      return info.size;
->>>  }
->>>  
->>> +static int rbd_allocated_size_cb(uint64_t offset, size_t len, int exists,
->>> +                                 void *arg)
->>> +{
->>> +    int64_t *alloc_size = (int64_t *) arg;
->>> +
->>> +    if (exists) {
->>> +        (*alloc_size) += len;
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +static int64_t qemu_rbd_get_allocated_file_size(BlockDriverState *bs)
->>> +{
->>> +    BDRVRBDState *s = bs->opaque;
->>> +    uint64_t flags, features;
->>> +    int64_t alloc_size = 0;
->>> +    int r;
->>> +
->>> +    r = rbd_get_flags(s->image, &flags);
->>> +    if (r < 0) {
->>> +        return r;
->>> +    }
->>> +
->>
->> Do you know where rbd_get_flags is documented? I can't seem to quickly
->> find a reference that tells me what to expect from calling it. It
->> returns an int, I guess an error code, but how can I confirm this?
->>
->> *clones the ceph repository*
->>
->> src/librbd/internal.cc get_flags convinces me it probably works like I
->> think, but is there not a reference here?
->>
-> 
-> Good question!
-> I didn't find any docs, but looking in the ceph tests test/librbd/fsx.cc,
-> they print an error message if the return value is less than 0.
-> 
-> A 'get_flags' implemented in cls/rbd/cls_rbd.cc for example returns 0 at the
-> end and -EINVAL in a try/catch. It also uses 'read_key()' that in some cases
-> returns -EIO, so I hope that the error returned by rbd_get_flags() is one of
-> the errors defined in errno.h
-> 
->>> +    r = rbd_get_features(s->image, &features);
->>> +    if (r < 0) {
->>> +        return r;
->>> +    }
->>> +
->>> +    /*
->>> +     * We use rbd_diff_iterate2() only if the RBD image have fast-diff
->>> +     * feature enabled. If it is disabled, rbd_diff_iterate2() could be
->>> +     * very slow on a big image.
->>> +     */
->>> +    if (!(features & RBD_FEATURE_FAST_DIFF) ||
->>> +        (flags & RBD_FLAG_FAST_DIFF_INVALID)) {
->>> +        return -1;
->>> +    }
->>> +
->>
->> (Is there a reference for the list of flags to make sure there aren't
->> other cases we might want to skip this?)
-> 
-> Unfortunately no :(
-> As Jason suggested, I followed what libvirt did in the
-> volStorageBackendRBDUseFastDiff() [src/storage/storage_backend_rbd.c]
-> 
->>
->> It looks reasonable at a glance, but maybe let's return -ENOTSUP instead
->> of -1, based on the idea that bdrv_get_allocated_file_size returns
->> -ENOMEDIUM in a prominent error case -- let's match that error convention.
-> 
-> Sure, -ENOTSUP is absolutely better!
-> 
->>
->> (Well, I wonder what the librbd calls are returning and if THOSE mean
->> anything.)
-> 
-> I hope they return an errno.h errors, but I'm not sure if the meaning
-> make sense for us.
-> 
-> Do you think is better to return -ENOTSUP or -EIO when librbd calls
-> fail?
-> 
+You should mention here the changes you made to the original patch.
 
-I'll be honest, I have no idea because I don't know what failure of
-these calls means _at all_, so I don't know if it should be something
-severe like EIO or something more mundane.
-
-I guess just leave them alone in absence of better information, honestly.
-
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/9p.c | 71 ++++++++++++++++++++++++++++++++++++++++++++++++------------
+>  hw/9pfs/9p.h |  1 +
+>  2 files changed, 58 insertions(+), 14 deletions(-)
 > 
-> Thanks for your comments,
-> Stefano
-> 
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 586a6dccba..cbaa212625 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -572,10 +572,20 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+>                                  P9_STAT_MODE_SOCKET)
+>  
+>  /* This is the algorithm from ufs in spfs */
+> -static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
+> +static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
+>  {
+>      size_t size;
+>  
+> +    if (pdu->s->dev_id == 0) {
+> +        pdu->s->dev_id = stbuf->st_dev;
 
-Thank you for trying to patch rbd :)
+st_dev should be captured in v9fs_device_realize_common() since we
+lstat() the root there, instead of every request doing the check.
+
+> +    } else if (pdu->s->dev_id != stbuf->st_dev) {
+> +        error_report_once(
+> +            "9p: Multiple devices detected in same VirtFS export. "
+> +            "You must use a separate export for each device."
+> +        );
+> +        return -ENOSYS;
+
+This error is likely to end up as the return value of a
+syscall in the guest and -ENOSYS usually means the syscall
+isn't implemented, which is obviously not the case. Maybe
+return -EPERM instead ?
+
+> +    }
+> +
+>      memset(&qidp->path, 0, sizeof(qidp->path));
+>      size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
+>      memcpy(&qidp->path, &stbuf->st_ino, size);
+> @@ -587,6 +597,8 @@ static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
+>      if (S_ISLNK(stbuf->st_mode)) {
+>          qidp->type |= P9_QID_TYPE_SYMLINK;
+>      }
+> +
+> +    return 0;
+>  }
+>  
+>  static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+> @@ -599,7 +611,10 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
+>      if (err < 0) {
+>          return err;
+>      }
+> -    stat_to_qid(&stbuf, qidp);
+> +    err = stat_to_qid(pdu, &stbuf, qidp);
+> +    if (err < 0) {
+> +        return err;
+> +    }
+>      return 0;
+>  }
+>  
+> @@ -830,7 +845,10 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+>  
+>      memset(v9stat, 0, sizeof(*v9stat));
+>  
+> -    stat_to_qid(stbuf, &v9stat->qid);
+> +    err = stat_to_qid(pdu, stbuf, &v9stat->qid);
+> +    if (err < 0) {
+> +        return err;
+> +    }
+>      v9stat->mode = stat_to_v9mode(stbuf);
+>      v9stat->atime = stbuf->st_atime;
+>      v9stat->mtime = stbuf->st_mtime;
+> @@ -891,7 +909,7 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
+>  #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields above */
+>  
+>  
+> -static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
+> +static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
+>                                  V9fsStatDotl *v9lstat)
+>  {
+>      memset(v9lstat, 0, sizeof(*v9lstat));
+> @@ -913,7 +931,7 @@ static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
+>      /* Currently we only support BASIC fields in stat */
+>      v9lstat->st_result_mask = P9_STATS_BASIC;
+>  
+> -    stat_to_qid(stbuf, &v9lstat->qid);
+> +    return stat_to_qid(pdu, stbuf, &v9lstat->qid);
+>  }
+>  
+>  static void print_sg(struct iovec *sg, int cnt)
+> @@ -1115,7 +1133,6 @@ static void coroutine_fn v9fs_getattr(void *opaque)
+>      uint64_t request_mask;
+>      V9fsStatDotl v9stat_dotl;
+>      V9fsPDU *pdu = opaque;
+> -    V9fsState *s = pdu->s;
+>  
+>      retval = pdu_unmarshal(pdu, offset, "dq", &fid, &request_mask);
+>      if (retval < 0) {
+> @@ -1136,7 +1153,10 @@ static void coroutine_fn v9fs_getattr(void *opaque)
+>      if (retval < 0) {
+>          goto out;
+>      }
+> -    stat_to_v9stat_dotl(s, &stbuf, &v9stat_dotl);
+> +    retval = stat_to_v9stat_dotl(pdu, &stbuf, &v9stat_dotl);
+> +    if (retval < 0) {
+> +        goto out;
+> +    }
+>  
+>      /*  fill st_gen if requested and supported by underlying fs */
+>      if (request_mask & P9_STATS_GEN) {
+> @@ -1381,7 +1401,10 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>              if (err < 0) {
+>                  goto out;
+>              }
+> -            stat_to_qid(&stbuf, &qid);
+> +            err = stat_to_qid(pdu, &stbuf, &qid);
+> +            if (err < 0) {
+> +                goto out;
+> +            }
+>              v9fs_path_copy(&dpath, &path);
+>          }
+>          memcpy(&qids[name_idx], &qid, sizeof(qid));
+> @@ -1483,7 +1506,10 @@ static void coroutine_fn v9fs_open(void *opaque)
+>      if (err < 0) {
+>          goto out;
+>      }
+> -    stat_to_qid(&stbuf, &qid);
+> +    err = stat_to_qid(pdu, &stbuf, &qid);
+> +    if (err < 0) {
+> +        goto out;
+> +    }
+>      if (S_ISDIR(stbuf.st_mode)) {
+>          err = v9fs_co_opendir(pdu, fidp);
+>          if (err < 0) {
+> @@ -1593,7 +1619,10 @@ static void coroutine_fn v9fs_lcreate(void *opaque)
+>          fidp->flags |= FID_NON_RECLAIMABLE;
+>      }
+>      iounit =  get_iounit(pdu, &fidp->path);
+> -    stat_to_qid(&stbuf, &qid);
+> +    err = stat_to_qid(pdu, &stbuf, &qid);
+> +    if (err < 0) {
+> +        goto out;
+> +    }
+>      err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
+>      if (err < 0) {
+>          goto out;
+> @@ -2327,7 +2356,10 @@ static void coroutine_fn v9fs_create(void *opaque)
+>          }
+>      }
+>      iounit = get_iounit(pdu, &fidp->path);
+> -    stat_to_qid(&stbuf, &qid);
+> +    err = stat_to_qid(pdu, &stbuf, &qid);
+> +    if (err < 0) {
+> +        goto out;
+> +    }
+>      err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
+>      if (err < 0) {
+>          goto out;
+> @@ -2384,7 +2416,10 @@ static void coroutine_fn v9fs_symlink(void *opaque)
+>      if (err < 0) {
+>          goto out;
+>      }
+> -    stat_to_qid(&stbuf, &qid);
+> +    err = stat_to_qid(pdu, &stbuf, &qid);
+> +    if (err < 0) {
+> +        goto out;
+> +    }
+>      err =  pdu_marshal(pdu, offset, "Q", &qid);
+>      if (err < 0) {
+>          goto out;
+> @@ -3064,7 +3099,10 @@ static void coroutine_fn v9fs_mknod(void *opaque)
+>      if (err < 0) {
+>          goto out;
+>      }
+> -    stat_to_qid(&stbuf, &qid);
+> +    err = stat_to_qid(pdu, &stbuf, &qid);
+> +    if (err < 0) {
+> +        goto out;
+> +    }
+>      err = pdu_marshal(pdu, offset, "Q", &qid);
+>      if (err < 0) {
+>          goto out;
+> @@ -3222,7 +3260,10 @@ static void coroutine_fn v9fs_mkdir(void *opaque)
+>      if (err < 0) {
+>          goto out;
+>      }
+> -    stat_to_qid(&stbuf, &qid);
+> +    err = stat_to_qid(pdu, &stbuf, &qid);
+> +    if (err < 0) {
+> +        goto out;
+> +    }
+>      err = pdu_marshal(pdu, offset, "Q", &qid);
+>      if (err < 0) {
+>          goto out;
+> @@ -3633,6 +3674,8 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
+>          goto out;
+>      }
+>  
+> +    s->dev_id = 0;
+> +
+
+Set it to stat->st_dev after lstat() was called later in this function.
+
+>      s->ctx.fst = &fse->fst;
+>      fsdev_throttle_init(s->ctx.fst);
+>  
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 8883761b2c..5e316178d5 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -256,6 +256,7 @@ struct V9fsState
+>      Error *migration_blocker;
+>      V9fsConf fsconf;
+>      V9fsQID root_qid;
+> +    dev_t dev_id;
+>  };
+>  
+>  /* 9p2000.L open flags */
+
 
