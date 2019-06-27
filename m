@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597E15877E
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:44:12 +0200 (CEST)
-Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80D058730
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:35:10 +0200 (CEST)
+Received: from localhost ([::1]:52538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgXVL-00054z-0U
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40106)
+	id 1hgXMa-0003Lj-Vh
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:35:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36599)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hgWfp-0000zJ-8T
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:50:58 -0400
+ (envelope-from <eblake@redhat.com>) id 1hgWTN-0006r3-6R
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:38:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hgWfn-0000Z9-Qy
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:50:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46904)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hgWfl-0000BM-N4
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:50:55 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hgWfS-00042M-A8
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 15:50:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2370D2E80CC
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 15:50:34 +0000 (UTC)
+ (envelope-from <eblake@redhat.com>) id 1hgWTL-000366-ME
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:38:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:13783)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eblake@redhat.com>)
+ id 1hgWTG-0002wD-AP; Thu, 27 Jun 2019 11:37:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A25A8285B4;
+ Thu, 27 Jun 2019 15:37:53 +0000 (UTC)
+Received: from [10.3.116.142] (ovpn-116-142.phx2.redhat.com [10.3.116.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5CA660126;
+ Thu, 27 Jun 2019 15:37:52 +0000 (UTC)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190626024942.29758-1-eblake@redhat.com>
+ <20190626082251.GA29008@redhat.com>
+ <a3418db6-4bb4-029e-8a5d-d9e6b1185f22@redhat.com>
+ <20190627145850.GN12358@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+ xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+ xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+ TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+ GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+ sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+ AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+ CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+ RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+ wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+ Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+ gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+ pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+ zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+ pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+ 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+ NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+ cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+ SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+ I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+ mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+ Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+ 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <fd45bfbe-f8a3-afd9-1230-798f4c647d30@redhat.com>
+Date: Thu, 27 Jun 2019 10:37:52 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 27 Jun 2019 15:37:23 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: christophe-lyon
-X-Launchpad-Bug-Reporter: Christophe Lyon (christophe-lyon)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28alex-bennee=29?=
-References: <156164884976.17804.15592866928864750515.malonedeb@wampee.canonical.com>
-Message-Id: <156164984446.31445.14890939155088549742.launchpad@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18991";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 286f21e8dc023153ea39176b238acfa382202d01
+In-Reply-To: <20190627145850.GN12358@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="SSf8SMWCiJ474UWdKl8hmADN2xC7Ivz7s"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Thu, 27 Jun 2019 15:37:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Thu, 27 Jun 2019 12:08:08 -0400
-Subject: [Qemu-devel] [Bug 1834496] Re: Regressions on arm target with some
- GCC tests
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] qemu-nbd: Permit TLS with Unix sockets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,61 +86,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1834496 <1834496@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>, rjones@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: arm testcases
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--SSf8SMWCiJ474UWdKl8hmADN2xC7Ivz7s
+Content-Type: multipart/mixed; boundary="892I7ZPAfaPTWrCcMyC1q7OZ3csgscr7l";
+ protected-headers="v1"
+From: Eric Blake <eblake@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, rjones@redhat.com,
+ "open list:Network Block Dev..." <qemu-block@nongnu.org>
+Message-ID: <fd45bfbe-f8a3-afd9-1230-798f4c647d30@redhat.com>
+Subject: Re: [PATCH] qemu-nbd: Permit TLS with Unix sockets
+References: <20190626024942.29758-1-eblake@redhat.com>
+ <20190626082251.GA29008@redhat.com>
+ <a3418db6-4bb4-029e-8a5d-d9e6b1185f22@redhat.com>
+ <20190627145850.GN12358@redhat.com>
+In-Reply-To: <20190627145850.GN12358@redhat.com>
 
-** Tags removed: testcases
-** Tags added: testcase
+--892I7ZPAfaPTWrCcMyC1q7OZ3csgscr7l
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On 6/27/19 9:58 AM, Daniel P. Berrang=C3=A9 wrote:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1834496
+>>>
+>>> Do you need something on the client side too ?
+>>
+>> The proposal that Rich is working on for standardized NBD URIs [1] say=
+s
+>> that we need a patch to support nbds://host/export and
+>> nbds+unix://export?socket=3D/path as ways to request an encrypted clie=
+nt
+>> connection with default encryption parameters. For anything more
+>> complex, we have to use --imageopts and request an encrypted connectio=
+n
+>> by parts - but the QAPI schema already permits us to pass in an
+>> 'tls-creds' parameter for both TCP and Unix sockets, so no, I don't
+>> think we need any client side changes at this point.
 
-Title:
-  Regressions on arm target with some GCC tests
+Okay, I just tested that pre-patch, qemu-nbd --list refuses to connect,
+but post-patch it works:
 
-Status in QEMU:
-  New
+$ ./qemu-nbd -r -k /tmp/nbdsock --object \
+  tls-creds-psk,id=3Dtls0,endpoint=3Dserver,dir=3D/home/eblake/libnbd/tes=
+ts \
+  --tls-creds tls0 -f raw -x / ./file
+$ qemu-nbd --list -k /tmp/nbdsock --object \
 
-Bug description:
-  Hi,
+tls-creds-psk,id=3Dtls0,endpoint=3Dclient,dir=3D/home/eblake/libnbd/tests=
+,username=3Deblake
+\
+  --tls-creds tls0
+qemu-nbd: TLS is only supported with IPv4/IPv6
+$ ./qemu-nbd --list -k /tmp/nbdsock --object \
 
-  After trying qemu master:
-  commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde
-  Merge: 68d7ff0 14f5d87
-  Author: Peter Maydell <peter.maydell@linaro.org>
-  Date:   Fri Jun 21 15:40:50 2019 +0100
+tls-creds-psk,id=3Dtls0,endpoint=3Dclient,dir=3D/home/eblake/libnbd/tests=
+,username=3Deblake
+\
+  --tls-creds tls0
+exports available: 1
+=2E..
 
-  I found several regressions compared to qemu-3.1 when running the GCC tes=
-tsuite.
-  I'm attaching a tarball containing several GCC tests (binaries), needed s=
-hared libs, and a short script to run all the tests.
+>=20
+> The QAPI schema isn't what I was thinking about....  in block/nbd.c
+> we have the same restriction you lifted here
+>=20
+>         tlscreds =3D nbd_get_tls_creds(s->tlscredsid, errp);
+>         if (!tlscreds) {
+>             goto error;
+>         }
+>=20
+>         /* TODO SOCKET_ADDRESS_KIND_FD where fd has AF_INET or AF_INET6=
+ */
+>         if (s->saddr->type !=3D SOCKET_ADDRESS_TYPE_INET) {
+>             error_setg(errp, "TLS only supported over IP sockets");
+>             goto error;
+>         }
 
-  All tests used to pass w/o error (one of them is verbose), but with a
-  recent qemu, all of them make qemu crash:
+Oh. Yeah, I'll have to fix that; it's different than qemu-nbd --list.
 
-  qemu: uncaught target signal 6 (Aborted) - core dumped
+>=20
+> For client side we would also need to allow a 'tls-hostname' parameter
+> in BlockdevOptionsNbd, so that the client can pass a hostname to use
+> for validating the x509 certificate, the same way we allow for live
+> migration.
 
-  This was noticed with GCC master configured with
-  --target arm-none-linux-gnueabi
-  --with-mode arm
-  --with-cpu cortex-a9
+Okay, v2 coming up later, once I've done more integration testing.
 
-  and calling qemu with --cpu cortex-a9 (the script uses "any", this
-  makes no difference).
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-  I have noticed other failures with arm-v8 code, but this is probably
-  the same root cause. Since it's a bit tedious to manually rebuild &
-  extract the testcases, I'd prefer to start with this subset, and I can
-  extract more if needed later.
 
-  Thanks
+--892I7ZPAfaPTWrCcMyC1q7OZ3csgscr7l--
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1834496/+subscriptions
+--SSf8SMWCiJ474UWdKl8hmADN2xC7Ivz7s
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0U4tAACgkQp6FrSiUn
+Q2pNuAf/WyiDmacuqI5lvvA9PwERxevsYEo0+8y8tzpafFjES0FYuw6Rg2t2ET6S
+OdIwKyOistECKwsX1XaM9AsKM+6L0tUeaQuO/zHPWfcyvDPLvGqBjkzGhoJdRQsY
+f33/arSqQe5StEvOALfMpCgOvcrqt7F7vO9vwIBzQ4JAHRcTGNe2KQXuax8JHtMn
+YNzHSUwP4+qsRJuzhH2JBrXTpyAyta7Aug+07ijCBy17JS9eZYt83xf0ZenWXYwd
+v3i/ngI+hU+5V45JU8uw+NEWMZyJpX95D+yqCP6Z04SiKEqzod5CvGoEEO30OKkc
+SqSKcix3qdutYFh+YWTuMRKf01IR9A==
+=l4fw
+-----END PGP SIGNATURE-----
+
+--SSf8SMWCiJ474UWdKl8hmADN2xC7Ivz7s--
 
