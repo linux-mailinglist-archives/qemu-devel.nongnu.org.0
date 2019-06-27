@@ -2,68 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF0158314
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 15:03:36 +0200 (CEST)
-Received: from localhost ([::1]:50514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C4058360
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 15:23:34 +0200 (CEST)
+Received: from localhost ([::1]:50714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgU3r-0006Is-Jz
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 09:03:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56497)
+	id 1hgUNB-000282-JO
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 09:23:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33240)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hgTzr-0005jg-1E
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:59:28 -0400
+ (envelope-from <w.bumiller@proxmox.com>) id 1hgUKn-00083n-JX
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 09:21:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hgTzp-0005no-Pu
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:59:26 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45848)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hgTzp-0005mv-Jj
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 08:59:25 -0400
-Received: by mail-wr1-f67.google.com with SMTP id f9so2432842wre.12
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 05:59:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9Lvr6L15N+7nvfRl9EwfpRrHBBp/1/kXCVBnglf06x0=;
- b=stvwLTYfEEoGzPFJYWRe9DRaDHdmfFCg08bGDgc1CAk3dTiH/3fkz0UObrQ9EPISkD
- XTfTy3E/p3pbOjTd4D3Wd/UoIKj6Voea7zMs3gWT4+D5W5zJa5BEiFRPQbMm00bIg2Pn
- g9zNDCVF68fs2I5x0ahiCl6ECcZkBt959YMD9Il1QTu08/0hORlH+tmF/kmbtE4xuReR
- Hp2DY9lNloltNmDrZ+iMeIxBOEF5G3+dxPtffLkZ+5i3o9UkKREGyAWgfWY+rSCR3c5x
- Frlk2TS4Q+/4ueSLF69KhEChBowE0HzQ5iZLEZBHv7LQklUbnbHON/klzqF1YeGAJ3vN
- 8xxw==
-X-Gm-Message-State: APjAAAXaotJCuQkLSmOBDk31rK5L0motVvV6IHOaTpydH2kfanALs0ua
- rlM8JbO/b2N5Fiwo1f8wTRyQl3PXc/Y=
-X-Google-Smtp-Source: APXvYqzfI11HgH5uqDWUrh3LHysSnb4tyJhQPYtli/TPfbdN5loNByU5ULZ+RJSrvKXWsDsCMlRfsQ==
-X-Received: by 2002:adf:dd51:: with SMTP id u17mr3092738wrm.218.1561640364017; 
- Thu, 27 Jun 2019 05:59:24 -0700 (PDT)
-Received: from [192.168.10.150] ([93.56.166.5])
- by smtp.gmail.com with ESMTPSA id b6sm1421565wrx.85.2019.06.27.05.59.23
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Thu, 27 Jun 2019 05:59:23 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>
-References: <1560165301-39026-1-git-send-email-pbonzini@redhat.com>
- <1560165301-39026-4-git-send-email-pbonzini@redhat.com>
- <20190627090353.GA24929@redhat.com>
- <b8ae5bd6-2b52-99e0-993c-fe8f65d40da3@redhat.com>
- <87blyjfc87.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ef92c495-bb7d-01fb-6c3a-3dd6ae47c46c@redhat.com>
-Date: Thu, 27 Jun 2019 14:57:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <w.bumiller@proxmox.com>) id 1hgUKl-0000PK-Sc
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 09:21:05 -0400
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:31868)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <w.bumiller@proxmox.com>)
+ id 1hgUKl-0000DW-GJ
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 09:21:03 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 2839C43019;
+ Thu, 27 Jun 2019 15:12:54 +0200 (CEST)
+Date: Thu, 27 Jun 2019 15:12:52 +0200
+From: Wolfgang Bumiller <w.bumiller@proxmox.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20190627131252.GA14795@olga.proxmox.com>
 MIME-Version: 1.0
-In-Reply-To: <87blyjfc87.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH 3/7] configure: integrate Meson in the
- build system
+X-Received-From: 212.186.127.180
+Subject: [Qemu-devel] balloon config change seems to break live migration
+ from 3.0.1 to 4.0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,82 +47,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/06/19 14:23, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->> On 27/06/19 11:03, Daniel P. Berrangé wrote:
->> There are two parts of this.  One is practical and has to do with
->> supporting a step-by-step transition.  Using ninja2make makes it trivial
->> to have make build products that depend on meson build products, and
->> this way bottom up is a natural direction to do the conversion, which is
->> bottom up.  You'd start from libqemuutil.a and code generators (tracing
->> + QAPI), then go to the tools and the emulators.
-> 
-> *If* the conversion is too big a task to permit doing it all at once,
-> then the step by step strategy you describe makes sense to me.
-> 
-> The trouble with step by step is running out of steam before the final
-> step.  That would leave us worse off.  Even an overly protracted
-> conversion would be bad.
+While testing with 4.0 we've run into issues with live migration from
+3.0.1 to 4.0 when a balloon device was involved.
 
-Agreed.  But hey, Makefile.objs is 2000 lines of lists of files, it is
-boring but it cannot take that long to convert.  So it's not really
-about being _possible_ to do it all at once, it's mostly about the
-manageability of conflicts.
+We'd see the following error on the destination:
+  qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x10 read: a1 device: 1 cmask: ff wmask: c0 w1cmask:0 
+  qemu-system-x86_64: Failed to load PCIDevice:config 
+  qemu-system-x86_64: Failed to load virtio-balloon:virtio 
+  qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-balloon' 
+  qemu-system-x86_64: load of migration failed: Invalid argument
 
-> Thus, my standard question on any proposed step-by-step conversion:
-> commitment to finishing it?  I'd be quite happy to take your word for
-> it.
+After looking through the commits I noticed that the pci config sent for
+the balloon device comes from
+include/standard-headers/linux/virtio_balloon.h and changed size between
+3.1 and 4.0.
+As a "guess" I tried reverting that change (commented out the two last
+fields (and access to it in hw/virtio/virtio-balloon.c's
+virtio_balloon_get_config()), and then the migration seems to go through
+successfully.
 
-I cannot really make such a commitment now, but perhaps I can (or I and
-someone else can) once a little more of the conversion is ready.
-Especially QAPI and trace generators, since those are where most of the
-magic resides.  I can try that since your reaction wasn't of total
-disgust. :)
+I've since also rebuilt qemu without our patches (tags v3.0.1 and v4.0.0)
+and also tried with master (since dgilbert mentioned on irc remembering
+the issue and that there may have been a fix around), but got the same
+result.
 
->> The second is a design decision that simplifying the Make/meson
->> integration is *not* a goal.  Rather the goals are: 1) making the
->> transition easier on developers; 2) avoiding magic in meson.build at all
->> costs.  More specifically:
->>
-> Your plan confines new magic to "Makefile rules and external scripts".
-> We'll get actual reduction only if we can retire or at least radically
-> simplify them at some point.
+Posting here now as dgilbert requested on irc.
 
-But even before that, we'll get *practical* reduction if it hacking the
-Makefile rules and external scripts becomes rare enough.  See for
-example kconfig, where # of people hacking minikconf.py is much less
-than # of people hacking default-configs.
+Here are the commands used to start qemu:
+  Source:
+    /usr/bin/kvm \
+      -name randomclone \
+      -chardev 'socket,id=qmp,path=/var/run/qemu-server/101.qmp,server,nowait' \
+      -mon 'chardev=qmp,mode=control' \
+      -chardev 'socket,id=qmp-event,path=/var/run/qmeventd.sock,reconnect=5' \
+      -mon 'chardev=qmp-event,mode=control' \
+      -pidfile /var/run/qemu-server/101.pid \
+      -daemonize \
+      -smbios 'type=1,uuid=f3ab31f6-ca7d-469c-bf51-547fd9bbd2d9' \
+      -smp '4,sockets=1,cores=4,maxcpus=4' \
+      -nodefaults \
+      -boot 'menu=on,strict=on,reboot-timeout=1000,splash=/usr/share/qemu-server/bootsplash.jpg' \
+      -vnc unix:/var/run/qemu-server/101.vnc,password \
+      -cpu host,+pcid,+spec-ctrl,+ssbd,+pdpe1gb,+kvm_pv_unhalt,+kvm_pv_eoi \
+      -m 4096 \
+      -device 'pci-bridge,id=pci.2,chassis_nr=2,bus=pci.0,addr=0x1f' \
+      -device 'pci-bridge,id=pci.1,chassis_nr=1,bus=pci.0,addr=0x1e' \
+      -device 'vmgenid,guid=fb282779-7056-4f1d-96bb-70f578294e45' \
+      -device 'piix3-usb-uhci,id=uhci,bus=pci.0,addr=0x1.0x2' \
+      -device 'usb-tablet,id=tablet,bus=uhci.0,port=1' \
+      -device 'VGA,id=vga,bus=pci.0,addr=0x2' \
+      -device 'virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x3' \
+      -iscsi 'initiator-name=iqn.1993-08.org.debian:01:856d32b504d' \
+      -drive 'if=none,id=drive-ide2,media=cdrom,aio=threads' \
+      -device 'ide-cd,bus=ide.1,unit=0,drive=drive-ide2,id=ide2,bootindex=200' \
+      -device 'virtio-scsi-pci,id=scsihw0,bus=pci.0,addr=0x5' \
+      -drive 'file=rbd:rbd/vm-101-disk-0:conf=/etc/pve/ceph.conf:id=admin:keyring=/etc/pve/priv/ceph/rbd.keyring,if=none,id=drive-scsi0,discard=on,format=raw,cache=none,aio=native,detect-zeroes=unmap' \
+      -device 'scsi-hd,bus=scsihw0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0,rotation_rate=1,bootindex=100' \
+      -netdev 'type=tap,id=net0,ifname=tap101i0,script=/var/lib/qemu-server/pve-bridge,downscript=/var/lib/qemu-server/pve-bridgedown,vhost=on' \
+      -device 'virtio-net-pci,mac=4E:5D:50:75:4D:ED,netdev=net0,bus=pci.0,addr=0x12,id=net0,bootindex=300' \
+      -machine 'type=pc' \
+      -enable-kvm
 
-> I'm more ambivalent on (1).  Yes, making the transition easier for
-> developers is worth hiding a certain amount of magic out of their way.
+  Destination:
+    /usr/bin/kvm \
+      -name randomclone \
+      -chardev socket,id=qmp,path=/var/run/qemu-server/101.qmp,server,nowait \
+      -mon chardev=qmp,mode=control \
+      -chardev socket,id=qmp-event,path=/var/run/qmeventd.sock,reconnect=5 \
+      -mon chardev=qmp-event,mode=control \
+      -pidfile /var/run/qemu-server/101.pid \
+      -smbios type=1,uuid=f3ab31f6-ca7d-469c-bf51-547fd9bbd2d9 \
+      -smp 4,sockets=1,cores=4,maxcpus=4 \
+      -nodefaults \
+      -boot menu=on,strict=on,reboot-timeout=1000,splash=/usr/share/qemu-server/bootsplash.jpg \
+      -vnc unix:/var/run/qemu-server/101.vnc,password \
+      -cpu host,+pcid,+spec-ctrl,+ssbd,+pdpe1gb,+kvm_pv_unhalt,+kvm_pv_eoi \
+      -m 4096 \
+      -device pci-bridge,id=pci.1,chassis_nr=1,bus=pci.0,addr=0x1e \
+      -device pci-bridge,id=pci.2,chassis_nr=2,bus=pci.0,addr=0x1f \
+      -device vmgenid,guid=fb282779-7056-4f1d-96bb-70f578294e45 \
+      -device piix3-usb-uhci,id=uhci,bus=pci.0,addr=0x1.0x2 \
+      -device usb-tablet,id=tablet,bus=uhci.0,port=1 \
+      -device VGA,id=vga,bus=pci.0,addr=0x2 \
+      -device virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x3 \
+      -iscsi initiator-name=iqn.1993-08.org.debian:01:ee4e4a566b \
+      -drive if=none,id=drive-ide2,media=cdrom,aio=threads \
+      -device ide-cd,bus=ide.1,unit=0,drive=drive-ide2,id=ide2,bootindex=200 \
+      -device virtio-scsi-pci,id=scsihw0,bus=pci.0,addr=0x5 \
+      -drive file=rbd:rbd/vm-101-disk-0:conf=/etc/pve/ceph.conf:id=admin:keyring=/etc/pve/priv/ceph/rbd.keyring,if=none,id=drive-scsi0,discard=on,format=raw,cache=none,aio=native,detect-zeroes=unmap \
+      -device scsi-hd,bus=scsihw0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0,rotation_rate=1,bootindex=100 \
+      -netdev type=tap,id=net0,ifname=tap101i0,script=/var/lib/qemu-server/pve-bridge,downscript=/var/lib/qemu-server/pve-bridgedown,vhost=on \
+      -device virtio-net-pci,mac=4E:5D:50:75:4D:ED,netdev=net0,bus=pci.0,addr=0x12,id=net0,bootindex=300 \
+      -machine type=pc-i440fx-3.0 \
+      -enable-kvm \
+      -incoming tcp:10.9.2.106:9989 \
+      -S
 
-It's especially worth during the transition.  Once Makefile.objs is gone
-I agree we can afford more radical changes, but let's cross that bridge
-when we get there.
+This is the exact test-change I made which seems to work around it, but
+a proper fix would be nicer. Not sure how, though.
 
->> I expect testing might also require some hand-holding, because "meson
->> test" does not integrate with "make -j" and to keep supporting our "make
->> check-*" targets.  However, until the make->ninja flag day we could
->> generate tap-driver Makefile rules from "meson introspect --tests"
->> output.  Basically I'm dropping Makefile magic in favor of build rule
->> generators are written in high-level languages.
-> 
-> A PoC for selected tests would be nice.
+---8<---
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index d96e4aa96f..8d631d67a8 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -623,16 +623,16 @@ static void virtio_balloon_get_config(VirtIODevice *vdev, uint8_t *config_data)
+     config.num_pages = cpu_to_le32(dev->num_pages);
+     config.actual = cpu_to_le32(dev->actual);
+ 
+-    if (dev->free_page_report_status == FREE_PAGE_REPORT_S_REQUESTED) {
+-        config.free_page_report_cmd_id =
+-                       cpu_to_le32(dev->free_page_report_cmd_id);
+-    } else if (dev->free_page_report_status == FREE_PAGE_REPORT_S_STOP) {
+-        config.free_page_report_cmd_id =
+-                       cpu_to_le32(VIRTIO_BALLOON_CMD_ID_STOP);
+-    } else if (dev->free_page_report_status == FREE_PAGE_REPORT_S_DONE) {
+-        config.free_page_report_cmd_id =
+-                       cpu_to_le32(VIRTIO_BALLOON_CMD_ID_DONE);
+-    }
++    //if (dev->free_page_report_status == FREE_PAGE_REPORT_S_REQUESTED) {
++    //    config.free_page_report_cmd_id =
++    //                   cpu_to_le32(dev->free_page_report_cmd_id);
++    //} else if (dev->free_page_report_status == FREE_PAGE_REPORT_S_STOP) {
++    //    config.free_page_report_cmd_id =
++    //                   cpu_to_le32(VIRTIO_BALLOON_CMD_ID_STOP);
++    //} else if (dev->free_page_report_status == FREE_PAGE_REPORT_S_DONE) {
++    //    config.free_page_report_cmd_id =
++    //                   cpu_to_le32(VIRTIO_BALLOON_CMD_ID_DONE);
++    //}
+ 
+     trace_virtio_balloon_get_config(config.num_pages, config.actual);
+     memcpy(config_data, &config, sizeof(struct virtio_balloon_config));
+diff --git a/include/standard-headers/linux/virtio_balloon.h b/include/standard-headers/linux/virtio_balloon.h
+index 9375ca2a70..86aca75972 100644
+--- a/include/standard-headers/linux/virtio_balloon.h
++++ b/include/standard-headers/linux/virtio_balloon.h
+@@ -48,9 +48,9 @@ struct virtio_balloon_config {
+ 	/* Number of pages we've actually got in balloon. */
+ 	uint32_t actual;
+ 	/* Free page report command id, readonly by guest */
+-	uint32_t free_page_report_cmd_id;
+-	/* Stores PAGE_POISON if page poisoning is in use */
+-	uint32_t poison_val;
++	//uint32_t free_page_report_cmd_id;
++	///* Stores PAGE_POISON if page poisoning is in use */
++	//uint32_t poison_val;
+ };
+ 
+ #define VIRTIO_BALLOON_S_SWAP_IN  0   /* Amount of memory swapped in */
 
-Fair enough.
-
-> Ignorant question: could the switch to Meson enable doing less in
-> configure?  It's big and sloooow.
-
-It would be smaller since the DSL is more compact than shell scripts,
-probably not much faster as the same tasks still have to be done.  But
-perhaps in the future Meson can parallelize them, and then we'd get that
-for free.
-
-Paolo
 
