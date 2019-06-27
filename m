@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6942558153
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:19:56 +0200 (CEST)
-Received: from localhost ([::1]:48740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7BC581A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:36:06 +0200 (CEST)
+Received: from localhost ([::1]:48966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgSRX-0002f2-Kz
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56554)
+	id 1hgShB-0002L2-K7
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:36:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56639)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hgSBz-0008JJ-7u
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:04:12 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hgSCS-0000MI-Lc
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:04:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hgSBZ-0007zw-IX
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:03:48 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41497)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hgSBZ-0007zD-68
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:03:25 -0400
-Received: by mail-wr1-x444.google.com with SMTP id c2so2027669wrm.8
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 04:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y/CPp9JInA7ANrmnXt8PbvRHB7xkvV1DBO+/ASdQwCo=;
- b=GKyOY0DJ9xDNbo5MIaV5vJVkLpheK6nzbOCDnGqsi/CQmSLir8KI14kGFa3K1huASC
- LUZyOFdksrAM9NPwc24xDLf3JfJJ9WGrRe/E7WFStwsRfWZheFlFiMfquaAZE5kiRDNh
- Ho6RGJ/5XrplGs/X0CbPoqvitoJUttzadq2pGQ8RmQShjDVoedyXXbdSW8fKkLJ9mAh+
- 7OE/Eeaa+hT7TCKy/1xjD24uTL5geFBTVrR/ey4R/rhhQWQNYgd2xcFtJAQkRCRrXNQW
- 3tP1qa5oasEG0KC7cW+RWdk5LwQUmVtXoJC0iNoXVg1ou3j4opmoyra0T303LTiC+3OX
- Plqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Y/CPp9JInA7ANrmnXt8PbvRHB7xkvV1DBO+/ASdQwCo=;
- b=b5U/VPmle+v1295R7fCsUvixe8R3sXx0MavHF59+Zm7YeN/5jktrKEtGDRRRq4tFll
- wH1GB1Z5YxspDHNlnUhGbA0Fl42mmwLO4JZV0Y3ww8QtCIyMGkGcJisPdlbKrvKj7+F5
- klbssFIrAmQVB26mddIkRePXzvjP/aIRMNWGX9aM3OGbexv1wMbOQC83pNAhd6IwgD0t
- nrJQ9eOG9D0yc3xEtSr6g8s2ifcsZfYGlmp6//D4ah5woNrm7F6Jh7MV12Nt8MKMi5cW
- 7JpYew75klnzb3wlMDUKmLSVpnmKanbQCzQTQy9Ps65r0IdR6vJwhFESnfMIxeN2a/8/
- nGqA==
-X-Gm-Message-State: APjAAAUI7NO4rxM2JxmV3Wkido1vt2irr+jImVNE3D/aOJKvNaZf+l+c
- tJJai4X1GeR7QLl7ULg2jnScp2+P
-X-Google-Smtp-Source: APXvYqwV10Vgdf0DKbe8m6Ji1B5JT+Olm2Ei1ugyjJqX+CwD/ZIpqPOMYfwnMMoZ/Du6mMUXT0gUWQ==
-X-Received: by 2002:adf:b64e:: with SMTP id i14mr2876781wre.248.1561633403981; 
- Thu, 27 Jun 2019 04:03:23 -0700 (PDT)
-Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id y18sm6368968wmi.23.2019.06.27.04.03.22
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 04:03:23 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 13:02:01 +0200
-Message-Id: <20190627110201.1999-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190627110201.1999-1-f4bug@amsat.org>
-References: <20190627110201.1999-1-f4bug@amsat.org>
+ (envelope-from <kwolf@redhat.com>) id 1hgSC7-00005M-EE
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:04:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40346)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1hgSC7-0008W6-7b
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:03:59 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7013F309265B;
+ Thu, 27 Jun 2019 11:03:53 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-154.ams2.redhat.com
+ [10.36.116.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6C6A60856;
+ Thu, 27 Jun 2019 11:03:46 +0000 (UTC)
+Date: Thu, 27 Jun 2019 13:03:44 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <20190627110344.GD5618@localhost.localdomain>
+References: <20190620173709.14753-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH 5/5] .travis.yml: Let the avocado job run the
- 40p tests
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190620173709.14753-1-stefanha@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.43]); Thu, 27 Jun 2019 11:03:53 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 0/3] virtio-scsi: restart DMA after
+ iothread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,43 +58,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-If this list continues to grow we can
-- split it (as other jobs)
-- move them to GitLab where we can have multi-stage jobs,
-  avocado tests run on top of build jobs.
----
- .travis.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Am 20.06.2019 um 19:37 hat Stefan Hajnoczi geschrieben:
+> v5:
+>  * Plumbing vm change state handlers into DeviceClass/BusClass is a rather
+>    large bug fix.  Instead I've combined the previous priorities approach with
+>    the observation from Kevin and Paolo that we really want to order by qdev
+>    tree depth.
+> 
+>    The new qdev_add_vm_change_state_handler() API lets DeviceStates register
+>    callbacks that execute in qdev tree depth order.  This solves the
+>    virtio-scsi bug since the virtio-scsi device's callback must complete before
+>    its child scsi-disk's callback runs.
+> 
+>    Is this a good compromise for everyone?
 
-diff --git a/.travis.yml b/.travis.yml
-index aeb9b211cd..acebf0af1f 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -231,7 +231,7 @@ matrix:
- 
-     # Acceptance (Functional) tests
-     - env:
--        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu"
-+        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu,alpha-softmmu,ppc-softmmu"
-         - TEST_CMD="make check-acceptance"
-       after_failure:
-         - cat tests/results/latest/job.log
--- 
-2.19.1
+I'd still call it a hack, but I can also see that doing the real thing
+would be a lot of work that might not be worth the effort.
 
+Thanks, applied to the block branch.
+
+Kevin
 
