@@ -2,102 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E21658461
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 16:22:22 +0200 (CEST)
-Received: from localhost ([::1]:51174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A468A5848A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 16:33:13 +0200 (CEST)
+Received: from localhost ([::1]:51332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgVI3-00062l-1K
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 10:22:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46429)
+	id 1hgVSa-0003p6-CC
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 10:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49335)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <den@virtuozzo.com>) id 1hgVFX-0004VX-UV
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 10:19:46 -0400
+ (envelope-from <kwankhede@nvidia.com>) id 1hgVR4-0003N3-TW
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 10:31:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <den@virtuozzo.com>) id 1hgVFT-0003aF-UO
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 10:19:41 -0400
-Received: from mail-eopbgr20112.outbound.protection.outlook.com
- ([40.107.2.112]:51598 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <den@virtuozzo.com>)
- id 1hgVFK-0003SF-A1; Thu, 27 Jun 2019 10:19:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=testarcselector01; d=microsoft.com; cv=none;
- b=tqbCBmkAZ5ZE6EQLeoq3jYfja4LPnz89aPvqyIAoFDqgUxmJw2QnMZOkCp9feK1Tfnw18XLrOlqbIvbbr+8N2q7YUs0A/j1PLAny2BWyblNN+E61nB7wl7+o9icGm1vrJLCqm8dYSUi0XiI2WFH7rs/wljFJDDCstDE+bu9wMqY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=testarcselector01;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OYp82zXUbbq6uizvLRibIMSDpD4mzniOMAKWqFqVEvE=;
- b=YGKvbbYwD3xORrf8Jx0zlL0FjLb0jZbwE0B7Cr7Tzj8aYmhZnLRTCd/n/zNMQdepzIMqBzuAIfu+HLSG36mKW38i48uJd1dP0rabkQi6KVJ5wPIzjYdkza/5or6UjGJM/hw17s1e1CCxZ2cA66LRTUyL1DG53hbUn9y0HS94aHo=
-ARC-Authentication-Results: i=1; test.office365.com
- 1;spf=none;dmarc=none;dkim=none;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OYp82zXUbbq6uizvLRibIMSDpD4mzniOMAKWqFqVEvE=;
- b=JtXA1+WLaEkYkV2KjesQp2N7BMH+y302PPfff+IorH744016IHrFhXfP2UIse4fk7zQBBD3dEIzP1WBVbv4HjmjP3/QTOW3m6aqvhc340WxkxsbHsFwVHjjYZZuHbXGll/o56loTiDHOsNg5IMaXLz/JsNRxKdzk9g3+bTfPgoU=
-Received: from DBBPR08MB4250.eurprd08.prod.outlook.com (20.179.40.149) by
- DBBPR08MB4885.eurprd08.prod.outlook.com (20.179.47.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.16; Thu, 27 Jun 2019 14:19:26 +0000
-Received: from DBBPR08MB4250.eurprd08.prod.outlook.com
- ([fe80::1d8b:7420:f966:e881]) by DBBPR08MB4250.eurprd08.prod.outlook.com
- ([fe80::1d8b:7420:f966:e881%3]) with mapi id 15.20.2008.014; Thu, 27 Jun 2019
- 14:19:26 +0000
-From: Denis Lunev <den@virtuozzo.com>
-To: Alberto Garcia <berto@igalia.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [RFC] Re-evaluating subcluster allocation for qcow2 images
-Thread-Index: AQHVLPCb4B1OTPiTIEWxN+ewhowOEKavjMGA
-Date: Thu, 27 Jun 2019 14:19:25 +0000
-Message-ID: <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
-In-Reply-To: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0101CA0017.eurprd01.prod.exchangelabs.com
- (2603:10a6:3:77::27) To DBBPR08MB4250.eurprd08.prod.outlook.com
- (2603:10a6:10:c2::21)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=den@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 55fc7909-7197-4a20-62fa-08d6fb0a754b
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DBBPR08MB4885; 
-x-ms-traffictypediagnostic: DBBPR08MB4885:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <DBBPR08MB488584F01BC2D3112AFB5A6EB6FD0@DBBPR08MB4885.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 008184426E
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(136003)(346002)(376002)(366004)(396003)(51444003)(52314003)(25584004)(53754006)(189003)(199004)(6512007)(478600001)(486006)(6116002)(110136005)(6246003)(966005)(5660300002)(53546011)(66446008)(316002)(14454004)(86362001)(8936002)(31686004)(54906003)(6506007)(76176011)(102836004)(81156014)(26005)(386003)(53936002)(256004)(229853002)(14444005)(476003)(2616005)(186003)(81166006)(8676002)(446003)(6306002)(4326008)(25786009)(6486002)(6436002)(3846002)(66556008)(2906002)(31696002)(11346002)(64756008)(66946007)(71200400001)(2501003)(68736007)(561944003)(71190400001)(99286004)(305945005)(52116002)(66066001)(7736002)(36756003)(73956011)(107886003)(66476007);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4885;
- H:DBBPR08MB4250.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: HIQiptOj6wM8PLWtPBWzcdvcl7satjlgnEfP3e6ryUtzxWZN0OPIwPBmOHcn2y/qoSijLZun1rDMAT6sad70nQfs6sHFf+t+Yd29DCS0vOzRq7VcoWJiCNdEOyVc2q4Lu98ncpKvNeM6VeO/zGbHkYvOE/oZ8TTj4OHczKUBW6hnGkeC6QUw/39OB8Vhaqam/dJ+TTOFxYoQmiSM7HlAv+OYQAcK4Bm1p+fEDldjcvqcsCNxQwrb0K66Tys9P8XxCfIDPS/aVtBQZau13ffzlTUsFWzmTRh/WLBWsfSG2d4CxdirbyjI3XjIw6u7pYZ7FlcG9SXzeGAn5Fmzxw7PoKfEk8R6nIEX1tGjTKOi4KDjxUIwttn216DUib7HjaQxS1GQdaijFVzATaC5qLE0fKXGi0QYstAo+CirA6hU9RE=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DC976638E40B5643A163AA5745AE19E0@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <kwankhede@nvidia.com>) id 1hgVR3-0004wg-Hp
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 10:31:38 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:1338)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwankhede@nvidia.com>)
+ id 1hgVR3-0004uM-7a
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 10:31:37 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by
+ hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+ id <B5d14d3450000>; Thu, 27 Jun 2019 07:31:33 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+ by hqpgpgate101.nvidia.com (PGP Universal service);
+ Thu, 27 Jun 2019 07:31:34 -0700
+X-PGP-Universal: processed;
+ by hqpgpgate101.nvidia.com on Thu, 27 Jun 2019 07:31:34 -0700
+Received: from [10.24.71.89] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 27 Jun
+ 2019 14:31:25 +0000
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-8-git-send-email-kwankhede@nvidia.com>
+ <20190627100157.GC2751@work-vm>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <f7fb8dc2-84de-afd1-b2ea-223b2b6b8311@nvidia.com>
+Date: Thu, 27 Jun 2019 20:01:20 +0530
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55fc7909-7197-4a20-62fa-08d6fb0a754b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jun 2019 14:19:25.8971 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: den@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4885
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.2.112
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+In-Reply-To: <20190627100157.GC2751@work-vm>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL106.nvidia.com (172.18.146.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1561645893; bh=mbg79OTnUdTvXnKbC2TZTrEbBn3OTC9Dh3mIkdJu4V4=;
+ h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+ Message-ID:Date:MIME-Version:In-Reply-To:X-Originating-IP:
+ X-ClientProxiedBy:Content-Type:Content-Language:
+ Content-Transfer-Encoding;
+ b=T1c857IWiz4ZOQ5g79ce2qyeFkv6go9uclzUVmsorBKNAB01432RDEscZznyj1/Vy
+ +/w7ylrUOk+i4AyBqdpFBRlPNXGbCeWQDZ0nHmvOFmO2ym8oDkrpQFAVmOUFB3pRIj
+ r+kXhPn/RqGkrrtaUW/BGPkLAJZ/wPj5XFL0rmBv80tsNdFDxcFSCtPKclkn8bCR4l
+ BulZrPkhQQ/vSkXHhrc8YPehSkZ3dJchbBOgWsYfijYLoEcYhehHJXGI8vPq8y3Z9o
+ m6jWhZA9XrF7Q+wknBTEsDgQUvDmO/M/BzDa6hekwwRaapywPBcNzkAdmRW6kx5378
+ vZ1Ts8vjdUCvA==
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8
+X-Received-From: 216.228.121.65
+Subject: Re: [Qemu-devel] [PATCH v4 07/13] vfio: Register SaveVMHandlers for
+ VFIO device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -109,150 +75,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ yulei.zhang@intel.com, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, alex.williamson@redhat.com,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ yan.y.zhao@intel.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gNi8yNy8xOSA0OjU5IFBNLCBBbGJlcnRvIEdhcmNpYSB3cm90ZToNCj4gSGkgYWxsLA0KPg0K
-PiBhIGNvdXBsZSBvZiB5ZWFycyBhZ28gSSBjYW1lIHRvIHRoZSBtYWlsaW5nIGxpc3Qgd2l0aCBh
-IHByb3Bvc2FsIHRvDQo+IGV4dGVuZCB0aGUgcWNvdzIgZm9ybWF0IHRvIGFkZCBzdWJjbHVzdGVy
-IGFsbG9jYXRpb24uDQo+DQo+IFlvdSBjYW4gcmVhZCB0aGUgb3JpZ2luYWwgbWVzc2FnZSAoYW5k
-IHRoZSBkaXNjdXNzaW9uIHRocmVhZCB0aGF0IGNhbWUNCj4gYWZ0ZXJ3YXJkcykgaGVyZToNCj4N
-Cj4gICAgaHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRtbC9xZW11LWJsb2NrLzIwMTct
-MDQvbXNnMDAxNzguaHRtbA0KPg0KPiBUaGUgZGVzY3JpcHRpb24gb2YgdGhlIHByb2JsZW0gZnJv
-bSB0aGUgb3JpZ2luYWwgcHJvcG9zYWwgaXMgc3RpbGwNCj4gdmFsaWQgc28gSSB3b24ndCByZXBl
-YXQgaXQgaGVyZS4NCj4NCj4gV2hhdCBJIGhhdmUgYmVlbiBkb2luZyBkdXJpbmcgdGhlIHBhc3Qg
-ZmV3IHdlZWtzIHdhcyB0byByZXRha2UgdGhlDQo+IGNvZGUgdGhhdCBJIHdyb3RlIGluIDIwMTcs
-IG1ha2UgaXQgd29yayB3aXRoIHRoZSBsYXRlc3QgUUVNVSBhbmQgZml4DQo+IG1hbnkgb2YgaXRz
-IGJ1Z3MuIEkgaGF2ZSBhZ2FpbiBhIHdvcmtpbmcgcHJvdG90eXBlIHdoaWNoIGlzIGJ5IG5vDQo+
-IG1lYW5zIGNvbXBsZXRlIGJ1dCBpdCBhbGxvd3MgdXMgdG8gaGF2ZSB1cC10by1kYXRlIGluZm9y
-bWF0aW9uIGFib3V0DQo+IHdoYXQgd2UgY2FuIGV4cGVjdCBmcm9tIHRoaXMgZmVhdHVyZS4NCj4N
-Cj4gTXkgZ29hbCB3aXRoIHRoaXMgbWVzc2FnZSBpcyB0byByZXRha2UgdGhlIGRpc2N1c3Npb24g
-YW5kIHJlLWV2YWx1YXRlDQo+IHdoZXRoZXIgdGhpcyBpcyBhIGZlYXR1cmUgdGhhdCB3ZSdkIGxp
-a2UgZm9yIFFFTVUgaW4gbGlnaHQgb2YgdGhlIHRlc3QNCj4gcmVzdWx0cyBhbmQgYWxsIHRoZSBj
-aGFuZ2VzIHRoYXQgd2UgaGF2ZSBoYWQgaW4gdGhlIHBhc3QgY291cGxlIG9mDQo+IHllYXJzLg0K
-Pg0KPiA9PT0gVGVzdCByZXN1bHRzID09PQ0KPg0KPiBJIHJhbiB0aGVzZSB0ZXN0cyB3aXRoIHRo
-ZSBzYW1lIGhhcmR3YXJlIGNvbmZpZ3VyYXRpb24gYXMgaW4gMjAxNzogYW4NCj4gU1NEIGRyaXZl
-IGFuZCByYW5kb20gNEtCIHdyaXRlIHJlcXVlc3RzIHRvIGFuIGVtcHR5IDQwR0IgcWNvdzIgaW1h
-Z2UuDQo+DQo+IEhlcmUgYXJlIHRoZSByZXN1bHRzIHdoZW4gdGhlIHFjb3cyIGZpbGUgaXMgYmFj
-a2VkIGJ5IGEgZnVsbHkNCj4gcG9wdWxhdGVkIGltYWdlLiBUaGVyZSBhcmUgOCBzdWJjbHVzdGVy
-cyBwZXIgY2x1c3RlciBhbmQgdGhlDQo+IHN1YmNsdXN0ZXIgc2l6ZSBpcyBpbiBicmFja2V0czoN
-Cj4NCj4gfC0tLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0t
-LS18DQo+IHwgIENsdXN0ZXIgc2l6ZSAgIHwgc3ViY2x1c3RlcnM9b24gfCBzdWJjbHVzdGVycz1v
-ZmYgfA0KPiB8LS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0t
-LS0tLXwNCj4gfCAgIDIgTUIgKDI1NiBLQikgfCAgIDU3MSBJT1BTICAgICB8ICAxMjQgSU9QUyAg
-ICAgICB8DQo+IHwgICAxIE1CICgxMjggS0IpIHwgICA4NjMgSU9QUyAgICAgfCAgMjEyIElPUFMg
-ICAgICAgfA0KPiB8IDUxMiBLQiAgKDY0IEtCKSB8ICAxNjc4IElPUFMgICAgIHwgIDM2NSBJT1BT
-ICAgICAgIHwNCj4gfCAyNTYgS0IgICgzMiBLQikgfCAgMjYxOCBJT1BTICAgICB8ICA1NjggSU9Q
-UyAgICAgICB8DQo+IHwgMTI4IEtCICAoMTYgS0IpIHwgIDQ5MDcgSU9QUyAgICAgfCAgODczIElP
-UFMgICAgICAgfA0KPiB8ICA2NCBLQiAgICg4IEtCKSB8IDEwNjEzIElPUFMgICAgIHwgMTY4MCBJ
-T1BTICAgICAgIHwNCj4gfCAgMzIgS0IgICAoNCBLQikgfCAxMzAzOCBJT1BTICAgICB8IDI0NzYg
-SU9QUyAgICAgICB8DQo+IHwgICA0IEtCICg1MTIgQikgIHwgICAxMDEgSU9QUyAgICAgfCAgMTAx
-IElPUFMgICAgICAgfA0KPiB8LS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLSstLS0t
-LS0tLS0tLS0tLS0tLXwNCj4NCj4gU29tZSBjb21tZW50cyBhYm91dCB0aGUgcmVzdWx0cywgYWZ0
-ZXIgY29tcGFyaW5nIHRoZW0gd2l0aCB0aG9zZSBmcm9tDQo+IDIwMTc6DQo+DQo+IC0gQXMgZXhw
-ZWN0ZWQsIDMyS0IgY2x1c3RlcnMgLyA0IEtCIHN1YmNsdXN0ZXJzIGdpdmUgdGhlIGJlc3QgcmVz
-dWx0cw0KPiAgIGJlY2F1c2UgdGhhdCBtYXRjaGVzIHRoZSBzaXplIG9mIHRoZSB3cml0ZSByZXF1
-ZXN0IGFuZCB0aGVyZWZvcmUNCj4gICB0aGVyZSdzIG5vIGNvcHktb24td3JpdGUgaW52b2x2ZWQu
-DQo+DQo+IC0gQWxsb2NhdGlvbiBpcyBnZW5lcmFsbHkgZmFzdGVyIG5vdyBpbiBhbGwgY2FzZXMg
-KGJldHdlZW4gMjAtOTAlLA0KPiAgIGRlcGVuZGluZyBvbiB0aGUgY2FzZSkuIFdlIGhhdmUgbWFk
-ZSBzZXZlcmFsIG9wdGltaXphdGlvbnMgdG8gdGhlDQo+ICAgY29kZSBzaW5jZSBsYXN0IHRpbWUs
-IGFuZCBJIHN1cHBvc2UgdGhhdCB0aGUgQ09XIGNoYW5nZXMgbWFkZSBpbg0KPiAgIGNvbW1pdHMg
-YjNjZjFjN2NmOCBhbmQgZWUyMmE5ZDg2OSBhcmUgcHJvYmFibHkgdGhlIG1haW4gZmFjdG9yDQo+
-ICAgYmVoaW5kIHRoZXNlIGltcHJvdmVtZW50cy4NCj4NCj4gLSBBcGFydCBmcm9tIHRoZSA2NEtC
-LzhLQiBjYXNlICh3aGljaCBpcyBtdWNoIGZhc3RlciksIHRoZSBwYXR0ZXJzIGFyZQ0KPiAgIGdl
-bmVyYWxseSB0aGUgc2FtZTogc3ViY2x1c3RlciBhbGxvY2F0aW9uIG9mZmVycyBzaW1pbGFyIHBl
-cmZvcm1hbmNlDQo+ICAgYmVuZWZpdHMgY29tcGFyZWQgdG8gbGFzdCB0aW1lLCBzbyB0aGVyZSBh
-cmUgbm8gc3VycHJpc2VzIGluIHRoaXMNCj4gICBhcmVhLg0KPg0KPiBUaGVuIEkgcmFuIHRoZSB0
-ZXN0cyBhZ2FpbiB1c2luZyB0aGUgc2FtZSBlbnZpcm9ubWVudCBidXQgd2l0aG91dCBhDQo+IGJh
-Y2tpbmcgaW1hZ2UuIFRoZSBnb2FsIGlzIHRvIG1lYXN1cmUgdGhlIGltcGFjdCBvZiBzdWJjbHVz
-dGVyDQo+IGFsbG9jYXRpb24gb24gY29tcGxldGVseSBlbXB0eSBpbWFnZXMuDQo+DQo+IEhlcmUg
-d2UgaGF2ZSBhbiBpbXBvcnRhbnQgY2hhbmdlOiBzaW5jZSBjb21taXQgYzhiYjIzY2JkYiBlbXB0
-eQ0KPiBjbHVzdGVycyBhcmUgcHJlYWxsb2NhdGVkIGFuZCBmaWxsZWQgd2l0aCB6ZXJvZXMgdXNp
-bmcgYW4gZWZmaWNpZW50DQo+IG9wZXJhdGlvbiAodHlwaWNhbGx5IGZhbGxvY2F0ZSgpIHdpdGgg
-RkFMTE9DX0ZMX1pFUk9fUkFOR0UpIGluc3RlYWQgb2YNCj4gd3JpdGluZyB0aGUgemVyb2VzIHdp
-dGggdGhlIHVzdWFsIHB3cml0ZSgpIGNhbGwuDQo+DQo+IFRoZSBlZmZlY3RzIG9mIHRoaXMgYXJl
-IGRyYW1hdGljLCBzbyBJIGRlY2lkZWQgdG8gcnVuIHR3byBzZXRzIG9mDQo+IHRlc3RzOiBvbmUg
-d2l0aCB0aGlzIG9wdGltaXphdGlvbiBhbmQgb25lIHdpdGhvdXQgaXQuDQo+DQo+IEhlcmUgYXJl
-IHRoZSByZXN1bHRzOg0KPg0KPiB8LS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLSst
-LS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tfA0KPiB8
-ICAgICAgICAgICAgICAgICB8IEluaXRpYWxpemF0aW9uIHdpdGggZmFsbG9jYXRlKCkgIHwgIElu
-aXRpYWxpemF0aW9uIHdpdGggcHdyaXRldigpICAgfA0KPiB8LS0tLS0tLS0tLS0tLS0tLS0rLS0t
-LS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0t
-LS0tLS0tLS0tfA0KPiB8ICBDbHVzdGVyIHNpemUgICB8IHN1YmNsdXN0ZXJzPW9uIHwgc3ViY2x1
-c3RlcnM9b2ZmIHwgc3ViY2x1c3RlcnM9b24gfCBzdWJjbHVzdGVycz1vZmYgfA0KPiB8LS0tLS0t
-LS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0t
-LS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tfA0KPiB8ICAgMiBNQiAoMjU2IEtCKSB8IDE0NDY4IElP
-UFMgICAgIHwgMTQ3NzYgSU9QUyAgICAgIHwgIDExODEgSU9QUyAgICAgfCAgMjYwIElPUFMgICAg
-ICAgfA0KPiB8ICAgMSBNQiAoMTI4IEtCKSB8IDEzNzUyIElPUFMgICAgIHwgMTQ5NTYgSU9QUyAg
-ICAgIHwgIDE5MTYgSU9QUyAgICAgfCAgMzU4IElPUFMgICAgICAgfA0KPiB8IDUxMiBLQiAgKDY0
-IEtCKSB8IDEyOTYxIElPUFMgICAgIHwgMTQ3NzYgSU9QUyAgICAgIHwgIDQwMzggSU9QUyAgICAg
-fCAgNjg0IElPUFMgICAgICAgfA0KPiB8IDI1NiBLQiAgKDMyIEtCKSB8IDEyNzkwIElPUFMgICAg
-IHwgMTQ1MzQgSU9QUyAgICAgIHwgIDYxNzIgSU9QUyAgICAgfCAxMjEzIElPUFMgICAgICAgfA0K
-PiB8IDEyOCBLQiAgKDE2IEtCKSB8IDEyNTUwIElPUFMgICAgIHwgMTM5NjcgSU9QUyAgICAgIHwg
-IDg3MDAgSU9QUyAgICAgfCAxOTc2IElPUFMgICAgICAgfA0KPiB8ICA2NCBLQiAgICg4IEtCKSB8
-IDEyNDkxIElPUFMgICAgIHwgMTM0MzIgSU9QUyAgICAgIHwgMTE3MzUgSU9QUyAgICAgfCA0MjY3
-IElPUFMgICAgICAgfA0KPiB8ICAzMiBLQiAgICg0IEtCKSB8IDEzMjAzIElPUFMgICAgIHwgMTE3
-NTIgSU9QUyAgICAgIHwgMTIzNjYgSU9QUyAgICAgfCA2MzA2IElPUFMgICAgICAgfA0KPiB8ICAg
-NCBLQiAoNTEyIEIpICB8ICAgMTAzIElPUFMgICAgIHwgICAxMDEgSU9QUyAgICAgIHwgICAxMDEg
-SU9QUyAgICAgfCAgMTAxIElPUFMgICAgICAgfA0KPiB8LS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0t
-LS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0t
-LS0tLS0tfA0KPg0KPiBDb21tZW50czoNCj4NCj4gLSBXaXRoIHRoZSBvbGQtc3R5bGUgYWxsb2Nh
-dGlvbiBtZXRob2QgdXNpbmcgcHdyaXRldigpIHdlIGdldCBzaW1pbGFyDQo+ICAgYmVuZWZpdHMg
-YXMgd2UgZGlkIGxhc3QgdGltZS4gVGhlIGNvbW1lbnRzIGZyb20gdGhlIHRlc3Qgd2l0aCBhDQo+
-ICAgYmFja2luZyBpbWFnZSBhcHBseSB0byB0aGlzIG9uZSBhcyB3ZWxsLg0KPg0KPiAtIEhvd2V2
-ZXIgdGhlIG5ldyBhbGxvY2F0aW9uIG1ldGhvZCBpcyBzbyBlZmZpY2llbnQgdGhhdCBoYXZpbmcN
-Cj4gICBzdWJjbHVzdGVycyBkb2VzIG5vdCBvZmZlciBhbnkgcGVyZm9ybWFuY2UgYmVuZWZpdC4g
-SXQgZXZlbiBzbG93cw0KPiAgIGRvd24gdGhpbmdzIGEgYml0IGluIG1vc3QgY2FzZXMsIHNvIHdl
-J2QgcHJvYmFibHkgbmVlZCB0byBmaW5lIHR1bmUNCj4gICB0aGUgYWxnb3JpdGhtIGluIG9yZGVy
-IHRvIGdldCBzaW1pbGFyIHJlc3VsdHMuDQo+DQo+IC0gSW4gbGlnaHQgb2YgdGhpcyBudW1iZXJz
-IEkgYWxzbyB0aGluayB0aGF0IGV2ZW4gd2hlbiB0aGVyZSdzIGENCj4gICBiYWNraW5nIGltYWdl
-IHdlIGNvdWxkIHByZWFsbG9jYXRlIHRoZSBmdWxsIGNsdXN0ZXIgYnV0IG9ubHkgZG8gQ09XDQo+
-ICAgb24gdGhlIGFmZmVjdGVkIHN1YmNsdXN0ZXJzLiBUaGlzIHdvdWxkIHRoZSByZXN0IG9mIHRo
-ZSBjbHVzdGVyDQo+ICAgcHJlYWxsb2NhdGVkIG9uIGRpc2sgYnV0IHVuYWxsb2NhdGVkIG9uIHRo
-ZSBiaXRtYXAuIFRoaXMgd291bGQNCj4gICBwcm9iYWJseSByZWR1Y2Ugb24tZGlzayBmcmFnbWVu
-dGF0aW9uLCB3aGljaCB3YXMgb25lIG9mIHRoZSBjb25jZXJucw0KPiAgIHJhaXNlZCBkdXJpbmcg
-dGhlIG9yaWdpbmFsIGRpc2N1c3Npb24uDQo+DQo+IEkgYWxzbyByYW4gc29tZSB0ZXN0cyBvbiBh
-IHJvdGF0aW5nIEhERCBkcml2ZS4gSGVyZSBoYXZpbmcgc3ViY2x1c3RlcnMNCj4gZG9lc24ndCBt
-YWtlIGEgYmlnIGRpZmZlcmVuY2UgcmVnYXJkbGVzcyBvZiB3aGV0aGVyIHRoZXJlIGlzIGEgYmFj
-a2luZw0KPiBpbWFnZSBvciBub3QsIHNvIHdlIGNhbiBpZ25vcmUgdGhpcyBzY2VuYXJpby4NCj4N
-Cj4gPT09IENoYW5nZXMgdG8gdGhlIG9uLWRpc2sgZm9ybWF0ID09PQ0KPg0KPiBJbiBteSBvcmln
-aW5hbCBwcm9wb3NhbCBJIGRlc2NyaWJlZCAzIGRpZmZlcmVudCBhbHRlcm5hdGl2ZXMgZm9yDQo+
-IHN0b3JpbmcgdGhlIHN1YmNsdXN0ZXIgYml0bWFwcy4gSSdtIG5hbWluZyB0aGVtIGhlcmUsIGJ1
-dCByZWZlciB0bw0KPiB0aGF0IG1lc3NhZ2UgZm9yIG1vcmUgZGV0YWlscy4NCj4NCj4gKDEpIFN0
-b3JpbmcgdGhlIGJpdG1hcCBpbnNpZGUgdGhlIDY0LWJpdCBlbnRyeQ0KPiAoMikgTWFraW5nIEwy
-IGVudHJpZXMgMTI4LWJpdCB3aWRlLg0KPiAoMykgU3RvcmluZyB0aGUgYml0bWFwIHNvbWV3aGVy
-ZSBlbHNlDQo+DQo+IEkgdXNlZCAoMSkgZm9yIHRoaXMgaW1wbGVtZW50YXRpb24gZm9yIHNpbXBs
-aWNpdHksIGJ1dCBJIHRoaW5rICgyKSBpcw0KPiBwcm9iYWJseSB0aGUgYmVzdCBvbmUuDQo+DQo+
-ID09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPg0KPiBBbmQgSSB0aGluayB0aGF0J3MgYWxs
-LiBBcyB5b3UgY2FuIHNlZSBJIGRpZG4ndCB3YW50IHRvIGdvIG11Y2ggaW50bw0KPiB0aGUgb3Bl
-biB0ZWNobmljYWwgcXVlc3Rpb25zIChJIHRoaW5rIHRoZSBvbi1kaXNrIGZvcm1hdCB3b3VsZCBi
-ZSB0aGUNCj4gbWFpbiBvbmUpLCB0aGUgZmlyc3QgZ29hbCBzaG91bGQgYmUgdG8gZGVjaWRlIHdo
-ZXRoZXIgdGhpcyBpcyBzdGlsbCBhbg0KPiBpbnRlcmVzdGluZyBmZWF0dXJlIG9yIG5vdC4NCj4N
-Cj4gU28sIGFueSBxdWVzdGlvbnMgb3IgY29tbWVudHMgd2lsbCBiZSBtdWNoIGFwcHJlY2lhdGVk
-Lg0KPg0KPiBCZXJ0bw0KSSB3b3VsZCBsaWtlIHRvIGFkZCBteSAkMC4wMiBoZXJlIGZyb20gYSBs
-aXR0bGUgYml0IGRpZmZlcmVudA0KcG9pbnQgb2Ygdmlldy4NCg0KUmlnaHQgbm93IFFDT1cyIGlz
-IG5vdCB2ZXJ5IGVmZmljaWVudCB3aXRoIGRlZmF1bHQgY2x1c3Rlcg0Kc2l6ZSAoNjRrKSBmb3Ig
-ZmFzdCBwZXJmb3JtYW5jZSB3aXRoIGJpZyBkaXNrcy4gTm93YWRheXMNCnBwbCB1c2VzIHJlYWxs
-eSBCSUcgaW1hZ2VzIGFuZCAxLTItMy04IFRiIGRpc2tzIGFyZSByZWFsbHkNCmNvbW1vbi4gVW5m
-b3J0dW5hdGVseSBwcGwgd2FudCB0byBnZXQgcmFuZG9tIElPIGZhc3QgdG9vLg0KVGh1cyBtZXRh
-ZGF0YSBjYWNoZSBzaG91bGQgYmUgaW4gbWVtb3J5IGFzIGluIHRoZSBhbnkgb3RoZXINCmNhc2Ug
-d2Ugd2lsbCBnZXQgSU9QU2VzIGhhbHZlZCAoMSBvcGVyYXRpb24gZm9yIG1ldGFkYXRhDQpjYWNo
-ZSByZWFkIGFuZCBvbmUgb3BlcmF0aW9uIGZvciByZWFsIHJlYWQpLiBGb3IgOCBUYiBpbWFnZQ0K
-dGhpcyByZXN1bHRzIGluIDEgR2IgUkFNIGZvciB0aGF0LiBGb3IgMSBNYiBjbHVzdGVyIHdlIGdl
-dA0KNjQgTWIgd2hpY2ggaXMgbXVjaCBtb3JlIHJlYXNvbmFibGUuDQoNClRob3VnaCB3aXRoIDEg
-TWIgY2x1c3RlciB0aGUgcmVjbGFpbSBwcm9jZXNzIGJlY29tZXMNCm11Y2gtbXVjaCB3b3JzZS4g
-SSBjYW4gbm90IGdpdmUgZXhhY3QgbnVtYmVyLCB1bmZvcnR1bmF0ZWx5Lg0KQUZBSVIgdGhlIGlt
-YWdlIG9jY3VwaWVzIDMwLTUwJSBtb3JlIHNwYWNlLiBHdXlzLCBJIHdvdWxkDQphcHByZWNpYXRl
-IGlmIHlvdSB3aWxsIGNvcnJlY3QgbWUgaGVyZSB3aXRoIHJlYWwgbnVtYmVycy4NCg0KVGh1cyBp
-biByZXNwZWN0IHRvIHRoaXMgcGF0dGVybnMgc3ViY2x1c3RlcnMgY291bGQgZ2l2ZSB1cw0KYmVu
-ZWZpdHMgb2YgZmFzdCByYW5kb20gSU8gYW5kIGdvb2QgcmVjbGFpbSByYXRlLiBJIHdvdWxkDQpj
-b25zaWRlciA2NGsgY2x1c3Rlci84ayBzdWJjbHVzdGVyIGFzIHRvbyBleHRyZW1lIGZvciBtZS4N
-CkluIHJlYWxpdHkgd2Ugd291bGQgZW5kIHVwIHdpdGggY29tcGxldGVseSBmcmFnbWVudGVkDQpp
-bWFnZSB2ZXJ5IHNvb24uIFNlcXVlbnRpYWwgcmVhZHMgd291bGQgYmVjb21lIHJhbmRvbQ0KVkVS
-WSBzb29uIHdpdGhvdXQgcHJlYWxsb2NhdGlvbi4gVGhvdWdoLCBhbnl3YXksIHRoaXMNCm1ha2Vz
-IHNvbWUgc2Vuc2UgZm9yIENPVy4gQnV0LCBhZ2FpbiwgaW4gc3VjaCBhIGNhc2UNCnN1YmNsdXN0
-ZXJzIHNob3VsZCBub3QgYmUgaG9sZWQgYXMgcmVxdWlyZWQgYnkgc2NlbmFyaW8NCkkgaGF2ZSBt
-ZW50aW9uZWQgZmlyc3QuDQoNCkRlbg0K
+
+
+On 6/27/2019 3:31 PM, Dr. David Alan Gilbert wrote:
+> * Kirti Wankhede (kwankhede@nvidia.com) wrote:
+>> Define flags to be used as delimeter in migration file stream.
+>> Added .save_setup and .save_cleanup functions. Mapped & unmapped migration
+>> region from these functions at source during saving or pre-copy phase.
+>> Set VFIO device state depending on VM's state. During live migration, VM is
+>> running when .save_setup is called, _SAVING | _RUNNING state is set for VFIO
+>> device. During save-restore, VM is paused, _SAVING state is set for VFIO device.
+>>
+>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>> ---
+>>  hw/vfio/migration.c | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 75 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+>> index 7f9858e6c995..fe0887c27664 100644
+>> --- a/hw/vfio/migration.c
+>> +++ b/hw/vfio/migration.c
+>> @@ -22,6 +22,17 @@
+>>  #include "exec/ram_addr.h"
+>>  #include "pci.h"
+>>  
+>> +/*
+>> + * Flags used as delimiter:
+>> + * 0xffffffff => MSB 32-bit all 1s
+>> + * 0xef10     => emulated (virtual) function IO
+>> + * 0x0000     => 16-bits reserved for flags
+>> + */
+>> +#define VFIO_MIG_FLAG_END_OF_STATE      (0xffffffffef100001ULL)
+>> +#define VFIO_MIG_FLAG_DEV_CONFIG_STATE  (0xffffffffef100002ULL)
+>> +#define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
+>> +#define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
+>> +
+>>  static void vfio_migration_region_exit(VFIODevice *vbasedev)
+>>  {
+>>      VFIOMigration *migration = vbasedev->migration;
+>> @@ -96,6 +107,69 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t state)
+>>      return 0;
+>>  }
+>>  
+>> +/* ---------------------------------------------------------------------- */
+>> +
+>> +static int vfio_save_setup(QEMUFile *f, void *opaque)
+>> +{
+>> +    VFIODevice *vbasedev = opaque;
+>> +    VFIOMigration *migration = vbasedev->migration;
+>> +    int ret;
+>> +
+>> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_SETUP_STATE);
+>> +
+>> +    if (migration->region.buffer.mmaps) {
+>> +        qemu_mutex_lock_iothread();
+>> +        ret = vfio_region_mmap(&migration->region.buffer);
+>> +        qemu_mutex_unlock_iothread();
+>> +        if (ret) {
+>> +            error_report("Failed to mmap VFIO migration region %d: %s",
+>> +                         migration->region.index, strerror(-ret));
+>> +            return ret;
+>> +        }
+>> +    }
+>> +
+>> +    if (vbasedev->vm_running) {
+>> +        ret = vfio_migration_set_state(vbasedev,
+>> +                         VFIO_DEVICE_STATE_RUNNING | VFIO_DEVICE_STATE_SAVING);
+>> +        if (ret) {
+>> +            error_report("Failed to set state RUNNING and SAVING");
+>> +            return ret;
+>> +        }
+>> +    } else {
+>> +        ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_SAVING);
+>> +        if (ret) {
+>> +            error_report("Failed to set state STOP and SAVING");
+>> +            return ret;
+>> +        }
+>> +    }
+>> +
+>> +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+>> +
+>> +    ret = qemu_file_get_error(f);
+>> +    if (ret) {
+>> +        return ret;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +static void vfio_save_cleanup(void *opaque)
+>> +{
+>> +    VFIODevice *vbasedev = opaque;
+>> +    VFIOMigration *migration = vbasedev->migration;
+>> +
+>> +    if (migration->region.buffer.mmaps) {
+>> +        vfio_region_unmap(&migration->region.buffer);
+>> +    }
+>> +}
+>> +
+>> +static SaveVMHandlers savevm_vfio_handlers = {
+>> +    .save_setup = vfio_save_setup,
+>> +    .save_cleanup = vfio_save_cleanup,
+>> +};
+>> +
+>> +/* ---------------------------------------------------------------------- */
+>> +
+>>  static void vfio_vmstate_change(void *opaque, int running, RunState state)
+>>  {
+>>      VFIODevice *vbasedev = opaque;
+>> @@ -169,7 +243,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>>      }
+>>  
+>>      qemu_mutex_init(&vbasedev->migration->lock);
+>> -
+>> +    register_savevm_live(NULL, "vfio", -1, 1, &savevm_vfio_handlers, vbasedev);
+> 
+> Does this work OK with multiple devices?
+
+Yes. Tested with multiple vGPU devices.
+
+> I think I'd expected you to pass a DeviceState as the first parameter
+> for a real device like vfio.
+> 'ram' and 'block' don't need to because they iterate over all RAM
+> devices inside their save_setup's and similar handlers;  for vfio I'd
+> expect it to be per-device.
+
+I do see handlers called per-device. I'll check passing DeviceState as
+first parameter.
+
+Thanks,
+Kirti
+
+> 
+> Dave
+> 
+>>      vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+>>                                                            vbasedev);
+>>  
+>> -- 
+>> 2.7.0
+>>
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
 
