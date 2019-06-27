@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D7B585D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:33:45 +0200 (CEST)
-Received: from localhost ([::1]:51766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C2858629
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:42:34 +0200 (CEST)
+Received: from localhost ([::1]:51848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgWPA-0000Xx-TU
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:33:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60696)
+	id 1hgWXh-0001nN-IC
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60862)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgWFk-0001V4-MT
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:02 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgWGg-0001ld-ML
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgWFW-0006kb-Tz
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:23:51 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:34237)
+ (envelope-from <palmer@dabbelt.com>) id 1hgWGc-0007g0-Ik
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:55 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:36609)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWFQ-0006Zy-F1
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:23:40 -0400
-Received: by mail-pg1-f194.google.com with SMTP id p10so1186875pgn.1
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:33 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWGa-0006bX-9O
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:52 -0400
+Received: by mail-pg1-f194.google.com with SMTP id c13so1180450pgg.3
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=jUXXdmFSNX/hvuM0z5WGc23QfyAO7JYoqYw1PuN09oU=;
- b=BLM8pCzK6d9Q1AVjjUTg1UlZBj8ZhkTH43PBlj3dFQd+DImph5XzamjucMLmwCTCdY
- /FJFgUSyD6iPbgAv3WDDIIwcgx0BZQvuWvnlNn1vNt6KgKDIDNpL3RGX4NS1i84k1h8o
- 7Bxk5Dq5xHx8JHqdM4tLlFUqQZBi3yxHorIDVaGWN1Wx/QGGUuXumcsth1IlNS0SC6Mb
- NC+9aNIuuTaZjObX114860b9TgnIfEOrXSo+O4B+meVlyP594BY+lkzuFQb7XiJGe6p/
- 4Fdr00K4pT8bhI4K5EJxQbHIeDjOwfo13fpnoYpxqwTkeSiI5aKL7w92ditBSOkqHULd
- vWIw==
-X-Gm-Message-State: APjAAAXnI+AV62tovRL/nmkqWYyUz1rHboyTLWCuNincxXnEKwxpCft0
- xu9tLFe15EzuzZpjLVruOv7t5nm+W9fcTw==
-X-Google-Smtp-Source: APXvYqwQHGWSi5dQ3ZNIi59TpZXIwgAa73Mgr6WM9PldSQ9IL3PqR2z+jBZxZz56eoNToDxxzmV1Rg==
-X-Received: by 2002:a63:88c1:: with SMTP id l184mr4300973pgd.376.1561649012380; 
- Thu, 27 Jun 2019 08:23:32 -0700 (PDT)
+ bh=Iw6+m+IE1PHOTPzSnV8qMJ+Sj/ZsLxY0VeWDR+SUS50=;
+ b=ATFpleel2IfUltFcPQWe1Dsak8sR4bmHUUXhVi6/1rjn2EywoMp/L5GU0F/h+OlcLL
+ qanlgsg02fbc3yBTM8Si1uuDcFNsSpEWBHKOk45RQd69QWXTxA5L0rbBw1v6Db1nqhsn
+ qqCpiWdCc6CXPo1OqhL4hLIa9KcoB/TdmEz12GzU/qSIjzo5+yBGUkujgi0aghEIYCbY
+ iMw+vnayhfz9vQB+BIvRmJa0Ia7Vnh7Lwmm5xWRAx9uGoNO7pFIB7B4BnST6jsvI+7nk
+ 2emZcMuOB1wTxqG/Y0wnuF0RPqEVxY8bzx3G9Ux2X2tn8M1NvCjQmfqsPbvUEDpcFK55
+ HBkw==
+X-Gm-Message-State: APjAAAUUe3k102ufEFkkl3SnSlfd/fZMMnuf2U9tdlPuyCyqh0drd7zV
+ KXDvzARrYb8KllW4j3+eo76WAQ==
+X-Google-Smtp-Source: APXvYqx7QFAz0ycxwYn64N6rMCpYYUd5z3YRPOnYVpiuJW21aJOrTXHvztilDPsGl48ZbuyUtf2fIw==
+X-Received: by 2002:a63:1864:: with SMTP id 36mr2871248pgy.272.1561649014575; 
+ Thu, 27 Jun 2019 08:23:34 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id v13sm3821903pfe.105.2019.06.27.08.23.31
+ by smtp.gmail.com with ESMTPSA id i126sm3786390pfb.32.2019.06.27.08.23.33
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 08:23:31 -0700 (PDT)
-Date: Thu, 27 Jun 2019 08:19:41 -0700
-Message-Id: <20190627152011.18686-5-palmer@sifive.com>
+ Thu, 27 Jun 2019 08:23:34 -0700 (PDT)
+Date: Thu, 27 Jun 2019 08:19:42 -0700
+Message-Id: <20190627152011.18686-6-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190627152011.18686-1-palmer@sifive.com>
 References: <20190627152011.18686-1-palmer@sifive.com>
@@ -55,8 +55,8 @@ To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.85.215.194
-Subject: [Qemu-devel] [PULL 04/34] target/riscv: Implement
- riscv_cpu_unassigned_access
+Subject: [Qemu-devel] [PULL 05/34] RISC-V: Only Check PMP if MMU translation
+ succeeds
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,83 +68,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Michael Clark <mjc@sifive.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@sifive.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Clark <mjc@sifive.com>
+From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 
-This patch adds support for the riscv_cpu_unassigned_access call
-and will raise a load or store access fault.
+The current implementation unnecessarily checks for PMP even if MMU translation
+failed. This may trigger a wrong PMP access exception instead of
+a page exception.
 
-Signed-off-by: Michael Clark <mjc@sifive.com>
-[Changes by AF:
- - Squash two patches and rewrite commit message
- - Set baddr to the access address
-]
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+For example, the very first instruction fetched after the first satp write in
+S-Mode will trigger a PMP access fault instead of an instruction fetch page
+fault.
+
+This patch prioritises MMU exceptions over PMP exceptions and only checks for
+PMP if MMU translation succeeds. This patch is required for future commits
+that properly report PMP exception violations if PTW succeeds.
+
+Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu.c        |  1 +
- target/riscv/cpu.h        |  2 ++
- target/riscv/cpu_helper.c | 16 ++++++++++++++++
- 3 files changed, 19 insertions(+)
+ target/riscv/cpu_helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0632ac08cf35..5b9fae608cca 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -482,6 +482,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_stop_before_watchpoint = true;
-     cc->disas_set_info = riscv_cpu_disas_set_info;
- #ifndef CONFIG_USER_ONLY
-+    cc->do_unassigned_access = riscv_cpu_unassigned_access;
-     cc->do_unaligned_access = riscv_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
- #endif
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index b47cde501766..2e743312536b 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -259,6 +259,8 @@ void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-                         bool probe, uintptr_t retaddr);
-+void riscv_cpu_unassigned_access(CPUState *cpu, hwaddr addr, bool is_write,
-+                                 bool is_exec, int unused, unsigned size);
- char *riscv_isa_string(RISCVCPU *cpu);
- void riscv_cpu_list(void);
- 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 8b6754b91798..0bbfb7f48b79 100644
+index 0bbfb7f48b79..a45b05ef8395 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -375,6 +375,22 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     return phys_addr;
- }
+@@ -436,6 +436,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                   " prot %d\n", __func__, address, ret, pa, prot);
  
-+void riscv_cpu_unassigned_access(CPUState *cs, hwaddr addr, bool is_write,
-+                                 bool is_exec, int unused, unsigned size)
-+{
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+    CPURISCVState *env = &cpu->env;
-+
-+    if (is_write) {
-+        cs->exception_index = RISCV_EXCP_STORE_AMO_ACCESS_FAULT;
-+    } else {
-+        cs->exception_index = RISCV_EXCP_LOAD_ACCESS_FAULT;
-+    }
-+
-+    env->badaddr = addr;
-+    riscv_raise_exception(&cpu->env, cs->exception_index, GETPC());
-+}
-+
- void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                    MMUAccessType access_type, int mmu_idx,
-                                    uintptr_t retaddr)
+     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
++        (ret == TRANSLATE_SUCCESS) &&
+         !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
+         ret = TRANSLATE_FAIL;
+     }
 -- 
 2.21.0
 
