@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7224358852
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 19:28:38 +0200 (CEST)
-Received: from localhost ([::1]:53194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6002758944
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 19:48:42 +0200 (CEST)
+Received: from localhost ([::1]:53308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgYCL-0003Bc-M0
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 13:28:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34003)
+	id 1hgYVl-0004KZ-2R
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 13:48:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37495)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hgYAL-0001v7-14
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:26:34 -0400
+ (envelope-from <fintelia@gmail.com>) id 1hgYS5-0002O6-Lp
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:44:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hgYAJ-0006UR-GT
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:26:32 -0400
-Received: from 18.mo5.mail-out.ovh.net ([178.33.45.10]:38673)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hgYAJ-0006ST-6D
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:26:31 -0400
-Received: from player756.ha.ovh.net (unknown [10.108.35.74])
- by mo5.mail-out.ovh.net (Postfix) with ESMTP id C20B224078E
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 19:26:27 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player756.ha.ovh.net (Postfix) with ESMTPSA id E1E5D68335FD;
- Thu, 27 Jun 2019 17:26:23 +0000 (UTC)
-Date: Thu, 27 Jun 2019 19:26:22 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Message-ID: <20190627192622.6f49dc0a@bahia.lan>
-In-Reply-To: <26b626706b5fa0c492413a3279512c17952be5de.1561575449.git.qemu_oss@crudebyte.com>
-References: <cover.1561575449.git.qemu_oss@crudebyte.com>
- <26b626706b5fa0c492413a3279512c17952be5de.1561575449.git.qemu_oss@crudebyte.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <fintelia@gmail.com>) id 1hgYS3-0003J2-OP
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 13:44:53 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:39891)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <fintelia@gmail.com>)
+ id 1hgYRt-00035Y-C2; Thu, 27 Jun 2019 13:44:42 -0400
+Received: by mail-lj1-x241.google.com with SMTP id v18so3239990ljh.6;
+ Thu, 27 Jun 2019 10:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0qJOU4T9A+Rgo+KUWUOXYaNJYMQ+KH3leoUF1qgEo/8=;
+ b=gKCkLQg/+PShoplCFDLy0X9iaLC2OCi3K56QnXinjkOoLFoGJ7K+hptYhrHMLbd9UM
+ 3euNXo4ZLxzFzvDBZygC9PioJZzs1mBl9Giq+VUeidnYNg/1zaFbMt/JZKar5pqTI0E2
+ IH/0kwdU4BTiSZqUzRPexi+UtHOqwMW0bXd3e/L88wMyihPZoo+O51ewgqTkUCEiaFCh
+ G2n7Z2j8vzV8pNlIdQIagpCVm4i4VZMRVjuUenmozowig3ohZmrL77QYwy3Q4zqxb0Xb
+ ozcAOUejVZUOxFfkY3xAVpeh/c8o8w88kYDNl3WVuP/uJs0//0jJrn8OhOLxAOybwXVY
+ wwyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0qJOU4T9A+Rgo+KUWUOXYaNJYMQ+KH3leoUF1qgEo/8=;
+ b=F1CtT1X2XZbuiPitx/fAYwKRXbG1bDYyXlvrdkFB02JyDSbEyOuCmpmi6P3pHFv8hy
+ xaij321zT2kRIHgwgWlnoHdp3ysVniUfDGgLgMa3dZj+CC8sLIQwSRIvAClS5e58aFX1
+ 3X/Ii2rzdcfJk19V4gID8ehJUKI6JHuxUr7pvny2VsHXnakbnxHTQpWRkPQKe1F8F0iZ
+ j4QRl06gNdizbS2jyKBW72IeSRD70wHoVM9NhgbL5cx5oJbKvmkM51aYaqtRVLOfvNcr
+ HbyMYr0Zoss6hFxvEG6rFVw+TExsnOjTmT/nlbLDrzaX1piEhqhiRthRAm5X0vBgLbKh
+ bJxw==
+X-Gm-Message-State: APjAAAUb7ZMX+2thmtCYstmT6mteijs/Peth82ykD1Wf6OEu8hFT/bLI
+ RLs93eg9t9YTSDqpjeLU9bj9O2/yAqgk3CGzJBc=
+X-Google-Smtp-Source: APXvYqzVhVvV7KdV7YJydYeWk9vSo1O5VS+ZDj/VodpS1pL3jdugrAefpf4Er2frOLWs5h0ZDsX356z//YDFuEGzMW4=
+X-Received: by 2002:a2e:9a82:: with SMTP id p2mr3510779lji.64.1561657477249;
+ Thu, 27 Jun 2019 10:44:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 18177372523683092800
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudekgdduudehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.45.10
-Subject: Re: [Qemu-devel] [PATCH v4 2/5] 9p: Treat multiple devices on one
- export as an error
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-11-palmer@sifive.com>
+In-Reply-To: <20190627152011.18686-11-palmer@sifive.com>
+From: Jonathan Behrens <fintelia@gmail.com>
+Date: Thu, 27 Jun 2019 13:44:06 -0400
+Message-ID: <CANnJOVF3F_k1LpSYp8OdxSx6LtQR5p-XR5fMKCsXg_0pxySg+Q@mail.gmail.com>
+To: Palmer Dabbelt <palmer@sifive.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::241
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [Qemu-riscv] [PULL 10/34] RISC-V: Fix a PMP check
+ with the correct access size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,249 +73,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Antonios Motakis <antonios.motakis@huawei.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 20:30:41 +0200
-Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
+I think this patch is slightly incorrect. If the PMP region is valid for
+the size of the access, but not the rest of the page then a few lines down
+in this function the entire page should not be placed into the TLB. Instead
+only the portion of the page that passed the access check should be
+included. To give an example of where this goes wrong, in the code below
+access to address 0x90000008 should always fail due to PMP rules, but if
+the TLB has already been primed by loading the (allowed) address 0x90000000
+then no fault will be triggered. Notably, this code also executes
+improperly without the patch because the first `ld` instruction traps when
+it shouldn't.
 
-> The QID path should uniquely identify a file. However, the
-> inode of a file is currently used as the QID path, which
-> on its own only uniquely identifies wiles within a device.
+  li t0, 0x0000000024000000 // region[0]: 0x90000000..0x90000007
+  csrw pmpaddr0, t0
 
-s/wile/files
+  li t0, 0x00000000240001FF // region[1]: 0x90000000..0x90000fff
+  csrw pmpaddr1, t0
 
-> Here we track the device hosting the 9pfs share, in order
-> to prevent security issues with QID path collisions from
-> other devices.
-> 
-> Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+  li t0, 0x1F0000000000989F // cfg[0] = LXRW, cfg[1] = L
+  csrw pmpcfg0, t0
 
-You should mention here the changes you made to the original patch.
+  sfence.vma
 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+  li t0, 0x90000000
+  ld s0, 0(t0)
+  ld s1, 8(t0) // NO TRAP: address is incorrectly in TLB!
+
+  sfence.vma
+  ld s1, 8(t0) // TRAP: TLB has been flushed!
+
+I think that the proper fix would be to first do a PMP check for the full
+PAGE_SIZE and execute normally if it passes. Then in the event the full
+page fails, there could be a more granular PMP check with only the accessed
+region inserted as an entry in the TLB.
+
+Unrelated question: should I be sending "Reviewed By" lines if I read
+through patches that seem reasonable? Or there some formal process I'd have
+to go through first to be approved?
+
+Jonathan
+
+On Thu, Jun 27, 2019 at 11:43 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+
+> From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+>
+> The PMP check should be of the memory access size rather
+> than TARGET_PAGE_SIZE.
+>
+> Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 > ---
->  hw/9pfs/9p.c | 71 ++++++++++++++++++++++++++++++++++++++++++++++++------------
->  hw/9pfs/9p.h |  1 +
->  2 files changed, 58 insertions(+), 14 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 586a6dccba..cbaa212625 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -572,10 +572,20 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
->                                  P9_STAT_MODE_SOCKET)
->  
->  /* This is the algorithm from ufs in spfs */
-> -static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
-> +static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID *qidp)
->  {
->      size_t size;
->  
-> +    if (pdu->s->dev_id == 0) {
-> +        pdu->s->dev_id = stbuf->st_dev;
-
-st_dev should be captured in v9fs_device_realize_common() since we
-lstat() the root there, instead of every request doing the check.
-
-> +    } else if (pdu->s->dev_id != stbuf->st_dev) {
-> +        error_report_once(
-> +            "9p: Multiple devices detected in same VirtFS export. "
-> +            "You must use a separate export for each device."
-> +        );
-> +        return -ENOSYS;
-
-This error is likely to end up as the return value of a
-syscall in the guest and -ENOSYS usually means the syscall
-isn't implemented, which is obviously not the case. Maybe
-return -EPERM instead ?
-
-> +    }
-> +
->      memset(&qidp->path, 0, sizeof(qidp->path));
->      size = MIN(sizeof(stbuf->st_ino), sizeof(qidp->path));
->      memcpy(&qidp->path, &stbuf->st_ino, size);
-> @@ -587,6 +597,8 @@ static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
->      if (S_ISLNK(stbuf->st_mode)) {
->          qidp->type |= P9_QID_TYPE_SYMLINK;
+>  target/riscv/cpu_helper.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 66be83210f11..e1b079e69c60 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -452,8 +452,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address,
+> int size,
+>
+>      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+>          (ret == TRANSLATE_SUCCESS) &&
+> -        !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type,
+> -        mode)) {
+> +        !pmp_hart_has_privs(env, pa, size, 1 << access_type, mode)) {
+>          ret = TRANSLATE_PMP_FAIL;
 >      }
-> +
-> +    return 0;
->  }
->  
->  static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
-> @@ -599,7 +611,10 @@ static int coroutine_fn fid_to_qid(V9fsPDU *pdu, V9fsFidState *fidp,
->      if (err < 0) {
->          return err;
->      }
-> -    stat_to_qid(&stbuf, qidp);
-> +    err = stat_to_qid(pdu, &stbuf, qidp);
-> +    if (err < 0) {
-> +        return err;
-> +    }
->      return 0;
->  }
->  
-> @@ -830,7 +845,10 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
->  
->      memset(v9stat, 0, sizeof(*v9stat));
->  
-> -    stat_to_qid(stbuf, &v9stat->qid);
-> +    err = stat_to_qid(pdu, stbuf, &v9stat->qid);
-> +    if (err < 0) {
-> +        return err;
-> +    }
->      v9stat->mode = stat_to_v9mode(stbuf);
->      v9stat->atime = stbuf->st_atime;
->      v9stat->mtime = stbuf->st_mtime;
-> @@ -891,7 +909,7 @@ static int coroutine_fn stat_to_v9stat(V9fsPDU *pdu, V9fsPath *path,
->  #define P9_STATS_ALL           0x00003fffULL /* Mask for All fields above */
->  
->  
-> -static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
-> +static int stat_to_v9stat_dotl(V9fsPDU *pdu, const struct stat *stbuf,
->                                  V9fsStatDotl *v9lstat)
->  {
->      memset(v9lstat, 0, sizeof(*v9lstat));
-> @@ -913,7 +931,7 @@ static void stat_to_v9stat_dotl(V9fsState *s, const struct stat *stbuf,
->      /* Currently we only support BASIC fields in stat */
->      v9lstat->st_result_mask = P9_STATS_BASIC;
->  
-> -    stat_to_qid(stbuf, &v9lstat->qid);
-> +    return stat_to_qid(pdu, stbuf, &v9lstat->qid);
->  }
->  
->  static void print_sg(struct iovec *sg, int cnt)
-> @@ -1115,7 +1133,6 @@ static void coroutine_fn v9fs_getattr(void *opaque)
->      uint64_t request_mask;
->      V9fsStatDotl v9stat_dotl;
->      V9fsPDU *pdu = opaque;
-> -    V9fsState *s = pdu->s;
->  
->      retval = pdu_unmarshal(pdu, offset, "dq", &fid, &request_mask);
->      if (retval < 0) {
-> @@ -1136,7 +1153,10 @@ static void coroutine_fn v9fs_getattr(void *opaque)
->      if (retval < 0) {
->          goto out;
->      }
-> -    stat_to_v9stat_dotl(s, &stbuf, &v9stat_dotl);
-> +    retval = stat_to_v9stat_dotl(pdu, &stbuf, &v9stat_dotl);
-> +    if (retval < 0) {
-> +        goto out;
-> +    }
->  
->      /*  fill st_gen if requested and supported by underlying fs */
->      if (request_mask & P9_STATS_GEN) {
-> @@ -1381,7 +1401,10 @@ static void coroutine_fn v9fs_walk(void *opaque)
->              if (err < 0) {
->                  goto out;
->              }
-> -            stat_to_qid(&stbuf, &qid);
-> +            err = stat_to_qid(pdu, &stbuf, &qid);
-> +            if (err < 0) {
-> +                goto out;
-> +            }
->              v9fs_path_copy(&dpath, &path);
->          }
->          memcpy(&qids[name_idx], &qid, sizeof(qid));
-> @@ -1483,7 +1506,10 @@ static void coroutine_fn v9fs_open(void *opaque)
->      if (err < 0) {
->          goto out;
->      }
-> -    stat_to_qid(&stbuf, &qid);
-> +    err = stat_to_qid(pdu, &stbuf, &qid);
-> +    if (err < 0) {
-> +        goto out;
-> +    }
->      if (S_ISDIR(stbuf.st_mode)) {
->          err = v9fs_co_opendir(pdu, fidp);
->          if (err < 0) {
-> @@ -1593,7 +1619,10 @@ static void coroutine_fn v9fs_lcreate(void *opaque)
->          fidp->flags |= FID_NON_RECLAIMABLE;
->      }
->      iounit =  get_iounit(pdu, &fidp->path);
-> -    stat_to_qid(&stbuf, &qid);
-> +    err = stat_to_qid(pdu, &stbuf, &qid);
-> +    if (err < 0) {
-> +        goto out;
-> +    }
->      err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
->      if (err < 0) {
->          goto out;
-> @@ -2327,7 +2356,10 @@ static void coroutine_fn v9fs_create(void *opaque)
->          }
->      }
->      iounit = get_iounit(pdu, &fidp->path);
-> -    stat_to_qid(&stbuf, &qid);
-> +    err = stat_to_qid(pdu, &stbuf, &qid);
-> +    if (err < 0) {
-> +        goto out;
-> +    }
->      err = pdu_marshal(pdu, offset, "Qd", &qid, iounit);
->      if (err < 0) {
->          goto out;
-> @@ -2384,7 +2416,10 @@ static void coroutine_fn v9fs_symlink(void *opaque)
->      if (err < 0) {
->          goto out;
->      }
-> -    stat_to_qid(&stbuf, &qid);
-> +    err = stat_to_qid(pdu, &stbuf, &qid);
-> +    if (err < 0) {
-> +        goto out;
-> +    }
->      err =  pdu_marshal(pdu, offset, "Q", &qid);
->      if (err < 0) {
->          goto out;
-> @@ -3064,7 +3099,10 @@ static void coroutine_fn v9fs_mknod(void *opaque)
->      if (err < 0) {
->          goto out;
->      }
-> -    stat_to_qid(&stbuf, &qid);
-> +    err = stat_to_qid(pdu, &stbuf, &qid);
-> +    if (err < 0) {
-> +        goto out;
-> +    }
->      err = pdu_marshal(pdu, offset, "Q", &qid);
->      if (err < 0) {
->          goto out;
-> @@ -3222,7 +3260,10 @@ static void coroutine_fn v9fs_mkdir(void *opaque)
->      if (err < 0) {
->          goto out;
->      }
-> -    stat_to_qid(&stbuf, &qid);
-> +    err = stat_to_qid(pdu, &stbuf, &qid);
-> +    if (err < 0) {
-> +        goto out;
-> +    }
->      err = pdu_marshal(pdu, offset, "Q", &qid);
->      if (err < 0) {
->          goto out;
-> @@ -3633,6 +3674,8 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
->          goto out;
->      }
->  
-> +    s->dev_id = 0;
-> +
-
-Set it to stat->st_dev after lstat() was called later in this function.
-
->      s->ctx.fst = &fse->fst;
->      fsdev_throttle_init(s->ctx.fst);
->  
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index 8883761b2c..5e316178d5 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -256,6 +256,7 @@ struct V9fsState
->      Error *migration_blocker;
->      V9fsConf fsconf;
->      V9fsQID root_qid;
-> +    dev_t dev_id;
->  };
->  
->  /* 9p2000.L open flags */
-
-
+>      if (ret == TRANSLATE_PMP_FAIL) {
+> --
+> 2.21.0
+>
+>
+>
