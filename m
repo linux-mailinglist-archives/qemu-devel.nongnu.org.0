@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E86EB581D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:50:28 +0200 (CEST)
-Received: from localhost ([::1]:49124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F990581ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:56:00 +0200 (CEST)
+Received: from localhost ([::1]:49168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgSv6-0003cR-4s
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37676)
+	id 1hgT0Q-0008SU-PM
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <drjones@redhat.com>) id 1hgSsE-0000kH-Gs
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:47:35 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hgSy7-0006xe-Vv
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:53:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <drjones@redhat.com>) id 1hgSsC-0003ti-Id
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:47:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35638)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <drjones@redhat.com>)
- id 1hgSrv-0003Zy-Rp; Thu, 27 Jun 2019 07:47:14 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id ACBB0307D91F;
- Thu, 27 Jun 2019 11:47:08 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.43.2.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBE3B5D9C6;
- Thu, 27 Jun 2019 11:47:04 +0000 (UTC)
-Date: Thu, 27 Jun 2019 13:47:01 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Auger Eric <eric.auger@redhat.com>
-Message-ID: <20190627114701.n7tjgmljeribk7to@kamzik.brq.redhat.com>
-References: <20190621163422.6127-1-drjones@redhat.com>
- <20190621163422.6127-8-drjones@redhat.com>
- <ee8ce4a6-09fd-47ab-ef7e-a231df1e9c1b@redhat.com>
- <20190627104638.x4gxsmv7vpww3mra@kamzik.brq.redhat.com>
- <ae98bf94-6826-1f2b-2f2e-a11a3f75cb92@redhat.com>
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hgSy6-00011a-Vh
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:53:35 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:45335)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hgSy6-00010Q-Ma
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:53:34 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f9so2185267wre.12
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 04:53:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z2NGFB1ThkY/TPLi/6lwcDMKRfzHH+1IoMvEHkrY49Y=;
+ b=ZGWRdkBLUFrQxaLPfMVTR7xqA+d76YsM/yUpTiZyBD5xXk1X1Zu5JvCQiahuJcFrWA
+ sQh5BXpjo8RD6J4ts+gwkEkklfE6T+A3eOygjxn0V9PVHAUt0Y/2Gjp2ZbQWwur5/pol
+ PvH93P4f+8haFWXv6Ae9QvXXAaENdFdL3LXhMTBD19E2n/o3fr0fMTVJFnfk2cLxkZxD
+ PULtzACotOGlZ1NKwD2vBvJFLEU7jCf9LYwD+dhB7InnJsJVi7viW3Iwhq+2JB/pcK/4
+ tI7/VJD+fqGth58Dwj/RpQplq7riK3J6K1ZSlTf2uTuIwUGXT1+9I9N/kQ0nXLfN2blF
+ Ormw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=z2NGFB1ThkY/TPLi/6lwcDMKRfzHH+1IoMvEHkrY49Y=;
+ b=oPBd/6Fpzsgow78xh0ZAlDiWo8CP3ZhHewslVq4vzWFy4LwIEKC0/yY/WROMPYQ/6X
+ dY1JzgD9Y2nL5Wfj3YeIYrTyf00F8rpFV4VAH5YrAAvRzBEGuupH/Asa0QPKdJ7cdFmf
+ WJhrKCSjmqID50dvv6ZuJ5aRQAKR1F6RuNBzbsbF6SgsX2hoLUWPePy6jHkh78aYFJGU
+ uDr5ynGip3xhSL1H4oJYyJrSTp5MxnH3n2aEvftGeu2TI5vh1SoHH4h+rgJb7grOk6E6
+ SBjBOBytUOPcWStcD9IfyUpHkBU4lF3sM7Cq1r2WAO8U+Io5m5mVq5X9Xiyth2LEg/5R
+ /slw==
+X-Gm-Message-State: APjAAAXhnk+hw7XObo1Yssnl83TwxNq6nCWhCpi7uBgPxXd0bLAr+Okn
+ 186PlfXP+SYnVie00/ooVVA/Hd8j
+X-Google-Smtp-Source: APXvYqwXXD6S9QhqcuRFcTljIg3rnhGT5h0pmCRDXFd7mSJUwAttKaGNdHWPxFDKmUbSvUnED7MVqQ==
+X-Received: by 2002:adf:dd8c:: with SMTP id x12mr2839463wrl.212.1561636413339; 
+ Thu, 27 Jun 2019 04:53:33 -0700 (PDT)
+Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id o126sm6196408wmo.1.2019.06.27.04.53.31
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 27 Jun 2019 04:53:32 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Date: Thu, 27 Jun 2019 13:53:28 +0200
+Message-Id: <20190627115331.2373-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ae98bf94-6826-1f2b-2f2e-a11a3f75cb92@redhat.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Thu, 27 Jun 2019 11:47:08 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 07/14] target/arm/cpu64: max cpu:
- Introduce sve<vl-bits> properties
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH 0/3] tests/acceptance: Add tests for the Leon3
+ board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,57 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, armbru@redhat.com, qemu-arm@nongnu.org,
- imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 01:00:27PM +0200, Auger Eric wrote:
-> Hi,
-> 
-> On 6/27/19 12:46 PM, Andrew Jones wrote:
-> > On Wed, Jun 26, 2019 at 06:56:54PM +0200, Auger Eric wrote:
-> >>> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> >>> index f500ccb6d31b..b7b719dba57f 100644
-> >>> --- a/target/arm/helper.c
-> >>> +++ b/target/arm/helper.c
-> >>> @@ -5324,7 +5324,16 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-> >>>  
-> >>>      /* Bits other than [3:0] are RAZ/WI.  */
-> >>>      QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
-> >>> -    raw_write(env, ri, value & 0xf);
-> >>> +    value &= 0xf;
-> >>> +
-> >>> +    if (value) {
-> >>> +        /* get next vq that is smaller than or equal to value's vq */
-> >>> +        uint32_t vq = value + 1;
-> >>> +        vq = arm_cpu_vq_map_next_smaller(cpu, vq + 1);
-> >>> +        value = vq - 1;
-> >> spec says:
-> >>
-> >> "if an unsupported vector length is requested in ZCR_ELx, the
-> >> implementation is required to select the largest
-> >> supported vector length that is less than the requested length. This
-> >> does not alter the value of ZCR_ELx.LEN.
-> >> "
-> >>
-> >> So I understand the value written in the reg should not be unmodified.
-> >>
-> > 
-> > Sorry, I can't parse what you're trying to tell me here. Here we have
-> > to write 'value', because that's what the guest is trying to do. As the
-> > spec says in your quote, we have to pick the length the guest wants, or
-> > the next smaller valid one, so that's what the code above does. So are
-> > you just stating that you agree with this hunk of the code?
-> What we are writing into the reg is arm_cpu_vq_map_next_smaller(cpu, vq
-> + 1) -1. Maybe I misunderstand the whole wording but I would have
-> expected the original unmodified value to be written in the reg instead?
+Quick tests worth to avoid regressions, idea from
+https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04177.html
+"Maintainers, please tell us how to boot your machines"
 
-Hmm... So maybe we need more changes to the emulation in order for it to
-have an acting value and a register value? Maybe Richard knows what we
-should do here.
+Regards,
 
-Thanks,
-drew
+Phil.
+
+Philippe Mathieu-Daudé (3):
+  tests/acceptance: Add test that boots the HelenOS microkernel on Leon3
+  tests/acceptance: Add test that boots Linux up to BusyBox on Leon3
+  .travis.yml: Let the avocado job run the Leon3 test
+
+ .travis.yml                             |  2 +-
+ MAINTAINERS                             |  1 +
+ tests/acceptance/machine_sparc_leon3.py | 89 +++++++++++++++++++++++++
+ 3 files changed, 91 insertions(+), 1 deletion(-)
+ create mode 100644 tests/acceptance/machine_sparc_leon3.py
+
+-- 
+2.19.1
+
 
