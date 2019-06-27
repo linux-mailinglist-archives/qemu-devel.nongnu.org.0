@@ -2,50 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806E35873D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:38:46 +0200 (CEST)
-Received: from localhost ([::1]:52580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73BE5877C
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:43:35 +0200 (CEST)
+Received: from localhost ([::1]:52652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgXQ5-0006Nj-NS
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:38:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44874)
+	id 1hgXUk-0004OF-Cg
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46650)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hgX0b-0006qT-I4
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:12:27 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hgX8D-0007C0-CI
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:20:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hgX0Z-0003OD-Gw
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:12:25 -0400
-Received: from 9.mo177.mail-out.ovh.net ([46.105.72.238]:52007)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hgX0X-0003Ae-FK
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:12:21 -0400
-Received: from player786.ha.ovh.net (unknown [10.109.159.136])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 181F2FFDFD
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 18:12:07 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player786.ha.ovh.net (Postfix) with ESMTPSA id 6B1D17681CAF;
- Thu, 27 Jun 2019 16:12:04 +0000 (UTC)
-Date: Thu, 27 Jun 2019 18:12:03 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Message-ID: <20190627181203.59c956d9@bahia.lan>
-In-Reply-To: <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f.1561575449.git.qemu_oss@crudebyte.com>
-References: <cover.1561575449.git.qemu_oss@crudebyte.com>
- <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f.1561575449.git.qemu_oss@crudebyte.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <richard.henderson@linaro.org>) id 1hgX89-0004KE-Ci
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:20:15 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33559)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hgX84-0003yq-Cl
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 12:20:12 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n9so3295584wru.0
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 09:20:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FAwBUk3G5Bj2CQarLPtJt2WX0hbF8QWcnx2JtkNbuJw=;
+ b=vf9qtRChBWvudlQuif0zapRi6RV5OpzO+5w5V4NPZgvOb4ArNBOedHwGhWCQqE0szu
+ 2SOb9sMaG6xrMEGie7ZnQXXmGwduu87J1b0nEyJASl/b08F79EEhHncJp81U9W4C0EG4
+ r9DbVdK9xLHUVAhLLdrEPoYxTrZNF/VL/dDbwuIuL1mGFWES6Pz7V/mXg6B5mKPlr+T1
+ H6mDhuepd0rM1s9Iuzng8qbeuLG1LlNBYRbwnXt5nWg8cOgIU8+mLelUy0x1KG2/jNt8
+ LGB1EB/fFFN18snvi5moF2h52npxGTu1uFoAKDRh3Jh6yigG5He6ZfOYYPsPLFhXIbUe
+ +NvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FAwBUk3G5Bj2CQarLPtJt2WX0hbF8QWcnx2JtkNbuJw=;
+ b=nyLWvcT0nlPJ/qV9nFS4u2nUYdaI4kCFViPW7EAtVA5UN6bTtw4GDl+cwxCPl3N0jy
+ TVCgemwbZVEfVQJDufGxI84wElV+vkheK5tHvOHz1j664dVDN+DIMVuYBlA2MSQ50NqJ
+ IaQaPl6anUtGlGGBZ9suWDKVtcUS90FGZH7ToQDRg+Z3EgW9OL81XaQ+J1IHQn0PiWAy
+ TmfoA+FNpqQKuFbjbpBNf4d8LxW4nQDmMhDA5Xt4qZgtfcJEtjlyJUwj97UXt9F6tKlM
+ uN14LHHWPGlBF2RDAQBu2Zbw5gqJOqTzDvf84ILG/nVa1ocUMwcocJnSO9PBohJBRptQ
+ nW4w==
+X-Gm-Message-State: APjAAAXaXKrdU4q/lMikGdCWc11/XUumcTFZqdBY9xLj2dLj/V/IECQZ
+ g3xs5tqUvjn31FJTKhxFdKaa1A==
+X-Google-Smtp-Source: APXvYqzRvmfcuD/TooS0//8nWZLBxVvzdp9XwvwyUlcH49bPmOKokAlqMl6xofm8+uW6Dag5Wc2Ztw==
+X-Received: by 2002:adf:9d81:: with SMTP id p1mr4080077wre.294.1561652400048; 
+ Thu, 27 Jun 2019 09:20:00 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id l8sm5098420wrg.40.2019.06.27.09.19.59
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 27 Jun 2019 09:19:59 -0700 (PDT)
+To: Dave Martin <Dave.Martin@arm.com>, Andrew Jones <drjones@redhat.com>
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-8-drjones@redhat.com>
+ <ee8ce4a6-09fd-47ab-ef7e-a231df1e9c1b@redhat.com>
+ <20190627104638.x4gxsmv7vpww3mra@kamzik.brq.redhat.com>
+ <ae98bf94-6826-1f2b-2f2e-a11a3f75cb92@redhat.com>
+ <20190627114701.n7tjgmljeribk7to@kamzik.brq.redhat.com>
+ <20190627151628.GI2790@e103592.cambridge.arm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <d0f5ee56-1e10-6c27-40f1-69b87a43fdca@linaro.org>
+Date: Thu, 27 Jun 2019 18:19:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20190627151628.GI2790@e103592.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 16921994128154335552
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrudekgddutddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.72.238
-Subject: Re: [Qemu-devel] [PATCH v4 1/5] 9p: unsigned type for type, version,
- path
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v2 07/14] target/arm/cpu64: max cpu:
+ Introduce sve<vl-bits> properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,124 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Antonios Motakis <antonios.motakis@huawei.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 20:25:55 +0200
-Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
-
-> There is no need for signedness on these QID fields for 9p.
+On 6/27/19 5:16 PM, Dave Martin wrote:
+> The architecture says:
 > 
-> Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
-
-You should mention here the changes you made on top of Antonios
-original patch. Something like:
-
-[CS: - also convert path
-     - adapted trace-events and donttouch_stat()]
-
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->  fsdev/9p-marshal.h   |  6 +++---
->  hw/9pfs/9p.c         |  6 +++---
->  hw/9pfs/trace-events | 14 +++++++-------
->  3 files changed, 13 insertions(+), 13 deletions(-)
+> "For all purposes other than returning the result of a direct read of
+> ZCR_EL1 then this field behaves as if it is set to the minimum of the
+> stored value and the constrained length inherited from more privileged
+> Exception levels in the current Security state, rounded down to the
+> nearest implemented vector length."
 > 
-> diff --git a/fsdev/9p-marshal.h b/fsdev/9p-marshal.h
-> index c8823d878f..8f3babb60a 100644
-> --- a/fsdev/9p-marshal.h
-> +++ b/fsdev/9p-marshal.h
-> @@ -9,9 +9,9 @@ typedef struct V9fsString
->  
->  typedef struct V9fsQID
->  {
-> -    int8_t type;
-> -    int32_t version;
-> -    int64_t path;
-> +    uint8_t type;
-> +    uint32_t version;
-> +    uint64_t path;
->  } V9fsQID;
->  
->  typedef struct V9fsStat
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 55821343e5..586a6dccba 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -743,9 +743,9 @@ static int donttouch_stat(V9fsStat *stat)
->  {
->      if (stat->type == -1 &&
->          stat->dev == -1 &&
-> -        stat->qid.type == -1 &&
-> -        stat->qid.version == -1 &&
-> -        stat->qid.path == -1 &&
-> +        stat->qid.type == 0xff &&
-> +        stat->qid.version == (uint32_t) -1 &&
-> +        stat->qid.path == (uint64_t) -1 &&
->          stat->mode == -1 &&
->          stat->atime == -1 &&
->          stat->mtime == -1 &&
-> diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
-> index c0a0a4ab5d..6964756922 100644
-> --- a/hw/9pfs/trace-events
-> +++ b/hw/9pfs/trace-events
-> @@ -6,7 +6,7 @@ v9fs_rerror(uint16_t tag, uint8_t id, int err) "tag %d id %d err %d"
->  v9fs_version(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
->  v9fs_version_return(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
->  v9fs_attach(uint16_t tag, uint8_t id, int32_t fid, int32_t afid, char* uname, char* aname) "tag %u id %u fid %d afid %d uname %s aname %s"
-> -v9fs_attach_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d type %d version %d path %"PRId64
-> +v9fs_attach_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d type %d version %d path %"PRId64
+> I think the behaviour of a direct read is implied: the LEN bits yielded
+> by an MRS should contain exactly what was last written to them via MSR.
 
-I was expecting to see PRIu64 for an uint64_t but I now realize that %d
-seems to be used all over the place for unsigned types... :-\
+I agree.
 
-At least, please fix the masks of the lines you're changing in this
-patch so that unsigned are passed to "u" or PRIu64. The rest of the
-mess can be fixed later in a followup.
+Moreover, the value written to ZCR_ELx.LEN should not be directly adjusted
+because the effective value also depends on ZCR_EL(x+1).LEN, and if the
+higher-level EL register changes, the lower-level EL must see the effect.
 
->  v9fs_stat(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
->  v9fs_stat_return(uint16_t tag, uint8_t id, int32_t mode, int32_t atime, int32_t mtime, int64_t length) "tag %d id %d stat={mode %d atime %d mtime %d length %"PRId64"}"
->  v9fs_getattr(uint16_t tag, uint8_t id, int32_t fid, uint64_t request_mask) "tag %d id %d fid %d request_mask %"PRIu64
-> @@ -14,9 +14,9 @@ v9fs_getattr_return(uint16_t tag, uint8_t id, uint64_t result_mask, uint32_t mod
->  v9fs_walk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, uint16_t nwnames) "tag %d id %d fid %d newfid %d nwnames %d"
->  v9fs_walk_return(uint16_t tag, uint8_t id, uint16_t nwnames, void* qids) "tag %d id %d nwnames %d qids %p"
->  v9fs_open(uint16_t tag, uint8_t id, int32_t fid, int32_t mode) "tag %d id %d fid %d mode %d"
-> -v9fs_open_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-> +v9fs_open_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
->  v9fs_lcreate(uint16_t tag, uint8_t id, int32_t dfid, int32_t flags, int32_t mode, uint32_t gid) "tag %d id %d dfid %d flags %d mode %d gid %u"
-> -v9fs_lcreate_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int32_t iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-> +v9fs_lcreate_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int32_t iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
->  v9fs_fsync(uint16_t tag, uint8_t id, int32_t fid, int datasync) "tag %d id %d fid %d datasync %d"
->  v9fs_clunk(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
->  v9fs_read(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t max_count) "tag %d id %d fid %d off %"PRIu64" max_count %u"
-> @@ -26,21 +26,21 @@ v9fs_readdir_return(uint16_t tag, uint8_t id, uint32_t count, ssize_t retval) "t
->  v9fs_write(uint16_t tag, uint8_t id, int32_t fid, uint64_t off, uint32_t count, int cnt) "tag %d id %d fid %d off %"PRIu64" count %u cnt %d"
->  v9fs_write_return(uint16_t tag, uint8_t id, int32_t total, ssize_t err) "tag %d id %d total %d err %zd"
->  v9fs_create(uint16_t tag, uint8_t id, int32_t fid, char* name, int32_t perm, int8_t mode) "tag %d id %d fid %d name %s perm %d mode %d"
-> -v9fs_create_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
-> +v9fs_create_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int iounit) "tag %d id %d qid={type %d version %d path %"PRId64"} iounit %d"
->  v9fs_symlink(uint16_t tag, uint8_t id, int32_t fid,  char* name, char* symname, uint32_t gid) "tag %d id %d fid %d name %s symname %s gid %u"
-> -v9fs_symlink_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
-> +v9fs_symlink_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
->  v9fs_flush(uint16_t tag, uint8_t id, int16_t flush_tag) "tag %d id %d flush_tag %d"
->  v9fs_link(uint16_t tag, uint8_t id, int32_t dfid, int32_t oldfid, char* name) "tag %d id %d dfid %d oldfid %d name %s"
->  v9fs_remove(uint16_t tag, uint8_t id, int32_t fid) "tag %d id %d fid %d"
->  v9fs_wstat(uint16_t tag, uint8_t id, int32_t fid, int32_t mode, int32_t atime, int32_t mtime) "tag %u id %u fid %d stat={mode %d atime %d mtime %d}"
->  v9fs_mknod(uint16_t tag, uint8_t id, int32_t fid, int mode, int major, int minor) "tag %d id %d fid %d mode %d major %d minor %d"
-> -v9fs_mknod_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
-> +v9fs_mknod_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path) "tag %d id %d qid={type %d version %d path %"PRId64"}"
->  v9fs_lock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length) "tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
->  v9fs_lock_return(uint16_t tag, uint8_t id, int8_t status) "tag %d id %d status %d"
->  v9fs_getlock(uint16_t tag, uint8_t id, int32_t fid, uint8_t type, uint64_t start, uint64_t length)"tag %d id %d fid %d type %d start %"PRIu64" length %"PRIu64
->  v9fs_getlock_return(uint16_t tag, uint8_t id, uint8_t type, uint64_t start, uint64_t length, uint32_t proc_id) "tag %d id %d type %d start %"PRIu64" length %"PRIu64" proc_id %u"
->  v9fs_mkdir(uint16_t tag, uint8_t id, int32_t fid, char* name, int mode, uint32_t gid) "tag %u id %u fid %d name %s mode %d gid %u"
-> -v9fs_mkdir_return(uint16_t tag, uint8_t id, int8_t type, int32_t version, int64_t path, int err) "tag %u id %u qid={type %d version %d path %"PRId64"} err %d"
-> +v9fs_mkdir_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t version, uint64_t path, int err) "tag %u id %u qid={type %d version %d path %"PRId64"} err %d"
->  v9fs_xattrwalk(uint16_t tag, uint8_t id, int32_t fid, int32_t newfid, char* name) "tag %d id %d fid %d newfid %d name %s"
->  v9fs_xattrwalk_return(uint16_t tag, uint8_t id, int64_t size) "tag %d id %d size %"PRId64
->  v9fs_xattrcreate(uint16_t tag, uint8_t id, int32_t fid, char* name, uint64_t size, int flags) "tag %d id %d fid %d name %s size %"PRIu64" flags %d"
+The function that should be modified instead is sve_zcr_len_for_el().
 
+
+r~
 
