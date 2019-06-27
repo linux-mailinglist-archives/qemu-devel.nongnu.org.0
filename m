@@ -2,63 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9144058466
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 16:23:15 +0200 (CEST)
-Received: from localhost ([::1]:51180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F396C57C95
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 08:58:10 +0200 (CEST)
+Received: from localhost ([::1]:46960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgVIw-0007Ds-Qk
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 10:23:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33390)
+	id 1hgOMA-0003jJ-RO
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 02:58:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47553)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <devanshu@tru.agency>) id 1hgNCZ-00015I-57
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 01:44:08 -0400
+ (envelope-from <eric.auger@redhat.com>) id 1hgOKm-000348-2T
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 02:56:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <devanshu@tru.agency>) id 1hgNCX-0002H2-QJ
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 01:44:07 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:43774)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <devanshu@tru.agency>) id 1hgNCX-0002Eb-AM
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 01:44:05 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id 5so852692ybj.10
- for <qemu-devel@nongnu.org>; Wed, 26 Jun 2019 22:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=tru-agency.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to;
- bh=FH8L9XugYTc1dXWOZy32m4CJp3s4dBPLd2vBbpVcljQ=;
- b=AyBlyC6UVpDN4gEyMaFakYW6zFgdW+HTbGe7Xr204HcXVPJGGc+co06tNtpTBnEpJI
- Ac/8qS91Vnos8MilaFn5ulDNurR0GcJcq7jdDG8vUSlmgSn6PTAzEtw7iAFuu2SKXZr8
- ODF+Gpvm8XxEFW7DV6PhXVVcaX+JpfqjOLppW/D2Bn6/zFkmVW9EvsivZjZ31SEEr/Oq
- Vekaeicju98R24710grT/u4M5leUiLz2b7HwXy+W0lwWHPRCsWzy6w0JmAJplHyZLLRR
- JBvJ8OI77xAQH/ZTm8zpOfyrsQ8ZhjsAe68Sq8yhBsXGcGkS0vnczXhr1oYb0Nbv4vwc
- aA1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=FH8L9XugYTc1dXWOZy32m4CJp3s4dBPLd2vBbpVcljQ=;
- b=SvIkoHGDXfht1XIU0r37Z1wsnY3L+xDhvBqmtwCsvo6ufnyo/3Pww4r00RTxD0pKtm
- fY5zJlEPzI5Y9WJczGEL6h+SJrwuSLtGWOD0fJRfD3kq7RtQLRDD7mXGBG+w7c0WhL6s
- 98tOc4KF9N/lbJR140BjbCdRv0GLQhxIrhYZCT0LDC13pwlM8/KDY8QNQHveH+mc5lLP
- e5W5+TRYZa2kB9wJqn1F9jc3jVmICT0Ml3McubRPiNdwmX1V15R+uxAyyIPYWTW0yUFl
- DZ+Xh9289pSNjsqMjkENulR6/BO+uSkbx7Y2AqDQmFzN6aWo0Zb32MqZWf71V63JokYL
- PcjA==
-X-Gm-Message-State: APjAAAXjXtBtKeP78NBW417HeG/IsQrZ+QpX3Kn3KJVykASPlvi7hRzM
- Rs5D/qPoStaFPpDSCy+yHwMtoMPnXZYsvMJc4NwsiA8Btpm1
-X-Google-Smtp-Source: APXvYqyyztz3Zh8xIa/aUBEcYf0alFgHVgJpzTE7+O1tVm+ozZXNzESP4L1O8SKLRsfUKuh3sGtbIMkJ9Md9MdfthdQ=
-X-Received: by 2002:a25:804e:: with SMTP id a14mr1451106ybn.465.1561614243049; 
- Wed, 26 Jun 2019 22:44:03 -0700 (PDT)
+ (envelope-from <eric.auger@redhat.com>) id 1hgOKk-0004wK-Qk
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 02:56:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54212)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
+ id 1hgOKf-0004qw-OO; Thu, 27 Jun 2019 02:56:34 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9089130C1AFC;
+ Thu, 27 Jun 2019 06:56:31 +0000 (UTC)
+Received: from [10.36.116.89] (ovpn-116-89.ams2.redhat.com [10.36.116.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4A5A85D9C6;
+ Thu, 27 Jun 2019 06:56:23 +0000 (UTC)
+To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-11-drjones@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <0f1dfdc8-b786-d76e-1e5b-adf39a760ddb@redhat.com>
+Date: Thu, 27 Jun 2019 08:56:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-From: Devanshu Goyal <devanshu@tru.agency>
-Date: Thu, 27 Jun 2019 11:13:52 +0530
-Message-ID: <CAGz47Su_8mykUWaoxA34AD0Y8v_PgWE9wA5EQB+V25EgW9gH_w@mail.gmail.com>
-To: qemu-devel@nongnu.org
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::b36
-X-Mailman-Approved-At: Thu, 27 Jun 2019 10:13:37 -0400
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: [Qemu-devel] Nothing to Boot Error
+In-Reply-To: <20190621163422.6127-11-drjones@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.40]); Thu, 27 Jun 2019 06:56:32 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 10/14] target/arm/kvm64: Add
+ kvm_arch_get/put_sve
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,22 +61,214 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, armbru@redhat.com,
+ imammedo@redhat.com, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All,
+Hi,
 
-I am trying to install macOS HighSierra using qemu-system-x86_64 . I am
-stuck at IPXE Error that says : *Nothing to boot: No such file or directory
-(http://ipxe.org/2d03e13b <http://ipxe.org/2d03e13b>)*
+On 6/21/19 6:34 PM, Andrew Jones wrote:
+> These are the SVE equivalents to kvm_arch_get/put_fpsimd. Note, the
+> swabbing is different than it is for fpsmid because the vector format
+> is a little-endian stream of words.
 
-*Host System : macOS Mojave*
-*Command : **qemu-system-x86_64 -boot d -cdrom
-/Users/devanshu/Desktop/macOSsierra.iso -m 4096M -hda
-/Users/devanshu/Documents/qemu/Qemu-4.0-OSX-24-04-2019/apple.img*
+some cosmetic changes besides Richard's comments
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  target/arm/kvm64.c | 135 +++++++++++++++++++++++++++++++++++++++++++--
+>  1 file changed, 131 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+> index a2485d447e6a..706541327491 100644
+> --- a/target/arm/kvm64.c
+> +++ b/target/arm/kvm64.c
+> @@ -673,11 +673,12 @@ int kvm_arch_destroy_vcpu(CPUState *cs)
+>  bool kvm_arm_reg_syncs_via_cpreg_list(uint64_t regidx)
+>  {
+>      /* Return true if the regidx is a register we should synchronize
+> -     * via the cpreg_tuples array (ie is not a core reg we sync by
+> -     * hand in kvm_arch_get/put_registers())
+> +     * via the cpreg_tuples array (ie is not a core or sve reg that
+> +     * we sync by hand in kvm_arch_get/put_registers())
+>       */
+>      switch (regidx & KVM_REG_ARM_COPROC_MASK) {
+>      case KVM_REG_ARM_CORE:
+> +    case KVM_REG_ARM64_SVE:
+>          return false;
+>      default:
+>          return true;
+> @@ -763,6 +764,70 @@ static int kvm_arch_put_fpsimd(CPUState *cs)
+>      return 0;
+>  }
+>  
+> +/*
+> + * If ARM_MAX_VQ is increased to be greater than 16, then we can no
+> + * longer hard code slices to 1 in kvm_arch_put/get_sve().
+> + */
+> +QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
+if the code is ready to support slices, I guess you could have a define
+and compute the slice number from ARM_MAX_VQ?
+> +
+> +static int kvm_arch_put_sve(CPUState *cs)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +    CPUARMState *env = &cpu->env;
+> +    struct kvm_one_reg reg;
+> +    int slices = 1;
+> +    int i, n, ret;
+> +
+> +    for (i = 0; i < slices; i++) {
+> +        for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
+> +            uint64_t *q = aa64_vfp_qreg(env, n);
+> +#ifdef HOST_WORDS_BIGENDIAN
+> +            uint64_t d[ARM_MAX_VQ * 2];
+> +            int j;
+line to be added
+> +            for (j = 0; j < cpu->sve_max_vq * 2; j++) {
+> +                d[j] = bswap64(q[j]);
+> +            }
+> +            reg.addr = (uintptr_t)d;
+> +#else
+> +            reg.addr = (uintptr_t)q;
+> +#endif
+> +            reg.id = KVM_REG_ARM64_SVE_ZREG(n, i);
+> +            ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> +            if (ret) {
+> +                return ret;
+> +            }
+> +        }
+> +
+> +        for (n = 0; n < KVM_ARM64_SVE_NUM_PREGS; n++) {
+> +            uint64_t *q = &env->vfp.pregs[n].p[0];
+> +#ifdef HOST_WORDS_BIGENDIAN
+> +            uint64_t d[ARM_MAX_VQ * 2 / 8];
+> +            int j;
+line
+> +            for (j = 0; j < cpu->sve_max_vq * 2 / 8; j++) {
+> +                d[j] = bswap64(q[j]);
+> +            }
+> +            reg.addr = (uintptr_t)d;
+> +#else
+> +            reg.addr = (uintptr_t)q;
+> +#endif
+> +            reg.id = KVM_REG_ARM64_SVE_PREG(n, i);
+> +            ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> +            if (ret) {
+> +                return ret;
+> +            }
+> +        }
+> +
+> +        reg.addr = (uintptr_t)&env->vfp.pregs[FFR_PRED_NUM].p[0];
+> +        reg.id = KVM_REG_ARM64_SVE_FFR(i);
+> +        ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  int kvm_arch_put_registers(CPUState *cs, int level)
+>  {
+>      struct kvm_one_reg reg;
+> @@ -857,7 +922,11 @@ int kvm_arch_put_registers(CPUState *cs, int level)
+>          }
+>      }
+>  
+> -    ret = kvm_arch_put_fpsimd(cs);
+> +    if (!cpu->sve_max_vq) {
+> +        ret = kvm_arch_put_fpsimd(cs);
+> +    } else {
+> +        ret = kvm_arch_put_sve(cs);
+> +    }
+>      if (ret) {
+>          return ret;
+>      }
+> @@ -920,6 +989,60 @@ static int kvm_arch_get_fpsimd(CPUState *cs)
+>      return 0;
+>  }
+>  
+> +static int kvm_arch_get_sve(CPUState *cs)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(cs);
+> +    CPUARMState *env = &cpu->env;
+> +    struct kvm_one_reg reg;
+> +    int slices = 1;
+> +    int i, n, ret;
+> +
+> +    for (i = 0; i < slices; i++) {
+> +        for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
+> +            uint64_t *q = aa64_vfp_qreg(env, n);
+extra line needed
+> +            reg.id = KVM_REG_ARM64_SVE_ZREG(n, i);
+> +            reg.addr = (uintptr_t)q;
+> +            ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+> +            if (ret) {
+> +                return ret;
+> +            } else {> +#ifdef HOST_WORDS_BIGENDIAN
+> +                int j;
+line
+> +                for (j = 0; j < cpu->sve_max_vq * 2; j++) {
+> +                    q[j] = bswap64(q[j]);
+> +                }
+> +#endif
+> +            }
+> +        }
+> +
+> +        for (n = 0; n < KVM_ARM64_SVE_NUM_PREGS; n++) {
+> +            uint64_t *q = &env->vfp.pregs[n].p[0];
+extra line needed
+> +            reg.id = KVM_REG_ARM64_SVE_PREG(n, i);
+> +            reg.addr = (uintptr_t)q;
+> +            ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+> +            if (ret) {
+> +                return ret;
+> +            } else {> +#ifdef HOST_WORDS_BIGENDIAN
+> +                int j;
+line
+> +                for (j = 0; j < cpu->sve_max_vq * 2 / 8; j++) {
+> +                    q[j] = bswap64(q[j]);
+> +                }
+> +#endif
+> +            }
+> +        }
+> +
+> +        reg.addr = (uintptr_t)&env->vfp.pregs[FFR_PRED_NUM].p[0];
+> +        reg.id = KVM_REG_ARM64_SVE_FFR(i);
+> +        ret = kvm_vcpu_ioctl(cs, KVM_GET_ONE_REG, &reg);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  int kvm_arch_get_registers(CPUState *cs)
+>  {
+>      struct kvm_one_reg reg;
+> @@ -1014,7 +1137,11 @@ int kvm_arch_get_registers(CPUState *cs)
+>          env->spsr = env->banked_spsr[i];
+>      }
+>  
+> -    ret = kvm_arch_get_fpsimd(cs);
+> +    if (!cpu->sve_max_vq) {
+> +        ret = kvm_arch_get_fpsimd(cs);
+> +    } else {
+> +        ret = kvm_arch_get_sve(cs);
+> +    }
+>      if (ret) {
+>          return ret;
+>      }
+> 
 
-*Looking forward to hearing from you*
 
--- 
-Regards,
-*Devanshu Goyal*
+Thanks
+
+Eric
+
+
+
