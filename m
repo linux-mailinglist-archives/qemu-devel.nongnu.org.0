@@ -2,44 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741425810F
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:00:46 +0200 (CEST)
-Received: from localhost ([::1]:48598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42CC5817B
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 13:26:45 +0200 (CEST)
+Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgS8z-0004o3-Ln
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:00:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55842)
+	id 1hgSY9-0003qo-0l
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 07:26:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56167)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5x-0001yu-H4
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:58:00 -0400
+ (envelope-from <Dave.Martin@arm.com>) id 1hgS8R-0005eE-II
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:00:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefan.brankovic@rt-rk.com>) id 1hgS5v-0001hq-MX
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:37 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:36521 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefan.brankovic@rt-rk.com>)
- id 1hgS5v-0001gG-Cv
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:57:35 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 64EC01A4567;
- Thu, 27 Jun 2019 12:56:30 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw870-lin.domain.local (rtrkw870-lin.domain.local
- [10.10.13.132])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 28FBB1A45A9;
- Thu, 27 Jun 2019 12:56:30 +0200 (CEST)
-From: Stefan Brankovic <stefan.brankovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 12:56:25 +0200
-Message-Id: <1561632985-24866-14-git-send-email-stefan.brankovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561632985-24866-1-git-send-email-stefan.brankovic@rt-rk.com>
-References: <1561632985-24866-1-git-send-email-stefan.brankovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v4 13/13] target/ppc: convert vmrgl
- instructions to vector operations
+ (envelope-from <Dave.Martin@arm.com>) id 1hgS86-0003Pl-Pc
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 07:00:11 -0400
+Received: from foss.arm.com ([217.140.110.172]:50278)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <Dave.Martin@arm.com>)
+ id 1hgS7Z-000303-J3; Thu, 27 Jun 2019 06:59:17 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2722D2B;
+ Thu, 27 Jun 2019 03:59:15 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C6BF93F718;
+ Thu, 27 Jun 2019 03:59:13 -0700 (PDT)
+Date: Thu, 27 Jun 2019 11:59:11 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190627105911.GD2790@e103592.cambridge.arm.com>
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-11-drjones@redhat.com>
+ <1e0bc93f-42e3-087f-a4b5-d356879cb806@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1e0bc93f-42e3-087f-a4b5-d356879cb806@linaro.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.140.110.172
+Subject: Re: [Qemu-devel] [PATCH v2 10/14] target/arm/kvm64: Add
+ kvm_arch_get/put_sve
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,70 +54,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefan.brankovic@rt-rk.com, hsp.cat7@gmail.com,
- richard.henderson@linaro.org, david@gibson.dropbear.id.au
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ Andrew Jones <drjones@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Stefan Brankovic <stefan.brankovic@rt-rk.com>
----
- target/ppc/helper.h                 | 3 ---
- target/ppc/int_helper.c             | 9 ---------
- target/ppc/translate/vmx-impl.inc.c | 6 +++---
- 3 files changed, 3 insertions(+), 15 deletions(-)
+On Wed, Jun 26, 2019 at 04:22:34PM +0100, Richard Henderson wrote:
+> On 6/21/19 6:34 PM, Andrew Jones wrote:
+> > +/*
+> > + * If ARM_MAX_VQ is increased to be greater than 16, then we can no
+> > + * longer hard code slices to 1 in kvm_arch_put/get_sve().
+> > + */
+> > +QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
+> 
+> This seems easy to fix, or simply drop the slices entirely for now, as
+> otherwise they are a teeny bit confusing.
+> 
+> It's a shame that these slices exist at all.  It seems like the kernel could
+> use the negotiated max sve size to grab the data all at once.
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 9a7721f..0f10657 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -161,9 +161,6 @@ DEF_HELPER_4(vcmpeqfp_dot, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpgefp_dot, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpgtfp_dot, void, env, avr, avr, avr)
- DEF_HELPER_4(vcmpbfp_dot, void, env, avr, avr, avr)
--DEF_HELPER_3(vmrglb, void, avr, avr, avr)
--DEF_HELPER_3(vmrglh, void, avr, avr, avr)
--DEF_HELPER_3(vmrglw, void, avr, avr, avr)
- DEF_HELPER_3(vmulesb, void, avr, avr, avr)
- DEF_HELPER_3(vmulesh, void, avr, avr, avr)
- DEF_HELPER_3(vmulesw, void, avr, avr, avr)
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index 00e6e02..4b6e074 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -946,15 +946,6 @@ void helper_vmladduhm(ppc_avr_t *r, ppc_avr_t *a, ppc_avr_t *b, ppc_avr_t *c)
-         *r = result;                                                         \
-     }
- 
--#define VMRG(suffix, element, access)          \
--    VMRG_DO(mrgl##suffix, element, access, half)   \
--
--VMRG(b, u8, VsrB)
--VMRG(h, u16, VsrH)
--VMRG(w, u32, VsrW)
--#undef VMRG_DO
--#undef VMRG
--
- void helper_vmsummbm(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *a,
-                      ppc_avr_t *b, ppc_avr_t *c)
- {
-diff --git a/target/ppc/translate/vmx-impl.inc.c b/target/ppc/translate/vmx-impl.inc.c
-index e02390f..12f41af 100644
---- a/target/ppc/translate/vmx-impl.inc.c
-+++ b/target/ppc/translate/vmx-impl.inc.c
-@@ -449,9 +449,9 @@ GEN_VXFORM(vavgsw, 1, 22);
- GEN_VXFORM_V(vmrghb, MO_8, tcg_gen_gvec_vmrgh, 6, 0);
- GEN_VXFORM_V(vmrghh, MO_16, tcg_gen_gvec_vmrgh, 6, 1);
- GEN_VXFORM_V(vmrghw, MO_32, tcg_gen_gvec_vmrgh, 6, 2);
--GEN_VXFORM(vmrglb, 6, 4);
--GEN_VXFORM(vmrglh, 6, 5);
--GEN_VXFORM(vmrglw, 6, 6);
-+GEN_VXFORM_V(vmrglb, MO_8, tcg_gen_gvec_vmrgl, 6, 4);
-+GEN_VXFORM_V(vmrglh, MO_16, tcg_gen_gvec_vmrgl, 6, 5);
-+GEN_VXFORM_V(vmrglw, MO_32, tcg_gen_gvec_vmrgl, 6, 6);
- 
- static void trans_vmrgew(DisasContext *ctx)
- {
--- 
-2.7.4
+The aim here was to be forwards compatible while fitting within the
+existing ABI.
 
+The ABI doesn't allow variable-sized registers, and if the vq can
+someday grow above 16 then the individual registers could become pretty
+big.
+
+Inside the kernel, we took the view that if that ever happens, it's
+sufficiently far out that we can skip implementing the support today,
+providing that the ABI can accommodate the change.
+
+For qemu, if you don't actually care what's in the regs, you could just
+enumerate then using KVM_GET_REG_LIST instead of manufacturing the IDs
+by hand.  That way, you don't have to care what slices exist.  For
+save/restore/migrate purposes, the regs are just data, so that's
+probably enough.
+
+Debug, and exchanging vector registers between the guest and, say, and
+SMC trapped to userspace, would still need to examine specific regs.
+I don't know what QEMU does in this area though.
+
+> > +        for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
+> > +            uint64_t *q = aa64_vfp_qreg(env, n);
+> > +#ifdef HOST_WORDS_BIGENDIAN
+> > +            uint64_t d[ARM_MAX_VQ * 2];
+> > +            int j;
+> > +            for (j = 0; j < cpu->sve_max_vq * 2; j++) {
+> > +                d[j] = bswap64(q[j]);
+> > +            }
+> > +            reg.addr = (uintptr_t)d;
+> > +#else
+> > +            reg.addr = (uintptr_t)q;
+> > +#endif
+> > +            reg.id = KVM_REG_ARM64_SVE_ZREG(n, i);
+> > +            ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+> 
+> It might be worth splitting this...
+> 
+> > +        for (n = 0; n < KVM_ARM64_SVE_NUM_PREGS; n++) {
+> > +            uint64_t *q = &env->vfp.pregs[n].p[0];
+> > +#ifdef HOST_WORDS_BIGENDIAN
+> > +            uint64_t d[ARM_MAX_VQ * 2 / 8];
+> > +            int j;
+> > +            for (j = 0; j < cpu->sve_max_vq * 2 / 8; j++) {
+> > +                d[j] = bswap64(q[j]);
+> > +            }
+> > +            reg.addr = (uintptr_t)d;
+> > +#else
+> > +            reg.addr = (uintptr_t)q;
+> > +#endif
+> > +            reg.id = KVM_REG_ARM64_SVE_PREG(n, i);
+> > +            ret = kvm_vcpu_ioctl(cs, KVM_SET_ONE_REG, &reg);
+
+It's for QEMU to choose, but does it actually matter what byteorder you
+store a Z-reg or P-reg in?  Maybe the byteswap isn't really needed.
+
+I don't know how this works when migrating from a little-endian to a
+big-endian host or vice-versa (or if that is even supported...)
+
+[...]
+
+Cheers
+---Dave
 
