@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F3958D37
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 23:37:17 +0200 (CEST)
-Received: from localhost ([::1]:54848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB43658D1F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 23:33:34 +0200 (CEST)
+Received: from localhost ([::1]:54820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgc4z-0001ay-3A
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 17:37:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60021)
+	id 1hgc1N-0006l7-Pi
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 17:33:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59979)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hgbwl-00058X-7T
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 17:28:48 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hgbwf-0004ve-T9
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 17:28:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hgbwk-0007nV-2x
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 17:28:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47894)
+ (envelope-from <jsnow@redhat.com>) id 1hgbwe-0007fD-RC
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 17:28:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55390)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hgbwh-0007kb-Dd; Thu, 27 Jun 2019 17:28:43 -0400
+ id 1hgbwc-0007ZW-B5; Thu, 27 Jun 2019 17:28:38 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5D2603082A8F;
- Thu, 27 Jun 2019 21:28:28 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8879C81F1B;
+ Thu, 27 Jun 2019 21:28:29 +0000 (UTC)
 Received: from probe.bos.redhat.com (dhcp-17-47.bos.redhat.com [10.18.17.47])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 558DE5D9E2;
- Thu, 27 Jun 2019 21:28:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7F96E5D978;
+ Thu, 27 Jun 2019 21:28:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 17:28:15 -0400
-Message-Id: <20190627212816.27298-3-jsnow@redhat.com>
+Date: Thu, 27 Jun 2019 17:28:16 -0400
+Message-Id: <20190627212816.27298-4-jsnow@redhat.com>
 In-Reply-To: <20190627212816.27298-1-jsnow@redhat.com>
 References: <20190627212816.27298-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Thu, 27 Jun 2019 21:28:37 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Thu, 27 Jun 2019 21:28:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [RFC PATCH v2 2/3] machine.py: minor delinting
+Subject: [Qemu-devel] [RFC PATCH v2 3/3] QEMUMachine: Don't suppress stack
+ traces on close
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,116 +64,83 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we're out in a new module, do a quick cursory pass of some of the
-more obvious style issues.
+We do need to run cleanup, but we should re-raise the error.
+
+Rename _post_shutdown to _shutdown_cleanup, then use the
+_post_shutdown name for the routine that will always run
+at the conclusion of the shutdown() method.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/machine.py | 33 ++++++++++++++++++++++-----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ python/qemu/machine.py | 41 +++++++++++++++++++++++------------------
+ 1 file changed, 23 insertions(+), 18 deletions(-)
 
 diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index a8a311b035..49445e675b 100644
+index 49445e675b..b36f0c3ef9 100644
 --- a/python/qemu/machine.py
 +++ b/python/qemu/machine.py
-@@ -1,5 +1,10 @@
--# QEMU library
--#
-+"""
-+QEMU machine module:
-+
-+The machine module primarily provides the QEMUMachine class,
-+which provides facilities for managing the lifetime of a QEMU VM.
-+"""
-+
- # Copyright (C) 2015-2016 Red Hat Inc.
- # Copyright (C) 2012 IBM Corp.
- #
-@@ -16,7 +21,6 @@ import errno
- import logging
- import os
- import subprocess
--import re
- import shutil
- import socket
- import tempfile
-@@ -119,8 +123,10 @@ class QEMUMachine(object):
-         self.shutdown()
-         return False
+@@ -264,7 +264,8 @@ class QEMUMachine(object):
+     def _post_launch(self):
+         self._qmp.accept()
 =20
--    # This can be used to add an unused monitor instance.
-     def add_monitor_null(self):
-+        """
-+        This can be used to add an unused monitor instance.
-+        """
-         self._args.append('-monitor')
-         self._args.append('null')
-=20
-@@ -143,10 +149,13 @@ class QEMUMachine(object):
-         self._args.append(','.join(options))
-         return self
-=20
--    # Exactly one of fd and file_path must be given.
--    # (If it is file_path, the helper will open that file and pass its
--    # own fd)
-     def send_fd_scm(self, fd=3DNone, file_path=3DNone):
-+        """
-+        Send an fd or file_path to socket_scm_helper.
-+
-+        Exactly one of fd and file_path must be given.
-+        If it is file_path, the helper will open that file and pass its =
-own fd.
-+        """
-         # In iotest.py, the qmp should always use unix socket.
-         assert self._qmp.is_scm_available()
-         if self._socket_scm_helper is None:
-@@ -194,14 +203,17 @@ class QEMUMachine(object):
-             raise
-=20
-     def is_running(self):
-+        """Returns true if the VM is running."""
-         return self._popen is not None and self._popen.poll() is None
-=20
-     def exitcode(self):
-+        """Returns the exit code if possible, or None."""
-         if self._popen is None:
-             return None
-         return self._popen.poll()
-=20
-     def get_pid(self):
-+        """Returns the PID of the running process, or None."""
-         if not self.is_running():
-             return None
-         return self._popen.pid
-@@ -339,7 +351,7 @@ class QEMUMachine(object):
-                 command =3D ' '.join(self._qemu_full_args)
-             else:
-                 command =3D ''
--            LOG.warn(msg, -exitcode, command)
-+            LOG.warning(msg, -exitcode, command)
-=20
-         self._launched =3D False
-=20
-@@ -373,7 +385,7 @@ class QEMUMachine(object):
+-    def _post_shutdown(self):
++    def _shutdown_cleanup(self):
++        self._load_io_log()
+         if self._qemu_log_file is not None:
+             self._qemu_log_file.close()
+             self._qemu_log_file =3D None
+@@ -326,8 +327,20 @@ class QEMUMachine(object):
          """
-         Poll for one queued QMP events and return it
-         """
--        if len(self._events) > 0:
-+        if self._events:
-             return self._events.pop(0)
-         return self._qmp.pull_event(wait=3Dwait)
+         self._popen.wait()
+         self._qmp.close()
+-        self._load_io_log()
+-        self._post_shutdown()
++        self._shutdown_cleanup()
++
++    def _post_shutdown(self):
++        self._shutdown_cleanup()
++        exitcode =3D self.exitcode()
++        if exitcode is not None and exitcode < 0:
++            msg =3D 'qemu received signal %i: %s'
++            if self._qemu_full_args:
++                command =3D ' '.join(self._qemu_full_args)
++            else:
++                command =3D ''
++            LOG.warning(msg, -int(exitcode), command)
++
++        self._launched =3D False
 =20
-@@ -441,8 +453,7 @@ class QEMUMachine(object):
+     def shutdown(self):
          """
-         def _match(event):
-             for name, match in events:
--                if (event['event'] =3D=3D name and
--                    self.event_match(event, match)):
-+                if event['event'] =3D=3D name and self.event_match(event=
-, match):
-                     return True
-             return False
+@@ -339,21 +352,13 @@ class QEMUMachine(object):
+                 self._qmp.close()
+             except:
+                 self._popen.kill()
+-            self._popen.wait()
+-
+-        self._load_io_log()
+-        self._post_shutdown()
+-
+-        exitcode =3D self.exitcode()
+-        if exitcode is not None and exitcode < 0:
+-            msg =3D 'qemu received signal %i: %s'
+-            if self._qemu_full_args:
+-                command =3D ' '.join(self._qemu_full_args)
+-            else:
+-                command =3D ''
+-            LOG.warning(msg, -exitcode, command)
+-
+-        self._launched =3D False
++                # Don't hide exceptions from crashes
++                raise
++            finally:
++                self._popen.wait()
++                self._post_shutdown()
++        else:
++            self._post_shutdown()
 =20
+     def qmp(self, cmd, conv_keys=3DTrue, **args):
+         """
 --=20
 2.21.0
 
