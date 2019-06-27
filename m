@@ -2,45 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5C458559
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:15:14 +0200 (CEST)
-Received: from localhost ([::1]:51630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA435856F
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:21:09 +0200 (CEST)
+Received: from localhost ([::1]:51660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgW7F-0002yn-LS
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:15:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58248)
+	id 1hgWCy-0006is-Ky
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:21:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59005)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgW5I-0001hB-Lj
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:13:13 -0400
+ (envelope-from <Dave.Martin@arm.com>) id 1hgW8w-0004uP-6c
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:17:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgW5H-0003nP-H2
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:13:12 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:46752 helo=mail.rt-rk.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hgW5H-0003ls-9q
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:13:11 -0400
-Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 3EACE1A204D;
- Thu, 27 Jun 2019 17:12:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
- [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 179641A1D85;
- Thu, 27 Jun 2019 17:12:01 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org,
-	laurent@vivier.eu
-Date: Thu, 27 Jun 2019 17:11:38 +0200
-Message-Id: <1561648298-18100-6-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561648298-18100-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1561648298-18100-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v13 5/5] linux-user: Handle EXCP_FPE properly
- for MIPS
+ (envelope-from <Dave.Martin@arm.com>) id 1hgW8n-0006zq-QI
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:16:53 -0400
+Received: from foss.arm.com ([217.140.110.172]:55118)
+ by eggs.gnu.org with esmtp (Exim 4.71)
+ (envelope-from <Dave.Martin@arm.com>)
+ id 1hgW8X-0006f2-J5; Thu, 27 Jun 2019 11:16:34 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 953A6360;
+ Thu, 27 Jun 2019 08:16:31 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 586983F246;
+ Thu, 27 Jun 2019 08:16:30 -0700 (PDT)
+Date: Thu, 27 Jun 2019 16:16:28 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Andrew Jones <drjones@redhat.com>
+Message-ID: <20190627151628.GI2790@e103592.cambridge.arm.com>
+References: <20190621163422.6127-1-drjones@redhat.com>
+ <20190621163422.6127-8-drjones@redhat.com>
+ <ee8ce4a6-09fd-47ab-ef7e-a231df1e9c1b@redhat.com>
+ <20190627104638.x4gxsmv7vpww3mra@kamzik.brq.redhat.com>
+ <ae98bf94-6826-1f2b-2f2e-a11a3f75cb92@redhat.com>
+ <20190627114701.n7tjgmljeribk7to@kamzik.brq.redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190627114701.n7tjgmljeribk7to@kamzik.brq.redhat.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.140.110.172
+Subject: Re: [Qemu-devel] [PATCH v2 07/14] target/arm/cpu64: max cpu:
+ Introduce sve<vl-bits> properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,47 +57,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: amarkovic@wavecomp.com
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>, Auger Eric <eric.auger@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "imammedo@redhat.com" <imammedo@redhat.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+On Thu, Jun 27, 2019 at 12:47:01PM +0100, Andrew Jones wrote:
+> On Thu, Jun 27, 2019 at 01:00:27PM +0200, Auger Eric wrote:
+> > Hi,
+> > 
+> > On 6/27/19 12:46 PM, Andrew Jones wrote:
+> > > On Wed, Jun 26, 2019 at 06:56:54PM +0200, Auger Eric wrote:
+> > >>> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> > >>> index f500ccb6d31b..b7b719dba57f 100644
+> > >>> --- a/target/arm/helper.c
+> > >>> +++ b/target/arm/helper.c
+> > >>> @@ -5324,7 +5324,16 @@ static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> > >>>  
+> > >>>      /* Bits other than [3:0] are RAZ/WI.  */
+> > >>>      QEMU_BUILD_BUG_ON(ARM_MAX_VQ > 16);
+> > >>> -    raw_write(env, ri, value & 0xf);
+> > >>> +    value &= 0xf;
+> > >>> +
+> > >>> +    if (value) {
+> > >>> +        /* get next vq that is smaller than or equal to value's vq */
+> > >>> +        uint32_t vq = value + 1;
+> > >>> +        vq = arm_cpu_vq_map_next_smaller(cpu, vq + 1);
+> > >>> +        value = vq - 1;
+> > >> spec says:
+> > >>
+> > >> "if an unsupported vector length is requested in ZCR_ELx, the
+> > >> implementation is required to select the largest
+> > >> supported vector length that is less than the requested length. This
+> > >> does not alter the value of ZCR_ELx.LEN.
+> > >> "
+> > >>
+> > >> So I understand the value written in the reg should not be unmodified.
+> > >>
+> > > 
+> > > Sorry, I can't parse what you're trying to tell me here. Here we have
+> > > to write 'value', because that's what the guest is trying to do. As the
+> > > spec says in your quote, we have to pick the length the guest wants, or
+> > > the next smaller valid one, so that's what the code above does. So are
+> > > you just stating that you agree with this hunk of the code?
+> > What we are writing into the reg is arm_cpu_vq_map_next_smaller(cpu, vq
+> > + 1) -1. Maybe I misunderstand the whole wording but I would have
+> > expected the original unmodified value to be written in the reg instead?
+> 
+> Hmm... So maybe we need more changes to the emulation in order for it to
+> have an acting value and a register value? Maybe Richard knows what we
+> should do here.
 
-Handle EXCP_FPE properly for MIPS in cpu loop.
+The "effective" value of an individual ZCR_ELx.LEN field is a bit
+nonsensical: the effective vector length comes from the minimum
+LEN value at any relevant EL (depending on which ELs are implemented,
+which security state you're in, VHE controls etc.).
 
-Note that a vast majority of FP instructions are not affected by
-the absence of the code in this patch, as they use alternative code
-paths for handling floating point exceptions (see, for example,
-invocations of update_fcr31()) - thay rely on softfloat library for
-keeping track on exceptions that needs to be raised. However, there
-are few MIPS FP instructions (an example is CTC1) that use function
-do_raise_exception() directly, and they need the case that is added
-in this patch to propagate the FPE exception as designed.
+This is tedious to compute, so I'd expect you want to cache it,
+recomputing it only when a ZCR_ELx.LEN changes or when you switch to a
+different EL.
 
-Reported-by: Yunqiang Su <ysu@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/mips/cpu_loop.c | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 43ba267..7d3c6b9 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -540,6 +540,12 @@ done_syscall:
-             info.si_code = TARGET_ILL_ILLOPC;
-             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-             break;
-+        case EXCP_FPE:
-+            info.si_signo = TARGET_SIGFPE;
-+            info.si_errno = 0;
-+            info.si_code = 0;
-+            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            break;
-         /* The code below was inspired by the MIPS Linux kernel trap
-          * handling code in arch/mips/kernel/traps.c.
-          */
--- 
-2.7.4
+The architecture says:
 
+"For all purposes other than returning the result of a direct read of
+ZCR_EL1 then this field behaves as if it is set to the minimum of the
+stored value and the constrained length inherited from more privileged
+Exception levels in the current Security state, rounded down to the
+nearest implemented vector length."
+
+I think the behaviour of a direct read is implied: the LEN bits yielded
+by an MRS should contain exactly what was last written to them via MSR.
+
+Cheers
+---Dave
 
