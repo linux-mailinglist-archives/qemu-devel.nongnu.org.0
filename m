@@ -2,78 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0413A58077
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 12:34:04 +0200 (CEST)
-Received: from localhost ([::1]:48406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E7E58084
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 12:37:47 +0200 (CEST)
+Received: from localhost ([::1]:48440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgRj9-00062x-4f
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 06:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50025)
+	id 1hgRml-0000xC-23
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 06:37:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50569)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hgRfo-000505-Vj
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:30:38 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hgRie-0006Fh-8y
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:33:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hgRfk-0006s7-46
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:30:34 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:53889)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hgRff-0006c1-2n
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:30:28 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x15so5195080wmj.3
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 03:30:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M52qTtcy0BAzLRs2pwfUlFO9XOoPcOXtomcXyBni8vY=;
- b=XYvz23GOj0/54qofjSFw1iROxrWIeE9mYllptZae686sycue4rryqnMGoltmqIPuGD
- P9fEgr7FyJlVhsd3K2lVim2y/ZZMWjZmqb0AKAwVKnS7Tn34bUAy9TmV5A2QRl0r6wnu
- CG+Q8c+hValcLhbzb1TCnZX5zGdPrZB7tEpylA62K0H+SWtH/0onayXF6msOzdA2MMvQ
- 4G41m0owEZNmzjq41Ckb5D1fos16INBiQN9YyY9dTNmJkg1FgYjAMLt4aIHFRIfnBIwD
- C3w+LPzhONamqgbmqhMVosjm9ZZixlTkT9SBIiK5PBBbznoRp8nfd+KwNu2C+XyeLs4w
- zKTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=M52qTtcy0BAzLRs2pwfUlFO9XOoPcOXtomcXyBni8vY=;
- b=XkW8SHWQdhWbc0LQZVOOYULRGtvpoYS/IuuLwgmuQe1V8zNTVKRVpq6ZFcpiF9QRRZ
- Dh7N3fLBzFkGl1j4V0vpK97D262O5963TUAY4CT6oAUeXHRR5hp/68yuTglFeYQnA2Vn
- qgVez4U6nKn0Z1gnLO9tL2ywZCTTTYLQ+bbKBXxXpIo9PcTiOG2IdITVK4TbR4SkEhb6
- yoDGDFVtIwI23GEQna7BMfYiMYu+NksevyUOqHs8RxnrflHY6m081H965MzBoH+PBJqM
- R367B+hU5vh9RqaTSu+wG3Gp/5Gqe9fqUMcUokror0VX/zeYXYRzzV8EAmA46mdHfw/q
- WMxA==
-X-Gm-Message-State: APjAAAVXXUAd9HoyXaRe3B7+3JSTO+5/Y/jwMtq7752OOOY2VrV/yrxJ
- KtK4Sol8bOmkH5jyx7GZV7EQtQ==
-X-Google-Smtp-Source: APXvYqxVDrb/VRujKMMc0KRcPLUatNGj5JLfJ3/Q5ewro0pALOOXiMlkAXcdPh7mNVwqZrEytcSJQQ==
-X-Received: by 2002:a7b:c766:: with SMTP id x6mr2843948wmk.40.1561631417695;
- Thu, 27 Jun 2019 03:30:17 -0700 (PDT)
-Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id y6sm1944296wrp.12.2019.06.27.03.30.16
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 27 Jun 2019 03:30:17 -0700 (PDT)
-To: Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
-References: <20190619050447.22201-1-jan.bobek@gmail.com>
- <20190619050447.22201-6-jan.bobek@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <6a1ee504-b334-684b-9ba3-09fd95d45237@linaro.org>
-Date: Thu, 27 Jun 2019 12:30:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <dgilbert@redhat.com>) id 1hgRic-0000nz-7T
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:33:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33038)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hgRiY-0000il-0q
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 06:33:26 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6CA0DC057F4B;
+ Thu, 27 Jun 2019 10:33:15 +0000 (UTC)
+Received: from work-vm (ovpn-117-111.ams2.redhat.com [10.36.117.111])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 77ECF5D71B;
+ Thu, 27 Jun 2019 10:33:03 +0000 (UTC)
+Date: Thu, 27 Jun 2019 11:33:01 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190627103301.GD2751@work-vm>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-7-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190619050447.22201-6-jan.bobek@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [RISU RFC PATCH v1 5/7] risugen: allow all
- byte-aligned instructions
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561041461-22326-7-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Thu, 27 Jun 2019 10:33:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 06/13] vfio: Add migration state change
+ notifier
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,28 +58,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ yulei.zhang@intel.com, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, alex.williamson@redhat.com,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ yan.y.zhao@intel.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/19/19 7:04 AM, Jan Bobek wrote:
-> Accept all instructions whose bit length is divisible by 8. Note that
-> the maximum instruction length (as specified in the config file) is 32
-> bits, hence this change permits instructions which are 8 bits or 24
-> bits long (16-bit instructions have already been considered valid).
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> Added migration state change notifier to get notification on migration state
+> change. These states are translated to VFIO device state and conveyed to vendor
+> driver.
 > 
-> Note that while valid x86 instructions may be up to 15 bytes long, the
-> length constraint described above only applies to the main opcode
-> field, which is usually only 1 or 2 bytes long. Therefore, the primary
-> purpose of this change is to allow 1-byte x86 opcodes.
-> 
-> Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+
+Just a general thought; be careful when following migration states;
+For example 'device' and 'pre_switchover' - just be careful to think
+about all the different states and how you might get a 'failed'
+anywhere.
+
+Dave
 > ---
->  risugen | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+>  hw/vfio/migration.c           | 49 +++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/vfio/vfio-common.h |  1 +
+>  2 files changed, 50 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 15af218c23d1..7f9858e6c995 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -112,6 +112,48 @@ static void vfio_vmstate_change(void *opaque, int running, RunState state)
+>      vbasedev->vm_running = running;
+>  }
+>  
+> +static void vfio_migration_state_notifier(Notifier *notifier, void *data)
+> +{
+> +    MigrationState *s = data;
+> +    VFIODevice *vbasedev = container_of(notifier, VFIODevice, migration_state);
+> +    int ret;
+> +
+> +    switch (s->state) {
+> +    case MIGRATION_STATUS_ACTIVE:
+> +        if (vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING) {
+> +            if (vbasedev->vm_running) {
+> +                ret = vfio_migration_set_state(vbasedev,
+> +                          VFIO_DEVICE_STATE_RUNNING | VFIO_DEVICE_STATE_SAVING);
+> +                if (ret) {
+> +                    error_report("Failed to set state RUNNING and SAVING");
+> +                }
+> +            } else {
+> +                ret = vfio_migration_set_state(vbasedev,
+> +                                               VFIO_DEVICE_STATE_SAVING);
+> +                if (ret) {
+> +                    error_report("Failed to set state STOP and SAVING");
+> +                }
+> +            }
+> +        } else {
+> +            ret = vfio_migration_set_state(vbasedev,
+> +                                           VFIO_DEVICE_STATE_RESUMING);
+> +            if (ret) {
+> +                error_report("Failed to set state RESUMING");
+> +            }
+> +        }
+> +        return;
+> +
+> +    case MIGRATION_STATUS_CANCELLING:
+> +    case MIGRATION_STATUS_CANCELLED:
+> +    case MIGRATION_STATUS_FAILED:
+> +        ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RUNNING);
+> +        if (ret) {
+> +            error_report("Failed to set state RUNNING");
+> +        }
+> +        return;
+> +    }
+> +}
+> +
+>  static int vfio_migration_init(VFIODevice *vbasedev,
+>                                 struct vfio_region_info *info)
+>  {
+> @@ -131,6 +173,9 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>      vbasedev->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+>                                                            vbasedev);
+>  
+> +    vbasedev->migration_state.notify = vfio_migration_state_notifier;
+> +    add_migration_state_change_notifier(&vbasedev->migration_state);
+> +
+>      return 0;
+>  }
+>  
+> @@ -167,6 +212,10 @@ void vfio_migration_finalize(VFIODevice *vbasedev)
+>          return;
+>      }
+>  
+> +    if (vbasedev->migration_state.notify) {
+> +        remove_migration_state_change_notifier(&vbasedev->migration_state);
+> +    }
+> +
+>      if (vbasedev->vm_state) {
+>          qemu_del_vm_change_state_handler(vbasedev->vm_state);
+>      }
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index f2392e97fa57..1d26e6be8d48 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -133,6 +133,7 @@ typedef struct VFIODevice {
+>      uint32_t device_state;
+>      VMChangeStateEntry *vm_state;
+>      int vm_running;
+> +    Notifier migration_state;
+>  } VFIODevice;
+>  
+>  struct VFIODeviceOps {
+> -- 
+> 2.7.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
