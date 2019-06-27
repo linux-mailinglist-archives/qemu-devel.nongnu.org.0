@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF60A58E09
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 00:36:47 +0200 (CEST)
-Received: from localhost ([::1]:55074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C73F58E07
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 00:36:07 +0200 (CEST)
+Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgd0Z-0003bO-4E
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 18:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44227)
+	id 1hgczt-0002Yb-28
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 18:36:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44200)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hgcxR-0000N8-Ex
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:35 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hgcxQ-0000KG-JX
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hgcxO-0004Ex-3C
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35932)
+ (envelope-from <mreitz@redhat.com>) id 1hgcxN-0004Ea-Ua
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39776)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hgcxH-0003lH-CZ; Thu, 27 Jun 2019 18:33:23 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ id 1hgcxH-0003xl-Ca; Thu, 27 Jun 2019 18:33:23 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2250987630;
- Thu, 27 Jun 2019 22:33:02 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id C1C5D65CE2;
+ Thu, 27 Jun 2019 22:33:08 +0000 (UTC)
 Received: from localhost (ovpn-204-47.brq.redhat.com [10.40.204.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 422C15C237;
- Thu, 27 Jun 2019 22:32:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DBDC608C1;
+ Thu, 27 Jun 2019 22:33:03 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 28 Jun 2019 00:32:50 +0200
-Message-Id: <20190627223255.3789-1-mreitz@redhat.com>
+Date: Fri, 28 Jun 2019 00:32:51 +0200
+Message-Id: <20190627223255.3789-2-mreitz@redhat.com>
+In-Reply-To: <20190627223255.3789-1-mreitz@redhat.com>
+References: <20190627223255.3789-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.26]); Thu, 27 Jun 2019 22:33:06 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Thu, 27 Jun 2019 22:33:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 0/5] block: Add BDS.never_freeze
+Subject: [Qemu-devel] [PATCH 1/5] block: Add BDS.never_freeze
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,80 +61,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As it is, this series depends on my block branch, most importantly
-Andrey=E2=80=99s series =E2=80=9Cblock/stream: get rid of the base=E2=80=9D=
-.
+The commit and the mirror block job must be able to drop their filter
+node at any point.  However, this will not be possible if any of the
+BdrvChild links to them is frozen.  Therefore, we need to prevent them
+from ever becoming frozen.
 
-Depends-on: <1559152576-281803-1-git-send-email-andrey.shinkevich@virtuoz=
-zo.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ include/block/block_int.h | 3 +++
+ block.c                   | 8 ++++++++
+ block/commit.c            | 4 ++++
+ block/mirror.c            | 4 ++++
+ 4 files changed, 19 insertions(+)
 
-This series made the problem apparent to me, but it existed before:
-Namely, the commit and mirror block jobs create filter nodes which they
-just try to drop with an &error_fatal.  If any of its parent links is
-frozen, that will abort qemu.  Patch 1 fixes this by adding a
-BDS.never_freeze flag, which prevents bdrv_freeze_backing_chain() from
-freezing any links to a BDS that has this flag set.
-
-Now, after Andrey=E2=80=99s series, you can reproduce this problem by fir=
-st
-launching a commit job and then launching a stream job from the commit=E2=
-=80=99s
-top node.  This is actually something that iotest 030 tests, but I
-didn=E2=80=99t notice the problem because 030 has two problems of itself:
-(1) It fails to do proper throttling, so usually, the commit job is
-    already gone by the time the stream job starts.  (Fixed by patch 2.)
-(2) It doesn=E2=80=99t check the error message, but just the error class.=
-  If it
-    had checked the error message, we would have seen that it just says
-    that the stream=E2=80=99s base node cannot be found, and thus would h=
-ave
-    fixed problem #1 earlier.  (Fixed by patch 3.)
-
-If you apply patches 2 and 3 to my block branch, you=E2=80=99ll see that =
-both
-jobs can be created.  If you remove the check that creating the stream
-job should fail and replace the self.wait_until_completed() by a
-self.vm.run_job('drive0'), you will see that qemu aborts.
-
-So that appears to be a new problem introduced by Andrey=E2=80=99s series=
-,
-right?  But it actually isn=E2=80=99t new.  Patch 5 adds a test for a
-pre-existing case:
-
-If on master you launch a commit job and then a stream job from the
-commit=E2=80=99s filter node, qemu will abort (if the commit job complete=
-s
-before the stream job, at least).  So the problem existed well before
-Andrey=E2=80=99s series, it just moved it down one node.
-(You can test that by applying patches 2 through 5 on master.  You will
-get a failure in test_overlapping_4, and a qemu abort in
-test_overlapping_5.)
-
-In turn, thanks to said series, this test case now fully works.  (So you
-can stream from a commit=E2=80=99s filter node.)
-
-
-So either way, the problem addressed by patch 1 is visible both on
-master and on my block branch.  It just appears in different places,
-hence the dependency.
-
-
-Max Reitz (5):
-  block: Add BDS.never_freeze
-  iotests: Fix throttling in 030
-  iotests: Compare error messages in 030
-  iotests: Add @use_log to VM.run_job()
-  iotests: Add new case to 030
-
- include/block/block_int.h     |   3 +
- block.c                       |   8 +++
- block/commit.c                |   4 ++
- block/mirror.c                |   4 ++
- tests/qemu-iotests/030        | 121 ++++++++++++++++++++++++++--------
- tests/qemu-iotests/030.out    |   4 +-
- tests/qemu-iotests/iotests.py |  18 +++--
- 7 files changed, 127 insertions(+), 35 deletions(-)
-
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index d6415b53c1..50902531b7 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -885,6 +885,9 @@ struct BlockDriverState {
+=20
+     /* Only read/written by whoever has set active_flush_req to true.  *=
+/
+     unsigned int flushed_gen;             /* Flushed write generation */
++
++    /* BdrvChild links to this node may never be frozen */
++    bool never_freeze;
+ };
+=20
+ struct BlockBackendRootState {
+diff --git a/block.c b/block.c
+index c139540f2b..6565192b91 100644
+--- a/block.c
++++ b/block.c
+@@ -4416,6 +4416,14 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs=
+, BlockDriverState *base,
+         return -EPERM;
+     }
+=20
++    for (i =3D bs; i !=3D base; i =3D backing_bs(i)) {
++        if (i->backing && backing_bs(i)->never_freeze) {
++            error_setg(errp, "Cannot freeze '%s' link to '%s'",
++                       i->backing->name, backing_bs(i)->node_name);
++            return -EPERM;
++        }
++    }
++
+     for (i =3D bs; i !=3D base; i =3D backing_bs(i)) {
+         if (i->backing) {
+             i->backing->frozen =3D true;
+diff --git a/block/commit.c b/block/commit.c
+index ca7e408b26..2c5a6d4ebc 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -298,6 +298,10 @@ void commit_start(const char *job_id, BlockDriverSta=
+te *bs,
+     if (!filter_node_name) {
+         commit_top_bs->implicit =3D true;
+     }
++
++    /* So that we can always drop this node */
++    commit_top_bs->never_freeze =3D true;
++
+     commit_top_bs->total_sectors =3D top->total_sectors;
+=20
+     bdrv_append(commit_top_bs, top, &local_err);
+diff --git a/block/mirror.c b/block/mirror.c
+index 2fcec70e35..8cb75fb409 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1551,6 +1551,10 @@ static BlockJob *mirror_start_job(
+     if (!filter_node_name) {
+         mirror_top_bs->implicit =3D true;
+     }
++
++    /* So that we can always drop this node */
++    mirror_top_bs->never_freeze =3D true;
++
+     mirror_top_bs->total_sectors =3D bs->total_sectors;
+     mirror_top_bs->supported_write_flags =3D BDRV_REQ_WRITE_UNCHANGED;
+     mirror_top_bs->supported_zero_flags =3D BDRV_REQ_WRITE_UNCHANGED |
 --=20
 2.21.0
 
