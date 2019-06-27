@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C73F58E07
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 00:36:07 +0200 (CEST)
-Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15ADE58E0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 00:38:57 +0200 (CEST)
+Received: from localhost ([::1]:55094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgczt-0002Yb-28
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 18:36:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44200)
+	id 1hgd2e-0006GL-Ay
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 18:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44233)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hgcxQ-0000KG-JX
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:34 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hgcxR-0000Oo-UA
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hgcxN-0004Ea-Ua
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39776)
+ (envelope-from <mreitz@redhat.com>) id 1hgcxO-0004FO-Kq
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47800)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hgcxH-0003xl-Ca; Thu, 27 Jun 2019 18:33:23 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ id 1hgcxH-0003xn-Cc; Thu, 27 Jun 2019 18:33:23 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C1C5D65CE2;
- Thu, 27 Jun 2019 22:33:08 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 84929C18B2C1;
+ Thu, 27 Jun 2019 22:33:15 +0000 (UTC)
 Received: from localhost (ovpn-204-47.brq.redhat.com [10.40.204.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DBDC608C1;
- Thu, 27 Jun 2019 22:33:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B623419C4F;
+ Thu, 27 Jun 2019 22:33:10 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 28 Jun 2019 00:32:51 +0200
-Message-Id: <20190627223255.3789-2-mreitz@redhat.com>
+Date: Fri, 28 Jun 2019 00:32:52 +0200
+Message-Id: <20190627223255.3789-3-mreitz@redhat.com>
 In-Reply-To: <20190627223255.3789-1-mreitz@redhat.com>
 References: <20190627223255.3789-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Thu, 27 Jun 2019 22:33:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.31]); Thu, 27 Jun 2019 22:33:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/5] block: Add BDS.never_freeze
+Subject: [Qemu-devel] [PATCH 2/5] iotests: Fix throttling in 030
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,85 +61,139 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The commit and the mirror block job must be able to drop their filter
-node at any point.  However, this will not be possible if any of the
-BdrvChild links to them is frozen.  Therefore, we need to prevent them
-from ever becoming frozen.
+Currently, TestParallelOps in 030 creates images that are too small for
+job throttling to be effective.  This is reflected by the fact that it
+never undoes the throttling.
+
+Increase the image size and undo the throttling when the job should be
+completed.  Also, add throttling in test_overlapping_4, or the jobs may
+not be so overlapping after all.  In fact, the error usually emitted
+here is that node2 simply does not exist, not that overlapping jobs are
+not allowed -- the fact that this job ignores the exact error messages
+and just checks the error class is something that should be fixed in a
+follow-up patch.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block_int.h | 3 +++
- block.c                   | 8 ++++++++
- block/commit.c            | 4 ++++
- block/mirror.c            | 4 ++++
- 4 files changed, 19 insertions(+)
+ tests/qemu-iotests/030 | 32 +++++++++++++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 5 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index d6415b53c1..50902531b7 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -885,6 +885,9 @@ struct BlockDriverState {
+diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+index c6311d1825..2cf8d54dc5 100755
+--- a/tests/qemu-iotests/030
++++ b/tests/qemu-iotests/030
+@@ -154,7 +154,7 @@ class TestSingleDrive(iotests.QMPTestCase):
+ class TestParallelOps(iotests.QMPTestCase):
+     num_ops =3D 4 # Number of parallel block-stream operations
+     num_imgs =3D num_ops * 2 + 1
+-    image_len =3D num_ops * 512 * 1024
++    image_len =3D num_ops * 4 * 1024 * 1024
+     imgs =3D []
 =20
-     /* Only read/written by whoever has set active_flush_req to true.  *=
-/
-     unsigned int flushed_gen;             /* Flushed write generation */
-+
-+    /* BdrvChild links to this node may never be frozen */
-+    bool never_freeze;
- };
+     def setUp(self):
+@@ -176,11 +176,11 @@ class TestParallelOps(iotests.QMPTestCase):
+         # Put data into the images we are copying data from
+         odd_img_indexes =3D [x for x in reversed(range(self.num_imgs)) i=
+f x % 2 =3D=3D 1]
+         for i in range(len(odd_img_indexes)):
+-            # Alternate between 256KB and 512KB.
++            # Alternate between 2MB and 4MB.
+             # This way jobs will not finish in the same order they were =
+created
+-            num_kb =3D 256 + 256 * (i % 2)
++            num_mb =3D 2 + 2 * (i % 2)
+             qemu_io('-f', iotests.imgfmt,
+-                    '-c', 'write -P 0xFF %dk %dk' % (i * 512, num_kb),
++                    '-c', 'write -P 0xFF %dM %dM' % (i * 4, num_mb),
+                     self.imgs[odd_img_indexes[i]])
 =20
- struct BlockBackendRootState {
-diff --git a/block.c b/block.c
-index c139540f2b..6565192b91 100644
---- a/block.c
-+++ b/block.c
-@@ -4416,6 +4416,14 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs=
-, BlockDriverState *base,
-         return -EPERM;
-     }
+         # Attach the drive to the VM
+@@ -213,6 +213,10 @@ class TestParallelOps(iotests.QMPTestCase):
+             result =3D self.vm.qmp('block-stream', device=3Dnode_name, j=
+ob_id=3Djob_id, base=3Dself.imgs[i-2], speed=3D512*1024)
+             self.assert_qmp(result, 'return', {})
 =20
-+    for (i =3D bs; i !=3D base; i =3D backing_bs(i)) {
-+        if (i->backing && backing_bs(i)->never_freeze) {
-+            error_setg(errp, "Cannot freeze '%s' link to '%s'",
-+                       i->backing->name, backing_bs(i)->node_name);
-+            return -EPERM;
-+        }
-+    }
++        for job in pending_jobs:
++            result =3D self.vm.qmp('block-job-set-speed', device=3Djob, =
+speed=3D0)
++            self.assert_qmp(result, 'return', {})
 +
-     for (i =3D bs; i !=3D base; i =3D backing_bs(i)) {
-         if (i->backing) {
-             i->backing->frozen =3D true;
-diff --git a/block/commit.c b/block/commit.c
-index ca7e408b26..2c5a6d4ebc 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -298,6 +298,10 @@ void commit_start(const char *job_id, BlockDriverSta=
-te *bs,
-     if (!filter_node_name) {
-         commit_top_bs->implicit =3D true;
-     }
-+
-+    /* So that we can always drop this node */
-+    commit_top_bs->never_freeze =3D true;
-+
-     commit_top_bs->total_sectors =3D top->total_sectors;
+         # Wait for all jobs to be finished.
+         while len(pending_jobs) > 0:
+             for event in self.vm.get_qmp_events(wait=3DTrue):
+@@ -260,6 +264,9 @@ class TestParallelOps(iotests.QMPTestCase):
+         result =3D self.vm.qmp('block-commit', device=3D'drive0', base=3D=
+self.imgs[0], top=3Dself.imgs[1], job_id=3D'commit-node0')
+         self.assert_qmp(result, 'error/class', 'GenericError')
 =20
-     bdrv_append(commit_top_bs, top, &local_err);
-diff --git a/block/mirror.c b/block/mirror.c
-index 2fcec70e35..8cb75fb409 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1551,6 +1551,10 @@ static BlockJob *mirror_start_job(
-     if (!filter_node_name) {
-         mirror_top_bs->implicit =3D true;
-     }
++        result =3D self.vm.qmp('block-job-set-speed', device=3D'stream-n=
+ode4', speed=3D0)
++        self.assert_qmp(result, 'return', {})
 +
-+    /* So that we can always drop this node */
-+    mirror_top_bs->never_freeze =3D true;
+         self.wait_until_completed(drive=3D'stream-node4')
+         self.assert_no_active_block_jobs()
+=20
+@@ -289,6 +296,9 @@ class TestParallelOps(iotests.QMPTestCase):
+         result =3D self.vm.qmp('block-stream', device=3D'drive0', base=3D=
+self.imgs[5], job_id=3D'stream-drive0')
+         self.assert_qmp(result, 'error/class', 'GenericError')
+=20
++        result =3D self.vm.qmp('block-job-set-speed', device=3D'commit-n=
+ode3', speed=3D0)
++        self.assert_qmp(result, 'return', {})
 +
-     mirror_top_bs->total_sectors =3D bs->total_sectors;
-     mirror_top_bs->supported_write_flags =3D BDRV_REQ_WRITE_UNCHANGED;
-     mirror_top_bs->supported_zero_flags =3D BDRV_REQ_WRITE_UNCHANGED |
+         self.wait_until_completed(drive=3D'commit-node3')
+=20
+     # Similar to test_overlapping_2, but here block-commit doesn't use t=
+he 'top' parameter.
+@@ -309,6 +319,9 @@ class TestParallelOps(iotests.QMPTestCase):
+         self.assert_qmp(event, 'data/type', 'commit')
+         self.assert_qmp_absent(event, 'data/error')
+=20
++        result =3D self.vm.qmp('block-job-set-speed', device=3D'commit-d=
+rive0', speed=3D0)
++        self.assert_qmp(result, 'return', {})
++
+         result =3D self.vm.qmp('block-job-complete', device=3D'commit-dr=
+ive0')
+         self.assert_qmp(result, 'return', {})
+=20
+@@ -321,13 +334,18 @@ class TestParallelOps(iotests.QMPTestCase):
+         self.assert_no_active_block_jobs()
+=20
+         # Commit from node2 into node0
+-        result =3D self.vm.qmp('block-commit', device=3D'drive0', top=3D=
+self.imgs[2], base=3Dself.imgs[0])
++        result =3D self.vm.qmp('block-commit', device=3D'drive0',
++                             top=3Dself.imgs[2], base=3Dself.imgs[0],
++                             speed=3D1024*1024)
+         self.assert_qmp(result, 'return', {})
+=20
+         # Stream from node2 into node4
+         result =3D self.vm.qmp('block-stream', device=3D'node4', base_no=
+de=3D'node2', job_id=3D'node4')
+         self.assert_qmp(result, 'error/class', 'GenericError')
+=20
++        result =3D self.vm.qmp('block-job-set-speed', device=3D'drive0',=
+ speed=3D0)
++        self.assert_qmp(result, 'return', {})
++
+         self.wait_until_completed()
+         self.assert_no_active_block_jobs()
+=20
+@@ -378,6 +396,10 @@ class TestParallelOps(iotests.QMPTestCase):
+         result =3D self.vm.qmp('block-commit', device=3D'drive0', base=3D=
+self.imgs[5], speed=3D1024*1024)
+         self.assert_qmp(result, 'return', {})
+=20
++        for job in ['drive0', 'node4']:
++            result =3D self.vm.qmp('block-job-set-speed', device=3Djob, =
+speed=3D0)
++            self.assert_qmp(result, 'return', {})
++
+         # Wait for all jobs to be finished.
+         pending_jobs =3D ['node4', 'drive0']
+         while len(pending_jobs) > 0:
 --=20
 2.21.0
 
