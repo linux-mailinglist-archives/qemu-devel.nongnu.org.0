@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE7A58BFD
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 22:50:47 +0200 (CEST)
-Received: from localhost ([::1]:54324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6697958BE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 22:41:51 +0200 (CEST)
+Received: from localhost ([::1]:54246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgbLy-0004GA-LG
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 16:50:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45867)
+	id 1hgbDK-0003Ls-KC
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 16:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45815)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hgb1I-0001zl-FN
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1hgb1E-0001x8-Lh
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hgb1G-0000YX-Eq
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56840)
+ (envelope-from <philmd@redhat.com>) id 1hgb1C-0000RJ-PC
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 16:29:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56592)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hgb14-0008Nn-S7; Thu, 27 Jun 2019 16:29:11 -0400
+ id 1hgb12-00006W-Lk; Thu, 27 Jun 2019 16:29:09 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6F51430BDE4B;
- Thu, 27 Jun 2019 20:29:00 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0F7F13058F5B;
+ Thu, 27 Jun 2019 20:29:06 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-69.brq.redhat.com [10.40.204.69])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E3DE5600CC;
- Thu, 27 Jun 2019 20:28:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA31B600CC;
+ Thu, 27 Jun 2019 20:29:00 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Stephen Checkoway <stephen.checkoway@oberlin.edu>,
 	qemu-devel@nongnu.org
-Date: Thu, 27 Jun 2019 22:27:01 +0200
-Message-Id: <20190627202719.17739-11-philmd@redhat.com>
+Date: Thu, 27 Jun 2019 22:27:02 +0200
+Message-Id: <20190627202719.17739-12-philmd@redhat.com>
 In-Reply-To: <20190627202719.17739-1-philmd@redhat.com>
 References: <20190627202719.17739-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Thu, 27 Jun 2019 20:29:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Thu, 27 Jun 2019 20:29:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v5 10/28] hw/block/pflash_cfi02: Extract the
- pflash_data_read() function
+Subject: [Qemu-devel] [PATCH v5 11/28] hw/block/pflash_cfi02: Unify the
+ MemoryRegionOps
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,77 +73,150 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the code block in a new function, remove a goto statement.
+The pflash_read()/pflash_write() can check the device endianess
+via the pfl->be variable, so remove the 'int be' argument.
+
+Since the big/little MemoryRegionOps are now identical, it is
+pointless to declare them both. Unify them.
 
 Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
 Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-[PMD: Extracted from bigger patch, remove the XXX tracing comment]
+[PMD: Extracted from bigger patch to ease review]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi02.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ hw/block/pflash_cfi02.c | 60 +++++++++++------------------------------
+ 1 file changed, 15 insertions(+), 45 deletions(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 49afecb921..c079a63880 100644
+index c079a63880..e64dc69c6c 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -165,12 +165,23 @@ static void pflash_timer (void *opaque)
-     pfl->cmd =3D 0;
+@@ -177,11 +177,11 @@ static uint64_t pflash_data_read(PFlashCFI02 *pfl, =
+hwaddr offset,
+     return ret;
  }
 =20
-+/*
-+ * Read data from flash.
-+ */
-+static uint64_t pflash_data_read(PFlashCFI02 *pfl, hwaddr offset,
-+                                 unsigned int width)
-+{
-+    uint8_t *p =3D (uint8_t *)pfl->storage + offset;
-+    uint64_t ret =3D pfl->be ? ldn_be_p(p, width) : ldn_le_p(p, width);
-+    trace_pflash_data_read(offset, width << 1, ret);
-+    return ret;
-+}
-+
- static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr offset,
-                             int width, int be)
+-static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr offset,
+-                            int width, int be)
++static uint64_t pflash_read(void *opaque, hwaddr offset, unsigned int wi=
+dth)
  {
++    PFlashCFI02 *pfl =3D opaque;
      hwaddr boff;
-     uint32_t ret;
--    uint8_t *p;
+-    uint32_t ret;
++    uint64_t ret;
 =20
      ret =3D -1;
      /* Lazy reset to ROMD mode after a certain amount of read accesses *=
 /
-@@ -194,15 +205,8 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr=
- offset,
-     case 0x80:
-         /* We accept reads during second unlock sequence... */
-     case 0x00:
--    flash_read:
-         /* Flash area read */
--        p =3D (uint8_t *)pfl->storage + offset;
--        if (pfl->be) {
--            ret =3D ldn_be_p(p, width);
--        } else {
--            ret =3D ldn_le_p(p, width);
--        }
--        trace_pflash_data_read(offset, width << 1, ret);
-+        ret =3D pflash_data_read(pfl, offset, width);
-         break;
-     case 0x90:
-         /* flash ID read */
-@@ -222,7 +226,7 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
-offset,
-             }
-             /* Fall through to data read. */
+@@ -228,14 +228,14 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwadd=
+r offset,
          default:
--            goto flash_read;
-+            ret =3D pflash_data_read(pfl, offset, width);
+             ret =3D pflash_data_read(pfl, offset, width);
          }
-         DPRINTF("%s: ID " TARGET_FMT_plx " %" PRIx32 "\n", __func__, bof=
+-        DPRINTF("%s: ID " TARGET_FMT_plx " %" PRIx32 "\n", __func__, bof=
+f, ret);
++        DPRINTF("%s: ID " TARGET_FMT_plx " %" PRIx64 "\n", __func__, bof=
 f, ret);
          break;
+     case 0xA0:
+     case 0x10:
+     case 0x30:
+         /* Status register read */
+         ret =3D pfl->status;
+-        DPRINTF("%s: status %" PRIx32 "\n", __func__, ret);
++        DPRINTF("%s: status %" PRIx64 "\n", __func__, ret);
+         toggle_dq6(pfl);
+         break;
+     case 0x98:
+@@ -253,8 +253,7 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
+offset,
+ }
+=20
+ /* update flash content on disk */
+-static void pflash_update(PFlashCFI02 *pfl, int offset,
+-                          int size)
++static void pflash_update(PFlashCFI02 *pfl, int offset, int size)
+ {
+     int offset_end;
+     if (pfl->blk) {
+@@ -267,9 +266,10 @@ static void pflash_update(PFlashCFI02 *pfl, int offs=
+et,
+     }
+ }
+=20
+-static void pflash_write(PFlashCFI02 *pfl, hwaddr offset,
+-                         uint32_t value, int width, int be)
++static void pflash_write(void *opaque, hwaddr offset, uint64_t value,
++                         unsigned int width)
+ {
++    PFlashCFI02 *pfl =3D opaque;
+     hwaddr boff;
+     uint8_t *p;
+     uint8_t cmd;
+@@ -477,39 +477,9 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr of=
+fset,
+     pfl->cmd =3D 0;
+ }
+=20
+-static uint64_t pflash_be_readfn(void *opaque, hwaddr addr, unsigned siz=
+e)
+-{
+-    return pflash_read(opaque, addr, size, 1);
+-}
+-
+-static void pflash_be_writefn(void *opaque, hwaddr addr,
+-                              uint64_t value, unsigned size)
+-{
+-    pflash_write(opaque, addr, value, size, 1);
+-}
+-
+-static uint64_t pflash_le_readfn(void *opaque, hwaddr addr, unsigned siz=
+e)
+-{
+-    return pflash_read(opaque, addr, size, 0);
+-}
+-
+-static void pflash_le_writefn(void *opaque, hwaddr addr,
+-                              uint64_t value, unsigned size)
+-{
+-    pflash_write(opaque, addr, value, size, 0);
+-}
+-
+-static const MemoryRegionOps pflash_cfi02_ops_be =3D {
+-    .read =3D pflash_be_readfn,
+-    .write =3D pflash_be_writefn,
+-    .valid.min_access_size =3D 1,
+-    .valid.max_access_size =3D 4,
+-    .endianness =3D DEVICE_NATIVE_ENDIAN,
+-};
+-
+-static const MemoryRegionOps pflash_cfi02_ops_le =3D {
+-    .read =3D pflash_le_readfn,
+-    .write =3D pflash_le_writefn,
++static const MemoryRegionOps pflash_cfi02_ops =3D {
++    .read =3D pflash_read,
++    .write =3D pflash_write,
+     .valid.min_access_size =3D 1,
+     .valid.max_access_size =3D 4,
+     .endianness =3D DEVICE_NATIVE_ENDIAN,
+@@ -537,9 +507,9 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+=20
+     chip_len =3D pfl->sector_len * pfl->nb_blocs;
+=20
+-    memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl), pfl->be ?
+-                                  &pflash_cfi02_ops_be : &pflash_cfi02_o=
+ps_le,
+-                                  pfl, pfl->name, chip_len, &local_err);
++    memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
++                                  &pflash_cfi02_ops, pfl, pfl->name,
++                                  chip_len, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
 --=20
 2.20.1
 
