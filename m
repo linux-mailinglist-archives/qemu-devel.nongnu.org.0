@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3D95861D
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:41:03 +0200 (CEST)
-Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 350595860A
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:38:27 +0200 (CEST)
+Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgWWF-0000JL-4y
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60864)
+	id 1hgWTi-0005HT-DP
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:38:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60762)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgWGg-0001lf-Mh
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:59 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgWGS-0001eG-4g
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgWGc-0007ft-Hx
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:55 -0400
-Received: from mail-pf1-f176.google.com ([209.85.210.176]:43256)
+ (envelope-from <palmer@dabbelt.com>) id 1hgWGF-0007J7-Oh
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:39 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:44612)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWGa-0006rZ-7j
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:52 -0400
-Received: by mail-pf1-f176.google.com with SMTP id i189so1392755pfg.10
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:55 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWGA-0006tP-63
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:24:27 -0400
+Received: by mail-pl1-f195.google.com with SMTP id t7so1478769plr.11
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:23:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=6yKLCYV0R/YTgETaWALBnJzQY0evqNRz2E1ZKL76ixI=;
- b=qJLKRIkoqknKnWF1Y30UknHpez+vWzgCMhxNmrsG5192NppY16C04hkOeoCe+HXYO4
- P1JeFxqtd+o1IWK4yhZgcgcAjC7no6dyNSELrcjwotkR5/83bn5JNninkYuwI8lNVFLt
- Fsxm7cZ0VQ0E2Yby3KIHBd7I4W3d+/19s2O8R9+0W6NyRFBpieYUHc/XTswtJYxjISbE
- S8rIyAcSd0o76Z+ZJbKF3ozAQErKA4anugYUBXdy31lycePT8ADIG+rj+lBeWxvrJKnJ
- IjUB5GsHwS1+wnZ+cvR6EzpK6IKIT4O+z8T4dXNFIGBaSdCrYLuCzJZJu+hJFoYGKFpQ
- PUlA==
-X-Gm-Message-State: APjAAAWv2LIiQO+GM4cBCPZWKwfil7IdY5ZjszJTQF/F+IFzMHfY82WS
- jCl5LeaE4VLaMdnX8VVBb2zSpw==
-X-Google-Smtp-Source: APXvYqwBAlaG6G4QY5RdGtr6me2Jzd4YAgzF6UjogwdJEMa26gBpgMfBq5x2f2og2yzWiXUdma0how==
-X-Received: by 2002:a17:90a:a407:: with SMTP id
- y7mr6746243pjp.97.1561649034180; 
- Thu, 27 Jun 2019 08:23:54 -0700 (PDT)
+ bh=q9V5gld9xQfQQn0CcvhnGApawq1VurFWRjo628pvYuM=;
+ b=jf05njOSs/AblhRT5bn53k4qHY7N/AY4yyTynuuHeiyhpG+TbUPlxmJpR4nbw/F3PS
+ S3rDKAs4TYos+/4kRv+H7yT8pfgu3TSKRDWcFONjguD6NJ4Uvq+qDMiLE6j/aEoLdiy3
+ Ur9mYBtTE3lzn4hkgeqMCHowia1iaSmxQaC+Bhw7pdSygQwWLMStYqBQjoVtG9F2NtT3
+ bM+u0GeRk6evBx8zRP/DYGaVjPBO0nOEzh762wQH2UE/rUR5gHgRxauVYKfH8R5fksQW
+ AM4/U5QNxmLhmrsc6EAGEz+RYvao5QCR75KRxqFn4Hvvkrj1imKqNV6CZTCnrgwICtQG
+ S+6w==
+X-Gm-Message-State: APjAAAXLVsrQMlc1RTeSGNunnE9v3baDCjd5AbFfM9dw9rv2vd9+xoY7
+ oVhDbrhogqH2NdndnO5RpVrGAw==
+X-Google-Smtp-Source: APXvYqzrj2WCkS1uKxLrDfsuhjFMLViVUZlMLROz+rFwI8+pGj3GyLZwu8pSxJo32uH8wiSJqP7VhQ==
+X-Received: by 2002:a17:902:b215:: with SMTP id
+ t21mr5419646plr.123.1561649037136; 
+ Thu, 27 Jun 2019 08:23:57 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id 131sm7652151pfx.57.2019.06.27.08.23.53
+ by smtp.gmail.com with ESMTPSA id y17sm2811152pfe.148.2019.06.27.08.23.56
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 08:23:53 -0700 (PDT)
-Date: Thu, 27 Jun 2019 08:19:50 -0700
-Message-Id: <20190627152011.18686-14-palmer@sifive.com>
+ Thu, 27 Jun 2019 08:23:56 -0700 (PDT)
+Date: Thu, 27 Jun 2019 08:19:51 -0700
+Message-Id: <20190627152011.18686-15-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190627152011.18686-1-palmer@sifive.com>
 References: <20190627152011.18686-1-palmer@sifive.com>
@@ -55,8 +55,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.176
-Subject: [Qemu-devel] [PULL 13/34] target/riscv: Restructure deprecatd CPUs
+X-Received-From: 209.85.214.195
+Subject: [Qemu-devel] [PULL 14/34] target/riscv: Add the privledge spec
+ version 1.11.0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,79 +77,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Restructure the deprecated CPUs to make it clear in the code that these
-are depreated. They are already marked as deprecated in
-qemu-deprecated.texi. There are no functional changes.
+Add support for the ratified RISC-V privledge spec.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu.c | 18 ++++++++++--------
- target/riscv/cpu.h | 13 +++++++------
- 2 files changed, 17 insertions(+), 14 deletions(-)
+ target/riscv/cpu.h                             | 1 +
+ target/riscv/insn_trans/trans_privileged.inc.c | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 5b9fae608cca..17467c3d8705 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -559,18 +559,20 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
- #if defined(TARGET_RISCV32)
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base32_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_09_1, rv32gcsu_priv1_09_1_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_10_0, rv32gcsu_priv1_10_0_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_RV32IMACU_NOMMU,  rv32imacu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32imacu_nommu_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32gcsu_priv1_10_0_cpu_init)
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32gcsu_priv1_10_0_cpu_init),
-+    /* Depreacted */
-+    DEFINE_CPU(TYPE_RISCV_CPU_RV32IMACU_NOMMU,  rv32imacu_nommu_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_09_1, rv32gcsu_priv1_09_1_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_RV32GCSU_V1_10_0, rv32gcsu_priv1_10_0_cpu_init)
- #elif defined(TARGET_RISCV64)
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base64_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_09_1, rv64gcsu_priv1_09_1_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_10_0, rv64gcsu_priv1_10_0_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_RV64IMACU_NOMMU,  rv64imacu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64imacu_nommu_cpu_init),
--    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64gcsu_priv1_10_0_cpu_init)
-+    DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64gcsu_priv1_10_0_cpu_init),
-+    /* Deprecated */
-+    DEFINE_CPU(TYPE_RISCV_CPU_RV64IMACU_NOMMU,  rv64imacu_nommu_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_09_1, rv64gcsu_priv1_09_1_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_RV64GCSU_V1_10_0, rv64gcsu_priv1_10_0_cpu_init)
- #endif
- };
- 
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 934b71c85e13..5eb9cab2ad62 100644
+index 5eb9cab2ad62..d559d28bcda8 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -35,16 +35,17 @@
- #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
- #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
- #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
--#define TYPE_RISCV_CPU_RV32GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.9.1")
--#define TYPE_RISCV_CPU_RV32GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.10.0")
--#define TYPE_RISCV_CPU_RV32IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv32imacu-nommu")
--#define TYPE_RISCV_CPU_RV64GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.9.1")
--#define TYPE_RISCV_CPU_RV64GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.10.0")
--#define TYPE_RISCV_CPU_RV64IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv64imacu-nommu")
- #define TYPE_RISCV_CPU_SIFIVE_E31       RISCV_CPU_TYPE_NAME("sifive-e31")
- #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
- #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
- #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
-+/* Deprecated */
-+#define TYPE_RISCV_CPU_RV32IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv32imacu-nommu")
-+#define TYPE_RISCV_CPU_RV32GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.9.1")
-+#define TYPE_RISCV_CPU_RV32GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv32gcsu-v1.10.0")
-+#define TYPE_RISCV_CPU_RV64IMACU_NOMMU  RISCV_CPU_TYPE_NAME("rv64imacu-nommu")
-+#define TYPE_RISCV_CPU_RV64GCSU_V1_09_1 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.9.1")
-+#define TYPE_RISCV_CPU_RV64GCSU_V1_10_0 RISCV_CPU_TYPE_NAME("rv64gcsu-v1.10.0")
+@@ -81,6 +81,7 @@ enum {
+ #define USER_VERSION_2_02_0 0x00020200
+ #define PRIV_VERSION_1_09_1 0x00010901
+ #define PRIV_VERSION_1_10_0 0x00011000
++#define PRIV_VERSION_1_11_0 0x00011100
  
- #define RV32 ((target_ulong)1 << (TARGET_LONG_BITS - 2))
- #define RV64 ((target_ulong)2 << (TARGET_LONG_BITS - 2))
+ #define TRANSLATE_PMP_FAIL 2
+ #define TRANSLATE_FAIL 1
+diff --git a/target/riscv/insn_trans/trans_privileged.inc.c b/target/riscv/insn_trans/trans_privileged.inc.c
+index 664d6ba3f2cc..c5e4b3e49a3e 100644
+--- a/target/riscv/insn_trans/trans_privileged.inc.c
++++ b/target/riscv/insn_trans/trans_privileged.inc.c
+@@ -90,7 +90,7 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
+ static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
+ {
+ #ifndef CONFIG_USER_ONLY
+-    if (ctx->priv_ver == PRIV_VERSION_1_10_0) {
++    if (ctx->priv_ver >= PRIV_VERSION_1_10_0) {
+         gen_helper_tlb_flush(cpu_env);
+         return true;
+     }
 -- 
 2.21.0
 
