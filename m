@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B1A58639
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 17:47:12 +0200 (CEST)
-Received: from localhost ([::1]:51914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBB2586BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:13:02 +0200 (CEST)
+Received: from localhost ([::1]:52134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgWcA-0006Nc-BE
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 11:47:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60913)
+	id 1hgX1C-00061f-1p
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33430)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgWGn-0001p2-5w
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:25:14 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgWHw-0003Po-Hr
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:26:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgWGk-0007nN-D4
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:25:04 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:46431)
+ (envelope-from <palmer@dabbelt.com>) id 1hgWHr-0000WU-3a
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:26:14 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:44969)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWGj-0007Em-T0
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:25:02 -0400
-Received: by mail-pg1-f194.google.com with SMTP id v9so1158881pgr.13
- for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:24:27 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgWHo-0007H5-Qo
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:26:10 -0400
+Received: by mail-pg1-f194.google.com with SMTP id n2so1167863pgp.11
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 08:24:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=2SpGyiOcwOu2Di4eZ5MXnUZbt0L4DyvH2AZMNviRqJg=;
- b=eLvdALGQy1scVg46zPwWy0WA0k/aPJHONkrgGAYQ2g40pK8yzAXRSujzWBCfSD40ob
- MEg9lM4nwbJNXeVwbyiXxsDef627IEI85Jshu9EENckXOyAiynmGzOxnVBxsiAtq9Ftf
- xektxN8PBJ21ifstnWobRmux6Ivgl5FhqhBK/4Cvvp9++7iIA+oOTo808TqfisYX3A2t
- GzkCxcW3jR2XFJEKgNNLgNpdRJsdROVYZzoF53N+N/v31Jvlpwe5AAgCJFiY4tZr3n6J
- EtDBZE5MxkNraY31rGYvobsWxswJA1Y7wrLS4nNf5Zi280UXOcZ/XpTeelIvEjKmn4iC
- KDpA==
-X-Gm-Message-State: APjAAAUOGuHP/awXKzWzAPtnv+/6ZmpVPvgrgluR6Q1PiV9iE/cEeWPl
- McsAxutY9zSgxX0nsSrTG/NjJg==
-X-Google-Smtp-Source: APXvYqw1M8PhbVRgJ92bg9Dit9VFTo0zM59E3C+xTrYdSMGubhnpjX4Hnk4uZVGlTUG1lPgE5ouA1w==
-X-Received: by 2002:a17:90a:30cf:: with SMTP id
- h73mr6846226pjb.42.1561649066069; 
- Thu, 27 Jun 2019 08:24:26 -0700 (PDT)
+ bh=jNAXnuen/EqceGboq9jqUh/HLce5kvK8361K7LpbToc=;
+ b=VMXj/XPwCHnXeqVfc3JqwHOnBYRuWa7EeJVZwwgE0OMSMFSMC8QLxn03gzo9gLBLhr
+ Yiyio/nONXIesWXb/jZFt3UJqcbLtGz2uobXPtUQxhrOFHhpkK/d6aE7dp3EydqYkO+y
+ oCP3WbC4w9LK2g34uJIbcj/gsu9OE7zny7h06tQhw7IQvxLfMLSn4b7CS0v/R7Mb1OfP
+ mZ1ss3BjFSlzNEtBVAnStQNp9gZxbu/tqPq/4k1Hsi06HoeWzEBrk9Kgq0DbZVawYkCP
+ 6Y9bJdkS6GcRv7gj3sTsSfLHCO3jAvNnsot/0kDaFeEDXCuJv59mAlf7E/dASj5Knvuz
+ CLcQ==
+X-Gm-Message-State: APjAAAVV/Tf6iQk1MXsroA/xOJsgVQZ9ZNkf07bFR37uGANiLPbanR19
+ dzdg8yy0z2BpdZyHG1wstBdWVw==
+X-Google-Smtp-Source: APXvYqzWMlnaE1X5C4yiofYhLiuqPsrEf8BZb+R6LZa9V7v6zwnulh0AdTxVJXGYiVDMXNA1xiNb8Q==
+X-Received: by 2002:a17:90a:71cb:: with SMTP id
+ m11mr6419278pjs.40.1561649068364; 
+ Thu, 27 Jun 2019 08:24:28 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id i1sm7282477pjt.3.2019.06.27.08.24.25
+ by smtp.gmail.com with ESMTPSA id k3sm2637153pgo.81.2019.06.27.08.24.27
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Thu, 27 Jun 2019 08:24:25 -0700 (PDT)
-Date: Thu, 27 Jun 2019 08:20:03 -0700
-Message-Id: <20190627152011.18686-27-palmer@sifive.com>
+ Thu, 27 Jun 2019 08:24:27 -0700 (PDT)
+Date: Thu, 27 Jun 2019 08:20:04 -0700
+Message-Id: <20190627152011.18686-28-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190627152011.18686-1-palmer@sifive.com>
 References: <20190627152011.18686-1-palmer@sifive.com>
@@ -56,8 +56,7 @@ To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.85.215.194
-Subject: [Qemu-devel] [PULL 26/34] disas/riscv: Disassemble reserved
- compressed encodings as illegal
+Subject: [Qemu-devel] [PULL 27/34] disas/riscv: Fix `rdinstreth` constraint
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,156 +68,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Michael Clark <mjc@sifive.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@sifive.com>
+Cc: "Wladimir J. van der Laan" <laanwj@gmail.com>,
+ Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
+ Michael Clark <mjc@sifive.com>, Alistair Francis <alistair.francis@wdc.com>,
+ qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Clark <mjc@sifive.com>
+From: "Wladimir J. van der Laan" <laanwj@gmail.com>
 
-Due to the design of the disassembler, the immediate is not
-known during decoding of the opcode; so to handle compressed
-encodings with reserved immediate values (non-zero), we need
-to add an additional check during decompression to match
-reserved encodings with zero immediates and translate them
-into the illegal instruction.
+The constraint for `rdinstreth` was comparing the csr number to 0xc80,
+which is `cycleh` instead. Fix this.
 
-The following compressed opcodes have reserved encodings with
-zero immediates: c.addi4spn, c.addi, c.lui, c.addi16sp, c.srli,
-c.srai, c.andi and c.slli
-
+Signed-off-by: Wladimir J. van der Laan <laanwj@gmail.com>
 Signed-off-by: Michael Clark <mjc@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-[Palmer: Broke long lines]
 Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- disas/riscv.c | 62 +++++++++++++++++++++++++++++++++++++--------------
- 1 file changed, 45 insertions(+), 17 deletions(-)
+ disas/riscv.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/disas/riscv.c b/disas/riscv.c
-index 59a9b0437a5f..d37312705516 100644
+index d37312705516..278d9be9247e 100644
 --- a/disas/riscv.c
 +++ b/disas/riscv.c
-@@ -504,14 +504,19 @@ typedef struct {
-     const rvc_constraint *constraints;
- } rv_comp_data;
- 
-+enum {
-+    rvcd_imm_nz = 0x1
-+};
-+
- typedef struct {
-     const char * const name;
-     const rv_codec codec;
-     const char * const format;
-     const rv_comp_data *pseudo;
--    const int decomp_rv32;
--    const int decomp_rv64;
--    const int decomp_rv128;
-+    const short decomp_rv32;
-+    const short decomp_rv64;
-+    const short decomp_rv128;
-+    const short decomp_data;
- } rv_opcode_data;
- 
- /* register names */
-@@ -1011,7 +1016,8 @@ const rv_opcode_data opcode_data[] = {
-     { "fcvt.q.lu", rv_codec_r_m, rv_fmt_rm_frd_rs1, NULL, 0, 0, 0 },
-     { "fmv.x.q", rv_codec_r, rv_fmt_rd_frs1, NULL, 0, 0, 0 },
-     { "fmv.q.x", rv_codec_r, rv_fmt_frd_rs1, NULL, 0, 0, 0 },
--    { "c.addi4spn", rv_codec_ciw_4spn, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
-+    { "c.addi4spn", rv_codec_ciw_4spn, rv_fmt_rd_rs1_imm, NULL, rv_op_addi,
-+      rv_op_addi, rv_op_addi, rvcd_imm_nz },
-     { "c.fld", rv_codec_cl_ld, rv_fmt_frd_offset_rs1, NULL, rv_op_fld, rv_op_fld, 0 },
-     { "c.lw", rv_codec_cl_lw, rv_fmt_rd_offset_rs1, NULL, rv_op_lw, rv_op_lw, rv_op_lw },
-     { "c.flw", rv_codec_cl_lw, rv_fmt_frd_offset_rs1, NULL, rv_op_flw, 0, 0 },
-@@ -1019,14 +1025,20 @@ const rv_opcode_data opcode_data[] = {
-     { "c.sw", rv_codec_cs_sw, rv_fmt_rs2_offset_rs1, NULL, rv_op_sw, rv_op_sw, rv_op_sw },
-     { "c.fsw", rv_codec_cs_sw, rv_fmt_frs2_offset_rs1, NULL, rv_op_fsw, 0, 0 },
-     { "c.nop", rv_codec_ci_none, rv_fmt_none, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
--    { "c.addi", rv_codec_ci, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
-+    { "c.addi", rv_codec_ci, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi,
-+      rv_op_addi, rvcd_imm_nz },
-     { "c.jal", rv_codec_cj_jal, rv_fmt_rd_offset, NULL, rv_op_jal, 0, 0 },
-     { "c.li", rv_codec_ci_li, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
--    { "c.addi16sp", rv_codec_ci_16sp, rv_fmt_rd_rs1_imm, NULL, rv_op_addi, rv_op_addi, rv_op_addi },
--    { "c.lui", rv_codec_ci_lui, rv_fmt_rd_imm, NULL, rv_op_lui, rv_op_lui, rv_op_lui },
--    { "c.srli", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srli, rv_op_srli, rv_op_srli },
--    { "c.srai", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srai, rv_op_srai, rv_op_srai },
--    { "c.andi", rv_codec_cb_imm, rv_fmt_rd_rs1_imm, NULL, rv_op_andi, rv_op_andi, rv_op_andi },
-+    { "c.addi16sp", rv_codec_ci_16sp, rv_fmt_rd_rs1_imm, NULL, rv_op_addi,
-+      rv_op_addi, rv_op_addi, rvcd_imm_nz },
-+    { "c.lui", rv_codec_ci_lui, rv_fmt_rd_imm, NULL, rv_op_lui, rv_op_lui,
-+      rv_op_lui, rvcd_imm_nz },
-+    { "c.srli", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srli,
-+      rv_op_srli, rv_op_srli, rvcd_imm_nz },
-+    { "c.srai", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srai,
-+      rv_op_srai, rv_op_srai, rvcd_imm_nz },
-+    { "c.andi", rv_codec_cb_imm, rv_fmt_rd_rs1_imm, NULL, rv_op_andi,
-+      rv_op_andi, rv_op_andi, rvcd_imm_nz },
+@@ -614,7 +614,8 @@ static const rvc_constraint rvcc_rdtime[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc01, r
+ static const rvc_constraint rvcc_rdinstret[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc02, rvc_end };
+ static const rvc_constraint rvcc_rdcycleh[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc80, rvc_end };
+ static const rvc_constraint rvcc_rdtimeh[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc81, rvc_end };
+-static const rvc_constraint rvcc_rdinstreth[] = { rvc_rs1_eq_x0, rvc_csr_eq_0xc80, rvc_end };
++static const rvc_constraint rvcc_rdinstreth[] = { rvc_rs1_eq_x0,
++                                                  rvc_csr_eq_0xc82, rvc_end };
+ static const rvc_constraint rvcc_frcsr[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x003, rvc_end };
+ static const rvc_constraint rvcc_frrm[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x002, rvc_end };
+ static const rvc_constraint rvcc_frflags[] = { rvc_rs1_eq_x0, rvc_csr_eq_0x001, rvc_end };
+@@ -1038,7 +1039,7 @@ const rv_opcode_data opcode_data[] = {
+     { "c.srai", rv_codec_cb_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_srai,
+       rv_op_srai, rv_op_srai, rvcd_imm_nz },
+     { "c.andi", rv_codec_cb_imm, rv_fmt_rd_rs1_imm, NULL, rv_op_andi,
+-      rv_op_andi, rv_op_andi, rvcd_imm_nz },
++      rv_op_andi, rv_op_andi },
      { "c.sub", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_sub, rv_op_sub, rv_op_sub },
      { "c.xor", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_xor, rv_op_xor, rv_op_xor },
      { "c.or", rv_codec_cs, rv_fmt_rd_rs1_rs2, NULL, rv_op_or, rv_op_or, rv_op_or },
-@@ -1036,7 +1048,8 @@ const rv_opcode_data opcode_data[] = {
-     { "c.j", rv_codec_cj, rv_fmt_rd_offset, NULL, rv_op_jal, rv_op_jal, rv_op_jal },
-     { "c.beqz", rv_codec_cb, rv_fmt_rs1_rs2_offset, NULL, rv_op_beq, rv_op_beq, rv_op_beq },
-     { "c.bnez", rv_codec_cb, rv_fmt_rs1_rs2_offset, NULL, rv_op_bne, rv_op_bne, rv_op_bne },
--    { "c.slli", rv_codec_ci_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_slli, rv_op_slli, rv_op_slli },
-+    { "c.slli", rv_codec_ci_sh6, rv_fmt_rd_rs1_imm, NULL, rv_op_slli,
-+      rv_op_slli, rv_op_slli, rvcd_imm_nz },
-     { "c.fldsp", rv_codec_ci_ldsp, rv_fmt_frd_offset_rs1, NULL, rv_op_fld, rv_op_fld, rv_op_fld },
-     { "c.lwsp", rv_codec_ci_lwsp, rv_fmt_rd_offset_rs1, NULL, rv_op_lw, rv_op_lw, rv_op_lw },
-     { "c.flwsp", rv_codec_ci_lwsp, rv_fmt_frd_offset_rs1, NULL, rv_op_flw, 0, 0 },
-@@ -2795,8 +2808,13 @@ static void decode_inst_decompress_rv32(rv_decode *dec)
- {
-     int decomp_op = opcode_data[dec->op].decomp_rv32;
-     if (decomp_op != rv_op_illegal) {
--        dec->op = decomp_op;
--        dec->codec = opcode_data[decomp_op].codec;
-+        if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz)
-+            && dec->imm == 0) {
-+            dec->op = rv_op_illegal;
-+        } else {
-+            dec->op = decomp_op;
-+            dec->codec = opcode_data[decomp_op].codec;
-+        }
-     }
- }
- 
-@@ -2804,8 +2822,13 @@ static void decode_inst_decompress_rv64(rv_decode *dec)
- {
-     int decomp_op = opcode_data[dec->op].decomp_rv64;
-     if (decomp_op != rv_op_illegal) {
--        dec->op = decomp_op;
--        dec->codec = opcode_data[decomp_op].codec;
-+        if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz)
-+            && dec->imm == 0) {
-+            dec->op = rv_op_illegal;
-+        } else {
-+            dec->op = decomp_op;
-+            dec->codec = opcode_data[decomp_op].codec;
-+        }
-     }
- }
- 
-@@ -2813,8 +2836,13 @@ static void decode_inst_decompress_rv128(rv_decode *dec)
- {
-     int decomp_op = opcode_data[dec->op].decomp_rv128;
-     if (decomp_op != rv_op_illegal) {
--        dec->op = decomp_op;
--        dec->codec = opcode_data[decomp_op].codec;
-+        if ((opcode_data[dec->op].decomp_data & rvcd_imm_nz)
-+            && dec->imm == 0) {
-+            dec->op = rv_op_illegal;
-+        } else {
-+            dec->op = decomp_op;
-+            dec->codec = opcode_data[decomp_op].codec;
-+        }
-     }
- }
- 
 -- 
 2.21.0
 
