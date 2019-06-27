@@ -2,53 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D3F586E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:21:54 +0200 (CEST)
-Received: from localhost ([::1]:52292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA3285874D
+	for <lists+qemu-devel@lfdr.de>; Thu, 27 Jun 2019 18:40:39 +0200 (CEST)
+Received: from localhost ([::1]:52594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgX9l-00082g-7Y
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:21:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37895)
+	id 1hgXRu-0008HD-WA
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 12:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38470)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berto@igalia.com>) id 1hgWXa-0003Jy-BP
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:42:27 -0400
+ (envelope-from <armbru@redhat.com>) id 1hgWYh-00053C-Qx
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:43:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1hgWXZ-0007n0-Bd
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:42:26 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:58224)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1hgWXZ-0007jl-2A; Thu, 27 Jun 2019 11:42:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=9OM7ffAYtPQEUzMnCZjJN9TZQY0MwQ2qvgMVvlP6Cds=; 
- b=mL35zFGO+NPQ+4I08ys32KdkQ6vEvOVaui5yej0AbEXBFnudX7lBOuz3rWG8o74sbstQklU/of2d+3MzRMFttbyUI2C05niz5wRINpQepuOlK7WAFeUKguRnQy+hAdqw9DqOtQWTCxvOjCj5dcGCvOdqpvIcKvxjII6HOvhmocd+T3OqCDLF4MnON6XCLVPtlNLwjso1qZ6QfWfS96z2Br1lba0fQsRpXNrRJ4FAmLErHhakEKpY1wwxKZmuDLkejuR2zFWHDLF3McljUA1L3VijzcNirRltO8V+CF1+g1V75Zazcaz05A947VXQBH65nckl5AVLgwEQlu1ll8jHmw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1hgWXX-0005sX-Kv; Thu, 27 Jun 2019 17:42:23 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1hgWXX-0004ZN-I9; Thu, 27 Jun 2019 17:42:23 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Denis Lunev <den@virtuozzo.com>,
- "qemu-devel\@nongnu.org" <qemu-devel@nongnu.org>
-In-Reply-To: <w51a7e3domn.fsf@maestria.local.igalia.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
- <w51a7e3domn.fsf@maestria.local.igalia.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Thu, 27 Jun 2019 17:42:23 +0200
-Message-ID: <w517e97dogw.fsf@maestria.local.igalia.com>
+ (envelope-from <armbru@redhat.com>) id 1hgWYg-0001KA-Sg
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:43:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33574)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hgWYg-0001IL-KR
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 11:43:34 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 98CF3356CF;
+ Thu, 27 Jun 2019 15:43:33 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-117-169.ams2.redhat.com
+ [10.36.117.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61D925D9D2;
+ Thu, 27 Jun 2019 15:43:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D364611386A0; Thu, 27 Jun 2019 17:43:30 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 27 Jun 2019 17:43:30 +0200
+Message-ID: <87tvcbc9ul.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Thu, 27 Jun 2019 15:43:33 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] Should configure --enable-debug add -Og to CFLAGS?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,19 +56,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu 27 Jun 2019 05:38:56 PM CEST, Alberto Garcia wrote:
->> I would consider 64k cluster/8k subcluster as too extreme for me.
+The fine manual advises:
 
-I forgot to add: this 64k/8k ratio is only with my current prototype.
+'-O0'
+     Reduce compilation time and make debugging produce the expected
+     results.  This is the default.
+[...]
+'-Og'
+     Optimize debugging experience.  '-Og' should be the optimization
+     level of choice for the standard edit-compile-debug cycle, offering
+     a reasonable level of optimization while maintaining fast
+     compilation and a good debugging experience.  It is a better choice
+     than '-O0' for producing debuggable code because some compiler
+     passes that collect debug information are disabled at '-O0'.
 
-In practice if we go with the 128-bit L2 entries we would have 64
-subclusters per cluster, or 32 if we want to have a separate
-QCOW_OFLAG_ZERO for each subcluster (would we need this?).
-
-Berto
+Our configure --enable-debug effectively picks -O0.  Should it pick -Og
+instead?
 
