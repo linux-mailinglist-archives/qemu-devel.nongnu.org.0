@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B9459D38
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:50:12 +0200 (CEST)
-Received: from localhost ([::1]:60116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 939D259CE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:24:16 +0200 (CEST)
+Received: from localhost ([::1]:59838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgrGV-00039x-Ui
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:50:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46050)
+	id 1hgqrP-0008UU-Dx
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:24:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42561)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <luc.michel@greensocs.com>) id 1hgqRg-0008C4-9J
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:57:42 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1hgqI2-00016M-Mr
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:47:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <luc.michel@greensocs.com>) id 1hgqRe-0000a6-Cz
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:57:40 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:37386)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <luc.michel@greensocs.com>)
- id 1hgqRb-0000Vs-F6
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:57:36 -0400
-Received: from michell-laptop.bar.greensocs.com (tiramisu.bar.greensocs.com
- [172.16.11.100])
- by beetle.greensocs.com (Postfix) with ESMTPS id 4458996F50;
- Fri, 28 Jun 2019 11:39:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1561721966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=vGJglh702cl6FmRisJGywG+JklkMnabza5AspO4T1mg=;
- b=ZCxwxyDuFpRcpgO5pMImOmPGRT3u+rAJ9LmfFhxpvp4GUwwWB5ZOolyY1tsfOwaqMo8/wI
- 7VyovHbgAUMbHtB7mH+2ZYF2hJylKYNS3YV3Q+CrYReGJVBhmRrEiaI9M5Z31J4xNPxxpQ
- BKuXjadrUBwfeBXZZtcaFlxe6YDnYIc=
-From: Luc Michel <luc.michel@greensocs.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 13:39:17 +0200
-Message-Id: <20190628113917.15869-1-luc.michel@greensocs.com>
-X-Mailer: git-send-email 2.22.0
+ (envelope-from <liq3ea@gmail.com>) id 1hgqI0-0002gj-Ch
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:47:42 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36952)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hgqHr-0002Zs-KU
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:47:34 -0400
+Received: by mail-ot1-x344.google.com with SMTP id s20so5836675otp.4
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 05:47:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=66jcoQfpbBEjhrwObrI3YU1kPZW5NkQInhBX/cZUjSI=;
+ b=WNoF0ZItm9h5/phaDrBp2WeS5oul6HPoZsdTCeWDkVP/BYWxj39M7tWzfVhtnreXAL
+ bd/ZFHQ2ggtpkOzvY9OccYEbI/p4+W1CnzNSmg1rp+bGgFNZ+nyB+h8CkdrlUs3VewuZ
+ nMA3gG0HUJllp+fnTlH9BF5pj8yCANIh7NV0w3rEzeNEH8skIJwWUZzYi8sYWbDzqHcy
+ b1woczKXsSoXIDLlauC824iywae+EehJlMKBroWJM3qE+6/RzQHkvcL7JNUK//tOtvuO
+ CV+tcQSmKFNxcqnlOtBiLRqCvT7j2L1KZ4wcpFt5xwI6GSp1mACV2viiT8PlF31A7Mou
+ HXTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=66jcoQfpbBEjhrwObrI3YU1kPZW5NkQInhBX/cZUjSI=;
+ b=kQ5zlLxRizzff/grXgLZ53+1OfGueDCV/MTM+wOkcehnZoDfOYanuRMcx+BBAhNzWj
+ T0cOO9YE2Jq1mfqaf8LNm0P7VfWlo/nix9xmiL/enIbKVc3C4ARu/GDaxjskQcNMpRkK
+ IFdMguyd7YC6ajmgs8/jyySrM7x3pc5iZBqeSKezpH8DVMt2xM0YhzIe19A7WxtoUIjm
+ N8wR34F7I6DK0Z8ixVDbMVUpIY7zSWjdLqE5PjMtRLGjrW8k/3YXEu2DSvHQk+V9wn9i
+ ZtURUebtnhb0sdXeZQiD3iZsj+eIlGEpMWXuki9FRvhzNbG6FA1cZGqA1+Qm0SVEcMvn
+ cDPA==
+X-Gm-Message-State: APjAAAU4zTowPr6n1pjSZurauCndjkYn/mkPhZFE8XQLuOWiOMyWyjxr
+ AfH30Uu+aYwru9hkFPPNF2y+AL6SXXHv8IUprjKuZpl8
+X-Google-Smtp-Source: APXvYqzspAmKdjEx7WS7CM8tGNDwfcTHyIOQmat/xTOfxfXgW5WvUCxITtzinBPT8UvBWT/EzBBk3NWJN2PU8bGw8Uk=
+X-Received: by 2002:a05:6830:1141:: with SMTP id
+ x1mr7328367otq.333.1561722170993; 
+ Fri, 28 Jun 2019 04:42:50 -0700 (PDT)
 MIME-Version: 1.0
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1561721966;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=vGJglh702cl6FmRisJGywG+JklkMnabza5AspO4T1mg=;
- b=Cbh/iJS1Ogf1gxxRQ5t8tWL/C5cwTLZVxXKa80/sDFPtCnmc9aQKts3zjxL4izs+v0a83F
- ckphuYV7eMebR7nE7vBalo95vNqzAr8p95VMEJ7eu71nxPY2eVEKJjikiCUvh5UYaw2jzN
- 4gz0mpec8ia9Th4HqhKrVjYSjKsERKs=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561721966; a=rsa-sha256; cv=none;
- b=Tf4yhS/UERwQVKapa5GJ8PaC5CGCN6JNUAPUq8bSzpHDeXWdyXqxhaLLihEk0pjOZzfu6K
- KalHXXpjpmg+T6/9t26au9t7kYdz1w+JDNVctusLgKo6Tc7BOlM1bMQdieU3W2UAQK2gMp
- mH0Qa7tKPa3GWoVjHOZtgYBA0EydXoQ=
-ARC-Authentication-Results: i=1;
-	beetle.greensocs.com;
-	none
+References: <20190628094901.13347-1-ppandit@redhat.com>
+In-Reply-To: <20190628094901.13347-1-ppandit@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Fri, 28 Jun 2019 19:42:14 +0800
+Message-ID: <CAKXe6S+aLo3B_f6xAOuQWSdvi4TiZfWhXw0hVrMww17BprztQw@mail.gmail.com>
+To: P J P <ppandit@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [RFC PATCH] accel/tcg/translator: add tb_enter TCG
- trace
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH] qemu-bridge-helper: restrict bridge name
+ to IFNAMSIZ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,141 +74,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, mark.burton@greensocs.com, sakisp@xilinx.com,
- edgari@xilinx.com, Paolo Bonzini <pbonzini@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>, Richard Henderson <rth@twiddle.net>
+Cc: Riccardo Schirone <rschiron@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a TCG trace at the begining of a translation block recording the
-first and last (past-the-end) PC values.
+Hello Prasad,
 
-Signed-off-by: Luc Michel <luc.michel@greensocs.com>
----
-This can be used to trace the execution of the guest quite efficiently.
-It will report each time a TB is entered (using the tb_enter_exec
-trace). The traces arguments give the PC start and past-the-end values.
-It has very little to no performance impact since the trace is actually
-emitted in the generated code only when it is enabled at run time.
+P J P <ppandit@redhat.com> =E4=BA=8E2019=E5=B9=B46=E6=9C=8828=E6=97=A5=E5=
+=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=885:52=E5=86=99=E9=81=93=EF=BC=9A
 
-It works already quite well on its own to trace guest execution. However
-it does not handle the case where a TB is exited in the middle of
-execution. I'm not sure how to properly trace that. A trace could be
-added when `cpu_loop_exit()' is called to report the current PC, but in
-most cases the interesting value (the PC of the instruction that
-caused the exit) is already lost at this stage.
-
-I'm not sure there is a generic (i.e. not target specific) way of
-recovering the last PC executed when cpu_loop_exit() is called. Do you
-think of a better way?
-
-Thanks to the Xilinx's QEMU team who sponsored this work.
----
- accel/tcg/translator.c | 24 ++++++++++++++++++++++++
- trace-events           |  3 +++
- 2 files changed, 27 insertions(+)
-
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 9226a348a3..c55377aa18 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -14,10 +14,11 @@
- #include "tcg/tcg-op.h"
- #include "exec/exec-all.h"
- #include "exec/gen-icount.h"
- #include "exec/log.h"
- #include "exec/translator.h"
-+#include "trace-tcg.h"
-=20
- /* Pairs with tcg_clear_temp_count.
-    To be called by #TranslatorOps.{translate_insn,tb_stop} if
-    (1) the target is sufficiently clean to support reporting,
-    (2) as and when all temporaries are known to be consumed.
-@@ -28,14 +29,31 @@ void translator_loop_temp_check(DisasContextBase *db)
-         qemu_log("warning: TCG temporary leaks before "
-                  TARGET_FMT_lx "\n", db->pc_next);
-     }
- }
-=20
-+static TCGOp *gen_trace_tb_enter(TranslationBlock *tb)
-+{
-+    TCGOp *last_pc_op;
-+
-+    TCGv pc_end =3D tcg_temp_new();
-+
-+    /* The last PC value is not known yet */
-+    tcg_gen_movi_tl(pc_end, 0xdeadbeef);
-+    last_pc_op =3D tcg_last_op();
-+
-+    trace_tb_enter_tcg(tcg_ctx->cpu, cpu_env, tb->pc, pc_end);
-+    tcg_temp_free(pc_end);
-+
-+    return last_pc_op;
-+}
-+
- void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
-                      CPUState *cpu, TranslationBlock *tb, int max_insns)
- {
-     int bp_insn =3D 0;
-+    TCGOp *trace_pc_end;
-=20
-     /* Initialize DisasContext */
-     db->tb =3D tb;
-     db->pc_first =3D tb->pc;
-     db->pc_next =3D db->pc_first;
-@@ -50,10 +68,13 @@ void translator_loop(const TranslatorOps *ops, DisasC=
-ontextBase *db,
-     /* Reset the temp count so that we can identify leaks */
-     tcg_clear_temp_count();
-=20
-     /* Start translating.  */
-     gen_tb_start(db->tb);
-+
-+    trace_pc_end =3D gen_trace_tb_enter(tb);
-+
-     ops->tb_start(db, cpu);
-     tcg_debug_assert(db->is_jmp =3D=3D DISAS_NEXT);  /* no early exit */
-=20
-     while (true) {
-         db->num_insns++;
-@@ -110,10 +131,13 @@ void translator_loop(const TranslatorOps *ops, Disa=
-sContextBase *db,
-=20
-     /* Emit code to exit the TB, as indicated by db->is_jmp.  */
-     ops->tb_stop(db, cpu);
-     gen_tb_end(db->tb, db->num_insns - bp_insn);
-=20
-+    /* Fixup the last PC value in the tb_enter trace now that we know it=
- */
-+    tcg_set_insn_param(trace_pc_end, 1, db->pc_next);
-+
-     /* The disas_log hook may use these values rather than recompute.  *=
-/
-     db->tb->size =3D db->pc_next - db->pc_first;
-     db->tb->icount =3D db->num_insns;
-=20
- #ifdef DEBUG_DISAS
-diff --git a/trace-events b/trace-events
-index aeea3c2bdb..e37fa12ef0 100644
---- a/trace-events
-+++ b/trace-events
-@@ -157,10 +157,13 @@ vcpu guest_cpu_reset(void)
- #
- # Mode: user, softmmu
- # Targets: TCG(all)
- vcpu tcg guest_mem_before(TCGv vaddr, uint8_t info) "info=3D%d", "vaddr=3D=
-0x%016"PRIx64" info=3D%d"
-=20
-+# translator.c
-+vcpu tcg tb_enter(uint64_t pc_start, TCGv pc_end) "pc_start:0x%"PRIx64, =
-"pc:0x%"PRIx64" pc_end:0x%"PRIx64
-+
- # linux-user/syscall.c
- # bsd-user/syscall.c
-=20
- # @num: System call number.
- # @arg*: System call argument value.
---=20
-2.22.0
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>
+> The interface names in qemu-bridge-helper are defined to be
+> of size IFNAMSIZ(=3D16), including the terminating null('\0') byte.
+> The same is applied to interface names read from 'bridge.conf'
+> file to form ACLs rules. If user supplied '--br=3Dbridge' name
+> is not restricted to the same length, it could lead to ACL bypass
+> issue. Restrict bridge name to IFNAMSIZ, including null byte.
+>
+> Reported-by: Riccardo Schirone <rschiron@redhat.com>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> ---
+>  qemu-bridge-helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
+> index f9940deefd..2eca8c5cc4 100644
+> --- a/qemu-bridge-helper.c
+> +++ b/qemu-bridge-helper.c
+> @@ -246,7 +246,7 @@ int main(int argc, char **argv)
+>          if (strcmp(argv[index], "--use-vnet") =3D=3D 0) {
+>              use_vnet =3D 1;
+>          } else if (strncmp(argv[index], "--br=3D", 5) =3D=3D 0) {
+> -            bridge =3D &argv[index][5];
+> +            bridge =3D strndup(&argv[index][5], IFNAMSIZ - 1);
+>
 
 
+I thinke we should cleanup the bridge in the final.
+
+Thanks,
+Li Qiang
+
+
+
+>          } else if (strncmp(argv[index], "--fd=3D", 5) =3D=3D 0) {
+>              unixfd =3D atoi(&argv[index][5]);
+>          } else {
+> --
+> 2.21.0
+>
+>
+>
