@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CA95A01A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:59:09 +0200 (CEST)
-Received: from localhost ([::1]:33680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2B45A1B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:02:43 +0200 (CEST)
+Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtHI-0007Ih-SK
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:59:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59705)
+	id 1hguGo-0001Zk-Dc
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32773)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lucienmp.qemu@gmail.com>) id 1hgt9A-0000tb-RG
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:50:47 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hgtED-0005DH-RE
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:55:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lucienmp.qemu@gmail.com>) id 1hgt97-0005XW-6T
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:50:42 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:37777)
+ (envelope-from <alistair23@gmail.com>) id 1hgtEC-0001iJ-GJ
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:55:57 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:46336)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <lucienmp.qemu@gmail.com>)
- id 1hgt93-0005Si-2o
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:50:39 -0400
-Received: by mail-pl1-x629.google.com with SMTP id bh12so3458513plb.4
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 08:50:35 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hgtEC-0001fv-7c; Fri, 28 Jun 2019 11:55:56 -0400
+Received: by mail-lf1-x142.google.com with SMTP id z15so4266559lfh.13;
+ Fri, 28 Jun 2019 08:55:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=KsLbvpCyR4a+KRaZnpaucBBRgOyS27v+zOrb4BVFYrA=;
- b=E0jqgwIm03hEirBQb+06MpgeJUE8RaQVdIm+zKGC3qNbrR+ZkNIe33zMI5jX7MRxVT
- r98GWtgKHDWsLjdmNR1ceo02u4azXgaz4rpYnzd4NJl7ty22PpEC4zczab7FcyJd2mnF
- 9VFlqqdofaangOai66H7LJlUhL+Eftnnvb3P5iAL9zDBBByif6J6yunyDZ/1PGmRzSYM
- mffN/HyOYciskDQzgXdgnmKyrjz1e/n9fE8FQp5HOBfMMhAGORRtUR0NvphANGe2ZQo0
- SA/VVdKBSPY/NokIwp+GXBNHdnsXjQGKz/Kdq03OHjOB0q9BvzNKHWX/CLzT3QLB/xdf
- aj9Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bgk0fvyLTEQHcq/I3vTtUQKrD/cy3HxJRA+JpMC9O8U=;
+ b=X2nDLgIgN8ohcI9VgAKoaRQgSB6JTHgQSKIzsKWuPHUPKvxsD/PrhM6VTbdgX+rtAB
+ ID12yaHTxNsWS8k36R0qCDHDm0HnSXsf0GSyo+Ar1MOk6Xm7VmLu4LXYK9ayf2mcmTTu
+ 6ApedU/bVtHfP999OKH+fZiYovSrDl6JfYhliETAlbRexgtn92OuNGZoQKTrRow2pG67
+ pS3lRZXa97QKQWplhrUcdU5VeYGAv/wDhMxtEhoJvdyzCUUoTh74vEgStsKXdJXThiAd
+ y9XDIY/uP0nfGE3eBgZiNQCeTztkGZCZ01e8ENhE4RqozDFYwDy9F7jjLZgze2kRGoKl
+ RU0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=KsLbvpCyR4a+KRaZnpaucBBRgOyS27v+zOrb4BVFYrA=;
- b=CsBkDIztKrKvQ/xazjHKp/39OKs64VTTr+MTDzejicuZ87ITGf+4vfIbqMDyb2mpoJ
- OBMfnxlAmjXMxV2jZsN6M4CHg45CG0iiOfgSY47/y4y0Y6Wo+n/2+CPFMf9ONNx2rNKk
- Q0N/sIcAfeA7SqRMy7BnJwkG/+Cb8tFa99x2xJDVgbsnYBzknR9MTBBvMg/2KT85hjel
- hwuE5lbHfWq9w7ksxepd3fBr4eaQIF0SIOB2LzDZ1HmFTwBLUZHAVarPLNARKk6dC8hF
- Gc/ImQY+rzHS3lgJaRvjNJAldTPk2D758yPW0JWHrXc7agF5FrajmEw2bo8895WpCD9R
- SSkA==
-X-Gm-Message-State: APjAAAWzHQFdewUavkt9Um8hEwyvRGl/2h3HfCJrTcBnsY86U78eTsFj
- Lk/7xwZWBEdc2JLGggtgu4g=
-X-Google-Smtp-Source: APXvYqyxurdj53HyPM2ViXii917O8N6ExAsuhSFkiZ3PMtAJKaxMWiK0A6aZkqje0N5n8L1Cr0/Y7A==
-X-Received: by 2002:a17:902:b594:: with SMTP id
- a20mr12812848pls.259.1561737034469; 
- Fri, 28 Jun 2019 08:50:34 -0700 (PDT)
-Received: from localhost.localdomain (i60-43-49-30.s30.a048.ap.plala.or.jp.
- [60.43.49.30])
- by smtp.gmail.com with ESMTPSA id u10sm1987622pgk.41.2019.06.28.08.50.32
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 08:50:33 -0700 (PDT)
-Date: Sat, 29 Jun 2019 00:50:30 +0900
-From: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190628155030.GA34320@localhost.localdomain>
-References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
- <2136180936.260219.1561641583358@mail.yahoo.com>
- <1079763171.281101.1561641752988@mail.yahoo.com>
- <e4c1fbc4-3e43-5df4-a17c-527d98d9763c@linaro.org>
- <20190628002713.GA19257@localhost.localdomain>
- <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bgk0fvyLTEQHcq/I3vTtUQKrD/cy3HxJRA+JpMC9O8U=;
+ b=E+4boUGLr74C5scvZ1JNk+tJqV8gKbtPzkpgKp0DoLhC5/i6GUmkSEE4jHlHO6uTU5
+ XWFyy5oLr5vcDS1WM2Hqv2hBMDPjGfoq5ojYOuDl/vkAlZP0sUp0VmprRNWoI+JwX/Wp
+ 8teBL/rhVIWu3CJvqYFqVZroqJuCoWI5NrSwljVJpOwfrthVriZDCdXlPUk55IHFZRlo
+ gCz6xbzWQQn4aZsrFH7Nh1pIQQ/geZZmjrid4vxQClrthpDBZ/ES8N2kimOfwQwJd1DK
+ UQc7BfLJPGqYkqAH5JbYiUlcShHbHVq+oTH7hRJC4cL9YteXc0esYZjyXAQgsji+xSmp
+ iTeA==
+X-Gm-Message-State: APjAAAUBkXpPEfVAn1bMq2fC5Oy4bDD8nk92dMuZaMI6Ey+LXnvv5050
+ ejpM7RA36GxCYnjlukA3VLHWigOVr0XE+3MMPkQ=
+X-Google-Smtp-Source: APXvYqwORYg0P6FHZvInyutYrPaylKS/1sWpB26992IB2bRC9hdB73l4c5Vr+W+qTtyMVbv9c8y/qLqyLoBdbXs6OMU=
+X-Received: by 2002:a19:4c05:: with SMTP id z5mr5295640lfa.5.1561737354154;
+ Fri, 28 Jun 2019 08:55:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+References: <20190627202719.17739-1-philmd@redhat.com>
+ <20190627202719.17739-3-philmd@redhat.com>
+In-Reply-To: <20190627202719.17739-3-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 28 Jun 2019 08:52:52 -0700
+Message-ID: <CAKmqyKPDKbHW+bH-sHefHJ3A_wpXNOyP2BoFRTtAMrr61yt6SA@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::629
-Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
- gen_exception
+X-Received-From: 2a00:1450:4864:20::142
+Subject: Re: [Qemu-devel] [PATCH v5 02/28] hw/block/pflash: Simplify
+ trace_pflash_io_read/write()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,78 +74,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 28, 2019 at 11:35:48AM +0200, Richard Henderson wrote:
-> On 6/28/19 2:27 AM, Lucien Murray-Pitts wrote:
-> > 
-> > [snip] ... the "return" address is the instruction that causes the exception.
-> > So it immediately does return to the ISR.
-> > This is a different issue, but I think interrelated to the original problem.
-> 
-> Is this a synchronous exception, like a SIGSEGV, that the instruction is
-> causing?  I have made attempts at fixing asynchronous interrupts, like the
-> clock, in the presence of single-stepping.  I haven't tested that in a while
-> and I hope it's still working...
+On Thu, Jun 27, 2019 at 1:38 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> Call the read() trace function after the value is set, so we can
+> log the returned value.
+> Rename the I/O trace functions with '_io_' in their name.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-This issue is to do with the stack frame generation storing the retaddr
-which is the current PC, I cant find any way to obtain the next PC when
-not inside the instructions (say a bus handler).  So RTE will return to
-the instruction causing SIGSEGV
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
- op_helper.c
-   static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
-   ...
-     if (cs->exception_index == EXCP_ACCESS) {
-      ...
-      do_stack_frame(env, &sp, 7, oldsr, 0, retaddr /*LMP: BROKEN - needs PC NEXT*/);
+Alistair
 
-Actually according to the MC68000 manuals the "return address" (the PC saved on
-the stack) can be upto 5 instructions later due to prefetch. So some pc_next would best
-be used here.
-
-I am not clear how this should work in the presence of an MMU though.
-
-I am triggering this from inside my device by doing the following, since that memory address
-should dynamically cause a bus error (I hope this is the right way to do it)
-   cpuclass->do_unassigned_access( s->cpu, /*addr*/0x0, /*is_write*/1, /*is_exec*/0, opaque, /*size*/4);
-
-Something similar with TRAP#0 / RTE combination will happen.
-Stepping on the TRAP#0 does correctly get me to the ISR, but a subsequent RTE will
-step me +1 past the return whilst a break point and run will land in the right place.
-I need to experiment a bit more with a solid setup.
-
-
-> > Further single stepping INTO the failing instruction results in ending up
-> > at the ISR +1 instruction
-> 
-> For a synchronous exception, that sounds like a real bug.
-> 
-> Probably within cpu_handle_exception,
-> 
->   #else
->           if (replay_exception()) {
->               CPUClass *cc = CPU_GET_CLASS(cpu);
->               qemu_mutex_lock_iothread();
->               cc->do_interrupt(cpu);
->               qemu_mutex_unlock_iothread();
-> +             /* Single-step into the exception handler.  */
-> +             if (cpu->singlestep_enabled) {
-> +                 cpu_handle_debug_exception(cpu);
-> +             }
->               cpu->exception_index = -1;
->           } else if (!replay_has_interrupt()) {
-> 
-> 
-> r~
-
-I see the function but in 4.0 its been mangled a bit more, so I will have to get
-back to you.  Seems that the issue persists in 2.x so maybe this is something new.
-
-Cheers,
-Luc
-
+> ---
+>  hw/block/pflash_cfi01.c | 5 +++--
+>  hw/block/pflash_cfi02.c | 6 ++----
+>  hw/block/trace-events   | 4 ++--
+>  3 files changed, 7 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 35080d915f..74fc1bc2da 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -288,7 +288,6 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr =
+offset,
+>      uint32_t ret;
+>
+>      ret =3D -1;
+> -    trace_pflash_read(offset, pfl->cmd, width, pfl->wcycle);
+>      switch (pfl->cmd) {
+>      default:
+>          /* This should never happen : reset state & treat it as a read *=
+/
+> @@ -391,6 +390,8 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr =
+offset,
+>
+>          break;
+>      }
+> +    trace_pflash_io_read(offset, width, width << 1, ret, pfl->cmd, pfl->=
+wcycle);
+> +
+>      return ret;
+>  }
+>
+> @@ -453,7 +454,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>
+>      cmd =3D value;
+>
+> -    trace_pflash_write(offset, value, width, pfl->wcycle);
+> +    trace_pflash_io_write(offset, width, width << 1, value, pfl->wcycle)=
+;
+>      if (!pfl->wcycle) {
+>          /* Set the device in I/O access mode */
+>          memory_region_rom_device_set_romd(&pfl->mem, false);
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index eb106f4996..f05cd507b3 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -145,7 +145,6 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
+offset,
+>      uint8_t *p;
+>
+>      ret =3D -1;
+> -    trace_pflash_read(offset, pfl->cmd, width, pfl->wcycle);
+>      /* Lazy reset to ROMD mode after a certain amount of read accesses *=
+/
+>      if (!pfl->rom_mode && pfl->wcycle =3D=3D 0 &&
+>          ++pfl->read_counter > PFLASH_LAZY_ROMD_THRESHOLD) {
+> @@ -241,6 +240,7 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
+offset,
+>          }
+>          break;
+>      }
+> +    trace_pflash_io_read(offset, width, width << 1, ret, pfl->cmd, pfl->=
+wcycle);
+>
+>      return ret;
+>  }
+> @@ -267,6 +267,7 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr off=
+set,
+>      uint8_t *p;
+>      uint8_t cmd;
+>
+> +    trace_pflash_io_write(offset, width, width << 1, value, pfl->wcycle)=
+;
+>      cmd =3D value;
+>      if (pfl->cmd !=3D 0xA0 && cmd =3D=3D 0xF0) {
+>  #if 0
+> @@ -275,11 +276,8 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr of=
+fset,
+>  #endif
+>          goto reset_flash;
+>      }
+> -    trace_pflash_write(offset, value, width, pfl->wcycle);
+>      offset &=3D pfl->chip_len - 1;
+>
+> -    DPRINTF("%s: offset " TARGET_FMT_plx " %08x %d\n", __func__,
+> -            offset, value, width);
+>      boff =3D offset & (pfl->sector_len - 1);
+>      if (pfl->width =3D=3D 2)
+>          boff =3D boff >> 1;
+> diff --git a/hw/block/trace-events b/hw/block/trace-events
+> index 97a17838ed..f637fe918e 100644
+> --- a/hw/block/trace-events
+> +++ b/hw/block/trace-events
+> @@ -7,9 +7,9 @@ fdc_ioport_write(uint8_t reg, uint8_t value) "write reg 0=
+x%02x val 0x%02x"
+>  # pflash_cfi02.c
+>  # pflash_cfi01.c
+>  pflash_reset(void) "reset"
+> -pflash_read(uint64_t offset, uint8_t cmd, int width, uint8_t wcycle) "of=
+fset:0x%04"PRIx64" cmd:0x%02x width:%d wcycle:%u"
+> -pflash_write(uint64_t offset, uint32_t value, int width, uint8_t wcycle)=
+ "offset:0x%04"PRIx64" value:0x%03x width:%d wcycle:%u"
+>  pflash_timer_expired(uint8_t cmd) "command 0x%02x done"
+> +pflash_io_read(uint64_t offset, int width, int fmt_width, uint32_t value=
+, uint8_t cmd, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%0*x =
+cmd:0x%02x wcycle:%u"
+> +pflash_io_write(uint64_t offset, int width, int fmt_width, uint32_t valu=
+e, uint8_t wcycle) "offset:0x%04"PRIx64" width:%d value:0x%0*x wcycle:%u"
+>  pflash_data_read8(uint64_t offset, uint32_t value) "data offset:0x%04"PR=
+Ix64" value:0x%02x"
+>  pflash_data_read16(uint64_t offset, uint32_t value) "data offset:0x%04"P=
+RIx64" value:0x%04x"
+>  pflash_data_read32(uint64_t offset, uint32_t value) "data offset:0x%04"P=
+RIx64" value:0x%08x"
+> --
+> 2.20.1
+>
+>
 
