@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EB95A627
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 23:09:36 +0200 (CEST)
-Received: from localhost ([::1]:36344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A145A650
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 23:27:34 +0200 (CEST)
+Received: from localhost ([::1]:36444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgy7k-0006HL-40
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 17:09:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53457)
+	id 1hgyP7-0004bR-9z
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 17:27:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56873)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <slp@redhat.com>) id 1hgy3w-0005On-Ty
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 17:05:46 -0400
+ (envelope-from <yan.y.zhao@intel.com>) id 1hgyKD-0002oR-Co
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 17:22:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1hgy3m-0005UO-JV
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 17:05:36 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:52466)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hgy3j-0005Qv-Jc
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 17:05:28 -0400
-Received: by mail-wm1-f65.google.com with SMTP id s3so10320692wms.2
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 14:05:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version;
- bh=1aN1XAL47Dqcg+57gF64m6ozMUiXLgnOtqkSZY8euFE=;
- b=nhRG3On0GqV1vB7ZWrUnrocYg6texQmttF7N+BQJVXatKc990C4+vyydrRvbi1+ik6
- mNFKY5OjRM2byr2g3ThmkPQ5rHtL5T0PL3dd1w2n06mK1mDf0iITPXVowBtl73K8vU72
- DnLXYoLHMF/M3JXV9dwqgEHr0vrVP8jLTBlrZJKd2g9jYVA+Ap7mjlQTlKNvUREJS6oz
- rxfXB+y41aR4JHzCHf/Ugf7T4oBnEicKxn9nsYh/YbjhQAE6mvLhNAcJtpm40HTKQb41
- O1o2eNjTlf5BoPS6gxSq6bJt8TMV+P9HbAdVlVV2rmX7Qcptu6CKBu19ZWZphkrmMIw4
- XWhg==
-X-Gm-Message-State: APjAAAUHGot9IT9l85ckDjzrSZdEUDWrvgd9znMY80wp4CXFeTL+kurQ
- CG1Vkyqzpkf+7psk3OrEImvOZ/Fa5A8=
-X-Google-Smtp-Source: APXvYqxGPeR07Bw0pbzpdf9EKPpk8K7HNM6Ef7AkYcz5u39caXi2XGz8lP38xPlBr7EXJNoCXPG55A==
-X-Received: by 2002:a7b:cc86:: with SMTP id p6mr7737693wma.123.1561755924461; 
- Fri, 28 Jun 2019 14:05:24 -0700 (PDT)
-Received: from dritchie.redhat.com (73.red-88-25-212.staticip.rima-tde.net.
- [88.25.212.73])
- by smtp.gmail.com with ESMTPSA id o4sm3244363wmh.35.2019.06.28.14.05.23
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 14:05:23 -0700 (PDT)
-References: <20190628115349.60293-1-slp@redhat.com>
- <20190628115349.60293-5-slp@redhat.com>
- <32a9e3dd-4813-f83b-166d-97864b14656a@oracle.com>
-User-agent: mu4e 1.2.0; emacs 26.2
-From: Sergio Lopez <slp@redhat.com>
-To: Maran Wilson <maran.wilson@oracle.com>
-In-reply-to: <32a9e3dd-4813-f83b-166d-97864b14656a@oracle.com>
-Date: Fri, 28 Jun 2019 23:05:21 +0200
-Message-ID: <87o92hwhda.fsf@redhat.com>
+ (envelope-from <yan.y.zhao@intel.com>) id 1hgyKB-0003FI-EU
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 17:22:29 -0400
+Received: from mga11.intel.com ([192.55.52.93]:52433)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+ id 1hgyKA-00038C-Ta
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 17:22:27 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2019 14:22:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,429,1557212400"; d="scan'208";a="361200347"
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+ ([10.239.13.9])
+ by fmsmga005.fm.intel.com with ESMTP; 28 Jun 2019 14:22:16 -0700
+Date: Fri, 28 Jun 2019 17:16:21 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190628211621.GG6971@joy-OptiPlex-7040>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-9-git-send-email-kwankhede@nvidia.com>
+ <20190621003153.GG9303@joy-OptiPlex-7040>
+ <20190625033029.GC6971@joy-OptiPlex-7040>
+ <20190628085030.GA2922@work-vm>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH 4/4] hw/i386: Introduce the microvm machine
- type
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190628085030.GA2922@work-vm>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.93
+Subject: Re: [Qemu-devel] [PATCH v4 08/13] vfio: Add save state functions to
+ SaveVMHandlers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,738 +62,340 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, rth@twiddle.net
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "yulei.zhang@intel.com" <yulei.zhang@intel.com>,
+ "aik@ozlabs.ru" <aik@ozlabs.ru>, Kirti Wankhede <kwankhede@nvidia.com>,
+ "eauger@redhat.com" <eauger@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Wang, Zhi A" <zhi.a.wang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
+On Fri, Jun 28, 2019 at 04:50:30PM +0800, Dr. David Alan Gilbert wrote:
+> * Yan Zhao (yan.y.zhao@intel.com) wrote:
+> > On Fri, Jun 21, 2019 at 08:31:53AM +0800, Yan Zhao wrote:
+> > > On Thu, Jun 20, 2019 at 10:37:36PM +0800, Kirti Wankhede wrote:
+> > > > Added .save_live_pending, .save_live_iterate and .save_live_complete_precopy
+> > > > functions. These functions handles pre-copy and stop-and-copy phase.
+> > > > 
+> > > > In _SAVING|_RUNNING device state or pre-copy phase:
+> > > > - read pending_bytes
+> > > > - read data_offset - indicates kernel driver to write data to staging
+> > > >   buffer which is mmapped.
+> > > > - read data_size - amount of data in bytes written by vendor driver in migration
+> > > >   region.
+> > > > - if data section is trapped, pread() number of bytes in data_size, from
+> > > >   data_offset.
+> > > > - if data section is mmaped, read mmaped buffer of size data_size.
+> > > > - Write data packet to file stream as below:
+> > > > {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data,
+> > > > VFIO_MIG_FLAG_END_OF_STATE }
+> > > > 
+> > > > In _SAVING device state or stop-and-copy phase
+> > > > a. read config space of device and save to migration file stream. This
+> > > >    doesn't need to be from vendor driver. Any other special config state
+> > > >    from driver can be saved as data in following iteration.
+> > > > b. read pending_bytes - indicates kernel driver to write data to staging
+> > > >    buffer which is mmapped.
+> > > > c. read data_size - amount of data in bytes written by vendor driver in
+> > > >    migration region.
+> > > > d. if data section is trapped, pread() from data_offset of size data_size.
+> > > > e. if data section is mmaped, read mmaped buffer of size data_size.
+> > > > f. Write data packet as below:
+> > > >    {VFIO_MIG_FLAG_DEV_DATA_STATE, data_size, actual data}
+> > > > g. iterate through steps b to f until (pending_bytes > 0)
+> > > > h. Write {VFIO_MIG_FLAG_END_OF_STATE}
+> > > > 
+> > > > .save_live_iterate runs outside the iothread lock in the migration case, which
+> > > > could race with asynchronous call to get dirty page list causing data corruption
+> > > > in mapped migration region. Mutex added here to serial migration buffer read
+> > > > operation.
+> > > > 
+> > > > Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> > > > Reviewed-by: Neo Jia <cjia@nvidia.com>
+> > > > ---
+> > > >  hw/vfio/migration.c | 212 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 212 insertions(+)
+> > > > 
+> > > > diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> > > > index fe0887c27664..0a2f30872316 100644
+> > > > --- a/hw/vfio/migration.c
+> > > > +++ b/hw/vfio/migration.c
+> > > > @@ -107,6 +107,111 @@ static int vfio_migration_set_state(VFIODevice *vbasedev, uint32_t state)
+> > > >      return 0;
+> > > >  }
+> > > >  
+> > > > +static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev)
+> > > > +{
+> > > > +    VFIOMigration *migration = vbasedev->migration;
+> > > > +    VFIORegion *region = &migration->region.buffer;
+> > > > +    uint64_t data_offset = 0, data_size = 0;
+> > > > +    int ret;
+> > > > +
+> > > > +    ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
+> > > > +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> > > > +                                             data_offset));
+> > > > +    if (ret != sizeof(data_offset)) {
+> > > > +        error_report("Failed to get migration buffer data offset %d",
+> > > > +                     ret);
+> > > > +        return -EINVAL;
+> > > > +    }
+> > > > +
+> > > > +    ret = pread(vbasedev->fd, &data_size, sizeof(data_size),
+> > > > +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> > > > +                                             data_size));
+> > > > +    if (ret != sizeof(data_size)) {
+> > > > +        error_report("Failed to get migration buffer data size %d",
+> > > > +                     ret);
+> > > > +        return -EINVAL;
+> > > > +    }
+> > > > +
+> > > how big is the data_size ? 
+> > > if this size is too big, it may take too much time and block others.
+> > > 
+> > > > +    if (data_size > 0) {
+> > > > +        void *buf = NULL;
+> > > > +        bool buffer_mmaped = false;
+> > > > +
+> > > > +        if (region->mmaps) {
+> > > > +            int i;
+> > > > +
+> > > > +            for (i = 0; i < region->nr_mmaps; i++) {
+> > > > +                if ((data_offset >= region->mmaps[i].offset) &&
+> > > > +                    (data_offset < region->mmaps[i].offset +
+> > > > +                                   region->mmaps[i].size)) {
+> > > > +                    buf = region->mmaps[i].mmap + (data_offset -
+> > > > +                                                   region->mmaps[i].offset);
+> > > > +                    buffer_mmaped = true;
+> > > > +                    break;
+> > > > +                }
+> > > > +            }
+> > > > +        }
+> > > > +
+> > > > +        if (!buffer_mmaped) {
+> > > > +            buf = g_malloc0(data_size);
+> > > > +            ret = pread(vbasedev->fd, buf, data_size,
+> > > > +                        region->fd_offset + data_offset);
+> > > > +            if (ret != data_size) {
+> > > > +                error_report("Failed to get migration data %d", ret);
+> > > > +                g_free(buf);
+> > > > +                return -EINVAL;
+> > > > +            }
+> > > > +        }
+> > > > +
+> > > > +        qemu_put_be64(f, data_size);
+> > > > +        qemu_put_buffer(f, buf, data_size);
+> > > > +
+> > > > +        if (!buffer_mmaped) {
+> > > > +            g_free(buf);
+> > > > +        }
+> > > > +        migration->pending_bytes -= data_size;
+> > > > +    } else {
+> > > > +        qemu_put_be64(f, data_size);
+> > > > +    }
+> > > > +
+> > > > +    ret = qemu_file_get_error(f);
+> > > > +
+> > > > +    return data_size;
+> > > > +}
+> > > > +
+> > > > +static int vfio_update_pending(VFIODevice *vbasedev)
+> > > > +{
+> > > > +    VFIOMigration *migration = vbasedev->migration;
+> > > > +    VFIORegion *region = &migration->region.buffer;
+> > > > +    uint64_t pending_bytes = 0;
+> > > > +    int ret;
+> > > > +
+> > > > +    ret = pread(vbasedev->fd, &pending_bytes, sizeof(pending_bytes),
+> > > > +                region->fd_offset + offsetof(struct vfio_device_migration_info,
+> > > > +                                             pending_bytes));
+> > > > +    if ((ret < 0) || (ret != sizeof(pending_bytes))) {
+> > > > +        error_report("Failed to get pending bytes %d", ret);
+> > > > +        migration->pending_bytes = 0;
+> > > > +        return (ret < 0) ? ret : -EINVAL;
+> > > > +    }
+> > > > +
+> > > > +    migration->pending_bytes = pending_bytes;
+> > > > +    return 0;
+> > > > +}
+> > > > +
+> > > > +static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+> > > > +{
+> > > > +    VFIODevice *vbasedev = opaque;
+> > > > +
+> > > > +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_CONFIG_STATE);
+> > > > +
+> > > > +    if (vbasedev->type == VFIO_DEVICE_TYPE_PCI) {
+> > > > +        vfio_pci_save_config(vbasedev, f);
+> > > > +    }
+> > > > +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+> > > > +
+> > > > +    return qemu_file_get_error(f);
+> > > > +}
+> > > > +
+> > > >  /* ---------------------------------------------------------------------- */
+> > > >  
+> > > >  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> > > > @@ -163,9 +268,116 @@ static void vfio_save_cleanup(void *opaque)
+> > > >      }
+> > > >  }
+> > > >  
+> > > > +static void vfio_save_pending(QEMUFile *f, void *opaque,
+> > > > +                              uint64_t threshold_size,
+> > > > +                              uint64_t *res_precopy_only,
+> > > > +                              uint64_t *res_compatible,
+> > > > +                              uint64_t *res_postcopy_only)
+> > > > +{
+> > > > +    VFIODevice *vbasedev = opaque;
+> > > > +    VFIOMigration *migration = vbasedev->migration;
+> > > > +    int ret;
+> > > > +
+> > > > +    ret = vfio_update_pending(vbasedev);
+> > > > +    if (ret) {
+> > > > +        return;
+> > > > +    }
+> > > > +
+> > > > +    if (vbasedev->device_state & VFIO_DEVICE_STATE_RUNNING) {
+> > > > +        *res_precopy_only += migration->pending_bytes;
+> > > > +    } else {
+> > > > +        *res_postcopy_only += migration->pending_bytes;
+> > > > +    }
+> > by definition,
+> > - res_precopy_only is for data which must be migrated in precopy phase
+> >    or in stopped state, in other words - before target vm start
+> > - res_postcopy_only is for data which must be migrated in postcopy phase
+> >   or in stopped state, in other words - after source vm stop
+> > So, we can only determining data type by the nature of the data. i.e.
+> > if it is device state data which must be copied after source vm stop and
+> > before target vm start, it belongs to res_precopy_only.
+> > 
+> > It is not right to determining data type by current device state.
+> 
+> Right; you can determine it by whether postcopy is *enabled* or not.
+> However, since this isn't ready for postcopy yet anyway, just add it to
+> res_postcopy_only all the time;  then you can come back to postcopy
+hi Dave,
+do you mean "add it to res_precopy_only all the time" here?
+
+Thanks
+Yan
 
 
-Maran Wilson <maran.wilson@oracle.com> writes:
-
-> This seems like a good overall direction to be headed with Qemu.
->
-> But there is a lot of Linux OS specific startup details being baked
-> into the Qemu machine type here. Things that are usually pushed into
-> firmware or option ROM.
->
-> Instead of hard coding all the Zero page stuff into the Qemu machine
-> model, couldn't you just setup the PVH kernel entry point and leave
-> all the OS specific details to the OS being started? That way, at
-> least you are programming to a more generic ABI spec. See:
-> https://gist.github.com/stefano-garzarella/7b7e17e75add20abd1c42fb496cc6504
->
-> And I think you still wouldn't need any firmware if you just replace
-> your zeropage initialization with PVH spec setup.
-
-The main reason for relying on Linux's Zero Page, is to be able to
-pass the e820 table with the basic physical memory layout to the kernel
-through it, as there isn't a BIOS nor ACPI. AFAIK, we can't do that with
-PVH.
-
-I'm inclined to keep it this way, and once there's an interest to use
-the microvm machine type with a different kernel, try to find some
-common ground.
-
-> Thanks,
-> -Maran
->
-> On 6/28/2019 4:53 AM, Sergio Lopez wrote:
->> Microvm is a machine type inspired by both NEMU and Firecracker, and
->> constructed after the machine model implemented by the latter.
->>
->> It's main purpose is providing users a KVM-only machine type with fast
->> boot times, minimal attack surface (measured as the number of IO ports
->> and MMIO regions exposed to the Guest) and small footprint (specially
->> when combined with the ongoing QEMU modularization effort).
->>
->> Normally, other than the device support provided by KVM itself,
->> microvm only supports virtio-mmio devices. Microvm also includes a
->> legacy mode, which adds an ISA bus with a 16550A serial port, useful
->> for being able to see the early boot kernel messages.
->>
->> Signed-off-by: Sergio Lopez <slp@redhat.com>
->> ---
->>   default-configs/i386-softmmu.mak |   1 +
->>   hw/i386/Kconfig                  |   4 +
->>   hw/i386/Makefile.objs            |   1 +
->>   hw/i386/microvm.c                | 518 +++++++++++++++++++++++++++++++
->>   include/hw/i386/microvm.h        |  85 +++++
->>   5 files changed, 609 insertions(+)
->>   create mode 100644 hw/i386/microvm.c
->>   create mode 100644 include/hw/i386/microvm.h
->>
->> diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-softmmu.mak
->> index cd5ea391e8..338f07420f 100644
->> --- a/default-configs/i386-softmmu.mak
->> +++ b/default-configs/i386-softmmu.mak
->> @@ -26,3 +26,4 @@ CONFIG_ISAPC=y
->>   CONFIG_I440FX=y
->>   CONFIG_Q35=y
->>   CONFIG_ACPI_PCI=y
->> +CONFIG_MICROVM=y
->> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
->> index 9817888216..94c565d8db 100644
->> --- a/hw/i386/Kconfig
->> +++ b/hw/i386/Kconfig
->> @@ -87,6 +87,10 @@ config Q35
->>       select VMMOUSE
->>       select FW_CFG_DMA
->>   +config MICROVM
->> +    bool
->> +    select VIRTIO_MMIO
->> +
->>   config VTD
->>       bool
->>   diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
->> index 102f2b35fc..149bdd0784 100644
->> --- a/hw/i386/Makefile.objs
->> +++ b/hw/i386/Makefile.objs
->> @@ -4,6 +4,7 @@ obj-y += cpu.o
->>   obj-y += pc.o
->>   obj-$(CONFIG_I440FX) += pc_piix.o
->>   obj-$(CONFIG_Q35) += pc_q35.o
->> +obj-$(CONFIG_MICROVM) += mptable.o microvm.o
->>   obj-y += fw_cfg.o pc_sysfw.o
->>   obj-y += x86-iommu.o
->>   obj-$(CONFIG_VTD) += intel_iommu.o
->> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
->> new file mode 100644
->> index 0000000000..fff88c3697
->> --- /dev/null
->> +++ b/hw/i386/microvm.c
->> @@ -0,0 +1,518 @@
->> +/*
->> + *
->> + * Copyright (c) 2018 Intel Corporation
->> + * Copyright (c) 2019 Red Hat, Inc.
->> + *
->> + * This program is free software; you can redistribute it and/or modify it
->> + * under the terms and conditions of the GNU General Public License,
->> + * version 2 or later, as published by the Free Software Foundation.
->> + *
->> + * This program is distributed in the hope it will be useful, but WITHOUT
->> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
->> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
->> + * more details.
->> + *
->> + * You should have received a copy of the GNU General Public License along with
->> + * this program.  If not, see <http://www.gnu.org/licenses/>.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "qemu/error-report.h"
->> +#include "qapi/error.h"
->> +#include "qapi/visitor.h"
->> +#include "sysemu/sysemu.h"
->> +#include "sysemu/cpus.h"
->> +#include "sysemu/numa.h"
->> +
->> +#include "hw/loader.h"
->> +#include "hw/nmi.h"
->> +#include "hw/kvm/clock.h"
->> +#include "hw/i386/microvm.h"
->> +#include "hw/i386/pc.h"
->> +#include "hw/i386/cpu-internal.h"
->> +#include "target/i386/cpu.h"
->> +#include "hw/timer/i8254.h"
->> +#include "hw/char/serial.h"
->> +#include "hw/i386/topology.h"
->> +#include "hw/virtio/virtio-mmio.h"
->> +#include "hw/i386/mptable.h"
->> +
->> +#include "cpu.h"
->> +#include "elf.h"
->> +#include "kvm_i386.h"
->> +#include <asm/bootparam.h>
->> +
->> +#define DEFINE_MICROVM_MACHINE_LATEST(major, minor, latest) \
->> +    static void microvm_##major##_##minor##_object_class_init(ObjectClass *oc, \
->> +                                                              void *data) \
->> +    { \
->> +        MachineClass *mc = MACHINE_CLASS(oc); \
->> +        microvm_##major##_##minor##_machine_class_init(mc); \
->> +        mc->desc = "Microvm (i386)"; \
->> +        if (latest) { \
->> +            mc->alias = "microvm"; \
->> +        } \
->> +    } \
->> +    static const TypeInfo microvm_##major##_##minor##_info = { \
->> +        .name = MACHINE_TYPE_NAME("microvm-" # major "." # minor), \
->> +        .parent = TYPE_MICROVM_MACHINE, \
->> +        .instance_init = microvm_##major##_##minor##_instance_init, \
->> +        .class_init = microvm_##major##_##minor##_object_class_init, \
->> +    }; \
->> +    static void microvm_##major##_##minor##_init(void) \
->> +    { \
->> +        type_register_static(&microvm_##major##_##minor##_info); \
->> +    } \
->> +    type_init(microvm_##major##_##minor##_init);
->> +
->> +#define DEFINE_MICROVM_MACHINE_AS_LATEST(major, minor) \
->> +    DEFINE_MICROVM_MACHINE_LATEST(major, minor, true)
->> +#define DEFINE_MICROVM_MACHINE(major, minor) \
->> +    DEFINE_MICROVM_MACHINE_LATEST(major, minor, false)
->> +
->> +static void microvm_gsi_handler(void *opaque, int n, int level)
->> +{
->> +    qemu_irq *ioapic_irq = opaque;
->> +
->> +    qemu_set_irq(ioapic_irq[n], level);
->> +}
->> +
->> +static void microvm_legacy_init(MicrovmMachineState *mms)
->> +{
->> +    ISABus *isa_bus;
->> +    GSIState *gsi_state;
->> +    qemu_irq *i8259;
->> +    int i;
->> +
->> +    assert(kvm_irqchip_in_kernel());
->> +    gsi_state = g_malloc0(sizeof(*gsi_state));
->> +    mms->gsi = qemu_allocate_irqs(gsi_handler, gsi_state, GSI_NUM_PINS);
->> +
->> +    isa_bus = isa_bus_new(NULL, get_system_memory(), get_system_io(),
->> +                          &error_abort);
->> +    isa_bus_irqs(isa_bus, mms->gsi);
->> +
->> +    assert(kvm_pic_in_kernel());
->> +    i8259 = kvm_i8259_init(isa_bus);
->> +
->> +    for (i = 0; i < ISA_NUM_IRQS; i++) {
->> +        gsi_state->i8259_irq[i] = i8259[i];
->> +    }
->> +
->> +    kvm_pit_init(isa_bus, 0x40);
->> +
->> +    for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
->> +        int nirq = VIRTIO_IRQ_BASE + i;
->> +        ISADevice *isadev = isa_create(isa_bus, TYPE_ISA_SERIAL);
->> +        qemu_irq mmio_irq;
->> +
->> +        isa_init_irq(isadev, &mmio_irq, nirq);
->> +        sysbus_create_simple("virtio-mmio",
->> +                             VIRTIO_MMIO_BASE + i * 512,
->> +                             mms->gsi[VIRTIO_IRQ_BASE + i]);
->> +    }
->> +
->> +    g_free(i8259);
->> +
->> +    serial_hds_isa_init(isa_bus, 0, 1);
->> +}
->> +
->> +static void microvm_ioapic_init(MicrovmMachineState *mms)
->> +{
->> +    qemu_irq *ioapic_irq;
->> +    DeviceState *ioapic_dev;
->> +    SysBusDevice *d;
->> +    int i;
->> +
->> +    assert(kvm_irqchip_in_kernel());
->> +    ioapic_irq = g_new0(qemu_irq, IOAPIC_NUM_PINS);
->> +    kvm_pc_setup_irq_routing(true);
->> +
->> +    assert(kvm_ioapic_in_kernel());
->> +    ioapic_dev = qdev_create(NULL, "kvm-ioapic");
->> +
->> +    object_property_add_child(qdev_get_machine(), "ioapic", OBJECT(ioapic_dev), NULL);
->> +
->> +    qdev_init_nofail(ioapic_dev);
->> +    d = SYS_BUS_DEVICE(ioapic_dev);
->> +    sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
->> +
->> +    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
->> +        ioapic_irq[i] = qdev_get_gpio_in(ioapic_dev, i);
->> +    }
->> +
->> +    mms->gsi = qemu_allocate_irqs(microvm_gsi_handler, ioapic_irq, IOAPIC_NUM_PINS);
->> +
->> +    for (i = 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
->> +        sysbus_create_simple("virtio-mmio",
->> +                             VIRTIO_MMIO_BASE + i * 512,
->> +                             mms->gsi[VIRTIO_IRQ_BASE + i]);
->> +    }
->> +}
->> +
->> +static void microvm_memory_init(MicrovmMachineState *mms)
->> +{
->> +    MachineState *machine = MACHINE(mms);
->> +    MemoryRegion *ram, *ram_below_4g, *ram_above_4g;
->> +    MemoryRegion *system_memory = get_system_memory();
->> +
->> +    if (machine->ram_size > MICROVM_MAX_BELOW_4G) {
->> +        mms->above_4g_mem_size = machine->ram_size - MICROVM_MAX_BELOW_4G;
->> +        mms->below_4g_mem_size = MICROVM_MAX_BELOW_4G;
->> +    } else {
->> +        mms->above_4g_mem_size = 0;
->> +        mms->below_4g_mem_size = machine->ram_size;
->> +    }
->> +
->> +    ram = g_malloc(sizeof(*ram));
->> +    memory_region_allocate_system_memory(ram, NULL, "microvm.ram",
->> +                                         machine->ram_size);
->> +
->> +    ram_below_4g = g_malloc(sizeof(*ram_below_4g));
->> +    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", ram,
->> +                             0, mms->below_4g_mem_size);
->> +    memory_region_add_subregion(system_memory, 0, ram_below_4g);
->> +
->> +    e820_add_entry(0, mms->below_4g_mem_size, E820_RAM);
->> +
->> +    if (mms->above_4g_mem_size > 0) {
->> +        ram_above_4g = g_malloc(sizeof(*ram_above_4g));
->> +        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g", ram,
->> +                                 mms->below_4g_mem_size,
->> +                                 mms->above_4g_mem_size);
->> +        memory_region_add_subregion(system_memory, 0x100000000ULL,
->> +                                    ram_above_4g);
->> +        e820_add_entry(0x100000000ULL, mms->above_4g_mem_size, E820_RAM);
->> +    }
->> +}
->> +
->> +static void microvm_machine_state_init(MachineState *machine)
->> +{
->> +    MicrovmMachineState *mms = MICROVM_MACHINE(machine);
->> +    uint64_t elf_entry;
->> +    int kernel_size;
->> +
->> +    if (machine->kernel_filename == NULL) {
->> +        error_report("missing kernel image file name, required by microvm");
->> +        exit(1);
->> +    }
->> +
->> +    microvm_memory_init(mms);
->> +    if (mms->legacy) {
->> +        microvm_legacy_init(mms);
->> +    } else {
->> +        microvm_ioapic_init(mms);
->> +    }
->> +
->> +    mms->apic_id_limit = cpus_init(machine, false);
->> +
->> +    kvmclock_create();
->> +
->> +    kernel_size = load_elf(machine->kernel_filename, NULL,
->> +                           NULL, NULL, &elf_entry,
->> +                           NULL, NULL, 0, I386_ELF_MACHINE,
->> +                           0, 0);
->> +
->> +    if (kernel_size < 0) {
->> +        error_report("Error while loading elf kernel");
->> +        exit(1);
->> +    }
->> +
->> +    mms->elf_entry = elf_entry;
->> +}
->> +
->> +static gchar *microvm_get_virtio_mmio_cmdline(gchar *name)
->> +{
->> +    gchar *cmdline;
->> +    gchar *separator;
->> +    unsigned long index;
->> +    int ret;
->> +
->> +    separator = g_strrstr(name, ".");
->> +    if (!separator) {
->> +        return NULL;
->> +    }
->> +
->> +    index = strtol(separator + 1, NULL, 10);
->> +    if (index == LONG_MIN || index == LONG_MAX) {
->> +        return NULL;
->> +    }
->> +
->> +    cmdline = g_malloc0(VIRTIO_CMDLINE_MAXLEN);
->> +    ret = g_snprintf(cmdline, VIRTIO_CMDLINE_MAXLEN,
->> +                     " virtio_mmio.device=512@0x%lx:%ld",
->> +                     VIRTIO_MMIO_BASE + index * 512,
->> +                     VIRTIO_IRQ_BASE + index);
->> +    if (ret < 0 || ret >= VIRTIO_CMDLINE_MAXLEN) {
->> +        g_free(cmdline);
->> +        return NULL;
->> +    }
->> +
->> +    return cmdline;
->> +}
->> +
->> +static void microvm_setup_bootparams(MicrovmMachineState *mms, const gchar *kernel_cmdline)
->> +{
->> +    struct boot_params params;
->> +    BusState *bus;
->> +    BusChild *kid;
->> +    gchar *cmdline;
->> +    int cmdline_len;
->> +    int i;
->> +
->> +    cmdline = g_strdup(kernel_cmdline);
->> +
->> +    /*
->> +     * Find MMIO transports with attached devices, and add them to the kernel
->> +     * command line.
->> +     */
->> +    bus = sysbus_get_default();
->> +    QTAILQ_FOREACH(kid, &bus->children, sibling) {
->> +        DeviceState *dev = kid->child;
->> +        ObjectClass *class = object_get_class(OBJECT(dev));
->> +
->> +        if (class == object_class_by_name(TYPE_VIRTIO_MMIO)) {
->> +            VirtIOMMIOProxy *mmio = VIRTIO_MMIO(OBJECT(dev));
->> +            VirtioBusState *mmio_virtio_bus = &mmio->bus;
->> +            BusState *mmio_bus = &mmio_virtio_bus->parent_obj;
->> +
->> +            if (!QTAILQ_EMPTY(&mmio_bus->children)) {
->> +                gchar *mmio_cmdline = microvm_get_virtio_mmio_cmdline(mmio_bus->name);
->> +                if (mmio_cmdline) {
->> +                    char *newcmd = g_strjoin(NULL, cmdline, mmio_cmdline, NULL);
->> +                    g_free(mmio_cmdline);
->> +                    g_free(cmdline);
->> +                    cmdline = newcmd;
->> +                }
->> +            }
->> +        }
->> +    }
->> +
->> +    cmdline_len = strlen(cmdline);
->> +
->> +    address_space_write(&address_space_memory,
->> +                        KERNEL_CMDLINE_START, MEMTXATTRS_UNSPECIFIED,
->> +                        (uint8_t *) cmdline, cmdline_len);
->> +
->> +    g_free(cmdline);
->> +
->> +    memset(&params, 0, sizeof(struct boot_params));
->> +
->> +    params.hdr.type_of_loader = KERNEL_LOADER_OTHER;
->> +    params.hdr.boot_flag = KERNEL_BOOT_FLAG_MAGIC;
->> +    params.hdr.header = KERNEL_HDR_MAGIC;
->> +    params.hdr.cmd_line_ptr = KERNEL_CMDLINE_START;
->> +    params.hdr.cmdline_size = cmdline_len;
->> +    params.hdr.kernel_alignment = KERNEL_MIN_ALIGNMENT_BYTES;
->> +
->> +    params.e820_entries = e820_get_num_entries();
->> +    for (i = 0; i < params.e820_entries; i++) {
->> +        uint64_t address, length;
->> +        if (e820_get_entry(i, E820_RAM, &address, &length)) {
->> +            params.e820_table[i].addr = address;
->> +            params.e820_table[i].size = length;
->> +            params.e820_table[i].type = E820_RAM;
->> +        }
->> +    }
->> +
->> +    address_space_write(&address_space_memory,
->> +                        ZERO_PAGE_START, MEMTXATTRS_UNSPECIFIED,
->> +                        (uint8_t *) &params, sizeof(struct boot_params));
->> +}
->> +
->> +static void microvm_init_page_tables(void)
->> +{
->> +    uint64_t val = 0;
->> +    int i;
->> +
->> +    val = PDPTE_START | 0x03;
->> +    address_space_write(&address_space_memory,
->> +                        PML4_START, MEMTXATTRS_UNSPECIFIED,
->> +                        (uint8_t *) &val, 8);
->> +    val = PDE_START | 0x03;
->> +    address_space_write(&address_space_memory,
->> +                        PDPTE_START, MEMTXATTRS_UNSPECIFIED,
->> +                        (uint8_t *) &val, 8);
->> +
->> +    for (i = 0; i < 512; i++) {
->> +        val = (i << 21) + 0x83;
->> +        address_space_write(&address_space_memory,
->> +                            PDE_START + (i * 8), MEMTXATTRS_UNSPECIFIED,
->> +                            (uint8_t *) &val, 8);
->> +    }
->> +}
->> +
->> +static void microvm_cpu_reset(CPUState *cs, uint64_t elf_entry)
->> +{
->> +    X86CPU *cpu = X86_CPU(cs);
->> +    CPUX86State *env = &cpu->env;
->> +    struct SegmentCache seg_code =
->> +        { .selector = 0x8, .base = 0x0, .limit = 0xfffff, .flags = 0xa09b00 };
->> +    struct SegmentCache seg_data =
->> +        { .selector = 0x10, .base = 0x0, .limit = 0xfffff, .flags = 0xc09300 };
->> +    struct SegmentCache seg_tr =
->> +        { .selector = 0x18, .base = 0x0, .limit = 0xfffff, .flags = 0x808b00 };
->> +
->> +    kvm_arch_get_registers(cs);
->> +
->> +    memcpy(&env->segs[R_CS], &seg_code, sizeof(struct SegmentCache));
->> +    memcpy(&env->segs[R_DS], &seg_data, sizeof(struct SegmentCache));
->> +    memcpy(&env->segs[R_ES], &seg_data, sizeof(struct SegmentCache));
->> +    memcpy(&env->segs[R_FS], &seg_data, sizeof(struct SegmentCache));
->> +    memcpy(&env->segs[R_GS], &seg_data, sizeof(struct SegmentCache));
->> +    memcpy(&env->segs[R_SS], &seg_data, sizeof(struct SegmentCache));
->> +    memcpy(&env->tr, &seg_tr, sizeof(struct SegmentCache));
->> +
->> +    env->efer |= MSR_EFER_LME | MSR_EFER_LMA;
->> +    env->regs[R_ESP] = BOOT_STACK_POINTER;
->> +    env->regs[R_EBP] = BOOT_STACK_POINTER;
->> +    env->regs[R_ESI] = ZERO_PAGE_START;
->> +
->> +    cpu_set_pc(cs, elf_entry);
->> +    cpu_x86_update_cr3(env, PML4_START);
->> +    cpu_x86_update_cr4(env, env->cr[4] | CR4_PAE_MASK);
->> +    cpu_x86_update_cr0(env, env->cr[0] | CR0_PE_MASK | CR0_PG_MASK);
->> +    x86_update_hflags(env);
->> +
->> +    kvm_arch_put_registers(cs, KVM_PUT_RESET_STATE);
->> +}
->> +
->> +static void microvm_mptable_setup(MicrovmMachineState *mms)
->> +{
->> +    char *mptable;
->> +    int size;
->> +
->> +    mptable = mptable_generate(smp_cpus, mms->apic_id_limit,
->> +                               EBDA_START, &size);
->> +    address_space_write(&address_space_memory,
->> +                        EBDA_START, MEMTXATTRS_UNSPECIFIED,
->> +                        (uint8_t *) mptable, size);
->> +    g_free(mptable);
->> +}
->> +
->> +static bool microvm_machine_get_legacy(Object *obj, Error **errp)
->> +{
->> +    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
->> +
->> +    return mms->legacy;
->> +}
->> +
->> +static void microvm_machine_set_legacy(Object *obj, bool value, Error **errp)
->> +{
->> +    MicrovmMachineState *mms = MICROVM_MACHINE(obj);
->> +
->> +    mms->legacy = value;
->> +}
->> +
->> +static void microvm_machine_reset(void)
->> +{
->> +    MachineState *machine = MACHINE(qdev_get_machine());
->> +    MicrovmMachineState *mms = MICROVM_MACHINE(machine);
->> +    CPUState *cs;
->> +    X86CPU *cpu;
->> +
->> +    qemu_devices_reset();
->> +
->> +    microvm_mptable_setup(mms);
->> +    microvm_setup_bootparams(mms, machine->kernel_cmdline);
->> +    microvm_init_page_tables();
->> +
->> +    CPU_FOREACH(cs) {
->> +        cpu = X86_CPU(cs);
->> +
->> +        /* Reset APIC after devices have been reset to cancel
->> +         * any changes that qemu_devices_reset() might have done.
->> +         */
->> +        if (cpu->apic_state) {
->> +            device_reset(cpu->apic_state);
->> +        }
->> +
->> +        microvm_cpu_reset(cs, mms->elf_entry);
->> +    }
->> +}
->> +
->> +static void x86_nmi(NMIState *n, int cpu_index, Error **errp)
->> +{
->> +    CPUState *cs;
->> +
->> +    CPU_FOREACH(cs) {
->> +        X86CPU *cpu = X86_CPU(cs);
->> +
->> +        if (!cpu->apic_state) {
->> +            cpu_interrupt(cs, CPU_INTERRUPT_NMI);
->> +        } else {
->> +            apic_deliver_nmi(cpu->apic_state);
->> +        }
->> +    }
->> +}
->> +
->> +static void microvm_machine_instance_init(Object *obj)
->> +{
->> +}
->> +
->> +static void microvm_class_init(ObjectClass *oc, void *data)
->> +{
->> +    NMIClass *nc = NMI_CLASS(oc);
->> +
->> +    /* NMI handler */
->> +    nc->nmi_monitor_handler = x86_nmi;
->> +
->> +    object_class_property_add_bool(oc, MICROVM_MACHINE_LEGACY,
->> +                                   microvm_machine_get_legacy,
->> +                                   microvm_machine_set_legacy,
->> +                                   &error_abort);
->> +}
->> +
->> +static const TypeInfo microvm_machine_info = {
->> +    .name          = TYPE_MICROVM_MACHINE,
->> +    .parent        = TYPE_MACHINE,
->> +    .abstract      = true,
->> +    .instance_size = sizeof(MicrovmMachineState),
->> +    .instance_init = microvm_machine_instance_init,
->> +    .class_size    = sizeof(MicrovmMachineClass),
->> +    .class_init    = microvm_class_init,
->> +    .interfaces = (InterfaceInfo[]) {
->> +         { TYPE_NMI },
->> +         { }
->> +    },
->> +};
->> +
->> +static void microvm_machine_init(void)
->> +{
->> +    type_register_static(&microvm_machine_info);
->> +}
->> +type_init(microvm_machine_init);
->> +
->> +static void microvm_1_0_instance_init(Object *obj)
->> +{
->> +}
->> +
->> +static void microvm_machine_class_init(MachineClass *mc)
->> +{
->> +    mc->init = microvm_machine_state_init;
->> +
->> +    mc->family = "microvm_i386";
->> +    mc->desc = "Microvm (i386)";
->> +    mc->units_per_default_bus = 1;
->> +    mc->no_floppy = 1;
->> +    machine_class_allow_dynamic_sysbus_dev(mc, "sysbus-debugcon");
->> +    machine_class_allow_dynamic_sysbus_dev(mc, "sysbus-debugexit");
->> +    mc->max_cpus = 288;
->> +    mc->has_hotpluggable_cpus = false;
->> +    mc->auto_enable_numa_with_memhp = false;
->> +    mc->default_cpu_type = X86_CPU_TYPE_NAME ("host");
->> +    mc->nvdimm_supported = false;
->> +    mc->default_machine_opts = "accel=kvm";
->> +
->> +    /* Machine class handlers */
->> +    mc->cpu_index_to_instance_props = cpu_index_to_props;
->> +    mc->get_default_cpu_node_id = cpu_get_default_cpu_node_id;
->> +    mc->possible_cpu_arch_ids = cpu_possible_cpu_arch_ids;;
->> +    mc->reset = microvm_machine_reset;
->> +}
->> +
->> +static void microvm_1_0_machine_class_init(MachineClass *mc)
->> +{
->> +    microvm_machine_class_init(mc);
->> +}
->> +DEFINE_MICROVM_MACHINE_AS_LATEST(1, 0)
->> diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
->> new file mode 100644
->> index 0000000000..544ef60563
->> --- /dev/null
->> +++ b/include/hw/i386/microvm.h
->> @@ -0,0 +1,85 @@
->> +/*
->> + *
->> + * Copyright (c) 2018 Intel Corporation
->> + * Copyright (c) 2019 Red Hat, Inc.
->> + *
->> + * This program is free software; you can redistribute it and/or modify it
->> + * under the terms and conditions of the GNU General Public License,
->> + * version 2 or later, as published by the Free Software Foundation.
->> + *
->> + * This program is distributed in the hope it will be useful, but WITHOUT
->> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
->> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
->> + * more details.
->> + *
->> + * You should have received a copy of the GNU General Public License along with
->> + * this program.  If not, see <http://www.gnu.org/licenses/>.
->> + */
->> +
->> +#ifndef HW_I386_MICROVM_H
->> +#define HW_I386_MICROVM_H
->> +
->> +#include "qemu-common.h"
->> +#include "exec/hwaddr.h"
->> +#include "qemu/notify.h"
->> +
->> +#include "hw/boards.h"
->> +
->> +/* Microvm memory layout */
->> +#define ZERO_PAGE_START      0x7000
->> +#define BOOT_STACK_POINTER   0x8ff0
->> +#define PML4_START           0x9000
->> +#define PDPTE_START          0xa000
->> +#define PDE_START            0xb000
->> +#define EBDA_START           0x9fc00
->> +#define HIMEM_START          0x100000
->> +#define MICROVM_MAX_BELOW_4G 0xe0000000
->> +
->> +/* Bootparams related definitions */
->> +#define KERNEL_BOOT_FLAG_MAGIC     0xaa55
->> +#define KERNEL_HDR_MAGIC           0x53726448
->> +#define KERNEL_LOADER_OTHER        0xff
->> +#define KERNEL_MIN_ALIGNMENT_BYTES 0x01000000
->> +#define KERNEL_CMDLINE_START       0x20000
->> +#define KERNEL_CMDLINE_MAX_SIZE    0x10000
->> +
->> +/* Platform virtio definitions */
->> +#define VIRTIO_MMIO_BASE      0xd0000000
->> +#define VIRTIO_IRQ_BASE       5
->> +#define VIRTIO_NUM_TRANSPORTS 8
->> +#define VIRTIO_CMDLINE_MAXLEN 64
->> +
->> +/* Machine type options */
->> +#define MICROVM_MACHINE_LEGACY "legacy"
->> +
->> +typedef struct {
->> +    MachineClass parent;
->> +    HotplugHandler *(*orig_hotplug_handler)(MachineState *machine,
->> +                                           DeviceState *dev);
->> +} MicrovmMachineClass;
->> +
->> +typedef struct {
->> +    MachineState parent;
->> +    unsigned apic_id_limit;
->> +    qemu_irq *gsi;
->> +
->> +    /* RAM size */
->> +    ram_addr_t below_4g_mem_size;
->> +    ram_addr_t above_4g_mem_size;
->> +
->> +    /* Kernel ELF entry. On reset, vCPUs RIP will be set to this */
->> +    uint64_t elf_entry;
->> +
->> +    /* Legacy mode based on an ISA bus. Useful for debugging */
->> +    bool legacy;
->> +} MicrovmMachineState;
->> +
->> +#define TYPE_MICROVM_MACHINE   MACHINE_TYPE_NAME("microvm")
->> +#define MICROVM_MACHINE(obj) \
->> +    OBJECT_CHECK(MicrovmMachineState, (obj), TYPE_MICROVM_MACHINE)
->> +#define MICROVM_MACHINE_GET_CLASS(obj) \
->> +    OBJECT_GET_CLASS(MicrovmMachineClass, obj, TYPE_MICROVM_MACHINE)
->> +#define MICROVM_MACHINE_CLASS(class) \
->> +    OBJECT_CLASS_CHECK(MicrovmMachineClass, class, TYPE_MICROVM_MACHINE)
->> +
->> +#endif
-
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEvtX891EthoCRQuii9GknjS8MAjUFAl0WgREACgkQ9GknjS8M
-AjWPyw//TPttP+P749JZjlpCvwaG35CLrva1tz2ACSB8HeD68ei9l2mPGmJctQH7
-57/J9SKfgQpN5xDW4ja776mN6ouwfmFdaCZ7CEK+XmaSeDCkiWRMe4BbzGRcDqxV
-9uL1gGYmzZL8Q4oLioH0Cij0VkZ1gr3+l9397p4mX+XlvEMUtxcSgD79zmcGgSB3
-Fc4eMrUpcKtg34YwlHdMSz72+hb6Z8vcmScMyhnGEmV3oo0cJPBd9D5ipj2lAYqL
-vaM6KZyZBCOg5dz+HeEIzH9jRGZO6QfOxVEl3bSc2vbQuGjKUoaCVt/DuIz8Nzoe
-IuBvkZbz3sTJTqQ/Cm20fvFPVmPa/JhXKu3Y7ux7F1hVUL2AxZi3F/329IrfivYx
-ZZResu3FSMzt3fffKnOn47dyr4RfbZbyKFt2sXE/iNH/mlcPQBrBEWliFWlxkPyw
-NBITPI40YVMasosu+iEOaJUCSf3QyWXa25G89wznrx6TLgGsKzUQnTeO/FZ+e9XB
-smete4DmHiHzA7jRghyVzxeHLovt2EFfnSprt2J4j+BZXEP9NFJOOVVEsH1IJIcZ
-++vvwD/AO23GmwJEOxG5Msec1wBq/2s+xgl/BTQMcgYLaS9xF4ES6Ksb15Zilfrq
-LgiPKt3Zp3TruzXdDQ01XtvkmL7NWRhaeVdcMVTDeB7Ms3EY/YQ=
-=dcbz
------END PGP SIGNATURE-----
---=-=-=--
+> later.
+> 
+> Dave
+> 
+> > Thanks
+> > Yan
+> > 
+> > > > +    *res_compatible += 0;
+> > > > +}
+> > > > +
+> > > > +static int vfio_save_iterate(QEMUFile *f, void *opaque)
+> > > > +{
+> > > > +    VFIODevice *vbasedev = opaque;
+> > > > +    VFIOMigration *migration = vbasedev->migration;
+> > > > +    int ret;
+> > > > +
+> > > > +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
+> > > > +
+> > > > +    qemu_mutex_lock(&migration->lock);
+> > > > +    ret = vfio_save_buffer(f, vbasedev);
+> > > > +    qemu_mutex_unlock(&migration->lock);
+> > > > +
+> > > > +    if (ret < 0) {
+> > > > +        error_report("vfio_save_buffer failed %s",
+> > > > +                     strerror(errno));
+> > > > +        return ret;
+> > > > +    }
+> > > > +
+> > > > +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+> > > > +
+> > > > +    ret = qemu_file_get_error(f);
+> > > > +    if (ret) {
+> > > > +        return ret;
+> > > > +    }
+> > > > +
+> > > > +    return ret;
+> > > > +}
+> > > > +
+> > > > +static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+> > > > +{
+> > > > +    VFIODevice *vbasedev = opaque;
+> > > > +    VFIOMigration *migration = vbasedev->migration;
+> > > > +    int ret;
+> > > > +
+> > > > +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_SAVING);
+> > > > +    if (ret) {
+> > > > +        error_report("Failed to set state STOP and SAVING");
+> > > > +        return ret;
+> > > > +    }
+> > > > +
+> > > > +    ret = vfio_save_device_config_state(f, opaque);
+> > > > +    if (ret) {
+> > > > +        return ret;
+> > > > +    }
+> > > > +
+> > > > +    ret = vfio_update_pending(vbasedev);
+> > > > +    if (ret) {
+> > > > +        return ret;
+> > > > +    }
+> > > > +
+> > > > +    while (migration->pending_bytes > 0) {
+> > > > +        qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
+> > > > +        ret = vfio_save_buffer(f, vbasedev);
+> > > > +        if (ret < 0) {
+> > > > +            error_report("Failed to save buffer");
+> > > > +            return ret;
+> > > > +        } else if (ret == 0) {
+> > > > +            break;
+> > > > +        }
+> > > > +
+> > > > +        ret = vfio_update_pending(vbasedev);
+> > > > +        if (ret) {
+> > > > +            return ret;
+> > > > +        }
+> > > > +    }
+> > > > +
+> > > > +    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+> > > > +
+> > > > +    ret = qemu_file_get_error(f);
+> > > > +    if (ret) {
+> > > > +        return ret;
+> > > > +    }
+> > > > +
+> > > > +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOPPED);
+> > > > +    if (ret) {
+> > > > +        error_report("Failed to set state STOPPED");
+> > > > +        return ret;
+> > > > +    }
+> > > > +    return ret;
+> > > > +}
+> > > > +
+> > > >  static SaveVMHandlers savevm_vfio_handlers = {
+> > > >      .save_setup = vfio_save_setup,
+> > > >      .save_cleanup = vfio_save_cleanup,
+> > > > +    .save_live_pending = vfio_save_pending,
+> > > > +    .save_live_iterate = vfio_save_iterate,
+> > > > +    .save_live_complete_precopy = vfio_save_complete_precopy,
+> > > >  };
+> > > >  
+> > > >  /* ---------------------------------------------------------------------- */
+> > > > -- 
+> > > > 2.7.0
+> > > > 
+> > > 
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
