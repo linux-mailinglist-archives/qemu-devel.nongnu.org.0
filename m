@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3795939A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 07:45:54 +0200 (CEST)
-Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 662BF59E0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:41:29 +0200 (CEST)
+Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgjhp-0002YG-5L
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 01:45:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59245)
+	id 1hgs48-0004IF-6H
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:41:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43781)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hgjet-0001uv-9R
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 01:42:53 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hgs1Z-0002sB-51
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:38:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hgjer-0002Si-Rn
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 01:42:51 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56433 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hgjeo-0002Nb-O8; Fri, 28 Jun 2019 01:42:48 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45Zlyt244nz9s9h; Fri, 28 Jun 2019 15:42:29 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1561700550;
- bh=R+M9t5t2RitVBAOlYO59XECQWoLbmBKbkrVGcvOgSg0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ZcvTmxpgW6P6GYqyDq+HNgcrbZyodj+eSY7DVUPa9Mc/pDBxz/ZA8le7ZENWpxDML
- ocNTZyJPR2PLAg6AnBtSzCHuCwa1LxNHO0VUaAhgROCxUTzqmYIS/KFdcpWoFiSCuq
- EMhdzwEtEXrMCvqURtZk4LaIces1Hdaeq/0wkhOo=
-Date: Fri, 28 Jun 2019 12:33:43 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: qemu-devel@nongnu.org
-Message-ID: <20190628023343.GE3340@umbus.fritz.box>
-References: <20190626051903.26829-1-sjitindarsingh@gmail.com>
- <156152750324.6332.18067610008811555832@c4a48874b076>
+ (envelope-from <no-reply@patchew.org>) id 1hgs1W-0005Yv-Qy
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:38:49 -0400
+Resent-Date: Fri, 28 Jun 2019 10:38:48 -0400
+Resent-Message-Id: <E1hgs1W-0005Yv-Qy@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21440)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hgs1V-0005XG-6r
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:38:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561690279; cv=none; d=zoho.com; s=zohoarc; 
+ b=R1pDy+AermS7qgs+NWlvfNQ02Jnz+GhvL/ysKWpvnFiVinlLrnH5y0iGhg/tXBFKcRj48x7M0Pf9HcXIga5mOyfGXDvYFheD1bfOH0wKvWj1rc8RPoBYVQxMqnTOORzFrhGBlW98C0XTTQ7LxqFI6Wgm4AEW+BZ+Bkg1ew2182Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561690279;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=6UaHKpQ7r9uAgTZDcy2vO7YJN25gFqtkfnhj2H2bWv4=; 
+ b=nPAa8Lhz/VUyluLzc9WFoaqCcXjbN3y+f0DYQmPpklOnMYA02sg//rV3amxvFC4r7zwBC1MK1KZxopI4tfLJ5SD6SH+wZXIk0ENfg/MTU+37JsF6HAxOeMkrVx+8wM1HilhvQ34vD69IeY18MUmhamDQ2l/wWRNqzclUEzSi9sM=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561690187125936.8270204339346;
+ Thu, 27 Jun 2019 19:49:47 -0700 (PDT)
+Message-ID: <156169018571.6332.9317225427076483475@c4a48874b076>
+In-Reply-To: <20190628015606.32107-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tVmo9FyGdCe4F4YN"
-Content-Disposition: inline
-In-Reply-To: <156152750324.6332.18067610008811555832@c4a48874b076>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH v2] powerpc/spapr: Add host
- threads parameter to ibm, get_system_parameter
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: ehabkost@redhat.com
+Date: Thu, 27 Jun 2019 19:49:47 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PULL 00/29] Machine next patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,108 +61,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, groug@kaod.org, sjitindarsingh@gmail.com
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, rth@twiddle.net, qemu-devel@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyODAxNTYwNi4zMjEw
+Ny0xLWVoYWJrb3N0QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIGJ1aWxk
+IHRlc3Qgb24gczM5MHggaG9zdC4gUGxlYXNlIGZpbmQgdGhlIGRldGFpbHMgYmVsb3cuCgo9PT0g
+VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCiMgVGVzdGluZyBzY3JpcHQgd2lsbCBi
+ZSBpbnZva2VkIHVuZGVyIHRoZSBnaXQgY2hlY2tvdXQgd2l0aAojIEhFQUQgcG9pbnRpbmcgdG8g
+YSBjb21taXQgdGhhdCBoYXMgdGhlIHBhdGNoZXMgYXBwbGllZCBvbiB0b3Agb2YgImJhc2UiCiMg
+YnJhbmNoCnNldCAtZQpDQz0kSE9NRS9iaW4vY2MKSU5TVEFMTD0kUFdEL2luc3RhbGwKQlVJTEQ9
+JFBXRC9idWlsZApta2RpciAtcCAkQlVJTEQgJElOU1RBTEwKU1JDPSRQV0QKY2QgJEJVSUxECiRT
+UkMvY29uZmlndXJlIC0tY2M9JENDIC0tcHJlZml4PSRJTlNUQUxMCm1ha2UgLWo0CiMgWFhYOiB3
+ZSBuZWVkIHJlbGlhYmxlIGNsZWFuIHVwCiMgbWFrZSBjaGVjayAtajQgVj0xCm1ha2UgaW5zdGFs
+bAoKZWNobwplY2hvICI9PT0gRU5WID09PSIKZW52CgplY2hvCmVjaG8gIj09PSBQQUNLQUdFUyA9
+PT0iCnJwbSAtcWEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCi92YXIvdG1wL3BhdGNoZXctdGVz
+dGVyLXRtcC12Znc0c2E3OC9zcmMvdGFyZ2V0L3MzOTB4L2t2bS5jOjM2NzogdW5kZWZpbmVkIHJl
+ZmVyZW5jZSB0byBgbWF4X2NwdXMnCi91c3IvYmluL2xkOiB0YXJnZXQvczM5MHgva3ZtLm86IGlu
+IGZ1bmN0aW9uIGBrdm1fczM5MF92Y3B1X2ludGVycnVwdF9wcmVfc2F2ZSc6Ci92YXIvdG1wL3Bh
+dGNoZXctdGVzdGVyLXRtcC12Znc0c2E3OC9zcmMvdGFyZ2V0L3MzOTB4L2t2bS5jOjE5NTM6IHVu
+ZGVmaW5lZCByZWZlcmVuY2UgdG8gYG1heF9jcHVzJwpjb2xsZWN0MjogZXJyb3I6IGxkIHJldHVy
+bmVkIDEgZXhpdCBzdGF0dXMKbWFrZVsxXTogKioqIFtNYWtlZmlsZToyMDU6IHFlbXUtc3lzdGVt
+LXMzOTB4XSBFcnJvciAxCm1ha2U6ICoqKiBbTWFrZWZpbGU6NDcyOiBzdWJkaXItczM5MHgtc29m
+dG1tdV0gRXJyb3IgMgptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgoK
+ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
+OTA2MjgwMTU2MDYuMzIxMDctMS1laGFia29zdEByZWRoYXQuY29tL3Rlc3RpbmcuczM5MHgvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
---tVmo9FyGdCe4F4YN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jun 25, 2019 at 10:38:24PM -0700, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20190626051903.26829-1-sjitindarsin=
-gh@gmail.com/
->=20
->=20
->=20
-> Hi,
->=20
-> This series seems to have some coding style problems. See output below for
-> more information:
-
-Suraj, please fix up these style errors.
-
->=20
-> Message-id: 20190626051903.26829-1-sjitindarsingh@gmail.com
-> Type: series
-> Subject: [Qemu-devel] [QEMU-PPC] [PATCH v2] powerpc/spapr: Add host threa=
-ds parameter to ibm, get_system_parameter
->=20
-> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> #!/bin/bash
-> git rev-parse base > /dev/null || exit 0
-> git config --local diff.renamelimit 0
-> git config --local diff.renames True
-> git config --local diff.algorithm histogram
-> ./scripts/checkpatch.pl --mailback base..
-> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
->=20
-> Switched to a new branch 'test'
-> 83350a8 powerpc/spapr: Add host threads parameter to ibm, get_system_para=
-meter
->=20
-> =3D=3D=3D OUTPUT BEGIN =3D=3D=3D
-> ERROR: braces {} are necessary for all arms of this statement
-> #42: FILE: hw/ppc/spapr_rtas.c:243:
-> +    if (!kvm_enabled())
-> [...]
->=20
-> ERROR: braces {} are necessary for all arms of this statement
-> #47: FILE: hw/ppc/spapr_rtas.c:248:
-> +    if (!dir)
-> [...]
->=20
-> ERROR: braces {} are necessary for all arms of this statement
-> #72: FILE: hw/ppc/spapr_rtas.c:273:
-> +        if (subcores)
-> [...]
->=20
-> total: 3 errors, 0 warnings, 71 lines checked
->=20
-> Commit 83350a8ff0c8 (powerpc/spapr: Add host threads parameter to ibm, ge=
-t_system_parameter) has style problems, please review.  If any of these err=
-ors
-> are false positives report them to the maintainer, see
-> CHECKPATCH in MAINTAINERS.
-> =3D=3D=3D OUTPUT END =3D=3D=3D
->=20
-> Test command exited with code: 1
->=20
->=20
-> The full log is available at
-> http://patchew.org/logs/20190626051903.26829-1-sjitindarsingh@gmail.com/t=
-esting.checkpatch/?type=3Dmessage.
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---tVmo9FyGdCe4F4YN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0VfIQACgkQbDjKyiDZ
-s5Know/+LAxuWBA6z13RHtMpIyEyS2DUawjvtKj2gUjs9RVcbvkihbRTLt9cVl3+
-K1Oz0cjEe/GKRwZcn6CN3Th0BYBNO77KoyZ460O/GUmPQ/DPWd1y6+Yuja73cm38
-tu6LKbhYjELzQGUqi9d/XR4m8kpHkWqz0PbK8gfDxKtxL/wApPq5ijkQLMbj0HfY
-w366wCkB6SWb1nN3lGoKIAvv+Wr5/zM9MGExzV+tii/1vi5NuB/DiWMsNvTsPgQG
-DymdlwxYPz72XNzjskymRFnyzI0Y2qbFWhH7JsP72GruNePS/fLBLV3HRUcGbcjy
-gePxhDsexbQRfPI/RzH7Rf/a3SxAXXdxA7SKP3b9O8Sm2gWkJHdMo0AqjCJaAAio
-mNqcL2/rb00/ZekDj/MpwsT6OUVIYSEIdgQ1B2gw75J3bEm6OS+O+Z42rgN9RKB/
-Iyrc6l/UbkTjLyIpuYUmuFpP5znHoeGcU9jtYCXParyF3iCv3jdJ3SMff7J21wo9
-/fShCPRKVigj5ZEUZT4ZIk4qEKLXLfLPJ6Ohn7he52Jq2HOZQedvzMp63d0WcNwB
-GZlyhBJuooAnjMDP/f2SYgdFH25wwLo9N5yTGNgL9yx7AESwr77MsvOsqso+WSQj
-6itgh1mEqkHklziEl+3ZlOOVCfkpV3C/2Dvggf02w4PgpW8SF+U=
-=lXr5
------END PGP SIGNATURE-----
-
---tVmo9FyGdCe4F4YN--
 
