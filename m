@@ -2,57 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98DA459EE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:30:18 +0200 (CEST)
-Received: from localhost ([::1]:33286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8595A11A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:38:27 +0200 (CEST)
+Received: from localhost ([::1]:34198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgspN-0004yD-R0
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:30:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51397)
+	id 1hgttK-0000QG-Vh
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51573)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hgsV8-0006HA-VI
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:09:24 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hgsVr-0006nL-PR
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:10:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hgsV7-0000W2-TW
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:09:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41120)
+ (envelope-from <dgilbert@redhat.com>) id 1hgsVp-0001Df-Sc
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:10:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58514)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hgsV4-0000Pa-8t; Fri, 28 Jun 2019 11:09:18 -0400
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hgsVn-0001BJ-Mp
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:10:03 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0502A6EB95;
- Fri, 28 Jun 2019 15:09:14 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A316626E58;
- Fri, 28 Jun 2019 15:09:12 +0000 (UTC)
-Date: Fri, 28 Jun 2019 17:09:11 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Message-ID: <20190628150911.GP5179@dhcp-200-226.str.redhat.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
- <w51a7e3domn.fsf@maestria.local.igalia.com>
- <434b102d-9d8e-ccc2-cb53-7f49a3fbd6fb@virtuozzo.com>
- <w51r27dixcm.fsf@maestria.local.igalia.com>
- <20190628145708.GN5179@dhcp-200-226.str.redhat.com>
- <w51o92hiwi2.fsf@maestria.local.igalia.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id BCB723E2B9;
+ Fri, 28 Jun 2019 15:09:53 +0000 (UTC)
+Received: from work-vm (ovpn-116-169.ams2.redhat.com [10.36.116.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 73AAB26561;
+ Fri, 28 Jun 2019 15:09:52 +0000 (UTC)
+Date: Fri, 28 Jun 2019 16:09:50 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190628150950.GG2922@work-vm>
+References: <20190627020822.15485-1-richardw.yang@linux.intel.com>
+ <20190627020822.15485-2-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <w51o92hiwi2.fsf@maestria.local.igalia.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+In-Reply-To: <20190627020822.15485-2-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Fri, 28 Jun 2019 15:09:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Fri, 28 Jun 2019 15:09:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+Subject: Re: [Qemu-devel] [PATCH 1/3] migration/postcopy: the valid
+ condition is one less then end
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,40 +58,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.06.2019 um 17:02 hat Alberto Garcia geschrieben:
-> On Fri 28 Jun 2019 04:57:08 PM CEST, Kevin Wolf wrote:
-> > Am 28.06.2019 um 16:43 hat Alberto Garcia geschrieben:
-> >> On Thu 27 Jun 2019 06:05:55 PM CEST, Denis Lunev wrote:
-> >> > Please note, I am not talking now about your case with COW. Here the
-> >> > allocation is performed on the sub-cluster basis, i.e. the abscence of
-> >> > the sub-cluster in the image means hole on that offset. This is
-> >> > important difference.
-> >> 
-> >> I mentioned the possibility that if you have a case like 2MB / 64KB
-> >> and you write to an empty cluster then you could allocate the
-> >> necessary subclusters, and additionally fallocate() the space of the
-> >> whole cluster (2MB) in order to try to keep it contiguous.
-> >> 
-> >> With this we would lose the space saving advantage of having
-> >> subclusters. But perhaps that would work for smaller cluster sizes
-> >> (it would mitigate the fragmentation problem).
-> >
-> > There seem to be use cases for both ways. So does this need to be an
-> > option?
+* Wei Yang (richardw.yang@linux.intel.com) wrote:
+> If one equals end, it means we have gone through the whole bitmap.
 > 
-> Probably a runtime option, or a heuristic that decides what to do
-> depending on the cluster size.
+> Use a more restrict check to skip a unnecessary condition.
+> 
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 
-How would the heuristic decide whether the user wants to save disk space
-or whether they consider avoiding fragmentation (i.e. performance) more
-important?
+Yes, I don't think that'll break, since I think the find_next_zero_bit
+will also return end, and then discard_length would be 0; still I think
+it's a correct fix.
 
-Kevin
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  migration/ram.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 908517fc2b..b78169e811 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2777,7 +2777,7 @@ static int postcopy_send_discard_bm_ram(MigrationState *ms,
+>      for (current = 0; current < end; ) {
+>          unsigned long one = find_next_bit(unsentmap, end, current);
+>  
+> -        if (one <= end) {
+> +        if (one < end) {
+>              unsigned long zero = find_next_zero_bit(unsentmap, end, one + 1);
+>              unsigned long discard_length;
+>  
+> -- 
+> 2.19.1
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
