@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 606825A323
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:06:15 +0200 (CEST)
-Received: from localhost ([::1]:35102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0211C5A334
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:10:58 +0200 (CEST)
+Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgvGI-0007ck-JW
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54885)
+	id 1hgvKr-00032G-64
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:10:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54924)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hguku-0008QM-IH
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:54 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgul0-0008Vk-8B
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgukq-0000YP-GY
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:48 -0400
-Received: from mail-pg1-f181.google.com ([209.85.215.181]:37250)
+ (envelope-from <palmer@dabbelt.com>) id 1hguks-0000bw-LV
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:50 -0400
+Received: from mail-pl1-f174.google.com ([209.85.214.174]:42495)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hguko-0000V8-Eb
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:42 -0400
-Received: by mail-pg1-f181.google.com with SMTP id g15so990182pgi.4
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:40 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukq-0000XQ-JX
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:44 -0400
+Received: by mail-pl1-f174.google.com with SMTP id ay6so3587840plb.9
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=NIyWvQXIInPHkbPMAYxhV18GTR99MjAgFa+NcGYzhSA=;
- b=QgQ8l2Ma4u3CRbFwusCcdsZTGo8eVSvI49+vv3vIZWL/BvG+R5YBVjAuSR/ElCBdK+
- Km2hES7PkRgh6fNrz7i6a50ROBnjc4IVqGfYCTkkktF4mT/UW+3tDb9BELfO3ADT2n5I
- HW8/SiujipOt+epGqCKobMfqh/+zjIcx0O7X5BgnpWuD6Eua6TfCMUXaCAGGNOt+ap0u
- CRiAG42JrtjEf5ijMsIu1u2XJLL+rSzZPyrQPTN7W6tWJvBJLJ2cctuluTYiB77br6ZG
- CLykHmguV6kASBqThMgNZXP6Eqy/J0aZbkuk9I4gEsWSIL2PZLuK8O/l+hmR9a/miOmE
- Xm4w==
-X-Gm-Message-State: APjAAAWElwoRPt3Q+splbnGFdI9vaEULI0rao4k983dybu/u6rZTsK2p
- 2zMOgArC3HXXptx+lBa6eY0byW3wTLAq7Wjz
-X-Google-Smtp-Source: APXvYqzIdrLU/NLCrEjAGa6zmnFZ9fktBNkR6Rg0ZjJSKh/SpXRkz2+C2JA3SJdRLrepVvk72SI0Bw==
-X-Received: by 2002:a63:a48:: with SMTP id z8mr10365362pgk.91.1561743219146;
- Fri, 28 Jun 2019 10:33:39 -0700 (PDT)
+ bh=/3ducq0eP8I5aPrZO6qPfK+y5RApmcrkJq95TSYVf1E=;
+ b=IHL9mLmCfKNaz5khw0AQ5dKK15gY7HwEIBPZ/98cEVkYTSwfjzSW9K0o2nG1Xsewht
+ IWw56qD/8NUISfKDyLDlQ3GibqE4P1koqHG26ra6S3RXLlfa61uI67PX/oNnY0Y1p4se
+ YO6JMFgNcsxiAG4j45zY50IaPrcqMNM1dJEoREyYremKuTo/jTuLVgc6BbLvZ2nnjFq9
+ 4hfPsjt1p+KJRRTCVrksO4ZTHfgoP5dzP08bADtvIOPgn8SagnGXSkmh0rUtQRIVeVm5
+ KIyeIg8LTF5WQad42D1hB6x7Q1F/mQwKTy+pvGmaDbNveSjMkDeR/NvLwnR/edQigAP2
+ JCew==
+X-Gm-Message-State: APjAAAWtrdhETDJtBo5NkV7jkXSJwlMZlPjIxLVuvCpe811inDefXhTN
+ G09NhEzYql/PIqHmMbJobElG5jky6WEffV8z
+X-Google-Smtp-Source: APXvYqz+Cn6cULfB49bYnTfkiB0ZUe9nBFjxIo40XblR2bGuHf9pXctMRWsUR0R2VbjHSXlr5q8qow==
+X-Received: by 2002:a17:902:a414:: with SMTP id
+ p20mr12298235plq.187.1561743222066; 
+ Fri, 28 Jun 2019 10:33:42 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id u3sm2138298pjn.5.2019.06.28.10.33.37
+ by smtp.gmail.com with ESMTPSA id f7sm2742671pfd.43.2019.06.28.10.33.40
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:33:37 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:32:14 -0700
-Message-Id: <20190628173227.31925-22-palmer@sifive.com>
+ Fri, 28 Jun 2019 10:33:41 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:32:15 -0700
+Message-Id: <20190628173227.31925-23-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
 References: <20190628173227.31925-1-palmer@sifive.com>
@@ -54,8 +55,8 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.181
-Subject: [Qemu-devel] [PULL 21/34] RISC-V: Add support for the Zifencei
+X-Received-From: 209.85.214.174
+Subject: [Qemu-devel] [PULL 22/34] RISC-V: Add support for the Zicsr
  extension
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,86 +75,66 @@ Cc: Alistair Francis <alistair.francis@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fence.i has been split out of the base ISA as part of the ratification
-process.  This patch adds a Zifencei argument, which disables the
-fence.i instruction.
+The various CSR instructions have been split out of the base ISA as part
+of the ratification process.  This patch adds a Zicsr argument, which
+disables all the CSR instructions.
 
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c                      | 1 +
- target/riscv/cpu.h                      | 1 +
- target/riscv/insn_trans/trans_rvi.inc.c | 4 ++++
- target/riscv/translate.c                | 3 +++
- 4 files changed, 9 insertions(+)
+ target/riscv/cpu.c | 1 +
+ target/riscv/cpu.h | 1 +
+ target/riscv/csr.c | 6 ++++++
+ 3 files changed, 8 insertions(+)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index be90fa7d0808..bbad39a337b3 100644
+index bbad39a337b3..915b9e77df33 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -441,6 +441,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+@@ -442,6 +442,7 @@ static Property riscv_cpu_properties[] = {
      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-+    DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
++    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 4d4e0f89e206..ba551cd3082c 100644
+index ba551cd3082c..0adb307f3298 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -223,6 +223,7 @@ typedef struct RISCVCPU {
-         bool ext_s;
+@@ -224,6 +224,7 @@ typedef struct RISCVCPU {
          bool ext_u;
          bool ext_counters;
-+        bool ext_ifencei;
+         bool ext_ifencei;
++        bool ext_icsr;
  
          char *priv_spec;
          char *user_spec;
-diff --git a/target/riscv/insn_trans/trans_rvi.inc.c b/target/riscv/insn_trans/trans_rvi.inc.c
-index 6cda078ed6ba..ea6473111ce8 100644
---- a/target/riscv/insn_trans/trans_rvi.inc.c
-+++ b/target/riscv/insn_trans/trans_rvi.inc.c
-@@ -484,6 +484,10 @@ static bool trans_fence(DisasContext *ctx, arg_fence *a)
- 
- static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index de67741f3648..e0d45867607a 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -793,6 +793,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
  {
-+    if (!ctx->ext_ifencei) {
-+        return false;
+     int ret;
+     target_ulong old_value;
++    RISCVCPU *cpu = env_archcpu(env);
+ 
+     /* check privileges and return -1 if check fails */
+ #if !defined(CONFIG_USER_ONLY)
+@@ -803,6 +804,11 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
+     }
+ #endif
+ 
++    /* ensure the CSR extension is enabled. */
++    if (!cpu->cfg.ext_icsr) {
++        return -1;
 +    }
 +
-     /*
-      * FENCE_I is a no-op in QEMU,
-      * however we need to end the translation block
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 313c27b70073..8d6ab732588d 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -54,6 +54,7 @@ typedef struct DisasContext {
-        to any system register, which includes CSR_FRM, so we do not have
-        to reset this known value.  */
-     int frm;
-+    bool ext_ifencei;
- } DisasContext;
- 
- #ifdef TARGET_RISCV64
-@@ -752,6 +753,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPURISCVState *env = cs->env_ptr;
-+    RISCVCPU *cpu = RISCV_CPU(cs);
- 
-     ctx->pc_succ_insn = ctx->base.pc_first;
-     ctx->mem_idx = ctx->base.tb->flags & TB_FLAGS_MMU_MASK;
-@@ -759,6 +761,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->priv_ver = env->priv_ver;
-     ctx->misa = env->misa;
-     ctx->frm = -1;  /* unknown rounding mode */
-+    ctx->ext_ifencei = cpu->cfg.ext_ifencei;
- }
- 
- static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+     /* check predicate */
+     if (!csr_ops[csrno].predicate || csr_ops[csrno].predicate(env, csrno) < 0) {
+         return -1;
 -- 
 2.21.0
 
