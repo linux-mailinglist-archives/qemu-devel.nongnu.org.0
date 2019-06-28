@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82975A30D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:02:22 +0200 (CEST)
-Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202625A288
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:37:00 +0200 (CEST)
+Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgvCY-00058X-4W
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:02:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
+	id 1hgunz-0002It-9c
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:36:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54542)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgukY-0008Gh-MW
+ (envelope-from <palmer@dabbelt.com>) id 1hgukY-0008Gc-Lc
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgukV-0000Ez-G9
+ (envelope-from <palmer@dabbelt.com>) id 1hgukV-0000Ex-F5
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:26 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:36523)
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:35229)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukV-0008P0-4v
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukV-0008QV-53
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:23 -0400
-Received: by mail-pf1-f193.google.com with SMTP id r7so3333782pfl.3
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:32:56 -0700 (PDT)
+Received: by mail-pl1-f196.google.com with SMTP id w24so3612296plp.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:32:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=Iw6+m+IE1PHOTPzSnV8qMJ+Sj/ZsLxY0VeWDR+SUS50=;
- b=Nv4LvhnxgVatGz6UXR21rBDdDdN+7YNJx6810bNQp9TQ9OQR/uaUzLO7W+YaBD+qom
- LnEBKOlAmyAQVNgW1Ghu4yT/+bTT386cJJFOhQ//wCynjsr/dgtrm9suM4/uYCFaFAml
- AYYXAhXmcnRuag1VcwqXpAdb8i5d08gEgCpL4PCee0rvnfq/HppSyf2i4OxpfuQrfaqM
- o7E7+hduIo7iWrk5xrrTx5Tmx8vnFltf6CHo8tEE/vx/XF/tGvT95Cx+l3vN0hQpRRPd
- /3igsrX721oAct6yq+icNC2gF1S1FsmImwGmpdm735DG35AezoUVWcAro0hmQq5u/ssM
- ctcQ==
-X-Gm-Message-State: APjAAAWfKD5f94xhDNbVL1asTaEryWrCh1lX0PH3BkMo/4XagiXVpF8y
- AsMEBVaveLZuVGO71+rQcyM3/GXqVIYNrIq4
-X-Google-Smtp-Source: APXvYqymAjwa4Tz4sKOs9VqA/HlZehAKSd62LicEez6P7ZcL1MvEl7LLM1kxtkMMt+yIEqwgIbY1wQ==
-X-Received: by 2002:a63:b10:: with SMTP id 16mr10133507pgl.336.1561743174451; 
- Fri, 28 Jun 2019 10:32:54 -0700 (PDT)
+ bh=D1HIL5SBmBBlqGmn3DV7OFXg5gWo+HXWOwuA3mR3IqE=;
+ b=f1LIo67fY4kdhyuFLKPpv/yCk+tYGEBitm7GGoJW82x3vmMly/YAcze9LX+gCBHgam
+ mczqeFuDh92PYfKQOTBRwIEfvCZp11TSM8JEK+4C5MPTAisnycYZK+bkmGRcB/xM0MFy
+ W4wuP+YiVFq1GE3cLmCwrmqx5IOpcABAJWXEzK8kvZ0o0TBrvNRACz+4W97IzVXFuF9i
+ vm5xDgvnBwKIv3Rs/CrIYcEsyZKrOX63nKAXOM2MSxrfr67bWNCP43awUWhIucPsYKZL
+ 6nHbMb3RQGn2eDm3w/m3NnO6i3yDMzMW2AD5cMqeyQNvmo1NNzPJQBgj9tC9sX5H+zAd
+ 3zIQ==
+X-Gm-Message-State: APjAAAVbnJWwaEQ07ZsPPRhedcpWKfTWoioReb9jnxQ1ep3rucncl2q/
+ v/cvyhoe2w94P5yiyH8OEwnaFDvqsB2qA9hk
+X-Google-Smtp-Source: APXvYqyIdwN6WPgYTdxwlX2tmPCQj8Sp/A3Ofopw769XUdpWuIt+DyabcFtLOIeqzKGEWCRJjEsWxQ==
+X-Received: by 2002:a17:902:722:: with SMTP id
+ 31mr12767821pli.163.1561743177167; 
+ Fri, 28 Jun 2019 10:32:57 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id l44sm2649849pje.29.2019.06.28.10.32.53
+ by smtp.gmail.com with ESMTPSA id q1sm4411297pfn.178.2019.06.28.10.32.56
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:32:53 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:31:58 -0700
-Message-Id: <20190628173227.31925-6-palmer@sifive.com>
+ Fri, 28 Jun 2019 10:32:56 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:31:59 -0700
+Message-Id: <20190628173227.31925-7-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
 References: <20190628173227.31925-1-palmer@sifive.com>
@@ -54,9 +55,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.193
-Subject: [Qemu-devel] [PULL 05/34] RISC-V: Only Check PMP if MMU translation
- succeeds
+X-Received-From: 209.85.214.196
+Subject: [Qemu-devel] [PULL 06/34] RISC-V: Raise access fault exceptions on
+ PMP violations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,37 +77,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 
-The current implementation unnecessarily checks for PMP even if MMU translation
-failed. This may trigger a wrong PMP access exception instead of
-a page exception.
+Section 3.6 in RISC-V v1.10 privilege specification states that PMP violations
+report "access exceptions." The current PMP implementation has
+a bug which wrongly reports "page exceptions" on PMP violations.
 
-For example, the very first instruction fetched after the first satp write in
-S-Mode will trigger a PMP access fault instead of an instruction fetch page
-fault.
-
-This patch prioritises MMU exceptions over PMP exceptions and only checks for
-PMP if MMU translation succeeds. This patch is required for future commits
-that properly report PMP exception violations if PTW succeeds.
+This patch fixes this bug by reporting the correct PMP access exceptions
+trap values.
 
 Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/cpu_helper.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 0bbfb7f48b79..a45b05ef8395 100644
+index a45b05ef8395..ffbfaf433268 100644
 --- a/target/riscv/cpu_helper.c
 +++ b/target/riscv/cpu_helper.c
-@@ -436,6 +436,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                   " prot %d\n", __func__, address, ret, pa, prot);
+@@ -337,12 +337,13 @@ restart:
+ }
  
+ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+-                                MMUAccessType access_type)
++                                MMUAccessType access_type, bool pmp_violation)
+ {
+     CPUState *cs = env_cpu(env);
+     int page_fault_exceptions =
+         (env->priv_ver >= PRIV_VERSION_1_10_0) &&
+-        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE;
++        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE &&
++        !pmp_violation;
+     switch (access_type) {
+     case MMU_INST_FETCH:
+         cs->exception_index = page_fault_exceptions ?
+@@ -424,6 +425,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     CPURISCVState *env = &cpu->env;
+     hwaddr pa = 0;
+     int prot;
++    bool pmp_violation = false;
+     int ret = TRANSLATE_FAIL;
+ 
+     qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
+@@ -438,6 +440,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-+        (ret == TRANSLATE_SUCCESS) &&
+         (ret == TRANSLATE_SUCCESS) &&
          !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
++        pmp_violation = true;
          ret = TRANSLATE_FAIL;
      }
+     if (ret == TRANSLATE_SUCCESS) {
+@@ -447,7 +450,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     } else if (probe) {
+         return false;
+     } else {
+-        raise_mmu_exception(env, address, access_type);
++        raise_mmu_exception(env, address, access_type, pmp_violation);
+         riscv_raise_exception(env, cs->exception_index, retaddr);
+     }
+ #else
 -- 
 2.21.0
 
