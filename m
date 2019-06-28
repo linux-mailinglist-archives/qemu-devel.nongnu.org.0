@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94D25A0BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:24:32 +0200 (CEST)
-Received: from localhost ([::1]:34022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACC859EBD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:22:34 +0200 (CEST)
+Received: from localhost ([::1]:33160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtfr-00067d-N7
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49787)
+	id 1hgsht-0005lG-9j
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49829)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <wainersm@redhat.com>) id 1hgsOp-0002I0-V0
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:53 -0400
+ (envelope-from <wainersm@redhat.com>) id 1hgsOt-0002Oh-Qw
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <wainersm@redhat.com>) id 1hgsOg-0004mX-JB
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39792)
+ (envelope-from <wainersm@redhat.com>) id 1hgsOq-0004v3-W6
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43960)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1hgsOX-0004i1-5g
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:36 -0400
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1hgsOq-0004iX-Kw
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:52 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7099E811A9
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 15:02:32 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 34026D56F1
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 15:02:33 +0000 (UTC)
 Received: from virtlab501.virt.lab.eng.bos.redhat.com
  (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 959995D704;
- Fri, 28 Jun 2019 15:02:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 902E15D704;
+ Fri, 28 Jun 2019 15:02:32 +0000 (UTC)
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 11:02:15 -0400
-Message-Id: <20190628150217.32659-2-wainersm@redhat.com>
+Date: Fri, 28 Jun 2019 11:02:16 -0400
+Message-Id: <20190628150217.32659-3-wainersm@redhat.com>
 In-Reply-To: <20190628150217.32659-1-wainersm@redhat.com>
 References: <20190628150217.32659-1-wainersm@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Fri, 28 Jun 2019 15:02:32 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.38]); Fri, 28 Jun 2019 15:02:33 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 1/3] python/qemu: Allow to launch the VM
- without qmp
+Subject: [Qemu-devel] [PATCH 2/3] tests/acceptance: Introduce the "accel" tag
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,159 +59,118 @@ Cc: philmd@redhat.com, jsnow@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMUMachine launches the VM with a monitor enabled, afterwards
-a qmp connection is attempted on _post_launch(). In case
-the QEMU process exits with an error, qmp.accept() reaches
-timeout and raises an exception.
+Some test cases may boot a VM with accelerator that isn't actually
+enabled on the QEMU binary or present in the host. In this case
+the test case is gonna fail miserably, unless it can be skipped.
 
-But sometimes you don't need that monitor. As an example,
-when a test launches the VM expecting its immediate crash,
-and only intend to check the process's return code. In this
-case the fact that launch() tries to establish the qmp
-connection (ending up in an exception) is troublesome.
-
-So this patch adds the set_qmp_monitor() that allow to
-launch the VM without creating the monitor machinery.
+This change introduces the "accel" tag, used to mark the test
+case requires a given accelerator(s). It was implemented a
+mechanism to check the given accelerator is available, and if not
+then the test case is skipped.
 
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 ---
- python/qemu/__init__.py | 72 +++++++++++++++++++++++++++--------------
- 1 file changed, 48 insertions(+), 24 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py |  5 ++
+ tests/acceptance/avocado_qemu/accel.py    | 60 +++++++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 tests/acceptance/avocado_qemu/accel.py
 
-diff --git a/python/qemu/__init__.py b/python/qemu/__init__.py
-index dbaf8a5311..dd577e9446 100644
---- a/python/qemu/__init__.py
-+++ b/python/qemu/__init__.py
-@@ -113,6 +113,7 @@ class QEMUMachine(object):
-         self._events =3D []
-         self._iolog =3D None
-         self._socket_scm_helper =3D socket_scm_helper
-+        self._qmp_set =3D True   # Enable QMP monitor by default.
-         self._qmp =3D None
-         self._qemu_full_args =3D None
-         self._test_dir =3D test_dir
-@@ -227,15 +228,7 @@ class QEMUMachine(object):
-                 self._iolog =3D iolog.read()
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance=
+/avocado_qemu/__init__.py
+index 2b236a1cf0..f823f7525b 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -18,6 +18,7 @@ SRC_ROOT_DIR =3D os.path.join(os.path.dirname(__file__)=
+, '..', '..', '..')
+ sys.path.append(os.path.join(SRC_ROOT_DIR, 'python'))
 =20
-     def _base_args(self):
--        if isinstance(self._monitor_address, tuple):
--            moncdev =3D "socket,id=3Dmon,host=3D%s,port=3D%s" % (
--                self._monitor_address[0],
--                self._monitor_address[1])
--        else:
--            moncdev =3D 'socket,id=3Dmon,path=3D%s' % self._vm_monitor
--        args =3D ['-chardev', moncdev,
--                '-mon', 'chardev=3Dmon,mode=3Dcontrol',
--                '-display', 'none', '-vga', 'none']
-+        args =3D ['-display', 'none', '-vga', 'none']
-         if self._machine is not None:
-             args.extend(['-machine', self._machine])
-         if self._console_set:
-@@ -249,23 +242,33 @@ class QEMUMachine(object):
-             else:
-                 device =3D '%s,chardev=3Dconsole' % self._console_device=
-_type
-                 args.extend(['-device', device])
-+        if self._qmp_set:
-+            if isinstance(self._monitor_address, tuple):
-+                moncdev =3D "socket,id=3Dmon,host=3D%s,port=3D%s" % (
-+                    self._monitor_address[0],
-+                    self._monitor_address[1])
-+            else:
-+                moncdev =3D 'socket,id=3Dmon,path=3D%s' % self._vm_monit=
-or
-+            args.extend(['-chardev', moncdev, '-mon', 'chardev=3Dmon,mod=
-e=3Dcontrol'])
+ from qemu import QEMUMachine
++from .accel import is_accel_available
+=20
+ def is_readable_executable_file(path):
+     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
+@@ -65,6 +66,10 @@ class Test(avocado.Test):
+         if self.qemu_bin is None:
+             self.cancel("No QEMU binary defined or found in the source t=
+ree")
+=20
++        for accel in self.tags.get('accel', []):
++            if not is_accel_available(accel, self.qemu_bin):
++                self.cancel("Accelerator %s not available" % accel)
 +
-         return args
-=20
-     def _pre_launch(self):
-         self._temp_dir =3D tempfile.mkdtemp(dir=3Dself._test_dir)
--        if self._monitor_address is not None:
--            self._vm_monitor =3D self._monitor_address
--        else:
--            self._vm_monitor =3D os.path.join(self._temp_dir,
--                                            self._name + "-monitor.sock"=
-)
-         self._qemu_log_path =3D os.path.join(self._temp_dir, self._name =
-+ ".log")
-         self._qemu_log_file =3D open(self._qemu_log_path, 'wb')
-=20
--        self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor,
--                                            server=3DTrue)
--
-+        if self._qmp_set:
-+            if self._monitor_address is not None:
-+                self._vm_monitor =3D self._monitor_address
-+            else:
-+                self._vm_monitor =3D os.path.join(self._temp_dir,
-+                                            self._name + "-monitor.sock"=
-)
-+            self._qmp =3D qmp.QEMUMonitorProtocol(self._vm_monitor,
-+                                                    server=3DTrue)
-     def _post_launch(self):
--        self._qmp.accept()
-+        if self._qmp:
-+            self._qmp.accept()
-=20
-     def _post_shutdown(self):
-         if self._qemu_log_file is not None:
-@@ -328,7 +331,8 @@ class QEMUMachine(object):
-         Wait for the VM to power off
-         """
-         self._popen.wait()
--        self._qmp.close()
-+        if self._qmp:
-+            self._qmp.close()
-         self._load_io_log()
-         self._post_shutdown()
-=20
-@@ -337,11 +341,14 @@ class QEMUMachine(object):
-         Terminate the VM and clean up
-         """
-         if self.is_running():
--            try:
--                self._qmp.cmd('quit')
--                self._qmp.close()
--            except:
--                self._popen.kill()
-+            if self._qmp:
-+                try:
-+                    self._qmp.cmd('quit')
-+                    self._qmp.close()
-+                except:
-+                    self._popen.kill()
-+            else:
-+                self._popen.terminate()
-             self._popen.wait()
-=20
-         self._load_io_log()
-@@ -358,6 +365,23 @@ class QEMUMachine(object):
-=20
-         self._launched =3D False
-=20
-+    def set_qmp_monitor(self, disabled=3DFalse, monitor_address=3DNone):
-+        """
-+        Set the QMP monitor.
+     def _new_vm(self, *args):
+         vm =3D QEMUMachine(self.qemu_bin)
+         if args:
+diff --git a/tests/acceptance/avocado_qemu/accel.py b/tests/acceptance/av=
+ocado_qemu/accel.py
+new file mode 100644
+index 0000000000..21f7240d56
+--- /dev/null
++++ b/tests/acceptance/avocado_qemu/accel.py
+@@ -0,0 +1,60 @@
++# Utilities for using QEMU accelerators on tests.
++#
++# Copyright (c) 2019 Red Hat, Inc.
++#
++# Author:
++#  Wainer dos Santos Moschetta <wainersm@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
-+        @param disabled: if True, qmp monitor options will be removed fr=
-om the
-+                         base arguments of the resulting QEMU command li=
-ne.
-+        @param monitor_address: address for the QMP monitor.
-+        @note: call this function before launch().
-+        """
-+        if disabled:
-+            self._qmp_set =3D False
-+            self._qmp =3D None
-+        else:
-+            self._qmp_set =3D True
-+            if monitor_address:
-+                self._monitor_address =3D monitor_address
++from qemu import QEMUMachine
++from qemu import kvm_available
 +
-     def qmp(self, cmd, conv_keys=3DTrue, **args):
-         """
-         Invoke a QMP command and return the response dict
++def list_accel(qemu_bin):
++    """
++    List accelerators enabled in the binary.
++
++    :param qemu_bin: path to the QEMU binary.
++    :type qemu_bin: str
++    :returns: list of accelerator names.
++    :rtype: list
++    """
++    vm =3D QEMUMachine(qemu_bin)
++    vm.set_qmp_monitor(disabled=3DTrue)
++    vm.add_args('-accel', 'help')
++    vm.launch()
++    vm.wait()
++    if vm.exitcode() !=3D 0:
++        raise Exception("Failed to get the accelerators in %s" % qemu_bi=
+n)
++    lines =3D vm.get_log().splitlines()
++    # skip first line which is the output header.
++    return [l for l in lines[1:] if l]
++
++def _tcg_avail_checker(qemu_bin):
++    # checks TCG is enabled in the binary only.
++    return 'tcg' in list_accel(qemu_bin)
++
++def _kvm_avail_checker(qemu_bin):
++    # checks KVM is present in the host as well as enabled in the binary=
+.
++    return kvm_available() and "kvm" in list_accel(qemu_bin)
++
++_CHECKERS =3D {"tcg": _tcg_avail_checker, "kvm": _kvm_avail_checker}
++
++def is_accel_available(accel, qemu_bin):
++    """
++    Check the accelerator is available (enabled in the binary as well as
++    present on host).
++
++    :param accel:  accelerator's name.
++    :type accel: str
++    :param qemu_bin: path to the QEMU binary.
++    :type qemu_bin: str
++    :returns: True if accelerator is available, False otherwise.
++    :rtype: boolean
++    """
++    checker =3D _CHECKERS.get(accel, None)
++    if checker:
++        return checker(qemu_bin)
++    raise Exception("Availability checker not implemented for %s acceler=
+ator." %
++                    accel)
 --=20
 2.21.0
 
