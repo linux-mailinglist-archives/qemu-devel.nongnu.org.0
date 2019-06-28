@@ -2,48 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 147CA59C04
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:54:08 +0200 (CEST)
-Received: from localhost ([::1]:59438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 657AD59BE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:45:19 +0200 (CEST)
+Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqOF-0002M9-9f
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36174)
+	id 1hgqFi-00068G-GI
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:45:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35992)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <slp@redhat.com>) id 1hgq4r-0002a9-6h
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:34:08 -0400
+ (envelope-from <lvivier@redhat.com>) id 1hgq4Z-0002QG-GM
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:33:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1hgq4m-0004Sv-Tp
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:34:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40034)
+ (envelope-from <lvivier@redhat.com>) id 1hgq4X-0004Me-En
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:33:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44236)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hgq4m-0004RW-Io
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:34:00 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>)
+ id 1hgq4X-0004Dy-6Q; Fri, 28 Jun 2019 08:33:45 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0939B308FB82;
- Fri, 28 Jun 2019 11:54:18 +0000 (UTC)
-Received: from dritchie.redhat.com (unknown [10.33.36.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D4F61A92D;
- Fri, 28 Jun 2019 11:54:13 +0000 (UTC)
-From: Sergio Lopez <slp@redhat.com>
-To: mst@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
- rth@twiddle.net, ehabkost@redhat.com
-Date: Fri, 28 Jun 2019 13:53:49 +0200
-Message-Id: <20190628115349.60293-5-slp@redhat.com>
-In-Reply-To: <20190628115349.60293-1-slp@redhat.com>
-References: <20190628115349.60293-1-slp@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 2B4A5307B96B;
+ Fri, 28 Jun 2019 11:54:45 +0000 (UTC)
+Received: from [10.36.117.11] (ovpn-117-11.ams2.redhat.com [10.36.117.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 875035D705;
+ Fri, 28 Jun 2019 11:54:39 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
+References: <20190312085502.8203-1-david@gibson.dropbear.id.au>
+ <20190312085502.8203-13-david@gibson.dropbear.id.au>
+ <b693da29-0d2a-e739-17fb-9fd78894fd9e@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <d68abe04-6cfa-6d08-4381-84686e8e610f@redhat.com>
+Date: Fri, 28 Jun 2019 13:54:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <b693da29-0d2a-e739-17fb-9fd78894fd9e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 28 Jun 2019 11:54:18 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.47]); Fri, 28 Jun 2019 11:54:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/4] hw/i386: Introduce the microvm machine type
+Subject: Re: [Qemu-devel] [PULL 12/62] target/ppc/spapr: Enable mitigations
+ by default for pseries-4.0 machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,713 +105,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>
+Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Microvm is a machine type inspired by both NEMU and Firecracker, and
-constructed after the machine model implemented by the latter.
-
-It's main purpose is providing users a KVM-only machine type with fast
-boot times, minimal attack surface (measured as the number of IO ports
-and MMIO regions exposed to the Guest) and small footprint (specially
-when combined with the ongoing QEMU modularization effort).
-
-Normally, other than the device support provided by KVM itself,
-microvm only supports virtio-mmio devices. Microvm also includes a
-legacy mode, which adds an ISA bus with a 16550A serial port, useful
-for being able to see the early boot kernel messages.
-
-Signed-off-by: Sergio Lopez <slp@redhat.com>
----
- default-configs/i386-softmmu.mak |   1 +
- hw/i386/Kconfig                  |   4 +
- hw/i386/Makefile.objs            |   1 +
- hw/i386/microvm.c                | 518 +++++++++++++++++++++++++++++++
- include/hw/i386/microvm.h        |  85 +++++
- 5 files changed, 609 insertions(+)
- create mode 100644 hw/i386/microvm.c
- create mode 100644 include/hw/i386/microvm.h
-
-diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-soft=
-mmu.mak
-index cd5ea391e8..338f07420f 100644
---- a/default-configs/i386-softmmu.mak
-+++ b/default-configs/i386-softmmu.mak
-@@ -26,3 +26,4 @@ CONFIG_ISAPC=3Dy
- CONFIG_I440FX=3Dy
- CONFIG_Q35=3Dy
- CONFIG_ACPI_PCI=3Dy
-+CONFIG_MICROVM=3Dy
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 9817888216..94c565d8db 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -87,6 +87,10 @@ config Q35
-     select VMMOUSE
-     select FW_CFG_DMA
-=20
-+config MICROVM
-+    bool
-+    select VIRTIO_MMIO
-+
- config VTD
-     bool
-=20
-diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
-index 102f2b35fc..149bdd0784 100644
---- a/hw/i386/Makefile.objs
-+++ b/hw/i386/Makefile.objs
-@@ -4,6 +4,7 @@ obj-y +=3D cpu.o
- obj-y +=3D pc.o
- obj-$(CONFIG_I440FX) +=3D pc_piix.o
- obj-$(CONFIG_Q35) +=3D pc_q35.o
-+obj-$(CONFIG_MICROVM) +=3D mptable.o microvm.o
- obj-y +=3D fw_cfg.o pc_sysfw.o
- obj-y +=3D x86-iommu.o
- obj-$(CONFIG_VTD) +=3D intel_iommu.o
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-new file mode 100644
-index 0000000000..fff88c3697
---- /dev/null
-+++ b/hw/i386/microvm.c
-@@ -0,0 +1,518 @@
-+/*
-+ *
-+ * Copyright (c) 2018 Intel Corporation
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify =
-it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOU=
-T
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License alo=
-ng with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "qapi/error.h"
-+#include "qapi/visitor.h"
-+#include "sysemu/sysemu.h"
-+#include "sysemu/cpus.h"
-+#include "sysemu/numa.h"
-+
-+#include "hw/loader.h"
-+#include "hw/nmi.h"
-+#include "hw/kvm/clock.h"
-+#include "hw/i386/microvm.h"
-+#include "hw/i386/pc.h"
-+#include "hw/i386/cpu-internal.h"
-+#include "target/i386/cpu.h"
-+#include "hw/timer/i8254.h"
-+#include "hw/char/serial.h"
-+#include "hw/i386/topology.h"
-+#include "hw/virtio/virtio-mmio.h"
-+#include "hw/i386/mptable.h"
-+
-+#include "cpu.h"
-+#include "elf.h"
-+#include "kvm_i386.h"
-+#include <asm/bootparam.h>
-+
-+#define DEFINE_MICROVM_MACHINE_LATEST(major, minor, latest) \
-+    static void microvm_##major##_##minor##_object_class_init(ObjectClas=
-s *oc, \
-+                                                              void *data=
-) \
-+    { \
-+        MachineClass *mc =3D MACHINE_CLASS(oc); \
-+        microvm_##major##_##minor##_machine_class_init(mc); \
-+        mc->desc =3D "Microvm (i386)"; \
-+        if (latest) { \
-+            mc->alias =3D "microvm"; \
-+        } \
-+    } \
-+    static const TypeInfo microvm_##major##_##minor##_info =3D { \
-+        .name =3D MACHINE_TYPE_NAME("microvm-" # major "." # minor), \
-+        .parent =3D TYPE_MICROVM_MACHINE, \
-+        .instance_init =3D microvm_##major##_##minor##_instance_init, \
-+        .class_init =3D microvm_##major##_##minor##_object_class_init, \
-+    }; \
-+    static void microvm_##major##_##minor##_init(void) \
-+    { \
-+        type_register_static(&microvm_##major##_##minor##_info); \
-+    } \
-+    type_init(microvm_##major##_##minor##_init);
-+
-+#define DEFINE_MICROVM_MACHINE_AS_LATEST(major, minor) \
-+    DEFINE_MICROVM_MACHINE_LATEST(major, minor, true)
-+#define DEFINE_MICROVM_MACHINE(major, minor) \
-+    DEFINE_MICROVM_MACHINE_LATEST(major, minor, false)
-+
-+static void microvm_gsi_handler(void *opaque, int n, int level)
-+{
-+    qemu_irq *ioapic_irq =3D opaque;
-+
-+    qemu_set_irq(ioapic_irq[n], level);
-+}
-+
-+static void microvm_legacy_init(MicrovmMachineState *mms)
-+{
-+    ISABus *isa_bus;
-+    GSIState *gsi_state;
-+    qemu_irq *i8259;
-+    int i;
-+
-+    assert(kvm_irqchip_in_kernel());
-+    gsi_state =3D g_malloc0(sizeof(*gsi_state));
-+    mms->gsi =3D qemu_allocate_irqs(gsi_handler, gsi_state, GSI_NUM_PINS=
-);
-+
-+    isa_bus =3D isa_bus_new(NULL, get_system_memory(), get_system_io(),
-+                          &error_abort);
-+    isa_bus_irqs(isa_bus, mms->gsi);
-+
-+    assert(kvm_pic_in_kernel());
-+    i8259 =3D kvm_i8259_init(isa_bus);
-+
-+    for (i =3D 0; i < ISA_NUM_IRQS; i++) {
-+        gsi_state->i8259_irq[i] =3D i8259[i];
-+    }
-+
-+    kvm_pit_init(isa_bus, 0x40);
-+
-+    for (i =3D 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
-+        int nirq =3D VIRTIO_IRQ_BASE + i;
-+        ISADevice *isadev =3D isa_create(isa_bus, TYPE_ISA_SERIAL);
-+        qemu_irq mmio_irq;
-+
-+        isa_init_irq(isadev, &mmio_irq, nirq);
-+        sysbus_create_simple("virtio-mmio",
-+                             VIRTIO_MMIO_BASE + i * 512,
-+                             mms->gsi[VIRTIO_IRQ_BASE + i]);
-+    }
-+
-+    g_free(i8259);
-+
-+    serial_hds_isa_init(isa_bus, 0, 1);
-+}
-+
-+static void microvm_ioapic_init(MicrovmMachineState *mms)
-+{
-+    qemu_irq *ioapic_irq;
-+    DeviceState *ioapic_dev;
-+    SysBusDevice *d;
-+    int i;
-+
-+    assert(kvm_irqchip_in_kernel());
-+    ioapic_irq =3D g_new0(qemu_irq, IOAPIC_NUM_PINS);
-+    kvm_pc_setup_irq_routing(true);
-+
-+    assert(kvm_ioapic_in_kernel());
-+    ioapic_dev =3D qdev_create(NULL, "kvm-ioapic");
-+
-+    object_property_add_child(qdev_get_machine(), "ioapic", OBJECT(ioapi=
-c_dev), NULL);
-+
-+    qdev_init_nofail(ioapic_dev);
-+    d =3D SYS_BUS_DEVICE(ioapic_dev);
-+    sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
-+
-+    for (i =3D 0; i < IOAPIC_NUM_PINS; i++) {
-+        ioapic_irq[i] =3D qdev_get_gpio_in(ioapic_dev, i);
-+    }
-+
-+    mms->gsi =3D qemu_allocate_irqs(microvm_gsi_handler, ioapic_irq, IOA=
-PIC_NUM_PINS);
-+
-+    for (i =3D 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
-+        sysbus_create_simple("virtio-mmio",
-+                             VIRTIO_MMIO_BASE + i * 512,
-+                             mms->gsi[VIRTIO_IRQ_BASE + i]);
-+    }
-+}
-+
-+static void microvm_memory_init(MicrovmMachineState *mms)
-+{
-+    MachineState *machine =3D MACHINE(mms);
-+    MemoryRegion *ram, *ram_below_4g, *ram_above_4g;
-+    MemoryRegion *system_memory =3D get_system_memory();
-+
-+    if (machine->ram_size > MICROVM_MAX_BELOW_4G) {
-+        mms->above_4g_mem_size =3D machine->ram_size - MICROVM_MAX_BELOW=
-_4G;
-+        mms->below_4g_mem_size =3D MICROVM_MAX_BELOW_4G;
-+    } else {
-+        mms->above_4g_mem_size =3D 0;
-+        mms->below_4g_mem_size =3D machine->ram_size;
-+    }
-+
-+    ram =3D g_malloc(sizeof(*ram));
-+    memory_region_allocate_system_memory(ram, NULL, "microvm.ram",
-+                                         machine->ram_size);
-+
-+    ram_below_4g =3D g_malloc(sizeof(*ram_below_4g));
-+    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", ram,
-+                             0, mms->below_4g_mem_size);
-+    memory_region_add_subregion(system_memory, 0, ram_below_4g);
-+
-+    e820_add_entry(0, mms->below_4g_mem_size, E820_RAM);
-+
-+    if (mms->above_4g_mem_size > 0) {
-+        ram_above_4g =3D g_malloc(sizeof(*ram_above_4g));
-+        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g", ram=
-,
-+                                 mms->below_4g_mem_size,
-+                                 mms->above_4g_mem_size);
-+        memory_region_add_subregion(system_memory, 0x100000000ULL,
-+                                    ram_above_4g);
-+        e820_add_entry(0x100000000ULL, mms->above_4g_mem_size, E820_RAM)=
+On 28/06/2019 13:27, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi,
+>=20
+> On 3/12/19 9:54 AM, David Gibson wrote:
+>> From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+>>
+>> There are currently 3 mitigations the availability of which is control=
+led
+>> by the spapr-caps mechanism, cap-cfpc, cap-sbbc, and cap-ibs. Enable t=
+hese
+>> mitigations by default for the pseries-4.0 machine type.
+>>
+>> By now machine firmware should have been upgraded to allow these
+>> settings.
+>>
+>> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+>> Message-Id: <20190301044609.9626-3-sjitindarsingh@gmail.com>
+>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>> ---
+>>  hw/ppc/spapr.c | 9 ++++++---
+>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index 37fd7a1411..946bbcf9ee 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -4307,9 +4307,9 @@ static void spapr_machine_class_init(ObjectClass=
+ *oc, void *data)
+>>      smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
+>>      smc->default_caps.caps[SPAPR_CAP_VSX] =3D SPAPR_CAP_ON;
+>>      smc->default_caps.caps[SPAPR_CAP_DFP] =3D SPAPR_CAP_ON;
+>> -    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_BROKEN;
+>> -    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
+>> -    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
+>> +    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_WORKAROUND;
+>> +    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_WORKAROUND;
+>> +    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_WORKAROUND;
+>>      smc->default_caps.caps[SPAPR_CAP_HPT_MAXPAGESIZE] =3D 16; /* 64ki=
+B */
+>>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF=
 ;
-+    }
-+}
-+
-+static void microvm_machine_state_init(MachineState *machine)
-+{
-+    MicrovmMachineState *mms =3D MICROVM_MACHINE(machine);
-+    uint64_t elf_entry;
-+    int kernel_size;
-+
-+    if (machine->kernel_filename =3D=3D NULL) {
-+        error_report("missing kernel image file name, required by microv=
-m");
-+        exit(1);
-+    }
-+
-+    microvm_memory_init(mms);
-+    if (mms->legacy) {
-+        microvm_legacy_init(mms);
-+    } else {
-+        microvm_ioapic_init(mms);
-+    }
-+
-+    mms->apic_id_limit =3D cpus_init(machine, false);
-+
-+    kvmclock_create();
-+
-+    kernel_size =3D load_elf(machine->kernel_filename, NULL,
-+                           NULL, NULL, &elf_entry,
-+                           NULL, NULL, 0, I386_ELF_MACHINE,
-+                           0, 0);
-+
-+    if (kernel_size < 0) {
-+        error_report("Error while loading elf kernel");
-+        exit(1);
-+    }
-+
-+    mms->elf_entry =3D elf_entry;
-+}
-+
-+static gchar *microvm_get_virtio_mmio_cmdline(gchar *name)
-+{
-+    gchar *cmdline;
-+    gchar *separator;
-+    unsigned long index;
-+    int ret;
-+
-+    separator =3D g_strrstr(name, ".");
-+    if (!separator) {
-+        return NULL;
-+    }
-+
-+    index =3D strtol(separator + 1, NULL, 10);
-+    if (index =3D=3D LONG_MIN || index =3D=3D LONG_MAX) {
-+        return NULL;
-+    }
-+
-+    cmdline =3D g_malloc0(VIRTIO_CMDLINE_MAXLEN);
-+    ret =3D g_snprintf(cmdline, VIRTIO_CMDLINE_MAXLEN,
-+                     " virtio_mmio.device=3D512@0x%lx:%ld",
-+                     VIRTIO_MMIO_BASE + index * 512,
-+                     VIRTIO_IRQ_BASE + index);
-+    if (ret < 0 || ret >=3D VIRTIO_CMDLINE_MAXLEN) {
-+        g_free(cmdline);
-+        return NULL;
-+    }
-+
-+    return cmdline;
-+}
-+
-+static void microvm_setup_bootparams(MicrovmMachineState *mms, const gch=
-ar *kernel_cmdline)
-+{
-+    struct boot_params params;
-+    BusState *bus;
-+    BusChild *kid;
-+    gchar *cmdline;
-+    int cmdline_len;
-+    int i;
-+
-+    cmdline =3D g_strdup(kernel_cmdline);
-+
-+    /*
-+     * Find MMIO transports with attached devices, and add them to the k=
-ernel
-+     * command line.
-+     */
-+    bus =3D sysbus_get_default();
-+    QTAILQ_FOREACH(kid, &bus->children, sibling) {
-+        DeviceState *dev =3D kid->child;
-+        ObjectClass *class =3D object_get_class(OBJECT(dev));
-+
-+        if (class =3D=3D object_class_by_name(TYPE_VIRTIO_MMIO)) {
-+            VirtIOMMIOProxy *mmio =3D VIRTIO_MMIO(OBJECT(dev));
-+            VirtioBusState *mmio_virtio_bus =3D &mmio->bus;
-+            BusState *mmio_bus =3D &mmio_virtio_bus->parent_obj;
-+
-+            if (!QTAILQ_EMPTY(&mmio_bus->children)) {
-+                gchar *mmio_cmdline =3D microvm_get_virtio_mmio_cmdline(=
-mmio_bus->name);
-+                if (mmio_cmdline) {
-+                    char *newcmd =3D g_strjoin(NULL, cmdline, mmio_cmdli=
-ne, NULL);
-+                    g_free(mmio_cmdline);
-+                    g_free(cmdline);
-+                    cmdline =3D newcmd;
-+                }
-+            }
-+        }
-+    }
-+
-+    cmdline_len =3D strlen(cmdline);
-+
-+    address_space_write(&address_space_memory,
-+                        KERNEL_CMDLINE_START, MEMTXATTRS_UNSPECIFIED,
-+                        (uint8_t *) cmdline, cmdline_len);
-+
-+    g_free(cmdline);
-+
-+    memset(&params, 0, sizeof(struct boot_params));
-+
-+    params.hdr.type_of_loader =3D KERNEL_LOADER_OTHER;
-+    params.hdr.boot_flag =3D KERNEL_BOOT_FLAG_MAGIC;
-+    params.hdr.header =3D KERNEL_HDR_MAGIC;
-+    params.hdr.cmd_line_ptr =3D KERNEL_CMDLINE_START;
-+    params.hdr.cmdline_size =3D cmdline_len;
-+    params.hdr.kernel_alignment =3D KERNEL_MIN_ALIGNMENT_BYTES;
-+
-+    params.e820_entries =3D e820_get_num_entries();
-+    for (i =3D 0; i < params.e820_entries; i++) {
-+        uint64_t address, length;
-+        if (e820_get_entry(i, E820_RAM, &address, &length)) {
-+            params.e820_table[i].addr =3D address;
-+            params.e820_table[i].size =3D length;
-+            params.e820_table[i].type =3D E820_RAM;
-+        }
-+    }
-+
-+    address_space_write(&address_space_memory,
-+                        ZERO_PAGE_START, MEMTXATTRS_UNSPECIFIED,
-+                        (uint8_t *) &params, sizeof(struct boot_params))=
-;
-+}
-+
-+static void microvm_init_page_tables(void)
-+{
-+    uint64_t val =3D 0;
-+    int i;
-+
-+    val =3D PDPTE_START | 0x03;
-+    address_space_write(&address_space_memory,
-+                        PML4_START, MEMTXATTRS_UNSPECIFIED,
-+                        (uint8_t *) &val, 8);
-+    val =3D PDE_START | 0x03;
-+    address_space_write(&address_space_memory,
-+                        PDPTE_START, MEMTXATTRS_UNSPECIFIED,
-+                        (uint8_t *) &val, 8);
-+
-+    for (i =3D 0; i < 512; i++) {
-+        val =3D (i << 21) + 0x83;
-+        address_space_write(&address_space_memory,
-+                            PDE_START + (i * 8), MEMTXATTRS_UNSPECIFIED,
-+                            (uint8_t *) &val, 8);
-+    }
-+}
-+
-+static void microvm_cpu_reset(CPUState *cs, uint64_t elf_entry)
-+{
-+    X86CPU *cpu =3D X86_CPU(cs);
-+    CPUX86State *env =3D &cpu->env;
-+    struct SegmentCache seg_code =3D
-+        { .selector =3D 0x8, .base =3D 0x0, .limit =3D 0xfffff, .flags =3D=
- 0xa09b00 };
-+    struct SegmentCache seg_data =3D
-+        { .selector =3D 0x10, .base =3D 0x0, .limit =3D 0xfffff, .flags =
-=3D 0xc09300 };
-+    struct SegmentCache seg_tr =3D
-+        { .selector =3D 0x18, .base =3D 0x0, .limit =3D 0xfffff, .flags =
-=3D 0x808b00 };
-+
-+    kvm_arch_get_registers(cs);
-+
-+    memcpy(&env->segs[R_CS], &seg_code, sizeof(struct SegmentCache));
-+    memcpy(&env->segs[R_DS], &seg_data, sizeof(struct SegmentCache));
-+    memcpy(&env->segs[R_ES], &seg_data, sizeof(struct SegmentCache));
-+    memcpy(&env->segs[R_FS], &seg_data, sizeof(struct SegmentCache));
-+    memcpy(&env->segs[R_GS], &seg_data, sizeof(struct SegmentCache));
-+    memcpy(&env->segs[R_SS], &seg_data, sizeof(struct SegmentCache));
-+    memcpy(&env->tr, &seg_tr, sizeof(struct SegmentCache));
-+
-+    env->efer |=3D MSR_EFER_LME | MSR_EFER_LMA;
-+    env->regs[R_ESP] =3D BOOT_STACK_POINTER;
-+    env->regs[R_EBP] =3D BOOT_STACK_POINTER;
-+    env->regs[R_ESI] =3D ZERO_PAGE_START;
-+
-+    cpu_set_pc(cs, elf_entry);
-+    cpu_x86_update_cr3(env, PML4_START);
-+    cpu_x86_update_cr4(env, env->cr[4] | CR4_PAE_MASK);
-+    cpu_x86_update_cr0(env, env->cr[0] | CR0_PE_MASK | CR0_PG_MASK);
-+    x86_update_hflags(env);
-+
-+    kvm_arch_put_registers(cs, KVM_PUT_RESET_STATE);
-+}
-+
-+static void microvm_mptable_setup(MicrovmMachineState *mms)
-+{
-+    char *mptable;
-+    int size;
-+
-+    mptable =3D mptable_generate(smp_cpus, mms->apic_id_limit,
-+                               EBDA_START, &size);
-+    address_space_write(&address_space_memory,
-+                        EBDA_START, MEMTXATTRS_UNSPECIFIED,
-+                        (uint8_t *) mptable, size);
-+    g_free(mptable);
-+}
-+
-+static bool microvm_machine_get_legacy(Object *obj, Error **errp)
-+{
-+    MicrovmMachineState *mms =3D MICROVM_MACHINE(obj);
-+
-+    return mms->legacy;
-+}
-+
-+static void microvm_machine_set_legacy(Object *obj, bool value, Error **=
-errp)
-+{
-+    MicrovmMachineState *mms =3D MICROVM_MACHINE(obj);
-+
-+    mms->legacy =3D value;
-+}
-+
-+static void microvm_machine_reset(void)
-+{
-+    MachineState *machine =3D MACHINE(qdev_get_machine());
-+    MicrovmMachineState *mms =3D MICROVM_MACHINE(machine);
-+    CPUState *cs;
-+    X86CPU *cpu;
-+
-+    qemu_devices_reset();
-+
-+    microvm_mptable_setup(mms);
-+    microvm_setup_bootparams(mms, machine->kernel_cmdline);
-+    microvm_init_page_tables();
-+
-+    CPU_FOREACH(cs) {
-+        cpu =3D X86_CPU(cs);
-+
-+        /* Reset APIC after devices have been reset to cancel
-+         * any changes that qemu_devices_reset() might have done.
-+         */
-+        if (cpu->apic_state) {
-+            device_reset(cpu->apic_state);
-+        }
-+
-+        microvm_cpu_reset(cs, mms->elf_entry);
-+    }
-+}
-+
-+static void x86_nmi(NMIState *n, int cpu_index, Error **errp)
-+{
-+    CPUState *cs;
-+
-+    CPU_FOREACH(cs) {
-+        X86CPU *cpu =3D X86_CPU(cs);
-+
-+        if (!cpu->apic_state) {
-+            cpu_interrupt(cs, CPU_INTERRUPT_NMI);
-+        } else {
-+            apic_deliver_nmi(cpu->apic_state);
-+        }
-+    }
-+}
-+
-+static void microvm_machine_instance_init(Object *obj)
-+{
-+}
-+
-+static void microvm_class_init(ObjectClass *oc, void *data)
-+{
-+    NMIClass *nc =3D NMI_CLASS(oc);
-+
-+    /* NMI handler */
-+    nc->nmi_monitor_handler =3D x86_nmi;
-+
-+    object_class_property_add_bool(oc, MICROVM_MACHINE_LEGACY,
-+                                   microvm_machine_get_legacy,
-+                                   microvm_machine_set_legacy,
-+                                   &error_abort);
-+}
-+
-+static const TypeInfo microvm_machine_info =3D {
-+    .name          =3D TYPE_MICROVM_MACHINE,
-+    .parent        =3D TYPE_MACHINE,
-+    .abstract      =3D true,
-+    .instance_size =3D sizeof(MicrovmMachineState),
-+    .instance_init =3D microvm_machine_instance_init,
-+    .class_size    =3D sizeof(MicrovmMachineClass),
-+    .class_init    =3D microvm_class_init,
-+    .interfaces =3D (InterfaceInfo[]) {
-+         { TYPE_NMI },
-+         { }
-+    },
-+};
-+
-+static void microvm_machine_init(void)
-+{
-+    type_register_static(&microvm_machine_info);
-+}
-+type_init(microvm_machine_init);
-+
-+static void microvm_1_0_instance_init(Object *obj)
-+{
-+}
-+
-+static void microvm_machine_class_init(MachineClass *mc)
-+{
-+    mc->init =3D microvm_machine_state_init;
-+
-+    mc->family =3D "microvm_i386";
-+    mc->desc =3D "Microvm (i386)";
-+    mc->units_per_default_bus =3D 1;
-+    mc->no_floppy =3D 1;
-+    machine_class_allow_dynamic_sysbus_dev(mc, "sysbus-debugcon");
-+    machine_class_allow_dynamic_sysbus_dev(mc, "sysbus-debugexit");
-+    mc->max_cpus =3D 288;
-+    mc->has_hotpluggable_cpus =3D false;
-+    mc->auto_enable_numa_with_memhp =3D false;
-+    mc->default_cpu_type =3D X86_CPU_TYPE_NAME ("host");
-+    mc->nvdimm_supported =3D false;
-+    mc->default_machine_opts =3D "accel=3Dkvm";
-+
-+    /* Machine class handlers */
-+    mc->cpu_index_to_instance_props =3D cpu_index_to_props;
-+    mc->get_default_cpu_node_id =3D cpu_get_default_cpu_node_id;
-+    mc->possible_cpu_arch_ids =3D cpu_possible_cpu_arch_ids;;
-+    mc->reset =3D microvm_machine_reset;
-+}
-+
-+static void microvm_1_0_machine_class_init(MachineClass *mc)
-+{
-+    microvm_machine_class_init(mc);
-+}
-+DEFINE_MICROVM_MACHINE_AS_LATEST(1, 0)
-diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
-new file mode 100644
-index 0000000000..544ef60563
---- /dev/null
-+++ b/include/hw/i386/microvm.h
-@@ -0,0 +1,85 @@
-+/*
-+ *
-+ * Copyright (c) 2018 Intel Corporation
-+ * Copyright (c) 2019 Red Hat, Inc.
-+ *
-+ * This program is free software; you can redistribute it and/or modify =
-it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOU=
-T
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
- for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License alo=
-ng with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef HW_I386_MICROVM_H
-+#define HW_I386_MICROVM_H
-+
-+#include "qemu-common.h"
-+#include "exec/hwaddr.h"
-+#include "qemu/notify.h"
-+
-+#include "hw/boards.h"
-+
-+/* Microvm memory layout */
-+#define ZERO_PAGE_START      0x7000
-+#define BOOT_STACK_POINTER   0x8ff0
-+#define PML4_START           0x9000
-+#define PDPTE_START          0xa000
-+#define PDE_START            0xb000
-+#define EBDA_START           0x9fc00
-+#define HIMEM_START          0x100000
-+#define MICROVM_MAX_BELOW_4G 0xe0000000
-+
-+/* Bootparams related definitions */
-+#define KERNEL_BOOT_FLAG_MAGIC     0xaa55
-+#define KERNEL_HDR_MAGIC           0x53726448
-+#define KERNEL_LOADER_OTHER        0xff
-+#define KERNEL_MIN_ALIGNMENT_BYTES 0x01000000
-+#define KERNEL_CMDLINE_START       0x20000
-+#define KERNEL_CMDLINE_MAX_SIZE    0x10000
-+
-+/* Platform virtio definitions */
-+#define VIRTIO_MMIO_BASE      0xd0000000
-+#define VIRTIO_IRQ_BASE       5
-+#define VIRTIO_NUM_TRANSPORTS 8
-+#define VIRTIO_CMDLINE_MAXLEN 64
-+
-+/* Machine type options */
-+#define MICROVM_MACHINE_LEGACY "legacy"
-+
-+typedef struct {
-+    MachineClass parent;
-+    HotplugHandler *(*orig_hotplug_handler)(MachineState *machine,
-+                                           DeviceState *dev);
-+} MicrovmMachineClass;
-+
-+typedef struct {
-+    MachineState parent;
-+    unsigned apic_id_limit;
-+    qemu_irq *gsi;
-+
-+    /* RAM size */
-+    ram_addr_t below_4g_mem_size;
-+    ram_addr_t above_4g_mem_size;
-+
-+    /* Kernel ELF entry. On reset, vCPUs RIP will be set to this */
-+    uint64_t elf_entry;
-+
-+    /* Legacy mode based on an ISA bus. Useful for debugging */
-+    bool legacy;
-+} MicrovmMachineState;
-+
-+#define TYPE_MICROVM_MACHINE   MACHINE_TYPE_NAME("microvm")
-+#define MICROVM_MACHINE(obj) \
-+    OBJECT_CHECK(MicrovmMachineState, (obj), TYPE_MICROVM_MACHINE)
-+#define MICROVM_MACHINE_GET_CLASS(obj) \
-+    OBJECT_GET_CLASS(MicrovmMachineClass, obj, TYPE_MICROVM_MACHINE)
-+#define MICROVM_MACHINE_CLASS(class) \
-+    OBJECT_CLASS_CHECK(MicrovmMachineClass, class, TYPE_MICROVM_MACHINE)
-+
-+#endif
---=20
-2.21.0
+>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP=
+_ON;
+>> @@ -4389,6 +4389,9 @@ static void spapr_machine_3_1_class_options(Mach=
+ineClass *mc)
+>>      mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
+>>      smc->update_dt_enabled =3D false;
+>>      smc->dr_phb_enabled =3D false;
+>> +    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_BROKEN;
+>> +    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
+>> +    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
+>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP=
+_OFF;
+>>  }
+>=20
+
+What happens if you start directly qemu with:
+
+  ... -M cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken ...
+
+or with
+
+  ... -M pseries-3.1.0 ...
+
+Thanks,
+Laurent
 
 
