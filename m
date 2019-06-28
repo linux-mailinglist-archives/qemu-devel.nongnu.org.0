@@ -2,66 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F407596B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:03:02 +0200 (CEST)
-Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B599D596E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:08:17 +0200 (CEST)
+Received: from localhost ([::1]:57898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgmmb-0006tm-54
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39436)
+	id 1hgmrg-0001vi-Vf
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:08:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40830)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <sgarzare@redhat.com>) id 1hgmj4-00061C-90
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 04:59:24 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hgmqF-0000x9-3N
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:06:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <sgarzare@redhat.com>) id 1hgmj2-0004Wa-Dg
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 04:59:22 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34683)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hgmj2-0004Ki-4Q
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 04:59:20 -0400
-Received: by mail-wr1-f65.google.com with SMTP id k11so5435231wrl.1
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 01:59:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=gDjQk5005woeiKOFM14oln8NMwGtBGoa08lr17p53MI=;
- b=HqGfJY7BLRjRI2JwXv/gRjxIbyo+9Q7dtMfr1iuvXy9LUzi9NdhP9F7houLoeTFbUV
- 5QTOuyWtCf7Kt/KO9ZXJ+t4GS2+6yiATDR4H4pmM/4La1gHpnZDbYe54OrJXeIn0xAPR
- vpSSaha/j9u2mqUYsNLGQ+IcC8S97fanwjVqtq7NgW6nVc1PQ2s9o7F9Pzr8/T/6Zxs+
- iH6R/+G4Gcs9P9y2DC89qzfy0NjDve16G7Ag8QmCv8sE5Ts/BtADfrWF0cCZlmv7y5Md
- ltXpwMJLvpcvMypMOG5oVGsvBJWUowyXVikB7JsTZcnxNQPUcP5TCi5IHmuZIW8ZOMx1
- 7fDw==
-X-Gm-Message-State: APjAAAUCIt9cjnlHwyuHkfl6Qn5Kex+pHY+zJet7D/errnggqNKcaqav
- RfTtDHh7LhXOVkP2Qz4HXZtk/w==
-X-Google-Smtp-Source: APXvYqzMu+8xpAmwqBSek4TWHpUEAGumy/cwKLhNIeUrDoL2pQk0tGPpv+sR3UpY560UNYWnbd7Cag==
-X-Received: by 2002:adf:dc81:: with SMTP id r1mr6924154wrj.298.1561712344732; 
- Fri, 28 Jun 2019 01:59:04 -0700 (PDT)
-Received: from steredhat (host21-207-dynamic.52-79-r.retail.telecomitalia.it.
- [79.52.207.21])
- by smtp.gmail.com with ESMTPSA id f204sm2009632wme.18.2019.06.28.01.59.03
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 01:59:04 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:59:01 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: dillaman@redhat.com
-Message-ID: <20190628085901.rnzcfu6rgkvrg46n@steredhat>
-References: <20190510153346.238366-1-sgarzare@redhat.com>
- <96429d33-6514-33b5-3fe8-7bdf2eccc8d9@redhat.com>
- <20190627084816.u6fj556uen3iqa3r@steredhat.homenet.telecomitalia.it>
- <b7aaa681-12ae-e256-e295-06e953dc51ff@redhat.com>
- <CA+aFP1Btm6O5R0fiNZmBjHOO8t9ZDvvVgH0i1vFHsrQq85d+bA@mail.gmail.com>
+ (envelope-from <laurent@vivier.eu>) id 1hgmq9-00049a-HH
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:06:46 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:58885)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hgmq9-00047W-1x
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:06:41 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N3Kc6-1iglMI4BaU-010Oif; Fri, 28 Jun 2019 11:06:25 +0200
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1561712082-31441-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1561712082-31441-6-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <e6037c0f-e3a1-287d-e096-586fdade7176@vivier.eu>
+Date: Fri, 28 Jun 2019 11:06:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CA+aFP1Btm6O5R0fiNZmBjHOO8t9ZDvvVgH0i1vFHsrQq85d+bA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1561712082-31441-6-git-send-email-aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:9ZzevO72f3ouJ6NbPgA+99kI10E4/PlEGTpWRXzH11p1MnP8ILc
+ mVEA94rVV0/QJu7pJtogpOwfn0/MCCrMosX9Lpk3HH5njdIZvobVzuf39FBv2Uhn3iDx+xk
+ EiqBQ4CfSiyn16r7DxuR211OJZOC6nQN0yb8NkmCudMTmM4/3M2a/zsLpPRAdK5x1+I9bgH
+ hnAZpmjKyK8pyfKcsBjIQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0j4Pnwdyifc=:94UPzLT2qFci2d8B420Ozv
+ /DfZN+fHZOxOyIP0ke91AjsZdg8t4jTkBfeTVQvYjq0HNQeu7EWpj0vFzlgCGoH7m5xv17BNe
+ gmT+rshE2hzQpBSBMsTdnpsAHGY9b0ElT+SJunbscB6BdkPNs2/YKA29S6TWZAoV24GYTqqnt
+ 2KU6uStZBocrHLt4R66wv/TC/XTHP5RTIJUZ63eccvZ35jKs05wqAynsRXUvSGIHp+0juGeZ+
+ qtUJXay8clUzqVUfsxmzHrYkRG8X0ayiPKLc1xQX55GfXhKoNyiz+d57lpugj3e94BwOh2rWL
+ 7+IxvVb4OaWtG0KSTqRogAL915QTRYiA4eHy9MAGselLt7yToj4Bey9p6j4kmMerWBU8Dh0IK
+ /5JpkpqP5mlVsh1gZJmPOsjFW6yIV+9weAuB2+vibtonkbyzEiJhI5Fj/MdDRP3h1hei4VWEY
+ YxFEgmASgSQDW3O/6lA+iMkaUwR0KL1jUZhYgBedrkoDgd+T77uruN0NRNXNAtT7u1TDWwYS7
+ PQKiKAbOKFnilO48pEoHiL7fFqhjxblc69p/yzQQIPaslWlsfUP6ijTsAaNR9YTvm7VTGLNmw
+ t/TaJgas+qwWpXFg98AiGwrrFWL/wyFG2Yw/SRsAuyUsy+uBQ/JpnSoJgQjSLnlQ7J7KVCwG7
+ uIwgJpN6dRzOubBRoOHtENpePqR/HtVxrPvAmx5KPIt7Wf2BamcQnQVXov0ZCRoa5y4uxpLWn
+ aTZjMlcsv7v6GsWPZ+VatdS/XQbseAcooabQhYnQBbABfuC97dMhV8tadY0=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] block/rbd: implement
- .bdrv_get_allocated_file_size callback
+X-Received-From: 212.227.126.134
+Subject: Re: [Qemu-devel] [PATCH v15 5/5] linux-user: Handle EXCP_FPE
+ properly for MIPS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,159 +110,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 03:43:04PM -0400, Jason Dillaman wrote:
-> On Thu, Jun 27, 2019 at 1:24 PM John Snow <jsnow@redhat.com> wrote:
-> > On 6/27/19 4:48 AM, Stefano Garzarella wrote:
-> > > On Wed, Jun 26, 2019 at 05:04:25PM -0400, John Snow wrote:
-> > >> It looks like this has hit a 30 day expiration without any reviews or
-> > >> being merged; do we still want this? If so, can you please resend?
-> > >
-> > > Yes, I think we still want :)
-> > >
-> > > Is it okay if I send a v3 following your comments?
-> > >
-> >
-> > Yes, but I don't know who is responsible for final approval; I guess
-> > that's Josh Durgin?
+Le 28/06/2019 à 10:54, Aleksandar Markovic a écrit :
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> I'm the new (for the past several years) upstream PTL for RBD, so feel
-> free to tag me.
+> Handle EXCP_FPE properly for MIPS in cpu loop.
 > 
-> > >>
-> > >> On 5/10/19 11:33 AM, Stefano Garzarella wrote:
-> > >>> This patch allows 'qemu-img info' to show the 'disk size' for
-> > >>> the RBD images that have the fast-diff feature enabled.
-> > >>>
-> > >>> If this feature is enabled, we use the rbd_diff_iterate2() API
-> > >>> to calculate the allocated size for the image.
-> > >>>
-> > >>> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > >>> ---
-> > >>> v2:
-> > >>>   - calculate the actual usage only if the fast-diff feature is
-> > >>>     enabled [Jason]
-> > >>> ---
-> > >>>  block/rbd.c | 54 +++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >>>  1 file changed, 54 insertions(+)
-> > >>>
-> > >>> diff --git a/block/rbd.c b/block/rbd.c
-> > >>> index 0c549c9935..f1bc76ab80 100644
-> > >>> --- a/block/rbd.c
-> > >>> +++ b/block/rbd.c
-> > >>> @@ -1046,6 +1046,59 @@ static int64_t qemu_rbd_getlength(BlockDriverState *bs)
-> > >>>      return info.size;
-> > >>>  }
-> > >>>
-> > >>> +static int rbd_allocated_size_cb(uint64_t offset, size_t len, int exists,
-> > >>> +                                 void *arg)
-> > >>> +{
-> > >>> +    int64_t *alloc_size = (int64_t *) arg;
-> > >>> +
-> > >>> +    if (exists) {
-> > >>> +        (*alloc_size) += len;
-> > >>> +    }
-> > >>> +
-> > >>> +    return 0;
-> > >>> +}
-> > >>> +
-> > >>> +static int64_t qemu_rbd_get_allocated_file_size(BlockDriverState *bs)
-> > >>> +{
-> > >>> +    BDRVRBDState *s = bs->opaque;
-> > >>> +    uint64_t flags, features;
-> > >>> +    int64_t alloc_size = 0;
-> > >>> +    int r;
-> > >>> +
-> > >>> +    r = rbd_get_flags(s->image, &flags);
-> > >>> +    if (r < 0) {
-> > >>> +        return r;
-> > >>> +    }
-> > >>> +
-> > >>
-> > >> Do you know where rbd_get_flags is documented? I can't seem to quickly
-> > >> find a reference that tells me what to expect from calling it. It
-> > >> returns an int, I guess an error code, but how can I confirm this?
-> > >>
-> > >> *clones the ceph repository*
-> > >>
-> > >> src/librbd/internal.cc get_flags convinces me it probably works like I
-> > >> think, but is there not a reference here?
-> > >>
-> > >
-> > > Good question!
-> > > I didn't find any docs, but looking in the ceph tests test/librbd/fsx.cc,
-> > > they print an error message if the return value is less than 0.
-> > >
-> > > A 'get_flags' implemented in cls/rbd/cls_rbd.cc for example returns 0 at the
-> > > end and -EINVAL in a try/catch. It also uses 'read_key()' that in some cases
-> > > returns -EIO, so I hope that the error returned by rbd_get_flags() is one of
-> > > the errors defined in errno.h
-> > >
-> > >>> +    r = rbd_get_features(s->image, &features);
-> > >>> +    if (r < 0) {
-> > >>> +        return r;
-> > >>> +    }
-> > >>> +
-> > >>> +    /*
-> > >>> +     * We use rbd_diff_iterate2() only if the RBD image have fast-diff
-> > >>> +     * feature enabled. If it is disabled, rbd_diff_iterate2() could be
-> > >>> +     * very slow on a big image.
-> > >>> +     */
-> > >>> +    if (!(features & RBD_FEATURE_FAST_DIFF) ||
-> > >>> +        (flags & RBD_FLAG_FAST_DIFF_INVALID)) {
-> > >>> +        return -1;
-> > >>> +    }
-> > >>> +
-> > >>
-> > >> (Is there a reference for the list of flags to make sure there aren't
-> > >> other cases we might want to skip this?)
-> > >
-> > > Unfortunately no :(
-> > > As Jason suggested, I followed what libvirt did in the
-> > > volStorageBackendRBDUseFastDiff() [src/storage/storage_backend_rbd.c]
+> Note that a vast majority of FP instructions are not affected by
+> the absence of the code in this patch, as they use alternative code
+> paths for handling floating point exceptions (see, for example,
+> invocations of update_fcr31()) - they rely on softfloat library for
+> keeping track on exceptions that needs to be raised. However, there
+> are few MIPS FP instructions (an example is CTC1) that use function
+> do_raise_exception() directly, and they need the case that is added
+> in this patch to propagate the FPE exception as designed.
 > 
-> These are the only ones.
-
-Thanks for the clarification!
-
+> The code is based on kernel's function force_fcr31_sig() in
+> arch/mips/kernel.traps.c.
 > 
-> > >>
-> > >> It looks reasonable at a glance, but maybe let's return -ENOTSUP instead
-> > >> of -1, based on the idea that bdrv_get_allocated_file_size returns
-> > >> -ENOMEDIUM in a prominent error case -- let's match that error convention.
-> > >
-> > > Sure, -ENOTSUP is absolutely better!
-> > >
-> > >>
-> > >> (Well, I wonder what the librbd calls are returning and if THOSE mean
-> > >> anything.)
-> > >
-> > > I hope they return an errno.h errors, but I'm not sure if the meaning
-> > > make sense for us.
-> > >
-> > > Do you think is better to return -ENOTSUP or -EIO when librbd calls
-> > > fail?
-> > >
-> >
-> > I'll be honest, I have no idea because I don't know what failure of
-> > these calls means _at all_, so I don't know if it should be something
-> > severe like EIO or something more mundane.
-> >
-> > I guess just leave them alone in absence of better information, honestly.
+> Reported-by: Yunqiang Su <ysu@wavecomp.com>
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> ---
+>  linux-user/mips/cpu_loop.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 > 
-> It looks like QEMU treats any negative error code like the actual size
-> isn't available. However, for clarity I would vote for -ENOTSUPP since
-> that's what would be returned if the driver doesn't support it.
+> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+> index 43ba267..0ba894f 100644
+> --- a/linux-user/mips/cpu_loop.c
+> +++ b/linux-user/mips/cpu_loop.c
+> @@ -540,6 +540,23 @@ done_syscall:
+>              info.si_code = TARGET_ILL_ILLOPC;
+>              queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+>              break;
+> +        case EXCP_FPE:
+> +            info.si_signo = TARGET_SIGFPE;
+> +            info.si_errno = 0;
+> +            info.si_code = TARGET_FPE_FLTUNK;
+> +            if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_INVALID) {
+> +                info.si_code = TARGET_FPE_FLTINV;
+> +            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_DIV0) {
+> +                info.si_code = TARGET_FPE_FLTDIV;
+> +            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_OVERFLOW) {
+> +                info.si_code = TARGET_FPE_FLTOVF;
+> +            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_UNDERFLOW) {
+> +                info.si_code = TARGET_FPE_FLTUND;
+> +            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_INEXACT) {
+> +                info.si_code = TARGET_FPE_FLTRES;
+> +            }
+> +            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+> +            break;
+>          /* The code below was inspired by the MIPS Linux kernel trap
+>           * handling code in arch/mips/kernel/traps.c.
+>           */
 > 
 
-Do you mean to return -ENOTSUP even when there's a runtime error in
-rbd_get_features() or rbd_get_flags() or rbd_diff_iterate2?
-
-Thanks,
-Stefano
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
