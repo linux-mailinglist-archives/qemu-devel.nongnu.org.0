@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B182859CC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:16:14 +0200 (CEST)
-Received: from localhost ([::1]:59720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 253FA59CE3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:25:04 +0200 (CEST)
+Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqjd-0000n6-TY
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:16:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41569)
+	id 1hgqsB-0000fJ-BO
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:25:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41648)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hgqGP-0008U4-Ln
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:07 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGU-0000Ce-HA
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hgqGM-0001b9-2o
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:01 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:36948)
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGM-0001cW-P6
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:05 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:36960)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hgqGL-0001RD-7U
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:57 -0400
+ id 1hgqGM-0001RW-Af
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:58 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 3A1BC96F54;
+ by beetle.greensocs.com (Postfix) with ESMTPS id DB90596F56;
  Fri, 28 Jun 2019 12:45:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1561725939;
+ s=mail; t=1561725940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DjS6MgiRGaWDm6aO6owVkrbeZw4PYZfjBhtjtiuXYAo=;
- b=Qv6OJOL1ZmQuhg6sxOZ4Cs8tJ5FTvI9Ji/IptnJsj0wAfn6fbiE7pDIMcPXWTcA4nrSgA0
- WfjBG6S/xJw6gGv2gFc+UOzKl1shAFpaLWVmWIn/zznRSus5AglUw1TUKQN9T7+RQlYhKr
- QmQuSgYFuBCZ8o4ik95Ac5AEz+UoQL4=
+ bh=52GqakeBEYFuvvGGQuIdSqZ3Pd2SaMwkpCLAurtIDyg=;
+ b=7SkZLZ7XEke4O7AOVq6ydDJvywXeJk21MVckEuIUo9UyHE7CxYoqQtR7anet/Z+d8NRMxH
+ XPj3/QDGts+0akfBL3wM8HhmIwZzDLRIXZyoZnvqyVUQ83mCJJpA0J52kZ1tHQ3ZOg4TwA
+ 6430zKi5d7vd8Wsp9JbZzUfRI7SpeKM=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 14:45:31 +0200
-Message-Id: <20190628124534.10679-3-damien.hedde@greensocs.com>
+Date: Fri, 28 Jun 2019 14:45:32 +0200
+Message-Id: <20190628124534.10679-4-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190628124534.10679-1-damien.hedde@greensocs.com>
 References: <20190628124534.10679-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1561725939;
+ s=mail; t=1561725940;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DjS6MgiRGaWDm6aO6owVkrbeZw4PYZfjBhtjtiuXYAo=;
- b=Zx5pyHhttz+CESwoTP2Lh/gJmkVr00bA25Tc568k4Ymcah3p+V3k9UAxkY997tXSPBke27
- uGSz9cHKdf0NeDn+FF/80dxv6DV5ogzVniPXsiM8lHli9/A/rqonqEZm+cyAYyQnTtj51l
- b4p9SMGoOUI5bxA58R+NfW8dW/OrO3Y=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561725939; a=rsa-sha256; cv=none;
- b=3zlVFfDvjF+mdOoWoT9p1DdR/pgONbMiTE8aP+ROUV+TwEsG5w4gWdZNhtfYZTXJJhr1M5
- FEUq0FgmClIXPcpSoHxoB+PQ43F0OrvZRjERWlTbQ5g/H/naraURcA+5MRTcmZ53lGMIIm
- LK3x/VPGEkZHChXRxjx2Fj0q1dtuIuU=
+ bh=52GqakeBEYFuvvGGQuIdSqZ3Pd2SaMwkpCLAurtIDyg=;
+ b=ykKUVV1gK/kbs7YSwkkom+VSz6gJJj0xjK1aUiUlxFduHTPem34+XQCXe7v2j7itLMurD3
+ ohwRM7l9mG4mIATddPZGjPvdT36jBvuXXwOtQiw7nVPwjliTqqJO0xWoJzRJU2P0ZlHhau
+ F/2+KXU2XOI6BHGFbbhXRbV5we7EBsc=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561725940; a=rsa-sha256; cv=none;
+ b=qvW0Rfe6Z6xbscss3SxZT9uzqT1+cH5Hu+dz5nZVqW0I9xeIaV8lSX1ycUA4gO+kTtc7oY
+ U+B18rch+XLrufL4965dnzMqyWAiSk9r4x3kIXVNvTyrVmfmODpYlPVbujEdaRGKMoZ4+B
+ 2fOEiRN1+66MJlLUXxXdEn3JE6ZC4Zk=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [RFC PATCH 2/5] introduce a qmp command to set gpios
+Subject: [Qemu-devel] [RFC PATCH 3/5] add qmp time-notify event triggering
+ system
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,100 +82,210 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds the "gpio-set" qmp command.
+This adds an event triggering mechanism composed of:
+ + an event that is catchable by qmp clients
+ + a command to create such events
 
-Taking the device path, the gpio name and number, the command set the
-value (true or false) of the gpio.
-It works only on gpio input line.
+When triggered the event TIME_NOTIFICATION is signaled. Optionnaly the
+virtual machine is also paused (put in debug state). The virtual machine =
+can
+then be restarted by the _cont_ command.
 
-This is based on Frederic Konrad's work.
+To create an event, an id and the deadline in virtual clock nanoseconds
+should be given to the "time-notify" qmp command. The event will be
+triggered at the given time which may be absolute or relative to the
+current virtual clock time.
+
+This allows to write qmp clients that can pause the vm, do some actions
+then restart the vm.
+
+This is based on the work of Frederic Konrad.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- cpus.c             |  4 ++--
- monitor/qmp-cmds.c | 30 ++++++++++++++++++++++++++++++
- qapi/misc.json     | 29 +++++++++++++++++++++++++++++
- 3 files changed, 61 insertions(+), 2 deletions(-)
+ monitor/Makefile.objs         |   1 +
+ monitor/qmp-cmd-time-notify.c | 116 ++++++++++++++++++++++++++++++++++
+ monitor/trace-events          |   4 ++
+ qapi/misc.json                |  48 ++++++++++++++
+ 4 files changed, 169 insertions(+)
+ create mode 100644 monitor/qmp-cmd-time-notify.c
 
-diff --git a/cpus.c b/cpus.c
-index 7aae35c098..3688550c55 100644
---- a/cpus.c
-+++ b/cpus.c
-@@ -2580,8 +2580,8 @@ static void memwrite(int64_t addr, uint8List *bytes=
-, CPUState *cpu,
-         MemTxResult r =3D address_space_write(&address_space_memory, add=
-r,
-                                             MEMTXATTRS_UNSPECIFIED, buf,=
- l);
-         if (r !=3D MEMTX_OK) {
--            error_setg(errp, "Invalid addr 0x%016" PRIx64 "/size %" PRId=
-64
--                             " specified", addr, size);
-+            error_setg(errp, "Invalid addr 0x%016" PRIx64 "/size %" PRIu=
-32
-+                             " specified", addr, l);
-             return;
-         }
-     }
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 01ce77e129..6bf0204edd 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -726,3 +726,33 @@ MemoryInfo *qmp_query_memory_size_summary(Error **er=
-rp)
-=20
-     return mem_info;
- }
+diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
+index e91a8581cd..f4c7293460 100644
+--- a/monitor/Makefile.objs
++++ b/monitor/Makefile.objs
+@@ -1,3 +1,4 @@
+ obj-y +=3D misc.o
+ common-obj-y +=3D monitor.o qmp.o hmp.o
+ common-obj-y +=3D qmp-cmds.o hmp-cmds.o
++common-obj-y +=3D qmp-cmd-time-notify.o
+diff --git a/monitor/qmp-cmd-time-notify.c b/monitor/qmp-cmd-time-notify.=
+c
+new file mode 100644
+index 0000000000..de13b2d3a1
+--- /dev/null
++++ b/monitor/qmp-cmd-time-notify.c
+@@ -0,0 +1,116 @@
++/*
++ * qmp-cmd-time-notify.c
++ *
++ * Copyright (c) 2016,2019 GreenSocs SAS
++ *
++ * Authors:
++ *    Fred Konrad
++ *    Damien Hedde
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+void qmp_gpio_set(const char *path, bool has_gpio, const char *gpio,
-+                  bool has_number, int64_t number, bool value, Error **e=
-rrp)
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qapi/qmp/qerror.h"
++#include "qapi/qmp/qjson.h"
++#include "qapi/qapi-commands-misc.h"
++#include "qapi/qapi-events-misc.h"
++#include "qemu/timer.h"
++#include "qapi/error.h"
++#include "qemu/log.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/cpus.h"
++#include "trace.h"
++
++typedef struct TimeNotifEntry TimeNotifEntry;
++static QLIST_HEAD(, TimeNotifEntry) events =3D QLIST_HEAD_INITIALIZER(ev=
+ents);
++static QEMUTimer *timer;
++
++struct TimeNotifEntry {
++    uint64_t time_ns;
++    int64_t id;
++    bool pause;
++    QLIST_ENTRY(TimeNotifEntry) node;
++};
++
++static void mod_next_event_timer(void)
 +{
-+    DeviceState *dev;
-+    qemu_irq irq;
-+
-+    dev =3D DEVICE(object_resolve_path(path, NULL));
-+    if (!dev) {
-+        error_set(errp, ERROR_CLASS_DEVICE_NOT_FOUND,
-+                  "Cannot find device '%s'", path);
++    if (QLIST_EMPTY(&events)) {
 +        return;
 +    }
 +
-+    if (!has_gpio) {
-+        gpio =3D NULL;
-+    }
-+    if (!has_number) {
-+        number =3D 0;
-+    }
-+    irq =3D qdev_get_gpio_in_named(dev, gpio, number);
-+    if (!irq) {
-+        error_set(errp, ERROR_CLASS_GENERIC_ERROR,
-+                  "GPIO input '%s[%"PRId64"]' does not exists",
-+                  has_gpio ? gpio : "unnamed", number);
-+        return;
-+    }
-+
-+    qemu_set_irq(irq, value);
++    timer_mod(timer, QLIST_FIRST(&events)->time_ns);
 +}
++
++static void trigger_notif(void *opaque)
++{
++    TimeNotifEntry *entry;
++    uint64_t current_time =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    bool do_stop;
++
++    entry =3D QLIST_FIRST(&events);
++    assert(entry && entry->time_ns <=3D current_time);
++    do_stop =3D entry->pause;
++
++    QLIST_REMOVE(entry, node);
++    qapi_event_send_time_notification(entry->id, current_time);
++    trace_qmp_time_notify_trigger(entry->id, current_time, entry->pause)=
+;
++    g_free(entry);
++
++    mod_next_event_timer();
++
++    if (do_stop) {
++        qemu_system_vmstop_request_prepare();
++        qemu_system_vmstop_request(RUN_STATE_DEBUG);
++        /*
++         * FIXME: should not return to device code in case
++         * vm_stop() has been requested.
++         */
++        cpu_stop_current();
++    }
++}
++
++void qmp_time_notify(int64_t event_id, int64_t time_ns,
++                     bool has_relative, bool relative,
++                     bool has_pause, bool pause,
++                     Error **errp)
++{
++    TimeNotifEntry *new_entry, *entry, *prev =3D NULL;
++
++    if (!timer) {
++        timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, trigger_notif, NULL);
++    }
++
++    if (time_ns < 0) {
++        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "time_ns",
++                "must be positive");
++    }
++
++    new_entry =3D g_new0(TimeNotifEntry, 1);
++    new_entry->id =3D event_id;
++    new_entry->time_ns =3D time_ns;
++    new_entry->pause =3D has_pause && pause;
++    if (has_relative && relative) {
++        new_entry->time_ns +=3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    }
++    trace_qmp_time_notify_schedule(new_entry->id, new_entry->time_ns,
++                                   new_entry->pause);
++
++    /* find the event just before the new one */
++    QLIST_FOREACH(entry, &events, node) {
++        if (entry->time_ns > new_entry->time_ns) {
++            break;
++        }
++        prev =3D entry;
++    }
++
++    /* then insert the new entry */
++    if (prev) {
++        QLIST_INSERT_AFTER(prev, new_entry, node);
++    } else {
++        QLIST_INSERT_HEAD(&events, new_entry, node);
++        mod_next_event_timer();
++    }
++}
+diff --git a/monitor/trace-events b/monitor/trace-events
+index 0365ac4d99..73f375db68 100644
+--- a/monitor/trace-events
++++ b/monitor/trace-events
+@@ -13,3 +13,7 @@ monitor_suspend(void *ptr, int cnt) "mon %p: %d"
+ monitor_qmp_cmd_in_band(const char *id) "%s"
+ monitor_qmp_cmd_out_of_band(const char *id) "%s"
+ handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
++
++# qmp-cmd-time-notify.c
++qmp_time_notify_trigger(int64_t id, uint64_t time, int pause) "event #%"=
+PRId64" at %"PRIu64" ns pause %d"
++qmp_time_notify_schedule(int64_t id, uint64_t time, int pause) "event #%=
+"PRId64" at %"PRIu64" ns pause %d"
 diff --git a/qapi/misc.json b/qapi/misc.json
-index 3aca91b4ac..255236b96f 100644
+index 255236b96f..8e84f4d4d3 100644
 --- a/qapi/misc.json
 +++ b/qapi/misc.json
-@@ -3166,3 +3166,32 @@
- { 'command': 'pmemwrite',
-   'data': {'addr': 'int', 'bytes': ['uint8']}
+@@ -3195,3 +3195,51 @@
+ { 'command': 'gpio-set',
+   'data': { 'path': 'str', '*gpio': 'str', '*number': 'int', 'value': 'b=
+ool' }
  }
 +
 +##
-+# @gpio-set:
++# @time-notify:
 +#
-+# @path: Path to the device.
++# Schedule a TIME_NOTIFICATION which will optionally stop qemu when trig=
+gered.
 +#
-+# @gpio: Name of the GPIO will be unnamed-gpio if omitted.
++# @time_ns:  The virtual guest clock at which do the notification.
 +#
-+# @number: Number of the GPIO line, 0 if omitted.
++# @relative: Optional boolean telling if time_ns is relative to current =
+time.
++#            Defaults to False.
 +#
-+# @value: Value (boolean) to be set for the GPIO.
++# @event_id: An ID, to track the notification.
++#
++# @pause: Optional boolean telling whether to pause qemu when notificati=
+on is
++#         hit. Defaults to False.
 +#
 +# Returns: nothing in case of success
 +#
@@ -182,18 +293,32 @@ index 3aca91b4ac..255236b96f 100644
 +#
 +# Example:
 +#
-+# -> { "execute": "gpio-set",
-+#      "arguments": { "path": "/machine/unattached/device[5]",
-+#                     "gpio": "ssi-gpio-cs",
-+#                     "number": 0,
-+#                     "value": true } }
++# -> { "execute": "time-notify",
++#      "arguments": { "event_id": 5,
++#                      "time_ns": 10000000,
++#                      "pause": true} }
 +# <- { "return": {} }
 +#
 +##
-+{ 'command': 'gpio-set',
-+  'data': { 'path': 'str', '*gpio': 'str', '*number': 'int', 'value': 'b=
-ool' }
++{ 'command': 'time-notify',
++  'data': {'event_id': 'int', 'time_ns': 'int', '*relative': 'bool',
++           '*pause': 'bool'}
 +}
++
++##
++# @TIME_NOTIFICATION:
++#
++# Emitted when notification deadline is hit
++#
++# @time_ns:  The current virtual guest clock time.
++#
++# @event_id: The id given when setting up the notification.
++#
++# Since: 4.1
++#
++##
++{ 'event': 'TIME_NOTIFICATION',
++  'data': { 'event_id': 'int', 'time_ns': 'int'} }
 --=20
 2.22.0
 
