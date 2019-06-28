@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133065A130
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:42:16 +0200 (CEST)
-Received: from localhost ([::1]:34234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 931985A1B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:02:49 +0200 (CEST)
+Received: from localhost ([::1]:34444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtx1-0003nO-8Z
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:42:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41356)
+	id 1hguGu-0001eE-QX
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:02:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berto@igalia.com>) id 1hgtnA-0005QY-C4
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:32:05 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hgtqb-0008TP-Qf
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:35:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1hgtn7-0001v9-WB
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:32:03 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:55060)
+ (envelope-from <alistair23@gmail.com>) id 1hgtqZ-0004eC-4o
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:35:37 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:46196)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1hgtn3-0001cg-MF; Fri, 28 Jun 2019 12:32:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=omYtLwNE2mzwgXlAxj//B12PDTIFgZrZ/8xTnXAeCF4=; 
- b=jsr2cSbAPciEA1NKZhJpmh3jxEwXTFSEoZZ4dhB4iQ0Jgw52enxck3/9Ra570vCtT2KsxYApB/aNL35/klAogCJIW8BIfvhsSD3iOHcx7iypjIUVQZ0ofZqfoA4kN8/PKBI8QkXwI8o4m7gMuhBmffwhCBxy69WhD9VVo2xPK6kGsXgvPtU6U7gGNjwfs1nvRXC5NxKfboEwBx1bY3vTwAwjiw7L7FA7q6FbNPrkrflBR1w6csW5cGOOcncFkxr8V1D7CWNJT3HCJL+k8GtdBtKYz3O3WcGNrDPQoX0PnzYY8dw8rw36aP9iI/ebmrH0GxXvdRDs7mkkPMYHpSSbcQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1hgtmh-0006Xk-Rr; Fri, 28 Jun 2019 18:31:35 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1hgtmh-0005EQ-Ol; Fri, 28 Jun 2019 18:31:35 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Kevin Wolf <kwolf@redhat.com>
-In-Reply-To: <20190628141628.GK5179@dhcp-200-226.str.redhat.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
- <w51a7e3domn.fsf@maestria.local.igalia.com>
- <w517e97dogw.fsf@maestria.local.igalia.com>
- <20190628092057.GA5179@dhcp-200-226.str.redhat.com>
- <w515zoqjass.fsf@maestria.local.igalia.com>
- <20190628100422.GE5179@dhcp-200-226.str.redhat.com>
- <w51v9wpj191.fsf@maestria.local.igalia.com>
- <20190628141628.GK5179@dhcp-200-226.str.redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 28 Jun 2019 18:31:35 +0200
-Message-ID: <w51mui1k6xk.fsf@maestria.local.igalia.com>
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hgtqY-0004dI-GY; Fri, 28 Jun 2019 12:35:34 -0400
+Received: by mail-lf1-x144.google.com with SMTP id z15so4347818lfh.13;
+ Fri, 28 Jun 2019 09:35:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=D+wXCB66jnKZG2cMBBezUE1NCkDNQf8ea/KR76ELM5I=;
+ b=QpYIqkf5rJsSAgt4es9MjgCbyFUgMpdHXYZ2i16NCYYg2fEAofWdG0cEgbzyz4TGvh
+ eXkgHVyPDwaDMtPuQyQ2d71il6LLJ3+0XblQKrEGQsf+v/mMGs9pYBBrSNDas6TNZWZD
+ MTYz/Gi/T2Bov99bLr/y1wAA9QXwLgs/skKdEjk3AKEUD1gLNrHvDMfKfwSGQycrDrJk
+ PlGUr2d9qZbZLEaCWfKHmlzuuaTZTs0gg4PHLxRc+nCmbXy+z/jrCt2y4Cn2XYMdXEY5
+ TuRBHN09BYoItIGwSJptglpUA+rLiDtHu2uRxlM/+/2Sp84fAAW2IeQD/fQsSwsF8ZZa
+ OE4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=D+wXCB66jnKZG2cMBBezUE1NCkDNQf8ea/KR76ELM5I=;
+ b=OVi9mEwALdzT100AzOP4Z5wXDXMws3qS9KUKgM+RfD6ZDOWUFPl6QelYHSEmpx43mq
+ huBy9VpC3Y0V2wngpnPtdhA6lenTb+hujPvRg5FSzgoKCOGtSeL7yQcFr3Ov6WZjPInC
+ 8pyDoT9L3k6Nf8OgR8BcQLDVHpxOtGNeEqKjmJAkzWFkRunvPBkIcfkW7xies8k7xvuy
+ g0P0UWoSx6YxbyufvyXOwBqnZyDJ0VVSRj/3CZ3lkjsbUfW+ZkfNFZljeadUvM2F99iT
+ b4+aIKrdpo7+86lsWJw9RsJ4Z9Oox0MRgTh3KixHHpuX00iqAz/LC5aoPGmTCBniz1T0
+ wyDA==
+X-Gm-Message-State: APjAAAXYqrQFcM3r+bQttR6I2BDFle2fY+cAbmQSsZY+vP9/gRsHgMQr
+ 5ysWDvPmTz94bWQ6Tk2bJ/UMFANeT5RPgtV5xmw=
+X-Google-Smtp-Source: APXvYqwOhYlWm0RID2qAqFdtTeN5oleToKZHH2Dp2KOBCPpyPA22c/3hnw7DgUPsKpYfWe2z78asEHxQfDWhoDh7ljU=
+X-Received: by 2002:a05:6512:29a:: with SMTP id
+ j26mr5335453lfp.44.1561739733128; 
+ Fri, 28 Jun 2019 09:35:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+References: <20190627202719.17739-1-philmd@redhat.com>
+ <20190627202719.17739-15-philmd@redhat.com>
+In-Reply-To: <20190627202719.17739-15-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 28 Jun 2019 09:32:32 -0700
+Message-ID: <CAKmqyKOG87K2vZHRsoGtmce6pVsJCW9yrq6WhAiKBsuBPMd4BA@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] [PATCH v5 14/28] hw/block/pflash_cfi02: Remove
+ pointless local variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,60 +75,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 28 Jun 2019 04:16:28 PM CEST, Kevin Wolf wrote:
->> >> >> >> I would consider 64k cluster/8k subcluster as too extreme
->> >> >> >> for me.
->> >> >> 
->> >> >> I forgot to add: this 64k/8k ratio is only with my current
->> >> >> prototype.
->> >> >> 
->> >> >> In practice if we go with the 128-bit L2 entries we would have
->> >> >> 64 subclusters per cluster, or 32 if we want to have a separate
->> >> >> QCOW_OFLAG_ZERO for each subcluster (would we need this?).
->> >> >
->> >> > Yes, I think we'd want to have a separate zero flag for each
->> >> > subcluster.  Otherwise, when writing to a zero cluster, you'd
->> >> > have to COW the whole supercluster again.
->> >> 
->> >> Yes if the original cluster had the QCOW_OFLAG_ZERO bit, not if it
->> >> was simply unallocated.
->> >
->> > Right, but that leaving clusters simply unallocated doesn't quite
->> > cut it is something we already noticed before writing the spec for
->> > v3. Only really necessary when you have a backing file, of course,
->> > but that's one of the more interesting cases for subclusters
->> > anyway.
->> 
->> I wonder if it would be possible to have a hybrid solution:
->> 
->> With 64 bits to indicate the allocation status of each subcluster we
->> still have the original L2 entry with its QCOW_OFLAG_ZERO bit, so we
->> need to specify what happens if that bit is set and at the same time
->> some subclusters are marked as allocated.
->> 
->> One possibility is that allocated subclusters have actual data and
->> the rest are zero subclusters.
+On Thu, Jun 27, 2019 at 1:59 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> Hm, yes, that would be possible.
+> We can directly use pfl->total_len, remove the local 'chip_len'
+> variable.
 >
-> However, that would require some addtional complexity in write_zeroes
-> then: If the zero flag isn't set yet, then we need to check that no
-> other subcluster is unallocated before we can turn the zero flag on
-> for the whole cluster. You couldn't have subclusters referring to the
-> backing file and zeroed subclusters at the same time.
->
-> Maybe doubling the number of bits would actually be worth the
-> additional complexity in write_zeroes.
+> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+> Message-Id: <20190426162624.55977-6-stephen.checkoway@oberlin.edu>
+> [PMD: Extracted from bigger patch]
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Yes, that's a bit my doubt. How important it is to have those features
-that you mention vs being able to halve the minimum unit of allocation.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Berto
+Alistair
+
+> ---
+>  hw/block/pflash_cfi02.c | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 4be3837be5..1a794fa83c 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -409,7 +409,7 @@ static void pflash_write(void *opaque, hwaddr offset,=
+ uint64_t value,
+>              /* Chip erase */
+>              DPRINTF("%s: start chip erase\n", __func__);
+>              if (!pfl->ro) {
+> -                memset(pfl->storage, 0xFF, pfl->chip_len);
+> +                memset(pfl->storage, 0xff, pfl->chip_len);
+>                  pflash_update(pfl, 0, pfl->chip_len);
+>              }
+>              set_dq7(pfl, 0x00);
+> @@ -490,7 +490,6 @@ static const MemoryRegionOps pflash_cfi02_ops =3D {
+>  static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+>  {
+>      PFlashCFI02 *pfl =3D PFLASH_CFI02(dev);
+> -    uint32_t chip_len;
+>      int ret;
+>      Error *local_err =3D NULL;
+>
+> @@ -507,18 +506,17 @@ static void pflash_cfi02_realize(DeviceState *dev, =
+Error **errp)
+>          return;
+>      }
+>
+> -    chip_len =3D pfl->sector_len * pfl->nb_blocs;
+> +    pfl->chip_len =3D pfl->sector_len * pfl->nb_blocs;
+>
+>      memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
+>                                    &pflash_cfi02_ops, pfl, pfl->name,
+> -                                  chip_len, &local_err);
+> +                                  pfl->chip_len, &local_err);
+>      if (local_err) {
+>          error_propagate(errp, local_err);
+>          return;
+>      }
+>
+>      pfl->storage =3D memory_region_get_ram_ptr(&pfl->orig_mem);
+> -    pfl->chip_len =3D chip_len;
+>
+>      if (pfl->blk) {
+>          uint64_t perm;
+> @@ -533,8 +531,8 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+>      }
+>
+>      if (pfl->blk) {
+> -        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage, chip_le=
+n,
+> -                                         errp)) {
+> +        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage,
+> +                                         pfl->chip_len, errp)) {
+>              vmstate_unregister_ram(&pfl->orig_mem, DEVICE(pfl));
+>              return;
+>          }
+> @@ -594,7 +592,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+>      /* Max timeout for chip erase */
+>      pfl->cfi_table[0x26] =3D 0x0D;
+>      /* Device size */
+> -    pfl->cfi_table[0x27] =3D ctz32(chip_len);
+> +    pfl->cfi_table[0x27] =3D ctz32(pfl->chip_len);
+>      /* Flash device interface (8 & 16 bits) */
+>      pfl->cfi_table[0x28] =3D 0x02;
+>      pfl->cfi_table[0x29] =3D 0x00;
+> --
+> 2.20.1
+>
+>
 
