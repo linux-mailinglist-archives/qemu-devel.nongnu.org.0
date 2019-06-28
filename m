@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E465A789
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 01:21:55 +0200 (CEST)
-Received: from localhost ([::1]:36932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4415A761
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 01:06:32 +0200 (CEST)
+Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hh0Bm-0008QS-HE
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 19:21:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51417)
+	id 1hgzws-0007Y0-69
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 19:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48885)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hh0AP-0007Hw-Bx
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:20:30 -0400
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hgzvY-0006mX-7X
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:05:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hh0AN-0007nE-V2
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:20:29 -0400
-Resent-Date: Fri, 28 Jun 2019 19:20:29 -0400
-Resent-Message-Id: <E1hh0AN-0007nE-V2@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21485)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hh0AN-0007da-O7
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:20:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1561763068; cv=none; d=zoho.com; s=zohoarc; 
- b=Azn7XsIrXwZaN7mdSRKi95h1TEe+QCo+S7CflvcUcOLJAbVb+iJM86l3LfYB7E9H9xuwJVphD1GjUt2n845EOyN+bxpU7VTbjwwdqUOydrPucWYPWaP3CpVth7GUqipJ4ZRQCDVK53hsrQ2EdME36XX/CXqxe1y6Ch9et9ZQgR4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1561763068;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=fgy8QMHDkmRsllaOGmCAnGRBuoUDyxi12RhgKuCwyN4=; 
- b=YhwcvU5pUNWd++LEUw3YVzubJskqGE83kkr1nrsrRT2MGGj4ea7pnTGdb3gzYZfLrP0tO3QbqqGl0TtCy754SWaP068BIGSsl26Qc+Kt0XDyAvQhYfCxQy9G2IIyRqYTXH3zVI0B7PFi/I1Ae8/cejytvGI3zGzkZsBY0H/y2N0=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1561763054508239.17882317198814;
- Fri, 28 Jun 2019 16:04:14 -0700 (PDT)
-Message-ID: <156176305246.16285.15387842115700265166@c4a48874b076>
-In-Reply-To: <20190628183321.GE1862@habkost.net>
+ (envelope-from <richardw.yang@linux.intel.com>) id 1hgzvX-0002qE-60
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:05:08 -0400
+Received: from mga05.intel.com ([192.55.52.43]:52074)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+ id 1hgzvW-0002fm-SZ
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:05:07 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 28 Jun 2019 16:05:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,429,1557212400"; d="scan'208";a="167896451"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+ by orsmga006.jf.intel.com with ESMTP; 28 Jun 2019 16:04:59 -0700
+Date: Sat, 29 Jun 2019 07:04:36 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190628230436.GA8241@richard>
+References: <20190627020822.15485-1-richardw.yang@linux.intel.com>
+ <20190627020822.15485-2-richardw.yang@linux.intel.com>
+ <20190628150950.GG2922@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ehabkost@redhat.com
-Date: Fri, 28 Jun 2019 16:04:14 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH] fixup! hw/s390x: Replace global smp
- variables with machine smp properties
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190628150950.GG2922@work-vm>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 192.55.52.43
+Subject: Re: [Qemu-devel] [PATCH 1/3] migration/postcopy: the valid
+ condition is one less then end
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,48 +59,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, like.xu@linux.intel.com, david@redhat.com,
- qemu-trivial@nongnu.org, cohuck@redhat.com, qemu-devel@nongnu.org,
- dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, imammedo@redhat.com, alistair23@gmail.com,
- rth@twiddle.net
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: quintela@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyODE4MzMyMS5HRTE4
-NjJAaGFia29zdC5uZXQvCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIGJ1aWxkIHRlc3Qgb24g
-czM5MHggaG9zdC4gUGxlYXNlIGZpbmQgdGhlIGRldGFpbHMgYmVsb3cuCgo9PT0gVEVTVCBTQ1JJ
-UFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCiMgVGVzdGluZyBzY3JpcHQgd2lsbCBiZSBpbnZva2Vk
-IHVuZGVyIHRoZSBnaXQgY2hlY2tvdXQgd2l0aAojIEhFQUQgcG9pbnRpbmcgdG8gYSBjb21taXQg
-dGhhdCBoYXMgdGhlIHBhdGNoZXMgYXBwbGllZCBvbiB0b3Agb2YgImJhc2UiCiMgYnJhbmNoCnNl
-dCAtZQoKZWNobwplY2hvICI9PT0gRU5WID09PSIKZW52CgplY2hvCmVjaG8gIj09PSBQQUNLQUdF
-UyA9PT0iCnJwbSAtcWEKCmVjaG8KZWNobyAiPT09IFVOQU1FID09PSIKdW5hbWUgLWEKCkNDPSRI
-T01FL2Jpbi9jYwpJTlNUQUxMPSRQV0QvaW5zdGFsbApCVUlMRD0kUFdEL2J1aWxkCm1rZGlyIC1w
-ICRCVUlMRCAkSU5TVEFMTApTUkM9JFBXRApjZCAkQlVJTEQKJFNSQy9jb25maWd1cmUgLS1jYz0k
-Q0MgLS1wcmVmaXg9JElOU1RBTEwKbWFrZSAtajQKIyBYWFg6IHdlIG5lZWQgcmVsaWFibGUgY2xl
-YW4gdXAKIyBtYWtlIGNoZWNrIC1qNCBWPTEKbWFrZSBpbnN0YWxsCj09PSBURVNUIFNDUklQVCBF
-TkQgPT09CgogIENDICAgICAgczM5MHgtc29mdG1tdS90YXJnZXQvczM5MHgvc2lncC5vCiAgQ0Mg
-ICAgICBzMzkweC1zb2Z0bW11L3RhcmdldC9zMzkweC9rdm0ubwovdmFyL3RtcC9wYXRjaGV3LXRl
-c3Rlci10bXAtM2RlM2Jvd2Ivc3JjL3RhcmdldC9zMzkweC9rdm0uYzogSW4gZnVuY3Rpb24g4oCY
-a3ZtX2FyY2hfaW5pdF92Y3B14oCZOgovdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10bXAtM2RlM2Jv
-d2Ivc3JjL3RhcmdldC9zMzkweC9rdm0uYzozNjU6NTY6IGVycm9yOiDigJhNYWNoaW5lU3RhdGXi
-gJkge2FrYSDigJhzdHJ1Y3QgTWFjaGluZVN0YXRl4oCZfSBoYXMgbm8gbWVtYmVyIG5hbWVkIOKA
-mHNtcOKAmQogIDM2NSB8ICAgICB1bnNpZ25lZCBpbnQgbWF4X2NwdXMgPSBNQUNISU5FKHFkZXZf
-Z2V0X21hY2hpbmUoKSktPnNtcC5tYXhfY3B1czsKICAgICAgfCAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXn4KL3Zhci90bXAvcGF0Y2hldy10
-ZXN0ZXItdG1wLTNkZTNib3diL3NyYy90YXJnZXQvczM5MHgva3ZtLmM6IEluIGZ1bmN0aW9uIOKA
-mGt2bV9zMzkwX3ZjcHVfaW50ZXJydXB0X3ByZV9zYXZl4oCZOgovdmFyL3RtcC9wYXRjaGV3LXRl
-c3Rlci10bXAtM2RlM2Jvd2Ivc3JjL3RhcmdldC9zMzkweC9rdm0uYzoxOTU0OjU2OiBlcnJvcjog
-4oCYTWFjaGluZVN0YXRl4oCZIHtha2Eg4oCYc3RydWN0IE1hY2hpbmVTdGF0ZeKAmX0gaGFzIG5v
-IG1lbWJlciBuYW1lZCDigJhzbXDigJkKIDE5NTQgfCAgICAgdW5zaWduZWQgaW50IG1heF9jcHVz
-ID0gTUFDSElORShxZGV2X2dldF9tYWNoaW5lKCkpLT5zbXAubWF4X2NwdXM7CiAgICAgIHwgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+Cm1h
-a2VbMV06ICoqKiBbL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTNkZTNib3diL3NyYy9ydWxl
-cy5tYWs6Njk6IHRhcmdldC9zMzkweC9rdm0ub10gRXJyb3IgMQoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA2MjgxODMzMjEuR0UxODYy
-QGhhYmtvc3QubmV0L3Rlc3RpbmcuczM5MHgvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVy
-YXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxl
-YXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Fri, Jun 28, 2019 at 04:09:50PM +0100, Dr. David Alan Gilbert wrote:
+>* Wei Yang (richardw.yang@linux.intel.com) wrote:
+>> If one equals end, it means we have gone through the whole bitmap.
+>> 
+>> Use a more restrict check to skip a unnecessary condition.
+>> 
+>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+>
+>Yes, I don't think that'll break, since I think the find_next_zero_bit
+>will also return end, and then discard_length would be 0; still I think
+>it's a correct fix.
 
+Yep, you are exactly right.
+
+>
+>Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
+>> ---
+>>  migration/ram.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index 908517fc2b..b78169e811 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -2777,7 +2777,7 @@ static int postcopy_send_discard_bm_ram(MigrationState *ms,
+>>      for (current = 0; current < end; ) {
+>>          unsigned long one = find_next_bit(unsentmap, end, current);
+>>  
+>> -        if (one <= end) {
+>> +        if (one < end) {
+>>              unsigned long zero = find_next_zero_bit(unsentmap, end, one + 1);
+>>              unsigned long discard_length;
+>>  
+>> -- 
+>> 2.19.1
+>> 
+>--
+>Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+-- 
+Wei Yang
+Help you, Help me
 
