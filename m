@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5847A59800
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:58:04 +0200 (CEST)
-Received: from localhost ([::1]:58366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73527597D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:46:42 +0200 (CEST)
+Received: from localhost ([::1]:58312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgndr-0006h7-GW
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:58:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51329)
+	id 1hgnSr-0007ym-LI
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:46:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49437)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hgnag-000515-K3
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:54:48 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hgnRD-00072o-78
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:45:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hgnad-0003Uy-Py
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:54:45 -0400
-Resent-Date: Fri, 28 Jun 2019 05:54:45 -0400
-Resent-Message-Id: <E1hgnad-0003Uy-Py@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21479)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hgnac-0003RD-9P
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:54:43 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1561715665; cv=none; d=zoho.com; s=zohoarc; 
- b=f7wQa/aV7lpWANvRndqF2n4zd4LMGe43bwCgJn/dkoe/owVm7w9vbbhfLzR5UjM85x6bqPcEPqQ+34snbRvpufeZH4JqzKhn/zGpQRKAfc+d6SBhuAO6smU9gRipfJbKG26sPmmk5bjr1dpTQzhQnHqFIMQWiNTuNjy5MnQKwcA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1561715665;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=0MSIfsAUXtrxMo1jdlfzCpne4SgBkN479ABm/K3z1go=; 
- b=Qj6idqjxRtfDmnz1bHwJaLyUb3qwgxDUj4+oL/5p+cpQW3eTtRdAg9vjpHPssNMjz7TRW4+gS21cy/rlSaQFgwhh4vkQmVb/FJV7u9/9lFt5vy7apJ0hHb1kGI1Y4K9tARKwoQQU71F1yNleLQ9X6ey4SzqVP+aUhFbW1ttFGMo=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1561714757278342.2957946254951;
- Fri, 28 Jun 2019 02:39:17 -0700 (PDT)
-Message-ID: <156171475579.6332.4612553471877082379@c4a48874b076>
-In-Reply-To: <1561712082-31441-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ (envelope-from <dgilbert@redhat.com>) id 1hgnRB-0002YI-Np
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:44:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34326)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hgnRB-0002XW-Ey
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:44:57 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 029AE86658;
+ Fri, 28 Jun 2019 09:44:56 +0000 (UTC)
+Received: from work-vm (ovpn-116-169.ams2.redhat.com [10.36.116.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C067860922;
+ Fri, 28 Jun 2019 09:44:49 +0000 (UTC)
+Date: Fri, 28 Jun 2019 10:44:47 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Message-ID: <20190628094447.GD2922@work-vm>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <20190621002518.GF9303@joy-OptiPlex-7040>
+ <20190621012404.GA4173@joy-OptiPlex-7040>
+ <67726e08-f159-7054-57a7-36b08f691756@nvidia.com>
+ <20190621084627.GC4304@joy-OptiPlex-7040>
+ <583faf0d-55e7-0611-3e1c-b4925ca7e533@nvidia.com>
+ <20190624190024.GX2726@work-vm>
+ <20190626004303.GF6971@joy-OptiPlex-7040>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: aleksandar.markovic@rt-rk.com
-Date: Fri, 28 Jun 2019 02:39:17 -0700 (PDT)
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190626004303.GF6971@joy-OptiPlex-7040>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Fri, 28 Jun 2019 09:44:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH v15 0/5] linux-user: A set of miscellaneous
- patches
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 00/13] Add migration support for VFIO
+ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,65 +64,191 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, amarkovic@wavecomp.com, laurent@vivier.eu
+Cc: "Zhengxiao.zx@Alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>, "Tian,
+ Kevin" <kevin.tian@intel.com>, "Liu, Yi L" <yi.l.liu@intel.com>,
+ "cjia@nvidia.com" <cjia@nvidia.com>,
+ "eskultet@redhat.com" <eskultet@redhat.com>, "Yang,
+ Ziye" <ziye.yang@intel.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cohuck@redhat.com" <cohuck@redhat.com>,
+ "shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>, "Wang,
+ Zhi A" <zhi.a.wang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+ "pasic@linux.ibm.com" <pasic@linux.ibm.com>, "aik@ozlabs.ru" <aik@ozlabs.ru>,
+ Kirti Wankhede <kwankhede@nvidia.com>, "eauger@redhat.com" <eauger@redhat.com>,
+ "felipe@nutanix.com" <felipe@nutanix.com>,
+ "jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>, "Ken.Xue@amd.com" <Ken.Xue@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxNzEyMDgyLTMxNDQxLTEt
-Z2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20vCgoKCkhpLAoKVGhp
-cyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91
-dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDE1NjE3MTIwODIt
-MzE0NDEtMS1naXQtc2VuZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbQpUeXBl
-OiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2MTUgMC81XSBsaW51eC11c2Vy
-OiBBIHNldCBvZiBtaXNjZWxsYW5lb3VzIHBhdGNoZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
-PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApn
-aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
-aWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9n
-cmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFND
-UklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVt
-dQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzE1NjE3MTIwODItMzE0NDEtMS1naXQtc2Vu
-ZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbSAtPiBwYXRjaGV3LzE1NjE3MTIw
-ODItMzE0NDEtMS1naXQtc2VuZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbQpT
-d2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjhlMzZiYzggbGludXgtdXNlcjogSGFuZGxl
-IEVYQ1BfRlBFIHByb3Blcmx5IGZvciBNSVBTCjhkNTg4ZGUgbGludXgtdXNlcjogSW50cm9kdWNl
-IFRBUkdFVF9IQVZFX0FSQ0hfU1RSVUNUX0ZMT0NLCjlmMTJjZTMgbGludXgtdXNlcjogRml4IHRh
-cmdldF9mbG9jayBzdHJ1Y3R1cmUgZm9yIE1JUFMgTzY0IEFCSQpjM2FmNGYxIGxpbnV4LXVzZXI6
-IEFkZCBzdXBwb3J0IGZvciBzdHJhY2UgZm9yIHN0YXR4KCkgc3lzY2FsbApiMDAxOTliIGxpbnV4
-LXVzZXI6IEFkZCBzdXBwb3J0IGZvciB0cmFuc2xhdGlvbiBvZiBzdGF0eCgpIHN5c2NhbGwKCj09
-PSBPVVRQVVQgQkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgYjAwMTk5YjJjNzMwIChsaW51
-eC11c2VyOiBBZGQgc3VwcG9ydCBmb3IgdHJhbnNsYXRpb24gb2Ygc3RhdHgoKSBzeXNjYWxsKQpX
-QVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAoj
-NTM6IEZJTEU6IGxpbnV4LXVzZXIvc3lzY2FsbC5jOjMyMToKKyNpZiBkZWZpbmVkKFRBUkdFVF9O
-Ul9zdGF0eCkgJiYgZGVmaW5lZChfX05SX3N0YXR4KQoKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNw
-ZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzY1OiBGSUxFOiBsaW51eC11c2VyL3N5
-c2NhbGwuYzo2NDc4OgorI2lmIGRlZmluZWQoVEFSR0VUX05SX3N0YXR4KSAmJiBkZWZpbmVkKF9f
-TlJfc3RhdHgpCgpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQg
-YmUgYXZvaWRlZAojMTM1OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGwuYzoxMDE4ODoKKyNpZiBk
-ZWZpbmVkKF9fTlJfc3RhdHgpCgp0b3RhbDogMCBlcnJvcnMsIDMgd2FybmluZ3MsIDE3OSBsaW5l
-cyBjaGVja2VkCgpQYXRjaCAxLzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
-SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
-IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi81IENoZWNr
-aW5nIGNvbW1pdCBjM2FmNGYxZjk0MjEgKGxpbnV4LXVzZXI6IEFkZCBzdXBwb3J0IGZvciBzdHJh
-Y2UgZm9yIHN0YXR4KCkgc3lzY2FsbCkKRVJST1I6IHN0b3JhZ2UgY2xhc3Mgc2hvdWxkIGJlIGF0
-IHRoZSBiZWdpbm5pbmcgb2YgdGhlIGRlY2xhcmF0aW9uCiMyNzogRklMRTogbGludXgtdXNlci9z
-dHJhY2UuYzo5Nzk6CitVTlVTRUQgc3RhdGljIHN0cnVjdCBmbGFncyBzdGF0eF9mbGFnc1tdID0g
-ewoKRVJST1I6IHN0b3JhZ2UgY2xhc3Mgc2hvdWxkIGJlIGF0IHRoZSBiZWdpbm5pbmcgb2YgdGhl
-IGRlY2xhcmF0aW9uCiM0OTogRklMRTogbGludXgtdXNlci9zdHJhY2UuYzoxMDAxOgorVU5VU0VE
-IHN0YXRpYyBzdHJ1Y3QgZmxhZ3Mgc3RhdHhfbWFza1tdID0gewoKdG90YWw6IDIgZXJyb3JzLCAw
-IHdhcm5pbmdzLCAxMDQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi81IGhhcyBzdHlsZSBwcm9ibGVt
-cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
-aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
-TlRBSU5FUlMuCgozLzUgQ2hlY2tpbmcgY29tbWl0IDlmMTJjZTM3MDY5MyAobGludXgtdXNlcjog
-Rml4IHRhcmdldF9mbG9jayBzdHJ1Y3R1cmUgZm9yIE1JUFMgTzY0IEFCSSkKNC81IENoZWNraW5n
-IGNvbW1pdCA4ZDU4OGRlNmYwOTIgKGxpbnV4LXVzZXI6IEludHJvZHVjZSBUQVJHRVRfSEFWRV9B
-UkNIX1NUUlVDVF9GTE9DSykKNS81IENoZWNraW5nIGNvbW1pdCA4ZTM2YmM4NzFhMjggKGxpbnV4
-LXVzZXI6IEhhbmRsZSBFWENQX0ZQRSBwcm9wZXJseSBmb3IgTUlQUykKPT09IE9VVFBVVCBFTkQg
-PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
-dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU2MTcxMjA4Mi0zMTQ0MS0xLWdp
-dC1zZW5kLWVtYWlsLWFsZWtzYW5kYXIubWFya292aWNAcnQtcmsuY29tL3Rlc3RpbmcuY2hlY2tw
-YXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
-UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
-IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+* Yan Zhao (yan.y.zhao@intel.com) wrote:
+> On Tue, Jun 25, 2019 at 03:00:24AM +0800, Dr. David Alan Gilbert wrote:
+> > * Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> > > 
+> > > 
+> > > On 6/21/2019 2:16 PM, Yan Zhao wrote:
+> > > > On Fri, Jun 21, 2019 at 04:02:50PM +0800, Kirti Wankhede wrote:
+> > > >>
+> > > >>
+> > > >> On 6/21/2019 6:54 AM, Yan Zhao wrote:
+> > > >>> On Fri, Jun 21, 2019 at 08:25:18AM +0800, Yan Zhao wrote:
+> > > >>>> On Thu, Jun 20, 2019 at 10:37:28PM +0800, Kirti Wankhede wrote:
+> > > >>>>> Add migration support for VFIO device
+> > > >>>>>
+> > > >>>>> This Patch set include patches as below:
+> > > >>>>> - Define KABI for VFIO device for migration support.
+> > > >>>>> - Added save and restore functions for PCI configuration space
+> > > >>>>> - Generic migration functionality for VFIO device.
+> > > >>>>>   * This patch set adds functionality only for PCI devices, but can be
+> > > >>>>>     extended to other VFIO devices.
+> > > >>>>>   * Added all the basic functions required for pre-copy, stop-and-copy and
+> > > >>>>>     resume phases of migration.
+> > > >>>>>   * Added state change notifier and from that notifier function, VFIO
+> > > >>>>>     device's state changed is conveyed to VFIO device driver.
+> > > >>>>>   * During save setup phase and resume/load setup phase, migration region
+> > > >>>>>     is queried and is used to read/write VFIO device data.
+> > > >>>>>   * .save_live_pending and .save_live_iterate are implemented to use QEMU's
+> > > >>>>>     functionality of iteration during pre-copy phase.
+> > > >>>>>   * In .save_live_complete_precopy, that is in stop-and-copy phase,
+> > > >>>>>     iteration to read data from VFIO device driver is implemented till pending
+> > > >>>>>     bytes returned by driver are not zero.
+> > > >>>>>   * Added function to get dirty pages bitmap for the pages which are used by
+> > > >>>>>     driver.
+> > > >>>>> - Add vfio_listerner_log_sync to mark dirty pages.
+> > > >>>>> - Make VFIO PCI device migration capable. If migration region is not provided by
+> > > >>>>>   driver, migration is blocked.
+> > > >>>>>
+> > > >>>>> Below is the flow of state change for live migration where states in brackets
+> > > >>>>> represent VM state, migration state and VFIO device state as:
+> > > >>>>>     (VM state, MIGRATION_STATUS, VFIO_DEVICE_STATE)
+> > > >>>>>
+> > > >>>>> Live migration save path:
+> > > >>>>>         QEMU normal running state
+> > > >>>>>         (RUNNING, _NONE, _RUNNING)
+> > > >>>>>                         |
+> > > >>>>>     migrate_init spawns migration_thread.
+> > > >>>>>     (RUNNING, _SETUP, _RUNNING|_SAVING)
+> > > >>>>>     Migration thread then calls each device's .save_setup()
+> > > >>>>>                         |
+> > > >>>>>     (RUNNING, _ACTIVE, _RUNNING|_SAVING)
+> > > >>>>>     If device is active, get pending bytes by .save_live_pending()
+> > > >>>>>     if pending bytes >= threshold_size,  call save_live_iterate()
+> > > >>>>>     Data of VFIO device for pre-copy phase is copied.
+> > > >>>>>     Iterate till pending bytes converge and are less than threshold
+> > > >>>>>                         |
+> > > >>>>>     On migration completion, vCPUs stops and calls .save_live_complete_precopy
+> > > >>>>>     for each active device. VFIO device is then transitioned in
+> > > >>>>>      _SAVING state.
+> > > >>>>>     (FINISH_MIGRATE, _DEVICE, _SAVING)
+> > > >>>>>     For VFIO device, iterate in  .save_live_complete_precopy  until
+> > > >>>>>     pending data is 0.
+> > > >>>>>     (FINISH_MIGRATE, _DEVICE, _STOPPED)
+> > > >>>>
+> > > >>>> I suggest we also register to VMStateDescription, whose .pre_save
+> > > >>>> handler would get called after .save_live_complete_precopy in pre-copy
+> > > >>>> only case, and will called before .save_live_iterate in post-copy
+> > > >>>> enabled case.
+> > > >>>> In the .pre_save handler, we can save all device state which must be
+> > > >>>> copied after device stop in source vm and before device start in target vm.
+> > > >>>>
+> > > >>> hi
+> > > >>> to better describe this idea:
+> > > >>>
+> > > >>> in pre-copy only case, the flow is
+> > > >>>
+> > > >>> start migration --> .save_live_iterate (several round) -> stop source vm
+> > > >>> --> .save_live_complete_precopy --> .pre_save  -->start target vm
+> > > >>> -->migration complete
+> > > >>>
+> > > >>>
+> > > >>> in post-copy enabled case, the flow is
+> > > >>>
+> > > >>> start migration --> .save_live_iterate (several round) --> start post copy --> 
+> > > >>> stop source vm --> .pre_save --> start target vm --> .save_live_iterate (several round) 
+> > > >>> -->migration complete
+> > > >>>
+> > > >>> Therefore, we should put saving of device state in .pre_save interface
+> > > >>> rather than in .save_live_complete_precopy. 
+> > > >>> The device state includes pci config data, page tables, register state, etc.
+> > > >>>
+> > > >>> The .save_live_iterate and .save_live_complete_precopy should only deal
+> > > >>> with saving dirty memory.
+> > > >>>
+> > > >>
+> > > >> Vendor driver can decide when to save device state depending on the VFIO
+> > > >> device state set by user. Vendor driver doesn't have to depend on which
+> > > >> callback function QEMU or user application calls. In pre-copy case,
+> > > >> save_live_complete_precopy sets VFIO device state to
+> > > >> VFIO_DEVICE_STATE_SAVING which means vCPUs are stopped and vendor driver
+> > > >> should save all device state.
+> > > >>
+> > > > when post copy stops vCPUs and vfio device, vendor driver only needs to
+> > > > provide device state. but how vendor driver knows that, if no extra
+> > > > interface or no extra device state is provides?
+> > > > 
+> > > 
+> > > .save_live_complete_postcopy interface for post-copy will get called,
+> > > right?
+> > 
+> > That happens at the very end; I think the question here is for something
+> > that gets called at the point we stop iteratively sending RAM, send the
+> > device states and then start sending RAM on demand to the destination
+> > as it's running. Typically we send a small set of device state
+> > (registers etc) at this point.
+> > 
+> > I guess there's two different postcopy cases that we need to think
+> > about:
+> >   a) Where the VFIO device doesn't support postcopy - it just gets
+> >   migrated like any other device, so all it's RAM must get sent
+> >   before we flip into postcopy mode.
+> > 
+> >   b) Where the VFIO device does support postcopy - where the pages
+> >   get sent on demand.
+> > 
+> > (b) maybe tricky depending on whether your hardware can fault
+> > on pages of your RAM that are needed but not yet transferred;  but
+> > if you can that would make life a lot more practical on really
+> > big VFO devices.
+> > 
+> > Dave
+> >
+> hi Dave,
+> so do you think it is good to abstract device state data and save it in
+> .pre_save callback?
 
+I'm not sure we have a vmsd/pre_save in this setup?  If we did then it's
+a bit confusing because I don't think we have any other iterative device
+that also has a vmsd.
+
+I'd have to test it, but I think you might get the devices
+->save_live_complete_precopy called at the right point just before
+postcopy switchover.  It's worth looking.
+
+Dave
+
+> Thanks
+> Yan
+> 
+> > > Thanks,
+> > > Kirti
+> > > 
+> > > >>>
+> > > >>> I know current implementation does not support post-copy. but at least
+> > > >>> it should not require huge change when we decide to enable it in future.
+> > > >>>
+> > > >>
+> > > >> .has_postcopy and .save_live_complete_postcopy need to be implemented to
+> > > >> support post-copy. I think .save_live_complete_postcopy should be
+> > > >> similar to vfio_save_complete_precopy.
+> > > >>
+> > > >> Thanks,
+> > > >> Kirti
+> > > >>
+> > > >>> Thanks
+> > > >>> Yan
+> > > >>>
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
