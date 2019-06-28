@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6948A5A272
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:32:28 +0200 (CEST)
-Received: from localhost ([::1]:34812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC78E5A169
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:52:49 +0200 (CEST)
+Received: from localhost ([::1]:34330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgujb-0007Ap-JB
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:32:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41706)
+	id 1hgu7D-00036W-P5
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42432)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hgtoD-0006NB-Dl
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:33:10 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hgtrD-0000j2-JK
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:36:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hgtoC-0002q5-6D
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:33:09 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41795)
+ (envelope-from <alistair23@gmail.com>) id 1hgtrC-00057r-Da
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:36:15 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:41684)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hgtoB-0002pG-Tm
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:33:08 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c2so6935262wrm.8
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 09:33:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=DV5eM2hZO7loL7XyJ1Uje8aQ8PQRysH709GS9FjiqY4=;
- b=diDOgfhGqyPiZKBW89H/nrihEb3Tyt/3v5fk7WWI4snXItCvxNyjFWyj2uIh6ZDKkZ
- /N7Ml8xi4IYysXtXIOfCODWhev2FmBZ4fzSDqi0t9XdOwI+ou9+EvBKfwd8cwNiB6n9g
- D4veP7zccqv2cpcJVfUYeMgyHdy67BseogVBIH6uKiU32dUjpR3yyYZtB20Yo1/KUB3n
- 29O5lM/+R5RhLMCEqJ24IO9xDlYPNbr5fxOtturVtWHOJGNEipUAJxC9VCySKSMYHORP
- 3i1NLjYuK/dAdyHvVrULXn4LqMIjH91V4d4TvYe1xwhcwPlRAhZUhnKo9u+90NovJAzv
- syxA==
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hgtrC-000575-3a; Fri, 28 Jun 2019 12:36:14 -0400
+Received: by mail-lj1-x244.google.com with SMTP id 205so6601910ljj.8;
+ Fri, 28 Jun 2019 09:36:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=f25JLAKyHtV8jvniNcYaG9xMTHVkgpR7QSjcLNQUGAY=;
+ b=HBbMZcueLdSy1TXqeTlgcbpJyTIWKSSl5GKsEfpRQNYu+YDEuc4t2DfISs+AdGZArz
+ Bpm2expJJXQ8g9PQc1/dA3XmP1Mftehzg6a+1wXpm4MA59QN2tMbtakKLClPFvoMz5KE
+ Nwk0RgsxCzyEDYM2pi0WrORqHjr+Pc3kr/X8SeCJtoapM5W59UBLm7l57TEXW2uNN2/Q
+ C9HJggInYNk2wTE5/gMSw3Sl2H/HRcU/lGFV4oQ4OfnisZthXVEk6sTr8IC5AifCIV+V
+ /3upjDHE5zexxnMY08ExOGDKtdQ2bUB5yE9y0kbX1Un2tItfVr297EO4kcNztLVueSzy
+ FiAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=DV5eM2hZO7loL7XyJ1Uje8aQ8PQRysH709GS9FjiqY4=;
- b=GIDaw2oWErNWyTnGTFw+Hcys34VQBaY8tM0nrMiyjaFOtvnzeC/WiGwVE20YuDzjbe
- vRm8zgFCkIFLECfj7bcMnmy26t+gyjy6TK9yX6pZI7snXXoYhdMHUH57xWt2G6i3dSAL
- qm0wETATcCpPohbg2JNJwbfmfwiSJd5nttuujpa5NN6bqbXWBeOU0Qms6gedB8YOPZdF
- 5L1/mDXVxTq5xKtsOpMFarrErHAt9J+5EUcFsJke3o52/oDFXuX8W2TJNVj+ZIpgOVwY
- Ytr314RD4MiEQ/voZpfftnIucnIOUOmZA0+wyKXNBGL9TTwx1aTZcVoQwfvJxDBw/uEX
- cx6w==
-X-Gm-Message-State: APjAAAU6OPfVz0A4plgW8mBkHU4Ngi5zsndgBcOFtcfeWZEihCF4iAjy
- /kQ5u4Ni/nhlTUQGv0yxELNdtw==
-X-Google-Smtp-Source: APXvYqwtlsuG1ptrWttEZvTCIAYZVQ4PLaBVFLeiuMBgcKy8BaKIi5EhntBWxD0OEV2oRBHcqxerWQ==
-X-Received: by 2002:adf:ebc3:: with SMTP id v3mr3664146wrn.61.1561739586334;
- Fri, 28 Jun 2019 09:33:06 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id 5sm2991613wmg.42.2019.06.28.09.33.05
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 09:33:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 691E81FF87;
- Fri, 28 Jun 2019 17:33:05 +0100 (BST)
-References: <20190628113917.15869-1-luc.michel@greensocs.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190628113917.15869-1-luc.michel@greensocs.com>
-Date: Fri, 28 Jun 2019 17:33:05 +0100
-Message-ID: <87o92hacvy.fsf@zen.linaroharston>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=f25JLAKyHtV8jvniNcYaG9xMTHVkgpR7QSjcLNQUGAY=;
+ b=IIKk0RdySlaf4hjPDZ6tok+XwBtKFxgoLpIvPBWQY46i1k3ZvWqK+afdd/6VYIPF3Y
+ er/nLft1huQAAQMUjMmsO5DBY9ozZYmdiP3nAClUIGZyw/iUTY7AoJNe6CO23a/syhh2
+ IXgMPCaytVjQxJCVfDtUZ6mk8gC4/CwM0SPyk+ZZfZ1E6RG4axMZ1C693Nh+qQcpw4kZ
+ x4nRyEQewSeMw4BWqKW5EJwjE9wjwaKAwu+qQqzyPaqraK9yBqJI1e2+CC1UTt+W8/hK
+ FfoKe6qfTQmh5+RvQZusZSo5lkqflZoWqKJP1X+cbClIT2qjyc85LUWHuObL1ejXfQTQ
+ XjvA==
+X-Gm-Message-State: APjAAAUE9W19ulzUtUCpcpnAeY6+OwzrkrgzTsfyLQWzdY7jjXzMVgT5
+ QS5SH7Xdj6lnJ4kYge6IoRrU8qKYz7cQUVmdt4I=
+X-Google-Smtp-Source: APXvYqw5UgCvDdjO02HUj2hztKRPgSxiDfc2+rQe+ueVuY9iv1PYGQjVqViaYsbnlzxPWK8Pb1snnb3P6UcWKrHt5RM=
+X-Received: by 2002:a2e:3604:: with SMTP id d4mr6784697lja.85.1561739772947;
+ Fri, 28 Jun 2019 09:36:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20190627202719.17739-1-philmd@redhat.com>
+ <20190627202719.17739-16-philmd@redhat.com>
+In-Reply-To: <20190627202719.17739-16-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 28 Jun 2019 09:33:09 -0700
+Message-ID: <CAKmqyKMJQMGb_tLShvzWSx-KoaBA7Rq9xXJu9HQ=DsmMt_+62g@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [RFC PATCH] accel/tcg/translator: add tb_enter TCG
- trace
+X-Received-From: 2a00:1450:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH v5 15/28] hw/block/pflash_cfi02: Document
+ the current CFI values
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,152 +74,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, mark.burton@greensocs.com, sakisp@xilinx.com,
- edgari@xilinx.com, Paolo Bonzini <pbonzini@redhat.com>,
- Luc Michel <luc.michel@greensocs.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Luc Michel <luc.michel@greensocs.com> writes:
-
-> Add a TCG trace at the begining of a translation block recording the
-> first and last (past-the-end) PC values.
+On Thu, Jun 27, 2019 at 1:53 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> Signed-off-by: Luc Michel <luc.michel@greensocs.com>
+> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+> Message-Id: <20190426162624.55977-6-stephen.checkoway@oberlin.edu>
+> [PMD: Extracted from bigger patch]
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
-> This can be used to trace the execution of the guest quite efficiently.
-> It will report each time a TB is entered (using the tb_enter_exec
-> trace). The traces arguments give the PC start and past-the-end values.
-> It has very little to no performance impact since the trace is actually
-> emitted in the generated code only when it is enabled at run time.
+>  hw/block/pflash_cfi02.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 >
-> It works already quite well on its own to trace guest execution.
-
-You could just remove the disable from:
-
-disable exec_tb(void *tb, uintptr_t pc) "tb:%p pc=3D0x%"PRIxPTR
-
-And call qemu with -d nochain,trace:exec_tb
-
-> However
-> it does not handle the case where a TB is exited in the middle of
-> execution. I'm not sure how to properly trace that. A trace could be
-> added when `cpu_loop_exit()' is called to report the current PC, but in
-> most cases the interesting value (the PC of the instruction that
-> caused the exit) is already lost at this stage.
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 1a794fa83c..f1bac480f5 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -550,6 +550,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+>      pfl->wcycle =3D 0;
+>      pfl->cmd =3D 0;
+>      pfl->status =3D 0;
+> +
+>      /* Hardcoded CFI table (mostly from SG29 Spansion flash) */
+>      /* Standard "QRY" string */
+>      pfl->cfi_table[0x10] =3D 'Q';
+> @@ -575,7 +576,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+ror **errp)
+>      pfl->cfi_table[0x1D] =3D 0x00;
+>      /* Vpp max (no Vpp pin) */
+>      pfl->cfi_table[0x1E] =3D 0x00;
+> -    /* Reserved */
+> +    /* Timeout per single byte/word write (128 ms) */
+>      pfl->cfi_table[0x1F] =3D 0x07;
+>      /* Timeout for min size buffer write (NA) */
+>      pfl->cfi_table[0x20] =3D 0x00;
+> @@ -614,17 +615,25 @@ static void pflash_cfi02_realize(DeviceState *dev, =
+Error **errp)
+>      pfl->cfi_table[0x32] =3D 'R';
+>      pfl->cfi_table[0x33] =3D 'I';
 >
-> I'm not sure there is a generic (i.e. not target specific) way of
-> recovering the last PC executed when cpu_loop_exit() is called. Do you
-> think of a better way?
+> +    /* Extended version 1.0 */
+>      pfl->cfi_table[0x34] =3D '1';
+>      pfl->cfi_table[0x35] =3D '0';
 >
-> Thanks to the Xilinx's QEMU team who sponsored this work.
-> ---
->  accel/tcg/translator.c | 24 ++++++++++++++++++++++++
->  trace-events           |  3 +++
->  2 files changed, 27 insertions(+)
+> +    /* Address sensitive unlock required. */
+>      pfl->cfi_table[0x36] =3D 0x00;
+> +    /* Erase suspend not supported. */
+>      pfl->cfi_table[0x37] =3D 0x00;
+> +    /* Sector protect not supported. */
+>      pfl->cfi_table[0x38] =3D 0x00;
+> +    /* Temporary sector unprotect not supported. */
+>      pfl->cfi_table[0x39] =3D 0x00;
 >
-> diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-> index 9226a348a3..c55377aa18 100644
-> --- a/accel/tcg/translator.c
-> +++ b/accel/tcg/translator.c
-> @@ -14,10 +14,11 @@
->  #include "tcg/tcg-op.h"
->  #include "exec/exec-all.h"
->  #include "exec/gen-icount.h"
->  #include "exec/log.h"
->  #include "exec/translator.h"
-> +#include "trace-tcg.h"
+> +    /* Sector protect/unprotect scheme. */
+>      pfl->cfi_table[0x3a] =3D 0x00;
 >
->  /* Pairs with tcg_clear_temp_count.
->     To be called by #TranslatorOps.{translate_insn,tb_stop} if
->     (1) the target is sufficiently clean to support reporting,
->     (2) as and when all temporaries are known to be consumed.
-> @@ -28,14 +29,31 @@ void translator_loop_temp_check(DisasContextBase *db)
->          qemu_log("warning: TCG temporary leaks before "
->                   TARGET_FMT_lx "\n", db->pc_next);
->      }
+> +    /* Simultaneous operation not supported. */
+>      pfl->cfi_table[0x3b] =3D 0x00;
+> +    /* Burst mode not supported. */
+>      pfl->cfi_table[0x3c] =3D 0x00;
 >  }
 >
-> +static TCGOp *gen_trace_tb_enter(TranslationBlock *tb)
-> +{
-> +    TCGOp *last_pc_op;
-> +
-> +    TCGv pc_end =3D tcg_temp_new();
-> +
-> +    /* The last PC value is not known yet */
-> +    tcg_gen_movi_tl(pc_end, 0xdeadbeef);
-> +    last_pc_op =3D tcg_last_op();
-> +
-> +    trace_tb_enter_tcg(tcg_ctx->cpu, cpu_env, tb->pc, pc_end);
-> +    tcg_temp_free(pc_end);
-> +
-> +    return last_pc_op;
-> +}
-> +
->  void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
->                       CPUState *cpu, TranslationBlock *tb, int max_insns)
->  {
->      int bp_insn =3D 0;
-> +    TCGOp *trace_pc_end;
+> --
+> 2.20.1
 >
->      /* Initialize DisasContext */
->      db->tb =3D tb;
->      db->pc_first =3D tb->pc;
->      db->pc_next =3D db->pc_first;
-> @@ -50,10 +68,13 @@ void translator_loop(const TranslatorOps *ops, DisasC=
-ontextBase *db,
->      /* Reset the temp count so that we can identify leaks */
->      tcg_clear_temp_count();
 >
->      /* Start translating.  */
->      gen_tb_start(db->tb);
-> +
-> +    trace_pc_end =3D gen_trace_tb_enter(tb);
-> +
->      ops->tb_start(db, cpu);
->      tcg_debug_assert(db->is_jmp =3D=3D DISAS_NEXT);  /* no early exit */
->
->      while (true) {
->          db->num_insns++;
-> @@ -110,10 +131,13 @@ void translator_loop(const TranslatorOps *ops, Disa=
-sContextBase *db,
->
->      /* Emit code to exit the TB, as indicated by db->is_jmp.  */
->      ops->tb_stop(db, cpu);
->      gen_tb_end(db->tb, db->num_insns - bp_insn);
->
-> +    /* Fixup the last PC value in the tb_enter trace now that we know it=
- */
-> +    tcg_set_insn_param(trace_pc_end, 1, db->pc_next);
-> +
->      /* The disas_log hook may use these values rather than recompute.  */
->      db->tb->size =3D db->pc_next - db->pc_first;
->      db->tb->icount =3D db->num_insns;
->
->  #ifdef DEBUG_DISAS
-> diff --git a/trace-events b/trace-events
-> index aeea3c2bdb..e37fa12ef0 100644
-> --- a/trace-events
-> +++ b/trace-events
-> @@ -157,10 +157,13 @@ vcpu guest_cpu_reset(void)
->  #
->  # Mode: user, softmmu
->  # Targets: TCG(all)
->  vcpu tcg guest_mem_before(TCGv vaddr, uint8_t info) "info=3D%d", "vaddr=
-=3D0x%016"PRIx64" info=3D%d"
->
-> +# translator.c
-> +vcpu tcg tb_enter(uint64_t pc_start, TCGv pc_end) "pc_start:0x%"PRIx64, =
-"pc:0x%"PRIx64" pc_end:0x%"PRIx64
-> +
->  # linux-user/syscall.c
->  # bsd-user/syscall.c
->
->  # @num: System call number.
->  # @arg*: System call argument value.
-
-
---
-Alex Benn=C3=A9e
 
