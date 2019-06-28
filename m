@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 662BF59E0E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:41:29 +0200 (CEST)
-Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F99A59410
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 08:14:15 +0200 (CEST)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgs48-0004IF-6H
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:41:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43781)
+	id 1hgk9F-0002R9-Om
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 02:14:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35645)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hgs1Z-0002sB-51
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:38:51 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgk7b-0001tz-BO
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 02:12:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hgs1W-0005Yv-Qy
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:38:49 -0400
-Resent-Date: Fri, 28 Jun 2019 10:38:48 -0400
-Resent-Message-Id: <E1hgs1W-0005Yv-Qy@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21440)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hgs1V-0005XG-6r
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:38:46 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1561690279; cv=none; d=zoho.com; s=zohoarc; 
- b=R1pDy+AermS7qgs+NWlvfNQ02Jnz+GhvL/ysKWpvnFiVinlLrnH5y0iGhg/tXBFKcRj48x7M0Pf9HcXIga5mOyfGXDvYFheD1bfOH0wKvWj1rc8RPoBYVQxMqnTOORzFrhGBlW98C0XTTQ7LxqFI6Wgm4AEW+BZ+Bkg1ew2182Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1561690279;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=6UaHKpQ7r9uAgTZDcy2vO7YJN25gFqtkfnhj2H2bWv4=; 
- b=nPAa8Lhz/VUyluLzc9WFoaqCcXjbN3y+f0DYQmPpklOnMYA02sg//rV3amxvFC4r7zwBC1MK1KZxopI4tfLJ5SD6SH+wZXIk0ENfg/MTU+37JsF6HAxOeMkrVx+8wM1HilhvQ34vD69IeY18MUmhamDQ2l/wWRNqzclUEzSi9sM=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1561690187125936.8270204339346;
- Thu, 27 Jun 2019 19:49:47 -0700 (PDT)
-Message-ID: <156169018571.6332.9317225427076483475@c4a48874b076>
-In-Reply-To: <20190628015606.32107-1-ehabkost@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ehabkost@redhat.com
-Date: Thu, 27 Jun 2019 19:49:47 -0700 (PDT)
-X-ZohoMailClient: External
+ (envelope-from <palmer@dabbelt.com>) id 1hgk7a-0006Gi-4A
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 02:12:31 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:45153)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgk7Z-0006Fa-UY
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 02:12:30 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z19so2098245pgl.12
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 23:12:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=19UBy/JSb09LAOfOQp8wf6xbaoZKZ3jSDn4GxSTUbTs=;
+ b=IdarwScA6w7zfG/BnPdjngioSROQxs6aqA5WhJE413y9LmJ04zHWuqvx8Mlo8yw3nG
+ lwATAhF/JqxZm87y7KDqrL+rkT9yNe5B2KNBbM6fb6ywXdOT+Hkj3t3OgiYEhnKk6AR9
+ GWLDxtoTLByroAKFmZXh+4LxglE7JIbSfsfdROrTYtdwGjp2FBwBypaKqPE2lKM7jq/3
+ w8MfMJEuUgNwTa5UwCAcDRukqPsDXkKaSTU5HBwI2g03HzF0pkux2tuawnlEBfMKc3dh
+ bikVSIjFdrTHQoZPky6UEBZDj7IRzUUEhJ9c2VJJCb2DH6vBDRuqkUmon3frqieX5JK3
+ dhGA==
+X-Gm-Message-State: APjAAAXGAihX8UClU6y9PSwYLdkqpnKnlMUNOt6gjbezml8fJ1i0qAGT
+ 7w3MP0UKNG/j9pdcIYbJzLvSFw==
+X-Google-Smtp-Source: APXvYqwKqswnoVUvbs2i+DYMAIFFSOFeFWiLi0HZ6GDexWiv/+I3SewaSCWApgS0kl3muTFG1aA6qw==
+X-Received: by 2002:a17:90a:3590:: with SMTP id
+ r16mr11072790pjb.44.1561702348388; 
+ Thu, 27 Jun 2019 23:12:28 -0700 (PDT)
+Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
+ [220.132.236.182])
+ by smtp.gmail.com with ESMTPSA id m101sm940730pjb.7.2019.06.27.23.12.27
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Thu, 27 Jun 2019 23:12:27 -0700 (PDT)
+Date: Thu, 27 Jun 2019 23:12:27 -0700 (PDT)
+X-Google-Original-Date: Thu, 27 Jun 2019 22:01:42 PDT (-0700)
+In-Reply-To: <CAKmqyKMAGJFgJV1Y9W+ne_=jipqGMtZMKRHJmN5qpNVZrKUTeg@mail.gmail.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-89e59e27-71b5-4452-93af-a889983f711c@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PULL 00/29] Machine next patches
+ [fuzzy]
+X-Received-From: 209.85.215.194
+Subject: Re: [Qemu-devel] [PATCH for 4.1 v3] target/riscv: Expose time CSRs
+ when allowed by [m|s]counteren
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,36 +69,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, rth@twiddle.net, qemu-devel@nongnu.org,
- pbonzini@redhat.com
+Cc: qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, fintelia@gmail.com,
+ qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ bmeng.cn@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyODAxNTYwNi4zMjEw
-Ny0xLWVoYWJrb3N0QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIGJ1aWxk
-IHRlc3Qgb24gczM5MHggaG9zdC4gUGxlYXNlIGZpbmQgdGhlIGRldGFpbHMgYmVsb3cuCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCiMgVGVzdGluZyBzY3JpcHQgd2lsbCBi
-ZSBpbnZva2VkIHVuZGVyIHRoZSBnaXQgY2hlY2tvdXQgd2l0aAojIEhFQUQgcG9pbnRpbmcgdG8g
-YSBjb21taXQgdGhhdCBoYXMgdGhlIHBhdGNoZXMgYXBwbGllZCBvbiB0b3Agb2YgImJhc2UiCiMg
-YnJhbmNoCnNldCAtZQpDQz0kSE9NRS9iaW4vY2MKSU5TVEFMTD0kUFdEL2luc3RhbGwKQlVJTEQ9
-JFBXRC9idWlsZApta2RpciAtcCAkQlVJTEQgJElOU1RBTEwKU1JDPSRQV0QKY2QgJEJVSUxECiRT
-UkMvY29uZmlndXJlIC0tY2M9JENDIC0tcHJlZml4PSRJTlNUQUxMCm1ha2UgLWo0CiMgWFhYOiB3
-ZSBuZWVkIHJlbGlhYmxlIGNsZWFuIHVwCiMgbWFrZSBjaGVjayAtajQgVj0xCm1ha2UgaW5zdGFs
-bAoKZWNobwplY2hvICI9PT0gRU5WID09PSIKZW52CgplY2hvCmVjaG8gIj09PSBQQUNLQUdFUyA9
-PT0iCnJwbSAtcWEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCi92YXIvdG1wL3BhdGNoZXctdGVz
-dGVyLXRtcC12Znc0c2E3OC9zcmMvdGFyZ2V0L3MzOTB4L2t2bS5jOjM2NzogdW5kZWZpbmVkIHJl
-ZmVyZW5jZSB0byBgbWF4X2NwdXMnCi91c3IvYmluL2xkOiB0YXJnZXQvczM5MHgva3ZtLm86IGlu
-IGZ1bmN0aW9uIGBrdm1fczM5MF92Y3B1X2ludGVycnVwdF9wcmVfc2F2ZSc6Ci92YXIvdG1wL3Bh
-dGNoZXctdGVzdGVyLXRtcC12Znc0c2E3OC9zcmMvdGFyZ2V0L3MzOTB4L2t2bS5jOjE5NTM6IHVu
-ZGVmaW5lZCByZWZlcmVuY2UgdG8gYG1heF9jcHVzJwpjb2xsZWN0MjogZXJyb3I6IGxkIHJldHVy
-bmVkIDEgZXhpdCBzdGF0dXMKbWFrZVsxXTogKioqIFtNYWtlZmlsZToyMDU6IHFlbXUtc3lzdGVt
-LXMzOTB4XSBFcnJvciAxCm1ha2U6ICoqKiBbTWFrZWZpbGU6NDcyOiBzdWJkaXItczM5MHgtc29m
-dG1tdV0gRXJyb3IgMgptYWtlOiAqKiogV2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgoK
-ClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAx
-OTA2MjgwMTU2MDYuMzIxMDctMS1laGFia29zdEByZWRoYXQuY29tL3Rlc3RpbmcuczM5MHgvP3R5
-cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
-W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
-aGV3LWRldmVsQHJlZGhhdC5jb20=
+On Thu, 27 Jun 2019 12:56:57 PDT (-0700), alistair23@gmail.com wrote:
+> On Wed, Jun 26, 2019 at 1:25 AM Palmer Dabbelt <palmer@sifive.com> wrote:
+>>
+>> On Tue, 25 Jun 2019 23:58:34 PDT (-0700), bmeng.cn@gmail.com wrote:
+>> > On Wed, Jun 26, 2019 at 4:23 AM Jonathan Behrens <fintelia@gmail.com> wrote:
+>> >>
+>> >> I just did some testing on a HiFive Unleashed board and can confirm what
+>> >> you are saying. The low 5 bits of both mcounteren and scounteren are
+>> >> writable (if you try to write 0xFFFFFFFF to them, they'll take on the value
+>> >> 0x1F) but even with the TM bit set in both mcounteren and scounteren the
+>> >> rdtime instruction always generates an illegal instruction exception.
+>> >>
+>> >
+>> > Then I would think the FU540 is not spec complaint :)
+>>
+>> Ya, it's an errata.  There's a handful of them :)
+>>
+>> >> Reading through the relevant chapter of the spec, I still think that having
+>> >> mcounteren.TM be writable but making rdtime unconditionally trap is
+>> >> non-conformant. If other people feel strongly that rdtime should always
+>> >
+>> > Agree. To test hardware (FU540) compatibility in QEMU, maybe we can
+>> > add a cpu property to allow hard-wiring mcounteren.TM to zero?
+>>
+>> In theory we should have properties to control the behavior of all WARL fields,
+>> but it's a lot of work.  I'd be happy to take a patch for any of them.
+>
+> Hmmm... We should avoid taking patches that don't adhere to the spec
+> just to match some hardware. In the case that core/popular software
+> doesn't work it probably makes sense, but in general it's probably not
+> the best move.
 
+WARL is Write Any Read Legal.  Essentially it means that the hardware gets to
+decide what sort of behavior that field has, and is the mechanism for optional
+features in the ISA.  In this case it'd be entirely within spec, specifically:
+
+    Registers mcounteren and scounteren are WARL registers that must be
+    implemented if U-mode and S-mode are implemented. Any of the bits may
+    contain a hardwired value of zero, indicating reads to the corresponding
+    counter will cause an illegal instruction exception when executing in a
+    less-privileged mode.
+
+Taking a patch that matches the out-of-spec FU540 behavior doesn't make any
+sense, I don't want to implement errata in QEMU :)
+
+>
+> Alistair
+>
+>>
+>> >> require trapping into firmware then the natural change would be to simply
+>> >> hardwire mcounteren.TM to zero (the value in scounteren wouldn't matter in
+>> >> that case so it could be left writable). My own (biased) personal feeling
+>> >> is that this full implementation makes sense at least for the `virt`
+>> >> machine type because it represents a clear case where deviating from
+>> >> current hardware enables a performance boost, and would not break
+>> >> compatibility with any current software: both OpenSBI and BBL try to enable
+>> >> hardware handling of rdtime when the platform claims to support it.
+>> >>
+>> >
+>> > Regards,
+>> > Bin
+>>
 
