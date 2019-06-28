@@ -2,61 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5403759E00
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:38:01 +0200 (CEST)
-Received: from localhost ([::1]:60792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E21E59DAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:24:49 +0200 (CEST)
+Received: from localhost ([::1]:60564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgs0m-0000tj-Hj
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:38:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1hgro0-0000De-Ia
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:24:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35343)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jdillama@redhat.com>) id 1hgrLP-000324-BF
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:55:16 -0400
+ (envelope-from <qemu_oss@crudebyte.com>) id 1hgrT5-0000xK-7b
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:03:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jdillama@redhat.com>) id 1hgrLO-0004Nm-Fz
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:55:15 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:42275)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jdillama@redhat.com>) id 1hgrLO-0004NN-CC
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:55:14 -0400
-Received: by mail-qk1-f194.google.com with SMTP id b18so4836548qkc.9
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 06:55:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/1Y4fNLaIkF25Y9QPQxd9rwtMpLAq+tObkHK36PZtR4=;
- b=YDUpgJIVObipy7CYgNvIjqqtVX1UKyZ1qyFHp/R5sfUXbOTBR1H+Jq6A1BbQ+k0ZlB
- rEq3DxhgGQ8GNE6z7jOMAPvfflLYgFxDtBrTUTd379V0I8CPCx0tvT+XU1YdYTkeqfRq
- ooCPtOXtU53tcJ9LkgtC5HY6U8MVTD5sU+W4MuuovvQdsqXuCjZa+qkAKnmww26bCmxn
- kRym+xV+87ln7g2lvh0MN6nCvgdRwCVvCpL8Zc9ISq/ZYZi0QRyVoi/0MrSBzOBr5gK+
- N3PBgdiM0m92wg2bUQd//WMvI1FeYCeWv8Vopa6txWjsgle967e/Vo8vEkfg0pdHH8ar
- HQcg==
-X-Gm-Message-State: APjAAAVRLzAoxLv7z17oeSTRpxk5pC0sPR9ZxzLgXiR+cCkgg/pDF9IE
- FImTlJfmENDp8wGU8TqsHjQh8g==
-X-Google-Smtp-Source: APXvYqx6VYzEzUhR1BCUPs6/dUBysbMDU/owiNPRdzJfbdjCAsibJEnY11XMF8KF5paXartsna/LLQ==
-X-Received: by 2002:a37:97c5:: with SMTP id z188mr9144409qkd.5.1561730113643; 
- Fri, 28 Jun 2019 06:55:13 -0700 (PDT)
-Received: from cube-1.lan (pool-96-241-25-63.washdc.fios.verizon.net.
- [96.241.25.63])
- by smtp.gmail.com with ESMTPSA id k33sm1014669qte.69.2019.06.28.06.55.12
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 06:55:12 -0700 (PDT)
-From: jdillama@redhat.com
-X-Google-Original-From: dillaman@redhat.com
-To: jdurgin@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 09:55:08 -0400
-Message-Id: <20190628135508.8013-1-dillaman@redhat.com>
-X-Mailer: git-send-email 2.21.0
+ (envelope-from <qemu_oss@crudebyte.com>) id 1hgrT3-0002ZS-GJ
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:03:11 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:50747)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1hgrT1-0002XV-Hr
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:03:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=DyKh5fYYE41XG80v1fekCHumkdJ+Vh2eDpBHLyjy748=; b=wB7B0X1myZbOo3FgQxLqqA+9Li
+ 6H+271bjkdAwp7RJL657MUfq6CqjSKbFzS2SvfBrtV1OGkjdNifBQ5eqxwu12MSYy9aPBAFG5H+fM
+ oAMomzUQ3iQoOw8q3/Lojsuc6tk1deCYxdMn+1L//WCf4MFg8P/NYmzKYATl0mQGn0p7e657zKink
+ b3RicoI0UING5CUA2p/NOVpWl+YeNWpakWnEVV6LTKDjD7bAdByNVxy0ojD/VISR0fCcjc9aBUf7J
+ g1O4z+0ojCfYi3W8hJGUhZnb/eLyWx72dbPAgQ0/XUIiNCDQHvouHbP+LEw1i7Jcb/2Wlm4lFqFsb
+ ohowJXEDOM86dD40xhB/qVxQMp4nsbPaC06tyangdZy0FfV1S+w72/HY2ATKl7la60PlAkph/2bz0
+ h6kgeE6I5NBf8Iev79gzf0lT/Fl5d0yr2OzjBg2PWjskCbqS0xOqEVzoNouo6eIKHENCuDz/scH68
+ AbCH40kdHYMdm7yDWObHlDJ1vII2bZPbGpIJB+wfbFVOVEWpmSxbWKChCUxVcBYIq8aljIE8qS5Hx
+ amhCYoV+bJR0dYz9/zb2ZpceuZQ2E/0YBcBqsZl+9NUD8B1ygmpVxsoKOyDBtRFyhVN1MUNXKGc39
+ mlkHjZ3j1H1sptgll5xBSp9yVAu3UVPi/DCT8PG/8=;
+To: qemu-devel@nongnu.org
+Date: Fri, 28 Jun 2019 16:03:02 +0200
+Message-ID: <4090006.s5PtGRB9R1@silver>
+In-Reply-To: <20190628122120.60a1ec0b@bahia.lan>
+References: <cover.1561575449.git.qemu_oss@crudebyte.com>
+ <fa636e323b8644469f9b03619758b6c1c6d1d4f2.1561575449.git.qemu_oss@crudebyte.com>
+ <20190628122120.60a1ec0b@bahia.lan>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.222.194
-X-Mailman-Approved-At: Fri, 28 Jun 2019 10:32:09 -0400
-Subject: [Qemu-devel] [PATCH] MAINTAINERS: update RBD block maintainer
+X-Received-From: 5.189.157.229
+Subject: Re: [Qemu-devel] [PATCH v4 4/5] 9p: stat_to_qid: implement slow path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,35 +61,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Dillaman <dillaman@redhat.com>
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Dillaman <dillaman@redhat.com>
+On Freitag, 28. Juni 2019 12:21:20 CEST Greg Kurz wrote:
+> > +static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
+> > +                            uint64_t *path)
+> > +{
+> > +    QpfEntry lookup = {
+> > +        .dev = stbuf->st_dev,
+> > +        .ino = stbuf->st_ino
+> > +    }, *val;
+> > +    uint32_t hash = qpf_hash(lookup);
+> > +
+> > +    /* most users won't need the fullmap, so init the table lazily */
+> > +    if (!pdu->s->qpf_table.map) {
+> > +        qht_init(&pdu->s->qpf_table, qpf_lookup_func, 1 << 16,
+> > QHT_MODE_AUTO_RESIZE); +    }
+> > +
+> > +    val = qht_lookup(&pdu->s->qpf_table, &lookup, hash);
+> > +
+> > +    if (!val) {
+> > +        if (pdu->s->qp_fullpath_next == 0) {
+> > +            /* no more files can be mapped :'( */
+> 
+> This would be the place to put the error_report_once() suggested
+> in the previous patch actually.
 
-Remove Josh as per his request since he is no longer the upstream RBD
-tech lead. Add myself as the maintainer since I am the current RBD tech
-lead.
+I will add the suggested error message to qid_path_prefixmap() in patch 3 and 
+then will move over that error message to qid_path_fullmap() in patch 4.
 
-Signed-off-by: Jason Dillaman <dillaman@redhat.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Or if you want I can also leave an error_report_once() in qid_path_prefixmap() 
+in patch 4 about potential degraded performance.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cad58b9487..47694cd02f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2367,7 +2367,7 @@ S: Supported
- F: block/vmdk.c
- 
- RBD
--M: Josh Durgin <jdurgin@redhat.com>
-+M: Jason Dillaman <dillaman@redhat.com>
- L: qemu-block@nongnu.org
- S: Supported
- F: block/rbd.c
--- 
-2.21.0
+> > @@ -3779,7 +3831,8 @@ void v9fs_device_unrealize_common(V9fsState *s,
+> > Error **errp)> 
+> >      }
+> >      fsdev_throttle_cleanup(s->ctx.fst);
+> >      g_free(s->tag);
+> > 
+> > -    qpp_table_destroy(&s->qpp_table);
+> > +    qp_table_destroy(&s->qpp_table);
+> > +    qp_table_destroy(&s->qpf_table);
+> 
+> I'm starting to think v9fs_device_unrealize_common() should be made
+> idempotent, so that it can be used to handle rollback of a partially
+> realized device, and thus avoid the code duplication. But this is
+> out-of-scope for this series.
 
+Well, I can also make that e.g.:
+
+	if (s->qpf_table.map)
+		qp_table_destroy(&s->qpf_table);
+
+if you prefer the occurrence amount to be reduced.
+
+Best regards,
+Christian Schoenebeck
 
