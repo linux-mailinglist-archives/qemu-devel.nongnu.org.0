@@ -2,55 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE53B59BB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:39:41 +0200 (CEST)
-Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16F5C59D69
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:59:19 +0200 (CEST)
+Received: from localhost ([::1]:60212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqAG-0007wT-SM
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37445)
+	id 1hgrPK-0004Y4-89
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:59:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48352)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <qemu_oss@crudebyte.com>) id 1hgq7e-00067H-MD
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:37:00 -0400
+ (envelope-from <lvivier@redhat.com>) id 1hgqZo-0006H3-VI
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:06:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1hgq7b-0005We-3d
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:36:56 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:50737)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1hgq7V-0005Pi-Fc
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:36:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=DGhPttdw73qL6OGRySEE0zOgjLIhXsWykFugGyy63kY=; b=ew6DgG4tZltP73Dd3CEY6hqO8h
- Gza5IToGMwDWsYeOqZ4ggDohN8mMk7NpbaEmbVO1B0jZo3d/AUKNRK5tqF2ffcpIiDSGUpL+KLVXd
- Gp+g9o0biZY6CMmOqQl1MdXkIy5Uo3RUG42LNyu+eSY4QnVnfdjNIhqe99kCOrgxoPOipqukAUODU
- pcE8YNhQUAmfG2zbMgw/SkXC1VvX6mduFsSPim1CV4oUVLsyZHmN0/6C0hQwfPIcv8vHGdTiI1BNm
- hfuZb/XSQGZa92vnZf73yZ4yylewSCGcVNNAlQsTp/pDrXfVrsmp0G/VW+W8aPjgKpw/6ZMQDg4US
- XIgun8CTnzPvuZZYjKu/tjD8GaNy0/kaUIHCZZjjUKflS6uZ7z0ipyqBaCTu3tC9se43DHNE1ldHP
- taoYL2xktYGP5LG+k2eq6zbXqzFbYY+OjSeENZK+ExpXIbM0qjvSdkcTp4STojG/gtOGohzYD8vw/
- ZUADXPUmTr6JnUxdxO/xPshpXbrPlojhhU7ddHceIsXMbKsmxliaJ1DVBjqYytaGl5TrMR1njeU7i
- vtZLmDsP9Imtl0WbvtIea3LNSWkPuuAzvpWorfgcqKQ9YoKzj11chy5CgJD+MnZ3cT036Sc1ehwh5
- zdUunrDDBp5P4I1/c21LW4rRF7IEyfbR6SoIM+BzA=;
-To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 13:42:43 +0200
-Message-ID: <3608455.qB9dszzTOH@silver>
-In-Reply-To: <20190627181203.59c956d9@bahia.lan>
-References: <cover.1561575449.git.qemu_oss@crudebyte.com>
- <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f.1561575449.git.qemu_oss@crudebyte.com>
- <20190627181203.59c956d9@bahia.lan>
+ (envelope-from <lvivier@redhat.com>) id 1hgqZm-0006EN-US
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:06:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56158)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>)
+ id 1hgqZl-0006CF-3a; Fri, 28 Jun 2019 09:06:02 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4933B87620;
+ Fri, 28 Jun 2019 11:49:36 +0000 (UTC)
+Received: from [10.36.117.11] (ovpn-117-11.ams2.redhat.com [10.36.117.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4985910013D9;
+ Fri, 28 Jun 2019 11:49:29 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
+References: <20190312085502.8203-1-david@gibson.dropbear.id.au>
+ <20190312085502.8203-13-david@gibson.dropbear.id.au>
+ <b693da29-0d2a-e739-17fb-9fd78894fd9e@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <0264e783-e6f2-a6af-9ff7-6ef1d418e868@redhat.com>
+Date: Fri, 28 Jun 2019 13:49:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <b693da29-0d2a-e739-17fb-9fd78894fd9e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Fri, 28 Jun 2019 11:49:36 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
-Subject: Re: [Qemu-devel] [PATCH v4 1/5] 9p: unsigned type for type, version,
- path
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 12/62] target/ppc/spapr: Enable mitigations
+ by default for pseries-4.0 machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,57 +105,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 27. Juni 2019 18:12:03 CEST Greg Kurz wrote:
-> On Wed, 26 Jun 2019 20:25:55 +0200
-> Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
-> > There is no need for signedness on these QID fields for 9p.
-> > 
-> > Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
-> 
-> You should mention here the changes you made on top of Antonios
-> original patch. Something like:
-> 
-> [CS: - also convert path
->      - adapted trace-events and donttouch_stat()]
+On 28/06/2019 13:27, Philippe Mathieu-Daud=C3=A9 wrote:
+> Hi,
+...
+> [*] https://bugs.launchpad.net/bugs/1834613
+>=20
 
-Haven't seen that comment style in the git logs. Any example hash for that?
+I think the problem is related to:
 
-> > diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
-> > index c0a0a4ab5d..6964756922 100644
-> > --- a/hw/9pfs/trace-events
-> > +++ b/hw/9pfs/trace-events
-> > @@ -6,7 +6,7 @@ v9fs_rerror(uint16_t tag, uint8_t id, int err) "tag %d id
-> > %d err %d"> 
-> >  v9fs_version(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag
-> >  %d id %d msize %d version %s" v9fs_version_return(uint16_t tag, uint8_t
-> >  id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
-> >  v9fs_attach(uint16_t tag, uint8_t id, int32_t fid, int32_t afid, char*
-> >  uname, char* aname) "tag %u id %u fid %d afid %d uname %s aname %s"> 
-> > -v9fs_attach_return(uint16_t tag, uint8_t id, int8_t type, int32_t
-> > version, int64_t path) "tag %d id %d type %d version %d path %"PRId64
-> > +v9fs_attach_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t
-> > version, uint64_t path) "tag %d id %d type %d version %d path %"PRId64
-> I was expecting to see PRIu64 for an uint64_t but I now realize that %d
-> seems to be used all over the place for unsigned types... :-\
-> 
-> At least, please fix the masks of the lines you're changing in this
-> patch so that unsigned are passed to "u" or PRIu64. The rest of the
-> mess can be fixed later in a followup.
+8b3b2d75c7c0 target/ppc: introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h=
+}() helpers for VSR register access
 
-If you don't mind I will restrict it to your latter suggestion for now, that 
-is adjusting it using the short format specifiers e.g. "u", the rest would IMO 
-be out of the scope of this patch series.
+fixed by (at least):
 
-Too bad that no format specifier warnings are thrown on these.
+2a1224359008 target/ppc: Fix lxvw4x, lxvh8x and lxvb16x
+77bd8937c03d target/ppc: Fix xvabs[sd]p, xvnabs[sd]p, xvneg[sd]p, xvcpsgn=
+[sd]p
+d47a751adab7 target/ppc: Fix xxbrq, xxbrw
+3e5365b7aa6c target/ppc: Fix QEMU crash with stxsdx
 
-Best regards,
-Christian Schoenebeck
+and on AVX2 host to:
+
+571fbe6ccd7a target/ppc: Use vector variable shifts for VSL, VSR, VSRA
+
+fixed by:
+
+899f08ad1d12 tcg: Fix typos in helper_gvec_sar{8,32,64}v
+
+Thank you,
+Laurent
 
