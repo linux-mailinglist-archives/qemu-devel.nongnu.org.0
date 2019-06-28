@@ -2,68 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD43259CFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:35:24 +0200 (CEST)
-Received: from localhost ([::1]:59960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0508B59CA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:11:05 +0200 (CEST)
+Received: from localhost ([::1]:59634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgr2B-00083m-VD
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:35:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44527)
+	id 1hgqee-0000ij-6x
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mrolnik@gmail.com>) id 1hgqMm-0003rk-Tp
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:52:38 -0400
+ (envelope-from <ppandit@redhat.com>) id 1hgqCR-0003ny-S1
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1hgqMh-0005cw-B9
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:52:35 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41315)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hgqMh-0005Yz-1F
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:52:31 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id c2so6168332wrm.8
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 05:52:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=F1Q9dO1MJtBD4BuOPkl5FyT3pib0cGGJUVpBcSUVYeU=;
- b=nlBqZbesg60lSndbrnmS8BdC9Fcz0dT6NOb+iBsYHn0mPlNsz2EMHtGjjIxaUPj7ba
- skayDNiJYanAa7Bf1z8gRfmvzeKgCOPtv/MzWdN1ItOrCXdOXGLSJ8qJFQh/J4bGuId4
- LE+uxOs6ZgOzzf258JtW+rcwRWTGTpCVwE4267DbpwfHWXy1Ek9fsDEFcSo7/3Bw9sdm
- HouWOd0GfQQyuinbVK3+KjT27D6o4xMQCbutvp9Qvzvj7W3mAI1Djc9ltstyZBAB5bC7
- S/FgDnu2drRtQ/NZ6MPXWgh790w0hdKprHPZC6KUyK2rO8kJvZdSpuX/UkbM+aSF3c6I
- F91g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=F1Q9dO1MJtBD4BuOPkl5FyT3pib0cGGJUVpBcSUVYeU=;
- b=rF2WLNb/Hr3ynWmgPAFmWEnl/dh0GfkmsXhsveiRVeo86qOxiAFUvWfOsfUM7GOFGF
- NQZoQgQHprFb7FPG+1m87SI42aMpB40cPTZiA8cBbOVK9ll2/hIdwO56nhp+amhP/K02
- ykKRmbw5AZQ9xV+FM2He06edOpazXd4mwctpXCjZt61RnPIHMRSCPbox9MUyt5anHqQH
- hRMKO1uiMPZ7Fcu/RKBo8vXaZVdmtesEkYMeki3dATsz10EA3jYrUN9SDmEOahbCOB4v
- YQrx6EKlxOOGp6VhgZXjqJG1M9gwKA3sCUeR0N7WC6p5bAOBsnPrbHissPCdIeUpZ6lf
- fhNQ==
-X-Gm-Message-State: APjAAAXd+gYT5fxW3SaVfQeO0mwl1qxnjv+6IvIbS/0lGQ/9mwtP77Pz
- VGMzKn6nwhos2V6IydUw49NJM9eaCCyRnA==
-X-Google-Smtp-Source: APXvYqxC2rwKa7dlisw9h1FMdc96p9jReVkU1NVZTDAfxfag8JHS55MC12POEUJWegmSObXBCdK1/w==
-X-Received: by 2002:a5d:6190:: with SMTP id j16mr7992247wru.49.1561723306628; 
- Fri, 28 Jun 2019 05:01:46 -0700 (PDT)
-Received: from localhost.localdomain (bzq-79-182-104-87.red.bezeqint.net.
- [79.182.104.87])
- by smtp.gmail.com with ESMTPSA id v18sm2281229wrd.51.2019.06.28.05.01.43
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 28 Jun 2019 05:01:46 -0700 (PDT)
-From: Michael Rolnik <mrolnik@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 15:01:18 +0300
-Message-Id: <20190628120118.78920-8-mrolnik@gmail.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190628120118.78920-1-mrolnik@gmail.com>
-References: <20190628120118.78920-1-mrolnik@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42d
-Subject: [Qemu-devel] [PATCH v24 7/7] target/avr: Register AVR support with
- the rest of QEMU, the build system, and the MAINTAINERS file
+ (envelope-from <ppandit@redhat.com>) id 1hgqCQ-0007nO-6H
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45414)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hgqCQ-0007mb-0D
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:54 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 57F4788306;
+ Fri, 28 Jun 2019 12:03:07 +0000 (UTC)
+Received: from kaapi (ovpn-116-191.sin2.redhat.com [10.67.116.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B660F5C5BB;
+ Fri, 28 Jun 2019 12:02:53 +0000 (UTC)
+Date: Fri, 28 Jun 2019 17:32:50 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
+In-Reply-To: <20190628113220.GD23344@redhat.com>
+Message-ID: <nycvar.YSQ.7.76.1906281725370.18180@xnncv>
+References: <20190628094901.13347-1-ppandit@redhat.com>
+ <20190628110457.GA23344@redhat.com>
+ <nycvar.YSQ.7.76.1906281639120.18180@xnncv>
+ <20190628113220.GD23344@redhat.com>
+MIME-Version: 1.0
+Content-ID: <nycvar.YSQ.7.76.1906281726020.18180@xnncv>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Fri, 28 Jun 2019 12:03:09 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH] qemu-bridge-helper: restrict bridge name
+ to IFNAMSIZ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,210 +62,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, Sarah Harris <S.E.Harris@kent.ac.uk>,
- richard.henderson@linaro.org, Michael Rolnik <mrolnik@gmail.com>
+Cc: Riccardo Schirone <rschiron@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sarah Harris <S.E.Harris@kent.ac.uk>
++-- On Fri, 28 Jun 2019, Daniel P. Berrang=E9 wrote --+
+| Ok, so we should explicitly report an error if the user supplied bridge=
+ name=20
+| is too long, not silently truncate it.
+|=20
+| We should also report an error if config file has too long a bridge nam=
+e.
 
-Signed-off-by: Michael Rolnik <mrolnik@gmail.com>
----
- MAINTAINERS                     |  6 ++++++
- arch_init.c                     |  2 ++
- configure                       |  7 +++++++
- default-configs/avr-softmmu.mak |  5 +++++
- include/disas/dis-asm.h         |  6 ++++++
- include/sysemu/arch_init.h      |  1 +
- qapi/common.json                |  3 ++-
- target/avr/Makefile.objs        | 33 +++++++++++++++++++++++++++++++++
- target/avr/cpu.c                |  5 -----
- tests/machine-none-test.c       |  1 +
- 10 files changed, 63 insertions(+), 6 deletions(-)
- create mode 100644 default-configs/avr-softmmu.mak
- create mode 100644 target/avr/Makefile.objs
+Okay, ie. report error and exit?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cad58b9487..c2ad82beb9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -163,6 +163,12 @@ S: Maintained
- F: hw/arm/smmu*
- F: include/hw/arm/smmu*
- 
-+AVR TCG CPUs
-+M: Michael Rolnik <mrolnik@gmail.com>
-+S: Maintained
-+F: target/avr/
-+F: hw/avr/
-+
- CRIS TCG CPUs
- M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
- S: Maintained
-diff --git a/arch_init.c b/arch_init.c
-index 74b0708634..413ad7acfd 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -85,6 +85,8 @@ int graphic_depth = 32;
- #define QEMU_ARCH QEMU_ARCH_UNICORE32
- #elif defined(TARGET_XTENSA)
- #define QEMU_ARCH QEMU_ARCH_XTENSA
-+#elif defined(TARGET_AVR)
-+#define QEMU_ARCH QEMU_ARCH_AVR
- #endif
- 
- const uint32_t arch_type = QEMU_ARCH;
-diff --git a/configure b/configure
-index b091b82cb3..715050a743 100755
---- a/configure
-+++ b/configure
-@@ -7499,6 +7499,10 @@ case "$target_name" in
-     target_compiler=$cross_cc_aarch64
-     eval "target_compiler_cflags=\$cross_cc_cflags_${target_name}"
-   ;;
-+  avr)
-+	gdb_xml_files="avr-cpu.xml"
-+    target_compiler=$cross_cc_avr
-+  ;;
-   cris)
-     target_compiler=$cross_cc_cris
-   ;;
-@@ -7776,6 +7780,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-       disas_config "ARM_A64"
-     fi
-   ;;
-+  avr)
-+    disas_config "AVR"
-+  ;;
-   cris)
-     disas_config "CRIS"
-   ;;
-diff --git a/default-configs/avr-softmmu.mak b/default-configs/avr-softmmu.mak
-new file mode 100644
-index 0000000000..d1e1c28118
---- /dev/null
-+++ b/default-configs/avr-softmmu.mak
-@@ -0,0 +1,5 @@
-+# Default configuration for avr-softmmu
-+
-+# Boards:
-+#
-+CONFIG_AVR_SAMPLE=y
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index e9c7dd8eb4..8bedce17ac 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -211,6 +211,12 @@ enum bfd_architecture
- #define bfd_mach_m32r          0  /* backwards compatibility */
-   bfd_arch_mn10200,    /* Matsushita MN10200 */
-   bfd_arch_mn10300,    /* Matsushita MN10300 */
-+  bfd_arch_avr,       /* Atmel AVR microcontrollers.  */
-+#define bfd_mach_avr1          1
-+#define bfd_mach_avr2          2
-+#define bfd_mach_avr3          3
-+#define bfd_mach_avr4          4
-+#define bfd_mach_avr5          5
-   bfd_arch_cris,       /* Axis CRIS */
- #define bfd_mach_cris_v0_v10   255
- #define bfd_mach_cris_v32      32
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 10cbafe970..aff57bfe61 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -25,6 +25,7 @@ enum {
-     QEMU_ARCH_NIOS2 = (1 << 17),
-     QEMU_ARCH_HPPA = (1 << 18),
-     QEMU_ARCH_RISCV = (1 << 19),
-+    QEMU_ARCH_AVR = (1 << 20),
- };
- 
- extern const uint32_t arch_type;
-diff --git a/qapi/common.json b/qapi/common.json
-index 99d313ef3b..6866c3e81d 100644
---- a/qapi/common.json
-+++ b/qapi/common.json
-@@ -183,11 +183,12 @@
- #        is true even for "qemu-system-x86_64".
- #
- # ppcemb: dropped in 3.1
-+# avr: added in 4.1
- #
- # Since: 3.0
- ##
- { 'enum' : 'SysEmuTarget',
--  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
-+  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386', 'lm32',
-              'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
-              'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
-              'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
-new file mode 100644
-index 0000000000..1034d87525
---- /dev/null
-+++ b/target/avr/Makefile.objs
-@@ -0,0 +1,33 @@
-+#
-+#  QEMU AVR CPU
-+#
-+#  Copyright (c) 2016 Michael Rolnik
-+#
-+#  This library is free software; you can redistribute it and/or
-+#  modify it under the terms of the GNU Lesser General Public
-+#  License as published by the Free Software Foundation; either
-+#  version 2.1 of the License, or (at your option) any later version.
-+#
-+#  This library is distributed in the hope that it will be useful,
-+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+#  Lesser General Public License for more details.
-+#
-+#  You should have received a copy of the GNU Lesser General Public
-+#  License along with this library; if not, see
-+#  <http://www.gnu.org/licenses/lgpl-2.1.html>
-+#
-+
-+DECODETREE = $(SRC_PATH)/scripts/decodetree.py
-+decode-y = $(SRC_PATH)/target/avr/insn.decode
-+
-+target/avr/decode_insn.inc.c: $(decode-y) $(DECODETREE)
-+	$(call quiet-command, \
-+	  $(PYTHON) $(DECODETREE) -o $@ --decode decode_insn --insnwidth 16 $<, \
-+	  "GEN", $(TARGET_DIR)$@)
-+
-+target/avr/translate.o: target/avr/decode_insn.inc.c
-+
-+obj-y += translate.o cpu.o helper.o
-+obj-y += gdbstub.o
-+obj-$(CONFIG_SOFTMMU) += machine.o
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index ac85508156..5b926420ce 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -136,11 +136,6 @@ static void avr_cpu_initfn(Object *obj)
- #endif
- }
- 
--static char *avr_cpu_type_name(const char *cpu_model)
--{
--    return g_strdup_printf(AVR_CPU_TYPE_NAME("%s"), cpu_model);
--}
--
- static ObjectClass *avr_cpu_class_by_name(const char *cpu_model)
- {
-     ObjectClass *oc;
-diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
-index 4c6d470798..d0907e6bd4 100644
---- a/tests/machine-none-test.c
-+++ b/tests/machine-none-test.c
-@@ -27,6 +27,7 @@ static struct arch2cpu cpus_map[] = {
-     /* tested targets list */
-     { "arm", "cortex-a15" },
-     { "aarch64", "cortex-a57" },
-+    { "avr", "avr6-avr-cpu" },
-     { "x86_64", "qemu64,apic-id=0" },
-     { "i386", "qemu32,apic-id=0" },
-     { "alpha", "ev67" },
--- 
-2.18.0
++-- On Fri, 28 Jun 2019, Li Qiang wrote --+
+| I think we should cleanup the bridge in the final.
+
+I did free(bridge) first, it showed build error because 'bridge' is decla=
+red=20
+as const char *, not sure why, didn't want to make patch too intrusive. I=
+f we=20
+exit like Dan suggests above, guess it wouldn't be required.
 
 
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+47AF CE69 3A90 54AA 9045 1053 DD13 3D32 FE5B 041F
