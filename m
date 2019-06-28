@@ -2,48 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8B6598A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:43:10 +0200 (CEST)
-Received: from localhost ([::1]:58665 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAB7598C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:50:34 +0200 (CEST)
+Received: from localhost ([::1]:58770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgoLV-0004er-St
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60582)
+	id 1hgoSf-0004Im-Aa
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33601)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hgoIq-0002MK-Gl
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:25 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgoMF-0006sr-CK
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hgoIp-00069w-1M
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43324)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgoME-0000Gw-9j
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:55 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:46393 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kraxel@redhat.com>)
- id 1hgoIk-000628-Q2; Fri, 28 Jun 2019 06:40:19 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 321D044BD1;
- Fri, 28 Jun 2019 10:40:10 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
- [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4CAD60C6A;
- Fri, 28 Jun 2019 10:40:08 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 302EC17536; Fri, 28 Jun 2019 12:39:58 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 12:39:57 +0200
-Message-Id: <20190628103957.9504-7-kraxel@redhat.com>
-In-Reply-To: <20190628103957.9504-1-kraxel@redhat.com>
-References: <20190628103957.9504-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.30]); Fri, 28 Jun 2019 10:40:14 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 6/6] ati-vga: switch to vgabios-ati.bin
+ (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+ id 1hgoME-0000Dg-35
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:54 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by mail.rt-rk.com (Postfix) with ESMTP id 7DCD31A225F;
+ Fri, 28 Jun 2019 12:43:50 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+ [10.10.13.43])
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 564C51A2015;
+ Fri, 28 Jun 2019 12:43:50 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org,
+	laurent@vivier.eu
+Date: Fri, 28 Jun 2019 12:43:33 +0200
+Message-Id: <1561718618-20218-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v16 0/5] linux-user: A set of miscellaneous
+ patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,35 +50,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: 20190620151104.2678-4-kraxel@redhat.com
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/ati.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-diff --git a/hw/display/ati.c b/hw/display/ati.c
-index e1bde5e0b1e3..0cb117384839 100644
---- a/hw/display/ati.c
-+++ b/hw/display/ati.c
-@@ -910,7 +910,7 @@ static void ati_vga_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_DISPLAY_VGA;
-     k->vendor_id = PCI_VENDOR_ID_ATI;
-     k->device_id = PCI_DEVICE_ID_ATI_RAGE128_PF;
--    k->romfile = "vgabios-stdvga.bin";
-+    k->romfile = "vgabios-ati.bin";
-     k->realize = ati_vga_realize;
-     k->exit = ati_vga_exit;
- }
+This is a collection of misc patches for Linux user that I recently
+accumulated from variuous sources. All of them originate from problems
+observed on mips target. However, most of these changes actually
+affect and fix linux-user problems on multiple targets.
+
+There are three checkpatch warninhs and two checkpatch errors that
+sould be ignored in the given circumstances.
+
+NOTE: Two checkpatch errors and three warnings are false alarms.
+
+v15->v16:
+
+  - renamed statx->sys_statx
+
+v14->v15:
+
+  - removed inclusion of sys/stat.h from patch #1
+  - a minor correction in the commit message for patch #3
+  - amended patch #5 to reflect the kernel behavior wrt FPE
+
+v13->v14:
+
+  - several minor corrections in commit messages
+
+v12->v13:
+
+  - removed two patches that got accepted
+  - simplified the patch on statx()
+  - added a patch on TARGET_HAVE_ARCH_STRUCT_FLOCK
+  - added a patch on fixing EXCP_FPE handling on MIPS
+
+v11->v12:
+
+  - used the preffered Laurent's email address for linux-user
+  - added a note on checkpetch warnings and errors in the commit letter
+ 
+
+v10->v11:
+
+  - patch on <ADD|DROP>_MEMEBERSHIP basically reverted to its first
+    version
+  - corrected patch on statx()
+  - added patch on strace support for statx()
+  - added patch on fixing flock structure for MIPS O64 ABI
+
+v9->v10:
+
+  - improved commit messages for patches 2 and 3
+
+v8->v9:
+
+  - fixed build error on some systems related to SOL_ALG
+
+v7->v8:
+
+  - added a patch on setsockopt() option SOL_ALG
+
+v6->v7:
+
+  - fixed a build error for older kernels related to the patch on
+    setsockopt() options
+  - removed four patches that on the meantime got accepted into the
+    main source tree
+
+v5->v6:
+
+  - fixed a mistake in patch #4
+  - improved commit messages in patches #4 and #6
+
+v4->v5:
+
+  - added the patch on statx() support
+  - improved the patch on IPV6_<ADD|DROP>_MEMBERSHIP to take into
+    account the possibility of different names for a field
+  - minor corrections in commit messages
+
+v3->v4:
+
+  - improved commit messages (fixed some typos, improved relevance)
+
+v2->v3:
+
+  - updated and improved commit messages
+  - added IPV6_DROP_MEMBERSHIP support to the patch on setsockopt()'s
+    option
+
+v1->v2:
+
+  - added the patch on setsockopt()'s option IPV6_ADD_MEMBERSHIP
+  - improved the commit messages
+
+
+Aleksandar Markovic (3):
+  linux-user: Fix target_flock structure for MIPS O64 ABI
+  linux-user: Introduce TARGET_HAVE_ARCH_STRUCT_FLOCK
+  linux-user: Handle EXCP_FPE properly for MIPS
+
+Aleksandar Rikalo (1):
+  linux-user: Add support for translation of statx() syscall
+
+Jim Wilson (1):
+  linux-user: Add support for strace for statx() syscall
+
+ linux-user/generic/fcntl.h     |   8 +--
+ linux-user/mips/cpu_loop.c     |  17 ++++++
+ linux-user/mips/target_fcntl.h |  17 +++++-
+ linux-user/strace.c            |  86 ++++++++++++++++++++++++++++++
+ linux-user/strace.list         |   3 ++
+ linux-user/syscall.c           | 115 ++++++++++++++++++++++++++++++++++++++++-
+ linux-user/syscall_defs.h      |  37 +++++++++++++
+ 7 files changed, 277 insertions(+), 6 deletions(-)
+
 -- 
-2.18.1
+2.7.4
 
 
