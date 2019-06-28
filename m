@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10D55A0A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:16:59 +0200 (CEST)
-Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3F75A06C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:09:29 +0200 (CEST)
+Received: from localhost ([::1]:33756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtYY-0001gC-7Y
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
+	id 1hgtRJ-0003oU-5H
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:09:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33654)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hgtH9-0008A1-VF
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:59:01 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hgtHo-0000TV-4Q
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:59:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hgtH8-0004Ed-QH
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:58:59 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:46202)
+ (envelope-from <alistair23@gmail.com>) id 1hgtHm-0004kg-Sh
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:59:40 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39863)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hgtH8-0004Do-IM; Fri, 28 Jun 2019 11:58:58 -0400
-Received: by mail-lj1-x243.google.com with SMTP id v24so6473115ljg.13;
- Fri, 28 Jun 2019 08:58:58 -0700 (PDT)
+ id 1hgtHl-0004eG-F3; Fri, 28 Jun 2019 11:59:38 -0400
+Received: by mail-lj1-x242.google.com with SMTP id v18so6489224ljh.6;
+ Fri, 28 Jun 2019 08:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=nTecwUNICFBnPJuivHvyec7tJWuxumCuvk8mOqdjk5U=;
- b=CFKX1k/M97Xj0qvxURCC51SzZY9MvohoYs3sQYbtYHhh9xiEXkpGO27VJ0KEH7de6r
- VPhrFEV7//63aeMD2Q4ChA1asPg4b/wt2DruiP51xxAUPP1PuR7HJCfIX3LyiIbe0+mI
- gEV7UwZ0pAQCiJ7VIEifUvcFw7DoGnbBRnsYLSWs0lqyjVC9OAok/AkYMlZr+p8nJwIz
- Qhm5Jg52jAl58CvsZFGICJKJqGFXKTWiSYwfYp5xY+IlUZx0/XxrpplbuSYSQYDeolys
- Rfiv+bCE6jKPvmwBNVlCUs98P99QZCRar6x3YJENDfSh0ykXY7qk9Fg7uW8zQc+jxrPn
- Z7ow==
+ bh=7cUWX/ZieAKkgIsDyf9qkme3Oof2TM034f9jO2yRigU=;
+ b=qLRHcj2K10tqhKf9aBRDi4ZXEqS9XN26m73UxY6wB1RPKk6CEdlMOtfIuLmvMkpvfO
+ BVGMCdrvxzSrhCJP+LSWqPF1q2/7fGKeVX8wdUKLuTvmF2y/WEYhbLW89pdSG8p9hA7n
+ u3+f6zWP5x83UyE6AF/sNXq3HHRZKlU3hcqATj2+rXNXrG+iOam1MylFzIj88OvcN/44
+ D+c5L+IhHYTodHrCFGJU3F+Cths63CAfnGhEVPT7ncP3IfN9087SHDxji2okcl8Boibk
+ flsDC9bvLBo0KIfVF8rveXYol5DPMCgCmvB87VE+IRUpCljIMKofL3qGb0Cf6sf8Yv5m
+ JqZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=nTecwUNICFBnPJuivHvyec7tJWuxumCuvk8mOqdjk5U=;
- b=dGscM6FH+eExMfDtotOZQDaqHgXQkGX9inSSFsCpy86/XCvKOvI4xWIh3S9SUhoqdp
- Q2WJvvlPF1eB2K9deh29KkOvfjoVZru33jKpAOEQrk/oAezdFuFMJC6m3Bci7Q74lJDZ
- QUFqMnj/kxSN1C8YxTMvPRwBWeVU5a/ylRMNEaVztMPdiSB+Li4QwynV7w6ZS2o4AnoV
- M0kj5CeoSh8MS6gSm0cynHGiglxBqwi0wEhJL4ui53IydVlpWrVEAz1h14JBF3qRaThn
- rz2VNJSecFA9TPGP3NUymmYoELD/7I+kd5Zj9Na+MkOD7/WvGWztvE7Xv0EZKqN0y1Ez
- sjLw==
-X-Gm-Message-State: APjAAAUe2NBVutbinrRuC91IlV19iWXFlijBWxEKL97ffG/QaCe9G/WJ
- 4IZj+76HewQeQ0L0QgWeirQD0TffHyubTupOqxs=
-X-Google-Smtp-Source: APXvYqz7Lco6wbhRaovTv3wWiVBo4Vv3zjgnJjO/aYJr67hI90YxOon3yll691JDmQ1GfkPqtOts/H1q2UdzW1dyBVA=
-X-Received: by 2002:a2e:5d5a:: with SMTP id r87mr6648846ljb.196.1561737537434; 
- Fri, 28 Jun 2019 08:58:57 -0700 (PDT)
+ bh=7cUWX/ZieAKkgIsDyf9qkme3Oof2TM034f9jO2yRigU=;
+ b=SEy5ysTTkOSUwTvnUhao+o8j4gY0wD2vlUG+1nBCi7mcVTdl3w6CiVTU4khDIAXUzy
+ O4mKSTdS+uWh7MjctUTwETaMxnltHcdymABGO25dFnMxTTflIRpsR2heKSpdKP2PGFPP
+ J73CzXNt6xg8nQb+s37TvLz0tutxDo+kyafDmYNBKdHPeAD3rE3zOsqM7Q5RSVtdrP+H
+ f7pQxwfFMIfn9AqTkmGKpdoxWRthxnQQ4+/enYj9ovayaypGGGd6zbC0ZkO0+Arf0c4N
+ sFrAYDd7ohqVGhUxCV3eq6o9YJBK7V07KS5qfaw/njQnimnVXiB9rvr9xCrhxDEjiIl2
+ sLjw==
+X-Gm-Message-State: APjAAAUVPn4lA/Un4yBxm1t2cw4Dr2itRSAWabJmX91GcDRyfUnoDdkS
+ SnuLeizNhfcIjnIZybv1J0ESsS/b2NpC22vzx1Y=
+X-Google-Smtp-Source: APXvYqzQvjbcLxYrrCCskCm6IVc7U45KkUWqxa3fcWEbLHtIfDsCU2p/J50N9QefW1EpEjyLSL0bv+hSbx0UmITR+yo=
+X-Received: by 2002:a2e:480a:: with SMTP id v10mr6393865lja.94.1561737570112; 
+ Fri, 28 Jun 2019 08:59:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-5-philmd@redhat.com>
-In-Reply-To: <20190627202719.17739-5-philmd@redhat.com>
+ <20190627202719.17739-6-philmd@redhat.com>
+In-Reply-To: <20190627202719.17739-6-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Jun 2019 08:55:57 -0700
-Message-ID: <CAKmqyKMwbr+FL+B+EH0W7Jpr03hex2i-H7TReyU8oVRA3kRpuQ@mail.gmail.com>
+Date: Fri, 28 Jun 2019 08:56:29 -0700
+Message-ID: <CAKmqyKNWXhv6TVyv5AtHw9JPqLmMyk7w6JJFELs5C20Xt4fEQQ@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH v5 04/28] hw/block/pflash_cfi02: Fix debug
- format string
+X-Received-From: 2a00:1450:4864:20::242
+Subject: Re: [Qemu-devel] [PATCH v5 05/28] hw/block/pflash_cfi02: Add an
+ enum to define the write cycles
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,17 +91,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 1:36 PM Philippe Mathieu-Daud=C3=A9
+On Thu, Jun 27, 2019 at 1:44 PM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> Always compile the debug code to prevent format string to bitrot.
-> Delete dead code.
+> No change in functionality is intended with this commit.
 >
 > Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
 > Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> [PMD: Extracted from bigger patch, use PRIx32]
+> [PMD: Extracted from bigger patch]
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -109,65 +108,47 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/block/pflash_cfi02.c | 18 ++++++------------
->  1 file changed, 6 insertions(+), 12 deletions(-)
+>  hw/block/pflash_cfi02.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 >
 > diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index 6cdfc85264..43796e551a 100644
+> index 43796e551a..303d225f23 100644
 > --- a/hw/block/pflash_cfi02.c
 > +++ b/hw/block/pflash_cfi02.c
-> @@ -47,15 +47,13 @@
->  #include "hw/sysbus.h"
->  #include "trace.h"
->
-> -//#define PFLASH_DEBUG
-> -#ifdef PFLASH_DEBUG
-> +#define PFLASH_DEBUG false
->  #define DPRINTF(fmt, ...)                                  \
->  do {                                                       \
-> -    fprintf(stderr, "PFLASH: " fmt , ## __VA_ARGS__);       \
-> +    if (PFLASH_DEBUG) {                                    \
-> +        fprintf(stderr, "PFLASH: " fmt, ## __VA_ARGS__);   \
-> +    }                                                      \
->  } while (0)
-> -#else
-> -#define DPRINTF(fmt, ...) do { } while (0)
-> -#endif
+> @@ -57,6 +57,11 @@ do {                                                  =
+     \
 >
 >  #define PFLASH_LAZY_ROMD_THRESHOLD 42
 >
-> @@ -218,14 +216,14 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwadd=
-r offset,
->          default:
->              goto flash_read;
+> +/* Special write cycles for CFI queries. */
+> +enum {
+> +    WCYCLE_CFI              =3D 7,
+> +};
+> +
+>  struct PFlashCFI02 {
+>      /*< private >*/
+>      SysBusDevice parent_obj;
+> @@ -286,7 +291,7 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr off=
+set,
+>          if (boff =3D=3D 0x55 && cmd =3D=3D 0x98) {
+>          enter_CFI_mode:
+>              /* Enter CFI query mode */
+> -            pfl->wcycle =3D 7;
+> +            pfl->wcycle =3D WCYCLE_CFI;
+>              pfl->cmd =3D 0x98;
+>              return;
 >          }
-> -        DPRINTF("%s: ID " TARGET_FMT_plx " %x\n", __func__, boff, ret);
-> +        DPRINTF("%s: ID " TARGET_FMT_plx " %" PRIx32 "\n", __func__, bof=
-f, ret);
+> @@ -458,7 +463,8 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr off=
+set,
+>              goto reset_flash;
+>          }
 >          break;
->      case 0xA0:
->      case 0x10:
->      case 0x30:
->          /* Status register read */
->          ret =3D pfl->status;
-> -        DPRINTF("%s: status %x\n", __func__, ret);
-> +        DPRINTF("%s: status %" PRIx32 "\n", __func__, ret);
->          /* Toggle bit 6 */
->          pfl->status ^=3D 0x40;
->          break;
-> @@ -268,10 +266,6 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr of=
-fset,
->      trace_pflash_io_write(offset, width, width << 1, value, pfl->wcycle)=
-;
->      cmd =3D value;
->      if (pfl->cmd !=3D 0xA0 && cmd =3D=3D 0xF0) {
-> -#if 0
-> -        DPRINTF("%s: flash reset asked (%02x %02x)\n",
-> -                __func__, pfl->cmd, cmd);
-> -#endif
+> -    case 7: /* Special value for CFI queries */
+> +    /* Special values for CFI queries */
+> +    case WCYCLE_CFI:
+>          DPRINTF("%s: invalid write in CFI query mode\n", __func__);
 >          goto reset_flash;
->      }
->      offset &=3D pfl->chip_len - 1;
+>      default:
 > --
 > 2.20.1
 >
