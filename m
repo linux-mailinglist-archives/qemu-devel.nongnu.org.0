@@ -2,98 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 657AD59BE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:45:19 +0200 (CEST)
-Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7729759B98
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:37:21 +0200 (CEST)
+Received: from localhost ([::1]:59328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqFi-00068G-GI
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:45:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35992)
+	id 1hgq80-0005YC-Lr
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35393)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <lvivier@redhat.com>) id 1hgq4Z-0002QG-GM
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:33:49 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hgq3r-000146-Lb
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:33:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <lvivier@redhat.com>) id 1hgq4X-0004Me-En
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:33:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44236)
+ (envelope-from <kwolf@redhat.com>) id 1hgq3p-0003y9-M3
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:33:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38562)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <lvivier@redhat.com>)
- id 1hgq4X-0004Dy-6Q; Fri, 28 Jun 2019 08:33:45 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hgq3l-0003wk-RR; Fri, 28 Jun 2019 08:32:58 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2B4A5307B96B;
- Fri, 28 Jun 2019 11:54:45 +0000 (UTC)
-Received: from [10.36.117.11] (ovpn-117-11.ams2.redhat.com [10.36.117.11])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 875035D705;
- Fri, 28 Jun 2019 11:54:39 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
-References: <20190312085502.8203-1-david@gibson.dropbear.id.au>
- <20190312085502.8203-13-david@gibson.dropbear.id.au>
- <b693da29-0d2a-e739-17fb-9fd78894fd9e@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <d68abe04-6cfa-6d08-4381-84686e8e610f@redhat.com>
-Date: Fri, 28 Jun 2019 13:54:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 0421083F3C;
+ Fri, 28 Jun 2019 11:57:24 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 58F99608CA;
+ Fri, 28 Jun 2019 11:57:22 +0000 (UTC)
+Date: Fri, 28 Jun 2019 13:57:20 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-ID: <20190628115720.GH5179@dhcp-200-226.str.redhat.com>
+References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
+ <20190528143727.10529-4-dplotnikov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <b693da29-0d2a-e739-17fb-9fd78894fd9e@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190528143727.10529-4-dplotnikov@virtuozzo.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 28 Jun 2019 11:54:45 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.27]); Fri, 28 Jun 2019 11:57:24 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 12/62] target/ppc/spapr: Enable mitigations
- by default for pseries-4.0 machine type
+Subject: Re: [Qemu-devel] [PATCH v0 3/3] qcow2: add zstd cluster compression
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -105,76 +58,293 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Suraj Jitindar Singh <sjitindarsingh@gmail.com>, groug@kaod.org
+Cc: vsementsov@virtuozzo.com, den@virtuozzo.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/2019 13:27, Philippe Mathieu-Daud=C3=A9 wrote:
-> Hi,
->=20
-> On 3/12/19 9:54 AM, David Gibson wrote:
->> From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
->>
->> There are currently 3 mitigations the availability of which is control=
-led
->> by the spapr-caps mechanism, cap-cfpc, cap-sbbc, and cap-ibs. Enable t=
-hese
->> mitigations by default for the pseries-4.0 machine type.
->>
->> By now machine firmware should have been upgraded to allow these
->> settings.
->>
->> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
->> Message-Id: <20190301044609.9626-3-sjitindarsingh@gmail.com>
->> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
->> ---
->>  hw/ppc/spapr.c | 9 ++++++---
->>  1 file changed, 6 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index 37fd7a1411..946bbcf9ee 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -4307,9 +4307,9 @@ static void spapr_machine_class_init(ObjectClass=
- *oc, void *data)
->>      smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
->>      smc->default_caps.caps[SPAPR_CAP_VSX] =3D SPAPR_CAP_ON;
->>      smc->default_caps.caps[SPAPR_CAP_DFP] =3D SPAPR_CAP_ON;
->> -    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_BROKEN;
->> -    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
->> -    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
->> +    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_WORKAROUND;
->> +    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_WORKAROUND;
->> +    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_WORKAROUND;
->>      smc->default_caps.caps[SPAPR_CAP_HPT_MAXPAGESIZE] =3D 16; /* 64ki=
-B */
->>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF=
-;
->>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP=
-_ON;
->> @@ -4389,6 +4389,9 @@ static void spapr_machine_3_1_class_options(Mach=
-ineClass *mc)
->>      mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
->>      smc->update_dt_enabled =3D false;
->>      smc->dr_phb_enabled =3D false;
->> +    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_BROKEN;
->> +    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
->> +    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
->>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP=
-_OFF;
->>  }
->=20
+Am 28.05.2019 um 16:37 hat Denis Plotnikov geschrieben:
+> zstd significantly reduces cluster compression time.
+> It provides better compression performance maintaining
+> the same level of compression ratio in comparison with
+> zlib, which, by the moment, has been the only compression
+> method available.
+> 
+> The performance test results:
+> Test compresses and decompresses qemu qcow2 image with just
+> installed rhel-7.6 guest.
+> Image cluster size: 64K. Image on disk size: 2.2G
+> 
+> The test was conducted with brd disk to reduce the influence
+> of disk subsystem to the test results.
+> The results is given in seconds.
+> 
+> compress cmd:
+>   time ./qemu-img convert -O qcow2 -c -o compression_type=[zlib|zstd]
+>                   src.img [zlib|zstd]_compressed.img
+> decompress cmd
+>   time ./qemu-img convert -O qcow2
+>                   [zlib|zstd]_compressed.img uncompressed.img
+> 
+>            compression               decompression
+>          zlib       zstd           zlib         zstd
+> ------------------------------------------------------------
+> real     65.5       16.3 (-75 %)    1.9          1.6 (-16 %)
+> user     65.0       15.8            5.3          2.5
+> sys       3.3        0.2            2.0          2.0
+> 
+> Both ZLIB and ZSTD gave the same compression ratio: 1.57
+> compressed image size in both cases: 1.4G
+> 
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+> ---
+>  block/qcow2.c | 82 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>  configure     | 26 ++++++++++++++++
+>  2 files changed, 108 insertions(+)
+> 
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 90f15cc3c9..58901f9f79 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -26,6 +26,7 @@
+>  
+>  #define ZLIB_CONST
+>  #include <zlib.h>
+> +#include <zstd.h>
+>  
+>  #include "block/block_int.h"
+>  #include "block/qdict.h"
+> @@ -1553,6 +1554,9 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+>      case QCOW2_COMPRESSION_TYPE_ZLIB:
+>          break;
+>  
+> +    case QCOW2_COMPRESSION_TYPE_ZSTD:
+> +        break;
 
-What happens if you start directly qemu with:
+If we don't intend to add any code here, why not just add another case
+label to the existing break?
 
-  ... -M cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken ...
+>      default:
+>          error_setg(errp, "Unknown compression type");
+>          ret = -EINVAL;
+> @@ -3286,6 +3290,9 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+>           *  ZLIB shouldn't be here since it's the default
+>           */
+>          switch (qcow2_opts->compression_type) {
+> +        case QCOW2_COMPRESSION_TYPE_ZSTD:
+> +            break;
+> +
+>          default:
+>              error_setg_errno(errp, -EINVAL, "Unknown compression type");
+>              goto out;
+> @@ -4113,6 +4120,73 @@ static ssize_t zlib_decompress(void *dest, size_t dest_size,
+>      return ret;
+>  }
+>  
+> +/*
+> + * zstd_compress()
+> + *
+> + * @dest - destination buffer, @dest_size bytes
+> + * @src - source buffer, @src_size bytes
+> + *
+> + * Returns: compressed size on success
+> + *          -1 on any error
+> + */
+> +
+> +static ssize_t zstd_compress(void *dest, size_t dest_size,
+> +                             const void *src, size_t src_size)
+> +{
+> +    /* steal some bytes to store compressed chunk size */
+> +    size_t ret;
 
-or with
+This ends up in a file, so this needs to be a fixed number of bytes.
+size_t varies between different platforms, so it is not acceptable.
 
-  ... -M pseries-3.1.0 ...
+If I understand correctly, the maximum for this is the cluster size, so
+uint32_t should be right.
 
-Thanks,
-Laurent
+This isn't plain the zstd compression format any more, so it needs to be
+described in the qcow2 spec.
 
+> +    size_t *c_size = dest;
+> +    char *d_buf = dest;
+> +    d_buf += sizeof(ret);
+
+char *d_bug = dest + sizeof(ret);
+
+> +    dest_size -= sizeof(ret);
+
+We don't want to end up with an integer overflow, so before this:
+
+    if (dest_size < sizeof(ret)) {
+        return -ENOMEM;
+    }
+
+> +    ret = ZSTD_compress(d_buf, dest_size, src, src_size, 5);
+> +
+> +    if (ZSTD_isError(ret)) {
+> +        return -1;
+> +    }
+
+Need an error code here, not just -1. In particular, we need to
+distinguish cases where the buffer was too small and uncompressed data
+should be written instead (ENOMEM) from real errors that should be
+returned to the caller (EIO).
+
+> +
+> +    /* store the compressed chunk size in the very beginning of the buffer */
+> +    *c_size = ret;
+> +
+> +    return ret + sizeof(ret);
+> +}
+> +
+> +/*
+> + * zstd_decompress()
+> + *
+> + * Decompress some data (not more than @src_size bytes) to produce exactly
+> + * @dest_size bytes.
+> + *
+> + * @dest - destination buffer, @dest_size bytes
+> + * @src - source buffer, @src_size bytes
+> + *
+> + * Returns: 0 on success
+> + *          -1 on fail
+> + */
+> +
+> +static ssize_t zstd_decompress(void *dest, size_t dest_size,
+> +                             const void *src, size_t src_size)
+
+Indentation is off.
+
+> +{
+> +    size_t ret;
+> +    /*
+> +     * zstd decompress wants to know the exact lenght of the data
+> +     * for that purpose, zstd_compress stores the length in the
+> +     * very beginning of the compressed buffer
+> +     */
+> +    const size_t *s_size = src;
+> +    const char *s_buf = src;
+> +    s_buf += sizeof(size_t);
+
+Single line: const char *s_buf = src + sizeof(size_t);
+
+Of course, size_t is wrong here, too. And above you used sizeof() on a
+variable and here it's on the type. I think we should stay consistent.
+
+You're lacking a check against src_size. A malicious image could make
+use read beyond the end of the buffer. (Also consider that src_size
+could be smaller than sizeof(size_t).)
+
+> +    ret = ZSTD_decompress(dest, dest_size, s_buf, *s_size);
+> +
+> +    if (ZSTD_isError(ret)) {
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  #define MAX_COMPRESS_THREADS 4
+>  
+>  typedef ssize_t (*Qcow2CompressFunc)(void *dest, size_t dest_size,
+> @@ -4189,6 +4263,10 @@ qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
+>          fn = zlib_compress;
+>          break;
+>  
+> +    case QCOW2_COMPRESSION_TYPE_ZSTD:
+> +        fn = zstd_compress;
+> +        break;
+> +
+>      default:
+>          return -ENOTSUP;
+>      }
+> @@ -4208,6 +4286,10 @@ qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
+>          fn = zlib_decompress;
+>          break;
+>  
+> +    case QCOW2_COMPRESSION_TYPE_ZSTD:
+> +        fn = zstd_decompress;
+> +        break;
+> +
+>      default:
+>          return -ENOTSUP;
+>      }
+> diff --git a/configure b/configure
+> index 1c563a7027..c90716189c 100755
+> --- a/configure
+> +++ b/configure
+> @@ -433,6 +433,7 @@ opengl_dmabuf="no"
+>  cpuid_h="no"
+>  avx2_opt=""
+>  zlib="yes"
+> +zstd="yes"
+
+This should be zstd="" so that a missing library will automatically
+disable it instead of producing an error. (Building QEMU without zlib is
+impossible, but building it without ZSTD should work.)
+
+>  capstone=""
+>  lzo=""
+>  snappy=""
+> @@ -1317,6 +1318,8 @@ for opt do
+>    ;;
+>    --disable-zlib-test) zlib="no"
+>    ;;
+> +  --disable-zstd-test) zstd="no"
+> +  ;;
+
+Instead of this one, after making the above change, options
+--disable-zstd and --enable-zstd should be introduced that set
+zstd="yes" (that actually does produce an error if it's not available)
+or zstd="no".
+
+>    --disable-lzo) lzo="no"
+>    ;;
+>    --enable-lzo) lzo="yes"
+> @@ -3702,6 +3705,29 @@ EOF
+>      fi
+>  fi
+>  
+> +#########################################
+> +# zstd check
+> +
+> +if test "$zstd" != "no" ; then
+> +    if $pkg_config --exists libzstd; then
+> +        zstd_cflags=$($pkg_config --cflags libzstd)
+> +        zstd_libs=$($pkg_config --libs libzstd)
+> +        QEMU_CFLAGS="$zstd_cflags $QEMU_CFLAGS"
+> +        LIBS="$zstd_libs $LIBS"
+> +    else
+> +        cat > $TMPC << EOF
+> +#include <zstd.h>
+> +int main(void) { ZSTD_versionNumber(); return 0; }
+> +EOF
+> +        if compile_prog "" "-lzstd" ; then
+> +            LIBS="$LIBS -lzstd"
+> +        else
+> +            error_exit "zstd check failed" \
+> +                "Make sure to have the zstd libs and headers installed."
+> +        fi
+
+This needs to be changed, too, to get the desired behaviour. Model it
+after bzip2 or lzo support checks:
+
+    if compile_prog "" "-lbz2" ; then
+        bzip2="yes"
+    else
+        if test "$bzip2" = "yes"; then
+            feature_not_found "libbzip2" "Install libbzip2 devel"
+        fi
+        bzip2="no"
+    fi
+
+> +    fi
+> +fi
+> +
+>  ##########################################
+>  # SHA command probe for modules
+>  if test "$modules" = yes; then
+
+Kevin
 
