@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C1559D9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:18:28 +0200 (CEST)
-Received: from localhost ([::1]:60460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147CA59C04
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:54:08 +0200 (CEST)
+Received: from localhost ([::1]:59438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgrhs-0003IZ-27
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49843)
+	id 1hgqOF-0002M9-9f
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36174)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <slp@redhat.com>) id 1hgqez-0003KX-UK
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:11:27 -0400
+ (envelope-from <slp@redhat.com>) id 1hgq4r-0002a9-6h
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:34:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <slp@redhat.com>) id 1hgqey-00019O-30
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:11:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55772)
+ (envelope-from <slp@redhat.com>) id 1hgq4m-0004Sv-Tp
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:34:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40034)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hgqex-00018s-Pk
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:11:24 -0400
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hgq4m-0004RW-Io
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:34:00 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 5776730832D8;
- Fri, 28 Jun 2019 11:54:13 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0939B308FB82;
+ Fri, 28 Jun 2019 11:54:18 +0000 (UTC)
 Received: from dritchie.redhat.com (unknown [10.33.36.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D621A1A92D;
- Fri, 28 Jun 2019 11:54:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1D4F61A92D;
+ Fri, 28 Jun 2019 11:54:13 +0000 (UTC)
 From: Sergio Lopez <slp@redhat.com>
 To: mst@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
  rth@twiddle.net, ehabkost@redhat.com
-Date: Fri, 28 Jun 2019 13:53:48 +0200
-Message-Id: <20190628115349.60293-4-slp@redhat.com>
+Date: Fri, 28 Jun 2019 13:53:49 +0200
+Message-Id: <20190628115349.60293-5-slp@redhat.com>
 In-Reply-To: <20190628115349.60293-1-slp@redhat.com>
 References: <20190628115349.60293-1-slp@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 28 Jun 2019 11:54:13 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Fri, 28 Jun 2019 11:54:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/4] hw/i386: Add an Intel MPTable generator
+Subject: [Qemu-devel] [PATCH 4/4] hw/i386: Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,421 +59,708 @@ Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a helper function (mptable_generate) for generating an Intel
-MPTable according to version 1.4 of the specification.
+Microvm is a machine type inspired by both NEMU and Firecracker, and
+constructed after the machine model implemented by the latter.
 
-This is needed for the microvm machine type implementation.
+It's main purpose is providing users a KVM-only machine type with fast
+boot times, minimal attack surface (measured as the number of IO ports
+and MMIO regions exposed to the Guest) and small footprint (specially
+when combined with the ongoing QEMU modularization effort).
+
+Normally, other than the device support provided by KVM itself,
+microvm only supports virtio-mmio devices. Microvm also includes a
+legacy mode, which adds an ISA bus with a 16550A serial port, useful
+for being able to see the early boot kernel messages.
 
 Signed-off-by: Sergio Lopez <slp@redhat.com>
 ---
- hw/i386/mptable.c                           | 157 +++++++++++++++++
- include/hw/i386/mptable.h                   |  37 ++++
- include/standard-headers/linux/mpspec_def.h | 182 ++++++++++++++++++++
- 3 files changed, 376 insertions(+)
- create mode 100644 hw/i386/mptable.c
- create mode 100644 include/hw/i386/mptable.h
- create mode 100644 include/standard-headers/linux/mpspec_def.h
+ default-configs/i386-softmmu.mak |   1 +
+ hw/i386/Kconfig                  |   4 +
+ hw/i386/Makefile.objs            |   1 +
+ hw/i386/microvm.c                | 518 +++++++++++++++++++++++++++++++
+ include/hw/i386/microvm.h        |  85 +++++
+ 5 files changed, 609 insertions(+)
+ create mode 100644 hw/i386/microvm.c
+ create mode 100644 include/hw/i386/microvm.h
 
-diff --git a/hw/i386/mptable.c b/hw/i386/mptable.c
+diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-soft=
+mmu.mak
+index cd5ea391e8..338f07420f 100644
+--- a/default-configs/i386-softmmu.mak
++++ b/default-configs/i386-softmmu.mak
+@@ -26,3 +26,4 @@ CONFIG_ISAPC=3Dy
+ CONFIG_I440FX=3Dy
+ CONFIG_Q35=3Dy
+ CONFIG_ACPI_PCI=3Dy
++CONFIG_MICROVM=3Dy
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index 9817888216..94c565d8db 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -87,6 +87,10 @@ config Q35
+     select VMMOUSE
+     select FW_CFG_DMA
+=20
++config MICROVM
++    bool
++    select VIRTIO_MMIO
++
+ config VTD
+     bool
+=20
+diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
+index 102f2b35fc..149bdd0784 100644
+--- a/hw/i386/Makefile.objs
++++ b/hw/i386/Makefile.objs
+@@ -4,6 +4,7 @@ obj-y +=3D cpu.o
+ obj-y +=3D pc.o
+ obj-$(CONFIG_I440FX) +=3D pc_piix.o
+ obj-$(CONFIG_Q35) +=3D pc_q35.o
++obj-$(CONFIG_MICROVM) +=3D mptable.o microvm.o
+ obj-y +=3D fw_cfg.o pc_sysfw.o
+ obj-y +=3D x86-iommu.o
+ obj-$(CONFIG_VTD) +=3D intel_iommu.o
+diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
 new file mode 100644
-index 0000000000..c5cb57dd18
+index 0000000000..fff88c3697
 --- /dev/null
-+++ b/hw/i386/mptable.c
-@@ -0,0 +1,157 @@
++++ b/hw/i386/microvm.c
+@@ -0,0 +1,518 @@
 +/*
-+ * Intel MPTable generator
 + *
-+ * Copyright (C) 2019 Red Hat, Inc.
++ * Copyright (c) 2018 Intel Corporation
++ * Copyright (c) 2019 Red Hat, Inc.
 + *
-+ * Authors:
-+ *   Sergio Lopez <slp@redhat.com>
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
 +#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/cpus.h"
++#include "sysemu/numa.h"
++
++#include "hw/loader.h"
++#include "hw/nmi.h"
++#include "hw/kvm/clock.h"
++#include "hw/i386/microvm.h"
++#include "hw/i386/pc.h"
++#include "hw/i386/cpu-internal.h"
++#include "target/i386/cpu.h"
++#include "hw/timer/i8254.h"
++#include "hw/char/serial.h"
++#include "hw/i386/topology.h"
++#include "hw/virtio/virtio-mmio.h"
 +#include "hw/i386/mptable.h"
-+#include "standard-headers/linux/mpspec_def.h"
 +
-+static int mptable_checksum(char *buf, int size)
++#include "cpu.h"
++#include "elf.h"
++#include "kvm_i386.h"
++#include <asm/bootparam.h>
++
++#define DEFINE_MICROVM_MACHINE_LATEST(major, minor, latest) \
++    static void microvm_##major##_##minor##_object_class_init(ObjectClas=
+s *oc, \
++                                                              void *data=
+) \
++    { \
++        MachineClass *mc =3D MACHINE_CLASS(oc); \
++        microvm_##major##_##minor##_machine_class_init(mc); \
++        mc->desc =3D "Microvm (i386)"; \
++        if (latest) { \
++            mc->alias =3D "microvm"; \
++        } \
++    } \
++    static const TypeInfo microvm_##major##_##minor##_info =3D { \
++        .name =3D MACHINE_TYPE_NAME("microvm-" # major "." # minor), \
++        .parent =3D TYPE_MICROVM_MACHINE, \
++        .instance_init =3D microvm_##major##_##minor##_instance_init, \
++        .class_init =3D microvm_##major##_##minor##_object_class_init, \
++    }; \
++    static void microvm_##major##_##minor##_init(void) \
++    { \
++        type_register_static(&microvm_##major##_##minor##_info); \
++    } \
++    type_init(microvm_##major##_##minor##_init);
++
++#define DEFINE_MICROVM_MACHINE_AS_LATEST(major, minor) \
++    DEFINE_MICROVM_MACHINE_LATEST(major, minor, true)
++#define DEFINE_MICROVM_MACHINE(major, minor) \
++    DEFINE_MICROVM_MACHINE_LATEST(major, minor, false)
++
++static void microvm_gsi_handler(void *opaque, int n, int level)
 +{
-+    int i;
-+    int checksum =3D 0;
++    qemu_irq *ioapic_irq =3D opaque;
 +
-+    for (i =3D 0; i < size; i++) {
-+        checksum +=3D buf[i];
-+    }
-+
-+    return checksum;
++    qemu_set_irq(ioapic_irq[n], level);
 +}
 +
-+/*
-+ * Generate an MPTable for "ncpus". "apic_id" must be the next available
-+ * APIC ID (last CPU apic_id + 1). "table_base" is the physical location
-+ * in the Guest where the caller intends to write the table, needed to
-+ * fill the "physptr" field from the "mpf_intel" structure.
-+ *
-+ * On success, return a newly allocated buffer, that must be freed by th=
-e
-+ * caller using "g_free" when it's no longer needed, and update
-+ * "mptable_size" with the size of the buffer.
-+ */
-+char *mptable_generate(int ncpus, int apic_id,
-+                        int table_base, int *mptable_size)
++static void microvm_legacy_init(MicrovmMachineState *mms)
 +{
-+    struct mpf_intel *mpf;
-+    struct mpc_table *table;
-+    struct mpc_cpu *cpu;
-+    struct mpc_bus *bus;
-+    struct mpc_ioapic *ioapic;
-+    struct mpc_intsrc *intsrc;
-+    struct mpc_lintsrc *lintsrc;
-+    const char mpc_signature[] =3D MPC_SIGNATURE;
-+    const char smp_magic_ident[] =3D "_MP_";
-+    char *mptable;
-+    int checksum =3D 0;
-+    int offset =3D 0;
-+    int ssize;
++    ISABus *isa_bus;
++    GSIState *gsi_state;
++    qemu_irq *i8259;
 +    int i;
 +
-+    ssize =3D sizeof(struct mpf_intel);
-+    mptable =3D g_malloc0(ssize);
++    assert(kvm_irqchip_in_kernel());
++    gsi_state =3D g_malloc0(sizeof(*gsi_state));
++    mms->gsi =3D qemu_allocate_irqs(gsi_handler, gsi_state, GSI_NUM_PINS=
+);
 +
-+    mpf =3D (struct mpf_intel *) mptable;
-+    memcpy(mpf->signature, smp_magic_ident, sizeof(smp_magic_ident) - 1)=
++    isa_bus =3D isa_bus_new(NULL, get_system_memory(), get_system_io(),
++                          &error_abort);
++    isa_bus_irqs(isa_bus, mms->gsi);
++
++    assert(kvm_pic_in_kernel());
++    i8259 =3D kvm_i8259_init(isa_bus);
++
++    for (i =3D 0; i < ISA_NUM_IRQS; i++) {
++        gsi_state->i8259_irq[i] =3D i8259[i];
++    }
++
++    kvm_pit_init(isa_bus, 0x40);
++
++    for (i =3D 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
++        int nirq =3D VIRTIO_IRQ_BASE + i;
++        ISADevice *isadev =3D isa_create(isa_bus, TYPE_ISA_SERIAL);
++        qemu_irq mmio_irq;
++
++        isa_init_irq(isadev, &mmio_irq, nirq);
++        sysbus_create_simple("virtio-mmio",
++                             VIRTIO_MMIO_BASE + i * 512,
++                             mms->gsi[VIRTIO_IRQ_BASE + i]);
++    }
++
++    g_free(i8259);
++
++    serial_hds_isa_init(isa_bus, 0, 1);
++}
++
++static void microvm_ioapic_init(MicrovmMachineState *mms)
++{
++    qemu_irq *ioapic_irq;
++    DeviceState *ioapic_dev;
++    SysBusDevice *d;
++    int i;
++
++    assert(kvm_irqchip_in_kernel());
++    ioapic_irq =3D g_new0(qemu_irq, IOAPIC_NUM_PINS);
++    kvm_pc_setup_irq_routing(true);
++
++    assert(kvm_ioapic_in_kernel());
++    ioapic_dev =3D qdev_create(NULL, "kvm-ioapic");
++
++    object_property_add_child(qdev_get_machine(), "ioapic", OBJECT(ioapi=
+c_dev), NULL);
++
++    qdev_init_nofail(ioapic_dev);
++    d =3D SYS_BUS_DEVICE(ioapic_dev);
++    sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
++
++    for (i =3D 0; i < IOAPIC_NUM_PINS; i++) {
++        ioapic_irq[i] =3D qdev_get_gpio_in(ioapic_dev, i);
++    }
++
++    mms->gsi =3D qemu_allocate_irqs(microvm_gsi_handler, ioapic_irq, IOA=
+PIC_NUM_PINS);
++
++    for (i =3D 0; i < VIRTIO_NUM_TRANSPORTS; i++) {
++        sysbus_create_simple("virtio-mmio",
++                             VIRTIO_MMIO_BASE + i * 512,
++                             mms->gsi[VIRTIO_IRQ_BASE + i]);
++    }
++}
++
++static void microvm_memory_init(MicrovmMachineState *mms)
++{
++    MachineState *machine =3D MACHINE(mms);
++    MemoryRegion *ram, *ram_below_4g, *ram_above_4g;
++    MemoryRegion *system_memory =3D get_system_memory();
++
++    if (machine->ram_size > MICROVM_MAX_BELOW_4G) {
++        mms->above_4g_mem_size =3D machine->ram_size - MICROVM_MAX_BELOW=
+_4G;
++        mms->below_4g_mem_size =3D MICROVM_MAX_BELOW_4G;
++    } else {
++        mms->above_4g_mem_size =3D 0;
++        mms->below_4g_mem_size =3D machine->ram_size;
++    }
++
++    ram =3D g_malloc(sizeof(*ram));
++    memory_region_allocate_system_memory(ram, NULL, "microvm.ram",
++                                         machine->ram_size);
++
++    ram_below_4g =3D g_malloc(sizeof(*ram_below_4g));
++    memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", ram,
++                             0, mms->below_4g_mem_size);
++    memory_region_add_subregion(system_memory, 0, ram_below_4g);
++
++    e820_add_entry(0, mms->below_4g_mem_size, E820_RAM);
++
++    if (mms->above_4g_mem_size > 0) {
++        ram_above_4g =3D g_malloc(sizeof(*ram_above_4g));
++        memory_region_init_alias(ram_above_4g, NULL, "ram-above-4g", ram=
+,
++                                 mms->below_4g_mem_size,
++                                 mms->above_4g_mem_size);
++        memory_region_add_subregion(system_memory, 0x100000000ULL,
++                                    ram_above_4g);
++        e820_add_entry(0x100000000ULL, mms->above_4g_mem_size, E820_RAM)=
 ;
-+    mpf->length =3D 1;
-+    mpf->specification =3D 4;
-+    mpf->physptr =3D table_base + ssize;
-+    mpf->checksum -=3D mptable_checksum((char *) mpf, ssize);
-+    offset =3D ssize + sizeof(struct mpc_table);
++    }
++}
 +
-+    ssize =3D sizeof(struct mpc_cpu);
-+    for (i =3D 0; i < ncpus; i++) {
-+        mptable =3D g_realloc(mptable, offset + ssize);
-+        cpu =3D (struct mpc_cpu *) (mptable + offset);
-+        cpu->type =3D MP_PROCESSOR;
-+        cpu->apicid =3D i;
-+        cpu->apicver =3D APIC_VERSION;
-+        cpu->cpuflag =3D CPU_ENABLED;
-+        if (i =3D=3D 0) {
-+            cpu->cpuflag |=3D CPU_BOOTPROCESSOR;
++static void microvm_machine_state_init(MachineState *machine)
++{
++    MicrovmMachineState *mms =3D MICROVM_MACHINE(machine);
++    uint64_t elf_entry;
++    int kernel_size;
++
++    if (machine->kernel_filename =3D=3D NULL) {
++        error_report("missing kernel image file name, required by microv=
+m");
++        exit(1);
++    }
++
++    microvm_memory_init(mms);
++    if (mms->legacy) {
++        microvm_legacy_init(mms);
++    } else {
++        microvm_ioapic_init(mms);
++    }
++
++    mms->apic_id_limit =3D cpus_init(machine, false);
++
++    kvmclock_create();
++
++    kernel_size =3D load_elf(machine->kernel_filename, NULL,
++                           NULL, NULL, &elf_entry,
++                           NULL, NULL, 0, I386_ELF_MACHINE,
++                           0, 0);
++
++    if (kernel_size < 0) {
++        error_report("Error while loading elf kernel");
++        exit(1);
++    }
++
++    mms->elf_entry =3D elf_entry;
++}
++
++static gchar *microvm_get_virtio_mmio_cmdline(gchar *name)
++{
++    gchar *cmdline;
++    gchar *separator;
++    unsigned long index;
++    int ret;
++
++    separator =3D g_strrstr(name, ".");
++    if (!separator) {
++        return NULL;
++    }
++
++    index =3D strtol(separator + 1, NULL, 10);
++    if (index =3D=3D LONG_MIN || index =3D=3D LONG_MAX) {
++        return NULL;
++    }
++
++    cmdline =3D g_malloc0(VIRTIO_CMDLINE_MAXLEN);
++    ret =3D g_snprintf(cmdline, VIRTIO_CMDLINE_MAXLEN,
++                     " virtio_mmio.device=3D512@0x%lx:%ld",
++                     VIRTIO_MMIO_BASE + index * 512,
++                     VIRTIO_IRQ_BASE + index);
++    if (ret < 0 || ret >=3D VIRTIO_CMDLINE_MAXLEN) {
++        g_free(cmdline);
++        return NULL;
++    }
++
++    return cmdline;
++}
++
++static void microvm_setup_bootparams(MicrovmMachineState *mms, const gch=
+ar *kernel_cmdline)
++{
++    struct boot_params params;
++    BusState *bus;
++    BusChild *kid;
++    gchar *cmdline;
++    int cmdline_len;
++    int i;
++
++    cmdline =3D g_strdup(kernel_cmdline);
++
++    /*
++     * Find MMIO transports with attached devices, and add them to the k=
+ernel
++     * command line.
++     */
++    bus =3D sysbus_get_default();
++    QTAILQ_FOREACH(kid, &bus->children, sibling) {
++        DeviceState *dev =3D kid->child;
++        ObjectClass *class =3D object_get_class(OBJECT(dev));
++
++        if (class =3D=3D object_class_by_name(TYPE_VIRTIO_MMIO)) {
++            VirtIOMMIOProxy *mmio =3D VIRTIO_MMIO(OBJECT(dev));
++            VirtioBusState *mmio_virtio_bus =3D &mmio->bus;
++            BusState *mmio_bus =3D &mmio_virtio_bus->parent_obj;
++
++            if (!QTAILQ_EMPTY(&mmio_bus->children)) {
++                gchar *mmio_cmdline =3D microvm_get_virtio_mmio_cmdline(=
+mmio_bus->name);
++                if (mmio_cmdline) {
++                    char *newcmd =3D g_strjoin(NULL, cmdline, mmio_cmdli=
+ne, NULL);
++                    g_free(mmio_cmdline);
++                    g_free(cmdline);
++                    cmdline =3D newcmd;
++                }
++            }
 +        }
-+        cpu->cpufeature =3D CPU_STEPPING;
-+        cpu->featureflag =3D CPU_FEATURE_APIC | CPU_FEATURE_FPU;
-+        checksum +=3D mptable_checksum((char *) cpu, ssize);
-+        offset +=3D ssize;
 +    }
 +
-+    ssize =3D sizeof(struct mpc_bus);
-+    mptable =3D g_realloc(mptable, offset + ssize);
-+    bus =3D (struct mpc_bus *) (mptable + offset);
-+    bus->type =3D MP_BUS;
-+    bus->busid =3D 0;
-+    memcpy(bus->bustype, BUS_TYPE_ISA, sizeof(BUS_TYPE_ISA) - 1);
-+    checksum +=3D mptable_checksum((char *) bus, ssize);
-+    offset +=3D ssize;
++    cmdline_len =3D strlen(cmdline);
 +
-+    ssize =3D sizeof(struct mpc_ioapic);
-+    mptable =3D g_realloc(mptable, offset + ssize);
-+    ioapic =3D (struct mpc_ioapic *) (mptable + offset);
-+    ioapic->type =3D MP_IOAPIC;
-+    ioapic->apicid =3D ncpus + 1;
-+    ioapic->apicver =3D APIC_VERSION;
-+    ioapic->flags =3D MPC_APIC_USABLE;
-+    ioapic->apicaddr =3D IO_APIC_DEFAULT_PHYS_BASE;
-+    checksum +=3D mptable_checksum((char *) ioapic, ssize);
-+    offset +=3D ssize;
++    address_space_write(&address_space_memory,
++                        KERNEL_CMDLINE_START, MEMTXATTRS_UNSPECIFIED,
++                        (uint8_t *) cmdline, cmdline_len);
 +
-+    ssize =3D sizeof(struct mpc_intsrc);
-+    for (i =3D 0; i < 16; i++) {
-+        mptable =3D g_realloc(mptable, offset + ssize);
-+        intsrc =3D (struct mpc_intsrc *) (mptable + offset);
-+        intsrc->type =3D MP_INTSRC;
-+        intsrc->irqtype =3D mp_INT;
-+        intsrc->irqflag =3D MP_IRQDIR_DEFAULT;
-+        intsrc->srcbus =3D 0;
-+        intsrc->srcbusirq =3D i;
-+        intsrc->dstapic =3D ncpus + 1;
-+        intsrc->dstirq =3D i;
-+        checksum +=3D mptable_checksum((char *) intsrc, ssize);
-+        offset +=3D ssize;
++    g_free(cmdline);
++
++    memset(&params, 0, sizeof(struct boot_params));
++
++    params.hdr.type_of_loader =3D KERNEL_LOADER_OTHER;
++    params.hdr.boot_flag =3D KERNEL_BOOT_FLAG_MAGIC;
++    params.hdr.header =3D KERNEL_HDR_MAGIC;
++    params.hdr.cmd_line_ptr =3D KERNEL_CMDLINE_START;
++    params.hdr.cmdline_size =3D cmdline_len;
++    params.hdr.kernel_alignment =3D KERNEL_MIN_ALIGNMENT_BYTES;
++
++    params.e820_entries =3D e820_get_num_entries();
++    for (i =3D 0; i < params.e820_entries; i++) {
++        uint64_t address, length;
++        if (e820_get_entry(i, E820_RAM, &address, &length)) {
++            params.e820_table[i].addr =3D address;
++            params.e820_table[i].size =3D length;
++            params.e820_table[i].type =3D E820_RAM;
++        }
 +    }
 +
-+    ssize =3D sizeof(struct mpc_lintsrc);
-+    mptable =3D g_realloc(mptable, offset + (ssize * 2));
-+    lintsrc =3D (struct mpc_lintsrc *) (mptable + offset);
-+    lintsrc->type =3D MP_LINTSRC;
-+    lintsrc->irqtype =3D mp_ExtINT;
-+    lintsrc->irqflag =3D MP_IRQDIR_DEFAULT;
-+    lintsrc->srcbusid =3D 0;
-+    lintsrc->srcbusirq =3D 0;
-+    lintsrc->destapic =3D 0;
-+    lintsrc->destapiclint =3D 0;
-+    checksum +=3D mptable_checksum((char *) lintsrc, ssize);
-+    offset +=3D ssize;
-+
-+    lintsrc =3D (struct mpc_lintsrc *) (mptable + offset);
-+    lintsrc->type =3D MP_LINTSRC;
-+    lintsrc->irqtype =3D mp_NMI;
-+    lintsrc->irqflag =3D MP_IRQDIR_DEFAULT;
-+    lintsrc->srcbusid =3D 0;
-+    lintsrc->srcbusirq =3D 0;
-+    lintsrc->destapic =3D 0xFF;
-+    lintsrc->destapiclint =3D 1;
-+    checksum +=3D mptable_checksum((char *) lintsrc, ssize);
-+    offset +=3D ssize;
-+
-+    ssize =3D sizeof(struct mpc_table);
-+    table =3D (struct mpc_table *) (mptable + sizeof(struct mpf_intel));
-+    memcpy(table->signature, mpc_signature, sizeof(mpc_signature) - 1);
-+    table->length =3D offset - sizeof(struct mpf_intel);
-+    table->spec =3D MPC_SPEC;
-+    memcpy(table->oem, MPC_OEM, sizeof(MPC_OEM) - 1);
-+    memcpy(table->productid, MPC_PRODUCT_ID, sizeof(MPC_PRODUCT_ID) - 1)=
++    address_space_write(&address_space_memory,
++                        ZERO_PAGE_START, MEMTXATTRS_UNSPECIFIED,
++                        (uint8_t *) &params, sizeof(struct boot_params))=
 ;
-+    table->lapic =3D APIC_DEFAULT_PHYS_BASE;
-+    checksum +=3D mptable_checksum((char *) table, ssize);
-+    table->checksum -=3D checksum;
-+
-+    *mptable_size =3D offset;
-+    return mptable;
 +}
-diff --git a/include/hw/i386/mptable.h b/include/hw/i386/mptable.h
++
++static void microvm_init_page_tables(void)
++{
++    uint64_t val =3D 0;
++    int i;
++
++    val =3D PDPTE_START | 0x03;
++    address_space_write(&address_space_memory,
++                        PML4_START, MEMTXATTRS_UNSPECIFIED,
++                        (uint8_t *) &val, 8);
++    val =3D PDE_START | 0x03;
++    address_space_write(&address_space_memory,
++                        PDPTE_START, MEMTXATTRS_UNSPECIFIED,
++                        (uint8_t *) &val, 8);
++
++    for (i =3D 0; i < 512; i++) {
++        val =3D (i << 21) + 0x83;
++        address_space_write(&address_space_memory,
++                            PDE_START + (i * 8), MEMTXATTRS_UNSPECIFIED,
++                            (uint8_t *) &val, 8);
++    }
++}
++
++static void microvm_cpu_reset(CPUState *cs, uint64_t elf_entry)
++{
++    X86CPU *cpu =3D X86_CPU(cs);
++    CPUX86State *env =3D &cpu->env;
++    struct SegmentCache seg_code =3D
++        { .selector =3D 0x8, .base =3D 0x0, .limit =3D 0xfffff, .flags =3D=
+ 0xa09b00 };
++    struct SegmentCache seg_data =3D
++        { .selector =3D 0x10, .base =3D 0x0, .limit =3D 0xfffff, .flags =
+=3D 0xc09300 };
++    struct SegmentCache seg_tr =3D
++        { .selector =3D 0x18, .base =3D 0x0, .limit =3D 0xfffff, .flags =
+=3D 0x808b00 };
++
++    kvm_arch_get_registers(cs);
++
++    memcpy(&env->segs[R_CS], &seg_code, sizeof(struct SegmentCache));
++    memcpy(&env->segs[R_DS], &seg_data, sizeof(struct SegmentCache));
++    memcpy(&env->segs[R_ES], &seg_data, sizeof(struct SegmentCache));
++    memcpy(&env->segs[R_FS], &seg_data, sizeof(struct SegmentCache));
++    memcpy(&env->segs[R_GS], &seg_data, sizeof(struct SegmentCache));
++    memcpy(&env->segs[R_SS], &seg_data, sizeof(struct SegmentCache));
++    memcpy(&env->tr, &seg_tr, sizeof(struct SegmentCache));
++
++    env->efer |=3D MSR_EFER_LME | MSR_EFER_LMA;
++    env->regs[R_ESP] =3D BOOT_STACK_POINTER;
++    env->regs[R_EBP] =3D BOOT_STACK_POINTER;
++    env->regs[R_ESI] =3D ZERO_PAGE_START;
++
++    cpu_set_pc(cs, elf_entry);
++    cpu_x86_update_cr3(env, PML4_START);
++    cpu_x86_update_cr4(env, env->cr[4] | CR4_PAE_MASK);
++    cpu_x86_update_cr0(env, env->cr[0] | CR0_PE_MASK | CR0_PG_MASK);
++    x86_update_hflags(env);
++
++    kvm_arch_put_registers(cs, KVM_PUT_RESET_STATE);
++}
++
++static void microvm_mptable_setup(MicrovmMachineState *mms)
++{
++    char *mptable;
++    int size;
++
++    mptable =3D mptable_generate(smp_cpus, mms->apic_id_limit,
++                               EBDA_START, &size);
++    address_space_write(&address_space_memory,
++                        EBDA_START, MEMTXATTRS_UNSPECIFIED,
++                        (uint8_t *) mptable, size);
++    g_free(mptable);
++}
++
++static bool microvm_machine_get_legacy(Object *obj, Error **errp)
++{
++    MicrovmMachineState *mms =3D MICROVM_MACHINE(obj);
++
++    return mms->legacy;
++}
++
++static void microvm_machine_set_legacy(Object *obj, bool value, Error **=
+errp)
++{
++    MicrovmMachineState *mms =3D MICROVM_MACHINE(obj);
++
++    mms->legacy =3D value;
++}
++
++static void microvm_machine_reset(void)
++{
++    MachineState *machine =3D MACHINE(qdev_get_machine());
++    MicrovmMachineState *mms =3D MICROVM_MACHINE(machine);
++    CPUState *cs;
++    X86CPU *cpu;
++
++    qemu_devices_reset();
++
++    microvm_mptable_setup(mms);
++    microvm_setup_bootparams(mms, machine->kernel_cmdline);
++    microvm_init_page_tables();
++
++    CPU_FOREACH(cs) {
++        cpu =3D X86_CPU(cs);
++
++        /* Reset APIC after devices have been reset to cancel
++         * any changes that qemu_devices_reset() might have done.
++         */
++        if (cpu->apic_state) {
++            device_reset(cpu->apic_state);
++        }
++
++        microvm_cpu_reset(cs, mms->elf_entry);
++    }
++}
++
++static void x86_nmi(NMIState *n, int cpu_index, Error **errp)
++{
++    CPUState *cs;
++
++    CPU_FOREACH(cs) {
++        X86CPU *cpu =3D X86_CPU(cs);
++
++        if (!cpu->apic_state) {
++            cpu_interrupt(cs, CPU_INTERRUPT_NMI);
++        } else {
++            apic_deliver_nmi(cpu->apic_state);
++        }
++    }
++}
++
++static void microvm_machine_instance_init(Object *obj)
++{
++}
++
++static void microvm_class_init(ObjectClass *oc, void *data)
++{
++    NMIClass *nc =3D NMI_CLASS(oc);
++
++    /* NMI handler */
++    nc->nmi_monitor_handler =3D x86_nmi;
++
++    object_class_property_add_bool(oc, MICROVM_MACHINE_LEGACY,
++                                   microvm_machine_get_legacy,
++                                   microvm_machine_set_legacy,
++                                   &error_abort);
++}
++
++static const TypeInfo microvm_machine_info =3D {
++    .name          =3D TYPE_MICROVM_MACHINE,
++    .parent        =3D TYPE_MACHINE,
++    .abstract      =3D true,
++    .instance_size =3D sizeof(MicrovmMachineState),
++    .instance_init =3D microvm_machine_instance_init,
++    .class_size    =3D sizeof(MicrovmMachineClass),
++    .class_init    =3D microvm_class_init,
++    .interfaces =3D (InterfaceInfo[]) {
++         { TYPE_NMI },
++         { }
++    },
++};
++
++static void microvm_machine_init(void)
++{
++    type_register_static(&microvm_machine_info);
++}
++type_init(microvm_machine_init);
++
++static void microvm_1_0_instance_init(Object *obj)
++{
++}
++
++static void microvm_machine_class_init(MachineClass *mc)
++{
++    mc->init =3D microvm_machine_state_init;
++
++    mc->family =3D "microvm_i386";
++    mc->desc =3D "Microvm (i386)";
++    mc->units_per_default_bus =3D 1;
++    mc->no_floppy =3D 1;
++    machine_class_allow_dynamic_sysbus_dev(mc, "sysbus-debugcon");
++    machine_class_allow_dynamic_sysbus_dev(mc, "sysbus-debugexit");
++    mc->max_cpus =3D 288;
++    mc->has_hotpluggable_cpus =3D false;
++    mc->auto_enable_numa_with_memhp =3D false;
++    mc->default_cpu_type =3D X86_CPU_TYPE_NAME ("host");
++    mc->nvdimm_supported =3D false;
++    mc->default_machine_opts =3D "accel=3Dkvm";
++
++    /* Machine class handlers */
++    mc->cpu_index_to_instance_props =3D cpu_index_to_props;
++    mc->get_default_cpu_node_id =3D cpu_get_default_cpu_node_id;
++    mc->possible_cpu_arch_ids =3D cpu_possible_cpu_arch_ids;;
++    mc->reset =3D microvm_machine_reset;
++}
++
++static void microvm_1_0_machine_class_init(MachineClass *mc)
++{
++    microvm_machine_class_init(mc);
++}
++DEFINE_MICROVM_MACHINE_AS_LATEST(1, 0)
+diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
 new file mode 100644
-index 0000000000..9f9eb82618
+index 0000000000..544ef60563
 --- /dev/null
-+++ b/include/hw/i386/mptable.h
-@@ -0,0 +1,37 @@
++++ b/include/hw/i386/microvm.h
+@@ -0,0 +1,85 @@
 +/*
-+ * Intel MPTable generator
 + *
-+ * Copyright (C) 2019 Red Hat, Inc.
++ * Copyright (c) 2018 Intel Corporation
++ * Copyright (c) 2019 Red Hat, Inc.
 + *
-+ * Authors:
-+ *   Sergio Lopez <slp@redhat.com>
++ * This program is free software; you can redistribute it and/or modify =
+it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
++ * This program is distributed in the hope it will be useful, but WITHOU=
+T
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License=
+ for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License alo=
+ng with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HW_I386_MPTABLE_H
-+#define HW_I386_MPTABLE_H
++#ifndef HW_I386_MICROVM_H
++#define HW_I386_MICROVM_H
 +
-+#define APIC_VERSION     0x14
-+#define CPU_STEPPING     0x600
-+#define CPU_FEATURE_APIC 0x200
-+#define CPU_FEATURE_FPU  0x001
-+#define MPC_SPEC         0x4
++#include "qemu-common.h"
++#include "exec/hwaddr.h"
++#include "qemu/notify.h"
 +
-+#define MP_IRQDIR_DEFAULT 0
-+#define MP_IRQDIR_HIGH    1
-+#define MP_IRQDIR_LOW     3
++#include "hw/boards.h"
 +
-+static const char MPC_OEM[]        =3D "QEMU    ";
-+static const char MPC_PRODUCT_ID[] =3D "000000000000";
-+static const char BUS_TYPE_ISA[]   =3D "ISA   ";
++/* Microvm memory layout */
++#define ZERO_PAGE_START      0x7000
++#define BOOT_STACK_POINTER   0x8ff0
++#define PML4_START           0x9000
++#define PDPTE_START          0xa000
++#define PDE_START            0xb000
++#define EBDA_START           0x9fc00
++#define HIMEM_START          0x100000
++#define MICROVM_MAX_BELOW_4G 0xe0000000
 +
-+#define IO_APIC_DEFAULT_PHYS_BASE 0xfec00000
-+#define APIC_DEFAULT_PHYS_BASE    0xfee00000
-+#define APIC_VERSION              0x14
++/* Bootparams related definitions */
++#define KERNEL_BOOT_FLAG_MAGIC     0xaa55
++#define KERNEL_HDR_MAGIC           0x53726448
++#define KERNEL_LOADER_OTHER        0xff
++#define KERNEL_MIN_ALIGNMENT_BYTES 0x01000000
++#define KERNEL_CMDLINE_START       0x20000
++#define KERNEL_CMDLINE_MAX_SIZE    0x10000
 +
-+char *mptable_generate(int ncpus, int apic_id,
-+                       int table_base, int *mptable_size);
++/* Platform virtio definitions */
++#define VIRTIO_MMIO_BASE      0xd0000000
++#define VIRTIO_IRQ_BASE       5
++#define VIRTIO_NUM_TRANSPORTS 8
++#define VIRTIO_CMDLINE_MAXLEN 64
++
++/* Machine type options */
++#define MICROVM_MACHINE_LEGACY "legacy"
++
++typedef struct {
++    MachineClass parent;
++    HotplugHandler *(*orig_hotplug_handler)(MachineState *machine,
++                                           DeviceState *dev);
++} MicrovmMachineClass;
++
++typedef struct {
++    MachineState parent;
++    unsigned apic_id_limit;
++    qemu_irq *gsi;
++
++    /* RAM size */
++    ram_addr_t below_4g_mem_size;
++    ram_addr_t above_4g_mem_size;
++
++    /* Kernel ELF entry. On reset, vCPUs RIP will be set to this */
++    uint64_t elf_entry;
++
++    /* Legacy mode based on an ISA bus. Useful for debugging */
++    bool legacy;
++} MicrovmMachineState;
++
++#define TYPE_MICROVM_MACHINE   MACHINE_TYPE_NAME("microvm")
++#define MICROVM_MACHINE(obj) \
++    OBJECT_CHECK(MicrovmMachineState, (obj), TYPE_MICROVM_MACHINE)
++#define MICROVM_MACHINE_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(MicrovmMachineClass, obj, TYPE_MICROVM_MACHINE)
++#define MICROVM_MACHINE_CLASS(class) \
++    OBJECT_CLASS_CHECK(MicrovmMachineClass, class, TYPE_MICROVM_MACHINE)
 +
 +#endif
-diff --git a/include/standard-headers/linux/mpspec_def.h b/include/standa=
-rd-headers/linux/mpspec_def.h
-new file mode 100644
-index 0000000000..6fb923a343
---- /dev/null
-+++ b/include/standard-headers/linux/mpspec_def.h
-@@ -0,0 +1,182 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _ASM_X86_MPSPEC_DEF_H
-+#define _ASM_X86_MPSPEC_DEF_H
-+
-+/*
-+ * Structure definitions for SMP machines following the
-+ * Intel Multiprocessing Specification 1.1 and 1.4.
-+ */
-+
-+/*
-+ * This tag identifies where the SMP configuration
-+ * information is.
-+ */
-+
-+#define SMP_MAGIC_IDENT	(('_'<<24) | ('P'<<16) | ('M'<<8) | '_')
-+
-+#ifdef CONFIG_X86_32
-+# define MAX_MPC_ENTRY 1024
-+#endif
-+
-+/* Intel MP Floating Pointer Structure */
-+struct mpf_intel {
-+	char signature[4];		/* "_MP_"			*/
-+	unsigned int physptr;		/* Configuration table address	*/
-+	unsigned char length;		/* Our length (paragraphs)	*/
-+	unsigned char specification;	/* Specification version	*/
-+	unsigned char checksum;		/* Checksum (makes sum 0)	*/
-+	unsigned char feature1;		/* Standard or configuration ?	*/
-+	unsigned char feature2;		/* Bit7 set for IMCR|PIC	*/
-+	unsigned char feature3;		/* Unused (0)			*/
-+	unsigned char feature4;		/* Unused (0)			*/
-+	unsigned char feature5;		/* Unused (0)			*/
-+};
-+
-+#define MPC_SIGNATURE "PCMP"
-+
-+struct mpc_table {
-+	char signature[4];
-+	unsigned short length;		/* Size of table */
-+	char spec;			/* 0x01 */
-+	char checksum;
-+	char oem[8];
-+	char productid[12];
-+	unsigned int oemptr;		/* 0 if not present */
-+	unsigned short oemsize;		/* 0 if not present */
-+	unsigned short oemcount;
-+	unsigned int lapic;		/* APIC address */
-+	unsigned int reserved;
-+};
-+
-+/* Followed by entries */
-+
-+#define	MP_PROCESSOR		0
-+#define	MP_BUS			1
-+#define	MP_IOAPIC		2
-+#define	MP_INTSRC		3
-+#define	MP_LINTSRC		4
-+/* Used by IBM NUMA-Q to describe node locality */
-+#define	MP_TRANSLATION		192
-+
-+#define CPU_ENABLED		1	/* Processor is available */
-+#define CPU_BOOTPROCESSOR	2	/* Processor is the boot CPU */
-+
-+#define CPU_STEPPING_MASK	0x000F
-+#define CPU_MODEL_MASK		0x00F0
-+#define CPU_FAMILY_MASK		0x0F00
-+
-+struct mpc_cpu {
-+	unsigned char type;
-+	unsigned char apicid;		/* Local APIC number */
-+	unsigned char apicver;		/* Its versions */
-+	unsigned char cpuflag;
-+	unsigned int cpufeature;
-+	unsigned int featureflag;	/* CPUID feature value */
-+	unsigned int reserved[2];
-+};
-+
-+struct mpc_bus {
-+	unsigned char type;
-+	unsigned char busid;
-+	unsigned char bustype[6];
-+};
-+
-+/* List of Bus Type string values, Intel MP Spec. */
-+#define BUSTYPE_EISA	"EISA"
-+#define BUSTYPE_ISA	"ISA"
-+#define BUSTYPE_INTERN	"INTERN"	/* Internal BUS */
-+#define BUSTYPE_MCA	"MCA"		/* Obsolete */
-+#define BUSTYPE_VL	"VL"		/* Local bus */
-+#define BUSTYPE_PCI	"PCI"
-+#define BUSTYPE_PCMCIA	"PCMCIA"
-+#define BUSTYPE_CBUS	"CBUS"
-+#define BUSTYPE_CBUSII	"CBUSII"
-+#define BUSTYPE_FUTURE	"FUTURE"
-+#define BUSTYPE_MBI	"MBI"
-+#define BUSTYPE_MBII	"MBII"
-+#define BUSTYPE_MPI	"MPI"
-+#define BUSTYPE_MPSA	"MPSA"
-+#define BUSTYPE_NUBUS	"NUBUS"
-+#define BUSTYPE_TC	"TC"
-+#define BUSTYPE_VME	"VME"
-+#define BUSTYPE_XPRESS	"XPRESS"
-+
-+#define MPC_APIC_USABLE		0x01
-+
-+struct mpc_ioapic {
-+	unsigned char type;
-+	unsigned char apicid;
-+	unsigned char apicver;
-+	unsigned char flags;
-+	unsigned int apicaddr;
-+};
-+
-+struct mpc_intsrc {
-+	unsigned char type;
-+	unsigned char irqtype;
-+	unsigned short irqflag;
-+	unsigned char srcbus;
-+	unsigned char srcbusirq;
-+	unsigned char dstapic;
-+	unsigned char dstirq;
-+};
-+
-+enum mp_irq_source_types {
-+	mp_INT =3D 0,
-+	mp_NMI =3D 1,
-+	mp_SMI =3D 2,
-+	mp_ExtINT =3D 3
-+};
-+
-+#define MP_IRQPOL_DEFAULT	0x0
-+#define MP_IRQPOL_ACTIVE_HIGH	0x1
-+#define MP_IRQPOL_RESERVED	0x2
-+#define MP_IRQPOL_ACTIVE_LOW	0x3
-+#define MP_IRQPOL_MASK		0x3
-+
-+#define MP_IRQTRIG_DEFAULT	0x0
-+#define MP_IRQTRIG_EDGE		0x4
-+#define MP_IRQTRIG_RESERVED	0x8
-+#define MP_IRQTRIG_LEVEL	0xc
-+#define MP_IRQTRIG_MASK		0xc
-+
-+#define MP_APIC_ALL	0xFF
-+
-+struct mpc_lintsrc {
-+	unsigned char type;
-+	unsigned char irqtype;
-+	unsigned short irqflag;
-+	unsigned char srcbusid;
-+	unsigned char srcbusirq;
-+	unsigned char destapic;
-+	unsigned char destapiclint;
-+};
-+
-+#define MPC_OEM_SIGNATURE "_OEM"
-+
-+struct mpc_oemtable {
-+	char signature[4];
-+	unsigned short length;		/* Size of table */
-+	char  rev;			/* 0x01 */
-+	char  checksum;
-+	char  mpc[8];
-+};
-+
-+/*
-+ *	Default configurations
-+ *
-+ *	1	2 CPU ISA 82489DX
-+ *	2	2 CPU EISA 82489DX neither IRQ 0 timer nor IRQ 13 DMA chaining
-+ *	3	2 CPU EISA 82489DX
-+ *	4	2 CPU MCA 82489DX
-+ *	5	2 CPU ISA+PCI
-+ *	6	2 CPU EISA+PCI
-+ *	7	2 CPU MCA+PCI
-+ */
-+
-+enum mp_bustype {
-+	MP_BUS_ISA =3D 1,
-+	MP_BUS_EISA,
-+	MP_BUS_PCI,
-+};
-+#endif /* _ASM_X86_MPSPEC_DEF_H */
 --=20
 2.21.0
 
