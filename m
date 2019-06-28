@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1ABC598A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:45:08 +0200 (CEST)
-Received: from localhost ([::1]:58690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613A5598B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:46:19 +0200 (CEST)
+Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgoNP-0007KR-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60560)
+	id 1hgoOY-0000VA-Fm
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:46:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60804)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hgoIp-0002Jt-Ih
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:24 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hgoJ1-0002ln-59
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hgoIo-00068g-3a
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59212)
+ (envelope-from <kraxel@redhat.com>) id 1hgoIv-0006Gn-Ps
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59208)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kraxel@redhat.com>)
- id 1hgoIi-00061W-S0; Fri, 28 Jun 2019 06:40:18 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ id 1hgoIg-00060k-Vv; Fri, 28 Jun 2019 06:40:15 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id DE2B7308FED2;
- Fri, 28 Jun 2019 10:40:09 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 63702308FED5;
+ Fri, 28 Jun 2019 10:40:08 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
  [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 10CE019C4F;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 026051001DC3;
  Fri, 28 Jun 2019 10:39:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E478011AA3; Fri, 28 Jun 2019 12:39:57 +0200 (CEST)
+ id F348E17472; Fri, 28 Jun 2019 12:39:57 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 12:39:51 +0200
-Message-Id: <20190628103957.9504-1-kraxel@redhat.com>
+Date: Fri, 28 Jun 2019 12:39:52 +0200
+Message-Id: <20190628103957.9504-2-kraxel@redhat.com>
+In-Reply-To: <20190628103957.9504-1-kraxel@redhat.com>
+References: <20190628103957.9504-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Fri, 28 Jun 2019 10:40:15 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.49]); Fri, 28 Jun 2019 10:40:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/6] Vga 20190628 patches
+Subject: [Qemu-devel] [PULL 1/6] i2c: Move bitbang_i2c.h to include/hw/i2c/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,54 +65,113 @@ Cc: Corey Minyard <cminyard@mvista.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeac=
-de:
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-  Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-=
-2019' into staging (2019-06-21 15:40:50 +0100)
+The bitbang i2c implementation is also useful for other device models
+such as DDC in display controllers. Move the header to include/hw/i2c/
+to allow it to be used from other device models and adjust users of
+this include. This also reverts commit 2b4c1125ac which is no longer
+needed.
 
-are available in the Git repository at:
-
-  git://git.kraxel.org/qemu tags/vga-20190628-pull-request
-
-for you to fetch changes up to 263807f4e85e94f2d4e988d61d2fc0319b1dd36b:
-
-  ati-vga: switch to vgabios-ati.bin (2019-06-28 10:49:36 +0200)
-
-----------------------------------------------------------------
-vga: ati fixes, add ati vgabios.
-
-----------------------------------------------------------------
-
-BALATON Zoltan (3):
-  i2c: Move bitbang_i2c.h to include/hw/i2c/
-  ati-vga: Implement DDC and EDID info from monitor
-  ati-vga: Fixes to offset and pitch registers
-
-Gerd Hoffmann (3):
-  seabios: add config for ati vgabios
-  seabios: add ati vgabios binary
-  ati-vga: switch to vgabios-ati.bin
-
- hw/display/ati_int.h                 |   6 ++
- hw/display/ati_regs.h                |   6 +-
- {hw =3D> include/hw}/i2c/bitbang_i2c.h |   2 +
- include/hw/i2c/i2c.h                 |   2 -
- include/hw/i2c/ppc4xx_i2c.h          |   2 +-
- hw/display/ati.c                     |  99 +++++++++++++++++++++++----
- hw/display/ati_2d.c                  |  26 ++++---
- hw/display/ati_dbg.c                 |   2 +
- hw/i2c/bitbang_i2c.c                 |   2 +-
- hw/i2c/ppc4xx_i2c.c                  |   1 -
- hw/i2c/versatile_i2c.c               |   2 +-
- hw/display/Kconfig                   |   2 +
- pc-bios/vgabios-ati.bin              | Bin 0 -> 38912 bytes
- roms/config.vga-ati                  |   4 ++
- 14 files changed, 127 insertions(+), 29 deletions(-)
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Acked-by: Corey Minyard <cminyard@mvista.com>
+Message-id: 5d1fe4db846ab9be4b77ddb0d43cc74cd200a003.1561028123.git.balat=
+on@eik.bme.hu
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ {hw =3D> include/hw}/i2c/bitbang_i2c.h | 2 ++
+ include/hw/i2c/i2c.h                 | 2 --
+ include/hw/i2c/ppc4xx_i2c.h          | 2 +-
+ hw/i2c/bitbang_i2c.c                 | 2 +-
+ hw/i2c/ppc4xx_i2c.c                  | 1 -
+ hw/i2c/versatile_i2c.c               | 2 +-
+ 6 files changed, 5 insertions(+), 6 deletions(-)
  rename {hw =3D> include/hw}/i2c/bitbang_i2c.h (80%)
- create mode 100644 pc-bios/vgabios-ati.bin
- create mode 100644 roms/config.vga-ati
 
+diff --git a/hw/i2c/bitbang_i2c.h b/include/hw/i2c/bitbang_i2c.h
+similarity index 80%
+rename from hw/i2c/bitbang_i2c.h
+rename to include/hw/i2c/bitbang_i2c.h
+index 9443021710d7..3a7126d5dee8 100644
+--- a/hw/i2c/bitbang_i2c.h
++++ b/include/hw/i2c/bitbang_i2c.h
+@@ -3,6 +3,8 @@
+=20
+ #include "hw/i2c/i2c.h"
+=20
++typedef struct bitbang_i2c_interface bitbang_i2c_interface;
++
+ #define BITBANG_I2C_SDA 0
+ #define BITBANG_I2C_SCL 1
+=20
+diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+index 8e236f7bb428..75c5bd638bb9 100644
+--- a/include/hw/i2c/i2c.h
++++ b/include/hw/i2c/i2c.h
+@@ -81,8 +81,6 @@ uint8_t i2c_recv(I2CBus *bus);
+=20
+ DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t add=
+r);
+=20
+-typedef struct bitbang_i2c_interface bitbang_i2c_interface;
+-
+ /* lm832x.c */
+ void lm832x_key_event(DeviceState *dev, int key, int state);
+=20
+diff --git a/include/hw/i2c/ppc4xx_i2c.h b/include/hw/i2c/ppc4xx_i2c.h
+index aa2a2bf9dec2..8437bf070b8b 100644
+--- a/include/hw/i2c/ppc4xx_i2c.h
++++ b/include/hw/i2c/ppc4xx_i2c.h
+@@ -28,7 +28,7 @@
+ #define PPC4XX_I2C_H
+=20
+ #include "hw/sysbus.h"
+-#include "hw/i2c/i2c.h"
++#include "hw/i2c/bitbang_i2c.h"
+=20
+ #define TYPE_PPC4xx_I2C "ppc4xx-i2c"
+ #define PPC4xx_I2C(obj) OBJECT_CHECK(PPC4xxI2CState, (obj), TYPE_PPC4xx_=
+I2C)
+diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
+index 5dfc72d9d7b7..3cb0509b0200 100644
+--- a/hw/i2c/bitbang_i2c.c
++++ b/hw/i2c/bitbang_i2c.c
+@@ -12,7 +12,7 @@
+=20
+ #include "qemu/osdep.h"
+ #include "hw/hw.h"
+-#include "bitbang_i2c.h"
++#include "hw/i2c/bitbang_i2c.h"
+ #include "hw/sysbus.h"
+ #include "qemu/module.h"
+=20
+diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
+index d606d3dbeb81..5fb4f86c38f1 100644
+--- a/hw/i2c/ppc4xx_i2c.c
++++ b/hw/i2c/ppc4xx_i2c.c
+@@ -30,7 +30,6 @@
+ #include "cpu.h"
+ #include "hw/hw.h"
+ #include "hw/i2c/ppc4xx_i2c.h"
+-#include "bitbang_i2c.h"
+=20
+ #define PPC4xx_I2C_MEM_SIZE 18
+=20
+diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
+index e07be9890c8a..24b6e36b6d52 100644
+--- a/hw/i2c/versatile_i2c.c
++++ b/hw/i2c/versatile_i2c.c
+@@ -23,7 +23,7 @@
+=20
+ #include "qemu/osdep.h"
+ #include "hw/sysbus.h"
+-#include "bitbang_i2c.h"
++#include "hw/i2c/bitbang_i2c.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+=20
 --=20
 2.18.1
 
