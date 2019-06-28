@@ -2,51 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7056759CC5
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:15:39 +0200 (CEST)
-Received: from localhost ([::1]:59706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FF859C94
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:07:38 +0200 (CEST)
+Received: from localhost ([::1]:59580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqj4-00088I-Jb
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:15:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39997)
+	id 1hgqbJ-00051v-5j
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:07:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39726)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hgqCy-0004jk-5Y
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:42:29 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hgqCQ-0003nj-0S
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hgqCw-00083J-Fl
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:42:28 -0400
-Received: from 18.mo6.mail-out.ovh.net ([46.105.73.110]:46417)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hgqCw-00081a-7Q
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:42:26 -0400
-Received: from player731.ha.ovh.net (unknown [10.108.57.95])
- by mo6.mail-out.ovh.net (Postfix) with ESMTP id 846A01D4358
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 14:06:31 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
- [82.253.208.248]) (Authenticated sender: groug@kaod.org)
- by player731.ha.ovh.net (Postfix) with ESMTPSA id 2EBB173FBAEB;
- Fri, 28 Jun 2019 12:06:26 +0000 (UTC)
-Date: Fri, 28 Jun 2019 14:06:24 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-ID: <20190628140624.1408c08c@bahia.lan>
-In-Reply-To: <3608455.qB9dszzTOH@silver>
-References: <cover.1561575449.git.qemu_oss@crudebyte.com>
- <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f.1561575449.git.qemu_oss@crudebyte.com>
- <20190627181203.59c956d9@bahia.lan> <3608455.qB9dszzTOH@silver>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (envelope-from <laurent@vivier.eu>) id 1hgqCN-0007ku-GI
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:53 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:35095)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hgqCN-0007jP-7J
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:51 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M1q4e-1hj2in11bM-002DN8; Fri, 28 Jun 2019 14:16:01 +0200
+References: <156171539473.6332.3788894025347542150@c4a48874b076>
+To: "patchew-devel@redhat.com" <patchew-devel@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <f1ff093c-cb64-a54e-778e-eb18a0fdddb2@vivier.eu>
+Date: Fri, 28 Jun 2019 14:15:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 199847235213695296
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrvddtgdehudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+In-Reply-To: <156171539473.6332.3788894025347542150@c4a48874b076>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:PSiu3k41O8HZWeMJEOx/LdAfQt330v3TF0wEamsNg0H5T9A9zIu
+ CyJ0/ujDgYdf1G1Wva3I8Vx0DU2rZ0ZxwBhjKRhH8VC+VpWEErumJwb1BkYNaOPW8VgfYln
+ Y5DBHP8IEOvqkXEw/gh1o6jRqBxqUS9hwGltSD8Furo7p67f3EZ3glLY3NurhjNotHEOFV3
+ uo8ZkyJJL6WmSlBa8/hFw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1iztnxXcRh4=:SyPrmFzOTwtAdGOp3nZxBp
+ WOGk0GMcxRLmktZzydQRYMU6yl6GqVCyBHeK1aYFRxV/ciB62WcmibRbcETbJym4epbtZoWQh
+ uco/BiyZZ5uuGKGaNzw+wMvrBoj365vok35W656c6CwO6tp5eXGaggJhiYlnf3Na26L99yTvN
+ ODFqZaeuHEYT3SgVp5CnHoPUrhhFlrnpYPQll8htkmelylWHsNkJyPDjcBGqqirdbzXamcKQb
+ aj7sd66BI9qBIzAn+GTpuwHoEepFamK1yvfMy+Rgy2MKCuVSCbd7g9p8pBa9KZhaiCABQwxFW
+ YriPDgQdh5d0xJHE4VID8Fn0CR+3BVK/sEovx2L7VzonISM+YpM2CghYAJVzwz7uM+NCr+3HC
+ XSVZBgctp5tcKGP5bhSDQph9Fw9jP8pydw6W/I8n0mMUbBc2541xRRckeFUM6eCwqitUDlFiJ
+ Tk6KNAky7by99GfiZ6uKgPH6kczonqnnz84s3VIpoqYkKNZSyrWENVJSv87/FOiSjAxW+vvQQ
+ 4U7L+xD07CBoFaf+MuurkUTa9v4d5JHWO8w2IuTl0q+wJOOmosW1htPtfY3c5WmX/oxl+U5Zl
+ AZ/VnJngLlSQxQLsBZE1G0xtI5y21V8nnoO7fXROws9ZRBExf57NcHFwZyFv80GtWIeW2YfLw
+ DgK5gi2ShPcbzf4Ca1oAmvzIBYQA6yWXHRIgyiYfs9ArWohbVtBqUzERbJsYTF2Po775EFLCw
+ Dg8x1HLd5DXV52ZzO7E/+3X994g4Es7J5xtA/8FXvwnuZTwfSUziEBXtYIM=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.73.110
-Subject: Re: [Qemu-devel] [PATCH v4 1/5] 9p: unsigned type for type, version,
- path
+X-Received-From: 212.227.126.130
+Subject: Re: [Qemu-devel] [PATCH v15 0/5] linux-user: A set of miscellaneous
+ patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,85 +109,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: aleksandar.markovic@rt-rk.com, qemu-devel@nongnu.org,
+ amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jun 2019 13:42:43 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Dear Patchew developers,
 
-> On Donnerstag, 27. Juni 2019 18:12:03 CEST Greg Kurz wrote:
-> > On Wed, 26 Jun 2019 20:25:55 +0200
-> > Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
-> > > There is no need for signedness on these QID fields for 9p.
-> > > 
-> > > Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
-> > 
-> > You should mention here the changes you made on top of Antonios
-> > original patch. Something like:
-> > 
-> > [CS: - also convert path
-> >      - adapted trace-events and donttouch_stat()]
+Le 28/06/2019 à 11:49, no-reply@patchew.org a écrit :
+> Patchew URL: https://patchew.org/QEMU/1561712082-31441-1-git-send-email-aleksandar.markovic@rt-rk.com/
 > 
-> Haven't seen that comment style in the git logs. Any example hash for that?
 > 
-
-$ git log | egrep '^[[:space:]]*\[' | head -15
-    [Commit message tweaked]
-    [Superfluous #include dropped]
-    [Comment reformatted to make checkpatch.pl happy, #include <dirent.h>
-    [monitor_is_qmp() tidied up to make checkpatch.pl happy,
-    [Header guard symbol tidied up, superfluous #include dropped, FIXME in
-    [sortcmdlist() cleaned up to make checkpatch.pl happy]
-    [Superfluous variable in monitor_data_destroy() eliminated, whitespace
-    [Superfluous variable in monitor_data_destroy() eliminated]
-    [Zero initialization of Monitor moved from monitor_data_init() to
-        [ ... ]
-        [ ... ]
-    [mreitz: Dropped superfluous printf from _filter_offsets, as suggested
-    [mreitz: Adjusted commit message as per John's proposal]
-    [mreitz: Moved from 250 to 256]
-    [AJB: fix conflicts with tests/vm: Port basevm to Python 3]
-
-This is something you should do when re-posting someone else's patch
-with modifications.
-
-> > > diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
-> > > index c0a0a4ab5d..6964756922 100644
-> > > --- a/hw/9pfs/trace-events
-> > > +++ b/hw/9pfs/trace-events
-> > > @@ -6,7 +6,7 @@ v9fs_rerror(uint16_t tag, uint8_t id, int err) "tag %d id
-> > > %d err %d"> 
-> > >  v9fs_version(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag
-> > >  %d id %d msize %d version %s" v9fs_version_return(uint16_t tag, uint8_t
-> > >  id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
-> > >  v9fs_attach(uint16_t tag, uint8_t id, int32_t fid, int32_t afid, char*
-> > >  uname, char* aname) "tag %u id %u fid %d afid %d uname %s aname %s"> 
-> > > -v9fs_attach_return(uint16_t tag, uint8_t id, int8_t type, int32_t
-> > > version, int64_t path) "tag %d id %d type %d version %d path %"PRId64
-> > > +v9fs_attach_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t
-> > > version, uint64_t path) "tag %d id %d type %d version %d path %"PRId64
-> > I was expecting to see PRIu64 for an uint64_t but I now realize that %d
-> > seems to be used all over the place for unsigned types... :-\
-> > 
-> > At least, please fix the masks of the lines you're changing in this
-> > patch so that unsigned are passed to "u" or PRIu64. The rest of the
-> > mess can be fixed later in a followup.
 > 
-> If you don't mind I will restrict it to your latter suggestion for now, that 
-> is adjusting it using the short format specifiers e.g. "u", the rest would IMO 
-> be out of the scope of this patch series.
+> Hi,
 > 
+> This series failed build test on s390x host. Please find the details below.
 
-Sure.
+To debug this kind of problem (at least to reproduce it), it may be
+interesting to know the OS release of the target build environment
+(glibc version, gcc version, ...) on which the build fails.
 
-> Too bad that no format specifier warnings are thrown on these.
-> 
+Is this possible to add this in the mail (or in the logs)?
 
-Yeah :-\
+...
+>   CC      microblaze-linux-user/linux-user/strace.o
+>   CC      mips64el-linux-user/linux-user/syscall.o
+>   LINK    microblazeel-linux-user/qemu-microblazeel
+> /var/tmp/patchew-tester-tmp-tr0wvoyz/src/linux-user/syscall.c:322:16: error: conflicting types for ‘statx’
+>   322 | _syscall5(int, statx, int, dirfd, const char *, pathname, int, flags,
+>       |                ^~~~~
+> /var/tmp/patchew-tester-tmp-tr0wvoyz/src/linux-user/syscall.c:213:13: note: in definition of macro ‘_syscall5’
 
-> Best regards,
-> Christian Schoenebeck
-
+Thanks,
+Laurent
 
