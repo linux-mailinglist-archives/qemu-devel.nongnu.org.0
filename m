@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF57C5A2AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:44:44 +0200 (CEST)
-Received: from localhost ([::1]:34942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5515A2F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:59:15 +0200 (CEST)
+Received: from localhost ([::1]:35038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hguvT-0005zW-V5
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:44:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54536)
+	id 1hgv9W-0001PC-GG
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54686)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgukY-0008GT-Ch
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:32 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgukd-0008JS-6d
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgukV-0000Ek-D0
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:26 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:39912)
+ (envelope-from <palmer@dabbelt.com>) id 1hgukW-0000HC-LU
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:30 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:39915)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukV-0000Bz-3j
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:23 -0400
-Received: by mail-pg1-f195.google.com with SMTP id 196so2889728pgc.6
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:20 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukW-0000F9-E8
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:24 -0400
+Received: by mail-pg1-f196.google.com with SMTP id 196so2889798pgc.6
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=q9V5gld9xQfQQn0CcvhnGApawq1VurFWRjo628pvYuM=;
- b=e91SAsCCe6XsoV4OKl0fzqjmgj5qz0R0Ov3zDEDT2sKPkwpadt8b1IPKxJzXN7nZ//
- f7zjYIdMMyQAce7ZYNBvkShh6zfjrT4PEylNKWlvDmE58zLd3upcx39uR4McSw1TL8G+
- gr3KKSG34O912Mq4mqjmoXPl+qpUwNkrfU065w+ja9zX+dTzoxOWMi/PnPAFh1/CvcZV
- 5utGtns/cXg+FzJDpiENC1pTpAGSiswaKeN7GFv7uMH3wlHVZFETqArdrCpDs9XmFkwp
- VQadxq2T0kT7kUvWh6iMIyYMiM55/npc5OrYfCmNJjOO5KUW/q/pOoMNC5HUSuJsTEj5
- xMag==
-X-Gm-Message-State: APjAAAXTJQHZMF49H7fK6IT4mvYXG3clKoHVsTGmrmUuporMSnnVJNMR
- /aD+QTl2iZT6wHfFrZoslt9mRFxHGOdipLZG
-X-Google-Smtp-Source: APXvYqx5kDN7G91ArNH9tP6uusSNJfjHpPZchw8hc4S0zj9v6bZ6ubJxn5iIJv7r/ALQKSPfxw7mfg==
-X-Received: by 2002:a17:90a:1ac5:: with SMTP id
- p63mr14267263pjp.25.1561743199313; 
- Fri, 28 Jun 2019 10:33:19 -0700 (PDT)
+ bh=dUa00V6qaWWvVsCSIWO0c3PzQTzV7TrVR8O4HvR6bag=;
+ b=nD7CPeb/k8+PA3XMZz4LWs4fbtyuWa/WOSOIpR6uOCV2WKH24Vb7PDzjra+ztFobYe
+ KpMuWekfn8XzfxxDTf5cfErVDX8kH3hzWjHK7Gb8cRto5wlcwdJSfUYdrW3MqA1tEaLc
+ MjdZ+KJPhZrTSmBPAi8PIhuKqh0Ds4FSGJTVAL9MVyRAqYTRDLObCZo7Z5+8heah4/ed
+ kT3E2x8scK7JQ2XF2B8+1uWuJ4rNgH0kqu64SmO/3rd9hdVOkDvSyfwxWAoM+TEGpOdj
+ TRSrRT+1iIeyboj65C2PE4UZAolSbQcWsn3zfR0SvsycMlhLpmUDbgWfLVRblxjlQFIs
+ 9DpQ==
+X-Gm-Message-State: APjAAAXhYdj5rbSQHdswlkhq6D+z8X+DYFNrcC7ArKZDQFgDWYPPTIJe
+ EaIHBcf1zpzaxFERGAeE2IgHBTwwMrSHexMp
+X-Google-Smtp-Source: APXvYqyD+8XMXCIjhhGgfHNg6uwWD5He5qCwD3xrpBGZBkUAblFOTixrJodXTQssZTXX6EX4if6vWQ==
+X-Received: by 2002:a63:18d:: with SMTP id 135mr10410567pgb.62.1561743202387; 
+ Fri, 28 Jun 2019 10:33:22 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id i36sm2355306pgl.70.2019.06.28.10.33.18
+ by smtp.gmail.com with ESMTPSA id j23sm2496754pgb.63.2019.06.28.10.33.21
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:33:18 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:32:07 -0700
-Message-Id: <20190628173227.31925-15-palmer@sifive.com>
+ Fri, 28 Jun 2019 10:33:21 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:32:08 -0700
+Message-Id: <20190628173227.31925-16-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
 References: <20190628173227.31925-1-palmer@sifive.com>
@@ -55,9 +54,8 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.195
-Subject: [Qemu-devel] [PULL 14/34] target/riscv: Add the privledge spec
- version 1.11.0
+X-Received-From: 209.85.215.196
+Subject: [Qemu-devel] [PULL 15/34] target/riscv: Add the mcountinhibit CSR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,41 +75,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Add support for the ratified RISC-V privledge spec.
+1.11 defines mcountinhibit, which has the same numeric CSR value as
+mucounteren from 1.09.1 but has different semantics.  This patch enables
+the CSR for 1.11-based targets, which is trivial to implement because
+the counters in QEMU never tick (legal according to the spec).
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+[Palmer: Fix counter access semantics, change commit message to indicate
+the behavior is fully emulated.]
 Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/cpu.h                             | 1 +
- target/riscv/insn_trans/trans_privileged.inc.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/cpu_bits.h |  1 +
+ target/riscv/csr.c      | 17 +++++++++++++++--
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 5eb9cab2ad62..d559d28bcda8 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -81,6 +81,7 @@ enum {
- #define USER_VERSION_2_02_0 0x00020200
- #define PRIV_VERSION_1_09_1 0x00010901
- #define PRIV_VERSION_1_10_0 0x00011000
-+#define PRIV_VERSION_1_11_0 0x00011100
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index 47450a3cdb75..11f971ad5df0 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -136,6 +136,7 @@
+ #define CSR_MCOUNTEREN      0x306
  
- #define TRANSLATE_PMP_FAIL 2
- #define TRANSLATE_FAIL 1
-diff --git a/target/riscv/insn_trans/trans_privileged.inc.c b/target/riscv/insn_trans/trans_privileged.inc.c
-index 664d6ba3f2cc..c5e4b3e49a3e 100644
---- a/target/riscv/insn_trans/trans_privileged.inc.c
-+++ b/target/riscv/insn_trans/trans_privileged.inc.c
-@@ -90,7 +90,7 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
- static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
+ /* Legacy Counter Setup (priv v1.9.1) */
++/* Update to #define CSR_MCOUNTINHIBIT 0x320 for 1.11.0 */
+ #define CSR_MUCOUNTEREN     0x320
+ #define CSR_MSCOUNTEREN     0x321
+ #define CSR_MHCOUNTEREN     0x322
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index c67d29e20618..448162e484a3 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -56,6 +56,15 @@ static int fs(CPURISCVState *env, int csrno)
+ static int ctr(CPURISCVState *env, int csrno)
  {
- #ifndef CONFIG_USER_ONLY
--    if (ctx->priv_ver == PRIV_VERSION_1_10_0) {
-+    if (ctx->priv_ver >= PRIV_VERSION_1_10_0) {
-         gen_helper_tlb_flush(cpu_env);
-         return true;
+ #if !defined(CONFIG_USER_ONLY)
++    /*
++     * The counters are always enabled on newer priv specs, as the CSR has
++     * changed from controlling that the counters can be read to controlling
++     * that the counters increment.
++     */
++    if (env->priv_ver > PRIV_VERSION_1_09_1) {
++        return 0;
++    }
++
+     uint32_t ctr_en = ~0u;
+ 
+     if (env->priv < PRV_M) {
+@@ -461,18 +470,22 @@ static int write_mcounteren(CPURISCVState *env, int csrno, target_ulong val)
+     return 0;
+ }
+ 
++/* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
+ static int read_mscounteren(CPURISCVState *env, int csrno, target_ulong *val)
+ {
+-    if (env->priv_ver > PRIV_VERSION_1_09_1) {
++    if (env->priv_ver > PRIV_VERSION_1_09_1
++        && env->priv_ver < PRIV_VERSION_1_11_0) {
+         return -1;
      }
+     *val = env->mcounteren;
+     return 0;
+ }
+ 
++/* This regiser is replaced with CSR_MCOUNTINHIBIT in 1.11.0 */
+ static int write_mscounteren(CPURISCVState *env, int csrno, target_ulong val)
+ {
+-    if (env->priv_ver > PRIV_VERSION_1_09_1) {
++    if (env->priv_ver > PRIV_VERSION_1_09_1
++        && env->priv_ver < PRIV_VERSION_1_11_0) {
+         return -1;
+     }
+     env->mcounteren = val;
 -- 
 2.21.0
 
