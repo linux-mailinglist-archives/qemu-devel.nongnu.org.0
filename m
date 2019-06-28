@@ -2,47 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04F0958E0D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 00:38:22 +0200 (CEST)
-Received: from localhost ([::1]:55092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8985C58EF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 02:24:28 +0200 (CEST)
+Received: from localhost ([::1]:55364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgd25-0005Cf-7V
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 18:38:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44283)
+	id 1hgegl-0005B9-4j
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 20:24:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35298)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mreitz@redhat.com>) id 1hgcxU-0000Sr-Vs
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:38 -0400
+ (envelope-from <jdillama@redhat.com>) id 1hgeg4-0004fc-Sy
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 20:23:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mreitz@redhat.com>) id 1hgcxT-0004Lt-Qn
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 18:33:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45878)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mreitz@redhat.com>)
- id 1hgcxO-0004EF-IL; Thu, 27 Jun 2019 18:33:30 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A0FAA308FEDF;
- Thu, 27 Jun 2019 22:33:29 +0000 (UTC)
-Received: from localhost (ovpn-204-47.brq.redhat.com [10.40.204.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 089D010018F9;
- Thu, 27 Jun 2019 22:33:26 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Fri, 28 Jun 2019 00:32:55 +0200
-Message-Id: <20190627223255.3789-6-mreitz@redhat.com>
-In-Reply-To: <20190627223255.3789-1-mreitz@redhat.com>
-References: <20190627223255.3789-1-mreitz@redhat.com>
+ (envelope-from <jdillama@redhat.com>) id 1hgeg3-0002ZI-4O
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 20:23:44 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:46560)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jdillama@redhat.com>) id 1hgeg1-0002Y3-D4
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 20:23:42 -0400
+Received: by mail-ed1-f68.google.com with SMTP id d4so8741881edr.13
+ for <qemu-devel@nongnu.org>; Thu, 27 Jun 2019 17:23:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=a/mTAe6faintFFsw6NPc2H57Dufym9W/MmQsTC49Hdc=;
+ b=ob85Qfv7x0W2zQbcRVXzxmm90I9PaCsMr35x4C9WY6rX1RQmnAtPaRA6+1i8GYT4qt
+ xvhxVXP0yXSFGreyXLoGy1VnONWGF6Kzqe+Z5C/FAr3eC8NnruQ3WjUp0hofrSbGtmEr
+ YNxrt/fU9lSxPxDB/1yQM5iblan4siNYehPuavD7TiTskkUEjvL0YgBBHWU/OY+Dm7Gy
+ TOASFsDrkrVuykxz0b7ovuU2eLFHQ16iVedhOD9D6VpXLLUfeMLoIfm5NLJpMFM6TjAp
+ J/EfUw6Fvece8GeA0/A+upHV1ftDCiHfjUt/Hjyg7AGZDJyA+CdjXjOmKtLqnD1U+PTk
+ zpJQ==
+X-Gm-Message-State: APjAAAUe7wFkkjme4v5PaTygDi2ZQwyB5qMXIqqqZXGuZPufPnJ860eE
+ 6HA7HAKbs4xaZ2+WlUSVVnnrtKm213xsZxNC2FOHOA==
+X-Google-Smtp-Source: APXvYqzKmzdtY1n2ZN1cslom8PGXs79WrLFZkZgYqXvuQtJ0XJNZf9phlsOCsuAzy/Zz5tieC8dg3O+uwsAGBN7JoGM=
+X-Received: by 2002:a17:906:1c94:: with SMTP id
+ g20mr5893588ejh.179.1561681420023; 
+ Thu, 27 Jun 2019 17:23:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Thu, 27 Jun 2019 22:33:29 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+References: <20190510153346.238366-1-sgarzare@redhat.com>
+ <96429d33-6514-33b5-3fe8-7bdf2eccc8d9@redhat.com>
+ <20190627084816.u6fj556uen3iqa3r@steredhat.homenet.telecomitalia.it>
+ <b7aaa681-12ae-e256-e295-06e953dc51ff@redhat.com>
+ <CA+aFP1Btm6O5R0fiNZmBjHOO8t9ZDvvVgH0i1vFHsrQq85d+bA@mail.gmail.com>
+ <90149c68-0dee-4afd-f517-5f204879dd18@redhat.com>
+In-Reply-To: <90149c68-0dee-4afd-f517-5f204879dd18@redhat.com>
+From: Jason Dillaman <jdillama@redhat.com>
+Date: Thu, 27 Jun 2019 20:23:28 -0400
+Message-ID: <CA+aFP1AdCKjrX_gBLn-BjTs0cY=XbnjQsxwYowDwJ-UDD7xZPA@mail.gmail.com>
+To: John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 5/5] iotests: Add new case to 030
+ [fuzzy]
+X-Received-From: 209.85.208.68
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] block/rbd: implement
+ .bdrv_get_allocated_file_size callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,78 +68,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- John Snow <jsnow@redhat.com>
+Reply-To: dillaman@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We recently removed the dependency of the stream job on its base node.
-That makes it OK to use a commit filter node there.  Test that.
+On Thu, Jun 27, 2019 at 3:45 PM John Snow <jsnow@redhat.com> wrote:
+>
+>
+>
+> On 6/27/19 3:43 PM, Jason Dillaman wrote:
+> > On Thu, Jun 27, 2019 at 1:24 PM John Snow <jsnow@redhat.com> wrote:
+> >>
+> >>
+> >>
+> >> On 6/27/19 4:48 AM, Stefano Garzarella wrote:
+> >>> On Wed, Jun 26, 2019 at 05:04:25PM -0400, John Snow wrote:
+> >>>> It looks like this has hit a 30 day expiration without any reviews or
+> >>>> being merged; do we still want this? If so, can you please resend?
+> >>>
+> >>> Yes, I think we still want :)
+> >>>
+> >>> Is it okay if I send a v3 following your comments?
+> >>>
+> >>
+> >> Yes, but I don't know who is responsible for final approval; I guess
+> >> that's Josh Durgin?
+> >
+> > I'm the new (for the past several years) upstream PTL for RBD, so feel
+> > free to tag me.
+> >
+>
+> I got Josh's name out of MAINTAINERS, does it need an update?
+>
+> > RBD
+> > M: Josh Durgin <jdurgin@redhat.com>
+> > L: qemu-block@nongnu.org
+> > S: Supported
+> > F: block/rbd.c
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/030     | 25 +++++++++++++++++++++++++
- tests/qemu-iotests/030.out |  4 ++--
- 2 files changed, 27 insertions(+), 2 deletions(-)
+Yes, I'll submit a patch to update that tomorrow.
 
-diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
-index 10fe1de89d..a0397072bc 100755
---- a/tests/qemu-iotests/030
-+++ b/tests/qemu-iotests/030
-@@ -363,6 +363,31 @@ class TestParallelOps(iotests.QMPTestCase):
-         self.wait_until_completed()
-         self.assert_no_active_block_jobs()
-=20
-+    # In this case the base node of the stream job is the commit job's
-+    # filter node.  stream does not have a real dependency on its base
-+    # node, so even though commit removes it when it is done, there is
-+    # no conflict.
-+    def test_overlapping_5(self):
-+        self.assert_no_active_block_jobs()
-+
-+        # Commit from node2 into node0
-+        result =3D self.vm.qmp('block-commit', device=3D'drive0',
-+                             top_node=3D'node2', base_node=3D'node0',
-+                             filter_node_name=3D'commit-filter', speed=3D=
-1024*1024)
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Stream from node2 into node4
-+        result =3D self.vm.qmp('block-stream', device=3D'node4',
-+                             base_node=3D'commit-filter', job_id=3D'node=
-4')
-+        self.assert_qmp(result, 'return', {})
-+
-+        result =3D self.vm.qmp('block-job-set-speed', device=3D'drive0',=
- speed=3D0)
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.vm.run_job(job=3D'drive0', auto_dismiss=3DTrue, use_log=3DF=
-alse)
-+        self.vm.run_job(job=3D'node4', auto_dismiss=3DTrue, use_log=3DFa=
-lse)
-+        self.assert_no_active_block_jobs()
-+
-     # Test a block-stream and a block-commit job in parallel
-     # Here the stream job is supposed to finish quickly in order to repr=
-oduce
-     # the scenario that triggers the bug fixed in 3d5d319e1221 and 1a63a=
-907507
-diff --git a/tests/qemu-iotests/030.out b/tests/qemu-iotests/030.out
-index 4fd1c2dcd2..5eb508de07 100644
---- a/tests/qemu-iotests/030.out
-+++ b/tests/qemu-iotests/030.out
-@@ -1,5 +1,5 @@
--.........................
-+..........................
- ----------------------------------------------------------------------
--Ran 25 tests
-+Ran 26 tests
-=20
- OK
---=20
-2.21.0
-
+-- 
+Jason
 
