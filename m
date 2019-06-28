@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8E359045
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 04:09:44 +0200 (CEST)
-Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989255904D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 04:11:59 +0200 (CEST)
+Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hggKd-0006Ah-Pl
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 22:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50115)
+	id 1hggMo-0001EY-Qt
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 22:11:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50116)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hgg8m-0000uM-PV
+ (envelope-from <ehabkost@redhat.com>) id 1hgg8m-0000uO-Pm
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 21:57:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hgg8l-0001gX-FD
+ (envelope-from <ehabkost@redhat.com>) id 1hgg8l-0001h2-JB
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 21:57:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50746)
+Received: from mx1.redhat.com ([209.132.183.28]:50772)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hgg8j-0000qg-O3
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hgg8l-0000vH-By
  for qemu-devel@nongnu.org; Thu, 27 Jun 2019 21:57:27 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 55063308339A;
- Fri, 28 Jun 2019 01:57:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 788CF30832D8;
+ Fri, 28 Jun 2019 01:57:07 +0000 (UTC)
 Received: from localhost (ovpn-116-7.gru2.redhat.com [10.97.116.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CEFEF608A7;
- Fri, 28 Jun 2019 01:57:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F382060BE0;
+ Fri, 28 Jun 2019 01:57:06 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Thu, 27 Jun 2019 22:55:59 -0300
-Message-Id: <20190628015606.32107-23-ehabkost@redhat.com>
+Date: Thu, 27 Jun 2019 22:56:00 -0300
+Message-Id: <20190628015606.32107-24-ehabkost@redhat.com>
 In-Reply-To: <20190628015606.32107-1-ehabkost@redhat.com>
 References: <20190628015606.32107-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 28 Jun 2019 01:57:05 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Fri, 28 Jun 2019 01:57:07 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 22/29] i386: Don't print warning if phys-bits
- was set automatically
+Subject: [Qemu-devel] [PULL 23/29] i386: Fix signedness of
+ hyperv_spinlock_attempts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,59 +58,37 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If cpu->host_phys_bits_limit is set, QEMU will make
-cpu->phys_bits be lower than host_phys_bits on some cases.  This
-triggers a warning that was supposed to be printed only if
-phys-bits was explicitly set in the command-line.
+The current default value for hv-spinlocks is 0xFFFFFFFF (meaning
+"never retry").  However, the value is stored as a signed
+integer, making the getter of the hv-spinlocks QOM property
+return -1 instead of 0xFFFFFFFF.
 
-Reorder the code so the value of cpu->phys_bits is validated
-before the cpu->host_phys_bits handling.  This will avoid
-unexpected warnings when cpu->host_phys_bits_limit is set.
+Fix this by changing the type of X86CPU::hyperv_spinlock_attempts
+to uint32_t.  This has no visible effect to guest operating
+systems, affecting just the behavior of the QOM getter.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190611205420.20286-1-ehabkost@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20190615200505.31348-1-ehabkost@redhat.com>
+Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+Reviewed-by: Roman Kagan <rkagan@virtuozzo.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ target/i386/cpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 3a38fe3633..390f47adc5 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5293,15 +5293,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-             uint32_t host_phys_bits = x86_host_phys_bits();
-             static bool warned;
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 4d2ae2384e..ff26351538 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1408,7 +1408,7 @@ struct X86CPU {
+     CPUNegativeOffsetState neg;
+     CPUX86State env;
  
--            if (cpu->host_phys_bits) {
--                /* The user asked for us to use the host physical bits */
--                cpu->phys_bits = host_phys_bits;
--                if (cpu->host_phys_bits_limit &&
--                    cpu->phys_bits > cpu->host_phys_bits_limit) {
--                    cpu->phys_bits = cpu->host_phys_bits_limit;
--                }
--            }
--
-             /* Print a warning if the user set it to a value that's not the
-              * host value.
-              */
-@@ -5313,6 +5304,15 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-                 warned = true;
-             }
- 
-+            if (cpu->host_phys_bits) {
-+                /* The user asked for us to use the host physical bits */
-+                cpu->phys_bits = host_phys_bits;
-+                if (cpu->host_phys_bits_limit &&
-+                    cpu->phys_bits > cpu->host_phys_bits_limit) {
-+                    cpu->phys_bits = cpu->host_phys_bits_limit;
-+                }
-+            }
-+
-             if (cpu->phys_bits &&
-                 (cpu->phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
-                 cpu->phys_bits < 32)) {
+-    int hyperv_spinlock_attempts;
++    uint32_t hyperv_spinlock_attempts;
+     char *hyperv_vendor_id;
+     bool hyperv_synic_kvm_only;
+     uint64_t hyperv_features;
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
