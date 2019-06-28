@@ -2,40 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B095C59DB7
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:28:32 +0200 (CEST)
-Received: from localhost ([::1]:60648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE6F59E54
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:02:23 +0200 (CEST)
+Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgrrb-0003gM-Mm
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59718)
+	id 1hgsOM-0000Dj-Oc
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:02:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59991)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hgrCs-0002V3-0S
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:46:29 -0400
+ (envelope-from <qemu_oss@crudebyte.com>) id 1hgrEd-0003sf-1A
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:48:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hgrCm-0004lk-PX
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:46:25 -0400
-Received: from relay.sw.ru ([185.231.240.75]:41292)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hgrCm-0004i4-BA; Fri, 28 Jun 2019 09:46:20 -0400
-Received: from [172.16.25.136] (helo=localhost.sw.ru)
- by relay.sw.ru with esmtp (Exim 4.92)
- (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hgrCj-0008NT-6l; Fri, 28 Jun 2019 16:46:17 +0300
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Fri, 28 Jun 2019 16:46:14 +0300
-Message-Id: <1561729574-530879-8-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1561729574-530879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-References: <1561729574-530879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3 7/7] iotests: Set read-zeroes on in null
- block driver for Valgrind
+ (envelope-from <qemu_oss@crudebyte.com>) id 1hgrEa-0006nO-Ak
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:48:14 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:51609)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1hgrEW-0006c6-4R
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:48:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yx7v48X7vavRmsbFebclOAvVwiaZPkTdVBnwcYkHA0E=; b=nwfFkmDuaEd/7oRvTZ/oQxsiAq
+ ikPKNCAnO8E3P4d4uPaRot/GQivZTUsIicT+/eq9WDZe9fhf9d/1XnXw9kUhy9crGE0w08Ah/4ueO
+ jztKEh+o1UQYq/0eyIYHUWsGhf52RVbWpNullDnM4q6+8m6oWwikKguY3vrwU4CHTX+5F+F1GAtCa
+ Y4TT41PNcOaXCji4l67SGSXo6yfDDKC59v3ddc7lJEpM/tHcjzu2xFV66AroFPXgx3hFuPUevtzJv
+ 3aY2yuAD0sOakRuwKYa6sF8J9Qg2N/3HGcIiqB0PeNR3EaZj409fY9XSfP4YXRuFTLjlgvxdPy1y5
+ dK3CzAYpZdFqu3u9pUjuL+zQT0viEzCv32AiKa360cLc0wJwvHqjePVXuoY/taFDfSQwH6F607fMq
+ PqyVpqunjNEw5qGmsYtjDdBD5P50hpnsMnyftCTA9kXxNM/Vfi5ECYyVSPaLfVEfKoan3Tq6lXNxB
+ nfbf1/seC7GAF5hI5AP/1Dul2wppB7Ylr9CmHZVRZhiyv3VM/sstMILplrXqBeSkCVzxNW4fhEDLg
+ /xiWG3xTt6zk6K+7y9cIXR4g+d1TAYLziNXM3dJEXCrZ1N8aiDzVYdYVs3hZ8z82Zh2VOW2Nsp+Wt
+ Q1bD1AoxUAcqM71w7JujOJJtdKHt+p8cVISEgxMNs=;
+To: qemu-devel@nongnu.org
+Date: Fri, 28 Jun 2019 15:47:52 +0200
+Message-ID: <4068711.1y5nem0Q7a@silver>
+In-Reply-To: <20190628120931.2d31f741@bahia.lan>
+References: <cover.1561575449.git.qemu_oss@crudebyte.com>
+ <91b9f8920735847e6c0e84ab6dc2c689aed13cc7.1561575449.git.qemu_oss@crudebyte.com>
+ <20190628120931.2d31f741@bahia.lan>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.189.157.229
+Subject: Re: [Qemu-devel] [PATCH v4 3/5] 9p: Added virtfs option
+ "remap_inodes"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -47,639 +62,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
- andrey.shinkevich@virtuozzo.com, den@openvz.org
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Valgrind tool reports about the uninitialised buffer 'buf'
-instantiated on the stack of the function guess_disk_lchs().
-It is revealed in the tests 051, 186, 227 and 240.
-Pass 'read-zeroes=on' to the null block driver in the mentioned tests
-to make them deterministic.
-The output of the tests above now includes the parameter 'read-zeroes'.
-So, the benchmark output files are being changed too.
+On Freitag, 28. Juni 2019 12:09:31 CEST Greg Kurz wrote:
+> On Wed, 26 Jun 2019 20:42:13 +0200
+> 
+> Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
+> > To support multiple devices on the 9p share, and avoid
+> > qid path collisions we take the device id as input
+> > to generate a unique QID path. The lowest 48 bits of
+> > the path will be set equal to the file inode, and the
+> > top bits will be uniquely assigned based on the top
+> > 16 bits of the inode and the device id.
+> > 
+> > Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+> 
+> Same remark about changes to the original patch.
 
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
----
- tests/qemu-iotests/051        |  10 +--
- tests/qemu-iotests/051.pc.out |  10 +--
- tests/qemu-iotests/186        |  20 +++---
- tests/qemu-iotests/186.out    | 152 +++++++++++++++++++++---------------------
- tests/qemu-iotests/227        |   4 +-
- tests/qemu-iotests/227.out    |   4 +-
- tests/qemu-iotests/240        |   8 +--
- 7 files changed, 104 insertions(+), 104 deletions(-)
+ack_once();   :)
 
-diff --git a/tests/qemu-iotests/051 b/tests/qemu-iotests/051
-index 2465e48..f8141ca 100755
---- a/tests/qemu-iotests/051
-+++ b/tests/qemu-iotests/051
-@@ -251,11 +251,11 @@ echo
- # Cannot use the test image because cache=none might not work on the host FS
- # Use cdrom so that we won't get errors about missing media
- 
--run_qemu -drive driver=null-co,cache=none
--run_qemu -drive driver=null-co,cache=directsync
--run_qemu -drive driver=null-co,cache=writeback
--run_qemu -drive driver=null-co,cache=writethrough
--run_qemu -drive driver=null-co,cache=unsafe
-+run_qemu -drive driver=null-co,read-zeroes=on,cache=none
-+run_qemu -drive driver=null-co,read-zeroes=on,cache=directsync
-+run_qemu -drive driver=null-co,read-zeroes=on,cache=writeback
-+run_qemu -drive driver=null-co,read-zeroes=on,cache=writethrough
-+run_qemu -drive driver=null-co,read-zeroes=on,cache=unsafe
- run_qemu -drive driver=null-co,cache=invalid_value
- 
- # Can't test direct=on here because O_DIRECT might not be supported on this FS
-diff --git a/tests/qemu-iotests/051.pc.out b/tests/qemu-iotests/051.pc.out
-index 2d811c1..000557c 100644
---- a/tests/qemu-iotests/051.pc.out
-+++ b/tests/qemu-iotests/051.pc.out
-@@ -245,23 +245,23 @@ QEMU X.Y.Z monitor - type 'help' for more information
- 
- === Cache modes ===
- 
--Testing: -drive driver=null-co,cache=none
-+Testing: -drive driver=null-co,read-zeroes=on,cache=none
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) quit
- 
--Testing: -drive driver=null-co,cache=directsync
-+Testing: -drive driver=null-co,read-zeroes=on,cache=directsync
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) quit
- 
--Testing: -drive driver=null-co,cache=writeback
-+Testing: -drive driver=null-co,read-zeroes=on,cache=writeback
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) quit
- 
--Testing: -drive driver=null-co,cache=writethrough
-+Testing: -drive driver=null-co,read-zeroes=on,cache=writethrough
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) quit
- 
--Testing: -drive driver=null-co,cache=unsafe
-+Testing: -drive driver=null-co,read-zeroes=on,cache=unsafe
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) quit
- 
-diff --git a/tests/qemu-iotests/186 b/tests/qemu-iotests/186
-index 7e7d45b..5f6b18c 100755
---- a/tests/qemu-iotests/186
-+++ b/tests/qemu-iotests/186
-@@ -86,8 +86,8 @@ echo "=== -blockdev/-device=<node-name> ==="
- echo
- 
- for dev in $fixed $removable; do
--    check_info_block -blockdev driver=null-co,node-name=null -device $dev,drive=null
--    check_info_block -blockdev driver=null-co,node-name=null -device $dev,drive=null,id=qdev_id
-+    check_info_block -blockdev driver=null-co,read-zeroes=on,node-name=null -device $dev,drive=null
-+    check_info_block -blockdev driver=null-co,read-zeroes=on,node-name=null -device $dev,drive=null,id=qdev_id
- done
- 
- echo
-@@ -97,7 +97,7 @@ echo
- # This creates two BlockBackends that will show up in 'info block'!
- # A monitor-owned one from -drive, and anonymous one from -device
- for dev in $fixed $removable; do
--    check_info_block -drive if=none,driver=null-co,node-name=null -device $dev,drive=null,id=qdev_id
-+    check_info_block -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device $dev,drive=null,id=qdev_id
- done
- 
- echo
-@@ -105,8 +105,8 @@ echo "=== -drive if=none/-device=<bb-name> (with medium) ==="
- echo
- 
- for dev in $fixed $removable; do
--    check_info_block -drive if=none,driver=null-co,node-name=null -device $dev,drive=none0
--    check_info_block -drive if=none,driver=null-co,node-name=null -device $dev,drive=none0,id=qdev_id
-+    check_info_block -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device $dev,drive=none0
-+    check_info_block -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device $dev,drive=none0,id=qdev_id
- done
- 
- echo
-@@ -125,15 +125,15 @@ echo "=== -drive if=... ==="
- echo
- 
- check_info_block -drive if=floppy
--check_info_block -drive if=floppy,driver=null-co
-+check_info_block -drive if=floppy,driver=null-co,read-zeroes=on
- 
--check_info_block -drive if=ide,driver=null-co
-+check_info_block -drive if=ide,driver=null-co,read-zeroes=on
- check_info_block -drive if=ide,media=cdrom
--check_info_block -drive if=ide,driver=null-co,media=cdrom
-+check_info_block -drive if=ide,driver=null-co,read-zeroes=on,media=cdrom
- 
--check_info_block -drive if=virtio,driver=null-co
-+check_info_block -drive if=virtio,driver=null-co,read-zeroes=on
- 
--check_info_block -drive if=pflash,driver=null-co,size=1M
-+check_info_block -drive if=pflash,driver=null-co,read-zeroes=on,size=1M
- 
- # success, all done
- echo "*** done"
-diff --git a/tests/qemu-iotests/186.out b/tests/qemu-iotests/186.out
-index 716b01a..5b35040 100644
---- a/tests/qemu-iotests/186.out
-+++ b/tests/qemu-iotests/186.out
-@@ -54,103 +54,103 @@ qdev_id: [not inserted]
- 
- === -blockdev/-device=<node-name> ===
- 
--Testing: -blockdev driver=null-co,node-name=null -device ide-hd,drive=null
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device ide-hd,drive=null
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device ide-hd,drive=null,id=qdev_id
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device ide-hd,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device scsi-hd,drive=null
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device scsi-hd,drive=null
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device scsi-hd,drive=null,id=qdev_id
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device scsi-hd,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device virtio-blk-pci,drive=null
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device virtio-blk-pci,drive=null
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device virtio-blk-pci,drive=null,id=qdev_id
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device virtio-blk-pci,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device floppy,drive=null
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device floppy,drive=null
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device floppy,drive=null,id=qdev_id
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device floppy,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device ide-cd,drive=null
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device ide-cd,drive=null
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device ide-cd,drive=null,id=qdev_id
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device ide-cd,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device scsi-cd,drive=null
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device scsi-cd,drive=null
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -blockdev driver=null-co,node-name=null -device scsi-cd,drive=null,id=qdev_id
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device scsi-cd,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": true, "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
-@@ -159,76 +159,76 @@ null: null-co:// (null-co)
- 
- === -drive if=none/-device=<node-name> ===
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device ide-hd,drive=null,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device ide-hd,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- 
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device scsi-hd,drive=null,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device scsi-hd,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- 
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device virtio-blk-pci,drive=null,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device virtio-blk-pci,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- 
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device floppy,drive=null,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device floppy,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- 
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device ide-cd,drive=null,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device ide-cd,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- 
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device scsi-cd,drive=null,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device scsi-cd,drive=null,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- 
--null: null-co:// (null-co)
-+null: json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
-@@ -237,103 +237,103 @@ null: null-co:// (null-co)
- 
- === -drive if=none/-device=<bb-name> (with medium) ===
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device ide-hd,drive=none0
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device ide-hd,drive=none0
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device ide-hd,drive=none0,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device ide-hd,drive=none0,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device scsi-hd,drive=none0
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device scsi-hd,drive=none0
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device scsi-hd,drive=none0,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device scsi-hd,drive=none0,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device virtio-blk-pci,drive=none0
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device virtio-blk-pci,drive=none0
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device virtio-blk-pci,drive=none0,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device virtio-blk-pci,drive=none0,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device floppy,drive=none0
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device floppy,drive=none0
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device floppy,drive=none0,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device floppy,drive=none0,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device ide-cd,drive=none0
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device ide-cd,drive=none0
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device ide-cd,drive=none0,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device ide-cd,drive=none0,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device scsi-cd,drive=none0
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device scsi-cd,drive=none0
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=none,driver=null-co,node-name=null -device scsi-cd,drive=none0,id=qdev_id
-+Testing: -drive if=none,driver=null-co,read-zeroes=on,node-name=null -device scsi-cd,drive=none0,id=qdev_id
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--none0 (null): null-co:// (null-co)
-+none0 (null): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      qdev_id
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
-@@ -408,19 +408,19 @@ floppy0: [not inserted]
-     Removable device: not locked, tray closed
- (qemu) quit
- 
--Testing: -drive if=floppy,driver=null-co
-+Testing: -drive if=floppy,driver=null-co,read-zeroes=on
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--floppy0 (NODE_NAME): null-co:// (null-co)
-+floppy0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=ide,driver=null-co
-+Testing: -drive if=ide,driver=null-co,read-zeroes=on
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--ide0-hd0 (NODE_NAME): null-co:// (null-co)
-+ide0-hd0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
-@@ -433,27 +433,27 @@ ide0-cd0: [not inserted]
-     Removable device: not locked, tray closed
- (qemu) quit
- 
--Testing: -drive if=ide,driver=null-co,media=cdrom
-+Testing: -drive if=ide,driver=null-co,read-zeroes=on,media=cdrom
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--ide0-cd0 (NODE_NAME): null-co:// (null-co, read-only)
-+ide0-cd0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co"} (null-co, read-only)
-     Attached to:      PATH
-     Removable device: not locked, tray closed
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=virtio,driver=null-co
-+Testing: -drive if=virtio,driver=null-co,read-zeroes=on
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--virtio0 (NODE_NAME): null-co:// (null-co)
-+virtio0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
- 
--Testing: -drive if=pflash,driver=null-co,size=1M
-+Testing: -drive if=pflash,driver=null-co,read-zeroes=on,size=1M
- QEMU X.Y.Z monitor - type 'help' for more information
- (qemu) info block
--pflash0 (NODE_NAME): json:{"driver": "null-co", "size": "1M"} (null-co)
-+pflash0 (NODE_NAME): json:{"read-zeroes": "on", "driver": "null-co", "size": "1M"} (null-co)
-     Attached to:      PATH
-     Cache mode:       writeback
- (qemu) quit
-diff --git a/tests/qemu-iotests/227 b/tests/qemu-iotests/227
-index bdd727a..637d7c3 100755
---- a/tests/qemu-iotests/227
-+++ b/tests/qemu-iotests/227
-@@ -57,7 +57,7 @@ echo
- echo '=== blockstats with -drive if=virtio ==='
- echo
- 
--run_qemu -drive driver=null-co,if=virtio <<EOF
-+run_qemu -drive driver=null-co,read-zeroes=on,if=virtio <<EOF
- { "execute": "qmp_capabilities" }
- { "execute": "query-blockstats"}
- { "execute": "quit" }
-@@ -87,7 +87,7 @@ echo
- echo '=== blockstats with -blockdev and -device ==='
- echo
- 
--run_qemu -blockdev driver=null-co,node-name=null -device virtio-blk,drive=null,id=virtio0 <<EOF
-+run_qemu -blockdev driver=null-co,read-zeroes=on,node-name=null -device virtio-blk,drive=null,id=virtio0 <<EOF
- { "execute": "qmp_capabilities" }
- { "execute": "query-blockstats"}
- { "execute": "quit" }
-diff --git a/tests/qemu-iotests/227.out b/tests/qemu-iotests/227.out
-index e77efaf..3dd3ca5 100644
---- a/tests/qemu-iotests/227.out
-+++ b/tests/qemu-iotests/227.out
-@@ -2,7 +2,7 @@ QA output created by 227
- 
- === blockstats with -drive if=virtio ===
- 
--Testing: -drive driver=null-co,if=virtio
-+Testing: -drive driver=null-co,read-zeroes=on,if=virtio
- {
-     QMP_VERSION
- }
-@@ -150,7 +150,7 @@ Testing: -blockdev driver=null-co,node-name=null
- 
- === blockstats with -blockdev and -device ===
- 
--Testing: -blockdev driver=null-co,node-name=null -device virtio-blk,drive=null,id=virtio0
-+Testing: -blockdev driver=null-co,read-zeroes=on,node-name=null -device virtio-blk,drive=null,id=virtio0
- {
-     QMP_VERSION
- }
-diff --git a/tests/qemu-iotests/240 b/tests/qemu-iotests/240
-index 5be6b9c..f73bc07 100755
---- a/tests/qemu-iotests/240
-+++ b/tests/qemu-iotests/240
-@@ -76,7 +76,7 @@ echo
- 
- run_qemu <<EOF
- { "execute": "qmp_capabilities" }
--{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "hd0"}}
-+{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "read-zeroes": true, "node-name": "hd0"}}
- { "execute": "object-add", "arguments": {"qom-type": "iothread", "id": "iothread0"}}
- { "execute": "device_add", "arguments": {"id": "scsi0", "driver": "${virtio_scsi}", "iothread": "iothread0"}}
- { "execute": "device_add", "arguments": {"id": "scsi-hd0", "driver": "scsi-hd", "drive": "hd0"}}
-@@ -94,7 +94,7 @@ echo
- 
- run_qemu <<EOF
- { "execute": "qmp_capabilities" }
--{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "hd0", "read-only": true}}
-+{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "read-zeroes": true, "node-name": "hd0", "read-only": true}}
- { "execute": "object-add", "arguments": {"qom-type": "iothread", "id": "iothread0"}}
- { "execute": "device_add", "arguments": {"id": "scsi0", "driver": "${virtio_scsi}", "iothread": "iothread0"}}
- { "execute": "device_add", "arguments": {"id": "scsi-hd0", "driver": "scsi-hd", "drive": "hd0"}}
-@@ -112,7 +112,7 @@ echo
- 
- run_qemu <<EOF
- { "execute": "qmp_capabilities" }
--{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "hd0", "read-only": true}}
-+{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "read-zeroes": true, "node-name": "hd0", "read-only": true}}
- { "execute": "object-add", "arguments": {"qom-type": "iothread", "id": "iothread0"}}
- { "execute": "object-add", "arguments": {"qom-type": "iothread", "id": "iothread1"}}
- { "execute": "device_add", "arguments": {"id": "scsi0", "driver": "${virtio_scsi}", "iothread": "iothread0"}}
-@@ -134,7 +134,7 @@ echo
- 
- run_qemu <<EOF
- { "execute": "qmp_capabilities" }
--{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "node-name": "hd0", "read-only": true}}
-+{ "execute": "blockdev-add", "arguments": {"driver": "null-co", "read-zeroes": true, "node-name": "hd0", "read-only": true}}
- { "execute": "nbd-server-start", "arguments": {"addr":{"type":"unix","data":{"path":"$TEST_DIR/nbd"}}}}
- { "execute": "nbd-server-add", "arguments": {"device":"hd0"}}
- { "execute": "object-add", "arguments": {"qom-type": "iothread", "id": "iothread0"}}
--- 
-1.8.3.1
+> BTW, I had a concern with the way v9fs_do_readdir() open-codes QID
+> generation without calling stat_to_qid().
+> 
+> See discussion here:
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2018-02/msg02724.html
+> 
+> I guess you should ensure in a preliminary patch that QIDs only
+> come out of stat_to_qid().
 
+Mja, actually I first omitted your suggestion consciously, because I first 
+thought it was an overkill pure visibility issue lmited to the default case 
+remap_inodes==false, but now that I look at it again, it is actually an issue 
+even when remap_inodes==true since dirent would expose wrong inode numbers on 
+guest as well.
+
+I will see what to do about it. However about your other concern here, quote:
+
+	"Also, if we hit a collision while reading the directory, I'm
+	 afraid the remaining entries won't be read at all. I'm not
+	 sure this is really what we want."
+
+That's however still a concern here that I would consider overkill to address. 
+I mean if a user gets into that situation then because of a configuration error 
+that must be corrected by user; the point of this patch set is to prevent 
+undefined behaviour and to make the user aware about the root cause of the 
+overall issue; the purpose is not to address all possible issues while there 
+is still a configuration error.
+
+> > +static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
+> > +                                uint64_t *path)
+> > +{
+> > +    QppEntry lookup = {
+> > +        .dev = stbuf->st_dev,
+> > +        .ino_prefix = (uint16_t) (stbuf->st_ino >> 48)
+> > +    }, *val;
+> > +    uint32_t hash = qpp_hash(lookup);
+> > +
+> > +    val = qht_lookup(&pdu->s->qpp_table, &lookup, hash);
+> > +
+> > +    if (!val) {
+> > +        if (pdu->s->qp_prefix_next == 0) {
+> > +            /* we ran out of prefixes */
+> 
+> And we won't ever be able to allocate a new one. Maybe worth
+> adding an error_report_once() to inform the user ?
+
+Yeah, I thought about that as well. Will do.
+
+> >  static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID
+> >  *qidp) {
+> > 
+> > -    size_t size;
+> > +    int err;
+> > 
+> > -    if (pdu->s->dev_id == 0) {
+> > -        pdu->s->dev_id = stbuf->st_dev;
+> > -    } else if (pdu->s->dev_id != stbuf->st_dev) {
+> > -        error_report_once(
+> > -            "9p: Multiple devices detected in same VirtFS export. "
+> > -            "You must use a separate export for each device."
+> > -        );
+> > -        return -ENOSYS;
+> > +    if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
+> > +        /* map inode+device to qid path (fast path) */
+> > +        err = qid_path_prefixmap(pdu, stbuf, &qidp->path);
+> > +        if (err) {
+> > +            return err;
+> > +        }
+> > +    } else {
+> > +        if (pdu->s->dev_id == 0) {
+> > +            pdu->s->dev_id = stbuf->st_dev;
+> > +        } else if (pdu->s->dev_id != stbuf->st_dev) {
+> > +            error_report_once(
+> > +                "9p: Multiple devices detected in same VirtFS export. "
+> > +                "You must either use a separate export for each device "
+> > +                "shared from host or enable virtfs option
+> > 'remap_inodes'."
+> > +            );
+> > +            return -ENOSYS;
+> > +        }
+> > +        size_t size;
+> 
+> From CODING_STYLE:
+> 
+> 5. Declarations
+> 
+> Mixed declarations (interleaving statements and declarations within
+> blocks) are generally not allowed; declarations should be at the beginning
+> of blocks.
+> 
+> Please do so for "size" and add an extra blank line.
+
+Ok.
+
+> > +#define QPATH_INO_MASK        (((unsigned long)1 << 48) - 1)
+> 
+> This won't give the expected result on a 32-bit host. Since this
+> is a mask for 64-bit entities, it should rather be:
+> 
+> #define QPATH_INO_MASK        ((1ULL << 48) - 1)
+
+Correct, will fix it.
+
+> > diff --git a/qemu-options.hx b/qemu-options.hx
+> > index 0d8beb4afd..e7ea136da1 100644
+> > --- a/qemu-options.hx
+> > +++ b/qemu-options.hx
+> > @@ -1334,7 +1334,7 @@ ETEXI
+> > 
+> >  DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
+> >  
+> >      "-virtfs
+> >      local,path=path,mount_tag=tag,security_model=mapped-xattr|mapped-fil
+> >      e|passthrough|none\n"> 
+> > -    "       
+> > [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode]\n" +
+> >    "       
+> > [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode][,rem
+> > ap_inodes]\n"
+> This feature applies to all backends IIUC. We don't really care for the
+> synth backend since it generates non-colliding inode numbers by design,
+> but the proxy backend has the same issue as local. So...
+
+Yeah, I was not sure about these, because I did not even know what these two 
+were for exactly. :)  [ lazyness disclaimer end]
+
+Will do for the other manual locations you mentioned as well.
+
+Best regards,
+Christian Schoenebeck
 
