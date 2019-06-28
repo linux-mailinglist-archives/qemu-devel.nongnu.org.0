@@ -2,55 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE6F59E54
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:02:23 +0200 (CEST)
-Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5403759E00
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:38:01 +0200 (CEST)
+Received: from localhost ([::1]:60792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgsOM-0000Dj-Oc
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:02:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59991)
+	id 1hgs0m-0000tj-Hj
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:38:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <qemu_oss@crudebyte.com>) id 1hgrEd-0003sf-1A
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:48:17 -0400
+ (envelope-from <jdillama@redhat.com>) id 1hgrLP-000324-BF
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:55:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <qemu_oss@crudebyte.com>) id 1hgrEa-0006nO-Ak
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:48:14 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:51609)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
- id 1hgrEW-0006c6-4R
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:48:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
- :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=yx7v48X7vavRmsbFebclOAvVwiaZPkTdVBnwcYkHA0E=; b=nwfFkmDuaEd/7oRvTZ/oQxsiAq
- ikPKNCAnO8E3P4d4uPaRot/GQivZTUsIicT+/eq9WDZe9fhf9d/1XnXw9kUhy9crGE0w08Ah/4ueO
- jztKEh+o1UQYq/0eyIYHUWsGhf52RVbWpNullDnM4q6+8m6oWwikKguY3vrwU4CHTX+5F+F1GAtCa
- Y4TT41PNcOaXCji4l67SGSXo6yfDDKC59v3ddc7lJEpM/tHcjzu2xFV66AroFPXgx3hFuPUevtzJv
- 3aY2yuAD0sOakRuwKYa6sF8J9Qg2N/3HGcIiqB0PeNR3EaZj409fY9XSfP4YXRuFTLjlgvxdPy1y5
- dK3CzAYpZdFqu3u9pUjuL+zQT0viEzCv32AiKa360cLc0wJwvHqjePVXuoY/taFDfSQwH6F607fMq
- PqyVpqunjNEw5qGmsYtjDdBD5P50hpnsMnyftCTA9kXxNM/Vfi5ECYyVSPaLfVEfKoan3Tq6lXNxB
- nfbf1/seC7GAF5hI5AP/1Dul2wppB7Ylr9CmHZVRZhiyv3VM/sstMILplrXqBeSkCVzxNW4fhEDLg
- /xiWG3xTt6zk6K+7y9cIXR4g+d1TAYLziNXM3dJEXCrZ1N8aiDzVYdYVs3hZ8z82Zh2VOW2Nsp+Wt
- Q1bD1AoxUAcqM71w7JujOJJtdKHt+p8cVISEgxMNs=;
-To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 15:47:52 +0200
-Message-ID: <4068711.1y5nem0Q7a@silver>
-In-Reply-To: <20190628120931.2d31f741@bahia.lan>
-References: <cover.1561575449.git.qemu_oss@crudebyte.com>
- <91b9f8920735847e6c0e84ab6dc2c689aed13cc7.1561575449.git.qemu_oss@crudebyte.com>
- <20190628120931.2d31f741@bahia.lan>
+ (envelope-from <jdillama@redhat.com>) id 1hgrLO-0004Nm-Fz
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:55:15 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:42275)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <jdillama@redhat.com>) id 1hgrLO-0004NN-CC
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:55:14 -0400
+Received: by mail-qk1-f194.google.com with SMTP id b18so4836548qkc.9
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 06:55:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/1Y4fNLaIkF25Y9QPQxd9rwtMpLAq+tObkHK36PZtR4=;
+ b=YDUpgJIVObipy7CYgNvIjqqtVX1UKyZ1qyFHp/R5sfUXbOTBR1H+Jq6A1BbQ+k0ZlB
+ rEq3DxhgGQ8GNE6z7jOMAPvfflLYgFxDtBrTUTd379V0I8CPCx0tvT+XU1YdYTkeqfRq
+ ooCPtOXtU53tcJ9LkgtC5HY6U8MVTD5sU+W4MuuovvQdsqXuCjZa+qkAKnmww26bCmxn
+ kRym+xV+87ln7g2lvh0MN6nCvgdRwCVvCpL8Zc9ISq/ZYZi0QRyVoi/0MrSBzOBr5gK+
+ N3PBgdiM0m92wg2bUQd//WMvI1FeYCeWv8Vopa6txWjsgle967e/Vo8vEkfg0pdHH8ar
+ HQcg==
+X-Gm-Message-State: APjAAAVRLzAoxLv7z17oeSTRpxk5pC0sPR9ZxzLgXiR+cCkgg/pDF9IE
+ FImTlJfmENDp8wGU8TqsHjQh8g==
+X-Google-Smtp-Source: APXvYqx6VYzEzUhR1BCUPs6/dUBysbMDU/owiNPRdzJfbdjCAsibJEnY11XMF8KF5paXartsna/LLQ==
+X-Received: by 2002:a37:97c5:: with SMTP id z188mr9144409qkd.5.1561730113643; 
+ Fri, 28 Jun 2019 06:55:13 -0700 (PDT)
+Received: from cube-1.lan (pool-96-241-25-63.washdc.fios.verizon.net.
+ [96.241.25.63])
+ by smtp.gmail.com with ESMTPSA id k33sm1014669qte.69.2019.06.28.06.55.12
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 28 Jun 2019 06:55:12 -0700 (PDT)
+From: jdillama@redhat.com
+X-Google-Original-From: dillaman@redhat.com
+To: jdurgin@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Date: Fri, 28 Jun 2019 09:55:08 -0400
+Message-Id: <20190628135508.8013-1-dillaman@redhat.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
-Subject: Re: [Qemu-devel] [PATCH v4 3/5] 9p: Added virtfs option
- "remap_inodes"
+ [fuzzy]
+X-Received-From: 209.85.222.194
+X-Mailman-Approved-At: Fri, 28 Jun 2019 10:32:09 -0400
+Subject: [Qemu-devel] [PATCH] MAINTAINERS: update RBD block maintainer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,160 +68,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 28. Juni 2019 12:09:31 CEST Greg Kurz wrote:
-> On Wed, 26 Jun 2019 20:42:13 +0200
-> 
-> Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
-> > To support multiple devices on the 9p share, and avoid
-> > qid path collisions we take the device id as input
-> > to generate a unique QID path. The lowest 48 bits of
-> > the path will be set equal to the file inode, and the
-> > top bits will be uniquely assigned based on the top
-> > 16 bits of the inode and the device id.
-> > 
-> > Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
-> 
-> Same remark about changes to the original patch.
+From: Jason Dillaman <dillaman@redhat.com>
 
-ack_once();   :)
+Remove Josh as per his request since he is no longer the upstream RBD
+tech lead. Add myself as the maintainer since I am the current RBD tech
+lead.
 
-> BTW, I had a concern with the way v9fs_do_readdir() open-codes QID
-> generation without calling stat_to_qid().
-> 
-> See discussion here:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2018-02/msg02724.html
-> 
-> I guess you should ensure in a preliminary patch that QIDs only
-> come out of stat_to_qid().
+Signed-off-by: Jason Dillaman <dillaman@redhat.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Mja, actually I first omitted your suggestion consciously, because I first 
-thought it was an overkill pure visibility issue lmited to the default case 
-remap_inodes==false, but now that I look at it again, it is actually an issue 
-even when remap_inodes==true since dirent would expose wrong inode numbers on 
-guest as well.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cad58b9487..47694cd02f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2367,7 +2367,7 @@ S: Supported
+ F: block/vmdk.c
+ 
+ RBD
+-M: Josh Durgin <jdurgin@redhat.com>
++M: Jason Dillaman <dillaman@redhat.com>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/rbd.c
+-- 
+2.21.0
 
-I will see what to do about it. However about your other concern here, quote:
-
-	"Also, if we hit a collision while reading the directory, I'm
-	 afraid the remaining entries won't be read at all. I'm not
-	 sure this is really what we want."
-
-That's however still a concern here that I would consider overkill to address. 
-I mean if a user gets into that situation then because of a configuration error 
-that must be corrected by user; the point of this patch set is to prevent 
-undefined behaviour and to make the user aware about the root cause of the 
-overall issue; the purpose is not to address all possible issues while there 
-is still a configuration error.
-
-> > +static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
-> > +                                uint64_t *path)
-> > +{
-> > +    QppEntry lookup = {
-> > +        .dev = stbuf->st_dev,
-> > +        .ino_prefix = (uint16_t) (stbuf->st_ino >> 48)
-> > +    }, *val;
-> > +    uint32_t hash = qpp_hash(lookup);
-> > +
-> > +    val = qht_lookup(&pdu->s->qpp_table, &lookup, hash);
-> > +
-> > +    if (!val) {
-> > +        if (pdu->s->qp_prefix_next == 0) {
-> > +            /* we ran out of prefixes */
-> 
-> And we won't ever be able to allocate a new one. Maybe worth
-> adding an error_report_once() to inform the user ?
-
-Yeah, I thought about that as well. Will do.
-
-> >  static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID
-> >  *qidp) {
-> > 
-> > -    size_t size;
-> > +    int err;
-> > 
-> > -    if (pdu->s->dev_id == 0) {
-> > -        pdu->s->dev_id = stbuf->st_dev;
-> > -    } else if (pdu->s->dev_id != stbuf->st_dev) {
-> > -        error_report_once(
-> > -            "9p: Multiple devices detected in same VirtFS export. "
-> > -            "You must use a separate export for each device."
-> > -        );
-> > -        return -ENOSYS;
-> > +    if (pdu->s->ctx.export_flags & V9FS_REMAP_INODES) {
-> > +        /* map inode+device to qid path (fast path) */
-> > +        err = qid_path_prefixmap(pdu, stbuf, &qidp->path);
-> > +        if (err) {
-> > +            return err;
-> > +        }
-> > +    } else {
-> > +        if (pdu->s->dev_id == 0) {
-> > +            pdu->s->dev_id = stbuf->st_dev;
-> > +        } else if (pdu->s->dev_id != stbuf->st_dev) {
-> > +            error_report_once(
-> > +                "9p: Multiple devices detected in same VirtFS export. "
-> > +                "You must either use a separate export for each device "
-> > +                "shared from host or enable virtfs option
-> > 'remap_inodes'."
-> > +            );
-> > +            return -ENOSYS;
-> > +        }
-> > +        size_t size;
-> 
-> From CODING_STYLE:
-> 
-> 5. Declarations
-> 
-> Mixed declarations (interleaving statements and declarations within
-> blocks) are generally not allowed; declarations should be at the beginning
-> of blocks.
-> 
-> Please do so for "size" and add an extra blank line.
-
-Ok.
-
-> > +#define QPATH_INO_MASK        (((unsigned long)1 << 48) - 1)
-> 
-> This won't give the expected result on a 32-bit host. Since this
-> is a mask for 64-bit entities, it should rather be:
-> 
-> #define QPATH_INO_MASK        ((1ULL << 48) - 1)
-
-Correct, will fix it.
-
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 0d8beb4afd..e7ea136da1 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -1334,7 +1334,7 @@ ETEXI
-> > 
-> >  DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
-> >  
-> >      "-virtfs
-> >      local,path=path,mount_tag=tag,security_model=mapped-xattr|mapped-fil
-> >      e|passthrough|none\n"> 
-> > -    "       
-> > [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode]\n" +
-> >    "       
-> > [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode][,rem
-> > ap_inodes]\n"
-> This feature applies to all backends IIUC. We don't really care for the
-> synth backend since it generates non-colliding inode numbers by design,
-> but the proxy backend has the same issue as local. So...
-
-Yeah, I was not sure about these, because I did not even know what these two 
-were for exactly. :)  [ lazyness disclaimer end]
-
-Will do for the other manual locations you mentioned as well.
-
-Best regards,
-Christian Schoenebeck
 
