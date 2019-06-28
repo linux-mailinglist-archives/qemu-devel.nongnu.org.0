@@ -2,60 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7714359B91
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:35:24 +0200 (CEST)
-Received: from localhost ([::1]:59312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8BF59C2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:57:50 +0200 (CEST)
+Received: from localhost ([::1]:59494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgq67-0003Cn-Jy
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:35:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35289)
+	id 1hgqRo-00071r-Vn
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37400)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hgq3Y-0000w4-80
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:32:45 -0400
+ (envelope-from <qemu_oss@crudebyte.com>) id 1hgq7V-000638-Hx
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:36:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hgq3W-0003rW-UN
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:32:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39014)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hgq3Q-0003pa-Om; Fri, 28 Jun 2019 08:32:38 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6762C19DCB;
- Fri, 28 Jun 2019 12:32:34 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A70991A927;
- Fri, 28 Jun 2019 12:32:29 +0000 (UTC)
-Date: Fri, 28 Jun 2019 14:32:28 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-ID: <20190628123228.GJ5179@dhcp-200-226.str.redhat.com>
-References: <d0d2cab4-2157-1f9f-3bc9-a70f28a211b0@virtuozzo.com>
- <20181213122039.GC5427@linux.fritz.box>
- <f2fcbcc2-5e0f-053d-f4c7-fe0f5f6092f0@virtuozzo.com>
- <20190313160412.GF5167@linux.fritz.box>
- <101bbf98-0456-5022-e117-fd6f693a8786@virtuozzo.com>
- <20190409100142.GC6610@localhost.localdomain>
- <20190621091656.GA9744@localhost.localdomain>
- <d2ad5561-1806-d885-350a-b43dd0fe4339@virtuozzo.com>
- <ce694324-a2fd-2f03-351a-e54bc05973f1@virtuozzo.com>
- <08004ed8-73ba-1f36-ff46-ba29aba02c66@virtuozzo.com>
+ (envelope-from <qemu_oss@crudebyte.com>) id 1hgq7T-0005Rm-6h
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:36:49 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:50737)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1hgq7S-0005Pi-Om
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:36:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=j9Bgeh5ORcS3zh5M01sP+j2waz3x7lPAVubYd65cf0o=; b=Fa4hfPPRjlpLF2iWGeIVVpydga
+ rvKsKcQnMsCnJyWqOyphsaSDLfrq0UlDUUqdg6SwKn1OuBwVs5w9jHym0ToAtXScUo8csV3tndExI
+ gPPtBOJC40qxFQm/G6oHdq32vojpcYRZuwScML4AMPoXJ5ujxQAS9QdHeKNii43cWLJ97Kico2mrx
+ e3OuZ7uAhWlRBO+jOOwZ3E/j9kmkq6F3cu3X+OhxYkXjuaECsZ8irZvgZDXsPY5LaEK8oKNX1IJxL
+ YdQQw54ttLzFxM/Il5i3Y2ImAkZ4pAxI/guK9c3mmjdXKGDBwE6gOjhVqzaFNy2nZsvbASI6v68oz
+ Z7H6wKNfUordYdN4MYyHTBmsgWnB741R7h95B5hVEOe6X/ZJjdA2z5lnahJ2Bj2wz5Z4QYBfkV/mI
+ lMolP5bURnufqR7aaWOe9/yUlJqqsZZMz9XDSU8v0nOkmq/1xF4ZkJzKCWfLMP/4+AukHsfG7AxMU
+ 25BUiBoejEugv14o6rzVvOKmSd8+P0cz3jvgjEJvWebGrMdj1PUxG3VlK17WV1yKFiJfQQxmR5cAb
+ T4lKlCCHrTEjf8Hhlz2hplgwwOlm/qK2C8nFXYKw+gyhKYUgnICPWZSZltYgIxpGkY7ngBJnC21ay
+ LnqZJOFFG6GL1B2z2+mu0YjVmx7ROTsW3ibEzbD3c=;
+To: qemu-devel@nongnu.org
+Date: Fri, 28 Jun 2019 14:36:41 +0200
+Message-ID: <11832960.ASyAv1XfID@silver>
+In-Reply-To: <20190627192622.6f49dc0a@bahia.lan>
+References: <cover.1561575449.git.qemu_oss@crudebyte.com>
+ <26b626706b5fa0c492413a3279512c17952be5de.1561575449.git.qemu_oss@crudebyte.com>
+ <20190627192622.6f49dc0a@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <08004ed8-73ba-1f36-ff46-ba29aba02c66@virtuozzo.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.38]); Fri, 28 Jun 2019 12:32:34 +0000 (UTC)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] blk: postpone request
- execution on a context protected with "drained section"
+X-Received-From: 5.189.157.229
+Subject: Re: [Qemu-devel] [PATCH v4 2/5] 9p: Treat multiple devices on one
+ export as an error
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,100 +62,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "keith.busch@intel.com" <keith.busch@intel.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.06.2019 um 10:46 hat Denis Plotnikov geschrieben:
-> On 24.06.2019 12:46, Denis Plotnikov wrote:
-> > On 21.06.2019 12:59, Vladimir Sementsov-Ogievskiy wrote:
-> >> 21.06.2019 12:16, Kevin Wolf wrote:
-> >>> Am 09.04.2019 um 12:01 hat Kevin Wolf geschrieben:
-> >>>> Am 02.04.2019 um 10:35 hat Denis Plotnikov geschrieben:
-> >>>>> On 13.03.2019 19:04, Kevin Wolf wrote:
-> >>>>>> Am 14.12.2018 um 12:54 hat Denis Plotnikov geschrieben:
-> >>>>>>> On 13.12.2018 15:20, Kevin Wolf wrote:
-> >>>>>>>> Am 13.12.2018 um 12:07 hat Denis Plotnikov geschrieben:
-> >>>>>>>>> Sounds it should be so, but it doesn't work that way and that's why:
-> >>>>>>>>> when doing mirror we may resume postponed coroutines too early when the
-> >>>>>>>>> underlying bs is protected from writing at and thus we encounter the
-> >>>>>>>>> assert on a write request execution at bdrv_co_write_req_prepare when
-> >>>>>>>>> resuming the postponed coroutines.
-> >>>>>>>>>
-> >>>>>>>>> The thing is that the bs is protected for writing before execution of
-> >>>>>>>>> bdrv_replace_node at mirror_exit_common and bdrv_replace_node calls
-> >>>>>>>>> bdrv_replace_child_noperm which, in turn, calls child->role->drained_end
-> >>>>>>>>> where one of the callbacks is blk_root_drained_end which check
-> >>>>>>>>> if(--blk->quiesce_counter == 0) and runs the postponed requests
-> >>>>>>>>> (coroutines) if the coundition is true.
-> >>>>>>>>
-> >>>>>>>> Hm, so something is messed up with the drain sections in the mirror
-> >>>>>>>> driver. We have:
-> >>>>>>>>
-> >>>>>>>>          bdrv_drained_begin(target_bs);
-> >>>>>>>>          bdrv_replace_node(to_replace, target_bs, &local_err);
-> >>>>>>>>          bdrv_drained_end(target_bs);
-> >>>>>>>>
-> >>>>>>>> Obviously, the intention was to keep the BlockBackend drained during
-> >>>>>>>> bdrv_replace_node(). So how could blk->quiesce_counter ever get to 0
-> >>>>>>>> inside bdrv_replace_node() when target_bs is drained?
-> >>>>>>>>
-> >>>>>>>> Looking at bdrv_replace_child_noperm(), it seems that the function has
-> >>>>>>>> a bug: Even if old_bs and new_bs are both drained, the quiesce_counter
-> >>>>>>>> for the parent reaches 0 for a moment because we call .drained_end for
-> >>>>>>>> the old child first and .drained_begin for the new one later.
-> >>>>>>>>
-> >>>>>>>> So it seems the fix would be to reverse the order and first call
-> >>>>>>>> .drained_begin for the new child and then .drained_end for the old
-> >>>>>>>> child. Sounds like a good new testcase for tests/test-bdrv-drain.c, too.
-> >>>>>>> Yes, it's true, but it's not enough...
-> >>>>>>
-> >>>>>> Did you ever implement the changes suggested so far, so that we could
-> >>>>>> continue from there? Or should I try and come up with something myself?
-> >>>>>
-> >>>>> Sorry for the late reply...
-> >>>>> Yes, I did ...
-> >>>>
-> >>>> If there are more question or problems, can you post the patches in
-> >>>> their current shape (as an RFC) or a git URL so I can play with it a
-> >>>> bit? If you could include a failing test case, too, that would be ideal.
-> >>>
-> >>> Denis? Please?
-> >>>
-> >>> We really should get this fixed and I would be willing to lend a hand,
-> >>> but if you keep your patches secret, I can't really do so and would have
-> >>> to duplicate your work.
-> >>>
-> >>> Also, please see my old answer from April below for the last problem you
-> >>> had with implementing the correct approach.
-> >>>
-> >>> Kevin
-> > 
-> > Hi Kevin,
-> > I'm sorry for not replying for so long. Please, give me some time (a day
-> > or two) so I could refresh everything and send the current state of the
-> > patches as well as the test case checking the issue
+On Donnerstag, 27. Juni 2019 19:26:22 CEST Greg Kurz wrote:
+> On Wed, 26 Jun 2019 20:30:41 +0200
 > 
-> Hi Kevin,
-> The current state of the patches is available at 
-> https://github.com/denis-plotnikov/qemu/tree/postponed-request
+> Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
+> > The QID path should uniquely identify a file. However, the
+> > inode of a file is currently used as the QID path, which
+> > on its own only uniquely identifies wiles within a device.
+> 
+> s/wile/files
 
-Are you sure you pushed the correct version?
+Ah right. :)
 
-I don't see any of the things we discussed above in this branch, i.e.
-using blk_root_drained_begin/end, fixing bdrv_replace_child_noperm(),
-fixing the drain calls in mirror etc.
+> > Here we track the device hosting the 9pfs share, in order
+> > to prevent security issues with QID path collisions from
+> > other devices.
+> > 
+> > Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+> 
+> You should mention here the changes you made to the original patch.
 
-> I didn't manage to create an automatic reproducer but one of the patches 
-> contains a step-by-step description of how to reproduce the problem.
+Got it. Will do for the other cases as well of course.
 
-Ok, I'll try whether I can reproduce this.
+> > -static void stat_to_qid(const struct stat *stbuf, V9fsQID *qidp)
+> > +static int stat_to_qid(V9fsPDU *pdu, const struct stat *stbuf, V9fsQID
+> > *qidp)> 
+> >  {
+> >  
+> >      size_t size;
+> > 
+> > +    if (pdu->s->dev_id == 0) {
+> > +        pdu->s->dev_id = stbuf->st_dev;
+> 
+> st_dev should be captured in v9fs_device_realize_common() since we
+> lstat() the root there, instead of every request doing the check.
 
-Kevin
+Ok.
+
+> > +    } else if (pdu->s->dev_id != stbuf->st_dev) {
+> > +        error_report_once(
+> > +            "9p: Multiple devices detected in same VirtFS export. "
+> > +            "You must use a separate export for each device."
+> > +        );
+> > +        return -ENOSYS;
+> 
+> This error is likely to end up as the return value of a
+> syscall in the guest and -ENOSYS usually means the syscall
+> isn't implemented, which is obviously not the case. Maybe
+> return -EPERM instead ?
+
+I would rather suggest -ENODEV. The entire device of the requested file/dir is 
+not available on guest.
+
+-EPERM IMO rather motivates users looking for file system permission settings 
+on individual files intead, and probably not checking the host's logs for the 
+detailled error message.
+
+> > @@ -3633,6 +3674,8 @@ int v9fs_device_realize_common(V9fsState *s, const
+> > V9fsTransport *t,> 
+> >          goto out;
+> >      
+> >      }
+> > 
+> > +    s->dev_id = 0;
+> > +
+> 
+> Set it to stat->st_dev after lstat() was called later in this function.
+
+I guesst you mean "earlier" not "later". The lstat() call is just before that 
+dev_id initalization line. But in general your suggestion makes sense of 
+course.
+
+Best regards,
+Christian Schoenebeck
 
