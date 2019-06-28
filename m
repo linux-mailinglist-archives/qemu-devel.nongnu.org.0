@@ -2,67 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0725A200
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:12:00 +0200 (CEST)
-Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2AB5A227
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:21:35 +0200 (CEST)
+Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hguPn-0007Zl-0p
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:11:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44497)
+	id 1hguZ4-0005vx-Cz
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45357)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hgu1K-0008BM-18
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:46:46 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hgu5V-00020q-CN
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:51:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hgu19-0004GV-Le
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:46:34 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:43078)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hgu16-0004Cp-9E; Fri, 28 Jun 2019 12:46:29 -0400
-Received: by mail-lj1-x241.google.com with SMTP id 16so6610067ljv.10;
- Fri, 28 Jun 2019 09:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lf7WOLdPUXHcz585kTad04mWr7d5k1f/cV/mp/ntXhA=;
- b=uad2o0cMm/v4uFExCn6GXCZ995RWWyRvMxl6iqxIvTXzKYe/qvhdarBojlmCUum6rW
- XySlyxCjKrPpetBffWG2f2H6bc94txIqTFgbBkD4d/Zs5oxjB5i+hPlanRRMSx/rTQ8F
- UImnsTwQZRHF61lu+XXJveu/lF5Zssg2Zl9Aic/LSGwBEDck7O01bcHKZLh4vSX1DdDr
- 3jfQlCrwzxsJcnVNmSgIJDciRg7px29I2yKg9eu1U+wZ8JvYaFnp2BEGVL3bQRmtmcsc
- MrVJDm3FsV15tg9+lxIzs9x7fuKcY7+1ulikGwZomvNzBKqEWnZlo29h/BJYlOAlkqe2
- LDng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lf7WOLdPUXHcz585kTad04mWr7d5k1f/cV/mp/ntXhA=;
- b=VuEnaOe+Nq5OpPyWwM/hRa9fiUOx/LZfrzBEnlo0FXxIY3u1y4nzU4RMl0tIxe/ghf
- afb2g5HvJefmlOUqf7S1dRrwtDR/v4wVRf0fYib1AJlWvYrlfqqHm+ANBC1ZC3dLhkT3
- ERPmKdHriOrZ2OtHcZ/WAl1Ie3NNbW38EKE0qNtqMBI6EcaA9OkksLeO/O6nXgXDHqrA
- NR2leAv4bSL1aiCr2tLDNLwiN0lAHvjm0c31IhHs2ecxBUNfmQ33zMzwbLMfIB+dBwtf
- 4An4SE41kHPP9m9hdoLy+EntDDCf0fojf4Co1Qbqv9vLvApMCGoDz7Gv6ERPyY9O2nFP
- 2vBw==
-X-Gm-Message-State: APjAAAV4IIFGDSwpBcEuspJbsW+dwDkEDtPN+dHfafezezFBzG0g6ze9
- BJDq10FqknIK/7EHoDmoP4I8Hdr0/EziVgTfvPA=
-X-Google-Smtp-Source: APXvYqwvWulw5oOGJ5qVLM6Ryye6q7t53F3cIdvQOqjTI3rsaABEBgkw1nQ4gRKKpCX9ZQNzsSDfSJpzspiORL+BVus=
-X-Received: by 2002:a2e:5d5a:: with SMTP id r87mr6777381ljb.196.1561740384800; 
- Fri, 28 Jun 2019 09:46:24 -0700 (PDT)
+ (envelope-from <jsnow@redhat.com>) id 1hgu5S-0006xU-PS
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:51:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44862)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jsnow@redhat.com>)
+ id 1hgu5J-0006qK-Sh; Fri, 28 Jun 2019 12:50:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 3BC6F307D962;
+ Fri, 28 Jun 2019 16:50:48 +0000 (UTC)
+Received: from [10.10.120.196] (ovpn-120-196.rdu2.redhat.com [10.10.120.196])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 454291001B17;
+ Fri, 28 Jun 2019 16:50:47 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190626215301.30733-1-jsnow@redhat.com>
+ <20190627083453.GC5618@localhost.localdomain>
+ <5a374041-10a2-5ae3-6db1-966c7589b1cd@redhat.com>
+ <20190628092429.GB5179@dhcp-200-226.str.redhat.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <fb955d47-e829-e180-9dcb-5b02b8973427@redhat.com>
+Date: Fri, 28 Jun 2019 12:50:45 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-20-philmd@redhat.com>
-In-Reply-To: <20190627202719.17739-20-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Jun 2019 09:43:20 -0700
-Message-ID: <CAKmqyKPdRe5iXDEo6EXse4s5QZ59_dWCRV07qSCOPh9rVNW2Yg@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v5 19/28] hw/block/pflash_cfi02: Extract
- pflash_regions_count()
+In-Reply-To: <20190628092429.GB5179@dhcp-200-226.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Fri, 28 Jun 2019 16:50:48 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] block/qcow: Improve error when opening
+ qcow2 files as qcow
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,71 +137,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Qemu-Trivial <qemu-trivial@nongnu.org>, radmehrsaeed7@gmail.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 1:54 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Extract the pflash_regions_count() function, the code will be
-> easier to review.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Alistair
+On 6/28/19 5:24 AM, Kevin Wolf wrote:
+> Am 27.06.2019 um 19:17 hat John Snow geschrieben:
+>>
+>>
+>> On 6/27/19 4:34 AM, Kevin Wolf wrote:
+>>> Am 26.06.2019 um 23:53 hat John Snow geschrieben:
+>>>> Reported-by: radmehrsaeed7@gmail.com
+>>>> Fixes: https://bugs.launchpad.net/bugs/1832914
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>> ---
+>>>>  block/qcow.c | 7 ++++++-
+>>>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/block/qcow.c b/block/qcow.c
+>>>> index 6dee5bb792..a9cb6ae0bd 100644
+>>>> --- a/block/qcow.c
+>>>> +++ b/block/qcow.c
+>>>> @@ -156,7 +156,12 @@ static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
+>>>>          goto fail;
+>>>>      }
+>>>>      if (header.version != QCOW_VERSION) {
+>>>> -        error_setg(errp, "Unsupported qcow version %" PRIu32, header.version);
+>>>> +        error_setg(errp, "qcow (v%d) does not support qcow version %" PRIu32,
+>>>> +                   QCOW_VERSION, header.version);
+>>>> +        if (header.version == 2 || header.version == 3) {
+>>>> +            error_append_hint(errp, "Try the 'qcow2' driver instead.");
+>>>
+>>> I think we want a \n at the end here.
+>>>
+>>
+>> D'oh.
+>>
+>>> Kevin
+>>
+>> Can a maintainer pretty-please make the edit?
+> 
+> A maintainer did that now. (read: thanks, applied)
+> 
+> Kevin
+> 
 
-> ---
->  hw/block/pflash_cfi02.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index 1f096ec185..a0d3bd60dc 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -157,6 +157,11 @@ static void pflash_register_memory(PFlashCFI02 *pfl,=
- int rom_mode)
->      pfl->rom_mode =3D rom_mode;
->  }
->
-> +static size_t pflash_regions_count(PFlashCFI02 *pfl)
-> +{
-> +    return pfl->cfi_table[0x2c];
-> +}
-> +
->  static void pflash_timer (void *opaque)
->  {
->      PFlashCFI02 *pfl =3D opaque;
-> @@ -192,9 +197,8 @@ static uint64_t pflash_data_read(PFlashCFI02 *pfl, hw=
-addr offset,
->  static uint32_t pflash_sector_len(PFlashCFI02 *pfl, hwaddr offset)
->  {
->      assert(offset < pfl->chip_len);
-> -    int nb_regions =3D pfl->cfi_table[0x2C];
->      hwaddr addr =3D 0;
-> -    for (int i =3D 0; i < nb_regions; ++i) {
-> +    for (int i =3D 0; i < pflash_regions_count(pfl); ++i) {
->          uint64_t region_size =3D (uint64_t)pfl->nb_blocs[i] * pfl->secto=
-r_len[i];
->          if (addr <=3D offset && offset < addr + region_size) {
->              return pfl->sector_len[i];
-> --
-> 2.20.1
->
->
+Thankyouthankyou!
+
+--js
 
