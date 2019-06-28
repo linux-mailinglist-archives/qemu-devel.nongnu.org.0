@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF795A287
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:36:53 +0200 (CEST)
-Received: from localhost ([::1]:34882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C04F75A2AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:43:19 +0200 (CEST)
+Received: from localhost ([::1]:34938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgunt-00020L-3f
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:36:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54373)
+	id 1hguu6-0005h5-5L
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:43:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54394)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgujz-00083N-SJ
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:32:55 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hguk1-000870-Pc
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgujw-0008Hx-AW
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:32:51 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:41185)
+ (envelope-from <palmer@dabbelt.com>) id 1hgujy-0008Jr-Gp
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:32:53 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39109)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgujw-0008Ft-4y
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:32:48 -0400
-Received: by mail-pg1-f195.google.com with SMTP id q4so1406553pgj.8
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:32:46 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgujy-0008Ie-AV
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:32:50 -0400
+Received: by mail-pf1-f194.google.com with SMTP id j2so3324306pfe.6
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:32:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=skpCsY6OAelSjirFF1wZzpzLaY2+CMd8k4r3QNyFPh4=;
- b=T6I+toM2PV93D1Cw1T1845bGcjC+dqhjusq+XNhNkazLxxHGIbgM/oWsEoY46K2YAE
- MmwF9Tp6/CEFRYsXJYYc4V1JLxu5l3ym6SFqjouxc6NdIhKGqvQpjOpZXKrv4GbsCXeC
- vVb5QRYAlBF+yT6MNqxg6q+rab1CmxSipLpOtZrJS5wFDuztzdiv0BCvC+oiOc7D8iCT
- 52AXN+8YmNB7PebxvheGTMpNnXTEhA61feeH0cH4I2HWkZ+q5XdWvDd9uMzmC7AuF4vC
- SpA1kbD51Ch08x78TcG3SLvIUCdHNi9FUaYdfFdFNKyWkly4+MlIIKrFr/G2GFo1zR5b
- IHLg==
-X-Gm-Message-State: APjAAAUi3LuQtOCJVnjptZNyPxiXFcSz/CmFfzKwEAyFLH0hA0vF3V1Z
- Md2d3x8yYXfei8wp436ZerFOYwofTCFsKTRZ
-X-Google-Smtp-Source: APXvYqxI+aNpPXccr3z4WvuSCLEVcgWxMDCBxvRF+WloAzPZChPklHOGWTUMyC0Cpcp9l8wwBcYXXg==
-X-Received: by 2002:a63:480a:: with SMTP id v10mr10470045pga.60.1561743164768; 
- Fri, 28 Jun 2019 10:32:44 -0700 (PDT)
+ bh=TZ7LklPK8UvVtDwbEWjV8Myyoa+ER/F09z/DtS5QZ9Q=;
+ b=DkDbZkNNguKJfuYivrINOHKLw6mvhgumg4IDUwtTKbooqF2BR3HjSykM5SZ929LS/C
+ Rzlwct7WSgjFc47vr0Seub9wcOkG5iFeZ0qFULKh+GcQ0ti87Qhm9wm+NebOUNYqXBAD
+ VNkb19G2x8K3D//U2DeBqKTeQrwU27xY2hInxRmrmuVEhUuwcRYeKemE0w78WVvVvA7V
+ wNGYBB8LXT++pP7Y0tF2V6MGwe+yIRZEyk7ucu3eSRthNEIA0XgNU3N7zM75gFN0SCqF
+ Nmv+uz4MsLEl+oWL4988tZqyd3CKzZjNaPJlamQEEnuIPJRZGYRKQx43veziBNhbTkFy
+ iOyA==
+X-Gm-Message-State: APjAAAU8TST+hqj+yPDjJ6UvHHpCdZkMNTQyU1YyavXg2KBsmk/nbUY9
+ hS8d0Vih8A/8tkunAFSpil/kiOizEDh1lQZ3
+X-Google-Smtp-Source: APXvYqyBk/LvGledl175O03URpiHsSPfbfOFMkN0vi4VWr760Ic+394LA9kH6FhvOrn0cTEqymnTLA==
+X-Received: by 2002:a63:221f:: with SMTP id i31mr3722713pgi.251.1561743168142; 
+ Fri, 28 Jun 2019 10:32:48 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id v9sm2547121pgj.69.2019.06.28.10.32.43
+ by smtp.gmail.com with ESMTPSA id x6sm2514807pjp.18.2019.06.28.10.32.46
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:32:43 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:31:55 -0700
-Message-Id: <20190628173227.31925-3-palmer@sifive.com>
+ Fri, 28 Jun 2019 10:32:47 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:31:56 -0700
+Message-Id: <20190628173227.31925-4-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
 References: <20190628173227.31925-1-palmer@sifive.com>
@@ -54,8 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.215.195
-Subject: [Qemu-devel] [PULL 02/34] sifive_prci: Read and write PRCI registers
+X-Received-From: 209.85.210.194
+Subject: [Qemu-devel] [PULL 03/34] target/riscv: Fix PMP range boundary
+ address bug
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,152 +68,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nathaniel Graff <nathaniel.graff@sifive.com>,
- Michael Clark <mjc@sifive.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@sifive.com>
+Cc: qemu-riscv@nongnu.org, Dayeol Lee <dayeol@berkeley.edu>,
+ Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
+ Michael Clark <mjc@sifive.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nathaniel Graff <nathaniel.graff@sifive.com>
+From: Dayeol Lee <dayeol@berkeley.edu>
 
-Writes to the SiFive PRCI registers are preserved while leaving the
-ready bits set for the HFX/HFR oscillators and the lock bit set for the
-PLL.
+A wrong address is passed to `pmp_is_in_range` while checking if a
+memory access is within a PMP range.
+Since the ending address of the pmp range (i.e., pmp_state.addr[i].ea)
+is set to the last address in the range (i.e., pmp base + pmp size - 1),
+memory accesses containg the last address in the range will always fail.
 
-Signed-off-by: Nathaniel Graff <nathaniel.graff@sifive.com>
+For example, assume that a PMP range is 4KB from 0x87654000 such that
+the last address within the range is 0x87654fff.
+1-byte access to 0x87654fff should be considered to be fully inside the
+PMP range.
+However the access now fails and complains partial inclusion because
+pmp_is_in_range(env, i, addr + size) returns 0 whereas
+pmp_is_in_range(env, i, addr) returns 1.
+
+Signed-off-by: Dayeol Lee <dayeol@berkeley.edu>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Michael Clark <mjc@sifive.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- hw/riscv/sifive_prci.c         | 49 ++++++++++++++++++++++++++++------
- include/hw/riscv/sifive_prci.h | 32 ++++++++++++++++++++++
- 2 files changed, 73 insertions(+), 8 deletions(-)
+ target/riscv/pmp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/riscv/sifive_prci.c b/hw/riscv/sifive_prci.c
-index fa136b5a9fe9..f406682c91f1 100644
---- a/hw/riscv/sifive_prci.c
-+++ b/hw/riscv/sifive_prci.c
-@@ -24,15 +24,18 @@
- #include "target/riscv/cpu.h"
- #include "hw/riscv/sifive_prci.h"
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index fed1c3c0301b..e0fe2064074a 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -245,7 +245,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+          from low to high */
+     for (i = 0; i < MAX_RISCV_PMPS; i++) {
+         s = pmp_is_in_range(env, i, addr);
+-        e = pmp_is_in_range(env, i, addr + size);
++        e = pmp_is_in_range(env, i, addr + size - 1);
  
--/* currently implements enough to mock freedom-e-sdk BSP clock programming */
--
- static uint64_t sifive_prci_read(void *opaque, hwaddr addr, unsigned int size)
- {
--    if (addr == 0 /* PRCI_HFROSCCFG */) {
--        return 1 << 31; /* ROSC_RDY */
--    }
--    if (addr == 8 /* PRCI_PLLCFG    */) {
--        return 1 << 31; /* PLL_LOCK */
-+    SiFivePRCIState *s = opaque;
-+    switch (addr) {
-+    case SIFIVE_PRCI_HFROSCCFG:
-+        return s->hfrosccfg;
-+    case SIFIVE_PRCI_HFXOSCCFG:
-+        return s->hfxosccfg;
-+    case SIFIVE_PRCI_PLLCFG:
-+        return s->pllcfg;
-+    case SIFIVE_PRCI_PLLOUTDIV:
-+        return s->plloutdiv;
-     }
-     hw_error("%s: read: addr=0x%x\n", __func__, (int)addr);
-     return 0;
-@@ -41,7 +44,30 @@ static uint64_t sifive_prci_read(void *opaque, hwaddr addr, unsigned int size)
- static void sifive_prci_write(void *opaque, hwaddr addr,
-            uint64_t val64, unsigned int size)
- {
--    /* discard writes */
-+    SiFivePRCIState *s = opaque;
-+    switch (addr) {
-+    case SIFIVE_PRCI_HFROSCCFG:
-+        s->hfrosccfg = (uint32_t) val64;
-+        /* OSC stays ready */
-+        s->hfrosccfg |= SIFIVE_PRCI_HFROSCCFG_RDY;
-+        break;
-+    case SIFIVE_PRCI_HFXOSCCFG:
-+        s->hfxosccfg = (uint32_t) val64;
-+        /* OSC stays ready */
-+        s->hfxosccfg |= SIFIVE_PRCI_HFXOSCCFG_RDY;
-+        break;
-+    case SIFIVE_PRCI_PLLCFG:
-+        s->pllcfg = (uint32_t) val64;
-+        /* PLL stays locked */
-+        s->pllcfg |= SIFIVE_PRCI_PLLCFG_LOCK;
-+        break;
-+    case SIFIVE_PRCI_PLLOUTDIV:
-+        s->plloutdiv = (uint32_t) val64;
-+        break;
-+    default:
-+        hw_error("%s: bad write: addr=0x%x v=0x%x\n",
-+                 __func__, (int)addr, (int)val64);
-+    }
- }
- 
- static const MemoryRegionOps sifive_prci_ops = {
-@@ -61,6 +87,13 @@ static void sifive_prci_init(Object *obj)
-     memory_region_init_io(&s->mmio, obj, &sifive_prci_ops, s,
-                           TYPE_SIFIVE_PRCI, 0x8000);
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
-+
-+    s->hfrosccfg = (SIFIVE_PRCI_HFROSCCFG_RDY | SIFIVE_PRCI_HFROSCCFG_EN);
-+    s->hfxosccfg = (SIFIVE_PRCI_HFROSCCFG_RDY | SIFIVE_PRCI_HFROSCCFG_EN);
-+    s->pllcfg = (SIFIVE_PRCI_PLLCFG_REFSEL | SIFIVE_PRCI_PLLCFG_BYPASS |
-+                SIFIVE_PRCI_PLLCFG_LOCK);
-+    s->plloutdiv = SIFIVE_PRCI_PLLOUTDIV_DIV1;
-+
- }
- 
- static const TypeInfo sifive_prci_info = {
-diff --git a/include/hw/riscv/sifive_prci.h b/include/hw/riscv/sifive_prci.h
-index b6f4c486cc1e..bd51c4af3c1c 100644
---- a/include/hw/riscv/sifive_prci.h
-+++ b/include/hw/riscv/sifive_prci.h
-@@ -19,6 +19,34 @@
- #ifndef HW_SIFIVE_PRCI_H
- #define HW_SIFIVE_PRCI_H
- 
-+enum {
-+    SIFIVE_PRCI_HFROSCCFG   = 0x0,
-+    SIFIVE_PRCI_HFXOSCCFG   = 0x4,
-+    SIFIVE_PRCI_PLLCFG      = 0x8,
-+    SIFIVE_PRCI_PLLOUTDIV   = 0xC
-+};
-+
-+enum {
-+    SIFIVE_PRCI_HFROSCCFG_RDY   = (1 << 31),
-+    SIFIVE_PRCI_HFROSCCFG_EN    = (1 << 30)
-+};
-+
-+enum {
-+    SIFIVE_PRCI_HFXOSCCFG_RDY   = (1 << 31),
-+    SIFIVE_PRCI_HFXOSCCFG_EN    = (1 << 30)
-+};
-+
-+enum {
-+    SIFIVE_PRCI_PLLCFG_PLLSEL   = (1 << 16),
-+    SIFIVE_PRCI_PLLCFG_REFSEL   = (1 << 17),
-+    SIFIVE_PRCI_PLLCFG_BYPASS   = (1 << 18),
-+    SIFIVE_PRCI_PLLCFG_LOCK     = (1 << 31)
-+};
-+
-+enum {
-+    SIFIVE_PRCI_PLLOUTDIV_DIV1  = (1 << 8)
-+};
-+
- #define TYPE_SIFIVE_PRCI "riscv.sifive.prci"
- 
- #define SIFIVE_PRCI(obj) \
-@@ -30,6 +58,10 @@ typedef struct SiFivePRCIState {
- 
-     /*< public >*/
-     MemoryRegion mmio;
-+    uint32_t hfrosccfg;
-+    uint32_t hfxosccfg;
-+    uint32_t pllcfg;
-+    uint32_t plloutdiv;
- } SiFivePRCIState;
- 
- DeviceState *sifive_prci_create(hwaddr addr);
+         /* partially inside */
+         if ((s + e) == 1) {
 -- 
 2.21.0
 
