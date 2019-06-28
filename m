@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347005A544
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 21:40:33 +0200 (CEST)
-Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915BF5A55C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 21:49:39 +0200 (CEST)
+Received: from localhost ([::1]:35974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgwjY-0004GV-Dj
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 15:40:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58208)
+	id 1hgwsM-0002Vh-OE
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 15:49:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eblake@redhat.com>) id 1hgwdZ-000104-Ar
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:34:23 -0400
+ (envelope-from <danielhb413@gmail.com>) id 1hgwoP-0000cG-Gb
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:45:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eblake@redhat.com>) id 1hgwdW-0001xK-Qc
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:34:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38802)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eblake@redhat.com>)
- id 1hgwdO-0001rR-Lq; Fri, 28 Jun 2019 15:34:10 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id F151D316290D;
- Fri, 28 Jun 2019 19:34:08 +0000 (UTC)
-Received: from [10.3.116.142] (ovpn-116-142.phx2.redhat.com [10.3.116.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E8E3519C59;
- Fri, 28 Jun 2019 19:34:07 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>
-References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
- <20190528143727.10529-3-dplotnikov@virtuozzo.com>
- <20190628102333.GG5179@dhcp-200-226.str.redhat.com>
- <08da0859-10da-5d4b-3203-72341a166255@virtuozzo.com>
- <20190628120622.GI5179@dhcp-200-226.str.redhat.com>
- <4fef0430-5a0c-36ca-eec0-a2c0ce10cb91@virtuozzo.com>
- <20190628142437.GL5179@dhcp-200-226.str.redhat.com>
- <bf5134a7-7c5e-2b28-9acb-3b82df982e1e@virtuozzo.com>
- <20190628145419.GM5179@dhcp-200-226.str.redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
- xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
- xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
- TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
- GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
- sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
- AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
- CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
- RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
- wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
- Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
- gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
- pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
- zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
- pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
- 3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
- NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
- cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
- SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
- I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
- mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
- Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
- 2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <9dea8cff-f540-3689-91d4-21afc5a4dd5e@redhat.com>
-Date: Fri, 28 Jun 2019 14:34:01 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <danielhb413@gmail.com>) id 1hgwoM-0000vy-Nf
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:45:33 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:36858)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
+ id 1hgwoK-0000sC-EI
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:45:28 -0400
+Received: by mail-qt1-x843.google.com with SMTP id p15so7681995qtl.3
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 12:45:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1SwVU18ARN5GY7vLoHwvz2yEvR6Sr/nDSSFaZ3x64xA=;
+ b=XtH45xt3dhrCnGi1TJNjh68R29f6n8RjPT76fxfhnLMaVIAUc+bsI4XXg8VLoghy84
+ DV6VID6TCbPk4lVz+Y9tFW1oJzcj55qjJaAs3v1iG50O3GX/Dn28Y/NlXLmyqA74LpbG
+ caecqa5GD07eaSUTGo96DUuCYqHjm9jpSOnwKra0jTCITkcjOIb6dUszcAeoIjytqGd8
+ DHoCDwcIBcSUW1fwSf98ta5viCRbAMuzd4rJNon/Eh7DlTomNZeF0EDcCv+hetZJda6b
+ 8X4qjUTy5oxFHptG9uYO3zn89B//tHiwL6Vz3rotRR6W3Bz9pXVEn2/zxEFQEnN8KTr9
+ 3mcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1SwVU18ARN5GY7vLoHwvz2yEvR6Sr/nDSSFaZ3x64xA=;
+ b=DllfyTZgrcp0k7i0LkNFROPUfcmjapTxbTFsxEWkPY8yj8NXezsY6CJ0+pUxC5KVOs
+ P9jVy8SUhk5qAVPasXGHN0LSnoRiyk6vbOSSK7oGm6w0DtmntkQ1YZnifoMkU7xGCynM
+ HlqL6j2wG8EOwugwo0DstN5CDicfbHn/EGcutzxtwB7x6YZW1pc3t1LPnOM6G2xD9+rY
+ tmRZPDlklmk+o2uOFfMjbdRj3LKDU2NLjdyOj3Wl1d92VFRxWHWRGVghIb3xb6jBynEM
+ wSPcaFtABSeZwiyG5uDffHheyiKhAJZqpoNOrlD6OfMhOENpi7ePa2yRo6ofZnlY2CcH
+ 4kJA==
+X-Gm-Message-State: APjAAAUyxloNV7BkgQo3r5+yBwr2OhowgR4tKRSNjSca3z0tCooUiypx
+ jUJNTQ5d8DRXLj+u1ZNZoLVQ6xeP
+X-Google-Smtp-Source: APXvYqxH566JMWkaqkqCaJvTqMxpJdSbXdKEKHYd0A7r0icxp1GTUsvxEdAXHw/JEzHf1UbZstS95A==
+X-Received: by 2002:ac8:32ec:: with SMTP id a41mr9776030qtb.375.1561751123768; 
+ Fri, 28 Jun 2019 12:45:23 -0700 (PDT)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:927e:501b:7135:21ca:8a87])
+ by smtp.gmail.com with ESMTPSA id b69sm1602288qkg.105.2019.06.28.12.45.21
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 28 Jun 2019 12:45:23 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 28 Jun 2019 16:45:08 -0300
+Message-Id: <20190628194512.21311-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190628145419.GM5179@dhcp-200-226.str.redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="GRmsUCJH0fyJdddnwFdxOEveYzfnZfnyC"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Fri, 28 Jun 2019 19:34:09 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v0 2/3] qcow2: add compression type
- processing
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::843
+Subject: [Qemu-devel] [PATCH v4 0/4] delete created files when
+ block_crypto_co_create_opts_luks fails
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,151 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: kwolf@redhat.com, jsnow@redhat.com,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, berrange@redhat.com,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---GRmsUCJH0fyJdddnwFdxOEveYzfnZfnyC
-Content-Type: multipart/mixed; boundary="sVW6EfHQW62bO8UESNM9eaUJJ1qGKRfQt";
- protected-headers="v1"
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>
-Cc: "mreitz@redhat.com" <mreitz@redhat.com>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Denis Lunev <den@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <9dea8cff-f540-3689-91d4-21afc5a4dd5e@redhat.com>
-Subject: Re: [PATCH v0 2/3] qcow2: add compression type processing
-References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
- <20190528143727.10529-3-dplotnikov@virtuozzo.com>
- <20190628102333.GG5179@dhcp-200-226.str.redhat.com>
- <08da0859-10da-5d4b-3203-72341a166255@virtuozzo.com>
- <20190628120622.GI5179@dhcp-200-226.str.redhat.com>
- <4fef0430-5a0c-36ca-eec0-a2c0ce10cb91@virtuozzo.com>
- <20190628142437.GL5179@dhcp-200-226.str.redhat.com>
- <bf5134a7-7c5e-2b28-9acb-3b82df982e1e@virtuozzo.com>
- <20190628145419.GM5179@dhcp-200-226.str.redhat.com>
-In-Reply-To: <20190628145419.GM5179@dhcp-200-226.str.redhat.com>
-
---sVW6EfHQW62bO8UESNM9eaUJJ1qGKRfQt
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-On 6/28/19 9:54 AM, Kevin Wolf wrote:
-
->>>>>>> We would save most of this code if we added a new field to the he=
-ader
->>>>>>> instead of adding a header extension. Not saying that we should
->>>>>>> definitely do this, but let's discuss it at least.
->>>>>>
->>>>>> If we add the new field to the header will the older qemu be able =
-to use
->>>>>> it. Or we will add the header only if needed, i.e. if compression_=
-type
->>>>>> !=3D zlib
->>>>>
->>>>> Increasing the header size is backwards compatible. Older qemu vers=
-ions
->>>>> should handle such images correctly. They would store the unknown p=
-art
->>>>> of the header in s->unknown_header_fields and keep it unmodified wh=
-en
->>>>> updating the image header.
->>>>>
->>>>> We would still add the incompatible feature flag for non-zlib, of
->>>>> course.
->>>> so, we basically need to do the same: store compression type and for=
-bid
->>>> to use because of flag if not zlib.
->>>>
->>>> Sounds like it doesn't differ that much from the extension header ap=
-proach.
->>>
->>> It provides more or less the same functionality, but would probably m=
-ake
->>> this patch half the size because all of the code related to reading a=
-nd
->>> checking the header extension would go away. It also saves a few byte=
-s
->>> in the header cluster (4 bytes vs. 16 bytes).
->> ok, will re-do it that way.
->>
->> Do you agree in general with how zlib compression type is treated?
->=20
-> As I said, I think both ways are justifiable as long as we stay
-> consistent between qemu and spec.
->=20
-> I'd prefer to allow zlib in the extension, you'd prefer to forbid it.
-> So I'd like to hear opinions from some more people on which way they
-> prefer.
-
-My preferences - use a 4 byte header field, and require the incompatible
-feature bit if the field is non-zero. The standard should allow someone
-to explicitly request zlib compression (done by leaving the incompatible
-bit clear, then specifying a header length of 108 instead of 104, but
-leaving the compression field at 104-107 at 0), to implicitly request
-zlib compression (done by leaving the incompatible bit clear, and
-specifying a header length of 104); or to explicitly request some other
-compression (done by setting the incompatible bit, specifying a header
-length of 108, and putting a non-zero value in the compression field
-104-107).
-
-Under these rules, if you implicitly or explicitly request zlib, your
-image can be opened without problems by both older and newer qemu.  If
-you explicitly request zstd, your image will fail to open by older qemu
-(good, because they would misinterpret compressed clusters), and work
-with newer qemu.  And since providing a 108-byte header works just fine
-with older qemu as long as the header contains 0, I recommend that we
-just always make newer qemu provide that field (even if it is explicitly
-set to zlib), as that is less complicated than only providing the larger
-header for non-zlib files (we still have to parse 104-byte headers, but
-that doesn't mean we have to create brand-new files that way).
-
-There's one more corner case. I recommend that the standard require that
-it be an error to set the incompatible feature bit but use a header size
-of 104 - if you have an imabe like that, the image would be treated as
-using zlib (implicitly due to the header size), so older images _could_
-use it other than the fact that they don't recognize the incompatible
-feature bit.  On the other hand, requiring such an image to be rejected
-is a bit of a stretch - no qemu (whether one that understands the
-feature bit or one that does not) would misinterpret the image contents
-as being zlib compressed, if it had not been for the bit being set.  So
-in this corner case, I'm fine if you end up documenting whatever is
-easiest to code.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Changes from previous version [1]:
+- added an extra patch including a new qemu-iotest to exercise the fix
 
 
---sVW6EfHQW62bO8UESNM9eaUJJ1qGKRfQt--
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg07159.html
 
---GRmsUCJH0fyJdddnwFdxOEveYzfnZfnyC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Daniel Henrique Barboza (4):
+  block: introducing 'bdrv_co_delete_file' interface
+  block.c: adding bdrv_delete_file
+  crypto.c: cleanup created file when block_crypto_co_create_opts_luks
+    fails
+  qemu-iotests: adding LUKS cleanup for non-UTF8 secret error
 
------BEGIN PGP SIGNATURE-----
+ block.c                    | 82 ++++++++++++++++++++++++++++++++++++++
+ block/crypto.c             | 31 ++++++++++++++
+ block/file-posix.c         | 28 +++++++++++++
+ include/block/block.h      |  3 ++
+ include/block/block_int.h  |  6 +++
+ tests/qemu-iotests/257     | 67 +++++++++++++++++++++++++++++++
+ tests/qemu-iotests/257.out | 11 +++++
+ tests/qemu-iotests/group   |  1 +
+ 8 files changed, 229 insertions(+)
+ create mode 100755 tests/qemu-iotests/257
+ create mode 100644 tests/qemu-iotests/257.out
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAl0Wa6kACgkQp6FrSiUn
-Q2r0kwf+PxsBohkWSYtnkkPr+T+H11xAJjzIHBTMH61oquHRBqj0HgPLmUSrhD+J
-wdYSxv6iD9JJQOZ1BuYv2vHoT7rxfeVYtSXsprHGwSZLiMtj8IiVtAY5mk3m89Us
-Sa/Ok1pg4jl1TfLR6ptVsahGKuCAdnJ329800JXnly9L5X1p0x800+WjZdwO6vnu
-3xrDojNADHBWHrzuNZGeppqZCk8T29pHL7GjwE0sPzGKzq5A35s+2OAg73UiLnoT
-x2yOcVUqsIZ3nc6K7of7wpmD2O/iLr0QTgz74DjDyU0FeI34xNzhuaGN5s8t0VhT
-lo7tUlDfCAgShNj4V2KFVyK+hPORcA==
-=NWNz
------END PGP SIGNATURE-----
+-- 
+2.20.1
 
---GRmsUCJH0fyJdddnwFdxOEveYzfnZfnyC--
 
