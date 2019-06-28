@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65075A23D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:26:13 +0200 (CEST)
-Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0931D5A228
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:21:36 +0200 (CEST)
+Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgudZ-0001ZC-1E
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49436)
+	id 1hguZ5-0005zu-88
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:21:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50682)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hguP5-00088G-16
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:17 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hguWO-0004WW-SX
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:18:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hguP2-0000cV-LD
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:14 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33112)
+ (envelope-from <palmer@dabbelt.com>) id 1hguWM-0005i2-OM
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:18:48 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:46407)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hguP2-0000ai-DG
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:12 -0400
-Received: by mail-wm1-x344.google.com with SMTP id h19so9790320wme.0
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:11:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=OGUqFw7PFkoyHnlsj+M+Gh+SpPTfF+kl62qiyTwBoXQ=;
- b=RZsTKloBHY56DXa3vzAAu9XquCyOhjcPcmCKCj/Fx1PbGu0HxlPgtmyHbe+wYVBwOE
- EuxH5OD0g8JR000a1glJ+Jefs8q5Z1WFxxNkzlX71PPfoYVuyeT3oUSDhNc+wlML9oh5
- swg0o/I3KLqE5bdLED4EcK9WB6JAtvbK68wRhQcggYUtzCXQNeqNfR6+tOh/jvNPDVLM
- CPmeuxwhT1W6cf/hoqC9gdZY4aev2glrHr5ZuplqPkyAd9TP42bxBx+d4PiB6RfgpEYC
- 6r2I5jryhUgWeby4hOxdED0HGDY4YiexTP5Gz5WDyS2D3PVu4am5qK3TPwxesfgMxPMC
- mw6Q==
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hguWM-0005hL-JK
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:18:46 -0400
+Received: by mail-pg1-f196.google.com with SMTP id v9so2850827pgr.13
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:18:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=OGUqFw7PFkoyHnlsj+M+Gh+SpPTfF+kl62qiyTwBoXQ=;
- b=aU16CVPGvdQCecGbwSIOGwaZ+jrmBSiHqhoVxdMjM0OCbNlFhthOzQLOwYKDkJzPT+
- 5boqikbChqTv2X3qdAs/W8tVm2ahGVhXUH2T+4hmE/Km41M7xQBoRd/BUnK9lqqm/yMM
- TDJ/REk8KS7qkdwqyDYBrWhgaj/+7W0jB0MQeHaJIyGEPDQB4pXdIJkY2uhnMq8FJrQG
- lrH0SMN6ZSYgfIEGGvcMJASEEasEYRoCQWnee6JIi3Su0zB3oPppybfZmXV6SYSh7BbE
- bR+23aOFVA1WdpxP1wY8+iJadK/H7CZW7jQziRkK991lHjsVW7QD6tjPmzxdIqwQLtdt
- dN6g==
-X-Gm-Message-State: APjAAAXIaKvWihtgASYaMscmX3W0ylQ0kcRTesxAE/NCsEkaiTMYcDkZ
- 95wnACyDOGO8/tcVcHQy2lUp4w==
-X-Google-Smtp-Source: APXvYqyaPu4BgL10pwQyZMZ0bMiVS8zon5HSZMUOskmMducSzd6MQKCxo5mMiSTR3jw/dfQmUSMFVA==
-X-Received: by 2002:a7b:cf27:: with SMTP id m7mr8067027wmg.7.1561741869286;
- Fri, 28 Jun 2019 10:11:09 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id n125sm3311786wmf.6.2019.06.28.10.11.08
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=cdnW3vBpIbBthg3lp9UrlXXEDiqP6W4bvRzXc/KCoAQ=;
+ b=lMgE24nOHqoLhRo4MtBUz1Nk3K4cNkq0hXAfOb15iDo1Ku3hXCiTgJ9Ut0JXcN8gtx
+ /0zp14qTuKNwOr7EkL0SQVv0GHfKAuEZwvhfMVtTVqp/zlPOeTSrqe2FOlfPj1wOcCkt
+ 9P0AnID5WHm7iRrF62dPHt89+CtUvyUboUUncBkt9MUX5yzUX5iNn7jAC13oxJSl32V0
+ YrzPW33rZQMBA7LXkcBIf/I3oDIbstuinG+o4XWaTjIdn+CMvZKccBt2pDCy//SBYhK4
+ ALbrToqO1MMBXMGGv8MAOakd3d3wwUVEa8VPq2dNzdWCZC5CxEciofzWtAZEqXHrafK7
+ OvfQ==
+X-Gm-Message-State: APjAAAVESMXLSlkuXmEcBKR0+y1O+4cQuM0iaZP02z9zF8aaXZkG8LH4
+ Lw23rMNL1rvynvd8hFV5eIp68ej4jMs6tQ==
+X-Google-Smtp-Source: APXvYqz/y1f7RaRvvCeV4tC302CsTfhW8sWmJjS4C3G0peTDovfDfADSN4H81JhirFllqg8f2lWB1g==
+X-Received: by 2002:a63:b243:: with SMTP id t3mr10321160pgo.223.1561742324220; 
+ Fri, 28 Jun 2019 10:18:44 -0700 (PDT)
+Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
+ [220.132.236.182])
+ by smtp.gmail.com with ESMTPSA id d26sm3485485pfn.29.2019.06.28.10.18.42
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:11:08 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0E1141FF87;
- Fri, 28 Jun 2019 18:11:08 +0100 (BST)
-References: <20190614171200.21078-1-alex.bennee@linaro.org>
- <20190614171200.21078-20-alex.bennee@linaro.org>
- <20190628153044.GB26345@quinoa.localdomain>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
-In-reply-to: <20190628153044.GB26345@quinoa.localdomain>
-Date: Fri, 28 Jun 2019 18:11:08 +0100
-Message-ID: <87mui1ab4j.fsf@zen.linaroharston>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v3 19/50] tcg: let plugins instrument
- memory accesses
+ Fri, 28 Jun 2019 10:18:43 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:18:43 -0700 (PDT)
+X-Google-Original-Date: Fri, 28 Jun 2019 10:13:14 PDT (-0700)
+In-Reply-To: <20190628161503.16760-1-alistair.francis@wdc.com>
+From: Palmer Dabbelt <palmer@sifive.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>
+Message-ID: <mhng-c58538a5-2727-4a7a-bae0-3e1ec2d34706@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.215.196
+Subject: Re: [Qemu-devel] [PATCH] fixup! roms: Add OpenSBI version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,58 +67,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
-
-> On Jun 14 18:11, Alex Benn=C3=A9e wrote:
->> From: "Emilio G. Cota" <cota@braap.org>
->>
->> Here the trickiest feature is passing the host address to
->> memory callbacks that request it. Perhaps it would be more
->> appropriate to pass a "physical" address to plugins, but since
->> in QEMU host addr ~=3D guest physical, I'm going with that for
->> simplicity.
+On Fri, 28 Jun 2019 09:15:03 PDT (-0700), Alistair Francis wrote:
+> ---
+>  roms/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> How much more difficult would it be to get the true physical address (on
-> the guest)?
-
-Previously there was a helper that converted host address (i.e. where
-QEMU actually stores that value) back to the physical address (ram
-offset + ram base). However the code for calculating all of this is
-pretty invasive and requires tweaks to all the softmmu TCG backends as
-well as hooks into a slew of memory functions.
-
-I'm re-working this now so we just have the one memory callback and we
-provide a helper function that can provide an opaque hwaddr struct which
-can then be queried. The catch is you can only call this helper during a
-memory callback. I'm not sure if having this restriction violates our
-aim of not leaking implementation details to the plugin but it makes the
-code simpler.
-
-Internally what the helper does is simply re-query the SoftMMU TLB. As
-the TLBs are per-CPU nothing else can have touched the TLB and the cache
-should be hot so the cost of lookup should be minor. We could also
-potentially expand the helpers so if you are interested in only IO
-accesses we can do the full resolution and figure out what device we
-just accessed.
-
-> This is important enough to me that I would be willing to help if
-> pointed in the right direction.
-
-Well I'll certainly CC on the next series (hopefully posted Monday,
-softfreeze starts Tuesday). I'll welcome any testing and review. Also if
-you can tell us more about your use case that will help.
-
+> diff --git a/roms/Makefile b/roms/Makefile
+> index 562ed726fd..dc70fb5aea 100644
+> --- a/roms/Makefile
+> +++ b/roms/Makefile
+> @@ -179,7 +179,7 @@ opensbi64-virt:
+>  		PLATFORM="qemu/virt"
+>  	cp opensbi/build/platform/qemu/virt/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-virt-fw_jump.bin
 >
-> -Aaron
+> -opensbi64-virt:
+> +opensbi64-sifive_u:
+>  	$(MAKE) -C opensbi \
+>  		CROSS_COMPILE=$(riscv64_cross_prefix) \
+>  		PLATFORM="qemu/sifive_u"
 
-
---
-Alex Benn=C3=A9e
+Thanks!
 
