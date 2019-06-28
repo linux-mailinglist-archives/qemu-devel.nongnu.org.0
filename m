@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17B025A785
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 01:20:56 +0200 (CEST)
-Received: from localhost ([::1]:36918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE475A791
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 01:27:45 +0200 (CEST)
+Received: from localhost ([::1]:36940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hh0Ap-0007PX-9m
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 19:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50801)
+	id 1hh0HQ-0001a4-Ke
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 19:27:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52432)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hh074-0004Nw-VM
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:17:04 -0400
+ (envelope-from <marlies.ruck@gmail.com>) id 1hh0GA-00018x-1P
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:26:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hh072-0003jg-Dg
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:17:02 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:39147)
+ (envelope-from <marlies.ruck@gmail.com>) id 1hh0G7-0006hv-Jh
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:26:25 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:34815)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hh072-0003hA-3l; Fri, 28 Jun 2019 19:17:00 -0400
-Received: by mail-lf1-x144.google.com with SMTP id p24so4984282lfo.6;
- Fri, 28 Jun 2019 16:16:59 -0700 (PDT)
+ (Exim 4.71) (envelope-from <marlies.ruck@gmail.com>)
+ id 1hh0G7-0006fw-9e
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 19:26:23 -0400
+Received: by mail-io1-xd29.google.com with SMTP id k8so16050936iot.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 16:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JpK8Lwt8b8p9UFL6KUVXrJWkSJM2HNjtFLirM0QdfV4=;
- b=IE1R1h4ol6xl3o0MBXm4vhc1RwrqHqQCVpSGM1RiJwDhAkNd5ZrHyA98qkHG3ylo6y
- 3GHF5F+/QBVDOUNFmEdVebZtz+xoTxugo9gsInGuzbRzFplq406AtTuRXzAltE8M4VYu
- nngVq0AEjUZnFTnn8ZAgbZMfgnwsHFExc57/5oYhhmFf0DtUZUVWZQeOuyu1Mp521gpe
- 8v2l3H8svNJ15yF9LOQ1aszx4CHjeUCzp9EjgDcAuNiZSN54swENoXZ6FhPJRSKj+3TH
- 5DUeghvLYRoTqFNXSmSRaAZoTTBHbiqg/7pfQwHOT/YwSZr8ReZvderK7QOha/TuH+nK
- 4++A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=imEa4zBbfpb3JvR5Et11p6DtFQJbKbq8llXxmzPWmPg=;
+ b=JnE4oFX066q48b++4ewKACn+n80qsgphMjTUP+NXj8eCvQQZ7f5ad/f1a8Zcu8U7ay
+ QD8HiB5iaDJv4cPrT2tHNDPO/A0qTJSxRbQVsNC5TFtIa3JvIsUIgiVfr/i8vRM98K5A
+ LZeSvVG280nwJbVhpIrLBAdR2HPAxXfH2OSKPYIdAltxW+N83+PhoOEjo/o2xbai970N
+ h4lf4E4WCs27+ETY1WqYwE78g/3bdD6TfYNnhWICTl/PHzPx/TA2Dtpxv1faA+J6ToP9
+ liZAPoAjc8suTH3mQw1FWfTPFcvHB71vcl02z7jQp7FFMR+XQCgKC8tPNBSHobcEWtg0
+ JSEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JpK8Lwt8b8p9UFL6KUVXrJWkSJM2HNjtFLirM0QdfV4=;
- b=g15ctS18RnvDxrict+dkBO+p0W4J+SLJFdbvCjeOdlnL9w7Wpqujiy1CnEmTLXG/Cu
- /IRrArHK7EwkbB5G3udhxS06Fk01a5rVHZyUf8gglOHzfU42sF69dIs6143ql7FjB3Ie
- YRtE4O6AWBzU0PXtl9879488Cd/wLtehjmd06nTphRfjinUzvwosrePgde98c+NuBsu9
- lqA2wQLMYivPZN7CVelsdFHnI3LFchUsVvJnOzWqvjKmtMM5OFnjHdrIpF+PRgyr3z/9
- FwFN3nBIyntWLS5t8ZyJYAZnZKxVhIG0ktgF5X2I8zkTz+cFW86iCal5fqlSKXeRSdyk
- Tt4w==
-X-Gm-Message-State: APjAAAVhotf5v3KrQy4o+rOi5QjN3arcorHR0/HkvhRDUy/oEt7RWLU2
- 1q3uT2JJGQM3apN65LoAph//FplEbUKOq59Fwv4=
-X-Google-Smtp-Source: APXvYqxAhIKzzT8/TuPuBmOTKuIQj93pneUu/kxL6iTqlogSyIH2AY5iITRYzSltnjfz6RaOtj3fnfZt5WujXw8fZys=
-X-Received: by 2002:a19:710b:: with SMTP id m11mr6288717lfc.135.1561763817934; 
- Fri, 28 Jun 2019 16:16:57 -0700 (PDT)
+ :message-id:subject:to;
+ bh=imEa4zBbfpb3JvR5Et11p6DtFQJbKbq8llXxmzPWmPg=;
+ b=Ik9Nq3Y0N//Oz/BbzdWIMF3PniTtRXUhGCUV6IC/QPobK4jPdXrIIiSekBtPselsc1
+ p4Xkqkd9znKNev5Gfcdc6KZgn4v8OUyHyLXISz3kPIap5ajZlNZ4jJg68xfJaoy7dj4t
+ lf12p9yVXbwiR2vzeAq8uDJzqab0vnnT4mqVbWbxdhzCKU/m+kuze0ComiDEt67lcEdd
+ 0Mdy+NONYnwvVPR2goHKau7OPbDVVdCed4VrX+Y1eGGCMcfvhy9j6VYScMmxKmGT0tE0
+ UdYbu6WUcJEQwBlfEU2Y8Yuay2y66iu71M53RvPCZXlBNjHiKouIxqC+VXdSe5+TMCqa
+ d0oA==
+X-Gm-Message-State: APjAAAUM0fQ4+8KRqOIEeu/1UyAgZMKPlbkTT29asgIAjTtLdU+LVfSE
+ kAue7HONaqALfunYjNABc8JNuiXwkhpEAFYQ6fpBnA==
+X-Google-Smtp-Source: APXvYqwP+yn16jkHoPIZKrOMkOdQ1cEA2MMsa0I/L6i3nq7TBpc7bH3eOEl17hP4IE9UG9Hi8+/xKwaBMY1poQycvLw=
+X-Received: by 2002:a5e:940b:: with SMTP id q11mr13630095ioj.251.1561764381282; 
+ Fri, 28 Jun 2019 16:26:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-29-philmd@redhat.com>
-In-Reply-To: <20190627202719.17739-29-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Jun 2019 16:13:57 -0700
-Message-ID: <CAKmqyKNTq3Sj_Fr3rvOccU2DeuZryvJL1=HhjmVWJMGWKz7OHg@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <CALw29ZZZ08Lt13oZsbZCwV+uP0roLuT6t+8m16y+8YT-KH4t7A@mail.gmail.com>
+In-Reply-To: <CALw29ZZZ08Lt13oZsbZCwV+uP0roLuT6t+8m16y+8YT-KH4t7A@mail.gmail.com>
+From: Marlies Ruck <marlies.ruck@gmail.com>
+Date: Fri, 28 Jun 2019 16:26:10 -0700
+Message-ID: <CALw29ZbiqpGFOGHOP_7K2DvAfap_xE+PWAfXvvr35eK7aKn-dA@mail.gmail.com>
+To: qemu-devel@nongnu.org
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: Re: [Qemu-devel] [PATCH v5 28/28] hw/block/pflash_cfi02: Reduce I/O
- accesses to 16-bit
+X-Received-From: 2607:f8b0:4864:20::d29
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] patch to swap SIGRTMIN + 1 and SIGRTMAX - 1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,74 +72,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 1:55 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Parallel NOR flashes are limited to 16-bit bus accesses.
-> Remove the 32-bit dead code.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Hi,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+I just wanted to follow up since I sent this patch a week ago to make sure
+it was a received.  An ack would be appreciated.
 
-Alistair
+Thanks,
+Marli
 
-> ---
->  hw/block/pflash_cfi02.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index db9dc7d8fb..d1f28b02b9 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -317,8 +317,6 @@ static uint64_t pflash_read(void *opaque, hwaddr offs=
-et, unsigned int width)
->      boff =3D offset & 0xFF;
->      if (pfl->width =3D=3D 2) {
->          boff =3D boff >> 1;
-> -    } else if (pfl->width =3D=3D 4) {
-> -        boff =3D boff >> 2;
->      }
->      switch (pfl->cmd) {
->      default:
-> @@ -449,8 +447,6 @@ static void pflash_write(void *opaque, hwaddr offset,=
- uint64_t value,
->      boff =3D offset;
->      if (pfl->width =3D=3D 2) {
->          boff =3D boff >> 1;
-> -    } else if (pfl->width =3D=3D 4) {
-> -        boff =3D boff >> 2;
->      }
->      /* Only the least-significant 11 bits are used in most cases. */
->      boff &=3D 0x7FF;
-> @@ -710,6 +706,7 @@ static void pflash_write(void *opaque, hwaddr offset,=
- uint64_t value,
->  static const MemoryRegionOps pflash_cfi02_ops =3D {
->      .read =3D pflash_read,
->      .write =3D pflash_write,
-> +    .impl.max_access_size =3D 2,
->      .valid.min_access_size =3D 1,
->      .valid.max_access_size =3D 4,
->      .endianness =3D DEVICE_NATIVE_ENDIAN,
-> --
-> 2.20.1
->
->
+On Fri, Jun 21, 2019 at 3:58 PM Marlies Ruck <marlies.ruck@gmail.com> wrote:
 
+> Hi,
+>
+> Attached is a patch to let guest programs use SIGRTMIN + 1 by swapping
+> with SIGRTMAX - 1. Since QEMU links against glibc, it reserves the signal
+> for itself and returns EINVAL (as noted in the commit message). This means
+> various applications that use SIGRTMIN + 1 cannot run on QEMU, including
+> G-WAN web server and Open TFTP.
+>
+> Thanks,
+> Marli
+>
