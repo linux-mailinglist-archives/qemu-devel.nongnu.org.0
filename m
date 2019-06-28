@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B765A6D1
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 00:20:16 +0200 (CEST)
-Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D13C15A6DC
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 00:22:51 +0200 (CEST)
+Received: from localhost ([::1]:36696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgzE8-0003yQ-1d
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 18:20:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39732)
+	id 1hgzGd-0006Hh-1p
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 18:22:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40538)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hgzBN-0003Mh-TW
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 18:17:26 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hgzEv-00054i-E3
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 18:21:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hgzBN-0004Rc-23
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 18:17:25 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:34711)
+ (envelope-from <alistair23@gmail.com>) id 1hgzEu-0007iE-K6
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 18:21:05 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:40386)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hgzBM-0004R3-S9
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 18:17:25 -0400
-Received: by mail-wm1-f65.google.com with SMTP id w9so10213362wmd.1
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 15:17:24 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hgzEu-0007hK-B4
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 18:21:04 -0400
+Received: by mail-lf1-x142.google.com with SMTP id a9so4942874lff.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 15:21:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EmCUb7Sd5K47U8QRJi5Fjh3KdfOROof6Rd4uyxWUqbU=;
+ b=hyurL5s7XT8Rumy4rSl7UbpXRe64f+gNmmzamqKgBp5DNGhzPBP800N0K8BuwCTZr7
+ w3wnpXdo98nc97L9fATR8KGdogvz/efEjf4bwFbgn9Y0mvA0uwb71Ax7kW/QdD7VE+Ab
+ ljYVahV/6xiLmZwABsyvzmF5CWGyg8yTbyj7koZdUB1H8AnqknMqHjGHLK5llreKCh7V
+ xgduJFPHVkT+avx6gJTu/ZDCS3K1pcYBrEwG+/GPQXPYPATBx0QNkkzV84ZzIzXx7no4
+ fnXiQmNkMl6DnNvJ1amw8T0A/DRCCEQUmhi9H7WHMtxXw7Q2WChoBJ4gi7x4YTb0XAWG
+ /2ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1rlF7cCLxiyHA1UtVgDf96G5g5jR0Pmgu61bw9CTuyE=;
- b=Sgt0qFDnpDaFV01fE9Hw8htSDmUNFHwRXeBuhSpa4jlEwVZQuJhvLdOWD72pw9PZ9Y
- EzdBrfqfZs+nxMAsas6jFu1lTmVNuRHEvdB8mLYOVO08t5rhr9+PsiRgwvqHAQUYHuUB
- KEdOP/5RaLqmd9Slvi2ypc3rUsbGKdE59wjnGe+bCar6Hik3emFOc7MSW7sXu3zizslZ
- LoX6zZkYWWfwoS8HwnsOHsbUiO5K+2lzuG6/FD9Fl5qxjcKsgtw07FcJoTUC5INTRXUd
- 8eVYPf8IPMJirlyHK9mgVB/di2cg1zJyrnJNw9kbP8DNSGg+/Ai5yIhc+6FcPiI4I3qi
- fB8w==
-X-Gm-Message-State: APjAAAVxPxIfhMXy9J4dRnN/VkRKpoYo+vPzwIwY2csQaPr5Yt09s+LS
- /HEb1lF15G7QmUCzTymmBthr8mbf/sQ=
-X-Google-Smtp-Source: APXvYqzIyu/asXvOxrvCAhouNgQZTg8bQ5PyU7V5yxPbuFvDbKOH7lDx7hWZi0wVqucLX1lOGWYe8w==
-X-Received: by 2002:a7b:c081:: with SMTP id r1mr9035095wmh.76.1561760243706;
- Fri, 28 Jun 2019 15:17:23 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:a5c0:d60f:9764:1c58?
- ([2001:b07:6468:f312:a5c0:d60f:9764:1c58])
- by smtp.gmail.com with ESMTPSA id z6sm3205621wrw.2.2019.06.28.15.17.22
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 28 Jun 2019 15:17:23 -0700 (PDT)
-To: "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>
-References: <20190628115349.60293-1-slp@redhat.com>
- <20190628115349.60293-5-slp@redhat.com>
- <20190628100458-mutt-send-email-mst@kernel.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e2268d2c-6fcb-2567-1993-4b5b65c949dd@redhat.com>
-Date: Sat, 29 Jun 2019 00:17:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EmCUb7Sd5K47U8QRJi5Fjh3KdfOROof6Rd4uyxWUqbU=;
+ b=KkOc2vvKTStrYOEnLqJn+RuiDGOsEB8t/kIaXY1Mu0sb/aFRrl20QkdZZTAYan4YGl
+ FH4ILdh+v2rzEzI3cqHsATff5efIUSeQ6jbulpsG9SsuIdtsjVTkDlodpZ9Uu7MbpdB1
+ BQ30R+jFQcb6xfX5UuNphod289OsXwAuhuUtdO+qJnLMnzMe9borKHlPG0LbMd6QY+S7
+ gzr1zgAa18O9x7UQh9xoCsKA6NGL+DV6V5o+9OV5CoUwXBy6/Y9eZgpH7eg8PMDI5z7A
+ rmbG/84VvpfATSLh2WHy0n3eD3WDUZNa2JynTQot+NLZxans0GuOkawwY56e01yDN/aU
+ JI1w==
+X-Gm-Message-State: APjAAAUv/IiYswzKGJCGg1Z9N3ep6OMcT7FMZohRCKe0cvDBMnftrY3Q
+ yDJPpNeGsL9vzZUdyQhSSP6V2XgLcLUVSYn36fo=
+X-Google-Smtp-Source: APXvYqwmWfHehE+/s9sUWOyK5jBRK+AS+CvrNoN0xddify5wwMRSDlnm9RgK8dduUvoO3Zbann48fF8c1DMgEzGeH3k=
+X-Received: by 2002:ac2:4990:: with SMTP id f16mr5941350lfl.93.1561760462846; 
+ Fri, 28 Jun 2019 15:21:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190628100458-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH 4/4] hw/i386: Introduce the microvm machine
- type
+References: <97104495f5c945d25315aff1bd618e1a7bacf34c.1561589072.git.alistair.francis@wdc.com>
+ <1bd3ffcd-3f91-ecb9-2315-da7125f1dcdd@redhat.com>
+ <CAKmqyKPeo4XXVy3onoM4W14N5Nj7CFWX=JpDT-JQQRUPw5CQ3Q@mail.gmail.com>
+ <4428dc80-9ace-3bb0-a497-e3d416199bfd@redhat.com>
+In-Reply-To: <4428dc80-9ace-3bb0-a497-e3d416199bfd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 28 Jun 2019 15:18:02 -0700
+Message-ID: <CAKmqyKMRSJTMxZ5c-yyuownYF8vJLYrzr92cE4rkiTdP7tmUzg@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::142
+Subject: Re: [Qemu-devel] [PATCH v1 1/1] hw/scsi: Report errors and sense to
+ guests through scsi-block
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,18 +75,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, ehabkost@redhat.com, rth@twiddle.net
+Cc: fam@euphon.net, shinichiro.kawasaki@wdc.com,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/19 16:06, Michael S. Tsirkin wrote:
->> +    assert(kvm_irqchip_in_kernel());
-> Hmm - irqchip in kernel actually increases the attack surface,
-> does it not? Or at least, the severity of the attacks.
+On Fri, Jun 28, 2019 at 3:14 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 28/06/19 23:57, Alistair Francis wrote:
+> >
+> > I tried to run my VM with option "-drive
+> > ...,rerror=report,werror=report" as he noted, but the eternal loop
+> > symptom still happens when host block-scsi device returns EIO. Then I
+> > believe EIO should be added to the report target error list.
+>
+> What is the sense data he's seeing?  EIO is a catch-all return value
+> for scsi_sense_buf_to_errno so I'd rather be more specific.
 
-Yeah, we should at least support split irqchip.  But, irqchip completely
-in userspace is slow when it is not broken, and it does not support
-APICv.  So it's not really feasible.
+I'm not sure, he is CCed to this email so he should respond with more
+information.
 
-Paolo
+Alistair
+
+>
+> Thanks,
+>
+> Paolo
 
