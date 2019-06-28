@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77AA5A129
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:41:21 +0200 (CEST)
-Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF515A1E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:08:31 +0200 (CEST)
+Received: from localhost ([::1]:34488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtw7-0003Sl-0g
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:41:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42711)
+	id 1hguMQ-0004Oy-2a
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42993)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hgtsP-00012w-Uf
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:37:32 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hgttG-0001fj-E1
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:38:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hgtsN-00063N-U7
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:37:29 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:33454)
+ (envelope-from <alistair23@gmail.com>) id 1hgttF-0006dp-GX
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:38:22 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38473)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hgtsJ-0005uM-Ki; Fri, 28 Jun 2019 12:37:27 -0400
-Received: by mail-lj1-x244.google.com with SMTP id h10so6633015ljg.0;
- Fri, 28 Jun 2019 09:37:15 -0700 (PDT)
+ id 1hgttF-0006ch-8I; Fri, 28 Jun 2019 12:38:21 -0400
+Received: by mail-lf1-x142.google.com with SMTP id b11so4395474lfa.5;
+ Fri, 28 Jun 2019 09:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=wLiGMD4EvsM7xTV7VFIvRXEr1Z8kXRHm79nNC4ag830=;
- b=jiuYmiVqa1MYe0Ism3xsecn/epcx6eBVWK0/TYKM/A5zhRv2/yG+l8jyb+/2q70oIw
- 26XRw6CYuWCvRqsdQYVXVGKJ6O/7xsPK2tbjyXDH3wPwtVbdX8KVcKu/LRDwape/Y/6i
- WsFGkPeZqST80AqKKMNYWoa26CmhgtxRZFXh8tzYbyj8CJ42m1KncNtz43QB8GLbWEUa
- LM0ETtoE+ZGqpkaVKQMwi7tqGrYF1dJoqrrma68imortFetu5qWyObBLFnvIQar2gE7f
- bp2pSk2X04Npy883BrET2pDh2MgC8cu/X97pAUsmdxqD/7KwJi3nX6yYrQ73Zxeaxan6
- N9tA==
+ bh=+PC5nl+ig+mRBNdUabM7Gb+PFZU7gEoP5wibD+xDhCI=;
+ b=bOT42QvneO7Q2nnb4emKDrlJlXJBNa0rhv6IwqaNxRBPKnp9adUddDUM7YrkxzhCNL
+ IYqqm7ccfyakqK7x9dBSEoarKgtFZvvjcr5Natjeaz9eIwY5mE6kXMBvygQLw8XHYLKy
+ XRPOkWDOjBODQho32P4ef83le7kLDu/lepUDGd0fNRo+ItxX2QCMT6RTp+NPkMPgFDR4
+ HSHC4eqnULU8J96UbRogVR6qqhlO6mQhxAic5QtrFRG5GXc6B3RE31Pw6QE6g2Sa/FGv
+ eqaHWguAZNGyXZAyhEWEY6XbtZS+WzUUaaNg/6Sdh3KqwfzkKRUYTVXEu+ebDr4UTUHO
+ bzzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=wLiGMD4EvsM7xTV7VFIvRXEr1Z8kXRHm79nNC4ag830=;
- b=GGd+q8yQQiw+FXLTdVWuIrLB0mviyim4kVWr3TdKg10BlxcJS5Zlcl5CiX/QmqT06s
- eNO7BvNpilLz6OYYqUVsw5XyVHF8UQFINwUABX4VIakzzls6jkThN0G+EDUlpBRd+WxL
- yuxvQbv6bqI6J2f8mB1Jd0kaN0uNH56DN2LQgzR0loKyFFIQ65MC+2KS3hw4qKs46Hm8
- c3nNV3Gxc1laBkmmT0SnOjMsg1Au97ypRK27lRP6WJufJRPprZ15OZalq4Fc68FzKYJE
- H3pO9Uvr2c83XfnKvg+bI4wU4bY06N08a0zHynWUrSlCeMfAR+4hZrthSFIImdWHB2xM
- 5J0g==
-X-Gm-Message-State: APjAAAWajLOwTf0EOdgj0sM64LlRNvUNdBUn1URsL1A1HvJCOiJiem42
- Bijr34NaA0lBBiU94Bij2mhIUeYzBUlyjpW4isw=
-X-Google-Smtp-Source: APXvYqwq00xKIxLjdwSGTIDwXGOypuBfcO7jBsEdoxWOgnrTLpZ5gvHy27Jah1+cvOihjIQc919k8oN/83NwUq1kOac=
-X-Received: by 2002:a2e:9158:: with SMTP id q24mr6861189ljg.119.1561739834973; 
- Fri, 28 Jun 2019 09:37:14 -0700 (PDT)
+ bh=+PC5nl+ig+mRBNdUabM7Gb+PFZU7gEoP5wibD+xDhCI=;
+ b=F8KMzaBWq/GOL28L5By1B897NNoUlghbW8w25gvme/1R/us2ArSw4JeKYA1pySf43z
+ w+ifebiJMUIqw9N6qIJDHT7S6E8hg9u+2sR9b6IA0c9bsmPldpCuYfBZXjRvZns9N+k7
+ hS4OjG/EqvpXnkuPWqFXMXL63IkarOaAB7jSuf64TII1moA2a1NvhLDxdUdMhrfu3SAj
+ RcFqNh/ambypbU3XocJ6nJGvJsfzRyHNv6vghoGFgibmLDz/d5y/CX6csKHfv0t4mPMo
+ HHe4PqiZsoiuz+DJoMEgYjgWzi0Iik0dxgz9hWSNziq7XXvMVDKdQLRMs1K1is+ybC5k
+ gTVQ==
+X-Gm-Message-State: APjAAAULPML2Pg2f9Gveq+sFe0YBZ92rsOJz4XZAcdVM8b/+OkUD5UfO
+ l9PfFbAXQnlJLqn0POCSWYRIWLNlGE8670yEY7o=
+X-Google-Smtp-Source: APXvYqwQFBRfxw1s+Vq9rh/0wzk+8k72xa+8HW6dYkz9KghDNd+18P6/4DllfvgZzvlWtGYDDrMlNUHlLX/ijXs6SyI=
+X-Received: by 2002:ac2:4990:: with SMTP id f16mr5309931lfl.93.1561739898726; 
+ Fri, 28 Jun 2019 09:38:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-17-philmd@redhat.com>
-In-Reply-To: <20190627202719.17739-17-philmd@redhat.com>
+ <20190627202719.17739-18-philmd@redhat.com>
+In-Reply-To: <20190627202719.17739-18-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Jun 2019 09:34:13 -0700
-Message-ID: <CAKmqyKNW5e-X-qj3jKuXBO7Em8NasOwxFgS6vvjNObJLt3jyZw@mail.gmail.com>
+Date: Fri, 28 Jun 2019 09:35:18 -0700
+Message-ID: <CAKmqyKPDmO-G8APN1Ce9ZSxt6AxXwmjEfMYi4+v6fEQWWJT6Rg@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH v5 16/28] hw/block/pflash_cfi02: Hold the
- PRI table offset in a variable
+X-Received-From: 2a00:1450:4864:20::142
+Subject: Re: [Qemu-devel] [PATCH v5 17/28] hw/block/pflash_cfi02: Document
+ 'Page Mode' operations are not supported
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,14 +91,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 1:34 PM Philippe Mathieu-Daud=C3=A9
+On Thu, Jun 27, 2019 at 1:57 PM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> Manufacturers are allowed to move the PRI table, this is why the
-> offset is queryable via fixed offsets 0x15/0x16.
-> Add a variable to hold the offset, so it will be easier to later
-> move the PRI table.
+> The 'page mode' feature entry was implicitly set as zero
+> (not supported). Document it exists, so we won't discard
+> it if we squeeze the CFI table.
 >
+> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+> Message-Id: <20190426162624.55977-6-stephen.checkoway@oberlin.edu>
+> [PMD: Extracted from bigger patch]
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
@@ -106,79 +108,22 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/block/pflash_cfi02.c | 31 +++++++++++++++++--------------
->  1 file changed, 17 insertions(+), 14 deletions(-)
+>  hw/block/pflash_cfi02.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
 > diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index f1bac480f5..23d05a6308 100644
+> index 23d05a6308..01d9c5d75a 100644
 > --- a/hw/block/pflash_cfi02.c
 > +++ b/hw/block/pflash_cfi02.c
-> @@ -552,6 +552,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
+> @@ -637,7 +637,9 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
 ror **errp)
->      pfl->status =3D 0;
->
->      /* Hardcoded CFI table (mostly from SG29 Spansion flash) */
-> +    const uint16_t pri_ofs =3D 0x31;
->      /* Standard "QRY" string */
->      pfl->cfi_table[0x10] =3D 'Q';
->      pfl->cfi_table[0x11] =3D 'R';
-> @@ -560,8 +561,8 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
-ror **errp)
->      pfl->cfi_table[0x13] =3D 0x02;
->      pfl->cfi_table[0x14] =3D 0x00;
->      /* Primary extended table address */
-> -    pfl->cfi_table[0x15] =3D 0x31;
-> -    pfl->cfi_table[0x16] =3D 0x00;
-> +    pfl->cfi_table[0x15] =3D pri_ofs;
-> +    pfl->cfi_table[0x16] =3D pri_ofs >> 8;
->      /* Alternate command set (none) */
->      pfl->cfi_table[0x17] =3D 0x00;
->      pfl->cfi_table[0x18] =3D 0x00;
-> @@ -609,32 +610,34 @@ static void pflash_cfi02_realize(DeviceState *dev, =
-Error **errp)
->      pfl->cfi_table[0x2E] =3D (pfl->nb_blocs - 1) >> 8;
->      pfl->cfi_table[0x2F] =3D pfl->sector_len >> 8;
->      pfl->cfi_table[0x30] =3D pfl->sector_len >> 16;
-> +    assert(0x30 < pri_ofs);
->
->      /* Extended */
-> -    pfl->cfi_table[0x31] =3D 'P';
-> -    pfl->cfi_table[0x32] =3D 'R';
-> -    pfl->cfi_table[0x33] =3D 'I';
-> +    pfl->cfi_table[0x00 + pri_ofs] =3D 'P';
-> +    pfl->cfi_table[0x01 + pri_ofs] =3D 'R';
-> +    pfl->cfi_table[0x02 + pri_ofs] =3D 'I';
->
->      /* Extended version 1.0 */
-> -    pfl->cfi_table[0x34] =3D '1';
-> -    pfl->cfi_table[0x35] =3D '0';
-> +    pfl->cfi_table[0x03 + pri_ofs] =3D '1';
-> +    pfl->cfi_table[0x04 + pri_ofs] =3D '0';
->
->      /* Address sensitive unlock required. */
-> -    pfl->cfi_table[0x36] =3D 0x00;
-> +    pfl->cfi_table[0x05 + pri_ofs] =3D 0x00;
->      /* Erase suspend not supported. */
-> -    pfl->cfi_table[0x37] =3D 0x00;
-> +    pfl->cfi_table[0x06 + pri_ofs] =3D 0x00;
->      /* Sector protect not supported. */
-> -    pfl->cfi_table[0x38] =3D 0x00;
-> +    pfl->cfi_table[0x07 + pri_ofs] =3D 0x00;
->      /* Temporary sector unprotect not supported. */
-> -    pfl->cfi_table[0x39] =3D 0x00;
-> +    pfl->cfi_table[0x08 + pri_ofs] =3D 0x00;
->
->      /* Sector protect/unprotect scheme. */
-> -    pfl->cfi_table[0x3a] =3D 0x00;
-> +    pfl->cfi_table[0x09 + pri_ofs] =3D 0x00;
->
->      /* Simultaneous operation not supported. */
-> -    pfl->cfi_table[0x3b] =3D 0x00;
-> +    pfl->cfi_table[0x0a + pri_ofs] =3D 0x00;
+>      pfl->cfi_table[0x0a + pri_ofs] =3D 0x00;
 >      /* Burst mode not supported. */
-> -    pfl->cfi_table[0x3c] =3D 0x00;
-> +    pfl->cfi_table[0x0b + pri_ofs] =3D 0x00;
-> +    assert(0x0b + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
+>      pfl->cfi_table[0x0b + pri_ofs] =3D 0x00;
+> -    assert(0x0b + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
+> +    /* Page mode not supported. */
+> +    pfl->cfi_table[0x0c + pri_ofs] =3D 0x00;
+> +    assert(0x0c + pri_ofs < ARRAY_SIZE(pfl->cfi_table));
 >  }
 >
 >  static Property pflash_cfi02_properties[] =3D {
