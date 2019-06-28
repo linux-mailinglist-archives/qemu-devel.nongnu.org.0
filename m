@@ -2,53 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD9259775
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:27:39 +0200 (CEST)
-Received: from localhost ([::1]:58204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 247C85A917
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 07:00:28 +0200 (CEST)
+Received: from localhost ([::1]:37680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgnAQ-0006DN-RM
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45826)
+	id 1hh5TO-0003tH-Qh
+	for lists+qemu-devel@lfdr.de; Sat, 29 Jun 2019 01:00:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47764)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hgn7W-0004YM-A8
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:24:39 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hh5SF-0003Fg-6w
+ for qemu-devel@nongnu.org; Sat, 29 Jun 2019 00:59:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hgn7V-0004ef-7G
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:24:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59262)
+ (envelope-from <dgibson@ozlabs.org>) id 1hh5SA-0007e5-Vv
+ for qemu-devel@nongnu.org; Sat, 29 Jun 2019 00:59:13 -0400
+Received: from ozlabs.org ([203.11.71.1]:35999)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hgn7S-0004cY-Pw; Fri, 28 Jun 2019 05:24:34 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 14A13307E040;
- Fri, 28 Jun 2019 09:24:34 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D3CCB60920;
- Fri, 28 Jun 2019 09:24:30 +0000 (UTC)
-Date: Fri, 28 Jun 2019 11:24:29 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190628092429.GB5179@dhcp-200-226.str.redhat.com>
-References: <20190626215301.30733-1-jsnow@redhat.com>
- <20190627083453.GC5618@localhost.localdomain>
- <5a374041-10a2-5ae3-6db1-966c7589b1cd@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hh5Ru-00077k-RO; Sat, 29 Jun 2019 00:58:59 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45bLxh1xKDz9s5c; Sat, 29 Jun 2019 14:58:32 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1561784312;
+ bh=4l0Fp/EIcDNfaA2+VekUKadMenAca0ad1S2kqEoSg+I=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=paAqc3wIXw76tF2Ir3njWf2yBF5tpsXIg8fRsZSmWaH1Ic1+mQGL5ptX3VtB+tN0Q
+ zBcL0LQj4Mx/ixvYWhqnER+Nfjsh88TgzCqISt+wAKa3KNiw0hppvC9I6RzXcYXrPI
+ txcmxvcIwJK+j25lP+cfpL5EWlmqhTu8wKiAbRVE=
+Date: Fri, 28 Jun 2019 19:29:52 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Message-ID: <20190628092952.GB29462@umbus.fritz.box>
+References: <20190624055812.3906-1-sjitindarsingh@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3lcZGd9BuhuYXNfi"
 Content-Disposition: inline
-In-Reply-To: <5a374041-10a2-5ae3-6db1-966c7589b1cd@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Fri, 28 Jun 2019 09:24:34 +0000 (UTC)
+In-Reply-To: <20190624055812.3906-1-sjitindarsingh@gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] block/qcow: Improve error when opening
- qcow2 files as qcow
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 1/2] ppc/spapr: Add
+ implementation of hcall H_PURR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,47 +55,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qemu-Trivial <qemu-trivial@nongnu.org>, radmehrsaeed7@gmail.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.06.2019 um 19:17 hat John Snow geschrieben:
-> 
-> 
-> On 6/27/19 4:34 AM, Kevin Wolf wrote:
-> > Am 26.06.2019 um 23:53 hat John Snow geschrieben:
-> >> Reported-by: radmehrsaeed7@gmail.com
-> >> Fixes: https://bugs.launchpad.net/bugs/1832914
-> >> Signed-off-by: John Snow <jsnow@redhat.com>
-> >> ---
-> >>  block/qcow.c | 7 ++++++-
-> >>  1 file changed, 6 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/block/qcow.c b/block/qcow.c
-> >> index 6dee5bb792..a9cb6ae0bd 100644
-> >> --- a/block/qcow.c
-> >> +++ b/block/qcow.c
-> >> @@ -156,7 +156,12 @@ static int qcow_open(BlockDriverState *bs, QDict *options, int flags,
-> >>          goto fail;
-> >>      }
-> >>      if (header.version != QCOW_VERSION) {
-> >> -        error_setg(errp, "Unsupported qcow version %" PRIu32, header.version);
-> >> +        error_setg(errp, "qcow (v%d) does not support qcow version %" PRIu32,
-> >> +                   QCOW_VERSION, header.version);
-> >> +        if (header.version == 2 || header.version == 3) {
-> >> +            error_append_hint(errp, "Try the 'qcow2' driver instead.");
-> > 
-> > I think we want a \n at the end here.
-> > 
-> 
-> D'oh.
-> 
-> > Kevin
-> 
-> Can a maintainer pretty-please make the edit?
 
-A maintainer did that now. (read: thanks, applied)
+--3lcZGd9BuhuYXNfi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kevin
+On Mon, Jun 24, 2019 at 03:58:11PM +1000, Suraj Jitindar Singh wrote:
+> The hcall H_PURR is used by a guest to read the PURR (processor
+> utilisation of resources register). A guest expects that this register
+> will count at a rate of timebase scaled by the number of guest vcpus
+> present in the vcore. That is the per vcpu purr will count at a rate of
+> timebase / # vcpus per vcore.
+>=20
+> Implement a handler for the H_PURR hcall and return the purr value
+> divided by smp_threads so that the sum of the purr deltas across the
+> vcpus of a vcore equals the timebase delta
+>=20
+> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+
+Does this need something new advertised in the hypertas DT entry?
+
+> ---
+>  hw/ppc/spapr_hcall.c | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index aae9fd2b3e..88b3343f04 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -1819,6 +1819,27 @@ static target_ulong h_update_dt(PowerPCCPU *cpu, S=
+paprMachineState *spapr,
+>      return H_SUCCESS;
+>  }
+> =20
+> +static target_ulong h_purr(PowerPCCPU *cpu, SpaprMachineState *spapr,
+> +                           target_ulong opcode, target_ulong *args)
+> +{
+> +    CPUPPCState *env =3D &cpu->env;
+> +    target_ulong purr;
+> +
+> +    if (kvm_enabled()) {
+> +        cpu_synchronize_state(CPU(cpu));
+> +        /*
+> +         * Divide by smp_threads so that the sum of the purr deltas acro=
+ss the
+> +         * vcpus of a vcore equal the timebase delta.
+> +         */
+> +        purr =3D env->spr[SPR_PURR] / smp_threads;
+> +    } else {
+> +        purr =3D cpu_ppc_load_purr(env);
+> +    }
+> +    args[0] =3D purr;
+> +
+> +    return H_SUCCESS;
+> +}
+> +
+>  static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4) + 1];
+>  static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX - KVMPPC_H=
+CALL_BASE + 1];
+> =20
+> @@ -1915,6 +1936,9 @@ static void hypercall_register_types(void)
+>      spapr_register_hypercall(H_LOGICAL_DCBF, h_logical_dcbf);
+>      spapr_register_hypercall(KVMPPC_H_LOGICAL_MEMOP, h_logical_memop);
+> =20
+> +    /* hcall-purr */
+> +    spapr_register_hypercall(H_PURR, h_purr);
+> +
+>      /* qemu/KVM-PPC specific hcalls */
+>      spapr_register_hypercall(KVMPPC_H_RTAS, h_rtas);
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--3lcZGd9BuhuYXNfi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0V3hAACgkQbDjKyiDZ
+s5Icuw//YwlGoPuU9cnEkHTk9VaQewSonhPNFBFq7sBEHNHfybAazeQpFiluHbhP
+AP2ZpD+ceClO28UQ+jmseOu0Raae65rLSIghM6u0QWYwRl+x9wJzKCpQdl2UPKMt
+e5xorC2o6cGxGBjW6yVMPAA/WU4PNtTz65ImffVT9l4QwxPLFpbkJGxB6spEZyFU
+2FThuVWgA2PbiSBmlb84OTOwfSUgevGpR7xgPwSO2pFORg+HDg7kmLizZXCEeSKR
+ASis/r6O/okgOkWlOZQjSkkz4paP9J92ahwJKfk+3JIDFioh9AhznaB3MFcMr0wb
+2fN6Ko3hYPdJWOt6iuNnHZgP+W8DoCXuGzk5Ghssm5AsR8ZfCMv2SZgirweGofHk
+HTo/woWGCJ2/ABqn690FVMYtDY/lJC3o/ECgKB1DYyE5k3X4S1e8Qd+l/bIHTJco
+c6HuHtDLAMHpJ/T9WU8SwbuYAHS6l1PdQq7e73PvhWrGmsnz+MRpSTXMPevtisWg
+Bj8PR13vImWlVGg/1g1mVk3YGidvtvsOVW35eK4Jv7RqQzBBnL+80crNjw8ZfIOr
+V7QhOUGtISinOEUo+kp6ExGDNvNLndgGfjNrb7ZgzEl8dWXG9gXXWWNQTC46NQkg
+KzzZmyEN9vl/iVrW4XNrWKn2Tvc/nZODiLrRxbSLiSxC2UCp7WI=
+=pLYQ
+-----END PGP SIGNATURE-----
+
+--3lcZGd9BuhuYXNfi--
 
