@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189835A117
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:37:35 +0200 (CEST)
-Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0981C5A0A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:18:22 +0200 (CEST)
+Received: from localhost ([::1]:33958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtsU-0008DL-9w
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:37:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34894)
+	id 1hgtZt-0002fk-6q
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:18:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35521)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hgtMf-0002oe-UE
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:04:42 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hgtOL-0003sK-T7
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:06:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hgtMe-0000ym-1T
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:04:41 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:34897)
+ (envelope-from <alistair23@gmail.com>) id 1hgtOK-0002nb-B5
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:06:25 -0400
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36025)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hgtMc-0000sh-Ie; Fri, 28 Jun 2019 12:04:39 -0400
-Received: by mail-lf1-x142.google.com with SMTP id a25so4331118lfg.2;
- Fri, 28 Jun 2019 09:04:33 -0700 (PDT)
+ id 1hgtOJ-0002W1-FD; Fri, 28 Jun 2019 12:06:23 -0400
+Received: by mail-lj1-x243.google.com with SMTP id i21so6532647ljj.3;
+ Fri, 28 Jun 2019 09:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=5dGU74xjYmsrypBQMVhsWiBTBztQOu4PtmKJ8sUHT2g=;
- b=uztqS68f0BdHeo3tc+fr2QKH14VfYOSPZAodaS7py4Hu7shbOw3jL8RSZ7xzwwg09D
- 2qesWTYh1C4754/6YW66PWcY39Bk4UyHcdIsswQgML80d3nRNkVdZKcU8k26nrFeDIT4
- uw8XPRueagyGslP2S70I4REWtA2HRweTExTt9jpbSQRfr4X0IvQ5XfOLnNvLCB68Pxeg
- 0NAvq15A2baKZ+55F2bre+Q6wGrKYqncvJO6OjOp63q9c/VEe/+inTzK9ZwVrNjM8vGI
- f9Z6gxfIGWlrjWt3X96WzBKEjG9mBHukQHS8FjGq3l+CyA8quvdO9CvNpHogEVKKvPbf
- wCVQ==
+ bh=8jFMOYmI7QdV5FMGFGU2VKnMJYWvON7mqPy5EHHdbJE=;
+ b=Cc1KhUaLoNoVpgt7g2iuKt73ZsttB5Dia/qu1367RgQJueuzOY5irn3WKcs+uA1urh
+ jECJkxPwgOARgF6VRe1xY0bgbjRTFp2Q4QzkDo+fbnW8sl2EptrR7hSIqRGibhhbAQuP
+ /7u66ysgodKudbqa49oBm+Owf63/Nulq15o92hsOwBzrhhF3UbF7EUlhTQfMyFebmoO3
+ 7o3OGnI1aXdLY7bqkFuFQB/upGdgybnIICFO5dED68tAz7Qaap3un71b6z5RwGUi7/N8
+ ZzuvUQANkEGD4mQ2I18d1JVMjGH1SQRyzyIR4LKIDDWNRw4yJx58zNahD5ROa2e/8Nof
+ NqKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=5dGU74xjYmsrypBQMVhsWiBTBztQOu4PtmKJ8sUHT2g=;
- b=fwHxMI8Uxq6rCqrtLX+w5hW4VVqRtPN90uKJQHxyuAe285nUpkiyLZFsuQanYhQSL6
- hOHhmB5QfVPol5slp4MP/a/W5wRe1GRedqVrQBSccTCZeqQdzQUDkeXGZA0Ai1jXi35x
- kGE8dz0Bvppr4spwzRsvunSoEBVngKCIVWrpQm4zhR8eJbADjG7epIYmtH6illjGpxGN
- UW+PBqLQ69Dx8N0RnIEYVVer9w3/x9Oj+c6mxwVudF3bbuPWjryAKL+JpUYYIUGjpHXk
- E8Udxgutgr2YQQ6+Z5tSXK4mmbB5IUA0F5cViJn83BK0qP0p0F0C8ZirivNAp0wm3SpG
- BLmw==
-X-Gm-Message-State: APjAAAWVIxL97HcWgouNwdQAbHi/Osn6EcH6fVBbluVw8jxzkEUqmV2S
- gBnyfaytGherJ9x3AcuY3iTJZroht0tYlepP0BD4X5tYxY4=
-X-Google-Smtp-Source: APXvYqwF7e0zx1tQvrQedR6htzRevSsC2E4lPPRr2FGufD1LNIirVxkhJrVWH2LiqHancWBbZP+64KpOKk7LktBt9Gk=
-X-Received: by 2002:a05:6512:29a:: with SMTP id
- j26mr5269037lfp.44.1561737872461; 
- Fri, 28 Jun 2019 09:04:32 -0700 (PDT)
+ bh=8jFMOYmI7QdV5FMGFGU2VKnMJYWvON7mqPy5EHHdbJE=;
+ b=s6ZM0DnwFibCzjrpPdrmlbgHhqdCqTxpEd6CBAwfOX512I8wqW/Uvt2EcVD4zyEOK7
+ KX3BmZhi2TUF17bqFp08WipLMwCv9fenr5jLelcn2IDWdItuA5UV8znWwhkvp7cze8hy
+ jlX0X1DyAml96KiczRa+NlCD/sbNWTxMeTid1Bnuo3rZxqhq31rpMYiPIC6PeZGjGOYL
+ GGV3RpZPi2go/LLjS5HLhqXlr+/DqesgNynqDrNOEEk8aO5p0jrcs6u+ej2vyoru5z2V
+ L5c02eDudpI111423mDn0OFsHQe/NAZLg7rYEM4XFUNXZMD5NBWZC54uJmRXn940loiY
+ a74g==
+X-Gm-Message-State: APjAAAW3MGT4qzgtXaY4cq65HWt1dRp6qcZaOr6fyScTYQpPFV5DLZqu
+ WrHT9Q+hZ7CoY+tPB6N0U2USkutr76Jfa010BFw=
+X-Google-Smtp-Source: APXvYqx1Iiilr8yceqrgt4XreuMDOrGt35G0cRJTrwJ7Rs3vDLx/PiSdgpm5cXOA+gaUw1gJNXb5KCDk2g9Mo+yqmHY=
+X-Received: by 2002:a2e:480a:: with SMTP id v10mr6411709lja.94.1561737967423; 
+ Fri, 28 Jun 2019 09:06:07 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-8-philmd@redhat.com>
-In-Reply-To: <20190627202719.17739-8-philmd@redhat.com>
+ <20190627202719.17739-9-philmd@redhat.com>
+In-Reply-To: <20190627202719.17739-9-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Jun 2019 09:01:32 -0700
-Message-ID: <CAKmqyKPMkKNPXHqqEZPLmKH61c_BHSOXf26Fj8ZU4pyyoT8pWg@mail.gmail.com>
+Date: Fri, 28 Jun 2019 09:03:07 -0700
+Message-ID: <CAKmqyKPBSZhKw1D83omSi95vXf1YK=jRTFCycYayXwDU12SLjg@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::142
-Subject: Re: [Qemu-devel] [PATCH v5 07/28] hw/block/pflash_cfi02: Simplify a
- statement using fall through
+X-Received-From: 2a00:1450:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH v5 08/28] hw/block/pflash_cfi02: Use the
+ ldst API in pflash_write()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,8 +91,10 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 1:31 PM Philippe Mathieu-Daud=C3=A9
+On Thu, Jun 27, 2019 at 1:43 PM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
+>
+> The load/store API eases code review.
 >
 > Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
 > Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
@@ -107,28 +108,62 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/block/pflash_cfi02.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  hw/block/pflash_cfi02.c | 38 ++++++++------------------------------
+>  1 file changed, 8 insertions(+), 30 deletions(-)
 >
 > diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index e9eea0ec08..9e8c28af8f 100644
+> index 9e8c28af8f..ae38ed0bae 100644
 > --- a/hw/block/pflash_cfi02.c
 > +++ b/hw/block/pflash_cfi02.c
-> @@ -239,10 +239,10 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwadd=
-r offset,
->          case 0x0E:
->          case 0x0F:
->              ret =3D boff & 0x01 ? pfl->ident3 : pfl->ident2;
-> -            if (ret =3D=3D (uint8_t)-1) {
-> -                goto flash_read;
-> +            if (ret !=3D (uint8_t)-1) {
-> +                break;
+> @@ -365,38 +365,16 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr o=
+ffset,
+>              goto check_unlock0;
+>          case 0xA0:
+>              trace_pflash_data_write(offset, width << 1, value, 0);
+> -            p =3D pfl->storage;
+>              if (!pfl->ro) {
+> -                switch (width) {
+> -                case 1:
+> -                    p[offset] &=3D value;
+> -                    pflash_update(pfl, offset, 1);
+> -                    break;
+> -                case 2:
+> -                    if (be) {
+> -                        p[offset] &=3D value >> 8;
+> -                        p[offset + 1] &=3D value;
+> -                    } else {
+> -                        p[offset] &=3D value;
+> -                        p[offset + 1] &=3D value >> 8;
+> -                    }
+> -                    pflash_update(pfl, offset, 2);
+> -                    break;
+> -                case 4:
+> -                    if (be) {
+> -                        p[offset] &=3D value >> 24;
+> -                        p[offset + 1] &=3D value >> 16;
+> -                        p[offset + 2] &=3D value >> 8;
+> -                        p[offset + 3] &=3D value;
+> -                    } else {
+> -                        p[offset] &=3D value;
+> -                        p[offset + 1] &=3D value >> 8;
+> -                        p[offset + 2] &=3D value >> 16;
+> -                        p[offset + 3] &=3D value >> 24;
+> -                    }
+> -                    pflash_update(pfl, offset, 4);
+> -                    break;
+> +                p =3D (uint8_t *)pfl->storage + offset;
+> +                if (pfl->be) {
+> +                    uint64_t current =3D ldn_be_p(p, width);
+> +                    stn_be_p(p, width, current & value);
+> +                } else {
+> +                    uint64_t current =3D ldn_le_p(p, width);
+> +                    stn_le_p(p, width, current & value);
+>                  }
+> +                pflash_update(pfl, offset, width);
 >              }
-> -            break;
-> +            /* Fall through to data read. */
->          default:
->              goto flash_read;
->          }
+>              /*
+>               * While programming, status bit DQ7 should hold the opposit=
+e
 > --
 > 2.20.1
 >
