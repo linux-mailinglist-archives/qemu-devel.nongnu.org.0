@@ -2,61 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C015A33C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:14:05 +0200 (CEST)
-Received: from localhost ([::1]:35150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991BC5A383
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:26:10 +0200 (CEST)
+Received: from localhost ([::1]:35236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgvNs-0005BA-Qh
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55250)
+	id 1hgvZZ-0003mR-Oq
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59644)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgulU-0000gR-1S
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:34:26 -0400
+ (envelope-from <aaron@os.amperecomputing.com>) id 1hgv8Y-0001t7-OG
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:58:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgulQ-0001C0-5p
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:34:23 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:44393)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgulP-00017k-Da
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:34:20 -0400
-Received: by mail-pf1-f195.google.com with SMTP id t16so3319057pfe.11
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:34:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding:cc:from:to;
- bh=S4egXU7gHZ0p7K3/lqDAFFby08GeyN4BgDviPdGN1ZY=;
- b=cFknR4RCDkpYJOIzVxvjSxPHZaU9/eOdB7y0jc8KqcO0xffH4ItMHi39RsH4n5S4RZ
- X3YI4NMcU3kOutgDYJkvLlt4gPWH325F0xE1T0SQEp9E4Z4/bGVKZHblGytNo3pSwwxk
- X3ZvUu8M72HVzpg1/w7SK5Jx/ry3iW3EKWDNG2F+iOtl8jFy/gNmwzx1lwiS5TF9BrLE
- CPgqTzWWWLJ/+e8mgoMBXHq49YBQbI6GOq8FO6OCF2S3n3EMHle8E81gV9uOsynBC+gK
- uqmr+9JFIcwOHiMdmfN2Xxdb/xrAgPfmpGkGrATchoyJzkrnCPxzspNu81cPWD6Krwig
- VPJw==
-X-Gm-Message-State: APjAAAUC7q6XEHRk+VECFNtNwx2UtmoxMlR1fm++8TssYxpmh1W5kplk
- 8TRtWKjxTubiTZUe7UGu0+D2WmjEz+sMvg+A
-X-Google-Smtp-Source: APXvYqxcmzQ2UnYTYbU/afzOsC2xWfikVyYRmJic9Z/gtGxxKvE+3GL9US0BLStZ7V/THuKcgb6ndw==
-X-Received: by 2002:a65:51cb:: with SMTP id i11mr10063649pgq.390.1561743255888; 
- Fri, 28 Jun 2019 10:34:15 -0700 (PDT)
-Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
- [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id e26sm2793002pfn.94.2019.06.28.10.34.14
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:34:15 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:32:27 -0700
-Message-Id: <20190628173227.31925-35-palmer@sifive.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
-References: <20190628173227.31925-1-palmer@sifive.com>
+ (envelope-from <aaron@os.amperecomputing.com>) id 1hgv8V-0002py-GL
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:58:13 -0400
+Received: from mail-eopbgr770112.outbound.protection.outlook.com
+ ([40.107.77.112]:51510 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1hgv8V-0002nX-1O
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:58:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=testarcselector01; d=microsoft.com; cv=none;
+ b=ZLLCr+rL/xLUXJJMzP8zCH/pgqTUaDCYLUn+NUtCDwPYzcAkGNre7X6pe0aOUlIWnhxlH4IWhMO50hjm+t/drjTv7AmrRlAlKi1SY62lWkV0Oj95ppPoeDPMytYJ1Ii9wGCFnAfwpw+cFH/qaQh0DfoGS4MdSTgF4nHx0i1IQRA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=testarcselector01;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xxe3IcRrRyI8Y3xsclUhNmRtYIMIlWZ9hbW0jFGgbPA=;
+ b=QSat+cbT+Ue+6hUzOfPUzKwFScBeynv1RTEL72VQO+UnyP669r/UMLvUfTQ8vfHbTrZOwBk5MPmrQrvMamxz45UfOVu0qfEA1pfGEQntXHWsOjs8XdX/c5CgOxWl+g1fcXH4KbR4xsOY83yrblHt2njbzAHDbOK40IS5NhKAdQU=
+ARC-Authentication-Results: i=1; test.office365.com
+ 1;spf=none;dmarc=none;dkim=none;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Xxe3IcRrRyI8Y3xsclUhNmRtYIMIlWZ9hbW0jFGgbPA=;
+ b=Zz2vz6WWSh/nJM62H39xMhpl+QDOO8QLeSI6ACwENBHzjfBXc1wMDxeQYkLCAfkZeH8MwgFWmF1GdjDiJ/p9+i0J8TNEHDHCs2yrivmxXDboW5aNGwXOP9SH4nozi8wSMmHOKRQ+bqFjRlqhZfI2+s1TCahHMjX5qatT11zI6Yo=
+Received: from DM6PR01MB4825.prod.exchangelabs.com (20.177.218.222) by
+ DM6PR01MB5530.prod.exchangelabs.com (20.179.68.214) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2008.16; Fri, 28 Jun 2019 17:58:04 +0000
+Received: from DM6PR01MB4825.prod.exchangelabs.com
+ ([fe80::390e:9996:6dec:d60f]) by DM6PR01MB4825.prod.exchangelabs.com
+ ([fe80::390e:9996:6dec:d60f%6]) with mapi id 15.20.2032.018; Fri, 28 Jun 2019
+ 17:58:04 +0000
+To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
+Thread-Topic: [Qemu-devel] [PATCH v3 19/50] tcg: let plugins instrument memory
+ accesses
+Thread-Index: AQHVIt11hLjmFwnAA0W4zaK1l+4xhaaxRysAgAAcDgCAAA0TAA==
+Date: Fri, 28 Jun 2019 17:58:04 +0000
+Message-ID: <20190628175756.GC26345@quinoa.localdomain>
+References: <20190614171200.21078-1-alex.bennee@linaro.org>
+ <20190614171200.21078-20-alex.bennee@linaro.org>
+ <20190628153044.GB26345@quinoa.localdomain>
+ <87mui1ab4j.fsf@zen.linaroharston>
+In-Reply-To: <87mui1ab4j.fsf@zen.linaroharston>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: CY4PR2201CA0031.namprd22.prod.outlook.com
+ (2603:10b6:910:3e::20) To DM6PR01MB4825.prod.exchangelabs.com
+ (2603:10b6:5:6b::30)
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=aaron@os.amperecomputing.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [108.169.132.82]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0fc14328-ff14-4242-4ba1-08d6fbf22b05
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
+ SRVR:DM6PR01MB5530; 
+x-ms-traffictypediagnostic: DM6PR01MB5530:
+x-microsoft-antispam-prvs: <DM6PR01MB5530685363C7602BB563ED8A8AFC0@DM6PR01MB5530.prod.exchangelabs.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 00826B6158
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(376002)(39840400004)(366004)(136003)(396003)(346002)(189003)(199004)(476003)(446003)(52116002)(99286004)(66066001)(11346002)(6246003)(102836004)(386003)(6506007)(76176011)(14454004)(68736007)(33656002)(66446008)(305945005)(81166006)(66556008)(64756008)(81156014)(66476007)(486006)(25786009)(66946007)(66574012)(1076003)(8676002)(229853002)(478600001)(7736002)(6916009)(186003)(9686003)(6512007)(53936002)(26005)(6486002)(73956011)(4326008)(2906002)(6436002)(8936002)(3846002)(71190400001)(6116002)(14444005)(54906003)(5660300002)(71200400001)(86362001)(316002)(256004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR01MB5530;
+ H:DM6PR01MB4825.prod.exchangelabs.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:0; 
+received-spf: None (protection.outlook.com: os.amperecomputing.com does not
+ designate permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: WIBaywki+aTNzsERuMLK8XqLYuSEV/QI9swDwN3gXQ72XPt17AQlEXgPSGsghbzIzy0xNz3bxhx+ll8m3koVF1QgehGHGgm1tahAHcF8FH1wbE5Y921KfR9nsHpwoVFddSmYurLdrMri7u6N5j1yGqAlodmZmsUA0S79/pXbN7HCwZopHl504SlrNqb7n08xF7ZrfFJ9Uzpmu/caBeN4kcNP0sBrO2WNuJy/chkfW+c2qqKfELbzMIJE7hRV9i0mEkVV+3aLJTU4RQdmliCyYV45D74sMC/q+fPRj0XqUhpJQNT1Irneu1vX+spbOPktcVP46Ui9r+AkjJ7Ta8gpDeybYMX84VKiyyROn2ZmBxyJY45a13wPnmGNzwpm28VfS86UbtYdakHQTqhz1nSgacWsHPWUolAo739Qb7Zro58=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <32C5D270488A0C4687AA6052D7CDA529@prod.exchangelabs.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-From: Palmer Dabbelt <palmer@sifive.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.195
-Subject: [Qemu-devel] [PULL 34/34] hw/riscv: Load OpenSBI as the default
- firmware
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fc14328-ff14-4242-4ba1-08d6fbf22b05
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2019 17:58:04.5426 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Aaron@os.amperecomputing.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB5530
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.77.112
+Subject: Re: [Qemu-devel] [PATCH v3 19/50] tcg: let plugins instrument
+ memory accesses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,197 +111,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@sifive.com>
+From: Aaron Lindsay OS via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+On Jun 28 18:11, Alex Benn=E9e wrote:
+> Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
+> > On Jun 14 18:11, Alex Benn=E9e wrote:
+> >> From: "Emilio G. Cota" <cota@braap.org>
+> >>
+> >> Here the trickiest feature is passing the host address to
+> >> memory callbacks that request it. Perhaps it would be more
+> >> appropriate to pass a "physical" address to plugins, but since
+> >> in QEMU host addr ~=3D guest physical, I'm going with that for
+> >> simplicity.
+> >
+> > How much more difficult would it be to get the true physical address (o=
+n
+> > the guest)?
+>=20
+> Previously there was a helper that converted host address (i.e. where
+> QEMU actually stores that value) back to the physical address (ram
+> offset + ram base). However the code for calculating all of this is
+> pretty invasive and requires tweaks to all the softmmu TCG backends as
+> well as hooks into a slew of memory functions.
+>=20
+> I'm re-working this now so we just have the one memory callback and we
+> provide a helper function that can provide an opaque hwaddr struct which
+> can then be queried.
 
-If the user hasn't specified a firmware to load (with -bios) or
-specified no bios (with -bios none) then load OpenSBI by default. This
-allows users to boot a RISC-V kernel with just -kernel.
+To make sure I understand - you're implying that one such query will
+return the PA from the guest's perspective, right?
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
-Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
----
- hw/riscv/boot.c         | 49 +++++++++++++++++++++++++++++++++++++++++
- hw/riscv/sifive_u.c     |  7 +++---
- hw/riscv/virt.c         | 11 ++++++---
- include/hw/riscv/boot.h |  3 +++
- qemu-deprecated.texi    | 20 +++++++++++++++++
- 5 files changed, 84 insertions(+), 6 deletions(-)
+> The catch is you can only call this helper during a
+> memory callback.
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index ff023f42d01d..23397edc8f15 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -18,6 +18,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu-common.h"
- #include "qemu/units.h"
- #include "qemu/error-report.h"
- #include "exec/cpu-defs.h"
-@@ -32,6 +33,54 @@
- # define KERNEL_BOOT_ADDRESS 0x80200000
- #endif
- 
-+void riscv_find_and_load_firmware(MachineState *machine,
-+                                  const char *default_machine_firmware,
-+                                  hwaddr firmware_load_addr)
-+{
-+    char *firmware_filename;
-+
-+    if (!machine->firmware) {
-+        /*
-+         * The user didn't specify -bios.
-+         * At the moment we default to loading nothing when this hapens.
-+         * In the future this defaul will change to loading the prebuilt
-+         * OpenSBI firmware. Let's warn the user and then continue.
-+         */
-+        warn_report("No -bios option specified. Not loading a firmware.");
-+        warn_report("This default will change in QEMU 4.3. Please use the " \
-+                    "-bios option to aviod breakages when this happens.");
-+        warn_report("See QEMU's deprecation documentation for details");
-+        return;
-+    }
-+
-+    if (!strcmp(machine->firmware, "default")) {
-+        /*
-+         * The user has specified "-bios default". That means we are going to
-+         * load the OpenSBI binary included in the QEMU source.
-+         *
-+         * We can't load the binary by default as it will break existing users
-+         * as users are already loading their own firmware.
-+         *
-+         * Let's try to get everyone to specify the -bios option at all times,
-+         * so then in the future we can make "-bios default" the default option
-+         * if no -bios option is set without breaking anything.
-+         */
-+        firmware_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
-+                                           default_machine_firmware);
-+    } else {
-+        firmware_filename = machine->firmware;
-+    }
-+
-+    if (strcmp(firmware_filename, "none")) {
-+        /* If not "none" load the firmware */
-+        riscv_load_firmware(firmware_filename, firmware_load_addr);
-+    }
-+
-+    if (!strcmp(machine->firmware, "default")) {
-+        g_free(firmware_filename);
-+    }
-+}
-+
- target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr)
- {
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 420867155293..49254b0c0f95 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -49,6 +49,8 @@
- 
- #include <libfdt.h>
- 
-+#define BIOS_FILENAME "opensbi-riscv64-sifive_u-fw_jump.bin"
-+
- static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
-@@ -269,9 +271,8 @@ static void riscv_sifive_u_init(MachineState *machine)
-     /* create device tree */
-     create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
- 
--    if (machine->firmware) {
--        riscv_load_firmware(machine->firmware, memmap[SIFIVE_U_DRAM].base);
--    }
-+    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                 memmap[SIFIVE_U_DRAM].base);
- 
-     if (machine->kernel_filename) {
-         riscv_load_kernel(machine->kernel_filename);
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index d8181a4ff18a..244019da9e72 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -44,6 +44,12 @@
- 
- #include <libfdt.h>
- 
-+#if defined(TARGET_RISCV32)
-+# define BIOS_FILENAME "opensbi-riscv32-virt-fw_jump.bin"
-+#else
-+# define BIOS_FILENAME "opensbi-riscv64-virt-fw_jump.bin"
-+#endif
-+
- static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
-@@ -398,9 +404,8 @@ static void riscv_virt_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
-                                 mask_rom);
- 
--    if (machine->firmware) {
--        riscv_load_firmware(machine->firmware, memmap[VIRT_DRAM].base);
--    }
-+    riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-+                                 memmap[VIRT_DRAM].base);
- 
-     if (machine->kernel_filename) {
-         uint64_t kernel_entry = riscv_load_kernel(machine->kernel_filename);
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index daa179b600f4..d56f2ae3eb5d 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -20,6 +20,9 @@
- #ifndef RISCV_BOOT_H
- #define RISCV_BOOT_H
- 
-+void riscv_find_and_load_firmware(MachineState *machine,
-+                                  const char *default_machine_firmware,
-+                                  hwaddr firmware_load_addr);
- target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr);
- target_ulong riscv_load_kernel(const char *kernel_filename);
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 97ea4ef3001a..f33e6d1c80fb 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -88,6 +88,26 @@ The @code{-realtime mlock=on|off} argument has been replaced by the
- The ``-virtfs_synth'' argument is now deprecated. Please use ``-fsdev synth''
- and ``-device virtio-9p-...'' instead.
- 
-+@subsection RISC-V -bios (since 4.1)
-+
-+QEMU 4.1 introduced support for the -bios option in QEMU for RISC-V for the
-+RISC-V virt machine and sifive_u machine.
-+
-+QEMU 4.1 has no changes to the default behaviour to avoid breakages. This
-+default will change in a future QEMU release, so please prepare now. All users
-+of the virt or sifive_u machine must change their command line usage.
-+
-+QEMU 4.1 has three options, please migrate to one of these three:
-+ 1. ``-bios none`` - This is the current default behavior if no -bios option
-+      is included. QEMU will not automatically load any firmware. It is up
-+      to the user to load all the images they need.
-+ 2. ``-bios default`` - In a future QEMU release this will become the default
-+      behaviour if no -bios option is specified. This option will load the
-+      default OpenSBI firmware automatically. The firmware is included with
-+      the QEMU release and no user interaction is required. All a user needs
-+      to do is specify the kernel they want to boot with the -kernel option
-+ 3. ``-bios <file>`` - Tells QEMU to load the specified file as the firmwrae.
-+
- @section QEMU Machine Protocol (QMP) commands
- 
- @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
--- 
-2.21.0
+Does this mean it will be difficult to get the physical address for the
+bytes containing the instruction encoding itself?
 
+> I'm not sure if having this restriction violates our
+> aim of not leaking implementation details to the plugin but it makes the
+> code simpler.
+
+Assuming that the purpose of "not leaking implementation details" is to
+allow the same plugin interface to work with other backend
+implementations in the future, isn't this probably fine? It may add an
+unnecessary limitation for another backend driving the same plugin
+interface, but I don't think it likely changes the structure of the
+interface itself. And that seems like the sort of restriction that could
+easily be dropped in the future while remaining backwards-compatible.
+
+> Internally what the helper does is simply re-query the SoftMMU TLB. As
+> the TLBs are per-CPU nothing else can have touched the TLB and the cache
+> should be hot so the cost of lookup should be minor. We could also
+> potentially expand the helpers so if you are interested in only IO
+> accesses we can do the full resolution and figure out what device we
+> just accessed.
+
+Oh, so you're already working on doing just what I asked about?
+
+> > This is important enough to me that I would be willing to help if
+> > pointed in the right direction.
+>=20
+> Well I'll certainly CC on the next series (hopefully posted Monday,
+> softfreeze starts Tuesday). I'll welcome any testing and review. Also if
+> you can tell us more about your use case that will help.
+
+Awesome, thanks!
+
+In terms of our use case - we use QEMU to drive studies to help us
+design the next generation of processors. As you can imagine, having the
+right physical addresses is important for some aspects of that. We're
+currently using a version of Pavel Dovgalyuk's earlier plugin patchset
+with some of our own patches/fixes on top, but it would obviously make
+our lives easier to work together to get this sort of infrastructure
+upstream!
+
+-Aaron
 
