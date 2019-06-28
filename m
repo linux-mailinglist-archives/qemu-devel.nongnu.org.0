@@ -2,73 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C090597BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:39:44 +0200 (CEST)
-Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5847A59800
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:58:04 +0200 (CEST)
+Received: from localhost ([::1]:58366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgnM5-0004yR-MJ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:39:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48358)
+	id 1hgndr-0006h7-GW
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:58:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51329)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@gmail.com>) id 1hgnKy-0004WM-Ie
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:38:33 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hgnag-000515-K3
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:54:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@gmail.com>) id 1hgnKx-0006Nf-CB
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:38:32 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36577)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hgnKx-0006NH-5E
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:38:31 -0400
-Received: by mail-wm1-x336.google.com with SMTP id u8so8317159wmm.1
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 02:38:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=JLkS7yWIvSDpTg21K7U1t0KGOImasGe0o8f6CpM7V8U=;
- b=sJXpwT3MMOYntTrOd+SSUO+kRlDzbAQqTp0jl3YpDfqTi6Q7gqbUIeslIe5eWK58Mo
- poHU+QxG45tocwbwaLNyNINfU5hoeQkzVinrLh1i1raGK8+a0YBi1tG8147QvCu0Xv3y
- c1mL+cBeXI9ko8nxDFgf81u8i13e7gsS36lBawypz1IG31OydG4Ox5f9+pwpEKbPQPUb
- TkWBeQ7TrHxdIbgyhVkzawQGqhFjpqb3cjfZCaz1kHBqQBuVAJU+UtPEhp1qhNBNVWv0
- 1T+d4MlLLkC8FTmDDuACfL7hKAChn6yInc4kBR0edMduAKHuKx7tb2tayc2KTaYNsWWY
- KaTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=JLkS7yWIvSDpTg21K7U1t0KGOImasGe0o8f6CpM7V8U=;
- b=hQy2HG3bvQNhm+Caw1Chrxn9RrvCzC3ZpyONbc/LnSiIH1vlm3Kj3gV7ADaktPFY0A
- F+PYIlCC9RxLtaiicwSGc41gAXqzB3ZCJsiHe4IdmC6jhYpHM3Pup7ZZgthgEaWIdBsS
- qfT4lZvIaNhhRkm+yjc2GZF3zvwkFtWLvbUL/D0SZe5c97fJ5G94NRIbCWwQM5FrqfQs
- iWOi3g9rvtpekYRNFEYpNygBUT2rXgTFtYLZcSTUtbTpXdk4hG+QAEQbDLKR0Au6Jz9B
- AYFEJ/IvxuREVmEcP6MEWoxEXNbBj9HrFgoQf5Kftz8KN0SuxF2oM/p60hWc8HC3qFn9
- IMdg==
-X-Gm-Message-State: APjAAAUT60vPTu0OCIdr92X8PpiXctnLHg1tD8NQLCGZmFmk2MZ8CjTQ
- 2K6aFyZjZNIu4VtdEdW2byA=
-X-Google-Smtp-Source: APXvYqwE0bHRoa98eqXklVi+uvuFsKpCcMdH8XRTpTJYS7Q22wPXd0W46VWwmb6T2Fu9EeQdSQre+g==
-X-Received: by 2002:a1c:be12:: with SMTP id o18mr6530362wmf.21.1561714710032; 
- Fri, 28 Jun 2019 02:38:30 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
- by smtp.gmail.com with ESMTPSA id r2sm1385767wme.30.2019.06.28.02.38.29
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 02:38:29 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:38:28 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
-Message-ID: <20190628093828.GD3316@stefanha-x1.localdomain>
-References: <CAMzgYoMG1ic-5yiS2ehnDLna+UKgCtMBcSVNmKQx1oxRZqT=yQ@mail.gmail.com>
- <20190624184133.GW2726@work-vm>
- <CAMzgYoOjCNYvadBT0PPorG0wOX3Ymvd5x_1NzW1SH2te1JfN-Q@mail.gmail.com>
+ (envelope-from <no-reply@patchew.org>) id 1hgnad-0003Uy-Py
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:54:45 -0400
+Resent-Date: Fri, 28 Jun 2019 05:54:45 -0400
+Resent-Message-Id: <E1hgnad-0003Uy-Py@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21479)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hgnac-0003RD-9P
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:54:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561715665; cv=none; d=zoho.com; s=zohoarc; 
+ b=f7wQa/aV7lpWANvRndqF2n4zd4LMGe43bwCgJn/dkoe/owVm7w9vbbhfLzR5UjM85x6bqPcEPqQ+34snbRvpufeZH4JqzKhn/zGpQRKAfc+d6SBhuAO6smU9gRipfJbKG26sPmmk5bjr1dpTQzhQnHqFIMQWiNTuNjy5MnQKwcA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561715665;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=0MSIfsAUXtrxMo1jdlfzCpne4SgBkN479ABm/K3z1go=; 
+ b=Qj6idqjxRtfDmnz1bHwJaLyUb3qwgxDUj4+oL/5p+cpQW3eTtRdAg9vjpHPssNMjz7TRW4+gS21cy/rlSaQFgwhh4vkQmVb/FJV7u9/9lFt5vy7apJ0hHb1kGI1Y4K9tARKwoQQU71F1yNleLQ9X6ey4SzqVP+aUhFbW1ttFGMo=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561714757278342.2957946254951;
+ Fri, 28 Jun 2019 02:39:17 -0700 (PDT)
+Message-ID: <156171475579.6332.4612553471877082379@c4a48874b076>
+In-Reply-To: <1561712082-31441-1-git-send-email-aleksandar.markovic@rt-rk.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ylS2wUBXLOxYXZFQ"
-Content-Disposition: inline
-In-Reply-To: <CAMzgYoOjCNYvadBT0PPorG0wOX3Ymvd5x_1NzW1SH2te1JfN-Q@mail.gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::336
-Subject: Re: [Qemu-devel] [GSoC] Help needed in implementing live migration
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: aleksandar.markovic@rt-rk.com
+Date: Fri, 28 Jun 2019 02:39:17 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH v15 0/5] linux-user: A set of miscellaneous
+ patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,79 +62,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, amarkovic@wavecomp.com, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxNzEyMDgyLTMxNDQxLTEt
+Z2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20vCgoKCkhpLAoKVGhp
+cyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91
+dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZvcm1hdGlvbjoKCk1lc3NhZ2UtaWQ6IDE1NjE3MTIwODIt
+MzE0NDEtMS1naXQtc2VuZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbQpUeXBl
+OiBzZXJpZXMKU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCB2MTUgMC81XSBsaW51eC11c2Vy
+OiBBIHNldCBvZiBtaXNjZWxsYW5lb3VzIHBhdGNoZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9
+PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApn
+aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9n
+cmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFND
+UklQVCBFTkQgPT09CgpGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVt
+dQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzE1NjE3MTIwODItMzE0NDEtMS1naXQtc2Vu
+ZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbSAtPiBwYXRjaGV3LzE1NjE3MTIw
+ODItMzE0NDEtMS1naXQtc2VuZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbQpT
+d2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjhlMzZiYzggbGludXgtdXNlcjogSGFuZGxl
+IEVYQ1BfRlBFIHByb3Blcmx5IGZvciBNSVBTCjhkNTg4ZGUgbGludXgtdXNlcjogSW50cm9kdWNl
+IFRBUkdFVF9IQVZFX0FSQ0hfU1RSVUNUX0ZMT0NLCjlmMTJjZTMgbGludXgtdXNlcjogRml4IHRh
+cmdldF9mbG9jayBzdHJ1Y3R1cmUgZm9yIE1JUFMgTzY0IEFCSQpjM2FmNGYxIGxpbnV4LXVzZXI6
+IEFkZCBzdXBwb3J0IGZvciBzdHJhY2UgZm9yIHN0YXR4KCkgc3lzY2FsbApiMDAxOTliIGxpbnV4
+LXVzZXI6IEFkZCBzdXBwb3J0IGZvciB0cmFuc2xhdGlvbiBvZiBzdGF0eCgpIHN5c2NhbGwKCj09
+PSBPVVRQVVQgQkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgYjAwMTk5YjJjNzMwIChsaW51
+eC11c2VyOiBBZGQgc3VwcG9ydCBmb3IgdHJhbnNsYXRpb24gb2Ygc3RhdHgoKSBzeXNjYWxsKQpX
+QVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRlZAoj
+NTM6IEZJTEU6IGxpbnV4LXVzZXIvc3lzY2FsbC5jOjMyMToKKyNpZiBkZWZpbmVkKFRBUkdFVF9O
+Ul9zdGF0eCkgJiYgZGVmaW5lZChfX05SX3N0YXR4KQoKV0FSTklORzogYXJjaGl0ZWN0dXJlIHNw
+ZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzY1OiBGSUxFOiBsaW51eC11c2VyL3N5
+c2NhbGwuYzo2NDc4OgorI2lmIGRlZmluZWQoVEFSR0VUX05SX3N0YXR4KSAmJiBkZWZpbmVkKF9f
+TlJfc3RhdHgpCgpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQg
+YmUgYXZvaWRlZAojMTM1OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGwuYzoxMDE4ODoKKyNpZiBk
+ZWZpbmVkKF9fTlJfc3RhdHgpCgp0b3RhbDogMCBlcnJvcnMsIDMgd2FybmluZ3MsIDE3OSBsaW5l
+cyBjaGVja2VkCgpQYXRjaCAxLzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi81IENoZWNr
+aW5nIGNvbW1pdCBjM2FmNGYxZjk0MjEgKGxpbnV4LXVzZXI6IEFkZCBzdXBwb3J0IGZvciBzdHJh
+Y2UgZm9yIHN0YXR4KCkgc3lzY2FsbCkKRVJST1I6IHN0b3JhZ2UgY2xhc3Mgc2hvdWxkIGJlIGF0
+IHRoZSBiZWdpbm5pbmcgb2YgdGhlIGRlY2xhcmF0aW9uCiMyNzogRklMRTogbGludXgtdXNlci9z
+dHJhY2UuYzo5Nzk6CitVTlVTRUQgc3RhdGljIHN0cnVjdCBmbGFncyBzdGF0eF9mbGFnc1tdID0g
+ewoKRVJST1I6IHN0b3JhZ2UgY2xhc3Mgc2hvdWxkIGJlIGF0IHRoZSBiZWdpbm5pbmcgb2YgdGhl
+IGRlY2xhcmF0aW9uCiM0OTogRklMRTogbGludXgtdXNlci9zdHJhY2UuYzoxMDAxOgorVU5VU0VE
+IHN0YXRpYyBzdHJ1Y3QgZmxhZ3Mgc3RhdHhfbWFza1tdID0gewoKdG90YWw6IDIgZXJyb3JzLCAw
+IHdhcm5pbmdzLCAxMDQgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi81IGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCgozLzUgQ2hlY2tpbmcgY29tbWl0IDlmMTJjZTM3MDY5MyAobGludXgtdXNlcjog
+Rml4IHRhcmdldF9mbG9jayBzdHJ1Y3R1cmUgZm9yIE1JUFMgTzY0IEFCSSkKNC81IENoZWNraW5n
+IGNvbW1pdCA4ZDU4OGRlNmYwOTIgKGxpbnV4LXVzZXI6IEludHJvZHVjZSBUQVJHRVRfSEFWRV9B
+UkNIX1NUUlVDVF9GTE9DSykKNS81IENoZWNraW5nIGNvbW1pdCA4ZTM2YmM4NzFhMjggKGxpbnV4
+LXVzZXI6IEhhbmRsZSBFWENQX0ZQRSBwcm9wZXJseSBmb3IgTUlQUykKPT09IE9VVFBVVCBFTkQg
+PT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBh
+dmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMTU2MTcxMjA4Mi0zMTQ0MS0xLWdp
+dC1zZW5kLWVtYWlsLWFsZWtzYW5kYXIubWFya292aWNAcnQtcmsuY29tL3Rlc3RpbmcuY2hlY2tw
+YXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkg
+UGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNr
+IHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
---ylS2wUBXLOxYXZFQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Jun 27, 2019 at 05:02:33AM +0530, Sukrit Bhatnagar wrote:
-> On Tue, 25 Jun 2019 at 00:11, Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > * Sukrit Bhatnagar (skrtbhtngr@gmail.com) wrote:
-> > > Hi David,
-> > >
-> > > I am Sukrit, GSoC participant working on PVRDMA live migration.
-> > > We had a short chat about vmxnet3 migration about a week ago
-> > > on the IRC channel.
-> > >
-> > > I am facing an issue while doing migration of the pvrdma device.
-> > > While loading the device state, we need to perform a few dma
-> > > mappings on the destination. But on the destination, the migration
-> > > fails due a BounceBuffer being locked (in_use). This global
-> > > BounceBuffer is used in address_space_map/unmap functions
-> > > which the rdma_pci_dma_map/unmap calls.
-> > > Essentially, we need a way to remap guest physical address on
-> > > the destination after migration.
-> > >
-> > > I had posted an RFC a while ago on the list:
-> > > https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04924.html
-> > > https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg04923.html
-> > >
-> > > My mentors (Marcel and Yuval) told me to ask you for help
-> > > regarding this. It would be really great if you can guide me in
-> > > finding a workaround for this.
-> >
-> > Hi,
-> >   I'll have a look; I need to get some other things finished first.
->=20
-> Adding cc: qemu-devel, sorry for the private email.
-
-I haven't looked deeply but it's surprising that you're hitting
-BounceBuffer.  My understanding is that's an old mechanism for
-supporting exotic things like DMAing to/from device MMIO registers.
-
-Modern machines and guest software usually don't do this.  I wonder why
-you're hitting this case.
-
-If you look at the BounceBuffer code there's an API to register a
-callback (cpu_register_map_client()).  That's how the case of multiple
-BounceBuffers is supposed to be handled.
-
-Can you double-check your code and figure out how it got here?  I don't
-think it should be taking this path.
-
-Stefan
-
---ylS2wUBXLOxYXZFQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0V4BQACgkQnKSrs4Gr
-c8hE2QgAltAOEWnOPaSblKpNbLy28PYbyKPnVL513sw6vFzDF+lLcYdoFiJKSQe5
-yHK3GwC4cwEdrqINtFu3emqx8xPS64rn4gLXi8u/A9IHqUV7a4DV2nN4yH4+FlDR
-H+rg9Rg/oeAJYMf/iCVWun/uMI0y7n+qVP+a3fEgFkjR88JZSOxL8WtCrqOTJQpm
-+AsQ4zXzDvW+d5/1QANBhcsTYAwLp6Cx7aa5fefNKq4qDaBtaXAsAIPxBumy5G/l
-Crolq0jgd9qBKckMWqn65B0a+lwjo/cyprGWDghoW+4cNx8BgJYeJn0AEHEPq6Ky
-esuS0BpqSZGgJuVA37KdS1dJKEXSjA==
-=twMr
------END PGP SIGNATURE-----
-
---ylS2wUBXLOxYXZFQ--
 
