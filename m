@@ -2,60 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7109F5978A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:33:18 +0200 (CEST)
-Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0EDE59755
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:21:02 +0200 (CEST)
+Received: from localhost ([::1]:58152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgnFt-0001Pu-EC
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47099)
+	id 1hgn42-0000ui-1B
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:21:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44725)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hgnDb-0000ch-60
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:30:57 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hgn2Q-0008JP-J7
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:19:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hgnDY-0001Rl-Qj
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:30:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41800)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hgnDY-0001PT-HV
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:30:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hgnDW-0001jt-SL
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 09:30:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D53342E8047
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 09:30:50 +0000 (UTC)
+ (envelope-from <dgilbert@redhat.com>) id 1hgn2O-00006Q-1X
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:19:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42546)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hgn2K-0008Sf-JA
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:19:18 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A2C5C356DA;
+ Fri, 28 Jun 2019 09:19:06 +0000 (UTC)
+Received: from work-vm (ovpn-116-169.ams2.redhat.com [10.36.116.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E4F0510018F9;
+ Fri, 28 Jun 2019 09:18:57 +0000 (UTC)
+Date: Fri, 28 Jun 2019 10:18:55 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <20190628091855.GC2922@work-vm>
+References: <1561041461-22326-1-git-send-email-kwankhede@nvidia.com>
+ <1561041461-22326-10-git-send-email-kwankhede@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 28 Jun 2019 09:15:49 -0000
-From: DDoSolitary <DDoSolitary@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ddosolitary
-X-Launchpad-Bug-Reporter: DDoSolitary (ddosolitary)
-X-Launchpad-Bug-Modifier: DDoSolitary (ddosolitary)
-Message-Id: <156171334969.18290.6262209650807716029.malonedeb@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18991";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 015cf3acc267a9f35efce39b722bb0929096648f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1561041461-22326-10-git-send-email-kwankhede@nvidia.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Fri, 28 Jun 2019 09:19:07 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1834613] [NEW] Crypto related operations failing
- on Alpine Linux on QEMU 4.0
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 09/13] vfio: Add load state functions to
+ SaveVMHandlers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,421 +58,235 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1834613 <1834613@bugs.launchpad.net>
+Cc: Zhengxiao.zx@alibaba-inc.com, kevin.tian@intel.com, yi.l.liu@intel.com,
+ cjia@nvidia.com, eskultet@redhat.com, ziye.yang@intel.com,
+ yulei.zhang@intel.com, cohuck@redhat.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, zhi.a.wang@intel.com, mlevitsk@redhat.com,
+ pasic@linux.ibm.com, aik@ozlabs.ru, alex.williamson@redhat.com,
+ eauger@redhat.com, felipe@nutanix.com, jonathan.davies@nutanix.com,
+ yan.y.zhao@intel.com, changpeng.liu@intel.com, Ken.Xue@amd.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+* Kirti Wankhede (kwankhede@nvidia.com) wrote:
+> During _RESUMING device state:
+> - If Vendor driver defines mappable region, mmap migration region.
+> - Load config state.
+> - For data packet, till VFIO_MIG_FLAG_END_OF_STATE is not reached
+>     - read data_size from packet, read buffer of data_size
+>     - read data_offset from where QEMU should write data.
+>         if region is mmaped, write data of data_size to mmaped region.
+>     - write data_size.
+>         In case of mmapped region, write to data_size indicates kernel
+>         driver that data is written in staging buffer.
+>     - if region is trapped, pwrite() data of data_size from data_offset.
+> - Repeat above until VFIO_MIG_FLAG_END_OF_STATE.
+> - Unmap migration region.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> ---
+>  hw/vfio/migration.c | 153 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 153 insertions(+)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 0a2f30872316..e4895f91761d 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -212,6 +212,22 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
+>      return qemu_file_get_error(f);
+>  }
+>  
+> +static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +
+> +    if (vbasedev->type == VFIO_DEVICE_TYPE_PCI) {
+> +        vfio_pci_load_config(vbasedev, f);
+> +    }
+> +
+> +    if (qemu_get_be64(f) != VFIO_MIG_FLAG_END_OF_STATE) {
+> +        error_report("Wrong end of block while loading device config space");
 
-I'm unable to boot the netboot image of Alpine Linux using QEMU 4.0.
+You might find it useful to print the value in the error.
 
-Steps to reproduce:
+> +        return -EINVAL;
+> +    }
+> +
+> +    return qemu_file_get_error(f);
+> +}
+> +
+>  /* ---------------------------------------------------------------------- */
+>  
+>  static int vfio_save_setup(QEMUFile *f, void *opaque)
+> @@ -372,12 +388,149 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>      return ret;
+>  }
+>  
+> +static int vfio_load_setup(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    int ret = 0;
+> +
+> +    if (migration->region.buffer.mmaps) {
+> +        ret = vfio_region_mmap(&migration->region.buffer);
+> +        if (ret) {
+> +            error_report("Failed to mmap VFIO migration region %d: %s",
+> +                         migration->region.index, strerror(-ret));
+> +            return ret;
+> +        }
+> +    }
+> +
+> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_RESUMING);
+> +    if (ret) {
+> +        error_report("Failed to set state RESUMING");
+> +    }
+> +    return ret;
+> +}
+> +
+> +static int vfio_load_cleanup(void *opaque)
+> +{
+> +    vfio_save_cleanup(opaque);
+> +    return 0;
+> +}
+> +
+> +static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    VFIOMigration *migration = vbasedev->migration;
+> +    int ret = 0;
+> +    uint64_t data, data_size;
+> +
+> +    data = qemu_get_be64(f);
+> +    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
+> +        switch (data) {
+> +        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
+> +        {
+> +            ret = vfio_load_device_config_state(f, opaque);
+> +            if (ret) {
+> +                return ret;
+> +            }
+> +            break;
+> +        }
+> +        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
+> +        {
+> +            data = qemu_get_be64(f);
+> +            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
+> +                return ret;
+> +            } else {
+> +                error_report("SETUP STATE: EOS not found 0x%lx", data);
 
-curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netboot=
-/vmlinuz-vanilla
-curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netboot=
-/initramfs-vanilla
-qemu-system-ppc64 -kernel vmlinuz-vanilla -initrd initramfs-vanilla -nograp=
-hic -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinelin=
-ux.org/alpine/v3.10/main"
+Please use PRIx64 for uint64_t (I know it's painful, but it's portable).
 
-The init script will automatically download and install an in-memory
-Alpine Linux environment. However, with QEMU 4.0, the installation
-process will fail with "BAD signature" errors:
+> +                return -EINVAL;
+> +            }
+> +            break;
+> +        }
+> +        case VFIO_MIG_FLAG_DEV_DATA_STATE:
+> +        {
+> +            VFIORegion *region = &migration->region.buffer;
+> +            void *buf = NULL;
+> +            bool buffer_mmaped = false;
+> +            uint64_t data_offset = 0;
+> +
+> +            data_size = qemu_get_be64(f);
+> +            if (data_size == 0) {
+> +                break;
+> +            }
+> +
+> +            ret = pread(vbasedev->fd, &data_offset, sizeof(data_offset),
+> +                        region->fd_offset +
+> +                        offsetof(struct vfio_device_migration_info,
+> +                        data_offset));
+> +            if (ret != sizeof(data_offset)) {
+> +                error_report("Failed to get migration buffer data offset %d",
+> +                              ret);
+> +                return -EINVAL;
+> +            }
+> +
+> +            if (region->mmaps) {
+> +                int i;
+> +
+> +                for (i = 0; i < region->nr_mmaps; i++) {
+> +                    if (region->mmaps[i].mmap &&
+> +                        (data_offset >= region->mmaps[i].offset) &&
+> +                        (data_offset < region->mmaps[i].offset +
+> +                                       region->mmaps[i].size)) {
+> +                        buf = region->mmaps[i].mmap + (data_offset -
+> +                                                      region->mmaps[i].offset);
 
-(1/20) Installing musl (1.1.22-r2)
-ERROR: musl-1.1.22-r2: BAD signature
-(2/20) Installing busybox (1.30.1-r2)
-ERROR: busybox-1.30.1-r2: BAD signature
-(3/20) Installing alpine-baselayout (3.1.2-r0)
-Executing alpine-baselayout-3.1.2-r0.pre-install
-ERROR: alpine-baselayout-3.1.2-r0.pre-install: script exited with error 127
-ERROR: alpine-baselayout-3.1.2-r0: BAD signature
-(4/20) Installing openrc (0.41.2-r1)
-ERROR: openrc-0.41.2-r1: BAD signature
-(5/20) Installing alpine-conf (3.8.3-r0)
-ERROR: alpine-conf-3.8.3-r0: BAD signature
-(6/20) Installing libcrypto1.1 (1.1.1c-r0)
-ERROR: libcrypto1.1-1.1.1c-r0: BAD signature
-(7/20) Installing libssl1.1 (1.1.1c-r0)
-ERROR: libssl1.1-1.1.1c-r0: BAD signature
-(8/20) Installing ca-certificates-cacert (20190108-r0)
-ERROR: ca-certificates-cacert-20190108-r0: BAD signature
-(9/20) Installing libtls-standalone (2.9.1-r0)
-ERROR: libtls-standalone-2.9.1-r0: BAD signature
-(10/20) Installing ssl_client (1.30.1-r2)
-ERROR: ssl_client-1.30.1-r2: BAD signature
-(11/20) Installing zlib (1.2.11-r1)
-ERROR: zlib-1.2.11-r1: BAD signature
-(12/20) Installing apk-tools (2.10.4-r1)
-ERROR: apk-tools-2.10.4-r1: BAD signature
-(13/20) Installing busybox-suid (1.30.1-r2)
-ERROR: busybox-suid-1.30.1-r2: BAD signature
-(14/20) Installing busybox-initscripts (3.1-r7)
-ERROR: busybox-initscripts-3.1-r7: BAD signature
-(15/20) Installing scanelf (1.2.3-r0)
-ERROR: scanelf-1.2.3-r0: BAD signature
-(16/20) Installing musl-utils (1.1.22-r2)
-ERROR: musl-utils-1.1.22-r2: BAD signature
-(17/20) Installing libc-utils (0.7.1-r0)
-ERROR: libc-utils-0.7.1-r0: BAD signature
-(18/20) Installing alpine-keys (2.1-r2)
-ERROR: alpine-keys-2.1-r2: BAD signature
-(19/20) Installing alpine-base (3.10.0-r0)
-ERROR: alpine-base-3.10.0-r0: BAD signature
-(20/20) Installing openssl (1.1.1c-r0)
-ERROR: openssl-1.1.1c-r0: BAD signature
-20 errors; 0 MiB in 0 packages
-ok.
-grep: /sysroot/etc/inittab: No such file or directory
-/sbin/init not found in new root. Launching emergency recovery shell
-Type exit to continue boot.
-sh: can't access tty; job control turned off
-/ #
+What checks that the read data_size fits in the region?
+[Treat the incoming stream as broken/malicious until proven otherwise]
 
-If I boot up a disk image created by a previous version of QEMU, crypto
-related operations like verifying a RSA signature using the "openssl"
-command will also fail.
+> +                        buffer_mmaped = true;
+> +                        break;
+> +                    }
+> +                }
 
-I didn't see these errors on previous QEMU versions or other
-architectures on QEMU 4.0
+I think you had some code like this on the save side?  Perhaps a
+'find_region' helper would be good?
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+> +            }
+> +
+> +            if (!buffer_mmaped) {
+> +                buf = g_malloc0(data_size);
+> +            }
 
+Given that data_size could be quite large, you might want to use
+g_try_malloc0 and check the return value;  especially since 'data_size'
+is read from the stream.
 
-** Tags: ppc
-
-** Description changed:
-
-  I'm unable to boot the netboot image of Alpine Linux using QEMU 4.0.
-  =
-
-  Steps to reproduce:
-  =
-
-  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
-ot/vmlinuz-vanilla
-  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
-ot/initramfs-vanilla
-  qemu-system-ppc64 -kernel vmlinuz-vanilla -initrd initramfs-vanilla -nogr=
-aphic -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinel=
-inux.org/alpine/v3.10/main"
-  =
-
-  The init script will automatically download and install an in-memory
-  Alpine Linux environment. However, with QEMU 4.0, the installation
-- process will fail with "BAD SIGNATURE" errors:
-+ process will fail with "BAD signature" errors:
-  =
-
-  =
-
--  * Installing packages to root filesystem: fetch http://dl-cdn.alpinelinu=
-x.org/alpine/edge/main/ppc64le/APKINDEX.tar.gz
-  (1/20) Installing musl (1.1.22-r2)
-- ERROR: musl-1.1.22-r2: BAD signature                                     =
-                                               (2/20) Installing busybox (1=
-.30.1-r2)
-- ERROR: busybox-1.30.1-r2: BAD signature                                  =
-                                               (3/20) Installing alpine-bas=
-elayout (3.1.2-r0)
-- Executing alpine-baselayout-3.1.2-r0.pre-install                         =
-                                               ERROR: alpine-baselayout-3.1=
-.2-r0.pre-install: script exited with error 127
-- ERROR: alpine-baselayout-3.1.2-r0: BAD signature                         =
-                                               (4/20) Installing openrc (0.=
-41.2-r1)
-- ERROR: openrc-0.41.2-r1: BAD signature                                   =
-                                               (5/20) Installing alpine-con=
-f (3.8.3-r0)
-- ERROR: alpine-conf-3.8.3-r0: BAD signature                               =
-                                               (6/20) Installing libcrypto1=
-.1 (1.1.1c-r0)
-- ERROR: libcrypto1.1-1.1.1c-r0: BAD signature                             =
-                                               (7/20) Installing libssl1.1 =
-(1.1.1c-r0)
-- ERROR: libssl1.1-1.1.1c-r0: BAD signature                                =
-                                               (8/20) Installing ca-certifi=
-cates-cacert (20190108-r0)
-- ERROR: ca-certificates-cacert-20190108-r0: BAD signature                 =
-                                               (9/20) Installing libtls-sta=
-ndalone (2.9.1-r0)
-- ERROR: libtls-standalone-2.9.1-r0: BAD signature                         =
-                                               (10/20) Installing ssl_clien=
-t (1.30.1-r2)
-- ERROR: ssl_client-1.30.1-r2: BAD signature                               =
-                                               (11/20) Installing zlib (1.2=
-.11-r1)
-- ERROR: zlib-1.2.11-r1: BAD signature                                     =
-                                               (12/20) Installing apk-tools=
- (2.10.4-r1)
-- ERROR: apk-tools-2.10.4-r1: BAD signature                                =
-                                               (13/20) Installing busybox-s=
-uid (1.30.1-r2)
-- ERROR: busybox-suid-1.30.1-r2: BAD signature                             =
-                                               (14/20) Installing busybox-i=
-nitscripts (3.1-r7)
-- ERROR: busybox-initscripts-3.1-r7: BAD signature                         =
-                                               (15/20) Installing scanelf (=
-1.2.3-r0)
-- ERROR: scanelf-1.2.3-r0: BAD signature                                   =
-                                               (16/20) Installing musl-util=
-s (1.1.22-r2)
-- ERROR: musl-utils-1.1.22-r2: BAD signature                               =
-                                               (17/20) Installing libc-util=
-s (0.7.1-r0)
-- ERROR: libc-utils-0.7.1-r0: BAD signature                                =
-                                               (18/20) Installing alpine-ke=
-ys (2.1-r2)
-- ERROR: alpine-keys-2.1-r2: BAD signature                                 =
-                                               (19/20) Installing alpine-ba=
-se (3.10.0-r0)
-- ERROR: alpine-base-3.10.0-r0: BAD signature                              =
-                                               (20/20) Installing openssl (=
-1.1.1c-r0)
-- ERROR: openssl-1.1.1c-r0: BAD signature                                  =
-                                               20 errors; 0 MiB in 0 packag=
-es
-+ ERROR: musl-1.1.22-r2: BAD signature
-+ (2/20) Installing busybox (1.30.1-r2)
-+ ERROR: busybox-1.30.1-r2: BAD signature
-+ (3/20) Installing alpine-baselayout (3.1.2-r0)
-+ Executing alpine-baselayout-3.1.2-r0.pre-install
-+ ERROR: alpine-baselayout-3.1.2-r0.pre-install: script exited with error 1=
-27
-+ ERROR: alpine-baselayout-3.1.2-r0: BAD signature
-+ (4/20) Installing openrc (0.41.2-r1)
-+ ERROR: openrc-0.41.2-r1: BAD signature
-+ (5/20) Installing alpine-conf (3.8.3-r0)
-+ ERROR: alpine-conf-3.8.3-r0: BAD signature
-+ (6/20) Installing libcrypto1.1 (1.1.1c-r0)
-+ ERROR: libcrypto1.1-1.1.1c-r0: BAD signature
-+ (7/20) Installing libssl1.1 (1.1.1c-r0)
-+ ERROR: libssl1.1-1.1.1c-r0: BAD signature
-+ (8/20) Installing ca-certificates-cacert (20190108-r0)
-+ ERROR: ca-certificates-cacert-20190108-r0: BAD signature
-+ (9/20) Installing libtls-standalone (2.9.1-r0)
-+ ERROR: libtls-standalone-2.9.1-r0: BAD signature
-+ (10/20) Installing ssl_client (1.30.1-r2)
-+ ERROR: ssl_client-1.30.1-r2: BAD signature
-+ (11/20) Installing zlib (1.2.11-r1)
-+ ERROR: zlib-1.2.11-r1: BAD signature
-+ (12/20) Installing apk-tools (2.10.4-r1)
-+ ERROR: apk-tools-2.10.4-r1: BAD signature
-+ (13/20) Installing busybox-suid (1.30.1-r2)
-+ ERROR: busybox-suid-1.30.1-r2: BAD signature
-+ (14/20) Installing busybox-initscripts (3.1-r7)
-+ ERROR: busybox-initscripts-3.1-r7: BAD signature
-+ (15/20) Installing scanelf (1.2.3-r0)
-+ ERROR: scanelf-1.2.3-r0: BAD signature
-+ (16/20) Installing musl-utils (1.1.22-r2)
-+ ERROR: musl-utils-1.1.22-r2: BAD signature
-+ (17/20) Installing libc-utils (0.7.1-r0)
-+ ERROR: libc-utils-0.7.1-r0: BAD signature
-+ (18/20) Installing alpine-keys (2.1-r2)
-+ ERROR: alpine-keys-2.1-r2: BAD signature
-+ (19/20) Installing alpine-base (3.10.0-r0)
-+ ERROR: alpine-base-3.10.0-r0: BAD signature
-+ (20/20) Installing openssl (1.1.1c-r0)
-+ ERROR: openssl-1.1.1c-r0: BAD signature
-+ 20 errors; 0 MiB in 0 packages
-  ok.
-  grep: /sysroot/etc/inittab: No such file or directory
-  /sbin/init not found in new root. Launching emergency recovery shell
-  Type exit to continue boot.
-  sh: can't access tty; job control turned off
-  / #
-  =
-
-  =
-
-- If I boot up a disk image created by a previous version QEMU, crypto rela=
-ted operations like verifying a RSA signature using the "openssl" command w=
-ill also fail.
-+ If I boot up a disk image created by a previous version QEMU, crypto
-+ related operations like verifying a RSA signature using the "openssl"
-+ command will also fail.
-  =
-
-  I didn't see these errors on previous QEMU versions or other
-  architectures on QEMU 4.0
-
-** Description changed:
-
-  I'm unable to boot the netboot image of Alpine Linux using QEMU 4.0.
-  =
-
-  Steps to reproduce:
-  =
-
-  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
-ot/vmlinuz-vanilla
-  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
-ot/initramfs-vanilla
-  qemu-system-ppc64 -kernel vmlinuz-vanilla -initrd initramfs-vanilla -nogr=
-aphic -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinel=
-inux.org/alpine/v3.10/main"
-  =
-
-  The init script will automatically download and install an in-memory
-  Alpine Linux environment. However, with QEMU 4.0, the installation
-  process will fail with "BAD signature" errors:
-- =
-
-  =
-
-  (1/20) Installing musl (1.1.22-r2)
-  ERROR: musl-1.1.22-r2: BAD signature
-  (2/20) Installing busybox (1.30.1-r2)
-  ERROR: busybox-1.30.1-r2: BAD signature
-  (3/20) Installing alpine-baselayout (3.1.2-r0)
-  Executing alpine-baselayout-3.1.2-r0.pre-install
-  ERROR: alpine-baselayout-3.1.2-r0.pre-install: script exited with error 1=
-27
-  ERROR: alpine-baselayout-3.1.2-r0: BAD signature
-  (4/20) Installing openrc (0.41.2-r1)
-  ERROR: openrc-0.41.2-r1: BAD signature
-  (5/20) Installing alpine-conf (3.8.3-r0)
-  ERROR: alpine-conf-3.8.3-r0: BAD signature
-  (6/20) Installing libcrypto1.1 (1.1.1c-r0)
-  ERROR: libcrypto1.1-1.1.1c-r0: BAD signature
-  (7/20) Installing libssl1.1 (1.1.1c-r0)
-  ERROR: libssl1.1-1.1.1c-r0: BAD signature
-  (8/20) Installing ca-certificates-cacert (20190108-r0)
-  ERROR: ca-certificates-cacert-20190108-r0: BAD signature
-  (9/20) Installing libtls-standalone (2.9.1-r0)
-  ERROR: libtls-standalone-2.9.1-r0: BAD signature
-  (10/20) Installing ssl_client (1.30.1-r2)
-  ERROR: ssl_client-1.30.1-r2: BAD signature
-  (11/20) Installing zlib (1.2.11-r1)
-  ERROR: zlib-1.2.11-r1: BAD signature
-  (12/20) Installing apk-tools (2.10.4-r1)
-  ERROR: apk-tools-2.10.4-r1: BAD signature
-  (13/20) Installing busybox-suid (1.30.1-r2)
-  ERROR: busybox-suid-1.30.1-r2: BAD signature
-  (14/20) Installing busybox-initscripts (3.1-r7)
-  ERROR: busybox-initscripts-3.1-r7: BAD signature
-  (15/20) Installing scanelf (1.2.3-r0)
-  ERROR: scanelf-1.2.3-r0: BAD signature
-  (16/20) Installing musl-utils (1.1.22-r2)
-  ERROR: musl-utils-1.1.22-r2: BAD signature
-  (17/20) Installing libc-utils (0.7.1-r0)
-  ERROR: libc-utils-0.7.1-r0: BAD signature
-  (18/20) Installing alpine-keys (2.1-r2)
-  ERROR: alpine-keys-2.1-r2: BAD signature
-  (19/20) Installing alpine-base (3.10.0-r0)
-  ERROR: alpine-base-3.10.0-r0: BAD signature
-  (20/20) Installing openssl (1.1.1c-r0)
-  ERROR: openssl-1.1.1c-r0: BAD signature
-  20 errors; 0 MiB in 0 packages
-  ok.
-  grep: /sysroot/etc/inittab: No such file or directory
-  /sbin/init not found in new root. Launching emergency recovery shell
-  Type exit to continue boot.
-  sh: can't access tty; job control turned off
-  / #
-  =
-
-- =
-
-- If I boot up a disk image created by a previous version QEMU, crypto
-+ If I boot up a disk image created by a previous version of QEMU, crypto
-  related operations like verifying a RSA signature using the "openssl"
-  command will also fail.
-  =
-
-  I didn't see these errors on previous QEMU versions or other
-  architectures on QEMU 4.0
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1834613
-
-Title:
-  Crypto related operations failing on Alpine Linux on QEMU 4.0
-
-Status in QEMU:
-  New
-
-Bug description:
-  I'm unable to boot the netboot image of Alpine Linux using QEMU 4.0.
-
-  Steps to reproduce:
-
-  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
-ot/vmlinuz-vanilla
-  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
-ot/initramfs-vanilla
-  qemu-system-ppc64 -kernel vmlinuz-vanilla -initrd initramfs-vanilla -nogr=
-aphic -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinel=
-inux.org/alpine/v3.10/main"
-
-  The init script will automatically download and install an in-memory
-  Alpine Linux environment. However, with QEMU 4.0, the installation
-  process will fail with "BAD signature" errors:
-
-  (1/20) Installing musl (1.1.22-r2)
-  ERROR: musl-1.1.22-r2: BAD signature
-  (2/20) Installing busybox (1.30.1-r2)
-  ERROR: busybox-1.30.1-r2: BAD signature
-  (3/20) Installing alpine-baselayout (3.1.2-r0)
-  Executing alpine-baselayout-3.1.2-r0.pre-install
-  ERROR: alpine-baselayout-3.1.2-r0.pre-install: script exited with error 1=
-27
-  ERROR: alpine-baselayout-3.1.2-r0: BAD signature
-  (4/20) Installing openrc (0.41.2-r1)
-  ERROR: openrc-0.41.2-r1: BAD signature
-  (5/20) Installing alpine-conf (3.8.3-r0)
-  ERROR: alpine-conf-3.8.3-r0: BAD signature
-  (6/20) Installing libcrypto1.1 (1.1.1c-r0)
-  ERROR: libcrypto1.1-1.1.1c-r0: BAD signature
-  (7/20) Installing libssl1.1 (1.1.1c-r0)
-  ERROR: libssl1.1-1.1.1c-r0: BAD signature
-  (8/20) Installing ca-certificates-cacert (20190108-r0)
-  ERROR: ca-certificates-cacert-20190108-r0: BAD signature
-  (9/20) Installing libtls-standalone (2.9.1-r0)
-  ERROR: libtls-standalone-2.9.1-r0: BAD signature
-  (10/20) Installing ssl_client (1.30.1-r2)
-  ERROR: ssl_client-1.30.1-r2: BAD signature
-  (11/20) Installing zlib (1.2.11-r1)
-  ERROR: zlib-1.2.11-r1: BAD signature
-  (12/20) Installing apk-tools (2.10.4-r1)
-  ERROR: apk-tools-2.10.4-r1: BAD signature
-  (13/20) Installing busybox-suid (1.30.1-r2)
-  ERROR: busybox-suid-1.30.1-r2: BAD signature
-  (14/20) Installing busybox-initscripts (3.1-r7)
-  ERROR: busybox-initscripts-3.1-r7: BAD signature
-  (15/20) Installing scanelf (1.2.3-r0)
-  ERROR: scanelf-1.2.3-r0: BAD signature
-  (16/20) Installing musl-utils (1.1.22-r2)
-  ERROR: musl-utils-1.1.22-r2: BAD signature
-  (17/20) Installing libc-utils (0.7.1-r0)
-  ERROR: libc-utils-0.7.1-r0: BAD signature
-  (18/20) Installing alpine-keys (2.1-r2)
-  ERROR: alpine-keys-2.1-r2: BAD signature
-  (19/20) Installing alpine-base (3.10.0-r0)
-  ERROR: alpine-base-3.10.0-r0: BAD signature
-  (20/20) Installing openssl (1.1.1c-r0)
-  ERROR: openssl-1.1.1c-r0: BAD signature
-  20 errors; 0 MiB in 0 packages
-  ok.
-  grep: /sysroot/etc/inittab: No such file or directory
-  /sbin/init not found in new root. Launching emergency recovery shell
-  Type exit to continue boot.
-  sh: can't access tty; job control turned off
-  / #
-
-  If I boot up a disk image created by a previous version of QEMU,
-  crypto related operations like verifying a RSA signature using the
-  "openssl" command will also fail.
-
-  I didn't see these errors on previous QEMU versions or other
-  architectures on QEMU 4.0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1834613/+subscriptions
+> +            qemu_get_buffer(f, buf, data_size);
+> +
+> +            ret = pwrite(vbasedev->fd, &data_size, sizeof(data_size),
+> +                         region->fd_offset +
+> +                       offsetof(struct vfio_device_migration_info, data_size));
+> +            if (ret != sizeof(data_size)) {
+> +                error_report("Failed to set migration buffer data size %d",
+> +                             ret);
+> +                return -EINVAL;
+> +            }
+> +
+> +            if (!buffer_mmaped) {
+> +                ret = pwrite(vbasedev->fd, buf, data_size,
+> +                             region->fd_offset + data_offset);
+> +                g_free(buf);
+> +
+> +                if (ret != data_size) {
+> +                    error_report("Failed to set migration buffer %d", ret);
+> +                    return -EINVAL;
+> +                }
+> +            }
+> +            break;
+> +        }
+> +        }
+> +
+> +        ret = qemu_file_get_error(f);
+> +        if (ret) {
+> +            return ret;
+> +        }
+> +        data = qemu_get_be64(f);
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  static SaveVMHandlers savevm_vfio_handlers = {
+>      .save_setup = vfio_save_setup,
+>      .save_cleanup = vfio_save_cleanup,
+>      .save_live_pending = vfio_save_pending,
+>      .save_live_iterate = vfio_save_iterate,
+>      .save_live_complete_precopy = vfio_save_complete_precopy,
+> +    .load_setup = vfio_load_setup,
+> +    .load_cleanup = vfio_load_cleanup,
+> +    .load_state = vfio_load_state,
+>  };
+>  
+>  /* ---------------------------------------------------------------------- */
+> -- 
+> 2.7.0
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
