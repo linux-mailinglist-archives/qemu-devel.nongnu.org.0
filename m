@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939D259CE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:24:16 +0200 (CEST)
-Received: from localhost ([::1]:59838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE53B59BB7
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:39:41 +0200 (CEST)
+Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqrP-0008UU-Dx
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:24:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42561)
+	id 1hgqAG-0007wT-SM
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:39:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37445)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liq3ea@gmail.com>) id 1hgqI2-00016M-Mr
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:47:44 -0400
+ (envelope-from <qemu_oss@crudebyte.com>) id 1hgq7e-00067H-MD
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:37:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liq3ea@gmail.com>) id 1hgqI0-0002gj-Ch
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:47:42 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:36952)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hgqHr-0002Zs-KU
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:47:34 -0400
-Received: by mail-ot1-x344.google.com with SMTP id s20so5836675otp.4
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 05:47:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=66jcoQfpbBEjhrwObrI3YU1kPZW5NkQInhBX/cZUjSI=;
- b=WNoF0ZItm9h5/phaDrBp2WeS5oul6HPoZsdTCeWDkVP/BYWxj39M7tWzfVhtnreXAL
- bd/ZFHQ2ggtpkOzvY9OccYEbI/p4+W1CnzNSmg1rp+bGgFNZ+nyB+h8CkdrlUs3VewuZ
- nMA3gG0HUJllp+fnTlH9BF5pj8yCANIh7NV0w3rEzeNEH8skIJwWUZzYi8sYWbDzqHcy
- b1woczKXsSoXIDLlauC824iywae+EehJlMKBroWJM3qE+6/RzQHkvcL7JNUK//tOtvuO
- CV+tcQSmKFNxcqnlOtBiLRqCvT7j2L1KZ4wcpFt5xwI6GSp1mACV2viiT8PlF31A7Mou
- HXTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=66jcoQfpbBEjhrwObrI3YU1kPZW5NkQInhBX/cZUjSI=;
- b=kQ5zlLxRizzff/grXgLZ53+1OfGueDCV/MTM+wOkcehnZoDfOYanuRMcx+BBAhNzWj
- T0cOO9YE2Jq1mfqaf8LNm0P7VfWlo/nix9xmiL/enIbKVc3C4ARu/GDaxjskQcNMpRkK
- IFdMguyd7YC6ajmgs8/jyySrM7x3pc5iZBqeSKezpH8DVMt2xM0YhzIe19A7WxtoUIjm
- N8wR34F7I6DK0Z8ixVDbMVUpIY7zSWjdLqE5PjMtRLGjrW8k/3YXEu2DSvHQk+V9wn9i
- ZtURUebtnhb0sdXeZQiD3iZsj+eIlGEpMWXuki9FRvhzNbG6FA1cZGqA1+Qm0SVEcMvn
- cDPA==
-X-Gm-Message-State: APjAAAU4zTowPr6n1pjSZurauCndjkYn/mkPhZFE8XQLuOWiOMyWyjxr
- AfH30Uu+aYwru9hkFPPNF2y+AL6SXXHv8IUprjKuZpl8
-X-Google-Smtp-Source: APXvYqzspAmKdjEx7WS7CM8tGNDwfcTHyIOQmat/xTOfxfXgW5WvUCxITtzinBPT8UvBWT/EzBBk3NWJN2PU8bGw8Uk=
-X-Received: by 2002:a05:6830:1141:: with SMTP id
- x1mr7328367otq.333.1561722170993; 
- Fri, 28 Jun 2019 04:42:50 -0700 (PDT)
+ (envelope-from <qemu_oss@crudebyte.com>) id 1hgq7b-0005We-3d
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:36:56 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:50737)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1hgq7V-0005Pi-Fc
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:36:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+ :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=DGhPttdw73qL6OGRySEE0zOgjLIhXsWykFugGyy63kY=; b=ew6DgG4tZltP73Dd3CEY6hqO8h
+ Gza5IToGMwDWsYeOqZ4ggDohN8mMk7NpbaEmbVO1B0jZo3d/AUKNRK5tqF2ffcpIiDSGUpL+KLVXd
+ Gp+g9o0biZY6CMmOqQl1MdXkIy5Uo3RUG42LNyu+eSY4QnVnfdjNIhqe99kCOrgxoPOipqukAUODU
+ pcE8YNhQUAmfG2zbMgw/SkXC1VvX6mduFsSPim1CV4oUVLsyZHmN0/6C0hQwfPIcv8vHGdTiI1BNm
+ hfuZb/XSQGZa92vnZf73yZ4yylewSCGcVNNAlQsTp/pDrXfVrsmp0G/VW+W8aPjgKpw/6ZMQDg4US
+ XIgun8CTnzPvuZZYjKu/tjD8GaNy0/kaUIHCZZjjUKflS6uZ7z0ipyqBaCTu3tC9se43DHNE1ldHP
+ taoYL2xktYGP5LG+k2eq6zbXqzFbYY+OjSeENZK+ExpXIbM0qjvSdkcTp4STojG/gtOGohzYD8vw/
+ ZUADXPUmTr6JnUxdxO/xPshpXbrPlojhhU7ddHceIsXMbKsmxliaJ1DVBjqYytaGl5TrMR1njeU7i
+ vtZLmDsP9Imtl0WbvtIea3LNSWkPuuAzvpWorfgcqKQ9YoKzj11chy5CgJD+MnZ3cT036Sc1ehwh5
+ zdUunrDDBp5P4I1/c21LW4rRF7IEyfbR6SoIM+BzA=;
+To: qemu-devel@nongnu.org
+Date: Fri, 28 Jun 2019 13:42:43 +0200
+Message-ID: <3608455.qB9dszzTOH@silver>
+In-Reply-To: <20190627181203.59c956d9@bahia.lan>
+References: <cover.1561575449.git.qemu_oss@crudebyte.com>
+ <9e026ca5f087d6ef741e0d82a0067ed7cdaf129f.1561575449.git.qemu_oss@crudebyte.com>
+ <20190627181203.59c956d9@bahia.lan>
 MIME-Version: 1.0
-References: <20190628094901.13347-1-ppandit@redhat.com>
-In-Reply-To: <20190628094901.13347-1-ppandit@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 28 Jun 2019 19:42:14 +0800
-Message-ID: <CAKXe6S+aLo3B_f6xAOuQWSdvi4TiZfWhXw0hVrMww17BprztQw@mail.gmail.com>
-To: P J P <ppandit@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] qemu-bridge-helper: restrict bridge name
- to IFNAMSIZ
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 5.189.157.229
+Subject: Re: [Qemu-devel] [PATCH v4 1/5] 9p: unsigned type for type, version,
+ path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,58 +62,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riccardo Schirone <rschiron@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- Prasad J Pandit <pjp@fedoraproject.org>
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Prasad,
+On Donnerstag, 27. Juni 2019 18:12:03 CEST Greg Kurz wrote:
+> On Wed, 26 Jun 2019 20:25:55 +0200
+> Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org> wrote:
+> > There is no need for signedness on these QID fields for 9p.
+> > 
+> > Signed-off-by: Antonios Motakis <antonios.motakis@huawei.com>
+> 
+> You should mention here the changes you made on top of Antonios
+> original patch. Something like:
+> 
+> [CS: - also convert path
+>      - adapted trace-events and donttouch_stat()]
 
-P J P <ppandit@redhat.com> =E4=BA=8E2019=E5=B9=B46=E6=9C=8828=E6=97=A5=E5=
-=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=885:52=E5=86=99=E9=81=93=EF=BC=9A
+Haven't seen that comment style in the git logs. Any example hash for that?
 
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> The interface names in qemu-bridge-helper are defined to be
-> of size IFNAMSIZ(=3D16), including the terminating null('\0') byte.
-> The same is applied to interface names read from 'bridge.conf'
-> file to form ACLs rules. If user supplied '--br=3Dbridge' name
-> is not restricted to the same length, it could lead to ACL bypass
-> issue. Restrict bridge name to IFNAMSIZ, including null byte.
->
-> Reported-by: Riccardo Schirone <rschiron@redhat.com>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  qemu-bridge-helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
-> index f9940deefd..2eca8c5cc4 100644
-> --- a/qemu-bridge-helper.c
-> +++ b/qemu-bridge-helper.c
-> @@ -246,7 +246,7 @@ int main(int argc, char **argv)
->          if (strcmp(argv[index], "--use-vnet") =3D=3D 0) {
->              use_vnet =3D 1;
->          } else if (strncmp(argv[index], "--br=3D", 5) =3D=3D 0) {
-> -            bridge =3D &argv[index][5];
-> +            bridge =3D strndup(&argv[index][5], IFNAMSIZ - 1);
->
+> > diff --git a/hw/9pfs/trace-events b/hw/9pfs/trace-events
+> > index c0a0a4ab5d..6964756922 100644
+> > --- a/hw/9pfs/trace-events
+> > +++ b/hw/9pfs/trace-events
+> > @@ -6,7 +6,7 @@ v9fs_rerror(uint16_t tag, uint8_t id, int err) "tag %d id
+> > %d err %d"> 
+> >  v9fs_version(uint16_t tag, uint8_t id, int32_t msize, char* version) "tag
+> >  %d id %d msize %d version %s" v9fs_version_return(uint16_t tag, uint8_t
+> >  id, int32_t msize, char* version) "tag %d id %d msize %d version %s"
+> >  v9fs_attach(uint16_t tag, uint8_t id, int32_t fid, int32_t afid, char*
+> >  uname, char* aname) "tag %u id %u fid %d afid %d uname %s aname %s"> 
+> > -v9fs_attach_return(uint16_t tag, uint8_t id, int8_t type, int32_t
+> > version, int64_t path) "tag %d id %d type %d version %d path %"PRId64
+> > +v9fs_attach_return(uint16_t tag, uint8_t id, uint8_t type, uint32_t
+> > version, uint64_t path) "tag %d id %d type %d version %d path %"PRId64
+> I was expecting to see PRIu64 for an uint64_t but I now realize that %d
+> seems to be used all over the place for unsigned types... :-\
+> 
+> At least, please fix the masks of the lines you're changing in this
+> patch so that unsigned are passed to "u" or PRIu64. The rest of the
+> mess can be fixed later in a followup.
 
+If you don't mind I will restrict it to your latter suggestion for now, that 
+is adjusting it using the short format specifiers e.g. "u", the rest would IMO 
+be out of the scope of this patch series.
 
-I thinke we should cleanup the bridge in the final.
+Too bad that no format specifier warnings are thrown on these.
 
-Thanks,
-Li Qiang
+Best regards,
+Christian Schoenebeck
 
-
-
->          } else if (strncmp(argv[index], "--fd=3D", 5) =3D=3D 0) {
->              unixfd =3D atoi(&argv[index][5]);
->          } else {
-> --
-> 2.21.0
->
->
->
