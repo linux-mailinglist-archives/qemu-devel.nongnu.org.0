@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15B5598DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:57:27 +0200 (CEST)
-Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FB8598BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:46:58 +0200 (CEST)
+Received: from localhost ([::1]:58702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgoZK-0001mk-VU
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:57:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33626)
+	id 1hgoPB-0000ea-Ha
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:46:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33646)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgoMG-0006w0-BI
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:57 -0400
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgoMH-0006yB-BV
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgoME-0000Hc-VY
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:56 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:46580 helo=mail.rt-rk.com)
+ (envelope-from <aleksandar.markovic@rt-rk.com>) id 1hgoMG-0000IV-4g
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:57 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:46657 helo=mail.rt-rk.com)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
- id 1hgoME-0000GW-Lm
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:54 -0400
+ id 1hgoMF-0000H5-Tt
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:43:56 -0400
 Received: from localhost (localhost [127.0.0.1])
- by mail.rt-rk.com (Postfix) with ESMTP id 6E68F1A2447;
+ by mail.rt-rk.com (Postfix) with ESMTP id 765461A2449;
  Fri, 28 Jun 2019 12:43:52 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
  [10.10.13.43])
- by mail.rt-rk.com (Postfix) with ESMTPSA id 4B1291A2456;
+ by mail.rt-rk.com (Postfix) with ESMTPSA id 545C91A2015;
  Fri, 28 Jun 2019 12:43:52 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Fri, 28 Jun 2019 12:43:37 +0200
-Message-Id: <1561718618-20218-5-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Fri, 28 Jun 2019 12:43:38 +0200
+Message-Id: <1561718618-20218-6-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561718618-20218-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1561718618-20218-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v16 4/5] linux-user: Introduce
- TARGET_HAVE_ARCH_STRUCT_FLOCK
+Subject: [Qemu-devel] [PATCH v16 5/5] linux-user: Handle EXCP_FPE properly
+ for MIPS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,104 +58,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Bring target_flock definitions to be more in sync with the way
-flock is defined in kernel.
+Handle EXCP_FPE properly for MIPS in cpu loop.
 
-Basically, the rules from the kernel are:
+Note that a vast majority of FP instructions are not affected by
+the absence of the code in this patch, as they use alternative code
+paths for handling floating point exceptions (see, for example,
+invocations of update_fcr31()) - they rely on softfloat library for
+keeping track on exceptions that needs to be raised. However, there
+are few MIPS FP instructions (an example is CTC1) that use function
+do_raise_exception() directly, and they need the case that is added
+in this patch to propagate the FPE exception as designed.
 
-1. Majority of architectures have a common flock definition.
+The code is based on kernel's function force_fcr31_sig() in
+arch/mips/kernel.traps.c.
 
-2. Architectures with 32-bit MIPS ABIs have a sligtly different
-flock definition; those architectures are the only arcitectures
-that have HAVE_ARCH_STRUCT_FLOCK defined, and that preprocessor
-constant is used in the common header as a flag for including or
-not including common flock definition.
-
-3. Sparc architectures also have a sligtly different flock
-definition, but the difference is only the padding at the end of
-the structure. The presence of that padding is determined by
-preprocessor constants __ARCH_FLOCK6_PAD and __ARCH_FLOCK64_PAD.
-
-QEMU linux-user already implements rules 1. and 3. in a very
-similar way as they are implemented in kernel. However, rule 2.
-is implemented in a dissimilar way (for example, the constant
-TARGET_HAVE_ARCH_STRUCT_FLOCK is missing), and this patch brings
-QEMU implementation much closer to the kernel implementation.
-TARGET_HAVE_ARCH_STRUCT_FLOCK64 constant is also introduced to
-mimic HAVE_ARCH_STRUCT_FLOCK64 from kernel, but it is not defined
-anywhere, however, this is the case with HAVE_ARCH_STRUCT_FLOCK64
-in kernel as well.
-
+Reported-by: Yunqiang Su <ysu@wavecomp.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/generic/fcntl.h     |  8 +++++---
- linux-user/mips/target_fcntl.h | 17 +++++++++++++----
- 2 files changed, 18 insertions(+), 7 deletions(-)
+ linux-user/mips/cpu_loop.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index 1b48dde..9f727d4 100644
---- a/linux-user/generic/fcntl.h
-+++ b/linux-user/generic/fcntl.h
-@@ -120,6 +120,7 @@ struct target_f_owner_ex {
- #define TARGET_F_SHLCK         8
- #endif
- 
-+#ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK
- #ifndef TARGET_ARCH_FLOCK_PAD
- #define TARGET_ARCH_FLOCK_PAD
- #endif
-@@ -129,13 +130,12 @@ struct target_flock {
-     short l_whence;
-     abi_long l_start;
-     abi_long l_len;
--#if defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
--    abi_long l_sysid;
--#endif
-     int l_pid;
-     TARGET_ARCH_FLOCK_PAD
- };
-+#endif
- 
-+#ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK64
- #ifndef TARGET_ARCH_FLOCK64_PAD
- #define TARGET_ARCH_FLOCK64_PAD
- #endif
-@@ -149,3 +149,5 @@ struct target_flock64 {
-     TARGET_ARCH_FLOCK64_PAD
- };
- #endif
-+
-+#endif
-diff --git a/linux-user/mips/target_fcntl.h b/linux-user/mips/target_fcntl.h
-index 795bba7..6fc7b8a 100644
---- a/linux-user/mips/target_fcntl.h
-+++ b/linux-user/mips/target_fcntl.h
-@@ -28,11 +28,20 @@
- #define TARGET_F_GETOWN        23       /*  for sockets. */
- 
- #if (TARGET_ABI_BITS == 32)
--#define TARGET_ARCH_FLOCK_PAD abi_long pad[4];
--#else
--#define TARGET_ARCH_FLOCK_PAD
-+
-+struct target_flock {
-+    short l_type;
-+    short l_whence;
-+    abi_long l_start;
-+    abi_long l_len;
-+    abi_long l_sysid;
-+    int l_pid;
-+    abi_long pad[4];
-+};
-+
-+#define TARGET_HAVE_ARCH_STRUCT_FLOCK
-+
- #endif
--#define TARGET_ARCH_FLOCK64_PAD
- 
- #define TARGET_F_GETLK64       33      /*  using 'struct flock64' */
- #define TARGET_F_SETLK64       34
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index 43ba267..0ba894f 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -540,6 +540,23 @@ done_syscall:
+             info.si_code = TARGET_ILL_ILLOPC;
+             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+             break;
++        case EXCP_FPE:
++            info.si_signo = TARGET_SIGFPE;
++            info.si_errno = 0;
++            info.si_code = TARGET_FPE_FLTUNK;
++            if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_INVALID) {
++                info.si_code = TARGET_FPE_FLTINV;
++            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_DIV0) {
++                info.si_code = TARGET_FPE_FLTDIV;
++            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_OVERFLOW) {
++                info.si_code = TARGET_FPE_FLTOVF;
++            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_UNDERFLOW) {
++                info.si_code = TARGET_FPE_FLTUND;
++            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_INEXACT) {
++                info.si_code = TARGET_FPE_FLTRES;
++            }
++            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            break;
+         /* The code below was inspired by the MIPS Linux kernel trap
+          * handling code in arch/mips/kernel/traps.c.
+          */
 -- 
 2.7.4
 
