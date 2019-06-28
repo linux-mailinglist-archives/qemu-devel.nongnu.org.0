@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B155A30E
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:03:14 +0200 (CEST)
-Received: from localhost ([::1]:35082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6C25A328
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:07:40 +0200 (CEST)
+Received: from localhost ([::1]:35116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgvDN-0005po-RT
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:03:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54986)
+	id 1hgvHf-0001I7-Bi
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:07:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55028)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgul3-00007F-7j
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:59 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hgul5-0000EX-K0
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:34:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgul0-0000kk-Bv
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:57 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:42988)
+ (envelope-from <palmer@dabbelt.com>) id 1hgul2-0000lu-7o
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:59 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:44359)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hguky-0000dW-2K
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:52 -0400
-Received: by mail-pf1-f193.google.com with SMTP id q10so3321154pff.9
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:48 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgul0-0000fj-8f
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:54 -0400
+Received: by mail-pf1-f194.google.com with SMTP id t16so3318506pfe.11
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=MsITP9g02yPdJ/4apRI29XJbL0BqwsUIcjd2jJ0cnTY=;
- b=VgIo0ngkD8NbvbLbnPfbI3zinKZzB0ZoERLRWtXqFXN5YFcStQhVV5pHfAvTOdW9VM
- XgYXMfhnFQpzZm7Rc5JqZx5LUo2kbsWzUvwiHz++/7Hb+nuVTkK32joSIvJhWTYVmZJJ
- Khfrx+tjlLKuRecGwRfn9LNX50o1a0Ouhy3LCi8nQWMoQoQdNeRM4qkA9MOpP43Za1qs
- uiZh/c0ocqVJ8aEwpo53cEjXdVTYobIycoWYjrmws12Qwq4KE2nICYu6j27OvbPbrQ0Q
- AkfyfxpGt/dJ2V+m97gMs3dOhT4HMWjv3EsNJvzLNwNhTZhG8IHQ+S4Nua7Hb2WdW/bJ
- PVTQ==
-X-Gm-Message-State: APjAAAUG1DWBeKRP8JBZL8dWY3YGnSd198bYX7sv4x3k1lgbuuxPJYC3
- Q7HZuQjEev3eM0lUv1RkaDzYXRMyEne0tisp
-X-Google-Smtp-Source: APXvYqzbjn9bLPbmNthwzW4TBr8YUWwQWZMeVeIhofrOb8Fu5eE13WjVK3PFkmuEeGwKnCXucK2M9A==
-X-Received: by 2002:a63:52:: with SMTP id 79mr10213248pga.381.1561743227478;
- Fri, 28 Jun 2019 10:33:47 -0700 (PDT)
+ bh=8AbRazPuGbBA4/wcOJ0NXPkCs6Kyha3rsVtogdXoPZc=;
+ b=bL53O1FKeCSg/7ZXiMZjaoxtaH17jt8pXMtEy9I4/sqIs8dZ9zHmVnih5bUnjF7QNC
+ XN1Fvkw8DiSMsFOB7damuJyyUZaCMSGANxzn0wrknGREM7TRoUIF5U+98UrJu396IsQI
+ Rn+/H3pLhwO9oaHuHrVNPBL1BuaZ6Apg383CWpN1f1IAtKV+hlAsP6Ffjbebl4/Z+Kak
+ 1P/Vksm2Cj6M/ILsX1ilHbgm5Ph8+lcw9JYCjpJDn0QJBBR6leZnIE03oPulNv9r+/Qr
+ qM3iiEx23ryCMh3rk3k/5RPjaUoKJsUrckJrgig6Wy29LHwbwy65hd2azQUT2xAvsZu5
+ yBrQ==
+X-Gm-Message-State: APjAAAUE2Fq3rqQzTGGtD5jrQYVIfD85qHfIFRg/l3bIvCuVlJUqACxD
+ zRkfc68IH9j734ZK7/17jrYBh1zgbxO2MNuu
+X-Google-Smtp-Source: APXvYqxfodMerfjoAXuAZBJVvxFtBLdj0y5A0PYRaLJYrY0ggS0qGIs+o+tz1+mErYtldZexIfaOsw==
+X-Received: by 2002:a63:c20e:: with SMTP id b14mr10160941pgd.96.1561743230047; 
+ Fri, 28 Jun 2019 10:33:50 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id y22sm6318573pfo.39.2019.06.28.10.33.46
+ by smtp.gmail.com with ESMTPSA id i14sm4626583pfk.0.2019.06.28.10.33.49
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:33:46 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:32:17 -0700
-Message-Id: <20190628173227.31925-25-palmer@sifive.com>
+ Fri, 28 Jun 2019 10:33:49 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:32:18 -0700
+Message-Id: <20190628173227.31925-26-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
 References: <20190628173227.31925-1-palmer@sifive.com>
@@ -54,9 +54,8 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.193
-Subject: [Qemu-devel] [PULL 24/34] RISC-V: Update syscall list for 32-bit
- support.
+X-Received-From: 209.85.210.194
+Subject: [Qemu-devel] [PULL 25/34] riscv: virt: Add cpu-topology DT node.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,61 +67,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@sifive.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Jim Wilson <jimw@sifive.com>
+Cc: Atish Patra <atish.patra@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jim Wilson <jimw@sifive.com>
+From: Atish Patra <atish.patra@wdc.com>
 
-32-bit RISC-V uses _llseek instead of lseek as syscall number 62.
-Update syscall list from open-embedded build, primarily because
-32-bit RISC-V requires statx support.
+Currently, there is no cpu topology defined in RISC-V.
+Define a device tree node that clearly describes the
+entire topology. This saves the trouble of scanning individual
+cache to figure out the topology.
 
-Tested with cross gcc testsuite runs for rv32 and rv64, with the
-pending statx patch also applied.
+Here is the linux kernel patch series that enables topology
+for RISC-V.
 
-Signed-off-by: Jim Wilson <jimw@sifive.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+http://lists.infradead.org/pipermail/linux-riscv/2019-June/005072.html
+
+CPU topology after applying this patch in QEMU & above series in kernel
+
+/ # cat /sys/devices/system/cpu/cpu2/topology/thread_siblings_list
+2
+/ # cat /sys/devices/system/cpu/cpu2/topology/physical_package_id
+0
+/ # cat /sys/devices/system/cpu/cpu2/topology/core_siblings_list
+0-7
+
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- linux-user/riscv/syscall_nr.h | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ hw/riscv/virt.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/riscv/syscall_nr.h b/linux-user/riscv/syscall_nr.h
-index dab6509e3ade..5c8728220994 100644
---- a/linux-user/riscv/syscall_nr.h
-+++ b/linux-user/riscv/syscall_nr.h
-@@ -72,7 +72,11 @@
- #define TARGET_NR_pipe2 59
- #define TARGET_NR_quotactl 60
- #define TARGET_NR_getdents64 61
-+#ifdef TARGET_RISCV32
-+#define TARGET_NR__llseek 62
-+#else
- #define TARGET_NR_lseek 62
-+#endif
- #define TARGET_NR_read 63
- #define TARGET_NR_write 64
- #define TARGET_NR_readv 65
-@@ -286,7 +290,16 @@
- #define TARGET_NR_membarrier 283
- #define TARGET_NR_mlock2 284
- #define TARGET_NR_copy_file_range 285
-+#define TARGET_NR_preadv2 286
-+#define TARGET_NR_pwritev2 287
-+#define TARGET_NR_pkey_mprotect 288
-+#define TARGET_NR_pkey_alloc 289
-+#define TARGET_NR_pkey_free 290
-+#define TARGET_NR_statx 291
-+#define TARGET_NR_io_pgetevents 292
-+#define TARGET_NR_rseq 293
-+#define TARGET_NR_kexec_file_load 294
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 487f61404b21..28d96daf8c5b 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -191,6 +191,7 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
  
--#define TARGET_NR_syscalls (TARGET_NR_copy_file_range + 1)
-+#define TARGET_NR_syscalls (TARGET_NR_kexec_file_load + 1)
+     for (cpu = s->soc.num_harts - 1; cpu >= 0; cpu--) {
+         int cpu_phandle = phandle++;
++        int intc_phandle;
+         nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
+         char *intc = g_strdup_printf("/cpus/cpu@%d/interrupt-controller", cpu);
+         char *isa = riscv_isa_string(&s->soc.harts[cpu]);
+@@ -203,9 +204,12 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+         qemu_fdt_setprop_string(fdt, nodename, "status", "okay");
+         qemu_fdt_setprop_cell(fdt, nodename, "reg", cpu);
+         qemu_fdt_setprop_string(fdt, nodename, "device_type", "cpu");
++        qemu_fdt_setprop_cell(fdt, nodename, "phandle", cpu_phandle);
++        qemu_fdt_setprop_cell(fdt, nodename, "linux,phandle", cpu_phandle);
++        intc_phandle = phandle++;
+         qemu_fdt_add_subnode(fdt, intc);
+-        qemu_fdt_setprop_cell(fdt, intc, "phandle", cpu_phandle);
+-        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", cpu_phandle);
++        qemu_fdt_setprop_cell(fdt, intc, "phandle", intc_phandle);
++        qemu_fdt_setprop_cell(fdt, intc, "linux,phandle", intc_phandle);
+         qemu_fdt_setprop_string(fdt, intc, "compatible", "riscv,cpu-intc");
+         qemu_fdt_setprop(fdt, intc, "interrupt-controller", NULL, 0);
+         qemu_fdt_setprop_cell(fdt, intc, "#interrupt-cells", 1);
+@@ -214,6 +218,20 @@ static void *create_fdt(RISCVVirtState *s, const struct MemmapEntry *memmap,
+         g_free(nodename);
+     }
  
- #endif
++    /* Add cpu-topology node */
++    qemu_fdt_add_subnode(fdt, "/cpus/cpu-map");
++    qemu_fdt_add_subnode(fdt, "/cpus/cpu-map/cluster0");
++    for (cpu = s->soc.num_harts - 1; cpu >= 0; cpu--) {
++        char *core_nodename = g_strdup_printf("/cpus/cpu-map/cluster0/core%d",
++                                              cpu);
++        char *cpu_nodename = g_strdup_printf("/cpus/cpu@%d", cpu);
++        uint32_t intc_phandle = qemu_fdt_get_phandle(fdt, cpu_nodename);
++        qemu_fdt_add_subnode(fdt, core_nodename);
++        qemu_fdt_setprop_cell(fdt, core_nodename, "cpu", intc_phandle);
++        g_free(core_nodename);
++        g_free(cpu_nodename);
++    }
++
+     cells =  g_new0(uint32_t, s->soc.num_harts * 4);
+     for (cpu = 0; cpu < s->soc.num_harts; cpu++) {
+         nodename =
 -- 
 2.21.0
 
