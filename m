@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393375A0F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:32:18 +0200 (CEST)
-Received: from localhost ([::1]:34144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98DA459EE1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:30:18 +0200 (CEST)
+Received: from localhost ([::1]:33286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtnN-0004H5-2r
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:32:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50269)
+	id 1hgspN-0004yD-R0
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:30:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51397)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liq3ea@gmail.com>) id 1hgsQI-0003f1-0J
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:04:24 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hgsV8-0006HA-VI
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:09:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liq3ea@gmail.com>) id 1hgsQG-0005st-02
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:04:21 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:42891)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <liq3ea@gmail.com>)
- id 1hgsQ5-0005nI-H2; Fri, 28 Jun 2019 11:04:10 -0400
-Received: by mail-ot1-x341.google.com with SMTP id l15so6250455otn.9;
- Fri, 28 Jun 2019 08:04:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SLWVSstXS2Sofga0QanyOrm+IhhXN9pkZsd/wfQpgOo=;
- b=pelwgNvqYUzDrXr9D6RVTNL5Usgn5RofRo+IPbJINngs5VAGwX7FPTMwi24EIFkTxS
- AIuL+dPeNfFV1nwVUQiXBsF+GeiWE/eKJGHnaouHUiF3wdJh7j7vtujbOCDVAAJ3vjRK
- sdGVvieku/KGXKlUP6QOf5HdhfjuXYeFYRGpxeJzwE0UsOMdnV0j/0kgb8E7Bwn9V1Xd
- Cdfo9QUA2FOmCiSSbDypeY5nxg509Y/jcLR+SxXbCwCToYfpdYm/Q17sBk9WeSCyzRxY
- H9W6vbERlYKmniEW5bTbCWIObgckmhjdVBzTgbvpiwX4PBRT9d+J34TST6dsvG+RDbA2
- nZ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SLWVSstXS2Sofga0QanyOrm+IhhXN9pkZsd/wfQpgOo=;
- b=W0AXUK4QN8GYc9UB9rqInFLVkfCam2ezvH8Pgjt64w7LWJm1go7rQaBGDgXOyVvp0n
- C2wf4RfIhoBo1+hMOUtbeKUwfb08N1c3wvnfdbfnP0QD4z7FiJ0MfepP3vEGzdQ7FLVR
- ptCfawzNjfWNWAbqGfR2asNHj4Ojnd7+yD2+NNTdzu+vhZA6pa51/TYBUARhoHSRvRtp
- avT1Rhh3ds0fFJvHWS+JyWJv2/4YFslVI1UjaaNibK632tUxQ7iJ01gChYN0bduHppbc
- kCyz5FgSa2gkBjqotMa2/AnuJmGFIoEfz3dwuqX3WrZzf8IaD2pwuyLxyZeNqtYMrpod
- PK2w==
-X-Gm-Message-State: APjAAAUuSPOcpYZBapYYgy79W0OU4GhX7n0hvyVh5I1VcDMypz9JZtJO
- BIXlGoRdfjF+ewym2zTdnxPXM4pgGwtDUCeUvXc=
-X-Google-Smtp-Source: APXvYqwG4azZQ9gwztBNx7MTwpdqyGOOV/G48NInC5WHGO6dUpaaEEd98nQvMiZTGc7CCiTBnNrSWTxGF/q6OhS80xg=
-X-Received: by 2002:a05:6830:1291:: with SMTP id
- z17mr8861511otp.194.1561734248526; 
- Fri, 28 Jun 2019 08:04:08 -0700 (PDT)
+ (envelope-from <kwolf@redhat.com>) id 1hgsV7-0000W2-TW
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:09:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41120)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hgsV4-0000Pa-8t; Fri, 28 Jun 2019 11:09:18 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0502A6EB95;
+ Fri, 28 Jun 2019 15:09:14 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A316626E58;
+ Fri, 28 Jun 2019 15:09:12 +0000 (UTC)
+Date: Fri, 28 Jun 2019 17:09:11 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Message-ID: <20190628150911.GP5179@dhcp-200-226.str.redhat.com>
+References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
+ <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
+ <w51a7e3domn.fsf@maestria.local.igalia.com>
+ <434b102d-9d8e-ccc2-cb53-7f49a3fbd6fb@virtuozzo.com>
+ <w51r27dixcm.fsf@maestria.local.igalia.com>
+ <20190628145708.GN5179@dhcp-200-226.str.redhat.com>
+ <w51o92hiwi2.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-References: <1561727317-30655-1-git-send-email-liam.merwick@oracle.com>
-In-Reply-To: <1561727317-30655-1-git-send-email-liam.merwick@oracle.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 28 Jun 2019 23:03:32 +0800
-Message-ID: <CAKXe6S+iv8ND-+w0DWXq9t61xkNFW2U19fJQTykaV_GXEZy27A@mail.gmail.com>
-To: Liam Merwick <liam.merwick@oracle.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] docs/devel/testing: Fix typo in dockerfile
- path
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <w51o92hiwi2.fsf@maestria.local.igalia.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 28 Jun 2019 15:09:14 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
+ qcow2 images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,42 +64,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Qemu Developers <qemu-devel@nongnu.org>
+Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Liam Merwick <liam.merwick@oracle.com> =E4=BA=8E2019=E5=B9=B46=E6=9C=8828=
-=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=889:38=E5=86=99=E9=81=93=EF=BC=
-=9A
+Am 28.06.2019 um 17:02 hat Alberto Garcia geschrieben:
+> On Fri 28 Jun 2019 04:57:08 PM CEST, Kevin Wolf wrote:
+> > Am 28.06.2019 um 16:43 hat Alberto Garcia geschrieben:
+> >> On Thu 27 Jun 2019 06:05:55 PM CEST, Denis Lunev wrote:
+> >> > Please note, I am not talking now about your case with COW. Here the
+> >> > allocation is performed on the sub-cluster basis, i.e. the abscence of
+> >> > the sub-cluster in the image means hole on that offset. This is
+> >> > important difference.
+> >> 
+> >> I mentioned the possibility that if you have a case like 2MB / 64KB
+> >> and you write to an empty cluster then you could allocate the
+> >> necessary subclusters, and additionally fallocate() the space of the
+> >> whole cluster (2MB) in order to try to keep it contiguous.
+> >> 
+> >> With this we would lose the space saving advantage of having
+> >> subclusters. But perhaps that would work for smaller cluster sizes
+> >> (it would mitigate the fragmentation problem).
+> >
+> > There seem to be use cases for both ways. So does this need to be an
+> > option?
+> 
+> Probably a runtime option, or a heuristic that decides what to do
+> depending on the cluster size.
 
-> Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
->
+How would the heuristic decide whether the user wants to save disk space
+or whether they consider avoiding fragmentation (i.e. performance) more
+important?
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Kevin
 
-
-> ---
->  docs/devel/testing.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index da2d0fc9646f..3ef50a61db4d 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-> @@ -327,7 +327,7 @@ Images
->  ------
->
->  Along with many other images, the ``min-glib`` image is defined in a
-> Dockerfile
-> -in ``tests/docker/dockefiles/``, called ``min-glib.docker``. ``make
-> docker``
-> +in ``tests/docker/dockerfiles/``, called ``min-glib.docker``. ``make
-> docker``
->  command will list all the available images.
->
->  To add a new image, simply create a new ``.docker`` file under the
-> --
-> 1.8.3.1
->
->
->
