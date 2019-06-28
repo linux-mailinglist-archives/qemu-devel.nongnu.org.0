@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C495A10A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:36:11 +0200 (CEST)
-Received: from localhost ([::1]:34192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 133065A130
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:42:16 +0200 (CEST)
+Received: from localhost ([::1]:34234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtr8-0007j0-Un
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:36:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41223)
+	id 1hgtx1-0003nO-8Z
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41356)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hgtma-0005IE-18
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:31:29 -0400
+ (envelope-from <berto@igalia.com>) id 1hgtnA-0005QY-C4
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:32:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hgtmY-0001VJ-Mn
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:31:27 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:39841)
+ (envelope-from <berto@igalia.com>) id 1hgtn7-0001v9-WB
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:32:03 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:55060)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hgtmY-0001U9-DW; Fri, 28 Jun 2019 12:31:26 -0400
-Received: by mail-lj1-x244.google.com with SMTP id v18so6586613ljh.6;
- Fri, 28 Jun 2019 09:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=l5HEV/3S6TEkQbDw4Fi8zP8mYJAb1w7/BkVTDnxKLHE=;
- b=sz19bV+3v7ZPT4+0mbRybUbbXes2rEfmD2GfFVSetN8RbwLW8oar3Egy4uAAikLBtw
- bMLt3wmLP1bs5S1W/+sOpIHsB+MUO4kZAHBkZ8CgoOUSZNAGkBvE6GcAyJ+QzYweZMcf
- rSW72mDn8rzfb6Ys8U7/f+mFr8CHKsxNtegQcEd76hq7UJ9b9+LY8Pzyh8hjdmM5KUkK
- wmoT/6xnn0UJrRaHoon8zhUSF3JUrpWdoUD6rib6vPmHbD3QnLkzOAXNkCdwIAq24xnp
- ACLhjXwMtB+6b0y2M21LczFdEzCGQygOuzzjDeQOD/9Ra7slSgeA7CqcQVe/KeGgEyjc
- bX/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=l5HEV/3S6TEkQbDw4Fi8zP8mYJAb1w7/BkVTDnxKLHE=;
- b=V+kOVzsWas3WKWLe6R71VEIU471RDynB4Lt+bxx2TwwabRY1HxNrPiZCHOdWowDuoN
- tEDMCrULCD8tQURzG5mJ2qA0xpVzJKkmTVq2ObT893lqjQb72XaaNrB9jqga9JZxXNce
- lblwXtVAymP9GA2Qg5tVOxyIMyf2HFLFIzzJeHbZWJo6G+es+KWWMwcAfKhtg3rLIIif
- n4Rkwv9Mps1hJxZrnIrojWAXwW1EERYLGT5zAvBZaqye6hBH5C6v3Sx/gkNbDGqyOjHm
- 0atwUhyHCkv1LPD5MnPMXlDeQkOipZU1KHLf4+nShEZGDztueVW63VnwIVzGdUIjYfqV
- C3ZQ==
-X-Gm-Message-State: APjAAAVhr/Vjebt5Ya+BIysTFHYpvjZIGdayeJq6+PdfF+QDwG0OHonG
- zdvk6Ww/5WZvkiRvE/6rEKOMSjhWvsZNLHVbjxc=
-X-Google-Smtp-Source: APXvYqwxgmOcWKo0EcQhm1m5lXxWlMwqzfHpCI98g2Wjy2Srr1EfwFnV0eUcVg2Ie3jNgDjaCspGp+83xt9liTZZyGE=
-X-Received: by 2002:a2e:9758:: with SMTP id f24mr6785310ljj.58.1561739484954; 
- Fri, 28 Jun 2019 09:31:24 -0700 (PDT)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1hgtn3-0001cg-MF; Fri, 28 Jun 2019 12:32:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=omYtLwNE2mzwgXlAxj//B12PDTIFgZrZ/8xTnXAeCF4=; 
+ b=jsr2cSbAPciEA1NKZhJpmh3jxEwXTFSEoZZ4dhB4iQ0Jgw52enxck3/9Ra570vCtT2KsxYApB/aNL35/klAogCJIW8BIfvhsSD3iOHcx7iypjIUVQZ0ofZqfoA4kN8/PKBI8QkXwI8o4m7gMuhBmffwhCBxy69WhD9VVo2xPK6kGsXgvPtU6U7gGNjwfs1nvRXC5NxKfboEwBx1bY3vTwAwjiw7L7FA7q6FbNPrkrflBR1w6csW5cGOOcncFkxr8V1D7CWNJT3HCJL+k8GtdBtKYz3O3WcGNrDPQoX0PnzYY8dw8rw36aP9iI/ebmrH0GxXvdRDs7mkkPMYHpSSbcQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1hgtmh-0006Xk-Rr; Fri, 28 Jun 2019 18:31:35 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1hgtmh-0005EQ-Ol; Fri, 28 Jun 2019 18:31:35 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Kevin Wolf <kwolf@redhat.com>
+In-Reply-To: <20190628141628.GK5179@dhcp-200-226.str.redhat.com>
+References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
+ <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
+ <w51a7e3domn.fsf@maestria.local.igalia.com>
+ <w517e97dogw.fsf@maestria.local.igalia.com>
+ <20190628092057.GA5179@dhcp-200-226.str.redhat.com>
+ <w515zoqjass.fsf@maestria.local.igalia.com>
+ <20190628100422.GE5179@dhcp-200-226.str.redhat.com>
+ <w51v9wpj191.fsf@maestria.local.igalia.com>
+ <20190628141628.GK5179@dhcp-200-226.str.redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 28 Jun 2019 18:31:35 +0200
+Message-ID: <w51mui1k6xk.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-13-philmd@redhat.com>
-In-Reply-To: <20190627202719.17739-13-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Jun 2019 09:28:24 -0700
-Message-ID: <CAKmqyKOvSV_MJg1x3EGWVNeMUvvT5gG3mH_LQDVSwVgcWA+YFQ@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH v5 12/28] hw/block/pflash_cfi02: Fix
- command address comparison
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 91.117.99.155
+Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
+ qcow2 images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,112 +65,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 1:42 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Fri 28 Jun 2019 04:16:28 PM CEST, Kevin Wolf wrote:
+>> >> >> >> I would consider 64k cluster/8k subcluster as too extreme
+>> >> >> >> for me.
+>> >> >> 
+>> >> >> I forgot to add: this 64k/8k ratio is only with my current
+>> >> >> prototype.
+>> >> >> 
+>> >> >> In practice if we go with the 128-bit L2 entries we would have
+>> >> >> 64 subclusters per cluster, or 32 if we want to have a separate
+>> >> >> QCOW_OFLAG_ZERO for each subcluster (would we need this?).
+>> >> >
+>> >> > Yes, I think we'd want to have a separate zero flag for each
+>> >> > subcluster.  Otherwise, when writing to a zero cluster, you'd
+>> >> > have to COW the whole supercluster again.
+>> >> 
+>> >> Yes if the original cluster had the QCOW_OFLAG_ZERO bit, not if it
+>> >> was simply unallocated.
+>> >
+>> > Right, but that leaving clusters simply unallocated doesn't quite
+>> > cut it is something we already noticed before writing the spec for
+>> > v3. Only really necessary when you have a backing file, of course,
+>> > but that's one of the more interesting cases for subclusters
+>> > anyway.
+>> 
+>> I wonder if it would be possible to have a hybrid solution:
+>> 
+>> With 64 bits to indicate the allocation status of each subcluster we
+>> still have the original L2 entry with its QCOW_OFLAG_ZERO bit, so we
+>> need to specify what happens if that bit is set and at the same time
+>> some subclusters are marked as allocated.
+>> 
+>> One possibility is that allocated subclusters have actual data and
+>> the rest are zero subclusters.
 >
-> From: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+> Hm, yes, that would be possible.
 >
-> Most AMD commands only examine 11 bits of the address. This masks the
-> addresses used in the comparison to 11 bits. The exceptions are word or
-> sector addresses which use offset directly rather than the shifted
-> offset, boff.
+> However, that would require some addtional complexity in write_zeroes
+> then: If the zero flag isn't set yet, then we need to check that no
+> other subcluster is unallocated before we can turn the zero flag on
+> for the whole cluster. You couldn't have subclusters referring to the
+> backing file and zeroed subclusters at the same time.
 >
-> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20190426162624.55977-4-stephen.checkoway@oberlin.edu>
-> [PMD: Prepend 'hw/' in patch subject]
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Maybe doubling the number of bits would actually be worth the
+> additional complexity in write_zeroes.
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Yes, that's a bit my doubt. How important it is to have those features
+that you mention vs being able to halve the minimum unit of allocation.
 
-Alistair
-
-> ---
->  hw/block/pflash_cfi02.c   |  8 +++++++-
->  tests/pflash-cfi02-test.c | 12 ++++++++++--
->  2 files changed, 17 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index e64dc69c6c..4be3837be5 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -281,11 +281,13 @@ static void pflash_write(void *opaque, hwaddr offse=
-t, uint64_t value,
->      }
->      offset &=3D pfl->chip_len - 1;
->
-> -    boff =3D offset & (pfl->sector_len - 1);
-> +    boff =3D offset;
->      if (pfl->width =3D=3D 2)
->          boff =3D boff >> 1;
->      else if (pfl->width =3D=3D 4)
->          boff =3D boff >> 2;
-> +    /* Only the least-significant 11 bits are used in most cases. */
-> +    boff &=3D 0x7FF;
->      switch (pfl->wcycle) {
->      case 0:
->          /* Set the device in I/O access mode if required */
-> @@ -538,6 +540,10 @@ static void pflash_cfi02_realize(DeviceState *dev, E=
-rror **errp)
->          }
->      }
->
-> +    /* Only 11 bits are used in the comparison. */
-> +    pfl->unlock_addr0 &=3D 0x7FF;
-> +    pfl->unlock_addr1 &=3D 0x7FF;
-> +
->      pflash_setup_mappings(pfl);
->      pfl->rom_mode =3D 1;
->      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
-> diff --git a/tests/pflash-cfi02-test.c b/tests/pflash-cfi02-test.c
-> index e7e16a8dd8..e090b2e3a0 100644
-> --- a/tests/pflash-cfi02-test.c
-> +++ b/tests/pflash-cfi02-test.c
-> @@ -21,8 +21,8 @@
->
->  #define FLASH_WIDTH 2
->  #define CFI_ADDR (FLASH_WIDTH * 0x55)
-> -#define UNLOCK0_ADDR (FLASH_WIDTH * 0x5555)
-> -#define UNLOCK1_ADDR (FLASH_WIDTH * 0x2AAA)
-> +#define UNLOCK0_ADDR (FLASH_WIDTH * 0x555)
-> +#define UNLOCK1_ADDR (FLASH_WIDTH * 0x2AA)
->
->  #define CFI_CMD 0x98
->  #define UNLOCK0_CMD 0xAA
-> @@ -190,6 +190,14 @@ static void test_flash(void)
->      g_assert_cmphex(flash_read(6), =3D=3D, 0xCDEF);
->      g_assert_cmphex(flash_read(8), =3D=3D, 0xFFFF);
->
-> +    /* Test ignored high order bits of address. */
-> +    flash_write(FLASH_WIDTH * 0x5555, UNLOCK0_CMD);
-> +    flash_write(FLASH_WIDTH * 0x2AAA, UNLOCK1_CMD);
-> +    flash_write(FLASH_WIDTH * 0x5555, AUTOSELECT_CMD);
-> +    g_assert_cmpint(flash_read(FLASH_WIDTH * 0x0000), =3D=3D, 0x00BF);
-> +    g_assert_cmpint(flash_read(FLASH_WIDTH * 0x0001), =3D=3D, 0x236D);
-> +    reset();
-> +
->      qtest_quit(global_qtest);
->  }
->
-> --
-> 2.20.1
->
->
+Berto
 
