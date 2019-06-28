@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0211C5A334
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:10:58 +0200 (CEST)
-Received: from localhost ([::1]:35136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8376D5A2F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:59:21 +0200 (CEST)
+Received: from localhost ([::1]:35042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgvKr-00032G-64
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:10:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54924)
+	id 1hgv9c-0001d2-Mw
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:59:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54930)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgul0-0008Vk-8B
+ (envelope-from <palmer@dabbelt.com>) id 1hgul0-0008Vl-9C
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hguks-0000bw-LV
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:50 -0400
-Received: from mail-pl1-f174.google.com ([209.85.214.174]:42495)
+ (envelope-from <palmer@dabbelt.com>) id 1hguku-0000e8-PR
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:52 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:40816)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukq-0000XQ-JX
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:44 -0400
-Received: by mail-pl1-f174.google.com with SMTP id ay6so3587840plb.9
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:43 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hguku-0000bN-I6
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:48 -0400
+Received: by mail-pf1-f196.google.com with SMTP id p184so3324599pfp.7
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=/3ducq0eP8I5aPrZO6qPfK+y5RApmcrkJq95TSYVf1E=;
- b=IHL9mLmCfKNaz5khw0AQ5dKK15gY7HwEIBPZ/98cEVkYTSwfjzSW9K0o2nG1Xsewht
- IWw56qD/8NUISfKDyLDlQ3GibqE4P1koqHG26ra6S3RXLlfa61uI67PX/oNnY0Y1p4se
- YO6JMFgNcsxiAG4j45zY50IaPrcqMNM1dJEoREyYremKuTo/jTuLVgc6BbLvZ2nnjFq9
- 4hfPsjt1p+KJRRTCVrksO4ZTHfgoP5dzP08bADtvIOPgn8SagnGXSkmh0rUtQRIVeVm5
- KIyeIg8LTF5WQad42D1hB6x7Q1F/mQwKTy+pvGmaDbNveSjMkDeR/NvLwnR/edQigAP2
- JCew==
-X-Gm-Message-State: APjAAAWtrdhETDJtBo5NkV7jkXSJwlMZlPjIxLVuvCpe811inDefXhTN
- G09NhEzYql/PIqHmMbJobElG5jky6WEffV8z
-X-Google-Smtp-Source: APXvYqz+Cn6cULfB49bYnTfkiB0ZUe9nBFjxIo40XblR2bGuHf9pXctMRWsUR0R2VbjHSXlr5q8qow==
-X-Received: by 2002:a17:902:a414:: with SMTP id
- p20mr12298235plq.187.1561743222066; 
- Fri, 28 Jun 2019 10:33:42 -0700 (PDT)
+ bh=/utRw/o8PW3YQm+ZhJWNBeL8gDnPNYLiS6dXiDJvvqI=;
+ b=WYgCRXdpGu4QTrQp5q2X8BrnwwXdbkM16Mzjq+CcRdp81LIp5p5uXYO0TYGSUNpa6R
+ Gn1j9ThQxJDh4aYt6O87KG22PI3nod/+HtP/uca/y+xeIjteIFr90Gsua4UZjPpYbKWe
+ bhDLsuR/RkEjU04o4CelQNllH7NS544cNUt+0E1ciXQSLkaUJeFSr0Qwr+xyicL7cueb
+ UT44KwqTGtN3zcG4a7kEZQtNUIoZSzS67oI6lEUVf43c/x6gQei1YqS2VH4umPbHfeJx
+ 5lvlQ9vFwRedahQW00eZdDhbj3SKXzt1YqDxQ3X0+lm0HmUGaf2ZNJfivpN7pjMY2MF6
+ Yq3A==
+X-Gm-Message-State: APjAAAVfBhjdMzHbzKQOQYhTWsyf0htRzRq9wEZHj6WhmZ458cjMb6OW
+ lg6N2F8pdkptq7luLfZWFBFVHHdH2cSFm/t4
+X-Google-Smtp-Source: APXvYqzfaMjMMQgI9TpXaxgnob1w6PAJnW8K2KqVZ/8sgcG0/Eu6o+E6g/YEij18vRQZmXP7iS3eng==
+X-Received: by 2002:a63:4c46:: with SMTP id m6mr10688357pgl.59.1561743224665; 
+ Fri, 28 Jun 2019 10:33:44 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id f7sm2742671pfd.43.2019.06.28.10.33.40
+ by smtp.gmail.com with ESMTPSA id x25sm3202020pfm.48.2019.06.28.10.33.43
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:33:41 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:32:15 -0700
-Message-Id: <20190628173227.31925-23-palmer@sifive.com>
+ Fri, 28 Jun 2019 10:33:43 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:32:16 -0700
+Message-Id: <20190628173227.31925-24-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
 References: <20190628173227.31925-1-palmer@sifive.com>
@@ -55,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.214.174
-Subject: [Qemu-devel] [PULL 22/34] RISC-V: Add support for the Zicsr
- extension
+X-Received-From: 209.85.210.196
+Subject: [Qemu-devel] [PULL 23/34] RISC-V: Clear load reservations on
+ context switch and SC
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,72 +68,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Joel Sing <joel@sing.id.au>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Palmer Dabbelt <palmer@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The various CSR instructions have been split out of the base ISA as part
-of the ratification process.  This patch adds a Zicsr argument, which
-disables all the CSR instructions.
+From: Joel Sing <joel@sing.id.au>
 
+This prevents a load reservation from being placed in one context/process,
+then being used in another, resulting in an SC succeeding incorrectly and
+breaking atomics.
+
+Signed-off-by: Joel Sing <joel@sing.id.au>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 1 +
- target/riscv/cpu.h | 1 +
- target/riscv/csr.c | 6 ++++++
- 3 files changed, 8 insertions(+)
+ target/riscv/cpu.c                      |  1 +
+ target/riscv/cpu_helper.c               | 10 ++++++++++
+ target/riscv/insn_trans/trans_rva.inc.c |  8 +++++++-
+ 3 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index bbad39a337b3..915b9e77df33 100644
+index 915b9e77df33..f8d07bd20ad7 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -442,6 +442,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-+    DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index ba551cd3082c..0adb307f3298 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -224,6 +224,7 @@ typedef struct RISCVCPU {
-         bool ext_u;
-         bool ext_counters;
-         bool ext_ifencei;
-+        bool ext_icsr;
- 
-         char *priv_spec;
-         char *user_spec;
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index de67741f3648..e0d45867607a 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -793,6 +793,7 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
- {
-     int ret;
-     target_ulong old_value;
-+    RISCVCPU *cpu = env_archcpu(env);
- 
-     /* check privileges and return -1 if check fails */
- #if !defined(CONFIG_USER_ONLY)
-@@ -803,6 +804,11 @@ int riscv_csrrw(CPURISCVState *env, int csrno, target_ulong *ret_value,
-     }
+@@ -297,6 +297,7 @@ static void riscv_cpu_reset(CPUState *cs)
+     env->pc = env->resetvec;
  #endif
+     cs->exception_index = EXCP_NONE;
++    env->load_res = -1;
+     set_default_nan_mode(1, &env->fp_status);
+ }
  
-+    /* ensure the CSR extension is enabled. */
-+    if (!cpu->cfg.ext_icsr) {
-+        return -1;
-+    }
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index e1b079e69c60..e32b6126af05 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -132,6 +132,16 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+     }
+     /* tlb_flush is unnecessary as mode is contained in mmu_idx */
+     env->priv = newpriv;
 +
-     /* check predicate */
-     if (!csr_ops[csrno].predicate || csr_ops[csrno].predicate(env, csrno) < 0) {
-         return -1;
++    /*
++     * Clear the load reservation - otherwise a reservation placed in one
++     * context/process can be used by another, resulting in an SC succeeding
++     * incorrectly. Version 2.2 of the ISA specification explicitly requires
++     * this behaviour, while later revisions say that the kernel "should" use
++     * an SC instruction to force the yielding of a load reservation on a
++     * preemptive context switch. As a result, do both.
++     */
++    env->load_res = -1;
+ }
+ 
+ /* get_physical_address - get the physical address for this virtual address
+diff --git a/target/riscv/insn_trans/trans_rva.inc.c b/target/riscv/insn_trans/trans_rva.inc.c
+index f6dbbc065e15..fadd88849e2b 100644
+--- a/target/riscv/insn_trans/trans_rva.inc.c
++++ b/target/riscv/insn_trans/trans_rva.inc.c
+@@ -61,7 +61,7 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
+ 
+     gen_set_label(l1);
+     /*
+-     * Address comparion failure.  However, we still need to
++     * Address comparison failure.  However, we still need to
+      * provide the memory barrier implied by AQ/RL.
+      */
+     tcg_gen_mb(TCG_MO_ALL + a->aq * TCG_BAR_LDAQ + a->rl * TCG_BAR_STRL);
+@@ -69,6 +69,12 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, TCGMemOp mop)
+     gen_set_gpr(a->rd, dat);
+ 
+     gen_set_label(l2);
++    /*
++     * Clear the load reservation, since an SC must fail if there is
++     * an SC to any address, in between an LR and SC pair.
++     */
++    tcg_gen_movi_tl(load_res, -1);
++
+     tcg_temp_free(dat);
+     tcg_temp_free(src1);
+     tcg_temp_free(src2);
 -- 
 2.21.0
 
