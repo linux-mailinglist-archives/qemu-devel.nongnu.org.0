@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 811F359ED3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:25:58 +0200 (CEST)
-Received: from localhost ([::1]:33212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 535335A0D0
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:28:28 +0200 (CEST)
+Received: from localhost ([::1]:34066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgslB-00014a-NU
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:25:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50056)
+	id 1hgtjf-0001XV-1G
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50146)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <den@virtuozzo.com>) id 1hgsPT-00035J-8d
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:03:33 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hgsPn-0003PK-Q4
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:03:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <den@virtuozzo.com>) id 1hgsPR-0005HW-6R
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:03:31 -0400
-Received: from mail-eopbgr50093.outbound.protection.outlook.com
- ([40.107.5.93]:57505 helo=EUR03-VE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <den@virtuozzo.com>)
- id 1hgsPK-0005D2-L9; Fri, 28 Jun 2019 11:03:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=56xNMO7l9tCtPNA1pOxFKv6zO22e+gXTr/PmISOqsFo=;
- b=GtGljRtn/wAcKlWC/TsK/1juGoZ5s1M3LX/qtqjQHEr1xJOPEczvYCoR54NV9RoLwawhzuniaJ6zi0ZGJVNNsCsjGivERzeTcC7H9K/fT+PZqidwiUqpZ3jQJ67PjTfnHniA76TR7EWKyJFWO/k0HoC2rR0eOKIatnYohIbbJQ8=
-Received: from DBBPR08MB4250.eurprd08.prod.outlook.com (20.179.40.149) by
- DBBPR08MB4693.eurprd08.prod.outlook.com (10.255.79.10) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.18; Fri, 28 Jun 2019 15:03:13 +0000
-Received: from DBBPR08MB4250.eurprd08.prod.outlook.com
- ([fe80::1d8b:7420:f966:e881]) by DBBPR08MB4250.eurprd08.prod.outlook.com
- ([fe80::1d8b:7420:f966:e881%3]) with mapi id 15.20.2008.014; Fri, 28 Jun 2019
- 15:03:13 +0000
-From: Denis Lunev <den@virtuozzo.com>
-To: Alberto Garcia <berto@igalia.com>, Kevin Wolf <kwolf@redhat.com>
-Thread-Topic: [RFC] Re-evaluating subcluster allocation for qcow2 images
-Thread-Index: AQHVLPCb4B1OTPiTIEWxN+ewhowOEKavjMGAgAAWOgCAADnRAIABSSKAgAADtACAAAFrgIAAAEQA
-Date: Fri, 28 Jun 2019 15:03:13 +0000
-Message-ID: <7452ca4a-c552-a912-a865-d99aaad99488@virtuozzo.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
- <w51a7e3domn.fsf@maestria.local.igalia.com>
- <434b102d-9d8e-ccc2-cb53-7f49a3fbd6fb@virtuozzo.com>
- <w51r27dixcm.fsf@maestria.local.igalia.com>
- <20190628145708.GN5179@dhcp-200-226.str.redhat.com>
- <w51o92hiwi2.fsf@maestria.local.igalia.com>
-In-Reply-To: <w51o92hiwi2.fsf@maestria.local.igalia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR08CA0060.eurprd08.prod.outlook.com
- (2603:10a6:7:2a::31) To DBBPR08MB4250.eurprd08.prod.outlook.com
- (2603:10a6:10:c2::21)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=den@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d1e926f0-ca11-4a59-5316-08d6fbd9bdb4
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DBBPR08MB4693; 
-x-ms-traffictypediagnostic: DBBPR08MB4693:
-x-microsoft-antispam-prvs: <DBBPR08MB4693DA775539489FA90580DBB6FC0@DBBPR08MB4693.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 00826B6158
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(39850400004)(396003)(376002)(136003)(366004)(346002)(199004)(189003)(51444003)(2906002)(31696002)(36756003)(14454004)(14444005)(446003)(476003)(486006)(11346002)(5660300002)(99286004)(2616005)(256004)(71200400001)(71190400001)(31686004)(6436002)(68736007)(66446008)(66476007)(66946007)(64756008)(73956011)(229853002)(7736002)(3846002)(6116002)(26005)(305945005)(25786009)(66556008)(107886003)(6246003)(6486002)(6512007)(53936002)(186003)(53546011)(81156014)(8936002)(81166006)(6506007)(102836004)(66066001)(386003)(110136005)(8676002)(316002)(76176011)(478600001)(54906003)(4326008)(52116002)(86362001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4693;
- H:DBBPR08MB4250.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: k+NFeFSfIoO4uqqiNNYei9SeRsXADCYi7C+VnYpcufeGSV6DxPx0lZbzVDyRKfESRZEQS8DK7rR5/YYu8ipiJb+0gkYCXpL/gUgiaZDPxAKVyPP/+rYj3adEmRc7XI0VfQsYqgLwtAVgzMabF17RHtlR1yGLeEaHIbusMTw64XUwo29uiQmOZKlPa3n9DXmT7kj7LJR6BhcZs7/rqAR4H6YhIQnSTx6d8257NSs3I8kxz3DIUSevb0sZATkL2rDlMWpEGvhAt/aZtmHRizK8IOf5wpHWXRf2pgdDnigIlT7+MfmobRC7qPzO4m/XWPCZdWx1ANwpL69KAHMmnoKLiaHtLZ/LHSkH5uJ0jwVd3IeGTWz1/wL+peqZHVjw+ConTzyavunt9bDSAl+CKri8+hcgaANvClU8aO69kz+CVng=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <366EB6F02521C34F959CB57B637315EE@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <mreitz@redhat.com>) id 1hgsPi-0005Z2-4E
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:03:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37446)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hgsPd-0005VD-KA; Fri, 28 Jun 2019 11:03:41 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E590B81DEB;
+ Fri, 28 Jun 2019 15:03:34 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.205.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E8FE5DD6D;
+ Fri, 28 Jun 2019 15:03:31 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>
+References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
+ <20190528143727.10529-3-dplotnikov@virtuozzo.com>
+ <20190628102333.GG5179@dhcp-200-226.str.redhat.com>
+ <08da0859-10da-5d4b-3203-72341a166255@virtuozzo.com>
+ <20190628120622.GI5179@dhcp-200-226.str.redhat.com>
+ <4fef0430-5a0c-36ca-eec0-a2c0ce10cb91@virtuozzo.com>
+ <20190628142437.GL5179@dhcp-200-226.str.redhat.com>
+ <bf5134a7-7c5e-2b28-9acb-3b82df982e1e@virtuozzo.com>
+ <20190628145419.GM5179@dhcp-200-226.str.redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+ mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+ /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+ U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+ mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+ awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+ AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+ CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+ B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+ 2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+ AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+ 8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+ 4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+ BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+ xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+ W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+ DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+ 64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+ ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+ sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+ alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+ /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+ bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+ R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <c9e17ca7-db6a-8479-3caf-1f19fa3d7016@redhat.com>
+Date: Fri, 28 Jun 2019 17:03:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1e926f0-ca11-4a59-5316-08d6fbd9bdb4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2019 15:03:13.1458 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: den@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4693
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.5.93
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+In-Reply-To: <20190628145419.GM5179@dhcp-200-226.str.redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="e72TcYXPN1ccLOgezAwkMJOeoUwP8kTaF"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Fri, 28 Jun 2019 15:03:35 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v0 2/3] qcow2: add compression type
+ processing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,32 +92,297 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gNi8yOC8xOSA2OjAyIFBNLCBBbGJlcnRvIEdhcmNpYSB3cm90ZToNCj4gT24gRnJpIDI4IEp1
-biAyMDE5IDA0OjU3OjA4IFBNIENFU1QsIEtldmluIFdvbGYgd3JvdGU6DQo+PiBBbSAyOC4wNi4y
-MDE5IHVtIDE2OjQzIGhhdCBBbGJlcnRvIEdhcmNpYSBnZXNjaHJpZWJlbjoNCj4+PiBPbiBUaHUg
-MjcgSnVuIDIwMTkgMDY6MDU6NTUgUE0gQ0VTVCwgRGVuaXMgTHVuZXYgd3JvdGU6DQo+Pj4+IFBs
-ZWFzZSBub3RlLCBJIGFtIG5vdCB0YWxraW5nIG5vdyBhYm91dCB5b3VyIGNhc2Ugd2l0aCBDT1cu
-IEhlcmUgdGhlDQo+Pj4+IGFsbG9jYXRpb24gaXMgcGVyZm9ybWVkIG9uIHRoZSBzdWItY2x1c3Rl
-ciBiYXNpcywgaS5lLiB0aGUgYWJzY2VuY2Ugb2YNCj4+Pj4gdGhlIHN1Yi1jbHVzdGVyIGluIHRo
-ZSBpbWFnZSBtZWFucyBob2xlIG9uIHRoYXQgb2Zmc2V0LiBUaGlzIGlzDQo+Pj4+IGltcG9ydGFu
-dCBkaWZmZXJlbmNlLg0KPj4+IEkgbWVudGlvbmVkIHRoZSBwb3NzaWJpbGl0eSB0aGF0IGlmIHlv
-dSBoYXZlIGEgY2FzZSBsaWtlIDJNQiAvIDY0S0INCj4+PiBhbmQgeW91IHdyaXRlIHRvIGFuIGVt
-cHR5IGNsdXN0ZXIgdGhlbiB5b3UgY291bGQgYWxsb2NhdGUgdGhlDQo+Pj4gbmVjZXNzYXJ5IHN1
-YmNsdXN0ZXJzLCBhbmQgYWRkaXRpb25hbGx5IGZhbGxvY2F0ZSgpIHRoZSBzcGFjZSBvZiB0aGUN
-Cj4+PiB3aG9sZSBjbHVzdGVyICgyTUIpIGluIG9yZGVyIHRvIHRyeSB0byBrZWVwIGl0IGNvbnRp
-Z3VvdXMuDQo+Pj4NCj4+PiBXaXRoIHRoaXMgd2Ugd291bGQgbG9zZSB0aGUgc3BhY2Ugc2F2aW5n
-IGFkdmFudGFnZSBvZiBoYXZpbmcNCj4+PiBzdWJjbHVzdGVycy4gQnV0IHBlcmhhcHMgdGhhdCB3
-b3VsZCB3b3JrIGZvciBzbWFsbGVyIGNsdXN0ZXIgc2l6ZXMNCj4+PiAoaXQgd291bGQgbWl0aWdh
-dGUgdGhlIGZyYWdtZW50YXRpb24gcHJvYmxlbSkuDQo+PiBUaGVyZSBzZWVtIHRvIGJlIHVzZSBj
-YXNlcyBmb3IgYm90aCB3YXlzLiBTbyBkb2VzIHRoaXMgbmVlZCB0byBiZSBhbg0KPj4gb3B0aW9u
-Pw0KPiBQcm9iYWJseSBhIHJ1bnRpbWUgb3B0aW9uLCBvciBhIGhldXJpc3RpYyB0aGF0IGRlY2lk
-ZXMgd2hhdCB0byBkbw0KPiBkZXBlbmRpbmcgb24gdGhlIGNsdXN0ZXIgc2l6ZS4NCm5vLCBJIHRo
-aW5rIHRoYXQgdGhpcyBzaG91bGQgYmUgb24tZGlzayBvcHRpb24gYXMgdGhpcyBhZmZlY3RzDQph
-bGxvY2F0aW9uIHN0cmF0ZWd5Lg0KDQpEZW4NCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--e72TcYXPN1ccLOgezAwkMJOeoUwP8kTaF
+Content-Type: multipart/mixed; boundary="9gIAJYw8hAwUV0V2D04OR86lNs09ruuzJ";
+ protected-headers="v1"
+From: Max Reitz <mreitz@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>, Denis Plotnikov <dplotnikov@virtuozzo.com>
+Cc: "eblake@redhat.com" <eblake@redhat.com>,
+ "armbru@redhat.com" <armbru@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <c9e17ca7-db6a-8479-3caf-1f19fa3d7016@redhat.com>
+Subject: Re: [PATCH v0 2/3] qcow2: add compression type processing
+References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
+ <20190528143727.10529-3-dplotnikov@virtuozzo.com>
+ <20190628102333.GG5179@dhcp-200-226.str.redhat.com>
+ <08da0859-10da-5d4b-3203-72341a166255@virtuozzo.com>
+ <20190628120622.GI5179@dhcp-200-226.str.redhat.com>
+ <4fef0430-5a0c-36ca-eec0-a2c0ce10cb91@virtuozzo.com>
+ <20190628142437.GL5179@dhcp-200-226.str.redhat.com>
+ <bf5134a7-7c5e-2b28-9acb-3b82df982e1e@virtuozzo.com>
+ <20190628145419.GM5179@dhcp-200-226.str.redhat.com>
+In-Reply-To: <20190628145419.GM5179@dhcp-200-226.str.redhat.com>
+
+--9gIAJYw8hAwUV0V2D04OR86lNs09ruuzJ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 28.06.19 16:54, Kevin Wolf wrote:
+> Am 28.06.2019 um 16:40 hat Denis Plotnikov geschrieben:
+>>
+>>
+>> On 28.06.2019 17:24, Kevin Wolf wrote:
+>>> Am 28.06.2019 um 14:56 hat Denis Plotnikov geschrieben:
+>>>>
+>>>>
+>>>> On 28.06.2019 15:06, Kevin Wolf wrote:
+>>>>> Am 28.06.2019 um 13:24 hat Denis Plotnikov geschrieben:
+>>>>>>
+>>>>>>
+>>>>>> On 28.06.2019 13:23, Kevin Wolf wrote:
+>>>>>>> Am 28.05.2019 um 16:37 hat Denis Plotnikov geschrieben:
+>>>>>>>> With the patch, qcow2 is able to process image compression type
+>>>>>>>> defined in the image header and choose the corresponding method
+>>>>>>>> for clusters compressing.
+>>>>>>>>
+>>>>>>>> Also, it rework the cluster compression code for adding more
+>>>>>>>> compression types.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+>>>>>>>> ---
+>>>>>>>>     block/qcow2.c | 103 ++++++++++++++++++++++++++++++++++++++++=
+++++------
+>>>>>>>>     1 file changed, 92 insertions(+), 11 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/block/qcow2.c b/block/qcow2.c
+>>>>>>>> index c4b5b93408..90f15cc3c9 100644
+>>>>>>>> --- a/block/qcow2.c
+>>>>>>>> +++ b/block/qcow2.c
+>>>>>>>> @@ -400,11 +400,39 @@ static int qcow2_read_extensions(BlockDriv=
+erState *bs, uint64_t start_offset,
+>>>>>>>>                 break;
+>>>>>>>>    =20
+>>>>>>>>             case QCOW2_EXT_MAGIC_COMPRESSION_TYPE:
+>>>>>>>> +            /* Compression type always goes with the compressio=
+n type bit set */
+>>>>>>>> +            if (!(s->incompatible_features & QCOW2_INCOMPAT_COM=
+PRESSION_TYPE)) {
+>>>>>>>> +                error_setg(errp,
+>>>>>>>> +                           "compression_type_ext: "
+>>>>>>>> +                           "expect compression type bit set");
+>>>>>>>> +                return -EINVAL;
+>>>>>>>> +            }
+>>>>>>>> +
+>>>>>>>> +            ret =3D bdrv_pread(bs->file, offset, &s->compressio=
+n_type, ext.len);
+>>>>>>>> +            s->compression_type =3D be32_to_cpu(s->compression_=
+type);
+>>>>>>>> +
+>>>>>>>> +            if (ret < 0) {
+>>>>>>>> +                error_setg_errno(errp, -ret,
+>>>>>>>> +                                 "ERROR: Could not read compres=
+sion type");
+>>>>>>>> +                return ret;
+>>>>>>>> +            }
+>>>>>>>> +
+>>>>>>>>                 /*
+>>>>>>>> -             * Setting compression type to BDRVQcow2State->comp=
+ression_type
+>>>>>>>> -             * from the image header is going to be here
+>>>>>>>> +             * The default compression type is not allowed when=
+ the extension
+>>>>>>>> +             * is present. ZLIB is used as the default compress=
+ion type.
+>>>>>>>> +             * When compression type extension header is presen=
+t then
+>>>>>>>> +             * compression_type should have a value different f=
+rom the default.
+>>>>>>>>                  */
+>>>>>>>> -             break;
+>>>>>>>> +            if (s->compression_type =3D=3D QCOW2_COMPRESSION_TY=
+PE_ZLIB) {
+>>>>>>>> +                error_setg(errp,
+>>>>>>>> +                           "compression_type_ext:"
+>>>>>>>> +                           "invalid compression type %d",
+>>>>>>>> +                           QCOW2_COMPRESSION_TYPE_ZLIB);
+>>>>>>>> +            }
+>>>>>>>
+>>>>>>> This is a restriction that the spec doesn't make, so strictly spe=
+aking
+>>>>>>> this implementation wouldn't be compliant to the spec.
+>>>>>> The idea is that ZLIB shouldn't appear in the compression type
+>>>>>> extension. This allows image backward compatibility with an older =
+qemu
+>>>>>> if zlib is used.
+>>>>>>
+>>>>>> There is no reason to set ZLIB in the extension because an older q=
+emu
+>>>>>> knows how to tread ZLIB compressed clusters.
+>>>>>>
+>>>>>> The restriction aims to guarantee that.
+>>>>>>
+>>>>>> I tried to describe this case in the specification:
+>>>>>> ...
+>>>>>> When the compression type bit is not set, and the compression type=
+
+>>>>>> header extension is absent, ZLIB compression is used for compresse=
+d
+>>>>>> clusters.
+>>>>>>
+>>>>>> Qemu versions older than 4.1 can use images created with compressi=
+on
+>>>>>> type ZLIB without any additional preparations and cannot use image=
+s
+>>>>>> created with compression types !=3D ZLIB.
+>>>>>> ...
+>>>>>>
+>>>>>> Does it makes sense?
+>>>>>
+>>>>> This text says that using zlib in the extension is not necessary be=
+cause
+>>>>> it's the default. But it doesn't say that using zlib in the extensi=
+on is
+>>>>> illegal.
+>>>>>
+>>>>> I agree that there is no good reason to create a compression type
+>>>>> extension if you have zlib. But is there a good reason to forbid it=
+?
+>>>> I think yes, if we create image with the extension set to zlib we
+>>>> prevent an older qemu from using that image. Furthermore, to allow o=
+lder
+>>>> qemu using such images we need to create special conversion procedur=
+e
+>>>> which has to remove the extension header.
+>>>>
+>>>> If zlib is a "special compression type" which is always set by defau=
+lt
+>>>> without the extension header we'll get rid of such image conversion
+>>>> procedure and an older qemu could use it "as is"
+>>>>
+>>>> Might it work as a good reason?
+>>>>
+>>>>> It
+>>>>> only requires us to add artificial restrictions to code that would =
+work
+>>>>> fine without them.
+>>>>>
+>>>>> Either way, if we want to reject such extensions, the spec needs to=
+ say
+>>>>> that it's illegal. And if the spec allows such images, we must acce=
+pt
+>>>>> them.
+>>>> Yes, it's true
+>>>>
+>>>> The only reasons that zlib compression type even exists in the
+>>>> enumeration is to avoid ambiguity for users.
+>>>> For them it may be hard to understand why they can set zstd and cann=
+ot
+>>>> set zlib as compression type and to really set zlib they have to set=
+ no
+>>>> compression type to make the default zlib to apply.
+>>>>
+>>>> When a user set zlib as compression type the image is created as bef=
+ore
+>>>> the extension header were introduced.
+>>>>
+>>>> Reasonable?
+>>>>>
+>>>>>>> We can discuss whether the code or the spec should be changed. At=
+ the
+>>>>>>> moment, I don't see a good reason to make the restriction
+>>>>>>>
+>>>>>>>> +#ifdef DEBUG_EXT
+>>>>>>>> +            printf("Qcow2: image compression type %s\n", s->com=
+pression_type);
+>>>>>>>> +#endif
+>>>>>>>> +            break;
+>>>>>>>>    =20
+>>>>>>>>             case QCOW2_EXT_MAGIC_DATA_FILE:
+>>>>>>>>             {
+>>>>>>>
+>>>>>>> We would save most of this code if we added a new field to the he=
+ader
+>>>>>>> instead of adding a header extension. Not saying that we should
+>>>>>>> definitely do this, but let's discuss it at least.
+>>>>>>
+>>>>>> If we add the new field to the header will the older qemu be able =
+to use
+>>>>>> it. Or we will add the header only if needed, i.e. if compression_=
+type
+>>>>>> !=3D zlib
+>>>>>
+>>>>> Increasing the header size is backwards compatible. Older qemu vers=
+ions
+>>>>> should handle such images correctly. They would store the unknown p=
+art
+>>>>> of the header in s->unknown_header_fields and keep it unmodified wh=
+en
+>>>>> updating the image header.
+>>>>>
+>>>>> We would still add the incompatible feature flag for non-zlib, of
+>>>>> course.
+>>>> so, we basically need to do the same: store compression type and for=
+bid
+>>>> to use because of flag if not zlib.
+>>>>
+>>>> Sounds like it doesn't differ that much from the extension header ap=
+proach.
+>>>
+>>> It provides more or less the same functionality, but would probably m=
+ake
+>>> this patch half the size because all of the code related to reading a=
+nd
+>>> checking the header extension would go away. It also saves a few byte=
+s
+>>> in the header cluster (4 bytes vs. 16 bytes).
+>> ok, will re-do it that way.
+>>
+>> Do you agree in general with how zlib compression type is treated?
+>=20
+> As I said, I think both ways are justifiable as long as we stay
+> consistent between qemu and spec.
+>=20
+> I'd prefer to allow zlib in the extension, you'd prefer to forbid it.
+> So I'd like to hear opinions from some more people on which way they
+> prefer.
+
+I don=E2=80=99t think it=E2=80=99s any better to completely forbid it tha=
+n to just
+recommend in the spec that software should not set this field to zlib to
+ensure backwards compatibility.
+
+I see the point of forbidding it, but if I were to know nothing of qcow2
+and read the spec, I guess I=E2=80=99d find it a bit weird to read =E2=80=
+=9CIf this
+field is not present, the compression type is zlib; if it is, it is not
+zlib, but the specified value.=E2=80=9D  I=E2=80=99d ask myself why it is=
+n=E2=80=99t simply =E2=80=9CThe
+compression type is given by this field, it defaults to zlib.=E2=80=9D
+
+Max
+
+
+--9gIAJYw8hAwUV0V2D04OR86lNs09ruuzJ--
+
+--e72TcYXPN1ccLOgezAwkMJOeoUwP8kTaF
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl0WLEEACgkQ9AfbAGHV
+z0CKxgf8Ca9VtMwDGip9kdjPcYbHiY17GPETQeR0X6ZMiUZaZE9lRxmXad39pzoV
+OpHl2BeWW0UqHJnZyGLSvBa6M2om+pXLGcDvE4g9SOkWFib+ddx10XpwItfCCh8C
+TlKgeEPD0ur7z+Blqz3nEEIth9h3VfZxy6Wgcp19id71wSl2a076340AkGVL6XwT
+daSnphBycEWTKVPc4Gxq9TTg2CwSPRFnX13Iz7settqhlfcPWIGV3IDEb3J9Na8t
+HosGxiunrPUxsB7yOQ+5MnTgjXlsNdCmF2QAyQ4kceQ4kdPSi7HhLazCNgzdg82p
+zo57gBqw0KLKA8rPqCr0P/8SYn5v8A==
+=1aYe
+-----END PGP SIGNATURE-----
+
+--e72TcYXPN1ccLOgezAwkMJOeoUwP8kTaF--
 
