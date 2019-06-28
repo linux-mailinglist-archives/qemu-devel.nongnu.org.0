@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3AB5A2CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:52:10 +0200 (CEST)
-Received: from localhost ([::1]:34990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A09AD5A30A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:01:26 +0200 (CEST)
+Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgv2f-0002ai-UY
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:52:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54779)
+	id 1hgvBd-0003aS-RF
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:01:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54792)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hgukk-0008MS-TM
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:41 -0400
+ (envelope-from <palmer@dabbelt.com>) id 1hguko-0008NC-AU
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgukf-0000QE-FT
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:36 -0400
-Received: from mail-pl1-f172.google.com ([209.85.214.172]:45444)
+ (envelope-from <palmer@dabbelt.com>) id 1hgukh-0000Rs-Hr
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:38 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44183)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukd-0000MT-5t
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:32 -0400
-Received: by mail-pl1-f172.google.com with SMTP id bi6so3601042plb.12
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:29 -0700 (PDT)
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hguke-0000OS-C7
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:34 -0400
+Received: by mail-pg1-f196.google.com with SMTP id n2so2876782pgp.11
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=tqiS7O8nKvNing+E8WwiszCtPiLlK33kP79Ar4czLaU=;
- b=hgBG4q1/KECZH1obbKJDaNAywICFy7AT/IOgpXUP98m0n3rFYfxu0bLklhRoaVRJd7
- HzfgbC6fNYSsjJHkCtC2UzCvl9LtX+Xa4TN8NTp2BFdY32/0yKdMz9W3qjd/92BzVc95
- VZMJey00aAAAAt3gOTjOD/AvUWeRvzqLC/42lsRMOYYlamVl/z1y9/nqwGAb8VnwH+hF
- p4Nex0238MbqfL4e6paz3I8gV5ENOTKgPuEPMlmwpl55YPjVf93x9iVDFBauTy7HPKEl
- /KV9rdzUPiZw8fQU7FutDjjpUCBgKRw3ydZEKq2H+7NxObo2ijlUfPElvWVC23WblwEe
- JK2Q==
-X-Gm-Message-State: APjAAAWOev80ZOsKqoRcDEs2BLTEql6GV3WOP7XR1w08UR+fwrlUfTEw
- u0AnpmluOLrvMr5Zn9WBZi83n1yd2qU7Aqqg
-X-Google-Smtp-Source: APXvYqz2Phe9wsb6jVXHH5nAKntUl6lV5AglKx3d8FPwbmkuG9lg9avengcgdLrFQq+vGm1K2MCmsA==
-X-Received: by 2002:a17:902:e490:: with SMTP id
- cj16mr12760904plb.136.1561743208023; 
- Fri, 28 Jun 2019 10:33:28 -0700 (PDT)
+ bh=WFOcqA5bhC2gv8hijUonjP/cUpFUXz32Bb/6MGXuT1U=;
+ b=bP19ZOjdgjDpgX1DwcLAJqp5eJnJ5ZFkvQ4VqSI3aUJlP1JOjjfGeUrybVoqMwJAYW
+ /LJXZIuuDPSxB951PTb+qv2MqgL85FaA7BynSJV9PRAzmo0+Qgo0sfMWkR6HTJdb9ItF
+ yzSTI/QL66D0h9xB4q4MH7P3oRWyw5G+wGa3Ylni2fik3/rgLfqkyTXRrzJ4012L5RXs
+ NA+Ur05ltSlFrBBPr333niefj5nCjH66fuyhzK0QjszmOsqFLbHTzBAEnCCk3k5oFigq
+ TnUHiJl+OMDXEqZJtHocUCNa6Da8+O7+JGWORtF74KhST+1F4MT4UknNgl/ZFNvAkYHg
+ pr/g==
+X-Gm-Message-State: APjAAAVxMlbXNZ3DXC16uOFR+M/AladUEyAorBS4Y7RWgpwRQuApLTkB
+ LJd0rdl0zIn9YsSKUI1S/IeV84a+fDO4O6J1
+X-Google-Smtp-Source: APXvYqxZXcgQvYEmTU1tDWqSLAtLWxpU3JuDD0WS3iMyaSz63FTWLhL2MjZCmoruXx8hy7bbNJTCZQ==
+X-Received: by 2002:a63:1316:: with SMTP id i22mr10815249pgl.274.1561743210410; 
+ Fri, 28 Jun 2019 10:33:30 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id q144sm4125528pfc.103.2019.06.28.10.33.26
+ by smtp.gmail.com with ESMTPSA id y10sm3105961pfm.66.2019.06.28.10.33.29
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:33:27 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:32:10 -0700
-Message-Id: <20190628173227.31925-18-palmer@sifive.com>
+ Fri, 28 Jun 2019 10:33:29 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:32:11 -0700
+Message-Id: <20190628173227.31925-19-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
 References: <20190628173227.31925-1-palmer@sifive.com>
@@ -55,9 +54,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.214.172
-Subject: [Qemu-devel] [PULL 17/34] qemu-deprecated.texi: Deprecate the
- RISC-V privledge spec 1.09.1
+X-Received-From: 209.85.215.196
+Subject: [Qemu-devel] [PULL 18/34] target/riscv: Require either I or E base
+ extension
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,34 +76,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Deprecate the RISC-V privledge spec version 1.09.1 in favour of the new
-1.10.0 and the ratified 1.11.0.
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- qemu-deprecated.texi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ target/riscv/cpu.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index df04f2840bd9..97ea4ef3001a 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -144,6 +144,14 @@ The ``acl_show'', ``acl_reset'', ``acl_policy'', ``acl_add'', and
- ``acl_remove'' commands are deprecated with no replacement. Authorization
- for VNC should be performed using the pluggable QAuthZ objects.
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ba1325f43533..1689ffecf85f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -373,6 +373,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+                        return;
+        }
  
-+@section Guest Emulator ISAs
++        if (!cpu->cfg.ext_i && !cpu->cfg.ext_e) {
++            error_setg(errp,
++                       "Either I or E extension must be set");
++                       return;
++       }
 +
-+@subsection RISC-V ISA privledge specification version 1.09.1 (since 4.1)
-+
-+The RISC-V ISA privledge specification version 1.09.1 has been deprecated.
-+QEMU supports both the newer version 1.10.0 and the ratified version 1.11.0, these
-+should be used instead of the 1.09.1 version.
-+
- @section System emulator CPUS
- 
- @subsection RISC-V ISA CPUs (since 4.1)
+        if (cpu->cfg.ext_g && !(cpu->cfg.ext_i & cpu->cfg.ext_m &
+                                cpu->cfg.ext_a & cpu->cfg.ext_f &
+                                cpu->cfg.ext_d)) {
 -- 
 2.21.0
 
