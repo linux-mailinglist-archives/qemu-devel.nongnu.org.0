@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14A2E598AD
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:45:40 +0200 (CEST)
-Received: from localhost ([::1]:58692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DC7F598A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:43:17 +0200 (CEST)
+Received: from localhost ([::1]:58667 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgoNv-0007yL-7J
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:45:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60693)
+	id 1hgoLc-0004uD-IG
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:43:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60676)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kraxel@redhat.com>) id 1hgoIt-0002Sp-HF
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:29 -0400
+ (envelope-from <kraxel@redhat.com>) id 1hgoIt-0002Rl-3B
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kraxel@redhat.com>) id 1hgoIr-0006Cl-N5
+ (envelope-from <kraxel@redhat.com>) id 1hgoIr-0006CU-Ay
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 06:40:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34280)
+Received: from mx1.redhat.com ([209.132.183.28]:7357)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <kraxel@redhat.com>)
- id 1hgoIk-000627-Vh; Fri, 28 Jun 2019 06:40:19 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hgoIm-000626-OO; Fri, 28 Jun 2019 06:40:20 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 861D7C03D478;
- Fri, 28 Jun 2019 10:40:09 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6CAE53082137;
+ Fri, 28 Jun 2019 10:40:07 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-96.ams2.redhat.com
  [10.36.116.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04C9F5DC18;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 17A4060BE0;
  Fri, 28 Jun 2019 10:39:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0C95E17473; Fri, 28 Jun 2019 12:39:58 +0200 (CEST)
+ id 18BF017474; Fri, 28 Jun 2019 12:39:58 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 12:39:53 +0200
-Message-Id: <20190628103957.9504-3-kraxel@redhat.com>
+Date: Fri, 28 Jun 2019 12:39:54 +0200
+Message-Id: <20190628103957.9504-4-kraxel@redhat.com>
 In-Reply-To: <20190628103957.9504-1-kraxel@redhat.com>
 References: <20190628103957.9504-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Fri, 28 Jun 2019 10:40:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.42]); Fri, 28 Jun 2019 10:40:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/6] ati-vga: Implement DDC and EDID info from
- monitor
+Subject: [Qemu-devel] [PULL 3/6] ati-vga: Fixes to offset and pitch registers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,214 +64,172 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-This adds DDC support to ati-vga and connects i2c-ddc to it. This
-allows at least MacOS with an ATI ndrv, Linux radeonfb and MorphOS to
-get monitor EDID info (although MorphOS splash screen is not displayed
-and radeonfb needs additional tables from vgabios-rv100). Xorg needs
-additional support from VESA vgabios, it's missing INT10 0x4F15
-function (see
-https://gitlab.freedesktop.org/xorg/xserver/blob/master/hw/xfree86/vbe/vbe.c)
-without which no DDC is available that also prevents loading the
-accelerated X driver.
+Fix bit masks of registers for offset and pitch and also handle
+default values for both R128P and RV100. This improves picture a bit
+but does not resolve all problems yet so there might be some more bugs
+somewhere.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: 046ddebb7ec8db48c4e877ee444ec1c41e385a74.1561028123.git.balaton@eik.bme.hu
-
-ati-vga: Clarify comment
-
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: 20190620195213.C54127461AE@zero.eik.bme.hu
-
-ati-vga: Add DDC reg names for debug
-
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-id: 20190621181459.2F8207462AA@zero.eik.bme.hu
+Message-id: 20190624100005.7A1CA746395@zero.eik.bme.hu
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/ati_int.h  |  5 ++++
- hw/display/ati_regs.h |  2 ++
- hw/display/ati.c      | 65 +++++++++++++++++++++++++++++++++++++++++--
- hw/display/ati_dbg.c  |  2 ++
- hw/display/Kconfig    |  2 ++
- 5 files changed, 74 insertions(+), 2 deletions(-)
+ hw/display/ati_int.h  |  1 +
+ hw/display/ati_regs.h |  4 ++--
+ hw/display/ati.c      | 32 ++++++++++++++++++++++----------
+ hw/display/ati_2d.c   | 26 ++++++++++++++++++--------
+ 4 files changed, 43 insertions(+), 20 deletions(-)
 
 diff --git a/hw/display/ati_int.h b/hw/display/ati_int.h
-index 2f426064cf7d..51465f563066 100644
+index 51465f563066..9b67d0022ad9 100644
 --- a/hw/display/ati_int.h
 +++ b/hw/display/ati_int.h
-@@ -10,6 +10,7 @@
- #define ATI_INT_H
+@@ -74,6 +74,7 @@ typedef struct ATIVGARegs {
+     uint32_t dp_write_mask;
+     uint32_t default_offset;
+     uint32_t default_pitch;
++    uint32_t default_tile;
+     uint32_t default_sc_bottom_right;
+ } ATIVGARegs;
  
- #include "hw/pci/pci.h"
-+#include "hw/i2c/bitbang_i2c.h"
- #include "vga_int.h"
- 
- /*#define DEBUG_ATI*/
-@@ -35,6 +36,9 @@ typedef struct ATIVGARegs {
-     uint32_t crtc_gen_cntl;
-     uint32_t crtc_ext_cntl;
-     uint32_t dac_cntl;
-+    uint32_t gpio_vga_ddc;
-+    uint32_t gpio_dvi_ddc;
-+    uint32_t gpio_monid;
-     uint32_t crtc_h_total_disp;
-     uint32_t crtc_h_sync_strt_wid;
-     uint32_t crtc_v_total_disp;
-@@ -83,6 +87,7 @@ typedef struct ATIVGAState {
-     uint16_t cursor_size;
-     uint32_t cursor_offset;
-     QEMUCursor *cursor;
-+    bitbang_i2c_interface *bbi2c;
-     MemoryRegion io;
-     MemoryRegion mm;
-     ATIVGARegs regs;
 diff --git a/hw/display/ati_regs.h b/hw/display/ati_regs.h
-index 923bfd33ceb7..1ec3498b731c 100644
+index 1ec3498b731c..d7155c93d53b 100644
 --- a/hw/display/ati_regs.h
 +++ b/hw/display/ati_regs.h
-@@ -37,6 +37,8 @@
- #define CRTC_GEN_CNTL                           0x0050
- #define CRTC_EXT_CNTL                           0x0054
- #define DAC_CNTL                                0x0058
-+#define GPIO_VGA_DDC                            0x0060
-+#define GPIO_DVI_DDC                            0x0064
- #define GPIO_MONID                              0x0068
- #define I2C_CNTL_1                              0x0094
- #define PALETTE_INDEX                           0x00b0
+@@ -370,8 +370,8 @@
+ #define BRUSH_SOLIDCOLOR                        0x00000d00
+ 
+ /* DP_GUI_MASTER_CNTL bit constants */
+-#define GMC_SRC_PITCH_OFFSET_DEFAULT            0x00000000
+-#define GMC_DST_PITCH_OFFSET_DEFAULT            0x00000000
++#define GMC_SRC_PITCH_OFFSET_CNTL               0x00000001
++#define GMC_DST_PITCH_OFFSET_CNTL               0x00000002
+ #define GMC_SRC_CLIP_DEFAULT                    0x00000000
+ #define GMC_DST_CLIP_DEFAULT                    0x00000000
+ #define GMC_BRUSH_SOLIDCOLOR                    0x000000d0
 diff --git a/hw/display/ati.c b/hw/display/ati.c
-index 76595d951181..25d5077ba077 100644
+index 25d5077ba077..e1bde5e0b1e3 100644
 --- a/hw/display/ati.c
 +++ b/hw/display/ati.c
-@@ -26,6 +26,7 @@
- #include "qapi/error.h"
- #include "hw/hw.h"
- #include "ui/console.h"
-+#include "hw/display/i2c-ddc.h"
- #include "trace.h"
- 
- #define ATI_DEBUG_HW_CURSOR 0
-@@ -215,6 +216,24 @@ static void ati_cursor_draw_line(VGACommonState *vga, uint8_t *d, int scr_y)
-     }
- }
- 
-+static uint64_t ati_i2c(bitbang_i2c_interface *i2c, uint64_t data, int base)
-+{
-+    bool c = (data & BIT(base + 17) ? !!(data & BIT(base + 1)) : 1);
-+    bool d = (data & BIT(base + 16) ? !!(data & BIT(base)) : 1);
-+
-+    bitbang_i2c_set(i2c, BITBANG_I2C_SCL, c);
-+    d = bitbang_i2c_set(i2c, BITBANG_I2C_SDA, d);
-+
-+    data &= ~0xf00ULL;
-+    if (c) {
-+        data |= BIT(base + 9);
-+    }
-+    if (d) {
-+        data |= BIT(base + 8);
-+    }
-+    return data;
-+}
-+
- static inline uint64_t ati_reg_read_offs(uint32_t reg, int offs,
-                                          unsigned int size)
- {
-@@ -266,7 +285,16 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
-     case DAC_CNTL:
-         val = s->regs.dac_cntl;
+@@ -419,9 +419,15 @@ static uint64_t ati_mm_read(void *opaque, hwaddr addr, unsigned int size)
          break;
--/*    case GPIO_MONID: FIXME hook up DDC I2C here */
-+    case GPIO_VGA_DDC:
-+        val = s->regs.gpio_vga_ddc;
-+        break;
-+    case GPIO_DVI_DDC:
-+        val = s->regs.gpio_dvi_ddc;
-+        break;
-+    case GPIO_MONID ... GPIO_MONID + 3:
-+        val = ati_reg_read_offs(s->regs.gpio_monid,
-+                                addr - GPIO_MONID, size);
-+        break;
-     case PALETTE_INDEX:
-         /* FIXME unaligned access */
-         val = vga_ioport_read(&s->vga, VGA_PEL_IR) << 16;
-@@ -497,7 +525,33 @@ static void ati_mm_write(void *opaque, hwaddr addr,
-         s->regs.dac_cntl = data & 0xffffe3ff;
-         s->vga.dac_8bit = !!(data & DAC_8BIT_EN);
+     case DEFAULT_OFFSET:
+         val = s->regs.default_offset;
++        if (s->dev_id != PCI_DEVICE_ID_ATI_RAGE128_PF) {
++            val >>= 10;
++            val |= s->regs.default_pitch << 16;
++            val |= s->regs.default_tile << 30;
++        }
          break;
--/*    case GPIO_MONID: FIXME hook up DDC I2C here */
-+    case GPIO_VGA_DDC:
-+        if (s->dev_id != PCI_DEVICE_ID_ATI_RAGE128_PF) {
-+            /* FIXME: Maybe add a property to select VGA or DVI port? */
-+        }
-+        break;
-+    case GPIO_DVI_DDC:
-+        if (s->dev_id != PCI_DEVICE_ID_ATI_RAGE128_PF) {
-+            s->regs.gpio_dvi_ddc = ati_i2c(s->bbi2c, data, 0);
-+        }
-+        break;
-+    case GPIO_MONID ... GPIO_MONID + 3:
-+        /* FIXME What does Radeon have here? */
+     case DEFAULT_PITCH:
+         val = s->regs.default_pitch;
++        val |= s->regs.default_tile << 16;
+         break;
+     case DEFAULT_SC_BOTTOM_RIGHT:
+         val = s->regs.default_sc_bottom_right;
+@@ -682,22 +688,22 @@ static void ati_mm_write(void *opaque, hwaddr addr,
+         break;
+     case SRC_PITCH_OFFSET:
+         if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
+-            s->regs.src_offset = (data & 0x1fffff) << 5;
+-            s->regs.src_pitch = (data >> 21) & 0x3ff;
++            s->regs.src_offset = (data & 0x1fffff) << 4;
++            s->regs.src_pitch = (data & 0x7fe00000) >> 21;
+             s->regs.src_tile = data >> 31;
+         } else {
+-            s->regs.src_offset = (data & 0x3fffff) << 11;
++            s->regs.src_offset = (data & 0x3fffff) << 10;
+             s->regs.src_pitch = (data & 0x3fc00000) >> 16;
+             s->regs.src_tile = (data >> 30) & 1;
+         }
+         break;
+     case DST_PITCH_OFFSET:
+         if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
+-            s->regs.dst_offset = (data & 0x1fffff) << 5;
+-            s->regs.dst_pitch = (data >> 21) & 0x3ff;
++            s->regs.dst_offset = (data & 0x1fffff) << 4;
++            s->regs.dst_pitch = (data & 0x7fe00000) >> 21;
+             s->regs.dst_tile = data >> 31;
+         } else {
+-            s->regs.dst_offset = (data & 0x3fffff) << 11;
++            s->regs.dst_offset = (data & 0x3fffff) << 10;
+             s->regs.dst_pitch = (data & 0x3fc00000) >> 16;
+             s->regs.dst_tile = data >> 30;
+         }
+@@ -777,13 +783,19 @@ static void ati_mm_write(void *opaque, hwaddr addr,
+         s->regs.dp_write_mask = data;
+         break;
+     case DEFAULT_OFFSET:
+-        data &= (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF ?
+-                 0x03fffc00 : 0xfffffc00);
+-        s->regs.default_offset = data;
 +        if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
-+            ati_reg_write_offs(&s->regs.gpio_monid,
-+                               addr - GPIO_MONID, data, size);
-+            /*
-+             * Rage128p accesses DDC used to get EDID via these bits.
-+             * Only touch i2c when write overlaps 3rd byte because some
-+             * drivers access this reg via multiple partial writes and
-+             * without this spurious bits would be sent.
-+             */
-+            if ((s->regs.gpio_monid & BIT(25)) &&
-+                addr <= GPIO_MONID + 2 && addr + size > GPIO_MONID + 2) {
-+                s->regs.gpio_monid = ati_i2c(s->bbi2c, s->regs.gpio_monid, 1);
-+            }
++            s->regs.default_offset = data & 0xfffffff0;
++        } else {
++            /* Radeon has DEFAULT_PITCH_OFFSET here like DST_PITCH_OFFSET */
++            s->regs.default_offset = (data & 0x3fffff) << 10;
++            s->regs.default_pitch = (data & 0x3fc00000) >> 16;
++            s->regs.default_tile = data >> 30;
 +        }
-+        break;
-     case PALETTE_INDEX ... PALETTE_INDEX + 3:
-         if (size == 4) {
-             vga_ioport_write(&s->vga, VGA_PEL_IR, (data >> 16) & 0xff);
-@@ -788,6 +842,12 @@ static void ati_vga_realize(PCIDevice *dev, Error **errp)
-         vga->cursor_draw_line = ati_cursor_draw_line;
-     }
+         break;
+     case DEFAULT_PITCH:
+         if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
+-            s->regs.default_pitch = data & 0x103ff;
++            s->regs.default_pitch = data & 0x3fff;
++            s->regs.default_tile = (data >> 16) & 1;
+         }
+         break;
+     case DEFAULT_SC_BOTTOM_RIGHT:
+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+index d83c29c6d933..2dbf53f03936 100644
+--- a/hw/display/ati_2d.c
++++ b/hw/display/ati_2d.c
+@@ -51,8 +51,9 @@ void ati_2d_blt(ATIVGAState *s)
+             s->vga.vbe_start_addr, surface_data(ds), surface_stride(ds),
+             surface_bits_per_pixel(ds),
+             (s->regs.dp_mix & GMC_ROP3_MASK) >> 16);
+-    DPRINTF("%d %d, %d %d, (%d,%d) -> (%d,%d) %dx%d\n", s->regs.src_offset,
+-            s->regs.dst_offset, s->regs.src_pitch, s->regs.dst_pitch,
++    DPRINTF("%d %d %d, %d %d %d, (%d,%d) -> (%d,%d) %dx%d\n",
++            s->regs.src_offset, s->regs.dst_offset, s->regs.default_offset,
++            s->regs.src_pitch, s->regs.dst_pitch, s->regs.default_pitch,
+             s->regs.src_x, s->regs.src_y, s->regs.dst_x, s->regs.dst_y,
+             s->regs.dst_width, s->regs.dst_height);
+     switch (s->regs.dp_mix & GMC_ROP3_MASK) {
+@@ -60,10 +61,16 @@ void ati_2d_blt(ATIVGAState *s)
+     {
+         uint8_t *src_bits, *dst_bits, *end;
+         int src_stride, dst_stride, bpp = ati_bpp_from_datatype(s);
+-        src_bits = s->vga.vram_ptr + s->regs.src_offset;
+-        dst_bits = s->vga.vram_ptr + s->regs.dst_offset;
+-        src_stride = s->regs.src_pitch;
+-        dst_stride = s->regs.dst_pitch;
++        src_bits = s->vga.vram_ptr +
++                   (s->regs.dp_gui_master_cntl & GMC_SRC_PITCH_OFFSET_CNTL ?
++                    s->regs.src_offset : s->regs.default_offset);
++        dst_bits = s->vga.vram_ptr +
++                   (s->regs.dp_gui_master_cntl & GMC_DST_PITCH_OFFSET_CNTL ?
++                    s->regs.dst_offset : s->regs.default_offset);
++        src_stride = (s->regs.dp_gui_master_cntl & GMC_SRC_PITCH_OFFSET_CNTL ?
++                      s->regs.src_pitch : s->regs.default_pitch);
++        dst_stride = (s->regs.dp_gui_master_cntl & GMC_DST_PITCH_OFFSET_CNTL ?
++                      s->regs.dst_pitch : s->regs.default_pitch);
  
-+    /* ddc, edid */
-+    I2CBus *i2cbus = i2c_init_bus(DEVICE(s), "ati-vga.ddc");
-+    s->bbi2c = bitbang_i2c_init(i2cbus);
-+    I2CSlave *i2cddc = I2C_SLAVE(qdev_create(BUS(i2cbus), TYPE_I2CDDC));
-+    i2c_set_slave_address(i2cddc, 0x50);
-+
-     /* mmio register space */
-     memory_region_init_io(&s->mm, OBJECT(s), &ati_mm_ops, s,
-                           "ati.mmregs", 0x4000);
-@@ -813,6 +873,7 @@ static void ati_vga_exit(PCIDevice *dev)
-     ATIVGAState *s = ATI_VGA(dev);
+         if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
+             src_bits += s->regs.crtc_offset & 0x07ffffff;
+@@ -111,8 +118,11 @@ void ati_2d_blt(ATIVGAState *s)
+         uint8_t *dst_bits, *end;
+         int dst_stride, bpp = ati_bpp_from_datatype(s);
+         uint32_t filler = 0;
+-        dst_bits = s->vga.vram_ptr + s->regs.dst_offset;
+-        dst_stride = s->regs.dst_pitch;
++        dst_bits = s->vga.vram_ptr +
++                   (s->regs.dp_gui_master_cntl & GMC_DST_PITCH_OFFSET_CNTL ?
++                    s->regs.dst_offset : s->regs.default_offset);
++        dst_stride = (s->regs.dp_gui_master_cntl & GMC_DST_PITCH_OFFSET_CNTL ?
++                      s->regs.dst_pitch : s->regs.default_pitch);
  
-     graphic_console_close(s->vga.con);
-+    g_free(s->bbi2c);
- }
- 
- static Property ati_vga_properties[] = {
-diff --git a/hw/display/ati_dbg.c b/hw/display/ati_dbg.c
-index b045f81d0602..88b3a11315d8 100644
---- a/hw/display/ati_dbg.c
-+++ b/hw/display/ati_dbg.c
-@@ -19,6 +19,8 @@ static struct ati_regdesc ati_reg_names[] = {
-     {"CRTC_GEN_CNTL", 0x0050},
-     {"CRTC_EXT_CNTL", 0x0054},
-     {"DAC_CNTL", 0x0058},
-+    {"GPIO_VGA_DDC", 0x0060},
-+    {"GPIO_DVI_DDC", 0x0064},
-     {"GPIO_MONID", 0x0068},
-     {"I2C_CNTL_1", 0x0094},
-     {"PALETTE_INDEX", 0x00b0},
-diff --git a/hw/display/Kconfig b/hw/display/Kconfig
-index 910dccb2f7a5..cbdf7b1a675b 100644
---- a/hw/display/Kconfig
-+++ b/hw/display/Kconfig
-@@ -130,3 +130,5 @@ config ATI_VGA
-     default y if PCI_DEVICES
-     depends on PCI
-     select VGA
-+    select BITBANG_I2C
-+    select DDC
+         if (s->dev_id == PCI_DEVICE_ID_ATI_RAGE128_PF) {
+             dst_bits += s->regs.crtc_offset & 0x07ffffff;
 -- 
 2.18.1
 
