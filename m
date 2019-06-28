@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8E6597FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:57:29 +0200 (CEST)
-Received: from localhost ([::1]:58365 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2524B5980A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 12:00:54 +0200 (CEST)
+Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgndI-00068M-UD
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:57:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51066)
+	id 1hgnga-0001WW-Vm
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 06:00:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51357)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berto@igalia.com>) id 1hgnZS-0004hL-7d
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:53:31 -0400
+ (envelope-from <kwolf@redhat.com>) id 1hgnak-00052F-6a
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:54:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1hgnZR-0002J6-60
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:53:30 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:54096)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1hgnZP-0002GY-Jm; Fri, 28 Jun 2019 05:53:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=zCvObHIXTYvegsJXMJqYc021+EUD60UhVzzbI3kJ7do=; 
- b=dTW/N80NraeeFxtJFUdEW+fX1khjKbyeYg5iudi7hoBJo2WRteXPgTQ9/RW0dU+P3SfOze4w5tx3s3fld/27L96hnDVZRPaRqCwUBLdD+ar4aDAkEG4yXL7m4cww8ZJQ+76YiKeCnftBhT2Vwr+hlXNqBt6gF5cWhNLSOnkMsO/MTBkd5RVltJ/fIzs6KIRVNxpRR0QCjgRx14JEctttsjkb1LFYVxKzXMIAeiwlxa72XYD6DoZdIhh5cJS8UqhXWDJxos6ZrvINiZrk2YKHdEZpWzzXkji5y6VY1SnsFGeLUMmwVHyvmzb7pLah06PtRU6/7TLJHyuPHyMdJeJgLw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1hgnZL-0006uL-Ix; Fri, 28 Jun 2019 11:53:23 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1hgnZL-0002VF-GA; Fri, 28 Jun 2019 11:53:23 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Kevin Wolf <kwolf@redhat.com>
-In-Reply-To: <20190628092057.GA5179@dhcp-200-226.str.redhat.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
- <w51a7e3domn.fsf@maestria.local.igalia.com>
- <w517e97dogw.fsf@maestria.local.igalia.com>
- <20190628092057.GA5179@dhcp-200-226.str.redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 28 Jun 2019 11:53:23 +0200
-Message-ID: <w515zoqjass.fsf@maestria.local.igalia.com>
+ (envelope-from <kwolf@redhat.com>) id 1hgnai-0003ZU-F3
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:54:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45310)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <kwolf@redhat.com>)
+ id 1hgnac-0003OF-7W; Fri, 28 Jun 2019 05:54:43 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6AC1F308FE8D;
+ Fri, 28 Jun 2019 09:54:36 +0000 (UTC)
+Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
+ [10.33.200.226])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DEF4460C64;
+ Fri, 28 Jun 2019 09:54:34 +0000 (UTC)
+Date: Fri, 28 Jun 2019 11:54:33 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>
+Message-ID: <20190628095433.GD5179@dhcp-200-226.str.redhat.com>
+References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
+ <20190528143727.10529-2-dplotnikov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190528143727.10529-2-dplotnikov@virtuozzo.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Fri, 28 Jun 2019 09:54:36 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v0 1/3] qcow2: introduce compression type
+ feature
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,28 +59,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: vsementsov@virtuozzo.com, den@virtuozzo.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 28 Jun 2019 11:20:57 AM CEST, Kevin Wolf wrote:
->> >> I would consider 64k cluster/8k subcluster as too extreme for me.
->> 
->> I forgot to add: this 64k/8k ratio is only with my current prototype.
->> 
->> In practice if we go with the 128-bit L2 entries we would have 64
->> subclusters per cluster, or 32 if we want to have a separate
->> QCOW_OFLAG_ZERO for each subcluster (would we need this?).
->
-> Yes, I think we'd want to have a separate zero flag for each
-> subcluster.  Otherwise, when writing to a zero cluster, you'd have to
-> COW the whole supercluster again.
+Am 28.05.2019 um 16:37 hat Denis Plotnikov geschrieben:
+> The patch adds some preparation parts for incompatible compression type
+> feature to QCOW2 header that indicates that *all* compressed clusters
+> must be (de)compressed using a certain compression type.
+> 
+> It is implied that the compression type is set on the image creation and
+> can be changed only later by image conversion, thus compression type
+> defines the only compression algorithm used for the image.
+> 
+> The goal of the feature is to add support of other compression algorithms
+> to qcow2. For example, ZSTD which is more effective on compression than ZLIB.
+> It works roughly x2 faster than ZLIB providing a comparable compression ratio
+> and therefore provide a performance advantage in backup scenarios.
+> 
+> The default compression is ZLIB. Images created with ZLIB compression type
+> is backward compatible with older qemu versions.
+> 
+> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
 
-Yes if the original cluster had the QCOW_OFLAG_ZERO bit, not if it was
-simply unallocated.
+> @@ -3119,6 +3123,10 @@
+>  #                         an image, the data file name is loaded from the image
+>  #                         file. (since 4.0)
+>  #
+> +# @compression-type:      compression method to use for image clusters compression
+> +#                         The comression method is set on image creation and can
+> +#                         be changed via image converting only. (since 4.1)
+> +#
+>  # Since: 2.9
+>  ##
+>  { 'struct': 'BlockdevOptionsQcow2',
+> @@ -3134,7 +3142,8 @@
+>              '*refcount-cache-size': 'int',
+>              '*cache-clean-interval': 'int',
+>              '*encrypt': 'BlockdevQcow2Encryption',
+> -            '*data-file': 'BlockdevRef' } }
+> +            '*data-file': 'BlockdevRef',
+> +            '*compression-type': 'Qcow2CompressionType' } }
 
-Berto
+qcow2_open() doesn't actually parse this option (and it couldn't do
+anything useful with it because the image is fixed to a single
+compression type), so this shouldn't be added.
+
+>  ##
+>  # @SshHostKeyCheckMode:
+> @@ -4206,6 +4215,19 @@
+>    'data': [ 'v2', 'v3' ] }
+>  
+>  
+> +##
+> +# @Qcow2CompressionType:
+> +#
+> +# Compression type used in qcow2 image file
+> +#
+> +# @zlib     : gzip compressor
+> +# @zstd     : zstd compression
+> +#
+> +# Since: 4.1
+> +##
+> +{ 'enum': 'Qcow2CompressionType',
+> +  'data': [ 'zlib', 'zstd' ] }
+
+I think it would be cleaner to start with only 'zlib' here, like your C
+code that doesn't implement anything for non-zlib compression types yet.
+
+'zstd' can be added to the enum when it's actually implemented. This
+will also make schema introspection provide the right information with a
+build that includes this patch, but not the zstd compression type
+patch.
+
+Kevin
 
