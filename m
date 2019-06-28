@@ -2,66 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB24759DBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:30:22 +0200 (CEST)
-Received: from localhost ([::1]:60684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C152A59D8B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:12:16 +0200 (CEST)
+Received: from localhost ([::1]:60412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgrtN-0005Oh-ST
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:30:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
+	id 1hgrbr-000754-VE
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:12:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59625)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <pbonzini@redhat.com>) id 1hgqpJ-00085s-8e
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:22:07 -0400
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hgrCo-0002QP-4T
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:46:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <pbonzini@redhat.com>) id 1hgqp9-00010c-Rk
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:21:57 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40612)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hgqp9-0000cg-IV
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:21:55 -0400
-Received: by mail-wm1-f68.google.com with SMTP id v19so8961476wmj.5
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 06:21:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OtOpn/4idTysfu5MYEQUK4bxWnONBeIPIldfMjNmhBI=;
- b=elhPYXrQuhhw30/4wPfTo6nMpBMdk+JrTmtcJGg8D40cWjoyGzw74rCur0Q5MNrxLX
- U2hU51T4xQNVj0yRIpPmonCmtloNwFj5xbp2faxC6rZPQjXlM4DEexhrXQODx9ikfXJv
- 5OL2rUfN53ym6/U8XIpV1fg238LUJg0dyYRhtPxQid61oRdYwMqL7+yx/I+1WhxBdIf+
- SHZ2rnvIxvsurIAuJiAinFfSV0UlZn9sir1AJq22ZgR5TPHn1+sWbv6xP+CUe/9yEMNZ
- u5tuWAEIq2h8Ohz0MSx9mrP8e4zwPOdPvZWLUcF816VRTBvRhcSYnDbjhGiRR/Phkb81
- Pf7g==
-X-Gm-Message-State: APjAAAW6C1PPfHsERgKvpLFHR1OVpYkU61OlLxLK43JNfAVocx5NQa4D
- NQ+8kOXPmQF4aC79Go7fGuPkOTFjOKM=
-X-Google-Smtp-Source: APXvYqxGcIu+B/7QDTBVo2M1nlow7xrIAp/FZXLg6s5pDLurbKn7vEjpz8mAbbGWFbchVOfyzU1A5g==
-X-Received: by 2002:a05:600c:389:: with SMTP id
- w9mr6910918wmd.139.1561728107658; 
- Fri, 28 Jun 2019 06:21:47 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5d4d:4830:bcdf:9bf9?
- ([2001:b07:6468:f312:5d4d:4830:bcdf:9bf9])
- by smtp.gmail.com with ESMTPSA id k125sm2470032wmf.41.2019.06.28.06.21.46
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Fri, 28 Jun 2019 06:21:46 -0700 (PDT)
-To: Sergio Lopez <slp@redhat.com>, mst@redhat.com,
- marcel.apfelbaum@gmail.com, rth@twiddle.net, ehabkost@redhat.com
-References: <20190628115349.60293-1-slp@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <283ec3e9-92e9-e43b-66c9-419b302d90ca@redhat.com>
-Date: Fri, 28 Jun 2019 15:21:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <20190628115349.60293-1-slp@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH 0/4] Introduce the microvm machine type
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hgrCm-0004lQ-KX
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:46:22 -0400
+Received: from relay.sw.ru ([185.231.240.75]:41274)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hgrCm-0004i6-B1; Fri, 28 Jun 2019 09:46:20 -0400
+Received: from [172.16.25.136] (helo=localhost.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.92)
+ (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1hgrCh-0008NT-Vp; Fri, 28 Jun 2019 16:46:16 +0300
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Fri, 28 Jun 2019 16:46:07 +0300
+Message-Id: <1561729574-530879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+X-Mailer: git-send-email 1.8.3.1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v3 0/7] Allow Valgrind checking all QEMU
+ processes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,29 +45,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
+ andrey.shinkevich@virtuozzo.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/06/19 13:53, Sergio Lopez wrote:
-> qemu-system-x86_64 -M microvm,legacy -m 512m -smp 2 \
->  -kernel vmlinux -append "console=ttyS0 root=/dev/vda" \
->  -nodefaults -no-user-config \
->  -drive id=test,file=test.img,format=raw,if=none \
->  -device virtio-blk-device,drive=test \
->  -netdev tap,id=tap0,script=no,downscript=no \
->  -device virtio-net-device,netdev=tap0 \
->  -serial stdio
+In the current implementation of the QEMU bash iotests, only qemu-io
+processes may be run under the Valgrind, which is a useful tool for
+finding memory usage issues. Let's allow the common.rc bash script
+runing all the QEMU processes, such as qemu-kvm, qemu-img, qemu-ndb
+and qemu-vxhs, under the Valgrind tool.
 
-I think the "non-legacy" mode can be obtained from the "legacy" one just
-with -nodefaults (which all sane management should be using anyway), so
-legacy=on can actually be the default. :)
+v3:
+  01: The new function _casenotrun() was added to the common.rc bash
+      script to notify the user of test cases dropped for some reason.
+      Suggested by Kevin.
+      Particularly, the notification about the nonexistent TMPDIR in
+      the test 051 was added (noticed by Vladimir).
+  02: The timeout in some test cases was extended for Valgrind because
+      it differs when running on the ramdisk.
+  03: Due to the common.nbd script has been changed with the commit
+      b28f582c, the patch "iotests: amend QEMU NBD process synchronization"
+      is actual no more. Note that QEMU_NBD is launched in the bash nested
+      shell in the _qemu_nbd_wrapper() as it was before in common.rc.
+  04: The patch "iotests: new file to suppress Valgrind errors" was dropped
+      due to my superficial understanding of the work of the function
+      blk_pread_unthrottled(). Special thanks to Kevin who shed the light
+      on the null block driver involved. Now, the parameter 'read-zeroes=on'
+      is passed to the null block driver to initialize the buffer in the
+      function guess_disk_lchs() that the Valgrind was complaining to.
 
-I think this is interesting.  I'd love to have it optionally provide a
-device tree as well.  It's not very common on x86 and most distro
-kernels don't support device tree, but it would provide a more
-out-of-the-box experience and it may even be a drop-in replacement for
-q35 or pc as far as Kata is concerned.
+v2:
+  01: The patch 2/7 of v1 was merged into the patch 1/7, suggested by Daniel.
+  02: Another patch 7/7 was added to introduce the Valgrind error suppression
+      file into the QEMU project.
+  Discussed in the email thread with the message ID:
+  <1560276131-683243-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 
-Paolo
+Andrey Shinkevich (7):
+  iotests: allow Valgrind checking all QEMU processes
+  iotests: exclude killed processes from running under Valgrind
+  iotests: Add casenotrun report to bash tests
+  iotests: Valgrind fails with nonexistent directory
+  iotests: extended timeout under Valgrind
+  iotests: extend sleeping time under Valgrind
+  iotests: Set read-zeroes on in null block driver for Valgrind
+
+ tests/qemu-iotests/028        |   6 +-
+ tests/qemu-iotests/039        |   5 ++
+ tests/qemu-iotests/039.out    |  30 ++-------
+ tests/qemu-iotests/051        |  14 ++--
+ tests/qemu-iotests/051.pc.out |  10 +--
+ tests/qemu-iotests/061        |   2 +
+ tests/qemu-iotests/061.out    |  12 +---
+ tests/qemu-iotests/137        |   1 +
+ tests/qemu-iotests/137.out    |   6 +-
+ tests/qemu-iotests/183        |   9 ++-
+ tests/qemu-iotests/186        |  20 +++---
+ tests/qemu-iotests/186.out    | 152 +++++++++++++++++++++---------------------
+ tests/qemu-iotests/192        |   6 +-
+ tests/qemu-iotests/227        |   4 +-
+ tests/qemu-iotests/227.out    |   4 +-
+ tests/qemu-iotests/240        |   8 +--
+ tests/qemu-iotests/247        |   6 +-
+ tests/qemu-iotests/common.rc  |  76 ++++++++++++++++-----
+ 18 files changed, 205 insertions(+), 166 deletions(-)
+
+-- 
+1.8.3.1
+
 
