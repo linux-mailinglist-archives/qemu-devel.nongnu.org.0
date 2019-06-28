@@ -2,67 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD5E5A133
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:42:33 +0200 (CEST)
-Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B13895A224
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:21:03 +0200 (CEST)
+Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtxH-0003rJ-0P
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:42:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35726)
+	id 1hguYY-0005aw-U7
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:21:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hgtP9-000464-Oo
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:07:17 -0400
+ (envelope-from <lvivier@redhat.com>) id 1hgtMX-0002mo-6V
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:04:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hgtP8-0003bp-5Y
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:07:15 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:36042)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hgtP6-000372-Ml; Fri, 28 Jun 2019 12:07:12 -0400
-Received: by mail-lj1-x242.google.com with SMTP id i21so6534520ljj.3;
- Fri, 28 Jun 2019 09:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=nYXIz97V9wvyZolGcpgiftQcXo0IIhYnZQZXcYls+Wk=;
- b=LtTjyv2s1AzNOXanwZ7cPO08G2WmEXFUMsztACAyJcaOR5+VVESAdpHUOWzyvhPekm
- 2PLg8h56+XiRAi7V287QL/YHB23PiMXwqh7ZjiiXFI9W0xoCsYpvLRIdvjTHpYr+nv0i
- /FKKo/LFk1odd1P3AIbLMXqEzG2g+srHuQB6I/g8lZeLrFqsQ8vjEfmt+tzILxEURpYQ
- 7KWsBYJnDhHplcorSE4zvQYzhPAk62wdEZsavoiZWMPHocqSrxd7vd1zQpVHnBagPp1Z
- 2icDBupsjcvKVL2LRMF0/u0aZNV8gNHwWEkSQI4sQeAQ+w7ovmEE/ot16CSlhkkzNyu/
- jOlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=nYXIz97V9wvyZolGcpgiftQcXo0IIhYnZQZXcYls+Wk=;
- b=ZDCDnuvYzquUrtLsll6h1/z6a7efe8YYif70isfusggv6tJNM0jvi+JgX1CA51udlZ
- x97+/awxb78GkvfUH+6gBTwp8I2OTF00g3M/y6NbVs9E1o/oO7b2CbeP8KX33xqz8OF3
- ET4UmQ6rhcKdwmhpiECC13ZWO6p13Li9CRis+3iOsRi74sZfKCcNPn6jw9q9bRO+5ikd
- 0ELfBtCzIDniIz8mWXbebB41A3EgEjqZTIS3qyQMZoqnxCcnua3mv72d2FiVBDJ7e8iY
- PxG7ZgRHZHzEEZH3at85VbDKK/HBg/67IGtrlW+wuxErUV+wziCydm1v+tTKJDXm3r5c
- PM/Q==
-X-Gm-Message-State: APjAAAW2xwp9vrLYD1ynBLg8JOGpMI+BxD73Y2Blv9OQPjmJZkSL3FVS
- Erb+fLVpyCa8uX/3k68p5nI2+YxaDh5eTIOoyC0h8UXLdcg=
-X-Google-Smtp-Source: APXvYqzHrsJd+2ScdTmlLRrBFt/qLfl2nvIpO8vTR+U0MiCa/+E041wDNLMwqSIP8lgBYBAniy5f151RdEzgTr4g+e0=
-X-Received: by 2002:a2e:9158:: with SMTP id q24mr6779251ljg.119.1561738003485; 
- Fri, 28 Jun 2019 09:06:43 -0700 (PDT)
+ (envelope-from <lvivier@redhat.com>) id 1hgtMU-0000qf-Vk
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:04:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53286)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hgtMU-0000mU-KT
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:04:30 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 191D1C18B2CC;
+ Fri, 28 Jun 2019 16:04:19 +0000 (UTC)
+Received: from [10.36.117.11] (ovpn-117-11.ams2.redhat.com [10.36.117.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F39F5DD73;
+ Fri, 28 Jun 2019 16:04:17 +0000 (UTC)
+To: Bug 1834613 <1834613@bugs.launchpad.net>, qemu-devel@nongnu.org
+References: <156171334969.18290.6262209650807716029.malonedeb@gac.canonical.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <036e831a-814c-6ad2-30c4-332849dbde38@redhat.com>
+Date: Fri, 28 Jun 2019 18:04:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-10-philmd@redhat.com>
-In-Reply-To: <20190627202719.17739-10-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Jun 2019 09:03:43 -0700
-Message-ID: <CAKmqyKPt+LwXVPDJEDJOX2kH50hZc5sGhi528VW91u5Po=VYww@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v5 09/28] hw/block/pflash_cfi02: Use the
- ldst API in pflash_read()
+In-Reply-To: <156171334969.18290.6262209650807716029.malonedeb@gac.canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Fri, 28 Jun 2019 16:04:24 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [Bug 1834613] [NEW] Crypto related operations
+ failing on Alpine Linux on QEMU 4.0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,89 +102,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 1:54 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> The load/store API eases code review.
->
-> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-> Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> [PMD: Extracted from bigger patch, simplified tracing]
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 28/06/2019 11:15, DDoSolitary wrote:
+> Public bug reported:
+> 
+> I'm unable to boot the netboot image of Alpine Linux using QEMU 4.0.
+> 
+> Steps to reproduce:
+> 
+> curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netboot/vmlinuz-vanilla
+> curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netboot/initramfs-vanilla
+> qemu-system-ppc64 -kernel vmlinuz-vanilla -initrd initramfs-vanilla -nographic -append "console=hvc0 ip=dhcp alpine_repo=http://dl-cdn.alpinelinux.org/alpine/v3.10/main"
+> 
+> The init script will automatically download and install an in-memory
+> Alpine Linux environment. However, with QEMU 4.0, the installation
+> process will fail with "BAD signature" errors:
+> 
+> (1/20) Installing musl (1.1.22-r2)
+> ERROR: musl-1.1.22-r2: BAD signature
+> (2/20) Installing busybox (1.30.1-r2)
+> ERROR: busybox-1.30.1-r2: BAD signature
+> (3/20) Installing alpine-baselayout (3.1.2-r0)
+> Executing alpine-baselayout-3.1.2-r0.pre-install
+> ERROR: alpine-baselayout-3.1.2-r0.pre-install: script exited with error 127
+> ERROR: alpine-baselayout-3.1.2-r0: BAD signature
+> (4/20) Installing openrc (0.41.2-r1)
+> ERROR: openrc-0.41.2-r1: BAD signature
+> (5/20) Installing alpine-conf (3.8.3-r0)
+> ERROR: alpine-conf-3.8.3-r0: BAD signature
+> (6/20) Installing libcrypto1.1 (1.1.1c-r0)
+> ERROR: libcrypto1.1-1.1.1c-r0: BAD signature
+> (7/20) Installing libssl1.1 (1.1.1c-r0)
+> ERROR: libssl1.1-1.1.1c-r0: BAD signature
+> (8/20) Installing ca-certificates-cacert (20190108-r0)
+> ERROR: ca-certificates-cacert-20190108-r0: BAD signature
+> (9/20) Installing libtls-standalone (2.9.1-r0)
+> ERROR: libtls-standalone-2.9.1-r0: BAD signature
+> (10/20) Installing ssl_client (1.30.1-r2)
+> ERROR: ssl_client-1.30.1-r2: BAD signature
+> (11/20) Installing zlib (1.2.11-r1)
+> ERROR: zlib-1.2.11-r1: BAD signature
+> (12/20) Installing apk-tools (2.10.4-r1)
+> ERROR: apk-tools-2.10.4-r1: BAD signature
+> (13/20) Installing busybox-suid (1.30.1-r2)
+> ERROR: busybox-suid-1.30.1-r2: BAD signature
+> (14/20) Installing busybox-initscripts (3.1-r7)
+> ERROR: busybox-initscripts-3.1-r7: BAD signature
+> (15/20) Installing scanelf (1.2.3-r0)
+> ERROR: scanelf-1.2.3-r0: BAD signature
+> (16/20) Installing musl-utils (1.1.22-r2)
+> ERROR: musl-utils-1.1.22-r2: BAD signature
+> (17/20) Installing libc-utils (0.7.1-r0)
+> ERROR: libc-utils-0.7.1-r0: BAD signature
+> (18/20) Installing alpine-keys (2.1-r2)
+> ERROR: alpine-keys-2.1-r2: BAD signature
+> (19/20) Installing alpine-base (3.10.0-r0)
+> ERROR: alpine-base-3.10.0-r0: BAD signature
+> (20/20) Installing openssl (1.1.1c-r0)
+> ERROR: openssl-1.1.1c-r0: BAD signature
+> 20 errors; 0 MiB in 0 packages
+> ok.
+> grep: /sysroot/etc/inittab: No such file or directory
+> /sbin/init not found in new root. Launching emergency recovery shell
+> Type exit to continue boot.
+> sh: can't access tty; job control turned off
+> / #
+> 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Fix for that is already included in git master:
 
-Alistair
+2a1224359008 target/ppc: Fix lxvw4x, lxvh8x and lxvb16x
 
-> ---
->  hw/block/pflash_cfi02.c | 32 +++++---------------------------
->  1 file changed, 5 insertions(+), 27 deletions(-)
->
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index ae38ed0bae..49afecb921 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -196,33 +196,11 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwadd=
-r offset,
->      case 0x00:
->      flash_read:
->          /* Flash area read */
-> -        p =3D pfl->storage;
-> -        switch (width) {
-> -        case 1:
-> -            ret =3D p[offset];
-> -            break;
-> -        case 2:
-> -            if (be) {
-> -                ret =3D p[offset] << 8;
-> -                ret |=3D p[offset + 1];
-> -            } else {
-> -                ret =3D p[offset];
-> -                ret |=3D p[offset + 1] << 8;
-> -            }
-> -            break;
-> -        case 4:
-> -            if (be) {
-> -                ret =3D p[offset] << 24;
-> -                ret |=3D p[offset + 1] << 16;
-> -                ret |=3D p[offset + 2] << 8;
-> -                ret |=3D p[offset + 3];
-> -            } else {
-> -                ret =3D p[offset];
-> -                ret |=3D p[offset + 1] << 8;
-> -                ret |=3D p[offset + 2] << 16;
-> -                ret |=3D p[offset + 3] << 24;
-> -            }
-> -            break;
-> +        p =3D (uint8_t *)pfl->storage + offset;
-> +        if (pfl->be) {
-> +            ret =3D ldn_be_p(p, width);
-> +        } else {
-> +            ret =3D ldn_le_p(p, width);
->          }
->          trace_pflash_data_read(offset, width << 1, ret);
->          break;
-> --
-> 2.20.1
->
->
+More fix for
+8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}() helpers for VSR register access") 
+are availabe:
+
+77bd8937c03d target/ppc: Fix xvabs[sd]p, xvnabs[sd]p, xvneg[sd]p, xvcpsgn[sd]p
+d47a751adab7 target/ppc: Fix xxbrq, xxbrw
+
+And you can also need:
+
+899f08ad1d12 tcg: Fix typos in helper_gvec_sar{8,32,64}v
+
+depending on you host CPU
+
+Thanks,
+Laurent
 
