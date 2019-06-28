@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2790A59D95
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:15:55 +0200 (CEST)
-Received: from localhost ([::1]:60438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FCB59E4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:56:58 +0200 (CEST)
+Received: from localhost ([::1]:32808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgrfO-0001Vr-AQ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:15:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59621)
+	id 1hgsJ7-0004YJ-8z
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:56:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59615)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hgrCo-0002QG-1k
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hgrCn-0002Q5-Vr
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:46:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hgrCm-0004lI-Jx
+ (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hgrCm-0004lb-Li
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:46:21 -0400
-Received: from relay.sw.ru ([185.231.240.75]:41266)
+Received: from relay.sw.ru ([185.231.240.75]:41288)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hgrCm-0004hz-9t; Fri, 28 Jun 2019 09:46:20 -0400
+ id 1hgrCm-0004i7-B9; Fri, 28 Jun 2019 09:46:20 -0400
 Received: from [172.16.25.136] (helo=localhost.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.92)
  (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hgrCi-0008NT-BS; Fri, 28 Jun 2019 16:46:16 +0300
+ id 1hgrCi-0008NT-Gc; Fri, 28 Jun 2019 16:46:16 +0300
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Fri, 28 Jun 2019 16:46:09 +0300
-Message-Id: <1561729574-530879-3-git-send-email-andrey.shinkevich@virtuozzo.com>
+Date: Fri, 28 Jun 2019 16:46:10 +0300
+Message-Id: <1561729574-530879-4-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1561729574-530879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 References: <1561729574-530879-1-git-send-email-andrey.shinkevich@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v3 2/7] iotests: exclude killed processes from
- running under Valgrind
+Subject: [Qemu-devel] [PATCH v3 3/7] iotests: Add casenotrun report to bash
+ tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -52,95 +52,34 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, mreitz@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- The Valgrind tool fails to manage its termination when QEMU raises the
- signal SIGKILL in the multi-threaded process. The bug has been
- reported to the Valgrind maintainers. Let's exclude such test cases
- from running under the Valgrind because checking for the memory issues
- is covered by other test cases.
+The new function _casenotrun() is to be invoked if a test case cannot
+be run for some reason. The user will be notified by a message passed
+to the function.
 
+Suggested-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 ---
- tests/qemu-iotests/039 | 5 +++++
- tests/qemu-iotests/061 | 2 ++
- tests/qemu-iotests/137 | 1 +
- 3 files changed, 8 insertions(+)
+ tests/qemu-iotests/common.rc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/qemu-iotests/039 b/tests/qemu-iotests/039
-index 0d4e963..95115e2 100755
---- a/tests/qemu-iotests/039
-+++ b/tests/qemu-iotests/039
-@@ -65,6 +65,7 @@ echo "== Creating a dirty image file =="
- IMGOPTS="compat=1.1,lazy_refcounts=on"
- _make_test_img $size
+diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+index 6e461a1..1089050 100644
+--- a/tests/qemu-iotests/common.rc
++++ b/tests/qemu-iotests/common.rc
+@@ -428,6 +428,13 @@ _notrun()
+     exit
+ }
  
-+VALGRIND_QEMU="" \
- $QEMU_IO -c "write -P 0x5a 0 512" \
-          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 \
-     | _filter_qemu_io
-@@ -100,6 +101,7 @@ echo "== Opening a dirty image read/write should repair it =="
- IMGOPTS="compat=1.1,lazy_refcounts=on"
- _make_test_img $size
- 
-+VALGRIND_QEMU="" \
- $QEMU_IO -c "write -P 0x5a 0 512" \
-          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 \
-     | _filter_qemu_io
-@@ -118,6 +120,7 @@ echo "== Creating an image file with lazy_refcounts=off =="
- IMGOPTS="compat=1.1,lazy_refcounts=off"
- _make_test_img $size
- 
-+VALGRIND_QEMU="" \
- $QEMU_IO -c "write -P 0x5a 0 512" \
-          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 \
-     | _filter_qemu_io
-@@ -151,6 +154,7 @@ echo "== Changing lazy_refcounts setting at runtime =="
- IMGOPTS="compat=1.1,lazy_refcounts=off"
- _make_test_img $size
- 
-+VALGRIND_QEMU="" \
- $QEMU_IO -c "reopen -o lazy-refcounts=on" \
-          -c "write -P 0x5a 0 512" \
-          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 \
-@@ -163,6 +167,7 @@ _check_test_img
- IMGOPTS="compat=1.1,lazy_refcounts=on"
- _make_test_img $size
- 
-+VALGRIND_QEMU="" \
- $QEMU_IO -c "reopen -o lazy-refcounts=off" \
-          -c "write -P 0x5a 0 512" \
-          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 \
-diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
-index d7dbd7e..5d0724c 100755
---- a/tests/qemu-iotests/061
-+++ b/tests/qemu-iotests/061
-@@ -73,6 +73,7 @@ echo
- echo "=== Testing dirty version downgrade ==="
- echo
- IMGOPTS="compat=1.1,lazy_refcounts=on" _make_test_img 64M
-+VALGRIND_QEMU="" \
- $QEMU_IO -c "write -P 0x2a 0 128k" -c flush \
-          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 | _filter_qemu_io
- $PYTHON qcow2.py "$TEST_IMG" dump-header
-@@ -107,6 +108,7 @@ echo
- echo "=== Testing dirty lazy_refcounts=off ==="
- echo
- IMGOPTS="compat=1.1,lazy_refcounts=on" _make_test_img 64M
-+VALGRIND_QEMU="" \
- $QEMU_IO -c "write -P 0x2a 0 128k" -c flush \
-          -c "sigraise $(kill -l KILL)" "$TEST_IMG" 2>&1 | _filter_qemu_io
- $PYTHON qcow2.py "$TEST_IMG" dump-header
-diff --git a/tests/qemu-iotests/137 b/tests/qemu-iotests/137
-index 0c3d2a1..a442fc8 100755
---- a/tests/qemu-iotests/137
-+++ b/tests/qemu-iotests/137
-@@ -130,6 +130,7 @@ echo
- 
- # Whether lazy-refcounts was actually enabled can easily be tested: Check if
- # the dirty bit is set after a crash
-+VALGRIND_QEMU="" \
- $QEMU_IO \
-     -c "reopen -o lazy-refcounts=on,overlap-check=blubb" \
-     -c "write -P 0x5a 0 512" \
++# bail out, setting up .casenotrun file
++#
++_casenotrun()
++{
++    echo "    [case not run] $*" >>"$OUTPUT_DIR/$seq.casenotrun"
++}
++
+ # just plain bail out
+ #
+ _fail()
 -- 
 1.8.3.1
 
