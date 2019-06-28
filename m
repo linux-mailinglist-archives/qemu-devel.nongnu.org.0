@@ -2,52 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D8C59D68
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:59:10 +0200 (CEST)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C910A59D1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:40:32 +0200 (CEST)
+Received: from localhost ([::1]:60062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgrPB-0004MM-Ek
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47602)
+	id 1hgr7A-0005Jd-1U
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:40:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49166)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berto@igalia.com>) id 1hgqXP-0004Ix-2T
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:03:38 -0400
+ (envelope-from <liam.merwick@oracle.com>) id 1hgqce-0008Uj-RO
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:09:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1hgqXN-0004UF-Ov
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:03:34 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:52386)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1hgqXN-0004Rr-38; Fri, 28 Jun 2019 09:03:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=Uzf0RtOypqe529VX+xBQ9zRRoyzlf6AH+FmaTGcdqxI=; 
- b=HC80KulBh9OFM0KmV6l34STvyMHtEE9E2O6uNDw/97k++qCtxqfoGcCilGStGckucGlBMMd5FHYGDttsHzi7y+y8mLy521UJsCh1Bj8nFc2H9UihmYg9DH1N6xz6xp4qj1BNba0Jf0Q9lMdOMZhIe4QCJ4hziglI5AlBV/t0bxsZgdJi0YLnqmSyn82YrkQW0KrGgaKK/leQQIGYFqE4zct9zW3N8rW0JUyyBV+blNeCATqS+/eM/4XvnFh296wos/tsbOYZnsTZsKmDEK75MtbyeFfT8klwDJ0ov+ImsI9c6Ari0kkjbAuH2LS41nUPJ6tLuCcCtMVHZZLyuuyRcQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1hgqXK-0004VT-Bk; Fri, 28 Jun 2019 15:03:30 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1hgqXK-0001mm-94; Fri, 28 Jun 2019 15:03:30 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Kevin Wolf <kwolf@redhat.com>
-In-Reply-To: <w5136jtkgtn.fsf@maestria.local.igalia.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <20190627165434.GE5618@localhost.localdomain>
- <w5136jtkgtn.fsf@maestria.local.igalia.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 28 Jun 2019 15:03:30 +0200
-Message-ID: <w51y31lj1zx.fsf@maestria.local.igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+ (envelope-from <liam.merwick@oracle.com>) id 1hgqcd-00081b-Sw
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:09:00 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:49842)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <liam.merwick@oracle.com>)
+ id 1hgqcb-0007yA-Lo; Fri, 28 Jun 2019 09:08:57 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5SD3rv4156645;
+ Fri, 28 Jun 2019 13:08:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2018-07-02;
+ bh=0C8PA+eTTuhq384WLM/bZtQrEJRTuSkPTMxjc8gHyQ4=;
+ b=pB+Lewpujjup7igrBL8lUwjCIMqIDs/MJaaW/IYMP9bPe58CIs51KnXRe/Qe6ujYF1Ma
+ VnXlFKJCTKmjynZiZmZMR2hPUq0dd2CFc7iS5+JQkVKyA267xAGnkeaQXmOVoqFoJLxy
+ wi4mojLvBv2A57Cze/qGkJNE5XLZgpzeBF27d131UF3mlCt8WXG/hZJSlCoNgUPi085d
+ uxvHIIZ7QeJzXUVGm6iGBe6KgWz8qCF2f4kNzUX3/iX29ukp/aYgo/tJfi+zKX/abMaE
+ XbcUJJw+ZFXW98Au+9B1MvyS2EzU46D5tnCh8C52KzS0HkJ8g0WjhmPzztqD8IBH+Lsx sg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 2t9c9q5kfa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Jun 2019 13:08:53 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5SD8185106726;
+ Fri, 28 Jun 2019 13:08:52 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 2t99f5jxch-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 28 Jun 2019 13:08:52 +0000
+Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5SD8pHq009018;
+ Fri, 28 Jun 2019 13:08:51 GMT
+Received: from ol7.uk.oracle.com (/10.175.202.14)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 28 Jun 2019 06:08:50 -0700
+From: Liam Merwick <liam.merwick@oracle.com>
+To: qemu-trivial@nongnu.org
+Date: Fri, 28 Jun 2019 14:08:37 +0100
+Message-Id: <1561727317-30655-1-git-send-email-liam.merwick@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9301
+ signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=993
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906280157
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9301
+ signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906280156
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 141.146.126.78
+Subject: [Qemu-devel] [PATCH] docs/devel/testing: Fix typo in dockerfile path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,52 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- "Denis V. Lunev" <den@virtuozzo.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I pressed "send" too early, here's the last part of my reply:
+Signed-off-by: Liam Merwick <liam.merwick@oracle.com>
+---
+ docs/devel/testing.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri 28 Jun 2019 02:57:56 PM CEST, Alberto Garcia wrote:
->> I also ran some tests on a rotating HDD drive. Here having
->> subclusters doesn't make a big difference regardless of whether there
->> is a backing image or not, so we can ignore this scenario.
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index da2d0fc9646f..3ef50a61db4d 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -327,7 +327,7 @@ Images
+ ------
+ 
+ Along with many other images, the ``min-glib`` image is defined in a Dockerfile
+-in ``tests/docker/dockefiles/``, called ``min-glib.docker``. ``make docker``
++in ``tests/docker/dockerfiles/``, called ``min-glib.docker``. ``make docker``
+ command will list all the available images.
+ 
+ To add a new image, simply create a new ``.docker`` file under the
+-- 
+1.8.3.1
 
-> Interesting, this is kind of unexpected. Why would avoided COW not
-> make a difference on rotating HDDs? (All of this is cache=none,
-> right?)
-
-The 32K/4K with no COW is obviously much faster (it's also faster with
-1MB and 2MB clusters), it's the rest of the scenarios that show no
-improvement.
-
->> === Changes to the on-disk format ===
->> 
->> In my original proposal I described 3 different alternatives for
->> storing the subcluster bitmaps. I'm naming them here, but refer to
->> that message for more details.
->> 
->> (1) Storing the bitmap inside the 64-bit entry
->> (2) Making L2 entries 128-bit wide.
->> (3) Storing the bitmap somewhere else
->> 
->> I used (1) for this implementation for simplicity, but I think (2) is
->> probably the best one.
->
-> Which would give us 32 bits for the subclusters, so you'd get 128k/4k
-> or 2M/64k. Or would you intend to use some of these 32 bits for
-> something different?
-
-No, 32 bits for subclusters, or 64 if we don't have the 'all zeroes' bit
-(we discussed this in a separate message).
-
-> I think (3) is the worst because it adds another kind of metadata
-> table that we have to consider for ordering updates. So it might come
-> with more frequent cache flushes.
-
-Yes I agree.
-
-Berto
 
