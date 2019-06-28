@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0723A59CDA
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:20:48 +0200 (CEST)
-Received: from localhost ([::1]:59766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE2A59CB5
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:13:17 +0200 (CEST)
+Received: from localhost ([::1]:59674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqo3-0004yv-5Q
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:20:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41483)
+	id 1hgqgm-0004wI-DQ
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41488)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hgqGN-0008Ov-5E
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGN-0008Pd-E9
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hgqGL-0001aJ-9d
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGK-0001Zn-TH
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:59 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:36912)
+Received: from beetle.greensocs.com ([5.135.226.135]:36920)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hgqGK-0001Qj-LL
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:57 -0400
+ id 1hgqGK-0001Qz-4T
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:56 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id D110496F52;
- Fri, 28 Jun 2019 12:45:37 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 88A5896F53;
+ Fri, 28 Jun 2019 12:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1561725938;
+ s=mail; t=1561725939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=5E+PVllopk2YYH5uus5dZpgYHFl1omwtkkP62F6e6xg=;
- b=J17v4HfvxT60Bo8S547B2gU12BrfwKQHon/Dc8OALcPEE47RHTzpPv0T6xiSYnFrgHARuM
- bSrBDdWWQ3QCVWoWZ6NgOHx+7xQ/khjRoplXUPoFf38hyJsn2XItkQdbSvxGZ6cyntKfRk
- UwIfeDhDshCkFcAIdIKJa8eLQAYS+Ks=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+jjwPWtFxt7ePzzf+2PHr+LueKDt8+NJ5t9Cx/GeY1g=;
+ b=e/sRlyVQVWtXqYF9JyV7LTN79hDrgnuk6Elgp+LmPncFLOqHJBobew+d2F9rKf6s2fMreE
+ 4DpQG1LAPjjp1XkbNaTnFe+VIxgtALZABtqEqG7xm+G5iQ2c++MCRnXhcbVHrEIksXdI6j
+ rJOnGTi4bqowopS5ii+oHp1pm67xDCI=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 14:45:29 +0200
-Message-Id: <20190628124534.10679-1-damien.hedde@greensocs.com>
+Date: Fri, 28 Jun 2019 14:45:30 +0200
+Message-Id: <20190628124534.10679-2-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190628124534.10679-1-damien.hedde@greensocs.com>
+References: <20190628124534.10679-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1561725938;
+ s=mail; t=1561725939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=5E+PVllopk2YYH5uus5dZpgYHFl1omwtkkP62F6e6xg=;
- b=smy18a2cpSQy4z35cGgRxlb7xhQR0NOsWrUL9b81sqHf3kpw0XDKLrOP2H14QGpK+mZtR6
- tdi8vVO7yGFu0ZWLDujxXCEHesrXFYLl+JzDfdzMKRu2ILoEZowQwLkokUq+FwiU6juf4M
- /Lmr0lKzR4Epb4H5I9iFLN/dA1AXsVk=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561725938; a=rsa-sha256; cv=none;
- b=hn1lURwkTQ4LN0ICUMFqYRqWJxNxWKbtUc40y+d7yQmhSJLZztPfQHa9Rdh/9R6KXLbf51
- zG4OmsgnQts9SQ+0nf7pSLdMHA716kepQM5nuFou3kglr7BSxO5xjS+dGez0zDRQJDjPj6
- Qo1DiVdx7kFuqo0HrLqkLl4CBbce5lQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+jjwPWtFxt7ePzzf+2PHr+LueKDt8+NJ5t9Cx/GeY1g=;
+ b=0zcU5pI5cjVhFy+XhOW3HpjuJKTSTXZ4Jrpeugqq+GW4jV0Ag0Rv2ODte3WAD7P4Mr4ktH
+ m3ss7b2LHYoLQ7XjHLdYZzA/ZrCy2xP6cWfuXLtu3FxZPFIdzZ9nT3/7zj9sV7Qh8fUsDw
+ EAE9ISsdzi5WNnsAdj7ywGgsZhePTQM=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561725939; a=rsa-sha256; cv=none;
+ b=gQ/hhAG9GgqSEOf2ts5c+5FvRqJvHZdfi/W2vjDVqcRDMX50zmnA2tylROQcJI8zoTbIvj
+ yAQHRbD8xN09wOYyOLNjQP+uCqW8FiaAdqpywjUVFNXm1jIMWMnk0IGs80WZXq4gD097Iy
+ t79rcMY1N9E9SPYNvtzxCe6P80YZl7A=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
-X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [RFC PATCH 0/5] FAULT INJECTION FRAMEWORK
+Subject: [Qemu-devel] [RFC PATCH 1/5] introduce [p]mem(read|write) qmp
+ commands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,83 +82,294 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+This introduces memread, memwrite, pmemread and pmemwrite qmp commands.
 
-This series adds a python framework aiming to provide some ways to do fau=
-lt
-injection in a running vm. In its current state, it allows to easily inte=
-ract
-with memory, change gpios and qom properties.
+The memread and memwrite read virtual memory from a given cpu point of
+view. If no cpu index is specified, the cpu-id 0 is used.
 
-The framework consists in a python script based on the qmp existing modul=
-e
-which allows to interact with the vm.
+The pmemread and pmemwrite directly read physical memory.
 
-The series introduces a QMP command to schedule some virtual-clock-time-b=
-ased
-notifications. The notification is sent back to the python framework and =
-can
-be used to build time-driven fault scenario.
+The data is passed/returned in a list of bytes. The maximum length is set=
+ to 8, they can be used to 64bits.
 
-Additionaly the series adds some new QMP commands:
+This is based on the work of Frederic Konrad.
 
-Commands are added to read/write memory or memory-mapped registers. Argum=
-ents
-are similar to the existing [p]memsave commands.
+Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+---
+ cpus.c         | 126 +++++++++++++++++++++++++++++++++++++++++++++++++
+ qapi/misc.json | 119 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 245 insertions(+)
 
-A command is added to set a value to a qdev gpio.
-
-Here's is a simple visual example which inject characters on the uart out=
-put
-of the zynq platform:
-$ # qemu must have been launched with -qmp unix:/tmp/qmpsock,server
-$ # create the python framework object
-$ import fault_injection
-$ inj =3D fault_injection.FaultInjectionFramework("/tmp/qmpsock", 0)
-$
-$ # function which display a 'X' to the first uart
-$ # it access directly the register using the physical address
-$ def cb():
-$   inj.write_pmem(0xe0000030,4, 88)
-$
-$ # schedule the function on a notification in 10s
-$ inj.notify(10 * 1000 * 1000 * 1000, cb, True)
-$
-$ # handle one notification
-$ inj.run_once()
-
-The framework has been tested using python 2, on qemu running xilinx_zynq=
- or
-virt arm machines.
-
-The series is organised as follows. Patches 1 and 2 adds the memory qmp a=
-nd
-gpio commands. Patch 3 adds the notification mechanism. Patches 4 and 5 a=
-dd
-a python helper module and some documention.
-
-Thanks to the Xilinx's QEMU team who sponsored this work.
-
-Damien Hedde (5):
-  introduce [p]mem(read|write) qmp commands
-  introduce a qmp command to set gpios
-  add qmp time-notify event triggering system
-  fault_injection: introduce Python scripting framework
-  docs: add fault injection framework documentation
-
- cpus.c                         | 126 +++++++++++++++
- docs/fault_injection.txt       | 149 ++++++++++++++++++
- monitor/Makefile.objs          |   1 +
- monitor/qmp-cmd-time-notify.c  | 116 ++++++++++++++
- monitor/qmp-cmds.c             |  30 ++++
- monitor/trace-events           |   4 +
- qapi/misc.json                 | 196 +++++++++++++++++++++++
- scripts/qmp/fault_injection.py | 278 +++++++++++++++++++++++++++++++++
- 8 files changed, 900 insertions(+)
- create mode 100644 docs/fault_injection.txt
- create mode 100644 monitor/qmp-cmd-time-notify.c
- create mode 100644 scripts/qmp/fault_injection.py
-
+diff --git a/cpus.c b/cpus.c
+index 1af51b73dd..7aae35c098 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -2484,3 +2484,129 @@ void dump_drift_info(void)
+         qemu_printf("Max guest advance   NA\n");
+     }
+ }
++
++static Bytes *memread(int64_t addr, int64_t size, CPUState *cpu, Error *=
+*errp)
++{
++    uint32_t l =3D 0;
++    uint8List *prev =3D NULL;
++    Bytes *res;
++    uint8_t buf[8];
++
++    if (size <=3D 0 || size > sizeof(buf)) {
++        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "size",
++                   "out of range");
++        return NULL;
++    }
++
++    if (cpu) {
++        if (cpu_memory_rw_debug(cpu, addr, buf, size, 0) !=3D 0) {
++            error_setg(errp, "Invalid addr 0x%016" PRIx64 "/size %" PRId=
+64
++                             " specified", addr, size);
++            return NULL;
++        }
++    } else {
++        MemTxResult r =3D address_space_read(&address_space_memory, addr=
+,
++                                           MEMTXATTRS_UNSPECIFIED, buf, =
+l);
++        if (r !=3D MEMTX_OK) {
++            error_setg(errp, "Invalid addr 0x%016" PRIx64 "/size %" PRId=
+64
++                             " specified", addr, size);
++            return NULL;
++        }
++    }
++
++    res =3D g_new0(Bytes, 1);
++    while (l < size) {
++        uint8List *cur =3D g_new0(uint8List, 1);
++        cur->value =3D buf[l++];
++        if (!prev) {
++            res->bytes =3D cur;
++        } else {
++            prev->next =3D cur;
++        }
++        prev =3D cur;
++    }
++
++    return res;
++
++}
++
++Bytes *qmp_memread(int64_t addr, int64_t size,
++                   bool has_cpu, int64_t cpu_index, Error **errp)
++{
++    CPUState *cpu;
++
++    if (!has_cpu) {
++        cpu_index =3D 0;
++    }
++
++    cpu =3D qemu_get_cpu(cpu_index);
++    if (cpu =3D=3D NULL) {
++        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cpu-index",
++                   "a CPU number");
++        return NULL;
++    }
++
++    return memread(addr, size, cpu, errp);
++}
++
++Bytes *qmp_pmemread(int64_t addr, int64_t size, Error **errp)
++{
++    return memread(addr, size, NULL, errp);
++}
++
++static void memwrite(int64_t addr, uint8List *bytes, CPUState *cpu,
++                     Error **errp)
++{
++    uint32_t l =3D 0;
++    uint8_t buf[8];
++
++    while (bytes !=3D NULL) {
++        if (l >=3D sizeof(buf)) {
++            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "bytes",
++                       "too long");
++            return;
++        }
++        buf[l++] =3D bytes->value;
++        bytes =3D bytes->next;
++    }
++
++    if (cpu) {
++        if (cpu_memory_rw_debug(cpu, addr, buf, l, 1) !=3D 0) {
++            error_setg(errp, "Invalid addr 0x%016" PRIx64 "/size %" PRIu=
+32
++                             " specified", addr, l);
++            return;
++        }
++    } else {
++        MemTxResult r =3D address_space_write(&address_space_memory, add=
+r,
++                                            MEMTXATTRS_UNSPECIFIED, buf,=
+ l);
++        if (r !=3D MEMTX_OK) {
++            error_setg(errp, "Invalid addr 0x%016" PRIx64 "/size %" PRId=
+64
++                             " specified", addr, size);
++            return;
++        }
++    }
++}
++
++void qmp_memwrite(int64_t addr, uint8List *bytes,
++                  bool has_cpu, int64_t cpu_index, Error **errp)
++{
++    CPUState *cpu;
++
++    if (!has_cpu) {
++        cpu_index =3D 0;
++    }
++
++    cpu =3D qemu_get_cpu(cpu_index);
++    if (cpu =3D=3D NULL) {
++        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "cpu-index",
++                   "a CPU number");
++        return;
++    }
++
++    memwrite(addr, bytes, cpu, errp);
++}
++
++void qmp_pmemwrite(int64_t addr, uint8List *bytes, Error **errp)
++{
++    memwrite(addr, bytes, NULL, errp);
++}
+diff --git a/qapi/misc.json b/qapi/misc.json
+index dc4cf9da20..3aca91b4ac 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -3047,3 +3047,122 @@
+   'data': 'NumaOptions',
+   'allow-preconfig': true
+ }
++
++##
++# @Bytes:
++#
++# An array of bytes.
++#
++# @bytes: the list of bytes
++#
++# Since: 4.1
++##
++{ 'struct': 'Bytes', 'data': {'bytes': ['uint8'] } }
++
++##
++# @memread:
++#
++# Read a portion of guest memory.
++#
++# @addr: the virtual address of the guest to read from
++#
++# @size: the size of memory region to read (max is 8)
++#
++# @cpu-index: the index of the virtual CPU to use for translating the
++#                       virtual address (defaults to CPU 0)
++#
++# Returns: The read bytes
++#
++# Since: 4.1
++#
++# Example:
++#
++# -> { "execute": "memread",
++#      "arguments": { "addr": 10,
++#                     "size": 4 } }
++# <- { "return": { 'bytes' : [10, 78, 231, 7] } }
++#
++##
++{ 'command': 'memread',
++  'data': {'addr': 'int', 'size': 'int', '*cpu-index': 'int'},
++  'returns' : 'Bytes'
++}
++
++##
++# @memwrite:
++#
++# Write a portion of guest memory.
++#
++# @addr: the virtual address of the guest to write to
++#
++# @bytes: the bytes to write into memory region (max length is 8)
++#
++# @cpu-index: the index of the virtual CPU to use for translating the
++#                       virtual address (defaults to CPU 0)
++#
++# Since: 4.1
++#
++# Returns: nothing on success.
++#
++# Example:
++#
++# -> { "execute": "memread",
++#      "arguments": { "addr": 10,
++#                     "bytes": [10, 78, 231, 7] } }
++# <- { "return": {} }
++#
++##
++{ 'command': 'memwrite',
++  'data': {'addr': 'int', 'bytes': ['uint8'], '*cpu-index': 'int'}
++}
++
++##
++# @pmemread:
++#
++# Read a portion of guest memory.
++#
++# @addr: the physical address of the guest to read from
++#
++# @size: the size of memory region to read (max is 8)
++#
++# Returns: The read bytes
++#
++# Since: 4.1
++#
++# Example:
++#
++# -> { "execute": "memread",
++#      "arguments": { "addr": 10,
++#                     "size": 4 } }
++# <- { "return": { 'bytes' : [10, 78, 231, 7] } }
++#
++##
++{ 'command': 'pmemread',
++  'data': {'addr': 'int', 'size': 'int'},
++  'returns' : 'Bytes'
++}
++
++##
++# @pmemwrite:
++#
++# Write a portion of guest memory.
++#
++# @addr: the physical address of the guest to write to
++#
++# @bytes: the bytes to write into memory region (max length is 8)
++#
++# Since: 4.1
++#
++# Returns: nothing on success.
++#
++# Example:
++#
++# -> { "execute": "memread",
++#      "arguments": { "addr": 10,
++#                     "bytes": [10, 78, 231, 7] } }
++# <- { "return": {} }
++#
++##
++{ 'command': 'pmemwrite',
++  'data': {'addr': 'int', 'bytes': ['uint8']}
++}
 --=20
 2.22.0
 
