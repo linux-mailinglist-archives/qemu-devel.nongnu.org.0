@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A48A5A2D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:55:15 +0200 (CEST)
-Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C15F5A2F2
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:59:06 +0200 (CEST)
+Received: from localhost ([::1]:35036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgv5e-0005r2-EQ
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:55:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
+	id 1hgv9N-000164-Q6
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:59:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54631)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hguka-0008JH-Um
+ (envelope-from <palmer@dabbelt.com>) id 1hgukb-0008JI-0B
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hgukW-0000G6-60
+ (envelope-from <palmer@dabbelt.com>) id 1hgukW-0000H0-Jw
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:28 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:41648)
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44147)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukV-0008VM-Rh
+ (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hgukW-00005I-Bw
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:33:24 -0400
-Received: by mail-pf1-f196.google.com with SMTP id m30so3319055pff.8
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:06 -0700 (PDT)
+Received: by mail-pg1-f195.google.com with SMTP id n2so2876254pgp.11
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:33:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding:cc:from:to;
- bh=nCqKF3oInYRXPwJWI7RpGGCzJlHRvb4E4bj4yY7JdO8=;
- b=PAzVKVQAnFykGAC8X+bosAE9p1mfmRflAlTigU9uAoAK2K8Gue+krUkaE0Lgr1EctK
- MeQKUB94YNEGo+k1nQmHh5lVz3Q6ooSTzNWWgQV+DNm88EeHmzNDmut1SpdjXkPHklfY
- YRy12cRRnq7THd9xc+2oFKYjd+fbCHJTMQdhAox7FHf246At3T85f+fCGZlv60Rd+dTQ
- e95gZ2GTpMAqEpqr6nJ94KMLK4oZwujyAYJO+WDOo1HYH66QIEazq0C66kFekzvLBUJz
- W21dvl+dyY7uxGlXVnTuk20wdxvjpK45nFyYpzewN1VgaxIQRsIFYJZo0MvZ28H+nBpq
- WLqA==
-X-Gm-Message-State: APjAAAU80L59AZ3nw2PIznIZ7zjixuc/NWVoneUDvZK4VyeEEhev+Xxk
- EjeM5tKxRK4K9SoiIDfU1mOLzqGfgukamQyl
-X-Google-Smtp-Source: APXvYqzgzJFIpQlqKh088wUJ+eQ8NK73bPGYsVO4ItnZRvBG2zWyfBsDucC6zbo4Jzqk54fO8jWk+g==
-X-Received: by 2002:a17:90a:30aa:: with SMTP id
- h39mr14627606pjb.32.1561743185398; 
- Fri, 28 Jun 2019 10:33:05 -0700 (PDT)
+ bh=EKsqQug7v7zszsNqo0b9Js3bl54LND9OiSrVub9vLW4=;
+ b=OX9xdQrYnxaFnXFGxNO432mS2b8hoiIElt53yA69DMk+bwzCEea8pnzDqYrGCtJ01H
+ HsaVkRqbVnsk+gKP7NjHv1Uliazfy+OxIGDTrEMuICnWGszw5CjaWwSswNU4rdvRiyM6
+ AyQ4b0dMi89Yv08vPLbPxOLzn4sstWvxfDLD1n59v+BT93naztLB+usosnj7rNJ4Cm/Y
+ 4Gn5tGIBNHrTt9KlwKsqkVMXEPpk90MBo4wM4PKMv+Lke5FlCIPZ1XYbUSjeDq2JohkU
+ 2ZFrvon3aLTuiPQC+mRVrLRBakAuOKOzYyDTzwtiVGarpTGcFPlE3CWAUduU+/TCKm8G
+ 8gXw==
+X-Gm-Message-State: APjAAAVAgpxRieGcwzTmkE4mtg4McL9THrRJP0lsss3WooWemcrh9tOo
+ c+IhIL7H9ajdSTvkQMufKAqvZPGdtto8OvxG
+X-Google-Smtp-Source: APXvYqxVSr7isnJcgN3y2zSk0W4R3AQjxDtXhBpvEQs/RVX4AaBhqSiGViOdpd4ZWcTDvCuuksUZiw==
+X-Received: by 2002:a17:90a:3310:: with SMTP id
+ m16mr14336684pjb.7.1561743188055; 
+ Fri, 28 Jun 2019 10:33:08 -0700 (PDT)
 Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
  [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id g8sm2783839pfi.8.2019.06.28.10.33.04
+ by smtp.gmail.com with ESMTPSA id f10sm2317571pgq.73.2019.06.28.10.33.06
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:33:04 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:32:02 -0700
-Message-Id: <20190628173227.31925-10-palmer@sifive.com>
+ Fri, 28 Jun 2019 10:33:07 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:32:03 -0700
+Message-Id: <20190628173227.31925-11-palmer@sifive.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
 References: <20190628173227.31925-1-palmer@sifive.com>
@@ -55,9 +55,9 @@ From: Palmer Dabbelt <palmer@sifive.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.196
-Subject: [Qemu-devel] [PULL 09/34] RISC-V: Fix a PMP bug where it succeeds
- even if PMP entry is off
+X-Received-From: 209.85.215.195
+Subject: [Qemu-devel] [PULL 10/34] RISC-V: Fix a PMP check with the correct
+ access size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,45 +77,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 
-The current implementation returns 1 (PMP check success) if the address is in
-range even if the PMP entry is off. This is a bug.
-
-For example, if there is a PMP check in S-Mode which is in range, but its PMP
-entry is off, this will succeed, which it should not.
-
-The patch fixes this bug by only checking the PMP permissions if the address is
-in range and its corresponding PMP entry it not off. Otherwise, it will keep
-the ret = -1 which will be checked and handled correctly at the end of the
-function.
+The PMP check should be of the memory access size rather
+than TARGET_PAGE_SIZE.
 
 Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
 ---
- target/riscv/pmp.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ target/riscv/cpu_helper.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 5944f4cb6607..958c7502a0e0 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -258,11 +258,12 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
-         /* fully inside */
-         const uint8_t a_field =
-             pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg);
--        if ((s + e) == 2) {
--            if (PMP_AMATCH_OFF == a_field) {
--                return 1;
--            }
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 66be83210f11..e1b079e69c60 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -452,8 +452,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
  
-+        /*
-+         * If the PMP entry is not off and the address is in range, do the priv
-+         * check
-+         */
-+        if (((s + e) == 2) && (PMP_AMATCH_OFF != a_field)) {
-             allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
-             if ((mode != PRV_M) || pmp_is_locked(env, i)) {
-                 allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
+     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+         (ret == TRANSLATE_SUCCESS) &&
+-        !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type,
+-        mode)) {
++        !pmp_hart_has_privs(env, pa, size, 1 << access_type, mode)) {
+         ret = TRANSLATE_PMP_FAIL;
+     }
+     if (ret == TRANSLATE_PMP_FAIL) {
 -- 
 2.21.0
 
