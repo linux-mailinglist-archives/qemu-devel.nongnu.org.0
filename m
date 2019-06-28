@@ -2,49 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406EC59D44
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:54:58 +0200 (CEST)
-Received: from localhost ([::1]:60150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488C659D8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:13:25 +0200 (CEST)
+Received: from localhost ([::1]:60416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgrL7-0000RS-Bt
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:54:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50719)
+	id 1hgrcy-0008NN-Ga
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:13:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52235)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <stefanha@redhat.com>) id 1hgqhd-0007La-Ln
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:14:11 -0400
+ (envelope-from <berto@igalia.com>) id 1hgqn8-0005Je-MJ
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:19:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <stefanha@redhat.com>) id 1hgqhc-0003CT-1x
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:14:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36444)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <stefanha@redhat.com>)
- id 1hgqhY-000329-JV; Fri, 28 Jun 2019 09:14:04 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3AF7F3092667;
- Fri, 28 Jun 2019 13:13:58 +0000 (UTC)
-Received: from localhost (ovpn-116-156.ams2.redhat.com [10.36.116.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37D725D71C;
- Fri, 28 Jun 2019 13:13:54 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 14:13:47 +0100
-Message-Id: <20190628131347.8679-2-stefanha@redhat.com>
-In-Reply-To: <20190628131347.8679-1-stefanha@redhat.com>
-References: <20190628131347.8679-1-stefanha@redhat.com>
+ (envelope-from <berto@igalia.com>) id 1hgqn7-0007AY-KC
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 09:19:50 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:38740)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1hgqn4-00076y-SR; Fri, 28 Jun 2019 09:19:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=ZkYE9z3rKFlAQb4M51jaBX8IgaX4czvu4ktWNBu3MBE=; 
+ b=Hy93AUR/E/zIyCcBiaaEBuVPz8VsuQzalnzUu04kv56fnkxQpaBSCQxPJFsawYfdflIZGb93Ax6S+Qrv0KwKN66fXTMNC5NRDO/DhFLSrvaJMGZgwkITXXDvsD7IdxxexKl80tqwRbZjjUTayMdbn3AE0meFZBCxgWG8lAEPrq9ktUCbx3fQUoARDn5R9jpSxnJtzg+WCsC7Z4k901JwGNdUe5jJt7QOXkGHAsRbRt9kqyoKnVYXQvB5IDixxSPOntxS9poEUk+Tr/JwjIxZ0sm7Nc7PTwbMhcVA7KvbSD6PV37qk7BctlyTqW5ej4Bywcl5mkkScEYxVcjqmyFLXQ==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1hgqmw-0007HM-Ko; Fri, 28 Jun 2019 15:19:38 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1hgqmw-0005tC-Hy; Fri, 28 Jun 2019 15:19:38 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Kevin Wolf <kwolf@redhat.com>
+In-Reply-To: <20190628100422.GE5179@dhcp-200-226.str.redhat.com>
+References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
+ <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
+ <w51a7e3domn.fsf@maestria.local.igalia.com>
+ <w517e97dogw.fsf@maestria.local.igalia.com>
+ <20190628092057.GA5179@dhcp-200-226.str.redhat.com>
+ <w515zoqjass.fsf@maestria.local.igalia.com>
+ <20190628100422.GE5179@dhcp-200-226.str.redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 28 Jun 2019 15:19:38 +0200
+Message-ID: <w51v9wpj191.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Fri, 28 Jun 2019 13:13:58 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/1] build: use $(DESTDIR)x instead of
- $(DESTDIR)/x
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 91.117.99.155
+Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
+ qcow2 images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,61 +63,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org
+Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GNU make manual[1] demonstrates $(DESTDIR)$(bindir)/foo and QEMU
-mostly follows that.  There are just a few instances of
-$(DESTDIR)/$(bindir)/foo.  Fix these inconsistencies.
+On Fri 28 Jun 2019 12:04:22 PM CEST, Kevin Wolf wrote:
+> Am 28.06.2019 um 11:53 hat Alberto Garcia geschrieben:
+>> On Fri 28 Jun 2019 11:20:57 AM CEST, Kevin Wolf wrote:
+>> >> >> I would consider 64k cluster/8k subcluster as too extreme for me.
+>> >> 
+>> >> I forgot to add: this 64k/8k ratio is only with my current prototype.
+>> >> 
+>> >> In practice if we go with the 128-bit L2 entries we would have 64
+>> >> subclusters per cluster, or 32 if we want to have a separate
+>> >> QCOW_OFLAG_ZERO for each subcluster (would we need this?).
+>> >
+>> > Yes, I think we'd want to have a separate zero flag for each
+>> > subcluster.  Otherwise, when writing to a zero cluster, you'd have to
+>> > COW the whole supercluster again.
+>> 
+>> Yes if the original cluster had the QCOW_OFLAG_ZERO bit, not if it
+>> was simply unallocated.
+>
+> Right, but that leaving clusters simply unallocated doesn't quite cut
+> it is something we already noticed before writing the spec for
+> v3. Only really necessary when you have a backing file, of course, but
+> that's one of the more interesting cases for subclusters anyway.
 
-[1] https://www.gnu.org/software/make/manual/html_node/DESTDIR.html
+I wonder if it would be possible to have a hybrid solution:
 
-Cc: Daniel P. Berrange <berrange@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Message-id: 20190521145318.12787-1-stefanha@redhat.com
-Message-Id: <20190521145318.12787-1-stefanha@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- Makefile | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+With 64 bits to indicate the allocation status of each subcluster we
+still have the original L2 entry with its QCOW_OFLAG_ZERO bit, so we
+need to specify what happens if that bit is set and at the same time
+some subclusters are marked as allocated.
 
-diff --git a/Makefile b/Makefile
-index cfb18f1525..562205be29 100644
---- a/Makefile
-+++ b/Makefile
-@@ -875,19 +875,19 @@ ifneq ($(DESCS),)
- 	done
- endif
- 	for s in $(ICON_SIZES); do \
--		mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/$${s}/apps"; \
-+		mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps"; \
- 		$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_$${s}.png \
--			"$(DESTDIR)/$(qemu_icondir)/hicolor/$${s}/apps/qemu.png"; \
-+			"$(DESTDIR)$(qemu_icondir)/hicolor/$${s}/apps/qemu.png"; \
- 	done; \
--	mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/32x32/apps"; \
-+	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps"; \
- 	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu_32x32.bmp \
--		"$(DESTDIR)/$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp"; \
--	mkdir -p "$(DESTDIR)/$(qemu_icondir)/hicolor/scalable/apps"; \
-+		"$(DESTDIR)$(qemu_icondir)/hicolor/32x32/apps/qemu.bmp"; \
-+	mkdir -p "$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps"; \
- 	$(INSTALL_DATA) $(SRC_PATH)/ui/icons/qemu.svg \
--		"$(DESTDIR)/$(qemu_icondir)/hicolor/scalable/apps/qemu.svg"
--	mkdir -p "$(DESTDIR)/$(qemu_desktopdir)"
-+		"$(DESTDIR)$(qemu_icondir)/hicolor/scalable/apps/qemu.svg"
-+	mkdir -p "$(DESTDIR)$(qemu_desktopdir)"
- 	$(INSTALL_DATA) $(SRC_PATH)/ui/qemu.desktop \
--		"$(DESTDIR)/$(qemu_desktopdir)/qemu.desktop"
-+		"$(DESTDIR)$(qemu_desktopdir)/qemu.desktop"
- ifdef CONFIG_GTK
- 	$(MAKE) -C po $@
- endif
---=20
-2.21.0
+One possibility is that allocated subclusters have actual data and the
+rest are zero subclusters.
 
+Berto
 
