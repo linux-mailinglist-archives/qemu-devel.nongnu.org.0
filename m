@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E5459CA6
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:11:31 +0200 (CEST)
-Received: from localhost ([::1]:59640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9C459CD6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:19:51 +0200 (CEST)
+Received: from localhost ([::1]:59746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqf4-0002H2-JE
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:11:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41650)
+	id 1hgqn8-0003Mq-Rv
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:19:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41649)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hgqGU-0000Ch-HB
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGU-0000Cg-HA
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hgqGL-0001aO-9H
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGM-0001cE-L0
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:05 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:36982)
+Received: from beetle.greensocs.com ([5.135.226.135]:37004)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hgqGK-0001Rl-Pt
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:57 -0400
+ id 1hgqGM-0001Zt-63
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:58 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id 89F6696F57;
- Fri, 28 Jun 2019 12:45:40 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 3A9D596F58;
+ Fri, 28 Jun 2019 12:45:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  s=mail; t=1561725941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ong44x20Rm5gt6iEZYBnbtQRmzo27WdaVQNGYbfZANU=;
- b=xdhD0JqG4sX39UDxDDrU6GJdw+AyoOhZnyHVL2P5diI2K8ZUuaqAnZgdqEY926Xx7u29eg
- tSJLpew9zXYlOn3UI0tSxQLFokmYLKj66wGKL0VGCj5Blu4bnLy2vSz+QbQSwJuV7gWVrs
- ZEZkH/cnRS8dGK9/RfS0x1hur7DR9G0=
+ bh=GIhpl/DttkLLK7DJX0z6TNYXgE+dPetO02X9ZhbQxV8=;
+ b=h7jF2T0fsXdKZL4y5iwn88gt8VIk8dkDRJC8l0isl2aiiP28gS5sdgv2n6IaX/dU2pdGu3
+ agWnqfH3Mo/uQ48nCzhLfkopfFFDqndUk+TgyqyhsRGm3r5YZ/c4oh2THlpX66ZSTdVTJv
+ 2TPN0JquvAtbKhsB6Sl8Q+NTOmeJ3Jc=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 14:45:33 +0200
-Message-Id: <20190628124534.10679-5-damien.hedde@greensocs.com>
+Date: Fri, 28 Jun 2019 14:45:34 +0200
+Message-Id: <20190628124534.10679-6-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190628124534.10679-1-damien.hedde@greensocs.com>
 References: <20190628124534.10679-1-damien.hedde@greensocs.com>
@@ -48,22 +48,22 @@ ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ong44x20Rm5gt6iEZYBnbtQRmzo27WdaVQNGYbfZANU=;
- b=kEIaNtXQTQGW31G4bX0llfuF/1zTSd99+QsZFKVycIKGP+vg4I1BPaeQMg+dMklMYsbAF/
- EFJ+0MiXKfhT7GoxA2Iji1locG5nT/2l6pYI2LbaSmg/d2m0I+nvPUHEQXvX0uH7Lhg1cJ
- 03CLJSdb/RlUiMTDnpMiqqGAQRp5J80=
+ bh=GIhpl/DttkLLK7DJX0z6TNYXgE+dPetO02X9ZhbQxV8=;
+ b=mS6j+2pPCfSd1JvGpPHYEbGTeAkmLCZejEUuI/oqKEwg6n1kU2uKsEXXmesZ2yyWfE1+GI
+ A6tx4aVqYpxmjPDYU1boYt6lOZq7jTVQyaYeCJd3mtSPaneZf768Fqr8fGMT8qTIj5zCWr
+ jcDJvgy081q+5IV0gALPfIcZOBy/E8I=
 ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561725941; a=rsa-sha256; cv=none;
- b=UOHYaG6Qe4PK8Rx2zVozTMkIiKBrpiIUqBapzGToQYaNop/W0kYhrtAv/xK8nD9zytbto3
- g3gtbyp1bqhhtBvUyIZ726b4tj8L4yWvFuleWe/oGipAY5BOslqvJXEqa737rOzLNHGgfW
- zjKNuDcHLdVSQR1eDK0uq38TuFfmPwQ=
+ b=6QG9edmInuNkDFiiOSf7gN6KYVCUcyZuP8hzanDh5uEZAFC7vBLO8sOpZtMPvmKZ28sT8y
+ ValY/+l2xllUv9/amCRrHAHFgXse2rceDd+6NncqhQc/MD10NdKxgV69z2VZFyk4MvMeYt
+ lIpvHaDKd8t1lO+ecClpfmb/RHz+SPk=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [RFC PATCH 4/5] fault_injection: introduce Python
- scripting framework
+Subject: [Qemu-devel] [RFC PATCH 5/5] docs: add fault injection framework
+ documentation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,315 +82,184 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the actual Python framework.
-It provides some wrappers:
-  * which allow to notify a callback in a given qemu time.
-  * read or write some memory location
-  * read/write qom properties.
-  * set a GPIO.
+This adds some hints about how to use the fault injection framework.
 
-This is based on the work of Frederic Konrad
+This is based on Frederic Konrad's work.
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- scripts/qmp/fault_injection.py | 278 +++++++++++++++++++++++++++++++++
- 1 file changed, 278 insertions(+)
- create mode 100644 scripts/qmp/fault_injection.py
+ docs/fault_injection.txt | 149 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 149 insertions(+)
+ create mode 100644 docs/fault_injection.txt
 
-diff --git a/scripts/qmp/fault_injection.py b/scripts/qmp/fault_injection=
-.py
+diff --git a/docs/fault_injection.txt b/docs/fault_injection.txt
 new file mode 100644
-index 0000000000..2d23e69d47
+index 0000000000..3cb1c1fd1a
 --- /dev/null
-+++ b/scripts/qmp/fault_injection.py
-@@ -0,0 +1,278 @@
-+# Fault injection helper script based on top of QMP.
-+#
-+# Copyright (C) 2016,2019 GreenSocs SAS
-+#
-+# Authors:
-+#   Frederic Konrad <fred.konrad@greensocs.com>
-+#   Damien Hedde <damien.hedde@greensocs.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or lat=
-er.
-+# See the COPYING file in the top-level directory.
-+#
++++ b/docs/fault_injection.txt
+@@ -0,0 +1,149 @@
++                           Fault Injection Framework
++                           =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+import json
-+import ast
-+import readline
++Introduction
++------------
++
++The fault injection framework allows users to write python scripts to in=
+ject
++faults through the QMP (QEMU Machine Protocol) during execution.
++
++Basically it's composed of a Python API which makes some QMP commands ea=
+sy to
++send to the machine:
++  * read/write a virtual/memory memory location.
++  * set a GPIO line.
++  * get/set a QOM property.
++
++In addition it allows the Python script to be notified back by QEMU so i=
+t can
++do any of the previous commands at a given virtual clock time.
++
++Today the available function in the API are the following:
++  * notify(time_ns, cb, do_halt)
++  * write_mem(address, value, size, cpu)
++  * read_mem(address, size, cpu)
++  * write_pmem(address, value, size)
++  * read_pmem(address, size)
++  * get_qom_property(path, property)
++  * set_qom_property(path, property, value)
++  * set_gpio(path, gpio, num, value)
++
++Empty Example
++-------------
++
++This is an empty example to begin:
++
++import fault_injection
 +import sys
-+import struct
-+import os
-+sys.path.append(os.path.join(os.path.dirname(__file__),
-+                             '..', '..', 'python', 'qemu'))
-+import qmp
 +
-+def die(cause):
-+    print(sys.stderr.write('error: %s\n' % cause))
++framework =3D None
++
++def main():
++    # The injection framework will parse the command line automatically
++    # (eg: the qmp socket/port.. etc)
++    sys.stdout.write('Fault Injection Example\n')
++    global framework
++    framework =3D fault_injection.FaultInjectionFramework(sys.argv[1])
++
++    framework.run()
 +    sys.exit(1)
 +
-+class FaultInjectionQMPError(Exception):
-+    def __init__(self, rsp):
-+        self.args =3D (rsp,)
++if __name__ =3D=3D '__main__':
++    main()
 +
-+class FaultInjectionFramework(qmp.QEMUMonitorProtocol):
-+    qemu_time =3D 0
-+    verbose =3D 0
-+    callback =3D {}
-+    endianness =3D None
++To run the example just save the example in `script/qmp/example_scenario=
+`
++Run qemu with the additional arguments: `-S -qmp unix:/path/to/qmp-sock,=
+server`
++in order to wait for a qmp connection and stop the QEMU machine.
++Run the example with: `./example_scenario /path/to/qmp-sock`
 +
-+    def print_v(self, msg, level):
-+        if level <=3D self.verbose:
-+            print(msg)
++It will start the simulation inside QEMU and do nothing else.
 +
-+    def print_qemu_version(self):
-+        version =3D self._greeting['QMP']['version']['qemu']
-+        print('Connected to QEMU %d.%d.%d' % (version['major'],
-+                                                version['minor'],
-+                                                version['micro']))
++Adding a callback at a given time
++---------------------------------
 +
-+    def __init__(self, address, verbose =3D 0):
-+        self.verbose =3D verbose
-+        qmp.QEMUMonitorProtocol.__init__(self, self.__get_address(addres=
-s))
++As described above a callback can be added in the python scenario.
++For example we can create the following callback which write 0xDEADBEEF =
+@0 with
++a size of 4 from cpu 0 and then reads it back:
 +
-+        try:
-+            self._greeting =3D qmp.QEMUMonitorProtocol.connect(self)
-+        except qmp.QMPConnectError:
-+            die('Didn\'t get QMP greeting message')
-+        except qmp.QMPCapabilitiesError:
-+            die('Could not negotiate capabilities')
-+        except self.error:
-+            die('Could not connect to %s' % address)
++def write_mem_callback():
++    print 'write_mem_callback()'
++    framework.write_mem(0x0, 0xDEADBEEF, 4, 0)
++    val =3D framework.read_mem(0x0, 4, 0)
++    print 'value read: 0x%8.8X' %val
 +
-+        self.print_qemu_version()
-+        self._completer =3D None
-+        self._pretty =3D False
-+        self._transmode =3D False
-+        self._actions =3D list()
++Then we can notify it in the main function before framework.run():
++`framework.notify(1000000000, write_mem_callback)`
 +
-+    def set_endian_big(self):
-+        self.endianness =3D 'big'
++The script works as expected:
 +
-+    def set_endian_little(self):
-+        self.endianness =3D 'little'
++write_mem_callback()
++value read: 0xDEADBEEF
 +
-+    def time_print(self, arg):
-+        self.print_v('%sns: %s' % (self.qemu_time, arg), 1)
++Using the python interpreter
++----------------------------
 +
-+    def send(self, qmpcmd):
-+        self.print_v(qmpcmd, 2)
-+        resp =3D self.cmd_obj(qmpcmd)
-+        if resp is None:
-+            die('Disconnected')
-+        self.print_v(resp, 2)
-+        if 'error' in resp:
-+            raise FaultInjectionQMPError(resp)
-+        return resp
++The Python interpreter can be used to send the command above:
++For example to set the vinithi bit to 1 for the /rpu_cpu@0 the following
++commands can be done in the script/qmp directory:
 +
-+    def cont(self):
-+        qmpcmd =3D {'execute': 'cont', 'arguments': {}}
-+        self.send(qmpcmd)
++$ python
++>>> import fault_injection
++>>> inj=3Dfault_injection.FaultInjectionFramework("../../qmp-sock", 0)
++Connected to QEMU 2.2.50
 +
-+    def run_once(self):
-+        # RUN the simulation until one event is received
-+        self.cont()
-+        # Wait for an event to appear
-+        done =3D False
-+        while done =3D=3D False:
-+            for ev in self.get_events(True):
-+                self.print_v(ev, 2)
-+                if ev['event'] =3D=3D 'TIME_NOTIFICATION':
-+                    data =3D ev['data']
-+                    self.qemu_time =3D data['time_ns'];
-+                    self.callback[data['event_id']]()
-+                    self.cont()
-+                    done =3D True
-+                elif ev['event'] =3D=3D 'SHUTDOWN':
-+                    self.clear_events()
-+                    return True
-+        self.clear_events()
-+        return False
++>>> inj.help()
 +
-+    def run(self):
-+        # RUN the simulation.
-+        self.time_print('Simulation is now running')
-+        # Wait for an event to appear
-+        shutdown_evt =3D False
-+        while shutdown_evt =3D=3D False:
-+            shutdown_evt =3D self.run_once()
-+        self.close()
++Fault Injection Framework Commands
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+    def notify(self, time_ns, cb, relative =3D False):
-+        # Notify a callback at qemu time time_ns
-+        next_index =3D len(self.callback)
-+        elt =3D 0
-+        for elt in range(0, next_index + 1):
-+            if elt =3D=3D next_index:
-+                break
-+            if self.callback[elt] =3D=3D cb:
-+                break
++cont()
++ * Resume the simulation when the Virtual Machine is stopped.
 +
-+        self.callback[elt] =3D cb
-+        if relative:
-+            self.time_print('Notify %s in %sns' % (cb, time_ns))
-+        else:
-+            self.time_print('Notify %s at %sns' % (cb, time_ns))
-+        qmpcmd =3D {'execute': 'time-notify',
-+                  'arguments': {'event_id': elt,
-+                                'time_ns': time_ns,
-+                                'pause' : True}}
-+        if relative:
-+            qmpcmd['arguments']['relative'] =3D True
-+        self.send(qmpcmd)
++notify(time_ns, cb, do_pause)
++ * Notify the callback cb in guest time time_ns. Simulation is stopped o=
+nly if
++   do_pause is set to True.
 +
-+    def _pvmemwrite(self, virtual, address, value, cpu =3D None):
-+        # write a value to a virtual or physical address
-+        if type(value) is not list:
-+            value =3D list(value)
++run_once()
++ * Start the simulation and handle a callback set by notify. Return afte=
+r
++   first callback is handled
 +
-+        self.time_print('write: @%s0x%08x size %d values ['
-+                        % ('V' if virtual else 'P', address, len(value))
-+                        + ','.join('%d' % i for i in value)
-+                        + '] from cpu %s' % (cpu))
-+        qmpcmd =3D {'execute': 'memwrite' if virtual else 'pmemwrite',
-+                  'arguments': {'addr': address, 'bytes': value}}
-+        if cpu is not None:
-+            qmpcmd['arguments']['cpu'] =3D cpu;
-+        rsp =3D self.send(qmpcmd)
++run()
++ * Start the simulation and handle the callbacks set by notify. Do not r=
+eturn
++   until the end of the simulation.
 +
-+    def _pvmemread(self, virtual, address, size, cpu =3D None):
-+        # read a value to a virtual or physical address
++write_mem(address, value, size, cpu)
++ * Write @value of size @size at virtual @address from @cpu.
++ * @cpu is the cpu id.
 +
-+        self.time_print('read: @%s0x%08x size %d values from cpu %s'
-+                        % ('V' if virtual else 'P', address, size, cpu))
-+        qmpcmd =3D {'execute': 'memread' if virtual else 'pmemread',
-+                  'arguments': {'addr': address, 'size': size}}
-+        if cpu is not None:
-+            qmpcmd['arguments']['cpu'] =3D cpu;
-+        rsp =3D self.send(qmpcmd)
-+        value =3D bytearray(rsp['return']['bytes'])
-+        return value
++write_pmem(address, value, size)
++ * Like write_mem, but on a physical @address.
 +
-+    def _memstructformat(self, size):
-+        if self.endianness =3D=3D 'little':
-+            s =3D '<'
-+        elif self.endianness =3D=3D 'big':
-+            s =3D '>'
-+        else:
-+            #defaults to native
-+            s =3D '=3D'
-+        s +=3D {1:'B', 2:'H', 4:'I', 8:'Q'}[size]
-+        return s
++read_mem(address, size, cpu)
++ * Read a value of size @size at virtual @address from @cpu.
++ * @cpu is the cpu id.
++ * Returns the value.
 +
-+    def read_mem(self, address, size, cpu =3D None):
-+        fmt =3D self._memstructformat(size)
-+        value =3D self._pvmemread(True, address, size, cpu)
-+        return struct.unpack(fmt, value)[0]
++read_pmem(address, size)
++ * Like read_mem, but on a physical @address.
 +
-+    def write_mem(self, address, size, value, cpu =3D None):
-+        fmt =3D self._memstructformat(size)
-+        value =3D bytearray(struct.pack(fmt, value))
-+        self._pvmemwrite(True, address, value, cpu)
++get_qom_property(path, property)
++ * Get a qom property.
++ * Returns the qom property named @property in @path.
 +
-+    def read_pmem(self, address, size):
-+        fmt =3D self._memstructformat(size)
-+        value =3D self._pvmemread(False, address, size)
-+        return struct.unpack(fmt, value)[0]
++set_qom_property(path, property, value)
++ * Set the property named @property in @path with @value.
 +
-+    def write_pmem(self, address, size, value):
-+        fmt =3D self._memstructformat(size)
-+        value =3D bytearray(struct.pack(fmt, value))
-+        self._pvmemwrite(False, address, value)
++set_gpio(path, gpio, num, value)
++ * Set the gpio named @gpio number @num in @path with the @val.
++ * @val is a boolean.
 +
-+    def get_qom_property(self, path, property):
-+        # Get a QOM property
-+        qmpcmd =3D {'execute': 'qom-get',
-+                  'arguments': {'path': path,
-+                                'property': property}}
-+        value =3D self.send(qmpcmd)['return']
-+        return value
++>>> inj.set_gpio('/rpu_cpu@0', 'vinithi', 0, 1)
 +
-+    def set_qom_property(self, path, property, value):
-+        # Set a QOM property
-+        qmpcmd =3D {'execute': 'qom-set',
-+                  'arguments': {'path': path,
-+                                'property': property,
-+                                'value': value}}
-+        self.send(qmpcmd)
++Notes
++-----
 +
-+    def set_gpio(self, path, gpio, num, value):
-+        # Set a GPIO
-+        qmpcmd =3D {'execute': 'gpio-set',
-+                  'arguments': {'path': path, 'value': value}}
-+        if gpio is not None:
-+            qmpcmd['arguments']['gpio'] =3D gpio
-+        if num is not None:
-+            qmpcmd['arguments']['number'] =3D num
-+        self.send(qmpcmd)
-+
-+    def help(self):
-+        msg =3D [
-+            "Fault Injection Framework Commands",
-+            "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n",
-+            "cont()",
-+            " * Resume the simulation when the Virtual Machine is stoppe=
-d.\n",
-+            "run()",
-+            " * Start the simulation when the notify are set.\n",
-+            "notify(delta_ns, cb)",
-+            " * Notify the callback cb in guest time delta_ns.\n",
-+            "write_mem(address, size, value, cpu)",
-+            " * write @value of size @size at virtual @address from @cpu=
-.",
-+            " * @size is in bytes, supported values are 1, 2, 4 and 8.",
-+            " * @cpu is the cpu id.\n",
-+            "read_mem(address, size, cpu)",
-+            " * read a value of size @size at virtual @address from @cpu=
-.",
-+            " * @size is in bytes, supported values are 1, 2, 4 and 8.",
-+            " * @cpu is the cpu id.",
-+            " * returns the value.\n",
-+            "write_pmem(address, size, value)",
-+            " * write @value of size @size at physical @address.",
-+            " * @size is in bytes, supported values are 1, 2, 4 and 8.\n=
-",
-+            "read_pmem(address, size)",
-+            " * read a value of size @size at physical @address.",
-+            " * @size is in bytes, supported values are 1, 2, 4 and 8.",
-+            " * returns the value.\n",
-+            "get_qom_property(path, property)",
-+            " * Get a qom property.",
-+            " * Returns the qom property named @property in @path.\n",
-+            "set_qom_property(path, property, value)",
-+            " * Set the property named @property in @path with @value.\n=
-",
-+            "set_gpio(path, gpio, num, value)",
-+            " * Set the gpio named @gpio number @num in @path with the @=
-val.",
-+            " * @val is a boolean.\n"
-+            ]
-+        for m in msg:
-+            print(m)
-+
-+    def __get_address(self, arg):
-+        """
-+        Figure out if the argument is in the port:host form, if it's not=
- it's
-+        probably a file path.
-+        """
-+        addr =3D arg.split(':')
-+        if len(addr) =3D=3D 2:
-+            try:
-+                port =3D int(addr[1])
-+            except ValueError:
-+                raise QMPShellBadPort
-+            return ( addr[0], port )
-+        # socket path
-+        return arg
++The user can turn debug information on by passing a level to the framewo=
+rk
++constructor eg:
++"framework =3D fault_injection.FaultInjectionFramework(1)" will print ti=
+med traces
++such as write or read.
++"framework =3D fault_injection.FaultInjectionFramework(2)" will print th=
+e QMP
++commands as well.
 +
 --=20
 2.22.0
