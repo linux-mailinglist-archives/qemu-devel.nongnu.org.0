@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915BF5A55C
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 21:49:39 +0200 (CEST)
-Received: from localhost ([::1]:35974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FF15A55B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 21:49:38 +0200 (CEST)
+Received: from localhost ([::1]:35972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgwsM-0002Vh-OE
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 15:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
+	id 1hgwsK-0002Rb-I3
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 15:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34394)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <danielhb413@gmail.com>) id 1hgwoP-0000cG-Gb
+ (envelope-from <danielhb413@gmail.com>) id 1hgwoP-0000cI-Ge
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:45:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <danielhb413@gmail.com>) id 1hgwoM-0000vy-Nf
+ (envelope-from <danielhb413@gmail.com>) id 1hgwoM-0000w6-Ny
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:45:33 -0400
-Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:36858)
+Received: from mail-qt1-x844.google.com ([2607:f8b0:4864:20::844]:35538)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <danielhb413@gmail.com>)
- id 1hgwoK-0000sC-EI
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:45:28 -0400
-Received: by mail-qt1-x843.google.com with SMTP id p15so7681995qtl.3
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 12:45:25 -0700 (PDT)
+ id 1hgwoK-0000tS-GH
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 15:45:30 -0400
+Received: by mail-qt1-x844.google.com with SMTP id d23so7690651qto.2
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 12:45:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1SwVU18ARN5GY7vLoHwvz2yEvR6Sr/nDSSFaZ3x64xA=;
- b=XtH45xt3dhrCnGi1TJNjh68R29f6n8RjPT76fxfhnLMaVIAUc+bsI4XXg8VLoghy84
- DV6VID6TCbPk4lVz+Y9tFW1oJzcj55qjJaAs3v1iG50O3GX/Dn28Y/NlXLmyqA74LpbG
- caecqa5GD07eaSUTGo96DUuCYqHjm9jpSOnwKra0jTCITkcjOIb6dUszcAeoIjytqGd8
- DHoCDwcIBcSUW1fwSf98ta5viCRbAMuzd4rJNon/Eh7DlTomNZeF0EDcCv+hetZJda6b
- 8X4qjUTy5oxFHptG9uYO3zn89B//tHiwL6Vz3rotRR6W3Bz9pXVEn2/zxEFQEnN8KTr9
- 3mcQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=fo3Hzp32nsqM8Vt21whJF5z18eDh+DMJbuyQcmDsrqE=;
+ b=vTkidy8pFwISB+yI/LnHbWMmSTsqr067wxfE/72uxcR3FTQc5nbpg9ONNWIf08zi2L
+ BF+Nmv7NxYgn86pSh+l+joyISty4zGUs0vaMlI+Z38RX43f+BxgOADoBsJr0l7a89biN
+ DBIopTKpD+sxhpnTqct6+7JyUo8E7lPXYKXuOnqOh2yhO6C4hvvL9u5ewnyb8vcmoS/W
+ Q4H6L1YGk1JcX8gjMD07YrhGr2w4Q8d0tDKobE5dSu8k1Ly1xd4uG6H//1kUcGF67ttB
+ IWJmyf5IIjNlHOLMAxQbNzRdX+lj4qaDwfpdnNkXA7P0ybTZvV5EOiIPnxx7xDFEBZ1r
+ aE1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1SwVU18ARN5GY7vLoHwvz2yEvR6Sr/nDSSFaZ3x64xA=;
- b=DllfyTZgrcp0k7i0LkNFROPUfcmjapTxbTFsxEWkPY8yj8NXezsY6CJ0+pUxC5KVOs
- P9jVy8SUhk5qAVPasXGHN0LSnoRiyk6vbOSSK7oGm6w0DtmntkQ1YZnifoMkU7xGCynM
- HlqL6j2wG8EOwugwo0DstN5CDicfbHn/EGcutzxtwB7x6YZW1pc3t1LPnOM6G2xD9+rY
- tmRZPDlklmk+o2uOFfMjbdRj3LKDU2NLjdyOj3Wl1d92VFRxWHWRGVghIb3xb6jBynEM
- wSPcaFtABSeZwiyG5uDffHheyiKhAJZqpoNOrlD6OfMhOENpi7ePa2yRo6ofZnlY2CcH
- 4kJA==
-X-Gm-Message-State: APjAAAUyxloNV7BkgQo3r5+yBwr2OhowgR4tKRSNjSca3z0tCooUiypx
- jUJNTQ5d8DRXLj+u1ZNZoLVQ6xeP
-X-Google-Smtp-Source: APXvYqxH566JMWkaqkqCaJvTqMxpJdSbXdKEKHYd0A7r0icxp1GTUsvxEdAXHw/JEzHf1UbZstS95A==
-X-Received: by 2002:ac8:32ec:: with SMTP id a41mr9776030qtb.375.1561751123768; 
- Fri, 28 Jun 2019 12:45:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=fo3Hzp32nsqM8Vt21whJF5z18eDh+DMJbuyQcmDsrqE=;
+ b=MbD1HMSJhh8VzyGcyvnKamA8LrAP11s8iGTlG41nENzOLIYdtV94C9Oew7CzERd0l4
+ hCDijTM3n6pIJQZ/gXL4ue7Z2U0b9SvppOczMBr/U+pbVRWiVa7T957tS9xjWl5zj7OI
+ J0WwtapaG/r8GOf4lq2IWK8nt7NWt0IICJWlbd7PCBZJTn1G/ZWr56JC1CfQhtG5S0VJ
+ NGMFeH98VmU/zDge4gwIvlj49ItPP6bDN5bUVwSR1BFr4o6ZBo0na2G3Kd+sym5A4HMY
+ hhUmIVlaFD437e5O6xDez7qLGd6xZrZSY0+JzLplhhg+Zo96Oeix9a69eKTvsLn6uNMZ
+ OSNg==
+X-Gm-Message-State: APjAAAUerdB2SLaRCjiZeHpZe12QlFSrBpTdw4m/q3+B9j3UWeQ6x03u
+ jjVNSLbLCTTmANq0x537qPcR3fuA
+X-Google-Smtp-Source: APXvYqyaHEsEhQfpeTsQNjWd3SADfHr6m6c/1k/QQjBa31/NXH2+xjZ/BlmIQnUmqAnN52pKKImvWQ==
+X-Received: by 2002:ac8:27d4:: with SMTP id x20mr9465269qtx.138.1561751125916; 
+ Fri, 28 Jun 2019 12:45:25 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:927e:501b:7135:21ca:8a87])
- by smtp.gmail.com with ESMTPSA id b69sm1602288qkg.105.2019.06.28.12.45.21
+ by smtp.gmail.com with ESMTPSA id b69sm1602288qkg.105.2019.06.28.12.45.23
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 12:45:23 -0700 (PDT)
+ Fri, 28 Jun 2019 12:45:25 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 16:45:08 -0300
-Message-Id: <20190628194512.21311-1-danielhb413@gmail.com>
+Date: Fri, 28 Jun 2019 16:45:09 -0300
+Message-Id: <20190628194512.21311-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190628194512.21311-1-danielhb413@gmail.com>
+References: <20190628194512.21311-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::843
-Subject: [Qemu-devel] [PATCH v4 0/4] delete created files when
- block_crypto_co_create_opts_luks fails
+X-Received-From: 2607:f8b0:4864:20::844
+Subject: [Qemu-devel] [PATCH v4 1/4] block: introducing
+ 'bdrv_co_delete_file' interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,31 +85,125 @@ Cc: kwolf@redhat.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes from previous version [1]:
-- added an extra patch including a new qemu-iotest to exercise the fix
+Adding to Block Drivers the capability of being able to clean up
+its created files can be useful in certain situations. For the
+LUKS driver, for instance, a failure in one of its authentication
+steps can leave files in the host that weren't there before.
 
+This patch adds the 'bdrv_co_delete_file' interface to block
+drivers and add it to the 'file' driver in file-posix.c. The
+implementation is given by 'raw_co_delete_file'. The helper
+'bdrv_path_is_regular_file' is being used only in raw_co_delete_file
+at this moment, but it will be used inside LUKS in a later patch.
+Foreseeing this future use, let's put it in block.c and make it
+public.
 
-[1] https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg07159.html
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ block.c                   | 11 +++++++++++
+ block/file-posix.c        | 28 ++++++++++++++++++++++++++++
+ include/block/block.h     |  1 +
+ include/block/block_int.h |  6 ++++++
+ 4 files changed, 46 insertions(+)
 
-Daniel Henrique Barboza (4):
-  block: introducing 'bdrv_co_delete_file' interface
-  block.c: adding bdrv_delete_file
-  crypto.c: cleanup created file when block_crypto_co_create_opts_luks
-    fails
-  qemu-iotests: adding LUKS cleanup for non-UTF8 secret error
-
- block.c                    | 82 ++++++++++++++++++++++++++++++++++++++
- block/crypto.c             | 31 ++++++++++++++
- block/file-posix.c         | 28 +++++++++++++
- include/block/block.h      |  3 ++
- include/block/block_int.h  |  6 +++
- tests/qemu-iotests/257     | 67 +++++++++++++++++++++++++++++++
- tests/qemu-iotests/257.out | 11 +++++
- tests/qemu-iotests/group   |  1 +
- 8 files changed, 229 insertions(+)
- create mode 100755 tests/qemu-iotests/257
- create mode 100644 tests/qemu-iotests/257.out
-
+diff --git a/block.c b/block.c
+index c139540f2b..6e2b0f528d 100644
+--- a/block.c
++++ b/block.c
+@@ -621,6 +621,17 @@ int get_tmp_filename(char *filename, int size)
+ #endif
+ }
+ 
++/**
++ * Helper that checks if a given string represents a regular
++ * local file.
++ */
++bool bdrv_path_is_regular_file(const char *path)
++{
++    struct stat st;
++
++    return (stat(path, &st) == 0) && S_ISREG(st.st_mode);
++}
++
+ /*
+  * Detect host devices. By convention, /dev/cdrom[N] is always
+  * recognized as a host CDROM.
+diff --git a/block/file-posix.c b/block/file-posix.c
+index ab05b51a66..c8a0b109c2 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2374,6 +2374,33 @@ static int coroutine_fn raw_co_create_opts(const char *filename, QemuOpts *opts,
+     return raw_co_create(&options, errp);
+ }
+ 
++/**
++ * Co-routine function that erases a regular file.
++ */
++static int coroutine_fn raw_co_delete_file(const char *filename,
++                                           Error **errp)
++{
++    int ret;
++
++    /* Skip file: protocol prefix */
++    strstart(filename, "file:", &filename);
++
++    if (!bdrv_path_is_regular_file(filename)) {
++        ret = -ENOENT;
++        error_setg_errno(errp, -ret, "%s is not a regular file", filename);
++        goto done;
++    }
++
++    ret = unlink(filename);
++    if (ret < 0) {
++        ret = -errno;
++        error_setg_errno(errp, -ret, "Error when deleting file %s", filename);
++    }
++
++done:
++    return ret;
++}
++
+ /*
+  * Find allocation range in @bs around offset @start.
+  * May change underlying file descriptor's file offset.
+@@ -2925,6 +2952,7 @@ BlockDriver bdrv_file = {
+     .bdrv_co_block_status = raw_co_block_status,
+     .bdrv_co_invalidate_cache = raw_co_invalidate_cache,
+     .bdrv_co_pwrite_zeroes = raw_co_pwrite_zeroes,
++    .bdrv_co_delete_file = raw_co_delete_file,
+ 
+     .bdrv_co_preadv         = raw_co_preadv,
+     .bdrv_co_pwritev        = raw_co_pwritev,
+diff --git a/include/block/block.h b/include/block/block.h
+index f9415ed740..d287eaa9a6 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -370,6 +370,7 @@ int bdrv_freeze_backing_chain(BlockDriverState *bs, BlockDriverState *base,
+                               Error **errp);
+ void bdrv_unfreeze_backing_chain(BlockDriverState *bs, BlockDriverState *base);
+ 
++bool bdrv_path_is_regular_file(const char *path);
+ 
+ typedef struct BdrvCheckResult {
+     int corruptions;
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index d6415b53c1..6d4135ff54 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -309,6 +309,12 @@ struct BlockDriver {
+      */
+     int coroutine_fn (*bdrv_co_flush)(BlockDriverState *bs);
+ 
++    /*
++     * Delete a local created file.
++     */
++    int coroutine_fn (*bdrv_co_delete_file)(const char *filename,
++                                            Error **errp);
++
+     /*
+      * Flushes all data that was already written to the OS all the way down to
+      * the disk (for example file-posix.c calls fsync()).
 -- 
 2.20.1
 
