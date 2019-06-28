@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 253FA59CE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:25:04 +0200 (CEST)
-Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E5459CA6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:11:31 +0200 (CEST)
+Received: from localhost ([::1]:59640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqsB-0000fJ-BO
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41648)
+	id 1hgqf4-0002H2-JE
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41650)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <damien.hedde@greensocs.com>) id 1hgqGU-0000Ce-HA
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGU-0000Ch-HB
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <damien.hedde@greensocs.com>) id 1hgqGM-0001cW-P6
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGL-0001aO-9H
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:05 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:36960)
+Received: from beetle.greensocs.com ([5.135.226.135]:36982)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
- id 1hgqGM-0001RW-Af
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:58 -0400
+ id 1hgqGK-0001Rl-Pt
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:57 -0400
 Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
- by beetle.greensocs.com (Postfix) with ESMTPS id DB90596F56;
- Fri, 28 Jun 2019 12:45:39 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPS id 89F6696F57;
+ Fri, 28 Jun 2019 12:45:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1561725940;
+ s=mail; t=1561725941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=52GqakeBEYFuvvGGQuIdSqZ3Pd2SaMwkpCLAurtIDyg=;
- b=7SkZLZ7XEke4O7AOVq6ydDJvywXeJk21MVckEuIUo9UyHE7CxYoqQtR7anet/Z+d8NRMxH
- XPj3/QDGts+0akfBL3wM8HhmIwZzDLRIXZyoZnvqyVUQ83mCJJpA0J52kZ1tHQ3ZOg4TwA
- 6430zKi5d7vd8Wsp9JbZzUfRI7SpeKM=
+ bh=Ong44x20Rm5gt6iEZYBnbtQRmzo27WdaVQNGYbfZANU=;
+ b=xdhD0JqG4sX39UDxDDrU6GJdw+AyoOhZnyHVL2P5diI2K8ZUuaqAnZgdqEY926Xx7u29eg
+ tSJLpew9zXYlOn3UI0tSxQLFokmYLKj66wGKL0VGCj5Blu4bnLy2vSz+QbQSwJuV7gWVrs
+ ZEZkH/cnRS8dGK9/RfS0x1hur7DR9G0=
 From: Damien Hedde <damien.hedde@greensocs.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 14:45:32 +0200
-Message-Id: <20190628124534.10679-4-damien.hedde@greensocs.com>
+Date: Fri, 28 Jun 2019 14:45:33 +0200
+Message-Id: <20190628124534.10679-5-damien.hedde@greensocs.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190628124534.10679-1-damien.hedde@greensocs.com>
 References: <20190628124534.10679-1-damien.hedde@greensocs.com>
 MIME-Version: 1.0
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
- s=mail; t=1561725940;
+ s=mail; t=1561725941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=52GqakeBEYFuvvGGQuIdSqZ3Pd2SaMwkpCLAurtIDyg=;
- b=ykKUVV1gK/kbs7YSwkkom+VSz6gJJj0xjK1aUiUlxFduHTPem34+XQCXe7v2j7itLMurD3
- ohwRM7l9mG4mIATddPZGjPvdT36jBvuXXwOtQiw7nVPwjliTqqJO0xWoJzRJU2P0ZlHhau
- F/2+KXU2XOI6BHGFbbhXRbV5we7EBsc=
-ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561725940; a=rsa-sha256; cv=none;
- b=qvW0Rfe6Z6xbscss3SxZT9uzqT1+cH5Hu+dz5nZVqW0I9xeIaV8lSX1ycUA4gO+kTtc7oY
- U+B18rch+XLrufL4965dnzMqyWAiSk9r4x3kIXVNvTyrVmfmODpYlPVbujEdaRGKMoZ4+B
- 2fOEiRN1+66MJlLUXxXdEn3JE6ZC4Zk=
+ bh=Ong44x20Rm5gt6iEZYBnbtQRmzo27WdaVQNGYbfZANU=;
+ b=kEIaNtXQTQGW31G4bX0llfuF/1zTSd99+QsZFKVycIKGP+vg4I1BPaeQMg+dMklMYsbAF/
+ EFJ+0MiXKfhT7GoxA2Iji1locG5nT/2l6pYI2LbaSmg/d2m0I+nvPUHEQXvX0uH7Lhg1cJ
+ 03CLJSdb/RlUiMTDnpMiqqGAQRp5J80=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561725941; a=rsa-sha256; cv=none;
+ b=UOHYaG6Qe4PK8Rx2zVozTMkIiKBrpiIUqBapzGToQYaNop/W0kYhrtAv/xK8nD9zytbto3
+ g3gtbyp1bqhhtBvUyIZ726b4tj8L4yWvFuleWe/oGipAY5BOslqvJXEqa737rOzLNHGgfW
+ zjKNuDcHLdVSQR1eDK0uq38TuFfmPwQ=
 ARC-Authentication-Results: i=1;
 	beetle.greensocs.com;
 	none
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 5.135.226.135
-Subject: [Qemu-devel] [RFC PATCH 3/5] add qmp time-notify event triggering
- system
+Subject: [Qemu-devel] [RFC PATCH 4/5] fault_injection: introduce Python
+ scripting framework
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,243 +82,316 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds an event triggering mechanism composed of:
- + an event that is catchable by qmp clients
- + a command to create such events
+This is the actual Python framework.
+It provides some wrappers:
+  * which allow to notify a callback in a given qemu time.
+  * read or write some memory location
+  * read/write qom properties.
+  * set a GPIO.
 
-When triggered the event TIME_NOTIFICATION is signaled. Optionnaly the
-virtual machine is also paused (put in debug state). The virtual machine =
-can
-then be restarted by the _cont_ command.
-
-To create an event, an id and the deadline in virtual clock nanoseconds
-should be given to the "time-notify" qmp command. The event will be
-triggered at the given time which may be absolute or relative to the
-current virtual clock time.
-
-This allows to write qmp clients that can pause the vm, do some actions
-then restart the vm.
-
-This is based on the work of Frederic Konrad.
+This is based on the work of Frederic Konrad
 
 Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
 ---
- monitor/Makefile.objs         |   1 +
- monitor/qmp-cmd-time-notify.c | 116 ++++++++++++++++++++++++++++++++++
- monitor/trace-events          |   4 ++
- qapi/misc.json                |  48 ++++++++++++++
- 4 files changed, 169 insertions(+)
- create mode 100644 monitor/qmp-cmd-time-notify.c
+ scripts/qmp/fault_injection.py | 278 +++++++++++++++++++++++++++++++++
+ 1 file changed, 278 insertions(+)
+ create mode 100644 scripts/qmp/fault_injection.py
 
-diff --git a/monitor/Makefile.objs b/monitor/Makefile.objs
-index e91a8581cd..f4c7293460 100644
---- a/monitor/Makefile.objs
-+++ b/monitor/Makefile.objs
-@@ -1,3 +1,4 @@
- obj-y +=3D misc.o
- common-obj-y +=3D monitor.o qmp.o hmp.o
- common-obj-y +=3D qmp-cmds.o hmp-cmds.o
-+common-obj-y +=3D qmp-cmd-time-notify.o
-diff --git a/monitor/qmp-cmd-time-notify.c b/monitor/qmp-cmd-time-notify.=
-c
+diff --git a/scripts/qmp/fault_injection.py b/scripts/qmp/fault_injection=
+.py
 new file mode 100644
-index 0000000000..de13b2d3a1
+index 0000000000..2d23e69d47
 --- /dev/null
-+++ b/monitor/qmp-cmd-time-notify.c
-@@ -0,0 +1,116 @@
-+/*
-+ * qmp-cmd-time-notify.c
-+ *
-+ * Copyright (c) 2016,2019 GreenSocs SAS
-+ *
-+ * Authors:
-+ *    Fred Konrad
-+ *    Damien Hedde
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qapi/qmp/qerror.h"
-+#include "qapi/qmp/qjson.h"
-+#include "qapi/qapi-commands-misc.h"
-+#include "qapi/qapi-events-misc.h"
-+#include "qemu/timer.h"
-+#include "qapi/error.h"
-+#include "qemu/log.h"
-+#include "sysemu/sysemu.h"
-+#include "sysemu/cpus.h"
-+#include "trace.h"
-+
-+typedef struct TimeNotifEntry TimeNotifEntry;
-+static QLIST_HEAD(, TimeNotifEntry) events =3D QLIST_HEAD_INITIALIZER(ev=
-ents);
-+static QEMUTimer *timer;
-+
-+struct TimeNotifEntry {
-+    uint64_t time_ns;
-+    int64_t id;
-+    bool pause;
-+    QLIST_ENTRY(TimeNotifEntry) node;
-+};
-+
-+static void mod_next_event_timer(void)
-+{
-+    if (QLIST_EMPTY(&events)) {
-+        return;
-+    }
-+
-+    timer_mod(timer, QLIST_FIRST(&events)->time_ns);
-+}
-+
-+static void trigger_notif(void *opaque)
-+{
-+    TimeNotifEntry *entry;
-+    uint64_t current_time =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    bool do_stop;
-+
-+    entry =3D QLIST_FIRST(&events);
-+    assert(entry && entry->time_ns <=3D current_time);
-+    do_stop =3D entry->pause;
-+
-+    QLIST_REMOVE(entry, node);
-+    qapi_event_send_time_notification(entry->id, current_time);
-+    trace_qmp_time_notify_trigger(entry->id, current_time, entry->pause)=
-;
-+    g_free(entry);
-+
-+    mod_next_event_timer();
-+
-+    if (do_stop) {
-+        qemu_system_vmstop_request_prepare();
-+        qemu_system_vmstop_request(RUN_STATE_DEBUG);
-+        /*
-+         * FIXME: should not return to device code in case
-+         * vm_stop() has been requested.
-+         */
-+        cpu_stop_current();
-+    }
-+}
-+
-+void qmp_time_notify(int64_t event_id, int64_t time_ns,
-+                     bool has_relative, bool relative,
-+                     bool has_pause, bool pause,
-+                     Error **errp)
-+{
-+    TimeNotifEntry *new_entry, *entry, *prev =3D NULL;
-+
-+    if (!timer) {
-+        timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, trigger_notif, NULL);
-+    }
-+
-+    if (time_ns < 0) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "time_ns",
-+                "must be positive");
-+    }
-+
-+    new_entry =3D g_new0(TimeNotifEntry, 1);
-+    new_entry->id =3D event_id;
-+    new_entry->time_ns =3D time_ns;
-+    new_entry->pause =3D has_pause && pause;
-+    if (has_relative && relative) {
-+        new_entry->time_ns +=3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    }
-+    trace_qmp_time_notify_schedule(new_entry->id, new_entry->time_ns,
-+                                   new_entry->pause);
-+
-+    /* find the event just before the new one */
-+    QLIST_FOREACH(entry, &events, node) {
-+        if (entry->time_ns > new_entry->time_ns) {
-+            break;
-+        }
-+        prev =3D entry;
-+    }
-+
-+    /* then insert the new entry */
-+    if (prev) {
-+        QLIST_INSERT_AFTER(prev, new_entry, node);
-+    } else {
-+        QLIST_INSERT_HEAD(&events, new_entry, node);
-+        mod_next_event_timer();
-+    }
-+}
-diff --git a/monitor/trace-events b/monitor/trace-events
-index 0365ac4d99..73f375db68 100644
---- a/monitor/trace-events
-+++ b/monitor/trace-events
-@@ -13,3 +13,7 @@ monitor_suspend(void *ptr, int cnt) "mon %p: %d"
- monitor_qmp_cmd_in_band(const char *id) "%s"
- monitor_qmp_cmd_out_of_band(const char *id) "%s"
- handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
-+
-+# qmp-cmd-time-notify.c
-+qmp_time_notify_trigger(int64_t id, uint64_t time, int pause) "event #%"=
-PRId64" at %"PRIu64" ns pause %d"
-+qmp_time_notify_schedule(int64_t id, uint64_t time, int pause) "event #%=
-"PRId64" at %"PRIu64" ns pause %d"
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 255236b96f..8e84f4d4d3 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -3195,3 +3195,51 @@
- { 'command': 'gpio-set',
-   'data': { 'path': 'str', '*gpio': 'str', '*number': 'int', 'value': 'b=
-ool' }
- }
-+
-+##
-+# @time-notify:
++++ b/scripts/qmp/fault_injection.py
+@@ -0,0 +1,278 @@
++# Fault injection helper script based on top of QMP.
 +#
-+# Schedule a TIME_NOTIFICATION which will optionally stop qemu when trig=
-gered.
++# Copyright (C) 2016,2019 GreenSocs SAS
 +#
-+# @time_ns:  The virtual guest clock at which do the notification.
++# Authors:
++#   Frederic Konrad <fred.konrad@greensocs.com>
++#   Damien Hedde <damien.hedde@greensocs.com>
 +#
-+# @relative: Optional boolean telling if time_ns is relative to current =
-time.
-+#            Defaults to False.
++# This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
++# See the COPYING file in the top-level directory.
 +#
-+# @event_id: An ID, to track the notification.
-+#
-+# @pause: Optional boolean telling whether to pause qemu when notificati=
-on is
-+#         hit. Defaults to False.
-+#
-+# Returns: nothing in case of success
-+#
-+# Since 4.1
-+#
-+# Example:
-+#
-+# -> { "execute": "time-notify",
-+#      "arguments": { "event_id": 5,
-+#                      "time_ns": 10000000,
-+#                      "pause": true} }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'time-notify',
-+  'data': {'event_id': 'int', 'time_ns': 'int', '*relative': 'bool',
-+           '*pause': 'bool'}
-+}
 +
-+##
-+# @TIME_NOTIFICATION:
-+#
-+# Emitted when notification deadline is hit
-+#
-+# @time_ns:  The current virtual guest clock time.
-+#
-+# @event_id: The id given when setting up the notification.
-+#
-+# Since: 4.1
-+#
-+##
-+{ 'event': 'TIME_NOTIFICATION',
-+  'data': { 'event_id': 'int', 'time_ns': 'int'} }
++import json
++import ast
++import readline
++import sys
++import struct
++import os
++sys.path.append(os.path.join(os.path.dirname(__file__),
++                             '..', '..', 'python', 'qemu'))
++import qmp
++
++def die(cause):
++    print(sys.stderr.write('error: %s\n' % cause))
++    sys.exit(1)
++
++class FaultInjectionQMPError(Exception):
++    def __init__(self, rsp):
++        self.args =3D (rsp,)
++
++class FaultInjectionFramework(qmp.QEMUMonitorProtocol):
++    qemu_time =3D 0
++    verbose =3D 0
++    callback =3D {}
++    endianness =3D None
++
++    def print_v(self, msg, level):
++        if level <=3D self.verbose:
++            print(msg)
++
++    def print_qemu_version(self):
++        version =3D self._greeting['QMP']['version']['qemu']
++        print('Connected to QEMU %d.%d.%d' % (version['major'],
++                                                version['minor'],
++                                                version['micro']))
++
++    def __init__(self, address, verbose =3D 0):
++        self.verbose =3D verbose
++        qmp.QEMUMonitorProtocol.__init__(self, self.__get_address(addres=
+s))
++
++        try:
++            self._greeting =3D qmp.QEMUMonitorProtocol.connect(self)
++        except qmp.QMPConnectError:
++            die('Didn\'t get QMP greeting message')
++        except qmp.QMPCapabilitiesError:
++            die('Could not negotiate capabilities')
++        except self.error:
++            die('Could not connect to %s' % address)
++
++        self.print_qemu_version()
++        self._completer =3D None
++        self._pretty =3D False
++        self._transmode =3D False
++        self._actions =3D list()
++
++    def set_endian_big(self):
++        self.endianness =3D 'big'
++
++    def set_endian_little(self):
++        self.endianness =3D 'little'
++
++    def time_print(self, arg):
++        self.print_v('%sns: %s' % (self.qemu_time, arg), 1)
++
++    def send(self, qmpcmd):
++        self.print_v(qmpcmd, 2)
++        resp =3D self.cmd_obj(qmpcmd)
++        if resp is None:
++            die('Disconnected')
++        self.print_v(resp, 2)
++        if 'error' in resp:
++            raise FaultInjectionQMPError(resp)
++        return resp
++
++    def cont(self):
++        qmpcmd =3D {'execute': 'cont', 'arguments': {}}
++        self.send(qmpcmd)
++
++    def run_once(self):
++        # RUN the simulation until one event is received
++        self.cont()
++        # Wait for an event to appear
++        done =3D False
++        while done =3D=3D False:
++            for ev in self.get_events(True):
++                self.print_v(ev, 2)
++                if ev['event'] =3D=3D 'TIME_NOTIFICATION':
++                    data =3D ev['data']
++                    self.qemu_time =3D data['time_ns'];
++                    self.callback[data['event_id']]()
++                    self.cont()
++                    done =3D True
++                elif ev['event'] =3D=3D 'SHUTDOWN':
++                    self.clear_events()
++                    return True
++        self.clear_events()
++        return False
++
++    def run(self):
++        # RUN the simulation.
++        self.time_print('Simulation is now running')
++        # Wait for an event to appear
++        shutdown_evt =3D False
++        while shutdown_evt =3D=3D False:
++            shutdown_evt =3D self.run_once()
++        self.close()
++
++    def notify(self, time_ns, cb, relative =3D False):
++        # Notify a callback at qemu time time_ns
++        next_index =3D len(self.callback)
++        elt =3D 0
++        for elt in range(0, next_index + 1):
++            if elt =3D=3D next_index:
++                break
++            if self.callback[elt] =3D=3D cb:
++                break
++
++        self.callback[elt] =3D cb
++        if relative:
++            self.time_print('Notify %s in %sns' % (cb, time_ns))
++        else:
++            self.time_print('Notify %s at %sns' % (cb, time_ns))
++        qmpcmd =3D {'execute': 'time-notify',
++                  'arguments': {'event_id': elt,
++                                'time_ns': time_ns,
++                                'pause' : True}}
++        if relative:
++            qmpcmd['arguments']['relative'] =3D True
++        self.send(qmpcmd)
++
++    def _pvmemwrite(self, virtual, address, value, cpu =3D None):
++        # write a value to a virtual or physical address
++        if type(value) is not list:
++            value =3D list(value)
++
++        self.time_print('write: @%s0x%08x size %d values ['
++                        % ('V' if virtual else 'P', address, len(value))
++                        + ','.join('%d' % i for i in value)
++                        + '] from cpu %s' % (cpu))
++        qmpcmd =3D {'execute': 'memwrite' if virtual else 'pmemwrite',
++                  'arguments': {'addr': address, 'bytes': value}}
++        if cpu is not None:
++            qmpcmd['arguments']['cpu'] =3D cpu;
++        rsp =3D self.send(qmpcmd)
++
++    def _pvmemread(self, virtual, address, size, cpu =3D None):
++        # read a value to a virtual or physical address
++
++        self.time_print('read: @%s0x%08x size %d values from cpu %s'
++                        % ('V' if virtual else 'P', address, size, cpu))
++        qmpcmd =3D {'execute': 'memread' if virtual else 'pmemread',
++                  'arguments': {'addr': address, 'size': size}}
++        if cpu is not None:
++            qmpcmd['arguments']['cpu'] =3D cpu;
++        rsp =3D self.send(qmpcmd)
++        value =3D bytearray(rsp['return']['bytes'])
++        return value
++
++    def _memstructformat(self, size):
++        if self.endianness =3D=3D 'little':
++            s =3D '<'
++        elif self.endianness =3D=3D 'big':
++            s =3D '>'
++        else:
++            #defaults to native
++            s =3D '=3D'
++        s +=3D {1:'B', 2:'H', 4:'I', 8:'Q'}[size]
++        return s
++
++    def read_mem(self, address, size, cpu =3D None):
++        fmt =3D self._memstructformat(size)
++        value =3D self._pvmemread(True, address, size, cpu)
++        return struct.unpack(fmt, value)[0]
++
++    def write_mem(self, address, size, value, cpu =3D None):
++        fmt =3D self._memstructformat(size)
++        value =3D bytearray(struct.pack(fmt, value))
++        self._pvmemwrite(True, address, value, cpu)
++
++    def read_pmem(self, address, size):
++        fmt =3D self._memstructformat(size)
++        value =3D self._pvmemread(False, address, size)
++        return struct.unpack(fmt, value)[0]
++
++    def write_pmem(self, address, size, value):
++        fmt =3D self._memstructformat(size)
++        value =3D bytearray(struct.pack(fmt, value))
++        self._pvmemwrite(False, address, value)
++
++    def get_qom_property(self, path, property):
++        # Get a QOM property
++        qmpcmd =3D {'execute': 'qom-get',
++                  'arguments': {'path': path,
++                                'property': property}}
++        value =3D self.send(qmpcmd)['return']
++        return value
++
++    def set_qom_property(self, path, property, value):
++        # Set a QOM property
++        qmpcmd =3D {'execute': 'qom-set',
++                  'arguments': {'path': path,
++                                'property': property,
++                                'value': value}}
++        self.send(qmpcmd)
++
++    def set_gpio(self, path, gpio, num, value):
++        # Set a GPIO
++        qmpcmd =3D {'execute': 'gpio-set',
++                  'arguments': {'path': path, 'value': value}}
++        if gpio is not None:
++            qmpcmd['arguments']['gpio'] =3D gpio
++        if num is not None:
++            qmpcmd['arguments']['number'] =3D num
++        self.send(qmpcmd)
++
++    def help(self):
++        msg =3D [
++            "Fault Injection Framework Commands",
++            "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n",
++            "cont()",
++            " * Resume the simulation when the Virtual Machine is stoppe=
+d.\n",
++            "run()",
++            " * Start the simulation when the notify are set.\n",
++            "notify(delta_ns, cb)",
++            " * Notify the callback cb in guest time delta_ns.\n",
++            "write_mem(address, size, value, cpu)",
++            " * write @value of size @size at virtual @address from @cpu=
+.",
++            " * @size is in bytes, supported values are 1, 2, 4 and 8.",
++            " * @cpu is the cpu id.\n",
++            "read_mem(address, size, cpu)",
++            " * read a value of size @size at virtual @address from @cpu=
+.",
++            " * @size is in bytes, supported values are 1, 2, 4 and 8.",
++            " * @cpu is the cpu id.",
++            " * returns the value.\n",
++            "write_pmem(address, size, value)",
++            " * write @value of size @size at physical @address.",
++            " * @size is in bytes, supported values are 1, 2, 4 and 8.\n=
+",
++            "read_pmem(address, size)",
++            " * read a value of size @size at physical @address.",
++            " * @size is in bytes, supported values are 1, 2, 4 and 8.",
++            " * returns the value.\n",
++            "get_qom_property(path, property)",
++            " * Get a qom property.",
++            " * Returns the qom property named @property in @path.\n",
++            "set_qom_property(path, property, value)",
++            " * Set the property named @property in @path with @value.\n=
+",
++            "set_gpio(path, gpio, num, value)",
++            " * Set the gpio named @gpio number @num in @path with the @=
+val.",
++            " * @val is a boolean.\n"
++            ]
++        for m in msg:
++            print(m)
++
++    def __get_address(self, arg):
++        """
++        Figure out if the argument is in the port:host form, if it's not=
+ it's
++        probably a file path.
++        """
++        addr =3D arg.split(':')
++        if len(addr) =3D=3D 2:
++            try:
++                port =3D int(addr[1])
++            except ValueError:
++                raise QMPShellBadPort
++            return ( addr[0], port )
++        # socket path
++        return arg
++
 --=20
 2.22.0
 
