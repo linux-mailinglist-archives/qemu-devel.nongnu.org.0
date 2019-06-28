@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E5359042
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 04:09:01 +0200 (CEST)
-Received: from localhost ([::1]:55672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50EC55911D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 04:25:02 +0200 (CEST)
+Received: from localhost ([::1]:55780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hggJw-0004hs-I0
-	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 22:09:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50179)
+	id 1hggZR-0005Kl-Gd
+	for lists+qemu-devel@lfdr.de; Thu, 27 Jun 2019 22:25:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53986)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hgg8o-0000y6-C2
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 21:57:32 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hggXG-000406-CU
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 22:22:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hgg8l-0001i8-TY
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 21:57:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50858)
+ (envelope-from <dgibson@ozlabs.org>) id 1hggXE-0001g3-Hl
+ for qemu-devel@nongnu.org; Thu, 27 Jun 2019 22:22:46 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35709 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hgg8l-0001eV-I8
- for qemu-devel@nongnu.org; Thu, 27 Jun 2019 21:57:27 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 508E53083391;
- Fri, 28 Jun 2019 01:57:26 +0000 (UTC)
-Received: from localhost (ovpn-116-7.gru2.redhat.com [10.97.116.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C85765D9E2;
- Fri, 28 Jun 2019 01:57:25 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Thu, 27 Jun 2019 22:56:06 -0300
-Message-Id: <20190628015606.32107-30-ehabkost@redhat.com>
-In-Reply-To: <20190628015606.32107-1-ehabkost@redhat.com>
-References: <20190628015606.32107-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 28 Jun 2019 01:57:26 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 29/29] vl.c: Add -smp,
- dies=* command line support and update doc
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hggXC-00017U-6N; Thu, 27 Jun 2019 22:22:43 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45ZgX33Lf7z9sN6; Fri, 28 Jun 2019 12:22:27 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1561688547;
+ bh=eWBGQay8qbxpNg6Oc5IHuiAQvx5AvUW+IA7xBlypRiM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Kx+J8cN/JTVmUQ9uPeJDpXhE7KBFjy3b2GKUANJV1iDZ/lSIi+AE+5v/5cVwhm5dK
+ xj1XGFPw8U8q0YSNEHYSuXmJrGN9ZDlE1om8IBoiaW0MuP5giRjv1bfqndxl+0PPb8
+ ttioXxLoabnALej4NPjFvtYDaHs0bG//xtI/Eh1U=
+Date: Fri, 28 Jun 2019 12:19:02 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <20190628021902.GD3340@umbus.fritz.box>
+References: <20190616123751.781-1-mark.cave-ayland@ilande.co.uk>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+KJYzRxRHjYqLGl5"
+Content-Disposition: inline
+In-Reply-To: <20190616123751.781-1-mark.cave-ayland@ilande.co.uk>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v3 00/15] target/ppc: remove
+ getVSR()/putVSR() and further tidy-up
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,165 +56,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Like Xu <like.xu@linux.intel.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: gkurz@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Like Xu <like.xu@linux.intel.com>
 
-For PC target, users could configure the number of dies per one package
-via command line with this patch, such as "-smp dies=2,cores=4".
+--+KJYzRxRHjYqLGl5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The parsing rules of new cpu-topology model obey the same restrictions/logic
-as the legacy socket/core/thread model especially on missing values computing.
+On Sun, Jun 16, 2019 at 01:37:36PM +0100, Mark Cave-Ayland wrote:
+> With the conversion of PPC VSX registers to host endian during the 4.0 de=
+velopment
+> cycle, the VSX helpers getVSR() and putVSR() which were used to convert b=
+etween big
+> endian and host endian (and are currently just a no-op) can now be remove=
+d. This
+> eliminates an extra copy for each VSX source register at runtime.
+>=20
+> Patches 1-3 do the elimination work on a per-file basis and switch VSX re=
+gister
+> accesses to be via pointers rather than on copies managed using getVSR()/=
+putVSR().
+>=20
+> After this patches 4-14 change the VSX registers to be passed to helpers =
+via pointers
+> rather than register number so that the decode of the vector register poi=
+nters occurs
+> at translation time instead of at runtime. This matches how VMX instructi=
+ons are
+> currently decoded.
+>=20
+> Finally patch 15 performs some related tidy-up around VSX_FMADD which dec=
+odes the
+> a or m form at translation time, allowing a single helper function to be =
+used for
+> both implementations.
+>=20
+> Greg: I've added you as CC since you managed to find a bug in my last ser=
+ies. This
+> one is much more mechanical, but if you are able to confirm this doesn't =
+introduce
+> any regressions in your test images then that would be great.
+>=20
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>
 
-Signed-off-by: Like Xu <like.xu@linux.intel.com>
-Message-Id: <20190620054525.37188-4-like.xu@linux.intel.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- hw/i386/pc.c    | 30 +++++++++++++++++-------------
- vl.c            |  3 +++
- qemu-options.hx | 17 +++++++++--------
- 3 files changed, 29 insertions(+), 21 deletions(-)
+I've now applied the rest of this series to my ppc-for-4.1 tree.
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index b9c25bed35..3f0f221a5b 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1545,9 +1545,12 @@ static void pc_new_cpu(PCMachineState *pcms, int64_t apic_id, Error **errp)
-  */
- void pc_smp_parse(MachineState *ms, QemuOpts *opts)
- {
-+    PCMachineState *pcms = PC_MACHINE(ms);
-+
-     if (opts) {
-         unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
-         unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
-+        unsigned dies = qemu_opt_get_number(opts, "dies", 1);
-         unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
-         unsigned threads = qemu_opt_get_number(opts, "threads", 0);
- 
-@@ -1557,24 +1560,24 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-             threads = threads > 0 ? threads : 1;
-             if (cpus == 0) {
-                 sockets = sockets > 0 ? sockets : 1;
--                cpus = cores * threads * sockets;
-+                cpus = cores * threads * dies * sockets;
-             } else {
-                 ms->smp.max_cpus =
-                         qemu_opt_get_number(opts, "maxcpus", cpus);
--                sockets = ms->smp.max_cpus / (cores * threads);
-+                sockets = ms->smp.max_cpus / (cores * threads * dies);
-             }
-         } else if (cores == 0) {
-             threads = threads > 0 ? threads : 1;
--            cores = cpus / (sockets * threads);
-+            cores = cpus / (sockets * dies * threads);
-             cores = cores > 0 ? cores : 1;
-         } else if (threads == 0) {
--            threads = cpus / (cores * sockets);
-+            threads = cpus / (cores * dies * sockets);
-             threads = threads > 0 ? threads : 1;
--        } else if (sockets * cores * threads < cpus) {
-+        } else if (sockets * dies * cores * threads < cpus) {
-             error_report("cpu topology: "
--                         "sockets (%u) * cores (%u) * threads (%u) < "
-+                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
-                          "smp_cpus (%u)",
--                         sockets, cores, threads, cpus);
-+                         sockets, dies, cores, threads, cpus);
-             exit(1);
-         }
- 
-@@ -1586,26 +1589,27 @@ void pc_smp_parse(MachineState *ms, QemuOpts *opts)
-             exit(1);
-         }
- 
--        if (sockets * cores * threads > ms->smp.max_cpus) {
-+        if (sockets * dies * cores * threads > ms->smp.max_cpus) {
-             error_report("cpu topology: "
--                         "sockets (%u) * cores (%u) * threads (%u) > "
-+                         "sockets (%u) * dies (%u) * cores (%u) * threads (%u) > "
-                          "maxcpus (%u)",
--                         sockets, cores, threads,
-+                         sockets, dies, cores, threads,
-                          ms->smp.max_cpus);
-             exit(1);
-         }
- 
--        if (sockets * cores * threads != ms->smp.max_cpus) {
-+        if (sockets * dies * cores * threads != ms->smp.max_cpus) {
-             warn_report("Invalid CPU topology deprecated: "
--                        "sockets (%u) * cores (%u) * threads (%u) "
-+                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-                         "!= maxcpus (%u)",
--                        sockets, cores, threads,
-+                        sockets, dies, cores, threads,
-                         ms->smp.max_cpus);
-         }
- 
-         ms->smp.cpus = cpus;
-         ms->smp.cores = cores;
-         ms->smp.threads = threads;
-+        pcms->smp_dies = dies;
-     }
- 
-     if (ms->smp.cpus > 1) {
-diff --git a/vl.c b/vl.c
-index f6e591b80c..23fe3e753b 100644
---- a/vl.c
-+++ b/vl.c
-@@ -1233,6 +1233,9 @@ static QemuOptsList qemu_smp_opts = {
-         }, {
-             .name = "sockets",
-             .type = QEMU_OPT_NUMBER,
-+        }, {
-+            .name = "dies",
-+            .type = QEMU_OPT_NUMBER,
-         }, {
-             .name = "cores",
-             .type = QEMU_OPT_NUMBER,
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 0d8beb4afd..a5b314a448 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -138,25 +138,26 @@ no incompatible TCG features have been enabled (e.g. icount/replay).
- ETEXI
- 
- DEF("smp", HAS_ARG, QEMU_OPTION_smp,
--    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,sockets=sockets]\n"
-+    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
-     "                set the number of CPUs to 'n' [default=1]\n"
-     "                maxcpus= maximum number of total cpus, including\n"
-     "                offline CPUs for hotplug, etc\n"
--    "                cores= number of CPU cores on one socket\n"
-+    "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
-     "                threads= number of threads on one CPU core\n"
-+    "                dies= number of CPU dies on one socket (for PC only)\n"
-     "                sockets= number of discrete sockets in the system\n",
-         QEMU_ARCH_ALL)
- STEXI
--@item -smp [cpus=]@var{n}[,cores=@var{cores}][,threads=@var{threads}][,sockets=@var{sockets}][,maxcpus=@var{maxcpus}]
-+@item -smp [cpus=]@var{n}[,cores=@var{cores}][,threads=@var{threads}][,dies=dies][,sockets=@var{sockets}][,maxcpus=@var{maxcpus}]
- @findex -smp
- Simulate an SMP system with @var{n} CPUs. On the PC target, up to 255
- CPUs are supported. On Sparc32 target, Linux limits the number of usable CPUs
- to 4.
--For the PC target, the number of @var{cores} per socket, the number
--of @var{threads} per cores and the total number of @var{sockets} can be
--specified. Missing values will be computed. If any on the three values is
--given, the total number of CPUs @var{n} can be omitted. @var{maxcpus}
--specifies the maximum number of hotpluggable CPUs.
-+For the PC target, the number of @var{cores} per die, the number of @var{threads}
-+per cores, the number of @var{dies} per packages and the total number of
-+@var{sockets} can be specified. Missing values will be computed.
-+If any on the three values is given, the total number of CPUs @var{n} can be omitted.
-+@var{maxcpus} specifies the maximum number of hotpluggable CPUs.
- ETEXI
- 
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
--- 
-2.18.0.rc1.1.g3f1ff2140
 
+> v3:
+> - Rebase onto master
+> - Add latest R-B tags from Richard
+> - Fix zero init in helper_xvxsigsp() in patch 1
+> - Preserve order of do_float_check_status() in helper_xsrqpi() in patch 1
+> - Remove accidental write after store in VSX_STXVL() macro, and also just=
+ use
+>   the xt pointer directly in patch 2
+>=20
+> v2:
+> - Rebase onto master
+> - Use working copy of VSX destination registers in patches 1-3 to keep cu=
+rrent
+>   semantics where src =3D=3D dest and exception handling
+> - Add patches 4 and 6 to split out helper functions still requiring an op=
+code
+>   parameter
+> - Remove opcode parameter from GEN_VSX_HELPER_X3 and GEN_VSX_HELPER_X2 as=
+ it
+>   isn't required for the common case
+> - Drop VSX_TEST_DC improvement patch since it is no longer applicable wit=
+h the
+>   removal of opcode from the above macros
+> - Rework VSX_MADD improvement patch to use a single helper for both a and=
+ m
+>   forms as suggested by Richard
+>=20
+>=20
+> Mark Cave-Ayland (15):
+>   target/ppc: remove getVSR()/putVSR() from fpu_helper.c
+>   target/ppc: remove getVSR()/putVSR() from mem_helper.c
+>   target/ppc: remove getVSR()/putVSR() from int_helper.c
+>   target/ppc: introduce separate VSX_CMP macro for xvcmp* instructions
+>   target/ppc: introduce GEN_VSX_HELPER_X3 macro to fpu_helper.c
+>   target/ppc: introduce separate generator and helper for xscvqpdp
+>   target/ppc: introduce GEN_VSX_HELPER_X2 macro to fpu_helper.c
+>   target/ppc: introduce GEN_VSX_HELPER_X2_AB macro to fpu_helper.c
+>   target/ppc: introduce GEN_VSX_HELPER_X1 macro to fpu_helper.c
+>   target/ppc: introduce GEN_VSX_HELPER_R3 macro to fpu_helper.c
+>   target/ppc: introduce GEN_VSX_HELPER_R2 macro to fpu_helper.c
+>   target/ppc: introduce GEN_VSX_HELPER_R2_AB macro to fpu_helper.c
+>   target/ppc: decode target register in VSX_VECTOR_LOAD_STORE_LENGTH at
+>     translation time
+>   target/ppc: decode target register in VSX_EXTRACT_INSERT at
+>     translation time
+>   target/ppc: improve VSX_FMADD with new GEN_VSX_HELPER_VSX_MADD macro
+>=20
+>  target/ppc/fpu_helper.c             | 841 ++++++++++++++++--------------=
+------
+>  target/ppc/helper.h                 | 320 +++++++-------
+>  target/ppc/int_helper.c             |  26 +-
+>  target/ppc/internal.h               |  12 -
+>  target/ppc/mem_helper.c             |  25 +-
+>  target/ppc/translate/vsx-impl.inc.c | 567 ++++++++++++++++--------
+>  target/ppc/translate/vsx-ops.inc.c  |  70 +--
+>  7 files changed, 952 insertions(+), 909 deletions(-)
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--+KJYzRxRHjYqLGl5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0VeRYACgkQbDjKyiDZ
+s5IaMxAAlewwuUR8wPBE+1QtnQZxO0ResNITUuhmveuJeaJv6hdy7XCo6uuovdq/
+S5ZfsKbdk4ejSnYXtGapgTQ5MY9Hp68qob44JbniZGaMRedrArfxvzsIIS3+h2ka
+YU8GYuOmwe/XDlUFbrVbulPCB4DeXIELIuPx9QkV+obUBpuR7ZrjosLZVhtrspRj
+KWkiwS7JxLfKjYCV/CYPt02qND5WcrTO8UJ/WpbXwf0jxHQvrx3DRWG9T8xqXhEA
+j5zc6JFKIcK03tQzeIyYNajfFMY5n7KqU1rMZ2MP+GfMe6Eyw3hOwMi7O1PcU96t
+IQZerkHJ6ef92xzfFM55cW9tFi5PtHAvyUzHKl4dUtbEZE8xM4N7ILxjp2+RVbA3
+/1JkNbphKlVCeGFEwcQ1buuV+96FSKinC/YXXiziAsYRkoupdr+0ijIxVQsWcF5M
+ro0LxKlBWnog0vizQT2FLPHe+eGiNozLqRzZKRn6FsWfVKl6L3wdVF4VMKq9Vxl8
+eLz38yCcrS/WjG3/IjRJIJJHOTXj/XacSI3P0f3aaWsfDArqH+cHUsDju5duCwp1
+Lui4/S50fCh6/hekT0PEDXibcxa9aMgd7riJ90L5bX9eEo+hGSD4pwgMXrLmj+Wx
+hcnRlkJkyazaVdMtmxUfTwAdXdrDZOkMbZ4msSGmVZG9MS/aLJ4=
+=j3Ez
+-----END PGP SIGNATURE-----
+
+--+KJYzRxRHjYqLGl5--
 
