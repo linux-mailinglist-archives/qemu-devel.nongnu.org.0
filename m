@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE70F5A0BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:25:33 +0200 (CEST)
-Received: from localhost ([::1]:34028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9718A5A257
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:29:46 +0200 (CEST)
+Received: from localhost ([::1]:34750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgtgq-0007Ip-VR
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:25:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38309)
+	id 1hgugz-00047o-Os
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38734)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=075cc3f16=alistair.francis@wdc.com>)
- id 1hgtZV-0003oc-I0
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:17:58 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hgtbi-00055Z-4l
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:20:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=075cc3f16=alistair.francis@wdc.com>)
- id 1hgtZU-0004N8-67
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:17:57 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:63621)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=075cc3f16=alistair.francis@wdc.com>)
- id 1hgtZT-0004It-IR; Fri, 28 Jun 2019 12:17:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1561738741; x=1593274741;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=s9wRAO6C8hWPO5VAyLqjZCKMAchxKjpN7eIm/4AxpTY=;
- b=DtdPoa5DdI/O+eGsQGKhosVm51C1jYQptsT8LXeej4gOmcfEX/XO6Yak
- GU19d1NOmdLQ2by9V3EVY3KhvYaqBrt+cvi6DTpTkFZygxooYpnYwHmMz
- iidtUURMfF07h0YPnKMGdMk9PJezktvv3q0ES7rzesvTrj3ANCD2Goccy
- u1bDmm+evVuSXJqzC5xYJRvzLLg172GHOMBpso00E4TXNvmhW0x+Eabwq
- djw2ty8jq6jY0s5DxB2g9W5iQy4khZOjUNs5C4n/hiUs49X0UlwA1y80/
- aKXt5SuBTMMmyTpGUbTqmmZxzXDT6nTwdXMxDpH3Ght0FPd1esGzGR2WO g==;
-X-IronPort-AV: E=Sophos;i="5.63,428,1557158400"; d="scan'208";a="211619633"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 29 Jun 2019 00:18:42 +0800
-IronPort-SDR: 4poUFJKLkehlElB4ml2LBEsOC+1k5e1lnyK1cMRiTqVXZE3WFQbBAPrxMqKynM+RiV8LDA015S
- UwPuzWyESeeyOxXZSiQoFZqWDlMEe1vK+Y3LxkM1mOZX7YrjK4zxUxgIynnpMQ9v1Vm3yaRNOJ
- fQP7TjzXO2oLmw3ve21MGvAhZkVXOY3o0L+jwgBTKbc5b9L/VphcNNRh8CRYOusoOVOkosmlwU
- EX00yxw3ws5ful0MYoEiuGYy/kgKXPcwuGieGtkmqAoGw+3sVZl5SXPNKvX/y4fMQ/84fEqBJ0
- 8IkfHPRm7gz1j/+N+DpRGRk/
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP; 28 Jun 2019 09:16:48 -0700
-IronPort-SDR: XUtBhMnO7xi1KTZ892JExVz2LtgjRVBTbT4TE3f03+PXE712QBWQXQMSmZWv/PxBTFidHMSwH/
- golFUsmnPLf1GlY0MEnp7n0apX+oHzZCxRl7fAs4pP++OrzAxzAP/UjwMrZv6MQ69M/swXwIdJ
- 2w6CiQs6Qknszgj43HE8DE6llQCGixIzJlNOFGyTcPETOHl1FDYV1srUtfs/nmfd5obC9CZ9LZ
- XFzVQ9WcfLI9+lfuUOwOM4hQkrBIKzunzMS+p/EBmdp6KgUXs/bvf+zrkdW6sUa+ilCtVnyxzB
- 1TI=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
- risc6-mainframe.int.fusionio.com) ([10.196.157.140])
- by uls-op-cesaip02.wdc.com with ESMTP; 28 Jun 2019 09:17:43 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org,
-	palmer@sifive.com
-Date: Fri, 28 Jun 2019 09:15:03 -0700
-Message-Id: <20190628161503.16760-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
+ (envelope-from <alistair23@gmail.com>) id 1hgtbf-0006ng-BO
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:20:13 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:45468)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hgtbd-0006jx-F8; Fri, 28 Jun 2019 12:20:10 -0400
+Received: by mail-lf1-x144.google.com with SMTP id u10so4308068lfm.12;
+ Fri, 28 Jun 2019 09:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3L0a++vJ0Hqer90XeUWUES0yvyyu/FiXM74eh2UIIoI=;
+ b=eZ33s0e5VPYr9AeHkc2UPccaxXwH66fbBuRzmTs4VdNNYW7vFlS38Y7iSofZ460S0R
+ CXVYr3PPa2k292W0YcYFxyTX//3K/TajpyQtDTHBN67noB0hO2qVM8xs8g6/X7C5UsoE
+ TBfAiPEpDIhVXn1XCEmQzTivZ+OAuAdfZmPhHeGbfW7q7al7LTv9Wz59z9WxeHBwKcIF
+ iJnRzv6FOyh7M9zfxnqEsHgzxAXZqgEqPlrOnMjuvuxyTpgbo+ZII+azI6C78uwYVgnN
+ OUxk+oa1N7F453l6yLgvmkaywlq+u6qhknrxizVDR9vFNM5xC+xB6ssbdaN0k4qtJYGr
+ xOKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3L0a++vJ0Hqer90XeUWUES0yvyyu/FiXM74eh2UIIoI=;
+ b=JTt4De7n0vZMU22ww6KvHPQDvsJuKqAUsSnrrmmKgW00hEbJ7VKY+kJJ1kDD/D3fKn
+ hjPba6kxwYoD7YxogvSD0NQZV/cKTSAw2ct1rZUn4El/YUE/cRiSS9DICoLlANkAG9TE
+ 7ujpAVyChbguZrGRacsU1p+bYqBzQH/OCmMYfry17aOg+eWkj5CYgH3BzB80RqSCsnaU
+ mtU8hGvgQnrlR951o2DKpwjIL5LMOkfyFHBXnQ/YF8oLgAJsBm6Cqf6wstMvXQ9pLqGh
+ ErO2TA28jbSGJYYROBrjGsZVcqFX7+3Cq56N0MSyzyRI9YvBvbYctOj3SQcTQ5qjH4NY
+ B9Zg==
+X-Gm-Message-State: APjAAAWswCNE29dcdZTG/hUC3ttIzJCxlo9wdiGuMUXHnqs6ff5snLKc
+ u9lg90/DQhVhRIsMG283nSsFtii6alo2cY1AoTQ=
+X-Google-Smtp-Source: APXvYqx22sgpTlr3scbGHhOFgnltQylPTT0iKg2Wdn5d+JfP7uEkZ6dhksxCYs/362ZvkMn4f33iepD9lRtTcdWpYJs=
+X-Received: by 2002:a05:6512:29a:: with SMTP id
+ j26mr5302424lfp.44.1561738806501; 
+ Fri, 28 Jun 2019 09:20:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190627202719.17739-1-philmd@redhat.com>
+ <20190627202719.17739-11-philmd@redhat.com>
+In-Reply-To: <20190627202719.17739-11-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 28 Jun 2019 09:17:05 -0700
+Message-ID: <CAKmqyKMk=bHg8KWvsfCoQwKp2Rk3z=rwoq0XDA42PLEeY-5m=A@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 68.232.143.124
-Subject: [Qemu-devel] [PATCH] fixup! roms: Add OpenSBI version 0.3
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] [PATCH v5 10/28] hw/block/pflash_cfi02: Extract
+ the pflash_data_read() function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,28 +75,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
+ Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----
- roms/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, Jun 27, 2019 at 1:46 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> Extract the code block in a new function, remove a goto statement.
+>
+> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+> Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> [PMD: Extracted from bigger patch, remove the XXX tracing comment]
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-diff --git a/roms/Makefile b/roms/Makefile
-index 562ed726fd..dc70fb5aea 100644
---- a/roms/Makefile
-+++ b/roms/Makefile
-@@ -179,7 +179,7 @@ opensbi64-virt:
- 		PLATFORM="qemu/virt"
- 	cp opensbi/build/platform/qemu/virt/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-virt-fw_jump.bin
- 
--opensbi64-virt:
-+opensbi64-sifive_u:
- 	$(MAKE) -C opensbi \
- 		CROSS_COMPILE=$(riscv64_cross_prefix) \
- 		PLATFORM="qemu/sifive_u"
--- 
-2.22.0
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
+
+> ---
+>  hw/block/pflash_cfi02.c | 24 ++++++++++++++----------
+>  1 file changed, 14 insertions(+), 10 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 49afecb921..c079a63880 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -165,12 +165,23 @@ static void pflash_timer (void *opaque)
+>      pfl->cmd =3D 0;
+>  }
+>
+> +/*
+> + * Read data from flash.
+> + */
+> +static uint64_t pflash_data_read(PFlashCFI02 *pfl, hwaddr offset,
+> +                                 unsigned int width)
+> +{
+> +    uint8_t *p =3D (uint8_t *)pfl->storage + offset;
+> +    uint64_t ret =3D pfl->be ? ldn_be_p(p, width) : ldn_le_p(p, width);
+> +    trace_pflash_data_read(offset, width << 1, ret);
+> +    return ret;
+> +}
+> +
+>  static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr offset,
+>                              int width, int be)
+>  {
+>      hwaddr boff;
+>      uint32_t ret;
+> -    uint8_t *p;
+>
+>      ret =3D -1;
+>      /* Lazy reset to ROMD mode after a certain amount of read accesses *=
+/
+> @@ -194,15 +205,8 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr=
+ offset,
+>      case 0x80:
+>          /* We accept reads during second unlock sequence... */
+>      case 0x00:
+> -    flash_read:
+>          /* Flash area read */
+> -        p =3D (uint8_t *)pfl->storage + offset;
+> -        if (pfl->be) {
+> -            ret =3D ldn_be_p(p, width);
+> -        } else {
+> -            ret =3D ldn_le_p(p, width);
+> -        }
+> -        trace_pflash_data_read(offset, width << 1, ret);
+> +        ret =3D pflash_data_read(pfl, offset, width);
+>          break;
+>      case 0x90:
+>          /* flash ID read */
+> @@ -222,7 +226,7 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
+offset,
+>              }
+>              /* Fall through to data read. */
+>          default:
+> -            goto flash_read;
+> +            ret =3D pflash_data_read(pfl, offset, width);
+>          }
+>          DPRINTF("%s: ID " TARGET_FMT_plx " %" PRIx32 "\n", __func__, bof=
+f, ret);
+>          break;
+> --
+> 2.20.1
+>
+>
 
