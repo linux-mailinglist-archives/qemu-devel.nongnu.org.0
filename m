@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931985A1B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:02:49 +0200 (CEST)
-Received: from localhost ([::1]:34444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937565A21A
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:17:52 +0200 (CEST)
+Received: from localhost ([::1]:34610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hguGu-0001eE-QX
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:02:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42250)
+	id 1hguVT-0003MI-NO
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44985)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hgtqb-0008TP-Qf
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:35:38 -0400
+ (envelope-from <no-reply@patchew.org>) id 1hgu3f-0000hH-2z
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:49:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hgtqZ-0004eC-4o
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:35:37 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:46196)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hgtqY-0004dI-GY; Fri, 28 Jun 2019 12:35:34 -0400
-Received: by mail-lf1-x144.google.com with SMTP id z15so4347818lfh.13;
- Fri, 28 Jun 2019 09:35:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=D+wXCB66jnKZG2cMBBezUE1NCkDNQf8ea/KR76ELM5I=;
- b=QpYIqkf5rJsSAgt4es9MjgCbyFUgMpdHXYZ2i16NCYYg2fEAofWdG0cEgbzyz4TGvh
- eXkgHVyPDwaDMtPuQyQ2d71il6LLJ3+0XblQKrEGQsf+v/mMGs9pYBBrSNDas6TNZWZD
- MTYz/Gi/T2Bov99bLr/y1wAA9QXwLgs/skKdEjk3AKEUD1gLNrHvDMfKfwSGQycrDrJk
- PlGUr2d9qZbZLEaCWfKHmlzuuaTZTs0gg4PHLxRc+nCmbXy+z/jrCt2y4Cn2XYMdXEY5
- TuRBHN09BYoItIGwSJptglpUA+rLiDtHu2uRxlM/+/2Sp84fAAW2IeQD/fQsSwsF8ZZa
- OE4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=D+wXCB66jnKZG2cMBBezUE1NCkDNQf8ea/KR76ELM5I=;
- b=OVi9mEwALdzT100AzOP4Z5wXDXMws3qS9KUKgM+RfD6ZDOWUFPl6QelYHSEmpx43mq
- huBy9VpC3Y0V2wngpnPtdhA6lenTb+hujPvRg5FSzgoKCOGtSeL7yQcFr3Ov6WZjPInC
- 8pyDoT9L3k6Nf8OgR8BcQLDVHpxOtGNeEqKjmJAkzWFkRunvPBkIcfkW7xies8k7xvuy
- g0P0UWoSx6YxbyufvyXOwBqnZyDJ0VVSRj/3CZ3lkjsbUfW+ZkfNFZljeadUvM2F99iT
- b4+aIKrdpo7+86lsWJw9RsJ4Z9Oox0MRgTh3KixHHpuX00iqAz/LC5aoPGmTCBniz1T0
- wyDA==
-X-Gm-Message-State: APjAAAXYqrQFcM3r+bQttR6I2BDFle2fY+cAbmQSsZY+vP9/gRsHgMQr
- 5ysWDvPmTz94bWQ6Tk2bJ/UMFANeT5RPgtV5xmw=
-X-Google-Smtp-Source: APXvYqwOhYlWm0RID2qAqFdtTeN5oleToKZHH2Dp2KOBCPpyPA22c/3hnw7DgUPsKpYfWe2z78asEHxQfDWhoDh7ljU=
-X-Received: by 2002:a05:6512:29a:: with SMTP id
- j26mr5335453lfp.44.1561739733128; 
- Fri, 28 Jun 2019 09:35:33 -0700 (PDT)
+ (envelope-from <no-reply@patchew.org>) id 1hgu3c-0005oe-RD
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:49:07 -0400
+Resent-Date: Fri, 28 Jun 2019 12:49:07 -0400
+Resent-Message-Id: <E1hgu3c-0005oe-RD@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21527)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <no-reply@patchew.org>)
+ id 1hgu3c-0005nU-KW
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 12:49:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1561740468; cv=none; d=zoho.com; s=zohoarc; 
+ b=RH/2N2JYPlEEbHhK7U+HsxsWl+0sN1nZujJCWs8IxRHEnaQyktLKa+3socj+x01IdpMXPRmvg5wyPX+tPPj2r7kOwrZBrhNg8FuYJ6N+2/DJUaxWOsc8yU7cZfZkWS7dVlyTeAZhLGq1SnbVkQ1b6ILuJISLCt+Pz8GhoMSmj0M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+ s=zohoarc; t=1561740468;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+ bh=UWzgAJTC60sw6bX5zC4CaE6iPEsRm4xmKWrpZC2DwiA=; 
+ b=f9fMOZa17mKbX6IZqW4y2UfSf6blizSdJV8qOG1nb0GTD3sEJA40s/lqEXS3PGcPZ87aQxeiz/4cT/CayLZhREgpmU6Oqiusq3iQ0rYIPfMIlVcTYUOVdyRmpjtP+nWX857vj0nhmSFuPhVWRRpFjH9sqZOs9G5GkkiankIFlpk=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1561739559063346.9971219841457;
+ Fri, 28 Jun 2019 09:32:39 -0700 (PDT)
+Message-ID: <156173955747.16285.13053023179559666886@c4a48874b076>
+In-Reply-To: <20190628115349.60293-1-slp@redhat.com>
 MIME-Version: 1.0
-References: <20190627202719.17739-1-philmd@redhat.com>
- <20190627202719.17739-15-philmd@redhat.com>
-In-Reply-To: <20190627202719.17739-15-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 28 Jun 2019 09:32:32 -0700
-Message-ID: <CAKmqyKOG87K2vZHRsoGtmce6pVsJCW9yrq6WhAiKBsuBPMd4BA@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: Re: [Qemu-devel] [PATCH v5 14/28] hw/block/pflash_cfi02: Remove
- pointless local variable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: slp@redhat.com
+Date: Fri, 28 Jun 2019 09:32:39 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH 0/4] Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,111 +61,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stephen Checkoway <stephen.checkoway@oberlin.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Qemu-block <qemu-block@nongnu.org>, John Snow <jsnow@redhat.com>,
- Magnus Damm <magnus.damm@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Alistair Francis <alistair@alistair23.me>,
- qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- "open list:New World" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, slp@redhat.com, mst@redhat.com, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 1:59 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> We can directly use pfl->total_len, remove the local 'chip_len'
-> variable.
->
-> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-> Message-Id: <20190426162624.55977-6-stephen.checkoway@oberlin.edu>
-> [PMD: Extracted from bigger patch]
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDYyODExNTM0OS42MDI5
+My0xLXNscEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
+ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
+YXRpb246CgpNZXNzYWdlLWlkOiAyMDE5MDYyODExNTM0OS42MDI5My0xLXNscEByZWRoYXQuY29t
+ClR5cGU6IHNlcmllcwpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIDAvNF0gSW50cm9kdWNl
+IHRoZSBtaWNyb3ZtIG1hY2hpbmUgdHlwZQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
+aW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25m
+aWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
+YW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9z
+Y3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVO
+RCA9PT0KClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKN2VhNjMzYyBody9pMzg2OiBJ
+bnRyb2R1Y2UgdGhlIG1pY3Jvdm0gbWFjaGluZSB0eXBlCmRmNjEzZTIgaHcvaTM4NjogQWRkIGFu
+IEludGVsIE1QVGFibGUgZ2VuZXJhdG9yCmE0MDQ2YjggaHcvdmlydGlvOiBGYWN0b3JpemUgdmly
+dGlvLW1taW8gaGVhZGVycwo2ZmMzY2M1IGh3L2kzODY6IEZhY3Rvcml6ZSBDUFUgcm91dGluZQoK
+PT09IE9VVFBVVCBCRUdJTiA9PT0KMS80IENoZWNraW5nIGNvbW1pdCA2ZmMzY2M1ZGI2YjEgKGh3
+L2kzODY6IEZhY3Rvcml6ZSBDUFUgcm91dGluZSkKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
+bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNTE6IApuZXcg
+ZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlIGEgbGVhZGluZyAv
+KiBvbiBhIHNlcGFyYXRlIGxpbmUKIzEwMjogRklMRTogaHcvaTM4Ni9jcHUuYzo0NzoKKy8qIENh
+bGN1bGF0ZXMgaW5pdGlhbCBBUElDIElEIGZvciBhIHNwZWNpZmljIENQVSBpbmRleAoKV0FSTklO
+RzogQmxvY2sgY29tbWVudHMgc2hvdWxkIGFsaWduIHRoZSAqIG9uIGVhY2ggbGluZQojMTU1OiBG
+SUxFOiBody9pMzg2L2NwdS5jOjEwMDoKKyAgICAgICAgICogLXNtcCBoYXNuJ3QgYmVlbiBwYXJz
+ZWQgYWZ0ZXIgaXQKKyAgICAgICAgKi8KCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwoj
+MTY4OiBGSUxFOiBody9pMzg2L2NwdS5jOjExMzoKKyAgICAgICAgbXMtPnBvc3NpYmxlX2NwdXMt
+PmNwdXNbaV0uYXJjaF9pZCA9IGNwdV9hcGljaWRfZnJvbV9pbmRleChpLCBjb21wYXRfYXBpY19p
+ZF9tb2RlKTsKCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBz
+ZXBhcmF0ZSBsaW5lCiMyMTQ6IEZJTEU6IGh3L2kzODYvY3B1LmM6MTU5OgorICAgIC8qIENhbGN1
+bGF0ZXMgdGhlIGxpbWl0IHRvIENQVSBBUElDIElEIHZhbHVlcwoKdG90YWw6IDEgZXJyb3JzLCA0
+IHdhcm5pbmdzLCA0MzggbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS80IGhhcyBzdHlsZSBwcm9ibGVt
+cywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0
+aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJ
+TlRBSU5FUlMuCgoyLzQgQ2hlY2tpbmcgY29tbWl0IGE0MDQ2YjgyNDU4OCAoaHcvdmlydGlvOiBG
+YWN0b3JpemUgdmlydGlvLW1taW8gaGVhZGVycykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRl
+bGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojNjY6IApuZXcg
+ZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAxMDUgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggMi80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
+IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
+aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjMvNCBDaGVja2lu
+ZyBjb21taXQgZGY2MTNlMmRiZjUxIChody9pMzg2OiBBZGQgYW4gSW50ZWwgTVBUYWJsZSBnZW5l
+cmF0b3IpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRvZXMgTUFJ
+TlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzE2OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQKCnRvdGFs
+OiAwIGVycm9ycywgMSB3YXJuaW5ncywgMzc2IGxpbmVzIGNoZWNrZWQKClBhdGNoIDMvNCBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgo0LzQgQ2hlY2tpbmcgY29tbWl0IDdlYTYzM2MxZTM5ZSAo
+aHcvaTM4NjogSW50cm9kdWNlIHRoZSBtaWNyb3ZtIG1hY2hpbmUgdHlwZSkKV0FSTklORzogYWRk
+ZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0
+aW5nPwojNjA6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNo
+YXJhY3RlcnMKIzE5ODogRklMRTogaHcvaTM4Ni9taWNyb3ZtLmM6MTM0OgorICAgIG9iamVjdF9w
+cm9wZXJ0eV9hZGRfY2hpbGQocWRldl9nZXRfbWFjaGluZSgpLCAiaW9hcGljIiwgT0JKRUNUKGlv
+YXBpY19kZXYpLCBOVUxMKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyMDg6
+IEZJTEU6IGh3L2kzODYvbWljcm92bS5jOjE0NDoKKyAgICBtbXMtPmdzaSA9IHFlbXVfYWxsb2Nh
+dGVfaXJxcyhtaWNyb3ZtX2dzaV9oYW5kbGVyLCBpb2FwaWNfaXJxLCBJT0FQSUNfTlVNX1BJTlMp
+OwoKRVJST1I6IGNvbnNpZGVyIHVzaW5nIHFlbXVfc3RydG9sIGluIHByZWZlcmVuY2UgdG8gc3Ry
+dG9sCiMzMDA6IEZJTEU6IGh3L2kzODYvbWljcm92bS5jOjIzNjoKKyAgICBpbmRleCA9IHN0cnRv
+bChzZXBhcmF0b3IgKyAxLCBOVUxMLCAxMCk7CgpFUlJPUjogbGluZSBvdmVyIDkwIGNoYXJhY3Rl
+cnMKIzMxODogRklMRTogaHcvaTM4Ni9taWNyb3ZtLmM6MjU0Ogorc3RhdGljIHZvaWQgbWljcm92
+bV9zZXR1cF9ib290cGFyYW1zKE1pY3Jvdm1NYWNoaW5lU3RhdGUgKm1tcywgY29uc3QgZ2NoYXIg
+Kmtlcm5lbF9jbWRsaW5lKQoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM0NDog
+RklMRTogaHcvaTM4Ni9taWNyb3ZtLmM6MjgwOgorICAgICAgICAgICAgICAgIGdjaGFyICptbWlv
+X2NtZGxpbmUgPSBtaWNyb3ZtX2dldF92aXJ0aW9fbW1pb19jbWRsaW5lKG1taW9fYnVzLT5uYW1l
+KTsKCkVSUk9SOiB0aGF0IG9wZW4gYnJhY2UgeyBzaG91bGQgYmUgb24gdGhlIHByZXZpb3VzIGxp
+bmUKIzQxNDogRklMRTogaHcvaTM4Ni9taWNyb3ZtLmM6MzUwOgorICAgIHN0cnVjdCBTZWdtZW50
+Q2FjaGUgc2VnX2NvZGUgPQorICAgICAgICB7IC5zZWxlY3RvciA9IDB4OCwgLmJhc2UgPSAweDAs
+IC5saW1pdCA9IDB4ZmZmZmYsIC5mbGFncyA9IDB4YTA5YjAwIH07CgpFUlJPUjogdGhhdCBvcGVu
+IGJyYWNlIHsgc2hvdWxkIGJlIG9uIHRoZSBwcmV2aW91cyBsaW5lCiM0MTY6IEZJTEU6IGh3L2kz
+ODYvbWljcm92bS5jOjM1MjoKKyAgICBzdHJ1Y3QgU2VnbWVudENhY2hlIHNlZ19kYXRhID0KKyAg
+ICAgICAgeyAuc2VsZWN0b3IgPSAweDEwLCAuYmFzZSA9IDB4MCwgLmxpbWl0ID0gMHhmZmZmZiwg
+LmZsYWdzID0gMHhjMDkzMDAgfTsKCkVSUk9SOiB0aGF0IG9wZW4gYnJhY2UgeyBzaG91bGQgYmUg
+b24gdGhlIHByZXZpb3VzIGxpbmUKIzQxODogRklMRTogaHcvaTM4Ni9taWNyb3ZtLmM6MzU0Ogor
+ICAgIHN0cnVjdCBTZWdtZW50Q2FjaGUgc2VnX3RyID0KKyAgICAgICAgeyAuc2VsZWN0b3IgPSAw
+eDE4LCAuYmFzZSA9IDB4MCwgLmxpbWl0ID0gMHhmZmZmZiwgLmZsYWdzID0gMHg4MDhiMDAgfTsK
+CldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBs
+aW5lCiM0ODc6IEZJTEU6IGh3L2kzODYvbWljcm92bS5jOjQyMzoKKyAgICAgICAgLyogUmVzZXQg
+QVBJQyBhZnRlciBkZXZpY2VzIGhhdmUgYmVlbiByZXNldCB0byBjYW5jZWwKCkVSUk9SOiBzcGFj
+ZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNpcyAn
+KCcKIzU2NzogRklMRTogaHcvaTM4Ni9taWNyb3ZtLmM6NTAzOgorICAgIG1jLT5kZWZhdWx0X2Nw
+dV90eXBlID0gWDg2X0NQVV9UWVBFX05BTUUgKCJob3N0Iik7Cgp0b3RhbDogNiBlcnJvcnMsIDUg
+d2FybmluZ3MsIDYyNCBsaW5lcyBjaGVja2VkCgpQYXRjaCA0LzQgaGFzIHN0eWxlIHByb2JsZW1z
+LCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRp
+dmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlO
+VEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNv
+ZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9s
+b2dzLzIwMTkwNjI4MTE1MzQ5LjYwMjkzLTEtc2xwQHJlZGhhdC5jb20vdGVzdGluZy5jaGVja3Bh
+dGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->  hw/block/pflash_cfi02.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
->
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index 4be3837be5..1a794fa83c 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -409,7 +409,7 @@ static void pflash_write(void *opaque, hwaddr offset,=
- uint64_t value,
->              /* Chip erase */
->              DPRINTF("%s: start chip erase\n", __func__);
->              if (!pfl->ro) {
-> -                memset(pfl->storage, 0xFF, pfl->chip_len);
-> +                memset(pfl->storage, 0xff, pfl->chip_len);
->                  pflash_update(pfl, 0, pfl->chip_len);
->              }
->              set_dq7(pfl, 0x00);
-> @@ -490,7 +490,6 @@ static const MemoryRegionOps pflash_cfi02_ops =3D {
->  static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
->  {
->      PFlashCFI02 *pfl =3D PFLASH_CFI02(dev);
-> -    uint32_t chip_len;
->      int ret;
->      Error *local_err =3D NULL;
->
-> @@ -507,18 +506,17 @@ static void pflash_cfi02_realize(DeviceState *dev, =
-Error **errp)
->          return;
->      }
->
-> -    chip_len =3D pfl->sector_len * pfl->nb_blocs;
-> +    pfl->chip_len =3D pfl->sector_len * pfl->nb_blocs;
->
->      memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
->                                    &pflash_cfi02_ops, pfl, pfl->name,
-> -                                  chip_len, &local_err);
-> +                                  pfl->chip_len, &local_err);
->      if (local_err) {
->          error_propagate(errp, local_err);
->          return;
->      }
->
->      pfl->storage =3D memory_region_get_ram_ptr(&pfl->orig_mem);
-> -    pfl->chip_len =3D chip_len;
->
->      if (pfl->blk) {
->          uint64_t perm;
-> @@ -533,8 +531,8 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
-ror **errp)
->      }
->
->      if (pfl->blk) {
-> -        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage, chip_le=
-n,
-> -                                         errp)) {
-> +        if (!blk_check_size_and_read_all(pfl->blk, pfl->storage,
-> +                                         pfl->chip_len, errp)) {
->              vmstate_unregister_ram(&pfl->orig_mem, DEVICE(pfl));
->              return;
->          }
-> @@ -594,7 +592,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Er=
-ror **errp)
->      /* Max timeout for chip erase */
->      pfl->cfi_table[0x26] =3D 0x0D;
->      /* Device size */
-> -    pfl->cfi_table[0x27] =3D ctz32(chip_len);
-> +    pfl->cfi_table[0x27] =3D ctz32(pfl->chip_len);
->      /* Flash device interface (8 & 16 bits) */
->      pfl->cfi_table[0x28] =3D 0x02;
->      pfl->cfi_table[0x29] =3D 0x00;
-> --
-> 2.20.1
->
->
 
