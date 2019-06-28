@@ -2,54 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14F5D5975F
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:23:17 +0200 (CEST)
-Received: from localhost ([::1]:58176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67BD259767
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:26:20 +0200 (CEST)
+Received: from localhost ([::1]:58190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgn6C-0002kE-AR
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:23:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45213)
+	id 1hgn99-0004fh-Ke
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45206)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hgn4l-00022t-GU
+ (envelope-from <stefanha@gmail.com>) id 1hgn4l-00022i-EB
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:21:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hgn4i-0001wX-2G
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:21:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59718)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hgn4Q-0001Ni-G6; Fri, 28 Jun 2019 05:21:27 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6A6458553B;
- Fri, 28 Jun 2019 09:21:01 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D3F35C237;
- Fri, 28 Jun 2019 09:20:58 +0000 (UTC)
-Date: Fri, 28 Jun 2019 11:20:57 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Message-ID: <20190628092057.GA5179@dhcp-200-226.str.redhat.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
- <w51a7e3domn.fsf@maestria.local.igalia.com>
- <w517e97dogw.fsf@maestria.local.igalia.com>
+ (envelope-from <stefanha@gmail.com>) id 1hgn4d-0001tB-Pq
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:21:43 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40992)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hgn4W-0001mB-FJ
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:21:33 -0400
+Received: by mail-wr1-x444.google.com with SMTP id c2so5478171wrm.8
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 02:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=eRCtcLoaEBcf/bHy9g0FT0h38F0lwsJcB2f17cYZJyo=;
+ b=kTnRCc+fWAk77GJvjVz4ssYxREMbOsWwrq7/YW5AZGGqpkmaOtMCbXkn3PiIOye1Oy
+ qfwRYXQZGxcIf4pAbIN166X1/htKIZfEtLaOp61FatvkP+gOyURnLSQQt+Ohou8TaC3O
+ 0qVmb4SYfTM+Rk+Q24ondZhyWBpF/Kkza9/+sBdrDcA6a7e6bYVQWg4gW/8CtiYPJZDo
+ omM8GNbaW1Ne2BdaC6pAV3dQtGMMS5iwMkZrJooQgjrg2QfU7JZzMmCcLliTKXaDklLR
+ AB0KLp9nHOnT5qgSlbQY3VdX6noYxXND2AJ9UmpiP1VBEbhodfv1bwru9Feyvb7YmvGn
+ vKPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=eRCtcLoaEBcf/bHy9g0FT0h38F0lwsJcB2f17cYZJyo=;
+ b=hRGRB0Si/Ltm7cAXYyyhDzeIkv3/kRVc5zFKKO4JjLIcbnZLpa4aFBqqjSRVJnNpJs
+ 0U0+pH7rU7QvCZCAa7Ra22f2RBlMLpyBti9yXUy0mV9UIujeLM8T15w+i7mFSdMfYIs7
+ DKc/ApxzhMRLs2QfcMXkCSXDVF85lq5BwBEzuu+pXsWPmZF0QFuGNS/MTqSTDP4nTRcr
+ CcTG8LRL7GymSC1vkcB11N4ktahNNYTtBlnhNqdYpGtxZ7qKobYjIVkKqc/u5MO5/US8
+ BZcJVlsbnCM6BylcdD6Iu06xKzwzdh4zAaSObUfoA5gzAbjI5tyxAcdV1QPHB/hKnt7b
+ Akdg==
+X-Gm-Message-State: APjAAAWgDq9bk85Sr2bf9AtEmJQD5fbJi1azsvR7TspsK9YZBydxssok
+ FBLcOQ0E4mL7Vk141NNPEUQ=
+X-Google-Smtp-Source: APXvYqzMVZU4c+icS9eXSKbobpPo570dFXXQ2X1pbFqfzFlFWlJ9fJAGK4QFYXIBPH5nbXr3RW2grw==
+X-Received: by 2002:adf:e691:: with SMTP id r17mr7222210wrm.67.1561713689308; 
+ Fri, 28 Jun 2019 02:21:29 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+ by smtp.gmail.com with ESMTPSA id 32sm3142782wra.35.2019.06.28.02.21.28
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Fri, 28 Jun 2019 02:21:28 -0700 (PDT)
+Date: Fri, 28 Jun 2019 10:21:27 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190628092127.GC3316@stefanha-x1.localdomain>
+References: <20190613050937.124903-1-aik@ozlabs.ru>
+ <35361394-42ba-dcf0-6fe2-5a0a538d1440@redhat.com>
+ <d20e26db-7157-d9bd-c707-d7f4443396c0@ozlabs.ru>
+ <20190614093306.GG10957@stefanha-x1.localdomain>
+ <3f3a9055-429e-5930-ef20-468d27373e8c@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="zCKi3GIZzVBPywwA"
 Content-Disposition: inline
-In-Reply-To: <w517e97dogw.fsf@maestria.local.igalia.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Fri, 28 Jun 2019 09:21:02 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+In-Reply-To: <3f3a9055-429e-5930-ef20-468d27373e8c@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH qemu] loader: Trace loaded images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,27 +82,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.06.2019 um 17:42 hat Alberto Garcia geschrieben:
-> On Thu 27 Jun 2019 05:38:56 PM CEST, Alberto Garcia wrote:
-> >> I would consider 64k cluster/8k subcluster as too extreme for me.
-> 
-> I forgot to add: this 64k/8k ratio is only with my current prototype.
-> 
-> In practice if we go with the 128-bit L2 entries we would have 64
-> subclusters per cluster, or 32 if we want to have a separate
-> QCOW_OFLAG_ZERO for each subcluster (would we need this?).
 
-Yes, I think we'd want to have a separate zero flag for each subcluster.
-Otherwise, when writing to a zero cluster, you'd have to COW the whole
-supercluster again. And you'd have to fall back to explicit writes of a
-zeroed buffer rather than using efficient operations more often.
+--zCKi3GIZzVBPywwA
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kevin
+On Fri, Jun 14, 2019 at 12:10:48PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> On 6/14/19 11:33 AM, Stefan Hajnoczi wrote:
+> > On Fri, Jun 14, 2019 at 10:13:04AM +1000, Alexey Kardashevskiy wrote:
+> >>
+> >>
+> >> On 13/06/2019 23:08, Philippe Mathieu-Daud=E9 wrote:
+> >>> Hi Alexey,
+> >>>
+> >>> On 6/13/19 7:09 AM, Alexey Kardashevskiy wrote:
+> >>>> This adds a trace point which prints every loaded image. This includ=
+es
+> >>>> bios/firmware/kernel/initradmdisk/pcirom.
+> >>>>
+> >>>> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> >>>> ---
+> >>>>
+> >>>> The example for a pseries guest:
+> >>>>
+> >>>> loader_write_rom slof.bin: @0x0 size=3D0xe22e0 ROM=3D0
+> >>>> loader_write_rom phdr #0: /home/aik/t/vml4120le: @0x400000 size=3D0x=
+13df000 ROM=3D0
+> >>>> loader_write_rom /home/aik/t/le.cpio: @0x1ad0000 size=3D0x9463a00 RO=
+M=3D0
+> >>>
+> >>> I find the "ROM=3D0" part confuse, maybe you can change to "ROM:false=
+".
+> >>
+> >> How? I mean I can do that in the code as rom->isrom?"true":"false" and
+> >> make trace point accept "%s" but it is quite ugly and others seem to
+> >> just use %d for bool.
+> >=20
+> > Yes, %d is the convention for bool.  Perhaps you can name it "is_rom"
+> > instead of "ROM".  That way the name communicates that this is a boolean
+> > value.
+>=20
+> I agree a boolean is easier to parse for trace analyzer tools than a
+> "true/false" string.
+>=20
+> Stefan, is it possible to add a boolean format string to the backends?
+> For example the 'log' backend would log it as "true"/"false".
+
+Yes.  The format string in trace-events is not used by all trace
+backends, and they are free to do whatever they like (e.g. by looking at
+the C types of the trace event arguments).
+
+Stefan
+
+--zCKi3GIZzVBPywwA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl0V3BcACgkQnKSrs4Gr
+c8iFTAf/W4XtU/1Zgyx1d9zhTTnM9NwYHvAmMABOitVtoxMprQDLdh+5jSfPwfSl
+y9u852xHNx5NwMEYv1k2jtCjoYp+LwPwvjJHLWlgob41wnegxDJKJGd7nFkPVdCP
+T6tVlLd9tjWxOG64UOpVYXSFSkVm4XEulJqmU2AktWqzGPkP6j6MLl/6NLAyH6ED
+UCeyOcrWHqrUj/quXVfhbqQLGMvDE1LOYG7oSHbaE7NSiR93ggu1CuJc3cl6KBwU
+2MkSKxOIhnqatT/PqzETUbliropCSFcQDvkt2bVRd3qnKW3qSulUNC6PGlz4jKjI
+kcQ9NSJd4fb70Wt3izXBJb6m7qv5jQ==
+=PgDa
+-----END PGP SIGNATURE-----
+
+--zCKi3GIZzVBPywwA--
 
