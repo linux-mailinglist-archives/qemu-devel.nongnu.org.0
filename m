@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A69A59C95
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:08:06 +0200 (CEST)
-Received: from localhost ([::1]:59584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0723A59CDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:20:48 +0200 (CEST)
+Received: from localhost ([::1]:59766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqbl-0006EQ-CV
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:08:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40197)
+	id 1hgqo3-0004yv-5Q
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:20:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41483)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <fam@euphon.net>) id 1hgqDg-00059k-QD
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:43:14 -0400
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGN-0008Ov-5E
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:46:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <fam@euphon.net>) id 1hgqDd-0008Mk-1C
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:43:10 -0400
-Received: from sender3-op-o12.zoho.com.cn ([124.251.121.243]:17946
- helo=sender1.zoho.com.cn)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <fam@euphon.net>) id 1hgqDZ-0008C2-FX
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:43:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1561725685; cv=none; d=zoho.com.cn; s=zohoarc; 
- b=YbJp6WuuqjjImoJaedDcAilxyZWsDGRlUJur43X045oMG02KupTAb/3+sV9j1+R3sNPQKCaw2gRjS4rR+hFAaIBnb4seoSaKy0AcqAbJf548XiTpbebL77ybpUlzd1vgSHrXEvmr/gdNLhnWnF9d9i+0fiD2D3kaqoJQ+eyjWm4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
- s=zohoarc; t=1561725685;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To:ARC-Authentication-Results;
- bh=okssoxUiTUCe7QEbtOsi21uAvwu3qEkBpeMnTblubtw=; 
- b=EaFceqaqyCEDGOrzmhGtTtPc/AajHgKca6Q+yc4qdg6TUh2QG7cE5jUDnvtcyd4vgwlysLWGYENWiHSLyvZQhCrTxIEt0juwLr0CUwY8hMYQHkBWfuzna0H77Dh32U14PaUlDjXBJYXJkM1Ncmk1z3Czfzsv50BsaF31IGg4T8k=
-ARC-Authentication-Results: i=1; mx.zoho.com.cn;
- dkim=pass  header.i=euphon.net;
- spf=pass  smtp.mailfrom=fam@euphon.net;
- dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1561725685; 
- s=zoho; d=euphon.net; i=fam@euphon.net;
- h=Date:From:To:Cc:Message-ID:Subject:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- l=1537; bh=okssoxUiTUCe7QEbtOsi21uAvwu3qEkBpeMnTblubtw=;
- b=QXMusISPLqXotR1fxqWWWZb5t8ug7CUHU7MJurJTkq/AazDq1NFfWwWD7mn4PpFa
- 0vfs+0NLma4R2XQlPHI6jNlJLX6M8eJ4PE+zHZund+yGulDgsCaJr3rKbVSURj/3Tdf
- +5aa4KiFgXPMc/DUM/AAKFdIeU5rpOiNyQTCjCQc=
-Received: from localhost (120.52.147.40 [120.52.147.40]) by mx.zoho.com.cn
- with SMTPS id 1561725683026983.364449497505;
- Fri, 28 Jun 2019 20:41:23 +0800 (CST)
-Date: Fri, 28 Jun 2019 20:41:17 +0800
-From: Fam Zheng <fam@euphon.net>
-To: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <20190628124117.2lltlf7yiwlwy4j4@debian>
-References: <156171539473.6332.3788894025347542150@c4a48874b076>
- <f1ff093c-cb64-a54e-778e-eb18a0fdddb2@vivier.eu>
+ (envelope-from <damien.hedde@greensocs.com>) id 1hgqGL-0001aJ-9d
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:59 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:36912)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+ id 1hgqGK-0001Qj-LL
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:45:57 -0400
+Received: from kouign-amann.bar.greensocs.com (unknown [172.16.11.117])
+ by beetle.greensocs.com (Postfix) with ESMTPS id D110496F52;
+ Fri, 28 Jun 2019 12:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1561725938;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5E+PVllopk2YYH5uus5dZpgYHFl1omwtkkP62F6e6xg=;
+ b=J17v4HfvxT60Bo8S547B2gU12BrfwKQHon/Dc8OALcPEE47RHTzpPv0T6xiSYnFrgHARuM
+ bSrBDdWWQ3QCVWoWZ6NgOHx+7xQ/khjRoplXUPoFf38hyJsn2XItkQdbSvxGZ6cyntKfRk
+ UwIfeDhDshCkFcAIdIKJa8eLQAYS+Ks=
+From: Damien Hedde <damien.hedde@greensocs.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 28 Jun 2019 14:45:29 +0200
+Message-Id: <20190628124534.10679-1-damien.hedde@greensocs.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+ s=mail; t=1561725938;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5E+PVllopk2YYH5uus5dZpgYHFl1omwtkkP62F6e6xg=;
+ b=smy18a2cpSQy4z35cGgRxlb7xhQR0NOsWrUL9b81sqHf3kpw0XDKLrOP2H14QGpK+mZtR6
+ tdi8vVO7yGFu0ZWLDujxXCEHesrXFYLl+JzDfdzMKRu2ILoEZowQwLkokUq+FwiU6juf4M
+ /Lmr0lKzR4Epb4H5I9iFLN/dA1AXsVk=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1561725938; a=rsa-sha256; cv=none;
+ b=hn1lURwkTQ4LN0ICUMFqYRqWJxNxWKbtUc40y+d7yQmhSJLZztPfQHa9Rdh/9R6KXLbf51
+ zG4OmsgnQts9SQ+0nf7pSLdMHA716kepQM5nuFou3kglr7BSxO5xjS+dGez0zDRQJDjPj6
+ Qo1DiVdx7kFuqo0HrLqkLl4CBbce5lQ=
+ARC-Authentication-Results: i=1;
+	beetle.greensocs.com;
+	none
+X-Spam: Yes
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <f1ff093c-cb64-a54e-778e-eb18a0fdddb2@vivier.eu>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-ZohoCNMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 124.251.121.243
-Subject: Re: [Qemu-devel] [Patchew-devel] [PATCH v15 0/5] linux-user: A set
- of miscellaneous patches
+X-Received-From: 5.135.226.135
+Subject: [Qemu-devel] [RFC PATCH 0/5] FAULT INJECTION FRAMEWORK
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,57 +71,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "patchew-devel@redhat.com" <patchew-devel@redhat.com>,
- aleksandar.markovic@rt-rk.com, qemu-devel@nongnu.org, amarkovic@wavecomp.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>, ehabkost@redhat.com,
+ mark.burton@greensocs.com, armbru@redhat.com, sakisp@xilinx.com,
+ edgari@xilinx.com, crosa@redhat.com, pbonzini@redhat.com,
+ luc.michel@greensocs.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 06/28 14:15, Laurent Vivier wrote:
-> Dear Patchew developers,
->=20
-> Le 28/06/2019 =C3=A0 11:49, no-reply@patchew.org a =C3=A9crit=C2=A0:
-> > Patchew URL: https://patchew.org/QEMU/1561712082-31441-1-git-send-email=
--aleksandar.markovic@rt-rk.com/
-> >=20
-> >=20
-> >=20
-> > Hi,
-> >=20
-> > This series failed build test on s390x host. Please find the details be=
-low.
->=20
-> To debug this kind of problem (at least to reproduce it), it may be
-> interesting to know the OS release of the target build environment
-> (glibc version, gcc version, ...) on which the build fails.
->=20
-> Is this possible to add this in the mail (or in the logs)?
+Hi all,
 
-I've moved the env/rpm/uname commands before the actual testing commands, s=
-o
-the information can be collected even upon failures.
+This series adds a python framework aiming to provide some ways to do fau=
+lt
+injection in a running vm. In its current state, it allows to easily inte=
+ract
+with memory, change gpios and qom properties.
 
-Fam
+The framework consists in a python script based on the qmp existing modul=
+e
+which allows to interact with the vm.
 
->=20
-> ...
-> >   CC      microblaze-linux-user/linux-user/strace.o
-> >   CC      mips64el-linux-user/linux-user/syscall.o
-> >   LINK    microblazeel-linux-user/qemu-microblazeel
-> > /var/tmp/patchew-tester-tmp-tr0wvoyz/src/linux-user/syscall.c:322:16: e=
-rror: conflicting types for =E2=80=98statx=E2=80=99
-> >   322 | _syscall5(int, statx, int, dirfd, const char *, pathname, int, =
-flags,
-> >       |                ^~~~~
-> > /var/tmp/patchew-tester-tmp-tr0wvoyz/src/linux-user/syscall.c:213:13: n=
-ote: in definition of macro =E2=80=98_syscall5=E2=80=99
->=20
-> Thanks,
-> Laurent
->=20
-> _______________________________________________
-> Patchew-devel mailing list
-> Patchew-devel@redhat.com
-> https://www.redhat.com/mailman/listinfo/patchew-devel
+The series introduces a QMP command to schedule some virtual-clock-time-b=
+ased
+notifications. The notification is sent back to the python framework and =
+can
+be used to build time-driven fault scenario.
 
+Additionaly the series adds some new QMP commands:
+
+Commands are added to read/write memory or memory-mapped registers. Argum=
+ents
+are similar to the existing [p]memsave commands.
+
+A command is added to set a value to a qdev gpio.
+
+Here's is a simple visual example which inject characters on the uart out=
+put
+of the zynq platform:
+$ # qemu must have been launched with -qmp unix:/tmp/qmpsock,server
+$ # create the python framework object
+$ import fault_injection
+$ inj =3D fault_injection.FaultInjectionFramework("/tmp/qmpsock", 0)
+$
+$ # function which display a 'X' to the first uart
+$ # it access directly the register using the physical address
+$ def cb():
+$   inj.write_pmem(0xe0000030,4, 88)
+$
+$ # schedule the function on a notification in 10s
+$ inj.notify(10 * 1000 * 1000 * 1000, cb, True)
+$
+$ # handle one notification
+$ inj.run_once()
+
+The framework has been tested using python 2, on qemu running xilinx_zynq=
+ or
+virt arm machines.
+
+The series is organised as follows. Patches 1 and 2 adds the memory qmp a=
+nd
+gpio commands. Patch 3 adds the notification mechanism. Patches 4 and 5 a=
+dd
+a python helper module and some documention.
+
+Thanks to the Xilinx's QEMU team who sponsored this work.
+
+Damien Hedde (5):
+  introduce [p]mem(read|write) qmp commands
+  introduce a qmp command to set gpios
+  add qmp time-notify event triggering system
+  fault_injection: introduce Python scripting framework
+  docs: add fault injection framework documentation
+
+ cpus.c                         | 126 +++++++++++++++
+ docs/fault_injection.txt       | 149 ++++++++++++++++++
+ monitor/Makefile.objs          |   1 +
+ monitor/qmp-cmd-time-notify.c  | 116 ++++++++++++++
+ monitor/qmp-cmds.c             |  30 ++++
+ monitor/trace-events           |   4 +
+ qapi/misc.json                 | 196 +++++++++++++++++++++++
+ scripts/qmp/fault_injection.py | 278 +++++++++++++++++++++++++++++++++
+ 8 files changed, 900 insertions(+)
+ create mode 100644 docs/fault_injection.txt
+ create mode 100644 monitor/qmp-cmd-time-notify.c
+ create mode 100644 scripts/qmp/fault_injection.py
+
+--=20
+2.22.0
 
 
