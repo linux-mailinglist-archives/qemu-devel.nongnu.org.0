@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B2F05A4BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 21:05:07 +0200 (CEST)
-Received: from localhost ([::1]:35582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652B05A522
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 21:28:21 +0200 (CEST)
+Received: from localhost ([::1]:35728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgwBG-0004lS-5b
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 15:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41226)
+	id 1hgwXk-0004Km-Jc
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 15:28:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41241)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hgvyy-0005Pq-8A
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:52:26 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hgvyy-0005QR-Md
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:52:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hgvyv-0005KH-Gi
+ (envelope-from <ehabkost@redhat.com>) id 1hgvyv-0005Le-VD
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:52:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33160)
+Received: from mx1.redhat.com ([209.132.183.28]:50040)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hgvyr-00050I-JW
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:52:19 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hgvyv-0005BV-Nw
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:52:21 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 49F1130872F7;
- Fri, 28 Jun 2019 18:52:11 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id DC8BF369BC;
+ Fri, 28 Jun 2019 18:52:18 +0000 (UTC)
 Received: from localhost (ovpn-116-7.gru2.redhat.com [10.97.116.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A089B5C730;
- Fri, 28 Jun 2019 18:52:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 499FB19C59;
+ Fri, 28 Jun 2019 18:52:18 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Fri, 28 Jun 2019 15:47:37 -0300
-Message-Id: <20190628184742.5961-25-ehabkost@redhat.com>
+Date: Fri, 28 Jun 2019 15:47:38 -0300
+Message-Id: <20190628184742.5961-26-ehabkost@redhat.com>
 In-Reply-To: <20190628184742.5961-1-ehabkost@redhat.com>
 References: <20190628184742.5961-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Fri, 28 Jun 2019 18:52:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Fri, 28 Jun 2019 18:52:19 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 24/29] i386: make 'hv-spinlocks' a regular
- uint32 property
+Subject: [Qemu-devel] [PULL v2 25/29] x86/cpu: use FeatureWordArray to
+ define filtered_features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,99 +55,34 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Roman Kagan <rkagan@virtuozzo.com>, Richard Henderson <rth@twiddle.net>
+ Wei Yang <richardw.yang@linux.intel.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roman Kagan <rkagan@virtuozzo.com>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-X86CPU.hv-spinlocks is a uint32 property that has a special setter
-validating the value to be no less than 0xFFF and no bigger than
-UINT_MAX.  The latter check is redundant; as for the former, there
-appears to be no reason to prohibit the user from setting it to a lower
-value.
+Use the same definition as features/user_features in CPUX86State.
 
-So nuke the dedicated getter/setter pair and convert 'hv-spinlocks' to a
-regular uint32 property.
-
-Signed-off-by: Roman Kagan <rkagan@virtuozzo.com>
-Message-Id: <20190618110659.14744-1-rkagan@virtuozzo.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <20190620023746.9869-1-richardw.yang@linux.intel.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 45 ++-------------------------------------------
- 1 file changed, 2 insertions(+), 43 deletions(-)
+ target/i386/cpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 390f47adc5..8d5d34849c 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -3518,46 +3518,6 @@ static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
-     visit_type_X86CPUFeatureWordInfoList(v, "feature-words", &list, errp);
- }
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index ff26351538..85319f4ae1 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1440,7 +1440,7 @@ struct X86CPU {
+     } mwait;
  
--static void x86_get_hv_spinlocks(Object *obj, Visitor *v, const char *name,
--                                 void *opaque, Error **errp)
--{
--    X86CPU *cpu = X86_CPU(obj);
--    int64_t value = cpu->hyperv_spinlock_attempts;
--
--    visit_type_int(v, name, &value, errp);
--}
--
--static void x86_set_hv_spinlocks(Object *obj, Visitor *v, const char *name,
--                                 void *opaque, Error **errp)
--{
--    const int64_t min = 0xFFF;
--    const int64_t max = UINT_MAX;
--    X86CPU *cpu = X86_CPU(obj);
--    Error *err = NULL;
--    int64_t value;
--
--    visit_type_int(v, name, &value, &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
--    }
--
--    if (value < min || value > max) {
--        error_setg(errp, "Property %s.%s doesn't take value %" PRId64
--                   " (minimum: %" PRId64 ", maximum: %" PRId64 ")",
--                   object_get_typename(obj), name ? name : "null",
--                   value, min, max);
--        return;
--    }
--    cpu->hyperv_spinlock_attempts = value;
--}
--
--static const PropertyInfo qdev_prop_spinlocks = {
--    .name  = "int",
--    .get   = x86_get_hv_spinlocks,
--    .set   = x86_set_hv_spinlocks,
--};
--
- /* Convert all '_' in a feature string option name to '-', to make feature
-  * name conform to QOM property naming rule, which uses '-' instead of '_'.
-  */
-@@ -5682,8 +5642,6 @@ static void x86_cpu_initfn(Object *obj)
-     object_property_add(obj, "crash-information", "GuestPanicInformation",
-                         x86_cpu_get_crash_info_qom, NULL, NULL, NULL, NULL);
+     /* Features that were filtered out because of missing host capabilities */
+-    uint32_t filtered_features[FEATURE_WORDS];
++    FeatureWordArray filtered_features;
  
--    cpu->hyperv_spinlock_attempts = HYPERV_SPINLOCK_NEVER_RETRY;
--
-     for (w = 0; w < FEATURE_WORDS; w++) {
-         int bitnr;
- 
-@@ -5880,7 +5838,8 @@ static Property x86_cpu_properties[] = {
-     DEFINE_PROP_INT32("node-id", X86CPU, node_id, CPU_UNSET_NUMA_NODE_ID),
-     DEFINE_PROP_BOOL("pmu", X86CPU, enable_pmu, false),
- 
--    { .name  = "hv-spinlocks", .info  = &qdev_prop_spinlocks },
-+    DEFINE_PROP_UINT32("hv-spinlocks", X86CPU, hyperv_spinlock_attempts,
-+                       HYPERV_SPINLOCK_NEVER_RETRY),
-     DEFINE_PROP_BIT64("hv-relaxed", X86CPU, hyperv_features,
-                       HYPERV_FEAT_RELAXED, 0),
-     DEFINE_PROP_BIT64("hv-vapic", X86CPU, hyperv_features,
+     /* Enable PMU CPUID bits. This can't be enabled by default yet because
+      * it doesn't have ABI stability guarantees, as it passes all PMU CPUID
 -- 
 2.18.0.rc1.1.g3f1ff2140
 
