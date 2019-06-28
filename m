@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B292597EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:51:39 +0200 (CEST)
-Received: from localhost ([::1]:58340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8E6597FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:57:29 +0200 (CEST)
+Received: from localhost ([::1]:58365 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgnXe-0003Ex-D6
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:51:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50400)
+	id 1hgndI-00068M-UD
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:57:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51066)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hgnWU-0002am-6m
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:50:27 -0400
+ (envelope-from <berto@igalia.com>) id 1hgnZS-0004hL-7d
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:53:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hgnWS-0007ZH-Bv
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:50:26 -0400
-Resent-Date: Fri, 28 Jun 2019 05:50:25 -0400
-Resent-Message-Id: <E1hgnWS-0007ZH-Bv@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21535)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hgnWQ-0007UO-DX
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:50:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1561715403; cv=none; d=zoho.com; s=zohoarc; 
- b=LeyvCFDD7p7XTZ0nM1Mn+aMdFJtaxHQ6pfu825oRHlEtEfiLsRaiMd8LrwP6QBEyjBrhDMfysJUFx6U7Zysw2+/nZ9d6whmFlZQhVZBJDgxO9e2OsUYHt0K+h7j5EgdzvVx4MK+DbZv89RZXW6+5HTvChgrBw38xH/NLw93FW2o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1561715403;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=Z5Nc5gJwtAooU2d6hc5XXPfB5gvyTQsJtnoeYjNdAHk=; 
- b=KVfp4mwBzZkeGaJJsWb7V8eJbsgxtoVLyJBGnicUuUGHlf9Jmwj3XZ2dyNzC5FgT7gnMjw0k7Lpu9kwVHIpuu0r2Y8VimltSbPjBhjx8TFlI9DHGpagrGhNW3dVaJXivHIyIhuvNlKUJJbteehKvH01J6OXBIi49vZVomRsPT+A=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 156171539598038.013847031470505;
- Fri, 28 Jun 2019 02:49:55 -0700 (PDT)
-Message-ID: <156171539473.6332.3788894025347542150@c4a48874b076>
-In-Reply-To: <1561712082-31441-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ (envelope-from <berto@igalia.com>) id 1hgnZR-0002J6-60
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:53:30 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:54096)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <berto@igalia.com>)
+ id 1hgnZP-0002GY-Jm; Fri, 28 Jun 2019 05:53:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=zCvObHIXTYvegsJXMJqYc021+EUD60UhVzzbI3kJ7do=; 
+ b=dTW/N80NraeeFxtJFUdEW+fX1khjKbyeYg5iudi7hoBJo2WRteXPgTQ9/RW0dU+P3SfOze4w5tx3s3fld/27L96hnDVZRPaRqCwUBLdD+ar4aDAkEG4yXL7m4cww8ZJQ+76YiKeCnftBhT2Vwr+hlXNqBt6gF5cWhNLSOnkMsO/MTBkd5RVltJ/fIzs6KIRVNxpRR0QCjgRx14JEctttsjkb1LFYVxKzXMIAeiwlxa72XYD6DoZdIhh5cJS8UqhXWDJxos6ZrvINiZrk2YKHdEZpWzzXkji5y6VY1SnsFGeLUMmwVHyvmzb7pLah06PtRU6/7TLJHyuPHyMdJeJgLw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1hgnZL-0006uL-Ix; Fri, 28 Jun 2019 11:53:23 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1hgnZL-0002VF-GA; Fri, 28 Jun 2019 11:53:23 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Kevin Wolf <kwolf@redhat.com>
+In-Reply-To: <20190628092057.GA5179@dhcp-200-226.str.redhat.com>
+References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
+ <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
+ <w51a7e3domn.fsf@maestria.local.igalia.com>
+ <w517e97dogw.fsf@maestria.local.igalia.com>
+ <20190628092057.GA5179@dhcp-200-226.str.redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Fri, 28 Jun 2019 11:53:23 +0200
+Message-ID: <w515zoqjass.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: aleksandar.markovic@rt-rk.com
-Date: Fri, 28 Jun 2019 02:49:55 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH v15 0/5] linux-user: A set of miscellaneous
- patches
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+ timestamps) [generic] [fuzzy]
+X-Received-From: 91.117.99.155
+Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
+ qcow2 images
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,36 +61,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org, amarkovic@wavecomp.com, laurent@vivier.eu
+Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
+ Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTYxNzEyMDgyLTMxNDQxLTEt
-Z2l0LXNlbmQtZW1haWwtYWxla3NhbmRhci5tYXJrb3ZpY0BydC1yay5jb20vCgoKCkhpLAoKVGhp
-cyBzZXJpZXMgZmFpbGVkIGJ1aWxkIHRlc3Qgb24gczM5MHggaG9zdC4gUGxlYXNlIGZpbmQgdGhl
-IGRldGFpbHMgYmVsb3cuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCiMg
-VGVzdGluZyBzY3JpcHQgd2lsbCBiZSBpbnZva2VkIHVuZGVyIHRoZSBnaXQgY2hlY2tvdXQgd2l0
-aAojIEhFQUQgcG9pbnRpbmcgdG8gYSBjb21taXQgdGhhdCBoYXMgdGhlIHBhdGNoZXMgYXBwbGll
-ZCBvbiB0b3Agb2YgImJhc2UiCiMgYnJhbmNoCnNldCAtZQpDQz0kSE9NRS9iaW4vY2MKSU5TVEFM
-TD0kUFdEL2luc3RhbGwKQlVJTEQ9JFBXRC9idWlsZApta2RpciAtcCAkQlVJTEQgJElOU1RBTEwK
-U1JDPSRQV0QKY2QgJEJVSUxECiRTUkMvY29uZmlndXJlIC0tY2M9JENDIC0tcHJlZml4PSRJTlNU
-QUxMCm1ha2UgLWo0CiMgWFhYOiB3ZSBuZWVkIHJlbGlhYmxlIGNsZWFuIHVwCiMgbWFrZSBjaGVj
-ayAtajQgVj0xCm1ha2UgaW5zdGFsbAoKZWNobwplY2hvICI9PT0gRU5WID09PSIKZW52CgplY2hv
-CmVjaG8gIj09PSBQQUNLQUdFUyA9PT0iCnJwbSAtcWEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
-CiAgQ0MgICAgICBtaWNyb2JsYXplLWxpbnV4LXVzZXIvbGludXgtdXNlci9zdHJhY2UubwogIEND
-ICAgICAgbWlwczY0ZWwtbGludXgtdXNlci9saW51eC11c2VyL3N5c2NhbGwubwogIExJTksgICAg
-bWljcm9ibGF6ZWVsLWxpbnV4LXVzZXIvcWVtdS1taWNyb2JsYXplZWwKL3Zhci90bXAvcGF0Y2hl
-dy10ZXN0ZXItdG1wLXRyMHd2b3l6L3NyYy9saW51eC11c2VyL3N5c2NhbGwuYzozMjI6MTY6IGVy
-cm9yOiBjb25mbGljdGluZyB0eXBlcyBmb3Ig4oCYc3RhdHjigJkKICAzMjIgfCBfc3lzY2FsbDUo
-aW50LCBzdGF0eCwgaW50LCBkaXJmZCwgY29uc3QgY2hhciAqLCBwYXRobmFtZSwgaW50LCBmbGFn
-cywKICAgICAgfCAgICAgICAgICAgICAgICBefn5+fgovdmFyL3RtcC9wYXRjaGV3LXRlc3Rlci10
-bXAtdHIwd3ZveXovc3JjL2xpbnV4LXVzZXIvc3lzY2FsbC5jOjIxMzoxMzogbm90ZTogaW4gZGVm
-aW5pdGlvbiBvZiBtYWNybyDigJhfc3lzY2FsbDXigJkKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxh
-YmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzE1NjE3MTIwODItMzE0NDEtMS1naXQtc2Vu
-ZC1lbWFpbC1hbGVrc2FuZGFyLm1hcmtvdmljQHJ0LXJrLmNvbS90ZXN0aW5nLnMzOTB4Lz90eXBl
-PW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFto
-dHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hl
-dy1kZXZlbEByZWRoYXQuY29t
+On Fri 28 Jun 2019 11:20:57 AM CEST, Kevin Wolf wrote:
+>> >> I would consider 64k cluster/8k subcluster as too extreme for me.
+>> 
+>> I forgot to add: this 64k/8k ratio is only with my current prototype.
+>> 
+>> In practice if we go with the 128-bit L2 entries we would have 64
+>> subclusters per cluster, or 32 if we want to have a separate
+>> QCOW_OFLAG_ZERO for each subcluster (would we need this?).
+>
+> Yes, I think we'd want to have a separate zero flag for each
+> subcluster.  Otherwise, when writing to a zero cluster, you'd have to
+> COW the whole supercluster again.
 
+Yes if the original cluster had the QCOW_OFLAG_ZERO bit, not if it was
+simply unallocated.
+
+Berto
 
