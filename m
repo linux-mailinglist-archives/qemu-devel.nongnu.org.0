@@ -2,60 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EF3C5A20A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:14:18 +0200 (CEST)
-Received: from localhost ([::1]:34576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65075A23D
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 19:26:13 +0200 (CEST)
+Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hguS1-0001Es-LI
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:14:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49394)
+	id 1hgudZ-0001ZC-1E
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 13:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49436)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <palmer@dabbelt.com>) id 1hguOw-0007sE-D1
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:09 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hguP5-00088G-16
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <palmer@dabbelt.com>) id 1hguOq-0000UM-N7
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:04 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41666)
+ (envelope-from <alex.bennee@linaro.org>) id 1hguP2-0000cV-LD
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:14 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33112)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <palmer@dabbelt.com>) id 1hguOq-0000Sb-HK
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:00 -0400
-Received: by mail-pf1-f195.google.com with SMTP id m30so3288806pff.8
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:10:58 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hguP2-0000ai-DG
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 13:11:12 -0400
+Received: by mail-wm1-x344.google.com with SMTP id h19so9790320wme.0
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 10:11:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=OGUqFw7PFkoyHnlsj+M+Gh+SpPTfF+kl62qiyTwBoXQ=;
+ b=RZsTKloBHY56DXa3vzAAu9XquCyOhjcPcmCKCj/Fx1PbGu0HxlPgtmyHbe+wYVBwOE
+ EuxH5OD0g8JR000a1glJ+Jefs8q5Z1WFxxNkzlX71PPfoYVuyeT3oUSDhNc+wlML9oh5
+ swg0o/I3KLqE5bdLED4EcK9WB6JAtvbK68wRhQcggYUtzCXQNeqNfR6+tOh/jvNPDVLM
+ CPmeuxwhT1W6cf/hoqC9gdZY4aev2glrHr5ZuplqPkyAd9TP42bxBx+d4PiB6RfgpEYC
+ 6r2I5jryhUgWeby4hOxdED0HGDY4YiexTP5Gz5WDyS2D3PVu4am5qK3TPwxesfgMxPMC
+ mw6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=qsZxWBRfqOSKuGdf+FUzca3A9uj05+G06E/pE6sKexs=;
- b=E5ZcHLOiCDC8Owa+HD16p1g80w8RD3qDHSnnlu7J37BHbWM0PFYnc8r2urxEAnCmwF
- ywPFV9pXNeHEzpkQxNIy9onXQk1ZvH9h0YDKaDiCrAeqVLGsUhzhEiCbxGeaJOucKEO5
- o0oUqQSzvsudtx+zFtKAV5z/RbR8pX0t86sVbMWsCN3e5d4+AWKI/0r780JbCP9ACeRz
- I0mamJb7kDBUAV/G5q12Ucoxb56OPcKu40gZcl/WE+dWuubkVDKllfIvRlBgmsfZJJuH
- 9hKuFqA/JPeaOMVGEDmy1pz8MaRNYnqIvCE6Bzj3mHbRuXgekZSSpfVEw6xQM06wnTcm
- G5ng==
-X-Gm-Message-State: APjAAAXqc6a2dzNCog1f2TkZipTKci0butTQ0zJON97JLt49aTqKin+T
- +ihY19KUrCy8oXegLHOrwMiKKw==
-X-Google-Smtp-Source: APXvYqwhxy7rUFmQTQByUy2VCRxXG9iJcpKMVJXC5kdigBen8pIygSmMaAna3DamSvqYxVt6qO/COg==
-X-Received: by 2002:a63:2985:: with SMTP id p127mr9643736pgp.400.1561741857530; 
- Fri, 28 Jun 2019 10:10:57 -0700 (PDT)
-Received: from localhost (220-132-236-182.HINET-IP.hinet.net.
- [220.132.236.182])
- by smtp.gmail.com with ESMTPSA id s16sm2774612pfm.26.2019.06.28.10.10.56
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=OGUqFw7PFkoyHnlsj+M+Gh+SpPTfF+kl62qiyTwBoXQ=;
+ b=aU16CVPGvdQCecGbwSIOGwaZ+jrmBSiHqhoVxdMjM0OCbNlFhthOzQLOwYKDkJzPT+
+ 5boqikbChqTv2X3qdAs/W8tVm2ahGVhXUH2T+4hmE/Km41M7xQBoRd/BUnK9lqqm/yMM
+ TDJ/REk8KS7qkdwqyDYBrWhgaj/+7W0jB0MQeHaJIyGEPDQB4pXdIJkY2uhnMq8FJrQG
+ lrH0SMN6ZSYgfIEGGvcMJASEEasEYRoCQWnee6JIi3Su0zB3oPppybfZmXV6SYSh7BbE
+ bR+23aOFVA1WdpxP1wY8+iJadK/H7CZW7jQziRkK991lHjsVW7QD6tjPmzxdIqwQLtdt
+ dN6g==
+X-Gm-Message-State: APjAAAXIaKvWihtgASYaMscmX3W0ylQ0kcRTesxAE/NCsEkaiTMYcDkZ
+ 95wnACyDOGO8/tcVcHQy2lUp4w==
+X-Google-Smtp-Source: APXvYqyaPu4BgL10pwQyZMZ0bMiVS8zon5HSZMUOskmMducSzd6MQKCxo5mMiSTR3jw/dfQmUSMFVA==
+X-Received: by 2002:a7b:cf27:: with SMTP id m7mr8067027wmg.7.1561741869286;
+ Fri, 28 Jun 2019 10:11:09 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id n125sm3311786wmf.6.2019.06.28.10.11.08
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 10:10:56 -0700 (PDT)
-Date: Fri, 28 Jun 2019 10:10:56 -0700 (PDT)
-X-Google-Original-Date: Fri, 28 Jun 2019 10:09:52 PDT (-0700)
-In-Reply-To: <CAKmqyKP1c5GHKaDuOvu11UtCwnrUosxTtoDAeW7GOS=s+h27aw@mail.gmail.com>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: alistair23@gmail.com
-Message-ID: <mhng-6abcb5c2-bf03-436b-a614-a9ba5a0aca7f@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.195
-Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
+ Fri, 28 Jun 2019 10:11:08 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0E1141FF87;
+ Fri, 28 Jun 2019 18:11:08 +0100 (BST)
+References: <20190614171200.21078-1-alex.bennee@linaro.org>
+ <20190614171200.21078-20-alex.bennee@linaro.org>
+ <20190628153044.GB26345@quinoa.localdomain>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
+In-reply-to: <20190628153044.GB26345@quinoa.localdomain>
+Date: Fri, 28 Jun 2019 18:11:08 +0100
+Message-ID: <87mui1ab4j.fsf@zen.linaroharston>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v3 19/50] tcg: let plugins instrument
+ memory accesses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,145 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- jonathan.cameron@huawei.com, bmeng.cn@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jun 2019 09:12:45 PDT (-0700), alistair23@gmail.com wrote:
-> On Fri, Jun 28, 2019 at 2:47 AM Jonathan Cameron
-> <jonathan.cameron@huawei.com> wrote:
->>
->> On Thu, 27 Jun 2019 08:20:10 -0700
->> Palmer Dabbelt <palmer@sifive.com> wrote:
->>
->> > From: Alistair Francis <alistair.francis@wdc.com>
->> >
->> > Add OpenSBI version 0.3 as a git submodule and as a prebult binary.
->> >
->> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
->> > Tested-by: Bin Meng <bmeng.cn@gmail.com>
->> > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
->>
->> I sent a late bug report on this one.. Hence posting here as well
->> to make sure it doesn't fall through the cracks!
->>
->> Right now you can't actually build the opensbi64-virt firmware
->> due to cut and paste error in the Makefile.
->
-> Ah, thanks for the bug report.
->
-> @Palmer Dabbelt I'm just going to send you a fixup commit. Can you
-> apply it to your tree and send a PRv2?
 
-WFM.
+Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
+
+> On Jun 14 18:11, Alex Benn=C3=A9e wrote:
+>> From: "Emilio G. Cota" <cota@braap.org>
+>>
+>> Here the trickiest feature is passing the host address to
+>> memory callbacks that request it. Perhaps it would be more
+>> appropriate to pass a "physical" address to plugins, but since
+>> in QEMU host addr ~=3D guest physical, I'm going with that for
+>> simplicity.
+>
+> How much more difficult would it be to get the true physical address (on
+> the guest)?
+
+Previously there was a helper that converted host address (i.e. where
+QEMU actually stores that value) back to the physical address (ram
+offset + ram base). However the code for calculating all of this is
+pretty invasive and requires tweaks to all the softmmu TCG backends as
+well as hooks into a slew of memory functions.
+
+I'm re-working this now so we just have the one memory callback and we
+provide a helper function that can provide an opaque hwaddr struct which
+can then be queried. The catch is you can only call this helper during a
+memory callback. I'm not sure if having this restriction violates our
+aim of not leaking implementation details to the plugin but it makes the
+code simpler.
+
+Internally what the helper does is simply re-query the SoftMMU TLB. As
+the TLBs are per-CPU nothing else can have touched the TLB and the cache
+should be hot so the cost of lookup should be minor. We could also
+potentially expand the helpers so if you are interested in only IO
+accesses we can do the full resolution and figure out what device we
+just accessed.
+
+> This is important enough to me that I would be willing to help if
+> pointed in the right direction.
+
+Well I'll certainly CC on the next series (hopefully posted Monday,
+softfreeze starts Tuesday). I'll welcome any testing and review. Also if
+you can tell us more about your use case that will help.
 
 >
->>
->> As a side note, I hit this because OpenSBI 0.3 is resulting in a login
->> loop on a debian test image and the current upstream isn't.  I haven't
->> debugged yet, but someone else may hit that problem.
->
-> Unfortunately OpenSBI 0.3 is a little old now, in saying that I didn't
-> know there are bugs in it? Which kernel are you using?
->
-> Alistair
->
->>
->> Thanks,
->>
->> Jonathan
->>
->> > diff --git a/roms/Makefile b/roms/Makefile
->> > index 078d3fb70563..562ed726fd6b 100644
->> > --- a/roms/Makefile
->> > +++ b/roms/Makefile
->> > @@ -37,6 +37,8 @@ find-cross-prefix = $(subst gcc,,$(notdir $(call find-cross-gcc,$(1))))
->> >  powerpc64_cross_prefix := $(call find-cross-prefix,powerpc64)
->> >  powerpc_cross_prefix := $(call find-cross-prefix,powerpc)
->> >  x86_64_cross_prefix := $(call find-cross-prefix,x86_64)
->> > +riscv32_cross_prefix := $(call find-cross-prefix,riscv32)
->> > +riscv64_cross_prefix := $(call find-cross-prefix,riscv64)
->> >
->> >  # tag our seabios builds
->> >  SEABIOS_EXTRAVERSION="-prebuilt.qemu.org"
->> > @@ -52,18 +54,21 @@ EDK2_EFIROM = edk2/BaseTools/Source/C/bin/EfiRom
->> >  default:
->> >       @echo "nothing is build by default"
->> >       @echo "available build targets:"
->> > -     @echo "  bios           -- update bios.bin (seabios)"
->> > -     @echo "  vgabios        -- update vgabios binaries (seabios)"
->> > -     @echo "  sgabios        -- update sgabios binaries"
->> > -     @echo "  pxerom         -- update nic roms (bios only)"
->> > -     @echo "  efirom         -- update nic roms (bios+efi)"
->> > -     @echo "  slof           -- update slof.bin"
->> > -     @echo "  skiboot        -- update skiboot.lid"
->> > -     @echo "  u-boot.e500    -- update u-boot.e500"
->> > -     @echo "  u-boot.sam460  -- update u-boot.sam460"
->> > -     @echo "  efi            -- update UEFI (edk2) platform firmware"
->> > -     @echo "  clean          -- delete the files generated by the previous" \
->> > -                               "build targets"
->> > +     @echo "  bios               -- update bios.bin (seabios)"
->> > +     @echo "  vgabios            -- update vgabios binaries (seabios)"
->> > +     @echo "  sgabios            -- update sgabios binaries"
->> > +     @echo "  pxerom             -- update nic roms (bios only)"
->> > +     @echo "  efirom             -- update nic roms (bios+efi)"
->> > +     @echo "  slof               -- update slof.bin"
->> > +     @echo "  skiboot            -- update skiboot.lid"
->> > +     @echo "  u-boot.e500        -- update u-boot.e500"
->> > +     @echo "  u-boot.sam460      -- update u-boot.sam460"
->> > +     @echo "  efi                -- update UEFI (edk2) platform firmware"
->> > +     @echo "  opensbi32-virt     -- update OpenSBI for 32-bit virt machine"
->> > +     @echo "  opensbi64-virt     -- update OpenSBI for 64-bit virt machine"
->> > +     @echo "  opensbi64-sifive_u -- update OpenSBI for 64-bit sifive_u machine"
->> > +     @echo "  clean              -- delete the files generated by the previous" \
->> > +                                   "build targets"
->> >
->> >  bios: build-seabios-config-seabios-128k build-seabios-config-seabios-256k
->> >       cp seabios/builds/seabios-128k/bios.bin ../pc-bios/bios.bin
->> > @@ -162,6 +167,24 @@ skiboot:
->> >  efi: edk2-basetools
->> >       $(MAKE) -f Makefile.edk2
->> >
->> > +opensbi32-virt:
->> > +     $(MAKE) -C opensbi \
->> > +             CROSS_COMPILE=$(riscv32_cross_prefix) \
->> > +             PLATFORM="qemu/virt"
->> > +     cp opensbi/build/platform/qemu/virt/firmware/fw_jump.bin ../pc-bios/opensbi-riscv32-virt-fw_jump.bin
->> > +
->> > +opensbi64-virt:
->> > +     $(MAKE) -C opensbi \
->> > +             CROSS_COMPILE=$(riscv64_cross_prefix) \
->> > +             PLATFORM="qemu/virt"
->> > +     cp opensbi/build/platform/qemu/virt/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-virt-fw_jump.bin
->> > +
->> > +opensbi64-virt:
->>
->> Cut and paste buglet.  opensbi64-sifive_u
->>
->> > +     $(MAKE) -C opensbi \
->> > +             CROSS_COMPILE=$(riscv64_cross_prefix) \
->> > +             PLATFORM="qemu/sifive_u"
->> > +     cp opensbi/build/platform/qemu/virt/firmware/fw_jump.bin ../pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
->> > +
->> >  clean:
->> >       rm -rf seabios/.config seabios/out seabios/builds
->> >       $(MAKE) -C sgabios clean
->> > @@ -173,3 +196,4 @@ clean:
->> >       $(MAKE) -C u-boot-sam460ex distclean
->> >       $(MAKE) -C skiboot clean
->> >       $(MAKE) -f Makefile.edk2 clean
->> > +     $(MAKE) -C opensbi clean
->> > diff --git a/roms/opensbi b/roms/opensbi
->> > new file mode 160000
->> > index 000000000000..ca20ac0cd4c0
->> > --- /dev/null
->> > +++ b/roms/opensbi
->> > @@ -0,0 +1 @@
->> > +Subproject commit ca20ac0cd4c099006d4eea4d9ac7bd7b58e2ae0f
->>
->>
->>
+> -Aaron
+
+
+--
+Alex Benn=C3=A9e
 
