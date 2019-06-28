@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB1059F09
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:38:15 +0200 (CEST)
-Received: from localhost ([::1]:33406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996A559DDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:36:32 +0200 (CEST)
+Received: from localhost ([::1]:60784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgsx5-0001sT-5p
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:38:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39974)
+	id 1hgrzL-0007Ue-FP
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40700)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <kwolf@redhat.com>) id 1hgroA-0001ST-84
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:24:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1hgrrp-0004l7-4T
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:28:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <kwolf@redhat.com>) id 1hgro8-00045p-Lx
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:24:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36154)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <kwolf@redhat.com>)
- id 1hgro5-00040o-2n; Fri, 28 Jun 2019 10:24:53 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B110130832E4;
- Fri, 28 Jun 2019 14:24:46 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
- [10.33.200.226])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 267F060501;
- Fri, 28 Jun 2019 14:24:39 +0000 (UTC)
-Date: Fri, 28 Jun 2019 16:24:37 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Denis Plotnikov <dplotnikov@virtuozzo.com>
-Message-ID: <20190628142437.GL5179@dhcp-200-226.str.redhat.com>
-References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
- <20190528143727.10529-3-dplotnikov@virtuozzo.com>
- <20190628102333.GG5179@dhcp-200-226.str.redhat.com>
- <08da0859-10da-5d4b-3203-72341a166255@virtuozzo.com>
- <20190628120622.GI5179@dhcp-200-226.str.redhat.com>
- <4fef0430-5a0c-36ca-eec0-a2c0ce10cb91@virtuozzo.com>
+ (envelope-from <philmd@redhat.com>) id 1hgrrm-0006i2-0p
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:28:44 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34778)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hgrri-0006X9-BC
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:28:39 -0400
+Received: by mail-wr1-f65.google.com with SMTP id k11so6550265wrl.1
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 07:28:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6VRYjgDAZFMVKHjDQRlqRCAm6isgcbHXT46MfZZapNA=;
+ b=KdGVDcK59wU4coAm8m9nlOnx8gS5t7dNKypEd6sdsLEd8Q1ThReKY2RfuQAhr/qltt
+ Q+N7Xv6r+FcQR5Q/dZNgTKgNT23JA72BCNMPvdVmkCz40ZFAR9m+rkgJ9nobxzXcLYC0
+ buS4HwRykjNm+NHdh3ZI3gN3Wr8IReTSqqhRFIfoIrdv+RGXjP54JkhYskUiABDfSAhI
+ TWnebnvh0g6J+m/fB1vbWZmkJBcZmHH9yNQHAcnstRo4sAfYq3I9sjsObLvDJhCyOd6L
+ fI1wUXMmySGWx8iYu5sGsY7JKTjr0u+yro8oh0N/Bj/cRCzBh2Pgnh54o63/V4K9AAL8
+ Neyw==
+X-Gm-Message-State: APjAAAW+mOg1/PfmT5fV5tca7Ai23dSHE506FxZ2aVLdame/2YHjD/qA
+ rU6HG1fNjlKT3pvv34AfcqkFtA==
+X-Google-Smtp-Source: APXvYqwICuJ/EIR6F0dHcvwgtWIW2ER1lU8B1+ujBc5UoOBvTxYqAB9mF4Yf/5vaeLQohiwsIela2A==
+X-Received: by 2002:adf:e40f:: with SMTP id g15mr7745106wrm.174.1561732108161; 
+ Fri, 28 Jun 2019 07:28:28 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id z19sm2549000wmi.7.2019.06.28.07.28.27
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Fri, 28 Jun 2019 07:28:27 -0700 (PDT)
+To: Laurent Vivier <lvivier@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
+References: <20190312085502.8203-1-david@gibson.dropbear.id.au>
+ <20190312085502.8203-13-david@gibson.dropbear.id.au>
+ <b693da29-0d2a-e739-17fb-9fd78894fd9e@redhat.com>
+ <8416add1-453a-b8f7-5b43-fc31bf8e8fca@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <95942a3b-0202-9a9f-cc71-ec6dfeceff8d@redhat.com>
+Date: Fri, 28 Jun 2019 16:28:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4fef0430-5a0c-36ca-eec0-a2c0ce10cb91@virtuozzo.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Fri, 28 Jun 2019 14:24:46 +0000 (UTC)
+In-Reply-To: <8416add1-453a-b8f7-5b43-fc31bf8e8fca@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v0 2/3] qcow2: add compression type
- processing
+ [fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PULL 12/62] target/ppc/spapr: Enable mitigations
+ by default for pseries-4.0 machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,173 +78,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.06.2019 um 14:56 hat Denis Plotnikov geschrieben:
+On 6/28/19 4:14 PM, Laurent Vivier wrote:
+> On 28/06/2019 13:27, Philippe Mathieu-Daudé wrote:
+>> Hi,
+>>
+>> On 3/12/19 9:54 AM, David Gibson wrote:
+>>> From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+>>>
+>>> There are currently 3 mitigations the availability of which is controlled
+>>> by the spapr-caps mechanism, cap-cfpc, cap-sbbc, and cap-ibs. Enable these
+>>> mitigations by default for the pseries-4.0 machine type.
+>>>
+>>> By now machine firmware should have been upgraded to allow these
+>>> settings.
+>>>
+>>> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+>>> Message-Id: <20190301044609.9626-3-sjitindarsingh@gmail.com>
+>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>>> ---
+>>>  hw/ppc/spapr.c | 9 ++++++---
+>>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>>> index 37fd7a1411..946bbcf9ee 100644
+>>> --- a/hw/ppc/spapr.c
+>>> +++ b/hw/ppc/spapr.c
+>>> @@ -4307,9 +4307,9 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+>>>      smc->default_caps.caps[SPAPR_CAP_HTM] = SPAPR_CAP_OFF;
+>>>      smc->default_caps.caps[SPAPR_CAP_VSX] = SPAPR_CAP_ON;
+>>>      smc->default_caps.caps[SPAPR_CAP_DFP] = SPAPR_CAP_ON;
+>>> -    smc->default_caps.caps[SPAPR_CAP_CFPC] = SPAPR_CAP_BROKEN;
+>>> -    smc->default_caps.caps[SPAPR_CAP_SBBC] = SPAPR_CAP_BROKEN;
+>>> -    smc->default_caps.caps[SPAPR_CAP_IBS] = SPAPR_CAP_BROKEN;
+>>> +    smc->default_caps.caps[SPAPR_CAP_CFPC] = SPAPR_CAP_WORKAROUND;
+>>> +    smc->default_caps.caps[SPAPR_CAP_SBBC] = SPAPR_CAP_WORKAROUND;
+>>> +    smc->default_caps.caps[SPAPR_CAP_IBS] = SPAPR_CAP_WORKAROUND;
+>>>      smc->default_caps.caps[SPAPR_CAP_HPT_MAXPAGESIZE] = 16; /* 64kiB */
+>>>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
+>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
+>>> @@ -4389,6 +4389,9 @@ static void spapr_machine_3_1_class_options(MachineClass *mc)
+>>>      mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power8_v2.0");
+>>>      smc->update_dt_enabled = false;
+>>>      smc->dr_phb_enabled = false;
+>>> +    smc->default_caps.caps[SPAPR_CAP_CFPC] = SPAPR_CAP_BROKEN;
+>>> +    smc->default_caps.caps[SPAPR_CAP_SBBC] = SPAPR_CAP_BROKEN;
+>>> +    smc->default_caps.caps[SPAPR_CAP_IBS] = SPAPR_CAP_BROKEN;
+>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_OFF;
+>>>  }
+>>
+>> While trying auto-bisection for LP#1834613 [*] I found this commit break
+>> clean bisection.
+>>
+>> ./configure --enable-debug
+>>
+>> $ qemu-system-ppc64 \
+>>  -kernel vmlinuz-vanilla \
+>>  -nographic -serial null
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>> cap-cfpc=workaround
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>> cap-sbbc=workaround
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>> cap-ibs=workaround
+>> Opcode 13 10 10 00 (4c400420) leaked temporaries
+>>
+>> More verbose log:
+>>
+>> $ qemu-system-ppc64 \
+>>  -kernel vmlinuz-vanilla \
+>>  -nographic -append "console=hvc0" \
+>>  -d guest_errors,in_asm
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>> cap-cfpc=workaround
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>> cap-sbbc=workaround
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>> cap-ibs=workaround
+>>
+>>
+>> SLOF **********************************************************************
+>> QEMU Starting
+>>  Build Date = Jan 14 2019 18:00:39
+>>  FW Version = git-a5b428e1c1eae703
+>>  Press "s" to enter Open Firmware.
+>> [...]
+>> --------------
+>> IN: __switch_to
+>> 0xc00000000001aac0:  60000000  nop
+>> 0xc00000000001aac4:  7f44d378  mr       r4, r26
+>> 0xc00000000001aac8:  7f23cb78  mr       r3, r25
+>> 0xc00000000001aacc:  4bff3235  bl       0xdd00
 > 
+> The kernel logs are:
 > 
-> On 28.06.2019 15:06, Kevin Wolf wrote:
-> > Am 28.06.2019 um 13:24 hat Denis Plotnikov geschrieben:
-> >>
-> >>
-> >> On 28.06.2019 13:23, Kevin Wolf wrote:
-> >>> Am 28.05.2019 um 16:37 hat Denis Plotnikov geschrieben:
-> >>>> With the patch, qcow2 is able to process image compression type
-> >>>> defined in the image header and choose the corresponding method
-> >>>> for clusters compressing.
-> >>>>
-> >>>> Also, it rework the cluster compression code for adding more
-> >>>> compression types.
-> >>>>
-> >>>> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
-> >>>> ---
-> >>>>    block/qcow2.c | 103 ++++++++++++++++++++++++++++++++++++++++++++------
-> >>>>    1 file changed, 92 insertions(+), 11 deletions(-)
-> >>>>
-> >>>> diff --git a/block/qcow2.c b/block/qcow2.c
-> >>>> index c4b5b93408..90f15cc3c9 100644
-> >>>> --- a/block/qcow2.c
-> >>>> +++ b/block/qcow2.c
-> >>>> @@ -400,11 +400,39 @@ static int qcow2_read_extensions(BlockDriverState *bs, uint64_t start_offset,
-> >>>>                break;
-> >>>>    
-> >>>>            case QCOW2_EXT_MAGIC_COMPRESSION_TYPE:
-> >>>> +            /* Compression type always goes with the compression type bit set */
-> >>>> +            if (!(s->incompatible_features & QCOW2_INCOMPAT_COMPRESSION_TYPE)) {
-> >>>> +                error_setg(errp,
-> >>>> +                           "compression_type_ext: "
-> >>>> +                           "expect compression type bit set");
-> >>>> +                return -EINVAL;
-> >>>> +            }
-> >>>> +
-> >>>> +            ret = bdrv_pread(bs->file, offset, &s->compression_type, ext.len);
-> >>>> +            s->compression_type = be32_to_cpu(s->compression_type);
-> >>>> +
-> >>>> +            if (ret < 0) {
-> >>>> +                error_setg_errno(errp, -ret,
-> >>>> +                                 "ERROR: Could not read compression type");
-> >>>> +                return ret;
-> >>>> +            }
-> >>>> +
-> >>>>                /*
-> >>>> -             * Setting compression type to BDRVQcow2State->compression_type
-> >>>> -             * from the image header is going to be here
-> >>>> +             * The default compression type is not allowed when the extension
-> >>>> +             * is present. ZLIB is used as the default compression type.
-> >>>> +             * When compression type extension header is present then
-> >>>> +             * compression_type should have a value different from the default.
-> >>>>                 */
-> >>>> -             break;
-> >>>> +            if (s->compression_type == QCOW2_COMPRESSION_TYPE_ZLIB) {
-> >>>> +                error_setg(errp,
-> >>>> +                           "compression_type_ext:"
-> >>>> +                           "invalid compression type %d",
-> >>>> +                           QCOW2_COMPRESSION_TYPE_ZLIB);
-> >>>> +            }
-> >>>
-> >>> This is a restriction that the spec doesn't make, so strictly speaking
-> >>> this implementation wouldn't be compliant to the spec.
-> >> The idea is that ZLIB shouldn't appear in the compression type
-> >> extension. This allows image backward compatibility with an older qemu
-> >> if zlib is used.
-> >>
-> >> There is no reason to set ZLIB in the extension because an older qemu
-> >> knows how to tread ZLIB compressed clusters.
-> >>
-> >> The restriction aims to guarantee that.
-> >>
-> >> I tried to describe this case in the specification:
-> >> ...
-> >> When the compression type bit is not set, and the compression type
-> >> header extension is absent, ZLIB compression is used for compressed
-> >> clusters.
-> >>
-> >> Qemu versions older than 4.1 can use images created with compression
-> >> type ZLIB without any additional preparations and cannot use images
-> >> created with compression types != ZLIB.
-> >> ...
-> >>
-> >> Does it makes sense?
-> > 
-> > This text says that using zlib in the extension is not necessary because
-> > it's the default. But it doesn't say that using zlib in the extension is
-> > illegal.
-> > 
-> > I agree that there is no good reason to create a compression type
-> > extension if you have zlib. But is there a good reason to forbid it? 
-> I think yes, if we create image with the extension set to zlib we 
-> prevent an older qemu from using that image. Furthermore, to allow older 
-> qemu using such images we need to create special conversion procedure 
-> which has to remove the extension header.
-> 
-> If zlib is a "special compression type" which is always set by default 
-> without the extension header we'll get rid of such image conversion 
-> procedure and an older qemu could use it "as is"
-> 
-> Might it work as a good reason?
-> 
-> > It
-> > only requires us to add artificial restrictions to code that would work
-> > fine without them.
-> > 
-> > Either way, if we want to reject such extensions, the spec needs to say
-> > that it's illegal. And if the spec allows such images, we must accept
-> > them.
-> Yes, it's true
-> 
-> The only reasons that zlib compression type even exists in the 
-> enumeration is to avoid ambiguity for users.
-> For them it may be hard to understand why they can set zstd and cannot 
-> set zlib as compression type and to really set zlib they have to set no 
-> compression type to make the default zlib to apply.
-> 
-> When a user set zlib as compression type the image is created as before 
-> the extension header were introduced.
-> 
-> Reasonable?
-> > 
-> >>> We can discuss whether the code or the spec should be changed. At the
-> >>> moment, I don't see a good reason to make the restriction
-> >>>
-> >>>> +#ifdef DEBUG_EXT
-> >>>> +            printf("Qcow2: image compression type %s\n", s->compression_type);
-> >>>> +#endif
-> >>>> +            break;
-> >>>>    
-> >>>>            case QCOW2_EXT_MAGIC_DATA_FILE:
-> >>>>            {
-> >>>
-> >>> We would save most of this code if we added a new field to the header
-> >>> instead of adding a header extension. Not saying that we should
-> >>> definitely do this, but let's discuss it at least.
-> >>
-> >> If we add the new field to the header will the older qemu be able to use
-> >> it. Or we will add the header only if needed, i.e. if compression_type
-> >> != zlib
-> > 
-> > Increasing the header size is backwards compatible. Older qemu versions
-> > should handle such images correctly. They would store the unknown part
-> > of the header in s->unknown_header_fields and keep it unmodified when
-> > updating the image header.
-> > 
-> > We would still add the incompatible feature flag for non-zlib, of
-> > course.
-> so, we basically need to do the same: store compression type and forbid 
-> to use because of flag if not zlib.
-> 
-> Sounds like it doesn't differ that much from the extension header approach.
+> [    0.044473] Oops: Exception in kernel mode, sig: 4 [#1]
+> [    0.044899] BE PAGE_SIZE=64K MMU=Radix MMU=Hash SMP NR_CPUS=2048 NUMA pSeries
+> [    0.045191] Modules linked in:
+> [    0.045504] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.1.0-rc4-00058-g582549e3fbe1-dirty #11
+> [    0.045646] NIP:  c00000000000be00 LR: c00000000000e168 CTR: 0000000000007fff
+> [    0.045747] REGS: c0000000011bb770 TRAP: 0700   Not tainted  (5.1.0-rc4-00058-g582549e3fbe1-dirty)
+> [    0.045808] MSR:  8000000002089032 <SF,VEC,EE,ME,IR,DR,RI>  CR: 24028822  XER: 00000000
+> [    0.045971] CFAR: c00000000000bde4 IRQMASK: 1 
+> [    0.045971] GPR00: c00000000001f390 c0000000011bba00 c0000000011bf800 c0000000010db830 
+> [    0.045971] GPR04: c00000001e4041b0 0000000000000000 0000000000000000 00000000028a5d7a 
+> [    0.045971] GPR08: 0000000000000000 0000000000007fff 0000000000000000 fffffffffffffffd 
+> [    0.045971] GPR12: 0000000024028828 c0000000013b0000 000000001dc5ff00 00000000011d8e18 
+> [    0.045971] GPR16: 00000000011d89e0 fffffffffffffffd 000000001dc5ff00 0000000000000014 
+> [    0.045971] GPR20: 000000001daf0000 c0000000010da4e0 000000001eef0000 0000000024028822 
+> [    0.045971] GPR24: c0000000010db830 c00000001e4041b0 000000001eef0000 c000000000ff5598 
+> [    0.045971] GPR28: c0000000010db830 c0000000010d9d00 c00000001e402680 c0000000010d9d00 
+> [    0.046505] NIP [c00000000000be00] flush_count_cache+0x120/0x2420
+> [    0.046561] LR [c00000000000e168] ._switch+0x68/0x180
+> [    0.046696] Call Trace:
+> [    0.046865] [c0000000011bba00] [c0000000011bba90] init_stack+0x3a90/0x4000 (unreliable)
+> [    0.046970] [c0000000011bbbe0] [c00000000001f390] .__switch_to+0x280/0x490
+> [    0.047031] [c0000000011bbc90] [c000000000b62b5c] .__schedule+0x2bc/0xae0
+> [    0.047075] [c0000000011bbd80] [c000000000b633c8] .schedule+0x48/0xb0
+> [    0.047140] [c0000000011bbdf0] [c000000000b63918] .schedule_preempt_disabled+0x18/0x30
+> [    0.047187] [c0000000011bbe60] [c00000000001065c] .rest_init+0xcc/0xf0
+> [    0.047233] [c0000000011bbee0] [c000000000f04584] .start_kernel+0x604/0x648
+> [    0.047276] [c0000000011bbf90] [c00000000000b260] start_here_common+0x1c/0x53c
+> [    0.047409] Instruction dump:
+> [    0.047647] 48000005 48000005 48000005 48000005 48000005 4800001c 60000000 60000000 
+> [    0.047744] 60000000 60000000 60000000 60000000 <7d2803a6> 39207fff 7d2903a6 4c400420 
+> [    0.048410] ---[ end trace 523b05d3a02887f6 ]---
+> [    0.048523] 
 
-It provides more or less the same functionality, but would probably make
-this patch half the size because all of the code related to reading and
-checking the header extension would go away. It also saves a few bytes
-in the header cluster (4 bytes vs. 16 bytes).
+How do you got the klogs?
 
-Kevin
+> This is fixed by:
+> 
+> commit fa200c95f7f99ce14b8af25ea0be478c722d3cec
+> Author: Greg Kurz <groug@kaod.org>
+> Date:   Fri Mar 22 19:03:46 2019 +0100
+> 
+>     target/ppc: Enable "decrement and test CTR" version of bcctr
+>     
+>     Even if all ISAs up to v3 indeed mention:
+>     
+>         If the "decrement and test CTR" option is specified (BO2=0), the
+>         instruction form is invalid.
+>     
+>     The UMs of all existing 64-bit server class processors say:
+>     
+>         If BO[2] = 0, the contents of CTR (before any update) are used as the
+>         target address and for the test of the contents of CTR to resolve the
+>         branch. The contents of the CTR are then decremented and written back
+>         to the CTR.
+>     
+>     The linux kernel has spectre v2 mitigation code that relies on a
+>     BO[2] = 0 variant of bcctr, which is now activated by default on
+>     spapr, even with TCG. This causes linux guests to panic with
+>     the default machine type under TCG.
+>     
+>     Since any CPU model can provide its own behaviour for invalid forms,
+>     we could possibly introduce a new instruction flag to handle this.
+>     In practice, since the behaviour is shared by all 64-bit server
+>     processors starting with 970 up to POWER9, let's reuse the
+>     PPC_SEGMENT_64B flag. Caveat: this may have to be fixed later if
+>     POWER10 introduces a different behaviour.
+>     
+>     The existing behaviour of throwing a program interrupt is kept for
+>     all other CPU models.
+>     
+>     Signed-off-by: Greg Kurz <groug@kaod.org>
+>     Message-Id: <155327782604.1283071.10640596307206921951.stgit@bahia.lan>
+>     Tested-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+>     Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+So this commit misses:
+
+Fixes: 2782ad4c4102d
+
+This kind of hint is very helpful for post-merge reviews.
+
+Thanks Laurent for your analysis :)
 
