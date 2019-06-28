@@ -2,55 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136DB59E7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 17:11:12 +0200 (CEST)
-Received: from localhost ([::1]:33006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED965A0A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:17:50 +0200 (CEST)
+Received: from localhost ([::1]:33956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgsWs-0005pH-9E
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 11:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49673)
+	id 1hgtZN-0002EJ-W8
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49731)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berto@igalia.com>) id 1hgsOJ-0001nC-3B
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:20 -0400
+ (envelope-from <wainersm@redhat.com>) id 1hgsOR-00023p-IH
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berto@igalia.com>) id 1hgsOI-0004WZ-11
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:19 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:60582)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <berto@igalia.com>)
- id 1hgsOH-0004Uo-CV; Fri, 28 Jun 2019 11:02:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=QvEhwJuuI2ClPajWW3EG/Uw8tFyhpAQIeoNQQCirbSY=; 
- b=gHhTN2bhuIUpy/ej3vE3BkGZdqH9udpV60Ops/hFK4VilRGJqkLmrmDN1LuNASECVHh5GBRX3n/9BaaemigKAXExG9EkQYqpmXusnzpoWo996x6U6qyWtAq1f6+Vnqqs/P2cMcI/Y2tfL3OThQFRZcZB9EljC4eF/XqV5X6WHylaLw8t7jqnq3y467KJ4Xl4KpqpoM5BlAf/GqSgvNyP3ZQK5trLIIOggepaz/ZGYjJEM6RHWFBCP3zqJrFXJ5OgruaPlTkG7H2ukar0AwY2jsE9MzotUxGjAncRhOtsremH4PMcPszMXnC+vCyM7f9XOlWcV17hITs9e8ZeQ+f6rg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1hgsOD-0008K1-8b; Fri, 28 Jun 2019 17:02:13 +0200
-Received: from berto by mail.igalia.com with local (Exim)
- id 1hgsOD-0007hF-5m; Fri, 28 Jun 2019 17:02:13 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Kevin Wolf <kwolf@redhat.com>
-In-Reply-To: <20190628145708.GN5179@dhcp-200-226.str.redhat.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
- <w51a7e3domn.fsf@maestria.local.igalia.com>
- <434b102d-9d8e-ccc2-cb53-7f49a3fbd6fb@virtuozzo.com>
- <w51r27dixcm.fsf@maestria.local.igalia.com>
- <20190628145708.GN5179@dhcp-200-226.str.redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 28 Jun 2019 17:02:13 +0200
-Message-ID: <w51o92hiwi2.fsf@maestria.local.igalia.com>
+ (envelope-from <wainersm@redhat.com>) id 1hgsOQ-0004eD-AO
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34815)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <wainersm@redhat.com>) id 1hgsOQ-0004dj-4m
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 11:02:26 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 79EC7356F6
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 15:02:25 +0000 (UTC)
+Received: from virtlab501.virt.lab.eng.bos.redhat.com
+ (virtlab501.virt.lab.eng.bos.redhat.com [10.19.152.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 333DD5D704;
+ Fri, 28 Jun 2019 15:02:18 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 28 Jun 2019 11:02:14 -0400
+Message-Id: <20190628150217.32659-1-wainersm@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
- timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.30]); Fri, 28 Jun 2019 15:02:25 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/3] Acceptance tests: boot Linux with KVM test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,35 +53,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anton Nefedov <anton.nefedov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: philmd@redhat.com, jsnow@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 28 Jun 2019 04:57:08 PM CEST, Kevin Wolf wrote:
-> Am 28.06.2019 um 16:43 hat Alberto Garcia geschrieben:
->> On Thu 27 Jun 2019 06:05:55 PM CEST, Denis Lunev wrote:
->> > Please note, I am not talking now about your case with COW. Here the
->> > allocation is performed on the sub-cluster basis, i.e. the abscence of
->> > the sub-cluster in the image means hole on that offset. This is
->> > important difference.
->> 
->> I mentioned the possibility that if you have a case like 2MB / 64KB
->> and you write to an empty cluster then you could allocate the
->> necessary subclusters, and additionally fallocate() the space of the
->> whole cluster (2MB) in order to try to keep it contiguous.
->> 
->> With this we would lose the space saving advantage of having
->> subclusters. But perhaps that would work for smaller cluster sizes
->> (it would mitigate the fragmentation problem).
->
-> There seem to be use cases for both ways. So does this need to be an
-> option?
+Hi all!
 
-Probably a runtime option, or a heuristic that decides what to do
-depending on the cluster size.
+This series introduce a simple test case which boots Linux with
+KVM enabled aiming to exercise qemu-kvm integration. No other
+acceptance test does that as far as I know.
 
-Berto
+The patch 02 allows the test writter to mark (by means of Avocado tag)
+the test require a given accelerator that if not present will end up
+on skipping its run. It uses `qemu -accel help` to determine if accel
+is enabled in binary and in some cases (e.g. kvm) it can check the host
+support too. Because `qemu -accel help` needs to execute without the
+qmp machinery, the patch 01 is needed. The patch 01 allows to boot qemu
+with no qmp which can also be used on LinuxInitrd test for instance.
+
+Depends on '[PATCH 1/2] Acceptance tests: exclude "flaky" tests'
+which bumps Avocado version to 69.1.
+
+Conflicts with '[RFC PATCH v2 1/3] python/qemu: split QEMUMachine out
+from underneath __init__.py'. Upon merge of John's patch I can then
+rebase this.
+
+Git: https://github.com/wainersm/qemu
+Branch: acceptance_kvm_test=20
+Travis: https://travis-ci.org/wainersm/qemu/jobs/551455876
+
+Wainer dos Santos Moschetta (3):
+  python/qemu: Allow to launch the VM without qmp
+  tests/acceptance: Introduce the "accel" tag
+  tests/acceptance: Add boot linux with kvm test
+
+ python/qemu/__init__.py                   | 72 +++++++++++++++--------
+ tests/acceptance/avocado_qemu/__init__.py |  5 ++
+ tests/acceptance/avocado_qemu/accel.py    | 60 +++++++++++++++++++
+ tests/acceptance/kvm.py                   | 58 ++++++++++++++++++
+ 4 files changed, 171 insertions(+), 24 deletions(-)
+ create mode 100644 tests/acceptance/avocado_qemu/accel.py
+ create mode 100644 tests/acceptance/kvm.py
+
+--=20
+2.21.0
+
 
