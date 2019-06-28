@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85375A44D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:39:48 +0200 (CEST)
-Received: from localhost ([::1]:35406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E750B5A45B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 20:41:51 +0200 (CEST)
+Received: from localhost ([::1]:35420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgvmm-0004Vs-0l
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:39:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34466)
+	id 1hgvol-0006ai-4K
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 14:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34465)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <th.huth@gmail.com>) id 1hgvQG-0007za-40
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:16:42 -0400
+ (envelope-from <th.huth@gmail.com>) id 1hgvQG-0007zZ-3z
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:16:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <th.huth@gmail.com>) id 1hgvQA-0000H9-GL
+ (envelope-from <th.huth@gmail.com>) id 1hgvQ9-0000GW-Rl
  for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:16:29 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:55792)
+Received: from mail-wm1-f53.google.com ([209.85.128.53]:55963)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1hgvQ6-0008Io-Cx
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:16:24 -0400
-Received: by mail-wm1-f65.google.com with SMTP id a15so9963502wmj.5
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 11:15:46 -0700 (PDT)
+ (Exim 4.71) (envelope-from <th.huth@gmail.com>) id 1hgvQ6-0008JB-Cd
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 14:16:23 -0400
+Received: by mail-wm1-f53.google.com with SMTP id a15so9963533wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 11:15:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u9zhG8rg54XfiTs94v7mHs1mcSSNli/GonRCvA/Rm7M=;
- b=U0s2crETJzgvYEyO5VrBnNIBSxMz0jSGPVFwwJ7jBDA1V19jIUH9LJ84ROurP9fCsP
- 9a9L9oV1kMhQHAgrQqZJBZc/qDJTosmzii5C5G/OAW2Ii9YylvwasyVP+QySCZf3ABui
- LPN4TfZKc/WcUpsXVljcsVhYi0g/QTV+OBIjCjOQmhLUCczoxMHv4zRCCtAnv5lO/iLP
- bOX4EyX4ThXkrHGpoP+puJVFpsLHjt6Yg5DqWxDr62H8bGxMHEUq2sdKIaZz/YR4V0T2
- OkJXU3qi/J/Dy+Zf8FnO98rdB2bzwCSWDy6sHbvBNW2SSmYnzAJGiMnyJcDkzTjLSCRU
- T3aA==
-X-Gm-Message-State: APjAAAWf3e7HjroeG6uUSjwhEAMO99jb2FTKcjdHAzq4gO5QKOkXzQBS
- aEYY+igUTI1h+4SnFP/jBpepuGsT
-X-Google-Smtp-Source: APXvYqwq7dp6EbJJvwNO2IyEWxgZlURhcxY/0AXywyf3NcxlcagouSSXzPp0BZvES8W3H3aGrs+/GQ==
-X-Received: by 2002:a05:600c:2189:: with SMTP id
- e9mr7670688wme.56.1561745745275; 
- Fri, 28 Jun 2019 11:15:45 -0700 (PDT)
+ bh=ptZAvXji36H4DCrgwSc0bv82c/INssHi19QN1vQ+pkM=;
+ b=mu9dYXONNKj5EHzIrZqGIt7kiHdTZRf8N28+XsnsPa5fMUJ5Bl70tMSrkykUzE4edA
+ SU0HN8Df6sNHITThC0wpNqByq9Z6SgcYvt+hCsemVknzkmBnk99DaiL3QHA8qCoeVpGK
+ RFbzsdDGFnCHQJZq4OWDF3R+VMdAU41pC7ZhI2QSEUrZUPrAQ69L1oU6zApr9mbc7T8o
+ EhvaNl4K0XJ7NSK7OP8Cj3RogVVwZ+nJxpC/yx0SPfIeXhkNjL/yHtMfCkT8xXa+Y0Kz
+ Dv+CQ3PQQBcD44+w04VwIRb5tvza804HnFwE4J9cU1trd24OOAy+FvAzeEyAa9klLOQx
+ UzzQ==
+X-Gm-Message-State: APjAAAUalNSIsEYPm9PL1N7UuCuhWnlWmHzOTjDvh5AJyqe3IxM60a37
+ DhYzZIyeThopgN+zRpVkCUT6wiGQ
+X-Google-Smtp-Source: APXvYqxVYwkpeZUi6a+fcTR4X/RjFt1M2mlRHmH3SN4K94eXMq6UFU3SeG1HGevNkRRaZXY/tw/OvA==
+X-Received: by 2002:a1c:a483:: with SMTP id n125mr7922698wme.3.1561745746117; 
+ Fri, 28 Jun 2019 11:15:46 -0700 (PDT)
 Received: from thl530.multi.box (p5791D57D.dip0.t-ipconnect.de.
  [87.145.213.125])
- by smtp.gmail.com with ESMTPSA id s10sm3331447wmf.8.2019.06.28.11.15.44
+ by smtp.gmail.com with ESMTPSA id s10sm3331447wmf.8.2019.06.28.11.15.45
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Fri, 28 Jun 2019 11:15:44 -0700 (PDT)
+ Fri, 28 Jun 2019 11:15:45 -0700 (PDT)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 28 Jun 2019 20:15:33 +0200
-Message-Id: <20190628181536.13729-2-huth@tuxfamily.org>
+Date: Fri, 28 Jun 2019 20:15:34 +0200
+Message-Id: <20190628181536.13729-3-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190628181536.13729-1-huth@tuxfamily.org>
 References: <20190628181536.13729-1-huth@tuxfamily.org>
@@ -55,9 +54,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: [Qemu-devel] [PATCH v2 1/4] m68k: Add NeXTcube framebuffer device
- emulation
+X-Received-From: 209.85.128.53
+Subject: [Qemu-devel] [PATCH v2 2/4] m68k: Add NeXTcube keyboard device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,55 +73,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NeXTcube uses a linear framebuffer with 4 greyscale colors and
-a fixed resolution of 1120 * 832.
+It is likely still quite incomplete (e.g. mouse and interrupts are not
+implemented yet), but it is good enough for keyboard input at the firmware
+monitor.
 This code has been taken from Bryce Lanham's GSoC 2011 NeXT branch at
 
- https://github.com/blanham/qemu-NeXT/blob/next-cube/hw/next-fb.c
+ https://github.com/blanham/qemu-NeXT/blob/next-cube/hw/next-kbd.c
 
-and altered to fit the latest interface of the current QEMU (e.g.
-the device has been "qdev"-ified etc.).
+and altered to fit the latest interface of the current QEMU (e.g. to use
+memory_region_init_io() instead of cpu_register_physical_memory()).
 
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- default-configs/m68k-softmmu.mak |   1 +
- hw/display/Makefile.objs         |   1 +
- hw/display/next-fb.c             | 157 +++++++++++++++++++++++++++++++
- hw/m68k/Kconfig                  |   4 +
- include/hw/m68k/next-cube.h      |   8 ++
- 5 files changed, 171 insertions(+)
- create mode 100644 hw/display/next-fb.c
- create mode 100644 include/hw/m68k/next-cube.h
+ hw/m68k/Makefile.objs       |   1 +
+ hw/m68k/next-kbd.c          | 320 ++++++++++++++++++++++++++++++++++++
+ include/hw/m68k/next-cube.h |   3 +
+ 3 files changed, 324 insertions(+)
+ create mode 100644 hw/m68k/next-kbd.c
 
-diff --git a/default-configs/m68k-softmmu.mak b/default-configs/m68k-softmmu.mak
-index 4049a8f2ba..d67ab8b96d 100644
---- a/default-configs/m68k-softmmu.mak
-+++ b/default-configs/m68k-softmmu.mak
-@@ -6,3 +6,4 @@ CONFIG_SEMIHOSTING=y
- #
- CONFIG_AN5206=y
- CONFIG_MCF5208=y
-+CONFIG_NEXTCUBE=y
-diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
-index a64998fc7b..8d1c71026d 100644
---- a/hw/display/Makefile.objs
-+++ b/hw/display/Makefile.objs
-@@ -38,6 +38,7 @@ obj-$(CONFIG_RASPI) += bcm2835_fb.o
- obj-$(CONFIG_SM501) += sm501.o
- obj-$(CONFIG_TCX) += tcx.o
- obj-$(CONFIG_CG3) += cg3.o
-+obj-$(CONFIG_NEXTCUBE) += next-fb.o
- 
- obj-$(CONFIG_VGA) += vga.o
- 
-diff --git a/hw/display/next-fb.c b/hw/display/next-fb.c
+diff --git a/hw/m68k/Makefile.objs b/hw/m68k/Makefile.objs
+index 482f8477b4..688002cac1 100644
+--- a/hw/m68k/Makefile.objs
++++ b/hw/m68k/Makefile.objs
+@@ -1,2 +1,3 @@
+ obj-$(CONFIG_AN5206) += an5206.o mcf5206.o
+ obj-$(CONFIG_MCF5208) += mcf5208.o mcf_intc.o
++obj-$(CONFIG_NEXTCUBE) += next-kbd.o
+diff --git a/hw/m68k/next-kbd.c b/hw/m68k/next-kbd.c
 new file mode 100644
-index 0000000000..740102d7e9
+index 0000000000..73e90f9b62
 --- /dev/null
-+++ b/hw/display/next-fb.c
-@@ -0,0 +1,157 @@
++++ b/hw/m68k/next-kbd.c
+@@ -0,0 +1,320 @@
 +/*
-+ * NeXT Cube/Station Framebuffer Emulation
++ * QEMU NeXT Keyboard/Mouse emulation
 + *
 + * Copyright (c) 2011 Bryce Lanham
 + *
@@ -145,166 +128,315 @@ index 0000000000..740102d7e9
 + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 + * THE SOFTWARE.
 + */
++
++/*
++ * This is admittedly hackish, but works well enough for basic input. Mouse
++ * support will be added once we can boot something that needs the mouse.
++ */
++
 +#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "ui/console.h"
++#include "qemu/log.h"
++#include "exec/address-spaces.h"
 +#include "hw/hw.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "hw/display/framebuffer.h"
-+#define BITS 8
-+#include "ui/pixel_ops.h"
++#include "hw/sysbus.h"
 +#include "hw/m68k/next-cube.h"
++#include "ui/console.h"
++#include "sysemu/sysemu.h"
 +
-+#define TYPE_NEXTFB "next-fb"
-+#define NEXTFB(obj) OBJECT_CHECK(NeXTFbState, (obj), TYPE_NEXTFB)
++#define TYPE_NEXTKBD "next-kbd"
++#define NEXTKBD(obj) OBJECT_CHECK(NextKBDState, (obj), TYPE_NEXTKBD)
 +
-+struct NeXTFbState {
-+    SysBusDevice parent_obj;
++/* following defintions from next68k netbsd */
++#define CSR_INT 0x00800000
++#define CSR_DATA 0x00400000
 +
-+    MemoryRegion fb_mr;
-+    MemoryRegionSection fbsection;
-+    QemuConsole *con;
++#define KD_KEYMASK    0x007f
++#define KD_DIRECTION  0x0080 /* pressed or released */
++#define KD_CNTL       0x0100
++#define KD_LSHIFT     0x0200
++#define KD_RSHIFT     0x0400
++#define KD_LCOMM      0x0800
++#define KD_RCOMM      0x1000
++#define KD_LALT       0x2000
++#define KD_RALT       0x4000
++#define KD_VALID      0x8000 /* only set for scancode keys ? */
++#define KD_MODS       0x4f00
 +
-+    uint32_t pitch;
-+    uint32_t cols;
-+    uint32_t rows;
-+    int invalidate;
-+};
-+typedef struct NeXTFbState NeXTFbState;
++#define KBD_QUEUE_SIZE 256
 +
-+static void nextfb_draw_line(void *opaque, uint8_t *d, const uint8_t *s,
-+                             int width, int pitch)
++typedef struct {
++    uint8_t data[KBD_QUEUE_SIZE];
++    int rptr, wptr, count;
++} KBDQueue;
++
++
++typedef struct NextKBDState {
++    SysBusDevice sbd;
++    MemoryRegion mr;
++    KBDQueue queue;
++    uint16_t shift;
++} NextKBDState;
++
++static void queue_code(void *opaque, int code);
++
++/* lots of magic numbers here */
++static uint32_t kbd_read_byte(void *opaque, hwaddr addr)
 +{
-+    NeXTFbState *nfbstate = NEXTFB(opaque);
-+    static const uint32_t pal[4] = {
-+        0xFFFFFFFF, 0xFFAAAAAA, 0xFF555555, 0xFF000000
-+    };
-+    uint32_t *buf = (uint32_t *)d;
-+    int i = 0;
++    switch (addr & 0x3) {
++    case 0x0:   /* 0xe000 */
++        return 0x80 | 0x20;
 +
-+    for (i = 0; i < nfbstate->cols / 4; i++) {
-+        int j = i * 4;
-+        uint8_t src = s[i];
-+        buf[j + 3] = pal[src & 0x3];
-+        src >>= 2;
-+        buf[j + 2] = pal[src & 0x3];
-+        src >>= 2;
-+        buf[j + 1] = pal[src & 0x3];
-+        src >>= 2;
-+        buf[j + 0] = pal[src & 0x3];
++    case 0x1:   /* 0xe001 */
++        return 0x80 | 0x40 | 0x20 | 0x10;
++
++    case 0x2:   /* 0xe002 */
++        /* returning 0x40 caused mach to hang */
++        return 0x10 | 0x2 | 0x1;
++
++    default:
++        qemu_log_mask(LOG_UNIMP, "NeXT kbd read byte %"HWADDR_PRIx"\n", addr);
++    }
++
++    return 0;
++}
++
++static uint32_t kbd_read_word(void *opaque, hwaddr addr)
++{
++    qemu_log_mask(LOG_UNIMP, "NeXT kbd read word %"HWADDR_PRIx"\n", addr);
++    return 0;
++}
++
++/* even more magic numbers */
++static uint32_t kbd_read_long(void *opaque, hwaddr addr)
++{
++    int key = 0;
++    NextKBDState *s = NEXTKBD(opaque);
++    KBDQueue *q = &s->queue;
++
++    switch (addr & 0xf) {
++    case 0x0:   /* 0xe000 */
++        return 0xA0F09300;
++
++    case 0x8:   /* 0xe008 */
++        /* get keycode from buffer */
++        if (q->count > 0) {
++            key = q->data[q->rptr];
++            if (++q->rptr == KBD_QUEUE_SIZE) {
++                q->rptr = 0;
++            }
++
++            q->count--;
++
++            if (s->shift) {
++                key |= s->shift;
++            }
++
++            if (key & 0x80) {
++                return 0;
++            } else {
++                return 0x10000000 | KD_VALID | key;
++            }
++        } else {
++            return 0;
++        }
++
++    default:
++        qemu_log_mask(LOG_UNIMP, "NeXT kbd read long %"HWADDR_PRIx"\n", addr);
++        return 0;
 +    }
 +}
 +
-+static void nextfb_update(void *opaque)
++static void kbd_write_byte(void *opaque, hwaddr addr, uint32_t val)
 +{
-+    NeXTFbState *s = NEXTFB(opaque);
-+    int dest_width = 4;
-+    int src_width;
-+    int first = 0;
-+    int last  = 0;
-+    DisplaySurface *surface = qemu_console_surface(s->con);
++    qemu_log_mask(LOG_UNIMP, "NeXT kbd write byte %"HWADDR_PRIx"\n", addr);
++}
++static void kbd_write_word(void *opaque, hwaddr addr, uint32_t val)
++{
++    qemu_log_mask(LOG_UNIMP, "NeXT kbd write addr %"HWADDR_PRIx"\n", addr);
++}
++static void kbd_write_long(void *opaque, hwaddr addr, uint32_t val)
++{
++    qemu_log_mask(LOG_UNIMP, "NeXT kbd write long %"HWADDR_PRIx"\n", addr);
++}
 +
-+    src_width = s->cols / 4 + 8;
-+    dest_width = s->cols * 4;
-+
-+    if (s->invalidate) {
-+        framebuffer_update_memory_section(&s->fbsection, &s->fb_mr, 0,
-+                                          s->cols, src_width);
-+        s->invalidate = 0;
++static uint64_t kbd_readfn(void *opaque, hwaddr addr, unsigned size)
++{
++    switch (size) {
++    case 1:
++        return kbd_read_byte(opaque, addr);
++    case 2:
++        return kbd_read_word(opaque, addr);
++    case 4:
++        return kbd_read_long(opaque, addr);
++    default:
++        g_assert_not_reached();
 +    }
-+
-+    framebuffer_update_display(surface, &s->fbsection, 1120, 832,
-+                               src_width, dest_width, 0, 1, nextfb_draw_line,
-+                               s, &first, &last);
-+
-+    dpy_gfx_update(s->con, 0, 0, 1120, 832);
 +}
 +
-+static void nextfb_invalidate(void *opaque)
++static void kbd_writefn(void *opaque, hwaddr addr, uint64_t value,
++                        unsigned size)
 +{
-+    NeXTFbState *s = NEXTFB(opaque);
-+    s->invalidate = 1;
++    switch (size) {
++    case 1:
++        kbd_write_byte(opaque, addr, value);
++        break;
++    case 2:
++        kbd_write_word(opaque, addr, value);
++        break;
++    case 4:
++        kbd_write_long(opaque, addr, value);
++        break;
++    default:
++        g_assert_not_reached();
++    }
 +}
 +
-+static const GraphicHwOps nextfb_ops = {
-+    .invalidate  = nextfb_invalidate,
-+    .gfx_update  = nextfb_update,
++static const MemoryRegionOps kbd_ops = {
++    .read = kbd_readfn,
++    .write = kbd_writefn,
++    .valid.min_access_size = 1,
++    .valid.max_access_size = 4,
++    .endianness = DEVICE_NATIVE_ENDIAN,
 +};
 +
-+static void nextfb_realize(DeviceState *dev, Error **errp)
++static void nextkbd_event(void *opaque, int ch)
 +{
-+    NeXTFbState *s = NEXTFB(dev);
-+
-+    memory_region_init_ram(&s->fb_mr, OBJECT(dev), "next-video", 0x1CB100,
-+                           &error_fatal);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->fb_mr);
-+
-+    s->invalidate = 1;
-+    s->cols = 1120;
-+    s->rows = 832;
-+
-+    s->con = graphic_console_init(dev, 0, &nextfb_ops, s);
-+    qemu_console_resize(s->con, s->cols, s->rows);
++    /*
++     * Will want to set vars for caps/num lock
++     * if (ch & 0x80) -> key release
++     * there's also e0 escaped scancodes that might need to be handled
++     */
++    queue_code(opaque, ch);
 +}
 +
-+static void nextfb_class_init(ObjectClass *oc, void *data)
++static const unsigned char next_keycodes[128] = {
++    0x00, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x50, 0x4F,
++    0x4E, 0x1E, 0x1F, 0x20, 0x1D, 0x1C, 0x1B, 0x00,
++    0x42, 0x43, 0x44, 0x45, 0x48, 0x47, 0x46, 0x06,
++    0x07, 0x08, 0x00, 0x00, 0x2A, 0x00, 0x39, 0x3A,
++    0x3B, 0x3C, 0x3D, 0x40, 0x3F, 0x3E, 0x2D, 0x2C,
++    0x2B, 0x26, 0x00, 0x00, 0x31, 0x32, 0x33, 0x34,
++    0x35, 0x37, 0x36, 0x2e, 0x2f, 0x30, 0x00, 0x00,
++    0x00, 0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
++    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
++};
++
++static void queue_code(void *opaque, int code)
++{
++    NextKBDState *s = NEXTKBD(opaque);
++    KBDQueue *q = &s->queue;
++    int key = code & 0x7F;
++    int release = code & 0x80;
++    static int ext;
++
++    if (code == 0xE0) {
++        ext = 1;
++    }
++
++    if (code == 0x2A || code == 0x1D || code == 0x36) {
++        if (code == 0x2A) {
++            s->shift = KD_LSHIFT;
++        } else if (code == 0x36) {
++            s->shift = KD_RSHIFT;
++            ext = 0;
++        } else if (code == 0x1D && !ext) {
++            s->shift = KD_LCOMM;
++        } else if (code == 0x1D && ext) {
++            ext = 0;
++            s->shift = KD_RCOMM;
++        }
++        return;
++    } else if (code == (0x2A | 0x80) || code == (0x1D | 0x80) ||
++               code == (0x36 | 0x80)) {
++        s->shift = 0;
++        return;
++    }
++
++    if (q->count >= KBD_QUEUE_SIZE) {
++        return;
++    }
++
++    q->data[q->wptr] = next_keycodes[key] | release;
++
++    if (++q->wptr == KBD_QUEUE_SIZE) {
++        q->wptr = 0;
++    }
++
++    q->count++;
++
++    /*
++     * might need to actually trigger the NeXT irq, but as the keyboard works
++     * at the moment, I'll worry about it later
++     */
++    /* s->update_irq(s->update_arg, 1); */
++}
++
++static void nextkbd_reset(DeviceState *dev)
++{
++    NextKBDState *nks = NEXTKBD(dev);
++
++    memset(&nks->queue, 0, sizeof(KBDQueue));
++    nks->shift = 0;
++}
++
++static void nextkbd_realize(DeviceState *dev, Error **errp)
++{
++    NextKBDState *s = NEXTKBD(dev);
++
++    memory_region_init_io(&s->mr, OBJECT(dev), &kbd_ops, s, "next.kbd", 0x1000);
++
++    qemu_add_kbd_event_handler(nextkbd_event, s);
++}
++
++static void nextkbd_class_init(ObjectClass *oc, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(oc);
 +
-+    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-+    dc->realize = nextfb_realize;
++    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
++    dc->realize = nextkbd_realize;
++    dc->reset = nextkbd_reset;
 +}
 +
-+static const TypeInfo nextfb_info = {
-+    .name          = TYPE_NEXTFB,
++static const TypeInfo nextkbd_info = {
++    .name          = TYPE_NEXTKBD,
 +    .parent        = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(NeXTFbState),
-+    .class_init    = nextfb_class_init,
++    .instance_size = sizeof(NextKBDState),
++    .class_init    = nextkbd_class_init,
 +};
 +
-+static void nextfb_register_types(void)
++static void nextkbd_register_types(void)
 +{
-+    type_register_static(&nextfb_info);
++    type_register_static(&nextkbd_info);
 +}
 +
-+type_init(nextfb_register_types)
++type_init(nextkbd_register_types)
 +
-+void nextfb_init(void)
++void nextkbd_init(void)
 +{
 +    DeviceState *dev;
++    NextKBDState *nks;
 +
-+    dev = qdev_create(NULL, TYPE_NEXTFB);
++    dev = qdev_create(NULL, TYPE_NEXTKBD);
 +    qdev_init_nofail(dev);
 +
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0xB000000);
++    nks = NEXTKBD(dev);
++    memory_region_add_subregion(get_system_memory(), 0x200e000, &nks->mr);
 +}
-diff --git a/hw/m68k/Kconfig b/hw/m68k/Kconfig
-index 49ef0b3f6d..ec58a2eb06 100644
---- a/hw/m68k/Kconfig
-+++ b/hw/m68k/Kconfig
-@@ -7,3 +7,7 @@ config MCF5208
-     bool
-     select COLDFIRE
-     select PTIMER
-+
-+config NEXTCUBE
-+    bool
-+    select FRAMEBUFFER
 diff --git a/include/hw/m68k/next-cube.h b/include/hw/m68k/next-cube.h
-new file mode 100644
-index 0000000000..cf07243bda
---- /dev/null
+index cf07243bda..88e94f6595 100644
+--- a/include/hw/m68k/next-cube.h
 +++ b/include/hw/m68k/next-cube.h
-@@ -0,0 +1,8 @@
+@@ -5,4 +5,7 @@
+ /* next-fb.c */
+ void nextfb_init(void);
+ 
++/* next-kbd.c  */
++void nextkbd_init(void);
 +
-+#ifndef NEXT_CUBE_H
-+#define NEXT_CUBE_H
-+
-+/* next-fb.c */
-+void nextfb_init(void);
-+
-+#endif /* NEXT_CUBE_H */
+ #endif /* NEXT_CUBE_H */
 -- 
 2.21.0
 
