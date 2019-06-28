@@ -2,97 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B29C59E4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 16:57:28 +0200 (CEST)
-Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3055A06B
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 18:09:23 +0200 (CEST)
+Received: from localhost ([::1]:33754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgsJb-0005LP-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 10:57:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46186)
+	id 1hgtRC-0003jA-H7
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 12:09:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46099)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <den@virtuozzo.com>) id 1hgsBA-0000fp-6S
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:48:45 -0400
+ (envelope-from <lvivier@redhat.com>) id 1hgsAw-0000dT-75
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:48:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <den@virtuozzo.com>) id 1hgsB7-00046a-JX
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:48:43 -0400
-Received: from mail-he1eur02on0700.outbound.protection.outlook.com
- ([2a01:111:f400:fe05::700]:58702
- helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <den@virtuozzo.com>)
- id 1hgsAp-0003Sn-74; Fri, 28 Jun 2019 10:48:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aCqVRj6lxbHbElZOS7pzC5VZ00mHC8b/mwANV8afLFU=;
- b=Wgae738dmfXO6jC5w88umBC9qeTGhzUSdY+sH6YieIX68oPeA99XLXP8Zys9pVqkD4iwM5w82Z7fD1jFuediej2CoOMttULPsqQ+QQ7pzRk1JmNuhDtoiYqNz+sLOZ3AEEnxXO363oLOc4M7BCNL2AG1DMXcUx9OxTUW70KRgZk=
-Received: from DBBPR08MB4250.eurprd08.prod.outlook.com (20.179.40.149) by
- DBBPR08MB4632.eurprd08.prod.outlook.com (10.255.78.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2008.16; Fri, 28 Jun 2019 14:47:32 +0000
-Received: from DBBPR08MB4250.eurprd08.prod.outlook.com
- ([fe80::1d8b:7420:f966:e881]) by DBBPR08MB4250.eurprd08.prod.outlook.com
- ([fe80::1d8b:7420:f966:e881%3]) with mapi id 15.20.2008.014; Fri, 28 Jun 2019
- 14:47:32 +0000
-From: Denis Lunev <den@virtuozzo.com>
-To: Alberto Garcia <berto@igalia.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Thread-Topic: [RFC] Re-evaluating subcluster allocation for qcow2 images
-Thread-Index: AQHVLPCb4B1OTPiTIEWxN+ewhowOEKavjMGAgAAWOgCAADnRAIABSSKAgAABAoA=
-Date: Fri, 28 Jun 2019 14:47:32 +0000
-Message-ID: <083762bf-788e-1090-775d-c20e539583c9@virtuozzo.com>
-References: <20190627135914.xlzohrdwr6mz2aq3@perseus.local>
- <4453cfc4-cff7-c004-1f4c-7cab462e4661@virtuozzo.com>
- <w51a7e3domn.fsf@maestria.local.igalia.com>
- <434b102d-9d8e-ccc2-cb53-7f49a3fbd6fb@virtuozzo.com>
- <w51r27dixcm.fsf@maestria.local.igalia.com>
-In-Reply-To: <w51r27dixcm.fsf@maestria.local.igalia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P18901CA0022.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:3:8b::32) To DBBPR08MB4250.eurprd08.prod.outlook.com
- (2603:10a6:10:c2::21)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=den@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 165d6cc8-8ea6-4c0e-c20c-08d6fbd78cd4
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);
- SRVR:DBBPR08MB4632; 
-x-ms-traffictypediagnostic: DBBPR08MB4632:
-x-microsoft-antispam-prvs: <DBBPR08MB4632322A603138AA5E517C52B6FC0@DBBPR08MB4632.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 00826B6158
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(136003)(376002)(366004)(39840400004)(346002)(396003)(199004)(189003)(486006)(305945005)(66446008)(64756008)(66556008)(66476007)(73956011)(66946007)(81156014)(8936002)(36756003)(81166006)(3846002)(53546011)(102836004)(68736007)(6506007)(5660300002)(71200400001)(186003)(71190400001)(6116002)(478600001)(2501003)(31696002)(107886003)(6246003)(53936002)(2906002)(476003)(2616005)(99286004)(14444005)(7736002)(386003)(54906003)(316002)(25786009)(229853002)(110136005)(256004)(31686004)(52116002)(86362001)(66066001)(14454004)(26005)(11346002)(6486002)(6436002)(8676002)(4326008)(6512007)(446003)(76176011);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DBBPR08MB4632;
- H:DBBPR08MB4250.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: SjQIr/gzYZYWLnWjV2GziPKA+JBSc1S6zJUCTdC6L4BV/CFD6eHToNMuLTMSj8YXgBFhDDXYPWwWio3yIUBohEjgVk7iFDZ86kBlvQ+DwAq16Fn4Vv8wAvt6+8x4KorX9RMl2x7bRvnocvb/Jl4KCBp5IFhPnZ69pGoC6L1k9nhmx/mvxdKIKtwPRKLe180U1vncU/crT4bozXsZDvXFWP7HDaaI3ki/V1nsinX2d/E8LNtIJqD0W5xgAmj6nplqZReTZdKQulM4W6R1fJn3NGbLNSKjqfyRfQF+rx1E90zqcpgExgORL79Mlh78lz6Kn0zwSjHgDQsGYC6hFnszVJ5doXMfgn5QAq3urTZlHqyrlq3FLuruBhg+osXUqYbot1MN2kGzQC9fqObbUsNn+ViMrmvWEfpcYzXxYAfO+tA=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C4A63F4DCBB3A54F890426C467CE0591@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <lvivier@redhat.com>) id 1hgsAp-0003vp-0U
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 10:48:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58186)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <lvivier@redhat.com>)
+ id 1hgsAl-0003qY-HW; Fri, 28 Jun 2019 10:48:19 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4207B30811C7;
+ Fri, 28 Jun 2019 14:48:13 +0000 (UTC)
+Received: from [10.36.117.11] (ovpn-117-11.ams2.redhat.com [10.36.117.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 95090194A8;
+ Fri, 28 Jun 2019 14:48:05 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, peter.maydell@linaro.org
+References: <20190312085502.8203-1-david@gibson.dropbear.id.au>
+ <20190312085502.8203-13-david@gibson.dropbear.id.au>
+ <b693da29-0d2a-e739-17fb-9fd78894fd9e@redhat.com>
+ <8416add1-453a-b8f7-5b43-fc31bf8e8fca@redhat.com>
+ <95942a3b-0202-9a9f-cc71-ec6dfeceff8d@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=lvivier@redhat.com; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <27915778-7789-5e3d-f952-7e2317a88634@redhat.com>
+Date: Fri, 28 Jun 2019 16:48:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 165d6cc8-8ea6-4c0e-c20c-08d6fbd78cd4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2019 14:47:32.1506 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: den@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4632
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe05::700
-Subject: Re: [Qemu-devel] [RFC] Re-evaluating subcluster allocation for
- qcow2 images
+In-Reply-To: <95942a3b-0202-9a9f-cc71-ec6dfeceff8d@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Fri, 28 Jun 2019 14:48:13 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 12/62] target/ppc/spapr: Enable mitigations
+ by default for pseries-4.0 machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,59 +107,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Anton Nefedov <anton.nefedov@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gNi8yOC8xOSA1OjQzIFBNLCBBbGJlcnRvIEdhcmNpYSB3cm90ZToNCj4gT24gVGh1IDI3IEp1
-biAyMDE5IDA2OjA1OjU1IFBNIENFU1QsIERlbmlzIEx1bmV2IHdyb3RlOg0KPj4+PiBUaHVzIGlu
-IHJlc3BlY3QgdG8gdGhpcyBwYXR0ZXJucyBzdWJjbHVzdGVycyBjb3VsZCBnaXZlIHVzIGJlbmVm
-aXRzDQo+Pj4+IG9mIGZhc3QgcmFuZG9tIElPIGFuZCBnb29kIHJlY2xhaW0gcmF0ZS4NCj4+PiBF
-eGFjdGx5LCBidXQgdGhhdCBmYXN0IHJhbmRvbSBJL08gd291bGQgb25seSBoYXBwZW4gd2hlbiBh
-bGxvY2F0aW5nDQo+Pj4gbmV3IGNsdXN0ZXJzLiBPbmNlIHRoZSBjbHVzdGVycyBhcmUgYWxsb2Nh
-dGVkIGl0IGRvZXNuJ3QgcHJvdmlkZSBhbnkNCj4+PiBhZGRpdGlvbmFsIHBlcmZvcm1hbmNlIGJl
-bmVmaXQuDQo+PiBObywgSSBhbSB0YWxraW5nIGFib3V0IHRoZSBzaXR1YXRpb24gYWZ0ZXIgdGhl
-IGFsbG9jYXRpb24uIFRoYXQgaXMgdGhlDQo+PiBtYWluIHBvaW50IHdoeSBJIGhhdmUgYSBmZWVs
-aW5nIHRoYXQgc3ViLWNsdXN0ZXIgY291bGQgcHJvdmlkZSBhDQo+PiBiZW5lZml0Lg0KPj4NCj4+
-IE9LLiBUaGUgc2l0dWF0aW9uICgxKSBpcyB0aGUgZm9sbG93aW5nOg0KPj4gLSB0aGUgZGlzayBp
-cyBjb21wbGV0ZWx5IGFsbG9jYXRlZA0KPj4gLSBRQ09XMiBpbWFnZSBzaXplIGlzIDggVGINCj4+
-IC0gd2UgaGF2ZSBpbWFnZSB3aXRoIDEgTWIgY2x1c3Rlci82NGsgc3ViLWNsdXN0ZXIgKGZvciBz
-aW1wbGljaXR5KQ0KPj4gLSBMMiBtZXRhZGF0YSBjYWNoZSBzaXplIGlzIDEyOCBNYiAoNjQgTWIg
-TDIgdGFibGVzLCA2NCBNYiBvdGhlciBkYXRhKQ0KPj4gLSBob2xlcyBhcmUgbWFkZSBvbiBhIHN1
-Yi1jbHVzdGVyIGJhc2VzLCBpLmUuIHdpdGggNjQgS2IgZ3JhbnVsYXJpdHkNCj4+DQo+PiBJbiB0
-aGlzIGNhc2UgcmFuZG9tIElPIHRlc3Qgd2lsbCBnaXZlIG5lYXIgbmF0aXZlIElPUFMNCj4+IHJl
-c3VsdC4gTWV0YWRhdGEgaXMgaW4gbWVtb3J5LCBubyBhZGRpdGlvbmFsIHJlYWRzIGFyZQ0KPj4g
-cmVxdWlyZWQuIFdhc3RlZCBob3N0IGZpbGVzeXN0ZW0gc3BhY2UgKGR1ZSB0byBjbHVzdGVyIHNp
-emUpIGlzIGtlcHQNCj4+IGF0IG1pbmltdW0sIGkuZS4gb24gdGhlIGxldmVsIG9mIHRoZSAicHJl
-LXN1YmNsdXN0ZXIiIFFDT1cyLg0KPj4NCj4+IFNpdHVhdGlvbiAoMik6DQo+PiAtIDggVGIgUUNP
-VzIgaW1hZ2UgaXMgY29tcGxldGVseSBhbGxvY2F0ZWQNCj4+IC0gMSBNYiBjbHVzdGVyIHNpemUs
-IDEyOCBNYiBMMiBjYWNoZSBzaXplDQo+Pg0KPj4gTmVhciBzYW1lIHBlcmZvcm1hbmNlIGFzICgx
-KSwgYnV0IG11Y2ggbGVzcyBkaXNrIHNwYWNlIHNhdmluZ3MgZm9yDQo+PiBob2xlcy4NCj4+DQo+
-PiBTaXR1YXRpb24gKDMpOg0KPj4gLSA4IFRiIFFDT1cyIGltYWdlLCBjb21wbGV0ZWx5IGFsbG9j
-YXRlZA0KPj4gLSA2NCBLYiBjbHVzdGVyIHNpemUsIDEyOCBNQiBMMiBjYWNoZQ0KPj4NCj4+IFJh
-bmRvbSBJTyBwZXJmb3JtYW5jZSBoYWx2ZWQgZnJvbSAoMSkgYW5kICgyKSBkdWUgdG8gbWV0YWRh
-dGEgcmUtcmVhZA0KPj4gZm9yIGVhY2ggc3Vic2VxdWVudCBvcGVyYXRpb24uIFNhbWUgZGlzayBz
-cGFjZSBzYXZpbmdzIGFzIGluIGNhc2UgKDEpLg0KPiBJZiBJIHVuZGVyc3Rvb2QgY29ycmVjdGx5
-IHdoYXQgeW91IGFyZSB0cnlpbmcgdG8gc2F5LCBzdWJjbHVzdGVycyBhbGxvdw0KPiB1cyB0byB1
-c2UgbGFyZ2VyIGNsdXN0ZXIgc2l6ZXMgaW4gb3JkZXIgdG8gcmVkdWNlIHRoZSBhbW91bnQgb2Yg
-TDINCj4gbWV0YWRhdGEgKGFuZCB0aGVyZWZvcmUgdGhlIGNhY2hlIHNpemUpIHdoaWxlIGtlZXBp
-bmcgdGhlIHNhbWUgc3BhY2UNCj4gYmVuZWZpdHMgYXMgc21hbGxlciBjbHVzdGVycy4NCnllcw0K
-DQo+PiBQbGVhc2Ugbm90ZSwgSSBhbSBub3QgdGFsa2luZyBub3cgYWJvdXQgeW91ciBjYXNlIHdp
-dGggQ09XLiBIZXJlIHRoZQ0KPj4gYWxsb2NhdGlvbiBpcyBwZXJmb3JtZWQgb24gdGhlIHN1Yi1j
-bHVzdGVyIGJhc2lzLCBpLmUuIHRoZSBhYnNjZW5jZSBvZg0KPj4gdGhlIHN1Yi1jbHVzdGVyIGlu
-IHRoZSBpbWFnZSBtZWFucyBob2xlIG9uIHRoYXQgb2Zmc2V0LiBUaGlzIGlzDQo+PiBpbXBvcnRh
-bnQgZGlmZmVyZW5jZS4NCj4gSSBtZW50aW9uZWQgdGhlIHBvc3NpYmlsaXR5IHRoYXQgaWYgeW91
-IGhhdmUgYSBjYXNlIGxpa2UgMk1CIC8gNjRLQiBhbmQNCj4geW91IHdyaXRlIHRvIGFuIGVtcHR5
-IGNsdXN0ZXIgdGhlbiB5b3UgY291bGQgYWxsb2NhdGUgdGhlIG5lY2Vzc2FyeQ0KPiBzdWJjbHVz
-dGVycywgYW5kIGFkZGl0aW9uYWxseSBmYWxsb2NhdGUoKSB0aGUgc3BhY2Ugb2YgdGhlIHdob2xl
-IGNsdXN0ZXINCj4gKDJNQikgaW4gb3JkZXIgdG8gdHJ5IHRvIGtlZXAgaXQgY29udGlndW91cy4N
-Cj4NCj4gV2l0aCB0aGlzIHdlIHdvdWxkIGxvc2UgdGhlIHNwYWNlIHNhdmluZyBhZHZhbnRhZ2Ug
-b2YgaGF2aW5nDQo+IHN1YmNsdXN0ZXJzLiBCdXQgcGVyaGFwcyB0aGF0IHdvdWxkIHdvcmsgZm9y
-IHNtYWxsZXIgY2x1c3RlciBzaXplcyAoaXQNCj4gd291bGQgbWl0aWdhdGUgdGhlIGZyYWdtZW50
-YXRpb24gcHJvYmxlbSkuDQp5ZXMsIHRoaXMgaXMgZGlzdGluY3Rpb24gYW5kIGNvbXBsZXRlbHkg
-ZGlmZmVyZW50IHVzZWNhc2UuDQpXZSBoYXZlIG9idGFpbmVkIGl0IG92ZXIgdGltZSBmcm9tIG91
-ciBjdXN0b21lcnMsDQp3aG8gd2FudHMgdmVyeSBmYXN0IHBlcmZvcm1hbmNlIEFORCBzcGFjZSBj
-b25zZXJ2YXRpb24NCmF0IG9uY2UuIFRoaXMgaXMgc3RpbGwgdGhlIGNhc2UgZm9yIFNTRCB1c2Vy
-cywgd2hpY2ggYXJlDQpmYXN0IGJ1dCBzbWFsbC4NCg0KRGVuDQo=
+On 28/06/2019 16:28, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 6/28/19 4:14 PM, Laurent Vivier wrote:
+>> On 28/06/2019 13:27, Philippe Mathieu-Daud=C3=A9 wrote:
+>>> Hi,
+>>>
+>>> On 3/12/19 9:54 AM, David Gibson wrote:
+>>>> From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+>>>>
+>>>> There are currently 3 mitigations the availability of which is contr=
+olled
+>>>> by the spapr-caps mechanism, cap-cfpc, cap-sbbc, and cap-ibs. Enable=
+ these
+>>>> mitigations by default for the pseries-4.0 machine type.
+>>>>
+>>>> By now machine firmware should have been upgraded to allow these
+>>>> settings.
+>>>>
+>>>> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+>>>> Message-Id: <20190301044609.9626-3-sjitindarsingh@gmail.com>
+>>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+>>>> ---
+>>>>  hw/ppc/spapr.c | 9 ++++++---
+>>>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>>>> index 37fd7a1411..946bbcf9ee 100644
+>>>> --- a/hw/ppc/spapr.c
+>>>> +++ b/hw/ppc/spapr.c
+>>>> @@ -4307,9 +4307,9 @@ static void spapr_machine_class_init(ObjectCla=
+ss *oc, void *data)
+>>>>      smc->default_caps.caps[SPAPR_CAP_HTM] =3D SPAPR_CAP_OFF;
+>>>>      smc->default_caps.caps[SPAPR_CAP_VSX] =3D SPAPR_CAP_ON;
+>>>>      smc->default_caps.caps[SPAPR_CAP_DFP] =3D SPAPR_CAP_ON;
+>>>> -    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_BROKEN;
+>>>> -    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
+>>>> -    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
+>>>> +    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_WORKAROUND=
+;
+>>>> +    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_WORKAROUND=
+;
+>>>> +    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_WORKAROUND;
+>>>>      smc->default_caps.caps[SPAPR_CAP_HPT_MAXPAGESIZE] =3D 16; /* 64=
+kiB */
+>>>>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_O=
+FF;
+>>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_C=
+AP_ON;
+>>>> @@ -4389,6 +4389,9 @@ static void spapr_machine_3_1_class_options(Ma=
+chineClass *mc)
+>>>>      mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
+>>>>      smc->update_dt_enabled =3D false;
+>>>>      smc->dr_phb_enabled =3D false;
+>>>> +    smc->default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_BROKEN;
+>>>> +    smc->default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
+>>>> +    smc->default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
+>>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_C=
+AP_OFF;
+>>>>  }
+>>>
+>>> While trying auto-bisection for LP#1834613 [*] I found this commit br=
+eak
+>>> clean bisection.
+>>>
+>>> ./configure --enable-debug
+>>>
+>>> $ qemu-system-ppc64 \
+>>>  -kernel vmlinuz-vanilla \
+>>>  -nographic -serial null
+>>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>>> cap-cfpc=3Dworkaround
+>>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>>> cap-sbbc=3Dworkaround
+>>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>>> cap-ibs=3Dworkaround
+>>> Opcode 13 10 10 00 (4c400420) leaked temporaries
+>>>
+>>> More verbose log:
+>>>
+>>> $ qemu-system-ppc64 \
+>>>  -kernel vmlinuz-vanilla \
+>>>  -nographic -append "console=3Dhvc0" \
+>>>  -d guest_errors,in_asm
+>>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>>> cap-cfpc=3Dworkaround
+>>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>>> cap-sbbc=3Dworkaround
+>>> qemu-system-ppc64: warning: TCG doesn't support requested feature,
+>>> cap-ibs=3Dworkaround
+>>>
+>>>
+>>> SLOF ****************************************************************=
+******
+>>> QEMU Starting
+>>>  Build Date =3D Jan 14 2019 18:00:39
+>>>  FW Version =3D git-a5b428e1c1eae703
+>>>  Press "s" to enter Open Firmware.
+>>> [...]
+>>> --------------
+>>> IN: __switch_to
+>>> 0xc00000000001aac0:  60000000  nop
+>>> 0xc00000000001aac4:  7f44d378  mr       r4, r26
+>>> 0xc00000000001aac8:  7f23cb78  mr       r3, r25
+>>> 0xc00000000001aacc:  4bff3235  bl       0xdd00
+>>
+>> The kernel logs are:
+>>
+>> [    0.044473] Oops: Exception in kernel mode, sig: 4 [#1]
+>> [    0.044899] BE PAGE_SIZE=3D64K MMU=3DRadix MMU=3DHash SMP NR_CPUS=3D=
+2048 NUMA pSeries
+>> [    0.045191] Modules linked in:
+>> [    0.045504] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.1.0-rc4-000=
+58-g582549e3fbe1-dirty #11
+>> [    0.045646] NIP:  c00000000000be00 LR: c00000000000e168 CTR: 000000=
+0000007fff
+>> [    0.045747] REGS: c0000000011bb770 TRAP: 0700   Not tainted  (5.1.0=
+-rc4-00058-g582549e3fbe1-dirty)
+>> [    0.045808] MSR:  8000000002089032 <SF,VEC,EE,ME,IR,DR,RI>  CR: 240=
+28822  XER: 00000000
+>> [    0.045971] CFAR: c00000000000bde4 IRQMASK: 1=20
+>> [    0.045971] GPR00: c00000000001f390 c0000000011bba00 c0000000011bf8=
+00 c0000000010db830=20
+>> [    0.045971] GPR04: c00000001e4041b0 0000000000000000 00000000000000=
+00 00000000028a5d7a=20
+>> [    0.045971] GPR08: 0000000000000000 0000000000007fff 00000000000000=
+00 fffffffffffffffd=20
+>> [    0.045971] GPR12: 0000000024028828 c0000000013b0000 000000001dc5ff=
+00 00000000011d8e18=20
+>> [    0.045971] GPR16: 00000000011d89e0 fffffffffffffffd 000000001dc5ff=
+00 0000000000000014=20
+>> [    0.045971] GPR20: 000000001daf0000 c0000000010da4e0 000000001eef00=
+00 0000000024028822=20
+>> [    0.045971] GPR24: c0000000010db830 c00000001e4041b0 000000001eef00=
+00 c000000000ff5598=20
+>> [    0.045971] GPR28: c0000000010db830 c0000000010d9d00 c00000001e4026=
+80 c0000000010d9d00=20
+>> [    0.046505] NIP [c00000000000be00] flush_count_cache+0x120/0x2420
+>> [    0.046561] LR [c00000000000e168] ._switch+0x68/0x180
+>> [    0.046696] Call Trace:
+>> [    0.046865] [c0000000011bba00] [c0000000011bba90] init_stack+0x3a90=
+/0x4000 (unreliable)
+>> [    0.046970] [c0000000011bbbe0] [c00000000001f390] .__switch_to+0x28=
+0/0x490
+>> [    0.047031] [c0000000011bbc90] [c000000000b62b5c] .__schedule+0x2bc=
+/0xae0
+>> [    0.047075] [c0000000011bbd80] [c000000000b633c8] .schedule+0x48/0x=
+b0
+>> [    0.047140] [c0000000011bbdf0] [c000000000b63918] .schedule_preempt=
+_disabled+0x18/0x30
+>> [    0.047187] [c0000000011bbe60] [c00000000001065c] .rest_init+0xcc/0=
+xf0
+>> [    0.047233] [c0000000011bbee0] [c000000000f04584] .start_kernel+0x6=
+04/0x648
+>> [    0.047276] [c0000000011bbf90] [c00000000000b260] start_here_common=
++0x1c/0x53c
+>> [    0.047409] Instruction dump:
+>> [    0.047647] 48000005 48000005 48000005 48000005 48000005 4800001c 6=
+0000000 60000000=20
+>> [    0.047744] 60000000 60000000 60000000 60000000 <7d2803a6> 39207fff=
+ 7d2903a6 4c400420=20
+>> [    0.048410] ---[ end trace 523b05d3a02887f6 ]---
+>> [    0.048523]=20
+>=20
+> How do you got the klogs?
+
+To have the klogs on the serial output you have to disable vga:
+
+ ... -vga none -nographic ...
+
+or to set the default console:
+
+ ... -serial stdout -prom-env "output-device=3D/vdevice/vty@71000000" ...
+
+Thanks,
+Laurent
+
 
