@@ -2,93 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1C859C36
-	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 14:59:34 +0200 (CEST)
-Received: from localhost ([::1]:59500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55A359CA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 15:11:14 +0200 (CEST)
+Received: from localhost ([::1]:59636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hgqTW-00083s-2d
-	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 08:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38426)
+	id 1hgqen-0001Ry-RY
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 09:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39755)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1hgq9P-0008OB-Le
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:38:50 -0400
+ (envelope-from <dgilbert@redhat.com>) id 1hgqCR-0003oA-TF
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dplotnikov@virtuozzo.com>) id 1hgq9O-0006SW-1Y
- for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:38:47 -0400
-Received: from mail-eopbgr40112.outbound.protection.outlook.com
- ([40.107.4.112]:23970 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
- id 1hgq9L-0006Rd-ED; Fri, 28 Jun 2019 08:38:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gi4XiKyRVjNT67rPM3UQQQAoj647ZU4jzxVRqpWXc9M=;
- b=CRH+Oha81pvs/oqOpzQaNYpsiNzamKxIiOG+iiwbG0DQyOfmDKbVctPROC8lf8QLO9YOlpzS0Z2TseD1l0vRa24DJHw9K6UrWAtFEEEeCIHzdd9z+N0OadKPx2oc0QxAz3BNYh+KBdfpzzaFqVTgNVRkp64dSsKJklk53DIE+zw=
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com (20.178.22.27) by
- AM0PR08MB3172.eurprd08.prod.outlook.com (52.134.126.30) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.18; Fri, 28 Jun 2019 11:24:01 +0000
-Received: from AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::44eb:4518:e1f2:144c]) by AM0PR08MB3745.eurprd08.prod.outlook.com
- ([fe80::44eb:4518:e1f2:144c%7]) with mapi id 15.20.2008.014; Fri, 28 Jun 2019
- 11:24:01 +0000
-From: Denis Plotnikov <dplotnikov@virtuozzo.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Thread-Topic: [PATCH v0 2/3] qcow2: add compression type processing
-Thread-Index: AQHVLZuN7Ey1lYD5REukjsp4qtAkE6aw7L0A
-Date: Fri, 28 Jun 2019 11:24:01 +0000
-Message-ID: <08da0859-10da-5d4b-3203-72341a166255@virtuozzo.com>
-References: <20190528143727.10529-1-dplotnikov@virtuozzo.com>
- <20190528143727.10529-3-dplotnikov@virtuozzo.com>
- <20190628102333.GG5179@dhcp-200-226.str.redhat.com>
-In-Reply-To: <20190628102333.GG5179@dhcp-200-226.str.redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0501CA0006.eurprd05.prod.outlook.com
- (2603:10a6:3:1a::16) To AM0PR08MB3745.eurprd08.prod.outlook.com
- (2603:10a6:208:ff::27)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=dplotnikov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc926dcd-8493-4261-4c4b-08d6fbbb1e7d
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:AM0PR08MB3172; 
-x-ms-traffictypediagnostic: AM0PR08MB3172:
-x-microsoft-antispam-prvs: <AM0PR08MB3172CB8D73D2A196130559B7CFFC0@AM0PR08MB3172.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 00826B6158
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(979002)(366004)(199004)(189003)(53546011)(6506007)(386003)(66556008)(102836004)(476003)(76176011)(66446008)(64756008)(73956011)(66946007)(2616005)(66476007)(99286004)(52116002)(5660300002)(54906003)(26005)(446003)(486006)(11346002)(6436002)(6916009)(6486002)(31696002)(71190400001)(71200400001)(86362001)(229853002)(68736007)(14454004)(8676002)(8936002)(25786009)(4326008)(81156014)(81166006)(2906002)(6116002)(3846002)(6512007)(53936002)(107886003)(31686004)(6246003)(305945005)(186003)(36756003)(256004)(14444005)(66066001)(7736002)(498600001)(969003)(989001)(999001)(1009001)(1019001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:AM0PR08MB3172;
- H:AM0PR08MB3745.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: aA21pNuFGA+PSU8kpiMU5PIxtP+pV3VnKoNg6ruJ5ePxM6PuWOhBKeiehHMSqyO2MPKeaKGL3VPzFX40GFcDODySA7g/FnHuOWiZZsQGHSwdFUlK4cvJa350WBShB9VxuX7HNAmxSxSk3t/QDwqY3p3khn6SszIuiJAQ2qUvI7B1mnE900R+a7JlACaxj+jUNJhyZR3/kmBq5ZJXUzelB7r9OckvkIh6Zby9peMirHoSi2Z2mA6iUvZLD+MRD8JLgBL/HY+Adyr53ikMYFRxkeL7MwuGRmXTvZybVEtRIJ68hLDEgvzmXi8NxSVjaeGHwn2dRM22KwInjq9hPOtkOoRgMZ4ocVU1wzDIaJn0ZxfQj5VOaYK/TJ8AF8DHxATRSEJkOK0Iavjpfkw9dSgiMGQ+Voub976JGfd9B95Owx0=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <77BC1A18FF68A648810C63F5F59E9439@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <dgilbert@redhat.com>) id 1hgqCQ-0007na-9M
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45412)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hgqCQ-0007ma-0a
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 08:41:54 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4D73185540;
+ Fri, 28 Jun 2019 11:26:41 +0000 (UTC)
+Received: from work-vm (ovpn-116-169.ams2.redhat.com [10.36.116.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C0DA10018F9;
+ Fri, 28 Jun 2019 11:26:36 +0000 (UTC)
+Date: Fri, 28 Jun 2019 12:26:34 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Yuval Shaia <yuval.shaia@oracle.com>
+Message-ID: <20190628112634.GB2987@work-vm>
+References: <20190621144541.13770-1-skrtbhtngr@gmail.com>
+ <20190621144541.13770-2-skrtbhtngr@gmail.com>
+ <20190625153253.GA10458@lap1>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc926dcd-8493-4261-4c4b-08d6fbbb1e7d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2019 11:24:01.1366 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dplotnikov@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3172
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.4.112
-Subject: Re: [Qemu-devel] [PATCH v0 2/3] qcow2: add compression type
- processing
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190625153253.GA10458@lap1>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.28]); Fri, 28 Jun 2019 11:26:41 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC 1/1] hw/pvrdma: Add live migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,158 +58,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "armbru@redhat.com" <armbru@redhat.com>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Sukrit Bhatnagar <skrtbhtngr@gmail.com>, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDI4LjA2LjIwMTkgMTM6MjMsIEtldmluIFdvbGYgd3JvdGU6DQo+IEFtIDI4LjA1LjIw
-MTkgdW0gMTY6MzcgaGF0IERlbmlzIFBsb3RuaWtvdiBnZXNjaHJpZWJlbjoNCj4+IFdpdGggdGhl
-IHBhdGNoLCBxY293MiBpcyBhYmxlIHRvIHByb2Nlc3MgaW1hZ2UgY29tcHJlc3Npb24gdHlwZQ0K
-Pj4gZGVmaW5lZCBpbiB0aGUgaW1hZ2UgaGVhZGVyIGFuZCBjaG9vc2UgdGhlIGNvcnJlc3BvbmRp
-bmcgbWV0aG9kDQo+PiBmb3IgY2x1c3RlcnMgY29tcHJlc3NpbmcuDQo+Pg0KPj4gQWxzbywgaXQg
-cmV3b3JrIHRoZSBjbHVzdGVyIGNvbXByZXNzaW9uIGNvZGUgZm9yIGFkZGluZyBtb3JlDQo+PiBj
-b21wcmVzc2lvbiB0eXBlcy4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBEZW5pcyBQbG90bmlrb3Yg
-PGRwbG90bmlrb3ZAdmlydHVvenpvLmNvbT4NCj4+IC0tLQ0KPj4gICBibG9jay9xY293Mi5jIHwg
-MTAzICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tDQo+
-PiAgIDEgZmlsZSBjaGFuZ2VkLCA5MiBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkNCj4+
-DQo+PiBkaWZmIC0tZ2l0IGEvYmxvY2svcWNvdzIuYyBiL2Jsb2NrL3Fjb3cyLmMNCj4+IGluZGV4
-IGM0YjViOTM0MDguLjkwZjE1Y2MzYzkgMTAwNjQ0DQo+PiAtLS0gYS9ibG9jay9xY293Mi5jDQo+
-PiArKysgYi9ibG9jay9xY293Mi5jDQo+PiBAQCAtNDAwLDExICs0MDAsMzkgQEAgc3RhdGljIGlu
-dCBxY293Ml9yZWFkX2V4dGVuc2lvbnMoQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIHVpbnQ2NF90IHN0
-YXJ0X29mZnNldCwNCj4+ICAgICAgICAgICAgICAgYnJlYWs7DQo+PiAgIA0KPj4gICAgICAgICAg
-IGNhc2UgUUNPVzJfRVhUX01BR0lDX0NPTVBSRVNTSU9OX1RZUEU6DQo+PiArICAgICAgICAgICAg
-LyogQ29tcHJlc3Npb24gdHlwZSBhbHdheXMgZ29lcyB3aXRoIHRoZSBjb21wcmVzc2lvbiB0eXBl
-IGJpdCBzZXQgKi8NCj4+ICsgICAgICAgICAgICBpZiAoIShzLT5pbmNvbXBhdGlibGVfZmVhdHVy
-ZXMgJiBRQ09XMl9JTkNPTVBBVF9DT01QUkVTU0lPTl9UWVBFKSkgew0KPj4gKyAgICAgICAgICAg
-ICAgICBlcnJvcl9zZXRnKGVycnAsDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgImNv
-bXByZXNzaW9uX3R5cGVfZXh0OiAiDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgImV4
-cGVjdCBjb21wcmVzc2lvbiB0eXBlIGJpdCBzZXQiKTsNCj4+ICsgICAgICAgICAgICAgICAgcmV0
-dXJuIC1FSU5WQUw7DQo+PiArICAgICAgICAgICAgfQ0KPj4gKw0KPj4gKyAgICAgICAgICAgIHJl
-dCA9IGJkcnZfcHJlYWQoYnMtPmZpbGUsIG9mZnNldCwgJnMtPmNvbXByZXNzaW9uX3R5cGUsIGV4
-dC5sZW4pOw0KPj4gKyAgICAgICAgICAgIHMtPmNvbXByZXNzaW9uX3R5cGUgPSBiZTMyX3RvX2Nw
-dShzLT5jb21wcmVzc2lvbl90eXBlKTsNCj4+ICsNCj4+ICsgICAgICAgICAgICBpZiAocmV0IDwg
-MCkgew0KPj4gKyAgICAgICAgICAgICAgICBlcnJvcl9zZXRnX2Vycm5vKGVycnAsIC1yZXQsDQo+
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIkVSUk9SOiBDb3VsZCBub3QgcmVh
-ZCBjb21wcmVzc2lvbiB0eXBlIik7DQo+PiArICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+
-PiArICAgICAgICAgICAgfQ0KPj4gKw0KPj4gICAgICAgICAgICAgICAvKg0KPj4gLSAgICAgICAg
-ICAgICAqIFNldHRpbmcgY29tcHJlc3Npb24gdHlwZSB0byBCRFJWUWNvdzJTdGF0ZS0+Y29tcHJl
-c3Npb25fdHlwZQ0KPj4gLSAgICAgICAgICAgICAqIGZyb20gdGhlIGltYWdlIGhlYWRlciBpcyBn
-b2luZyB0byBiZSBoZXJlDQo+PiArICAgICAgICAgICAgICogVGhlIGRlZmF1bHQgY29tcHJlc3Np
-b24gdHlwZSBpcyBub3QgYWxsb3dlZCB3aGVuIHRoZSBleHRlbnNpb24NCj4+ICsgICAgICAgICAg
-ICAgKiBpcyBwcmVzZW50LiBaTElCIGlzIHVzZWQgYXMgdGhlIGRlZmF1bHQgY29tcHJlc3Npb24g
-dHlwZS4NCj4+ICsgICAgICAgICAgICAgKiBXaGVuIGNvbXByZXNzaW9uIHR5cGUgZXh0ZW5zaW9u
-IGhlYWRlciBpcyBwcmVzZW50IHRoZW4NCj4+ICsgICAgICAgICAgICAgKiBjb21wcmVzc2lvbl90
-eXBlIHNob3VsZCBoYXZlIGEgdmFsdWUgZGlmZmVyZW50IGZyb20gdGhlIGRlZmF1bHQuDQo+PiAg
-ICAgICAgICAgICAgICAqLw0KPj4gLSAgICAgICAgICAgICBicmVhazsNCj4+ICsgICAgICAgICAg
-ICBpZiAocy0+Y29tcHJlc3Npb25fdHlwZSA9PSBRQ09XMl9DT01QUkVTU0lPTl9UWVBFX1pMSUIp
-IHsNCj4+ICsgICAgICAgICAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLA0KPj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICJjb21wcmVzc2lvbl90eXBlX2V4dDoiDQo+PiArICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgImludmFsaWQgY29tcHJlc3Npb24gdHlwZSAlZCIsDQo+PiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgUUNPVzJfQ09NUFJFU1NJT05fVFlQRV9aTElCKTsNCj4+ICsg
-ICAgICAgICAgICB9DQo+IA0KPiBUaGlzIGlzIGEgcmVzdHJpY3Rpb24gdGhhdCB0aGUgc3BlYyBk
-b2Vzbid0IG1ha2UsIHNvIHN0cmljdGx5IHNwZWFraW5nDQo+IHRoaXMgaW1wbGVtZW50YXRpb24g
-d291bGRuJ3QgYmUgY29tcGxpYW50IHRvIHRoZSBzcGVjLg0KVGhlIGlkZWEgaXMgdGhhdCBaTElC
-IHNob3VsZG4ndCBhcHBlYXIgaW4gdGhlIGNvbXByZXNzaW9uIHR5cGUgDQpleHRlbnNpb24uIFRo
-aXMgYWxsb3dzIGltYWdlIGJhY2t3YXJkIGNvbXBhdGliaWxpdHkgd2l0aCBhbiBvbGRlciBxZW11
-IA0KaWYgemxpYiBpcyB1c2VkLg0KDQpUaGVyZSBpcyBubyByZWFzb24gdG8gc2V0IFpMSUIgaW4g
-dGhlIGV4dGVuc2lvbiBiZWNhdXNlIGFuIG9sZGVyIHFlbXUgDQprbm93cyBob3cgdG8gdHJlYWQg
-WkxJQiBjb21wcmVzc2VkIGNsdXN0ZXJzLg0KDQpUaGUgcmVzdHJpY3Rpb24gYWltcyB0byBndWFy
-YW50ZWUgdGhhdC4NCg0KSSB0cmllZCB0byBkZXNjcmliZSB0aGlzIGNhc2UgaW4gdGhlIHNwZWNp
-ZmljYXRpb246DQouLi4NCldoZW4gdGhlIGNvbXByZXNzaW9uIHR5cGUgYml0IGlzIG5vdCBzZXQs
-IGFuZCB0aGUgY29tcHJlc3Npb24gdHlwZSANCmhlYWRlciBleHRlbnNpb24gaXMgYWJzZW50LCBa
-TElCIGNvbXByZXNzaW9uIGlzIHVzZWQgZm9yIGNvbXByZXNzZWQgDQpjbHVzdGVycy4NCg0KUWVt
-dSB2ZXJzaW9ucyBvbGRlciB0aGFuIDQuMSBjYW4gdXNlIGltYWdlcyBjcmVhdGVkIHdpdGggY29t
-cHJlc3Npb24gDQp0eXBlIFpMSUIgd2l0aG91dCBhbnkgYWRkaXRpb25hbCBwcmVwYXJhdGlvbnMg
-YW5kIGNhbm5vdCB1c2UgaW1hZ2VzIA0KY3JlYXRlZCB3aXRoIGNvbXByZXNzaW9uIHR5cGVzICE9
-IFpMSUIuDQouLi4NCg0KRG9lcyBpdCBtYWtlcyBzZW5zZT8NCg0KPiANCj4gV2UgY2FuIGRpc2N1
-c3Mgd2hldGhlciB0aGUgY29kZSBvciB0aGUgc3BlYyBzaG91bGQgYmUgY2hhbmdlZC4gQXQgdGhl
-DQo+IG1vbWVudCwgSSBkb24ndCBzZWUgYSBnb29kIHJlYXNvbiB0byBtYWtlIHRoZSByZXN0cmlj
-dGlvbg0KPiANCj4+ICsjaWZkZWYgREVCVUdfRVhUDQo+PiArICAgICAgICAgICAgcHJpbnRmKCJR
-Y293MjogaW1hZ2UgY29tcHJlc3Npb24gdHlwZSAlc1xuIiwgcy0+Y29tcHJlc3Npb25fdHlwZSk7
-DQo+PiArI2VuZGlmDQo+PiArICAgICAgICAgICAgYnJlYWs7DQo+PiAgIA0KPj4gICAgICAgICAg
-IGNhc2UgUUNPVzJfRVhUX01BR0lDX0RBVEFfRklMRToNCj4+ICAgICAgICAgICB7DQo+IA0KPiBX
-ZSB3b3VsZCBzYXZlIG1vc3Qgb2YgdGhpcyBjb2RlIGlmIHdlIGFkZGVkIGEgbmV3IGZpZWxkIHRv
-IHRoZSBoZWFkZXINCj4gaW5zdGVhZCBvZiBhZGRpbmcgYSBoZWFkZXIgZXh0ZW5zaW9uLiBOb3Qg
-c2F5aW5nIHRoYXQgd2Ugc2hvdWxkDQo+IGRlZmluaXRlbHkgZG8gdGhpcywgYnV0IGxldCdzIGRp
-c2N1c3MgaXQgYXQgbGVhc3QuDQoNCklmIHdlIGFkZCB0aGUgbmV3IGZpZWxkIHRvIHRoZSBoZWFk
-ZXIgd2lsbCB0aGUgb2xkZXIgcWVtdSBiZSBhYmxlIHRvIHVzZSANCml0LiBPciB3ZSB3aWxsIGFk
-ZCB0aGUgaGVhZGVyIG9ubHkgaWYgbmVlZGVkLCBpLmUuIGlmIGNvbXByZXNzaW9uX3R5cGUgDQoh
-PSB6bGliDQo+IA0KPj4gQEAgLTE0OTIsNiArMTUyMCw5IEBAIHN0YXRpYyBpbnQgY29yb3V0aW5l
-X2ZuIHFjb3cyX2RvX29wZW4oQmxvY2tEcml2ZXJTdGF0ZSAqYnMsIFFEaWN0ICpvcHRpb25zLA0K
-Pj4gICAgICAgUUxJU1RfSU5JVCgmcy0+Y2x1c3Rlcl9hbGxvY3MpOw0KPj4gICAgICAgUVRBSUxR
-X0lOSVQoJnMtPmRpc2NhcmRzKTsNCj4+ICAgDQo+PiArICAgIC8qIFNldCBkZWZhdWx0IGNvbXBy
-ZXNzaW9uIHR5cGUgKi8NCj4+ICsgICAgcy0+Y29tcHJlc3Npb25fdHlwZSA9IFFDT1cyX0NPTVBS
-RVNTSU9OX1RZUEVfWkxJQjsNCj4+ICsNCj4+ICAgICAgIC8qIHJlYWQgcWNvdzIgZXh0ZW5zaW9u
-cyAqLw0KPj4gICAgICAgaWYgKHFjb3cyX3JlYWRfZXh0ZW5zaW9ucyhicywgaGVhZGVyLmhlYWRl
-cl9sZW5ndGgsIGV4dF9lbmQsIE5VTEwsDQo+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIGZsYWdzLCAmdXBkYXRlX2hlYWRlciwgJmxvY2FsX2VycikpIHsNCj4+IEBAIC0xNTAwLDYg
-KzE1MzEsMzQgQEAgc3RhdGljIGludCBjb3JvdXRpbmVfZm4gcWNvdzJfZG9fb3BlbihCbG9ja0Ry
-aXZlclN0YXRlICpicywgUURpY3QgKm9wdGlvbnMsDQo+PiAgICAgICAgICAgZ290byBmYWlsOw0K
-Pj4gICAgICAgfQ0KPj4gICANCj4+ICsgICAgLyoNCj4+ICsgICAgICogVGhlIGNvbXByZXNzaW9u
-IHR5cGUgaXMgc2V0IG9uIHRoZSBleHRlbnNpb24gaGVhZGVyIHByb2Nlc3NpbmcNCj4+ICsgICAg
-ICogaWYgdGhlIGNvbXByZXNzaW9uIHR5cGUgZXh0ZW5zaW9uIGhlYWRlciBpcyBwcmVzZW50Lg0K
-Pj4gKyAgICAgKiBXaGVuIHRoZSBjb21wcmVzc2lvbiB0eXBlIGlzIGRpZmZlcmVudCBmcm9tIFpM
-SUIgKGRlZmF1bHQpIHRoZXJlDQo+PiArICAgICAqIHNob3VsZCBiZSBib3RoIHRoZSBjb21wcmVz
-c2lvbiB0eXBlIGJpdCBhbmQgdGhlIGNvbXByZXNzaW9uDQo+PiArICAgICAqIHR5cGUgZXh0ZW5z
-aW9uIGhlYWRlciBzZXQuIFdoZW4gdGhlIFpMSUIgKGRlZmF1bHQpIGNvbXByZXNzaW9uDQo+PiAr
-ICAgICAqIHR5cGUgaXMgdXNlZCB0aGVyZSBzaG91bGQgYmUgbmVpdGhlciB0aGUgY29tcHJlc3Np
-b24gdHlwZSBiaXQgbm9yDQo+PiArICAgICAqIHRoZSBjb21wcmVzc2lvbiB0eXBlIGV4dGVuc2lv
-biBoZWFkZXIgc2V0Lg0KPj4gKyAgICAgKi8NCj4+ICsNCj4+ICsgICAgaWYgKChzLT5pbmNvbXBh
-dGlibGVfZmVhdHVyZXMgJiBRQ09XMl9JTkNPTVBBVF9DT01QUkVTU0lPTl9UWVBFKSAmDQo+PiAr
-ICAgICAgICAocy0+Y29tcHJlc3Npb25fdHlwZSA9PSBRQ09XMl9DT01QUkVTU0lPTl9UWVBFX1pM
-SUIpKSB7DQo+PiArICAgICAgICBlcnJvcl9zZXRnKGVycnAsICJJbGxlZ2FsIGNvbXByZXNzaW9u
-IHR5cGUgc2V0dGluZyIpOw0KPj4gKyAgICAgICAgcmV0ID0gLUVJTlZBTDsNCj4+ICsgICAgICAg
-IGdvdG8gZmFpbDsNCj4+ICsgICAgfQ0KPiANCj4gQWxtb3N0IHRoZSBzYW1lIHJlc3RyaWN0aW9u
-IGFzIGFib3ZlLCBpbXBsZW1lbnRlZCBhIHNlY29uZCB0aW1lLg0KPiANCj4gVGhlIGRpZmZlcmVu
-Y2UgaXMgdGhhdCB5b3UgZ2V0IHRoZSBmaXJzdCBvbmUgb25seSBmb3IgY29tcHJlc3Npb24gdHlw
-ZQ0KPiBleHRlbnNpb25zIHRoYXQgc3BlY2lmeSB6bGliLCBhbmQgeW91IGdldCB0aGlzIG9uZSBh
-bHNvIGZvciBpbWFnZXMgdGhhdA0KPiBoYXZlIHRoZSBjb21wcmVzc2lvbiB0eXBlIGZlYXR1cmUg
-ZmxhZywgYnV0IGFyZSBtaXNzaW5nIHRoZSBleHRlbnNpb24uDQo+IA0KPiBTbyBpbiB0aGUgY3Vy
-cmVudCBzaGFwZSBvZiB0aGUgcGF0Y2gsIHRoaXMgaXMgaW4gZmFjdCBqdXN0IHRoZSB3cm9uZw0K
-PiBlcnJvciBtZXNzYWdlLiBJdCBzaG91bGQgYmUgc29tZXRoaW5nIGxpa2UgImNvbXByZXNzaW9u
-IHR5cGUgaGVhZGVyDQo+IGV4dGVuc2lvbiBtaXNzaW5nIi4NCj4gDQo+IFRoaXMgcmVzdHJpY3Rp
-b24gKGlmIHRoZSBmbGFnIGlzIHNldCwgdGhlIGhlYWRlciBleHRlbnNpb24gbXVzdCBiZQ0KPiBw
-cmVzZW50KSBhY3R1YWxseSBtYWtlcyBzZW5zZSB0byBtZS4gU3dpdGNoaW5nIHRvIGEgbmV3IGhl
-YWRlciBmaWVsZA0KPiB3b3VsZCBnZXQgcmlkIG9mIHRoZSB3aG9sZSBjYXNlLg0KPiANCj4+ICsg
-ICAgLyogQ2hlY2sgYXZhaWxhYmxlIGNvbXByZXNzaW9uIHR5cGVzICovDQo+PiArICAgIHN3aXRj
-aCAocy0+Y29tcHJlc3Npb25fdHlwZSkgew0KPj4gKyAgICBjYXNlIFFDT1cyX0NPTVBSRVNTSU9O
-X1RZUEVfWkxJQjoNCj4+ICsgICAgICAgIGJyZWFrOw0KPj4gKw0KPj4gKyAgICBkZWZhdWx0Og0K
-Pj4gKyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJwLCAiVW5rbm93biBjb21wcmVzc2lvbiB0eXBlIik7
-DQo+PiArICAgICAgICByZXQgPSAtRUlOVkFMOw0KPj4gKyAgICAgICAgZ290byBmYWlsOw0KPj4g
-KyAgICB9DQo+PiArDQo+PiAgICAgICAvKiBPcGVuIGV4dGVybmFsIGRhdGEgZmlsZSAqLw0KPj4g
-ICAgICAgcy0+ZGF0YV9maWxlID0gYmRydl9vcGVuX2NoaWxkKE5VTEwsIG9wdGlvbnMsICJkYXRh
-LWZpbGUiLCBicywgJmNoaWxkX2ZpbGUsDQo+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgdHJ1ZSwgJmxvY2FsX2Vycik7DQo+PiBAQCAtMzk3MCw3ICs0MDI5LDcgQEAgZmFp
-bDoNCj4+ICAgfQ0KPj4gICANCj4+ICAgLyoNCj4+IC0gKiBxY293Ml9jb21wcmVzcygpDQo+PiAr
-ICogemxpYl9jb21wcmVzcygpDQo+PiAgICAqDQo+PiAgICAqIEBkZXN0IC0gZGVzdGluYXRpb24g
-YnVmZmVyLCBAZGVzdF9zaXplIGJ5dGVzDQo+PiAgICAqIEBzcmMgLSBzb3VyY2UgYnVmZmVyLCBA
-c3JjX3NpemUgYnl0ZXMNCj4+IEBAIC0zOTc5LDcgKzQwMzgsNyBAQCBmYWlsOg0KPj4gICAgKiAg
-ICAgICAgICAtMSBkZXN0aW5hdGlvbiBidWZmZXIgaXMgbm90IGVub3VnaCB0byBzdG9yZSBjb21w
-cmVzc2VkIGRhdGENCj4+ICAgICogICAgICAgICAgLTIgb24gYW55IG90aGVyIGVycm9yDQo+PiAg
-ICAqLw0KPj4gLXN0YXRpYyBzc2l6ZV90IHFjb3cyX2NvbXByZXNzKHZvaWQgKmRlc3QsIHNpemVf
-dCBkZXN0X3NpemUsDQo+PiArc3RhdGljIHNzaXplX3QgemxpYl9jb21wcmVzcyh2b2lkICpkZXN0
-LCBzaXplX3QgZGVzdF9zaXplLA0KPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBj
-b25zdCB2b2lkICpzcmMsIHNpemVfdCBzcmNfc2l6ZSkNCj4gDQo+IEluZGVudGF0aW9uIGlzIG5v
-dyBvZmYgaW4gdGhlIHNlY29uZCBsaW5lLg0KPiANCj4+ICAgew0KPj4gICAgICAgc3NpemVfdCBy
-ZXQ7DQo+PiBAQCAtNDAxMyw3ICs0MDcyLDcgQEAgc3RhdGljIHNzaXplX3QgcWNvdzJfY29tcHJl
-c3Modm9pZCAqZGVzdCwgc2l6ZV90IGRlc3Rfc2l6ZSwNCj4+ICAgfQ0KPj4gICANCj4+ICAgLyoN
-Cj4+IC0gKiBxY293Ml9kZWNvbXByZXNzKCkNCj4+ICsgKiB6bGliX2RlY29tcHJlc3MoKQ0KPj4g
-ICAgKg0KPj4gICAgKiBEZWNvbXByZXNzIHNvbWUgZGF0YSAobm90IG1vcmUgdGhhbiBAc3JjX3Np
-emUgYnl0ZXMpIHRvIHByb2R1Y2UgZXhhY3RseQ0KPj4gICAgKiBAZGVzdF9zaXplIGJ5dGVzLg0K
-PiANCj4gU2hvdWxkIHRoZSBkZXNjcmlwdGlvbiBiZSBjaGFuZ2VkLCB0b28/IChxY293Ml9jb21w
-cmVzcygpIGRvZXNuJ3QgaGF2ZQ0KPiBhbnkgLSBzaG91bGQgaXQgaGF2ZSBzb21lPykNCj4gDQo+
-PiBAQCAtNDAyNCw3ICs0MDgzLDcgQEAgc3RhdGljIHNzaXplX3QgcWNvdzJfY29tcHJlc3Modm9p
-ZCAqZGVzdCwgc2l6ZV90IGRlc3Rfc2l6ZSwNCj4+ICAgICogUmV0dXJuczogMCBvbiBzdWNjZXNz
-DQo+PiAgICAqICAgICAgICAgIC0xIG9uIGZhaWwNCj4+ICAgICovDQo+PiAtc3RhdGljIHNzaXpl
-X3QgcWNvdzJfZGVjb21wcmVzcyh2b2lkICpkZXN0LCBzaXplX3QgZGVzdF9zaXplLA0KPj4gK3N0
-YXRpYyBzc2l6ZV90IHpsaWJfZGVjb21wcmVzcyh2b2lkICpkZXN0LCBzaXplX3QgZGVzdF9zaXpl
-LA0KPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IHZvaWQgKnNyYywg
-c2l6ZV90IHNyY19zaXplKQ0KPiANCj4gSW5kZW50YXRpb24gYWdhaW4uDQo+IA0KPiBNYXliZSBr
-ZWVwIHRoZSBxY293Ml8gcHJlZml4IGFuZCBtYWtlIGl0IHFjb3cyXyhkZSljb21wcmVzc196bGli
-KCk/DQpvaw0KDQpEZW5pcw0KPiANCj4gS2V2aW4NCj4gDQoNCi0tIA0KQmVzdCwNCkRlbmlzDQo=
+* Yuval Shaia (yuval.shaia@oracle.com) wrote:
+> On Fri, Jun 21, 2019 at 08:15:41PM +0530, Sukrit Bhatnagar wrote:
+> > Define and register SaveVMHandlers pvrdma_save and
+> > pvrdma_load for saving and loading the device state,
+> > which currently includes only the dma, command slot
+> > and response slot addresses.
+> > 
+> > Remap the DSR, command slot and response slot upon
+> > loading the addresses in the pvrdma_load function.
+> > 
+> > Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > Cc: Yuval Shaia <yuval.shaia@oracle.com>
+> > Signed-off-by: Sukrit Bhatnagar <skrtbhtngr@gmail.com>
+> > ---
+> >  hw/rdma/vmw/pvrdma_main.c | 56 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 56 insertions(+)
+> > 
+> > diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+> > index adcf79cd63..cd8573173c 100644
+> > --- a/hw/rdma/vmw/pvrdma_main.c
+> > +++ b/hw/rdma/vmw/pvrdma_main.c
+> > @@ -28,6 +28,7 @@
+> >  #include "sysemu/sysemu.h"
+> >  #include "monitor/monitor.h"
+> >  #include "hw/rdma/rdma.h"
+> > +#include "migration/register.h"
+> >  
+> >  #include "../rdma_rm.h"
+> >  #include "../rdma_backend.h"
+> > @@ -592,9 +593,62 @@ static void pvrdma_shutdown_notifier(Notifier *n, void *opaque)
+> >      pvrdma_fini(pci_dev);
+> >  }
+> >  
+> > +static void pvrdma_save(QEMUFile *f, void *opaque)
+> > +{
+> > +    PVRDMADev *dev = PVRDMA_DEV(opaque);
+> > +
+> > +    qemu_put_be64(f, dev->dsr_info.dma);
+> > +    qemu_put_be64(f, dev->dsr_info.dsr->cmd_slot_dma);
+> > +    qemu_put_be64(f, dev->dsr_info.dsr->resp_slot_dma);
+> > +}
+> > +
+> > +static int pvrdma_load(QEMUFile *f, void *opaque, int version_id)
+> > +{
+> > +    PVRDMADev *dev = PVRDMA_DEV(opaque);
+> > +    PCIDevice *pci_dev = PCI_DEVICE(dev);
+> > +
+> > +    // Remap DSR
+> > +    dev->dsr_info.dma = qemu_get_be64(f);
+> > +    dev->dsr_info.dsr = rdma_pci_dma_map(pci_dev, dev->dsr_info.dma,
+> > +                                    sizeof(struct pvrdma_device_shared_region));
+> > +    if (!dev->dsr_info.dsr) {
+> > +        rdma_error_report("Failed to map to DSR");
+> > +        return -1;
+> > +    }
+> > +    qemu_log("pvrdma_load: successfully remapped to DSR\n");
+> > +
+> > +    // Remap cmd slot
+> > +    dev->dsr_info.dsr->cmd_slot_dma = qemu_get_be64(f);
+> > +    dev->dsr_info.req = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->cmd_slot_dma,
+> > +                                     sizeof(union pvrdma_cmd_req));
+> > +    if (!dev->dsr_info.req) {
+> 
+> So this is where you hit the error, right?
+> All looks good to me, i wonder why the first pci_dma_map works fine but
+> second fails where the global BounceBuffer is marked as used.
+> 
+> Anyone?
+
+I've got a few guesses:
+  a) My reading of address_space_map is that it gives a bounce buffer
+pointer and then it has to be freed; so if it's going wrong and using a
+bounce buffer, then the 1st call would work and only the 2nd would fail.
+
+  b) Perhaps the dma address read from the stream is bad, and isn't
+pointing into RAM properly - and that's why you're getting a bounce
+buffer.
+
+  c) Do you have some ordering problems? i.e. is this code happening
+before some other device has been loaded/initialised?  If you're relying
+on some other state, then perhaps the right thing is to perform these
+mappings later, at the end of migration, not during the loading itself.
+
+Other notes:
+  d) Use VMSTATE macros and structures rather than open-coding qemu_get
+calls.
+
+  e) QEMU normally uses /* comments */ rather than //
+
+Dave
+
+> > +        rdma_error_report("Failed to map to command slot address");
+> > +        return -1;
+> > +    }
+> > +    qemu_log("pvrdma_load: successfully remapped to cmd slot\n");
+> > +
+> > +    // Remap rsp slot
+> 
+> btw, this is RFC so we are fine but try to avoid such way of comments.
+> 
+> > +    dev->dsr_info.dsr->resp_slot_dma = qemu_get_be64(f);
+> > +    dev->dsr_info.rsp = rdma_pci_dma_map(pci_dev, dev->dsr_info.dsr->resp_slot_dma,
+> > +                                     sizeof(union pvrdma_cmd_resp));
+> > +    if (!dev->dsr_info.rsp) {
+> > +        rdma_error_report("Failed to map to response slot address");
+> > +        return -1;
+> > +    }
+> > +    qemu_log("pvrdma_load: successfully remapped to rsp slot\n");
+> > +
+> > +    return 0;
+> > +}
+> > +
+> > +static SaveVMHandlers savevm_pvrdma = {
+> > +    .save_state = pvrdma_save,
+> > +    .load_state = pvrdma_load,
+> > +};
+> > +
+> >  static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+> >  {
+> >      int rc = 0;
+> > +    DeviceState *s = DEVICE(pdev);
+> >      PVRDMADev *dev = PVRDMA_DEV(pdev);
+> >      Object *memdev_root;
+> >      bool ram_shared = false;
+> > @@ -666,6 +720,8 @@ static void pvrdma_realize(PCIDevice *pdev, Error **errp)
+> >      dev->shutdown_notifier.notify = pvrdma_shutdown_notifier;
+> >      qemu_register_shutdown_notifier(&dev->shutdown_notifier);
+> >  
+> > +    register_savevm_live(s, "pvrdma", -1, 1, &savevm_pvrdma, dev);
+> > +
+> >  out:
+> >      if (rc) {
+> >          pvrdma_fini(pdev);
+> > -- 
+> > 2.21.0
+> > 
+> > 
+> 
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
