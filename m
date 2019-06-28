@@ -2,48 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 247C85A917
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 07:00:28 +0200 (CEST)
-Received: from localhost ([::1]:37680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91340597B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 28 Jun 2019 11:37:09 +0200 (CEST)
+Received: from localhost ([::1]:58268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hh5TO-0003tH-Qh
-	for lists+qemu-devel@lfdr.de; Sat, 29 Jun 2019 01:00:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47764)
+	id 1hgnJc-0002zh-R4
+	for lists+qemu-devel@lfdr.de; Fri, 28 Jun 2019 05:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47939)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hh5SF-0003Fg-6w
- for qemu-devel@nongnu.org; Sat, 29 Jun 2019 00:59:16 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hgnIQ-0002Zh-EB
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:35:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hh5SA-0007e5-Vv
- for qemu-devel@nongnu.org; Sat, 29 Jun 2019 00:59:13 -0400
-Received: from ozlabs.org ([203.11.71.1]:35999)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hh5Ru-00077k-RO; Sat, 29 Jun 2019 00:58:59 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 45bLxh1xKDz9s5c; Sat, 29 Jun 2019 14:58:32 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1561784312;
- bh=4l0Fp/EIcDNfaA2+VekUKadMenAca0ad1S2kqEoSg+I=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=paAqc3wIXw76tF2Ir3njWf2yBF5tpsXIg8fRsZSmWaH1Ic1+mQGL5ptX3VtB+tN0Q
- zBcL0LQj4Mx/ixvYWhqnER+Nfjsh88TgzCqISt+wAKa3KNiw0hppvC9I6RzXcYXrPI
- txcmxvcIwJK+j25lP+cfpL5EWlmqhTu8wKiAbRVE=
-Date: Fri, 28 Jun 2019 19:29:52 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Message-ID: <20190628092952.GB29462@umbus.fritz.box>
-References: <20190624055812.3906-1-sjitindarsingh@gmail.com>
+ (envelope-from <richard.henderson@linaro.org>) id 1hgnIP-0004h4-CV
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:35:54 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38818)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hgnIP-0004eE-47
+ for qemu-devel@nongnu.org; Fri, 28 Jun 2019 05:35:53 -0400
+Received: by mail-wr1-x431.google.com with SMTP id d18so5546418wrs.5
+ for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 02:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EYabABQgP8zIM6C4chUINaB01LzBD98XTQEtfc73hdk=;
+ b=VRv6/kZvB/CnS2iVIQeqotU9dsX1sscrIaFrxx+Fl187qU5tsiua5Ni17K/jCEjbXI
+ gIa0Fsb5uG+d0rCxySo74m9xZqRRCKPD0+ewD0Xs1JL1gQPG/y4Olq59Kauus7YrbzHx
+ mei3dp+uqp3lPT6zdMr7rrei1lnlyJKSoKCewLFuPigZpk7tuZjhcY1MHDWV75LL9YB2
+ vztmIVNwpP5JZXCq3p7324uj9Ldck3HhSswYf2roXsIfcQ2rfsDz69YM+AgDOrF51wjm
+ 4dXeyvbcqI2KNM38+uAhz+lfPLuW4ZvK0lSCJoOQ57jCZGQ0KQGlAeG5YaIO02rXNbt2
+ XB5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EYabABQgP8zIM6C4chUINaB01LzBD98XTQEtfc73hdk=;
+ b=XaGtzg+W8FX8ukGRDkDb4Kc44A1diZUwpoXqVj8Q3v0ebwFX2FzgAdOQBGmz0iGnxq
+ M+o4ypss8COdF9/Gk0p4VCvauqFC8zrpwDrMQ6kVQyccCaqb+lOWQYvQPx099uI6rcl9
+ nKDQrL9tsB6Z/JQE9ax7DX0IF+8WCneIbyBkJfkXVQSPEFcXF7/yHUbE2lhvzYtR/img
+ diMmktH62qQb1C+syKespLdDfGwVByP5V/9PDYFVfYjwYt7D5MMEx/xRPPcVOSdMzOiW
+ yDxwn4JxCaWm8pxjIA52T0ta6UlQKmAoAVtzJwyHSoI3x2LacFDTZyrqCy16RUlvuczc
+ Ab0g==
+X-Gm-Message-State: APjAAAV9I13E7o+0dXW150y9EW3OWhbijnkierhYu+6pB1wRgrsrFtY0
+ /d2PtpCGTSRCVaz+LxLnxlOWKw==
+X-Google-Smtp-Source: APXvYqynPss+m/mLS06PraCkHqi5qMmgGxBUn5nDYH5/zGeX/f1hcxsUyGWUwmN+51aACFG9yDpTUg==
+X-Received: by 2002:a5d:5643:: with SMTP id j3mr6537659wrw.13.1561714550919;
+ Fri, 28 Jun 2019 02:35:50 -0700 (PDT)
+Received: from [192.168.2.137] (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id c65sm1407295wma.44.2019.06.28.02.35.49
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 28 Jun 2019 02:35:50 -0700 (PDT)
+To: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>
+References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
+ <2136180936.260219.1561641583358@mail.yahoo.com>
+ <1079763171.281101.1561641752988@mail.yahoo.com>
+ <e4c1fbc4-3e43-5df4-a17c-527d98d9763c@linaro.org>
+ <20190628002713.GA19257@localhost.localdomain>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
+Date: Fri, 28 Jun 2019 11:35:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3lcZGd9BuhuYXNfi"
-Content-Disposition: inline
-In-Reply-To: <20190624055812.3906-1-sjitindarsingh@gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 1/2] ppc/spapr: Add
- implementation of hcall H_PURR
+In-Reply-To: <20190628002713.GA19257@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::431
+Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
+ gen_exception
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,106 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 6/28/19 2:27 AM, Lucien Murray-Pitts wrote:
+> The original way of handling it was causing single step to malfunction, I dont
+> rightly know why but the effect was that step would step twice and end up
+> inside the ISR function again OR just stepping past the RTE as if it didnt
+> exist.
+> 
+> I have made a quick hack to implement it the way you suggest and confirm that
+> works better.
+> 
+> HOWEVER, the "return" address is the instruction that causes the exception.
+> So it immediately does return to the ISR.
+> 
+> This is a different issue, but I think interrelated to the original problem.
 
---3lcZGd9BuhuYXNfi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Is this a synchronous exception, like a SIGSEGV, that the instruction is
+causing?  I have made attempts at fixing asynchronous interrupts, like the
+clock, in the presence of single-stepping.  I haven't tested that in a while
+and I hope it's still working...
 
-On Mon, Jun 24, 2019 at 03:58:11PM +1000, Suraj Jitindar Singh wrote:
-> The hcall H_PURR is used by a guest to read the PURR (processor
-> utilisation of resources register). A guest expects that this register
-> will count at a rate of timebase scaled by the number of guest vcpus
-> present in the vcore. That is the per vcpu purr will count at a rate of
-> timebase / # vcpus per vcore.
->=20
-> Implement a handler for the H_PURR hcall and return the purr value
-> divided by smp_threads so that the sum of the purr deltas across the
-> vcpus of a vcore equals the timebase delta
->=20
-> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+> Further single stepping INTO the failing instruction results in ending up
+> at the ISR +1 instruction
 
-Does this need something new advertised in the hypertas DT entry?
+For a synchronous exception, that sounds like a real bug.
 
-> ---
->  hw/ppc/spapr_hcall.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index aae9fd2b3e..88b3343f04 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -1819,6 +1819,27 @@ static target_ulong h_update_dt(PowerPCCPU *cpu, S=
-paprMachineState *spapr,
->      return H_SUCCESS;
->  }
-> =20
-> +static target_ulong h_purr(PowerPCCPU *cpu, SpaprMachineState *spapr,
-> +                           target_ulong opcode, target_ulong *args)
-> +{
-> +    CPUPPCState *env =3D &cpu->env;
-> +    target_ulong purr;
-> +
-> +    if (kvm_enabled()) {
-> +        cpu_synchronize_state(CPU(cpu));
-> +        /*
-> +         * Divide by smp_threads so that the sum of the purr deltas acro=
-ss the
-> +         * vcpus of a vcore equal the timebase delta.
-> +         */
-> +        purr =3D env->spr[SPR_PURR] / smp_threads;
-> +    } else {
-> +        purr =3D cpu_ppc_load_purr(env);
-> +    }
-> +    args[0] =3D purr;
-> +
-> +    return H_SUCCESS;
-> +}
-> +
->  static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4) + 1];
->  static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX - KVMPPC_H=
-CALL_BASE + 1];
-> =20
-> @@ -1915,6 +1936,9 @@ static void hypercall_register_types(void)
->      spapr_register_hypercall(H_LOGICAL_DCBF, h_logical_dcbf);
->      spapr_register_hypercall(KVMPPC_H_LOGICAL_MEMOP, h_logical_memop);
-> =20
-> +    /* hcall-purr */
-> +    spapr_register_hypercall(H_PURR, h_purr);
-> +
->      /* qemu/KVM-PPC specific hcalls */
->      spapr_register_hypercall(KVMPPC_H_RTAS, h_rtas);
-> =20
+Probably within cpu_handle_exception,
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+  #else
+          if (replay_exception()) {
+              CPUClass *cc = CPU_GET_CLASS(cpu);
+              qemu_mutex_lock_iothread();
+              cc->do_interrupt(cpu);
+              qemu_mutex_unlock_iothread();
++             /* Single-step into the exception handler.  */
++             if (cpu->singlestep_enabled) {
++                 cpu_handle_debug_exception(cpu);
++             }
+              cpu->exception_index = -1;
+          } else if (!replay_has_interrupt()) {
 
---3lcZGd9BuhuYXNfi
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0V3hAACgkQbDjKyiDZ
-s5Icuw//YwlGoPuU9cnEkHTk9VaQewSonhPNFBFq7sBEHNHfybAazeQpFiluHbhP
-AP2ZpD+ceClO28UQ+jmseOu0Raae65rLSIghM6u0QWYwRl+x9wJzKCpQdl2UPKMt
-e5xorC2o6cGxGBjW6yVMPAA/WU4PNtTz65ImffVT9l4QwxPLFpbkJGxB6spEZyFU
-2FThuVWgA2PbiSBmlb84OTOwfSUgevGpR7xgPwSO2pFORg+HDg7kmLizZXCEeSKR
-ASis/r6O/okgOkWlOZQjSkkz4paP9J92ahwJKfk+3JIDFioh9AhznaB3MFcMr0wb
-2fN6Ko3hYPdJWOt6iuNnHZgP+W8DoCXuGzk5Ghssm5AsR8ZfCMv2SZgirweGofHk
-HTo/woWGCJ2/ABqn690FVMYtDY/lJC3o/ECgKB1DYyE5k3X4S1e8Qd+l/bIHTJco
-c6HuHtDLAMHpJ/T9WU8SwbuYAHS6l1PdQq7e73PvhWrGmsnz+MRpSTXMPevtisWg
-Bj8PR13vImWlVGg/1g1mVk3YGidvtvsOVW35eK4Jv7RqQzBBnL+80crNjw8ZfIOr
-V7QhOUGtISinOEUo+kp6ExGDNvNLndgGfjNrb7ZgzEl8dWXG9gXXWWNQTC46NQkg
-KzzZmyEN9vl/iVrW4XNrWKn2Tvc/nZODiLrRxbSLiSxC2UCp7WI=
-=pLYQ
------END PGP SIGNATURE-----
-
---3lcZGd9BuhuYXNfi--
+r~
 
