@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A288C5A8D7
-	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 06:08:14 +0200 (CEST)
-Received: from localhost ([::1]:37508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FAB15A924
+	for <lists+qemu-devel@lfdr.de>; Sat, 29 Jun 2019 07:24:06 +0200 (CEST)
+Received: from localhost ([::1]:37736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hh4er-0004Hu-8w
-	for lists+qemu-devel@lfdr.de; Sat, 29 Jun 2019 00:08:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39721)
+	id 1hh5qG-0008Rj-MD
+	for lists+qemu-devel@lfdr.de; Sat, 29 Jun 2019 01:24:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51671)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jimw@sifive.com>) id 1hh4db-0003sF-Sy
- for qemu-devel@nongnu.org; Sat, 29 Jun 2019 00:06:57 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hh5p2-0007s7-RW
+ for qemu-devel@nongnu.org; Sat, 29 Jun 2019 01:22:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jimw@sifive.com>) id 1hh4da-0000NS-Hf
- for qemu-devel@nongnu.org; Sat, 29 Jun 2019 00:06:55 -0400
-Received: from mail-vs1-xe43.google.com ([2607:f8b0:4864:20::e43]:35863)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jimw@sifive.com>) id 1hh4da-0000Jm-Bd
- for qemu-devel@nongnu.org; Sat, 29 Jun 2019 00:06:54 -0400
-Received: by mail-vs1-xe43.google.com with SMTP id s141so2365024vsc.3
- for <qemu-devel@nongnu.org>; Fri, 28 Jun 2019 21:06:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Eli6SkdmsHgSlE2autiwPy6txd43VBuIUQ78qtR9Wlg=;
- b=EzhUmD0Qbwp+R51H1cSRbB1Pzh8Mc6daIVEBZQ/ebNH7tVypvjo/CYdcXuE7vX9PbL
- fYiYW5dF6dmlwML5bR5P3a78iW+6mvvJuK+kfupuXXwcAfmRI8+iDCtKd/bHcPrmVMS/
- crzp3BhQVJfiiFeSPPfWbGIZ6Wgga4PRXs3MVZ5LezRShs3wW+lCBQngP7UlhdQxJEkO
- VWjakz19a1XpFefHUUkDrl79dhiyf2H6Qzpdp5olo/9PaHJYNp9xW1KsPBj9K+iOWpCy
- D8FakDX+ItRqarXdFZ7NzJoRO4MQGbdC9mVgR+kkDWgDv8pd/NSTQSv02CcH6FFRY5Y8
- ybYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Eli6SkdmsHgSlE2autiwPy6txd43VBuIUQ78qtR9Wlg=;
- b=LnSZoXIGjP3tbTVmIOcVUUpl9zIz3FuQmUVrpAf0UaATtaSBkgxQ/5O1vfjrqJpkbD
- zZYvNpxLmLfmaRkJs0fEH929cuvEK3VuWTUj2l18wN1QRJtiboskaUe6C/zrfRyBfmXV
- pIhMKds26I0u7YqzT3iDMnOOzbJb02LZjLS0kqx+rONk025IphzKn6eZMhaELSD6BuAC
- 4T5y3AornVv7tza92g7PQj7wyhsHzccjmxbuAlJzCd3M4WEBQnP0MiRFJyk+SIyIFcjH
- LHpT7YrgpHEelt96E1BKiPlRa0gUVKSWa/615MUvYhZpz15aydN7WzG7yZ9bLRR6Idf0
- +Wvw==
-X-Gm-Message-State: APjAAAWI/aCw4burmPzeOFl62qlVk53pqp5tfHOPTsIIKYRd+R3VHIv1
- bkOnoq2IKfzkLqERfCpfMLM5skxamtWD2WXbXqOcJA==
-X-Google-Smtp-Source: APXvYqw4FAvgqZGD652zFkAnYUkJLPbxaz+IyynqnKsGjYXz4USQL15uu9AhkDdhDMMaty9PLjrxy6S/b3hVDlD3zrw=
-X-Received: by 2002:a67:ebcb:: with SMTP id y11mr8569050vso.138.1561781210843; 
- Fri, 28 Jun 2019 21:06:50 -0700 (PDT)
+ (envelope-from <dgibson@ozlabs.org>) id 1hh5oy-0002qv-CW
+ for qemu-devel@nongnu.org; Sat, 29 Jun 2019 01:22:48 -0400
+Received: from ozlabs.org ([203.11.71.1]:39691)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hh5oq-0002hk-23; Sat, 29 Jun 2019 01:22:37 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45bMTJ5Ns3z9s5c; Sat, 29 Jun 2019 15:22:28 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1561785748;
+ bh=k5AhlNxHYcLwY3zZPHfUaPJmPgFgdqenxiICViKi8cA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nXFimMhe2seWVC4kXAuxBqGm8S7rXh1BlKE/T3maZ2oVPp7oCU5TAueQaJz4LZOyX
+ +LZF7exjT8Hp7nxiHt1Mqb20G7HdQFu1wZt4EU0LM2n6hS97pN/TnNLQppCpl0X9Gl
+ h32rAje7HEYv5BnGTmAnZpAk8RQd/d7zWrtWOuPs=
+Date: Sat, 29 Jun 2019 15:02:32 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Message-ID: <20190629050232.GA1870@umbus.fritz.box>
+References: <20190628103957.9504-1-kraxel@redhat.com>
+ <20190628103957.9504-2-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <1561718618-20218-1-git-send-email-aleksandar.markovic@rt-rk.com>
- <1561718618-20218-2-git-send-email-aleksandar.markovic@rt-rk.com>
- <CAL1e-=gMvPy9SEQicj1d=X0cSu84WuiNXbtacOS5zJoqyXQv+A@mail.gmail.com>
-In-Reply-To: <CAL1e-=gMvPy9SEQicj1d=X0cSu84WuiNXbtacOS5zJoqyXQv+A@mail.gmail.com>
-From: Jim Wilson <jimw@sifive.com>
-Date: Fri, 28 Jun 2019 21:06:40 -0700
-Message-ID: <CAFyWVaaQX4MG+76+vt-2qvGq7JeZcJFyXZp9Nw+xuwWLc=pHHA@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::e43
-Subject: Re: [Qemu-devel] [PATCH v16 1/5] linux-user: Add support for
- translation of statx() syscall
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="CE+1k2dSO48ffgeK"
+Content-Disposition: inline
+In-Reply-To: <20190628103957.9504-2-kraxel@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PULL 1/6] i2c: Move bitbang_i2c.h to
+ include/hw/i2c/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,41 +56,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
- amarkovic@wavecomp.com, Laurent Vivier <laurent@vivier.eu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Corey Minyard <cminyard@mvista.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 28, 2019 at 5:53 PM Aleksandar Markovic
-<aleksandar.m.mail@gmail.com> wrote:
-> This patch went trough several transformations in last few days, and I am=
- a little worried that we forgot the primary reasons/scenarios why want it =
-in the first place. In that light, may I ask you to recheck this latest ver=
-sion of the patch, v16, against your scenarios (you mentioned earlier you h=
-ave two significantly different flavors of your scenario, one with Ubuntu 1=
-6, and another with Ubuntu 19)?
 
-My use case is that I want 32-bit RISC-V user mode to work.  This
-requires a riscv syscall list patch that Palmer Dabbelt added to his
-patch set, and the statx patch that is part of your patch set.  The
-statx strace support is not required for this use case, but should be
-added for completeness as all of the other stat family functions have
-strace support, so statx should too.  Since the statx strace patch
-needs statx macros that old systems don't have, I test on Ubuntu 16
-(no host statx) and Ubuntu 19 (with host statx).  On Ubuntu 19, statx
-strace should be fully pretty printed.  On Ubuntu 16, qemu should
-still build despite the missing macros, and statx strace should be
-partially pretty printed because of the missing macros.
+--CE+1k2dSO48ffgeK
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I removed the old patches, updated qemu, added the new patches,
-rebuilt qemu, and reran the gcc testsuite for rv32/rv64 Ubuntu 16/19
-and it still works as expected.  I also manually checked strace for
-rv32/rv64 Ubuntu 16/19 and that also still works as expected.  So this
-looks good to me.
+On Fri, Jun 28, 2019 at 12:39:52PM +0200, Gerd Hoffmann wrote:
+> From: BALATON Zoltan <balaton@eik.bme.hu>
+>=20
+> The bitbang i2c implementation is also useful for other device models
+> such as DDC in display controllers. Move the header to include/hw/i2c/
+> to allow it to be used from other device models and adjust users of
+> this include. This also reverts commit 2b4c1125ac which is no longer
+> needed.
+>=20
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> Acked-by: Corey Minyard <cminyard@mvista.com>
+> Message-id: 5d1fe4db846ab9be4b77ddb0d43cc74cd200a003.1561028123.git.balat=
+on@eik.bme.hu
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-I'm leaving on a trip tomorrow, and only taking one laptop with me, so
-I won't have access to my Ubuntu 19 machine anymore.
+ppc parts
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-Jim
+> ---
+>  {hw =3D> include/hw}/i2c/bitbang_i2c.h | 2 ++
+>  include/hw/i2c/i2c.h                 | 2 --
+>  include/hw/i2c/ppc4xx_i2c.h          | 2 +-
+>  hw/i2c/bitbang_i2c.c                 | 2 +-
+>  hw/i2c/ppc4xx_i2c.c                  | 1 -
+>  hw/i2c/versatile_i2c.c               | 2 +-
+>  6 files changed, 5 insertions(+), 6 deletions(-)
+>  rename {hw =3D> include/hw}/i2c/bitbang_i2c.h (80%)
+>=20
+> diff --git a/hw/i2c/bitbang_i2c.h b/include/hw/i2c/bitbang_i2c.h
+> similarity index 80%
+> rename from hw/i2c/bitbang_i2c.h
+> rename to include/hw/i2c/bitbang_i2c.h
+> index 9443021710d7..3a7126d5dee8 100644
+> --- a/hw/i2c/bitbang_i2c.h
+> +++ b/include/hw/i2c/bitbang_i2c.h
+> @@ -3,6 +3,8 @@
+> =20
+>  #include "hw/i2c/i2c.h"
+> =20
+> +typedef struct bitbang_i2c_interface bitbang_i2c_interface;
+> +
+>  #define BITBANG_I2C_SDA 0
+>  #define BITBANG_I2C_SCL 1
+> =20
+> diff --git a/include/hw/i2c/i2c.h b/include/hw/i2c/i2c.h
+> index 8e236f7bb428..75c5bd638bb9 100644
+> --- a/include/hw/i2c/i2c.h
+> +++ b/include/hw/i2c/i2c.h
+> @@ -81,8 +81,6 @@ uint8_t i2c_recv(I2CBus *bus);
+> =20
+>  DeviceState *i2c_create_slave(I2CBus *bus, const char *name, uint8_t add=
+r);
+> =20
+> -typedef struct bitbang_i2c_interface bitbang_i2c_interface;
+> -
+>  /* lm832x.c */
+>  void lm832x_key_event(DeviceState *dev, int key, int state);
+> =20
+> diff --git a/include/hw/i2c/ppc4xx_i2c.h b/include/hw/i2c/ppc4xx_i2c.h
+> index aa2a2bf9dec2..8437bf070b8b 100644
+> --- a/include/hw/i2c/ppc4xx_i2c.h
+> +++ b/include/hw/i2c/ppc4xx_i2c.h
+> @@ -28,7 +28,7 @@
+>  #define PPC4XX_I2C_H
+> =20
+>  #include "hw/sysbus.h"
+> -#include "hw/i2c/i2c.h"
+> +#include "hw/i2c/bitbang_i2c.h"
+> =20
+>  #define TYPE_PPC4xx_I2C "ppc4xx-i2c"
+>  #define PPC4xx_I2C(obj) OBJECT_CHECK(PPC4xxI2CState, (obj), TYPE_PPC4xx_=
+I2C)
+> diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
+> index 5dfc72d9d7b7..3cb0509b0200 100644
+> --- a/hw/i2c/bitbang_i2c.c
+> +++ b/hw/i2c/bitbang_i2c.c
+> @@ -12,7 +12,7 @@
+> =20
+>  #include "qemu/osdep.h"
+>  #include "hw/hw.h"
+> -#include "bitbang_i2c.h"
+> +#include "hw/i2c/bitbang_i2c.h"
+>  #include "hw/sysbus.h"
+>  #include "qemu/module.h"
+> =20
+> diff --git a/hw/i2c/ppc4xx_i2c.c b/hw/i2c/ppc4xx_i2c.c
+> index d606d3dbeb81..5fb4f86c38f1 100644
+> --- a/hw/i2c/ppc4xx_i2c.c
+> +++ b/hw/i2c/ppc4xx_i2c.c
+> @@ -30,7 +30,6 @@
+>  #include "cpu.h"
+>  #include "hw/hw.h"
+>  #include "hw/i2c/ppc4xx_i2c.h"
+> -#include "bitbang_i2c.h"
+> =20
+>  #define PPC4xx_I2C_MEM_SIZE 18
+> =20
+> diff --git a/hw/i2c/versatile_i2c.c b/hw/i2c/versatile_i2c.c
+> index e07be9890c8a..24b6e36b6d52 100644
+> --- a/hw/i2c/versatile_i2c.c
+> +++ b/hw/i2c/versatile_i2c.c
+> @@ -23,7 +23,7 @@
+> =20
+>  #include "qemu/osdep.h"
+>  #include "hw/sysbus.h"
+> -#include "bitbang_i2c.h"
+> +#include "hw/i2c/bitbang_i2c.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--CE+1k2dSO48ffgeK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0W8OcACgkQbDjKyiDZ
+s5KPdQ/+PhIbfw8GOOh0Q6UFozYqYBCMLZGbryX+C1c39HPc9R7F+AnYLAkiZFkD
+GYM4HR26SBVu/VsjSQwNX3iOcNj4QYNXigcHdZJEqBIHl8iwyEWYFAjN5vACyGm8
+9cs/jxKr6qWezO+3tYtZYLX34bqHw2jIIIE7p9MuXhLpzljZiIsZ+byFh+Y0pOca
+Zx3d8XZ0IGuqCm87QFhrbgk7qmUB/mtDYfHekbDQ1OxBx5h27ZUJ0Su2ljCk8RWF
+w3qqetZA80gsOMbTLLycixLesZucjyU2+Ga8PDnf+r0ZflGQaICzH46KOJzI0r8/
+fU0xvX5xjMDvvvFgC/4kia1hgzj9TyvibsMJxNiUJH9GIF8Y9Voawvzetj4U3uzx
+6Oc6KPqN2WVun1fzZ/RKeupHUc9ETs4SRPrmUG30OFIAeCGOxD3/+R3wF/lbzsR8
+I+McRBawFWcw0YuzDfU2XfSj/uMSTrVqkMi0+toZ6HrKDsYAxiFdA2uqbUkSu7zW
++ZQIAtp0qtM27PMPDqhycyWYD6FwqPfeZPXF/ugZ8jklJUF6EhXxtTYsXzR5Co/R
+in6pGqT7CNgyCul0eEq23qR08h93qjNb5nr8yIKCLFUekr4gcLRmbGZOTHDKshY5
+u/JGMbUyBbNKRJMDdSbUnQyyXuqlOj8dKAnsZxMxNpfXlZZ7mXc=
+=4k/l
+-----END PGP SIGNATURE-----
+
+--CE+1k2dSO48ffgeK--
 
