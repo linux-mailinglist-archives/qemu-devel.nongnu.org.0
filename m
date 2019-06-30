@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C36D5AFB0
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jun 2019 12:56:14 +0200 (CEST)
-Received: from localhost ([::1]:43932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5CA45AFB1
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jun 2019 12:56:25 +0200 (CEST)
+Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhXVE-0002yU-Uf
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jun 2019 06:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51236)
+	id 1hhXVQ-00032P-Sm
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jun 2019 06:56:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51331)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hhXNz-0001Y5-Sd
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:48:44 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hhXOh-0001d2-1t
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:49:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hhXNy-0002fe-QV
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:48:43 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:33563)
+ (envelope-from <richard.henderson@linaro.org>) id 1hhXOf-0003R5-TC
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:49:26 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40522)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hhXNv-0002Wz-It
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:48:40 -0400
-Received: by mail-wm1-x344.google.com with SMTP id h19so12430475wme.0
- for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 03:48:36 -0700 (PDT)
+ id 1hhXOe-0003Lu-Fd
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:49:25 -0400
+Received: by mail-wm1-x343.google.com with SMTP id v19so12924586wmj.5
+ for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 03:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BZR96Hwa93UJErePYeUQepLKYTaS8LHqJddnHmJaaFo=;
- b=K2b/mc8wN+ax7m1iLfaao5jvx2665dCSIqBr8cB4conoA/H2OyY99RsQZXlHwRsAmE
- RpQYJ+7cExMEBuC0t+U04XkI/emK2RMH61IjT6bK3F5mG5SH23+6CgEeaDT3u48ZviyT
- PLUFGXRTxT7HyazZrsQU6HviKNI3JMN0ql81pwAZAL8rEoAzrdoYIp/mCLNRjE9y45+Y
- 03Kl49ZXouUN3tSYk8curG3PPZXwjvfNzIGS53JPWvjCfwv6Um6e81bztBWQBGnjLIPf
- 4M5rKxuZVdqK219yJiMWuLGb9Sn2O3Io2Z9ohXdG6/saU4L+5OIm24qlVzMgJ5xbdT3i
- SW/w==
+ bh=5aypXGafoMpindIPXW1KKL8j7b7Ge84P5wCGAgWpcDE=;
+ b=BqN0r0Em4hD59g8/srFTB3AGXjl9MFE4/GJTF0L9HCCtS2HURaiF60kR+4F6TVTuHx
+ pBpNLBN8emYLJb1LiAJ08MAmR5FPjSAyX60j1ikjfrEoqLx1E/rEsw79OAOark6WOUNT
+ xCDP+2K8G+joIVqNqCWUQxj1dw9Im6mI7W9BAglFCWk2zH7mZx2K2/GPIF8B3dQwqxQG
+ 6BMYrp/jqj59udPNYaZThj9aqlyHT1/SGSgpeafSfQWM17WVrxKSUAmnVlAf+HPEXxFS
+ wILHyix9PTftosPUqKL9QNiybWLGW3OizLYak9okA6yH+gXs2jcxEohmrOpyQhzMdXou
+ BNEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BZR96Hwa93UJErePYeUQepLKYTaS8LHqJddnHmJaaFo=;
- b=O3ln28ZSTACfb1T9Ouhvuggyg5y8SOqh3ZmV2JWg2s40EUQUSNrWvMKvr5Cxx0TsvI
- raMH68KuCMilIn4VeVOj/4sEIyih94/kf/bRsE8xO8owHGBy27ccLIKZMEoEvuJhCrDl
- FyqJBoq6a7yw2DWLo3g8AfofILKuO9nhbbiaDml509CF8h4gw7hD6tH6+eG5RKCQFBnS
- +1ePx/pKh7qL4XT+8U8wTKBpuc35EMztc+IBOuyJG65it8jWxgrDi9z/XDMcHeno9pn+
- B4HXIfc5NzY5n+mYghAPLVASLp9K/1aHnDB1Hq+KzWP7kju37ouV43Eml6NxvrL7dasx
- wCCA==
-X-Gm-Message-State: APjAAAWBhROMs9BX1zmslFiX5aenMd648Zu2+LS0aGoBKj5q9FQC9iRk
- x3rd4NJBkbmPX4nYeK0zoWSuog==
-X-Google-Smtp-Source: APXvYqzMrCdpnssNyNSK8CnglfI0/PY/PPc/2RCfBu5U8kfTziDquFvkmID1AuToIrYVt6QozSqbuA==
-X-Received: by 2002:a1c:a848:: with SMTP id r69mr13059517wme.12.1561891713927; 
- Sun, 30 Jun 2019 03:48:33 -0700 (PDT)
+ bh=5aypXGafoMpindIPXW1KKL8j7b7Ge84P5wCGAgWpcDE=;
+ b=c7FH5gVMGPDGmN7ndLFAOzPRQx2Gx3TDNrDfNleu0XI5Wre3DrkQQLjBgA2GGRgWX+
+ T3LM62JLo4GNfJrcep7gxkT5BLuG32Q8kird+SXfN1j9c2q168bGoKZclZYhLtRHEqoE
+ PeBM6A6XscCre8jJ6w6mlu6IG/20N76zRPUZCP43MEl1rrkEbYWss16VkS0B8fxsCE4k
+ b6O1rj54QsxW6EC5EmD4rZDMvCEaqthJLVKIr7DZanq3DwlEOQMVqAldOeoGr14DJxGB
+ fDfioeigtgKpmOVgxfyslVElzAPvfiZ7p+p3mYcHEQW+mq9wPFDi4s9a04Yb1Gu23hch
+ x2iw==
+X-Gm-Message-State: APjAAAX32bMBKR9sqNTkeYgkZ1PkkA9Lo7WHumEwIFtniaxA+e8Hv9Th
+ VQWILvZ2UrsGm+I3aHNoe3H8kQ==
+X-Google-Smtp-Source: APXvYqyeDltt1s0e2XJFT5UhUqZZ4qNh+zAcVRibG8vQL9s/3IJyL0muH7/QrkdXrB20GcDX81zz+A==
+X-Received: by 2002:a1c:770d:: with SMTP id t13mr11771501wmi.79.1561891760777; 
+ Sun, 30 Jun 2019 03:49:20 -0700 (PDT)
 Received: from [192.168.3.43] (93-34-153-63.ip50.fastwebnet.it. [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id f190sm7845945wmg.13.2019.06.30.03.48.32
+ by smtp.gmail.com with ESMTPSA id v65sm8541906wme.31.2019.06.30.03.49.20
  (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 30 Jun 2019 03:48:33 -0700 (PDT)
+ Sun, 30 Jun 2019 03:49:20 -0700 (PDT)
 To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 References: <20190629130017.2973-1-richard.henderson@linaro.org>
- <20190629130017.2973-5-richard.henderson@linaro.org>
- <CAL1e-=i266juep8-7N1=At680eY3AE-_vyNL_5GO=VRAnH_tig@mail.gmail.com>
+ <20190629130017.2973-10-richard.henderson@linaro.org>
+ <CAL1e-=hwJmYvYbbdWoQjEcFqNginiTY8xDsgDwDY5t8GF6qBWg@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <1896cde6-ce3a-3aa9-d4ee-c97944374338@linaro.org>
-Date: Sun, 30 Jun 2019 12:48:31 +0200
+Message-ID: <f29f6f66-8b68-94b2-adaf-1d8dfbb54e89@linaro.org>
+Date: Sun, 30 Jun 2019 12:49:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=i266juep8-7N1=At680eY3AE-_vyNL_5GO=VRAnH_tig@mail.gmail.com>
+In-Reply-To: <CAL1e-=hwJmYvYbbdWoQjEcFqNginiTY8xDsgDwDY5t8GF6qBWg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v6 04/16] tcg/ppc: Enable tcg backend
- vector compilation
+X-Received-From: 2a00:1450:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v6 09/16] tcg/ppc: Prepare case for vector
+ multiply
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,38 +92,21 @@ Cc: "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/19 11:46 AM, Aleksandar Markovic wrote:
+On 6/30/19 11:52 AM, Aleksandar Markovic wrote:
 > 
 > 
 > On Saturday, June 29, 2019, Richard Henderson <richard.henderson@linaro.org
 > <mailto:richard.henderson@linaro.org>> wrote:
 > 
->     Introduce all of the flags required to enable tcg backend vector support,
->     and a runtime flag to indicate the host supports Altivec instructions.
+>     This line is just preparation for full vector multiply support
+>     in some of subsequent patches.
 > 
 > 
-> If two flags have different purpose and usage, it is better that they
-> have different names. (perhaps one of them should have the suffix “_runtime“)
+> This patch should be aquashed into the patch on implementing multiply.
 
-Huh?  They do have different names.  Very different names.
+Yes it should.
 
-> Also, I am not sure if Altiveec can be reffered as isa, it is a part/extension
-> of an isa, so “isa” seems  superfluous here.
-
-It also matches the other existing names, so I'll leave it as is.
-
-> checkpatch warning should also be honored.
-
-It's bogus.
-
-> WARNING: Block comments use a leading /* on a separate line
-> #155: FILE: tcg/ppc/tcg-target.inc.c:2842:
-> +    if (hwcap & /* PPC_FEATURE_HAS_ALTIVEC -- NOT YET */ 0) {
-
-It's not a block comment; the whole thing is on one line.
-I have no idea why it doesn't notice.
-
-In any case, this goes away in patch 13.
+Incidentally, why did you split it out in the first place?
 
 
 r~
