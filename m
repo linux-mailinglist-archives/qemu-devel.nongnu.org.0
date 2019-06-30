@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CD65AF9B
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jun 2019 11:54:29 +0200 (CEST)
-Received: from localhost ([::1]:43698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A9B5AFA2
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jun 2019 12:23:56 +0200 (CEST)
+Received: from localhost ([::1]:43810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhWXU-0005qN-LX
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jun 2019 05:54:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1hhWzx-00038z-Pg
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jun 2019 06:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46974)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hhWVl-0005H3-Jn
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 05:52:42 -0400
+ (envelope-from <hongbo.zhang@linaro.org>) id 1hhWxN-0001Sh-6b
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:21:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hhWVk-0001FR-I8
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 05:52:41 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38143)
+ (envelope-from <hongbo.zhang@linaro.org>) id 1hhWxL-0004CX-FR
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:21:12 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42546)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hhWVk-0001Da-6x
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 05:52:40 -0400
-Received: by mail-oi1-x243.google.com with SMTP id v186so7623318oie.5
- for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 02:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=2WniCLmKWBIOePpI8AX4ouFPIwvtN6n1KVvLuO0x7Ns=;
- b=jNwKd+0SW1HtLe9TFxQHqphuDa1yCLee59X6XGoUD5Yhw12JCaRDUzECxDAZUMr4yH
- oQngAoeH+CrPmiO4ansXrEdXR8/rPGo9zqWtQVpHtpK5202E6JXJGjSFCUCE3m7dREKe
- YWss3q0m+s+5aSVdieH8C0/ZgS18BvSoFJFDjWGnCZ8Rg4aCy5e4cwmgMgkMIRiZmdZg
- yal7GQzHzxt8C+PNDVsThIKjmICYe/a8Wke4jY7fHGzI442d3nKQgOraa5GuIkJmCIFE
- mf0S1UwoWsiiMnpxxEsdH5u2/lT9KJcLSMI33f/8VlJmYfQcGc5rbZlFQjT/AyBq+0gs
- sZkw==
+ (Exim 4.71) (envelope-from <hongbo.zhang@linaro.org>)
+ id 1hhWxL-0004B3-7H
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 06:21:11 -0400
+Received: by mail-pf1-x443.google.com with SMTP id q10so5112706pff.9
+ for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 03:21:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=2UYQ3yYYDlDIP0MsyiA7Zdsuo4ukrQD2ytHAxPp6tug=;
+ b=Dp7n7Gl1mhsB89QHdQW1gMl+Mgw0Zk+x1v9rjtqU38XFdKVZNxuJpDrEitJOmWbq4M
+ pIYtKAKwy5/NTB2dRxLlrD2rpDyii3sgehaU6ZASBkeKuMPnpeXcxODbxZ9vdvC5FvkX
+ +S0R/8uLWe3hxKPAM/eYC8/c0x/MUUgZCAp4UkBNgUNo+xJd9GPqLZy/u4UqUE3X73YA
+ yWnQ52rUkHF8LLkdhd+Z+lqHsSb8LnPJinVzm4baiEyrXOe48y3qu1CWBQPUhy8Fc9F2
+ d0lIDMvv9avMzUP44jiXKqGlpcxsDT40sGGN5HYCt9+2cYuTCxloXBBRGn2yNkA67mRV
+ +flw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=2WniCLmKWBIOePpI8AX4ouFPIwvtN6n1KVvLuO0x7Ns=;
- b=sw0CSdBa9+kJaZtvHSX1QpjecrmL5FO52IhcymFCsUYs9eZBXxWqK8kPiPsZKy89Kz
- ZuWpXiVMTaPKWM4JkRnur3/3YMELEpfz1EDIdKcszASRbAyLOQHx/9r5WEeh0mheqRFf
- pRIt360hiYfrCU689pm1C6IHj/AOXp34DJZtmG9xH+tepbPFr8Uekc/t+NaAVWW/T/bQ
- kqh5/sWVkwgL1DfphmvSl71/llKiLcXKbt3zdMds3iiAAr6+0KH9M8sIp+qbDtWhY841
- S1lHwBbLfiOK0UTuD2Kedd/4EAT1IhuIiXGLxxcWbym9OvrqffOERtYqkr2ONHC+M/cx
- jQ1w==
-X-Gm-Message-State: APjAAAUI31ujOPJxL1a9hXZxLDWQF3kLWctIcV0UswWMwqzt+Udnfph1
- rndHjKBSwrST/ktWtgBdKnHn+n3cZz32MggrTmE=
-X-Google-Smtp-Source: APXvYqy0L8YDrUI3cx2Me2xhWJEO37dxRTurQ9NL3wSGosH7KAhP4STUJz9wkIrJhgv9KLEOew/Zat5UDrKSI3y3LaI=
-X-Received: by 2002:aca:b254:: with SMTP id b81mr3643344oif.53.1561888359320; 
- Sun, 30 Jun 2019 02:52:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP; Sun, 30 Jun 2019 02:52:39
- -0700 (PDT)
-In-Reply-To: <20190629130017.2973-10-richard.henderson@linaro.org>
-References: <20190629130017.2973-1-richard.henderson@linaro.org>
- <20190629130017.2973-10-richard.henderson@linaro.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sun, 30 Jun 2019 11:52:39 +0200
-Message-ID: <CAL1e-=hwJmYvYbbdWoQjEcFqNginiTY8xDsgDwDY5t8GF6qBWg@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=2UYQ3yYYDlDIP0MsyiA7Zdsuo4ukrQD2ytHAxPp6tug=;
+ b=Ba9Q6zlROgRzP0GlN9amsxkI/SO/ueuU1HJkqJ6hT2hlwLNGJVTgnzHSqe/UMdJg4m
+ DlOan/W/iHJeCmCjdYEcriqCyssc+rt1XQ0Nb2ruynQN3fdQud9EYHGe+bD/XBFSWz9p
+ DogBpy02+Dx4LURwdbdye1Ya5AcK5z0NgyF8Cy9nvGaQfD8eMIG6O+5Usa6nczePiAdm
+ KwlutPO/uDQSx2Qo1TRjG8qFvbEytO2iA8GW8DSfszyg3xE79epfmZ1tbfrLB0mHNQ6o
+ IPfn+30XyMqQocYf9ik2M8oU2G7LYZzx6VKC45GkUUYz8a/X8nLlBaWm2glaf8O74iHz
+ Mi9Q==
+X-Gm-Message-State: APjAAAUU8t8fFSn6eR0+PHOMsD+XLZKhsiswpQaJ5myn/sBmyyGTY1PK
+ t0uEb8RistS3TH+6cS4a70mt+A==
+X-Google-Smtp-Source: APXvYqzOpKDzkqgVa7clFEvEXlJvmJPI+lCcaTJurPsgmXwIvKqNf4MgJg6gL41Tz3Yh9ypt0zov/w==
+X-Received: by 2002:a65:5a44:: with SMTP id z4mr5183482pgs.41.1561890068923;
+ Sun, 30 Jun 2019 03:21:08 -0700 (PDT)
+Received: from localhost.localdomain ([114.246.94.159])
+ by smtp.gmail.com with ESMTPSA id m100sm8714549pje.12.2019.06.30.03.21.06
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+ Sun, 30 Jun 2019 03:21:08 -0700 (PDT)
+From: Hongbo Zhang <hongbo.zhang@linaro.org>
+To: peter.maydell@linaro.org,
+	qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org
+Date: Sun, 30 Jun 2019 18:20:32 +0800
+Message-Id: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
+X-Mailer: git-send-email 2.7.4
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v6 09/16] tcg/ppc: Prepare case for vector
- multiply
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH v9 0/2] Add Arm SBSA Reference Machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,45 +73,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mark.cave-ayland@ilande.co.uk" <mark.cave-ayland@ilande.co.uk>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "amarkovic@wavecomp.com" <amarkovic@wavecomp.com>,
- "hsp.cat7@gmail.com" <hsp.cat7@gmail.com>
+Cc: Hongbo Zhang <hongbo.zhang@linaro.org>, radoslaw.biernacki@linaro.org,
+ leif.lindholm@linaro.org, ard.biesheuvel@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Saturday, June 29, 2019, Richard Henderson <richard.henderson@linaro.org>
-wrote:
+For the Aarch64, there is one machine 'virt', it is primarily meant to
+run on KVM and execute virtualization workloads, but we need an
+environment as faithful as possible to physical hardware,  to support
+firmware and OS development for pysical Aarch64 machines.
 
-> This line is just preparation for full vector multiply support
-> in some of subsequent patches.
->
->
-This patch should be aquashed into the patch on implementing multiply.
+This machine comes with:
+ - Re-designed memory map.
+ - CPU cortex-a57.
+ - EL2 and EL3 enabled.
+ - GIC version 3.
+ - System bus AHCI controller.
+ - System bus XHCI controller.
+ - CDROM and hard disc on AHCI bus.
+ - E1000E ethernet card on PCIE bus.
+ - VGA display adaptor on PCIE bus.
+ - Only minimal device tree nodes.
+And without:
+ - virtio deivces.
+ - fw_cfg device.
+ - ACPI tables.
+
+Arm Trusted Firmware and UEFI porting to this are done accordingly, and
+it should supply ACPI tables to load OS, the minimal device tree nodes
+supplied from this platform are only to pass the dynamic info reflecting
+command line input to firmware, not for loading OS.
+
+v9 changes:
+ - only a few lines update to refine the patch format, while the final
+   sbsa-ref.c is kept same with v8
+
+v8 changes:
+ - rebase to latest QEMU tree
+ - use new way of creating flash as in 'virt' machine
+ - other minor typos and comments update
+
+v7 changes:
+ - edit memory map for PCIE slightly
+ - add another secure UART which can be used for RAS and MM from EL0.
+
+v6 changes:
+ - rebased to the latest QEMU tree
+ - rechecked all the header files included
+ - added the newly introduced system bus EHCI controller
+ - removed the machine_done callback due to commit 5614ca80
+ - updated block comments styles according to checkpatch.pl
+ - use Kconfig to add new file
+ - use private SBSA* types defination instead of VIRT* in virt.h
+   since nobody else using them so they are in the .c file instead
+   of a new .h file
+
+v5 changes:
+ - removed more lines derived from virt.c
+ - designed a new memory map
+ - splitted former one patch into two for easier review
+ - cancled previous EHCI and new HXCI coming later separately
+
+V4 changes:
+ - rebased to v3.0.0
+ - removed timer, uart, rtc, *hci device tree nodes
+   (others were removerd in v3)
+ - other minore codes clean up, mainly unsed header files, comments etc.
+
+V3 changes:
+ - rename the platform 'sbsa-ref'
+ - move all the codes to a separate file sbsa-ref.c
+ - remove paravirtualized fw_cfg device
+ - do not supply ACPI tables, since firmware will do it
+ - supply only necessary DT nodes
+ - and other minor code clean up
+
+Hongbo Zhang (2):
+  hw/arm: Add arm SBSA reference machine, skeleton part
+  hw/arm: Add arm SBSA reference machine, devices part
+
+ default-configs/arm-softmmu.mak |   1 +
+ hw/arm/Kconfig                  |  16 +
+ hw/arm/Makefile.objs            |   1 +
+ hw/arm/sbsa-ref.c               | 806 ++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 824 insertions(+)
+ create mode 100644 hw/arm/sbsa-ref.c
+
+-- 
+2.7.4
 
 
-
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->  tcg/ppc/tcg-target.inc.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
-> index 307e809fad..e19400609c 100644
-> --- a/tcg/ppc/tcg-target.inc.c
-> +++ b/tcg/ppc/tcg-target.inc.c
-> @@ -3306,6 +3306,7 @@ static const TCGTargetOpDef
-> *tcg_target_op_def(TCGOpcode op)
->
->      case INDEX_op_add_vec:
->      case INDEX_op_sub_vec:
-> +    case INDEX_op_mul_vec:
->      case INDEX_op_and_vec:
->      case INDEX_op_or_vec:
->      case INDEX_op_xor_vec:
-> --
-> 2.17.1
->
->
->
