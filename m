@@ -2,47 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C754A5B102
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jun 2019 19:39:41 +0200 (CEST)
-Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727C25B105
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jun 2019 19:42:05 +0200 (CEST)
+Received: from localhost ([::1]:45840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhdng-0004PX-Fp
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jun 2019 13:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58363)
+	id 1hhdq0-0006aJ-Ls
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jun 2019 13:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59072)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hhdjZ-0000Sg-Ht
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 13:35:28 -0400
+ (envelope-from <crosa@redhat.com>) id 1hhdny-0005QN-6X
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 13:40:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hhdjY-0000ZV-CS
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 13:35:25 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:40196
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hhdjY-00080J-2g
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 13:35:24 -0400
-Received: from host109-146-132-17.range109-146.btcentralplus.com
- ([109.146.132.17] helo=kentang.home)
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hhdfs-0001xd-D0
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 18:31:36 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org
-Date: Sun, 30 Jun 2019 18:32:03 +0100
-Message-Id: <20190630173203.9620-6-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190630173203.9620-1-mark.cave-ayland@ilande.co.uk>
-References: <20190630173203.9620-1-mark.cave-ayland@ilande.co.uk>
-X-SA-Exim-Connect-IP: 109.146.132.17
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+ (envelope-from <crosa@redhat.com>) id 1hhdnv-0004su-MJ
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 13:39:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57350)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hhdnv-0004es-61
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 13:39:55 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id AB2744E92A
+ for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 17:39:41 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-120-238.rdu2.redhat.com
+ [10.10.120.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A79181001B14;
+ Sun, 30 Jun 2019 17:39:34 +0000 (UTC)
+Date: Sun, 30 Jun 2019 13:39:33 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190630173933.GB2820@localhost.localdomain>
+References: <20190628150217.32659-1-wainersm@redhat.com>
+ <20190628150217.32659-4-wainersm@redhat.com>
+ <20190628201846.GK1862@habkost.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190628201846.GK1862@habkost.net>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.38]); Sun, 30 Jun 2019 17:39:41 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
-Subject: [Qemu-devel] [PATCH 5/5] sunhme: ensure that RX descriptor ring
- overflow is indicated to client driver
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/3] tests/acceptance: Add boot linux with
+ kvm test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,63 +60,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: philmd@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On very busy networks connected via a tap interface, it is possible to overflow
-the RX descriptor ring in the time between the client driver enabling the RX
-MAC and finishing writing the final configuration to the NIC registers.
+On Fri, Jun 28, 2019 at 05:18:46PM -0300, Eduardo Habkost wrote:
+> On Fri, Jun 28, 2019 at 11:02:17AM -0400, Wainer dos Santos Moschetta wrote:
+> > Until now the suite of acceptance tests doesn't exercise
+> > QEMU with kvm enabled. So this introduces a simple test
+> > that boots the Linux kernel and checks it boots on the
+> > accelerator correctly.
+> > 
+> > Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> 
+> Why not just change the existing test_x86_64_pc() test case to
+> use KVM by default?  We can use "accel=kvm:tcg" to allow it to
+> fall back to TCG if KVM is not available.
+> 
+> -- 
+> Eduardo
 
-Ensure that we detect this condition and update the status register accordingly
-to indicate an overflow has occurred (and the incoming packet dropped) in order
-to prevent the client driver becoming confused.
+I though of something similar, but not exactly the same.  An example
+can be seen here:
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/net/sunhme.c     | 9 +++++++++
- hw/net/trace-events | 1 +
- 2 files changed, 10 insertions(+)
+  https://travis-ci.org/clebergnu/qemu/jobs/551437429#L3350
 
-diff --git a/hw/net/sunhme.c b/hw/net/sunhme.c
-index cd076d642b..8b8603e696 100644
---- a/hw/net/sunhme.c
-+++ b/hw/net/sunhme.c
-@@ -44,6 +44,7 @@
- #define HME_SEBI_STAT                  0x100
- #define HME_SEBI_STAT_LINUXBUG         0x108
- #define HME_SEB_STAT_RXTOHOST          0x10000
-+#define HME_SEB_STAT_NORXD             0x20000
- #define HME_SEB_STAT_MIFIRQ            0x800000
- #define HME_SEB_STAT_HOSTTOTX          0x1000000
- #define HME_SEB_STAT_TXALL             0x2000000
-@@ -787,6 +788,14 @@ static ssize_t sunhme_receive(NetClientState *nc, const uint8_t *buf,
-     pci_dma_read(d, rb + cr * HME_DESC_SIZE, &status, 4);
-     pci_dma_read(d, rb + cr * HME_DESC_SIZE + 4, &buffer, 4);
- 
-+    /* If we don't own the current descriptor then indicate overflow error */
-+    if (!(status & HME_XD_OWN)) {
-+        s->sebregs[HME_SEBI_STAT >> 2] |= HME_SEB_STAT_NORXD;
-+        sunhme_update_irq(s);
-+        trace_sunhme_rx_norxd();
-+        return -1;
-+    }
-+
-     rxoffset = (s->erxregs[HME_ERXI_CFG >> 2] & HME_ERX_CFG_BYTEOFFSET) >>
-                 HME_ERX_CFG_BYTEOFFSET_SHIFT;
- 
-diff --git a/hw/net/trace-events b/hw/net/trace-events
-index d16273c579..58665655cc 100644
---- a/hw/net/trace-events
-+++ b/hw/net/trace-events
-@@ -359,6 +359,7 @@ sunhme_rx_filter_reject(void) "rejecting incoming frame"
- sunhme_rx_filter_accept(void) "accepting incoming frame"
- sunhme_rx_desc(uint32_t addr, int offset, uint32_t status, int len, int cr, int nr) "addr 0x%"PRIx32"(+0x%x) status 0x%"PRIx32 " len %d (ring %d/%d)"
- sunhme_rx_xsum_calc(uint16_t xsum) "calculated incoming xsum as 0x%x"
-+sunhme_rx_norxd(void) "no free rx descriptors available"
- sunhme_update_irq(uint32_t mifmask, uint32_t mif, uint32_t sebmask, uint32_t seb, int level) "mifmask: 0x%x  mif: 0x%x  sebmask: 0x%x  seb: 0x%x  level: %d"
- 
- # virtio-net.c
--- 
-2.11.0
+IMO, it's a good practice to be able to briefly describe what a test
+does, given its name.  It's also very important for the test to
+attempt to exercise the same behavior across executions.
 
+I'm saying that because I don't think we should fallback to TCG if KVM
+is not available, but instead, have two different tests that do each a
+simpler and more predictable set of checks.  This would make it
+simpler to find KVM issues when a given test fails but the TCG
+continues to pass.  The tags (and other mechanisms) can be used to
+select the tests that a given job should run though.
+
+Regards!
+- Cleber.
 
