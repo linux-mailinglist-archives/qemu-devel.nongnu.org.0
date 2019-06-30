@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAD05B1A9
-	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jun 2019 22:51:21 +0200 (CEST)
-Received: from localhost ([::1]:46478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE5D5B1AC
+	for <lists+qemu-devel@lfdr.de>; Sun, 30 Jun 2019 22:52:14 +0200 (CEST)
+Received: from localhost ([::1]:46484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhgnA-0004Ih-GZ
-	for lists+qemu-devel@lfdr.de; Sun, 30 Jun 2019 16:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36247)
+	id 1hhgo1-0005cF-AE
+	for lists+qemu-devel@lfdr.de; Sun, 30 Jun 2019 16:52:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hhgjV-0000H4-Dz
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 16:47:35 -0400
+ (envelope-from <clg@kaod.org>) id 1hhgjR-0000Fc-Js
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 16:47:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hhgjT-0002kj-GW
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 16:47:33 -0400
-Received: from 10.mo68.mail-out.ovh.net ([46.105.79.203]:56358)
+ (envelope-from <clg@kaod.org>) id 1hhgjO-0002eR-2h
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 16:47:29 -0400
+Received: from 8.mo179.mail-out.ovh.net ([46.105.75.26]:53705)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hhgjR-0002dZ-Is
- for qemu-devel@nongnu.org; Sun, 30 Jun 2019 16:47:30 -0400
-Received: from player157.ha.ovh.net (unknown [10.109.159.20])
- by mo68.mail-out.ovh.net (Postfix) with ESMTP id C004C13095F
- for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 22:47:14 +0200 (CEST)
+ (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hhgjM-0002Zx-00
+ for qemu-devel@nongnu.org; Sun, 30 Jun 2019 16:47:24 -0400
+Received: from player157.ha.ovh.net (unknown [10.109.160.143])
+ by mo179.mail-out.ovh.net (Postfix) with ESMTP id 222D2137712
+ for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 22:47:21 +0200 (CEST)
 Received: from kaod.org (lfbn-1-2240-157.w90-76.abo.wanadoo.fr [90.76.60.157])
  (Authenticated sender: clg@kaod.org)
- by player157.ha.ovh.net (Postfix) with ESMTPSA id 0E2BE7575B0C;
- Sun, 30 Jun 2019 20:47:08 +0000 (UTC)
+ by player157.ha.ovh.net (Postfix) with ESMTPSA id C245E7575B1C;
+ Sun, 30 Jun 2019 20:47:14 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Sun, 30 Jun 2019 22:46:00 +0200
-Message-Id: <20190630204601.30574-10-clg@kaod.org>
+Date: Sun, 30 Jun 2019 22:46:01 +0200
+Message-Id: <20190630204601.30574-11-clg@kaod.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190630204601.30574-1-clg@kaod.org>
 References: <20190630204601.30574-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 2292895164358233062
+X-Ovh-Tracer-Id: 2294865489247046630
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrvdeggdduheegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.79.203
-Subject: [Qemu-devel] [PATCH 09/10] ppc/xive: Synthesize interrupt from the
- saved IPB in the NVT
+X-Received-From: 46.105.75.26
+Subject: [Qemu-devel] [PATCH 10/10] ppc/pnv: Dump the XIVE NVT table
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,175 +61,138 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When an interrupt can not be presented to a vCPU, the XIVE presenter
-updates the Interrupt Pending Buffer of the XIVE NVT if backlog is
-activated in the END.
+This is to track the configuration of the base END index of the vCPU
+and the Interrupt Pending Buffer. The NVT IPB is updated when an
+interrupt can not be presented to a vCPU.
 
-Later, when the same vCPU is dispatched, its context is pushed in the
-thread context registers and the VO bit is set in the CAM line
-word. The HW grabs the associated NVT to pull the pending bits, and
-merge them with the IPB of the TIMA. If interrupts were missed while
-the vCPU was not dispatched, these are synthesized in this sequence.
+We try to loop on the full table skipping empty indirect pages which
+are not necessarily allocated.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/ppc/xive.h      | 14 ++++++++
- include/hw/ppc/xive_regs.h |  1 +
- hw/intc/xive.c             | 67 ++++++++++++++++++++++++++++++++++++--
- 3 files changed, 80 insertions(+), 2 deletions(-)
+ include/hw/ppc/xive_regs.h |  2 ++
+ hw/intc/pnv_xive.c         | 60 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
 
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index b764e1e4e6d4..e4dcaa7a10e9 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -420,11 +420,25 @@ uint64_t xive_tctx_tm_read(XiveTCTX *tctx, hwaddr o=
-ffset, unsigned size);
- void xive_tctx_pic_print_info(XiveTCTX *tctx, Monitor *mon);
- Object *xive_tctx_create(Object *cpu, Object *xrtr, Error **errp);
-=20
-+/*
-+ * The VP number space in a block is defined by the END_W6_NVT_INDEX
-+ * field of the XIVE END
-+ */
- static inline uint32_t xive_nvt_cam_line(uint8_t nvt_blk, uint32_t nvt_i=
-dx)
- {
-     return (nvt_blk << 19) | nvt_idx;
- }
-=20
-+static inline uint32_t xive_nvt_idx(uint32_t cam_line)
-+{
-+    return cam_line & 0x7ffff;
-+}
-+
-+static inline uint32_t xive_nvt_blk(uint32_t cam_line)
-+{
-+    return (cam_line >> 19) & 0xf;
-+}
-+
- /*
-  * KVM XIVE device helpers
-  */
 diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index 3fdf1a83b9b6..7ba0fb055174 100644
+index 7ba0fb055174..50802bbdaab0 100644
 --- a/include/hw/ppc/xive_regs.h
 +++ b/include/hw/ppc/xive_regs.h
-@@ -232,6 +232,7 @@ typedef struct XiveNVT {
+@@ -229,6 +229,8 @@ typedef struct XiveNVT {
+         uint32_t        w0;
+ #define NVT_W0_VALID             PPC_BIT32(0)
+         uint32_t        w1;
++#define NVT_W1_EQ_BLOCK          PPC_BITMASK32(0, 3)
++#define NVT_W1_EQ_INDEX          PPC_BITMASK32(4, 31)
          uint32_t        w2;
          uint32_t        w3;
          uint32_t        w4;
-+#define NVT_W4_IPB               PPC_BITMASK32(16, 23)
-         uint32_t        w5;
-         uint32_t        w6;
-         uint32_t        w7;
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 56700681884f..2225183e0e16 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -345,6 +345,62 @@ static uint64_t xive_tm_pull_os_ctx(XiveTCTX *tctx, =
-hwaddr offset,
-     return qw1w2;
+diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+index ff1226485983..8778c11623dc 100644
+--- a/hw/intc/pnv_xive.c
++++ b/hw/intc/pnv_xive.c
+@@ -121,6 +121,20 @@ static uint64_t pnv_xive_vst_page_size_allowed(uint3=
+2_t page_shift)
+          page_shift =3D=3D 21 || page_shift =3D=3D 24;
  }
 =20
-+static void xive_tctx_need_resend(XiveTCTX *tctx, uint8_t nvt_blk,
-+                                 uint32_t nvt_idx)
++static uint64_t pnv_xive_vst_indirect_page_shift(uint64_t vsd)
 +{
-+    XiveNVT nvt;
-+    uint8_t ipb;
-+    XiveRouter *xrtr =3D XIVE_ROUTER(tctx->xrtr);
++    uint32_t page_shift;
 +
-+    /*
-+     * Grab the associated NVT to pull the pending bits, and merge
-+     * them with the IPB of the thread interrupt context registers
-+     */
-+    if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "XIVE: invalid NVT %x/%x\n",
-+                          nvt_blk, nvt_idx);
-+        return;
++    vsd =3D ldq_be_dma(&address_space_memory, vsd & VSD_ADDRESS_MASK);
++    page_shift =3D GETFIELD(VSD_TSIZE, vsd) + 12;
++
++    if (!pnv_xive_vst_page_size_allowed(page_shift)) {
++        return 0;
 +    }
 +
-+    ipb =3D xive_get_field32(NVT_W4_IPB, nvt.w4);
-+
-+    if (ipb) {
-+        uint8_t *regs =3D &tctx->regs[TM_QW1_OS];
-+
-+        /* Reset the NVT value */
-+        nvt.w4 =3D xive_set_field32(NVT_W4_IPB, nvt.w4, 0);
-+        xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
-+
-+        /* Merge in current context */
-+        regs[TM_IPB] |=3D ipb;
-+        regs[TM_PIPR] =3D ipb_to_pipr(regs[TM_IPB]);
-+
-+        /* Possibly resend */
-+        xive_tctx_notify(tctx, TM_QW1_OS);
-+    }
++    return page_shift;
 +}
 +
-+/*
-+ * Updating the OS CAM line can trigger a resend of interrupt
-+ */
-+static void xive_tm_push_os_cam(XiveTCTX *tctx, hwaddr offset,
-+                               uint64_t value, unsigned size)
+ static uint64_t pnv_xive_vst_size(uint64_t vsd)
+ {
+     uint64_t vst_tsize =3D 1ull << (GETFIELD(VSD_TSIZE, vsd) + 12);
+@@ -466,6 +480,24 @@ static uint32_t pnv_xive_nr_ends(PnvXive *xive)
+         / vst_infos[VST_TSEL_EQDT].size;
+ }
+=20
++static uint32_t pnv_xive_nr_indirect(PnvXive *xive, uint32_t type)
 +{
-+    uint32_t qw1w2 =3D value;
-+    uint8_t nvt_blk =3D xive_nvt_blk(qw1w2);
-+    uint32_t nvt_idx =3D xive_nvt_idx(qw1w2);
-+    bool vo =3D !!(qw1w2 & TM_QW1W2_VO);
++    const XiveVstInfo *info =3D &vst_infos[type];
++    uint8_t blk =3D xive->chip->chip_id;
++    uint32_t page_shift =3D
++        pnv_xive_vst_indirect_page_shift(xive->vsds[type][blk]);
 +
-+    /* First update the registers */
-+    qw1w2 =3D cpu_to_be32(qw1w2);
-+    memcpy(&tctx->regs[TM_QW1_OS + TM_WORD2], &qw1w2, 4);
++    return (1ull << page_shift) / info->size;
++}
 +
-+    /* Check the interrupt pending bits */
-+    if (vo) {
-+        xive_tctx_need_resend(tctx, nvt_blk, nvt_idx);
-+    }
++static uint32_t pnv_xive_nr_nvts(PnvXive *xive)
++{
++    uint8_t blk =3D xive->chip->chip_id;
++
++    return pnv_xive_vst_size(xive->vsds[VST_TSEL_VPDT][blk])
++        / vst_infos[VST_TSEL_VPDT].size;
 +}
 +
  /*
-  * Define a mapping of "special" operations depending on the TIMA page
-  * offset and the size of the operation.
-@@ -364,6 +420,7 @@ static const XiveTmOp xive_tm_operations[] =3D {
-      * effects
-      */
-     { XIVE_TM_OS_PAGE, TM_QW1_OS + TM_CPPR,   1, xive_tm_set_os_cppr, NU=
-LL },
-+    { XIVE_TM_HV_PAGE, TM_QW1_OS + TM_WORD2,     4, xive_tm_push_os_cam,=
- NULL },
-     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_CPPR, 1, xive_tm_set_hv_cppr,=
- NULL },
-     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_WORD2, 1, xive_tm_vt_push, NU=
-LL },
-     { XIVE_TM_HV_PAGE, TM_QW3_HV_PHYS + TM_WORD2, 1, NULL, xive_tm_vt_po=
-ll },
-@@ -1471,6 +1528,7 @@ static void xive_router_end_backlog(XiveRouter *xrt=
-r,
-                                     uint8_t priority)
+  * EDT Table
+  *
+@@ -1560,6 +1592,21 @@ static const MemoryRegionOps pnv_xive_pc_ops =3D {
+     },
+ };
+=20
++static void xive_nvt_pic_print_info(XiveNVT *nvt, uint32_t nvt_idx,
++                                    Monitor *mon)
++{
++    uint8_t  eq_blk =3D xive_get_field32(NVT_W1_EQ_BLOCK, nvt->w1);
++    uint32_t eq_idx =3D xive_get_field32(NVT_W1_EQ_INDEX, nvt->w1);
++
++    if (!xive_nvt_is_valid(nvt)) {
++        return;
++    }
++
++    monitor_printf(mon, "  %08x end:%02x/%04x ipb:%02x\n", nvt_idx,
++                   eq_blk, eq_idx,
++                   xive_get_field32(NVT_W4_IPB, nvt->w4));
++}
++
+ void pnv_xive_pic_print_info(PnvXive *xive, Monitor *mon)
  {
-     XiveNVT nvt;
-+    uint8_t ipb;
+     XiveRouter *xrtr =3D XIVE_ROUTER(xive);
+@@ -1567,8 +1614,11 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monito=
+r *mon)
+     uint32_t srcno0 =3D XIVE_SRCNO(blk, 0);
+     uint32_t nr_ipis =3D pnv_xive_nr_ipis(xive);
+     uint32_t nr_ends =3D pnv_xive_nr_ends(xive);
++    uint32_t nr_nvts =3D pnv_xive_nr_nvts(xive);
++    uint32_t nr_indirect_nvts =3D pnv_xive_nr_indirect(xive, VST_TSEL_VP=
+DT);
+     XiveEAS eas;
+     XiveEND end;
++    XiveNVT nvt;
+     int i;
 =20
-     /* NVT cache lookup */
-     if (xive_router_get_nvt(xrtr, nvt_blk, nvt_idx, &nvt)) {
-@@ -1485,8 +1543,13 @@ static void xive_router_end_backlog(XiveRouter *xr=
-tr,
-         return;
+     monitor_printf(mon, "XIVE[%x] Source %08x .. %08x\n", blk, srcno0,
+@@ -1602,6 +1652,16 @@ void pnv_xive_pic_print_info(PnvXive *xive, Monito=
+r *mon)
+         }
+         xive_end_eas_pic_print_info(&end, i, mon);
      }
-=20
--    /* Record the IPB in the associated NVT structure */
--    ipb_update((uint8_t *) &nvt.w4, priority);
-+    /*
-+     * Record the IPB in the associated NVT structure for later
-+     * use. The presenter will resend the interrupt when the vCPU is
-+     * dispatched again on a HW thread.
-+     */
-+    ipb =3D xive_get_field32(NVT_W4_IPB, nvt.w4) | priority_to_ipb(prior=
-ity);
-+    nvt.w4 =3D xive_set_field32(NVT_W4_IPB, nvt.w4, ipb);
-     xive_router_write_nvt(xrtr, nvt_blk, nvt_idx, &nvt, 4);
++
++    monitor_printf(mon, "XIVE[%x] NVTT %08x .. %08x\n", blk, 0, nr_nvts =
+- 1);
++    for (i =3D 0; i < nr_nvts; i++) {
++        if (xive_router_get_nvt(xrtr, blk, i, &nvt)) {
++            /* skip an indirect page */
++            i +=3D nr_indirect_nvts - 1;
++            continue;
++        }
++        xive_nvt_pic_print_info(&nvt, i, mon);
++    }
  }
 =20
+ static void pnv_xive_reset(void *dev)
 --=20
 2.21.0
 
