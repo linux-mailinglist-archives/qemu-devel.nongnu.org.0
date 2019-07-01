@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704615BB34
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:05:39 +0200 (CEST)
-Received: from localhost ([::1]:58016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A1C45BB3C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:08:54 +0200 (CEST)
+Received: from localhost ([::1]:58028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhv3y-0001tV-LZ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:05:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52079)
+	id 1hhv77-0003xI-Ry
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52306)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhv2F-0000qo-Q0
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:03:56 -0400
+ (envelope-from <lucienmp_antispam@yahoo.com>) id 1hhv2q-0001PU-UH
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:04:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhv2E-0000x5-Kt
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:03:51 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:40920)
+ (envelope-from <lucienmp_antispam@yahoo.com>) id 1hhv2a-0001Hd-NH
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:04:20 -0400
+Received: from sonic313-56.consmr.mail.ne1.yahoo.com ([66.163.185.31]:45331)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhv2C-0000t2-Jr
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:03:50 -0400
-Received: by mail-oi1-x241.google.com with SMTP id w196so9719050oie.7
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 05:03:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2AAfKKzmLdAIFaTaBf7HuSbxroPMPlPB7lCbk6zDrPg=;
- b=nNQI/GjcjI+U6Vg1U/THZ5l5OVd460GzMwahYvitk0ZFCi6RTGPFAZf5FsX8OciEfr
- U287GHhKd4h+xkJ8Y1DXQzCGmxbvjmCLInUxN/IucB3z4bX54eWphFUn1TQ9W7povplY
- Gk+RimbVFtgrGMKU9C8sWaOYTh/5fOxHD+A70hIkYl755Cybyrv5Rg222RLVYP6FeqAi
- itpzlkzXFys66U4k+EZdfglgAZQB4VBB16WCllHdGr0CaAQG1ccpxEawPQ+Epc2ZDo+h
- 6E/AiH/9anur/bpIU6H8oyxMGjUO4HqBybEMZvJJRN4qLGwC9/ClfeRpCnKB+Q1UXBed
- 25aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2AAfKKzmLdAIFaTaBf7HuSbxroPMPlPB7lCbk6zDrPg=;
- b=EGz52qvbOOYD0Y5Uba9ReW/1ufM1ux60Cr25kR1EykCTdoIU0X82lp6ikN+HqNq82v
- 9p+3SUTl6N0XM1wGW9WEECUBJ4y1RcNC7NjB3n7/68tqG2eDq+KNi5JA6CW30MwgnnyN
- SpOfeUtCTZVTyiEavBpCaWySxfolEpbOrcwrlTOK8iMpmjO6WTOC5ISKgJff4svifwt8
- zqchZ47GlqpwgHg39kPEY7AKYwrAX3VIuF8USbnlD4nQpPaXnKndP6K1xSki/c6aVQMi
- g4aT03LKdbBnuIudnDJzaVGYHY7y87ndN/iphR+oof0gkwtNllXYBST0pnGR4rhVFAzs
- Lv9w==
-X-Gm-Message-State: APjAAAXSjStPL0muRZ/x6bm1ydJF+SBaRj4RLa0pQYEP3zViu4QKJMLY
- jm+6lrKPJUHFy6VTmA1YW0yNHTRyH8x7bbcZVXjylQ==
-X-Google-Smtp-Source: APXvYqw2wIXEpMxE0mIOoQ1msiyxXHhiw3j2/8D9VI6VkomGgjZsDHqQReqknT0IHIipDZgkuytwycbPTCQZV3z1KJA=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr6744757oib.163.1561982626028; 
- Mon, 01 Jul 2019 05:03:46 -0700 (PDT)
+ (Exim 4.71) (envelope-from <lucienmp_antispam@yahoo.com>)
+ id 1hhv2Y-0001D9-Mv
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:04:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1561982645; bh=EfK93Uvdwyd+7w4cUb8BfTEhJoi/ktaSkjkIJV4LdFA=;
+ h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject;
+ b=TpoyuzKwRfYQ2htIpnffJTv20aqAn1p3RHm0+hMwmGMr+F+mRJLvQb8EEH8yL8Y/5xHVbPAHAeib08DIgAuthHVWQC/gVJCTksat24UYXUSfp1UnWJBdfq6C4e5veDKYzAhmTvRUIHiuE/PQp/KnkCA304h+eDyE40u4KG/4y2WqUoif/yX1k/eVltLYU450JbgO+LUr49f6QervL019+Zlemmk1lb3EfRi1QulQwV+m11Wqv4+pSargoDfeJlGTYSIc7xDYXt9Ggf0D1y3uj3VbDsbUSGWh9y8LCjGntDrgc2PYwNMtMPJgNwwW6MHyH39wSdOj72YduH5gOFqpjw==
+X-YMail-OSG: GGARXrQVM1mvIv4v3zT8GSfvi5DgF9CdiFPV5WgLDUS2ARYarBZg42QmL.5ouiG
+ VsKeMug0L9JnOPxlNSXJD8xcTrnB6BBSeFkAfeYM4Ng8ng1_P9ioBdx0Hi5dYh3kp4FpgiuBB2cs
+ o_yiKi4Y5GQVN04tcD2ys6zhqUFMjTbnuHieUblWu29ZgY0GvGo.CEGVBIx9mmMz2k1SxhMOY6PD
+ qcMju9XBsOMG2XDvVdvtAjMz6GyWJaUOXtwFP1pS1it2bRhx5u2O4ZJAQHXK6U4X20XiuXpP7TED
+ Nj3DmwOAdz2REy08k3_R9cgsGo0REyTh6RSLgqoLN6nrS6A700UgUvtqfdSpS51MuIEr85yGTufm
+ vpZ_mP1q.kuIqxLmVpxLaDLLvDuv3O6mijIXsxRkCFHcQsWwedyCAJBr1XYw4Ph3BDvyMqfecymc
+ g4OwsxTUJJZUyaqbKJI79oFZhSicuJ_cy814qBgZWX7aG2sZhfhWZL_1wdtamurMofYdHBL5oj3O
+ X4fffCKRGObpCqHYn8zz3ADtwCSFFxw_LC6kb4GE.YOoU6.lzo93HvJ3AOA.yO31KkLYn2myCW35
+ nZ_UvGOFZxe05n6NnoZ1yJmYMxGLwdp7a1Y46p4ftMGpUFTl32NEJHw4KkOaOi1HmblYdEmMoxOw
+ CdIc9DePuMX9ZuVEoFvGh7OG.eEerjS3NHZENeoqb1nbTay5IAUSgNsGRPgk1qMWyaiDd8bad.mK
+ gYge.RlQ6YXLC0jy96pNdbD_yybWlTYNLLOjFogCZ70FpDlw.NrNk7FgwivGQHyr8s6q7WwpVRwl
+ KbHdxgN8Ls8Fpr0Y2tNhkvKur94TbAZIsExx_PsADS.KjxsFcf6PGsV0ZXEDxFDns3MeL1UqY6yE
+ 4.7JnnGnu9w0xMhhehcj9loVIAmqqK_yLrUvotlHptknbjzHz5ehEqP_tyy6QJSMuQghofbP9EEY
+ Vhlj5zjhloftyPigNwP6nPsCHVseW034zd4vLFtIhcKhgdSceCC08YW29XvOUuxEyN7_c_hGzIPS
+ ZrAvy78yUMnxbruAOC2jxwtuo4YVgkSAeqXZPpy2yP3bdLq_5o5ymx9AQ.ZU8mpi8D1ZQ7Wkl4Ge
+ zoFy4mRsuVGfrkxkoEqcJ5czo.IDl8aNmaBQOwz3Nni_1Haq0TpDE5CalDYIo9rgxcWyvdbZ0zuk
+ EqZnIcl8yHmwAUV7nDX7hxyEjm_JoPKI97k3qKouI5f7Oi4dzhLzpnZqeDshAckWqn0HxCIzyRek
+ g._IxNQX3JoBfINQ-
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic313.consmr.mail.ne1.yahoo.com with HTTP; Mon, 1 Jul 2019 12:04:05 +0000
+Date: Mon, 1 Jul 2019 12:04:00 +0000 (UTC)
+To: Lucien Murray-Pitts <lucienmp.qemu@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <1399218244.1210557.1561982640362@mail.yahoo.com>
+In-Reply-To: <CAFEAcA9sfNisAz-zAZAx=ZNFmsEpP0Ec2DeRedtZSd9KQ4fvNA@mail.gmail.com>
+References: <2136180936.260219.1561641583358.ref@mail.yahoo.com>
+ <2136180936.260219.1561641583358@mail.yahoo.com>
+ <1079763171.281101.1561641752988@mail.yahoo.com>
+ <e4c1fbc4-3e43-5df4-a17c-527d98d9763c@linaro.org>
+ <20190628002713.GA19257@localhost.localdomain>
+ <eadb57ae-256d-0bb7-5988-f493662a5caf@linaro.org>
+ <20190628155030.GA34320@localhost.localdomain>
+ <ea16a81c-5b94-8dd0-8339-2bd82733aed2@linaro.org>
+ <20190629163621.GA111724@localhost.localdomain>
+ <CAFEAcA9sfNisAz-zAZAx=ZNFmsEpP0Ec2DeRedtZSd9KQ4fvNA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190624144740.5338-1-mreitz@redhat.com>
-In-Reply-To: <20190624144740.5338-1-mreitz@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 13:03:35 +0100
-Message-ID: <CAFEAcA9suWjDxBuB1OeJd97=Fx6YvhD0omJ3z69uOK_X9Ywd1Q@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PULL v2 0/8] Block patches
+X-Mailer: WebService/1.1.13913 YMailNorrin Mozilla/5.0 (Windows NT 10.0; Win64;
+ x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100
+ Safari/537.36
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 66.163.185.31
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] RFC: Why does target/m68k RTE insn. use
+ gen_exception
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,43 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+From: Lucien Anti-Spam via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Lucien Anti-Spam <lucienmp_antispam@yahoo.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 24 Jun 2019 at 15:47, Max Reitz <mreitz@redhat.com> wrote:
->
-> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
->
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/XanClic/qemu.git tags/pull-block-2019-06-24
->
-> for you to fetch changes up to ab5d4a30f7f3803ca5106b370969c1b7b54136f8:
->
->   iotests: Fix 205 for concurrent runs (2019-06-24 16:01:40 +0200)
->
-> ----------------------------------------------------------------
-> Block patches:
-> - The SSH block driver now uses libssh instead of libssh2
-> - The VMDK block driver gets read-only support for the seSparse
->   subformat
-> - Various fixes
->
-> ---
->
-> v2:
-> - Squashed Pino's fix for pre-0.8 libssh into the libssh patch
->
+=20
 
+   >On Monday, July 1, 2019, 06:10:55 PM GMT+9, Peter Maydell <peter.maydel=
+l@linaro.org> wrote: > > On Sat, 29 Jun 2019 at 17:37, Lucien Murray-Pitts>=
+ > <lucienmp.qemu@gmail.com> wrote:
+> > However for the m68k the do_transaction_failed function pointer field
+> > has not been implemented.>Er, I implemented that in commit e1aaf3a88e95=
+ab007. Are
+>you working with an out-of-date version of QEMU ?
 
-Applied, thanks.
+Sorry not pulled in a long time, you are right that is there now - I dont g=
+enerally check the development list outside of replies, and was focused on =
+the stepping issue - I will be more careful of that in future.=C2=A0 Thanks=
+ for the heads up.
+Further to my initial problem I noticed that TRAP #0 also jumps to the hand=
+lers +1 instruction.=C2=A0=C2=A0Same behavior can also be seen with ARM "SW=
+I #0".=C2=A0 =C2=A0 (PC shows 0x0C vs the expected 0x08)
+Putting a "BRA $" / "B $" so that it loops on the first address of the hand=
+ler results in the step stopping, of course, at the expected "first instruc=
+tion" of the vector handler.
+So it would seem this maybe a wider problem than just the m68K.Since I dont=
+ really understand the TCG complete execution method,=C2=A0and how it fits =
+in with the GNU RSP "s" step command I am going to take some time to work t=
+his out.
+I appreciate any hints people can provide, but I dont mind plugging away - =
+I am learning and surprising myself how much there is to this.
+Cheers,Luc
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
-
+ =20
