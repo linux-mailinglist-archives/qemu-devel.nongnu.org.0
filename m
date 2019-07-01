@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0B85B463
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 07:53:07 +0200 (CEST)
-Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2F55B468
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 07:54:55 +0200 (CEST)
+Received: from localhost ([::1]:47970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhpFR-0005k6-F5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 01:53:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37327)
+	id 1hhpHD-0008Au-0W
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 01:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37425)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hhpAf-0000dq-39
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:10 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hhpAi-0000eQ-KA
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hhpAd-0005oY-K3
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:09 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54215 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hhpAg-0005rR-GJ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:12 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59343 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hhpAc-0005mQ-VY; Mon, 01 Jul 2019 01:48:07 -0400
+ id 1hhpAf-0005p6-P9; Mon, 01 Jul 2019 01:48:10 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45cbxs60wgz9sPF; Mon,  1 Jul 2019 15:48:01 +1000 (AEST)
+ id 45cbxs6Xh4z9sPM; Mon,  1 Jul 2019 15:48:01 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1561960081;
- bh=+D3DQbY9JdLaTwovq3kHy1Bw+Ug4vw9WR1eucUafKKM=;
+ bh=La5wpYeVWWyWA1k4a/X+TG3/LKFrYVWAJfzBvUudCpI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=k9ID7lLgWdTL/Povr/s9O53HzQynAAmH/aAS0YnEAbNHBbiwAD89KW5Q9VrteCTk8
- j7fw/eZGlEGQSxN3UnIqeMeOEDy8aSbJZG3u1oHLXh5YfLfGF/kxmOrcPVxFNLbPtn
- S2NMpYGu38di03M/ZNrlSJGZ6f4Qj0ChWQu02WFo=
-Date: Mon, 1 Jul 2019 15:27:25 +1000
+ b=Qm3d7aSe69fg8gPDzySRNMPla341qMaeVrbkEuU3Kb8zknWa07ytEA/41G/c18rpv
+ mWoOo73Y1lKwoHYEywcz1k/XiONJvD5L5tMv2C7ejN/HQ4xG7g+vIpcuUnhU0/bTTZ
+ cC9kbxdSePQCtL9sxsR1rM/p/mu0Z85/kAcJER9s=
+Date: Mon, 1 Jul 2019 15:32:04 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190701052725.GN2138@umbus.fritz.box>
+Message-ID: <20190701053204.GO2138@umbus.fritz.box>
 References: <20190630204601.30574-1-clg@kaod.org>
- <20190630204601.30574-3-clg@kaod.org>
+ <20190630204601.30574-4-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="K4LMwn8CgX2KMboP"
+ protocol="application/pgp-signature"; boundary="Sr6hGnsCY8KeifOY"
 Content-Disposition: inline
-In-Reply-To: <20190630204601.30574-3-clg@kaod.org>
+In-Reply-To: <20190630204601.30574-4-clg@kaod.org>
 User-Agent: Mutt/1.12.0 (2019-05-25)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 02/10] ppc/xive: Make the PIPR register
- readonly
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH 03/10] ppc/pnv: Rework cache watch model of
+ PnvXIVE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,96 +62,296 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---K4LMwn8CgX2KMboP
+--Sr6hGnsCY8KeifOY
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 30, 2019 at 10:45:53PM +0200, C=E9dric Le Goater wrote:
-> When the hypervisor (KVM) dispatches a vCPU on a HW thread, it restores
-> its thread interrupt context. The Pending Interrupt Priority Register
-> (PIPR) is computed from the Interrupt Pending Buffer (IPB) and stores
-> should not be allowed to change its value.
+On Sun, Jun 30, 2019 at 10:45:54PM +0200, C=E9dric Le Goater wrote:
+> When the software modifies the XIVE internal structures, ESB, EAS,
+> END, NVT, it also must update the caches of the different XIVE
+> sub-engines. HW offers a set of common interface for such purpose.
 >=20
-> Fixes: 207d9fe98510 ("ppc/xive: introduce the XIVE interrupt thread conte=
-xt")
+> The CWATCH_SPEC register defines the block/index of the target and a
+> set of flags to perform a full update and to watch for update
+> conflicts.
+>=20
+> The cache watch CWATCH_DATAX registers are then loaded with the target
+> data with a first read on CWATCH_DATA0. Writing back is done in the
+> opposit order, CWATCH_DATA0 triggering the update.
+>=20
+> The SCRUB_TRIG registers are used to flush the cache in RAM, and to
+> possibly invalidate it. Cache disablement is also an option but as we
+> do not model the cache, these registers are no-ops
+>=20
+> Today, the modeling of these registers is incorrect but it did not
+> impact the set up of a baremetal system. However, running KVM requires
+> a rework.
+>=20
+> Fixes: 2dfa91a2aa5a ("ppc/pnv: add a XIVE interrupt controller model for =
+POWER9")
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Applied to ppc-for-4.1.
+Pushing it for what counts as a bugfix this close to freeze, but I'll
+take it.  Applied to ppc-for-4.1.
 
 > ---
->  hw/intc/xive.c | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
+>  hw/intc/pnv_xive.c | 142 +++++++++++++++++++++++++++++++++------------
+>  1 file changed, 106 insertions(+), 36 deletions(-)
 >=20
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index 3b1f9520ae9f..534f56f86bd5 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -182,31 +182,31 @@ static uint64_t xive_tm_vt_poll(XiveTCTX *tctx, hwa=
-ddr offset, unsigned size)
->   */
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 9ab77feee9d8..4dc92ef1e372 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -169,7 +169,7 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
+ive, uint32_t type,
+>      vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
 > =20
->  static const uint8_t xive_tm_hw_view[] =3D {
-> -    /* QW-0 User */   3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0,=
- 0,
-> -    /* QW-1 OS   */   3, 3, 3, 3,   3, 3, 0, 3,   3, 3, 3, 3,   0, 0, 0,=
- 0,
-> -    /* QW-2 POOL */   0, 0, 3, 3,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0,=
- 0,
-> -    /* QW-3 PHYS */   3, 3, 3, 3,   0, 3, 0, 3,   3, 0, 0, 3,   3, 3, 3,=
- 0,
-> +    3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-0 User */
-> +    3, 3, 3, 3,   3, 3, 0, 2,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-1 OS   */
-> +    0, 0, 3, 3,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-2 POOL */
-> +    3, 3, 3, 3,   0, 3, 0, 2,   3, 0, 0, 3,   3, 3, 3, 0, /* QW-3 PHYS */
->  };
+>      if (!(vsd & VSD_ADDRESS_MASK)) {
+> -        xive_error(xive, "VST: invalid %s entry %x !?", info->name, 0);
+> +        xive_error(xive, "VST: invalid %s entry %x !?", info->name, idx);
+>          return 0;
+>      }
 > =20
->  static const uint8_t xive_tm_hv_view[] =3D {
-> -    /* QW-0 User */   3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0,=
- 0,
-> -    /* QW-1 OS   */   3, 3, 3, 3,   3, 3, 0, 3,   3, 3, 3, 3,   0, 0, 0,=
- 0,
-> -    /* QW-2 POOL */   0, 0, 3, 3,   0, 0, 0, 0,   0, 3, 3, 3,   0, 0, 0,=
- 0,
-> -    /* QW-3 PHYS */   3, 3, 3, 3,   0, 3, 0, 3,   3, 0, 0, 3,   0, 0, 0,=
- 0,
-> +    3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-0 User */
-> +    3, 3, 3, 3,   3, 3, 0, 2,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-1 OS   */
-> +    0, 0, 3, 3,   0, 0, 0, 0,   0, 3, 3, 3,   0, 0, 0, 0, /* QW-2 POOL */
-> +    3, 3, 3, 3,   0, 3, 0, 2,   3, 0, 0, 3,   0, 0, 0, 0, /* QW-3 PHYS */
->  };
+> @@ -190,7 +190,7 @@ static uint64_t pnv_xive_vst_addr_indirect(PnvXive *x=
+ive, uint32_t type,
+>          vsd =3D ldq_be_dma(&address_space_memory, vsd_addr);
 > =20
->  static const uint8_t xive_tm_os_view[] =3D {
-> -    /* QW-0 User */   3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0,=
- 0,
-> -    /* QW-1 OS   */   2, 3, 2, 2,   2, 2, 0, 2,   0, 0, 0, 0,   0, 0, 0,=
- 0,
-> -    /* QW-2 POOL */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
- 0,
-> -    /* QW-3 PHYS */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
- 0,
-> +    3, 0, 0, 0,   0, 0, 0, 0,   3, 3, 3, 3,   0, 0, 0, 0, /* QW-0 User */
-> +    2, 3, 2, 2,   2, 2, 0, 2,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-1 OS   */
-> +    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-2 POOL */
-> +    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-3 PHYS */
->  };
+>          if (!(vsd & VSD_ADDRESS_MASK)) {
+> -            xive_error(xive, "VST: invalid %s entry %x !?", info->name, =
+0);
+> +            xive_error(xive, "VST: invalid %s entry %x !?", info->name, =
+idx);
+>              return 0;
+>          }
 > =20
->  static const uint8_t xive_tm_user_view[] =3D {
-> -    /* QW-0 User */   3, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
- 0,
-> -    /* QW-1 OS   */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
- 0,
-> -    /* QW-2 POOL */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
- 0,
-> -    /* QW-3 PHYS */   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0,=
- 0,
-> +    3, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-0 User */
-> +    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-1 OS   */
-> +    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-2 POOL */
-> +    0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0,   0, 0, 0, 0, /* QW-3 PHYS */
->  };
+> @@ -294,8 +294,12 @@ static int pnv_xive_write_end(XiveRouter *xrtr, uint=
+8_t blk, uint32_t idx,
+>                                word_number);
+>  }
 > =20
->  /*
+> -static int pnv_xive_end_update(PnvXive *xive, uint8_t blk, uint32_t idx)
+> +static int pnv_xive_end_update(PnvXive *xive)
+>  {
+> +    uint8_t  blk =3D GETFIELD(VC_EQC_CWATCH_BLOCKID,
+> +                           xive->regs[(VC_EQC_CWATCH_SPEC >> 3)]);
+> +    uint32_t idx =3D GETFIELD(VC_EQC_CWATCH_OFFSET,
+> +                           xive->regs[(VC_EQC_CWATCH_SPEC >> 3)]);
+>      int i;
+>      uint64_t eqc_watch[4];
+> =20
+> @@ -307,6 +311,24 @@ static int pnv_xive_end_update(PnvXive *xive, uint8_=
+t blk, uint32_t idx)
+>                                XIVE_VST_WORD_ALL);
+>  }
+> =20
+> +static void pnv_xive_end_cache_load(PnvXive *xive)
+> +{
+> +    uint8_t  blk =3D GETFIELD(VC_EQC_CWATCH_BLOCKID,
+> +                           xive->regs[(VC_EQC_CWATCH_SPEC >> 3)]);
+> +    uint32_t idx =3D GETFIELD(VC_EQC_CWATCH_OFFSET,
+> +                           xive->regs[(VC_EQC_CWATCH_SPEC >> 3)]);
+> +    uint64_t eqc_watch[4] =3D { 0 };
+> +    int i;
+> +
+> +    if (pnv_xive_vst_read(xive, VST_TSEL_EQDT, blk, idx, eqc_watch)) {
+> +        xive_error(xive, "VST: no END entry %x/%x !?", blk, idx);
+> +    }
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(eqc_watch); i++) {
+> +        xive->regs[(VC_EQC_CWATCH_DAT0 >> 3) + i] =3D be64_to_cpu(eqc_wa=
+tch[i]);
+> +    }
+> +}
+> +
+>  static int pnv_xive_get_nvt(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
+>                              XiveNVT *nvt)
+>  {
+> @@ -320,8 +342,12 @@ static int pnv_xive_write_nvt(XiveRouter *xrtr, uint=
+8_t blk, uint32_t idx,
+>                                word_number);
+>  }
+> =20
+> -static int pnv_xive_nvt_update(PnvXive *xive, uint8_t blk, uint32_t idx)
+> +static int pnv_xive_nvt_update(PnvXive *xive)
+>  {
+> +    uint8_t  blk =3D GETFIELD(PC_VPC_CWATCH_BLOCKID,
+> +                           xive->regs[(PC_VPC_CWATCH_SPEC >> 3)]);
+> +    uint32_t idx =3D GETFIELD(PC_VPC_CWATCH_OFFSET,
+> +                           xive->regs[(PC_VPC_CWATCH_SPEC >> 3)]);
+>      int i;
+>      uint64_t vpc_watch[8];
+> =20
+> @@ -333,6 +359,24 @@ static int pnv_xive_nvt_update(PnvXive *xive, uint8_=
+t blk, uint32_t idx)
+>                                XIVE_VST_WORD_ALL);
+>  }
+> =20
+> +static void pnv_xive_nvt_cache_load(PnvXive *xive)
+> +{
+> +    uint8_t  blk =3D GETFIELD(PC_VPC_CWATCH_BLOCKID,
+> +                           xive->regs[(PC_VPC_CWATCH_SPEC >> 3)]);
+> +    uint32_t idx =3D GETFIELD(PC_VPC_CWATCH_OFFSET,
+> +                           xive->regs[(PC_VPC_CWATCH_SPEC >> 3)]);
+> +    uint64_t vpc_watch[8] =3D { 0 };
+> +    int i;
+> +
+> +    if (pnv_xive_vst_read(xive, VST_TSEL_VPDT, blk, idx, vpc_watch)) {
+> +        xive_error(xive, "VST: no NVT entry %x/%x !?", blk, idx);
+> +    }
+> +
+> +    for (i =3D 0; i < ARRAY_SIZE(vpc_watch); i++) {
+> +        xive->regs[(PC_VPC_CWATCH_DAT0 >> 3) + i] =3D be64_to_cpu(vpc_wa=
+tch[i]);
+> +    }
+> +}
+> +
+>  static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_t blk, uint32_t idx,
+>                              XiveEAS *eas)
+>  {
+> @@ -346,12 +390,6 @@ static int pnv_xive_get_eas(XiveRouter *xrtr, uint8_=
+t blk, uint32_t idx,
+>      return pnv_xive_vst_read(xive, VST_TSEL_IVT, blk, idx, eas);
+>  }
+> =20
+> -static int pnv_xive_eas_update(PnvXive *xive, uint8_t blk, uint32_t idx)
+> -{
+> -    /* All done. */
+> -    return 0;
+> -}
+> -
+>  static XiveTCTX *pnv_xive_get_tctx(XiveRouter *xrtr, CPUState *cs)
+>  {
+>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+> @@ -950,28 +988,43 @@ static void pnv_xive_ic_reg_write(void *opaque, hwa=
+ddr offset,
+>       * XIVE PC & VC cache updates for EAS, NVT and END
+>       */
+>      case VC_IVC_SCRUB_MASK:
+> -        break;
+>      case VC_IVC_SCRUB_TRIG:
+> -        pnv_xive_eas_update(xive, GETFIELD(PC_SCRUB_BLOCK_ID, val),
+> -                            GETFIELD(VC_SCRUB_OFFSET, val));
+>          break;
+> =20
+> -    case VC_EQC_SCRUB_MASK:
+>      case VC_EQC_CWATCH_SPEC:
+> -    case VC_EQC_CWATCH_DAT0 ... VC_EQC_CWATCH_DAT3:
+> +        val &=3D ~VC_EQC_CWATCH_CONFLICT; /* HW resets this bit */
+> +        break;
+> +    case VC_EQC_CWATCH_DAT1 ... VC_EQC_CWATCH_DAT3:
+>          break;
+> +    case VC_EQC_CWATCH_DAT0:
+> +        /* writing to DATA0 triggers the cache write */
+> +        xive->regs[reg] =3D val;
+> +        pnv_xive_end_update(xive);
+> +        break;
+> +    case VC_EQC_SCRUB_MASK:
+>      case VC_EQC_SCRUB_TRIG:
+> -        pnv_xive_end_update(xive, GETFIELD(VC_SCRUB_BLOCK_ID, val),
+> -                            GETFIELD(VC_SCRUB_OFFSET, val));
+> +        /*
+> +         * The scrubbing registers flush the cache in RAM and can also
+> +         * invalidate.
+> +         */
+>          break;
+> =20
+> -    case PC_VPC_SCRUB_MASK:
+>      case PC_VPC_CWATCH_SPEC:
+> -    case PC_VPC_CWATCH_DAT0 ... PC_VPC_CWATCH_DAT7:
+> +        val &=3D ~PC_VPC_CWATCH_CONFLICT; /* HW resets this bit */
+> +        break;
+> +    case PC_VPC_CWATCH_DAT1 ... PC_VPC_CWATCH_DAT7:
+>          break;
+> +    case PC_VPC_CWATCH_DAT0:
+> +        /* writing to DATA0 triggers the cache write */
+> +        xive->regs[reg] =3D val;
+> +        pnv_xive_nvt_update(xive);
+> +        break;
+> +    case PC_VPC_SCRUB_MASK:
+>      case PC_VPC_SCRUB_TRIG:
+> -        pnv_xive_nvt_update(xive, GETFIELD(PC_SCRUB_BLOCK_ID, val),
+> -                           GETFIELD(PC_SCRUB_OFFSET, val));
+> +        /*
+> +         * The scrubbing registers flush the cache in RAM and can also
+> +         * invalidate.
+> +         */
+>          break;
+> =20
+> =20
+> @@ -1022,15 +1075,6 @@ static uint64_t pnv_xive_ic_reg_read(void *opaque,=
+ hwaddr offset, unsigned size)
+>      case PC_GLOBAL_CONFIG:
+> =20
+>      case PC_VPC_SCRUB_MASK:
+> -    case PC_VPC_CWATCH_SPEC:
+> -    case PC_VPC_CWATCH_DAT0:
+> -    case PC_VPC_CWATCH_DAT1:
+> -    case PC_VPC_CWATCH_DAT2:
+> -    case PC_VPC_CWATCH_DAT3:
+> -    case PC_VPC_CWATCH_DAT4:
+> -    case PC_VPC_CWATCH_DAT5:
+> -    case PC_VPC_CWATCH_DAT6:
+> -    case PC_VPC_CWATCH_DAT7:
+> =20
+>      case VC_GLOBAL_CONFIG:
+>      case VC_AIB_TX_ORDER_TAG2:
+> @@ -1043,12 +1087,6 @@ static uint64_t pnv_xive_ic_reg_read(void *opaque,=
+ hwaddr offset, unsigned size)
+>      case VC_IRQ_CONFIG_IPI_CASC:
+> =20
+>      case VC_EQC_SCRUB_MASK:
+> -    case VC_EQC_CWATCH_DAT0:
+> -    case VC_EQC_CWATCH_DAT1:
+> -    case VC_EQC_CWATCH_DAT2:
+> -    case VC_EQC_CWATCH_DAT3:
+> -
+> -    case VC_EQC_CWATCH_SPEC:
+>      case VC_IVC_SCRUB_MASK:
+>      case VC_SBC_CONFIG:
+>      case VC_AT_MACRO_KILL_MASK:
+> @@ -1080,6 +1118,38 @@ static uint64_t pnv_xive_ic_reg_read(void *opaque,=
+ hwaddr offset, unsigned size)
+>      /*
+>       * XIVE PC & VC cache updates for EAS, NVT and END
+>       */
+> +    case VC_EQC_CWATCH_SPEC:
+> +        xive->regs[reg] =3D ~(VC_EQC_CWATCH_FULL | VC_EQC_CWATCH_CONFLIC=
+T);
+> +        val =3D xive->regs[reg];
+> +        break;
+> +    case VC_EQC_CWATCH_DAT0:
+> +        /*
+> +         * Load DATA registers from cache with data requested by the
+> +         * SPEC register
+> +         */
+> +        pnv_xive_end_cache_load(xive);
+> +        val =3D xive->regs[reg];
+> +        break;
+> +    case VC_EQC_CWATCH_DAT1 ... VC_EQC_CWATCH_DAT3:
+> +        val =3D xive->regs[reg];
+> +        break;
+> +
+> +    case PC_VPC_CWATCH_SPEC:
+> +        xive->regs[reg] =3D ~(PC_VPC_CWATCH_FULL | PC_VPC_CWATCH_CONFLIC=
+T);
+> +        val =3D xive->regs[reg];
+> +        break;
+> +    case PC_VPC_CWATCH_DAT0:
+> +        /*
+> +         * Load DATA registers from cache with data requested by the
+> +         * SPEC register
+> +         */
+> +        pnv_xive_nvt_cache_load(xive);
+> +        val =3D xive->regs[reg];
+> +        break;
+> +    case PC_VPC_CWATCH_DAT1 ... PC_VPC_CWATCH_DAT7:
+> +        val =3D xive->regs[reg];
+> +        break;
+> +
+>      case PC_VPC_SCRUB_TRIG:
+>      case VC_IVC_SCRUB_TRIG:
+>      case VC_EQC_SCRUB_TRIG:
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -160,25 +359,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---K4LMwn8CgX2KMboP
+--Sr6hGnsCY8KeifOY
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0ZmbwACgkQbDjKyiDZ
-s5KtBQ/+Npay9CaxC3kkZbFphazhyxL0NJbBC6WvoLlBa7f5zYhJKZkZgO+3k30L
-QlxVNST4BMTtveHlpBhMdQk4q+FmrpSOkh3QfJKm4tpwP5h//WoONbtNI6bMw3Ef
-MSvGXEjoTQHF7JtDCf6xCpO4om/yxSvoz++looXIzavt5d6a96+BSwjVcekIYH5D
-yUVAuNqXAX4h2gERDOSzmSpwZtKmpVRH6smqfqGoEdFqBfgQx/ruOicloq15IAH+
-b84ZBSJugCWQMJ8WJEp+1kJJy701zluiVYzneUgskF/BFiTBD4SdFcfd/bQm9tOq
-R7nsjGbKWzPEJHKcegZxaqmNZZGHbDFcX+GzzpFG3D+Vhf/n2Zcv9FErqDwTH2rH
-Z4wuOXdNSETnvIsAAS010MtQskfok9ZDQNtqvHmP8kQjEWZiJ661Gr4x8qNpuvOd
-DyhDHMghOfv58ZQfZ98QnRmA2IThT3jf2J67aJRTiW45kese70UJ8ziI89EvFs//
-IaOKBqGOXrqlGIEPNUGJJ5LftpxLIMkRTQeVkpzbAWPZFV8OcifwTylMZPfu4iPj
-hYG5lj5U7QHX1JMPcjAwrjiETJ4zvRh9nHpZWcXFMfKeU0MkAiXoSKaafrqnFY8q
-yVqhqF6tRgkIxAcvU/OxzrIRfw+e+iwGclKiQoGf3+ojl5GdZLc=
-=Z+MP
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0ZmtQACgkQbDjKyiDZ
+s5JeBg//bINgwMCJ8lT8p5pJD/6aRGC8/FCXie/765SXo0h/KCvdMd6wntBVvDv6
+Xcg/JI00THfHyXEqx7el6eDT+EYcaBwqV4D7z4C5r1/J9u8AByliRqUe3/RBr3L8
+8IWlua/rAWi6bj4fMX5Ww48QnpBg96DU28AlxfF2lZIZ2xcrEZMCscdji3qfk0yq
+Hx0Dy2M+Z5UEZffkVb38WKUsj2jp1u3+q+tqA4tuh3+zG5a97dUjLZDLXEyuoDCO
+P2V6uRxPoFRWbV0bL3e9HwbPHEGyHQCbrpPXLZBtkAUSk83dWvcANH/BYKIAqTMs
+H5Y8crVqOw7M2vabfy1uI3diJnrdggyymJkLONTB3qg4H5BHOmBizhOPYl3BlK+X
+HBhG/IgXrc1P0kKvq9Th0Th+EEt+lFHlG5eI3/4nTfyAYClRZBTpCqXbNZaXtK8m
+I8ZXjYHRZFZdBU5MaRov+HIM5M06x5tA7BG1y5cvI/ilFLk7YnHzpAKGLg5Wuz0e
+cWyY77Mz+uCj6arU51NdNpNnfieOn2WwbHTK4t0VGNCNfJGvR3H+M5pcwZxNucNB
+GRwF6O/fr2gzlkzK49qE5KJPJczHWHYeF4RnGoIEh6hbq45OfS+f7sijXqrBcmhV
+NsB1/J0cXL+t23w1N1lqZuVmAVn6h9G+9vX3yERqNCX3qo38R3c=
+=yBzN
 -----END PGP SIGNATURE-----
 
---K4LMwn8CgX2KMboP--
+--Sr6hGnsCY8KeifOY--
 
