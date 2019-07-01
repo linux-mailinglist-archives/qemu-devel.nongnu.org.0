@@ -2,67 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CC65BD7B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:00:09 +0200 (CEST)
-Received: from localhost ([::1]:59088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89145BD85
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:01:40 +0200 (CEST)
+Received: from localhost ([::1]:59098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwqm-0006UQ-JM
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:00:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43243)
+	id 1hhwsF-0007xI-Qc
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:01:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43344)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhwSy-00026O-HI
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:35:33 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhwTU-0002P9-Af
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:36:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhwSx-00086u-5j
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:35:32 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:35558)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhwSw-000801-SQ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:35:31 -0400
-Received: by mail-ot1-x342.google.com with SMTP id j19so13509002otq.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:35:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lsxdKIp0KRdDGBO5xr+B1ObOvZXz2S2vdZY9/WBbxvg=;
- b=Tp+bSCgx+xXG/9Ttw37vG+RC3SxemU+33TLgbiPkwTX56VO1ME45E9fHv1ErXwlUV2
- qGrk7cVjxcthSTKZzlBGtQpIiuhwysRBn1+qESS/wX7ued7Rii7+xJHfUPAHzUXK+LqP
- FMBhTgKZs3sDHOI7SXPEgYyiSXkjePa53AiHY5OQ6JrCnj5t65j8MlRXSfv8mpZ7lXiy
- L24PgYlkgXZszsuXhg8nkLAV4StjVDD4WkNOO8RgLrYI5MasRGbBaQwnjch33hrtqVTc
- LcULKBLfnuFuxlNN+Xc4jwvw0iPhrn9C/KdCyfP9IAxh+aMY+WfE5pVMS9yhu/P8CLok
- /ZQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lsxdKIp0KRdDGBO5xr+B1ObOvZXz2S2vdZY9/WBbxvg=;
- b=FXIeyipmPUR6cymXj0dZDlxgksQtu5g3TvnggOyKJzl+iwMetk1uMb+yTpy+F6lE8o
- IBHxL2kiBbLSLaCswTfVbhzhk9z7JmrgAZxDvLUyNzEVb4PcXa2pAjm7Br79CNmonb4K
- Cq7HEbR0lndDDwC+THOCpcWnY7mshfdkn0wbUVv2VxegGXGw+TV/QLrUbb3DbT5Wcb9g
- +p8CFisQ93YYN9e2QhApgsP5ktHOivOClEQhEHI8PcldcrA1Wo4W3eoWu9kuwHhTts+O
- fpuDLSX7V5ljEIFwtujsSBZB4ziOf1fuCuOU2szS2Pptj3ZFQ0VYa2JpJBOJvoBP/jH+
- PTxQ==
-X-Gm-Message-State: APjAAAWT1Jv/2qBYgLf3RJtUeCb6V2uDv1lvFDKTuMslon6JLKrUgYei
- h9m2jugQqV4/3cB+3jXDfD5zI+8G0uVRr6ovKjR0lg==
-X-Google-Smtp-Source: APXvYqx8vyqTY88qOjSZpBNaqSOQDGVJIybPtXra6kD2ra/Z7vJlyh7NzglseXnmRQifI0nXm0LKURGw2aw2Gbhpvt8=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr8632671otk.221.1561988125442; 
- Mon, 01 Jul 2019 06:35:25 -0700 (PDT)
+ (envelope-from <philmd@redhat.com>) id 1hhwTQ-0008R9-IU
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:36:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48854)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhwTO-0008I7-LK
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:35:59 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id A2D925857F;
+ Mon,  1 Jul 2019 13:35:46 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.205.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A89B608C2;
+ Mon,  1 Jul 2019 13:35:38 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  1 Jul 2019 15:35:21 +0200
+Message-Id: <20190701133536.28946-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20190618165311.27066-1-clg@kaod.org>
-In-Reply-To: <20190618165311.27066-1-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 14:35:14 +0100
-Message-ID: <CAFEAcA8+e1ADZqgnaR0T5TCdKa4qTtt_ny4r_KFndhGEcDaCKA@mail.gmail.com>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.39]); Mon, 01 Jul 2019 13:35:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v2 00/21] aspeed: machine extensions and
- fixes
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 00/15] hw/i386/pc: Do not restrict the
+ fw_cfg functions to the PC machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,36 +54,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
+Cc: Yang Zhong <yang.zhong@intel.com>, Samuel Ortiz <sameo@linux.intel.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Rob Bradford <robert.bradford@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Jun 2019 at 17:53, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> Hello,
->
-> This series improves the current models of the Aspeed machines in QEMU
-> and adds new ones. It also prepares ground for the future Aspeed SoC.
-> You will find patches for :
->
->  - per SoC mappings of the memory space and the interrupt number space
->  - support for multiple CPUs (improved)
->  - support for multiple NICs
->  - a RTC model from Joel
->  - a basic XDMA model from Eddie
->  - support for multiple CPUs and NICs
->  - fixes for the irq and timer models from Joel, Andrew and Christian
->  - DMA support for the SMC controller, which was reworked to use a RAM
->    container region as suggested by Peter in September 2018
->  - new swift-bmc machine from Adriana (P9' processor)
+Hi,
 
-Hi; I've left review comments on some of the patches.
-I'm going to take patches 1-9, 11, 12, 13, 14, 19, 20, 21
-into target-arm.next (since we're nearly at softfreeze);
-the others I either had comments on or they were dependent
-on earlier patches in the series.
+This is my take at salvaging some NEMU good work.
+Samuel worked in adding the fw_cfg device to the x86-virt NEMU machine.
+This series is inspired by NEMU's commit 3cb92d080835 [0] and adapted
+to upstream style. The result makes the upstream codebase more
+modularizable.
+There are very little logical changes, this is mostly a cleanup
+refactor.
 
-thanks
--- PMM
+Since v2 [2]:
+- Addressed MST comments from v2 (only patch #2 modified)
+  - do not use unsigned for enum
+  - do not add unuseful documentation
+
+Since v1 [1]:
+- Addressed Li and MST comments
+
+$ git backport-diff -u v2
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/15:[----] [--] 'hw/i386/pc: Use e820_get_num_entries() to access e820=
+_entries'
+002/15:[0131] [FC] 'hw/i386/pc: Extract e820 memory layout code'
+003/15:[----] [--] 'hw/i386/pc: Use address_space_memory in place'
+004/15:[----] [--] 'hw/i386/pc: Rename bochs_bios_init as more generic fw=
+_cfg_arch_create'
+005/15:[----] [--] 'hw/i386/pc: Pass the boot_cpus value by argument'
+006/15:[----] [--] 'hw/i386/pc: Pass the apic_id_limit value by argument'
+007/15:[----] [--] 'hw/i386/pc: Pass the CPUArchIdList array by argument'
+008/15:[----] [--] 'hw/i386/pc: Let fw_cfg_init() use the generic Machine=
+State'
+009/15:[----] [--] 'hw/i386/pc: Let pc_build_smbios() take a FWCfgState a=
+rgument'
+010/15:[----] [--] 'hw/i386/pc: Let pc_build_smbios() take a generic Mach=
+ineState argument'
+011/15:[----] [--] 'hw/i386/pc: Rename pc_build_smbios() as generic fw_cf=
+g_build_smbios()'
+012/15:[----] [--] 'hw/i386/pc: Let pc_build_feature_control() take a FWC=
+fgState argument'
+013/15:[----] [--] 'hw/i386/pc: Let pc_build_feature_control() take a Mac=
+hineState argument'
+014/15:[----] [--] 'hw/i386/pc: Rename pc_build_feature_control() as gene=
+ric fw_cfg_build_*'
+015/15:[----] [--] 'hw/i386/pc: Extract the x86 generic fw_cfg code'
+
+Regards,
+
+Phil.
+
+[0] https://github.com/intel/nemu/commit/3cb92d080835ac8d47c8b713156338af=
+a33cff5c
+[1] https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg05759.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg02786.html
+
+Philippe Mathieu-Daud=C3=A9 (15):
+  hw/i386/pc: Use e820_get_num_entries() to access e820_entries
+  hw/i386/pc: Extract e820 memory layout code
+  hw/i386/pc: Use address_space_memory in place
+  hw/i386/pc: Rename bochs_bios_init as more generic fw_cfg_arch_create
+  hw/i386/pc: Pass the boot_cpus value by argument
+  hw/i386/pc: Pass the apic_id_limit value by argument
+  hw/i386/pc: Pass the CPUArchIdList array by argument
+  hw/i386/pc: Let fw_cfg_init() use the generic MachineState
+  hw/i386/pc: Let pc_build_smbios() take a FWCfgState argument
+  hw/i386/pc: Let pc_build_smbios() take a generic MachineState argument
+  hw/i386/pc: Rename pc_build_smbios() as generic fw_cfg_build_smbios()
+  hw/i386/pc: Let pc_build_feature_control() take a FWCfgState argument
+  hw/i386/pc: Let pc_build_feature_control() take a MachineState
+    argument
+  hw/i386/pc: Rename pc_build_feature_control() as generic
+    fw_cfg_build_*
+  hw/i386/pc: Extract the x86 generic fw_cfg code
+
+ hw/i386/Makefile.objs        |   2 +-
+ hw/i386/e820_memory_layout.c |  59 ++++++++++
+ hw/i386/e820_memory_layout.h |  42 ++++++++
+ hw/i386/fw_cfg.c             | 137 ++++++++++++++++++++++++
+ hw/i386/fw_cfg.h             |   8 ++
+ hw/i386/pc.c                 | 201 ++---------------------------------
+ include/hw/i386/pc.h         |  11 --
+ target/i386/kvm.c            |   1 +
+ 8 files changed, 256 insertions(+), 205 deletions(-)
+ create mode 100644 hw/i386/e820_memory_layout.c
+ create mode 100644 hw/i386/e820_memory_layout.h
+
+--=20
+2.20.1
+
 
