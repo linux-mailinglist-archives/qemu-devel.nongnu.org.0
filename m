@@ -2,55 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3345C49D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 22:56:57 +0200 (CEST)
-Received: from localhost ([::1]:45180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 046B75C588
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:12:44 +0200 (CEST)
+Received: from localhost ([::1]:45954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi2zj-0003qe-U6
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 16:33:48 -0400
-Received: from [2001:470:142:3::10] (port=54094 helo=eggs.gnu.org)
+	id 1hi4XT-0002T2-4s
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53567)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hi2x5-0002dK-WA
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:31:12 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi3VC-0005w2-LI
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:06:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hi2ws-00023B-FT
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:30:58 -0400
-Received: from [209.132.183.28] (port=40552 helo=mx1.redhat.com)
+ (envelope-from <philmd@redhat.com>) id 1hi3V8-0004r2-CM
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:06:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56400)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hi2wP-0001y0-St; Mon, 01 Jul 2019 16:30:22 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hi3Uq-0004hN-9y; Mon, 01 Jul 2019 17:05:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 9CF37308622E;
- Mon,  1 Jul 2019 19:12:56 +0000 (UTC)
-Received: from [10.36.116.95] (ovpn-116-95.ams2.redhat.com [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 760EA5F90E;
- Mon,  1 Jul 2019 19:12:49 +0000 (UTC)
-From: Auger Eric <eric.auger@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-References: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
- <CAFEAcA-w1AijFogZxX_9gz2+oDGH-=e2QAOdyCRdji_6k87d-A@mail.gmail.com>
- <41f46a4b-5796-169a-1193-996ac94022c4@redhat.com>
-Message-ID: <453c5edf-0e42-4e07-9d17-7a69085aa231@redhat.com>
-Date: Mon, 1 Jul 2019 21:12:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+ by mx1.redhat.com (Postfix) with ESMTPS id 9270C8667B;
+ Mon,  1 Jul 2019 19:49:50 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.205.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 488F912A6B;
+ Mon,  1 Jul 2019 19:49:45 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  1 Jul 2019 21:49:34 +0200
+Message-Id: <20190701194942.10092-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <41f46a4b-5796-169a-1193-996ac94022c4@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Mon, 01 Jul 2019 19:13:10 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Mon, 01 Jul 2019 19:49:57 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 0/8] ARM virt: ACPI memory hotplug
- support
+Subject: [Qemu-devel] [PATCH v4 0/8] Support disabling TCG on ARM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,100 +53,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Ortiz <sameo@linux.intel.com>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Xu Wei <xuwei5@hisilicon.com>,
- Linuxarm <linuxarm@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- sebastien.boeuf@intel.com, Laszlo Ersek <lersek@redhat.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jones <drjones@redhat.com>, Samuel Ortiz <sameo@linux.intel.com>,
+ Rob Bradford <robert.bradford@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Paolo motived me to salvage this (other!) previous series fromi
+Samuel Ortiz (NEMU project).
 
-On 7/1/19 5:55 PM, Auger Eric wrote:
-> Hi Peter,
-> 
-> On 7/1/19 3:52 PM, Peter Maydell wrote:
->> On Tue, 25 Jun 2019 at 13:15, Shameer Kolothum
->> <shameerali.kolothum.thodi@huawei.com> wrote:
->>>
->>> This series is an attempt to provide device memory hotplug support
->>> on ARM virt platform. This is based on Eric's recent works here[1]
->>> and carries some of the pc-dimm related patches dropped from his
->>> series.
->>>
->>> The kernel support for arm64 memory hot add was added recently by
->>> Robin and hence the guest kernel should be => 5.0-rc1.
->>>
->>> NVDIM support is not included currently as we still have an unresolved
->>> issue while hot adding NVDIMM[2]. However NVDIMM cold plug patches
->>> can be included, but not done for now, for keeping it simple.
->>>
->>> This makes use of GED device to sent hotplug ACPI events to the
->>> Guest. GED code is based on Nemu. Thanks to the efforts of Samuel and
->>> Sebastien to add the hardware-reduced support to Nemu using GED
->>> device[3]. (Please shout if I got the author/signed-off wrong for
->>> those patches or missed any names).
->>>
->>> This is sanity tested on a HiSilicon ARM64 platform and appreciate
->>> any further testing.
->>
->> Hi; this seems to fail 'make check' (on an x86 host):
->>
->> acpi-test: Warning! DSDT binary file mismatch. Actual
->> [aml:/tmp/aml-01P83Z], Expected [aml:tests/data/acpi/virt/DSDT].
->> acpi-test: Warning! DSDT mismatch. Actual [asl:/tmp/asl-4ZP83Z.dsl,
->> aml:/tmp/aml-01P83Z], Expected [asl:/tmp/asl-H7UE4Z.dsl,
->> aml:tests/data/acpi/virt/DSDT].
->> **
->> ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/tests/bios-tables-test.c:434:test_acpi_asl:
->> assertion failed: (all_tables_match)
-> I fail to reproduce on my laptop:
-> 
-> make check-qtest-x86_64 executes
-> 
->   TEST    check-qtest-x86_64: tests/bios-tables-test
-> 
-> and it does not seem to complain. But maybe I misunderstand the framework.
-> 
-> If I were able to reproduce I understand this is a matter to regenerate
-> the files we compare with by using
-> tests/data/acpi/rebuild-expected-aml.sh, right?
+v1 cover from Samuel [1]:
 
-I reproduced the failure with a TCG aarch64 target on x86.
-I sent a separate
-"[PATCH] tests: Update DSDT ACPI table for arm/virt board with PCDIMM
-related changes" patch that should fix the issue.
+  This patchset allows for building and running ARM targets with TCG
+  disabled. It splits the target/arm/helper.c file into logical TCG and
+  non TCG dependent files so that one can build and run QEMU binaries wit=
+h
+  or without TCG enabled.
 
-checkpatch complains with an "ERROR: Does not appear to be a
-unified-diff format patch" but I checked similar patches like d2a1b1d602
-("tests: update acpi expected files") produce the same so I hope it's fine.
+  The rationale behind this work comes from the NEMU project where we're
+  trying to only support x86 and ARM 64-bit architectures, without
+  including the TCG code base. We can only do so if we can build and run
+  ARM binaries with TCG disabled.
 
-Thanks
+v2: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg03271.html
 
-Eric
+Most of the patches from v1 got adapted, except the "Move all
+interrupt handlers" patch, because Peter disagreed with it.
+See threads:
+ https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg03908.html
+ https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg07304.html
+Anyway this is not a blocking issue, and can be done once this series
+get merged.
 
-Thanks
+v3: http://mid.mail-archive.com/20190701132516.26392-1-philmd@redhat.com
+- Addressed Alex's review comments from v2.
+- added RFC patches to remove (pre-v7, M-profile, R-profile) from KVM-onl=
+y build
 
-Eric
-> 
-> Thanks
-> 
-> Eric
-> 
-> 
->> ERROR - Bail out!
->> ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/tests/bios-tables-test.c:434:test_acpi_asl:
->> assertion failed: (all_tables_match)
->> Aborted (core dumped)
->> /home/petmay01/linaro/qemu-from-laptop/qemu/tests/Makefile.include:894:
->> recipe for target 'check-qtest-aarch64' failed
->>
->> Is there a need to update the reference DSDT used by the test?
->>
->> thanks
->> -- PMM
->>
-> 
+v4:
+- patches 1-12, 14-17, 19-21 accepted, rebased on target-arm.next
+- addressed Peter's comment (described in each patch).
+Based-on: target-arm.next
+
+$ git backport-diff -u v3 -r target-arm.next..v4
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/8:[0048] [FC] 'target/arm: Move debug routines to debug_helper.c'
+002/8:[0004] [FC] 'target/arm: Restrict semi-hosting to TCG'
+003/8:[0027] [FC] 'target/arm/helper: Move M profile routines to m_helper=
+.c'
+004/8:[----] [--] 'RFC target/arm: Restrict pre-ARMv7 cpus to TCG'
+005/8:[----] [--] 'RFC target/arm: Do not build pre-ARMv7 cpus when using=
+ KVM'
+006/8:[----] [--] 'RFC target/arm: Restrict R and M profiles to TCG'
+007/8:[----] [--] 'RFC target/arm: Do not build A/M-profile cpus when usi=
+ng KVM'
+008/8:[----] [--] 'target/arm: Do not build TCG objects when TCG is off'
+
+Patches 4-8 are included as RFC for series completeness, but are not
+meant for review for the 4.1 release.
+
+Paolo, the RFC patches are ARM but Kconfig related, you might want to
+have a look at them ;) Cc'ing Thomas for the same reason.
+
+Thanks a lot to Alex and Peter for their review time, and Samuel for
+the original effort.
+
+Regards,
+
+Phil.
+
+[1]: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
+
+Philippe Mathieu-Daud=C3=A9 (8):
+  target/arm: Move debug routines to debug_helper.c
+  target/arm: Restrict semi-hosting to TCG
+  target/arm/helper: Move M profile routines to m_helper.c
+  RFC target/arm: Restrict pre-ARMv7 cpus to TCG
+  RFC target/arm: Do not build pre-ARMv7 cpus when using KVM
+  RFC target/arm: Restrict R and M profiles to TCG
+  RFC target/arm: Do not build A/M-profile cpus when using KVM
+  target/arm: Do not build TCG objects when TCG is off
+
+ default-configs/arm-softmmu.mak |   47 +-
+ hw/arm/Kconfig                  |   42 +-
+ target/arm/Makefile.objs        |    9 +-
+ target/arm/cpu.c                |   25 +-
+ target/arm/cpu.h                |    7 +
+ target/arm/debug_helper.c       |  311 ++++
+ target/arm/helper.c             | 2669 +-----------------------------
+ target/arm/m_helper.c           | 2676 +++++++++++++++++++++++++++++++
+ target/arm/op_helper.c          |  295 ----
+ 9 files changed, 3091 insertions(+), 2990 deletions(-)
+ create mode 100644 target/arm/debug_helper.c
+ create mode 100644 target/arm/m_helper.c
+
+--=20
+2.20.1
+
 
