@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF2895B7CB
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 11:17:51 +0200 (CEST)
-Received: from localhost ([::1]:56264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A125B7E9
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 11:19:54 +0200 (CEST)
+Received: from localhost ([::1]:56302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhsRa-000284-Pf
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 05:17:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45542)
+	id 1hhsTZ-0004Da-F1
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 05:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45581)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1hhsMe-0006y7-Ik
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:12:46 -0400
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1hhsMm-0007Eo-Ex
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:12:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <marcel.apfelbaum@gmail.com>) id 1hhsMd-0000YV-G4
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:12:44 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40036)
+ (envelope-from <marcel.apfelbaum@gmail.com>) id 1hhsMl-0000dd-4j
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:12:52 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38960)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1hhsMc-0000Wv-D5
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:12:43 -0400
-Received: by mail-wr1-x443.google.com with SMTP id p11so12915184wre.7
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 02:12:42 -0700 (PDT)
+ id 1hhsMk-0000d2-SH
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:12:51 -0400
+Received: by mail-wr1-x442.google.com with SMTP id x4so12901518wrt.6
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 02:12:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:references:from:cc:message-id:date:user-agent
  :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=A0OWQ5tdp86YAfKlDBap/slYP1liDk2P+3FlqURftK8=;
- b=r3SbBzUBQTxk4Hx6E5U+8w8WqYuuE8X9dpvd43azdBlQRoBfgJHii3JyHDjCoDgrcb
- uF/h+TBxeI9U4AYa1p7l7OAZgJalrOPvC1Mh8r/KuNblw9uyrFdZ7AYD9MX4RMTB+K2a
- M7eGvLl17oWbX2Po1APNgM0wp84/MWx5ZNhXzivit1IcqKvR/vbzo5v9faSeX2jq0IZB
- o77w3LlVm87MGv9fnwR7x5BgnzWGT0+fAvwOmnlnzJW2hEVG3jRKo60GQHiXqTZuKiRW
- PXF64I8ySuWXAn879ZeITZSKnrGsosq8xKS+p7nptUBAE8mhfxbzpktdIoWVVh6a2FJB
- CnwA==
+ bh=3l4lK0DihfH9nlvEcwn7t+55gQ69F9MGIGsnOyRnYqc=;
+ b=FqjMh6YU/5MGdoE932BiK9FVNDCXhvsLtHKNRCBYivylD8uI+HSt+nzSEs+TORYkSC
+ hLbeF5laRbrjEPq+1TZXUY5BXFy2zaFkEor+q/krRYuKAP4xoPc3NvjZklewpftDigy1
+ rN0G1ZxKClaB8oIK/FgTWT+xAY5SmlfI0NdVuDPrQ4JsjAQolCp0aEUD4rx3eN8FaKxf
+ Y5CA4ySDrHIImkftPdu80GXzKMuO124veiXj/EIaIgvX+bSZ6Owpp8d03oL09K8DMwzP
+ KvGyeERjZDfK1sBZ0igLR5EdzDwwG9lX5Zr+LdxEibocI3LKZFButr9/FOQFrTCT6Kpn
+ 4kdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:cc:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=A0OWQ5tdp86YAfKlDBap/slYP1liDk2P+3FlqURftK8=;
- b=Y5GRmltC/MAR0xtFK/9GE6eZ5w0Ns7IcJuna3qeqnyj65DJNXOUf1ZFuVv7qzNS45v
- 2DvPP2wU0yaRLtld4DkTvdeZnV28ID0Xj15j5pIs53chHIdFt1IxkcBIV9Mblib0lSTl
- eF9iUCPCfW1qrvnnoxaAo7w3oTiP3ufl7nwyBohWi1LrDRUYYjI2EviESAQWbEVOC+nV
- /t62E6FADst/TO+74b1gqx9+G9Y52FGpEo08shwp3bi7zJgbu/K5KsX2FMcHx7BgMTMQ
- lBDFrsxj2uh4LGVrHsVvA2nk8N3i0TxPRxY8Lc4P6MSBI/hyLvFRRQP1OgzpfMpvXfQA
- QkOQ==
-X-Gm-Message-State: APjAAAXNLWBMpowpGk0LwnN8WEJQP9HnWMkv0ulcReOG/XZwgxkriU3f
- ZHfMGh8KPGGaIG9pv15XCxc=
-X-Google-Smtp-Source: APXvYqyngL5ywMiQ8AWpkBvymmGn2QXlM/sdADmEjlqEQpPP16PvuX7hp6W0Pn9LqsjVf3Gr6WMQsQ==
-X-Received: by 2002:adf:bc4a:: with SMTP id a10mr12214457wrh.230.1561972360801; 
- Mon, 01 Jul 2019 02:12:40 -0700 (PDT)
+ bh=3l4lK0DihfH9nlvEcwn7t+55gQ69F9MGIGsnOyRnYqc=;
+ b=pISb4WqyZScO2wRv6e5aDWovHlBmN2v81swPcVZqrsq2jZopIPc2wct8KJOUqGV5kX
+ CUYqEvmiY4l+4wdKt+P9z3RUEGRFQZQHjlueLBQ6WvicU9Kkka8FoZpsb4JIdV84eEY6
+ tFqrbRKpKmdn7lBXEAN5OAhQvIf1GjpRRFva2dctAHOHHuzF0hZ4HYpIImmWF/gY3R4R
+ mYLbK9R2aSE1tdUZmtMJv6OhgaqaHAv/L0Kwcggv559NJ9opJIz/9fHUOVMdrwIhGQD1
+ haJmwRA0D7yiZxC082hmdXDhmmzaNWbHfDYsVnGKk0rH8KOydCqI2z5WnYvQfQpP5wPJ
+ jJ1A==
+X-Gm-Message-State: APjAAAWxrTELdNl62BZqHmK53igxENYtMBTjS8/7HxMndTRcrvsl4cQ+
+ sc0pWsuve8/AIgNSojNBx5+aDU2x
+X-Google-Smtp-Source: APXvYqwo0CEoav/1gIJOXj1L4voccUoymwflk37H9GK9H508Qsj0ctLIJ1FAUvFAIjYctzHDR35p8g==
+X-Received: by 2002:a5d:6b11:: with SMTP id v17mr4507872wrw.323.1561972369706; 
+ Mon, 01 Jul 2019 02:12:49 -0700 (PDT)
 Received: from localhost.localdomain ([37.142.144.12])
- by smtp.gmail.com with ESMTPSA id m16sm2955624wrv.89.2019.07.01.02.12.39
+ by smtp.gmail.com with ESMTPSA id h15sm5884822wrp.17.2019.07.01.02.12.48
  (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 02:12:40 -0700 (PDT)
+ Mon, 01 Jul 2019 02:12:49 -0700 (PDT)
 To: Igor Mammedov <imammedo@redhat.com>
 References: <20190621064615.20099-1-mst@redhat.com>
  <20190621064615.20099-4-mst@redhat.com>
  <4e4314f7-91cc-1413-9853-bfd2bbb26311@gmail.com>
  <20190701105708.5d28f497@redhat.com>
 From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <b9cbc3ba-572d-1cb9-4668-56734333f4ce@gmail.com>
-Date: Mon, 1 Jul 2019 12:12:52 +0300
+Message-ID: <039d8321-bbe3-66ed-e64d-5a64c402990c@gmail.com>
+Date: Mon, 1 Jul 2019 12:13:02 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
@@ -71,7 +71,7 @@ Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
+X-Received-From: 2a00:1450:4864:20::442
 Subject: Re: [Qemu-devel] [PATCH 3/3] pcie: work around for racy guest init
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -167,7 +167,7 @@ On 7/1/19 11:57 AM, Igor Mammedov wrote:
 >
 > Can you point out what I'm missing here?
 
-Oops, I missed that, maybe it should looks like:
+Oops, I missed that, maybe it should look like:
 
      if (...) {
        sltsta = (val & ~PCIE_SLOT_EVENTS) | (sltsta & PCIE_SLOT_EVENTS);
