@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D905B3AA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 06:44:10 +0200 (CEST)
-Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2424E5B3B3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 06:49:49 +0200 (CEST)
+Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhoAj-0005Go-LI
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 00:44:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56720)
+	id 1hhoGC-0000sx-Cl
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 00:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56737)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hho2z-0005EF-Fe
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:11 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hho30-0005Ga-Ed
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hho2y-0004a3-0U
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:09 -0400
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:32954)
+ (envelope-from <jan.bobek@gmail.com>) id 1hho2y-0004aJ-ES
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:10 -0400
+Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:36543)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hho2x-0004Zo-RZ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:07 -0400
-Received: by mail-yw1-xc43.google.com with SMTP id j190so7005591ywb.0
- for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 21:36:07 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hho2y-0004a0-8l
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:08 -0400
+Received: by mail-yw1-xc41.google.com with SMTP id t126so7852457ywf.3
+ for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 21:36:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IH3GD3EhnM/g2dAwWSuzt1QlhenCjQklM/YkZP9RYQc=;
- b=QAwyoUoTYwlLjZGG2+7dFtCipH8Nr2kVcOujmiFnFC63rBSkRgHkcXwFxfLk6JT5HS
- 4DdtcQNQxV4AGQdPyxOjs9Q6nRVvdv2HRG+7wnQ/st2UuQcf5XcqjJ9lohGcnKHggAt0
- 1bS0WfZf+KVewzBCfn/54Qu0Lz+h6WNzNgBelLq73Ti0GwctJeIpEccmMDHV4XbOJTEM
- qpQ6+g3JDukxS7nGdVev0s/6GF4vPbrAZYBbtuoNTm+/PsCXUpeDHDcWHz9KKvf6xDj1
- s/NKtYP2RjQi6mEwwqkipy6T2ovVyb+hQvxvPhnDPKla5w18sGK/wAPr0gxpFcEpZ29O
- j9TQ==
+ bh=YiHmuiCxSoCx0uekoQAyjkaK0zaClP7jIiAfcU7C2V4=;
+ b=aYi+E5RBM6YNMCvdD+oFV6phFRmYn6Zm9QbqCkCjTHm+xHnS/UVmYw2O1CJDdvGmrl
+ mK+b+6ZunM8zrUdcryk0qqxbvALq7n+5aBGMbXIqz5ALG66Z7JIWv/crZc2hhtXRItS9
+ ph3GJfuXOApRwFPsn6Nrpcq2vqhPUfVf8UoJbhsuKJKsVbkFx7acscToffamhNUlFnpO
+ 4X8R/PLohZr7v3cW3tuPgQ8DA7BLLQFoVyWCyvGgmWuRg1FRYUU1GgDOuek+biIzL/HP
+ /gf/47gJPKCYI65fALYfCvKGo4K3Q7dd+E8Y7kg041pOq0/wfjv5346IhSv5eNVxC0x8
+ zEiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IH3GD3EhnM/g2dAwWSuzt1QlhenCjQklM/YkZP9RYQc=;
- b=fi/jXYdoYSW1mV9/3ggrEHj1ADcu8CeO4JcecEHL+ytTk4SClu5eY9g9a/W3KHMsI2
- kjnAEGdBZ5tIcyDWQUwJmaqekVthJyDIolAaDZVu0TCjujhtRYF1RZrtPOVfqoZG127c
- t4rQf/NjKST5xaGT/vf3BwF0i2PDS7UH4IeNJpERA8KlN80n0Xls28gNEoHbTV6oAS2F
- crzyZdHmaXZouhsEp32EqTr4DrVrSM+G5iwdAmt1l1RYZ4wEwf+oGT0c2feYUryjyDJu
- Z7H+ChREvj1K7WH8KrSlPNxicXkrBMCWtmwzHnkflmmn6vpnDzMBuie3pDTpWc3x9ffR
- KV7g==
-X-Gm-Message-State: APjAAAU7MvVPalDEffiMggdFtRHI8UPzG8FSfBTZB0rTanZqN4B07EK6
- lNngGb60AFtrspbYFp0JXb3/69XP
-X-Google-Smtp-Source: APXvYqz9+ouyq5L9ykirJoTzbo+eNi51c5xNuFfQyrNcwPNZA7JcoiDT/dFEfiX1Ih+eMraAX4daqw==
-X-Received: by 2002:a81:2e0a:: with SMTP id u10mr13703995ywu.479.1561955766775; 
- Sun, 30 Jun 2019 21:36:06 -0700 (PDT)
+ bh=YiHmuiCxSoCx0uekoQAyjkaK0zaClP7jIiAfcU7C2V4=;
+ b=idFwkfos40pGCQRTWfzvGDoC0Tm2M0dGFU+ssNYPvr/TzOWAijWIifv+PFB9KNgRWd
+ N71sOaMlGOURbJ1CUAg0jwM453FPbojc8dBeKO39UXgVl490OjC2juLEmSLxngMEVavh
+ Jn7MNBcQsrHS5YfRAJOAaMUdWDHb1AUlnCP0YAPyapL6H8Ak7NJzCoRATT6rfYQQKbiW
+ RIN+w8im35afMaRLGCnjq9/RDJWU3N6UbyOG623kz7FeNANLb0gAlvPK0dXcrBrDsAOK
+ 4F4TxodY802tnY2mFcxzzwNxkbmpGax56ZKM0GtxXJMR/2U08fy8u4XTooDWa4hEQBGO
+ i3OA==
+X-Gm-Message-State: APjAAAU21wSrK1+l8KBbdXgaq3GBCt0TgdrC3L9itZ0Bhr2An+wnmdhn
+ pUo69L1M27SC9zKuZme49bQQOYbR
+X-Google-Smtp-Source: APXvYqwdVmwnUbTGHyLhm6rbhaYyEOoDIwXbA3uJ4DciWgXrxb51vQVFRsMjGMnM+m158d+dBHhWmw==
+X-Received: by 2002:a81:2e45:: with SMTP id u66mr13538311ywu.410.1561955767328; 
+ Sun, 30 Jun 2019 21:36:07 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
- by smtp.gmail.com with ESMTPSA id k126sm1108564ywf.36.2019.06.30.21.36.05
+ by smtp.gmail.com with ESMTPSA id k126sm1108564ywf.36.2019.06.30.21.36.06
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
  Sun, 30 Jun 2019 21:36:06 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 00:35:32 -0400
-Message-Id: <20190701043536.26019-11-jan.bobek@gmail.com>
+Date: Mon,  1 Jul 2019 00:35:33 -0400
+Message-Id: <20190701043536.26019-12-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701043536.26019-1-jan.bobek@gmail.com>
 References: <20190701043536.26019-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
-Subject: [Qemu-devel] [RISU RFC PATCH v2 10/14] x86.risu: add SSSE3
- instructions
+X-Received-From: 2607:f8b0:4864:20::c41
+Subject: [Qemu-devel] [RISU RFC PATCH v2 11/14] x86.risu: add SSE4.1 and
+ SSE4.2 instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,104 +84,171 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add SSSE3 instructions to the x86 configuration file.
+Add SSE4.1 and SSE4.2 instructions to the x86 configuration file.
 
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- x86.risu | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ x86.risu | 69 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 69 insertions(+)
 
 diff --git a/x86.risu b/x86.risu
-index 01181dd..35992d6 100644
+index 35992d6..a73e209 100644
 --- a/x86.risu
 +++ b/x86.risu
-@@ -77,6 +77,13 @@ ADDPD           SSE2    00001111 01011000 !emit { data16(); modrm(); mem(size =>
- ADDSS           SSE     00001111 01011000 !emit { rep(); modrm(); mem(size => 4); }
- ADDSD           SSE2    00001111 01011000 !emit { repne(); modrm(); mem(size => 8); }
+@@ -124,10 +124,12 @@ ADDSUBPD        SSE3    00001111 11010000 !emit { data16(); modrm(); mem(size =>
  
-+PHADDW_64       SSSE3   00001111 00111000 00000001 !emit { modrm(); mem(size => 8); }
-+PHADDW          SSSE3   00001111 00111000 00000001 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PHADDD_64       SSSE3   00001111 00111000 00000010 !emit { modrm(); mem(size => 8); }
-+PHADDD          SSSE3   00001111 00111000 00000010 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PHADDSW_64      SSSE3   00001111 00111000 00000011 !emit { modrm(); mem(size => 8); }
-+PHADDSW         SSSE3   00001111 00111000 00000011 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+
- HADDPS          SSE3    00001111 01111100 !emit { repne(); modrm(); mem(size => 16, align => 16); }
- HADDPD          SSE3    00001111 01111100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
- 
-@@ -102,6 +109,13 @@ SUBPD           SSE2    00001111 01011100 !emit { data16(); modrm(); mem(size =>
- SUBSS           SSE     00001111 01011100 !emit { rep(); modrm(); mem(size => 4); }
- SUBSD           SSE2    00001111 01011100 !emit { repne(); modrm(); mem(size => 8); }
- 
-+PHSUBW_64       SSSE3   00001111 00111000 00000101 !emit { modrm(); mem(size => 8); }
-+PHSUBW          SSSE3   00001111 00111000 00000101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PHSUBD_64       SSSE3   00001111 00111000 00000110 !emit { modrm(); mem(size => 8); }
-+PHSUBD          SSSE3   00001111 00111000 00000110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PHSUBSW_64      SSSE3   00001111 00111000 00000111 !emit { modrm(); mem(size => 8); }
-+PHSUBSW         SSSE3   00001111 00111000 00000111 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+
- HSUBPS          SSE3    00001111 01111101 !emit { repne(); modrm(); mem(size => 16, align => 16); }
- HSUBPD          SSE3    00001111 01111101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
- 
-@@ -117,6 +131,9 @@ PMULHUW         SSE2    00001111 11100100 !emit { data16(); modrm(); mem(size =>
+ PMULLW          MMX     00001111 11010101 !emit { modrm(); mem(size => 8); }
+ PMULLW          SSE2    00001111 11010101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMULLD          SSE4_1  00001111 00111000 01000000 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PMULHW          MMX     00001111 11100101 !emit { modrm(); mem(size => 8); }
+ PMULHW          SSE2    00001111 11100101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PMULHUW         SSE     00001111 11100100 !emit { modrm(); mem(size => 8); }
+ PMULHUW         SSE2    00001111 11100100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMULDQ          SSE4_1  00001111 00111000 00101000 !emit { data16(); modrm(); mem(size => 16, align => 16); }
  PMULUDQ_64      SSE2    00001111 11110100 !emit { modrm(); mem(size => 8); }
  PMULUDQ         SSE2    00001111 11110100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
  
-+PMULHRSW_64     SSSE3   00001111 00111000 00001011 !emit { modrm(); mem(size => 8); }
-+PMULHRSW        SSSE3   00001111 00111000 00001011 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+@@ -162,18 +164,28 @@ RSQRTSS         SSE     00001111 01010010 !emit { rep(); modrm(); mem(size => 4)
+ 
+ PMINUB          SSE     00001111 11011010 !emit { modrm(); mem(size => 8); }
+ PMINUB          SSE2    00001111 11011010 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMINUW          SSE4_1  00001111 00111000 00111010 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMINUD          SSE4_1  00001111 00111000 00111011 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMINSB          SSE4_1  00001111 00111000 00111000 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PMINSW          SSE     00001111 11101010 !emit { modrm(); mem(size => 8); }
+ PMINSW          SSE2    00001111 11101010 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMINSD          SSE4_1  00001111 00111000 00111001 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ 
+ MINPS           SSE     00001111 01011101 !emit { modrm(); mem(size => 16, align => 16); }
+ MINPD           SSE2    00001111 01011101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ MINSS           SSE     00001111 01011101 !emit { rep(); modrm(); mem(size => 4); }
+ MINSD           SSE2    00001111 01011101 !emit { repne(); modrm(); mem(size => 8); }
+ 
++PHMINPOSUW      SSE4_1  00001111 00111000 01000001 !emit { data16(); modrm(); mem(size => 16, align => 16); }
 +
- MULPS           SSE     00001111 01011001 !emit { modrm(); mem(size => 16, align => 16); }
- MULPD           SSE2    00001111 01011001 !emit { data16(); modrm(); mem(size => 16, align => 16); }
- MULSS           SSE     00001111 01011001 !emit { rep(); modrm(); mem(size => 4); }
-@@ -124,6 +141,8 @@ MULSD           SSE2    00001111 01011001 !emit { repne(); modrm(); mem(size =>
+ PMAXUB          SSE     00001111 11011110 !emit { modrm(); mem(size => 8); }
+ PMAXUB          SSE2    00001111 11011110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMAXUW          SSE4_1  00001111 00111000 00111110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMAXUD          SSE4_1  00001111 00111000 00111111 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMAXSB          SSE4_1  00001111 00111000 00111100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PMAXSW          SSE     00001111 11101110 !emit { modrm(); mem(size => 8); }
+ PMAXSW          SSE2    00001111 11101110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PMAXSD          SSE4_1  00001111 00111000 00111101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
  
- PMADDWD         MMX     00001111 11110101 !emit { modrm(); mem(size => 8); }
- PMADDWD         SSE2    00001111 11110101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PMADDUBSW_64    SSSE3   00001111 00111000 00000100 !emit { modrm(); mem(size => 8); }
-+PMADDUBSW       SSSE3   00001111 00111000 00000100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ MAXPS           SSE     00001111 01011111 !emit { modrm(); mem(size => 16, align => 16); }
+ MAXPD           SSE2    00001111 01011111 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+@@ -187,6 +199,7 @@ PAVGW           SSE2    00001111 11100011 !emit { data16(); modrm(); mem(size =>
  
- DIVPS           SSE     00001111 01011110 !emit { modrm(); mem(size => 16, align => 16); }
- DIVPD           SSE2    00001111 01011110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-@@ -169,6 +188,20 @@ PAVGW           SSE2    00001111 11100011 !emit { data16(); modrm(); mem(size =>
  PSADBW          SSE     00001111 11110110 !emit { modrm(); mem(size => 8); }
  PSADBW          SSE2    00001111 11110110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++MPSADBW         SSE4_1  00001111 00111010 01000010 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
  
-+PABSB_64        SSSE3   00001111 00111000 00011100 !emit { modrm(); mem(size => 8); }
-+PABSB           SSSE3   00001111 00111000 00011100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PABSW_64        SSSE3   00001111 00111000 00011101 !emit { modrm(); mem(size => 8); }
-+PABSW           SSSE3   00001111 00111000 00011101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PABSD_64        SSSE3   00001111 00111000 00011110 !emit { modrm(); mem(size => 8); }
-+PABSD           SSSE3   00001111 00111000 00011110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PABSB_64        SSSE3   00001111 00111000 00011100 !emit { modrm(); mem(size => 8); }
+ PABSB           SSSE3   00001111 00111000 00011100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+@@ -202,6 +215,14 @@ PSIGNW          SSSE3   00001111 00111000 00001001 !emit { data16(); modrm(); me
+ PSIGND_64       SSSE3   00001111 00111000 00001010 !emit { modrm(); mem(size => 8); }
+ PSIGND          SSSE3   00001111 00111000 00001010 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ 
++DPPS            SSE4_1  00001111 00111010 01000000 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
++DPPD            SSE4_1  00001111 00111010 01000001 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
 +
-+PSIGNB_64       SSSE3   00001111 00111000 00001000 !emit { modrm(); mem(size => 8); }
-+PSIGNB          SSSE3   00001111 00111000 00001000 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PSIGNW_64       SSSE3   00001111 00111000 00001001 !emit { modrm(); mem(size => 8); }
-+PSIGNW          SSSE3   00001111 00111000 00001001 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-+PSIGND_64       SSSE3   00001111 00111000 00001010 !emit { modrm(); mem(size => 8); }
-+PSIGND          SSSE3   00001111 00111000 00001010 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++ROUNDPS         SSE4_1  00001111 00111010 00001000 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
++ROUNDPD         SSE4_1  00001111 00111010 00001001 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
++ROUNDSS         SSE4_1  00001111 00111010 00001010 !emit { data16(); modrm(); mem(size => 4); imm(size => 1); }
++ROUNDSD         SSE4_1  00001111 00111010 00001011 !emit { data16(); modrm(); mem(size => 8); imm(size => 1); }
 +
  # Comparison Instructions
  PCMPEQB         MMX     00001111 01110100 !emit { modrm(); mem(size => 8); }
  PCMPEQB         SSE2    00001111 01110100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-@@ -256,6 +289,9 @@ PSRAW_imm       SSE2    00001111 01110001 !emit { data16(); modrm(mod => MOD_DIR
- PSRAD_imm       MMX     00001111 01110010 !emit { modrm(mod => MOD_DIRECT, reg => 4); imm(size => 1); }
- PSRAD_imm       SSE2    00001111 01110010 !emit { data16(); modrm(mod => MOD_DIRECT, reg => 4); imm(size => 1); }
- 
-+PALIGNR_64      SSSE3   00001111 00111010 00001111 !emit { modrm(); mem(size => 8); imm(size => 1); }
-+PALIGNR         SSSE3   00001111 00111010 00001111 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
+@@ -209,12 +230,21 @@ PCMPEQW         MMX     00001111 01110101 !emit { modrm(); mem(size => 8); }
+ PCMPEQW         SSE2    00001111 01110101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PCMPEQD         MMX     00001111 01110110 !emit { modrm(); mem(size => 8); }
+ PCMPEQD         SSE2    00001111 01110110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PCMPEQQ         SSE4_1  00001111 00111000 00101001 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PCMPGTB         MMX     00001111 01100100 !emit { modrm(); mem(size => 8); }
+ PCMPGTB         SSE2    00001111 01100100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PCMPGTW         MMX     00001111 01100101 !emit { modrm(); mem(size => 8); }
+ PCMPGTW         SSE2    00001111 01100101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PCMPGTD         MMX     00001111 01100110 !emit { modrm(); mem(size => 8); }
+ PCMPGTD         SSE2    00001111 01100110 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PCMPGTQ         SSE4_2  00001111 00111000 00110111 !emit { data16(); modrm(); mem(size => 16, align => 16); }
 +
- # Shuffle, Unpack, Blend, Insert, Extract, Broadcast, Permute, Scatter Instructions
- PACKSSWB        MMX     00001111 01100011 !emit { modrm(); mem(size => 8); }
- PACKSSWB        SSE2    00001111 01100011 !emit { data16(); modrm(); mem(size => 16, align => 16); }
-@@ -285,6 +321,8 @@ UNPCKLPD        SSE2    00001111 00010100 !emit { data16(); modrm(); mem(size =>
- UNPCKHPS        SSE     00001111 00010101 !emit { modrm(); mem(size => 16, align => 16); }
- UNPCKHPD        SSE2    00001111 00010101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PCMPESTRM       SSE4_2  00001111 00111010 01100000 !emit { data16(); modrm(); mem(size => 16); imm(size => 1); }
++PCMPESTRI       SSE4_2  00001111 00111010 01100001 !emit { data16(); modrm(); mem(size => 16); imm(size => 1); }
++PCMPISTRM       SSE4_2  00001111 00111010 01100010 !emit { data16(); modrm(); mem(size => 16); imm(size => 1); }
++PCMPISTRI       SSE4_2  00001111 00111010 01100011 !emit { data16(); modrm(); mem(size => 16); imm(size => 1); }
++
++PTEST           SSE4_1  00001111 00111000 00010111 !emit { data16(); modrm(); mem(size => 16, align => 16); }
  
-+PSHUFB_64       SSSE3   00001111 00111000 00000000 !emit { modrm(); mem(size => 8); }
-+PSHUFB          SSSE3   00001111 00111000 00000000 !emit { data16(); modrm(); mem(size => 16, align => 16); }
- PSHUFW          SSE     00001111 01110000 !emit { modrm(); mem(size => 8); imm(size => 1); }
- PSHUFLW         SSE2    00001111 01110000 !emit { repne(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
- PSHUFHW         SSE2    00001111 01110000 !emit { rep(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
+ CMPPS           SSE     00001111 11000010 !emit { modrm(); mem(size => 16, align => 16); imm(size => 1); }
+ CMPPD           SSE2    00001111 11000010 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
+@@ -299,6 +329,7 @@ PACKSSDW        MMX     00001111 01101011 !emit { modrm(); mem(size => 8); }
+ PACKSSDW        SSE2    00001111 01101011 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ PACKUSWB        MMX     00001111 01100111 !emit { modrm(); mem(size => 8); }
+ PACKUSWB        SSE2    00001111 01100111 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PACKUSDW        SSE4_1  00001111 00111000 00101011 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+ 
+ PUNPCKHBW       MMX     00001111 01101000 !emit { modrm(); mem(size => 8); }
+ PUNPCKHBW       SSE2    00001111 01101000 !emit { data16(); modrm(); mem(size => 16, align => 16); }
+@@ -331,13 +362,50 @@ PSHUFD          SSE2    00001111 01110000 !emit { data16(); modrm(); mem(size =>
+ SHUFPS          SSE     00001111 11000110 !emit { modrm(); mem(size => 16, align => 16); imm(size => 1); }
+ SHUFPD          SSE2    00001111 11000110 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
+ 
++BLENDPS         SSE4_1  00001111 00111010 00001100 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
++BLENDPD         SSE4_1  00001111 00111010 00001101 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
++BLENDVPS        SSE4_1  00001111 00111000 00010100 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++BLENDVPD        SSE4_1  00001111 00111000 00010101 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PBLENDVB        SSE4_1  00001111 00111000 00010000 !emit { data16(); modrm(); mem(size => 16, align => 16); }
++PBLENDW         SSE4_1  00001111 00111010 00001110 !emit { data16(); modrm(); mem(size => 16, align => 16); imm(size => 1); }
++
++INSERTPS        SSE4_1  00001111 00111010 00100001 !emit { data16(); modrm(); mem(size => 4); imm(size => 1); }
++PINSRB          SSE4_1  00001111 00111010 00100000 !emit { data16(); modrm(); mem(size => 1); imm(size => 1); }
+ PINSRW          SSE     00001111 11000100 !emit { modrm(); mem(size => 2); imm(size => 1); }
+ PINSRW          SSE2    00001111 11000100 !emit { data16(); modrm(); mem(size => 2); imm(size => 1); }
++PINSRD          SSE4_1  00001111 00111010 00100010 !emit { data16(); modrm(); mem(size => 4); imm(size => 1); }
++PINSRQ          SSE4_1  00001111 00111010 00100010 !emit { data16(); rex(w => 1); modrm(); mem(size => 8); imm(size => 1); }
++
++EXTRACTPS       SSE4_1  00001111 00111010 00010111 !emit { data16(); modrm(mod => MOD_DIRECT, rm => ~REG_ESP); imm(size => 1); }
++EXTRACTPS_mem   SSE4_1  00001111 00111010 00010111 !emit { data16(); modrm(mod => ~MOD_DIRECT); mem(size => 4); imm(size => 1); }
++
++PEXTRB          SSE4_1  00001111 00111010 00010100 !emit { data16(); modrm(mod => MOD_DIRECT, rm => ~REG_ESP); imm(size => 1); }
++PEXTRB_mem      SSE4_1  00001111 00111010 00010100 !emit { data16(); modrm(mod => ~MOD_DIRECT); mem(size => 1); imm(size => 1); }
++PEXTRW          SSE4_1  00001111 00111010 00010101 !emit { data16(); modrm(mod => MOD_DIRECT, rm => ~REG_ESP); imm(size => 1); }
++PEXTRW_mem      SSE4_1  00001111 00111010 00010101 !emit { data16(); modrm(mod => ~MOD_DIRECT); mem(size => 2); imm(size => 1); }
++PEXTRD          SSE4_1  00001111 00111010 00010110 !emit { data16(); modrm(mod => MOD_DIRECT, rm => ~REG_ESP); imm(size => 1); }
++PEXTRD_mem      SSE4_1  00001111 00111010 00010110 !emit { data16(); modrm(mod => ~MOD_DIRECT); mem(size => 4); imm(size => 1); }
++PEXTRQ          SSE4_1  00001111 00111010 00010110 !emit { data16(); rex(w => 1); modrm(mod => MOD_DIRECT, rm => ~REG_ESP); imm(size => 1); }
++PEXTRQ_mem      SSE4_1  00001111 00111010 00010110 !emit { data16(); rex(w => 1); modrm(mod => ~MOD_DIRECT); mem(size => 8); imm(size => 1); }
+ 
+ PEXTRW_reg      SSE     00001111 11000101 !emit { modrm(mod => MOD_DIRECT, reg => ~REG_ESP); imm(size => 1); }
+ PEXTRW_reg      SSE2    00001111 11000101 !emit { data16(); modrm(mod => MOD_DIRECT, reg => ~REG_ESP); imm(size => 1); }
+ 
+ # Conversion Instructions
++PMOVSXBW        SSE4_1  00001111 00111000 00100000 !emit { data16(); modrm(); mem(size => 8); }
++PMOVSXBD        SSE4_1  00001111 00111000 00100001 !emit { data16(); modrm(); mem(size => 4); }
++PMOVSXBQ        SSE4_1  00001111 00111000 00100010 !emit { data16(); modrm(); mem(size => 2); }
++PMOVSXWD        SSE4_1  00001111 00111000 00100011 !emit { data16(); modrm(); mem(size => 8); }
++PMOVSXWQ        SSE4_1  00001111 00111000 00100100 !emit { data16(); modrm(); mem(size => 4); }
++PMOVSXDQ        SSE4_1  00001111 00111000 00100101 !emit { data16(); modrm(); mem(size => 8); }
++
++PMOVZXBW        SSE4_1  00001111 00111000 00110000 !emit { data16(); modrm(); mem(size => 8); }
++PMOVZXBD        SSE4_1  00001111 00111000 00110001 !emit { data16(); modrm(); mem(size => 4); }
++PMOVZXBQ        SSE4_1  00001111 00111000 00110010 !emit { data16(); modrm(); mem(size => 2); }
++PMOVZXWD        SSE4_1  00001111 00111000 00110011 !emit { data16(); modrm(); mem(size => 8); }
++PMOVZXWQ        SSE4_1  00001111 00111000 00110100 !emit { data16(); modrm(); mem(size => 4); }
++PMOVZXDQ        SSE4_1  00001111 00111000 00110101 !emit { data16(); modrm(); mem(size => 8); }
++
+ CVTPI2PS        SSE     00001111 00101010 !emit { modrm(); mem(size => 8); }
+ CVTSI2SS        SSE     00001111 00101010 !emit { rep(); modrm(); mem(size => 4); }
+ CVTSI2SS_64     SSE     00001111 00101010 !emit { rep(); rex(w => 1); modrm(); mem(size => 8); }
+@@ -383,6 +451,7 @@ MOVNTI          SSE2    00001111 11000011 !emit { modrm(mod => ~MOD_DIRECT); mem
+ MOVNTI_64       SSE2    00001111 11000011 !emit { rex(w => 1); modrm(mod => ~MOD_DIRECT); mem(size => 8); }
+ MOVNTQ          SSE     00001111 11100111 !emit { modrm(mod => ~MOD_DIRECT); mem(size => 8); }
+ MOVNTDQ         SSE2    00001111 11100111 !emit { data16(); modrm(mod => ~MOD_DIRECT); mem(size => 16, align => 16); }
++MOVNTDQA        SSE4_1  00001111 00111000 00101010 !emit { data16(); modrm(mod => ~MOD_DIRECT); mem(size => 16, align => 16); }
+ 
+ PREFETCHT0      SSE     00001111 00011000 !emit { modrm(mod => ~MOD_DIRECT, reg => 1); mem(size => 1); }
+ PREFETCHT1      SSE     00001111 00011000 !emit { modrm(mod => ~MOD_DIRECT, reg => 2); mem(size => 1); }
 -- 
 2.20.1
 
