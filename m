@@ -2,69 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5995BCD3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:25:13 +0200 (CEST)
-Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3565BCE8
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:29:42 +0200 (CEST)
+Received: from localhost ([::1]:58800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwIy-00083c-OA
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:25:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40146)
+	id 1hhwNJ-0004Sx-3Y
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:29:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40590)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <anup@brainfault.org>) id 1hhwH6-0006db-KK
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:17 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhwJS-0001EZ-Ag
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:25:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <anup@brainfault.org>) id 1hhwH5-0007h0-CP
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:16 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33149)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <anup@brainfault.org>) id 1hhwH4-0007fP-V2
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:15 -0400
-Received: by mail-wr1-x442.google.com with SMTP id n9so13896729wru.0
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:23:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ziosd74qZsVijVIqdc9xtnOkOcze7h+1KOaH7g6GIG0=;
- b=Y+F2BRM4kBpCaIFGW4xLqlUm4jFNbaI4J6L5cR15HB4k11/SuUSyTNaEa5Im7x4P5K
- 8MA+Sg1Z12758vCCasdeHMnXnkpp1qzbQOakWuGWcvCQfMo47ZQvsTGyTK59rN0X1SLb
- sTDdgLergbCRsKS0VQNoXiIRaUqd3lxRkuJRq01nrXd5b9itsoEfIzsDUw1MQ8m4Nky1
- QqkMKvfk1HCWnbSKk+8fdtR0Uw5D3zds3pZVumJrZu1Wh1p/Nz9z+ISn9szaHGbN332R
- j55fKCc5rm4wAfPC42x8mp0tE0jVB5oDejqGCjHIWb1TXzNGoBQAzJEMzkMiRtvO8Rto
- KXAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Ziosd74qZsVijVIqdc9xtnOkOcze7h+1KOaH7g6GIG0=;
- b=B5Bc1FeR0/VfkLWDn/dgLbOEag3OBj0q4BySRr3tsDDZ+yzvErTSuFrwA6jCiCOAGS
- f/zsYMrhhxZSB6p13Jt/0Evg536W9qzyvUif57eM5SJYaQyoikEQLp3mCWUHQur8OA3E
- 9RMFrgnCliSOynRX1QDWkKJA5cJg7HZ8pdkwcFWEn8JT9ptwLb7JPwTZgZSFwjKGVkOE
- bda0fAvtFEQtL6EpTKzLmvE3dEzOwAPBBVULeLbPHWBdI1xzlcO5p6SjTbfZ3pAuzhWz
- A2WxiY6HAAo0Roep/Zjjs3sNpLaAaYwm4SRqyIErlqFTBmW+oXie19KI8ra8VV/FSmKM
- D5sA==
-X-Gm-Message-State: APjAAAXKqSKT0CgBEdc6LzhMw/ZalUNHbYliFuGGxrRAbss7RpEFJXLn
- mhY8DQekDU7lFYDbdBrLif5pFdYSfeO/DWzCjeramA==
-X-Google-Smtp-Source: APXvYqwmY9ADqvCBaSD7YNoyOl5M0zME1fQpbWFLmUA1ZfRLr0fBpjDi1FmpRxRSXoUwbAXopgfYcArCnJS3dVJhK2I=
-X-Received: by 2002:a5d:4e50:: with SMTP id r16mr19580039wrt.227.1561987392759; 
- Mon, 01 Jul 2019 06:23:12 -0700 (PDT)
+ (envelope-from <philmd@redhat.com>) id 1hhwJQ-0001Mp-PZ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:25:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60956)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hhwJK-0001FL-Fz; Mon, 01 Jul 2019 09:25:35 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id BFD6AC0524FB;
+ Mon,  1 Jul 2019 13:25:30 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.205.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F01C6085B;
+ Mon,  1 Jul 2019 13:25:18 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  1 Jul 2019 15:24:49 +0200
+Message-Id: <20190701132516.26392-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20190627152011.18686-1-palmer@sifive.com>
- <20190627152011.18686-34-palmer@sifive.com>
- <20190628104605.000062c4@huawei.com>
- <CAKmqyKP1c5GHKaDuOvu11UtCwnrUosxTtoDAeW7GOS=s+h27aw@mail.gmail.com>
- <20190701134029.00004b97@huawei.com>
-In-Reply-To: <20190701134029.00004b97@huawei.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Mon, 1 Jul 2019 18:53:02 +0530
-Message-ID: <CAAhSdy1c47+MaD4GixWB+u-+1Rb9ULAj0NweSzyzy+VdCXns0Q@mail.gmail.com>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [Qemu-riscv] [PULL 33/34] roms: Add OpenSBI
- version 0.3
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Mon, 01 Jul 2019 13:25:33 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3 00/27] Support disabling TCG on ARM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,89 +53,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Palmer Dabbelt <palmer@sifive.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jones <drjones@redhat.com>, Samuel Ortiz <sameo@linux.intel.com>,
+ Rob Bradford <robert.bradford@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 1, 2019 at 6:12 PM Jonathan Cameron
-<jonathan.cameron@huawei.com> wrote:
->
-> On Fri, 28 Jun 2019 09:12:45 -0700
-> Alistair Francis <alistair23@gmail.com> wrote:
->
-> > On Fri, Jun 28, 2019 at 2:47 AM Jonathan Cameron
-> > <jonathan.cameron@huawei.com> wrote:
-> > >
-> > > On Thu, 27 Jun 2019 08:20:10 -0700
-> > > Palmer Dabbelt <palmer@sifive.com> wrote:
-> > >
-> > > > From: Alistair Francis <alistair.francis@wdc.com>
-> > > >
-> > > > Add OpenSBI version 0.3 as a git submodule and as a prebult binary.
-> > > >
-> > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> > > > Tested-by: Bin Meng <bmeng.cn@gmail.com>
-> > > > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
-> > >
-> > > I sent a late bug report on this one.. Hence posting here as well
-> > > to make sure it doesn't fall through the cracks!
-> > >
-> > > Right now you can't actually build the opensbi64-virt firmware
-> > > due to cut and paste error in the Makefile.
-> >
-> > Ah, thanks for the bug report.
-> >
-> > @Palmer Dabbelt I'm just going to send you a fixup commit. Can you
-> > apply it to your tree and send a PRv2?
-> >
-> > >
-> > > As a side note, I hit this because OpenSBI 0.3 is resulting in a login
-> > > loop on a debian test image and the current upstream isn't.  I haven't
-> > > debugged yet, but someone else may hit that problem.
-> >
-> > Unfortunately OpenSBI 0.3 is a little old now, in saying that I didn't
-> > know there are bugs in it? Which kernel are you using?
->
-> Mainline 5.2.0-rc5.
->
-> Just in case I also checked 5.2.0-rc7
->
-> I tried doing an odd git bisect with good and bad reversed to figure out
-> what fixed the problem, but boot wedged at "Run /sbin/init as init process."
->
-> The wedge was bisected to:
->
-> 4e2cd47820 ("lib: Flush everything when remote TLB flush range is too large")
->
-> Which the patch correctly identifies as a problem introduced this kernel cycle.
-> 5.2-rc1.
->
-> So on that basis alone I'd suggest we want to move to a more recent openSBI
-> asap, after all the 5.2 kernel will be out in a week or so.
->
-> I'm a bit short on time (flight to catch), so haven't pushed that fix that
-> far back in the tree yet in order to figure what is causing the login loop.
-> Won't have access to relevant build machines until Wednesday.
->
-> That patch cherry-picked on lib: Optimize TLB flush IPIs
-> seems fine, so it is before that point...
->
-> Passing that point would require real effort though as the two patches
-> are changing the same code.
->
-> So I had a go from the other end (0.3) to see if it was fixed quickly.
-> Ran out of time, but at
-> "firmware: Reset all registers and flush the icache" it superficially all
-> seems to be working with no TLB related hang, or login loop.
+Paolo motived me to salvage this (other!) previous series fromi
+Samuel Ortiz (NEMU project).
 
-We plan to release OpenSBI 0.4 in couple of days. It would be best
-to pick-up OpenSBI 0.4 FW_JUMP binaries.
+v1 cover from Samuel [1]:
+
+  This patchset allows for building and running ARM targets with TCG
+  disabled. It splits the target/arm/helper.c file into logical TCG and
+  non TCG dependent files so that one can build and run QEMU binaries wit=
+h
+  or without TCG enabled.
+
+  The rationale behind this work comes from the NEMU project where we're
+  trying to only support x86 and ARM 64-bit architectures, without
+  including the TCG code base. We can only do so if we can build and run
+  ARM binaries with TCG disabled.
+
+v2:
+
+Most of the patches from v1 got adapted, except the "Move all
+interrupt handlers" patch, because Peter disagreed with it.
+See threads:
+ https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg03908.html
+ https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg07304.html
+Anyway this is not a blocking issue, and can be done once this series
+get merged.
+
+v3:
+(since v2: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg03271=
+.html)
+- Addressed Alex's review comments from v2.
+- added RFC patches to remove (pre-v7, M-profile, R-profile) from KVM-onl=
+y build
+
+Patches 1-9 are ready for the ARM queue.
+
+--
+
+This is a kind of series you don't want to rebase (as in, the quicker
+it get merged, the saner). It is also one of my most painful QEMU
+series, and really wish it was worthwhile.
 
 Regards,
-Anup
+
+Phil.
+
+[1]: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
+
+Philippe Mathieu-Daud=C3=A9 (26):
+  target/arm: Makefile cleanup (Aarch64)
+  target/arm: Makefile cleanup (ARM)
+  target/arm: Makefile cleanup (KVM)
+  target/arm: Makefile cleanup (softmmu)
+  target/arm: Add copyright boilerplate
+  target/arm/helper: Remove unused include
+  target/arm: Fix multiline comment syntax
+  target/arm: Fix coding style issues
+  target/arm: Move CPU state dumping routines to cpu.c
+  target/arm: Declare get_phys_addr() function publicly
+  target/arm: Move TLB related routines to tlb_helper.c
+  target/arm: Move debug routines to debug_helper.c
+  target/arm/vfp_helper: Move code around
+  target/arm/vfp_helper: Extract vfp_set_fpscr_to_host()
+  target/arm/vfp_helper: Extract vfp_set_fpscr_from_host()
+  target/arm/vfp_helper: Restrict the SoftFloat use to TCG
+  target/arm: Restrict semi-hosting to TCG
+  target/arm: Restrict PSCI to TCG
+  target/arm: Declare arm_log_exception() function publicly
+  target/arm: Declare some M-profile functions publicly
+  target/arm/helper: Move M profile routines to m_helper.c
+  target/arm: Restrict pre-ARMv7 cpus to TCG
+  target/arm: Do not build pre-ARMv7 cpus when using KVM
+  target/arm: Restrict R and M profiles to TCG
+  target/arm: Do not build A/M-profile cpus when using KVM
+  target/arm: Do not build TCG objects when TCG is off
+
+Samuel Ortiz (1):
+  target/arm: Move the DC ZVA helper into op_helper
+
+ default-configs/arm-softmmu.mak |   47 +-
+ hw/arm/Kconfig                  |   42 +-
+ target/arm/Makefile.objs        |   31 +-
+ target/arm/cpu.c                |  259 ++-
+ target/arm/cpu.h                |    9 +-
+ target/arm/debug_helper.c       |  334 ++++
+ target/arm/helper.c             | 2837 +------------------------------
+ target/arm/internals.h          |   69 +-
+ target/arm/m_helper.c           | 2676 +++++++++++++++++++++++++++++
+ target/arm/op_helper.c          |  505 +-----
+ target/arm/tlb_helper.c         |  200 +++
+ target/arm/translate-a64.c      |  128 --
+ target/arm/translate.c          |   91 +-
+ target/arm/translate.h          |    5 -
+ target/arm/vfp_helper.c         |  199 ++-
+ 15 files changed, 3873 insertions(+), 3559 deletions(-)
+ create mode 100644 target/arm/debug_helper.c
+ create mode 100644 target/arm/m_helper.c
+ create mode 100644 target/arm/tlb_helper.c
+
+--=20
+2.20.1
+
 
