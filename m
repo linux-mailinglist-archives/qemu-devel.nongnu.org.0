@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A8845BD40
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:48:08 +0200 (CEST)
-Received: from localhost ([::1]:58957 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 278FF5BD18
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:37:57 +0200 (CEST)
+Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwf9-00048t-IR
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:48:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41045)
+	id 1hhwVI-0003cr-Ba
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41175)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhwKf-0002Bv-7d
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:00 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhwKk-0002OQ-1N
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhwKd-0002Lf-Hy
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:26:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59552)
+ (envelope-from <philmd@redhat.com>) id 1hhwKi-0002TZ-Hv
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35732)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhwKI-000204-BL; Mon, 01 Jul 2019 09:26:36 -0400
+ id 1hhwKe-00023U-88; Mon, 01 Jul 2019 09:26:56 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 2A5013082231;
- Mon,  1 Jul 2019 13:26:29 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 5E77A330260;
+ Mon,  1 Jul 2019 13:26:32 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BCEC66085B;
- Mon,  1 Jul 2019 13:26:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9BF686085B;
+ Mon,  1 Jul 2019 13:26:29 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 15:25:04 +0200
-Message-Id: <20190701132516.26392-16-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 15:25:05 +0200
+Message-Id: <20190701132516.26392-17-philmd@redhat.com>
 In-Reply-To: <20190701132516.26392-1-philmd@redhat.com>
 References: <20190701132516.26392-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 01 Jul 2019 13:26:29 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Mon, 01 Jul 2019 13:26:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 15/27] target/arm/vfp_helper: Extract
- vfp_set_fpscr_to_host()
+Subject: [Qemu-devel] [PATCH v3 16/27] target/arm/vfp_helper: Extract
+ vfp_set_fpscr_from_host()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,168 +67,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The vfp_set_fpscr() helper contains code specific to the host
 floating point implementation (here the SoftFloat library).
-Extract this code to vfp_set_fpscr_to_host().
+Extract this code to vfp_set_fpscr_from_host().
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/vfp_helper.c | 127 +++++++++++++++++++++-------------------
- 1 file changed, 66 insertions(+), 61 deletions(-)
+ target/arm/vfp_helper.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index d54e325324..b19a395b67 100644
+index b19a395b67..838f7d25fd 100644
 --- a/target/arm/vfp_helper.c
 +++ b/target/arm/vfp_helper.c
-@@ -81,71 +81,11 @@ static inline int vfp_exceptbits_to_host(int target_b=
-its)
+@@ -81,6 +81,18 @@ static inline int vfp_exceptbits_to_host(int target_bi=
+ts)
      return host_bits;
  }
 =20
--uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
--{
--    uint32_t i, fpscr;
--
--    fpscr =3D env->vfp.xregs[ARM_VFP_FPSCR]
--            | (env->vfp.vec_len << 16)
--            | (env->vfp.vec_stride << 20);
--
--    i =3D get_float_exception_flags(&env->vfp.fp_status);
--    i |=3D get_float_exception_flags(&env->vfp.standard_fp_status);
--    /* FZ16 does not generate an input denormal exception.  */
--    i |=3D (get_float_exception_flags(&env->vfp.fp_status_f16)
--          & ~float_flag_input_denormal);
--    fpscr |=3D vfp_exceptbits_from_host(i);
--
--    i =3D env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc=
-[3];
--    fpscr |=3D i ? FPCR_QC : 0;
--
--    return fpscr;
--}
--
--uint32_t vfp_get_fpscr(CPUARMState *env)
--{
--    return HELPER(vfp_get_fpscr)(env);
--}
--
--void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
-+static void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val)
- {
-     int i;
-     uint32_t changed =3D env->vfp.xregs[ARM_VFP_FPSCR];
-=20
--    /* When ARMv8.2-FP16 is not supported, FZ16 is RES0.  */
--    if (!cpu_isar_feature(aa64_fp16, env_archcpu(env))) {
--        val &=3D ~FPCR_FZ16;
--    }
--
--    if (arm_feature(env, ARM_FEATURE_M)) {
--        /*
--         * M profile FPSCR is RES0 for the QC, STRIDE, FZ16, LEN bits
--         * and also for the trapped-exception-handling bits IxE.
--         */
--        val &=3D 0xf7c0009f;
--    }
--
--    /*
--     * We don't implement trapped exception handling, so the
--     * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES=
-0!)
--     *
--     * If we exclude the exception flags, IOC|DZC|OFC|UFC|IXC|IDC
--     * (which are stored in fp_status), and the other RES0 bits
--     * in between, then we clear all of the low 16 bits.
--     */
--    env->vfp.xregs[ARM_VFP_FPSCR] =3D val & 0xf7c80000;
--    env->vfp.vec_len =3D (val >> 16) & 7;
--    env->vfp.vec_stride =3D (val >> 20) & 3;
--
--    /*
--     * The bit we set within fpscr_q is arbitrary; the register as a
--     * whole being zero/non-zero is what counts.
--     */
--    env->vfp.qc[0] =3D val & FPCR_QC;
--    env->vfp.qc[1] =3D 0;
--    env->vfp.qc[2] =3D 0;
--    env->vfp.qc[3] =3D 0;
--
-     changed ^=3D val;
-     if (changed & (3 << 22)) {
-         i =3D (val >> 22) & 3;
-@@ -193,6 +133,71 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_=
-t val)
-     set_float_exception_flags(0, &env->vfp.standard_fp_status);
- }
-=20
-+uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
++static uint32_t vfp_get_fpscr_from_host(CPUARMState *env)
 +{
-+    uint32_t i, fpscr;
-+
-+    fpscr =3D env->vfp.xregs[ARM_VFP_FPSCR]
-+            | (env->vfp.vec_len << 16)
-+            | (env->vfp.vec_stride << 20);
++    uint32_t i;
 +
 +    i =3D get_float_exception_flags(&env->vfp.fp_status);
 +    i |=3D get_float_exception_flags(&env->vfp.standard_fp_status);
 +    /* FZ16 does not generate an input denormal exception.  */
 +    i |=3D (get_float_exception_flags(&env->vfp.fp_status_f16)
 +          & ~float_flag_input_denormal);
-+    fpscr |=3D vfp_exceptbits_from_host(i);
-+
-+    i =3D env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc=
-[3];
-+    fpscr |=3D i ? FPCR_QC : 0;
-+
-+    return fpscr;
++    return vfp_exceptbits_from_host(i);
 +}
 +
-+uint32_t vfp_get_fpscr(CPUARMState *env)
-+{
-+    return HELPER(vfp_get_fpscr)(env);
-+}
-+
-+void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
-+{
-+    /* When ARMv8.2-FP16 is not supported, FZ16 is RES0.  */
-+    if (!cpu_isar_feature(aa64_fp16, env_archcpu(env))) {
-+        val &=3D ~FPCR_FZ16;
-+    }
-+
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        /*
-+         * M profile FPSCR is RES0 for the QC, STRIDE, FZ16, LEN bits
-+         * and also for the trapped-exception-handling bits IxE.
-+         */
-+        val &=3D 0xf7c0009f;
-+    }
-+
-+    /*
-+     * We don't implement trapped exception handling, so the
-+     * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES=
-0!)
-+     *
-+     * If we exclude the exception flags, IOC|DZC|OFC|UFC|IXC|IDC
-+     * (which are stored in fp_status), and the other RES0 bits
-+     * in between, then we clear all of the low 16 bits.
-+     */
-+    env->vfp.xregs[ARM_VFP_FPSCR] =3D val & 0xf7c80000;
-+    env->vfp.vec_len =3D (val >> 16) & 7;
-+    env->vfp.vec_stride =3D (val >> 20) & 3;
-+
-+    /*
-+     * The bit we set within fpscr_q is arbitrary; the register as a
-+     * whole being zero/non-zero is what counts.
-+     */
-+    env->vfp.qc[0] =3D val & FPCR_QC;
-+    env->vfp.qc[1] =3D 0;
-+    env->vfp.qc[2] =3D 0;
-+    env->vfp.qc[3] =3D 0;
-+
-+    vfp_set_fpscr_to_host(env, val);
-+}
-+
- void vfp_set_fpscr(CPUARMState *env, uint32_t val)
+ static void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val)
  {
-     HELPER(vfp_set_fpscr)(env, val);
+     int i;
+@@ -141,12 +153,7 @@ uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
+             | (env->vfp.vec_len << 16)
+             | (env->vfp.vec_stride << 20);
+=20
+-    i =3D get_float_exception_flags(&env->vfp.fp_status);
+-    i |=3D get_float_exception_flags(&env->vfp.standard_fp_status);
+-    /* FZ16 does not generate an input denormal exception.  */
+-    i |=3D (get_float_exception_flags(&env->vfp.fp_status_f16)
+-          & ~float_flag_input_denormal);
+-    fpscr |=3D vfp_exceptbits_from_host(i);
++    fpscr |=3D vfp_get_fpscr_from_host(env);
+=20
+     i =3D env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc=
+[3];
+     fpscr |=3D i ? FPCR_QC : 0;
 --=20
 2.20.1
 
