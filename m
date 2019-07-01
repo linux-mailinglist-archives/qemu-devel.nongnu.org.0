@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633455B3C6
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 07:02:52 +0200 (CEST)
-Received: from localhost ([::1]:47818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8406B5B45B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 07:50:15 +0200 (CEST)
+Received: from localhost ([::1]:47920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhoSp-0003fH-18
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 01:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60600)
+	id 1hhpCg-0002PC-BC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 01:50:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hhoRK-00037K-Jq
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:01:19 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hhpAg-0000e4-Ee
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hhoRJ-0003pn-5N
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:01:18 -0400
-Received: from ozlabs.org ([203.11.71.1]:33779)
+ (envelope-from <dgibson@ozlabs.org>) id 1hhpAe-0005q0-Vq
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:10 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:33321 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hhoRH-0003Wc-OB; Mon, 01 Jul 2019 01:01:17 -0400
+ id 1hhpAe-0005oA-Av; Mon, 01 Jul 2019 01:48:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45cZvY3HJrz9sPB; Mon,  1 Jul 2019 15:00:57 +1000 (AEST)
+ id 45cbxs0HmHz9s4Y; Mon,  1 Jul 2019 15:48:00 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1561957257;
- bh=9/iKxDWJaVl8YI5Buf3vy1F8pCkAQy72zreiVxW0QWU=;
+ d=gibson.dropbear.id.au; s=201602; t=1561960081;
+ bh=vb2ASapvK2L2M4YhLizryolwqb73LHVMNEGTx7o4AYQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kyUB2rfYjUqsu3tXzjmlAS9b2CHkXUVwPHArFd2tIte64teN1T+f64hQuiAClvfcm
- pdTTYpl7uLoF36g80FeePzEMv6pUDQhQFrOiyu4EJYpPw63ZL7b/bkHZiW+0BBNn/Q
- muQFVAYmwCmtgA4ETcigeL1GoKyyuh1wo6qmHcZ0=
-Date: Mon, 1 Jul 2019 14:42:01 +1000
+ b=T5JamDfCA/rjStavC19h0AMfKz9NW/Plz8Qj8rtMnBP0622Vju661OmhwCvpXUsUo
+ kPYW79/iTI1FkxdchJsopRDvw3XgtoInadeJm7GiNk5YaUqrAmPvAWEJeUn41iqWCl
+ s99AuygBFUBejX67q//Cp4tBuha3xqOAZLnfcH2Y=
+Date: Mon, 1 Jul 2019 15:04:26 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Message-ID: <20190701044201.GH2138@umbus.fritz.box>
-References: <20190624055812.3906-1-sjitindarsingh@gmail.com>
- <20190628092952.GB29462@umbus.fritz.box>
- <1561955001.10832.2.camel@gmail.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190701050426.GI2138@umbus.fritz.box>
+References: <20190310082703.1245-1-david@gibson.dropbear.id.au>
+ <20190310082703.1245-58-david@gibson.dropbear.id.au>
+ <20190312150115.6zuaid43gr7hklt5@unused>
+ <58de43c6-31d5-a0a3-b443-54a33f11d75a@kaod.org>
+ <20190312191409.vxnpscrephtk6otv@dhcp-17-165.bos.redhat.com>
+ <1746025955.7399905.1552419034356.JavaMail.zimbra@redhat.com>
+ <154364d7-fe5b-4f40-b976-b85ff9060ee0@kaod.org>
+ <dc6578eb-569b-477e-9a74-2925de8ac204@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ik0NlRzMGhMnxrMX"
+ protocol="application/pgp-signature"; boundary="N8NGGaQn1mzfvaPg"
 Content-Disposition: inline
-In-Reply-To: <1561955001.10832.2.camel@gmail.com>
+In-Reply-To: <dc6578eb-569b-477e-9a74-2925de8ac204@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 1/2] ppc/spapr: Add
- implementation of hcall H_PURR
+Subject: Re: [Qemu-devel] [PULL 57/60] target/ppc: add HV support for POWER9
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,114 +61,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, peter maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ik0NlRzMGhMnxrMX
-Content-Type: text/plain; charset=us-ascii
+--N8NGGaQn1mzfvaPg
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 01, 2019 at 02:23:21PM +1000, Suraj Jitindar Singh wrote:
-> On Fri, 2019-06-28 at 19:29 +1000, David Gibson wrote:
-> > On Mon, Jun 24, 2019 at 03:58:11PM +1000, Suraj Jitindar Singh wrote:
-> > > The hcall H_PURR is used by a guest to read the PURR (processor
-> > > utilisation of resources register). A guest expects that this
-> > > register
-> > > will count at a rate of timebase scaled by the number of guest
-> > > vcpus
-> > > present in the vcore. That is the per vcpu purr will count at a
-> > > rate of
-> > > timebase / # vcpus per vcore.
-> > >=20
-> > > Implement a handler for the H_PURR hcall and return the purr value
-> > > divided by smp_threads so that the sum of the purr deltas across
-> > > the
-> > > vcpus of a vcore equals the timebase delta
-> > >=20
-> > > Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+On Fri, Jun 28, 2019 at 03:20:32PM +0200, Philippe Mathieu-Daud=E9 wrote:
+> Hi,
+>=20
+> On 3/12/19 8:58 PM, C=E9dric Le Goater wrote:
+> > On 3/12/19 8:30 PM, Cleber Rosa wrote:
+> >>> From: "Cleber Rosa" <crosa@redhat.com>
+> >>> Sent: Tuesday, March 12, 2019 3:14:09 PM
+> >>> Subject: Re: [Qemu-devel] [PULL 57/60] target/ppc: add HV support for=
+ POWER9
+> >>>
+> >>> On Tue, Mar 12, 2019 at 07:34:04PM +0100, C=E9dric Le Goater wrote:
+> >>>> On 3/12/19 4:01 PM, Cleber Rosa wrote:
+> >>>>> On Sun, Mar 10, 2019 at 07:27:00PM +1100, David Gibson wrote:
+> >>>>>> From: C=E9dric Le Goater <clg@kaod.org>
+> >>>>>>
+> >>>>>> We now have enough support to boot a PowerNV machine with a POWER9
+> >>>>>> processor. Allow HV mode on POWER9.
+> >>>>>>
+> >>>>>> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> >>>>>> Message-Id: <20190307223548.20516-16-clg@kaod.org>
+> >>>>>> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> >>>>>> ---
+> >>>>>>  target/ppc/translate_init.inc.c | 3 ++-
+> >>>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>>>>
+> >>>>>> diff --git a/target/ppc/translate_init.inc.c
+> >>>>>> b/target/ppc/translate_init.inc.c
+> >>>>>> index af70a3b78c..0bd555eb19 100644
+> >>>>>> --- a/target/ppc/translate_init.inc.c
+> >>>>>> +++ b/target/ppc/translate_init.inc.c
+> >>>>>> @@ -8895,7 +8895,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void
+> >>>>>> *data)
+> >>>>>>                         PPC_CACHE | PPC_CACHE_ICBI | PPC_CACHE_DCB=
+Z |
+> >>>>>>                         PPC_MEM_SYNC | PPC_MEM_EIEIO |
+> >>>>>>                         PPC_MEM_TLBSYNC |
+> >>>>>> -                       PPC_64B | PPC_64BX | PPC_ALTIVEC |
+> >>>>>> +                       PPC_64B | PPC_64H | PPC_64BX | PPC_ALTIVEC=
+ |
+> >>>>>>                         PPC_SEGMENT_64B | PPC_SLBI |
+> >>>>>>                         PPC_POPCNTB | PPC_POPCNTWD |
+> >>>>>>                         PPC_CILDST;
+> >>>>>> @@ -8907,6 +8907,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void
+> >>>>>> *data)
+> >>>>>>                          PPC2_ISA205 | PPC2_ISA207S | PPC2_FP_CVT_=
+S64 |
+> >>>>>>                          PPC2_TM | PPC2_ISA300 | PPC2_PRCNTL;
+> >>>>>>      pcc->msr_mask =3D (1ull << MSR_SF) |
+> >>>>>> +                    (1ull << MSR_SHV) |
+> >>>>>>                      (1ull << MSR_TM) |
+> >>>>>>                      (1ull << MSR_VR) |
+> >>>>>>                      (1ull << MSR_VSX) |
+> >>>>>>
+> >>>>>>
+> >>>>>
+> >>>>> This change prevents a Fedora 29 kernel[1] from booting... is this
+> >>>>> intended or a known limitation of the Fedora 29 kernel?
+> >>>>
+> >>>> The default CPU is still power8_v2.0. This is curious.
+> >>>>
+> >>>
+> >>> Are you sure?  I'm getting:
+> >>>
+> >>>  $ git rev-parse HEAD
+> >>>  cfc3fef6b4e493bf1a7ee16790ad584e20dfbbd1
+> >>>  $ ./ppc64-softmmu/qemu-system-ppc64 -qmp unix:/tmp/qmp-sock,server
+> >>>  $ ./scripts/qmp/qom-get -s /tmp/qmp-sock /machine/unattached/device[=
+0].type
+> >>>  power9_v2.0-spapr-cpu-core
 > >=20
-> > Does this need something new advertised in the hypertas DT entry?
->=20
-> Hi David,
->=20
-> There doesn't seem to be a concensus on what the return value from the
-> H_PURR hcall should be, whether it just returns the hardware value or
-> does some adjusting of the value based on guest smt mode as I've
-> implemented in the patch below.
-
-*eyeroll*.  Lack of forethought in PAPR strikes again.
-
-> As such please drop this patch series.
-
-Ok, will do.
-
->=20
-> The guest can just read the purr register directly anyway and then
-> interpret the values as it pleases.
->=20
-> Kind Regards,
-> Suraj
->=20
+> > That's a pseries machine, not a powernv machine. pseries should use P9
+> > processor by default but the patch above should not impact f29 on pseri=
+es.=20
+> > If it does, then we have a bug.=20
+> > =20
+> >> Looks like the overall default is "power9_v2.0", and then on pseries-3=
+=2E1 and
+> >> lower, it's "power8_v2.0", as per 34a6b015a98.
 > >=20
-> > > ---
-> > >  hw/ppc/spapr_hcall.c | 24 ++++++++++++++++++++++++
-> > >  1 file changed, 24 insertions(+)
-> > >=20
-> > > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> > > index aae9fd2b3e..88b3343f04 100644
-> > > --- a/hw/ppc/spapr_hcall.c
-> > > +++ b/hw/ppc/spapr_hcall.c
-> > > @@ -1819,6 +1819,27 @@ static target_ulong h_update_dt(PowerPCCPU
-> > > *cpu, SpaprMachineState *spapr,
-> > >      return H_SUCCESS;
-> > >  }
-> > > =20
-> > > +static target_ulong h_purr(PowerPCCPU *cpu, SpaprMachineState
-> > > *spapr,
-> > > +                           target_ulong opcode, target_ulong
-> > > *args)
-> > > +{
-> > > +    CPUPPCState *env =3D &cpu->env;
-> > > +    target_ulong purr;
-> > > +
-> > > +    if (kvm_enabled()) {
-> > > +        cpu_synchronize_state(CPU(cpu));
-> > > +        /*
-> > > +         * Divide by smp_threads so that the sum of the purr
-> > > deltas across the
-> > > +         * vcpus of a vcore equal the timebase delta.
-> > > +         */
-> > > +        purr =3D env->spr[SPR_PURR] / smp_threads;
-> > > +    } else {
-> > > +        purr =3D cpu_ppc_load_purr(env);
-> > > +    }
-> > > +    args[0] =3D purr;
-> > > +
-> > > +    return H_SUCCESS;
-> > > +}
-> > > +
-> > >  static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4)
-> > > + 1];
-> > >  static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX -
-> > > KVMPPC_HCALL_BASE + 1];
-> > > =20
-> > > @@ -1915,6 +1936,9 @@ static void hypercall_register_types(void)
-> > >      spapr_register_hypercall(H_LOGICAL_DCBF, h_logical_dcbf);
-> > >      spapr_register_hypercall(KVMPPC_H_LOGICAL_MEMOP,
-> > > h_logical_memop);
-> > > =20
-> > > +    /* hcall-purr */
-> > > +    spapr_register_hypercall(H_PURR, h_purr);
-> > > +
-> > >      /* qemu/KVM-PPC specific hcalls */
-> > >      spapr_register_hypercall(KVMPPC_H_RTAS, h_rtas);
-> > > =20
+> > I was looking at pnv_machine_class_init() which sets the default CPU :
 > >=20
-> >=20
+> >     mc->default_cpu_type =3D POWERPC_CPU_TYPE_NAME("power8_v2.0");
 >=20
+> I found this thread while trying auto-bisection for LP#1834613:
+> https://bugs.launchpad.net/bugs/1834613
+>=20
+> When trying the options suggested by Laurent here:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06209.html
+>=20
+> this one hangs:
+>=20
+> $ qemu-system-ppc64 \
+>  -kernel vmlinuz-vanilla \
+>  -nographic -append "console=3Dhvc0" \
+>  -M cap-cfpc=3Dbroken,cap-sbbc=3Dbroken,cap-ibs=3Dbroken
+>=20
+> but this one works:
+>=20
+> $ qemu-system-ppc64 \
+>  -kernel vmlinuz-vanilla \
+>  -nographic -append "console=3Dhvc0" \
+>  -M pseries-3.1
+
+Sorry, I missed most of this thread while on holidays.  What's the
+actual bug here?
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -172,25 +186,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ik0NlRzMGhMnxrMX
+--N8NGGaQn1mzfvaPg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0ZjxkACgkQbDjKyiDZ
-s5J1/w//e+vXYgFYB+TJLt+8Hif5PUypXYZ4BlbEwhjOvbNGUhY7jme+QkxqGapD
-7yYvIUNhUHoD3/x4NSEvbyzJbThFRz/oQl8RaQtFKtqjduAl0COLGw624CWkzFsx
-ytFWtJHb3kkGuQrc97bFn7m8ZGOZLCqgii1rItqWTrT7PXvGTW9NNhEN+5e04nMi
-qTCC8j6blc2/Ti+rkj7oNWWOBzheeb4OVLaXtdGxpIHuiDdpPtYGS192/pwPYgPr
-Xui9L/hMHC3cp9tlPlRg8iBZAt8yjdlkYj1BFtQyKEG+KaP3WclAvjXscL3AoJ2i
-osjyXeY2hdLdKhoA/m/Pum/VnMaTXBn1XGup7ku3dpa9cy/wBaTX0s3AHnusrNgv
-1WQmXVJgEcn5ry5urlVSJbNwxOOJ2CBcComrnMDNCiEBdAJaPME3kv8SigNFqIEk
-kaW8cgVvg3vuOHqbn7kiz2f1Hdl6cn7YBA9qLfZ6Cg4cKQOXxutf5guIH1b1DRfb
-VH38AwzhHwww1AqMta97rCD54lfNCeXW66sAsT/YzCYLW/I8V4/x7wKQYxLfJNQg
-fIQ2QRkWIHbWQCxjbSUpfwKuYZqPiXiu3yXWfkoty/zZSZuG0P+hz9+qixRTkzRN
-1F3VGdyWvns2ex7F5ugmLPTlKmCIhnz9195aZLK/8mXMkM0WB0c=
-=SIDp
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0ZlFgACgkQbDjKyiDZ
+s5Ji4BAApAZklg8fMl+IUDNRttizMXtwM5LNoLuYGPVoEvgVOV/4YAGaV82A4GVt
+sl/GCcyuTtetBhruuO+a8srtN5gkALRQzs1Yd31G44lUh8UBiedhOLOG9saEpgP3
+qHmGUMWD9B7tKZhtQ/QrwAqfelRar4SNpYTpCJVu8h6ZOavEfCBm8Jc84n2oVIrb
+6zo/Oh9Wj3bS9zP2HmhwC9fcqQVdjS70hdU36BKB2eFa3AxC3Fm1sCZzK/xs0xt7
+xPhLXRGH2gsJXoo2WJ8BhLP74jQFUuCKjmhmFbicdQFE1UiHV3kWCNQjCjTg8VA3
+4oLwZQIWj4O7pJShMkemQxHsgXrrNe9rKNDM/UDIqSSTjAltHCFoScbBl4/rhpu/
+2wZ/ePWUedMFHZ7xiftDeJAATRLPIUWIYkCF6nMtUcmx6MD26R0E7pMvOa6IhSAV
+KwyH7KxFsZosZilFltUxPphymtRVgpE21/hBR0pBrJJ5z2XcD23bRjioby0170wk
+N/2foYmVIjCRVDfa5TLbUIscmsuh98rnA+yJdTfxTKgj77Pf9PEhDcwW0Y3Kfniu
+6Ekc/SOfa4tXSVarr/6gz535Fe5yZx+WugwRN957U6+yoKYW4wR2qY+Bcaw8YbnC
+GrVfevn1jLAWtj4fnIlntdjBdFyoTbyPYiTZMHW0Eccic0hL+KQ=
+=Ax6k
 -----END PGP SIGNATURE-----
 
---ik0NlRzMGhMnxrMX--
+--N8NGGaQn1mzfvaPg--
 
