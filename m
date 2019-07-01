@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6C155C571
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:00:31 +0200 (CEST)
-Received: from localhost ([::1]:45868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5F615C5D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 01:09:26 +0200 (CEST)
+Received: from localhost ([::1]:46180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4Lf-0002Y5-33
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:00:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47997)
+	id 1hi5QI-0006mb-C5
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 19:09:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33283)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Jo-0006RE-TW
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:33 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3cD-00040z-Rn
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Jl-00043u-PS
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:30 -0400
-Received: from mail-wm1-f47.google.com ([209.85.128.47]:51201)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3cB-00011F-NU
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:33 -0400
+Received: from mail-wm1-f46.google.com ([209.85.128.46]:37192)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3Jl-00041L-Bn
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:29 -0400
-Received: by mail-wm1-f47.google.com with SMTP id 207so838509wma.1
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:54:23 -0700 (PDT)
+ id 1hi3c9-0000yu-JV
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:29 -0400
+Received: by mail-wm1-f46.google.com with SMTP id f17so996371wme.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0fHjbhgF7m8C4s1QBD+xWxolDP9qtqhdoa9wWejRTJA=;
- b=ffnshPO8F/gurxfmTl1kJFxAqyRnRzz3GJazOnwDBI3AmryIGS9I9yENWcLuF0nJc1
- no0AhXfjbx5JPDoVxUYm2BaBnQOkO9NEcD8HFn0u0IlUT4WlTfcQwhxjzj/trL55l20v
- wov3NW7eavYFMQH2GxvNUxvwP2UVTHZu5j+Zp+wQDDI9AukQ22ZwKWPXn0DiuWNmo1e3
- 6XrzAUMWBEFtuEjThWUOTR8u94djcRLwcDIJ80k2svEHLMX662QjH3tJKy49uyVryZ1a
- 23WnB2+xYDiqgr99H0JwvRsClJjNCTrf8ih37Vi9Mc7h2iUhwR1/DK1fG+iIP1+im+SE
- hxbA==
+ bh=5GuL1wde7cGfVlpJxuRJAQdP3IMbXq3IqGGP+UBMbD4=;
+ b=C2olxWY4u4LzEd0U8iTgCmdCSrkRUhX7sYoDyorstGXOUPseIQKqaOhrlRM61CGifZ
+ Lk5b/8E4JF3LTRVcsvjHVHaUC18hTHFGqqal7ZjuD0EOWDTqrrakTIFJ1gpET+SP4seO
+ QrihmhP0TeywuTw/asHcpjU3C2BqvlABoisq4y8BkgRQFx9hLHbgxblmnFRdFT2aY2u8
+ zm5WylSqryZDOY4O4aYeT0pRXdVaN+P+2IQKPws2rBu29yn51d6H3JSkLmEzjm04SHca
+ s9t4RSlLZpvVy9WnP0FGyzFNWj9uiaV7jcqhVJKdL4J/D3+KsLXVirXbEeb5lquYdh1E
+ 5vng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0fHjbhgF7m8C4s1QBD+xWxolDP9qtqhdoa9wWejRTJA=;
- b=C+c1jz5/a3jfGkj/K5xpr+akiWLD9LZ+j7IkT6aruuI1FHEtqhAniZTz3NExbiKsKB
- +RO9gYcyQz95fDNyB31NkOIpdtgZFn/BXw6jguCNsxKChseglS6CZ0G9RxmxoIlqVcLF
- 8+bt5vRsVgMAH0N4BJmdaLtYyxGA5Wr8hQ6jdxRyrXAK1FZjXL/3TXB6HEuLS9+prdAB
- 7S3osVUk04zpFHVqeTmB2grGUmtHYecpU2AL7A07cp+x27Uo7aHoz8abRcDx3a+cQJ8G
- qVe/kWdrQckpUYhyMwiTdcjgjuEsZ3fmraL5Nr6PQVKPxVHvzp6ksRvEWUkb0DoJm8Vv
- kwPw==
-X-Gm-Message-State: APjAAAUv8q6lNiHU5Zy19l0RiXCLFK/pTuerDNq+wb2rdy9G6MgYvAav
- pxuOxQhaGA14J/sm3DesWpe0XFGHawgRQw==
-X-Google-Smtp-Source: APXvYqzhSNB/XZzcsmHGl/Rjv0Gce7PDiOczjrTi/qq/3XA4KW3S2DX40+lV9DSp5XEAOoH5S6fE3g==
-X-Received: by 2002:a1c:9c8a:: with SMTP id f132mr119087wme.29.1561999208877; 
- Mon, 01 Jul 2019 09:40:08 -0700 (PDT)
+ bh=5GuL1wde7cGfVlpJxuRJAQdP3IMbXq3IqGGP+UBMbD4=;
+ b=oEBx1sB2ukPfrUto7BaxOrvpV+WclBFIIyqvNuzX1fdtrI+1tEEYyQvuew68qr0ta1
+ 0ojuKiCzm3xdZlW/YZF6Ny+D2iQBHP4+fXN2Cly0MYcinvoTlXRbuOKVEiVHT81thNbp
+ 7IPWdxQ6vJdRvrhPLXfmC3S8StHH4tcK2bo3S6h6bMoHP1s0K+FLR9qJDxyYhQV9iSVl
+ Wij1cnCqrtChTUZWbwJ8DT3LU1qqc8SyiKL1M+hXuBk3d14sEIwJae2JfEckxwbxPngd
+ azZiXcmn+4w0t/0xQfgAkiJfJPH/JCmY+qrJGRl2J3f2n5x9xvz1npSlGVWSvP6C1EJt
+ x/Wg==
+X-Gm-Message-State: APjAAAXLYu494BhXjLRv8X404maA6zQIShjanXeIIHR6GSDNammOFHw2
+ xRbynwlYL0ed9T86wY9UFWYL4IOecynS8Q==
+X-Google-Smtp-Source: APXvYqwipFEgNV3Tx5O9q5iQaCc0ixaJqgA9uPxGkkijlYvLGxk0r0zWUJTwSR5r32YEjnzI1LWIAw==
+X-Received: by 2002:a1c:751a:: with SMTP id o26mr118393wmc.13.1561999210984;
+ Mon, 01 Jul 2019 09:40:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.07
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:08 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:19 +0100
-Message-Id: <20190701163943.22313-23-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:21 +0100
+Message-Id: <20190701163943.22313-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.47
-Subject: [Qemu-devel] [PULL 22/46] aspeed: Add support for the swift-bmc
- board
+X-Received-From: 209.85.128.46
+Subject: [Qemu-devel] [PULL 24/46] aspeed: vic: Add support for legacy
+ register interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,95 +83,221 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Adriana Kobylak <anoo@us.ibm.com>
+From: Andrew Jeffery <andrew@aj.id.au>
 
-The Swift board is an OpenPOWER system hosting POWER processors.
-Add support for their BMC including the I2C devices as found on HW.
+The legacy interface only supported up to 32 IRQs, which became
+restrictive around the AST2400 generation. QEMU support for the SoCs
+started with the AST2400 along with an effort to reimplement and
+upstream drivers for Linux, so up until this point the consumers of the
+QEMU ASPEED support only required the 64 IRQ register interface.
 
-Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+In an effort to support older BMC firmware, add support for the 32 IRQ
+interface.
+
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190618165311.27066-20-clg@kaod.org
+Message-id: 20190618165311.27066-22-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 50 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+ hw/intc/aspeed_vic.c | 105 ++++++++++++++++++++++++++-----------------
+ 1 file changed, 63 insertions(+), 42 deletions(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 7f01df1b61d..8b6d304247c 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -73,6 +73,17 @@ struct AspeedBoardState {
-         SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              \
-         SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
+diff --git a/hw/intc/aspeed_vic.c b/hw/intc/aspeed_vic.c
+index 927638d5322..266a309f3b4 100644
+--- a/hw/intc/aspeed_vic.c
++++ b/hw/intc/aspeed_vic.c
+@@ -104,54 +104,63 @@ static void aspeed_vic_set_irq(void *opaque, int irq, int level)
  
-+/* Swift hardware value: 0xF11AD206 */
-+#define SWIFT_BMC_HW_STRAP1 (                                           \
-+        AST2500_HW_STRAP1_DEFAULTS |                                    \
-+        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     \
-+        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        \
-+        SCU_AST2500_HW_STRAP_UART_DEBUG |                               \
-+        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              \
-+        SCU_H_PLL_BYPASS_EN |                                           \
-+        SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              \
-+        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
-+
- /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
- #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
- 
-@@ -292,6 +303,35 @@ static void romulus_bmc_i2c_init(AspeedBoardState *bmc)
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
- }
- 
-+static void swift_bmc_i2c_init(AspeedBoardState *bmc)
-+{
-+    AspeedSoCState *soc = &bmc->soc;
-+
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), "pca9552", 0x60);
-+
-+    /* The swift board expects a TMP275 but a TMP105 is compatible */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "tmp105", 0x48);
-+    /* The swift board expects a pca9551 but a pca9552 is compatible */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "pca9552", 0x60);
-+
-+    /* The swift board expects an Epson RX8900 RTC but a ds1338 is compatible */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "ds1338", 0x32);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "pca9552", 0x60);
-+
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "tmp423", 0x4c);
-+    /* The swift board expects a pca9539 but a pca9552 is compatible */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "pca9552", 0x74);
-+
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 10), "tmp423", 0x4c);
-+    /* The swift board expects a pca9539 but a pca9552 is compatible */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 10), "pca9552",
-+                     0x74);
-+
-+    /* The swift board expects a TMP275 but a TMP105 is compatible */
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105", 0x48);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105", 0x4a);
-+}
-+
- static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
+ static uint64_t aspeed_vic_read(void *opaque, hwaddr offset, unsigned size)
  {
-     AspeedSoCState *soc = &bmc->soc;
-@@ -382,6 +422,16 @@ static const AspeedBoardConfig aspeed_boards[] = {
-         .num_cs    = 2,
-         .i2c_init  = romulus_bmc_i2c_init,
-         .ram       = 512 * MiB,
-+    }, {
-+        .name      = MACHINE_TYPE_NAME("swift-bmc"),
-+        .desc      = "OpenPOWER Swift BMC (ARM1176)",
-+        .soc_name  = "ast2500-a1",
-+        .hw_strap1 = SWIFT_BMC_HW_STRAP1,
-+        .fmc_model = "mx66l1g45g",
-+        .spi_model = "mx66l1g45g",
-+        .num_cs    = 2,
-+        .i2c_init  = swift_bmc_i2c_init,
-+        .ram       = 512 * MiB,
-     }, {
-         .name      = MACHINE_TYPE_NAME("witherspoon-bmc"),
-         .desc      = "OpenPOWER Witherspoon BMC (ARM1176)",
+-    uint64_t val;
+-    const bool high = !!(offset & 0x4);
+-    hwaddr n_offset = (offset & ~0x4);
+     AspeedVICState *s = (AspeedVICState *)opaque;
++    hwaddr n_offset;
++    uint64_t val;
++    bool high;
+ 
+     if (offset < AVIC_NEW_BASE_OFFSET) {
+-        qemu_log_mask(LOG_UNIMP, "%s: Ignoring read from legacy registers "
+-                      "at 0x%" HWADDR_PRIx "[%u]\n", __func__, offset, size);
+-        return 0;
++        high = false;
++        n_offset = offset;
++    } else {
++        high = !!(offset & 0x4);
++        n_offset = (offset & ~0x4);
+     }
+ 
+-    n_offset -= AVIC_NEW_BASE_OFFSET;
+-
+     switch (n_offset) {
+-    case 0x0: /* IRQ Status */
++    case 0x80: /* IRQ Status */
++    case 0x00:
+         val = s->raw & ~s->select & s->enable;
+         break;
+-    case 0x08: /* FIQ Status */
++    case 0x88: /* FIQ Status */
++    case 0x04:
+         val = s->raw & s->select & s->enable;
+         break;
+-    case 0x10: /* Raw Interrupt Status */
++    case 0x90: /* Raw Interrupt Status */
++    case 0x08:
+         val = s->raw;
+         break;
+-    case 0x18: /* Interrupt Selection */
++    case 0x98: /* Interrupt Selection */
++    case 0x0c:
+         val = s->select;
+         break;
+-    case 0x20: /* Interrupt Enable */
++    case 0xa0: /* Interrupt Enable */
++    case 0x10:
+         val = s->enable;
+         break;
+-    case 0x30: /* Software Interrupt */
++    case 0xb0: /* Software Interrupt */
++    case 0x18:
+         val = s->trigger;
+         break;
+-    case 0x40: /* Interrupt Sensitivity */
++    case 0xc0: /* Interrupt Sensitivity */
++    case 0x24:
+         val = s->sense;
+         break;
+-    case 0x48: /* Interrupt Both Edge Trigger Control */
++    case 0xc8: /* Interrupt Both Edge Trigger Control */
++    case 0x28:
+         val = s->dual_edge;
+         break;
+-    case 0x50: /* Interrupt Event */
++    case 0xd0: /* Interrupt Event */
++    case 0x2c:
+         val = s->event;
+         break;
+-    case 0x60: /* Edge Triggered Interrupt Status */
++    case 0xe0: /* Edge Triggered Interrupt Status */
+         val = s->raw & ~s->sense;
+         break;
+         /* Illegal */
+-    case 0x28: /* Interrupt Enable Clear */
+-    case 0x38: /* Software Interrupt Clear */
+-    case 0x58: /* Edge Triggered Interrupt Clear */
++    case 0xa8: /* Interrupt Enable Clear */
++    case 0xb8: /* Software Interrupt Clear */
++    case 0xd8: /* Edge Triggered Interrupt Clear */
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Read of write-only register with offset 0x%"
+                       HWADDR_PRIx "\n", __func__, offset);
+@@ -166,6 +175,8 @@ static uint64_t aspeed_vic_read(void *opaque, hwaddr offset, unsigned size)
+     }
+     if (high) {
+         val = extract64(val, 32, 19);
++    } else {
++        val = extract64(val, 0, 32);
+     }
+     trace_aspeed_vic_read(offset, size, val);
+     return val;
+@@ -174,19 +185,18 @@ static uint64_t aspeed_vic_read(void *opaque, hwaddr offset, unsigned size)
+ static void aspeed_vic_write(void *opaque, hwaddr offset, uint64_t data,
+                              unsigned size)
+ {
+-    const bool high = !!(offset & 0x4);
+-    hwaddr n_offset = (offset & ~0x4);
+     AspeedVICState *s = (AspeedVICState *)opaque;
++    hwaddr n_offset;
++    bool high;
+ 
+     if (offset < AVIC_NEW_BASE_OFFSET) {
+-        qemu_log_mask(LOG_UNIMP,
+-                      "%s: Ignoring write to legacy registers at 0x%"
+-                      HWADDR_PRIx "[%u] <- 0x%" PRIx64 "\n", __func__, offset,
+-                      size, data);
+-        return;
++        high = false;
++        n_offset = offset;
++    } else {
++        high = !!(offset & 0x4);
++        n_offset = (offset & ~0x4);
+     }
+ 
+-    n_offset -= AVIC_NEW_BASE_OFFSET;
+     trace_aspeed_vic_write(offset, size, data);
+ 
+     /* Given we have members using separate enable/clear registers, deposit64()
+@@ -201,7 +211,8 @@ static void aspeed_vic_write(void *opaque, hwaddr offset, uint64_t data,
+     }
+ 
+     switch (n_offset) {
+-    case 0x18: /* Interrupt Selection */
++    case 0x98: /* Interrupt Selection */
++    case 0x0c:
+         /* Register has deposit64() semantics - overwrite requested 32 bits */
+         if (high) {
+             s->select &= AVIC_L_MASK;
+@@ -210,21 +221,25 @@ static void aspeed_vic_write(void *opaque, hwaddr offset, uint64_t data,
+         }
+         s->select |= data;
+         break;
+-    case 0x20: /* Interrupt Enable */
++    case 0xa0: /* Interrupt Enable */
++    case 0x10:
+         s->enable |= data;
+         break;
+-    case 0x28: /* Interrupt Enable Clear */
++    case 0xa8: /* Interrupt Enable Clear */
++    case 0x14:
+         s->enable &= ~data;
+         break;
+-    case 0x30: /* Software Interrupt */
++    case 0xb0: /* Software Interrupt */
++    case 0x18:
+         qemu_log_mask(LOG_UNIMP, "%s: Software interrupts unavailable. "
+                       "IRQs requested: 0x%016" PRIx64 "\n", __func__, data);
+         break;
+-    case 0x38: /* Software Interrupt Clear */
++    case 0xb8: /* Software Interrupt Clear */
++    case 0x1c:
+         qemu_log_mask(LOG_UNIMP, "%s: Software interrupts unavailable. "
+                       "IRQs to be cleared: 0x%016" PRIx64 "\n", __func__, data);
+         break;
+-    case 0x50: /* Interrupt Event */
++    case 0xd0: /* Interrupt Event */
+         /* Register has deposit64() semantics - overwrite the top four valid
+          * IRQ bits, as only the top four IRQs (GPIOs) can change their event
+          * type */
+@@ -236,15 +251,21 @@ static void aspeed_vic_write(void *opaque, hwaddr offset, uint64_t data,
+                           "Ignoring invalid write to interrupt event register");
+         }
+         break;
+-    case 0x58: /* Edge Triggered Interrupt Clear */
++    case 0xd8: /* Edge Triggered Interrupt Clear */
++    case 0x38:
+         s->raw &= ~(data & ~s->sense);
+         break;
+-    case 0x00: /* IRQ Status */
+-    case 0x08: /* FIQ Status */
+-    case 0x10: /* Raw Interrupt Status */
+-    case 0x40: /* Interrupt Sensitivity */
+-    case 0x48: /* Interrupt Both Edge Trigger Control */
+-    case 0x60: /* Edge Triggered Interrupt Status */
++    case 0x80: /* IRQ Status */
++    case 0x00:
++    case 0x88: /* FIQ Status */
++    case 0x04:
++    case 0x90: /* Raw Interrupt Status */
++    case 0x08:
++    case 0xc0: /* Interrupt Sensitivity */
++    case 0x24:
++    case 0xc8: /* Interrupt Both Edge Trigger Control */
++    case 0x28:
++    case 0xe0: /* Edge Triggered Interrupt Status */
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: Write of read-only register with offset 0x%"
+                       HWADDR_PRIx "\n", __func__, offset);
 -- 
 2.20.1
 
