@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77ABF5C77B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:52:33 +0200 (CEST)
-Received: from localhost ([::1]:47576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38635C723
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:26:09 +0200 (CEST)
+Received: from localhost ([::1]:47242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8uG-0005ly-Mb
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:52:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
+	id 1hi8Ui-0003NQ-Qj
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:26:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34089)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hi4p4-0005Mg-Um
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:30:56 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hi4pH-0005Qy-LR
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:31:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hi4or-0000FW-KZ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:30:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50200)
+ (envelope-from <ehabkost@redhat.com>) id 1hi4pC-0000P3-O2
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:31:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35450)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
- id 1hi4of-0008Hi-Vx; Mon, 01 Jul 2019 18:30:33 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ id 1hi4or-0008K0-Pe; Mon, 01 Jul 2019 18:30:42 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B0444308621E;
- Mon,  1 Jul 2019 22:29:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0B41430C34C2;
+ Mon,  1 Jul 2019 22:29:53 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4B650100033F;
- Mon,  1 Jul 2019 22:29:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 367FB5D9C3;
+ Mon,  1 Jul 2019 22:29:48 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
  Cleber Rosa <crosa@redhat.com>
-Date: Mon,  1 Jul 2019 19:29:11 -0300
-Message-Id: <20190701222912.4703-4-ehabkost@redhat.com>
+Date: Mon,  1 Jul 2019 19:29:12 -0300
+Message-Id: <20190701222912.4703-5-ehabkost@redhat.com>
 In-Reply-To: <20190701222912.4703-1-ehabkost@redhat.com>
 References: <20190701222912.4703-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.42]); Mon, 01 Jul 2019 22:29:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Mon, 01 Jul 2019 22:29:53 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/4] machine.py: minor delinting
+Subject: [Qemu-devel] [PULL 4/4] Deprecate Python 2 support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,126 +61,67 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  libvir-list@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+Python 2 will reach end of life in January 1 2020.  Declare it as
+deprecated.
 
-Since we're out in a new module, do a quick cursory pass of some of the
-more obvious style issues.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20190627212816.27298-3-jsnow@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20190503193721.18459-1-ehabkost@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+[ehabkost: print "warning:" in lowercase]
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- python/qemu/machine.py | 33 ++++++++++++++++++++++-----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ configure            | 8 ++++++++
+ qemu-deprecated.texi | 8 ++++++++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-index a8a311b035..49445e675b 100644
---- a/python/qemu/machine.py
-+++ b/python/qemu/machine.py
-@@ -1,5 +1,10 @@
--# QEMU library
--#
-+"""
-+QEMU machine module:
+diff --git a/configure b/configure
+index f2cb9f3c66..d565ea4bb9 100755
+--- a/configure
++++ b/configure
+@@ -6502,6 +6502,14 @@ if test "$supported_os" =3D "no"; then
+     echo "us upstream at qemu-devel@nongnu.org."
+ fi
+=20
++# Note that if the Python conditional here evaluates True we will exit
++# with status 1 which is a shell 'false' value.
++if ! $python -c 'import sys; sys.exit(sys.version_info < (3,0))'; then
++  echo
++  echo "warning: Python 2 support is deprecated" >&2
++  echo "warning: Python 3 will be required for building future versions =
+of QEMU" >&2
++fi
 +
-+The machine module primarily provides the QEMUMachine class,
-+which provides facilities for managing the lifetime of a QEMU VM.
-+"""
+ config_host_mak=3D"config-host.mak"
+=20
+ echo "# Automatically generated by configure - do not modify" >config-al=
+l-disas.mak
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index df04f2840b..241c978d2d 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -243,3 +243,11 @@ Note that if you are exposing the export via /dev/nb=
+d0, it is easier
+ to just export the entire image and then mount only /dev/nbd0p1 than
+ it is to reinvoke @command{qemu-nbd -c /dev/nbd0} limited to just a
+ subset of the image.
 +
- # Copyright (C) 2015-2016 Red Hat Inc.
- # Copyright (C) 2012 IBM Corp.
- #
-@@ -16,7 +21,6 @@ import errno
- import logging
- import os
- import subprocess
--import re
- import shutil
- import socket
- import tempfile
-@@ -119,8 +123,10 @@ class QEMUMachine(object):
-         self.shutdown()
-         return False
- 
--    # This can be used to add an unused monitor instance.
-     def add_monitor_null(self):
-+        """
-+        This can be used to add an unused monitor instance.
-+        """
-         self._args.append('-monitor')
-         self._args.append('null')
- 
-@@ -143,10 +149,13 @@ class QEMUMachine(object):
-         self._args.append(','.join(options))
-         return self
- 
--    # Exactly one of fd and file_path must be given.
--    # (If it is file_path, the helper will open that file and pass its
--    # own fd)
-     def send_fd_scm(self, fd=None, file_path=None):
-+        """
-+        Send an fd or file_path to socket_scm_helper.
++@section Build system
 +
-+        Exactly one of fd and file_path must be given.
-+        If it is file_path, the helper will open that file and pass its own fd.
-+        """
-         # In iotest.py, the qmp should always use unix socket.
-         assert self._qmp.is_scm_available()
-         if self._socket_scm_helper is None:
-@@ -194,14 +203,17 @@ class QEMUMachine(object):
-             raise
- 
-     def is_running(self):
-+        """Returns true if the VM is running."""
-         return self._popen is not None and self._popen.poll() is None
- 
-     def exitcode(self):
-+        """Returns the exit code if possible, or None."""
-         if self._popen is None:
-             return None
-         return self._popen.poll()
- 
-     def get_pid(self):
-+        """Returns the PID of the running process, or None."""
-         if not self.is_running():
-             return None
-         return self._popen.pid
-@@ -339,7 +351,7 @@ class QEMUMachine(object):
-                 command = ' '.join(self._qemu_full_args)
-             else:
-                 command = ''
--            LOG.warn(msg, -exitcode, command)
-+            LOG.warning(msg, -exitcode, command)
- 
-         self._launched = False
- 
-@@ -373,7 +385,7 @@ class QEMUMachine(object):
-         """
-         Poll for one queued QMP events and return it
-         """
--        if len(self._events) > 0:
-+        if self._events:
-             return self._events.pop(0)
-         return self._qmp.pull_event(wait=wait)
- 
-@@ -441,8 +453,7 @@ class QEMUMachine(object):
-         """
-         def _match(event):
-             for name, match in events:
--                if (event['event'] == name and
--                    self.event_match(event, match)):
-+                if event['event'] == name and self.event_match(event, match):
-                     return True
-             return False
- 
--- 
++@subsection Python 2 support (since 4.1.0)
++
++In the future, QEMU will require Python 3 to be available at
++build time.  Support for Python 2 in scripts shipped with QEMU
++is deprecated.
+--=20
 2.18.0.rc1.1.g3f1ff2140
 
 
