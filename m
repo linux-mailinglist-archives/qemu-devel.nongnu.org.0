@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476F25C5EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 01:29:50 +0200 (CEST)
-Received: from localhost ([::1]:46262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D1795C50B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:38:28 +0200 (CEST)
+Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi5k4-0006Dx-Jc
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 19:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56580)
+	id 1hi40H-0007NP-Lt
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:38:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45080)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hi3Xn-0008Ek-PR
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:09:01 -0400
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hi3E3-0001iD-4C
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hi3Xm-0006a2-7R
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:08:59 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40487)
+ (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hi3Dz-0001X1-4V
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:33 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39083)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hi3Xm-0006Xr-1B
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:08:58 -0400
-Received: by mail-ot1-f68.google.com with SMTP id e8so14922690otl.7
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:08:55 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1hi3Dx-0001UM-AA
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:29 -0400
+Received: by mail-wm1-f68.google.com with SMTP id z23so916833wma.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:48:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=Cil1aGn+gB1c5c8M8UNEJSqGgQANhOfQidzwYwd+giQ=;
- b=PV+g2J0VBrzgx0UXYpOuG90TcdZ8Ikg0jSQkWDWz39NIppi7KhXicPQThkwmYRHq06
- nw6XUOGpNAmuwlJl3d9QZ7zajI6ykaxGZ5MJ4jYWYkikyRVHggv+yKR+AgXX424VFD2f
- XJXF/VpPWfLwiq17F7lMY9X5dYEt/118n/mjg5Ij/mQ58DQkRRg+fOcnvcm/LrJ57p2K
- SwKqe5EixFFk6ROJO/7ab2w1uodixituBfYesySh5Y0iB+l7EwjunWN8xPTy2RWHx38R
- /dr+CnvBJhrue48+a5Kj69ED8ar5Bz7LZ+hVPWjPxM6bUGB3wS7JiA4RBen8IQ0gQyIA
- uy9A==
+ h=sender:subject:to:cc:references:from:openpgp:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PQtdfdvjDNjyZMyzq32TniWt5+kWl9txn0BgJz7FBho=;
+ b=LcGXUHaT7WcE1TkeiDNQROyg8EsfrOfJ8CIAFfrXRhlwP0sYijw94zR/uWgcBk0mo1
+ ma54TW7I3CmtmFZACgH3VdltoWc82EDYo92PzUY9CpwIoYwntZk518cgcs/guc2G61jl
+ TZoKOOOOPbyjJ3r/2sgGR9vRgfLvn54+aAb8PZrRGULtqlk9HBc/0HHRJqsUhjlHpjgi
+ q1bzokRlomvA6Xy2UDaiyurjfEDKgJcnPGx8g9/nmBZ6xZAJU/h61MZ7ANs6HzSEwAfA
+ KlvfmjhGlNh0wRplC5BUU6uQTPoQMHQk5OnDNWhLB7zue4dcxuNIC0WDQOqhAy59AuhS
+ /sdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=Cil1aGn+gB1c5c8M8UNEJSqGgQANhOfQidzwYwd+giQ=;
- b=ldN0RyS6TMW4zzqvP7bVGXrAPHWC3uXxwAD1uP1P/m5LQvzu9BXf7XQ70g9k0PpCLa
- 4hkh+7i0Xbre9xKO6oGmBW/eBzpweN2Ojzqkof+vZvSuq6lXNAN/YAvHle5WclT1zCZ8
- wMuf7p9sNVS43AqTTEtIVha4VVpImGKB3ccHXZ5TRB/9kAuxVUwZ5xv7ek1oXa9GVjbx
- cdq/OTjGOgFbjPMxGOmRb2vC5+6Bps59XFDWFjfU/oFZp/7WIxu4mVQuCRFxEH+ysYTl
- iLcMp2KvCwKgh9eQCoJgHpOySVWyXohajY5iELbMLXIOdEFlOHUxfU0il/w3TY4CJwhT
- JH4Q==
-X-Gm-Message-State: APjAAAW99kHO98K2huhzis9W+DrYCZD8KUYHXpBHO+iYz/ziue1BIo5b
- 1D2jnjmfP7Hmsrahu1n6oGq2jFm5d4bUmp3jWcbg3Q==
-X-Google-Smtp-Source: APXvYqyNI4RqG7CDN34DcsdJogatu10bAruoJExhUVWqQcyF/wYrROk6+8jtKmTPOABbGDS7z3zZT+jCzpO1TCstZdA=
-X-Received: by 2002:a05:6830:c6:: with SMTP id x6mr430636oto.64.1562001415411; 
- Mon, 01 Jul 2019 10:16:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP;
- Mon, 1 Jul 2019 10:16:54 -0700 (PDT)
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP;
- Mon, 1 Jul 2019 10:16:54 -0700 (PDT)
-In-Reply-To: <20190624222844.26584-1-f4bug@amsat.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=PQtdfdvjDNjyZMyzq32TniWt5+kWl9txn0BgJz7FBho=;
+ b=oi/37KiAqR2w1MNMVyBvgJE4W2p/vBbCW9GO5ZrX3vBuPJmbKHhKqHKvSad//EYbgZ
+ G8A/QKE2J0fEW4bQTNiiQv9nBMv8oS+Adotkai2mk1CryGS/6e+xQ4EaMNEYShQwtXiA
+ TcaxW6sBlbDnPltfgjAoeVNWuerEEXZ4WvW4IP9U+dsK+bXAUvQekmd6Wb7Uz87WNAle
+ ENccrd0+ag7+/kCFCEmMpWg5JdE6oeaF0/yW2x0qLcZcAO4q62caxHTT4INobK0V0oIW
+ ieilQb5e7JnV8b1QBfjnZrOoaA+Oc4MaCbSyYzmRtNguUymntiTybxK2dwS2SA9oRLMi
+ Dodg==
+X-Gm-Message-State: APjAAAXqi38nvz8IX9StxFtkZ+NkPfbJUQyFKxFs8ci7WLXsyjeYoVJ7
+ To7Qu7FjnoFjH7rJZN1t7+WwoA8x
+X-Google-Smtp-Source: APXvYqwA0DwEBidKUV+82bLur2Lj+JlmLUF4QBI8uRlJ9XaREK+twVTQLJ2hZCxPXG62hnui60uzfQ==
+X-Received: by 2002:a1c:f20f:: with SMTP id s15mr262229wmc.33.1562003161729;
+ Mon, 01 Jul 2019 10:46:01 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id g10sm9918607wrw.60.2019.07.01.10.45.59
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Jul 2019 10:46:00 -0700 (PDT)
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
 References: <20190624222844.26584-1-f4bug@amsat.org>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 1 Jul 2019 19:16:54 +0200
-Message-ID: <CAL1e-=iLAKe+FunE2p9L3Ds8fPS2a8nf3hc=ga7CX6E2bjw0Uw@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ <CAL1e-=iLAKe+FunE2p9L3Ds8fPS2a8nf3hc=ga7CX6E2bjw0Uw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Openpgp: url=http://pgp.mit.edu/pks/lookup?op=get&search=0xE3E32C2CDEADC0DE
+Message-ID: <8ad999d7-fec4-079f-dbed-454afe127899@amsat.org>
+Date: Mon, 1 Jul 2019 19:45:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAL1e-=iLAKe+FunE2p9L3Ds8fPS2a8nf3hc=ga7CX6E2bjw0Uw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.68
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+X-Received-From: 209.85.128.68
 Subject: Re: [Qemu-devel] [PATCH 00/10] hw/pci-host: Clean the GT64120 north
  bridge
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,63 +90,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
  Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
  Artyom Tarasenko <atar4qemu@gmail.com>,
  Aleksandar Markovic <amarkovic@wavecomp.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 25, 2019 12:31 AM, "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org> w=
-rote:
->
-> Hi,
->
-> This series clean the gt64120 device.
-> It is no more target-dependent, and tracing is improved.
->
+Hi Aleksandar,
 
-If nobody objects, I am going to select majority of the patches for mips
-queue scheduled tomorrow. Those that remain will be those that Philippe
-still didn't make his mind.
+On 7/1/19 7:16 PM, Aleksandar Markovic wrote:
+> 
+> On Jun 25, 2019 12:31 AM, "Philippe Mathieu-Daudé" <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>> wrote:
+>>
+>> Hi,
+>>
+>> This series clean the gt64120 device.
+>> It is no more target-dependent, and tracing is improved.
+>>
+> 
+> If nobody objects, I am going to select majority of the patches for mips
+> queue scheduled tomorrow. Those that remain will be those that Philippe
+> still didn't make his mind.
 
-Thanks thousand times, Philippe!
+Which ones remain?
 
-Aleksandar
+For "pci-host/gt64120: Clean the decoded address space", I'd like a
+review from someone comfortable with MEMTXATTRS and address spaces.
+I'll ping on the patch.
 
-> Regards,
->
-> Phil.
->
-> Based-on: 20190624220056.25861-1-f4bug@amsat.org
-> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg05304.html
->
-> Philippe Mathieu-Daud=C3=A9 (10):
->   hw/mips/gt64xxx_pci: Fix multiline comment syntax
->   hw/mips/gt64xxx_pci: Fix 'tabs' coding style issues
->   hw/mips/gt64xxx_pci: Fix 'braces' coding style issues
->   hw/mips/gt64xxx_pci: Fix 'spaces' coding style issues
->   hw/mips/gt64xxx_pci: Use qemu_log_mask() instead of debug printf()
->   hw/mips/gt64xxx_pci: Convert debug printf()s to trace events
->   hw/mips/gt64xxx_pci: Align the pci0-mem size
->   hw/mips/gt64xxx_pci: Add a 'cpu_big_endian' qdev property
->   hw/mips/gt64xxx_pci: Move it to hw/pci-host/
->   hw/pci-host/gt64120: Clean the decoded address space
->
->  Makefile.objs                                 |   1 +
->  include/hw/mips/mips.h                        |   2 +-
->  hw/mips/mips_malta.c                          |   8 +-
->  hw/{mips/gt64xxx_pci.c =3D> pci-host/gt64120.c} | 542 ++++++++++--------
->  MAINTAINERS                                   |   2 +-
->  hw/mips/Makefile.objs                         |   2 +-
->  hw/mips/trace-events                          |   0
->  hw/pci-host/Makefile.objs                     |   2 +-
->  hw/pci-host/trace-events                      |   5 +
->  9 files changed, 307 insertions(+), 257 deletions(-)
->  rename hw/{mips/gt64xxx_pci.c =3D> pci-host/gt64120.c} (68%)
->  create mode 100644 hw/mips/trace-events
->
-> --
-> 2.19.1
->
->
+> Thanks thousand times, Philippe!
+> 
+> Aleksandar
+> 
+>> Regards,
+>>
+>> Phil.
+>>
+>> Based-on: 20190624220056.25861-1-f4bug@amsat.org
+> <mailto:20190624220056.25861-1-f4bug@amsat.org>
+>> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg05304.html
+>>
+>> Philippe Mathieu-Daudé (10):
+>>   hw/mips/gt64xxx_pci: Fix multiline comment syntax
+>>   hw/mips/gt64xxx_pci: Fix 'tabs' coding style issues
+>>   hw/mips/gt64xxx_pci: Fix 'braces' coding style issues
+>>   hw/mips/gt64xxx_pci: Fix 'spaces' coding style issues
+>>   hw/mips/gt64xxx_pci: Use qemu_log_mask() instead of debug printf()
+>>   hw/mips/gt64xxx_pci: Convert debug printf()s to trace events
+>>   hw/mips/gt64xxx_pci: Align the pci0-mem size
+>>   hw/mips/gt64xxx_pci: Add a 'cpu_big_endian' qdev property
+>>   hw/mips/gt64xxx_pci: Move it to hw/pci-host/
+>>   hw/pci-host/gt64120: Clean the decoded address space
+>>
+>>  Makefile.objs                                 |   1 +
+>>  include/hw/mips/mips.h                        |   2 +-
+>>  hw/mips/mips_malta.c                          |   8 +-
+>>  hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} | 542 ++++++++++--------
+>>  MAINTAINERS                                   |   2 +-
+>>  hw/mips/Makefile.objs                         |   2 +-
+>>  hw/mips/trace-events                          |   0
+>>  hw/pci-host/Makefile.objs                     |   2 +-
+>>  hw/pci-host/trace-events                      |   5 +
+>>  9 files changed, 307 insertions(+), 257 deletions(-)
+>>  rename hw/{mips/gt64xxx_pci.c => pci-host/gt64120.c} (68%)
+>>  create mode 100644 hw/mips/trace-events
+>>
+>> --
+>> 2.19.1
+>>
+>>
+> 
+
