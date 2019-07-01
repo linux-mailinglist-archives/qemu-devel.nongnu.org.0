@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD16F5C5B5
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:39:19 +0200 (CEST)
-Received: from localhost ([::1]:46068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B00C25C514
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:40:32 +0200 (CEST)
+Received: from localhost ([::1]:45716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4xC-0004b3-B4
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35116)
+	id 1hi42J-00023f-HY
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:40:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45117)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <radoslaw.biernacki@linaro.org>) id 1hi3dm-0004sw-W1
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:15:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3E6-0001kC-Qm
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <radoslaw.biernacki@linaro.org>) id 1hi3di-000232-Sc
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:15:10 -0400
-Received: from mail-yb1-f194.google.com ([209.85.219.194]:33789)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3E3-0001aE-59
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:36 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:41596)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <radoslaw.biernacki@linaro.org>)
- id 1hi3df-0001E0-PV
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:15:06 -0400
-Received: by mail-yb1-f194.google.com with SMTP id x4so566954ybk.0
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:13:52 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hi3E1-0001SU-3U
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:34 -0400
+Received: by mail-oi1-f193.google.com with SMTP id g7so11117705oia.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:48:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zUdJ2ra0quRmBJw7uvelcVmfVROIlFC4VcERGTjbcMc=;
- b=eOqifwzF+s5nDPQtVR1dlA7jZKNj9uWM381ERJcKTxr+jUKVnYCkuROs11yGm7zRnl
- Cw8AG8uVoAl4hs/v2/bfDMGsGmloHlihtZYCnJd8ceOvxnKRMMwhaDSjhDAu+HDdPpcV
- KHouR0Ihxkdr6jmK52GNAAUyHkI63siJ67lrqBasKLRqEIKZyOnAqoM/t2e0dZkyTNzU
- 6iH8vBaNtODTGlOtM/UqolpWqM8SZlHoM9wKQyKqjL+YNGU6ptXYBYwNgL4zt3NAyONv
- Z1PLUiDbkmrSDfaatJNW/2qF9RUTwvl1zw1zWSyQk2zDg7Ihty0cUTHwFuu/8BfZ8Sa+
- b1Rw==
+ :cc; bh=ZQ6pfxkYFbq+3K8p1c7nVAU3NmQSF1zvJ67lZA0hadQ=;
+ b=OCQ1hTRZ5j5vWaZdNIO847cN/jfE+NZdCF6iFLHAuaJTn8C05ariaaa5+vv/Gv3Xb2
+ ajJ+nbmisE++usBABHKOFGjt7Nq6UpKGHXF205qUYhOVnYm5UHjTWPis3aMOt1+/hGLa
+ C4zgWrLWzbvb3vf6wSV162lQ0UINKJn7nMIpuyTCjoRLwjp09Mm4x7jjG50++bBvHnjX
+ KMz4Tl5gkHtI1iW7raBuF4jFOVj9FFPIldIPiKTUeRZ6K4JnC9J7wfFrb0vqWR0ZsP8o
+ K4oQPUWWDfijjcjY1QX+FPja0Vvg02jPKTAdyeOcK/sbrXt9nLH9LAUDog6KxjNr1vYJ
+ f7Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zUdJ2ra0quRmBJw7uvelcVmfVROIlFC4VcERGTjbcMc=;
- b=MZ7yPc8nvuMi0HdMMMPuh9Qaq3wGgUG6equx241zbGXWOLa4JOucrbGXwoZ4SS9s71
- AMzVAfsvGefJecbj6mfhUvNKofF+wSG2x5TnICfM+Z0J8xsrX3TJCOyeG9jykoJDQQTW
- tJscDrNPGItnuC6m6kZEVy985cgO/lTPud5vcukJO1Ll/lG0+M4vfHy9XZvFaXs8X8Yt
- /7QPGmvHzZLdxC6OmGyoqQYvTZImU8/2upIb+jm1sEbbisCjm5LLVJIEJbaDXQR5HIN5
- LibtJ0IVSQWqXMgbNPHZr8hl3YimeOkWYrlSosArLRmHHDPqBry0GeKSIwmeuTTLUDiG
- X/vQ==
-X-Gm-Message-State: APjAAAUPOInZqMnTi/2mtsMfSoFx8dyGJsGP5xQabo24yXc96q+44zg/
- GJqt5OZAQvaqofoLElzDdTUuZgevz+8gm2cS4gQDTQ==
-X-Google-Smtp-Source: APXvYqxlX2N0jR1dINvFRvx8d0NyP7+eHLPQOuGX4Ju3Y1DIBZnmPodvR87jYkJTKBKgEkg4OMOZ2tBKJseniYHGvuw=
-X-Received: by 2002:a25:db8d:: with SMTP id
- g135mr10947046ybf.336.1561998231160; 
- Mon, 01 Jul 2019 09:23:51 -0700 (PDT)
+ bh=ZQ6pfxkYFbq+3K8p1c7nVAU3NmQSF1zvJ67lZA0hadQ=;
+ b=igBEmVblfgdMryjntIXNCuAR5nII2efissyEF8KRFxJpjgh32Ho/tnOxaJxEJpTSIL
+ P//Ktp9KhJLGSuuvrJSnRgAOqvCQga7W5N6PMM4UxVJ2XQXlv5M2cos2SJPnfVawC/v5
+ q72PP7QfVILKHJ5OT8Z6BJL8WowyhQV87hbYE2fGff9rXJpAH9/VFJgqdHHgU3bIm2QU
+ AafhnaVi3Yj7TY1W48oXq2dLhENqQuBMlDZS7IEUV/EnyxB/maiTwdFgmn2WQ7Hav4Zw
+ djvkecRc/UW+AbX+By3ua6bhtFabsJFZmmDyh7SRkdTVm8t4C4Uz9MrvfcfziYuPg0JP
+ rtlg==
+X-Gm-Message-State: APjAAAVS+DavxnpOQlRm617A0gaZwHXv/mbWLvbxtJxcyHPdMQUK5dUQ
+ jgQOabn7fkWTCq8gMmCmxe6jSGlJK+bJ1Ic1DdTtx1YMEJY=
+X-Google-Smtp-Source: APXvYqz7c/rdfKJcbG8VPYAkM+vnKr3N+RT61634upV6NjH6Xtc78s2fygFyvOmrX1lfKeiEb31U7Femh0T/2F8NcBg=
+X-Received: by 2002:aca:6185:: with SMTP id v127mr75524oib.163.1561998659844; 
+ Mon, 01 Jul 2019 09:30:59 -0700 (PDT)
 MIME-Version: 1.0
 References: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
  <CAFEAcA8P-=mbQ4__9OXB078GnrGfm9afH1YBDLkv88mUXmm=PQ@mail.gmail.com>
  <20190701160846.fwjeco3zuobn3pgv@bivouac.eciton.net>
-In-Reply-To: <20190701160846.fwjeco3zuobn3pgv@bivouac.eciton.net>
-From: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
-Date: Mon, 1 Jul 2019 18:23:40 +0200
-Message-ID: <CAEK-wK=gV7t8sTnN9dLmJO4ECgAudO-THhtJzHWxMpxf12mPtg@mail.gmail.com>
-To: Leif Lindholm <leif.lindholm@linaro.org>
+ <CAEK-wK=gV7t8sTnN9dLmJO4ECgAudO-THhtJzHWxMpxf12mPtg@mail.gmail.com>
+In-Reply-To: <CAEK-wK=gV7t8sTnN9dLmJO4ECgAudO-THhtJzHWxMpxf12mPtg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 17:30:48 +0100
+Message-ID: <CAFEAcA9YFthxS7mDggqwatdc+7Z-ga_eB4XVbqkSWJg=Mui4vw@mail.gmail.com>
+To: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.219.194
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+X-Received-From: 209.85.167.193
 Subject: Re: [Qemu-devel] [PATCH v9 0/2] Add Arm SBSA Reference Machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,74 +74,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ard Biesheuvel <ard.biesheuvel@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+Cc: Hongbo Zhang <hongbo.zhang@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
  QEMU Developers <qemu-devel@nongnu.org>,
- Hongbo Zhang <hongbo.zhang@linaro.org>
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Leif and Peter,
+On Mon, 1 Jul 2019 at 17:23, Radoslaw Biernacki
+<radoslaw.biernacki@linaro.org> wrote:
+>
+> Hi Leif and Peter,
+>
+> We talked with Hongbo about the takeover, so please add me as maintainer.
 
-We talked with Hongbo about the takeover, so please add me as maintainer.
+Thanks for volunteering; I've updated the MAINTAINERS entry
+in my target-arm queue as Leif suggests.
 
+thanks
+-- PMM
 
-On Mon, 1 Jul 2019 at 18:08, Leif Lindholm <leif.lindholm@linaro.org> wrote:
-
-> Hi Peter,
->
-> On Mon, Jul 01, 2019 at 03:54:24PM +0100, Peter Maydell wrote:
-> > I've pointed out a number of issues with these patches, but they
-> > all turn out to be very minor (mostly fixable by moving code between
-> > patch 1 and 2). The other thing we need is a MAINTAINERS section for
-> > the new board:
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index cad58b94879..0bf3739f06a 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -728,6 +728,13 @@ F: include/hw/arm/fsl-imx6.h
-> >  F: include/hw/misc/imx6_*.h
-> >  F: include/hw/ssi/imx_spi.h
-> >
-> > +SBSA-REF
-> > +M: Hongbo Zhang <hongbo.zhang@linaro.org>
-> > +M: Peter Maydell <peter.maydell@linaro.org>
-> > +L: qemu-arm@nongnu.org
-> > +S: Maintained
-> > +F: hw/arm/sbsa-ref.c
-> > +
->
-> Sadly, Hongbo is no longer in Linaro (but has generously helped keep
-> working on this platform being upstreamed since he left). It is my
-> understanding that in his new role, Hongbo does not have the bandwidth
-> to keep maintaining this platform once it's in.
->
-> Unless I have misunderstood this (Hongbo, please confirm - we would
-> certainly love to have your help if you feel that you do have the
-> banwidth), could we please add Radek as a maintainer instead?:
->
-> M: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
->
-> If you think it could be useful, feel free to add me as a designated
-> reviewer:
->
-> R: Leif Lindholm <leif.lindholm@linaro.org>
->
-> (I would not be offended if you don't, I have plenty to keep me busy :)
->
-> >  Sharp SL-5500 (Collie) PDA
-> >  M: Peter Maydell <peter.maydell@linaro.org>
-> >  L: qemu-arm@nongnu.org
-> >
-> >
-> > So rather than making you do another respin, I'm planning to
-> > make the fixes in my target-arm.next tree as I apply the patches.
-> > That way we can get this in before softfreeze (which is tomorrow).
->
-> Many thanks!
->
-> Best Regards,
->
-> Leif
->
