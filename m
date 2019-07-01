@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB1C5BE90
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:43:02 +0200 (CEST)
-Received: from localhost ([::1]:59502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28F55BEA2
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:48:31 +0200 (CEST)
+Received: from localhost ([::1]:59558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxWH-0003ne-Iy
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:43:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51871)
+	id 1hhxbb-0000Tu-6y
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:48:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52531)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhx6L-0002nF-2L
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:16:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhx9S-0004xU-9c
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:19:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhx6J-0005cn-HZ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:16:12 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41850)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhx9M-00082G-79
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:19:23 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45387)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhx6J-0005br-5G
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:16:11 -0400
-Received: by mail-ot1-x344.google.com with SMTP id o101so13322659ota.8
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:16:11 -0700 (PDT)
+ id 1hhx9K-0007o7-OG
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:19:19 -0400
+Received: by mail-ot1-x343.google.com with SMTP id x21so13624138otq.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EY4Adx0OcbtAOPWeOiQ6foI2RYDNLt0gmr6T8P4rYnc=;
- b=S19RzFaHFMPAsC8JggOBvrQ0XCcqqUvZaHS/xgr5bTJgOF1D32KN6NODKaUA6S4rpa
- 5dbFGqRGu6eQVDS3Ju98o7q2T0uyMo6q+xDBGEgR+y6w9MNmDND4Ge4fvP2/JkT9ysku
- voC0Hn/Sr/iR8MPDEn2J08NV5BkYZncBBgb1BlMOZ4RizZ/6eok/jFuppEUgr8jq9BqH
- nnGZ+fOIX0A32Yuq2DI7Ln9jLSCJF8y0mMDsXMR8pg7K9eAsU/gTSFGX1FQFNjTAHQ7W
- fMWXx/0EXMsOSe24u7ngsX1fIJutPF7YKjbpK4VD4sVpjggNdVNDRB1pJoXfuqTwW2FA
- r9Og==
+ :cc; bh=M0bHov4AsMs+15g5Y8TaVCAZ0ewX/G2VwigLTPONJMo=;
+ b=BNj/8Y+lyNYGiJCjI29HgDCsVw4KziBSXGJ1hYmClENkCGgghV3vXS7vzk63zl5ckQ
+ cUoTZQlnzvnHBLzYbaJq8UW7TfGabi3cxVYFy4xc/OIR2+Nn5Clu7sQFDLR0uLUjtZ+P
+ IUdpq/ot6/V02mAusbTUcTdWOVdFDadjWNqJRES/Uzp/5n0RovL2j5Cof1ZSzdl+Bs3s
+ g0V59s6k74tOUXdxG8MTcBWhwE9eWRE6cWipqDkAeidw8bUUkwMHh1nmdtQ3bvOJpikj
+ Qnzr2kNuW1p2483Se+eqNx9mn2R0MaQsbSJntUa0cEe4rvwGPNSGqpFjOsXWu+6qIQ9t
+ AaDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EY4Adx0OcbtAOPWeOiQ6foI2RYDNLt0gmr6T8P4rYnc=;
- b=XUrePyHF4eZl1OVJj8q5UsUbdPxlDAm/68o1g67sSHKx1UQoxt6uBH5woP0qfUY/a6
- zFW/ej/3lPKhw+Qp1gXtmShwGkeeRn4HfglGO5cHT+nWS6mE06uPencP3Y/+VsFJnLqG
- MVdrzTRVL9MVryh4r2eKveghyKUaTE5MH6pt6H/S7EVmmT/oplVMCZsWtNnDKL0pTzvU
- xw1wFPme9D70Y/2CHEkIefriGC/honQf5YqwSw2j+spZwRoZYUAijexLXh4sdEusloG0
- eW16WYqAZIMUHwTM4t6BdYlOp6q4JKaPfsZAg26pPJMBVUW4WSinXRoWZwTbcGZzSb8E
- rdzg==
-X-Gm-Message-State: APjAAAU+8zVtfh9YhePylcFQ+cWw0Jab0h2ZSxpOVlaJVneEetEY6bq+
- zPeTP+/3cM7sP94WFXfP+j/HXoUcIT5v6nYhCbGuKw==
-X-Google-Smtp-Source: APXvYqzdGFS/f8xo5e9jpYynCQWW4r6cciJTzD5y5Zmjpb91hBQPXoaFxIIJJx8iub15B6j7PQCDSyaxMqyPf8rtw/c=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr20494605oti.91.1561990570216; 
- Mon, 01 Jul 2019 07:16:10 -0700 (PDT)
+ bh=M0bHov4AsMs+15g5Y8TaVCAZ0ewX/G2VwigLTPONJMo=;
+ b=nDXSDFzzkuNEtHnciXJ/Hatdj7DOA523RQOZudXte+f6TsPjHKhvKg2xnlit+1DAO/
+ Ce8L39/92JC05KuodQBFXUsGjKZMePH55D7qekPddCNytGdbt9af2UVmczm9eWIMekFs
+ 6rrFiUh+9nNgP0NMb9EWtKjDiz3gBgggVMwUT/NNdn0n+0tSiSp8bbCbugHbIhy20ycU
+ uLGIaphu5onC3hiOCD6LFuE35F5PvUq5VMis70tcMiPu5fSSiBYftUcDZAwH3lsXEOZM
+ Y6zbiE7nQzcA3rAtBAApQ1H9tjh2nVf6XiTy2paCaNJSXXEv998JW9/TCUS+m5XIj+TW
+ j9gg==
+X-Gm-Message-State: APjAAAU0CP+6yVzyBWVQjGyy5ZonuLmFxnTQMtNJN841er85c+xBLcJB
+ nPkGUUhHX0+w4P/8b7PFyh3x8UFKeyrZsSO71ykR7icpuqM=
+X-Google-Smtp-Source: APXvYqwHuA8HP24RqwJBTdwMTPlFOjtMiwLr9po+7+31BfDmCVmLSk55HmmdRFm0DjbMCyHcAYSAahdCUUusDXIIgU0=
+X-Received: by 2002:a9d:7245:: with SMTP id a5mr20759321otk.232.1561990743623; 
+ Mon, 01 Jul 2019 07:19:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
-In-Reply-To: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
+ <1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org>
+In-Reply-To: <1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 15:15:59 +0100
-Message-ID: <CAFEAcA8cut67vuwsc++H2TWa8Aq0g1ss8Gda3QnoyyP_-6WgwQ@mail.gmail.com>
+Date: Mon, 1 Jul 2019 15:18:52 +0100
+Message-ID: <CAFEAcA8qi7zRiLwDP38cPax=gAfEK8WQm0i9ZxDLXeESqh79Wg@mail.gmail.com>
 To: Hongbo Zhang <hongbo.zhang@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v9 0/2] Add Arm SBSA Reference Machine
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v9 1/2] hw/arm: Add arm SBSA reference
+ machine, skeleton part
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,66 +85,94 @@ On Sun, 30 Jun 2019 at 11:21, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
 >
 > For the Aarch64, there is one machine 'virt', it is primarily meant to
 > run on KVM and execute virtualization workloads, but we need an
-> environment as faithful as possible to physical hardware,  to support
+> environment as faithful as possible to physical hardware, for supporting
 > firmware and OS development for pysical Aarch64 machines.
 >
-> This machine comes with:
->  - Re-designed memory map.
->  - CPU cortex-a57.
->  - EL2 and EL3 enabled.
+> This patch introduces new machine type 'sbsa-ref' with main features:
+>  - Based on 'virt' machine type.
+>  - A new memory map.
+>  - CPU type cortex-a57.
+>  - EL2 and EL3 are enabled.
 >  - GIC version 3.
 >  - System bus AHCI controller.
->  - System bus XHCI controller.
+>  - System bus EHCI controller.
 >  - CDROM and hard disc on AHCI bus.
 >  - E1000E ethernet card on PCIE bus.
 >  - VGA display adaptor on PCIE bus.
+>  - No virtio deivces.
+>  - No fw_cfg device.
+>  - No ACPI table supplied.
 >  - Only minimal device tree nodes.
-> And without:
->  - virtio deivces.
->  - fw_cfg device.
->  - ACPI tables.
 >
 > Arm Trusted Firmware and UEFI porting to this are done accordingly, and
 > it should supply ACPI tables to load OS, the minimal device tree nodes
 > supplied from this platform are only to pass the dynamic info reflecting
 > command line input to firmware, not for loading OS.
+>
+> To make the review easier, this task is split into two patches, the
+> fundamental sceleton part and the peripheral devices part, this patch is
+> the first part.
+>
+> Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
+> ---
+>  default-configs/arm-softmmu.mak |   1 +
+>  hw/arm/Kconfig                  |  16 +++
+>  hw/arm/Makefile.objs            |   1 +
+>  hw/arm/sbsa-ref.c               | 281 ++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 299 insertions(+)
+>  create mode 100644 hw/arm/sbsa-ref.c
+>
+> diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
+> index 1f2e0e7..f9fdb73 100644
+> --- a/default-configs/arm-softmmu.mak
+> +++ b/default-configs/arm-softmmu.mak
+> @@ -19,6 +19,7 @@ CONFIG_SX1=y
+>  CONFIG_NSERIES=y
+>  CONFIG_STELLARIS=y
+>  CONFIG_REALVIEW=y
+> +CONFIG_SBSA_REF=y
+>  CONFIG_VERSATILE=y
+>  CONFIG_VEXPRESS=y
+>  CONFIG_ZYNQ=y
 
-Hi; this fails "make check" for me. Running the relevant bit of the
-test suite standalone:
+Adding CONFIG_SBSA_REF=y here is what makes the board
+model available for the 32-bit-only qemu-system-arm.
+If you put it in aarch64-softmmu.mak instead it will
+be correctly restricted to the 64-bit binary.
 
-e104462:bionic:arm-clang$
-QTEST_QEMU_BINARY=arm-softmmu/qemu-system-arm QTEST_QEMU_IMG=qemu-img
-tests/qom-test
-/arm/qom/integratorcp: OK
-/arm/qom/nuri: OK
-/arm/qom/mps2-an511: OK
-/arm/qom/verdex: OK
-/arm/qom/mps2-an505: OK
-/arm/qom/ast2500-evb: OK
-/arm/qom/smdkc210: OK
-/arm/qom/collie: OK
-/arm/qom/imx25-pdk: OK
-/arm/qom/none: OK
-/arm/qom/spitz: OK
-/arm/qom/musca-b1: OK
-/arm/qom/realview-pbx-a9: OK
-/arm/qom/realview-eb: OK
-/arm/qom/realview-pb-a8: OK
-/arm/qom/versatilepb: OK
-/arm/qom/emcraft-sf2: OK
-/arm/qom/musicpal: OK
-/arm/qom/sbsa-ref: **
-ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/qom/object.c:628:object_new_with_type:
-assertion failed: (type != NULL)
-Broken pipe
-/home/petmay01/linaro/qemu-from-laptop/qemu/tests/libqtest.c:145:
-kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
-Aborted (core dumped)
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 9aced9d..18e47b2 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -184,6 +184,22 @@ config REALVIEW
+>      select DS1338 # I2C RTC+NVRAM
+>      select USB_OHCI
+>
+> +config SBSA_REF
+> +    bool
+> +    imply PCI_DEVICES
+> +    select A15MPCORE
 
-It looks like the new board model is being added to the
-32-bit qemu-system-arm as well as to qemu-system-aarch64.
-This seems wrong, since the board will only work with a
-64-bit CPU.
+This looks like a leftover from the virt config?
+
+> +    select AHCI
+> +    select ARM_SMMUV3
+> +    select GPIO_KEY
+> +    select PCI_EXPRESS
+> +    select PCI_EXPRESS_GENERIC_BRIDGE
+> +    select PFLASH_CFI01
+> +    select PL011 # UART
+> +    select PL031 # RTC
+> +    select PL061 # GPIO
+> +    select PLATFORM_BUS
+
+I don't think you use the platform-bus either, do you?
+
+> +    select USB_EHCI_SYSBUS
+> +
+>  config SABRELITE
+>      bool
+>      select FSL_IMX6
 
 thanks
 -- PMM
