@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20B0C5C068
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:38:46 +0200 (CEST)
-Received: from localhost ([::1]:60206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B79665BFBF
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:26:55 +0200 (CEST)
+Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhyOD-0001Jq-0m
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:38:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38752)
+	id 1hhyCk-000371-Ry
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:26:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38889)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <crosa@redhat.com>) id 1hhy9e-0000xo-HE
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:23:43 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1hhyAD-0001RL-Er
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:24:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <crosa@redhat.com>) id 1hhy9d-0005VG-B7
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:23:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38182)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <crosa@redhat.com>)
- id 1hhy9d-0005TG-37; Mon, 01 Jul 2019 11:23:41 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D2748C057F88;
- Mon,  1 Jul 2019 15:23:37 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-124-195.rdu2.redhat.com
- [10.10.124.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D4A2BA4D;
- Mon,  1 Jul 2019 15:23:34 +0000 (UTC)
-Date: Mon, 1 Jul 2019 11:23:32 -0400
-From: Cleber Rosa <crosa@redhat.com>
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>, ehabkost@redhat.com
-Message-ID: <20190701152332.GA30640@localhost.localdomain>
-References: <20190607174953.22342-1-philmd@redhat.com>
- <a09936fe-4fdc-1623-6300-43f4891ff389@redhat.com>
- <CAL1e-=hoWQpmttzUGGbW7x8gGme7VMfEKhw=cFpL5Pg9A9sHDQ@mail.gmail.com>
+ (envelope-from <liq3ea@gmail.com>) id 1hhyAC-0005ms-6D
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:24:17 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37284)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hhyAB-0005mK-Vd
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:24:16 -0400
+Received: by mail-ot1-x344.google.com with SMTP id s20so13886098otp.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:24:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qqurb8aC0cVgVmsJ3PVcbWsIjutLeguCZwrglig7VYs=;
+ b=puh4ab4y5t4XJoSSvSW87gzKN1VSNbDWK0gzrOY+QPA2V5Sk3Vk3lED2xd8oXVtwjy
+ DcO9DRj6Q0AkWJEokNdfqSwsr1jLunpPrIAfY7dirHgoAyr+LLCwZu6w0EeiOXzuGoMb
+ 3l4NpRD5+VsFm6uYHqwdqMBbc/twckBIyP05B3DlK73wJUm3QO1cNnLe1AdEeXTpy47+
+ h5UdOgs8C+xrX5GPPe1ncwnmCOKZ9AQHRIvWq4mTbWwMJhfisLPQZU6icPhAtGaDwMKa
+ H1eedSHbaY82PZb+Sgbtm7NZtsUPoPEKeLnqk9PiIh459goI4yH3aq1beatIy76nrBrI
+ PWSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qqurb8aC0cVgVmsJ3PVcbWsIjutLeguCZwrglig7VYs=;
+ b=n8xCf5in68hcyHvQDsvzeG2vbIp0PtkqCYJZWjjvtNZIka9D/WS+KgK8zGMJuDP42B
+ JmflKxauGnjre1t4yxbsb84xqzfp4PH0LbP6pHrKrefuIY4P7oXe9Aa/QsZcn2osUcwn
+ WsbET7d2dl4dr8QUpLd/+GnpalX0S5AKkW5XZCfVKNGTJHm5pS/GHOcy2BH+Vy1lFTte
+ 3ivcyc18gOFhb2XZy1d+HtObJnxr+G6tCtOR7Sh5flDnAquKsVlKGxmDSXvKMpyJ+rza
+ Xx8O3e95/KkmDsfCNaa3LobNMv1I3xAyG9PZAjIhwJihvPwUxexj5WCuZa6cJMeKQ7dE
+ /sQw==
+X-Gm-Message-State: APjAAAWSWmS7QeJGBM62Rv5RnatJMROojMghQOlQ4M9+0LvdRKiFPpr0
+ vkyroyYAX3yYuCTdhBO0zesruHQmqwhGVX+Mdz0=
+X-Google-Smtp-Source: APXvYqyo/M+1biuCq+HPdue3r2ukqZvgES6mhBsc2CA5GiTTk6ExSyx47+6bVhtbQkQgAJhyKXO38rVF5xIbw4JHvrk=
+X-Received: by 2002:a05:6830:1141:: with SMTP id
+ x1mr19612442otq.333.1561994655128; 
+ Mon, 01 Jul 2019 08:24:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <CAL1e-=hoWQpmttzUGGbW7x8gGme7VMfEKhw=cFpL5Pg9A9sHDQ@mail.gmail.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Mon, 01 Jul 2019 15:23:38 +0000 (UTC)
+References: <20190701123558.30512-1-ppandit@redhat.com>
+ <20190701123558.30512-3-ppandit@redhat.com>
+In-Reply-To: <20190701123558.30512-3-ppandit@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Mon, 1 Jul 2019 23:23:39 +0800
+Message-ID: <CAKXe6SKx8OS__u_VywZ8fe9EXWQbbE5XRhh5NLhPOLJkV+2+Yw@mail.gmail.com>
+To: P J P <ppandit@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] BootLinuxSshTest: Only use 'test' for
- unittest.TestCase method names
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v3 2/3] qemu-bridge-helper: move repeating
+ code in parse_acl_file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -61,95 +75,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, Aleksandar Rikalo <arikalo@wavecomp.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Riccardo Schirone <rschiron@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 01, 2019 at 05:03:33PM +0200, Aleksandar Markovic wrote:
-> On Jul 1, 2019 4:22 PM, "Philippe Mathieu-Daud=E9" <philmd@redhat.com> =
-wrote:
-> >
-> > ping?
-> >
-> > On 6/7/19 7:49 PM, Philippe Mathieu-Daud=E9 wrote:
-> > > In commit f6e501a28ef9, Eduardo started to use "check_" as a
-> > > prefix for methods of similar purpose. Follow this prior art,
-> > > since it might become the conventions when writting Avocado
-> > > tests.
-> > >
-> > > Suggested-by: Cleber Rosa <crosa@redhat.com>
-> > > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> > > ---
->=20
-> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+P J P <ppandit@redhat.com> =E4=BA=8E2019=E5=B9=B47=E6=9C=881=E6=97=A5=E5=91=
+=A8=E4=B8=80 =E4=B8=8B=E5=8D=888:38=E5=86=99=E9=81=93=EF=BC=9A
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>
+> Move repeating error handling sequence in parse_acl_file routine
+> to an 'err' label.
+>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+>
 
-And queued on my python-next branch.
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
->=20
-> > >  tests/acceptance/linux_ssh_mips_malta.py | 10 +++++-----
-> > >  1 file changed, 5 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/tests/acceptance/linux_ssh_mips_malta.py
-> b/tests/acceptance/linux_ssh_mips_malta.py
-> > > index aafb0c39f6..134f10cac3 100644
-> > > --- a/tests/acceptance/linux_ssh_mips_malta.py
-> > > +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> > > @@ -162,7 +162,7 @@ class LinuxSSH(Test):
-> > >          self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in=
- line
-> > >                               for line in stdout])
-> > >
-> > > -    def do_test_mips_malta(self, endianess, kernel_path, uname_m):
-> > > +    def check_mips_malta(self, endianess, kernel_path, uname_m):
-> > >          self.boot_debian_wheezy_image_and_ssh_login(endianess,
-> kernel_path)
-> > >
-> > >          stdout, stderr =3D self.ssh_command('uname -a')
-> > > @@ -184,7 +184,7 @@ class LinuxSSH(Test):
-> > >          kernel_hash =3D '592e384a4edc16dade52a6cd5c785c637bcbc9ad'
-> > >          kernel_path =3D self.fetch_asset(kernel_url,
-> asset_hash=3Dkernel_hash)
-> > >
-> > > -        self.do_test_mips_malta('be', kernel_path, 'mips')
-> > > +        self.check_mips_malta('be', kernel_path, 'mips')
-> > >
-> > >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
-> Travis-CI')
-> > >      def test_mips_malta32el_kernel3_2_0(self):
-> > > @@ -199,7 +199,7 @@ class LinuxSSH(Test):
-> > >          kernel_hash =3D 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a'
-> > >          kernel_path =3D self.fetch_asset(kernel_url,
-> asset_hash=3Dkernel_hash)
-> > >
-> > > -        self.do_test_mips_malta('le', kernel_path, 'mips')
-> > > +        self.check_mips_malta('le', kernel_path, 'mips')
-> > >
-> > >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
-> Travis-CI')
-> > >      def test_mips_malta64eb_kernel3_2_0(self):
-> > > @@ -213,7 +213,7 @@ class LinuxSSH(Test):
-> > >                        'vmlinux-3.2.0-4-5kc-malta')
-> > >          kernel_hash =3D 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'
-> > >          kernel_path =3D self.fetch_asset(kernel_url,
-> asset_hash=3Dkernel_hash)
-> > > -        self.do_test_mips_malta('be', kernel_path, 'mips64')
-> > > +        self.check_mips_malta('be', kernel_path, 'mips64')
-> > >
-> > >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
-> Travis-CI')
-> > >      def test_mips_malta64el_kernel3_2_0(self):
-> > > @@ -227,4 +227,4 @@ class LinuxSSH(Test):
-> > >                        'vmlinux-3.2.0-4-5kc-malta')
-> > >          kernel_hash =3D '6a7f77245acf231415a0e8b725d91ed2f3487794'
-> > >          kernel_path =3D self.fetch_asset(kernel_url,
-> asset_hash=3Dkernel_hash)
-> > > -        self.do_test_mips_malta('le', kernel_path, 'mips64')
-> > > +        self.check_mips_malta('le', kernel_path, 'mips64')
-> > >
-> >
 
+
+
+> ---
+>  qemu-bridge-helper.c | 19 +++++++++----------
+>  1 file changed, 9 insertions(+), 10 deletions(-)
+>
+> diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
+> index e90c22f07d..91a02f9611 100644
+> --- a/qemu-bridge-helper.c
+> +++ b/qemu-bridge-helper.c
+> @@ -92,9 +92,7 @@ static int parse_acl_file(const char *filename, ACLList
+> *acl_list)
+>
+>          if (arg =3D=3D NULL) {
+>              fprintf(stderr, "Invalid config line:\n  %s\n", line);
+> -            fclose(f);
+> -            errno =3D EINVAL;
+> -            return -1;
+> +            goto err;
+>          }
+>
+>          *arg =3D 0;
+> @@ -111,9 +109,7 @@ static int parse_acl_file(const char *filename,
+> ACLList *acl_list)
+>
+>          if (!g_str_equal(cmd, "include") && strlen(arg) >=3D IFNAMSIZ) {
+>              fprintf(stderr, "name `%s' too long: %zu\n", arg,
+> strlen(arg));
+> -            fclose(f);
+> -            errno =3D EINVAL;
+> -            return -1;
+> +            goto err;
+>          }
+>
+>          if (strcmp(cmd, "deny") =3D=3D 0) {
+> @@ -139,15 +135,18 @@ static int parse_acl_file(const char *filename,
+> ACLList *acl_list)
+>              parse_acl_file(arg, acl_list);
+>          } else {
+>              fprintf(stderr, "Unknown command `%s'\n", cmd);
+> -            fclose(f);
+> -            errno =3D EINVAL;
+> -            return -1;
+> +            goto err;
+>          }
+>      }
+>
+>      fclose(f);
+> -
+>      return 0;
+> +
+> +err:
+> +    fclose(f);
+> +    errno =3D EINVAL;
+> +    return -1;
+> +
+>  }
+>
+>  static bool has_vnet_hdr(int fd)
+> --
+> 2.21.0
+>
+>
