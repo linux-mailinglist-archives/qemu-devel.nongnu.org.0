@@ -2,92 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4715C4C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:03:26 +0200 (CEST)
-Received: from localhost ([::1]:45492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D7C5C4DF
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:15:13 +0200 (CEST)
+Received: from localhost ([::1]:45590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi3SP-0001iC-F0
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:03:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43993)
+	id 1hi3do-0003WH-LN
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:15:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47493)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hi3CW-0000VG-QJ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:47:03 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3Iu-0005e4-Kn
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:53:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <andrey.shinkevich@virtuozzo.com>) id 1hi3CS-0000f6-Tb
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:46:58 -0400
-Received: from mail-eopbgr10139.outbound.protection.outlook.com
- ([40.107.1.139]:6561 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <andrey.shinkevich@virtuozzo.com>)
- id 1hi3CQ-0000cw-Pf; Mon, 01 Jul 2019 16:46:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fhaEybfDhm8Srr/0VH9eJ9kVjJewuQ/Z1VjHlItkM1k=;
- b=DhUNV7A3Vj3JpbhIYF9p9pyoDrjBgfguJQGO/i3vh0OOr2baqF/VC8ujXy45Ck3HlfUv/K0Am2tvlPjBquESyuRUZFubYzJUESzjRgiObEkqjTwmP6CCm6DbqMSXozPn2UQ/akbrwDrQ8Yh5fUYWY/rqcjXVs1QQGtwsl0+cZ/M=
-Received: from DB7PR08MB3258.eurprd08.prod.outlook.com (52.134.111.155) by
- DB7PR08MB3834.eurprd08.prod.outlook.com (20.178.45.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.20; Mon, 1 Jul 2019 16:46:11 +0000
-Received: from DB7PR08MB3258.eurprd08.prod.outlook.com
- ([fe80::5d2:b836:e08a:f5cf]) by DB7PR08MB3258.eurprd08.prod.outlook.com
- ([fe80::5d2:b836:e08a:f5cf%3]) with mapi id 15.20.2032.019; Mon, 1 Jul 2019
- 16:46:11 +0000
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-block@nongnu.org"
- <qemu-block@nongnu.org>
-Thread-Topic: [PATCH 1/5] block: Add BDS.never_freeze
-Thread-Index: AQHVLThQbyChzmNjYk+4eSAnxd+X9qa1/oUA
-Date: Mon, 1 Jul 2019 16:46:10 +0000
-Message-ID: <5cb461e3-deb4-b852-1fe4-4eb3415b358d@virtuozzo.com>
-References: <20190627223255.3789-1-mreitz@redhat.com>
- <20190627223255.3789-2-mreitz@redhat.com>
-In-Reply-To: <20190627223255.3789-2-mreitz@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0301CA0005.eurprd03.prod.outlook.com
- (2603:10a6:3:76::15) To DB7PR08MB3258.eurprd08.prod.outlook.com
- (2603:10a6:5:20::27)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=andrey.shinkevich@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 41152d55-f843-4e3b-8a3e-08d6fe439f15
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DB7PR08MB3834; 
-x-ms-traffictypediagnostic: DB7PR08MB3834:
-x-microsoft-antispam-prvs: <DB7PR08MB3834B00884D4FAB3F6A94D16F4F90@DB7PR08MB3834.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:222;
-x-forefront-prvs: 00851CA28B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(199004)(189003)(53936002)(31686004)(14454004)(73956011)(66946007)(186003)(256004)(81166006)(6506007)(53546011)(8676002)(68736007)(52116002)(26005)(486006)(476003)(2616005)(11346002)(446003)(25786009)(66446008)(66066001)(2906002)(81156014)(66556008)(64756008)(386003)(6486002)(229853002)(4326008)(6512007)(6436002)(66476007)(498600001)(71200400001)(99286004)(86362001)(44832011)(305945005)(31696002)(7736002)(2501003)(6116002)(5660300002)(3846002)(76176011)(36756003)(6246003)(110136005)(54906003)(8936002)(102836004)(71190400001);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DB7PR08MB3834;
- H:DB7PR08MB3258.eurprd08.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: pouYEqVDhUww2wJ4ADIBYNtCtcgl+KTv8g4EEifSzajeXJ3gzmoEtFbxOVEfDfVEIwjQCaKTyhN5m2Egoc+EWMWKUUl7FqLdRYpZwTndh5jfIx2T/etz73jkKI0JfSTostIQq5nfGZMMmODdBIxv6jAN0mlubMfrLkr8T/8I60BgK+3FfidGuqRajYLrAYIxq2oTfDtZSsD1zXONwLAA7h4bo7J2BjmaCGrYW5I98EeRaA+O9AkNKy/WAggX6plnA8ysB0cZVblB5jyK+JfOYOtKkktCChh9i5xDg2vpYYiF69yrDw7fzjHwXnmxnvF8+W+CtjoWXgVDPyQnfQ1DZ5q35fHaK4tsHLE3tg0B75nU5oG4ERR2ymIhViqOJikAPL16UJOqWG8i3toLXmRBYH8HPAw767m8nL+nYocZ7kw=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7B90ABBD8D570044A2138EC2651BAA4B@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3Ir-0003iR-IY
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:53:34 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:36587)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hi3Ir-0003i2-9O
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:53:33 -0400
+Received: by mail-ot1-f65.google.com with SMTP id r6so14922195oti.3
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:53:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Po+hiKTXl/WW1dV5JyskiYwMafDOR2b4UMvJ2DcVI6w=;
+ b=DMH/Q39r2kVmR+yR6bIkb3m2K6AsAlftGzdRwC4X0Sqo+rRxhb//JORU1G70gPwXeS
+ Bq+vPI3RxA5PeAxqCjlBJN92op1jcLvFi988TwoqS96uEz79O6IG/Xvk6StrvgtTgEMg
+ dpIvOuu69N/p2QHyIeKc7qYohUQWhIAixAHQyBn7axkjhRzzRuXW3UXzyX0F+hGec+uv
+ r8y1CVEO54GfEGNTSHJ2o8T96HOtDXlAvP2md5cRJ1fi8n9pSDpSTkMkP4zyTRagkBB8
+ 4URLY5qGMb+36LoCWUQCsUk2YZ/iRUrl2Nexq94/xl9wD9MRrbKS9e6amCLPIVjTI0cm
+ v/pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Po+hiKTXl/WW1dV5JyskiYwMafDOR2b4UMvJ2DcVI6w=;
+ b=cA4dBusQjeIrve4qAOaN1dVmdheQ+TYzTMvYkEXpW7+DJ1Q5iEUrT571uJTvdov212
+ 50EBTl5Ck7KmvBay6v+CzU91D8zPG8mrb93MXMQiLKE/zjIczcDyWkaZBi6hv/YmU3iS
+ mrKyNYQ9XiROLXqle2XjLC9MIZnY9yMl8YcD6t/cXXnHnBdDhIvurRsOG6w5tGZYV8OM
+ 5TsisK379/Ovdx79Brpxb/oqf4xT1shMLLO0Ztqq/fJ7IJqdEq9deMLY/cQQf84Hy5fD
+ N17eaKxiJ6tkSZTdnBs5bV662U0SWH/R3ycQY2D68UFaBMzQiB/AvRh4UUllbfIo/FQW
+ DrPA==
+X-Gm-Message-State: APjAAAUyxbv40uZscMAILsIjyrfXBpZ+/zu7MiQ9cUrPl5khoE2irBav
+ AM17Zm42Y/jfiBmmgALVDs3uzhqm3MW0BHOUzbRSIGJc15g=
+X-Google-Smtp-Source: APXvYqxA15DfX9/7DbGg+LDBhBbxkNdJNSZN8gzwLSPFJ9qy4sJTdUIKX7wGQBOe9P0AjlbL4CqhCGeygbTPycs32bo=
+X-Received: by 2002:a9d:7245:: with SMTP id a5mr21350613otk.232.1562000091810; 
+ Mon, 01 Jul 2019 09:54:51 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41152d55-f843-4e3b-8a3e-08d6fe439f15
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2019 16:46:11.0293 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: andrey.shinkevich@virtuozzo.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3834
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.1.139
-Subject: Re: [Qemu-devel] [PATCH 1/5] block: Add BDS.never_freeze
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-34-palmer@sifive.com>
+In-Reply-To: <20190627152011.18686-34-palmer@sifive.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 17:54:40 +0100
+Message-ID: <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
+To: Palmer Dabbelt <palmer@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.210.65
+Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,64 +72,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Alberto Garcia <berto@igalia.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDI4LzA2LzIwMTkgMDE6MzIsIE1heCBSZWl0eiB3cm90ZToNCj4gVGhlIGNvbW1pdCBh
-bmQgdGhlIG1pcnJvciBibG9jayBqb2IgbXVzdCBiZSBhYmxlIHRvIGRyb3AgdGhlaXIgZmlsdGVy
-DQo+IG5vZGUgYXQgYW55IHBvaW50LiAgSG93ZXZlciwgdGhpcyB3aWxsIG5vdCBiZSBwb3NzaWJs
-ZSBpZiBhbnkgb2YgdGhlDQo+IEJkcnZDaGlsZCBsaW5rcyB0byB0aGVtIGlzIGZyb3plbi4gIFRo
-ZXJlZm9yZSwgd2UgbmVlZCB0byBwcmV2ZW50IHRoZW0NCj4gZnJvbSBldmVyIGJlY29taW5nIGZy
-b3plbi4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IE1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+
-DQo+IC0tLQ0KPiAgIGluY2x1ZGUvYmxvY2svYmxvY2tfaW50LmggfCAzICsrKw0KPiAgIGJsb2Nr
-LmMgICAgICAgICAgICAgICAgICAgfCA4ICsrKysrKysrDQo+ICAgYmxvY2svY29tbWl0LmMgICAg
-ICAgICAgICB8IDQgKysrKw0KPiAgIGJsb2NrL21pcnJvci5jICAgICAgICAgICAgfCA0ICsrKysN
-Cj4gICA0IGZpbGVzIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQg
-YS9pbmNsdWRlL2Jsb2NrL2Jsb2NrX2ludC5oIGIvaW5jbHVkZS9ibG9jay9ibG9ja19pbnQuaA0K
-PiBpbmRleCBkNjQxNWI1M2MxLi41MDkwMjUzMWI3IDEwMDY0NA0KPiAtLS0gYS9pbmNsdWRlL2Js
-b2NrL2Jsb2NrX2ludC5oDQo+ICsrKyBiL2luY2x1ZGUvYmxvY2svYmxvY2tfaW50LmgNCj4gQEAg
-LTg4NSw2ICs4ODUsOSBAQCBzdHJ1Y3QgQmxvY2tEcml2ZXJTdGF0ZSB7DQo+ICAgDQo+ICAgICAg
-IC8qIE9ubHkgcmVhZC93cml0dGVuIGJ5IHdob2V2ZXIgaGFzIHNldCBhY3RpdmVfZmx1c2hfcmVx
-IHRvIHRydWUuICAqLw0KPiAgICAgICB1bnNpZ25lZCBpbnQgZmx1c2hlZF9nZW47ICAgICAgICAg
-ICAgIC8qIEZsdXNoZWQgd3JpdGUgZ2VuZXJhdGlvbiAqLw0KPiArDQo+ICsgICAgLyogQmRydkNo
-aWxkIGxpbmtzIHRvIHRoaXMgbm9kZSBtYXkgbmV2ZXIgYmUgZnJvemVuICovDQo+ICsgICAgYm9v
-bCBuZXZlcl9mcmVlemU7DQo+ICAgfTsNCj4gICANCj4gICBzdHJ1Y3QgQmxvY2tCYWNrZW5kUm9v
-dFN0YXRlIHsNCj4gZGlmZiAtLWdpdCBhL2Jsb2NrLmMgYi9ibG9jay5jDQo+IGluZGV4IGMxMzk1
-NDBmMmIuLjY1NjUxOTJiOTEgMTAwNjQ0DQo+IC0tLSBhL2Jsb2NrLmMNCj4gKysrIGIvYmxvY2su
-Yw0KPiBAQCAtNDQxNiw2ICs0NDE2LDE0IEBAIGludCBiZHJ2X2ZyZWV6ZV9iYWNraW5nX2NoYWlu
-KEJsb2NrRHJpdmVyU3RhdGUgKmJzLCBCbG9ja0RyaXZlclN0YXRlICpiYXNlLA0KPiAgICAgICAg
-ICAgcmV0dXJuIC1FUEVSTTsNCj4gICAgICAgfQ0KPiAgIA0KPiArICAgIGZvciAoaSA9IGJzOyBp
-ICE9IGJhc2U7IGkgPSBiYWNraW5nX2JzKGkpKSB7DQo+ICsgICAgICAgIGlmIChpLT5iYWNraW5n
-ICYmIGJhY2tpbmdfYnMoaSktPm5ldmVyX2ZyZWV6ZSkgew0KPiArICAgICAgICAgICAgZXJyb3Jf
-c2V0ZyhlcnJwLCAiQ2Fubm90IGZyZWV6ZSAnJXMnIGxpbmsgdG8gJyVzJyIsDQo+ICsgICAgICAg
-ICAgICAgICAgICAgICAgIGktPmJhY2tpbmctPm5hbWUsIGJhY2tpbmdfYnMoaSktPm5vZGVfbmFt
-ZSk7DQo+ICsgICAgICAgICAgICByZXR1cm4gLUVQRVJNOw0KPiArICAgICAgICB9DQo+ICsgICAg
-fQ0KPiArDQo+ICAgICAgIGZvciAoaSA9IGJzOyBpICE9IGJhc2U7IGkgPSBiYWNraW5nX2JzKGkp
-KSB7DQo+ICAgICAgICAgICBpZiAoaS0+YmFja2luZykgew0KPiAgICAgICAgICAgICAgIGktPmJh
-Y2tpbmctPmZyb3plbiA9IHRydWU7DQo+IGRpZmYgLS1naXQgYS9ibG9jay9jb21taXQuYyBiL2Js
-b2NrL2NvbW1pdC5jDQo+IGluZGV4IGNhN2U0MDhiMjYuLjJjNWE2ZDRlYmMgMTAwNjQ0DQo+IC0t
-LSBhL2Jsb2NrL2NvbW1pdC5jDQo+ICsrKyBiL2Jsb2NrL2NvbW1pdC5jDQo+IEBAIC0yOTgsNiAr
-Mjk4LDEwIEBAIHZvaWQgY29tbWl0X3N0YXJ0KGNvbnN0IGNoYXIgKmpvYl9pZCwgQmxvY2tEcml2
-ZXJTdGF0ZSAqYnMsDQo+ICAgICAgIGlmICghZmlsdGVyX25vZGVfbmFtZSkgew0KPiAgICAgICAg
-ICAgY29tbWl0X3RvcF9icy0+aW1wbGljaXQgPSB0cnVlOw0KPiAgICAgICB9DQo+ICsNCj4gKyAg
-ICAvKiBTbyB0aGF0IHdlIGNhbiBhbHdheXMgZHJvcCB0aGlzIG5vZGUgKi8NCj4gKyAgICBjb21t
-aXRfdG9wX2JzLT5uZXZlcl9mcmVlemUgPSB0cnVlOw0KPiArDQo+ICAgICAgIGNvbW1pdF90b3Bf
-YnMtPnRvdGFsX3NlY3RvcnMgPSB0b3AtPnRvdGFsX3NlY3RvcnM7DQo+ICAgDQo+ICAgICAgIGJk
-cnZfYXBwZW5kKGNvbW1pdF90b3BfYnMsIHRvcCwgJmxvY2FsX2Vycik7DQo+IGRpZmYgLS1naXQg
-YS9ibG9jay9taXJyb3IuYyBiL2Jsb2NrL21pcnJvci5jDQo+IGluZGV4IDJmY2VjNzBlMzUuLjhj
-Yjc1ZmI0MDkgMTAwNjQ0DQo+IC0tLSBhL2Jsb2NrL21pcnJvci5jDQo+ICsrKyBiL2Jsb2NrL21p
-cnJvci5jDQo+IEBAIC0xNTUxLDYgKzE1NTEsMTAgQEAgc3RhdGljIEJsb2NrSm9iICptaXJyb3Jf
-c3RhcnRfam9iKA0KPiAgICAgICBpZiAoIWZpbHRlcl9ub2RlX25hbWUpIHsNCj4gICAgICAgICAg
-IG1pcnJvcl90b3BfYnMtPmltcGxpY2l0ID0gdHJ1ZTsNCj4gICAgICAgfQ0KPiArDQo+ICsgICAg
-LyogU28gdGhhdCB3ZSBjYW4gYWx3YXlzIGRyb3AgdGhpcyBub2RlICovDQo+ICsgICAgbWlycm9y
-X3RvcF9icy0+bmV2ZXJfZnJlZXplID0gdHJ1ZTsNCj4gKw0KPiAgICAgICBtaXJyb3JfdG9wX2Jz
-LT50b3RhbF9zZWN0b3JzID0gYnMtPnRvdGFsX3NlY3RvcnM7DQo+ICAgICAgIG1pcnJvcl90b3Bf
-YnMtPnN1cHBvcnRlZF93cml0ZV9mbGFncyA9IEJEUlZfUkVRX1dSSVRFX1VOQ0hBTkdFRDsNCj4g
-ICAgICAgbWlycm9yX3RvcF9icy0+c3VwcG9ydGVkX3plcm9fZmxhZ3MgPSBCRFJWX1JFUV9XUklU
-RV9VTkNIQU5HRUQgfA0KPiANCg0KUmV2aWV3ZWQtYnk6IEFuZHJleSBTaGlua2V2aWNoIDxhbmRy
-ZXkuc2hpbmtldmljaEB2aXJ0dW96em8uY29tPg0KLS0gDQpXaXRoIHRoZSBiZXN0IHJlZ2FyZHMs
-DQpBbmRyZXkgU2hpbmtldmljaA0K
+On Thu, 27 Jun 2019 at 16:24, Palmer Dabbelt <palmer@sifive.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> Add OpenSBI version 0.3 as a git submodule and as a prebult binary.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Tested-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> ---
+>  .gitmodules                                  |   3 ++
+>  Makefile                                     |   5 +-
+>  pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin 0 -> 28848 bytes
+>  pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin 0 -> 28904 bytes
+>  pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin 0 -> 28904 bytes
+>  roms/Makefile                                |  48 ++++++++++++++-----
+>  roms/opensbi                                 |   1 +
+>  7 files changed, 44 insertions(+), 13 deletions(-)
+>  create mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
+>  create mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
+>  create mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
+>  create mode 160000 roms/opensbi
+>
+> diff --git a/.gitmodules b/.gitmodules
+> index 2857eec76377..7a10e72e09cd 100644
+> --- a/.gitmodules
+> +++ b/.gitmodules
+> @@ -55,3 +55,6 @@
+>  [submodule "slirp"]
+>         path = slirp
+>         url = https://git.qemu.org/git/libslirp.git
+> +[submodule "roms/opensbi"]
+> +       path = roms/opensbi
+> +       url = https://github.com/riscv/opensbi.git
+
+It would be nice to state the license for new blobs we're
+adding to the source tree... In particular, I find the
+readme at https://github.com/riscv/opensbi a bit confusing
+because it says it's 2-BSD but also that some parts are Apache-2.0;
+the latter is *not* GPL-2.0 compatible. That makes it not completely
+obvious to me that we can ship this with QEMU.
+
+Also, new git modules in .gitmodules should be qemu.org
+URLs, not random external ones. (ie, we should set up
+mirroring of any new external repo we start shipping
+code and binaries for). We can set this up and fix up the
+gitmodules file after the fact, but the ideal is to do
+it in advance rather than afterwards.
+
+thanks
+-- PMM
 
