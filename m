@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F005C58D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:14:51 +0200 (CEST)
-Received: from localhost ([::1]:45972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB33B5C590
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:16:47 +0200 (CEST)
+Received: from localhost ([::1]:45982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4ZW-0004Pk-CG
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
+	id 1hi4bF-0005iK-4B
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:16:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48866)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3TN-0004Gc-Es
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:04:26 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi3MI-0007UF-R0
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3TM-0003tI-Gl
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:04:25 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44292)
+ (envelope-from <philmd@redhat.com>) id 1hi3MF-00052P-KR
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:04 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50593)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3TM-0003sl-8u
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:04:24 -0400
-Received: by mail-ot1-f66.google.com with SMTP id b7so14898386otl.11
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BH24mY7k31TZuEACtPdnoer+3QK+UzkYFwAlGUuW/xc=;
- b=PG2Gf8lnkqL04b54KHIPw303yj+wZif5+Nx9aTpQBUdj5AbSYQXUAps5bD+h8EObaG
- outuZZHpWugFVGZ2bjAs4gkr0Nb6EoJcxcqanqFNDFA9pp5hzcqwbpcVMQep5R/T8dQ9
- xg/QooE7bfVEXbZ7T6G5YLwI7ekHCKo7XrSQdCkeb8ywqyHJN8CAeIqKtm4XAm1oK5o7
- u824WE2f8nWeA9MVLlVJrq+O22Te9CoqsH1/cztSfuw8zObSmgzc5kstX+FNzG0Mgw2+
- ZBDVfy/1PG+WEBj6kZc2m1b7jBFAsR5rTfFRuct9dR5ZtoakOZUWn8em7oAezRXWallN
- Blzg==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hi3MF-0004x3-DQ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:03 -0400
+Received: by mail-wm1-f66.google.com with SMTP id n9so854846wmi.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:56:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BH24mY7k31TZuEACtPdnoer+3QK+UzkYFwAlGUuW/xc=;
- b=ONkg9JRKDzkVUDeo6JYBMy8ajziFtxswh0bCUzLb3X29Ts3lJLQoC67shopUwTp9kF
- RcAvmbu9oLuHDiOr7Oo9m2i2WMn1KYoMFxSon+LNoEIwnM2OboV4jijjiWraSF/RRnAv
- abAWBCy/2YOegyh/JMN7rri479UBCUMMgIrUeUQiOxv4vfQqtJi4ONumRrVYZlyPh7/x
- 12I36chVxWUsU+WnfzsSIzCnxb0X80ftOw22Ix4KXuKbMtHGEgMnhi3ogJnGKgbYm41o
- ta1jlF1wldNgmQ2GJqnRJPDPHmnb4T+KS9xKjDuZZbVcCMUEVh5zsbXOt1mGuwZOPOAz
- bsoQ==
-X-Gm-Message-State: APjAAAUngFlJbb2N9b/MLOPXJYnIDKEAiw00+Bj4T0J6xLmtJ7r48mrs
- tU7hwMmeVS8KbODwCg8DnqWWmbHSL7i128UxF2/EXdjSR64=
-X-Google-Smtp-Source: APXvYqxurZRvyLXBTyGMagF+p8aXINbgp9r1YhxiIZyGtOtKkuw44zNowbC/NUnXNTNz2ius8HACwgpp5BWCKF67CGc=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr9605025otk.221.1562004794476; 
- Mon, 01 Jul 2019 11:13:14 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dKB2Umh3Pp34bt2n2bl4TPAAqwbQYVzTk1oPuHSAwrc=;
+ b=SqSkWPlJJ9usjKf/jAgwovc13sqoQih9YDpvt8K03qefQawLXky2P79K3X7T/Kve9Z
+ WzfltkehUkL2cY1hIxPW9fDGWPTh3BtbkbX3pTksGXRZXQ9ANAHvkQNtX8yNmWkIyc62
+ MDidskHmpgXtWT5QxwA8Fayo3isI/+tDVA3hpB61Bv+kxXeDNb6S77I9Xn4LxbOt5Ks5
+ 85TEsC8IxYROiMvGu+cEibPpjNIOlM4rUOfyt8QlFoI7HCLd50+yl+jNcEkz6/OHyh32
+ TBtpLslLQzIGpOtMrtOyQfT2HDRDcbdVY/tAUZ/H8jb7iX3RukPob6AM2fFfZK8rxAoI
+ 83Tg==
+X-Gm-Message-State: APjAAAUTjelCPpSYdb1LBsm3IR/uvpztQ9hgCJv8+xOjXosWl+k08SVP
+ NFubEDahOU8RF64WQ5+ndVoPkQ==
+X-Google-Smtp-Source: APXvYqxaCki1wpQ1Y15fVf3ui/iD14zg23UVmXEH0idZRlkHm7qlBHzosP0f/+r3iRD6sIGT/wJPvw==
+X-Received: by 2002:a1c:b68a:: with SMTP id g132mr370179wmf.66.1562004792286; 
+ Mon, 01 Jul 2019 11:13:12 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id v65sm402838wme.31.2019.07.01.11.13.11
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Jul 2019 11:13:11 -0700 (PDT)
+To: qemu-devel@nongnu.org
+References: <156200378933.9862.9905804796969886990@c4a48874b076>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <81770e41-70a3-4e57-d7d7-501321843dd4@redhat.com>
+Date: Mon, 1 Jul 2019 20:13:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190627152011.18686-1-palmer@sifive.com>
- <20190627152011.18686-34-palmer@sifive.com>
- <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
- <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
- <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
- <efaaaa7aabddfb8481af4c5b2eeec23513f8fcb8.camel@wdc.com>
-In-Reply-To: <efaaaa7aabddfb8481af4c5b2eeec23513f8fcb8.camel@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 19:13:03 +0100
-Message-ID: <CAFEAcA_cwm_1VhGW7yGL6=ja7TuO3c9perBs_OoWMaXBhJYH9g@mail.gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <156200378933.9862.9905804796969886990@c4a48874b076>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.66
-Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH 0/6] hw/arm: Use ARM_CPU_TYPE_NAME() and
+ object_initialize_child()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,36 +74,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- "codyprime@gmail.com" <codyprime@gmail.com>,
- "palmer@sifive.com" <palmer@sifive.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
+Cc: peter.maydell@linaro.org, andrew.smirnov@gmail.com, jasowang@redhat.com,
+ alistair@alistair23.me, jcd@tribudubois.net, b.galvani@gmail.com,
+ i.mitsyanko@gmail.com, qemu-arm@nongnu.org, peter.chubb@nicta.com.au,
+ antonynpavlov@gmail.com, edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jul 2019 at 19:09, Alistair Francis <Alistair.Francis@wdc.com> wrote:
->
-> On Mon, 2019-07-01 at 19:01 +0100, Peter Maydell wrote:
-> > On Mon, 1 Jul 2019 at 18:50, Alistair Francis <
-> > Alistair.Francis@wdc.com> wrote:
-> > > PS: It seems like there are still some issues with this patch so
-> > > maybe
-> > > it's worth dropping this patch from the PR so that we can get
-> > > everything else merged.
-> >
-> > Yeah, that would be my suggestion.
->
-> Can you do that when you merge it or does Palmer have to send the PR
-> again?
+On 7/1/19 7:56 PM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20190701123108.12493-1-philmd@redhat.com/
+> 
+> Hi,
+> 
+> This series failed build test on s390x host. Please find the details below.
+> 
+>   CC      hw/dma/i8257.o
+>   CC      hw/dma/xilinx_axidma.o
+> /var/tmp/patchew-tester-tmp-6umc5eop/src/hw/dma/xilinx_axidma.c: In function ‘xilinx_axidma_init’:
+> /var/tmp/patchew-tester-tmp-6umc5eop/src/hw/dma/xilinx_axidma.c:568:29: error: ‘TYPE_XILINX_AXI_ENET_DATA_STREAM’ undeclared (first use in this function); did you mean ‘TYPE_XILINX_AXI_DMA_DATA_STREAM’?
+>   568 |                             TYPE_XILINX_AXI_ENET_DATA_STREAM, &error_abort,
+>       |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |                             TYPE_XILINX_AXI_DMA_DATA_STREAM
+> /var/tmp/patchew-tester-tmp-6umc5eop/src/hw/dma/xilinx_axidma.c:568:29: note: each undeclared identifier is reported only once for each function it appears in
+> /var/tmp/patchew-tester-tmp-6umc5eop/src/hw/dma/xilinx_axidma.c:572:29: error: ‘TYPE_XILINX_AXI_ENET_CONTROL_STREAM’ undeclared (first use in this function); did you mean ‘TYPE_XILINX_AXI_DMA_CONTROL_STREAM’?
+>   572 |                             TYPE_XILINX_AXI_ENET_CONTROL_STREAM, &error_abort,
+>       |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>       |                             TYPE_XILINX_AXI_DMA_CONTROL_STREAM
 
-Palmer needs to respin it -- pulls are signed and I can't
-modify them, only either apply them or not. (Technically I
-could in theory cherry-pick all the other commits out of them
-but that would be a huge amount of manual labour.)
-
-thanks
--- PMM
+It would be nice if GCC directly fix the patch instead of embarrassing
+the author for obvious copy/paste mistakes...
 
