@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 908ED5C75C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:31:53 +0200 (CEST)
-Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F08DB5C75B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:31:16 +0200 (CEST)
+Received: from localhost ([::1]:47312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8aG-0001KB-Ok
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:31:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58921)
+	id 1hi8Za-0000i0-TA
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:31:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35323)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hi4ZM-0005RM-Py
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:14:42 -0400
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hi4wM-0006tO-Cf
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:38:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hi4ZJ-0003q9-VK
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:14:39 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:33233)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hi4ZJ-0003pY-Nt
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:14:37 -0400
-Received: by mail-wm1-f65.google.com with SMTP id h19so999852wme.0
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:14:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=E94XKKlFAYeJJ9fC8+9WNmnyYOD7z0vtFrqpDycTyH0=;
- b=fxlt2/8GKaGacr1eoDlnsC+9zqekU3G0BQ00oJ1ISDQLi2hy6OWHmY8Brfz1WFiC8i
- Sqc3TNx6GrO/eYxN7Bb5lul1jzLBBvOnn+zQCDjCkq0VcEty51qLQLPcaE2wp1Ay5jNp
- wkquNxsqv+2o6Z1lxtvZV72ZUyty4wY16Nzh7xxZA2VdEDbNLREgxlaYT9a6ewXPjS5O
- 6m4YbQFPqBlXtmhUCJYnwSskCvVIT8KTrkNlSdxudpiCHrGcK2Ccj5HCyc0wSzPbXpxH
- 0kL/zy1xMEVkTRwGjbKE2srAfeFs0nI5pGYEy9tzM5AvnZSXxvnjac0dVXHv43nrqpvf
- Jovg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=E94XKKlFAYeJJ9fC8+9WNmnyYOD7z0vtFrqpDycTyH0=;
- b=Tf2B71cwDGxIggW6IFWGlsRyZBfADCq6g+QcE+NmtrlkTc3OnaQ5w3NLmdx72vSrZp
- CsD8f89/zFXV7O2gp4R4VJmyrJBnDt4Yi+E/X9Spw6YXvUyZEwRM4t0uEqGIy8eayMHk
- 0siSamT3XIF/BnZdf13tut4xj/J3J4FWEASoJOjk2Cl0l8IUS4Te3PYps/xhEJqBHSkk
- e19imT+izsrFJ3IMWuqJ+2D0At0wwzJCLJn9EMBCfNAJqa/W+ri+pvspLOsFu0SwX0MX
- iT/pRWcBU8lmrAKM3kFc/tE7Yrh2NRpraMdz6akIzRj/akEnMXMOMX57NXTRwbVP37OE
- Mtkw==
-X-Gm-Message-State: APjAAAUN6uDWbIlFPFfEsgT2t8Wo2Zc/Maqm5vKqDhEkHSR7Fl1zOeyu
- 9hHrtuDM6Us7rD5rQI+GtcO4OjXtaqY=
-X-Google-Smtp-Source: APXvYqw8YzHBggg5wu10nd8hlPzjf61PSkgu0dPn7vl6P60TSPr9qmJdy+iz0ayuHEgAuYT4KVIe7g==
-X-Received: by 2002:a05:600c:291:: with SMTP id 17mr168058wmk.32.1561999863278; 
- Mon, 01 Jul 2019 09:51:03 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id v204sm208873wma.20.2019.07.01.09.51.02
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:51:02 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3DF531FF87;
- Mon,  1 Jul 2019 17:51:02 +0100 (BST)
-References: <20190614171200.21078-1-alex.bennee@linaro.org>
- <CADYwmhFw8ujwz+NN9prKc+Za6=dD1aN==JnKmC0gnr4V7LPU4w@mail.gmail.com>
- <87r27n8i2f.fsf@zen.linaroharston>
- <CAJhHMCALe5K53OOmXae4dwa9wDn-RbDaPwdS-Xe+eA1PVbRG+Q@mail.gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pranith Kumar <bobby.prani@gmail.com>
-In-reply-to: <CAJhHMCALe5K53OOmXae4dwa9wDn-RbDaPwdS-Xe+eA1PVbRG+Q@mail.gmail.com>
-Date: Mon, 01 Jul 2019 17:51:02 +0100
-Message-ID: <871rz9snpl.fsf@zen.linaroharston>
+ (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hi4wL-000518-3w
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:38:26 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:42266
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1hi4wH-0004yC-8C; Mon, 01 Jul 2019 18:38:21 -0400
+Received: from host109-146-132-17.range109-146.btcentralplus.com
+ ([109.146.132.17] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1hhzZs-0006SP-5u; Mon, 01 Jul 2019 17:54:52 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20190701123441.13412-1-philmd@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+ mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+ 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+ E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+ PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+ PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+ AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+ OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+ NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+ mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+ z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+ T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+ DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+ y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+ 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+ 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+ YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+ Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+ BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+ opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+ NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+ Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+ KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+ imgcU9TTGC5qd9g=
+Message-ID: <6efc23f4-6861-be24-58ae-4e083b7d8cb7@ilande.co.uk>
+Date: Mon, 1 Jul 2019 17:55:23 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
+In-Reply-To: <20190701123441.13412-1-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.146.132.17
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH v3 00/50] tcg plugin support
+X-Received-From: 46.43.2.167
+Subject: Re: [Qemu-devel] [PATCH] hw/misc/macio: Add the nvram as child of
+ the MacIO south bridge
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,157 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G. Cota" <cota@braap.org>, qemu-devel <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 01/07/2019 13:34, Philippe Mathieu-Daudé wrote:
 
-Pranith Kumar <bobby.prani@gmail.com> writes:
+> Avoid another QOM orphean, link it back to its parent.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  hw/misc/macio/macio.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+> index 82492096f8..e02882be28 100644
+> --- a/hw/misc/macio/macio.c
+> +++ b/hw/misc/macio/macio.c
+> @@ -243,7 +243,8 @@ static void macio_oldworld_init(Object *obj)
+>  
+>      macio_init_child_obj(s, "cuda", &s->cuda, sizeof(s->cuda), TYPE_CUDA);
+>  
+> -    object_initialize(&os->nvram, sizeof(os->nvram), TYPE_MACIO_NVRAM);
+> +    object_initialize_child(s, "nvram",  &os->nvram, sizeof(os->nvram),
+> +                            TYPE_MACIO_NVRAM, &error_abort, NULL);
+>      dev = DEVICE(&os->nvram);
+>      qdev_prop_set_uint32(dev, "size", 0x2000);
+>      qdev_prop_set_uint32(dev, "it_shift", 4);
 
-> On Fri, Jun 21, 2019 at 1:21 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->
->> > * Register and memory read/write API
->> >
->> >   It would be great to have register and memory read/write API i.e., a=
-bility
->> >   to read/write to registers/memory from within the callback. This giv=
-es the
->> >   plugin ability to do system introspection. (Not sure if the current =
-patchset
->> >   implements this already).
->>
->> Not currently. The trick is to have something flexible enough without
->> exposing internals. I guess we could consider the gdb register
->> enumeration or maybe hook into stuff declared as
->> tcg_global_mem_new_i[64|32]. That won't get every "register" but it
->> should certainly cover the main general purpose ones. Things like SVE
->> and AdvSIMD vector registers wouldn't be seen though.
->
-> I guess general registers could be a good starting point. We can then
-> implement arch specific register access APIs.
->
->>
->> > * Register callbacks
->> >
->> >   A callback needs to be invoked whenever a specified registers is rea=
-d or
->> >   written to.
->>
->> Again tricky as not every register read/write is obvious from TCG -
->> vector registers tweaked from helpers would be a good example.
->>
->> >
->> > * Where do new plugins live in the tree?
->> >
->> >   The current source files in plugins (api, core etc.,) I think are be=
-tter if
->> >   moved to tcg/plugins/.  The various plugins we write would then live=
- in the
->> >   plugins/ folder instead of the current tests/plugin/ folder.
->>
->> The example plugins are really just toys for experimenting with the API
->> - I don't see too much problem with them being in tests. However the
->> howvec plugin is very guest architecture specific so we could consider a
->> bit more of a hierarchy. Maybe these should all live in tests/tcg?
->>
->
-> So where do you want 'real' plugins to live in the tree? It would be
-> good to think about the structure for those.
+Hmmm actually I think this should be using macio_init_child_obj() which does the same
+as you have done above, plus it sets the qbus correctly too. And also a minor nit on
+the subject line: you should mention that this just for Old World Macs, since for New
+World Macs the NVRAM is located elsewhere.
 
-I don't see whats wrong with tests/plugins for this. For the upstream
-point of view they are there to test and exercise the plugin code.
+In fact it looks like there are also a few cases in macio_newworld_realize() where
+this function should be used too, if you fancy touching those up whilst you're in the
+area.
 
->
->> >
->> > * Timer interrupts
->> >
->> >   What I observed is that the system execution is affected by what you=
- do in
->> >   the callbacks because of timer interrupts. For example, if you spend=
- time in
->> >   the memory callback doing a bit of processing and writing to a file,=
- you
->> >   will see more timer interrupt instructions. One solution to this wou=
-ld be to
->> >   use 'icount', but it does not work that well. I think we need to do
->> >   something similar to what gdb does in debug mode. How would you hand=
-le MTTCG
->> >   guests in that case?
->>
->> icount is going to be the best you can get for deterministic time -
->> other efforts to pause/restart virtual time going in and out of plugins
->> are just going to add a lot of overhead.
->
-> I wonder why using icount is not working in this case. Are there any
-> timers that fire non-deterministically even when icount is used?
 
-Shouldn't be. What sort of problems are you seeing?
+ATB,
 
->> Remember QEMU doesn't even try to be a cycle accurate emulation so
->> expecting to get reasonable timing information out of these plugins is a
->> stretch. Maybe I should make that clearer in the design document?
->
-> It is less about being cycle accurate and more about being
-> deterministic. For example, when tracing using plugins+callbacks, you
-> will see a lot more interrupt code in the trace than when if you
-> execute without tracing. How do we get them to be more similar?
->
-> Another idea would be to provide an API for the plugin to generate the
-> timer interrupt. This allows the plugin to generate regular interrupts
-> irrespective of what is being done in the callbacks.
-
-I don't think allowing plugins to change behaviour of the code is
-something we want to consider - at least for v1.
-
->
->>
->> The gdb behaviour is just a massive hack. When single-stepping in GDB we
->> prevent timer IRQs from being delivered - they have still fired and are
->> pending and will execute as soon as you hit continue.
->>
->> >   Another approach would be to offload callback generation to a separa=
-te
->> >   plugin thread. The main thread will copy data required by a callback=
- and
->> >   invoke the callback asynchronously (std::async in C++ if you are
->> >   familiar).
->>
->> This would complicate things - the current iteration I'm working on
->> drops the haddr cb in favour of dynamically resolving the vaddr in the
->> callback. But that approach is only valid during the callback before
->> something else potentially pollutes the TLB.
->>
->
->> >
->> > * Starting and stopping callback generation
->> >
->> >   It would be great if we have a mechanism to dynamically start/stop c=
-allbacks
->> >   when a sequence of code (magic instruction) is executed. This would =
-be
->> >   useful to annotate region-of-interest (ROI) in benchmarks to
->> > generate callbacks.
->>
->> Well we have that now. At each TB generation event the callback is free =
-to register
->> as many or few callbacks as it likes dynamically.
->
-> But how does the plugin know that the TB being generated is the first
-> TB in the ROI?
-
-It has to track the information - I assume by a combination of looking
-at addresses or looking through the instruction patterns.
-
-> Similarly the plugin needs to know the then end of ROI has been reached.
->
-> Also, please note that there can be multiple ROIs. It would be good to
-> know if we can assign ids to each ROI for the plugin.
-
-This all sounds like stuff the plugin can do for itself. What else does
-it need to know from QEMU?
-
---
-Alex Benn=C3=A9e
+Mark.
 
