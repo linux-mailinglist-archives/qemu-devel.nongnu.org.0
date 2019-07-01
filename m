@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B43E5BCAA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:15:12 +0200 (CEST)
-Received: from localhost ([::1]:58610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8EA5BCB9
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:19:48 +0200 (CEST)
+Received: from localhost ([::1]:58646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhw9H-0000LL-3N
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:15:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35928)
+	id 1hhwDi-0002pI-PY
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:19:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36756)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <chmeeedalf@gmail.com>) id 1hhvy0-0000YL-H7
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:03:41 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhw1r-0002j6-Oh
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:07:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <chmeeedalf@gmail.com>) id 1hhvxw-0003jQ-6a
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:03:32 -0400
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:42766)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhw1n-0007xH-UI
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:07:29 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:40415)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <chmeeedalf@gmail.com>)
- id 1hhvxr-00035L-6k; Mon, 01 Jul 2019 09:03:23 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id x144so8741269lfa.9;
- Mon, 01 Jul 2019 06:02:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhw1n-0007J8-Oe
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:07:27 -0400
+Received: by mail-oi1-x242.google.com with SMTP id w196so9872543oie.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:06:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gYGEWTf/SWiucXWkQ4hNUOwq3//Nu83USjjeDpKHhdI=;
- b=RM4ml4tAIYaZlcZgE8Cbaj+GGfaW2HruV4wBOJZqvKUdpDur6IEnTIy0EoeubAO2q9
- Gw3guxKbqqP7biH6vfA3owqW9McPsq39BgpbYJLMzx60bd8VgZjQsLp8naKLFuJsrdCm
- gLv0DER4xjJSlE7Zl6Tq/gBsiadvwEg+KNDCEntYFMnZ2WMnlNG3RNQnenBeG9vRVUZe
- PV3L8BtUofdu98CvbwxwUCwRoHInuTTWmoqLJQISA7xGVq3LgoAbCu6uuponTmAbZte7
- YVolWqdA9jt89g7yb9GRtIpyLT988bLEsH01FkbU70zl8hBKnb+ZE9OWiifUOxqCuCwN
- 2FHg==
+ :cc:content-transfer-encoding;
+ bh=GFpVemuNL7UhbLtjtR7O0P9wazBxTV9UABGaJgXIshY=;
+ b=dCStNmCPt9WreNdovNC0xder7dlBrJLvhhkZWT1qlkbg4dEiQbVJB3ZbzBGNofHaJl
+ FdyLODZlX5wuBaaQjzrsBf5KNT6WqFQN3Ic3lxvAxailNNP4JBrxfpVQE0dqc+jlP5V4
+ y6cLwJ7TG4Z1hLR8v02XTRhZgCp6CpJ47hmnvZLTLioFGv8C0N+OByjGnj71F3UzXNaw
+ 1mtn3Ig4tnqxTIoYmKuvwEnvmMVroXAVbyiaiRyb6CwK8zKAY6PyNE2k5cq5hPmNKIIX
+ fMKNg/r6sksMRIRK+6U9rEoyp8Q4W1Zt1k9mRUKF7lW9W15sjyfYxlCw5VNlDPlILwNk
+ BMWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gYGEWTf/SWiucXWkQ4hNUOwq3//Nu83USjjeDpKHhdI=;
- b=AYPu5WyGmDZOrXOfrZXgvApxZMBX1sFGGLGixriHs/tg3DJGcpAv70PZXPK8w2/UCE
- o0JFsivNWzRtKrr+kwdHKCedzVRsQN+55m0WVYsF1UPsi7PcW1/4/Ly2rRfWP9F6RE4K
- L2fJXkvC1Lov7Hh4feLtAXzoVuClFsN63LH+YbiUlTK7ANyyzXnRJXLpCGMWtZ+GGTuI
- srRIKXVEh8BB27aYgQfG1SBYBw5Oo+rAcBewAeCfyNwAAn6sJJcnQW4ZF4g25+aVFcE/
- x3qkv3mbQkMPMUX/t7K9Pzj41OYUbJf4kKrfZ7oCNwlGS4UddpMnhjVEHxvQN656Wpzn
- H4mw==
-X-Gm-Message-State: APjAAAXmNj0Kz61qQLu1DdVhaa6xtHaG8pllJcPaOqkLmEY8Emwqgrvr
- BxLnXiOuAOE8YpLgDKSwi91XZLG0uwHvUHRFcHY=
-X-Google-Smtp-Source: APXvYqwsGiKDafTLQUGTBEfeNEAtjkI6FhkirpNjYRB/KPxZ8HkSdCfUuFSniiBB/eE+THPIMJadgPEWAQeBK3Gv4sY=
-X-Received: by 2002:ac2:50c4:: with SMTP id h4mr11927970lfm.61.1561986165385; 
- Mon, 01 Jul 2019 06:02:45 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GFpVemuNL7UhbLtjtR7O0P9wazBxTV9UABGaJgXIshY=;
+ b=BoO3b4KRIFwhHEwwOFucuyM+onTJMuSTETsOQQNtwIYfX2//bJS0u41ix9YDJstyB2
+ ty6pzWIYLPeUUnI5K1ZLxh2MEM2MI+PiLDw/LIuR3rwHaO0ydXpSuBPfw5/lhNxxzz8Q
+ wMzW7Uc1Ii1pRzIGO3ltCLDGqgcvhhFI0Z4mnrrp65FqJd4wL8mAGvv/wJTPjvdRwnkg
+ piySFZ6GqWCrIWPG87bQ+L4eY0F5dVjMG+NNyqGqceRfA+ul8VL9m4YimYilhrfh/Q7W
+ Nhz8wM4h/YKu3Go0kRb1okHfEQ3evIoY0wEDtlQ0Xj/rKpdSJOvBVZP6ibQN+VUHOBZa
+ l8rA==
+X-Gm-Message-State: APjAAAXdpKkZzmFF4wopGcmo0E345nyrqq0RZYLUdtTKBdLPz+1c/dqY
+ Z/v5lxZ4HVjvciFz2DFwsA6U+UhAw+x8jLlGYFVIrg==
+X-Google-Smtp-Source: APXvYqwvba2MQMyS7jLMKDl454jZLaiXhButHVexL7HSy/SUqsJ6RAdi7pyD/yDQVq2pi+l9JeCmOjzaQB1rxa+Y8lo=
+X-Received: by 2002:aca:ac48:: with SMTP id v69mr6542560oie.48.1561986407265; 
+ Mon, 01 Jul 2019 06:06:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190607135653.6ece685d@titan.knownspace>
- <8676232e-917d-44e2-1149-b25f26698a73@vivier.eu>
- <92053c9c-e7bf-76cb-9399-987f4ab31bfb@vivier.eu>
- <20190626113742.6bcd8a26@titan.knownspace>
- <d60f142d-27ef-bfe5-1eb6-cefb22640625@vivier.eu>
- <20190626130414.08940342@titan.knownspace>
- <CAHSQbTCxP09J9NtFiN4UpdXHJZHtTw_F66hfdAS2sM4=E5GHyQ@mail.gmail.com>
- <477ebe22-eddb-41ba-5811-4a70e639a89a@vivier.eu>
- <CAHSQbTCUzR5WiykWGZOH1bvBPWx15_ZA-=7b17c6AnRK4kn3yA@mail.gmail.com>
- <cd0a35ce-1f8c-6718-13d9-7a481e1eeb31@vivier.eu>
-In-Reply-To: <cd0a35ce-1f8c-6718-13d9-7a481e1eeb31@vivier.eu>
-From: Justin Hibbits <chmeeedalf@gmail.com>
-Date: Mon, 1 Jul 2019 08:02:33 -0500
-Message-ID: <CAHSQbTDMWXX978oWBvYhh1Uz7CeA1KQGz6+11rqwYv+ZOWyVOw@mail.gmail.com>
-To: Laurent Vivier <laurent@vivier.eu>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::12d
+References: <20190618165311.27066-1-clg@kaod.org>
+ <20190618165311.27066-16-clg@kaod.org>
+In-Reply-To: <20190618165311.27066-16-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 14:06:36 +0100
+Message-ID: <CAFEAcA-J+bS2-EtX6pTFYJ1XMaNLx0roYEoQMxV_=-mwMSPDgg@mail.gmail.com>
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [Qemu-trivial] Fix cacheline size retrieval on
- FreeBSD/PowerPC(64)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::242
+Subject: Re: [Qemu-devel] [PATCH v2 15/21] aspeed/smc: add support for DMAs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,167 +74,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, "Emilio G. Cota" <cota@braap.org>,
- qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 1, 2019, 03:54 Laurent Vivier <laurent@vivier.eu> wrote:
+On Tue, 18 Jun 2019 at 17:55, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+>
+> The FMC controller on the Aspeed SoCs support DMA to access the flash
+> modules. It can operate in a normal mode, to copy to or from the flash
+> module mapping window, or in a checksum calculation mode, to evaluate
+> the best clock settings for reads.
+>
+> The model introduces two custom address spaces for DMAs: one for the
+> AHB window of the FMC flash devices and one for the DRAM. The latter
+> is populated using a "dram" link set from the machine with the RAM
+> container region.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Acked-by: Joel Stanley <joel@jms.id.au>
+> +/*
+> + * Accumulate the result of the reads to provide a checksum that will
+> + * be used to validate the read timing settings.
+> + */
+> +static void aspeed_smc_dma_checksum(AspeedSMCState *s)
+> +{
+> +    MemTxResult result;
+> +    uint32_t data;
+> +
+> +    if (s->regs[R_DMA_CTRL] & DMA_CTRL_WRITE) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: invalid direction for DMA checksum\n",  __fun=
+c__);
+> +        return;
+> +    }
+> +
+> +    while (s->regs[R_DMA_LEN]) {
+> +        result =3D address_space_read(&s->flash_as, s->regs[R_DMA_FLASH_=
+ADDR],
+> +                                    MEMTXATTRS_UNSPECIFIED,
+> +                                    (uint8_t *)&data, 4);
 
-> Le 27/06/2019 =C3=A0 02:15, Justin Hibbits a =C3=A9crit :
-> >
-> >
-> > On Wed, Jun 26, 2019, 19:08 Laurent Vivier <laurent@vivier.eu
-> > <mailto:laurent@vivier.eu>> wrote:
-> >
-> >     Le 27/06/2019 =C3=A0 02:02, Justin Hibbits a =C3=A9crit :
-> >     >
-> >     >
-> >     > On Wed, Jun 26, 2019, 13:04 Justin Hibbits <chmeeedalf@gmail.com
-> >     <mailto:chmeeedalf@gmail.com>
-> >     > <mailto:chmeeedalf@gmail.com <mailto:chmeeedalf@gmail.com>>>
-> wrote:
-> >     >
-> >     >     On Wed, 26 Jun 2019 18:47:42 +0200
-> >     >     Laurent Vivier <laurent@vivier.eu <mailto:laurent@vivier.eu>
-> >     <mailto:laurent@vivier.eu <mailto:laurent@vivier.eu>>> wrote:
-> >     >
-> >     >     > Le 26/06/2019 =C3=A0 18:37, Justin Hibbits a =C3=A9crit :
-> >     >     > > On Wed, 26 Jun 2019 18:16:36 +0200
-> >     >     > > Laurent Vivier <laurent@vivier.eu
-> >     <mailto:laurent@vivier.eu> <mailto:laurent@vivier.eu
-> >     <mailto:laurent@vivier.eu>>> wrote:
-> >     >     > >
-> >     >     > >> Le 26/06/2019 =C3=A0 18:14, Laurent Vivier a =C3=A9crit =
-:
-> >     >     > >>> Le 07/06/2019 =C3=A0 20:56, Justin Hibbits a =C3=A9crit=
- :
-> >     >     > >>>> The attached very trivial patch fixes a startup bug
-> >     that prevents
-> >     >     > >>>> at least Qemu 3.1 and later from working on
-> >     FreeBSD/powerpc64.
-> >     >     > >>>>
-> >     >     > >>>> - Justin
-> >     >     > >>>>
-> >     >     > >>>
-> >     >     > >>> Please don't send a patch in attachment but inlined in
-> >     the message
-> >     >     > >>> (you may use "git send-email" for that).
-> >     >     > >>>
-> >     >     > >>> This patch fixes "util: add cacheinfo" that has changed
-> >     the type
-> >     >     > >>> from unsigned to long.
-> >     >     > >>>
-> >     >     > >>> You can add the following line in the commit message:
-> >     >     > >>>
-> >     >     > >>> Fixes: b255b2c8a548 ("util: add cacheinfo")
-> >     >     > >>>
-> >     >     > >>> Reviewed-by: Laurent Vivier <laurent@vivier.eu
-> >     <mailto:laurent@vivier.eu>
-> >     >     <mailto:laurent@vivier.eu <mailto:laurent@vivier.eu>>>
-> >     >     > >>>
-> >     >     > >>
-> >     >     > >> CC: author of b255b2c8a548 ("util: add cacheinfo")
-> >     >     > >>
-> >     >     > >> Thanks,
-> >     >     > >> Laurent
-> >     >     > >
-> >     >     > > Hi Laurent,
-> >     >     > >
-> >     >     > > Sorry.  I had never used git send-email before, so wasn't
-> >     >     > > comfortable with it.  I just updated the commit message
-> >     with your
-> >     >     > > feedback and used git send-email to submit the patch.  I
-> hope
-> >     >     > > everything went well.
-> >     >     >
-> >     >     > It seems not. I didn't receive it.
-> >     >     >
-> >     >     > Did you configure the SMTP server. See git-send-email(1):
-> >     >     >
-> >     >     >    Use gmail as the smtp server
-> >     >     >
-> >     >     >        To use git send-email to send your patches through
-> >     the GMail
-> >     >     > SMTP server, edit ~/.gitconfig to specify your account
-> settings:
-> >     >     >
-> >     >     >            [sendemail]
-> >     >     >                    smtpEncryption =3D tls
-> >     >     >                    smtpServer =3D smtp.gmail.com
-> >     <http://smtp.gmail.com> <http://smtp.gmail.com>
-> >     >     >                    smtpUser =3D yourname@gmail.com
-> >     <mailto:yourname@gmail.com>
-> >     >     <mailto:yourname@gmail.com <mailto:yourname@gmail.com>>
-> >     >     >                    smtpServerPort =3D 587
-> >     >     >
-> >     >     >        If you have multifactor authentication setup on your
-> >     gmail
-> >     >     > account, you will need to generate an app-specific password
-> >     for use
-> >     >     > with git send-email. Visit
-> >     >     >
-> >     https://security.google.com/settings/security/apppasswords to
-> >     >     > create it.
-> >     >     >
-> >     >     >        Once your commits are ready to be sent to the mailin=
-g
-> >     list,
-> >     >     > run the following commands:
-> >     >     >
-> >     >     >            $ git format-patch --cover-letter -M
-> origin/master -o
-> >     >     > outgoing/ $ edit outgoing/0000-*
-> >     >     >            $ git send-email outgoing/*
-> >     >     >
-> >     >     >        The first time you run it, you will be prompted for
-> your
-> >     >     > credentials. Enter the app-specific or your regular passwor=
-d
-> as
-> >     >     > appropriate. If you have credential helper configured (see
-> >     >     > git-credential(1)), the password will be saved in the
-> credential
-> >     >     > store so you won=E2=80=99t have to type it the next time.
-> >     >     >
-> >     >     >        Note: the following perl modules are required
-> >     Net::SMTP::SSL,
-> >     >     >        MIME::Base64 and Authen::SASL
-> >     >     >
-> >     >     > Thanks,
-> >     >     > Laurent
-> >     >     >
-> >     >     >
-> >     >
-> >     >     Hm, you're right.  Even after making the config changes and
-> >     installing
-> >     >     the necessary packages, I still have no luck with git
-> >     send-email.  Might
-> >     >     take a bit to debug this.
-> >     >
-> >     >     - Justin
-> >     >
-> >     >
-> >     > Sorry for the multiplicity, looks like Gmail forwarded it
-> eventually,
-> >     > but not until I tried several times debugging it.
-> >
-> >     Not sure, I didn't receive any of them.
-> >
-> >     Thanks,
-> >     Laurent
-> >
-> >
-> > Sigh, 4 copies ended up in my Gmail spam folder, so I thought it made i=
-t
-> > through.
-> >
->
-> Any news? Freeze is coming.
->
-> Thanks,
-> Laurent
->
+This does a byte-by-byte read into a local uint32_t...
 
-I'll manually do it when I get home tomorrow.  Fixing git send-email will
-have to wait.
+> +        if (result !=3D MEMTX_OK) {
+> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: Flash read failed @%08x\=
+n",
+> +                          __func__, s->regs[R_DMA_FLASH_ADDR]);
+> +            return;
+> +        }
+> +
+> +        /*
+> +         * When the DMA is on-going, the DMA registers are updated
+> +         * with the current working addresses and length.
+> +         */
+> +        s->regs[R_DMA_CHECKSUM] +=3D data;
+
+...which we then use as a (host-endian) 32-bit value.
+
+This will behave differently on big endian and little endian hosts.
+If the h/w behaviour is to to load a 32-bit data type you probably
+want address_space_ldl_le() (or _be() if it's doing a big-endian load).
+
+> +        s->regs[R_DMA_FLASH_ADDR] +=3D 4;
+> +        s->regs[R_DMA_LEN] -=3D 4;
+> +    }
+> +}
+> +
+> +static void aspeed_smc_dma_rw(AspeedSMCState *s)
+> +{
+> +    MemTxResult result;
+> +    uint32_t data;
+> +
+> +    while (s->regs[R_DMA_LEN]) {
+> +        if (s->regs[R_DMA_CTRL] & DMA_CTRL_WRITE) {
+> +            result =3D address_space_read(&s->dram_as, s->regs[R_DMA_DRA=
+M_ADDR],
+> +                                        MEMTXATTRS_UNSPECIFIED,
+> +                                        (uint8_t *)&data, 4);
+> +            if (result !=3D MEMTX_OK) {
+> +                qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM read failed @%0=
+8x\n",
+> +                              __func__, s->regs[R_DMA_DRAM_ADDR]);
+> +                return;
+> +            }
+> +
+> +            result =3D address_space_write(&s->flash_as,
+> +                                         s->regs[R_DMA_FLASH_ADDR],
+> +                                         MEMTXATTRS_UNSPECIFIED,
+> +                                         (uint8_t *)&data, 4);
+> +            if (result !=3D MEMTX_OK) {
+> +                qemu_log_mask(LOG_GUEST_ERROR, "%s: Flash write failed @=
+%08x\n",
+> +                              __func__, s->regs[R_DMA_FLASH_ADDR]);
+> +                return;
+> +            }
+> +        } else {
+> +            result =3D address_space_read(&s->flash_as, s->regs[R_DMA_FL=
+ASH_ADDR],
+> +                                        MEMTXATTRS_UNSPECIFIED,
+> +                                        (uint8_t *)&data, 4);
+> +            if (result !=3D MEMTX_OK) {
+> +                qemu_log_mask(LOG_GUEST_ERROR, "%s: Flash read failed @%=
+08x\n",
+> +                              __func__, s->regs[R_DMA_FLASH_ADDR]);
+> +                return;
+> +            }
+> +
+> +            result =3D address_space_write(&s->dram_as, s->regs[R_DMA_DR=
+AM_ADDR],
+> +                                         MEMTXATTRS_UNSPECIFIED,
+> +                                         (uint8_t *)&data, 4);
+> +            if (result !=3D MEMTX_OK) {
+> +                qemu_log_mask(LOG_GUEST_ERROR, "%s: DRAM write failed @%=
+08x\n",
+> +                              __func__, s->regs[R_DMA_DRAM_ADDR]);
+> +                return;
+> +            }
+> +        }
+
+Since the code here doesn't do anything with the data the
+address_space_read/write here aren't wrong, but you might
+prefer to use the ldl and stl functions to avoid the casts
+to uint8_t* and need to specify the length.
+
+thanks
+-- PMM
+
