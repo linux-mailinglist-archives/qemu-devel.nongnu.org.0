@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 404465C6A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:35:47 +0200 (CEST)
-Received: from localhost ([::1]:46906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C2FD5C612
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 01:57:02 +0200 (CEST)
+Received: from localhost ([::1]:46308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7hy-0005NA-F3
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53972)
+	id 1hi6AO-0001JA-Vn
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 19:57:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44095)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <no-reply@patchew.org>) id 1hi4Hx-0001IN-Cy
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:56:42 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1hi3qr-0004Ym-A2
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:28:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <no-reply@patchew.org>) id 1hi4Hv-0006rg-Sz
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:56:41 -0400
-Resent-Date: Mon, 01 Jul 2019 17:56:41 -0400
-Resent-Message-Id: <E1hi4Hv-0006rg-Sz@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21403)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <no-reply@patchew.org>)
- id 1hi4Ht-0006qP-U9
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:56:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1562004470; cv=none; d=zoho.com; s=zohoarc; 
- b=OeDWas9EJVCv5M1vhlzng2cH7rac4PqaomvjeN4RVWSA9/c3tv6mVsdG7OE8EO3/YvUVbO+opCQXJk0mSmEjWq0ZLQ6Rs/jsPpW/HMyy42Omr0P2fX3P1Y+B41ts33zMTiTuWzraNdZBKxDsVpFtnv5c8+m7oTYfZP5p7tz3h3w=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
- s=zohoarc; t=1562004470;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
- bh=wZ5cGPi0l/SUOoQu51w367NN/6w37uXrv0/XL0UjZdM=; 
- b=AdG48Mcw5i3x39h7p2FAyMe6Z7KOl8/ADC1/nz7dhuzYK3AbxVoLDGOZFdYuT7hsA92gssa/ycGKVnGqHsbRUwC+YIc9cRwDYQwhB+jM3nDgA4ksjDDHzUzCoVbrhRJf54DREMu9hK0ueX+L5kZoQ7gX0N2j1OOIjhASbmq58/0=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1562004468152822.5657690749669;
- Mon, 1 Jul 2019 11:07:48 -0700 (PDT)
-Message-ID: <156200446699.9862.5828274180078359682@c4a48874b076>
-In-Reply-To: <20190701123441.13412-1-philmd@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: philmd@redhat.com
-Date: Mon, 1 Jul 2019 11:07:48 -0700 (PDT)
-X-ZohoMailClient: External
+ (envelope-from <tcminyard@gmail.com>) id 1hi3qp-00084g-K1
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:28:41 -0400
+Received: from mail-oi1-f182.google.com ([209.85.167.182]:34244)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hi3qp-00083b-Dh
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:28:39 -0400
+Received: by mail-oi1-f182.google.com with SMTP id l12so11224654oil.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id;
+ bh=FV64nwXc9NGzpBuhaiLXQfbhwQhPoL1VGRxkgyAgrjI=;
+ b=oxcaXyTuhBiZBLr4f3VAIiYvMZA4MOLBmFEmzat1WQscVbemgdMSz7gL+o225QS1ma
+ 7vYyKoluAW0MPVcxGgf61Iple63hiLq455jPR6nfG4SYlHYN3Qpt/482V0lced7WmlGf
+ O51O2QUByn1UXcGiHFpQZOGpQq4uSPcn8qv+w+8tEOpNLI+WROWyqVgnAr1wSphP4y0r
+ bTATiT1KBfC9P+8R57MloQbPAfomOa/4Sja6UEDEJ9EHXeBH/wHwbHfD05kHb31Bp5jc
+ V6EXzPpKbx8B77F3TPlZ3NWNdzrKY6AQqR/42m3rvTDHbRgBJpFiQ5zE3pbMiasnsBjN
+ ojdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id;
+ bh=FV64nwXc9NGzpBuhaiLXQfbhwQhPoL1VGRxkgyAgrjI=;
+ b=GiyMjenzlk5C7qWyQSv0edNIghXLoNYNBigL0dxzOXn6DhErT5v4SE60h/ZYCODgtm
+ 4+dqRJX/C5qhBgyU8uhJ/zXZ/nBA9B9jGAzfImwp38LfSsZjdkrNBFr5Gn6OltSMvMIS
+ tWHtLtuH2rwEFzggPkrrmVR/tVMA6iW6GhKhaxHexUeJArAAdxVENQXMbPR1pqWO/Smo
+ TOl8scaqE9CUtKGEyJv/B9gecGU4PMGuy189p7r62spg7uHaO/0V1RA0HfDFZBOz/U9D
+ LgZ3vDLdp6G4IVZ13xrSAYfBTIUO53aPuZg9WWU4/G6ESCPMeU52OpO8T+XS/PlhRNLm
+ vrFQ==
+X-Gm-Message-State: APjAAAUzlHJ2KCE/j5kMRMER7GjqokQpyhbted9qCpVNHmIGz2dGPxAf
+ f6jVm0r6YYt+Q2cx6rew3JHas4s=
+X-Google-Smtp-Source: APXvYqzHCDPXXxu1I7ib/b2ACWZfGXYd1vN14BFT3ZrNibjSmjQk6TqtyabFUvG8MuEjqNLmg6yMTA==
+X-Received: by 2002:aca:4083:: with SMTP id n125mr425137oia.106.1562005869373; 
+ Mon, 01 Jul 2019 11:31:09 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id t9sm4369535otm.35.2019.07.01.11.31.08
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 01 Jul 2019 11:31:08 -0700 (PDT)
+Received: from t430.minyard.net (t430m.minyard.net [192.168.27.3])
+ by serve.minyard.net (Postfix) with ESMTPA id 92A021800D1
+ for <qemu-devel@nongnu.org>; Mon,  1 Jul 2019 18:31:07 +0000 (UTC)
+Received: by t430.minyard.net (Postfix, from userid 1000)
+ id 08B84302330; Mon,  1 Jul 2019 13:31:06 -0500 (CDT)
+From: minyard@acm.org
+To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Mon,  1 Jul 2019 13:30:58 -0500
+Message-Id: <20190701183100.7849-1-minyard@acm.org>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH] hw/misc/macio: Add the nvram as child of
- the MacIO south bridge
+ [fuzzy]
+X-Received-From: 209.85.167.182
+Subject: [Qemu-devel] [PATCH v2 0/2] Add a UUID device property to IPMI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,37 +76,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: ehabkost@redhat.com, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, philmd@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDcwMTEyMzQ0MS4xMzQx
-Mi0xLXBoaWxtZEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCBidWlsZCB0
-ZXN0IG9uIHMzOTB4IGhvc3QuIFBsZWFzZSBmaW5kIHRoZSBkZXRhaWxzIGJlbG93LgoKPT09IFRF
-U1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAojIFRlc3Rpbmcgc2NyaXB0IHdpbGwgYmUg
-aW52b2tlZCB1bmRlciB0aGUgZ2l0IGNoZWNrb3V0IHdpdGgKIyBIRUFEIHBvaW50aW5nIHRvIGEg
-Y29tbWl0IHRoYXQgaGFzIHRoZSBwYXRjaGVzIGFwcGxpZWQgb24gdG9wIG9mICJiYXNlIgojIGJy
-YW5jaApzZXQgLWUKCmVjaG8KZWNobyAiPT09IEVOViA9PT0iCmVudgoKZWNobwplY2hvICI9PT0g
-UEFDS0FHRVMgPT09IgpycG0gLXFhCgplY2hvCmVjaG8gIj09PSBVTkFNRSA9PT0iCnVuYW1lIC1h
-CgpDQz0kSE9NRS9iaW4vY2MKSU5TVEFMTD0kUFdEL2luc3RhbGwKQlVJTEQ9JFBXRC9idWlsZApt
-a2RpciAtcCAkQlVJTEQgJElOU1RBTEwKU1JDPSRQV0QKY2QgJEJVSUxECiRTUkMvY29uZmlndXJl
-IC0tY2M9JENDIC0tcHJlZml4PSRJTlNUQUxMCm1ha2UgLWo0CiMgWFhYOiB3ZSBuZWVkIHJlbGlh
-YmxlIGNsZWFuIHVwCiMgbWFrZSBjaGVjayAtajQgVj0xCm1ha2UgaW5zdGFsbAo9PT0gVEVTVCBT
-Q1JJUFQgRU5EID09PQoKICBDQyAgICAgIGh3L21pc2MvbWFjaW8vcG11Lm8KICBDQyAgICAgIGh3
-L21pc2MvbWFjaW8vbWFjX2RiZG1hLm8KL3Zhci90bXAvcGF0Y2hldy10ZXN0ZXItdG1wLTU4eHhu
-YWlmL3NyYy9ody9taXNjL21hY2lvL21hY2lvLmM6IEluIGZ1bmN0aW9uIOKAmG1hY2lvX29sZHdv
-cmxkX2luaXTigJk6Ci92YXIvdG1wL3BhdGNoZXctdGVzdGVyLXRtcC01OHh4bmFpZi9zcmMvaHcv
-bWlzYy9tYWNpby9tYWNpby5jOjI0NjoyOTogZXJyb3I6IHBhc3NpbmcgYXJndW1lbnQgMSBvZiDi
-gJhvYmplY3RfaW5pdGlhbGl6ZV9jaGlsZOKAmSBmcm9tIGluY29tcGF0aWJsZSBwb2ludGVyIHR5
-cGUgWy1XZXJyb3I9aW5jb21wYXRpYmxlLXBvaW50ZXItdHlwZXNdCiAgMjQ2IHwgICAgIG9iamVj
-dF9pbml0aWFsaXplX2NoaWxkKHMsICJudnJhbSIsICAmb3MtPm52cmFtLCBzaXplb2Yob3MtPm52
-cmFtKSwKICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgogICAgICB8ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICB8CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
-dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDcwMTEyMzQ0MS4xMzQxMi0xLXBoaWxtZEByZWRo
-YXQuY29tL3Rlc3RpbmcuczM5MHgvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBh
-dXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNl
-bmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+I sent this out a while ago and didn't really receive any comments then
+kind of forgot about it.  These changes are not critical, but are really
+necessary for certain situations and testing to make things behave like
+they really should:
+
+* It allows a BMC to be created with no UUID, returning an error, which
+  is the behavior of many BMCs in the world.
+* It lets the user set the UUID to a fixed value.
+
+Some software using IPMI will get confused if it gets different UUIDs
+from what should be the same device, which is what happens now if qemu
+quits and restarts.
+
+So sending out for review again.
+
+Thanks,
+
+-corey
+
 
 
