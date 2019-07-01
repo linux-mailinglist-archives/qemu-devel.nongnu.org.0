@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185D85C71F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:23:19 +0200 (CEST)
-Received: from localhost ([::1]:47202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD50F5C6F0
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:09:36 +0200 (CEST)
+Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8Ry-00008h-7z
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
+	id 1hi8Eh-00088S-Mr
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:09:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55291)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4We-0003GZ-Qi
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:11:54 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Lm-000469-3a
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:00:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4Wb-00037o-Ig
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:11:51 -0400
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:52660)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Lj-0008SR-P4
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:00:37 -0400
+Received: from mail-wr1-f50.google.com ([209.85.221.50]:43745)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4WY-00032R-H1
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:11:47 -0400
-Received: by mail-wm1-f46.google.com with SMTP id s3so981094wms.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:11:31 -0700 (PDT)
+ id 1hi4Lh-0008NC-PN
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:00:35 -0400
+Received: by mail-wr1-f50.google.com with SMTP id p13so15404184wru.10
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:00:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=xbk2+L8i1dH/Jdn/9lZBOUO8xsAaRhCxthSSE1bfYCw=;
- b=P9bqeS87YK3ujDL5fg/rcLxtJ0BE/g7M20Lz1gOn4ateb+R0lRC+ed4Qk0YHY0DRJU
- gmiNDyn+e/R6WapZ7RKivjCxJMZucK8loZr2CriToyNqsIntC9pm3TQ7A6vGqK3lFhFu
- 5cBgIryhS62NdxIiHqefcR6gKmMae2Aqp0gvmgKyftMTjYfww7uVHYw1+L+T2/9SvDA4
- kuaTqsCX7D6aUl56MjkqeG5Jj4s3vaWc4dxtHf+gBTcrLOHctnnmoQTiwYNKKD4rf2Sl
- a0O8U6gVUr+zrf/6rZxYh05yee7vRyIFQqd39SRcGtEkMzq6aQauSrCnpalxJMaOftl+
- 6dDg==
+ bh=KqpLKfjrgSvCjVcmL96LXqXG75GeUM+DNTc46s318rE=;
+ b=VK/Q8/0LfvU8fmYJ/2BejcaK4j0cH1dTfnksW+UfwmBnzBLcfpnb4KEZIy/kWNGt/n
+ MEqjRVx2I4L95cHfCzDzzY8kgn08le5J31I8ga31GuzbLIT77K3n/xi1/eezySQQMjEM
+ 0cfo9mWV2N8ORsZOmGeA2cn7Z6+IPJeYVYfzCy8+KnHnjKcGq9VGG974WySZuKAq+UF4
+ qCeFwVkCRM5FIu5QoQVxBVzprTb8rKP46lMXUMhyi8JyiH+gIp+eru0dEtc276UKncn6
+ 5yWNIJN0YvjEOypRiBBEvBK1PrE9rcXANj/GLl4zYmIe8vZuQwzw6lOTyw0MDECAm9w5
+ qCEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xbk2+L8i1dH/Jdn/9lZBOUO8xsAaRhCxthSSE1bfYCw=;
- b=bDYlD2K15LT/8BwjAV/MadNOQR53Xuf1tcNOHFzpJyeWqmX/kaE1VWVTbtBy3eHaT3
- S4UPF3VzUHnol4twBE5fbAlAq4F4j1Dda4W7pl7dVQ2X29PCowl0RQxj3j9kqMmdBULs
- 5m+hTtHKM8OkqeD7+li1XdSzz2WdyrL+ds3JKFiV82hv//dshAD3jK+Hel4PAOiRfEC0
- ZVRzzYfkHqok2LlsvjFUJsB2bZdpuOJZfZka6Abw8DXfe7QKuESjvbpc/eBufEY7cFuK
- eALNTKGQeHi4b1p07pfU5gZEWH3hBh6YncaK6AnhtdsCrERH8Mztw64l23AHZHw6qFv/
- MKLg==
-X-Gm-Message-State: APjAAAV6DIjV2UDM9SciT7kzFPS39h4WZC52GL6TMeEqIt+D5ZSjFNtC
- Pxs2au/1/8+H3wPaecd1cQjvqHzqZQ+5pg==
-X-Google-Smtp-Source: APXvYqymY/shN1UstWvOFuFKi9V+Li53LO2QxHj+AgiRps3PLmg/jCviO1xZ5EF1FfjY9wQQoELYcA==
-X-Received: by 2002:a1c:c747:: with SMTP id x68mr131327wmf.138.1561999212006; 
- Mon, 01 Jul 2019 09:40:12 -0700 (PDT)
+ bh=KqpLKfjrgSvCjVcmL96LXqXG75GeUM+DNTc46s318rE=;
+ b=N3DCs5354X2lamCKazJ8O3xQjJjbQtbqytSh7QVs+oeRkUYFtZAVTWLogayusNU9Ve
+ BM2XWnCkM1tbyd1yCKDTGFJT3TMEkmcNvmVRium719Zync+wTyOtVrtbCAG1KFXTiDtY
+ ETEj4aNU/MOUfZQcyZZFwoWGUT27CbxyGKdLVbYLgKfTn2eENYFdou6bg71k6gz/nCed
+ s0l1t49YG/IK+4T9kuHcUIoVwstO2cUonxTfrP7lGaaeUrWt2KWE6gBkNAPNsnSRvWSx
+ iHzKbUy2uw4ZAxhP9nxjyGuTTWpJanB6rb5cg5cG8upCOj5+fy7/527YnuRTqv4FtdoS
+ Oqlg==
+X-Gm-Message-State: APjAAAV4w2hbwIYltCNGGT4qdUw3PhxRldHdWho35MlAQY8yEk5JqdDh
+ m5D1yK3ssnytKXAj6upArHwE6ti7nn8mUw==
+X-Google-Smtp-Source: APXvYqx/VqneEvFcfzcF966LizdY7zagZ3Aj4lH3Ayvgb+07cEcN9PcqJEjvu8s6G3Z2nMgROySyEg==
+X-Received: by 2002:a5d:42c5:: with SMTP id t5mr18846199wrr.5.1561999217125;
+ Mon, 01 Jul 2019 09:40:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.11
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:11 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:22 +0100
-Message-Id: <20190701163943.22313-26-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:26 +0100
+Message-Id: <20190701163943.22313-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.46
-Subject: [Qemu-devel] [PULL 25/46] aspeed: Link SCU to the watchdog
+X-Received-From: 209.85.221.50
+Subject: [Qemu-devel] [PULL 29/46] target/arm: Makefile cleanup (ARM)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,99 +82,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The ast2500 uses the watchdog to reset the SDRAM controller. This
-operation is usually performed by u-boot's memory training procedure,
-and it is enabled by setting a bit in the SCU and then causing the
-watchdog to expire. Therefore, we need the watchdog to be able to
-access the SCU's register space.
+Group ARM objects together, TCG related ones at the bottom.
+This will help when restricting TCG-only objects.
 
-This causes the watchdog to not perform a system reset when the bit is
-set. In the future it could perform a reset of the SDMC model.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190621065242.32535-1-joel@jms.id.au
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190701132516.26392-3-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/watchdog/wdt_aspeed.h |  1 +
- hw/arm/aspeed_soc.c              |  2 ++
- hw/watchdog/wdt_aspeed.c         | 20 ++++++++++++++++++++
- 3 files changed, 23 insertions(+)
+ target/arm/Makefile.objs | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-index 88d8be4f78d..daef0c0e230 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -27,6 +27,7 @@ typedef struct AspeedWDTState {
-     MemoryRegion iomem;
-     uint32_t regs[ASPEED_WDT_REGS_MAX];
+diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
+index 7c31fa01c1c..1cbe7cfdb47 100644
+--- a/target/arm/Makefile.objs
++++ b/target/arm/Makefile.objs
+@@ -4,11 +4,9 @@ obj-$(CONFIG_KVM) += kvm.o
+ obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) += kvm32.o
+ obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) += kvm64.o
+ obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
+-obj-y += translate.o op_helper.o helper.o cpu.o
+-obj-y += neon_helper.o iwmmxt_helper.o vec_helper.o vfp_helper.o
+-obj-y += gdbstub.o
++obj-y += helper.o vfp_helper.o
++obj-y += cpu.o gdbstub.o
+ obj-$(TARGET_AARCH64) += cpu64.o gdbstub64.o
+-obj-y += crypto_helper.o
+ obj-$(CONFIG_SOFTMMU) += arm-powerctl.o
  
-+    AspeedSCUState *scu;
-     uint32_t pclk_freq;
-     uint32_t silicon_rev;
-     uint32_t ext_pulse_width_mask;
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 443e4c49f21..c6fb3700f27 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -235,6 +235,8 @@ static void aspeed_soc_init(Object *obj)
-                               sizeof(s->wdt[i]), TYPE_ASPEED_WDT);
-         qdev_prop_set_uint32(DEVICE(&s->wdt[i]), "silicon-rev",
-                                     sc->info->silicon_rev);
-+        object_property_add_const_link(OBJECT(&s->wdt[i]), "scu",
-+                                       OBJECT(&s->scu), &error_abort);
-     }
+ DECODETREE = $(SRC_PATH)/scripts/decodetree.py
+@@ -32,6 +30,10 @@ target/arm/translate-sve.o: target/arm/decode-sve.inc.c
+ target/arm/translate.o: target/arm/decode-vfp.inc.c
+ target/arm/translate.o: target/arm/decode-vfp-uncond.inc.c
  
-     for (i = 0; i < ASPEED_MACS_NUM; i++) {
-diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 4a8409f0daf..57fe24ae6b1 100644
---- a/hw/watchdog/wdt_aspeed.c
-+++ b/hw/watchdog/wdt_aspeed.c
-@@ -44,6 +44,9 @@
- 
- #define WDT_RESTART_MAGIC               0x4755
- 
-+#define SCU_RESET_CONTROL1              (0x04 / 4)
-+#define    SCU_RESET_SDRAM              BIT(0)
++obj-y += translate.o op_helper.o
++obj-y += crypto_helper.o
++obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
 +
- static bool aspeed_wdt_is_enabled(const AspeedWDTState *s)
- {
-     return s->regs[WDT_CTRL] & WDT_CTRL_ENABLE;
-@@ -222,6 +225,13 @@ static void aspeed_wdt_timer_expired(void *dev)
- {
-     AspeedWDTState *s = ASPEED_WDT(dev);
- 
-+    /* Do not reset on SDRAM controller reset */
-+    if (s->scu->regs[SCU_RESET_CONTROL1] & SCU_RESET_SDRAM) {
-+        timer_del(s->timer);
-+        s->regs[WDT_CTRL] = 0;
-+        return;
-+    }
-+
-     qemu_log_mask(CPU_LOG_RESET, "Watchdog timer expired.\n");
-     watchdog_perform_action();
-     timer_del(s->timer);
-@@ -233,6 +243,16 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
- {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     AspeedWDTState *s = ASPEED_WDT(dev);
-+    Error *err = NULL;
-+    Object *obj;
-+
-+    obj = object_property_get_link(OBJECT(dev), "scu", &err);
-+    if (!obj) {
-+        error_propagate(errp, err);
-+        error_prepend(errp, "required link 'scu' not found: ");
-+        return;
-+    }
-+    s->scu = ASPEED_SCU(obj);
- 
-     if (!is_supported_silicon_rev(s->silicon_rev)) {
-         error_setg(errp, "Unknown silicon revision: 0x%" PRIx32,
+ obj-$(TARGET_AARCH64) += translate-a64.o helper-a64.o
+ obj-$(TARGET_AARCH64) += translate-sve.o sve_helper.o
+ obj-$(TARGET_AARCH64) += pauth_helper.o
 -- 
 2.20.1
 
