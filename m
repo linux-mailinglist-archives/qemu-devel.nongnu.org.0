@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86A05C08A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:45:36 +0200 (CEST)
-Received: from localhost ([::1]:60240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E745C0B0
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:53:46 +0200 (CEST)
+Received: from localhost ([::1]:60306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhyUp-0005f4-ST
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:45:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42857)
+	id 1hhyce-0002MS-DA
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:53:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47240)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhyOC-00020A-F0
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:38:45 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhyRb-0003rg-MH
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:42:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhyOB-0006PE-EG
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:38:44 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53204)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhyRW-0001tl-O8
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:42:13 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:33796)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhyOB-0006Nz-7I
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:38:43 -0400
-Received: by mail-wm1-f65.google.com with SMTP id s3so1047217wms.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:38:42 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhyRW-0001n7-9j
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:42:10 -0400
+Received: by mail-oi1-f193.google.com with SMTP id l12so10325274oil.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:42:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=NMAqTIq4T69gLVpMEjj3jVOxgFLDjZ/zQ0vNtEgbWVw=;
+ b=rS7iR9BX+yBa+Q3mJrdoTNFqM9fnVGwWjzPnHv1IZG5ubepOCsilrL9QlWj1bRZXo/
+ 0U/YQfILTMQ5pbLUSJpGvAdRwzhv+KfaQ9aHTJv23tY4c20B1D2n/tCYXttJh7PL9Ul+
+ oRtUHbB4UFMkZv8GpfGCwxD0a2jf1pYkAAIaF+1/Wi5xgMwOOsWROpddywlCf1R2sIBY
+ eg71tADGli0Ri9AtiANf+Y/LDtN3pwaaPW9Y1vfo+ofqIQkRhOe0jYGs1wrdUa/hfs6J
+ JmuFIJYWd6EPMr0zdfBc+lb/qhq+lxe8SenuIghSWBX/EdUF0o87ToeQa13foegjDXcg
+ IxFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=629NRyPUhZNuewwFSbDPwgl565ExKqQtzj/ELWQY6AM=;
- b=JLvf62ALC822EPHikmAg6hvWguoS9P+tyPQQFOfHuDrd9Q1kGpy18t/W46u6EnLeXb
- 5ZR+1mu1E7RHoVoHaueeExJkoW9JyBlaD8hLQukA6TVMUQFiMcQdJ6Avqa47uc6PKO74
- xBQFJSSSil8FDu/6llLjP5iHNVSG9OvoP2YxWWszSYZKrbfTZ0yYfxrUO6W8/NMhOWE0
- c7EtRRHQhyrVliFzWhN1Z5M7etgaKwwdq2Q9iWpdc8+ggqfmExAsWz+44DUPVmRlClKt
- 9uZ9GYK0A+CQbzhqodG9SVT+g0TKcDGPor56Ke42kW6NIdHKL+X9T3aaLN0YU3J4Kvu9
- +GxQ==
-X-Gm-Message-State: APjAAAWjKxkhLNbFC7ABO5Y7W+T7quJq9h8ZW8EGb6Bpy7nVgbCcnsKc
- OQHFDckgyQj8v8cGkHfm1K6Liw==
-X-Google-Smtp-Source: APXvYqxA1IVwLGQghZhgm8oEIkJHfc7NFPxcNk2lOqh1ggwyybs4DBe3i/FcZ5cczg+xwfxrNvlwow==
-X-Received: by 2002:a1c:eb16:: with SMTP id j22mr17086380wmh.140.1561995521740; 
- Mon, 01 Jul 2019 08:38:41 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id q1sm8226051wmq.25.2019.07.01.08.38.40
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 08:38:41 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190701132516.26392-1-philmd@redhat.com>
- <20190701132516.26392-19-philmd@redhat.com>
- <CAFEAcA_XGuB5x+m5zmdBSE3bQP=jBdfWDzj_v0iBeqWmrETsng@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c1d7b9cf-5a31-3c58-0284-97b4249660d7@redhat.com>
-Date: Mon, 1 Jul 2019 17:38:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=NMAqTIq4T69gLVpMEjj3jVOxgFLDjZ/zQ0vNtEgbWVw=;
+ b=l9S8dQrr+Ov8VlNG9PmepdkO+HEg1xvakyEFzEUFlkOigxlWAdE83kavdTG6svCj3A
+ YX2KOSDVIvzHiaNVfh58e4/T1lX9YYkaV1hIsCsY9m5IPt5a5J7s1zlhh+Zw4OXupQ5F
+ rrtk5jraR4lfy8GiKx/lZKJj2lshdres5tECj+EVgeh/0VWhB9O1T2AcUiDO+VGFb9uS
+ aaCM9VR+pSjOQfQAIRDgTHmzNKsIpmut6WTNM0xJj5HL9MgvbfZaAtlrSGvwxtXtg0E8
+ cTLXQXNnuOYh8og/HdoMYLDrOp5cyPGIa9BF8Qq5jQ7nJJtp/STXzCP75f87293gMpC4
+ UO3A==
+X-Gm-Message-State: APjAAAWxnrgFceU9wLlqB4SbC6mHU6XfK/iQabepJ6wv5GQhmU8v5E4H
+ terZtklXqSQqgcrq5BZSWCHER3lx0kNumJTnYDQleA==
+X-Google-Smtp-Source: APXvYqwY1tjjpA5v2wLi0JJJ19cIDE24eZAUIJeXVvG9EqgZmXAEZPp2DcfVBM8W8hrdlGFAsUdnh34b0UeOZu27+Q4=
+X-Received: by 2002:a05:6808:d4:: with SMTP id
+ t20mr7354091oic.170.1561995728528; 
+ Mon, 01 Jul 2019 08:42:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_XGuB5x+m5zmdBSE3bQP=jBdfWDzj_v0iBeqWmrETsng@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190701132516.26392-1-philmd@redhat.com>
+In-Reply-To: <20190701132516.26392-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 16:41:57 +0100
+Message-ID: <CAFEAcA93x6zkbHe1hdg0c8cbo9ErSByP+g6UvwZefxn-6346zg@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH v3 18/27] target/arm: Restrict semi-hosting
- to TCG
+X-Received-From: 209.85.167.193
+Subject: Re: [Qemu-devel] [PATCH v3 00/27] Support disabling TCG on ARM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,53 +78,40 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Andrew Jones <drjones@redhat.com>,
  Samuel Ortiz <sameo@linux.intel.com>, Rob Bradford <robert.bradford@intel.com>,
  QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/19 5:25 PM, Peter Maydell wrote:
-> On Mon, 1 Jul 2019 at 14:26, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> Per Peter Maydell:
->>
->>   Semihosting hooks either SVC or HLT instructions, and inside KVM
->>   both of those go to EL1, ie to the guest, and can't be trapped to
->>   KVM.
->>
->> Let check_for_semihosting() return False when not running on TCG.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->> v3: inline call to g_assert_not_reached if !TCG
->> ---
->>  target/arm/Makefile.objs | 2 +-
->>  target/arm/cpu.h         | 7 +++++++
->>  target/arm/helper.c      | 4 +++-
->>  3 files changed, 11 insertions(+), 2 deletions(-)
-> 
->> diff --git a/target/arm/helper.c b/target/arm/helper.c
->> index 49a0f05cd1..1b4da7aa45 100644
->> --- a/target/arm/helper.c
->> +++ b/target/arm/helper.c
->> @@ -20,7 +20,6 @@
->>  #include "qemu/qemu-print.h"
->>  #include "exec/exec-all.h"
->>  #include "exec/cpu_ldst.h"
->> -#include "arm_ldst.h"
->>  #include <zlib.h> /* For crc32 */
->>  #include "hw/semihosting/semihost.h"
->>  #include "sysemu/cpus.h"
->> @@ -29,6 +28,9 @@
->>  #include "qapi/qapi-commands-target.h"
->>  #include "qapi/error.h"
->>  #include "qemu/guest-random.h"
->> +#ifdef CONFIG_TCG
->> +#include "arm_ldst.h"
->> +#endif
-> 
-> Should this ifdeffing of the arm_ldst.h include have gone in
-> another patch? It doesn't seem related to the change described
-> in the commit message.
+On Mon, 1 Jul 2019 at 14:25, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
+>
+> Paolo motived me to salvage this (other!) previous series fromi
+> Samuel Ortiz (NEMU project).
+>
+> v1 cover from Samuel [1]:
+>
+>   This patchset allows for building and running ARM targets with TCG
+>   disabled. It splits the target/arm/helper.c file into logical TCG and
+>   non TCG dependent files so that one can build and run QEMU binaries wit=
+h
+>   or without TCG enabled.
+>
+>   The rationale behind this work comes from the NEMU project where we're
+>   trying to only support x86 and ARM 64-bit architectures, without
+>   including the TCG code base. We can only do so if we can build and run
+>   ARM binaries with TCG disabled.
 
-Surely patch 22 "Move M profile routines to m_helper.c"
+I have applied to target-arm.next:
+ 1-12
+ 14-17
+ 19-21
+
+I had comments about 13 and 18. 22 has a conflict when I try to apply it:
+I think this is just accidental because the functions it's moving are
+next to changes in patch 13 so there's a minor textual conflict, so it
+would be fine with a fixed-up version of patch 13.
+23-27 are still RFC status so I think best left for the next release.
+
+thanks
+-- PMM
 
