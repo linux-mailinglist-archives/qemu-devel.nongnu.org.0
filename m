@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCC05C6DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:59:49 +0200 (CEST)
-Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04675C6B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:44:21 +0200 (CEST)
+Received: from localhost ([::1]:46996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi85E-0004qG-Tv
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60729)
+	id 1hi7qH-0006PF-0i
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:44:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55574)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4hQ-0002dm-UQ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:23:02 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Md-00053I-9r
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4hP-0006Is-FB
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:23:00 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:38483)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Mb-0000HU-Li
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:31 -0400
+Received: from mail-wr1-f52.google.com ([209.85.221.52]:43829)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4hP-0006Ig-81
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:22:59 -0400
-Received: by mail-wr1-f44.google.com with SMTP id p11so4277358wro.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:22:58 -0700 (PDT)
+ id 1hi4Mb-0000HI-EW
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:29 -0400
+Received: by mail-wr1-f52.google.com with SMTP id p13so15406507wru.10
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:01:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=j+8CvV6xVOR9giO4NQvCrXsJxw5VIv1X7DZKMX4Y4WU=;
- b=qyWU7bY0HECSPd1xHpHsFE5FEPm/XHyAq7jD7+alKGSSbN6DaXK1KbBmrfY21MnTzI
- xXnuAU3zdLRlWRVwzIKoePY2FoqUWeelY+dp/wBVvj91LEaW7296IlRv26a2xwoys8+K
- jtM89qTkU8lZCY/UNqJQ8I2GEhtWvE2q5HxovYKXl9RfRUWkWi2qptqSvWa58JFxPfwj
- r5HrJitDTzAsaneP20tAvy938fsfq39eTm40//ogLjERXMCCSdoSgwqVfD9dy379gyQN
- ollrMHmINcEMZsd6iw8N4kyyAmyWjfC45Sq9/WXCjxQF7fkFd/dJjLubyQbSWhfpEeQV
- Ivxg==
+ bh=1E06iM3g2rGIpvDkSZRxcV4cH98QgZLgZ77VISOvPlc=;
+ b=rrC9IS53HJ9tl6cCe3/PhPlonva0bhClgGXrn4M88ljUCJkYgfpUmgKOFbYAFP1UO3
+ JtwowsCbRmFCnU4TOU4QsFLVVm1QZdj5YKRVhc8v3x/6yb87zABKu3FecdoV/gLiFRUI
+ /oQAeRbDI0CzITZuZnC+FVrl4+iCuhZ9shzBj/6NSBcVWntiXq9mtdcOHamZZlaZm1MF
+ FodNHQEirXGsDtdNibMeYVWvUvspMZ5xYXsEsUbe8oZCgAl9bCbI6FFS+1BQ1TJ8/l/t
+ Z4QDl1bn+jLWFcm6PSXdOuDSygXo4RND5+iZe8CuxjFrnGFQS2b6d4ZYqyzqIy8/xnft
+ wJvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=j+8CvV6xVOR9giO4NQvCrXsJxw5VIv1X7DZKMX4Y4WU=;
- b=g5i9mpsGwG5uDdokBwCq4xjQ3b+d1fNutUiMetj4n54cLjOF9r0vdEpvbdGXoRnc2u
- LLp4Pu964FCU5a1bSzak3FhMkBK8A43eJZeR+pvxylFvm9eIw7tLo+sVmSQDLohQaSMT
- FQkvk6KUu13OafpX/+GfQK85afRfiAlPRuOUIL0TkOoWNUoF6Cb0QOcEt9nY8B6VORBd
- ttJhq5i6rzkpOyIyiZozpw4+knh9cfzS7K5Cdfnrc3KEPNXaTGygA+eSaLLVlG/n9SxT
- p7qrGdnCmKbdr+Clj2zXPMcEUs6vZluzYmtmKEfXEKDvFCHbjif+viu3qlqOc+MPs3zX
- R3ww==
-X-Gm-Message-State: APjAAAW7H+fKxwMCDgAplXKMMfS3ujefQI8CfjI+7mhvegj/EZr872iW
- NzOh2jZRAli4GhbbVH/eR22YN60IDMHVnQ==
-X-Google-Smtp-Source: APXvYqyreM1V3fx9LjgFNxgju3wCWCeWZ1ah+AKjH3WJxZOjfbdZs+0m6glmG7Vo1au72l5uuIyKgw==
-X-Received: by 2002:a5d:4941:: with SMTP id r1mr19002855wrs.225.1561999198558; 
- Mon, 01 Jul 2019 09:39:58 -0700 (PDT)
+ bh=1E06iM3g2rGIpvDkSZRxcV4cH98QgZLgZ77VISOvPlc=;
+ b=JHNQ2yMt6EwaW2umRQXxu48mczVA63MfdYy49rzN5/5ZbE9x/sCcwWRzax6+T5TZpm
+ 8fIt5Zz8G6Nhp/M4PyPBi+7oALE/Pje55JGpL2TvhftKpSQnFokToVu6kvLLlBanA5cD
+ 0Ch4gZXGUuck/1pKj94cAMxBdPMq2qPuRRLR2i2mGbM5SLu+s94mOlyhqO5RLoZtX29D
+ kHPsCfKDEMsOLnn/PzNKGmwrjcZIbsMwXyiTswWfWxiiaJPXuzmvfogixuDNub0t2ZcD
+ +4BhHAjdiM17/55ZG7oI2dTYuADsiYCKLdHSgZJtQfRzdoPVETsAp4GPtNod4M5KzdcG
+ 9kWw==
+X-Gm-Message-State: APjAAAU7/qkpR/ioVCYBqBqxhCI+sUrcq8JhBr8eUGmG0DZeBCUiioDW
+ SJVz//3SHsz0zTSqJdvLyZG/AErzHXi9ng==
+X-Google-Smtp-Source: APXvYqw5SRtS0ySqCxCgThkkGdeBtzB/0lcnmjHJLS6wniI76wAY2PLjxDFWdU/5nGnJkOxSNjiP+A==
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr15984958wrn.88.1561999199485; 
+ Mon, 01 Jul 2019 09:39:59 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.56
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:39:57 -0700 (PDT)
+ Mon, 01 Jul 2019 09:39:59 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:09 +0100
-Message-Id: <20190701163943.22313-13-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:10 +0100
+Message-Id: <20190701163943.22313-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.44
-Subject: [Qemu-devel] [PULL 12/46] hw/arm/aspeed: Add RTC to SoC
+X-Received-From: 209.85.221.52
+Subject: [Qemu-devel] [PULL 13/46] aspeed: introduce a configurable number
+ of CPU per machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,73 +83,206 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: Cédric Le Goater <clg@kaod.org>
 
-All systems have an RTC.
+The current models of the Aspeed SoCs only have one CPU but future
+ones will support SMP. Introduce a new num_cpus field at the SoC class
+level to define the number of available CPUs per SoC and also
+introduce a 'num-cpus' property to activate the CPUs configured for
+the machine.
 
-The IRQ is hooked up but the model does not use it at this stage. There
-is no guest code that uses it, so this limitation is acceptable.
+The max_cpus limit of the machine should depend on the SoC definition
+but, unfortunately, these values are not available when the machine
+class is initialized. This is the reason why we add a check on
+num_cpus in the AspeedSoC realize handler.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20190618165311.27066-5-clg@kaod.org
+SMP support will be activated when models for such SoCs are implemented.
+
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-id: 20190618165311.27066-6-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed_soc.h |  2 ++
- hw/arm/aspeed_soc.c         | 13 +++++++++++++
- 2 files changed, 15 insertions(+)
+ include/hw/arm/aspeed_soc.h |  5 ++++-
+ hw/arm/aspeed.c             |  7 +++++--
+ hw/arm/aspeed_soc.c         | 33 +++++++++++++++++++++++++++------
+ 3 files changed, 36 insertions(+), 9 deletions(-)
 
 diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 88b901d5dfa..fa0ba957a61 100644
+index fa0ba957a61..b613b00600f 100644
 --- a/include/hw/arm/aspeed_soc.h
 +++ b/include/hw/arm/aspeed_soc.h
-@@ -16,6 +16,7 @@
- #include "hw/misc/aspeed_scu.h"
- #include "hw/misc/aspeed_sdmc.h"
- #include "hw/timer/aspeed_timer.h"
-+#include "hw/timer/aspeed_rtc.h"
- #include "hw/i2c/aspeed_i2c.h"
- #include "hw/ssi/aspeed_smc.h"
- #include "hw/watchdog/wdt_aspeed.h"
-@@ -32,6 +33,7 @@ typedef struct AspeedSoCState {
-     ARMCPU cpu;
+@@ -24,13 +24,15 @@
+ 
+ #define ASPEED_SPIS_NUM  2
+ #define ASPEED_WDTS_NUM  3
++#define ASPEED_CPUS_NUM  2
+ 
+ typedef struct AspeedSoCState {
+     /*< private >*/
+     DeviceState parent;
+ 
+     /*< public >*/
+-    ARMCPU cpu;
++    ARMCPU cpu[ASPEED_CPUS_NUM];
++    uint32_t num_cpus;
      MemoryRegion sram;
      AspeedVICState vic;
-+    AspeedRtcState rtc;
-     AspeedTimerCtrlState timerctrl;
-     AspeedI2CState i2c;
-     AspeedSCUState scu;
+     AspeedRtcState rtc;
+@@ -58,6 +60,7 @@ typedef struct AspeedSoCInfo {
+     int wdts_num;
+     const int *irqmap;
+     const hwaddr *memmap;
++    uint32_t num_cpus;
+ } AspeedSoCInfo;
+ 
+ typedef struct AspeedSoCClass {
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index c692ca1dba9..96de4f5c2a8 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -22,13 +22,13 @@
+ #include "hw/misc/tmp105.h"
+ #include "qemu/log.h"
+ #include "sysemu/block-backend.h"
++#include "sysemu/sysemu.h"
+ #include "hw/loader.h"
+ #include "qemu/error-report.h"
+ #include "qemu/units.h"
+ 
+ static struct arm_boot_info aspeed_board_binfo = {
+     .board_id = -1, /* device-tree-only board */
+-    .nb_cpus = 1,
+ };
+ 
+ struct AspeedBoardState {
+@@ -171,6 +171,8 @@ static void aspeed_board_init(MachineState *machine,
+                             &error_abort);
+     object_property_set_int(OBJECT(&bmc->soc), cfg->num_cs, "num-cs",
+                             &error_abort);
++    object_property_set_int(OBJECT(&bmc->soc), smp_cpus, "num-cpus",
++                            &error_abort);
+     if (machine->kernel_filename) {
+         /*
+          * When booting with a -kernel command line there is no u-boot
+@@ -230,6 +232,7 @@ static void aspeed_board_init(MachineState *machine,
+     aspeed_board_binfo.kernel_cmdline = machine->kernel_cmdline;
+     aspeed_board_binfo.ram_size = ram_size;
+     aspeed_board_binfo.loader_start = sc->info->memmap[ASPEED_SDRAM];
++    aspeed_board_binfo.nb_cpus = bmc->soc.num_cpus;
+ 
+     if (cfg->i2c_init) {
+         cfg->i2c_init(bmc);
+@@ -326,7 +329,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
+ 
+     mc->desc = board->desc;
+     mc->init = aspeed_machine_init;
+-    mc->max_cpus = 1;
++    mc->max_cpus = ASPEED_CPUS_NUM;
+     mc->no_sdcard = 1;
+     mc->no_floppy = 1;
+     mc->no_cdrom = 1;
 diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 1cc98b9f404..5faa78d81fd 100644
+index 5faa78d81fd..d38fb0aaa0f 100644
 --- a/hw/arm/aspeed_soc.c
 +++ b/hw/arm/aspeed_soc.c
-@@ -189,6 +189,9 @@ static void aspeed_soc_init(Object *obj)
-     sysbus_init_child_obj(obj, "vic", OBJECT(&s->vic), sizeof(s->vic),
-                           TYPE_ASPEED_VIC);
+@@ -19,6 +19,7 @@
+ #include "hw/char/serial.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "qemu/error-report.h"
+ #include "hw/i2c/aspeed_i2c.h"
+ #include "net/net.h"
  
-+    sysbus_init_child_obj(obj, "rtc", OBJECT(&s->rtc), sizeof(s->rtc),
-+                          TYPE_ASPEED_RTC);
-+
-     sysbus_init_child_obj(obj, "timerctrl", OBJECT(&s->timerctrl),
-                           sizeof(s->timerctrl), TYPE_ASPEED_TIMER);
-     object_property_add_const_link(OBJECT(&s->timerctrl), "scu",
-@@ -275,6 +278,16 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->vic), 1,
-                        qdev_get_gpio_in(DEVICE(&s->cpu), ARM_CPU_FIQ));
+@@ -123,6 +124,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
+         .wdts_num     = 2,
+         .irqmap       = aspeed_soc_ast2400_irqmap,
+         .memmap       = aspeed_soc_ast2400_memmap,
++        .num_cpus     = 1,
+     }, {
+         .name         = "ast2400-a1",
+         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
+@@ -134,6 +136,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
+         .wdts_num     = 2,
+         .irqmap       = aspeed_soc_ast2400_irqmap,
+         .memmap       = aspeed_soc_ast2400_memmap,
++        .num_cpus     = 1,
+     }, {
+         .name         = "ast2400",
+         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
+@@ -145,6 +148,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
+         .wdts_num     = 2,
+         .irqmap       = aspeed_soc_ast2400_irqmap,
+         .memmap       = aspeed_soc_ast2400_memmap,
++        .num_cpus     = 1,
+     }, {
+         .name         = "ast2500-a1",
+         .cpu_type     = ARM_CPU_TYPE_NAME("arm1176"),
+@@ -156,6 +160,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
+         .wdts_num     = 3,
+         .irqmap       = aspeed_soc_ast2500_irqmap,
+         .memmap       = aspeed_soc_ast2500_memmap,
++        .num_cpus     = 1,
+     },
+ };
  
-+    /* RTC */
-+    object_property_set_bool(OBJECT(&s->rtc), true, "realized", &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
+@@ -172,8 +177,11 @@ static void aspeed_soc_init(Object *obj)
+     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
+     int i;
+ 
+-    object_initialize_child(obj, "cpu", OBJECT(&s->cpu), sizeof(s->cpu),
+-                            sc->info->cpu_type, &error_abort, NULL);
++    for (i = 0; i < sc->info->num_cpus; i++) {
++        object_initialize_child(obj, "cpu[*]", OBJECT(&s->cpu[i]),
++                                sizeof(s->cpu[i]), sc->info->cpu_type,
++                                &error_abort, NULL);
 +    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->rtc), 0, sc->info->memmap[ASPEED_RTC]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->rtc), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_RTC));
+ 
+     sysbus_init_child_obj(obj, "scu", OBJECT(&s->scu), sizeof(s->scu),
+                           TYPE_ASPEED_SCU);
+@@ -241,11 +249,19 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     create_unimplemented_device("aspeed_soc.io", sc->info->memmap[ASPEED_IOMEM],
+                                 ASPEED_SOC_IOMEM_SIZE);
+ 
++    if (s->num_cpus > sc->info->num_cpus) {
++        warn_report("%s: invalid number of CPUs %d, using default %d",
++                    sc->info->name, s->num_cpus, sc->info->num_cpus);
++        s->num_cpus = sc->info->num_cpus;
++    }
 +
-     /* Timer */
-     object_property_set_bool(OBJECT(&s->timerctrl), true, "realized", &err);
-     if (err) {
+     /* CPU */
+-    object_property_set_bool(OBJECT(&s->cpu), true, "realized", &err);
+-    if (err) {
+-        error_propagate(errp, err);
+-        return;
++    for (i = 0; i < s->num_cpus; i++) {
++        object_property_set_bool(OBJECT(&s->cpu[i]), true, "realized", &err);
++        if (err) {
++            error_propagate(errp, err);
++            return;
++        }
+     }
+ 
+     /* SRAM */
+@@ -380,6 +396,10 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100), 0,
+                        aspeed_soc_get_irq(s, ASPEED_ETH1));
+ }
++static Property aspeed_soc_properties[] = {
++    DEFINE_PROP_UINT32("num-cpus", AspeedSoCState, num_cpus, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
+ 
+ static void aspeed_soc_class_init(ObjectClass *oc, void *data)
+ {
+@@ -390,6 +410,7 @@ static void aspeed_soc_class_init(ObjectClass *oc, void *data)
+     dc->realize = aspeed_soc_realize;
+     /* Reason: Uses serial_hds and nd_table in realize() directly */
+     dc->user_creatable = false;
++    dc->props = aspeed_soc_properties;
+ }
+ 
+ static const TypeInfo aspeed_soc_type_info = {
 -- 
 2.20.1
 
