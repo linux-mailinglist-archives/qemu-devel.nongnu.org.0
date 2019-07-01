@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA585C6F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:10:24 +0200 (CEST)
-Received: from localhost ([::1]:47126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0ED05C706
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:18:04 +0200 (CEST)
+Received: from localhost ([::1]:47162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8FT-0008Ug-Lr
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:10:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33085)
+	id 1hi8Mu-0004bl-1V
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:18:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33865)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hi4kl-00040j-7K
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:26:28 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hi4of-0005Fe-J1
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:30:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hi4kk-00077T-4L
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:26:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37452)
+ (envelope-from <ehabkost@redhat.com>) id 1hi4ob-00008t-7P
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:30:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60348)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hi4kg-0006tx-KJ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:26:25 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
+ id 1hi4oG-00087m-JZ; Mon, 01 Jul 2019 18:30:06 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id C81DBC04BD4A;
- Mon,  1 Jul 2019 22:25:31 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A9E287FDF4;
+ Mon,  1 Jul 2019 22:29:19 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C58119C77;
- Mon,  1 Jul 2019 22:25:28 +0000 (UTC)
-Date: Mon, 1 Jul 2019 19:25:27 -0300
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B5E818386;
+ Mon,  1 Jul 2019 22:29:13 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190701222527.GJ5198@habkost.net>
-References: <20190607211544.7964-1-ehabkost@redhat.com>
- <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
+Date: Mon,  1 Jul 2019 19:29:08 -0300
+Message-Id: <20190701222912.4703-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-wCqppsi+gcrTqGjR3bSDOHs5btKKE8oHYxbAUDtu7Fw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 01 Jul 2019 22:25:31 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Mon, 01 Jul 2019 22:29:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] Python 2 in tests/vm (was Re: [PULL 0/8] Python queue,
- 2019-06-07)
+Subject: [Qemu-devel] [PULL 0/4] Python queue, 2019-07-01
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,64 +54,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ libvir-list@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 10, 2019 at 01:58:50PM +0100, Peter Maydell wrote:
-> On Fri, 7 Jun 2019 at 22:16, Eduardo Habkost <ehabkost@redhat.com> wrot=
-e:
-> >
-> > The following changes since commit 185b7ccc11354cbd69b6d53bf8d831dd96=
-4f6c88:
-> >
-> >   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190607-2'=
- into staging (2019-06-07 15:24:13 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://github.com/ehabkost/qemu.git tags/python-next-pull-request
-> >
-> > for you to fetch changes up to 8297719709f1339506d6da93ec69e6118ace86=
-76:
-> >
-> >   travis: Make check-acceptance job more verbose (2019-06-07 18:11:02=
- -0300)
-> >
-> > ----------------------------------------------------------------
-> > Python queue, 2019-06-07
-> >
-> > * New boot_linux_console test cases (Philippe Mathieu-Daud=E9)
-> > * Deprecate Python 2 support (Eduardo Habkost)
-> > * Require python3 >=3D 3.5 (Eduardo Habkost)
-> > * Make check-acceptance Travis job more verbose (Eduardo Habkost)
-> >
-> > ----------------------------------------------------------------
->=20
-> Hi. This fails to build on one of my buildtest machines:
->=20
-> ERROR: Cannot use 'python3', Python 2 >=3D 2.7 or Python 3 >=3D 3.5 is =
-required.
->        Use --python=3D/path/to/python to specify a supported Python.
->=20
-> The machine has python 2.7.6 and 3.4.3. (It's an Ubuntu trusty
-> box; it's one of the gcc compile farm machines so upgrades to its
-> OS are not really under my control.)
->=20
-> The configure check also spits out deprecation warnings for
-> the NetBSD/FreeBSD/OpenBSD tests/vm configurations. It would be nice
-> to get those updated.
+The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7=
+c6:
 
-CCing the test/vm maintainers.
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull=
+-request' into staging (2019-07-01 17:40:32 +0100)
 
-Fam, Alex, are you able to fix this and create new BSD VM images
-with Python 3 available?  I thought the VM image configurations
-were stored in the source tree, but they are downloaded from
-download.patchew.org.
+are available in the Git repository at:
+
+  git://github.com/ehabkost/qemu.git tags/python-next-pull-request
+
+for you to fetch changes up to e5abf59eae5990296c243202f95f801495c52e76:
+
+  Deprecate Python 2 support (2019-07-01 19:02:10 -0300)
+
+----------------------------------------------------------------
+Python queue, 2019-07-01
+
+* Deprecate Python 2 support (Eduardo Habkost)
+* qemu/__init__.py refactor (John Snow)
+* make qmp-shell work with python3 (Igor Mammedov)
+
+----------------------------------------------------------------
+
+Eduardo Habkost (1):
+  Deprecate Python 2 support
+
+Igor Mammedov (1):
+  qmp: make qmp-shell work with python3
+
+John Snow (2):
+  python/qemu: split QEMUMachine out from underneath __init__.py
+  machine.py: minor delinting
+
+ configure                                 |   8 +
+ scripts/render_block_graph.py             |   2 +-
+ python/qemu/__init__.py                   | 502 +-------------------
+ python/qemu/machine.py                    | 531 ++++++++++++++++++++++
+ python/qemu/qtest.py                      |   2 +-
+ qemu-deprecated.texi                      |   8 +
+ scripts/device-crash-test                 |   2 +-
+ scripts/qmp/qmp-shell                     |   5 +-
+ tests/acceptance/avocado_qemu/__init__.py |   2 +-
+ tests/acceptance/virtio_version.py        |   2 +-
+ tests/migration/guestperf/engine.py       |  24 +-
+ tests/qemu-iotests/235                    |   2 +-
+ tests/vm/basevm.py                        |   3 +-
+ 13 files changed, 572 insertions(+), 521 deletions(-)
+ create mode 100644 python/qemu/machine.py
 
 --=20
-Eduardo
+2.18.0.rc1.1.g3f1ff2140
+
 
