@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827E65C4D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:09:16 +0200 (CEST)
-Received: from localhost ([::1]:45548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38EC5C57B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:07:37 +0200 (CEST)
+Received: from localhost ([::1]:45920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi3Y3-0007Nk-KQ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:09:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43181)
+	id 1hi4SW-00083z-QZ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:07:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48922)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hi3Aq-00089E-7m
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:45:20 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3MK-0007Xa-9P
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hi3Ak-0008En-3Q
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:45:12 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40775)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3MG-00052w-9P
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:06 -0400
+Received: from mail-wm1-f49.google.com ([209.85.128.49]:35402)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hi3Ag-00089T-UY; Mon, 01 Jul 2019 16:45:07 -0400
-Received: by mail-lj1-f194.google.com with SMTP id a21so14604560ljh.7;
- Mon, 01 Jul 2019 13:45:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yYrPcmmp1UW8mdrcYTwNmqpepWMqdK+PjTB0qr+FSFs=;
- b=EaF/EWyTjnYI6PsrdklxFCOe+RTL/w7W0DTLX9EAKXS6+gtInMO3Y4GrOHWBQB9GbO
- /wjw0ODq6W7DZJG6WqtPH0fmJvePLeaCBDLPP+YF0QIGDbl24Huk6Xgx/AXfAKWUnaYC
- FwaneTl9tjH2/2igs4PB/j70GzPBiOxJbV3aKT9tSsl3HmL+JQGMkyXt22/7/ZyuTEcj
- RojomE+quGb1if7tLRlIa+fftvKAiRb3+DjP4OYZfYT8jV2/ruXtjzrt4c90xAeQs60w
- Uk3Dn2oiXTU9C8M1L0SeHqUvKd9AsdOCFfH/j8X6s73A8I1bLqNvgGZd9OuSbUOKiGsz
- Zltw==
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hi3MF-0004q8-VN
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:04 -0400
+Received: by mail-wm1-f49.google.com with SMTP id c6so967496wml.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:56:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d2++TYuRN0e9ZOP7pH/XTp5Sb+K/RkYlREt2Q2bOEzo=;
+ b=WUXSpzXTV9+ogDvzIQvDo6bGbhpvJ5cmEzf9dV6pcHFlF44k95UePH9XO9k0woS1C0
+ D4Nsdn7qLRRJdD3anM4zUV/yEZkq6+DHuK3XwoBrLaiuUPYjIkwwksLYtwJWL65EgLAq
+ S+JCaJF4trxTvPfdMDlICt/360kGFB9tLgDPALcNKq/vJBT+cregEuJsKZUBfVYqA3oL
+ rnFx98TepRmNnE9cWDl5nLF0qWaV43iGiVGaaxNJUSVQiKhxhM7kXStJwTB6a8Kz3GGg
+ hLx9ns3LPF8EKf9UTnJqooToxOpkKMhjNhyKQAINJ5LYQ5fDmUPThge1isXpaHS4NpHC
+ NPvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yYrPcmmp1UW8mdrcYTwNmqpepWMqdK+PjTB0qr+FSFs=;
- b=YUPhN5Mxki3w+oIzRYb20Na51FoHLtNx+mJLGlkN+W5mIyEO5xWUruS3SmnPpiYt4i
- 8QHd8oqaUXFJxjNnlW1IONLRkWuwquq22Y3HIQDBfwCstulDAyn2oYNGq0FPFHwoM9Wz
- XLwMT38D92O591zUwqYadymkp+J0KZSwhn1zoXR6Dp9dynLnBWQEfy1oQV22UteG20C2
- BgUxOHprW64Pzvour/auotExvh8w0vlzZq5iIGIfAdh5FK3PQhcc+0Og/liDQbtgxvxq
- 9VASLkE4GqJhsqtBOXqy0wBLWMkIaNgHnRkCdc9a20XTNm2b8BQyCI+AYakLwRFXrqlu
- ZODg==
-X-Gm-Message-State: APjAAAWjj0zem6/09n0+1sRKENhH2YXl4Enxk1ZOZ66LcZ/cWYQxPe6T
- 2w1lt02UhQ77Ar8ww6iCFyaXVPv5S/RcGttEGxcqRfML
-X-Google-Smtp-Source: APXvYqw/Rif7otYX39hDkZr9W7n7Rh6ZiOmFFjmx9yGm9j1jleLElHsj6UeF1ahe2bpovZZzxtMz7ZA45wPRYzR7KNk=
-X-Received: by 2002:a2e:9158:: with SMTP id q24mr14872226ljg.119.1561999159508; 
- Mon, 01 Jul 2019 09:39:19 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=d2++TYuRN0e9ZOP7pH/XTp5Sb+K/RkYlREt2Q2bOEzo=;
+ b=H7Za2cG8FmbAAmbnNolK3FwQWbMz1b1v3ELelw8z1eJJwlHWZpZnuHqsFt1bmPX0Jd
+ tmw3Y4SWutRO2Q7TFxoTgni0c/h5e3j9EhwnNHOgDMouUXRd11/47YPIhSD2PMNliRof
+ 4qiUeiPLmiuLHpMvNL6VkgXXIRGw9hShMRhFi156XSo5OnozTESnuVc8r4lgupuubMdd
+ YD2+7rQqpif0ZvEJdJcWHmyBG1AYlabuxpx6mcp6AN6tzpVyXEfb7WLUItc74DUDnrQc
+ +YdMQHEmPlQiR7bSEBo2G+NWQNWhTSUmSFbOzcYVBbtmbAwmHt6Dl2If2QI+5p955WXs
+ aj/A==
+X-Gm-Message-State: APjAAAV0zQiAcIJWX3UuiUD0d4WBDh2q5ZH138OZIyzc38BDrK7JYHzY
+ F8b05RImGY4YaWJtueA0x5US1kB03SXarA==
+X-Google-Smtp-Source: APXvYqwb4HJENdz1m2yq05Uoo5aOCUGKjur9jKFsdqL7juCDshR+mIXZWeUVuzov/D5dw1K1JtrWeg==
+X-Received: by 2002:a1c:f102:: with SMTP id p2mr124679wmh.126.1561999185424;
+ Mon, 01 Jul 2019 09:39:45 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.44
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 01 Jul 2019 09:39:44 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Mon,  1 Jul 2019 17:38:57 +0100
+Message-Id: <20190701163943.22313-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190701123108.12493-1-philmd@redhat.com>
- <20190701123108.12493-2-philmd@redhat.com>
-In-Reply-To: <20190701123108.12493-2-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 1 Jul 2019 09:36:17 -0700
-Message-ID: <CAKmqyKOscAyPAjgeNNdEwLCwpsKDKo9JJUA-HRZ8Oc-egaamHQ@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.208.194
-Subject: Re: [Qemu-devel] [PATCH 1/6] hw/arm: Use ARM_CPU_TYPE_NAME() macro
- when appropriate
+X-Received-From: 209.85.128.49
+Subject: [Qemu-devel] [PULL 00/46] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,148 +77,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 1, 2019 at 5:37 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> Commit ba1ba5cca introduce the ARM_CPU_TYPE_NAME() macro.
-> Unify the code base by use it in all places.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+target-arm queue for softfreeze: this is quite big as I
+was on holiday last week, so this is all just sneaking in
+under the wire. I particularly wanted to get Philippe's
+patches in before freeze as that sort of code-movement
+patchset is painful to have to rebase. 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+thanks
+-- PMM
 
-Alistair
+The following changes since commit ae9108f8f0746ce64d02afb1a216153a50926132:
 
-> ---
->  hw/arm/allwinner-a10.c | 3 ++-
->  hw/arm/cubieboard.c    | 3 ++-
->  hw/arm/digic.c         | 3 ++-
->  hw/arm/fsl-imx6.c      | 3 ++-
->  hw/arm/fsl-imx6ul.c    | 3 ++-
->  hw/arm/xlnx-zynqmp.c   | 8 ++++----
->  6 files changed, 14 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/arm/allwinner-a10.c b/hw/arm/allwinner-a10.c
-> index 35e906ca54..49d4d76686 100644
-> --- a/hw/arm/allwinner-a10.c
-> +++ b/hw/arm/allwinner-a10.c
-> @@ -28,7 +28,8 @@ static void aw_a10_init(Object *obj)
->      AwA10State *s =3D AW_A10(obj);
->
->      object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
-> -                            "cortex-a8-" TYPE_ARM_CPU, &error_abort, NUL=
-L);
-> +                            ARM_CPU_TYPE_NAME("cortex-a8"),
-> +                            &error_abort, NULL);
->
->      sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
->                            TYPE_AW_A10_PIC);
-> diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-> index f7c8a5985a..a4d3d7a6a0 100644
-> --- a/hw/arm/cubieboard.c
-> +++ b/hw/arm/cubieboard.c
-> @@ -80,7 +80,8 @@ static void cubieboard_init(MachineState *machine)
->
->  static void cubieboard_machine_init(MachineClass *mc)
->  {
-> -    mc->desc =3D "cubietech cubieboard";
-> +    mc->desc =3D "cubietech cubieboard (Cortex-A9)";
-> +    mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-a9");
->      mc->init =3D cubieboard_init;
->      mc->block_default_type =3D IF_IDE;
->      mc->units_per_default_bus =3D 1;
-> diff --git a/hw/arm/digic.c b/hw/arm/digic.c
-> index 9015b60c23..05db06be5e 100644
-> --- a/hw/arm/digic.c
-> +++ b/hw/arm/digic.c
-> @@ -36,7 +36,8 @@ static void digic_init(Object *obj)
->      int i;
->
->      object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
-> -                            "arm946-" TYPE_ARM_CPU, &error_abort, NULL);
-> +                            ARM_CPU_TYPE_NAME("arm946"),
-> +                            &error_abort, NULL);
->
->      for (i =3D 0; i < DIGIC4_NB_TIMERS; i++) {
->  #define DIGIC_TIMER_NAME_MLEN    11
-> diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-> index 7129517378..9b259c54b3 100644
-> --- a/hw/arm/fsl-imx6.c
-> +++ b/hw/arm/fsl-imx6.c
-> @@ -40,7 +40,8 @@ static void fsl_imx6_init(Object *obj)
->      for (i =3D 0; i < MIN(smp_cpus, FSL_IMX6_NUM_CPUS); i++) {
->          snprintf(name, NAME_SIZE, "cpu%d", i);
->          object_initialize_child(obj, name, &s->cpu[i], sizeof(s->cpu[i])=
-,
-> -                                "cortex-a9-" TYPE_ARM_CPU, &error_abort,=
- NULL);
-> +                                ARM_CPU_TYPE_NAME("cortex-a9"),
-> +                                &error_abort, NULL);
->      }
->
->      sysbus_init_child_obj(obj, "a9mpcore", &s->a9mpcore, sizeof(s->a9mpc=
-ore),
-> diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-> index 05505bac56..1cbd8674bf 100644
-> --- a/hw/arm/fsl-imx6ul.c
-> +++ b/hw/arm/fsl-imx6ul.c
-> @@ -35,7 +35,8 @@ static void fsl_imx6ul_init(Object *obj)
->      for (i =3D 0; i < MIN(smp_cpus, FSL_IMX6UL_NUM_CPUS); i++) {
->          snprintf(name, NAME_SIZE, "cpu%d", i);
->          object_initialize_child(obj, name, &s->cpu[i], sizeof(s->cpu[i])=
-,
-> -                                "cortex-a7-" TYPE_ARM_CPU, &error_abort,=
- NULL);
-> +                                ARM_CPU_TYPE_NAME("cortex-a7"),
-> +                                &error_abort, NULL);
->      }
->
->      /*
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index a1ca9b5adf..2acd032df6 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -193,8 +193,8 @@ static void xlnx_zynqmp_create_rpu(XlnxZynqMPState *s=
-, const char *boot_cpu,
->
->          object_initialize_child(OBJECT(&s->rpu_cluster), "rpu-cpu[*]",
->                                  &s->rpu_cpu[i], sizeof(s->rpu_cpu[i]),
-> -                                "cortex-r5f-" TYPE_ARM_CPU, &error_abort=
-,
-> -                                NULL);
-> +                                ARM_CPU_TYPE_NAME("cortex-r5f"),
-> +                                &error_abort, NULL);
->
->          name =3D object_get_canonical_path_component(OBJECT(&s->rpu_cpu[=
-i]));
->          if (strcmp(name, boot_cpu)) {
-> @@ -233,8 +233,8 @@ static void xlnx_zynqmp_init(Object *obj)
->      for (i =3D 0; i < num_apus; i++) {
->          object_initialize_child(OBJECT(&s->apu_cluster), "apu-cpu[*]",
->                                  &s->apu_cpu[i], sizeof(s->apu_cpu[i]),
-> -                                "cortex-a53-" TYPE_ARM_CPU, &error_abort=
-,
-> -                                NULL);
-> +                                ARM_CPU_TYPE_NAME("cortex-a53"),
-> +                                &error_abort, NULL);
->      }
->
->      sysbus_init_child_obj(obj, "gic", &s->gic, sizeof(s->gic),
-> --
-> 2.20.1
->
->
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-4.1-pull-request' into staging (2019-07-01 15:55:40 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190701
+
+for you to fetch changes up to 787a7e76c2e93a48c47b324fea592c9910a70483:
+
+  target/arm: Declare some M-profile functions publicly (2019-07-01 17:29:01 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/arm/boot: fix direct kernel boot with initrd
+ * hw/arm/msf2-som: Exit when the cpu is not the expected one
+ * i.mx7: fix bugs in PCI controller needed to boot recent kernels
+ * aspeed: add RTC device
+ * aspeed: fix some timer device bugs
+ * aspeed: add swift-bmc board
+ * aspeed: vic: Add support for legacy register interface
+ * aspeed: add aspeed-xdma device
+ * Add new sbsa-ref board for aarch64
+ * target/arm: code refactoring in preparation for support of
+   compilation with TCG disabled
+
+----------------------------------------------------------------
+Adriana Kobylak (1):
+      aspeed: Add support for the swift-bmc board
+
+Andrew Jeffery (3):
+      aspeed/timer: Status register contains reload for stopped timer
+      aspeed/timer: Fix match calculations
+      aspeed: vic: Add support for legacy register interface
+
+Andrew Jones (1):
+      hw/arm/boot: fix direct kernel boot with initrd
+
+Andrey Smirnov (5):
+      i.mx7d: Add no-op/unimplemented APBH DMA module
+      i.mx7d: Add no-op/unimplemented PCIE PHY IP block
+      pci: designware: Update MSI mapping unconditionally
+      pci: designware: Update MSI mapping when MSI address changes
+      i.mx7d: pci: Update PCI IRQ mapping to match HW
+
+Christian Svensson (1):
+      aspeed/timer: Ensure positive muldiv delta
+
+Cédric Le Goater (7):
+      aspeed: add a per SoC mapping for the interrupt space
+      aspeed: add a per SoC mapping for the memory space
+      aspeed: introduce a configurable number of CPU per machine
+      aspeed: add support for multiple NICs
+      aspeed: remove the "ram" link
+      aspeed: add a RAM memory region container
+      aspeed/smc: add a 'sdram_base' property
+
+Eddie James (1):
+      hw/misc/aspeed_xdma: New device
+
+Hongbo Zhang (2):
+      hw/arm: Add arm SBSA reference machine, skeleton part
+      hw/arm: Add arm SBSA reference machine, devices part
+
+Jan Kiszka (1):
+      hw/arm/virt: Add support for Cortex-A7
+
+Joel Stanley (4):
+      hw: timer: Add ASPEED RTC device
+      hw/arm/aspeed: Add RTC to SoC
+      aspeed/timer: Fix behaviour running Linux
+      aspeed: Link SCU to the watchdog
+
+Philippe Mathieu-Daudé (19):
+      hw/arm/msf2-som: Exit when the cpu is not the expected one
+      target/arm: Makefile cleanup (Aarch64)
+      target/arm: Makefile cleanup (ARM)
+      target/arm: Makefile cleanup (KVM)
+      target/arm: Makefile cleanup (softmmu)
+      target/arm: Add copyright boilerplate
+      target/arm/helper: Remove unused include
+      target/arm: Fix multiline comment syntax
+      target/arm: Fix coding style issues
+      target/arm: Move CPU state dumping routines to cpu.c
+      target/arm: Declare get_phys_addr() function publicly
+      target/arm: Move TLB related routines to tlb_helper.c
+      target/arm/vfp_helper: Move code around
+      target/arm/vfp_helper: Extract vfp_set_fpscr_to_host()
+      target/arm/vfp_helper: Extract vfp_set_fpscr_from_host()
+      target/arm/vfp_helper: Restrict the SoftFloat use to TCG
+      target/arm: Restrict PSCI to TCG
+      target/arm: Declare arm_log_exception() function publicly
+      target/arm: Declare some M-profile functions publicly
+
+Samuel Ortiz (1):
+      target/arm: Move the DC ZVA helper into op_helper
+
+ hw/arm/Makefile.objs                |   1 +
+ hw/misc/Makefile.objs               |   1 +
+ hw/timer/Makefile.objs              |   2 +-
+ target/arm/Makefile.objs            |  24 +-
+ include/hw/arm/aspeed_soc.h         |  53 ++-
+ include/hw/arm/fsl-imx7.h           |  14 +-
+ include/hw/misc/aspeed_xdma.h       |  30 ++
+ include/hw/ssi/aspeed_smc.h         |   3 +
+ include/hw/timer/aspeed_rtc.h       |  31 ++
+ include/hw/watchdog/wdt_aspeed.h    |   1 +
+ target/arm/cpu.h                    |   2 -
+ target/arm/internals.h              |  69 ++-
+ target/arm/translate.h              |   5 -
+ hw/arm/aspeed.c                     |  76 +++-
+ hw/arm/aspeed_soc.c                 | 262 +++++++++---
+ hw/arm/boot.c                       |   3 +-
+ hw/arm/fsl-imx7.c                   |  11 +
+ hw/arm/msf2-som.c                   |   1 +
+ hw/arm/sbsa-ref.c                   | 806 ++++++++++++++++++++++++++++++++++++
+ hw/arm/virt.c                       |   1 +
+ hw/intc/aspeed_vic.c                | 105 +++--
+ hw/misc/aspeed_xdma.c               | 165 ++++++++
+ hw/pci-host/designware.c            |  18 +-
+ hw/ssi/aspeed_smc.c                 |   1 +
+ hw/timer/aspeed_rtc.c               | 180 ++++++++
+ hw/timer/aspeed_timer.c             |  76 ++--
+ hw/watchdog/wdt_aspeed.c            |  20 +
+ target/arm/cpu.c                    | 232 ++++++++++-
+ target/arm/helper.c                 | 498 +++++++++-------------
+ target/arm/op_helper.c              | 262 ++++++------
+ target/arm/tlb_helper.c             | 200 +++++++++
+ target/arm/translate-a64.c          | 128 ------
+ target/arm/translate.c              |  91 +---
+ target/arm/vfp_helper.c             | 199 +++++----
+ MAINTAINERS                         |   8 +
+ default-configs/aarch64-softmmu.mak |   1 +
+ hw/arm/Kconfig                      |  14 +
+ hw/misc/trace-events                |   3 +
+ hw/timer/trace-events               |   4 +
+ 39 files changed, 2675 insertions(+), 926 deletions(-)
+ create mode 100644 include/hw/misc/aspeed_xdma.h
+ create mode 100644 include/hw/timer/aspeed_rtc.h
+ create mode 100644 hw/arm/sbsa-ref.c
+ create mode 100644 hw/misc/aspeed_xdma.c
+ create mode 100644 hw/timer/aspeed_rtc.c
+ create mode 100644 target/arm/tlb_helper.c
 
