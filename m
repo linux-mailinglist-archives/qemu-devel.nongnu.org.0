@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680045BA6C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 13:16:07 +0200 (CEST)
-Received: from localhost ([::1]:57230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059CD5BA74
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 13:19:26 +0200 (CEST)
+Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhuI2-0005Sk-I6
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 07:16:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42492)
+	id 1hhuLF-0006ES-75
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 07:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42957)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhuEt-0003Gp-7K
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:12:53 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhuH4-00053q-6Q
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:15:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhuEr-0004Vq-FM
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:12:50 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33946)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhuH3-0006Ur-8F
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:15:06 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:32883)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhuEp-0004Rs-AN
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:12:49 -0400
-Received: by mail-ot1-x341.google.com with SMTP id n5so13085811otk.1
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 04:12:46 -0700 (PDT)
+ id 1hhuH1-0006S8-Lr
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:15:04 -0400
+Received: by mail-ot1-x341.google.com with SMTP id q20so13069886otl.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 04:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=LPSeQWkfs5J4+0aio5LX6XJr8pFDPxJtfyKxsNBQOXc=;
- b=ar7wxNAd1hV8I8OWCnekf7cL+dmWJr7iva24/6oUtkVZCXec86qh+pfkQNiHo/eYah
- 54Ff4IWziohKYeKcE3OBhjaPXC3u1gYYr3Mvq6i3ab/7Ac/MhDuqRXFuzFt8Ab7JGVdF
- LpRimq2ccUAdB5rE/zICa240Y0PqZ4oRV/Amei86KPQfwbau1hRZZqq7+vVJHAP7+Vci
- 2FDgj67jU6NY9i2rxFUV1HVeQRBwwa5fjuMbTi/gnLMFOucMCHBFqo5gpucTaJ9LajBx
- cRXNIBD1uStr6NTfkkSm9m4JjFSBXntrhounCNhAu3aRbSWyChScccICnlKB9JV6/fFQ
- nQLQ==
+ bh=7MX/hj5TK7ag8GI2yRLSXkbgTmJI0D2UVT8OqLP8rpc=;
+ b=KykoAqheP/imSW8/lCj4fjeOOLEfodSCvbUeGc6YXaN6GeVBq3Uas3agCfbMe+q1/L
+ A87oADZgYeHdU4SCRcrADz3aXlxmqObgFSCaSzM1ydgHdxIovJWEFd8ipzo5EiZyB6sR
+ SQnmINxiBkOrXqfANvJ21W6fPFlIBaNxkqI7AmHkO+EApWNiJ8+ZLL4kN/XUXdqGX38v
+ 6u9ajbcJCAlZk5RKFx3Jgt5R++Tm5jsEueC/XrJKYHogqPY50Bh+SIuLVrTvN3kUWeOH
+ SSp+0eDNXc2UUs8kLC8d4VxJF4Ruow329drIYafDLCiaFq7i0VLxL1utVJFFh7LOVbkC
+ V6Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=LPSeQWkfs5J4+0aio5LX6XJr8pFDPxJtfyKxsNBQOXc=;
- b=DhnSJPYELrM5WgNNFZs7aH3OGxXr4ay8T0v2EyzhHtK0FBUlpQcbtNop/wuv8MwbiW
- mnguppqTjY0Ujn+adPShPhdGGP58t+4tuN5dxHR6f3Li33Fwo5W3X7aHgG/5cqPy2u/k
- 5SCHpXwoItqHIakvbqFBOthQg3o4iFx5UYcTo2LTgrbwTkA40wXyOcPOOGhFM0DyotvZ
- qw2/S0R6wv6pjVANbfTKUg1hwqWczyI4ph5nG5+BY0ejdQWiSQuWa+uglRRFHMFBiv+T
- eDkqGLldMjYuiyIaIkmx+AHGmAxeiI62Di2hYfEHHzk7H9jf2V8ALT/2/rR97uW5PHPY
- 1MXQ==
-X-Gm-Message-State: APjAAAVwMCmw/PwQsvYtGbc7XyfbFHUtoc9a8UX56aIP98bPSmMVtPS3
- vx9Ydt95GhPM6Hab68XDoABAr9OFX7Uab7Z1Aqu82w==
-X-Google-Smtp-Source: APXvYqxDTRR2e7ElKcPx+aWg94dfoL9e+S4RSvPrOUhG5g3QYMmusr/VnveyVqiTL8Cct0Dc+hoZpMqHOFPLB2opPHk=
-X-Received: by 2002:a9d:4d81:: with SMTP id u1mr8164673otk.221.1561979565628; 
- Mon, 01 Jul 2019 04:12:45 -0700 (PDT)
+ bh=7MX/hj5TK7ag8GI2yRLSXkbgTmJI0D2UVT8OqLP8rpc=;
+ b=bTwvuMzp/chGIL5pBT6Vpy8dP6QhS3LV9uCuohozPU/aWyNIMEZ6txxBjzggXMGCF7
+ Xay4zKy+QIr0E7F0yil+y5tQeXnyVaU2/o7q0raIdtavKhVO2i2t5o1rmyA8MTPj4jyT
+ Pt8DcUmMaCB5oadgMEI54njtww9LFkrvY9FB7RYzOuH13Eb5JL2ubF8ql2Y3QHn3G4GN
+ GudgLbp114xfvY38n5xEgPMoFDO4Q9SVmBoLRDp9UOgrFBaoyBlN44U0SNkJ69NVLRoW
+ NyAYucWt3GhPuIkqh+3ez2VljefR3i/AownqqkoMUEtPUIqWnJaMvP79grQq6ZWfCq4S
+ 2x5w==
+X-Gm-Message-State: APjAAAXuywMK4UtGHoUANIGVaC+ostthb3T8PMK0kP+tqidZYrPQN3qp
+ DDbfgeC6lEjT85vPkgtEfkRhv4RmmN/P900AheDCMw==
+X-Google-Smtp-Source: APXvYqxr0XzmViy5h7OmOrnr5T3P9Md01yUXuzmBhG9O8+XqiIULj93ZgB3dKHaXjPV3WcCyZhAPB1K/9r0I9x3XG8I=
+X-Received: by 2002:a9d:7245:: with SMTP id a5mr20089151otk.232.1561979702586; 
+ Mon, 01 Jul 2019 04:15:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190618125844.4863-1-drjones@redhat.com>
-In-Reply-To: <20190618125844.4863-1-drjones@redhat.com>
+References: <20190617160136.29930-1-philmd@redhat.com>
+In-Reply-To: <20190617160136.29930-1-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 12:12:34 +0100
-Message-ID: <CAFEAcA8ujpMTwBackhT5V3hN77e0V=PFO3+0pvXu5mnuNok7zA@mail.gmail.com>
-To: Andrew Jones <drjones@redhat.com>
+Date: Mon, 1 Jul 2019 12:14:51 +0100
+Message-ID: <CAFEAcA_2QkVDGaVUtn_8ofHcfuj9Zg0RMq4a_YcGKmmFJCu5zQ@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
 X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH] hw/arm/boot: fix direct kernel boot with
- initrd
+Subject: Re: [Qemu-devel] [PATCH] hw/arm/msf2-som: Exit when the cpu is not
+ the expected one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,28 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Jun 2019 at 13:59, Andrew Jones <drjones@redhat.com> wrote:
+On Mon, 17 Jun 2019 at 17:01, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
 >
-> Fix the condition used to check whether the initrd fits
-> into RAM; in some cases if an initrd was also passed on
-> the command line we would get an error stating that it
-> was too big to fit into RAM after the kernel. Despite the
-> error the loader continued anyway, though, so also add an
-> exit(1) when the initrd is actually too big.
+> This machine correctly defines its default_cpu_type to cortex-m3
+> and report an error if the user requested another cpu_type,
+> however it does not exit, and this can confuse users trying
+> to use another core:
 >
-> Fixes: 852dc64d665f ("hw/arm/boot: Diagnose layouts that put initrd or
-> DTB off the end of RAM")
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>   $ qemu-system-arm -M emcraft-sf2 -cpu cortex-m4 -kernel test-m4.elf
+>   qemu-system-arm: This board can only be used with CPU cortex-m3-arm-cpu
+>   [output related to M3 core ...]
+>
+> The CPU is indeed a M3 core:
+>
+>   (qemu) info qom-tree
+>   /machine (emcraft-sf2-machine)
+>     /unattached (container)
+>       /device[0] (msf2-soc)
+>         /armv7m (armv7m)
+>           /cpu (cortex-m3-arm-cpu)
+>
+> Add the missing exit() call to return to the shell.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/arm/boot.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 
 
 
