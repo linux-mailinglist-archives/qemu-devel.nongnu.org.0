@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E315C6A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:35:58 +0200 (CEST)
-Received: from localhost ([::1]:46908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB275C6B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:44:35 +0200 (CEST)
+Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7i9-0005Vc-CG
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:35:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47557)
+	id 1hi7qU-0006sO-87
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:44:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47082)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <eric.auger@redhat.com>) id 1hi3z3-0001bF-LT
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:37:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi3xH-0000WT-AE
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <eric.auger@redhat.com>) id 1hi3yz-0002ue-L0
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:37:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35262)
+ (envelope-from <philmd@redhat.com>) id 1hi3xF-0002Ec-4o
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50126)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <eric.auger@redhat.com>)
- id 1hi3yb-0002kR-AU; Mon, 01 Jul 2019 17:36:43 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <philmd@redhat.com>)
+ id 1hi3xB-00021g-GE; Mon, 01 Jul 2019 17:35:13 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4D77330860A0;
- Mon,  1 Jul 2019 19:08:39 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-116-95.ams2.redhat.com [10.36.116.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 23EA42CFC7;
- Mon,  1 Jul 2019 19:08:21 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org,
- shameerali.kolothum.thodi@huawei.com, imammedo@redhat.com
-Date: Mon,  1 Jul 2019 21:08:19 +0200
-Message-Id: <20190701190819.25388-1-eric.auger@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id E399630C3192;
+ Mon,  1 Jul 2019 19:49:59 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.205.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F2ABC87A0;
+ Mon,  1 Jul 2019 19:49:55 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  1 Jul 2019 21:49:36 +0200
+Message-Id: <20190701194942.10092-3-philmd@redhat.com>
+In-Reply-To: <20190701194942.10092-1-philmd@redhat.com>
+References: <20190701194942.10092-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.44]); Mon, 01 Jul 2019 19:08:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.40]); Mon, 01 Jul 2019 19:50:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] tests: Update DSDT ACPI table for arm/virt
- board with PCDIMM related changes
+Subject: [Qemu-devel] [PATCH v4 2/8] target/arm: Restrict semi-hosting to TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,31 +55,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jones <drjones@redhat.com>, Samuel Ortiz <sameo@linux.intel.com>,
+ Rob Bradford <robert.bradford@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PCDIMM hotplug addition updated the DSDT. Update the reference table.
+Per Peter Maydell:
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
+  Semihosting hooks either SVC or HLT instructions, and inside KVM
+  both of those go to EL1, ie to the guest, and can't be trapped to
+  KVM.
+
+Let check_for_semihosting() return False when not running on TCG.
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/data/acpi/virt/DSDT | Bin 18476 -> 18493 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
+v3: inline call to g_assert_not_reached if !TCG
+v4: fixed some ifdef that had moved in the next patch (Peter)
+---
+ target/arm/Makefile.objs | 2 +-
+ target/arm/cpu.h         | 7 +++++++
+ target/arm/helper.c      | 8 +++++++-
+ 3 files changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
-index 20e85c7f89f645c69935c615c07084e221419960..1a5c3e5243c78eb25345fdf7f=
-fa442afec3c5c28 100644
-GIT binary patch
-delta 172
-zcmZ28fpPByMlP3Nmk?VI1_q{Y6S<_BIvO{s=3DeSSi^^mWRZt~=3Da(Tfjuig$N)iRXy-
-z@O0sIbPn(|FfcS`;D`?ea)A;+mUB?BARiZZCmRDZqb36bLnT9WgKLnhI|B~`0|zG;
-zOLQYQi0kYc?CPT+ViNBf7Q$Ho;v_5(n_Qj1$iNt*&kVB1*CW8$H`v*4fdEjLhl`1U
-Ni>WOjJjjWw0RY`tDw+TQ
-
-delta 134
-zcmdlxfpN_QMlP3Nmk=3DEf1_q{ziCof5?F}2%bKIpo*xdvC4LIUGJY9GlgM2*<49pA}
-zIN}{$f+og`c`$P_2rw{ovN13+sxvS!RDxt&Jq4Ay6ndl?7@-g-A<n=3Dc$sh-0Ff)LR
-Z11c2ZjdwLLW@rlt4|3vam^{&45den68LI#Q
-
+diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
+index 294433da88..82bedefc3d 100644
+--- a/target/arm/Makefile.objs
++++ b/target/arm/Makefile.objs
+@@ -1,4 +1,4 @@
+-obj-y +=3D arm-semi.o
++obj-$(CONFIG_TCG) +=3D arm-semi.o
+ obj-y +=3D helper.o vfp_helper.o
+ obj-y +=3D cpu.o gdbstub.o
+ obj-$(TARGET_AARCH64) +=3D cpu64.o gdbstub64.o
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index a9be18660f..94c990cddb 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -964,7 +964,14 @@ static inline void aarch64_sve_change_el(CPUARMState=
+ *env, int o,
+ { }
+ #endif
+=20
++#if !defined(CONFIG_TCG)
++static inline target_ulong do_arm_semihosting(CPUARMState *env)
++{
++    g_assert_not_reached();
++}
++#else
+ target_ulong do_arm_semihosting(CPUARMState *env);
++#endif
+ void aarch64_sync_32_to_64(CPUARMState *env);
+ void aarch64_sync_64_to_32(CPUARMState *env);
+=20
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 38b73430cb..6d91e0a1f9 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -20,7 +20,6 @@
+ #include "qemu/qemu-print.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+-#include "arm_ldst.h"
+ #include <zlib.h> /* For crc32 */
+ #include "hw/semihosting/semihost.h"
+ #include "sysemu/cpus.h"
+@@ -29,6 +28,9 @@
+ #include "qapi/qapi-commands-target.h"
+ #include "qapi/error.h"
+ #include "qemu/guest-random.h"
++#ifdef CONFIG_TCG
++#include "arm_ldst.h"
++#endif
+=20
+ #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable =
+*/
+=20
+@@ -10399,6 +10401,7 @@ static void arm_cpu_do_interrupt_aarch64(CPUState=
+ *cs)
+=20
+ static inline bool check_for_semihosting(CPUState *cs)
+ {
++#ifdef CONFIG_TCG
+     /* Check whether this exception is a semihosting call; if so
+      * then handle it and return true; otherwise return false.
+      */
+@@ -10474,6 +10477,9 @@ static inline bool check_for_semihosting(CPUState=
+ *cs)
+         env->regs[0] =3D do_arm_semihosting(env);
+         return true;
+     }
++#else
++    return false;
++#endif
+ }
+=20
+ /* Handle a CPU exception for A and R profile CPUs.
 --=20
 2.20.1
 
