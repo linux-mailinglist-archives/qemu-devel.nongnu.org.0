@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 450925BE61
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:34:50 +0200 (CEST)
-Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D862E5BE6C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:38:36 +0200 (CEST)
+Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxOL-0003aN-Et
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:34:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44080)
+	id 1hhxRz-0008A6-LF
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:38:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44424)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <clg@kaod.org>) id 1hhwWD-0005L3-7j
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:38:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhwX7-0005ym-AC
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:39:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <clg@kaod.org>) id 1hhwWB-0001c5-DX
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:38:52 -0400
-Received: from 20.mo4.mail-out.ovh.net ([46.105.33.73]:57377)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <clg@kaod.org>) id 1hhwW6-0001Q3-Hx
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:38:49 -0400
-Received: from player772.ha.ovh.net (unknown [10.108.42.5])
- by mo4.mail-out.ovh.net (Postfix) with ESMTP id EE5A41FA907
- for <qemu-devel@nongnu.org>; Mon,  1 Jul 2019 15:38:23 +0200 (CEST)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
- (Authenticated sender: clg@kaod.org)
- by player772.ha.ovh.net (Postfix) with ESMTPSA id 4966F76A2393;
- Mon,  1 Jul 2019 13:38:18 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190618165311.27066-1-clg@kaod.org>
- <20190618165311.27066-11-clg@kaod.org>
- <CAFEAcA_4E7b6qpHEaZaQRQO3TB5BJCLCRJ7jROAr7CeQsJ5wcw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <7833b289-52b8-f90f-509d-a81eb7b03164@kaod.org>
-Date: Mon, 1 Jul 2019 15:38:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <peter.maydell@linaro.org>) id 1hhwX6-0002Pl-2d
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:39:49 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:39965)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhwX4-0002Jn-5j
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:39:47 -0400
+Received: by mail-oi1-x236.google.com with SMTP id w196so9960104oie.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:39:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PDmWidKrvD/y2fTMkxiBv9aI9NB2AMPqoDgWClnvVbs=;
+ b=E24QdBvP97h+i+g9QQ8/1sFAi7O00cikDZZjny+lY4tSFO3wQqNUKuQs5Qf58ZnPff
+ mbzcX/AjADoMRPRWQLxl5OkskPxDP5qayRbBa8+fKdtPNJunfLC2Kd83nOqTtC+ZLUdz
+ PIKDKkYEQQZgU0qqj6u7A59BSvfKUCYiS4pN9aQRxmUOEa/Nta0qA5PZrFBSt3JHux/D
+ 46xNb45fIRkwU40Om6pdIC8PDxWvC+LX3mWfOUOG4/jp+08LBBEBqQYTMUrz1Phe/a6j
+ QGuLX4ts9uW7ka6wtzGgnM65WaTRls8NDgsAYQBd26/BwlBzELYk322JPxwlHQe1G00g
+ 24ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PDmWidKrvD/y2fTMkxiBv9aI9NB2AMPqoDgWClnvVbs=;
+ b=dMLRmdsK28wdQN7gIT10t9i2aRfT45AMLuoAhOTcplt3gPy2wKd/3L+u5wPEDenwC+
+ 4BoNsak+l0ohRuYgRS+RUA67e/SvfIcQXAAUydNxg4/DAY5HSu8eF7M6vV2xOtlgqow4
+ HDyJ75SojffzBkQuNyPXMObh8v5DJqJdhTqaAH4W5Kodq6fdV/hSh1miZeaoYEwWUUzZ
+ 7MRvte4/MlPyd/oPtRdLkHsAwttfP6aYF+i9B35VNNE4Enouywlb9xr4846qA4faMRjM
+ 6YLfSlbdhqcDgigYIK05+Nzw0Zv4HRU9fCuCzFRsgJO7ZvE1KEMg1n8SfNg/2sMptM0T
+ NzHw==
+X-Gm-Message-State: APjAAAUn7YQHh3vfx1QD3Z//1dIg/dDyUZ81A75mtNWQAuL0ofTvSxDc
+ loa/mJDxEeSb2SP1BnZJNJEEi07k6qxlP1DCsHxsxQ==
+X-Google-Smtp-Source: APXvYqwf1ggTVidcu/P2XV10IR7eKEpKptUSOBLi7XlFowNl/4ilOHmmEyBz/tL0p/F0zyE/GYXE4d5WP5vbJUIVUGs=
+X-Received: by 2002:a05:6808:d4:: with SMTP id
+ t20mr6977039oic.170.1561988377831; 
+ Mon, 01 Jul 2019 06:39:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_4E7b6qpHEaZaQRQO3TB5BJCLCRJ7jROAr7CeQsJ5wcw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 922956451259714475
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduvddrvdeigdeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.33.73
-Subject: Re: [Qemu-devel] [PATCH v2 10/21] aspeed/timer: Provide
- back-pressure information for short periods
+References: <20190625130658.24895-1-kbastian@mail.uni-paderborn.de>
+In-Reply-To: <20190625130658.24895-1-kbastian@mail.uni-paderborn.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 14:39:27 +0100
+Message-ID: <CAFEAcA8NW5LkEzEWab=aWF3L96WHzPETk34qz=D85vtRBHtz1g@mail.gmail.com>
+To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::236
+Subject: Re: [Qemu-devel] [PULL 0/5] tricore queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,79 +72,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/07/2019 14:59, Peter Maydell wrote:
-> On Tue, 18 Jun 2019 at 17:54, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
-e:
->>
->> From: Andrew Jeffery <andrew@aj.id.au>
->>
->> First up: This is not the way the hardware behaves.
->>
->> However, it helps resolve real-world problems with short periods being
->> used under Linux. Commit 4451d3f59f2a ("clocksource/drivers/fttmr010:
->> Fix set_next_event handler") in Linux fixed the timer driver to
->> correctly schedule the next event for the Aspeed controller, and in
->> combination with 5daa8212c08e ("ARM: dts: aspeed: Describe random numb=
-er
->> device") Linux will now set a timer with a period as low as 1us.
->>
->> Configuring a qemu timer with such a short period results in spending
->> time handling the interrupt in the model rather than executing guest
->> code, leading to noticeable "sticky" behaviour in the guest.
->>
->> The behaviour of Linux is correct with respect to the hardware, so we
->> need to improve our handling under emulation. The approach chosen is t=
-o
->> provide back-pressure information by calculating an acceptable minimum
->> number of ticks to be set on the model. Under Linux an additional read
->> is added in the timer configuration path to detect back-pressure, whic=
-h
->> will never occur on hardware. However if back-pressure is observed, th=
-e
->> driver alerts the clock event subsystem, which then performs its own
->> next event dilation via a config option - d1748302f70b ("clockevents:
->> Make minimum delay adjustments configurable")
->>
->> A minimum period of 5us was experimentally determined on a Lenovo
->> T480s, which I've increased to 20us for "safety".
->>
->> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
->> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
->=20
->> --- a/hw/misc/aspeed_scu.c
->> +++ b/hw/misc/aspeed_scu.c
->> @@ -423,6 +423,12 @@ static void aspeed_scu_realize(DeviceState *dev, =
-Error **errp)
->>                            TYPE_ASPEED_SCU, SCU_IO_REGION_SIZE);
->>
->>      sysbus_init_mmio(sbd, &s->iomem);
->> +
->> +    /*
->> +     * Reset on realize to ensure the APB clock value is calculated i=
-n time for
->> +     * use by the timer model, which is reset before the SCU.
->> +     */
->> +    aspeed_scu_reset(dev);
->=20
-> This looks wrong. QEMU should always be resetting devices
-> after realize and before actually running anything.
+On Tue, 25 Jun 2019 at 14:07, Bastian Koppelmann
+<kbastian@mail.uni-paderborn.de> wrote:
+>
+> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
+>
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/bkoppelmann/qemu.git tags/pull-tricore-20190625
+>
+> for you to fetch changes up to 8317ea0607a2d01b3cb6329aef1b8c8ca00471e1:
+>
+>   tricore: add QSEED instruction (2019-06-25 15:02:07 +0200)
+>
+> ----------------------------------------------------------------
+> * Add FTOIZ/UTOF/QSEED insns
+> * Fix sync of hflags and swapped args of RRPW_INSERT
+>
+> ----------------------------------------------------------------
+> Andreas Konopik (1):
+>       tricore: add QSEED instruction
+>
+> David Brenken (3):
+>       tricore: add FTOIZ instruction
+>       tricore: add UTOF instruction
+>       tricore: fix RRPW_INSERT instruction
+>
+> Georg Hofstetter (1):
+>       tricore: sync ctx.hflags with tb->flags
 
-Ah yes ... We need to rework SCU with class data to provide a cleaner=20
-model for all SoCs. AST2600 will require it anyhow.=20
 
-Thanks,
+Applied, thanks.
 
-C.=20
->=20
->>  }
->=20
-> thanks
-> -- PMM
->=20
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
+-- PMM
 
