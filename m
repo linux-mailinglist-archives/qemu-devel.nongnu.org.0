@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B535C521
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:44:31 +0200 (CEST)
-Received: from localhost ([::1]:45758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 862595C579
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:05:44 +0200 (CEST)
+Received: from localhost ([::1]:45914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi46A-0001FU-Gt
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:44:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45353)
+	id 1hi4Qh-0006Yy-O9
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:05:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48319)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3EN-0001yc-S8
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:57 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi3KU-00071e-Tb
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:55:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3EG-0001mt-JG
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:51 -0400
-Received: from mail-ot1-f52.google.com ([209.85.210.52]:36381)
+ (envelope-from <philmd@redhat.com>) id 1hi3KL-0004EU-Rw
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:55:11 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46455)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3EG-0001kJ-Ct
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:48 -0400
-Received: by mail-ot1-f52.google.com with SMTP id r6so14909871oti.3
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:48:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0HBeY563DDijZ17XU0K5vwaJdep9/sH2hOHsw6x2ptw=;
- b=AxTNhaWuAuNXR5kClJrLz+VYxaIHRooCDuJ8WTKaUrI2lU+3tImfZCGGtkn9OdjdxT
- D5v68cQG19L4z7NsOvtPOy2QrCRUPEue0qrpBfmxIcordPLEP67QaPrTdseZRuxEmGuQ
- 95njUbhp2gL+vKKK/48MOhoIX5rNreZHd6HGuFfBTW62ex2nrm2fUlGSFBeC21i3QhEJ
- 6JhXTDijqJHMKnWJ+84QDQ/1LUxvdsXNYbsQcE/SGsK8/HuJtECqLJYW+u/bVB363Hoa
- qNj+kC+JKZay6ynX5LU0IqL2YsC5pDByNi3QhQaMv0qC+F1RxqVQ6mqoPF6jHJjgttLD
- jwRw==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hi3KF-0004CZ-DQ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:59 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n4so15252898wrw.13
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:54:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0HBeY563DDijZ17XU0K5vwaJdep9/sH2hOHsw6x2ptw=;
- b=iGGNqHKmOWILc2dnA1cicGV7NV02XFkRn8TokQixeTzj86xgNHm201vSX3hIbSkgs8
- bLOAAn6b1ZP2DasCLYy9BktQfoZEpOfHWAmyU2bq5JGgsaCrtLQhobtjmsxUMZKm3evj
- /c+PlZodb9YHQvu0LtJS17l0muqF74xVP/3bl2XQ6El9SAxH8nUxLgMVIRBG5PTEc9Om
- rk2arOoOrgOKdUhtx5cxktQEwI3sGyMRGotFwtbd4Zk6NJLivhCP0XOKQWSyJnlPm1eS
- zkqgMshZdjQHVJZz28YBEv5JeWMj42xDzZ8foGR9j8wCHGDiTwYcn/xwi6xE+xxcNOw0
- rWFg==
-X-Gm-Message-State: APjAAAWX87Cr1NLvAlj6w7J/1uQb/YAxXkAiuSxL8pWQfHAJzRlKAasu
- W+Woigt0eZYxbWY8e2ZCJKDNVNbLS4YLYVdvA37olDle13twcA==
-X-Google-Smtp-Source: APXvYqxHpwyJ08FviEDZ7qQr55nRCT2lhoxT6K6JUx8uA9VXJkm/wSpSRIRsM4Yq6Uf/M1FDYFG+bBClWmFARt1LFiU=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr21669215oti.91.1562010665400; 
- Mon, 01 Jul 2019 12:51:05 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1wfRyxHjaqIfCvUIJ03z9Pt6+BqqMhUX9dFlDyzKWS4=;
+ b=WipddEPnDW1jTPgb4Hsa4X/Peddhsuy2/YZY3z5snlriqeoMySj825kbTKlehKxEwK
+ W/7x06L1Enx6ZsVw7z7x5Iq5XVF5o/CinAEjy0/k8ch8RzCCvN3VVQQQ+omZInoO2TPy
+ c9ezSh89tzMeM5NKVeXo4swH7DVooGkVrN6vgiQx0e67QXdc9bhihrP3f+nUmATpBnyz
+ cLsPcosMIzWcwOn829235OOExj4iXITgU7q7BMjjk47qtpQBgmbBSfzonjDjlSDXZSS2
+ OVoXczCMy9qYDxqDh3wRUvkqtloXbMutBmwGG2scZ8jm4dVZM6DJ6xKyVuZe1/EsIFXX
+ eVug==
+X-Gm-Message-State: APjAAAWILE1n1SDXmmVOCSnvD/6xd5W1B1lPQr3VJkvz6KijUZycc1pT
+ kdGhZ6rnq35zJytuPEDvkVvwy7QYMGQ=
+X-Google-Smtp-Source: APXvYqxSmcR30ge/EyBOXwxbAdhKB7iKdhT2IxmLNpMTB2qzCpAPeviMne5HP/Gg7blDKXCbYCWV9w==
+X-Received: by 2002:a5d:53c2:: with SMTP id a2mr20819742wrw.8.1562010980796;
+ Mon, 01 Jul 2019 12:56:20 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id e6sm1110355wrw.23.2019.07.01.12.56.19
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Jul 2019 12:56:19 -0700 (PDT)
+To: Christophe de Dinechin <dinechin@redhat.com>, qemu-devel@nongnu.org
+References: <20190701133536.28946-1-philmd@redhat.com>
+ <20190701133536.28946-9-philmd@redhat.com> <m1d0ithhhv.fsf@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <f3a567a4-496b-9158-1173-7c399a1fa3ee@redhat.com>
+Date: Mon, 1 Jul 2019 21:56:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190627124815.29536-1-minyard@acm.org>
- <CAFEAcA_YcEtXDMR-7D4R0Tdb0zM7LARpisvV5VjTnoki=9_WPw@mail.gmail.com>
- <20190701182503.GA4336@minyard.net>
-In-Reply-To: <20190701182503.GA4336@minyard.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 20:50:54 +0100
-Message-ID: <CAFEAcA81i3d228UP52j_eCxbS8rq91OLDMmCwxGJM8VuAVxt7w@mail.gmail.com>
-To: Corey Minyard <minyard@acm.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <m1d0ithhhv.fsf@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.52
-Subject: Re: [Qemu-devel] [PULL 0/2] Add a UUID device property to IPMI
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH v3 08/15] hw/i386/pc: Let fw_cfg_init() use
+ the generic MachineState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,35 +75,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Yang Zhong <yang.zhong@intel.com>, Samuel Ortiz <sameo@linux.intel.com>,
+ Rob Bradford <robert.bradford@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jul 2019 at 19:25, Corey Minyard <minyard@acm.org> wrote:
->
-> On Mon, Jul 01, 2019 at 07:10:50PM +0100, Peter Maydell wrote:
-> > I have to say I'm not entirely happy with applying a pullreq
-> > with patches that are unreviewed and were last posted on list
-> > over six months ago. Can you post a v2 to try to solicit code
-> > review for them before we put them into master, please?
-> >
-> > (Sometimes patches don't get review, and we generally take
-> > them anyway; I do that myself from time to time. It's the
-> > combination of the six-months-since-patches-posted plus the
-> > imminent freeze deadline that gives me pause in this case.)
->
-> Will do.
->
-> I looked around and tried to find the freeze dates, and I couldn't
-> find anything published.  If I had known it was close, I would have
-> waited.
+On 7/1/19 6:01 PM, Christophe de Dinechin wrote:
+> Philippe Mathieu-Daudé writes:
+> 
+>> We removed the PCMachineState access, we can now let the fw_cfg_init()
+>> function to take a generic MachineState object.
+> 
+> to take -> take
+> 
+>>
+>> Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  hw/i386/pc.c | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+>> index 1e856704e1..60ee71924a 100644
+>> --- a/hw/i386/pc.c
+>> +++ b/hw/i386/pc.c
+>> @@ -929,7 +929,7 @@ static void pc_build_smbios(PCMachineState *pcms)
+>>      }
+>>  }
+>>
+>> -static FWCfgState *fw_cfg_arch_create(PCMachineState *pcms,
+>> +static FWCfgState *fw_cfg_arch_create(MachineState *ms,
+> 
+> I don't see where ms is used in the function. Maybe in a later patch,
+> I did not receive patches 09-15 yet.
 
-Thanks. (Our schedule is on the wiki at
-https://wiki.qemu.org/Planning/4.1 -- but we don't publicise
-that url very much so it's easy to overlook it.)
+You are right, it is not used (even if the following patches).
 
-This is a pretty small change so if it gets review we can
-probably fit it in before rc0 or rc1.
-
--- PMM
+>>                                        const CPUArchIdList *cpus,
+>>                                        uint16_t boot_cpus,
+>>                                        uint16_t apic_id_limit)
+>> @@ -1667,6 +1667,7 @@ void pc_memory_init(PCMachineState *pcms,
+>>      MemoryRegion *ram_below_4g, *ram_above_4g;
+>>      FWCfgState *fw_cfg;
+>>      MachineState *machine = MACHINE(pcms);
+>> +    MachineClass *mc = MACHINE_GET_CLASS(machine);
+>>      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+>>
+>>      assert(machine->ram_size == pcms->below_4g_mem_size +
+>> @@ -1763,7 +1764,7 @@ void pc_memory_init(PCMachineState *pcms,
+>>                                          option_rom_mr,
+>>                                          1);
+>>
+>> -    fw_cfg = fw_cfg_arch_create(pcms, mc->possible_cpu_arch_ids(machine),
+>> +    fw_cfg = fw_cfg_arch_create(machine, mc->possible_cpu_arch_ids(machine),
+>>                                  pcms->boot_cpus, pcms->apic_id_limit);
+>>
+>>      rom_set_fw(fw_cfg);
 
