@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA235C500
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:31:59 +0200 (CEST)
-Received: from localhost ([::1]:60374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C2E5C49E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 22:57:14 +0200 (CEST)
+Received: from localhost ([::1]:45446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhylU-0001FN-Jn
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 12:02:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51795)
+	id 1hi3MO-00062H-JN
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 16:57:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52291)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhyi3-0000Db-35
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:59:16 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hhyk9-000254-Sj
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 12:01:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhyhz-0005sz-RG
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:59:13 -0400
-Received: from mail-oi1-f176.google.com ([209.85.167.176]:45666)
+ (envelope-from <alex.bennee@linaro.org>) id 1hhyk7-0007po-VW
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 12:01:25 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:45841)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhyhz-0005s6-ME
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:59:11 -0400
-Received: by mail-oi1-f176.google.com with SMTP id m206so10354328oib.12
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:59:11 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hhyk6-0007my-4c
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 12:01:22 -0400
+Received: by mail-wr1-f66.google.com with SMTP id f9so14415151wre.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 09:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hOfILo+Out7yLuZlBq8jtp74qr2lfEuGoO95HYEcZ3M=;
- b=Lf3toSQ5pQrGNKF7WtUq0ZCNA9v96O/wvcYq3wZht60mJDFgt5Ef2h06RmqfD4f7HA
- SJH97xP2tSeNZvI9JHSoGy9B4wJd/kU8aaxe34FH6rP+LcrzofRlOm1p2xZ/atIm2M5Q
- UCv959hapspQTPBy5RoaXDScMg/u8cp5ip63ZVttE1aekUa73C6VoQVlS+P28M+8DANZ
- dh7nZRut5Ms/JSMMhRHSVMRFY6aD0kBmTrkKnjdViWrAGYmixIzKvjyNaaA/sbyxqWru
- B8KNSUlruE71Qrsfw7k+cJFyQK+GwgYPGXKC0EWabilrPj25QaIWTIkWRmaF94m5PzEF
- GZJA==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=eWiC6JwpUO66e0AhOuc7SOzs9DzL8V3iUCw7M4ksbSs=;
+ b=J305tz6C3izWMrmRbttYOep0ooGUBJOHIAsdFsVquAHtXCZwW41RQgGqRvtqYztbtU
+ j/Ijz5QAV8y4IkWfDVHdC/VvOn8sERnwpAZNpAisSIHgRwphT7YlFFfbGePXPIFJfiBa
+ La+P1dJG39pr303JKOT4o+7d+a0KST+JfTaSUDBOPDLzjR6+RiatvZGL9qyTzw6FadVT
+ JA0qGqhEGwYvIInkuviCfAL16Almion5cbjp+IazdNbL0NuP194lgc3+amO72XHb0JGD
+ /g4s2v1Zu+ytE1Vp7DMxoJJjK07pEZFLi89/XSh5tChzs7OA6gnxEl3vDSVCQ8CLsDSP
+ s93g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hOfILo+Out7yLuZlBq8jtp74qr2lfEuGoO95HYEcZ3M=;
- b=FTKz0EElzicCWndpOohE5TJH0ODeYDwacPTsBxlgzxGlKjuQno81/0L1ivmdPHGPZr
- 4jEQgpxgm3G6A1Y3Z7s7TLvn9iWyj2EKsZRlm5ibARyIcTLLXR6cqxtiu+Mknhd5vpdw
- IuXo46hFARU60PLeFsvWzt5UTtxMFJ84e8Zw5qJds7chTkmSUJfoiQpCoy9xzGyYuVxb
- IYLvneGqmHiG525iUjdc27v8WR9NHhNuyWJRRwW20aO2BwXXwoqh/PgxgSQgNMyw59Zj
- iir5FhV15dFwznVM+4LxYYiXJ8s2V3bhqxI+eXhO2hKRPEyRJe4XD8bnZ5BRTfTduyB0
- bFdQ==
-X-Gm-Message-State: APjAAAW/WhOt2z5oB9SmkNJiWdDvjps/5hzAGUtmbzG7gDb0R7mIxce7
- v6dV7BtsdCYDP5Bn5oPvu05QPGSUCznlm1AnQb6AyA==
-X-Google-Smtp-Source: APXvYqxDIdq4ObNK9uKLZnXucR/PPntJ5SeV46d1qyBXM5rGvOBE9WeiPGz2xpbxhONfy0yo3j5vyFjZ4dxq0ml1Lmk=
-X-Received: by 2002:a05:6808:8c2:: with SMTP id k2mr15479oij.98.1561996750800; 
- Mon, 01 Jul 2019 08:59:10 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=eWiC6JwpUO66e0AhOuc7SOzs9DzL8V3iUCw7M4ksbSs=;
+ b=gPr15zlgGG9R+2xIgkNP2L4oaPfnTZZdCnCsdDnqJHJceaqL/3s96BlwNR5lLrEHc3
+ zj8jrjMrqy5rV1VysPIcZq0BgZlnS6JatHDd/oBPU0Rs0ac+gM0reWdWxM51l49BaDk/
+ 8v+dwZaaJLFF/Q5dp8/Hv4qnoIazjvpgypZvIT6AfRZXbF2lxcwxDkoJK7RB/NuR/twL
+ biOqqpN2cSbU9gk1TTa2r4bmlA58qPuNKQb5tkcn9IA6lf5H8xcT6gEbbYAy7ReHJBmO
+ IgQhKMK08NoISwG1KgTKNr5LUwl01QnL9+jdWzDlSH+5sKVwDOgczIg5f3RwkpGnkZkH
+ UZEA==
+X-Gm-Message-State: APjAAAW94x2CVie1mcQK35mXAJUgFGrPicHit2tlMThvslNc9s4PVpqW
+ RqNjq2GlBwrKcAPHiBu/rRjdKw==
+X-Google-Smtp-Source: APXvYqwlX7wiMAisAN0V02EmRX0UzTXQ8Kf9Q0GaM0xu1MnWKj0/iwQyLuqlKian+Cv0KtMBl9Fe4g==
+X-Received: by 2002:a5d:5386:: with SMTP id d6mr11605336wrv.207.1561996879518; 
+ Mon, 01 Jul 2019 09:01:19 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id o126sm24422wmo.1.2019.07.01.09.01.18
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 01 Jul 2019 09:01:18 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2980F1FF87;
+ Mon,  1 Jul 2019 17:01:18 +0100 (BST)
+References: <20190614171200.21078-1-alex.bennee@linaro.org>
+ <20190614171200.21078-38-alex.bennee@linaro.org>
+ <53e14a5c-0689-17d7-2b62-1649398561a9@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+In-reply-to: <53e14a5c-0689-17d7-2b62-1649398561a9@linaro.org>
+Date: Mon, 01 Jul 2019 17:01:18 +0100
+Message-ID: <8736jpsq0h.fsf@zen.linaroharston>
 MIME-Version: 1.0
-References: <20190626121139.19114-1-laurent@vivier.eu>
-In-Reply-To: <20190626121139.19114-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 16:59:00 +0100
-Message-ID: <CAFEAcA8C5ZW6yCsNFXGwvDTjn2+2gXGt_ADK3wkKhEpE56xKYQ@mail.gmail.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.167.176
-Subject: Re: [Qemu-devel] [PULL 0/6] Linux user for 4.1 patches
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v3 37/50] translator: inject
+ instrumentation from plugins
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,36 +84,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
+ qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 at 13:18, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
->
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
->
-> for you to fetch changes up to b50d1e42a4a7dc746ecd42c34c386d81a997759c:
->
->   linux-user: set default PPC64 CPU (2019-06-24 23:10:36 +0200)
->
-> ----------------------------------------------------------------
-> Update ppc64 feature and default CPU
-> next setsockops() options
-> Improve "-L" option
-> Another fix for 5.2-rc1 headers
->
-> ----------------------------------------------------------------
 
-Applied, thanks.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+> On 6/14/19 10:11 AM, Alex Benn=C3=A9e wrote:
+>> @@ -95,6 +103,10 @@ void translator_loop(const TranslatorOps *ops, Disas=
+ContextBase *db,
+>>              ops->translate_insn(db, cpu);
+>>          }
+>>
+>> +        if (plugin_enabled) {
+>> +            plugin_gen_insn_end();
+>> +        }
+>> +
+>>          /* Stop translation if translate_insn so indicated.  */
+>>          if (db->is_jmp !=3D DISAS_NEXT) {
+>
+> This will of course not be reachable if db->is_jmp =3D=3D DISAS_NORETURN.
+> Do we want to not bother calling the plugin for this case?
 
--- PMM
+Swap the order and add a comment?
+
+--
+Alex Benn=C3=A9e
 
