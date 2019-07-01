@@ -2,68 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3354D5BCCF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:23:25 +0200 (CEST)
-Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F285BCD8
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:25:51 +0200 (CEST)
+Received: from localhost ([::1]:58740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwHE-00066v-CJ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:23:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39552)
+	id 1hhwJb-0000Iw-3W
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:25:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40219)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhwDn-00046f-CM
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:19:52 -0400
+ (envelope-from <groug@kaod.org>) id 1hhwHF-0006zC-Eo
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhwDm-0004F2-9h
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:19:51 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:47000)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhwDm-0004E9-2a
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:19:50 -0400
-Received: by mail-ot1-x343.google.com with SMTP id z23so13405963ote.13
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:19:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=pUQv6DkKtWq0J5A/w2iXR4PnuAkD1maDWSI1k7bmNiQ=;
- b=F6Wj/39GmkLR2g9YeQEkyTn7TSEqBI43kOKZ3yc8kiDRcjlv9cEf/VaDTNhuLrHOhi
- BAIMHLoBY9zRkEwFAehHcmh7fRuUXN+PtG6hWS+kVxEDvsi4o06PCVy72ndU9W69wgJ0
- ZKDXHdKoGtztksNd8EjwMq/cL77gBkvHwI89D4yFTN765aBHv40Jya5fEfZB/4SFiggh
- wAUxQt4bHJpQSywUPXIf+s5auHl/lOy0L5CeCgYq+rbMQlIeiGb1KuqI5CPaLHSm7u7R
- WBkjlC7qWmvsobdc2qTKbBYZ6iib2dXPUO/LD+pq7Dm8QRTS/bbyWIsoaQ3osEWaVo0K
- 77RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=pUQv6DkKtWq0J5A/w2iXR4PnuAkD1maDWSI1k7bmNiQ=;
- b=V2emRUhLARs06rONnciYewvJVXqZhIdJtfffWFWa85lazTTriQ7ABWflOX4oNYDD3b
- h6Bwzsa2GgPK8bXR2lzmIqgn3l317Z2saNHv2IXFwZogoGzY8T1lWIFj2N6whdNStKBj
- I1rnRSlQ+ZQRWtxDV5vkr4oLMOt+m7uQVJUCH0dKbWz/dri7GuZNa36mltWVLX9wnSmc
- VVa5H2wOhz/TCqBKpYPFZaJ46hoXiuyjx8BYbnrBSl3YRHk50f/DKIiqNsuxQxAeZZq0
- E0Z8+NNpn26MdjWb9YivbyDSvavA2ZC3ReOo+Her9J7N7vGFCySwCfsISZg7lUOh+ig+
- pfsw==
-X-Gm-Message-State: APjAAAX+dneBI1zNGA1M6qX+d/MDS7VCV9ilUmIw94VN0m82VPAGDFMc
- +5Yjgr0nXhhIwFKKEwUcHHyQzetYO0ifogyqVXkXMw==
-X-Google-Smtp-Source: APXvYqyMnBKX2lltjXDXX1a3GGRx2b1EiqTmGWpoIb2klL3gA/hC7Qt7vhlZ7ahAlE2pw3/7VPow7xwhKnNOMMxTN54=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr20522827otk.232.1561987189075; 
- Mon, 01 Jul 2019 06:19:49 -0700 (PDT)
+ (envelope-from <groug@kaod.org>) id 1hhwHE-0007pn-9L
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:25 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61544
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hhwHE-0007pB-4I
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:24 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+ x61DNGu5121534
+ for <qemu-devel@nongnu.org>; Mon, 1 Jul 2019 09:23:23 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 2tfhnmwgtm-1
+ (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 09:23:20 -0400
+Received: from localhost
+ by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+ Violators will be prosecuted
+ for <qemu-devel@nongnu.org> from <groug@kaod.org>;
+ Mon, 1 Jul 2019 14:22:39 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+ by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
+ Authorized Use Only! Violators will be prosecuted; 
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+ Mon, 1 Jul 2019 14:22:38 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ x61DMbCu46989500
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 1 Jul 2019 13:22:37 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 367CDA405B;
+ Mon,  1 Jul 2019 13:22:37 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 07324A4054;
+ Mon,  1 Jul 2019 13:22:37 +0000 (GMT)
+Received: from [9.208.6.17] (unknown [9.145.83.142])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  1 Jul 2019 13:22:36 +0000 (GMT)
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>,
+ =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Date: Mon, 01 Jul 2019 15:22:36 +0200
+User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-References: <20190618165311.27066-1-clg@kaod.org>
- <20190618165311.27066-17-clg@kaod.org>
-In-Reply-To: <20190618165311.27066-17-clg@kaod.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 14:19:38 +0100
-Message-ID: <CAFEAcA97g-eHyq0cWL5+3JH2xHLVrSaP36pm0G5djkLcVoK0HQ@mail.gmail.com>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
+x-cbid: 19070113-4275-0000-0000-000003480DBD
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19070113-4276-0000-0000-00003858210C
+Message-Id: <156198735673.293938.7313195993600841641.stgit@bahia>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+ definitions=2019-07-01_09:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1907010165
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v2 16/21] aspeed/smc: add DMA calibration
- settings
+X-MIME-Autoconverted: from 8bit to quoted-printable by
+ mx0b-001b2d01.pphosted.com id x61DNGu5121534
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: [Qemu-devel] [REPOST PATCH for-4.1] spapr/xive: Add proper rollback
+ to kvmppc_xive_connect()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,25 +92,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 18 Jun 2019 at 17:55, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> When doing calibration, the SPI clock rate in the CE0 Control Register
-> and the read delay cycles in the Read Timing Compensation Register are
-> set using bit[11:4] of the DMA Control Register.
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> Acked-by: Joel Stanley <joel@jms.id.au>
-> ---
->  hw/ssi/aspeed_smc.c | 64 ++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 63 insertions(+), 1 deletion(-)
+Make kvmppc_xive_disconnect() able to undo the changes of a partial
+execution of kvmppc_xive_connect() and use it to perform rollback.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
 
-thanks
--- PMM
+David,
+
+This is the only pending fix for XIVE, rebased on ppc-for-4.1.
+
+SHA1 d6923ffa0748af614e7d2c82d6cb76b8078dfaf5
+---
+ hw/intc/spapr_xive_kvm.c |   48 ++++++++++++++++++++++++++++------------=
+------
+ 1 file changed, 29 insertions(+), 19 deletions(-)
+
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index 5559f8bce5ef..3bf8e7a20e14 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -724,8 +724,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
+p)
+     xsrc->esb_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, =
+esb_len,
+                                       &local_err);
+     if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
++        goto fail;
+     }
+=20
+     memory_region_init_ram_device_ptr(&xsrc->esb_mmio_kvm, OBJECT(xsrc),
+@@ -743,8 +742,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
+p)
+     xive->tm_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, =
+tima_len,
+                                      &local_err);
+     if (local_err) {
+-        error_propagate(errp, local_err);
+-        return;
++        goto fail;
+     }
+     memory_region_init_ram_device_ptr(&xive->tm_mmio_kvm, OBJECT(xive),
+                                       "xive.tima", tima_len, xive->tm_mm=
+ap);
+@@ -760,21 +758,24 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **e=
+rrp)
+=20
+         kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
+         if (local_err) {
+-            error_propagate(errp, local_err);
+-            return;
++            goto fail;
+         }
+     }
+=20
+     /* Update the KVM sources */
+     kvmppc_xive_source_reset(xsrc, &local_err);
+     if (local_err) {
+-            error_propagate(errp, local_err);
+-            return;
++        goto fail;
+     }
+=20
+     kvm_kernel_irqchip =3D true;
+     kvm_msi_via_irqfd_allowed =3D true;
+     kvm_gsi_direct_mapping =3D true;
++    return;
++
++fail:
++    error_propagate(errp, local_err);
++    kvmppc_xive_disconnect(xive, NULL);
+ }
+=20
+ void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
+@@ -796,23 +797,29 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error =
+**errp)
+     xsrc =3D &xive->source;
+     esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
+=20
+-    memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
+-    object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
+-    munmap(xsrc->esb_mmap, esb_len);
+-    xsrc->esb_mmap =3D NULL;
++    if (xsrc->esb_mmap) {
++        memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm=
+);
++        object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
++        munmap(xsrc->esb_mmap, esb_len);
++        xsrc->esb_mmap =3D NULL;
++    }
+=20
+-    memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
+-    object_unparent(OBJECT(&xive->tm_mmio_kvm));
+-    munmap(xive->tm_mmap, 4ull << TM_SHIFT);
+-    xive->tm_mmap =3D NULL;
++    if (xive->tm_mmap) {
++        memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
++        object_unparent(OBJECT(&xive->tm_mmio_kvm));
++        munmap(xive->tm_mmap, 4ull << TM_SHIFT);
++        xive->tm_mmap =3D NULL;
++    }
+=20
+     /*
+      * When the KVM device fd is closed, the KVM device is destroyed
+      * and removed from the list of devices of the VM. The VCPU
+      * presenters are also detached from the device.
+      */
+-    close(xive->fd);
+-    xive->fd =3D -1;
++    if (xive->fd !=3D -1) {
++        close(xive->fd);
++        xive->fd =3D -1;
++    }
+=20
+     kvm_kernel_irqchip =3D false;
+     kvm_msi_via_irqfd_allowed =3D false;
+@@ -822,5 +829,8 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error **=
+errp)
+     kvm_cpu_disable_all();
+=20
+     /* VM Change state handler is not needed anymore */
+-    qemu_del_vm_change_state_handler(xive->change);
++    if (xive->change) {
++        qemu_del_vm_change_state_handler(xive->change);
++        xive->change =3D NULL;
++    }
+ }
+
 
