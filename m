@@ -2,47 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830605BBFF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:44:18 +0200 (CEST)
-Received: from localhost ([::1]:58326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20F395BBC4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:41:16 +0200 (CEST)
+Received: from localhost ([::1]:58268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhvfN-0007uA-Ns
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:44:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58275)
+	id 1hhvcR-0003YQ-BI
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58390)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhvWL-0007vv-QH
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:34:58 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhvWw-0000CE-59
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:35:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhvWK-0005ho-Rl
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:34:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:24811)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhvWK-0005gm-MQ; Mon, 01 Jul 2019 08:34:56 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 0892C3092649;
- Mon,  1 Jul 2019 12:34:50 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DE33196F7;
- Mon,  1 Jul 2019 12:34:43 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 14:34:41 +0200
-Message-Id: <20190701123441.13412-1-philmd@redhat.com>
+ (envelope-from <philmd@redhat.com>) id 1hhvWu-0006En-4a
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:35:34 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:35341)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhvWq-000673-93
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:35:30 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c27so5966370wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 05:35:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AZCeRWSMuP4UqySLZZFrYJOMDJVzaBqONi1GOmlAXYg=;
+ b=RHVOsR44DUVO+0Ng+rIkfDHjJA7cOjKrPmNHPGiHphWDxB1ytoUjAzveyBNAlbWVKB
+ lj3PIfU3g67D5PKlNKF+5herhyKSLQM2Vsko0Q4qn043RtWeohuJFLpQwNRj9c2meZ9w
+ 3ENyLjSEX7dbjfDWVIySrnP7LRnOPH473mWWKNg4nokambzeWnHc/dYDwOpnDGo7ZsKZ
+ HV89NBJKmuD74hJEjwPJUA+NCbN8nQl66TQVobxAtMpzQvJ+NYKX3a0bEhJlCGTPbX9+
+ lY6uc0zo45yOuRhlH4Jto7USbJPfL+ga0+k0SfpvsOnShJCR/XQbEN0vIzd9wdTeXXrB
+ PYfQ==
+X-Gm-Message-State: APjAAAVZsIiUbZdkFi7JEdvS09dSJ0JSnYygRpCqxiODjPOu8kIoQyim
+ FKeSqLjlND9BviINVF8Clc4aow==
+X-Google-Smtp-Source: APXvYqyc7rvU/W9uyxI88J3z0JHBsnCmXQiBhM+Rl5u4hIUge9CZklZJzdwN4+Ave+/dsaCMMfbbMQ==
+X-Received: by 2002:a5d:68c7:: with SMTP id p7mr830627wrw.349.1561984526023;
+ Mon, 01 Jul 2019 05:35:26 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id x3sm10524424wrp.78.2019.07.01.05.35.24
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Jul 2019 05:35:25 -0700 (PDT)
+To: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+References: <20190701123108.12493-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <626f9e20-cff3-757d-1043-04df3c1c2b3c@redhat.com>
+Date: Mon, 1 Jul 2019 14:35:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 01 Jul 2019 12:34:55 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190701123108.12493-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] hw/misc/macio: Add the nvram as child of the
- MacIO south bridge
+ [fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH 0/6] hw/arm: Use ARM_CPU_TYPE_NAME() and
+ object_initialize_child()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -54,36 +74,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-ppc@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Beniamino Galvani <b.galvani@gmail.com>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid another QOM orphean, link it back to its parent.
+Buh I forgot to Cc Eduardo.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/misc/macio/macio.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index 82492096f8..e02882be28 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -243,7 +243,8 @@ static void macio_oldworld_init(Object *obj)
-=20
-     macio_init_child_obj(s, "cuda", &s->cuda, sizeof(s->cuda), TYPE_CUDA=
-);
-=20
--    object_initialize(&os->nvram, sizeof(os->nvram), TYPE_MACIO_NVRAM);
-+    object_initialize_child(s, "nvram",  &os->nvram, sizeof(os->nvram),
-+                            TYPE_MACIO_NVRAM, &error_abort, NULL);
-     dev =3D DEVICE(&os->nvram);
-     qdev_prop_set_uint32(dev, "size", 0x2000);
-     qdev_prop_set_uint32(dev, "it_shift", 4);
---=20
-2.20.1
-
+On 7/1/19 2:31 PM, Philippe Mathieu-Daudé wrote:
+> First we use ARM_CPU_TYPE_NAME() when we should.
+> 
+> Then is follow up of
+> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01492.html
+> 
+>   This series looks at Eduardo suggestions from [1]
+>   and Thomas commit aff39be0ed97 to replace various
+>   object_initialize + qdev_set_parent_bus calls by
+>   sysbus_init_child_obj().
+> 
+> Finally, some devices are declared orphean while they have a parent,
+> let them be together again.
+> 
+> [1] https://patchwork.ozlabs.org/patch/943333/#1953608
+> 
+> Philippe Mathieu-Daudé (6):
+>   hw/arm: Use ARM_CPU_TYPE_NAME() macro when appropriate
+>   hw/arm: Use object_initialize_child for correct reference counting
+>   hw/arm: Use sysbus_init_child_obj for correct reference counting
+>   hw/arm/fsl-imx: Add the cpu as child of the SoC object
+>   hw/dma/xilinx_axi: Use object_initialize_child for correct ref.
+>     counting
+>   hw/net/xilinx_axi: Use object_initialize_child for correct ref.
+>     counting
 
