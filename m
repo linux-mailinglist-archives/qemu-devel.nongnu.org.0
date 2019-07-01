@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08DB5C75B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:31:16 +0200 (CEST)
-Received: from localhost ([::1]:47312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD2885C75F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:35:09 +0200 (CEST)
+Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8Za-0000i0-TA
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:31:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35323)
+	id 1hi8dQ-00077e-Mp
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:35:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32789)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hi4wM-0006tO-Cf
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:38:28 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4jX-0003j4-En
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:25:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hi4wL-000518-3w
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:38:26 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:42266
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hi4wH-0004yC-8C; Mon, 01 Jul 2019 18:38:21 -0400
-Received: from host109-146-132-17.range109-146.btcentralplus.com
- ([109.146.132.17] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1hhzZs-0006SP-5u; Mon, 01 Jul 2019 17:54:52 +0100
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20190701123441.13412-1-philmd@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
- mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
- 3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
- E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
- PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
- PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
- AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
- OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
- NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
- mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
- z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
- T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
- DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
- y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
- 2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
- 14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
- YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
- Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
- BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
- opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
- NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
- Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
- KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
- imgcU9TTGC5qd9g=
-Message-ID: <6efc23f4-6861-be24-58ae-4e083b7d8cb7@ilande.co.uk>
-Date: Mon, 1 Jul 2019 17:55:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4jU-0006l9-U2
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:25:10 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38705)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hi4jR-0006kB-PO
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:25:06 -0400
+Received: by mail-ot1-f65.google.com with SMTP id d17so1213326oth.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:25:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=AtNCVajgsZwa/StomNud26kciS92ZyHegidqhZS10w8=;
+ b=YrPtT5kim9QxRnpSBr5p0suPohzsL/fdc8PJVBhD+AVAHVR0LGUwDUxRenh2bawYwT
+ x8CjDKqJuaSCSxQa0JjA2P3cC3HY2bP/tAxTkGxKArLfG5kJbJ+goNG+8r7zJ315C/pp
+ U32CMnVUJH4EBeEDymgLPQ47mSBxKwqcBlviIJmHxLZf33WLT3Ej16aXAAN3h7EhVb9H
+ gtlC46vdGBiJdfFEMZ++L52F5XlTWXoT8ecciC7VBQ41eAV/qJpRw/GMX59YbG8faxxb
+ Pigbp1Ur8J/SK1/p7sgcRMfCqnKpiX/GLvHbLyoSitb+oESfAsK4D4XUF/2Z8uLaQy/a
+ rQ1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AtNCVajgsZwa/StomNud26kciS92ZyHegidqhZS10w8=;
+ b=mLO+WuvXVSPS45Gkj7BlXOQM4W8uPhmsZhFd7F+6soT6hsdSmhplLsgX2PN4wgsPZi
+ 7/GjG5jlrntii704XyYB/fsUnnFTe1ODCUVFS9JYHuxpKmQS1e1shiuufcNsTMVaqdkz
+ hZ/1RNK5m2R+jcu79C8evyO2hIEypriBDaGPWtmDlJhVnodNo4mOBV2W5Y+2g/yZxpxV
+ by3SHiZ1Oz/iLjwudSUnVqJ5ovt0Jp12d1hfF8Kyb1BYdW+GNL9ZEFpkzxjlFbQJFubN
+ maIkI5QYh+bCNJaRCdM7UjCItb6O8VFN+Ag7YEyTn30DiW+kzbCK+VjRQapVuQ3aK/Vb
+ azhA==
+X-Gm-Message-State: APjAAAXYNrsUixHiofoXIlO1Pku7hL60IKk1K3GxtiZsSOZ+1EjjigqP
+ qyAT8BvaCaybvLxw2h5ASC4nWFuP5N0Of3l26rjqbHVVpyA=
+X-Google-Smtp-Source: APXvYqwP7qXeR69xJD5LJF0Zqwnyf0wNAUkpD8db9S2Lsh3kl1f+fdfxgG7DR7mWo57rkrCfCn0qMXZlbArUg8F3lIw=
+X-Received: by 2002:a9d:7245:: with SMTP id a5mr21358824otk.232.1562000237264; 
+ Mon, 01 Jul 2019 09:57:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190701123441.13412-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.146.132.17
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+References: <20190701164732.30518-1-alex.bennee@linaro.org>
+In-Reply-To: <20190701164732.30518-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 17:57:06 +0100
+Message-ID: <CAFEAcA9fRnH74+jOqxMPyZo-7pS45hHjnA5NdnpdSpNs30G--g@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
-Subject: Re: [Qemu-devel] [PATCH] hw/misc/macio: Add the nvram as child of
- the MacIO south bridge
+ [fuzzy]
+X-Received-From: 209.85.210.65
+Subject: Re: [Qemu-devel] [PATCH] migration: move port_attr inside
+ CONFIG_LINUX
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,46 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/07/2019 13:34, Philippe Mathieu-Daudé wrote:
-
-> Avoid another QOM orphean, link it back to its parent.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Mon, 1 Jul 2019 at 17:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> Otherwise the FreeBSD compiler complains about an unused variable.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 > ---
->  hw/misc/macio/macio.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-> index 82492096f8..e02882be28 100644
-> --- a/hw/misc/macio/macio.c
-> +++ b/hw/misc/macio/macio.c
-> @@ -243,7 +243,8 @@ static void macio_oldworld_init(Object *obj)
->  
->      macio_init_child_obj(s, "cuda", &s->cuda, sizeof(s->cuda), TYPE_CUDA);
->  
-> -    object_initialize(&os->nvram, sizeof(os->nvram), TYPE_MACIO_NVRAM);
-> +    object_initialize_child(s, "nvram",  &os->nvram, sizeof(os->nvram),
-> +                            TYPE_MACIO_NVRAM, &error_abort, NULL);
->      dev = DEVICE(&os->nvram);
->      qdev_prop_set_uint32(dev, "size", 0x2000);
->      qdev_prop_set_uint32(dev, "it_shift", 4);
+>  migration/rdma.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/migration/rdma.c b/migration/rdma.c
+> index 74cb2aa9f9..3036221ee8 100644
+> --- a/migration/rdma.c
+> +++ b/migration/rdma.c
+> @@ -839,10 +839,9 @@ static void qemu_rdma_dump_gid(const char *who, stru=
+ct rdma_cm_id *id)
+>   */
+>  static int qemu_rdma_broken_ipv6_kernel(struct ibv_context *verbs, Error=
+ **errp)
+>  {
+> -    struct ibv_port_attr port_attr;
+> -
+>      /* This bug only exists in linux, to our knowledge. */
+>  #ifdef CONFIG_LINUX
+> +    struct ibv_port_attr port_attr;
+>
+>      /*
+>       * Verbs are only NULL if management has bound to '[::]'.
+> --
+> 2.20.1
 
-Hmmm actually I think this should be using macio_init_child_obj() which does the same
-as you have done above, plus it sets the qbus correctly too. And also a minor nit on
-the subject line: you should mention that this just for Old World Macs, since for New
-World Macs the NVRAM is located elsewhere.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-In fact it looks like there are also a few cases in macio_newworld_realize() where
-this function should be used too, if you fancy touching those up whilst you're in the
-area.
-
-
-ATB,
-
-Mark.
+thanks
+-- PMM
 
