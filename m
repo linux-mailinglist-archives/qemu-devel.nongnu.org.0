@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99325B889
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 12:02:13 +0200 (CEST)
-Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1615B89A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 12:05:29 +0200 (CEST)
+Received: from localhost ([::1]:56694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hht8X-0007WG-2U
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 06:02:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55324)
+	id 1hhtBg-0001ip-DR
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 06:05:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55512)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hht4Z-0005OU-OK
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:58:08 -0400
+ (envelope-from <ppandit@redhat.com>) id 1hht5P-0006TN-8Y
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:59:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hht4Y-0007Hj-RH
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:58:07 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39870)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hht4Y-0007Gk-K8
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:58:06 -0400
-Received: by mail-wr1-f65.google.com with SMTP id x4so13074748wrt.6
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 02:58:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Dgll8oBJtYj1B8sKA527DIWHh0AAbHKq4LPxu9CgDP0=;
- b=KpSYEWdmfbaaIZavnM0df9gUolADqlG1uhkCPYUuE7ggo5qPLAHoHN4K+lKjURjFu4
- vyPoaX9NrfeA9kq416T27Xc0BMadHZBzoBVCoUxbPTmpYNbyRLdVrnDGQOj9wUlBVgmB
- ltXI7PrJfrm/5NAglXNDzSpBNFcKd6os/J5Tza3BpWAoUd1r75zGWeRTuYo7OjrHKQK/
- NYQUN8bTIY2aifsumKmO5MPXJLgzBTFR2CXgG6Hdfms9ZPWw0ElKsR68iII5h/FYWN7o
- 83NgW6R96GhiM3jBgqj7jLFWkZjrO1kqc5nzlnCWAmfRX2lsF5AHaZ3l7aHn+miDuw8+
- btOg==
-X-Gm-Message-State: APjAAAUz/JV4olZdk4ZiWm2/12AHVUEZgmnbm7+O5rl+fwE6d6d4SmdS
- Ec7sYKzQQZC0lAtQi9tfvu2/pA==
-X-Google-Smtp-Source: APXvYqwsvcPeM9wlv9ho1VKNIhNtZNdz1sqaXGdv4HpYh10GZaBLxhfOxrzqxyPZN+13LG7N+y3yqQ==
-X-Received: by 2002:adf:f1d1:: with SMTP id z17mr19763319wro.190.1561975085756; 
- Mon, 01 Jul 2019 02:58:05 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id a81sm9562617wmh.3.2019.07.01.02.58.04
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 02:58:05 -0700 (PDT)
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org, peter.maydell@linaro.org,
- peterx@redhat.com, pbonzini@redhat.com, alex.williamson@redhat.com
-References: <20190701093034.18873-1-eric.auger@redhat.com>
- <20190701093034.18873-6-eric.auger@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c3ea9b07-3f5c-a454-4971-9b11afcb3d02@redhat.com>
-Date: Mon, 1 Jul 2019 11:58:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <ppandit@redhat.com>) id 1hht5N-000875-1l
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:58:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38424)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hht5I-00080p-PD
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:58:53 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id EF20A7FDC9;
+ Mon,  1 Jul 2019 09:58:36 +0000 (UTC)
+Received: from kaapi (unknown [10.33.36.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9315D7DF6A;
+ Mon,  1 Jul 2019 09:58:32 +0000 (UTC)
+Date: Mon, 1 Jul 2019 15:28:30 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>
+In-Reply-To: <20190701094353.GF3573@redhat.com>
+Message-ID: <nycvar.YSQ.7.76.1907011527460.31268@xnncv>
+References: <20190701090904.31312-1-ppandit@redhat.com>
+ <20190701090904.31312-2-ppandit@redhat.com>
+ <20190701094353.GF3573@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190701093034.18873-6-eric.auger@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.27]); Mon, 01 Jul 2019 09:58:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH v2 5/6] hw/arm/smmuv3: Log a guest error
- when decoding an invalid STE
+X-Received-From: 209.132.183.28
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v2 1/3] qemu-bridge-helper: restrict
+ interface name to IFNAMSIZ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,30 +60,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Riccardo Schirone <rschiron@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/19 11:30 AM, Eric Auger wrote:
-> Log a guest error when encountering an invalid STE.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> ---
->  hw/arm/smmuv3.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index 384c02cb91..2e270a0f07 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -320,6 +320,7 @@ static int decode_ste(SMMUv3State *s, SMMUTransCfg *cfg,
->      uint32_t config;
->  
->      if (!STE_VALID(ste)) {
-> +        qemu_log_mask(LOG_GUEST_ERROR, "invalid STE\n");
->          goto bad_ste;
->      }
->  
-> 
++-- On Mon, 1 Jul 2019, Daniel P. Berrang=C3=A9 wrote --+
+| > +        if (strcmp(cmd, "include") && strlen(arg) >=3D IFNAMSIZ) {
+| > +            fprintf(stderr, "name `%s' too long: %lu\n", arg, strlen=
+(arg));
+|=20
+| strlen returns size_t, which does not match %lu - it needs %zu - we can
+| ignore the non-portability of %zu to windows, since this code is UNIX
+| only.
+|=20
+| I'd prefer also !g_str_equal(cmd, "include")  as to me it reads more
+| easily.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+Okay. Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+47AF CE69 3A90 54AA 9045 1053 DD13 3D32 FE5B 041F
