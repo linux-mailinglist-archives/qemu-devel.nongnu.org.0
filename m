@@ -2,69 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE17A5BE96
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:45:59 +0200 (CEST)
-Received: from localhost ([::1]:59546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7809D5BEBD
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:53:02 +0200 (CEST)
+Received: from localhost ([::1]:59618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxZ8-000771-T2
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:45:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58495)
+	id 1hhxfv-0004SJ-0M
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59693)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhxWs-0005Sj-7f
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:43:40 -0400
+ (envelope-from <slp@redhat.com>) id 1hhxb9-000131-48
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:48:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhxWq-0000yb-9T
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:43:38 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:51507)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhxWo-0000w4-EA
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:43:34 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 207so16137786wma.1
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:43:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/Twwz+ZF2ZEc5wIb7DKQ0L5qv4JeSvRkBNmtz4dVJrA=;
- b=ALD4N7ImiwPfZDe/k2/GzXibYFw6PgUZqnEiKx1qAxxZ1DNZwDssQ9nwxXXUNMGa6j
- zJNJMLprSCwij2xlVfJWReVJdAS0Irb1pYMBXUFPkul09NxMIvwfxr8lW76bbCx5rKkg
- 39yyW8ZNoGAA4XQbBwSmsJoT2DBy7JibECs5Hh/+1j5eZCO90tiYMdDlfJI/l5p7UHGx
- dhTIvUQs3KdLNLSycdkNbuf314J95tsMzg5FIcUAIBCDZHmnRJ/9yt2NNWmYWqIpul/H
- TDp6F7zpLMvzFg0vY2IIaGUc2++6fY7gO5IHqTA8ZThsrQYWifLWHvXOJs22X1WDtWDD
- 2OKQ==
-X-Gm-Message-State: APjAAAUTEu7X0VBWw0kmuJm7CkMBaCGcSLqQ4HPw5PUpbGdNqDr2urwa
- vAW7yQ950YkyK7BiZhKkNPRZrg==
-X-Google-Smtp-Source: APXvYqzsl8aa3klMFQoG0qlzgH4O7b7iSrSorveveVblkiXqVA+JeSX9NGfSfAaCkREJnnlKAevoAg==
-X-Received: by 2002:a05:600c:303:: with SMTP id
- q3mr17850692wmd.130.1561992213185; 
- Mon, 01 Jul 2019 07:43:33 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id n10sm10422392wrw.83.2019.07.01.07.43.31
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 07:43:32 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20190614100718.14019-1-philmd@redhat.com>
- <20190701143657.GM3573@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <8f9ef359-fbf3-d508-315e-350227294173@redhat.com>
-Date: Mon, 1 Jul 2019 16:43:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <slp@redhat.com>) id 1hhxb3-0006Or-Cg
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:48:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57397)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hhxb2-0005h3-N9
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:47:57 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id E90D93082E69;
+ Mon,  1 Jul 2019 14:47:25 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13C0C7E5B9;
+ Mon,  1 Jul 2019 14:47:22 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: mst@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
+ rth@twiddle.net, ehabkost@redhat.com, maran.wilson@oracle.com
+Date: Mon,  1 Jul 2019 16:47:03 +0200
+Message-Id: <20190701144705.102615-3-slp@redhat.com>
+In-Reply-To: <20190701144705.102615-1-slp@redhat.com>
+References: <20190701144705.102615-1-slp@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190701143657.GM3573@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.46]); Mon, 01 Jul 2019 14:47:26 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v2 0/9] configure: Fix softmmu --static
- linking
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 2/4] hw/i386: Add an Intel MPTable generator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,79 +55,424 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Bharata B Rao <bharata@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Niels de Vos <ndevos@redhat.com>
+Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/19 4:36 PM, Daniel P. Berrangé wrote:
-> On Fri, Jun 14, 2019 at 12:07:09PM +0200, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> Apparently QEMU static linking is slowly bitroting. Obviously it
->> depends the libraries an user has installed, anyway it seems there
->> are not much testing done.
-> 
-> Bitrotting implies that it actually worked in the first place.
-> 
-> AFAIK, configure has never been capable of auto-enabling the
-> correct set of libraries for static linking, if you have the
-> equiv dyn libraries present.
-> 
-> I always assumed that anyone who is static loinking QEMU is
-> passing a big long list of --disable-XXXX args to turn off
-> all the 3rd party libs for which they don't have a static
-> build present.
-> 
->> This series fixes few issues, enough to build QEMU on a Ubuntu
->> 18.04 host.
->>
->> Peter commented on v1:
->>
->>   The main reason for supporting static linking is so we can build
->>   the user-mode emulators. Almost always the problems with
->>   static linking the softmmu binaries and the tools are
->>   issues with the distro's packaging of the static libraries
->>   (pkg-config files which specify things that don't work for
->>   static is a common one).
->>
->>   So we could put in a lot of checking of "is what pkg-config
->>   tells us broken". Or we could just say "we don't support static
->>   linking for anything except the usermode binaries". We
->>   should probably phase in deprecation of that because it's
->>   possible somebody's using it seriously, but it seems like
->>   a fairly weird thing to do to me.
->>
->> I share his view on this (restricting static linking to qemu-user)
->> but since the work was already done when I read his comment, I still
->> send the v2.
-> 
-> I share Peter's view that we ought to restrict static linking to be
-> allowed exclusively for user-mode-only builds of QEMU. This is a use
-> case with a compelling reason to need static builds. It is not bitrotting
-> as the main distros all do a static user-mode only QEMU build, alongside
-> the main everything, fully dynamic build.
-> 
-> Static builds of system emulators & other tools get essentially no
-> testing by developers, distros, or our CI systems. If they do work
-> it is largely by luck, and likely requires the user to pass many
-> --disable-XXX flags. While your patches do make configure a bit
-> nicer in this respect, if we're going to deprecate static builds
-> of non-user-mode parts, then making static builds easier feels
-> undesirable.
+Add a helper function (mptable_generate) for generating an Intel
+MPTable according to version 1.4 of the specification.
 
-OK, I agree then.
+This is needed for the microvm machine type implementation.
 
-> 
-> Lets just get a deprecation warning in right now for this imminent
-> release.
-> 
-> Regards,
-> Daniel
-> 
+Signed-off-by: Sergio Lopez <slp@redhat.com>
+---
+ hw/i386/mptable.c                           | 156 +++++++++++++++++
+ include/hw/i386/mptable.h                   |  36 ++++
+ include/standard-headers/linux/mpspec_def.h | 182 ++++++++++++++++++++
+ 3 files changed, 374 insertions(+)
+ create mode 100644 hw/i386/mptable.c
+ create mode 100644 include/hw/i386/mptable.h
+ create mode 100644 include/standard-headers/linux/mpspec_def.h
+
+diff --git a/hw/i386/mptable.c b/hw/i386/mptable.c
+new file mode 100644
+index 0000000000..cf1e0eef3a
+--- /dev/null
++++ b/hw/i386/mptable.c
+@@ -0,0 +1,156 @@
++/*
++ * Intel MPTable generator
++ *
++ * Copyright (C) 2019 Red Hat, Inc.
++ *
++ * Authors:
++ *   Sergio Lopez <slp@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/i386/mptable.h"
++#include "standard-headers/linux/mpspec_def.h"
++
++static int mptable_checksum(char *buf, int size)
++{
++    int i;
++    int checksum =3D 0;
++
++    for (i =3D 0; i < size; i++) {
++        checksum +=3D buf[i];
++    }
++
++    return checksum;
++}
++
++/*
++ * Generate an MPTable for "ncpus". "apic_id" must be the next available
++ * APIC ID (last CPU apic_id + 1). "table_base" is the physical location
++ * in the Guest where the caller intends to write the table, needed to
++ * fill the "physptr" field from the "mpf_intel" structure.
++ *
++ * On success, return a newly allocated buffer, that must be freed by th=
+e
++ * caller using "g_free" when it's no longer needed, and update
++ * "mptable_size" with the size of the buffer.
++ */
++char *mptable_generate(int ncpus, int table_base, int *mptable_size)
++{
++    struct mpf_intel *mpf;
++    struct mpc_table *table;
++    struct mpc_cpu *cpu;
++    struct mpc_bus *bus;
++    struct mpc_ioapic *ioapic;
++    struct mpc_intsrc *intsrc;
++    struct mpc_lintsrc *lintsrc;
++    const char mpc_signature[] =3D MPC_SIGNATURE;
++    const char smp_magic_ident[] =3D "_MP_";
++    char *mptable;
++    int checksum =3D 0;
++    int offset =3D 0;
++    int ssize;
++    int i;
++
++    ssize =3D sizeof(struct mpf_intel);
++    mptable =3D g_malloc0(ssize);
++
++    mpf =3D (struct mpf_intel *) mptable;
++    memcpy(mpf->signature, smp_magic_ident, sizeof(smp_magic_ident) - 1)=
+;
++    mpf->length =3D 1;
++    mpf->specification =3D 4;
++    mpf->physptr =3D table_base + ssize;
++    mpf->checksum -=3D mptable_checksum((char *) mpf, ssize);
++    offset =3D ssize + sizeof(struct mpc_table);
++
++    ssize =3D sizeof(struct mpc_cpu);
++    for (i =3D 0; i < ncpus; i++) {
++        mptable =3D g_realloc(mptable, offset + ssize);
++        cpu =3D (struct mpc_cpu *) (mptable + offset);
++        cpu->type =3D MP_PROCESSOR;
++        cpu->apicid =3D i;
++        cpu->apicver =3D APIC_VERSION;
++        cpu->cpuflag =3D CPU_ENABLED;
++        if (i =3D=3D 0) {
++            cpu->cpuflag |=3D CPU_BOOTPROCESSOR;
++        }
++        cpu->cpufeature =3D CPU_STEPPING;
++        cpu->featureflag =3D CPU_FEATURE_APIC | CPU_FEATURE_FPU;
++        checksum +=3D mptable_checksum((char *) cpu, ssize);
++        offset +=3D ssize;
++    }
++
++    ssize =3D sizeof(struct mpc_bus);
++    mptable =3D g_realloc(mptable, offset + ssize);
++    bus =3D (struct mpc_bus *) (mptable + offset);
++    bus->type =3D MP_BUS;
++    bus->busid =3D 0;
++    memcpy(bus->bustype, BUS_TYPE_ISA, sizeof(BUS_TYPE_ISA) - 1);
++    checksum +=3D mptable_checksum((char *) bus, ssize);
++    offset +=3D ssize;
++
++    ssize =3D sizeof(struct mpc_ioapic);
++    mptable =3D g_realloc(mptable, offset + ssize);
++    ioapic =3D (struct mpc_ioapic *) (mptable + offset);
++    ioapic->type =3D MP_IOAPIC;
++    ioapic->apicid =3D ncpus + 1;
++    ioapic->apicver =3D APIC_VERSION;
++    ioapic->flags =3D MPC_APIC_USABLE;
++    ioapic->apicaddr =3D IO_APIC_DEFAULT_PHYS_BASE;
++    checksum +=3D mptable_checksum((char *) ioapic, ssize);
++    offset +=3D ssize;
++
++    ssize =3D sizeof(struct mpc_intsrc);
++    for (i =3D 0; i < 16; i++) {
++        mptable =3D g_realloc(mptable, offset + ssize);
++        intsrc =3D (struct mpc_intsrc *) (mptable + offset);
++        intsrc->type =3D MP_INTSRC;
++        intsrc->irqtype =3D mp_INT;
++        intsrc->irqflag =3D MP_IRQDIR_DEFAULT;
++        intsrc->srcbus =3D 0;
++        intsrc->srcbusirq =3D i;
++        intsrc->dstapic =3D ncpus + 1;
++        intsrc->dstirq =3D i;
++        checksum +=3D mptable_checksum((char *) intsrc, ssize);
++        offset +=3D ssize;
++    }
++
++    ssize =3D sizeof(struct mpc_lintsrc);
++    mptable =3D g_realloc(mptable, offset + (ssize * 2));
++    lintsrc =3D (struct mpc_lintsrc *) (mptable + offset);
++    lintsrc->type =3D MP_LINTSRC;
++    lintsrc->irqtype =3D mp_ExtINT;
++    lintsrc->irqflag =3D MP_IRQDIR_DEFAULT;
++    lintsrc->srcbusid =3D 0;
++    lintsrc->srcbusirq =3D 0;
++    lintsrc->destapic =3D 0;
++    lintsrc->destapiclint =3D 0;
++    checksum +=3D mptable_checksum((char *) lintsrc, ssize);
++    offset +=3D ssize;
++
++    lintsrc =3D (struct mpc_lintsrc *) (mptable + offset);
++    lintsrc->type =3D MP_LINTSRC;
++    lintsrc->irqtype =3D mp_NMI;
++    lintsrc->irqflag =3D MP_IRQDIR_DEFAULT;
++    lintsrc->srcbusid =3D 0;
++    lintsrc->srcbusirq =3D 0;
++    lintsrc->destapic =3D 0xFF;
++    lintsrc->destapiclint =3D 1;
++    checksum +=3D mptable_checksum((char *) lintsrc, ssize);
++    offset +=3D ssize;
++
++    ssize =3D sizeof(struct mpc_table);
++    table =3D (struct mpc_table *) (mptable + sizeof(struct mpf_intel));
++    memcpy(table->signature, mpc_signature, sizeof(mpc_signature) - 1);
++    table->length =3D offset - sizeof(struct mpf_intel);
++    table->spec =3D MPC_SPEC;
++    memcpy(table->oem, MPC_OEM, sizeof(MPC_OEM) - 1);
++    memcpy(table->productid, MPC_PRODUCT_ID, sizeof(MPC_PRODUCT_ID) - 1)=
+;
++    table->lapic =3D APIC_DEFAULT_PHYS_BASE;
++    checksum +=3D mptable_checksum((char *) table, ssize);
++    table->checksum -=3D checksum;
++
++    *mptable_size =3D offset;
++    return mptable;
++}
+diff --git a/include/hw/i386/mptable.h b/include/hw/i386/mptable.h
+new file mode 100644
+index 0000000000..96a9778bba
+--- /dev/null
++++ b/include/hw/i386/mptable.h
+@@ -0,0 +1,36 @@
++/*
++ * Intel MPTable generator
++ *
++ * Copyright (C) 2019 Red Hat, Inc.
++ *
++ * Authors:
++ *   Sergio Lopez <slp@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef HW_I386_MPTABLE_H
++#define HW_I386_MPTABLE_H
++
++#define APIC_VERSION     0x14
++#define CPU_STEPPING     0x600
++#define CPU_FEATURE_APIC 0x200
++#define CPU_FEATURE_FPU  0x001
++#define MPC_SPEC         0x4
++
++#define MP_IRQDIR_DEFAULT 0
++#define MP_IRQDIR_HIGH    1
++#define MP_IRQDIR_LOW     3
++
++static const char MPC_OEM[]        =3D "QEMU    ";
++static const char MPC_PRODUCT_ID[] =3D "000000000000";
++static const char BUS_TYPE_ISA[]   =3D "ISA   ";
++
++#define IO_APIC_DEFAULT_PHYS_BASE 0xfec00000
++#define APIC_DEFAULT_PHYS_BASE    0xfee00000
++#define APIC_VERSION              0x14
++
++char *mptable_generate(int ncpus, int table_base, int *mptable_size);
++
++#endif
+diff --git a/include/standard-headers/linux/mpspec_def.h b/include/standa=
+rd-headers/linux/mpspec_def.h
+new file mode 100644
+index 0000000000..6fb923a343
+--- /dev/null
++++ b/include/standard-headers/linux/mpspec_def.h
+@@ -0,0 +1,182 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _ASM_X86_MPSPEC_DEF_H
++#define _ASM_X86_MPSPEC_DEF_H
++
++/*
++ * Structure definitions for SMP machines following the
++ * Intel Multiprocessing Specification 1.1 and 1.4.
++ */
++
++/*
++ * This tag identifies where the SMP configuration
++ * information is.
++ */
++
++#define SMP_MAGIC_IDENT	(('_'<<24) | ('P'<<16) | ('M'<<8) | '_')
++
++#ifdef CONFIG_X86_32
++# define MAX_MPC_ENTRY 1024
++#endif
++
++/* Intel MP Floating Pointer Structure */
++struct mpf_intel {
++	char signature[4];		/* "_MP_"			*/
++	unsigned int physptr;		/* Configuration table address	*/
++	unsigned char length;		/* Our length (paragraphs)	*/
++	unsigned char specification;	/* Specification version	*/
++	unsigned char checksum;		/* Checksum (makes sum 0)	*/
++	unsigned char feature1;		/* Standard or configuration ?	*/
++	unsigned char feature2;		/* Bit7 set for IMCR|PIC	*/
++	unsigned char feature3;		/* Unused (0)			*/
++	unsigned char feature4;		/* Unused (0)			*/
++	unsigned char feature5;		/* Unused (0)			*/
++};
++
++#define MPC_SIGNATURE "PCMP"
++
++struct mpc_table {
++	char signature[4];
++	unsigned short length;		/* Size of table */
++	char spec;			/* 0x01 */
++	char checksum;
++	char oem[8];
++	char productid[12];
++	unsigned int oemptr;		/* 0 if not present */
++	unsigned short oemsize;		/* 0 if not present */
++	unsigned short oemcount;
++	unsigned int lapic;		/* APIC address */
++	unsigned int reserved;
++};
++
++/* Followed by entries */
++
++#define	MP_PROCESSOR		0
++#define	MP_BUS			1
++#define	MP_IOAPIC		2
++#define	MP_INTSRC		3
++#define	MP_LINTSRC		4
++/* Used by IBM NUMA-Q to describe node locality */
++#define	MP_TRANSLATION		192
++
++#define CPU_ENABLED		1	/* Processor is available */
++#define CPU_BOOTPROCESSOR	2	/* Processor is the boot CPU */
++
++#define CPU_STEPPING_MASK	0x000F
++#define CPU_MODEL_MASK		0x00F0
++#define CPU_FAMILY_MASK		0x0F00
++
++struct mpc_cpu {
++	unsigned char type;
++	unsigned char apicid;		/* Local APIC number */
++	unsigned char apicver;		/* Its versions */
++	unsigned char cpuflag;
++	unsigned int cpufeature;
++	unsigned int featureflag;	/* CPUID feature value */
++	unsigned int reserved[2];
++};
++
++struct mpc_bus {
++	unsigned char type;
++	unsigned char busid;
++	unsigned char bustype[6];
++};
++
++/* List of Bus Type string values, Intel MP Spec. */
++#define BUSTYPE_EISA	"EISA"
++#define BUSTYPE_ISA	"ISA"
++#define BUSTYPE_INTERN	"INTERN"	/* Internal BUS */
++#define BUSTYPE_MCA	"MCA"		/* Obsolete */
++#define BUSTYPE_VL	"VL"		/* Local bus */
++#define BUSTYPE_PCI	"PCI"
++#define BUSTYPE_PCMCIA	"PCMCIA"
++#define BUSTYPE_CBUS	"CBUS"
++#define BUSTYPE_CBUSII	"CBUSII"
++#define BUSTYPE_FUTURE	"FUTURE"
++#define BUSTYPE_MBI	"MBI"
++#define BUSTYPE_MBII	"MBII"
++#define BUSTYPE_MPI	"MPI"
++#define BUSTYPE_MPSA	"MPSA"
++#define BUSTYPE_NUBUS	"NUBUS"
++#define BUSTYPE_TC	"TC"
++#define BUSTYPE_VME	"VME"
++#define BUSTYPE_XPRESS	"XPRESS"
++
++#define MPC_APIC_USABLE		0x01
++
++struct mpc_ioapic {
++	unsigned char type;
++	unsigned char apicid;
++	unsigned char apicver;
++	unsigned char flags;
++	unsigned int apicaddr;
++};
++
++struct mpc_intsrc {
++	unsigned char type;
++	unsigned char irqtype;
++	unsigned short irqflag;
++	unsigned char srcbus;
++	unsigned char srcbusirq;
++	unsigned char dstapic;
++	unsigned char dstirq;
++};
++
++enum mp_irq_source_types {
++	mp_INT =3D 0,
++	mp_NMI =3D 1,
++	mp_SMI =3D 2,
++	mp_ExtINT =3D 3
++};
++
++#define MP_IRQPOL_DEFAULT	0x0
++#define MP_IRQPOL_ACTIVE_HIGH	0x1
++#define MP_IRQPOL_RESERVED	0x2
++#define MP_IRQPOL_ACTIVE_LOW	0x3
++#define MP_IRQPOL_MASK		0x3
++
++#define MP_IRQTRIG_DEFAULT	0x0
++#define MP_IRQTRIG_EDGE		0x4
++#define MP_IRQTRIG_RESERVED	0x8
++#define MP_IRQTRIG_LEVEL	0xc
++#define MP_IRQTRIG_MASK		0xc
++
++#define MP_APIC_ALL	0xFF
++
++struct mpc_lintsrc {
++	unsigned char type;
++	unsigned char irqtype;
++	unsigned short irqflag;
++	unsigned char srcbusid;
++	unsigned char srcbusirq;
++	unsigned char destapic;
++	unsigned char destapiclint;
++};
++
++#define MPC_OEM_SIGNATURE "_OEM"
++
++struct mpc_oemtable {
++	char signature[4];
++	unsigned short length;		/* Size of table */
++	char  rev;			/* 0x01 */
++	char  checksum;
++	char  mpc[8];
++};
++
++/*
++ *	Default configurations
++ *
++ *	1	2 CPU ISA 82489DX
++ *	2	2 CPU EISA 82489DX neither IRQ 0 timer nor IRQ 13 DMA chaining
++ *	3	2 CPU EISA 82489DX
++ *	4	2 CPU MCA 82489DX
++ *	5	2 CPU ISA+PCI
++ *	6	2 CPU EISA+PCI
++ *	7	2 CPU MCA+PCI
++ */
++
++enum mp_bustype {
++	MP_BUS_ISA =3D 1,
++	MP_BUS_EISA,
++	MP_BUS_PCI,
++};
++#endif /* _ASM_X86_MPSPEC_DEF_H */
+--=20
+2.21.0
+
 
