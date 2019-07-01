@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F615C5D8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 01:09:26 +0200 (CEST)
-Received: from localhost ([::1]:46180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4D85C4D0
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:08:13 +0200 (CEST)
+Received: from localhost ([::1]:45546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi5QI-0006mb-C5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 19:09:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33283)
+	id 1hi3X2-0005zB-OW
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:08:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45480)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3cD-00040z-Rn
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:35 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3Eb-00023T-N6
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:49:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3cB-00011F-NU
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:33 -0400
-Received: from mail-wm1-f46.google.com ([209.85.128.46]:37192)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3EV-0001uo-Ce
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:49:07 -0400
+Received: from mail-wm1-f51.google.com ([209.85.128.51]:38050)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3c9-0000yu-JV
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:29 -0400
-Received: by mail-wm1-f46.google.com with SMTP id f17so996371wme.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:13:27 -0700 (PDT)
+ id 1hi3ET-0001pb-Cd
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:49:01 -0400
+Received: by mail-wm1-f51.google.com with SMTP id s15so926900wmj.3
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:49:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=5GuL1wde7cGfVlpJxuRJAQdP3IMbXq3IqGGP+UBMbD4=;
- b=C2olxWY4u4LzEd0U8iTgCmdCSrkRUhX7sYoDyorstGXOUPseIQKqaOhrlRM61CGifZ
- Lk5b/8E4JF3LTRVcsvjHVHaUC18hTHFGqqal7ZjuD0EOWDTqrrakTIFJ1gpET+SP4seO
- QrihmhP0TeywuTw/asHcpjU3C2BqvlABoisq4y8BkgRQFx9hLHbgxblmnFRdFT2aY2u8
- zm5WylSqryZDOY4O4aYeT0pRXdVaN+P+2IQKPws2rBu29yn51d6H3JSkLmEzjm04SHca
- s9t4RSlLZpvVy9WnP0FGyzFNWj9uiaV7jcqhVJKdL4J/D3+KsLXVirXbEeb5lquYdh1E
- 5vng==
+ bh=YreNQHlm+doIoZhj84WwaRq/l3PPbbq8nMhtQ4YKDMQ=;
+ b=IZDSSWEtGbhGJUG7oVffLANDiMjIWTrtMt8zpbg5F60w38RFwTCsvZsqbmBcf3nV8S
+ stDA/5xOx5Y8xVs0CDbtcV4/zo9A4NNM5PcHRgpaDvEiScTJ8r3m4UkHI1IozT7Oj1tW
+ dfNBc0RkdNZnNSMdGPVBJkGppYuh7ch793nTtD+IJAi5TMSqzJjXVYenOoXp3gZLeYSD
+ Hsce237cfTb9oY9ikyKhhz67YabxrcyysFeiETUF3cLzNCI0wk6I/ZneR37cxP6lw0Ya
+ LpiXiDtigu+JMu+jtnildX/D0jn4PStwd0c/O7MrYG1Ztyv2YVv570ZSKqoPArkcDgnh
+ NVqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5GuL1wde7cGfVlpJxuRJAQdP3IMbXq3IqGGP+UBMbD4=;
- b=oEBx1sB2ukPfrUto7BaxOrvpV+WclBFIIyqvNuzX1fdtrI+1tEEYyQvuew68qr0ta1
- 0ojuKiCzm3xdZlW/YZF6Ny+D2iQBHP4+fXN2Cly0MYcinvoTlXRbuOKVEiVHT81thNbp
- 7IPWdxQ6vJdRvrhPLXfmC3S8StHH4tcK2bo3S6h6bMoHP1s0K+FLR9qJDxyYhQV9iSVl
- Wij1cnCqrtChTUZWbwJ8DT3LU1qqc8SyiKL1M+hXuBk3d14sEIwJae2JfEckxwbxPngd
- azZiXcmn+4w0t/0xQfgAkiJfJPH/JCmY+qrJGRl2J3f2n5x9xvz1npSlGVWSvP6C1EJt
- x/Wg==
-X-Gm-Message-State: APjAAAXLYu494BhXjLRv8X404maA6zQIShjanXeIIHR6GSDNammOFHw2
- xRbynwlYL0ed9T86wY9UFWYL4IOecynS8Q==
-X-Google-Smtp-Source: APXvYqwipFEgNV3Tx5O9q5iQaCc0ixaJqgA9uPxGkkijlYvLGxk0r0zWUJTwSR5r32YEjnzI1LWIAw==
-X-Received: by 2002:a1c:751a:: with SMTP id o26mr118393wmc.13.1561999210984;
- Mon, 01 Jul 2019 09:40:10 -0700 (PDT)
+ bh=YreNQHlm+doIoZhj84WwaRq/l3PPbbq8nMhtQ4YKDMQ=;
+ b=PxWBlwGNERZrcA916ZzKufVopy9E0ABsYkBrd8PvB05piOPG1ZuTLijqQGZrsQ2qcT
+ 3gy8QNCVVjiN1D35x2CECngfqmNk8Dm+6MwMkt3KqniqLQKxGiX1yfBpbVyOuyMM9Cw+
+ 3F3YSC/kgcBBwjAOjhF5r8ncOq8D/hy9RB7Msan3gmj+F+RDqwfgHZfUbiPo3ANir8h5
+ rNXKbfUjW9u1bOEHHeTnT5GpiebUDKaK5iqTiTgLVeax3yD3EoEKLIOE1/IjSZSlHbdL
+ BLk0A7H/RHmYsyhMKlv3DVCRB27Mmo7HLu3o2ovxhkMwEvOOztE8rkNO2qWql6Haf3/2
+ rh7g==
+X-Gm-Message-State: APjAAAXnrvn4KgD73W84cLZmux5UdgUw2g8cSheuOK47afb7NGTim3V/
+ G7bjCOdF0qvfUekSmz7RCFlJvRr6BIerxw==
+X-Google-Smtp-Source: APXvYqx18mwzL1PZziFNq6r3eSfQCHh9TMXSEdkkUrDTiGMtA5WBpN/m2+ADeVcao/GHDE8Mdy1xkA==
+X-Received: by 2002:a1c:c109:: with SMTP id r9mr106312wmf.143.1561999213481;
+ Mon, 01 Jul 2019 09:40:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.10
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:10 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:21 +0100
-Message-Id: <20190701163943.22313-25-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:23 +0100
+Message-Id: <20190701163943.22313-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.46
-Subject: [Qemu-devel] [PULL 24/46] aspeed: vic: Add support for legacy
- register interface
+X-Received-From: 209.85.128.51
+Subject: [Qemu-devel] [PULL 26/46] hw/arm: Add arm SBSA reference machine,
+ skeleton part
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,221 +82,398 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jeffery <andrew@aj.id.au>
+From: Hongbo Zhang <hongbo.zhang@linaro.org>
 
-The legacy interface only supported up to 32 IRQs, which became
-restrictive around the AST2400 generation. QEMU support for the SoCs
-started with the AST2400 along with an effort to reimplement and
-upstream drivers for Linux, so up until this point the consumers of the
-QEMU ASPEED support only required the 64 IRQ register interface.
+For AArch64, the existing "virt" machine is primarily meant to
+run on KVM and execute virtualization workloads, but we need an
+environment as faithful as possible to physical hardware, for supporting
+firmware and OS development for physical Aarch64 machines.
 
-In an effort to support older BMC firmware, add support for the 32 IRQ
-interface.
+This patch introduces new machine type 'sbsa-ref' with main features:
+ - Based on 'virt' machine type.
+ - A new memory map.
+ - CPU type cortex-a57.
+ - EL2 and EL3 are enabled.
+ - GIC version 3.
+ - System bus AHCI controller.
+ - System bus EHCI controller.
+ - CDROM and hard disc on AHCI bus.
+ - E1000E ethernet card on PCIE bus.
+ - VGA display adaptor on PCIE bus.
+ - No virtio devices.
+ - No fw_cfg device.
+ - No ACPI table supplied.
+ - Only minimal device tree nodes.
 
-Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190618165311.27066-22-clg@kaod.org
+Arm Trusted Firmware and UEFI porting to this are done accordingly,
+and the firmware should supply ACPI tables to the guest OS.  The
+minimal device tree nodes supplied by QEMU for this platform are only
+to pass the dynamic info reflecting command line input to firmware,
+not for loading the guest OS.
+
+To make the review easier, this task is split into two patches, the
+fundamental skeleton part and the peripheral devices part; this patch is
+the first part.
+
+Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
+Message-id: 1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org
+[PMM: commit message tweaks; moved some bits between patch 1 and 2
+ to ensure patch 1 builds cleanly; removed unneeded lines from
+ Kconfig stanza; only provide board for qemu-system-aarch64, not
+ qemu-system-arm; added MAINTAINERS entry]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/aspeed_vic.c | 105 ++++++++++++++++++++++++++-----------------
- 1 file changed, 63 insertions(+), 42 deletions(-)
+ hw/arm/Makefile.objs                |   1 +
+ hw/arm/sbsa-ref.c                   | 271 ++++++++++++++++++++++++++++
+ MAINTAINERS                         |   8 +
+ default-configs/aarch64-softmmu.mak |   1 +
+ hw/arm/Kconfig                      |  14 ++
+ 5 files changed, 295 insertions(+)
+ create mode 100644 hw/arm/sbsa-ref.c
 
-diff --git a/hw/intc/aspeed_vic.c b/hw/intc/aspeed_vic.c
-index 927638d5322..266a309f3b4 100644
---- a/hw/intc/aspeed_vic.c
-+++ b/hw/intc/aspeed_vic.c
-@@ -104,54 +104,63 @@ static void aspeed_vic_set_irq(void *opaque, int irq, int level)
+diff --git a/hw/arm/Makefile.objs b/hw/arm/Makefile.objs
+index 994e67dd0da..43ce8d5b19f 100644
+--- a/hw/arm/Makefile.objs
++++ b/hw/arm/Makefile.objs
+@@ -19,6 +19,7 @@ obj-$(CONFIG_SPITZ) += spitz.o
+ obj-$(CONFIG_TOSA) += tosa.o
+ obj-$(CONFIG_Z2) += z2.o
+ obj-$(CONFIG_REALVIEW) += realview.o
++obj-$(CONFIG_SBSA_REF) += sbsa-ref.o
+ obj-$(CONFIG_STELLARIS) += stellaris.o
+ obj-$(CONFIG_COLLIE) += collie.o
+ obj-$(CONFIG_VERSATILE) += versatilepb.o
+diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
+new file mode 100644
+index 00000000000..b2e7d10bada
+--- /dev/null
++++ b/hw/arm/sbsa-ref.c
+@@ -0,0 +1,271 @@
++/*
++ * ARM SBSA Reference Platform emulation
++ *
++ * Copyright (c) 2018 Linaro Limited
++ * Written by Hongbo Zhang <hongbo.zhang@linaro.org>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qapi/error.h"
++#include "qemu/error-report.h"
++#include "qemu/units.h"
++#include "sysemu/numa.h"
++#include "sysemu/sysemu.h"
++#include "exec/address-spaces.h"
++#include "exec/hwaddr.h"
++#include "kvm_arm.h"
++#include "hw/arm/boot.h"
++#include "hw/boards.h"
++#include "hw/intc/arm_gicv3_common.h"
++
++#define RAMLIMIT_GB 8192
++#define RAMLIMIT_BYTES (RAMLIMIT_GB * GiB)
++
++enum {
++    SBSA_FLASH,
++    SBSA_MEM,
++    SBSA_CPUPERIPHS,
++    SBSA_GIC_DIST,
++    SBSA_GIC_REDIST,
++    SBSA_SMMU,
++    SBSA_UART,
++    SBSA_RTC,
++    SBSA_PCIE,
++    SBSA_PCIE_MMIO,
++    SBSA_PCIE_MMIO_HIGH,
++    SBSA_PCIE_PIO,
++    SBSA_PCIE_ECAM,
++    SBSA_GPIO,
++    SBSA_SECURE_UART,
++    SBSA_SECURE_UART_MM,
++    SBSA_SECURE_MEM,
++    SBSA_AHCI,
++    SBSA_EHCI,
++};
++
++typedef struct MemMapEntry {
++    hwaddr base;
++    hwaddr size;
++} MemMapEntry;
++
++typedef struct {
++    MachineState parent;
++    struct arm_boot_info bootinfo;
++    int smp_cpus;
++    void *fdt;
++    int fdt_size;
++    int psci_conduit;
++} SBSAMachineState;
++
++#define TYPE_SBSA_MACHINE   MACHINE_TYPE_NAME("sbsa-ref")
++#define SBSA_MACHINE(obj) \
++    OBJECT_CHECK(SBSAMachineState, (obj), TYPE_SBSA_MACHINE)
++
++static const MemMapEntry sbsa_ref_memmap[] = {
++    /* 512M boot ROM */
++    [SBSA_FLASH] =              {          0, 0x20000000 },
++    /* 512M secure memory */
++    [SBSA_SECURE_MEM] =         { 0x20000000, 0x20000000 },
++    /* Space reserved for CPU peripheral devices */
++    [SBSA_CPUPERIPHS] =         { 0x40000000, 0x00040000 },
++    [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
++    [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
++    [SBSA_UART] =               { 0x60000000, 0x00001000 },
++    [SBSA_RTC] =                { 0x60010000, 0x00001000 },
++    [SBSA_GPIO] =               { 0x60020000, 0x00001000 },
++    [SBSA_SECURE_UART] =        { 0x60030000, 0x00001000 },
++    [SBSA_SECURE_UART_MM] =     { 0x60040000, 0x00001000 },
++    [SBSA_SMMU] =               { 0x60050000, 0x00020000 },
++    /* Space here reserved for more SMMUs */
++    [SBSA_AHCI] =               { 0x60100000, 0x00010000 },
++    [SBSA_EHCI] =               { 0x60110000, 0x00010000 },
++    /* Space here reserved for other devices */
++    [SBSA_PCIE_PIO] =           { 0x7fff0000, 0x00010000 },
++    /* 32-bit address PCIE MMIO space */
++    [SBSA_PCIE_MMIO] =          { 0x80000000, 0x70000000 },
++    /* 256M PCIE ECAM space */
++    [SBSA_PCIE_ECAM] =          { 0xf0000000, 0x10000000 },
++    /* ~1TB PCIE MMIO space (4GB to 1024GB boundary) */
++    [SBSA_PCIE_MMIO_HIGH] =     { 0x100000000ULL, 0xFF00000000ULL },
++    [SBSA_MEM] =                { 0x10000000000ULL, RAMLIMIT_BYTES },
++};
++
++static void sbsa_ref_init(MachineState *machine)
++{
++    SBSAMachineState *sms = SBSA_MACHINE(machine);
++    MachineClass *mc = MACHINE_GET_CLASS(machine);
++    MemoryRegion *sysmem = get_system_memory();
++    MemoryRegion *secure_sysmem = NULL;
++    MemoryRegion *ram = g_new(MemoryRegion, 1);
++    const CPUArchIdList *possible_cpus;
++    int n, sbsa_max_cpus;
++
++    if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a57"))) {
++        error_report("sbsa-ref: CPU type other than the built-in "
++                     "cortex-a57 not supported");
++        exit(1);
++    }
++
++    if (kvm_enabled()) {
++        error_report("sbsa-ref: KVM is not supported for this machine");
++        exit(1);
++    }
++
++    /*
++     * This machine has EL3 enabled, external firmware should supply PSCI
++     * implementation, so the QEMU's internal PSCI is disabled.
++     */
++    sms->psci_conduit = QEMU_PSCI_CONDUIT_DISABLED;
++
++    sbsa_max_cpus = sbsa_ref_memmap[SBSA_GIC_REDIST].size / GICV3_REDIST_SIZE;
++
++    if (max_cpus > sbsa_max_cpus) {
++        error_report("Number of SMP CPUs requested (%d) exceeds max CPUs "
++                     "supported by machine 'sbsa-ref' (%d)",
++                     max_cpus, sbsa_max_cpus);
++        exit(1);
++    }
++
++    sms->smp_cpus = smp_cpus;
++
++    if (machine->ram_size > sbsa_ref_memmap[SBSA_MEM].size) {
++        error_report("sbsa-ref: cannot model more than %dGB RAM", RAMLIMIT_GB);
++        exit(1);
++    }
++
++    possible_cpus = mc->possible_cpu_arch_ids(machine);
++    for (n = 0; n < possible_cpus->len; n++) {
++        Object *cpuobj;
++        CPUState *cs;
++
++        if (n >= smp_cpus) {
++            break;
++        }
++
++        cpuobj = object_new(possible_cpus->cpus[n].type);
++        object_property_set_int(cpuobj, possible_cpus->cpus[n].arch_id,
++                                "mp-affinity", NULL);
++
++        cs = CPU(cpuobj);
++        cs->cpu_index = n;
++
++        numa_cpu_pre_plug(&possible_cpus->cpus[cs->cpu_index], DEVICE(cpuobj),
++                          &error_fatal);
++
++        if (object_property_find(cpuobj, "reset-cbar", NULL)) {
++            object_property_set_int(cpuobj,
++                                    sbsa_ref_memmap[SBSA_CPUPERIPHS].base,
++                                    "reset-cbar", &error_abort);
++        }
++
++        object_property_set_link(cpuobj, OBJECT(sysmem), "memory",
++                                 &error_abort);
++
++        object_property_set_link(cpuobj, OBJECT(secure_sysmem),
++                                 "secure-memory", &error_abort);
++
++        object_property_set_bool(cpuobj, true, "realized", &error_fatal);
++        object_unref(cpuobj);
++    }
++
++    memory_region_allocate_system_memory(ram, NULL, "sbsa-ref.ram",
++                                         machine->ram_size);
++    memory_region_add_subregion(sysmem, sbsa_ref_memmap[SBSA_MEM].base, ram);
++
++    sms->bootinfo.ram_size = machine->ram_size;
++    sms->bootinfo.kernel_filename = machine->kernel_filename;
++    sms->bootinfo.nb_cpus = smp_cpus;
++    sms->bootinfo.board_id = -1;
++    sms->bootinfo.loader_start = sbsa_ref_memmap[SBSA_MEM].base;
++    arm_load_kernel(ARM_CPU(first_cpu), &sms->bootinfo);
++}
++
++static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
++{
++    uint8_t clustersz = ARM_DEFAULT_CPUS_PER_CLUSTER;
++    return arm_cpu_mp_affinity(idx, clustersz);
++}
++
++static const CPUArchIdList *sbsa_ref_possible_cpu_arch_ids(MachineState *ms)
++{
++    SBSAMachineState *sms = SBSA_MACHINE(ms);
++    int n;
++
++    if (ms->possible_cpus) {
++        assert(ms->possible_cpus->len == max_cpus);
++        return ms->possible_cpus;
++    }
++
++    ms->possible_cpus = g_malloc0(sizeof(CPUArchIdList) +
++                                  sizeof(CPUArchId) * max_cpus);
++    ms->possible_cpus->len = max_cpus;
++    for (n = 0; n < ms->possible_cpus->len; n++) {
++        ms->possible_cpus->cpus[n].type = ms->cpu_type;
++        ms->possible_cpus->cpus[n].arch_id =
++            sbsa_ref_cpu_mp_affinity(sms, n);
++        ms->possible_cpus->cpus[n].props.has_thread_id = true;
++        ms->possible_cpus->cpus[n].props.thread_id = n;
++    }
++    return ms->possible_cpus;
++}
++
++static CpuInstanceProperties
++sbsa_ref_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
++{
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++    const CPUArchIdList *possible_cpus = mc->possible_cpu_arch_ids(ms);
++
++    assert(cpu_index < possible_cpus->len);
++    return possible_cpus->cpus[cpu_index].props;
++}
++
++static int64_t
++sbsa_ref_get_default_cpu_node_id(const MachineState *ms, int idx)
++{
++    return idx % nb_numa_nodes;
++}
++
++static void sbsa_ref_class_init(ObjectClass *oc, void *data)
++{
++    MachineClass *mc = MACHINE_CLASS(oc);
++
++    mc->init = sbsa_ref_init;
++    mc->desc = "QEMU 'SBSA Reference' ARM Virtual Machine";
++    mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a57");
++    mc->max_cpus = 512;
++    mc->pci_allow_0_address = true;
++    mc->minimum_page_bits = 12;
++    mc->block_default_type = IF_IDE;
++    mc->no_cdrom = 1;
++    mc->default_ram_size = 1 * GiB;
++    mc->default_cpus = 4;
++    mc->possible_cpu_arch_ids = sbsa_ref_possible_cpu_arch_ids;
++    mc->cpu_index_to_instance_props = sbsa_ref_cpu_index_to_props;
++    mc->get_default_cpu_node_id = sbsa_ref_get_default_cpu_node_id;
++}
++
++static const TypeInfo sbsa_ref_info = {
++    .name          = TYPE_SBSA_MACHINE,
++    .parent        = TYPE_MACHINE,
++    .class_init    = sbsa_ref_class_init,
++    .instance_size = sizeof(SBSAMachineState),
++};
++
++static void sbsa_ref_machine_init(void)
++{
++    type_register_static(&sbsa_ref_info);
++}
++
++type_init(sbsa_ref_machine_init);
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cad58b94879..a875868e8ae 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -728,6 +728,14 @@ F: include/hw/arm/fsl-imx6.h
+ F: include/hw/misc/imx6_*.h
+ F: include/hw/ssi/imx_spi.h
  
- static uint64_t aspeed_vic_read(void *opaque, hwaddr offset, unsigned size)
- {
--    uint64_t val;
--    const bool high = !!(offset & 0x4);
--    hwaddr n_offset = (offset & ~0x4);
-     AspeedVICState *s = (AspeedVICState *)opaque;
-+    hwaddr n_offset;
-+    uint64_t val;
-+    bool high;
++SBSA-REF
++M: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>
++M: Peter Maydell <peter.maydell@linaro.org>
++R: Leif Lindholm <leif.lindholm@linaro.org>
++L: qemu-arm@nongnu.org
++S: Maintained
++F: hw/arm/sbsa-ref.c
++
+ Sharp SL-5500 (Collie) PDA
+ M: Peter Maydell <peter.maydell@linaro.org>
+ L: qemu-arm@nongnu.org
+diff --git a/default-configs/aarch64-softmmu.mak b/default-configs/aarch64-softmmu.mak
+index 49ff415ee4c..958b1e08e40 100644
+--- a/default-configs/aarch64-softmmu.mak
++++ b/default-configs/aarch64-softmmu.mak
+@@ -5,3 +5,4 @@ include arm-softmmu.mak
  
-     if (offset < AVIC_NEW_BASE_OFFSET) {
--        qemu_log_mask(LOG_UNIMP, "%s: Ignoring read from legacy registers "
--                      "at 0x%" HWADDR_PRIx "[%u]\n", __func__, offset, size);
--        return 0;
-+        high = false;
-+        n_offset = offset;
-+    } else {
-+        high = !!(offset & 0x4);
-+        n_offset = (offset & ~0x4);
-     }
+ CONFIG_XLNX_ZYNQMP_ARM=y
+ CONFIG_XLNX_VERSAL=y
++CONFIG_SBSA_REF=y
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 9aced9d54de..ab65ecd2169 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -184,6 +184,20 @@ config REALVIEW
+     select DS1338 # I2C RTC+NVRAM
+     select USB_OHCI
  
--    n_offset -= AVIC_NEW_BASE_OFFSET;
--
-     switch (n_offset) {
--    case 0x0: /* IRQ Status */
-+    case 0x80: /* IRQ Status */
-+    case 0x00:
-         val = s->raw & ~s->select & s->enable;
-         break;
--    case 0x08: /* FIQ Status */
-+    case 0x88: /* FIQ Status */
-+    case 0x04:
-         val = s->raw & s->select & s->enable;
-         break;
--    case 0x10: /* Raw Interrupt Status */
-+    case 0x90: /* Raw Interrupt Status */
-+    case 0x08:
-         val = s->raw;
-         break;
--    case 0x18: /* Interrupt Selection */
-+    case 0x98: /* Interrupt Selection */
-+    case 0x0c:
-         val = s->select;
-         break;
--    case 0x20: /* Interrupt Enable */
-+    case 0xa0: /* Interrupt Enable */
-+    case 0x10:
-         val = s->enable;
-         break;
--    case 0x30: /* Software Interrupt */
-+    case 0xb0: /* Software Interrupt */
-+    case 0x18:
-         val = s->trigger;
-         break;
--    case 0x40: /* Interrupt Sensitivity */
-+    case 0xc0: /* Interrupt Sensitivity */
-+    case 0x24:
-         val = s->sense;
-         break;
--    case 0x48: /* Interrupt Both Edge Trigger Control */
-+    case 0xc8: /* Interrupt Both Edge Trigger Control */
-+    case 0x28:
-         val = s->dual_edge;
-         break;
--    case 0x50: /* Interrupt Event */
-+    case 0xd0: /* Interrupt Event */
-+    case 0x2c:
-         val = s->event;
-         break;
--    case 0x60: /* Edge Triggered Interrupt Status */
-+    case 0xe0: /* Edge Triggered Interrupt Status */
-         val = s->raw & ~s->sense;
-         break;
-         /* Illegal */
--    case 0x28: /* Interrupt Enable Clear */
--    case 0x38: /* Software Interrupt Clear */
--    case 0x58: /* Edge Triggered Interrupt Clear */
-+    case 0xa8: /* Interrupt Enable Clear */
-+    case 0xb8: /* Software Interrupt Clear */
-+    case 0xd8: /* Edge Triggered Interrupt Clear */
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: Read of write-only register with offset 0x%"
-                       HWADDR_PRIx "\n", __func__, offset);
-@@ -166,6 +175,8 @@ static uint64_t aspeed_vic_read(void *opaque, hwaddr offset, unsigned size)
-     }
-     if (high) {
-         val = extract64(val, 32, 19);
-+    } else {
-+        val = extract64(val, 0, 32);
-     }
-     trace_aspeed_vic_read(offset, size, val);
-     return val;
-@@ -174,19 +185,18 @@ static uint64_t aspeed_vic_read(void *opaque, hwaddr offset, unsigned size)
- static void aspeed_vic_write(void *opaque, hwaddr offset, uint64_t data,
-                              unsigned size)
- {
--    const bool high = !!(offset & 0x4);
--    hwaddr n_offset = (offset & ~0x4);
-     AspeedVICState *s = (AspeedVICState *)opaque;
-+    hwaddr n_offset;
-+    bool high;
- 
-     if (offset < AVIC_NEW_BASE_OFFSET) {
--        qemu_log_mask(LOG_UNIMP,
--                      "%s: Ignoring write to legacy registers at 0x%"
--                      HWADDR_PRIx "[%u] <- 0x%" PRIx64 "\n", __func__, offset,
--                      size, data);
--        return;
-+        high = false;
-+        n_offset = offset;
-+    } else {
-+        high = !!(offset & 0x4);
-+        n_offset = (offset & ~0x4);
-     }
- 
--    n_offset -= AVIC_NEW_BASE_OFFSET;
-     trace_aspeed_vic_write(offset, size, data);
- 
-     /* Given we have members using separate enable/clear registers, deposit64()
-@@ -201,7 +211,8 @@ static void aspeed_vic_write(void *opaque, hwaddr offset, uint64_t data,
-     }
- 
-     switch (n_offset) {
--    case 0x18: /* Interrupt Selection */
-+    case 0x98: /* Interrupt Selection */
-+    case 0x0c:
-         /* Register has deposit64() semantics - overwrite requested 32 bits */
-         if (high) {
-             s->select &= AVIC_L_MASK;
-@@ -210,21 +221,25 @@ static void aspeed_vic_write(void *opaque, hwaddr offset, uint64_t data,
-         }
-         s->select |= data;
-         break;
--    case 0x20: /* Interrupt Enable */
-+    case 0xa0: /* Interrupt Enable */
-+    case 0x10:
-         s->enable |= data;
-         break;
--    case 0x28: /* Interrupt Enable Clear */
-+    case 0xa8: /* Interrupt Enable Clear */
-+    case 0x14:
-         s->enable &= ~data;
-         break;
--    case 0x30: /* Software Interrupt */
-+    case 0xb0: /* Software Interrupt */
-+    case 0x18:
-         qemu_log_mask(LOG_UNIMP, "%s: Software interrupts unavailable. "
-                       "IRQs requested: 0x%016" PRIx64 "\n", __func__, data);
-         break;
--    case 0x38: /* Software Interrupt Clear */
-+    case 0xb8: /* Software Interrupt Clear */
-+    case 0x1c:
-         qemu_log_mask(LOG_UNIMP, "%s: Software interrupts unavailable. "
-                       "IRQs to be cleared: 0x%016" PRIx64 "\n", __func__, data);
-         break;
--    case 0x50: /* Interrupt Event */
-+    case 0xd0: /* Interrupt Event */
-         /* Register has deposit64() semantics - overwrite the top four valid
-          * IRQ bits, as only the top four IRQs (GPIOs) can change their event
-          * type */
-@@ -236,15 +251,21 @@ static void aspeed_vic_write(void *opaque, hwaddr offset, uint64_t data,
-                           "Ignoring invalid write to interrupt event register");
-         }
-         break;
--    case 0x58: /* Edge Triggered Interrupt Clear */
-+    case 0xd8: /* Edge Triggered Interrupt Clear */
-+    case 0x38:
-         s->raw &= ~(data & ~s->sense);
-         break;
--    case 0x00: /* IRQ Status */
--    case 0x08: /* FIQ Status */
--    case 0x10: /* Raw Interrupt Status */
--    case 0x40: /* Interrupt Sensitivity */
--    case 0x48: /* Interrupt Both Edge Trigger Control */
--    case 0x60: /* Edge Triggered Interrupt Status */
-+    case 0x80: /* IRQ Status */
-+    case 0x00:
-+    case 0x88: /* FIQ Status */
-+    case 0x04:
-+    case 0x90: /* Raw Interrupt Status */
-+    case 0x08:
-+    case 0xc0: /* Interrupt Sensitivity */
-+    case 0x24:
-+    case 0xc8: /* Interrupt Both Edge Trigger Control */
-+    case 0x28:
-+    case 0xe0: /* Edge Triggered Interrupt Status */
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "%s: Write of read-only register with offset 0x%"
-                       HWADDR_PRIx "\n", __func__, offset);
++config SBSA_REF
++    bool
++    imply PCI_DEVICES
++    select AHCI
++    select ARM_SMMUV3
++    select GPIO_KEY
++    select PCI_EXPRESS
++    select PCI_EXPRESS_GENERIC_BRIDGE
++    select PFLASH_CFI01
++    select PL011 # UART
++    select PL031 # RTC
++    select PL061 # GPIO
++    select USB_EHCI_SYSBUS
++
+ config SABRELITE
+     bool
+     select FSL_IMX6
 -- 
 2.20.1
 
