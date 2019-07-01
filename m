@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17C8B5BB2F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:04:56 +0200 (CEST)
-Received: from localhost ([::1]:58006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C30F5BB37
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:06:35 +0200 (CEST)
+Received: from localhost ([::1]:58018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhv3H-0000v0-8z
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51499)
+	id 1hhv4s-0002u6-Gz
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51768)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hhuzY-0008VR-Em
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:01:09 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhv0Y-0000Xd-Du
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:02:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hhuzX-00079D-Du
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:01:04 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:36291)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhv0S-0007yA-V2
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:02:02 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38507)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hhuzX-00078h-4C
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:01:03 -0400
-Received: by mail-qt1-f195.google.com with SMTP id p15so14303773qtl.3
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 05:01:03 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhv0S-0007wm-OH
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:02:00 -0400
+Received: by mail-ot1-x343.google.com with SMTP id d17so13223035oth.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 05:02:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mjliL6SGD7W1mzlrS/SGIU2L53Tm1xC2mwquCwVdnAg=;
+ b=kAtQLg79yqP8rfCNjn58girppAbLKYpuAHzC81rJfGt9etH000zegyjDgkfkd0rCj0
+ hcMy26SDIcE3cDPnAueIRHDfIkqCQZq94euymcu954wfKun9sh3GicYBR5kLCULAFGyd
+ 7bBIhJs6Uqm1XIWtj9CcEfnUJ2l4asIPvD4105uC+GSOcwXa5jzAGrAMWziBFlUN0Usq
+ HmgtMVDa0LK9n9CIjBIDKtbSkaDLBuqeWAtzfeoNBtmsbMCK5mDlexa0CeB2J5MMmU9v
+ ZY4ZHspxtPtqb44tNCAvZNC5RpuwvSpUpzLZZq8zjvubZW4p4t69m7eYT3d68vkPvFFd
+ cOoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DuhTqQNwJBGAbA8hroGBSQ4pk0XeJoZgIPu9sH4gkcg=;
- b=qUxM+HJA9AuUnbXA5PnDuNl64spWsIaINpL5LLy4VZzJ6XyuAI6++qWK6iCgy/yEu4
- i+eDN8dzD0aOH+xGyxatiUZD4Mf6pwl97Q3fKpvI+LTdu9UNmAFWA2gYkncjQDqQkIJw
- 2QgIaRChVSF/55W+WmE/mf4FD09LoiEMyc8dTZxhBVDJZUabvwmd2D5sZKPp4wgu1CC8
- mAb5WI2dIFQXbR8UQYmTL4llGLuubNYNu9vRWOQkkX7sUc/QWVXMMCTFCMBJJpoJkX9C
- wAqrSHAwhOd7YvKRDyWhQBH8mgGfJ5lh5B3cayfd5wNTCi65vwwmdyq83E396QlP/64H
- qzHg==
-X-Gm-Message-State: APjAAAV+F45JjlWj11M5mJsMYFqHlD+Cs7/+90g+2mqAll2Bdz5yVaR2
- /FcDeB7fOatkxrKBeXj1lu4mdg==
-X-Google-Smtp-Source: APXvYqwJa4PCc4qIHCj3H0qyKKkS9l2HBXccvGetGezThJel1SF9SxvoblumOwssy7WL/g2pC8Q65w==
-X-Received: by 2002:a0c:bd1f:: with SMTP id m31mr21293613qvg.54.1561982462583; 
- Mon, 01 Jul 2019 05:01:02 -0700 (PDT)
-Received: from redhat.com ([37.26.146.159])
- by smtp.gmail.com with ESMTPSA id v72sm4741863qkb.0.2019.07.01.05.00.58
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 05:01:01 -0700 (PDT)
-Date: Mon, 1 Jul 2019 08:00:50 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Message-ID: <20190701080038-mutt-send-email-mst@kernel.org>
-References: <20190624091811.30412-1-peterx@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mjliL6SGD7W1mzlrS/SGIU2L53Tm1xC2mwquCwVdnAg=;
+ b=I2R6xi+xbBo/Nw1QO1Jvko+GVQtsv2lGClpJ0uoW3P1dFZ9aYT9666A9NLC2b0Kk3q
+ lpW06F8WGystjlZoZpwDo4E5qRUk7XB5ZFBlLmqOpIxhpLIWzRPMDIySFv5uuyEhBufj
+ vjFwVJhq2suI87A4nVOpJfN1qFRa0dLTV0IUpOAu3MEomJR4J35gacPi7V1urYyXiy4W
+ 1PHB9dSOLxrTlor3a+kE+5zPqQOM90XGUxBHVXcI6QYV108Vlj6VjCowfhTXSGNOKba+
+ OqQVECeX7+tGY8UPjVeru6+MM4d5IjGHE4vcqKwuqGRRnXU6F5iuSdxmIdXsvNtmftgB
+ NYyg==
+X-Gm-Message-State: APjAAAUDrXsd0E6yutzx4LabyBcIrQZqKdmc7My6QD5NTQxtDjLi8jgF
+ PogaaOpirDr492AWa1ucEdJUPRMvjXK4H3WE/YawPg==
+X-Google-Smtp-Source: APXvYqxLXfzD7ULcJbz9fYHUZvUCTG+XVZ1dGgs8TUGqz1DVsQyyw5Vi0crch06wbaCWdJ5T1GPYVGWO5rJVq5sZO3M=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr19993893oti.91.1561982519462; 
+ Mon, 01 Jul 2019 05:01:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190624091811.30412-1-peterx@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.160.195
-Subject: Re: [Qemu-devel] [PATCH v2 0/2] intel_iommu: Fix unexpected unmaps
- during global unmap
+References: <20190416013902.4941-1-andrew.smirnov@gmail.com>
+ <20190416013902.4941-6-andrew.smirnov@gmail.com>
+In-Reply-To: <20190416013902.4941-6-andrew.smirnov@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 13:01:48 +0100
+Message-ID: <CAFEAcA9hGvpafJkVS3o+n=4S_=UyZ=iz352L5DtCkit5bvysCQ@mail.gmail.com>
+To: Andrey Smirnov <andrew.smirnov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 5/5] i.mx7d: pci: Update PCI IRQ mapping to
+ match HW
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -67,33 +73,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Yan Zhao <yan.y.zhao@intel.com>, qemu-devel@nongnu.org,
- Auger Eric <eric.auger@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 24, 2019 at 05:18:09PM +0800, Peter Xu wrote:
-> v2:
-> - rename helper to get_naturally_aligned_size(), simplify the
->   codes as suggested [Paolo]
-> - check against vtd page size when looping over for unmaps [Yan]
-> - add r-b for Eric
-> 
-> Please review, thanks.
+On Tue, 16 Apr 2019 at 02:39, Andrey Smirnov <andrew.smirnov@gmail.com> wrote:
+>
+> Datasheet for i.MX7 is incorrect and i.MX7's PCI IRQ mapping matches
+> that of i.MX6:
+>
+>     * INTD/MSI    122
+>     * INTC        123
+>     * INTB        124
+>     * INTA        125
+>
+> Fix all of the relevant code to reflect that fact. Needed by latest
+> Linux kernels.
+>
+> Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> Cc: qemu-arm@nongnu.org
+> ---
+>  include/hw/arm/fsl-imx7.h | 8 ++++----
+>  hw/pci-host/designware.c  | 6 ++++--
+>  2 files changed, 8 insertions(+), 6 deletions(-)
 
-Series:
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> Peter Xu (1):
->   intel_iommu: Fix unexpected unmaps during global unmap
-> 
-> Yan Zhao (1):
->   intel_iommu: Fix incorrect "end" for vtd_address_space_unmap
-> 
->  hw/i386/intel_iommu.c | 71 ++++++++++++++++++++++++++-----------------
->  1 file changed, 43 insertions(+), 28 deletions(-)
-> 
-> -- 
-> 2.21.0
+Compare Linux kernel commit 538d6e9d597584e805146 from an
+NXP employee confirming that the datasheet is incorrect
+and with a report of a test against real h/w.
+
+thanks
+-- PMM
 
