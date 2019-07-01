@@ -2,66 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F185BF11
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:09:19 +0200 (CEST)
-Received: from localhost ([::1]:59820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962EF5BF31
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:13:10 +0200 (CEST)
+Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxvL-0006aZ-Kv
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:09:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58620)
+	id 1hhxzR-0002Ij-RN
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59526)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhxXY-0005mt-5J
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:44:25 -0400
+ (envelope-from <slp@redhat.com>) id 1hhxar-0000vE-Qz
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:47:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhxXW-0001di-WE
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:44:20 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44519)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhxXW-0001cM-Hu
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:44:18 -0400
-Received: by mail-oi1-x243.google.com with SMTP id e189so10108663oib.11
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v8mWmOTDXUBtlhUdnimPF0goXk8Uy165smt3zk5fOYA=;
- b=UfUdIVfrWj+XlxguyyRxkjPeK2B/tJ/NL4J6mdENeFvfST1kZsS2iKmFaYtPcx2hWs
- 1PwKEBWQYrT74A4NUMSQtRx2y6asC2tqHy0ePXAbf6TLUXeyCww32xH/amU6LtR+OoJw
- dCqxGPG8qEmChsRvHDqA1/e2dYj6c6wEVFnC+wyyfPmttsppY+pTRmaabb9WuyG36n7+
- 6V+Ja5gweoEbbQeNxH9NsHCYLoCTY1M/CGPheQ4QK34kiYgpOAIt/AAcc3srLDW6dg0R
- crTV9J2wjvhVIRl8v5wvrM+U/Ez+wqVuiS3MVsddTXOhK08diEA/KbhFpwYkqsqJHxeE
- zKAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v8mWmOTDXUBtlhUdnimPF0goXk8Uy165smt3zk5fOYA=;
- b=kmWvW2vwoqb521yH0kL1X/CiUXMhclVvodqlmfSHdPMAK2qsJbloBHZWW2lz/3I9P1
- wJMlgjIMO1pu7JZrHhJqX3kymvjHJMSlc2m6qCbr/RhdwMoQqKxo9YU2lXMZOF9Va+Wl
- bGqd8EEsywkfVax1AB0d5LNYoWKWcpbpZzf54y7wjhFJoNwUzKrfT2WMQym93R1e8mDN
- rZJ6a+nf100XaBYSr5NHZBQUca4SD8K8C8OdrC8i12AUy65SrcB6gCE+1mdtUkvX7vyt
- T5R8XgIrI7wHvxUAr+MTR1P6fmy0QRtJYSkn7x7XrMZJgjL0RXA/382SJIvTW8abVDsO
- m0xA==
-X-Gm-Message-State: APjAAAX5PKnkhXNmOIFsBskXamKU93uqut3/xROuU+VahuoGrOSpEuqO
- DkaeznM9zjpspVt/UedPm1Ef939dCUoH83tQSdc4Sg==
-X-Google-Smtp-Source: APXvYqzLzUsClGTb4POACSnjAt0ZKTiA5DXJvRNw+S2oJqsbVPBKRN+zgGhU72plREBgQYzKAFdtdYViLMokA4F55yw=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr7240404oib.163.1561992257364; 
- Mon, 01 Jul 2019 07:44:17 -0700 (PDT)
+ (envelope-from <slp@redhat.com>) id 1hhxap-000615-Ic
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:47:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37188)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <slp@redhat.com>) id 1hhxao-0005Qx-Kv
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:47:43 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8FA66307CDF2;
+ Mon,  1 Jul 2019 14:47:16 +0000 (UTC)
+Received: from dritchie.redhat.com (unknown [10.33.36.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7ABB17DF69;
+ Mon,  1 Jul 2019 14:47:10 +0000 (UTC)
+From: Sergio Lopez <slp@redhat.com>
+To: mst@redhat.com, marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
+ rth@twiddle.net, ehabkost@redhat.com, maran.wilson@oracle.com
+Date: Mon,  1 Jul 2019 16:47:01 +0200
+Message-Id: <20190701144705.102615-1-slp@redhat.com>
 MIME-Version: 1.0
-References: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
- <1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org>
-In-Reply-To: <1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 15:44:06 +0100
-Message-ID: <CAFEAcA8Dxyz9tkhmmV0ACjCDw+r9q73-AY6vhK0cRE9AVLhrLA@mail.gmail.com>
-To: Hongbo Zhang <hongbo.zhang@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH v9 1/2] hw/arm: Add arm SBSA reference
- machine, skeleton part
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Mon, 01 Jul 2019 14:47:16 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/4] Introduce the microvm machine type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,67 +53,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: qemu-devel@nongnu.org, Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 30 Jun 2019 at 11:21, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
->
-> For the Aarch64, there is one machine 'virt', it is primarily meant to
-> run on KVM and execute virtualization workloads, but we need an
-> environment as faithful as possible to physical hardware, for supporting
-> firmware and OS development for pysical Aarch64 machines.
->
-> This patch introduces new machine type 'sbsa-ref' with main features:
->  - Based on 'virt' machine type.
->  - A new memory map.
->  - CPU type cortex-a57.
->  - EL2 and EL3 are enabled.
->  - GIC version 3.
->  - System bus AHCI controller.
->  - System bus EHCI controller.
->  - CDROM and hard disc on AHCI bus.
->  - E1000E ethernet card on PCIE bus.
->  - VGA display adaptor on PCIE bus.
->  - No virtio deivces.
->  - No fw_cfg device.
->  - No ACPI table supplied.
->  - Only minimal device tree nodes.
->
-> Arm Trusted Firmware and UEFI porting to this are done accordingly, and
-> it should supply ACPI tables to load OS, the minimal device tree nodes
-> supplied from this platform are only to pass the dynamic info reflecting
-> command line input to firmware, not for loading OS.
->
-> To make the review easier, this task is split into two patches, the
-> fundamental sceleton part and the peripheral devices part, this patch is
-> the first part.
->
-> Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
+Microvm is a machine type inspired by both NEMU and Firecracker, and
+constructed after the machine model implemented by the latter.
 
-> +static const TypeInfo sbsa_ref_info = {
-> +    .name          = TYPE_SBSA_MACHINE,
-> +    .parent        = TYPE_MACHINE,
-> +    .class_init    = sbsa_ref_class_init,
+It's main purpose is providing users a KVM-only machine type with fast
+boot times, minimal attack surface (measured as the number of IO ports
+and MMIO regions exposed to the Guest) and small footprint (specially
+when combined with the ongoing QEMU modularization effort).
 
-You need here to also have
+Normally, other than the device support provided by KVM itself,
+microvm only supports virtio-mmio devices. Microvm also includes a
+legacy mode, which adds an ISA bus with a 16550A serial port, useful
+for being able to see the early boot kernel messages.
 
-    .instance_size = sizeof(SBSAMachineState),
+Microvm only supports booting PVH-enabled Linux ELF images. Booting
+other PVH-enabled kernels may be possible, but due to the lack of ACPI
+and firmware, we're relying on the command line for specifying the
+location of the virtio-mmio transports. If there's an interest on
+using this machine type with other kernels, we'll try to find some
+kind of middle ground solution.
 
-> +};
+This is the list of the exposed IO ports and MMIO regions when running
+in non-legacy mode:
 
-Otherwise we won't allocate enough memory for the size of
-the struct, and will run off the end of the allocation.
-You can see this if you do a build with just patch 1 and
-try 'make check' on it with a clang-sanitizer build
-(ie passing configure  '--cc=clang-7' '--cxx=clang++-7'
-'--extra-cflags=-fsanitize=undefined -fno-sanitize=shift-base -Werror')
-as it will catch reads off the end of the memory.
+address-space: memory
+    00000000d0000000-00000000d00001ff (prio 0, i/o): virtio-mmio
+    00000000d0000200-00000000d00003ff (prio 0, i/o): virtio-mmio
+    00000000d0000400-00000000d00005ff (prio 0, i/o): virtio-mmio
+    00000000d0000600-00000000d00007ff (prio 0, i/o): virtio-mmio
+    00000000d0000800-00000000d00009ff (prio 0, i/o): virtio-mmio
+    00000000d0000a00-00000000d0000bff (prio 0, i/o): virtio-mmio
+    00000000d0000c00-00000000d0000dff (prio 0, i/o): virtio-mmio
+    00000000d0000e00-00000000d0000fff (prio 0, i/o): virtio-mmio
+    00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
 
-thanks
--- PMM
+address-space: I/O
+  0000000000000000-000000000000ffff (prio 0, i/o): io
+    0000000000000020-0000000000000021 (prio 0, i/o): kvm-pic
+    0000000000000040-0000000000000043 (prio 0, i/o): kvm-pit
+    000000000000007e-000000000000007f (prio 0, i/o): kvmvapic
+    00000000000000a0-00000000000000a1 (prio 0, i/o): kvm-pic
+    00000000000004d0-00000000000004d0 (prio 0, i/o): kvm-elcr
+    00000000000004d1-00000000000004d1 (prio 0, i/o): kvm-elcr
+
+A QEMU instance with the microvm machine type can be invoked this way:
+
+ - Normal mode:
+
+qemu-system-x86_64 -M microvm -m 512m -smp 2 \
+ -kernel vmlinux -append "console=3Dhvc0 root=3D/dev/vda" \
+ -nodefaults -no-user-config \
+ -chardev pty,id=3Dvirtiocon0,server \
+ -device virtio-serial-device \
+ -device virtconsole,chardev=3Dvirtiocon0 \
+ -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
+ -device virtio-blk-device,drive=3Dtest \
+ -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
+ -device virtio-net-device,netdev=3Dtap0
+
+ - Legacy mode:
+
+qemu-system-x86_64 -M microvm,legacy -m 512m -smp 2 \
+ -kernel vmlinux -append "console=3DttyS0 root=3D/dev/vda" \
+ -nodefaults -no-user-config \
+ -drive id=3Dtest,file=3Dtest.img,format=3Draw,if=3Dnone \
+ -device virtio-blk-device,drive=3Dtest \
+ -netdev tap,id=3Dtap0,script=3Dno,downscript=3Dno \
+ -device virtio-net-device,netdev=3Dtap0 \
+ -serial stdio
+
+
+Changelog:
+v2:
+  - Drop "[PATCH 1/4] hw/i386: Factorize CPU routine".
+  - Simplify machine definition (thanks Eduardo).
+  - Remove use of unneeded NUMA-related callbacks (thanks Eduardo).
+  - Add a patch to factorize PVH-related functions.
+  - Replace use of Linux's Zero Page with PVH (thanks Maran and Paolo).
+
+
+Sergio Lopez (4):
+  hw/virtio: Factorize virtio-mmio headers
+  hw/i386: Add an Intel MPTable generator
+  hw/i386: Factorize PVH related functions
+  hw/i386: Introduce the microvm machine type
+
+ default-configs/i386-softmmu.mak            |   1 +
+ hw/i386/Kconfig                             |   4 +
+ hw/i386/Makefile.objs                       |   2 +
+ hw/i386/microvm.c                           | 500 ++++++++++++++++++++
+ hw/i386/mptable.c                           | 156 ++++++
+ hw/i386/pc.c                                | 120 +----
+ hw/i386/pvh.c                               | 113 +++++
+ hw/i386/pvh.h                               |  10 +
+ hw/virtio/virtio-mmio.c                     |  35 +-
+ hw/virtio/virtio-mmio.h                     |  60 +++
+ include/hw/i386/microvm.h                   |  77 +++
+ include/hw/i386/mptable.h                   |  36 ++
+ include/standard-headers/linux/mpspec_def.h | 182 +++++++
+ 13 files changed, 1154 insertions(+), 142 deletions(-)
+ create mode 100644 hw/i386/microvm.c
+ create mode 100644 hw/i386/mptable.c
+ create mode 100644 hw/i386/pvh.c
+ create mode 100644 hw/i386/pvh.h
+ create mode 100644 hw/virtio/virtio-mmio.h
+ create mode 100644 include/hw/i386/microvm.h
+ create mode 100644 include/hw/i386/mptable.h
+ create mode 100644 include/standard-headers/linux/mpspec_def.h
+
+--
+2.21.0
 
