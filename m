@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD50F5C6F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:09:36 +0200 (CEST)
-Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E20485C769
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:41:08 +0200 (CEST)
+Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8Eh-00088S-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:09:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55291)
+	id 1hi8jE-0004hg-3t
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34206)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4Lm-000469-3a
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:00:39 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4pm-0005VG-5o
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:32:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4Lj-0008SR-P4
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:00:37 -0400
-Received: from mail-wr1-f50.google.com ([209.85.221.50]:43745)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4pa-0000Z3-Gt
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:31:32 -0400
+Received: from mail-wm1-f48.google.com ([209.85.128.48]:35322)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4Lh-0008NC-PN
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:00:35 -0400
-Received: by mail-wr1-f50.google.com with SMTP id p13so15404184wru.10
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:00:30 -0700 (PDT)
+ id 1hi4pN-0000Rm-2w
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:31:19 -0400
+Received: by mail-wm1-f48.google.com with SMTP id c6so1160659wml.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:31:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KqpLKfjrgSvCjVcmL96LXqXG75GeUM+DNTc46s318rE=;
- b=VK/Q8/0LfvU8fmYJ/2BejcaK4j0cH1dTfnksW+UfwmBnzBLcfpnb4KEZIy/kWNGt/n
- MEqjRVx2I4L95cHfCzDzzY8kgn08le5J31I8ga31GuzbLIT77K3n/xi1/eezySQQMjEM
- 0cfo9mWV2N8ORsZOmGeA2cn7Z6+IPJeYVYfzCy8+KnHnjKcGq9VGG974WySZuKAq+UF4
- qCeFwVkCRM5FIu5QoQVxBVzprTb8rKP46lMXUMhyi8JyiH+gIp+eru0dEtc276UKncn6
- 5yWNIJN0YvjEOypRiBBEvBK1PrE9rcXANj/GLl4zYmIe8vZuQwzw6lOTyw0MDECAm9w5
- qCEA==
+ bh=jCabYHM40d2+5uj/C4fh8Q0u8TCASTWJ9SXGpNj41KI=;
+ b=XXsFSncZWydLgSkofGymPCmNeXpPb+XzojABwfhJM4s3nP8u796rxY33Ax/z+gC2YC
+ +OtokLgh0WJBZtpDOmx/itDw+leHGTqQU3wyfztKVImLlFQ4/aQe5u7oV7L54kNGVJ0w
+ neqCuU4QTMAWXRpj0zraPoy3nNsZVsa6vTzpLniehytLiNuf33AGk5z084fM5Y/YwPIw
+ 7Qap1Id3u9UJMMnWPAJQ9FzaCiDGy0yVCpph3tOGifMgS5F8nMZoEfM4HDFYVG+dQ0Ek
+ LKnNxctda6jF2KJpKJ/iqFDHGoyiVyPmZHy6nXKZ0/bZk50pwd13KuQA5FAZ7YRFHcqA
+ a/3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KqpLKfjrgSvCjVcmL96LXqXG75GeUM+DNTc46s318rE=;
- b=N3DCs5354X2lamCKazJ8O3xQjJjbQtbqytSh7QVs+oeRkUYFtZAVTWLogayusNU9Ve
- BM2XWnCkM1tbyd1yCKDTGFJT3TMEkmcNvmVRium719Zync+wTyOtVrtbCAG1KFXTiDtY
- ETEj4aNU/MOUfZQcyZZFwoWGUT27CbxyGKdLVbYLgKfTn2eENYFdou6bg71k6gz/nCed
- s0l1t49YG/IK+4T9kuHcUIoVwstO2cUonxTfrP7lGaaeUrWt2KWE6gBkNAPNsnSRvWSx
- iHzKbUy2uw4ZAxhP9nxjyGuTTWpJanB6rb5cg5cG8upCOj5+fy7/527YnuRTqv4FtdoS
- Oqlg==
-X-Gm-Message-State: APjAAAV4w2hbwIYltCNGGT4qdUw3PhxRldHdWho35MlAQY8yEk5JqdDh
- m5D1yK3ssnytKXAj6upArHwE6ti7nn8mUw==
-X-Google-Smtp-Source: APXvYqx/VqneEvFcfzcF966LizdY7zagZ3Aj4lH3Ayvgb+07cEcN9PcqJEjvu8s6G3Z2nMgROySyEg==
-X-Received: by 2002:a5d:42c5:: with SMTP id t5mr18846199wrr.5.1561999217125;
- Mon, 01 Jul 2019 09:40:17 -0700 (PDT)
+ bh=jCabYHM40d2+5uj/C4fh8Q0u8TCASTWJ9SXGpNj41KI=;
+ b=GaY9ZTk5sySvzx9F3nt8wuwWPDkqcSBIKMq5oyiQAuZG2Z4QcNuZOWam1Y1TwW0c51
+ 4Mjg+yc1PXUe8lAlZz6pLyAn0jenGGjh1313MDPV/qzfmBy2CIldt9WiKmn5xP+h4zyu
+ vyfeRvF+7KLcgYZqZEpIGP3rR1BcTX0tdJXMIOkQUDMSYqn0is/IR25cBrgmeb9iA6tm
+ waUTmFOuNFo5Ke4PVgUnsckez51FIWrbuvOnO3B2nfozrW90in2JqMSkc82lPMBROvTI
+ ir9JqckhboHPEm9smozzlF4hFGtTH3NX4DvzVDe2K8hKVNNOXdgQs8An/WHzLTIKE6hK
+ c8aQ==
+X-Gm-Message-State: APjAAAW10RLkXkjebMe/9vLgYpSqTtYbKWiT64ErlOeJ4t19iKStpEMd
+ 8B96ek4ok3mHJPbuV72ZC3YWtD+rz4BFkA==
+X-Google-Smtp-Source: APXvYqyPKBj4F1RrnDKe5X9nBlRcEUF+wdx8NZ8XaCHNez70k2oT9rOTBfGAuDMvsSYwiPfwZiij6g==
+X-Received: by 2002:a1c:700b:: with SMTP id l11mr133605wmc.106.1561999218880; 
+ Mon, 01 Jul 2019 09:40:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.16
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:16 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:26 +0100
-Message-Id: <20190701163943.22313-30-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:28 +0100
+Message-Id: <20190701163943.22313-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.50
-Subject: [Qemu-devel] [PULL 29/46] target/arm: Makefile cleanup (ARM)
+X-Received-From: 209.85.128.48
+Subject: [Qemu-devel] [PULL 31/46] target/arm: Makefile cleanup (softmmu)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +84,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Group ARM objects together, TCG related ones at the bottom.
-This will help when restricting TCG-only objects.
+Group SOFTMMU objects together.
+Since PSCI is TCG specific, keep it separate.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190701132516.26392-3-philmd@redhat.com
+Message-id: 20190701132516.26392-5-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/Makefile.objs | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ target/arm/Makefile.objs | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index 7c31fa01c1c..1cbe7cfdb47 100644
+index 7a933eebc75..3fcda66132a 100644
 --- a/target/arm/Makefile.objs
 +++ b/target/arm/Makefile.objs
-@@ -4,11 +4,9 @@ obj-$(CONFIG_KVM) += kvm.o
- obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) += kvm32.o
- obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) += kvm64.o
- obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
--obj-y += translate.o op_helper.o helper.o cpu.o
--obj-y += neon_helper.o iwmmxt_helper.o vec_helper.o vfp_helper.o
--obj-y += gdbstub.o
-+obj-y += helper.o vfp_helper.o
-+obj-y += cpu.o gdbstub.o
+@@ -1,8 +1,9 @@
+ obj-y += arm-semi.o
+-obj-$(CONFIG_SOFTMMU) += machine.o psci.o arch_dump.o monitor.o
+ obj-y += helper.o vfp_helper.o
+ obj-y += cpu.o gdbstub.o
  obj-$(TARGET_AARCH64) += cpu64.o gdbstub64.o
--obj-y += crypto_helper.o
++
++obj-$(CONFIG_SOFTMMU) += machine.o arch_dump.o monitor.o
  obj-$(CONFIG_SOFTMMU) += arm-powerctl.o
  
- DECODETREE = $(SRC_PATH)/scripts/decodetree.py
-@@ -32,6 +30,10 @@ target/arm/translate-sve.o: target/arm/decode-sve.inc.c
- target/arm/translate.o: target/arm/decode-vfp.inc.c
- target/arm/translate.o: target/arm/decode-vfp-uncond.inc.c
+ obj-$(CONFIG_KVM) += kvm.o
+@@ -35,6 +36,8 @@ obj-y += translate.o op_helper.o
+ obj-y += crypto_helper.o
+ obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
  
-+obj-y += translate.o op_helper.o
-+obj-y += crypto_helper.o
-+obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
++obj-$(CONFIG_SOFTMMU) += psci.o
 +
  obj-$(TARGET_AARCH64) += translate-a64.o helper-a64.o
  obj-$(TARGET_AARCH64) += translate-sve.o sve_helper.o
