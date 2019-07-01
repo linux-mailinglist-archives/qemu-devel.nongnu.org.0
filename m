@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 841145BFD9
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:30:33 +0200 (CEST)
-Received: from localhost ([::1]:60036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5BF5BF2C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:12:10 +0200 (CEST)
+Received: from localhost ([::1]:59852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhyGG-0006J5-AS
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35125)
+	id 1hhxyU-0000u0-5z
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:12:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35932)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hhxqG-0004HE-G0
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:03:42 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hhxu8-0006ZV-PD
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:07:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aleksandar.m.mail@gmail.com>) id 1hhxqE-00029f-Ue
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:03:40 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:39316)
+ (envelope-from <alex.bennee@linaro.org>) id 1hhxu7-00051N-HS
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:07:40 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35619)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
- id 1hhxqB-000265-Lj; Mon, 01 Jul 2019 11:03:35 -0400
-Received: by mail-oi1-x244.google.com with SMTP id m202so10206390oig.6;
- Mon, 01 Jul 2019 08:03:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:in-reply-to:references:from:date:message-id:subject:to
- :cc; bh=B+A0hFAVCheAwsnwyOOvGgSh2Ve5m1gtOdssRqihzKA=;
- b=Ny+0Zv5yuCIhwi5lRvING1hLhyWtLqDmURc1PtK83Skr2k2tPMT7cnr/rglA4Iz0YS
- xVHzBUhG5oPRbReRV33HOUri+W/PHe4VC1SemXJLtk+kSjpOIfLs6qyyiImqSLrgfs7y
- PFdpXfGEtEb6pnrtwY70J7dBsRCSKbOfAqp4ZXj7Juu4A6MnAc0bSdF4HEA0mapHanDe
- 2zvi4DVw9ICTpeznxvikIE81NJvyPB5R3CKTvV/2qvbQVq9OAhi8BCdmAs5tUYmYPM+z
- Ha1r1zZjGMoEjR27Itj4W+GBo7BuGZeQJPP+hGrMK9j6LdwlBBxJ7RsgYR5ixFByeZPS
- vaDA==
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hhxu7-0004zx-Ab
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:07:39 -0400
+Received: by mail-wr1-x442.google.com with SMTP id c27so6570871wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:07:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=b+1xuwGx58g5YOKqPiVPL5nsNXXGrzLbA+IC/0+QE4s=;
+ b=tVeu/he5oLZDMODJ18ic08yaLarHX5Ec5uL5zm+on565LA/5qzIWt81Vrd7faEUPMe
+ 3dVfnfJOZdZ+nN7jRLijDTeX/QtnkTdYjtZb+guMSXawEY9o0upJHdAqeSamrv5hFt3s
+ YZpJm/nLYt2t+vRlH37MN0fUlF72/GTsrf1p3fWjlyvSD9hIvpygFq5WX9JUrxh36sKo
+ xAC7ei6NuTeLPhw/TgrGMwkFL15u/W43+c35JvtKfwWDMbB8LgP/mueQOlIrOigig+IM
+ WQt0804JXH4o6/+pwc4glvS32OSjBHKTyj8xLGUjUE4grwzNa+8f6806vtoWyRhIdZN3
+ fN4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:in-reply-to:references:from:date
- :message-id:subject:to:cc;
- bh=B+A0hFAVCheAwsnwyOOvGgSh2Ve5m1gtOdssRqihzKA=;
- b=QCmd8XTY4IO0LqgWFangP3eO6bhNc9mWe0AreQsGcjXC2Nn848WiEL10Yr2cpxCtEq
- EmpuZn/HaPEtmaFkOqT0BkIplPYnzdlnMzbyRb/yx1kr5/FC6c+7jazCfwTXQUEE0TVO
- k8gW1gwNzPSOjZ3sfy5b/FUeJZ3l1Bqb3GDA7LoW3LoTDjjY0bT7ANLnk1b2zNWu9x68
- jg1KgjhD5N/FhMbsx91BXYg8qWseiMpOmarKD2wo8GXngxDQV9txtT3qhN2F4tdm4wwI
- gnBgpP//BHf5GldIrnfHCpwCUCWoOt5uo5lCFMGliXlPnElsQ6OQPimP70WdRU7j8QiA
- +KdA==
-X-Gm-Message-State: APjAAAXi3OtNoaVDLzKXxc5O1+fNfMUn/Kyz72Yd/zUYrY1Bs6ZYOhR0
- +YXdlkCJjbgcBzkG2JkDr0uxPqAQMTKSOK9/f/w=
-X-Google-Smtp-Source: APXvYqxHWwGhso8Mz2wTb49BqOq4IT1XfDdKLJRXcz6pN7y9jHYoeVaRCDbp8V2MyaXhbb5BS66mKF6509ErPEsvakU=
-X-Received: by 2002:aca:310a:: with SMTP id x10mr7327300oix.62.1561993414062; 
- Mon, 01 Jul 2019 08:03:34 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=b+1xuwGx58g5YOKqPiVPL5nsNXXGrzLbA+IC/0+QE4s=;
+ b=pwXXNdSs/ah7+6gF+YnhL1Oo7gOLbWFiEdAtSsI0PoGb38khIeK6Bo8zobDp51CVJT
+ UQOJVFsRmWgPoBicfw8LQ5geyHyK+9ZpXFbJE/g0DwMfSGFtrkQE1eoY8JyVYdw3W/oq
+ sDInH3O8RXg1xhw35THFoKiCDrhTF29AV5r5Jv1LOBWCz89Z3deycz8FRjn/AgUzLw27
+ ErRwrctMrwJekq57elnWYE6Ki4yNaZ1o6JwJUb59eDMFr8r4gXq4nT9B7ynMXbpeUUCV
+ 60JTjs5m6HUU3l3C1FubwQBLydRKJ5Rm0BoR69IxJhzn3hZM5xfnqvkTVGDS8VstxOHK
+ kGMw==
+X-Gm-Message-State: APjAAAVeY0l5owt+3mmtqizBcIBy79gyfxQPMPpWSJ9bDIqBV8shXcXr
+ QbJnz+l6KEahPvQZ9P2DrgQOBg==
+X-Google-Smtp-Source: APXvYqwUHBv1t9yBzgszPB5G3GJBfkxtjPZEJj/9ZSUsA+zjDo5rmBf07iRD2egJduxWbjd7Zub0cQ==
+X-Received: by 2002:adf:fbd0:: with SMTP id d16mr18129255wrs.341.1561993656987; 
+ Mon, 01 Jul 2019 08:07:36 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id j7sm14941443wru.54.2019.07.01.08.07.36
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 01 Jul 2019 08:07:36 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E70A01FF87;
+ Mon,  1 Jul 2019 16:07:35 +0100 (BST)
+References: <20190624134337.10532-1-alex.bennee@linaro.org>
+ <CAFEAcA_VPcqxVjmSkRYoRRYS9TvM9KXU7e7pww9UofApp42O7Q@mail.gmail.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+In-reply-to: <CAFEAcA_VPcqxVjmSkRYoRRYS9TvM9KXU7e7pww9UofApp42O7Q@mail.gmail.com>
+Date: Mon, 01 Jul 2019 16:07:35 +0100
+Message-ID: <875zolssi0.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP;
- Mon, 1 Jul 2019 08:03:33 -0700 (PDT)
-Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP;
- Mon, 1 Jul 2019 08:03:33 -0700 (PDT)
-In-Reply-To: <a09936fe-4fdc-1623-6300-43f4891ff389@redhat.com>
-References: <20190607174953.22342-1-philmd@redhat.com>
- <a09936fe-4fdc-1623-6300-43f4891ff389@redhat.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Mon, 1 Jul 2019 17:03:33 +0200
-Message-ID: <CAL1e-=hoWQpmttzUGGbW7x8gGme7VMfEKhw=cFpL5Pg9A9sHDQ@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH] BootLinuxSshTest: Only use 'test' for
- unittest.TestCase method names
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PULL 00/19] testing/next (tests/vm,
+ Travis and hyperv build fix)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,87 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, Aleksandar Rikalo <arikalo@wavecomp.com>,
- Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jul 1, 2019 4:22 PM, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com> w=
+
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Mon, 24 Jun 2019 at 14:43, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
 rote:
+>>
+>> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aea=
+cde:
+>>
+>>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21=
+-2019' into staging (2019-06-21 15:40:50 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/stsquad/qemu.git tags/pull-testing-next-240619-1
+>>
+>> for you to fetch changes up to e0fe22c3528773fcbfd135a0ef7f6b3c5d373bb9:
+>>
+>>   target/i386: fix feature check in hyperv-stub.c (2019-06-24 14:36:39 +=
+0100)
+>>
+>> ----------------------------------------------------------------
+>> Various testing fixes:
+>>
+>>    - tests/vm updates and clean-ups
+>>    - tests/vm serial autobuild on host
+>>    - ensure MacOS builds do "brew update"
+>>    - ensure we test --static user builds
+>>    - fix hyperv compile failure
+>>
+>> This brings my testing back to green on all CI services.
 >
-> ping?
->
-> On 6/7/19 7:49 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > In commit f6e501a28ef9, Eduardo started to use "check_" as a
-> > prefix for methods of similar purpose. Follow this prior art,
-> > since it might become the conventions when writting Avocado
-> > tests.
-> >
-> > Suggested-by: Cleber Rosa <crosa@redhat.com>
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
+> The FreeBSD tests pass OK but the new output includes
+> some stuff that trips my "find error/warning messages grep:
+> con recv: /etc/rc: WARNING: $hostname is not set -- see rc.conf(5).
+> con recv: /etc/rc: WARNING: hostid: unable to figure out a UUID from
+> DMI data, generating a new one
 
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+These are artefacts of setting up a new system - we have no hostname
+until we've been through the setup. It won't occur on installed systems.
 
-> >  tests/acceptance/linux_ssh_mips_malta.py | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/tests/acceptance/linux_ssh_mips_malta.py
-b/tests/acceptance/linux_ssh_mips_malta.py
-> > index aafb0c39f6..134f10cac3 100644
-> > --- a/tests/acceptance/linux_ssh_mips_malta.py
-> > +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> > @@ -162,7 +162,7 @@ class LinuxSSH(Test):
-> >          self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in lin=
-e
-> >                               for line in stdout])
-> >
-> > -    def do_test_mips_malta(self, endianess, kernel_path, uname_m):
-> > +    def check_mips_malta(self, endianess, kernel_path, uname_m):
-> >          self.boot_debian_wheezy_image_and_ssh_login(endianess,
-kernel_path)
-> >
-> >          stdout, stderr =3D self.ssh_command('uname -a')
-> > @@ -184,7 +184,7 @@ class LinuxSSH(Test):
-> >          kernel_hash =3D '592e384a4edc16dade52a6cd5c785c637bcbc9ad'
-> >          kernel_path =3D self.fetch_asset(kernel_url,
-asset_hash=3Dkernel_hash)
-> >
-> > -        self.do_test_mips_malta('be', kernel_path, 'mips')
-> > +        self.check_mips_malta('be', kernel_path, 'mips')
-> >
-> >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
-Travis-CI')
-> >      def test_mips_malta32el_kernel3_2_0(self):
-> > @@ -199,7 +199,7 @@ class LinuxSSH(Test):
-> >          kernel_hash =3D 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a'
-> >          kernel_path =3D self.fetch_asset(kernel_url,
-asset_hash=3Dkernel_hash)
-> >
-> > -        self.do_test_mips_malta('le', kernel_path, 'mips')
-> > +        self.check_mips_malta('le', kernel_path, 'mips')
-> >
-> >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
-Travis-CI')
-> >      def test_mips_malta64eb_kernel3_2_0(self):
-> > @@ -213,7 +213,7 @@ class LinuxSSH(Test):
-> >                        'vmlinux-3.2.0-4-5kc-malta')
-> >          kernel_hash =3D 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'
-> >          kernel_path =3D self.fetch_asset(kernel_url,
-asset_hash=3Dkernel_hash)
-> > -        self.do_test_mips_malta('be', kernel_path, 'mips64')
-> > +        self.check_mips_malta('be', kernel_path, 'mips64')
-> >
-> >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
-Travis-CI')
-> >      def test_mips_malta64el_kernel3_2_0(self):
-> > @@ -227,4 +227,4 @@ class LinuxSSH(Test):
-> >                        'vmlinux-3.2.0-4-5kc-malta')
-> >          kernel_hash =3D '6a7f77245acf231415a0e8b725d91ed2f3487794'
-> >          kernel_path =3D self.fetch_asset(kernel_url,
-asset_hash=3Dkernel_hash)
-> > -        self.do_test_mips_malta('le', kernel_path, 'mips64')
-> > +        self.check_mips_malta('le', kernel_path, 'mips64')
-> >
+> pkg: Repository FreeBSD load error: access repo
+> file(/var/db/pkg/repo-FreeBSD.sqlite) failed: No such file or
+> directory
+>         p5-Error: 0.17027
+
+That seems to be a transient fault I haven't been able to replicate.
+
 >
+> There's also a new compile warning:
+> /home/qemu/qemu-test.r7G0Wv/src/migration/rdma.c:842:26: warning:
+> unused variable 'port_attr' [-Wunused-variable]
+>     struct ibv_port_attr port_attr;
+
+Fixed.
+
+>                          ^
+> which I guess was not being flagged up by the old compiler/VM image.
+>
+> OpenBSD also passes but has some output which my 'find warnings'
+> grep picks up:
+>
+> con recv: WARNING: root is targeted by password guessing attacks,
+> pubkeys are safer.
+
+Looking at this now.
+
+>
+> thanks
+> -- PMM
+
+--
+Alex Benn=C3=A9e
+
