@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5215BE4D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:30:47 +0200 (CEST)
-Received: from localhost ([::1]:59358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC8555BE41
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:28:11 +0200 (CEST)
+Received: from localhost ([::1]:59304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxKQ-00080e-Pc
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:30:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43762)
+	id 1hhxHv-0004vS-3l
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43906)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhwUi-0003wD-Tz
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:37:22 -0400
+ (envelope-from <imammedo@redhat.com>) id 1hhwVP-0004yz-KO
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:38:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhwUh-0000w0-0C
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:37:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53970)
+ (envelope-from <imammedo@redhat.com>) id 1hhwVN-0001Fp-Mb
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:38:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43066)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhwUe-0000uR-Uy
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:37:18 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ (Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hhwVM-0001F5-4i
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:38:00 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id B58E830C4F41;
- Mon,  1 Jul 2019 13:37:09 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEC2B6085B;
- Mon,  1 Jul 2019 13:36:57 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 15:35:36 +0200
-Message-Id: <20190701133536.28946-16-philmd@redhat.com>
-In-Reply-To: <20190701133536.28946-1-philmd@redhat.com>
-References: <20190701133536.28946-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id C4887821D8;
+ Mon,  1 Jul 2019 13:37:51 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EBF017CC0;
+ Mon,  1 Jul 2019 13:37:49 +0000 (UTC)
+Date: Mon, 1 Jul 2019 15:37:45 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Tao Xu <tao3.xu@intel.com>
+Message-ID: <20190701153745.2149d011@redhat.com>
+In-Reply-To: <20190614155626.27932-1-tao3.xu@intel.com>
+References: <20190614155626.27932-1-tao3.xu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.46]); Mon, 01 Jul 2019 13:37:14 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.28]); Mon, 01 Jul 2019 13:37:59 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 15/15] hw/i386/pc: Extract the x86 generic
- fw_cfg code
+Subject: Re: [Qemu-devel] [PATCH v5 0/8] Build ACPI Heterogeneous Memory
+ Attribute Table (HMAT)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,383 +56,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Samuel Ortiz <sameo@linux.intel.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Rob Bradford <robert.bradford@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: jingqi.liu@intel.com, fan.du@intel.com, ehabkost@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract all the functions that are not PC-machine specific into
-the (arch-specific) fw_cfg.c file. This will allow other X86-machine
-to reuse these functions.
+On Fri, 14 Jun 2019 23:56:18 +0800
+Tao Xu <tao3.xu@intel.com> wrote:
 
-Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/i386/fw_cfg.c | 137 +++++++++++++++++++++++++++++++++++++++++++++++
- hw/i386/fw_cfg.h |   8 +++
- hw/i386/pc.c     | 130 +-------------------------------------------
- 3 files changed, 146 insertions(+), 129 deletions(-)
+> This series of patches will build Heterogeneous Memory Attribute Table (HMAT)
+> according to the command line. The ACPI HMAT describes the memory attributes,
+> such as memory side cache attributes and bandwidth and latency details,
+> related to the System Physical Address (SPA) Memory Ranges.
+> The software is expected to use this information as hint for optimization.
 
-diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
-index 380a819230..b033d99bc4 100644
---- a/hw/i386/fw_cfg.c
-+++ b/hw/i386/fw_cfg.c
-@@ -13,8 +13,15 @@
-  */
-=20
- #include "qemu/osdep.h"
-+#include "sysemu/numa.h"
-+#include "hw/acpi/acpi.h"
-+#include "hw/firmware/smbios.h"
-+#include "hw/i386/pc.h"
- #include "hw/i386/fw_cfg.h"
-+#include "hw/timer/hpet.h"
- #include "hw/nvram/fw_cfg.h"
-+#include "e820_memory_layout.h"
-+#include "kvm_i386.h"
-=20
- const char *fw_cfg_arch_key_name(uint16_t key)
- {
-@@ -36,3 +43,133 @@ const char *fw_cfg_arch_key_name(uint16_t key)
-     }
-     return NULL;
- }
-+
-+FWCfgState *fw_cfg_arch_create(MachineState *ms,
-+                               const CPUArchIdList *cpus,
-+                               uint16_t boot_cpus,
-+                               uint16_t apic_id_limit)
-+{
-+    FWCfgState *fw_cfg;
-+    uint64_t *numa_fw_cfg;
-+    int i;
-+
-+    fw_cfg =3D fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
-+                                &address_space_memory);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, boot_cpus);
-+
-+    /*
-+     * FW_CFG_MAX_CPUS is a bit confusing/problematic on x86:
-+     *
-+     * For machine types prior to 1.8, SeaBIOS needs FW_CFG_MAX_CPUS for
-+     * building MPTable, ACPI MADT, ACPI CPU hotplug and ACPI SRAT table=
-,
-+     * that tables are based on xAPIC ID and QEMU<->SeaBIOS interface
-+     * for CPU hotplug also uses APIC ID and not "CPU index".
-+     * This means that FW_CFG_MAX_CPUS is not the "maximum number of CPU=
-s",
-+     * but the "limit to the APIC ID values SeaBIOS may see".
-+     *
-+     * So for compatibility reasons with old BIOSes we are stuck with
-+     * "etc/max-cpus" actually being apic_id_limit
-+     */
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
-+    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
-+                     acpi_tables, acpi_tables_len);
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_overrid=
-e());
-+
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
-+                     &e820_reserve, sizeof(e820_reserve));
-+    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
-+                    sizeof(struct e820_entry) * e820_get_num_entries());
-+
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
-+    /*
-+     * allocate memory for the NUMA channel: one (64bit) word for the nu=
-mber
-+     * of nodes, one word for each VCPU->node and one word for each node=
- to
-+     * hold the amount of memory.
-+     */
-+    numa_fw_cfg =3D g_new0(uint64_t, 1 + apic_id_limit + nb_numa_nodes);
-+    numa_fw_cfg[0] =3D cpu_to_le64(nb_numa_nodes);
-+    for (i =3D 0; i < cpus->len; i++) {
-+        unsigned int apic_id =3D cpus->cpus[i].arch_id;
-+        assert(apic_id < apic_id_limit);
-+        numa_fw_cfg[apic_id + 1] =3D cpu_to_le64(cpus->cpus[i].props.nod=
-e_id);
-+    }
-+    for (i =3D 0; i < nb_numa_nodes; i++) {
-+        numa_fw_cfg[apic_id_limit + 1 + i] =3D
-+            cpu_to_le64(numa_info[i].node_mem);
-+    }
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
-+                     (1 + apic_id_limit + nb_numa_nodes) *
-+                     sizeof(*numa_fw_cfg));
-+
-+    return fw_cfg;
-+}
-+
-+void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
-+{
-+    uint8_t *smbios_tables, *smbios_anchor;
-+    size_t smbios_tables_len, smbios_anchor_len;
-+    struct smbios_phys_mem_area *mem_array;
-+    unsigned i, array_count;
-+    X86CPU *cpu =3D X86_CPU(ms->possible_cpus->cpus[0].cpu);
-+
-+    /* tell smbios about cpuid version and features */
-+    smbios_set_cpuid(cpu->env.cpuid_version, cpu->env.features[FEAT_1_ED=
-X]);
-+
-+    smbios_tables =3D smbios_get_table_legacy(&smbios_tables_len);
-+    if (smbios_tables) {
-+        fw_cfg_add_bytes(fw_cfg, FW_CFG_SMBIOS_ENTRIES,
-+                         smbios_tables, smbios_tables_len);
-+    }
-+
-+    /* build the array of physical mem area from e820 table */
-+    mem_array =3D g_malloc0(sizeof(*mem_array) * e820_get_num_entries())=
-;
-+    for (i =3D 0, array_count =3D 0; i < e820_get_num_entries(); i++) {
-+        uint64_t addr, len;
-+
-+        if (e820_get_entry(i, E820_RAM, &addr, &len)) {
-+            mem_array[array_count].address =3D addr;
-+            mem_array[array_count].length =3D len;
-+            array_count++;
-+        }
-+    }
-+    smbios_get_tables(mem_array, array_count,
-+                      &smbios_tables, &smbios_tables_len,
-+                      &smbios_anchor, &smbios_anchor_len);
-+    g_free(mem_array);
-+
-+    if (smbios_anchor) {
-+        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-tables",
-+                        smbios_tables, smbios_tables_len);
-+        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
-+                        smbios_anchor, smbios_anchor_len);
-+    }
-+}
-+
-+void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
-+{
-+    X86CPU *cpu =3D X86_CPU(ms->possible_cpus->cpus[0].cpu);
-+    CPUX86State *env =3D &cpu->env;
-+    uint32_t unused, ecx, edx;
-+    uint64_t feature_control_bits =3D 0;
-+    uint64_t *val;
-+
-+    cpu_x86_cpuid(env, 1, 0, &unused, &unused, &ecx, &edx);
-+    if (ecx & CPUID_EXT_VMX) {
-+        feature_control_bits |=3D FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_=
-SMX;
-+    }
-+
-+    if ((edx & (CPUID_EXT2_MCE | CPUID_EXT2_MCA)) =3D=3D
-+        (CPUID_EXT2_MCE | CPUID_EXT2_MCA) &&
-+        (env->mcg_cap & MCG_LMCE_P)) {
-+        feature_control_bits |=3D FEATURE_CONTROL_LMCE;
-+    }
-+
-+    if (!feature_control_bits) {
-+        return;
-+    }
-+
-+    val =3D g_malloc(sizeof(*val));
-+    *val =3D cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
-+    fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val)=
-);
-+}
-diff --git a/hw/i386/fw_cfg.h b/hw/i386/fw_cfg.h
-index 17a4bc32f2..f9047a74e8 100644
---- a/hw/i386/fw_cfg.h
-+++ b/hw/i386/fw_cfg.h
-@@ -9,6 +9,7 @@
- #ifndef HW_I386_FW_CFG_H
- #define HW_I386_FW_CFG_H
-=20
-+#include "hw/boards.h"
- #include "hw/nvram/fw_cfg.h"
-=20
- #define FW_CFG_ACPI_TABLES      (FW_CFG_ARCH_LOCAL + 0)
-@@ -17,4 +18,11 @@
- #define FW_CFG_E820_TABLE       (FW_CFG_ARCH_LOCAL + 3)
- #define FW_CFG_HPET             (FW_CFG_ARCH_LOCAL + 4)
-=20
-+FWCfgState *fw_cfg_arch_create(MachineState *ms,
-+                               const CPUArchIdList *cpus,
-+                               uint16_t boot_cpus,
-+                               uint16_t apic_id_limit);
-+void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg);
-+void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg);
-+
- #endif
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index ea895d0192..d00279bf22 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -80,6 +80,7 @@
- #include "hw/net/ne2000-isa.h"
- #include "standard-headers/asm-x86/bootparam.h"
- #include "e820_memory_layout.h"
-+#include "fw_cfg.h"
-=20
- /* debug PC/ISA interrupts */
- //#define DEBUG_IRQ
-@@ -887,106 +888,6 @@ static uint32_t x86_cpu_apic_id_from_index(unsigned=
- int cpu_index)
-     }
- }
-=20
--static void fw_cfg_build_smbios(MachineState *ms, FWCfgState *fw_cfg)
--{
--    uint8_t *smbios_tables, *smbios_anchor;
--    size_t smbios_tables_len, smbios_anchor_len;
--    struct smbios_phys_mem_area *mem_array;
--    unsigned i, array_count;
--    X86CPU *cpu =3D X86_CPU(ms->possible_cpus->cpus[0].cpu);
--
--    /* tell smbios about cpuid version and features */
--    smbios_set_cpuid(cpu->env.cpuid_version, cpu->env.features[FEAT_1_ED=
-X]);
--
--    smbios_tables =3D smbios_get_table_legacy(&smbios_tables_len);
--    if (smbios_tables) {
--        fw_cfg_add_bytes(fw_cfg, FW_CFG_SMBIOS_ENTRIES,
--                         smbios_tables, smbios_tables_len);
--    }
--
--    /* build the array of physical mem area from e820 table */
--    mem_array =3D g_malloc0(sizeof(*mem_array) * e820_get_num_entries())=
-;
--    for (i =3D 0, array_count =3D 0; i < e820_get_num_entries(); i++) {
--        uint64_t addr, len;
--
--        if (e820_get_entry(i, E820_RAM, &addr, &len)) {
--            mem_array[array_count].address =3D addr;
--            mem_array[array_count].length =3D len;
--            array_count++;
--        }
--    }
--    smbios_get_tables(mem_array, array_count,
--                      &smbios_tables, &smbios_tables_len,
--                      &smbios_anchor, &smbios_anchor_len);
--    g_free(mem_array);
--
--    if (smbios_anchor) {
--        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-tables",
--                        smbios_tables, smbios_tables_len);
--        fw_cfg_add_file(fw_cfg, "etc/smbios/smbios-anchor",
--                        smbios_anchor, smbios_anchor_len);
--    }
--}
--
--static FWCfgState *fw_cfg_arch_create(MachineState *ms,
--                                      const CPUArchIdList *cpus,
--                                      uint16_t boot_cpus,
--                                      uint16_t apic_id_limit)
--{
--    FWCfgState *fw_cfg;
--    uint64_t *numa_fw_cfg;
--    int i;
--
--    fw_cfg =3D fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
--                                &address_space_memory);
--    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, boot_cpus);
--
--    /* FW_CFG_MAX_CPUS is a bit confusing/problematic on x86:
--     *
--     * For machine types prior to 1.8, SeaBIOS needs FW_CFG_MAX_CPUS for
--     * building MPTable, ACPI MADT, ACPI CPU hotplug and ACPI SRAT table=
-,
--     * that tables are based on xAPIC ID and QEMU<->SeaBIOS interface
--     * for CPU hotplug also uses APIC ID and not "CPU index".
--     * This means that FW_CFG_MAX_CPUS is not the "maximum number of CPU=
-s",
--     * but the "limit to the APIC ID values SeaBIOS may see".
--     *
--     * So for compatibility reasons with old BIOSes we are stuck with
--     * "etc/max-cpus" actually being apic_id_limit
--     */
--    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, apic_id_limit);
--    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_ACPI_TABLES,
--                     acpi_tables, acpi_tables_len);
--    fw_cfg_add_i32(fw_cfg, FW_CFG_IRQ0_OVERRIDE, kvm_allows_irq0_overrid=
-e());
--
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_E820_TABLE,
--                     &e820_reserve, sizeof(e820_reserve));
--    fw_cfg_add_file(fw_cfg, "etc/e820", e820_table,
--                    sizeof(struct e820_entry) * e820_get_num_entries());
--
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_HPET, &hpet_cfg, sizeof(hpet_cfg));
--    /* allocate memory for the NUMA channel: one (64bit) word for the nu=
-mber
--     * of nodes, one word for each VCPU->node and one word for each node=
- to
--     * hold the amount of memory.
--     */
--    numa_fw_cfg =3D g_new0(uint64_t, 1 + apic_id_limit + nb_numa_nodes);
--    numa_fw_cfg[0] =3D cpu_to_le64(nb_numa_nodes);
--    for (i =3D 0; i < cpus->len; i++) {
--        unsigned int apic_id =3D cpus->cpus[i].arch_id;
--        assert(apic_id < apic_id_limit);
--        numa_fw_cfg[apic_id + 1] =3D cpu_to_le64(cpus->cpus[i].props.nod=
-e_id);
--    }
--    for (i =3D 0; i < nb_numa_nodes; i++) {
--        numa_fw_cfg[apic_id_limit + 1 + i] =3D
--            cpu_to_le64(numa_info[i].node_mem);
--    }
--    fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
--                     (1 + apic_id_limit + nb_numa_nodes) *
--                     sizeof(*numa_fw_cfg));
--
--    return fw_cfg;
--}
--
- static long get_file_size(FILE *f)
- {
-     long where, size;
-@@ -1518,35 +1419,6 @@ void pc_cpus_init(PCMachineState *pcms)
-     }
- }
-=20
--static void fw_cfg_build_feature_control(MachineState *ms,
--                                         FWCfgState *fw_cfg)
--{
--    X86CPU *cpu =3D X86_CPU(ms->possible_cpus->cpus[0].cpu);
--    CPUX86State *env =3D &cpu->env;
--    uint32_t unused, ecx, edx;
--    uint64_t feature_control_bits =3D 0;
--    uint64_t *val;
--
--    cpu_x86_cpuid(env, 1, 0, &unused, &unused, &ecx, &edx);
--    if (ecx & CPUID_EXT_VMX) {
--        feature_control_bits |=3D FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_=
-SMX;
--    }
--
--    if ((edx & (CPUID_EXT2_MCE | CPUID_EXT2_MCA)) =3D=3D
--        (CPUID_EXT2_MCE | CPUID_EXT2_MCA) &&
--        (env->mcg_cap & MCG_LMCE_P)) {
--        feature_control_bits |=3D FEATURE_CONTROL_LMCE;
--    }
--
--    if (!feature_control_bits) {
--        return;
--    }
--
--    val =3D g_malloc(sizeof(*val));
--    *val =3D cpu_to_le64(feature_control_bits | FEATURE_CONTROL_LOCKED);
--    fw_cfg_add_file(fw_cfg, "etc/msr_feature_control", val, sizeof(*val)=
-);
--}
--
- static void rtc_set_cpus_count(ISADevice *rtc, uint16_t cpus_count)
- {
-     if (cpus_count > 0xff) {
---=20
-2.20.1
+in addition to patches in this series. pls consider adding testcase for ACPI table
+as the last patch. Look at tests/bios-tables-test.c for examples.
+
+
+> The V4 patches link:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01644.html
+> 
+> Changelog:
+> v5:
+>     - spilt the 1-6/11 and 8/11 from patch v4 to build Memory Subsystem
+>     Address Range Structure(s) and System Locality Latency and Bandwidth
+>     Information Structure(s) firstly.
+>     - add 1/8 of patch v5 to simplify arm_load_dtb() (Igor)
+>     - drop the helper machine_num_numa_nodes() and use
+>     machine->numa_state->num_nodes (and numa_state->nodes) directly (Igor)
+>     - Add more descriptions from ACPI spec (Igor)
+>     - Add the reason of using stub (Igor)
+>     - Use GArray for NUMA memory ranges data (Igor)
+>     - Separate hmat_build_lb() (Igor)
+>     - Drop all global variables and use local variables instead (Igor)
+>     - Add error message when base unit < 10
+>     - Update the hmat-lb option example by using '-numa cpu'
+>     and '-numa memdev' (Igor)
+> 
+> v4:
+>     - send the patch of "move numa global variables into MachineState"
+>     together with HMAT patches.
+>     https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg03662.html
+>     - spilt the 1/8 of v3 patch into two patches, 4/11 introduces
+>     build_mem_ranges() and 5/11 builds HMAT (Igor)
+>     - use build_append_int_noprefix() to build parts of ACPI table in
+>     all patches (Igor)
+>     - Split 8/8 of patch v3 into two parts, 10/11 introduces NFIT
+>     generalizations (build_acpi_aml_common), and use it in 11/11 to
+>     simplify hmat_build_aml (Igor)
+>     - use MachineState instead of PCMachineState to build HMAT more
+>     generalic (Igor)
+>     - move the 7/8 v3 patch into the former patches
+>     - update the version tag from 4.0 to 4.1
+> v3:
+>     - rebase the fixing patch into the jingqi's patches (Eric)
+>     - update the version tag from 3.10 to 4.0 (Eric)
+> v2:
+>   Per Igor and Eric's comments, fix some coding style and small issues:
+>     - update the version number in qapi/misc.json
+>     - including the expansion of the acronym HMAT in qapi/misc.json
+>     - correct spell mistakes in qapi/misc.json and qemu-options.hx
+>     - fix the comment syle in hw/i386/acpi-build.c
+>     and hw/acpi/hmat.h
+>    - remove some unnecessary head files in hw/acpi/hmat.c 
+>    - use hardcoded numbers from spec to generate
+>    Memory Subsystem Address Range Structure in hw/acpi/hmat.c
+>    - drop the struct AcpiHmat and AcpiHmatSpaRange
+>     in hw/acpi/hmat.h
+>    - rewrite NFIT code to build _HMA method
+> 
+> Liu Jingqi (3):
+>   hmat acpi: Build Memory Subsystem Address Range Structure(s) in ACPI
+>     HMAT
+>   hmat acpi: Build System Locality Latency and Bandwidth Information
+>     Structure(s) in ACPI HMAT
+>   numa: Extend the command-line to provide memory latency and bandwidth
+>     information
+> 
+> Tao Xu (5):
+>   hw/arm: simplify arm_load_dtb
+>   numa: move numa global variable nb_numa_nodes into MachineState
+>   numa: move numa global variable have_numa_distance into MachineState
+>   numa: move numa global variable numa_info into MachineState
+>   acpi: introduce AcpiDeviceIfClass.build_mem_ranges hook
+> 
+>  exec.c                               |   5 +-
+>  hw/acpi/Kconfig                      |   5 +
+>  hw/acpi/Makefile.objs                |   1 +
+>  hw/acpi/aml-build.c                  |   9 +-
+>  hw/acpi/hmat.c                       | 252 +++++++++++++++++++++++++++
+>  hw/acpi/hmat.h                       |  82 +++++++++
+>  hw/acpi/piix4.c                      |   1 +
+>  hw/arm/aspeed.c                      |   5 +-
+>  hw/arm/boot.c                        |  20 ++-
+>  hw/arm/collie.c                      |   8 +-
+>  hw/arm/cubieboard.c                  |   5 +-
+>  hw/arm/exynos4_boards.c              |   7 +-
+>  hw/arm/highbank.c                    |   8 +-
+>  hw/arm/imx25_pdk.c                   |   5 +-
+>  hw/arm/integratorcp.c                |   8 +-
+>  hw/arm/kzm.c                         |   5 +-
+>  hw/arm/mainstone.c                   |   5 +-
+>  hw/arm/mcimx6ul-evk.c                |   5 +-
+>  hw/arm/mcimx7d-sabre.c               |   5 +-
+>  hw/arm/musicpal.c                    |   8 +-
+>  hw/arm/nseries.c                     |   5 +-
+>  hw/arm/omap_sx1.c                    |   5 +-
+>  hw/arm/palm.c                        |  10 +-
+>  hw/arm/raspi.c                       |   6 +-
+>  hw/arm/realview.c                    |   5 +-
+>  hw/arm/sabrelite.c                   |   5 +-
+>  hw/arm/spitz.c                       |   5 +-
+>  hw/arm/tosa.c                        |   8 +-
+>  hw/arm/versatilepb.c                 |   5 +-
+>  hw/arm/vexpress.c                    |   5 +-
+>  hw/arm/virt-acpi-build.c             |  17 +-
+>  hw/arm/virt.c                        |  16 +-
+>  hw/arm/xilinx_zynq.c                 |   8 +-
+>  hw/arm/xlnx-versal-virt.c            |   7 +-
+>  hw/arm/xlnx-zcu102.c                 |   5 +-
+>  hw/arm/z2.c                          |   8 +-
+>  hw/core/machine.c                    |  16 +-
+>  hw/i386/acpi-build.c                 | 140 +++++++++------
+>  hw/i386/pc.c                         |  11 +-
+>  hw/isa/lpc_ich9.c                    |   1 +
+>  hw/mem/pc-dimm.c                     |   2 +
+>  hw/pci-bridge/pci_expander_bridge.c  |   2 +
+>  hw/ppc/spapr.c                       |  23 ++-
+>  hw/ppc/spapr_pci.c                   |   2 +
+>  include/hw/acpi/acpi_dev_interface.h |   4 +
+>  include/hw/acpi/aml-build.h          |   2 +-
+>  include/hw/arm/boot.h                |   4 +-
+>  include/hw/boards.h                  |   2 +
+>  include/hw/i386/pc.h                 |   1 +
+>  include/qemu/typedefs.h              |   1 +
+>  include/sysemu/numa.h                |  37 +++-
+>  include/sysemu/sysemu.h              |  24 +++
+>  monitor.c                            |  11 +-
+>  numa.c                               | 219 +++++++++++++++++++----
+>  qapi/misc.json                       |  94 +++++++++-
+>  qemu-options.hx                      |  45 ++++-
+>  stubs/Makefile.objs                  |   1 +
+>  stubs/pc_build_mem_ranges.c          |  14 ++
+>  58 files changed, 961 insertions(+), 264 deletions(-)
+>  create mode 100644 hw/acpi/hmat.c
+>  create mode 100644 hw/acpi/hmat.h
+>  create mode 100644 stubs/pc_build_mem_ranges.c
+> 
 
 
