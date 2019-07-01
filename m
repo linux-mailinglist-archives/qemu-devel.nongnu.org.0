@@ -2,110 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F305C4D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:11:38 +0200 (CEST)
-Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0FC5C5DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 01:09:56 +0200 (CEST)
+Received: from localhost ([::1]:46184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi30m-0004Yw-Ms
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 16:34:52 -0400
-Received: from [2001:470:142:3::10] (port=54213 helo=eggs.gnu.org)
+	id 1hi5Qn-00077m-OC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 19:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33233)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
- id 1hi2y4-00037p-Ly
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:32:10 -0400
+ (envelope-from <tcminyard@gmail.com>) id 1hi3cB-0003zZ-OZ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
- id 1hi2xw-0002CU-Ax
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:32:02 -0400
-Received: from [68.232.141.245] (port=24951 helo=esa1.hgst.iphmx.com)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
- id 1hi2xS-000276-FB; Mon, 01 Jul 2019 16:31:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1562013088; x=1593549088;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=t0zilVrsnptR4o/X16EGoLIx2lBppe5iNJ1mY2Dq4Uw=;
- b=WJoEl0qDBZxjnkqRIAlB1+1dnPejZZQnaxiVj2bDBhvs2J4bQ1TzFD2k
- a9vq4vYYsUWGuv5h4ArxWWKQB0mh68+QnWBIQ6yp+by5ivMFsxr0O1IKk
- OSCy3Q6ERJmUk52P4Dq+L15dkU2rUu789PyUCFXADDbN3YSUVgCrYZEMZ
- h0k6jUN7Ui0laAzFOYDJhZOBEuw3XYDMMnxr35QStJeMnF6bBMCxAzOoD
- XhZ/s9EYPcXSQKgeqxNGN61vuePShtIwWX6Y7emnxkYPw7wd5KXmu4T1V
- xfpnSqnWTex7z3FGrCDjfDj3BJM5FLDyBFK/3rsv3Ggn1ZJ5k14/fpphU A==;
-X-IronPort-AV: E=Sophos;i="5.63,440,1557158400"; d="scan'208";a="218363525"
-Received: from mail-by2nam01lp2052.outbound.protection.outlook.com (HELO
- NAM01-BY2-obe.outbound.protection.outlook.com) ([104.47.34.52])
- by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2019 02:19:38 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t0zilVrsnptR4o/X16EGoLIx2lBppe5iNJ1mY2Dq4Uw=;
- b=LNS16dVW1zuY/WP2i3DBEhvkuwas2ahDzSw/8gqXUkU3aMqGndl9rHfcN3KjBodrVHpRtP6kHXJfRlFz0ESSfeAgDASdW3ALBQyW/tNpSxtggP4P5n5vUKIA5jPSGttu5gdO44kdEt6Knon5DFsGymVpw0VZk4t7hNjeyr9FEE0=
-Received: from BYAPR04MB4901.namprd04.prod.outlook.com (52.135.232.206) by
- BYAPR04MB5655.namprd04.prod.outlook.com (20.179.56.213) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.18; Mon, 1 Jul 2019 18:19:37 +0000
-Received: from BYAPR04MB4901.namprd04.prod.outlook.com
- ([fe80::40b0:3c4b:b778:664d]) by BYAPR04MB4901.namprd04.prod.outlook.com
- ([fe80::40b0:3c4b:b778:664d%7]) with mapi id 15.20.2032.019; Mon, 1 Jul 2019
- 18:19:37 +0000
-From: Alistair Francis <Alistair.Francis@wdc.com>
-To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>
-Thread-Topic: [PULL 33/34] roms: Add OpenSBI version 0.3
-Thread-Index: AQHVLPx3D6cSVSLMSUSkcnC2JIn/F6a2AV8AgAAO5QCAAAOyAIAAAYuAgAABxYCAAAEbgA==
-Date: Mon, 1 Jul 2019 18:19:37 +0000
-Message-ID: <9363cb8764e800d8c30ff6722c680e4aa8bd9271.camel@wdc.com>
-References: <20190627152011.18686-1-palmer@sifive.com>
- <20190627152011.18686-34-palmer@sifive.com>
- <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
- <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
- <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
- <efaaaa7aabddfb8481af4c5b2eeec23513f8fcb8.camel@wdc.com>
- <CAFEAcA_cwm_1VhGW7yGL6=ja7TuO3c9perBs_OoWMaXBhJYH9g@mail.gmail.com>
-In-Reply-To: <CAFEAcA_cwm_1VhGW7yGL6=ja7TuO3c9perBs_OoWMaXBhJYH9g@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Alistair.Francis@wdc.com; 
-x-originating-ip: [199.255.44.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b32c80c0-eb54-453d-c94d-08d6fe50acff
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:BYAPR04MB5655; 
-x-ms-traffictypediagnostic: BYAPR04MB5655:
-wdcipoutbound: EOP-TRUE
-x-microsoft-antispam-prvs: <BYAPR04MB5655322D78DC7D0B042CAEAF90F90@BYAPR04MB5655.namprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 00851CA28B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(136003)(346002)(376002)(366004)(39860400002)(396003)(189003)(199004)(24433001)(73956011)(316002)(54906003)(2906002)(71190400001)(6486002)(71200400001)(229853002)(5640700003)(476003)(66476007)(6436002)(66066001)(118296001)(53936002)(64756008)(66556008)(66946007)(66446008)(25786009)(26005)(5660300002)(6246003)(305945005)(6512007)(478600001)(7736002)(8936002)(186003)(2501003)(11346002)(6916009)(76176011)(486006)(68736007)(72206003)(256004)(446003)(7416002)(4326008)(2351001)(102836004)(6506007)(8676002)(36756003)(86362001)(76116006)(81156014)(3846002)(6116002)(81166006)(99286004)(2616005)(14454004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB5655;
- H:BYAPR04MB4901.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Af/fZd+PqOl3YDSyOuYQkCdVAYC5LFj/XQj3/hetKfydElTAd97XeZBasVijo+qPgFI6XsklLu0v67xAjfAU2vSW5U7y9DhpmVVJT2CQ1KuKJRjrTTVAkhKXyqUllVSq19L/b4ie9qnJIWp62mSzOFHVmvhjbvVfQFyyZEji/z0I29GO/y587eyuqPjLFp0t5owY6o1NC4Z1wxa5yIHzg8gKsn6XFkmuzAefqCaQk2HJsny0Nx23ViB4BlKrsqCouyYddbKWwZrxEwVVHjqFtl929k38e/wqtqRkOSj/LLLtCjKaVyIkZYAv8SFDxTcEdiJt9Z9oVDlfsWqFd07h1Aciabc+BSse9PtbmuoBrDBpekiDcP6558b8rJCGaCrzdisy9SdL4k40GQUyL/CFesrXyypYjanc8qMA3wApbYI=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C1F79ACECBAE8E44AB732B3F3E19846F@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <tcminyard@gmail.com>) id 1hi3c6-0000yp-0z
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:31 -0400
+Received: from mail-oi1-f173.google.com ([209.85.167.173]:39280)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hi3c5-0000HR-Kc
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:25 -0400
+Received: by mail-oi1-f173.google.com with SMTP id m202so11175856oig.6
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:12:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=XYQR9jP5S8jstoPzfaXsLfCb2tOUGQDtXbORRsv8ATM=;
+ b=o6r0OJiBhJ3b7f+KvnzmC3Eq05O6gww2RlS3MdLFiqnnjqZljvjFjGPgsEQL7sIZT5
+ MD8zMqL6NfXJEJMNt2+F1maTB9DMYGiJqZiB8y2iVZ22iHVc+a0U5lKOBQGalcfisciX
+ eYlfGPJY+lkiT0Zjob0wC+CT27ukc+tsr++y3/BVfV8PBzDV/H1lUu5x84rlDAeU/h/g
+ ps9kfQxwdOHrNT9dhrvb2jcbT3eoSL+gifddVKTVAkUB8gs7Nzyh9G2zzdRln/GQL4tb
+ CAfsTwXxLQmVs8qhtjAbN+BgFC/2wyO+sD44uhBiMQYPhHcZZsGQzDwJZkZDIjcl9Pqe
+ TxaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to
+ :user-agent;
+ bh=XYQR9jP5S8jstoPzfaXsLfCb2tOUGQDtXbORRsv8ATM=;
+ b=hp7tD8HlXeKVOXVCtqiqKN+rSN7pXXZnr597fAbszXc7w7IXh+xUb5X2pSWbBK+5AN
+ ULRcMNKF1MZKB47XfsY85G7VwdnTQ3o3HrtdxDhp7vSDbtSYY1ekSy4dCv87UN9wb3F9
+ hzw9EnHQq9hnj+65OBVk51mxR1ntIyl0jHREVB5NVlDtSnNkDyPKyf46BO1A7Xt15VPH
+ sKPSXaGQI4e3DXjI0Df51GsePE+YzgbrdSWy7FWRCBLgngM3+G5VtApKwNl27wMxt/hk
+ HpBezI6pq1MlzhuYZTw/dD2vnBa1YYVMnU789tutrqeL5FCHSk3kFMdHNba5eJRUf7FW
+ FfSA==
+X-Gm-Message-State: APjAAAVXujThO8vJGgWJNBFmbV5X9TTDG8bhz+97YYWIKbjyTTJf7+DR
+ Z7XdedWyQLK9wK3ZUr4lBSx4YCU=
+X-Google-Smtp-Source: APXvYqzu9Os6VfNoF5s55aif9MyY7+yunjvy8p9IYb9PZrd+ZTXAnhV5bgrmHdseyfOJXOaaSNmvOw==
+X-Received: by 2002:aca:b554:: with SMTP id e81mr434691oif.7.1562005511245;
+ Mon, 01 Jul 2019 11:25:11 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id v18sm5141041otn.17.2019.07.01.11.25.08
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 01 Jul 2019 11:25:09 -0700 (PDT)
+Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:9997:a955:13ad:73b])
+ by serve.minyard.net (Postfix) with ESMTPSA id 7FAEA1800D1;
+ Mon,  1 Jul 2019 18:25:07 +0000 (UTC)
+Date: Mon, 1 Jul 2019 13:25:03 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190701182503.GA4336@minyard.net>
+References: <20190627124815.29536-1-minyard@acm.org>
+ <CAFEAcA_YcEtXDMR-7D4R0Tdb0zM7LARpisvV5VjTnoki=9_WPw@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b32c80c0-eb54-453d-c94d-08d6fe50acff
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2019 18:19:37.1137 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Alistair.Francis@wdc.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5655
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 68.232.141.245
-Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_YcEtXDMR-7D4R0Tdb0zM7LARpisvV5VjTnoki=9_WPw@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.167.173
+Subject: Re: [Qemu-devel] [PULL 0/2] Add a UUID device property to IPMI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -117,36 +82,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- "codyprime@gmail.com" <codyprime@gmail.com>,
- "palmer@sifive.com" <palmer@sifive.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "alistair23@gmail.com" <alistair23@gmail.com>,
- "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
+Reply-To: minyard@acm.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gTW9uLCAyMDE5LTA3LTAxIGF0IDE5OjEzICswMTAwLCBQZXRlciBNYXlkZWxsIHdyb3RlOg0K
-PiBPbiBNb24sIDEgSnVsIDIwMTkgYXQgMTk6MDksIEFsaXN0YWlyIEZyYW5jaXMgPA0KPiBBbGlz
-dGFpci5GcmFuY2lzQHdkYy5jb20+IHdyb3RlOg0KPiA+IE9uIE1vbiwgMjAxOS0wNy0wMSBhdCAx
-OTowMSArMDEwMCwgUGV0ZXIgTWF5ZGVsbCB3cm90ZToNCj4gPiA+IE9uIE1vbiwgMSBKdWwgMjAx
-OSBhdCAxODo1MCwgQWxpc3RhaXIgRnJhbmNpcyA8DQo+ID4gPiBBbGlzdGFpci5GcmFuY2lzQHdk
-Yy5jb20+IHdyb3RlOg0KPiA+ID4gPiBQUzogSXQgc2VlbXMgbGlrZSB0aGVyZSBhcmUgc3RpbGwg
-c29tZSBpc3N1ZXMgd2l0aCB0aGlzIHBhdGNoDQo+ID4gPiA+IHNvDQo+ID4gPiA+IG1heWJlDQo+
-ID4gPiA+IGl0J3Mgd29ydGggZHJvcHBpbmcgdGhpcyBwYXRjaCBmcm9tIHRoZSBQUiBzbyB0aGF0
-IHdlIGNhbiBnZXQNCj4gPiA+ID4gZXZlcnl0aGluZyBlbHNlIG1lcmdlZC4NCj4gPiA+IA0KPiA+
-ID4gWWVhaCwgdGhhdCB3b3VsZCBiZSBteSBzdWdnZXN0aW9uLg0KPiA+IA0KPiA+IENhbiB5b3Ug
-ZG8gdGhhdCB3aGVuIHlvdSBtZXJnZSBpdCBvciBkb2VzIFBhbG1lciBoYXZlIHRvIHNlbmQgdGhl
-DQo+ID4gUFINCj4gPiBhZ2Fpbj8NCj4gDQo+IFBhbG1lciBuZWVkcyB0byByZXNwaW4gaXQgLS0g
-cHVsbHMgYXJlIHNpZ25lZCBhbmQgSSBjYW4ndA0KPiBtb2RpZnkgdGhlbSwgb25seSBlaXRoZXIg
-YXBwbHkgdGhlbSBvciBub3QuIChUZWNobmljYWxseSBJDQo+IGNvdWxkIGluIHRoZW9yeSBjaGVy
-cnktcGljayBhbGwgdGhlIG90aGVyIGNvbW1pdHMgb3V0IG9mIHRoZW0NCj4gYnV0IHRoYXQgd291
-bGQgYmUgYSBodWdlIGFtb3VudCBvZiBtYW51YWwgbGFib3VyLikNCg0KTm8gd29ycmllcy4NCg0K
-QFBhbG1lciBjYW4geW91IHBsZWFzZSBkcm9wIHRoZXNlIHR3byBwYXRjaGVzIGZyb20gdGhpcyBQ
-Uj8NCg0KaHcvcmlzY3Y6IExvYWQgT3BlblNCSSBhcyB0aGUgZGVmYXVsdCBmaXJtd2FyZQ0Kcm9t
-czogQWRkIE9wZW5TQkkgdmVyc2lvbiAwLjMNCg0KU29ycnkgZm9yIHRoZSBhbGwgdGhlIGxhc3Qg
-bWludXRlIGNoYW5nZXMuIEknbGwgd2FpdCB1bnRpbCBPcGVuU0JJIDAuNA0KdG8gcmVzcGluIHRo
-b3NlIHR3byBwYXRjaGVzLg0KDQpBbGlzdGFpcg0KDQo+IA0KPiB0aGFua3MNCj4gLS0gUE1NDQo=
+On Mon, Jul 01, 2019 at 07:10:50PM +0100, Peter Maydell wrote:
+> On Thu, 27 Jun 2019 at 13:48, <minyard@acm.org> wrote:
+> >
+> > I believe we are not in softfreeze yet, and this is the only real
+> > fix I have for IPMI at the moment.
+> >
+> > This was posted Nov 2018 with little commentary.
+> >
+> > The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
+> >
+> >   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://github.com/cminyard/qemu.git tags/ipmi-for-release-20190627
+> >
+> > for you to fetch changes up to bddef5881d0c935a5d9d8e15f822d9d700666ae6:
+> >
+> >   ipmi: Add a UUID device property (2019-06-26 15:31:33 -0500)
+> >
+> > ----------------------------------------------------------------
+> > Add a UUID device property to IPMI
+> >
+> > This is fairly important for two reasons:
+> >
+> > * It allows a BMC to be created with no UUID, returning an error, which
+> >   is the behavior of many BMCs in the world.
+> > * It lets the user set the UUID to a fixed value.
+> >
+> > Some software using IPMI will get confused if it gets different UUIDs
+> > from what should be the same device, which is what happens now if qemu
+> > quits and restarts.
+> >
+> > ----------------------------------------------------------------
+> > Corey Minyard (2):
+> >       qdev: Add a no default uuid property
+> >       ipmi: Add a UUID device property
+> 
+> I have to say I'm not entirely happy with applying a pullreq
+> with patches that are unreviewed and were last posted on list
+> over six months ago. Can you post a v2 to try to solicit code
+> review for them before we put them into master, please?
+> 
+> (Sometimes patches don't get review, and we generally take
+> them anyway; I do that myself from time to time. It's the
+> combination of the six-months-since-patches-posted plus the
+> imminent freeze deadline that gives me pause in this case.)
+
+Will do.
+
+I looked around and tried to find the freeze dates, and I couldn't
+find anything published.  If I had known it was close, I would have
+waited.
+
+-corey
 
