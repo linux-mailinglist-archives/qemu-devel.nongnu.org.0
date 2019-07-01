@@ -2,113 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05EA15BCAE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:15:36 +0200 (CEST)
-Received: from localhost ([::1]:58614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3354D5BCCF
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:23:25 +0200 (CEST)
+Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhw9f-0000qS-2l
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:15:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37668)
+	id 1hhwHE-00066v-CJ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:23:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39552)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <edgar@xilinx.com>) id 1hhw5Q-000792-NB
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:11:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhwDn-00046f-CM
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:19:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <edgar@xilinx.com>) id 1hhw5O-0003dB-S3
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:11:12 -0400
-Received: from mail-dm3nam05on0616.outbound.protection.outlook.com
- ([2a01:111:f400:fe51::616]:6001
- helo=NAM05-DM3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <edgar@xilinx.com>) id 1hhw5O-0003ZZ-E9
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:11:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector1-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cynKbhuiZ424GnefsCEsJI46z1GBNYXzCXAtygf3xUw=;
- b=wnzyeKU5zOOJ14zA1xWlSMYTbdUQ0VwVZ1+ijTbVmdWVs59bct5d7mPEqqLIXpxquWWnwcjQxyVBKZSc2jI+njcMcrT6XR1mhulbTNbGdndtAjGkCsyyqTQsk1msbjIqyOsgnJcDQcNEdo7qp7ovVrIY2D43sAy67cYXhTFixwA=
-Received: from BYAPR02CA0024.namprd02.prod.outlook.com (2603:10b6:a02:ee::37)
- by BY5PR02MB6321.namprd02.prod.outlook.com (2603:10b6:a03:1f9::24)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2032.17; Mon, 1 Jul
- 2019 13:11:07 +0000
-Received: from CY1NAM02FT057.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e45::206) by BYAPR02CA0024.outlook.office365.com
- (2603:10b6:a02:ee::37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2032.20 via Frontend
- Transport; Mon, 1 Jul 2019 13:11:06 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
- smtp.mailfrom=xilinx.com; greensocs.com; dkim=none (message not signed)
- header.d=none;greensocs.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
- CY1NAM02FT057.mail.protection.outlook.com (10.152.75.110) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2032.15
- via Frontend Transport; Mon, 1 Jul 2019 13:11:05 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:48034
- helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1hhw5I-0003H5-KE; Mon, 01 Jul 2019 06:11:04 -0700
-Received: from [127.0.0.1] (helo=localhost)
- by xsj-pvapsmtp01 with smtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1hhw5D-00021m-Gm; Mon, 01 Jul 2019 06:10:59 -0700
-Received: from xsj-pvapsmtp01 (mailhub.xilinx.com [149.199.38.66])
- by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x61DAqhP027357; 
- Mon, 1 Jul 2019 06:10:52 -0700
-Received: from [10.71.119.209] (helo=localhost)
- by xsj-pvapsmtp01 with esmtp (Exim 4.63)
- (envelope-from <edgar@xilinx.com>)
- id 1hhw56-00020p-Dz; Mon, 01 Jul 2019 06:10:52 -0700
-Date: Mon, 1 Jul 2019 15:19:33 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190701131933.GA2840@toto>
-References: <20190628113917.15869-1-luc.michel@greensocs.com>
- <f9c429e1-4a1d-959a-04c4-e9b7e94637cf@linaro.org>
+ (envelope-from <peter.maydell@linaro.org>) id 1hhwDm-0004F2-9h
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:19:51 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:47000)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhwDm-0004E9-2a
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:19:50 -0400
+Received: by mail-ot1-x343.google.com with SMTP id z23so13405963ote.13
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:19:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=pUQv6DkKtWq0J5A/w2iXR4PnuAkD1maDWSI1k7bmNiQ=;
+ b=F6Wj/39GmkLR2g9YeQEkyTn7TSEqBI43kOKZ3yc8kiDRcjlv9cEf/VaDTNhuLrHOhi
+ BAIMHLoBY9zRkEwFAehHcmh7fRuUXN+PtG6hWS+kVxEDvsi4o06PCVy72ndU9W69wgJ0
+ ZKDXHdKoGtztksNd8EjwMq/cL77gBkvHwI89D4yFTN765aBHv40Jya5fEfZB/4SFiggh
+ wAUxQt4bHJpQSywUPXIf+s5auHl/lOy0L5CeCgYq+rbMQlIeiGb1KuqI5CPaLHSm7u7R
+ WBkjlC7qWmvsobdc2qTKbBYZ6iib2dXPUO/LD+pq7Dm8QRTS/bbyWIsoaQ3osEWaVo0K
+ 77RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=pUQv6DkKtWq0J5A/w2iXR4PnuAkD1maDWSI1k7bmNiQ=;
+ b=V2emRUhLARs06rONnciYewvJVXqZhIdJtfffWFWa85lazTTriQ7ABWflOX4oNYDD3b
+ h6Bwzsa2GgPK8bXR2lzmIqgn3l317Z2saNHv2IXFwZogoGzY8T1lWIFj2N6whdNStKBj
+ I1rnRSlQ+ZQRWtxDV5vkr4oLMOt+m7uQVJUCH0dKbWz/dri7GuZNa36mltWVLX9wnSmc
+ VVa5H2wOhz/TCqBKpYPFZaJ46hoXiuyjx8BYbnrBSl3YRHk50f/DKIiqNsuxQxAeZZq0
+ E0Z8+NNpn26MdjWb9YivbyDSvavA2ZC3ReOo+Her9J7N7vGFCySwCfsISZg7lUOh+ig+
+ pfsw==
+X-Gm-Message-State: APjAAAX+dneBI1zNGA1M6qX+d/MDS7VCV9ilUmIw94VN0m82VPAGDFMc
+ +5Yjgr0nXhhIwFKKEwUcHHyQzetYO0ifogyqVXkXMw==
+X-Google-Smtp-Source: APXvYqyMnBKX2lltjXDXX1a3GGRx2b1EiqTmGWpoIb2klL3gA/hC7Qt7vhlZ7ahAlE2pw3/7VPow7xwhKnNOMMxTN54=
+X-Received: by 2002:a9d:7245:: with SMTP id a5mr20522827otk.232.1561987189075; 
+ Mon, 01 Jul 2019 06:19:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f9c429e1-4a1d-959a-04c4-e9b7e94637cf@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
- SFV:NSPM;
- SFS:(10009020)(4636009)(7916004)(376002)(346002)(396003)(39850400004)(136003)(2980300002)(199004)(189003)(70586007)(70206006)(33656002)(14444005)(1076003)(53546011)(229853002)(76176011)(446003)(47776003)(305945005)(50466002)(33716001)(9686003)(478600001)(54906003)(2906002)(486006)(476003)(426003)(11346002)(126002)(76506005)(23726003)(336012)(63266004)(57986006)(77096007)(186003)(9786002)(8936002)(36386004)(26005)(81156014)(81166006)(8676002)(16586007)(58126008)(6246003)(4326008)(5660300002)(106002)(6916009)(316002)(356004)(6666004)(5001870100001);
- DIR:OUT; SFP:1101; SCL:1; SRVR:BY5PR02MB6321; H:xsj-pvapsmtpgw02; FPR:;
- SPF:Pass; LANG:en; PTR:xapps1.xilinx.com,unknown-60-100.xilinx.com; A:1; MX:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8ca6c371-24d5-46b8-5505-08d6fe25937b
-X-Microsoft-Antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(4709080)(1401327)(2017052603328);
- SRVR:BY5PR02MB6321; 
-X-MS-TrafficTypeDiagnostic: BY5PR02MB6321:
-X-LD-Processed: 657af505-d5df-48d0-8300-c31994686c5c,ExtAddr
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <BY5PR02MB63218992C3F77C8C803D156DC2F90@BY5PR02MB6321.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 00851CA28B
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: wsN/hfUTCNpjBQ1QnGnsbSDsAeY26T3JkcPPJJUfQg0KvcBV95/HQWjOez0ZlIUNsfuHw5hmHdhMK8JtbcvV84xG92e0lN4zcs5Juw+T9dNa+o5ss1yApx2YXUBXqN18bK0dR8ybIT4MdTNZ7YshCHFhTECkYrJsth1UcsNKbRsqC0l55tFgAIIak1k3lIAleRI3GerfY4FiM4Fp6NpqNSueHd/0q8F3fuGoRFMgNYja6koSCYfv80eY4dRUTMJtkC47RHNga+ZAdgfmN4jcXjHWC85YRHAv+pj9d3wy53O0bq9jNfQN3TOiBrTbW7g9yMdjrOgT8VMGiss013WWTr9vHPV6hL0iiiU3yaEA8aqdiGFxodFaYp1UxemimEOdZMLkMNM4HB2KvpQEep4C6e3hDECZtHSssbz91jTIaQk=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2019 13:11:05.0493 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ca6c371-24d5-46b8-5505-08d6fe25937b
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.100];
- Helo=[xsj-pvapsmtpgw02]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6321
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:fe51::616
-Subject: Re: [Qemu-devel] [RFC PATCH] accel/tcg/translator: add tb_enter TCG
- trace
+References: <20190618165311.27066-1-clg@kaod.org>
+ <20190618165311.27066-17-clg@kaod.org>
+In-Reply-To: <20190618165311.27066-17-clg@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 14:19:38 +0100
+Message-ID: <CAFEAcA97g-eHyq0cWL5+3JH2xHLVrSaP36pm0G5djkLcVoK0HQ@mail.gmail.com>
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v2 16/21] aspeed/smc: add DMA calibration
+ settings
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -120,99 +75,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien.hedde@greensocs.com, mark.burton@greensocs.com,
- qemu-devel@nongnu.org, sakisp@xilinx.com, edgari@xilinx.com,
- Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc.michel@greensocs.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 28, 2019 at 02:16:41PM +0200, Richard Henderson wrote:
-> On 6/28/19 1:39 PM, Luc Michel wrote:
-> > Add a TCG trace at the begining of a translation block recording the
-> > first and last (past-the-end) PC values.
-> > 
-> > Signed-off-by: Luc Michel <luc.michel@greensocs.com>
-> > ---
-> > This can be used to trace the execution of the guest quite efficiently.
-> > It will report each time a TB is entered (using the tb_enter_exec
-> > trace). The traces arguments give the PC start and past-the-end values.
-> > It has very little to no performance impact since the trace is actually
-> > emitted in the generated code only when it is enabled at run time.
-> > 
-> > It works already quite well on its own to trace guest execution. However
-> > it does not handle the case where a TB is exited in the middle of
-> > execution. I'm not sure how to properly trace that. A trace could be
-> > added when `cpu_loop_exit()' is called to report the current PC, but in
-> > most cases the interesting value (the PC of the instruction that
-> > caused the exit) is already lost at this stage.
-> > 
-> > I'm not sure there is a generic (i.e. not target specific) way of
-> > recovering the last PC executed when cpu_loop_exit() is called. Do you
-> > think of a better way?
-> > 
-> > Thanks to the Xilinx's QEMU team who sponsored this work.
-> > ---
-> >  accel/tcg/translator.c | 24 ++++++++++++++++++++++++
-> >  trace-events           |  3 +++
-> >  2 files changed, 27 insertions(+)
-> > 
-> > diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-> > index 9226a348a3..c55377aa18 100644
-> > --- a/accel/tcg/translator.c
-> > +++ b/accel/tcg/translator.c
-> > @@ -14,10 +14,11 @@
-> >  #include "tcg/tcg-op.h"
-> >  #include "exec/exec-all.h"
-> >  #include "exec/gen-icount.h"
-> >  #include "exec/log.h"
-> >  #include "exec/translator.h"
-> > +#include "trace-tcg.h"
-> >  
-> >  /* Pairs with tcg_clear_temp_count.
-> >     To be called by #TranslatorOps.{translate_insn,tb_stop} if
-> >     (1) the target is sufficiently clean to support reporting,
-> >     (2) as and when all temporaries are known to be consumed.
-> > @@ -28,14 +29,31 @@ void translator_loop_temp_check(DisasContextBase *db)
-> >          qemu_log("warning: TCG temporary leaks before "
-> >                   TARGET_FMT_lx "\n", db->pc_next);
-> >      }
-> >  }
-> >  
-> > +static TCGOp *gen_trace_tb_enter(TranslationBlock *tb)
-> > +{
-> > +    TCGOp *last_pc_op;
-> > +
-> > +    TCGv pc_end = tcg_temp_new();
-> > +
-> > +    /* The last PC value is not known yet */
-> > +    tcg_gen_movi_tl(pc_end, 0xdeadbeef);
-> > +    last_pc_op = tcg_last_op();
-> 
-> TL is a target-specific type that does not necessarily correspond to uint64_t,
-> as you assume in the print message.  More importantly, on a 32-bit host with a
-> 64-bit guest, this movi will generate *two* ops...
-> 
-> > +    /* Fixup the last PC value in the tb_enter trace now that we know it */
-> > +    tcg_set_insn_param(trace_pc_end, 1, db->pc_next);
-> 
-> ... which means that this operation does not do what you think it does.  It
-> will only set one (unknown) half of the _i64 temporary.
-> 
-> Moreover, this isn't quite as zero overhead as I would like, because the pc_end
-> temporary is always created, even if the trace_tb condition is not satisfied
-> and so it (eventually) gets removed as unused.
-> 
-> I'm not quite sure what you're after with pc_end anyway.  As you note within
-> the cover, you can't reliably use it for anything.  If you remove that, then
-> you've also removed all of the other problems with this patch.
+On Tue, 18 Jun 2019 at 17:55, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
+> When doing calibration, the SPI clock rate in the CE0 Control Register
+> and the read delay cycles in the Read Timing Compensation Register are
+> set using bit[11:4] of the DMA Control Register.
+>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Acked-by: Joel Stanley <joel@jms.id.au>
+> ---
+>  hw/ssi/aspeed_smc.c | 64 ++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 63 insertions(+), 1 deletion(-)
 
-Hi,
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-One of the use cases is to be able to collect code-coverage from these traces.
-In that case we're going to need a reliable pc_end. We may need to recover it
-from outside of TCG in some cases though...
-
-Cheers,
-Edgar 
+thanks
+-- PMM
 
