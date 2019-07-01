@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D04675C6B8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:44:21 +0200 (CEST)
-Received: from localhost ([::1]:46996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA9455C697
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:28:25 +0200 (CEST)
+Received: from localhost ([::1]:46834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7qH-0006PF-0i
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:44:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55574)
+	id 1hi7ar-00072Q-4b
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:28:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52485)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4Md-00053I-9r
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:33 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Bs-0006Nu-O8
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:50:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4Mb-0000HU-Li
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:31 -0400
-Received: from mail-wr1-f52.google.com ([209.85.221.52]:43829)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Bq-0004UC-Bj
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:50:23 -0400
+Received: from mail-wr1-f44.google.com ([209.85.221.44]:34934)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4Mb-0000HI-EW
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:29 -0400
-Received: by mail-wr1-f52.google.com with SMTP id p13so15406507wru.10
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:01:29 -0700 (PDT)
+ id 1hi4Bl-0004BH-9x
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:50:21 -0400
+Received: by mail-wr1-f44.google.com with SMTP id c27so7714626wrb.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=1E06iM3g2rGIpvDkSZRxcV4cH98QgZLgZ77VISOvPlc=;
- b=rrC9IS53HJ9tl6cCe3/PhPlonva0bhClgGXrn4M88ljUCJkYgfpUmgKOFbYAFP1UO3
- JtwowsCbRmFCnU4TOU4QsFLVVm1QZdj5YKRVhc8v3x/6yb87zABKu3FecdoV/gLiFRUI
- /oQAeRbDI0CzITZuZnC+FVrl4+iCuhZ9shzBj/6NSBcVWntiXq9mtdcOHamZZlaZm1MF
- FodNHQEirXGsDtdNibMeYVWvUvspMZ5xYXsEsUbe8oZCgAl9bCbI6FFS+1BQ1TJ8/l/t
- Z4QDl1bn+jLWFcm6PSXdOuDSygXo4RND5+iZe8CuxjFrnGFQS2b6d4ZYqyzqIy8/xnft
- wJvg==
+ bh=wbaK2lk4yZHP52j/5+PW5BzsdFPHnkuejkFeyT9B6iY=;
+ b=fKNZZew5Oh02CcxlKp2lEV04XxxkatzL6oCiuE3zqI6/RoSINksSra+/JteNGuKeE2
+ Fv5edWUc/wL7d6Asf1HM/ldpFU2nGJB9r37hnOPyw1nB8aipJJb5zAqkzGK1LdCdFoEI
+ tlTdH7dAQLRI3Ouz47bjXeTZ2j03anFT/OVT8gURDvaT24WJimi57OuqakybGLElo34i
+ +kMBNXcC5bPsBwLiVBe6nps42etI2oY9mwF2kaTXj/KegjoUSNPqOJNu/Y5JpYYg3lLC
+ E6SYxx0Q3BwOjdyxznW2c9IZSLqMwzDUWifR1IUZ+58+MeuItkjd3j6SMXoFmlEUG7B1
+ JfYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1E06iM3g2rGIpvDkSZRxcV4cH98QgZLgZ77VISOvPlc=;
- b=JHNQ2yMt6EwaW2umRQXxu48mczVA63MfdYy49rzN5/5ZbE9x/sCcwWRzax6+T5TZpm
- 8fIt5Zz8G6Nhp/M4PyPBi+7oALE/Pje55JGpL2TvhftKpSQnFokToVu6kvLLlBanA5cD
- 0Ch4gZXGUuck/1pKj94cAMxBdPMq2qPuRRLR2i2mGbM5SLu+s94mOlyhqO5RLoZtX29D
- kHPsCfKDEMsOLnn/PzNKGmwrjcZIbsMwXyiTswWfWxiiaJPXuzmvfogixuDNub0t2ZcD
- +4BhHAjdiM17/55ZG7oI2dTYuADsiYCKLdHSgZJtQfRzdoPVETsAp4GPtNod4M5KzdcG
- 9kWw==
-X-Gm-Message-State: APjAAAU7/qkpR/ioVCYBqBqxhCI+sUrcq8JhBr8eUGmG0DZeBCUiioDW
- SJVz//3SHsz0zTSqJdvLyZG/AErzHXi9ng==
-X-Google-Smtp-Source: APXvYqw5SRtS0ySqCxCgThkkGdeBtzB/0lcnmjHJLS6wniI76wAY2PLjxDFWdU/5nGnJkOxSNjiP+A==
-X-Received: by 2002:adf:e84d:: with SMTP id d13mr15984958wrn.88.1561999199485; 
- Mon, 01 Jul 2019 09:39:59 -0700 (PDT)
+ bh=wbaK2lk4yZHP52j/5+PW5BzsdFPHnkuejkFeyT9B6iY=;
+ b=fQoC7Ccwc1rt1nGLuhd1Ix14bzQxffcDNe2ClqwGkWTV0+bU/2WXJ6jk/n9mTCc1Kj
+ oXrJCCkXgbhqTt33G475qy21EQCc0fTO5VmmS6UHeH7H7o7cmKBXxYw8m6H5jsg7JcDt
+ +GdcKvRYD9YiHLQyebVeEuLhgsHLES0W1vN1mIQP9TrFXNuy5xj3CUp9tX++Ft402p9C
+ No5qVUgHnqrZXgH9utFMDUE5Om9WJhiPnRipFBC2MVIeg7TqN9I5q7a8INHfpe/Aru+U
+ NvA7OjbuysEYFDnXhPi1njUvFrl7XZQPJOrI8etvZDP62OEkvHpVlxYNZaEojTAZmJTr
+ xaSg==
+X-Gm-Message-State: APjAAAXqDmO5b/JSOAmbCXbvrVCXhbbqwBI7S7QYumI0cq/gdrCA8iir
+ CZX6w9bxh6LUrwk/tgDmaKvI23xr2VbWlg==
+X-Google-Smtp-Source: APXvYqyntrThvsXnDgmb3Jvc2F4qwOVxFWJlUiUGcjNnuo+nYw6R91DADJ8zyoqesNcI/ywnEdy9hQ==
+X-Received: by 2002:a5d:5386:: with SMTP id d6mr11726003wrv.207.1561999201868; 
+ Mon, 01 Jul 2019 09:40:01 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.58
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:39:59 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:10 +0100
-Message-Id: <20190701163943.22313-14-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:12 +0100
+Message-Id: <20190701163943.22313-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,9 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.52
-Subject: [Qemu-devel] [PULL 13/46] aspeed: introduce a configurable number
- of CPU per machine
+X-Received-From: 209.85.221.44
+Subject: [Qemu-devel] [PULL 15/46] aspeed/timer: Fix behaviour running Linux
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,206 +82,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Joel Stanley <joel@jms.id.au>
 
-The current models of the Aspeed SoCs only have one CPU but future
-ones will support SMP. Introduce a new num_cpus field at the SoC class
-level to define the number of available CPUs per SoC and also
-introduce a 'num-cpus' property to activate the CPUs configured for
-the machine.
+The Linux kernel driver was updated in commit 4451d3f59f2a
+("clocksource/drivers/fttmr010: Fix set_next_event handler) to fix an
+issue observed on hardware:
 
-The max_cpus limit of the machine should depend on the SoC definition
-but, unfortunately, these values are not available when the machine
-class is initialized. This is the reason why we add a check on
-num_cpus in the AspeedSoC realize handler.
+ > RELOAD register is loaded into COUNT register when the aspeed timer
+ > is enabled, which means the next event may be delayed because timer
+ > interrupt won't be generated until <0xFFFFFFFF - current_count +
+ > cycles>.
 
-SMP support will be activated when models for such SoCs are implemented.
+When running under Qemu, the system appeared "laggy". The guest is now
+scheduling timer events too regularly, starving the host of CPU time.
 
+This patch modifies the timer model to attempt to schedule the timer
+expiry as the guest requests, but if we have missed the deadline we
+re interrupt and try again, which allows the guest to catch up.
+
+Provides expected behaviour with old and new guest code.
+
+Fixes: c04bd47db6b9 ("hw/timer: Add ASPEED timer device model")
+Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190618165311.27066-6-clg@kaod.org
+Message-id: 20190618165311.27066-8-clg@kaod.org
+[clg: - merged a fix from Andrew Jeffery <andrew@aj.id.au>
+        "Fire interrupt on failure to meet deadline"
+        https://lists.ozlabs.org/pipermail/openbmc/2019-January/014641.html
+      - adapted commit log
+      - checkpatch fixes ]
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed_soc.h |  5 ++++-
- hw/arm/aspeed.c             |  7 +++++--
- hw/arm/aspeed_soc.c         | 33 +++++++++++++++++++++++++++------
- 3 files changed, 36 insertions(+), 9 deletions(-)
+ hw/timer/aspeed_timer.c | 57 ++++++++++++++++++++++-------------------
+ 1 file changed, 30 insertions(+), 27 deletions(-)
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index fa0ba957a61..b613b00600f 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -24,13 +24,15 @@
+diff --git a/hw/timer/aspeed_timer.c b/hw/timer/aspeed_timer.c
+index 2c3a4d0fe77..537f072cf87 100644
+--- a/hw/timer/aspeed_timer.c
++++ b/hw/timer/aspeed_timer.c
+@@ -109,37 +109,40 @@ static inline uint64_t calculate_time(struct AspeedTimer *t, uint32_t ticks)
  
- #define ASPEED_SPIS_NUM  2
- #define ASPEED_WDTS_NUM  3
-+#define ASPEED_CPUS_NUM  2
+ static uint64_t calculate_next(struct AspeedTimer *t)
+ {
+-    uint64_t next = 0;
+-    uint32_t rate = calculate_rate(t);
++    uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    uint64_t next;
  
- typedef struct AspeedSoCState {
-     /*< private >*/
-     DeviceState parent;
+-    while (!next) {
+-        /* We don't know the relationship between the values in the match
+-         * registers, so sort using MAX/MIN/zero. We sort in that order as the
+-         * timer counts down to zero. */
+-        uint64_t seq[] = {
+-            calculate_time(t, MAX(t->match[0], t->match[1])),
+-            calculate_time(t, MIN(t->match[0], t->match[1])),
+-            calculate_time(t, 0),
+-        };
+-        uint64_t reload_ns;
+-        uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    /*
++     * We don't know the relationship between the values in the match
++     * registers, so sort using MAX/MIN/zero. We sort in that order as
++     * the timer counts down to zero.
++     */
  
-     /*< public >*/
--    ARMCPU cpu;
-+    ARMCPU cpu[ASPEED_CPUS_NUM];
-+    uint32_t num_cpus;
-     MemoryRegion sram;
-     AspeedVICState vic;
-     AspeedRtcState rtc;
-@@ -58,6 +60,7 @@ typedef struct AspeedSoCInfo {
-     int wdts_num;
-     const int *irqmap;
-     const hwaddr *memmap;
-+    uint32_t num_cpus;
- } AspeedSoCInfo;
- 
- typedef struct AspeedSoCClass {
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index c692ca1dba9..96de4f5c2a8 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -22,13 +22,13 @@
- #include "hw/misc/tmp105.h"
- #include "qemu/log.h"
- #include "sysemu/block-backend.h"
-+#include "sysemu/sysemu.h"
- #include "hw/loader.h"
- #include "qemu/error-report.h"
- #include "qemu/units.h"
- 
- static struct arm_boot_info aspeed_board_binfo = {
-     .board_id = -1, /* device-tree-only board */
--    .nb_cpus = 1,
- };
- 
- struct AspeedBoardState {
-@@ -171,6 +171,8 @@ static void aspeed_board_init(MachineState *machine,
-                             &error_abort);
-     object_property_set_int(OBJECT(&bmc->soc), cfg->num_cs, "num-cs",
-                             &error_abort);
-+    object_property_set_int(OBJECT(&bmc->soc), smp_cpus, "num-cpus",
-+                            &error_abort);
-     if (machine->kernel_filename) {
-         /*
-          * When booting with a -kernel command line there is no u-boot
-@@ -230,6 +232,7 @@ static void aspeed_board_init(MachineState *machine,
-     aspeed_board_binfo.kernel_cmdline = machine->kernel_cmdline;
-     aspeed_board_binfo.ram_size = ram_size;
-     aspeed_board_binfo.loader_start = sc->info->memmap[ASPEED_SDRAM];
-+    aspeed_board_binfo.nb_cpus = bmc->soc.num_cpus;
- 
-     if (cfg->i2c_init) {
-         cfg->i2c_init(bmc);
-@@ -326,7 +329,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
- 
-     mc->desc = board->desc;
-     mc->init = aspeed_machine_init;
--    mc->max_cpus = 1;
-+    mc->max_cpus = ASPEED_CPUS_NUM;
-     mc->no_sdcard = 1;
-     mc->no_floppy = 1;
-     mc->no_cdrom = 1;
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 5faa78d81fd..d38fb0aaa0f 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -19,6 +19,7 @@
- #include "hw/char/serial.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qemu/error-report.h"
- #include "hw/i2c/aspeed_i2c.h"
- #include "net/net.h"
- 
-@@ -123,6 +124,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .wdts_num     = 2,
-         .irqmap       = aspeed_soc_ast2400_irqmap,
-         .memmap       = aspeed_soc_ast2400_memmap,
-+        .num_cpus     = 1,
-     }, {
-         .name         = "ast2400-a1",
-         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
-@@ -134,6 +136,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .wdts_num     = 2,
-         .irqmap       = aspeed_soc_ast2400_irqmap,
-         .memmap       = aspeed_soc_ast2400_memmap,
-+        .num_cpus     = 1,
-     }, {
-         .name         = "ast2400",
-         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
-@@ -145,6 +148,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .wdts_num     = 2,
-         .irqmap       = aspeed_soc_ast2400_irqmap,
-         .memmap       = aspeed_soc_ast2400_memmap,
-+        .num_cpus     = 1,
-     }, {
-         .name         = "ast2500-a1",
-         .cpu_type     = ARM_CPU_TYPE_NAME("arm1176"),
-@@ -156,6 +160,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .wdts_num     = 3,
-         .irqmap       = aspeed_soc_ast2500_irqmap,
-         .memmap       = aspeed_soc_ast2500_memmap,
-+        .num_cpus     = 1,
-     },
- };
- 
-@@ -172,8 +177,11 @@ static void aspeed_soc_init(Object *obj)
-     AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-     int i;
- 
--    object_initialize_child(obj, "cpu", OBJECT(&s->cpu), sizeof(s->cpu),
--                            sc->info->cpu_type, &error_abort, NULL);
-+    for (i = 0; i < sc->info->num_cpus; i++) {
-+        object_initialize_child(obj, "cpu[*]", OBJECT(&s->cpu[i]),
-+                                sizeof(s->cpu[i]), sc->info->cpu_type,
-+                                &error_abort, NULL);
-+    }
- 
-     sysbus_init_child_obj(obj, "scu", OBJECT(&s->scu), sizeof(s->scu),
-                           TYPE_ASPEED_SCU);
-@@ -241,11 +249,19 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     create_unimplemented_device("aspeed_soc.io", sc->info->memmap[ASPEED_IOMEM],
-                                 ASPEED_SOC_IOMEM_SIZE);
- 
-+    if (s->num_cpus > sc->info->num_cpus) {
-+        warn_report("%s: invalid number of CPUs %d, using default %d",
-+                    sc->info->name, s->num_cpus, sc->info->num_cpus);
-+        s->num_cpus = sc->info->num_cpus;
-+    }
-+
-     /* CPU */
--    object_property_set_bool(OBJECT(&s->cpu), true, "realized", &err);
--    if (err) {
--        error_propagate(errp, err);
--        return;
-+    for (i = 0; i < s->num_cpus; i++) {
-+        object_property_set_bool(OBJECT(&s->cpu[i]), true, "realized", &err);
-+        if (err) {
-+            error_propagate(errp, err);
-+            return;
-+        }
+-        if (now < seq[0]) {
+-            next = seq[0];
+-        } else if (now < seq[1]) {
+-            next = seq[1];
+-        } else if (now < seq[2]) {
+-            next = seq[2];
+-        } else if (t->reload) {
+-            reload_ns = muldiv64(t->reload, NANOSECONDS_PER_SECOND, rate);
+-            t->start = now - ((now - t->start) % reload_ns);
+-        } else {
+-            /* no reload value, return 0 */
+-            break;
+-        }
++    next = calculate_time(t, MAX(t->match[0], t->match[1]));
++    if (now < next) {
++        return next;
      }
  
-     /* SRAM */
-@@ -380,6 +396,10 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100), 0,
-                        aspeed_soc_get_irq(s, ASPEED_ETH1));
+-    return next;
++    next = calculate_time(t, MIN(t->match[0], t->match[1]));
++    if (now < next) {
++        return next;
++    }
++
++    next = calculate_time(t, 0);
++    if (now < next) {
++        return next;
++    }
++
++    /* We've missed all deadlines, fire interrupt and try again */
++    timer_del(&t->timer);
++
++    if (timer_overflow_interrupt(t)) {
++        t->level = !t->level;
++        qemu_set_irq(t->irq, t->level);
++    }
++
++    t->start = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    return calculate_time(t, MAX(MAX(t->match[0], t->match[1]), 0));
  }
-+static Property aspeed_soc_properties[] = {
-+    DEFINE_PROP_UINT32("num-cpus", AspeedSoCState, num_cpus, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
  
- static void aspeed_soc_class_init(ObjectClass *oc, void *data)
- {
-@@ -390,6 +410,7 @@ static void aspeed_soc_class_init(ObjectClass *oc, void *data)
-     dc->realize = aspeed_soc_realize;
-     /* Reason: Uses serial_hds and nd_table in realize() directly */
-     dc->user_creatable = false;
-+    dc->props = aspeed_soc_properties;
- }
- 
- static const TypeInfo aspeed_soc_type_info = {
+ static void aspeed_timer_mod(AspeedTimer *t)
 -- 
 2.20.1
 
