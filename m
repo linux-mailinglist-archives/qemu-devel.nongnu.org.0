@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 862595C579
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:05:44 +0200 (CEST)
-Received: from localhost ([::1]:45914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CF55C5C6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:54:38 +0200 (CEST)
+Received: from localhost ([::1]:46128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4Qh-0006Yy-O9
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:05:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48319)
+	id 1hi5C1-0002CB-9O
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:54:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60445)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hi3KU-00071e-Tb
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:55:22 -0400
+ (envelope-from <bounces@canonical.com>) id 1hi3bD-0003Cp-OX
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:12:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hi3KL-0004EU-Rw
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:55:11 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46455)
+ (envelope-from <bounces@canonical.com>) id 1hi3b9-0000N6-AK
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:12:29 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33442)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hi3KF-0004CZ-DQ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:59 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n4so15252898wrw.13
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:54:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1wfRyxHjaqIfCvUIJ03z9Pt6+BqqMhUX9dFlDyzKWS4=;
- b=WipddEPnDW1jTPgb4Hsa4X/Peddhsuy2/YZY3z5snlriqeoMySj825kbTKlehKxEwK
- W/7x06L1Enx6ZsVw7z7x5Iq5XVF5o/CinAEjy0/k8ch8RzCCvN3VVQQQ+omZInoO2TPy
- c9ezSh89tzMeM5NKVeXo4swH7DVooGkVrN6vgiQx0e67QXdc9bhihrP3f+nUmATpBnyz
- cLsPcosMIzWcwOn829235OOExj4iXITgU7q7BMjjk47qtpQBgmbBSfzonjDjlSDXZSS2
- OVoXczCMy9qYDxqDh3wRUvkqtloXbMutBmwGG2scZ8jm4dVZM6DJ6xKyVuZe1/EsIFXX
- eVug==
-X-Gm-Message-State: APjAAAWILE1n1SDXmmVOCSnvD/6xd5W1B1lPQr3VJkvz6KijUZycc1pT
- kdGhZ6rnq35zJytuPEDvkVvwy7QYMGQ=
-X-Google-Smtp-Source: APXvYqxSmcR30ge/EyBOXwxbAdhKB7iKdhT2IxmLNpMTB2qzCpAPeviMne5HP/Gg7blDKXCbYCWV9w==
-X-Received: by 2002:a5d:53c2:: with SMTP id a2mr20819742wrw.8.1562010980796;
- Mon, 01 Jul 2019 12:56:20 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id e6sm1110355wrw.23.2019.07.01.12.56.19
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 12:56:19 -0700 (PDT)
-To: Christophe de Dinechin <dinechin@redhat.com>, qemu-devel@nongnu.org
-References: <20190701133536.28946-1-philmd@redhat.com>
- <20190701133536.28946-9-philmd@redhat.com> <m1d0ithhhv.fsf@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f3a567a4-496b-9158-1173-7c399a1fa3ee@redhat.com>
-Date: Mon, 1 Jul 2019 21:56:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (Exim 4.71) (envelope-from <bounces@canonical.com>)
+ id 1hi3b8-0000Ih-B8
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:12:27 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1hi2i9-0005R5-DJ
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 20:15:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5E2022E80CC
+ for <qemu-devel@nongnu.org>; Mon,  1 Jul 2019 20:15:37 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <m1d0ithhhv.fsf@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Jul 2019 20:09:07 -0000
+From: Laurent Vivier <Laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ppc
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ddosolitary laurent-vivier
+X-Launchpad-Bug-Reporter: DDoSolitary (ddosolitary)
+X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
+References: <156171334969.18290.6262209650807716029.malonedeb@gac.canonical.com>
+Message-Id: <156201174732.2370.11305258006914936444.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18991";
+ Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 8c9051a43558ceff6962d1ce86bf6a8abc6d0d79
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH v3 08/15] hw/i386/pc: Let fw_cfg_init() use
- the generic MachineState
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1834613] Re: Crypto related operations failing on
+ Alpine Linux on QEMU 4.0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,63 +65,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Samuel Ortiz <sameo@linux.intel.com>,
- Rob Bradford <robert.bradford@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1834613 <1834613@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/19 6:01 PM, Christophe de Dinechin wrote:
-> Philippe Mathieu-Daudé writes:
-> 
->> We removed the PCMachineState access, we can now let the fw_cfg_init()
->> function to take a generic MachineState object.
-> 
-> to take -> take
-> 
->>
->> Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/i386/pc.c | 5 +++--
->>  1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->> index 1e856704e1..60ee71924a 100644
->> --- a/hw/i386/pc.c
->> +++ b/hw/i386/pc.c
->> @@ -929,7 +929,7 @@ static void pc_build_smbios(PCMachineState *pcms)
->>      }
->>  }
->>
->> -static FWCfgState *fw_cfg_arch_create(PCMachineState *pcms,
->> +static FWCfgState *fw_cfg_arch_create(MachineState *ms,
-> 
-> I don't see where ms is used in the function. Maybe in a later patch,
-> I did not receive patches 09-15 yet.
+Fix for that is already included in git master:
 
-You are right, it is not used (even if the following patches).
+2a1224359008 target/ppc: Fix lxvw4x, lxvh8x and lxvb16x
 
->>                                        const CPUArchIdList *cpus,
->>                                        uint16_t boot_cpus,
->>                                        uint16_t apic_id_limit)
->> @@ -1667,6 +1667,7 @@ void pc_memory_init(PCMachineState *pcms,
->>      MemoryRegion *ram_below_4g, *ram_above_4g;
->>      FWCfgState *fw_cfg;
->>      MachineState *machine = MACHINE(pcms);
->> +    MachineClass *mc = MACHINE_GET_CLASS(machine);
->>      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
->>
->>      assert(machine->ram_size == pcms->below_4g_mem_size +
->> @@ -1763,7 +1764,7 @@ void pc_memory_init(PCMachineState *pcms,
->>                                          option_rom_mr,
->>                                          1);
->>
->> -    fw_cfg = fw_cfg_arch_create(pcms, mc->possible_cpu_arch_ids(machine),
->> +    fw_cfg = fw_cfg_arch_create(machine, mc->possible_cpu_arch_ids(machine),
->>                                  pcms->boot_cpus, pcms->apic_id_limit);
->>
->>      rom_set_fw(fw_cfg);
+More fix for
+8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}() helpers =
+for VSR register access") =
+
+are availabe:
+
+77bd8937c03d target/ppc: Fix xvabs[sd]p, xvnabs[sd]p, xvneg[sd]p, xvcpsgn[s=
+d]p
+d47a751adab7 target/ppc: Fix xxbrq, xxbrw
+
+And you can also need:
+
+899f08ad1d12 tcg: Fix typos in helper_gvec_sar{8,32,64}v
+
+depending on you host CPU
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1834613
+
+Title:
+  Crypto related operations failing on Alpine Linux on QEMU 4.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm unable to boot the netboot image of Alpine Linux using QEMU 4.0.
+
+  Steps to reproduce:
+
+  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
+ot/vmlinuz-vanilla
+  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
+ot/initramfs-vanilla
+  qemu-system-ppc64 -kernel vmlinuz-vanilla -initrd initramfs-vanilla -nogr=
+aphic -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinel=
+inux.org/alpine/v3.10/main"
+
+  The init script will automatically download and install an in-memory
+  Alpine Linux environment. However, with QEMU 4.0, the installation
+  process will fail with "BAD signature" errors:
+
+  (1/20) Installing musl (1.1.22-r2)
+  ERROR: musl-1.1.22-r2: BAD signature
+  (2/20) Installing busybox (1.30.1-r2)
+  ERROR: busybox-1.30.1-r2: BAD signature
+  (3/20) Installing alpine-baselayout (3.1.2-r0)
+  Executing alpine-baselayout-3.1.2-r0.pre-install
+  ERROR: alpine-baselayout-3.1.2-r0.pre-install: script exited with error 1=
+27
+  ERROR: alpine-baselayout-3.1.2-r0: BAD signature
+  (4/20) Installing openrc (0.41.2-r1)
+  ERROR: openrc-0.41.2-r1: BAD signature
+  (5/20) Installing alpine-conf (3.8.3-r0)
+  ERROR: alpine-conf-3.8.3-r0: BAD signature
+  (6/20) Installing libcrypto1.1 (1.1.1c-r0)
+  ERROR: libcrypto1.1-1.1.1c-r0: BAD signature
+  (7/20) Installing libssl1.1 (1.1.1c-r0)
+  ERROR: libssl1.1-1.1.1c-r0: BAD signature
+  (8/20) Installing ca-certificates-cacert (20190108-r0)
+  ERROR: ca-certificates-cacert-20190108-r0: BAD signature
+  (9/20) Installing libtls-standalone (2.9.1-r0)
+  ERROR: libtls-standalone-2.9.1-r0: BAD signature
+  (10/20) Installing ssl_client (1.30.1-r2)
+  ERROR: ssl_client-1.30.1-r2: BAD signature
+  (11/20) Installing zlib (1.2.11-r1)
+  ERROR: zlib-1.2.11-r1: BAD signature
+  (12/20) Installing apk-tools (2.10.4-r1)
+  ERROR: apk-tools-2.10.4-r1: BAD signature
+  (13/20) Installing busybox-suid (1.30.1-r2)
+  ERROR: busybox-suid-1.30.1-r2: BAD signature
+  (14/20) Installing busybox-initscripts (3.1-r7)
+  ERROR: busybox-initscripts-3.1-r7: BAD signature
+  (15/20) Installing scanelf (1.2.3-r0)
+  ERROR: scanelf-1.2.3-r0: BAD signature
+  (16/20) Installing musl-utils (1.1.22-r2)
+  ERROR: musl-utils-1.1.22-r2: BAD signature
+  (17/20) Installing libc-utils (0.7.1-r0)
+  ERROR: libc-utils-0.7.1-r0: BAD signature
+  (18/20) Installing alpine-keys (2.1-r2)
+  ERROR: alpine-keys-2.1-r2: BAD signature
+  (19/20) Installing alpine-base (3.10.0-r0)
+  ERROR: alpine-base-3.10.0-r0: BAD signature
+  (20/20) Installing openssl (1.1.1c-r0)
+  ERROR: openssl-1.1.1c-r0: BAD signature
+  20 errors; 0 MiB in 0 packages
+  ok.
+  grep: /sysroot/etc/inittab: No such file or directory
+  /sbin/init not found in new root. Launching emergency recovery shell
+  Type exit to continue boot.
+  sh: can't access tty; job control turned off
+  / #
+
+  If I boot up a disk image created by a previous version of QEMU,
+  crypto related operations like verifying a RSA signature using the
+  "openssl" command will also fail.
+
+  I didn't see these errors on previous QEMU versions or other
+  architectures on QEMU 4.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1834613/+subscriptions
 
