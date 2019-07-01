@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9BA5BC1B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:48:21 +0200 (CEST)
-Received: from localhost ([::1]:58382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E603A5BC4F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:04:00 +0200 (CEST)
+Received: from localhost ([::1]:58490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhvjI-0003xU-LO
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60560)
+	id 1hhvyR-00089c-DY
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:03:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34942)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhvgs-0002WR-DO
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:45:55 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhvu0-0007O4-NR
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:59:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhvgq-0005ug-Eg
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:45:50 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:41784)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhvtz-0008Be-KI
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:59:24 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34757)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhvgn-0005sp-CH
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:45:46 -0400
-Received: by mail-ot1-x332.google.com with SMTP id o101so13012593ota.8
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 05:45:45 -0700 (PDT)
+ id 1hhvtz-00089m-EF
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:59:23 -0400
+Received: by mail-ot1-x342.google.com with SMTP id n5so13385801otk.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 05:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vNULVTyS8QRU64W9OGAFoDYvPCYVmncs1V+CJp7tdcw=;
- b=Uotv01UFxZwsigr8zAIOacfXoSywqeMPMwKq8Hc1pXfK69TAuLy2slC7JQ68etIlD6
- FygOO45ZHSw6KRAR841Gi7Hcg43n8kCXmWCqXXc7+unB5Tr0xdOPYhncJzkF4Py8+APe
- 4TSrzcW76SQWctY3Rzs2mrtwFpswcYHSjlB54xZIYEKhrz2BsYwsD+fMsGyx6MsrgZRP
- kxpYsdFXpRcNGTArSqB/Xiq+5TA9nElXdWPkMK00WeuE2N7mRuybxZ4gDAfP9wTtBg/Q
- HxATjjpFNMBRWFOrwYa4CvDqe3nuS57IOuG4TvpxqAqY/5rn4lMhBc+oHt7GxYrPx6Qs
- jLGQ==
+ :cc:content-transfer-encoding;
+ bh=HMBoIGrEaJ8GR3ze8KYnprE19cd1Pa/U0Sqi2rN/x24=;
+ b=IXK8UHrcxj+abxTJBfH8deVWfxI3lRbAiPkBArfMXjbOHSeWzIs6zpqPLS7xmPtv2T
+ JFemRYc382XAMwYBQKc5PNcUHcuRZhrlnagzyWvthH546Dqp9KeGb5aaoofEftWi5Jmo
+ eMGFGx92EOSGVE+cM6AvDXy+xdR1ED2/Inst+xHPujjpGXFBgiMOl1ppgpGvbPEvxOWD
+ UynCz+fOr6+9SUJ24zzbtgcWJTuMJSTsaD+ZpdqSf4WbGY4uKa4tl2QTZU27r3NCdfTY
+ CiYw9mGFk+wukjgZ7P3ySnju9RYEgejcs5TtTp8PBSIc0usdRozG0UfBFRlTzoUkoSrt
+ UVGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vNULVTyS8QRU64W9OGAFoDYvPCYVmncs1V+CJp7tdcw=;
- b=fdzWHLUIGiatdLtqxZyfQXb/VQUQkUYyx81kbzwMwifOhz9wTGwu1xuw1QKnEoDpEz
- AN1v37Mxhs8WrLVJ9mM96mCvbywg4hu1txfOhmaeHYf4UGHNjSei5N/KplQZvDYTFXqe
- Qv5nQ6/iAhlWNOh5Kzl4PVD8O1/NYqYLnJvyuQjmTn+1DjyDrVjFD1WnA8QTs8KwZ+/U
- qwjpInno7L2p8SZ2Yo+y5BUNgAYpuDwSXb7mPjHD+IT8AfOPIwS3faTMMr2sZZul32ns
- 2Ggmwq9ESzAsl/mJGyx3oJYl3XGrO2Ho/MgavCZSo/ufsEblXlQHPaQ16jIvaE6siX2d
- wOVA==
-X-Gm-Message-State: APjAAAVPVYfN0JYg7jK32PO5l/MA8zEjuvAHI/UDyeoj/ao4sINUZWHC
- 76Dt1Sve+P5OxQHc8rXTC2TpEFepx0umEUiJ38rldg==
-X-Google-Smtp-Source: APXvYqxDKwEIQMQv8w42wMlw9v1FhRMAGB7u7Fm9vBkmNyr1pF9j9r1YRRLra+Ck2cwd1WO/CGKxfgVbvSiW+0TwFr0=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr20392190otk.232.1561985144341; 
- Mon, 01 Jul 2019 05:45:44 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HMBoIGrEaJ8GR3ze8KYnprE19cd1Pa/U0Sqi2rN/x24=;
+ b=dnazK5RasQqiAkyMmbRc6HqB9LX4C5piKvMjAxrtXAfKCGkLqkA7eV5+WALoEmnUZM
+ XVIVR1PeIQDoMOnaOKKuFxWvfxXkQNmBTKr9gNSufIcRgisaoR8vyOfwugMnAK/EqIvR
+ Q/IslXYuSsZ6I4bdRB+fTn3ss3nd4LEI2aSbvWLT1kyp7O6S5CocR7SDPss+FqKF2pQ7
+ VmhNP1k5sSxtlhnzLmp2PxfSllHhcIcH4UmqTA9xmR+UR4hoaskGOtth7WvV2PhyvA/s
+ uAmy8AulUHtVW0VAduYuIRygbPhJVqMoYa5yalHQPW4La+ysU+4r3GDufbbQyRMw521W
+ uQaw==
+X-Gm-Message-State: APjAAAXJfutN5YohC/bokcRR6gn63T2O8ttWckfzw4UEMVjaj6Df3umv
+ XHCmiEBKU7SRCL7RPb7LKKSwQdftre9McN5K+JoYuA==
+X-Google-Smtp-Source: APXvYqyNYVGI0J2KRPDJT3Un2q+QDisUTCemB5orit8ww0ysielf06IRZMz7AmLejJvwBeT9biDFBeAhUtzsQW/rGJI=
+X-Received: by 2002:a9d:4d81:: with SMTP id u1mr8488672otk.221.1561985962431; 
+ Mon, 01 Jul 2019 05:59:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190624153257.20163-1-anthony.perard@citrix.com>
-In-Reply-To: <20190624153257.20163-1-anthony.perard@citrix.com>
+References: <20190618165311.27066-1-clg@kaod.org>
+ <20190618165311.27066-11-clg@kaod.org>
+In-Reply-To: <20190618165311.27066-11-clg@kaod.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 13:45:33 +0100
-Message-ID: <CAFEAcA9xH4DU45bRSbA267a3rvH96RLQ+jrjH9QeemXL-7bosA@mail.gmail.com>
-To: Anthony PERARD <anthony.perard@citrix.com>
+Date: Mon, 1 Jul 2019 13:59:11 +0100
+Message-ID: <CAFEAcA_4E7b6qpHEaZaQRQO3TB5BJCLCRJ7jROAr7CeQsJ5wcw@mail.gmail.com>
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::332
-Subject: Re: [Qemu-devel] [PULL 0/8] xen queue 2019-06-24
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v2 10/21] aspeed/timer: Provide
+ back-pressure information for short periods
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,40 +75,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:X86" <xen-devel@lists.xenproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 24 Jun 2019 at 16:33, Anthony PERARD <anthony.perard@citrix.com> wrote:
+On Tue, 18 Jun 2019 at 17:54, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
+> From: Andrew Jeffery <andrew@aj.id.au>
 >
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+> First up: This is not the way the hardware behaves.
 >
-> are available in the Git repository at:
+> However, it helps resolve real-world problems with short periods being
+> used under Linux. Commit 4451d3f59f2a ("clocksource/drivers/fttmr010:
+> Fix set_next_event handler") in Linux fixed the timer driver to
+> correctly schedule the next event for the Aspeed controller, and in
+> combination with 5daa8212c08e ("ARM: dts: aspeed: Describe random number
+> device") Linux will now set a timer with a period as low as 1us.
 >
->   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20190624
+> Configuring a qemu timer with such a short period results in spending
+> time handling the interrupt in the model rather than executing guest
+> code, leading to noticeable "sticky" behaviour in the guest.
 >
-> for you to fetch changes up to a3434a2d56aee3018f4a0f55c7e0f0cda11f3d9e:
+> The behaviour of Linux is correct with respect to the hardware, so we
+> need to improve our handling under emulation. The approach chosen is to
+> provide back-pressure information by calculating an acceptable minimum
+> number of ticks to be set on the model. Under Linux an additional read
+> is added in the timer configuration path to detect back-pressure, which
+> will never occur on hardware. However if back-pressure is observed, the
+> driver alerts the clock event subsystem, which then performs its own
+> next event dilation via a config option - d1748302f70b ("clockevents:
+> Make minimum delay adjustments configurable")
 >
->   xen: Import other xen/io/*.h (2019-06-24 10:42:30 +0100)
+> A minimum period of 5us was experimentally determined on a Lenovo
+> T480s, which I've increased to 20us for "safety".
 >
-> ----------------------------------------------------------------
-> Xen queue
->
-> * Fix build
-> * xen-block: support feature-large-sector-size
-> * xen-block: Support IOThread polling for PV shared rings
-> * Avoid usage of a VLA
-> * Cleanup Xen headers usage
->
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
+> --- a/hw/misc/aspeed_scu.c
+> +++ b/hw/misc/aspeed_scu.c
+> @@ -423,6 +423,12 @@ static void aspeed_scu_realize(DeviceState *dev, Err=
+or **errp)
+>                            TYPE_ASPEED_SCU, SCU_IO_REGION_SIZE);
+>
+>      sysbus_init_mmio(sbd, &s->iomem);
+> +
+> +    /*
+> +     * Reset on realize to ensure the APB clock value is calculated in t=
+ime for
+> +     * use by the timer model, which is reset before the SCU.
+> +     */
+> +    aspeed_scu_reset(dev);
 
-Applied, thanks.
+This looks wrong. QEMU should always be resetting devices
+after realize and before actually running anything.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+>  }
 
+thanks
 -- PMM
 
