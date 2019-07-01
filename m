@@ -2,58 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F1D5C586
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:12:03 +0200 (CEST)
-Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6984A5C5DA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 01:09:50 +0200 (CEST)
+Received: from localhost ([::1]:46182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4Wm-0001rn-6x
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:12:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48396)
+	id 1hi5Qj-00076u-KO
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 19:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43423)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <hpoussin@reactos.org>) id 1hi3Kg-00073l-3r
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:55:28 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hi3qB-000449-Ir
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:28:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hpoussin@reactos.org>) id 1hi3Ka-0004II-FL
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:55:22 -0400
-Received: from iserv.reactos.org ([138.201.90.89]:39932)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <hpoussin@reactos.org>)
- id 1hi3KS-0003oJ-S7
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:55:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
- ; s=25047;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
- Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Tnrt49U2OEOkcU6Vy0Hb51r4M1HDNQBgzwu6GqfiujY=; b=Ylt9Rua2wZJe4OohmEvWwgV3W4
- DjZWqmozw4qbYmaIKL5C5U/wnqub4z6908xwtVhFxzUl35h33OC+gMX9lkwtMHy3gvbTGXSq4DEvA
- 7sf4KxU02vZ/B7r3uWDVr3uX98hMurCKhtEDEODkjf3+JMDGRXO/b+qAAa2U7Hsb3Wqk=;
-Received: from [2a01:e35:2e3e:3c40:3d64:a34f:19ef:bcc5]
- by iserv.reactos.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <hpoussin@reactos.org>)
- id 1hi3GU-0005Ua-VP; Mon, 01 Jul 2019 20:51:07 +0000
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20190627110201.1999-1-f4bug@amsat.org>
- <20190627110201.1999-2-f4bug@amsat.org>
- <86219d39-81e4-9796-f0ca-d1389b1608b0@amsat.org>
-From: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
-Message-ID: <19976364-ba51-67f8-e5ea-498b4cdefa8a@reactos.org>
-Date: Mon, 1 Jul 2019 22:51:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ (envelope-from <ehabkost@redhat.com>) id 1hi3q9-0007eO-KT
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:27:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36614)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
+ id 1hi3pr-0007YM-GA; Mon, 01 Jul 2019 17:27:42 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 56B26859FE;
+ Mon,  1 Jul 2019 21:27:31 +0000 (UTC)
+Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6A4460852;
+ Mon,  1 Jul 2019 21:27:26 +0000 (UTC)
+Date: Mon, 1 Jul 2019 18:27:25 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Message-ID: <20190701212725.GH5198@habkost.net>
+References: <20190627212816.27298-1-jsnow@redhat.com>
+ <002c8b04-250e-0f33-b623-7e3fd14e7b80@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <86219d39-81e4-9796-f0ca-d1389b1608b0@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <002c8b04-250e-0f33-b623-7e3fd14e7b80@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.26]); Mon, 01 Jul 2019 21:27:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 138.201.90.89
-Subject: Re: [Qemu-devel] [PATCH 1/5] tests/acceptance: Add test that runs
- NetBSD installer on PRep/40p
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH v2 0/3] python: refactor
+ qemu/__init__.py
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,117 +57,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Kamil Rytarowski <kamil@netbsd.org>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/06/2019 à 14:00, Philippe Mathieu-Daudé a écrit :
-> typo "PRep" -> "PReP" in patch subject
-> 
-> On 6/27/19 1:01 PM, Philippe Mathieu-Daudé wrote:
->> User case from:
->> http://mail-index.netbsd.org/port-prep/2017/04/11/msg000112.html
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   tests/acceptance/ppc_prep_40p.py | 63 ++++++++++++++++++++++++++++++++
->>   1 file changed, 63 insertions(+)
->>   create mode 100644 tests/acceptance/ppc_prep_40p.py
-> 
-> Hervé, in v2 I plan to rename it machine_ppc_prep_40p.py and add an
-> entry in MAINTAINERS:
+On Thu, Jun 27, 2019 at 05:32:17PM -0400, John Snow wrote:
+> I didn't actually mean to retain the RFC tag, but oh well.
 
-With the change you want to do:
-Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
+I'm queueing patch 1-2 for QEMU 4.1.
+
+Patch 3 will require more careful review.  If you can demonstrate
+it fixes a problem in some use cases, we can call it a bug fix
+and include it after soft freeze.  ;)
 
 > 
-> -- >8 --
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> @@ -1051,6 +1051,7 @@ F: hw/timer/m48t59-isa.c
->   F: include/hw/isa/pc87312.h
->   F: include/hw/timer/m48t59.h
->   F: pc-bios/ppc_rom.bin
-> +F: tests/acceptance/machine_ppc_prep_40p.py
-> 
-> ---
-> 
->>
->> diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
->> new file mode 100644
->> index 0000000000..53f2d2ecf0
->> --- /dev/null
->> +++ b/tests/acceptance/ppc_prep_40p.py
->> @@ -0,0 +1,63 @@
->> +# Functional test that boots a PReP/40p machine and checks its serial console.
->> +#
->> +# Copyright (c) Philippe Mathieu-Daudé <f4bug@amsat.org>
->> +#
->> +# This work is licensed under the terms of the GNU GPL, version 2 or
->> +# later. See the COPYING file in the top-level directory.
->> +
->> +import os
->> +import logging
->> +
->> +from avocado import skipIf
->> +from avocado_qemu import Test
->> +
->> +
->> +class IbmPrep40pMachine(Test):
->> +
->> +    timeout = 60
->> +
->> +    # TODO refactor to MachineTest
->> +    def wait_for_console_pattern(self, success_message, failure_message=None):
->> +        """
->> +        Waits for messages to appear on the console, while logging the content
->> +
->> +        :param success_message: if this message appears, test succeeds
->> +        :param failure_message: if this message appears, test fails
->> +        """
->> +        console = self.vm.console_socket.makefile()
->> +        console_logger = logging.getLogger('console')
->> +        while True:
->> +            msg = console.readline().strip()
->> +            if not msg:
->> +                continue
->> +            console_logger.debug(msg)
->> +            if success_message in msg:
->> +                break
->> +            if failure_message and failure_message in msg:
->> +                fail = 'Failure message found in console: %s' % failure_message
->> +                self.fail(fail)
->> +
->> +    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
->> +    def test_factory_firmware_and_netbsd(self):
->> +        """
->> +        :avocado: tags=arch:ppc
->> +        :avocado: tags=machine:40p
->> +        :avocado: tags=slowness:high
->> +        """
->> +        bios_url = ('ftp://ftp.boulder.ibm.com/rs6000/firmware/'
->> +                    '7020-40p/P12H0456.IMG')
->> +        bios_hash = '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
->> +        bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
->> +        drive_url = ('https://ftp.netbsd.org/pub/NetBSD/NetBSD-archive/'
->> +                     'NetBSD-4.0/prep/installation/floppy/generic_com0.fs')
->> +        drive_hash = 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
->> +        drive_path = self.fetch_asset(drive_url, asset_hash=drive_hash)
->> +
->> +        self.vm.set_machine('40p')
->> +        self.vm.set_console()
->> +        self.vm.add_args('-bios', bios_path,
->> +                         '-fda', drive_path)
->> +        self.vm.launch()
->> +        os_banner = 'NetBSD 4.0 (GENERIC) #0: Sun Dec 16 00:49:40 PST 2007'
->> +        self.wait_for_console_pattern(os_banner)
->> +        self.wait_for_console_pattern('Model: IBM PPS Model 6015')
->>
+> On 6/27/19 5:28 PM, John Snow wrote:
+> > There's a lot of code hiding in what is ostensibly a package
+> > configuration file. Let's break that out into something more visible.
+> > 
+> > V2:
+> >  - Retain python 2.7+ compatibility :(
+> >  - Refactor shutdown a little more aggressively
+> > 
+> > John Snow (3):
+> >   python/qemu: split QEMUMachine out from underneath __init__.py
+> >   machine.py: minor delinting
+> >   QEMUMachine: Don't suppress stack traces on close
+> > 
+> >  python/qemu/__init__.py                   | 502 +-------------------
+> >  python/qemu/machine.py                    | 536 ++++++++++++++++++++++
+> >  python/qemu/qtest.py                      |   2 +-
+> >  scripts/device-crash-test                 |   2 +-
+> >  scripts/render_block_graph.py             |   2 +-
+> >  tests/acceptance/avocado_qemu/__init__.py |   2 +-
+> >  tests/acceptance/virtio_version.py        |   2 +-
+> >  tests/migration/guestperf/engine.py       |  22 +-
+> >  tests/qemu-iotests/235                    |   2 +-
+> >  tests/vm/basevm.py                        |   3 +-
+> >  10 files changed, 556 insertions(+), 519 deletions(-)
+> >  create mode 100644 python/qemu/machine.py
+> > 
 > 
 
+-- 
+Eduardo
 
