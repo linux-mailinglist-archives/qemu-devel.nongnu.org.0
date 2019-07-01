@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E935B845
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 11:44:30 +0200 (CEST)
-Received: from localhost ([::1]:56526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243455B833
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 11:42:08 +0200 (CEST)
+Received: from localhost ([::1]:56520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhsrN-0003uK-K8
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 05:44:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50629)
+	id 1hhsp4-0002kd-Le
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 05:42:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51179)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhsji-0005a5-Er
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:36:35 -0400
+ (envelope-from <berrange@redhat.com>) id 1hhsli-0008LC-8P
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:38:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhsjh-0004i2-I6
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:36:34 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:36895)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhsjh-0004O8-CJ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:36:33 -0400
-Received: by mail-wr1-f68.google.com with SMTP id v14so12997507wrr.4
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 02:36:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Q+oHhSEDVk1V3F4XlEadg1hm9TLVHLm0W+JZwisqOns=;
- b=BMqki8lOFxeEG2KwsLgvrO6XJ/aJsd5QfXUr58aouznXckx744yrah8QtqkrYFdZmO
- nabkg6sRmKDILcrfsUYnWbFjapPynYeNqGcT+mhm/cdfO2ErlNMYqpbyPsFxF4dQ7A8t
- LVRcALtXICDQyv+ewPGqdqszAlY8C0jXLiIEB6cJBRH4qnkfaTpNIRIta144DOek+h4m
- GiMJJaQdQh1gLfNPuywNnzKuglAMf0+UsQhcKGbw416ptu0G2dSvoD59uRVmXQQO6LXF
- 9YbbVaFEX/a9zAOPjIQJu+7XSuauoOVUI4S6hKtVQzepOE3v+xkmIyRiWlg09TBH50AT
- w7Sg==
-X-Gm-Message-State: APjAAAWKyPTNkVjbHj65Cf4PmZgxcFdtJrIzi7MITzDymvH+VuLApt5c
- G/HnieAj/29fRl0MBDEr/naO8A==
-X-Google-Smtp-Source: APXvYqwbHlfkYHq20WzcJ+vbHfLlaZxs9OQYvgDCMCfV/fglvlx5IRL/wrwO4GuklFJ6fj+BrozByw==
-X-Received: by 2002:adf:f38b:: with SMTP id m11mr18241660wro.79.1561973767995; 
- Mon, 01 Jul 2019 02:36:07 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id a84sm10609728wmf.29.2019.07.01.02.36.07
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 02:36:07 -0700 (PDT)
-To: Jan Kiszka <jan.kiszka@web.de>, Peter Maydell <peter.maydell@linaro.org>, 
- qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
-References: <fc5404f7-4d1d-c28f-6e48-d8799c82acc0@web.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <098adaad-e787-3d5d-a145-5c4999aa32fe@redhat.com>
-Date: Mon, 1 Jul 2019 11:36:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ (envelope-from <berrange@redhat.com>) id 1hhslg-0006hf-Qv
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:38:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37091)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hhslg-00068X-KU
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:38:36 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 4D3AB30872EE;
+ Mon,  1 Jul 2019 09:37:54 +0000 (UTC)
+Received: from redhat.com (ovpn-112-60.ams2.redhat.com [10.36.112.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 750CD19C77;
+ Mon,  1 Jul 2019 09:37:52 +0000 (UTC)
+Date: Mon, 1 Jul 2019 10:37:49 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: P J P <ppandit@redhat.com>
+Message-ID: <20190701093749.GE3573@redhat.com>
+References: <20190701090904.31312-1-ppandit@redhat.com>
+ <20190701090904.31312-4-ppandit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <fc5404f7-4d1d-c28f-6e48-d8799c82acc0@web.de>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+In-Reply-To: <20190701090904.31312-4-ppandit@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.47]); Mon, 01 Jul 2019 09:37:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH] hw/arm/virt: Add support for Cortex-A7
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 3/3] net: tap: restrict bridge name to
+ IFNAMSIZ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,40 +58,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Riccardo Schirone <rschiron@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/30/19 5:13 PM, Jan Kiszka wrote:
-> From: Jan Kiszka <jan.kiszka@siemens.com>
+On Mon, Jul 01, 2019 at 02:39:04PM +0530, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> No reason to deny this type.
-
-Maybe add "As the A15, it supports the EL2/V7VE features."?
-
+> The interface name in Linux interface request struct 'ifreq'
+> OR in qemu-bridge-helper is defined to be of size IFNAMSIZ(=16),
+> including the terminating null('\0') byte.
 > 
-> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+> QEMU tap device, while invoking qemu-bridge-helper, supplies bridge
+> name of 16 characters, restrict it to IFNAMESIZ-1 to accommodate
+> terminating null('\0') byte.
+> 
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
->  hw/arm/virt.c | 1 +
->  1 file changed, 1 insertion(+)
+>  net/tap.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 431e2900fd..ed009fa447 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -176,6 +176,7 @@ static const int a15irqmap[] = {
->  };
-> 
->  static const char *valid_cpus[] = {
-> +    ARM_CPU_TYPE_NAME("cortex-a7"),
->      ARM_CPU_TYPE_NAME("cortex-a15"),
->      ARM_CPU_TYPE_NAME("cortex-a53"),
->      ARM_CPU_TYPE_NAME("cortex-a57"),
+> diff --git a/net/tap.c b/net/tap.c
+> index e8aadd8d4b..ca8536624c 100644
+> --- a/net/tap.c
+> +++ b/net/tap.c
+> @@ -499,7 +499,7 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
+>      if (pid == 0) {
+>          int open_max = sysconf(_SC_OPEN_MAX), i;
+>          char fd_buf[6+10];
+> -        char br_buf[6+IFNAMSIZ] = {0};
+> +        char br_buf[5+IFNAMSIZ] = {0};
+>          char helper_cmd[PATH_MAX + sizeof(fd_buf) + sizeof(br_buf) + 15];
+>  
+>          for (i = 3; i < open_max; i++) {
 
-Should we list here all cpu with arm_feature(ARM_FEATURE_V7VE | V8)? or EL2?
+Playing games with multiple "perfectly" sized static buffers & snprintf
+is madness. How about re-writing this method so that it just uses
+g_strdup_printf() to dynamically format the helper_cmd string.
 
-> --
-> 2.16.4
-> 
+Alternatively we could get rid of the use of shell and directly exec
+the helper program. This would let us just pass argv[] and avoid the
+printf'ing entirely.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
