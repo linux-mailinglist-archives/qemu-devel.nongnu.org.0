@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3EF5C700
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:16:29 +0200 (CEST)
-Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26B35C708
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:18:15 +0200 (CEST)
+Received: from localhost ([::1]:47167 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8LI-0002hr-J1
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:16:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59401)
+	id 1hi8N5-0004pK-1v
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57246)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4bD-00072Y-JF
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:16:36 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Sn-00015d-KQ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:07:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4bA-0004PX-Ey
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:16:35 -0400
-Received: from mail-wm1-f42.google.com ([209.85.128.42]:52959)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Se-000270-7V
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:07:47 -0400
+Received: from mail-wr1-f54.google.com ([209.85.221.54]:41336)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4bA-0004PA-6i
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:16:32 -0400
-Received: by mail-wm1-f42.google.com with SMTP id s3so989036wms.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:16:32 -0700 (PDT)
+ id 1hi4Sc-000264-7e
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:07:44 -0400
+Received: by mail-wr1-f54.google.com with SMTP id c2so15453590wrm.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:07:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=o6tJonaWbPJQHk+WHfPFs3EZy62SAe8H5ByWEfMlaXA=;
- b=tblbu+7+WjY/sWIznRy9L6qiQm6ggh5fhapgt8YDfHwMnH89VrGcDX4D8SE3DuoOFr
- +UZS/YcLYBUlIf+XRIycQs8GrOny6kbT1LxeSUw2ttMB4lXMGYvZW9ewHdZyPflsxcP5
- rqNCbjx/ZKraKqNclNzjji1wvE08Nmh6Qi3gH7qz7zjkWqBxytwViXQUl/pqZCtUHrSI
- uCPTS/Rz7McuQjXJP+VMlc3wOIsi/0Z7IRvBygE91NqNcTHPuc2vZqy12anBhxvZW520
- fAOv7y7nH/9boG6DoQLBjx2uyJnxxQN03xNdJW+h5d8RM3FtWzD2OaUOSdZIRLBX+Qet
- XBtg==
+ bh=kvmRawPGPmElWaZn3Ee6CrEYDJliNT9WQgA2cgByzq0=;
+ b=RgyXmKF1Azn3zawAGqyGiQQVgYJ2nV1x8DwVmPZGcQU/NtEQcKVATbRFkMVWbjQ4Ke
+ asSYAnGDisiZoaGDhI7K75WNJiXTWcghdKTUapfB3AnzJxxWjyNNnfbo841iTn3rbNDk
+ JOjtuFCj3BN0g++slmnAsemuYS4oQVW7hztq98cQNZV9/P5Uj1+N5fxfA8C+bnon5zHk
+ kf+aifEaF7XR4bxQiuhvX2QWKJJnJDtOcJFjiInI63rkZv4vcOf9PumaoZTX8iNuywn7
+ 4oOd7LqeJHeTvFD9q0UsJ3Yk4Z6HK1VIoxSzb6NGr4UwfwDA3kHeZTDE8BJ/92iac876
+ 1F2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=o6tJonaWbPJQHk+WHfPFs3EZy62SAe8H5ByWEfMlaXA=;
- b=FQuy2LCpoHNX/gOrwTTDLNs8847cEdmvF2ZXeD6OGa4HdAaC1pRHNArL68Pnzzm4fB
- zcbTTxZ0vbuH5Bvm9UdiEf+l1s2AsVnbzQiXVsbQXhSDZGjy/mTOu5CGuy1eNsgqoeNj
- XUDW43u620m2upMZ5wFHzkq4I+IV1Kw5+knm5vsnuXY4/IiE1c6Z5QZbdm/gt0VAuK4O
- 2n7kMCFVO6L8I5Va02vWom4JeYcgdiJAs0vPA8Uc7YxERlu2KduAKH+Mc3nkLfPCudFf
- QZ8hz54XX126/Eyo/8M9MNkiW94YWf9TbAiMUg9vVRwe3pHqQ0fUBXwuqDE+QIhc6DlR
- iikg==
-X-Gm-Message-State: APjAAAV/phqmywlOjoX3NsjZ6rl1wR4O5pPfoTdDTU9NtHaQzWuBDzuC
- cFiKv8x/bUOEMXAgX1jtN5OXPIdXLAR0lA==
-X-Google-Smtp-Source: APXvYqyv6hfpyPdsLIIGcrshTcrztKBKx8Z+zZR8OHmB40GDIGwnPOnBY1jpWWw7Q62ptGP1ACNI4Q==
-X-Received: by 2002:a1c:7a01:: with SMTP id v1mr155044wmc.10.1561999220910;
- Mon, 01 Jul 2019 09:40:20 -0700 (PDT)
+ bh=kvmRawPGPmElWaZn3Ee6CrEYDJliNT9WQgA2cgByzq0=;
+ b=dCHAGdesC3hmFbozMuTpDGuI6/Xv6Iqgi2CbMBlu8Y6SZ+Q8ekuTPzOFGJ0pwroo4Q
+ a3A86ly1Lkz8KBqHuHDnOE4p+QOzqrnTg8PzJi1ZUC7XptmkllvKzJR24dBjmmQ3/d9v
+ 88UEp00PPtCgNapKhce/WIT5wYpYrXGrpJWgRhw+O5SrzBPYqptRUm5fe5sHbHWFXbvQ
+ 4TjutSj/I1ZaXOgFuXRorWi/Q8XcRBiqR393hvHGISJ6DSWbeb+lnCVACoARq898dVjB
+ I3RailzIIV2RY43zpVefMlLnVpGQDth4KKU/edm1MfO89bPcloAjTYQ/JxX7SVcEqMDa
+ fZNQ==
+X-Gm-Message-State: APjAAAVB9Da2RvbGRoh37nwWLGJWxt4s+3y+ChHuIGZ8TW8I4JpEaISQ
+ U4cFJJp7lVJHYQ5ZyT0M2chf8CY9TczDrA==
+X-Google-Smtp-Source: APXvYqwr/B6FgjDNoshZoyySt8Den7g3/hNz1yPFuglMZP3rA7hb9o/KwMze3Acuka/zSRy9laPZnA==
+X-Received: by 2002:a5d:5752:: with SMTP id q18mr14428598wrw.337.1561999224904; 
+ Mon, 01 Jul 2019 09:40:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.19
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:20 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:30 +0100
-Message-Id: <20190701163943.22313-34-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:32 +0100
+Message-Id: <20190701163943.22313-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.42
-Subject: [Qemu-devel] [PULL 33/46] target/arm/helper: Remove unused include
+X-Received-From: 209.85.221.54
+Subject: [Qemu-devel] [PULL 35/46] target/arm: Fix coding style issues
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,34 +84,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Since we'll move this code around, fix its style first.
+
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190701132516.26392-7-philmd@redhat.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20190701132516.26392-9-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/arm/translate.c  | 11 ++++++-----
+ target/arm/vfp_helper.c | 36 ++++++++++++++++++++++++------------
+ 2 files changed, 30 insertions(+), 17 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d3f3cb57d5f..ca4d4a57bff 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -14,7 +14,6 @@
- #include "exec/gdbstub.h"
- #include "exec/helper-proto.h"
- #include "qemu/host-utils.h"
--#include "sysemu/arch_init.h"
- #include "sysemu/sysemu.h"
- #include "qemu/bitops.h"
- #include "qemu/crc32c.h"
-@@ -26,7 +25,6 @@
- #include "hw/semihosting/semihost.h"
- #include "sysemu/cpus.h"
- #include "sysemu/kvm.h"
--#include "fpu/softfloat.h"
- #include "qemu/range.h"
- #include "qapi/qapi-commands-target.h"
- #include "qapi/error.h"
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 4750b9fa1bb..c6bdf026b45 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9109,7 +9109,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                 loaded_base = 0;
+                 loaded_var = NULL;
+                 n = 0;
+-                for(i=0;i<16;i++) {
++                for (i = 0; i < 16; i++) {
+                     if (insn & (1 << i))
+                         n++;
+                 }
+@@ -9132,7 +9132,7 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+                     }
+                 }
+                 j = 0;
+-                for(i=0;i<16;i++) {
++                for (i = 0; i < 16; i++) {
+                     if (insn & (1 << i)) {
+                         if (is_load) {
+                             /* load */
+@@ -12353,12 +12353,13 @@ void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+         return;
+     }
+ 
+-    for(i=0;i<16;i++) {
++    for (i = 0; i < 16; i++) {
+         qemu_fprintf(f, "R%02d=%08x", i, env->regs[i]);
+-        if ((i % 4) == 3)
++        if ((i % 4) == 3) {
+             qemu_fprintf(f, "\n");
+-        else
++        } else {
+             qemu_fprintf(f, " ");
++        }
+     }
+ 
+     if (arm_feature(env, ARM_FEATURE_M)) {
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index 7ece78e987b..121bdbd3aff 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -34,18 +34,24 @@ static inline int vfp_exceptbits_from_host(int host_bits)
+ {
+     int target_bits = 0;
+ 
+-    if (host_bits & float_flag_invalid)
++    if (host_bits & float_flag_invalid) {
+         target_bits |= 1;
+-    if (host_bits & float_flag_divbyzero)
++    }
++    if (host_bits & float_flag_divbyzero) {
+         target_bits |= 2;
+-    if (host_bits & float_flag_overflow)
++    }
++    if (host_bits & float_flag_overflow) {
+         target_bits |= 4;
+-    if (host_bits & (float_flag_underflow | float_flag_output_denormal))
++    }
++    if (host_bits & (float_flag_underflow | float_flag_output_denormal)) {
+         target_bits |= 8;
+-    if (host_bits & float_flag_inexact)
++    }
++    if (host_bits & float_flag_inexact) {
+         target_bits |= 0x10;
+-    if (host_bits & float_flag_input_denormal)
++    }
++    if (host_bits & float_flag_input_denormal) {
+         target_bits |= 0x80;
++    }
+     return target_bits;
+ }
+ 
+@@ -80,18 +86,24 @@ static inline int vfp_exceptbits_to_host(int target_bits)
+ {
+     int host_bits = 0;
+ 
+-    if (target_bits & 1)
++    if (target_bits & 1) {
+         host_bits |= float_flag_invalid;
+-    if (target_bits & 2)
++    }
++    if (target_bits & 2) {
+         host_bits |= float_flag_divbyzero;
+-    if (target_bits & 4)
++    }
++    if (target_bits & 4) {
+         host_bits |= float_flag_overflow;
+-    if (target_bits & 8)
++    }
++    if (target_bits & 8) {
+         host_bits |= float_flag_underflow;
+-    if (target_bits & 0x10)
++    }
++    if (target_bits & 0x10) {
+         host_bits |= float_flag_inexact;
+-    if (target_bits & 0x80)
++    }
++    if (target_bits & 0x80) {
+         host_bits |= float_flag_input_denormal;
++    }
+     return host_bits;
+ }
+ 
 -- 
 2.20.1
 
