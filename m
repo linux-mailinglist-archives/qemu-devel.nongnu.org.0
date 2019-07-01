@@ -2,44 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A04B5B8F1
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 12:26:58 +0200 (CEST)
-Received: from localhost ([::1]:56864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9165B8D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 12:18:14 +0200 (CEST)
+Received: from localhost ([::1]:56804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhtWT-0001cK-5E
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 06:26:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33195)
+	id 1hhtO2-00076K-3j
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 06:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59670)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <hang.yuan@linux.intel.com>) id 1hhtV2-0000sz-Ct
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 06:25:29 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhtMl-0006Dm-OU
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 06:16:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <hang.yuan@linux.intel.com>) id 1hhtV1-0006Ow-AM
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 06:25:28 -0400
-Received: from mga04.intel.com ([192.55.52.120]:65182)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <hang.yuan@linux.intel.com>)
- id 1hhtUx-0006JA-LQ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 06:25:25 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2019 03:25:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,439,1557212400"; d="scan'208";a="184222137"
-Received: from henry-optiplex-7050.bj.intel.com ([10.238.156.132])
- by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2019 03:25:16 -0700
-From: hang.yuan@linux.intel.com
-To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 18:15:29 +0800
-Message-Id: <1561976129-31086-1-git-send-email-hang.yuan@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 192.55.52.120
-Subject: [Qemu-devel] [PATCH v2] target/i386: HAX: Enable ROM/ROM device
- memory region support
+ (envelope-from <philmd@redhat.com>) id 1hhtMk-0000Ys-Er
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 06:16:55 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40339)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhtMk-0000Pv-3F
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 06:16:54 -0400
+Received: by mail-wm1-f66.google.com with SMTP id v19so15249627wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 03:16:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to;
+ bh=/Bh0ZE3ySP65zEP+1jY5wYg+ao0IFv/nT9ofGj0rZz0=;
+ b=ICm1JuC1FhfAyc/fsIw6e70S4SO4ShUAvklwxBOxoQCS4dzbtwaaS30c+8W7171LF9
+ vg59mU2K6vxmC/gQxBzFjRuZq8pUoImHe7iiYeuWJrXNiEHXaaSLBHGSrg9rQm1QkUH7
+ P2jMylDbm8Qd3FjXU7e/MiH4ICYXjRXn92bFVQuYKGcRujYLaMKw8nOAzuoD5hk4RSFm
+ X9j4P4Pa1O2onrM4pUOWjgjzNLe/SxjbPXFCdSjJGQ9wZDJPGlcBkWqx7ZrjsI9OdZbh
+ 57YzuuxUjeh+m0W8bfdwBmIJ9ntQ01ssI5R/zFi5F6UIy11GD1nrD+36w0wiTXDUzHaw
+ WGMA==
+X-Gm-Message-State: APjAAAUeiRvruL/anpbNzJpks1dR1ts8QCce+VBnFRdhtleMnVqIcfWQ
+ EsAIpWd0jE+2yEAb4OAaMW2M/Q==
+X-Google-Smtp-Source: APXvYqxiKHgRlLluxa2dAmo3pYDclqfXlXPC8pQIFBMYUYYKfbWSJmtWUoNidaGjsSL3W83sQ72b8Q==
+X-Received: by 2002:a1c:407:: with SMTP id 7mr17700236wme.113.1561976207235;
+ Mon, 01 Jul 2019 03:16:47 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id c65sm10436708wma.44.2019.07.01.03.16.45
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Jul 2019 03:16:46 -0700 (PDT)
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+ Damien Hedde <damien.hedde@greensocs.com>
+References: <20190628124534.10679-1-damien.hedde@greensocs.com>
+ <20190701083710.GA18173@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <94a3da17-c1c5-b9ce-8e92-4d346ed98782@redhat.com>
+Date: Mon, 1 Jul 2019 12:16:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190701083710.GA18173@stefanha-x1.localdomain>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="YfGVBmusw7n6pIy6jM2PcEydhRnNiSQKd"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [RFC PATCH 0/5] FAULT INJECTION FRAMEWORK
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -51,48 +74,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hang Yuan <hang.yuan@linux.intel.com>
+Cc: ehabkost@redhat.com, sakisp@xilinx.com, mark.burton@greensocs.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, edgari@xilinx.com, crosa@redhat.com,
+ pbonzini@redhat.com, luc.michel@greensocs.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hang Yuan <hang.yuan@linux.intel.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--YfGVBmusw7n6pIy6jM2PcEydhRnNiSQKd
+Content-Type: multipart/mixed; boundary="LlcdVuBcZzboLB3UiZE5FaRbP37nDnYJM";
+ protected-headers="v1"
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+ Damien Hedde <damien.hedde@greensocs.com>
+Cc: ehabkost@redhat.com, sakisp@xilinx.com, mark.burton@greensocs.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, edgari@xilinx.com,
+ crosa@redhat.com, pbonzini@redhat.com, luc.michel@greensocs.com,
+ rth@twiddle.net
+Message-ID: <94a3da17-c1c5-b9ce-8e92-4d346ed98782@redhat.com>
+Subject: Re: [Qemu-devel] [RFC PATCH 0/5] FAULT INJECTION FRAMEWORK
+References: <20190628124534.10679-1-damien.hedde@greensocs.com>
+ <20190701083710.GA18173@stefanha-x1.localdomain>
+In-Reply-To: <20190701083710.GA18173@stefanha-x1.localdomain>
 
-Add ROM and ROM device memory region support in HAX. Their memory region is
-read only and write access will generate EPT violation. The violation will be
-handled in the HAX kernel with the following patch.
+--LlcdVuBcZzboLB3UiZE5FaRbP37nDnYJM
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-https://github.com/intel/haxm/commit/33ceea09a1655fca12c47f1e112b1d269357ff28
+On 7/1/19 10:37 AM, Stefan Hajnoczi wrote:
+> On Fri, Jun 28, 2019 at 02:45:29PM +0200, Damien Hedde wrote:
+>> This series adds a python framework aiming to provide some ways to do =
+fault
+>> injection in a running vm. In its current state, it allows to easily i=
+nteract
+>> with memory, change gpios and qom properties.
+>>
+>> The framework consists in a python script based on the qmp existing mo=
+dule
+>> which allows to interact with the vm.
+>=20
+> How does this compare to qtest?  There seems to be a lot of overlap
+> between them.
+>=20
+> Why is it called "fault injection"?  The commands seem to be
+> general-purpose device testing functions (like qtest and libqos), not
+> functions for testing error code paths as would be expected from a faul=
+t
+> injection framework.
 
-v2: fix coding style problems
+I understand qtest is to test QEMU, while this framework/command is to
+test how the guest react to an hardware faults.
 
-Signed-off-by: Hang Yuan <hang.yuan@linux.intel.com>
----
- target/i386/hax-mem.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+To use the qtest_mem commands you need to run QEMU with the qtest
+chardev backend, while this series expose a QMP interface.
 
-diff --git a/target/i386/hax-mem.c b/target/i386/hax-mem.c
-index 6bb5a24917..a8bfd37977 100644
---- a/target/i386/hax-mem.c
-+++ b/target/i386/hax-mem.c
-@@ -175,13 +175,10 @@ static void hax_process_section(MemoryRegionSection *section, uint8_t flags)
-     uint64_t host_va;
-     uint32_t max_mapping_size;
- 
--    /* We only care about RAM and ROM regions */
--    if (!memory_region_is_ram(mr)) {
--        if (memory_region_is_romd(mr)) {
--            /* HAXM kernel module does not support ROMD yet  */
--            warn_report("Ignoring ROMD region 0x%016" PRIx64 "->0x%016" PRIx64,
--                        start_pa, start_pa + size);
--        }
-+    /* We only care about RAM/ROM regions and ROM device */
-+    if (memory_region_is_rom(mr) || (memory_region_is_romd(mr))) {
-+        flags |= HAX_RAM_INFO_ROM;
-+    } else if (!memory_region_is_ram(mr)) {
-         return;
-     }
- 
--- 
-2.21.0
+To avoid the overlap, a cleaner follow up might be to have qtest wrap
+these QMP commands (mostly like HMP commands do).
 
+Another note while looking at a glance, qtest uses the 1st cpu address
+space view, this series allow to select a specific cpu.
+
+It makes sense to me to be able to select address spaces by name (more
+generic, not restricted to a cpu view, since one might want to inject
+fault in a device ram not always mapped to a cpu: dma, emac desc).
+
+
+--LlcdVuBcZzboLB3UiZE5FaRbP37nDnYJM--
+
+--YfGVBmusw7n6pIy6jM2PcEydhRnNiSQKd
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEicHnj2Ae6GyGdJXLoqP9bt6twN4FAl0Z3Y0ACgkQoqP9bt6t
+wN59bQ//eTBrj3KkZh2wr8M3Y4lTq6tHWTAS8zuRnofQBiw3wCARYxYEiNmAYBAR
+LCXfFWZ6xMlLRYtX2N4UMDf8xFihSFwFlOF9oF5PotslEHX12diMtfQBX7oNKaBD
+tZZy35EpaCgY9C9fa93t0k3q21dPU1wZmwD06R+mKQtvch/fg1xCy3p8f8XpzxJX
+pp1/7aHNazPej9lhhsq6G4wXdQrqdn65b+YcAIw585WCghHpESr1JXBecrqQLGHX
+v3zsVqWTrM5GiKc888nmg4x+89TV0bNwj8MyUVpgYEpuygVeHcLSuVnrwL1FF++U
+nqySFdqBZJF1MJz0DvXiwhxWTzmcyCDN7ZMWyUCdvEHCGu8xf7771cEoIT1Oy+kS
+T2CAUOAxob2g9lAVSsZ3x0ZeCNrWU3TPGIq2FxDioK/L+mKr1N61XNlnnsXxR4e4
+TKPtU4rtyEkyZfyHfsFYKkN74AAOYt3CHfRfr1GGwxIYSOkG++Zxik0/kxgRmgCp
+WhvHeRa89JUd92WQabmkKNilpkPCnQGfJLeXLDtk9I+csru3H205hJWuEJu66w+9
+tSkqcPE/pPS8jD8VJCNOPVaEosGX+NQGMx3tkynfEPv4UgL3DGUQDgwr7aYmA32b
+fgeftlicLgLmrVI+w7VnClchQj0eqfpnY9XNocdHN5UkFbYWte0=
+=Czfx
+-----END PGP SIGNATURE-----
+
+--YfGVBmusw7n6pIy6jM2PcEydhRnNiSQKd--
 
