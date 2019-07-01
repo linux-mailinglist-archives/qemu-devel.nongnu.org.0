@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246BD5C75D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:32:09 +0200 (CEST)
-Received: from localhost ([::1]:47322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22C15C768
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:40:41 +0200 (CEST)
+Received: from localhost ([::1]:47434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8aW-00032b-9p
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:32:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38552)
+	id 1hi8im-0004KR-NU
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:40:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43166)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jsnow@redhat.com>) id 1hi5HD-0005wf-IU
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 19:00:00 -0400
+ (envelope-from <jsnow@redhat.com>) id 1hi5ZD-0002kx-Ma
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 19:18:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jsnow@redhat.com>) id 1hi5H6-00044p-52
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:59:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34110)
+ (envelope-from <jsnow@redhat.com>) id 1hi5ZC-0003Dr-Gh
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 19:18:35 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34806)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <jsnow@redhat.com>)
- id 1hi5Gx-0003zp-U9; Mon, 01 Jul 2019 18:59:46 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ id 1hi5Ys-0002jq-DZ; Mon, 01 Jul 2019 19:18:18 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6B05B85376;
- Mon,  1 Jul 2019 22:59:27 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6E670811BD;
+ Mon,  1 Jul 2019 23:17:43 +0000 (UTC)
 Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A5E651812D;
- Mon,  1 Jul 2019 22:59:25 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20190627223255.3789-1-mreitz@redhat.com>
- <20190627223255.3789-5-mreitz@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 776B3422C;
+ Mon,  1 Jul 2019 23:17:40 +0000 (UTC)
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20190627212816.27298-1-jsnow@redhat.com>
+ <002c8b04-250e-0f33-b623-7e3fd14e7b80@redhat.com>
+ <20190701212725.GH5198@habkost.net>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -108,21 +109,22 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
  i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
  RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
  glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <6f5eb9ac-c56f-943f-698f-38ec7726143d@redhat.com>
-Date: Mon, 1 Jul 2019 18:59:25 -0400
+Message-ID: <7bbbb0fd-2aff-d1bf-bc59-abe62b0a6a04@redhat.com>
+Date: Mon, 1 Jul 2019 19:17:39 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190627223255.3789-5-mreitz@redhat.com>
+In-Reply-To: <20190701212725.GH5198@habkost.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Mon, 01 Jul 2019 22:59:27 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Mon, 01 Jul 2019 23:17:43 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 4/5] iotests: Add @use_log to VM.run_job()
+Subject: Re: [Qemu-devel] [RFC PATCH v2 0/3] python: refactor
+ qemu/__init__.py
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -134,91 +136,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
- Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 6/27/19 6:32 PM, Max Reitz wrote:
-> unittest-style tests generally do not use the log file, but VM.run_job()
-> can still be useful to them.  Add a parameter to it that hides its
-> output from the log file.
+On 7/1/19 5:27 PM, Eduardo Habkost wrote:
+> On Thu, Jun 27, 2019 at 05:32:17PM -0400, John Snow wrote:
+>> I didn't actually mean to retain the RFC tag, but oh well.
 > 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-
-Wondering out loud:
-
-can log() (and by extension qmp_log, and run_job) be made to use the
-python logging module and we can configure the logging environment
-instead of bespoke arguments to avoid ever engaging the log?
-
-We could theoretically just pre-disable iotests log output for unittest
-style tests, unless you run in debug mode where we allow it.
-
-I don't have a specific proposal for how to accomplish this, I think
-there are some nuances to Python logging that I don't quite understand.
-Maybe Cleber Rosa can help advise?
-
-I'd like to toy with this idea; it seems like this won't be the last
-time we want to turn output on/off.
-
---js
-
-> ---
->  tests/qemu-iotests/iotests.py | 18 +++++++++++++-----
->  1 file changed, 13 insertions(+), 5 deletions(-)
+> I'm queueing patch 1-2 for QEMU 4.1.
 > 
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index 3ecef5bc90..ce74177ab1 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -542,7 +542,7 @@ class VM(qtest.QEMUQtestMachine):
->  
->      # Returns None on success, and an error string on failure
->      def run_job(self, job, auto_finalize=True, auto_dismiss=False,
-> -                pre_finalize=None, wait=60.0):
-> +                pre_finalize=None, use_log=True, wait=60.0):
->          match_device = {'data': {'device': job}}
->          match_id = {'data': {'id': job}}
->          events = [
-> @@ -557,7 +557,8 @@ class VM(qtest.QEMUQtestMachine):
->          while True:
->              ev = filter_qmp_event(self.events_wait(events))
->              if ev['event'] != 'JOB_STATUS_CHANGE':
-> -                log(ev)
-> +                if use_log:
-> +                    log(ev)
->                  continue
->              status = ev['data']['status']
->              if status == 'aborting':
-> @@ -565,13 +566,20 @@ class VM(qtest.QEMUQtestMachine):
->                  for j in result['return']:
->                      if j['id'] == job:
->                          error = j['error']
-> -                        log('Job failed: %s' % (j['error']))
-> +                        if use_log:
-> +                            log('Job failed: %s' % (j['error']))
->              elif status == 'pending' and not auto_finalize:
->                  if pre_finalize:
->                      pre_finalize()
-> -                self.qmp_log('job-finalize', id=job)
-> +                if use_log:
-> +                    self.qmp_log('job-finalize', id=job)
-> +                else:
-> +                    self.qmp('job-finalize', id=job)
->              elif status == 'concluded' and not auto_dismiss:
-> -                self.qmp_log('job-dismiss', id=job)
-> +                if use_log:
-> +                    self.qmp_log('job-dismiss', id=job)
-> +                else:
-> +                    self.qmp('job-dismiss', id=job)
->              elif status == 'null':
->                  return error
->  
+> Patch 3 will require more careful review.  If you can demonstrate
+> it fixes a problem in some use cases, we can call it a bug fix
+> and include it after soft freeze.  ;)
 > 
 
+Right.
+
+Mostly, it's that it ignores things like ctrl^c -- it ignores ANY
+failure. I don't think that it should.
+
+In cases where QEMU crashes, the caller will now get an exception -- but
+the cleanup will still faithfully execute. There are some exceptions we
+may genuinely wish to suppress here, but it's hard to enumerate which
+ones without going too broadly.
+
+It's fine to exclude this for now, but I think it's still something we
+want eventually.
 
