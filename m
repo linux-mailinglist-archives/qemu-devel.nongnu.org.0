@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821A75C702
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:17:08 +0200 (CEST)
-Received: from localhost ([::1]:47154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904A25C67B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 02:58:54 +0200 (CEST)
+Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8Lz-0003FF-MC
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:17:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55415)
+	id 1hi78G-0000Qu-4n
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 20:58:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48855)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4MF-0004EF-9J
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:08 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi42m-0006kp-Rd
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:41:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4MD-00007B-Ir
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:07 -0400
-Received: from mail-wm1-f44.google.com ([209.85.128.44]:40145)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi42l-0004on-Pf
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:41:00 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43714)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4MD-00005C-9E
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:01:05 -0400
-Received: by mail-wm1-f44.google.com with SMTP id v19so1068524wmj.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:01:00 -0700 (PDT)
+ id 1hi42l-0004nU-Id
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:40:59 -0400
+Received: by mail-wr1-f66.google.com with SMTP id p13so15363850wru.10
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=FU2Y0liu1lAY21ffJv7mbpvtLv+zwcB4gkTn/owodzc=;
- b=dTYZuzRqznkL1JWXiXhXsfzH6vrFZSAfYuUAxXz14yzh+XhdihHx+yiIemFyuvKftu
- /uXJx/Bzq2Aa1hr+hFIUDh9KNXSqu7R/0BpJrXB1uVLAR+Xmr3DO2KJ3b9GA3b/s7cjY
- kczeZT2svdsUWUs9wN8b0rmT8u5sJ5N3f0Z4zMXK37F81BT8u/wglyW/9Gjv/AUF8u08
- zhWmISA25oWJ5HLtleVC+Tlr+Eyxy7neAOgzVlSiRRemVuB14zLotZFBL075zLv3Q/hZ
- YQj6fjBu4YUiZbi5Yj7CAWb/HlPQ1Hz3TTFAt1WCzF1SVktUC7ayCcyPBtaVZzE4xj5b
- bYgw==
+ bh=rnHrhKlg4rPjTPEn7YeLUI7OUdliTbLuOiEfOpcbWYc=;
+ b=t5zliwsZ5Hwp0hVTa/zzs3QODp6L6rpRk23Kf6qKZb61KucKyX/GI43dj18RRcwGBx
+ L3B69Gp87ycvZq9Uhi/5B6t6KXlfEhrCYPeN/B8xlUO6GWSdYjo7IRSCyITpPmVMBXcx
+ s/2FMSY4zo8tAWNsLD9P5a6woiggfO2So2y/EOwzTp1N7FYL8W0quimlhiXJYFppqLbt
+ B0yjGhmwCoRUJMVknYNctLYGMm0b1LxCeulJxcuMeQLxQ/Cq/AhEombVyN6w+dUy41/c
+ bowumHeP7mDPT1gEyRg7N2pwn1qD/Eyjo0gUhrJjiSlTq7NORcnMO5gjfD3TeFh3tS9W
+ I7fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FU2Y0liu1lAY21ffJv7mbpvtLv+zwcB4gkTn/owodzc=;
- b=DQiZhyQo5bZy5V4Tmp8jnKv1Mr8LY18BFr9tYhRVQKFIEZ8iTpHVjsmaav40XfA9ao
- L+/oLoZtg5kFKK+IXA4z2JGh46sgQZyi1qtjyuhHlJNgfYrHRRdnkrZuVvMmiruXEXf1
- JTpCk7hjA7PmlaUJyHZxRc1bGseaJaskF32x6uuXgrFPN936XnZc7oSV6dyPUWQKPCGs
- fbixyLYISpueKKLFn5abeXnerjFz6MkPkaB9EhW8e4b8i+rhwM8fY8/QkrDyoDqRiZSE
- ufAc7mHBGE70CFJZfq7Qn1lj/HKEqAROD6Q7c8fxoyeV8zTUBCmMXutGD6y6yTfC2mx5
- 228w==
-X-Gm-Message-State: APjAAAU8cYJd9dskPsH1P8WcKtnMAc+WZHGQ0GWv8Ff8z6yehKzGPGii
- T5ImJscxw3ocZH+5Fbi0ngksn8fwT/kAoA==
-X-Google-Smtp-Source: APXvYqxqJE48jegwRpLdka4IArNOqs/boilwqQAw4ipEBofAAVhLQw5EesHmbTfm9PPKm/rVSqDkCA==
-X-Received: by 2002:a1c:700b:: with SMTP id l11mr132471wmc.106.1561999189993; 
- Mon, 01 Jul 2019 09:39:49 -0700 (PDT)
+ bh=rnHrhKlg4rPjTPEn7YeLUI7OUdliTbLuOiEfOpcbWYc=;
+ b=WkbYA1aCj2rwGOap46NWJmmTB3rbUarARw5AS7q2ZQ0BNedgQCoEmi9s6eUSQzSK5g
+ ejQmiF2rJBmnW4g7c/+1nhD1m3Gd43OiixJJ/w7QPBjzkuB5wh19gbMS+q4HJxbl4zVq
+ QXXDwiAD7ulrBh3DRiHkv/0+WXX7cjsJyPsgAtWgBhCn1GwyYNBJs/ZFN5p74pmwfDA4
+ +SqRzpQ7yPFVMtP3EX8mS/1LmnFMQLsyYx6EMBzwp6ADmLq3TSGyFCEDbciLpvbWHUcM
+ bEgjzski6eMfdoRZZBxSyAiLyVCrfrF0AxMhaaCFg0/sFTAvBwaiNJg7A6IzaOdHqeAJ
+ C95A==
+X-Gm-Message-State: APjAAAVDRG2+9XUIhzBq6SciFc59Zdo0U1HHYoxFu2pH6+977EkTVS77
+ K0OptQCCh859tl/U1ao3kKD7v3X+NXj8xA==
+X-Google-Smtp-Source: APXvYqzSnavuc+sA/3DP4G5/6vuE2nV96qOE/ItV/ZSfDLX8NXq0J5edWyx2UEhIis/aDfYkizou+w==
+X-Received: by 2002:adf:f042:: with SMTP id t2mr6306647wro.299.1561999190855; 
+ Mon, 01 Jul 2019 09:39:50 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.49
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:39:49 -0700 (PDT)
+ Mon, 01 Jul 2019 09:39:50 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:02 +0100
-Message-Id: <20190701163943.22313-6-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:03 +0100
+Message-Id: <20190701163943.22313-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.44
-Subject: [Qemu-devel] [PULL 05/46] i.mx7d: Add no-op/unimplemented PCIE PHY
- IP block
+X-Received-From: 209.85.221.66
+Subject: [Qemu-devel] [PULL 06/46] pci: designware: Update MSI mapping
+ unconditionally
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,51 +84,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Smirnov <andrew.smirnov@gmail.com>
 
-Add no-op/unimplemented PCIE PHY IP block. Needed by new kernels to
-use PCIE.
+Expression to calculate update_msi_mapping in code handling writes to
+DESIGNWARE_PCIE_MSI_INTR0_ENABLE is missing an ! operator and should
+be:
+
+    !!root->msi.intr[0].enable ^ !!val;
+
+so that MSI mapping is updated when enabled transitions from either
+"none" -> "any" or "any" -> "none". Since that register shouldn't be
+written to very often, change the code to update MSI mapping
+unconditionally instead of trying to fix the update_msi_mapping logic.
 
 Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/fsl-imx7.h | 3 +++
- hw/arm/fsl-imx7.c         | 5 +++++
- 2 files changed, 8 insertions(+)
+ hw/pci-host/designware.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index dcd73603c33..09f4f33f6e5 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -125,6 +125,9 @@ enum FslIMX7MemoryMap {
-     FSL_IMX7_ADC2_ADDR            = 0x30620000,
-     FSL_IMX7_ADCn_SIZE            = 0x1000,
+diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
+index 0fdfff57848..ec697c8f9df 100644
+--- a/hw/pci-host/designware.c
++++ b/hw/pci-host/designware.c
+@@ -297,16 +297,10 @@ static void designware_pcie_root_config_write(PCIDevice *d, uint32_t address,
+         root->msi.base |= (uint64_t)val << 32;
+         break;
  
-+    FSL_IMX7_PCIE_PHY_ADDR        = 0x306D0000,
-+    FSL_IMX7_PCIE_PHY_SIZE        = 0x10000,
-+
-     FSL_IMX7_GPC_ADDR             = 0x303A0000,
+-    case DESIGNWARE_PCIE_MSI_INTR0_ENABLE: {
+-        const bool update_msi_mapping = !root->msi.intr[0].enable ^ !!val;
+-
++    case DESIGNWARE_PCIE_MSI_INTR0_ENABLE:
+         root->msi.intr[0].enable = val;
+-
+-        if (update_msi_mapping) {
+-            designware_pcie_root_update_msi_mapping(root);
+-        }
++        designware_pcie_root_update_msi_mapping(root);
+         break;
+-    }
  
-     FSL_IMX7_I2C1_ADDR            = 0x30A20000,
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index 803fe94c034..2eddf3f25c6 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -532,6 +532,11 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-      */
-     create_unimplemented_device("dma-apbh", FSL_IMX7_DMA_APBH_ADDR,
-                                 FSL_IMX7_DMA_APBH_SIZE);
-+    /*
-+     * PCIe PHY
-+     */
-+    create_unimplemented_device("pcie-phy", FSL_IMX7_PCIE_PHY_ADDR,
-+                                FSL_IMX7_PCIE_PHY_SIZE);
- }
- 
- static void fsl_imx7_class_init(ObjectClass *oc, void *data)
+     case DESIGNWARE_PCIE_MSI_INTR0_MASK:
+         root->msi.intr[0].mask = val;
 -- 
 2.20.1
 
