@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3615B3A7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 06:41:56 +0200 (CEST)
-Received: from localhost ([::1]:47682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1795B3A9
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 06:44:06 +0200 (CEST)
+Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hho8Z-0001vK-I6
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 00:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56645)
+	id 1hhoAg-00058L-3u
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 00:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56660)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jan.bobek@gmail.com>) id 1hho2q-0004ux-Is
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:01 -0400
+ (envelope-from <jan.bobek@gmail.com>) id 1hho2r-0004wt-SZ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jan.bobek@gmail.com>) id 1hho2p-0004Vj-Hr
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:00 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:33905)
+ (envelope-from <jan.bobek@gmail.com>) id 1hho2q-0004W9-9O
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:01 -0400
+Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:41585)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hho2p-0004VK-DL
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:35:59 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id q128so7864085ywc.1
- for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 21:35:59 -0700 (PDT)
+ (Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hho2q-0004Vy-5A
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 00:36:00 -0400
+Received: by mail-yb1-xb43.google.com with SMTP id y67so8250828yba.8
+ for <qemu-devel@nongnu.org>; Sun, 30 Jun 2019 21:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SnQQzNhJLrrfWw0C3HJW3B+34wMj7FR5p3UF4GU8CRc=;
- b=OG7l2uI5tV0jycxFPW3T+hDN/t4dbi9LGGGIVGJeHadv+j92gzgI86+zvoy7kafzUu
- X+p64FJXxficOwi6qid2UgSwApvLHjf9f1KUSvqSeOq+D65CLxz2i+nr8Bv1rxdozuP7
- azXCGGyd45D5ct7299GBDk9R1c5Ax602qnxdbErulZlW5N2hgIFoIGi/YeE23+lej+1n
- nYLKc58LN8foXTCrqckAdYfkjwuB3N8X6Dt98Mz11E+m4zMmWLOyq+9Fz5Kjsy1xbGS8
- S6P9hk0bqEb/V0ALGFUDqGjkqiFVqnLa3FAndK4OHZkQ23Ixqu6NO5zUH7MTxks/7wid
- DbPA==
+ bh=NSnSmOrw9Ea8XUUWI877TcBO8R8fJh/l0RPwV5CWYGg=;
+ b=CcnVKgamSdLOxSbw/fqmq8vyi65fO7bnxoJAmQuSTc81wXZCMp4FiGhIfpGrquQVPb
+ vDALGVk2k4PkzdJ3rbvz9jB5oLkAfadV0q26R5YEX0lvlk2iAyElwmY9E9+x5Dn6KuVy
+ Hmr1Y/tI2zkwud0QkMPaJm0k34pzhimarBT8rX66Q82FU9b7J+I7ZWy6DMbt5Aeb7ere
+ BsJFGAfrGsVAs86qowdhjIbtsib/e+B/oA8e4otZ7JYu18QcVGGqTBRhr0+MzKsuyHFu
+ pTjuT0uldgwAPbKzxD3U30OC1+A80t76o14M67MGBxNMEvv9xt6zC8Gz0xU33vKMyyG9
+ XbZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SnQQzNhJLrrfWw0C3HJW3B+34wMj7FR5p3UF4GU8CRc=;
- b=Y5jCxYrHGIOb4K1+Hm7iIZlKmbgSqoStY3oOVEm1qETZ617DbUsRJo/5KDl4ENs+k+
- BiqsDw5Yj8UGjzKVTLSR70MAxyyvQjzXVAkRx4a/YL4kEE/+Oh70/JnH9ktGpwqwOK5o
- YIkSDav2C7cCqTHyOw/fzZOiybUMgO4o2y4YCi7LmHqYWc2+BdZQti0G8Xr5HrCaTUdI
- eJ6/xQSNZ9M/UpazJ9j5kmYvsefKrJ/B9839tCOii0hLZcHC99uedElp97ObKJobNvsG
- v2cgQcpB0CDUVpaI9SNf110sxeothyJdJe3//MjAoeG+IgiUpuJNc075fLZ611YUpNQw
- LHeA==
-X-Gm-Message-State: APjAAAVN8IPIKH647v5fxQlPqr+jUlgDYw1oJRJOpQwrhCY/vSrYL9Xg
- hrwrQPpSnw0EK/sQStuaO6e4Og8D
-X-Google-Smtp-Source: APXvYqwuuZ08cCNKof2jGwORq/O/HanGhvNjeh6sOn5hHGIp8EApH1Tp0O/Jd8n7e5WffFpGMgRE+Q==
-X-Received: by 2002:a0d:d603:: with SMTP id y3mr9446505ywd.1.1561955758807;
- Sun, 30 Jun 2019 21:35:58 -0700 (PDT)
+ bh=NSnSmOrw9Ea8XUUWI877TcBO8R8fJh/l0RPwV5CWYGg=;
+ b=KAz3WwD2QrIeepG/OLNlFcCmwogVzGn2YOWhw2DZW7w/2XfcaW+rD2oTB+hcGu0f8u
+ plcvSC+VpNsxdEr2k3+bw0nWlwec0m/NYKDDBUImTiAr57zsRHBwDw5byxjd9BIrcUAw
+ 7PnIFABLRRWhCDKcyuL8f+TYtF37wxKBXDKRxjuFHAFKbg4S1UYR9LFOjm5CPi6+8CV/
+ Ts3piY2VmOGksPNqkSYMYAAUDzhVvey7NF2f7lXSl9eKI8D5Ros44TE97yKXoJlmcaO0
+ JMwnbl1EXmE+/aaXHGNyIlS/61ExZzxTBvZ6WM5t7I0MQs791r88+8LmAsYtlueklWpN
+ Vd4w==
+X-Gm-Message-State: APjAAAVRhjjpmcnWYZ9RmSxybqWpREqf4epxRwVcPFi9ftQWSUg+GCYC
+ nywY/Fpa3ASAqFy4zYa/PpyPsrkX
+X-Google-Smtp-Source: APXvYqx72eZA/Ehp1RfLwtYm9diLUv1RU4n7Dsn7DhX5gdR4PatSdvDlwblr/KYWDmU2lQd4lLmvfA==
+X-Received: by 2002:a25:bad0:: with SMTP id a16mr14113501ybk.140.1561955759528; 
+ Sun, 30 Jun 2019 21:35:59 -0700 (PDT)
 Received: from dionysus.attlocal.net
  (69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
  by smtp.gmail.com with ESMTPSA id k126sm1108564ywf.36.2019.06.30.21.35.58
@@ -55,8 +55,8 @@ Received: from dionysus.attlocal.net
  Sun, 30 Jun 2019 21:35:58 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 00:35:27 -0400
-Message-Id: <20190701043536.26019-6-jan.bobek@gmail.com>
+Date: Mon,  1 Jul 2019 00:35:28 -0400
+Message-Id: <20190701043536.26019-7-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701043536.26019-1-jan.bobek@gmail.com>
 References: <20190701043536.26019-1-jan.bobek@gmail.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
-Subject: [Qemu-devel] [RISU RFC PATCH v2 05/14] risugen: allow all
- byte-aligned instructions
+X-Received-From: 2607:f8b0:4864:20::b43
+Subject: [Qemu-devel] [RISU RFC PATCH v2 06/14] x86.risu: add MMX
+ instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,42 +84,116 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accept all instructions whose bit length is divisible by 8. Note that
-the maximum instruction length (as specified in the config file) is 32
-bits, hence this change permits instructions which are 8 bits or 24
-bits long (16-bit instructions have already been considered valid).
+Add an x86 configuration file with all MMX instructions.
 
-Note that while valid x86 instructions may be up to 15 bytes long, the
-length constraint described above only applies to the main opcode
-field, which is usually only 1 or 2 bytes long. Therefore, the primary
-purpose of this change is to allow 1-byte x86 opcodes.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- risugen | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ x86.risu | 96 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 96 insertions(+)
+ create mode 100644 x86.risu
 
-diff --git a/risugen b/risugen
-index 09a702a..17bf98f 100755
---- a/risugen
-+++ b/risugen
-@@ -229,12 +229,11 @@ sub parse_config_file($)
-                 push @fields, [ $var, $bitpos, $bitmask ];
-             }
-         }
--        if ($bitpos == 16) {
--            # assume this is a half-width thumb instruction
-+        if ($bitpos % 8 == 0) {
-             # Note that we don't fiddle with the bitmasks or positions,
-             # which means the generated insn will be in the high halfword!
--            $insnwidth = 16;
--        } elsif ($bitpos != 0) {
-+            $insnwidth -= $bitpos;
-+        } else {
-             print STDERR "$file:$.: ($insn $enc) not enough bits specified\n";
-             exit(1);
-         }
+diff --git a/x86.risu b/x86.risu
+new file mode 100644
+index 0000000..f2dd9b0
+--- /dev/null
++++ b/x86.risu
+@@ -0,0 +1,96 @@
++###############################################################################
++# Copyright (c) 2019 Linaro Limited
++# All rights reserved. This program and the accompanying materials
++# are made available under the terms of the Eclipse Public License v1.0
++# which accompanies this distribution, and is available at
++# http://www.eclipse.org/legal/epl-v10.html
++#
++# Contributors:
++#     Jan Bobek - initial implementation
++###############################################################################
++
++# Input file for risugen defining x86 instructions
++.mode x86
++
++# Data Transfer Instructions
++MOVD            MMX     00001111 011 d 1110 !emit { modrm(mod => MOD_DIRECT, rm => ~REG_ESP); }
++MOVD_mem        MMX     00001111 011 d 1110 !emit { modrm(mod => ~MOD_DIRECT); mem(size => 4); }
++MOVQ            MMX     00001111 011 d 1110 !emit { rex(w => 1); modrm(mod => MOD_DIRECT, rm => ~REG_ESP); }
++MOVQ_mem        MMX     00001111 011 d 1110 !emit { rex(w => 1); modrm(mod => ~MOD_DIRECT); mem(size => 8); }
++MOVQ_mm         MMX     00001111 011 d 1111 !emit { modrm(); mem(size => 8); }
++
++# Arithmetic Instructions
++PADDB           MMX     00001111 11111100 !emit { modrm(); mem(size => 8); }
++PADDW           MMX     00001111 11111101 !emit { modrm(); mem(size => 8); }
++PADDD           MMX     00001111 11111110 !emit { modrm(); mem(size => 8); }
++PADDQ           MMX     00001111 11010100 !emit { modrm(); mem(size => 8); }
++PADDSB          MMX     00001111 11101100 !emit { modrm(); mem(size => 8); }
++PADDSW          MMX     00001111 11101101 !emit { modrm(); mem(size => 8); }
++PADDUSB         MMX     00001111 11011100 !emit { modrm(); mem(size => 8); }
++PADDUSW         MMX     00001111 11011101 !emit { modrm(); mem(size => 8); }
++
++PSUBB           MMX     00001111 11111000 !emit { modrm(); mem(size => 8); }
++PSUBW           MMX     00001111 11111001 !emit { modrm(); mem(size => 8); }
++PSUBD           MMX     00001111 11111010 !emit { modrm(); mem(size => 8); }
++PSUBSB          MMX     00001111 11101000 !emit { modrm(); mem(size => 8); }
++PSUBSW          MMX     00001111 11101001 !emit { modrm(); mem(size => 8); }
++PSUBUSB         MMX     00001111 11011000 !emit { modrm(); mem(size => 8); }
++PSUBUSW         MMX     00001111 11011001 !emit { modrm(); mem(size => 8); }
++
++PMULLW          MMX     00001111 11010101 !emit { modrm(); mem(size => 8); }
++PMULHW          MMX     00001111 11100101 !emit { modrm(); mem(size => 8); }
++
++PMADDWD         MMX     00001111 11110101 !emit { modrm(); mem(size => 8); }
++
++# Comparison Instructions
++PCMPEQB         MMX     00001111 01110100 !emit { modrm(); mem(size => 8); }
++PCMPEQW         MMX     00001111 01110101 !emit { modrm(); mem(size => 8); }
++PCMPEQD         MMX     00001111 01110110 !emit { modrm(); mem(size => 8); }
++PCMPGTB         MMX     00001111 01100100 !emit { modrm(); mem(size => 8); }
++PCMPGTW         MMX     00001111 01100101 !emit { modrm(); mem(size => 8); }
++PCMPGTD         MMX     00001111 01100110 !emit { modrm(); mem(size => 8); }
++
++# Logical Instructions
++PAND            MMX     00001111 11011011 !emit { modrm(); mem(size => 8); }
++PANDN           MMX     00001111 11011111 !emit { modrm(); mem(size => 8); }
++POR             MMX     00001111 11101011 !emit { modrm(); mem(size => 8); }
++PXOR            MMX     00001111 11101111 !emit { modrm(); mem(size => 8); }
++
++# Shift and Rotate Instructions
++PSLLW           MMX     00001111 11110001 !emit { modrm(); mem(size => 8); }
++PSLLD           MMX     00001111 11110010 !emit { modrm(); mem(size => 8); }
++PSLLQ           MMX     00001111 11110011 !emit { modrm(); mem(size => 8); }
++
++PSLLW_imm       MMX     00001111 01110001 !emit { modrm(mod => MOD_DIRECT, reg => 6); imm(size => 1); }
++PSLLD_imm       MMX     00001111 01110010 !emit { modrm(mod => MOD_DIRECT, reg => 6); imm(size => 1); }
++PSLLQ_imm       MMX     00001111 01110011 !emit { modrm(mod => MOD_DIRECT, reg => 6); imm(size => 1); }
++
++PSRLW           MMX     00001111 11010001 !emit { modrm(); mem(size => 8); }
++PSRLD           MMX     00001111 11010010 !emit { modrm(); mem(size => 8); }
++PSRLQ           MMX     00001111 11010011 !emit { modrm(); mem(size => 8); }
++
++PSRLW_imm       MMX     00001111 01110001 !emit { modrm(mod => MOD_DIRECT, reg => 2); imm(size => 1); }
++PSRLD_imm       MMX     00001111 01110010 !emit { modrm(mod => MOD_DIRECT, reg => 2); imm(size => 1); }
++PSRLQ_imm       MMX     00001111 01110011 !emit { modrm(mod => MOD_DIRECT, reg => 2); imm(size => 1); }
++
++PSRAW           MMX     00001111 11100001 !emit { modrm(); mem(size => 8); }
++PSRAD           MMX     00001111 11100010 !emit { modrm(); mem(size => 8); }
++
++PSRAW_imm       MMX     00001111 01110001 !emit { modrm(mod => MOD_DIRECT, reg => 4); imm(size => 1); }
++PSRAD_imm       MMX     00001111 01110010 !emit { modrm(mod => MOD_DIRECT, reg => 4); imm(size => 1); }
++
++# Shuffle, Unpack, Blend, Insert, Extract, Broadcast, Permute, Scatter Instructions
++PACKSSWB        MMX     00001111 01100011 !emit { modrm(); mem(size => 8); }
++PACKSSDW        MMX     00001111 01101011 !emit { modrm(); mem(size => 8); }
++PACKUSWB        MMX     00001111 01100111 !emit { modrm(); mem(size => 8); }
++
++PUNPCKHBW       MMX     00001111 01101000 !emit { modrm(); mem(size => 8); }
++PUNPCKHWD       MMX     00001111 01101001 !emit { modrm(); mem(size => 8); }
++PUNPCKHDQ       MMX     00001111 01101010 !emit { modrm(); mem(size => 8); }
++
++PUNPCKLBW       MMX     00001111 01100000 !emit { modrm(); mem(size => 4); }
++PUNPCKLWD       MMX     00001111 01100001 !emit { modrm(); mem(size => 4); }
++PUNPCKLDQ       MMX     00001111 01100010 !emit { modrm(); mem(size => 4); }
++
++# State Management Instructions
++EMMS            MMX     00001111 01110111 !emit { }
 -- 
 2.20.1
 
