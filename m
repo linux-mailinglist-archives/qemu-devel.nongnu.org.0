@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502185C538
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:55:10 +0200 (CEST)
-Received: from localhost ([::1]:45804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C901A5C5A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:25:07 +0200 (CEST)
+Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4GT-0006Vd-Gr
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54904)
+	id 1hi4jS-0001ke-Cs
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:25:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56639)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3WK-0006qa-Sp
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:07:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3Xp-0008KS-SE
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:09:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3WH-0005e5-Jt
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:07:27 -0400
-Received: from mail-wm1-f53.google.com ([209.85.128.53]:55422)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3Xm-0006aA-Bg
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:09:01 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:32804)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3WH-0005cz-BV
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:07:25 -0400
-Received: by mail-wm1-f53.google.com with SMTP id a15so843347wmj.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:07:25 -0700 (PDT)
+ id 1hi3Xm-0006XT-39
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:08:58 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n9so15367038wru.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=O0qux12GpX3gODzOI2UowV8fi9llKB8go8fG3JIr+S8=;
- b=WrtLyyntmoC4ZuLUeUCgEuzq/5QpinYuVKuaXzq/FLGL5WBS5BTpDgrZ6b/7H9YocE
- YxYFtqTpK2hf88InI9tg3fxGXFsL6EHAhTQw1oDfgbbkc85tQjjszhVp9Ge5s0TxmsXa
- cM3QNc5009w7vYHi/+6wFfhuXZfKNjoZiK6wtvhdFp7TKf8Q9SXGVYPzz35E9oPZdMrw
- oCcaC+18Qsy6pl3RApboc76jsXhzDXL2/0Wjl52IaQKty9imG/lwR6MpxIQOskFGt1ff
- 1ZNEyA8VqePYF96yYH0li/GeW43YKfuEjVfIbyLH5xqVC3f1ihiv7hVl8U8xbM1QCeld
- 583Q==
+ bh=ehjkWhdt19qHAzsl/X1nqYdNDUK2w3SB8ITjOfQ+4TI=;
+ b=KMINlJErVZ7iKNRZ2mGI6agJBxPZ5UynPiAegrlvS+4aFfDW8o0FtGInDe6SF0CBki
+ ZQPVCCikM5C2JGisHOb48SJO1HAoam0gnTjtq6yrgmli6Pso7Ur7mHNJKFo9zzWseSSh
+ UMXS1xxDohNFbhxWdlq8RgLz+1/EqhdngSUQk7wwEtrt/NkvLphuqrEsxj5Inky6Ijc4
+ lC4HyzdbdBHaVxh6Moc1oNO0IKJ7H/IIWuOS6SSUOJbCHD+rrjmyuYpJLQbUwecLQJ0m
+ uO+5ZOzBnESU8QnMlHp8gZ5pBxf9R9enZ56nKr7zF/4hgppj3kQy4gBBVtc5wlHUfOi0
+ sw/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=O0qux12GpX3gODzOI2UowV8fi9llKB8go8fG3JIr+S8=;
- b=F5lFrs7cZRmzTZs/QRybvnugSaz1ft0jbAzB9BMsgQqDDeKoHPFGbiihgZerMM1+ac
- +m0osFVeXzaKOOgVMd2skltkKmo59nyb1SzpqC7Yinvlq39AgIn91yH11v5bf+NF3XTQ
- T2fbNfKOT5LO3uXpssCvJk4a8ojdH+TfCZs4JcyPTlAs3ggeGSDQrGzooPTsMtPAPpWk
- BmcjcPRfim3+J9zfW6Dh8gjgWhZVn/a+lzfoV58HrP1KcqrDbW+2x/YM7SS8TDfZepsc
- +JdMWOG7FRUkMlRzG4Q+V/Z0uEuzOOAEAmRM51s3pYlnZoLrfNeIK576v+H5OrE+4b4x
- 9Xmg==
-X-Gm-Message-State: APjAAAWk8MP6mNq3p9oXSZ3mPJyXED6SMshXCsUNofDF6fWL/VABI1op
- WpJzgibxbFFkriuzieN8OSfxJ/8TRRGtJw==
-X-Google-Smtp-Source: APXvYqwHo1LY6zFx8HWkozeobRgA0Ah6oOAEFTOPy7YZAv4fXNURX4Bg9AwJpdUfzIOkCHnGo19wfg==
-X-Received: by 2002:a1c:63d7:: with SMTP id x206mr122570wmb.19.1561999205891; 
- Mon, 01 Jul 2019 09:40:05 -0700 (PDT)
+ bh=ehjkWhdt19qHAzsl/X1nqYdNDUK2w3SB8ITjOfQ+4TI=;
+ b=VMV3T2W4oWZJU92cq1to5fbvE8MMSeSpOg303d4fNZ4+mRKBknKwgRPcTKXWaRnQNH
+ EsGYZok2KBCP8Fm4PnKY4fPzk2Xfg/BrN1XnEwBEcVKWrZQV5hl4egR3tZ6JtZTrs2wm
+ 0hX95nIilyB3gOatIZwLyEMJSW/K1Hi3IeYjwuf5EfV3ZWbJ8RpYlpbfLJsChA1WBPIy
+ sWYbe/Yf4+1+7Zm2lKyNkfWEJi/BYyqPHLgzhIBx5CTELepWiiYxfyE+/R4N7w1++FxD
+ yqIY5MYJ5qNw3+1PVIcnVwWibujqJi42I4DxotPK537T02NszNd+5+HQDUcxPa4fdzqY
+ wDWQ==
+X-Gm-Message-State: APjAAAXNG7A/iCQ7FtWLok3EOkkFdW96ky3rVoaNXmVfPCVF3hfMzYmL
+ j+r7kjxY8VEI7WL9XcSNyYFE5INNI84hxg==
+X-Google-Smtp-Source: APXvYqwgw42ETSsGk1LeD/uFWz5EaZ8D1CEOUaAm881AhiceVCqQ6nn9XTr7OlnlhxQ6tX9GCaQhcA==
+X-Received: by 2002:adf:e84d:: with SMTP id d13mr15985309wrn.88.1561999206838; 
+ Mon, 01 Jul 2019 09:40:06 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.04
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.05
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:05 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:16 +0100
-Message-Id: <20190701163943.22313-20-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:17 +0100
+Message-Id: <20190701163943.22313-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.53
-Subject: [Qemu-devel] [PULL 19/46] aspeed: remove the "ram" link
+X-Received-From: 209.85.221.65
+Subject: [Qemu-devel] [PULL 20/46] aspeed: add a RAM memory region container
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,29 +84,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-It has never been used as far as I can tell from the git history.
+The RAM memory region is defined after the SoC is realized when the
+SDMC controller has checked that the defined RAM size for the machine
+is correct. This is problematic for controller models requiring a link
+on the RAM region, for DMA support in the SMC controller for instance.
+
+Introduce a container memory region for the RAM that we can link into
+the controllers early, before the SoC is realized. It will be
+populated with the RAM region after the checks have be done.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190618165311.27066-13-clg@kaod.org
+Message-id: 20190618165311.27066-14-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 2 --
- 1 file changed, 2 deletions(-)
+ hw/arm/aspeed.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 96de4f5c2a8..5d73267da16 100644
+index 5d73267da16..7f01df1b61d 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -195,8 +195,6 @@ static void aspeed_board_init(MachineState *machine,
+@@ -33,6 +33,7 @@ static struct arm_boot_info aspeed_board_binfo = {
+ 
+ struct AspeedBoardState {
+     AspeedSoCState soc;
++    MemoryRegion ram_container;
+     MemoryRegion ram;
+     MemoryRegion max_ram;
+ };
+@@ -159,6 +160,10 @@ static void aspeed_board_init(MachineState *machine,
+     ram_addr_t max_ram_size;
+ 
+     bmc = g_new0(AspeedBoardState, 1);
++
++    memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
++                       UINT32_MAX);
++
+     object_initialize_child(OBJECT(machine), "soc", &bmc->soc,
+                             (sizeof(bmc->soc)), cfg->soc_name, &error_abort,
+                             NULL);
+@@ -193,16 +198,16 @@ static void aspeed_board_init(MachineState *machine,
+                                         &error_abort);
+ 
      memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_size);
++    memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
      memory_region_add_subregion(get_system_memory(),
-                                 sc->info->memmap[ASPEED_SDRAM], &bmc->ram);
--    object_property_add_const_link(OBJECT(&bmc->soc), "ram", OBJECT(&bmc->ram),
--                                   &error_abort);
+-                                sc->info->memmap[ASPEED_SDRAM], &bmc->ram);
++                                sc->info->memmap[ASPEED_SDRAM],
++                                &bmc->ram_container);
  
      max_ram_size = object_property_get_uint(OBJECT(&bmc->soc), "max-ram-size",
                                              &error_abort);
+     memory_region_init_io(&bmc->max_ram, NULL, &max_ram_ops, NULL,
+                           "max_ram", max_ram_size  - ram_size);
+-    memory_region_add_subregion(get_system_memory(),
+-                                sc->info->memmap[ASPEED_SDRAM] + ram_size,
+-                                &bmc->max_ram);
++    memory_region_add_subregion(&bmc->ram_container, ram_size, &bmc->max_ram);
+ 
+     aspeed_board_init_flashes(&bmc->soc.fmc, cfg->fmc_model, &error_abort);
+     aspeed_board_init_flashes(&bmc->soc.spi[0], cfg->spi_model, &error_abort);
 -- 
 2.20.1
 
