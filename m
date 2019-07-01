@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20485C769
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:41:08 +0200 (CEST)
-Received: from localhost ([::1]:47436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3EF5C700
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:16:29 +0200 (CEST)
+Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8jE-0004hg-3t
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34206)
+	id 1hi8LI-0002hr-J1
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:16:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59401)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4pm-0005VG-5o
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:32:35 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4bD-00072Y-JF
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:16:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4pa-0000Z3-Gt
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:31:32 -0400
-Received: from mail-wm1-f48.google.com ([209.85.128.48]:35322)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4bA-0004PX-Ey
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:16:35 -0400
+Received: from mail-wm1-f42.google.com ([209.85.128.42]:52959)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4pN-0000Rm-2w
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:31:19 -0400
-Received: by mail-wm1-f48.google.com with SMTP id c6so1160659wml.0
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:31:08 -0700 (PDT)
+ id 1hi4bA-0004PA-6i
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:16:32 -0400
+Received: by mail-wm1-f42.google.com with SMTP id s3so989036wms.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jCabYHM40d2+5uj/C4fh8Q0u8TCASTWJ9SXGpNj41KI=;
- b=XXsFSncZWydLgSkofGymPCmNeXpPb+XzojABwfhJM4s3nP8u796rxY33Ax/z+gC2YC
- +OtokLgh0WJBZtpDOmx/itDw+leHGTqQU3wyfztKVImLlFQ4/aQe5u7oV7L54kNGVJ0w
- neqCuU4QTMAWXRpj0zraPoy3nNsZVsa6vTzpLniehytLiNuf33AGk5z084fM5Y/YwPIw
- 7Qap1Id3u9UJMMnWPAJQ9FzaCiDGy0yVCpph3tOGifMgS5F8nMZoEfM4HDFYVG+dQ0Ek
- LKnNxctda6jF2KJpKJ/iqFDHGoyiVyPmZHy6nXKZ0/bZk50pwd13KuQA5FAZ7YRFHcqA
- a/3Q==
+ bh=o6tJonaWbPJQHk+WHfPFs3EZy62SAe8H5ByWEfMlaXA=;
+ b=tblbu+7+WjY/sWIznRy9L6qiQm6ggh5fhapgt8YDfHwMnH89VrGcDX4D8SE3DuoOFr
+ +UZS/YcLYBUlIf+XRIycQs8GrOny6kbT1LxeSUw2ttMB4lXMGYvZW9ewHdZyPflsxcP5
+ rqNCbjx/ZKraKqNclNzjji1wvE08Nmh6Qi3gH7qz7zjkWqBxytwViXQUl/pqZCtUHrSI
+ uCPTS/Rz7McuQjXJP+VMlc3wOIsi/0Z7IRvBygE91NqNcTHPuc2vZqy12anBhxvZW520
+ fAOv7y7nH/9boG6DoQLBjx2uyJnxxQN03xNdJW+h5d8RM3FtWzD2OaUOSdZIRLBX+Qet
+ XBtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jCabYHM40d2+5uj/C4fh8Q0u8TCASTWJ9SXGpNj41KI=;
- b=GaY9ZTk5sySvzx9F3nt8wuwWPDkqcSBIKMq5oyiQAuZG2Z4QcNuZOWam1Y1TwW0c51
- 4Mjg+yc1PXUe8lAlZz6pLyAn0jenGGjh1313MDPV/qzfmBy2CIldt9WiKmn5xP+h4zyu
- vyfeRvF+7KLcgYZqZEpIGP3rR1BcTX0tdJXMIOkQUDMSYqn0is/IR25cBrgmeb9iA6tm
- waUTmFOuNFo5Ke4PVgUnsckez51FIWrbuvOnO3B2nfozrW90in2JqMSkc82lPMBROvTI
- ir9JqckhboHPEm9smozzlF4hFGtTH3NX4DvzVDe2K8hKVNNOXdgQs8An/WHzLTIKE6hK
- c8aQ==
-X-Gm-Message-State: APjAAAW10RLkXkjebMe/9vLgYpSqTtYbKWiT64ErlOeJ4t19iKStpEMd
- 8B96ek4ok3mHJPbuV72ZC3YWtD+rz4BFkA==
-X-Google-Smtp-Source: APXvYqyPKBj4F1RrnDKe5X9nBlRcEUF+wdx8NZ8XaCHNez70k2oT9rOTBfGAuDMvsSYwiPfwZiij6g==
-X-Received: by 2002:a1c:700b:: with SMTP id l11mr133605wmc.106.1561999218880; 
- Mon, 01 Jul 2019 09:40:18 -0700 (PDT)
+ bh=o6tJonaWbPJQHk+WHfPFs3EZy62SAe8H5ByWEfMlaXA=;
+ b=FQuy2LCpoHNX/gOrwTTDLNs8847cEdmvF2ZXeD6OGa4HdAaC1pRHNArL68Pnzzm4fB
+ zcbTTxZ0vbuH5Bvm9UdiEf+l1s2AsVnbzQiXVsbQXhSDZGjy/mTOu5CGuy1eNsgqoeNj
+ XUDW43u620m2upMZ5wFHzkq4I+IV1Kw5+knm5vsnuXY4/IiE1c6Z5QZbdm/gt0VAuK4O
+ 2n7kMCFVO6L8I5Va02vWom4JeYcgdiJAs0vPA8Uc7YxERlu2KduAKH+Mc3nkLfPCudFf
+ QZ8hz54XX126/Eyo/8M9MNkiW94YWf9TbAiMUg9vVRwe3pHqQ0fUBXwuqDE+QIhc6DlR
+ iikg==
+X-Gm-Message-State: APjAAAV/phqmywlOjoX3NsjZ6rl1wR4O5pPfoTdDTU9NtHaQzWuBDzuC
+ cFiKv8x/bUOEMXAgX1jtN5OXPIdXLAR0lA==
+X-Google-Smtp-Source: APXvYqyv6hfpyPdsLIIGcrshTcrztKBKx8Z+zZR8OHmB40GDIGwnPOnBY1jpWWw7Q62ptGP1ACNI4Q==
+X-Received: by 2002:a1c:7a01:: with SMTP id v1mr155044wmc.10.1561999220910;
+ Mon, 01 Jul 2019 09:40:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.18
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:18 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:28 +0100
-Message-Id: <20190701163943.22313-32-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:30 +0100
+Message-Id: <20190701163943.22313-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.48
-Subject: [Qemu-devel] [PULL 31/46] target/arm: Makefile cleanup (softmmu)
+X-Received-From: 209.85.128.42
+Subject: [Qemu-devel] [PULL 33/46] target/arm/helper: Remove unused include
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,41 +84,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Group SOFTMMU objects together.
-Since PSCI is TCG specific, keep it separate.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190701132516.26392-5-philmd@redhat.com
+Message-id: 20190701132516.26392-7-philmd@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/Makefile.objs | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ target/arm/helper.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index 7a933eebc75..3fcda66132a 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -1,8 +1,9 @@
- obj-y += arm-semi.o
--obj-$(CONFIG_SOFTMMU) += machine.o psci.o arch_dump.o monitor.o
- obj-y += helper.o vfp_helper.o
- obj-y += cpu.o gdbstub.o
- obj-$(TARGET_AARCH64) += cpu64.o gdbstub64.o
-+
-+obj-$(CONFIG_SOFTMMU) += machine.o arch_dump.o monitor.o
- obj-$(CONFIG_SOFTMMU) += arm-powerctl.o
- 
- obj-$(CONFIG_KVM) += kvm.o
-@@ -35,6 +36,8 @@ obj-y += translate.o op_helper.o
- obj-y += crypto_helper.o
- obj-y += iwmmxt_helper.o vec_helper.o neon_helper.o
- 
-+obj-$(CONFIG_SOFTMMU) += psci.o
-+
- obj-$(TARGET_AARCH64) += translate-a64.o helper-a64.o
- obj-$(TARGET_AARCH64) += translate-sve.o sve_helper.o
- obj-$(TARGET_AARCH64) += pauth_helper.o
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d3f3cb57d5f..ca4d4a57bff 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -14,7 +14,6 @@
+ #include "exec/gdbstub.h"
+ #include "exec/helper-proto.h"
+ #include "qemu/host-utils.h"
+-#include "sysemu/arch_init.h"
+ #include "sysemu/sysemu.h"
+ #include "qemu/bitops.h"
+ #include "qemu/crc32c.h"
+@@ -26,7 +25,6 @@
+ #include "hw/semihosting/semihost.h"
+ #include "sysemu/cpus.h"
+ #include "sysemu/kvm.h"
+-#include "fpu/softfloat.h"
+ #include "qemu/range.h"
+ #include "qapi/qapi-commands-target.h"
+ #include "qapi/error.h"
 -- 
 2.20.1
 
