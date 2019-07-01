@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883D65C4FF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:30:01 +0200 (CEST)
-Received: from localhost ([::1]:45678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9E85C515
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:40:34 +0200 (CEST)
+Received: from localhost ([::1]:45718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi3s8-0004Zy-N7
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:30:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48693)
+	id 1hi42L-000285-Ht
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:40:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46759)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Lz-0007Ha-6K
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:56:48 -0400
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hi3H6-0003xK-0g
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:51:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Ls-0004tP-Hj
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:56:42 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:35681)
+ (envelope-from <aleksandar.m.mail@gmail.com>) id 1hi3H1-0002y1-7g
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:51:40 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42337)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3Lq-0004qG-O1
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:56:39 -0400
-Received: by mail-ot1-f68.google.com with SMTP id j19so14938155otq.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:56:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=W8795A1pwOViSCWz1XBqs1T8IqRWO2Ds5kmBMPEZLI4=;
- b=v4EZ0Nbl+SmW3fn/AY9Fg08WXYJ/sMj2juEwN3ISuBZPGAX1wGa6SH6F/VYHlnbEGC
- Clr5wTGQ5aU+0J8ObP9RfaGebhhAC3EB2bRsgXc1Yud0sV1VqvczITQWElDrA2QzRIPa
- cjUu7/Yv9qhe3kqBzOapCiTXzrMmR4MWDkUmlfPiC4Mctl3VXKiCvXGpSRptqRe874hN
- Pd59pRfSAxKAXNVUQs7ykPb7drHrRnYuxUuXIq8G8dIsRkiwEQBhSIzyj+3dJ9JiWm5P
- ZYcBBi0btbIl8Diw5loHeBR12Ggxn4AylD/6RMXycl3hOrKkaY9+dT4wd0I7HGKFj02Z
- Brmg==
+ (Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+ id 1hi3H0-0002xD-OI
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:51:39 -0400
+Received: by mail-ot1-f67.google.com with SMTP id l15so14888165otn.9
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:51:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=WlFEqtUXt54b0aOCl4ubcuGedgwjm1qKVcTQcTcPvjQ=;
+ b=GkVf5v/sKAm49oELw8DDyHVoTY3sFXzsLpPldRK7kgmbg8cI+4Pyq7iyslKIrX1IpW
+ JHBNGyFGzt51uXFUXN6vZJJRlOJ92yS3KevNQz8PM/5FAynOCQuiGKI6U8qiMYdIK178
+ TnGBDCQ6qZkk98teJE8C/lx9fhsW7dwdt+AG5Cyv7pV6jPAkHjzE7PRdcnXSjGTu+ixw
+ +TqvNbqp52BHlAR1wijsuIcBBHOdR8sy8T0omBpak76aXXDUBlAST0qmB1X/aOQloE7i
+ TNAOtfEk5qK0NGMmLayguTRZ77o8Gln6ZdxS+NM9JeCa89hxr5t6ksNboRNmCgbLRbgR
+ 8xMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=W8795A1pwOViSCWz1XBqs1T8IqRWO2Ds5kmBMPEZLI4=;
- b=D9g0a6Wdt0kxSaxQtDv4oysrdVwNIOKn6pRuKHz52G1PxJPFx8AozJA3DI6tmJR28C
- hA5m9MwjMMyr1Nj14KIbvz66+B4jk8k9DJfronXzTIUEu0fr3U9GDrpBWF9stEsT2umv
- dqU4Z6yXIjdstVggoPYO/S71p+Z5ytMowzRpZVBF0eOJUe4XV3u7EQzmGbP3/G04FRd2
- qsMEAh+qpoFzImkEXQ/0hI8ATocbzKmUI+8uUjjviD5Cm9UlIc6o6R88aYOwVJ7WUHT9
- byUJfqL1+uaE/WiZZS9/DSGpJw7Kzo59iS8g2UEEhtXtcofK2ahEuChVs4ymLs2E/9Yc
- 54NA==
-X-Gm-Message-State: APjAAAW5mGxCfklmL8SF1xqyBFR7ctHAm0tGNaaT1tDZXGTjJOd7j0gY
- yCUOr1pIAmtYz5orR3E6tSdMmgzOgAmzJUe5MNYewVQFqbU=
-X-Google-Smtp-Source: APXvYqzT7KIi+tGQIrOHSMjSPbaI/TSJJW+3RrUrMt2b8Cyb6jjA/Tl4/JqMlccyz3LWeKBMXwCG81Quj+jm+RrmqvU=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr21354692otk.232.1562000171096; 
- Mon, 01 Jul 2019 09:56:11 -0700 (PDT)
+ bh=WlFEqtUXt54b0aOCl4ubcuGedgwjm1qKVcTQcTcPvjQ=;
+ b=t3iLKW8OqJ9I4gA3/Omlh00rNk9gVPm0EVuJahBtLaX0C42ojSehpXPJJVke9YKaja
+ YH9hnaMkp32dG4r5FICvpOVwc8owIogdJMreHSxi1cH0bnzLJE5zYRVZokODbFwIMoaq
+ OLdlkHoNz2NOkCSTWCPx/yTP2OuG+ETJp69FdVeWMzYtZ/UPYX+odRYCEmTIdVwQIVbc
+ WN9S6ai2ZUKFqaFdu8Q6QSZGcUcZ4RbRlJrSGppuC7g6LnC6kACjKR3vdxT7quHNxKZm
+ O/lOC6cT5FIVKy5gAcHfjPkVuVI2XKwy5IpVQVvqH8oaqToGpD7binTNsbPEopv6Uita
+ pcOw==
+X-Gm-Message-State: APjAAAV/VDBGk5CPRrNp28D98yOvUZro0NLIX2iZCq2NG5C7Utmm75cp
+ 2wmRYVUSiS9MYumR3UxnObQzlOazNWCe9O7Pgp4Mnw==
+X-Google-Smtp-Source: APXvYqwGwN1Buy7nRoCIKIknJeJSC4VpEKAmCJxqkKVR79/MMLZVyGMQ6KTmylXul487TENWWNYFnqOsKfjCSuXw5OA=
+X-Received: by 2002:a9d:6e8a:: with SMTP id a10mr21951626otr.295.1562000928342; 
+ Mon, 01 Jul 2019 10:08:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190628173227.31925-1-palmer@sifive.com>
-In-Reply-To: <20190628173227.31925-1-palmer@sifive.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 17:55:59 +0100
-Message-ID: <CAFEAcA_C8DM51ac-hOU++OUyMEdSgJQaEMnazsCDn3=Cb2vOqA@mail.gmail.com>
-To: Palmer Dabbelt <palmer@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP;
+ Mon, 1 Jul 2019 10:08:47 -0700 (PDT)
+Received: by 2002:a9d:4798:0:0:0:0:0 with HTTP;
+ Mon, 1 Jul 2019 10:08:47 -0700 (PDT)
+In-Reply-To: <CAL1e-=iogUENT-RESCwCs+tjLD7DBqJ3GamLyythSdcqQ9M==g@mail.gmail.com>
+References: <20190701140143.32706-1-philmd@redhat.com>
+ <CAL1e-=iogUENT-RESCwCs+tjLD7DBqJ3GamLyythSdcqQ9M==g@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Mon, 1 Jul 2019 19:08:47 +0200
+Message-ID: <CAL1e-=jy+3aXffBchAai=obXOXwCMVddd8tw4hymccXpg3-x2A@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.68
-Subject: Re: [Qemu-devel] [PULL] RISC-V Patches for the 4.1 Soft Freeze,
- Part 2 v2
+X-Received-From: 209.85.210.67
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH] tests/machine-none: Test recent MIPS cpus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,60 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 28 Jun 2019 at 18:32, Palmer Dabbelt <palmer@sifive.com> wrote:
+On Jul 1, 2019 4:53 PM, "Aleksandar Markovic" <aleksandar.m.mail@gmail.com>
+wrote:
 >
-> merged tag 'mips-queue-jun-21-2019'
-> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
 >
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+> On Jul 1, 2019 4:45 PM, "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
+wrote:
+> >
+> > The MIPS I7200 got added in commit d45942d908e, and the I6500
+> > in commit ca1ffd14ed8.
+> > Extend the coverage on the little-endian machines.
+> > The 4Kc and 20Kc are still covered by the big-endian machines.
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > ---
 >
-> are available in the Git repository at:
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 >
->   git://github.com/palmer-dabbelt/qemu.git tags/riscv-for-master-4.1-sf1-v2
->
-> for you to fetch changes up to 56bf43fc565a2fa3e0a618ab45e1c82896d0782a:
->
->   hw/riscv: Load OpenSBI as the default firmware (2019-06-28 10:10:30 -0700)
->
-> ----------------------------------------------------------------
-> RISC-V Patches for the 4.1 Soft Freeze, Part 2 v2
->
-> This pull request contains a handful of patches that I'd like to target
-> for the 4.1 soft freeze.  There are a handful of new features:
->
-> * The -bios option now works sanely, including both a built-in copy of
->   OpenSBI and the ability to load external versions.  Users no longer
->   need to figure out how to build their own firmware.
-> * Support for the 1.11.0, the latest privileged specification.
-> * Support for reading and writing the PRCI registers.
-> * Better control over the ISA of the target machine.
-> * Support for the cpu-topology device tree node.
->
-> Additionally, there are a handful of bug fixes including:
->
-> * Load reservations are now broken by both store conditional and by
->   scheduling, which fixes issues with parallel applications.
-> * Various fixes to the PMP implementation.
-> * Fixes to the 32-bit linux-user syscall ABI.
-> * Various fixes for instruction decodeing.
-> * A fix to the PCI device tree "bus-range" property.
->
-> This boots 32-bit and 64-bit OpenEmbedded.
->
-> Changes since v1 [riscv-for-master-4.1-sf1]:
->
-> * Contains a fix to the sifive_u OpenSBI integration.
 
-Hi; I had some comments about the opensbi blobs (and in particular
-a question about the licensing), so I'm not going to apply this.
-You might want to send a v2 which has everything except the new
-blobs, while we figure out what we want to do about them.
+If nobody objects, I am going to select this patch for mips queue scheduled
+tomorrow.
 
-thanks
--- PMM
+Thanks!
 
+Aleksandar
+
+> >  tests/machine-none-test.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
+> > index 4c6d470798..5953d31755 100644
+> > --- a/tests/machine-none-test.c
+> > +++ b/tests/machine-none-test.c
+> > @@ -36,9 +36,9 @@ static struct arch2cpu cpus_map[] =3D {
+> >      /* FIXME: { "microblaze", "any" }, doesn't work with -M none -cpu
+any */
+> >      /* FIXME: { "microblazeel", "any" }, doesn't work with -M none
+-cpu any */
+> >      { "mips", "4Kc" },
+> > -    { "mipsel", "4Kc" },
+> > +    { "mipsel", "I7200" },
+> >      { "mips64", "20Kc" },
+> > -    { "mips64el", "20Kc" },
+> > +    { "mips64el", "I6500" },
+> >      { "moxie", "MoxieLite" },
+> >      { "nios2", "FIXME" },
+> >      { "or1k", "or1200" },
+> > --
+> > 2.20.1
+> >
+> >
