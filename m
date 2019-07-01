@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC145BE5A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:33:16 +0200 (CEST)
-Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9144B5BE67
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:36:44 +0200 (CEST)
+Received: from localhost ([::1]:59418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxMp-0001ML-Sr
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:33:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54760)
+	id 1hhxQB-00054I-QB
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55454)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhxHy-00067o-GE
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:28:16 -0400
+ (envelope-from <berrange@redhat.com>) id 1hhxKK-0000s5-I3
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:30:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhxHx-0006aJ-Do
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:28:14 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:32926)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhxHx-0006Zc-7U
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:28:13 -0400
-Received: by mail-oi1-x242.google.com with SMTP id u15so9980763oiv.0
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:28:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7SXR3zO9cp1ANHx7ow9CJZAvcgm5OoRPKzo7VdBR5Rk=;
- b=KaN4YC/OT8uUTrRz854sdDDoZSJH3CHZ4MrlgNuzqNhb9jSdVYjRMOAv9ShrrwW8Ol
- omxJkjAu+AszK4hp4OfCLvy9p9rkjIcZtrGs6tMCIFc7i++DDh3OxDWhd5t0lOuG2F8S
- pEh59HYv17p2qCKN8VUJgqJafZk8umhPBwP/19E+jV1c+jtRJC7Z5xMQs8zKootoKsje
- bO/XbxCvFRjWBS5cAwIiIhFDC/MA1IViFJGIW+8g5tyYvMZBb9qAjb1cG5yZccqjl0bn
- T44NDHi27QAW653y6CNXSrcMJDgJEGazm9zBhS7+4ltetN4sicrv5P8v63z0HvSk+KLk
- WF/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7SXR3zO9cp1ANHx7ow9CJZAvcgm5OoRPKzo7VdBR5Rk=;
- b=B6eHUYA7rp1ersmzkgilguWzmlQri3EwWoV4PEFKFP6ee6CFM6nFXZJ5uwzc5muaCP
- P/JwKUPGuw8dhabHogpLncEufY5la5uV78RUnq9VDO+uLl5wiXNVUO6+JVhEXoC0Vh4t
- blIH7qMqN2uv4C0BTmCpcvXcpxsYHEB/BDcTLOEFeAkDaJvp9q3/l1mQLL+tk7YV7rn2
- PMhv9BZguOESzpshTSbCKtZS4Q745oRI0nvFO6iDt9V42vAs4d04VkW899K2WKCHaxD2
- AMPlgE+v3vCAeGlB8thdhqNgZndtAjsXkv/VYNWR5e4tA+fFJwsvY773pLiK5UYHqPq4
- haMw==
-X-Gm-Message-State: APjAAAUaSBDJiOq+l/tHMcVx00laR9uxLeLwQzsxhZflpgZSI7SWTBK/
- OGkBrY+87chbD9OCuKN7lDWTOHuB/oT8TWT5oHjiZQ==
-X-Google-Smtp-Source: APXvYqwITMHlOSiO83rYYAMxf6VxQeipdnmbMSvvFxwPI4G8xLQb27tDgwxxKr5yJRNqb+OlYY+SjVJOKPCGPJJz78w=
-X-Received: by 2002:aca:ac48:: with SMTP id v69mr6787581oie.48.1561991292023; 
- Mon, 01 Jul 2019 07:28:12 -0700 (PDT)
+ (envelope-from <berrange@redhat.com>) id 1hhxKJ-0008Ts-Ch
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:30:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52088)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <berrange@redhat.com>)
+ id 1hhxJx-00089a-SJ; Mon, 01 Jul 2019 10:30:19 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F163630BC56A;
+ Mon,  1 Jul 2019 14:30:13 +0000 (UTC)
+Received: from redhat.com (ovpn-112-60.ams2.redhat.com [10.36.112.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D413569283;
+ Mon,  1 Jul 2019 14:29:56 +0000 (UTC)
+Date: Mon, 1 Jul 2019 15:29:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <20190701142953.GL3573@redhat.com>
+References: <20190614100718.14019-1-philmd@redhat.com>
+ <20190614100718.14019-2-philmd@redhat.com>
 MIME-Version: 1.0
-References: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
- <1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org>
-In-Reply-To: <1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 15:28:01 +0100
-Message-ID: <CAFEAcA-F7kcQe1cPn4v22CJu=SyEq5Bi9hAXtb-Z1+-f2b6tYA@mail.gmail.com>
-To: Hongbo Zhang <hongbo.zhang@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v9 1/2] hw/arm: Add arm SBSA reference
- machine, skeleton part
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190614100718.14019-2-philmd@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.49]); Mon, 01 Jul 2019 14:30:15 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/9] configure: Only generate GLUSTERFS
+ variables if glusterfs is usable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -73,73 +59,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Bharata B Rao <bharata@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Niels de Vos <ndevos@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 30 Jun 2019 at 11:21, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
->
-> For the Aarch64, there is one machine 'virt', it is primarily meant to
-> run on KVM and execute virtualization workloads, but we need an
-> environment as faithful as possible to physical hardware, for supporting
-> firmware and OS development for pysical Aarch64 machines.
-
-"physical"
-
->
-> This patch introduces new machine type 'sbsa-ref' with main features:
->  - Based on 'virt' machine type.
->  - A new memory map.
->  - CPU type cortex-a57.
->  - EL2 and EL3 are enabled.
->  - GIC version 3.
->  - System bus AHCI controller.
->  - System bus EHCI controller.
->  - CDROM and hard disc on AHCI bus.
->  - E1000E ethernet card on PCIE bus.
->  - VGA display adaptor on PCIE bus.
->  - No virtio deivces.
-
-"devices"
-
->  - No fw_cfg device.
->  - No ACPI table supplied.
->  - Only minimal device tree nodes.
->
-> Arm Trusted Firmware and UEFI porting to this are done accordingly, and
-> it should supply ACPI tables to load OS, the minimal device tree nodes
-> supplied from this platform are only to pass the dynamic info reflecting
-> command line input to firmware, not for loading OS.
->
-> To make the review easier, this task is split into two patches, the
-> fundamental sceleton part and the peripheral devices part, this patch is
-
-"skeleton"
-
-> the first part.
->
-> Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
+On Fri, Jun 14, 2019 at 12:07:10PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> It is pointless and confusing to have GLUSTERFS variables
+> in config-host.mak when glusterfs is not usable.
+>=20
+> Reviewed-by: Niels de Vos <ndevos@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
+>  configure | 36 ++++++++++++++++++------------------
+>  1 file changed, 18 insertions(+), 18 deletions(-)
 
-> +static const int sbsa_ref_irqmap[] = {
-> +    [SBSA_UART] = 1,
-> +    [SBSA_RTC] = 2,
-> +    [SBSA_PCIE] = 3, /* ... to 6 */
-> +    [SBSA_GPIO] = 7,
-> +    [SBSA_SECURE_UART] = 8,
-> +    [SBSA_SECURE_UART_MM] = 9,
-> +    [SBSA_AHCI] = 10,
-> +    [SBSA_EHCI] = 11,
-> +};
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-This array isn't used in this patch, so it needs to be moved
-into patch 2, to avoid a compile failure with clang because
-of the unused-variable.
 
-thanks
--- PMM
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
