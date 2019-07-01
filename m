@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BDA95B459
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 07:50:13 +0200 (CEST)
-Received: from localhost ([::1]:47918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83E55B464
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 07:53:17 +0200 (CEST)
+Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhpCe-0002No-IG
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 01:50:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37334)
+	id 1hhpFc-0005op-Tg
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 01:53:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37396)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hhpAf-0000ds-JM
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:10 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hhpAh-0000eG-OA
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hhpAe-0005pH-E0
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:09 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57395 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hhpAg-0005r5-CU
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 01:48:11 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:33643 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hhpAc-0005mh-Du; Mon, 01 Jul 2019 01:48:08 -0400
+ id 1hhpAf-0005p5-Na; Mon, 01 Jul 2019 01:48:10 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45cbxs288Bz9sPD; Mon,  1 Jul 2019 15:48:01 +1000 (AEST)
+ id 45cbxt01vGz9sPQ; Mon,  1 Jul 2019 15:48:01 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1561960081;
- bh=Q2I2WlWbFxLUofXLepO0U9lhPFobX49MRLQJLLky3hA=;
+ d=gibson.dropbear.id.au; s=201602; t=1561960082;
+ bh=vguJ93WFktdv05krgifyxoFZP0baSNzdAZIzqTT10Jc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oc7Vns9XNy21N8HnCE9BDi4JfbaW9A/D7+2Q0YW507olVxXaBMBHXCrR3xGOMgmsF
- 2q/qCfrlH2Pd1tVcV/k4IZOdzJlE7rX/CDOPkHMj2dv9uSzTs8MGDF7hHG88a4fI8x
- w16DzjTJ+gzXczoiqCZnu7U/vg4NlFRfPzKdVp38=
-Date: Mon, 1 Jul 2019 15:15:09 +1000
+ b=ElTWjJTefR9eGtYRLS6Gi9PFR7nL1itfO0F9b/P6gQBM7iBgZH0qSBX/8FD+x1ykj
+ b2jVFBByXOgAVKkdSYkRvf92fkj2ikgEPphLdeMohHWD73FMl4SB8Zex6uyg2EX4QX
+ vtot9+Pk6X3tMIhiyGHRrV4RDfvBJVdPZLiX8Um0=
+Date: Mon, 1 Jul 2019 15:26:16 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190701051509.GL2138@umbus.fritz.box>
-References: <20190614165920.12670-1-clg@kaod.org>
+Message-ID: <20190701052616.GM2138@umbus.fritz.box>
+References: <20190630204601.30574-1-clg@kaod.org>
+ <20190630204601.30574-2-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jtcAeju3WzRmRF+o"
+ protocol="application/pgp-signature"; boundary="yaap9KN+GmBP785v"
 Content-Disposition: inline
-In-Reply-To: <20190614165920.12670-1-clg@kaod.org>
+In-Reply-To: <20190630204601.30574-2-clg@kaod.org>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH 0/2] spapr/xive: rework the mapping the KVM
- memory regions
+Subject: Re: [Qemu-devel] [PATCH 01/10] ppc/xive: Force the Physical CAM
+ line value to group mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,43 +56,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Suraj Jitindar Singh <sjitindarsingh@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---jtcAeju3WzRmRF+o
+--yaap9KN+GmBP785v
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 14, 2019 at 06:59:18PM +0200, C=E9dric Le Goater wrote:
-> Hello,
+On Sun, Jun 30, 2019 at 10:45:52PM +0200, C=E9dric Le Goater wrote:
+> When an interrupt needs to be delivered, the XIVE interrupt controller
+> presenter scans the CAM lines of the thread interrupt contexts of the
+> HW threads of the chip to find a matching vCPU. The interrupt context
+> is composed of 4 different sets of registers: Physical, HV, OS and
+> User.
 >=20
-> Here is a small series simplifying the initialization sequence of the
-> interrupt device by using memory regions specific for KVM. These are
-> mapped as overlaps on top of the emulated device.
+> The encoding of the Physical CAM line depends on the mode in which the
+> interrupt controller is operating: CAM mode or block group mode.
+> Block group mode being the default configuration today on POWER9 and
+> the only one available on the next POWER10 generation, enforce this
+> encoding in the Physical CAM line :
+>=20
+>     chip << 19 | 0000000 0 0001 thread (7Bit)
+>=20
+> It fits the overall encoding of the NVT ids and simplifies the matching
+> algorithm in the presenter.
+>=20
+> Fixes: d514c48d41fb ("ppc/xive: hardwire the Physical CAM line of the thr=
+ead context")
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Applied, thanks.
+Since this appears to be a fix, applied to ppc-for-4.1.
 
+> ---
+>  hw/intc/xive.c | 21 +++++----------------
+>  1 file changed, 5 insertions(+), 16 deletions(-)
 >=20
-> Thanks,
->=20
-> C.
->=20
-> C=E9dric Le Goater (2):
->   spapr/xive: rework the mapping the KVM memory regions
->   spapr/xive: simplify spapr_irq_init_device() to remove the emulated
->     init
->=20
->  include/hw/ppc/spapr_irq.h  |  1 -
->  include/hw/ppc/spapr_xive.h |  2 +-
->  include/hw/ppc/xive.h       |  1 +
->  hw/intc/spapr_xive.c        | 38 ++++++++++---------------------------
->  hw/intc/spapr_xive_kvm.c    | 21 +++++++++++---------
->  hw/ppc/spapr_irq.c          | 21 +++-----------------
->  6 files changed, 27 insertions(+), 57 deletions(-)
->=20
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index 6250c0414de8..3b1f9520ae9f 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1229,27 +1229,16 @@ XiveTCTX *xive_router_get_tctx(XiveRouter *xrtr, =
+CPUState *cs)
+>  }
+> =20
+>  /*
+> - * By default on P9, the HW CAM line (23bits) is hardwired to :
+> + * Encode the HW CAM line in the block group mode format :
+>   *
+> - *   0x000||0b1||4Bit chip number||7Bit Thread number.
+> - *
+> - * When the block grouping is enabled, the CAM line is changed to :
+> - *
+> - *   4Bit chip number||0x001||7Bit Thread number.
+> + *   chip << 19 | 0000000 0 0001 thread (7Bit)
+>   */
+> -static uint32_t hw_cam_line(uint8_t chip_id, uint8_t tid)
+> -{
+> -    return 1 << 11 | (chip_id & 0xf) << 7 | (tid & 0x7f);
+> -}
+> -
+> -static bool xive_presenter_tctx_match_hw(XiveTCTX *tctx,
+> -                                         uint8_t nvt_blk, uint32_t nvt_i=
+dx)
+> +static uint32_t xive_tctx_hw_cam_line(XiveTCTX *tctx)
+>  {
+>      CPUPPCState *env =3D &POWERPC_CPU(tctx->cs)->env;
+>      uint32_t pir =3D env->spr_cb[SPR_PIR].default_value;
+> =20
+> -    return hw_cam_line((pir >> 8) & 0xf, pir & 0x7f) =3D=3D
+> -        hw_cam_line(nvt_blk, nvt_idx);
+> +    return xive_nvt_cam_line((pir >> 8) & 0xf, 1 << 7 | (pir & 0x7f));
+>  }
+> =20
+>  /*
+> @@ -1285,7 +1274,7 @@ static int xive_presenter_tctx_match(XiveTCTX *tctx=
+, uint8_t format,
+> =20
+>          /* PHYS ring */
+>          if ((be32_to_cpu(qw3w2) & TM_QW3W2_VT) &&
+> -            xive_presenter_tctx_match_hw(tctx, nvt_blk, nvt_idx)) {
+> +            cam =3D=3D xive_tctx_hw_cam_line(tctx)) {
+>              return TM_QW3_HV_PHYS;
+>          }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -99,25 +150,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---jtcAeju3WzRmRF+o
+--yaap9KN+GmBP785v
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0Zlt0ACgkQbDjKyiDZ
-s5JiVQ/+Ovg+4pGlzKWrsDx7kJ+L0hGPJeM2ptrg8BLg7kqVptnLUA5Lysg/r0Tj
-sYWwZ58FuZnbL/KCjJWV9ZJ7l+Hpd/BcZvdRN+xqmhKtrI1JN0tsC8yVYlxKjt8o
-8m81CiuegVcbvGcqlLco1qak3m4EVr3f+zqjX8Jy0IgcTH1X8vS52Z4ONnVZsGSr
-YYA/IEt9N4Rp8wF+0lIcVZginkLBp/E9QqvabsY1Vjg/85lKtgwTEI0uYqftbFtc
-lWJC423l+InXs8UHbZFuVoNbIn6GZ8C+rT2hLdye31meLO5mzxbnRhEN0eSKGn1I
-jX0eMm5L+f38swCO/hHbgCs9J9tV5IGVYZKqmPUv2oy+sSSkibT6XUftBaqqwwOt
-/Kjujpzw070qIj2sRw18wzTkvqnVpGMDvYGWqfIjZcTWqGbT1Htbekuc4IyU+48z
-UiauFvnNuefikKMtao/QgPoZczI6uFOVLRdVwlgTcG3VdIEhaK1Jl8oSUVxfiUHj
-tmwCKghmk4pTzUOo1r4OZ6BYWHZF3E5EcN/+2vM36ASgIp1sYGSNrlNUDAM2f373
-CfOIglzWSWD8ikiTZ3Dmqxvp97a7ld2rErKohn1AKjvCNFi+AA3y+BbS/J6uitBG
-AMxHRjs9lXI3qsbw5xgO4jwThKI0qrnReaGgr5/sZibFfGOo8ws=
-=zI7L
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0ZmXYACgkQbDjKyiDZ
+s5JN7w//UKqYCmhO/PLPU4scrsw5Nv7rODNlsn3pWWhhGM4H80HenZtqqGa8+/bV
+dKlF2e6UmhdmEMPxtmbVIg8GUP6HBwagYJTQwQGE/kcAk7SxY/OqfoKtm/FWAvKS
+35q8MDHnbWrWLqc8eKKgmyVYPkXJa7j4kd7+HHFDLXvGxlvVjGYgdyqPavZm3+uX
+XpRwhruPO0a6X3JrPqJQP65biGKmYmnQLYiu/97tJ4lGws7afOrX/9FlCCC8oP7Z
+/OPPw45Ru9nMGE0N9Hh/JxhdQrgBmBlQoTO2NTC8SyUqe6Zk7n1CfGc0QVsxv7RH
+fahZOiQiaAsQ+SjcYR7LR2xx2xkX3EkdiNSdbFP+DXcEpNkVF+UmqBqWAxoACR4P
+SgjeND+pkZCCebJ1b9QhxvT7GxJ/SKNrLpeo9O/JO/HPGt+qkxG74Fr/3JbHswno
+kLdeipg9GwlVL0izQTYnGhUjTmbmR8veat5W8UC8wAOjWLUyLZp8flA/YbRbCjLs
+G7F90cvOFgjeZwJPLr1RxPm1IOO3DHwhGDXkbZhNKpZWBpW5GXZQCXV+YMLmpSdK
+Hu03BfSoTGtzDEuRCqZ26OpEKyB4miBdRVqXZUnsVGlQOKzcHfvw/v8woOmxSb/E
+ExIndSnwXZNTjycIklddIO2xN+R6feiKslfbYvVDAZa5j0LlGIQ=
+=m/S+
 -----END PGP SIGNATURE-----
 
---jtcAeju3WzRmRF+o--
+--yaap9KN+GmBP785v--
 
