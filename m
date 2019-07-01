@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B2F5BFB3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:25:43 +0200 (CEST)
-Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B0C5C068
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:38:46 +0200 (CEST)
+Received: from localhost ([::1]:60206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhyBa-0001gJ-AV
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38630)
+	id 1hhyOD-0001Jq-0m
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38752)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <liq3ea@gmail.com>) id 1hhy8x-0000F0-JQ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:23:00 -0400
+ (envelope-from <crosa@redhat.com>) id 1hhy9e-0000xo-HE
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:23:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <liq3ea@gmail.com>) id 1hhy8w-0005AU-2q
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:22:59 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35918)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hhy8v-00058O-SK
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:22:58 -0400
-Received: by mail-oi1-x244.google.com with SMTP id w7so10255866oic.3
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:22:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xc9OjD0nUZ+3Mqa2kPNjAatVz38BK5YDMcw7B/DRoyc=;
- b=mGIcA5Xlik0/ssiJbwCjzI1bwXwNfwAz+Fx2EqVSr/Cc8+owSVYXGOYE9FWdlzwpn3
- TBS5kQSURe/Sp2YtYXNpd4uGT/LVdaC7IsWVVMj8hlmL+R1S4siKieroezkTgvT9tclE
- ovMzS4G/bP0m5HDOUcA+oul/QmDHqUCbN7fFxLUFYFCaGr0aoKPt3eW30ayqoqIc4RLY
- JY6YSKfSfDtkx12yLroKtpJH619CWXMZIogt7LA6oLRVTJyulnu9nsA39HdRGsqOhCnF
- MGB8vlhCmm7ME61XrbkGnn3KqURHkbvfDguZLttTSwSVAS4+LYoZqZM8eZA7fzD3VYkE
- e+aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xc9OjD0nUZ+3Mqa2kPNjAatVz38BK5YDMcw7B/DRoyc=;
- b=RDmxr3Mw054x2hqIi8rr2Hwf70AHNuBlBwzwq2Utjdh76+YwfXySrP4GvawejdIep4
- IwJ0jbsxNqYd3jKMow65oxlAcVLJMyYIe6j+iZ8tiMAXeZ4gAyrDY1QPmz7vvPef8AGC
- gB6a5po0i93T07zhu0bKGhOMnitsZLTKn3KSSzSwGI1iKoroD89Dw7c+m09t0fbfKUcY
- 6BKa2XUNUammnfqNbjxf6fI82H0vx0knnV43NdHqD97U4vDgnNx4roZP8ssn+1+XzwYu
- A9J/SHaYJCkfSSyRuNn6l/jcGIpb7nsH3XBYdVXND7KEwtkLUyNIPPo3X2C+9Di54ogk
- MJYA==
-X-Gm-Message-State: APjAAAXIZU8hV7fyx7Uqy8pfmH8J4mq4otfAiBJWyREx5lzohxWzGBhk
- Wv+QcXK3zLVIwQc9sFoxpuHKVzLGnuSD8xJHWdxooZdNjmA=
-X-Google-Smtp-Source: APXvYqyNp96ftwG+b/B2Vw5SAVlofebKAm6GGaUhlBQDFwx+Zal1MOMrEgORr21NNU9Fb4CGoUfK0HbwVaE2s9PdBGA=
-X-Received: by 2002:a54:4f97:: with SMTP id g23mr7056273oiy.97.1561994574757; 
- Mon, 01 Jul 2019 08:22:54 -0700 (PDT)
+ (envelope-from <crosa@redhat.com>) id 1hhy9d-0005VG-B7
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:23:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38182)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>)
+ id 1hhy9d-0005TG-37; Mon, 01 Jul 2019 11:23:41 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D2748C057F88;
+ Mon,  1 Jul 2019 15:23:37 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-124-195.rdu2.redhat.com
+ [10.10.124.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D4A2BA4D;
+ Mon,  1 Jul 2019 15:23:34 +0000 (UTC)
+Date: Mon, 1 Jul 2019 11:23:32 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>, ehabkost@redhat.com
+Message-ID: <20190701152332.GA30640@localhost.localdomain>
+References: <20190607174953.22342-1-philmd@redhat.com>
+ <a09936fe-4fdc-1623-6300-43f4891ff389@redhat.com>
+ <CAL1e-=hoWQpmttzUGGbW7x8gGme7VMfEKhw=cFpL5Pg9A9sHDQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190701123558.30512-1-ppandit@redhat.com>
- <20190701123558.30512-2-ppandit@redhat.com>
-In-Reply-To: <20190701123558.30512-2-ppandit@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Mon, 1 Jul 2019 23:22:18 +0800
-Message-ID: <CAKXe6SLZ0eAZ5++soLkFiH6gNMRqJfO7Y5JYmFtopnCqk_61Cw@mail.gmail.com>
-To: P J P <ppandit@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <CAL1e-=hoWQpmttzUGGbW7x8gGme7VMfEKhw=cFpL5Pg9A9sHDQ@mail.gmail.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.32]); Mon, 01 Jul 2019 15:23:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v3 1/3] qemu-bridge-helper: restrict
- interface name to IFNAMSIZ
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] BootLinuxSshTest: Only use 'test' for
+ unittest.TestCase method names
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,77 +61,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riccardo Schirone <rschiron@redhat.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-P J P <ppandit@redhat.com> =E4=BA=8E2019=E5=B9=B47=E6=9C=881=E6=97=A5=E5=91=
-=A8=E4=B8=80 =E4=B8=8B=E5=8D=888:38=E5=86=99=E9=81=93=EF=BC=9A
+On Mon, Jul 01, 2019 at 05:03:33PM +0200, Aleksandar Markovic wrote:
+> On Jul 1, 2019 4:22 PM, "Philippe Mathieu-Daud=E9" <philmd@redhat.com> =
+wrote:
+> >
+> > ping?
+> >
+> > On 6/7/19 7:49 PM, Philippe Mathieu-Daud=E9 wrote:
+> > > In commit f6e501a28ef9, Eduardo started to use "check_" as a
+> > > prefix for methods of similar purpose. Follow this prior art,
+> > > since it might become the conventions when writting Avocado
+> > > tests.
+> > >
+> > > Suggested-by: Cleber Rosa <crosa@redhat.com>
+> > > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > > ---
+>=20
+> Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> The network interface name in Linux is defined to be of size
-> IFNAMSIZ(=3D16), including the terminating null('\0') byte.
-> The same is applied to interface names read from 'bridge.conf'
-> file to form ACL rules. If user supplied '--br=3Dbridge' name
-> is not restricted to the same length, it could lead to ACL bypass
-> issue. Restrict interface name to IFNAMSIZ, including null byte.
->
-> Reported-by: Riccardo Schirone <rschiron@redhat.com>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  qemu-bridge-helper.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> Update v3: use g_str_equal() and %zu for strlen()
->   -> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg00072.html
->
-> diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
-> index f9940deefd..e90c22f07d 100644
-> --- a/qemu-bridge-helper.c
-> +++ b/qemu-bridge-helper.c
-> @@ -109,6 +109,13 @@ static int parse_acl_file(const char *filename,
-> ACLList *acl_list)
->          }
->          *argend =3D 0;
->
-> +        if (!g_str_equal(cmd, "include") && strlen(arg) >=3D IFNAMSIZ) {
-> +            fprintf(stderr, "name `%s' too long: %zu\n", arg,
-> strlen(arg));
-> +            fclose(f);
-> +            errno =3D EINVAL;
-> +            return -1;
-> +        }
-> +
->
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
-g_str_equal is not consistent style with the other 'strcmp' in this file.
-With g_str_equal or strcmp:
+And queued on my python-next branch.
 
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
+>=20
+> > >  tests/acceptance/linux_ssh_mips_malta.py | 10 +++++-----
+> > >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/tests/acceptance/linux_ssh_mips_malta.py
+> b/tests/acceptance/linux_ssh_mips_malta.py
+> > > index aafb0c39f6..134f10cac3 100644
+> > > --- a/tests/acceptance/linux_ssh_mips_malta.py
+> > > +++ b/tests/acceptance/linux_ssh_mips_malta.py
+> > > @@ -162,7 +162,7 @@ class LinuxSSH(Test):
+> > >          self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in=
+ line
+> > >                               for line in stdout])
+> > >
+> > > -    def do_test_mips_malta(self, endianess, kernel_path, uname_m):
+> > > +    def check_mips_malta(self, endianess, kernel_path, uname_m):
+> > >          self.boot_debian_wheezy_image_and_ssh_login(endianess,
+> kernel_path)
+> > >
+> > >          stdout, stderr =3D self.ssh_command('uname -a')
+> > > @@ -184,7 +184,7 @@ class LinuxSSH(Test):
+> > >          kernel_hash =3D '592e384a4edc16dade52a6cd5c785c637bcbc9ad'
+> > >          kernel_path =3D self.fetch_asset(kernel_url,
+> asset_hash=3Dkernel_hash)
+> > >
+> > > -        self.do_test_mips_malta('be', kernel_path, 'mips')
+> > > +        self.check_mips_malta('be', kernel_path, 'mips')
+> > >
+> > >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
+> Travis-CI')
+> > >      def test_mips_malta32el_kernel3_2_0(self):
+> > > @@ -199,7 +199,7 @@ class LinuxSSH(Test):
+> > >          kernel_hash =3D 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a'
+> > >          kernel_path =3D self.fetch_asset(kernel_url,
+> asset_hash=3Dkernel_hash)
+> > >
+> > > -        self.do_test_mips_malta('le', kernel_path, 'mips')
+> > > +        self.check_mips_malta('le', kernel_path, 'mips')
+> > >
+> > >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
+> Travis-CI')
+> > >      def test_mips_malta64eb_kernel3_2_0(self):
+> > > @@ -213,7 +213,7 @@ class LinuxSSH(Test):
+> > >                        'vmlinux-3.2.0-4-5kc-malta')
+> > >          kernel_hash =3D 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'
+> > >          kernel_path =3D self.fetch_asset(kernel_url,
+> asset_hash=3Dkernel_hash)
+> > > -        self.do_test_mips_malta('be', kernel_path, 'mips64')
+> > > +        self.check_mips_malta('be', kernel_path, 'mips64')
+> > >
+> > >      @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on
+> Travis-CI')
+> > >      def test_mips_malta64el_kernel3_2_0(self):
+> > > @@ -227,4 +227,4 @@ class LinuxSSH(Test):
+> > >                        'vmlinux-3.2.0-4-5kc-malta')
+> > >          kernel_hash =3D '6a7f77245acf231415a0e8b725d91ed2f3487794'
+> > >          kernel_path =3D self.fetch_asset(kernel_url,
+> asset_hash=3Dkernel_hash)
+> > > -        self.do_test_mips_malta('le', kernel_path, 'mips64')
+> > > +        self.check_mips_malta('le', kernel_path, 'mips64')
+> > >
+> >
 
-
-
-
->          if (strcmp(cmd, "deny") =3D=3D 0) {
->              acl_rule =3D g_malloc(sizeof(*acl_rule));
->              if (strcmp(arg, "all") =3D=3D 0) {
-> @@ -259,6 +266,10 @@ int main(int argc, char **argv)
->          usage();
->          return EXIT_FAILURE;
->      }
-> +    if (strlen(bridge) >=3D IFNAMSIZ) {
-> +        fprintf(stderr, "name `%s' too long: %zu\n", bridge,
-> strlen(bridge));
-> +        return EXIT_FAILURE;
-> +    }
->
->      /* parse default acl file */
->      QSIMPLEQ_INIT(&acl_list);
-> --
-> 2.21.0
->
->
