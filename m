@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909FA5C6AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:36:50 +0200 (CEST)
-Received: from localhost ([::1]:46912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DEB45C693
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:27:01 +0200 (CEST)
+Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7iz-0006nP-GE
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:36:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
+	id 1hi7ZU-0004nT-8r
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:27:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52660)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3wd-00089P-BT
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:34:41 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4CN-0006hw-HO
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:50:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3wb-0001wb-HE
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:34:38 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:45290)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4CM-0004n2-HI
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:50:55 -0400
+Received: from mail-wm1-f53.google.com ([209.85.128.53]:52118)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3wZ-0001hR-EU
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:34:36 -0400
-Received: by mail-wr1-f44.google.com with SMTP id f9so15332764wre.12
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:33:25 -0700 (PDT)
+ id 1hi4CM-0004mY-6A
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:50:54 -0400
+Received: by mail-wm1-f53.google.com with SMTP id 207so948891wma.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=sudBZzt6fCQJ8cQwNMK19XbmjoKhOxFTcvcuBuImuhY=;
- b=sgrqr4xI0PlW1BJh2TX9dQ3LR9+J6c6sCrB9Lr8rp4MfRV0yOypHdy+fkNxJD9g7ZR
- mLAcNFodJ1temny1x38kcVxvXvEN/vzm2Xk3J5/oIzegowOE8noDuZ8YXtAcxS93ItUU
- D405K1j1Y1P5M16lciJ4SqVjIo8+bifhPhgpFyrnqF39I+xUoiNIp1OtLmRpLw5VA7vW
- FC/3EgYPnBmo8DCl4R/EXpMWsqQ8HiZSRD5VzEhKWATRImxZQyhC+fnGFl34oEjiTsLc
- 8XCdIGGMvTIxL71cM8qUlozc6Xc/zf2QPuTY1q7/wNIKYAt7ceiRrBcoqrWCrvQCiZXA
- nj5Q==
+ bh=5CvhAR9JL3XvS1viNpt8Z+O+QAfXPREE5z2qgUjmg2c=;
+ b=yvNFfoLsjCGbWdM+B6GYebsDQUlcOtkTMbxyZqRnMYiJV5tJZo+s9JtnP1QVutl1Dn
+ YDc66fO6n2+uEEyBr4xYwc+HXUWjJ5s4nfGbBkIoAyy9FNhqf01YncAHUYo0lzUi9qKC
+ skhcsPTRRJ+KgHHlE8BRl7UQCkKUUsD4YxgtlGvj9cF/nuuXIQqT4a6fvFKL3SfWIpbv
+ nEzoldofboalAYt32QkZMwVj1Ik16euRq7nR3Bwb29aOYMLmv5Dgh4wepp/HU/cmhDYL
+ Hglz8OTR8Ip5NBhVtP/YilHaNGFLy3IwvD8Q1ULKtJQ9onORpKkNuxDBkonjHWO7bdRO
+ 7bcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sudBZzt6fCQJ8cQwNMK19XbmjoKhOxFTcvcuBuImuhY=;
- b=hTOqRZegKMRDA+2JeAF6DkJVJC+o8ahk9U0pSk7xEZQj502dsgI5pdwz8WmeMsgeVW
- u0Q7ccacJ57RGQd9EnJ9a6gNLW61cwxPKA7mX7f5KoQqo6r0z6uMkI2TnaO9jigo2hui
- VyPWRfxDvloQHBWFIwsvNjyz0TvnQuOXMVU/jGwezMB3Iu8q0ZjeSJ2vO2nLmcaD7x6h
- f8bOyuZFMZo6Y08e9dupA98VwZqJ05njV0ca3Fj42MM6LS/YwQG6YDVMLmbRIj5g8gOH
- 2FXXRGjs9KVxR+IVjy5dL2b2GsicOV1Uz543AXZNJ2JxcdVYgKXZA2QgWpvnmMJJ/VeL
- DyLQ==
-X-Gm-Message-State: APjAAAVJksdIrgJkcCLydENaZ6UbyIV5zoi8KILM+OFAqxSNn1zMzl4p
- TbgXYI8/KDejt8Y2JNvgzjajVFgc0SuFQg==
-X-Google-Smtp-Source: APXvYqwH6x9DwXKcyIsoA/fOdzUSaJ7+QluDE2uy9psM+F7wMX7v+AuVXPNSI84rCbXPcTYFuHduLg==
-X-Received: by 2002:a5d:4941:: with SMTP id r1mr19002429wrs.225.1561999187548; 
- Mon, 01 Jul 2019 09:39:47 -0700 (PDT)
+ bh=5CvhAR9JL3XvS1viNpt8Z+O+QAfXPREE5z2qgUjmg2c=;
+ b=TfYVFnEEBMq0kZRzUv2kstbcc0MTs/bG29G7pL0GiQWRw2NXk0CwPM5EeQIkdvq8YP
+ PZuGvHQqs+KAHaOCRaiERCFk4wGd48woGBG8tj10Hy9djMAh6R4UVPqLKfaq0a4URtiW
+ VXuUttK9XUySGvinKZtM0lbayIW6G5UcOFAStS6yLumkdM0KqOYM+T5AuCv5EcUJy1cO
+ /HsV4eCAxGeUIN72qnHnqPxaH/VRKD9hLW3nPDtgQ3/Exn29iSd7UKqZPFvcgKexQhSD
+ ofAF7gQdUhEp1OOidK2Z3zJSJfDUTWEdqY0ATEZ7UKDVoUhd/H7qSOEaQr2D6wy3JHlZ
+ J/lw==
+X-Gm-Message-State: APjAAAVhbLAYyU4ZBeYbVb1DWTi/IWHE73xVXVYN6IREYZkcwEowoTs6
+ /1F1IYlitHSV//GI+pLB9aMOlJqWVipHsQ==
+X-Google-Smtp-Source: APXvYqxGZJIjcK0maWtnOqNPFfxP51OnvFqKm6vC5UwPt6g31XITmyc0rlVTDP/XB3J3A8i1hy3f7g==
+X-Received: by 2002:a1c:e108:: with SMTP id y8mr112360wmg.65.1561999188397;
+ Mon, 01 Jul 2019 09:39:48 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.46
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:39:46 -0700 (PDT)
+ Mon, 01 Jul 2019 09:39:47 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:38:59 +0100
-Message-Id: <20190701163943.22313-3-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:00 +0100
+Message-Id: <20190701163943.22313-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,9 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.44
-Subject: [Qemu-devel] [PULL 02/46] hw/arm/msf2-som: Exit when the cpu is not
- the expected one
+X-Received-From: 209.85.128.53
+Subject: [Qemu-devel] [PULL 03/46] hw/arm/virt: Add support for Cortex-A7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,49 +82,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Jan Kiszka <jan.kiszka@siemens.com>
 
-This machine correctly defines its default_cpu_type to cortex-m3
-and report an error if the user requested another cpu_type,
-however it does not exit, and this can confuse users trying
-to use another core:
+Allow cortex-a7 to be used with the virt board; it supports
+the v7VE features and there is no reason to deny this type.
 
-  $ qemu-system-arm -M emcraft-sf2 -cpu cortex-m4 -kernel test-m4.elf
-  qemu-system-arm: This board can only be used with CPU cortex-m3-arm-cpu
-  [output related to M3 core ...]
-
-The CPU is indeed a M3 core:
-
-  (qemu) info qom-tree
-  /machine (emcraft-sf2-machine)
-    /unattached (container)
-      /device[0] (msf2-soc)
-        /armv7m (armv7m)
-          /cpu (cortex-m3-arm-cpu)
-
-Add the missing exit() call to return to the shell.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-id: 20190617160136.29930-1-philmd@redhat.com
+Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: fc5404f7-4d1d-c28f-6e48-d8799c82acc0@web.de
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/msf2-som.c | 1 +
+ hw/arm/virt.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
-index 8c550a8bddc..2c9984bb3b8 100644
---- a/hw/arm/msf2-som.c
-+++ b/hw/arm/msf2-som.c
-@@ -53,6 +53,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
-     if (strcmp(machine->cpu_type, mc->default_cpu_type) != 0) {
-         error_report("This board can only be used with CPU %s",
-                      mc->default_cpu_type);
-+        exit(1);
-     }
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 431e2900fd2..ed009fa447c 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -176,6 +176,7 @@ static const int a15irqmap[] = {
+ };
  
-     memory_region_init_ram(ddr, NULL, "ddr-ram", DDR_SIZE,
+ static const char *valid_cpus[] = {
++    ARM_CPU_TYPE_NAME("cortex-a7"),
+     ARM_CPU_TYPE_NAME("cortex-a15"),
+     ARM_CPU_TYPE_NAME("cortex-a53"),
+     ARM_CPU_TYPE_NAME("cortex-a57"),
 -- 
 2.20.1
 
