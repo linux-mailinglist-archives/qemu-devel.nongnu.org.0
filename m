@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7572E5C6F4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:11:07 +0200 (CEST)
-Received: from localhost ([::1]:47132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E62C95C716
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:21:52 +0200 (CEST)
+Received: from localhost ([::1]:47188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8GA-0000ql-J4
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:11:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
+	id 1hi8Q5-0006eG-33
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:21:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60212)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4RQ-0008PJ-Mt
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:06:29 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4fA-0001jQ-KX
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:20:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4RP-0001kI-Gf
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:06:28 -0400
-Received: from mail-wm1-f41.google.com ([209.85.128.41]:36806)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4f6-0005ah-RF
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:20:38 -0400
+Received: from mail-wm1-f41.google.com ([209.85.128.41]:36713)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4RJ-0001is-R3
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:06:24 -0400
-Received: by mail-wm1-f41.google.com with SMTP id u8so1110767wmm.1
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:06:17 -0700 (PDT)
+ id 1hi4f5-0005Oj-9C
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:20:36 -0400
+Received: by mail-wm1-f41.google.com with SMTP id u8so1136707wmm.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:20:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WdrDS78k3n12ZSXX1AYlSfN84PXvZ6CqEJ/pNp8N1Lo=;
- b=xATTY6qFMeTxMqbBSLMEYuA9m2aRkKBCe89ww9WotIcH6/VDfYhg3LThhEGqWqcmXf
- Fy/rnfodvLDO0rb8WMdkkFBLo3AHD1HmihvRwgHUWEThMxbtDobGzNlPjxLzkMzm+csb
- nyv92t26wbaiZCpbCq7GHr1zguYVhzsiuaOdJmoA2VytC1iS7pTNMB7x0TjTv3IlGn4T
- f2OPh7O8+JN9MBgfh/tv5pw0x6Hhkih+Lruv3FFoCpDa3tD28D+5Fies72xgM01lZ1rl
- l2Du04elFue/gvn8C1+7wGEqWAwC3R0ZbDOkwGYcIsmqvml4fZpWecH2WevO+aJ+t1Km
- RYcw==
+ bh=ZMrqkHkBcxi0ttxgCOY8UHzzFSmivWvG6v3OYeb/MfM=;
+ b=psNUuIlaJiNnRjrcJvR6FYbx9Q+lXkqw9w60Qr2zvsK/kpaaljXSX2uKaW+lWHai/v
+ 1LlyBTmYCH53gjVituGG204mtGiSiG05QEGWHULVZcLOY5hYQTOzhU/StnY1z1OAg1/K
+ lKOpMSB7xOhr02TZp/2FDNmU8kE8YVgCbjvAQm894KqoobgpoGed53qS8OpxSP74jEmU
+ PT/Cot+jUY8I7oyKBF/b3L0Dzn4L3ILFHFiAzaZpBSVn4arHjPz59HUaOuDnyoLj1CzT
+ DO+8tMh4G2L1mpTnLvbiHKMbzU+/FQMrewBN5yA8Dh7U1xq5Eq5M8U8G6srkOIsHl7az
+ osSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WdrDS78k3n12ZSXX1AYlSfN84PXvZ6CqEJ/pNp8N1Lo=;
- b=NRRemThgPbYEsTTwnvd2HBGFwqRCZD6hec+y2V/vOcWUiGXnXUVb4Jxtp+kpTjLdp3
- XMDccSKxoMFRXVQJI9ZxKHLrZcLYbUmrdqcVv76C65Ba3PbKnn9wquJpuHtSkzefbMCt
- MmQNbFSJb6pwfA6EFBX+ejKxJ+oTLVqgbF40n1vbw0woKhP2YX4FQ1NluuUeYwUZmBt4
- wUS9V4eS3dBwYQyYbQC0t6HWZi+SnPmA7gZ+70SU1pDFeeGSwdnbebg4LrQyQX2VU6W9
- Pw6hKX/dQSgUKG/HIONFkNq6ZoI+5c6m8K3gXkJ8rZ5jfhpf30N3QyZUJIzTgSeonSM7
- ku3Q==
-X-Gm-Message-State: APjAAAVCycRmNvePRFhN1tgbvMuVKxn2b4q4wCi4IPSpoYNehpCP4fEc
- L3JhW0E5JQ8i72aAxVLg1A+Hcbn8KPU3Hg==
-X-Google-Smtp-Source: APXvYqzjwVc5DWrrHizc9O3RjJHKZSyeQ+n/oxtgmPcP64AAC+7FXXT4dGpKuEAY70ml5GbJIrYjZw==
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr123227wmc.1.1561999230410;
- Mon, 01 Jul 2019 09:40:30 -0700 (PDT)
+ bh=ZMrqkHkBcxi0ttxgCOY8UHzzFSmivWvG6v3OYeb/MfM=;
+ b=cwF2dAMW/UCOM0/601k0HrC27hQ05rbD01WEu9gf5giZcEZWeKgd+lqYgWmtF3bsE9
+ nfc62o9rudQ9UXx2Da0scAGPHz5NxjwqFyN8+4dSVPNfmRXba1orCgmd+Y8Dhb8cgPkK
+ xylsKSBBaA+h3SLszgASXQe35TqLpoDR5fU2KOkEnatW2xIdS4hk/ENsz+4JWSYZP03v
+ huE7NRg0AXwS3KzgEqKJcYaFnOPav9Zy6MCr2fjvbEf/oxLmbSWmjuQb+L3C5GzU34Di
+ nyJI2VroiB/G46GetrJIAg5K+vTGC4hPGe5buB4FNzF51z/ErVRwfmUlqsrqXiPPz3Jl
+ 8mpg==
+X-Gm-Message-State: APjAAAVTUVbZG6/NuqCJAjSyzvIhmUJoZKJ0AJdpPPsPLv1tJHqu//xq
+ CBVZgT9cT4TUGLx6GArweCX3Y7b24wk8Ag==
+X-Google-Smtp-Source: APXvYqx23JurnM+ro/0QqE+Fix2mx14PhNMapJnEhNTEbXDFEkfIcz8Fq93eyUBKtDByF9QRP/xAeA==
+X-Received: by 2002:a1c:e108:: with SMTP id y8mr114068wmg.65.1561999231515;
+ Mon, 01 Jul 2019 09:40:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.29
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:29 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:37 +0100
-Message-Id: <20190701163943.22313-41-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:38 +0100
+Message-Id: <20190701163943.22313-42-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -67,7 +67,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
 X-Received-From: 209.85.128.41
-Subject: [Qemu-devel] [PULL 40/46] target/arm/vfp_helper: Move code around
+Subject: [Qemu-devel] [PULL 41/46] target/arm/vfp_helper: Extract
+ vfp_set_fpscr_to_host()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,25 +85,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-To ease the review of the next commit,
-move the vfp_exceptbits_to_host() function directly after
-vfp_exceptbits_from_host().  Amusingly the diff shows we
-are moving vfp_get_fpscr().
+The vfp_set_fpscr() helper contains code specific to the host
+floating point implementation (here the SoftFloat library).
+Extract this code to vfp_set_fpscr_to_host().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190701132516.26392-15-philmd@redhat.com
+Message-id: 20190701132516.26392-16-philmd@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/vfp_helper.c | 52 ++++++++++++++++++++---------------------
- 1 file changed, 26 insertions(+), 26 deletions(-)
+ target/arm/vfp_helper.c | 127 +++++++++++++++++++++-------------------
+ 1 file changed, 66 insertions(+), 61 deletions(-)
 
 diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 121bdbd3aff..d54e3253240 100644
+index d54e3253240..b19a395b67d 100644
 --- a/target/arm/vfp_helper.c
 +++ b/target/arm/vfp_helper.c
-@@ -55,32 +55,6 @@ static inline int vfp_exceptbits_from_host(int host_bits)
-     return target_bits;
+@@ -81,71 +81,11 @@ static inline int vfp_exceptbits_to_host(int target_bits)
+     return host_bits;
  }
  
 -uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
@@ -131,11 +131,51 @@ index 121bdbd3aff..d54e3253240 100644
 -    return HELPER(vfp_get_fpscr)(env);
 -}
 -
- /* Convert vfp exception flags to target form.  */
- static inline int vfp_exceptbits_to_host(int target_bits)
+-void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
++static void vfp_set_fpscr_to_host(CPUARMState *env, uint32_t val)
  {
-@@ -107,6 +81,32 @@ static inline int vfp_exceptbits_to_host(int target_bits)
-     return host_bits;
+     int i;
+     uint32_t changed = env->vfp.xregs[ARM_VFP_FPSCR];
+ 
+-    /* When ARMv8.2-FP16 is not supported, FZ16 is RES0.  */
+-    if (!cpu_isar_feature(aa64_fp16, env_archcpu(env))) {
+-        val &= ~FPCR_FZ16;
+-    }
+-
+-    if (arm_feature(env, ARM_FEATURE_M)) {
+-        /*
+-         * M profile FPSCR is RES0 for the QC, STRIDE, FZ16, LEN bits
+-         * and also for the trapped-exception-handling bits IxE.
+-         */
+-        val &= 0xf7c0009f;
+-    }
+-
+-    /*
+-     * We don't implement trapped exception handling, so the
+-     * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES0!)
+-     *
+-     * If we exclude the exception flags, IOC|DZC|OFC|UFC|IXC|IDC
+-     * (which are stored in fp_status), and the other RES0 bits
+-     * in between, then we clear all of the low 16 bits.
+-     */
+-    env->vfp.xregs[ARM_VFP_FPSCR] = val & 0xf7c80000;
+-    env->vfp.vec_len = (val >> 16) & 7;
+-    env->vfp.vec_stride = (val >> 20) & 3;
+-
+-    /*
+-     * The bit we set within fpscr_q is arbitrary; the register as a
+-     * whole being zero/non-zero is what counts.
+-     */
+-    env->vfp.qc[0] = val & FPCR_QC;
+-    env->vfp.qc[1] = 0;
+-    env->vfp.qc[2] = 0;
+-    env->vfp.qc[3] = 0;
+-
+     changed ^= val;
+     if (changed & (3 << 22)) {
+         i = (val >> 22) & 3;
+@@ -193,6 +133,71 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
+     set_float_exception_flags(0, &env->vfp.standard_fp_status);
  }
  
 +uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
@@ -164,9 +204,48 @@ index 121bdbd3aff..d54e3253240 100644
 +    return HELPER(vfp_get_fpscr)(env);
 +}
 +
- void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
++void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
++{
++    /* When ARMv8.2-FP16 is not supported, FZ16 is RES0.  */
++    if (!cpu_isar_feature(aa64_fp16, env_archcpu(env))) {
++        val &= ~FPCR_FZ16;
++    }
++
++    if (arm_feature(env, ARM_FEATURE_M)) {
++        /*
++         * M profile FPSCR is RES0 for the QC, STRIDE, FZ16, LEN bits
++         * and also for the trapped-exception-handling bits IxE.
++         */
++        val &= 0xf7c0009f;
++    }
++
++    /*
++     * We don't implement trapped exception handling, so the
++     * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES0!)
++     *
++     * If we exclude the exception flags, IOC|DZC|OFC|UFC|IXC|IDC
++     * (which are stored in fp_status), and the other RES0 bits
++     * in between, then we clear all of the low 16 bits.
++     */
++    env->vfp.xregs[ARM_VFP_FPSCR] = val & 0xf7c80000;
++    env->vfp.vec_len = (val >> 16) & 7;
++    env->vfp.vec_stride = (val >> 20) & 3;
++
++    /*
++     * The bit we set within fpscr_q is arbitrary; the register as a
++     * whole being zero/non-zero is what counts.
++     */
++    env->vfp.qc[0] = val & FPCR_QC;
++    env->vfp.qc[1] = 0;
++    env->vfp.qc[2] = 0;
++    env->vfp.qc[3] = 0;
++
++    vfp_set_fpscr_to_host(env, val);
++}
++
+ void vfp_set_fpscr(CPUARMState *env, uint32_t val)
  {
-     int i;
+     HELPER(vfp_set_fpscr)(env, val);
 -- 
 2.20.1
 
