@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4E05BE94
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:44:44 +0200 (CEST)
-Received: from localhost ([::1]:59518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5E65BE65
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:36:13 +0200 (CEST)
+Received: from localhost ([::1]:59416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxXw-0005Az-2F
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:44:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46787)
+	id 1hhxPa-0004t5-6U
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:36:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46983)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dinechin@redhat.com>) id 1hhwiO-0000Q9-KH
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:51:30 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhwjb-0002MF-Sd
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:52:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dinechin@redhat.com>) id 1hhwiN-0001vh-Fg
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:51:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33088)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dinechin@redhat.com>) id 1hhwiN-0001n0-6P
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:51:27 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6B8B13003BF1
- for <qemu-devel@nongnu.org>; Mon,  1 Jul 2019 13:51:14 +0000 (UTC)
-Received: from ptitpuce (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A3A1F6085B;
- Mon,  1 Jul 2019 13:51:13 +0000 (UTC)
-References: <20190621064615.20099-1-mst@redhat.com>
- <20190701093232.28575-1-mst@redhat.com>
-User-agent: mu4e 1.3.2; emacs 26.2
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190701093232.28575-1-mst@redhat.com>
-Date: Mon, 01 Jul 2019 15:51:10 +0200
-Message-ID: <m1h885hnht.fsf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hhwja-0002vt-Pk
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:52:43 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:41999)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhwja-0002vD-Hy
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:52:42 -0400
+Received: by mail-oi1-x243.google.com with SMTP id s184so9994242oie.9
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JFZ6A9/Tq76ek+zANoM+rQdepd9TjEaPsh9J0af/75E=;
+ b=GZ55qWJsqoxbOFEgWG6NDxXqA6nNS68JmcxyPZH8SKhehT3VL72uFg+hTRxcEylGXz
+ o2IRsQEO71sUxYxBP/L8LjUOlDFRNoB15DZxbPGklVmQcOzkSwFl7QPZh6DjxWqhw7Pu
+ y24RriH3HNbxNmU7QghISWoz8pTC+EeFjw9in+ez/JvJ967zK3MNIeVAhOW6K5ooaBF8
+ EtK9wg0e8J6pnLduf1E0bGTJvFVP9vVWbzB1goPS6LjnsqHkDxRcH1LoHrwMcqbhbU/4
+ R/fI4iwHKdCGEZ8B+80paCq5jSlGmzhKE3GePKnte5RqTWTP5IN8AGlcm7OT47yjp2YN
+ 8kpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JFZ6A9/Tq76ek+zANoM+rQdepd9TjEaPsh9J0af/75E=;
+ b=bAGepvr9ON25luoSId6m94TamkfupWjTPyhoqulCtz4RxtLDDg/YySN2SLb5J2LURq
+ oOTZ54FQHooqR3sT530UpH4aspEX6vD9arIOqaSYnVCetoTSp6oMpojyLr69cnjHdAjU
+ a5Pg3chWVOd5oe010uO4K27+IAymQPIstgLP8OC7TFmQXMB2SRKKZ9dkt+u2mvIBQeZ1
+ TYUEBOO6SOfuaNEzQqsz7K7rJNrZZX6DxZWpLJ8SGkSpi96tVE8exIMT7h+tZUrQiynV
+ eyQVPJHLGmkboWhleBBrgY9xhdfBZZhOfMnGys47bk7FKQ+a17uRM4vAVgVkAeHXdmnI
+ bXHw==
+X-Gm-Message-State: APjAAAU1CSsBD82yDfFZvDsYrusp6PdfmkOTSRs6d/OtOouG7rV71rL3
+ sr8BfW0ke/aLJxeJK/sdCldRTagt97kirbg54q1bCw==
+X-Google-Smtp-Source: APXvYqxwnmNItwiw/dyGNP5B2WIx/Cvfnvu53TSRsdMCKr8ZdI47ZiHDSl4S3TnVFcwS8vVdAaMgWRtV39+sFotpshU=
+X-Received: by 2002:a05:6808:8c2:: with SMTP id
+ k2mr6609602oij.98.1561989161521; 
+ Mon, 01 Jul 2019 06:52:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 01 Jul 2019 13:51:14 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 4/3] pcie: minor cleanups for slot
- control/status
+References: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
+In-Reply-To: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 14:52:30 +0100
+Message-ID: <CAFEAcA-w1AijFogZxX_9gz2+oDGH-=e2QAOdyCRdji_6k87d-A@mail.gmail.com>
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH v6 0/8] ARM virt: ACPI memory hotplug
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,90 +73,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Samuel Ortiz <sameo@linux.intel.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Xu Wei <xuwei5@hisilicon.com>,
+ Linuxarm <linuxarm@huawei.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ sebastien.boeuf@intel.com, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 25 Jun 2019 at 13:15, Shameer Kolothum
+<shameerali.kolothum.thodi@huawei.com> wrote:
+>
+> This series is an attempt to provide device memory hotplug support
+> on ARM virt platform. This is based on Eric's recent works here[1]
+> and carries some of the pc-dimm related patches dropped from his
+> series.
+>
+> The kernel support for arm64 memory hot add was added recently by
+> Robin and hence the guest kernel should be => 5.0-rc1.
+>
+> NVDIM support is not included currently as we still have an unresolved
+> issue while hot adding NVDIMM[2]. However NVDIMM cold plug patches
+> can be included, but not done for now, for keeping it simple.
+>
+> This makes use of GED device to sent hotplug ACPI events to the
+> Guest. GED code is based on Nemu. Thanks to the efforts of Samuel and
+> Sebastien to add the hardware-reduced support to Nemu using GED
+> device[3]. (Please shout if I got the author/signed-off wrong for
+> those patches or missed any names).
+>
+> This is sanity tested on a HiSilicon ARM64 platform and appreciate
+> any further testing.
 
-Michael S. Tsirkin writes:
+Hi; this seems to fail 'make check' (on an x86 host):
 
-> Rename function arguments to make intent clearer.
-> Better documentation for slot control logic.
->
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->
->
->  include/hw/pci/pcie.h |  3 ++-
->  hw/pci/pcie.c         | 17 +++++++++++------
->  2 files changed, 13 insertions(+), 7 deletions(-)
->
-> diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-> index 8d90c0e193..34f277735c 100644
-> --- a/include/hw/pci/pcie.h
-> +++ b/include/hw/pci/pcie.h
-> @@ -108,7 +108,8 @@ void pcie_cap_lnkctl_reset(PCIDevice *dev);
->  void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot);
->  void pcie_cap_slot_reset(PCIDevice *dev);
->  void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slot_ctl, uint16_t *slt_sta);
-> -void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slot_ctl, uint16_t slt_sta,
-> +void pcie_cap_slot_write_config(PCIDevice *dev,
-> +                                uint16_t old_slot_ctl, uint16_t old_slt_sta,
->                                  uint32_t addr, uint32_t val, int len);
->  int pcie_cap_slot_post_load(void *opaque, int version_id);
->  void pcie_cap_slot_push_attention_button(PCIDevice *dev);
-> diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> index c605d32dd4..a6beb567bd 100644
-> --- a/hw/pci/pcie.c
-> +++ b/hw/pci/pcie.c
-> @@ -602,7 +602,8 @@ void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_sta)
->      *slt_sta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
->  }
->
-> -void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slt_ctl, uint16_t slt_sta,
-> +void pcie_cap_slot_write_config(PCIDevice *dev,
-> +                                uint16_t old_slt_ctl, uint16_t old_slt_sta,
->                                  uint32_t addr, uint32_t val, int len)
->  {
->      uint32_t pos = dev->exp.exp_cap;
-> @@ -625,8 +626,8 @@ void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slt_ctl, uint16_t slt_s
->                            PCI_EXP_SLTSTA_MRLSC | PCI_EXP_SLTSTA_PDC | \
->                            PCI_EXP_SLTSTA_CC)
->
-> -        if (val & ~slt_sta & PCIE_SLOT_EVENTS) {
-> -            sltsta = (sltsta & ~PCIE_SLOT_EVENTS) | (slt_sta & PCIE_SLOT_EVENTS);
-> +        if (val & ~old_slt_sta & PCIE_SLOT_EVENTS) {
-> +            sltsta = (sltsta & ~PCIE_SLOT_EVENTS) | (old_slt_sta & PCIE_SLOT_EVENTS);
->              pci_set_word(exp_cap + PCI_EXP_SLTSTA, sltsta);
->          }
->          hotplug_event_clear(dev);
-> @@ -646,13 +647,17 @@ void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slt_ctl, uint16_t slt_s
->      }
->
->      /*
-> -     * If the slot is polulated, power indicator is off and power
-> +     * If the slot is populated, power indicator is off and power
->       * controller is off, it is safe to detach the devices.
-> +     *
-> +     * Note: don't detach if condition was already true:
-> +     * this is a work around for guests that overwrite
-> +     * control of powered off slots before powering them on.
->       */
->      if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
->          (val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF &&
-> -        (!(slt_ctl & PCI_EXP_SLTCTL_PCC) ||
-> -        (slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
-> +        (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
-> +        (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
->          PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
->          pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
->                              pcie_unplug_device, NULL);
+acpi-test: Warning! DSDT binary file mismatch. Actual
+[aml:/tmp/aml-01P83Z], Expected [aml:tests/data/acpi/virt/DSDT].
+acpi-test: Warning! DSDT mismatch. Actual [asl:/tmp/asl-4ZP83Z.dsl,
+aml:/tmp/aml-01P83Z], Expected [asl:/tmp/asl-H7UE4Z.dsl,
+aml:tests/data/acpi/virt/DSDT].
+**
+ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/tests/bios-tables-test.c:434:test_acpi_asl:
+assertion failed: (all_tables_match)
+ERROR - Bail out!
+ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/tests/bios-tables-test.c:434:test_acpi_asl:
+assertion failed: (all_tables_match)
+Aborted (core dumped)
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/Makefile.include:894:
+recipe for target 'check-qtest-aarch64' failed
 
-Good idea.
-Reviewed-by: Christophe de Dinechin <dinechin@redhat.com>
+Is there a need to update the reference DSDT used by the test?
 
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
+thanks
+-- PMM
 
