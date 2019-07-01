@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF375BD45
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:49:39 +0200 (CEST)
-Received: from localhost ([::1]:58972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D96E5BD5E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:56:06 +0200 (CEST)
+Received: from localhost ([::1]:59042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwgc-0005gY-G2
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:49:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
+	id 1hhwmr-0003jE-Fd
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41205)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhwKi-0002LC-Jz
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:05 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhwKk-0002Qr-QX
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhwKh-0002S8-5t
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50308)
+ (envelope-from <philmd@redhat.com>) id 1hhwKj-0002U8-1x
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53972)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhwKd-0002Az-RP; Mon, 01 Jul 2019 09:26:55 -0400
+ id 1hhwKe-0002DJ-6z; Mon, 01 Jul 2019 09:26:56 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 3910D308FBAF;
- Mon,  1 Jul 2019 13:26:44 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 6AF6787620;
+ Mon,  1 Jul 2019 13:26:47 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EBC06085B;
- Mon,  1 Jul 2019 13:26:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AFBFA6085B;
+ Mon,  1 Jul 2019 13:26:44 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 15:25:08 +0200
-Message-Id: <20190701132516.26392-20-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 15:25:09 +0200
+Message-Id: <20190701132516.26392-21-philmd@redhat.com>
 In-Reply-To: <20190701132516.26392-1-philmd@redhat.com>
 References: <20190701132516.26392-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.43]); Mon, 01 Jul 2019 13:26:44 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.26]); Mon, 01 Jul 2019 13:26:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 19/27] target/arm: Restrict PSCI to TCG
+Subject: [Qemu-devel] [PATCH v3 20/27] target/arm: Declare
+ arm_log_exception() function publicly
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,36 +65,130 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Under KVM, the kernel gets the HVC call and handle the PSCI requests.
+In few commits we will split the M-profile functions from this
+file, and this function will also be called in the new file.
+Declare it in the "internals.h" header.
+Since it is in the middle of a block of M profile functions,
+move it previous to this block to ease the later refactor.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/internals.h | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ target/arm/helper.c    | 76 +++++++++++++++++++++---------------------
+ target/arm/internals.h |  2 ++
+ 2 files changed, 40 insertions(+), 38 deletions(-)
 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 1b4da7aa45..515a82af57 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7697,6 +7697,44 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uin=
+t32_t excp_idx,
+     return target_el;
+ }
+=20
++void arm_log_exception(int idx)
++{
++    if (qemu_loglevel_mask(CPU_LOG_INT)) {
++        const char *exc =3D NULL;
++        static const char * const excnames[] =3D {
++            [EXCP_UDEF] =3D "Undefined Instruction",
++            [EXCP_SWI] =3D "SVC",
++            [EXCP_PREFETCH_ABORT] =3D "Prefetch Abort",
++            [EXCP_DATA_ABORT] =3D "Data Abort",
++            [EXCP_IRQ] =3D "IRQ",
++            [EXCP_FIQ] =3D "FIQ",
++            [EXCP_BKPT] =3D "Breakpoint",
++            [EXCP_EXCEPTION_EXIT] =3D "QEMU v7M exception exit",
++            [EXCP_KERNEL_TRAP] =3D "QEMU intercept of kernel commpage",
++            [EXCP_HVC] =3D "Hypervisor Call",
++            [EXCP_HYP_TRAP] =3D "Hypervisor Trap",
++            [EXCP_SMC] =3D "Secure Monitor Call",
++            [EXCP_VIRQ] =3D "Virtual IRQ",
++            [EXCP_VFIQ] =3D "Virtual FIQ",
++            [EXCP_SEMIHOST] =3D "Semihosting call",
++            [EXCP_NOCP] =3D "v7M NOCP UsageFault",
++            [EXCP_INVSTATE] =3D "v7M INVSTATE UsageFault",
++            [EXCP_STKOF] =3D "v8M STKOF UsageFault",
++            [EXCP_LAZYFP] =3D "v7M exception during lazy FP stacking",
++            [EXCP_LSERR] =3D "v8M LSERR UsageFault",
++            [EXCP_UNALIGNED] =3D "v7M UNALIGNED UsageFault",
++        };
++
++        if (idx >=3D 0 && idx < ARRAY_SIZE(excnames)) {
++            exc =3D excnames[idx];
++        }
++        if (!exc) {
++            exc =3D "unknown";
++        }
++        qemu_log_mask(CPU_LOG_INT, "Taking exception %d [%s]\n", idx, ex=
+c);
++    }
++}
++
+ /*
+  * Return true if the v7M CPACR permits access to the FPU for the specif=
+ied
+  * security state and privilege level.
+@@ -9436,44 +9474,6 @@ static bool do_v7m_function_return(ARMCPU *cpu)
+     return true;
+ }
+=20
+-static void arm_log_exception(int idx)
+-{
+-    if (qemu_loglevel_mask(CPU_LOG_INT)) {
+-        const char *exc =3D NULL;
+-        static const char * const excnames[] =3D {
+-            [EXCP_UDEF] =3D "Undefined Instruction",
+-            [EXCP_SWI] =3D "SVC",
+-            [EXCP_PREFETCH_ABORT] =3D "Prefetch Abort",
+-            [EXCP_DATA_ABORT] =3D "Data Abort",
+-            [EXCP_IRQ] =3D "IRQ",
+-            [EXCP_FIQ] =3D "FIQ",
+-            [EXCP_BKPT] =3D "Breakpoint",
+-            [EXCP_EXCEPTION_EXIT] =3D "QEMU v7M exception exit",
+-            [EXCP_KERNEL_TRAP] =3D "QEMU intercept of kernel commpage",
+-            [EXCP_HVC] =3D "Hypervisor Call",
+-            [EXCP_HYP_TRAP] =3D "Hypervisor Trap",
+-            [EXCP_SMC] =3D "Secure Monitor Call",
+-            [EXCP_VIRQ] =3D "Virtual IRQ",
+-            [EXCP_VFIQ] =3D "Virtual FIQ",
+-            [EXCP_SEMIHOST] =3D "Semihosting call",
+-            [EXCP_NOCP] =3D "v7M NOCP UsageFault",
+-            [EXCP_INVSTATE] =3D "v7M INVSTATE UsageFault",
+-            [EXCP_STKOF] =3D "v8M STKOF UsageFault",
+-            [EXCP_LAZYFP] =3D "v7M exception during lazy FP stacking",
+-            [EXCP_LSERR] =3D "v8M LSERR UsageFault",
+-            [EXCP_UNALIGNED] =3D "v7M UNALIGNED UsageFault",
+-        };
+-
+-        if (idx >=3D 0 && idx < ARRAY_SIZE(excnames)) {
+-            exc =3D excnames[idx];
+-        }
+-        if (!exc) {
+-            exc =3D "unknown";
+-        }
+-        qemu_log_mask(CPU_LOG_INT, "Taking exception %d [%s]\n", idx, ex=
+c);
+-    }
+-}
+-
+ static bool v7m_read_half_insn(ARMCPU *cpu, ARMMMUIdx mmu_idx,
+                                uint32_t addr, uint16_t *insn)
+ {
 diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 46a1313d69..57e0253ef4 100644
+index 57e0253ef4..11bfdba512 100644
 --- a/target/arm/internals.h
 +++ b/target/arm/internals.h
-@@ -529,11 +529,15 @@ vaddr arm_adjust_watchpoint_address(CPUState *cs, v=
-addr addr, int len);
- /* Callback function for when a watchpoint or breakpoint triggers. */
- void arm_debug_excp_handler(CPUState *cs);
+@@ -1000,6 +1000,8 @@ bool get_phys_addr(CPUARMState *env, target_ulong a=
+ddress,
+                    target_ulong *page_size,
+                    ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs);
 =20
--#ifdef CONFIG_USER_ONLY
-+#if defined(CONFIG_USER_ONLY) || !defined(CONFIG_TCG)
- static inline bool arm_is_psci_call(ARMCPU *cpu, int excp_type)
- {
-     return false;
- }
-+static inline void arm_handle_psci_call(ARMCPU *cpu)
-+{
-+    g_assert_not_reached();
-+}
- #else
- /* Return true if the r0/x0 value indicates that this SMC/HVC is a PSCI =
-call. */
- bool arm_is_psci_call(ARMCPU *cpu, int excp_type);
++void arm_log_exception(int idx);
++
+ #endif /* !CONFIG_USER_ONLY */
+=20
+ #endif
 --=20
 2.20.1
 
