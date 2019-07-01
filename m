@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DAB5BB99
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:36:47 +0200 (CEST)
-Received: from localhost ([::1]:58238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0DC5BBD3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:41:51 +0200 (CEST)
+Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhvY6-00080q-G8
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:36:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
+	id 1hhvd0-0003yc-3R
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57778)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhvTT-00068r-2M
+ (envelope-from <philmd@redhat.com>) id 1hhvTT-00068s-2M
  for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:32:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhvTQ-00037K-PS
+ (envelope-from <philmd@redhat.com>) id 1hhvTQ-00037J-Pf
  for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:31:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48056)
+Received: from mx1.redhat.com ([209.132.183.28]:21219)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhvTK-0002oy-O8; Mon, 01 Jul 2019 08:31:51 -0400
+ id 1hhvTM-0002vp-HA; Mon, 01 Jul 2019 08:31:52 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8475F31628E3;
- Mon,  1 Jul 2019 12:31:46 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 78BB458E33;
+ Mon,  1 Jul 2019 12:31:51 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 297B517CC0;
- Mon,  1 Jul 2019 12:31:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 03F985ED5D;
+ Mon,  1 Jul 2019 12:31:46 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 14:31:07 +0200
-Message-Id: <20190701123108.12493-6-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 14:31:08 +0200
+Message-Id: <20190701123108.12493-7-philmd@redhat.com>
 In-Reply-To: <20190701123108.12493-1-philmd@redhat.com>
 References: <20190701123108.12493-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Mon, 01 Jul 2019 12:31:46 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Mon, 01 Jul 2019 12:31:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 5/6] hw/dma/xilinx_axi: Use
+Subject: [Qemu-devel] [PATCH 6/6] hw/net/xilinx_axi: Use
  object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,27 +81,28 @@ As explained in commit aff39be0ed97:
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/dma/xilinx_axidma.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ hw/net/xilinx_axienet.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
-index 921be178d9..91f5ec587f 100644
---- a/hw/dma/xilinx_axidma.c
-+++ b/hw/dma/xilinx_axidma.c
-@@ -563,14 +563,14 @@ static void xilinx_axidma_init(Object *obj)
-     XilinxAXIDMA *s =3D XILINX_AXI_DMA(obj);
+diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+index feeaca680e..aa0ae3c013 100644
+--- a/hw/net/xilinx_axienet.c
++++ b/hw/net/xilinx_axienet.c
+@@ -990,15 +990,14 @@ static void xilinx_enet_init(Object *obj)
+     XilinxAXIEnet *s =3D XILINX_AXI_ENET(obj);
      SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
 =20
 -    object_initialize(&s->rx_data_dev, sizeof(s->rx_data_dev),
--                      TYPE_XILINX_AXI_DMA_DATA_STREAM);
+-                      TYPE_XILINX_AXI_ENET_DATA_STREAM);
 -    object_initialize(&s->rx_control_dev, sizeof(s->rx_control_dev),
--                      TYPE_XILINX_AXI_DMA_CONTROL_STREAM);
+-                      TYPE_XILINX_AXI_ENET_CONTROL_STREAM);
 -    object_property_add_child(OBJECT(s), "axistream-connected-target",
 -                              (Object *)&s->rx_data_dev, &error_abort);
 -    object_property_add_child(OBJECT(s), "axistream-control-connected-ta=
 rget",
 -                              (Object *)&s->rx_control_dev, &error_abort=
 );
+-
 +    object_initialize_child(OBJECT(s), "axistream-connected-target",
 +                            &s->rx_data_dev, sizeof(s->rx_data_dev),
 +                            TYPE_XILINX_AXI_ENET_DATA_STREAM, &error_abo=
@@ -114,9 +115,10 @@ et",
 +                            TYPE_XILINX_AXI_ENET_CONTROL_STREAM, &error_=
 abort,
 +                            NULL);
+     sysbus_init_irq(sbd, &s->irq);
 =20
-     sysbus_init_irq(sbd, &s->streams[0].irq);
-     sysbus_init_irq(sbd, &s->streams[1].irq);
+     memory_region_init_io(&s->iomem, OBJECT(s), &enet_ops, s, "enet", 0x=
+40000);
 --=20
 2.20.1
 
