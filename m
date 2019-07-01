@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7766F5BD01
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:34:08 +0200 (CEST)
-Received: from localhost ([::1]:58844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F255BCFC
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:33:06 +0200 (CEST)
+Received: from localhost ([::1]:58835 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwRb-0008Ga-LW
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:34:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40818)
+	id 1hhwQb-0007L0-6V
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:33:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40931)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhwKC-00023o-DK
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:26:32 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhwKY-00025v-Lc
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:26:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhwK8-0001wd-Jc
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:26:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35292)
+ (envelope-from <philmd@redhat.com>) id 1hhwKS-0002B9-Gw
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:26:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55818)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhwJn-0001hP-RH; Mon, 01 Jul 2019 09:26:05 -0400
+ id 1hhwJz-0001jT-UX; Mon, 01 Jul 2019 09:26:17 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id D8BF4A705;
- Mon,  1 Jul 2019 13:26:01 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 16AE6811D8;
+ Mon,  1 Jul 2019 13:26:05 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 04E6217AC2;
- Mon,  1 Jul 2019 13:25:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DF0617DDD;
+ Mon,  1 Jul 2019 13:26:02 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 15:24:57 +0200
-Message-Id: <20190701132516.26392-9-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 15:24:58 +0200
+Message-Id: <20190701132516.26392-10-philmd@redhat.com>
 In-Reply-To: <20190701132516.26392-1-philmd@redhat.com>
 References: <20190701132516.26392-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Mon, 01 Jul 2019 13:26:02 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.27]); Mon, 01 Jul 2019 13:26:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 08/27] target/arm: Fix coding style issues
+Subject: [Qemu-devel] [PATCH v3 09/27] target/arm: Move the DC ZVA helper
+ into op_helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,128 +65,270 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we'll move this code around, fix its style first.
+From: Samuel Ortiz <sameo@linux.intel.com>
 
+Those helpers are a software implementation of the ARM v8 memory zeroing
+op code. They should be moved to the op helper file, which is going to
+eventually be built only when TCG is enabled.
+
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Robert Bradford <robert.bradford@intel.com>
+Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+[PMD: Rebased]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v3: added vfp_helper.c
----
- target/arm/translate.c  | 11 ++++++-----
- target/arm/vfp_helper.c | 36 ++++++++++++++++++++++++------------
- 2 files changed, 30 insertions(+), 17 deletions(-)
+ target/arm/helper.c    | 92 -----------------------------------------
+ target/arm/op_helper.c | 93 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 93 insertions(+), 92 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 4750b9fa1b..c6bdf026b4 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -9109,7 +9109,7 @@ static void disas_arm_insn(DisasContext *s, unsigne=
-d int insn)
-                 loaded_base =3D 0;
-                 loaded_var =3D NULL;
-                 n =3D 0;
--                for(i=3D0;i<16;i++) {
-+                for (i =3D 0; i < 16; i++) {
-                     if (insn & (1 << i))
-                         n++;
-                 }
-@@ -9132,7 +9132,7 @@ static void disas_arm_insn(DisasContext *s, unsigne=
-d int insn)
-                     }
-                 }
-                 j =3D 0;
--                for(i=3D0;i<16;i++) {
-+                for (i =3D 0; i < 16; i++) {
-                     if (insn & (1 << i)) {
-                         if (is_load) {
-                             /* load */
-@@ -12353,12 +12353,13 @@ void arm_cpu_dump_state(CPUState *cs, FILE *f, =
-int flags)
-         return;
-     }
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c77ed85215..a87fda9191 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -13308,98 +13308,6 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr addres=
+s, int size,
+ #endif
+ }
 =20
--    for(i=3D0;i<16;i++) {
-+    for (i =3D 0; i < 16; i++) {
-         qemu_fprintf(f, "R%02d=3D%08x", i, env->regs[i]);
--        if ((i % 4) =3D=3D 3)
-+        if ((i % 4) =3D=3D 3) {
-             qemu_fprintf(f, "\n");
--        else
-+        } else {
-             qemu_fprintf(f, " ");
+-void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
+-{
+-    /*
+-     * Implement DC ZVA, which zeroes a fixed-length block of memory.
+-     * Note that we do not implement the (architecturally mandated)
+-     * alignment fault for attempts to use this on Device memory
+-     * (which matches the usual QEMU behaviour of not implementing eithe=
+r
+-     * alignment faults or any memory attribute handling).
+-     */
+-
+-    ARMCPU *cpu =3D env_archcpu(env);
+-    uint64_t blocklen =3D 4 << cpu->dcz_blocksize;
+-    uint64_t vaddr =3D vaddr_in & ~(blocklen - 1);
+-
+-#ifndef CONFIG_USER_ONLY
+-    {
+-        /*
+-         * Slightly awkwardly, QEMU's TARGET_PAGE_SIZE may be less than
+-         * the block size so we might have to do more than one TLB looku=
+p.
+-         * We know that in fact for any v8 CPU the page size is at least=
+ 4K
+-         * and the block size must be 2K or less, but TARGET_PAGE_SIZE i=
+s only
+-         * 1K as an artefact of legacy v5 subpage support being present =
+in the
+-         * same QEMU executable. So in practice the hostaddr[] array has
+-         * two entries, given the current setting of TARGET_PAGE_BITS_MI=
+N.
+-         */
+-        int maxidx =3D DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
+-        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)]=
+;
+-        int try, i;
+-        unsigned mmu_idx =3D cpu_mmu_index(env, false);
+-        TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
+-
+-        assert(maxidx <=3D ARRAY_SIZE(hostaddr));
+-
+-        for (try =3D 0; try < 2; try++) {
+-
+-            for (i =3D 0; i < maxidx; i++) {
+-                hostaddr[i] =3D tlb_vaddr_to_host(env,
+-                                                vaddr + TARGET_PAGE_SIZE=
+ * i,
+-                                                1, mmu_idx);
+-                if (!hostaddr[i]) {
+-                    break;
+-                }
+-            }
+-            if (i =3D=3D maxidx) {
+-                /*
+-                 * If it's all in the TLB it's fair game for just writin=
+g to;
+-                 * we know we don't need to update dirty status, etc.
+-                 */
+-                for (i =3D 0; i < maxidx - 1; i++) {
+-                    memset(hostaddr[i], 0, TARGET_PAGE_SIZE);
+-                }
+-                memset(hostaddr[i], 0, blocklen - (i * TARGET_PAGE_SIZE)=
+);
+-                return;
+-            }
+-            /*
+-             * OK, try a store and see if we can populate the tlb. This
+-             * might cause an exception if the memory isn't writable,
+-             * in which case we will longjmp out of here. We must for
+-             * this purpose use the actual register value passed to us
+-             * so that we get the fault address right.
+-             */
+-            helper_ret_stb_mmu(env, vaddr_in, 0, oi, GETPC());
+-            /* Now we can populate the other TLB entries, if any */
+-            for (i =3D 0; i < maxidx; i++) {
+-                uint64_t va =3D vaddr + TARGET_PAGE_SIZE * i;
+-                if (va !=3D (vaddr_in & TARGET_PAGE_MASK)) {
+-                    helper_ret_stb_mmu(env, va, 0, oi, GETPC());
+-                }
+-            }
+-        }
+-
+-        /*
+-         * Slow path (probably attempt to do this to an I/O device or
+-         * similar, or clearing of a block of code we have translations
+-         * cached for). Just do a series of byte writes as the architect=
+ure
+-         * demands. It's not worth trying to use a cpu_physical_memory_m=
+ap(),
+-         * memset(), unmap() sequence here because:
+-         *  + we'd need to account for the blocksize being larger than a=
+ page
+-         *  + the direct-RAM access case is almost always going to be de=
+alt
+-         *    with in the fastpath code above, so there's no speed benef=
+it
+-         *  + we would have to deal with the map returning NULL because =
+the
+-         *    bounce buffer was in use
+-         */
+-        for (i =3D 0; i < blocklen; i++) {
+-            helper_ret_stb_mmu(env, vaddr + i, 0, oi, GETPC());
+-        }
+-    }
+-#else
+-    memset(g2h(vaddr), 0, blocklen);
+-#endif
+-}
+-
+ /* Note that signed overflow is undefined in C.  The following routines =
+are
+    careful to use unsigned types where modulo arithmetic is required.
+    Failure to do so _will_ break on newer gcc.  */
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index b1952486c6..7c835d3ce7 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -17,6 +17,7 @@
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "qemu/log.h"
+ #include "qemu/main-loop.h"
+ #include "cpu.h"
+@@ -1325,3 +1326,95 @@ uint32_t HELPER(ror_cc)(CPUARMState *env, uint32_t=
+ x, uint32_t i)
+         return ((uint32_t)x >> shift) | (x << (32 - shift));
+     }
+ }
++
++void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
++{
++    /*
++     * Implement DC ZVA, which zeroes a fixed-length block of memory.
++     * Note that we do not implement the (architecturally mandated)
++     * alignment fault for attempts to use this on Device memory
++     * (which matches the usual QEMU behaviour of not implementing eithe=
+r
++     * alignment faults or any memory attribute handling).
++     */
++
++    ARMCPU *cpu =3D env_archcpu(env);
++    uint64_t blocklen =3D 4 << cpu->dcz_blocksize;
++    uint64_t vaddr =3D vaddr_in & ~(blocklen - 1);
++
++#ifndef CONFIG_USER_ONLY
++    {
++        /*
++         * Slightly awkwardly, QEMU's TARGET_PAGE_SIZE may be less than
++         * the block size so we might have to do more than one TLB looku=
+p.
++         * We know that in fact for any v8 CPU the page size is at least=
+ 4K
++         * and the block size must be 2K or less, but TARGET_PAGE_SIZE i=
+s only
++         * 1K as an artefact of legacy v5 subpage support being present =
+in the
++         * same QEMU executable. So in practice the hostaddr[] array has
++         * two entries, given the current setting of TARGET_PAGE_BITS_MI=
+N.
++         */
++        int maxidx =3D DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
++        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)]=
+;
++        int try, i;
++        unsigned mmu_idx =3D cpu_mmu_index(env, false);
++        TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
++
++        assert(maxidx <=3D ARRAY_SIZE(hostaddr));
++
++        for (try =3D 0; try < 2; try++) {
++
++            for (i =3D 0; i < maxidx; i++) {
++                hostaddr[i] =3D tlb_vaddr_to_host(env,
++                                                vaddr + TARGET_PAGE_SIZE=
+ * i,
++                                                1, mmu_idx);
++                if (!hostaddr[i]) {
++                    break;
++                }
++            }
++            if (i =3D=3D maxidx) {
++                /*
++                 * If it's all in the TLB it's fair game for just writin=
+g to;
++                 * we know we don't need to update dirty status, etc.
++                 */
++                for (i =3D 0; i < maxidx - 1; i++) {
++                    memset(hostaddr[i], 0, TARGET_PAGE_SIZE);
++                }
++                memset(hostaddr[i], 0, blocklen - (i * TARGET_PAGE_SIZE)=
+);
++                return;
++            }
++            /*
++             * OK, try a store and see if we can populate the tlb. This
++             * might cause an exception if the memory isn't writable,
++             * in which case we will longjmp out of here. We must for
++             * this purpose use the actual register value passed to us
++             * so that we get the fault address right.
++             */
++            helper_ret_stb_mmu(env, vaddr_in, 0, oi, GETPC());
++            /* Now we can populate the other TLB entries, if any */
++            for (i =3D 0; i < maxidx; i++) {
++                uint64_t va =3D vaddr + TARGET_PAGE_SIZE * i;
++                if (va !=3D (vaddr_in & TARGET_PAGE_MASK)) {
++                    helper_ret_stb_mmu(env, va, 0, oi, GETPC());
++                }
++            }
 +        }
-     }
-=20
-     if (arm_feature(env, ARM_FEATURE_M)) {
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 7ece78e987..121bdbd3af 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -34,18 +34,24 @@ static inline int vfp_exceptbits_from_host(int host_b=
-its)
- {
-     int target_bits =3D 0;
-=20
--    if (host_bits & float_flag_invalid)
-+    if (host_bits & float_flag_invalid) {
-         target_bits |=3D 1;
--    if (host_bits & float_flag_divbyzero)
++
++        /*
++         * Slow path (probably attempt to do this to an I/O device or
++         * similar, or clearing of a block of code we have translations
++         * cached for). Just do a series of byte writes as the architect=
+ure
++         * demands. It's not worth trying to use a cpu_physical_memory_m=
+ap(),
++         * memset(), unmap() sequence here because:
++         *  + we'd need to account for the blocksize being larger than a=
+ page
++         *  + the direct-RAM access case is almost always going to be de=
+alt
++         *    with in the fastpath code above, so there's no speed benef=
+it
++         *  + we would have to deal with the map returning NULL because =
+the
++         *    bounce buffer was in use
++         */
++        for (i =3D 0; i < blocklen; i++) {
++            helper_ret_stb_mmu(env, vaddr + i, 0, oi, GETPC());
++        }
 +    }
-+    if (host_bits & float_flag_divbyzero) {
-         target_bits |=3D 2;
--    if (host_bits & float_flag_overflow)
-+    }
-+    if (host_bits & float_flag_overflow) {
-         target_bits |=3D 4;
--    if (host_bits & (float_flag_underflow | float_flag_output_denormal))
-+    }
-+    if (host_bits & (float_flag_underflow | float_flag_output_denormal))=
- {
-         target_bits |=3D 8;
--    if (host_bits & float_flag_inexact)
-+    }
-+    if (host_bits & float_flag_inexact) {
-         target_bits |=3D 0x10;
--    if (host_bits & float_flag_input_denormal)
-+    }
-+    if (host_bits & float_flag_input_denormal) {
-         target_bits |=3D 0x80;
-+    }
-     return target_bits;
- }
-=20
-@@ -80,18 +86,24 @@ static inline int vfp_exceptbits_to_host(int target_b=
-its)
- {
-     int host_bits =3D 0;
-=20
--    if (target_bits & 1)
-+    if (target_bits & 1) {
-         host_bits |=3D float_flag_invalid;
--    if (target_bits & 2)
-+    }
-+    if (target_bits & 2) {
-         host_bits |=3D float_flag_divbyzero;
--    if (target_bits & 4)
-+    }
-+    if (target_bits & 4) {
-         host_bits |=3D float_flag_overflow;
--    if (target_bits & 8)
-+    }
-+    if (target_bits & 8) {
-         host_bits |=3D float_flag_underflow;
--    if (target_bits & 0x10)
-+    }
-+    if (target_bits & 0x10) {
-         host_bits |=3D float_flag_inexact;
--    if (target_bits & 0x80)
-+    }
-+    if (target_bits & 0x80) {
-         host_bits |=3D float_flag_input_denormal;
-+    }
-     return host_bits;
- }
-=20
++#else
++    memset(g2h(vaddr), 0, blocklen);
++#endif
++}
 --=20
 2.20.1
 
