@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F285BCD8
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:25:51 +0200 (CEST)
-Received: from localhost ([::1]:58740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5995BCD3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:25:13 +0200 (CEST)
+Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwJb-0000Iw-3W
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:25:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40219)
+	id 1hhwIy-00083c-OA
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:25:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40146)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <groug@kaod.org>) id 1hhwHF-0006zC-Eo
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:26 -0400
+ (envelope-from <anup@brainfault.org>) id 1hhwH6-0006db-KK
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <groug@kaod.org>) id 1hhwHE-0007pn-9L
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:25 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61544
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <groug@kaod.org>) id 1hhwHE-0007pB-4I
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:24 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x61DNGu5121534
- for <qemu-devel@nongnu.org>; Mon, 1 Jul 2019 09:23:23 -0400
-Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
- by mx0b-001b2d01.pphosted.com with ESMTP id 2tfhnmwgtm-1
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 09:23:20 -0400
-Received: from localhost
- by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
- Violators will be prosecuted
- for <qemu-devel@nongnu.org> from <groug@kaod.org>;
- Mon, 1 Jul 2019 14:22:39 +0100
-Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
- by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
- Authorized Use Only! Violators will be prosecuted; 
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
- Mon, 1 Jul 2019 14:22:38 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x61DMbCu46989500
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 1 Jul 2019 13:22:37 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 367CDA405B;
- Mon,  1 Jul 2019 13:22:37 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 07324A4054;
- Mon,  1 Jul 2019 13:22:37 +0000 (GMT)
-Received: from [9.208.6.17] (unknown [9.145.83.142])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  1 Jul 2019 13:22:36 +0000 (GMT)
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>,
- =?utf-8?q?C=C3=A9dric?= Le Goater <clg@kaod.org>
-Date: Mon, 01 Jul 2019 15:22:36 +0200
-User-Agent: StGit/unknown-version
+ (envelope-from <anup@brainfault.org>) id 1hhwH5-0007h0-CP
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:16 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33149)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <anup@brainfault.org>) id 1hhwH4-0007fP-V2
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:23:15 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n9so13896729wru.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ziosd74qZsVijVIqdc9xtnOkOcze7h+1KOaH7g6GIG0=;
+ b=Y+F2BRM4kBpCaIFGW4xLqlUm4jFNbaI4J6L5cR15HB4k11/SuUSyTNaEa5Im7x4P5K
+ 8MA+Sg1Z12758vCCasdeHMnXnkpp1qzbQOakWuGWcvCQfMo47ZQvsTGyTK59rN0X1SLb
+ sTDdgLergbCRsKS0VQNoXiIRaUqd3lxRkuJRq01nrXd5b9itsoEfIzsDUw1MQ8m4Nky1
+ QqkMKvfk1HCWnbSKk+8fdtR0Uw5D3zds3pZVumJrZu1Wh1p/Nz9z+ISn9szaHGbN332R
+ j55fKCc5rm4wAfPC42x8mp0tE0jVB5oDejqGCjHIWb1TXzNGoBQAzJEMzkMiRtvO8Rto
+ KXAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ziosd74qZsVijVIqdc9xtnOkOcze7h+1KOaH7g6GIG0=;
+ b=B5Bc1FeR0/VfkLWDn/dgLbOEag3OBj0q4BySRr3tsDDZ+yzvErTSuFrwA6jCiCOAGS
+ f/zsYMrhhxZSB6p13Jt/0Evg536W9qzyvUif57eM5SJYaQyoikEQLp3mCWUHQur8OA3E
+ 9RMFrgnCliSOynRX1QDWkKJA5cJg7HZ8pdkwcFWEn8JT9ptwLb7JPwTZgZSFwjKGVkOE
+ bda0fAvtFEQtL6EpTKzLmvE3dEzOwAPBBVULeLbPHWBdI1xzlcO5p6SjTbfZ3pAuzhWz
+ A2WxiY6HAAo0Roep/Zjjs3sNpLaAaYwm4SRqyIErlqFTBmW+oXie19KI8ra8VV/FSmKM
+ D5sA==
+X-Gm-Message-State: APjAAAXKqSKT0CgBEdc6LzhMw/ZalUNHbYliFuGGxrRAbss7RpEFJXLn
+ mhY8DQekDU7lFYDbdBrLif5pFdYSfeO/DWzCjeramA==
+X-Google-Smtp-Source: APXvYqwmY9ADqvCBaSD7YNoyOl5M0zME1fQpbWFLmUA1ZfRLr0fBpjDi1FmpRxRSXoUwbAXopgfYcArCnJS3dVJhK2I=
+X-Received: by 2002:a5d:4e50:: with SMTP id r16mr19580039wrt.227.1561987392759; 
+ Mon, 01 Jul 2019 06:23:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-TM-AS-GCONF: 00
-x-cbid: 19070113-4275-0000-0000-000003480DBD
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19070113-4276-0000-0000-00003858210C
-Message-Id: <156198735673.293938.7313195993600841641.stgit@bahia>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-01_09:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907010165
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
- mx0b-001b2d01.pphosted.com id x61DNGu5121534
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [REPOST PATCH for-4.1] spapr/xive: Add proper rollback
- to kvmppc_xive_connect()
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-34-palmer@sifive.com>
+ <20190628104605.000062c4@huawei.com>
+ <CAKmqyKP1c5GHKaDuOvu11UtCwnrUosxTtoDAeW7GOS=s+h27aw@mail.gmail.com>
+ <20190701134029.00004b97@huawei.com>
+In-Reply-To: <20190701134029.00004b97@huawei.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Mon, 1 Jul 2019 18:53:02 +0530
+Message-ID: <CAAhSdy1c47+MaD4GixWB+u-+1Rb9ULAj0NweSzyzy+VdCXns0Q@mail.gmail.com>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [Qemu-riscv] [PULL 33/34] roms: Add OpenSBI
+ version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -92,138 +76,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make kvmppc_xive_disconnect() able to undo the changes of a partial
-execution of kvmppc_xive_connect() and use it to perform rollback.
+On Mon, Jul 1, 2019 at 6:12 PM Jonathan Cameron
+<jonathan.cameron@huawei.com> wrote:
+>
+> On Fri, 28 Jun 2019 09:12:45 -0700
+> Alistair Francis <alistair23@gmail.com> wrote:
+>
+> > On Fri, Jun 28, 2019 at 2:47 AM Jonathan Cameron
+> > <jonathan.cameron@huawei.com> wrote:
+> > >
+> > > On Thu, 27 Jun 2019 08:20:10 -0700
+> > > Palmer Dabbelt <palmer@sifive.com> wrote:
+> > >
+> > > > From: Alistair Francis <alistair.francis@wdc.com>
+> > > >
+> > > > Add OpenSBI version 0.3 as a git submodule and as a prebult binary.
+> > > >
+> > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > > > Tested-by: Bin Meng <bmeng.cn@gmail.com>
+> > > > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> > >
+> > > I sent a late bug report on this one.. Hence posting here as well
+> > > to make sure it doesn't fall through the cracks!
+> > >
+> > > Right now you can't actually build the opensbi64-virt firmware
+> > > due to cut and paste error in the Makefile.
+> >
+> > Ah, thanks for the bug report.
+> >
+> > @Palmer Dabbelt I'm just going to send you a fixup commit. Can you
+> > apply it to your tree and send a PRv2?
+> >
+> > >
+> > > As a side note, I hit this because OpenSBI 0.3 is resulting in a login
+> > > loop on a debian test image and the current upstream isn't.  I haven't
+> > > debugged yet, but someone else may hit that problem.
+> >
+> > Unfortunately OpenSBI 0.3 is a little old now, in saying that I didn't
+> > know there are bugs in it? Which kernel are you using?
+>
+> Mainline 5.2.0-rc5.
+>
+> Just in case I also checked 5.2.0-rc7
+>
+> I tried doing an odd git bisect with good and bad reversed to figure out
+> what fixed the problem, but boot wedged at "Run /sbin/init as init process."
+>
+> The wedge was bisected to:
+>
+> 4e2cd47820 ("lib: Flush everything when remote TLB flush range is too large")
+>
+> Which the patch correctly identifies as a problem introduced this kernel cycle.
+> 5.2-rc1.
+>
+> So on that basis alone I'd suggest we want to move to a more recent openSBI
+> asap, after all the 5.2 kernel will be out in a week or so.
+>
+> I'm a bit short on time (flight to catch), so haven't pushed that fix that
+> far back in the tree yet in order to figure what is causing the login loop.
+> Won't have access to relevant build machines until Wednesday.
+>
+> That patch cherry-picked on lib: Optimize TLB flush IPIs
+> seems fine, so it is before that point...
+>
+> Passing that point would require real effort though as the two patches
+> are changing the same code.
+>
+> So I had a go from the other end (0.3) to see if it was fixed quickly.
+> Ran out of time, but at
+> "firmware: Reset all registers and flush the icache" it superficially all
+> seems to be working with no TLB related hang, or login loop.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
+We plan to release OpenSBI 0.4 in couple of days. It would be best
+to pick-up OpenSBI 0.4 FW_JUMP binaries.
 
-David,
-
-This is the only pending fix for XIVE, rebased on ppc-for-4.1.
-
-SHA1 d6923ffa0748af614e7d2c82d6cb76b8078dfaf5
----
- hw/intc/spapr_xive_kvm.c |   48 ++++++++++++++++++++++++++++------------=
-------
- 1 file changed, 29 insertions(+), 19 deletions(-)
-
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 5559f8bce5ef..3bf8e7a20e14 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -724,8 +724,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
-p)
-     xsrc->esb_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, =
-esb_len,
-                                       &local_err);
-     if (local_err) {
--        error_propagate(errp, local_err);
--        return;
-+        goto fail;
-     }
-=20
-     memory_region_init_ram_device_ptr(&xsrc->esb_mmio_kvm, OBJECT(xsrc),
-@@ -743,8 +742,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
-p)
-     xive->tm_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, =
-tima_len,
-                                      &local_err);
-     if (local_err) {
--        error_propagate(errp, local_err);
--        return;
-+        goto fail;
-     }
-     memory_region_init_ram_device_ptr(&xive->tm_mmio_kvm, OBJECT(xive),
-                                       "xive.tima", tima_len, xive->tm_mm=
-ap);
-@@ -760,21 +758,24 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **e=
-rrp)
-=20
-         kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
-         if (local_err) {
--            error_propagate(errp, local_err);
--            return;
-+            goto fail;
-         }
-     }
-=20
-     /* Update the KVM sources */
-     kvmppc_xive_source_reset(xsrc, &local_err);
-     if (local_err) {
--            error_propagate(errp, local_err);
--            return;
-+        goto fail;
-     }
-=20
-     kvm_kernel_irqchip =3D true;
-     kvm_msi_via_irqfd_allowed =3D true;
-     kvm_gsi_direct_mapping =3D true;
-+    return;
-+
-+fail:
-+    error_propagate(errp, local_err);
-+    kvmppc_xive_disconnect(xive, NULL);
- }
-=20
- void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
-@@ -796,23 +797,29 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error =
-**errp)
-     xsrc =3D &xive->source;
-     esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-=20
--    memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
--    object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
--    munmap(xsrc->esb_mmap, esb_len);
--    xsrc->esb_mmap =3D NULL;
-+    if (xsrc->esb_mmap) {
-+        memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm=
-);
-+        object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
-+        munmap(xsrc->esb_mmap, esb_len);
-+        xsrc->esb_mmap =3D NULL;
-+    }
-=20
--    memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
--    object_unparent(OBJECT(&xive->tm_mmio_kvm));
--    munmap(xive->tm_mmap, 4ull << TM_SHIFT);
--    xive->tm_mmap =3D NULL;
-+    if (xive->tm_mmap) {
-+        memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
-+        object_unparent(OBJECT(&xive->tm_mmio_kvm));
-+        munmap(xive->tm_mmap, 4ull << TM_SHIFT);
-+        xive->tm_mmap =3D NULL;
-+    }
-=20
-     /*
-      * When the KVM device fd is closed, the KVM device is destroyed
-      * and removed from the list of devices of the VM. The VCPU
-      * presenters are also detached from the device.
-      */
--    close(xive->fd);
--    xive->fd =3D -1;
-+    if (xive->fd !=3D -1) {
-+        close(xive->fd);
-+        xive->fd =3D -1;
-+    }
-=20
-     kvm_kernel_irqchip =3D false;
-     kvm_msi_via_irqfd_allowed =3D false;
-@@ -822,5 +829,8 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error **=
-errp)
-     kvm_cpu_disable_all();
-=20
-     /* VM Change state handler is not needed anymore */
--    qemu_del_vm_change_state_handler(xive->change);
-+    if (xive->change) {
-+        qemu_del_vm_change_state_handler(xive->change);
-+        xive->change =3D NULL;
-+    }
- }
-
+Regards,
+Anup
 
