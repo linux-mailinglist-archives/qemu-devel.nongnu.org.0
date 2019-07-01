@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FC65BFAE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:24:19 +0200 (CEST)
-Received: from localhost ([::1]:59958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE515BFC0
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:27:37 +0200 (CEST)
+Received: from localhost ([::1]:59994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhyAE-0000WT-FZ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32966)
+	id 1hhyDR-0003Xe-6o
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33313)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhxhY-00070H-HH
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:54:42 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhxiU-00088k-Qp
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:55:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhxhW-0003TC-HG
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:54:40 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37200)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhxiS-0004QO-Vy
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:55:38 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:36428)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhxhU-0003P7-Rd
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:54:38 -0400
-Received: by mail-oi1-x242.google.com with SMTP id t76so10195995oih.4
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:54:35 -0700 (PDT)
+ id 1hhxiS-0004O7-Pn
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:55:36 -0400
+Received: by mail-ot1-x332.google.com with SMTP id r6so13784676oti.3
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:55:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bT/L3E9J3H7vjr92bp5OMJgMLvn8Ud0Rw7GtNyrTxtk=;
- b=DvH2IfhcSYN2o1qB1/f3zI10cVdiSkycOv0AevZdJyBuihIIHG+H+bOlXGAOM7gjFy
- ZWZiHo1dQS8Qyn9+3nLR0lDi8k2JcBfK67TeCu2q4vYR2F6uk1wm4w3OFKW9eIQuyQla
- qLePYpUlREKb0vcbeZLqQW89MH2iw0VHXDLeg6SGiHU+d6knsz/wGoWVTs+1ce/rUUET
- coc/p7/0B8ovbauNm4DvV2adRd5CRDg/NoW/Gua+cnCHEx2MgTEFoL7XXT98pnIWESH5
- Ad9/sw8div+NzKMJsu47+E6yuhX5lhTIIehXsp6mNfS45pRHryrYY0TBz0vcKuNXxBGm
- lTPQ==
+ :cc; bh=Z/otzHT33VhOaGIOyJ54BREa7L+FexIFfj+UQBsJHW0=;
+ b=HyQDFToDG8+FcoH9pH915aR607kHIx862+m78SqHRvBTyZeCfwVZnws43FOAJMm5jy
+ nOvnzO9BfwqfMA291J/mxt9KLJPPDIVAbVdvdeTPtNbuRZJaVJb/vJHZGaWZ/zI6iQT2
+ LYZQbwj8X/TTgI3evLG5J+VjdruvRH4ZOZKOESJmqod+2sgVC2SPkoN928Gd7hSq6atF
+ 4wCxdDHChVR/odkzZEW4tazgn9wXIMd3E4Lz0cwk7t4mMhHDRSQWe6KQ5k+c4PlXipIu
+ i9DAP90FhuKmcrQ4Ce1hEJeW5nnE8sZ9a3nLtEhf4G30tX1t464a+L4/ld3UPiBOsx7C
+ prdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bT/L3E9J3H7vjr92bp5OMJgMLvn8Ud0Rw7GtNyrTxtk=;
- b=VIELIcThUO1WMVDeK6rBwNo1PL6T6Dyqi/06hDxEa5QG1qPeBADIQTiYmbD1Gt+hnX
- cY689aArBLOrg3sH1Uq8fRS4D7yeQpu9QIcJvjTcqk/ct8Hof+RhETEcvzdaZKF4irnn
- uBeXdVkUhc7kGwsQFaSgzTAFAcn/fweBAI60xBfoSyGZo18vGQdlJHRzevvD/JPGa2LE
- b50E3Das9gPjUSGabETKCs+B7Efbxvd/1OXvJhOOeRRbYFfftf0XQdUalHiTxbp/Bgv6
- 273MXq7s7FLMDfXsPTiUEIYERDmOG9JDSiPVcSfJ6ORsOi2gh7RMKtpVJLkL6vtVQteT
- B+cw==
-X-Gm-Message-State: APjAAAUt1UwZcs7KHYnalkAmZoZ9ExC3jSPuXctFRZsDNmOG7Lt0t9QR
- qVgC3L1aynOcV7QXnUERp/llZS6AWQmbUftd4UopEQ==
-X-Google-Smtp-Source: APXvYqz3mAARrjP9vYnZWQXMZiaWusZuzuOaFYIfvzm7tJjUMqPyHkcb9b/pSqHLFmnFsplc/nwp329aOOGcz9u7eXc=
-X-Received: by 2002:a05:6808:d4:: with SMTP id
- t20mr7205800oic.170.1561992874882; 
- Mon, 01 Jul 2019 07:54:34 -0700 (PDT)
+ bh=Z/otzHT33VhOaGIOyJ54BREa7L+FexIFfj+UQBsJHW0=;
+ b=W4bwpKGtRzw1+H7R8FY4SLOBlaRJiQr1KOxo0wKJhNhUiE1zby8GQUarWpQ10BtLTV
+ dhi8RRUGtLwCJrWNJb0KretpyI4M/fA6FWSV/XzyDtiDZvxaRmZhP+x5j6/pzK6qpnOD
+ fuxJjf9ePmI6jYnSgAqTbEur3oAPLHAULNXaHwIYXUwP5jHN36AHDuK42CwqD+gzIpMp
+ kdGoD7N0EWTThPu0YCjDTEe2MDZzptihWbuuHzXWU31dvpzfTkTxEtTsBesyb642k7a1
+ D1PPzNFCQPdrsfV/VefkxjdGSZJgBhjkbS3CZ53oqybN9hjjmH2jfrHaOCgW54xA+8cS
+ Gthg==
+X-Gm-Message-State: APjAAAXW5DAmdzhIDEuFqQCCi4T8GNklD7+01c/1XqN7PVcyRM4dapKw
+ CVwGABRO2G553cL/7o3t5C/dvOe5hx1EGjQe+n5MqA==
+X-Google-Smtp-Source: APXvYqzTtkXL2Ndv9xWnQP9huItJTbYQ60DpEzphRJ9TkRIYkJxLptIF7r6vNAui/GAllT2Wh8VYt1QXUJppQKdcfxg=
+X-Received: by 2002:a9d:6a0f:: with SMTP id g15mr20879599otn.135.1561992933324; 
+ Mon, 01 Jul 2019 07:55:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
-In-Reply-To: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
+References: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1561549550-3501-1-git-send-email-aleksandar.markovic@rt-rk.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 15:54:24 +0100
-Message-ID: <CAFEAcA8P-=mbQ4__9OXB078GnrGfm9afH1YBDLkv88mUXmm=PQ@mail.gmail.com>
-To: Hongbo Zhang <hongbo.zhang@linaro.org>
+Date: Mon, 1 Jul 2019 15:55:22 +0100
+Message-ID: <CAFEAcA-9Jo0Txvuxtry-DtAHrY=gW=7YpkSpwctCJoZb990iYg@mail.gmail.com>
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v9 0/2] Add Arm SBSA Reference Machine
+X-Received-From: 2607:f8b0:4864:20::332
+Subject: Re: [Qemu-devel] [PULL 00/17] MIPS queue for June 2016th, 2019
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,66 +71,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>,
- Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Leif Lindholm <leif.lindholm@linaro.org>,
- Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 30 Jun 2019 at 11:21, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
+On Wed, 26 Jun 2019 at 12:45, Aleksandar Markovic
+<aleksandar.markovic@rt-rk.com> wrote:
 >
-> For the Aarch64, there is one machine 'virt', it is primarily meant to
-> run on KVM and execute virtualization workloads, but we need an
-> environment as faithful as possible to physical hardware,  to support
-> firmware and OS development for pysical Aarch64 machines.
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
 >
-> This machine comes with:
->  - Re-designed memory map.
->  - CPU cortex-a57.
->  - EL2 and EL3 enabled.
->  - GIC version 3.
->  - System bus AHCI controller.
->  - System bus XHCI controller.
->  - CDROM and hard disc on AHCI bus.
->  - E1000E ethernet card on PCIE bus.
->  - VGA display adaptor on PCIE bus.
->  - Only minimal device tree nodes.
-> And without:
->  - virtio deivces.
->  - fw_cfg device.
->  - ACPI tables.
-
-I've pointed out a number of issues with these patches, but they
-all turn out to be very minor (mostly fixable by moving code between
-patch 1 and 2). The other thing we need is a MAINTAINERS section for
-the new board:
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cad58b94879..0bf3739f06a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -728,6 +728,13 @@ F: include/hw/arm/fsl-imx6.h
- F: include/hw/misc/imx6_*.h
- F: include/hw/ssi/imx_spi.h
-
-+SBSA-REF
-+M: Hongbo Zhang <hongbo.zhang@linaro.org>
-+M: Peter Maydell <peter.maydell@linaro.org>
-+L: qemu-arm@nongnu.org
-+S: Maintained
-+F: hw/arm/sbsa-ref.c
-+
- Sharp SL-5500 (Collie) PDA
- M: Peter Maydell <peter.maydell@linaro.org>
- L: qemu-arm@nongnu.org
+> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
+>
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+>
+> are available in the git repository at:
+>
+>   https://github.com/AMarkovic/qemu tags/mips-queue-jun-26-2019
+>
+> for you to fetch changes up to 5a6a1fabfcbbdf7808aaa8e906fee86ed6eb37e7:
+>
+>   target/mips: Fix big endian host behavior for interleave MSA instructions (2019-06-26 13:25:56 +0200)
+>
+> ----------------------------------------------------------------
+>
+> MIPS queue for June 2016th, 2019
+>
+> Note:
+>
+>   - seven checkpatch warnings on updating MAINTAINERS can be ignored
+>
+> Highlights:
+>
+>   - cleanups and fixes for Malta's gt64xxx PCI controller
+>   - cleanups and fixes for Jazz'src4030 DMA controller
+>   - improvements of MSA TCG tests
+>   - fix for big endian host interleave instructions behavior
+>
+> ----------------------------------------------------------------
 
 
-So rather than making you do another respin, I'm planning to
-make the fixes in my target-arm.next tree as I apply the patches.
-That way we can get this in before softfreeze (which is tomorrow).
+Applied, thanks.
 
-thanks
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
 -- PMM
 
