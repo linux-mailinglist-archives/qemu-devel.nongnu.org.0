@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C415BB0D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 13:57:17 +0200 (CEST)
-Received: from localhost ([::1]:57560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 877555BB14
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 13:58:52 +0200 (CEST)
+Received: from localhost ([::1]:57574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhuvr-0005LE-PY
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 07:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50759)
+	id 1hhuxP-0007Jj-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 07:58:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50835)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhuuv-0004jo-T8
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:56:18 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhuvH-00058i-66
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:56:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhuuu-0003Wp-RQ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:56:17 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:34283)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhuvG-0003mG-9T
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:56:39 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:37668)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhuuu-0003Vf-Km
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:56:16 -0400
-Received: by mail-ot1-x344.google.com with SMTP id n5so13200239otk.1
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 04:56:16 -0700 (PDT)
+ id 1hhuvG-0003lc-3n
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 07:56:38 -0400
+Received: by mail-ot1-x342.google.com with SMTP id s20so13180840otp.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 04:56:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=D5nEZI+hxb+H44y17IXUNqKuOh3W4xbgrH7vKYCJ5qs=;
- b=c8XZ50VqDWVZ5XOskKo3UJkr0SIUt+zFAj7uQBVRamDXZkXIN5dzsFPxeVTox9wBkG
- kjMM/dSrh7ih071+uzrB6IqBTDXOTeMQr+odGUVgudX6vEYd/lWdhVoh/BKq3Cv7o+CI
- YnHmRxWBMO5YW8/pKmruNmKoFfjg5hRCfADhfKZXJrPMbtkwyMyJIrY1bUHny/j8nw9s
- HNsHR8g2JR1iJCkvQ+nRA4mjcEyWlemqDVi6lFGwn3NL3mqHXqBiqTOxcGMZyqwBZEIF
- Qb6LJECD5l3aIaRbMjx1LHFMQu4vzW7HSqk2540ViputxGnZsqQ4rc284zV0NvgS3UBE
- m7Nw==
+ :cc; bh=fM83QGm0HZFZIT205rVupzbm0V7pt4s+8qOZpv9c5nw=;
+ b=Cs1mIuWDF+DI5imKO20y6f2YpAxNiKFA7j/8c2W+N73CvtIwPQimnZcMCarzbKXs67
+ +KZedhjzJ01vGtoGdvKW57m5b0DYYPvnSSNLkfWuBkmMSHqYjxQJTCIrFjHrUhEnTe8w
+ stOWgrFwitmPK09hi+ys6MtN86nhc83kD7aSie+dt/Vnl1Xwl2VGp59Z1sNI+VFJ6FAZ
+ C8BIe9bmTHCGpPzwVTtihoE3omA7E91I6pBJM/yuaqwX+3XgvJeRdApRPl32vU+cUHrF
+ /noJKVwdu5nD+rsceClZD0lMxa8RAtTeaqgNiiIkmBi594/spyFW4sbjUSi+RXBgBwq1
+ EYBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=D5nEZI+hxb+H44y17IXUNqKuOh3W4xbgrH7vKYCJ5qs=;
- b=e9INaf7iRKIYrTGyiOsx0tbp4pJZc9LaxGiPqOsS+CeaA+xIgnUfQsH66bopAIXU+7
- MqQclbvLoddinyVKyVe34hZGz1NaM6NZ8wz3goBtuu8pXiLBlztM6QMbhPRutO0XijOP
- CjDc4ENBIgGDrJ/djsYFU086n1Pyrqx4XjTPqn75gHrrQmY2poaW/OGAEqD7sOv2yuXL
- m6F8MbHEb7b6A3NKbWUuMMQkRRM25NKcV/8oAFqLQN6ENBDmpggxh7NdNSXDlRsO9ngj
- dX4fublci84UWAWGtiPcBAw17xShjjngEdl47bdISg7K3QL8S7/XZUSNZLtL1+0ByVHL
- Jz2Q==
-X-Gm-Message-State: APjAAAWX6xVjlRbAdS6naHIR83vUpDKzigU1o/QwcDsDIbkfVUlXvdpc
- EMURQhxRQW3Df/lRQjveyVLtlyH53ksIE+cNDvZiNA==
-X-Google-Smtp-Source: APXvYqx7kmXUpfXmk+jkd3J3hXZ4cXElfV/6Swtewouur+Wu/brJ4GB1cT7KFDjHi/+SIdN+1I2u7cbuKoJfPTiuXeg=
-X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr19975476oti.91.1561982175236; 
- Mon, 01 Jul 2019 04:56:15 -0700 (PDT)
+ bh=fM83QGm0HZFZIT205rVupzbm0V7pt4s+8qOZpv9c5nw=;
+ b=iUA+Vp8rmfBR343qKv0ENiFk24xaxJpcqRysguw5QC2waGNbA2oeKcAanaZQnhP4lE
+ 96iZ+4Y0u6BCleHxsccNAYmAWO1Fd8s+EcyOBW09ZfIUFSDeP1T1LUEGwvVQhgDRaWUq
+ QtfQCzQwFwqNV1GNskyapNjR3/zUedXYvAM42nK71Ejihj01yzQI70GAlXhn1xgSte+K
+ VvK39PcdzsVFkGKBiasSmuv/9uOMQepCPM+FasmCJZWvccmIg8EiS0Gx1KlAMoZs7axQ
+ GihqjQF86C/9UiO0kQcNibBECJQa6H2TsVBsZT/SJ5ad6t3TwE+e8lMTiAR3FAXMna4B
+ 5keg==
+X-Gm-Message-State: APjAAAXE5tCxK3aj6w+urIrjQO1Mn/IYDbAXrb1YbqiuZsTflehzIanW
+ 3iuBDvQMxZu3pb6YAGRchtWdcTMM7pZFF4GkKlaiwg==
+X-Google-Smtp-Source: APXvYqwq6uXTOq4AI8zzW4Oca55F3xKHtj4238tzlM0/aeRzad8mgWNOBHRSVLR3O+t7H0w6e8MNeUE3bD6GHr8LKyY=
+X-Received: by 2002:a9d:711e:: with SMTP id n30mr18251401otj.97.1561982197082; 
+ Mon, 01 Jul 2019 04:56:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190416013902.4941-1-andrew.smirnov@gmail.com>
- <20190416013902.4941-4-andrew.smirnov@gmail.com>
-In-Reply-To: <20190416013902.4941-4-andrew.smirnov@gmail.com>
+ <20190416013902.4941-5-andrew.smirnov@gmail.com>
+In-Reply-To: <20190416013902.4941-5-andrew.smirnov@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 12:56:04 +0100
-Message-ID: <CAFEAcA_=HpkXDriPRvnKRA=XKaK0Vpi8isZH5B8eETVVAr6=mw@mail.gmail.com>
+Date: Mon, 1 Jul 2019 12:56:26 +0100
+Message-ID: <CAFEAcA_eGUy5y+e_8buBy3yCB78BeyAxZawMFU2j-h0TOF98PQ@mail.gmail.com>
 To: Andrey Smirnov <andrew.smirnov@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH 3/5] pci: designware: Update MSI mapping
- unconditionally
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH 4/5] pci: designware: Update MSI mapping
+ when MSI address changes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,16 +80,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 16 Apr 2019 at 02:39, Andrey Smirnov <andrew.smirnov@gmail.com> wrote:
 >
-> Expression to calculate update_msi_mapping in code handling writes to
-> DESIGNWARE_PCIE_MSI_INTR0_ENABLE is missing an ! operator and should
-> be:
->
->     !!root->msi.intr[0].enable ^ !!val;
->
-> so that MSI mapping is updated when enabled transitions from either
-> "none" -> "any" or "any" -> "none". Since that register shouldn't be
-> written to very often, change the code to update MSI mapping
-> unconditionally instead of trying to fix the update_msi_mapping logic.
+> MSI mapping needs to be update when MSI address changes, so add the
+> code to do so.
 >
 > Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
 > Cc: Peter Maydell <peter.maydell@linaro.org>
