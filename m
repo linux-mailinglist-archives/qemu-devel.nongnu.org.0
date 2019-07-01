@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBD45BFAA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:23:00 +0200 (CEST)
-Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19B2F5BFB3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:25:43 +0200 (CEST)
+Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhy8x-00081y-KL
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38057)
+	id 1hhyBa-0001gJ-AV
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:25:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38630)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hhy5z-0006ZZ-F2
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:19:56 -0400
+ (envelope-from <liq3ea@gmail.com>) id 1hhy8x-0000F0-JQ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:23:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hhy5y-0003Tw-2A
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:19:55 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38378)
+ (envelope-from <liq3ea@gmail.com>) id 1hhy8w-0005AU-2q
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:22:59 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:35918)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hhy5x-0003SF-Ok
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:19:53 -0400
-Received: by mail-oi1-x242.google.com with SMTP id v186so10256590oie.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:19:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hhy8v-00058O-SK
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:22:58 -0400
+Received: by mail-oi1-x244.google.com with SMTP id w7so10255866oic.3
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:22:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=88izuRn6GLm/EmQGtulJZg1i2yfV9ZeB3PdO+YNXXoU=;
- b=UaM9GUSNRSvLuWgOHYBV3RGaMM1ltC/hXydAor6EgaNxD5KG8SEx2lmQcejuO+zGfi
- qmzh0BDMx9QnJff5b9hLUXBNCA7liO7xvYKClBi52IiCGh3pTJmWWLmrK7mwzfZ8lmWX
- NwDEpBFOnexaECf96dCvA9ECUycHtGm8r/FzQCyxiKpHLcvSA9aaqOhXIVdx7M06NDoK
- z/ul2/6ulK1UZEz6bdzERyWkzthUIq7JHkN+CKmdlvnzrqqmj+ELvJFQdIeq0ct66hnq
- bEykwNL6Ss21fU6lSUYG8c072iHKbzVhn8Q5YwDR6SZRyrtwyIOix2aP5PIEp8yzT+rT
- hItw==
+ :cc; bh=Xc9OjD0nUZ+3Mqa2kPNjAatVz38BK5YDMcw7B/DRoyc=;
+ b=mGIcA5Xlik0/ssiJbwCjzI1bwXwNfwAz+Fx2EqVSr/Cc8+owSVYXGOYE9FWdlzwpn3
+ TBS5kQSURe/Sp2YtYXNpd4uGT/LVdaC7IsWVVMj8hlmL+R1S4siKieroezkTgvT9tclE
+ ovMzS4G/bP0m5HDOUcA+oul/QmDHqUCbN7fFxLUFYFCaGr0aoKPt3eW30ayqoqIc4RLY
+ JY6YSKfSfDtkx12yLroKtpJH619CWXMZIogt7LA6oLRVTJyulnu9nsA39HdRGsqOhCnF
+ MGB8vlhCmm7ME61XrbkGnn3KqURHkbvfDguZLttTSwSVAS4+LYoZqZM8eZA7fzD3VYkE
+ e+aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=88izuRn6GLm/EmQGtulJZg1i2yfV9ZeB3PdO+YNXXoU=;
- b=nQMmHVZvuqNRpqFTlvcIUHF1I5uVYLJHs8wWfZWNlNme0dxN9GGIpC8gUa9pwKr6KD
- xv+pSF6kfQqDpOkcZ16RX6m/JWjRMvwVw/IYU0mUPdG/sTf+U5/XHjEhQuZBI2NP1BWc
- QX43TNO4A3uj+F1w3FV0tP5qp3/McySAg6kc1qxQb2abuOlZGkAsNVJga/VmUxYy1qMx
- LBh2kLUYZIXX9DnuZv1qq2mmdLEnZGuvE+htQHPzT4Ccpukir/ZFpDV9M55WBYyFJsd3
- sOHJhHYT4F/MOfq2D7IWnJkct6dWsYWHovjQLLRhS7C98unj4gGV4tkc2iFdhZSjdw54
- wwgg==
-X-Gm-Message-State: APjAAAUkbo2OJug1xlaniG6ZkFnBkXxDK5J3TmMsw3bhE0zxJZ2D1X00
- xDlTdJLWylwWFfd+QPaG1YkNM0nF5qYEjx529NVhMg==
-X-Google-Smtp-Source: APXvYqzbYS1BvCZjBSoFBGwSGjTzA8eYsybKPAmnmyGxcieu+hxANClVrQ3+0NJjwHxNaaj3jxAds2AASfCrKJ14JZo=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr7352429oib.163.1561994392862; 
- Mon, 01 Jul 2019 08:19:52 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Xc9OjD0nUZ+3Mqa2kPNjAatVz38BK5YDMcw7B/DRoyc=;
+ b=RDmxr3Mw054x2hqIi8rr2Hwf70AHNuBlBwzwq2Utjdh76+YwfXySrP4GvawejdIep4
+ IwJ0jbsxNqYd3jKMow65oxlAcVLJMyYIe6j+iZ8tiMAXeZ4gAyrDY1QPmz7vvPef8AGC
+ gB6a5po0i93T07zhu0bKGhOMnitsZLTKn3KSSzSwGI1iKoroD89Dw7c+m09t0fbfKUcY
+ 6BKa2XUNUammnfqNbjxf6fI82H0vx0knnV43NdHqD97U4vDgnNx4roZP8ssn+1+XzwYu
+ A9J/SHaYJCkfSSyRuNn6l/jcGIpb7nsH3XBYdVXND7KEwtkLUyNIPPo3X2C+9Di54ogk
+ MJYA==
+X-Gm-Message-State: APjAAAXIZU8hV7fyx7Uqy8pfmH8J4mq4otfAiBJWyREx5lzohxWzGBhk
+ Wv+QcXK3zLVIwQc9sFoxpuHKVzLGnuSD8xJHWdxooZdNjmA=
+X-Google-Smtp-Source: APXvYqyNp96ftwG+b/B2Vw5SAVlofebKAm6GGaUhlBQDFwx+Zal1MOMrEgORr21NNU9Fb4CGoUfK0HbwVaE2s9PdBGA=
+X-Received: by 2002:a54:4f97:: with SMTP id g23mr7056273oiy.97.1561994574757; 
+ Mon, 01 Jul 2019 08:22:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190701132516.26392-1-philmd@redhat.com>
- <20190701132516.26392-14-philmd@redhat.com>
-In-Reply-To: <20190701132516.26392-14-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 16:19:42 +0100
-Message-ID: <CAFEAcA8GtFqxRnWS+Gb2GZresBXuJFzXbnEWTnOkUfcumdje9w@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20190701123558.30512-1-ppandit@redhat.com>
+ <20190701123558.30512-2-ppandit@redhat.com>
+In-Reply-To: <20190701123558.30512-2-ppandit@redhat.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Mon, 1 Jul 2019 23:22:18 +0800
+Message-ID: <CAKXe6SLZ0eAZ5++soLkFiH6gNMRqJfO7Y5JYmFtopnCqk_61Cw@mail.gmail.com>
+To: P J P <ppandit@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v3 13/27] target/arm: Move debug routines
- to debug_helper.c
+X-Received-From: 2607:f8b0:4864:20::244
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v3 1/3] qemu-bridge-helper: restrict
+ interface name to IFNAMSIZ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,70 +74,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Andrew Jones <drjones@redhat.com>,
- Samuel Ortiz <sameo@linux.intel.com>, Rob Bradford <robert.bradford@intel.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Riccardo Schirone <rschiron@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jul 2019 at 14:26, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
+P J P <ppandit@redhat.com> =E4=BA=8E2019=E5=B9=B47=E6=9C=881=E6=97=A5=E5=91=
+=A8=E4=B8=80 =E4=B8=8B=E5=8D=888:38=E5=86=99=E9=81=93=EF=BC=9A
+
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 >
-> These routines are TCG specific.
+> The network interface name in Linux is defined to be of size
+> IFNAMSIZ(=3D16), including the terminating null('\0') byte.
+> The same is applied to interface names read from 'bridge.conf'
+> file to form ACL rules. If user supplied '--br=3Dbridge' name
+> is not restricted to the same length, it could lead to ACL bypass
+> issue. Restrict interface name to IFNAMSIZ, including null byte.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reported-by: Riccardo Schirone <rschiron@redhat.com>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
->  target/arm/Makefile.objs  |   2 +-
->  target/arm/cpu.c          |  11 +-
->  target/arm/debug_helper.c | 334 ++++++++++++++++++++++++++++++++++++++
->  target/arm/helper.c       |  23 ---
->  target/arm/op_helper.c    | 295 ---------------------------------
->  5 files changed, 339 insertions(+), 326 deletions(-)
->  create mode 100644 target/arm/debug_helper.c
+>  qemu-bridge-helper.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> Update v3: use g_str_equal() and %zu for strlen()
+>   -> https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg00072.html
+>
+> diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
+> index f9940deefd..e90c22f07d 100644
+> --- a/qemu-bridge-helper.c
+> +++ b/qemu-bridge-helper.c
+> @@ -109,6 +109,13 @@ static int parse_acl_file(const char *filename,
+> ACLList *acl_list)
+>          }
+>          *argend =3D 0;
+>
+> +        if (!g_str_equal(cmd, "include") && strlen(arg) >=3D IFNAMSIZ) {
+> +            fprintf(stderr, "name `%s' too long: %zu\n", arg,
+> strlen(arg));
+> +            fclose(f);
+> +            errno =3D EINVAL;
+> +            return -1;
+> +        }
+> +
+>
 
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -2566,7 +2566,6 @@ static void arm_cpu_class_init(ObjectClass *oc, voi=
-d *data)
->      cc->gdb_write_register =3D arm_cpu_gdb_write_register;
->  #ifndef CONFIG_USER_ONLY
->      cc->do_interrupt =3D arm_cpu_do_interrupt;
-> -    cc->get_phys_page_attrs_debug =3D arm_cpu_get_phys_page_attrs_debug;
->      cc->asidx_from_attrs =3D arm_asidx_from_attrs;
->      cc->vmsd =3D &vmstate_arm_cpu;
->      cc->virtio_is_big_endian =3D arm_cpu_virtio_is_big_endian;
-> @@ -2578,19 +2577,17 @@ static void arm_cpu_class_init(ObjectClass *oc, v=
-oid *data)
->      cc->gdb_arch_name =3D arm_gdb_arch_name;
->      cc->gdb_get_dynamic_xml =3D arm_gdb_get_dynamic_xml;
->      cc->gdb_stop_before_watchpoint =3D true;
-> -    cc->debug_excp_handler =3D arm_debug_excp_handler;
-> -    cc->debug_check_watchpoint =3D arm_debug_check_watchpoint;
-> -#if !defined(CONFIG_USER_ONLY)
-> -    cc->adjust_watchpoint_address =3D arm_adjust_watchpoint_address;
-> -#endif
-> -
->      cc->disas_set_info =3D arm_disas_set_info;
->  #ifdef CONFIG_TCG
->      cc->tcg_initialize =3D arm_translate_init;
->      cc->tlb_fill =3D arm_cpu_tlb_fill;
-> +    cc->debug_excp_handler =3D arm_debug_excp_handler;
-> +    cc->debug_check_watchpoint =3D arm_debug_check_watchpoint;
->  #if !defined(CONFIG_USER_ONLY)
->      cc->do_unaligned_access =3D arm_cpu_do_unaligned_access;
->      cc->do_transaction_failed =3D arm_cpu_do_transaction_failed;
-> +    cc->adjust_watchpoint_address =3D arm_adjust_watchpoint_address;
-> +    cc->get_phys_page_attrs_debug =3D arm_cpu_get_phys_page_attrs_debug;
->  #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+g_str_equal is not consistent style with the other 'strcmp' in this file.
+With g_str_equal or strcmp:
 
-I don't think get_phys_page_attrs_debug is TCG specific -- anything
-that wants to do a virt-to-phys translation will use it, including
-for instance cpu_memory_rw_debug() or the monitor gva2gpa command.
-target/i386/cpu.c doesn't put its cc->get_phys_page_debug assignment
-inside a CONFIG_TCG ifdef.
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
 
-thanks
--- PMM
 
+
+
+>          if (strcmp(cmd, "deny") =3D=3D 0) {
+>              acl_rule =3D g_malloc(sizeof(*acl_rule));
+>              if (strcmp(arg, "all") =3D=3D 0) {
+> @@ -259,6 +266,10 @@ int main(int argc, char **argv)
+>          usage();
+>          return EXIT_FAILURE;
+>      }
+> +    if (strlen(bridge) >=3D IFNAMSIZ) {
+> +        fprintf(stderr, "name `%s' too long: %zu\n", bridge,
+> strlen(bridge));
+> +        return EXIT_FAILURE;
+> +    }
+>
+>      /* parse default acl file */
+>      QSIMPLEQ_INIT(&acl_list);
+> --
+> 2.21.0
+>
+>
