@@ -2,81 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C115C51F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:43:10 +0200 (CEST)
-Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C48E5C55B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:56:22 +0200 (CEST)
+Received: from localhost ([::1]:45822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi44r-0008TS-8g
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:43:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45840)
+	id 1hi4Hd-0007yO-FG
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:56:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47799)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hi3FR-0002Ri-Oz
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:50:04 -0400
+ (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
+ id 1hi3JU-0006Dj-OE
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hi3FN-0002HT-Gr
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:49:59 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:43214)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hi3FN-0002DG-7y
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:49:57 -0400
-Received: by mail-wr1-f67.google.com with SMTP id p13so15243926wru.10
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:49:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:openpgp:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0Ljam71+MU4aYsvkkGkg1ijxKyBjtk8IL0KNeM4xiSo=;
- b=YBSddpmPlrP0YddNkh1rMeIn4HVNZlxBQdpJzo6HpnKZJ6f0i7zJ+v887YwjDfxewo
- dLMzL32bfi5lIuUike5QmmTSIkQVL+a1z3Dm5aRXA71YgyZ8v0UXmmGnXG4QPY8EOHcv
- IINmUuOf/IovWEAHViO0vWKwWtJEWmCn7yZtebc8q+JeJWZ59tS20w0syw2jRRJt5Qef
- UvcrJ9IOhR2ybFPhT9heGwht9RrYEOAQkkBkOeYfTiDu2Z1dmKfj7gZnE6AijAIuzMtX
- l/2VBb1WCIgjCCtLe1p6LZnq+D33jCuORRkzwPNX9ydrrLpCOd/OB/tOF5MBRu2vqT+G
- 5CCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=0Ljam71+MU4aYsvkkGkg1ijxKyBjtk8IL0KNeM4xiSo=;
- b=WidWcxR8vbLP0DbsuMtyQffm+88JYLKvriJO4PffHKqq4NC9skVLjGfFg/bpR9+8p5
- 4SMSEJDlBy1TQBZONm0uQjUmqrZUsDuMFRiYLK22cR9C5GOcuqB0joN9HC2WWuMY+Y60
- Fs3CdK8L7/q3uj4lq17gkizjm6PhCRi6XhAFfzscMzccOwtTJv00yXS61823c5uRRfNn
- QJhEALmoLuGHf9Yy50NyBXEpnLR8h9605pimmt+dos5WC7/ksN9CJWETrpmgGe5VOda2
- StUCqRnkbDSrxd/mxGWQ/+bPPW7lvIKj2f3sJpsO/pNEJV5omxnI8qKnYlEWX/YEDw1z
- C4mw==
-X-Gm-Message-State: APjAAAUQ/I4dodRxfHbqR/B4YT2wS2Bfu5fMe6SsKeMrQ3qT2mw3gFUN
- I27qFyLYF9Omguh1JZNY8PO8Xz/H
-X-Google-Smtp-Source: APXvYqwXZpNv5cpBFcp7W0FHLFGPiUduapXsaiIFEl4XrBoy5hfOE1GJ5rKI1hy0wCG8Y4L2SLxD0w==
-X-Received: by 2002:a5d:4001:: with SMTP id n1mr20086302wrp.293.1562004384726; 
- Mon, 01 Jul 2019 11:06:24 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id r2sm413215wme.30.2019.07.01.11.06.22
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 11:06:23 -0700 (PDT)
-To: qemu-devel@nongnu.org
-References: <20190624222844.26584-1-f4bug@amsat.org>
- <20190624222844.26584-11-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Openpgp: url=http://pgp.mit.edu/pks/lookup?op=get&search=0xE3E32C2CDEADC0DE
-Message-ID: <4fab5459-f1a6-8ac9-2498-bda6a4732a1c@amsat.org>
-Date: Mon, 1 Jul 2019 20:06:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190624222844.26584-11-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
+ (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
+ id 1hi3JP-0003tr-8u
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:10 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:37776)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
+ id 1hi3JH-0003nA-ID; Mon, 01 Jul 2019 16:54:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1562014441; x=1593550441;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=sRZQGemFhJcGaiaqalz9evSv7ZCo+bZ6qNmy3ckWB48=;
+ b=ApqzqE1KMtv4kB61jjxgsL74EuboaVRCskZeja/13Y0W828mliOF3ZwL
+ sCNU5wDDsgEE/07ytEzu6FcaIUS34yhq5ATjTDhTKQ2MOC0uzUfnbg1xV
+ Cuq2V4WLoz00pkmA6TzXuKG8aVQjOS08peSAPOGOWApBl/WfUxpnPrdwH
+ VRw4P8WlIyIDnwkNeLBHYSBqzXYqvkroDshVorZJFQgn3Dgsn8Av+Nw2o
+ IxdqKR20SawIp6gsW0L1KDWzoIqvKGkyzYEZlMHJOrupG/uyz3bwIp9dP
+ OISvOAnDCfzzQ98KkbvGULYQIait129CiBshbvFMEtlFgWO2HPc6VU5+G w==;
+X-IronPort-AV: E=Sophos;i="5.63,440,1557158400"; d="scan'208";a="111980239"
+Received: from mail-by2nam03lp2053.outbound.protection.outlook.com (HELO
+ NAM03-BY2-obe.outbound.protection.outlook.com) ([104.47.42.53])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2019 02:09:20 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sRZQGemFhJcGaiaqalz9evSv7ZCo+bZ6qNmy3ckWB48=;
+ b=HzTzhqMW4PGy/I76KoHqEVDTDTt8AHkUOr5rdC2v/Y5NyI2jNMsDzoTUFQTUJLpYOqOvL6BlyEqLouhJ9aj4+mGf4BQ/LgukW737LrD7FlVdUor73laWZfSQ4JOy+tvvroVVSulv0+ekOy1CJSLexQJYJ76E5sr0SnoYSLGj1Vs=
+Received: from BYAPR04MB4901.namprd04.prod.outlook.com (52.135.232.206) by
+ BYAPR04MB3989.namprd04.prod.outlook.com (52.135.215.28) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2032.20; Mon, 1 Jul 2019 18:09:19 +0000
+Received: from BYAPR04MB4901.namprd04.prod.outlook.com
+ ([fe80::40b0:3c4b:b778:664d]) by BYAPR04MB4901.namprd04.prod.outlook.com
+ ([fe80::40b0:3c4b:b778:664d%7]) with mapi id 15.20.2032.019; Mon, 1 Jul 2019
+ 18:09:19 +0000
+From: Alistair Francis <Alistair.Francis@wdc.com>
+To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+Thread-Topic: [PULL 33/34] roms: Add OpenSBI version 0.3
+Thread-Index: AQHVLPx3D6cSVSLMSUSkcnC2JIn/F6a2AV8AgAAO5QCAAAOyAIAAAYuA
+Date: Mon, 1 Jul 2019 18:09:19 +0000
+Message-ID: <efaaaa7aabddfb8481af4c5b2eeec23513f8fcb8.camel@wdc.com>
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-34-palmer@sifive.com>
+ <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
+ <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
+ <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [RFC PATCH 10/10] hw/pci-host/gt64120: Clean the
- decoded address space
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Alistair.Francis@wdc.com; 
+x-originating-ip: [199.255.44.250]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 592e0622-0be3-4192-6ed5-08d6fe4f3cb6
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:BYAPR04MB3989; 
+x-ms-traffictypediagnostic: BYAPR04MB3989:
+x-ms-exchange-purlcount: 3
+wdcipoutbound: EOP-TRUE
+x-microsoft-antispam-prvs: <BYAPR04MB39896087B532542F883540DB90F90@BYAPR04MB3989.namprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 00851CA28B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(366004)(346002)(39860400002)(376002)(136003)(396003)(24433001)(199004)(189003)(26005)(36756003)(2616005)(316002)(6486002)(4326008)(68736007)(476003)(81156014)(2351001)(966005)(6506007)(86362001)(486006)(102836004)(14454004)(6916009)(2501003)(53936002)(8676002)(72206003)(305945005)(478600001)(11346002)(8936002)(81166006)(446003)(25786009)(186003)(6436002)(66476007)(6246003)(2906002)(66946007)(64756008)(66446008)(6512007)(66556008)(76116006)(5660300002)(73956011)(5640700003)(6306002)(229853002)(3846002)(7736002)(6116002)(118296001)(99286004)(76176011)(66066001)(71200400001)(71190400001)(54906003)(256004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB3989;
+ H:BYAPR04MB4901.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: w0bh6lIYSBVDTALtc4f08rn+L1zxer9Go/QzAEK5nxS8xDqbZfOAeHv0j2f7kUcc7TT7MWzT8dY35XaBhX6SvbAbe4mw0/1/uhHd1coD+jVKoTXXnEvs7NmEKO2dkcOyGpOHx4kw8AIjjiP3h6ohLNG0V/5OnEIMnJ5ZpzZp003xqswxUkiAFEoTaPKtvxwyhwcmEu6YDN9OxpCM9HFhph0JlIE3LhvEqrk0PS8NudeAJyb85KJjjZa1YOyF+D0rKDB/38VGtgBSlWxrvkd3rhbL4e/tIWjFYZuOSTYDeTQqtrC/FnAApvwvjI2CE6Jlpht7zTyNhy/tlnYo9tdq0R7yX+U8q82lTQPjD2jO75QN+0kVMbGzFs6djtSh6x9y+etMFyCp0Abwtuf8GF2OO8lTk553F786w1xxZbfkOSE=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <6F4A81D1D3788F47809604D3618356A1@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 592e0622-0be3-4192-6ed5-08d6fe4f3cb6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2019 18:09:19.2535 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Alistair.Francis@wdc.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3989
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 216.71.154.42
+Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,160 +116,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <arikalo@wavecomp.com>, James Hogan <jhogan@kernel.org>,
- linux-mips@vger.kernel.org, Paul Burton <paul.burton@mips.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "codyprime@gmail.com" <codyprime@gmail.com>,
+ "palmer@sifive.com" <palmer@sifive.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing the kernel folks.
-
-On 6/25/19 12:28 AM, Philippe Mathieu-Daudé wrote:
-> The SysAd bus is split in various address spaces.
-> Declare the different regions separately, this helps a lot
-> while tracing different access while debugging.
-> 
-> We also add the PCI1 ranges.
-> 
-> See 'GT-64120A System Controller' datasheet Rev, 1.1,
-> "Table 15: CPU and Device Decoder Default Address Mapping"
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> While this device is modelled toward the Malta board, it is generic.
-> ---
->  hw/mips/mips_malta.c  |  6 ------
->  hw/pci-host/gt64120.c | 19 +++++++++++++++++++
->  2 files changed, 19 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 97f8ffbf1b..d6e4a0dad9 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -53,7 +53,6 @@
->  #include "sysemu/qtest.h"
->  #include "qapi/error.h"
->  #include "qemu/error-report.h"
-> -#include "hw/misc/empty_slot.h"
->  #include "sysemu/kvm.h"
->  #include "hw/semihosting/semihost.h"
->  #include "hw/mips/cps.h"
-> @@ -1209,11 +1208,6 @@ void mips_malta_init(MachineState *machine)
->      DeviceState *dev = qdev_create(NULL, TYPE_MIPS_MALTA);
->      MaltaState *s = MIPS_MALTA(dev);
->  
-> -    /* The whole address space decoded by the GT-64120A doesn't generate
-> -       exception when accessing invalid memory. Create an empty slot to
-> -       emulate this feature. */
-> -    empty_slot_init("gt64120-ad", 0x00000000, 0x20000000);
-> -
->      qdev_init_nofail(dev);
->  
->      /* create CPU */
-> diff --git a/hw/pci-host/gt64120.c b/hw/pci-host/gt64120.c
-> index 5209038ee5..6eaa571994 100644
-> --- a/hw/pci-host/gt64120.c
-> +++ b/hw/pci-host/gt64120.c
-> @@ -31,6 +31,8 @@
->  #include "hw/pci/pci_host.h"
->  #include "hw/i386/pc.h"
->  #include "exec/address-spaces.h"
-> +#include "hw/misc/empty_slot.h"
-> +#include "hw/misc/unimp.h"
->  #include "trace.h"
->  
->  #define GT_REGS                 (0x1000 >> 2)
-> @@ -1206,6 +1208,23 @@ PCIBus *gt64120_create(qemu_irq *pic, bool target_is_bigendian)
->                            "isd-mem", 0x1000);
->  
->      pci_create_simple(phb->bus, PCI_DEVFN(0, 0), "gt64120_pci");
-> +
-> +    create_unimplemented_device("gt64120_i2o", 0x14000000, 256);
-> +
-> +    empty_slot_init("SCS0",     0x00000000, 8 * MiB);
-> +    empty_slot_init("SCS1",     0x00800000, 8 * MiB);
-> +    empty_slot_init("SCS2",     0x01000000, 8 * MiB);
-> +    empty_slot_init("SCS3",     0x01800000, 8 * MiB);
-
-Since it is a bit pointless to alloc 4 regions, I could
-simplify those 4 as:
-
-       empty_slot_init("SCS[4]",   0x00000000, 4 * 8 * MiB);
-
-The difference with the previous content is now we have
-two new holes:
-
-- 0x02000000-0x10000000
-- 0x14001000-0x1c000000
-
-Ralf/Paul/James, what should happen when a guest access these
-holes (hardware PoV, no QEMU)?
-
-The address space with this patch is:
-
-(qemu) info mtree
-address-space: memory
-0000000000000000-0000000007ffffff (prio 0, i/o): alias low_ram
-@mips_malta.ram 0000000000000000-0000000007ffffff
-0000000000000000-00000000007fffff (prio -10000, i/o): SCS0
-0000000000800000-0000000000ffffff (prio -10000, i/o): SCS1
-0000000001000000-00000000017fffff (prio -10000, i/o): SCS2
-0000000001800000-0000000001ffffff (prio -10000, i/o): SCS3
-0000000002000000-000000000fffffff [hole]
-0000000010000000-0000000011ffffff (prio 0, i/o): alias pci0-io @io
-0000000000000000-0000000001ffffff
-0000000012000000-0000000013ffffff (prio 0, i/o): alias pci0-mem0
-@pci0-mem 0000000012000000-0000000013ffffff
-0000000014000000-0000000014000fff (prio 0, i/o): isd-mem
-0000000014000000-00000000140000ff (prio -1000, i/o): gt64120_i2o
-0000000014001000-000000001bffffff [hole]
-000000001c000000-000000001c7fffff (prio -10000, i/o): CS0
-000000001c800000-000000001cffffff (prio -10000, i/o): CS1
-000000001d000000-000000001effffff (prio -10000, i/o): CS2
-000000001e000000-000000001e3fffff (prio 0, romd): mips_malta.bios
-000000001f000000-000000001f0008ff (prio 0, i/o): alias malta-fpga
-@malta-fpga 0000000000000000-00000000000008ff
-000000001f000000-000000001fbfffff (prio -10000, i/o): CS3
-000000001f000900-000000001f00093f (prio 0, i/o): serial
-000000001f000a00-000000001f00ffff (prio 0, i/o): alias malta-fpga
-@malta-fpga 0000000000000a00-000000000000ffff
-000000001fc00000-000000001fffffff (prio 0, rom): bios.1fc
-000000001fc00000-000000001fffffff (prio -10000, i/o): BootCS
-0000000020000000-0000000021ffffff (prio -1000, i/o): pci1-io
-0000000022000000-0000000023ffffff (prio -10000, i/o): pci1-mem0
-0000000024000000-0000000025ffffff (prio -10000, i/o): pci1-mem1
-0000000080000000-0000000087ffffff (prio 0, ram): mips_malta.ram
-00000000f2000000-00000000f3ffffff (prio 0, i/o): alias pci0-mem1
-@pci0-mem 00000000f2000000-00000000f3ffffff
-
-> +    empty_slot_init("CS0",      0x1c000000, 8 * MiB);
-> +    empty_slot_init("CS1",      0x1c800000, 8 * MiB);
-> +    empty_slot_init("CS2",      0x1d000000, 32 * MiB);
-> +    empty_slot_init("CS3",      0x1f000000, 12 * MiB);
-
-I'm not very happy to add a non-pow2 range, but this is how
-it appears on the datasheet. I suppose the correct range is
-16MB with lower priority than the BootCS.
-
-> +    empty_slot_init("BootCS",   0x1fc00000, 4 * MiB);
-
-> +    create_unimplemented_device("pci1-io", 0x20000000, 32 * MiB);
-> +    empty_slot_init("pci1-mem0", 0x22000000, 32 * MiB);
-> +    empty_slot_init("pci1-mem1", 0x24000000, 32 * MiB);
-
-This part is new, and could go in a separate patch:
-Currently, no guest ever accessed this space.
-
-Regards,
-
-Phil.
-
-> +
->      return phb->bus;
->  }
->  
+T24gTW9uLCAyMDE5LTA3LTAxIGF0IDE5OjAxICswMTAwLCBQZXRlciBNYXlkZWxsIHdyb3RlOg0K
+PiBPbiBNb24sIDEgSnVsIDIwMTkgYXQgMTg6NTAsIEFsaXN0YWlyIEZyYW5jaXMgPA0KPiBBbGlz
+dGFpci5GcmFuY2lzQHdkYy5jb20+IHdyb3RlOg0KPiA+IE9uIE1vbiwgMjAxOS0wNy0wMSBhdCAx
+Nzo1NCArMDEwMCwgUGV0ZXIgTWF5ZGVsbCB3cm90ZToNCj4gPiA+IE9uIFRodSwgMjcgSnVuIDIw
+MTkgYXQgMTY6MjQsIFBhbG1lciBEYWJiZWx0IDxwYWxtZXJAc2lmaXZlLmNvbT4NCj4gPiA+IHdy
+b3RlOg0KPiA+ID4gPiBGcm9tOiBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpci5mcmFuY2lzQHdk
+Yy5jb20+DQo+ID4gPiA+IA0KPiA+ID4gPiBBZGQgT3BlblNCSSB2ZXJzaW9uIDAuMyBhcyBhIGdp
+dCBzdWJtb2R1bGUgYW5kIGFzIGEgcHJlYnVsdA0KPiA+ID4gPiBiaW5hcnkuDQo+ID4gPiA+IA0K
+PiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpci5mcmFuY2lz
+QHdkYy5jb20+DQo+ID4gPiA+IFJldmlld2VkLWJ5OiBCaW4gTWVuZyA8Ym1lbmcuY25AZ21haWwu
+Y29tPg0KPiA+ID4gPiBUZXN0ZWQtYnk6IEJpbiBNZW5nIDxibWVuZy5jbkBnbWFpbC5jb20+DQo+
+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IFBhbG1lciBEYWJiZWx0IDxwYWxtZXJAc2lmaXZlLmNvbT4N
+Cj4gPiA+ID4gLS0tDQo+ID4gPiA+ICAuZ2l0bW9kdWxlcyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB8ICAgMyArKw0KPiA+ID4gPiAgTWFrZWZpbGUgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgfCAgIDUgKy0NCj4gPiA+ID4gIHBjLWJpb3Mvb3BlbnNiaS1yaXNj
+djMyLXZpcnQtZndfanVtcC5iaW4gICAgIHwgQmluIDAgLT4gMjg4NDgNCj4gPiA+ID4gYnl0ZXMN
+Cj4gPiA+ID4gIHBjLWJpb3Mvb3BlbnNiaS1yaXNjdjY0LXNpZml2ZV91LWZ3X2p1bXAuYmluIHwg
+QmluIDAgLT4gMjg5MDQNCj4gPiA+ID4gYnl0ZXMNCj4gPiA+ID4gIHBjLWJpb3Mvb3BlbnNiaS1y
+aXNjdjY0LXZpcnQtZndfanVtcC5iaW4gICAgIHwgQmluIDAgLT4gMjg5MDQNCj4gPiA+ID4gYnl0
+ZXMNCj4gPiA+ID4gIHJvbXMvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHwgIDQ4DQo+ID4gPiA+ICsrKysrKysrKysrKysrLQ0KPiA+ID4gPiAtLS0tDQo+ID4gPiA+ICBy
+b21zL29wZW5zYmkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ID4g
+PiA+ICA3IGZpbGVzIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQ0K
+PiA+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IHBjLWJpb3Mvb3BlbnNiaS1yaXNjdjMyLXZpcnQt
+ZndfanVtcC5iaW4NCj4gPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBwYy1iaW9zL29wZW5zYmkt
+cmlzY3Y2NC1zaWZpdmVfdS0NCj4gPiA+ID4gZndfanVtcC5iaW4NCj4gPiA+ID4gIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBwYy1iaW9zL29wZW5zYmktcmlzY3Y2NC12aXJ0LWZ3X2p1bXAuYmluDQo+ID4g
+PiA+ICBjcmVhdGUgbW9kZSAxNjAwMDAgcm9tcy9vcGVuc2JpDQo+ID4gPiA+IA0KPiA+ID4gPiBk
+aWZmIC0tZ2l0IGEvLmdpdG1vZHVsZXMgYi8uZ2l0bW9kdWxlcw0KPiA+ID4gPiBpbmRleCAyODU3
+ZWVjNzYzNzcuLjdhMTBlNzJlMDljZCAxMDA2NDQNCj4gPiA+ID4gLS0tIGEvLmdpdG1vZHVsZXMN
+Cj4gPiA+ID4gKysrIGIvLmdpdG1vZHVsZXMNCj4gPiA+ID4gQEAgLTU1LDMgKzU1LDYgQEANCj4g
+PiA+ID4gIFtzdWJtb2R1bGUgInNsaXJwIl0NCj4gPiA+ID4gICAgICAgICBwYXRoID0gc2xpcnAN
+Cj4gPiA+ID4gICAgICAgICB1cmwgPSBodHRwczovL2dpdC5xZW11Lm9yZy9naXQvbGlic2xpcnAu
+Z2l0DQo+ID4gPiA+ICtbc3VibW9kdWxlICJyb21zL29wZW5zYmkiXQ0KPiA+ID4gPiArICAgICAg
+IHBhdGggPSByb21zL29wZW5zYmkNCj4gPiA+ID4gKyAgICAgICB1cmwgPSBodHRwczovL2dpdGh1
+Yi5jb20vcmlzY3Yvb3BlbnNiaS5naXQNCj4gPiA+IA0KPiA+ID4gSXQgd291bGQgYmUgbmljZSB0
+byBzdGF0ZSB0aGUgbGljZW5zZSBmb3IgbmV3IGJsb2JzIHdlJ3JlDQo+ID4gPiBhZGRpbmcgdG8g
+dGhlIHNvdXJjZSB0cmVlLi4uIEluIHBhcnRpY3VsYXIsIEkgZmluZCB0aGUNCj4gPiA+IHJlYWRt
+ZSBhdCBodHRwczovL2dpdGh1Yi5jb20vcmlzY3Yvb3BlbnNiaSBhIGJpdCBjb25mdXNpbmcNCj4g
+PiA+IGJlY2F1c2UgaXQgc2F5cyBpdCdzIDItQlNEIGJ1dCBhbHNvIHRoYXQgc29tZSBwYXJ0cyBh
+cmUgQXBhY2hlLQ0KPiA+ID4gMi4wOw0KPiA+ID4gdGhlIGxhdHRlciBpcyAqbm90KiBHUEwtMi4w
+IGNvbXBhdGlibGUuIFRoYXQgbWFrZXMgaXQgbm90DQo+ID4gPiBjb21wbGV0ZWx5DQo+ID4gPiBv
+YnZpb3VzIHRvIG1lIHRoYXQgd2UgY2FuIHNoaXAgdGhpcyB3aXRoIFFFTVUuDQo+ID4gDQo+ID4g
+QWgsIEkgZGlkbid0IHJlYWxpc2UgdGhlcmUgaXMgQXBhY2hlLTIuMCBjb2RlIGluIHRoZXJlLg0K
+PiA+IA0KPiA+IEluIHRoaXMgY2FzZSBhbGwgb2YgdGhlIGNvZGUgd2UgYXJlIHVzaW5nICh3ZSBh
+cmVuJ3QgdXNpbmcgdGhlDQo+ID4gS2VuZHJ5dGUNCj4gPiBjb2RlIHdpdGggUUVNVSkgaXMgQlNE
+LTItQ2xhdXNlLiBFdmVuIHRoZW4gdGhvdWdoIGRvZXMgaXQgbWF0dGVyIGlmDQo+ID4gaXQNCj4g
+PiBpcyBHUEwgY29tcGF0aWJsZT8gVGhpcyBpc24ndCBiZWluZyBsaW5rZWQgd2l0aCBRRU1VIGl0
+IGlzIGp1c3QNCj4gPiBiZWluZw0KPiA+IGluY2x1ZGVkIHdpdGggUUVNVS4NCj4gDQo+IFllYWgs
+IGlmIHdlJ3JlIG5vdCBidWlsZGluZyB0aGUgYXBhY2hlLTIuMCBwYXJ0cyB0aGVuIEkgdGhpbmsN
+Cj4gd2UncmUgT0ssIGFuZCBhcyB5b3Ugc2F5IHRoZXJlJ3MgdGhlIHF1ZXN0aW9uIG9mIHdoZXRo
+ZXIgUUVNVSdzDQo+IEdQTCBhZmZlY3RzIHdoYXQgd2Ugc2hpcCBhcyBtZXJlIGJpb3MgYmxvYnMg
+dG8gcnVuIGFzIGd1ZXN0DQo+IGNvZGUgYW55d2F5LiBCdXQgaXQncyBzdWZmaWNpZW50bHkgbm90
+IGEgInJlYWxseSBvYnZpb3VzbHkgb2siDQo+IHRoYXQgSSdkIGxpa2UgYSBzZWNvbmQgb3Bpbmlv
+bjsgY2MnZCBzb21lIHBlb3BsZSB3aG8gbWlnaHQgaGF2ZQ0KPiBzZWNvbmQgb3BpbmlvbnMuDQo+
+IA0KPiA+IEkgY2FuIGFkZCBkZXRhaWxzIG9mIHRoZSBsaWNlbnNlIGluIHRoZSBzb3VyY2UgdHJl
+ZSwgd2hlcmUgc2hvdWxkDQo+ID4gaXQgYmUNCj4gPiBhZGRlZD8NCj4gDQo+IEkgd2FzIHRoaW5r
+aW5nIGluIHRoZSBjb21taXQgbWVzc2FnZS4gV2UgYWxzbyBzZWVtIHRvDQo+IGhhdmUgaHVtYW4t
+cmVhZGFibGUgaW5mb3JtYXRpb24gaW4gcGMtYmlvcy9SRUFETUUgZm9yDQo+IHRoZSB2YXJpb3Vz
+IGJsb2JzLCB3aGljaCBzZWVtcyB0byBiZSBhIGdvb2QgcGxhY2UgZm9yIGEgYnJpZWYNCj4gb25l
+LXBhcmEgc3VtbWFyeSBvZiB3aGF0IE9wZW5TQkkgaXMsIGEgVVJMIGZvciBpdHMgdXBzdHJlYW0s
+DQo+IGFuZCBhIGJyaWVmIG5vdGUgb2YgdGhlIGxpY2Vuc2UuDQoNCk9rLCBJJ2xsIGFkZCB0aGF0
+Lg0KDQo+IA0KPiA+ID4gQWxzbywgbmV3IGdpdCBtb2R1bGVzIGluIC5naXRtb2R1bGVzIHNob3Vs
+ZCBiZSBxZW11Lm9yZw0KPiA+ID4gVVJMcywgbm90IHJhbmRvbSBleHRlcm5hbCBvbmVzLiAoaWUs
+IHdlIHNob3VsZCBzZXQgdXANCj4gPiA+IG1pcnJvcmluZyBvZiBhbnkgbmV3IGV4dGVybmFsIHJl
+cG8gd2Ugc3RhcnQgc2hpcHBpbmcNCj4gPiA+IGNvZGUgYW5kIGJpbmFyaWVzIGZvcikuIFdlIGNh
+biBzZXQgdGhpcyB1cCBhbmQgZml4IHVwIHRoZQ0KPiA+ID4gZ2l0bW9kdWxlcyBmaWxlIGFmdGVy
+IHRoZSBmYWN0LCBidXQgdGhlIGlkZWFsIGlzIHRvIGRvDQo+ID4gPiBpdCBpbiBhZHZhbmNlIHJh
+dGhlciB0aGFuIGFmdGVyd2FyZHMuDQo+ID4gDQo+ID4gT2ssIHdobyBjYW4gc2V0dXAgYSBnaXQg
+bWlycm9yIGZvciB0aGUgUUVNVSByZXBvPw0KPiANCj4gVGhhdCB3b3VsZCBiZSBKZWZmIG9yIFN0
+ZWZhbiAoY2MnZCkuDQo+IA0KPiA+IFBTOiBJdCBzZWVtcyBsaWtlIHRoZXJlIGFyZSBzdGlsbCBz
+b21lIGlzc3VlcyB3aXRoIHRoaXMgcGF0Y2ggc28NCj4gPiBtYXliZQ0KPiA+IGl0J3Mgd29ydGgg
+ZHJvcHBpbmcgdGhpcyBwYXRjaCBmcm9tIHRoZSBQUiBzbyB0aGF0IHdlIGNhbiBnZXQNCj4gPiBl
+dmVyeXRoaW5nIGVsc2UgbWVyZ2VkLg0KPiANCj4gWWVhaCwgdGhhdCB3b3VsZCBiZSBteSBzdWdn
+ZXN0aW9uLg0KDQpDYW4geW91IGRvIHRoYXQgd2hlbiB5b3UgbWVyZ2UgaXQgb3IgZG9lcyBQYWxt
+ZXIgaGF2ZSB0byBzZW5kIHRoZSBQUg0KYWdhaW4/DQoNCkFsaXN0YWlyDQoNCj4gDQo+IHRoYW5r
+cw0KPiAtLSBQTU0NCg==
 
