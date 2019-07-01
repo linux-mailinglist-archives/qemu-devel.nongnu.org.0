@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5657C5B793
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 11:13:46 +0200 (CEST)
-Received: from localhost ([::1]:56226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7843B5B7CF
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 11:18:17 +0200 (CEST)
+Received: from localhost ([::1]:56280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhsNd-00070l-HD
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 05:13:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45269)
+	id 1hhsS0-0002o9-MT
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 05:18:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ppandit@redhat.com>) id 1hhsLb-0005GE-3G
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:11:39 -0400
+ (envelope-from <ppandit@redhat.com>) id 1hhsLW-00055w-Af
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:11:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ppandit@redhat.com>) id 1hhsLa-0007rr-52
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:11:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52014)
+ (envelope-from <ppandit@redhat.com>) id 1hhsLU-0007kY-QD
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:11:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39704)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hhsLZ-0007S0-UQ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:11:38 -0400
+ (Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hhsLU-0007VH-Kp
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:11:32 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id A3281C0586D8;
- Mon,  1 Jul 2019 09:11:11 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 262BB13A41;
+ Mon,  1 Jul 2019 09:11:15 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.33.36.5])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BCD1217502;
- Mon,  1 Jul 2019 09:11:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 558AF17502;
+ Mon,  1 Jul 2019 09:11:12 +0000 (UTC)
 From: P J P <ppandit@redhat.com>
 To: Qemu Developers <qemu-devel@nongnu.org>
-Date: Mon,  1 Jul 2019 14:39:01 +0530
-Message-Id: <20190701090904.31312-1-ppandit@redhat.com>
+Date: Mon,  1 Jul 2019 14:39:02 +0530
+Message-Id: <20190701090904.31312-2-ppandit@redhat.com>
+In-Reply-To: <20190701090904.31312-1-ppandit@redhat.com>
+References: <20190701090904.31312-1-ppandit@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Mon, 01 Jul 2019 09:11:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.29]); Mon, 01 Jul 2019 09:11:15 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 0/3] restrict bridge interface name to
- IFNAMSIZ
+Subject: [Qemu-devel] [PATCH v2 1/3] qemu-bridge-helper: restrict interface
+ name to IFNAMSIZ
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,28 +64,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Hello,
+The interface names in qemu-bridge-helper are defined to be
+of size IFNAMSIZ(=3D16), including the terminating null('\0') byte.
+The same is applied to interface names read from 'bridge.conf'
+file to form ACLs rules. If user supplied '--br=3Dbridge' name
+is not restricted to the same length, it could lead to ACL bypass
+issue. Restrict interface name to IFNAMSIZ, including null byte.
 
-Linux net_deivce defines network interface name to be of IFNAMSIZE(=3D16)
-bytes, including the terminating null('\0') byte.
-
-Qemu tap deivce, while invoking 'qemu-bridge-helper' tool to set up the
-network bridge interface, supplies bridge name of 16 characters, thus
-allowing to create an ACL bypass scenario.
-
-This patch series attempts to fix it.
-
-Thank you.
+Reported-by: Riccardo Schirone <rschiron@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
-Prasad J Pandit (3):
-  qemu-bridge-helper: restrict interface name to IFNAMSIZ
-  qemu-bridge-helper: move repeating code in parse_acl_file
-  net: tap: restrict bridge name to IFNAMSIZ
+ qemu-bridge-helper.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
- net/tap.c            |  2 +-
- qemu-bridge-helper.c | 23 ++++++++++++++++-------
- 2 files changed, 17 insertions(+), 8 deletions(-)
+Update v2: report an error and exit
+  -> https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06239.html
 
+diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
+index f9940deefd..8ec0a65174 100644
+--- a/qemu-bridge-helper.c
++++ b/qemu-bridge-helper.c
+@@ -109,6 +109,13 @@ static int parse_acl_file(const char *filename, ACLL=
+ist *acl_list)
+         }
+         *argend =3D 0;
+=20
++        if (strcmp(cmd, "include") && strlen(arg) >=3D IFNAMSIZ) {
++            fprintf(stderr, "name `%s' too long: %lu\n", arg, strlen(arg=
+));
++            fclose(f);
++            errno =3D EINVAL;
++            return -1;
++        }
++
+         if (strcmp(cmd, "deny") =3D=3D 0) {
+             acl_rule =3D g_malloc(sizeof(*acl_rule));
+             if (strcmp(arg, "all") =3D=3D 0) {
+@@ -259,6 +266,10 @@ int main(int argc, char **argv)
+         usage();
+         return EXIT_FAILURE;
+     }
++    if (strlen(bridge) >=3D IFNAMSIZ) {
++        fprintf(stderr, "name `%s' too long: %lu\n", bridge, strlen(brid=
+ge));
++        return EXIT_FAILURE;
++    }
+=20
+     /* parse default acl file */
+     QSIMPLEQ_INIT(&acl_list);
 --=20
 2.21.0
 
