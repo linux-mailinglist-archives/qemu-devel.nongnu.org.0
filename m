@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C901A5C5A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:25:07 +0200 (CEST)
-Received: from localhost ([::1]:46038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C155C571
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:00:31 +0200 (CEST)
+Received: from localhost ([::1]:45868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4jS-0001ke-Cs
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:25:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56639)
+	id 1hi4Lf-0002Y5-33
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:00:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47997)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Xp-0008KS-SE
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:09:05 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3Jo-0006RE-TW
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Xm-0006aA-Bg
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:09:01 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:32804)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3Jl-00043u-PS
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:30 -0400
+Received: from mail-wm1-f47.google.com ([209.85.128.47]:51201)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3Xm-0006XT-39
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:08:58 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n9so15367038wru.0
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:08:53 -0700 (PDT)
+ id 1hi3Jl-00041L-Bn
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:29 -0400
+Received: by mail-wm1-f47.google.com with SMTP id 207so838509wma.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:54:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ehjkWhdt19qHAzsl/X1nqYdNDUK2w3SB8ITjOfQ+4TI=;
- b=KMINlJErVZ7iKNRZ2mGI6agJBxPZ5UynPiAegrlvS+4aFfDW8o0FtGInDe6SF0CBki
- ZQPVCCikM5C2JGisHOb48SJO1HAoam0gnTjtq6yrgmli6Pso7Ur7mHNJKFo9zzWseSSh
- UMXS1xxDohNFbhxWdlq8RgLz+1/EqhdngSUQk7wwEtrt/NkvLphuqrEsxj5Inky6Ijc4
- lC4HyzdbdBHaVxh6Moc1oNO0IKJ7H/IIWuOS6SSUOJbCHD+rrjmyuYpJLQbUwecLQJ0m
- uO+5ZOzBnESU8QnMlHp8gZ5pBxf9R9enZ56nKr7zF/4hgppj3kQy4gBBVtc5wlHUfOi0
- sw/g==
+ bh=0fHjbhgF7m8C4s1QBD+xWxolDP9qtqhdoa9wWejRTJA=;
+ b=ffnshPO8F/gurxfmTl1kJFxAqyRnRzz3GJazOnwDBI3AmryIGS9I9yENWcLuF0nJc1
+ no0AhXfjbx5JPDoVxUYm2BaBnQOkO9NEcD8HFn0u0IlUT4WlTfcQwhxjzj/trL55l20v
+ wov3NW7eavYFMQH2GxvNUxvwP2UVTHZu5j+Zp+wQDDI9AukQ22ZwKWPXn0DiuWNmo1e3
+ 6XrzAUMWBEFtuEjThWUOTR8u94djcRLwcDIJ80k2svEHLMX662QjH3tJKy49uyVryZ1a
+ 23WnB2+xYDiqgr99H0JwvRsClJjNCTrf8ih37Vi9Mc7h2iUhwR1/DK1fG+iIP1+im+SE
+ hxbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ehjkWhdt19qHAzsl/X1nqYdNDUK2w3SB8ITjOfQ+4TI=;
- b=VMV3T2W4oWZJU92cq1to5fbvE8MMSeSpOg303d4fNZ4+mRKBknKwgRPcTKXWaRnQNH
- EsGYZok2KBCP8Fm4PnKY4fPzk2Xfg/BrN1XnEwBEcVKWrZQV5hl4egR3tZ6JtZTrs2wm
- 0hX95nIilyB3gOatIZwLyEMJSW/K1Hi3IeYjwuf5EfV3ZWbJ8RpYlpbfLJsChA1WBPIy
- sWYbe/Yf4+1+7Zm2lKyNkfWEJi/BYyqPHLgzhIBx5CTELepWiiYxfyE+/R4N7w1++FxD
- yqIY5MYJ5qNw3+1PVIcnVwWibujqJi42I4DxotPK537T02NszNd+5+HQDUcxPa4fdzqY
- wDWQ==
-X-Gm-Message-State: APjAAAXNG7A/iCQ7FtWLok3EOkkFdW96ky3rVoaNXmVfPCVF3hfMzYmL
- j+r7kjxY8VEI7WL9XcSNyYFE5INNI84hxg==
-X-Google-Smtp-Source: APXvYqwgw42ETSsGk1LeD/uFWz5EaZ8D1CEOUaAm881AhiceVCqQ6nn9XTr7OlnlhxQ6tX9GCaQhcA==
-X-Received: by 2002:adf:e84d:: with SMTP id d13mr15985309wrn.88.1561999206838; 
- Mon, 01 Jul 2019 09:40:06 -0700 (PDT)
+ bh=0fHjbhgF7m8C4s1QBD+xWxolDP9qtqhdoa9wWejRTJA=;
+ b=C+c1jz5/a3jfGkj/K5xpr+akiWLD9LZ+j7IkT6aruuI1FHEtqhAniZTz3NExbiKsKB
+ +RO9gYcyQz95fDNyB31NkOIpdtgZFn/BXw6jguCNsxKChseglS6CZ0G9RxmxoIlqVcLF
+ 8+bt5vRsVgMAH0N4BJmdaLtYyxGA5Wr8hQ6jdxRyrXAK1FZjXL/3TXB6HEuLS9+prdAB
+ 7S3osVUk04zpFHVqeTmB2grGUmtHYecpU2AL7A07cp+x27Uo7aHoz8abRcDx3a+cQJ8G
+ qVe/kWdrQckpUYhyMwiTdcjgjuEsZ3fmraL5Nr6PQVKPxVHvzp6ksRvEWUkb0DoJm8Vv
+ kwPw==
+X-Gm-Message-State: APjAAAUv8q6lNiHU5Zy19l0RiXCLFK/pTuerDNq+wb2rdy9G6MgYvAav
+ pxuOxQhaGA14J/sm3DesWpe0XFGHawgRQw==
+X-Google-Smtp-Source: APXvYqzhSNB/XZzcsmHGl/Rjv0Gce7PDiOczjrTi/qq/3XA4KW3S2DX40+lV9DSp5XEAOoH5S6fE3g==
+X-Received: by 2002:a1c:9c8a:: with SMTP id f132mr119087wme.29.1561999208877; 
+ Mon, 01 Jul 2019 09:40:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.05
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:06 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:08 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:17 +0100
-Message-Id: <20190701163943.22313-21-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:19 +0100
+Message-Id: <20190701163943.22313-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,8 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: [Qemu-devel] [PULL 20/46] aspeed: add a RAM memory region container
+X-Received-From: 209.85.128.47
+Subject: [Qemu-devel] [PULL 22/46] aspeed: Add support for the swift-bmc
+ board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,69 +83,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Adriana Kobylak <anoo@us.ibm.com>
 
-The RAM memory region is defined after the SoC is realized when the
-SDMC controller has checked that the defined RAM size for the machine
-is correct. This is problematic for controller models requiring a link
-on the RAM region, for DMA support in the SMC controller for instance.
+The Swift board is an OpenPOWER system hosting POWER processors.
+Add support for their BMC including the I2C devices as found on HW.
 
-Introduce a container memory region for the RAM that we can link into
-the controllers early, before the SoC is realized. It will be
-populated with the RAM region after the checks have be done.
-
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Adriana Kobylak <anoo@us.ibm.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190618165311.27066-14-clg@kaod.org
+Message-id: 20190618165311.27066-20-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ hw/arm/aspeed.c | 50 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
 diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 5d73267da16..7f01df1b61d 100644
+index 7f01df1b61d..8b6d304247c 100644
 --- a/hw/arm/aspeed.c
 +++ b/hw/arm/aspeed.c
-@@ -33,6 +33,7 @@ static struct arm_boot_info aspeed_board_binfo = {
+@@ -73,6 +73,17 @@ struct AspeedBoardState {
+         SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              \
+         SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
  
- struct AspeedBoardState {
-     AspeedSoCState soc;
-+    MemoryRegion ram_container;
-     MemoryRegion ram;
-     MemoryRegion max_ram;
- };
-@@ -159,6 +160,10 @@ static void aspeed_board_init(MachineState *machine,
-     ram_addr_t max_ram_size;
- 
-     bmc = g_new0(AspeedBoardState, 1);
++/* Swift hardware value: 0xF11AD206 */
++#define SWIFT_BMC_HW_STRAP1 (                                           \
++        AST2500_HW_STRAP1_DEFAULTS |                                    \
++        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     \
++        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        \
++        SCU_AST2500_HW_STRAP_UART_DEBUG |                               \
++        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              \
++        SCU_H_PLL_BYPASS_EN |                                           \
++        SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              \
++        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
 +
-+    memory_region_init(&bmc->ram_container, NULL, "aspeed-ram-container",
-+                       UINT32_MAX);
+ /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
+ #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
+ 
+@@ -292,6 +303,35 @@ static void romulus_bmc_i2c_init(AspeedBoardState *bmc)
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "ds1338", 0x32);
+ }
+ 
++static void swift_bmc_i2c_init(AspeedBoardState *bmc)
++{
++    AspeedSoCState *soc = &bmc->soc;
 +
-     object_initialize_child(OBJECT(machine), "soc", &bmc->soc,
-                             (sizeof(bmc->soc)), cfg->soc_name, &error_abort,
-                             NULL);
-@@ -193,16 +198,16 @@ static void aspeed_board_init(MachineState *machine,
-                                         &error_abort);
- 
-     memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_size);
-+    memory_region_add_subregion(&bmc->ram_container, 0, &bmc->ram);
-     memory_region_add_subregion(get_system_memory(),
--                                sc->info->memmap[ASPEED_SDRAM], &bmc->ram);
-+                                sc->info->memmap[ASPEED_SDRAM],
-+                                &bmc->ram_container);
- 
-     max_ram_size = object_property_get_uint(OBJECT(&bmc->soc), "max-ram-size",
-                                             &error_abort);
-     memory_region_init_io(&bmc->max_ram, NULL, &max_ram_ops, NULL,
-                           "max_ram", max_ram_size  - ram_size);
--    memory_region_add_subregion(get_system_memory(),
--                                sc->info->memmap[ASPEED_SDRAM] + ram_size,
--                                &bmc->max_ram);
-+    memory_region_add_subregion(&bmc->ram_container, ram_size, &bmc->max_ram);
- 
-     aspeed_board_init_flashes(&bmc->soc.fmc, cfg->fmc_model, &error_abort);
-     aspeed_board_init_flashes(&bmc->soc.spi[0], cfg->spi_model, &error_abort);
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), "pca9552", 0x60);
++
++    /* The swift board expects a TMP275 but a TMP105 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "tmp105", 0x48);
++    /* The swift board expects a pca9551 but a pca9552 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "pca9552", 0x60);
++
++    /* The swift board expects an Epson RX8900 RTC but a ds1338 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "ds1338", 0x32);
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 8), "pca9552", 0x60);
++
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "tmp423", 0x4c);
++    /* The swift board expects a pca9539 but a pca9552 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "pca9552", 0x74);
++
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 10), "tmp423", 0x4c);
++    /* The swift board expects a pca9539 but a pca9552 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 10), "pca9552",
++                     0x74);
++
++    /* The swift board expects a TMP275 but a TMP105 is compatible */
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105", 0x48);
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 12), "tmp105", 0x4a);
++}
++
+ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
+ {
+     AspeedSoCState *soc = &bmc->soc;
+@@ -382,6 +422,16 @@ static const AspeedBoardConfig aspeed_boards[] = {
+         .num_cs    = 2,
+         .i2c_init  = romulus_bmc_i2c_init,
+         .ram       = 512 * MiB,
++    }, {
++        .name      = MACHINE_TYPE_NAME("swift-bmc"),
++        .desc      = "OpenPOWER Swift BMC (ARM1176)",
++        .soc_name  = "ast2500-a1",
++        .hw_strap1 = SWIFT_BMC_HW_STRAP1,
++        .fmc_model = "mx66l1g45g",
++        .spi_model = "mx66l1g45g",
++        .num_cs    = 2,
++        .i2c_init  = swift_bmc_i2c_init,
++        .ram       = 512 * MiB,
+     }, {
+         .name      = MACHINE_TYPE_NAME("witherspoon-bmc"),
+         .desc      = "OpenPOWER Witherspoon BMC (ARM1176)",
 -- 
 2.20.1
 
