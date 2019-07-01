@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788A85C0BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:57:49 +0200 (CEST)
-Received: from localhost ([::1]:60348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861845C0C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:59:57 +0200 (CEST)
+Received: from localhost ([::1]:60372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhyge-0007K1-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:57:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49078)
+	id 1hhyig-0000la-NF
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:59:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50312)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1hhyWb-0007ht-6y
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:47:26 -0400
+ (envelope-from <sameo@linux.intel.com>) id 1hhyby-0002jW-AT
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:53:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1hhyWa-00064W-9U
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:47:25 -0400
-Received: from rs224.mailgun.us ([209.61.151.224]:11874)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71)
- (envelope-from <bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
- id 1hhyWa-0005uM-5N
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:47:24 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
- s=pic; 
- t=1561996030; h=Content-Transfer-Encoding: MIME-Version: Message-Id:
- Date: Subject: Cc: To: From: Sender;
- bh=lBCHiDL7WNGa2WRZT3RH1NkA3mkdOOmWboMA1YaH7Ak=;
- b=TEqhY4qjyNu7mVBPg8wpo9s++jOaaxSPW8LeV+ATHbu50WOQcmAQGCI1a1ZxpZPCquFnueh6
- ugWSrJuhGbxAkBC/cGpOj9eX2hMwknFBy5VCI463Np+VJus+oezkTUAF3Vqtri167Kx3IePG
- SSWMo0Dhknnc/2zgT8yvvIOU8JBUlKRNvq2MgjOqqvxJ0ecH9EGBcQTeMrQ5XCKYwurl09XU
- h4mF7NjXyWrkELwr7y2oaHEv9In66ABwxMvLbR9eNBRlTEhdZGIuI0bq5TTCgMAe7dD43x5H
- t5Yxc9uZCxkHIS5/3VxAqR3T83EXqwn/1mGYXbKHALiWvl14WtoOCw==
-X-Mailgun-Sending-Ip: 209.61.151.224
-X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
-Received: from jonathan-ThinkPad-X1-Carbon.csail.mit.edu
- (30-9-3.wireless.csail.mit.edu [128.30.9.3])
- by mxa.mailgun.org with ESMTP id 5d1a2afc.7fb1ab6aeb70-smtp-out-n01;
- Mon, 01 Jul 2019 15:47:08 -0000 (UTC)
-From: jonathan@fintelia.io
-To: qemu-riscv@nongnu.org
-Date: Mon,  1 Jul 2019 11:46:17 -0400
-Message-Id: <20190701154617.22908-1-jonathan@fintelia.io>
-X-Mailer: git-send-email 2.22.0
+ (envelope-from <sameo@linux.intel.com>) id 1hhybw-0001al-Rg
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:52:58 -0400
+Received: from mga07.intel.com ([134.134.136.100]:30958)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <sameo@linux.intel.com>)
+ id 1hhybo-0001CT-MX; Mon, 01 Jul 2019 11:52:50 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2019 08:52:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,439,1557212400"; d="scan'208";a="157332526"
+Received: from tcouniha-mobl.ger.corp.intel.com (HELO caravaggio)
+ ([10.251.80.81])
+ by orsmga008.jf.intel.com with ESMTP; 01 Jul 2019 08:52:08 -0700
+Date: Mon, 1 Jul 2019 17:51:30 +0200
+From: Samuel Ortiz <sameo@linux.intel.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190701155130.GA4424@caravaggio>
+References: <20190701132516.26392-1-philmd@redhat.com>
+ <CAFEAcA93x6zkbHe1hdg0c8cbo9ErSByP+g6UvwZefxn-6346zg@mail.gmail.com>
+ <6222de8e-5b4e-db05-a453-ae4920c2002a@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.61.151.224
-Subject: [Qemu-devel] [PATCH v2] target/riscv: Hardwire mcounter.TM and
- upper bits of [m|s]counteren
+In-Reply-To: <6222de8e-5b4e-db05-a453-ae4920c2002a@redhat.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 134.134.136.100
+Subject: Re: [Qemu-devel] [PATCH v3 00/27] Support disabling TCG on ARM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,71 +59,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Jonathan Behrens <jonathan@fintelia.io>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jones <drjones@redhat.com>, Rob Bradford <robert.bradford@intel.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jonathan Behrens <jonathan@fintelia.io>
+On Mon, Jul 01, 2019 at 05:44:58PM +0200, Philippe Mathieu-Daudé wrote:
+> On 7/1/19 5:41 PM, Peter Maydell wrote:
+> > On Mon, 1 Jul 2019 at 14:25, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> >>
+> >> Paolo motived me to salvage this (other!) previous series fromi
+> >> Samuel Ortiz (NEMU project).
+> >>
+> >> v1 cover from Samuel [1]:
+> >>
+> >>   This patchset allows for building and running ARM targets with TCG
+> >>   disabled. It splits the target/arm/helper.c file into logical TCG and
+> >>   non TCG dependent files so that one can build and run QEMU binaries with
+> >>   or without TCG enabled.
+> >>
+> >>   The rationale behind this work comes from the NEMU project where we're
+> >>   trying to only support x86 and ARM 64-bit architectures, without
+> >>   including the TCG code base. We can only do so if we can build and run
+> >>   ARM binaries with TCG disabled.
+> > 
+> > I have applied to target-arm.next:
+> >  1-12
+> >  14-17
+> >  19-21
+> > 
+> > I had comments about 13 and 18. 22 has a conflict when I try to apply it:
+> > I think this is just accidental because the functions it's moving are
+> > next to changes in patch 13 so there's a minor textual conflict, so it
+> > would be fine with a fixed-up version of patch 13.
+> > 23-27 are still RFC status so I think best left for the next release.
+> 
+> Thanks a LOT!
+Indeed, thanks a bunch!
 
-QEMU currently always triggers an illegal instruction exception when
-code attempts to read the time CSR. This is valid behavor, but only if
-the TM bit in mcounteren is hardwired to zero. This change also
-corrects mcounteren and scounteren CSRs to be 32-bits on both 32-bit
-and 64-bit targets.
-
-Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
----
- target/riscv/cpu.h      | 4 ++--
- target/riscv/cpu_bits.h | 5 +++++
- target/riscv/csr.c      | 2 +-
- 3 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 0adb307f32..2d0cbe9c78 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -151,8 +151,8 @@ struct CPURISCVState {
-     target_ulong mcause;
-     target_ulong mtval;  /* since: priv-1.10.0 */
- 
--    target_ulong scounteren;
--    target_ulong mcounteren;
-+    uint32_t scounteren;
-+    uint32_t mcounteren;
- 
-     target_ulong sscratch;
-     target_ulong mscratch;
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 11f971ad5d..0ea1e1caf5 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -532,4 +532,9 @@
- #define SIP_STIP                           MIP_STIP
- #define SIP_SEIP                           MIP_SEIP
- 
-+/* mcounteren CSR bits */
-+#define MCOUNTEREN_CY                      0x1
-+#define MCOUNTEREN_TM                      0x2
-+#define MCOUNTEREN_IR                      0x4
-+
- #endif
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index e0d4586760..8425a6d2bd 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -473,7 +473,7 @@ static int write_mcounteren(CPURISCVState *env, int csrno, target_ulong val)
-     if (env->priv_ver < PRIV_VERSION_1_10_0) {
-         return -1;
-     }
--    env->mcounteren = val;
-+    env->mcounteren = val & ~MCOUNTEREN_TM;
-     return 0;
- }
- 
--- 
-2.22.0
+Cheers,
+Samuel.
 
