@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9945C56F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:59:56 +0200 (CEST)
-Received: from localhost ([::1]:45866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F345C5E6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 01:17:46 +0200 (CEST)
+Received: from localhost ([::1]:46200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4L3-0002Kb-TX
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:59:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48919)
+	id 1hi5YM-0000mO-6t
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 19:17:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53689)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3MK-0007XT-7M
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:10 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hi3VH-00065M-1Y
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:06:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3MG-000535-Cn
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:06 -0400
-Received: from mail-wr1-f52.google.com ([209.85.221.52]:37908)
+ (envelope-from <alistair23@gmail.com>) id 1hi3VF-0004ws-Oj
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:06:22 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39389)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3MG-0004xA-1V
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:57:04 -0400
-Received: by mail-wr1-f52.google.com with SMTP id p11so4087544wro.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=50Y0/N9FaT3fyCQ4ei1ieOLigwzHJFfKxUOH5AH37Qc=;
- b=ezgFOIiWaFsiUjakxR9OQHxbQNOMixXYVZeEodLQJN5vpKqxAB8kFLM/vhEu47wliy
- sd/2c0X0Emo/JV5VP9T2PmZ7YQuf3UnHVHm/+5BtSkrD+K1P1XSPEW5J8CouPchsoY9I
- 16AXu8zYA/sdYkZy63aGRi3ew2j/HknjjjljmSgKR1GJSHbEfTI8cJsHaUpU8EtjGP5Y
- AbWZg/oLBxoyJ3lsAbZz3H6Gw4OMTj29RBmmGbBvaAxJK152xQVAVF4OamauZVj6Xgll
- 1wWTsCrpZf0NZgSvHyDa8VY1sKDfOdp9eWoxhPeMvWUstpMhIsFZPoa1eptkuCoioRUb
- /01A==
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hi3VC-0004sH-JP; Mon, 01 Jul 2019 17:06:18 -0400
+Received: by mail-lj1-f195.google.com with SMTP id v18so14657167ljh.6;
+ Mon, 01 Jul 2019 14:06:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CiQddWFCGIJ0zGgct0o78x4tAwZKPanPdL187jV3a1o=;
+ b=Z3Mrfp2jyaXqOFVpgYFMVQrj0y8JCxTLRN1Nv+9fjFOrq1/9aD+kg/L7vexn5ofbzD
+ WTDjVuIufH8/idNYio9sibkSh3fU79NtFyLVtzZmX0sWO+zTsur8JlsknfE4gVr1EiHC
+ TWTB392XmZu/Thq9fO8uDbZXaFc05gw1TOwReoaY2DygkPVNufpf2FMaLxmdfieeePqO
+ sUnSznJG5owPtLTUq7l5/AuGnJeNs95FwKG/ty1Hjf3qJ3rhGLgo5842srpiiqMOBNo9
+ sugEtc2/cgXoP0uoiwVuqsjJhVX6twTCZiCgOT/l9qrttIrO7+VJcm24WggODS0SOTdy
+ b//g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=50Y0/N9FaT3fyCQ4ei1ieOLigwzHJFfKxUOH5AH37Qc=;
- b=aUAYg0G7lOHdZNxEObSMwcCgcnh/3KT3h6/XvLRKbgF3bjnUf5miV9WpsZa1/MBBMg
- ZuVgyo2gaF4g+sWckDJLIxbQPjICewDSt3Uk9suf580+oMU774dojeSH+7eM5gGb/rx1
- PaZteTxsCA4yiPSJX+Y9H0Rs6SN+DG1HubmigjwOeS9yoM9Qmdf42nJSUSt1LewC2Tdk
- dbiBNDIQbUwlEkGEgCkxBhMAwpxUcR638YV+SINIvibqBDgXbnfEo6EklnbQ7LjQPQVC
- L65dlDRIBETgusO8EIA6lPMAHMPNXVWsUbJuJc0IULd2JKpbrmCN3TLEydSn0HROvsXM
- Trkw==
-X-Gm-Message-State: APjAAAXkoata509dBd3aJQj5enlEpI1t0N1oAHwSzu0iGTqxfy//sbzj
- zLLRR5GVml53zf74nkjis3gMNGk2aIaTGQ==
-X-Google-Smtp-Source: APXvYqw9xqSnzzF7WTUSd/okUTna5coC6wYiAfv4/BFwwjDMIflrb5K7K5wQMm1eunYgF+uFOd9OCQ==
-X-Received: by 2002:adf:fc52:: with SMTP id e18mr18897260wrs.14.1561999194144; 
- Mon, 01 Jul 2019 09:39:54 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.53
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:39:53 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:06 +0100
-Message-Id: <20190701163943.22313-10-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
-References: <20190701163943.22313-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CiQddWFCGIJ0zGgct0o78x4tAwZKPanPdL187jV3a1o=;
+ b=PbtEd8FFKBuz9P8eVKyGHw/d4fa1mxs/Fubio3ECaSRURXDclgIp5fenQwYAM5XUBE
+ DrTu9n5ZaigOJJzJymM96FXArqAW5G6gD86OndjJ13W+XUT/cHaqMGHV0wSizi8SeWB+
+ 0+kUGWeuiOwSZs96imJovLzJjOHwDx8lcqxEbYaWkuNcntWcTiQUvGDzoizrIRz1ET5A
+ LeS09pivxzt8F21Ttuwo/NZct37Y85tfFlSBiEsnGoF6RWFHx6NmHarc0KlTe43oySoh
+ hxc+m3st5Umf8DtHJ7ES0JU91cJRGNSaSgBqsDU1c8omEALeyjBJe9pvRs+8f2x7aHPz
+ woOg==
+X-Gm-Message-State: APjAAAWK1mQj8C1++fDjB3kRVMAnrW3UIUbzsynJtcuVCNTOm15E/KOC
+ lB7tVcVpRm/bjMHvY55UJtg9X/DhIoc/zb/PPt1AKW1J
+X-Google-Smtp-Source: APXvYqzf5tSQUl2CAsaQ08aD4OLB15/XDuQ+qxM4ZgM/CW3I6jZJ6LteZ+5lLbWzRK2M+gks95vk/sBXuCkwK+WDjKw=
+X-Received: by 2002:a2e:5d5a:: with SMTP id r87mr14641276ljb.196.1561999329481; 
+ Mon, 01 Jul 2019 09:42:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-34-palmer@sifive.com>
+ <20190628104605.000062c4@huawei.com>
+ <CAKmqyKP1c5GHKaDuOvu11UtCwnrUosxTtoDAeW7GOS=s+h27aw@mail.gmail.com>
+ <20190701134029.00004b97@huawei.com>
+ <CAAhSdy1c47+MaD4GixWB+u-+1Rb9ULAj0NweSzyzy+VdCXns0Q@mail.gmail.com>
+In-Reply-To: <CAAhSdy1c47+MaD4GixWB+u-+1Rb9ULAj0NweSzyzy+VdCXns0Q@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 1 Jul 2019 09:39:07 -0700
+Message-ID: <CAKmqyKN4-ec9DYRvUK4vOUiE_yer48xXghTdkmYWeLAzezE+LA@mail.gmail.com>
+To: Anup Patel <anup@brainfault.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.52
-Subject: [Qemu-devel] [PULL 09/46] aspeed: add a per SoC mapping for the
- interrupt space
+X-Received-From: 209.85.208.195
+Subject: Re: [Qemu-devel] [Qemu-riscv] [PULL 33/34] roms: Add OpenSBI
+ version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,213 +76,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Palmer Dabbelt <palmer@sifive.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+On Mon, Jul 1, 2019 at 6:23 AM Anup Patel <anup@brainfault.org> wrote:
+>
+> On Mon, Jul 1, 2019 at 6:12 PM Jonathan Cameron
+> <jonathan.cameron@huawei.com> wrote:
+> >
+> > On Fri, 28 Jun 2019 09:12:45 -0700
+> > Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > > On Fri, Jun 28, 2019 at 2:47 AM Jonathan Cameron
+> > > <jonathan.cameron@huawei.com> wrote:
+> > > >
+> > > > On Thu, 27 Jun 2019 08:20:10 -0700
+> > > > Palmer Dabbelt <palmer@sifive.com> wrote:
+> > > >
+> > > > > From: Alistair Francis <alistair.francis@wdc.com>
+> > > > >
+> > > > > Add OpenSBI version 0.3 as a git submodule and as a prebult binary.
+> > > > >
+> > > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> > > > > Tested-by: Bin Meng <bmeng.cn@gmail.com>
+> > > > > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
+> > > >
+> > > > I sent a late bug report on this one.. Hence posting here as well
+> > > > to make sure it doesn't fall through the cracks!
+> > > >
+> > > > Right now you can't actually build the opensbi64-virt firmware
+> > > > due to cut and paste error in the Makefile.
+> > >
+> > > Ah, thanks for the bug report.
+> > >
+> > > @Palmer Dabbelt I'm just going to send you a fixup commit. Can you
+> > > apply it to your tree and send a PRv2?
+> > >
+> > > >
+> > > > As a side note, I hit this because OpenSBI 0.3 is resulting in a login
+> > > > loop on a debian test image and the current upstream isn't.  I haven't
+> > > > debugged yet, but someone else may hit that problem.
+> > >
+> > > Unfortunately OpenSBI 0.3 is a little old now, in saying that I didn't
+> > > know there are bugs in it? Which kernel are you using?
+> >
+> > Mainline 5.2.0-rc5.
+> >
+> > Just in case I also checked 5.2.0-rc7
+> >
+> > I tried doing an odd git bisect with good and bad reversed to figure out
+> > what fixed the problem, but boot wedged at "Run /sbin/init as init process."
+> >
+> > The wedge was bisected to:
+> >
+> > 4e2cd47820 ("lib: Flush everything when remote TLB flush range is too large")
+> >
+> > Which the patch correctly identifies as a problem introduced this kernel cycle.
+> > 5.2-rc1.
+> >
+> > So on that basis alone I'd suggest we want to move to a more recent openSBI
+> > asap, after all the 5.2 kernel will be out in a week or so.
+> >
+> > I'm a bit short on time (flight to catch), so haven't pushed that fix that
+> > far back in the tree yet in order to figure what is causing the login loop.
+> > Won't have access to relevant build machines until Wednesday.
+> >
+> > That patch cherry-picked on lib: Optimize TLB flush IPIs
+> > seems fine, so it is before that point...
+> >
+> > Passing that point would require real effort though as the two patches
+> > are changing the same code.
+> >
+> > So I had a go from the other end (0.3) to see if it was fixed quickly.
+> > Ran out of time, but at
+> > "firmware: Reset all registers and flush the icache" it superficially all
+> > seems to be working with no TLB related hang, or login loop.
+>
+> We plan to release OpenSBI 0.4 in couple of days. It would be best
+> to pick-up OpenSBI 0.4 FW_JUMP binaries.
 
-This will simplify the definition of new SoCs, like the AST2600 which
-should use a different CPU and a different IRQ number layout.
+Great! When the 0.4 release comes out I'll send a patch to update the
+QEMU binaries and submodules. If this PR is merged before then we can
+just update on top of this (as 5.1 and earlier kernels will work with
+0.3) and it not it can be squashed into this PR.
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Message-id: 20190618165311.27066-2-clg@kaod.org
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/arm/aspeed_soc.h | 36 +++++++++++++++++++++++
- hw/arm/aspeed_soc.c         | 57 +++++++++++++++++++++++++++++++------
- 2 files changed, 85 insertions(+), 8 deletions(-)
+Alistair
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 836b2ba8bf1..963abecb724 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -56,6 +56,7 @@ typedef struct AspeedSoCInfo {
-     const char *fmc_typename;
-     const char **spi_typename;
-     int wdts_num;
-+    const int *irqmap;
- } AspeedSoCInfo;
- 
- typedef struct AspeedSoCClass {
-@@ -68,4 +69,39 @@ typedef struct AspeedSoCClass {
- #define ASPEED_SOC_GET_CLASS(obj)                               \
-     OBJECT_GET_CLASS(AspeedSoCClass, (obj), TYPE_ASPEED_SOC)
- 
-+enum {
-+    ASPEED_IOMEM,
-+    ASPEED_UART1,
-+    ASPEED_UART2,
-+    ASPEED_UART3,
-+    ASPEED_UART4,
-+    ASPEED_UART5,
-+    ASPEED_VUART,
-+    ASPEED_FMC,
-+    ASPEED_SPI1,
-+    ASPEED_SPI2,
-+    ASPEED_VIC,
-+    ASPEED_SDMC,
-+    ASPEED_SCU,
-+    ASPEED_ADC,
-+    ASPEED_SRAM,
-+    ASPEED_GPIO,
-+    ASPEED_RTC,
-+    ASPEED_TIMER1,
-+    ASPEED_TIMER2,
-+    ASPEED_TIMER3,
-+    ASPEED_TIMER4,
-+    ASPEED_TIMER5,
-+    ASPEED_TIMER6,
-+    ASPEED_TIMER7,
-+    ASPEED_TIMER8,
-+    ASPEED_WDT,
-+    ASPEED_PWM,
-+    ASPEED_LPC,
-+    ASPEED_IBT,
-+    ASPEED_I2C,
-+    ASPEED_ETH1,
-+    ASPEED_ETH2,
-+};
-+
- #endif /* ASPEED_SOC_H */
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index a2ea8c74844..de75bf04027 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -38,12 +38,42 @@
- #define ASPEED_SOC_ETH1_BASE        0x1E660000
- #define ASPEED_SOC_ETH2_BASE        0x1E680000
- 
--static const int uart_irqs[] = { 9, 32, 33, 34, 10 };
--static const int timer_irqs[] = { 16, 17, 18, 35, 36, 37, 38, 39, };
-+static const int aspeed_soc_ast2400_irqmap[] = {
-+    [ASPEED_UART1]  = 9,
-+    [ASPEED_UART2]  = 32,
-+    [ASPEED_UART3]  = 33,
-+    [ASPEED_UART4]  = 34,
-+    [ASPEED_UART5]  = 10,
-+    [ASPEED_VUART]  = 8,
-+    [ASPEED_FMC]    = 19,
-+    [ASPEED_SDMC]   = 0,
-+    [ASPEED_SCU]    = 21,
-+    [ASPEED_ADC]    = 31,
-+    [ASPEED_GPIO]   = 20,
-+    [ASPEED_RTC]    = 22,
-+    [ASPEED_TIMER1] = 16,
-+    [ASPEED_TIMER2] = 17,
-+    [ASPEED_TIMER3] = 18,
-+    [ASPEED_TIMER4] = 35,
-+    [ASPEED_TIMER5] = 36,
-+    [ASPEED_TIMER6] = 37,
-+    [ASPEED_TIMER7] = 38,
-+    [ASPEED_TIMER8] = 39,
-+    [ASPEED_WDT]    = 27,
-+    [ASPEED_PWM]    = 28,
-+    [ASPEED_LPC]    = 8,
-+    [ASPEED_IBT]    = 8, /* LPC */
-+    [ASPEED_I2C]    = 12,
-+    [ASPEED_ETH1]   = 2,
-+    [ASPEED_ETH2]   = 3,
-+};
- 
- #define AST2400_SDRAM_BASE       0x40000000
- #define AST2500_SDRAM_BASE       0x80000000
- 
-+/* AST2500 uses the same IRQs as the AST2400 */
-+#define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
-+
- static const hwaddr aspeed_soc_ast2400_spi_bases[] = { ASPEED_SOC_SPI_BASE };
- static const char *aspeed_soc_ast2400_typenames[] = { "aspeed.smc.spi" };
- 
-@@ -64,6 +94,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .fmc_typename = "aspeed.smc.fmc",
-         .spi_typename = aspeed_soc_ast2400_typenames,
-         .wdts_num     = 2,
-+        .irqmap       = aspeed_soc_ast2400_irqmap,
-     }, {
-         .name         = "ast2400-a1",
-         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
-@@ -75,6 +106,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .fmc_typename = "aspeed.smc.fmc",
-         .spi_typename = aspeed_soc_ast2400_typenames,
-         .wdts_num     = 2,
-+        .irqmap       = aspeed_soc_ast2400_irqmap,
-     }, {
-         .name         = "ast2400",
-         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
-@@ -86,6 +118,7 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .fmc_typename = "aspeed.smc.fmc",
-         .spi_typename = aspeed_soc_ast2400_typenames,
-         .wdts_num     = 2,
-+        .irqmap       = aspeed_soc_ast2400_irqmap,
-     }, {
-         .name         = "ast2500-a1",
-         .cpu_type     = ARM_CPU_TYPE_NAME("arm1176"),
-@@ -97,9 +130,17 @@ static const AspeedSoCInfo aspeed_socs[] = {
-         .fmc_typename = "aspeed.smc.ast2500-fmc",
-         .spi_typename = aspeed_soc_ast2500_typenames,
-         .wdts_num     = 3,
-+        .irqmap       = aspeed_soc_ast2500_irqmap,
-     },
- };
- 
-+static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
-+{
-+    AspeedSoCClass *sc = ASPEED_SOC_GET_CLASS(s);
-+
-+    return qdev_get_gpio_in(DEVICE(&s->vic), sc->info->irqmap[ctrl]);
-+}
-+
- static void aspeed_soc_init(Object *obj)
- {
-     AspeedSoCState *s = ASPEED_SOC(obj);
-@@ -216,14 +257,14 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-         return;
-     }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->timerctrl), 0, ASPEED_SOC_TIMER_BASE);
--    for (i = 0; i < ARRAY_SIZE(timer_irqs); i++) {
--        qemu_irq irq = qdev_get_gpio_in(DEVICE(&s->vic), timer_irqs[i]);
-+    for (i = 0; i < ASPEED_TIMER_NR_TIMERS; i++) {
-+        qemu_irq irq = aspeed_soc_get_irq(s, ASPEED_TIMER1 + i);
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
-     }
- 
-     /* UART - attach an 8250 to the IO space as our UART5 */
-     if (serial_hd(0)) {
--        qemu_irq uart5 = qdev_get_gpio_in(DEVICE(&s->vic), uart_irqs[4]);
-+        qemu_irq uart5 = aspeed_soc_get_irq(s, ASPEED_UART5);
-         serial_mm_init(get_system_memory(),
-                        ASPEED_SOC_IOMEM_BASE + ASPEED_SOC_UART_5_BASE, 2,
-                        uart5, 38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
-@@ -237,7 +278,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, ASPEED_SOC_I2C_BASE);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
--                       qdev_get_gpio_in(DEVICE(&s->vic), 12));
-+                       aspeed_soc_get_irq(s, ASPEED_I2C));
- 
-     /* FMC, The number of CS is set at the board level */
-     object_property_set_bool(OBJECT(&s->fmc), true, "realized", &err);
-@@ -249,7 +290,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 1,
-                     s->fmc.ctrl->flash_window_base);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->fmc), 0,
--                       qdev_get_gpio_in(DEVICE(&s->vic), 19));
-+                       aspeed_soc_get_irq(s, ASPEED_FMC));
- 
-     /* SPI */
-     for (i = 0; i < sc->info->spis_num; i++) {
-@@ -297,7 +338,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
-     }
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100), 0, ASPEED_SOC_ETH1_BASE);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100), 0,
--                       qdev_get_gpio_in(DEVICE(&s->vic), 2));
-+                       aspeed_soc_get_irq(s, ASPEED_ETH1));
- }
- 
- static void aspeed_soc_class_init(ObjectClass *oc, void *data)
--- 
-2.20.1
-
+>
+> Regards,
+> Anup
 
