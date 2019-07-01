@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D2A5BBD4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:41:52 +0200 (CEST)
-Received: from localhost ([::1]:58272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DAB5BB99
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:36:47 +0200 (CEST)
+Received: from localhost ([::1]:58238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhvd2-00041y-2y
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:41:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57745)
+	id 1hhvY6-00080q-G8
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:36:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhvTQ-000684-OR
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:31:59 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhvTT-00068r-2M
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:32:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhvTO-00033n-Ly
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:31:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46576)
+ (envelope-from <philmd@redhat.com>) id 1hhvTQ-00037K-PS
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:31:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48056)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhvTH-0002mE-0L; Mon, 01 Jul 2019 08:31:50 -0400
+ id 1hhvTK-0002oy-O8; Mon, 01 Jul 2019 08:31:51 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id AE386308427E;
- Mon,  1 Jul 2019 12:31:42 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8475F31628E3;
+ Mon,  1 Jul 2019 12:31:46 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4EA2217CC0;
- Mon,  1 Jul 2019 12:31:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 297B517CC0;
+ Mon,  1 Jul 2019 12:31:42 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 14:31:06 +0200
-Message-Id: <20190701123108.12493-5-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 14:31:07 +0200
+Message-Id: <20190701123108.12493-6-philmd@redhat.com>
 In-Reply-To: <20190701123108.12493-1-philmd@redhat.com>
 References: <20190701123108.12493-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 01 Jul 2019 12:31:42 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.41]); Mon, 01 Jul 2019 12:31:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/6] hw/arm/fsl-imx: Add the cpu as child of
- the SoC object
+Subject: [Qemu-devel] [PATCH 5/6] hw/dma/xilinx_axi: Use
+ object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,42 +69,54 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+As explained in commit aff39be0ed97:
+
+  Both functions, object_initialize() and object_property_add_child()
+  increase the reference counter of the new object, so one of the
+  references has to be dropped afterwards to get the reference
+  counting right. Otherwise the child object will not be properly
+  cleaned up when the parent gets destroyed.
+  Thus let's use now object_initialize_child() instead to get the
+  reference counting here right.
+
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/arm/fsl-imx25.c | 4 +++-
- hw/arm/fsl-imx31.c | 4 +++-
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ hw/dma/xilinx_axidma.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index 869ee89b15..a237e967e4 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -36,7 +36,9 @@ static void fsl_imx25_init(Object *obj)
-     FslIMX25State *s =3D FSL_IMX25(obj);
-     int i;
+diff --git a/hw/dma/xilinx_axidma.c b/hw/dma/xilinx_axidma.c
+index 921be178d9..91f5ec587f 100644
+--- a/hw/dma/xilinx_axidma.c
++++ b/hw/dma/xilinx_axidma.c
+@@ -563,14 +563,14 @@ static void xilinx_axidma_init(Object *obj)
+     XilinxAXIDMA *s =3D XILINX_AXI_DMA(obj);
+     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
 =20
--    object_initialize(&s->cpu, sizeof(s->cpu), "arm926-" TYPE_ARM_CPU);
-+    object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
-+                            ARM_CPU_TYPE_NAME("arm926"),
-+                            &error_abort, NULL);
+-    object_initialize(&s->rx_data_dev, sizeof(s->rx_data_dev),
+-                      TYPE_XILINX_AXI_DMA_DATA_STREAM);
+-    object_initialize(&s->rx_control_dev, sizeof(s->rx_control_dev),
+-                      TYPE_XILINX_AXI_DMA_CONTROL_STREAM);
+-    object_property_add_child(OBJECT(s), "axistream-connected-target",
+-                              (Object *)&s->rx_data_dev, &error_abort);
+-    object_property_add_child(OBJECT(s), "axistream-control-connected-ta=
+rget",
+-                              (Object *)&s->rx_control_dev, &error_abort=
+);
++    object_initialize_child(OBJECT(s), "axistream-connected-target",
++                            &s->rx_data_dev, sizeof(s->rx_data_dev),
++                            TYPE_XILINX_AXI_ENET_DATA_STREAM, &error_abo=
+rt,
++                            NULL);
++    object_initialize_child(OBJECT(s), "axistream-control-connected-targ=
+et",
++                            &s->rx_control_dev, sizeof(s->rx_control_dev=
+),
++                            TYPE_XILINX_AXI_ENET_CONTROL_STREAM, &error_=
+abort,
++                            NULL);
 =20
-     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
-                           TYPE_IMX_AVIC);
-diff --git a/hw/arm/fsl-imx31.c b/hw/arm/fsl-imx31.c
-index 662fe78f1b..423d9ef076 100644
---- a/hw/arm/fsl-imx31.c
-+++ b/hw/arm/fsl-imx31.c
-@@ -33,7 +33,9 @@ static void fsl_imx31_init(Object *obj)
-     FslIMX31State *s =3D FSL_IMX31(obj);
-     int i;
-=20
--    object_initialize(&s->cpu, sizeof(s->cpu), "arm1136-" TYPE_ARM_CPU);
-+    object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
-+                            ARM_CPU_TYPE_NAME("arm1136"),
-+                            &error_abort, NULL);
-=20
-     sysbus_init_child_obj(obj, "avic", &s->avic, sizeof(s->avic),
-                           TYPE_IMX_AVIC);
+     sysbus_init_irq(sbd, &s->streams[0].irq);
+     sysbus_init_irq(sbd, &s->streams[1].irq);
 --=20
 2.20.1
 
