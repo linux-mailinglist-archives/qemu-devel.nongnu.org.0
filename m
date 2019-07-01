@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148CE5C62D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 02:03:52 +0200 (CEST)
-Received: from localhost ([::1]:46320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2439C5C715
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:21:51 +0200 (CEST)
+Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi6H0-0004fB-Rw
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 20:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57655)
+	id 1hi8QY-0007RW-74
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:21:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55948)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Yn-00010W-Pq
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:10:04 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Nc-0005GN-HF
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Ym-000798-Db
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:10:01 -0400
-Received: from mail-wr1-f49.google.com ([209.85.221.49]:43923)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4NZ-0000aa-2F
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:30 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:38751)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3Ym-00078i-5Y
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:10:00 -0400
-Received: by mail-wr1-f49.google.com with SMTP id p13so15293860wru.10
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:10:00 -0700 (PDT)
+ id 1hi4NY-0000Tm-K7
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:28 -0400
+Received: by mail-oi1-f193.google.com with SMTP id v186so11284413oie.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=wcyxWSQr6ooIWGi3dHkpFWTd3ZA08bJNcEU2ip3p0QI=;
- b=JC08Fcdg3eZTwjCYyfjtE3GavaJ3dS2BdvXaZzJrkF/iqC3figEKtZ96K6USXRdNMf
- 3/7ZfxZdRvPuBgKRoJCTpecN5j/jETcA/n27f1RRcmvyxirtUIOb7B+jOzJVtmJs9dgn
- uJS4fkpkcvjGZoQ2NgAoAPdZtghBIdBWHQwKLfEd68hBX8x1UjiB4yES1FmdrythHmnh
- /Z6AkdI/OHL5uG4+FuaV246MIqbtFhiADSjD7WwbazHd5mMgrf0CvxNzwZC1NcFgMmXz
- EDBabw3tD4K7G+BKOv4Y2G2Cr5ybUH2iNJOOYxAooDcv5wOEIAUWmsfuZcLCQY4x0/tg
- 7/lg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UOKX3CNpHJ3zybgDKn68WrkRADlqvmSpAEztOenFeiE=;
+ b=aSwtwocOUHAVpX1uHLrKZfxw6ISWOM1GAr31YOaj30YIA4tcPtRFhBKrVXsYkwPQOS
+ zRBKuouoOVtfdfGq8ZXf4bhtKKRwwFiVmq4BN+V0YaTm+yeWWTvZI7Iaoyq7jQbRsD6o
+ k2My/O9NUsI72yaJ6r7KW5XQZwcSi70d1ACwcnuFVBgYtdW4itdu32vYCb+xGnp2qIxw
+ Hf+6i80zYFkDi/9k2gsLiBvCxdni/7AzTz7pxFmLXdTjidv6kGIKlT3p4U9uHwtMUNva
+ 0m1djXYAzLtvG3jNYU2L5CVIfXJhAlRQ1AnZLUiIeKdA40r2Mxu5gMAdeDqm8umFiK8B
+ BafA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wcyxWSQr6ooIWGi3dHkpFWTd3ZA08bJNcEU2ip3p0QI=;
- b=WWZW3+Oz29EjMZ9jcsZPfKRGiB3ccH7ZXMU7nJY5wEldQEBF6e6XmZ9YdaBNZyYnar
- n903LhlOc25Vww/HrcrMLPGRVP+sGOLjccir7gb9e8/J+7BIb7X8yLSI+Fg8zbqOQpMA
- 2FyId/nqDzD5JmaFzT3cE37/c3qTvYwWV1OmDvPRkgD+8p91WHsA3wMhPaaoh1ztYk4h
- E6irJPcyYVGXMuk07SO4sUlopywmq/E5pu+BHzVBZavF/y7bGGPXuxcQi4lf4EAx5MYS
- tcHXx7KnZJ6Wu6QL0pf8NyLNBSM2/C8cbW3noT7W9exeoUXGK6lpTTQdb3LLKqXnR68j
- ldrA==
-X-Gm-Message-State: APjAAAW7i6uf/nIz0AInoGemMleop7iLPVOjnFr53JdD+HLi0x9O+y/a
- zg4m4wJmKcTwWDfTMcD+BZhXN2MDeq8Q+Q==
-X-Google-Smtp-Source: APXvYqyb8VnCF27PPxhc4ig/XxX0Zw7GGo8IW0pr9bg+HaBuiohmfQW5hZsZQHozRmVx8H46FnTUjA==
-X-Received: by 2002:adf:dd8c:: with SMTP id x12mr19881836wrl.212.1561999236096; 
- Mon, 01 Jul 2019 09:40:36 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.35
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:35 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:43 +0100
-Message-Id: <20190701163943.22313-47-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
-References: <20190701163943.22313-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UOKX3CNpHJ3zybgDKn68WrkRADlqvmSpAEztOenFeiE=;
+ b=g3J8Fn6mH454IGHQ1GqQPOk7lTKGMob4ZtGECgUweSqUvIAQnr3Rgu1a3cswbuf2Dg
+ zlMiYGr9q5xRgblVVeknVN+n0SDGjT+4mDk8axzF+7xVrKiD9I2pW+V0hhxN4nfqdQ+Q
+ WQWMExOMnyM5O1cFNpGseOD7Apz8qRaxYbeVlmBFMLGpIgUXyH+qQol9NhN+nWkKq64D
+ xSmRFcTF53y+k5NKc5hfsRcmeA4cwPm7omfHTJsV1of101Fbv2VVnneJhqeXA6tnNnQ8
+ UmEZEmTvTzKSNs2M5ojm0rdWcyvldhW3N48DgxdSBefNDJ23xPrJO2hC5b5EPgfnTUyw
+ L5Lg==
+X-Gm-Message-State: APjAAAV1FX1OsjZ6TXbfTa08tzaf4weAdQ2zV3yy17hx7JEFn3RPMt9t
+ gH4pA7rhAPF33mE32tzAs2bdm9c/LilksyeaEoY0p0or8w8=
+X-Google-Smtp-Source: APXvYqyCv59RS+NfsuX8oeaG03c0Pkz0/aQEeVWILkc+9fw8w1/8Pc4rKeqLw/cLAIpU2LgrM1lP9luVTGDspT6+Wng=
+X-Received: by 2002:a05:6808:8c2:: with SMTP id k2mr129314oij.98.1561999222502; 
+ Mon, 01 Jul 2019 09:40:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190626162100.24774-1-laurent@vivier.eu>
+In-Reply-To: <20190626162100.24774-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 17:40:11 +0100
+Message-ID: <CAFEAcA-af8rcbUeh23Z+oy9Oh2vdcqYJWwXmjqeufJi5wvdfGg@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.49
-Subject: [Qemu-devel] [PULL 46/46] target/arm: Declare some M-profile
- functions publicly
+X-Received-From: 209.85.167.193
+Subject: Re: [Qemu-devel] [PULL 0/3] M68k next patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,155 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, 26 Jun 2019 at 17:42, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
+>
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu-m68k.git tags/m68k-next-pull-request
+>
+> for you to fetch changes up to c6d0700f57b2c50229a27e31b9f99056a011215f:
+>
+>   linux-user/m68k: remove simulator syscall interface (2019-06-26 17:14:41 +0200)
+>
+> ----------------------------------------------------------------
+> remove m68k simulator syscall interface
+> Fix comments format
+> Fix gdbstub
+>
 
-In the next commit we will split the M-profile functions from this
-file. Some function will be called out of helper.c. Declare them in
-the "internals.h" header.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190701132516.26392-22-philmd@redhat.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/internals.h | 42 ++++++++++++++++++++++++++++++++++++++++++
- target/arm/helper.c    | 38 ++------------------------------------
- 2 files changed, 44 insertions(+), 36 deletions(-)
+Applied, thanks.
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 11bfdba5129..232d9638753 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -892,6 +892,27 @@ static inline uint32_t v7m_sp_limit(CPUARMState *env)
-     }
- }
- 
-+/**
-+ * v7m_cpacr_pass:
-+ * Return true if the v7M CPACR permits access to the FPU for the specified
-+ * security state and privilege level.
-+ */
-+static inline bool v7m_cpacr_pass(CPUARMState *env,
-+                                  bool is_secure, bool is_priv)
-+{
-+    switch (extract32(env->v7m.cpacr[is_secure], 20, 2)) {
-+    case 0:
-+    case 2: /* UNPREDICTABLE: we treat like 0 */
-+        return false;
-+    case 1:
-+        return is_priv;
-+    case 3:
-+        return true;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- /**
-  * aarch32_mode_name(): Return name of the AArch32 CPU mode
-  * @psr: Program Status Register indicating CPU mode
-@@ -988,6 +1009,27 @@ static inline int exception_target_el(CPUARMState *env)
- 
- #ifndef CONFIG_USER_ONLY
- 
-+/* Security attributes for an address, as returned by v8m_security_lookup. */
-+typedef struct V8M_SAttributes {
-+    bool subpage; /* true if these attrs don't cover the whole TARGET_PAGE */
-+    bool ns;
-+    bool nsc;
-+    uint8_t sregion;
-+    bool srvalid;
-+    uint8_t iregion;
-+    bool irvalid;
-+} V8M_SAttributes;
-+
-+void v8m_security_lookup(CPUARMState *env, uint32_t address,
-+                         MMUAccessType access_type, ARMMMUIdx mmu_idx,
-+                         V8M_SAttributes *sattrs);
-+
-+bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-+                       MMUAccessType access_type, ARMMMUIdx mmu_idx,
-+                       hwaddr *phys_ptr, MemTxAttrs *txattrs,
-+                       int *prot, bool *is_subpage,
-+                       ARMMMUFaultInfo *fi, uint32_t *mregion);
-+
- /* Cacheability and shareability attributes for a memory access */
- typedef struct ARMCacheAttrs {
-     unsigned int attrs:8; /* as in the MAIR register encoding */
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index dc880b4dabc..38b73430cbb 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -39,21 +39,6 @@ static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
-                                hwaddr *phys_ptr, MemTxAttrs *txattrs, int *prot,
-                                target_ulong *page_size_ptr,
-                                ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs);
--
--/* Security attributes for an address, as returned by v8m_security_lookup. */
--typedef struct V8M_SAttributes {
--    bool subpage; /* true if these attrs don't cover the whole TARGET_PAGE */
--    bool ns;
--    bool nsc;
--    uint8_t sregion;
--    bool srvalid;
--    uint8_t iregion;
--    bool irvalid;
--} V8M_SAttributes;
--
--static void v8m_security_lookup(CPUARMState *env, uint32_t address,
--                                MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                                V8M_SAttributes *sattrs);
- #endif
- 
- static void switch_mode(CPUARMState *env, int mode);
-@@ -7733,25 +7718,6 @@ void arm_log_exception(int idx)
-     }
- }
- 
--/*
-- * Return true if the v7M CPACR permits access to the FPU for the specified
-- * security state and privilege level.
-- */
--static bool v7m_cpacr_pass(CPUARMState *env, bool is_secure, bool is_priv)
--{
--    switch (extract32(env->v7m.cpacr[is_secure], 20, 2)) {
--    case 0:
--    case 2: /* UNPREDICTABLE: we treat like 0 */
--        return false;
--    case 1:
--        return is_priv;
--    case 3:
--        return true;
--    default:
--        g_assert_not_reached();
--    }
--}
--
- /*
-  * What kind of stack write are we doing? This affects how exceptions
-  * generated during the stacking are treated.
-@@ -12117,7 +12083,7 @@ static bool v8m_is_sau_exempt(CPUARMState *env,
-         (address >= 0xe00ff000 && address <= 0xe00fffff);
- }
- 
--static void v8m_security_lookup(CPUARMState *env, uint32_t address,
-+void v8m_security_lookup(CPUARMState *env, uint32_t address,
-                                 MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                                 V8M_SAttributes *sattrs)
- {
-@@ -12224,7 +12190,7 @@ static void v8m_security_lookup(CPUARMState *env, uint32_t address,
-     }
- }
- 
--static bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-+bool pmsav8_mpu_lookup(CPUARMState *env, uint32_t address,
-                               MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                               hwaddr *phys_ptr, MemTxAttrs *txattrs,
-                               int *prot, bool *is_subpage,
--- 
-2.20.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
+-- PMM
 
