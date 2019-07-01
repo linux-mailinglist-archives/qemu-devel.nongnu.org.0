@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4C745C684
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:13:48 +0200 (CEST)
-Received: from localhost ([::1]:46762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909FA5C6AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:36:50 +0200 (CEST)
+Received: from localhost ([::1]:46912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7Mh-0004wP-1S
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52352)
+	id 1hi7iz-0006nP-GE
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:36:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hi4BS-0005wf-3p
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:49:59 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3wd-00089P-BT
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:34:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hi4BQ-0003Hv-UJ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:49:57 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:44629)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3wb-0001wb-HE
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:34:38 -0400
+Received: from mail-wr1-f44.google.com ([209.85.221.44]:45290)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hi4BQ-0003GL-NF
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:49:56 -0400
-Received: by mail-wr1-f65.google.com with SMTP id e3so5874591wrs.11
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:49:56 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hi3wZ-0001hR-EU
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:34:36 -0400
+Received: by mail-wr1-f44.google.com with SMTP id f9so15332764wre.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=sudBZzt6fCQJ8cQwNMK19XbmjoKhOxFTcvcuBuImuhY=;
+ b=sgrqr4xI0PlW1BJh2TX9dQ3LR9+J6c6sCrB9Lr8rp4MfRV0yOypHdy+fkNxJD9g7ZR
+ mLAcNFodJ1temny1x38kcVxvXvEN/vzm2Xk3J5/oIzegowOE8noDuZ8YXtAcxS93ItUU
+ D405K1j1Y1P5M16lciJ4SqVjIo8+bifhPhgpFyrnqF39I+xUoiNIp1OtLmRpLw5VA7vW
+ FC/3EgYPnBmo8DCl4R/EXpMWsqQ8HiZSRD5VzEhKWATRImxZQyhC+fnGFl34oEjiTsLc
+ 8XCdIGGMvTIxL71cM8qUlozc6Xc/zf2QPuTY1q7/wNIKYAt7ceiRrBcoqrWCrvQCiZXA
+ nj5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=10yZI/muh+73lK/04GqqDUvPPHFVE9whFCtaqA1pr88=;
- b=RJsadcok8yPurPlrYieA4PKVhfkiml8eNb0hmoGbfJJLL4CFC2HZD8ZXrDfvuEfTWw
- Kdo39pbVfoKZAOPlsHpIhLIGI4tec0TpWhhLGX6rUh1OL0FmbA0aLIdWMmCrrmu04k/V
- LE7300ZvvVkb/48xyJlOvdRS5zE8PH6HDokZwcKbI3wSTzI3Y2Ps+/3oMPDKxUgjLNjV
- m5WmQ3kI/F1zPzejmbKfgzNCw8Sd1uyx+8EjSpBWqZdLQaEGFzE9gObMWme7f4g6EuUO
- 9Ag5K+OfuhBhb8dFSmj/F65UX70Tot0W8Axz6r98K+CvoL648X3maIr+ktGUiUslFNQO
- mF+Q==
-X-Gm-Message-State: APjAAAVZ/V9X/Hov7KdNHSnKPzKiXdp4KcyGl3Z5IZSiDRA2XM+k9bdf
- nMbNZIQpdCpnoLsugIDruSpBF0UZVSg=
-X-Google-Smtp-Source: APXvYqzt2r1DkpMn3PhTB7ogdQ6ANa0Q6a2okCO1M8rO93+ZJikDEgItmjacHoHpMItWhsv2feijbg==
-X-Received: by 2002:adf:f706:: with SMTP id r6mr10399997wrp.23.1561997449027; 
- Mon, 01 Jul 2019 09:10:49 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id p4sm11490618wrx.97.2019.07.01.09.10.47
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 09:10:47 -0700 (PDT)
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190701132516.26392-1-philmd@redhat.com>
- <20190701132516.26392-19-philmd@redhat.com>
- <CAFEAcA_XGuB5x+m5zmdBSE3bQP=jBdfWDzj_v0iBeqWmrETsng@mail.gmail.com>
- <c1d7b9cf-5a31-3c58-0284-97b4249660d7@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <1888add4-ae43-43fe-d8c3-8aa447742330@redhat.com>
-Date: Mon, 1 Jul 2019 18:10:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=sudBZzt6fCQJ8cQwNMK19XbmjoKhOxFTcvcuBuImuhY=;
+ b=hTOqRZegKMRDA+2JeAF6DkJVJC+o8ahk9U0pSk7xEZQj502dsgI5pdwz8WmeMsgeVW
+ u0Q7ccacJ57RGQd9EnJ9a6gNLW61cwxPKA7mX7f5KoQqo6r0z6uMkI2TnaO9jigo2hui
+ VyPWRfxDvloQHBWFIwsvNjyz0TvnQuOXMVU/jGwezMB3Iu8q0ZjeSJ2vO2nLmcaD7x6h
+ f8bOyuZFMZo6Y08e9dupA98VwZqJ05njV0ca3Fj42MM6LS/YwQG6YDVMLmbRIj5g8gOH
+ 2FXXRGjs9KVxR+IVjy5dL2b2GsicOV1Uz543AXZNJ2JxcdVYgKXZA2QgWpvnmMJJ/VeL
+ DyLQ==
+X-Gm-Message-State: APjAAAVJksdIrgJkcCLydENaZ6UbyIV5zoi8KILM+OFAqxSNn1zMzl4p
+ TbgXYI8/KDejt8Y2JNvgzjajVFgc0SuFQg==
+X-Google-Smtp-Source: APXvYqwH6x9DwXKcyIsoA/fOdzUSaJ7+QluDE2uy9psM+F7wMX7v+AuVXPNSI84rCbXPcTYFuHduLg==
+X-Received: by 2002:a5d:4941:: with SMTP id r1mr19002429wrs.225.1561999187548; 
+ Mon, 01 Jul 2019 09:39:47 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.46
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 01 Jul 2019 09:39:46 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Mon,  1 Jul 2019 17:38:59 +0100
+Message-Id: <20190701163943.22313-3-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
+References: <20190701163943.22313-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <c1d7b9cf-5a31-3c58-0284-97b4249660d7@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH v3 18/27] target/arm: Restrict semi-hosting
- to TCG
+X-Received-From: 209.85.221.44
+Subject: [Qemu-devel] [PULL 02/46] hw/arm/msf2-som: Exit when the cpu is not
+ the expected one
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,88 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Andrew Jones <drjones@redhat.com>,
- Samuel Ortiz <sameo@linux.intel.com>, Rob Bradford <robert.bradford@intel.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/19 5:38 PM, Philippe Mathieu-Daudé wrote:
-> On 7/1/19 5:25 PM, Peter Maydell wrote:
->> On Mon, 1 Jul 2019 at 14:26, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>>
->>> Per Peter Maydell:
->>>
->>>   Semihosting hooks either SVC or HLT instructions, and inside KVM
->>>   both of those go to EL1, ie to the guest, and can't be trapped to
->>>   KVM.
->>>
->>> Let check_for_semihosting() return False when not running on TCG.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>> v3: inline call to g_assert_not_reached if !TCG
->>> ---
->>>  target/arm/Makefile.objs | 2 +-
->>>  target/arm/cpu.h         | 7 +++++++
->>>  target/arm/helper.c      | 4 +++-
->>>  3 files changed, 11 insertions(+), 2 deletions(-)
->>
->>> diff --git a/target/arm/helper.c b/target/arm/helper.c
->>> index 49a0f05cd1..1b4da7aa45 100644
->>> --- a/target/arm/helper.c
->>> +++ b/target/arm/helper.c
->>> @@ -20,7 +20,6 @@
->>>  #include "qemu/qemu-print.h"
->>>  #include "exec/exec-all.h"
->>>  #include "exec/cpu_ldst.h"
->>> -#include "arm_ldst.h"
->>>  #include <zlib.h> /* For crc32 */
->>>  #include "hw/semihosting/semihost.h"
->>>  #include "sysemu/cpus.h"
->>> @@ -29,6 +28,9 @@
->>>  #include "qapi/qapi-commands-target.h"
->>>  #include "qapi/error.h"
->>>  #include "qemu/guest-random.h"
->>> +#ifdef CONFIG_TCG
->>> +#include "arm_ldst.h"
->>> +#endif
->>
->> Should this ifdeffing of the arm_ldst.h include have gone in
->> another patch? It doesn't seem related to the change described
->> in the commit message.
-> 
-> Surely patch 22 "Move M profile routines to m_helper.c"
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The ifdef belongs to this patch, but some part of this patch slipped to
-"Move M profile routines to m_helper.c" while rebasing:
+This machine correctly defines its default_cpu_type to cortex-m3
+and report an error if the user requested another cpu_type,
+however it does not exit, and this can confuse users trying
+to use another core:
 
--- >8 --
-@@ -10401,6 +8260,7 @@ static void arm_cpu_do_interrupt_aarch64(CPUState
-*cs)
+  $ qemu-system-arm -M emcraft-sf2 -cpu cortex-m4 -kernel test-m4.elf
+  qemu-system-arm: This board can only be used with CPU cortex-m3-arm-cpu
+  [output related to M3 core ...]
 
- static inline bool check_for_semihosting(CPUState *cs)
- {
-+#ifdef CONFIG_TCG
-     /* Check whether this exception is a semihosting call; if so
-      * then handle it and return true; otherwise return false.
-      */
-@@ -10476,6 +8336,9 @@ static inline bool check_for_semihosting(CPUState
-*cs)
-         env->regs[0] = do_arm_semihosting(env);
-         return true;
-     }
-+#else
-+    return false;
-+#endif
- }
+The CPU is indeed a M3 core:
+
+  (qemu) info qom-tree
+  /machine (emcraft-sf2-machine)
+    /unattached (container)
+      /device[0] (msf2-soc)
+        /armv7m (armv7m)
+          /cpu (cortex-m3-arm-cpu)
+
+Add the missing exit() call to return to the shell.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-id: 20190617160136.29930-1-philmd@redhat.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
+ hw/arm/msf2-som.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-check_for_semihosting() is the only code using the ldst API.
+diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
+index 8c550a8bddc..2c9984bb3b8 100644
+--- a/hw/arm/msf2-som.c
++++ b/hw/arm/msf2-som.c
+@@ -53,6 +53,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
+     if (strcmp(machine->cpu_type, mc->default_cpu_type) != 0) {
+         error_report("This board can only be used with CPU %s",
+                      mc->default_cpu_type);
++        exit(1);
+     }
+ 
+     memory_region_init_ram(ddr, NULL, "ddr-ram", DDR_SIZE,
+-- 
+2.20.1
 
-Thanks for noticing this,
-
-Phil.
 
