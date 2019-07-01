@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2885C75F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:35:09 +0200 (CEST)
-Received: from localhost ([::1]:47370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 622035C68A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:22:13 +0200 (CEST)
+Received: from localhost ([::1]:46784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8dQ-00077e-Mp
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:35:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32789)
+	id 1hi7Uq-0007Y8-8p
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:22:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46223)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4jX-0003j4-En
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:25:12 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3u6-0007X6-Ri
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:32:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4jU-0006l9-U2
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:25:10 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:38705)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3u4-0001Ms-G9
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:32:02 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:37602)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4jR-0006kB-PO
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:25:06 -0400
-Received: by mail-ot1-f65.google.com with SMTP id d17so1213326oth.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:25:05 -0700 (PDT)
+ id 1hi3u2-0001LY-P6
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:32:00 -0400
+Received: by mail-oi1-f196.google.com with SMTP id t76so11239510oih.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=AtNCVajgsZwa/StomNud26kciS92ZyHegidqhZS10w8=;
- b=YrPtT5kim9QxRnpSBr5p0suPohzsL/fdc8PJVBhD+AVAHVR0LGUwDUxRenh2bawYwT
- x8CjDKqJuaSCSxQa0JjA2P3cC3HY2bP/tAxTkGxKArLfG5kJbJ+goNG+8r7zJ315C/pp
- U32CMnVUJH4EBeEDymgLPQ47mSBxKwqcBlviIJmHxLZf33WLT3Ej16aXAAN3h7EhVb9H
- gtlC46vdGBiJdfFEMZ++L52F5XlTWXoT8ecciC7VBQ41eAV/qJpRw/GMX59YbG8faxxb
- Pigbp1Ur8J/SK1/p7sgcRMfCqnKpiX/GLvHbLyoSitb+oESfAsK4D4XUF/2Z8uLaQy/a
- rQ1A==
+ :cc; bh=0WggpwXlDzNRUoFUK2Oir8Ae9RI3n4nXwyIR6nC4YlQ=;
+ b=P3v8Z0fSwaskP6Q75nnw+a2cRSAgT8Sm8bFZl3LJ4HMcsil6Ll1g/P70Kv5A5Y3ydq
+ fimNUd0sTkY1NJcbqVeknFb1VMGtg21dFljamJ42sNmU6yiOkXz//+8q7qsBtUaLmBeM
+ c50rM6fuyryDDQ99p8veL6Fk0apuaKSongpBtoLSZvffiuJdwtkFgbdt2tdVKfV5asEx
+ kG/nQO1lQj+IEOBJNo2O6ydb4Xu1edla1ZyTjC7l0FlnKPo/crgMk0Zt+eVX+gTkgChU
+ DQKcAygNePBkLojakEPla8qjfOg/QUQoVvOsIaN0SuRhPuuIw6ZbkVwRCe1n+CltuqLL
+ qwVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=AtNCVajgsZwa/StomNud26kciS92ZyHegidqhZS10w8=;
- b=mLO+WuvXVSPS45Gkj7BlXOQM4W8uPhmsZhFd7F+6soT6hsdSmhplLsgX2PN4wgsPZi
- 7/GjG5jlrntii704XyYB/fsUnnFTe1ODCUVFS9JYHuxpKmQS1e1shiuufcNsTMVaqdkz
- hZ/1RNK5m2R+jcu79C8evyO2hIEypriBDaGPWtmDlJhVnodNo4mOBV2W5Y+2g/yZxpxV
- by3SHiZ1Oz/iLjwudSUnVqJ5ovt0Jp12d1hfF8Kyb1BYdW+GNL9ZEFpkzxjlFbQJFubN
- maIkI5QYh+bCNJaRCdM7UjCItb6O8VFN+Ag7YEyTn30DiW+kzbCK+VjRQapVuQ3aK/Vb
- azhA==
-X-Gm-Message-State: APjAAAXYNrsUixHiofoXIlO1Pku7hL60IKk1K3GxtiZsSOZ+1EjjigqP
- qyAT8BvaCaybvLxw2h5ASC4nWFuP5N0Of3l26rjqbHVVpyA=
-X-Google-Smtp-Source: APXvYqwP7qXeR69xJD5LJF0Zqwnyf0wNAUkpD8db9S2Lsh3kl1f+fdfxgG7DR7mWo57rkrCfCn0qMXZlbArUg8F3lIw=
-X-Received: by 2002:a9d:7245:: with SMTP id a5mr21358824otk.232.1562000237264; 
- Mon, 01 Jul 2019 09:57:17 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=0WggpwXlDzNRUoFUK2Oir8Ae9RI3n4nXwyIR6nC4YlQ=;
+ b=XUJ8MMTs+Cbeg1I8GjbSMQ9VmGdrRLThS9GWyp0nG6byesWH3J7REpxjU12rimakxl
+ TyNRQvzyvmPZmRslaP6T1RQgzrJuRLZ7jpV3+6MT3wd5+J7wut+TxlSa5fctNblynGOO
+ dyIDwlPD9jAFkHpYrHzQEWtNIZs59meHzhkJO6btiXSYDZ+84W1vvCnciJNaRmkFNQtS
+ h5kTr7p3McTPty8avsb2DrEiMfpv6X+c/G1ki46u9dk7XgYdFHUs2eivL0hk1MeLM86B
+ bUVB2dZw8P5Jmzi1ih4UF5hx8Th6/76wcqG17q+yLzQjxjzN2vVVooPIg6aUXq92RqHe
+ 5idA==
+X-Gm-Message-State: APjAAAUeLy4kqdcA1i4J9to/ufaKJZx5F0383Sei6qLQbl2F0wjILz69
+ s7Fhfla4pwQbkaRAdu9RPTY2heeocNO6VVcn3VKj3lQIVjU=
+X-Google-Smtp-Source: APXvYqyKqAllzlOXtFrs7pLk9OQB2tedJY5vDpEuQHRTJj08K4D6sqdgaZwd+gwEuNnqi0Jw/sXUtu4PCBZMaJKgUiE=
+X-Received: by 2002:a05:6808:8c2:: with SMTP id k2mr218073oij.98.1562001196658; 
+ Mon, 01 Jul 2019 10:13:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190701164732.30518-1-alex.bennee@linaro.org>
-In-Reply-To: <20190701164732.30518-1-alex.bennee@linaro.org>
+References: <20190626200252.30220-1-laurent@vivier.eu>
+In-Reply-To: <20190626200252.30220-1-laurent@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 17:57:06 +0100
-Message-ID: <CAFEAcA9fRnH74+jOqxMPyZo-7pS45hHjnA5NdnpdSpNs30G--g@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Mon, 1 Jul 2019 18:13:05 +0100
+Message-ID: <CAFEAcA8PU2Tt9nXUA70vP6g6zRwROTMro16Tu+gPz_ihOimyyg@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.210.65
-Subject: Re: [Qemu-devel] [PATCH] migration: move port_attr inside
- CONFIG_LINUX
+X-Received-From: 209.85.167.196
+Subject: Re: [Qemu-devel] [PULL 0/4] Trivial patches patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,45 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jul 2019 at 17:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+On Wed, 26 Jun 2019 at 21:09, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> Otherwise the FreeBSD compiler complains about an unused variable.
+> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  migration/rdma.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
 >
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index 74cb2aa9f9..3036221ee8 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -839,10 +839,9 @@ static void qemu_rdma_dump_gid(const char *who, stru=
-ct rdma_cm_id *id)
->   */
->  static int qemu_rdma_broken_ipv6_kernel(struct ibv_context *verbs, Error=
- **errp)
->  {
-> -    struct ibv_port_attr port_attr;
-> -
->      /* This bug only exists in linux, to our knowledge. */
->  #ifdef CONFIG_LINUX
-> +    struct ibv_port_attr port_attr;
+> are available in the Git repository at:
 >
->      /*
->       * Verbs are only NULL if management has bound to '[::]'.
-> --
-> 2.20.1
+>   git://github.com/vivier/qemu.git tags/trivial-patches-pull-request
+>
+> for you to fetch changes up to b827891d73778eaf962b0536f955194cf4faa424:
+>
+>   MAINTAINERS: Change maintership of Xen code under hw/9pfs (2019-06-26 18:30:03 +0200)
+>
+> ----------------------------------------------------------------
+> configure improvements and fixes
+> MAINTAINERS update
+>
+> ----------------------------------------------------------------
+>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
 -- PMM
 
