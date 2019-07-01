@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB275C6B9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:44:35 +0200 (CEST)
-Received: from localhost ([::1]:46998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3057C5C695
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:28:08 +0200 (CEST)
+Received: from localhost ([::1]:46830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7qU-0006sO-87
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:44:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47082)
+	id 1hi7aZ-0006gv-BX
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:28:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47114)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hi3xH-0000WT-AE
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:20 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi3xK-0000gV-EM
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hi3xF-0002Ec-4o
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50126)
+ (envelope-from <philmd@redhat.com>) id 1hi3xI-0002Hl-4Q
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46562)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hi3xB-00021g-GE; Mon, 01 Jul 2019 17:35:13 -0400
+ id 1hi3xC-00029M-8Y; Mon, 01 Jul 2019 17:35:14 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E399630C3192;
- Mon,  1 Jul 2019 19:49:59 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id A7BFE3082E72;
+ Mon,  1 Jul 2019 19:50:17 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F2ABC87A0;
- Mon,  1 Jul 2019 19:49:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8E0D379F;
+ Mon,  1 Jul 2019 19:50:14 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 21:49:36 +0200
-Message-Id: <20190701194942.10092-3-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 21:49:39 +0200
+Message-Id: <20190701194942.10092-6-philmd@redhat.com>
 In-Reply-To: <20190701194942.10092-1-philmd@redhat.com>
 References: <20190701194942.10092-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.40]); Mon, 01 Jul 2019 19:50:00 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Mon, 01 Jul 2019 19:50:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 2/8] target/arm: Restrict semi-hosting to TCG
+Subject: [Qemu-devel] [PATCH v4 5/8] RFC target/arm: Do not build pre-ARMv7
+ cpus when using KVM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,97 +66,182 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per Peter Maydell:
+A KVM-only build won't be able to run pre-ARMv7 cpus, disable them.
 
-  Semihosting hooks either SVC or HLT instructions, and inside KVM
-  both of those go to EL1, ie to the guest, and can't be trapped to
-  KVM.
-
-Let check_for_semihosting() return False when not running on TCG.
+If KVM is not enabled, they are enabled by default.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v3: inline call to g_assert_not_reached if !TCG
-v4: fixed some ifdef that had moved in the next patch (Peter)
+Sadly this does not work with --enable-tcg --enable-kvm dual config.
 ---
- target/arm/Makefile.objs | 2 +-
- target/arm/cpu.h         | 7 +++++++
- target/arm/helper.c      | 8 +++++++-
- 3 files changed, 15 insertions(+), 2 deletions(-)
+ default-configs/arm-softmmu.mak | 33 ++++++++++++++++-----------------
+ hw/arm/Kconfig                  | 26 ++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+), 17 deletions(-)
 
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index 294433da88..82bedefc3d 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -1,4 +1,4 @@
--obj-y +=3D arm-semi.o
-+obj-$(CONFIG_TCG) +=3D arm-semi.o
- obj-y +=3D helper.o vfp_helper.o
- obj-y +=3D cpu.o gdbstub.o
- obj-$(TARGET_AARCH64) +=3D cpu64.o gdbstub64.o
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index a9be18660f..94c990cddb 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -964,7 +964,14 @@ static inline void aarch64_sve_change_el(CPUARMState=
- *env, int o,
- { }
- #endif
+diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
+u.mak
+index 1f2e0e7fde..081d507c87 100644
+--- a/default-configs/arm-softmmu.mak
++++ b/default-configs/arm-softmmu.mak
+@@ -9,34 +9,33 @@ CONFIG_ARM_V7M=3Dy
+ CONFIG_ARM_VIRT=3Dy
+ CONFIG_CUBIEBOARD=3Dy
+ CONFIG_EXYNOS4=3Dy
+-CONFIG_HIGHBANK=3Dy
+-CONFIG_INTEGRATOR=3Dy
+ CONFIG_FSL_IMX31=3Dy
+-CONFIG_MUSICPAL=3Dy
+ CONFIG_MUSCA=3Dy
+-CONFIG_CHEETAH=3Dy
+-CONFIG_SX1=3Dy
+-CONFIG_NSERIES=3Dy
+ CONFIG_STELLARIS=3Dy
+ CONFIG_REALVIEW=3Dy
+-CONFIG_VERSATILE=3Dy
+ CONFIG_VEXPRESS=3Dy
+ CONFIG_ZYNQ=3Dy
+-CONFIG_MAINSTONE=3Dy
+-CONFIG_GUMSTIX=3Dy
+-CONFIG_SPITZ=3Dy
+-CONFIG_TOSA=3Dy
+-CONFIG_Z2=3Dy
+-CONFIG_COLLIE=3Dy
+-CONFIG_ASPEED_SOC=3Dy
+ CONFIG_NETDUINO2=3Dy
+ CONFIG_MPS2=3Dy
+ CONFIG_RASPI=3Dy
+-CONFIG_DIGIC=3Dy
+ CONFIG_SABRELITE=3Dy
+ CONFIG_EMCRAFT_SF2=3Dy
+-CONFIG_MICROBIT=3Dy
+-CONFIG_FSL_IMX25=3Dy
+ CONFIG_FSL_IMX7=3Dy
+ CONFIG_FSL_IMX6UL=3Dy
+ CONFIG_SEMIHOSTING=3Dy
++#CONFIG_CHEETAH=3Dy
++#CONFIG_SX1=3Dy
++#CONFIG_DIGIC=3Dy
++#CONFIG_INTEGRATOR=3Dy
++#CONFIG_MUSICPAL=3Dy
++#CONFIG_MAINSTONE=3Dy
++#CONFIG_GUMSTIX=3Dy
++#CONFIG_SPITZ=3Dy
++#CONFIG_TOSA=3Dy
++#CONFIG_COLLIE=3Dy
++#CONFIG_VERSATILE=3Dy
++#CONFIG_FSL_IMX25=3Dy
++#CONFIG_ASPEED_SOC=3Dy
++#CONFIG_NSERIES=3Dy
++#CONFIG_HIGHBANK=3Dn
++#CONFIG_MICROBIT=3Dn
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index ab65ecd216..b4d31c6026 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -1,3 +1,18 @@
++config ARM_V4
++    default y
++    depends on !KVM
++    bool
++
++config ARM_V5
++    default y
++    depends on !KVM
++    bool
++
++config ARM_V6
++    default y
++    depends on !KVM
++    bool
++
+ config ARM_VIRT
+     bool
+     imply PCI_DEVICES
+@@ -23,6 +38,7 @@ config ARM_VIRT
 =20
-+#if !defined(CONFIG_TCG)
-+static inline target_ulong do_arm_semihosting(CPUARMState *env)
-+{
-+    g_assert_not_reached();
-+}
-+#else
- target_ulong do_arm_semihosting(CPUARMState *env);
-+#endif
- void aarch64_sync_32_to_64(CPUARMState *env);
- void aarch64_sync_64_to_32(CPUARMState *env);
+ config CHEETAH
+     bool
++    select ARM_V4
+     select OMAP
+     select TSC210X
 =20
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 38b73430cb..6d91e0a1f9 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -20,7 +20,6 @@
- #include "qemu/qemu-print.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
--#include "arm_ldst.h"
- #include <zlib.h> /* For crc32 */
- #include "hw/semihosting/semihost.h"
- #include "sysemu/cpus.h"
-@@ -29,6 +28,9 @@
- #include "qapi/qapi-commands-target.h"
- #include "qapi/error.h"
- #include "qemu/guest-random.h"
-+#ifdef CONFIG_TCG
-+#include "arm_ldst.h"
-+#endif
+@@ -32,6 +48,7 @@ config CUBIEBOARD
 =20
- #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable =
-*/
+ config DIGIC
+     bool
++    select ARM_V5
+     select PTIMER
+     select PFLASH_CFI02
 =20
-@@ -10399,6 +10401,7 @@ static void arm_cpu_do_interrupt_aarch64(CPUState=
- *cs)
+@@ -61,6 +78,7 @@ config HIGHBANK
 =20
- static inline bool check_for_semihosting(CPUState *cs)
- {
-+#ifdef CONFIG_TCG
-     /* Check whether this exception is a semihosting call; if so
-      * then handle it and return true; otherwise return false.
-      */
-@@ -10474,6 +10477,9 @@ static inline bool check_for_semihosting(CPUState=
- *cs)
-         env->regs[0] =3D do_arm_semihosting(env);
-         return true;
-     }
-+#else
-+    return false;
-+#endif
- }
+ config INTEGRATOR
+     bool
++    select ARM_V5
+     select ARM_TIMER
+     select INTEGRATOR_DEBUG
+     select PL011 # UART
+@@ -84,6 +102,7 @@ config MUSCA
 =20
- /* Handle a CPU exception for A and R profile CPUs.
+ config MUSICPAL
+     bool
++    select ARM_V5
+     select BITBANG_I2C
+     select MARVELL_88W8618
+     select PTIMER
+@@ -97,6 +116,7 @@ config NETDUINO2
+=20
+ config NSERIES
+     bool
++    select ARM_V6
+     select OMAP
+     select TMP105   # tempature sensor
+     select BLIZZARD # LCD/TV controller
+@@ -119,6 +139,7 @@ config OMAP
+=20
+ config PXA2XX
+     bool
++    select ARM_V5
+     select FRAMEBUFFER
+     select I2C
+     select SERIAL
+@@ -229,10 +250,12 @@ config COLLIE
+=20
+ config SX1
+     bool
++    select ARM_V4
+     select OMAP
+=20
+ config VERSATILE
+     bool
++    select ARM_V5
+     select ARM_TIMER # sp804
+     select PFLASH_CFI01
+     select LSI_SCSI_PCI
+@@ -321,6 +344,7 @@ config XLNX_VERSAL
+=20
+ config FSL_IMX25
+     bool
++    select ARM_V5
+     select IMX
+     select IMX_FEC
+     select IMX_I2C
+@@ -328,6 +352,7 @@ config FSL_IMX25
+=20
+ config FSL_IMX31
+     bool
++    select ARM_V6
+     select SERIAL
+     select IMX
+     select IMX_I2C
+@@ -343,6 +368,7 @@ config FSL_IMX6
+=20
+ config ASPEED_SOC
+     bool
++    select ARM_V5
+     select DS1338
+     select FTGMAC100
+     select I2C
 --=20
 2.20.1
 
