@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358455BEB3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:52:04 +0200 (CEST)
-Received: from localhost ([::1]:59616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E675BE58
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:33:09 +0200 (CEST)
+Received: from localhost ([::1]:59368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxf1-0003rp-2d
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52877)
+	id 1hhxMi-00015d-DU
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:33:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53206)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hhxAC-0005Gz-5i
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:20:13 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhxBf-0006Kh-6d
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:21:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hhxAA-0000L8-Nu
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:20:11 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:36737)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhxBd-0001Xq-Ka
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:21:43 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:38676)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hhxAA-0000JQ-GT
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:20:10 -0400
-Received: by mail-wr1-x443.google.com with SMTP id n4so14109020wrs.3
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:20:09 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhxBb-0001QI-Fv
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:21:41 -0400
+Received: by mail-ot1-x343.google.com with SMTP id d17so13678121oth.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=e0eSTWXS81cyAjTjY0gOE2I9p8eua4Cc+NKwToq5OhQ=;
- b=qCS+3YzMH5TytIhyob+MfY5Cq+y6Dv7r+S2QEAu8ym8Ds/ADPPplUpcG4VVtNoeijY
- v38+vxwy01N8I0BYfy4T6DN17705O/oF0kauRTbHLlHGnOPLYzA+SaM5lxsGU8HkbYkj
- N7LtFazXze1rJ5dVIF5AtrjQcCQKRB/rRSwzyBKcy9U3lAn63CeRpRnLm+g1GurHeQ9g
- ZmNZN/IlDqjMWLn8Yc4D1ijXKXd7yRIcMdxYkMwN28YSzuNQpwimT813OCVrHpVW75+I
- /J4uY+KXNbS1nqbI+jjTtHtNkHlVBG9lpIDuKE18lXTexcfdYYwK857OVo6mmUXQ84Bn
- tQlw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7jKn/glfJZ7+q4vbaBGW+VsR/O9vJnh77TasloERjnU=;
+ b=m2TPgg7lNbeLvOk7y3CLyI8upmKGyE65o4NU0MvULeyNvp6DgI2CidWXEAut398lU3
+ 0dbdSf1o1PS/RAD0CMsj6E13gD6+q+Rr7/hZj2l6IS96RMTAd4XCvuXjKL14I/QJTF98
+ X0ucOHGDM/zQbXFJYDC/qQLQT/i0rcFVc7yDR8eujmCL9hGvKtm0HoVH1ofCEwPeDNj7
+ Fpp9a20GpqLx7fFeZ4CrdiUfCn/0u/SkQ6qpINv39t1bouA8diM3ToYbdgfRrzJNTbBS
+ QqFkiCbkb1dbATz6JgHBOvAfMSctTL7wNQIRttkr1gNRtKoMziak7A9hriiTdK2bvP2X
+ kieg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=e0eSTWXS81cyAjTjY0gOE2I9p8eua4Cc+NKwToq5OhQ=;
- b=EgDhH9Pajbnh4QhXaA/kprNWrbHdoRt84BMQm7/C0kTYOoh56ENFnuIr56DrS6bYTZ
- shaa+cXpWsuNRQ6SptFKQck+/WBOqZYkoio5KMy9pvra5ncZXbGkmPjaqAFm1J2G18Jx
- lcnp1y5vCONklgHK2c+yWu1apwrdMH7NuNL/lEykqv/dkWxPt1ZVSp7A2vNTC1zbL/dR
- tqx1gY+KmuDCrM4WbmqojtCRfRp/v4ISO5ii6ReneXj6wJDAJGfMMq6PyhmJJyvCnSQK
- OMyNSmIvf9RL/pWaywLBBxIx7TS2FIQ82iw1e34BeOtSS8eoyAnwI1TOMvVxikgYh3hG
- xQGA==
-X-Gm-Message-State: APjAAAWz9s90v7m6bLmzQuv5PyRQKzYNhBr5hrdpFnjOuGOiUbaSAmUD
- 6mz0FrBQ3L4u7GD/z9JQ0ad5UA==
-X-Google-Smtp-Source: APXvYqwJi3i7w+n44L2hFuVkagyXwwFtC9jHezUXyc/+TlFREM6lVxTG75yGtKn6hIi7vH7rv4aDXQ==
-X-Received: by 2002:adf:f812:: with SMTP id s18mr19603583wrp.32.1561990808350; 
- Mon, 01 Jul 2019 07:20:08 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j7sm14760231wru.54.2019.07.01.07.20.07
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 07:20:07 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 300551FF87;
- Mon,  1 Jul 2019 15:20:07 +0100 (BST)
-References: <20190614171200.21078-1-alex.bennee@linaro.org>
- <20190614171200.21078-23-alex.bennee@linaro.org>
- <CADYwmhFz6jjhK0_D1WGMqLcV5XvWaT5mRgtfbbhrU8vchuoAZA@mail.gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Pranith Kumar <bobby.prani@gmail.com>
-In-reply-to: <CADYwmhFz6jjhK0_D1WGMqLcV5XvWaT5mRgtfbbhrU8vchuoAZA@mail.gmail.com>
-Date: Mon, 01 Jul 2019 15:20:07 +0100
-Message-ID: <878sthsup4.fsf@zen.linaroharston>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7jKn/glfJZ7+q4vbaBGW+VsR/O9vJnh77TasloERjnU=;
+ b=ihKNNEX8BiDJZ1pHBuz/IlJNf0wLZNpCKct2jJpI2GU4nEIZ62NjQEeXyqirp6Bb/F
+ U4ax1xMvQ8sNSoCyIXE+r0WwmIm4d2g7ZMR63uqWf9JtZwas2TN9bK803rjQLX9CmcMP
+ oj0zBENxCXIz6fv2D2NF/MEi6EKNClBXxNJ5PXmubrioEcVyJjPmRl2QvkYQmhSZHfvY
+ TQS4rfZ/ZGBOQW2A+tqEI7Q+7/Kq7ajmmbj4MUL6wLED6zl038oBG8DfERT3tSSdVI92
+ n5CQ9QMvAXF8Z+vJhV6q9No2DYaEW/8d6VfK/hvvqXxdOXsSXNWlcw1cnQL+WsGeKTtY
+ km8A==
+X-Gm-Message-State: APjAAAUCDTH76jif/3AV+PS1CtPXePNsbujT1DX0qeXKii27btJik6eH
+ d3lsH+/wW8AsEQiRqbnb4ARTzPW/fYmONcSf5W6WEw==
+X-Google-Smtp-Source: APXvYqxys8p5KfJxSAGN4UbKf3JOkoF34nr7JxAMgjj0jVyFWKpXZB4UaR7zkOtZUD9zzFBcS4KYwOY9i1dNXPCnHxU=
+X-Received: by 2002:a9d:4d81:: with SMTP id u1mr8803580otk.221.1561990890402; 
+ Mon, 01 Jul 2019 07:21:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+References: <20190625121421.22280-1-shameerali.kolothum.thodi@huawei.com>
+ <20190625121421.22280-5-shameerali.kolothum.thodi@huawei.com>
+In-Reply-To: <20190625121421.22280-5-shameerali.kolothum.thodi@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 15:21:19 +0100
+Message-ID: <CAFEAcA8TgTeia99880_CyEircQY_2cAnNQ-TPbaizh32+gqNag@mail.gmail.com>
+To: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH v3 22/50] *-user: plugin syscalls
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v6 4/8] hw/arm/virt: Add memory hotplug
+ framework
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,145 +73,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, "Emilio G. Cota" <cota@braap.org>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Cc: Samuel Ortiz <sameo@linux.intel.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Xu Wei <xuwei5@hisilicon.com>,
+ Linuxarm <linuxarm@huawei.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ sebastien.boeuf@intel.com, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 25 Jun 2019 at 13:15, Shameer Kolothum
+<shameerali.kolothum.thodi@huawei.com> wrote:
+>
+> From: Eric Auger <eric.auger@redhat.com>
+>
+> This patch adds the memory hot-plug/hot-unplug infrastructure
+> in machvirt. The device memory is not yet exposed to the Guest
+> either through DT or ACPI and hence both cold/hot plug of memory
+> is explicitly disabled for now.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Kwangwoo Lee <kwangwoo.lee@sk.com>
+> Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
 
-Pranith Kumar <bobby.prani@gmail.com> writes:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> Minor nits.
->
-> On Fri, Jun 14, 2019 at 11:41 AM Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
->>
->> From: "Emilio G. Cota" <cota@braap.org>
->>
->> Signed-off-by: Emilio G. Cota <cota@braap.org>
->> ---
->>  bsd-user/syscall.c   | 9 +++++++++
->>  linux-user/syscall.c | 3 +++
->>  2 files changed, 12 insertions(+)
->>
->> diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
->> index 84a983a9a1..50e47d217c 100644
->> --- a/bsd-user/syscall.c
->> +++ b/bsd-user/syscall.c
->> @@ -323,6 +323,8 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, =
-abi_long arg1,
->>      gemu_log("freebsd syscall %d\n", num);
->>  #endif
->>      trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, ar=
-g6, arg7, arg8);
->> +    qemu_plugin_vcpu_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, ar=
-g6, arg7,
->> +                             arg8);
->
-> Looking at the previous line, seems like you can avoid splitting this
-> line into 2. Keeps it more consistent that way.
-
-Technically the trace line is over-long... I can make them both
-consistent with each other but it would be nicer to wrap them both into
-a common function.
-
-Unfortunately this seems a little tricky for *-user as they are kept
-pretty separate.
-
->
->>      if(do_strace)
->>          print_freebsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
->>
->> @@ -404,6 +406,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, =
-abi_long arg1,
->>      if (do_strace)
->>          print_freebsd_syscall_ret(num, ret);
->>      trace_guest_user_syscall_ret(cpu, num, ret);
->> +    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
->>      return ret;
->>   efault:
->>      ret =3D -TARGET_EFAULT;
->> @@ -422,6 +425,8 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, a=
-bi_long arg1,
->>      gemu_log("netbsd syscall %d\n", num);
->>  #endif
->>      trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, ar=
-g6, 0, 0);
->> +    qemu_plugin_vcpu_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, ar=
-g6, 0,
->> +                             0);
->
-> ditto.
->
->>      if(do_strace)
->>          print_netbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
->>
->> @@ -480,6 +485,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, a=
-bi_long arg1,
->>      if (do_strace)
->>          print_netbsd_syscall_ret(num, ret);
->>      trace_guest_user_syscall_ret(cpu, num, ret);
->> +    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
->>      return ret;
->>   efault:
->>      ret =3D -TARGET_EFAULT;
->> @@ -498,6 +504,8 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, =
-abi_long arg1,
->>      gemu_log("openbsd syscall %d\n", num);
->>  #endif
->>      trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, ar=
-g6, 0, 0);
->> +    qemu_plugin_vcpu_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, ar=
-g6, 0,
->> +                             0);
->
-> ditto.
->
->>      if(do_strace)
->>          print_openbsd_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
->>
->> @@ -556,6 +564,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, =
-abi_long arg1,
->>      if (do_strace)
->>          print_openbsd_syscall_ret(num, ret);
->>      trace_guest_user_syscall_ret(cpu, num, ret);
->> +    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
->>      return ret;
->>   efault:
->>      ret =3D -TARGET_EFAULT;
->> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->> index b187c1281d..7f3cfdee84 100644
->> --- a/linux-user/syscall.c
->> +++ b/linux-user/syscall.c
->> @@ -11724,6 +11724,8 @@ abi_long do_syscall(void *cpu_env, int num, abi_=
-long arg1,
->>
->>      trace_guest_user_syscall(cpu, num, arg1, arg2, arg3, arg4,
->>                               arg5, arg6, arg7, arg8);
->> +    qemu_plugin_vcpu_syscall(cpu, num, arg1, arg2, arg3, arg4, arg5, ar=
-g6, arg7,
->> +                             arg8);
->
-> This I am not sure.
->
->
->>
->>      if (unlikely(do_strace)) {
->>          print_syscall(num, arg1, arg2, arg3, arg4, arg5, arg6);
->> @@ -11736,5 +11738,6 @@ abi_long do_syscall(void *cpu_env, int num, abi_=
-long arg1,
->>      }
->>
->>      trace_guest_user_syscall_ret(cpu, num, ret);
->> +    qemu_plugin_vcpu_syscall_ret(cpu, num, ret);
->>      return ret;
->>  }
->> --
->> 2.20.1
->>
->>
-
-
---
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
