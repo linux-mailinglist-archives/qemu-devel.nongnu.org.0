@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6C05BE46
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:28:25 +0200 (CEST)
-Received: from localhost ([::1]:59308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB09F5BE9B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:47:54 +0200 (CEST)
+Received: from localhost ([::1]:59552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxI8-0005G0-8l
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:28:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48739)
+	id 1hhxb0-0008KD-3X
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:47:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49027)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mrolnik@gmail.com>) id 1hhwqx-0007x3-4r
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:00:24 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhwsz-0001Km-IS
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:02:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mrolnik@gmail.com>) id 1hhwqv-0007tI-LD
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:00:19 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:42639)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hhwqv-0007s3-Ch
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:00:17 -0400
-Received: by mail-qk1-x743.google.com with SMTP id b18so11007527qkc.9
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KmulFpp+onsU+2LH7/08w2AAXB4qeFKTekOlowVMNP8=;
- b=GIFUt+cSEWCRVF/+MaLN8zrSafB76FSxAz15D7IEWQr8O6cvXsPjJXnfoGrXJwkbKi
- O53dqJzAQDTHYcqYqWkZgxUXBHbKKDyMcqr6mZyDkVIaI3btSmVdCDJ9RhVTrStR/hkg
- z0Spkc3JKFgqhGgKp6n6e3porod6h0E9dbncyDMUAAjemZ82J/PTffWH63oEZ2WqV3GA
- xDsgUPzdwoXcO3VBtl363eFUPFIl2W3vQIzSwVopfhKbSlbFKd+4ksehq9SVCb9qCagW
- NmHaq84QNWh/8oBcrYde4QTvgGwbZ7inMzrTqntMxUNYWMUqIUeR/VRYLus4+5rck5Xt
- VM2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KmulFpp+onsU+2LH7/08w2AAXB4qeFKTekOlowVMNP8=;
- b=jPJQLlrx8tJhDu/3CFYyXqFaj3l+l+rAJRJpxbMZ8CjV0Z2UWV8dIQlLZccCjb+5Dj
- 1N1vLnmrcyB/nQ4KLqPUQ9tcUXGnAUNQFdIe28M3tWYeDpF2nMzS3P0IiMy+8rwTTSUf
- dEgVGi5zcYa9PYJYhGA9vB5rJJ33D+Dsx6yIuToISBI95n/xePEobbpW2IxAYLzg+M8W
- twp2ls4NLB0g9O1r4JVrIZyqlmTRt87BSr/H7rMWYIiRpP/0oNA3DXMuHWyqvvPY+WQ9
- 5RbxgCsWvEQUopeJ4EAHcKZcg7FzzE/R2vWVB3WDmapLivfBNpOiojELSuJy4QU+SrHF
- b3+A==
-X-Gm-Message-State: APjAAAVrSCkT7B/NOKSy48JWI6Ul7gAeyVx5ihXUk2JVo27i3ze24khF
- k/KQz4t2QMuxWHu5K1TsztSacDigHDJkxQ6a4GI=
-X-Google-Smtp-Source: APXvYqwsNlEw/XGT9RyUZ8pQAk2dR9QFFyzOWNsO43oWCsyVNW3tk6u9YmW2LhnLJoQPGrU76KlwWnMrW2r5NM+vppc=
-X-Received: by 2002:a37:27c9:: with SMTP id
- n192mr20668904qkn.460.1561989615162; 
- Mon, 01 Jul 2019 07:00:15 -0700 (PDT)
+ (envelope-from <philmd@redhat.com>) id 1hhwsy-0000c9-9n
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:02:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53908)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhwsw-0000M1-9T
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:02:22 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 138A181DE3;
+ Mon,  1 Jul 2019 14:01:52 +0000 (UTC)
+Received: from x1w.redhat.com (unknown [10.40.205.170])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B57D183C7;
+ Mon,  1 Jul 2019 14:01:45 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon,  1 Jul 2019 16:01:43 +0200
+Message-Id: <20190701140143.32706-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20190628120118.78920-1-mrolnik@gmail.com>
- <20190628120118.78920-2-mrolnik@gmail.com>
- <20190628151022.02946447@redhat.com>
- <CAK4993jutEKXd+RKq=Y3ij=k38Ou-ugVhD62nEP9MtPCbtw+aQ@mail.gmail.com>
- <20190701110836.48f433f6@redhat.com>
-In-Reply-To: <20190701110836.48f433f6@redhat.com>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Mon, 1 Jul 2019 06:59:39 -0700
-Message-ID: <CAK4993hAJS5vyF7LpL7MNaiw8f+ca6Ust=dQ2suQm84Hma+yLw@mail.gmail.com>
-To: Igor Mammedov <imammedo@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::743
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.23
-Subject: Re: [Qemu-devel] [PATCH v24 1/7] target/avr: Add outward facing
- interfaces and core CPU logic
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.25]); Mon, 01 Jul 2019 14:01:52 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] tests/machine-none: Test recent MIPS cpus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -77,82 +53,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sarah Harris <S.E.Harris@kent.ac.uk>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-should I use *-avr-cpu* suffix or can I do without it. i.e. *xyz* instead
-of *xyz-avr-cpu*
+The MIPS I7200 got added in commit d45942d908e, and the I6500
+in commit ca1ffd14ed8.
+Extend the coverage on the little-endian machines.
+The 4Kc and 20Kc are still covered by the big-endian machines.
 
-On Mon, Jul 1, 2019 at 2:08 AM Igor Mammedov <imammedo@redhat.com> wrote:
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/machine-none-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> On Fri, 28 Jun 2019 18:54:27 +0300
-> Michael Rolnik <mrolnik@gmail.com> wrote:
->
-> > Igor.
-> >
-> > so avr6 instead of a6-avr-cpu, xmega2 instead of xmega2-avr-cpu and so
-> on,
-> > right?
-> (it would be better if question was rith under context that prompted it)
-> [...]
->
-> > > > +++ b/target/avr/cpu.h
-> > > > @@ -0,0 +1,283 @@
-> > > > +/*
-> > > > + * QEMU AVR CPU
-> > > > + *
-> > > > + * Copyright (c) 2016 Michael Rolnik
-> > > > + *
-> > > > + * This library is free software; you can redistribute it and/or
-> > > > + * modify it under the terms of the GNU Lesser General Public
-> > > > + * License as published by the Free Software Foundation; either
-> > > > + * version 2.1 of the License, or (at your option) any later
-> version.
-> > > > + *
-> > > > + * This library is distributed in the hope that it will be useful,
-> > > > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > > > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-> > > > + * Lesser General Public License for more details.
-> > > > + *
-> > > > + * You should have received a copy of the GNU Lesser General Public
-> > > > + * License along with this library; if not, see
-> > > > + * <http://www.gnu.org/licenses/lgpl-2.1.html>
-> > > > + */
-> > > > +
-> > > > +#ifndef CPU_AVR_H
-> > > > +#define CPU_AVR_H
-> > > > +
-> > > > +#include "qemu-common.h"
-> > > > +#include "qom/cpu.h"
-> > > > +#include "exec/cpu-defs.h"
-> > > > +#include "fpu/softfloat.h"
-> > > > +
-> > > > +#define TCG_GUEST_DEFAULT_MO 0
-> > > > +
-> > > > +#define TYPE_AVR_CPU "avr-cpu"
-> > > > +
-> > > > +#define AVR_CPU_TYPE_SUFFIX "-" TYPE_AVR_CPU
-> > > > +#define AVR_CPU_TYPE_NAME(name) (name AVR_CPU_TYPE_SUFFIX)
-> > > we probably can do without above macro and opencode typenames
-> > > directly since we don't have 'model' notion and don't need
-> > > translate it into typename anymore.
-> I'd guess question was about that part.
-> What I've meant is to replace
->  AVR_CPU_TYPE_NAME("avr6") and etc
-> with
->  "avr6-avr-cpu"
->    or even better with macro
->  TYPE_AVR6_CPU "avr6-avr-cpu"
-> use it through out the code
-> and do the same for other sub-types
->
-> [...]
->
->
+diff --git a/tests/machine-none-test.c b/tests/machine-none-test.c
+index 4c6d470798..5953d31755 100644
+--- a/tests/machine-none-test.c
++++ b/tests/machine-none-test.c
+@@ -36,9 +36,9 @@ static struct arch2cpu cpus_map[] =3D {
+     /* FIXME: { "microblaze", "any" }, doesn't work with -M none -cpu an=
+y */
+     /* FIXME: { "microblazeel", "any" }, doesn't work with -M none -cpu =
+any */
+     { "mips", "4Kc" },
+-    { "mipsel", "4Kc" },
++    { "mipsel", "I7200" },
+     { "mips64", "20Kc" },
+-    { "mips64el", "20Kc" },
++    { "mips64el", "I6500" },
+     { "moxie", "MoxieLite" },
+     { "nios2", "FIXME" },
+     { "or1k", "or1200" },
+--=20
+2.20.1
 
--- 
-Best Regards,
-Michael Rolnik
+
