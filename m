@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5BF5BF2C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:12:10 +0200 (CEST)
-Received: from localhost ([::1]:59852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCBD45BFAA
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:23:00 +0200 (CEST)
+Received: from localhost ([::1]:59948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxyU-0000u0-5z
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:12:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35932)
+	id 1hhy8x-00081y-KL
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38057)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alex.bennee@linaro.org>) id 1hhxu8-0006ZV-PD
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:07:41 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhy5z-0006ZZ-F2
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:19:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alex.bennee@linaro.org>) id 1hhxu7-00051N-HS
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:07:40 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:35619)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhy5y-0003Tw-2A
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:19:55 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38378)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
- id 1hhxu7-0004zx-Ab
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:07:39 -0400
-Received: by mail-wr1-x442.google.com with SMTP id c27so6570871wrb.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:07:38 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhy5x-0003SF-Ok
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:19:53 -0400
+Received: by mail-oi1-x242.google.com with SMTP id v186so10256590oie.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=b+1xuwGx58g5YOKqPiVPL5nsNXXGrzLbA+IC/0+QE4s=;
- b=tVeu/he5oLZDMODJ18ic08yaLarHX5Ec5uL5zm+on565LA/5qzIWt81Vrd7faEUPMe
- 3dVfnfJOZdZ+nN7jRLijDTeX/QtnkTdYjtZb+guMSXawEY9o0upJHdAqeSamrv5hFt3s
- YZpJm/nLYt2t+vRlH37MN0fUlF72/GTsrf1p3fWjlyvSD9hIvpygFq5WX9JUrxh36sKo
- xAC7ei6NuTeLPhw/TgrGMwkFL15u/W43+c35JvtKfwWDMbB8LgP/mueQOlIrOigig+IM
- WQt0804JXH4o6/+pwc4glvS32OSjBHKTyj8xLGUjUE4grwzNa+8f6806vtoWyRhIdZN3
- fN4g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=88izuRn6GLm/EmQGtulJZg1i2yfV9ZeB3PdO+YNXXoU=;
+ b=UaM9GUSNRSvLuWgOHYBV3RGaMM1ltC/hXydAor6EgaNxD5KG8SEx2lmQcejuO+zGfi
+ qmzh0BDMx9QnJff5b9hLUXBNCA7liO7xvYKClBi52IiCGh3pTJmWWLmrK7mwzfZ8lmWX
+ NwDEpBFOnexaECf96dCvA9ECUycHtGm8r/FzQCyxiKpHLcvSA9aaqOhXIVdx7M06NDoK
+ z/ul2/6ulK1UZEz6bdzERyWkzthUIq7JHkN+CKmdlvnzrqqmj+ELvJFQdIeq0ct66hnq
+ bEykwNL6Ss21fU6lSUYG8c072iHKbzVhn8Q5YwDR6SZRyrtwyIOix2aP5PIEp8yzT+rT
+ hItw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=b+1xuwGx58g5YOKqPiVPL5nsNXXGrzLbA+IC/0+QE4s=;
- b=pwXXNdSs/ah7+6gF+YnhL1Oo7gOLbWFiEdAtSsI0PoGb38khIeK6Bo8zobDp51CVJT
- UQOJVFsRmWgPoBicfw8LQ5geyHyK+9ZpXFbJE/g0DwMfSGFtrkQE1eoY8JyVYdw3W/oq
- sDInH3O8RXg1xhw35THFoKiCDrhTF29AV5r5Jv1LOBWCz89Z3deycz8FRjn/AgUzLw27
- ErRwrctMrwJekq57elnWYE6Ki4yNaZ1o6JwJUb59eDMFr8r4gXq4nT9B7ynMXbpeUUCV
- 60JTjs5m6HUU3l3C1FubwQBLydRKJ5Rm0BoR69IxJhzn3hZM5xfnqvkTVGDS8VstxOHK
- kGMw==
-X-Gm-Message-State: APjAAAVeY0l5owt+3mmtqizBcIBy79gyfxQPMPpWSJ9bDIqBV8shXcXr
- QbJnz+l6KEahPvQZ9P2DrgQOBg==
-X-Google-Smtp-Source: APXvYqwUHBv1t9yBzgszPB5G3GJBfkxtjPZEJj/9ZSUsA+zjDo5rmBf07iRD2egJduxWbjd7Zub0cQ==
-X-Received: by 2002:adf:fbd0:: with SMTP id d16mr18129255wrs.341.1561993656987; 
- Mon, 01 Jul 2019 08:07:36 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
- by smtp.gmail.com with ESMTPSA id j7sm14941443wru.54.2019.07.01.08.07.36
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 08:07:36 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E70A01FF87;
- Mon,  1 Jul 2019 16:07:35 +0100 (BST)
-References: <20190624134337.10532-1-alex.bennee@linaro.org>
- <CAFEAcA_VPcqxVjmSkRYoRRYS9TvM9KXU7e7pww9UofApp42O7Q@mail.gmail.com>
-User-agent: mu4e 1.3.2; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-In-reply-to: <CAFEAcA_VPcqxVjmSkRYoRRYS9TvM9KXU7e7pww9UofApp42O7Q@mail.gmail.com>
-Date: Mon, 01 Jul 2019 16:07:35 +0100
-Message-ID: <875zolssi0.fsf@zen.linaroharston>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=88izuRn6GLm/EmQGtulJZg1i2yfV9ZeB3PdO+YNXXoU=;
+ b=nQMmHVZvuqNRpqFTlvcIUHF1I5uVYLJHs8wWfZWNlNme0dxN9GGIpC8gUa9pwKr6KD
+ xv+pSF6kfQqDpOkcZ16RX6m/JWjRMvwVw/IYU0mUPdG/sTf+U5/XHjEhQuZBI2NP1BWc
+ QX43TNO4A3uj+F1w3FV0tP5qp3/McySAg6kc1qxQb2abuOlZGkAsNVJga/VmUxYy1qMx
+ LBh2kLUYZIXX9DnuZv1qq2mmdLEnZGuvE+htQHPzT4Ccpukir/ZFpDV9M55WBYyFJsd3
+ sOHJhHYT4F/MOfq2D7IWnJkct6dWsYWHovjQLLRhS7C98unj4gGV4tkc2iFdhZSjdw54
+ wwgg==
+X-Gm-Message-State: APjAAAUkbo2OJug1xlaniG6ZkFnBkXxDK5J3TmMsw3bhE0zxJZ2D1X00
+ xDlTdJLWylwWFfd+QPaG1YkNM0nF5qYEjx529NVhMg==
+X-Google-Smtp-Source: APXvYqzbYS1BvCZjBSoFBGwSGjTzA8eYsybKPAmnmyGxcieu+hxANClVrQ3+0NJjwHxNaaj3jxAds2AASfCrKJ14JZo=
+X-Received: by 2002:aca:6185:: with SMTP id v127mr7352429oib.163.1561994392862; 
+ Mon, 01 Jul 2019 08:19:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20190701132516.26392-1-philmd@redhat.com>
+ <20190701132516.26392-14-philmd@redhat.com>
+In-Reply-To: <20190701132516.26392-14-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 16:19:42 +0100
+Message-ID: <CAFEAcA8GtFqxRnWS+Gb2GZresBXuJFzXbnEWTnOkUfcumdje9w@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PULL 00/19] testing/next (tests/vm,
- Travis and hyperv build fix)
+X-Received-From: 2607:f8b0:4864:20::242
+Subject: Re: [Qemu-devel] [PATCH v3 13/27] target/arm: Move debug routines
+ to debug_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,81 +75,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Yang Zhong <yang.zhong@intel.com>, Andrew Jones <drjones@redhat.com>,
+ Samuel Ortiz <sameo@linux.intel.com>, Rob Bradford <robert.bradford@intel.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Mon, 24 Jun 2019 at 14:43, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aea=
-cde:
->>
->>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21=
--2019' into staging (2019-06-21 15:40:50 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/stsquad/qemu.git tags/pull-testing-next-240619-1
->>
->> for you to fetch changes up to e0fe22c3528773fcbfd135a0ef7f6b3c5d373bb9:
->>
->>   target/i386: fix feature check in hyperv-stub.c (2019-06-24 14:36:39 +=
-0100)
->>
->> ----------------------------------------------------------------
->> Various testing fixes:
->>
->>    - tests/vm updates and clean-ups
->>    - tests/vm serial autobuild on host
->>    - ensure MacOS builds do "brew update"
->>    - ensure we test --static user builds
->>    - fix hyperv compile failure
->>
->> This brings my testing back to green on all CI services.
+On Mon, 1 Jul 2019 at 14:26, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
+> wrote:
 >
-> The FreeBSD tests pass OK but the new output includes
-> some stuff that trips my "find error/warning messages grep:
-> con recv: /etc/rc: WARNING: $hostname is not set -- see rc.conf(5).
-> con recv: /etc/rc: WARNING: hostid: unable to figure out a UUID from
-> DMI data, generating a new one
-
-These are artefacts of setting up a new system - we have no hostname
-until we've been through the setup. It won't occur on installed systems.
-
-> pkg: Repository FreeBSD load error: access repo
-> file(/var/db/pkg/repo-FreeBSD.sqlite) failed: No such file or
-> directory
->         p5-Error: 0.17027
-
-That seems to be a transient fault I haven't been able to replicate.
-
+> These routines are TCG specific.
 >
-> There's also a new compile warning:
-> /home/qemu/qemu-test.r7G0Wv/src/migration/rdma.c:842:26: warning:
-> unused variable 'port_attr' [-Wunused-variable]
->     struct ibv_port_attr port_attr;
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  target/arm/Makefile.objs  |   2 +-
+>  target/arm/cpu.c          |  11 +-
+>  target/arm/debug_helper.c | 334 ++++++++++++++++++++++++++++++++++++++
+>  target/arm/helper.c       |  23 ---
+>  target/arm/op_helper.c    | 295 ---------------------------------
+>  5 files changed, 339 insertions(+), 326 deletions(-)
+>  create mode 100644 target/arm/debug_helper.c
 
-Fixed.
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -2566,7 +2566,6 @@ static void arm_cpu_class_init(ObjectClass *oc, voi=
+d *data)
+>      cc->gdb_write_register =3D arm_cpu_gdb_write_register;
+>  #ifndef CONFIG_USER_ONLY
+>      cc->do_interrupt =3D arm_cpu_do_interrupt;
+> -    cc->get_phys_page_attrs_debug =3D arm_cpu_get_phys_page_attrs_debug;
+>      cc->asidx_from_attrs =3D arm_asidx_from_attrs;
+>      cc->vmsd =3D &vmstate_arm_cpu;
+>      cc->virtio_is_big_endian =3D arm_cpu_virtio_is_big_endian;
+> @@ -2578,19 +2577,17 @@ static void arm_cpu_class_init(ObjectClass *oc, v=
+oid *data)
+>      cc->gdb_arch_name =3D arm_gdb_arch_name;
+>      cc->gdb_get_dynamic_xml =3D arm_gdb_get_dynamic_xml;
+>      cc->gdb_stop_before_watchpoint =3D true;
+> -    cc->debug_excp_handler =3D arm_debug_excp_handler;
+> -    cc->debug_check_watchpoint =3D arm_debug_check_watchpoint;
+> -#if !defined(CONFIG_USER_ONLY)
+> -    cc->adjust_watchpoint_address =3D arm_adjust_watchpoint_address;
+> -#endif
+> -
+>      cc->disas_set_info =3D arm_disas_set_info;
+>  #ifdef CONFIG_TCG
+>      cc->tcg_initialize =3D arm_translate_init;
+>      cc->tlb_fill =3D arm_cpu_tlb_fill;
+> +    cc->debug_excp_handler =3D arm_debug_excp_handler;
+> +    cc->debug_check_watchpoint =3D arm_debug_check_watchpoint;
+>  #if !defined(CONFIG_USER_ONLY)
+>      cc->do_unaligned_access =3D arm_cpu_do_unaligned_access;
+>      cc->do_transaction_failed =3D arm_cpu_do_transaction_failed;
+> +    cc->adjust_watchpoint_address =3D arm_adjust_watchpoint_address;
+> +    cc->get_phys_page_attrs_debug =3D arm_cpu_get_phys_page_attrs_debug;
+>  #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
 
->                          ^
-> which I guess was not being flagged up by the old compiler/VM image.
->
-> OpenBSD also passes but has some output which my 'find warnings'
-> grep picks up:
->
-> con recv: WARNING: root is targeted by password guessing attacks,
-> pubkeys are safer.
+I don't think get_phys_page_attrs_debug is TCG specific -- anything
+that wants to do a virt-to-phys translation will use it, including
+for instance cpu_memory_rw_debug() or the monitor gva2gpa command.
+target/i386/cpu.c doesn't put its cc->get_phys_page_debug assignment
+inside a CONFIG_TCG ifdef.
 
-Looking at this now.
-
->
-> thanks
-> -- PMM
-
---
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
