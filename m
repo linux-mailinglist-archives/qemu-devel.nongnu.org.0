@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95905C593
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:17:38 +0200 (CEST)
-Received: from localhost ([::1]:46002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB7B5C5AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:27:49 +0200 (CEST)
+Received: from localhost ([::1]:46050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4cE-0006Nr-5M
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:17:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54780)
+	id 1hi4m0-0002MQ-MQ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:27:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56425)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hi3WG-0006k1-Ph
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:07:25 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi3XZ-00083Q-6I
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:08:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hi3WF-0005bj-Mj
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:07:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33570)
+ (envelope-from <philmd@redhat.com>) id 1hi3XY-0006UB-4W
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:08:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:11475)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hi3WC-0005Tx-7Y; Mon, 01 Jul 2019 17:07:20 -0400
+ id 1hi3XT-0006RA-OL; Mon, 01 Jul 2019 17:08:39 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 4BFAB3162916;
- Mon,  1 Jul 2019 19:50:14 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id B80E6223884;
+ Mon,  1 Jul 2019 19:50:26 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 344429089;
- Mon,  1 Jul 2019 19:50:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99A719089;
+ Mon,  1 Jul 2019 19:50:21 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 21:49:38 +0200
-Message-Id: <20190701194942.10092-5-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 21:49:41 +0200
+Message-Id: <20190701194942.10092-8-philmd@redhat.com>
 In-Reply-To: <20190701194942.10092-1-philmd@redhat.com>
 References: <20190701194942.10092-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.41]); Mon, 01 Jul 2019 19:50:14 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.39]); Mon, 01 Jul 2019 19:50:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 4/8] RFC target/arm: Restrict pre-ARMv7 cpus
- to TCG
+Subject: [Qemu-devel] [PATCH v4 7/8] RFC target/arm: Do not build
+ A/M-profile cpus when using KVM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,88 +66,102 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM requires at least a ARMv7 cpu.
+A KVM-only build won't be able to run A or M-profile cpus,
+disable them.
+
+If KVM is not enabled, they are enabled by default.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/cpu.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Sadly this does not work with --enable-tcg --enable-kvm dual config.
+---
+ default-configs/arm-softmmu.mak | 14 ++++++--------
+ hw/arm/Kconfig                  | 16 +++++++++++++---
+ 2 files changed, 19 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index ca718fb38f..290ef16e52 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1643,6 +1643,8 @@ static ObjectClass *arm_cpu_class_by_name(const cha=
-r *cpu_model)
- /* CPU models. These are not needed for the AArch64 linux-user build. */
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
+u.mak
+index 081d507c87..3995c4bb65 100644
+--- a/default-configs/arm-softmmu.mak
++++ b/default-configs/arm-softmmu.mak
+@@ -1,25 +1,18 @@
+ # Default configuration for arm-softmmu
 =20
-+#ifdef CONFIG_TCG
+-# TODO: ARM_V7M is currently always required - make this more flexible!
+-CONFIG_ARM_V7M=3Dy
+-
+ # CONFIG_PCI_DEVICES=3Dn
+ # CONFIG_TEST_DEVICES=3Dn
++CONFIG_ARM_V7M=3Dn
+=20
+ CONFIG_ARM_VIRT=3Dy
+ CONFIG_CUBIEBOARD=3Dy
+ CONFIG_EXYNOS4=3Dy
+ CONFIG_FSL_IMX31=3Dy
+-CONFIG_MUSCA=3Dy
+-CONFIG_STELLARIS=3Dy
+ CONFIG_REALVIEW=3Dy
+ CONFIG_VEXPRESS=3Dy
+ CONFIG_ZYNQ=3Dy
+-CONFIG_NETDUINO2=3Dy
+-CONFIG_MPS2=3Dy
+ CONFIG_RASPI=3Dy
+ CONFIG_SABRELITE=3Dy
+-CONFIG_EMCRAFT_SF2=3Dy
+ CONFIG_FSL_IMX7=3Dy
+ CONFIG_FSL_IMX6UL=3Dy
+ CONFIG_SEMIHOSTING=3Dy
+@@ -38,4 +31,9 @@ CONFIG_SEMIHOSTING=3Dy
+ #CONFIG_ASPEED_SOC=3Dy
+ #CONFIG_NSERIES=3Dy
+ #CONFIG_HIGHBANK=3Dn
++#CONFIG_MUSCA=3Dn
++#CONFIG_STELLARIS=3Dn
++#CONFIG_NETDUINO2=3Dn
++#CONFIG_MPS2=3Dn
++#CONFIG_EMCRAFT_SF2=3Dn
+ #CONFIG_MICROBIT=3Dn
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index b4d31c6026..f8242068ad 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -13,6 +13,18 @@ config ARM_V6
+     depends on !KVM
+     bool
+=20
++# ARM Microcontroller profile
++config ARM_V7M
++    default y
++    depends on !KVM
++    bool
 +
- static void arm926_initfn(Object *obj)
- {
-     ARMCPU *cpu =3D ARM_CPU(obj);
-@@ -1853,6 +1855,8 @@ static void cortex_m0_initfn(Object *obj)
-     cpu->midr =3D 0x410cc200;
- }
-=20
-+#endif
++# ARM Realtime profile
++config ARM_V7R
++    default y
++    depends on !KVM
++    bool
 +
- static void cortex_m3_initfn(Object *obj)
- {
-     ARMCPU *cpu =3D ARM_CPU(obj);
-@@ -2234,6 +2238,8 @@ static void cortex_a15_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
- }
+ config ARM_VIRT
+     bool
+     imply PCI_DEVICES
+@@ -295,9 +307,6 @@ config ZYNQ
+     select XILINX_SPIPS
+     select ZYNQ_DEVCFG
 =20
-+#ifdef CONFIG_TCG
-+
- static void ti925t_initfn(Object *obj)
- {
-     ARMCPU *cpu =3D ARM_CPU(obj);
-@@ -2402,6 +2408,8 @@ static void pxa270c5_initfn(Object *obj)
-     cpu->reset_sctlr =3D 0x00000078;
- }
+-config ARM_V7M
+-    bool
+-
+ config ALLWINNER_A10
+     bool
+     select AHCI
+@@ -323,6 +332,7 @@ config STM32F205_SOC
 =20
-+#endif
-+
- #ifndef TARGET_AARCH64
- /* -cpu max: if KVM is enabled, like -cpu host (best possible with this =
-host);
-  * otherwise, a CPU with as many features enabled as our emulation suppo=
-rts.
-@@ -2470,6 +2478,7 @@ struct ARMCPUInfo {
-=20
- static const ARMCPUInfo arm_cpus[] =3D {
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-+#ifdef CONFIG_TCG
-     { .name =3D "arm926",      .initfn =3D arm926_initfn },
-     { .name =3D "arm946",      .initfn =3D arm946_initfn },
-     { .name =3D "arm1026",     .initfn =3D arm1026_initfn },
-@@ -2482,6 +2491,7 @@ static const ARMCPUInfo arm_cpus[] =3D {
-     { .name =3D "arm1176",     .initfn =3D arm1176_initfn },
-     { .name =3D "arm11mpcore", .initfn =3D arm11mpcore_initfn },
-     { .name =3D "cortex-m0",   .initfn =3D cortex_m0_initfn,
-+#endif
-                              .class_init =3D arm_v7m_class_init },
-     { .name =3D "cortex-m3",   .initfn =3D cortex_m3_initfn,
-                              .class_init =3D arm_v7m_class_init },
-@@ -2495,6 +2505,7 @@ static const ARMCPUInfo arm_cpus[] =3D {
-     { .name =3D "cortex-a8",   .initfn =3D cortex_a8_initfn },
-     { .name =3D "cortex-a9",   .initfn =3D cortex_a9_initfn },
-     { .name =3D "cortex-a15",  .initfn =3D cortex_a15_initfn },
-+#ifdef CONFIG_TCG
-     { .name =3D "ti925t",      .initfn =3D ti925t_initfn },
-     { .name =3D "sa1100",      .initfn =3D sa1100_initfn },
-     { .name =3D "sa1110",      .initfn =3D sa1110_initfn },
-@@ -2511,6 +2522,7 @@ static const ARMCPUInfo arm_cpus[] =3D {
-     { .name =3D "pxa270-b1",   .initfn =3D pxa270b1_initfn },
-     { .name =3D "pxa270-c0",   .initfn =3D pxa270c0_initfn },
-     { .name =3D "pxa270-c5",   .initfn =3D pxa270c5_initfn },
-+#endif
- #ifndef TARGET_AARCH64
-     { .name =3D "max",         .initfn =3D arm_max_initfn },
- #endif
+ config XLNX_ZYNQMP_ARM
+     bool
++    select ARM_V7R
+     select AHCI
+     select ARM_GIC
+     select CADENCE
 --=20
 2.20.1
 
