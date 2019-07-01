@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63EE95C07E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:42:57 +0200 (CEST)
-Received: from localhost ([::1]:60228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9085C0A2
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:49:32 +0200 (CEST)
+Received: from localhost ([::1]:60274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhySG-0003is-K0
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41198)
+	id 1hhyYd-00087N-GT
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:49:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41185)
  by lists.gnu.org with esmtp (Exim 4.86_2)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hhyKU-0000Qz-6S
+ id 1hhyKS-0000Qx-LC
  for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:34:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
  (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hhyKL-0003YR-M6
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:34:50 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38496)
+ id 1hhyKL-0003YL-LS
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:34:47 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:40906)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1hhyKJ-0003Vk-QO
+ id 1hhyKJ-0003WG-Ot
  for qemu-devel@nongnu.org; Mon, 01 Jul 2019 11:34:43 -0400
-Received: by mail-wm1-x344.google.com with SMTP id s15so16436276wmj.3
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:34:40 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id p11so14367338wre.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 08:34:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=snEFNM+BLWpdwzbmTboes9ya75EUHOawAqCk8aLHVko=;
- b=qCi/s/xts7iFbsGVv5pcy9n1+EAS+ne51JRya+wGJBCj7M9pfqwM0kmEjNuav9pQAX
- 1fkUMPhKZcezs4Q6bz8PKpmmqf/pF/jbqyjgkATX/FMpDeryHz5XgxV3pdrXM9GOmdPF
- tLcKrqRzWt0GuuhajDke8pspOlTos5pTQz0jdykk0+niFOpVh9hVrIGde8+SE1fRmb0t
- oXregZxR8EytMVAejQwidTenxm7B48tNHG1DJSPuSpchnS3TFs5vgINxsG6cxToeQf8G
- ans3F06RRrcaZVtT2xRDwoxk7dw5BJHQOaObS1DkU6yTLSxZOCHqYIi7JW0WY3uOwYgq
- fjrQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=uK5bPKqQSOVaNTPYWlOvXm0O51fNBjeVOdDX+K+ANYs=;
+ b=aA6bVM03lga4HuYVODqmDwmjWd+pkfPTFIcAN9i9wf7gEgNoX6s7cg1E58PJ5OavcN
+ wpqaXnZzEAy+ErLa5CloUz6/Ikt3KIqkwyDjl4G4CfF6aI6Y4iyz3ise2zSeizNNvn8+
+ 3mvRwN4Qu2QIFDCuWe6EAsgGTpMK7z5WXSBIW664bTWUJJcvemwJMeN/R5jR9yERP6D6
+ 8tD1VWM+Qz/FgVkar67pVfxdUzZdZ0GAL4+QhEPa18CITOtiEC9SXO9KV9MfNJ3cQ7v4
+ e4VIpqa26JcqGezenHE/wEbsHuh3xV6bOSlDHlw23JPv3IckzI8NRE2teDwYe5GvZs/U
+ ZhPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=snEFNM+BLWpdwzbmTboes9ya75EUHOawAqCk8aLHVko=;
- b=uHEwi5UpL3lVJCnnk/6UhclOnRGZHTWhrTDLJtjJbEHuaEpEbK9SGZ5Wgu7xXOnr/S
- aenV9Me4aZaYLBxj5ZvCy6tX4gC5Aa2V7gG9P4CKWCzzz3S56hChQ0A0SIViuMjldu7P
- vWXO/DNlPbQwPwZaKxGO3lf9r+WkJX+ziSVJ2fCudvNEtc5GTSioG1h8wvGPpm7/5rlQ
- i6UL6c00svnGxFsaMbG3qUyOIYNFsU/XO69yTmGnou84evQnZDElI0JXNKFkw1OREwED
- yGSB1cOyO2W4OVXRFobXIwbVY2L8mu4B//t/1FtgZD2sDGPo1UJI0PMpXZ0cYpdxB9SD
- 4PQg==
-X-Gm-Message-State: APjAAAUFT897eTsHj5FpLABxRZm2PG5vsdYzUGn4603vukNkGgF9/6vj
- r3vAAz1oc3cEa8MX6NqYQNe1C3dV
-X-Google-Smtp-Source: APXvYqzb8UyBgq4MhfSWz6f2m8L2bW8CxZHkRhoc5AanJjkI4jTE5N39kEuHbflGjOYiRfsdue+OVw==
-X-Received: by 2002:a1c:9dc5:: with SMTP id g188mr18222223wme.93.1561995279325; 
- Mon, 01 Jul 2019 08:34:39 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=uK5bPKqQSOVaNTPYWlOvXm0O51fNBjeVOdDX+K+ANYs=;
+ b=Fo8oR7/d7drJieNz+AlORAnSvJOEWu/filR7p9LsV+KgJ6NydeMXD7XkGgfmJZfwPb
+ kAM2a9boj7QwjTatcXv2uf8ooX9OVN+2DfZFYFfbVmuiZE71PKLyz9x5528zSPZPbDis
+ pETQwSeHROAFZ6MAl755P93XwfTwzWqSBOFhgkicAmSm6KxnBjt+aQlOgbk/o/7s5v1S
+ ctuyyuHDBgZgHsAM1fPJEDs4I5KqwEk1mRZjiqbmdDq+xXQYc9cgUxY12sC9vtaLDcod
+ yuohrmp+lnGEJ5bnFLtqX3eR/DnC8wya9/xBCqEBW1nBYV50qBTNvs7886daVMh7USrA
+ a03w==
+X-Gm-Message-State: APjAAAURdmoTI/oMsjH6uELzDZ93FNTQOENxf37aVktI8jlOG4kKt1vs
+ sEdcEI1kiaGEvsDSkC5L+Ec1UkGk
+X-Google-Smtp-Source: APXvYqyA007tv98QFkZF3pkS+nMyLMzIgRF4/hjuQYsw8az7khP7FOxMU4iLbdkPl4cPsKArGArAmA==
+X-Received: by 2002:a5d:6449:: with SMTP id d9mr1574721wrw.192.1561995280895; 
+ Mon, 01 Jul 2019 08:34:40 -0700 (PDT)
 Received: from x1.local (183.red-88-21-202.staticip.rima-tde.net.
  [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id w24sm8922341wmc.30.2019.07.01.08.34.37
+ by smtp.gmail.com with ESMTPSA id w24sm8922341wmc.30.2019.07.01.08.34.39
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 08:34:38 -0700 (PDT)
+ Mon, 01 Jul 2019 08:34:40 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:34:34 +0200
-Message-Id: <20190701153436.16579-1-f4bug@amsat.org>
+Date: Mon,  1 Jul 2019 17:34:35 +0200
+Message-Id: <20190701153436.16579-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190701153436.16579-1-f4bug@amsat.org>
+References: <20190701153436.16579-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2 0/2] tests/acceptance: Add test of NeXTcube
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v2 1/2] tests/acceptance: Add test of NeXTcube
  framebuffer using OCR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,50 +92,152 @@ Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Add a test of the NeXTcube framebuffer using the Tesseract OCR
+engine on a screenshot of the framebuffer device.
 
-I was looking at Thomas' last series [*] where he adds the
-NeXTcube machine, thinking about enforcing a new rule "new
-machines must have tests". Then I realized the UART is not
-yet implemented, so our current sample tests are not helpful.
+The test is very quick:
 
-Since the framebuffer is working, I gave a try at dumping the
-screen content via the HMP 'screendump' command, then parsing
-the screenshot with an OCR tool.
+  $ avocado --show=app,ocr run tests/acceptance/machine_m68k_nextcube.py
+  JOB ID     : f7d3c27976047036dc568183baf64c04863d9985
+  JOB LOG    : ~/avocado/job-results/job-2019-06-29T16.18-f7d3c27/job.log
+  (1/1) tests/acceptance/machine_m68k_nextcube.py:NextCubeMachine.test_bootrom_framebuffer: |ocr:
+  ue r pun Honl'ﬂx ; 5‘ 55‘
+  avg ncaaaaa 25 MHZ, memary jag m
+  Backplane slat «a
+  Ethernet address a a r a r3 2
+  Memgry sackets aea canflqured far 16MB Darlly page made stMs but have 16MB page made stMs )nstalled
+  Memgry sackets a and 1 canflqured far 16MB Darlly page made stMs but have 16MB page made stMs )nstalled
+  [...]
+  Yestlnq the rpu, 5::
+  system test raneg Errar egge 51
+  Egg: cammand
+  Default pggc devlce nut fauna
+  NEXY>I
+  PASS (3.59 s)
+  RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+  JOB TIME   : 3.97 s
 
-The default ROM dump the bootlog to a console. Using the old
-good tesseract tool we can recover some useful words to be
-sure the guest is sane, its framebuffer is definitively working.
+Documentation on how to install tesseract:
+  https://github.com/tesseract-ocr/tesseract/wiki#installation
 
-This test takes less than 6s on Travis-CI:
-https://travis-ci.org/philmd/qemu/builds/552174983#L1836
-
-   AVOCADO tests/acceptance
- (3/9) /home/travis/build/philmd/qemu/tests/acceptance/machine_m68k_nextcube.py:NextCubeMachine.test_bootrom_framebuffer:  PASS (5.69 s)
-
-Since v1: https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06514.html
-- use the English dictionary (Thomas)
-- support tesseract v3 and v4 (much better results with v4, but not
-  all distros provide it)
-- add a test of the framebuffer width/height
-
-Regards,
-
-Phil.
-
-Based-on: 20190628181536.13729-1-huth@tuxfamily.org
-[*] "m68k: Add basic support for the NeXTcube machine"
-https://lists.gnu.org/archive/html/qemu-devel/2019-06/msg06393.html
-
-Philippe Mathieu-Daudé (2):
-  tests/acceptance: Add test of NeXTcube framebuffer using OCR
-  .travis.yml: Let the avocado job run the NeXTcube tests
-
- .travis.yml                               |   7 +-
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+v2:
+- test fb sizes
+- handle 2 versions of teseract
+---
  tests/acceptance/machine_m68k_nextcube.py | 102 ++++++++++++++++++++++
- 2 files changed, 108 insertions(+), 1 deletion(-)
+ 1 file changed, 102 insertions(+)
  create mode 100644 tests/acceptance/machine_m68k_nextcube.py
 
+diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptance/machine_m68k_nextcube.py
+new file mode 100644
+index 0000000000..f8e514a058
+--- /dev/null
++++ b/tests/acceptance/machine_m68k_nextcube.py
+@@ -0,0 +1,102 @@
++# Functional test that boots a VM and run OCR on the framebuffer
++#
++# Copyright (c) Philippe Mathieu-Daudé <f4bug@amsat.org>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++import logging
++import time
++import distutils.spawn
++
++from avocado import skipUnless
++from avocado_qemu import Test
++from avocado.utils import process
++
++try:
++    from PIL import Image
++    pil_available = True
++except ImportError:
++    pil_available = False
++
++
++def tesseract_available(expected_version):
++    if not distutils.spawn.find_executable('tesseract'):
++        return False
++    res = process.run('tesseract --version')
++    try:
++        version = res.stdout_text.split()[1]
++    except IndexError:
++        version = res.stderr_text.split()[1]
++    return int(version.split('.')[0]) == expected_version
++
++
++class NextCubeMachine(Test):
++
++    timeout = 15
++
++    def check_bootrom_framebuffer(self, screenshot_path):
++        rom_url = ('http://www.nextcomputers.org/NeXTfiles/Software/ROM_Files/'
++                   '68040_Non-Turbo_Chipset/Rev_2.5_v66.BIN')
++        rom_hash = 'b3534796abae238a0111299fc406a9349f7fee24'
++        rom_path = self.fetch_asset(rom_url, asset_hash=rom_hash)
++
++        self.vm.set_machine('next-cube')
++        self.vm.add_args('-bios', rom_path)
++        self.vm.launch()
++
++        self.log.info('VM launched, waiting for display')
++        # FIXME how to catch the 'displaysurface_create 1120x832' trace-event?
++        time.sleep(2)
++
++        self.vm.command('human-monitor-command',
++                        command_line='screendump %s' % screenshot_path)
++
++    @skipUnless(pil_available, 'Python PIL not installed')
++    def test_bootrom_framebuffer_size(self):
++        """
++        :avocado: tags=arch:m68k
++        :avocado: tags=machine:next-cube
++        :avocado: tags=device:framebuffer
++        """
++        screenshot_path = self.workdir + "dump"
++        self.check_bootrom_framebuffer(screenshot_path)
++
++        width, height = Image.open(screenshot_path).size
++        self.assertEqual(width, 1120)
++        self.assertEqual(height, 832)
++
++    @skipUnless(tesseract_available(3), 'tesseract v3 OCR tool not available')
++    def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
++        """
++        :avocado: tags=arch:m68k
++        :avocado: tags=machine:next-cube
++        :avocado: tags=device:framebuffer
++        """
++        screenshot_path = self.workdir + "dump"
++        self.check_bootrom_framebuffer(screenshot_path)
++
++        console_logger = logging.getLogger('ocr')
++        text = process.run("tesseract %s stdout" % screenshot_path).stdout_text
++        console_logger.debug(text)
++        self.assertIn('Backplane', text)
++        self.assertIn('Ethernet address', text)
++
++    @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not available')
++    def test_bootrom_framebuffer_ocr_with_tesseract_v4(self):
++        """
++        :avocado: tags=arch:m68k
++        :avocado: tags=machine:next-cube
++        :avocado: tags=device:framebuffer
++        """
++        screenshot_path = self.workdir + "dump"
++        self.check_bootrom_framebuffer(screenshot_path)
++
++        console_logger = logging.getLogger('ocr')
++        proc = process.run("tesseract --oem 1 %s stdout" % screenshot_path)
++        text = proc.stdout_text
++        console_logger.debug(text)
++        self.assertIn('Testing the FPU, SCC', text)
++        self.assertIn('System test failed. Error code 51', text)
++        self.assertIn('Boot command', text)
++        self.assertIn('Next>', text)
 -- 
 2.19.1
 
