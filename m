@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B8B75C4FD
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:29:54 +0200 (CEST)
-Received: from localhost ([::1]:45674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79D75C57A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:06:35 +0200 (CEST)
+Received: from localhost ([::1]:45918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi3s1-0004FX-CI
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:29:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44952)
+	id 1hi4RU-0007FN-NG
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53001)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Dn-0001bX-Md
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:25 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3UC-0005Ny-R8
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:05:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3Dj-0001Op-2h
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:17 -0400
-Received: from mail-wm1-f54.google.com ([209.85.128.54]:36982)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3UB-0004OG-Ug
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:05:16 -0400
+Received: from mail-wm1-f50.google.com ([209.85.128.50]:37472)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3Di-0001LX-QP
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:48:14 -0400
-Received: by mail-wm1-f54.google.com with SMTP id f17so936146wme.2
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:48:14 -0700 (PDT)
+ id 1hi3UB-0004MU-Dh
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:05:15 -0400
+Received: by mail-wm1-f50.google.com with SMTP id f17so976004wme.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XIpbYiZf2SRJuij2NyCsmVITR8aYraN06NwGun1+UKo=;
- b=rksDEHIWsnZsCPPLqt8XHpd3gmarGdae5onUU9ETDy4RPkd8vUqTPXbdxP5wW/rMbJ
- uiUWQP4iCitqIiJLcgy/D4T6EbnGlM1px38NJbfgcCPiWCAjRJRkxII6vdR0StREMKx1
- /9XO5rW6eGLvBAsqpnwgeTx7C1mYiXzTqnQkS2U9fBFsbkyA6TSxUz/WAhXpCzt1w2Pb
- WrNmf1ko7DL/Vi/q7mlIm4cMyKpfQKx0FaE2C8lYVzC6QBv0u9QTLnwYC+i7FitsDJQk
- FhYubxNZ/pasL4Zkd0uMp5iWglfDU6TtU2QoepXJf1gr1ciJv9WhPK5mi2HBMqe+zBST
- WApQ==
+ bh=sgWf2P2ycpWcgSXDYsWUTZ5BfbzfW6NVgQcaK6lwObA=;
+ b=mSO8z0/N9e+5E7XIA7S/ESajHceWVQS3SOEuGdXq0LyRfeKepCcDkfMzws8pOmgYWz
+ 7UCtMQ3exyS3a82tHOaxx6/NqvPkar+9LedhJa1+mkBA2xRCvFTltdZPhq2z/jHHsVNy
+ usuG9bSYMZhfmDUmvA7gVAEt/bL6bg1MMThQP7R92Cu2J3D2Fksd+CeeEoRBXN3uhJ/z
+ 2jnS0cR4A3OepuPLh9tO9WJN98tXKD0G9LQXBgJ4TYYzdK3VM9V+BcwdskhzK78UAh1H
+ G2U+CkQNqxGOSvOU4J0T/+xemoZtXtuAKIwWo5drZxFf9W0hs11USIVnXHyRdrJ4EvyP
+ RVuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XIpbYiZf2SRJuij2NyCsmVITR8aYraN06NwGun1+UKo=;
- b=Cp45jhGtfopzaO8O43aNyXSiumAyQ62iMxAZtwfNj/t1J5mgPLNXqMwaFx8B+792E8
- z/1k0M+iyr1wAlcElSPaTgVm5rzH8/HbEEt2tE5MkWBj/+QWBXp8q4zV0oE+zPfevShb
- qjJoHSTCgifWTmkux6VqCgSHNNRi1AXSOAsyDxjTVwbfkQudcE+z4dUoc99B4I6CW765
- 1L37/2DmTIe6pQJ1bW9xd3sUiYXODI7/4u/4C8qaWjsXFwD8NxQcIiLiCma/dRb+LZ+L
- FqxWSJVMxwqyL7I9KQHIc0ezzBQLc3rr5FVstHQ/2Jw8cWNGR+sg+6oGcho2p0nHOadi
- ZcgQ==
-X-Gm-Message-State: APjAAAUacXOTOZcrnV59HUiXSOwS130BEebmCH822p8mAc1GauRn1RcE
- XjIyxghO1PEbNzAE+bH0E4XXZj+TyGgK/Q==
-X-Google-Smtp-Source: APXvYqyrPYsbaLDj5jp+xvGqUuKn1fZoQ+ZFL3Qpt3+SbIFwFb8xkrHW65jaFZdzMGBeNv3N5F29LQ==
-X-Received: by 2002:a1c:6555:: with SMTP id z82mr97753wmb.129.1561999217998;
- Mon, 01 Jul 2019 09:40:17 -0700 (PDT)
+ bh=sgWf2P2ycpWcgSXDYsWUTZ5BfbzfW6NVgQcaK6lwObA=;
+ b=Jt1psAB3cWuHOmi5atNVx4VbJhwImRDbk+9SnNXH/WuJbgkopcx2AqiZqEGDo1Ip/s
+ sUwjB8VzCNhlBEScEB3I43owd3dRoQpKv9UoqyCMIyQgbWQcSbLx72DVaU3Oxee98qrq
+ kPGIqOHsTMdPFiJLffsZRYUjqfeKL1f8ZDlJFaFIfNZ3xLjkqeMcH0nMTYqQ2LzYpk+S
+ 2fmg8pA/BfJFJ6FWx6QFFfiamxE096z6GqRKKLuFuHl/ytomjUCeLzqUlnTJQVKdD48i
+ TRVfk8CQf63V3v9XZvdAaR3esp+9w+sZMFbq5A63QrZdu6Topx2Y6IBo/58jGXQJWzxS
+ LGgQ==
+X-Gm-Message-State: APjAAAWC07HpSSiZ8Hd17OJcN69Au2bDAM9n4W2ApBiN2pijutylj4jh
+ PGLS+XjQVL0LZPKG1gkQvo2Au9ZDHNOARQ==
+X-Google-Smtp-Source: APXvYqzByxlkcrwqMECZHtBWX9/k8NsIC4KLv5PueVMijUF1v7ACLdjsoWGApQGKdFJ/92VM7BN4vg==
+X-Received: by 2002:a1c:cb43:: with SMTP id b64mr141610wmg.86.1561999219809;
+ Mon, 01 Jul 2019 09:40:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.17
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:17 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:27 +0100
-Message-Id: <20190701163943.22313-31-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:29 +0100
+Message-Id: <20190701163943.22313-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.128.54
-Subject: [Qemu-devel] [PULL 30/46] target/arm: Makefile cleanup (KVM)
+X-Received-From: 209.85.128.50
+Subject: [Qemu-devel] [PULL 32/46] target/arm: Add copyright boilerplate
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,40 +84,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Group KVM rules together.
-
+Reviewed-by: Robert Bradford <robert.bradford@intel.com>
+Reviewed-by: Samuel Ortiz <sameo@linux.intel.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190701132516.26392-4-philmd@redhat.com
+Message-id: 20190701132516.26392-6-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/Makefile.objs | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ target/arm/helper.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index 1cbe7cfdb47..7a933eebc75 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -1,14 +1,15 @@
- obj-y += arm-semi.o
- obj-$(CONFIG_SOFTMMU) += machine.o psci.o arch_dump.o monitor.o
--obj-$(CONFIG_KVM) += kvm.o
--obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) += kvm32.o
--obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) += kvm64.o
--obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
- obj-y += helper.o vfp_helper.o
- obj-y += cpu.o gdbstub.o
- obj-$(TARGET_AARCH64) += cpu64.o gdbstub64.o
- obj-$(CONFIG_SOFTMMU) += arm-powerctl.o
- 
-+obj-$(CONFIG_KVM) += kvm.o
-+obj-$(call land,$(CONFIG_KVM),$(call lnot,$(TARGET_AARCH64))) += kvm32.o
-+obj-$(call land,$(CONFIG_KVM),$(TARGET_AARCH64)) += kvm64.o
-+obj-$(call lnot,$(CONFIG_KVM)) += kvm-stub.o
-+
- DECODETREE = $(SRC_PATH)/scripts/decodetree.py
- 
- target/arm/decode-sve.inc.c: $(SRC_PATH)/target/arm/sve.decode $(DECODETREE)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index df4276f5f6c..d3f3cb57d5f 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1,3 +1,10 @@
++/*
++ * ARM generic helpers.
++ *
++ * This code is licensed under the GNU GPL v2 or later.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "target/arm/idau.h"
 -- 
 2.20.1
 
