@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D425BD55
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:54:50 +0200 (CEST)
-Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99B6C5BE03
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:20:44 +0200 (CEST)
+Received: from localhost ([::1]:59208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwld-0002PC-6t
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:54:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41444)
+	id 1hhxAg-0004D4-3w
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:20:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42772)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhwL6-0002mK-0t
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:24 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hhwQr-0000OW-GX
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:33:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhwL3-0002pB-PK
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:27:23 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48222)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhwKx-0002iM-5X; Mon, 01 Jul 2019 09:27:15 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 46163308792D;
- Mon,  1 Jul 2019 13:27:13 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8AC206085B;
- Mon,  1 Jul 2019 13:27:10 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ (envelope-from <alex.bennee@linaro.org>) id 1hhwQo-0006ZB-VE
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:33:20 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41524)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hhwQn-0006V2-U4
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:33:18 -0400
+Received: by mail-wr1-x442.google.com with SMTP id c2so13891323wrm.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 06:33:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=gZ8QQoOMD4Dac54oipBU4JVQraIx3GI7A22osVYTtns=;
+ b=OlOuCE9NdN/x/UXGCYCG9EJew2Al5TXA6beznrUU2p9QZv9h36TAwGW+V6zqlhQrix
+ CS87nlkbRCXCbMikTei0Nks8LXkriFh2qcouYUNgakMyrol+IVbvqv54W2xbRTSZON4r
+ ObF2oLyaBUFg8/sbhHqL+OoYjl+OM2ge4kAyU0Gjo1W1PlfJOstqC1aOQdWpNK5CIG8w
+ o2/oyREs4KGlX3amX7eRaI3Zh7ELJEv+XWpPNXklYy0iZyo8v9/GLvgTVb0qL0bcqoMO
+ a/ZxBSm2jYtxxcucAToAF3obQOtvE8yppoLfy03q7yRkNz5lNM2zBqnZD4C7ZdA+CoiF
+ VWAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=gZ8QQoOMD4Dac54oipBU4JVQraIx3GI7A22osVYTtns=;
+ b=ce8EKwMUY9gaCRAwqPFHj3cypFFEB1gUXJFdbT7N+p0c/P6GzzWyv5vtwPhJT1LdY8
+ qsdvjb6ELT5vrXzUTp+FL3rqDRsub5C/Q5J88COEeWiND5l8ff70a+jGLcp+6AFD+FQA
+ YqDhJJ3oKCEsNIxTv/2mVSwQvqGtn9KWTQ6r9ej4D1kZZYCG4f7Zj6PFLDJco/KcsdIH
+ BBcpni0gYayyWi7m0MIr2vYn2OjYj6UevRdiVaiOSF7D77ICby3InSMYBR+JOkITexmc
+ dFzwtFapmT+0s2uyDxDY4sNGqRda8a60sOB2uQ5w/YsCJbq0H0ODXOn1Se5ss6YQ4dOU
+ j7jg==
+X-Gm-Message-State: APjAAAXyGcIlt1WOuR/UdJslb6P7UgSJx+77mKCa3DJGpZiFE4881sDz
+ s+1jfFbmPe4YuzhK5JwylmmxYg==
+X-Google-Smtp-Source: APXvYqxiQmWF5WmEdysprk0Zw+r9Oas4VyZW6pu5SPClhoFo+EySRi6u0tKdGODz/3b3pEOJ2WdzPg==
+X-Received: by 2002:adf:fa4c:: with SMTP id y12mr18988475wrr.282.1561987992168; 
+ Mon, 01 Jul 2019 06:33:12 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id o11sm11549386wmh.37.2019.07.01.06.33.11
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 01 Jul 2019 06:33:11 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 363EA1FF87;
+ Mon,  1 Jul 2019 14:33:11 +0100 (BST)
+References: <20190628113917.15869-1-luc.michel@greensocs.com>
+ <f9c429e1-4a1d-959a-04c4-e9b7e94637cf@linaro.org>
+ <20190701131933.GA2840@toto>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 15:25:16 +0200
-Message-Id: <20190701132516.26392-28-philmd@redhat.com>
-In-Reply-To: <20190701132516.26392-1-philmd@redhat.com>
-References: <20190701132516.26392-1-philmd@redhat.com>
+In-reply-to: <20190701131933.GA2840@toto>
+Date: Mon, 01 Jul 2019 14:33:11 +0100
+Message-ID: <87blydswvc.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.45]); Mon, 01 Jul 2019 13:27:13 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 27/27] target/arm: Do not build TCG objects
- when TCG is off
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [RFC PATCH] accel/tcg/translator: add tb_enter TCG
+ trace
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,46 +84,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jones <drjones@redhat.com>, Samuel Ortiz <sameo@linux.intel.com>,
- Rob Bradford <robert.bradford@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: damien.hedde@greensocs.com,
+ Richard Henderson <richard.henderson@linaro.org>, mark.burton@greensocs.com,
+ sakisp@xilinx.com, edgari@xilinx.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can now safely turn all TCG dependent build off when CONFIG_TCG is
-off. This allows building ARM binaries with --disable-tcg.
 
-Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-v3: complete rewrite of patch content, removed R-b tags
----
- target/arm/Makefile.objs | 4 ++++
- 1 file changed, 4 insertions(+)
+Edgar E. Iglesias <edgar.iglesias@xilinx.com> writes:
 
-diff --git a/target/arm/Makefile.objs b/target/arm/Makefile.objs
-index 89cd7c36e3..c8bca74a63 100644
---- a/target/arm/Makefile.objs
-+++ b/target/arm/Makefile.objs
-@@ -32,6 +32,8 @@ target/arm/translate-sve.o: target/arm/decode-sve.inc.c
- target/arm/translate.o: target/arm/decode-vfp.inc.c
- target/arm/translate.o: target/arm/decode-vfp-uncond.inc.c
-=20
-+ifeq ($(CONFIG_TCG),y)
-+
- obj-y +=3D tlb_helper.o debug_helper.o
- obj-y +=3D translate.o op_helper.o
- obj-y +=3D crypto_helper.o
-@@ -43,3 +45,5 @@ obj-$(CONFIG_SOFTMMU) +=3D psci.o
- obj-$(TARGET_AARCH64) +=3D translate-a64.o helper-a64.o
- obj-$(TARGET_AARCH64) +=3D translate-sve.o sve_helper.o
- obj-$(TARGET_AARCH64) +=3D pauth_helper.o
-+
-+endif # CONFIG_TCG
---=20
-2.20.1
+> On Fri, Jun 28, 2019 at 02:16:41PM +0200, Richard Henderson wrote:
+>> On 6/28/19 1:39 PM, Luc Michel wrote:
+>> > Add a TCG trace at the begining of a translation block recording the
+>> > first and last (past-the-end) PC values.
+>> >
+>> > Signed-off-by: Luc Michel <luc.michel@greensocs.com>
+>> > ---
+>> > This can be used to trace the execution of the guest quite efficiently.
+>> > It will report each time a TB is entered (using the tb_enter_exec
+>> > trace). The traces arguments give the PC start and past-the-end values.
+>> > It has very little to no performance impact since the trace is actually
+>> > emitted in the generated code only when it is enabled at run time.
+>> >
+>> > It works already quite well on its own to trace guest execution. Howev=
+er
+>> > it does not handle the case where a TB is exited in the middle of
+>> > execution. I'm not sure how to properly trace that. A trace could be
+>> > added when `cpu_loop_exit()' is called to report the current PC, but in
+>> > most cases the interesting value (the PC of the instruction that
+>> > caused the exit) is already lost at this stage.
+>> >
+>> > I'm not sure there is a generic (i.e. not target specific) way of
+>> > recovering the last PC executed when cpu_loop_exit() is called. Do you
+>> > think of a better way?
+>> >
+>> > Thanks to the Xilinx's QEMU team who sponsored this work.
+>> > ---
+>> >  accel/tcg/translator.c | 24 ++++++++++++++++++++++++
+>> >  trace-events           |  3 +++
+>> >  2 files changed, 27 insertions(+)
+>> >
+>> > diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+>> > index 9226a348a3..c55377aa18 100644
+>> > --- a/accel/tcg/translator.c
+>> > +++ b/accel/tcg/translator.c
+>> > @@ -14,10 +14,11 @@
+>> >  #include "tcg/tcg-op.h"
+>> >  #include "exec/exec-all.h"
+>> >  #include "exec/gen-icount.h"
+>> >  #include "exec/log.h"
+>> >  #include "exec/translator.h"
+>> > +#include "trace-tcg.h"
+>> >
+>> >  /* Pairs with tcg_clear_temp_count.
+>> >     To be called by #TranslatorOps.{translate_insn,tb_stop} if
+>> >     (1) the target is sufficiently clean to support reporting,
+>> >     (2) as and when all temporaries are known to be consumed.
+>> > @@ -28,14 +29,31 @@ void translator_loop_temp_check(DisasContextBase *=
+db)
+>> >          qemu_log("warning: TCG temporary leaks before "
+>> >                   TARGET_FMT_lx "\n", db->pc_next);
+>> >      }
+>> >  }
+>> >
+>> > +static TCGOp *gen_trace_tb_enter(TranslationBlock *tb)
+>> > +{
+>> > +    TCGOp *last_pc_op;
+>> > +
+>> > +    TCGv pc_end =3D tcg_temp_new();
+>> > +
+>> > +    /* The last PC value is not known yet */
+>> > +    tcg_gen_movi_tl(pc_end, 0xdeadbeef);
+>> > +    last_pc_op =3D tcg_last_op();
+>>
+>> TL is a target-specific type that does not necessarily correspond to uin=
+t64_t,
+>> as you assume in the print message.  More importantly, on a 32-bit host =
+with a
+>> 64-bit guest, this movi will generate *two* ops...
+>>
+>> > +    /* Fixup the last PC value in the tb_enter trace now that we know=
+ it */
+>> > +    tcg_set_insn_param(trace_pc_end, 1, db->pc_next);
+>>
+>> ... which means that this operation does not do what you think it does. =
+ It
+>> will only set one (unknown) half of the _i64 temporary.
+>>
+>> Moreover, this isn't quite as zero overhead as I would like, because the=
+ pc_end
+>> temporary is always created, even if the trace_tb condition is not satis=
+fied
+>> and so it (eventually) gets removed as unused.
+>>
+>> I'm not quite sure what you're after with pc_end anyway.  As you note wi=
+thin
+>> the cover, you can't reliably use it for anything.  If you remove that, =
+then
+>> you've also removed all of the other problems with this patch.
+>>
+>
+> Hi,
+>
+> One of the use cases is to be able to collect code-coverage from these tr=
+aces.
+> In that case we're going to need a reliable pc_end. We may need to recove=
+r it
+> from outside of TCG in some cases though...
 
+Why?
+
+The only place you need to recover pc_end is when processing an
+exception and for that case the front end should be using
+cpu_loop_exit_restore() to ensure registers are valid before the
+exception is processed. Otherwise you know where you've been given the
+next block starts at pc_next (with -d nochain).
+
+However I suspect if you want to build more sophisticated tools to track
+execution the plugin approach might be better. This seems like a bit of
+an arbitrary addition to the TCG core for a single use case where we
+already have logging facilities that will give you the same information.
+
+--
+Alex Benn=C3=A9e
 
