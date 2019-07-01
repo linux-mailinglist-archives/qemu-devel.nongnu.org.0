@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAE05C699
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:28:33 +0200 (CEST)
-Received: from localhost ([::1]:46838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86ED85C68C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:24:26 +0200 (CEST)
+Received: from localhost ([::1]:46796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7ay-0007LN-M4
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44739)
+	id 1hi7Wz-0001iM-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43353)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hi3rd-0005Iv-DI
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:29:30 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hi3q6-00042C-65
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:27:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hi3rc-0008Rg-Ct
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:29:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36895)
+ (envelope-from <ehabkost@redhat.com>) id 1hi3pz-0007bV-V1
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:27:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48070)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hi3rZ-0008No-DL; Mon, 01 Jul 2019 17:29:25 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hi3pu-0007Yj-Gq
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:27:46 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1F18630BBE98;
- Mon,  1 Jul 2019 19:50:21 +0000 (UTC)
-Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B6CF379F;
- Mon,  1 Jul 2019 19:50:17 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 21:49:40 +0200
-Message-Id: <20190701194942.10092-7-philmd@redhat.com>
-In-Reply-To: <20190701194942.10092-1-philmd@redhat.com>
-References: <20190701194942.10092-1-philmd@redhat.com>
+ by mx1.redhat.com (Postfix) with ESMTPS id 695FC356C4;
+ Mon,  1 Jul 2019 21:27:33 +0000 (UTC)
+Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD70060852;
+ Mon,  1 Jul 2019 21:27:32 +0000 (UTC)
+Date: Mon, 1 Jul 2019 17:38:39 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@linux.intel.com>
+Message-ID: <20190701203839.GG5198@habkost.net>
+References: <20190628002844.24894-1-ehabkost@redhat.com>
+ <20190628002844.24894-10-ehabkost@redhat.com>
+ <612a3fdf-6525-a428-ebd5-b951c333bf2f@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <612a3fdf-6525-a428-ebd5-b951c333bf2f@linux.intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.49]); Mon, 01 Jul 2019 19:50:21 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.30]); Mon, 01 Jul 2019 21:27:33 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 6/8] RFC target/arm: Restrict R and M
- profiles to TCG
+Subject: Re: [Qemu-devel] [PATCH v2 9/9] i386: Add Cascadelake-Server-v2 CPU
+ model
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,76 +58,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jones <drjones@redhat.com>, Samuel Ortiz <sameo@linux.intel.com>,
- Rob Bradford <robert.bradford@intel.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, jingqi.liu@intel.com,
+ Tao Xu <tao3.xu@intel.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, "Hu, Robert" <robert.hu@intel.com>,
+ Jiri Denemark <jdenemar@redhat.com>, "Lai, Paul C" <paul.c.lai@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM is only able to run A profile cpus.
+On Mon, Jul 01, 2019 at 03:23:31PM +0800, Xiaoyao Li wrote:
+> On 6/28/2019 8:28 AM, Eduardo Habkost wrote:
+> > Add new version of Cascadelake-Server CPU model, setting
+> > stepping=5 and enabling the IA32_ARCH_CAPABILITIES MSR
+> > with some flags.
+> > 
+> > The new feature will introduce a new host software requirement,
+> > breaking our CPU model runnability promises.  This means we can't
+> > enable the new CPU model version by default in QEMU 4.1, because
+> > management software isn't ready yet to resolve CPU model aliases.
+> > This is why "pc-*-4.1" will keep returning Cascadelake-Server-v1
+> > if "-cpu Cascadelake-Server" is specified.
+> > 
+> > Includes a test case to ensure the right combinations of
+> > machine-type + CPU model + command-line feature flags will work
+> > as expected.
+> > 
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> > Changes v1 -> v2:
+> > * Enable rdctl-no, ibrs-all, skip-l1dfl-vmentry
+> >    (Suggested by Tao Xu)
+> > 
+> > Cc: "Hu, Robert" <robert.hu@intel.com>
+> > Cc: Tao Xu <tao3.xu@intel.com>
+> > Cc: jingqi.liu@intel.com,
+> > Cc: "Lai, Paul C" <paul.c.lai@intel.com>
+> > ---
+> >   target/i386/cpu.c                          | 14 +++++
+> >   tests/acceptance/x86_cpu_model_versions.py | 73 ++++++++++++++++++++++
+> >   2 files changed, 87 insertions(+)
+> > 
+> > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> > index 10a09c971a..570890a7dd 100644
+> > --- a/target/i386/cpu.c
+> > +++ b/target/i386/cpu.c
+> > @@ -2343,6 +2343,20 @@ static X86CPUDefinition builtin_x86_defs[] = {
+> >               CPUID_6_EAX_ARAT,
+> >           .xlevel = 0x80000008,
+> >           .model_id = "Intel Xeon Processor (Cascadelake)",
+> > +        .versions = (X86CPUVersionDefinition[]) {
+> > +            { .version = 1 },
+> > +            { .version = 2,
+> > +              .props = (PropValue[]) {
+> > +                  { "stepping", "5" },
+> 
+> Stepping should be 6?
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- target/arm/cpu.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+Yes, my mistake.
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 290ef16e52..a0934a47ee 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -453,7 +453,9 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interru=
-pt_request)
-     return ret;
- }
-=20
--#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-+/* CPU models. These are not needed for the AArch64 linux-user build. */
-+#if (!defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)) \
-+    && defined(CONFIG_TCG)
- static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_reque=
-st)
- {
-     CPUClass *cc =3D CPU_GET_CLASS(cs);
-@@ -1855,8 +1857,6 @@ static void cortex_m0_initfn(Object *obj)
-     cpu->midr =3D 0x410cc200;
- }
-=20
--#endif
--
- static void cortex_m3_initfn(Object *obj)
- {
-     ARMCPU *cpu =3D ARM_CPU(obj);
-@@ -2010,6 +2010,8 @@ static void cortex_r5f_initfn(Object *obj)
-     cpu->isar.mvfr1 =3D 0x00000011;
- }
-=20
-+#endif
-+
- static const ARMCPRegInfo cortexa8_cp_reginfo[] =3D {
-     { .name =3D "L2LOCKDOWN", .cp =3D 15, .crn =3D 9, .crm =3D 0, .opc1 =
-=3D 1, .opc2 =3D 0,
-       .access =3D PL1_RW, .type =3D ARM_CP_CONST, .resetvalue =3D 0 },
-@@ -2491,7 +2493,6 @@ static const ARMCPUInfo arm_cpus[] =3D {
-     { .name =3D "arm1176",     .initfn =3D arm1176_initfn },
-     { .name =3D "arm11mpcore", .initfn =3D arm11mpcore_initfn },
-     { .name =3D "cortex-m0",   .initfn =3D cortex_m0_initfn,
--#endif
-                              .class_init =3D arm_v7m_class_init },
-     { .name =3D "cortex-m3",   .initfn =3D cortex_m3_initfn,
-                              .class_init =3D arm_v7m_class_init },
-@@ -2501,6 +2502,7 @@ static const ARMCPUInfo arm_cpus[] =3D {
-                              .class_init =3D arm_v7m_class_init },
-     { .name =3D "cortex-r5",   .initfn =3D cortex_r5_initfn },
-     { .name =3D "cortex-r5f",  .initfn =3D cortex_r5f_initfn },
-+#endif
-     { .name =3D "cortex-a7",   .initfn =3D cortex_a7_initfn },
-     { .name =3D "cortex-a8",   .initfn =3D cortex_a8_initfn },
-     { .name =3D "cortex-a9",   .initfn =3D cortex_a9_initfn },
---=20
-2.20.1
+> 
+> > +                  { "arch-capabilities", "on" },
+> > +                  { "rdctl-no", "on" },
+> > +                  { "ibrs-all", "on" },
+> > +                  { "skip-l1dfl-vmentry", "on" },
+> 
+> rdmsr 0x10AH returns 0x2b from host Cascadelake, we'd better add feature
+> "mds-no" too. Otherwise we will need another version for that feature.
 
+Thanks for the info, I will update it in the next version.
+
+> [...]
+
+-- 
+Eduardo
 
