@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904A25C67B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 02:58:54 +0200 (CEST)
-Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1E95C69C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:31:06 +0200 (CEST)
+Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi78G-0000Qu-4n
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 20:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48855)
+	id 1hi7dR-0001CL-8m
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:31:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55938)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi42m-0006kp-Rd
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:41:01 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4Na-0005Ft-Ll
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi42l-0004on-Pf
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:41:00 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43714)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4NY-0000a6-L6
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:30 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41572)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi42l-0004nU-Id
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:40:59 -0400
-Received: by mail-wr1-f66.google.com with SMTP id p13so15363850wru.10
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:40:56 -0700 (PDT)
+ id 1hi4NV-0000Ts-GO
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:26 -0400
+Received: by mail-wr1-f67.google.com with SMTP id c2so15441571wrm.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:02:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=rnHrhKlg4rPjTPEn7YeLUI7OUdliTbLuOiEfOpcbWYc=;
- b=t5zliwsZ5Hwp0hVTa/zzs3QODp6L6rpRk23Kf6qKZb61KucKyX/GI43dj18RRcwGBx
- L3B69Gp87ycvZq9Uhi/5B6t6KXlfEhrCYPeN/B8xlUO6GWSdYjo7IRSCyITpPmVMBXcx
- s/2FMSY4zo8tAWNsLD9P5a6woiggfO2So2y/EOwzTp1N7FYL8W0quimlhiXJYFppqLbt
- B0yjGhmwCoRUJMVknYNctLYGMm0b1LxCeulJxcuMeQLxQ/Cq/AhEombVyN6w+dUy41/c
- bowumHeP7mDPT1gEyRg7N2pwn1qD/Eyjo0gUhrJjiSlTq7NORcnMO5gjfD3TeFh3tS9W
- I7fQ==
+ bh=KkUQSWRyDo7N3gMjPFgWAFIufs62qiUnuMkPV6Fsbp4=;
+ b=eSUm5Pht6gJL8SzhSmxiPQULQJzBY0cI1Q3x7OssvcCHel0w6maC1/oSV00SeY+mNE
+ 8VZRlirc9S5A9t3kbYe9DONj7hwVro5koBmKvSSkP2QtNRvsldq5aSaXanaqrpcS+dJA
+ i9hKFixCEVTX4S2f300g2A7FLiRhDTkUMy4EnejnUcQmm0DVL3eDc7U8u0Mvsje2MXOx
+ G32NAhHC2CrJVEHh6GJUjf7qPe33hzxWgul1PhERAM2+eCl0O6XczVSZeTmgeeYVf9Zz
+ 094Zd3+uerm+ugLO6uDhjVFtduCY+cg24fBIkB8MXtpKRfanMN+rurh9PaK0cQ/ANYYf
+ Zi7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rnHrhKlg4rPjTPEn7YeLUI7OUdliTbLuOiEfOpcbWYc=;
- b=WkbYA1aCj2rwGOap46NWJmmTB3rbUarARw5AS7q2ZQ0BNedgQCoEmi9s6eUSQzSK5g
- ejQmiF2rJBmnW4g7c/+1nhD1m3Gd43OiixJJ/w7QPBjzkuB5wh19gbMS+q4HJxbl4zVq
- QXXDwiAD7ulrBh3DRiHkv/0+WXX7cjsJyPsgAtWgBhCn1GwyYNBJs/ZFN5p74pmwfDA4
- +SqRzpQ7yPFVMtP3EX8mS/1LmnFMQLsyYx6EMBzwp6ADmLq3TSGyFCEDbciLpvbWHUcM
- bEgjzski6eMfdoRZZBxSyAiLyVCrfrF0AxMhaaCFg0/sFTAvBwaiNJg7A6IzaOdHqeAJ
- C95A==
-X-Gm-Message-State: APjAAAVDRG2+9XUIhzBq6SciFc59Zdo0U1HHYoxFu2pH6+977EkTVS77
- K0OptQCCh859tl/U1ao3kKD7v3X+NXj8xA==
-X-Google-Smtp-Source: APXvYqzSnavuc+sA/3DP4G5/6vuE2nV96qOE/ItV/ZSfDLX8NXq0J5edWyx2UEhIis/aDfYkizou+w==
-X-Received: by 2002:adf:f042:: with SMTP id t2mr6306647wro.299.1561999190855; 
- Mon, 01 Jul 2019 09:39:50 -0700 (PDT)
+ bh=KkUQSWRyDo7N3gMjPFgWAFIufs62qiUnuMkPV6Fsbp4=;
+ b=fIc0vcLs3AbzMjutZ8Ucaba+Wb0aw39XC1+6YLxALJH6nzuoFJE2155sgGqZPuZYJi
+ EgAxE1fet11qBA/p+ylJ+0160DaGljugGpaQRqnWIa9MVq/IqrRvetKWfAqD/3VwELX6
+ HU90BWqfKgrIpH5NAG/3NWdDN1Y0n6oG/nIVA2sbwH/5R7lBT/3oCFdhZQWYKFDTGMal
+ OgYemvitR7+T7/xKwbCBbU4tD0Pb7qRa3Oy4skrqAqf/j0beOGyjxDNQhza8yI+KUkCv
+ n9RNz+cTAnWsRJIBiI9kDKxAGxUfQ3BTBkRl7ZgBLb2+F90NHQs28ecyW1KMa41wY97f
+ kvYg==
+X-Gm-Message-State: APjAAAVnqDN3QiNvYffC7IOfVpgvxycBBpKKJK5d0bjdEb8Ed1y0CR/9
+ sJLWvdRpwjufPGgE6X7b+7qgZt9LcNz/ag==
+X-Google-Smtp-Source: APXvYqyEeY51OM8LgNBMbG1hjRPU4+p7Z1PjSrZ9DifrGkNIeT8Yswg4PjQNbADUNvXPK1zDZWGJEQ==
+X-Received: by 2002:adf:e947:: with SMTP id m7mr8960339wrn.123.1561999192071; 
+ Mon, 01 Jul 2019 09:39:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.50
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:39:50 -0700 (PDT)
+ Mon, 01 Jul 2019 09:39:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:03 +0100
-Message-Id: <20190701163943.22313-7-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:04 +0100
+Message-Id: <20190701163943.22313-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.66
-Subject: [Qemu-devel] [PULL 06/46] pci: designware: Update MSI mapping
- unconditionally
+X-Received-From: 209.85.221.67
+Subject: [Qemu-devel] [PULL 07/46] pci: designware: Update MSI mapping when
+ MSI address changes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,16 +84,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Smirnov <andrew.smirnov@gmail.com>
 
-Expression to calculate update_msi_mapping in code handling writes to
-DESIGNWARE_PCIE_MSI_INTR0_ENABLE is missing an ! operator and should
-be:
-
-    !!root->msi.intr[0].enable ^ !!val;
-
-so that MSI mapping is updated when enabled transitions from either
-"none" -> "any" or "any" -> "none". Since that register shouldn't be
-written to very often, change the code to update MSI mapping
-unconditionally instead of trying to fix the update_msi_mapping logic.
+MSI mapping needs to be update when MSI address changes, so add the
+code to do so.
 
 Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>
@@ -104,32 +96,27 @@ Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/pci-host/designware.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ hw/pci-host/designware.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index 0fdfff57848..ec697c8f9df 100644
+index ec697c8f9df..931cd954e87 100644
 --- a/hw/pci-host/designware.c
 +++ b/hw/pci-host/designware.c
-@@ -297,16 +297,10 @@ static void designware_pcie_root_config_write(PCIDevice *d, uint32_t address,
-         root->msi.base |= (uint64_t)val << 32;
-         break;
- 
--    case DESIGNWARE_PCIE_MSI_INTR0_ENABLE: {
--        const bool update_msi_mapping = !root->msi.intr[0].enable ^ !!val;
--
-+    case DESIGNWARE_PCIE_MSI_INTR0_ENABLE:
-         root->msi.intr[0].enable = val;
--
--        if (update_msi_mapping) {
--            designware_pcie_root_update_msi_mapping(root);
--        }
+@@ -290,11 +290,13 @@ static void designware_pcie_root_config_write(PCIDevice *d, uint32_t address,
+     case DESIGNWARE_PCIE_MSI_ADDR_LO:
+         root->msi.base &= 0xFFFFFFFF00000000ULL;
+         root->msi.base |= val;
 +        designware_pcie_root_update_msi_mapping(root);
          break;
--    }
  
-     case DESIGNWARE_PCIE_MSI_INTR0_MASK:
-         root->msi.intr[0].mask = val;
+     case DESIGNWARE_PCIE_MSI_ADDR_HI:
+         root->msi.base &= 0x00000000FFFFFFFFULL;
+         root->msi.base |= (uint64_t)val << 32;
++        designware_pcie_root_update_msi_mapping(root);
+         break;
+ 
+     case DESIGNWARE_PCIE_MSI_INTR0_ENABLE:
 -- 
 2.20.1
 
