@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62F255BCFC
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:33:06 +0200 (CEST)
-Received: from localhost ([::1]:58835 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE895BD42
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:48:34 +0200 (CEST)
+Received: from localhost ([::1]:58958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwQb-0007L0-6V
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:33:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40931)
+	id 1hhwfX-0004AK-Uh
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:48:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40925)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhwKY-00025v-Lc
+ (envelope-from <philmd@redhat.com>) id 1hhwKY-00025t-Jd
  for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:26:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhwKS-0002B9-Gw
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:26:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55818)
+ (envelope-from <philmd@redhat.com>) id 1hhwKQ-00029U-As
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:26:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47818)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhwJz-0001jT-UX; Mon, 01 Jul 2019 09:26:17 -0400
+ id 1hhwJz-0001ln-S3; Mon, 01 Jul 2019 09:26:17 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 16AE6811D8;
- Mon,  1 Jul 2019 13:26:05 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 47E0F3082B71;
+ Mon,  1 Jul 2019 13:26:08 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DF0617DDD;
- Mon,  1 Jul 2019 13:26:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FB4F6085B;
+ Mon,  1 Jul 2019 13:26:05 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 15:24:58 +0200
-Message-Id: <20190701132516.26392-10-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 15:24:59 +0200
+Message-Id: <20190701132516.26392-11-philmd@redhat.com>
 In-Reply-To: <20190701132516.26392-1-philmd@redhat.com>
 References: <20190701132516.26392-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 01 Jul 2019 13:26:05 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Mon, 01 Jul 2019 13:26:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 09/27] target/arm: Move the DC ZVA helper
- into op_helper
+Subject: [Qemu-devel] [PATCH v3 10/27] target/arm: Move CPU state dumping
+ routines to cpu.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -65,270 +65,569 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Samuel Ortiz <sameo@linux.intel.com>
-
-Those helpers are a software implementation of the ARM v8 memory zeroing
-op code. They should be moved to the op helper file, which is going to
-eventually be built only when TCG is enabled.
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Robert Bradford <robert.bradford@intel.com>
-Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-[PMD: Rebased]
+Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- target/arm/helper.c    | 92 -----------------------------------------
- target/arm/op_helper.c | 93 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 93 insertions(+), 92 deletions(-)
+ target/arm/cpu.c           | 226 +++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.h           |   2 -
+ target/arm/translate-a64.c | 128 ---------------------
+ target/arm/translate.c     |  88 ---------------
+ target/arm/translate.h     |   5 -
+ 5 files changed, 226 insertions(+), 223 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c77ed85215..a87fda9191 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -13308,98 +13308,6 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr addres=
-s, int size,
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 376db154f0..1f73631bac 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -19,6 +19,7 @@
+  */
+=20
+ #include "qemu/osdep.h"
++#include "qemu/qemu-print.h"
+ #include "qemu-common.h"
+ #include "target/arm/idau.h"
+ #include "qemu/module.h"
+@@ -676,6 +677,231 @@ static void arm_disas_set_info(CPUState *cpu, disas=
+semble_info *info)
  #endif
  }
 =20
--void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
--{
--    /*
--     * Implement DC ZVA, which zeroes a fixed-length block of memory.
--     * Note that we do not implement the (architecturally mandated)
--     * alignment fault for attempts to use this on Device memory
--     * (which matches the usual QEMU behaviour of not implementing eithe=
-r
--     * alignment faults or any memory attribute handling).
--     */
--
--    ARMCPU *cpu =3D env_archcpu(env);
--    uint64_t blocklen =3D 4 << cpu->dcz_blocksize;
--    uint64_t vaddr =3D vaddr_in & ~(blocklen - 1);
--
--#ifndef CONFIG_USER_ONLY
--    {
--        /*
--         * Slightly awkwardly, QEMU's TARGET_PAGE_SIZE may be less than
--         * the block size so we might have to do more than one TLB looku=
-p.
--         * We know that in fact for any v8 CPU the page size is at least=
- 4K
--         * and the block size must be 2K or less, but TARGET_PAGE_SIZE i=
-s only
--         * 1K as an artefact of legacy v5 subpage support being present =
-in the
--         * same QEMU executable. So in practice the hostaddr[] array has
--         * two entries, given the current setting of TARGET_PAGE_BITS_MI=
-N.
--         */
--        int maxidx =3D DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
--        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)]=
-;
--        int try, i;
--        unsigned mmu_idx =3D cpu_mmu_index(env, false);
--        TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
--
--        assert(maxidx <=3D ARRAY_SIZE(hostaddr));
--
--        for (try =3D 0; try < 2; try++) {
--
--            for (i =3D 0; i < maxidx; i++) {
--                hostaddr[i] =3D tlb_vaddr_to_host(env,
--                                                vaddr + TARGET_PAGE_SIZE=
- * i,
--                                                1, mmu_idx);
--                if (!hostaddr[i]) {
--                    break;
--                }
--            }
--            if (i =3D=3D maxidx) {
--                /*
--                 * If it's all in the TLB it's fair game for just writin=
-g to;
--                 * we know we don't need to update dirty status, etc.
--                 */
--                for (i =3D 0; i < maxidx - 1; i++) {
--                    memset(hostaddr[i], 0, TARGET_PAGE_SIZE);
--                }
--                memset(hostaddr[i], 0, blocklen - (i * TARGET_PAGE_SIZE)=
-);
--                return;
--            }
--            /*
--             * OK, try a store and see if we can populate the tlb. This
--             * might cause an exception if the memory isn't writable,
--             * in which case we will longjmp out of here. We must for
--             * this purpose use the actual register value passed to us
--             * so that we get the fault address right.
--             */
--            helper_ret_stb_mmu(env, vaddr_in, 0, oi, GETPC());
--            /* Now we can populate the other TLB entries, if any */
--            for (i =3D 0; i < maxidx; i++) {
--                uint64_t va =3D vaddr + TARGET_PAGE_SIZE * i;
--                if (va !=3D (vaddr_in & TARGET_PAGE_MASK)) {
--                    helper_ret_stb_mmu(env, va, 0, oi, GETPC());
--                }
--            }
--        }
--
--        /*
--         * Slow path (probably attempt to do this to an I/O device or
--         * similar, or clearing of a block of code we have translations
--         * cached for). Just do a series of byte writes as the architect=
-ure
--         * demands. It's not worth trying to use a cpu_physical_memory_m=
-ap(),
--         * memset(), unmap() sequence here because:
--         *  + we'd need to account for the blocksize being larger than a=
- page
--         *  + the direct-RAM access case is almost always going to be de=
-alt
--         *    with in the fastpath code above, so there's no speed benef=
-it
--         *  + we would have to deal with the map returning NULL because =
-the
--         *    bounce buffer was in use
--         */
--        for (i =3D 0; i < blocklen; i++) {
--            helper_ret_stb_mmu(env, vaddr + i, 0, oi, GETPC());
--        }
--    }
--#else
--    memset(g2h(vaddr), 0, blocklen);
--#endif
--}
--
- /* Note that signed overflow is undefined in C.  The following routines =
-are
-    careful to use unsigned types where modulo arithmetic is required.
-    Failure to do so _will_ break on newer gcc.  */
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index b1952486c6..7c835d3ce7 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -17,6 +17,7 @@
-  * License along with this library; if not, see <http://www.gnu.org/lice=
-nses/>.
-  */
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "cpu.h"
-@@ -1325,3 +1326,95 @@ uint32_t HELPER(ror_cc)(CPUARMState *env, uint32_t=
- x, uint32_t i)
-         return ((uint32_t)x >> shift) | (x << (32 - shift));
-     }
- }
++#ifdef TARGET_AARCH64
 +
-+void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
++static void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
 +{
-+    /*
-+     * Implement DC ZVA, which zeroes a fixed-length block of memory.
-+     * Note that we do not implement the (architecturally mandated)
-+     * alignment fault for attempts to use this on Device memory
-+     * (which matches the usual QEMU behaviour of not implementing eithe=
-r
-+     * alignment faults or any memory attribute handling).
-+     */
++    ARMCPU *cpu =3D ARM_CPU(cs);
++    CPUARMState *env =3D &cpu->env;
++    uint32_t psr =3D pstate_read(env);
++    int i;
++    int el =3D arm_current_el(env);
++    const char *ns_status;
 +
-+    ARMCPU *cpu =3D env_archcpu(env);
-+    uint64_t blocklen =3D 4 << cpu->dcz_blocksize;
-+    uint64_t vaddr =3D vaddr_in & ~(blocklen - 1);
++    qemu_fprintf(f, " PC=3D%016" PRIx64 " ", env->pc);
++    for (i =3D 0; i < 32; i++) {
++        if (i =3D=3D 31) {
++            qemu_fprintf(f, " SP=3D%016" PRIx64 "\n", env->xregs[i]);
++        } else {
++            qemu_fprintf(f, "X%02d=3D%016" PRIx64 "%s", i, env->xregs[i]=
+,
++                         (i + 2) % 3 ? " " : "\n");
++        }
++    }
 +
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        /*
-+         * Slightly awkwardly, QEMU's TARGET_PAGE_SIZE may be less than
-+         * the block size so we might have to do more than one TLB looku=
-p.
-+         * We know that in fact for any v8 CPU the page size is at least=
- 4K
-+         * and the block size must be 2K or less, but TARGET_PAGE_SIZE i=
-s only
-+         * 1K as an artefact of legacy v5 subpage support being present =
-in the
-+         * same QEMU executable. So in practice the hostaddr[] array has
-+         * two entries, given the current setting of TARGET_PAGE_BITS_MI=
-N.
-+         */
-+        int maxidx =3D DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
-+        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)]=
-;
-+        int try, i;
-+        unsigned mmu_idx =3D cpu_mmu_index(env, false);
-+        TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
++    if (arm_feature(env, ARM_FEATURE_EL3) && el !=3D 3) {
++        ns_status =3D env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
++    } else {
++        ns_status =3D "";
++    }
++    qemu_fprintf(f, "PSTATE=3D%08x %c%c%c%c %sEL%d%c",
++                 psr,
++                 psr & PSTATE_N ? 'N' : '-',
++                 psr & PSTATE_Z ? 'Z' : '-',
++                 psr & PSTATE_C ? 'C' : '-',
++                 psr & PSTATE_V ? 'V' : '-',
++                 ns_status,
++                 el,
++                 psr & PSTATE_SP ? 'h' : 't');
 +
-+        assert(maxidx <=3D ARRAY_SIZE(hostaddr));
++    if (cpu_isar_feature(aa64_bti, cpu)) {
++        qemu_fprintf(f, "  BTYPE=3D%d", (psr & PSTATE_BTYPE) >> 10);
++    }
++    if (!(flags & CPU_DUMP_FPU)) {
++        qemu_fprintf(f, "\n");
++        return;
++    }
++    if (fp_exception_el(env, el) !=3D 0) {
++        qemu_fprintf(f, "    FPU disabled\n");
++        return;
++    }
++    qemu_fprintf(f, "     FPCR=3D%08x FPSR=3D%08x\n",
++                 vfp_get_fpcr(env), vfp_get_fpsr(env));
 +
-+        for (try =3D 0; try < 2; try++) {
++    if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) =3D=
+=3D 0) {
++        int j, zcr_len =3D sve_zcr_len_for_el(env, el);
 +
-+            for (i =3D 0; i < maxidx; i++) {
-+                hostaddr[i] =3D tlb_vaddr_to_host(env,
-+                                                vaddr + TARGET_PAGE_SIZE=
- * i,
-+                                                1, mmu_idx);
-+                if (!hostaddr[i]) {
++        for (i =3D 0; i <=3D FFR_PRED_NUM; i++) {
++            bool eol;
++            if (i =3D=3D FFR_PRED_NUM) {
++                qemu_fprintf(f, "FFR=3D");
++                /* It's last, so end the line.  */
++                eol =3D true;
++            } else {
++                qemu_fprintf(f, "P%02d=3D", i);
++                switch (zcr_len) {
++                case 0:
++                    eol =3D i % 8 =3D=3D 7;
++                    break;
++                case 1:
++                    eol =3D i % 6 =3D=3D 5;
++                    break;
++                case 2:
++                case 3:
++                    eol =3D i % 3 =3D=3D 2;
++                    break;
++                default:
++                    /* More than one quadword per predicate.  */
++                    eol =3D true;
 +                    break;
 +                }
 +            }
-+            if (i =3D=3D maxidx) {
-+                /*
-+                 * If it's all in the TLB it's fair game for just writin=
-g to;
-+                 * we know we don't need to update dirty status, etc.
-+                 */
-+                for (i =3D 0; i < maxidx - 1; i++) {
-+                    memset(hostaddr[i], 0, TARGET_PAGE_SIZE);
++            for (j =3D zcr_len / 4; j >=3D 0; j--) {
++                int digits;
++                if (j * 4 + 4 <=3D zcr_len + 1) {
++                    digits =3D 16;
++                } else {
++                    digits =3D (zcr_len % 4 + 1) * 4;
 +                }
-+                memset(hostaddr[i], 0, blocklen - (i * TARGET_PAGE_SIZE)=
-);
-+                return;
-+            }
-+            /*
-+             * OK, try a store and see if we can populate the tlb. This
-+             * might cause an exception if the memory isn't writable,
-+             * in which case we will longjmp out of here. We must for
-+             * this purpose use the actual register value passed to us
-+             * so that we get the fault address right.
-+             */
-+            helper_ret_stb_mmu(env, vaddr_in, 0, oi, GETPC());
-+            /* Now we can populate the other TLB entries, if any */
-+            for (i =3D 0; i < maxidx; i++) {
-+                uint64_t va =3D vaddr + TARGET_PAGE_SIZE * i;
-+                if (va !=3D (vaddr_in & TARGET_PAGE_MASK)) {
-+                    helper_ret_stb_mmu(env, va, 0, oi, GETPC());
-+                }
++                qemu_fprintf(f, "%0*" PRIx64 "%s", digits,
++                             env->vfp.pregs[i].p[j],
++                             j ? ":" : eol ? "\n" : " ");
 +            }
 +        }
 +
-+        /*
-+         * Slow path (probably attempt to do this to an I/O device or
-+         * similar, or clearing of a block of code we have translations
-+         * cached for). Just do a series of byte writes as the architect=
-ure
-+         * demands. It's not worth trying to use a cpu_physical_memory_m=
-ap(),
-+         * memset(), unmap() sequence here because:
-+         *  + we'd need to account for the blocksize being larger than a=
- page
-+         *  + the direct-RAM access case is almost always going to be de=
-alt
-+         *    with in the fastpath code above, so there's no speed benef=
-it
-+         *  + we would have to deal with the map returning NULL because =
-the
-+         *    bounce buffer was in use
-+         */
-+        for (i =3D 0; i < blocklen; i++) {
-+            helper_ret_stb_mmu(env, vaddr + i, 0, oi, GETPC());
++        for (i =3D 0; i < 32; i++) {
++            if (zcr_len =3D=3D 0) {
++                qemu_fprintf(f, "Z%02d=3D%016" PRIx64 ":%016" PRIx64 "%s=
+",
++                             i, env->vfp.zregs[i].d[1],
++                             env->vfp.zregs[i].d[0], i & 1 ? "\n" : " ")=
+;
++            } else if (zcr_len =3D=3D 1) {
++                qemu_fprintf(f, "Z%02d=3D%016" PRIx64 ":%016" PRIx64
++                             ":%016" PRIx64 ":%016" PRIx64 "\n",
++                             i, env->vfp.zregs[i].d[3], env->vfp.zregs[i=
+].d[2],
++                             env->vfp.zregs[i].d[1], env->vfp.zregs[i].d=
+[0]);
++            } else {
++                for (j =3D zcr_len; j >=3D 0; j--) {
++                    bool odd =3D (zcr_len - j) % 2 !=3D 0;
++                    if (j =3D=3D zcr_len) {
++                        qemu_fprintf(f, "Z%02d[%x-%x]=3D", i, j, j - 1);
++                    } else if (!odd) {
++                        if (j > 0) {
++                            qemu_fprintf(f, "   [%x-%x]=3D", j, j - 1);
++                        } else {
++                            qemu_fprintf(f, "     [%x]=3D", j);
++                        }
++                    }
++                    qemu_fprintf(f, "%016" PRIx64 ":%016" PRIx64 "%s",
++                                 env->vfp.zregs[i].d[j * 2 + 1],
++                                 env->vfp.zregs[i].d[j * 2],
++                                 odd || j =3D=3D 0 ? "\n" : ":");
++                }
++            }
++        }
++    } else {
++        for (i =3D 0; i < 32; i++) {
++            uint64_t *q =3D aa64_vfp_qreg(env, i);
++            qemu_fprintf(f, "Q%02d=3D%016" PRIx64 ":%016" PRIx64 "%s",
++                         i, q[1], q[0], (i & 1 ? "\n" : " "));
 +        }
 +    }
-+#else
-+    memset(g2h(vaddr), 0, blocklen);
-+#endif
 +}
++
++#else
++
++static inline void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int fla=
+gs)
++{
++    g_assert_not_reached();
++}
++
++#endif
++
++static void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
++{
++    ARMCPU *cpu =3D ARM_CPU(cs);
++    CPUARMState *env =3D &cpu->env;
++    int i;
++
++    if (is_a64(env)) {
++        aarch64_cpu_dump_state(cs, f, flags);
++        return;
++    }
++
++    for (i =3D 0; i < 16; i++) {
++        qemu_fprintf(f, "R%02d=3D%08x", i, env->regs[i]);
++        if ((i % 4) =3D=3D 3) {
++            qemu_fprintf(f, "\n");
++        } else {
++            qemu_fprintf(f, " ");
++        }
++    }
++
++    if (arm_feature(env, ARM_FEATURE_M)) {
++        uint32_t xpsr =3D xpsr_read(env);
++        const char *mode;
++        const char *ns_status =3D "";
++
++        if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
++            ns_status =3D env->v7m.secure ? "S " : "NS ";
++        }
++
++        if (xpsr & XPSR_EXCP) {
++            mode =3D "handler";
++        } else {
++            if (env->v7m.control[env->v7m.secure] & R_V7M_CONTROL_NPRIV_=
+MASK) {
++                mode =3D "unpriv-thread";
++            } else {
++                mode =3D "priv-thread";
++            }
++        }
++
++        qemu_fprintf(f, "XPSR=3D%08x %c%c%c%c %c %s%s\n",
++                     xpsr,
++                     xpsr & XPSR_N ? 'N' : '-',
++                     xpsr & XPSR_Z ? 'Z' : '-',
++                     xpsr & XPSR_C ? 'C' : '-',
++                     xpsr & XPSR_V ? 'V' : '-',
++                     xpsr & XPSR_T ? 'T' : 'A',
++                     ns_status,
++                     mode);
++    } else {
++        uint32_t psr =3D cpsr_read(env);
++        const char *ns_status =3D "";
++
++        if (arm_feature(env, ARM_FEATURE_EL3) &&
++            (psr & CPSR_M) !=3D ARM_CPU_MODE_MON) {
++            ns_status =3D env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
++        }
++
++        qemu_fprintf(f, "PSR=3D%08x %c%c%c%c %c %s%s%d\n",
++                     psr,
++                     psr & CPSR_N ? 'N' : '-',
++                     psr & CPSR_Z ? 'Z' : '-',
++                     psr & CPSR_C ? 'C' : '-',
++                     psr & CPSR_V ? 'V' : '-',
++                     psr & CPSR_T ? 'T' : 'A',
++                     ns_status,
++                     aarch32_mode_name(psr), (psr & 0x10) ? 32 : 26);
++    }
++
++    if (flags & CPU_DUMP_FPU) {
++        int numvfpregs =3D 0;
++        if (arm_feature(env, ARM_FEATURE_VFP)) {
++            numvfpregs +=3D 16;
++        }
++        if (arm_feature(env, ARM_FEATURE_VFP3)) {
++            numvfpregs +=3D 16;
++        }
++        for (i =3D 0; i < numvfpregs; i++) {
++            uint64_t v =3D *aa32_vfp_dreg(env, i);
++            qemu_fprintf(f, "s%02d=3D%08x s%02d=3D%08x d%02d=3D%016" PRI=
+x64 "\n",
++                         i * 2, (uint32_t)v,
++                         i * 2 + 1, (uint32_t)(v >> 32),
++                         i, v);
++        }
++        qemu_fprintf(f, "FPSCR: %08x\n", vfp_get_fpscr(env));
++    }
++}
++
+ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
+ {
+     uint32_t Aff1 =3D idx / clustersz;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index f9da672be5..a9be18660f 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -929,8 +929,6 @@ void arm_cpu_do_interrupt(CPUState *cpu);
+ void arm_v7m_cpu_do_interrupt(CPUState *cpu);
+ bool arm_cpu_exec_interrupt(CPUState *cpu, int int_req);
+=20
+-void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags);
+-
+ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
+                                          MemTxAttrs *attrs);
+=20
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 97f4164fbb..d3231477a2 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -27,7 +27,6 @@
+ #include "translate.h"
+ #include "internals.h"
+ #include "qemu/host-utils.h"
+-#include "qemu/qemu-print.h"
+=20
+ #include "hw/semihosting/semihost.h"
+ #include "exec/gen-icount.h"
+@@ -152,133 +151,6 @@ static void set_btype(DisasContext *s, int val)
+     s->btype =3D -1;
+ }
+=20
+-void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+-{
+-    ARMCPU *cpu =3D ARM_CPU(cs);
+-    CPUARMState *env =3D &cpu->env;
+-    uint32_t psr =3D pstate_read(env);
+-    int i;
+-    int el =3D arm_current_el(env);
+-    const char *ns_status;
+-
+-    qemu_fprintf(f, " PC=3D%016" PRIx64 " ", env->pc);
+-    for (i =3D 0; i < 32; i++) {
+-        if (i =3D=3D 31) {
+-            qemu_fprintf(f, " SP=3D%016" PRIx64 "\n", env->xregs[i]);
+-        } else {
+-            qemu_fprintf(f, "X%02d=3D%016" PRIx64 "%s", i, env->xregs[i]=
+,
+-                         (i + 2) % 3 ? " " : "\n");
+-        }
+-    }
+-
+-    if (arm_feature(env, ARM_FEATURE_EL3) && el !=3D 3) {
+-        ns_status =3D env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
+-    } else {
+-        ns_status =3D "";
+-    }
+-    qemu_fprintf(f, "PSTATE=3D%08x %c%c%c%c %sEL%d%c",
+-                 psr,
+-                 psr & PSTATE_N ? 'N' : '-',
+-                 psr & PSTATE_Z ? 'Z' : '-',
+-                 psr & PSTATE_C ? 'C' : '-',
+-                 psr & PSTATE_V ? 'V' : '-',
+-                 ns_status,
+-                 el,
+-                 psr & PSTATE_SP ? 'h' : 't');
+-
+-    if (cpu_isar_feature(aa64_bti, cpu)) {
+-        qemu_fprintf(f, "  BTYPE=3D%d", (psr & PSTATE_BTYPE) >> 10);
+-    }
+-    if (!(flags & CPU_DUMP_FPU)) {
+-        qemu_fprintf(f, "\n");
+-        return;
+-    }
+-    if (fp_exception_el(env, el) !=3D 0) {
+-        qemu_fprintf(f, "    FPU disabled\n");
+-        return;
+-    }
+-    qemu_fprintf(f, "     FPCR=3D%08x FPSR=3D%08x\n",
+-                 vfp_get_fpcr(env), vfp_get_fpsr(env));
+-
+-    if (cpu_isar_feature(aa64_sve, cpu) && sve_exception_el(env, el) =3D=
+=3D 0) {
+-        int j, zcr_len =3D sve_zcr_len_for_el(env, el);
+-
+-        for (i =3D 0; i <=3D FFR_PRED_NUM; i++) {
+-            bool eol;
+-            if (i =3D=3D FFR_PRED_NUM) {
+-                qemu_fprintf(f, "FFR=3D");
+-                /* It's last, so end the line.  */
+-                eol =3D true;
+-            } else {
+-                qemu_fprintf(f, "P%02d=3D", i);
+-                switch (zcr_len) {
+-                case 0:
+-                    eol =3D i % 8 =3D=3D 7;
+-                    break;
+-                case 1:
+-                    eol =3D i % 6 =3D=3D 5;
+-                    break;
+-                case 2:
+-                case 3:
+-                    eol =3D i % 3 =3D=3D 2;
+-                    break;
+-                default:
+-                    /* More than one quadword per predicate.  */
+-                    eol =3D true;
+-                    break;
+-                }
+-            }
+-            for (j =3D zcr_len / 4; j >=3D 0; j--) {
+-                int digits;
+-                if (j * 4 + 4 <=3D zcr_len + 1) {
+-                    digits =3D 16;
+-                } else {
+-                    digits =3D (zcr_len % 4 + 1) * 4;
+-                }
+-                qemu_fprintf(f, "%0*" PRIx64 "%s", digits,
+-                             env->vfp.pregs[i].p[j],
+-                             j ? ":" : eol ? "\n" : " ");
+-            }
+-        }
+-
+-        for (i =3D 0; i < 32; i++) {
+-            if (zcr_len =3D=3D 0) {
+-                qemu_fprintf(f, "Z%02d=3D%016" PRIx64 ":%016" PRIx64 "%s=
+",
+-                             i, env->vfp.zregs[i].d[1],
+-                             env->vfp.zregs[i].d[0], i & 1 ? "\n" : " ")=
+;
+-            } else if (zcr_len =3D=3D 1) {
+-                qemu_fprintf(f, "Z%02d=3D%016" PRIx64 ":%016" PRIx64
+-                             ":%016" PRIx64 ":%016" PRIx64 "\n",
+-                             i, env->vfp.zregs[i].d[3], env->vfp.zregs[i=
+].d[2],
+-                             env->vfp.zregs[i].d[1], env->vfp.zregs[i].d=
+[0]);
+-            } else {
+-                for (j =3D zcr_len; j >=3D 0; j--) {
+-                    bool odd =3D (zcr_len - j) % 2 !=3D 0;
+-                    if (j =3D=3D zcr_len) {
+-                        qemu_fprintf(f, "Z%02d[%x-%x]=3D", i, j, j - 1);
+-                    } else if (!odd) {
+-                        if (j > 0) {
+-                            qemu_fprintf(f, "   [%x-%x]=3D", j, j - 1);
+-                        } else {
+-                            qemu_fprintf(f, "     [%x]=3D", j);
+-                        }
+-                    }
+-                    qemu_fprintf(f, "%016" PRIx64 ":%016" PRIx64 "%s",
+-                                 env->vfp.zregs[i].d[j * 2 + 1],
+-                                 env->vfp.zregs[i].d[j * 2],
+-                                 odd || j =3D=3D 0 ? "\n" : ":");
+-                }
+-            }
+-        }
+-    } else {
+-        for (i =3D 0; i < 32; i++) {
+-            uint64_t *q =3D aa64_vfp_qreg(env, i);
+-            qemu_fprintf(f, "Q%02d=3D%016" PRIx64 ":%016" PRIx64 "%s",
+-                         i, q[1], q[0], (i & 1 ? "\n" : " "));
+-        }
+-    }
+-}
+-
+ void gen_a64_set_pc_im(uint64_t val)
+ {
+     tcg_gen_movi_i64(cpu_pc, val);
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index c6bdf026b4..a5d7723423 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -28,7 +28,6 @@
+ #include "tcg-op-gvec.h"
+ #include "qemu/log.h"
+ #include "qemu/bitops.h"
+-#include "qemu/qemu-print.h"
+ #include "arm_ldst.h"
+ #include "hw/semihosting/semihost.h"
+=20
+@@ -12342,93 +12341,6 @@ void gen_intermediate_code(CPUState *cpu, Transl=
+ationBlock *tb, int max_insns)
+     translator_loop(ops, &dc.base, cpu, tb, max_insns);
+ }
+=20
+-void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+-{
+-    ARMCPU *cpu =3D ARM_CPU(cs);
+-    CPUARMState *env =3D &cpu->env;
+-    int i;
+-
+-    if (is_a64(env)) {
+-        aarch64_cpu_dump_state(cs, f, flags);
+-        return;
+-    }
+-
+-    for (i =3D 0; i < 16; i++) {
+-        qemu_fprintf(f, "R%02d=3D%08x", i, env->regs[i]);
+-        if ((i % 4) =3D=3D 3) {
+-            qemu_fprintf(f, "\n");
+-        } else {
+-            qemu_fprintf(f, " ");
+-        }
+-    }
+-
+-    if (arm_feature(env, ARM_FEATURE_M)) {
+-        uint32_t xpsr =3D xpsr_read(env);
+-        const char *mode;
+-        const char *ns_status =3D "";
+-
+-        if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
+-            ns_status =3D env->v7m.secure ? "S " : "NS ";
+-        }
+-
+-        if (xpsr & XPSR_EXCP) {
+-            mode =3D "handler";
+-        } else {
+-            if (env->v7m.control[env->v7m.secure] & R_V7M_CONTROL_NPRIV_=
+MASK) {
+-                mode =3D "unpriv-thread";
+-            } else {
+-                mode =3D "priv-thread";
+-            }
+-        }
+-
+-        qemu_fprintf(f, "XPSR=3D%08x %c%c%c%c %c %s%s\n",
+-                     xpsr,
+-                     xpsr & XPSR_N ? 'N' : '-',
+-                     xpsr & XPSR_Z ? 'Z' : '-',
+-                     xpsr & XPSR_C ? 'C' : '-',
+-                     xpsr & XPSR_V ? 'V' : '-',
+-                     xpsr & XPSR_T ? 'T' : 'A',
+-                     ns_status,
+-                     mode);
+-    } else {
+-        uint32_t psr =3D cpsr_read(env);
+-        const char *ns_status =3D "";
+-
+-        if (arm_feature(env, ARM_FEATURE_EL3) &&
+-            (psr & CPSR_M) !=3D ARM_CPU_MODE_MON) {
+-            ns_status =3D env->cp15.scr_el3 & SCR_NS ? "NS " : "S ";
+-        }
+-
+-        qemu_fprintf(f, "PSR=3D%08x %c%c%c%c %c %s%s%d\n",
+-                     psr,
+-                     psr & CPSR_N ? 'N' : '-',
+-                     psr & CPSR_Z ? 'Z' : '-',
+-                     psr & CPSR_C ? 'C' : '-',
+-                     psr & CPSR_V ? 'V' : '-',
+-                     psr & CPSR_T ? 'T' : 'A',
+-                     ns_status,
+-                     aarch32_mode_name(psr), (psr & 0x10) ? 32 : 26);
+-    }
+-
+-    if (flags & CPU_DUMP_FPU) {
+-        int numvfpregs =3D 0;
+-        if (arm_feature(env, ARM_FEATURE_VFP)) {
+-            numvfpregs +=3D 16;
+-        }
+-        if (arm_feature(env, ARM_FEATURE_VFP3)) {
+-            numvfpregs +=3D 16;
+-        }
+-        for (i =3D 0; i < numvfpregs; i++) {
+-            uint64_t v =3D *aa32_vfp_dreg(env, i);
+-            qemu_fprintf(f, "s%02d=3D%08x s%02d=3D%08x d%02d=3D%016" PRI=
+x64 "\n",
+-                         i * 2, (uint32_t)v,
+-                         i * 2 + 1, (uint32_t)(v >> 32),
+-                         i, v);
+-        }
+-        qemu_fprintf(f, "FPSCR: %08x\n", vfp_get_fpscr(env));
+-    }
+-}
+-
+ void restore_state_to_opc(CPUARMState *env, TranslationBlock *tb,
+                           target_ulong *data)
+ {
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index bc1617809d..a20f6e2056 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -169,7 +169,6 @@ static inline void disas_set_insn_syndrome(DisasConte=
+xt *s, uint32_t syn)
+ #ifdef TARGET_AARCH64
+ void a64_translate_init(void);
+ void gen_a64_set_pc_im(uint64_t val);
+-void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int flags);
+ extern const TranslatorOps aarch64_translator_ops;
+ #else
+ static inline void a64_translate_init(void)
+@@ -179,10 +178,6 @@ static inline void a64_translate_init(void)
+ static inline void gen_a64_set_pc_im(uint64_t val)
+ {
+ }
+-
+-static inline void aarch64_cpu_dump_state(CPUState *cs, FILE *f, int fla=
+gs)
+-{
+-}
+ #endif
+=20
+ void arm_test_cc(DisasCompare *cmp, int cc);
 --=20
 2.20.1
 
