@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9A45C647
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 02:20:55 +0200 (CEST)
-Received: from localhost ([::1]:46398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F05E5C67D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 02:58:57 +0200 (CEST)
+Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi6XU-0000uH-QB
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 20:20:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39947)
+	id 1hi78K-0000Qs-8x
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 20:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35415)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <alistair23@gmail.com>) id 1hi3lT-0000Pi-3V
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:23:08 -0400
+ (envelope-from <philmd@redhat.com>) id 1hi3dz-0005JU-5o
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:15:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <alistair23@gmail.com>) id 1hi3Qd-0001SZ-CK
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:01:36 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:45773)
+ (envelope-from <philmd@redhat.com>) id 1hi3dx-0002JV-Tk
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:15:23 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:37111)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <alistair23@gmail.com>)
- id 1hi3Po-00071g-O9; Mon, 01 Jul 2019 17:00:45 -0400
-Received: by mail-lf1-f67.google.com with SMTP id u10so9698801lfm.12;
- Mon, 01 Jul 2019 13:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rQl7b5/lYljuXHUAO72puZ1yIfg9PcR17utAbY0/wi8=;
- b=fND2jL3D3U03eJWDiAfZUwjKUM1ZVuA/ezvZPkksaU0IsJUQN6aXH8NnM/K12EpapD
- FsEyee7Bpy9YQKxFcLXjXOwVPuvhbbssf30vI/xMwTfvMQZV/KllU53dQh1qNm7k8tUJ
- +OfyuKidMmgOSwgexILmesvkX8MNsoXXfBd8I3LCjA8eKbPKjmJHsbVKq5cQs2DB+dNN
- vULPtIOppvkkJbwllUQmN/43wrbi2vFnEdRsb/8QKZfzAv1s2p61lLkIB+AuIzwNIm1I
- ILH1fVN5xrPNRkLKOw8WsRTf1+Ot45b8K03mse4lH5UZsoKGmCNMJzsqVuSuemwyYXly
- rIxA==
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hi3dx-0002Iz-MM
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:15:21 -0400
+Received: by mail-wm1-f67.google.com with SMTP id f17so1003025wme.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:15:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rQl7b5/lYljuXHUAO72puZ1yIfg9PcR17utAbY0/wi8=;
- b=pwkASSoMZv/toW//RVlzyKbDcVw6AMCsc4+geU3Fk2/5yXeI2QS3lwtf9/T4l59sRn
- Y50ZLf8UyZPDx4xeoJbK9YNCz+aZ31sNbjuzRMgNAB/Td1q0Jgxag6y6UQqTCmbb5kFB
- UeXLwDYnvecPbQDiaoLHacOkYa5OdfC+QFAa9G5dDJDIhszzuCpMm7/GKcF9RBHCvo5x
- ZpGCDNjTz2gS8POEX1qsgD3fRqj3RVP5p9VHaV3zM7OtG78mnTEO5w1xxGZqBbW6Eity
- aimeFSdCQ66xUP8nzvJW8xLHyhjBvQTihLmOOJ7AQakXYDWbgew2qnQkqSCMbc+c3zwx
- OWNQ==
-X-Gm-Message-State: APjAAAWPyhjZy3GqP0wy0dZm+J4CAGiFOSaEZCg3JFCfHv24Gl3DJWGr
- ji8no2jv8Z4elllpDKQsTTXMneRZ32oVTnJgAlw=
-X-Google-Smtp-Source: APXvYqy3xjMhfwhgmYtRnpNYzZDkiaICxg+D7t1jvHI1peL/2vaAcQ+WVzK3i7gSnoJETX/Rhu8xD6OmoDZxFqSGUcI=
-X-Received: by 2002:a19:4c05:: with SMTP id z5mr12433731lfa.5.1562014674062;
- Mon, 01 Jul 2019 13:57:54 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=We7df+jCm3xJqWt3qcPH7ou54aD4XsZ4I7ZDWEgdoPw=;
+ b=JLd4zZquz4NsH8B5U3ioelJjp8K3Ooula6N1+yB2kb7BHAOZp9nsfGVJNGt8Umx3cF
+ wJMyHQFA+tkrJYF7ZTgXoGUJ3A7QOYOdkgVvYk+Nu0rqu8w65eBOKpFBM7L3g5/yMb6n
+ PhaSlRpBz6L39Mkh57v1qifrzWXZ9viAau1lBsrLzn+PEtY1wnYJKyAh6OM2XAaqCtN+
+ JPQZb2w4ivujP4jtswZnhxTa8I/dcPy++Yn3A+TPEAcb+kAh9LViAMluG17s9vWSBE64
+ ZAPJ+3DZFZIcklYGFE+8bmghwgeV4UOqaAonFU1cLXwvh8G63d1tg9XQqZNjegMbN/C9
+ 3Tcg==
+X-Gm-Message-State: APjAAAVpjfZR7WePq+bizBZkkkgDxG5Gg00hyn5RJiU09q3qLVEzF5GG
+ 5DzD49+ZtpqYdGi9bVUUXqPpHw==
+X-Google-Smtp-Source: APXvYqxNUiYOpDQjPUGtr2/0f+sZw7nHrBHXUh1oDJF2ndwT5kkViaXQqsJogbtvy0t2GR6C1Ld2wQ==
+X-Received: by 2002:a7b:c310:: with SMTP id k16mr596354wmj.133.1562015720656; 
+ Mon, 01 Jul 2019 14:15:20 -0700 (PDT)
+Received: from [192.168.1.103] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id h21sm876343wmb.47.2019.07.01.14.15.19
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Jul 2019 14:15:20 -0700 (PDT)
+To: qemu-devel@nongnu.org
+References: <156200651295.9862.9762213971590211209@c4a48874b076>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <d80d2840-51ca-bc24-5e79-ada9f7387553@redhat.com>
+Date: Mon, 1 Jul 2019 23:15:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <20190701154617.22908-1-jonathan@fintelia.io>
-In-Reply-To: <20190701154617.22908-1-jonathan@fintelia.io>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 1 Jul 2019 13:54:52 -0700
-Message-ID: <CAKmqyKOsMO7SvvDfiqhywxb=oaqo=NDjw==reVpU9sLh+3dGuw@mail.gmail.com>
-To: Jonathan Behrens <jonathan@fintelia.io>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <156200651295.9862.9762213971590211209@c4a48874b076>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.167.67
-Subject: Re: [Qemu-devel] [PATCH v2] target/riscv: Hardwire mcounter.TM and
- upper bits of [m|s]counteren
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH v3 00/27] Support disabling TCG on ARM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,80 +73,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Palmer Dabbelt <palmer@sifive.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, drjones@redhat.com,
+ sameo@linux.intel.com, robert.bradford@intel.com, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 1, 2019 at 8:56 AM <jonathan@fintelia.io> wrote:
->
-> From: Jonathan Behrens <jonathan@fintelia.io>
->
-> QEMU currently always triggers an illegal instruction exception when
-> code attempts to read the time CSR. This is valid behavor, but only if
-> the TM bit in mcounteren is hardwired to zero. This change also
-> corrects mcounteren and scounteren CSRs to be 32-bits on both 32-bit
-> and 64-bit targets.
->
-> Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+On 7/1/19 8:41 PM, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20190701132516.26392-1-philmd@redhat.com/
+> 
+> This series failed build test on s390x host. Please find the details below.
+> 
+[...]
+> In file included from /var/tmp/patchew-tester-tmp-n6pztn1n/src/hw/intc/armv7m_nvic.c:15:
 > ---
->  target/riscv/cpu.h      | 4 ++--
->  target/riscv/cpu_bits.h | 5 +++++
->  target/riscv/csr.c      | 2 +-
->  3 files changed, 8 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0adb307f32..2d0cbe9c78 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -151,8 +151,8 @@ struct CPURISCVState {
->      target_ulong mcause;
->      target_ulong mtval;  /* since: priv-1.10.0 */
->
-> -    target_ulong scounteren;
-> -    target_ulong mcounteren;
-> +    uint32_t scounteren;
-> +    uint32_t mcounteren;
->
->      target_ulong sscratch;
->      target_ulong mscratch;
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 11f971ad5d..0ea1e1caf5 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -532,4 +532,9 @@
->  #define SIP_STIP                           MIP_STIP
->  #define SIP_SEIP                           MIP_SEIP
->
-> +/* mcounteren CSR bits */
-> +#define MCOUNTEREN_CY                      0x1
-> +#define MCOUNTEREN_TM                      0x2
-> +#define MCOUNTEREN_IR                      0x4
-> +
->  #endif
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index e0d4586760..8425a6d2bd 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -473,7 +473,7 @@ static int write_mcounteren(CPURISCVState *env, int csrno, target_ulong val)
->      if (env->priv_ver < PRIV_VERSION_1_10_0) {
->          return -1;
->      }
-> -    env->mcounteren = val;
-> +    env->mcounteren = val & ~MCOUNTEREN_TM;
->      return 0;
->  }
->
-> --
-> 2.22.0
->
+>       |                       ^~~~~~~~~~~~
+> In file included from /var/tmp/patchew-tester-tmp-n6pztn1n/src/include/hw/intc/armv7m_nvic.h:13,
+>                  from /var/tmp/patchew-tester-tmp-n6pztn1n/src/hw/intc/armv7m_nvic.c:18:
+> /var/tmp/patchew-tester-tmp-n6pztn1n/src/target/arm/cpu.h:3129:16: error: conflicting types for ‘ArchCPU’
+>  3129 | typedef ARMCPU ArchCPU;
+>       |                ^~~~~~~
+> In file included from /var/tmp/patchew-tester-tmp-n6pztn1n/src/hw/intc/armv7m_nvic.c:15:
+> ---
+>       |                  ^~~~~~~
+> In file included from /var/tmp/patchew-tester-tmp-n6pztn1n/src/include/hw/intc/armv7m_nvic.h:13,
+>                  from /var/tmp/patchew-tester-tmp-n6pztn1n/src/hw/intc/armv7m_nvic.c:18:
+> /var/tmp/patchew-tester-tmp-n6pztn1n/src/target/arm/cpu.h:3216:6: error: conflicting types for ‘cpu_get_tb_cpu_state’
+>  3216 | void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
+>       |      ^~~~~~~~~~~~~~~~~~~~
+> In file included from /var/tmp/patchew-tester-tmp-n6pztn1n/src/hw/intc/armv7m_nvic.c:15:
+> ---
+> /var/tmp/patchew-tester-tmp-n6pztn1n/src/target/arm/helper.h:67: undefined reference to `helper_v7m_bxns'
+> /usr/bin/ld: target/arm/translate.o: in function `gen_helper_v7m_vlstm':
+> /var/tmp/patchew-tester-tmp-n6pztn1n/src/target/arm/helper.h:74: undefined reference to `helper_v7m_vlstm'
+> collect2: error: ld returned 1 exit status
+>   CC      arm-softmmu/hw/arm/vexpress.o
+> make[1]: *** [Makefile:205: qemu-system-aarch64] Error 1
+> make: *** [Makefile:472: subdir-aarch64-softmmu] Error 2
+> ---
+> /var/tmp/patchew-tester-tmp-n6pztn1n/src/target/arm/helper.h:67: undefined reference to `helper_v7m_bxns'
+> /usr/bin/ld: target/arm/translate.o: in function `gen_helper_v7m_vlstm':
+> /var/tmp/patchew-tester-tmp-n6pztn1n/src/target/arm/helper.h:74: undefined reference to `helper_v7m_vlstm'
+> collect2: error: ld returned 1 exit status
+> make[1]: *** [Makefile:205: qemu-system-arm] Error 1
+> make: *** [Makefile:472: subdir-arm-softmmu] Error 2
+> === OUTPUT END ===
+
+Expected failure from the RFC patches.
+
+I should have been smarter and split the series in 2, so only the 2nd
+(RFC) would fail.
 
