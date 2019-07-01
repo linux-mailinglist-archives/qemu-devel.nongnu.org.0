@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A76C55BEF9
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:02:59 +0200 (CEST)
-Received: from localhost ([::1]:59748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69F185BF11
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 17:09:19 +0200 (CEST)
+Received: from localhost ([::1]:59820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxpa-0001qs-6b
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58163)
+	id 1hhxvL-0006aZ-Kv
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 11:09:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58620)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhxVV-0003ml-2B
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:42:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhxXY-0005mt-5J
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:44:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhxVT-0008Iz-7J
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:42:13 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45915)
+ (envelope-from <peter.maydell@linaro.org>) id 1hhxXW-0001di-WE
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:44:20 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:44519)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhxVS-0008Hj-VL
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:42:11 -0400
-Received: by mail-wr1-f67.google.com with SMTP id f9so14132954wre.12
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:42:10 -0700 (PDT)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhxXW-0001cM-Hu
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:44:18 -0400
+Received: by mail-oi1-x243.google.com with SMTP id e189so10108663oib.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=v8mWmOTDXUBtlhUdnimPF0goXk8Uy165smt3zk5fOYA=;
+ b=UfUdIVfrWj+XlxguyyRxkjPeK2B/tJ/NL4J6mdENeFvfST1kZsS2iKmFaYtPcx2hWs
+ 1PwKEBWQYrT74A4NUMSQtRx2y6asC2tqHy0ePXAbf6TLUXeyCww32xH/amU6LtR+OoJw
+ dCqxGPG8qEmChsRvHDqA1/e2dYj6c6wEVFnC+wyyfPmttsppY+pTRmaabb9WuyG36n7+
+ 6V+Ja5gweoEbbQeNxH9NsHCYLoCTY1M/CGPheQ4QK34kiYgpOAIt/AAcc3srLDW6dg0R
+ crTV9J2wjvhVIRl8v5wvrM+U/Ez+wqVuiS3MVsddTXOhK08diEA/KbhFpwYkqsqJHxeE
+ zKAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HpgxwG0XEloh+oBaD9aK8rEN+btHP+Bocwr7Jye9cbk=;
- b=fKJAqBOc/4Zrd6I+hO47DoKbyAQJd+o+FSetCUyUdhiHca20VZbeCygijM/Hbtil+y
- og6yiD6bq0qItveaWUJqLtRDwsgOTQoWu058AuQmIIxh8ZNLBVEwmJ3zRWfCeWGLSnm7
- T+mlZ0eZSfmMPNovRsJb2N0foe7ZTo7qztBYTtlR1LL5ov7WFcWctVfbmlTVbOABkj6j
- DTwTMSm3xznnZURZlWha1EuoLh5HKKQzlj8dfo5Xug/SDr2W+WlcbkHmZW0RyGPQVVUA
- uHTCJm7LqlIJcgsDR09tBEZZiLpHweAFuN7kVqJD/dbKSzXzZWrVIxpDafbcDtEKTAd3
- 5s8A==
-X-Gm-Message-State: APjAAAVa3+zSU/IqQQXUdZN1KBo2J2OCVGJ32PcLfENyO4kPXOKTR11x
- X5aYG0tnR8SXeDgk7dD8MQoQDg==
-X-Google-Smtp-Source: APXvYqzLpOEmPuJ2KP9h4ojXRsbfMjUJLXJMB3TwxzDr52rLSoxboUhSSepziEKNfitTOgQSdXHSxg==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr20130740wrt.84.1561992129386; 
- Mon, 01 Jul 2019 07:42:09 -0700 (PDT)
-Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
- [88.21.202.183])
- by smtp.gmail.com with ESMTPSA id r79sm10678882wme.2.2019.07.01.07.42.07
- (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Jul 2019 07:42:08 -0700 (PDT)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20181206215026.7716-1-pbonzini@redhat.com>
- <20181206215026.7716-3-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
- url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <34baad42-1ab8-ec81-467d-f62937656bc8@redhat.com>
-Date: Mon, 1 Jul 2019 16:42:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=v8mWmOTDXUBtlhUdnimPF0goXk8Uy165smt3zk5fOYA=;
+ b=kmWvW2vwoqb521yH0kL1X/CiUXMhclVvodqlmfSHdPMAK2qsJbloBHZWW2lz/3I9P1
+ wJMlgjIMO1pu7JZrHhJqX3kymvjHJMSlc2m6qCbr/RhdwMoQqKxo9YU2lXMZOF9Va+Wl
+ bGqd8EEsywkfVax1AB0d5LNYoWKWcpbpZzf54y7wjhFJoNwUzKrfT2WMQym93R1e8mDN
+ rZJ6a+nf100XaBYSr5NHZBQUca4SD8K8C8OdrC8i12AUy65SrcB6gCE+1mdtUkvX7vyt
+ T5R8XgIrI7wHvxUAr+MTR1P6fmy0QRtJYSkn7x7XrMZJgjL0RXA/382SJIvTW8abVDsO
+ m0xA==
+X-Gm-Message-State: APjAAAX5PKnkhXNmOIFsBskXamKU93uqut3/xROuU+VahuoGrOSpEuqO
+ DkaeznM9zjpspVt/UedPm1Ef939dCUoH83tQSdc4Sg==
+X-Google-Smtp-Source: APXvYqzLzUsClGTb4POACSnjAt0ZKTiA5DXJvRNw+S2oJqsbVPBKRN+zgGhU72plREBgQYzKAFdtdYViLMokA4F55yw=
+X-Received: by 2002:aca:6185:: with SMTP id v127mr7240404oib.163.1561992257364; 
+ Mon, 01 Jul 2019 07:44:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20181206215026.7716-3-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH 2/2] test: replace gtester with a TAP driver
+References: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
+ <1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org>
+In-Reply-To: <1561890034-15921-2-git-send-email-hongbo.zhang@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 15:44:06 +0100
+Message-ID: <CAFEAcA8Dxyz9tkhmmV0ACjCDw+r9q73-AY6vhK0cRE9AVLhrLA@mail.gmail.com>
+To: Hongbo Zhang <hongbo.zhang@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH v9 1/2] hw/arm: Add arm SBSA reference
+ machine, skeleton part
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,237 +73,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Auger Eric <eric.auger@redhat.com>, thuth@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+On Sun, 30 Jun 2019 at 11:21, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
+>
+> For the Aarch64, there is one machine 'virt', it is primarily meant to
+> run on KVM and execute virtualization workloads, but we need an
+> environment as faithful as possible to physical hardware, for supporting
+> firmware and OS development for pysical Aarch64 machines.
+>
+> This patch introduces new machine type 'sbsa-ref' with main features:
+>  - Based on 'virt' machine type.
+>  - A new memory map.
+>  - CPU type cortex-a57.
+>  - EL2 and EL3 are enabled.
+>  - GIC version 3.
+>  - System bus AHCI controller.
+>  - System bus EHCI controller.
+>  - CDROM and hard disc on AHCI bus.
+>  - E1000E ethernet card on PCIE bus.
+>  - VGA display adaptor on PCIE bus.
+>  - No virtio deivces.
+>  - No fw_cfg device.
+>  - No ACPI table supplied.
+>  - Only minimal device tree nodes.
+>
+> Arm Trusted Firmware and UEFI porting to this are done accordingly, and
+> it should supply ACPI tables to load OS, the minimal device tree nodes
+> supplied from this platform are only to pass the dynamic info reflecting
+> command line input to firmware, not for loading OS.
+>
+> To make the review easier, this task is split into two patches, the
+> fundamental sceleton part and the peripheral devices part, this patch is
+> the first part.
+>
+> Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
 
-On 12/6/18 10:50 PM, Paolo Bonzini wrote:
-> gtester is deprecated by upstream glib (see for example the announcement
-> at https://blog.gtk.org/2018/07/11/news-from-glib-2-58/) and it does
-> not support tests that call g_test_skip in some glib stable releases.
-> 
-> glib suggests instead using Automake's TAP support, which gtest itself
-> supports since version 2.38 (QEMU's minimum requirement is 2.40).
-> We do not support Automake, but we can use Automake's code to beautify
-> the TAP output.  I chose to use the Perl copy rather than the shell/awk
-> one, with some changes so that it can accept TAP through stdin, in order
-> to reuse Perl's TAP parsing package.  This also avoids duplicating the
-> parser between tap-driver.pl and tap-merge.pl.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
-> v1->v2: show failures even in non-verbose mode
->         show executable name next to PASS/FAIL
->         tweak colored output
->         improved support for "make -k check"
->         switch license blurb to https
->         support TAP version line
->         removed Eamcs epilogs
-> 
-[...]
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index fb0b449c02..1dda5e2596 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -799,41 +799,53 @@ tests/test-qga$(EXESUF): qemu-ga$(EXESUF)
->  tests/test-qga$(EXESUF): tests/test-qga.o $(qtest-obj-y)
->  
->  SPEED = quick
-> -GTESTER_OPTIONS = -k $(if $(V),--verbose,-q)
-> -GCOV_OPTIONS = -n $(if $(V),-f,)
->  
->  # gtester tests, possibly with verbose output
-> +# do_test_tap runs all tests, even if some of them fail, while do_test_human
-> +# stops at the first failure unless -k is given on the command line
-> +
-> +do_test_human = \
-> +	$(call quiet-command, rc=0; \
-> +	  { $(foreach COMMAND, $1, \
-> +	    MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))} \
-> +	      $2 $(COMMAND) -m=$(SPEED) -k --tap \
-> +	      | ./scripts/tap-driver.pl --test-name="$(notdir $(COMMAND))" --color=always $(if $(V),, --show-failures-only) \
-> +	      || $(if $(findstring k, $(MAKEFLAGS)), rc=$$?, exit $$?); ) }; exit $$rc, \
-> +	  "TEST", "$*")
-> +
-> +do_test_tap = \
-> +	$(call quiet-command, \
-> +	  { $(foreach COMMAND, $1, \
-> +	    MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))} \
-> +	      $2 $(COMMAND) -m=$(SPEED) -k --tap | sed "s/^[a-z][a-z]* [0-9]* /&$(notdir $(COMMAND)) /" || true; ) } \
-> +	      | ./scripts/tap-merge.pl | tee "$@" \
-> +	      | ./scripts/tap-driver.pl --color=always $(if $(V),, --show-failures-only), \
-> +	  "TAP","$@")
->  
->  .PHONY: $(patsubst %, check-qtest-%, $(QTEST_TARGETS))
->  $(patsubst %, check-qtest-%, $(QTEST_TARGETS)): check-qtest-%: subdir-%-softmmu $(check-qtest-y)
-> -	$(call quiet-command,QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
-> -		QTEST_QEMU_IMG=qemu-img$(EXESUF) \
-> -		MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))} \
-> -		gtester $(GTESTER_OPTIONS) -m=$(SPEED) $(check-qtest-$*-y) $(check-qtest-generic-y),"GTESTER","$@")
-> +	$(call do_test_human,$(check-qtest-$*-y) $(check-qtest-generic-y), \
-> +	  QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
-> +	  QTEST_QEMU_IMG=qemu-img$(EXESUF))
+> +static const TypeInfo sbsa_ref_info = {
+> +    .name          = TYPE_SBSA_MACHINE,
+> +    .parent        = TYPE_MACHINE,
+> +    .class_init    = sbsa_ref_class_init,
 
-I was used to gtester filter/skip 'testpath' param:
+You need here to also have
 
-$ gtester -h
-[...]
-Utility Options:
-  -k, --keep-going              Continue running after tests failed
-  -l                            List paths of available test cases
-  -m {perf|slow|thorough|quick} Run test cases according to mode
-  -m {undefined|no-undefined}   Run test cases according to mode
-  -p=TESTPATH                   Only start test cases matching TESTPATH
-  -s=TESTPATH                   Skip test cases matching TESTPATH
+    .instance_size = sizeof(SBSAMachineState),
 
-Using:
+> +};
 
-$ make check-qtest-x86_64 GTESTER_OPTIONS="-p /x86_64/acpi"
+Otherwise we won't allocate enough memory for the size of
+the struct, and will run off the end of the allocation.
+You can see this if you do a build with just patch 1 and
+try 'make check' on it with a clang-sanitizer build
+(ie passing configure  '--cc=clang-7' '--cxx=clang++-7'
+'--extra-cflags=-fsanitize=undefined -fno-sanitize=shift-base -Werror')
+as it will catch reads off the end of the memory.
 
-But this commit removed the use of $GTESTER_OPTIONS, however it is
-still documented:
-
-$ make check-help
-[...]
-The variable SPEED can be set to control the gtester speed setting.
-Default options are -k and (for make V=1) --verbose; they can be
-changed with variable GTESTER_OPTIONS.
-
-Is it possible to filter the tests to run with the TAP driver?
-
->  .PHONY: $(patsubst %, check-%, $(check-unit-y) $(check-speed-y))
->  $(patsubst %, check-%, $(check-unit-y) $(check-speed-y)): check-%: %
-> -	$(call quiet-command, \
-> -		MALLOC_PERTURB_=$${MALLOC_PERTURB_:-$$(( $${RANDOM:-0} % 255 + 1))} \
-> -		gtester $(GTESTER_OPTIONS) -m=$(SPEED) $*,"GTESTER","$*")
-> +	$(call do_test_human, $*)
->  
-> -# gtester tests with XML output
-> +# gtester tests with TAP output
->  
-> -$(patsubst %, check-report-qtest-%.xml, $(QTEST_TARGETS)): check-report-qtest-%.xml: $(check-qtest-y)
-> -	$(call quiet-command,QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
-> -		QTEST_QEMU_IMG=qemu-img$(EXESUF) \
-> -	  gtester -q $(GTESTER_OPTIONS) -o $@ -m=$(SPEED) $(check-qtest-$*-y) $(check-qtest-generic-y),"GTESTER","$@")
-> +$(patsubst %, check-report-qtest-%.tap, $(QTEST_TARGETS)): check-report-qtest-%.tap: $(check-qtest-y)
-> +	$(call do_test_tap, $(check-qtest-$*-y) $(check-qtest-generic-y), \
-> +	  QTEST_QEMU_BINARY=$*-softmmu/qemu-system-$* \
-> +	  QTEST_QEMU_IMG=qemu-img$(EXESUF))
->  
-> -check-report-unit.xml: $(check-unit-y)
-> -	$(call quiet-command,gtester -q $(GTESTER_OPTIONS) -o $@ -m=$(SPEED) $^,"GTESTER","$@")
-> +check-report-unit.tap: $(check-unit-y)
-> +	$(call do_test_tap,$^)
->  
->  # Reports and overall runs
->  
-> -check-report.xml: $(patsubst %,check-report-qtest-%.xml, $(QTEST_TARGETS)) check-report-unit.xml
-> -	$(call quiet-command,$(SRC_PATH)/scripts/gtester-cat $^ > $@,"GEN","$@")
-> -
-> -check-report.html: check-report.xml
-> -	$(call quiet-command,gtester-report $< > $@,"GEN","$@")
-> +check-report.tap: $(patsubst %,check-report-qtest-%.tap, $(QTEST_TARGETS)) check-report-unit.tap
-> +	$(call quiet-command,./scripts/tap-merge.py $^ > $@,"GEN","$@")
->  
->  # Per guest TCG tests
->  
-> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
-> index 0a04bfbed8..e0f18f5a41 100644
-> --- a/tests/docker/dockerfiles/centos7.docker
-> +++ b/tests/docker/dockerfiles/centos7.docker
-> @@ -22,6 +22,7 @@ ENV PACKAGES \
->      mesa-libEGL-devel \
->      mesa-libgbm-devel \
->      nettle-devel \
-> +    perl-Test-Harness \
->      pixman-devel \
->      SDL-devel \
->      spice-glib-devel \
-> diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-> index 24b113b76f..c66e341e5f 100644
-> --- a/tests/docker/dockerfiles/debian-amd64.docker
-> +++ b/tests/docker/dockerfiles/debian-amd64.docker
-> @@ -16,6 +16,7 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->          liblzo2-dev \
->          librdmacm-dev \
->          libsnappy-dev \
-> +        libtest-harness-perl \
->          libvte-dev
->  
->  # virgl
-> diff --git a/tests/docker/dockerfiles/debian-ports.docker b/tests/docker/dockerfiles/debian-ports.docker
-> index e05a9a9802..514ab53b80 100644
-> --- a/tests/docker/dockerfiles/debian-ports.docker
-> +++ b/tests/docker/dockerfiles/debian-ports.docker
-> @@ -29,6 +29,7 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->          flex \
->          gettext \
->          git \
-> +        libtest-harness-perl \
->          pkg-config \
->          psmisc \
->          python \
-> diff --git a/tests/docker/dockerfiles/debian-sid.docker b/tests/docker/dockerfiles/debian-sid.docker
-> index 9a3d168705..b30cbe7fc0 100644
-> --- a/tests/docker/dockerfiles/debian-sid.docker
-> +++ b/tests/docker/dockerfiles/debian-sid.docker
-> @@ -26,6 +26,7 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->          ca-certificates \
->          flex \
->          git \
-> +        libtest-harness-perl \
->          pkg-config \
->          psmisc \
->          python \
-> diff --git a/tests/docker/dockerfiles/debian8.docker b/tests/docker/dockerfiles/debian8.docker
-> index 52945631cd..cdc3f11e06 100644
-> --- a/tests/docker/dockerfiles/debian8.docker
-> +++ b/tests/docker/dockerfiles/debian8.docker
-> @@ -29,6 +29,7 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->          gettext \
->          git \
->          gnupg \
-> +        libtest-harness-perl \
->          pkg-config \
->          python-minimal
->  
-> diff --git a/tests/docker/dockerfiles/debian9.docker b/tests/docker/dockerfiles/debian9.docker
-> index 154ae2a455..9561d4f225 100644
-> --- a/tests/docker/dockerfiles/debian9.docker
-> +++ b/tests/docker/dockerfiles/debian9.docker
-> @@ -24,6 +24,7 @@ RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->          flex \
->          gettext \
->          git \
-> +        libtest-harness-perl \
->          pkg-config \
->          psmisc \
->          python \
-> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-> index 0c4eb9e49c..1d0e3dc4ec 100644
-> --- a/tests/docker/dockerfiles/fedora.docker
-> +++ b/tests/docker/dockerfiles/fedora.docker
-> @@ -70,6 +70,7 @@ ENV PACKAGES \
->      nss-devel \
->      numactl-devel \
->      perl \
-> +    perl-Test-Harness \
->      pixman-devel \
->      python3 \
->      PyYAML \
-> diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-> index 36e2b17de5..229add533c 100644
-> --- a/tests/docker/dockerfiles/ubuntu.docker
-> +++ b/tests/docker/dockerfiles/ubuntu.docker
-> @@ -45,6 +45,7 @@ ENV PACKAGES flex bison \
->      libspice-protocol-dev \
->      libspice-server-dev \
->      libssh2-1-dev \
-> +    libtest-harness-perl \
->      libusb-1.0-0-dev \
->      libusbredirhost-dev \
->      libvdeplug-dev \
-> 
+thanks
+-- PMM
 
