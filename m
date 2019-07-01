@@ -2,109 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C48E5C55B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:56:22 +0200 (CEST)
-Received: from localhost ([::1]:45822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635F05C4CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:07:42 +0200 (CEST)
+Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi4Hd-0007yO-FG
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:56:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47799)
+	id 1hi3WX-0005Wf-1P
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 17:07:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43944)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
- id 1hi3JU-0006Dj-OE
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:14 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3CR-0000Rs-J8
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:46:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
- id 1hi3JP-0003tr-8u
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:54:10 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:37776)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
- id 1hi3JH-0003nA-ID; Mon, 01 Jul 2019 16:54:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1562014441; x=1593550441;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=sRZQGemFhJcGaiaqalz9evSv7ZCo+bZ6qNmy3ckWB48=;
- b=ApqzqE1KMtv4kB61jjxgsL74EuboaVRCskZeja/13Y0W828mliOF3ZwL
- sCNU5wDDsgEE/07ytEzu6FcaIUS34yhq5ATjTDhTKQ2MOC0uzUfnbg1xV
- Cuq2V4WLoz00pkmA6TzXuKG8aVQjOS08peSAPOGOWApBl/WfUxpnPrdwH
- VRw4P8WlIyIDnwkNeLBHYSBqzXYqvkroDshVorZJFQgn3Dgsn8Av+Nw2o
- IxdqKR20SawIp6gsW0L1KDWzoIqvKGkyzYEZlMHJOrupG/uyz3bwIp9dP
- OISvOAnDCfzzQ98KkbvGULYQIait129CiBshbvFMEtlFgWO2HPc6VU5+G w==;
-X-IronPort-AV: E=Sophos;i="5.63,440,1557158400"; d="scan'208";a="111980239"
-Received: from mail-by2nam03lp2053.outbound.protection.outlook.com (HELO
- NAM03-BY2-obe.outbound.protection.outlook.com) ([104.47.42.53])
- by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2019 02:09:20 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sRZQGemFhJcGaiaqalz9evSv7ZCo+bZ6qNmy3ckWB48=;
- b=HzTzhqMW4PGy/I76KoHqEVDTDTt8AHkUOr5rdC2v/Y5NyI2jNMsDzoTUFQTUJLpYOqOvL6BlyEqLouhJ9aj4+mGf4BQ/LgukW737LrD7FlVdUor73laWZfSQ4JOy+tvvroVVSulv0+ekOy1CJSLexQJYJ76E5sr0SnoYSLGj1Vs=
-Received: from BYAPR04MB4901.namprd04.prod.outlook.com (52.135.232.206) by
- BYAPR04MB3989.namprd04.prod.outlook.com (52.135.215.28) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.20; Mon, 1 Jul 2019 18:09:19 +0000
-Received: from BYAPR04MB4901.namprd04.prod.outlook.com
- ([fe80::40b0:3c4b:b778:664d]) by BYAPR04MB4901.namprd04.prod.outlook.com
- ([fe80::40b0:3c4b:b778:664d%7]) with mapi id 15.20.2032.019; Mon, 1 Jul 2019
- 18:09:19 +0000
-From: Alistair Francis <Alistair.Francis@wdc.com>
-To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>
-Thread-Topic: [PULL 33/34] roms: Add OpenSBI version 0.3
-Thread-Index: AQHVLPx3D6cSVSLMSUSkcnC2JIn/F6a2AV8AgAAO5QCAAAOyAIAAAYuA
-Date: Mon, 1 Jul 2019 18:09:19 +0000
-Message-ID: <efaaaa7aabddfb8481af4c5b2eeec23513f8fcb8.camel@wdc.com>
-References: <20190627152011.18686-1-palmer@sifive.com>
- <20190627152011.18686-34-palmer@sifive.com>
- <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
- <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
- <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Alistair.Francis@wdc.com; 
-x-originating-ip: [199.255.44.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 592e0622-0be3-4192-6ed5-08d6fe4f3cb6
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
- SRVR:BYAPR04MB3989; 
-x-ms-traffictypediagnostic: BYAPR04MB3989:
-x-ms-exchange-purlcount: 3
-wdcipoutbound: EOP-TRUE
-x-microsoft-antispam-prvs: <BYAPR04MB39896087B532542F883540DB90F90@BYAPR04MB3989.namprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 00851CA28B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(346002)(39860400002)(376002)(136003)(396003)(24433001)(199004)(189003)(26005)(36756003)(2616005)(316002)(6486002)(4326008)(68736007)(476003)(81156014)(2351001)(966005)(6506007)(86362001)(486006)(102836004)(14454004)(6916009)(2501003)(53936002)(8676002)(72206003)(305945005)(478600001)(11346002)(8936002)(81166006)(446003)(25786009)(186003)(6436002)(66476007)(6246003)(2906002)(66946007)(64756008)(66446008)(6512007)(66556008)(76116006)(5660300002)(73956011)(5640700003)(6306002)(229853002)(3846002)(7736002)(6116002)(118296001)(99286004)(76176011)(66066001)(71200400001)(71190400001)(54906003)(256004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB3989;
- H:BYAPR04MB4901.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:1; MX:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: w0bh6lIYSBVDTALtc4f08rn+L1zxer9Go/QzAEK5nxS8xDqbZfOAeHv0j2f7kUcc7TT7MWzT8dY35XaBhX6SvbAbe4mw0/1/uhHd1coD+jVKoTXXnEvs7NmEKO2dkcOyGpOHx4kw8AIjjiP3h6ohLNG0V/5OnEIMnJ5ZpzZp003xqswxUkiAFEoTaPKtvxwyhwcmEu6YDN9OxpCM9HFhph0JlIE3LhvEqrk0PS8NudeAJyb85KJjjZa1YOyF+D0rKDB/38VGtgBSlWxrvkd3rhbL4e/tIWjFYZuOSTYDeTQqtrC/FnAApvwvjI2CE6Jlpht7zTyNhy/tlnYo9tdq0R7yX+U8q82lTQPjD2jO75QN+0kVMbGzFs6djtSh6x9y+etMFyCp0Abwtuf8GF2OO8lTk553F786w1xxZbfkOSE=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <6F4A81D1D3788F47809604D3618356A1@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (envelope-from <peter.maydell@linaro.org>) id 1hi3CM-0000cm-BO
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:46:52 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:44693)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hi3CM-0000aH-5q
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:46:50 -0400
+Received: by mail-ot1-f65.google.com with SMTP id b7so14851084otl.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 13:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qdHe1Oq31yOCoJucMHjaFTskKr5Q9qYwy1X0y0ls4Zk=;
+ b=FGKuxA3VCsBF0S6UcpVcZAHhaC0+LnF0JyfB6jC5gOv5jo03vdWZCwgJ0OTlBK7SoD
+ 3Gt0JtkElS7/8OZ1nQKcQiyBrKQUj7am8S78kTZNTJCl0XRSPebo9LPHqiKy/OesHbpI
+ HIhudEvZrHFaxOOTvw46yqbajIvZW8X4GBjC/OpMJZhk8W/Cpg7SOrDuK38nG5epQ5Al
+ wGMMj9et0tJjLnOLlOdcNX4qYrClDAykj+G3fy9diH/xQrrM5lVQPc2eVOQFy5aF7ytr
+ ds5Q+QgGMFFdigCli+TtwYCU0pgwmxQnNRpPKtN8+LFWDTiZB6ThjhqdraLyFjhlG95S
+ +Ufw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qdHe1Oq31yOCoJucMHjaFTskKr5Q9qYwy1X0y0ls4Zk=;
+ b=leGEGDUnJ+YBarJAUouaUPk1c9AcMilB9CGyrYdQiLJQjtDhEo/TMMLjeFmdsXaiRX
+ 5bPNO6HkFdTORBcCihSUWuMeFC7Lf1FHx7TvQ/lwNwkuwPtEKfFdOv/GfcAhnhTL6kKD
+ 7ttI/HxmHpTRiTjsN55OCvRVt5XkdcN1Cvns7kkjLszBQiTvl91e4ZWehOB+nYjAWvuE
+ BDbptsuximYUoiMEr4b9QN/aIhZd0i1k4tP7e8puIQhr+vhjS5ZguDgiENK6vCYSoWi0
+ jE/J8lQT9smeDVTLox70LTIPh0+N0FB0tGrSOaxX2ZEIY6u6SOiXDYHnQ9ABXJh02aP2
+ QCwA==
+X-Gm-Message-State: APjAAAUSQaXnMsOtOrij4eT4TYPicJPJEyvb34kFdDVq7VWoD+6lAKr5
+ VCiSsM8ilF/W6+pihxz/XDpcpjh2JjR1/f6b971GzCf1PzA=
+X-Google-Smtp-Source: APXvYqxvG+XgAb/dhjKArhkj9+8hEMBYMCv00wjKzN6H74PZMavXFU6B9vuTro5F2ksko30qqkQvuDc47iq0lVgnnHY=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr21342636oti.91.1562004661433; 
+ Mon, 01 Jul 2019 11:11:01 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 592e0622-0be3-4192-6ed5-08d6fe4f3cb6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2019 18:09:19.2535 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Alistair.Francis@wdc.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB3989
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 216.71.154.42
-Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
+References: <20190627124815.29536-1-minyard@acm.org>
+In-Reply-To: <20190627124815.29536-1-minyard@acm.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 19:10:50 +0100
+Message-ID: <CAFEAcA_YcEtXDMR-7D4R0Tdb0zM7LARpisvV5VjTnoki=9_WPw@mail.gmail.com>
+To: Corey Minyard <minyard@acm.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.210.65
+Subject: Re: [Qemu-devel] [PULL 0/2] Add a UUID device property to IPMI
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,91 +71,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- "codyprime@gmail.com" <codyprime@gmail.com>,
- "palmer@sifive.com" <palmer@sifive.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gTW9uLCAyMDE5LTA3LTAxIGF0IDE5OjAxICswMTAwLCBQZXRlciBNYXlkZWxsIHdyb3RlOg0K
-PiBPbiBNb24sIDEgSnVsIDIwMTkgYXQgMTg6NTAsIEFsaXN0YWlyIEZyYW5jaXMgPA0KPiBBbGlz
-dGFpci5GcmFuY2lzQHdkYy5jb20+IHdyb3RlOg0KPiA+IE9uIE1vbiwgMjAxOS0wNy0wMSBhdCAx
-Nzo1NCArMDEwMCwgUGV0ZXIgTWF5ZGVsbCB3cm90ZToNCj4gPiA+IE9uIFRodSwgMjcgSnVuIDIw
-MTkgYXQgMTY6MjQsIFBhbG1lciBEYWJiZWx0IDxwYWxtZXJAc2lmaXZlLmNvbT4NCj4gPiA+IHdy
-b3RlOg0KPiA+ID4gPiBGcm9tOiBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpci5mcmFuY2lzQHdk
-Yy5jb20+DQo+ID4gPiA+IA0KPiA+ID4gPiBBZGQgT3BlblNCSSB2ZXJzaW9uIDAuMyBhcyBhIGdp
-dCBzdWJtb2R1bGUgYW5kIGFzIGEgcHJlYnVsdA0KPiA+ID4gPiBiaW5hcnkuDQo+ID4gPiA+IA0K
-PiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBBbGlzdGFpciBGcmFuY2lzIDxhbGlzdGFpci5mcmFuY2lz
-QHdkYy5jb20+DQo+ID4gPiA+IFJldmlld2VkLWJ5OiBCaW4gTWVuZyA8Ym1lbmcuY25AZ21haWwu
-Y29tPg0KPiA+ID4gPiBUZXN0ZWQtYnk6IEJpbiBNZW5nIDxibWVuZy5jbkBnbWFpbC5jb20+DQo+
-ID4gPiA+IFNpZ25lZC1vZmYtYnk6IFBhbG1lciBEYWJiZWx0IDxwYWxtZXJAc2lmaXZlLmNvbT4N
-Cj4gPiA+ID4gLS0tDQo+ID4gPiA+ICAuZ2l0bW9kdWxlcyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICB8ICAgMyArKw0KPiA+ID4gPiAgTWFrZWZpbGUgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgfCAgIDUgKy0NCj4gPiA+ID4gIHBjLWJpb3Mvb3BlbnNiaS1yaXNj
-djMyLXZpcnQtZndfanVtcC5iaW4gICAgIHwgQmluIDAgLT4gMjg4NDgNCj4gPiA+ID4gYnl0ZXMN
-Cj4gPiA+ID4gIHBjLWJpb3Mvb3BlbnNiaS1yaXNjdjY0LXNpZml2ZV91LWZ3X2p1bXAuYmluIHwg
-QmluIDAgLT4gMjg5MDQNCj4gPiA+ID4gYnl0ZXMNCj4gPiA+ID4gIHBjLWJpb3Mvb3BlbnNiaS1y
-aXNjdjY0LXZpcnQtZndfanVtcC5iaW4gICAgIHwgQmluIDAgLT4gMjg5MDQNCj4gPiA+ID4gYnl0
-ZXMNCj4gPiA+ID4gIHJvbXMvTWFrZWZpbGUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHwgIDQ4DQo+ID4gPiA+ICsrKysrKysrKysrKysrLQ0KPiA+ID4gPiAtLS0tDQo+ID4gPiA+ICBy
-b21zL29wZW5zYmkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ID4g
-PiA+ICA3IGZpbGVzIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQ0K
-PiA+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IHBjLWJpb3Mvb3BlbnNiaS1yaXNjdjMyLXZpcnQt
-ZndfanVtcC5iaW4NCj4gPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBwYy1iaW9zL29wZW5zYmkt
-cmlzY3Y2NC1zaWZpdmVfdS0NCj4gPiA+ID4gZndfanVtcC5iaW4NCj4gPiA+ID4gIGNyZWF0ZSBt
-b2RlIDEwMDY0NCBwYy1iaW9zL29wZW5zYmktcmlzY3Y2NC12aXJ0LWZ3X2p1bXAuYmluDQo+ID4g
-PiA+ICBjcmVhdGUgbW9kZSAxNjAwMDAgcm9tcy9vcGVuc2JpDQo+ID4gPiA+IA0KPiA+ID4gPiBk
-aWZmIC0tZ2l0IGEvLmdpdG1vZHVsZXMgYi8uZ2l0bW9kdWxlcw0KPiA+ID4gPiBpbmRleCAyODU3
-ZWVjNzYzNzcuLjdhMTBlNzJlMDljZCAxMDA2NDQNCj4gPiA+ID4gLS0tIGEvLmdpdG1vZHVsZXMN
-Cj4gPiA+ID4gKysrIGIvLmdpdG1vZHVsZXMNCj4gPiA+ID4gQEAgLTU1LDMgKzU1LDYgQEANCj4g
-PiA+ID4gIFtzdWJtb2R1bGUgInNsaXJwIl0NCj4gPiA+ID4gICAgICAgICBwYXRoID0gc2xpcnAN
-Cj4gPiA+ID4gICAgICAgICB1cmwgPSBodHRwczovL2dpdC5xZW11Lm9yZy9naXQvbGlic2xpcnAu
-Z2l0DQo+ID4gPiA+ICtbc3VibW9kdWxlICJyb21zL29wZW5zYmkiXQ0KPiA+ID4gPiArICAgICAg
-IHBhdGggPSByb21zL29wZW5zYmkNCj4gPiA+ID4gKyAgICAgICB1cmwgPSBodHRwczovL2dpdGh1
-Yi5jb20vcmlzY3Yvb3BlbnNiaS5naXQNCj4gPiA+IA0KPiA+ID4gSXQgd291bGQgYmUgbmljZSB0
-byBzdGF0ZSB0aGUgbGljZW5zZSBmb3IgbmV3IGJsb2JzIHdlJ3JlDQo+ID4gPiBhZGRpbmcgdG8g
-dGhlIHNvdXJjZSB0cmVlLi4uIEluIHBhcnRpY3VsYXIsIEkgZmluZCB0aGUNCj4gPiA+IHJlYWRt
-ZSBhdCBodHRwczovL2dpdGh1Yi5jb20vcmlzY3Yvb3BlbnNiaSBhIGJpdCBjb25mdXNpbmcNCj4g
-PiA+IGJlY2F1c2UgaXQgc2F5cyBpdCdzIDItQlNEIGJ1dCBhbHNvIHRoYXQgc29tZSBwYXJ0cyBh
-cmUgQXBhY2hlLQ0KPiA+ID4gMi4wOw0KPiA+ID4gdGhlIGxhdHRlciBpcyAqbm90KiBHUEwtMi4w
-IGNvbXBhdGlibGUuIFRoYXQgbWFrZXMgaXQgbm90DQo+ID4gPiBjb21wbGV0ZWx5DQo+ID4gPiBv
-YnZpb3VzIHRvIG1lIHRoYXQgd2UgY2FuIHNoaXAgdGhpcyB3aXRoIFFFTVUuDQo+ID4gDQo+ID4g
-QWgsIEkgZGlkbid0IHJlYWxpc2UgdGhlcmUgaXMgQXBhY2hlLTIuMCBjb2RlIGluIHRoZXJlLg0K
-PiA+IA0KPiA+IEluIHRoaXMgY2FzZSBhbGwgb2YgdGhlIGNvZGUgd2UgYXJlIHVzaW5nICh3ZSBh
-cmVuJ3QgdXNpbmcgdGhlDQo+ID4gS2VuZHJ5dGUNCj4gPiBjb2RlIHdpdGggUUVNVSkgaXMgQlNE
-LTItQ2xhdXNlLiBFdmVuIHRoZW4gdGhvdWdoIGRvZXMgaXQgbWF0dGVyIGlmDQo+ID4gaXQNCj4g
-PiBpcyBHUEwgY29tcGF0aWJsZT8gVGhpcyBpc24ndCBiZWluZyBsaW5rZWQgd2l0aCBRRU1VIGl0
-IGlzIGp1c3QNCj4gPiBiZWluZw0KPiA+IGluY2x1ZGVkIHdpdGggUUVNVS4NCj4gDQo+IFllYWgs
-IGlmIHdlJ3JlIG5vdCBidWlsZGluZyB0aGUgYXBhY2hlLTIuMCBwYXJ0cyB0aGVuIEkgdGhpbmsN
-Cj4gd2UncmUgT0ssIGFuZCBhcyB5b3Ugc2F5IHRoZXJlJ3MgdGhlIHF1ZXN0aW9uIG9mIHdoZXRo
-ZXIgUUVNVSdzDQo+IEdQTCBhZmZlY3RzIHdoYXQgd2Ugc2hpcCBhcyBtZXJlIGJpb3MgYmxvYnMg
-dG8gcnVuIGFzIGd1ZXN0DQo+IGNvZGUgYW55d2F5LiBCdXQgaXQncyBzdWZmaWNpZW50bHkgbm90
-IGEgInJlYWxseSBvYnZpb3VzbHkgb2siDQo+IHRoYXQgSSdkIGxpa2UgYSBzZWNvbmQgb3Bpbmlv
-bjsgY2MnZCBzb21lIHBlb3BsZSB3aG8gbWlnaHQgaGF2ZQ0KPiBzZWNvbmQgb3BpbmlvbnMuDQo+
-IA0KPiA+IEkgY2FuIGFkZCBkZXRhaWxzIG9mIHRoZSBsaWNlbnNlIGluIHRoZSBzb3VyY2UgdHJl
-ZSwgd2hlcmUgc2hvdWxkDQo+ID4gaXQgYmUNCj4gPiBhZGRlZD8NCj4gDQo+IEkgd2FzIHRoaW5r
-aW5nIGluIHRoZSBjb21taXQgbWVzc2FnZS4gV2UgYWxzbyBzZWVtIHRvDQo+IGhhdmUgaHVtYW4t
-cmVhZGFibGUgaW5mb3JtYXRpb24gaW4gcGMtYmlvcy9SRUFETUUgZm9yDQo+IHRoZSB2YXJpb3Vz
-IGJsb2JzLCB3aGljaCBzZWVtcyB0byBiZSBhIGdvb2QgcGxhY2UgZm9yIGEgYnJpZWYNCj4gb25l
-LXBhcmEgc3VtbWFyeSBvZiB3aGF0IE9wZW5TQkkgaXMsIGEgVVJMIGZvciBpdHMgdXBzdHJlYW0s
-DQo+IGFuZCBhIGJyaWVmIG5vdGUgb2YgdGhlIGxpY2Vuc2UuDQoNCk9rLCBJJ2xsIGFkZCB0aGF0
-Lg0KDQo+IA0KPiA+ID4gQWxzbywgbmV3IGdpdCBtb2R1bGVzIGluIC5naXRtb2R1bGVzIHNob3Vs
-ZCBiZSBxZW11Lm9yZw0KPiA+ID4gVVJMcywgbm90IHJhbmRvbSBleHRlcm5hbCBvbmVzLiAoaWUs
-IHdlIHNob3VsZCBzZXQgdXANCj4gPiA+IG1pcnJvcmluZyBvZiBhbnkgbmV3IGV4dGVybmFsIHJl
-cG8gd2Ugc3RhcnQgc2hpcHBpbmcNCj4gPiA+IGNvZGUgYW5kIGJpbmFyaWVzIGZvcikuIFdlIGNh
-biBzZXQgdGhpcyB1cCBhbmQgZml4IHVwIHRoZQ0KPiA+ID4gZ2l0bW9kdWxlcyBmaWxlIGFmdGVy
-IHRoZSBmYWN0LCBidXQgdGhlIGlkZWFsIGlzIHRvIGRvDQo+ID4gPiBpdCBpbiBhZHZhbmNlIHJh
-dGhlciB0aGFuIGFmdGVyd2FyZHMuDQo+ID4gDQo+ID4gT2ssIHdobyBjYW4gc2V0dXAgYSBnaXQg
-bWlycm9yIGZvciB0aGUgUUVNVSByZXBvPw0KPiANCj4gVGhhdCB3b3VsZCBiZSBKZWZmIG9yIFN0
-ZWZhbiAoY2MnZCkuDQo+IA0KPiA+IFBTOiBJdCBzZWVtcyBsaWtlIHRoZXJlIGFyZSBzdGlsbCBz
-b21lIGlzc3VlcyB3aXRoIHRoaXMgcGF0Y2ggc28NCj4gPiBtYXliZQ0KPiA+IGl0J3Mgd29ydGgg
-ZHJvcHBpbmcgdGhpcyBwYXRjaCBmcm9tIHRoZSBQUiBzbyB0aGF0IHdlIGNhbiBnZXQNCj4gPiBl
-dmVyeXRoaW5nIGVsc2UgbWVyZ2VkLg0KPiANCj4gWWVhaCwgdGhhdCB3b3VsZCBiZSBteSBzdWdn
-ZXN0aW9uLg0KDQpDYW4geW91IGRvIHRoYXQgd2hlbiB5b3UgbWVyZ2UgaXQgb3IgZG9lcyBQYWxt
-ZXIgaGF2ZSB0byBzZW5kIHRoZSBQUg0KYWdhaW4/DQoNCkFsaXN0YWlyDQoNCj4gDQo+IHRoYW5r
-cw0KPiAtLSBQTU0NCg==
+On Thu, 27 Jun 2019 at 13:48, <minyard@acm.org> wrote:
+>
+> I believe we are not in softfreeze yet, and this is the only real
+> fix I have for IPMI at the moment.
+>
+> This was posted Nov 2018 with little commentary.
+>
+> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
+>
+>   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/cminyard/qemu.git tags/ipmi-for-release-20190627
+>
+> for you to fetch changes up to bddef5881d0c935a5d9d8e15f822d9d700666ae6:
+>
+>   ipmi: Add a UUID device property (2019-06-26 15:31:33 -0500)
+>
+> ----------------------------------------------------------------
+> Add a UUID device property to IPMI
+>
+> This is fairly important for two reasons:
+>
+> * It allows a BMC to be created with no UUID, returning an error, which
+>   is the behavior of many BMCs in the world.
+> * It lets the user set the UUID to a fixed value.
+>
+> Some software using IPMI will get confused if it gets different UUIDs
+> from what should be the same device, which is what happens now if qemu
+> quits and restarts.
+>
+> ----------------------------------------------------------------
+> Corey Minyard (2):
+>       qdev: Add a no default uuid property
+>       ipmi: Add a UUID device property
+
+I have to say I'm not entirely happy with applying a pullreq
+with patches that are unreviewed and were last posted on list
+over six months ago. Can you post a v2 to try to solicit code
+review for them before we put them into master, please?
+
+(Sometimes patches don't get review, and we generally take
+them anyway; I do that myself from time to time. It's the
+combination of the six-months-since-patches-posted plus the
+imminent freeze deadline that gives me pause in this case.)
+
+thanks
+-- PMM
 
