@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0FC5C5DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 01:09:56 +0200 (CEST)
-Received: from localhost ([::1]:46184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC025C595
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:19:57 +0200 (CEST)
+Received: from localhost ([::1]:46032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi5Qn-00077m-OC
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 19:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33233)
+	id 1hi4eQ-0008Jl-V1
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58566)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <tcminyard@gmail.com>) id 1hi3cB-0003zZ-OZ
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:35 -0400
+ (envelope-from <hsp.cat7@gmail.com>) id 1hi3ZR-0001pr-9H
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:10:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <tcminyard@gmail.com>) id 1hi3c6-0000yp-0z
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:31 -0400
-Received: from mail-oi1-f173.google.com ([209.85.167.173]:39280)
+ (envelope-from <hsp.cat7@gmail.com>) id 1hi3ZE-0007k0-6c
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:10:32 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:33169)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <tcminyard@gmail.com>) id 1hi3c5-0000HR-Kc
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:13:25 -0400
-Received: by mail-oi1-f173.google.com with SMTP id m202so11175856oig.6
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:12:13 -0700 (PDT)
+ (Exim 4.71) (envelope-from <hsp.cat7@gmail.com>) id 1hi3ZD-0006tM-RR
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:10:28 -0400
+Received: by mail-oi1-f195.google.com with SMTP id u15so11046499oiv.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:09:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=XYQR9jP5S8jstoPzfaXsLfCb2tOUGQDtXbORRsv8ATM=;
- b=o6r0OJiBhJ3b7f+KvnzmC3Eq05O6gww2RlS3MdLFiqnnjqZljvjFjGPgsEQL7sIZT5
- MD8zMqL6NfXJEJMNt2+F1maTB9DMYGiJqZiB8y2iVZ22iHVc+a0U5lKOBQGalcfisciX
- eYlfGPJY+lkiT0Zjob0wC+CT27ukc+tsr++y3/BVfV8PBzDV/H1lUu5x84rlDAeU/h/g
- ps9kfQxwdOHrNT9dhrvb2jcbT3eoSL+gifddVKTVAkUB8gs7Nzyh9G2zzdRln/GQL4tb
- CAfsTwXxLQmVs8qhtjAbN+BgFC/2wyO+sD44uhBiMQYPhHcZZsGQzDwJZkZDIjcl9Pqe
- TxaA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SDn2hXn3wvxwD7zacLCJjcs8TDhqjr3MNBApJ17qUvk=;
+ b=G7qLZWd2Rumc/JDRnXIM2OCG7+HvBldqXI9P/7p+2wesFnibwVIKyfIt4QQcH1URSL
+ eDLcT8uwD8JodQoaLHLilx/Io9OMN1fqYnf2228W4XYtc6OBW06miaiForCkNsGD5sJM
+ yVDhLsBZb838k3ygmwvLAL2uApgjSSND1eGK6eN79l5Yx4ftBOkFnBtBLi43nlehsPvv
+ 0kVk52sVdJmPTSa1BbBHtwTbjaC/guGpvjCdO511yT2jcHtiyygBQqLuir05z+HHbWpY
+ lilg+m0sAX/+P0FXNnm1qI0ORLPD5Y57mxH9ZjMTCeQFyx29Pb8qE4qs03W5tUPdZ0Iu
+ /0BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to
- :user-agent;
- bh=XYQR9jP5S8jstoPzfaXsLfCb2tOUGQDtXbORRsv8ATM=;
- b=hp7tD8HlXeKVOXVCtqiqKN+rSN7pXXZnr597fAbszXc7w7IXh+xUb5X2pSWbBK+5AN
- ULRcMNKF1MZKB47XfsY85G7VwdnTQ3o3HrtdxDhp7vSDbtSYY1ekSy4dCv87UN9wb3F9
- hzw9EnHQq9hnj+65OBVk51mxR1ntIyl0jHREVB5NVlDtSnNkDyPKyf46BO1A7Xt15VPH
- sKPSXaGQI4e3DXjI0Df51GsePE+YzgbrdSWy7FWRCBLgngM3+G5VtApKwNl27wMxt/hk
- HpBezI6pq1MlzhuYZTw/dD2vnBa1YYVMnU789tutrqeL5FCHSk3kFMdHNba5eJRUf7FW
- FfSA==
-X-Gm-Message-State: APjAAAVXujThO8vJGgWJNBFmbV5X9TTDG8bhz+97YYWIKbjyTTJf7+DR
- Z7XdedWyQLK9wK3ZUr4lBSx4YCU=
-X-Google-Smtp-Source: APXvYqzu9Os6VfNoF5s55aif9MyY7+yunjvy8p9IYb9PZrd+ZTXAnhV5bgrmHdseyfOJXOaaSNmvOw==
-X-Received: by 2002:aca:b554:: with SMTP id e81mr434691oif.7.1562005511245;
- Mon, 01 Jul 2019 11:25:11 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id v18sm5141041otn.17.2019.07.01.11.25.08
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 11:25:09 -0700 (PDT)
-Received: from minyard.net (unknown [IPv6:2001:470:b8f6:1b:9997:a955:13ad:73b])
- by serve.minyard.net (Postfix) with ESMTPSA id 7FAEA1800D1;
- Mon,  1 Jul 2019 18:25:07 +0000 (UTC)
-Date: Mon, 1 Jul 2019 13:25:03 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190701182503.GA4336@minyard.net>
-References: <20190627124815.29536-1-minyard@acm.org>
- <CAFEAcA_YcEtXDMR-7D4R0Tdb0zM7LARpisvV5VjTnoki=9_WPw@mail.gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SDn2hXn3wvxwD7zacLCJjcs8TDhqjr3MNBApJ17qUvk=;
+ b=QwzSh2TFnnWLAVLllvLpi4blRDVUx3ZrWUjXT3o5teDmk/eaDjAncxUev6kKtzQwcB
+ BRrj4lqYU+H2xjFfD/YOOEw/JHLNqddKQzfb2FgE5tUEd8pKG/GlZEDCLWAHJx7J1hBD
+ f9gWix6lTmwGG/usFyiBrIkED2N7PdPkStCpYAvoUfK/L/YVjK23u+RVNoGwXKTKLSWP
+ PMWYwyz39/UNtacT7SXzvNACL+NfyxjkoXDLleTLtH+mVF5elT5EzPk78xp3L/65sjJy
+ OlQSuUSBXteqxHb1XS3+AOprs8F9b7r00PeGdkVphFIW3Du5ChRqAnTPq5YNWd/8lWSC
+ akOA==
+X-Gm-Message-State: APjAAAWxj69b4+GWCknFDRtXywBGaHhwBNpNsmCeMaCZeK3+32o+n57l
+ VD2+5JTscqTbrk6Iy6cJUClRCAgfUQWeMeuDGOCVrFqi
+X-Google-Smtp-Source: APXvYqxNlHpM1XDRNiYYfbFION72gwagngDoz6HvkkLTrL9jDPha0HpevEUlsplG2U6mNEV8CZAQxmmq+Ueovp+7YRw=
+X-Received: by 2002:aca:b104:: with SMTP id a4mr466163oif.14.1562006088017;
+ Mon, 01 Jul 2019 11:34:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_YcEtXDMR-7D4R0Tdb0zM7LARpisvV5VjTnoki=9_WPw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20190629130017.2973-1-richard.henderson@linaro.org>
+ <5746cc58-c132-ef29-6ff4-da07c6086dac@ilande.co.uk>
+ <3fe632b7-e83c-9b26-9338-1d7a9c881e0d@linaro.org>
+In-Reply-To: <3fe632b7-e83c-9b26-9338-1d7a9c881e0d@linaro.org>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Mon, 1 Jul 2019 20:34:36 +0200
+Message-ID: <CABLmASFUnBnn2DZidKFAiaMb7gExYttgvEv12uce9EPi6NL9Qw@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.167.173
-Subject: Re: [Qemu-devel] [PULL 0/2] Add a UUID device property to IPMI
+X-Received-From: 209.85.167.195
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.23
+Subject: Re: [Qemu-devel] [PATCH v6 00/16] tcg/ppc: Add vector opcodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,64 +73,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel qemu-devel <qemu-devel@nongnu.org>, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 01, 2019 at 07:10:50PM +0100, Peter Maydell wrote:
-> On Thu, 27 Jun 2019 at 13:48, <minyard@acm.org> wrote:
-> >
-> > I believe we are not in softfreeze yet, and this is the only real
-> > fix I have for IPMI at the moment.
-> >
-> > This was posted Nov 2018 with little commentary.
-> >
-> > The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
-> >
-> >   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://github.com/cminyard/qemu.git tags/ipmi-for-release-20190627
-> >
-> > for you to fetch changes up to bddef5881d0c935a5d9d8e15f822d9d700666ae6:
-> >
-> >   ipmi: Add a UUID device property (2019-06-26 15:31:33 -0500)
-> >
-> > ----------------------------------------------------------------
-> > Add a UUID device property to IPMI
-> >
-> > This is fairly important for two reasons:
-> >
-> > * It allows a BMC to be created with no UUID, returning an error, which
-> >   is the behavior of many BMCs in the world.
-> > * It lets the user set the UUID to a fixed value.
-> >
-> > Some software using IPMI will get confused if it gets different UUIDs
-> > from what should be the same device, which is what happens now if qemu
-> > quits and restarts.
-> >
-> > ----------------------------------------------------------------
-> > Corey Minyard (2):
-> >       qdev: Add a no default uuid property
-> >       ipmi: Add a UUID device property
-> 
-> I have to say I'm not entirely happy with applying a pullreq
-> with patches that are unreviewed and were last posted on list
-> over six months ago. Can you post a v2 to try to solicit code
-> review for them before we put them into master, please?
-> 
-> (Sometimes patches don't get review, and we generally take
-> them anyway; I do that myself from time to time. It's the
-> combination of the six-months-since-patches-posted plus the
-> imminent freeze deadline that gives me pause in this case.)
+On Mon, Jul 1, 2019 at 12:30 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-Will do.
+> On 6/30/19 7:58 PM, Mark Cave-Ayland wrote:
+> > I don't have space for a full set of images on the G4, however I've
+> tried boot tests
+> > on installer CDs for MacOS 9, OS X 10.2, Linux and HelenOS and it looks
+> good here.
+> >
+> > Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> [PPC32]
+>
+> Thanks!
+>
+> Hi
 
-I looked around and tried to find the freeze dates, and I couldn't
-find anything published.  If I had known it was close, I would have
-waited.
+I just compiled the v6 set applied to current master on my G5, Ubuntu 16.
+command line:
+./qemu-system-ppc -L pc-bios -boot c m 512 -M mac99,via=pmu \
+-netdev user,id=net1 -device sungem,netdev=net1 \
+-drive file=10.3.img,format=raw,media=disk \
 
--corey
+With no specific cpu set, Mac OS 9.2 hard disk image and 9.2 iso do not get
+to the desktop, they just hang while still in the openbios window. They
+need -cpu G4 on the command line to get to the desktop.
 
+OSX 10.3 installed image boots to desktop.
+OSX 10.3 iso boots to installer
+OSX 10.4 installed image boots to desktop.
+OSX 10.4 iso boot to installer
+OSX 10.5 installed image boots to desktop.
+OSX 10.5 iso boots to installer
+
+So there seems to be a difference between hosts: If ran on a G4 host there
+is no need to add -cpu G4 to run Mac OS 9.x, while there is when ran on a
+G5 host.
+
+Best,
+Howard
