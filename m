@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648C95BED7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:58:47 +0200 (CEST)
-Received: from localhost ([::1]:59700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE17A5BE96
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:45:59 +0200 (CEST)
+Received: from localhost ([::1]:59546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxlW-0007fD-59
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:58:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57711)
+	id 1hhxZ8-000771-T2
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:45:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58495)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aaron@os.amperecomputing.com>) id 1hhxTm-000216-Kb
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:40:27 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhxWs-0005Sj-7f
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:43:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aaron@os.amperecomputing.com>) id 1hhxTk-0006rV-Nl
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:40:26 -0400
-Received: from mail-eopbgr800113.outbound.protection.outlook.com
- ([40.107.80.113]:15342 helo=NAM03-DM3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aaron@os.amperecomputing.com>)
- id 1hhxTi-0006nG-O6
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:40:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5EaGWXoYt13vqRsaH/QHy3z983X/zDkLrMmSai6J3UE=;
- b=iUIULe3PbZd67KfBgiYP3I1B3jCgBvKI8d2zGb+tBPq4pCmR2OiYIo8w3gQfOiGVIyssFJsB72XSKRZngR3i6bL1U6Jt6g+aU6G059KdC1ilTXvrMjqDLkZFSgCOENZeD5JmpYnP8+6Qi9eHfq860/wA/QwUI1KBBaHU/h/BzbM=
-Received: from DM6PR01MB4825.prod.exchangelabs.com (20.177.218.222) by
- DM6PR01MB3801.prod.exchangelabs.com (20.176.65.30) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.18; Mon, 1 Jul 2019 14:40:16 +0000
-Received: from DM6PR01MB4825.prod.exchangelabs.com
- ([fe80::390e:9996:6dec:d60f]) by DM6PR01MB4825.prod.exchangelabs.com
- ([fe80::390e:9996:6dec:d60f%6]) with mapi id 15.20.2032.019; Mon, 1 Jul 2019
- 14:40:16 +0000
-To: =?iso-8859-1?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
-Thread-Topic: [Qemu-devel] [PATCH v3 19/50] tcg: let plugins instrument memory
- accesses
-Thread-Index: AQHVIt11hLjmFwnAA0W4zaK1l+4xhaaxRysAgAAcDgCAAA0TAIAAML6AgARO/oA=
-Date: Mon, 1 Jul 2019 14:40:15 +0000
-Message-ID: <20190701144009.GA5002@quinoa.localdomain>
-References: <20190614171200.21078-1-alex.bennee@linaro.org>
- <20190614171200.21078-20-alex.bennee@linaro.org>
- <20190628153044.GB26345@quinoa.localdomain>
- <87mui1ab4j.fsf@zen.linaroharston>
- <20190628175756.GC26345@quinoa.localdomain>
- <87lfxla0vs.fsf@zen.linaroharston>
-In-Reply-To: <87lfxla0vs.fsf@zen.linaroharston>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: CY4PR04CA0057.namprd04.prod.outlook.com
- (2603:10b6:910:4f::22) To DM6PR01MB4825.prod.exchangelabs.com
- (2603:10b6:5:6b::30)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=aaron@os.amperecomputing.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [108.169.132.82]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 759b2a43-b814-43a7-f01d-08d6fe3207cf
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:DM6PR01MB3801; 
-x-ms-traffictypediagnostic: DM6PR01MB3801:
-x-microsoft-antispam-prvs: <DM6PR01MB38012955110D0836F171C7F98AF90@DM6PR01MB3801.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 00851CA28B
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(4636009)(366004)(136003)(39840400004)(376002)(396003)(346002)(199004)(189003)(66946007)(99286004)(73956011)(102836004)(76176011)(8676002)(305945005)(6916009)(6116002)(316002)(54906003)(52116002)(7736002)(81156014)(66446008)(486006)(14454004)(14444005)(256004)(6506007)(81166006)(71190400001)(71200400001)(86362001)(8936002)(64756008)(66476007)(66556008)(3846002)(11346002)(476003)(386003)(5660300002)(446003)(186003)(6246003)(478600001)(6436002)(53936002)(229853002)(26005)(66066001)(6512007)(9686003)(68736007)(25786009)(4326008)(66574012)(33656002)(1076003)(2906002)(6486002);
- DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR01MB3801;
- H:DM6PR01MB4825.prod.exchangelabs.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; A:0; MX:1; 
-received-spf: None (protection.outlook.com: os.amperecomputing.com does not
- designate permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: XaayUuRwVrklML0cgxNEtJxooaCIBAfq0US65WOr+jJDHynSq6kNQeVK5v3lgPB8uivwEs9CiNADJHjz778dsM7A1VLccfvopoMmTdD3WO8NHf526gvOMauhUuxVYvW1nLL7m3CDf8UgSPdj3ApTMvV/phcu0B6rokbQtTTZwiSKDV1ZYDhbUgFnDpkVEZCOYJW1ZqKcSC/XSl94W3UPUEFH4KqcDfBPkGAK3rIdt8u82Z6hSDLPwl7DHC4PzEpIiIMZFB+8YBofhN81VIjO4jdRt91tJqa9SsMx2fXA/w3HHvlLabjyKxW58iVgQabWVsN4I9LCnZM4WtoSdOfgEsOY7HokCKC9Kfq5jcNxUv2wkZSRzJ2Y6nTZhCHXvRnn6huZMQbN4KQlfKT4PGcXVok7dslk8DvKYNLsovm0KLc=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <D1D2686308D46E4CB864A1DA1EF3A598@prod.exchangelabs.com>
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <philmd@redhat.com>) id 1hhxWq-0000yb-9T
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:43:38 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51507)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhxWo-0000w4-EA
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:43:34 -0400
+Received: by mail-wm1-f68.google.com with SMTP id 207so16137786wma.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:43:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/Twwz+ZF2ZEc5wIb7DKQ0L5qv4JeSvRkBNmtz4dVJrA=;
+ b=ALD4N7ImiwPfZDe/k2/GzXibYFw6PgUZqnEiKx1qAxxZ1DNZwDssQ9nwxXXUNMGa6j
+ zJNJMLprSCwij2xlVfJWReVJdAS0Irb1pYMBXUFPkul09NxMIvwfxr8lW76bbCx5rKkg
+ 39yyW8ZNoGAA4XQbBwSmsJoT2DBy7JibECs5Hh/+1j5eZCO90tiYMdDlfJI/l5p7UHGx
+ dhTIvUQs3KdLNLSycdkNbuf314J95tsMzg5FIcUAIBCDZHmnRJ/9yt2NNWmYWqIpul/H
+ TDp6F7zpLMvzFg0vY2IIaGUc2++6fY7gO5IHqTA8ZThsrQYWifLWHvXOJs22X1WDtWDD
+ 2OKQ==
+X-Gm-Message-State: APjAAAUTEu7X0VBWw0kmuJm7CkMBaCGcSLqQ4HPw5PUpbGdNqDr2urwa
+ vAW7yQ950YkyK7BiZhKkNPRZrg==
+X-Google-Smtp-Source: APXvYqzsl8aa3klMFQoG0qlzgH4O7b7iSrSorveveVblkiXqVA+JeSX9NGfSfAaCkREJnnlKAevoAg==
+X-Received: by 2002:a05:600c:303:: with SMTP id
+ q3mr17850692wmd.130.1561992213185; 
+ Mon, 01 Jul 2019 07:43:33 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id n10sm10422392wrw.83.2019.07.01.07.43.31
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Jul 2019 07:43:32 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190614100718.14019-1-philmd@redhat.com>
+ <20190701143657.GM3573@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <8f9ef359-fbf3-d508-315e-350227294173@redhat.com>
+Date: Mon, 1 Jul 2019 16:43:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 759b2a43-b814-43a7-f01d-08d6fe3207cf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2019 14:40:15.9807 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Aaron@os.amperecomputing.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR01MB3801
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.80.113
-Subject: Re: [Qemu-devel] [PATCH v3 19/50] tcg: let plugins instrument
- memory accesses
+In-Reply-To: <20190701143657.GM3573@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+ [fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v2 0/9] configure: Fix softmmu --static
+ linking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -104,68 +76,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Aaron Lindsay OS via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Aaron Lindsay OS <aaron@os.amperecomputing.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Bharata B Rao <bharata@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Niels de Vos <ndevos@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Jun 28 21:52, Alex Benn=E9e wrote:
-> Aaron Lindsay OS <aaron@os.amperecomputing.com> writes:
-> > To make sure I understand - you're implying that one such query will
-> > return the PA from the guest's perspective, right?
->=20
-> Yes - although it will be two queries:
->=20
->   struct qemu_plugin_hwaddr *hw =3D qemu_plugin_get_hwaddr(info, vaddr);
->=20
-> This does the actual lookup and stores enough information for the
-> further queries.
->=20
->   uint64_t pa =3D qemu_plugin_hwaddr_to_raddr(hw);
->=20
-> will return the physical address (assuming it's a RAM reference and not
-> some IO location).
+On 7/1/19 4:36 PM, Daniel P. Berrangé wrote:
+> On Fri, Jun 14, 2019 at 12:07:09PM +0200, Philippe Mathieu-Daudé wrote:
+>> Hi,
+>>
+>> Apparently QEMU static linking is slowly bitroting. Obviously it
+>> depends the libraries an user has installed, anyway it seems there
+>> are not much testing done.
+> 
+> Bitrotting implies that it actually worked in the first place.
+> 
+> AFAIK, configure has never been capable of auto-enabling the
+> correct set of libraries for static linking, if you have the
+> equiv dyn libraries present.
+> 
+> I always assumed that anyone who is static loinking QEMU is
+> passing a big long list of --disable-XXXX args to turn off
+> all the 3rd party libs for which they don't have a static
+> build present.
+> 
+>> This series fixes few issues, enough to build QEMU on a Ubuntu
+>> 18.04 host.
+>>
+>> Peter commented on v1:
+>>
+>>   The main reason for supporting static linking is so we can build
+>>   the user-mode emulators. Almost always the problems with
+>>   static linking the softmmu binaries and the tools are
+>>   issues with the distro's packaging of the static libraries
+>>   (pkg-config files which specify things that don't work for
+>>   static is a common one).
+>>
+>>   So we could put in a lot of checking of "is what pkg-config
+>>   tells us broken". Or we could just say "we don't support static
+>>   linking for anything except the usermode binaries". We
+>>   should probably phase in deprecation of that because it's
+>>   possible somebody's using it seriously, but it seems like
+>>   a fairly weird thing to do to me.
+>>
+>> I share his view on this (restricting static linking to qemu-user)
+>> but since the work was already done when I read his comment, I still
+>> send the v2.
+> 
+> I share Peter's view that we ought to restrict static linking to be
+> allowed exclusively for user-mode-only builds of QEMU. This is a use
+> case with a compelling reason to need static builds. It is not bitrotting
+> as the main distros all do a static user-mode only QEMU build, alongside
+> the main everything, fully dynamic build.
+> 
+> Static builds of system emulators & other tools get essentially no
+> testing by developers, distros, or our CI systems. If they do work
+> it is largely by luck, and likely requires the user to pass many
+> --disable-XXX flags. While your patches do make configure a bit
+> nicer in this respect, if we're going to deprecate static builds
+> of non-user-mode parts, then making static builds easier feels
+> undesirable.
 
-Sounds good, as long as we have a good way to either prevent or cleanly
-detect the failure mode for the IO accesses.
+OK, I agree then.
 
-> > In terms of our use case - we use QEMU to drive studies to help us
-> > design the next generation of processors. As you can imagine, having th=
-e
-> > right physical addresses is important for some aspects of that. We're
-> > currently using a version of Pavel Dovgalyuk's earlier plugin patchset
-> > with some of our own patches/fixes on top, but it would obviously make
-> > our lives easier to work together to get this sort of infrastructure
-> > upstream!
->=20
-> Was this:
->=20
->  Date: Tue, 05 Jun 2018 13:39:15 +0300
->  Message-ID: <152819515565.30857.16834004920507717324.stgit@pasha-ThinkPa=
-d-T60>
->  Subject: [Qemu-devel] [RFC PATCH v2 0/7] QEMU binary instrumentation pro=
-totype
-
-Yes, that looks like the one.
-
-> What patches did you add on top?
-
-We added:
-- plugin support for linux-user mode (I sent that one upstream, I think)
-- memory tracing support and a VA->PA conversion helper
-- a way for a plugin to request getting a callback just before QEMU
-  exits to clean up any internal state
-- a way for a plugin to reset any instrumentation decisions made in the
-  past (essentially calls `tb_flush(cpu);` under the covers). We found
-  this critical for plugins which undergo state changes during the
-  course of their execution (i.e. watch for event X, then go into a more
-  detailed profiling mode until you see event Y)
-- instrumentation at the TB granularity (in addition to the existing
-  instruction-level support)
-- the ability for a plugin to trigger a checkpoint to be taken
-
--Aaron
+> 
+> Lets just get a deprecation warning in right now for this imminent
+> release.
+> 
+> Regards,
+> Daniel
+> 
 
