@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1E95C69C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:31:06 +0200 (CEST)
-Received: from localhost ([::1]:46866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237625C75E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:32:58 +0200 (CEST)
+Received: from localhost ([::1]:47324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7dR-0001CL-8m
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:31:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55938)
+	id 1hi8bJ-0004TL-9H
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:32:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58060)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4Na-0005Ft-Ll
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:32 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4W9-000342-Og
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:11:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4NY-0000a6-L6
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:30 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:41572)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4W0-0002xe-Np
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:11:15 -0400
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:42725)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4NV-0000Ts-GO
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:26 -0400
-Received: by mail-wr1-f67.google.com with SMTP id c2so15441571wrm.8
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:02:14 -0700 (PDT)
+ id 1hi4W0-0002sM-EH
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:11:12 -0400
+Received: by mail-wr1-f48.google.com with SMTP id x17so15435921wrl.9
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:10:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KkUQSWRyDo7N3gMjPFgWAFIufs62qiUnuMkPV6Fsbp4=;
- b=eSUm5Pht6gJL8SzhSmxiPQULQJzBY0cI1Q3x7OssvcCHel0w6maC1/oSV00SeY+mNE
- 8VZRlirc9S5A9t3kbYe9DONj7hwVro5koBmKvSSkP2QtNRvsldq5aSaXanaqrpcS+dJA
- i9hKFixCEVTX4S2f300g2A7FLiRhDTkUMy4EnejnUcQmm0DVL3eDc7U8u0Mvsje2MXOx
- G32NAhHC2CrJVEHh6GJUjf7qPe33hzxWgul1PhERAM2+eCl0O6XczVSZeTmgeeYVf9Zz
- 094Zd3+uerm+ugLO6uDhjVFtduCY+cg24fBIkB8MXtpKRfanMN+rurh9PaK0cQ/ANYYf
- Zi7g==
+ bh=woHhYY92L1yVEaV0N+VO3jRl6CsEGrwlmOo1GH6Xz6Y=;
+ b=kkgm2x9Ow0TvGYJ3izolYt1XjvB4yciYNNDmJcdu7GqkdLQsg0L7Zg3OXtlUU9juOm
+ jZ+SjcF3bzvO5rZzwFGC5FGg7P/zUKRANqorEy2e+m5g55r02CTWB+fBg4m9MsTowXDX
+ 9QbG74gmi6Kw2Dlnqt9exxy4/sPLlYvY8CUmMSAA9xskiMcRD3tnvqwpJNFfyvasiLom
+ omXW+WNrRgmgJmlStRFKN9SchLFzN4SgDw+FE5m8YUya0EI2oWCj0FVYpiqyYZr/P55+
+ DwGkUqjlSZ6rmZ172Ie5JAZywEs3hleba/pXyaABep6kWpvVgDq2pfEQnZ0SfVNMSq30
+ Fu4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KkUQSWRyDo7N3gMjPFgWAFIufs62qiUnuMkPV6Fsbp4=;
- b=fIc0vcLs3AbzMjutZ8Ucaba+Wb0aw39XC1+6YLxALJH6nzuoFJE2155sgGqZPuZYJi
- EgAxE1fet11qBA/p+ylJ+0160DaGljugGpaQRqnWIa9MVq/IqrRvetKWfAqD/3VwELX6
- HU90BWqfKgrIpH5NAG/3NWdDN1Y0n6oG/nIVA2sbwH/5R7lBT/3oCFdhZQWYKFDTGMal
- OgYemvitR7+T7/xKwbCBbU4tD0Pb7qRa3Oy4skrqAqf/j0beOGyjxDNQhza8yI+KUkCv
- n9RNz+cTAnWsRJIBiI9kDKxAGxUfQ3BTBkRl7ZgBLb2+F90NHQs28ecyW1KMa41wY97f
- kvYg==
-X-Gm-Message-State: APjAAAVnqDN3QiNvYffC7IOfVpgvxycBBpKKJK5d0bjdEb8Ed1y0CR/9
- sJLWvdRpwjufPGgE6X7b+7qgZt9LcNz/ag==
-X-Google-Smtp-Source: APXvYqyEeY51OM8LgNBMbG1hjRPU4+p7Z1PjSrZ9DifrGkNIeT8Yswg4PjQNbADUNvXPK1zDZWGJEQ==
-X-Received: by 2002:adf:e947:: with SMTP id m7mr8960339wrn.123.1561999192071; 
- Mon, 01 Jul 2019 09:39:52 -0700 (PDT)
+ bh=woHhYY92L1yVEaV0N+VO3jRl6CsEGrwlmOo1GH6Xz6Y=;
+ b=tYwPI+6/PSLNFQUshkOp5Mm+Gq9TiJLJGKx9Ei3GWzzo2aH85ZlkQy47DnNXNq/3O3
+ /qU9IV09i8AVWkiU9OKVEbxn1vPOd3XzOyg2bexISmm4QgN1yz9Wn0NbwH4tCtBhM28C
+ 3iqSt3i+i2IX2LtbjxVSqBjUfed23QXkTwR/LYy2VZbqpYIdrH0tFiA+syyRwpPl8q+3
+ HZZAwxNNGDR8R9MTcO1PXHPBAS667MCNJuj6cmF1nlbFWkFHyDSxTf8yuZAD1escS+E2
+ ADGk7ouderuIwh6Jes6gAKavFbmPI64oWLSX9aquT1ARIHYSM+fDIoOkbS2dzHQJqlqH
+ /uTA==
+X-Gm-Message-State: APjAAAX9LCCBcUGJaHlfHYc2HfWPbZyNJL4++TgriV8zxkR502nrNAE/
+ 1GB+2NCz320v96J3RQCE5ujkKLz4i1r/xQ==
+X-Google-Smtp-Source: APXvYqymEIq/pGxSpBCl/Hf4Th/d6t9XtT4NP+zU40VyzAN7tXqew7B2W6GfP6WgVefUvw9xuoil/g==
+X-Received: by 2002:a5d:4309:: with SMTP id h9mr6164162wrq.221.1561999195154; 
+ Mon, 01 Jul 2019 09:39:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.50
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.39.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:39:51 -0700 (PDT)
+ Mon, 01 Jul 2019 09:39:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:04 +0100
-Message-Id: <20190701163943.22313-8-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:07 +0100
+Message-Id: <20190701163943.22313-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.67
-Subject: [Qemu-devel] [PULL 07/46] pci: designware: Update MSI mapping when
- MSI address changes
+X-Received-From: 209.85.221.48
+Subject: [Qemu-devel] [PULL 10/46] aspeed: add a per SoC mapping for the
+ memory space
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,41 +83,350 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrey Smirnov <andrew.smirnov@gmail.com>
+From: Cédric Le Goater <clg@kaod.org>
 
-MSI mapping needs to be update when MSI address changes, so add the
-code to do so.
+This will simplify the definition of new SoCs, like the AST2600 which
+should use a slightly different address space and have a different set
+of controllers.
 
-Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Message-id: 20190618165311.27066-3-clg@kaod.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/pci-host/designware.c | 2 ++
- 1 file changed, 2 insertions(+)
+ include/hw/arm/aspeed_soc.h |   4 +-
+ hw/arm/aspeed.c             |   8 +--
+ hw/arm/aspeed_soc.c         | 117 ++++++++++++++++++++++--------------
+ 3 files changed, 78 insertions(+), 51 deletions(-)
 
-diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index ec697c8f9df..931cd954e87 100644
---- a/hw/pci-host/designware.c
-+++ b/hw/pci-host/designware.c
-@@ -290,11 +290,13 @@ static void designware_pcie_root_config_write(PCIDevice *d, uint32_t address,
-     case DESIGNWARE_PCIE_MSI_ADDR_LO:
-         root->msi.base &= 0xFFFFFFFF00000000ULL;
-         root->msi.base |= val;
-+        designware_pcie_root_update_msi_mapping(root);
-         break;
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 963abecb724..88b901d5dfa 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -49,14 +49,13 @@ typedef struct AspeedSoCInfo {
+     const char *name;
+     const char *cpu_type;
+     uint32_t silicon_rev;
+-    hwaddr sdram_base;
+     uint64_t sram_size;
+     int spis_num;
+-    const hwaddr *spi_bases;
+     const char *fmc_typename;
+     const char **spi_typename;
+     int wdts_num;
+     const int *irqmap;
++    const hwaddr *memmap;
+ } AspeedSoCInfo;
  
-     case DESIGNWARE_PCIE_MSI_ADDR_HI:
-         root->msi.base &= 0x00000000FFFFFFFFULL;
-         root->msi.base |= (uint64_t)val << 32;
-+        designware_pcie_root_update_msi_mapping(root);
-         break;
+ typedef struct AspeedSoCClass {
+@@ -102,6 +101,7 @@ enum {
+     ASPEED_I2C,
+     ASPEED_ETH1,
+     ASPEED_ETH2,
++    ASPEED_SDRAM,
+ };
  
-     case DESIGNWARE_PCIE_MSI_INTR0_ENABLE:
+ #endif /* ASPEED_SOC_H */
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index d2ad2da24b5..c692ca1dba9 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -191,8 +191,8 @@ static void aspeed_board_init(MachineState *machine,
+                                         &error_abort);
+ 
+     memory_region_allocate_system_memory(&bmc->ram, NULL, "ram", ram_size);
+-    memory_region_add_subregion(get_system_memory(), sc->info->sdram_base,
+-                                &bmc->ram);
++    memory_region_add_subregion(get_system_memory(),
++                                sc->info->memmap[ASPEED_SDRAM], &bmc->ram);
+     object_property_add_const_link(OBJECT(&bmc->soc), "ram", OBJECT(&bmc->ram),
+                                    &error_abort);
+ 
+@@ -201,7 +201,7 @@ static void aspeed_board_init(MachineState *machine,
+     memory_region_init_io(&bmc->max_ram, NULL, &max_ram_ops, NULL,
+                           "max_ram", max_ram_size  - ram_size);
+     memory_region_add_subregion(get_system_memory(),
+-                                sc->info->sdram_base + ram_size,
++                                sc->info->memmap[ASPEED_SDRAM] + ram_size,
+                                 &bmc->max_ram);
+ 
+     aspeed_board_init_flashes(&bmc->soc.fmc, cfg->fmc_model, &error_abort);
+@@ -229,7 +229,7 @@ static void aspeed_board_init(MachineState *machine,
+     aspeed_board_binfo.initrd_filename = machine->initrd_filename;
+     aspeed_board_binfo.kernel_cmdline = machine->kernel_cmdline;
+     aspeed_board_binfo.ram_size = ram_size;
+-    aspeed_board_binfo.loader_start = sc->info->sdram_base;
++    aspeed_board_binfo.loader_start = sc->info->memmap[ASPEED_SDRAM];
+ 
+     if (cfg->i2c_init) {
+         cfg->i2c_init(bmc);
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index de75bf04027..1cc98b9f404 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -22,21 +22,58 @@
+ #include "hw/i2c/aspeed_i2c.h"
+ #include "net/net.h"
+ 
+-#define ASPEED_SOC_UART_5_BASE      0x00184000
+ #define ASPEED_SOC_IOMEM_SIZE       0x00200000
+-#define ASPEED_SOC_IOMEM_BASE       0x1E600000
+-#define ASPEED_SOC_FMC_BASE         0x1E620000
+-#define ASPEED_SOC_SPI_BASE         0x1E630000
+-#define ASPEED_SOC_SPI2_BASE        0x1E631000
+-#define ASPEED_SOC_VIC_BASE         0x1E6C0000
+-#define ASPEED_SOC_SDMC_BASE        0x1E6E0000
+-#define ASPEED_SOC_SCU_BASE         0x1E6E2000
+-#define ASPEED_SOC_SRAM_BASE        0x1E720000
+-#define ASPEED_SOC_TIMER_BASE       0x1E782000
+-#define ASPEED_SOC_WDT_BASE         0x1E785000
+-#define ASPEED_SOC_I2C_BASE         0x1E78A000
+-#define ASPEED_SOC_ETH1_BASE        0x1E660000
+-#define ASPEED_SOC_ETH2_BASE        0x1E680000
++
++static const hwaddr aspeed_soc_ast2400_memmap[] = {
++    [ASPEED_IOMEM]  = 0x1E600000,
++    [ASPEED_FMC]    = 0x1E620000,
++    [ASPEED_SPI1]   = 0x1E630000,
++    [ASPEED_VIC]    = 0x1E6C0000,
++    [ASPEED_SDMC]   = 0x1E6E0000,
++    [ASPEED_SCU]    = 0x1E6E2000,
++    [ASPEED_ADC]    = 0x1E6E9000,
++    [ASPEED_SRAM]   = 0x1E720000,
++    [ASPEED_GPIO]   = 0x1E780000,
++    [ASPEED_RTC]    = 0x1E781000,
++    [ASPEED_TIMER1] = 0x1E782000,
++    [ASPEED_WDT]    = 0x1E785000,
++    [ASPEED_PWM]    = 0x1E786000,
++    [ASPEED_LPC]    = 0x1E789000,
++    [ASPEED_IBT]    = 0x1E789140,
++    [ASPEED_I2C]    = 0x1E78A000,
++    [ASPEED_ETH1]   = 0x1E660000,
++    [ASPEED_ETH2]   = 0x1E680000,
++    [ASPEED_UART1]  = 0x1E783000,
++    [ASPEED_UART5]  = 0x1E784000,
++    [ASPEED_VUART]  = 0x1E787000,
++    [ASPEED_SDRAM]  = 0x40000000,
++};
++
++static const hwaddr aspeed_soc_ast2500_memmap[] = {
++    [ASPEED_IOMEM]  = 0x1E600000,
++    [ASPEED_FMC]    = 0x1E620000,
++    [ASPEED_SPI1]   = 0x1E630000,
++    [ASPEED_SPI2]   = 0x1E631000,
++    [ASPEED_VIC]    = 0x1E6C0000,
++    [ASPEED_SDMC]   = 0x1E6E0000,
++    [ASPEED_SCU]    = 0x1E6E2000,
++    [ASPEED_ADC]    = 0x1E6E9000,
++    [ASPEED_SRAM]   = 0x1E720000,
++    [ASPEED_GPIO]   = 0x1E780000,
++    [ASPEED_RTC]    = 0x1E781000,
++    [ASPEED_TIMER1] = 0x1E782000,
++    [ASPEED_WDT]    = 0x1E785000,
++    [ASPEED_PWM]    = 0x1E786000,
++    [ASPEED_LPC]    = 0x1E789000,
++    [ASPEED_IBT]    = 0x1E789140,
++    [ASPEED_I2C]    = 0x1E78A000,
++    [ASPEED_ETH1]   = 0x1E660000,
++    [ASPEED_ETH2]   = 0x1E680000,
++    [ASPEED_UART1]  = 0x1E783000,
++    [ASPEED_UART5]  = 0x1E784000,
++    [ASPEED_VUART]  = 0x1E787000,
++    [ASPEED_SDRAM]  = 0x80000000,
++};
+ 
+ static const int aspeed_soc_ast2400_irqmap[] = {
+     [ASPEED_UART1]  = 9,
+@@ -68,17 +105,9 @@ static const int aspeed_soc_ast2400_irqmap[] = {
+     [ASPEED_ETH2]   = 3,
+ };
+ 
+-#define AST2400_SDRAM_BASE       0x40000000
+-#define AST2500_SDRAM_BASE       0x80000000
+-
+-/* AST2500 uses the same IRQs as the AST2400 */
+ #define aspeed_soc_ast2500_irqmap aspeed_soc_ast2400_irqmap
+ 
+-static const hwaddr aspeed_soc_ast2400_spi_bases[] = { ASPEED_SOC_SPI_BASE };
+ static const char *aspeed_soc_ast2400_typenames[] = { "aspeed.smc.spi" };
+-
+-static const hwaddr aspeed_soc_ast2500_spi_bases[] = { ASPEED_SOC_SPI_BASE,
+-                                                       ASPEED_SOC_SPI2_BASE};
+ static const char *aspeed_soc_ast2500_typenames[] = {
+     "aspeed.smc.ast2500-spi1", "aspeed.smc.ast2500-spi2" };
+ 
+@@ -87,50 +116,46 @@ static const AspeedSoCInfo aspeed_socs[] = {
+         .name         = "ast2400-a0",
+         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
+         .silicon_rev  = AST2400_A0_SILICON_REV,
+-        .sdram_base   = AST2400_SDRAM_BASE,
+         .sram_size    = 0x8000,
+         .spis_num     = 1,
+-        .spi_bases    = aspeed_soc_ast2400_spi_bases,
+         .fmc_typename = "aspeed.smc.fmc",
+         .spi_typename = aspeed_soc_ast2400_typenames,
+         .wdts_num     = 2,
+         .irqmap       = aspeed_soc_ast2400_irqmap,
++        .memmap       = aspeed_soc_ast2400_memmap,
+     }, {
+         .name         = "ast2400-a1",
+         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
+         .silicon_rev  = AST2400_A1_SILICON_REV,
+-        .sdram_base   = AST2400_SDRAM_BASE,
+         .sram_size    = 0x8000,
+         .spis_num     = 1,
+-        .spi_bases    = aspeed_soc_ast2400_spi_bases,
+         .fmc_typename = "aspeed.smc.fmc",
+         .spi_typename = aspeed_soc_ast2400_typenames,
+         .wdts_num     = 2,
+         .irqmap       = aspeed_soc_ast2400_irqmap,
++        .memmap       = aspeed_soc_ast2400_memmap,
+     }, {
+         .name         = "ast2400",
+         .cpu_type     = ARM_CPU_TYPE_NAME("arm926"),
+         .silicon_rev  = AST2400_A0_SILICON_REV,
+-        .sdram_base   = AST2400_SDRAM_BASE,
+         .sram_size    = 0x8000,
+         .spis_num     = 1,
+-        .spi_bases    = aspeed_soc_ast2400_spi_bases,
+         .fmc_typename = "aspeed.smc.fmc",
+         .spi_typename = aspeed_soc_ast2400_typenames,
+         .wdts_num     = 2,
+         .irqmap       = aspeed_soc_ast2400_irqmap,
++        .memmap       = aspeed_soc_ast2400_memmap,
+     }, {
+         .name         = "ast2500-a1",
+         .cpu_type     = ARM_CPU_TYPE_NAME("arm1176"),
+         .silicon_rev  = AST2500_A1_SILICON_REV,
+-        .sdram_base   = AST2500_SDRAM_BASE,
+         .sram_size    = 0x9000,
+         .spis_num     = 2,
+-        .spi_bases    = aspeed_soc_ast2500_spi_bases,
+         .fmc_typename = "aspeed.smc.ast2500-fmc",
+         .spi_typename = aspeed_soc_ast2500_typenames,
+         .wdts_num     = 3,
+         .irqmap       = aspeed_soc_ast2500_irqmap,
++        .memmap       = aspeed_soc_ast2500_memmap,
+     },
+ };
+ 
+@@ -210,8 +235,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     Error *err = NULL, *local_err = NULL;
+ 
+     /* IO space */
+-    create_unimplemented_device("aspeed_soc.io",
+-                                ASPEED_SOC_IOMEM_BASE, ASPEED_SOC_IOMEM_SIZE);
++    create_unimplemented_device("aspeed_soc.io", sc->info->memmap[ASPEED_IOMEM],
++                                ASPEED_SOC_IOMEM_SIZE);
+ 
+     /* CPU */
+     object_property_set_bool(OBJECT(&s->cpu), true, "realized", &err);
+@@ -227,8 +252,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    memory_region_add_subregion(get_system_memory(), ASPEED_SOC_SRAM_BASE,
+-                                &s->sram);
++    memory_region_add_subregion(get_system_memory(),
++                                sc->info->memmap[ASPEED_SRAM], &s->sram);
+ 
+     /* SCU */
+     object_property_set_bool(OBJECT(&s->scu), true, "realized", &err);
+@@ -236,7 +261,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->scu), 0, ASPEED_SOC_SCU_BASE);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->scu), 0, sc->info->memmap[ASPEED_SCU]);
+ 
+     /* VIC */
+     object_property_set_bool(OBJECT(&s->vic), true, "realized", &err);
+@@ -244,7 +269,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->vic), 0, ASPEED_SOC_VIC_BASE);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->vic), 0, sc->info->memmap[ASPEED_VIC]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->vic), 0,
+                        qdev_get_gpio_in(DEVICE(&s->cpu), ARM_CPU_IRQ));
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->vic), 1,
+@@ -256,7 +281,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->timerctrl), 0, ASPEED_SOC_TIMER_BASE);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->timerctrl), 0,
++                    sc->info->memmap[ASPEED_TIMER1]);
+     for (i = 0; i < ASPEED_TIMER_NR_TIMERS; i++) {
+         qemu_irq irq = aspeed_soc_get_irq(s, ASPEED_TIMER1 + i);
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+@@ -265,8 +291,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     /* UART - attach an 8250 to the IO space as our UART5 */
+     if (serial_hd(0)) {
+         qemu_irq uart5 = aspeed_soc_get_irq(s, ASPEED_UART5);
+-        serial_mm_init(get_system_memory(),
+-                       ASPEED_SOC_IOMEM_BASE + ASPEED_SOC_UART_5_BASE, 2,
++        serial_mm_init(get_system_memory(), sc->info->memmap[ASPEED_UART5], 2,
+                        uart5, 38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+     }
+ 
+@@ -276,7 +301,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, ASPEED_SOC_I2C_BASE);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, sc->info->memmap[ASPEED_I2C]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
+                        aspeed_soc_get_irq(s, ASPEED_I2C));
+ 
+@@ -286,7 +311,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 0, ASPEED_SOC_FMC_BASE);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 0, sc->info->memmap[ASPEED_FMC]);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->fmc), 1,
+                     s->fmc.ctrl->flash_window_base);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->fmc), 0,
+@@ -302,7 +327,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+             error_propagate(errp, err);
+             return;
+         }
+-        sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 0, sc->info->spi_bases[i]);
++        sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 0,
++                        sc->info->memmap[ASPEED_SPI1 + i]);
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi[i]), 1,
+                         s->spi[i].ctrl->flash_window_base);
+     }
+@@ -313,7 +339,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdmc), 0, ASPEED_SOC_SDMC_BASE);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdmc), 0, sc->info->memmap[ASPEED_SDMC]);
+ 
+     /* Watch dog */
+     for (i = 0; i < sc->info->wdts_num; i++) {
+@@ -323,7 +349,7 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+         sysbus_mmio_map(SYS_BUS_DEVICE(&s->wdt[i]), 0,
+-                        ASPEED_SOC_WDT_BASE + i * 0x20);
++                        sc->info->memmap[ASPEED_WDT] + i * 0x20);
+     }
+ 
+     /* Net */
+@@ -336,7 +362,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+         error_propagate(errp, err);
+         return;
+     }
+-    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100), 0, ASPEED_SOC_ETH1_BASE);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ftgmac100), 0,
++                    sc->info->memmap[ASPEED_ETH1]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->ftgmac100), 0,
+                        aspeed_soc_get_irq(s, ASPEED_ETH1));
+ }
 -- 
 2.20.1
 
