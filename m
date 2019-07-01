@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 775065BE73
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:39:43 +0200 (CEST)
-Received: from localhost ([::1]:59458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB1C5BE90
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:43:02 +0200 (CEST)
+Received: from localhost ([::1]:59502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhxT4-0000Y3-MY
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:39:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50387)
+	id 1hhxWH-0003ne-Iy
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51871)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dinechin@redhat.com>) id 1hhwzO-0006C7-MS
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:09:03 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hhx6L-0002nF-2L
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:16:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dinechin@redhat.com>) id 1hhwzN-000617-IB
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:09:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60280)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <dinechin@redhat.com>) id 1hhwzN-0005zg-Bu
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:09:01 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 7654830872EB
- for <qemu-devel@nongnu.org>; Mon,  1 Jul 2019 14:09:00 +0000 (UTC)
-Received: from ptitpuce (unknown [10.36.118.123])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E56565ED5D
- for <qemu-devel@nongnu.org>; Mon,  1 Jul 2019 14:08:59 +0000 (UTC)
-References: <20190607135653.6ece685d@titan.knownspace>
- <8676232e-917d-44e2-1149-b25f26698a73@vivier.eu>
- <92053c9c-e7bf-76cb-9399-987f4ab31bfb@vivier.eu>
- <20190626113742.6bcd8a26@titan.knownspace>
-User-agent: mu4e 1.3.2; emacs 26.2
-From: Christophe de Dinechin <dinechin@redhat.com>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190626113742.6bcd8a26@titan.knownspace>
-Date: Mon, 01 Jul 2019 16:08:55 +0200
-Message-ID: <m1ftnphmo8.fsf@redhat.com>
+ (envelope-from <peter.maydell@linaro.org>) id 1hhx6J-0005cn-HZ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:16:12 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41850)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+ id 1hhx6J-0005br-5G
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 10:16:11 -0400
+Received: by mail-ot1-x344.google.com with SMTP id o101so13322659ota.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 07:16:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EY4Adx0OcbtAOPWeOiQ6foI2RYDNLt0gmr6T8P4rYnc=;
+ b=S19RzFaHFMPAsC8JggOBvrQ0XCcqqUvZaHS/xgr5bTJgOF1D32KN6NODKaUA6S4rpa
+ 5dbFGqRGu6eQVDS3Ju98o7q2T0uyMo6q+xDBGEgR+y6w9MNmDND4Ge4fvP2/JkT9ysku
+ voC0Hn/Sr/iR8MPDEn2J08NV5BkYZncBBgb1BlMOZ4RizZ/6eok/jFuppEUgr8jq9BqH
+ nnGZ+fOIX0A32Yuq2DI7Ln9jLSCJF8y0mMDsXMR8pg7K9eAsU/gTSFGX1FQFNjTAHQ7W
+ fMWXx/0EXMsOSe24u7ngsX1fIJutPF7YKjbpK4VD4sVpjggNdVNDRB1pJoXfuqTwW2FA
+ r9Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EY4Adx0OcbtAOPWeOiQ6foI2RYDNLt0gmr6T8P4rYnc=;
+ b=XUrePyHF4eZl1OVJj8q5UsUbdPxlDAm/68o1g67sSHKx1UQoxt6uBH5woP0qfUY/a6
+ zFW/ej/3lPKhw+Qp1gXtmShwGkeeRn4HfglGO5cHT+nWS6mE06uPencP3Y/+VsFJnLqG
+ MVdrzTRVL9MVryh4r2eKveghyKUaTE5MH6pt6H/S7EVmmT/oplVMCZsWtNnDKL0pTzvU
+ xw1wFPme9D70Y/2CHEkIefriGC/honQf5YqwSw2j+spZwRoZYUAijexLXh4sdEusloG0
+ eW16WYqAZIMUHwTM4t6BdYlOp6q4JKaPfsZAg26pPJMBVUW4WSinXRoWZwTbcGZzSb8E
+ rdzg==
+X-Gm-Message-State: APjAAAU+8zVtfh9YhePylcFQ+cWw0Jab0h2ZSxpOVlaJVneEetEY6bq+
+ zPeTP+/3cM7sP94WFXfP+j/HXoUcIT5v6nYhCbGuKw==
+X-Google-Smtp-Source: APXvYqzdGFS/f8xo5e9jpYynCQWW4r6cciJTzD5y5Zmjpb91hBQPXoaFxIIJJx8iub15B6j7PQCDSyaxMqyPf8rtw/c=
+X-Received: by 2002:a9d:5f1a:: with SMTP id f26mr20494605oti.91.1561990570216; 
+ Mon, 01 Jul 2019 07:16:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.47]); Mon, 01 Jul 2019 14:09:00 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-trivial] Fix cacheline size retrieval on
- FreeBSD/PowerPC(64)
+References: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
+In-Reply-To: <1561890034-15921-1-git-send-email-hongbo.zhang@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Jul 2019 15:15:59 +0100
+Message-ID: <CAFEAcA8cut67vuwsc++H2TWa8Aq0g1ss8Gda3QnoyyP_-6WgwQ@mail.gmail.com>
+To: Hongbo Zhang <hongbo.zhang@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v9 0/2] Add Arm SBSA Reference Machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,59 +71,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Leif Lindholm <leif.lindholm@linaro.org>,
+ Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Justin Hibbits writes:
-
-> On Wed, 26 Jun 2019 18:16:36 +0200
-> Laurent Vivier <laurent@vivier.eu> wrote:
+On Sun, 30 Jun 2019 at 11:21, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
 >
->> Le 26/06/2019 =C3=A0 18:14, Laurent Vivier a =C3=A9crit :
->> > Le 07/06/2019 =C3=A0 20:56, Justin Hibbits a =C3=A9crit :
->> >> The attached very trivial patch fixes a startup bug that prevents
->> >> at least Qemu 3.1 and later from working on FreeBSD/powerpc64.
->> >>
->> >> - Justin
->> >>
->> >
->> > Please don't send a patch in attachment but inlined in the message
->> > (you may use "git send-email" for that).
->> >
->> > This patch fixes "util: add cacheinfo" that has changed the type
->> > from unsigned to long.
->> >
->> > You can add the following line in the commit message:
->> >
->> > Fixes: b255b2c8a548 ("util: add cacheinfo")
->> >
->> > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
->> >
->>
->> CC: author of b255b2c8a548 ("util: add cacheinfo")
->>
->> Thanks,
->> Laurent
+> For the Aarch64, there is one machine 'virt', it is primarily meant to
+> run on KVM and execute virtualization workloads, but we need an
+> environment as faithful as possible to physical hardware,  to support
+> firmware and OS development for pysical Aarch64 machines.
 >
-> Hi Laurent,
+> This machine comes with:
+>  - Re-designed memory map.
+>  - CPU cortex-a57.
+>  - EL2 and EL3 enabled.
+>  - GIC version 3.
+>  - System bus AHCI controller.
+>  - System bus XHCI controller.
+>  - CDROM and hard disc on AHCI bus.
+>  - E1000E ethernet card on PCIE bus.
+>  - VGA display adaptor on PCIE bus.
+>  - Only minimal device tree nodes.
+> And without:
+>  - virtio deivces.
+>  - fw_cfg device.
+>  - ACPI tables.
 >
-> Sorry.  I had never used git send-email before, so wasn't comfortable
-> with it.  I just updated the commit message with your feedback and used
-> git send-email to submit the patch.  I hope everything went well.
+> Arm Trusted Firmware and UEFI porting to this are done accordingly, and
+> it should supply ACPI tables to load OS, the minimal device tree nodes
+> supplied from this platform are only to pass the dynamic info reflecting
+> command line input to firmware, not for loading OS.
 
-FWIW, there is also a handy git-publish script that is worth looking at.
-It deals with multiple iterations of a patch and other niceties.
+Hi; this fails "make check" for me. Running the relevant bit of the
+test suite standalone:
 
-https://github.com/stefanha/git-publish
+e104462:bionic:arm-clang$
+QTEST_QEMU_BINARY=arm-softmmu/qemu-system-arm QTEST_QEMU_IMG=qemu-img
+tests/qom-test
+/arm/qom/integratorcp: OK
+/arm/qom/nuri: OK
+/arm/qom/mps2-an511: OK
+/arm/qom/verdex: OK
+/arm/qom/mps2-an505: OK
+/arm/qom/ast2500-evb: OK
+/arm/qom/smdkc210: OK
+/arm/qom/collie: OK
+/arm/qom/imx25-pdk: OK
+/arm/qom/none: OK
+/arm/qom/spitz: OK
+/arm/qom/musca-b1: OK
+/arm/qom/realview-pbx-a9: OK
+/arm/qom/realview-eb: OK
+/arm/qom/realview-pb-a8: OK
+/arm/qom/versatilepb: OK
+/arm/qom/emcraft-sf2: OK
+/arm/qom/musicpal: OK
+/arm/qom/sbsa-ref: **
+ERROR:/home/petmay01/linaro/qemu-from-laptop/qemu/qom/object.c:628:object_new_with_type:
+assertion failed: (type != NULL)
+Broken pipe
+/home/petmay01/linaro/qemu-from-laptop/qemu/tests/libqtest.c:145:
+kill_qemu() detected QEMU death from signal 6 (Aborted) (core dumped)
+Aborted (core dumped)
 
->
-> Thanks for your feedback.
->
-> - Justin
+It looks like the new board model is being added to the
+32-bit qemu-system-arm as well as to qemu-system-aarch64.
+This seems wrong, since the board will only work with a
+64-bit CPU.
 
-
---
-Cheers,
-Christophe de Dinechin (IRC c3d)
+thanks
+-- PMM
 
