@@ -2,49 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B0DC5BBD3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:41:51 +0200 (CEST)
-Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830605BBFF
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 14:44:18 +0200 (CEST)
+Received: from localhost ([::1]:58326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhvd0-0003yc-3R
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:41:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57778)
+	id 1hhvfN-0007uA-Ns
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 08:44:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58275)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhvTT-00068s-2M
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:32:00 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhvWL-0007vv-QH
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:34:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhvTQ-00037J-Pf
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:31:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:21219)
+ (envelope-from <philmd@redhat.com>) id 1hhvWK-0005ho-Rl
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 08:34:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:24811)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <philmd@redhat.com>)
- id 1hhvTM-0002vp-HA; Mon, 01 Jul 2019 08:31:52 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ id 1hhvWK-0005gm-MQ; Mon, 01 Jul 2019 08:34:56 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 78BB458E33;
- Mon,  1 Jul 2019 12:31:51 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 0892C3092649;
+ Mon,  1 Jul 2019 12:34:50 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 03F985ED5D;
- Mon,  1 Jul 2019 12:31:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DE33196F7;
+ Mon,  1 Jul 2019 12:34:43 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 14:31:08 +0200
-Message-Id: <20190701123108.12493-7-philmd@redhat.com>
-In-Reply-To: <20190701123108.12493-1-philmd@redhat.com>
-References: <20190701123108.12493-1-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 14:34:41 +0200
+Message-Id: <20190701123441.13412-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.39]); Mon, 01 Jul 2019 12:31:51 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Mon, 01 Jul 2019 12:34:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 6/6] hw/net/xilinx_axi: Use
- object_initialize_child for correct ref. counting
+Subject: [Qemu-devel] [PATCH] hw/misc/macio: Add the nvram as child of the
+ MacIO south bridge
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -56,69 +54,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-ppc@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As explained in commit aff39be0ed97:
-
-  Both functions, object_initialize() and object_property_add_child()
-  increase the reference counter of the new object, so one of the
-  references has to be dropped afterwards to get the reference
-  counting right. Otherwise the child object will not be properly
-  cleaned up when the parent gets destroyed.
-  Thus let's use now object_initialize_child() instead to get the
-  reference counting here right.
+Avoid another QOM orphean, link it back to its parent.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/net/xilinx_axienet.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ hw/misc/macio/macio.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-index feeaca680e..aa0ae3c013 100644
---- a/hw/net/xilinx_axienet.c
-+++ b/hw/net/xilinx_axienet.c
-@@ -990,15 +990,14 @@ static void xilinx_enet_init(Object *obj)
-     XilinxAXIEnet *s =3D XILINX_AXI_ENET(obj);
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
+diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+index 82492096f8..e02882be28 100644
+--- a/hw/misc/macio/macio.c
++++ b/hw/misc/macio/macio.c
+@@ -243,7 +243,8 @@ static void macio_oldworld_init(Object *obj)
 =20
--    object_initialize(&s->rx_data_dev, sizeof(s->rx_data_dev),
--                      TYPE_XILINX_AXI_ENET_DATA_STREAM);
--    object_initialize(&s->rx_control_dev, sizeof(s->rx_control_dev),
--                      TYPE_XILINX_AXI_ENET_CONTROL_STREAM);
--    object_property_add_child(OBJECT(s), "axistream-connected-target",
--                              (Object *)&s->rx_data_dev, &error_abort);
--    object_property_add_child(OBJECT(s), "axistream-control-connected-ta=
-rget",
--                              (Object *)&s->rx_control_dev, &error_abort=
+     macio_init_child_obj(s, "cuda", &s->cuda, sizeof(s->cuda), TYPE_CUDA=
 );
--
-+    object_initialize_child(OBJECT(s), "axistream-connected-target",
-+                            &s->rx_data_dev, sizeof(s->rx_data_dev),
-+                            TYPE_XILINX_AXI_ENET_DATA_STREAM, &error_abo=
-rt,
-+                            NULL);
-+    object_initialize_child(OBJECT(s), "axistream-control-connected-targ=
-et",
-+                            &s->rx_control_dev, sizeof(s->rx_control_dev=
-),
-+                            TYPE_XILINX_AXI_ENET_CONTROL_STREAM, &error_=
-abort,
-+                            NULL);
-     sysbus_init_irq(sbd, &s->irq);
 =20
-     memory_region_init_io(&s->iomem, OBJECT(s), &enet_ops, s, "enet", 0x=
-40000);
+-    object_initialize(&os->nvram, sizeof(os->nvram), TYPE_MACIO_NVRAM);
++    object_initialize_child(s, "nvram",  &os->nvram, sizeof(os->nvram),
++                            TYPE_MACIO_NVRAM, &error_abort, NULL);
+     dev =3D DEVICE(&os->nvram);
+     qdev_prop_set_uint32(dev, "size", 0x2000);
+     qdev_prop_set_uint32(dev, "it_shift", 4);
 --=20
 2.20.1
 
