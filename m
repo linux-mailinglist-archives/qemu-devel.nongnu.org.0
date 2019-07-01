@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6085B82C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 11:39:30 +0200 (CEST)
-Received: from localhost ([::1]:56494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65E935B845
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 11:44:30 +0200 (CEST)
+Received: from localhost ([::1]:56526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhsmX-0008Qx-T2
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 05:39:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50352)
+	id 1hhsrN-0003uK-K8
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 05:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50629)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hhsiI-0003ah-B9
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:35:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhsji-0005a5-Er
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:36:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hhsiD-0003T8-Am
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:35:04 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:37003)
+ (envelope-from <philmd@redhat.com>) id 1hhsjh-0004i2-I6
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:36:34 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36895)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hhsiD-0003SD-5Q
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:35:01 -0400
-Received: by mail-qt1-f193.google.com with SMTP id y57so13899313qtk.4
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 02:35:00 -0700 (PDT)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhsjh-0004O8-CJ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 05:36:33 -0400
+Received: by mail-wr1-f68.google.com with SMTP id v14so12997507wrr.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 02:36:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:in-reply-to;
- bh=19SIfXORG8YqIOH0n+CjUrcRgKw9ikRCvTr7pih/Br8=;
- b=sFu+eY1d75cMl0CR8jdaZrQ1ngkKkpl1jxMbxvc6V//hik8jZMfCOcw8nG2z+MHCP6
- YmM4dmzXdlx5gfCVYuWuxQpXgzHD9VkqobrBmEQtfbgB+glGRltASGmN9dAHch5fswv7
- mxc8ZHmkJ29tZy9Kvhkt+cNytoJdgc3R47DKyaMcr1D9QKrq9IWFGB+vBJ3SRCpP4egk
- Yfy/aLbHYHEmRO4nJkFm0t/mBpgUCTx5RZWd2On9ixYcK7L5el+ZtmrrE4zEcMTfvQX6
- dYVMdnZt9zCDijR27IG/VAqdCyXO7/Hyv362C2CA+gUiLSI1wRK4C75P9Vg/eX9oL6Lt
- RX/w==
-X-Gm-Message-State: APjAAAXB2uWmuVv6N7e2hLlBUGOp+IOUTHdqZ08e7suBM54Jw3tQ9qEp
- Hg7M6iATafwg/2nB0oBqfTPuy14vDkMkWw==
-X-Google-Smtp-Source: APXvYqzO5Gh9d6TZ5b5CxDDD/WOERZmv7mJr0B77y1BfvKTusRRWppLmJJIFYymdwBqVQpEEHIq/Fw==
-X-Received: by 2002:aed:3a24:: with SMTP id n33mr19094772qte.361.1561973700050; 
- Mon, 01 Jul 2019 02:35:00 -0700 (PDT)
-Received: from redhat.com ([37.26.146.159])
- by smtp.gmail.com with ESMTPSA id j22sm4512839qtp.0.2019.07.01.02.34.57
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 02:34:59 -0700 (PDT)
-Date: Mon, 1 Jul 2019 05:34:54 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Message-ID: <20190701093232.28575-1-mst@redhat.com>
+ h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Q+oHhSEDVk1V3F4XlEadg1hm9TLVHLm0W+JZwisqOns=;
+ b=BMqki8lOFxeEG2KwsLgvrO6XJ/aJsd5QfXUr58aouznXckx744yrah8QtqkrYFdZmO
+ nabkg6sRmKDILcrfsUYnWbFjapPynYeNqGcT+mhm/cdfO2ErlNMYqpbyPsFxF4dQ7A8t
+ LVRcALtXICDQyv+ewPGqdqszAlY8C0jXLiIEB6cJBRH4qnkfaTpNIRIta144DOek+h4m
+ GiMJJaQdQh1gLfNPuywNnzKuglAMf0+UsQhcKGbw416ptu0G2dSvoD59uRVmXQQO6LXF
+ 9YbbVaFEX/a9zAOPjIQJu+7XSuauoOVUI4S6hKtVQzepOE3v+xkmIyRiWlg09TBH50AT
+ w7Sg==
+X-Gm-Message-State: APjAAAWKyPTNkVjbHj65Cf4PmZgxcFdtJrIzi7MITzDymvH+VuLApt5c
+ G/HnieAj/29fRl0MBDEr/naO8A==
+X-Google-Smtp-Source: APXvYqwbHlfkYHq20WzcJ+vbHfLlaZxs9OQYvgDCMCfV/fglvlx5IRL/wrwO4GuklFJ6fj+BrozByw==
+X-Received: by 2002:adf:f38b:: with SMTP id m11mr18241660wro.79.1561973767995; 
+ Mon, 01 Jul 2019 02:36:07 -0700 (PDT)
+Received: from [192.168.1.38] (183.red-88-21-202.staticip.rima-tde.net.
+ [88.21.202.183])
+ by smtp.gmail.com with ESMTPSA id a84sm10609728wmf.29.2019.07.01.02.36.07
+ (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Jul 2019 02:36:07 -0700 (PDT)
+To: Jan Kiszka <jan.kiszka@web.de>, Peter Maydell <peter.maydell@linaro.org>, 
+ qemu-devel <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
+References: <fc5404f7-4d1d-c28f-6e48-d8799c82acc0@web.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+ url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <098adaad-e787-3d5d-a145-5c4999aa32fe@redhat.com>
+Date: Mon, 1 Jul 2019 11:36:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190621064615.20099-1-mst@redhat.com>
-X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
-X-Mutt-Fcc: =sent
+In-Reply-To: <fc5404f7-4d1d-c28f-6e48-d8799c82acc0@web.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.160.193
-Subject: [Qemu-devel] [PATCH 4/3] pcie: minor cleanups for slot
- control/status
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH] hw/arm/virt: Add support for Cortex-A7
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -68,82 +74,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename function arguments to make intent clearer.
-Better documentation for slot control logic.
+On 6/30/19 5:13 PM, Jan Kiszka wrote:
+> From: Jan Kiszka <jan.kiszka@siemens.com>
+> 
+> No reason to deny this type.
 
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
+Maybe add "As the A15, it supports the EL2/V7VE features."?
 
+> 
+> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
+> ---
+>  hw/arm/virt.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 431e2900fd..ed009fa447 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -176,6 +176,7 @@ static const int a15irqmap[] = {
+>  };
+> 
+>  static const char *valid_cpus[] = {
+> +    ARM_CPU_TYPE_NAME("cortex-a7"),
+>      ARM_CPU_TYPE_NAME("cortex-a15"),
+>      ARM_CPU_TYPE_NAME("cortex-a53"),
+>      ARM_CPU_TYPE_NAME("cortex-a57"),
 
- include/hw/pci/pcie.h |  3 ++-
- hw/pci/pcie.c         | 17 +++++++++++------
- 2 files changed, 13 insertions(+), 7 deletions(-)
+Should we list here all cpu with arm_feature(ARM_FEATURE_V7VE | V8)? or EL2?
 
-diff --git a/include/hw/pci/pcie.h b/include/hw/pci/pcie.h
-index 8d90c0e193..34f277735c 100644
---- a/include/hw/pci/pcie.h
-+++ b/include/hw/pci/pcie.h
-@@ -108,7 +108,8 @@ void pcie_cap_lnkctl_reset(PCIDevice *dev);
- void pcie_cap_slot_init(PCIDevice *dev, uint16_t slot);
- void pcie_cap_slot_reset(PCIDevice *dev);
- void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slot_ctl, uint16_t *slt_sta);
--void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slot_ctl, uint16_t slt_sta,
-+void pcie_cap_slot_write_config(PCIDevice *dev,
-+                                uint16_t old_slot_ctl, uint16_t old_slt_sta,
-                                 uint32_t addr, uint32_t val, int len);
- int pcie_cap_slot_post_load(void *opaque, int version_id);
- void pcie_cap_slot_push_attention_button(PCIDevice *dev);
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index c605d32dd4..a6beb567bd 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -602,7 +602,8 @@ void pcie_cap_slot_get(PCIDevice *dev, uint16_t *slt_ctl, uint16_t *slt_sta)
-     *slt_sta = pci_get_word(exp_cap + PCI_EXP_SLTSTA);
- }
- 
--void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slt_ctl, uint16_t slt_sta,
-+void pcie_cap_slot_write_config(PCIDevice *dev,
-+                                uint16_t old_slt_ctl, uint16_t old_slt_sta,
-                                 uint32_t addr, uint32_t val, int len)
- {
-     uint32_t pos = dev->exp.exp_cap;
-@@ -625,8 +626,8 @@ void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slt_ctl, uint16_t slt_s
-                           PCI_EXP_SLTSTA_MRLSC | PCI_EXP_SLTSTA_PDC | \
-                           PCI_EXP_SLTSTA_CC)
- 
--        if (val & ~slt_sta & PCIE_SLOT_EVENTS) {
--            sltsta = (sltsta & ~PCIE_SLOT_EVENTS) | (slt_sta & PCIE_SLOT_EVENTS);
-+        if (val & ~old_slt_sta & PCIE_SLOT_EVENTS) {
-+            sltsta = (sltsta & ~PCIE_SLOT_EVENTS) | (old_slt_sta & PCIE_SLOT_EVENTS);
-             pci_set_word(exp_cap + PCI_EXP_SLTSTA, sltsta);
-         }
-         hotplug_event_clear(dev);
-@@ -646,13 +647,17 @@ void pcie_cap_slot_write_config(PCIDevice *dev, uint16_t slt_ctl, uint16_t slt_s
-     }
- 
-     /*
--     * If the slot is polulated, power indicator is off and power
-+     * If the slot is populated, power indicator is off and power
-      * controller is off, it is safe to detach the devices.
-+     *
-+     * Note: don't detach if condition was already true:
-+     * this is a work around for guests that overwrite
-+     * control of powered off slots before powering them on.
-      */
-     if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
-         (val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF &&
--        (!(slt_ctl & PCI_EXP_SLTCTL_PCC) ||
--        (slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
-+        (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
-+        (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
-         PCIBus *sec_bus = pci_bridge_get_sec_bus(PCI_BRIDGE(dev));
-         pci_for_each_device(sec_bus, pci_bus_num(sec_bus),
-                             pcie_unplug_device, NULL);
--- 
-MST
+> --
+> 2.16.4
+> 
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
