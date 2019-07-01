@@ -2,68 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6766D5C5C8
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:56:35 +0200 (CEST)
-Received: from localhost ([::1]:46148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3F305C4D8
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:11:38 +0200 (CEST)
+Received: from localhost ([::1]:45184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi5Du-0003WM-JU
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:56:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51250)
+	id 1hi30m-0004Yw-Ms
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 16:34:52 -0400
+Received: from [2001:470:142:3::10] (port=54213 helo=eggs.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3SK-0002z0-QH
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:03:22 -0400
+ (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
+ id 1hi2y4-00037p-Ly
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:32:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3SJ-00032Y-HC
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:03:20 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:36457)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3SJ-00030S-7y
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:03:19 -0400
-Received: by mail-ot1-f67.google.com with SMTP id r6so14947938oti.3
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:03:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mmzWI4rGYOcDZlfgefVMzjDWKHTWhgNNJ7GoLkF291Q=;
- b=Kb0zULR8tFo2+DAIaZJjGSVjHJDkX6PUOo495cutDvrP6JTvsNukusVz/kYzCnCFu1
- Ny+yeg/wAIi/4cxwSKRyQ7h222tnD+NlUI1c5wTxLTrwI69kYM8Vk4XxESnlxXPAxggK
- Ju38U8bl74c6Oz/z9Ul41maYXWRVJvDRcX0RTdtqvlx5w9FZTkK2zNiqlAIZXUFTnza1
- Ts0QURsAQgDk4+Ptp4bEfwq44skybOkO9IwfFJsLPwOLyQpgobcAaQxpjtaUTDw4iF3g
- wgTK0W6/5zTP7OieKEfyK91XolCRUNuU2xY8Lm931janEq3HC1GEziNsHKAZEO3yrdEA
- KiWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mmzWI4rGYOcDZlfgefVMzjDWKHTWhgNNJ7GoLkF291Q=;
- b=Zkgq49g7iliv3Wsqd7nnd/uEbzdQZQ1Sig0TDXXE0WqpoOFkIxDTqi7ZJc40Y4m5hI
- CElG58Sg1WWH0u1t490lHmrU8Wt3wPEHruunulrskzwirlSWWI0n30A5HJ8zE5wYSVXY
- F1nRTj5VkU5aIOPEwiOe/ADkDtma5Fe9EoFDEYmgDp+m8CC6NKxI9/Hi93XaUTk8dF01
- KVyfMczkaIziL3MouRP0Z85QejfNstqgUFRUeE6f8teLZIjMGDc5A7TalfPJBdp/L/3i
- CInMM6hfqvdLhboA87JAT/AsDifHblLZJrocGTpsZ3F0zqVxiZjOJkvrV5ur6EdrtKWZ
- hBrg==
-X-Gm-Message-State: APjAAAUWkqEUVDsumLgSdtLx2+B87PXCO2gS7FnxgbLsV+pgbx1qIF2E
- zlwa2TxvLbNnvQ5e5EeFGKs2IkdYgiOGA0jh+aiDmg==
-X-Google-Smtp-Source: APXvYqweFORA1PZcuDtIiW0+gJPxczEIaj3kAmvIHBx1AvQB7qko/uyHreL1G/194fiJZCBPJRhJYSseKS9ekb0B+3s=
-X-Received: by 2002:a9d:711e:: with SMTP id n30mr19574517otj.97.1562004994964; 
- Mon, 01 Jul 2019 11:16:34 -0700 (PDT)
+ (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
+ id 1hi2xw-0002CU-Ax
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:32:02 -0400
+Received: from [68.232.141.245] (port=24951 helo=esa1.hgst.iphmx.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <prvs=078c2aed5=Alistair.Francis@wdc.com>)
+ id 1hi2xS-000276-FB; Mon, 01 Jul 2019 16:31:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1562013088; x=1593549088;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=t0zilVrsnptR4o/X16EGoLIx2lBppe5iNJ1mY2Dq4Uw=;
+ b=WJoEl0qDBZxjnkqRIAlB1+1dnPejZZQnaxiVj2bDBhvs2J4bQ1TzFD2k
+ a9vq4vYYsUWGuv5h4ArxWWKQB0mh68+QnWBIQ6yp+by5ivMFsxr0O1IKk
+ OSCy3Q6ERJmUk52P4Dq+L15dkU2rUu789PyUCFXADDbN3YSUVgCrYZEMZ
+ h0k6jUN7Ui0laAzFOYDJhZOBEuw3XYDMMnxr35QStJeMnF6bBMCxAzOoD
+ XhZ/s9EYPcXSQKgeqxNGN61vuePShtIwWX6Y7emnxkYPw7wd5KXmu4T1V
+ xfpnSqnWTex7z3FGrCDjfDj3BJM5FLDyBFK/3rsv3Ggn1ZJ5k14/fpphU A==;
+X-IronPort-AV: E=Sophos;i="5.63,440,1557158400"; d="scan'208";a="218363525"
+Received: from mail-by2nam01lp2052.outbound.protection.outlook.com (HELO
+ NAM01-BY2-obe.outbound.protection.outlook.com) ([104.47.34.52])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2019 02:19:38 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t0zilVrsnptR4o/X16EGoLIx2lBppe5iNJ1mY2Dq4Uw=;
+ b=LNS16dVW1zuY/WP2i3DBEhvkuwas2ahDzSw/8gqXUkU3aMqGndl9rHfcN3KjBodrVHpRtP6kHXJfRlFz0ESSfeAgDASdW3ALBQyW/tNpSxtggP4P5n5vUKIA5jPSGttu5gdO44kdEt6Knon5DFsGymVpw0VZk4t7hNjeyr9FEE0=
+Received: from BYAPR04MB4901.namprd04.prod.outlook.com (52.135.232.206) by
+ BYAPR04MB5655.namprd04.prod.outlook.com (20.179.56.213) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2032.18; Mon, 1 Jul 2019 18:19:37 +0000
+Received: from BYAPR04MB4901.namprd04.prod.outlook.com
+ ([fe80::40b0:3c4b:b778:664d]) by BYAPR04MB4901.namprd04.prod.outlook.com
+ ([fe80::40b0:3c4b:b778:664d%7]) with mapi id 15.20.2032.019; Mon, 1 Jul 2019
+ 18:19:37 +0000
+From: Alistair Francis <Alistair.Francis@wdc.com>
+To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+Thread-Topic: [PULL 33/34] roms: Add OpenSBI version 0.3
+Thread-Index: AQHVLPx3D6cSVSLMSUSkcnC2JIn/F6a2AV8AgAAO5QCAAAOyAIAAAYuAgAABxYCAAAEbgA==
+Date: Mon, 1 Jul 2019 18:19:37 +0000
+Message-ID: <9363cb8764e800d8c30ff6722c680e4aa8bd9271.camel@wdc.com>
+References: <20190627152011.18686-1-palmer@sifive.com>
+ <20190627152011.18686-34-palmer@sifive.com>
+ <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
+ <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
+ <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
+ <efaaaa7aabddfb8481af4c5b2eeec23513f8fcb8.camel@wdc.com>
+ <CAFEAcA_cwm_1VhGW7yGL6=ja7TuO3c9perBs_OoWMaXBhJYH9g@mail.gmail.com>
+In-Reply-To: <CAFEAcA_cwm_1VhGW7yGL6=ja7TuO3c9perBs_OoWMaXBhJYH9g@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Alistair.Francis@wdc.com; 
+x-originating-ip: [199.255.44.250]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b32c80c0-eb54-453d-c94d-08d6fe50acff
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:BYAPR04MB5655; 
+x-ms-traffictypediagnostic: BYAPR04MB5655:
+wdcipoutbound: EOP-TRUE
+x-microsoft-antispam-prvs: <BYAPR04MB5655322D78DC7D0B042CAEAF90F90@BYAPR04MB5655.namprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 00851CA28B
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(136003)(346002)(376002)(366004)(39860400002)(396003)(189003)(199004)(24433001)(73956011)(316002)(54906003)(2906002)(71190400001)(6486002)(71200400001)(229853002)(5640700003)(476003)(66476007)(6436002)(66066001)(118296001)(53936002)(64756008)(66556008)(66946007)(66446008)(25786009)(26005)(5660300002)(6246003)(305945005)(6512007)(478600001)(7736002)(8936002)(186003)(2501003)(11346002)(6916009)(76176011)(486006)(68736007)(72206003)(256004)(446003)(7416002)(4326008)(2351001)(102836004)(6506007)(8676002)(36756003)(86362001)(76116006)(81156014)(3846002)(6116002)(81166006)(99286004)(2616005)(14454004);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB5655;
+ H:BYAPR04MB4901.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Af/fZd+PqOl3YDSyOuYQkCdVAYC5LFj/XQj3/hetKfydElTAd97XeZBasVijo+qPgFI6XsklLu0v67xAjfAU2vSW5U7y9DhpmVVJT2CQ1KuKJRjrTTVAkhKXyqUllVSq19L/b4ie9qnJIWp62mSzOFHVmvhjbvVfQFyyZEji/z0I29GO/y587eyuqPjLFp0t5owY6o1NC4Z1wxa5yIHzg8gKsn6XFkmuzAefqCaQk2HJsny0Nx23ViB4BlKrsqCouyYddbKWwZrxEwVVHjqFtl929k38e/wqtqRkOSj/LLLtCjKaVyIkZYAv8SFDxTcEdiJt9Z9oVDlfsWqFd07h1Aciabc+BSse9PtbmuoBrDBpekiDcP6558b8rJCGaCrzdisy9SdL4k40GQUyL/CFesrXyypYjanc8qMA3wApbYI=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C1F79ACECBAE8E44AB732B3F3E19846F@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <156200378933.9862.9905804796969886990@c4a48874b076>
- <81770e41-70a3-4e57-d7d7-501321843dd4@redhat.com>
-In-Reply-To: <81770e41-70a3-4e57-d7d7-501321843dd4@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 19:16:24 +0100
-Message-ID: <CAFEAcA-co+55t2XmSrDkRiV1R+Tp-QQvFybUxW5a0nhW9PaCNQ@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
- [fuzzy]
-X-Received-From: 209.85.210.67
-Subject: Re: [Qemu-devel] [PATCH 0/6] hw/arm: Use ARM_CPU_TYPE_NAME() and
- object_initialize_child()
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b32c80c0-eb54-453d-c94d-08d6fe50acff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jul 2019 18:19:37.1137 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Alistair.Francis@wdc.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5655
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 68.232.141.245
+Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -75,60 +117,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Jean-Christophe DUBOIS <jcd@tribudubois.net>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "codyprime@gmail.com" <codyprime@gmail.com>,
+ "palmer@sifive.com" <palmer@sifive.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "alistair23@gmail.com" <alistair23@gmail.com>,
+ "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Jul 2019 at 19:13, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com=
-> wrote:
->
-> On 7/1/19 7:56 PM, no-reply@patchew.org wrote:
-> > Patchew URL: https://patchew.org/QEMU/20190701123108.12493-1-philmd@red=
-hat.com/
-> >
-> > Hi,
-> >
-> > This series failed build test on s390x host. Please find the details be=
-low.
-> >
-> >   CC      hw/dma/i8257.o
-> >   CC      hw/dma/xilinx_axidma.o
-> > /var/tmp/patchew-tester-tmp-6umc5eop/src/hw/dma/xilinx_axidma.c: In fun=
-ction =E2=80=98xilinx_axidma_init=E2=80=99:
-> > /var/tmp/patchew-tester-tmp-6umc5eop/src/hw/dma/xilinx_axidma.c:568:29:=
- error: =E2=80=98TYPE_XILINX_AXI_ENET_DATA_STREAM=E2=80=99 undeclared (firs=
-t use in this function); did you mean =E2=80=98TYPE_XILINX_AXI_DMA_DATA_STR=
-EAM=E2=80=99?
-> >   568 |                             TYPE_XILINX_AXI_ENET_DATA_STREAM, &=
-error_abort,
-> >       |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >       |                             TYPE_XILINX_AXI_DMA_DATA_STREAM
-> > /var/tmp/patchew-tester-tmp-6umc5eop/src/hw/dma/xilinx_axidma.c:568:29:=
- note: each undeclared identifier is reported only once for each function i=
-t appears in
-> > /var/tmp/patchew-tester-tmp-6umc5eop/src/hw/dma/xilinx_axidma.c:572:29:=
- error: =E2=80=98TYPE_XILINX_AXI_ENET_CONTROL_STREAM=E2=80=99 undeclared (f=
-irst use in this function); did you mean =E2=80=98TYPE_XILINX_AXI_DMA_CONTR=
-OL_STREAM=E2=80=99?
-> >   572 |                             TYPE_XILINX_AXI_ENET_CONTROL_STREAM=
-, &error_abort,
-> >       |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >       |                             TYPE_XILINX_AXI_DMA_CONTROL_STREAM
->
-> It would be nice if GCC directly fix the patch instead of embarrassing
-> the author for obvious copy/paste mistakes...
-
-Sufficiently new gcc supports -fdiagnostics-generate-patch, and you could
-probably script up a wrapper to automatically apply the patches ;-)
-
-thanks
--- PMM
+T24gTW9uLCAyMDE5LTA3LTAxIGF0IDE5OjEzICswMTAwLCBQZXRlciBNYXlkZWxsIHdyb3RlOg0K
+PiBPbiBNb24sIDEgSnVsIDIwMTkgYXQgMTk6MDksIEFsaXN0YWlyIEZyYW5jaXMgPA0KPiBBbGlz
+dGFpci5GcmFuY2lzQHdkYy5jb20+IHdyb3RlOg0KPiA+IE9uIE1vbiwgMjAxOS0wNy0wMSBhdCAx
+OTowMSArMDEwMCwgUGV0ZXIgTWF5ZGVsbCB3cm90ZToNCj4gPiA+IE9uIE1vbiwgMSBKdWwgMjAx
+OSBhdCAxODo1MCwgQWxpc3RhaXIgRnJhbmNpcyA8DQo+ID4gPiBBbGlzdGFpci5GcmFuY2lzQHdk
+Yy5jb20+IHdyb3RlOg0KPiA+ID4gPiBQUzogSXQgc2VlbXMgbGlrZSB0aGVyZSBhcmUgc3RpbGwg
+c29tZSBpc3N1ZXMgd2l0aCB0aGlzIHBhdGNoDQo+ID4gPiA+IHNvDQo+ID4gPiA+IG1heWJlDQo+
+ID4gPiA+IGl0J3Mgd29ydGggZHJvcHBpbmcgdGhpcyBwYXRjaCBmcm9tIHRoZSBQUiBzbyB0aGF0
+IHdlIGNhbiBnZXQNCj4gPiA+ID4gZXZlcnl0aGluZyBlbHNlIG1lcmdlZC4NCj4gPiA+IA0KPiA+
+ID4gWWVhaCwgdGhhdCB3b3VsZCBiZSBteSBzdWdnZXN0aW9uLg0KPiA+IA0KPiA+IENhbiB5b3Ug
+ZG8gdGhhdCB3aGVuIHlvdSBtZXJnZSBpdCBvciBkb2VzIFBhbG1lciBoYXZlIHRvIHNlbmQgdGhl
+DQo+ID4gUFINCj4gPiBhZ2Fpbj8NCj4gDQo+IFBhbG1lciBuZWVkcyB0byByZXNwaW4gaXQgLS0g
+cHVsbHMgYXJlIHNpZ25lZCBhbmQgSSBjYW4ndA0KPiBtb2RpZnkgdGhlbSwgb25seSBlaXRoZXIg
+YXBwbHkgdGhlbSBvciBub3QuIChUZWNobmljYWxseSBJDQo+IGNvdWxkIGluIHRoZW9yeSBjaGVy
+cnktcGljayBhbGwgdGhlIG90aGVyIGNvbW1pdHMgb3V0IG9mIHRoZW0NCj4gYnV0IHRoYXQgd291
+bGQgYmUgYSBodWdlIGFtb3VudCBvZiBtYW51YWwgbGFib3VyLikNCg0KTm8gd29ycmllcy4NCg0K
+QFBhbG1lciBjYW4geW91IHBsZWFzZSBkcm9wIHRoZXNlIHR3byBwYXRjaGVzIGZyb20gdGhpcyBQ
+Uj8NCg0KaHcvcmlzY3Y6IExvYWQgT3BlblNCSSBhcyB0aGUgZGVmYXVsdCBmaXJtd2FyZQ0Kcm9t
+czogQWRkIE9wZW5TQkkgdmVyc2lvbiAwLjMNCg0KU29ycnkgZm9yIHRoZSBhbGwgdGhlIGxhc3Qg
+bWludXRlIGNoYW5nZXMuIEknbGwgd2FpdCB1bnRpbCBPcGVuU0JJIDAuNA0KdG8gcmVzcGluIHRo
+b3NlIHR3byBwYXRjaGVzLg0KDQpBbGlzdGFpcg0KDQo+IA0KPiB0aGFua3MNCj4gLS0gUE1NDQo=
 
