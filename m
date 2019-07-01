@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2439C5C715
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:21:51 +0200 (CEST)
-Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6261C5C6F5
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:11:23 +0200 (CEST)
+Received: from localhost ([::1]:47080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8QY-0007RW-74
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55948)
+	id 1hi8Bh-0006YW-Mv
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:06:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57261)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4Nc-0005GN-HF
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:34 -0400
+ (envelope-from <alex.bennee@linaro.org>) id 1hi4Sv-00016G-BW
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:08:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi4NZ-0000aa-2F
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:30 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:38751)
+ (envelope-from <alex.bennee@linaro.org>) id 1hi4Sl-00028G-3h
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:07:55 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44478)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi4NY-0000Tm-K7
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:02:28 -0400
-Received: by mail-oi1-f193.google.com with SMTP id v186so11284413oie.5
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:02:14 -0700 (PDT)
+ (Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+ id 1hi4Se-00026G-5o
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:07:46 -0400
+Received: by mail-wr1-f67.google.com with SMTP id e3so5910631wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UOKX3CNpHJ3zybgDKn68WrkRADlqvmSpAEztOenFeiE=;
- b=aSwtwocOUHAVpX1uHLrKZfxw6ISWOM1GAr31YOaj30YIA4tcPtRFhBKrVXsYkwPQOS
- zRBKuouoOVtfdfGq8ZXf4bhtKKRwwFiVmq4BN+V0YaTm+yeWWTvZI7Iaoyq7jQbRsD6o
- k2My/O9NUsI72yaJ6r7KW5XQZwcSi70d1ACwcnuFVBgYtdW4itdu32vYCb+xGnp2qIxw
- Hf+6i80zYFkDi/9k2gsLiBvCxdni/7AzTz7pxFmLXdTjidv6kGIKlT3p4U9uHwtMUNva
- 0m1djXYAzLtvG3jNYU2L5CVIfXJhAlRQ1AnZLUiIeKdA40r2Mxu5gMAdeDqm8umFiK8B
- BafA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H5JCIl/sTUYayqnfbnRrzXQvGcI9pQ/R8Eioapux/4s=;
+ b=Du5eu6ttB/k2scC1BWfNTldbtY6WQnwnoC16Kw4lShjxs6BD31KoiJX9BaakyS77cQ
+ 0TTvHscEIu8iv4ohqdBKUyR5h47fCASWe3iaNjsjDzJo8M2tFAbivbetldnly8wR4fv+
+ 9Q6gmkWt3KRfArbq8EOrCLN/MP2nlvZL7+Mjd7fMvTwsHH2uxx1rPdCsLFBkw2qeIA8r
+ SkMxX8FP81nGVnTW170XG7K6kkT3N+Z7E+fDd72g3WXbo7PQSCcFEtQE1QMsMYBs8lJf
+ VVj96pgn2+nPYQv+rAy1mvVySjAekVdv+ctpTyaJmKubenyJ57wwypqPL6vV5/Y+fzGm
+ ESLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UOKX3CNpHJ3zybgDKn68WrkRADlqvmSpAEztOenFeiE=;
- b=g3J8Fn6mH454IGHQ1GqQPOk7lTKGMob4ZtGECgUweSqUvIAQnr3Rgu1a3cswbuf2Dg
- zlMiYGr9q5xRgblVVeknVN+n0SDGjT+4mDk8axzF+7xVrKiD9I2pW+V0hhxN4nfqdQ+Q
- WQWMExOMnyM5O1cFNpGseOD7Apz8qRaxYbeVlmBFMLGpIgUXyH+qQol9NhN+nWkKq64D
- xSmRFcTF53y+k5NKc5hfsRcmeA4cwPm7omfHTJsV1of101Fbv2VVnneJhqeXA6tnNnQ8
- UmEZEmTvTzKSNs2M5ojm0rdWcyvldhW3N48DgxdSBefNDJ23xPrJO2hC5b5EPgfnTUyw
- L5Lg==
-X-Gm-Message-State: APjAAAV1FX1OsjZ6TXbfTa08tzaf4weAdQ2zV3yy17hx7JEFn3RPMt9t
- gH4pA7rhAPF33mE32tzAs2bdm9c/LilksyeaEoY0p0or8w8=
-X-Google-Smtp-Source: APXvYqyCv59RS+NfsuX8oeaG03c0Pkz0/aQEeVWILkc+9fw8w1/8Pc4rKeqLw/cLAIpU2LgrM1lP9luVTGDspT6+Wng=
-X-Received: by 2002:a05:6808:8c2:: with SMTP id k2mr129314oij.98.1561999222502; 
- Mon, 01 Jul 2019 09:40:22 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=H5JCIl/sTUYayqnfbnRrzXQvGcI9pQ/R8Eioapux/4s=;
+ b=gYrzjvLhKg4MXQB+k+ybvUzv+bHzzDvmw2KH9wnovbFvDQwFbhKeTqqZsiDN2H1/b0
+ nQ2MzmbDxX0uK1hdk9tQ5n17KXKhqindhkN+yErifQJEgdHhBa7ZlDRfJ1HUtwqqCI9a
+ jvyVa4RPBuZX667Sj/lHV9km2R09PXw4COyc4nt23ROZkwd+xQyGM8GX4Nii27MRGRRW
+ /2Ll4YtRPZ0vyvTti8dXHvLg5elBjuTONDrRAw4kJ6VP98W76Q1bH0Pniw8QFHHE1v+Y
+ +xkKzeLnm+1tGLbMFTW0PK7NcxBUlpsY3mX3JpYXs/CYjDKoCwr8YiIcY+VIrFkkTfK1
+ hXQw==
+X-Gm-Message-State: APjAAAXVruk+1w+XNUiq/APM6SKaMVDGs7/d55dgRJY8bn79hb8oppyZ
+ w7bnZuEaGOZi7uLhJpJEq8sTkia+/aA=
+X-Google-Smtp-Source: APXvYqy9F6nnlQtlRY2/dH3H2K05l8wiv4/aaLkfwGX8j5Xgp2xa1Pmv7J6FEbpEBlmWIuUvDSti5g==
+X-Received: by 2002:adf:f591:: with SMTP id f17mr20621432wro.119.1561999656586; 
+ Mon, 01 Jul 2019 09:47:36 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+ by smtp.gmail.com with ESMTPSA id v204sm185026wmb.15.2019.07.01.09.47.35
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Mon, 01 Jul 2019 09:47:36 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A997D1FF87;
+ Mon,  1 Jul 2019 17:47:35 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Date: Mon,  1 Jul 2019 17:47:32 +0100
+Message-Id: <20190701164732.30518-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190626162100.24774-1-laurent@vivier.eu>
-In-Reply-To: <20190626162100.24774-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Jul 2019 17:40:11 +0100
-Message-ID: <CAFEAcA-af8rcbUeh23Z+oy9Oh2vdcqYJWwXmjqeufJi5wvdfGg@mail.gmail.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.167.193
-Subject: Re: [Qemu-devel] [PULL 0/3] M68k next patches
+X-Received-From: 209.85.221.67
+Subject: [Qemu-devel] [PATCH] migration: move port_attr inside CONFIG_LINUX
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -71,35 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 26 Jun 2019 at 17:42, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 474f3938d79ab36b9231c9ad3b5a9314c2aeacde:
->
->   Merge remote-tracking branch 'remotes/amarkovic/tags/mips-queue-jun-21-2019' into staging (2019-06-21 15:40:50 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu-m68k.git tags/m68k-next-pull-request
->
-> for you to fetch changes up to c6d0700f57b2c50229a27e31b9f99056a011215f:
->
->   linux-user/m68k: remove simulator syscall interface (2019-06-26 17:14:41 +0200)
->
-> ----------------------------------------------------------------
-> remove m68k simulator syscall interface
-> Fix comments format
-> Fix gdbstub
->
+Otherwise the FreeBSD compiler complains about an unused variable.
 
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ migration/rdma.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Applied, thanks.
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 74cb2aa9f9..3036221ee8 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -839,10 +839,9 @@ static void qemu_rdma_dump_gid(const char *who, struct rdma_cm_id *id)
+  */
+ static int qemu_rdma_broken_ipv6_kernel(struct ibv_context *verbs, Error **errp)
+ {
+-    struct ibv_port_attr port_attr;
+-
+     /* This bug only exists in linux, to our knowledge. */
+ #ifdef CONFIG_LINUX
++    struct ibv_port_attr port_attr;
+ 
+     /*
+      * Verbs are only NULL if management has bound to '[::]'.
+-- 
+2.20.1
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
 
