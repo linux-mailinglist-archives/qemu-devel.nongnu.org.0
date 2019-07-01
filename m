@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238C15C6B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 03:41:13 +0200 (CEST)
-Received: from localhost ([::1]:46954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7572E5C6F4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:11:07 +0200 (CEST)
+Received: from localhost ([::1]:47132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi7nE-0002XR-9I
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 21:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46993)
+	id 1hi8GA-0000ql-J4
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:11:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56964)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3xE-0000N7-AF
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:17 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4RQ-0008PJ-Mt
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:06:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hi3xC-0002CR-Bh
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:16 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:39806)
+ (envelope-from <peter.maydell@linaro.org>) id 1hi4RP-0001kI-Gf
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:06:28 -0400
+Received: from mail-wm1-f41.google.com ([209.85.128.41]:36806)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hi3xB-0001ud-Vk
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:35:14 -0400
-Received: by mail-wr1-f44.google.com with SMTP id x4so15381532wrt.6
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 14:34:31 -0700 (PDT)
+ id 1hi4RJ-0001is-R3
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 18:06:24 -0400
+Received: by mail-wm1-f41.google.com with SMTP id u8so1110767wmm.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 15:06:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=xrdtLDaUXsZEoNM0lxPRwqv5cfPxmVrBimeKTadrMYw=;
- b=djeXwqZEQVv8z9nIyOZo04/p+tStRMiTYhs1Yclq/nqPQNFbky0dukE2VILEWn+vog
- 5hKPhInK5Jd8k/NTnSQyJIVBq4u+v0wFnwwKXQPzshUVS8xjzkkTsMEB6M08q8HRRvfn
- 8aGC3dNuIwp+J95jjM5cWBZnQ/7+MO7vK0SIJdDiU5guKbvJO9tTxJH3I9OhjdYO6MGe
- 7AUkJSz6Wn+JDUhuscqCOasGAPyYULdAe8DlCcq5HEmgL8dj4RciWZL4NEMbHOLWUsAP
- NUShKVGCdjui+muUlAgyP71RW30CxzI4Okpix21ZKT9e6dPeLt31E+8lUl5DKusIIVRA
- SEFA==
+ bh=WdrDS78k3n12ZSXX1AYlSfN84PXvZ6CqEJ/pNp8N1Lo=;
+ b=xATTY6qFMeTxMqbBSLMEYuA9m2aRkKBCe89ww9WotIcH6/VDfYhg3LThhEGqWqcmXf
+ Fy/rnfodvLDO0rb8WMdkkFBLo3AHD1HmihvRwgHUWEThMxbtDobGzNlPjxLzkMzm+csb
+ nyv92t26wbaiZCpbCq7GHr1zguYVhzsiuaOdJmoA2VytC1iS7pTNMB7x0TjTv3IlGn4T
+ f2OPh7O8+JN9MBgfh/tv5pw0x6Hhkih+Lruv3FFoCpDa3tD28D+5Fies72xgM01lZ1rl
+ l2Du04elFue/gvn8C1+7wGEqWAwC3R0ZbDOkwGYcIsmqvml4fZpWecH2WevO+aJ+t1Km
+ RYcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xrdtLDaUXsZEoNM0lxPRwqv5cfPxmVrBimeKTadrMYw=;
- b=M43AYaqgQadmQDeQvawhKp42M3J6G59P1r0a7dzp9J+qJCM0t6JNkKDu863wdIMp7Y
- oaINYorWfeOCYO7IGy5uh52Uq6essTp+xB1Wv0Wj2/2LB3UDcim0kSoLrNDhW3BTaWyt
- z9X9Q+Gq0rwB/TgFNAjNHI/azu8j9Ka3p4uxrG3u3QmQlZN+BNy/J7YJnqT/3OPQLPaw
- 1/xsOKfgaR7ZAmNHacqJp9CFBLT2w4CfE2A7p/6ECTbuINWMkcepqm2JI21yGv9Xre9H
- ofCDSAw2uccXs2RCIc09zaNTy5OxoW7kymYc/aIxGhk4z+B91Fk4OM6XD5hiU073yvvF
- K7mA==
-X-Gm-Message-State: APjAAAWJd2XOutprC1Ji5CZyIfYKilhF8VGeARDWdGv50/KWyv+9DCUP
- QdB/mdv58wywGhA4Z5X7y+mpUOjjr1sZCA==
-X-Google-Smtp-Source: APXvYqyQtivOVjwgWQWt0iPRN1tzAVHEk54hlL1Y6uFuMP0PKQ8ZQOZmvWlLZrQKS2YisNF9ICXqnA==
-X-Received: by 2002:adf:d4c1:: with SMTP id w1mr13032251wrk.229.1561999228119; 
- Mon, 01 Jul 2019 09:40:28 -0700 (PDT)
+ bh=WdrDS78k3n12ZSXX1AYlSfN84PXvZ6CqEJ/pNp8N1Lo=;
+ b=NRRemThgPbYEsTTwnvd2HBGFwqRCZD6hec+y2V/vOcWUiGXnXUVb4Jxtp+kpTjLdp3
+ XMDccSKxoMFRXVQJI9ZxKHLrZcLYbUmrdqcVv76C65Ba3PbKnn9wquJpuHtSkzefbMCt
+ MmQNbFSJb6pwfA6EFBX+ejKxJ+oTLVqgbF40n1vbw0woKhP2YX4FQ1NluuUeYwUZmBt4
+ wUS9V4eS3dBwYQyYbQC0t6HWZi+SnPmA7gZ+70SU1pDFeeGSwdnbebg4LrQyQX2VU6W9
+ Pw6hKX/dQSgUKG/HIONFkNq6ZoI+5c6m8K3gXkJ8rZ5jfhpf30N3QyZUJIzTgSeonSM7
+ ku3Q==
+X-Gm-Message-State: APjAAAVCycRmNvePRFhN1tgbvMuVKxn2b4q4wCi4IPSpoYNehpCP4fEc
+ L3JhW0E5JQ8i72aAxVLg1A+Hcbn8KPU3Hg==
+X-Google-Smtp-Source: APXvYqzjwVc5DWrrHizc9O3RjJHKZSyeQ+n/oxtgmPcP64AAC+7FXXT4dGpKuEAY70ml5GbJIrYjZw==
+X-Received: by 2002:a7b:ce01:: with SMTP id m1mr123227wmc.1.1561999230410;
+ Mon, 01 Jul 2019 09:40:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.27
+ by smtp.gmail.com with ESMTPSA id o6sm26573508wra.27.2019.07.01.09.40.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Mon, 01 Jul 2019 09:40:27 -0700 (PDT)
+ Mon, 01 Jul 2019 09:40:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 17:39:35 +0100
-Message-Id: <20190701163943.22313-39-peter.maydell@linaro.org>
+Date: Mon,  1 Jul 2019 17:39:37 +0100
+Message-Id: <20190701163943.22313-41-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701163943.22313-1-peter.maydell@linaro.org>
 References: <20190701163943.22313-1-peter.maydell@linaro.org>
@@ -66,9 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
  [fuzzy]
-X-Received-From: 209.85.221.44
-Subject: [Qemu-devel] [PULL 38/46] target/arm: Declare get_phys_addr()
- function publicly
+X-Received-From: 209.85.128.41
+Subject: [Qemu-devel] [PULL 40/46] target/arm/vfp_helper: Move code around
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,83 +84,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-In the next commit we will split the TLB related routines of
-this file, and this function will also be called in the new
-file. Declare it in the "internals.h" header.
+To ease the review of the next commit,
+move the vfp_exceptbits_to_host() function directly after
+vfp_exceptbits_from_host().  Amusingly the diff shows we
+are moving vfp_get_fpscr().
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190701132516.26392-12-philmd@redhat.com
+Message-id: 20190701132516.26392-15-philmd@redhat.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h | 16 ++++++++++++++++
- target/arm/helper.c    | 21 +++++----------------
- 2 files changed, 21 insertions(+), 16 deletions(-)
+ target/arm/vfp_helper.c | 52 ++++++++++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 5a02f458f39..ff5ab0328e8 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -985,4 +985,20 @@ static inline int exception_target_el(CPUARMState *env)
-     return target_el;
+diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
+index 121bdbd3aff..d54e3253240 100644
+--- a/target/arm/vfp_helper.c
++++ b/target/arm/vfp_helper.c
+@@ -55,32 +55,6 @@ static inline int vfp_exceptbits_from_host(int host_bits)
+     return target_bits;
  }
  
-+#ifndef CONFIG_USER_ONLY
-+
-+/* Cacheability and shareability attributes for a memory access */
-+typedef struct ARMCacheAttrs {
-+    unsigned int attrs:8; /* as in the MAIR register encoding */
-+    unsigned int shareability:2; /* as in the SH field of the VMSAv8-64 PTEs */
-+} ARMCacheAttrs;
-+
-+bool get_phys_addr(CPUARMState *env, target_ulong address,
-+                   MMUAccessType access_type, ARMMMUIdx mmu_idx,
-+                   hwaddr *phys_ptr, MemTxAttrs *attrs, int *prot,
-+                   target_ulong *page_size,
-+                   ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs);
-+
-+#endif /* !CONFIG_USER_ONLY */
-+
- #endif
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a87fda91914..063f4778e0a 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -33,17 +33,6 @@
- #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
- 
- #ifndef CONFIG_USER_ONLY
--/* Cacheability and shareability attributes for a memory access */
--typedef struct ARMCacheAttrs {
--    unsigned int attrs:8; /* as in the MAIR register encoding */
--    unsigned int shareability:2; /* as in the SH field of the VMSAv8-64 PTEs */
--} ARMCacheAttrs;
+-uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
+-{
+-    uint32_t i, fpscr;
 -
--static bool get_phys_addr(CPUARMState *env, target_ulong address,
--                          MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                          hwaddr *phys_ptr, MemTxAttrs *attrs, int *prot,
--                          target_ulong *page_size,
--                          ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs);
- 
- static bool get_phys_addr_lpae(CPUARMState *env, target_ulong address,
-                                MMUAccessType access_type, ARMMMUIdx mmu_idx,
-@@ -12639,11 +12628,11 @@ static ARMCacheAttrs combine_cacheattrs(ARMCacheAttrs s1, ARMCacheAttrs s2)
-  * @fi: set to fault info if the translation fails
-  * @cacheattrs: (if non-NULL) set to the cacheability/shareability attributes
-  */
--static bool get_phys_addr(CPUARMState *env, target_ulong address,
--                          MMUAccessType access_type, ARMMMUIdx mmu_idx,
--                          hwaddr *phys_ptr, MemTxAttrs *attrs, int *prot,
--                          target_ulong *page_size,
--                          ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
-+bool get_phys_addr(CPUARMState *env, target_ulong address,
-+                   MMUAccessType access_type, ARMMMUIdx mmu_idx,
-+                   hwaddr *phys_ptr, MemTxAttrs *attrs, int *prot,
-+                   target_ulong *page_size,
-+                   ARMMMUFaultInfo *fi, ARMCacheAttrs *cacheattrs)
+-    fpscr = env->vfp.xregs[ARM_VFP_FPSCR]
+-            | (env->vfp.vec_len << 16)
+-            | (env->vfp.vec_stride << 20);
+-
+-    i = get_float_exception_flags(&env->vfp.fp_status);
+-    i |= get_float_exception_flags(&env->vfp.standard_fp_status);
+-    /* FZ16 does not generate an input denormal exception.  */
+-    i |= (get_float_exception_flags(&env->vfp.fp_status_f16)
+-          & ~float_flag_input_denormal);
+-    fpscr |= vfp_exceptbits_from_host(i);
+-
+-    i = env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc[3];
+-    fpscr |= i ? FPCR_QC : 0;
+-
+-    return fpscr;
+-}
+-
+-uint32_t vfp_get_fpscr(CPUARMState *env)
+-{
+-    return HELPER(vfp_get_fpscr)(env);
+-}
+-
+ /* Convert vfp exception flags to target form.  */
+ static inline int vfp_exceptbits_to_host(int target_bits)
  {
-     if (mmu_idx == ARMMMUIdx_S12NSE0 || mmu_idx == ARMMMUIdx_S12NSE1) {
-         /* Call ourselves recursively to do the stage 1 and then stage 2
+@@ -107,6 +81,32 @@ static inline int vfp_exceptbits_to_host(int target_bits)
+     return host_bits;
+ }
+ 
++uint32_t HELPER(vfp_get_fpscr)(CPUARMState *env)
++{
++    uint32_t i, fpscr;
++
++    fpscr = env->vfp.xregs[ARM_VFP_FPSCR]
++            | (env->vfp.vec_len << 16)
++            | (env->vfp.vec_stride << 20);
++
++    i = get_float_exception_flags(&env->vfp.fp_status);
++    i |= get_float_exception_flags(&env->vfp.standard_fp_status);
++    /* FZ16 does not generate an input denormal exception.  */
++    i |= (get_float_exception_flags(&env->vfp.fp_status_f16)
++          & ~float_flag_input_denormal);
++    fpscr |= vfp_exceptbits_from_host(i);
++
++    i = env->vfp.qc[0] | env->vfp.qc[1] | env->vfp.qc[2] | env->vfp.qc[3];
++    fpscr |= i ? FPCR_QC : 0;
++
++    return fpscr;
++}
++
++uint32_t vfp_get_fpscr(CPUARMState *env)
++{
++    return HELPER(vfp_get_fpscr)(env);
++}
++
+ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
+ {
+     int i;
 -- 
 2.20.1
 
