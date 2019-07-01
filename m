@@ -2,61 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23CF55C5C6
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 00:54:38 +0200 (CEST)
-Received: from localhost ([::1]:46128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3505C50C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 23:38:47 +0200 (CEST)
+Received: from localhost ([::1]:45182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi5C1-0002CB-9O
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 18:54:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60445)
+	id 1hi30E-00049B-RE
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 16:34:18 -0400
+Received: from [2001:470:142:3::10] (port=54153 helo=eggs.gnu.org)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bounces@canonical.com>) id 1hi3bD-0003Cp-OX
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:12:33 -0400
+ (envelope-from <crosa@redhat.com>) id 1hi2xk-0002te-U0
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:31:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bounces@canonical.com>) id 1hi3b9-0000N6-AK
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:12:29 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33442)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bounces@canonical.com>)
- id 1hi3b8-0000Ih-B8
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 17:12:27 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1hi2i9-0005R5-DJ
- for <qemu-devel@nongnu.org>; Mon, 01 Jul 2019 20:15:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5E2022E80CC
- for <qemu-devel@nongnu.org>; Mon,  1 Jul 2019 20:15:37 +0000 (UTC)
+ (envelope-from <crosa@redhat.com>) id 1hi2xY-00029Q-C9
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:31:39 -0400
+Received: from [209.132.183.28] (port=42510 helo=mx1.redhat.com)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <crosa@redhat.com>) id 1hi2xY-00029I-3A
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 16:31:32 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id F222D307D91E;
+ Mon,  1 Jul 2019 20:09:18 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-124-195.rdu2.redhat.com
+ [10.10.124.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF5A410018F9;
+ Mon,  1 Jul 2019 20:09:10 +0000 (UTC)
+Date: Mon, 1 Jul 2019 16:09:09 -0400
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Message-ID: <20190701200856.GA9225@localhost.localdomain>
+References: <20190701153436.16579-1-f4bug@amsat.org>
+ <20190701153436.16579-2-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190701153436.16579-2-f4bug@amsat.org>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Mon, 01 Jul 2019 20:09:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Jul 2019 20:09:07 -0000
-From: Laurent Vivier <Laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ddosolitary laurent-vivier
-X-Launchpad-Bug-Reporter: DDoSolitary (ddosolitary)
-X-Launchpad-Bug-Modifier: Laurent Vivier (laurent-vivier)
-References: <156171334969.18290.6262209650807716029.malonedeb@gac.canonical.com>
-Message-Id: <156201174732.2370.11305258006914936444.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18991";
- Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 8c9051a43558ceff6962d1ce86bf6a8abc6d0d79
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1834613] Re: Crypto related operations failing on
- Alpine Linux on QEMU 4.0
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] tests/acceptance: Add test of
+ NeXTcube framebuffer using OCR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,117 +60,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1834613 <1834613@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix for that is already included in git master:
+On Mon, Jul 01, 2019 at 05:34:35PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> Add a test of the NeXTcube framebuffer using the Tesseract OCR
+> engine on a screenshot of the framebuffer device.
+>=20
+> The test is very quick:
+>=20
+>   $ avocado --show=3Dapp,ocr run tests/acceptance/machine_m68k_nextcube=
+.py
 
-2a1224359008 target/ppc: Fix lxvw4x, lxvh8x and lxvb16x
+Shouldn't we stick to "console" here?  I understand we're resorting to oc=
+r
+but the content, for what it's worth, should be the same as in the consol=
+e
+for other tests.  This allows a common expectation across tests too.
 
-More fix for
-8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}() helpers =
-for VSR register access") =
+>   JOB ID     : f7d3c27976047036dc568183baf64c04863d9985
+>   JOB LOG    : ~/avocado/job-results/job-2019-06-29T16.18-f7d3c27/job.l=
+og
+>   (1/1) tests/acceptance/machine_m68k_nextcube.py:NextCubeMachine.test_=
+bootrom_framebuffer: |ocr:
+>   ue r pun Honl'=EF=AC=82x ; 5=E2=80=98 55=E2=80=98
+>   avg ncaaaaa 25 MHZ, memary jag m
+>   Backplane slat =C2=ABa
+>   Ethernet address a a r a r3 2
+>   Memgry sackets aea canflqured far 16MB Darlly page made stMs but have=
+ 16MB page made stMs )nstalled
+>   Memgry sackets a and 1 canflqured far 16MB Darlly page made stMs but =
+have 16MB page made stMs )nstalled
+>   [...]
+>   Yestlnq the rpu, 5::
+>   system test raneg Errar egge 51
+>   Egg: cammand
+>   Default pggc devlce nut fauna
+>   NEXY>I
+>   PASS (3.59 s)
+>   RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT =
+0 | CANCEL 0
+>   JOB TIME   : 3.97 s
+>=20
+> Documentation on how to install tesseract:
+>   https://github.com/tesseract-ocr/tesseract/wiki#installation
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+> v2:
+> - test fb sizes
+> - handle 2 versions of teseract
+> ---
+>  tests/acceptance/machine_m68k_nextcube.py | 102 ++++++++++++++++++++++
+>  1 file changed, 102 insertions(+)
+>  create mode 100644 tests/acceptance/machine_m68k_nextcube.py
+>=20
+> diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptan=
+ce/machine_m68k_nextcube.py
+> new file mode 100644
+> index 0000000000..f8e514a058
+> --- /dev/null
+> +++ b/tests/acceptance/machine_m68k_nextcube.py
+> @@ -0,0 +1,102 @@
+> +# Functional test that boots a VM and run OCR on the framebuffer
+> +#
+> +# Copyright (c) Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +import logging
+> +import time
+> +import distutils.spawn
+> +
+> +from avocado import skipUnless
+> +from avocado_qemu import Test
+> +from avocado.utils import process
 
-are availabe:
+Style nitpick:
 
-77bd8937c03d target/ppc: Fix xvabs[sd]p, xvnabs[sd]p, xvneg[sd]p, xvcpsgn[s=
-d]p
-d47a751adab7 target/ppc: Fix xxbrq, xxbrw
+from avocado_qemu import Test
+from avocado import skipUnless
+from avocado.utils import process
 
-And you can also need:
+> +
+> +try:
+> +    from PIL import Image
+> +    pil_available =3D True
 
-899f08ad1d12 tcg: Fix typos in helper_gvec_sar{8,32,64}v
+Another style nitpick, but very minor issue is the use of ALL_CAPS
+variables if they are at the module level.  So that would become
 
-depending on you host CPU
+PIL_AVAILABLE =3D True
 
--- =
+> +except ImportError:
+> +    pil_available =3D False
+> +
+> +
+> +def tesseract_available(expected_version):
+> +    if not distutils.spawn.find_executable('tesseract'):
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1834613
+Just though of pointing out that there's a similar function in
+avocado.utils.path, called find_command:
 
-Title:
-  Crypto related operations failing on Alpine Linux on QEMU 4.0
+https://avocado-framework.readthedocs.io/en/68.0/api/utils/avocado.utils.=
+html#avocado.utils.path.find_command
 
-Status in QEMU:
-  New
+Feel free to pick your poison! :)
 
-Bug description:
-  I'm unable to boot the netboot image of Alpine Linux using QEMU 4.0.
+> +        return False
+> +    res =3D process.run('tesseract --version')
+> +    try:
+> +        version =3D res.stdout_text.split()[1]
+> +    except IndexError:
+> +        version =3D res.stderr_text.split()[1]
 
-  Steps to reproduce:
+Do some versions write this to stdout and others to stderr?
 
-  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
-ot/vmlinuz-vanilla
-  curl -O http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/ppc64le/netbo=
-ot/initramfs-vanilla
-  qemu-system-ppc64 -kernel vmlinuz-vanilla -initrd initramfs-vanilla -nogr=
-aphic -append "console=3Dhvc0 ip=3Ddhcp alpine_repo=3Dhttp://dl-cdn.alpinel=
-inux.org/alpine/v3.10/main"
+> +    return int(version.split('.')[0]) =3D=3D expected_version
 
-  The init script will automatically download and install an in-memory
-  Alpine Linux environment. However, with QEMU 4.0, the installation
-  process will fail with "BAD signature" errors:
+This can raise an exception if some other sort of output is
+produced.  How about:
 
-  (1/20) Installing musl (1.1.22-r2)
-  ERROR: musl-1.1.22-r2: BAD signature
-  (2/20) Installing busybox (1.30.1-r2)
-  ERROR: busybox-1.30.1-r2: BAD signature
-  (3/20) Installing alpine-baselayout (3.1.2-r0)
-  Executing alpine-baselayout-3.1.2-r0.pre-install
-  ERROR: alpine-baselayout-3.1.2-r0.pre-install: script exited with error 1=
-27
-  ERROR: alpine-baselayout-3.1.2-r0: BAD signature
-  (4/20) Installing openrc (0.41.2-r1)
-  ERROR: openrc-0.41.2-r1: BAD signature
-  (5/20) Installing alpine-conf (3.8.3-r0)
-  ERROR: alpine-conf-3.8.3-r0: BAD signature
-  (6/20) Installing libcrypto1.1 (1.1.1c-r0)
-  ERROR: libcrypto1.1-1.1.1c-r0: BAD signature
-  (7/20) Installing libssl1.1 (1.1.1c-r0)
-  ERROR: libssl1.1-1.1.1c-r0: BAD signature
-  (8/20) Installing ca-certificates-cacert (20190108-r0)
-  ERROR: ca-certificates-cacert-20190108-r0: BAD signature
-  (9/20) Installing libtls-standalone (2.9.1-r0)
-  ERROR: libtls-standalone-2.9.1-r0: BAD signature
-  (10/20) Installing ssl_client (1.30.1-r2)
-  ERROR: ssl_client-1.30.1-r2: BAD signature
-  (11/20) Installing zlib (1.2.11-r1)
-  ERROR: zlib-1.2.11-r1: BAD signature
-  (12/20) Installing apk-tools (2.10.4-r1)
-  ERROR: apk-tools-2.10.4-r1: BAD signature
-  (13/20) Installing busybox-suid (1.30.1-r2)
-  ERROR: busybox-suid-1.30.1-r2: BAD signature
-  (14/20) Installing busybox-initscripts (3.1-r7)
-  ERROR: busybox-initscripts-3.1-r7: BAD signature
-  (15/20) Installing scanelf (1.2.3-r0)
-  ERROR: scanelf-1.2.3-r0: BAD signature
-  (16/20) Installing musl-utils (1.1.22-r2)
-  ERROR: musl-utils-1.1.22-r2: BAD signature
-  (17/20) Installing libc-utils (0.7.1-r0)
-  ERROR: libc-utils-0.7.1-r0: BAD signature
-  (18/20) Installing alpine-keys (2.1-r2)
-  ERROR: alpine-keys-2.1-r2: BAD signature
-  (19/20) Installing alpine-base (3.10.0-r0)
-  ERROR: alpine-base-3.10.0-r0: BAD signature
-  (20/20) Installing openssl (1.1.1c-r0)
-  ERROR: openssl-1.1.1c-r0: BAD signature
-  20 errors; 0 MiB in 0 packages
-  ok.
-  grep: /sysroot/etc/inittab: No such file or directory
-  /sbin/init not found in new root. Launching emergency recovery shell
-  Type exit to continue boot.
-  sh: can't access tty; job control turned off
-  / #
+   import re
 
-  If I boot up a disk image created by a previous version of QEMU,
-  crypto related operations like verifying a RSA signature using the
-  "openssl" command will also fail.
+   match =3D re.match(r'tesseract\s(\d)', res)
+   if match is not None:
+      # now this is guaranteed to be a digit
+      if int(match.groups()[0]) =3D=3D expected_version:
+         return True
+   return False
 
-  I didn't see these errors on previous QEMU versions or other
-  architectures on QEMU 4.0
+> +
+> +
+> +class NextCubeMachine(Test):
+> +
+> +    timeout =3D 15
+> +
+> +    def check_bootrom_framebuffer(self, screenshot_path):
+> +        rom_url =3D ('http://www.nextcomputers.org/NeXTfiles/Software/=
+ROM_Files/'
+> +                   '68040_Non-Turbo_Chipset/Rev_2.5_v66.BIN')
+> +        rom_hash =3D 'b3534796abae238a0111299fc406a9349f7fee24'
+> +        rom_path =3D self.fetch_asset(rom_url, asset_hash=3Drom_hash)
+> +
+> +        self.vm.set_machine('next-cube')
+> +        self.vm.add_args('-bios', rom_path)
+> +        self.vm.launch()
+> +
+> +        self.log.info('VM launched, waiting for display')
+> +        # FIXME how to catch the 'displaysurface_create 1120x832' trac=
+e-event?
+> +        time.sleep(2)
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1834613/+subscriptions
+There's avocado.utils.wait.wait_for() to *help* with waiting, but I'm
+not sure about the trace-events.
+
+> +
+> +        self.vm.command('human-monitor-command',
+> +                        command_line=3D'screendump %s' % screenshot_pa=
+th)
+> +
+> +    @skipUnless(pil_available, 'Python PIL not installed')
+> +    def test_bootrom_framebuffer_size(self):
+> +        """
+> +        :avocado: tags=3Darch:m68k
+> +        :avocado: tags=3Dmachine:next-cube
+
+Here we hit the syntax limitation of the Avocado tags regex again:
+
+https://avocado-framework.readthedocs.io/en/68.0/api/core/avocado.core.ht=
+ml#avocado.core.safeloader.DOCSTRING_DIRECTIVE_RE_RAW
+
+I'll look into raising that limitation on the next release, but,
+for the time being, this will need to be:
+
+    :avocado: tags=3Dmachine:next_cube
+
+The same applies to the other tests, of course.
+
+> +        :avocado: tags=3Ddevice:framebuffer
+> +        """
+> +        screenshot_path =3D self.workdir + "dump"
+
+Best practice is to use os.path.join() instead.
+
+> +        self.check_bootrom_framebuffer(screenshot_path)
+> +
+> +        width, height =3D Image.open(screenshot_path).size
+> +        self.assertEqual(width, 1120)
+> +        self.assertEqual(height, 832)
+> +
+> +    @skipUnless(tesseract_available(3), 'tesseract v3 OCR tool not ava=
+ilable')
+> +    def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
+> +        """
+> +        :avocado: tags=3Darch:m68k
+> +        :avocado: tags=3Dmachine:next-cube
+> +        :avocado: tags=3Ddevice:framebuffer
+> +        """
+> +        screenshot_path =3D self.workdir + "dump"
+> +        self.check_bootrom_framebuffer(screenshot_path)
+> +
+> +        console_logger =3D logging.getLogger('ocr')
+> +        text =3D process.run("tesseract %s stdout" % screenshot_path).=
+stdout_text
+> +        console_logger.debug(text)
+> +        self.assertIn('Backplane', text)
+> +        self.assertIn('Ethernet address', text)
+
+I haven't tried v3, but I'm curious... is this about the change in
+command line syntax only?  Or do v3 and v4 are able to recognize
+different characters?
+
+- Cleber.
+
+> +
+> +    @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not ava=
+ilable')
+> +    def test_bootrom_framebuffer_ocr_with_tesseract_v4(self):
+> +        """
+> +        :avocado: tags=3Darch:m68k
+> +        :avocado: tags=3Dmachine:next-cube
+> +        :avocado: tags=3Ddevice:framebuffer
+> +        """
+> +        screenshot_path =3D self.workdir + "dump"
+> +        self.check_bootrom_framebuffer(screenshot_path)
+> +
+> +        console_logger =3D logging.getLogger('ocr')
+> +        proc =3D process.run("tesseract --oem 1 %s stdout" % screensho=
+t_path)
+> +        text =3D proc.stdout_text
+> +        console_logger.debug(text)
+> +        self.assertIn('Testing the FPU, SCC', text)
+> +        self.assertIn('System test failed. Error code 51', text)
+> +        self.assertIn('Boot command', text)
+> +        self.assertIn('Next>', text)
+> --=20
+> 2.19.1
+>=20
 
