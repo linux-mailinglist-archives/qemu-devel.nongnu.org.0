@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F21A5BD79
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 15:59:54 +0200 (CEST)
-Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E0D5BDA9
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Jul 2019 16:09:47 +0200 (CEST)
+Received: from localhost ([::1]:59148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hhwqX-0006Jw-MH
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 09:59:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43382)
+	id 1hhx06-0005b6-FL
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 10:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43348)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <philmd@redhat.com>) id 1hhwTY-0002R3-D9
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:36:10 -0400
+ (envelope-from <philmd@redhat.com>) id 1hhwTU-0002PM-FF
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:36:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <philmd@redhat.com>) id 1hhwTW-00005C-8k
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:36:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41684)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhwTU-0008Pe-9h
+ (envelope-from <philmd@redhat.com>) id 1hhwTS-0008T0-Is
  for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:36:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42692)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hhwTQ-0008Pb-NI
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 09:36:01 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 6F1DE4DB11;
- Mon,  1 Jul 2019 13:35:54 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 512023082A49;
+ Mon,  1 Jul 2019 13:35:58 +0000 (UTC)
 Received: from x1w.redhat.com (unknown [10.40.205.170])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 116F0608C2;
- Mon,  1 Jul 2019 13:35:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0531691A3;
+ Mon,  1 Jul 2019 13:35:54 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  1 Jul 2019 15:35:23 +0200
-Message-Id: <20190701133536.28946-3-philmd@redhat.com>
+Date: Mon,  1 Jul 2019 15:35:24 +0200
+Message-Id: <20190701133536.28946-4-philmd@redhat.com>
 In-Reply-To: <20190701133536.28946-1-philmd@redhat.com>
 References: <20190701133536.28946-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Mon, 01 Jul 2019 13:35:54 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.45]); Mon, 01 Jul 2019 13:35:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 02/15] hw/i386/pc: Extract e820 memory
- layout code
+Subject: [Qemu-devel] [PATCH v3 03/15] hw/i386/pc: Use address_space_memory
+ in place
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,274 +66,51 @@ Cc: Yang Zhong <yang.zhong@intel.com>, Samuel Ortiz <sameo@linux.intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The address_space_memory variable is used once.
+Use it in place and remove the argument.
+
 Suggested-by: Samuel Ortiz <sameo@linux.intel.com>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v3: KISS, do not use unsigned, do not add broken documentation
----
- hw/i386/Makefile.objs        |  2 +-
- hw/i386/e820_memory_layout.c | 59 ++++++++++++++++++++++++++++++++++
- hw/i386/e820_memory_layout.h | 42 +++++++++++++++++++++++++
- hw/i386/pc.c                 | 61 +-----------------------------------
- include/hw/i386/pc.h         | 11 -------
- target/i386/kvm.c            |  1 +
- 6 files changed, 104 insertions(+), 72 deletions(-)
- create mode 100644 hw/i386/e820_memory_layout.c
- create mode 100644 hw/i386/e820_memory_layout.h
+ hw/i386/pc.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/i386/Makefile.objs b/hw/i386/Makefile.objs
-index 5d9c9efd5f..d3374e0831 100644
---- a/hw/i386/Makefile.objs
-+++ b/hw/i386/Makefile.objs
-@@ -1,5 +1,5 @@
- obj-$(CONFIG_KVM) +=3D kvm/
--obj-y +=3D multiboot.o
-+obj-y +=3D e820_memory_layout.o multiboot.o
- obj-y +=3D pc.o
- obj-$(CONFIG_I440FX) +=3D pc_piix.o
- obj-$(CONFIG_Q35) +=3D pc_q35.o
-diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout.c
-new file mode 100644
-index 0000000000..bcf9eaf837
---- /dev/null
-+++ b/hw/i386/e820_memory_layout.c
-@@ -0,0 +1,59 @@
-+/*
-+ * QEMU BIOS e820 routines
-+ *
-+ * Copyright (c) 2003-2004 Fabrice Bellard
-+ *
-+ * SPDX-License-Identifier: MIT
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bswap.h"
-+#include "e820_memory_layout.h"
-+
-+static size_t e820_entries;
-+struct e820_table e820_reserve;
-+struct e820_entry *e820_table;
-+
-+int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
-+{
-+    int index =3D le32_to_cpu(e820_reserve.count);
-+    struct e820_entry *entry;
-+
-+    if (type !=3D E820_RAM) {
-+        /* old FW_CFG_E820_TABLE entry -- reservations only */
-+        if (index >=3D E820_NR_ENTRIES) {
-+            return -EBUSY;
-+        }
-+        entry =3D &e820_reserve.entry[index++];
-+
-+        entry->address =3D cpu_to_le64(address);
-+        entry->length =3D cpu_to_le64(length);
-+        entry->type =3D cpu_to_le32(type);
-+
-+        e820_reserve.count =3D cpu_to_le32(index);
-+    }
-+
-+    /* new "etc/e820" file -- include ram too */
-+    e820_table =3D g_renew(struct e820_entry, e820_table, e820_entries +=
- 1);
-+    e820_table[e820_entries].address =3D cpu_to_le64(address);
-+    e820_table[e820_entries].length =3D cpu_to_le64(length);
-+    e820_table[e820_entries].type =3D cpu_to_le32(type);
-+    e820_entries++;
-+
-+    return e820_entries;
-+}
-+
-+int e820_get_num_entries(void)
-+{
-+    return e820_entries;
-+}
-+
-+bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
-*length)
-+{
-+    if (idx < e820_entries && e820_table[idx].type =3D=3D cpu_to_le32(ty=
-pe)) {
-+        *address =3D le64_to_cpu(e820_table[idx].address);
-+        *length =3D le64_to_cpu(e820_table[idx].length);
-+        return true;
-+    }
-+    return false;
-+}
-diff --git a/hw/i386/e820_memory_layout.h b/hw/i386/e820_memory_layout.h
-new file mode 100644
-index 0000000000..2a0ceb8b9c
---- /dev/null
-+++ b/hw/i386/e820_memory_layout.h
-@@ -0,0 +1,42 @@
-+/*
-+ * QEMU BIOS e820 routines
-+ *
-+ * Copyright (c) 2003-2004 Fabrice Bellard
-+ *
-+ * SPDX-License-Identifier: MIT
-+ */
-+
-+#ifndef HW_I386_E820_H
-+#define HW_I386_E820_H
-+
-+/* e820 types */
-+#define E820_RAM        1
-+#define E820_RESERVED   2
-+#define E820_ACPI       3
-+#define E820_NVS        4
-+#define E820_UNUSABLE   5
-+
-+#define E820_NR_ENTRIES 16
-+
-+struct e820_entry {
-+    uint64_t address;
-+    uint64_t length;
-+    uint32_t type;
-+} QEMU_PACKED __attribute((__aligned__(4)));
-+
-+struct e820_table {
-+    uint32_t count;
-+    struct e820_entry entry[E820_NR_ENTRIES];
-+} QEMU_PACKED __attribute((__aligned__(4)));
-+
-+extern struct e820_table e820_reserve;
-+extern struct e820_entry *e820_table;
-+
-+int e820_add_entry(uint64_t address, uint64_t length, uint32_t type);
-+int e820_get_num_entries(void);
-+bool e820_get_entry(int index, uint32_t type,
-+                    uint64_t *address, uint64_t *length);
-+
-+
-+
-+#endif
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 691726b85b..8ac85eadf1 100644
+index 8ac85eadf1..ea7422b16c 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -79,6 +79,7 @@
- #include "hw/i386/intel_iommu.h"
- #include "hw/net/ne2000-isa.h"
- #include "standard-headers/asm-x86/bootparam.h"
-+#include "e820_memory_layout.h"
-=20
- /* debug PC/ISA interrupts */
- //#define DEBUG_IRQ
-@@ -90,22 +91,6 @@
- #define DPRINTF(fmt, ...)
- #endif
-=20
--#define E820_NR_ENTRIES		16
--
--struct e820_entry {
--    uint64_t address;
--    uint64_t length;
--    uint32_t type;
--} QEMU_PACKED __attribute((__aligned__(4)));
--
--struct e820_table {
--    uint32_t count;
--    struct e820_entry entry[E820_NR_ENTRIES];
--} QEMU_PACKED __attribute((__aligned__(4)));
--
--static struct e820_table e820_reserve;
--static struct e820_entry *e820_table;
--static unsigned e820_entries;
- struct hpet_fw_config hpet_cfg =3D {.count =3D UINT8_MAX};
-=20
- /* Physical Address of PVH entry point read from kernel ELF NOTE */
-@@ -869,50 +854,6 @@ static void handle_a20_line_change(void *opaque, int=
- irq, int level)
-     x86_cpu_set_a20(cpu, level);
+@@ -929,7 +929,7 @@ static void pc_build_smbios(PCMachineState *pcms)
+     }
  }
 =20
--int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
--{
--    int index =3D le32_to_cpu(e820_reserve.count);
--    struct e820_entry *entry;
--
--    if (type !=3D E820_RAM) {
--        /* old FW_CFG_E820_TABLE entry -- reservations only */
--        if (index >=3D E820_NR_ENTRIES) {
--            return -EBUSY;
--        }
--        entry =3D &e820_reserve.entry[index++];
--
--        entry->address =3D cpu_to_le64(address);
--        entry->length =3D cpu_to_le64(length);
--        entry->type =3D cpu_to_le32(type);
--
--        e820_reserve.count =3D cpu_to_le32(index);
--    }
--
--    /* new "etc/e820" file -- include ram too */
--    e820_table =3D g_renew(struct e820_entry, e820_table, e820_entries +=
- 1);
--    e820_table[e820_entries].address =3D cpu_to_le64(address);
--    e820_table[e820_entries].length =3D cpu_to_le64(length);
--    e820_table[e820_entries].type =3D cpu_to_le32(type);
--    e820_entries++;
--
--    return e820_entries;
--}
--
--int e820_get_num_entries(void)
--{
--    return e820_entries;
--}
--
--bool e820_get_entry(int idx, uint32_t type, uint64_t *address, uint64_t =
-*length)
--{
--    if (idx < e820_entries && e820_table[idx].type =3D=3D cpu_to_le32(ty=
-pe)) {
--        *address =3D le64_to_cpu(e820_table[idx].address);
--        *length =3D le64_to_cpu(e820_table[idx].length);
--        return true;
--    }
--    return false;
--}
--
- /* Enables contiguous-apic-ID mode, for compatibility */
- static bool compat_apic_id_mode;
+-static FWCfgState *bochs_bios_init(AddressSpace *as, PCMachineState *pcm=
+s)
++static FWCfgState *bochs_bios_init(PCMachineState *pcms)
+ {
+     FWCfgState *fw_cfg;
+     uint64_t *numa_fw_cfg;
+@@ -937,7 +937,8 @@ static FWCfgState *bochs_bios_init(AddressSpace *as, =
+PCMachineState *pcms)
+     const CPUArchIdList *cpus;
+     MachineClass *mc =3D MACHINE_GET_CLASS(pcms);
 =20
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index c54cc54a47..99b0a2e705 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -282,17 +282,6 @@ void pc_system_firmware_init(PCMachineState *pcms, M=
-emoryRegion *rom_memory);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
+-    fw_cfg =3D fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4, as=
+);
++    fw_cfg =3D fw_cfg_init_io_dma(FW_CFG_IO_BASE, FW_CFG_IO_BASE + 4,
++                                &address_space_memory);
+     fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, pcms->boot_cpus);
 =20
--/* e820 types */
--#define E820_RAM        1
--#define E820_RESERVED   2
--#define E820_ACPI       3
--#define E820_NVS        4
--#define E820_UNUSABLE   5
--
--int e820_add_entry(uint64_t, uint64_t, uint32_t);
--int e820_get_num_entries(void);
--bool e820_get_entry(int, uint32_t, uint64_t *, uint64_t *);
--
- extern GlobalProperty pc_compat_4_0[];
- extern const size_t pc_compat_4_0_len;
+     /* FW_CFG_MAX_CPUS is a bit confusing/problematic on x86:
+@@ -1762,7 +1763,7 @@ void pc_memory_init(PCMachineState *pcms,
+                                         option_rom_mr,
+                                         1);
 =20
-diff --git a/target/i386/kvm.c b/target/i386/kvm.c
-index e4b4f5756a..cd4eb1ed0d 100644
---- a/target/i386/kvm.c
-+++ b/target/i386/kvm.c
-@@ -38,6 +38,7 @@
- #include "hw/i386/apic-msidef.h"
- #include "hw/i386/intel_iommu.h"
- #include "hw/i386/x86-iommu.h"
-+#include "hw/i386/e820_memory_layout.h"
+-    fw_cfg =3D bochs_bios_init(&address_space_memory, pcms);
++    fw_cfg =3D bochs_bios_init(pcms);
 =20
- #include "hw/pci/pci.h"
- #include "hw/pci/msi.h"
+     rom_set_fw(fw_cfg);
+=20
 --=20
 2.20.1
 
