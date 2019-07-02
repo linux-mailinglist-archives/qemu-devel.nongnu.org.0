@@ -2,48 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4325C81C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:23:33 +0200 (CEST)
-Received: from localhost ([::1]:48632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FDC5C85C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:29:23 +0200 (CEST)
+Received: from localhost ([::1]:48758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiAKK-0000YH-Dk
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50609)
+	id 1hiAPy-0006am-6f
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:29:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51585)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <jasowang@redhat.com>) id 1hi8aa-0005RX-QC
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:13 -0400
+ (envelope-from <mreitz@redhat.com>) id 1hi8hN-00046e-KL
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:39:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <jasowang@redhat.com>) id 1hi8aZ-0003qF-Uk
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46502)
+ (envelope-from <mreitz@redhat.com>) id 1hi8hM-0006z4-FH
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:39:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43112)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hi8aZ-0003q5-OO
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:32:11 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ (Exim 4.71) (envelope-from <mreitz@redhat.com>)
+ id 1hi8hK-0006um-2a; Mon, 01 Jul 2019 22:39:10 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 15F8F821C7;
- Tue,  2 Jul 2019 02:32:11 +0000 (UTC)
-Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-232.pek2.redhat.com
- [10.72.12.232])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 779B260C43;
- Tue,  2 Jul 2019 02:32:09 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 10:31:29 +0800
-Message-Id: <1562034689-6539-18-git-send-email-jasowang@redhat.com>
-In-Reply-To: <1562034689-6539-1-git-send-email-jasowang@redhat.com>
-References: <1562034689-6539-1-git-send-email-jasowang@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+ by mx1.redhat.com (Postfix) with ESMTPS id 875F130C5859;
+ Tue,  2 Jul 2019 02:39:07 +0000 (UTC)
+Received: from localhost (ovpn-204-243.brq.redhat.com [10.40.204.243])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2197718984;
+ Tue,  2 Jul 2019 02:39:06 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Tue,  2 Jul 2019 04:39:01 +0200
+Message-Id: <20190702023905.32470-1-mreitz@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.28]); Tue, 02 Jul 2019 02:32:11 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.46]); Tue, 02 Jul 2019 02:39:07 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 17/17] migration/colo.c: Add missed filter
- notify for Xen COLO.
+Subject: [Qemu-devel] [PULL 0/4] Block patches for rc0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -55,34 +52,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7=
+c6:
 
-We need to notify net filter to do checkpoint for Xen COLO, like KVM side.
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull=
+-request' into staging (2019-07-01 17:40:32 +0100)
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- migration/colo.c | 2 ++
- 1 file changed, 2 insertions(+)
+are available in the Git repository at:
 
-diff --git a/migration/colo.c b/migration/colo.c
-index 8c16440..9f84b1f 100644
---- a/migration/colo.c
-+++ b/migration/colo.c
-@@ -259,6 +259,8 @@ ReplicationStatus *qmp_query_xen_replication_status(Error **errp)
- void qmp_xen_colo_do_checkpoint(Error **errp)
- {
-     replication_do_checkpoint_all(errp);
-+    /* Notify all filters of all NIC to do checkpoint */
-+    colo_notify_filters_event(COLO_EVENT_CHECKPOINT, errp);
- }
- #endif
- 
--- 
-2.5.0
+  https://github.com/XanClic/qemu.git tags/pull-block-2019-07-02
+
+for you to fetch changes up to c624b015bf14fe01f1e6452a36e63b3ea1ae4998:
+
+  block/stream: introduce a bottom node (2019-07-02 03:53:05 +0200)
+
+----------------------------------------------------------------
+Block patches for 4.1-rc0:
+- The stream job no longer relies on a fixed base node
+- The rbd block driver can now accomodate growing formats like qcow2
+
+----------------------------------------------------------------
+Andrey Shinkevich (3):
+  block: include base when checking image chain for block allocation
+  block/stream: refactor stream_run: drop goto
+  block/stream: introduce a bottom node
+
+Stefano Garzarella (1):
+  block/rbd: increase dynamically the image size
+
+ include/block/block.h  |  3 ++-
+ block/commit.c         |  2 +-
+ block/io.c             | 21 +++++++++++-----
+ block/mirror.c         |  2 +-
+ block/qcow2.c          |  3 ++-
+ block/rbd.c            | 42 ++++++++++++++++++++++++++++---
+ block/replication.c    |  2 +-
+ block/stream.c         | 56 ++++++++++++++++++++----------------------
+ qemu-img.c             |  2 +-
+ tests/qemu-iotests/245 |  4 +--
+ 10 files changed, 91 insertions(+), 46 deletions(-)
+
+--=20
+2.21.0
 
 
