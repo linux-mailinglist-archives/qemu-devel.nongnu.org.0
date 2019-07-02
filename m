@@ -2,82 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F2CB5C9F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 09:28:32 +0200 (CEST)
-Received: from localhost ([::1]:50100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678635C9CB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 09:11:29 +0200 (CEST)
+Received: from localhost ([::1]:49806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiDDL-0003L2-Hv
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 03:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33061)
+	id 1hiCwq-00065m-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 03:11:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36052)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <aravinda@linux.vnet.ibm.com>) id 1hiCDn-0002kl-68
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:24:56 -0400
+ (envelope-from <prvs=07907f462=shinichiro.kawasaki@wdc.com>)
+ id 1hiCWi-0001r1-V8
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:44:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <aravinda@linux.vnet.ibm.com>) id 1hiCDk-0003Fq-Sq
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:24:55 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37596)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
- id 1hiCDd-0003Dm-5K; Tue, 02 Jul 2019 02:24:45 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
- x626Gerg027710; Tue, 2 Jul 2019 02:24:33 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 2tg12kj1h4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Jul 2019 02:24:33 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x626JhlQ023680;
- Tue, 2 Jul 2019 06:24:32 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04dal.us.ibm.com with ESMTP id 2tdym6m4v3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Jul 2019 06:24:32 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- x626OV5N53936626
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 2 Jul 2019 06:24:31 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5C18178063;
- Tue,  2 Jul 2019 06:24:31 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1B98B7805C;
- Tue,  2 Jul 2019 06:24:28 +0000 (GMT)
-Received: from [9.102.27.232] (unknown [9.102.27.232])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue,  2 Jul 2019 06:24:27 +0000 (GMT)
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <156033104292.26635.15759339817253067370.stgit@aravinda>
- <156033126489.26635.3005245220857933178.stgit@aravinda>
- <20190702035105.GG6779@umbus.fritz.box>
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <fa2b5983-7cad-9679-489f-c273bd8216fb@linux.vnet.ibm.com>
-Date: Tue, 2 Jul 2019 11:54:26 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <20190702035105.GG6779@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
+ (envelope-from <prvs=07907f462=shinichiro.kawasaki@wdc.com>)
+ id 1hiCWf-0003n2-AW
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:44:28 -0400
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:12094)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71)
+ (envelope-from <prvs=07907f462=shinichiro.kawasaki@wdc.com>)
+ id 1hiCWb-0003gN-5d
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:44:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1562049874; x=1593585874;
+ h=from:to:cc:subject:date:message-id:references:
+ content-transfer-encoding:mime-version;
+ bh=SLYPvGXH97KKNEUTKs7Io3bEeR3zpBaBb+mXq2vnqsM=;
+ b=f20SK7Ex3Uw/rGEWigAtsx4GOFpNgTIbJuwmh4xfNmktRqU+C/DaqwGS
+ 4ojdz8zq6sVb35rw50yvWedeHnEdGAhg72v4sicETtEXjlXTZ/sV9rnC5
+ SOcsRglT0Eh4YLz7Niulp4/XGFrUfYfmQR5muot7fJGIzo47yXQfHqMaW
+ RS4tLimHTf9qhFHzCtBjCQaxHVT9Wbcw+3AfQls1NP/eLZX/obcJZCyMB
+ utWOSqu2cH961bbOrM9KgRUna5gOiDDu8NA8oJ7v3Ut+9vM7dZivQ0aMJ
+ RgKTLIlSeOV63YCJRWE2t2Hbu2XTITxaV0IleWqyHEgzd8yhhl/iIC/4I Q==;
+IronPort-SDR: XLDGpidCrBnRMxNKkc+l19DirvtUq30ngUD9/dp+1ReUXtx9GijROCKYjad0G3/HXHy63WBHX/
+ 39ZuGqMMrA7DlQf1XHut+fXWpyBDtwNIUJjCxBKfqAZxzBoDKTj9t/WnOadZHdcwODgtN8RFeE
+ nIpOE3LdDMJ34gYh4E9r43P4qpTBa/xK1KMwixdNUpFwlzwFVPSaXKFQBW0uire0ksUkbo9A+J
+ apjuaqT1v54A28hF7QRb6FoO9Ynp0Sv9/yMaTtB6igHFjNrPIYylCJ1NZFVB2nEwwAcsGyxd8U
+ dSE=
+X-IronPort-AV: E=Sophos;i="5.63,442,1557158400"; d="scan'208";a="211872513"
+Received: from mail-by2nam01lp2054.outbound.protection.outlook.com (HELO
+ NAM01-BY2-obe.outbound.protection.outlook.com) ([104.47.34.54])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Jul 2019 14:44:10 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iwc7CujttRyn9Z4Zt4LVqG4UoJ7NJvqGrr6QtYW7fxE=;
+ b=NzVYwfi1yKMtf1gKWuwCCCnxnKFIGKhacrBuShomLPtxRDaiblaDy4aGGknCl5eEJp6ILzDymjxKduIYJXWMR/uj4mvyQoly5dodTBywPtN5fflaVa6W275//Lnm5qQYFciYm7UwgcUazxleg3KmPpTB+0EaNXJTG7BCC2Us2xc=
+Received: from CY1PR04MB2268.namprd04.prod.outlook.com (10.167.10.135) by
+ CY1PR04MB2154.namprd04.prod.outlook.com (10.174.128.150) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2032.20; Tue, 2 Jul 2019 06:44:03 +0000
+Received: from CY1PR04MB2268.namprd04.prod.outlook.com
+ ([fe80::59c9:cdab:735b:411e]) by CY1PR04MB2268.namprd04.prod.outlook.com
+ ([fe80::59c9:cdab:735b:411e%3]) with mapi id 15.20.2032.019; Tue, 2 Jul 2019
+ 06:44:03 +0000
+From: Shinichiro Kawasaki <shinichiro.kawasaki@wdc.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Alistair Francis
+ <alistair23@gmail.com>
+Thread-Topic: [PATCH v1 1/1] hw/scsi: Report errors and sense to guests
+ through scsi-block
+Thread-Index: AQHVLHFNTNaoeJK+R0uVGvml8Q5ogQ==
+Date: Tue, 2 Jul 2019 06:44:03 +0000
+Message-ID: <CY1PR04MB22683409CB203BF5042697FBEDF80@CY1PR04MB2268.namprd04.prod.outlook.com>
+References: <97104495f5c945d25315aff1bd618e1a7bacf34c.1561589072.git.alistair.francis@wdc.com>
+ <1bd3ffcd-3f91-ecb9-2315-da7125f1dcdd@redhat.com>
+ <CAKmqyKPeo4XXVy3onoM4W14N5Nj7CFWX=JpDT-JQQRUPw5CQ3Q@mail.gmail.com>
+ <4428dc80-9ace-3bb0-a497-e3d416199bfd@redhat.com>
+ <CAKmqyKMRSJTMxZ5c-yyuownYF8vJLYrzr92cE4rkiTdP7tmUzg@mail.gmail.com>
+ <CY1PR04MB22682B84C1ABA7FB10752465EDF90@CY1PR04MB2268.namprd04.prod.outlook.com>
+ <79c9e21f-06b1-6255-97af-95c08b354c8a@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
- definitions=2019-07-02_03:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907020072
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [PATCH v10 2/6] ppc: spapr: Introduce FWNMI
- capability
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=shinichiro.kawasaki@wdc.com; 
+x-originating-ip: [199.255.47.11]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4e8141b1-be2a-49f8-01cc-08d6feb8ac0e
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+ RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+ SRVR:CY1PR04MB2154; 
+x-ms-traffictypediagnostic: CY1PR04MB2154:
+x-microsoft-antispam-prvs: <CY1PR04MB21541B60E31D8ACF10CDA654EDF80@CY1PR04MB2154.namprd04.prod.outlook.com>
+wdcipoutbound: EOP-TRUE
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 008663486A
+x-forefront-antispam-report: SFV:NSPM;
+ SFS:(10019020)(4636009)(136003)(366004)(376002)(396003)(346002)(39860400002)(199004)(189003)(186003)(86362001)(76176011)(26005)(6506007)(102836004)(53546011)(81166006)(71200400001)(7696005)(6436002)(229853002)(74316002)(8936002)(476003)(305945005)(256004)(76116006)(33656002)(99286004)(66066001)(73956011)(64756008)(66946007)(66556008)(91956017)(54906003)(66446008)(110136005)(446003)(14444005)(71190400001)(8676002)(52536014)(81156014)(5660300002)(44832011)(66476007)(7736002)(6116002)(25786009)(486006)(316002)(14454004)(4326008)(53936002)(6246003)(68736007)(3846002)(55016002)(2906002)(478600001)(9686003);
+ DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR04MB2154;
+ H:CY1PR04MB2268.namprd04.prod.outlook.com; FPR:; SPF:None; LANG:en;
+ PTR:InfoNoRecords; A:1; MX:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: sTcKMAdC6Zj47VMqE9J882oROI6gL9YMbekcsHLMF7/FPQcvHHyBM+51Az9GZWQyZeGVDPS6TNJ8CIin0CKuC0DbFh/Bz2rzzrwBGIC/Ip0QHKjzgnDZcM0SG2aQ46DR+lzMfvEZggbZ2s1pqSr2X9rxZJwRFh3/boYxBrxTWSo2muxcnCCc2Yu/XpWHG2ZXZEIToYwxhiPQSv0Bbl/GDlKyydB0C9rFufGvBIW7TwpjtQf6wiSZNRzHAoSJDWt00jqiwsfJlOK+o6/sdWHCYfGrprLY1Xrc5GXGBGku/VucAhjRPxglh1lhtXEvaXdHKknWEojt8tfIa8NsmMFU6VgS9KKli4KVzZaA+naIMhq3iRrHEnk5/6dA0cg373vKlT5G/iOV9/Pto+1RvHde5ToxVFkcXD94lA/CzCIFbLU=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e8141b1-be2a-49f8-01cc-08d6feb8ac0e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2019 06:44:03.1709 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: shinichiro.kawasaki@wdc.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR04MB2154
+X-detected-operating-system: by eggs.gnu.org: FreeBSD 9.x
+X-Received-From: 68.232.143.124
+Subject: Re: [Qemu-devel] [PATCH v1 1/1] hw/scsi: Report errors and sense to
+ guests through scsi-block
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -89,225 +124,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, groug@kaod.org, paulus@ozlabs.org,
- qemu-ppc@nongnu.org
+Cc: "fam@euphon.net" <fam@euphon.net>,
+ Alistair Francis <Alistair.Francis@wdc.com>, "qemu-devel@nongnu.org
+ Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On Tuesday 02 July 2019 09:21 AM, David Gibson wrote:
-> On Wed, Jun 12, 2019 at 02:51:04PM +0530, Aravinda Prasad wrote:
->> Introduce the KVM capability KVM_CAP_PPC_FWNMI so that
->> the KVM causes guest exit with NMI as exit reason
->> when it encounters a machine check exception on the
->> address belonging to a guest. Without this capability
->> enabled, KVM redirects machine check exceptions to
->> guest's 0x200 vector.
->>
->> This patch also introduces fwnmi-mce capability to
->> deal with the case when a guest with the
->> KVM_CAP_PPC_FWNMI capability enabled is attempted
->> to migrate to a host that does not support this
->> capability.
->>
->> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
->> ---
->>  hw/ppc/spapr.c         |    1 +
->>  hw/ppc/spapr_caps.c    |   26 ++++++++++++++++++++++++++
->>  include/hw/ppc/spapr.h |    4 +++-
->>  target/ppc/kvm.c       |   19 +++++++++++++++++++
->>  target/ppc/kvm_ppc.h   |   12 ++++++++++++
->>  5 files changed, 61 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index 6dd8aaa..2ef86aa 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -4360,6 +4360,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
->>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] = SPAPR_CAP_OFF;
->>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
->>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_OFF;
->> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] = SPAPR_CAP_OFF;
->>      spapr_caps_add_properties(smc, &error_abort);
->>      smc->irq = &spapr_irq_dual;
->>      smc->dr_phb_enabled = true;
->> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
->> index 31b4661..2e92eb6 100644
->> --- a/hw/ppc/spapr_caps.c
->> +++ b/hw/ppc/spapr_caps.c
->> @@ -479,6 +479,22 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
->>      }
->>  }
->>  
->> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
->> +                                Error **errp)
->> +{
->> +    if (!val) {
->> +        return; /* Disabled by default */
->> +    }
->> +
->> +    if (tcg_enabled()) {
->> +        error_setg(errp,
->> +"No Firmware Assisted Non-Maskable Interrupts support in TCG, try cap-fwnmi-mce=off");
-> 
-> Not allowing this for TCG creates an awkward incompatibility between
-> KVM and TCG guests.  I can't actually see any reason to ban it for TCG
-> - with the current code TCG won't ever generate NMIs, but I don't see
-> that anything will actually break.
-> 
-> In fact, we do have an nmi monitor command, currently wired to the
-> spapr_nmi() function which resets each cpu, but it probably makes
-> sense to wire it up to the fwnmi stuff when present.
-
-Yes, but that nmi support is not enough to inject a synchronous error
-into the guest kernel. For example, we should provide the faulty address
-along with other information such as the type of error (slb multi-hit,
-memory error, TLB multi-hit) and when the error occurred (load/store)
-and whether the error was completely recovered or not. Without such
-information we cannot build the error log and pass it on to the guest
-kernel. Right now nmi monitor command takes cpu number as the only argument.
-
-So I think TCG support should be a separate patch by itself.
-
-Regards,
-Aravinda
-
-> 
->> +    } else if (kvm_enabled() && !kvmppc_has_cap_ppc_fwnmi()) {
->> +        error_setg(errp,
->> +"Firmware Assisted Non-Maskable Interrupts not supported by KVM, try cap-fwnmi-mce=off");
->> +    }
->> +}
->> +
->>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
->>      [SPAPR_CAP_HTM] = {
->>          .name = "htm",
->> @@ -578,6 +594,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
->>          .type = "bool",
->>          .apply = cap_ccf_assist_apply,
->>      },
->> +    [SPAPR_CAP_FWNMI_MCE] = {
->> +        .name = "fwnmi-mce",
->> +        .description = "Handle fwnmi machine check exceptions",
->> +        .index = SPAPR_CAP_FWNMI_MCE,
->> +        .get = spapr_cap_get_bool,
->> +        .set = spapr_cap_set_bool,
->> +        .type = "bool",
->> +        .apply = cap_fwnmi_mce_apply,
->> +    },
->>  };
->>  
->>  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
->> @@ -717,6 +742,7 @@ SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
->>  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
->>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
->>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
->> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
->>  
->>  void spapr_caps_init(SpaprMachineState *spapr)
->>  {
->> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->> index 4f5becf..f891f8f 100644
->> --- a/include/hw/ppc/spapr.h
->> +++ b/include/hw/ppc/spapr.h
->> @@ -78,8 +78,10 @@ typedef enum {
->>  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
->>  /* Count Cache Flush Assist HW Instruction */
->>  #define SPAPR_CAP_CCF_ASSIST            0x09
->> +/* FWNMI machine check handling */
->> +#define SPAPR_CAP_FWNMI_MCE             0x0A
->>  /* Num Caps */
->> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
->> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
->>  
->>  /*
->>   * Capability Values
->> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
->> index 3bf0a46..afef4cd 100644
->> --- a/target/ppc/kvm.c
->> +++ b/target/ppc/kvm.c
->> @@ -84,6 +84,7 @@ static int cap_ppc_safe_indirect_branch;
->>  static int cap_ppc_count_cache_flush_assist;
->>  static int cap_ppc_nested_kvm_hv;
->>  static int cap_large_decr;
->> +static int cap_ppc_fwnmi;
->>  
->>  static uint32_t debug_inst_opcode;
->>  
->> @@ -152,6 +153,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->>      kvmppc_get_cpu_characteristics(s);
->>      cap_ppc_nested_kvm_hv = kvm_vm_check_extension(s, KVM_CAP_PPC_NESTED_HV);
->>      cap_large_decr = kvmppc_get_dec_bits();
->> +    cap_ppc_fwnmi = kvm_check_extension(s, KVM_CAP_PPC_FWNMI);
->>      /*
->>       * Note: setting it to false because there is not such capability
->>       * in KVM at this moment.
->> @@ -2114,6 +2116,18 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
->>      }
->>  }
->>  
->> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
->> +{
->> +    CPUState *cs = CPU(cpu);
->> +
->> +    if (!cap_ppc_fwnmi) {
->> +        return 1;
->> +    }
->> +
->> +    return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
->> +}
->> +
->> +
->>  int kvmppc_smt_threads(void)
->>  {
->>      return cap_ppc_smt ? cap_ppc_smt : 1;
->> @@ -2414,6 +2428,11 @@ bool kvmppc_has_cap_mmu_hash_v3(void)
->>      return cap_mmu_hash_v3;
->>  }
->>  
->> +bool kvmppc_has_cap_ppc_fwnmi(void)
->> +{
->> +    return cap_ppc_fwnmi;
->> +}
->> +
->>  static bool kvmppc_power8_host(void)
->>  {
->>      bool ret = false;
->> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
->> index 45776ca..880cee9 100644
->> --- a/target/ppc/kvm_ppc.h
->> +++ b/target/ppc/kvm_ppc.h
->> @@ -27,6 +27,8 @@ void kvmppc_enable_h_page_init(void);
->>  void kvmppc_set_papr(PowerPCCPU *cpu);
->>  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
->>  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
->> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu);
->> +bool kvmppc_has_cap_ppc_fwnmi(void);
->>  int kvmppc_smt_threads(void);
->>  void kvmppc_hint_smt_possible(Error **errp);
->>  int kvmppc_set_smt_threads(int smt);
->> @@ -158,6 +160,16 @@ static inline void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy)
->>  {
->>  }
->>  
->> +static inline int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
->> +{
->> +    return 1;
->> +}
->> +
->> +static inline bool kvmppc_has_cap_ppc_fwnmi(void)
->> +{
->> +    return false;
->> +}
->> +
->>  static inline int kvmppc_smt_threads(void)
->>  {
->>      return 1;
->>
-> 
-
--- 
-Regards,
-Aravinda
+On 7/1/19 8:56 PM, Paolo Bonzini wrote:=0A=
+> On 01/07/19 12:14, Shinichiro Kawasaki wrote:=0A=
+>> I observe four of them listed below in sense data,=0A=
+>> when I ran basic operations to the zoned storage from the guest via scsi=
+-block.=0A=
+>>=0A=
+>>       21h 04h: UNALIGNED WRITE COMMAND=0A=
+>>       21h 05h: WRITE BOUNDARY VIOLATION=0A=
+>>       21h 06h: ATTEMPT TO READ INVALID DATA=0A=
+>>       55h 0Eh: INSUFFICIENT ZONE RESOURCES=0A=
+>>=0A=
+>> These ASCs can be reported for write or read commands due to unexpected =
+zone=0A=
+>> status or write pointer status. Reporting these ASCs to the guest, the u=
+ser=0A=
+>> applications can handle them to manage zone/write pointer status, or hel=
+p the=0A=
+>> user application developers to understand the failure reason and fix bug=
+s.=0A=
+>>=0A=
+>> I took a look in scsi_sense_to_errno() and learned that ASCs are grouped=
+ in=0A=
+>> errnos. To report the ASCs above to the guest, is it good to add them in=
+ EINVAL=0A=
+>> group defined in scsi_sense_to_errno()? The ASCs are reported with sense=
+ key=0A=
+>> ILLEGAL_REQUEST or DATA_PROTECT, then I think it fits in the function.=
+=0A=
+> =0A=
+> The grouping by errno is historical and pretty much broken.  It should=0A=
+> be possible to change it to return just a bool.=0A=
+=0A=
+The errno grouping of scsi_sense_to_errno() is used not only by scsi-disk b=
+ut =0A=
+also by block/iscsi for error reporting. Can we avoid errno grouping for is=
+csi also?=0A=
+=0A=
+If the errno grouping is not valuable for iscsi, single error code (EIO?) c=
+an be =0A=
+reported for all iscsi failures. If the errno grouping is useful for iscsi,=
+ I =0A=
+can create a patch to avoid errno grouping only for scsi-disk, leaving =0A=
+scsi_sense_to_errno() for iscsi.=0A=
+=0A=
+-- =0A=
+Best Regards,=0A=
+Shin'ichiro Kawasaki=0A=
 
