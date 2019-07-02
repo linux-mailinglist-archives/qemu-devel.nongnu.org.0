@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E6B5C76A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 04:42:07 +0200 (CEST)
-Received: from localhost ([::1]:47440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9426B5C78A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:04:47 +0200 (CEST)
+Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi8kA-0005aZ-F3
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 22:42:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47190)
+	id 1hi966-0001zq-Nj
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:04:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hi5rk-0000Xu-Sb
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 19:37:46 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hi78a-0002UH-Uq
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:59:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hi5ri-0002p2-Vw
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 19:37:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47656)
+ (envelope-from <dgibson@ozlabs.org>) id 1hi78Y-0000ie-TJ
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 20:59:12 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:60235)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>)
- id 1hi5r2-0002V6-Te; Mon, 01 Jul 2019 19:37:04 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 175547FDCD;
- Mon,  1 Jul 2019 23:36:31 +0000 (UTC)
-Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 60C811001B01;
- Mon,  1 Jul 2019 23:36:25 +0000 (UTC)
-Date: Mon, 1 Jul 2019 20:36:24 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190701233624.GL5198@habkost.net>
-References: <20190627212816.27298-1-jsnow@redhat.com>
- <002c8b04-250e-0f33-b623-7e3fd14e7b80@redhat.com>
- <20190701212725.GH5198@habkost.net>
- <7bbbb0fd-2aff-d1bf-bc59-abe62b0a6a04@redhat.com>
+ (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+ id 1hi78V-0000h6-GG; Mon, 01 Jul 2019 20:59:09 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 45d5Tq6MMSz9s4Y; Tue,  2 Jul 2019 10:58:55 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1562029135;
+ bh=pJ2SCeAWY/qqUPzlnpXBCpT9nYH0ePBqfdmY3UTvV3E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bYetACBbFKIiIjaSSnniNyCrrQ8gQqPAz90/8/e+vYwbUax4JLNF3eKvShqPmizg3
+ I9z2Wu79fzEOhHO6KX1h4ab5E162h9c57OC9Fcnn1FI9HmOrwnJncZ/5soHHpWwt/4
+ 4PL9qoqujEuMBH0+DfMUrWX1DW4djYyzQryf2ZMQ=
+Date: Tue, 2 Jul 2019 10:11:58 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190702001158.GD6779@umbus.fritz.box>
+References: <156198735673.293938.7313195993600841641.stgit@bahia>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3Gf/FFewwPeBMqCJ"
 Content-Disposition: inline
-In-Reply-To: <7bbbb0fd-2aff-d1bf-bc59-abe62b0a6a04@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.27]); Mon, 01 Jul 2019 23:36:31 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC PATCH v2 0/3] python: refactor
- qemu/__init__.py
+In-Reply-To: <156198735673.293938.7313195993600841641.stgit@bahia>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [REPOST PATCH for-4.1] spapr/xive: Add proper
+ rollback to kvmppc_xive_connect()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,51 +56,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 01, 2019 at 07:17:39PM -0400, John Snow wrote:
-> 
-> 
-> On 7/1/19 5:27 PM, Eduardo Habkost wrote:
-> > On Thu, Jun 27, 2019 at 05:32:17PM -0400, John Snow wrote:
-> >> I didn't actually mean to retain the RFC tag, but oh well.
-> > 
-> > I'm queueing patch 1-2 for QEMU 4.1.
-> > 
-> > Patch 3 will require more careful review.  If you can demonstrate
-> > it fixes a problem in some use cases, we can call it a bug fix
-> > and include it after soft freeze.  ;)
-> > 
-> 
-> Right.
-> 
-> Mostly, it's that it ignores things like ctrl^c -- it ignores ANY
-> failure. I don't think that it should.
 
-Agreed.
+--3Gf/FFewwPeBMqCJ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> In cases where QEMU crashes, the caller will now get an exception -- but
-> the cleanup will still faithfully execute. There are some exceptions we
-> may genuinely wish to suppress here, but it's hard to enumerate which
-> ones without going too broadly.
-> 
-> It's fine to exclude this for now, but I think it's still something we
-> want eventually.
+On Mon, Jul 01, 2019 at 03:22:36PM +0200, Greg Kurz wrote:
+> Make kvmppc_xive_disconnect() able to undo the changes of a partial
+> execution of kvmppc_xive_connect() and use it to perform rollback.
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
 
-We just need to ensure all callers of shutdown() are ready for
-this change.  I know that scripts/device-crash-test expects
-shutdown() to not raise an exception if QEMU crashed, inside
-checkOneTestCase().  Maybe that's the only caller that needs to
-change.
+Applied, thanks.
 
--- 
-Eduardo
+> ---
+>=20
+> David,
+>=20
+> This is the only pending fix for XIVE, rebased on ppc-for-4.1.
+>=20
+> SHA1 d6923ffa0748af614e7d2c82d6cb76b8078dfaf5
+> ---
+>  hw/intc/spapr_xive_kvm.c |   48 ++++++++++++++++++++++++++++------------=
+------
+>  1 file changed, 29 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+> index 5559f8bce5ef..3bf8e7a20e14 100644
+> --- a/hw/intc/spapr_xive_kvm.c
+> +++ b/hw/intc/spapr_xive_kvm.c
+> @@ -724,8 +724,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
+p)
+>      xsrc->esb_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_ESB_PAGE_OFFSET, =
+esb_len,
+>                                        &local_err);
+>      if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> +        goto fail;
+>      }
+> =20
+>      memory_region_init_ram_device_ptr(&xsrc->esb_mmio_kvm, OBJECT(xsrc),
+> @@ -743,8 +742,7 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **err=
+p)
+>      xive->tm_mmap =3D kvmppc_xive_mmap(xive, KVM_XIVE_TIMA_PAGE_OFFSET, =
+tima_len,
+>                                       &local_err);
+>      if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> +        goto fail;
+>      }
+>      memory_region_init_ram_device_ptr(&xive->tm_mmio_kvm, OBJECT(xive),
+>                                        "xive.tima", tima_len, xive->tm_mm=
+ap);
+> @@ -760,21 +758,24 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **e=
+rrp)
+> =20
+>          kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
+>          if (local_err) {
+> -            error_propagate(errp, local_err);
+> -            return;
+> +            goto fail;
+>          }
+>      }
+> =20
+>      /* Update the KVM sources */
+>      kvmppc_xive_source_reset(xsrc, &local_err);
+>      if (local_err) {
+> -            error_propagate(errp, local_err);
+> -            return;
+> +        goto fail;
+>      }
+> =20
+>      kvm_kernel_irqchip =3D true;
+>      kvm_msi_via_irqfd_allowed =3D true;
+>      kvm_gsi_direct_mapping =3D true;
+> +    return;
+> +
+> +fail:
+> +    error_propagate(errp, local_err);
+> +    kvmppc_xive_disconnect(xive, NULL);
+>  }
+> =20
+>  void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
+> @@ -796,23 +797,29 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error =
+**errp)
+>      xsrc =3D &xive->source;
+>      esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
+> =20
+> -    memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm);
+> -    object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
+> -    munmap(xsrc->esb_mmap, esb_len);
+> -    xsrc->esb_mmap =3D NULL;
+> +    if (xsrc->esb_mmap) {
+> +        memory_region_del_subregion(&xsrc->esb_mmio, &xsrc->esb_mmio_kvm=
+);
+> +        object_unparent(OBJECT(&xsrc->esb_mmio_kvm));
+> +        munmap(xsrc->esb_mmap, esb_len);
+> +        xsrc->esb_mmap =3D NULL;
+> +    }
+> =20
+> -    memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
+> -    object_unparent(OBJECT(&xive->tm_mmio_kvm));
+> -    munmap(xive->tm_mmap, 4ull << TM_SHIFT);
+> -    xive->tm_mmap =3D NULL;
+> +    if (xive->tm_mmap) {
+> +        memory_region_del_subregion(&xive->tm_mmio, &xive->tm_mmio_kvm);
+> +        object_unparent(OBJECT(&xive->tm_mmio_kvm));
+> +        munmap(xive->tm_mmap, 4ull << TM_SHIFT);
+> +        xive->tm_mmap =3D NULL;
+> +    }
+> =20
+>      /*
+>       * When the KVM device fd is closed, the KVM device is destroyed
+>       * and removed from the list of devices of the VM. The VCPU
+>       * presenters are also detached from the device.
+>       */
+> -    close(xive->fd);
+> -    xive->fd =3D -1;
+> +    if (xive->fd !=3D -1) {
+> +        close(xive->fd);
+> +        xive->fd =3D -1;
+> +    }
+> =20
+>      kvm_kernel_irqchip =3D false;
+>      kvm_msi_via_irqfd_allowed =3D false;
+> @@ -822,5 +829,8 @@ void kvmppc_xive_disconnect(SpaprXive *xive, Error **=
+errp)
+>      kvm_cpu_disable_all();
+> =20
+>      /* VM Change state handler is not needed anymore */
+> -    qemu_del_vm_change_state_handler(xive->change);
+> +    if (xive->change) {
+> +        qemu_del_vm_change_state_handler(xive->change);
+> +        xive->change =3D NULL;
+> +    }
+>  }
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--3Gf/FFewwPeBMqCJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl0aoU4ACgkQbDjKyiDZ
+s5LGeA/9ETGiiIShlgGABbfxrJjnx6TKe5i+7uPrSp8Uv2gmSywq7PByexm4p/u2
++quMJ7J9PXyycPiuqHJNLnlaaVyWOEX/7BqMrrd0LvvadEnwGhEmN2vBU/Fpi8X2
+Bse+eEDp8zsHgI/05FLE6pccShrq6cCAXT4UZakATBvbZLP3++znNZAuXsSGyuq2
+D26eEFmslkt15VMEINXF2xtb4CmR/ATH3xHb6lzmcz5T27wieVGrkF0F8xGTAdBs
+f7g2KorlYe+INAZ/jL0GPPRS3srPrPrOM517PLeby3vdwC47SsO6BQRJdZR46e9Z
+SiXTYcueflPBALTQHRkKgg6lFu45xHRmMZUPmr5gVKl6R0mefFksrutisxXa/Rvl
+rUYeUahSpkr35G7nlJQDCVhvoU0FqCRiPspr9+GjPO9JsNTx/D1wF+MwyzagvfVV
+AvCxQq/jfUaKtET4lOgiyzA9YrzU3mYTSYHnj1glAvuHAV5lF6jcChCZvld0Pdjw
+zC96TAPjG8G24AW4Mr7Te23By7FGMish4fFaQCtK3geE0q/ULrbiWq2he0ksDDzk
+8+zOzxRj0/9VJ7KvlT+gRERhclTVEnVDS11OsEVbIqb9DtM5Ia3xWzk8u7Y0+bEp
+4NdLeYyi34v7VJzsrCsZcspO5EfJV1P0ut1rbYHFSkO3V5MRPFg=
+=utKB
+-----END PGP SIGNATURE-----
+
+--3Gf/FFewwPeBMqCJ--
 
