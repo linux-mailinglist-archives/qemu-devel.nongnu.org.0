@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1D25CCBD
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 11:39:45 +0200 (CEST)
-Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FA575CCC9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 11:41:36 +0200 (CEST)
+Received: from localhost ([::1]:51102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiFGK-0003j6-Ct
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 05:39:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
+	id 1hiFI6-0004jp-SZ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 05:41:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38365)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <berrange@redhat.com>) id 1hiFF4-0002sZ-Ow
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:38:27 -0400
+ (envelope-from <berrange@redhat.com>) id 1hiFGk-0004DG-VP
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:40:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <berrange@redhat.com>) id 1hiFF3-00054c-BL
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:38:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58122)
+ (envelope-from <berrange@redhat.com>) id 1hiFGj-0005Ql-Ar
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:40:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33728)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hiFF3-00054V-5A
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:38:25 -0400
+ (Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hiFGj-0005QN-4J
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 05:40:09 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 1AE62C1EB21D
- for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 09:38:24 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 09B4D356CD
+ for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 09:40:08 +0000 (UTC)
 Received: from redhat.com (ovpn-112-16.ams2.redhat.com [10.36.112.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B4B760C43;
- Tue,  2 Jul 2019 09:38:21 +0000 (UTC)
-Date: Tue, 2 Jul 2019 10:38:17 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 68A404251;
+ Tue,  2 Jul 2019 09:40:04 +0000 (UTC)
+Date: Tue, 2 Jul 2019 10:40:00 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190702093817.GK21569@redhat.com>
+Message-ID: <20190702094000.GL21569@redhat.com>
 References: <20190628002844.24894-1-ehabkost@redhat.com>
- <20190628002844.24894-5-ehabkost@redhat.com>
+ <20190628002844.24894-6-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190628002844.24894-5-ehabkost@redhat.com>
+In-Reply-To: <20190628002844.24894-6-ehabkost@redhat.com>
 User-Agent: Mutt/1.12.0 (2019-05-25)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.32]); Tue, 02 Jul 2019 09:38:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.30]); Tue, 02 Jul 2019 09:40:08 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 4/9] i386: Register versioned CPU models
+Subject: Re: [Qemu-devel] [PATCH v2 5/9] i386: Define -IBRS, -noTSX,
+ -IBRS versions of CPU models
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -64,39 +65,22 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 27, 2019 at 09:28:39PM -0300, Eduardo Habkost wrote:
-> Add support for registration of multiple versions of CPU models.
+On Thu, Jun 27, 2019 at 09:28:40PM -0300, Eduardo Habkost wrote:
+> Add versions of CPU models that are equivalent to their -IBRS,
+> -noTSX and -IBRS variants.
 >=20
-> The existing CPU models will be registered with a "-v1" suffix.
->=20
-> The -noTSX, -IBRS, and -IBPB CPU model variants will become
-> versions of the original models in a separate patch, so
-> make sure we register no versions for them.
+> The separate variants will eventually be removed and become
+> aliases for these CPU versions.
 >=20
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
-> Patch v1 was "[PATCH 4/6] i386: Infrastructure for versioned CPU
-> models", and was split into multiple patches.
->=20
-> Changes v1 -> v2:
-> * Make version numbers simple integers, completely independent
->   from machine type versions
-> * Don't register versions for -noTSX, -IBRS, and -IBPB CPU models
-> * Code for reporting alias-of on query-cpu-definitions is now in
->   a separate patch
-> * Code for machine-type compatibility is now in a separate patch
-> * New X86CPUVersion typedef
-> * New CPU_VERSION_* defines to make X86CPUModel::version
->   semantics clearer
+> (New patch, added to series in v2)
 > ---
->  target/i386/cpu-qom.h                      |  10 +-
->  target/i386/cpu.h                          |  10 +
->  target/i386/cpu.c                          | 223 +++++++++++++++++++--
->  tests/acceptance/x86_cpu_model_versions.py | 105 ++++++++++
->  4 files changed, 318 insertions(+), 30 deletions(-)
->  create mode 100644 tests/acceptance/x86_cpu_model_versions.py
+>  target/i386/cpu.c | 186 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 186 insertions(+)
 
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+
 
 
 Regards,
