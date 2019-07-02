@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1525C947
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:25:30 +0200 (CEST)
-Received: from localhost ([::1]:49466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B92E75C960
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:36:40 +0200 (CEST)
+Received: from localhost ([::1]:49546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCEL-0002A8-8y
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:25:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58542)
+	id 1hiCP9-0002HG-Sr
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58821)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByn-00055m-DT
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:28 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiBzK-0005Ng-FI
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:10:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiBym-0002yV-0t
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:25 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55627 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiBzI-0003GD-JH
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:58 -0400
+Received: from ozlabs.org ([203.11.71.1]:53127)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiByl-0002uW-I3; Tue, 02 Jul 2019 02:09:23 -0400
+ id 1hiBzH-0002wG-Cc; Tue, 02 Jul 2019 02:09:55 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMk31STz9sQp; Tue,  2 Jul 2019 16:09:05 +1000 (AEST)
+ id 45dDMk4QNRz9sQx; Tue,  2 Jul 2019 16:09:05 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1562047746;
- bh=xQLujcppXzYZL936PFhH4Oiy7+tPKkVm9ZN46+bvTWg=;
+ bh=aYdVUD9TY91wmtYbmrNUJyyN1R8X32PzBPjRraQ5umg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BFE66Eppic9JqJrxhvSqEzKfB38iJpTwKGn1A8myavw1TsR9xECvI5XSiicgqYVmy
- d4/fo5cHZov2jOTFgfqQOmd/j2NjHFx9V9fck5lGiIfBdIQyh7B5GhRGk21VjJ3YgO
- etWbSy/oJ/rM027d824Bz3WhOfNZaaEjX6xn7qw8=
+ b=nHVmeTsykqw+0dp5LcMmWra0pHOk3thuAv0vCnLt5xzBEKp3HiFEcSYSh0g6fCKu9
+ i7FyUWGb5QFm+/sZ/x0Z3fJNgU6eCsHM+4etTLP93uTpQoRGizJCHPSdd4Osf/sRb2
+ P3WciNswYQmaSu/XH+y4dGRUiuaeb1h6sK90gI5U=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:30 +1000
-Message-Id: <20190702060857.3926-23-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:31 +1000
+Message-Id: <20190702060857.3926-24-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 22/49] xics/spapr: Rename xics_kvm_init()
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 23/49] xics/kvm: Skip rollback when KVM XICS is
+ absent
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,62 +62,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Switch to using the connect/disconnect terminology like we already do for
-XIVE.
+There is no need to rollback anything at this point, so just return an
+error.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156077920102.433243.6605099291134598170.stgit@bahia.lan>
+Message-Id: <156077920657.433243.13541093940589972734.stgit@bahia.lan>
 Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xics_kvm.c          | 2 +-
- hw/ppc/spapr_irq.c          | 2 +-
- include/hw/ppc/xics_spapr.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ hw/intc/xics_kvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index c7f8f5edd2..534515143e 100644
+index 534515143e..377ff88701 100644
 --- a/hw/intc/xics_kvm.c
 +++ b/hw/intc/xics_kvm.c
-@@ -331,7 +331,7 @@ void ics_kvm_set_irq(ICSState *ics, int srcno, int va=
-l)
+@@ -348,7 +348,7 @@ int xics_kvm_connect(SpaprMachineState *spapr, Error =
+**errp)
+     if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_IRQ_XI=
+CS)) {
+         error_setg(errp,
+                    "KVM and IRQ_XICS capability must be present for in-k=
+ernel XICS");
+-        goto fail;
++        return -1;
      }
- }
 =20
--int xics_kvm_init(SpaprMachineState *spapr, Error **errp)
-+int xics_kvm_connect(SpaprMachineState *spapr, Error **errp)
- {
-     int rc;
-     CPUState *cs;
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index 75654fc67a..b2b01e850d 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -243,7 +243,7 @@ static void spapr_irq_init_emu_xics(SpaprMachineState=
- *spapr, Error **errp)
- static void spapr_irq_init_kvm_xics(SpaprMachineState *spapr, Error **er=
-rp)
- {
-     if (kvm_enabled()) {
--        xics_kvm_init(spapr, errp);
-+        xics_kvm_connect(spapr, errp);
-     }
- }
-=20
-diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 3304481262..5dabc9a138 100644
---- a/include/hw/ppc/xics_spapr.h
-+++ b/include/hw/ppc/xics_spapr.h
-@@ -33,7 +33,7 @@
-=20
- void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
-fdt,
-                    uint32_t phandle);
--int xics_kvm_init(SpaprMachineState *spapr, Error **errp);
-+int xics_kvm_connect(SpaprMachineState *spapr, Error **errp);
- void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
- bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
- void xics_spapr_init(SpaprMachineState *spapr);
+     rc =3D kvmppc_define_rtas_kernel_token(RTAS_IBM_SET_XIVE, "ibm,set-x=
+ive");
 --=20
 2.21.0
 
