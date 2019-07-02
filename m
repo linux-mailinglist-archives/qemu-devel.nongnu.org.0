@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005AB5D520
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:20:49 +0200 (CEST)
-Received: from localhost ([::1]:55518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 106085D539
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 19:27:18 +0200 (CEST)
+Received: from localhost ([::1]:55560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiMSX-0007vF-5B
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:20:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42124)
+	id 1hiMYn-0003wS-8o
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 13:27:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiL8k-0004dB-Kv
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:56:19 -0400
+ (envelope-from <peter.maydell@linaro.org>) id 1hiLAk-0005XX-8E
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:58:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiL8j-0004Qb-OJ
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:56:18 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:45040)
+ (envelope-from <peter.maydell@linaro.org>) id 1hiLAg-0005Mm-LC
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:58:20 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:40527)
  by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
  (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiL8j-0004Q7-Gz
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:56:17 -0400
-Received: by mail-oi1-x242.google.com with SMTP id e189so13410818oib.11
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:56:16 -0700 (PDT)
+ id 1hiLAd-0005KG-OH
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:58:16 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id w196so13446332oie.7
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:58:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EclnfeMCC4Vy2ZH4pD0IeuHhx63jHxsyQhxDc8MAMr4=;
- b=NlPfKOKDQEbHhmGQz4Dcw4HwRJ2tO24I+dRUmLRNNIdiuHjg1sX6NMZwTuiQn3XNE7
- n5cLOew12fuRIYxR+xx4qdr+GnHP55GAO7Ez5Vvv1KQ4uEzibWXQY83D5RjAa/kEnMRv
- R0IwNX8nBOsRi8l+OaBK4V7m1SGLMoqnKnwkF21UfuBxMlDQhdGeW6lcRJFDA3mVV+J3
- a4IG5AovaKPPRpoOU5vBNRLT/moPFXAhzuYQNFJCQFzqHqd5gdohdHPg8LQu9ok3JLPQ
- dbcySCKiDNzxN0FB9pTA46DAml6DoWwpWE/PbzU0FZ6zJY4Vfv5clLMvV1KmtXseJFIp
- nGRA==
+ :cc; bh=i5CFcSOBl3zSPfSEQpHWQnAZs0QnOiOb4RIFgbQcGy4=;
+ b=ICKSsP0catHNia/xFPkb/Sk8zc1B18mp7ZNlGsRuDQUgGiOxb+G6ClD5YNC4Jn8M3E
+ GK+x+2YKINOhksaL18GwE/IjronzFq1bFHY7io+6FGOLaZGkfGN4Cs9YFLdlr5ooGXub
+ wjdTe6E/H7ETu4e2lcRQ3At2OgknaUoou1HhYTfYBLUj3fIKJyxveUHoZtWBv2Z63c4f
+ OvtNE7njVeUXKbpK8LycCBqSsNbN8QWd/Y0ymA6/yG87LM5V5KQtWG2e+KNa0IMFBGeR
+ /YCy6LHbKBwunW5owFK9hH7gIydtRJjfyTA2kFe9mVXkTKZ14xoch7E5C7B0/fdgHqqU
+ 9rJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EclnfeMCC4Vy2ZH4pD0IeuHhx63jHxsyQhxDc8MAMr4=;
- b=QtUDY1mb/JBwob5Jdd2nB/HHWcFT9UWoz5VC277gIy3s8XBeYBNonOATvPgXaFfiEY
- ONwV/AkzmEnFtiBr+bd9sgplwnJr5t6wkvh8K88RWXKYC8BDQhX5KpnPPDTt8lNqADwU
- z5Ym4sRXYXsMo6vyWlKmfAJqgktf2MN8nEepUHSZOyO75PgeSRz4E6isAGP8DNFOlu6Z
- xRmcocCtsplza/WB2yf1Y7t8q3hIXOl7lcOjP1qp3QMVPmLuJX5amnSnBOiLDjzfAQyY
- 2hDt603n8ye3WNTydv2TgB9sAow0IH2+fpKarUK+/a9YMUBp0pbDWj+JlZiI0eBohapO
- queg==
-X-Gm-Message-State: APjAAAXiUVbo/enj3EullOwP7VjNV+o1kVXzKNur4sej8p1GB7FEfAdG
- PnyESmWjSaKekBhZ1wIcjiPmxGWsXOL30dxMmqskNg==
-X-Google-Smtp-Source: APXvYqxYeDskdNOntWzSE7MYn2WT8GNOn1BBe44hn0v/lAnqo2bB33wL8ncLxf0X4M6aCQQN6KUkE0Teso4nnOg10Wo=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr3603699oib.163.1562082976071; 
- Tue, 02 Jul 2019 08:56:16 -0700 (PDT)
+ bh=i5CFcSOBl3zSPfSEQpHWQnAZs0QnOiOb4RIFgbQcGy4=;
+ b=NxrHVbKL5S1siOadHsSR6lS4SA11P6LIUvZMGccU47zdTZK9iX1agDEc2a8zw7T1MP
+ YuZo8tLHk+4W4RDGBv7eoO6T5CgsptzOjotjqtzedZyLBchp6efCB6rveUjZrv57J6Ux
+ MZhHiCwoRtloWVzntjVBQNgVVCCV4tZO1gKgX5AtRpb/b1jl82YO+KxxOM8n2QKtC5UJ
+ W8eyC6Iy1AAeVzseuB8jQyUz8Slel6p6b4o3triNYUg8X8GaoquFmmHMBpVKLZw4j4uC
+ g2PlzDVsoonbSkJ95c+i1CQwAkU0oD0wnJGyeXqj52bxu4ZnydBX0qs0gsa9iFgBwsZK
+ t1Eg==
+X-Gm-Message-State: APjAAAVby260mv2JT8LwqngN59pSTvbY779SWQKBUMtn+/OWUYuf6fW1
+ N20jI60wU5ZINBWEE3HD5x781UEZkaMJ7rKkumRJZA==
+X-Google-Smtp-Source: APXvYqw4/Uo7dhKLhb/t2zQXV8BcUVPx2eYCEULoTkPI0lU2exhZiWkwanjUX9GajCB4Yio+rOBOmqIusSQAALbh8Ug=
+X-Received: by 2002:a05:6808:d4:: with SMTP id
+ t20mr3559202oic.170.1562083093607; 
+ Tue, 02 Jul 2019 08:58:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190702150606.24851-1-mst@redhat.com>
-In-Reply-To: <20190702150606.24851-1-mst@redhat.com>
+References: <156046151566.26543.17274661862206856605.stgit@gimli.home>
+ <156046164094.26543.10016703921328261988.stgit@gimli.home>
+ <CAFEAcA_nGMfUYpSiaw7xhRjacZQhY1U780ehA0UR0StyBwammg@mail.gmail.com>
+ <63a37329-f892-ed5f-4929-e40dac25b64d@redhat.com>
+ <20190702095546.11842fec@x1.home>
+In-Reply-To: <20190702095546.11842fec@x1.home>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 16:56:05 +0100
-Message-ID: <CAFEAcA-Qcq1ZmfDO_dkh_H9-aeQVU83ceLKU1NXM3VpW8g5sPQ@mail.gmail.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Tue, 2 Jul 2019 16:58:02 +0100
+Message-ID: <CAFEAcA-KuwMqTdw9Co+KRJTD=gvQ9qwU9QF3xsScLyZzPzaK2A@mail.gmail.com>
+To: Alex Williamson <alex.williamson@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
  recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PULL 00/22] virtio, pc, pci: features, fixes,
- cleanups
+X-Received-From: 2607:f8b0:4864:20::22f
+Subject: Re: [Qemu-devel] [PULL 3/3] vfio/common: Introduce
+ vfio_set_irq_signaling helper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,45 +77,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Auger Eric <eric.auger@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 at 16:06, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 7fec76a02267598a4e437ddfdaeaeb6de09b92f3:
->
->   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-06-24' into staging (2019-07-01 11:28:28 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to a360cd11de5ae59db55e128fd209290c777eb177:
->
->   docs: avoid vhost-user-net specifics in multiqueue section (2019-07-01 10:39:35 -0400)
->
-> ----------------------------------------------------------------
-> virtio, pc, pci: features, fixes, cleanups
->
-> virtio-pmem support.
-> libvhost user mq support.
-> A bunch of fixes all over the place.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
+On Tue, 2 Jul 2019 at 16:56, Alex Williamson <alex.williamson@redhat.com> wrote:
+> When we're emulating writes to the MSI-X vector table we have no
+> failure path up to the guest.  Real hardware cannot fail to enable a
+> vector that's available in hardware, thus we can either log the issue,
+> ignore the issue, or fault.  I guess Coverity is simply noting that
+> other cases are tested while this is not, therefore we should either
+> explicitly ignore the return value with a cast to void or take this as
+> an opportunity to log the fault, which might be useful in debugging a
+> device that isn't working properly.  Thanks,
 
-> Pankaj Gupta (3):
->       virtio-pmem: sync linux headers
-
-Hi. This header sync doesn't look like it was a proper
-sync made with the update-headers script against some
-upstream kernel -- at least the commit message doesn't
-say what the sync was against and the fact that it only
-changes the virtio-pmem headers looks suspicious.
-
-Can you respin with a proper header sync against upstream
-mainline, please?
+Yeah, Coverity's check here is purely a heuristic ("did we seem
+to check returns from this function in other places?") so it's
+wrong sometimes. If you want me to mark this as a false positive
+in the coverity UI I can do that.
 
 thanks
 -- PMM
