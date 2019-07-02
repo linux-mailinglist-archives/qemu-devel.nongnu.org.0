@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813825D416
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:16:50 +0200 (CEST)
-Received: from localhost ([::1]:54934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA435D425
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:21:33 +0200 (CEST)
+Received: from localhost ([::1]:54966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLSZ-00019F-JX
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:16:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37634)
+	id 1hiLXA-00057y-M5
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37703)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <ehabkost@redhat.com>) id 1hiKpZ-00084G-Dq
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:35 -0400
+ (envelope-from <ehabkost@redhat.com>) id 1hiKpl-0008Ad-Bn
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <ehabkost@redhat.com>) id 1hiKpX-0006AV-NU
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58654)
+ (envelope-from <ehabkost@redhat.com>) id 1hiKpY-0006BD-Dg
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39730)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hiKpV-00065J-Jk
+ (Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hiKpX-000678-Ju
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:36:27 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 87B3A81DFB;
- Tue,  2 Jul 2019 15:36:21 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 7998834CF;
+ Tue,  2 Jul 2019 15:36:23 +0000 (UTC)
 Received: from localhost (ovpn-116-30.gru2.redhat.com [10.97.116.30])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 175FE608BA;
- Tue,  2 Jul 2019 15:36:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09EB019C6F;
+ Tue,  2 Jul 2019 15:36:22 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <rth@twiddle.net>
-Date: Tue,  2 Jul 2019 12:35:14 -0300
-Message-Id: <20190702153535.9851-22-ehabkost@redhat.com>
+Date: Tue,  2 Jul 2019 12:35:15 -0300
+Message-Id: <20190702153535.9851-23-ehabkost@redhat.com>
 In-Reply-To: <20190702153535.9851-1-ehabkost@redhat.com>
 References: <20190702153535.9851-1-ehabkost@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 02 Jul 2019 15:36:21 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+ (mx1.redhat.com [10.5.110.29]); Tue, 02 Jul 2019 15:36:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v3 21/42] deprecate -mem-path fallback to
- anonymous RAM
+Subject: [Qemu-devel] [PULL v3 22/42] i386: Don't print warning if phys-bits
+ was set automatically
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,76 +56,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+If cpu->host_phys_bits_limit is set, QEMU will make
+cpu->phys_bits be lower than host_phys_bits on some cases.  This
+triggers a warning that was supposed to be printed only if
+phys-bits was explicitly set in the command-line.
 
-Fallback might affect guest or worse whole host performance
-or functionality if backing file were used to share guest RAM
-with another process.
+Reorder the code so the value of cpu->phys_bits is validated
+before the cpu->host_phys_bits handling.  This will avoid
+unexpected warnings when cpu->host_phys_bits_limit is set.
 
-Patch deprecates fallback so that we could remove it in future
-and ensure that QEMU will provide expected behavior and fail if
-it can't use user provided backing file.
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190626074228.11558-1-imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20190611205420.20286-1-ehabkost@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- numa.c               | 6 ++++--
- qemu-deprecated.texi | 9 +++++++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/numa.c b/numa.c
-index c1f5e84fa5..48fd43ecc6 100644
---- a/numa.c
-+++ b/numa.c
-@@ -495,8 +495,10 @@ static void allocate_system_memory_nonnuma(MemoryReg=
-ion *mr, Object *owner,
-             if (mem_prealloc) {
-                 exit(1);
-             }
--            error_report("falling back to regular RAM allocation.");
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 3a38fe3633..390f47adc5 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5293,15 +5293,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+             uint32_t host_phys_bits = x86_host_phys_bits();
+             static bool warned;
+ 
+-            if (cpu->host_phys_bits) {
+-                /* The user asked for us to use the host physical bits */
+-                cpu->phys_bits = host_phys_bits;
+-                if (cpu->host_phys_bits_limit &&
+-                    cpu->phys_bits > cpu->host_phys_bits_limit) {
+-                    cpu->phys_bits = cpu->host_phys_bits_limit;
+-                }
+-            }
 -
-+            warn_report("falling back to regular RAM allocation");
-+            error_printf("This is deprecated. Make sure that -mem-path "
-+                         " specified path has sufficient resources to al=
-locate"
-+                         " -m specified RAM amount");
-             /* Legacy behavior: if allocation failed, fall back to
-              * regular RAM allocation.
+             /* Print a warning if the user set it to a value that's not the
+              * host value.
               */
-diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-index 2fe9b72121..9cba82d5ec 100644
---- a/qemu-deprecated.texi
-+++ b/qemu-deprecated.texi
-@@ -112,6 +112,15 @@ QEMU using implicit generic or board specific splitt=
-ing rule.
- Use @option{memdev} with @var{memory-backend-ram} backend or @option{mem=
-} (if
- it's supported by used machine type) to define mapping explictly instead=
-.
-=20
-+@subsection -mem-path fallback to RAM (since 4.1)
-+Currently if guest RAM allocation from file pointed by @option{mem-path}
-+fails, QEMU falls back to allocating from RAM, which might result
-+in unpredictable behavior since the backing file specified by the user
-+is ignored. In the future, users will be responsible for making sure
-+the backing storage specified with @option{-mem-path} can actually provi=
-de
-+the guest RAM configured with @option{-m} and QEMU will fail to start up=
- if
-+RAM allocation is unsuccessful.
+@@ -5313,6 +5304,15 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+                 warned = true;
+             }
+ 
++            if (cpu->host_phys_bits) {
++                /* The user asked for us to use the host physical bits */
++                cpu->phys_bits = host_phys_bits;
++                if (cpu->host_phys_bits_limit &&
++                    cpu->phys_bits > cpu->host_phys_bits_limit) {
++                    cpu->phys_bits = cpu->host_phys_bits_limit;
++                }
++            }
 +
- @section QEMU Machine Protocol (QMP) commands
-=20
- @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
---=20
+             if (cpu->phys_bits &&
+                 (cpu->phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
+                 cpu->phys_bits < 32)) {
+-- 
 2.18.0.rc1.1.g3f1ff2140
 
 
