@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07045D2EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:30:29 +0200 (CEST)
-Received: from localhost ([::1]:54500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422ED5D2BD
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:23:56 +0200 (CEST)
+Received: from localhost ([::1]:54452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKjk-0003TH-MW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:30:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58182)
+	id 1hiKdP-0004fw-EH
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58028)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hiKMY-0005Kt-Sm
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:33 -0400
+ (envelope-from <richard.henderson@linaro.org>) id 1hiKLz-0004w9-BY
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hiKMW-0007zu-P6
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:30 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:57517)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMU-0007sG-P9
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:28 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MUobv-1i8LfH1FLN-00Qmpe; Tue, 02 Jul 2019 17:05:54 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <richard.henderson@linaro.org>) id 1hiKLr-0007Xv-NF
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:53 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:32876)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+ id 1hiKLr-0007Vz-GC
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:47 -0400
+Received: by mail-wm1-x330.google.com with SMTP id h19so783882wme.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:05:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=XxtQx4thNC8QZP82muBVfDakzL6gTL82HaWuSqOqFvo=;
+ b=PLwfciAiMvQjFvihmSL1Ffgqy+PyPAQUepznikFai8dHcXrCQzUsWxJ2qiEoDWrCma
+ rvRrhjnWiiFjqNzsA0cxWKGj0ojJgnDRztfE3+35swVaeZ8+5eNDE0JCPB0VLbsPAdmQ
+ 5Yb7qjql5I2Fqo+rfOs6gjdMcNvxNevyb421MsdszlCCWE9i+HH5VVUYa9m8/qN+BvQy
+ +XmX2o1vFRpjJyPZcqgsBoXnwMx1cVLY26NYNB0KIXnTcyHIPfmSBuzgnvUnZNmWMIFc
+ TBoUe5ZiJlOTX93lQNtTP6xrNUu45h/uHe4SVTHVUDUwb2d2fm2O3acqGUurnWCC/pJN
+ hEdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=XxtQx4thNC8QZP82muBVfDakzL6gTL82HaWuSqOqFvo=;
+ b=pl8dMrkejle9o42K0mmMZPHDVW5TVDXQvpw+iFLMSWSQzpsn38LnZP7bky4zzXJtZq
+ TLn1dolG/JGzNqmmg9VNn29+nAS5bFF7UvLhdapJm7YBNG3inP7gojm8X8ayqz4jYstW
+ pjz4RA4QpEck9sf80YUfuEe1TVB9ixff5/HRus9FoB2V6NwEdtHA2eoifT20xuD7Lhyp
+ 7Tm+7qaTfttBBevj+D//bmAI9ChqgoL1MPp1fKr9nxgZejNSRxQn1pzPVq1mpCqMM5Yb
+ ApdP1gcrugY/THVNkhdDiao6Rap3fmMigX4Oyt+Y5GaA6Me/mAulANLi1FygrSiXM6KE
+ OeoQ==
+X-Gm-Message-State: APjAAAWSTuYohVeaWgGOhhyDIv4/EC8MzlC/f+H1Mwf5ZBU2GIax/h6C
+ cfce0Bz5d8Q1jy6aODL7PEzzvB1Lli528g==
+X-Google-Smtp-Source: APXvYqywYp2iODPwF6NwlCxB4o90MywMmDBIGoINtZ+LzHNbE+z1rRmv8zO2dxsKH9W25zyNun12sg==
+X-Received: by 2002:a7b:cb51:: with SMTP id v17mr3729917wmj.20.1562079944120; 
+ Tue, 02 Jul 2019 08:05:44 -0700 (PDT)
+Received: from localhost.localdomain (93-34-153-63.ip50.fastwebnet.it.
+ [93.34.153.63])
+ by smtp.gmail.com with ESMTPSA id w10sm12975657wru.76.2019.07.02.08.05.43
+ (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+ Tue, 02 Jul 2019 08:05:43 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Date: Tue,  2 Jul 2019 17:05:39 +0200
-Message-Id: <20190702150545.1872-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YQw7hNLXUMgykzDKxcXR6ctB9IzpmKZ6YNTy0sE6ghpCIDB3bSC
- FTBZ22XQ87O4A2zB41vW5R1ARmL74rVNPGItO6/XD41kSlgdW2KIBhScwEHgUVI79ZWUtsz
- tZD+E4aNR445OHytDZd9wIE2yXEtqRCcZutOywvCQP6xWKJx8Ni3luPd7y147sgwjcvIVLQ
- VYUqsSzhyi9fLsXxjff+Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+DS28hWfJC0=:eznqPSwE3rFFG2B/Dz70q/
- QXGBrs1V1EGIXTcpLZIEId+k44XanqYhqoGiVo5Z5ZRcYsFwENC0J5LI9rwhafCFfCIMbJHLr
- RLr1tBgWd4nToHnTNYilPNaLNYQdp6VLL7NIkdfuywDywRjRAZg6YqvxzbmrKdz46VbhVUwed
- SdEU/EygMGvQm1HoR1QWIGuaVVxEMep2sY/BRkUDBtswk6gXLoYSrRmsN/c6cUyuN4VUyp55P
- O6yG5AHuHSYDNKHVhHIdUquod6QMsRkQB3Pit25tngU0mFJyhcA6WwXIiSf0ukp0/vqp11UTU
- 7X2ukGZ8ofHAruiJrltZH2UxnPAoiDKUeI0kD/E8uy+EcNSJcvuFasYYHvgVApT2HPJ+ah7Va
- zVBsZwV409WKI6svSPXN6bfJw3eurNDX3n5OzC15ei70LOmi7VYshXN1DsYrympZx8HCvco30
- 2mNePy8dsbIo+c6eFeDeUhIZzt5k/4+KbQoOO6b9Vmyrto+xkrUuyTJ06yEcVTsNilZa0dwF8
- QRzSqBkR6XPWuhcuY3gDyKqyBqDmWzwkFiMo0wNVfltHiVvJHA+FMLli4In42WbpbSgNWCxi0
- Xu01BzVemdfL5goGsd3JA+vHtItbFSyprteSCUFw2zVuIRYNWqhLixR7TYTiQ531GNSlqVl9k
- 8O0fwLs0phSpVs3PCBUSogoMLD/KmIlHQGOD1LgxkMcOHJbt8Y4NKQyJVwJwnxiTGZWhI4h2L
- e1wE4Rz1RKeMOQ+uCfNpV3V4qpMX+1S8GsFgdw==
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: [Qemu-devel] [PULL 0/6] Linux user for 4.1 patches
+Message-Id: <20190702150542.12008-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::330
+Subject: [Qemu-devel] [PULL 0/3] tcg patch queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,56 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7d0e02405fc02a181319b1ab8681d2f72246b7c6:
+The following changes since commit c4e42a9c2b714de5cddabffe46c7789fcff49c30:
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-patches-pull-request' into staging (2019-07-01 17:40:32 +0100)
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20190701' into staging (2019-07-02 12:58:32 +0100)
 
 are available in the Git repository at:
 
-  git://github.com/vivier/qemu.git tags/linux-user-for-4.1-pull-request
+  https://github.com/rth7680/qemu.git tags/pull-tcg-20190702
 
-for you to fetch changes up to 01154f792d254ae60a8a7ed6b363f1ed9a511204:
+for you to fetch changes up to 0c3c385c62759e1427f88c5fc5b0d9741a456807:
 
-  linux-user: move QEMU_IFLA_BR_MULTI_BOOLOPT to the good function (2019-07-02 16:56:46 +0200)
-
-----------------------------------------------------------------
-Add statx
-Fix netlink with IFLA_BR_MULTI_BOOLOPT
-Fix mips (EXCP_FPE, struct flock)
+  tcg: Fix expansion of INDEX_op_not_vec (2019-07-02 15:59:42 +0200)
 
 ----------------------------------------------------------------
+Queued tcg bug fixes
 
-Aleksandar Markovic (3):
-  linux-user: Fix target_flock structure for MIPS O64 ABI
-  linux-user: Introduce TARGET_HAVE_ARCH_STRUCT_FLOCK
-  linux-user: Handle EXCP_FPE properly for MIPS
+----------------------------------------------------------------
+Alistair Francis (1):
+      tcg/riscv: Fix RISC-VH host build failure
 
-Aleksandar Rikalo (1):
-  linux-user: Add support for translation of statx() syscall
+Richard Henderson (2):
+      tcg: Fix mmap lock assert on translation failure
+      tcg: Fix expansion of INDEX_op_not_vec
 
-Jim Wilson (1):
-  linux-user: Add support for strace for statx() syscall
-
-Laurent Vivier (1):
-  linux-user: move QEMU_IFLA_BR_MULTI_BOOLOPT to the good function
-
- linux-user/fd-trans.c          |  12 ++--
- linux-user/generic/fcntl.h     |   8 ++-
- linux-user/mips/cpu_loop.c     |  17 +++++
- linux-user/mips/target_fcntl.h |  17 ++++-
- linux-user/strace.c            |  86 ++++++++++++++++++++++++
- linux-user/strace.list         |   3 +
- linux-user/syscall.c           | 115 ++++++++++++++++++++++++++++++++-
- linux-user/syscall_defs.h      |  37 +++++++++++
- 8 files changed, 283 insertions(+), 12 deletions(-)
-
--- 
-2.21.0
-
+ include/exec/cpu-all.h                    |  1 +
+ include/exec/cpu_ldst_useronly_template.h |  8 ++++++--
+ accel/tcg/translate-all.c                 | 29 +++++++++++++++++++++++++++++
+ tcg/riscv/tcg-target.inc.c                |  4 ++--
+ tcg/tcg-op-vec.c                          |  6 ++++++
+ 5 files changed, 44 insertions(+), 4 deletions(-)
 
