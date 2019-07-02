@@ -2,56 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4F45D2BC
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:23:55 +0200 (CEST)
-Received: from localhost ([::1]:54450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E130E5D2EB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:30:29 +0200 (CEST)
+Received: from localhost ([::1]:54498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKdO-0004dD-KT
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58183)
+	id 1hiKjk-0003S3-M8
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58292)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hiKMY-0005Ku-T6
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:32 -0400
+ (envelope-from <mst@redhat.com>) id 1hiKMl-0005jA-3D
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hiKMW-0007zj-OW
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:30 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:56399)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMU-0007vk-Ny
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:28 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1McYP5-1iGIj93lev-00curO; Tue, 02 Jul 2019 17:06:03 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+ (envelope-from <mst@redhat.com>) id 1hiKMj-00089v-Sb
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35636)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hiKMj-000893-Jp
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:41 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 8D4CE3082AF2;
+ Tue,  2 Jul 2019 15:06:30 +0000 (UTC)
+Received: from redhat.com (ovpn-124-209.rdu2.redhat.com [10.10.124.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92DDB1001B18;
+ Tue,  2 Jul 2019 15:06:28 +0000 (UTC)
+Date: Tue, 2 Jul 2019 11:06:24 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 17:05:45 +0200
-Message-Id: <20190702150545.1872-7-laurent@vivier.eu>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190702150545.1872-1-laurent@vivier.eu>
-References: <20190702150545.1872-1-laurent@vivier.eu>
+Message-ID: <20190702150606.24851-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:SVXugMnuhSklwwTuZulGZNB0tLMT7GqBN8M8EkeLw7mqoRRR2ci
- z/YuVZ3NSKA+gYcNRNS+FWNLHe7l9x2ERBhDJUw0DyJbtA4AAYq2e/sHyuo5vs9WWcgoKga
- Q/5OuRoB8MyH6QzR4TjisPeoec1zfTc8kzwG1KQckgKWvp8sVd6xEywOVg0zWstfvkQTMer
- 4e3G4fVxjmL5Pw7pXSzcw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9H01oSAYfS4=:nY4Z39eL8SBo8v5CCVU26T
- ZvocLj2dTogc28gQbRwOOJd/KjHucbS/Zw9gShtdTbhiBd/EkoxV9JfYlK2hLhS63Ogre4Lpm
- fQxG7Z9qo2ZJIbgCepYUnKIwNUoxX9eo1wMMPbWOTEassu5uKbOCIFk5sn4Iby+IUkaYgazA8
- ulOIboK6IxZS3OwQhQtmmATLV5neYEogLBmLOYiA/NYGUaK+XV9s080MukcmEhr8ZY4O4+VQW
- D72RlG1ARBMW9Y7fiPxGTKjbMxb+i85mwFEPV1LYpncUhM+t7kyF1kuMOGZJhv0HbmhkfwxKm
- /zDv54h4skesBU82+auCOQM5xSPHsOKfzkDYkxDaxQOJSCk68Yv7w4a/AHqumRrHRcf8BhmgI
- uJOke+We6/iBrgDI4Ca6eREL+R9cV7NCNU0l3Q//gU+63Adsn+2BHR1jtI9txaJPziRulisC6
- hD0xHdterPd04TK+Hj3jc2WCZJOmYpDzEtWY7KgXg9cj+bvJxhhGlvC4Ebu5euO7VSPH4BtbF
- +G6PepxLpGnC9pwAqk8sdj0P2Zcor23VuZ/K1BJLLvljA8obK+t7KwKvmBXeIVzp1vYTQFoAC
- 3sMYMjBc2nUYSEDC0Nad6fg2h/QRA+rA24d7VI6+b8P8JFAR5mCim8npbzy9DDzCAuMmEfcd9
- DxXHH5aWr0efvpURw1E4Gs6lm2QDGJSQ6vQ4CSexsseORH/EFz+iqHuoKCabK6VFfCPsuTiG0
- UA87li9Inw1i6GrwrqaRV/6RyJEMV3IlrZ5x5w==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+X-Mutt-Fcc: =sent
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.45]); Tue, 02 Jul 2019 15:06:30 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
-Subject: [Qemu-devel] [PULL 6/6] linux-user: move QEMU_IFLA_BR_MULTI_BOOLOPT
- to the good function
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 00/22] virtio, pc, pci: features, fixes, cleanups
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,57 +55,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU_IFLA_BR_MULTI_BOOLOPT has been added to the wrong function
-host_to_target_slave_data_bridge_nlattr(). Move it to
-host_to_target_data_bridge_nlattr().
+The following changes since commit 7fec76a02267598a4e437ddfdaeaeb6de09b92=
+f3:
 
-This fixes following error:
-  Unknown QEMU_IFLA_BR type 46
+  Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-06-=
+24' into staging (2019-07-01 11:28:28 +0100)
 
-Fixes: 61b463fbf6cb ("linux-user: add new netlink types")
-Message-Id: <20190626150855.27446-1-laurent@vivier.eu>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/fd-trans.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+are available in the Git repository at:
 
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index 612819c1b1ec..60077ce5319d 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -483,6 +483,12 @@ static abi_long host_to_target_data_bridge_nlattr(struct nlattr *nlattr,
-     case QEMU_IFLA_BR_ROOT_ID:
-     case QEMU_IFLA_BR_BRIDGE_ID:
-         break;
-+    /* br_boolopt_multi { uint32_t, uint32_t } */
-+    case QEMU_IFLA_BR_MULTI_BOOLOPT:
-+        u32 = NLA_DATA(nlattr);
-+        u32[0] = tswap32(u32[0]); /* optval */
-+        u32[1] = tswap32(u32[1]); /* optmask */
-+        break;
-     default:
-         gemu_log("Unknown QEMU_IFLA_BR type %d\n", nlattr->nla_type);
-         break;
-@@ -546,12 +552,6 @@ static abi_long host_to_target_slave_data_bridge_nlattr(struct nlattr *nlattr,
-     case QEMU_IFLA_BRPORT_ROOT_ID:
-     case QEMU_IFLA_BRPORT_BRIDGE_ID:
-         break;
--    /* br_boolopt_multi { uint32_t, uint32_t } */
--    case QEMU_IFLA_BR_MULTI_BOOLOPT:
--        u32 = NLA_DATA(nlattr);
--        u32[0] = tswap32(u32[0]); /* optval */
--        u32[1] = tswap32(u32[1]); /* optmask */
--        break;
-     default:
-         gemu_log("Unknown QEMU_IFLA_BRPORT type %d\n", nlattr->nla_type);
-         break;
--- 
-2.21.0
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to a360cd11de5ae59db55e128fd209290c777eb177:
+
+  docs: avoid vhost-user-net specifics in multiqueue section (2019-07-01 =
+10:39:35 -0400)
+
+----------------------------------------------------------------
+virtio, pc, pci: features, fixes, cleanups
+
+virtio-pmem support.
+libvhost user mq support.
+A bunch of fixes all over the place.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+David Hildenbrand (4):
+      virtio-pci: Allow to specify additional interfaces for the base typ=
+e
+      hmp: Handle virtio-pmem when printing memory device infos
+      numa: Handle virtio-pmem in NUMA stats
+      pc: Support for virtio-pmem-pci
+
+Eduardo Habkost (1):
+      pc: Move compat_apic_id_mode variable to PCMachineClass
+
+Marc-Andr=C3=A9 Lureau (1):
+      virtio-pci: fix missing device properties
+
+Michael S. Tsirkin (4):
+      pcie: don't skip multi-mask events
+      pcie: check that slt ctrl changed before deleting
+      pcie: work around for racy guest init
+      pcie: minor cleanups for slot control/status
+
+Pankaj Gupta (3):
+      virtio-pmem: add virtio device
+      virtio-pmem: sync linux headers
+      virtio-pci: Proxy for virtio-pmem
+
+Stefan Hajnoczi (4):
+      libvhost-user: add vmsg_set_reply_u64() helper
+      libvhost-user: support many virtqueues
+      libvhost-user: implement VHOST_USER_PROTOCOL_F_MQ
+      docs: avoid vhost-user-net specifics in multiqueue section
+
+Xie Yongji (5):
+      virtio: add "use-started" property
+      virtio: Set "start_on_kick" for legacy devices
+      virtio: Set "start_on_kick" on virtio_set_features()
+      virtio: Make sure we get correct state of device on handle_aio_outp=
+ut()
+      virtio: Don't change "started" flag on virtio_vmstate_change()
+
+ qapi/misc.json                               |  28 +++-
+ contrib/libvhost-user/libvhost-user-glib.h   |   2 +-
+ contrib/libvhost-user/libvhost-user.h        |  10 +-
+ hw/virtio/virtio-pci.h                       |   1 +
+ hw/virtio/virtio-pmem-pci.h                  |  34 +++++
+ include/hw/i386/pc.h                         |   3 +
+ include/hw/pci/pci.h                         |   1 +
+ include/hw/pci/pcie.h                        |   2 +
+ include/hw/virtio/virtio-pmem.h              |  49 +++++++
+ include/hw/virtio/virtio.h                   |  23 +++-
+ include/standard-headers/linux/virtio_ids.h  |   1 +
+ include/standard-headers/linux/virtio_pmem.h |  35 +++++
+ contrib/libvhost-user/libvhost-user-glib.c   |  12 +-
+ contrib/libvhost-user/libvhost-user.c        |  66 ++++++----
+ contrib/vhost-user-blk/vhost-user-blk.c      |  16 ++-
+ contrib/vhost-user-gpu/main.c                |   9 +-
+ contrib/vhost-user-input/main.c              |  11 +-
+ contrib/vhost-user-scsi/vhost-user-scsi.c    |  21 ++-
+ hw/block/vhost-user-blk.c                    |   4 +-
+ hw/core/machine.c                            |   1 +
+ hw/i386/pc.c                                 |  94 +++++++++++--
+ hw/i386/pc_piix.c                            |   3 +-
+ hw/pci-bridge/pcie_root_port.c               |   5 +-
+ hw/pci-bridge/xio3130_downstream.c           |   5 +-
+ hw/pci/pcie.c                                |  40 +++++-
+ hw/virtio/virtio-pci.c                       |  29 ++--
+ hw/virtio/virtio-pmem-pci.c                  | 131 +++++++++++++++++++
+ hw/virtio/virtio-pmem.c                      | 189 +++++++++++++++++++++=
+++++++
+ hw/virtio/virtio.c                           |  53 ++++----
+ monitor/hmp-cmds.c                           |  27 ++--
+ numa.c                                       |  24 ++--
+ tests/vhost-user-bridge.c                    |  42 ++++--
+ docs/interop/vhost-user.rst                  |  21 +--
+ hw/i386/Kconfig                              |   1 +
+ hw/virtio/Kconfig                            |  10 ++
+ hw/virtio/Makefile.objs                      |   2 +
+ 36 files changed, 844 insertions(+), 161 deletions(-)
+ create mode 100644 hw/virtio/virtio-pmem-pci.h
+ create mode 100644 include/hw/virtio/virtio-pmem.h
+ create mode 100644 include/standard-headers/linux/virtio_pmem.h
+ create mode 100644 hw/virtio/virtio-pmem-pci.c
+ create mode 100644 hw/virtio/virtio-pmem.c
 
 
