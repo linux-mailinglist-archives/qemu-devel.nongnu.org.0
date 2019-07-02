@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F71C5C92B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:18:03 +0200 (CEST)
-Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7195C922
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:12:25 +0200 (CEST)
+Received: from localhost ([::1]:49370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiC78-00020V-MV
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58177)
+	id 1hiC1f-0006zS-Mi
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58169)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByd-0004iT-IX
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByd-0004iQ-9O
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByc-0002o3-7q
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByc-0002ns-1t
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:15 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44041 helo=ozlabs.org)
+Received: from ozlabs.org ([203.11.71.1]:41321)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiByb-0002k0-Ij; Tue, 02 Jul 2019 02:09:14 -0400
+ id 1hiByb-0002jt-EU; Tue, 02 Jul 2019 02:09:13 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMg2sxjz9sPG; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
+ id 45dDMg2BfQz9sND; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1562047743;
- bh=S50G9zcN5W0terqyxreSlcCaApbINZ0R7OPFquHstlU=;
+ bh=cfrKF0Hv5dm4uW4tcyxYHvklYX7U7LT2Ph0PXGDvs4s=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=frpIoVu9cU8nsU7gcsWmWS4s+f0H5xJPO1pswLvB989eRvUffnQcWsvcUu1oIJrHQ
- tCrA2WtB+MdBReqoalzrIvNslHjgDOc8mnh3jXW5gaDcjJ/qoXllpj0evgXa8v6aDQ
- EGOx5OTrdYvmGwCYC7ntbEoSJHW5/Zr9LQkB2qxg=
+ b=o5TzheW4sIuv9emMr7F49Hrg4Wm16cR6qhLOF92QBMTeRmbAEVX3eCABYV8PrDqyw
+ 9xdzeAEuuxWyGU/qkF1eURRS6cOVNgQq1FQUsrd7MeockUEJCc1ZAexnpWzZce7Rn8
+ /5kKIrJJD2y8yfCO1pTBH6uH3U/nAsbsmvDhkdaA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:12 +1000
-Message-Id: <20190702060857.3926-5-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:13 +1000
+Message-Id: <20190702060857.3926-6-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 04/49] ppc/pnv: fix XSCOM MMIO base address for
- P9 machines with multiple chips
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 05/49] ppc/pnv: remove xscom_base field from
+ PnvChip
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,154 +62,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-The PNV_XSCOM_BASE and PNV_XSCOM_SIZE macros are specific to POWER8
-and they are used when the device tree is populated and the MMIO
-region created, even for POWER9 chips. This is not too much of a
-problem today because we don't have important devices on the second
-chip, but we might have oneday (PHBs).
-
-Fix by using the appropriate macros in case of P9.
+It has now became useless with the previous patch.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190612174345.9799-2-clg@kaod.org>
+Message-Id: <20190612174345.9799-3-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c               | 24 ++++++++++++++++--------
- hw/ppc/pnv_xscom.c         | 17 ++++++++++++-----
- include/hw/ppc/pnv.h       |  3 +++
- include/hw/ppc/pnv_xscom.h |  2 +-
- 4 files changed, 32 insertions(+), 14 deletions(-)
+ hw/ppc/pnv.c         | 10 ----------
+ include/hw/ppc/pnv.h |  5 +----
+ 2 files changed, 1 insertion(+), 14 deletions(-)
 
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 9db43916ac..0d98a281f6 100644
+index 0d98a281f6..b87e01e5b9 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -860,6 +860,14 @@ static void pnv_chip_power8_realize(DeviceState *dev=
-, Error **errp)
-     Pnv8Psi *psi8 =3D &chip8->psi;
-     Error *local_err =3D NULL;
+@@ -924,7 +924,6 @@ static void pnv_chip_power8e_class_init(ObjectClass *=
+klass, void *data)
+     k->isa_create =3D pnv_chip_power8_isa_create;
+     k->dt_populate =3D pnv_chip_power8_dt_populate;
+     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
+-    k->xscom_base =3D 0x003fc0000000000ull;
+     dc->desc =3D "PowerNV Chip POWER8E";
 =20
-+    /* XSCOM bridge is first */
-+    pnv_xscom_realize(chip, PNV_XSCOM_SIZE, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(chip), 0, PNV_XSCOM_BASE(chip));
-+
-     pcc->parent_realize(dev, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -1024,6 +1032,14 @@ static void pnv_chip_power9_realize(DeviceState *d=
-ev, Error **errp)
-     Pnv9Psi *psi9 =3D &chip9->psi;
-     Error *local_err =3D NULL;
+     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
+@@ -944,7 +943,6 @@ static void pnv_chip_power8_class_init(ObjectClass *k=
+lass, void *data)
+     k->isa_create =3D pnv_chip_power8_isa_create;
+     k->dt_populate =3D pnv_chip_power8_dt_populate;
+     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
+-    k->xscom_base =3D 0x003fc0000000000ull;
+     dc->desc =3D "PowerNV Chip POWER8";
 =20
-+    /* XSCOM bridge is first */
-+    pnv_xscom_realize(chip, PNV9_XSCOM_SIZE, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(chip), 0, PNV9_XSCOM_BASE(chip));
-+
-     pcc->parent_realize(dev, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -1206,14 +1222,6 @@ static void pnv_chip_realize(DeviceState *dev, Err=
-or **errp)
-     PnvChip *chip =3D PNV_CHIP(dev);
-     Error *error =3D NULL;
+     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
+@@ -964,7 +962,6 @@ static void pnv_chip_power8nvl_class_init(ObjectClass=
+ *klass, void *data)
+     k->isa_create =3D pnv_chip_power8nvl_isa_create;
+     k->dt_populate =3D pnv_chip_power8_dt_populate;
+     k->pic_print_info =3D pnv_chip_power8_pic_print_info;
+-    k->xscom_base =3D 0x003fc0000000000ull;
+     dc->desc =3D "PowerNV Chip POWER8NVL";
 =20
--    /* XSCOM bridge */
--    pnv_xscom_realize(chip, &error);
--    if (error) {
--        error_propagate(errp, error);
--        return;
--    }
--    sysbus_mmio_map(SYS_BUS_DEVICE(chip), 0, PNV_XSCOM_BASE(chip));
--
-     /* Cores */
-     pnv_chip_core_realize(chip, &error);
-     if (error) {
-diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
-index 4e52885c9e..2b81c75f56 100644
---- a/hw/ppc/pnv_xscom.c
-+++ b/hw/ppc/pnv_xscom.c
-@@ -213,17 +213,17 @@ const MemoryRegionOps pnv_xscom_ops =3D {
-     .endianness =3D DEVICE_BIG_ENDIAN,
- };
+     device_class_set_parent_realize(dc, pnv_chip_power8_realize,
+@@ -1115,7 +1112,6 @@ static void pnv_chip_power9_class_init(ObjectClass =
+*klass, void *data)
+     k->isa_create =3D pnv_chip_power9_isa_create;
+     k->dt_populate =3D pnv_chip_power9_dt_populate;
+     k->pic_print_info =3D pnv_chip_power9_pic_print_info;
+-    k->xscom_base =3D 0x00603fc00000000ull;
+     dc->desc =3D "PowerNV Chip POWER9";
 =20
--void pnv_xscom_realize(PnvChip *chip, Error **errp)
-+void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp)
- {
-     SysBusDevice *sbd =3D SYS_BUS_DEVICE(chip);
-     char *name;
-=20
-     name =3D g_strdup_printf("xscom-%x", chip->chip_id);
-     memory_region_init_io(&chip->xscom_mmio, OBJECT(chip), &pnv_xscom_op=
-s,
--                          chip, name, PNV_XSCOM_SIZE);
-+                          chip, name, size);
-     sysbus_init_mmio(sbd, &chip->xscom_mmio);
-=20
--    memory_region_init(&chip->xscom, OBJECT(chip), name, PNV_XSCOM_SIZE)=
-;
-+    memory_region_init(&chip->xscom, OBJECT(chip), name, size);
-     address_space_init(&chip->xscom_as, &chip->xscom, name);
-     g_free(name);
+     device_class_set_parent_realize(dc, pnv_chip_power9_realize,
+@@ -1152,11 +1148,6 @@ static void pnv_chip_core_sanitize(PnvChip *chip, =
+Error **errp)
+     }
  }
-@@ -265,12 +265,19 @@ static const char compat_p9[] =3D "ibm,power9-xscom=
-\0ibm,xscom";
 =20
- int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_offset)
+-static void pnv_chip_instance_init(Object *obj)
+-{
+-    PNV_CHIP(obj)->xscom_base =3D PNV_CHIP_GET_CLASS(obj)->xscom_base;
+-}
+-
+ static void pnv_chip_core_realize(PnvChip *chip, Error **errp)
  {
--    uint64_t reg[] =3D { cpu_to_be64(PNV_XSCOM_BASE(chip)),
--                       cpu_to_be64(PNV_XSCOM_SIZE) };
-+    uint64_t reg[2];
-     int xscom_offset;
-     ForeachPopulateArgs args;
-     char *name;
-=20
-+    if (pnv_chip_is_power9(chip)) {
-+        reg[0] =3D cpu_to_be64(PNV9_XSCOM_BASE(chip));
-+        reg[1] =3D cpu_to_be64(PNV9_XSCOM_SIZE);
-+    } else {
-+        reg[0] =3D cpu_to_be64(PNV_XSCOM_BASE(chip));
-+        reg[1] =3D cpu_to_be64(PNV_XSCOM_SIZE);
-+    }
-+
-     name =3D g_strdup_printf("xscom@%" PRIx64, be64_to_cpu(reg[0]));
-     xscom_offset =3D fdt_add_subnode(fdt, root_offset, name);
-     _FDT(xscom_offset);
+     Error *error =3D NULL;
+@@ -1406,7 +1397,6 @@ static const TypeInfo types[] =3D {
+         .name          =3D TYPE_PNV_CHIP,
+         .parent        =3D TYPE_SYS_BUS_DEVICE,
+         .class_init    =3D pnv_chip_class_init,
+-        .instance_init =3D pnv_chip_instance_init,
+         .instance_size =3D sizeof(PnvChip),
+         .class_size    =3D sizeof(PnvChipClass),
+         .abstract      =3D true,
 diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index fc4678f757..01ac9e7996 100644
+index 01ac9e7996..fb123edc4e 100644
 --- a/include/hw/ppc/pnv.h
 +++ b/include/hw/ppc/pnv.h
-@@ -256,4 +256,7 @@ void pnv_bmc_powerdown(IPMIBmc *bmc);
- #define PNV9_PSIHB_ESB_SIZE          0x0000000000010000ull
- #define PNV9_PSIHB_ESB_BASE(chip)    PNV9_CHIP_BASE(chip, 0x00060302031c=
-0000ull)
+@@ -56,7 +56,6 @@ typedef struct PnvChip {
+     uint64_t     cores_mask;
+     void         *cores;
 =20
-+#define PNV9_XSCOM_SIZE              0x0000000400000000ull
-+#define PNV9_XSCOM_BASE(chip)        PNV9_CHIP_BASE(chip, 0x00603fc00000=
-000ull)
-+
- #endif /* PPC_PNV_H */
-diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-index c842d950d2..67641ed278 100644
---- a/include/hw/ppc/pnv_xscom.h
-+++ b/include/hw/ppc/pnv_xscom.h
-@@ -87,7 +87,7 @@ typedef struct PnvXScomInterfaceClass {
- #define PNV9_XSCOM_XIVE_BASE      0x5013000
- #define PNV9_XSCOM_XIVE_SIZE      0x300
+-    hwaddr       xscom_base;
+     MemoryRegion xscom_mmio;
+     MemoryRegion xscom;
+     AddressSpace xscom_as;
+@@ -105,8 +104,6 @@ typedef struct PnvChipClass {
+     uint64_t     chip_cfam_id;
+     uint64_t     cores_mask;
 =20
--extern void pnv_xscom_realize(PnvChip *chip, Error **errp);
-+extern void pnv_xscom_realize(PnvChip *chip, uint64_t size, Error **errp=
-);
- extern int pnv_dt_xscom(PnvChip *chip, void *fdt, int offset);
+-    hwaddr       xscom_base;
+-
+     DeviceRealize parent_realize;
 =20
- extern void pnv_xscom_add_subregion(PnvChip *chip, hwaddr offset,
+     uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
+@@ -199,7 +196,7 @@ void pnv_bmc_powerdown(IPMIBmc *bmc);
+  */
+ #define PNV_XSCOM_SIZE        0x800000000ull
+ #define PNV_XSCOM_BASE(chip)                                            =
+\
+-    (chip->xscom_base + ((uint64_t)(chip)->chip_id) * PNV_XSCOM_SIZE)
++    (0x0003fc0000000000ull + ((uint64_t)(chip)->chip_id) * PNV_XSCOM_SIZ=
+E)
+=20
+ /*
+  * XSCOM 0x20109CA defines the ICP BAR:
 --=20
 2.21.0
 
