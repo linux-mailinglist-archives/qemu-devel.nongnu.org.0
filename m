@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B741B5D298
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:19:57 +0200 (CEST)
-Received: from localhost ([::1]:54412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A54F5D2B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:23:20 +0200 (CEST)
+Received: from localhost ([::1]:54442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKZX-0008Ol-Ii
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:19:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1hiKcp-00040r-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58184)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <richard.henderson@linaro.org>) id 1hiKLz-0004wB-Bs
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:01 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hiKMY-0005Kv-Td
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <richard.henderson@linaro.org>) id 1hiKLr-0007Xp-MQ
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:53 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42664)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
- id 1hiKLr-0007X3-Dm
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:05:47 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id x17so18224556wrl.9
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 08:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=PqJ1ISuGV2u+IdiY8ngyBhS17daHeZo+xRM6Jaz465M=;
- b=cyHnVafp2KqZO+wsTt4EM2ocniQhrz86PrE+Mkf2vqPDmU3Ns3yPx+HxBt74+G5RNA
- EOfIVsuvHlkmtooFPe1+7ejYstyqgLQOaYCnzUFcWX9uAcBMqiaTMqzNn6rEmi1UeJ2p
- b7yhN1zwL0NjnZ1bzleqPVhVtoKKbXZF7PtEFcyJm0Gn88b2Zu/htSshirB2+6Z8ac7J
- QWjn3aS0exNZS5DRYJz7ZFkBbM2ZDlugU9cjlu6jb9qzyYf7Fo3VSF2BPA42O+J99jR8
- HdLtlSQkoTTAqbns9uWBXkXAFnpaywvVxLOM/NrhkQ1vIUauQ2het9mokNoA15pezIjb
- xhrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=PqJ1ISuGV2u+IdiY8ngyBhS17daHeZo+xRM6Jaz465M=;
- b=YD7pOtz8xxgxt7zBsuR1EdiZ82WFMUcCh5N9XV2HF0G0Ciiiezv+JWygtabPBrKEDt
- dH+qTk1Sbk1IjlFnX6EKoft7+ZEbfwDNjSc6bj/pzT304gMri2vQztta4SA7mAxT/2p5
- iyN3JzLvo6aNag4Xc2o4L/7FEzdE7JCYYFiVNXnRvt7UeRCu3zGsPo2Ufk2TWQKtJDZz
- K8fB6sVb1Ok7d29C6zBmWHCDiAgQUigFi/uloMp5HGHrTSbwBhrp8o+oUvVCqMWsNsDA
- nnvEeEihOL7o5YQDCu8XnCwQPOquZM7NVHLq87EH3Z6JgZuM+PJFajQS6yNQzfwPdbwn
- eW8A==
-X-Gm-Message-State: APjAAAUywUaQvl02iLHCe9XHS7SSVOWe25tmY0x1Y3af6pwUNery1y1L
- ZqIZcdtQ9m/4UiSLfl5WTeoCKrUW3p5tkQ==
-X-Google-Smtp-Source: APXvYqx8+K6f3z1BdtukNzJJDbJKCeuEkZ4A8IWl5lPPWAI6R5CsfadO51ZHzmtuM1/+EteYzsWxiA==
-X-Received: by 2002:adf:e50c:: with SMTP id j12mr25556851wrm.117.1562079945518; 
- Tue, 02 Jul 2019 08:05:45 -0700 (PDT)
-Received: from localhost.localdomain (93-34-153-63.ip50.fastwebnet.it.
- [93.34.153.63])
- by smtp.gmail.com with ESMTPSA id w10sm12975657wru.76.2019.07.02.08.05.44
- (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
- Tue, 02 Jul 2019 08:05:44 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (envelope-from <laurent@vivier.eu>) id 1hiKMW-0007zo-Ou
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:30 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:52929)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMU-0007rr-OO
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:28 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MCsDe-1hr5nP2YyW-008qRP; Tue, 02 Jul 2019 17:05:56 +0200
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
 Date: Tue,  2 Jul 2019 17:05:40 +0200
-Message-Id: <20190702150542.12008-2-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190702150542.12008-1-richard.henderson@linaro.org>
-References: <20190702150542.12008-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::42c
-Subject: [Qemu-devel] [PULL 1/3] tcg: Fix mmap lock assert on translation
- failure
+Message-Id: <20190702150545.1872-2-laurent@vivier.eu>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190702150545.1872-1-laurent@vivier.eu>
+References: <20190702150545.1872-1-laurent@vivier.eu>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:0DtDsipeI5xlKBzZ5zAjkIoh/fOmHbm+Y2u1jqMhF9/ErZnybl6
+ nimhTIyeJOFlqkhWenc65zY4vtN8K6PFHbp/r3RJkWKFjFgOvK0FgzmtM/XXdOxvqLIwmf1
+ WqTTuDtUZ85AXOZjAnxoe//RLdy/8UqFgBru9SfwbF0lycVwoFEU1+EPSuG+MarR0ZgVSFz
+ qvdESXFrxQ/SI0o60T9qA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Os+IG9qFYuE=:mrU00nF2eURaZnr3yl9LZR
+ e5aYe8GEJtUFxbhcsMkazkiNcSh3jT6fOhOxKaDLK91V/5XcG8TrW+MRA7Z3Cpkfg49h72GV7
+ 22jRsrqRXnt8TaktN7uCmSOY0Sw2WyYZmUKu5VSjobhg3VU652iejA2NNucrtSAACNgzWbXJV
+ PGQEYJLBhjZswHmnDZflTIoyA63J85vWkYQgUE1zNJfcH9w3T6hPXm9fhk3qGkU2f/H4r1GFN
+ qCGo+XMxx99Oqmdk2eM5VwqP8lx6oQxnof/g0MuJF10HV/iarwpHArnbs1S1XOcvipkbaiRyy
+ MUSfLfcqXs80MEQs77oZBQOAnTETFDSILwdv3CTrgQKg+XPbjKLQ8KBVdEFzDRvn0pQSruTRp
+ g0zGXtoRwYJhMmf7mUpHrD0eHS/kCjKIpoJgKoUbh/g+4irn9xj3FhO19uY4YeTgE+aD63b0T
+ nqBjh11jAK3XuE8yH9fSxSEVgHuhilYXteAThJXtpYY8TI2TrtjlrK0JcP/uacm7ULFd56UaI
+ VfkrD6nGdndD90jfm/tAMI4aNnX8BSaydZ2EonQH0DcyZFulg9MlVRvfnw8e+NHHc47XLgxR3
+ u1g1y6zV4A4BcO0T7OstEId55MBzEokguaDXZ3LQQNF/RKVEFB18BBRh7MhHZ9aQPuy5J4xWl
+ i6/nUMxeHABLAfOwY8sQoRGGnM2BImUPjqEqzGT2wcLjf0ZoOXB3OwqKZBcR3ek1dCMbjZ/da
+ yyODuQbetmN9RRlxAI0WgugRGor4STPsERkaxg==
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.13
+Subject: [Qemu-devel] [PULL 1/6] linux-user: Add support for translation of
+ statx() syscall
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,108 +63,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Check page flags before letting an invalid pc cause a SIGSEGV.
+From: Aleksandar Rikalo <arikalo@wavecomp.com>
 
-Prepare for eventially validating PROT_EXEC.  The current wrinkle being
-that we have a problem with our implementation of signals.  We should
-be using a vdso like the kernel, but we instead put the trampoline on
-the stack.  In the meantime, let PROT_READ match PROT_EXEC.
+Implement support for translation of system call statx().
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1832353
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+The implementation is based on "best effort" approach: if host
+is capable of executing statx(), host statx() is used. If not,
+the implementation includes invoking a more mature system call
+fstatat() on the host side to achieve as close as possible
+functionality.
+
+Support for statx() in kernel and glibc was, however, introduced
+at different points of time (the difference is more than a year):
+
+  - kernel: Linux 4.11 (30 April 2017)
+  - glibc: glibc 2.28 (1 Aug 2018)
+
+In this patch, the availability of statx() support is established
+via __NR_statx (if it is defined, statx() is considered available).
+This coincedes with statx() introduction in kernel.
+
+However, the structure statx definition may not be available in
+any header for hosts with glibc older than 2.28 (and it is, by
+design, to be defined in one of glibc headers), even though the
+full statx() functionality may be supported in kernel. Hence, a
+structure "target_statx" is defined in this patch, to remove that
+dependency on glibc headers, and to use statx() functionality as
+soon as the host kernel is capable of supporting it. Such statx
+structure definition is used for both target and host structures
+statx (of course, this doesn't mean the endian arrangement is
+the same on target and host - the endian conversion is done in
+all necessary cases).
+
+Signed-off-by: Aleksandar Rikalo <arikalo@wavecomp.com>
+Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <1561718618-20218-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/exec/cpu-all.h                    |  1 +
- include/exec/cpu_ldst_useronly_template.h |  8 +++++--
- accel/tcg/translate-all.c                 | 29 +++++++++++++++++++++++
- 3 files changed, 36 insertions(+), 2 deletions(-)
+ linux-user/syscall.c      | 115 +++++++++++++++++++++++++++++++++++++-
+ linux-user/syscall_defs.h |  37 ++++++++++++
+ 2 files changed, 151 insertions(+), 1 deletion(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index 536ea58f81..58b8915617 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -259,6 +259,7 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
- int page_get_flags(target_ulong address);
- void page_set_flags(target_ulong start, target_ulong end, int flags);
- int page_check_range(target_ulong start, target_ulong len, int flags);
-+void validate_exec_access(CPUArchState *env, target_ulong s, target_ulong l);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index d2c9817938c9..39a37496fed5 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -238,6 +238,7 @@ static type name (type1 arg1,type2 arg2,type3 arg3,type4 arg4,type5 arg5,	\
+ #define __NR_sys_inotify_init __NR_inotify_init
+ #define __NR_sys_inotify_add_watch __NR_inotify_add_watch
+ #define __NR_sys_inotify_rm_watch __NR_inotify_rm_watch
++#define __NR_sys_statx __NR_statx
+ 
+ #if defined(__alpha__) || defined(__x86_64__) || defined(__s390x__)
+ #define __NR__llseek __NR_lseek
+@@ -316,6 +317,14 @@ _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
+           unsigned long, idx1, unsigned long, idx2)
  #endif
  
- CPUArchState *cpu_copy(CPUArchState *env);
-diff --git a/include/exec/cpu_ldst_useronly_template.h b/include/exec/cpu_ldst_useronly_template.h
-index bc45e2b8d4..f095415149 100644
---- a/include/exec/cpu_ldst_useronly_template.h
-+++ b/include/exec/cpu_ldst_useronly_template.h
-@@ -64,7 +64,9 @@
- static inline RES_TYPE
- glue(glue(cpu_ld, USUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
- {
--#if !defined(CODE_ACCESS)
-+#ifdef CODE_ACCESS
-+    validate_exec_access(env, ptr, DATA_SIZE);
-+#else
-     trace_guest_mem_before_exec(
-         env_cpu(env), ptr,
-         trace_mem_build_info(SHIFT, false, MO_TE, false));
-@@ -88,7 +90,9 @@ glue(glue(glue(cpu_ld, USUFFIX), MEMSUFFIX), _ra)(CPUArchState *env,
- static inline int
- glue(glue(cpu_lds, SUFFIX), MEMSUFFIX)(CPUArchState *env, abi_ptr ptr)
- {
--#if !defined(CODE_ACCESS)
-+#ifdef CODE_ACCESS
-+    validate_exec_access(env, ptr, DATA_SIZE);
-+#else
-     trace_guest_mem_before_exec(
-         env_cpu(env), ptr,
-         trace_mem_build_info(SHIFT, true, MO_TE, false));
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 5d1e08b169..1d4a8a260f 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2600,10 +2600,39 @@ int page_check_range(target_ulong start, target_ulong len, int flags)
-                 }
-             }
-         }
-+        /*
-+         * FIXME: We place the signal trampoline on the stack,
-+         * even when the guest expects that to be in the vdso.
-+         * Until we fix that, allow execute on any readable page.
-+         */
-+        if ((flags & PAGE_EXEC) && !(p->flags & (PAGE_EXEC | PAGE_READ))) {
-+            return -1;
-+        }
-     }
-     return 0;
- }
- 
 +/*
-+ * Called for each code read, longjmp out to issue SIGSEGV if the page(s)
-+ * do not have execute access.
++ * It is assumed that struct statx is architecture independent.
 + */
-+void validate_exec_access(CPUArchState *env,
-+                          target_ulong ptr, target_ulong len)
++#if defined(TARGET_NR_statx) && defined(__NR_statx)
++_syscall5(int, sys_statx, int, dirfd, const char *, pathname, int, flags,
++          unsigned int, mask, struct target_statx *, statxbuf)
++#endif
++
+ static bitmask_transtbl fcntl_flags_tbl[] = {
+   { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
+   { TARGET_O_ACCMODE,   TARGET_O_RDWR,      O_ACCMODE,   O_RDWR,      },
+@@ -6516,6 +6525,48 @@ static inline abi_long host_to_target_stat64(void *cpu_env,
+ }
+ #endif
+ 
++#if defined(TARGET_NR_statx) && defined(__NR_statx)
++static inline abi_long host_to_target_statx(struct target_statx *host_stx,
++                                            abi_ulong target_addr)
 +{
-+    if (page_check_range(ptr, len, PAGE_EXEC) < 0) {
-+        CPUState *cs = env_cpu(env);
-+        CPUClass *cc = CPU_GET_CLASS(cs);
++    struct target_statx *target_stx;
 +
-+        /* Like tb_gen_code, release the memory lock before cpu_loop_exit.  */
-+        assert_memory_lock();
-+        mmap_unlock();
-+
-+        /* This is user-only.  The target must raise an exception.  */
-+        cc->tlb_fill(cs, ptr, 0, MMU_INST_FETCH, MMU_USER_IDX, false, 0);
-+        g_assert_not_reached();
++    if (!lock_user_struct(VERIFY_WRITE, target_stx, target_addr,  0)) {
++        return -TARGET_EFAULT;
 +    }
-+}
++    memset(target_stx, 0, sizeof(*target_stx));
 +
- /* called from signal handler: invalidate the code and unprotect the
-  * page. Return 0 if the fault was not handled, 1 if it was handled,
-  * and 2 if it was handled but the caller must cause the TB to be
++    __put_user(host_stx->stx_mask, &target_stx->stx_mask);
++    __put_user(host_stx->stx_blksize, &target_stx->stx_blksize);
++    __put_user(host_stx->stx_attributes, &target_stx->stx_attributes);
++    __put_user(host_stx->stx_nlink, &target_stx->stx_nlink);
++    __put_user(host_stx->stx_uid, &target_stx->stx_uid);
++    __put_user(host_stx->stx_gid, &target_stx->stx_gid);
++    __put_user(host_stx->stx_mode, &target_stx->stx_mode);
++    __put_user(host_stx->stx_ino, &target_stx->stx_ino);
++    __put_user(host_stx->stx_size, &target_stx->stx_size);
++    __put_user(host_stx->stx_blocks, &target_stx->stx_blocks);
++    __put_user(host_stx->stx_attributes_mask, &target_stx->stx_attributes_mask);
++    __put_user(host_stx->stx_atime.tv_sec, &target_stx->stx_atime.tv_sec);
++    __put_user(host_stx->stx_atime.tv_nsec, &target_stx->stx_atime.tv_nsec);
++    __put_user(host_stx->stx_btime.tv_sec, &target_stx->stx_atime.tv_sec);
++    __put_user(host_stx->stx_btime.tv_nsec, &target_stx->stx_atime.tv_nsec);
++    __put_user(host_stx->stx_ctime.tv_sec, &target_stx->stx_atime.tv_sec);
++    __put_user(host_stx->stx_ctime.tv_nsec, &target_stx->stx_atime.tv_nsec);
++    __put_user(host_stx->stx_mtime.tv_sec, &target_stx->stx_atime.tv_sec);
++    __put_user(host_stx->stx_mtime.tv_nsec, &target_stx->stx_atime.tv_nsec);
++    __put_user(host_stx->stx_rdev_major, &target_stx->stx_rdev_major);
++    __put_user(host_stx->stx_rdev_minor, &target_stx->stx_rdev_minor);
++    __put_user(host_stx->stx_dev_major, &target_stx->stx_dev_major);
++    __put_user(host_stx->stx_dev_minor, &target_stx->stx_dev_minor);
++
++    unlock_user_struct(target_stx, target_addr, 1);
++
++    return 0;
++}
++#endif
++
++
+ /* ??? Using host futex calls even when target atomic operations
+    are not really atomic probably breaks things.  However implementing
+    futexes locally would make futexes shared between multiple processes
+@@ -7094,7 +7145,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     abi_long ret;
+ #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) \
+     || defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64) \
+-    || defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64)
++    || defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64) \
++    || defined(TARGET_NR_statx)
+     struct stat st;
+ #endif
+ #if defined(TARGET_NR_statfs) || defined(TARGET_NR_statfs64) \
+@@ -10172,6 +10224,67 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             ret = host_to_target_stat64(cpu_env, arg3, &st);
+         return ret;
+ #endif
++#if defined(TARGET_NR_statx)
++    case TARGET_NR_statx:
++        {
++            struct target_statx *target_stx;
++            int dirfd = arg1;
++            int flags = arg3;
++
++            p = lock_user_string(arg2);
++            if (p == NULL) {
++                return -TARGET_EFAULT;
++            }
++#if defined(__NR_statx)
++            {
++                /*
++                 * It is assumed that struct statx is architecture independent.
++                 */
++                struct target_statx host_stx;
++                int mask = arg4;
++
++                ret = get_errno(sys_statx(dirfd, p, flags, mask, &host_stx));
++                if (!is_error(ret)) {
++                    if (host_to_target_statx(&host_stx, arg5) != 0) {
++                        unlock_user(p, arg2, 0);
++                        return -TARGET_EFAULT;
++                    }
++                }
++
++                if (ret != -TARGET_ENOSYS) {
++                    unlock_user(p, arg2, 0);
++                    return ret;
++                }
++            }
++#endif
++            ret = get_errno(fstatat(dirfd, path(p), &st, flags));
++            unlock_user(p, arg2, 0);
++
++            if (!is_error(ret)) {
++                if (!lock_user_struct(VERIFY_WRITE, target_stx, arg5, 0)) {
++                    return -TARGET_EFAULT;
++                }
++                memset(target_stx, 0, sizeof(*target_stx));
++                __put_user(major(st.st_dev), &target_stx->stx_dev_major);
++                __put_user(minor(st.st_dev), &target_stx->stx_dev_minor);
++                __put_user(st.st_ino, &target_stx->stx_ino);
++                __put_user(st.st_mode, &target_stx->stx_mode);
++                __put_user(st.st_uid, &target_stx->stx_uid);
++                __put_user(st.st_gid, &target_stx->stx_gid);
++                __put_user(st.st_nlink, &target_stx->stx_nlink);
++                __put_user(major(st.st_rdev), &target_stx->stx_rdev_major);
++                __put_user(minor(st.st_rdev), &target_stx->stx_rdev_minor);
++                __put_user(st.st_size, &target_stx->stx_size);
++                __put_user(st.st_blksize, &target_stx->stx_blksize);
++                __put_user(st.st_blocks, &target_stx->stx_blocks);
++                __put_user(st.st_atime, &target_stx->stx_atime.tv_sec);
++                __put_user(st.st_mtime, &target_stx->stx_mtime.tv_sec);
++                __put_user(st.st_ctime, &target_stx->stx_ctime.tv_sec);
++                unlock_user_struct(target_stx, arg5, 1);
++            }
++        }
++        return ret;
++#endif
+ #ifdef TARGET_NR_lchown
+     case TARGET_NR_lchown:
+         if (!(p = lock_user_string(arg1)))
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 3175440e9dd9..fffa89f2564b 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -2537,4 +2537,41 @@ struct target_user_cap_data {
+ /* Return size of the log buffer */
+ #define TARGET_SYSLOG_ACTION_SIZE_BUFFER   10
+ 
++struct target_statx_timestamp {
++   int64_t tv_sec;
++   uint32_t tv_nsec;
++   int32_t __reserved;
++};
++
++struct target_statx {
++   /* 0x00 */
++   uint32_t stx_mask;       /* What results were written [uncond] */
++   uint32_t stx_blksize;    /* Preferred general I/O size [uncond] */
++   uint64_t stx_attributes; /* Flags conveying information about the file */
++   /* 0x10 */
++   uint32_t stx_nlink;      /* Number of hard links */
++   uint32_t stx_uid;        /* User ID of owner */
++   uint32_t stx_gid;        /* Group ID of owner */
++   uint16_t stx_mode;       /* File mode */
++   uint16_t __spare0[1];
++   /* 0x20 */
++   uint64_t stx_ino;        /* Inode number */
++   uint64_t stx_size;       /* File size */
++   uint64_t stx_blocks;     /* Number of 512-byte blocks allocated */
++   uint64_t stx_attributes_mask; /* Mask to show what is supported */
++   /* 0x40 */
++   struct target_statx_timestamp  stx_atime;  /* Last access time */
++   struct target_statx_timestamp  stx_btime;  /* File creation time */
++   struct target_statx_timestamp  stx_ctime;  /* Last attribute change time */
++   struct target_statx_timestamp  stx_mtime;  /* Last data modification time */
++   /* 0x80 */
++   uint32_t stx_rdev_major;   /* Device ID of special file [if bdev/cdev] */
++   uint32_t stx_rdev_minor;
++   uint32_t stx_dev_major; /* ID of device containing file [uncond] */
++   uint32_t stx_dev_minor;
++   /* 0x90 */
++   uint64_t __spare2[14];  /* Spare space for future expansion */
++   /* 0x100 */
++};
++
+ #endif
 -- 
-2.17.1
+2.21.0
 
 
