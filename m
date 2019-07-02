@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5771D5CDFE
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 12:55:11 +0200 (CEST)
-Received: from localhost ([::1]:51566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE81A5CDE5
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 12:51:49 +0200 (CEST)
+Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGRK-0003YT-Hi
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 06:55:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50900)
+	id 1hiGO5-0008Lo-4j
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 06:51:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50903)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hiGJm-0005nQ-Eb
+ (envelope-from <armbru@redhat.com>) id 1hiGJm-0005nT-Fv
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hiGJk-0007ex-QM
+ (envelope-from <armbru@redhat.com>) id 1hiGJk-0007ea-JA
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47902)
+Received: from mx1.redhat.com ([209.132.183.28]:54732)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiGJk-0007bH-Kj
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiGJk-0007bp-Ac
  for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 566F3307D85B
+ by mx1.redhat.com (Postfix) with ESMTPS id 82F08309265A
  for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 10:47:18 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
  [10.36.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 28A9C5C28D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 29AC437D6;
  Tue,  2 Jul 2019 10:47:18 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id ACA3F1132A0B; Tue,  2 Jul 2019 12:47:16 +0200 (CEST)
+ id AFFF611329C7; Tue,  2 Jul 2019 12:47:16 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 12:47:01 +0200
-Message-Id: <20190702104716.9140-4-armbru@redhat.com>
+Date: Tue,  2 Jul 2019 12:47:02 +0200
+Message-Id: <20190702104716.9140-5-armbru@redhat.com>
 In-Reply-To: <20190702104716.9140-1-armbru@redhat.com>
 References: <20190702104716.9140-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.48]); Tue, 02 Jul 2019 10:47:18 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.43]); Tue, 02 Jul 2019 10:47:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 03/18] Makefile: Don't add monitor/ twice to
- common-obj-y
+Subject: [Qemu-devel] [PULL 04/18] hmp: Move hmp.h to include/monitor/
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,34 +58,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both commit f1b3ccfaa68 "monitor: Move {hmp, qmp}.c to monitor/{hmp,
-qmp}-cmds.c" and commit 7e3c0deab1b "monitor: Split out monitor/qmp.c"
-added monitor/ to common-obj-y ifeq ($(CONFIG_SOFTMMU),y).  Revert the
-second addition.
-
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190619201050.19040-3-armbru@redhat.com>
+Message-Id: <20190619201050.19040-4-armbru@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- Makefile.objs | 1 -
- 1 file changed, 1 deletion(-)
+ hmp.h =3D> include/monitor/hmp.h | 0
+ monitor/hmp-cmds.c             | 2 +-
+ monitor/misc.c                 | 2 +-
+ target/i386/monitor.c          | 2 +-
+ target/nios2/monitor.c         | 2 +-
+ target/ppc/monitor.c           | 2 +-
+ target/sh4/monitor.c           | 2 +-
+ target/sparc/monitor.c         | 2 +-
+ target/xtensa/monitor.c        | 2 +-
+ 9 files changed, 8 insertions(+), 8 deletions(-)
+ rename hmp.h =3D> include/monitor/hmp.h (100%)
 
-diff --git a/Makefile.objs b/Makefile.objs
-index 3b83621f32..fe4f339b7c 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -85,7 +85,6 @@ common-obj-$(CONFIG_FDT) +=3D device_tree.o
- # qapi
+diff --git a/hmp.h b/include/monitor/hmp.h
+similarity index 100%
+rename from hmp.h
+rename to include/monitor/hmp.h
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index c283dde0e9..5082fcd016 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -14,7 +14,7 @@
+  */
 =20
- common-obj-y +=3D qapi/
--common-obj-y +=3D monitor/
- endif
+ #include "qemu/osdep.h"
+-#include "hmp.h"
++#include "monitor/hmp.h"
+ #include "net/net.h"
+ #include "net/eth.h"
+ #include "chardev/char.h"
+diff --git a/monitor/misc.c b/monitor/misc.c
+index bf9faceb86..2fb6896e84 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -56,13 +56,13 @@
+ #include "qom/object_interfaces.h"
+ #include "trace/control.h"
+ #include "monitor/hmp-target.h"
++#include "monitor/hmp.h"
+ #ifdef CONFIG_TRACE_SIMPLE
+ #include "trace/simple.h"
+ #endif
+ #include "exec/memory.h"
+ #include "exec/exec-all.h"
+ #include "qemu/option.h"
+-#include "hmp.h"
+ #include "qemu/thread.h"
+ #include "block/qapi.h"
+ #include "qapi/qapi-commands.h"
+diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+index 56e2dbece7..1f3b532fc2 100644
+--- a/target/i386/monitor.c
++++ b/target/i386/monitor.c
+@@ -26,11 +26,11 @@
+ #include "cpu.h"
+ #include "monitor/monitor.h"
+ #include "monitor/hmp-target.h"
++#include "monitor/hmp.h"
+ #include "qapi/qmp/qdict.h"
+ #include "hw/i386/pc.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/sev.h"
+-#include "hmp.h"
+ #include "qapi/error.h"
+ #include "sev_i386.h"
+ #include "qapi/qapi-commands-misc.h"
+diff --git a/target/nios2/monitor.c b/target/nios2/monitor.c
+index d5e3393716..6646836df5 100644
+--- a/target/nios2/monitor.c
++++ b/target/nios2/monitor.c
+@@ -25,7 +25,7 @@
+ #include "cpu.h"
+ #include "monitor/monitor.h"
+ #include "monitor/hmp-target.h"
+-#include "hmp.h"
++#include "monitor/hmp.h"
 =20
- #######################################################################
+ void hmp_info_tlb(Monitor *mon, const QDict *qdict)
+ {
+diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
+index 7f8360d903..a5a177d717 100644
+--- a/target/ppc/monitor.c
++++ b/target/ppc/monitor.c
+@@ -27,7 +27,7 @@
+ #include "monitor/monitor.h"
+ #include "qemu/ctype.h"
+ #include "monitor/hmp-target.h"
+-#include "hmp.h"
++#include "monitor/hmp.h"
+=20
+ static target_long monitor_get_ccr(const struct MonitorDef *md, int val)
+ {
+diff --git a/target/sh4/monitor.c b/target/sh4/monitor.c
+index 4c7f36c9cc..918a5ccfc6 100644
+--- a/target/sh4/monitor.c
++++ b/target/sh4/monitor.c
+@@ -25,7 +25,7 @@
+ #include "cpu.h"
+ #include "monitor/monitor.h"
+ #include "monitor/hmp-target.h"
+-#include "hmp.h"
++#include "monitor/hmp.h"
+=20
+ static void print_tlb(Monitor *mon, int idx, tlb_t *tlb)
+ {
+diff --git a/target/sparc/monitor.c b/target/sparc/monitor.c
+index 3ec3b51a3d..a7ea287cbc 100644
+--- a/target/sparc/monitor.c
++++ b/target/sparc/monitor.c
+@@ -25,7 +25,7 @@
+ #include "cpu.h"
+ #include "monitor/monitor.h"
+ #include "monitor/hmp-target.h"
+-#include "hmp.h"
++#include "monitor/hmp.h"
+=20
+=20
+ void hmp_info_tlb(Monitor *mon, const QDict *qdict)
+diff --git a/target/xtensa/monitor.c b/target/xtensa/monitor.c
+index cf7957bb63..608173c238 100644
+--- a/target/xtensa/monitor.c
++++ b/target/xtensa/monitor.c
+@@ -25,7 +25,7 @@
+ #include "cpu.h"
+ #include "monitor/monitor.h"
+ #include "monitor/hmp-target.h"
+-#include "hmp.h"
++#include "monitor/hmp.h"
+=20
+ void hmp_info_tlb(Monitor *mon, const QDict *qdict)
+ {
 --=20
 2.21.0
 
