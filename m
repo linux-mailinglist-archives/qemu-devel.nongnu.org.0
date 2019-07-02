@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA915D3B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:58:16 +0200 (CEST)
-Received: from localhost ([::1]:54766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2955D354
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:48:11 +0200 (CEST)
+Received: from localhost ([::1]:54634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiLAd-00048s-Ql
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58897)
+	id 1hiL0s-00039o-Oi
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:48:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58923)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <mst@redhat.com>) id 1hiKP3-0008At-QD
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:09:06 -0400
+ (envelope-from <mst@redhat.com>) id 1hiKP8-0008LR-Jr
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:09:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <mst@redhat.com>) id 1hiKP2-0001bz-O8
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:09:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56866)
+ (envelope-from <mst@redhat.com>) id 1hiKP6-0001h1-Fh
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:09:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52838)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hiKP2-0001b2-HY
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:09:04 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ (Exim 4.71) (envelope-from <mst@redhat.com>) id 1hiKP6-0001gE-99
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:09:08 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id BDCBEC18B2EE;
- Tue,  2 Jul 2019 15:08:58 +0000 (UTC)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9051F8553A;
+ Tue,  2 Jul 2019 15:09:07 +0000 (UTC)
 Received: from redhat.com (ovpn-124-209.rdu2.redhat.com [10.10.124.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35DA017537;
- Tue,  2 Jul 2019 15:08:46 +0000 (UTC)
-Date: Tue, 2 Jul 2019 11:08:42 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 78D9E422C;
+ Tue,  2 Jul 2019 15:09:00 +0000 (UTC)
+Date: Tue, 2 Jul 2019 11:08:59 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190626074815.19994-4-stefanha@redhat.com>
+Message-ID: <20190626074815.19994-5-stefanha@redhat.com>
 References: <20190702150606.24851-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20190702150606.24851-1-mst@redhat.com>
 X-Mutt-Fcc: =sent
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.31]); Tue, 02 Jul 2019 15:09:03 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.28]); Tue, 02 Jul 2019 15:09:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 21/22] libvhost-user: implement
- VHOST_USER_PROTOCOL_F_MQ
+Subject: [Qemu-devel] [PULL 22/22] docs: avoid vhost-user-net specifics in
+ multiqueue section
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,8 +58,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Zhang Yu <zhangyu31@baidu.com>,
- Sebastien Boeuf <sebastien.boeuf@intel.com>, Gerd Hoffmann <kraxel@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -67,62 +66,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Existing vhost-user device backends, including vhost-user-scsi and
-vhost-user-blk, support multiqueue but libvhost-user currently does not
-advertise this.
+The "Multiple queue support" section makes references to vhost-user-net
+"queue pairs".  This is confusing for two reasons:
+1. This actually applies to all device types, not just vhost-user-net.
+2. VHOST_USER_GET_QUEUE_NUM returns the number of virtqueues, not the
+   number of queue pairs.
 
-VHOST_USER_PROTOCOL_F_MQ enables the VHOST_USER_GET_QUEUE_NUM request
-needed for a vhost-user master to query the number of queues.  For
-example, QEMU's vhost-user-net master depends on
-VHOST_USER_PROTOCOL_F_MQ for multiqueue.
+Reword the section so that the vhost-user-net specific part is relegated
+to the very end: we acknowledge that vhost-user-net historically
+automatically enabled the first queue pair.
 
-If you're wondering how any device backend with more than one virtqueue
-functions today, it's because device types with a fixed number of
-virtqueues do not require querying the number of queues.  Therefore the
-vhost-user master for vhost-user-input with 2 virtqueues, for example,
-doesn't actually depend on VHOST_USER_PROTOCOL_F_MQ.  It just enables
-virtqueues 0 and 1 without asking.
-
-Let there be multiqueue!
-
-Suggested-by: Sebastien Boeuf <sebastien.boeuf@intel.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20190626074815.19994-4-stefanha@redhat.com>
+Message-Id: <20190626074815.19994-5-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ docs/interop/vhost-user.rst | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-use=
-r/libvhost-user.c
-index 90bea856dd..4b36e35a82 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -1160,7 +1160,8 @@ vu_set_vring_err_exec(VuDev *dev, VhostUserMsg *vms=
-g)
- static bool
- vu_get_protocol_features_exec(VuDev *dev, VhostUserMsg *vmsg)
- {
--    uint64_t features =3D 1ULL << VHOST_USER_PROTOCOL_F_LOG_SHMFD |
-+    uint64_t features =3D 1ULL << VHOST_USER_PROTOCOL_F_MQ |
-+                        1ULL << VHOST_USER_PROTOCOL_F_LOG_SHMFD |
-                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_REQ |
-                         1ULL << VHOST_USER_PROTOCOL_F_HOST_NOTIFIER |
-                         1ULL << VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD;
-@@ -1200,8 +1201,8 @@ vu_set_protocol_features_exec(VuDev *dev, VhostUser=
-Msg *vmsg)
- static bool
- vu_get_queue_num_exec(VuDev *dev, VhostUserMsg *vmsg)
- {
--    DPRINT("Function %s() not implemented yet.\n", __func__);
--    return false;
-+    vmsg_set_reply_u64(vmsg, dev->max_queues);
-+    return true;
- }
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index dc0ff9211f..5750668aba 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -324,19 +324,20 @@ must support changing some configuration aspects on=
+ the fly.
+ Multiple queue support
+ ----------------------
 =20
- static bool
+-Multiple queue is treated as a protocol extension, hence the slave has
+-to implement protocol features first. The multiple queues feature is
+-supported only when the protocol feature ``VHOST_USER_PROTOCOL_F_MQ``
+-(bit 0) is set.
++Multiple queue support allows the slave to advertise the maximum number =
+of
++queues.  This is treated as a protocol extension, hence the slave has to
++implement protocol features first. The multiple queues feature is suppor=
+ted
++only when the protocol feature ``VHOST_USER_PROTOCOL_F_MQ`` (bit 0) is s=
+et.
+=20
+-The max number of queue pairs the slave supports can be queried with
+-message ``VHOST_USER_GET_QUEUE_NUM``. Master should stop when the
+-number of requested queues is bigger than that.
++The max number of queues the slave supports can be queried with message
++``VHOST_USER_GET_QUEUE_NUM``. Master should stop when the number of requ=
+ested
++queues is bigger than that.
+=20
+ As all queues share one connection, the master uses a unique index for e=
+ach
+-queue in the sent message to identify a specified queue. One queue pair
+-is enabled initially. More queues are enabled dynamically, by sending
+-message ``VHOST_USER_SET_VRING_ENABLE``.
++queue in the sent message to identify a specified queue.
++
++The master enables queues by sending message ``VHOST_USER_SET_VRING_ENAB=
+LE``.
++vhost-user-net has historically automatically enabled the first queue pa=
+ir.
+=20
+ Migration
+ ---------
 --=20
 MST
 
