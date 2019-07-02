@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8B95C861
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:35:16 +0200 (CEST)
-Received: from localhost ([::1]:48900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5015C885
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 06:45:48 +0200 (CEST)
+Received: from localhost ([::1]:49104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiAVf-0003gm-Lu
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:35:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41633)
+	id 1hiAfr-0005BE-E2
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 00:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46757)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hiAA4-0008BQ-5i
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:12:58 -0400
+ (envelope-from <hpoussin@reactos.org>) id 1hiAdk-0004Hw-Sz
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:43:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hiAA1-0005I2-5O
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:12:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53026)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>)
- id 1hiAA0-0005BJ-BX; Tue, 02 Jul 2019 00:12:53 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id E41F22E97C8;
- Tue,  2 Jul 2019 04:12:42 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
- [10.36.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A3665C28D;
- Tue,  2 Jul 2019 04:12:40 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AFFC4111BD5C; Tue,  2 Jul 2019 06:12:38 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190627152011.18686-1-palmer@sifive.com>
- <20190627152011.18686-34-palmer@sifive.com>
- <CAFEAcA8sscJQ2GCwL1gM+EcRtfHQb1v0BwORt6ncH54x51TCVg@mail.gmail.com>
- <5896113812cd914308e5b617377f8e8205224cfe.camel@wdc.com>
- <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
-Date: Tue, 02 Jul 2019 06:12:38 +0200
-In-Reply-To: <CAFEAcA_-h6b_f1fuWh7NkGo+FT0xSyCDXgd3b4pwEvNDN8HcJw@mail.gmail.com>
- (Peter Maydell's message of "Mon, 1 Jul 2019 19:01:12 +0100")
-Message-ID: <87a7dxqdl5.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+ (envelope-from <hpoussin@reactos.org>) id 1hiAdi-000422-QS
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:43:36 -0400
+Received: from iserv.reactos.org ([2a01:4f8:1c17:5ae1::1]:49964)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <hpoussin@reactos.org>)
+ id 1hiAdi-000413-1Y
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 00:43:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=reactos.org
+ ; s=25047;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:
+ Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=Xtuo3AdguYdWbzNHOptkhXRqgMT+LyOCoIvA/xadDSo=; b=XdPgz9K3o7Mnj9MouKAME9WkfY
+ LtZwkiHeJtQx+GcJVoiR97Cu9BmyftcAwFdz8nR7OvRKm8Yhjo0whz9cyOMTJ0D3WfuSco2r7O4ur
+ jE+TMlFUWA1bKkb6mnPHkW9EAch2Ba7xLzU09Kf87v52kDN4kTC4B7BZa5NYlEwXoPdM=;
+Received: from [2a01:e35:2e3e:3c40:3d64:a34f:19ef:bcc5]
+ by iserv.reactos.org with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <hpoussin@reactos.org>)
+ id 1hiAde-00025J-Qf; Tue, 02 Jul 2019 04:43:30 +0000
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1561472838-32272-1-git-send-email-aleksandar.markovic@rt-rk.com>
+ <1561472838-32272-3-git-send-email-aleksandar.markovic@rt-rk.com>
+From: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>
+Message-ID: <3b3a712d-4a96-ce42-4ac5-ae485b77890b@reactos.org>
+Date: Tue, 2 Jul 2019 06:43:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.29]); Tue, 02 Jul 2019 04:12:43 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 33/34] roms: Add OpenSBI version 0.3
+In-Reply-To: <1561472838-32272-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a01:4f8:1c17:5ae1::1
+Subject: Re: [Qemu-devel] [PATCH 2/2] dma/rc4030: Minor code style cleanup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,106 +63,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- Jeff Cody <codyprime@gmail.com>, "palmer@sifive.com" <palmer@sifive.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "bmeng.cn@gmail.com" <bmeng.cn@gmail.com>
+Cc: arikalo@wavecomp.com, f4bug@amsat.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Le 25/06/2019 à 16:27, Aleksandar Markovic a écrit :
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
+> 
+> Fix some simple checkpatch.pl warnings in rc4030.c.
+> 
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-> On Mon, 1 Jul 2019 at 18:50, Alistair Francis <Alistair.Francis@wdc.com> wrote:
->>
->> On Mon, 2019-07-01 at 17:54 +0100, Peter Maydell wrote:
->> > On Thu, 27 Jun 2019 at 16:24, Palmer Dabbelt <palmer@sifive.com>
->> > wrote:
->> > > From: Alistair Francis <alistair.francis@wdc.com>
->> > >
->> > > Add OpenSBI version 0.3 as a git submodule and as a prebult binary.
->> > >
->> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> > > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
->> > > Tested-by: Bin Meng <bmeng.cn@gmail.com>
->> > > Signed-off-by: Palmer Dabbelt <palmer@sifive.com>
->> > > ---
->> > >  .gitmodules                                  |   3 ++
->> > >  Makefile                                     |   5 +-
->> > >  pc-bios/opensbi-riscv32-virt-fw_jump.bin     | Bin 0 -> 28848
->> > > bytes
->> > >  pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin | Bin 0 -> 28904
->> > > bytes
->> > >  pc-bios/opensbi-riscv64-virt-fw_jump.bin     | Bin 0 -> 28904
->> > > bytes
->> > >  roms/Makefile                                |  48 ++++++++++++++-
->> > > ----
->> > >  roms/opensbi                                 |   1 +
->> > >  7 files changed, 44 insertions(+), 13 deletions(-)
->> > >  create mode 100644 pc-bios/opensbi-riscv32-virt-fw_jump.bin
->> > >  create mode 100644 pc-bios/opensbi-riscv64-sifive_u-fw_jump.bin
->> > >  create mode 100644 pc-bios/opensbi-riscv64-virt-fw_jump.bin
->> > >  create mode 160000 roms/opensbi
->> > >
->> > > diff --git a/.gitmodules b/.gitmodules
->> > > index 2857eec76377..7a10e72e09cd 100644
->> > > --- a/.gitmodules
->> > > +++ b/.gitmodules
->> > > @@ -55,3 +55,6 @@
->> > >  [submodule "slirp"]
->> > >         path = slirp
->> > >         url = https://git.qemu.org/git/libslirp.git
->> > > +[submodule "roms/opensbi"]
->> > > +       path = roms/opensbi
->> > > +       url = https://github.com/riscv/opensbi.git
->> >
->> > It would be nice to state the license for new blobs we're
->> > adding to the source tree... In particular, I find the
->> > readme at https://github.com/riscv/opensbi a bit confusing
->> > because it says it's 2-BSD but also that some parts are Apache-2.0;
->> > the latter is *not* GPL-2.0 compatible. That makes it not completely
->> > obvious to me that we can ship this with QEMU.
->>
->> Ah, I didn't realise there is Apache-2.0 code in there.
->>
->> In this case all of the code we are using (we aren't using the Kendryte
->> code with QEMU) is BSD-2-Clause. Even then though does it matter if it
->> is GPL compatible? This isn't being linked with QEMU it is just being
->> included with QEMU.
->
-> Yeah, if we're not building the apache-2.0 parts then I think
-> we're OK, and as you say there's the question of whether QEMU's
-> GPL affects what we ship as mere bios blobs to run as guest
-> code anyway. But it's sufficiently not a "really obviously ok"
-> that I'd like a second opinion; cc'd some people who might have
-> second opinions.
+Reviewed-by: Hervé Poussineau <hpoussin@reactos.org>
 
-You need an expert opinion.
+> ---
+>   hw/dma/rc4030.c | 18 +++++++++++-------
+>   1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/dma/rc4030.c b/hw/dma/rc4030.c
+> index 88ff271..155af9b 100644
+> --- a/hw/dma/rc4030.c
+> +++ b/hw/dma/rc4030.c
+> @@ -58,8 +58,8 @@ typedef struct dma_pagetable_entry {
+>   
+>   #define TYPE_RC4030_IOMMU_MEMORY_REGION "rc4030-iommu-memory-region"
+>   
+> -typedef struct rc4030State
+> -{
+> +typedef struct rc4030State {
+> +
+>       SysBusDevice parent;
+>   
+>       uint32_t config; /* 0x0000: RC4030 config register */
+> @@ -152,8 +152,9 @@ static uint64_t rc4030_read(void *opaque, hwaddr addr, unsigned int size)
+>       case 0x0058:
+>           val = s->cache_bmask;
+>           /* HACK */
+> -        if (s->cache_bmask == (uint32_t)-1)
+> +        if (s->cache_bmask == (uint32_t)-1) {
+>               s->cache_bmask = 0;
+> +        }
+>           break;
+>       /* Remote Speed Registers */
+>       case 0x0070:
+> @@ -538,8 +539,9 @@ static void rc4030_reset(DeviceState *dev)
+>   
+>       s->memory_refresh_rate = 0x18186;
+>       s->nvram_protect = 7;
+> -    for (i = 0; i < 15; i++)
+> +    for (i = 0; i < 15; i++) {
+>           s->rem_speed[i] = 7;
+> +    }
+>       s->imr_jazz = 0x10; /* XXX: required by firmware, but why? */
+>       s->isr_jazz = 0;
+>   
+> @@ -551,7 +553,7 @@ static void rc4030_reset(DeviceState *dev)
+>   
+>   static int rc4030_post_load(void *opaque, int version_id)
+>   {
+> -    rc4030State* s = opaque;
+> +    rc4030State *s = opaque;
+>   
+>       set_next_tick(s);
+>       update_jazz_irq(s);
+> @@ -591,7 +593,8 @@ static void rc4030_do_dma(void *opaque, int n, uint8_t *buf, int len, int is_wri
+>       hwaddr dma_addr;
+>       int dev_to_mem;
+>   
+> -    s->dma_regs[n][DMA_REG_ENABLE] &= ~(DMA_FLAG_TC_INTR | DMA_FLAG_MEM_INTR | DMA_FLAG_ADDR_INTR);
+> +    s->dma_regs[n][DMA_REG_ENABLE] &=
+> +           ~(DMA_FLAG_TC_INTR | DMA_FLAG_MEM_INTR | DMA_FLAG_ADDR_INTR);
+>   
+>       /* Check DMA channel consistency */
+>       dev_to_mem = (s->dma_regs[n][DMA_REG_ENABLE] & DMA_FLAG_MEM_TO_DEV) ? 0 : 1;
+> @@ -603,8 +606,9 @@ static void rc4030_do_dma(void *opaque, int n, uint8_t *buf, int len, int is_wri
+>       }
+>   
+>       /* Get start address and len */
+> -    if (len > s->dma_regs[n][DMA_REG_COUNT])
+> +    if (len > s->dma_regs[n][DMA_REG_COUNT]) {
+>           len = s->dma_regs[n][DMA_REG_COUNT];
+> +    }
+>       dma_addr = s->dma_regs[n][DMA_REG_ADDRESS];
+>   
+>       /* Read/write data at right place */
+> 
 
-My non-expert opinion: we can't distribute anything that's not
-compatible with GPLv2, at least as long as LICENSE makes the following
-claims:
-
-    1) QEMU as a whole is released under the GNU General Public License,
-    version 2.
-
-    2) Parts of QEMU have specific licenses which are compatible with the
-    GNU General Public License, version 2. Hence each source file contains
-    its own licensing information.  Source files with no licensing information
-    are released under the GNU General Public License, version 2 or (at your
-    option) any later version.
-
-    As of July 2013, contributions under version 2 of the GNU General Public
-    License (and no later version) are only accepted for the following files
-    or directories: bsd-user/, linux-user/, hw/vfio/, hw/xen/xen_pt*.
-
-    3) The Tiny Code Generator (TCG) is released under the BSD license
-       (see license headers in files).
-
-Complicating things further just to distribute a firmware blob would be
-a mistake.  Our licensing situation is already complex enough for me to
-call it a mistake.
-
-[...]
 
