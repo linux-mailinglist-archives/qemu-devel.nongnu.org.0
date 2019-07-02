@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65E575D2DA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:29:08 +0200 (CEST)
-Received: from localhost ([::1]:54492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AC765D2C4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 17:26:23 +0200 (CEST)
+Received: from localhost ([::1]:54474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiKiR-0002lI-7D
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58275)
+	id 1hiKfm-0008CG-7C
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 11:26:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58258)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <laurent@vivier.eu>) id 1hiKMi-0005cs-6c
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:41 -0400
+ (envelope-from <laurent@vivier.eu>) id 1hiKMg-0005ZQ-H0
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <laurent@vivier.eu>) id 1hiKMd-000856-6H
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:40 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:55155)
+ (envelope-from <laurent@vivier.eu>) id 1hiKMf-00086V-Eb
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:38 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:33937)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMc-00084Q-TA
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:35 -0400
+ (Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hiKMf-00085l-4x
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 11:06:37 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Mrggc-1iN79w05hs-00nhZ9; Tue, 02 Jul 2019 17:06:00 +0200
+ id 1N7yuz-1iciKo1zT1-0155SS; Tue, 02 Jul 2019 17:06:01 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 17:05:43 +0200
-Message-Id: <20190702150545.1872-5-laurent@vivier.eu>
+Date: Tue,  2 Jul 2019 17:05:44 +0200
+Message-Id: <20190702150545.1872-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702150545.1872-1-laurent@vivier.eu>
 References: <20190702150545.1872-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:x14aztnEoJ8Aj53zH1yYn1m+xeqRcxvNs7cr2rZYVnQceKJxgqg
- ARpnvZD6xKVZdeZ/tuK6+SO2EL+9ikTX2qnLzsCF0jVj5KCLTV3zKKMyYzBnoyLET4ph/D3
- x81+Yvp1EI2oZzQ+wr5hbVb3UL+S1lg2Njmouy8GhW7OpUnzmE+JlZRGk/TFHIJuUTNxX7m
- vQA8ymEO3BjYkKi4ngqtg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VCvjpiZoLPM=:zbsC3mj2VU/PcXz/9JCYoZ
- kneTJTYddxpNNvjew+mycz6866l1ae2C767nym1Th6hSrLjViHS8MXdUvkE/NiIoFA2+fLLMu
- HFazIb+GG7O7DfUZeanWY4C0rsfmbz4PFLcg4mcmLqrm1szGnKlCt4BKhehsmn44gdSzlZ1x7
- 5yxh+jMkWU/euCMRrTYFsQhGRjBK8tmmXLu12EijvDCcdim3875sgOgfwRzsTKo3kN9Bbow4H
- VoN+y7IMZRGlR8jzIO/WLWGC2rArcCivFOxew2RXJwmCBCsQ2kESGQ+Yx2RoRSL5yQ2AWsC8Q
- 6sng0yt3DZcUASPc1NKsuY5MqcT1kYPE8DqPP1jn/Y0fJF/7265Y+BW9vdasLYxwWDuQwWI2W
- 7vAJi6CY+sqCVv0Lnp3NHAHYVCYjVtJnKb0q21yej02cxiobuMD24XImprbGGqYr6ksEYMphi
- bebVk8gGHEjGZCdFxIzWZvRi/Y+fn3WfqPFAJl2Bz49CnpN+aqGKD7eFGubyvVan1cNyHEWGB
- w7gYpv7vOBkCWLdqMvyavxa1bH7rH+zSlT9I05TAabVtcCsynmcdwaGgqTtXprkPAkxEUGCY7
- JE3lmnqXXd42NvHqVolnBMRRmQF/ja4ravTkWNCygQm8b1zvy4T8RB8aV1pYljNeIYxK/cWCs
- EWaQBz1wnjmnkYCG9QE5binVzFjZRsyaJ2IHjP3QWacP21w0lU4GnmESB3t7M9uJQB4V34czQ
- FdJIJDFyyIW/eNwZeLvTGLAmViTyEAn145hooQ==
+X-Provags-ID: V03:K1:LpFHEjXWJe5+hRGgrK2NrzsSaOpSu+hwWG7OjaIimd1T4tX+Csn
+ Ie3vTDldEy5z4aVrkRr7tJFm5yWBYoyRXzYFicWRoNEtLp6i/m0IJMzyPsTtn9nQrfvIxgO
+ StvzYFVcZQ5L3VjU6PN9pfndmRbedeQac+eJouMmSfxzr+F5BwA2Y5iQABQIj7y2Fz81LZz
+ tVPB+ELlzZtVsjrDEFh2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:0NMXCd/tQnw=:xw0KuALeq6XT6z+GFu9Sa+
+ 3FztXlRi7XXH6N8EnlXRinkrvISFoa04CrpzQndcj6gnLYz79EGrnFiRyIlr3knOi41mYHAeZ
+ Tb88AuJP3MTY5ix55X++LHr1wF4yv0031gmvV29bYs+KIIgQmxC+2oAczF1YAdxPkJN4SkK8x
+ HfX5fzOkNEzhlEayEH2qRmoEk4q6vp13xpthSHHLT5SejwnuMERto1Pbv9bB8ay2aDCy0YZWy
+ StXte9neNiraZwUESDVNjHOQ/hcx+lbIdqMSZUUY99j2XQGcWdNPFga4BzFVnUO70S6GMgcVp
+ JIjuTFTezan7kJ8tKvvBU5Xl6+wz4h4gNbCI4beY0WDPASChpfwS+ijti/FYTjg/3OxQ+R0zr
+ he0ZxmqjPRVRL4XN2eIOkx4QtEtJUCYZMKzgIPcW9qabKNg0LPeiI8HgnNWdIHhiKzWfYyqCz
+ sSMUXmVGyxzPuPsaN1/ToPKXunOjNzAAgFtDt3TJ7mYWyJLi3mtV6SJ3ifPt5ducGP14d4Pgk
+ t+5T41xmrTiizKI0eOcS53tfrnM2XLo0+2enar04qRAyVY45+LZGsLPIqfhqhOng2JXm5P5/E
+ 4AZE4dj497SYGv2ME4Uhv+geDqwqw0+k2hfjqGX0qeg1i5XJc9hmz0pXzh/Bv0wxnUFYpWYoT
+ yn4Ptv3w9T/DQI7dPFi7/VwPtCzCdZIUeS+Q6lvmkufhZJUfMS7kEKTtL6HKM2imM1qHwMO5q
+ XfAFV/WMZgoD+khoKeIi2AB41gYSiCquhvd/Sg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.13
-Subject: [Qemu-devel] [PULL 4/6] linux-user: Introduce
- TARGET_HAVE_ARCH_STRUCT_FLOCK
+X-Received-From: 212.227.17.10
+Subject: [Qemu-devel] [PULL 5/6] linux-user: Handle EXCP_FPE properly for
+ MIPS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,114 +63,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
- Aleksandar Markovic <amarkovic@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
- Laurent Vivier <laurent@vivier.eu>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Yunqiang Su <ysu@wavecomp.com>, Laurent Vivier <laurent@vivier.eu>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-Bring target_flock definitions to be more in sync with the way
-flock is defined in kernel.
+Handle EXCP_FPE properly for MIPS in cpu loop.
 
-Basically, the rules from the kernel are:
+Note that a vast majority of FP instructions are not affected by
+the absence of the code in this patch, as they use alternative code
+paths for handling floating point exceptions (see, for example,
+invocations of update_fcr31()) - they rely on softfloat library for
+keeping track on exceptions that needs to be raised. However, there
+are few MIPS FP instructions (an example is CTC1) that use function
+do_raise_exception() directly, and they need the case that is added
+in this patch to propagate the FPE exception as designed.
 
-1. Majority of architectures have a common flock definition.
+The code is based on kernel's function force_fcr31_sig() in
+arch/mips/kernel.traps.c.
 
-2. Architectures with 32-bit MIPS ABIs have a sligtly different
-flock definition; those architectures are the only arcitectures
-that have HAVE_ARCH_STRUCT_FLOCK defined, and that preprocessor
-constant is used in the common header as a flag for including or
-not including common flock definition.
-
-3. Sparc architectures also have a sligtly different flock
-definition, but the difference is only the padding at the end of
-the structure. The presence of that padding is determined by
-preprocessor constants __ARCH_FLOCK6_PAD and __ARCH_FLOCK64_PAD.
-
-QEMU linux-user already implements rules 1. and 3. in a very
-similar way as they are implemented in kernel. However, rule 2.
-is implemented in a dissimilar way (for example, the constant
-TARGET_HAVE_ARCH_STRUCT_FLOCK is missing), and this patch brings
-QEMU implementation much closer to the kernel implementation.
-TARGET_HAVE_ARCH_STRUCT_FLOCK64 constant is also introduced to
-mimic HAVE_ARCH_STRUCT_FLOCK64 from kernel, but it is not defined
-anywhere, however, this is the case with HAVE_ARCH_STRUCT_FLOCK64
-in kernel as well.
-
+Reported-by: Yunqiang Su <ysu@wavecomp.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1561718618-20218-5-git-send-email-aleksandar.markovic@rt-rk.com>
+Message-Id: <1561718618-20218-6-git-send-email-aleksandar.markovic@rt-rk.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/generic/fcntl.h     |  8 +++++---
- linux-user/mips/target_fcntl.h | 17 +++++++++++++----
- 2 files changed, 18 insertions(+), 7 deletions(-)
+ linux-user/mips/cpu_loop.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index 1b48ddeb99fe..9f727d4df2c8 100644
---- a/linux-user/generic/fcntl.h
-+++ b/linux-user/generic/fcntl.h
-@@ -120,6 +120,7 @@ struct target_f_owner_ex {
- #define TARGET_F_SHLCK         8
- #endif
- 
-+#ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK
- #ifndef TARGET_ARCH_FLOCK_PAD
- #define TARGET_ARCH_FLOCK_PAD
- #endif
-@@ -129,13 +130,12 @@ struct target_flock {
-     short l_whence;
-     abi_long l_start;
-     abi_long l_len;
--#if defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
--    abi_long l_sysid;
--#endif
-     int l_pid;
-     TARGET_ARCH_FLOCK_PAD
- };
-+#endif
- 
-+#ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK64
- #ifndef TARGET_ARCH_FLOCK64_PAD
- #define TARGET_ARCH_FLOCK64_PAD
- #endif
-@@ -149,3 +149,5 @@ struct target_flock64 {
-     TARGET_ARCH_FLOCK64_PAD
- };
- #endif
-+
-+#endif
-diff --git a/linux-user/mips/target_fcntl.h b/linux-user/mips/target_fcntl.h
-index 795bba754b5a..6fc7b8a12bfc 100644
---- a/linux-user/mips/target_fcntl.h
-+++ b/linux-user/mips/target_fcntl.h
-@@ -28,11 +28,20 @@
- #define TARGET_F_GETOWN        23       /*  for sockets. */
- 
- #if (TARGET_ABI_BITS == 32)
--#define TARGET_ARCH_FLOCK_PAD abi_long pad[4];
--#else
--#define TARGET_ARCH_FLOCK_PAD
-+
-+struct target_flock {
-+    short l_type;
-+    short l_whence;
-+    abi_long l_start;
-+    abi_long l_len;
-+    abi_long l_sysid;
-+    int l_pid;
-+    abi_long pad[4];
-+};
-+
-+#define TARGET_HAVE_ARCH_STRUCT_FLOCK
-+
- #endif
--#define TARGET_ARCH_FLOCK64_PAD
- 
- #define TARGET_F_GETLK64       33      /*  using 'struct flock64' */
- #define TARGET_F_SETLK64       34
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index 43ba26754736..0ba894fa7aa5 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -540,6 +540,23 @@ done_syscall:
+             info.si_code = TARGET_ILL_ILLOPC;
+             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+             break;
++        case EXCP_FPE:
++            info.si_signo = TARGET_SIGFPE;
++            info.si_errno = 0;
++            info.si_code = TARGET_FPE_FLTUNK;
++            if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_INVALID) {
++                info.si_code = TARGET_FPE_FLTINV;
++            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_DIV0) {
++                info.si_code = TARGET_FPE_FLTDIV;
++            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_OVERFLOW) {
++                info.si_code = TARGET_FPE_FLTOVF;
++            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_UNDERFLOW) {
++                info.si_code = TARGET_FPE_FLTUND;
++            } else if (GET_FP_CAUSE(env->active_fpu.fcr31) & FP_INEXACT) {
++                info.si_code = TARGET_FPE_FLTRES;
++            }
++            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            break;
+         /* The code below was inspired by the MIPS Linux kernel trap
+          * handling code in arch/mips/kernel/traps.c.
+          */
 -- 
 2.21.0
 
