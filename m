@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A4E5CE32
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 13:13:41 +0200 (CEST)
-Received: from localhost ([::1]:51704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCE85CDE4
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 12:51:47 +0200 (CEST)
+Received: from localhost ([::1]:51544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiGjE-0005Tj-Ut
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 07:13:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51133)
+	id 1hiGO3-0008Ih-4W
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 06:51:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51061)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <armbru@redhat.com>) id 1hiGKH-000601-6I
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:54 -0400
+ (envelope-from <armbru@redhat.com>) id 1hiGKB-0005qo-EU
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <armbru@redhat.com>) id 1hiGKG-0008VR-2z
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55838)
+ (envelope-from <armbru@redhat.com>) id 1hiGJw-0007yJ-K4
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33688)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiGKF-0007lr-RN
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:51 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ (Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hiGJt-0007mH-06
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 06:47:30 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mx1.redhat.com (Postfix) with ESMTPS id 8228681DF5
+ by mx1.redhat.com (Postfix) with ESMTPS id D2FFD30860AD
  for <qemu-devel@nongnu.org>; Tue,  2 Jul 2019 10:47:24 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-102.ams2.redhat.com
  [10.36.116.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 35944179CB;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AEE41001B0E;
  Tue,  2 Jul 2019 10:47:22 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 022F4111BD5E; Tue,  2 Jul 2019 12:47:17 +0200 (CEST)
+ id 07FBF111BD5F; Tue,  2 Jul 2019 12:47:17 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  2 Jul 2019 12:47:14 +0200
-Message-Id: <20190702104716.9140-17-armbru@redhat.com>
+Date: Tue,  2 Jul 2019 12:47:15 +0200
+Message-Id: <20190702104716.9140-18-armbru@redhat.com>
 In-Reply-To: <20190702104716.9140-1-armbru@redhat.com>
 References: <20190702104716.9140-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
- (mx1.redhat.com [10.5.110.25]); Tue, 02 Jul 2019 10:47:24 +0000 (UTC)
+ (mx1.redhat.com [10.5.110.44]); Tue, 02 Jul 2019 10:47:24 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 16/18] dump: Move the code to dump/
+Subject: [Qemu-devel] [PULL 17/18] MAINTAINERS: Add Windows dump to section
+ "Dump"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -63,76 +64,34 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit 2da91b54fe9 "dump: add Windows dump format to
+dump-guest-memory" neglected to update MAINTAINERS.  Do it now.
+
 Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190619201050.19040-16-armbru@redhat.com>
+Message-Id: <20190619201050.19040-17-armbru@redhat.com>
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 ---
- MAINTAINERS                   | 2 +-
- Makefile.target               | 3 +--
- dump/Makefile.objs            | 2 ++
- dump.c =3D> dump/dump.c         | 0
- win_dump.c =3D> dump/win_dump.c | 0
- win_dump.h =3D> dump/win_dump.h | 0
- 6 files changed, 4 insertions(+), 3 deletions(-)
- create mode 100644 dump/Makefile.objs
- rename dump.c =3D> dump/dump.c (100%)
- rename win_dump.c =3D> dump/win_dump.c (100%)
- rename win_dump.h =3D> dump/win_dump.h (100%)
+ MAINTAINERS | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4dbc9c212c..46a1134202 100644
+index 46a1134202..29c116e76a 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1850,7 +1850,7 @@ F: include/sysemu/device_tree.h
+@@ -1850,9 +1850,10 @@ F: include/sysemu/device_tree.h
  Dump
  S: Supported
  M: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
--F: dump.c
-+F: dump/dump.c
+-F: dump/dump.c
++F: dump/
  F: hw/misc/vmcoreinfo.c
  F: include/hw/misc/vmcoreinfo.h
++F: include/qemu/win_dump_defs
  F: include/sysemu/dump-arch.h
-diff --git a/Makefile.target b/Makefile.target
-index 167ae2174e..a6919e0caf 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -150,13 +150,12 @@ endif #CONFIG_BSD_USER
- ifdef CONFIG_SOFTMMU
- obj-y +=3D arch_init.o cpus.o gdbstub.o balloon.o ioport.o
- obj-y +=3D qtest.o
-+obj-y +=3D dump/
- obj-y +=3D hw/
- obj-y +=3D monitor/
- obj-y +=3D qapi/
- obj-y +=3D memory.o
- obj-y +=3D memory_mapping.o
--obj-y +=3D dump.o
--obj-$(TARGET_X86_64) +=3D win_dump.o
- obj-y +=3D migration/ram.o
- LIBS :=3D $(libs_softmmu) $(LIBS)
-=20
-diff --git a/dump/Makefile.objs b/dump/Makefile.objs
-new file mode 100644
-index 0000000000..ea6b074967
---- /dev/null
-+++ b/dump/Makefile.objs
-@@ -0,0 +1,2 @@
-+obj-y +=3D dump.o
-+obj-$(TARGET_X86_64) +=3D win_dump.o
-diff --git a/dump.c b/dump/dump.c
-similarity index 100%
-rename from dump.c
-rename to dump/dump.c
-diff --git a/win_dump.c b/dump/win_dump.c
-similarity index 100%
-rename from win_dump.c
-rename to dump/win_dump.c
-diff --git a/win_dump.h b/dump/win_dump.h
-similarity index 100%
-rename from win_dump.h
-rename to dump/win_dump.h
+ F: include/sysemu/dump.h
+ F: qapi/dump.json
 --=20
 2.21.0
 
