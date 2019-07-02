@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459945C95E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:36:21 +0200 (CEST)
-Received: from localhost ([::1]:49542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937635C93C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 08:22:07 +0200 (CEST)
+Received: from localhost ([::1]:49434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiCOp-00023i-HR
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:36:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58332)
+	id 1hiCB4-0006sV-Pb
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 02:22:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58216)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByi-0004rt-6J
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:21 -0400
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByf-0004lG-0k
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <dgibson@ozlabs.org>) id 1hiByg-0002se-Qf
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:20 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42717 helo=ozlabs.org)
+ (envelope-from <dgibson@ozlabs.org>) id 1hiByd-0002p5-VA
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 02:09:16 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:35329 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
  (Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
- id 1hiByg-0002oK-3k; Tue, 02 Jul 2019 02:09:18 -0400
+ id 1hiByd-0002nO-Jk; Tue, 02 Jul 2019 02:09:15 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 45dDMh1Fssz9sPM; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
+ id 45dDMg4HwQz9sP7; Tue,  2 Jul 2019 16:09:03 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1562047744;
- bh=vIFJ6a3uhpNiBYk44KaDMXM3ZdKaVq+9WdCp8TsZy5k=;
+ d=gibson.dropbear.id.au; s=201602; t=1562047743;
+ bh=b75CAUYLIbQe1Qpo7nfZqxRFQUGmzusldu8XhS1oYo4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=KI226gt/kbZZbj1BpmtvmV5ux6ekHlWEFzl0obYVq1EOmkjE8lWmFlGjs/XEwpsBh
- Rna9/CSJD2M7cW7hqzzA6qWye/FxlRwlwIwKYwtGtYEwNb0G94d2G6qfijtQV6rrSJ
- UiEuNvqtvdk7ikDjeC0LM4yLmmgKEiSmRfM/3B6Q=
+ b=L2yOvScRBCCWn8ecQRjOA0iUSFkWYEVpggYG9w6Zng6KJpBAJ9WiaGmxyBfidZynY
+ yXz1h0m56l7J07CtdyFGjcdkv0end/iFRG0mzoip9GJBzaoT2NdiBuCM3w4HroNC1K
+ WQKb53SCy23ShIMuuhTqBI4UhutBU4fMLE5LWlaw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue,  2 Jul 2019 16:08:17 +1000
-Message-Id: <20190702060857.3926-10-david@gibson.dropbear.id.au>
+Date: Tue,  2 Jul 2019 16:08:18 +1000
+Message-Id: <20190702060857.3926-11-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 References: <20190702060857.3926-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 09/49] xics/spapr: Detect old KVM XICS on POWER9
- hosts
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 10/49] target/ppc: fix compile error in
+ kvmppc_define_rtas_kernel_token()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -60,133 +60,45 @@ Cc: lvivier@redhat.com, aik@ozlabs.ru, qemu-devel@nongnu.org, groug@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Older KVMs on POWER9 don't support destroying/recreating a KVM XICS
-device, which is required by 'dual' interrupt controller mode. This
-causes QEMU to emit a warning when the guest is rebooted and to fall
-back on XICS emulation:
+gcc9 reports :
 
-qemu-system-ppc64: warning: kernel_irqchip allowed but unavailable:
- Error on KVM_CREATE_DEVICE for XICS: File exists
+In file included from /usr/include/string.h:494,
+                 from ./include/qemu/osdep.h:101,
+                 from ./target/ppc/kvm.c:17:
+In function =E2=80=98strncpy=E2=80=99,
+    inlined from =E2=80=98kvmppc_define_rtas_kernel_token=E2=80=99 at ./t=
+arget/ppc/kvm.c:2648:5:
+/usr/include/bits/string_fortified.h:106:10: error: =E2=80=98__builtin_st=
+rncpy=E2=80=99 specified bound 120 equals destination size [-Werror=3Dstr=
+ingop-truncation]
+  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__=
+dest));
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
 
-If kernel irqchip is required, QEMU will thus exit when the guest is
-first rebooted. Failing QEMU this late may be a painful experience
-for the user.
-
-Detect that and exit at machine init instead.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <156044430517.125694.6207865998817342638.stgit@bahia.lab.toul=
-ouse-stg.fr.ibm.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20190615081252.28602-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- docs/specs/ppc-spapr-xive.rst |  4 ++--
- hw/intc/xics_kvm.c            | 30 ++++++++++++++++++++++++++++++
- hw/ppc/spapr_irq.c            | 13 +++++++++++++
- include/hw/ppc/xics_spapr.h   |  1 +
- 4 files changed, 46 insertions(+), 2 deletions(-)
+ target/ppc/kvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/specs/ppc-spapr-xive.rst b/docs/specs/ppc-spapr-xive.rs=
-t
-index 7a64c9d049..6159bc6eed 100644
---- a/docs/specs/ppc-spapr-xive.rst
-+++ b/docs/specs/ppc-spapr-xive.rst
-@@ -142,8 +142,8 @@ xics            XICS KVM       XICS emul.     XICS KV=
-M
- (3) QEMU fails at CAS with ``Guest requested unavailable interrupt
-     mode (XICS), either don't set the ic-mode machine property or try
-     ic-mode=3Dxics or ic-mode=3Ddual``
--(4) QEMU/KVM incompatibility due to device destruction in reset. This
--    needs to be addressed more cleanly with an error.
-+(4) QEMU/KVM incompatibility due to device destruction in reset. QEMU fa=
-ils
-+    with ``KVM is too old to support ic-mode=3Ddual,kernel-irqchip=3Don`=
-`
-=20
-=20
- XIVE Device tree properties
-diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 5c4208f430..c7f8f5edd2 100644
---- a/hw/intc/xics_kvm.c
-+++ b/hw/intc/xics_kvm.c
-@@ -452,3 +452,33 @@ void xics_kvm_disconnect(SpaprMachineState *spapr, E=
-rror **errp)
-     /* Clear the presenter from the VCPUs */
-     kvm_disable_icps();
- }
-+
-+/*
-+ * This is a heuristic to detect older KVMs on POWER9 hosts that don't
-+ * support destruction of a KVM XICS device while the VM is running.
-+ * Required to start a spapr machine with ic-mode=3Ddual,kernel-irqchip=3D=
-on.
-+ */
-+bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr)
-+{
-+    int rc;
-+
-+    rc =3D kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
-+    if (rc < 0) {
-+        /*
-+         * The error is ignored on purpose. The KVM XICS setup code
-+         * will catch it again anyway. The goal here is to see if
-+         * close() actually destroys the device or not.
-+         */
-+        return false;
-+    }
-+
-+    close(rc);
-+
-+    rc =3D kvm_create_device(kvm_state, KVM_DEV_TYPE_XICS, false);
-+    if (rc >=3D 0) {
-+        close(rc);
-+        return false;
-+    }
-+
-+    return errno =3D=3D EEXIST;
-+}
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index dfb99f35ea..75654fc67a 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -669,6 +669,19 @@ static void spapr_irq_check(SpaprMachineState *spapr=
-, Error **errp)
-             return;
-         }
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 4b4989c0af..9014ed029f 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2650,7 +2650,7 @@ int kvmppc_define_rtas_kernel_token(uint32_t token,=
+ const char *function)
+         return -ENOENT;
      }
-+
-+    /*
-+     * On a POWER9 host, some older KVM XICS devices cannot be destroyed=
- and
-+     * re-created. Detect that early to avoid QEMU to exit later when th=
-e
-+     * guest reboots.
-+     */
-+    if (kvm_enabled() &&
-+        spapr->irq =3D=3D &spapr_irq_dual &&
-+        machine_kernel_irqchip_required(machine) &&
-+        xics_kvm_has_broken_disconnect(spapr)) {
-+        error_setg(errp, "KVM is too old to support ic-mode=3Ddual,kerne=
-l-irqchip=3Don");
-+        return;
-+    }
+=20
+-    strncpy(args.name, function, sizeof(args.name));
++    strncpy(args.name, function, sizeof(args.name) - 1);
+=20
+     return kvm_vm_ioctl(kvm_state, KVM_PPC_RTAS_DEFINE_TOKEN, &args);
  }
-=20
- /*
-diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 6c1d9ee559..d968f2499c 100644
---- a/include/hw/ppc/xics_spapr.h
-+++ b/include/hw/ppc/xics_spapr.h
-@@ -35,6 +35,7 @@ void spapr_dt_xics(SpaprMachineState *spapr, uint32_t n=
-r_servers, void *fdt,
-                    uint32_t phandle);
- int xics_kvm_init(SpaprMachineState *spapr, Error **errp);
- void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
-+bool xics_kvm_has_broken_disconnect(SpaprMachineState *spapr);
- void xics_spapr_init(SpaprMachineState *spapr);
- void xics_spapr_connect(SpaprMachineState *spapr);
-=20
 --=20
 2.21.0
 
