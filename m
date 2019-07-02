@@ -2,65 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8755C7FB
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:55:00 +0200 (CEST)
-Received: from localhost ([::1]:48260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EBA55C7E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 05:43:00 +0200 (CEST)
+Received: from localhost ([::1]:48168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hi9sh-0004w4-ES
-	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:54:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39957)
+	id 1hi9h5-0004gp-LI
+	for lists+qemu-devel@lfdr.de; Mon, 01 Jul 2019 23:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45114)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <bmeng.cn@gmail.com>) id 1hi7ZE-0005cq-PF
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 21:26:45 -0400
+ (envelope-from <jasowang@redhat.com>) id 1hi86f-00075K-Lv
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:01:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <bmeng.cn@gmail.com>) id 1hi7ZD-0001oj-SV
- for qemu-devel@nongnu.org; Mon, 01 Jul 2019 21:26:44 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:33882)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <bmeng.cn@gmail.com>)
- id 1hi7ZB-0001oR-JI; Mon, 01 Jul 2019 21:26:41 -0400
-Received: by mail-ed1-x542.google.com with SMTP id s49so25733865edb.1;
- Mon, 01 Jul 2019 18:26:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1nT6RCzhoW9fTgxDD6WsSBGm0pOf4Ir8rW7Q20NZpTo=;
- b=AEdgduj2fpPUPddZjLdryXwYgh2tlHGsgZsgw0GmlIGEg0WJ+RPM7c9qOmv7P6646P
- xnglk1m0CHOa/PgQd4jshi/Ikxy94oIGkC1FZj+YkFUotFQBdtUZqJpT8p0FzHYuOcni
- sdHIv3YRl80hnyGRwYOWtn23L9CFfDw5hzz5n1tCJR2sWEpOCq2a2CNA9FsB4jYRK5KV
- bjyF/LOq7YgzzIbrlT9GAk48SVSJGovx66ksu+nuIlsGa43IRg8dbumFVhCSithDpMex
- HTyusaWhrMrLiUEv5NL33GljIwvAu5skc+F2mhJI17uCu7iRzLaQpNvm0M49GyWmNL2G
- jhwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1nT6RCzhoW9fTgxDD6WsSBGm0pOf4Ir8rW7Q20NZpTo=;
- b=DdwWmSW9L303kPofA3Gfs+FRvPcVli1gD9vb817Bp04EUUXObTcOGEXOJAYOo4tPa7
- HCGpzGayIj8TEUH//Wjf/EKEWGo1h63NYd4ADYWpsifKHVB4nA5yVtXVz5Vqa+E4DZN1
- sJB8Ju/Qcl/k3jv8U5ApZ3VWCqiH5oJLtWfLBFmdzkp9XK4R5O9rlUpAr2CUThHRvDFW
- SYFUt+745va4CkBucrQ5gmgmTnjx+xdc9Av76gipMPfNRJWNqDTIKaByr+WdzQ69olBB
- HqM+AkWdWyDk/Yxaqc4MEjeEaGpo9Wwr+KOHl9cpu10mVpcHZ2tPMiEl3NntUrHN3UD/
- EKPw==
-X-Gm-Message-State: APjAAAWhx0/7luiWkA6yRwtDDUd8dbOtzju5ukGzKOssv/RGLkp9eV9Q
- BIKnHmBvU5+mu7SFd2XzZRmxiMUg5ds3b89/hXk=
-X-Google-Smtp-Source: APXvYqx3dSHpMyWZYauhLTIklNiaVIi+7cOKFdkJuJ+94wbyIzo8YEDkOPEHtk3tnxDOKFxID4vJGjB2yzk/0pA+Irw=
-X-Received: by 2002:a50:94e6:: with SMTP id t35mr32906403eda.137.1562030799386; 
- Mon, 01 Jul 2019 18:26:39 -0700 (PDT)
+ (envelope-from <jasowang@redhat.com>) id 1hi86e-0000bX-Ng
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:01:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38906)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hi86U-0000WC-RA
+ for qemu-devel@nongnu.org; Mon, 01 Jul 2019 22:01:16 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id D216CC07410F;
+ Tue,  2 Jul 2019 02:00:41 +0000 (UTC)
+Received: from [10.72.12.183] (ovpn-12-183.pek2.redhat.com [10.72.12.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8BF15D977;
+ Tue,  2 Jul 2019 02:00:34 +0000 (UTC)
+To: Zhang Chen <chen.zhang@intel.com>, Li Zhijian <lizhijian@cn.fujitsu.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ qemu-dev <qemu-devel@nongnu.org>, Stefano Stabellini
+ <sstabellini@kernel.org>, Paul Durrant <paul.durrant@citrix.com>
+References: <20190609164433.5866-1-chen.zhang@intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <f6e8af13-7ffa-3889-dd9e-a973a0c6295c@redhat.com>
+Date: Tue, 2 Jul 2019 10:00:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <20190701154617.22908-1-jonathan@fintelia.io>
- <CAKmqyKOsMO7SvvDfiqhywxb=oaqo=NDjw==reVpU9sLh+3dGuw@mail.gmail.com>
-In-Reply-To: <CAKmqyKOsMO7SvvDfiqhywxb=oaqo=NDjw==reVpU9sLh+3dGuw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 2 Jul 2019 09:26:26 +0800
-Message-ID: <CAEUhbmXBnu_Fet99AjQj6XZ10m045N8kY7d8VNy28ktmFBsrQQ@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2a00:1450:4864:20::542
-Subject: Re: [Qemu-devel] [PATCH v2] target/riscv: Hardwire mcounter.TM and
- upper bits of [m|s]counteren
+In-Reply-To: <20190609164433.5866-1-chen.zhang@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.31]); Tue, 02 Jul 2019 02:00:41 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH V2 0/5] Add Xen COLO support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -72,35 +63,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Jonathan Behrens <jonathan@fintelia.io>, Palmer Dabbelt <palmer@sifive.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 2, 2019 at 8:20 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Mon, Jul 1, 2019 at 8:56 AM <jonathan@fintelia.io> wrote:
-> >
-> > From: Jonathan Behrens <jonathan@fintelia.io>
-> >
-> > QEMU currently always triggers an illegal instruction exception when
-> > code attempts to read the time CSR. This is valid behavor, but only if
-> > the TM bit in mcounteren is hardwired to zero. This change also
-> > corrects mcounteren and scounteren CSRs to be 32-bits on both 32-bit
-> > and 64-bit targets.
-> >
-> > Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->
 
-I am a little bit lost here. I think we agreed to allow directly read
-to time CSR when mcounteren.TM is set, no?
+On 2019/6/10 =E4=B8=8A=E5=8D=8812:44, Zhang Chen wrote:
+> From: Zhang Chen <chen.zhang@intel.com>
+>
+> Xen COLO based on KVM COLO architecture, it shared COLO proxy and block
+> replication with KVM COLO. The only differece is Xen COLO have own
+> COLO-frame to handle live migration related function, so we need this
+> series make Xen COLO frame can communicate with other COLO modules in
+> qemu. Xen side related patches have been merged.
+>
+> V2:
+>   - Rebase on upstream code.
+>   - Optimize code by Zhijian's comments in patch 4/5.
+>   - Remove origin 5/6 patch.
+>
+> V1:
+>   - Initial patch.
+>
+> Zhang Chen (5):
+>    COLO-compare: Add new parameter to communicate with remote colo-fram=
+e
+>    COLO-compare: Add remote notification chardev handler frame
+>    COLO-compare: Make the compare_chr_send() can send notification
+>      message.
+>    COLO-compare: Add colo-compare remote notify support
+>    migration/colo.c: Add missed filter notify for Xen COLO.
+>
+>   migration/colo.c   |   2 +
+>   net/colo-compare.c | 155 +++++++++++++++++++++++++++++++++++++++-----=
+-
+>   qemu-options.hx    |  33 +++++++++-
+>   3 files changed, 171 insertions(+), 19 deletions(-)
 
-Regards,
-Bin
+
+Applied.
+
+Thanks
+
+>
 
