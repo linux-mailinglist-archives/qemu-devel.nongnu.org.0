@@ -2,90 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F3B45D4E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 18:57:53 +0200 (CEST)
-Received: from localhost ([::1]:55312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DA65D5F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 20:15:40 +0200 (CEST)
+Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiM6K-0008Ph-6z
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 12:57:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43955)
+	id 1hiNJb-0005jG-Nd
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 14:15:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44818)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <amarkovic@wavecomp.com>) id 1hiLFc-0001mI-3g
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:03:29 -0400
+ (envelope-from <alistair23@gmail.com>) id 1hiLJA-0003wj-KG
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:07:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <amarkovic@wavecomp.com>) id 1hiLFR-00087L-9J
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:03:16 -0400
-Received: from mail-eopbgr680132.outbound.protection.outlook.com
- ([40.107.68.132]:18019 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
- (Exim 4.71) (envelope-from <amarkovic@wavecomp.com>)
- id 1hiLFQ-000861-UO
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:03:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=wavesemi.onmicrosoft.com; s=selector1-wavesemi-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=K/Z5cy4xfEm7dcGAB6hVK9WiBlsR+cAcb0peNiEUffI=;
- b=m9pR/3Q+9tQcOs3m2fCoLcKlTB2mALjIi1VMmrwmaDtUjjMcKw+ulLOdDj5JLVxo9c6p4Hk0lANAXzDGfoxzbFxQO9Ym7oNmYnlh9vxUi3+9CyEaZ4AyJL1C0fIK2HlI+4Yx7Rz0TYRgTRqI5H+Ujpsy4FGpe+DsbGa0GTjPSVE=
-Received: from BN6PR2201MB1251.namprd22.prod.outlook.com (10.174.81.139) by
- BN6PR2201MB1252.namprd22.prod.outlook.com (10.174.82.137) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2032.17; Tue, 2 Jul 2019 16:03:09 +0000
-Received: from BN6PR2201MB1251.namprd22.prod.outlook.com
- ([fe80::c4a7:ebf7:ad07:f5f7]) by BN6PR2201MB1251.namprd22.prod.outlook.com
- ([fe80::c4a7:ebf7:ad07:f5f7%10]) with mapi id 15.20.2032.019; Tue, 2 Jul 2019
- 16:03:09 +0000
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
-To: "aleksandar.markovic@rt-rk.com" <aleksandar.markovic@rt-rk.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v2 0/7] target/mips: Misc improvements for
- 4.1
-Thread-Index: AQHVMMxkc7+c3bpKOEqFWCUH4gUOlaa3bC4AgAAQsvM=
-Date: Tue, 2 Jul 2019 16:03:09 +0000
-Message-ID: <BN6PR2201MB1251A724A176CCEB92E50663C6F80@BN6PR2201MB1251.namprd22.prod.outlook.com>
-References: <1562068213-11307-1-git-send-email-aleksandar.markovic@rt-rk.com>,
- <156207962968.14342.2512093401997997805@c4a48874b076>
-In-Reply-To: <156207962968.14342.2512093401997997805@c4a48874b076>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=amarkovic@wavecomp.com; 
-x-originating-ip: [82.117.201.26]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ac9b6a25-ff1a-4ce7-e0ec-08d6ff06c735
-x-microsoft-antispam: BCL:0; PCL:0;
- RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
- SRVR:BN6PR2201MB1252; 
-x-ms-traffictypediagnostic: BN6PR2201MB1252:
-x-microsoft-antispam-prvs: <BN6PR2201MB12520DDC78CA2D59DAF6E4A1C6F80@BN6PR2201MB1252.namprd22.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 008663486A
-x-forefront-antispam-report: SFV:NSPM;
- SFS:(10019020)(366004)(346002)(136003)(376002)(396003)(39840400004)(189003)(199004)(5660300002)(55016002)(186003)(9686003)(4326008)(26005)(229853002)(33656002)(99286004)(478600001)(53936002)(8676002)(8936002)(110136005)(6116002)(2501003)(52536014)(76176011)(25786009)(6436002)(3846002)(107886003)(76116006)(66946007)(446003)(66476007)(66556008)(64756008)(66446008)(14444005)(256004)(71190400001)(7696005)(91956017)(316002)(73956011)(14454004)(486006)(68736007)(86362001)(305945005)(6246003)(7736002)(81166006)(81156014)(4744005)(2906002)(6506007)(55236004)(71200400001)(66066001)(476003)(74316002)(11346002)(102836004);
- DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR2201MB1252;
- H:BN6PR2201MB1251.namprd22.prod.outlook.com; FPR:; SPF:None; LANG:en;
- PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: wavecomp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: Mb+CqmkMWi0oCGjBNpXQbJM1uWyTURhSlO3AyJVrjuIkLmpbFyoS0ofIzv6Nm9OWWddP9Q9+MLybuwEBcKKyHf1Z57AhPZifNKsS2/UnG3Rt4M/9YcxN4j+U7Hxkw2tMZQqmwsVHZhlTv6eP1981uQYgQiHntYHUNfITS9Oxp7UwC3sClJgW/JNjUiE1WoyL6KXZAJ1hJkqxLdl/l2pda4q4zo4hGn4Yni4oArSOs644hkxAH0cERL1LID5K+cRoJIYoD9nmVgdSQSubvEAte6luoheiBHzpvflu+Ei1wDyG1LCAWUVpAg+Mh0RKAnjz+rCqGj1YlCybn3Fj0ocZk7YKGtbmm8xHuv9Ev3lkNDbCVUI8778x1GjNiL/QyPozdTsAYGKTAD9LCzjxqKlU2lJJm6lr+Y8DBAfkBejmnS4=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (envelope-from <alistair23@gmail.com>) id 1hiLJ8-00028g-3T
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 12:07:04 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:33673)
+ by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+ (Exim 4.71) (envelope-from <alistair23@gmail.com>)
+ id 1hiLJ3-000246-PZ; Tue, 02 Jul 2019 12:06:58 -0400
+Received: by mail-lf1-x141.google.com with SMTP id y17so11821862lfe.0;
+ Tue, 02 Jul 2019 09:06:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=191PEazMI6AZYxomtIRj4zRN76qVi7zp+FaJdnT1SJc=;
+ b=Am2HpwDfCU2j4FqQhU35pMIcvHZiJA14RgnYPnaOWp+dBH3ua1vxFlPGaIyM7tlmCN
+ 5865o8vL1KQPVgv+vmCjNUQcia3MiLYt//LS3UZFnhiYFYkZOiXM2bJs5eWvK9bxtiqT
+ F8tS3U4fhjx4g+4bZYlQjoaj6XwTTQH8fShnSBpEHQXJt/lted8iHqrtAwmaJf+r18+o
+ VhIBESIA9C7HqUvP5S+pV1knvKV691P4uOqe+7o1CRIBrITVqefhReAu996rqCUjcB2t
+ UZ0MK+AO9D8yaCII5zqoU5LlJ4qyfcjHBrp0ZHEy24b3Rd0r5jxmcHsbGXW4u59sQuOQ
+ fVkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=191PEazMI6AZYxomtIRj4zRN76qVi7zp+FaJdnT1SJc=;
+ b=Bj1BK+gOgZRyWtS26XLyi6kwU5ngoGSS64LETnPmN5o0YEJmbuylxwrIsWy+zAVv+P
+ 2CiQqb4idSvnRe9d3yOWyhAzaXNCbAjCVq/0leh+NpfNIQlh96qdxKP1iMuLpywUAehB
+ mX2zAyoKeuneewqpAF34dALLT0DCr6JZaRfdOEf11s7dS3IdmfVwnzkEiFzdcBCyoOE/
+ xzsaTYI9vGMV25PUnjXlgBBIT61aAYF1v6eRvXrt4G/5gsv3+sZeS+xtMsTbOOlEMnhG
+ idLp7xxLutDYoAudvWzszUvCpElUXO4AaxekLyliJb8FU6XycV2VarrihajJQvfgVdxk
+ dGiA==
+X-Gm-Message-State: APjAAAW5+DDzrtkfW5hdhwqupKK8pUl3ic9zIVMPj54lpSo5qXsb44dx
+ Q+cFwWPs1tiBHOdKmzMY+jWbV4WTF8xRrlh/AGc=
+X-Google-Smtp-Source: APXvYqyHbgXSZavlE/NdxL+IluKO6aiBhhzlUNZvLBXoABzxVIyUSgTn8WzBKuDJ3cVeZpWtkXfRFpzGcCvHXjuQqY8=
+X-Received: by 2002:a19:4c05:: with SMTP id z5mr14851396lfa.5.1562083614266;
+ Tue, 02 Jul 2019 09:06:54 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: wavecomp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac9b6a25-ff1a-4ce7-e0ec-08d6ff06c735
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2019 16:03:09.6047 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 463607d3-1db3-40a0-8a29-970c56230104
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: amarkovic@wavecomp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR2201MB1252
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.68.132
-Subject: Re: [Qemu-devel] [PATCH v2 0/7] target/mips: Misc improvements for
- 4.1
+References: <20190702001301.4768-1-philmd@redhat.com>
+ <20190702001301.4768-7-philmd@redhat.com>
+In-Reply-To: <20190702001301.4768-7-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 2 Jul 2019 09:03:51 -0700
+Message-ID: <CAKmqyKMgXKULX8JJSTmLyCbzRYJkeHZ=HqHBHA_cro-a21v=Zg@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+ recognized.
+X-Received-From: 2a00:1450:4864:20::141
+Subject: Re: [Qemu-devel] [PATCH v2 6/9] hw/block/pflash_cfi01: Simplify
+ CFI_QUERY processing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -97,21 +74,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Qemu-block <qemu-block@nongnu.org>, Aleksandar Rikalo <arikalo@wavecomp.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ "open list:New World" <qemu-ppc@nongnu.org>,
+ Wei Yang <richardw.yang@linux.intel.com>,
+ Aleksandar Markovic <amarkovic@wavecomp.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> This series failed the asan build test. Please find the testing commands =
-and
-> their output below. If you have Docker installed, you can probably reprod=
-uce it
-> locally.
+On Mon, Jul 1, 2019 at 5:15 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> The current code does:
+>
+> if (write_cycle =3D=3D 0)
+>   if (command =3D=3D CFI_QUERY)
+>     break
+>   write_cycle +=3D 1
+>   last_command =3D command
+>
+> if (write_cycle =3D=3D 1)
+>   if (last_command =3D=3D CFI_QUERY)
+>     if (command =3D=3D READ_ARRAY
+>       write_cycle =3D 0
+>       last_command =3D READ_ARRAY
+>
+> Simplify by not increasing the write_cycle on CFI_QUERY,
+> the next command are processed as normal wcycle=3D0.
+>
+> This matches the hardware datasheet (we do not enter the WRITE
+> state machine, thus no write cycle involved).
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-This appears to be a false positive related to the this series (the failure=
- does not have
-a logical connection to this series, which deals with mips target exclusive=
-ly)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Yours,
-Aleksandar=
+Alistair
+
+> ---
+>  hw/block/pflash_cfi01.c | 10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 8d632ea941..c1b02219b2 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -492,7 +492,8 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr off=
+set,
+>              return;
+>          case 0x98: /* CFI query */
+>              DPRINTF("%s: CFI query\n", __func__);
+> -            break;
+> +            pfl->cmd =3D cmd;
+> +            return;
+>          case 0xe8: /* Write to buffer */
+>              DPRINTF("%s: Write to buffer\n", __func__);
+>              /* FIXME should save @offset, @width for case 1+ */
+> @@ -566,13 +567,6 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr of=
+fset,
+>                  goto mode_read_array;
+>              }
+>              break;
+> -        case 0x98:
+> -            if (cmd =3D=3D 0xff) {
+> -                goto mode_read_array;
+> -            } else {
+> -                DPRINTF("%s: leaving query mode\n", __func__);
+> -            }
+> -            break;
+>          default:
+>              goto error_flash;
+>          }
+> --
+> 2.20.1
+>
 
