@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5A65CF16
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:06:16 +0200 (CEST)
-Received: from localhost ([::1]:52042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03045CF27
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Jul 2019 14:11:13 +0200 (CEST)
+Received: from localhost ([::1]:52226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.86_2)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hiHY7-0003C8-S6
-	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:06:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36650)
+	id 1hiHcv-0001pO-0I
+	for lists+qemu-devel@lfdr.de; Tue, 02 Jul 2019 08:11:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36923)
  by lists.gnu.org with esmtp (Exim 4.86_2)
- (envelope-from <peter.maydell@linaro.org>) id 1hiHMd-0002w9-SU
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:54:28 -0400
+ (envelope-from <cohuck@redhat.com>) id 1hiHNp-0003nF-Pw
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
- (envelope-from <peter.maydell@linaro.org>) id 1hiHMb-0002Q4-Ap
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:54:23 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:45231)
- by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
- (Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
- id 1hiHMb-0002Kp-45
- for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:54:21 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id m206so12777264oib.12
- for <qemu-devel@nongnu.org>; Tue, 02 Jul 2019 04:54:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=FYrbNyHwCfkSAifOR2HL1lK/0hxDKe4BjbvklG+FyGw=;
- b=QdCJd5ESWkyzHgxbmMXGYiha2s4JqvmV/CvVzY/GJaqah8KjjNzis2Bi0+r+MI9DeS
- 2mQW9qeOBQDwda14oHPkC4tl2aNI5fJFnIeIU//RnKxfGSsZ1u/jYZ9WvFPnXrQ7FQfD
- bjekcL1Z2upNMTW7qH6A0pSIimcp71Qq3+v3rikNMzwWTGMhoECacE7eHfOfpGViyOLH
- w8pvS5NYfY6WnXncB5ZGhEl3EnJp6fvI7P2gYNXrkKOG2GqVtSvzDjkpJ+IjSQ/VyKbl
- oRp7EdykOy+OerGC2sdmHmXqwVD3xdav1ULixQiba5V9r3Dg865OUjrv18aXKpR6jRmJ
- ofdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FYrbNyHwCfkSAifOR2HL1lK/0hxDKe4BjbvklG+FyGw=;
- b=ITckZzSYfXmdmSD8klxTIkTTyZXE8LPsSDuy/NsooygT50mATjGAqrb9uvsK/XfVfp
- rAqvwLrMSnNbnDW/kDZDdCtcSUZ03ypXc4LTc3cYEUHj14bIGC69YWwIuSy3GINTvtr3
- avcrooj53HeZZTeYX/8Le67jW8bQ0nh/cpZId8Eng5oUhuYBmj0z9TpLMBuXCdn75bkb
- N/upnZo6mNeD0hlysAqcFTF6rwcDxrf4TKkTBr11mNnOqIDFrbW5r1ZLhFJqbiBc4lEG
- Dk0xEUkYMofgbFxAGloR+esrm2f8aRENjRgmbo+GoFix/uRDDEaNgHuIUxem+gnDgAV/
- 3F4A==
-X-Gm-Message-State: APjAAAXTW0ewAQWB9Ep0H4ryKTLUhzovurh+M1BHbLSahSXXqH+INe78
- Gi1P9ak1BzPeKjfJMjvfsfYByHVyJd3shzlOZGCKZg==
-X-Google-Smtp-Source: APXvYqyac8zdXreaTGpu1GlZNGZ1MH85mICZ1bGJwLpb6kHpy6anxSlr6T3hDP3rdYnVS9McEMpKC80s8jmxJql7Zcw=
-X-Received: by 2002:aca:6185:: with SMTP id v127mr2832329oib.163.1562068458880; 
- Tue, 02 Jul 2019 04:54:18 -0700 (PDT)
+ (envelope-from <cohuck@redhat.com>) id 1hiHNo-0004Ug-Mh
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43338)
+ by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+ (Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hiHNo-0004Sm-GS
+ for qemu-devel@nongnu.org; Tue, 02 Jul 2019 07:55:36 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mx1.redhat.com (Postfix) with ESMTPS id 9DBDD307D90F;
+ Tue,  2 Jul 2019 11:55:35 +0000 (UTC)
+Received: from gondolin (dhcp-192-192.str.redhat.com [10.33.192.192])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E01B6F7F3;
+ Tue,  2 Jul 2019 11:55:21 +0000 (UTC)
+Date: Tue, 2 Jul 2019 13:55:19 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Pankaj Gupta <pagupta@redhat.com>
+Message-ID: <20190702135519.46a9e3f2.cohuck@redhat.com>
+In-Reply-To: <20190619094907.10131-5-pagupta@redhat.com>
+References: <20190619094907.10131-1-pagupta@redhat.com>
+ <20190619094907.10131-5-pagupta@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <5cf62de9.1c69fb81.66fc.8f4fSMTPIN_ADDED_BROKEN@mx.google.com>
- <1e9e4edd-f4ad-d8d6-95a2-e0aeab89510d@redhat.com>
- <5cf7b6e6.1c69fb81.1cdca.e260SMTPIN_ADDED_BROKEN@mx.google.com>
- <ec5033a4-5c68-91b7-ca9e-a1f38c990221@redhat.com>
- <67806828-f666-0c9c-00fc-b520f15013d9@suse.de>
- <e4fe4dc0-f3c4-a051-d39d-afd7bfdc680d@redhat.com>
- <98826c5f-4a74-5364-2aef-28a10db12c20@suse.de>
- <39250506-f38f-c440-5728-7b970d32ab41@redhat.com>
- <79b821a4-7cc0-2461-7ca4-d71c3e5ee4ef@suse.de>
- <c49abf01-c209-b206-edee-507c31269011@redhat.com>
- <87o934sdot.fsf@dusky.pond.sub.org>
- <8d391b41-bf6d-b83b-7b22-25fefa18c518@redhat.com>
- <87ftogp7f5.fsf@dusky.pond.sub.org>
- <4ed45e59-6d7d-a9ea-9af3-7ec336c7ec3d@redhat.com>
- <5d1b4524.1c69fb81.ddba5.77bdSMTPIN_ADDED_BROKEN@mx.google.com>
-In-Reply-To: <5d1b4524.1c69fb81.ddba5.77bdSMTPIN_ADDED_BROKEN@mx.google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Jul 2019 12:54:08 +0100
-Message-ID: <CAFEAcA_Ut=xG7bN-LL-AN1bhWa2GK6cH9jb_vXnROF0LS11Gdw@mail.gmail.com>
-To: Natalia Fursova <Natalia.Fursova@ispras.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
- recognized.
-X-Received-From: 2607:f8b0:4864:20::22e
-Subject: Re: [Qemu-devel] qgraph
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+ (mx1.redhat.com [10.5.110.48]); Tue, 02 Jul 2019 11:55:35 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 4/7] virtio-pci: Proxy for virtio-pmem
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -87,35 +57,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?B?0J/QsNGI0LA=?= <Pavel.Dovgaluk@ispras.ru>,
- =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>
+Cc: kwolf@redhat.com, aarcange@redhat.com, xiaoguangrong.eric@gmail.com,
+ mst@redhat.com, armbru@redhat.com, riel@surriel.com, david@redhat.com,
+ qemu-devel@nongnu.org, ehabkost@redhat.com, lcapitulino@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, imammedo@redhat.com,
+ dan.j.williams@intel.com, nilal@redhat.com, dgilbert@redhat.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Jul 2019 at 12:51, Natalia Fursova <Natalia.Fursova@ispras.ru> wr=
-ote:
->
-> Hi there again!
-> Thank you for your answers, I have new question.
->
-> I want to identify PCI devices (e.g. network cards) and observed one stra=
-nge thing. I use qmp command "qom-list-type" and build tree from it output.=
- Some items don't have parent and don't give information about themselves. =
-E. g. "e1000-base". It has three children and it belongs to PCI devices, bu=
-t I can't know it, cuz command "qom-list-properties" returns empty message.
->
-> There is no information about "e1000-base" in "qom-list-type" output. It =
-is referenced only as a parent for network cards.
-> Is it ok? Maybe is there other way for get information about all PCI devi=
-ces?
+On Wed, 19 Jun 2019 15:19:04 +0530
+Pankaj Gupta <pagupta@redhat.com> wrote:
 
-e1000-base is an abstract base class for the e1000, e1000-82544pc and
-e1000-82545em devices, which are the ones users can actually create and
-use. It's an internal implementation detail, so you don't need to care
-about it.
+> We need a proxy device for virtio-pmem, and this device has to be the
+> actual memory device so we can cleanly hotplug it.
+> 
+> Forward memory device class functions either to the actual device or use
+> properties of the virtio-pmem device to implement these in the proxy.
+> 
+> virtio-pmem will only be compiled for selected, supported architectures
+> (that can deal with virtio/pci devices being memory devices). An
+> architecture that is prepared for that can simply enable
+> CONFIG_VIRTIO_PMEM to make it work.
+> 
+> As not all architectures support memory devices (and CONFIG_VIRTIO_PMEM
+> will be enabled per supported architecture), we have to move the PCI proxy
+> to a separate file.
+> 
+> Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> [ split up patches, memory-device changes, move pci proxy]
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/virtio/Makefile.objs     |   1 +
+>  hw/virtio/virtio-pmem-pci.c | 131 ++++++++++++++++++++++++++++++++++++++++++++
+>  hw/virtio/virtio-pmem-pci.h |  34 ++++++++++++
+>  include/hw/pci/pci.h        |   1 +
+>  4 files changed, 167 insertions(+)
+>  create mode 100644 hw/virtio/virtio-pmem-pci.c
+>  create mode 100644 hw/virtio/virtio-pmem-pci.h
 
-thanks
--- PMM
+(...)
+
+> +static const VirtioPCIDeviceTypeInfo virtio_pmem_pci_info = {
+> +    .base_name             = TYPE_VIRTIO_PMEM_PCI,
+> +    .generic_name          = "virtio-pmem-pci",
+> +    .transitional_name     = "virtio-pmem-pci-transitional",
+
+Do we even have a transitional device for this? I.e., do we have a
+legacy version? I don't think that makes sense for new devices.
+
+> +    .non_transitional_name = "virtio-pmem-pci-non-transitional",
+> +    .instance_size = sizeof(VirtIOPMEMPCI),
+> +    .instance_init = virtio_pmem_pci_instance_init,
+> +    .class_init    = virtio_pmem_pci_class_init,
+> +    .interfaces = (InterfaceInfo[]) {
+> +        { TYPE_MEMORY_DEVICE },
+> +        { }
+> +    },
+> +};
+
+(...)
 
